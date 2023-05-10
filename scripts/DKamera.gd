@@ -57,11 +57,6 @@ func _ready():
 	
 	zoom_slider.hide()
 	
-#	seed_slider.value = noise.seed
-#	octaves_slider.value = noise.octaves
-#	period_slider.value = noise.period 
-#	persistence_slider.value = noise.persistence
-#	lacunarity_slider.value = noise.lacunarity 
 	
 func _input(event: InputEvent) -> void:
 	
@@ -81,6 +76,7 @@ func _input(event: InputEvent) -> void:
 	
 	
 func _process(delta):
+	
 	time += delta
 	
 	# start decay

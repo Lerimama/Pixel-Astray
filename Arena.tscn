@@ -1,0 +1,151 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://scripts/Pixel.gd" type="Script" id=1]
+[ext_resource path="res://tileset_pallete.png" type="Texture" id=2]
+[ext_resource path="res://scripts/FloorMap.gd" type="Script" id=3]
+[ext_resource path="res://scripts/Arena.gd" type="Script" id=4]
+[ext_resource path="res://assets/pixel_tile.png" type="Texture" id=5]
+
+[sub_resource type="TileSet" id=111]
+0/name = "pixel_tile.png 0"
+0/texture = ExtResource( 5 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 32, 32 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape_one_way = false
+0/shape_one_way_margin = 0.0
+0/shapes = [  ]
+0/z_index = 0
+
+[sub_resource type="Gradient" id=17]
+offsets = PoolRealArray( 0.220408, 0.226481, 0.28453, 0.444898, 0.783673, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 0.73965, 0.73965, 0.73965, 1, 0.73965, 0.73965, 0.73965, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0 )
+
+[sub_resource type="GradientTexture" id=8]
+gradient = SubResource( 17 )
+
+[sub_resource type="Curve" id=18]
+_data = [ Vector2( 0, 0.463636 ), 0.0, 0.0, 0, 0, Vector2( 0.384956, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=10]
+curve = SubResource( 18 )
+
+[sub_resource type="ParticlesMaterial" id=110]
+lifetime_randomness = 0.9
+emission_shape = 2
+emission_box_extents = Vector3( 3.8, 3.8, 4 )
+flag_align_y = true
+flag_rotate_y = true
+flag_disable_z = true
+direction = Vector3( 1, 1, 0 )
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 30.0
+initial_velocity_random = 0.46
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale_curve = SubResource( 10 )
+color_ramp = SubResource( 8 )
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 16, 16 )
+
+[sub_resource type="Animation" id=112]
+resource_name = "Bump"
+length = 2.0
+
+[node name="Arena" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="FloorMap" type="TileMap" parent="."]
+modulate = Color( 1, 1, 1, 0.180392 )
+tile_set = SubResource( 111 )
+cell_size = Vector2( 32, 32 )
+cell_quadrant_size = 8
+format = 1
+tile_data = PoolIntArray( 262163, 0, 0, 327699, 0, 0, 327706, 0, 0, 327707, 0, 0, 327708, 0, 0, 327709, 0, 0, 393234, 0, 0, 393235, 0, 0, 393240, 0, 0, 393241, 0, 0, 393242, 0, 0, 393243, 0, 0, 393245, 0, 0, 458770, 0, 0, 458772, 0, 0, 458773, 0, 0, 458774, 0, 0, 458775, 0, 0, 458777, 0, 0, 458778, 0, 0, 458780, 0, 0, 524293, 0, 0, 524294, 0, 0, 524295, 0, 0, 524296, 0, 0, 524297, 0, 0, 524298, 0, 0, 524299, 0, 0, 524305, 0, 0, 524306, 0, 0, 524309, 0, 0, 524310, 0, 0, 524311, 0, 0, 524313, 0, 0, 524314, 0, 0, 524315, 0, 0, 589831, 0, 0, 589832, 0, 0, 589833, 0, 0, 589834, 0, 0, 589835, 0, 0, 589836, 0, 0, 589837, 0, 0, 589838, 0, 0, 589839, 0, 0, 589840, 0, 0, 589841, 0, 0, 589842, 0, 0, 589843, 0, 0, 589844, 0, 0, 589845, 0, 0, 589846, 0, 0, 589847, 0, 0, 589848, 0, 0, 589849, 0, 0, 589850, 0, 0, 655369, 0, 0, 655370, 0, 0, 655371, 0, 0, 655372, 0, 0, 655373, 0, 0, 655374, 0, 0, 655375, 0, 0, 655376, 0, 0, 655377, 0, 0, 655378, 0, 0, 655379, 0, 0, 655380, 0, 0, 655381, 0, 0, 655382, 0, 0, 655383, 0, 0, 655384, 0, 0, 655385, 0, 0, 655386, 0, 0, 720904, 0, 0, 720905, 0, 0, 720906, 0, 0, 720907, 0, 0, 720908, 0, 0, 720909, 0, 0, 720910, 0, 0, 720911, 0, 0, 720913, 0, 0, 720914, 0, 0, 720918, 0, 0, 720922, 0, 0, 720923, 0, 0, 720924, 0, 0, 720925, 0, 0, 720926, 0, 0, 720927, 0, 0, 720928, 0, 0, 786439, 0, 0, 786440, 0, 0, 786441, 0, 0, 786442, 0, 0, 786444, 0, 0, 786446, 0, 0, 786447, 0, 0, 786449, 0, 0, 786450, 0, 0, 786451, 0, 0, 786453, 0, 0, 786458, 0, 0, 786465, 0, 0, 786466, 0, 0, 851975, 0, 0, 851976, 0, 0, 851977, 0, 0, 851978, 0, 0, 851979, 0, 0, 851980, 0, 0, 851981, 0, 0, 851982, 0, 0, 851983, 0, 0, 851984, 0, 0, 851985, 0, 0, 851986, 0, 0, 851987, 0, 0, 851988, 0, 0, 851989, 0, 0, 851990, 0, 0, 851991, 0, 0, 851992, 0, 0, 851994, 0, 0, 852003, 0, 0, 852004, 0, 0, 917515, 0, 0, 917516, 0, 0, 917517, 0, 0, 917519, 0, 0, 917520, 0, 0, 917521, 0, 0, 917522, 0, 0, 917523, 0, 0, 917524, 0, 0, 917525, 0, 0, 917526, 0, 0, 917527, 0, 0, 917528, 0, 0, 917529, 0, 0, 917540, 0, 0, 983054, 0, 0, 983055, 0, 0, 983056, 0, 0, 983057, 0, 0, 983058, 0, 0, 983059, 0, 0, 983060, 0, 0, 983061, 0, 0, 983062, 0, 0, 983063, 0, 0, 983073, 0, 0, 983074, 0, 0, 983075, 0, 0, 1048592, 0, 0, 1048593, 0, 0, 1048594, 0, 0, 1048595, 0, 0, 1048596, 0, 0, 1048597, 0, 0, 1048598, 0, 0, 1048599, 0, 0, 1048600, 0, 0, 1048601, 0, 0, 1048602, 0, 0, 1048603, 0, 0, 1048604, 0, 0, 1048605, 0, 0, 1048606, 0, 0, 1048607, 0, 0, 1048608, 0, 0 )
+script = ExtResource( 3 )
+
+[node name="TilesetPallete" type="Sprite" parent="."]
+visible = false
+position = Vector2( 248, 208 )
+scale = Vector2( 2.5, 2.5 )
+texture = ExtResource( 2 )
+
+[node name="ExplosionParticles" type="Particles2D" parent="."]
+show_behind_parent = true
+position = Vector2( 592, 272 )
+scale = Vector2( 4, 4 )
+emitting = false
+amount = 100
+lifetime = 0.7
+one_shot = true
+speed_scale = 1.3
+explosiveness = 0.8
+randomness = 1.0
+draw_order = 1
+process_material = SubResource( 110 )
+
+[node name="ExplosionParticles2" type="Particles2D" parent="."]
+show_behind_parent = true
+position = Vector2( 624, 272 )
+scale = Vector2( 4, 4 )
+emitting = false
+amount = 100
+lifetime = 0.7
+one_shot = true
+speed_scale = 1.3
+explosiveness = 0.8
+randomness = 1.0
+draw_order = 1
+process_material = SubResource( 110 )
+
+[node name="Pixel" type="KinematicBody2D" parent="."]
+modulate = Color( 0.368627, 1, 0.662745, 1 )
+position = Vector2( 400, 304 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Polygon2D" type="Polygon2D" parent="Pixel"]
+position = Vector2( -16, -16 )
+scale = Vector2( 1, 0.375 )
+polygon = PoolVector2Array( 0, 0, 32, 0, 32, 85.3333, 0, 85.3333 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pixel"]
+shape = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Pixel"]
+anims/Bump = SubResource( 112 )
+
+[node name="Pixel2" type="KinematicBody2D" parent="."]
+position = Vector2( 624, 304 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Polygon2D" type="Polygon2D" parent="Pixel2"]
+position = Vector2( -16, -16 )
+scale = Vector2( 1, 0.375 )
+color = Color( 0.341176, 0.65098, 1, 1 )
+polygon = PoolVector2Array( 0, 0, 32, 0, 32, 85.3333, 0, 85.3333 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pixel2"]
+shape = SubResource( 1 )
+
+[node name="Area2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PoolVector2Array( -68, -64, -48, 16, 1260, 28, 1232, 700, 64, 680, 68, 24, -84, 32, -112, -72, -92, 824, 1404, 752, 1348, -52 )
+
+[node name="Polygon2D" type="Polygon2D" parent="Area2D"]
+color = Color( 1, 1, 1, 0.270588 )
+polygon = PoolVector2Array( -112, -76, -88, 824, 1404, 756, 1352, -56, -60, -64, -52, 20, 1252, 24, 1232, 704, 68, 676, 68, 20, -88, 36 )
+
+[connection signal="floor_completed" from="FloorMap" to="." method="_on_FloorMap_floor_completed"]

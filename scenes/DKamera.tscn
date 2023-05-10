@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://_baze/Kamera.gd" type="Script" id=1]
+[ext_resource path="res://scripts/DKamera.gd" type="Script" id=1]
 
 [sub_resource type="OpenSimplexNoise" id=554]
 
@@ -20,8 +20,6 @@ drag_margin_right = 0.0
 drag_margin_bottom = 0.0
 editor_draw_drag_margin = true
 script = ExtResource( 1 )
-noise = SubResource( 554 )
-add_trauma = 1.0
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 

@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Stray Pixels"
-run/main_scene="res://WorkView.tscn"
+run/main_scene="res://Arena.tscn"
 config/icon="res://_materiali/icon.png"
 
 [autoload]
@@ -33,7 +33,7 @@ Global="*res://AutoGlobal.gd"
 
 window/size/width=1280
 window/size/height=720
-window/size/always_on_top=true
+window/size/fullscreen=true
 window/size/test_width=640
 window/size/test_height=360
 window/stretch/mode="2d"
@@ -64,6 +64,14 @@ texture={
 "size_limit": 0,
 "stream": false,
 "svg/scale": 1.0
+}
+
+[input]
+
+space={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":32,"unicode":0,"echo":false,"script":null)
+ ]
 }
 
 [physics]

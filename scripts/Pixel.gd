@@ -4,85 +4,109 @@ var decelaration
 var force
 
 var acceleration: Vector2 # = Vector2.ONE
-var speed = 50
+var speed = 0
 var velocity: Vector2
-#onready var explosion_particles: Particles2D = $ExplosionParticles
-onready var explosion_particles: Particles2D = $"../ExplosionParticles"
 
-func _ready() -> void:
-
-#	print("Žiu!. Moje ime je, ", name, "Moja identifikacija je: ", bolt_id)
-#
-#	# bolt 
-##	bolt_sprite.self_mod1ulate = bolt_color
-#	bolt_sprite.texture = bolt_sprite_texture
-#	add_to_group(Config.group_bolts)	
-#	axis_distance = bolt_sprite_texture.get_width()
-##	bolt_index ... se določi iz spawnerja
-#
-#	engines_setup() # postavi partikle za pogon
-#
-#	# shield
-#	shield.modulate.a = 0 
-#	shield_collision.disabled = true 
-#	shield.self_modulate = bolt_color 
-#
-#	# bolt wiggle šejder
-#	bolt_sprite.material.set_shader_param("noise_factor", 0)
-	
-	pass
-onready var polygon_2d: Polygon2D = $Polygon2D
+var direction = Vector2.ZERO
 
 var faktor
 var collision: KinematicCollision2D
+var available_positions: Array = [0,0]
+
+#var tile_size = 32
+
+enum action_moves {BUMP}
+var action_moves_inputs = {
+	"space": 1, # bump
+	} 
+var step_inputs = {
+	"ui_right": Vector2.RIGHT,
+	"ui_left": Vector2.LEFT,
+	"ui_up": Vector2.UP,
+	"ui_down": Vector2.DOWN,
+	} 
+	
+var speed_grow = 5
+		
+			
+var cell_size: int = 32
+onready var polygon_2d: Polygon2D = $Polygon2D
+#onready var explosion_particles: Particles2D = $ExplosionParticles
+onready var explosion_particles: Particles2D = $"../ExplosionParticles"
+onready var pixel_2: KinematicBody2D = $"../Pixel2"
+onready var explosion_particles_2: Particles2D = $"../ExplosionParticles2"
+onready var animation_player: AnimationPlayer = $AnimationPlayer
+
+	
+		
+func _ready() -> void:
+	print("Jest sem ... ", name, global_position)
+	position = position.snapped(Vector2.ONE * cell_size)
+	position += Vector2.ONE * cell_size/2	
+	pass
+	
+func _unhandled_input(event):
+	for step_direction in step_inputs.keys():
+#		if event.is_action_pressed(step_direction):
+#			step(step_direction)
+		if event.get_action_strength(step_direction):
+			step(step_direction)
+	for action_move in action_moves_inputs.keys():
+#		if event.is_action_pressed(step_direction):
+#			step(step_direction)
+		if event.is_action_pressed(action_move):
+			action_move(action_move)
+		else:
+			action_on = false
+			
+	
+func step(direction):
+	position += step_inputs[direction] * cell_size	
+
+var action_on = false
+func action_move(action):	
+#	printt("action", action_moves_inputs[action])
+	match action_moves_inputs[action]:
+		1: 
+			action_on = true
+#			speed = 50
+			direction = Vector2.RIGHT
+			
+			printt("Bump", action)
+#			var current_position: Vector2 = global_position
+#			var goal_position: Vector2 = Vector2(current_position.x + cell_size * 5, current_position.y )
+#
+			var bump_tween = get_tree().create_tween()
+			bump_tween.tween_property(self,"speed", 100, 1)
+			bump_tween.tween_property(self,"speed", 0, 1)
+			
+
+
 func _physics_process(delta: float) -> void:
 	
-	acceleration = transform.x * speed # transform.x je (-1, 0)
-	velocity += acceleration * delta	
-	
-	collision = move_and_collide(velocity, false)
-	
-	if collision:
-		velocity = velocity.bounce(collision.normal)
-		explosion_particles.emitting = true
-		polygon_2d.visible = false
-		
 
-#
-#	faktor = +1 
-#	transform.x *= 1.1
-#	print(transform.x)
-#	print(transform)
-#	print("------------------")
-	# fwd motion se seta v kontrolerjih
-	# aktivacija pospeška je setana na kotrolerju
-	# plejer ... acceleration = transform.x * engine_power # transform.x je (-1, 0)
-	# enemi ... acceleration = position.direction_to(navigation_agent.get_next_location()) * engine_power
+	if action_on:
+#		velocity = direction * delta * speed
+#		move_and_collide(velocity) 
+		position = position.snapped(Vector2.ONE * cell_size)
+		position += Vector2.RIGHT * cell_size/2	
+	else:
+		
+		velocity = Vector2.ZERO
+#	
+#	print(available_positions)
 	
-	
-#	# pospešek omejim z uporom
-#	var drag_force = drag * velocity * velocity.length() / 100 # množenje z velocity nam da obliko vektorja ... 100 je za dapatacijo višine inputa
-#	acceleration -= drag_force
-#
-#	if nitro_active and fwd_motion: # se seta ob prevozu bonusa
-#		engine_power = nitro_power
-#
-#	# "hitrost" je pospešek s časom
+##	direction = Vector2.ZERO
+#	transform.x = direction
+#	acceleration = transform.x * speed # transform.x je (-1, 0)
 #	velocity += acceleration * delta	
 #
-#	rotation_angle = rotation_dir * deg2rad(turn_angle)
-##	if velocity.length() < stop_speed: 
-##		rotate(delta * rotation_angle * free_rotation_multiplier)
-##	else: 
-##		rotate(delta * rotation_angle)
-#
-#	rotate(delta * rotation_angle)
-#	steering(delta)	# vpliva na ai !!!
-#
-#	collision = move_and_collide(velocity * delta, false)
-#
-#	if collision:
-#		on_collision()	
-#
-#	motion_fx()
-#	update_energy_bar()
+#	collision = move_and_collide(velocity, false)
+#	print(speed)
+##	if collision:
+##		velocity = velocity.bounce(collision.normal)
+##		explosion_particles.emitting = true
+##		explosion_particles_2.emitting = true
+##		polygon_2d.visible = false
+##		pixel_2.visible = false
+	pass
