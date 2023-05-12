@@ -69,7 +69,7 @@ func _ready() -> void:
 	modulate = action_colors[action_color_index]
 	
 	# get cell size
-	cell_size_x = get_parent().grid_cell_size.x
+	cell_size_x = Global.game_manager.grid_cell_size.x
 	
 	# snap
 	position = position.snapped(Vector2.ONE * cell_size_x)

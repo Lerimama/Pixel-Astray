@@ -1,38 +1,46 @@
 extends Area2D
 
 
-signal ghost_arrived(global_position)
+signal ghost_target_reached(global_position)
 
 var speed: float = 0
 var max_speed: float = 10
 var direction = Vector2.ZERO
+#var accelaration: float = 500 # ne rabim ... ampak je na vseh pixlih
+#var velocity: Vector2  # ne rabim ... ampak je na vseh pixlih
 
 var floor_cells: Array = []
 var cell_size_x: float
-var ghost_arrived: float = false
+var target_reached: float = false
 var fade_out_time: float = 0.2
 
 onready var poly_pixel: Polygon2D = $PolyPixel
 
 
 func _ready() -> void:
-#	print(global_position)
-	pass
-
+	
+	Global.print_id(self)
+	add_to_group(Config.group_players)
+	
+	# snap it
+	cell_size_x = Global.game_manager.grid_cell_size.x # get cell size
+	global_position = global_position.snapped(Vector2.ONE * cell_size_x)
+	global_position += Vector2.ONE * cell_size_x/2 # zamik centra
+	
 func _physics_process(delta: float) -> void:
 	
 	
 	global_position += direction * speed
 	speed = lerp(speed, max_speed, 0.015)
 	
-	if ghost_arrived:
+	if target_reached:
 		speed = 0
 		snap_to_nearest_grid()
 		
 	
 func snap_to_nearest_grid():
 	
-	floor_cells = get_parent().available_positions
+	floor_cells = Global.game_manager.available_positions
 	var current_position = Vector2(global_position.x - cell_size_x/2, global_position.y - cell_size_x/2)
 	
 	# če ni že snepano
@@ -55,9 +63,11 @@ func fade_out(): # kličem iz pixla
 	
 
 func _on_PixelGhost_body_exited(body: Node) -> void:
-	if body == Global.level_tilemap: # or body == KinematicBody2D:
+	
+	if body.is_in_group(Config.group_tilemap):
+#	if body == Global.level_tilemap: # or body == KinematicBody2D:
 		speed = 0 # tukaj je zato ker se lepše ustavi
-		ghost_arrived = true
-		emit_signal("ghost_arrived", global_position)
+		target_reached = true
+		emit_signal("ghost_target_reached", global_position)
 		print(global_position)
 	

@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=9 format=2]
 
-[ext_resource path="res://assets/fonts/base_font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://assets/theme/gamer_base_font.tres" type="DynamicFont" id=1]
 
 [sub_resource type="StyleBoxEmpty" id=2]
 

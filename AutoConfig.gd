@@ -19,30 +19,44 @@
 extends Node
 
 
-var bolt_explosion_shake
-var bullet_hit_shake
-var misile_hit_shake
-
-
 # game groups
-var group_players =  "Players"
-var group_enemies =  "Enemies"
-var group_bolts =  "Bolts"
-var group_misiles =  "Misiles"
-var group_bullets =  "Bullets"
-var group_shockers =  "Shockers"
-var group_arena =  "Arena"
-var group_pickups =  "Pickups"
-
-
-var player_name: String = "P1"
+var group_players = "Players"
+var group_strays = "Strays"
+var group_darkers = "Darkers"
+var group_tilemap = "Tilemap"
 
 # game colors
 var color_white = Color("#ffffff") # najsvetlejša
+var color_black = Color("#000000") # najsvetlejša
 var color_blue = Color("#4b9fff")
 var color_green = Color("#5effa9")
 var color_red = Color("#f35b7f")
 var color_yellow = Color("#fef98b")
+
+
+# enums
+enum GameStats {PLAYER_POINTS, PLAYER_COLOR, COLORS_PICKED, COLOR_CHANGE_COUNT, SKILL_USE_COUNT, PIXELS_STRAY, PIXELS_HOME, ARENA_COLORS}
+
+#enum GameStats {PLAYER_POINTS, PLAYER_COLOR, ARENA_COLORS, PIXELS_STRAY, PIXELS_HOME}
+
+
+
+
+
+
+
+var bolt_explosion_shake
+var bullet_hit_shake
+var misile_hit_shake
+
+var group_bolts =  "Arena"
+var group_misiles =  "Misiles"
+var group_bullets =  "Bullets"
+var group_shockers =  "Shockers"
+var group_pickups =  "Pickups"
+
+var player_name: String = "P1"
+
 
 var color_gray0 = Color("#535b68") # najsvetlejša
 var color_gray1 = Color("#404954")

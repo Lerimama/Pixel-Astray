@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://assets/pixel_black.png" type="Texture" id=1]
 [ext_resource path="res://tileset_pallete.png" type="Texture" id=2]
@@ -8,7 +8,11 @@
 [ext_resource path="res://scenes/DKamera.tscn" type="PackedScene" id=6]
 [ext_resource path="res://assets/pixel_white.png" type="Texture" id=7]
 [ext_resource path="res://scenes/Pixel.tscn" type="PackedScene" id=8]
-[ext_resource path="res://scripts/StrayPixel.gd" type="Script" id=9]
+[ext_resource path="res://scenes/StrayPixel.tscn" type="PackedScene" id=9]
+[ext_resource path="res://GameManager.gd" type="Script" id=10]
+[ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=11]
+[ext_resource path="res://assets/theme/gamer_menu_font.tres" type="DynamicFont" id=12]
+[ext_resource path="res://scripts/HUD.gd" type="Script" id=13]
 
 [sub_resource type="OccluderPolygon2D" id=113]
 polygon = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
@@ -98,14 +102,17 @@ orbit_velocity_random = 0.0
 scale_curve = SubResource( 10 )
 color_ramp = SubResource( 8 )
 
-[sub_resource type="RectangleShape2D" id=118]
-extents = Vector2( 16, 16 )
-
 [sub_resource type="Animation" id=119]
 resource_name = "ghost"
 
 [node name="Arena" type="Node2D"]
 script = ExtResource( 4 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 44.0, 32.0, 20.0, 60.0 ]
+}
+
+[node name="GameManager" type="Node" parent="."]
+script = ExtResource( 10 )
 
 [node name="FloorMap" type="TileMap" parent="."]
 modulate = Color( 1, 1, 1, 0.180392 )
@@ -118,6 +125,9 @@ tile_data = PoolIntArray( -327671, 1, 0, -327670, 1, 0, -327669, 1, 0, -327668, 
 script = ExtResource( 3 )
 
 [node name="Border" type="StaticBody2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Border"]
 polygon = PoolVector2Array( -88, -64, -88, 0, 1280, 0, 1280, 720, 0, 720, 0, 0, -40, -16, -92, 824, 1404, 752, 1348, -52 )
@@ -168,32 +178,136 @@ __meta__ = {
 }
 dir_memory_mode = true
 
-[node name="StrayPixel_R" type="RigidBody2D" parent="."]
-position = Vector2( 688, 240 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StrayPixel_R"]
-shape = SubResource( 118 )
-
-[node name="Polygon2D" type="Polygon2D" parent="StrayPixel_R"]
-polygon = PoolVector2Array( -16, -16, -16, 16, 16, 16, 16, -16 )
-
-[node name="StrayPixel" type="KinematicBody2D" parent="."]
-position = Vector2( 560, 304 )
-script = ExtResource( 9 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StrayPixel"]
-shape = SubResource( 118 )
-
-[node name="Polygon2D" type="Polygon2D" parent="StrayPixel"]
-polygon = PoolVector2Array( -16, -16, -16, 16, 16, 16, 16, -16 )
+[node name="StrayPixel" parent="." instance=ExtResource( 9 )]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/ghost = SubResource( 119 )
 
-[connection signal="floor_completed" from="FloorMap" to="." method="_on_FloorMap_floor_completed"]
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="Node2D" parent="UI"]
+script = ExtResource( 13 )
+
+[node name="Control" type="Control" parent="UI/HUD"]
+anchor_right = 0.997
+anchor_bottom = 0.994
+margin_right = 1280.0
+margin_bottom = 720.0
+rect_min_size = Vector2( 1280, 720 )
+theme = ExtResource( 11 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="GameTime" type="Label" parent="UI/HUD/Control"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -64.0
+margin_right = 64.0
+margin_bottom = 52.0
+custom_fonts/font = ExtResource( 12 )
+text = "00:00"
+align = 1
+valign = 2
+
+[node name="PlayerLife" type="Label" parent="UI/HUD/Control"]
+margin_left = 32.0
+margin_top = 10.0
+margin_right = 178.0
+margin_bottom = 36.0
+text = "P1 LIFE: 00"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="PlayerPoints" type="Label" parent="UI/HUD/Control"]
+margin_left = 32.0
+margin_top = 38.0
+margin_right = 178.0
+margin_bottom = 64.0
+text = "P1 POINTS: 00"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="PlayerColor" type="Label" parent="UI/HUD/Control"]
+margin_left = 32.0
+margin_top = 66.0
+margin_right = 216.0
+margin_bottom = 92.0
+text = "PLAYER COLOR: 00"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="ColorsPicked" type="Label" parent="UI/HUD/Control"]
+margin_left = 32.0
+margin_top = 94.0
+margin_right = 280.0
+margin_bottom = 120.0
+text = "COLORS PICKED: #####"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="ColorChangeCount" type="Label" parent="UI/HUD/Control"]
+margin_left = 32.0
+margin_top = 122.0
+margin_right = 284.0
+margin_bottom = 148.0
+text = "COLOR CHANGES: 00"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="PixelsStray" type="Label" parent="UI/HUD/Control"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -128.0
+margin_top = -38.0
+margin_right = 128.0
+margin_bottom = -12.0
+text = "PIXELS ASTRAY: 00"
+align = 1
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="PixelsHome" type="Label" parent="UI/HUD/Control"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -288.0
+margin_top = -38.0
+margin_right = -32.0
+margin_bottom = -12.0
+text = "BLACK PIXELS: 00"
+align = 2
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="ArenaColors" type="Label" parent="UI/HUD/Control"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 32.0
+margin_top = -37.0
+margin_right = 288.0
+margin_bottom = -11.0
+text = "COLORS LEFT: 00"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[connection signal="floor_completed" from="FloorMap" to="GameManager" method="_on_FloorMap_floor_completed"]
