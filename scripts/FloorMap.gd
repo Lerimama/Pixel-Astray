@@ -1,11 +1,14 @@
 extends TileMap
 
-signal floor_completed (cell_global_positions)
+signal floor_completed (cell_global_positions, grid_cell_size)
 
 
 
 func _ready() -> void:
-	print("Jest sem ... ", name)
+	
+	Global.level_tilemap = self
+	
+	print("Jest sem ... ", name, "Iz_grupe ... ", get_groups())
 	get_floor_tiles()
 	pass # Replace with function body.
 
@@ -40,7 +43,7 @@ func get_floor_tiles():
 			#	pass
 #	print(floor_cells_global_positions)
 	
-	emit_signal("floor_completed", floor_cells_global_positions)
+	emit_signal("floor_completed", floor_cells_global_positions, cell_size)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:

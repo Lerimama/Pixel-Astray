@@ -15,13 +15,13 @@ export var time_scale: float = 150
 
 var time: float = 0
 var test_view_on = false
-
-# mouse drag 
+#
+## mouse drag 
 var mouse_used: bool = false # če je miška ni redi z dreganje ekrana
 var camera_center = Vector2(320, 180)
 var mouse_position_on_drag_start: Vector2 # zamik pozicije miške ob kliku
 var drag_on: bool = false
-
+#
 onready var trauma_bar = $UILayer/TestHud/TraumaBar
 onready var shake_bar = $UILayer/TestHud/ShakeBar
 onready var trauma_btn = $UILayer/TestHud/AddTraumaBtn
@@ -36,72 +36,72 @@ onready var lacunarity_slider = $UILayer/TestHud/NoiseControl/Lacunarity
 
 onready var testhud_node = $UILayer/TestHud
 onready var test_toggle_btn = $UILayer/TestToggle
-
-
+#
+#
 func _ready():
-	
-	Global.current_camera = self
-	
-	testhud_node.hide()
-	test_toggle_btn.set_focus_mode(0)
-	
-	trauma_btn.set_focus_mode(0)
-	reset_view_btn.set_focus_mode(0)
-	zoom_slider.set_focus_mode(0)
+#
+#	Global.current_camera = self
+#
+#	testhud_node.hide()
+#	test_toggle_btn.set_focus_mode(0)
+#
+#	trauma_btn.set_focus_mode(0)
+#	reset_view_btn.set_focus_mode(0)
+#	zoom_slider.set_focus_mode(0)
 	time_slider.set_focus_mode(0)
-	seed_slider.set_focus_mode(0)
-	octaves_slider.set_focus_mode(0)
-	period_slider.set_focus_mode(0)
-	persistence_slider.set_focus_mode(0)
-	lacunarity_slider.set_focus_mode(0)
-	
-	zoom_slider.hide()
-	
-	
-func _input(event: InputEvent) -> void:
-	
-	if Input.is_action_just_pressed("click") and test_view_on and not mouse_used:
-		drag_on = true
-		mouse_position_on_drag_start = get_global_mouse_position() # definiraj zamik pozicije miške napram centru
-		
-	if Input.is_action_just_released("click"):
-		drag_on = false
-
-	if Input.is_mouse_button_pressed(BUTTON_WHEEL_UP) and test_view_on:
-		zoom -= Vector2(0.1, 0.1)
-		
-	if Input.is_mouse_button_pressed(BUTTON_WHEEL_DOWN) and test_view_on:
-		zoom += Vector2(0.1, 0.1)
-		drag_on = false
-	
+#	seed_slider.set_focus_mode(0)
+#	octaves_slider.set_focus_mode(0)
+#	period_slider.set_focus_mode(0)
+#	persistence_slider.set_focus_mode(0)
+#	lacunarity_slider.set_focus_mode(0)
+#
+#	zoom_slider.hide()
+#
+#
+#func _input(event: InputEvent) -> void:
+#
+#	if Input.is_action_just_pressed("click") and test_view_on and not mouse_used:
+#		drag_on = true
+#		mouse_position_on_drag_start = get_global_mouse_position() # definiraj zamik pozicije miške napram centru
+#
+#	if Input.is_action_just_released("click"):
+#		drag_on = false
+#
+#	if Input.is_mouse_button_pressed(BUTTON_WHEEL_UP) and test_view_on:
+#		zoom -= Vector2(0.1, 0.1)
+#
+#	if Input.is_mouse_button_pressed(BUTTON_WHEEL_DOWN) and test_view_on:
+#		zoom += Vector2(0.1, 0.1)
+#		drag_on = false
+#
 	
 func _process(delta):
 	
 	time += delta
-	
-	# start decay
-	var shake = pow(trauma, 2) # narašča s kvadratno funkcijo 
-	offset.x = noise.get_noise_3d(time * time_scale, 0, 0) * max_horizontal * shake
-	offset.y = noise.get_noise_3d(0, time * time_scale, 0) * max_vertical * shake
-	rotation_degrees = noise.get_noise_3d(0, 0, time * time_scale) * max_rotation * shake
-	
-	# start decay
-	if trauma > 0:
-		yield(get_tree().create_timer(trauma_time), "timeout")
-		trauma = clamp(trauma - (delta * decay), 0, 1)
-
-	# UI
-	trauma_bar.value = trauma
-	shake_bar.value = shake
-	seed_slider.value = noise.seed
-	octaves_slider.value = noise.octaves
-	period_slider.value = noise.period 
-	persistence_slider.value = noise.persistence
-	lacunarity_slider.value = noise.lacunarity 
-	
-	# drag
-	if drag_on:
-		position += mouse_position_on_drag_start - get_global_mouse_position()
+#
+#	# start decay
+#	var shake = pow(trauma, 2) # narašča s kvadratno funkcijo 
+#	offset.x = noise.get_noise_3d(time * time_scale, 0, 0) * max_horizontal * shake
+#	offset.y = noise.get_noise_3d(0, time * time_scale, 0) * max_vertical * shake
+#	rotation_degrees = noise.get_noise_3d(0, 0, time * time_scale) * max_rotation * shake
+#
+#	# start decay
+#	if trauma > 0:
+#		yield(get_tree().create_timer(trauma_time), "timeout")
+#		trauma = clamp(trauma - (delta * decay), 0, 1)
+#
+#	# UI
+#	trauma_bar.value = trauma
+#	shake_bar.value = shake
+#	seed_slider.value = noise.seed
+#	octaves_slider.value = noise.octaves
+#	period_slider.value = noise.period 
+#	persistence_slider.value = noise.persistence
+#	lacunarity_slider.value = noise.lacunarity 
+#
+#	# drag
+#	if drag_on:
+#		position += mouse_position_on_drag_start - get_global_mouse_position()
 
 
 func add_trauma(added_trauma):
@@ -110,7 +110,7 @@ func add_trauma(added_trauma):
 # UI
 
 func _on_CheckBox_toggled(button_pressed: bool) -> void:
-	
+
 	if test_view_on:
 		test_view_on = false
 		testhud_node.hide()

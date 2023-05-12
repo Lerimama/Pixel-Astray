@@ -1,8 +1,18 @@
 extends Node2D
 
+
 # GLOBAL NODES
 var level_tilemap = null
 var node_creation_parent = null
+
+
+
+
+
+
+
+
+
 var effects_creation_parent = null
 var current_camera = null
 var game_manager = null
@@ -32,8 +42,9 @@ func _ready():
 
 
 
-func moj_print(variabla):
-	print ("current_scene: ", current_scene)
+func print_id (object):
+#	print ("current_scene: ", current_scene)
+	printt("Printam ... ", object.name, object.global_position)
 	
 func get_random_member_index(group_of_elements):
 
