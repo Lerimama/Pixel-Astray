@@ -24,9 +24,9 @@ func _ready() -> void:
 	
 	# snap it
 	cell_size_x = Global.game_manager.grid_cell_size.x # get cell size
-	global_position = global_position.snapped(Vector2.ONE * cell_size_x)
-	global_position += Vector2.ONE * cell_size_x/2 # zamik centra
-	
+	global_position = global_position.snapped(Vector2.ONE * cell_size_x/2)
+#	global_position += Vector2.ONE * cell_size_x/2 # zamik centra
+#
 func _physics_process(delta: float) -> void:
 	
 	
@@ -65,9 +65,7 @@ func fade_out(): # kličem iz pixla
 func _on_PixelGhost_body_exited(body: Node) -> void:
 	
 	if body.is_in_group(Config.group_tilemap):
-#	if body == Global.level_tilemap: # or body == KinematicBody2D:
 		speed = 0 # tukaj je zato ker se lepše ustavi
 		target_reached = true
-		emit_signal("ghost_target_reached", global_position)
-		print(global_position)
+		emit_signal("ghost_target_reached", self, global_position)
 	

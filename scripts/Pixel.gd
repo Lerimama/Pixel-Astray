@@ -106,7 +106,6 @@ func state_machine():
 		
 	match current_state: 
 		States.WHITE:
-#			skill_activated = false
 			if slide_mode:
 				slide_inputs()
 			else:
@@ -116,9 +115,9 @@ func state_machine():
 		States.GREEN: 
 			pull_control()
 		States.RED:
-			burst_inputs()
+			burst_control()
 		States.YELLOW:
-			teleport_inputs()
+			teleport_control()
 	
 	# change state
 	if Input.is_action_just_pressed("shift"):
@@ -136,11 +135,14 @@ func select_next_state():
 
 func _change_state(new_state_id):
 	
-	# transition
+	# set normal mode
+	skill_activated = false
 	direction = Vector2.ZERO
 	collision_ray.cast_to = direction * cell_size_x # ray kaže na naslednjo pozicijo 
 	collision_ray.force_raycast_update()	
 	snap_to_nearest_grid()
+
+	# transition
 	
 	# statistika
 	color_change_count += 1
@@ -224,7 +226,7 @@ func run():
 # SKILLS SEKCIJA ______________________________________________________________________________________________________________
 
 
-func burst_inputs():
+func burst_control():
 	
 	if Input.is_action_just_pressed("ui_up"):
 		direction = Vector2.UP
@@ -244,7 +246,7 @@ func burst_inputs():
 
 func burst(burst_direction):
 	
-	if detect_wall(burst_direction) or skill_activated: 
+	if detect_wall(burst_direction): 
 		return	
 	skill_activated = true
 	
@@ -255,104 +257,6 @@ func burst(burst_direction):
 	new_tween.tween_property(poly_pixel, "position", poly_pixel.position, 0.1)
 	new_tween.tween_callback(self, "_change_state", [States.WHITE])
 	new_tween.tween_property(self, "skill_activated", false, 0.01)
-
-
-func teleport_inputs():
-	
-	if Input.is_action_just_pressed("ui_up"):
-		direction = Vector2.UP
-		teleport(direction)
-	elif Input.is_action_just_pressed("ui_down"):
-		direction = Vector2.DOWN
-		teleport(direction)
-	elif Input.is_action_just_pressed("ui_left"):
-		direction = Vector2.LEFT
-		teleport(direction)
-	elif Input.is_action_just_pressed("ui_right"):
-		direction = Vector2.RIGHT
-		teleport(direction)
-	collision_ray.cast_to = direction * cell_size_x # ray kaže na naslednjo pozicijo 
-
-
-func teleport(teleport_direction):
-	
-	# preverim če kolajda s steno
-	if not detect_wall(teleport_direction) or skill_activated: 
-		return	
-	skill_activated = true
-	
-	# spawn ghost
-	var new_pixel_ghost = PixelGhost.instance()
-	new_pixel_ghost.global_position = global_position
-	new_pixel_ghost.direction = teleport_direction
-	new_pixel_ghost.modulate = state_colors[current_state]
-	new_pixel_ghost.floor_cells = floor_cells
-	new_pixel_ghost.cell_size_x = cell_size_x
-	Global.node_creation_parent.add_child(new_pixel_ghost)
-	new_pixel_ghost.connect("ghost_target_reached", self, "_on_ghost_target_reached", [new_pixel_ghost])
-
-
-func _on_ghost_target_reached(ghost_position, ghost_body):
-	
-	new_tween = get_tree().create_tween()
-	new_tween.tween_property(self, "modulate:a", 0, ghost_fade_time)
-	new_tween.tween_property(self, "global_position", ghost_position, 0.1)
-	new_tween.tween_callback(self, "_change_state", [States.WHITE])
-	new_tween.parallel().tween_callback(ghost_body, "fade_out")
-	# deactivate skill
-	new_tween.tween_property(self, "skill_activated", false, 0.01)
-	
-	
-func pull_control():
-	
-	if Input.is_action_just_pressed("ui_up"):
-		direction = Vector2.UP
-		pull(direction)
-	elif Input.is_action_just_pressed("ui_down"):
-		direction = Vector2.DOWN
-		pull(direction)
-	elif Input.is_action_just_pressed("ui_left"):
-		direction = Vector2.LEFT
-		pull(direction)
-	elif Input.is_action_just_pressed("ui_right"):
-		direction = Vector2.RIGHT
-		pull(direction)
-	
-	collision_ray.cast_to = direction * cell_size_x # ray kaže na naslednjo pozicijo 
-
-
-func pull(target_direction):
-	# ray je usmerjen v smer 
-	# če je tam tarča, spelje step()
-	# če je prostor (preverja c stepu) se premakne stran od tarče
-	# tarčina pozicija sledi pixlu
-	# če je s se premakne v smer stran od nje
-	
-	if not detect_wall(target_direction): # preverjam obstoj kolizijo s pixlom ... if collision_ray.is_colliding(): .. ne rabim
-		return	
-
-	var pull_direction = - target_direction
-	var ray_collider = collision_ray.get_collider()
-	
-	if not ray_collider.is_in_group(Config.group_strays):
-		return
-	
-	# spawn ghost pod mano
-	var new_pixel_ghost = PixelGhost.instance()
-	new_pixel_ghost.global_position = global_position
-	new_pixel_ghost.modulate = state_colors[current_state]
-	Global.node_creation_parent.add_child(new_pixel_ghost)
-	
-	modulate.a = 0.5
-	
-	# premik vsega
-	new_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
-	new_tween.tween_property(self, "position", global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
-	new_tween.tween_property(ray_collider, "position", ray_collider.global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
-	new_tween.parallel().tween_property(new_pixel_ghost, "position", new_pixel_ghost.global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
-	new_tween.tween_callback(self, "_change_state", [States.WHITE])
-	new_tween.tween_callback(ray_collider, "select_next_state")
-	new_tween.parallel().tween_callback(new_pixel_ghost, "queue_free")
 
 	
 func push_control():
@@ -375,8 +279,9 @@ func push_control():
 
 func push(push_direction):
 	
-	if not detect_wall(push_direction): # preverjam obstoj kolizijo s pixlom ... if collision_ray.is_colliding(): .. ne rabim
+	if not detect_wall(push_direction) or skill_activated: # preverjam obstoj kolizijo s pixlom ... if collision_ray.is_colliding(): .. ne rabim
 		return	
+	skill_activated = true
 
 	var backup_direction = - push_direction
 
@@ -404,6 +309,97 @@ func push(push_direction):
 	new_tween.tween_callback(self, "_change_state", [States.WHITE])
 #	new_tween.tween_callback(ray_collider, "select_next_state")
 	new_tween.parallel().tween_callback(new_pixel_ghost, "queue_free")
+	
+	
+func pull_control():
+	
+	if Input.is_action_just_pressed("ui_up"):
+		direction = Vector2.UP
+		pull(direction)
+	elif Input.is_action_just_pressed("ui_down"):
+		direction = Vector2.DOWN
+		pull(direction)
+	elif Input.is_action_just_pressed("ui_left"):
+		direction = Vector2.LEFT
+		pull(direction)
+	elif Input.is_action_just_pressed("ui_right"):
+		direction = Vector2.RIGHT
+		pull(direction)
+	
+	collision_ray.cast_to = direction * cell_size_x # ray kaže na naslednjo pozicijo 
+
+
+func pull(target_direction):
+	# ray je usmerjen v smer 
+	# če je tam tarča, spelje step()
+	# če je prostor (preverja c stepu) se premakne stran od tarče
+	# tarčina pozicija sledi pixlu
+	# če je s se premakne v smer stran od nje
+	
+	if not detect_wall(target_direction) or skill_activated: # preverjam obstoj kolizijo s pixlom ... if collision_ray.is_colliding(): .. ne rabim
+		return	
+	skill_activated = true
+
+	var pull_direction = - target_direction
+	var ray_collider = collision_ray.get_collider()
+	
+	if not ray_collider.is_in_group(Config.group_strays):
+		return
+	
+	# spawn ghost pod mano
+	var new_pixel_ghost = PixelGhost.instance()
+	new_pixel_ghost.global_position = global_position
+	new_pixel_ghost.modulate = state_colors[current_state]
+	Global.node_creation_parent.add_child(new_pixel_ghost)
+	
+	modulate.a = 0.5
+	
+	# premik vsega
+	new_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
+	new_tween.tween_property(self, "position", global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
+	new_tween.tween_property(ray_collider, "position", ray_collider.global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
+	new_tween.parallel().tween_property(new_pixel_ghost, "position", new_pixel_ghost.global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
+	new_tween.tween_callback(self, "_change_state", [States.WHITE])
+	new_tween.tween_callback(ray_collider, "select_next_state")
+	new_tween.parallel().tween_callback(new_pixel_ghost, "queue_free")
+
+
+func teleport_control():
+	
+	if Input.is_action_just_pressed("ui_up"):
+		direction = Vector2.UP
+		teleport(direction)
+	elif Input.is_action_just_pressed("ui_down"):
+		direction = Vector2.DOWN
+		teleport(direction)
+	elif Input.is_action_just_pressed("ui_left"):
+		direction = Vector2.LEFT
+		teleport(direction)
+	elif Input.is_action_just_pressed("ui_right"):
+		direction = Vector2.RIGHT
+		teleport(direction)
+	collision_ray.cast_to = direction * cell_size_x # ray kaže na naslednjo pozicijo 
+
+
+func teleport(teleport_direction):
+	
+	# preverim če kolajda s steno
+	if not detect_wall(teleport_direction) or skill_activated:
+		return	
+	if collision_ray.get_collider().is_in_group(Config.group_strays):
+		return
+	skill_activated = true
+	
+	# spawn ghost
+	var new_pixel_ghost = PixelGhost.instance()
+	new_pixel_ghost.global_position = global_position
+	new_pixel_ghost.direction = teleport_direction
+	new_pixel_ghost.modulate = state_colors[current_state]
+	new_pixel_ghost.floor_cells = floor_cells
+	new_pixel_ghost.cell_size_x = cell_size_x
+	Global.node_creation_parent.add_child(new_pixel_ghost)
+#	new_pixel_ghost.connect("ghost_target_reached", self, "_on_ghost_target_reached", [new_pixel_ghost])
+	new_pixel_ghost.connect("ghost_target_reached", self, "_on_ghost_target_reached")
 
 
 # UTILITI SEKCIJA ______________________________________________________________________________________________________________
@@ -433,7 +429,20 @@ func snap_to_nearest_grid():
 				nearest_cell = cell
 		# snap it
 		global_position = Vector2(nearest_cell.x + cell_size_x/2, nearest_cell.y + cell_size_x/2)
+	
+
+# SIGNALI ______________________________________________________________________________________________________________
+
 		
+func _on_ghost_target_reached(ghost_body, ghost_position):
+	
+	new_tween = get_tree().create_tween()
+	new_tween.tween_property(self, "modulate:a", 0, ghost_fade_time)
+	new_tween.tween_property(self, "global_position", ghost_position, 0.1)
+	new_tween.tween_callback(self, "_change_state", [States.WHITE])
+	new_tween.parallel().tween_callback(ghost_body, "fade_out")
+	# deactivate skill
+	new_tween.tween_property(self, "skill_activated", false, 0.01)
 
 # SETGET ------------------------------------------------------------------------------------------------------------------------
 		

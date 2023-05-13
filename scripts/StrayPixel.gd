@@ -59,6 +59,13 @@ func _ready() -> void:
 	Global.print_id(self)
 	add_to_group(Config.group_strays)
 #	modulate = pixel_color
+
+	
+	# snap it ... ne dela vredu, zato jo snapam v spawnanju
+#	cell_size_x = Global.game_manager.grid_cell_size.x # get cell size
+#	global_position = global_position.snapped(Vector2.ONE * cell_size_x)
+#	global_position += Vector2.ONE * cell_size_x/2 # zamik centra
+
 	
 func _physics_process(delta: float) -> void:
 
@@ -73,9 +80,9 @@ func _physics_process(delta: float) -> void:
 		
 	collision = move_and_collide(velocity * delta, false)
 
-	if target_reached:
-		speed = 0
-		snap_to_nearest_grid()
+#	if target_reached:
+#		speed = 0
+#		snap_to_nearest_grid()
 
 
 #	if collision:
@@ -122,7 +129,7 @@ func _change_state(new_state_id):
 	
 	# transition
 #	direction = Vector2.ZERO
-	snap_to_nearest_grid()
+#	snap_to_nearest_grid()
 	
 	# statistika
 	emit_signal("stat_changed", Global.game_manager.P1, "points", 1)	

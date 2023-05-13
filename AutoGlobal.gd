@@ -4,35 +4,14 @@ extends Node2D
 # GLOBAL NODES
 var level_tilemap = null
 var node_creation_parent = null
-
-
-
-
-
-
-
-
-
-var effects_creation_parent = null
-var current_camera = null
 var game_manager = null
-var ppp1 = null
-var ppp2 = null
-var ppp3 = null
-var ppp4 = null
-#var player_manager = null	# variabla setana na NULL pomeni, da trenutno je "nič"
-#var weapon_manager = null
-#var game_profiles = null
-#var player_profiles = null
-#var player = null	# čekiraš plejerja, če je prisoten, trenutno ne uporabljam (a sploh dela za vse plejerje
-
-#onready var indikator: PackedScene = preload("res://indikator.tscn")
-# spawn indikator
-
+# ---
+var current_camera = null
 var current_scene = null
 
 func _ready():
 	
+	randomize()
 	# za menjavo scen
 	var root = get_tree().root
 	current_scene = root.get_child(root.get_child_count() - 1)
@@ -41,20 +20,24 @@ func _ready():
 	print ("current_scene: ", current_scene)
 
 
-
 func print_id (object):
 #	print ("current_scene: ", current_scene)
 	printt("Printam ... ", object.name, object.global_position)
 	
-func get_random_member_index(group_of_elements):
+func get_random_member_index(group_of_elements, offset):
 
 		var random_range = group_of_elements.size()
-		var selected_int = randi() % int(random_range)
+		var selected_int = randi() % int(random_range) + offset
 #		var selected_value = current_array[random_int]
 		
 #		printt(current_array, random_range, random_int, selected_int)
 		return selected_int
 	
+
+
+
+
+
 
 
 func switch_to_scene(path):

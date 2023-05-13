@@ -108,7 +108,7 @@ func spawn_stray_pixel(strays_amount):
 
 			# žrebanje pozicije
 			var selected_cell_index: int = Global.get_random_member_index(available_positions, 0)
-			new_stray_pixel.global_position = available_positions[selected_cell_index] # + grid_cell_size/2 ... ne rabim snepat ker se v pixlu na redi funkciji
+			new_stray_pixel.global_position = available_positions[selected_cell_index] + grid_cell_size/2 # ... ne rabim snepat ker se v pixlu na redi funkciji
 			
 			#spawn
 			Global.node_creation_parent.add_child(new_stray_pixel)
