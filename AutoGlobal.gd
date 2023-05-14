@@ -22,8 +22,8 @@ func _ready():
 
 func print_id (object):
 #	print ("current_scene: ", current_scene)
-	printt("Printam ... ", object.name, object.global_position)
-	
+#	printt("Printam ... ", object.name, object.global_position)
+	pass
 func get_random_member_index(group_of_elements, offset):
 
 		var random_range = group_of_elements.size()

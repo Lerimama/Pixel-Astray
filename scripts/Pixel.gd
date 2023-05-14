@@ -64,7 +64,7 @@ onready var PixelExplosion = preload("res://scenes/PixelExplosion.tscn")
 
 
 # player stats
-var color_change_count: int = 0
+var skill_change_count: int = 0
 
 var push_time: float = 0.5
 var push_cell_count: int = 1
@@ -86,8 +86,9 @@ func _physics_process(delta: float) -> void:
 		explode_pixel()
 	
 	state_machine()
-	modulate = state_colors[current_state]
-			
+#	modulate = state_colors[current_state] ... težko vplivam če je tukaj
+#	print("current color", state_colors[current_state], pixel_color)
+	
 	frame_counter += 1
 	
 	# dokler je speed 0, je velocity tudi 0 v tweenih speed se regulira v tweenu
@@ -151,10 +152,12 @@ func _change_state(new_state_id):
 	# transition
 	
 	# statistika
-	color_change_count += 1
-	emit_signal("stat_changed", self, "color_change_count", 1)
+	skill_change_count += 1
+	emit_signal("stat_changed", self, "skill_change_count", 1)
 	# new state
 	current_state = new_state_id
+	modulate = state_colors[current_state]
+#	modulate = state_colors[current_state]
 
 
 func step_inputs():
@@ -215,7 +218,10 @@ func step(step_direction):
 		
 	new_tween = get_tree().create_tween()
 	new_tween.tween_property(self, "position", global_position + step_direction * cell_size_x * step_cell_count, step_time).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)	
-
+	
+	# pošljem signal, da odštejem točko
+	emit_signal("stat_changed", self, "cells_travelled", 1)
+	
 		
 func run(): 
 	# premik samo, če je smerna tipka stisnjena
@@ -308,11 +314,10 @@ func spawn_cockup_cell(direction, cell_count):
 	
 	cocking_cells.append(new_pixel_ghost)
 	
-	print("cocking_cells", cocking_cells)
+#	printt("spawned cocking  cells", cocking_cells)
 	
 	
 func release_cockup_cells():
-	print("cocking_cells", cocking_cells)
 
 	for cocking_cell in cocking_cells:
 		cocking_cell.fade_out()
@@ -320,7 +325,6 @@ func release_cockup_cells():
 	cocking_cells = []
 	cockup_time = 0
 	cockup_cells_count = 0
-	print("cocking_cells", cocking_cells)
 	
 	
 func burst(burst_direction, backup_cells_count):
@@ -425,16 +429,16 @@ func push(push_direction):
 func pull_control():
 	
 	if Input.is_action_just_pressed("ui_up"):
-		direction = Vector2.UP
-		pull(direction)
-	elif Input.is_action_just_pressed("ui_down"):
 		direction = Vector2.DOWN
 		pull(direction)
+	elif Input.is_action_just_pressed("ui_down"):
+		direction = Vector2.UP
+		pull(direction)
 	elif Input.is_action_just_pressed("ui_left"):
-		direction = Vector2.LEFT
+		direction = Vector2.RIGHT
 		pull(direction)
 	elif Input.is_action_just_pressed("ui_right"):
-		direction = Vector2.RIGHT
+		direction = Vector2.LEFT
 		pull(direction)
 	
 #	collision_ray.cast_to = direction * cell_size_x # ray kaže na naslednjo pozicijo 
@@ -517,7 +521,6 @@ onready var poly_broken: Polygon2D = $PolyBroken
 var pixel_break_time: float = 0.3
 
 	
-
 func explode_pixel():
 
 	# breaking
@@ -542,8 +545,9 @@ func explode_pixel():
 
 
 func die():
-	emit_signal("stat_changed", self, "life", 1)
+	emit_signal("stat_changed", self, "life", -1)
 #	visible = false
+	print("KVEFRI")
 	queue_free()
 
 
@@ -596,15 +600,64 @@ func _on_ghost_detected_body(body):
 	
 
 
+var pixel_color_sum: Color
+# stats v hudu
+#onready var picked_color: Control = $"../UI/HUD/HudControl/PickedColor"
+onready var picked_color_rect: ColorRect = $"../UI/HUD/HudControl/PickedColor/ColorBox/ColorRect"
+onready var color_value: Label = $"../UI/HUD/HudControl/PickedColor/Value"
+
 func _on_DetectArea_body_entered(body: Node) -> void:
 	
 	if skill_activated:
 		speed = 0
 		if body.is_in_group(Config.group_strays):
+			
+			# poberi trenutni seštevek barv
+			var current_color_sum = state_colors[current_state]
+			
+			# change pixel
+			speed = 0
 			_change_state(States.WHITE)
-#			body.explode_pixel()
-			emit_signal("stat_changed", self, "colors_picked", body.state_colors[body.current_state])
-			modulate = body.state_colors[body.current_state]
+			
+			
+			# poberi barvo pixla
+			var picked_color = body.modulate
+			picked_color_rect.color = picked_color
+			
+			# picked color
+			var rgb_red: float = picked_color.r * 255
+			var rgb_green: float = picked_color.g * 255
+			var rgb_blue: float = picked_color.b * 255
+			var display_red: String = "%03d" % rgb_red
+			var display_green: String = " %03d" % rgb_green
+			var display_blue: String = " %03d" % rgb_blue
+			# v hud
+			color_value.text = display_red + display_green + display_blue
+			
+			# blended pixel color
+			pixel_color_sum = current_color_sum + picked_color
+			modulate = pixel_color_sum
+			
+			# stray disabled
 			body.current_state = body.States.BLACK
+			body.turn_off() # stray javi svojo smrt v hud
+			
+			
+			printt("prev color sum", current_color_sum)
+			printt("picked color", body.state_colors[body.current_state])
+			printt("new color sum", pixel_color_sum)
+			# seštej in zabeleži v statistiko
+			
+##			# body.explode_pixel()
+#			emit_signal("stat_changed", self, "colors_picked", body.state_colors[body.current_state])
+		
+			# seštej
+		
+			# blend
+#			var blended_color = color_rect.color.blend(body.state_colors[body.current_state]) # Brown with alpha of 75%
+#			body.modulate = Color.black
+		
+		
+#			modulate += body.state_colors[body.current_state]
 		else:	
 			explode_pixel()

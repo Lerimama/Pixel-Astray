@@ -5,7 +5,7 @@ extends KinematicBody2D
 #signal target_reached(global_position) # 
 
 # VSI PIXLI
-signal stat_changed (stat_owner, stat, stat_change)
+signal stat_changed (stat_owner, stat, stat_change) # owner je v tem primeru nepomemben ... zato ga ni
 
 var speed: float = 0
 var max_speed: float = 10
@@ -70,7 +70,8 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 
 	state_machine()
-	modulate = state_colors[current_state]
+#	modulate = state_colors[current_state]
+
 	# ghost
 	# global_position += direction * speed
 	# speed = lerp(speed, max_speed, 0.015)
@@ -132,10 +133,11 @@ func _change_state(new_state_id):
 #	snap_to_nearest_grid()
 	
 	# statistika
-	emit_signal("stat_changed", Global.game_manager.P1, "points", 1)	
+#	emit_signal("stat_changed", Global.game_manager.P1, "points", 1)	
 	
 	# new state
 	current_state = new_state_id
+	modulate = state_colors[current_state]
 		
 		
 func snap_to_nearest_grid():
@@ -154,8 +156,6 @@ func snap_to_nearest_grid():
 		# snap it
 		global_position = Vector2(nearest_cell.x + cell_size_x/2, nearest_cell.y + cell_size_x/2)
 
-
-
 onready var poly_broken: Polygon2D = $PolyBroken
 var pixel_break_time: float = 0.3
 
@@ -165,7 +165,6 @@ onready var detect_area: Area2D = $DetectArea
 
 func explode_pixel():
 	
-	self
 	# breaking
 	poly_broken.visible = true
 #	poly_broken.modulate = state_colors[current_state]
@@ -175,7 +174,7 @@ func explode_pixel():
 	yield(get_tree().create_timer(pixel_break_time),"timeout")
 	yield(get_tree().create_timer(0.1),"timeout")
 
-	# spawn delaunay and explode
+	# explode
 	var new_exploding_pixel = PixelExplosion.instance()
 	new_exploding_pixel.modulate = state_colors[current_state]
 	new_exploding_pixel.global_position = global_position - Vector2.ONE * cell_size_x / 2
@@ -187,12 +186,23 @@ func explode_pixel():
 	die()
 
 
+func turn_off():
+	
+	new_tween = get_tree().create_tween().set_trans(Tween.TRANS_SINE)
+	new_tween.tween_property(self, "modulate:a", 0, 3)
+	new_tween.tween_callback(self, "die")
+	
 func die():
-	emit_signal("stat_changed", self, "life", 1)
-#	visible = false
+	# pošljem barvo
+#	emit_signal("stat_changed", "black_pixels", 1) 
+	
+	# pošljem turnoff
+	emit_signal("stat_changed", self, "black_pixels", 1) # owner je v tem primeru nepomemben ... zato ga ni
+	print("strey kvfrid")
 	queue_free()
+	
 
 
-func _on_DetectArea_body_entered() -> void:
+func _on_DetectArea_body_entered(body: Node) -> void:
 #	explode_pixel()
 	pass # Replace with function body.

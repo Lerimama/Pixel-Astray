@@ -28,14 +28,17 @@ var default_player_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
 	"player_active" : true,
 	"life" : 3,
 	"points" : 0,
-	"color_sum" : 0,
-	"colors_picked" : 0,
-	"color_change_count" : 0,
+#	"color_sum" : 0,
+	"skill_change_count" : 0,
+	"cells_travelled" : 0,
+	
+	# obs?
+#	"colors_picked" : 0,
 }
 
 var default_game_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
 	"game_time" : 90, # sekund
-	"colors_left" : 0,
+	"level_no" : 0,
 	"stray_pixels" : 0,
 	"black_pixels" : 0,
 }

@@ -179,7 +179,7 @@ __meta__ = {
 dir_memory_mode = true
 
 [node name="StrayPixel" parent="." instance=ExtResource( 9 )]
-position = Vector2( 624, 304 )
+position = Vector2( 368, 336 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/ghost = SubResource( 119 )
@@ -189,7 +189,7 @@ anims/ghost = SubResource( 119 )
 [node name="HUD" type="Node2D" parent="UI"]
 script = ExtResource( 13 )
 
-[node name="Control" type="Control" parent="UI/HUD"]
+[node name="HudControl" type="Control" parent="UI/HUD"]
 anchor_right = 0.997
 anchor_bottom = 0.994
 margin_right = 1280.0
@@ -200,18 +200,31 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="GameTime" type="Label" parent="UI/HUD/Control"]
+[node name="GameTime" type="Label" parent="UI/HUD/HudControl"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -64.0
-margin_right = 64.0
-margin_bottom = 52.0
+margin_left = -52.0
+margin_top = 40.0
+margin_right = 56.0
+margin_bottom = 92.0
 custom_fonts/font = ExtResource( 12 )
 text = "00:00"
 align = 1
 valign = 2
 
-[node name="PlayerLife" type="Label" parent="UI/HUD/Control"]
+[node name="Level" type="Label" parent="UI/HUD/HudControl"]
+modulate = Color( 0.368627, 1, 0.662745, 1 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -24.0
+margin_right = 24.0
+margin_bottom = 52.0
+custom_fonts/font = ExtResource( 12 )
+text = "00"
+align = 1
+valign = 2
+
+[node name="Life" type="Label" parent="UI/HUD/HudControl"]
 margin_left = 32.0
 margin_top = 10.0
 margin_right = 178.0
@@ -222,7 +235,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="PlayerPoints" type="Label" parent="UI/HUD/Control"]
+[node name="Points" type="Label" parent="UI/HUD/HudControl"]
 margin_left = 32.0
 margin_top = 38.0
 margin_right = 178.0
@@ -233,48 +246,84 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="PlayerColor" type="Label" parent="UI/HUD/Control"]
+[node name="CellsTravelled" type="Label" parent="UI/HUD/HudControl"]
 margin_left = 32.0
 margin_top = 66.0
-margin_right = 216.0
+margin_right = 264.0
 margin_bottom = 92.0
-text = "PLAYER COLOR: 00"
+text = "CELLS TRAVELED: 0000"
 valign = 2
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="ColorsPicked" type="Label" parent="UI/HUD/Control"]
+[node name="SkilChangeCount" type="Label" parent="UI/HUD/HudControl"]
 margin_left = 32.0
 margin_top = 94.0
-margin_right = 280.0
+margin_right = 288.0
 margin_bottom = 120.0
-text = "COLORS PICKED: #####"
+text = "SKILL CHANGE COUNT: 00"
 valign = 2
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="ColorChangeCount" type="Label" parent="UI/HUD/Control"]
+[node name="PickedColor" type="Control" parent="UI/HUD/HudControl"]
+anchor_top = 1.0
+anchor_bottom = 1.0
 margin_left = 32.0
-margin_top = 122.0
-margin_right = 284.0
-margin_bottom = 148.0
-text = "COLOR CHANGES: 00"
+margin_top = -48.0
+margin_right = 356.0
+margin_bottom = -28.0
+
+[node name="Label" type="Label" parent="UI/HUD/HudControl/PickedColor"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -26.0
+margin_right = 146.0
+text = "PICKED COLOR:"
 valign = 2
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="PixelsStray" type="Label" parent="UI/HUD/Control"]
+[node name="ColorBox" type="Control" parent="UI/HUD/HudControl/PickedColor"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 160.0
+margin_top = -19.0
+margin_right = 176.0
+margin_bottom = -3.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ColorRect" type="ColorRect" parent="UI/HUD/HudControl/PickedColor/ColorBox"]
+margin_right = 16.0
+margin_bottom = 16.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="Value" type="Label" parent="UI/HUD/HudControl/PickedColor"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 192.0
+margin_top = -26.0
+margin_right = 320.0
+text = "255 255 255"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="PixelsStray" type="Label" parent="UI/HUD/HudControl"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -128.0
-margin_top = -38.0
+margin_top = -54.0
 margin_right = 128.0
-margin_bottom = -12.0
+margin_bottom = -28.0
 text = "PIXELS ASTRAY: 00"
 align = 1
 valign = 2
@@ -282,30 +331,17 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="PixelsHome" type="Label" parent="UI/HUD/Control"]
+[node name="PixelsHome" type="Label" parent="UI/HUD/HudControl"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -288.0
-margin_top = -38.0
+margin_top = -54.0
 margin_right = -32.0
-margin_bottom = -12.0
+margin_bottom = -28.0
 text = "BLACK PIXELS: 00"
 align = 2
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="ArenaColors" type="Label" parent="UI/HUD/Control"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 32.0
-margin_top = -37.0
-margin_right = 288.0
-margin_bottom = -11.0
-text = "COLORS LEFT: 00"
 valign = 2
 __meta__ = {
 "_editor_description_": ""

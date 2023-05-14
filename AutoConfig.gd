@@ -28,11 +28,6 @@ var color_red = Color("#f35b7f")
 var color_yellow = Color("#fef98b")
 
 
-# enums
-enum GameStats {PLAYER_POINTS, PLAYER_COLOR, COLORS_PICKED, COLOR_CHANGE_COUNT, SKILL_USE_COUNT, PIXELS_STRAY, PIXELS_HOME, ARENA_COLORS}
-
-#enum GameStats {PLAYER_POINTS, PLAYER_COLOR, ARENA_COLORS, PIXELS_STRAY, PIXELS_HOME}
-
 
 var bolt_explosion_shake
 var bullet_hit_shake

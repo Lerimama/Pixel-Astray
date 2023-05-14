@@ -17,7 +17,7 @@ var poly_height: int = 32
 
 func _ready() -> void:
 	randomize()
-#	triangulate_polygon()
+	triangulate_polygon()
 	
 		
 func _process(delta: float) -> void:
