@@ -17,7 +17,7 @@ color = Color( 1, 1, 1, 1 )
 thickness = 2
 
 [sub_resource type="StyleBoxFlat" id=7]
-bg_color = Color( 0.113725, 0.129412, 0.176471, 1 )
+bg_color = Color( 0, 0, 0, 1 )
 
 [resource]
 default_font = ExtResource( 1 )

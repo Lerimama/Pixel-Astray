@@ -22,3 +22,7 @@ func _ready() -> void:
 #
 #	available_positions = cells_global_positions 
 #	grid_cell_size = cell_size
+
+
+func _on_Main_PlayBtn_pressed() -> void:
+	pass # Replace with function body.

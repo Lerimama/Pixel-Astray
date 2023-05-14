@@ -30,6 +30,7 @@ var grid_cell_size: Vector2 # definiran tukaj, da ga lahko grebam do zunaj
 var random_split_ad_factor = 0.1 # skrbi da je prilagojeno na številorazrezov
 var color_spectrum = 255.0	
 
+onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
 onready var tilemap_floor_cells: Array
 onready var pixel: KinematicBody2D = $"../Pixel"
 onready var StrayPixel = preload("res://scenes/StrayPixel.tscn")
@@ -38,11 +39,28 @@ onready var PlayerPixel = preload("res://scenes/Pixel.tscn")
 # _temp ... pripnem spawnanega, potem se bo vleklo glede na kolizijo
 var P1
 
+# GUI
+onready var scene_tree: = get_tree() # za pavzo
+onready var hud: Node2D = $"../UI/HUD"
+onready var main_menu: Control = $"../UI/MainMenu"
+onready var pause_menu: Control = $"../UI/PauseMenu"
+onready var game_over: Control = $"../UI/GameOver"
+
+
+
 
 func _ready() -> void:
 	
 	Global.game_manager = self	
 	randomize()
+	
+	# štartej igro
+	animation_player.play("the_beginning")
+	main_menu.visible = true
+#	main_menu.modulate.a = 0
+	hud.visible = false
+	pause_menu.visible = false
+	game_over.visible = false
 
 
 func _input(event: InputEvent) -> void:
@@ -55,8 +73,13 @@ func _input(event: InputEvent) -> void:
 		spawn_stray_pixel(9)
 	if Input.is_action_just_pressed("r"):
 		restart_game()
-	if Input.is_action_just_released("ui_cancel"):	
-		end_game()
+	if Input.is_action_just_released("ui_cancel"):
+		print("pavza")
+		animation_player.play("pause_game")
+#		pause_game()	
+#		if pause_on:
+#		else:
+#			animation_player.play("pause_game")
 
 
 func _process(delta: float) -> void:
@@ -218,6 +241,14 @@ func restart_game():
 	end_game()
 	start_game()
 	
+func pause_game():
+	
+	pause_menu.visible = not pause_menu.visible
+	scene_tree.paused = not scene_tree.paused
+	pause_on = not pause_on
+#	scene_tree.set_input_as_handled()
+
+	
 	
 # SIGNALI ----------------------------------------------------------------------------------
 
@@ -284,4 +315,29 @@ func _on_stat_changed(stat_owner, changed_stat, new_stat_value):
 	# disable moving
 	if new_game_stats["player_points"] <= 0:
 		print("CAN'T MOVE")
+	
 		
+# BUTTONS --------------------------------------------------------------------------------
+
+
+func _on_Main_PlayBtn_pressed() -> void:
+	animation_player.play("game_start")
+
+func _on_Pause_PlayBtn_pressed() -> void:
+	animation_player.play("unpause_game")
+	
+func _on_Pause_QuitBtn_pressed() -> void:
+	animation_player.play("pause_quit")
+
+
+func _on_GameOver_PlayBtn_pressed() -> void:
+	animation_player.play("game_over_replay")
+
+func _on_GameOver_QuitBtn_pressed() -> void:
+	animation_player.play("main_in")
+
+
+
+
+func _on_Button_pressed() -> void:
+	animation_player.play("pause_game")
