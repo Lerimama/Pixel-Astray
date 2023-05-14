@@ -51,7 +51,7 @@ var target_reached: bool = false
 
 onready var poly_pixel: Polygon2D = $PolyPixel
 
-
+onready var PixelExplosion = preload("res://scenes/PixelExplosion.tscn")
 
 
 func _ready() -> void:
@@ -137,7 +137,7 @@ func _change_state(new_state_id):
 	# new state
 	current_state = new_state_id
 		
-	
+		
 func snap_to_nearest_grid():
 	
 	floor_cells = Global.game_manager.available_positions
@@ -155,17 +155,44 @@ func snap_to_nearest_grid():
 		global_position = Vector2(nearest_cell.x + cell_size_x/2, nearest_cell.y + cell_size_x/2)
 
 
-#func fade_out(): # kličem iz pixla
-#
-#	var fade_out_tween = get_tree().create_tween()
-#	fade_out_tween.tween_property(self, "modulate:a", 0, fade_out_time)
-#	fade_out_tween.tween_callback(self, "queue_free")
-#
-#
-#func _on_PixelGhost_body_exited(body: Node) -> void:
-#	if body == Global.level_tilemap: # or body == KinematicBody2D:
-#		speed = 0 # tukaj je zato ker se lepše ustavi
-#		ghost_arrived = true
-#		emit_signal("ghost_arrived", global_position)
-#		print(global_position)
-#
+
+onready var poly_broken: Polygon2D = $PolyBroken
+var pixel_break_time: float = 0.3
+
+	
+var new_tween: SceneTreeTween
+onready var detect_area: Area2D = $DetectArea
+
+func explode_pixel():
+	
+	self
+	# breaking
+	poly_broken.visible = true
+#	poly_broken.modulate = state_colors[current_state]
+	new_tween = get_tree().create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	new_tween.tween_property(poly_pixel, "position", Vector2.ZERO, pixel_break_time)
+	new_tween.parallel().tween_property(poly_pixel, "scale", Vector2.ZERO, pixel_break_time)
+	yield(get_tree().create_timer(pixel_break_time),"timeout")
+	yield(get_tree().create_timer(0.1),"timeout")
+
+	# spawn delaunay and explode
+	var new_exploding_pixel = PixelExplosion.instance()
+	new_exploding_pixel.modulate = state_colors[current_state]
+	new_exploding_pixel.global_position = global_position - Vector2.ONE * cell_size_x / 2
+	Global.node_creation_parent.add_child(new_exploding_pixel)
+
+	poly_pixel.visible = false
+	poly_broken.visible = false
+
+	die()
+
+
+func die():
+	emit_signal("stat_changed", self, "life", 1)
+#	visible = false
+	queue_free()
+
+
+func _on_DetectArea_body_entered() -> void:
+#	explode_pixel()
+	pass # Replace with function body.

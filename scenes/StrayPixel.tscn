@@ -1,19 +1,70 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scripts/StrayPixel.gd" type="Script" id=1]
 
 [sub_resource type="RectangleShape2D" id=118]
 extents = Vector2( 16, 16 )
 
+[sub_resource type="RectangleShape2D" id=119]
+extents = Vector2( 16.421, 16.421 )
+
 [node name="StrayPixel" type="KinematicBody2D"]
 position = Vector2( 560, 304 )
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="PolyPixel" type="Polygon2D" parent="."]
 polygon = PoolVector2Array( -16, -16, -16, 16, 16, 16, 16, -16 )
 
+[node name="PolyBroken" type="Polygon2D" parent="."]
+visible = false
+position = Vector2( -17, 17 )
+rotation = -1.57079
+scale = Vector2( 1.05, 1.05 )
+polygon = PoolVector2Array( 0.458435, 0.536713, 6.32684, 0.413719, 11.5596, 0.304047, 7.57336, 6.78525, 0.6, 11 )
+
+[node name="PolyPixel3" type="Polygon2D" parent="PolyBroken"]
+polygon = PoolVector2Array( 22.793, 2.42374, 13.6056, 8.82706, 13.9456, 11.735, 19.8541, 14.7043, 22.2672, 6.3833 )
+
+[node name="PolyPixel13" type="Polygon2D" parent="PolyBroken"]
+polygon = PoolVector2Array( 23.0403, 1.46475, 12.1515, 0.784149, 8.5, 7, 11.5637, 9.50775 )
+
+[node name="PolyPixel4" type="Polygon2D" parent="PolyBroken"]
+polygon = PoolVector2Array( 23.69, 0.877136, 31.7636, 0.784149, 31.176, 10.8379, 27.4639, 6.87848, 23.0095, 6.44513 )
+
+[node name="PolyPixel5" type="Polygon2D" parent="PolyBroken"]
+polygon = PoolVector2Array( 14.8428, 23.2116, 24.9518, 23.843, 26.9692, 22.005, 27.402, 15.4777, 20.2255, 15.5084 )
+
+[node name="PolyPixel10" type="Polygon2D" parent="PolyBroken"]
+polygon = PoolVector2Array( 12.1208, 24.1389, 25.0819, 24.6342, 19.1735, 27.6039, 18.6785, 30.9759, 5.99561, 31.1306 )
+
+[node name="PolyPixel11" type="Polygon2D" parent="PolyBroken"]
+polygon = PoolVector2Array( 31.7636, 28.532, 26.3505, 24.7581, 20, 28, 19.2663, 31.5018, 31.3615, 31.9966 )
+
+[node name="PolyPixel7" type="Polygon2D" parent="PolyBroken"]
+polygon = PoolVector2Array( 4.35632, 19.623, 11.3165, 20.7676, 19.6377, 15.3537, 13.4408, 12.3346, 2.15991, 15.9729, 1.67443, 17.3678 )
+
+[node name="PolyPixel9" type="Polygon2D" parent="PolyBroken"]
+polygon = PoolVector2Array( 0.736816, 15.8801, 12.8632, 11.92, 8.0993, 7.46552, 1.20087, 11.5803 )
+
+[node name="PolyPixel8" type="Polygon2D" parent="PolyBroken"]
+polygon = PoolVector2Array( 3.98492, 20.087, 11.5947, 23.3041, 4.44897, 31.7182, 0.55127, 31.5945, 1.23181, 18.2002 )
+
+[node name="PolyPixel14" type="Polygon2D" parent="PolyBroken"]
+polygon = PoolVector2Array( 18.6166, 16.6845, 13.8528, 23.2735, 10.2335, 22.1289 )
+
+[node name="PolyPixel6" type="Polygon2D" parent="PolyBroken"]
+polygon = PoolVector2Array( 31.4543, 27.0782, 27.4641, 24.7581, 27.9899, 15.2609, 31.145, 12.3536 )
+
+[node name="PolyPixel12" type="Polygon2D" parent="PolyBroken"]
+polygon = PoolVector2Array( 30.9285, 11.5805, 27.6185, 14.7357, 20.5967, 14.8901, 23.0405, 7.15665, 27.2164, 7.4353 )
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 118 )
+
+[node name="DetectArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectArea"]
+scale = Vector2( 0.95, 0.95 )
+shape = SubResource( 119 )
+
+[connection signal="body_entered" from="DetectArea" to="." method="_on_DetectArea_body_entered"]

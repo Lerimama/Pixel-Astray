@@ -45,8 +45,8 @@ func _input(event: InputEvent) -> void:
 		spawn_stray_pixel(1)
 	if Input.is_action_just_pressed("no3"):
 		spawn_stray_pixel(50)
-	if Input.is_action_just_pressed("x"):
-		start_game()
+#	if Input.is_action_just_pressed("x"):
+#		start_game()
 	if Input.is_action_just_pressed("r"):
 		restart_game()
 	if Input.is_action_just_released("ui_cancel"):	
@@ -173,16 +173,18 @@ func _on_stat_changed(stat_owner, changed_stat, new_stat_value):
 		
 		# player stats
 		"life": 
-			new_player_stats["life"] += new_stat_value
+			new_player_stats["life"] -= new_stat_value
+			if new_player_stats["life"] > 0:
+				spawn_player_pixel("Moe")
 			printt("LIFE: ", new_player_stats["life"])
 		"points": 
 			new_player_stats["points"] += new_stat_value
 			printt("POINTS: ", new_player_stats["points"])
 		"color_sum": 
-			new_player_stats["points"] += new_stat_value
+			new_player_stats["color_sum"] += new_stat_value
 			printt("COLOR SUM: ", new_player_stats["color_sum"])
 		"colors_picked": 
-			new_player_stats["points"] += new_stat_value
+			new_player_stats["colors_picked"] = new_stat_value
 			printt("COLORS PICKED: ", new_player_stats["colors_picked"])
 		"color_change_count": 
 			new_player_stats["color_change_count"] += new_stat_value

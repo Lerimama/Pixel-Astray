@@ -1,5 +1,0 @@
-[gd_scene format=2]
-
-[node name="PolyPixel" type="Polygon2D"]
-position = Vector2( -16, -16 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )

@@ -2,6 +2,7 @@ extends Area2D
 
 
 signal ghost_target_reached(global_position)
+signal ghost_detected_body (body)
 
 var speed: float = 0
 var max_speed: float = 10
@@ -15,12 +16,13 @@ var target_reached: float = false
 var fade_out_time: float = 0.2
 
 onready var poly_pixel: Polygon2D = $PolyPixel
-
+onready var ghost_ray: RayCast2D = $RayCast2D
+var ghost_ray_collider
 
 func _ready() -> void:
 	
 	Global.print_id(self)
-	add_to_group(Config.group_players)
+	add_to_group(Config.group_ghosts)
 	
 	# snap it
 	cell_size_x = Global.game_manager.grid_cell_size.x # get cell size
@@ -36,7 +38,11 @@ func _physics_process(delta: float) -> void:
 	if target_reached:
 		speed = 0
 		snap_to_nearest_grid()
-		
+	
+	if ghost_ray.is_colliding():
+		ghost_ray.get_collider() 
+		emit_signal("ghost_detected_body", ghost_ray.get_collider() )
+	
 	
 func snap_to_nearest_grid():
 	
@@ -69,3 +75,8 @@ func _on_PixelGhost_body_exited(body: Node) -> void:
 		target_reached = true
 		emit_signal("ghost_target_reached", self, global_position)
 	
+
+
+func _on_PixelGhost_body_entered(body: Node) -> void:
+#	emit_signal("ghost_detected_body", body)
+	pass
