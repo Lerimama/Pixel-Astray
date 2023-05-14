@@ -26,14 +26,10 @@ var default_player_profiles: Dictionary = { # ime profila ime igralca ... pazi d
 
 var default_player_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
 	"player_active" : true,
-	"life" : 3,
-	"points" : 0,
-#	"color_sum" : 0,
+#	"life" : 3,
+#	"points" : 0, # -> zamenjano s player_points v game stats
 	"skill_change_count" : 0,
 	"cells_travelled" : 0,
-	
-	# obs?
-#	"colors_picked" : 0,
 }
 
 var default_game_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
@@ -41,14 +37,9 @@ var default_game_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
 	"level_no" : 0,
 	"stray_pixels" : 0,
 	"black_pixels" : 0,
-}
-
-var pixel_profiles: Dictionary = {
-	"nn": 0,
-}
-
-var stray_pixel_profile: Dictionary = {
-	"nn": 0,
+	"player_points": 0,
+	"player_life" : 3,
+	"color_sum": "000 000 000"
 }
 
 enum Levels {SQUARE = 1, CIRCLE, TRIANGLE

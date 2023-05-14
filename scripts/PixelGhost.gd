@@ -7,8 +7,6 @@ signal ghost_detected_body (body)
 var speed: float = 0
 var max_speed: float = 10
 var direction = Vector2.ZERO
-#var accelaration: float = 500 # ne rabim ... ampak je na vseh pixlih
-#var velocity: Vector2  # ne rabim ... ampak je na vseh pixlih
 
 var floor_cells: Array = []
 var cell_size_x: float
@@ -19,6 +17,7 @@ onready var poly_pixel: Polygon2D = $PolyPixel
 onready var ghost_ray: RayCast2D = $RayCast2D
 var ghost_ray_collider
 
+
 func _ready() -> void:
 	
 	Global.print_id(self)
@@ -28,7 +27,9 @@ func _ready() -> void:
 	cell_size_x = Global.game_manager.grid_cell_size.x # get cell size
 	global_position = global_position.snapped(Vector2.ONE * cell_size_x/2)
 #	global_position += Vector2.ONE * cell_size_x/2 # zamik centra
-#
+	
+	pass
+
 func _physics_process(delta: float) -> void:
 	
 	

@@ -28,7 +28,6 @@ var color_red = Color("#f35b7f")
 var color_yellow = Color("#fef98b")
 
 
-
 var bolt_explosion_shake
 var bullet_hit_shake
 var misile_hit_shake

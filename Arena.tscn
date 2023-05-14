@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://assets/pixel_black.png" type="Texture" id=1]
 [ext_resource path="res://tileset_pallete.png" type="Texture" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=11]
 [ext_resource path="res://assets/theme/gamer_menu_font.tres" type="DynamicFont" id=12]
 [ext_resource path="res://scripts/HUD.gd" type="Script" id=13]
+[ext_resource path="res://scripts/GameTime.gd" type="Script" id=14]
 
 [sub_resource type="OccluderPolygon2D" id=113]
 polygon = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
@@ -108,7 +109,7 @@ resource_name = "ghost"
 [node name="Arena" type="Node2D"]
 script = ExtResource( 4 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 44.0, 32.0, 20.0, 60.0 ]
+"_edit_horizontal_guides_": [ 44.0, 32.0, 20.0, 64.0 ]
 }
 
 [node name="GameManager" type="Node" parent="."]
@@ -173,10 +174,6 @@ rotation = 0.0
 current = false
 
 [node name="Pixel" parent="." instance=ExtResource( 8 )]
-__meta__ = {
-"_edit_group_": true
-}
-dir_memory_mode = true
 
 [node name="StrayPixel" parent="." instance=ExtResource( 9 )]
 position = Vector2( 368, 336 )
@@ -200,20 +197,55 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="GameTime" type="Label" parent="UI/HUD/HudControl"]
+[node name="GameTime" type="Control" parent="UI/HUD/HudControl"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -52.0
-margin_top = 40.0
-margin_right = 56.0
-margin_bottom = 92.0
+margin_left = -64.0
+margin_top = 24.0
+margin_right = 64.0
+margin_bottom = 96.0
+theme = ExtResource( 11 )
+script = ExtResource( 14 )
+time_minutes = 1.0
+
+[node name="Secs" type="Label" parent="UI/HUD/HudControl/GameTime"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -56.0
+margin_top = -52.0
+margin_right = -8.0
 custom_fonts/font = ExtResource( 12 )
-text = "00:00"
+text = "00"
+align = 2
+valign = 2
+
+[node name="Mins" type="Label" parent="UI/HUD/HudControl/GameTime"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 12.0
+margin_top = -52.0
+margin_right = 60.0
+custom_fonts/font = ExtResource( 12 )
+text = "00"
+valign = 2
+
+[node name="Dots" type="Label" parent="UI/HUD/HudControl/GameTime"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -7.0
+margin_top = -52.0
+margin_right = 11.0
+custom_fonts/font = ExtResource( 12 )
+text = ":"
 align = 1
 valign = 2
 
 [node name="Level" type="Label" parent="UI/HUD/HudControl"]
-modulate = Color( 0.368627, 1, 0.662745, 1 )
+modulate = Color( 1, 1, 1, 0.588235 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -24.0
@@ -237,9 +269,9 @@ __meta__ = {
 
 [node name="Points" type="Label" parent="UI/HUD/HudControl"]
 margin_left = 32.0
-margin_top = 38.0
+margin_top = 42.0
 margin_right = 178.0
-margin_bottom = 64.0
+margin_bottom = 68.0
 text = "P1 POINTS: 00"
 valign = 2
 __meta__ = {
@@ -248,9 +280,9 @@ __meta__ = {
 
 [node name="CellsTravelled" type="Label" parent="UI/HUD/HudControl"]
 margin_left = 32.0
-margin_top = 66.0
+margin_top = 70.0
 margin_right = 264.0
-margin_bottom = 92.0
+margin_bottom = 96.0
 text = "CELLS TRAVELED: 0000"
 valign = 2
 __meta__ = {
@@ -259,9 +291,9 @@ __meta__ = {
 
 [node name="SkilChangeCount" type="Label" parent="UI/HUD/HudControl"]
 margin_left = 32.0
-margin_top = 94.0
+margin_top = 102.0
 margin_right = 288.0
-margin_bottom = 120.0
+margin_bottom = 128.0
 text = "SKILL CHANGE COUNT: 00"
 valign = 2
 __meta__ = {
@@ -272,9 +304,9 @@ __meta__ = {
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 32.0
-margin_top = -48.0
+margin_top = -76.0
 margin_right = 356.0
-margin_bottom = -28.0
+margin_bottom = -56.0
 
 [node name="Label" type="Label" parent="UI/HUD/HudControl/PickedColor"]
 anchor_top = 1.0
@@ -290,25 +322,57 @@ __meta__ = {
 [node name="ColorBox" type="Control" parent="UI/HUD/HudControl/PickedColor"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 160.0
-margin_top = -19.0
-margin_right = 176.0
-margin_bottom = -3.0
+margin_left = 158.0
+margin_top = -34.0
+margin_right = 190.0
+margin_bottom = -2.0
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="ColorRect" type="ColorRect" parent="UI/HUD/HudControl/PickedColor/ColorBox"]
-margin_right = 16.0
-margin_bottom = 16.0
+margin_right = 32.0
+margin_bottom = 32.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="Value" type="Label" parent="UI/HUD/HudControl/PickedColor"]
+visible = false
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 192.0
 margin_top = -26.0
 margin_right = 320.0
+text = "255 255 255"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="ColorSum" type="Control" parent="UI/HUD/HudControl"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 32.0
+margin_top = -48.0
+margin_right = 332.0
+margin_bottom = -28.0
+
+[node name="Label" type="Label" parent="UI/HUD/HudControl/ColorSum"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -26.0
+margin_right = 150.0
+text = "PLAYER COLOR:"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Value" type="Label" parent="UI/HUD/HudControl/ColorSum"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 160.0
+margin_top = -26.0
+margin_right = 288.0
 text = "255 255 255"
 valign = 2
 __meta__ = {
@@ -348,3 +412,5 @@ __meta__ = {
 }
 
 [connection signal="floor_completed" from="FloorMap" to="GameManager" method="_on_FloorMap_floor_completed"]
+[connection signal="deathmode_on" from="UI/HUD/HudControl/GameTime" to="UI/HUD" method="_on_GameTime_deathmode_on"]
+[connection signal="gametime_is_up" from="UI/HUD/HudControl/GameTime" to="UI/HUD" method="_on_GameTime_gametime_is_up"]
