@@ -1,0 +1,231 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/theme/gamer_menu_font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=2]
+[ext_resource path="res://scripts/PauseMenu.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFontData" id=120]
+font_path = "res://assets/theme/Gamer.ttf"
+
+[sub_resource type="DynamicFont" id=121]
+size = 320
+font_data = SubResource( 120 )
+
+[node name="PauseMenu" type="Control"]
+anchor_right = 0.997
+anchor_bottom = 1.0
+margin_right = 3.83997
+theme = ExtResource( 2 )
+script = ExtResource( 3 )
+
+[node name="Undi" type="Panel" parent="."]
+modulate = Color( 0, 0, 0, 0.933333 )
+anchor_right = 0.997
+anchor_bottom = 1.0
+margin_right = 3.83997
+
+[node name="Pause" type="Label" parent="."]
+modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
+margin_left = 97.0
+margin_top = 53.0
+margin_right = 481.0
+margin_bottom = 104.0
+size_flags_horizontal = 3
+theme = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
+text = "Game is paused ..."
+
+[node name="Menu" type="Control" parent="."]
+pause_mode = 2
+margin_left = 983.0
+margin_top = 54.0
+margin_right = 1188.0
+margin_bottom = 188.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="PlayBtn" type="Button" parent="Menu"]
+margin_left = 1.0
+margin_right = 173.0
+margin_bottom = 51.0
+focus_mode = 1
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme = ExtResource( 2 )
+custom_colors/font_color = Color( 0.368627, 1, 0.662745, 1 )
+custom_fonts/font = ExtResource( 1 )
+enabled_focus_mode = 1
+text = "PLAY ON"
+
+[node name="RestartBtn" type="Button" parent="Menu"]
+margin_left = -3.0
+margin_top = 64.0
+margin_right = 173.0
+margin_bottom = 115.0
+focus_mode = 1
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme = ExtResource( 2 )
+custom_colors/font_color = Color( 0.341176, 0.65098, 1, 1 )
+custom_fonts/font = ExtResource( 1 )
+enabled_focus_mode = 1
+text = "RESTART"
+
+[node name="QuitBtn" type="Button" parent="Menu"]
+margin_left = 73.0
+margin_top = 128.0
+margin_right = 173.0
+margin_bottom = 179.0
+focus_mode = 1
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme = ExtResource( 2 )
+custom_colors/font_color = Color( 0.952941, 0.356863, 0.498039, 1 )
+custom_fonts/font = ExtResource( 1 )
+enabled_focus_mode = 1
+text = "QUIT"
+
+[node name="Title1" type="Label" parent="."]
+modulate = Color( 1, 1, 1, 0.196078 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -544.0
+margin_top = 362.0
+margin_right = 36.0
+margin_bottom = 616.0
+custom_fonts/font = SubResource( 121 )
+text = "PIXEL"
+align = 1
+valign = 2
+
+[node name="Title2" type="Label" parent="."]
+modulate = Color( 1, 1, 1, 0.196078 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -84.0
+margin_top = 515.0
+margin_right = 676.0
+margin_bottom = 769.0
+custom_fonts/font = SubResource( 121 )
+text = "ASTRAY"
+align = 1
+valign = 2
+
+[node name="Controls" type="Control" parent="."]
+margin_left = 97.0
+margin_top = 147.0
+margin_right = 896.0
+margin_bottom = 417.0
+rect_min_size = Vector2( 640, 140 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Title" type="Label" parent="Controls"]
+modulate = Color( 0.32549, 0.356863, 0.407843, 1 )
+margin_top = 3.0
+margin_right = 180.0
+margin_bottom = 54.0
+size_flags_horizontal = 3
+theme = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
+text = "Controls"
+
+[node name="Controller" type="Control" parent="Controls"]
+margin_top = 67.0
+margin_right = 235.0
+margin_bottom = 262.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Controller" type="Label" parent="Controls/Controller"]
+modulate = Color( 1, 1, 1, 0.588235 )
+margin_top = 5.0
+margin_right = 144.0
+margin_bottom = 18.0
+size_flags_vertical = 0
+theme = ExtResource( 2 )
+text = "arrows"
+autowrap = true
+
+[node name="Text" type="Label" parent="Controls/Controller"]
+margin_top = 37.0
+margin_right = 236.0
+margin_bottom = 184.0
+size_flags_vertical = 0
+theme = ExtResource( 2 )
+text = "UP - move up
+DOWN - move down
+LEFT - move left
+RIGHT - move right
+SPACE - change skill"
+autowrap = true
+
+[node name="Controller2" type="Control" parent="Controls"]
+margin_left = 256.0
+margin_top = 67.0
+margin_right = 483.0
+margin_bottom = 258.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Controller" type="Label" parent="Controls/Controller2"]
+modulate = Color( 1, 1, 1, 0.588235 )
+margin_top = 5.0
+margin_right = 144.0
+margin_bottom = 18.0
+size_flags_vertical = 0
+theme = ExtResource( 2 )
+text = "arrows"
+autowrap = true
+
+[node name="Text" type="Label" parent="Controls/Controller2"]
+margin_top = 37.0
+margin_right = 236.0
+margin_bottom = 184.0
+size_flags_vertical = 0
+theme = ExtResource( 2 )
+text = "W - move up
+S - move down
+A - move left
+D - move right
+SPACE - change skill"
+autowrap = true
+
+[node name="Controller3" type="Control" parent="Controls"]
+margin_left = 511.0
+margin_top = 67.0
+margin_right = 779.0
+margin_bottom = 258.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Controller" type="Label" parent="Controls/Controller3"]
+modulate = Color( 1, 1, 1, 0.588235 )
+margin_top = 5.0
+margin_right = 144.0
+margin_bottom = 18.0
+size_flags_vertical = 0
+theme = ExtResource( 2 )
+text = "JoyPad"
+autowrap = true
+
+[node name="Text" type="Label" parent="Controls/Controller3"]
+margin_top = 37.0
+margin_right = 301.0
+margin_bottom = 179.0
+size_flags_vertical = 0
+theme = ExtResource( 2 )
+text = "JP UP - move up
+JP DOWN - move down
+JP LEFT - move left
+JP RIGHT - move right
+JP BTN A - change skill"
+autowrap = true
+
+[connection signal="pressed" from="Menu/PlayBtn" to="." method="_on_PlayBtn_pressed"]
+[connection signal="pressed" from="Menu/RestartBtn" to="." method="_on_RestartBtn_pressed"]
+[connection signal="pressed" from="Menu/QuitBtn" to="." method="_on_QuitBtn_pressed"]

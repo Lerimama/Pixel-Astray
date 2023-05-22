@@ -25,7 +25,6 @@ func _ready() -> void:
 	hud_control.visible = true
 
 
-
 func _process(delta: float) -> void:
 	
 	if Global.game_manager.game_is_on:

@@ -29,6 +29,9 @@ var grid_cell_size: Vector2 # definiran tukaj, da ga lahko grebam do zunaj
 # stray colors
 var random_split_ad_factor = 0.1 # skrbi da je prilagojeno na številorazrezov
 var color_spectrum = 255.0	
+var player_color_sum_r: float
+var player_color_sum_g: float
+var player_color_sum_b: float
 
 onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
 onready var tilemap_floor_cells: Array
@@ -36,15 +39,15 @@ onready var pixel: KinematicBody2D = $"../Pixel"
 onready var StrayPixel = preload("res://scenes/StrayPixel.tscn")
 onready var PlayerPixel = preload("res://scenes/Pixel.tscn")
 
-# _temp ... pripnem spawnanega, potem se bo vleklo glede na kolizijo
-var P1
-
 # GUI
 onready var scene_tree: = get_tree() # za pavzo
 onready var hud: Node2D = $"../UI/HUD"
-onready var main_menu: Control = $"../UI/MainMenu"
-onready var pause_menu: Control = $"../UI/PauseMenu"
+#onready var main_menu: Control = $"../UI/MainMenu"
+#onready var pause_menu: Control = $"../UI/PauseMenu"
 onready var game_over: Control = $"../UI/GameOver"
+
+# _temp ... pripnem spawnanega, potem se bo vleklo glede na kolizijo
+var P1
 
 
 
@@ -55,15 +58,12 @@ func _ready() -> void:
 	randomize()
 	
 	# štartej igro
-	animation_player.play("the_beginning")
-	main_menu.visible = true
-#	main_menu.modulate.a = 0
+#	animation_player.play("the_beginning")
 	hud.visible = false
-	pause_menu.visible = false
-	game_over.visible = false
+#	pause_menu.visible = false
 
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 
 	if Input.is_action_just_pressed("no1"):
 		spawn_player_pixel("Moe")
@@ -73,17 +73,32 @@ func _input(event: InputEvent) -> void:
 		spawn_stray_pixel(9)
 	if Input.is_action_just_pressed("r"):
 		restart_game()
-	if Input.is_action_just_released("ui_cancel"):
-		print("pavza")
-		animation_player.play("pause_game")
-#		pause_game()	
-#		if pause_on:
-#		else:
-#			animation_player.play("pause_game")
+
+	if event is InputEventKey:
+		if event.pressed and event.scancode == KEY_ESCAPE:
+#			animation_player.play_backwards("pause_game")		
+#			visible = true
+#			print("pavza OFF")
+#			print(name)	
+
+#			animation_player.play("pause_game")		
+#			pause_menu.visible = true
+			print(name)
 
 
-func _process(delta: float) -> void:
+
+#	if Input.is_action_just_released("ui_cancel"):
+#		print(name)
+#		pause_on = true
+#		scene_tree.paused = true
+#		scene_tree.set_input_as_handled()
+##		toggle_pause()	
+
 	
+	
+	
+func _process(delta: float) -> void:
+#	print(pause_on)
 	players_in_game = get_tree().get_nodes_in_group(Config.group_players)	# zaenkrat ne rabm
 	strays_in_game = get_tree().get_nodes_in_group(Config.group_strays)	# zaenkrat ne rabm
 
@@ -207,6 +222,9 @@ func split_colors(strays_count):
 
 func start_game():
 	
+	hud.visible = true
+	hud.modulate.a = 1
+	
 	# spawnam plejerja
 	spawn_player_pixel("Moe")
 	
@@ -216,7 +234,11 @@ func start_game():
 
 	
 func end_game():
+	
+	hud.visible = false
+	
 	return		
+	
 	# game ni štartan
 	game_is_on = false
 	deathmode_on =  false
@@ -240,15 +262,8 @@ func restart_game():
 	
 	end_game()
 	start_game()
-	
-func pause_game():
-	
-	pause_menu.visible = not pause_menu.visible
-	scene_tree.paused = not scene_tree.paused
-	pause_on = not pause_on
-#	scene_tree.set_input_as_handled()
 
-	
+
 	
 # SIGNALI ----------------------------------------------------------------------------------
 
@@ -258,9 +273,6 @@ func _on_FloorMap_floor_completed(cells_global_positions, cell_size) -> void:
 	available_positions = cells_global_positions 
 	grid_cell_size = cell_size
 
-var player_color_sum_r: float
-var player_color_sum_g: float
-var player_color_sum_b: float
 
 func _on_stat_changed(stat_owner, changed_stat, new_stat_value):
 # ne setaš tipa parametrov, ker jepixel_color_sum_values, pixel_color_sum_r, pixel_color_sum_g, pixel_color_sum_b lahko v različnih oblikah (index, string, float, ...)
@@ -315,29 +327,20 @@ func _on_stat_changed(stat_owner, changed_stat, new_stat_value):
 	# disable moving
 	if new_game_stats["player_points"] <= 0:
 		print("CAN'T MOVE")
+
+
+func _on_PlayBtn_pressed() -> void:
+	print("unpause")
+#	toggle_pause()
 	
-		
-# BUTTONS --------------------------------------------------------------------------------
-
-
-func _on_Main_PlayBtn_pressed() -> void:
-	animation_player.play("game_start")
-
-func _on_Pause_PlayBtn_pressed() -> void:
-	animation_player.play("unpause_game")
 	
-func _on_Pause_QuitBtn_pressed() -> void:
-	animation_player.play("pause_quit")
-
-
-func _on_GameOver_PlayBtn_pressed() -> void:
-	animation_player.play("game_over_replay")
-
-func _on_GameOver_QuitBtn_pressed() -> void:
-	animation_player.play("main_in")
-
-
-
-
-func _on_Button_pressed() -> void:
-	animation_player.play("pause_game")
+func _on_QuitBtn_pressed() -> void:
+#	yield(get_tree().create_timer(2), "timeout")
+#	Global.switch_to_scene("res://scenes/arena/Arena.tscn")
+	pass
+	
+	
+func _on_RestartBtn_pressed() -> void:
+#	yield(get_tree().create_timer(2), "timeout")
+#	Global.switch_to_scene("res://scenes/arena/Home.tscn")
+	pass

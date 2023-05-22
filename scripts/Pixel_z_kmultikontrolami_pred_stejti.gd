@@ -75,47 +75,6 @@ func _ready() -> void:
 	position = position.snapped(Vector2.ONE * cell_size_x)
 	position += Vector2.ONE * cell_size_x/2 # zamik centra
 
-func get_input():
-
-	#...
-	# Instead of using different functions and variables, we can now use a single variable 
-	# to manage the current state.
-	# Our character is jumping if they're on the ground and the player presses "move_up"
-	# If both conditions are met, the expression below will evaluate to `true`.
-	var is_jumping: bool = _state == States.ON_GROUND and Input.is_action_just_pressed("move_up")
-
-	# To change state, we change the value of the `_state` variable
-	if Input.is_action_just_pressed("glide") and _state == States.IN_AIR:
-		_state = States.GLIDING
-
-	# Canceling gliding.
-	if _state == States.GLIDING and Input.is_action_just_pressed("move_up"):
-		_state = States.IN_AIR
-
-	# Calculating horizontal velocity.
-	if _state == States.GLIDING:
-		_velocity.x += input_direction_x * glide_acceleration * delta
-		_velocity.x = min(_velocity.x, glide_max_speed)
-	else:
-		_velocity.x = input_direction_x * speed
-
-	# Calculating vertical velocity.
-	var gravity := glide_gravity if _state == States.GLIDING else base_gravity
-	_velocity.y += gravity * delta
-	if is_jumping:
-		var impulse = glide_jump_impulse if _state == States.GLIDING else jump_impulse
-		_velocity.y = -jump_impulse
-		_state = States.IN_AIR
-
-	# Moving the character.
-	_velocity = move_and_slide(_velocity, Vector2.UP)
-
-	# If we're gliding and we collide with something, we turn gliding off and the character falls.
-	if _state == States.GLIDING and get_slide_count() > 0:
-		_state = States.IN_AIR
-
-	if is_on_floor():
-		_state = States.ON_GROUND
 
 
 func _unhandled_input(event: InputEvent) -> void:

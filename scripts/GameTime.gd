@@ -1,6 +1,9 @@
 extends Control
 
 
+export var time_minutes: float = 5
+export var deathmode_start_time: float = 4
+
 signal deathmode_on
 signal gametime_is_up
 
@@ -8,12 +11,10 @@ var timer_mode: = -1
 var game_is_on: bool 
 
 var game_time: float
-export var time_minutes: float = 5
 var time_seconds: float = 59
 var current_second = time_seconds # to je za beleženje tre
 
 var game_time_limit: float
-var deathmatch_time: float
 var minute_in_seconds = 60
 
 onready var secs: Label = $Secs
@@ -45,7 +46,7 @@ func _physics_process(delta: float) -> void:
 		secs.text = "%02d" % current_second
 		
 		# dethmoud
-		if time_minutes < 1:
+		if time_minutes < deathmode_start_time:
 			modulate = Config.color_red
 			emit_signal("deathmode_on")
 		
@@ -58,7 +59,7 @@ func _physics_process(delta: float) -> void:
 			game_time = 0 
 			modulate = Config.color_red
 			yield(get_tree().create_timer(1), "timeout")
-			emit_signal("gametime_is_up")
+#			emit_signal("gametime_is_up")
 
 	else: 
 		game_time = 0
