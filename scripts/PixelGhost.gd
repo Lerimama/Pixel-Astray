@@ -5,8 +5,8 @@ signal ghost_target_reached(global_position)
 signal ghost_detected_body (body)
 
 var speed: float = 0
-var max_speed: float = 10
-var direction = Vector2.ZERO
+var max_speed: float = 0
+var direction = Vector2.UP
 
 var floor_cells: Array = []
 var cell_size_x: float
@@ -34,8 +34,9 @@ func _physics_process(delta: float) -> void:
 	
 	
 	global_position += direction * speed
+#	speed = max_speed
 	speed = lerp(speed, max_speed, 0.015)
-	
+	ghost_ray.cast_to = direction * cell_size_x
 	if target_reached:
 		speed = 0
 		snap_to_nearest_grid()

@@ -2,11 +2,11 @@
 
 [ext_resource path="res://scripts/Pixel.gd" type="Script" id=1]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 16, 16 )
-
 [sub_resource type="RectangleShape2D" id=116]
 extents = Vector2( 16.421, 16.421 )
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 16, 16 )
 
 [sub_resource type="Animation" id=114]
 length = 0.001
@@ -229,6 +229,29 @@ script = ExtResource( 1 )
 position = Vector2( -16, -16 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
+[node name="DetectArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectArea"]
+scale = Vector2( 0.95, 0.95 )
+shape = SubResource( 116 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2( 0.95, 0.95 )
+shape = SubResource( 1 )
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 32, 0 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 114 )
+anims/die = SubResource( 122 )
+anims/glitch_1 = SubResource( 118 )
+anims/glitch_2 = SubResource( 119 )
+anims/glitch_3 = SubResource( 120 )
+anims/light_out = SubResource( 121 )
+anims/light_out_long = SubResource( 117 )
+
 [node name="PolyBroken" type="Polygon2D" parent="."]
 visible = false
 position = Vector2( -16.9589, -16.9171 )
@@ -270,28 +293,5 @@ polygon = PoolVector2Array( 31.4543, 27.0782, 27.4641, 24.7581, 27.9899, 15.2609
 
 [node name="PolyPixel12" type="Polygon2D" parent="PolyBroken"]
 polygon = PoolVector2Array( 30.9285, 11.5805, 27.6185, 14.7357, 20.5967, 14.8901, 23.0405, 7.15665, 27.2164, 7.4353 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2( 0.95, 0.95 )
-shape = SubResource( 1 )
-
-[node name="RayCast2D" type="RayCast2D" parent="."]
-enabled = true
-cast_to = Vector2( 32, 0 )
-
-[node name="DetectArea" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectArea"]
-scale = Vector2( 0.95, 0.95 )
-shape = SubResource( 116 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/RESET = SubResource( 114 )
-anims/die = SubResource( 122 )
-anims/glitch_1 = SubResource( 118 )
-anims/glitch_2 = SubResource( 119 )
-anims/glitch_3 = SubResource( 120 )
-anims/light_out = SubResource( 121 )
-anims/light_out_long = SubResource( 117 )
 
 [connection signal="body_entered" from="DetectArea" to="." method="_on_DetectArea_body_entered"]

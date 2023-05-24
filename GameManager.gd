@@ -1,10 +1,3 @@
-## KAJ DOGAJA
-## - spawna plejerje in druge entitete v areni
-## - spawna levele
-## - uravnava potek igre (uvaljevlja pravila)
-## - je centralna baza za vso statistiko igre
-## - povezava med igro in HUDom
-
 extends Node
 
 
@@ -26,7 +19,7 @@ var new_game_stats: Dictionary
 var available_positions: Array = [] # definiran tukaj, da ga lahko grebam do zunaj
 var grid_cell_size: Vector2 # definiran tukaj, da ga lahko grebam do zunaj
 
-onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
+#onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
 onready var tilemap_floor_cells: Array
 onready var pixel: KinematicBody2D = $"../Pixel"
 onready var StrayPixel = preload("res://scenes/Pixel.tscn")
@@ -45,7 +38,7 @@ var color_indicator_width: float = 12 # ročno setaj pravilno
 var color_indicators: Array = []
 onready var spectrum_rect: TextureRect = $Spectrum
 #onready var indicator_holder: Control = $"../UI/HUD/HudControl/ColorSpectrum/IndicatorHolder"
-onready var SpectrumColorIndicator: PackedScene = preload("res://scenes/SpectrumColorIndicator.tscn")
+onready var ColorIndicator: PackedScene = preload("res://scenes/ColorIndicator.tscn")
 onready var indicator_holder: HBoxContainer = $"../HudLayer/HudControl/ColorSpectrumLite/IndicatorHolder"
 
 
@@ -145,7 +138,7 @@ func spawn_stray_pixel(stray_color):
 	
 func spawn_color_indicator(position_x,selected_color_position_y, selected_color):
 	
-	var new_color_indicator = SpectrumColorIndicator.instance()
+	var new_color_indicator = ColorIndicator.instance()
 	new_color_indicator.rect_position.x = position_x
 	new_color_indicator.rect_position.y = selected_color_position_y
 	new_color_indicator.color = selected_color
@@ -226,8 +219,11 @@ func end_game():
 	if not strays_in_game.empty():
 		for stray in strays_in_game:
 			stray.queue_free()
-			if color_indicators:
-				erase_color_indicator(stray.modulate)
+	if color_indicators:
+		for indicator in color_indicators:
+			indicator.queue_free()
+			color_indicators.erase(indicator)
+#			erase_color_indicator(stray.modulate)
 			
 	if not players_in_game.empty():
 		for player in players_in_game:
@@ -254,16 +250,13 @@ func _on_FloorMap_floor_completed(cells_global_positions, cell_size) -> void:
 	available_positions = cells_global_positions 
 	grid_cell_size = cell_size
 
+export var black_pixel_points = 10
+export var skill_change_points = - 3
+export var cell_travel_points = - 1
 
 func _on_stat_changed(stat_owner, changed_stat, new_stat_value):
-# ne setaš tipa parametrov, ker jepixel_color_sum_values, pixel_color_sum_r, pixel_color_sum_g, pixel_color_sum_b lahko v različnih oblikah (index, string, float, ...)
 	
-	printt("GM",stat_owner, changed_stat, new_stat_value)
-	
-	var black_pixel_points = 10
-	var skill_change_points = - 3
-	var cell_travel_points = - 1
-	
+#	printt("GM",stat_owner, changed_stat, new_stat_value)
 	# napolni slovarje s statistko
 	match changed_stat:
 		
@@ -326,10 +319,6 @@ func _on_stat_changed(stat_owner, changed_stat, new_stat_value):
 #		print("CAN'T MOVE, no points")
 		pass
 
-func _on_PlayBtn_pressed() -> void:
-	print("unpause")
-#	toggle_pause()
-	
 	
 func _on_QuitBtn_pressed() -> void:
 #	yield(get_tree().create_timer(2), "timeout")

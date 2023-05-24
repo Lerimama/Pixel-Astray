@@ -10,30 +10,12 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "KinematicBody2D",
-"class": "Bolt",
-"language": "GDScript",
-"path": "res://_Bolt.gd"
-}, {
-"base": "KinematicBody2D",
 "class": "Pixel",
 "language": "GDScript",
 "path": "res://scripts/Pixel.gd"
-}, {
-"base": "Reference",
-"class": "State",
-"language": "GDScript",
-"path": "res://state_machine/State.gd"
-}, {
-"base": "Reference",
-"class": "StateMachine",
-"language": "GDScript",
-"path": "res://state_machine/StateMachine.gd"
 } ]
 _global_script_class_icons={
-"Bolt": "",
-"Pixel": "",
-"State": "",
-"StateMachine": ""
+"Pixel": ""
 }
 
 [application]

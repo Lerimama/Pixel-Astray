@@ -18,13 +18,13 @@ enum States {
 var current_state : int = States.WHITE setget _change_state # tole je int ker je rezultat številka
 var state_colors: Dictionary = {
 	1: Config.color_white, 
-#	1: Color.black, 
 	2: Config.color_blue, 
 	3: Config.color_green, 
 	4: Config.color_red, 
 	5: Config.color_yellow,
 }
-#var pixel_color = state_colors[current_state]
+#var pixel_color: Color = Color.white
+var pixel_color = state_colors[current_state]
 var skill_activated: bool = false
 var skill_change_count: int = 0
 
@@ -52,11 +52,12 @@ var push_cell_count: int = 1
 # teleport
 var ghost_fade_time: float = 0.2
 var backup_time: float = 0.32
+var ghost_max_speed: float = 10
 
 # burst cocking
 var cocking_time: float = 0
 var cocking_ghost_spawn_time: float = 0.2 # niso sekunde a
-var cocking_ghost_fill_time: float = 0.1
+var cocking_ghost_fill_time: float = 0.05
 var cocking_ghosts: Array
 var cocking_ghost_count_max: int = 5
 var cocking_room: bool = true
@@ -79,14 +80,14 @@ onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 var pixel_color_sum: Color # suma barv za picla
 
+onready var detect_area: Area2D = $DetectArea
+
 onready var PixelGhost = preload("res://scenes/PixelGhost.tscn")
-# hud stats
 onready var picked_color_rect: ColorRect = $"../HudLayer/HudControl/PickedColor/ColorBox/ColorRect"
 onready var picked_color_value: Label = $"../HudLayer/HudControl/PickedColor/Value"
 #onready var player_color_label: Label = $"../HudLayer/HudControl/ColorSum/Value"
 
 
-var pixel_color: Color = Color.white
 
 
 
@@ -201,15 +202,14 @@ func select_next_state():
 
 func _change_state(new_state_id):
 	
-	# set normal mode
+#	# set normal mode
+#	speed = 0
 	skill_activated = false
+	detect_area.monitoring = true
 	direction = Vector2.ZERO
 	collision_ray.cast_to = direction * cell_size_x # ray kaže na naslednjo pozicijo 
 	collision_ray.force_raycast_update()	
-#	snap_to_nearest_grid()
 
-	# transition
-	
 	# statistika
 	skill_change_count += 1
 	emit_signal("stat_changed", self, "skill_change_count", 1)
@@ -363,8 +363,6 @@ func cock_burst(burst_direction):
 func spawn_cock_ghost(cocking_direction, cocking_ghosts_count):
 #	print("spawn_cock_ghost")
 	
-	var final_ghost_scale: Vector2 # ghost se lahko skejl v hor ali ver vektorju ...v katero smer zunaj zato, da jo lahko twinamo
-	
 	# instance ghost pod mano
 	var new_pixel_ghost = PixelGhost.instance()
 	
@@ -375,6 +373,8 @@ func spawn_cock_ghost(cocking_direction, cocking_ghosts_count):
 	# z vsakim se zamika pozicija
 	new_pixel_ghost.global_position = global_position + cocking_direction * cell_size_x * cocking_ghosts_count# pozicija se zamakne za celico
 	new_pixel_ghost.global_position -= cocking_direction * cell_size_x/2
+	
+	new_pixel_ghost.direction = cocking_direction
 	
 	# v kateri smeri je scale
 	if direction.y == 0: # smer horiz
@@ -437,7 +437,7 @@ func burst(burst_direction, ghosts_count):
 		# strech ghost 
 		new_stretch_ghost.position = global_position - (burst_direction * cell_size_x * ghosts_count)/2 - burst_direction * cell_size_x/2
 		
-		# spazni ghoste
+		# sprazni ghoste
 		for ghost in cocking_ghosts:
 			ghost.queue_free()
 		cocking_ghosts = []
@@ -541,6 +541,7 @@ func teleport(teleport_direction):
 	var new_pixel_ghost = PixelGhost.instance()
 	new_pixel_ghost.global_position = global_position
 	new_pixel_ghost.direction = teleport_direction
+	new_pixel_ghost.max_speed = ghost_max_speed
 	new_pixel_ghost.modulate = state_colors[current_state]
 	new_pixel_ghost.floor_cells = floor_cells
 	new_pixel_ghost.cell_size_x = cell_size_x
@@ -620,29 +621,33 @@ func snap_to_nearest_grid():
 		
 func _on_ghost_target_reached(ghost_body, ghost_position):
 	
+	detect_area.monitoring = false
+	
 	new_tween = get_tree().create_tween()
 	new_tween.tween_property(self, "modulate:a", 0, ghost_fade_time)
 	new_tween.tween_property(self, "global_position", ghost_position, 0.1)
 	new_tween.tween_callback(self, "_change_state", [States.WHITE])
+	new_tween.parallel().tween_callback(self, "snap_to_nearest_grid")
 	new_tween.parallel().tween_callback(ghost_body, "fade_out")
-#	new_tween.tween_property(self, "skill_activated", false, 0.01)
-	pass
 
 		
 func _on_ghost_detected_body(body):
 	
 	if body != self:
 		cocking_room = false
+		print("jp")
 
 
 func _on_DetectArea_body_entered(body: Node) -> void:
 	
+	
 	# pobiranje  barv 
-	if skill_activated:
-		speed = 0
+	if skill_activated: # če ni tega, se že na začetku izvede ... lahko bolje
+		speed = 0 # more bit tukaj pred _change state, če ne uničuje tudi sam sebe
+		cocking_room = true
 		burst_activated = false
 		_change_state(States.WHITE)
-#		animation_player.play(random_blink())
+		snap_to_nearest_grid()
 	
 		if body.is_in_group(Config.group_pixels):
 			
