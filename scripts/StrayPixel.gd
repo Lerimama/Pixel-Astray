@@ -44,7 +44,7 @@ onready var detect_area: Area2D = $DetectArea
 func _ready() -> void:
 	
 	Global.print_id(self)
-	add_to_group(Config.group_strays)
+	add_to_group(Config.group_pixels)
 	
 	# snap it ... ne dela vredu, zato jo snapam v spawnanju
 #	cell_size_x = Global.game_manager.grid_cell_size.x # get cell size

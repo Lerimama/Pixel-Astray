@@ -11,7 +11,6 @@ func _ready() -> void:
 	
 #	Global.level_tilemap = self
 	
-	print("Jest sem ... ", name, "Iz_grupe ... ", get_groups())
 	get_floor_tiles()
 	pass # Replace with function body.
 

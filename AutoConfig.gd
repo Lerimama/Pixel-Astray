@@ -15,7 +15,8 @@ extends Node
 
 # game groups
 var group_players = "Players"
-var group_strays = "Strays"
+var group_pixels = "Strays"
+#var group_strays = "Strays"
 var group_ghosts = "Ghosts"
 var group_tilemap = "Tilemap"
 

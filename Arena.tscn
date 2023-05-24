@@ -1,18 +1,18 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://assets/pixel_black.png" type="Texture" id=1]
-[ext_resource path="res://scenes/PauseMenu.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/FloorMap.gd" type="Script" id=3]
 [ext_resource path="res://scripts/Arena.gd" type="Script" id=4]
 [ext_resource path="res://assets/pixel_tile.png" type="Texture" id=5]
+[ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=6]
 [ext_resource path="res://assets/pixel_white.png" type="Texture" id=7]
 [ext_resource path="res://scenes/Pixel.tscn" type="PackedScene" id=8]
-[ext_resource path="res://scenes/StrayPixel.tscn" type="PackedScene" id=9]
 [ext_resource path="res://GameManager.gd" type="Script" id=10]
 [ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=11]
 [ext_resource path="res://assets/theme/gamer_menu_font.tres" type="DynamicFont" id=12]
 [ext_resource path="res://scripts/HUD.gd" type="Script" id=13]
 [ext_resource path="res://scripts/GameTime.gd" type="Script" id=14]
+[ext_resource path="res://scenes/SpectrumColorIndicator.tscn" type="PackedScene" id=16]
 
 [sub_resource type="OccluderPolygon2D" id=113]
 polygon = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
@@ -72,57 +72,25 @@ points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
 2/shapes = [  ]
 2/z_index = 0
 
-[sub_resource type="Animation" id=122]
-length = 0.001
-
-[sub_resource type="Animation" id=125]
-resource_name = "pause_game"
-length = 0.5
-
-[sub_resource type="Animation" id=130]
-resource_name = "quit_game"
-length = 0.5
-tracks/0/type = "method"
-tracks/0/path = NodePath("GameManager")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0.5 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "end_game"
-} ]
-}
-
-[sub_resource type="Animation" id=126]
-resource_name = "unpause_game"
-length = 0.3
-tracks/0/type = "method"
-tracks/0/path = NodePath("GameManager")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0.5 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "pause_game"
-} ]
-}
-
 [node name="Arena" type="Node2D"]
 script = ExtResource( 4 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 44.0, 32.0, 20.0, 64.0 ]
+"_edit_horizontal_guides_": [ 44.0, 32.0, 20.0, 64.0, 660.0, 688.0, 676.0, 648.0 ]
 }
 
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource( 10 )
+
+[node name="Spectrum" type="TextureRect" parent="GameManager"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -256.0
+margin_top = 148.0
+margin_right = 256.0
+margin_bottom = 160.0
+texture = ExtResource( 6 )
+expand = true
 
 [node name="FloorMap" type="TileMap" parent="."]
 modulate = Color( 1, 1, 1, 0.313726 )
@@ -140,28 +108,44 @@ __meta__ = {
 }
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Border"]
-polygon = PoolVector2Array( -88, -64, -88, 0, 1280, 0, 1280, 720, 0, 720, 0, 0, -40, -16, -51.8025, 174.655, -92, 824, 1404, 752, 1348, -52 )
+polygon = PoolVector2Array( -88, -64, -88, 0, 1280, 0, 1280, 672, 0, 672, 0, 0, -40, -16, -51.8025, 174.655, -92, 824, 1404, 752, 1348, -52 )
 
 [node name="Pixel" parent="." instance=ExtResource( 8 )]
+pixel_is_player = true
 
-[node name="StrayPixel" parent="." instance=ExtResource( 9 )]
-position = Vector2( 368, 336 )
+[node name="HudLayer" type="CanvasLayer" parent="."]
 
-[node name="UI" type="CanvasLayer" parent="."]
-visible = false
-
-[node name="HUD" type="Node2D" parent="UI"]
-script = ExtResource( 13 )
-
-[node name="HudControl" type="Control" parent="UI/HUD"]
+[node name="HudControl" type="Control" parent="HudLayer"]
 anchor_right = 0.997
 anchor_bottom = 0.994
-margin_right = 1280.0
-margin_bottom = 720.0
+margin_right = 3.84009
+margin_bottom = 4.32001
 rect_min_size = Vector2( 1280, 720 )
 theme = ExtResource( 11 )
+script = ExtResource( 13 )
 
-[node name="GameTime" type="Control" parent="UI/HUD/HudControl"]
+[node name="Bottom" type="ColorRect" parent="HudLayer/HudControl"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -646.0
+margin_top = -48.0
+margin_right = 646.0
+margin_bottom = 32.0
+color = Color( 0.054902, 0.054902, 0.054902, 1 )
+
+[node name="Top" type="ColorRect" parent="HudLayer/HudControl"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -638.0
+margin_top = -13.0
+margin_right = 654.0
+margin_bottom = 67.0
+color = Color( 0.113725, 0.129412, 0.176471, 1 )
+
+[node name="GameTime" type="Control" parent="HudLayer/HudControl"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -64.0
@@ -171,7 +155,7 @@ margin_bottom = 96.0
 theme = ExtResource( 11 )
 script = ExtResource( 14 )
 
-[node name="Secs" type="Label" parent="UI/HUD/HudControl/GameTime"]
+[node name="Secs" type="Label" parent="HudLayer/HudControl/GameTime"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -184,7 +168,7 @@ text = "00"
 align = 2
 valign = 2
 
-[node name="Mins" type="Label" parent="UI/HUD/HudControl/GameTime"]
+[node name="Mins" type="Label" parent="HudLayer/HudControl/GameTime"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 12.0
@@ -194,7 +178,7 @@ custom_fonts/font = ExtResource( 12 )
 text = "00"
 valign = 2
 
-[node name="Dots" type="Label" parent="UI/HUD/HudControl/GameTime"]
+[node name="Dots" type="Label" parent="HudLayer/HudControl/GameTime"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -207,8 +191,8 @@ text = ":"
 align = 1
 valign = 2
 
-[node name="Level" type="Label" parent="UI/HUD/HudControl"]
-modulate = Color( 1, 1, 1, 0.588235 )
+[node name="Level" type="Label" parent="HudLayer/HudControl"]
+modulate = Color( 1, 1, 1, 0.392157 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -24.0
@@ -219,7 +203,8 @@ text = "00"
 align = 1
 valign = 2
 
-[node name="Life" type="Label" parent="UI/HUD/HudControl"]
+[node name="Life" type="Label" parent="HudLayer/HudControl"]
+modulate = Color( 1, 1, 1, 0.392157 )
 margin_left = 32.0
 margin_top = 10.0
 margin_right = 178.0
@@ -230,7 +215,8 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Points" type="Label" parent="UI/HUD/HudControl"]
+[node name="Points" type="Label" parent="HudLayer/HudControl"]
+modulate = Color( 1, 1, 1, 0.392157 )
 margin_left = 32.0
 margin_top = 42.0
 margin_right = 178.0
@@ -241,7 +227,8 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="CellsTravelled" type="Label" parent="UI/HUD/HudControl"]
+[node name="CellsTravelled" type="Label" parent="HudLayer/HudControl"]
+modulate = Color( 1, 1, 1, 0.392157 )
 margin_left = 32.0
 margin_top = 70.0
 margin_right = 264.0
@@ -252,7 +239,8 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="SkilChangeCount" type="Label" parent="UI/HUD/HudControl"]
+[node name="SkilChangeCount" type="Label" parent="HudLayer/HudControl"]
+modulate = Color( 1, 1, 1, 0.392157 )
 margin_left = 32.0
 margin_top = 102.0
 margin_right = 288.0
@@ -263,55 +251,59 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="PickedColor" type="Control" parent="UI/HUD/HudControl"]
+[node name="PickedColor" type="Control" parent="HudLayer/HudControl"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 32.0
-margin_top = -76.0
+margin_top = -34.0
 margin_right = 356.0
-margin_bottom = -56.0
+margin_bottom = -14.0
+__meta__ = {
+"_edit_group_": true
+}
 
-[node name="Label" type="Label" parent="UI/HUD/HudControl/PickedColor"]
+[node name="Label" type="Label" parent="HudLayer/HudControl/PickedColor"]
+visible = false
+modulate = Color( 1, 1, 1, 0.392157 )
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -26.0
-margin_right = 146.0
-text = "PICKED COLOR:"
+margin_right = 126.0
+text = "LAST COLOR:"
 valign = 2
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="ColorBox" type="Control" parent="UI/HUD/HudControl/PickedColor"]
+[node name="ColorBox" type="Control" parent="HudLayer/HudControl/PickedColor"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 158.0
-margin_top = -34.0
-margin_right = 190.0
-margin_bottom = -2.0
+margin_top = -16.0
+margin_right = 12.0
+margin_bottom = -4.0
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="ColorRect" type="ColorRect" parent="UI/HUD/HudControl/PickedColor/ColorBox"]
-margin_right = 32.0
-margin_bottom = 32.0
-color = Color( 0, 0, 0, 1 )
+[node name="ColorRect" type="ColorRect" parent="HudLayer/HudControl/PickedColor/ColorBox"]
+margin_right = 12.0
+margin_bottom = 12.0
 
-[node name="Value" type="Label" parent="UI/HUD/HudControl/PickedColor"]
-visible = false
+[node name="Value" type="Label" parent="HudLayer/HudControl/PickedColor"]
+modulate = Color( 1, 1, 1, 0.392157 )
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 192.0
+margin_left = 24.0
 margin_top = -26.0
-margin_right = 320.0
+margin_right = 152.0
 text = "255 255 255"
 valign = 2
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="ColorSum" type="Control" parent="UI/HUD/HudControl"]
+[node name="ColorSum" type="Control" parent="HudLayer/HudControl"]
+visible = false
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 32.0
@@ -319,7 +311,7 @@ margin_top = -48.0
 margin_right = 332.0
 margin_bottom = -28.0
 
-[node name="Label" type="Label" parent="UI/HUD/HudControl/ColorSum"]
+[node name="Label" type="Label" parent="HudLayer/HudControl/ColorSum"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -26.0
@@ -330,42 +322,129 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Value" type="Label" parent="UI/HUD/HudControl/ColorSum"]
+[node name="Value" type="Label" parent="HudLayer/HudControl/ColorSum"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 160.0
 margin_top = -26.0
 margin_right = 288.0
-text = "255 255 255"
+text = "... "
 valign = 2
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="PixelsStray" type="Label" parent="UI/HUD/HudControl"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -128.0
-margin_top = -54.0
-margin_right = 128.0
-margin_bottom = -28.0
-text = "STRAY PIXELS: 00"
-align = 1
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="PixelsHome" type="Label" parent="UI/HUD/HudControl"]
+[node name="PixelsStray" type="Label" parent="HudLayer/HudControl"]
+modulate = Color( 1, 1, 1, 0.392157 )
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -288.0
+margin_left = -287.0
+margin_top = -40.0
+margin_right = -31.0
+margin_bottom = -14.0
+text = "PIXELS ASTRAY: 00"
+align = 2
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="ColorSpectrumLite" type="VBoxContainer" parent="HudLayer/HudControl"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -22.0
+margin_top = -30.0
+margin_right = 22.0
+margin_bottom = -18.0
+grow_horizontal = 2
+custom_constants/separation = 8
+alignment = 1
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="IndicatorHolder" type="HBoxContainer" parent="HudLayer/HudControl/ColorSpectrumLite"]
+margin_right = 44.0
+margin_bottom = 12.0
+grow_horizontal = 2
+rect_min_size = Vector2( 0, 12 )
+alignment = 1
+
+[node name="SpectrumColorIndicator" parent="HudLayer/HudControl/ColorSpectrumLite/IndicatorHolder" instance=ExtResource( 16 )]
+visible = false
+margin_left = 16.0
+margin_right = 28.0
+size_flags_horizontal = 0
+size_flags_vertical = 3
+
+[node name="SpectrumColorIndicator2" parent="HudLayer/HudControl/ColorSpectrumLite/IndicatorHolder" instance=ExtResource( 16 )]
+visible = false
+margin_left = 24.0
+margin_right = 36.0
+size_flags_horizontal = 0
+size_flags_vertical = 3
+
+[node name="SpectrumColorIndicator3" parent="HudLayer/HudControl/ColorSpectrumLite/IndicatorHolder" instance=ExtResource( 16 )]
+visible = false
+margin_left = 32.0
+margin_right = 44.0
+size_flags_horizontal = 0
+size_flags_vertical = 3
+
+[node name="Spectrum" type="TextureRect" parent="HudLayer/HudControl/ColorSpectrumLite"]
+visible = false
+margin_top = 24.0
+margin_right = 512.0
+margin_bottom = 44.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 6 )
+stretch_mode = 1
+
+[node name="ColorSpectrum" type="VBoxContainer" parent="HudLayer/HudControl"]
+visible = false
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -216.0
+margin_top = -76.0
+margin_right = 296.0
+margin_bottom = -32.0
+custom_constants/separation = 8
+
+[node name="IndicatorHolder" type="Control" parent="HudLayer/HudControl/ColorSpectrum"]
+margin_right = 512.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 0, 16 )
+
+[node name="SpectrumColorIndicator" parent="HudLayer/HudControl/ColorSpectrum/IndicatorHolder" instance=ExtResource( 16 )]
+size_flags_horizontal = 0
+size_flags_vertical = 3
+
+[node name="Spectrum" type="TextureRect" parent="HudLayer/HudControl/ColorSpectrum"]
+margin_top = 24.0
+margin_right = 512.0
+margin_bottom = 44.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 6 )
+stretch_mode = 1
+
+[node name="PixelsHome" type="Label" parent="HudLayer/HudControl"]
+visible = false
+modulate = Color( 1, 1, 1, 0.392157 )
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -287.0
 margin_top = -54.0
-margin_right = -32.0
+margin_right = -31.0
 margin_bottom = -28.0
 text = "BLACK PIXELS: 00"
 align = 2
@@ -374,28 +453,53 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Button" type="Button" parent="UI"]
-margin_left = 1176.0
-margin_top = 500.0
-margin_right = 1216.0
-margin_bottom = 540.0
-text = "II"
+[node name="PickedColor ver" type="Control" parent="HudLayer/HudControl"]
+visible = false
+modulate = Color( 1, 1, 1, 0.392157 )
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 32.0
+margin_top = -76.0
+margin_right = 356.0
+margin_bottom = -56.0
 
-[node name="PauseMenu" parent="UI" instance=ExtResource( 2 )]
-pause_mode = 2
+[node name="Label" type="Label" parent="HudLayer/HudControl/PickedColor ver"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -26.0
+margin_right = 146.0
+text = "LAST PICKED"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
 
-[node name="Undi" parent="UI/PauseMenu" index="0"]
-modulate = Color( 0, 0, 0, 0.784314 )
+[node name="ColorBox" type="Control" parent="HudLayer/HudControl/PickedColor ver"]
+visible = false
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = 9.0
+margin_right = 16.0
+margin_bottom = 25.0
+__meta__ = {
+"_edit_group_": true
+}
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/RESET = SubResource( 122 )
-anims/pause_game = SubResource( 125 )
-anims/quit_game = SubResource( 130 )
-anims/unpause_game = SubResource( 126 )
+[node name="ColorRect" type="ColorRect" parent="HudLayer/HudControl/PickedColor ver/ColorBox"]
+margin_right = 16.0
+margin_bottom = 16.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="Value" type="Label" parent="HudLayer/HudControl/PickedColor ver"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = 2.0
+margin_right = 128.0
+margin_bottom = 28.0
+text = "255 255 255"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
 
 [connection signal="floor_completed" from="FloorMap" to="GameManager" method="_on_FloorMap_floor_completed"]
-[connection signal="deathmode_on" from="UI/HUD/HudControl/GameTime" to="UI/HUD" method="_on_GameTime_deathmode_on"]
-[connection signal="gametime_is_up" from="UI/HUD/HudControl/GameTime" to="UI/HUD" method="_on_GameTime_gametime_is_up"]
-[connection signal="pressed" from="UI/Button" to="GameManager" method="_on_Button_pressed"]
-
-[editable path="UI/PauseMenu"]

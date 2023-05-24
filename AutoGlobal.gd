@@ -5,6 +5,7 @@ extends Node2D
 var level_tilemap = null
 var node_creation_parent = null
 var game_manager = null
+var color_indicator_parent = null # za barve v hudu
 # ---
 var current_camera = null
 var current_scene = null

@@ -26,30 +26,27 @@ var new_game_stats: Dictionary
 var available_positions: Array = [] # definiran tukaj, da ga lahko grebam do zunaj
 var grid_cell_size: Vector2 # definiran tukaj, da ga lahko grebam do zunaj
 
-# stray colors
-var random_split_ad_factor = 0.1 # skrbi da je prilagojeno na številorazrezov
-var color_spectrum = 255.0	
-var player_color_sum_r: float
-var player_color_sum_g: float
-var player_color_sum_b: float
-
 onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
 onready var tilemap_floor_cells: Array
 onready var pixel: KinematicBody2D = $"../Pixel"
-onready var StrayPixel = preload("res://scenes/StrayPixel.tscn")
+onready var StrayPixel = preload("res://scenes/Pixel.tscn")
 onready var PlayerPixel = preload("res://scenes/Pixel.tscn")
 
 # GUI
 onready var scene_tree: = get_tree() # za pavzo
-onready var hud: Node2D = $"../UI/HUD"
-#onready var main_menu: Control = $"../UI/MainMenu"
-#onready var pause_menu: Control = $"../UI/PauseMenu"
-onready var game_over: Control = $"../UI/GameOver"
+onready var hud: Control = $"../HudLayer/HudControl"
 
 # _temp ... pripnem spawnanega, potem se bo vleklo glede na kolizijo
 var P1
+	
+var strays_count: int = 14
+var color_indicator_width: float = 12 # ročno setaj pravilno
 
-
+var color_indicators: Array = []
+onready var spectrum_rect: TextureRect = $Spectrum
+#onready var indicator_holder: Control = $"../UI/HUD/HudControl/ColorSpectrum/IndicatorHolder"
+onready var SpectrumColorIndicator: PackedScene = preload("res://scenes/SpectrumColorIndicator.tscn")
+onready var indicator_holder: HBoxContainer = $"../HudLayer/HudControl/ColorSpectrumLite/IndicatorHolder"
 
 
 func _ready() -> void:
@@ -59,8 +56,9 @@ func _ready() -> void:
 	
 	# štartej igro
 #	animation_player.play("the_beginning")
-	hud.visible = false
+#	hud.visible = false
 #	pause_menu.visible = false
+	pass
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -68,44 +66,22 @@ func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("no1"):
 		spawn_player_pixel("Moe")
 	if Input.is_action_just_pressed("no2"):
-		spawn_stray_pixel(1)
+		split_colors(strays_count/2)
 	if Input.is_action_just_pressed("no3"):
-		spawn_stray_pixel(9)
+		split_colors(strays_count)
 	if Input.is_action_just_pressed("r"):
 		restart_game()
 
-	if event is InputEventKey:
-		if event.pressed and event.scancode == KEY_ESCAPE:
-#			animation_player.play_backwards("pause_game")		
-#			visible = true
-#			print("pavza OFF")
-#			print(name)	
-
-#			animation_player.play("pause_game")		
-#			pause_menu.visible = true
-			print(name)
-
-
-
-#	if Input.is_action_just_released("ui_cancel"):
-#		print(name)
-#		pause_on = true
-#		scene_tree.paused = true
-#		scene_tree.set_input_as_handled()
-##		toggle_pause()	
-
-	
-	
 	
 func _process(delta: float) -> void:
 #	print(pause_on)
 	players_in_game = get_tree().get_nodes_in_group(Config.group_players)	# zaenkrat ne rabm
-	strays_in_game = get_tree().get_nodes_in_group(Config.group_strays)	# zaenkrat ne rabm
+	strays_in_game = get_tree().get_nodes_in_group(Config.group_pixels)	# zaenkrat ne rabm
 
 
 func spawn_player_pixel(player_name):
 	
-	if not available_positions.empty():
+#	if not available_positions.empty():
 		
 		spawned_stray_index += 1
 		
@@ -117,6 +93,11 @@ func spawn_player_pixel(player_name):
 		new_player_pixel.global_position = available_positions[selected_cell_index] # + grid_cell_size/2 ... ne rabim snepat ker se v pixlu na redi funkciji
 		new_player_pixel.name = player_name
 		
+		# ta pixel je plejer
+		new_player_pixel.pixel_is_player = true
+		new_player_pixel.add_to_group(Config.group_players)
+		
+		new_player_pixel.name = player_name
 		#spawn
 		Global.node_creation_parent.add_child(new_player_pixel)
 		
@@ -132,89 +113,87 @@ func spawn_player_pixel(player_name):
 		
 		# _temp
 		P1 = new_player_pixel	
-		
-	
-func spawn_stray_pixel(strays_amount):
-	
-	if not available_positions.empty():
-		
-		var color_component_index = 1 # za dolčanje katero RGB spreminjamo
-		var RGB_count: int = 3
-		
-		for color in RGB_count: # 3 barv so v RGB
-			
-			# strays delimo z 3
-			for stray in strays_amount / RGB_count:
-				spawned_stray_index += 1
-				
-				# instance
-				var new_stray_pixel = StrayPixel.instance()
-				# žrebanje pozicije
-				var selected_cell_index: int = Global.get_random_member_index(available_positions, 0)
-				new_stray_pixel.global_position = available_positions[selected_cell_index] + grid_cell_size/2 # ... ne rabim snepat ker se v pixlu na redi funkciji
-				#spawn
-				Global.node_creation_parent.add_child(new_stray_pixel)
-				# connect
-				new_stray_pixel.connect("stat_changed", self, "_on_stat_changed")			
-				# odstranim uporabljeno pozicijo
-				available_positions.remove(selected_cell_index)		
-				# v hud 
-				new_game_stats["stray_pixels"] += 1
 
-				# BARVANJE PIXLA
-				
-				var available_red_values: Array = split_colors(strays_amount)
-				
-				# random barva iz arraya barv
-				var random_red_value_index = randi() % available_red_values.size()
-				var random_red_value = available_red_values[random_red_value_index]
-				var random_red_value_float: float = random_red_value / color_spectrum
-				
-				# obarvaj pixel
-				var random_pixel_color: Color = Color(random_red_value_float, 0, 0)
-				
-				match color_component_index:
-					1:
-						random_pixel_color = Color(random_red_value_float, 0, 0)
-					2:
-						random_pixel_color = Color(0, random_red_value_float, 0)
-					3:
-						random_pixel_color = Color(0, 0, 1)
-				
-				color_component_index += 1
-				if color_component_index > RGB_count:
-					color_component_index = 1	
-				
-				new_stray_pixel.modulate = random_pixel_color
 
-			
-func split_colors(strays_count):
+func spawn_stray_pixel(stray_color):
 	
-	# delim število straysov s številom komponent ... ker kličem funkcijo za vsako barvno komponento posebej
-	var split_count = strays_count / 3
-	
-	# določim razpon vrednosti barve
-	var split_color_value = color_spectrum / split_count
-	var split_colors_random: Array = []
-	
-	# dodam "random" dodatek, ki je v razmerju s številom splitov
-	var random_split_ad = (color_spectrum / split_count) * random_split_ad_factor
-	
-	# za vsak split
-	for split in split_count:
+#	if not available_positions.empty():	
 		
-		# randomiziraš
-		var random_color_value = split_color_value + random_split_ad
-		random_split_ad += random_split_ad
+		spawned_stray_index += 1
+
+		# instance
+		var new_stray_pixel = StrayPixel.instance()
+		# žrebanje pozicije
+		var selected_cell_index: int = Global.get_random_member_index(available_positions, 0)
+		new_stray_pixel.global_position = available_positions[selected_cell_index] + grid_cell_size/2 # ... ne rabim snepat ker se v pixlu na redi funkciji
 		
-		# random vrednost zapišeš v array
-		split_colors_random.append(random_color_value)
-		printt("random_split_ad", random_split_ad)
+		# obarvajmo ga ...
+		new_stray_pixel.modulate = stray_color
+		
+		#spawn
+		Global.node_creation_parent.add_child(new_stray_pixel)
+		
+		# connect
+		new_stray_pixel.connect("stat_changed", self, "_on_stat_changed")			
+		
+		# odstranim uporabljeno pozicijo
+		available_positions.remove(selected_cell_index)		
+		
+		# v hud 
+		new_game_stats["stray_pixels"] += 1
 	
-	# resetiram randomized
-	random_split_ad = (color_spectrum / split_count) * random_split_ad_factor
 	
-	return split_colors_random # vrnem nazaj v span funkcijo	
+func spawn_color_indicator(position_x,selected_color_position_y, selected_color):
+	
+	var new_color_indicator = SpectrumColorIndicator.instance()
+	new_color_indicator.rect_position.x = position_x
+	new_color_indicator.rect_position.y = selected_color_position_y
+	new_color_indicator.color = selected_color
+	indicator_holder.add_child(new_color_indicator)
+	color_indicators.append(new_color_indicator)
+
+
+func split_colors(color_count):
+	
+	color_count = clamp(color_count, 1, color_count) # za vsak slučaj klempam, da ne more biti nikoli 0 ...  ker je error			
+	
+	# poberem sliko
+	var spectrum_texture: Texture = spectrum_rect.texture
+	var spectrum_image: Image = spectrum_texture.get_data()
+	spectrum_image.lock()
+	
+	# izračun razmaka med barvami
+	var spectrum_texture_width = spectrum_rect.rect_size.x - (color_indicator_width + 1) # odštejem širino zadnje, da bo lep razmak in, da ne
+	var color_skip_size = spectrum_texture_width / (color_count - 1) # razmak barv po spektru
+	
+	# nabiranje barv
+	var selected_colors: Array = []
+	var loop_count = 0
+	for color in color_count:
+		
+		# pozicija pixla na sliki
+		var selected_color_position_y = 0 # _temp
+		var selected_color_position_x = loop_count * color_skip_size
+		
+		# zajem barve na lokaciji pixla
+		var selected_color = spectrum_image.get_pixel(selected_color_position_x, 0)
+		selected_colors.append(selected_color)
+		
+		# spawn indikatorja na poziciji
+		spawn_color_indicator(selected_color_position_x,selected_color_position_y, selected_color)				
+		spawn_stray_pixel(selected_color)
+		
+		loop_count += 1
+
+
+func erase_color_indicator(picked_pixel_color):
+		
+	for indicator in color_indicators:
+		if indicator.color == picked_pixel_color:
+#			indicator.queue_free()
+#			color_indicators.erase(indicator)
+			indicator.modulate = Color.black
+			break
 
 
 # GAME LOOP ----------------------------------------------------------------------------------
@@ -237,7 +216,7 @@ func end_game():
 	
 	hud.visible = false
 	
-	return		
+#	return		
 	
 	# game ni štartan
 	game_is_on = false
@@ -247,6 +226,8 @@ func end_game():
 	if not strays_in_game.empty():
 		for stray in strays_in_game:
 			stray.queue_free()
+			if color_indicators:
+				erase_color_indicator(stray.modulate)
 			
 	if not players_in_game.empty():
 		for player in players_in_game:
@@ -286,48 +267,64 @@ func _on_stat_changed(stat_owner, changed_stat, new_stat_value):
 	# napolni slovarje s statistko
 	match changed_stat:
 		
-		# player stats
-		"player_life": 
-			new_game_stats["player_life"] += new_stat_value
-			if new_game_stats["player_life"] > 0:
-				spawn_player_pixel("Moe")
+		"pixels_in_game": 
 			
-			# reset player stats (nekatere) 
-			new_player_stats["cells_travelled"] = 0
-			new_player_stats["skill_change_count"] = 0
-			# pa picked color dej na črno
-			
-			# če ni več lajfa
-			if new_game_stats["player_life"] <= 0:
-				printt("_temp", "GAME OVER")
-				pass
+			if stat_owner.is_in_group(Config.group_players):
+				new_game_stats["player_life"] += new_stat_value
+				if new_game_stats["player_life"] > 0:
+					spawn_player_pixel("Moe")
+				
+				# reset player stats (nekatere) 
+				new_player_stats["cells_travelled"] = 0
+				new_player_stats["skill_change_count"] = 0
+				
+				# če ni več lajfa
+				if new_game_stats["player_life"] <= 0:
+					printt("_temp", "GAME OVER")
+					
+			if stat_owner.is_in_group(Config.group_pixels):
+				new_game_stats["black_pixels"] -= new_stat_value
+				new_game_stats["stray_pixels"] += new_stat_value
+				# točke
+				new_game_stats["player_points"] += black_pixel_points
 	
 		"cells_travelled": 
 			new_player_stats["cells_travelled"] += new_stat_value
-			printt("CELLS TRAVELLED: ", new_player_stats["cells_travelled"])
 			# točke
 			if new_game_stats["player_points"] > 0:
 				new_game_stats["player_points"] += cell_travel_points
 				
 		"skill_change_count": 
 			new_player_stats["skill_change_count"] += new_stat_value
-			printt("COLOR CHNG: ", new_player_stats["skill_change_count"])
 			# točke
 			if new_game_stats["player_points"] > 0:
 				new_game_stats["player_points"] += skill_change_points
 			
-		"black_pixels": 
-			new_game_stats["black_pixels"] += new_stat_value
-			new_game_stats["stray_pixels"] -= new_stat_value
-			printt("BLACK PIXELS: ", new_game_stats["black_pixels"])
-			# točke
-			new_game_stats["player_points"] += black_pixel_points
+#		"player_life": 
+#			new_game_stats["player_life"] += new_stat_value
+#			if new_game_stats["player_life"] > 0:
+#				spawn_player_pixel("Moe")
+#
+#			# reset player stats (nekatere) 
+#			new_player_stats["cells_travelled"] = 0
+#			new_player_stats["skill_change_count"] = 0
+#			# pa picked color dej na črno
+#
+#			# če ni več lajfa
+#			if new_game_stats["player_life"] <= 0:
+##				printt("_temp", "GAME OVER")
+#				pass
+#		"black_pixels": 
+#			new_game_stats["black_pixels"] += new_stat_value
+#			new_game_stats["stray_pixels"] -= new_stat_value
+#			# točke
+#			new_game_stats["player_points"] += black_pixel_points
 		
 		
 	# disable moving
 	if new_game_stats["player_points"] <= 0:
-		print("CAN'T MOVE")
-
+#		print("CAN'T MOVE, no points")
+		pass
 
 func _on_PlayBtn_pressed() -> void:
 	print("unpause")
