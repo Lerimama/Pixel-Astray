@@ -22,7 +22,7 @@ onready var color_spectrum: VBoxContainer = $ColorSpectrum
 func _ready() -> void:
 	
 	# skrij statistiko
-	visible = true
+#	visible = false
 	color_spectrum = Global.color_indicator_parent
 
 

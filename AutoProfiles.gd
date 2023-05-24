@@ -25,7 +25,7 @@ var default_player_profiles: Dictionary = { # ime profila ime igralca ... pazi d
 }
 
 var default_player_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
-	"player_active" : true,
+	"player_active" : false, # zaenkrat ga v aktivnega setaš na pixlov ready
 #	"life" : 3,
 #	"points" : 0, # -> zamenjano s player_points v game stats
 	"skill_change_count" : 0,

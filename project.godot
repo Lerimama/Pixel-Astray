@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Stray Pixels"
-run/main_scene="res://Arena.tscn"
+run/main_scene="res://scenes/Game.tscn"
 config/icon="res://_materiali/icon.png"
 
 [autoload]
@@ -166,8 +166,9 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+2d/options/use_nvidia_rect_flicker_workaround=true
 quality/intended_usage/framebuffer_allocation=0
 quality/intended_usage/framebuffer_allocation.mobile=0
 2d/snapping/use_gpu_pixel_snap=true
-environment/default_clear_color=Color( 0, 0, 0, 1 )
+environment/default_clear_color=Color( 0.45098, 0.45098, 0.45098, 1 )
 environment/default_environment="res://default_env.tres"

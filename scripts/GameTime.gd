@@ -1,21 +1,18 @@
 extends Control
 
 
-export var time_minutes: float = 5
-export var deathmode_start_time: float = 4
-
 signal deathmode_on
 signal gametime_is_up
 
-var timer_mode: = -1
-var game_is_on: bool 
+
+export var start_minutes: float = 5 # ko apliciraš minute, se odšteje ena minuta in 00 sekund nadomesti 59
+export var deathmode_start_time: float = 1
+var start_seconds: float = 59
+
+var time_minutes: float
+var time_seconds: float
 
 var game_time: float
-var time_seconds: float = 59
-var current_second = time_seconds # to je za beleženje tre
-
-var game_time_limit: float
-var minute_in_seconds = 60
 
 onready var secs: Label = $Secs
 onready var mins: Label = $Mins
@@ -24,9 +21,7 @@ onready var dots: Label = $Dots
 
 func _ready() -> void:
 	
-	
-	mins.text = "%02d" % time_minutes
-	secs.text = "%02d" % time_seconds
+	restart_timer(start_minutes)
 
 
 func _physics_process(delta: float) -> void:
@@ -35,13 +30,13 @@ func _physics_process(delta: float) -> void:
 		
 		game_time += delta *50
 		
-		current_second = round(time_seconds + game_time * timer_mode) # -1 ena je odštevanje
+		var current_second = round(time_seconds - game_time ) # -1 ena je odštevanje
 		
 		# normal time
 		if current_second < 0:
 			game_time = 0
 			current_second = time_seconds
-			time_minutes += timer_mode
+			time_minutes -= 1
 			mins.text = "%02d" % time_minutes	
 		secs.text = "%02d" % current_second
 		
@@ -52,7 +47,6 @@ func _physics_process(delta: float) -> void:
 		
 		# time is up	
 		if time_minutes < 0:
-#			game_is_on = false
 			mins.text = "00"
 			secs.text = "00"
 			# reset time ?
@@ -63,8 +57,15 @@ func _physics_process(delta: float) -> void:
 
 	else: 
 		game_time = 0
+	
 		
-		
+func restart_timer(restart_minutes):
+	
+	time_minutes = restart_minutes - 1
+	time_seconds = start_seconds
+	mins.text = "%02d" % time_minutes
+	secs.text = "%02d" % time_seconds
+			
 	
 	
 

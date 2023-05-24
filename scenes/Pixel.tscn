@@ -230,12 +230,14 @@ position = Vector2( -16, -16 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
 [node name="DetectArea" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectArea"]
 scale = Vector2( 0.95, 0.95 )
 shape = SubResource( 116 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 scale = Vector2( 0.95, 0.95 )
 shape = SubResource( 1 )
 

@@ -9,7 +9,7 @@ func _ready() -> void:
 	Global.print_id(self)
 	add_to_group(Config.group_tilemap)	
 	
-#	Global.level_tilemap = self
+	Global.level_tilemap = self
 	
 	get_floor_tiles()
 	pass # Replace with function body.
@@ -19,8 +19,15 @@ func _ready() -> void:
 func get_floor_tiles():
 	
 	# koliko celic je na celem ekranu
-	var cell_count_x: float = get_viewport_rect().size.x / get_cell_size().x
-	var cell_count_y: float = get_viewport_rect().size.y / get_cell_size().y
+#	var cell_count_x: float = get_viewport_rect().size.x / get_cell_size().x
+#	var cell_count_y: float = get_viewport_rect().size.y / get_cell_size().y
+	
+	# koliko celic je V tilemapu
+	var cell_count_x: float = get_used_rect().size.x# / get_cell_size().x
+	var cell_count_y: float = get_used_rect().size.y# / get_cell_size().y
+	
+#	printt("cell_count_x", cell_count_x, get_used_rect().size.x, get_cell_size().x)
+#	printt("cell_count_y", cell_count_y, get_used_rect().size.y)
 	
 	var floor_cells_grid: Array # grid koordinate
 	var floor_cells_global_positions: Array # global koordinate

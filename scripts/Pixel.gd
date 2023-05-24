@@ -92,11 +92,15 @@ onready var picked_color_value: Label = $"../HudLayer/HudControl/PickedColor/Val
 
 
 func _ready() -> void:
-#	floor_cells = Global.game_manager.available_positions
 	
 	randomize()
 	
 	Global.print_id(self)
+	
+#	# zabeleži rojstvo in naj VSI pomembni vejo
+#	emit_signal("stat_changed", self, "player_active", true)
+#	...  po novem ob spawnanju iz GMja
+	
 #	print (name, " se je rodil na: ", global_position)
 	
 	add_to_group(Config.group_pixels)
@@ -121,7 +125,9 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 #	printt("pixel_color_sum", pixel_color_sum)
 	
+	
 	if pixel_is_player:	
+#		modulate = pixel_color
 		if current_state == States.WHITE:
 			modulate = pixel_color
 		elif current_state == States.RED:
@@ -135,7 +141,6 @@ func _physics_process(delta: float) -> void:
 			select_next_state()	
 	
 	frame_counter += 1
-	
 
 	
 func manage_input():
@@ -216,6 +221,7 @@ func _change_state(new_state_id):
 	
 	# new state
 	current_state = new_state_id
+#	pixel_color = state_colors[current_state]
 	modulate = state_colors[current_state]
 
 
@@ -265,7 +271,19 @@ func slide_control():
 	else:
 		reset_direction()
 
-
+func spaw_trail_ghost():
+	# trail ghosts
+	var new_pixel_ghost = PixelGhost.instance()
+	new_pixel_ghost.global_position = global_position
+	new_pixel_ghost.modulate = pixel_color
+	new_pixel_ghost.modulate.a = 0.15
+	Global.node_creation_parent.add_child(new_pixel_ghost)
+	# fadeout
+	new_tween = get_tree().create_tween()
+	new_tween.tween_property(new_pixel_ghost, "modulate:a", 0, trail_ghost_fade_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	new_tween.tween_callback(new_pixel_ghost, "queue_free")
+	
+	
 func slide(slide_direction):
 	
 	# če vidi steno v planirani smeri
@@ -274,16 +292,8 @@ func slide(slide_direction):
 
 	if Global.game_manager.deathmode_on:
 		slide_frame_skip = death_mode_frame_skip
+	spaw_trail_ghost()
 
-	# trail ghosts
-	var new_pixel_ghost = PixelGhost.instance()
-	new_pixel_ghost.global_position = global_position
-	new_pixel_ghost.modulate.a = 0.15
-	Global.node_creation_parent.add_child(new_pixel_ghost)
-	# fadeout
-	new_tween = get_tree().create_tween()
-	new_tween.tween_property(new_pixel_ghost, "modulate:a", 0, trail_ghost_fade_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	new_tween.tween_callback(new_pixel_ghost, "queue_free")
 
 	
 	if frame_counter % slide_frame_skip == 0:
@@ -367,7 +377,7 @@ func spawn_cock_ghost(cocking_direction, cocking_ghosts_count):
 	var new_pixel_ghost = PixelGhost.instance()
 	
 	# ghost je trenutne barve pixla
-	new_pixel_ghost.modulate = state_colors[current_state]
+	new_pixel_ghost.modulate = modulate
 	# z vsakim naj bo bolj prosojen (relativno z max številom celic)
 	new_pixel_ghost.modulate.a = 1.0 - (cocking_ghosts_count / float(cocking_ghost_count_max + 1))
 	# z vsakim se zamika pozicija

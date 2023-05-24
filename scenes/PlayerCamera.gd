@@ -1,9 +1,11 @@
 extends Camera2D
 
-var target = null
 
-
+func _ready() -> void:
+	Global.print_id(name)
+	
 func _physics_process(delta: float) -> void:
 	
-	if target:
-		position = target.position
+	if Global.camera_target:
+		position = Global.camera_target.position
+	pass
