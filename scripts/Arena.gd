@@ -11,8 +11,9 @@ extends Node2D
 func _ready() -> void:
 	
 	Global.print_id(self)
-	Global.node_creation_parent = self
-
+#	Global.node_creation_parent = self
+	
+	
 #func _on_floor_completed(floor_cell_positions):
 #
 #	pixel.available_positions = floor_cell_positions
@@ -24,5 +25,5 @@ func _ready() -> void:
 #	grid_cell_size = cell_size
 
 
-func _on_Main_PlayBtn_pressed() -> void:
-	pass # Replace with function body.
+#func _on_Main_PlayBtn_pressed() -> void:
+#	pass # Replace with function body.

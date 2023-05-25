@@ -40,7 +40,7 @@ pause_mode = 2
 margin_left = 983.0
 margin_top = 54.0
 margin_right = 1188.0
-margin_bottom = 188.0
+margin_bottom = 244.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -163,6 +163,7 @@ SPACE - change skill"
 autowrap = true
 
 [node name="Controller2" type="Control" parent="Controls"]
+visible = false
 margin_left = 256.0
 margin_top = 67.0
 margin_right = 483.0
@@ -195,6 +196,7 @@ SPACE - change skill"
 autowrap = true
 
 [node name="Controller3" type="Control" parent="Controls"]
+visible = false
 margin_left = 511.0
 margin_top = 67.0
 margin_right = 779.0

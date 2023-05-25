@@ -7,6 +7,10 @@ var node_creation_parent = null
 var game_manager = null
 var color_indicator_parent = null # za barve v hudu
 var camera_target = null
+var player_camera = null
+var hud = null
+var level_start_position = null
+
 
 # ---
 var current_camera = null
@@ -37,12 +41,6 @@ func get_random_member_index(group_of_elements, offset):
 		
 #		printt(current_array, random_range, random_int, selected_int)
 		return selected_int
-	
-
-
-
-
-
 
 
 func switch_to_scene(path):

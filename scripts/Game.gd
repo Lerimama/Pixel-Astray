@@ -9,7 +9,7 @@ onready var minimap_camera: Camera2D = $Viewports/ViewportContainer1/Viewport1/C
 #onready var viewport_2: Viewport = $Viewports/ViewportContainer2/Viewport2
 #onready var camera_2: Camera2D = $Viewports/ViewportContainer2/Viewport2/Camera2D
 
-onready var prvi_pixel: Node2D = $Viewports/ViewportContainer1/Viewport1/Arena/Pixel
+#onready var prvi_pixel: Node2D = $Viewports/ViewportContainer1/Viewport1/Arena/Pixel
 onready var minimap_viewport: Viewport = $Minimap/MinimapViewport
 
 

@@ -22,16 +22,27 @@ var available_positions: Array = [] # definiran tukaj, da ga lahko grebam do zun
 var grid_cell_size: Vector2 # definiran tukaj, da ga lahko grebam do zunaj
 
 # color spliting	
-onready var spectrum_rect: TextureRect = $Spectrum
 var color_indicator_width: float = 12 # ročno setaj pravilno
+var color_indicators: Array = []
+onready var spectrum_rect: TextureRect = $Spectrum
+onready var ColorIndicator: PackedScene = preload("res://scenes/ColorIndicator.tscn")
+onready var indicator_holder: HBoxContainer = $"../HudLayer/HudControl/ColorSpectrumLite/IndicatorHolder"
 
-onready var hud: Control = Global.hud
+# hud
+#onready var hud: Control = $"../HudLayer/HudControl"
+#onready var game_clock: Control = $"../HudLayer/HudControl/GameTime"
+
 onready var tilemap_floor_cells: Array
 onready var StrayPixel = preload("res://scenes/Pixel.tscn")
 onready var PlayerPixel = preload("res://scenes/Pixel.tscn")
-onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
 
+# new hud
+onready var hud: Control = Global.hud
+onready var game_clock: Control = Global.hud.$"../GameTime"
 
+onready var tilemap_floor_cells: Array
+onready var StrayPixel = preload("res://scenes/Pixel.tscn")
+onready var PlayerPixel = preload("res://scenes/Pixel.tscn")
 
 # _temp ... pripnem spawnanega, potem se bo vleklo glede na kolizijo ... lahko tudi enumse uporabiš
 # ni _temp ... je tarča kamere
@@ -40,16 +51,24 @@ var P2: Node2D
 var P1_name: String = "P1"
 var P2_name: String = "P2"
 
-var game_time_limit: float = 3
+export var game_time_limit: int = 3
 
 export var black_pixel_points = 10
 export var skill_change_points = - 3
 export var cell_travel_points = - 1
 
 
-onready var start_position: Position2D = $"../StartPosition"
-
-
+func _ready() -> void:
+	
+	Global.game_manager = self	
+	Global.node_creation_parent = get_parent()
+	randomize()
+	
+	# štartej igro
+#	animation_player.play("the_beginning")
+	hud.visible = false
+	pass
+	
 
 func _unhandled_input(event: InputEvent) -> void:
 
@@ -62,20 +81,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("r"):
 		restart_game()
 
-
-func _ready() -> void:
-	
-	Global.game_manager = self	
-	Global.node_creation_parent = get_parent()
-	Global.level_start_position = start_position
-	
-	randomize()
-	
-	# štartej igro
-	animation_player.play("arena_in")
-	hud.visible = false
-	pass
-	
 	
 func _process(delta: float) -> void:
 #	print(pause_on)
@@ -97,8 +102,7 @@ func spawn_player_pixel():
 		
 		# žrebanje pozicije
 		var selected_cell_index: int = Global.get_random_member_index(available_positions, 0)
-#		new_player_pixel.global_position = available_positions[selected_cell_index] # + grid_cell_size/2 ... ne rabim snepat ker se v pixlu na redi funkciji
-		new_player_pixel.global_position = start_position.global_position # + grid_cell_size/2 ... ne rabim snepat ker se v pixlu na redi funkciji
+		new_player_pixel.global_position = available_positions[selected_cell_index] # + grid_cell_size/2 ... ne rabim snepat ker se v pixlu na redi funkciji
 		
 		# ta pixel je plejer in ne računalnik
 		new_player_pixel.pixel_is_player = true
@@ -115,30 +119,19 @@ func spawn_player_pixel():
 		new_player_pixel.connect("stat_changed", self, "_on_stat_changed")
 		
 		# odstranim uporabljeno celico
-#		available_positions.remove(selected_cell_index)	
+		available_positions.remove(selected_cell_index)	
 		
 		# ustvarimo plejerjev profil in plejerja aktiviramo (hud mora vedet)
 		new_player_stats = Profiles.default_player_stats.duplicate()
 		new_player_stats["player_active"] = true
 		
-		# centriram kamero
-#		Global.player_camera.drag_margin_top = 0
-#		Global.player_camera.drag_margin_bottom = 0
-#		Global.player_camera.drag_margin_left = 0
-#		Global.player_camera.drag_margin_right = 0
 		# camera target
 		Global.camera_target = new_player_pixel
-		Global.player_camera.reset_camera_position()
+		
 		# _temp
 		P1 = new_player_pixel	
-		
-		yield(get_tree().create_timer(1), "timeout")
-		Global.player_camera.drag_margin_top = 0.2
-		Global.player_camera.drag_margin_bottom = 0.2
-		Global.player_camera.drag_margin_left = 0.3
-		Global.player_camera.drag_margin_right = 0.3
-		
-		
+
+
 func spawn_stray_pixel(stray_color):
 	
 #	if not available_positions.empty():	
@@ -169,14 +162,14 @@ func spawn_stray_pixel(stray_color):
 		new_game_stats["stray_pixels"] += 1
 	
 	
-#func spawn_color_indicator(position_x,selected_color_position_y, selected_color):
-#
-#	var new_color_indicator = ColorIndicator.instance()
-#	new_color_indicator.rect_position.x = position_x
-#	new_color_indicator.rect_position.y = selected_color_position_y
-#	new_color_indicator.color = selected_color
-#	indicator_holder.add_child(new_color_indicator)
-#	color_indicators.append(new_color_indicator)
+func spawn_color_indicator(position_x,selected_color_position_y, selected_color):
+	
+	var new_color_indicator = ColorIndicator.instance()
+	new_color_indicator.rect_position.x = position_x
+	new_color_indicator.rect_position.y = selected_color_position_y
+	new_color_indicator.color = selected_color
+	indicator_holder.add_child(new_color_indicator)
+	color_indicators.append(new_color_indicator)
 
 
 func split_colors(color_count):
@@ -206,20 +199,20 @@ func split_colors(color_count):
 		selected_colors.append(selected_color)
 		
 		# spawn indikatorja na poziciji
-		hud.spawn_color_indicator(selected_color_position_x,selected_color_position_y, selected_color)				
+		spawn_color_indicator(selected_color_position_x,selected_color_position_y, selected_color)				
 		spawn_stray_pixel(selected_color)
 		
 		loop_count += 1
 
 
-#func erase_color_indicator(picked_pixel_color):
-#
-#	for indicator in color_indicators:
-#		if indicator.color == picked_pixel_color:
-##			indicator.queue_free()
-##			color_indicators.erase(indicator)
-#			indicator.modulate = Color.black
-#			break
+func erase_color_indicator(picked_pixel_color):
+		
+	for indicator in color_indicators:
+		if indicator.color == picked_pixel_color:
+#			indicator.queue_free()
+#			color_indicators.erase(indicator)
+			indicator.modulate = Color.black
+			break
 
 
 # GAME LOOP ----------------------------------------------------------------------------------
@@ -230,7 +223,7 @@ func start_game():
 	hud.visible = true
 	hud.modulate.a = 1
 	
-	hud.start_game_time = game_time_limit
+	game_clock.restart_timer(game_time_limit)
 	game_is_on = true
 	
 	# spawnam plejerja
@@ -250,11 +243,15 @@ func end_game():
 	game_is_on = false
 	deathmode_on =  false
 	
-	# zbrišem pixle in indikatorje v hudu
+	# zbrišem pixle
 	if not strays_in_game.empty():
 		for stray in strays_in_game:
 			stray.queue_free()
-		hud.erase_all_indicators()
+	if color_indicators:
+		for indicator in color_indicators:
+			indicator.queue_free()
+			color_indicators.erase(indicator)
+#			erase_color_indicator(stray.modulate)
 	
 	# zbrišem plejerja		
 	if not players_in_game.empty():
@@ -361,8 +358,3 @@ func _on_RestartBtn_pressed() -> void:
 #	yield(get_tree().create_timer(2), "timeout")
 #	Global.switch_to_scene("res://scenes/arena/Home.tscn")
 	pass
-
-
-func _on_AnimationPlayer_animation_finished(arena_in) -> void:
-	start_game()
-	pass # Replace with function body.

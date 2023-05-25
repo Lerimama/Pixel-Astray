@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=1]
-[ext_resource path="res://assets/theme/gamer_menu_font.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/menu_environment.tres" type="Environment" id=1]
+[ext_resource path="res://scripts/Home.gd" type="Script" id=2]
+[ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=4]
 
 [sub_resource type="DynamicFontData" id=1]
 font_path = "res://assets/theme/Gamer.ttf"
@@ -19,362 +20,368 @@ size = 320
 extra_spacing_char = -12
 font_data = SubResource( 120 )
 
-[node name="MainMenu" type="Control"]
-modulate = Color( 1, 1, 1, 0.333333 )
+[sub_resource type="Animation" id=132]
+resource_name = "main_out"
+tracks/0/type = "value"
+tracks/0/path = NodePath("MainMenu:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "_load_game"
+} ]
+}
+
+[node name="Home" type="Node"]
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 20.0 ],
+"_edit_vertical_guides_": [ 1188.0 ]
+}
+
+[node name="MainMenu" type="Control" parent="."]
 anchor_right = 0.997
 anchor_bottom = 1.0
 margin_right = 3.83997
-theme = ExtResource( 1 )
+theme = ExtResource( 4 )
 
-[node name="Undi" type="Panel" parent="."]
+[node name="Undi" type="Panel" parent="MainMenu"]
 anchor_right = 0.997
 anchor_bottom = 1.0
 margin_right = 3.83997
 
-[node name="Menu" type="Control" parent="."]
-margin_left = 91.0
-margin_top = 214.0
-margin_right = 315.0
-margin_bottom = 268.0
-__meta__ = {
-"_edit_group_": true
-}
+[node name="img" type="Node2D" parent="MainMenu"]
+position = Vector2( 544, 65 )
+scale = Vector2( -1, 1 )
 
-[node name="PlayBtn" type="Button" parent="Menu"]
-margin_left = 4.0
-margin_top = -12.0
-margin_right = 135.0
-margin_bottom = 52.0
-focus_mode = 1
-size_flags_horizontal = 3
-size_flags_vertical = 0
-theme = ExtResource( 1 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_colors/font_color_hover = Color( 0.368627, 1, 0.662745, 1 )
-custom_fonts/font = SubResource( 131 )
-enabled_focus_mode = 1
-text = "PLAY"
+[node name="strejs" type="Node2D" parent="MainMenu/img"]
 
-[node name="AboutBtn" type="Button" parent="Menu"]
-visible = false
-margin_left = 2.0
-margin_top = 64.0
-margin_right = 126.0
-margin_bottom = 115.0
-focus_mode = 1
-size_flags_horizontal = 3
-size_flags_vertical = 0
-theme = ExtResource( 1 )
-custom_fonts/font = ExtResource( 2 )
-enabled_focus_mode = 1
-text = "ABOUT"
-
-[node name="Title1" type="Label" parent="."]
-modulate = Color( 0.32549, 0.356863, 0.407843, 1 )
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -543.0
-margin_top = 362.0
-margin_right = 37.0
-margin_bottom = 616.0
-custom_fonts/font = SubResource( 121 )
-text = "PIXEL"
-align = 1
-valign = 2
-
-[node name="Title2" type="Label" parent="."]
-modulate = Color( 0.32549, 0.356863, 0.407843, 1 )
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -84.0
-margin_top = 515.0
-margin_right = 676.0
-margin_bottom = 769.0
-custom_fonts/font = SubResource( 121 )
-text = "ASTRAY"
-align = 1
-valign = 2
-
-[node name="img" type="Node2D" parent="."]
-position = Vector2( 736, 128 )
-
-[node name="strejs" type="Node2D" parent="img"]
-__meta__ = {
-"_edit_group_": true,
-"_edit_lock_": true
-}
-
-[node name="PolyPixel" type="Polygon2D" parent="img/strejs"]
+[node name="PolyPixel" type="Polygon2D" parent="MainMenu/img/strejs"]
 position = Vector2( 384, 96 )
 color = Color( 0.341176, 0.65098, 1, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel2" type="Polygon2D" parent="img/strejs"]
+[node name="PolyPixel2" type="Polygon2D" parent="MainMenu/img/strejs"]
 position = Vector2( 512, -64 )
 color = Color( 0.952941, 0.356863, 0.498039, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel3" type="Polygon2D" parent="img/strejs"]
+[node name="PolyPixel3" type="Polygon2D" parent="MainMenu/img/strejs"]
 position = Vector2( 448, 32 )
 color = Color( 0.996078, 0.976471, 0.545098, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel4" type="Polygon2D" parent="img/strejs"]
+[node name="PolyPixel4" type="Polygon2D" parent="MainMenu/img/strejs"]
 position = Vector2( -96, 160 )
 color = Color( 0.341176, 0.65098, 1, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel5" type="Polygon2D" parent="img/strejs"]
+[node name="PolyPixel5" type="Polygon2D" parent="MainMenu/img/strejs"]
 position = Vector2( 320, -32 )
 color = Color( 0.368627, 1, 0.662745, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel8" type="Polygon2D" parent="img/strejs"]
+[node name="PolyPixel8" type="Polygon2D" parent="MainMenu/img/strejs"]
 position = Vector2( 96, 0 )
 color = Color( 0.341176, 0.65098, 1, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel9" type="Polygon2D" parent="img/strejs"]
-position = Vector2( 192, -64 )
-color = Color( 0.952941, 0.356863, 0.498039, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel10" type="Polygon2D" parent="img/strejs"]
+[node name="PolyPixel10" type="Polygon2D" parent="MainMenu/img/strejs"]
 position = Vector2( 384, -128 )
 color = Color( 0.341176, 0.65098, 1, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 12.8702, 32, 32, 0, 32 )
 
-[node name="PolyPixel11" type="Polygon2D" parent="img/strejs"]
+[node name="PolyPixel11" type="Polygon2D" parent="MainMenu/img/strejs"]
 position = Vector2( 64, 96 )
 color = Color( 0.341176, 0.65098, 1, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel12" type="Polygon2D" parent="img/strejs"]
+[node name="PolyPixel12" type="Polygon2D" parent="MainMenu/img/strejs"]
 position = Vector2( 384, 256 )
 color = Color( 0.368627, 1, 0.662745, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel6" type="Polygon2D" parent="img/strejs"]
+[node name="PolyPixel6" type="Polygon2D" parent="MainMenu/img/strejs"]
 position = Vector2( 256, 128 )
 color = Color( 0.996078, 0.976471, 0.545098, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel7" type="Polygon2D" parent="img/strejs"]
+[node name="PolyPixel7" type="Polygon2D" parent="MainMenu/img/strejs"]
 position = Vector2( -64, -32 )
 color = Color( 0.952941, 0.356863, 0.498039, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel13" type="Polygon2D" parent="img/strejs"]
+[node name="PolyPixel13" type="Polygon2D" parent="MainMenu/img/strejs"]
 position = Vector2( 480, 128 )
 color = Color( 0.341176, 0.65098, 1, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel14" type="Polygon2D" parent="img/strejs"]
+[node name="PolyPixel14" type="Polygon2D" parent="MainMenu/img/strejs"]
 position = Vector2( 128, 288 )
 color = Color( 0.996078, 0.976471, 0.545098, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel15" type="Polygon2D" parent="img/strejs"]
+[node name="PolyPixel15" type="Polygon2D" parent="MainMenu/img/strejs"]
 position = Vector2( 192, 64 )
 color = Color( 0.952941, 0.356863, 0.498039, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="strejs2" type="Node2D" parent="img"]
+[node name="strejs2" type="Node2D" parent="MainMenu/img"]
 modulate = Color( 1, 1, 1, 0.235294 )
 position = Vector2( -32, 0 )
-__meta__ = {
-"_edit_group_": true,
-"_edit_lock_": true
-}
 
-[node name="PolyPixel" type="Polygon2D" parent="img/strejs2"]
+[node name="PolyPixel" type="Polygon2D" parent="MainMenu/img/strejs2"]
 position = Vector2( 384, 96 )
 color = Color( 0.341176, 0.65098, 1, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel2" type="Polygon2D" parent="img/strejs2"]
+[node name="PolyPixel2" type="Polygon2D" parent="MainMenu/img/strejs2"]
 position = Vector2( 512, -64 )
 color = Color( 0.952941, 0.356863, 0.498039, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel3" type="Polygon2D" parent="img/strejs2"]
+[node name="PolyPixel3" type="Polygon2D" parent="MainMenu/img/strejs2"]
 position = Vector2( 448, 32 )
 color = Color( 0.996078, 0.976471, 0.545098, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel4" type="Polygon2D" parent="img/strejs2"]
+[node name="PolyPixel4" type="Polygon2D" parent="MainMenu/img/strejs2"]
 position = Vector2( -96, 160 )
 color = Color( 0.341176, 0.65098, 1, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel5" type="Polygon2D" parent="img/strejs2"]
+[node name="PolyPixel5" type="Polygon2D" parent="MainMenu/img/strejs2"]
 position = Vector2( 320, -32 )
 color = Color( 0.368627, 1, 0.662745, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel8" type="Polygon2D" parent="img/strejs2"]
+[node name="PolyPixel8" type="Polygon2D" parent="MainMenu/img/strejs2"]
 position = Vector2( 96, 0 )
 color = Color( 0.341176, 0.65098, 1, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel9" type="Polygon2D" parent="img/strejs2"]
-position = Vector2( 192, -64 )
-color = Color( 0.952941, 0.356863, 0.498039, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel10" type="Polygon2D" parent="img/strejs2"]
+[node name="PolyPixel10" type="Polygon2D" parent="MainMenu/img/strejs2"]
 position = Vector2( 384, -128 )
 color = Color( 0.341176, 0.65098, 1, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 12.8702, 32, 32, 0, 32 )
 
-[node name="PolyPixel11" type="Polygon2D" parent="img/strejs2"]
+[node name="PolyPixel11" type="Polygon2D" parent="MainMenu/img/strejs2"]
 position = Vector2( 96, 128 )
 color = Color( 0.341176, 0.65098, 1, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel12" type="Polygon2D" parent="img/strejs2"]
+[node name="PolyPixel12" type="Polygon2D" parent="MainMenu/img/strejs2"]
 position = Vector2( 448, 256 )
 color = Color( 0.368627, 1, 0.662745, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel6" type="Polygon2D" parent="img/strejs2"]
+[node name="PolyPixel6" type="Polygon2D" parent="MainMenu/img/strejs2"]
 position = Vector2( 288, 160 )
 color = Color( 0.996078, 0.976471, 0.545098, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel7" type="Polygon2D" parent="img/strejs2"]
+[node name="PolyPixel7" type="Polygon2D" parent="MainMenu/img/strejs2"]
 position = Vector2( -32, 0 )
 color = Color( 0.952941, 0.356863, 0.498039, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel13" type="Polygon2D" parent="img/strejs2"]
+[node name="PolyPixel13" type="Polygon2D" parent="MainMenu/img/strejs2"]
 position = Vector2( 512, 160 )
 color = Color( 0.341176, 0.65098, 1, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel14" type="Polygon2D" parent="img/strejs2"]
+[node name="PolyPixel14" type="Polygon2D" parent="MainMenu/img/strejs2"]
 position = Vector2( 128, 288 )
 color = Color( 0.996078, 0.976471, 0.545098, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel15" type="Polygon2D" parent="img/strejs2"]
+[node name="PolyPixel15" type="Polygon2D" parent="MainMenu/img/strejs2"]
 position = Vector2( 192, 64 )
 color = Color( 0.952941, 0.356863, 0.498039, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="strejs3" type="Node2D" parent="img"]
+[node name="strejs3" type="Node2D" parent="MainMenu/img"]
 modulate = Color( 1, 1, 1, 0.0784314 )
 position = Vector2( -64, 0 )
-__meta__ = {
-"_edit_group_": true,
-"_edit_lock_": true
-}
 
-[node name="PolyPixel" type="Polygon2D" parent="img/strejs3"]
+[node name="PolyPixel" type="Polygon2D" parent="MainMenu/img/strejs3"]
 position = Vector2( 384, 96 )
 color = Color( 0.341176, 0.65098, 1, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel2" type="Polygon2D" parent="img/strejs3"]
+[node name="PolyPixel2" type="Polygon2D" parent="MainMenu/img/strejs3"]
 position = Vector2( 512, -64 )
 color = Color( 0.952941, 0.356863, 0.498039, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel3" type="Polygon2D" parent="img/strejs3"]
+[node name="PolyPixel3" type="Polygon2D" parent="MainMenu/img/strejs3"]
 position = Vector2( 448, 32 )
 color = Color( 0.996078, 0.976471, 0.545098, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel4" type="Polygon2D" parent="img/strejs3"]
+[node name="PolyPixel4" type="Polygon2D" parent="MainMenu/img/strejs3"]
 position = Vector2( -96, 160 )
 color = Color( 0.341176, 0.65098, 1, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel5" type="Polygon2D" parent="img/strejs3"]
+[node name="PolyPixel5" type="Polygon2D" parent="MainMenu/img/strejs3"]
 position = Vector2( 320, -32 )
 color = Color( 0.368627, 1, 0.662745, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel8" type="Polygon2D" parent="img/strejs3"]
+[node name="PolyPixel8" type="Polygon2D" parent="MainMenu/img/strejs3"]
 position = Vector2( 96, 0 )
 color = Color( 0.341176, 0.65098, 1, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel9" type="Polygon2D" parent="img/strejs3"]
-position = Vector2( 192, -64 )
-color = Color( 0.952941, 0.356863, 0.498039, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel10" type="Polygon2D" parent="img/strejs3"]
+[node name="PolyPixel10" type="Polygon2D" parent="MainMenu/img/strejs3"]
 position = Vector2( 384, -128 )
 color = Color( 0.341176, 0.65098, 1, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 12.8702, 32, 32, 0, 32 )
 
-[node name="PolyPixel11" type="Polygon2D" parent="img/strejs3"]
+[node name="PolyPixel11" type="Polygon2D" parent="MainMenu/img/strejs3"]
 position = Vector2( 128, 160 )
 color = Color( 0.341176, 0.65098, 1, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel12" type="Polygon2D" parent="img/strejs3"]
+[node name="PolyPixel12" type="Polygon2D" parent="MainMenu/img/strejs3"]
 position = Vector2( 512, 256 )
 color = Color( 0.368627, 1, 0.662745, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel6" type="Polygon2D" parent="img/strejs3"]
+[node name="PolyPixel6" type="Polygon2D" parent="MainMenu/img/strejs3"]
 position = Vector2( 320, 192 )
 color = Color( 0.996078, 0.976471, 0.545098, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel7" type="Polygon2D" parent="img/strejs3"]
+[node name="PolyPixel7" type="Polygon2D" parent="MainMenu/img/strejs3"]
 position = Vector2( 0, 32 )
 color = Color( 0.952941, 0.356863, 0.498039, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel13" type="Polygon2D" parent="img/strejs3"]
+[node name="PolyPixel13" type="Polygon2D" parent="MainMenu/img/strejs3"]
 position = Vector2( 544, 192 )
 color = Color( 0.341176, 0.65098, 1, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel14" type="Polygon2D" parent="img/strejs3"]
+[node name="PolyPixel14" type="Polygon2D" parent="MainMenu/img/strejs3"]
 position = Vector2( 128, 288 )
 color = Color( 0.996078, 0.976471, 0.545098, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PolyPixel15" type="Polygon2D" parent="img/strejs3"]
+[node name="PolyPixel15" type="Polygon2D" parent="MainMenu/img/strejs3"]
 position = Vector2( 192, 64 )
 color = Color( 0.952941, 0.356863, 0.498039, 1 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="Pixel" type="Node2D" parent="img"]
+[node name="Pixel" type="Node2D" parent="MainMenu/img"]
 position = Vector2( -320, 96 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="PIxel" type="Polygon2D" parent="img/Pixel"]
+[node name="PIxel" type="Polygon2D" parent="MainMenu/img/Pixel"]
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PIxel2" type="Polygon2D" parent="img/Pixel"]
+[node name="PIxel2" type="Polygon2D" parent="MainMenu/img/Pixel"]
 modulate = Color( 1, 1, 1, 0.588235 )
 position = Vector2( -32, 0 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PIxel3" type="Polygon2D" parent="img/Pixel"]
+[node name="PIxel3" type="Polygon2D" parent="MainMenu/img/Pixel"]
 modulate = Color( 1, 1, 1, 0.392157 )
 position = Vector2( -64, 0 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
-[node name="PIxel4" type="Polygon2D" parent="img/Pixel"]
+[node name="PIxel4" type="Polygon2D" parent="MainMenu/img/Pixel"]
 modulate = Color( 1, 1, 1, 0.196078 )
 position = Vector2( -96, 0 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32, 0, 18.4241 )
 
-[node name="PIxel5" type="Polygon2D" parent="img/Pixel"]
+[node name="PIxel5" type="Polygon2D" parent="MainMenu/img/Pixel"]
 modulate = Color( 1, 1, 1, 0.0980392 )
 position = Vector2( -128, 0 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32, 0, 18.4241 )
 
-[node name="PIxel6" type="Polygon2D" parent="img/Pixel"]
+[node name="PIxel6" type="Polygon2D" parent="MainMenu/img/Pixel"]
 modulate = Color( 1, 1, 1, 0.0392157 )
 position = Vector2( -160, 0 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32, 0, 18.4241 )
+
+[node name="Menu" type="Control" parent="MainMenu"]
+margin_left = 926.0
+margin_top = 362.0
+margin_right = 1062.0
+margin_bottom = 416.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="PlayBtn" type="Button" parent="MainMenu/Menu"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -134.0
+margin_bottom = 63.0
+focus_mode = 1
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme = ExtResource( 4 )
+custom_colors/font_color = Color( 0.368627, 1, 0.662745, 1 )
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 131 )
+enabled_focus_mode = 1
+text = "PLAY"
+align = 2
+
+[node name="Title1" type="Label" parent="MainMenu"]
+modulate = Color( 1, 1, 1, 0.392157 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -568.0
+margin_top = 387.0
+margin_right = 12.0
+margin_bottom = 641.0
+custom_fonts/font = SubResource( 121 )
+text = "PIXEL"
+align = 1
+valign = 2
+
+[node name="Title2" type="Label" parent="MainMenu"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -162.0
+margin_top = 514.0
+margin_right = 598.0
+margin_bottom = 768.0
+custom_fonts/font = SubResource( 121 )
+text = "ASTRAY"
+align = 1
+valign = 2
+
+[node name="MenuEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 1 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/main_out = SubResource( 132 )
+
+[connection signal="pressed" from="MainMenu/Menu/PlayBtn" to="." method="_on_PlayBtn_pressed"]

@@ -73,7 +73,6 @@ var burst_activated: bool = false # zaenkrat nič ne vpliva
 var cell_size_x: int # pogreba od arene, ki jo dobi od tilemapa
 onready var floor_cells: Array = Global.game_manager.available_positions
 
-
 var new_tween: SceneTreeTween
 onready var collision_ray: RayCast2D = $RayCast2D
 onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -83,8 +82,8 @@ var pixel_color_sum: Color # suma barv za picla
 onready var detect_area: Area2D = $DetectArea
 
 onready var PixelGhost = preload("res://scenes/PixelGhost.tscn")
-onready var picked_color_rect: ColorRect = $"../HudLayer/HudControl/PickedColor/ColorBox/ColorRect"
-onready var picked_color_value: Label = $"../HudLayer/HudControl/PickedColor/Value"
+#onready var picked_color_rect: ColorRect = $"../HudLayer/HudControl/PickedColor/ColorBox/ColorRect"
+#onready var picked_color_value_label: Label = $"../HudLayer/HudControl/PickedColor/Value"
 #onready var player_color_label: Label = $"../HudLayer/HudControl/ColorSum/Value"
 
 
@@ -558,6 +557,10 @@ func teleport(teleport_direction):
 	Global.node_creation_parent.add_child(new_pixel_ghost)
 	new_pixel_ghost.connect("ghost_target_reached", self, "_on_ghost_target_reached")
 	
+		
+	# camera target
+	Global.camera_target = new_pixel_ghost
+	
 	# zaključek v signalu _on_ghost_target_reached
 
 	
@@ -634,23 +637,25 @@ func _on_ghost_target_reached(ghost_body, ghost_position):
 	detect_area.monitoring = false
 	
 	new_tween = get_tree().create_tween()
+	
 	new_tween.tween_property(self, "modulate:a", 0, ghost_fade_time)
 	new_tween.tween_property(self, "global_position", ghost_position, 0.1)
+	# camera follow reset
+	new_tween.tween_property(Global, "camera_target", self, 0.1)
 	new_tween.tween_callback(self, "_change_state", [States.WHITE])
 	new_tween.parallel().tween_callback(self, "snap_to_nearest_grid")
 	new_tween.parallel().tween_callback(ghost_body, "fade_out")
 
-		
+
 func _on_ghost_detected_body(body):
 	
 	if body != self:
 		cocking_room = false
-		print("jp")
 
 
 func _on_DetectArea_body_entered(body: Node) -> void:
 	
-	
+		
 	# pobiranje  barv 
 	if skill_activated: # če ni tega, se že na začetku izvede ... lahko bolje
 		speed = 0 # more bit tukaj pred _change state, če ne uničuje tudi sam sebe
@@ -658,23 +663,36 @@ func _on_DetectArea_body_entered(body: Node) -> void:
 		burst_activated = false
 		_change_state(States.WHITE)
 		snap_to_nearest_grid()
-	
+		
+#		if body.is_in_group(Config.group_tilemap):
+			
+		#žrebam animacijo
+#		var random_animation_index = randi() % 3 + 1
+#		var random_animation_name: String = "glitch_%s" % random_animation_index
+#		animation_player.play(random_animation_name)
+		
+		# animiram glow
+		
 		if body.is_in_group(Config.group_pixels):
 			
 			# pobrana barva pixla
 			var picked_color = body.modulate
 			 
-			# v hud
-#			picked_color_rect.visible = true
-			picked_color_rect.color = picked_color
-			picked_color_value.text = str(round(255 * picked_color.r)) + " " + str(round(255 * picked_color.g)) + " " + str(round(255 * picked_color.b))
-#			picked_color_value.visible = true
-			
 			# skupna barva
 			pixel_color_sum = pixel_color + picked_color
 				
 			pixel_color = picked_color
-			Global.game_manager.erase_color_indicator(picked_color)
+			Global.hud.new_picked_color = picked_color
+			
+			var glow_adon: float = 0.5
+			print(pixel_color)
+			new_tween = get_tree().create_tween()
+			new_tween.tween_property(self, "pixel_color.r", pixel_color.r + glow_adon, 1)
+			new_tween.paralell().tween_property(self, "pixel_color.g", pixel_color.g + glow_adon, 1)
+			new_tween.paralell().tween_property(self, "pixel_color.b", pixel_color.b + glow_adon, 1)
+			pixel_color = Color(pixel_color.r + glow_adon, pixel_color.g + glow_adon, pixel_color.b + glow_adon)
+			print(pixel_color)
+			
 		
 			# stray disabled
 			body.die()

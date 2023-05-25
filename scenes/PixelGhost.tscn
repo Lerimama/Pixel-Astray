@@ -6,7 +6,6 @@
 extents = Vector2( 12, 12 )
 
 [node name="PixelGhost" type="Area2D"]
-z_index = -1
 script = ExtResource( 2 )
 __meta__ = {
 "_editor_description_": ""

@@ -1,9 +1,9 @@
 [gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://assets/arena/arena_colors_texture.gdshader" type="Shader" id=1]
+[ext_resource path="res://scripts/GB_Home.gd" type="Script" id=2]
 [ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=3]
 [ext_resource path="res://assets/theme/gamer_menu_font.tres" type="DynamicFont" id=5]
-[ext_resource path="res://scripts/Home.gd" type="Script" id=6]
 [ext_resource path="res://_materiali/tileset_pallete.png" type="Texture" id=7]
 
 [sub_resource type="ShaderMaterial" id=775]
@@ -590,7 +590,7 @@ tracks/3/keys = {
 }
 
 [node name="Home" type="Node"]
-script = ExtResource( 6 )
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_vertical_guides_": [ 225.0 ]
 }
