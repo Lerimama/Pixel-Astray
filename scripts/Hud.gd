@@ -101,32 +101,33 @@ func erase_color_indicator(erase_color):
 	for indicator in color_indicators:
 		if indicator.color == erase_color:
 #			indicator.queue_free()
-			indicator.modulate = Color.black
+#			indicator.modulate = Color.black
 			black_indicator_index = color_indicators.find(indicator)
-#			indicator.modulate.a = 0
+			indicator.modulate.a = 0
 
 			# setamo available colors 
 			break
 
-	black_indicator_index = color_indicators.find(erase_color)
-	color_indicators[black_indicator_index].modulate = Color.black
-
-	var next_indicator_index: int = black_indicator_index - 1
-	var prev_indicator_index: int = black_indicator_index + 1
-	
-	printt("indicator_available:", prev_indicator_index, black_indicator_index, next_indicator_index)
-	printt("size:", color_indicators.size())
-	
-	if black_indicator_index == 0:		
-		color_indicators[next_indicator_index].modulate.a = 0.2
-	elif black_indicator_index == color_indicators.size():		
-		color_indicators[prev_indicator_index].modulate.a = 0.2
-#		color_indicators.erase(indicator)
-	elif black_indicator_index > 0 and black_indicator_index < (color_indicators.size() - 1):
-		color_indicators[next_indicator_index].modulate.a = 0.2
-		color_indicators[prev_indicator_index].modulate.a = 0.2
+#	black_indicator_index = color_indicators.find(erase_color)
+#	color_indicators[black_indicator_index].modulate = Color.black
+#
+#	var next_indicator_index: int = black_indicator_index - 1
+#	var prev_indicator_index: int = black_indicator_index + 1
+#
+#	printt("indicator_available:", prev_indicator_index, black_indicator_index, next_indicator_index)
+#	printt("size:", color_indicators.size())
+#
+#	if black_indicator_index == 0:		
+#		color_indicators[next_indicator_index].modulate.a = 0.2
+#	elif black_indicator_index == color_indicators.size():		
+#		color_indicators[prev_indicator_index].modulate.a = 0.2
+##		color_indicators.erase(indicator)
+#	elif black_indicator_index > 0 and black_indicator_index < (color_indicators.size() - 1):
+#		color_indicators[next_indicator_index].modulate.a = 0.2
+#		color_indicators[prev_indicator_index].modulate.a = 0.2
 	
 	color_indicators.erase(color_indicators[black_indicator_index])
+
 
 func erase_all_indicators():
 	if not color_indicators.empty():

@@ -1,39 +1,13 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scripts/Pixel.gd" type="Script" id=1]
+[ext_resource path="res://assets/light_texture.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=116]
 extents = Vector2( 16.421, 16.421 )
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
-
-[sub_resource type="Animation" id=114]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 496, 304 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
-}
 
 [sub_resource type="Animation" id=122]
 resource_name = "die"
@@ -221,6 +195,10 @@ tracks/1/keys = {
 } ]
 }
 
+[sub_resource type="OccluderPolygon2D" id=123]
+cull_mode = 1
+polygon = PoolVector2Array( -17, -16, -17, 16, 15, 16, 15, -16 )
+
 [node name="Pixel" type="KinematicBody2D"]
 position = Vector2( 496, 304 )
 script = ExtResource( 1 )
@@ -230,23 +208,26 @@ position = Vector2( -16, -16 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
 [node name="DetectArea" type="Area2D" parent="."]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectArea"]
 scale = Vector2( 0.95, 0.95 )
 shape = SubResource( 116 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 scale = Vector2( 0.95, 0.95 )
 shape = SubResource( 1 )
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
+[node name="FrontRay" type="RayCast2D" parent="."]
 enabled = true
 cast_to = Vector2( 32, 0 )
 
+[node name="RearRay" type="RayCast2D" parent="."]
+visible = false
+position = Vector2( 0, -16 )
+enabled = true
+cast_to = Vector2( -32, 0 )
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/RESET = SubResource( 114 )
 anims/die = SubResource( 122 )
 anims/glitch_1 = SubResource( 118 )
 anims/glitch_2 = SubResource( 119 )
@@ -254,46 +235,22 @@ anims/glitch_3 = SubResource( 120 )
 anims/light_out = SubResource( 121 )
 anims/light_out_long = SubResource( 117 )
 
-[node name="PolyBroken" type="Polygon2D" parent="."]
+[node name="Light2D" type="Light2D" parent="."]
+position = Vector2( 1, 0 )
+enabled = false
+texture = ExtResource( 2 )
+energy = 1.97
+shadow_enabled = true
+shadow_color = Color( 1, 1, 1, 0 )
+shadow_filter_smooth = 26.5
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+position = Vector2( 1, 0 )
+occluder = SubResource( 123 )
+
+[node name="PolyPixel2" type="Polygon2D" parent="LightOccluder2D"]
 visible = false
-position = Vector2( -16.9589, -16.9171 )
-scale = Vector2( 1.05, 1.05 )
-polygon = PoolVector2Array( 0.458435, 0.536713, 11.5596, 0.304047, 7.57336, 6.78525, 0.6, 11 )
-
-[node name="PolyPixel3" type="Polygon2D" parent="PolyBroken"]
-polygon = PoolVector2Array( 22.793, 2.42374, 13.6056, 8.82706, 13.9456, 11.735, 19.8541, 14.7043, 22.2672, 6.3833 )
-
-[node name="PolyPixel13" type="Polygon2D" parent="PolyBroken"]
-polygon = PoolVector2Array( 23.0403, 1.46475, 12.1515, 0.784149, 8.5, 7, 11.5637, 9.50775 )
-
-[node name="PolyPixel4" type="Polygon2D" parent="PolyBroken"]
-polygon = PoolVector2Array( 23.69, 0.877136, 31.7636, 0.784149, 31.176, 10.8379, 27.4639, 6.87848, 23.0095, 6.44513 )
-
-[node name="PolyPixel5" type="Polygon2D" parent="PolyBroken"]
-polygon = PoolVector2Array( 14.8428, 23.2116, 24.9518, 23.843, 26.9692, 22.005, 27.402, 15.4777, 20.2255, 15.5084 )
-
-[node name="PolyPixel10" type="Polygon2D" parent="PolyBroken"]
-polygon = PoolVector2Array( 12.1208, 24.1389, 25.0819, 24.6342, 19.1735, 27.6039, 18.6785, 30.9759, 5.99561, 31.1306 )
-
-[node name="PolyPixel11" type="Polygon2D" parent="PolyBroken"]
-polygon = PoolVector2Array( 31.7636, 28.532, 26.3505, 24.7581, 20, 28, 19.2663, 31.5018, 31.3615, 31.9966 )
-
-[node name="PolyPixel7" type="Polygon2D" parent="PolyBroken"]
-polygon = PoolVector2Array( 4.35632, 19.623, 11.3165, 20.7676, 19.6377, 15.3537, 13.4408, 12.3346, 2.15991, 15.9729, 1.67443, 17.3678 )
-
-[node name="PolyPixel9" type="Polygon2D" parent="PolyBroken"]
-polygon = PoolVector2Array( 0.736816, 15.8801, 12.8632, 11.92, 8.0993, 7.46552, 1.20087, 11.5803 )
-
-[node name="PolyPixel8" type="Polygon2D" parent="PolyBroken"]
-polygon = PoolVector2Array( 3.98492, 20.087, 11.5947, 23.3041, 4.44897, 31.7182, 0.55127, 31.5945, 1.23181, 18.2002 )
-
-[node name="PolyPixel14" type="Polygon2D" parent="PolyBroken"]
-polygon = PoolVector2Array( 18.6166, 16.6845, 13.8528, 23.2735, 10.2335, 22.1289 )
-
-[node name="PolyPixel6" type="Polygon2D" parent="PolyBroken"]
-polygon = PoolVector2Array( 31.4543, 27.0782, 27.4641, 24.7581, 27.9899, 15.2609, 31.145, 12.3536 )
-
-[node name="PolyPixel12" type="Polygon2D" parent="PolyBroken"]
-polygon = PoolVector2Array( 30.9285, 11.5805, 27.6185, 14.7357, 20.5967, 14.8901, 23.0405, 7.15665, 27.2164, 7.4353 )
+position = Vector2( -17, -16 )
+polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
 [connection signal="body_entered" from="DetectArea" to="." method="_on_DetectArea_body_entered"]

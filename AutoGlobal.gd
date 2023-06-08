@@ -9,6 +9,7 @@ var color_indicator_parent = null # za barve v hudu
 var camera_target = null
 var player_camera = null
 var hud = null
+var gameover_menu = null
 var level_start_position = null
 
 

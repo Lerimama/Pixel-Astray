@@ -12,13 +12,13 @@ size = 79
 extra_spacing_char = 3
 font_data = SubResource( 1 )
 
-[sub_resource type="DynamicFontData" id=120]
+[sub_resource type="DynamicFontData" id=133]
 font_path = "res://assets/theme/Gamer.ttf"
 
 [sub_resource type="DynamicFont" id=121]
 size = 320
 extra_spacing_char = -12
-font_data = SubResource( 120 )
+font_data = SubResource( 133 )
 
 [sub_resource type="Animation" id=132]
 resource_name = "main_out"

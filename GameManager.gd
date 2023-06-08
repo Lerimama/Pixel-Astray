@@ -2,6 +2,10 @@ extends Node
 
 
 export var strays_count: int = 14
+export var game_time_limit: float = 1
+export var black_pixel_points = 10
+export var skill_change_points = - 3
+export var cell_travel_points = - 1
 
 # states
 var game_is_on: bool = false
@@ -30,8 +34,7 @@ onready var tilemap_floor_cells: Array
 onready var StrayPixel = preload("res://scenes/Pixel.tscn")
 onready var PlayerPixel = preload("res://scenes/Pixel.tscn")
 onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
-
-
+onready var start_position: Position2D = $"../StartPosition"
 
 # _temp ... pripnem spawnanega, potem se bo vleklo glede na kolizijo ... lahko tudi enumse uporabiš
 # ni _temp ... je tarča kamere
@@ -40,25 +43,15 @@ var P2: Node2D
 var P1_name: String = "P1"
 var P2_name: String = "P2"
 
-var game_time_limit: float = 3
-
-export var black_pixel_points = 10
-export var skill_change_points = - 3
-export var cell_travel_points = - 1
-
-
-onready var start_position: Position2D = $"../StartPosition"
-
-
 
 func _unhandled_input(event: InputEvent) -> void:
 
 	if Input.is_action_just_pressed("no1"):
 		spawn_player_pixel()
-	if Input.is_action_just_pressed("no2"):
-		split_colors(strays_count/2)
-	if Input.is_action_just_pressed("no3"):
-		split_colors(strays_count)
+#	if Input.is_action_just_pressed("no2"):
+#		split_colors(strays_count/2)
+#	if Input.is_action_just_pressed("no3"):
+#		split_colors(strays_count)
 	if Input.is_action_just_pressed("r"):
 		restart_game()
 
@@ -74,7 +67,6 @@ func _ready() -> void:
 	# štartej igro
 	animation_player.play("arena_in")
 	hud.visible = false
-	pass
 	
 	
 func _process(delta: float) -> void:
@@ -121,11 +113,6 @@ func spawn_player_pixel():
 		new_player_stats = Profiles.default_player_stats.duplicate()
 		new_player_stats["player_active"] = true
 		
-		# centriram kamero
-#		Global.player_camera.drag_margin_top = 0
-#		Global.player_camera.drag_margin_bottom = 0
-#		Global.player_camera.drag_margin_left = 0
-#		Global.player_camera.drag_margin_right = 0
 		# camera target
 		Global.camera_target = new_player_pixel
 		Global.player_camera.reset_camera_position()
@@ -152,9 +139,8 @@ func spawn_stray_pixel(stray_color):
 		new_stray_pixel.global_position = available_positions[selected_cell_index] + grid_cell_size/2 # ... ne rabim snepat ker se v pixlu na redi funkciji
 		
 		# obarvajmo ga ...
-#		var hdr_luminance: float = 0.5
-#		stray_color = Color(stray_color.r + hdr_luminance, stray_color.g + hdr_luminance, stray_color.r + hdr_luminance)
 		new_stray_pixel.modulate = stray_color
+		new_stray_pixel.add_to_group(Config.group_pixels)
 		
 		#spawn
 		Global.node_creation_parent.add_child(new_stray_pixel)
@@ -168,16 +154,6 @@ func spawn_stray_pixel(stray_color):
 		# v hud 
 		new_game_stats["stray_pixels"] += 1
 	
-	
-#func spawn_color_indicator(position_x,selected_color_position_y, selected_color):
-#
-#	var new_color_indicator = ColorIndicator.instance()
-#	new_color_indicator.rect_position.x = position_x
-#	new_color_indicator.rect_position.y = selected_color_position_y
-#	new_color_indicator.color = selected_color
-#	indicator_holder.add_child(new_color_indicator)
-#	color_indicators.append(new_color_indicator)
-
 
 func split_colors(color_count):
 	
@@ -212,43 +188,42 @@ func split_colors(color_count):
 		loop_count += 1
 
 
-#func erase_color_indicator(picked_pixel_color):
-#
-#	for indicator in color_indicators:
-#		if indicator.color == picked_pixel_color:
-##			indicator.queue_free()
-##			color_indicators.erase(indicator)
-#			indicator.modulate = Color.black
-#			break
-
-
 # GAME LOOP ----------------------------------------------------------------------------------
 
 
 func start_game():
 	
-	hud.visible = true
-	hud.modulate.a = 1
-	
+	# pogrebamo profil statsov igre
+	new_game_stats = Profiles.default_game_stats.duplicate()
 	hud.start_game_time = game_time_limit
 	game_is_on = true
 	
+	hud.visible = true
+	hud.modulate.a = 1
+	
+	
+	
+	
 	# spawnam plejerja
 	spawn_player_pixel()
-	
-	# pogrebamo profil statsov igre
-	new_game_stats = Profiles.default_game_stats.duplicate()
+	split_colors(strays_count)
 
 	
 func end_game():
 	
-	hud.visible = false
-	
-#	return		
-	
-	# game ni štartan
+	if not players_in_game.empty():
+		for player in players_in_game:
+			player.set_physics_process(false)
 	game_is_on = false
 	deathmode_on =  false
+	
+	yield(get_tree().create_timer(1), "timeout")
+	
+	# gameover in podamo mu skor
+	Global.gameover_menu.fade_in(new_game_stats["player_points"])
+	
+	# kamera target
+	Global.camera_target = null
 	
 	# zbrišem pixle in indikatorje v hudu
 	if not strays_in_game.empty():
@@ -261,13 +236,18 @@ func end_game():
 		for player in players_in_game:
 			player.queue_free()
 	
+	hud.visible = false
+	
+	# game ni štartan
+	
 	# tarča kamere je null
 	
 	# statistika igre se restira ob reštartu, ko povleče podatke iz default profila
 	# statistika plejerja se restira ob spawnanju plejerja, ko povleče podatke iz default profila
 
 	spawned_stray_index = 0 
-	
+	spawned_player_index = 0
+
 	
 func restart_game():
 	
@@ -324,26 +304,6 @@ func _on_stat_changed(stat_owner, changed_stat, new_stat_value):
 			if new_game_stats["player_points"] > 0:
 				new_game_stats["player_points"] += skill_change_points
 				
-#		"player_life": 
-#			new_game_stats["player_life"] += new_stat_value
-#			if new_game_stats["player_life"] > 0:
-#				spawn_player_pixel("Moe")
-#
-#			# reset player stats (nekatere) 
-#			new_player_stats["cells_travelled"] = 0
-#			new_player_stats["skill_change_count"] = 0
-#			# pa picked color dej na črno
-#
-#			# če ni več lajfa
-#			if new_game_stats["player_life"] <= 0:
-##				printt("_temp", "GAME OVER")
-#				pass
-#		"black_pixels": 
-#			new_game_stats["black_pixels"] += new_stat_value
-#			new_game_stats["stray_pixels"] -= new_stat_value
-#			# točke
-#			new_game_stats["player_points"] += black_pixel_points
-		
 		
 	# disable moving
 	if new_game_stats["player_points"] <= 0:
@@ -362,7 +322,3 @@ func _on_RestartBtn_pressed() -> void:
 #	Global.switch_to_scene("res://scenes/arena/Home.tscn")
 	pass
 
-
-func _on_AnimationPlayer_animation_finished(arena_in) -> void:
-	start_game()
-	pass # Replace with function body.
