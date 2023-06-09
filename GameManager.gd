@@ -1,7 +1,7 @@
 extends Node
 
 
-export var strays_count: int = 5
+export var strays_count: int = 100
 export var game_time_limit: float = 1
 export var black_pixel_points = 10
 export var skill_change_points = - 3
@@ -25,12 +25,11 @@ var new_game_stats: Dictionary
 
 # tilemap
 var available_floor_positions: Array # po signalu ob kreaciji tilemapa ... tukaj, da ga lahko grebam do zunaj
-#var tilemap_cell_size: Vector2 # po signalu ob kreaciji tilemapa ... tukaj, da ga lahko grebam do zunaj
-#var tilemap_grid_size: Vector2 # po signalu ob kreaciji tilemapa ... tukaj, da ga lahko grebam do zunaj
 
 # color spliting	
-onready var spectrum_rect: TextureRect = $Spectrum
 var color_indicator_width: float = 12 # ročno setaj pravilno
+onready var spectrum_rect: TextureRect = $Spectrum
+
 
 onready var hud: Control = Global.hud
 onready var tilemap_floor_cells: Array
@@ -57,7 +56,7 @@ func _unhandled_input(event: InputEvent) -> void:
 #	if Input.is_action_just_pressed("no3"):
 #		split_colors(strays_count)
 	if Input.is_action_just_pressed("r"):
-		restart_game()
+		end_game()
 
 
 func _ready() -> void:
@@ -71,11 +70,10 @@ func _ready() -> void:
 	# štartej igro
 	animation_player.play("arena_in")
 	hud.visible = false
-	
 
 	
 func _process(delta: float) -> void:
-#	print(pause_on)
+	
 	players_in_game = get_tree().get_nodes_in_group(Config.group_players)
 	strays_in_game = get_tree().get_nodes_in_group(Config.group_pixels)
 	
@@ -127,6 +125,7 @@ func spawn_player_pixel():
 		# _temp
 		P1 = new_player_pixel	
 		
+		# premik kamere na štartu
 		yield(get_tree().create_timer(1), "timeout")
 		Global.player_camera.drag_margin_top = 0.2
 		Global.player_camera.drag_margin_bottom = 0.2
@@ -205,18 +204,16 @@ func start_game():
 	
 	# pogrebamo profil statsov igre
 	new_game_stats = Profiles.default_game_stats.duplicate()
-	hud.start_game_time = game_time_limit
-	game_is_on = true
 	
-	hud.visible = true
-	hud.modulate.a = 1
-	
-	
-	
-	
-	# spawnam plejerja
+	# spawnam plejerja in pixle
 	spawn_player_pixel()
 	split_colors(strays_count)
+	
+	# štart igre
+	hud.start_game_time = game_time_limit
+	game_is_on = true
+	hud.visible = true
+	hud.modulate.a = 1
 
 	
 func end_game():

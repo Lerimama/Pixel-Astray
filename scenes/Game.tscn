@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Arena.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/PauseMenu.tscn" type="PackedScene" id=2]
@@ -10,7 +10,6 @@
 [ext_resource path="res://assets/theme/gamer_menu_font.tres" type="DynamicFont" id=8]
 [ext_resource path="res://scripts/GameTime.gd" type="Script" id=9]
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=10]
-[ext_resource path="res://assets/arena_environment.tres" type="Environment" id=11]
 [ext_resource path="res://scripts/GameOver.gd" type="Script" id=12]
 [ext_resource path="res://_materiali/PixelAstray_design_game.png" type="Texture" id=13]
 
@@ -23,7 +22,6 @@ extra_spacing_char = -12
 font_data = SubResource( 120 )
 
 [sub_resource type="World" id=117]
-environment = ExtResource( 11 )
 
 [node name="Game" type="Node"]
 script = ExtResource( 5 )

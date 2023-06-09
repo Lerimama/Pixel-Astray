@@ -104,11 +104,12 @@ func erase_color_indicator(erase_color):
 	for indicator in active_color_indicators:
 		if indicator.color == erase_color:
 			current_indicator_index = active_color_indicators.find(indicator)
-			indicator.self_modulate.a = 0
-			indicator.get_node("Line").visible = true
-			break
-	
-	
+			indicator.modulate.a = 0
+#			indicator.self_modulate.a = 0
+#			indicator.get_node("Line").visible = true
+#			break
+		else:
+			indicator.modulate.a = 0.5
 	# opredelitev sosedov glede na položaj pobrane barve
 	if active_color_indicators.size() == 1: # če je samo še en indikator, nima sosedov	
 		return
@@ -117,23 +118,29 @@ func erase_color_indicator(erase_color):
 	var next_indicator_index: int = current_indicator_index + 1
 	var prev_indicator_index: int = current_indicator_index - 1
 	
+#	for indicator in active_color_indicators:
+		
 	# na začetku živih indikatorjev 
 	if current_indicator_index == 0:		
-		active_color_indicators[next_indicator_index].get_node("Line").visible = true
+#		active_color_indicators[next_indicator_index].get_node("Line").visible = true
+		active_color_indicators[next_indicator_index].modulate.a = 1
 		# pošljem sosednje barve v GM
 		Global.game_manager.colors_to_pick = [active_color_indicators[next_indicator_index].color]
 	# na koncu živih indikatorjev
 	elif current_indicator_index == active_color_indicators.size() - 1: # ker je index vedno eno manjši	
-		active_color_indicators[prev_indicator_index].get_node("Line").visible = true
+#		active_color_indicators[prev_indicator_index].get_node("Line").visible = true
+		active_color_indicators[prev_indicator_index].modulate.a = 1
 		# pošljem sosednje barve v GM
 		Global.game_manager.colors_to_pick = [active_color_indicators[prev_indicator_index].color]
 	# povsod vmes med živimi indikatorji
 	elif current_indicator_index > 0 and current_indicator_index < (active_color_indicators.size() - 1):
-		active_color_indicators[next_indicator_index].get_node("Line").visible = true
-		active_color_indicators[prev_indicator_index].get_node("Line").visible = true
+#		active_color_indicators[next_indicator_index].get_node("Line").visible = true
+#		active_color_indicators[prev_indicator_index].get_node("Line").visible = true
+		active_color_indicators[next_indicator_index].modulate.a = 1
+		active_color_indicators[prev_indicator_index].modulate.a = 1
 		# pošljem sosednje barve v GM
 		Global.game_manager.colors_to_pick = [active_color_indicators[prev_indicator_index].color, active_color_indicators[next_indicator_index].color]
-	
+		
 	# izbris iz arraya živih indikatorjev
 	active_color_indicators.erase(active_color_indicators[current_indicator_index])
 
