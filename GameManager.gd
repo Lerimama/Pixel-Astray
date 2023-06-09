@@ -1,11 +1,13 @@
 extends Node
 
 
-export var strays_count: int = 14
+export var strays_count: int = 5
 export var game_time_limit: float = 1
 export var black_pixel_points = 10
 export var skill_change_points = - 3
 export var cell_travel_points = - 1
+
+export var pick_neighbour_mode = false
 
 # states
 var game_is_on: bool = false
@@ -22,8 +24,9 @@ var new_player_stats: Dictionary
 var new_game_stats: Dictionary
 
 # tilemap
-var available_positions: Array = [] # definiran tukaj, da ga lahko grebam do zunaj
-var grid_cell_size: Vector2 # definiran tukaj, da ga lahko grebam do zunaj
+var available_floor_positions: Array # po signalu ob kreaciji tilemapa ... tukaj, da ga lahko grebam do zunaj
+#var tilemap_cell_size: Vector2 # po signalu ob kreaciji tilemapa ... tukaj, da ga lahko grebam do zunaj
+#var tilemap_grid_size: Vector2 # po signalu ob kreaciji tilemapa ... tukaj, da ga lahko grebam do zunaj
 
 # color spliting	
 onready var spectrum_rect: TextureRect = $Spectrum
@@ -43,6 +46,7 @@ var P2: Node2D
 var P1_name: String = "P1"
 var P2_name: String = "P2"
 
+var colors_to_pick: Array
 
 func _unhandled_input(event: InputEvent) -> void:
 
@@ -68,6 +72,7 @@ func _ready() -> void:
 	animation_player.play("arena_in")
 	hud.visible = false
 	
+
 	
 func _process(delta: float) -> void:
 #	print(pause_on)
@@ -80,22 +85,25 @@ func _process(delta: float) -> void:
 
 func spawn_player_pixel():
 	
-#	if not available_positions.empty():
+#	if not available_floor_positions.empty():
 		
 		spawned_player_index += 1
 		
 		# instance
 		var new_player_pixel = PlayerPixel.instance()
 		
-		# žrebanje pozicije
-		var selected_cell_index: int = Global.get_random_member_index(available_positions, 0)
-#		new_player_pixel.global_position = available_positions[selected_cell_index] # + grid_cell_size/2 ... ne rabim snepat ker se v pixlu na redi funkciji
+		# random grid pozicija
+#		var random_range = available_floor_positions.size()
+#		var selected_cell_index: int = randi() % int(random_range) # + offset
+#		new_player_pixel.global_position = available_floor_positions[selected_cell_index] # + grid_cell_size/2 ... ne rabim snepat ker se v pixlu na redi funkciji?
+		
 		new_player_pixel.global_position = start_position.global_position # + grid_cell_size/2 ... ne rabim snepat ker se v pixlu na redi funkciji
+		new_player_pixel.pixel_color = Config.color_white
 		
 		# ta pixel je plejer in ne računalnik
 		new_player_pixel.pixel_is_player = true
 		new_player_pixel.add_to_group(Config.group_players)
-		
+
 		# ime
 		var spawned_player_name = "P%s" % str(spawned_player_index)
 		new_player_pixel.name = spawned_player_name
@@ -107,7 +115,7 @@ func spawn_player_pixel():
 		new_player_pixel.connect("stat_changed", self, "_on_stat_changed")
 		
 		# odstranim uporabljeno celico
-#		available_positions.remove(selected_cell_index)	
+#		available_floor_positions.remove(selected_cell_index)	
 		
 		# ustvarimo plejerjev profil in plejerja aktiviramo (hud mora vedet)
 		new_player_stats = Profiles.default_player_stats.duplicate()
@@ -128,18 +136,20 @@ func spawn_player_pixel():
 		
 func spawn_stray_pixel(stray_color):
 	
-#	if not available_positions.empty():	
+#	if not available_floor_positions.empty():	
 		
 		spawned_stray_index += 1
 
 		# instance
 		var new_stray_pixel = StrayPixel.instance()
-		# žrebanje pozicije
-		var selected_cell_index: int = Global.get_random_member_index(available_positions, 0)
-		new_stray_pixel.global_position = available_positions[selected_cell_index] + grid_cell_size/2 # ... ne rabim snepat ker se v pixlu na redi funkciji
+		
+		# random grid pozicija
+		var random_range = available_floor_positions.size()
+		var selected_cell_index: int = randi() % int(random_range) # + offset
+		new_stray_pixel.global_position = available_floor_positions[selected_cell_index] # + grid_cell_size/2
 		
 		# obarvajmo ga ...
-		new_stray_pixel.modulate = stray_color
+		new_stray_pixel.pixel_color = stray_color
 		new_stray_pixel.add_to_group(Config.group_pixels)
 		
 		#spawn
@@ -149,7 +159,7 @@ func spawn_stray_pixel(stray_color):
 		new_stray_pixel.connect("stat_changed", self, "_on_stat_changed")			
 		
 		# odstranim uporabljeno pozicijo
-		available_positions.remove(selected_cell_index)		
+		available_floor_positions.remove(selected_cell_index)		
 		
 		# v hud 
 		new_game_stats["stray_pixels"] += 1
@@ -259,10 +269,9 @@ func restart_game():
 # SIGNALI ----------------------------------------------------------------------------------
 
 
-func _on_FloorMap_floor_completed(cells_global_positions, cell_size) -> void:
+func _on_FloorMap_floor_completed(floor_cells_global_positions: Array) -> void:
 
-	available_positions = cells_global_positions 
-	grid_cell_size = cell_size
+	available_floor_positions = floor_cells_global_positions 
 
 
 func _on_stat_changed(stat_owner, changed_stat, new_stat_value):

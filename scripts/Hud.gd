@@ -24,7 +24,7 @@ onready var picked_color_label: Label = $PickedColor/Value
 # spektrum
 onready var color_spectrum: VBoxContainer = $ColorSpectrum
 var color_indicator_width: float = 12 # ročno setaj pravilno
-var color_indicators: Array = []
+var active_color_indicators: Array = []
 onready var ColorIndicator: PackedScene = preload("res://scenes/ColorIndicator.tscn")
 onready var indicator_holder: HBoxContainer = $ColorSpectrumLite/IndicatorHolder
 
@@ -73,16 +73,20 @@ func _process(delta: float) -> void:
 		
 
 func spawn_color_indicator(position_x,selected_color_position_y, selected_color): 
+# ukaz pride iz GM
 
-# ukaz ob spawnanju iz GM
 	var new_color_indicator = ColorIndicator.instance()
 	new_color_indicator.rect_position.x = position_x
 	new_color_indicator.rect_position.y = selected_color_position_y
 	new_color_indicator.color = selected_color
 	indicator_holder.add_child(new_color_indicator)
-	color_indicators.append(new_color_indicator)
-
-
+	active_color_indicators.append(new_color_indicator)
+	
+	# _debug ... zapis indexa ... invisible
+	var indicator_index = active_color_indicators.find(new_color_indicator)
+	new_color_indicator.get_node("Label").text = str(indicator_index)
+	
+	
 func _start_timing(start_time):
 	game_time.restart_timer(start_time)
 
@@ -95,45 +99,51 @@ func _new_color_picked(picked_pixel_color):
 	
 func erase_color_indicator(erase_color):
 	
-	var black_indicator_index: int
-
-	
-	for indicator in color_indicators:
+	# index indikatorja pobrane barve (prepoznan po enaki barvi)
+	var current_indicator_index: int
+	for indicator in active_color_indicators:
 		if indicator.color == erase_color:
-#			indicator.queue_free()
-#			indicator.modulate = Color.black
-			black_indicator_index = color_indicators.find(indicator)
-			indicator.modulate.a = 0
-
-			# setamo available colors 
+			current_indicator_index = active_color_indicators.find(indicator)
+			indicator.self_modulate.a = 0
+			indicator.get_node("Line").visible = true
 			break
-
-#	black_indicator_index = color_indicators.find(erase_color)
-#	color_indicators[black_indicator_index].modulate = Color.black
-#
-#	var next_indicator_index: int = black_indicator_index - 1
-#	var prev_indicator_index: int = black_indicator_index + 1
-#
-#	printt("indicator_available:", prev_indicator_index, black_indicator_index, next_indicator_index)
-#	printt("size:", color_indicators.size())
-#
-#	if black_indicator_index == 0:		
-#		color_indicators[next_indicator_index].modulate.a = 0.2
-#	elif black_indicator_index == color_indicators.size():		
-#		color_indicators[prev_indicator_index].modulate.a = 0.2
-##		color_indicators.erase(indicator)
-#	elif black_indicator_index > 0 and black_indicator_index < (color_indicators.size() - 1):
-#		color_indicators[next_indicator_index].modulate.a = 0.2
-#		color_indicators[prev_indicator_index].modulate.a = 0.2
 	
-	color_indicators.erase(color_indicators[black_indicator_index])
+	
+	# opredelitev sosedov glede na položaj pobrane barve
+	if active_color_indicators.size() == 1: # če je samo še en indikator, nima sosedov	
+		return
 
+	# indexi onbeh sosednjih indikatorjev
+	var next_indicator_index: int = current_indicator_index + 1
+	var prev_indicator_index: int = current_indicator_index - 1
+	
+	# na začetku živih indikatorjev 
+	if current_indicator_index == 0:		
+		active_color_indicators[next_indicator_index].get_node("Line").visible = true
+		# pošljem sosednje barve v GM
+		Global.game_manager.colors_to_pick = [active_color_indicators[next_indicator_index].color]
+	# na koncu živih indikatorjev
+	elif current_indicator_index == active_color_indicators.size() - 1: # ker je index vedno eno manjši	
+		active_color_indicators[prev_indicator_index].get_node("Line").visible = true
+		# pošljem sosednje barve v GM
+		Global.game_manager.colors_to_pick = [active_color_indicators[prev_indicator_index].color]
+	# povsod vmes med živimi indikatorji
+	elif current_indicator_index > 0 and current_indicator_index < (active_color_indicators.size() - 1):
+		active_color_indicators[next_indicator_index].get_node("Line").visible = true
+		active_color_indicators[prev_indicator_index].get_node("Line").visible = true
+		# pošljem sosednje barve v GM
+		Global.game_manager.colors_to_pick = [active_color_indicators[prev_indicator_index].color, active_color_indicators[next_indicator_index].color]
+	
+	# izbris iz arraya živih indikatorjev
+	active_color_indicators.erase(active_color_indicators[current_indicator_index])
+
+	
 
 func erase_all_indicators():
-	if not color_indicators.empty():
-		for indicator in color_indicators:
+	if not active_color_indicators.empty():
+		for indicator in active_color_indicators:
 			indicator.queue_free()
-		color_indicators = []
+		active_color_indicators = []
 	
 
 func _on_GameTime_deathmode_on() -> void:

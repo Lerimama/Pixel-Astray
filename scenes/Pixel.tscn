@@ -236,6 +236,7 @@ anims/light_out = SubResource( 121 )
 anims/light_out_long = SubResource( 117 )
 
 [node name="Light2D" type="Light2D" parent="."]
+visible = false
 position = Vector2( 1, 0 )
 enabled = false
 texture = ExtResource( 2 )
@@ -245,11 +246,11 @@ shadow_color = Color( 1, 1, 1, 0 )
 shadow_filter_smooth = 26.5
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+visible = false
 position = Vector2( 1, 0 )
 occluder = SubResource( 123 )
 
 [node name="PolyPixel2" type="Polygon2D" parent="LightOccluder2D"]
-visible = false
 position = Vector2( -17, -16 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 

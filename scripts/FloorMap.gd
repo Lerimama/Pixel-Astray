@@ -1,7 +1,7 @@
 extends TileMap
 
-signal floor_completed (cell_global_positions, grid_cell_size)
 
+signal floor_completed (floor_tiles_global_positions)
 
 
 func _ready() -> void:
@@ -10,31 +10,20 @@ func _ready() -> void:
 	add_to_group(Config.group_tilemap)	
 	
 	Global.level_tilemap = self
-	
-	get_floor_tiles()
-	pass # Replace with function body.
 
+	
+	# pogrebam celice tal
+	get_floor_tiles()
 
 
 func get_floor_tiles():
 	
-	# koliko celic je na celem ekranu
-#	var cell_count_x: float = get_viewport_rect().size.x / get_cell_size().x
-#	var cell_count_y: float = get_viewport_rect().size.y / get_cell_size().y
-	
-	# koliko celic je V tilemapu
-	var cell_count_x: float = get_used_rect().size.x# / get_cell_size().x
-	var cell_count_y: float = get_used_rect().size.y# / get_cell_size().y
-	
-#	printt("cell_count_x", cell_count_x, get_used_rect().size.x, get_cell_size().x)
-#	printt("cell_count_y", cell_count_y, get_used_rect().size.y)
-	
-	var floor_cells_grid: Array # grid koordinate
-	var floor_cells_global_positions: Array # global koordinate
+	var floor_cells_grid: Array # grid koordinate celic
+	var floor_cells_global_positions: Array # global koordinate celic
 	
 	# prečesi vse celice na tilemapu in jim določi globalne pozicije
-	for x in cell_count_x:
-		for y in cell_count_y:	
+	for x in get_used_rect().size.x: # širina v celicah
+		for y in get_used_rect().size.y: # višina širina v celicah	 
 			
 			# pretvorba v globalno pozicijo
 			var cell: Vector2 = Vector2(x, y) # grid pozicija celice
@@ -43,8 +32,7 @@ func get_floor_tiles():
 			
 			var cell_index = get_cellv(cell)
 			if cell_index == 0: # 0 je celica tal
-			
 				floor_cells_global_positions.append(cell_global_position)
 	
-	emit_signal("floor_completed", floor_cells_global_positions, cell_size)
+	emit_signal("floor_completed", floor_cells_global_positions)
 

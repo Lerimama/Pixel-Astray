@@ -15,7 +15,9 @@ var fade_out_time: float = 0.2
 
 onready var poly_pixel: Polygon2D = $PolyPixel
 onready var ghost_ray: RayCast2D = $RayCast2D
-var ghost_ray_collider
+
+var colliding_with_pixel :bool = false
+var colliding_with_tilemap :bool = false
 
 
 func _ready() -> void:
@@ -24,17 +26,17 @@ func _ready() -> void:
 	add_to_group(Config.group_ghosts)
 	
 	# snap it
-	cell_size_x = Global.game_manager.grid_cell_size.x # get cell size
+	cell_size_x = Global.level_tilemap.cell_size.x # get cell size
 	global_position = global_position.snapped(Vector2.ONE * cell_size_x/2)
 #	global_position += Vector2.ONE * cell_size_x/2 # zamik centra
 	
 	pass
 
+
 func _physics_process(delta: float) -> void:
 	
 	
 	global_position += direction * speed
-#	speed = max_speed
 	speed = lerp(speed, max_speed, 0.015)
 	ghost_ray.cast_to = direction * cell_size_x
 	if target_reached:
@@ -48,7 +50,7 @@ func _physics_process(delta: float) -> void:
 	
 func snap_to_nearest_grid():
 	
-	floor_cells = Global.game_manager.available_positions
+	floor_cells = Global.game_manager.available_floor_positions
 	var current_position = Vector2(global_position.x - cell_size_x/2, global_position.y - cell_size_x/2)
 	
 	# če ni že snepano
@@ -72,13 +74,20 @@ func fade_out(): # kličem iz pixla
 
 func _on_PixelGhost_body_exited(body: Node) -> void:
 	
+	if body.is_in_group(Config.group_pixels):
+		colliding_with_pixel = false
 	if body.is_in_group(Config.group_tilemap):
-		speed = 0 # tukaj je zato ker se lepše ustavi
-		target_reached = true
-		emit_signal("ghost_target_reached", self, global_position)
-	
+		colliding_with_tilemap = false
+	if body.is_in_group(Config.group_tilemap) or body.is_in_group(Config.group_pixels):
+		if not colliding_with_pixel and not colliding_with_tilemap:
+			speed = 0 # tukaj je zato ker se lepše ustavi
+			target_reached = true
+			emit_signal("ghost_target_reached", self, global_position)
 
 
 func _on_PixelGhost_body_entered(body: Node) -> void:
-#	emit_signal("ghost_detected_body", body)
-	pass
+	
+	if body.is_in_group(Config.group_pixels):
+		colliding_with_pixel = true
+	if body.is_in_group(Config.group_tilemap):
+		colliding_with_tilemap = true
