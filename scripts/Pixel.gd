@@ -1,4 +1,3 @@
-class_name Pixel
 extends KinematicBody2D
 
 
@@ -51,28 +50,25 @@ var step_cell_count: int = 1 # je naslednja
 var new_tween: SceneTreeTween
 onready var cell_size_x: int = Global.level_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 onready var animation_player: AnimationPlayer = $AnimationPlayer
-onready var front_ray: RayCast2D = $FrontRay
-#onready var detect_area: Area2D = $DetectArea
-onready var floor_cells: Array = Global.game_manager.available_floor_positions
+onready var vision_ray: RayCast2D = $VisionRay
+onready var floor_cells: Array = Global.game_manager.floor_positions
 onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
-onready var PixelGhost = preload("res://scenes/PixelGhost.tscn")
+onready var PixelGhost: PackedScene = preload("res://scenes/PixelGhost.tscn")
 
 #_temp
 var collision: KinematicCollision2D
 var velocity: Vector2
-var bounce_size = 0.3
 var current_neighbouring_cells: Array = []
+var burts_power: int # moč v številu ghosts_count
 
 
 func _ready() -> void:
 	
 	Global.print_id(self)
 	
-#	# zabeleži rojstvo in naj VSI pomembni vejo
-#	emit_signal("stat_changed", self, "player_active", true)
-#	...  po novem ob spawnanju iz GMja
-#	print (name, " se je rodil na: ", global_position)
+	# zabeleži rojstvo in naj VSI pomembni vejo
+	# emit_signal("stat_changed", self, "player_active", true)
 	
 	modulate = pixel_color
 	randomize() # za random die animacije
@@ -83,7 +79,7 @@ func _physics_process(delta: float) -> void:
 	
 	if pixel_is_player:	
 		
-		if detect_collision_in_direction(front_ray, direction): # more bit neodvisno od stateta, da pull dela
+		if detect_collision_in_direction(vision_ray, direction): # more bit neodvisno od stateta, da pull dela
 			skill_inputs()
 		
 		match current_state:
@@ -105,25 +101,26 @@ func _physics_process(delta: float) -> void:
 		current_neighbouring_cells = check_for_neighbours()
 
 
-func on_collision(): # fizka je prisotna samo pri burstanju
+func on_collision(): 
+# fizka je prisotna samo pri burstanju
 	
-	# poškodba, če je stena
+	# stena
 	if collision.collider.is_in_group(Config.group_tilemap):
 		# žrebam animacijo
 		var random_animation_index = randi() % 3 + 1
 		var random_animation_name: String = "glitch_%s" % random_animation_index
 		animation_player.play(random_animation_name)
-			
 	
-	# poberi barvo, če je pixel
-	elif collision.collider.is_in_group(Config.group_pixels):
+	# stray pixel
+	elif collision.collider.is_in_group(Config.group_strays):
+		
 		# return, če je "sosed" mode, in če je sosed določen, in če pobrana barva ni enaka barvi soseda na spektru
-#		if Global.game_manager.pick_neighbour_mode:
-#			if Global.game_manager.colors_to_pick and not Global.game_manager.colors_to_pick.has(collision.collider.pixel_color):
-#				end_move()
-#				return
+		if Global.game_manager.pick_neighbour_mode:
+			if Global.game_manager.colors_to_pick and not Global.game_manager.colors_to_pick.has(collision.collider.pixel_color):
+				end_move()
+				return
 
-
+		# uničit tudi vse sosede
 		var all_neighbouring_pixels: Array = []
 		var neighbours_checked: Array = []
 		
@@ -145,58 +142,24 @@ func on_collision(): # fizka je prisotna samo pri burstanju
 				# po nabirki ga dodam med preverjene sosede
 				neighbours_checked.append(neighbour_pixel)
 		
-		# efekt na nabrane sosede
-		var index = 0
-		for a in all_neighbouring_pixels:
-			index += 1
-			if index == 4:
+		# efekt na nabrane sosede ... v obsegu burst power
+		var loop_index = 0
+		for neighbouring_pixel in all_neighbouring_pixels:
+			loop_index += 1
+			if loop_index == burts_power: 
 				break
-#			a.modulate.a = 0.2
-			a.die()
-
-
-
-		# efekt na kolajderjA
-		var picked_color = collision.collider.pixel_color
-		pixel_color = picked_color
-		Global.hud.new_picked_color = picked_color
+			# zbrišeš indikator
+			Global.hud.new_picked_color = neighbouring_pixel.pixel_color
+			neighbouring_pixel.die()
+			
+		# efekt na kolajderja
+		pixel_color = collision.collider.pixel_color
+		Global.hud.new_picked_color = collision.collider.pixel_color
 		collision.collider.die()
 		
 
-	end_move()
+	end_move() # more bit tukaj spoadaj, da pogreba barve
 
-
-func check_for_neighbours(): # samo če je stray
-	
-	var directions_to_check: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
-	var current_cell_neighbours: Array
-	
-	for dir in directions_to_check:
-		
-		if detect_collision_in_direction(front_ray, dir):
-			# če je kolajder stray in ni self
-			var neighbour = detect_collision_in_direction(front_ray, dir)
-			if neighbour.is_in_group(Config.group_pixels) and neighbour != self:
-				current_cell_neighbours.append(neighbour)
-				
-	return current_cell_neighbours # uporaba v stalnem čekiranj sosedov
-	
-	
-
-
-func bounce():
-		
-#	velocity = velocity.bounce(collision.normal) * bounce_size # gibanje pomnožimo z bounce vektorjem normale od objekta kolizije
-	# odbojni partikli
-#	if velocity.length() > 10: # ta omenitev je zato, da ne prši, ko si fiksiran v steno
-#		var new_collision_particles = CollisionParticles.instance()
-#		new_collision_particles.position = collision.position
-#		new_collision_particles.rotation = collision.normal.angle() # rotacija partiklov glede na normalo površine 
-#		new_collision_particles.amount = (velocity.length() + 15)/15 # količnik je korektor ... 15 dodam zato da amount ni nikoli nič	
-#		new_collision_particles.color = player_color
-#		new_collision_particles.set_emitting(true)
-#		Global.effects_creation_parent.add_child(new_collision_particles)
-	pass
 		
 func idle_inputs():
 	
@@ -266,14 +229,14 @@ func skill_inputs():
 		new_direction = Vector2.RIGHT
 	
 	if current_state != States.SKILLED:
-		var collider: Object = detect_collision_in_direction(front_ray, direction)
+		var collider: Object = detect_collision_in_direction(vision_ray, direction)
 		if new_direction == direction:
 			if collider.is_in_group(Config.group_tilemap):
 				teleport(direction)
-			elif collider.is_in_group(Config.group_pixels):
+			elif collider.is_in_group(Config.group_strays):
 				push(direction)	
 		if new_direction == - direction:
-			if collider.is_in_group(Config.group_pixels):
+			if collider.is_in_group(Config.group_strays):
 				pull(direction)	
 
 
@@ -283,7 +246,7 @@ func skill_inputs():
 func step(step_direction):
 		
 	# če kolajda izbrani smeri gibanja prenesem kontrole na skill
-	if not detect_collision_in_direction(front_ray, step_direction):
+	if not detect_collision_in_direction(vision_ray, step_direction):
 		snap_to_nearest_grid()
 		current_state = States.STEPPING
 		new_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
@@ -313,21 +276,17 @@ func end_move():
 	
 	current_state = States.IDLE
 	
-#	temp
-#	front_ray.cast_to = Vector2.ZERO
 	
 	burst_direction_set = false
 	burst_speed = 0 # more bit tukaj pred _change state, če ne uničuje tudi sam sebe
-	
-#	detect_area.monitoring = true # of jo da teleport
 	
 	# reset direction
 	modulate = pixel_color
 	snap_to_nearest_grid()
 	
 	# reset ray dir
-	front_ray.cast_to = direction * cell_size_x # ray kaže na naslednjo pozicijo 
-	front_ray.force_raycast_update()	
+	vision_ray.cast_to = direction * cell_size_x # ray kaže na naslednjo pozicijo 
+	vision_ray.force_raycast_update()	
 
 	# za hud
 	skill_change_count += 1
@@ -335,7 +294,6 @@ func end_move():
 
 
 func die():
-#	emit_signal("stat_changed", "black_pixels", 1) 
 	
 	emit_signal("stat_changed", self, "pixels_in_game", -1)
 	print("KVEFRI")
@@ -352,7 +310,7 @@ func cock_burst(burst_direction):
 	var cock_direction = - burst_direction
 	
 	# prostor za začetek napenjanja preverja pixel
-	if detect_collision_in_direction(front_ray, cock_direction): 
+	if detect_collision_in_direction(vision_ray, cock_direction): 
 		end_move() 
 		return	# dobra praksa ... zazih
 		
@@ -421,14 +379,12 @@ func release_burst(burst_direction):
 	
 	burst(burst_direction, cocked_ghosts.size())
 		
-		
+
 func burst(burst_direction, ghosts_count):
 	
-	var burts_power = ghosts_count
-	# laser preverja kolizije za toliko enot kolikor je bil burst napet		
-#		detect_collision_in_direction(burst_direction * ghosts_count)
+	burts_power = ghosts_count
 		
-	var ray_collider = front_ray.get_collider() # ! more bit za detect_wall() ... ta ga šele pogreba?
+	var ray_collider = vision_ray.get_collider() # ! more bit za detect_wall() ... ta ga šele pogreba?
 	var backup_direction = - burst_direction
 
 	# spawn stretch ghost
@@ -472,14 +428,14 @@ func burst(burst_direction, ghosts_count):
 func push(push_direction):
 	
 	var backup_direction = - push_direction
-	var ray_collider = front_ray.get_collider() # ! more bit za detect_wall() ... ta ga šele pogreba?
+	var ray_collider = vision_ray.get_collider() # ! more bit za detect_wall() ... ta ga šele pogreba?
 	
 	# je prostor za zalet?
-	if detect_collision_in_direction(front_ray, backup_direction):
+	if detect_collision_in_direction(vision_ray, backup_direction):
 		return
 	# je pred kolajderjem prostor?
 	if ray_collider.has_method("detect_collision_in_direction"):
-		if ray_collider.detect_collision_in_direction(ray_collider.front_ray, push_direction):
+		if ray_collider.detect_collision_in_direction(ray_collider.vision_ray, push_direction):
 			push_direction = Vector2.ZERO # če ni prostora se izvede po sizifovo
 	
 	current_state = States.SKILLED
@@ -503,10 +459,10 @@ func push(push_direction):
 func pull(target_direction):
 	
 	var pull_direction = - target_direction
-	var target_pixel = front_ray.get_collider()
+	var target_pixel = vision_ray.get_collider()
 	
 	# preverjam če ma prostor v smeri premika
-	if detect_collision_in_direction(front_ray, pull_direction): 
+	if detect_collision_in_direction(vision_ray, pull_direction): 
 		return	
 		
 	current_state = States.SKILLED
@@ -550,6 +506,23 @@ func teleport(teleport_direction):
 # UTIL ________________________________________________________________________________________________________________
 
 
+func check_for_neighbours(): 
+# samo če je stray
+	
+	var directions_to_check: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
+	var current_cell_neighbours: Array
+	
+	for dir in directions_to_check:
+		
+		if detect_collision_in_direction(vision_ray, dir):
+			# če je kolajder stray in ni self
+			var neighbour = detect_collision_in_direction(vision_ray, dir)
+			if neighbour.is_in_group(Config.group_strays) and neighbour != self:
+				current_cell_neighbours.append(neighbour)
+				
+	return current_cell_neighbours # uporaba v stalnem čekiranj sosedov
+	
+	
 func detect_collision_in_direction(ray, direction_to_check):
 	
 	ray.cast_to = direction_to_check * cell_size_x # ray kaže na naslednjo pozicijo 
@@ -590,8 +563,6 @@ func snap_to_nearest_grid():
 		
 func _on_ghost_target_reached(ghost_body, ghost_position):
 	
-#	detect_area.monitoring = false
-	
 	new_tween = get_tree().create_tween()
 	new_tween.tween_property(self, "modulate:a", 0, ghost_fade_time)
 	new_tween.tween_property(self, "global_position", ghost_position, 0.01)
@@ -610,32 +581,3 @@ func _on_ghost_detected_body(body):
 		cocking_room = false
 
 
-func _on_DetectArea_body_entered(body: Node) -> void: # konec bursta
-#
-#	if current_state == States.BURSTING: # če ni tega, se že na začetku akcija izvede in je error
-#
-#		# poškodba, če je stena
-#		if body.is_in_group(Config.group_tilemap):
-#			# žrebam animacijo
-#			var random_animation_index = randi() % 3 + 1
-#			var random_animation_name: String = "glitch_%s" % random_animation_index
-#			animation_player.play(random_animation_name)
-#			print("detected ", body)
-#
-#		# poberi barvo, če je pixel
-#		elif body.is_in_group(Config.group_pixels):
-#
-#			# return, če je "sosed" mode, in če je sosed določen, in če pobrana barva ni enaka barvi soseda na spektru
-#			if Global.game_manager.pick_neighbour_mode:
-#				if Global.game_manager.colors_to_pick and not Global.game_manager.colors_to_pick.has(body.pixel_color):
-#					end_move()
-#					return
-#
-#			var picked_color = body.pixel_color
-#			pixel_color = picked_color
-#			Global.hud.new_picked_color = picked_color
-#			body.die()
-#
-#			print("detected ", body)
-#		end_move() # more bit na koncu, da upošteva novo barvo pixla
-	pass

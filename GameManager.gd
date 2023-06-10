@@ -1,7 +1,7 @@
 extends Node
 
 
-export var strays_count: int = 100
+export var strays_count: int = 32
 export var game_time_limit: float = 1
 export var black_pixel_points = 10
 export var skill_change_points = - 3
@@ -24,12 +24,12 @@ var new_player_stats: Dictionary
 var new_game_stats: Dictionary
 
 # tilemap
-var available_floor_positions: Array # po signalu ob kreaciji tilemapa ... tukaj, da ga lahko grebam do zunaj
+var floor_positions: Array # po signalu ob kreaciji tilemapa ... tukaj, da ga lahko grebam do zunaj
+#var available_floor_positions: Array # po signalu ob kreaciji tilemapa ... tukaj, da ga lahko grebam do zunaj
 
 # color spliting	
 var color_indicator_width: float = 12 # ročno setaj pravilno
 onready var spectrum_rect: TextureRect = $Spectrum
-
 
 onready var hud: Control = Global.hud
 onready var tilemap_floor_cells: Array
@@ -75,7 +75,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	
 	players_in_game = get_tree().get_nodes_in_group(Config.group_players)
-	strays_in_game = get_tree().get_nodes_in_group(Config.group_pixels)
+	strays_in_game = get_tree().get_nodes_in_group(Config.group_strays)
 	
 	if Global.game_manager.players_in_game.empty():
 		Global.camera_target = null
@@ -137,6 +137,8 @@ func spawn_stray_pixel(stray_color):
 	
 #	if not available_floor_positions.empty():	
 		
+		var available_floor_positions: Array = floor_positions
+		
 		spawned_stray_index += 1
 
 		# instance
@@ -149,7 +151,7 @@ func spawn_stray_pixel(stray_color):
 		
 		# obarvajmo ga ...
 		new_stray_pixel.pixel_color = stray_color
-		new_stray_pixel.add_to_group(Config.group_pixels)
+		new_stray_pixel.add_to_group(Config.group_strays)
 		
 		#spawn
 		Global.node_creation_parent.add_child(new_stray_pixel)
@@ -158,7 +160,7 @@ func spawn_stray_pixel(stray_color):
 		new_stray_pixel.connect("stat_changed", self, "_on_stat_changed")			
 		
 		# odstranim uporabljeno pozicijo
-		available_floor_positions.remove(selected_cell_index)		
+#		available_floor_positions.remove(selected_cell_index)		
 		
 		# v hud 
 		new_game_stats["stray_pixels"] += 1
@@ -268,7 +270,7 @@ func restart_game():
 
 func _on_FloorMap_floor_completed(floor_cells_global_positions: Array) -> void:
 
-	available_floor_positions = floor_cells_global_positions 
+	floor_positions = floor_cells_global_positions 
 
 
 func _on_stat_changed(stat_owner, changed_stat, new_stat_value):
@@ -292,7 +294,7 @@ func _on_stat_changed(stat_owner, changed_stat, new_stat_value):
 				if new_game_stats["player_life"] <= 0:
 					printt("_temp", "GAME OVER")
 					
-			if stat_owner.is_in_group(Config.group_pixels):
+			if stat_owner.is_in_group(Config.group_strays):
 				new_game_stats["black_pixels"] -= new_stat_value
 				new_game_stats["stray_pixels"] += new_stat_value
 				# točke

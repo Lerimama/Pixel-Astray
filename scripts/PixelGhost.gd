@@ -28,9 +28,6 @@ func _ready() -> void:
 	# snap it
 	cell_size_x = Global.level_tilemap.cell_size.x # get cell size
 	global_position = global_position.snapped(Vector2.ONE * cell_size_x/2)
-#	global_position += Vector2.ONE * cell_size_x/2 # zamik centra
-	
-	pass
 
 
 func _physics_process(delta: float) -> void:
@@ -50,7 +47,7 @@ func _physics_process(delta: float) -> void:
 	
 func snap_to_nearest_grid():
 	
-	floor_cells = Global.game_manager.available_floor_positions
+	floor_cells = Global.game_manager.floor_positions
 	var current_position = Vector2(global_position.x - cell_size_x/2, global_position.y - cell_size_x/2)
 	
 	# če ni že snepano
@@ -74,11 +71,11 @@ func fade_out(): # kličem iz pixla
 
 func _on_PixelGhost_body_exited(body: Node) -> void:
 	
-	if body.is_in_group(Config.group_pixels):
+	if body.is_in_group(Config.group_strays):
 		colliding_with_pixel = false
 	if body.is_in_group(Config.group_tilemap):
 		colliding_with_tilemap = false
-	if body.is_in_group(Config.group_tilemap) or body.is_in_group(Config.group_pixels):
+	if body.is_in_group(Config.group_tilemap) or body.is_in_group(Config.group_strays):
 		if not colliding_with_pixel and not colliding_with_tilemap:
 			speed = 0 # tukaj je zato ker se lepše ustavi
 			target_reached = true
@@ -87,7 +84,7 @@ func _on_PixelGhost_body_exited(body: Node) -> void:
 
 func _on_PixelGhost_body_entered(body: Node) -> void:
 	
-	if body.is_in_group(Config.group_pixels):
+	if body.is_in_group(Config.group_strays):
 		colliding_with_pixel = true
 	if body.is_in_group(Config.group_tilemap):
 		colliding_with_tilemap = true

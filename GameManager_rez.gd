@@ -303,7 +303,7 @@ func _on_stat_changed(stat_owner, changed_stat, new_stat_value):
 				if new_game_stats["player_life"] <= 0:
 					printt("_temp", "GAME OVER")
 					
-			if stat_owner.is_in_group(Config.group_pixels):
+			if stat_owner.is_in_group(Config.group_strays):
 				new_game_stats["black_pixels"] -= new_stat_value
 				new_game_stats["stray_pixels"] += new_stat_value
 				# točke
