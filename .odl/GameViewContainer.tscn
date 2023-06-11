@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://scripts/GameViewContainer.gd" type="Script" id=1]
-[ext_resource path="res://Arena.tscn" type="PackedScene" id=2]
+[ext_resource path="res://.odl/GameViewContainer.gd" type="Script" id=1]
+[ext_resource path="res://scenes/game/Arena.tscn" type="PackedScene" id=2]
 
 [sub_resource type="ViewportTexture" id=1]
 viewport_path = NodePath("Viewport")
@@ -36,4 +36,3 @@ texture = SubResource( 1 )
 flip_v = true
 
 [editable path="Viewport/Arena"]
-[editable path="Viewport/Arena/UI/PauseMenu"]

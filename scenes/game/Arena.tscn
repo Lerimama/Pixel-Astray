@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/arena_tileset.tres" type="TileSet" id=2]
-[ext_resource path="res://scripts/FloorMap.gd" type="Script" id=3]
+[ext_resource path="res://scripts/game/FloorMap.gd" type="Script" id=3]
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=6]
 [ext_resource path="res://assets/arena_environment.tres" type="Environment" id=8]
 [ext_resource path="res://GameManager.gd" type="Script" id=10]
@@ -40,8 +40,6 @@ tracks/1/keys = {
 
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource( 10 )
-game_time_limit = 30.0
-black_pixel_points = 50
 
 [node name="Spectrum" type="TextureRect" parent="GameManager"]
 visible = false

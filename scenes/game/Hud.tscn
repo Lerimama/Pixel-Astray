@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=1]
-[ext_resource path="res://scenes/ColorIndicator.tscn" type="PackedScene" id=2]
-[ext_resource path="res://scripts/Hud.gd" type="Script" id=3]
+[ext_resource path="res://scenes/game/HudColorIndicator.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scripts/game/Hud.gd" type="Script" id=3]
 [ext_resource path="res://assets/theme/gamer_menu_font.tres" type="DynamicFont" id=4]
-[ext_resource path="res://scripts/GameTime.gd" type="Script" id=5]
+[ext_resource path="res://scripts/game/HudGameTime.gd" type="Script" id=5]
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=6]
 
 [node name="HudControl" type="Control"]

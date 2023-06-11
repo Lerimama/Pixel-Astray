@@ -12,8 +12,8 @@ export var max_vertical = 150
 export var max_rotation = 25
 export(float, 0, 1) var decay = 0.5
 export(float, 0, 1) var add_trauma = 0.05
-export var time_speed: float = 150
-var time: float = 0 # decay
+export var time_speed: float = 150 # za offset noise
+var time: float = 0 # za offset noise
 
 # gejm šejk
 var shake_on: bool = false
@@ -50,7 +50,7 @@ onready var test_toggle_btn = $UILayer/TestToggle
 func _ready():
 
 	Global.print_id(name)
-	Global.player_camera = self
+	Global.main_camera = self
 	Global.camera_target = null # da se nulira (pri quit game) in je naslednji play brez errorja ... seta se ob spawnanju plejerja
 
 	position = Global.level_start_position.global_position

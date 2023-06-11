@@ -6,7 +6,7 @@ var pause_on: bool = false
 var new_tween: SceneTreeTween
 
 var home_scene_path: String = "res://scenes/Home.tscn"
-var game_scene_path: String = "res://scenes/Game.tscn"
+var game_scene_path: String = "res://scenes/game/Game.tscn"
 
 
 func _input(event: InputEvent) -> void:
@@ -64,14 +64,13 @@ func _on_PlayBtn_pressed() -> void:
 
 
 func _on_RestartBtn_pressed() -> void:
-	set_process_input(false) # zato da se lahko animacija izvede
-#	Global.switch_to_scene(game_scene_path)
 	
-	Global.game_manager.restart_game()
-	unpause()
+	unpause_tree()
+	Global.reload_scene(Global.current_scene, game_scene_path, Global.main_root)
 	
 
 func _on_QuitBtn_pressed() -> void:
 	
 	unpause_tree()
-	Global.switch_to_scene(home_scene_path)
+	Global.release_scene(Global.current_scene)
+	Global.spawn_new_scene(home_scene_path, Global.main_root)

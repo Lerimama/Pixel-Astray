@@ -8,7 +8,7 @@ export var countdown_mode: bool = false
 
 export var timing_on: bool # kontrola znotraj timerja
 
-var start_minutes: float = 5 # uporabno samostart_min za "self-start"
+var start_minutes: float = 1 # uporabno samostart_min za "self-start"
 var start_seconds: float = 59 # ko apliciraš minute, se odšteje ena minuta in 00 sekund nadomesti 59
 var deathmode_start_time: float = 1
 

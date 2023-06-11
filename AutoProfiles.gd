@@ -24,33 +24,43 @@ var default_player_profiles: Dictionary = { # ime profila ime igralca ... pazi d
 	},
 }
 
+# STATS
+
 var default_player_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
 	"player_active" : false, # zaenkrat ga v aktivnega setaš na pixlov ready
-#	"life" : 3,
-#	"points" : 0, # -> zamenjano s player_points v game stats
-	"skill_change_count" : 0,
+	"player_points": 0,
+	"player_life" : 3,
+	"skills_used" : 0,
 	"cells_travelled" : 0,
 }
 
 var default_game_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
-	"game_time" : 90, # sekund
+#	"game_time" : 90, # sekund
+	"stray_pixels_count" : 32,
+	"off_pixels_count" : 0,
+#	"color_sum": "000 000 000"
+}
+
+enum GameModes {BASIC}
+
+var game_rules : Dictionary = { # tole ne uporabljam v zadnji varianti
+	"game_mode" : GameModes.BASIC,
 	"level_no" : 0,
-	"stray_pixels" : 0,
-	"black_pixels" : 0,
-	"player_points": 0,
-	"player_life" : 3,
-	"color_sum": "000 000 000"
+	"level_time" : 90, # sekund
+	"points_color_picked": 10,
+	"points_skill_used": -3,
+	"points_cell_travelled": -3,
 }
 
-enum Levels {SQUARE = 1, CIRCLE, TRIANGLE
-}
-
-var default_level_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
-	Levels.SQUARE: {
-		"player_start_position" : Vector2(0, 0),
-		"game_time" : 5,
-		"level" : 2,
-		"stray_pixels_count" : 0.1,
-	}
-}
+#enum Levels {FIRST, SQUARE, CIRCLE, TRIANGLE
+#}
+#
+#var default_level_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
+#	Levels.FIRST: {
+##		"player_start_position" : Vector2(0, 0),
+#		"game_time" : 5,
+#		"level" : 0,
+#		"stray_pixels_count" : 32,
+#	}
+#}
 

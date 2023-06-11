@@ -1,19 +1,17 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=16 format=2]
 
-[ext_resource path="res://Arena.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scenes/PauseMenu.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/game/Arena.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/screens/PauseMenu.tscn" type="PackedScene" id=2]
+[ext_resource path="res://.odl/PlayerCamera.gd" type="Script" id=3]
 [ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=4]
-[ext_resource path="res://scripts/Game.gd" type="Script" id=5]
-[ext_resource path="res://scenes/ColorIndicator.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scripts/Hud.gd" type="Script" id=7]
+[ext_resource path="res://scripts/game/Game.gd" type="Script" id=5]
+[ext_resource path="res://scenes/game/HudColorIndicator.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scripts/game/Hud.gd" type="Script" id=7]
 [ext_resource path="res://assets/theme/gamer_menu_font.tres" type="DynamicFont" id=8]
-[ext_resource path="res://scripts/GameTime.gd" type="Script" id=9]
+[ext_resource path="res://scripts/game/HudGameTime.gd" type="Script" id=9]
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=10]
-[ext_resource path="res://assets/arena_environment.tres" type="Environment" id=11]
-[ext_resource path="res://scripts/GameOver.gd" type="Script" id=12]
+[ext_resource path="res://scripts/screens/GameOver.gd" type="Script" id=12]
 [ext_resource path="res://_materiali/PixelAstray_design_game.png" type="Texture" id=13]
-[ext_resource path="res://_modular/DKamera/DKamera.gd" type="Script" id=15]
-[ext_resource path="res://assets/dkamera_noise.tres" type="OpenSimplexNoise" id=16]
 
 [sub_resource type="DynamicFontData" id=120]
 font_path = "res://assets/theme/Gamer.ttf"
@@ -24,12 +22,6 @@ extra_spacing_char = -12
 font_data = SubResource( 120 )
 
 [sub_resource type="World" id=117]
-environment = ExtResource( 11 )
-
-[sub_resource type="NoiseTexture" id=1]
-width = 120
-height = 120
-noise = ExtResource( 16 )
 
 [node name="Game" type="Node"]
 script = ExtResource( 5 )
@@ -61,9 +53,6 @@ margin_bottom = 4.32001
 rect_min_size = Vector2( 1280, 720 )
 theme = ExtResource( 4 )
 script = ExtResource( 7 )
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="GameTime" type="Control" parent="GUI/HudControl"]
 anchor_left = 0.5
@@ -523,11 +512,17 @@ polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 [node name="Viewports" type="HBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="ViewportContainer1" type="ViewportContainer" parent="Viewports"]
 margin_right = 1280.0
 margin_bottom = 720.0
 size_flags_horizontal = 3
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Viewport1" type="Viewport" parent="Viewports/ViewportContainer1"]
 size = Vector2( 1280, 672 )
@@ -540,12 +535,9 @@ __meta__ = {
 "_edit_horizontal_guides_": [ 44.0, 32.0, 20.0, 64.0, 660.0, 688.0, 676.0, 648.0 ]
 }
 
-[node name="DKamera" type="Camera2D" parent="Viewports/ViewportContainer1/Viewport1"]
-position = Vector2( 640, 360 )
-rotation = 3.14159
-rotating = true
+[node name="Camera2D" type="Camera2D" parent="Viewports/ViewportContainer1/Viewport1"]
+position = Vector2( 0.856, 0 )
 current = true
-limit_smoothed = true
 drag_margin_h_enabled = true
 drag_margin_v_enabled = true
 smoothing_enabled = true
@@ -553,202 +545,37 @@ drag_margin_left = 0.0
 drag_margin_top = 0.0
 drag_margin_right = 0.0
 drag_margin_bottom = 0.0
-script = ExtResource( 15 )
-noise = ExtResource( 16 )
-
-[node name="UILayer" type="CanvasLayer" parent="Viewports/ViewportContainer1/Viewport1/DKamera"]
-layer = 3
-
-[node name="TestToggle" type="CheckBox" parent="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer"]
-margin_left = 32.0
-margin_top = 10.0
-margin_right = 96.0
-margin_bottom = 36.0
-theme = ExtResource( 4 )
-text = "test"
-
-[node name="TestHud" type="Control" parent="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer"]
-margin_left = 32.0
-margin_top = 32.0
-margin_right = 1248.0
-margin_bottom = 636.0
-size_flags_horizontal = 0
-size_flags_vertical = 0
-
-[node name="AddTraumaBtn" type="Button" parent="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -89.0
-margin_right = 79.0
-margin_bottom = -63.0
-theme = ExtResource( 4 )
-text = "tresi"
-
-[node name="ResetViewBtn" type="Button" parent="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 128.0
-margin_top = -90.0
-margin_right = 302.0
-margin_bottom = -64.0
-theme = ExtResource( 4 )
-text = "resetiraj pogled"
-
-[node name="ShakeBar" type="ProgressBar" parent="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud"]
-modulate = Color( 1, 0, 0, 1 )
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -608.0
-margin_top = -55.0
-margin_right = 608.0
-margin_bottom = -29.0
-rect_min_size = Vector2( 0, 16 )
-size_flags_horizontal = 3
-theme = ExtResource( 4 )
-max_value = 1.0
-
-[node name="TraumaBar" type="ProgressBar" parent="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud"]
-modulate = Color( 0.12549, 1, 0, 1 )
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -608.0
-margin_top = -24.0
-margin_right = 608.0
-margin_bottom = 2.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme = ExtResource( 4 )
-max_value = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ZoomSlider" type="VSlider" parent="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud"]
-visible = false
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-margin_left = -51.0
-margin_top = -300.0
-margin_right = -35.0
-margin_bottom = 212.0
-theme = ExtResource( 4 )
-max_value = 1.0
-step = 0.1
-value = 1.0
-
-[node name="TimeSlider" type="VSlider" parent="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud"]
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-margin_top = -302.0
-margin_right = 16.0
-margin_bottom = 209.0
-rect_scale = Vector2( -1, 1 )
-theme = ExtResource( 4 )
-max_value = 2.0
-step = 0.1
-value = 1.0
-
-[node name="NoiseControl" type="Control" parent="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud"]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_left = -2.0
-margin_top = -52.0
-margin_right = 118.0
-margin_bottom = 194.0
-theme = ExtResource( 4 )
-
-[node name="NoiseVisual" type="TextureRect" parent="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/NoiseControl"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -60.0
-margin_right = 60.0
-margin_bottom = 120.0
-texture = SubResource( 1 )
-
-[node name="Seed" type="HSlider" parent="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/NoiseControl"]
-margin_top = 136.0
-margin_right = 116.0
-margin_bottom = 152.0
-hint_tooltip = "Seed"
-
-[node name="Octaves" type="HSlider" parent="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/NoiseControl"]
-margin_top = 156.0
-margin_right = 116.0
-margin_bottom = 172.0
-hint_tooltip = "Octaves"
-min_value = 1.0
-max_value = 9.0
-value = 3.0
-
-[node name="Period" type="HSlider" parent="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/NoiseControl"]
-margin_top = 177.0
-margin_right = 116.0
-margin_bottom = 193.0
-hint_tooltip = "Period"
-min_value = 0.1
-max_value = 256.0
-step = 0.1
-value = 64.0
-
-[node name="Persistence" type="HSlider" parent="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/NoiseControl"]
-margin_top = 198.0
-margin_right = 116.0
-margin_bottom = 214.0
-hint_tooltip = "Persistance"
-min_value = 0.001
-max_value = 1.0
-step = 0.001
-value = 0.5
-
-[node name="Lacunarity" type="HSlider" parent="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/NoiseControl"]
-margin_top = 219.0
-margin_right = 116.0
-margin_bottom = 235.0
-hint_tooltip = "Lacunarity"
-min_value = 0.01
-max_value = 4.0
-step = 0.01
-value = 2.0
+script = ExtResource( 3 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
-visible = false
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -232.0
 margin_top = 20.0
-margin_right = -232.0
-margin_bottom = 20.0
+margin_right = -32.0
+margin_bottom = 136.0
 color = Color( 1, 1, 1, 0.141176 )
 
 [node name="Minimap" type="ViewportContainer" parent="."]
-modulate = Color( 1, 1, 1, 0.784314 )
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -192.0
-margin_top = 32.0
-margin_right = -32.0
-margin_bottom = 124.0
+margin_left = -228.0
+margin_top = 24.0
+margin_right = -36.0
+margin_bottom = 132.0
 size_flags_horizontal = 3
 
 [node name="MinimapViewport" type="Viewport" parent="Minimap"]
-size = Vector2( 160, 92 )
+size = Vector2( 192, 108 )
 world = SubResource( 117 )
-transparent_bg = true
 handle_input_locally = false
 render_target_update_mode = 3
 
 [node name="Camera2D" type="Camera2D" parent="Minimap/MinimapViewport"]
+offset = Vector2( 980, 510 )
 current = true
-zoom = Vector2( 12.2, 12.2 )
-limit_smoothed = true
+zoom = Vector2( 11.3, 11.3 )
+smoothing_enabled = true
 
 [node name="design" type="Sprite" parent="."]
 visible = false
@@ -759,35 +586,3 @@ texture = ExtResource( 13 )
 [connection signal="gametime_is_up" from="GUI/HudControl/GameTime" to="GUI/HudControl" method="_on_GameTime_gametime_is_up"]
 [connection signal="pressed" from="GUI/GameOver/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
-[connection signal="mouse_entered" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestToggle" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_CheckBox_mouse_entered"]
-[connection signal="mouse_exited" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestToggle" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_CheckBox_mouse_exited"]
-[connection signal="toggled" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestToggle" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_CheckBox_toggled"]
-[connection signal="mouse_entered" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/AddTraumaBtn" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_AddTraumaBtn_mouse_entered"]
-[connection signal="mouse_exited" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/AddTraumaBtn" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_AddTraumaBtn_mouse_exited"]
-[connection signal="pressed" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/AddTraumaBtn" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_AddTraumaBtn_pressed"]
-[connection signal="mouse_entered" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/ResetViewBtn" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_ResetView_mouse_entered"]
-[connection signal="mouse_exited" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/ResetViewBtn" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_ResetView_mouse_exited"]
-[connection signal="pressed" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/ResetViewBtn" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_ResetView_pressed"]
-[connection signal="mouse_entered" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/ZoomSlider" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_ZoomSlider_mouse_entered"]
-[connection signal="mouse_exited" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/ZoomSlider" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_ZoomSlider_mouse_exited"]
-[connection signal="value_changed" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/ZoomSlider" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_ZoomSlider_value_changed"]
-[connection signal="mouse_entered" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/TimeSlider" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_TimeSlider_mouse_entered"]
-[connection signal="mouse_exited" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/TimeSlider" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_TimeSlider_mouse_exited"]
-[connection signal="value_changed" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/TimeSlider" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_TimeSlider_value_changed"]
-[connection signal="mouse_entered" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/NoiseControl" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_Control_mouse_entered"]
-[connection signal="mouse_exited" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/NoiseControl" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_Control_mouse_exited"]
-[connection signal="mouse_entered" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/NoiseControl/Seed" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_SeedSlider_mouse_entered"]
-[connection signal="mouse_exited" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/NoiseControl/Seed" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_SeedSlider_mouse_exited"]
-[connection signal="value_changed" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/NoiseControl/Seed" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_Seed_value_changed"]
-[connection signal="mouse_entered" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/NoiseControl/Octaves" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_Octaves_mouse_entered"]
-[connection signal="mouse_exited" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/NoiseControl/Octaves" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_Octaves_mouse_exited"]
-[connection signal="value_changed" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/NoiseControl/Octaves" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_Octaves_value_changed"]
-[connection signal="mouse_entered" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/NoiseControl/Period" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_Period_mouse_entered"]
-[connection signal="mouse_exited" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/NoiseControl/Period" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_Period_mouse_exited"]
-[connection signal="value_changed" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/NoiseControl/Period" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_Period_value_changed"]
-[connection signal="mouse_entered" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/NoiseControl/Persistence" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_Persistance_mouse_entered"]
-[connection signal="mouse_exited" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/NoiseControl/Persistence" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_Persistance_mouse_exited"]
-[connection signal="value_changed" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/NoiseControl/Persistence" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_Persistence_value_changed"]
-[connection signal="mouse_entered" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/NoiseControl/Lacunarity" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_Lacunarity_mouse_entered"]
-[connection signal="mouse_exited" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/NoiseControl/Lacunarity" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_Lacunarity_mouse_exited"]
-[connection signal="value_changed" from="Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/NoiseControl/Lacunarity" to="Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_Lacunarity_value_changed"]

@@ -8,13 +8,12 @@ var game_stats: Dictionary
 # player hud
 onready var player_life: Label = $Life
 onready var player_points: Label = $Points
-onready var skill_change_count: Label = $SkilChangeCount
 onready var cells_travelled: Label = $CellsTravelled
-onready var color_sum: Label = $ColorSum/Value
+onready var skills_used: Label = $SkillsUsed
+onready var pixels_off: Label = $PixelsOff
 
 # pixli
 onready var stray_pixels: Label = $PixelsStray
-onready var black_pixels: Label = $PixelsHome
 
 # pobrana barva pixla
 var new_picked_color: Color = Color.black setget _new_color_picked
@@ -25,13 +24,12 @@ onready var picked_color_label: Label = $PickedColor/Value
 onready var color_spectrum: VBoxContainer = $ColorSpectrum
 var color_indicator_width: float = 12 # ročno setaj pravilno
 var active_color_indicators: Array = []
-onready var ColorIndicator: PackedScene = preload("res://scenes/ColorIndicator.tscn")
+onready var ColorIndicator: PackedScene = preload("res://scenes/game/HudColorIndicator.tscn")
 onready var indicator_holder: HBoxContainer = $ColorSpectrumLite/IndicatorHolder
 
 # štopanje
 onready var start_game_time setget _start_timing
 onready var game_time: Control = $GameTime
-
 
 
 func _ready() -> void:
@@ -50,21 +48,18 @@ func _process(delta: float) -> void:
 		if not visible:
 			visible = true
 		
-		player_stats = Global.game_manager.new_player_stats
-		game_stats = Global.game_manager.new_game_stats
+		player_stats = Global.game_manager.player_stats
+		game_stats = Global.game_manager.game_stats
 		
 		# pixel stats
-		skill_change_count.text = "SKILL CHANGES: %04d" % player_stats["skill_change_count"]
+		skills_used.text = "SKILLS USED: %04d" % player_stats["skills_used"]
 		cells_travelled.text = "CELLS TRAVELLED: %04d" % player_stats["cells_travelled"]
+		player_life.text = "LIFE: %s" % player_stats["player_life"]
+		player_points.text = "POINTS: %04d" % player_stats["player_points"]
 		
 		# game stats
-		player_life.text = "LIFE: %s" % game_stats["player_life"]
-		player_points.text = "POINTS: %04d" % game_stats["player_points"]
-		
-#		color_sum.text = str(Global.game_manager.player_color_sum_r) + " " + str(Global.game_manager.player_color_sum_g3) + " " + str(Global.game_manager.player_color_sum_b)
-		
-		stray_pixels.text = "PIXELS ASTRAY: %02d" % game_stats["stray_pixels"]
-		black_pixels.text = "BLACK PIXELS: %02d" % game_stats["black_pixels"]
+		stray_pixels.text = "PIXELS ASTRAY: %02d" % game_stats["stray_pixels_count"]
+		pixels_off.text = "%02d /" % game_stats["off_pixels_count"]
 
 	else:
 		if visible:

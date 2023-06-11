@@ -7,7 +7,7 @@ extends Camera2D
 #func _ready() -> void:
 #
 #	Global.print_id(name)
-##	Global.player_camera = self
+##	Global.main_camera = self
 ##	Global.camera_target = null # da se nulira (pri quit game) in je naslednji play brez errorja ... seta se ob spawnanju plejerja
 #
 #	position = Global.level_start_position.global_position

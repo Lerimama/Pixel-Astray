@@ -43,7 +43,7 @@ var strech_ghost_shrink_time: float = 0.2
 var burst_direction_set: bool = false
 
 # stats
-var skill_change_count: int = 0
+var skills_used_count: int = 0
 var step_cell_count: int = 1 # je naslednja
 
 
@@ -54,7 +54,7 @@ onready var vision_ray: RayCast2D = $VisionRay
 onready var floor_cells: Array = Global.game_manager.floor_positions
 onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
-onready var PixelGhost: PackedScene = preload("res://scenes/PixelGhost.tscn")
+onready var PixelGhost: PackedScene = preload("res://scenes/game/PixelGhost.tscn")
 
 #_temp
 var collision: KinematicCollision2D
@@ -288,15 +288,16 @@ func end_move():
 	vision_ray.cast_to = direction * cell_size_x # ray kaže na naslednjo pozicijo 
 	vision_ray.force_raycast_update()	
 
-	# za hud
-	skill_change_count += 1
-	emit_signal("stat_changed", self, "skill_change_count", 1)
 
 
 func die():
 	
-	emit_signal("stat_changed", self, "pixels_in_game", -1)
-	print("KVEFRI")
+	if pixel_is_player:
+		emit_signal("stat_changed", self, "player_life", 1)
+#		print("PLAYER KVEFRI")
+	else:
+		emit_signal("stat_changed", self, "off_pixels_count", 1)
+#		print("STRAY KVEFRI")
 	animation_player.play("die") # kvefrija se v animaciji
 #	queue_free()
 	pass
@@ -418,8 +419,12 @@ func burst(burst_direction, ghosts_count):
 	# resetiram max spid
 	burst_speed_max = 0
 	cocking_room = true
+				
+	# za hud
+	skills_used_count += 1
+	emit_signal("stat_changed", self, "skills_used", 1)
 	
-	# zaključek v signalu _on_DetectArea_body_entered
+	# zaključek v on_collision()
 	
 	
 # SKILLS ______________________________________________________________________________________________________________
@@ -454,6 +459,10 @@ func push(push_direction):
 	new_tween.tween_property(ray_collider, "position", ray_collider.global_position + push_direction * cell_size_x * push_cell_count, 0.1).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	new_tween.tween_callback(self, "end_move")
 	new_tween.parallel().tween_callback(new_pixel_ghost, "queue_free")
+	
+	# za hud
+	skills_used_count += 1
+	emit_signal("stat_changed", self, "skills_used", 1)
 
 
 func pull(target_direction):
@@ -479,6 +488,10 @@ func pull(target_direction):
 	new_tween.parallel().tween_property(new_pixel_ghost, "position", new_pixel_ghost.global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
 	new_tween.tween_callback(self, "end_move")
 	new_tween.parallel().tween_callback(new_pixel_ghost, "queue_free")
+		
+	# za hud
+	skills_used_count += 1
+	emit_signal("stat_changed", self, "skills_used", 1)
 	
 
 func teleport(teleport_direction):
@@ -543,7 +556,7 @@ func random_blink():
 func snap_to_nearest_grid():
 	
 	var current_position = Vector2(global_position.x - cell_size_x/2, global_position.y - cell_size_x/2)
-	
+
 	# če ni že snepano
 	if not floor_cells.has(current_position): 
 		# določimo distanco znotraj katere preverjamo bližino točke
@@ -553,7 +566,7 @@ func snap_to_nearest_grid():
 			if cell.distance_to(current_position) < distance_to_position:
 				distance_to_position = cell.distance_to(current_position)
 				nearest_cell = cell
-		
+
 		# snap it
 		global_position = Vector2(nearest_cell.x + cell_size_x/2, nearest_cell.y + cell_size_x/2)
 		
@@ -573,6 +586,11 @@ func _on_ghost_target_reached(ghost_body, ghost_position):
 	new_tween.tween_property(self, "modulate:a", 1, ghost_fade_time)
 	new_tween.tween_callback(ghost_body, "fade_out")
 	new_tween.tween_callback(self, "end_move")
+	
+			
+	# za hud
+	skills_used_count += 1
+	emit_signal("stat_changed", self, "skills_used", 1)
 	
 
 func _on_ghost_detected_body(body):
