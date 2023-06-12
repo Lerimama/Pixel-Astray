@@ -149,12 +149,12 @@ func on_collision():
 			if loop_index == burts_power: 
 				break
 			# zbrišeš indikator
-			Global.hud.new_picked_color = neighbouring_pixel.pixel_color
+			Global.hud.color_picked(neighbouring_pixel.pixel_color)
 			neighbouring_pixel.die()
 			
 		# efekt na kolajderja
 		pixel_color = collision.collider.pixel_color
-		Global.hud.new_picked_color = collision.collider.pixel_color
+		Global.hud.color_picked(collision.collider.pixel_color)
 		collision.collider.die()
 		
 

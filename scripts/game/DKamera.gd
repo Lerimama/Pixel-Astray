@@ -53,12 +53,8 @@ func _ready():
 	Global.main_camera = self
 	Global.camera_target = null # da se nulira (pri quit game) in je naslednji play brez errorja ... seta se ob spawnanju plejerja
 
-	position = Global.level_start_position.global_position
-
-	# ---
-
-#	print("KAMERA")
-	Global.current_camera = self
+#	position = Global.level_start_position.global_position
+#	Global.current_camera = self
 
 	testhud_node.hide()
 	test_toggle_btn.set_focus_mode(0)
@@ -151,7 +147,7 @@ func reset_camera_position():
 	drag_margin_bottom = 0
 	drag_margin_left = 0
 	drag_margin_right = 0
-	position = Global.level_start_position.global_position
+#	position = Global.level_start_position.global_position
 
 	yield(get_tree().create_timer(1), "timeout")
 

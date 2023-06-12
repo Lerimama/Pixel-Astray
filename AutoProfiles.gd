@@ -45,8 +45,9 @@ enum GameModes {BASIC}
 
 var game_rules : Dictionary = { # tole ne uporabljam v zadnji varianti
 	"game_mode" : GameModes.BASIC,
-	"level_no" : 0,
-	"level_time" : 90, # sekund
+#	"player_start_position" : Vector2(500, 500),
+	"level_no" : 00,
+	"game_time" : 90, # sekund
 	"points_color_picked": 10,
 	"points_skill_used": -3,
 	"points_cell_travelled": -3,

@@ -5,10 +5,8 @@ export var pick_neighbour_mode = false
 var colors_to_pick: Array # za hud nejbrhud pravila
 
 # states
-var game_is_on: bool = false
-var gametime_is_up: bool = false
+var game_on: bool = false
 var deathmode_on = false
-var pause_on = false
 
 # pixels
 var spawned_player_index: int = 0
@@ -19,46 +17,45 @@ var strays_in_game: Array = []
 # tilemap
 var floor_positions: Array # po signalu ob kreaciji tilemapa ... tukaj, da ga lahko grebam do zunaj
 
-onready var spectrum_rect: TextureRect = $Spectrum
-onready var hud: Control = Global.hud
-onready var tilemap_floor_cells: Array
 onready var StrayPixel = preload("res://scenes/game/Pixel.tscn")
 onready var PlayerPixel = preload("res://scenes/game/Pixel.tscn")
 onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
-onready var start_position: Position2D = $"../StartPosition"
+onready var spectrum_rect: TextureRect = $Spectrum
+onready var player_start_position: Position2D = $"../StartPosition"
 
-# stat grab
+# statgrab
 onready var player_stats: Dictionary = Profiles.default_player_stats.duplicate() # duplikat default profila
 onready var game_stats: Dictionary = Profiles.default_game_stats.duplicate() # duplikat default profila
 onready var game_rules: Dictionary = Profiles.game_rules 
 
+#_temp
+#onready var hud: Control = Global.hud
+#var gametime_is_up: bool = false
+#var pause_on = false
+
 
 func _unhandled_input(event: InputEvent) -> void:
 
-#	if Input.is_action_just_pressed("no1"):
-#		spawn_player_pixel()
-#	if Input.is_action_just_pressed("r"):
-#		end_game()
-	pass
+	if Input.is_action_just_pressed("r"):
+		start_game()
 
 
 func _ready() -> void:
 	
 	Global.game_manager = self	
-	Global.node_creation_parent = get_parent()
-	Global.level_start_position = start_position
+#	Global.level_start_position = player_start_position
 	
 	randomize()
 	
 	# štartej igro
-	animation_player.play("arena_in")
-	hud.visible = false
-
+	yield(get_tree().create_timer(0.1), "timeout") # zato da se vse naloži
+	set_game()
+	
 	
 func _process(delta: float) -> void:
 	
 	players_in_game = get_tree().get_nodes_in_group(Config.group_players)
-#	strays_in_game = get_tree().get_nodes_in_group(Config.group_strays)
+	# strays_in_game = get_tree().get_nodes_in_group(Config.group_strays)
 	
 	if players_in_game.empty():
 		Global.camera_target = null
@@ -67,61 +64,48 @@ func _process(delta: float) -> void:
 # GAME LOOP --------------------------------------------------------------------------------------------------------------------------------
 
 
-func start_game():
+func set_game():
 	
-	# spawnam plejerja in pixle
-	spawn_player(start_position.global_position)
-	get_stray_colors(game_stats["stray_pixels_count"])
+#	player_start_position.global_position = Profiles.game_rules["player_start_position"]
 	
-	# štart igre
-	hud.start_game_time = game_rules["level_time"]
-	game_is_on = true
-	hud.visible = true
-	hud.modulate.a = 1
+	spawn_player(player_start_position.global_position)
+	yield(get_tree().create_timer(1), "timeout")
+	
+	split_stray_colors(game_stats["stray_pixels_count"])
+	yield(get_tree().create_timer(1), "timeout")
+	
+	Global.hud.fade_in() # hud zna vse sam ... vseskozi je GM njegov "mentor"
+	
+	# tukaj pride poziv intro
+	yield(get_tree().create_timer(1), "timeout")
+	start_game()
 
 	
-func end_game():
+func start_game():
 	
+#	set_process_input(false)
+	game_on = true
+	Global.hud.start_timer()
+
+	
+func game_over():
+	
+	# ustavim igro
+	game_on = false
+	deathmode_on =  false
+	
+	# pavziram plejerja
 	if not players_in_game.empty():
 		for player in players_in_game:
 			player.set_physics_process(false)
-	game_is_on = false
-	deathmode_on =  false
 	
 	yield(get_tree().create_timer(1), "timeout")
 	
-	# gameover in podamo mu skor
-	Global.gameover_menu.fade_in(player_stats["player_points"])
+	# gameover fade-in ... podatke si pobere sam slovarja statistik
+	Global.gameover_menu.fade_in()
 	
-	# kamera target
+	# kamera target off
 	Global.camera_target = null
-	
-	# zbrišem pixle in indikatorje v hudu
-	if not strays_in_game.empty():
-		for stray in strays_in_game:
-			stray.queue_free()
-		hud.erase_all_indicators()
-	
-	# zbrišem plejerja		
-	if not players_in_game.empty():
-		for player in players_in_game:
-			player.queue_free()
-	
-	hud.visible = false
-	
-	# game ni štartan
-	# tarča kamere je null
-	# statistika igre se restira ob reštartu, ko povleče podatke iz default profila
-	# statistika plejerja se restira ob spawnanju plejerja, ko povleče podatke iz default profila
-
-	spawned_stray_index = 0 
-	spawned_player_index = 0
-
-	
-func restart_game():
-	
-	end_game()
-	start_game()
 
 
 # SPAWNANJE --------------------------------------------------------------------------------------------------------------------------------
@@ -133,22 +117,14 @@ func spawn_player(spawn_position):
 	
 	# instance
 	var new_player_pixel = PlayerPixel.instance()
-	
-	# random grid pozicija
-#		var random_range = available_floor_positions.size()
-#		var selected_cell_index: int = randi() % int(random_range) # + offset
-#		new_player_pixel.global_position = available_floor_positions[selected_cell_index] # + grid_cell_size/2 ... ne rabim snepat ker se v pixlu na redi funkciji?
+	new_player_pixel.name = "P%s" % str(spawned_player_index)
+	new_player_pixel.pixel_color = Config.color_white
+	new_player_pixel.add_to_group(Config.group_players)
 	
 	new_player_pixel.global_position = spawn_position # + grid_cell_size/2 ... ne rabim snepat ker se v pixlu na redi funkciji
-	new_player_pixel.pixel_color = Config.color_white
 	
-	# ta pixel je plejer in ne računalnik
-	new_player_pixel.pixel_is_player = true
-	new_player_pixel.add_to_group(Config.group_players)
-
-	# ime
-	var spawned_player_name = "P%s" % str(spawned_player_index)
-	new_player_pixel.name = spawned_player_name
+	# _temp
+	new_player_pixel.pixel_is_player = true # ta pixel je plejer in ne računalnik
 	
 	#spawn
 	Global.node_creation_parent.add_child(new_player_pixel)
@@ -156,11 +132,11 @@ func spawn_player(spawn_position):
 	# povežem
 	new_player_pixel.connect("stat_changed", self, "_on_stat_changed")
 	
-	# odstranim uporabljeno celico
-#	available_floor_positions.remove(selected_cell_index)	
-	
-	# ustvarimo plejerjev profil in plejerja aktiviramo (hud mora vedet)
+	# aktiviram plejerja (hud mora vedet)
 	player_stats["player_active"] = true
+
+	# odstranim uporabljeno celico
+	# available_floor_positions.remove(selected_cell_index)	
 	
 	# camera target
 	Global.camera_target = new_player_pixel
@@ -174,7 +150,7 @@ func spawn_player(spawn_position):
 	Global.main_camera.drag_margin_right = 0.3
 		
 
-func get_stray_colors(stray_pixels_count):
+func split_stray_colors(stray_pixels_count):
 	
 	# split colors
 	var color_count: int = stray_pixels_count 
@@ -192,23 +168,25 @@ func get_stray_colors(stray_pixels_count):
 	var color_skip_size = spectrum_texture_width / color_count # razmak barv po spektru ... - 1 je zato ker je razmakov za 1 manj kot barv
 	
 	# nabiranje barv za vsak pixel
-	var selected_colors: Array = []
+	var all_colors: Array = []
 	var loop_count = 0
 	for color in color_count:
 		
 		# pozicija pixla na sliki
-		var selected_color_position_y = 0 # _temp
+#		var selected_color_position_y = 0 # _temp
 		var selected_color_position_x = loop_count * color_skip_size
 		
 		# zajem barve na lokaciji pixla
-		var selected_color = spectrum_image.get_pixel(selected_color_position_x, 0)
-		selected_colors.append(selected_color)
+		var current_color = spectrum_image.get_pixel(selected_color_position_x, 0)
+		spawn_stray(current_color)
+		all_colors.append(current_color)
 		
 		# spawn indikatorja na poziciji
-		hud.spawn_color_indicator(selected_color_position_x,selected_color_position_y, selected_color)				
-		spawn_stray(selected_color)
-		
+#		hud.spawn_color_indicator(selected_color_position_x,selected_color_position_y, selected_color)				
+#		Global.hud.spawn_color_indicator(selected_color)				
 		loop_count += 1		
+		
+	Global.hud.spawn_color_indicators(all_colors)				
 
 
 func spawn_stray(stray_color):
@@ -221,15 +199,14 @@ func spawn_stray(stray_color):
 
 		# instance
 		var new_stray_pixel = StrayPixel.instance()
+		new_stray_pixel.name = "Stray%s" % str(spawned_player_index)
+		new_stray_pixel.pixel_color = stray_color
+		new_stray_pixel.add_to_group(Config.group_strays)
 		
 		# random grid pozicija
 		var random_range = available_floor_positions.size()
 		var selected_cell_index: int = randi() % int(random_range) # + offset
 		new_stray_pixel.global_position = available_floor_positions[selected_cell_index] # + grid_cell_size/2
-		
-		# obarvajmo ga ...
-		new_stray_pixel.pixel_color = stray_color
-		new_stray_pixel.add_to_group(Config.group_strays)
 		
 		#spawn
 		Global.node_creation_parent.add_child(new_stray_pixel)
@@ -256,7 +233,7 @@ func _on_stat_changed(stat_owner, changed_stat, new_stat_value):
 		"player_life": 
 			player_stats["player_life"] -= new_stat_value
 			if player_stats["player_life"] > 0:
-				spawn_player(start_position.global_position)
+				spawn_player(player_start_position.global_position)
 			
 			# reset player stats (nekatere) 
 			player_stats["cells_travelled"] = 0
