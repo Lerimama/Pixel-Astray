@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scenes/game/Arena.gd" type="Script" id=1]
 [ext_resource path="res://assets/arena_tileset.tres" type="TileSet" id=2]
@@ -6,36 +6,6 @@
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=6]
 [ext_resource path="res://assets/arena_environment.tres" type="Environment" id=8]
 [ext_resource path="res://GameManager.gd" type="Script" id=10]
-
-[sub_resource type="Animation" id=116]
-resource_name = "arena_in"
-length = 1.2
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = false
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.8, 1.2 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
-}
-tracks/1/type = "method"
-tracks/1/path = NodePath("GameManager")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "start_game"
-} ]
-}
 
 [node name="Arena" type="Node2D"]
 script = ExtResource( 1 )
@@ -72,6 +42,12 @@ position = Vector2( -16, -16 )
 offset = Vector2( -16, -16 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
+[node name="ColorRect" type="ColorRect" parent="."]
+modulate = Color( 1, 1, 1, 0.627451 )
+margin_right = 1904.0
+margin_bottom = 1228.0
+color = Color( 0, 0, 0, 1 )
+
 [node name="Border" type="StaticBody2D" parent="."]
 position = Vector2( 128, 96 )
 
@@ -80,8 +56,5 @@ polygon = PoolVector2Array( -284, -244, -248, -96, 1760, -96, 1760, 1120, -128, 
 
 [node name="ArenaEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 8 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/arena_in = SubResource( 116 )
 
 [connection signal="floor_completed" from="FloorMap" to="GameManager" method="_on_FloorMap_floor_completed"]

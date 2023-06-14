@@ -4,7 +4,7 @@ extends Node
 var fade_time = 1
 
 onready var home_scene_path: String = "res://scenes/Home.tscn"
-onready var game_scene_path: String = "res://scenes/game/Game.tscn"
+onready var game_scene_path: String = "res://scenes/Game.tscn"
 
 
 func _ready() -> void:

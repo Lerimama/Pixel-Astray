@@ -4,9 +4,6 @@ extends Control
 var pause_fade_time: float = 0.5
 var pause_on: bool = false # samo za esc
 
-#var home_scene_path: String = "res://scenes/Home.tscn"
-#var game_scene_path: String = "res://scenes/game/Game.tscn"
-
 
 func _input(event: InputEvent) -> void:
 	
@@ -50,7 +47,6 @@ func pause_tree():
 	
 	pause_on = true
 	get_tree().paused = true
-	# set_process_input(true) # zato da se lahko animacija izvede
 		
 	
 func unpause_tree():
@@ -68,12 +64,9 @@ func _on_RestartBtn_pressed() -> void:
 	
 	unpause_tree()
 	Global.main_node.reload_game()
-#	Global.reload_scene(Global.current_scene, game_scene_path, Global.main_node)
 
 
 func _on_QuitBtn_pressed() -> void:
 	
 	unpause_tree()
 	Global.main_node.game_out()
-#	Global.release_scene(Global.current_scene)
-#	Global.spawn_new_scene(home_scene_path, Global.main_node)

@@ -37,10 +37,11 @@ func fade_in():
 
 	# write stats
 	time.text = "SKILLS USED: %04d" % final_player_stats["skills_used"]
-	level.text = "SKILLS USED: %04d" % final_player_stats["skills_used"]
 	points.text = "POINTS: %04d" % final_player_stats["player_points"]
 	cells_travelled.text = "CELLS TRAVELLED: %04d" % final_player_stats["cells_travelled"]
 	skills_used.text = "SKILLS USED: %04d" % final_player_stats["skills_used"]
+	
+	level.text = "LEVEL REACHED: %02d" % final_game_stats["level_no"]
 	astray_pixels.text = "PIXELS ASTRAY: %02d" % final_game_stats["stray_pixels_count"]
 	pixels_off.text = "PIXELS OFFED: %02d /" % final_game_stats["off_pixels_count"]
 	
@@ -73,13 +74,10 @@ func _on_RestartBtn_pressed() -> void:
 	
 	unpause_tree()
 	Global.main_node.reload_game()
-#	Global.reload_scene(Global.current_scene, game_scene_path, Global.main_node)
 	
 
 func _on_QuitBtn_pressed() -> void:
 	
 	unpause_tree()
 	Global.main_node.game_out()
-#	Global.release_scene(Global.current_scene)
-#	Global.spawn_new_scene(home_scene_path, Global.main_node)
 	

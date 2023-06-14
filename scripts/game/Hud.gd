@@ -7,15 +7,21 @@ var game_stats: Dictionary
 
 var fade_time: float = 1
 
-# hud
-onready var player_life: Label = $Life
-onready var player_points: Label = $Points
-onready var cells_travelled: Label = $CellsTravelled
-onready var skills_used: Label = $SkillsUsed
-onready var pixels_off: Label = $PixelsOff
-onready var stray_pixels: Label = $PixelsStray
+onready var player_life: Label = $Life # _temp, pravi je na samih ikonah
+onready var player_energy: Label = $Energy # temp
+
+#onready var player_points: Label = $Points
+onready var player_points: Label = $HudLine_TL/PointsCounter/Points
+onready var cells_travelled: Label = $HudLine_TL/CellCounter/CellsTravelled
+onready var skills_used: Label = $HudLine_TL/SkillCounter/SkillsUsed
+
 onready var picked_color_rect: ColorRect = $PickedColor/ColorBox/ColorRect
 onready var picked_color_label: Label = $PickedColor/Value
+
+# game hud
+onready var pixels_off: Label = $HudLine_TR/OffedCounter/PixelsOff
+onready var stray_pixels: Label = $HudLine_TR/StrayCounter/PixelsStray
+onready var level: Label = $Level
 
 # spectrum indicators
 #var color_indicator_width: float = 12 # ročno setaj pravilno
@@ -36,7 +42,7 @@ func _ready() -> void:
 	# skrij statistiko
 	visible = false
 	color_spectrum = Global.color_indicator_parent
-
+	
 
 func _process(delta: float) -> void:
 		
@@ -44,15 +50,41 @@ func _process(delta: float) -> void:
 	game_stats = Global.game_manager.game_stats
 	
 	# pixel stats
-	skills_used.text = "SKILLS USED: %04d" % player_stats["skills_used"]
-	cells_travelled.text = "CELLS TRAVELLED: %04d" % player_stats["cells_travelled"]
-	player_life.text = "LIFE: %s" % player_stats["player_life"]
-	player_points.text = "POINTS: %04d" % player_stats["player_points"]
+	
+	
+	player_points.text = "%04d" % player_stats["player_points"]
+	cells_travelled.text = "%04d" % player_stats["cells_travelled"]
+	skills_used.text = "%04d" % player_stats["skills_used"]
 	
 	# game stats
-	stray_pixels.text = "PIXELS ASTRAY: %02d" % game_stats["stray_pixels_count"]
-	pixels_off.text = "%02d /" % game_stats["off_pixels_count"]
+	level.text = "LEVEL %02d" % game_stats["level_no"]
+	stray_pixels.text = "%03d" % game_stats["stray_pixels_count"]
+	pixels_off.text = "%03d" % game_stats["off_pixels_count"]
+	
+	# _temp
+	player_life.text = "LIFE: %01d" % player_stats["player_life"]
+	player_energy.text = "E: %04d" % player_stats["player_energy"]
+	
+	# life  ikone
+#	var loop_index: int		
+#	for icon in life_icons:
+#		loop_index += 1
+#		if loop_index >= player_stats["player_life"] + 1: # če je ena preveč
+#			icon.get_node("OnIcon").modulate.a = 0
+#		else:
+#			icon.get_node("OnIcon").modulate.a = 1
 
+
+#	# pixel stats
+#	player_life.text = "LIFE: %01d" % player_stats["player_life"]
+#	player_points.text = "POINTS: %04d" % player_stats["player_points"]
+#	cells_travelled.text = "TRAVELING: %04d" % player_stats["cells_travelled"]
+#	skills_used.text = "SKILLS USED: %04d" % player_stats["skills_used"]
+#	# game stats
+#	level.text = "LEVEL %02d" % game_stats["level_no"]
+#	stray_pixels.text = "PIXELS ASTRAY: %02d" % game_stats["stray_pixels_count"]
+#	pixels_off.text = "%02d /" % game_stats["off_pixels_count"]
+	
 
 func fade_in():
 	
@@ -65,7 +97,7 @@ func fade_in():
 	
 func start_timer():
 	
-	game_time.restart_timer(Profiles.game_rules["game_time"])
+	game_time.restart_timer(Profiles.default_game_stats["game_time"])
 
 
 # colors
@@ -144,7 +176,8 @@ func erase_color_indicator(erase_color):
 			Global.game_manager.colors_to_pick = [active_color_indicators[prev_indicator_index].color, active_color_indicators[next_indicator_index].color]
 		
 	# izbris iz arraya živih indikatorjev
-	active_color_indicators.erase(active_color_indicators[current_indicator_index])
+	if not active_color_indicators.empty():
+		active_color_indicators.erase(active_color_indicators[current_indicator_index])
 	
 
 #func erase_all_indicators(): ... zaenkrat ne rabim nikjer

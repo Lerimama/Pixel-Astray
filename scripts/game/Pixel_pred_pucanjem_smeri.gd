@@ -7,15 +7,11 @@ export var pixel_is_player: = false # tukaj setam al ma kontrole al ne
 
 enum States {IDLE, STEPPING, SKILLED, BURSTING}
 var current_state = States.IDLE
-
 var pixel_color: Color
-var direction = Vector2.ZERO # prenosna
-var skills_used_count: int = 0 # prenosna
 
 # steping
-export var step_speed: float # = 0.15
-export var normal_speed: float = 0.15
-export var fast_speed: float = 0.05
+export var step_speed = 0.1
+var direction = Vector2.ZERO
 
 # push & pull
 var pull_time: float = 0.6
@@ -31,36 +27,41 @@ var ghost_max_speed: float = 10
 # cocking
 var cocked_ghosts: Array
 var cocking_room: bool = true
-var cocked_ghost_count_max: int = 7
+var cocked_ghost_count_max: int = 32
 var ghost_cocking_time: float = 0 # trenuten čas nastajanja cocking ghosta
 var ghost_cocking_time_limit: float = 0.2 # max čas nastajanja cocking ghosta (tudi animacija)
 var cocked_ghost_fill_time: float = 0.05 # čas za napolnitev vseh spawnanih ghostov (tik pred burstom)
-var cocked_ghost_alpha: float = 0.3
-var cocked_ghost_alpha_factor: float = 25
+var cocked_ghost_alpha: float = 0.6
+var cocked_ghost_alpha_factor: float = 14
 
 # bursting
 var burst_speed: float = 0
 var burst_speed_max: float = 0 # maximalna hitrost v tweenu
-var burst_speed_max_addon: float = 10
+var burst_speed_max_addon: float = 7
 var strech_ghost_shrink_time: float = 0.2
 var burst_direction_set: bool = false
-var burst_power: int # moč v številu ghosts_count
 
-# stray
-var current_neighbouring_cells: Array = [] # stray stalno čekira sosede
+# stats
+var skills_used_count: int = 0
+var step_cell_count: int = 1 # je naslednja
+
 
 var new_tween: SceneTreeTween
-var collision: KinematicCollision2D
-
 onready var cell_size_x: int = Global.level_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var vision_ray: RayCast2D = $VisionRay
 onready var floor_cells: Array = Global.game_manager.floor_positions
 onready var collision_shape: CollisionShape2D = $CollisionShape2D
+
 onready var PixelGhost: PackedScene = preload("res://scenes/game/PixelGhost.tscn")
 
-export var alpha: float = 1 # za animacijo
-	
+#_temp
+var collision: KinematicCollision2D
+var velocity: Vector2
+var current_neighbouring_cells: Array = []
+var burts_power: int # moč v številu ghosts_count
+
+
 func _ready() -> void:
 	
 	Global.print_id(self)
@@ -75,17 +76,11 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	
-	modulate.a = alpha # za blinkanje
-	
 	if pixel_is_player:	
 		
 		if detect_collision_in_direction(vision_ray, direction): # more bit neodvisno od stateta, da pull dela
 			skill_inputs()
-			
-			if detect_collision_in_direction(vision_ray, direction).is_in_group(Config.group_strays): # more bit neodvisno od stateta, da pull dela
-				alpha = 2.5
-			else:
-				alpha = 1
+		
 		match current_state:
 			States.IDLE: 
 				idle_inputs()
@@ -93,7 +88,8 @@ func _physics_process(delta: float) -> void:
 			States.SKILLED: pass
 			States.BURSTING: 
 				burst_inputs()
-				var velocity = direction * burst_speed
+#				detect_area.monitoring = false
+				velocity = direction * burst_speed
 				collision = move_and_collide(velocity) 
 				if collision:
 					on_collision()
@@ -109,9 +105,6 @@ func on_collision():
 	
 	# stena
 	if collision.collider.is_in_group(Config.group_tilemap):
-		
-		Global.main_camera.burst_shake(0.15)
-		
 		# žrebam animacijo
 		var random_animation_index = randi() % 3 + 1
 		var random_animation_name: String = "glitch_%s" % random_animation_index
@@ -119,8 +112,6 @@ func on_collision():
 	
 	# stray pixel
 	elif collision.collider.is_in_group(Config.group_strays):
-		
-		Global.main_camera.burst_shake(0.15)
 		
 		# return, če je "sosed" mode, in če je sosed določen, in če pobrana barva ni enaka barvi soseda na spektru
 		if Global.game_manager.pick_neighbour_mode:
@@ -154,50 +145,41 @@ func on_collision():
 		var loop_index = 0
 		for neighbouring_pixel in all_neighbouring_pixels:
 			loop_index += 1
-			if loop_index == burst_power: 
+			if loop_index == burts_power: 
 				break
 			# zbrišeš indikator
 			Global.hud.color_picked(neighbouring_pixel.pixel_color)
 			neighbouring_pixel.die()
 			
-			# cascade
-#			var burst_cascade_time: float = 0.1
-#			yield(get_tree().create_timer(burst_cascade_time), "timeout")
-
 		# efekt na kolajderja
 		pixel_color = collision.collider.pixel_color
 		Global.hud.color_picked(collision.collider.pixel_color)
 		collision.collider.die()
 		
-#		direction = Vector2.ZERO
 
 	end_move() # more bit tukaj spoadaj, da pogreba barve
-		
 
+		
 func idle_inputs():
 	
 	if Input.is_action_pressed("ui_up"):
 		direction = Vector2.UP
 		step()
+#		step(direction)
 	elif Input.is_action_pressed("ui_down"):
 		direction = Vector2.DOWN
 		step()
+#		step(direction)
 	elif Input.is_action_pressed("ui_left"):
 		direction = Vector2.LEFT
 		step()
+#		step(direction)
 	elif Input.is_action_pressed("ui_right"):
 		direction = Vector2.RIGHT
 		step()
+#		step(direction)
+
 			
-	if Input.is_action_pressed("space") and States.STEPPING:
-		
-		# step_speed -= fast_speed * 0.1
-		# new_tween = get_tree().create_tween()
-		# new_tween.tween_property(self, "step_speed", fast_speed, 1).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		step_speed = fast_speed
-	else:
-		step_speed = normal_speed
-		
 	if Input.is_action_just_pressed("space"): # brez "just" dela po stisku smeri ... ni ok
 		current_state = States.BURSTING
 
@@ -210,28 +192,32 @@ func burst_inputs():
 			burst_direction_set = true
 		else:
 			cock_burst()
+#			cock_burst(direction)
 	elif Input.is_action_pressed("ui_down"):
 		if not burst_direction_set:
 			direction = Vector2.UP
 			burst_direction_set = true
 		else:
 			cock_burst()
+#			cock_burst(direction)
 	elif Input.is_action_pressed("ui_left"):
 		if not burst_direction_set:
 			direction = Vector2.RIGHT
 			burst_direction_set = true
 		else:
 			cock_burst()
+#			cock_burst(direction)
 	elif Input.is_action_pressed("ui_right"):
 		if not burst_direction_set:
 			direction = Vector2.LEFT
 			burst_direction_set = true
 		else:
 			cock_burst()
+#			cock_burst(direction)
 			
 	if Input.is_action_just_released("space"):
 		if burst_direction_set:
-			release_burst()
+			release_burst(direction)
 		else:
 			end_move()
 
@@ -242,8 +228,6 @@ func skill_inputs():
 	
 	# s tem inputom prekinem "is_pressed" input
 	if Input.is_action_just_pressed("ui_up"):
-		print("juhej")
-		
 		new_direction = Vector2.UP
 	if Input.is_action_just_pressed("ui_down"):
 		new_direction = Vector2.DOWN
@@ -251,33 +235,33 @@ func skill_inputs():
 		new_direction = Vector2.LEFT
 	if Input.is_action_just_pressed("ui_right"):
 		new_direction = Vector2.RIGHT
-#	print(current_state)
+	
 	if current_state != States.SKILLED:
-#		alpha = 2.5
 		var collider: Object = detect_collision_in_direction(vision_ray, direction)
 		if new_direction == direction:
 			if collider.is_in_group(Config.group_tilemap):
-				teleport()
+				teleport(direction)
 			elif collider.is_in_group(Config.group_strays):
-				push()	
+				push(direction)	
 		if new_direction == - direction:
 			if collider.is_in_group(Config.group_strays):
-				pull()	
-#	else:
-#		alpha = 1
+				pull(direction)	
+
 
 # STEPS ______________________________________________________________________________________________________________
 
 
+#func step(step_direction):
 func step():
 	
 	var step_direction = direction
+	step_speed = 0.1
 	
 	# če kolajda izbrani smeri gibanja prenesem kontrole na skill
 	if not detect_collision_in_direction(vision_ray, step_direction):
 		current_state = States.STEPPING
 		snap_to_nearest_grid()
-		spaw_trail_ghost()
+#		spaw_trail_ghost()
 		new_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 		new_tween.tween_property(self, "position", global_position + direction * cell_size_x, step_speed)
 		new_tween.tween_callback(self, "snap_to_nearest_grid")
@@ -291,6 +275,7 @@ func end_move():
 	
 	current_state = States.IDLE
 	
+	
 	burst_direction_set = false
 	burst_speed = 0 # more bit tukaj pred _change state, če ne uničuje tudi sam sebe
 	
@@ -299,33 +284,29 @@ func end_move():
 	snap_to_nearest_grid()
 	
 	# reset ray dir
-	direction = Vector2.ZERO
+	vision_ray.cast_to = direction * cell_size_x # ray kaže na naslednjo pozicijo 
+	vision_ray.force_raycast_update()	
+
 
 
 func die():
 	
 	if pixel_is_player:
-		emit_signal("stat_changed", self, "player_life", -1)
-		set_physics_process(false)
+		emit_signal("stat_changed", self, "player_life", 1)
+#		print("PLAYER KVEFRI")
 	else:
 		emit_signal("stat_changed", self, "off_pixels_count", 1)
-			
-	animation_player.play("die_short")
-
-
-#func revive():
-#	modulate.a = 0
-#	animation_player.play("revive") # kvefrija se v animaciji
-	
-	
-func activate_player():
-	set_physics_process(true)
+#		print("STRAY KVEFRI")
+	animation_player.play("die") # kvefrija se v animaciji
+#	queue_free()
+	pass
 
 
 # BURST ______________________________________________________________________________________________________________
 
 
 func cock_burst():
+#func cock_burst(burst_direction):
 
 	var burst_direction = direction
 	var cock_direction = - burst_direction
@@ -361,10 +342,8 @@ func spawn_cock_ghost(cocking_direction, cocked_ghosts_count):
 	new_pixel_ghost.modulate = modulate
 	
 	# z vsakim naj bo bolj prosojen (relativno z max številom celic)
-	# gledena faktor
 	new_pixel_ghost.modulate.a = cocked_ghost_alpha - (cocked_ghosts_count / cocked_ghost_alpha_factor)
-	# glede na max moč 
-#	new_pixel_ghost.modulate.a = 0.5 - (cocked_ghosts_count / float(cocked_ghost_count_max + 1))
+	# new_pixel_ghost.modulate.a = 1.0 - (cocked_ghosts_count / float(cocked_ghost_count_max + 1)) ... glede na max moč 
 	
 	# z vsakim se zamika pozicija
 	new_pixel_ghost.global_position = global_position + cocking_direction * cell_size_x * cocked_ghosts_count# pozicija se zamakne za celico
@@ -393,21 +372,19 @@ func spawn_cock_ghost(cocking_direction, cocked_ghosts_count):
 	cocked_ghosts.append(new_pixel_ghost)
 
 
-func release_burst():
+func release_burst(burst_direction):
 	
 	for ghost in cocked_ghosts:
 		new_tween = get_tree().create_tween()
 		new_tween.tween_property(ghost, "modulate:a", 1, cocked_ghost_fill_time)
 		yield(get_tree().create_timer(cocked_ghost_fill_time),"timeout")
 	
-	burst(cocked_ghosts.size())
+	burst(burst_direction, cocked_ghosts.size())
 		
 
-func burst(ghosts_count):
+func burst(burst_direction, ghosts_count):
 	
-	var burst_direction = direction
-	
-	burst_power = ghosts_count
+	burts_power = ghosts_count
 		
 	var ray_collider = vision_ray.get_collider() # ! more bit za detect_wall() ... ta ga šele pogreba?
 	var backup_direction = - burst_direction
@@ -444,8 +421,8 @@ func burst(ghosts_count):
 	cocking_room = true
 				
 	# za hud
-#	skills_used_count += 1
-	emit_signal("stat_changed", self, "burst_relesed", burst_power)
+	skills_used_count += 1
+	emit_signal("stat_changed", self, "skills_used", 1)
 	
 	# zaključek v on_collision()
 	
@@ -453,11 +430,9 @@ func burst(ghosts_count):
 # SKILLS ______________________________________________________________________________________________________________
 		
 		
-func push():
+func push(push_direction):
 	
-	var push_direction = direction
 	var backup_direction = - push_direction
-	
 	var ray_collider = vision_ray.get_collider() # ! more bit za detect_wall() ... ta ga šele pogreba?
 	
 	# je prostor za zalet?
@@ -490,11 +465,9 @@ func push():
 	emit_signal("stat_changed", self, "skills_used", 1)
 
 
-func pull():
+func pull(target_direction):
 	
-	var target_direction = direction
 	var pull_direction = - target_direction
-	
 	var target_pixel = vision_ray.get_collider()
 	
 	# preverjam če ma prostor v smeri premika
@@ -521,9 +494,7 @@ func pull():
 	emit_signal("stat_changed", self, "skills_used", 1)
 	
 
-func teleport():
-	
-	var teleport_direction = direction
+func teleport(teleport_direction):
 	
 	current_state = States.SKILLED
 	
@@ -550,7 +521,7 @@ func teleport():
 
 func spaw_trail_ghost():
 	
-	var trail_alpha: float = 0.2
+	var trail_alpha: float = 0.4
 	var trail_ghost_fade_time: float = 0.4
 	
 	# trail ghosts
@@ -559,7 +530,6 @@ func spaw_trail_ghost():
 	new_pixel_ghost.modulate = pixel_color
 	new_pixel_ghost.modulate.a = trail_alpha
 	Global.node_creation_parent.add_child(new_pixel_ghost)
-	
 	# fadeout
 	new_tween = get_tree().create_tween()
 	new_tween.tween_property(new_pixel_ghost, "modulate:a", 0, trail_ghost_fade_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)

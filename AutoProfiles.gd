@@ -28,14 +28,16 @@ var default_player_profiles: Dictionary = { # ime profila ime igralca ... pazi d
 
 var default_player_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
 	"player_active" : false, # zaenkrat ga v aktivnega setaš na pixlov ready
-	"player_points": 0,
 	"player_life" : 3,
+	"player_points": 0,
+	"player_energy" : 172, # max, da se lepo ujema s pixli
 	"skills_used" : 0,
 	"cells_travelled" : 0,
 }
 
 var default_game_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
-#	"game_time" : 90, # sekund
+	"level_no" : 88,
+	"game_time" : 900, # sekund
 	"stray_pixels_count" : 32,
 	"off_pixels_count" : 0,
 #	"color_sum": "000 000 000"
@@ -46,11 +48,13 @@ enum GameModes {BASIC}
 var game_rules : Dictionary = { # tole ne uporabljam v zadnji varianti
 	"game_mode" : GameModes.BASIC,
 #	"player_start_position" : Vector2(500, 500),
-	"level_no" : 00,
-	"game_time" : 90, # sekund
 	"points_color_picked": 10,
 	"points_skill_used": -3,
 	"points_cell_travelled": -3,
+	
+	"energy_color_picked": 20,
+	"energy_skill_used": -3,
+	"energy_cell_travelled": -1,
 }
 
 #enum Levels {FIRST, SQUARE, CIRCLE, TRIANGLE
