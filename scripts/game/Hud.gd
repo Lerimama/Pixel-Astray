@@ -15,7 +15,7 @@ onready var player_points: Label = $HudLine_TL/PointsCounter/Points
 onready var cells_travelled: Label = $HudLine_TL/CellCounter/CellsTravelled
 onready var skills_used: Label = $HudLine_TL/SkillCounter/SkillsUsed
 
-onready var picked_color_rect: ColorRect = $PickedColor/ColorBox/ColorRect
+onready var picked_color_rect: ColorRect = $PickedColor/ColorRect
 onready var picked_color_label: Label = $PickedColor/Value
 
 # game hud
@@ -24,9 +24,8 @@ onready var stray_pixels: Label = $HudLine_TR/StrayCounter/PixelsStray
 onready var level: Label = $Level
 
 # spectrum indicators
-#var color_indicator_width: float = 12 # ročno setaj pravilno
 var active_color_indicators: Array = []
-onready var color_spectrum: VBoxContainer = $ColorSpectrum
+#onready var color_spectrum: VBoxContainer = $ColorSpectrum
 onready var ColorIndicator: PackedScene = preload("res://scenes/game/HudColorIndicator.tscn")
 onready var indicator_holder: HBoxContainer = $ColorSpectrumLite/IndicatorHolder
 
@@ -41,7 +40,7 @@ func _ready() -> void:
 	
 	# skrij statistiko
 	visible = false
-	color_spectrum = Global.color_indicator_parent
+#	color_spectrum = Global.color_indicator_parent
 	
 
 func _process(delta: float) -> void:
@@ -50,7 +49,6 @@ func _process(delta: float) -> void:
 	game_stats = Global.game_manager.game_stats
 	
 	# pixel stats
-	
 	
 	player_points.text = "%04d" % player_stats["player_points"]
 	cells_travelled.text = "%04d" % player_stats["cells_travelled"]
@@ -64,26 +62,6 @@ func _process(delta: float) -> void:
 	# _temp
 	player_life.text = "LIFE: %01d" % player_stats["player_life"]
 	player_energy.text = "E: %04d" % player_stats["player_energy"]
-	
-	# life  ikone
-#	var loop_index: int		
-#	for icon in life_icons:
-#		loop_index += 1
-#		if loop_index >= player_stats["player_life"] + 1: # če je ena preveč
-#			icon.get_node("OnIcon").modulate.a = 0
-#		else:
-#			icon.get_node("OnIcon").modulate.a = 1
-
-
-#	# pixel stats
-#	player_life.text = "LIFE: %01d" % player_stats["player_life"]
-#	player_points.text = "POINTS: %04d" % player_stats["player_points"]
-#	cells_travelled.text = "TRAVELING: %04d" % player_stats["cells_travelled"]
-#	skills_used.text = "SKILLS USED: %04d" % player_stats["skills_used"]
-#	# game stats
-#	level.text = "LEVEL %02d" % game_stats["level_no"]
-#	stray_pixels.text = "PIXELS ASTRAY: %02d" % game_stats["stray_pixels_count"]
-#	pixels_off.text = "%02d /" % game_stats["off_pixels_count"]
 	
 
 func fade_in():
@@ -118,14 +96,32 @@ func spawn_color_indicators(colors):
 		active_color_indicators.append(new_color_indicator)
 	
 	
+
 func color_picked(picked_pixel_color):
 	
 	erase_color_indicator(picked_pixel_color)
 	
 	# picked color stats
-	picked_color_rect.color = picked_pixel_color
 	picked_color_label.text = str(round(255 * picked_pixel_color.r)) + " " + str(round(255 * picked_pixel_color.g)) + " " + str(round(255 * picked_pixel_color.b))
 	
+	# color effects
+	var pixels_off_counter = $HudLine_TR/OffedCounter
+	var stray_pixels_counter = $HudLine_TR/StrayCounter
+	var current_counter_modulate: Color = pixels_off_counter.modulate
+	var current_label_modulate: Color = picked_color_label.modulate
+	
+	picked_color_rect.color = picked_pixel_color
+	
+	picked_color_label.modulate = picked_pixel_color
+	pixels_off_counter.modulate = picked_pixel_color
+	stray_pixels_counter.modulate = picked_pixel_color
+	yield(get_tree().create_timer(0.5), "timeout")
+	picked_color_label.modulate = current_label_modulate
+	pixels_off_counter.modulate = current_counter_modulate
+	stray_pixels_counter.modulate = current_counter_modulate
+	
+	
+	stray_pixels_counter
 	
 func erase_color_indicator(erase_color):
 	
@@ -180,12 +176,13 @@ func erase_color_indicator(erase_color):
 		active_color_indicators.erase(active_color_indicators[current_indicator_index])
 	
 
-#func erase_all_indicators(): ... zaenkrat ne rabim nikjer
+func erase_all_indicators(): # ... zaenkrat ne rabim nikjer
+	
 #	if not active_color_indicators.empty():
 #		for indicator in active_color_indicators:
 #			indicator.queue_free()
 #		active_color_indicators = []
-	
+	pass
 	
 # deathmode
 

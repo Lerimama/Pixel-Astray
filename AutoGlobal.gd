@@ -18,8 +18,9 @@ var current_scene = null # trenutno predvajana scena (za svičanje)
 var scene_reload_time: float = 1
 
 # res rabm?
-var color_indicator_parent = null # za barve v hudu
+var game_countdown = null
 var gameover_menu = null
+var color_indicator_parent = null # za barve v hudu
 #var current_camera = null # za tarčo
 #var level_start_position = null
 

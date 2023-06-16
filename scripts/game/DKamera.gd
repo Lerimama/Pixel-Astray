@@ -4,23 +4,24 @@ extends Camera2D
 export (OpenSimplexNoise) var noise # tekstura za vizualizacijo ma kopijo tega noisa
 
 
-# šejkanje
-var trauma_strength = 0 # na začetku vedno 0
-export(float, 0, 1) var trauma_strength_addon = 0.1
-export(float, 0, 10) var trauma_time = 0 # decay delay
+# šejk setup
+export(float, 0, 1) var trauma_strength_addon = 0.1 # na testnem gumbu
+export(float, 0, 10) var trauma_time = 0.2 # decay delay
+export(float, 0, 1) var decay_speed = 0.7 # krajši je 
 
 export var max_horizontal = 150
 export var max_vertical = 150
 export var max_rotation = 5
-
-export(float, 0, 1) var decay_speed = 0.1 # krajši je 
 export var time_speed: float = 150 # za offset noise
+var trauma_strength = 0 # na začetku vedno 0
 var time: float = 0 # za offset noise
 
-# šejk from game
-var shake_on: bool = false
-export (float, 0, 1) var burst_stray_shake = 0.2 # bullet add_trauma
-export (float, 0, 1) var burst_wall_shake = 0.4 # bullet add_trauma
+# game šejk
+#var shake_on: bool = false
+export (float, 0, 1) var stray_hit_strength = 0.1 # bullet add_trauma
+export (float, 0, 1) var wall_hit_strength = 0.35 # bullet add_trauma
+export (float, 0, 1) var player_die_strength = 0.25 # bullet add_trauma
+export (float, 0, 1) var stray_die_strength = 0.25 # bullet add_trauma
 
 # test hud
 var test_view_on = false
@@ -60,9 +61,25 @@ func _ready():
 	Global.main_camera = self
 	Global.camera_target = null # da se nulira (pri quit game) in je naslednji play brez errorja ... seta se ob spawnanju plejerja
 
-#	position = Global.level_start_position.global_position
-#	Global.current_camera = self
+	# base šejk setup ... specialne nastavitve so v metodah
+	noise.seed = 8
+	noise.octaves = 1
+	noise.period = 5
+	noise.persistence = 0
+	noise.lacunarity = 3.2
+	
+	
+	# UI
+	
+	seed_slider.value = noise.seed
+	octaves_slider.value = noise.octaves
+	period_slider.value = noise.period 
+	persistence_slider.value = noise.persistence
+	lacunarity_slider.value = noise.lacunarity 
 
+	trauma_time_slider.value = trauma_time
+	trauma_strength_slider.value = trauma_strength_addon
+	
 	testhud_node.hide()
 	test_toggle_btn.set_focus_mode(0)
 
@@ -80,21 +97,6 @@ func _ready():
 	zoom_slider.set_focus_mode(0)
 	time_slider.set_focus_mode(0)
 	zoom_slider.hide()
-
-	noise.seed = 2
-	noise.octaves = 1
-	noise.period = 10
-	noise.persistence = 0
-	noise.lacunarity = 1
-
-	seed_slider.value = noise.seed
-	octaves_slider.value = noise.octaves
-	period_slider.value = noise.period 
-	persistence_slider.value = noise.persistence
-	lacunarity_slider.value = noise.lacunarity 
-
-	trauma_time_slider.value = trauma_time
-	trauma_strength_slider.value = trauma_strength_addon
 
 
 func _input(event: InputEvent) -> void:
@@ -156,8 +158,54 @@ func _physics_process(delta: float) -> void:
 	if Global.camera_target:
 		position = Global.camera_target.position
 
-	pass
 
+# ŠEJK ------------------------------------------------------------------------------------------------------------------------
+
+# on btn
+func shake_camera(shake_strength): 
+	
+	trauma_strength = shake_strength
+	trauma_strength = clamp(trauma_strength, 0, 1)
+
+
+func stray_hit_shake():
+	
+	stray_hit_strength = 0.2
+	trauma_time = 0.3
+	decay_speed = 0.7
+	
+	shake_camera(stray_hit_strength)
+
+
+func wall_hit_shake():
+	
+	wall_hit_strength = 0.25
+	trauma_time = 0.5
+	decay_speed = 0.2
+	
+	shake_camera(wall_hit_strength)
+
+
+func stray_die_shake():
+	
+	return
+	stray_die_strength = 0
+	trauma_time = 0.2
+	decay_speed = 0.7
+	
+	shake_camera(stray_die_strength)
+
+
+func player_die_shake():
+	
+	player_die_strength = 0.2
+	trauma_time = 0.7
+	decay_speed = 0.1
+	
+	shake_camera(player_die_strength)
+
+
+# FOLLOW ------------------------------------------------------------------------------------------------------------------------
 
 func reset_camera_position():
 	
@@ -175,16 +223,8 @@ func reset_camera_position():
 	drag_margin_left = 0.3
 	drag_margin_right = 0.3
 
-func shake_camera(shake_strength):
-	
-	trauma_strength = shake_strength
-	trauma_strength = clamp(trauma_strength, 0, 1)
 
-
-func burst_shake(shake_trauma):
-	shake_camera(shake_trauma)
-
-# TESTHUD
+# TESTHUD ------------------------------------------------------------------------------------------------------------------------
 
 func _on_CheckBox_toggled(button_pressed: bool) -> void:
 
@@ -249,6 +289,29 @@ func _on_Lacunarity_mouse_entered() -> void:
 func _on_Lacunarity_mouse_exited() -> void:
 	mouse_used = false
 
+# shake props
+
+func _on_TraumaTime_value_changed(value: float) -> void:
+	trauma_time = value
+func _on_TraumaTime_mouse_entered() -> void:
+	mouse_used = true
+func _on_TraumaTime_mouse_exited() -> void:
+	mouse_used = false
+
+func _on_TraumaStrength_value_changed(value: float) -> void:
+	trauma_strength_addon = value
+func _on_TraumaStrength_mouse_entered() -> void:
+	mouse_used = true
+func _on_TraumaStrength_mouse_exited() -> void:
+	mouse_used = false
+
+func _on_ShakeDecay_value_changed(value: float) -> void:
+	decay_speed = value
+func _on_ShakeDecay_mouse_exited() -> void:
+	mouse_used = false
+func _on_ShakeDecay_mouse_entered() -> void:
+	mouse_used = true
+
 # os time
 
 func _on_TimeSlider_value_changed(value: float) -> void:
@@ -274,28 +337,3 @@ func _on_ZoomSlider_mouse_exited() -> void:
 	mouse_used = false
 func _on_ZoomSlider_value_changed(value: float) -> void:
 	zoom = Vector2(value, value)
-
-# shake props
-
-func _on_TraumaTime_value_changed(value: float) -> void:
-	trauma_time = value
-func _on_TraumaTime_mouse_entered() -> void:
-	mouse_used = true
-func _on_TraumaTime_mouse_exited() -> void:
-	mouse_used = false
-
-
-func _on_TraumaStrength_value_changed(value: float) -> void:
-	trauma_strength_addon = value
-func _on_TraumaStrength_mouse_entered() -> void:
-	mouse_used = true
-func _on_TraumaStrength_mouse_exited() -> void:
-	mouse_used = false
-
-
-func _on_ShakeDecay_value_changed(value: float) -> void:
-	decay_speed = value
-func _on_ShakeDecay_mouse_exited() -> void:
-	mouse_used = false
-func _on_ShakeDecay_mouse_entered() -> void:
-	mouse_used = true

@@ -4,23 +4,26 @@ extends KinematicBody2D
 signal stat_changed (stat_owner, stat, stat_change)
 
 export var pixel_is_player: = false # tukaj setam al ma kontrole al ne
+export var energy_speed_mode: bool = true
 
 enum States {IDLE, STEPPING, SKILLED, BURSTING}
 var current_state = States.IDLE
 
 var pixel_color: Color
 var direction = Vector2.ZERO # prenosna
-var skills_used_count: int = 0 # prenosna
+#var skills_used_count: int = 0 # prenosna
 
 # steping
-export var step_speed: float # = 0.15
-export var normal_speed: float = 0.15
-export var fast_speed: float = 0.05
+export var step_time: float # = 0.15
+export var walk_time: float = 0.15
+export var run_time: float = 0.05
+export var max_step_time: float = 0.25 # najpočasnejši
+export var min_step_time: float = 0.1 # najhitrejši ... v trenutni kodi je irelevanten
 
 # push & pull
-var pull_time: float = 0.6
+var pull_time: float = 0.3
 var pull_cell_count: int = 1
-var push_time: float = 0.5
+var push_time: float = 0.3
 var push_cell_count: int = 1
 
 # teleport
@@ -32,11 +35,12 @@ var ghost_max_speed: float = 10
 var cocked_ghosts: Array
 var cocking_room: bool = true
 var cocked_ghost_count_max: int = 7
-var ghost_cocking_time: float = 0 # trenuten čas nastajanja cocking ghosta
-var ghost_cocking_time_limit: float = 0.2 # max čas nastajanja cocking ghosta (tudi animacija)
-var cocked_ghost_fill_time: float = 0.05 # čas za napolnitev vseh spawnanih ghostov (tik pred burstom)
 var cocked_ghost_alpha: float = 0.3
 var cocked_ghost_alpha_factor: float = 25
+var ghost_cocking_time: float = 0 # trenuten čas nastajanja cocking ghosta
+var ghost_cocking_time_limit: float = 0.16 # max čas nastajanja cocking ghosta (tudi animacija)
+var cocked_ghost_fill_time: float = 0.04 # čas za napolnitev vseh spawnanih ghostov (tik pred burstom)
+var cocked_pause_time: float = 0.05 # čas za napolnitev vseh spawnanih ghostov (tik pred burstom)
 
 # bursting
 var burst_speed: float = 0
@@ -59,8 +63,10 @@ onready var floor_cells: Array = Global.game_manager.floor_positions
 onready var collision_shape: CollisionShape2D = $CollisionShape2D
 onready var PixelGhost: PackedScene = preload("res://scenes/game/PixelGhost.tscn")
 
-export var alpha: float = 1 # za animacijo
-	
+# glow
+var skill_connect_alpha: float = 1.2
+
+
 func _ready() -> void:
 	
 	Global.print_id(self)
@@ -71,26 +77,45 @@ func _ready() -> void:
 	modulate = pixel_color
 	randomize() # za random die animacije
 	snap_to_nearest_grid()
+	
+	# deaktiviram plejerja ... aktivira ga GM, ko v start_game
+	if pixel_is_player:
+		set_physics_process(false)
 
 
 func _physics_process(delta: float) -> void:
-	
-	modulate.a = alpha # za blinkanje
 	
 	if pixel_is_player:	
 		
 		if detect_collision_in_direction(vision_ray, direction): # more bit neodvisno od stateta, da pull dela
 			skill_inputs()
-			
-			if detect_collision_in_direction(vision_ray, direction).is_in_group(Config.group_strays): # more bit neodvisno od stateta, da pull dela
-				alpha = 2.5
-			else:
-				alpha = 1
+				
 		match current_state:
 			States.IDLE: 
+				
+				if detect_collision_in_direction(vision_ray, direction):# and detect_collision_in_direction(vision_ray, direction).is_in_group(Config.group_strays): # more bit neodvisno od stateta, da pull dela
+					modulate.a = skill_connect_alpha
+				else:
+					modulate.a = 1
+					
 				idle_inputs()
-			States.STEPPING: pass
-			States.SKILLED: pass
+								
+			States.STEPPING:
+				
+				if energy_speed_mode: # vedno hitreje
+					
+					var current_player_energy: float = Global.game_manager.player_stats["player_energy"]
+					var max_player_energy: float = Profiles.default_player_stats["player_energy"]
+					
+					var slow_trim_size: float = max_step_time * max_player_energy
+					var energy_factor: float = (max_player_energy - slow_trim_size) / current_player_energy
+					var energy_step_time = energy_factor / 10 # ta variabla je zato, da se vedno seta nova in potem ne raste s FP
+					
+					# omejim najbolj počasno
+					step_time = clamp(energy_step_time, min_step_time, max_step_time)
+					
+			States.SKILLED:
+				modulate.a = skill_connect_alpha
 			States.BURSTING: 
 				burst_inputs()
 				var velocity = direction * burst_speed
@@ -99,8 +124,7 @@ func _physics_process(delta: float) -> void:
 					on_collision()
 			
 		
-	else: # če je stray
-		# vedno ve kdo so njegovi sosedi
+	else: # če je stray, vedno ve kdo so njegovi sosedi
 		current_neighbouring_cells = check_for_neighbours()
 
 
@@ -110,7 +134,7 @@ func on_collision():
 	# stena
 	if collision.collider.is_in_group(Config.group_tilemap):
 		
-		Global.main_camera.burst_shake(0.15)
+		Global.main_camera.wall_hit_shake()
 		
 		# žrebam animacijo
 		var random_animation_index = randi() % 3 + 1
@@ -120,7 +144,7 @@ func on_collision():
 	# stray pixel
 	elif collision.collider.is_in_group(Config.group_strays):
 		
-		Global.main_camera.burst_shake(0.15)
+		Global.main_camera.stray_hit_shake()
 		
 		# return, če je "sosed" mode, in če je sosed določen, in če pobrana barva ni enaka barvi soseda na spektru
 		if Global.game_manager.pick_neighbour_mode:
@@ -194,9 +218,9 @@ func idle_inputs():
 		# step_speed -= fast_speed * 0.1
 		# new_tween = get_tree().create_tween()
 		# new_tween.tween_property(self, "step_speed", fast_speed, 1).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		step_speed = fast_speed
+		step_time = run_time
 	else:
-		step_speed = normal_speed
+		step_time = walk_time
 		
 	if Input.is_action_just_pressed("space"): # brez "just" dela po stisku smeri ... ni ok
 		current_state = States.BURSTING
@@ -253,7 +277,6 @@ func skill_inputs():
 		new_direction = Vector2.RIGHT
 #	print(current_state)
 	if current_state != States.SKILLED:
-#		alpha = 2.5
 		var collider: Object = detect_collision_in_direction(vision_ray, direction)
 		if new_direction == direction:
 			if collider.is_in_group(Config.group_tilemap):
@@ -263,11 +286,33 @@ func skill_inputs():
 		if new_direction == - direction:
 			if collider.is_in_group(Config.group_strays):
 				pull()	
-#	else:
-#		alpha = 1
 
-# STEPS ______________________________________________________________________________________________________________
 
+func die():
+	
+	if pixel_is_player:
+		Global.main_camera.player_die_shake()
+		emit_signal("stat_changed", self, "player_life", -1)
+		set_physics_process(false) # aktivira ga revive(), ki se sproži iz animacije
+		animation_player.play("die_player")
+		pass
+	else:
+		Global.main_camera.stray_die_shake()		
+		emit_signal("stat_changed", self, "off_pixels_count", 1)
+		
+		# žrebam animacijo
+		var random_animation_index = randi() % 3 + 1
+		var random_animation_name: String = "die_stray_%s" % random_animation_index
+		animation_player.play(random_animation_name) # kvefri je v animaciji
+
+
+func revive():
+	modulate.a = 0
+	animation_player.play("revive") # kvefrija se v animaciji
+
+
+
+# MOVEMENT ______________________________________________________________________________________________________________
 
 func step():
 	
@@ -279,7 +324,7 @@ func step():
 		snap_to_nearest_grid()
 		spaw_trail_ghost()
 		new_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
-		new_tween.tween_property(self, "position", global_position + direction * cell_size_x, step_speed)
+		new_tween.tween_property(self, "position", global_position + direction * cell_size_x, step_time)
 		new_tween.tween_callback(self, "snap_to_nearest_grid")
 		new_tween.tween_callback(self, "end_move")
 
@@ -302,28 +347,7 @@ func end_move():
 	direction = Vector2.ZERO
 
 
-func die():
-	
-	if pixel_is_player:
-		emit_signal("stat_changed", self, "player_life", -1)
-		set_physics_process(false)
-	else:
-		emit_signal("stat_changed", self, "off_pixels_count", 1)
-			
-	animation_player.play("die_short")
-
-
-#func revive():
-#	modulate.a = 0
-#	animation_player.play("revive") # kvefrija se v animaciji
-	
-	
-func activate_player():
-	set_physics_process(true)
-
-
 # BURST ______________________________________________________________________________________________________________
-
 
 func cock_burst():
 
@@ -395,10 +419,14 @@ func spawn_cock_ghost(cocking_direction, cocked_ghosts_count):
 
 func release_burst():
 	
+	# napeti ghosti animirajo do alfa 1
 	for ghost in cocked_ghosts:
 		new_tween = get_tree().create_tween()
 		new_tween.tween_property(ghost, "modulate:a", 1, cocked_ghost_fill_time)
 		yield(get_tree().create_timer(cocked_ghost_fill_time),"timeout")
+	
+	# pavza pred strelom	
+	yield(get_tree().create_timer(cocked_pause_time), "timeout")
 	
 	burst(cocked_ghosts.size())
 		
@@ -445,13 +473,12 @@ func burst(ghosts_count):
 				
 	# za hud
 #	skills_used_count += 1
-	emit_signal("stat_changed", self, "burst_relesed", burst_power)
+	emit_signal("stat_changed", self, "burst_released", burst_power)
 	
 	# zaključek v on_collision()
 	
 	
 # SKILLS ______________________________________________________________________________________________________________
-		
 		
 func push():
 	
@@ -472,21 +499,22 @@ func push():
 		
 	# spawn ghost pod mano
 	var new_pixel_ghost = PixelGhost.instance()
-	new_pixel_ghost.global_position = global_position
+	new_pixel_ghost.global_position = global_position + push_direction * cell_size_x
 	new_pixel_ghost.modulate = pixel_color
+	new_pixel_ghost.modulate.a = modulate.a
 	Global.node_creation_parent.add_child(new_pixel_ghost)
 
 	# napnem
 	new_tween = get_tree().create_tween()
 	new_tween.tween_property(self, "position", global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
+	new_tween.parallel().tween_property(new_pixel_ghost, "position", new_pixel_ghost.global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 	# spustim
 	new_tween.tween_property(self, "position", global_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
-	new_tween.tween_property(ray_collider, "position", ray_collider.global_position + push_direction * cell_size_x * push_cell_count, 0.1).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	new_tween.tween_property(ray_collider, "position", ray_collider.global_position + push_direction * cell_size_x * push_cell_count, 0.08).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(0.05)
 	new_tween.tween_callback(self, "end_move")
 	new_tween.parallel().tween_callback(new_pixel_ghost, "queue_free")
 	
 	# za hud
-	skills_used_count += 1
 	emit_signal("stat_changed", self, "skills_used", 1)
 
 
@@ -505,19 +533,20 @@ func pull():
 
 	# spawn ghosta pod mano
 	var new_pixel_ghost = PixelGhost.instance()
-	new_pixel_ghost.global_position = global_position
+	new_pixel_ghost.global_position = global_position + target_direction * cell_size_x
 	new_pixel_ghost.modulate = pixel_color
+	new_pixel_ghost.modulate.a = modulate.a
+	
 	Global.node_creation_parent.add_child(new_pixel_ghost)
 
 	new_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 	new_tween.tween_property(self, "position", global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
-	new_tween.tween_property(target_pixel, "position", target_pixel.global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
 	new_tween.parallel().tween_property(new_pixel_ghost, "position", new_pixel_ghost.global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
+	new_tween.tween_property(target_pixel, "position", target_pixel.global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
 	new_tween.tween_callback(self, "end_move")
 	new_tween.parallel().tween_callback(new_pixel_ghost, "queue_free")
 		
 	# za hud
-	skills_used_count += 1
 	emit_signal("stat_changed", self, "skills_used", 1)
 	
 
@@ -547,7 +576,7 @@ func teleport():
 
 # UTIL ________________________________________________________________________________________________________________
 
-
+	
 func spaw_trail_ghost():
 	
 	var trail_alpha: float = 0.2
@@ -616,10 +645,9 @@ func snap_to_nearest_grid():
 
 		# snap it
 		global_position = Vector2(nearest_cell.x + cell_size_x/2, nearest_cell.y + cell_size_x/2)
-		
-	
-# SIGNALI ______________________________________________________________________________________________________________
 
+
+# SIGNALI ______________________________________________________________________________________________________________
 		
 func _on_ghost_target_reached(ghost_body, ghost_position):
 	
@@ -636,7 +664,7 @@ func _on_ghost_target_reached(ghost_body, ghost_position):
 	
 			
 	# za hud
-	skills_used_count += 1
+#	skills_used_count += 1
 	emit_signal("stat_changed", self, "skills_used", 1)
 	
 

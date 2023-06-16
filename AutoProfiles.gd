@@ -28,7 +28,7 @@ var default_player_profiles: Dictionary = { # ime profila ime igralca ... pazi d
 
 var default_player_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
 	"player_active" : false, # zaenkrat ga v aktivnega setaš na pixlov ready
-	"player_life" : 3,
+	"player_life" : 1,
 	"player_points": 0,
 	"player_energy" : 172, # max, da se lepo ujema s pixli
 	"skills_used" : 0,

@@ -1,8 +1,6 @@
 extends Node
 
 
-onready var arena: Node2D = $Viewports/ViewportContainer1/Viewport1/Arena
-
 onready var d_camera: Camera2D = $GameView/Viewports/ViewportContainer1/Viewport1/DKamera
 onready var viewport_1: Viewport = $GameView/Viewports/ViewportContainer1/Viewport1
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=1]
 [ext_resource path="res://scripts/game/HudGameTime.gd" type="Script" id=2]
@@ -9,18 +9,18 @@
 [ext_resource path="res://assets/dkamera_noise.tres" type="OpenSimplexNoise" id=7]
 [ext_resource path="res://_materiali/PixelAstray_design_game.png" type="Texture" id=8]
 [ext_resource path="res://scenes/game/Arena.tscn" type="PackedScene" id=9]
-[ext_resource path="res://scenes/screens/PauseMenu.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scripts/screens/PauseMenu.gd" type="Script" id=10]
 [ext_resource path="res://scripts/game/Hud.gd" type="Script" id=11]
 [ext_resource path="res://scripts/game/DKamera.gd" type="Script" id=12]
 [ext_resource path="res://scripts/game/Game.gd" type="Script" id=13]
-[ext_resource path="res://assets/arena_environment.tres" type="Environment" id=14]
 [ext_resource path="res://assets/theme/gamer_base_font.tres" type="DynamicFont" id=15]
 [ext_resource path="res://assets/tileset_hud_icons.png" type="Texture" id=16]
 [ext_resource path="res://scripts/game/HudLifeIcons.gd" type="Script" id=17]
 [ext_resource path="res://scripts/game/HudEnergyBar.gd" type="Script" id=18]
+[ext_resource path="res://assets/theme/font_gamer320_countdown.tres" type="DynamicFont" id=19]
+[ext_resource path="res://scripts/game/StartCountdown.gd" type="Script" id=20]
 
 [sub_resource type="World" id=117]
-environment = ExtResource( 14 )
 
 [sub_resource type="NoiseTexture" id=1]
 width = 246
@@ -37,7 +37,7 @@ region = Rect2( 0, 16, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=125]
 atlas = ExtResource( 16 )
-region = Rect2( 32, 48, 16, 16 )
+region = Rect2( 36, 48, 8, 16 )
 
 [sub_resource type="AtlasTexture" id=126]
 atlas = ExtResource( 16 )
@@ -72,13 +72,76 @@ font_path = "res://assets/theme/Gamer.ttf"
 
 [sub_resource type="DynamicFont" id=121]
 size = 320
-extra_spacing_char = -12
 font_data = SubResource( 120 )
+
+[sub_resource type="DynamicFontData" id=133]
+font_path = "res://assets/theme/Gamer.ttf"
+
+[sub_resource type="DynamicFont" id=134]
+size = 320
+extra_spacing_char = -12
+font_data = SubResource( 133 )
+
+[sub_resource type="Animation" id=136]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("StartCoundown/PositionControl/noz:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ "05" ]
+}
+
+[sub_resource type="Animation" id=135]
+resource_name = "countdown_5"
+length = 7.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("StartCoundown/PositionControl/noz:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2, 3, 4, 5, 6, 7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ "05", "05", "04", "03", "02", "01", "GO", "GO" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.8, 1, 6.8, 7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("StartCoundown/PositionControl:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1.8, 1.9, 2, 2.1, 2.8, 2.9, 3, 3.1, 3.8, 3.9, 4, 4.1, 4.8, 4.9, 5, 5.1, 5.8, 5.9, 6, 6.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 0.368627, 1, 0.662745, 0 ), Color( 0.368627, 1, 0.662745, 1 ) ]
+}
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 13 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 32.0 ]
+"_edit_horizontal_guides_": [ 32.0, 332.0 ],
+"_edit_vertical_guides_": [ 636.0 ]
 }
 
 [node name="design" type="Sprite" parent="."]
@@ -118,7 +181,6 @@ __meta__ = {
 }
 
 [node name="DKamera" type="Camera2D" parent="GameView/Viewports/ViewportContainer1/Viewport1"]
-visible = false
 position = Vector2( 640, 308 )
 rotation = 3.14159
 rotating = true
@@ -134,9 +196,11 @@ drag_margin_right = 0.0
 drag_margin_bottom = 0.0
 script = ExtResource( 12 )
 noise = ExtResource( 7 )
+decay_speed = 0.718
 
 [node name="UILayer" type="CanvasLayer" parent="GameView/Viewports/ViewportContainer1/Viewport1/DKamera"]
 layer = 3
+visible = false
 
 [node name="TestToggle" type="CheckBox" parent="GameView/Viewports/ViewportContainer1/Viewport1/DKamera/UILayer"]
 margin_left = 32.0
@@ -422,6 +486,7 @@ limit_smoothed = true
 [node name="GUI" type="Control" parent="."]
 margin_right = 1280.0
 margin_bottom = 720.0
+theme = ExtResource( 4 )
 __meta__ = {
 "_editor_description_": ""
 }
@@ -432,7 +497,6 @@ anchor_bottom = 0.994
 margin_right = 3.84009
 margin_bottom = 4.32001
 rect_min_size = Vector2( 1280, 720 )
-theme = ExtResource( 4 )
 script = ExtResource( 11 )
 __meta__ = {
 "_edit_lock_": true
@@ -454,13 +518,13 @@ margin_left = 31.0
 margin_top = 10.0
 margin_right = 405.0
 margin_bottom = 36.0
-custom_constants/separation = 12
+custom_constants/separation = 14
 
 [node name="LifeIcons" type="HBoxContainer" parent="GUI/Hud/HudLine_TL"]
-margin_right = 54.0
+margin_right = 52.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 0, 26 )
-custom_constants/separation = 3
+custom_constants/separation = 2
 script = ExtResource( 17 )
 
 [node name="LifeIcon" type="Control" parent="GUI/Hud/HudLine_TL/LifeIcons"]
@@ -481,9 +545,9 @@ margin_bottom = 16.0
 texture = SubResource( 123 )
 
 [node name="LifeIcon2" type="Control" parent="GUI/Hud/HudLine_TL/LifeIcons"]
-margin_left = 19.0
+margin_left = 18.0
 margin_top = 8.0
-margin_right = 35.0
+margin_right = 34.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
@@ -499,9 +563,9 @@ margin_bottom = 16.0
 texture = SubResource( 123 )
 
 [node name="LifeIcon3" type="Control" parent="GUI/Hud/HudLine_TL/LifeIcons"]
-margin_left = 38.0
+margin_left = 36.0
 margin_top = 8.0
-margin_right = 54.0
+margin_right = 52.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
@@ -518,24 +582,24 @@ texture = SubResource( 123 )
 
 [node name="EnergyBar" type="HBoxContainer" parent="GUI/Hud/HudLine_TL"]
 margin_left = 66.0
-margin_right = 131.0
+margin_right = 130.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 0, 26 )
-custom_constants/separation = 1
+custom_constants/separation = 8
 script = ExtResource( 18 )
 
 [node name="TextureRect7" type="TextureRect" parent="GUI/Hud/HudLine_TL/EnergyBar"]
 margin_top = 8.0
-margin_right = 16.0
+margin_right = 8.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 0, 18 )
 size_flags_vertical = 8
 texture = SubResource( 125 )
 
 [node name="TextureProgress" type="TextureProgress" parent="GUI/Hud/HudLine_TL/EnergyBar"]
-margin_left = 17.0
+margin_left = 16.0
 margin_top = 8.0
-margin_right = 65.0
+margin_right = 64.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 0, 18 )
 size_flags_vertical = 8
@@ -547,10 +611,11 @@ texture_over = SubResource( 126 )
 texture_progress = SubResource( 132 )
 
 [node name="PointsCounter" type="HBoxContainer" parent="GUI/Hud/HudLine_TL"]
-margin_left = 143.0
-margin_right = 211.0
+margin_left = 144.0
+margin_right = 216.0
 margin_bottom = 26.0
 size_flags_horizontal = 0
+custom_constants/separation = 8
 
 [node name="TextureRect4" type="TextureRect" parent="GUI/Hud/HudLine_TL/PointsCounter"]
 margin_top = 8.0
@@ -561,8 +626,8 @@ size_flags_vertical = 8
 texture = SubResource( 129 )
 
 [node name="Points" type="Label" parent="GUI/Hud/HudLine_TL/PointsCounter"]
-margin_left = 20.0
-margin_right = 68.0
+margin_left = 24.0
+margin_right = 72.0
 margin_bottom = 26.0
 size_flags_vertical = 8
 text = "0000"
@@ -571,10 +636,11 @@ __meta__ = {
 }
 
 [node name="CellCounter" type="HBoxContainer" parent="GUI/Hud/HudLine_TL"]
-margin_left = 223.0
-margin_right = 291.0
+margin_left = 230.0
+margin_right = 302.0
 margin_bottom = 26.0
 size_flags_horizontal = 0
+custom_constants/separation = 8
 
 [node name="TextureRect6" type="TextureRect" parent="GUI/Hud/HudLine_TL/CellCounter"]
 margin_top = 8.0
@@ -585,8 +651,8 @@ size_flags_vertical = 8
 texture = SubResource( 131 )
 
 [node name="CellsTravelled" type="Label" parent="GUI/Hud/HudLine_TL/CellCounter"]
-margin_left = 20.0
-margin_right = 68.0
+margin_left = 24.0
+margin_right = 72.0
 margin_bottom = 26.0
 size_flags_vertical = 8
 text = "0000"
@@ -596,10 +662,11 @@ __meta__ = {
 }
 
 [node name="SkillCounter" type="HBoxContainer" parent="GUI/Hud/HudLine_TL"]
-margin_left = 303.0
-margin_right = 371.0
+margin_left = 316.0
+margin_right = 388.0
 margin_bottom = 26.0
 size_flags_horizontal = 0
+custom_constants/separation = 8
 
 [node name="TextureRect5" type="TextureRect" parent="GUI/Hud/HudLine_TL/SkillCounter"]
 margin_top = 8.0
@@ -610,8 +677,8 @@ size_flags_vertical = 8
 texture = SubResource( 130 )
 
 [node name="SkillsUsed" type="Label" parent="GUI/Hud/HudLine_TL/SkillCounter"]
-margin_left = 20.0
-margin_right = 68.0
+margin_left = 24.0
+margin_right = 72.0
 margin_bottom = 26.0
 size_flags_vertical = 8
 text = "0000"
@@ -632,6 +699,7 @@ __meta__ = {
 }
 
 [node name="Energy" type="Label" parent="GUI/Hud"]
+visible = false
 margin_left = 128.0
 margin_top = 92.0
 margin_right = 204.0
@@ -703,38 +771,30 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="GUI/Hud/PickedColor"]
 visible = false
-modulate = Color( 1, 1, 1, 0.392157 )
 anchor_top = 1.0
 anchor_bottom = 1.0
+margin_left = 24.0
 margin_top = -26.0
-margin_right = 126.0
-text = "LAST COLOR:"
+margin_right = 60.0
+text = "rGB
+"
 valign = 2
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="ColorBox" type="Control" parent="GUI/Hud/PickedColor"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -16.0
+[node name="ColorRect" type="ColorRect" parent="GUI/Hud/PickedColor"]
+margin_top = 5.0
 margin_right = 12.0
-margin_bottom = -4.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="ColorRect" type="ColorRect" parent="GUI/Hud/PickedColor/ColorBox"]
-margin_right = 12.0
-margin_bottom = 12.0
+margin_bottom = 17.0
 
 [node name="Value" type="Label" parent="GUI/Hud/PickedColor"]
-modulate = Color( 1, 1, 1, 0.392157 )
+modulate = Color( 1, 1, 1, 0.313726 )
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 24.0
+margin_left = 27.0
 margin_top = -26.0
-margin_right = 152.0
+margin_right = 155.0
 text = "255 255 255"
 valign = 2
 __meta__ = {
@@ -782,6 +842,7 @@ texture = ExtResource( 1 )
 stretch_mode = 1
 
 [node name="Level" type="Label" parent="GUI/Hud"]
+modulate = Color( 1, 1, 1, 0.313726 )
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -800,15 +861,16 @@ __meta__ = {
 [node name="HudLine_TR" type="HBoxContainer" parent="GUI/Hud"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -154.0
+margin_left = -162.0
 margin_top = 10.0
 margin_right = -30.0
 margin_bottom = 36.0
 custom_constants/separation = 12
 
 [node name="StrayCounter" type="HBoxContainer" parent="GUI/Hud/HudLine_TR"]
-margin_right = 56.0
+margin_right = 60.0
 margin_bottom = 26.0
+custom_constants/separation = 8
 
 [node name="TextureRect3" type="TextureRect" parent="GUI/Hud/HudLine_TR/StrayCounter"]
 margin_top = 8.0
@@ -819,8 +881,8 @@ size_flags_vertical = 8
 texture = SubResource( 128 )
 
 [node name="PixelsStray" type="Label" parent="GUI/Hud/HudLine_TR/StrayCounter"]
-margin_left = 20.0
-margin_right = 56.0
+margin_left = 24.0
+margin_right = 60.0
 margin_bottom = 26.0
 size_flags_vertical = 8
 text = "000"
@@ -830,9 +892,10 @@ __meta__ = {
 }
 
 [node name="OffedCounter" type="HBoxContainer" parent="GUI/Hud/HudLine_TR"]
-margin_left = 68.0
-margin_right = 124.0
+margin_left = 72.0
+margin_right = 132.0
 margin_bottom = 26.0
+custom_constants/separation = 8
 
 [node name="TextureRect2" type="TextureRect" parent="GUI/Hud/HudLine_TR/OffedCounter"]
 margin_top = 8.0
@@ -843,8 +906,8 @@ size_flags_vertical = 8
 texture = SubResource( 127 )
 
 [node name="PixelsOff" type="Label" parent="GUI/Hud/HudLine_TR/OffedCounter"]
-margin_left = 20.0
-margin_right = 56.0
+margin_left = 24.0
+margin_right = 60.0
 margin_bottom = 26.0
 size_flags_vertical = 8
 text = "000"
@@ -853,12 +916,226 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="PauseMenu" parent="GUI" instance=ExtResource( 10 )]
+[node name="PauseMenu" type="Control" parent="GUI"]
 pause_mode = 2
 visible = false
+anchor_right = 0.997
+anchor_bottom = 1.0
+margin_right = 3.83997
+script = ExtResource( 10 )
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="Undi" type="Panel" parent="GUI/PauseMenu"]
+modulate = Color( 0, 0, 0, 0.784314 )
+anchor_right = 0.997
+anchor_bottom = 1.0
+margin_right = 3.83997
+
+[node name="Pause" type="Label" parent="GUI/PauseMenu"]
+modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
+margin_left = 97.0
+margin_top = 53.0
+margin_right = 481.0
+margin_bottom = 104.0
+size_flags_horizontal = 3
+theme = ExtResource( 4 )
+custom_fonts/font = ExtResource( 6 )
+text = "Game is paused ..."
+
+[node name="Menu" type="Control" parent="GUI/PauseMenu"]
+pause_mode = 2
+margin_left = 983.0
+margin_top = 54.0
+margin_right = 1188.0
+margin_bottom = 244.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="PlayBtn" type="Button" parent="GUI/PauseMenu/Menu"]
+margin_left = 1.0
+margin_right = 173.0
+margin_bottom = 51.0
+focus_mode = 1
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme = ExtResource( 4 )
+custom_colors/font_color = Color( 0.368627, 1, 0.662745, 1 )
+custom_fonts/font = ExtResource( 6 )
+enabled_focus_mode = 1
+text = "PLAY ON"
+
+[node name="RestartBtn" type="Button" parent="GUI/PauseMenu/Menu"]
+margin_left = -3.0
+margin_top = 48.0
+margin_right = 173.0
+margin_bottom = 99.0
+focus_mode = 1
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme = ExtResource( 4 )
+custom_colors/font_color = Color( 0.341176, 0.65098, 1, 1 )
+custom_fonts/font = ExtResource( 6 )
+enabled_focus_mode = 1
+text = "RESTART"
+
+[node name="QuitBtn" type="Button" parent="GUI/PauseMenu/Menu"]
+margin_left = 73.0
+margin_top = 96.0
+margin_right = 173.0
+margin_bottom = 147.0
+focus_mode = 1
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 0.196078 )
+custom_fonts/font = ExtResource( 6 )
+enabled_focus_mode = 1
+text = "QUIT"
+
+[node name="Title1" type="Label" parent="GUI/PauseMenu"]
+modulate = Color( 1, 1, 1, 0.196078 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -544.0
+margin_top = 362.0
+margin_right = 36.0
+margin_bottom = 616.0
+custom_fonts/font = SubResource( 121 )
+text = "PIXEL"
+align = 1
+valign = 2
+
+[node name="Title2" type="Label" parent="GUI/PauseMenu"]
+modulate = Color( 1, 1, 1, 0.196078 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -84.0
+margin_top = 515.0
+margin_right = 676.0
+margin_bottom = 769.0
+custom_fonts/font = SubResource( 121 )
+text = "ASTRAY"
+align = 1
+valign = 2
+
+[node name="Controls" type="Control" parent="GUI/PauseMenu"]
+margin_left = 97.0
+margin_top = 147.0
+margin_right = 896.0
+margin_bottom = 417.0
+rect_min_size = Vector2( 640, 140 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Title" type="Label" parent="GUI/PauseMenu/Controls"]
+modulate = Color( 0.32549, 0.356863, 0.407843, 1 )
+margin_top = 3.0
+margin_right = 180.0
+margin_bottom = 54.0
+size_flags_horizontal = 3
+theme = ExtResource( 4 )
+custom_fonts/font = ExtResource( 6 )
+text = "Controls"
+
+[node name="Controller" type="Control" parent="GUI/PauseMenu/Controls"]
+margin_top = 67.0
+margin_right = 235.0
+margin_bottom = 262.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Controller" type="Label" parent="GUI/PauseMenu/Controls/Controller"]
+modulate = Color( 1, 1, 1, 0.588235 )
+margin_top = 5.0
+margin_right = 144.0
+margin_bottom = 18.0
+size_flags_vertical = 0
+theme = ExtResource( 4 )
+text = "arrows"
+autowrap = true
+
+[node name="Text" type="Label" parent="GUI/PauseMenu/Controls/Controller"]
+margin_top = 37.0
+margin_right = 236.0
+margin_bottom = 184.0
+size_flags_vertical = 0
+theme = ExtResource( 4 )
+text = "UP - move up
+DOWN - move down
+LEFT - move left
+RIGHT - move right
+SPACE - change skill"
+autowrap = true
+
+[node name="Controller2" type="Control" parent="GUI/PauseMenu/Controls"]
+visible = false
+margin_left = 256.0
+margin_top = 67.0
+margin_right = 483.0
+margin_bottom = 258.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Controller" type="Label" parent="GUI/PauseMenu/Controls/Controller2"]
+modulate = Color( 1, 1, 1, 0.588235 )
+margin_top = 5.0
+margin_right = 144.0
+margin_bottom = 18.0
+size_flags_vertical = 0
+theme = ExtResource( 4 )
+text = "arrows"
+autowrap = true
+
+[node name="Text" type="Label" parent="GUI/PauseMenu/Controls/Controller2"]
+margin_top = 37.0
+margin_right = 236.0
+margin_bottom = 184.0
+size_flags_vertical = 0
+theme = ExtResource( 4 )
+text = "W - move up
+S - move down
+A - move left
+D - move right
+SPACE - change skill"
+autowrap = true
+
+[node name="Controller3" type="Control" parent="GUI/PauseMenu/Controls"]
+visible = false
+margin_left = 511.0
+margin_top = 67.0
+margin_right = 779.0
+margin_bottom = 258.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Controller" type="Label" parent="GUI/PauseMenu/Controls/Controller3"]
+modulate = Color( 1, 1, 1, 0.588235 )
+margin_top = 5.0
+margin_right = 144.0
+margin_bottom = 18.0
+size_flags_vertical = 0
+theme = ExtResource( 4 )
+text = "JoyPad"
+autowrap = true
+
+[node name="Text" type="Label" parent="GUI/PauseMenu/Controls/Controller3"]
+margin_top = 37.0
+margin_right = 301.0
+margin_bottom = 179.0
+size_flags_vertical = 0
+theme = ExtResource( 4 )
+text = "JP UP - move up
+JP DOWN - move down
+JP LEFT - move left
+JP RIGHT - move right
+JP BTN A - change skill"
+autowrap = true
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
@@ -866,7 +1143,6 @@ visible = false
 anchor_right = 0.997
 anchor_bottom = 1.0
 margin_right = 3.83997
-theme = ExtResource( 4 )
 script = ExtResource( 5 )
 
 [node name="Undi" type="Panel" parent="GUI/GameOver"]
@@ -1003,7 +1279,7 @@ margin_left = -436.0
 margin_top = 291.0
 margin_right = 48.0001
 margin_bottom = 545.0
-custom_fonts/font = SubResource( 121 )
+custom_fonts/font = SubResource( 134 )
 text = "GAME"
 valign = 2
 
@@ -1015,7 +1291,7 @@ margin_left = -71.9999
 margin_top = 163.0
 margin_right = 372.0
 margin_bottom = 417.0
-custom_fonts/font = SubResource( 121 )
+custom_fonts/font = SubResource( 134 )
 text = "OVER"
 align = 2
 valign = 2
@@ -1062,6 +1338,65 @@ text = "QUIT"
 position = Vector2( 736, 448 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
+[node name="StartCoundown" type="Control" parent="GUI"]
+modulate = Color( 1, 1, 1, 0 )
+margin_right = 1280.0
+margin_bottom = 720.0
+rect_min_size = Vector2( 1280, 720 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 20 )
+
+[node name="Undi" type="ColorRect" parent="GUI/StartCoundown"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0, 0, 0, 0.498039 )
+
+[node name="StartCoundown" type="VBoxContainer" parent="GUI/StartCoundown"]
+margin_left = 523.0
+margin_top = 234.0
+margin_right = 751.0
+margin_bottom = 260.0
+custom_constants/separation = 0
+
+[node name="label" type="Label" parent="GUI/StartCoundown/StartCoundown"]
+modulate = Color( 1, 1, 1, 0.313726 )
+margin_right = 228.0
+margin_bottom = 26.0
+size_flags_vertical = 8
+text = "LEVEL 01 START IN ..."
+align = 1
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="PositionControl" type="Control" parent="GUI/StartCoundown/StartCoundown"]
+modulate = Color( 0.368627, 1, 0.662745, 1 )
+margin_top = 26.0
+margin_right = 228.0
+margin_bottom = 26.0
+size_flags_vertical = 3
+
+[node name="noz" type="Label" parent="GUI/StartCoundown/StartCoundown/PositionControl"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -113.0
+margin_top = -2.0
+margin_right = 132.0
+margin_bottom = 178.0
+size_flags_vertical = 8
+custom_fonts/font = ExtResource( 19 )
+text = "05"
+align = 1
+valign = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/StartCoundown"]
+anims/RESET = SubResource( 136 )
+anims/countdown_5 = SubResource( 135 )
+
 [connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestToggle" to="GameView/Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_CheckBox_mouse_entered"]
 [connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestToggle" to="GameView/Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_CheckBox_mouse_exited"]
 [connection signal="toggled" from="GameView/Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestToggle" to="GameView/Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_CheckBox_toggled"]
@@ -1105,5 +1440,9 @@ polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 [connection signal="pressed" from="GameView/Viewports/ViewportContainer1/Viewport1/DKamera/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer1/Viewport1/DKamera" method="_on_AddTraumaBtn_pressed"]
 [connection signal="deathmode_on" from="GUI/Hud/GameTime" to="GUI/Hud" method="_on_GameTime_deathmode_on"]
 [connection signal="gametime_is_up" from="GUI/Hud/GameTime" to="GUI/Hud" method="_on_GameTime_gametime_is_up"]
+[connection signal="pressed" from="GUI/PauseMenu/Menu/PlayBtn" to="GUI/PauseMenu" method="_on_PlayBtn_pressed"]
+[connection signal="pressed" from="GUI/PauseMenu/Menu/RestartBtn" to="GUI/PauseMenu" method="_on_RestartBtn_pressed"]
+[connection signal="pressed" from="GUI/PauseMenu/Menu/QuitBtn" to="GUI/PauseMenu" method="_on_QuitBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
+[connection signal="animation_finished" from="GUI/StartCoundown/AnimationPlayer" to="GUI/StartCoundown" method="_on_AnimationPlayer_animation_finished"]

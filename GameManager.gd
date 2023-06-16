@@ -14,6 +14,9 @@ var spawned_stray_index: int = 0
 var players_in_game: Array = []
 var strays_in_game: Array = []
 var floor_positions: Array # po signalu ob kreaciji tilemapa ... tukaj, da ga lahko grebam do zunaj
+var available_floor_positions: Array # dplikat floor_positions za spawnanje pixlov
+var revive_time: float = 3 # pavza med die in revive funkcijo
+
 
 onready var StrayPixel = preload("res://scenes/game/Pixel.tscn")
 onready var PlayerPixel = preload("res://scenes/game/Pixel.tscn")
@@ -25,9 +28,6 @@ onready var player_stats: Dictionary = Profiles.default_player_stats.duplicate()
 onready var game_stats: Dictionary = Profiles.default_game_stats.duplicate() # duplikat default profila
 onready var game_rules: Dictionary = Profiles.game_rules 
 
-# _temp ... za testiranje plejer die funkcije
-var plejer = null
-var revive_time: float = 3
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -36,18 +36,22 @@ func _unhandled_input(event: InputEvent) -> void:
 		start_game()
 	if Input.is_action_pressed("no1"):
 #		player_stats["player_life"] -= 1
-		player_stats["player_energy"] -= 1
+		player_stats["player_energy"] -= 10
 	if Input.is_action_pressed("no2"):
 #		player_stats["player_life"] += 1
-		player_stats["player_energy"] += 1
+		player_stats["player_energy"] += 10
 	if Input.is_action_pressed("no3"):
-		if plejer:
-			player_stats["player_energy"] = 0
-			plejer.die() # s te metode s spet kliče stat change "player_life"
-			yield(get_tree().create_timer(revive_time), "timeout")
-#			plejer.revive()
+		# pavziram plejerja
+		if not players_in_game.empty():
+			for player in players_in_game:
+				player_stats["player_energy"] = 0
+				player.die() # s te metode s spet kliče stat change "player_life"
+				yield(get_tree().create_timer(revive_time), "timeout")
+				player.revive()
 
-
+		pass
+		
+		
 func _ready() -> void:
 	
 	Global.game_manager = self	
@@ -70,7 +74,6 @@ func _process(delta: float) -> void:
 
 # GAME LOOP --------------------------------------------------------------------------------------------------------------------------------
 
-
 func set_game():
 	
 #	player_start_position.global_position = Profiles.game_rules["player_start_position"]
@@ -85,15 +88,19 @@ func set_game():
 	
 	# tukaj pride poziv intro
 	yield(get_tree().create_timer(1), "timeout")
-	start_game()
+	Global.game_countdown.start_countdown()
 
 	
 func start_game():
 	
-#	set_process_input(false)
 	game_on = true
 	Global.hud.start_timer()
-
+	
+	# aktiviram plejerja
+	if not players_in_game.empty():
+		for player in players_in_game:
+			player.set_physics_process(true)
+			
 	
 func game_over():
 	
@@ -117,7 +124,6 @@ func game_over():
 
 # SPAWNANJE --------------------------------------------------------------------------------------------------------------------------------
 
-
 func spawn_player(spawn_position):
 	
 	spawned_player_index += 1
@@ -138,14 +144,10 @@ func spawn_player(spawn_position):
 	
 	# povežem
 	new_player_pixel.connect("stat_changed", self, "_on_stat_changed")
-	new_player_pixel.connect("stat_changed", self, "_on_stat_changed")
 	
 	# aktiviram plejerja (hud mora vedet)
 	player_stats["player_active"] = true
 
-	# odstranim uporabljeno celico
-	# available_floor_positions.remove(selected_cell_index)	
-	
 	# camera target
 	Global.camera_target = new_player_pixel
 	Global.main_camera.reset_camera_position()
@@ -156,9 +158,6 @@ func spawn_player(spawn_position):
 	Global.main_camera.drag_margin_bottom = 0.2
 	Global.main_camera.drag_margin_left = 0.3
 	Global.main_camera.drag_margin_right = 0.3
-		
-	# _temp za testiranje die plajer funkcije
-	plejer = new_player_pixel
 	
 
 func split_stray_colors(stray_pixels_count):
@@ -173,8 +172,6 @@ func split_stray_colors(stray_pixels_count):
 	spectrum_image.lock()
 	
 	# izračun razmaka med barvami
-#	var spectrum_texture_width = spectrum_rect.rect_size.x - (color_indicator_width + 1) # odštejem širino zadnje, da bo lep razmak
-#	var color_skip_size = spectrum_texture_width / (color_count - 1) # razmak barv po spektru ... - 1 je zato ker je razmakov za 1 manj kot barv
 	var spectrum_texture_width = spectrum_rect.rect_size.x
 	var color_skip_size = spectrum_texture_width / color_count # razmak barv po spektru ... - 1 je zato ker je razmakov za 1 manj kot barv
 	
@@ -184,7 +181,6 @@ func split_stray_colors(stray_pixels_count):
 	for color in color_count:
 		
 		# pozicija pixla na sliki
-#		var selected_color_position_y = 0 # _temp
 		var selected_color_position_x = loop_count * color_skip_size
 		
 		# zajem barve na lokaciji pixla
@@ -202,39 +198,48 @@ func split_stray_colors(stray_pixels_count):
 
 func spawn_stray(stray_color):
 	
-#	if not available_floor_positions.empty():	
-		
-		var available_floor_positions: Array = floor_positions
-		
-		spawned_stray_index += 1
+	
+	
+	spawned_stray_index += 1
 
-		# instance
-		var new_stray_pixel = StrayPixel.instance()
-		new_stray_pixel.name = "Stray%s" % str(spawned_player_index)
-		new_stray_pixel.pixel_color = stray_color
-		new_stray_pixel.add_to_group(Config.group_strays)
-		
-		# random grid pozicija
-		var random_range = available_floor_positions.size()
-		var selected_cell_index: int = randi() % int(random_range) # + offset
-		new_stray_pixel.global_position = available_floor_positions[selected_cell_index] # + grid_cell_size/2
-		
-		#spawn
-		Global.node_creation_parent.add_child(new_stray_pixel)
-		
-		# connect
-		new_stray_pixel.connect("stat_changed", self, "_on_stat_changed")			
-		
-		# odstranim uporabljeno pozicijo
-		# available_floor_positions.remove(selected_cell_index)... generira snap to cornenr error	
+	# instance
+	var new_stray_pixel = StrayPixel.instance()
+	new_stray_pixel.name = "Stray%s" % str(spawned_player_index)
+	new_stray_pixel.pixel_color = stray_color
+	new_stray_pixel.add_to_group(Config.group_strays)
+	
+	# random grid pozicija
+	var random_range = available_floor_positions.size()
+	var selected_cell_index: int = randi() % int(random_range) # + offset
+	new_stray_pixel.global_position = available_floor_positions[selected_cell_index] # + grid_cell_size/2
+	new_stray_pixel.z_index = 1
+	
+	#spawn
+	Global.node_creation_parent.add_child(new_stray_pixel)
+	
+	# connect
+	new_stray_pixel.connect("stat_changed", self, "_on_stat_changed")			
+	
+	# odstranim uporabljeno pozicijo
+	available_floor_positions.remove(selected_cell_index) #... generira snap to cornenr error	
 
 	
 # SIGNALI ----------------------------------------------------------------------------------
 
-
 func _on_FloorMap_floor_completed(floor_cells_global_positions: Array) -> void:
 
 	floor_positions = floor_cells_global_positions 
+	available_floor_positions = floor_positions.duplicate()
+	
+	# takoj odstranim celico rezervirano za plejerja
+#	var start_position = player_start_position.global_position - Vector2(16,16)
+#	var new_start_position = Vector2(start_position.y, start_position.x) # tudi obraten vektor očitnon ne deluje
+#	printt ("start_grid_position", start_position, new_start_position, player_start_position.global_position)
+#	available_floor_positions.erase(start_position)
+#	if not available_floor_positions.has(start_position): 
+#		print(available_floor_positions)
+	
+	pass
 
 
 func _on_stat_changed(stat_owner, changed_stat, stat_change):
@@ -242,21 +247,18 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 	match changed_stat:
 	# stat_change ima predznak (s pixla ali s def profila) ... tukaj je vse +, če je sprememba -1, se tukaj zgodi -1
 		"player_life": 
-			
 			if player_stats["player_life"] > 0:
 				player_stats["player_life"] += stat_change
+				
 				# reset energije
-				player_stats["player_energy"] = Profiles.default_player_stats["player_energy"]
-#				spawn_player(player_start_position.global_position)
+#				player_stats["player_energy"] = Profiles.default_player_stats["player_energy"]
 			
 				# reset player stats (nekatere) 
 				player_stats["cells_travelled"] = 0
 				player_stats["skills_used"] = 0
-			
-			
-			else: # če ni več lajfa
+			else:
 				game_over()
-			
+				
 		"off_pixels_count": 
 			game_stats["off_pixels_count"] += stat_change
 			game_stats["stray_pixels_count"] -= stat_change
@@ -268,27 +270,18 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 	
 		"cells_travelled": 
 			player_stats["cells_travelled"] += stat_change
-			# točke
-			if player_stats["player_points"] > 0:
-				player_stats["player_points"] += game_rules["points_cell_travelled"]
 			# energija
 			if player_stats["player_energy"] > 0:
 				player_stats["player_energy"] += game_rules["energy_cell_travelled"]
 								
 		"skills_used": 
 			player_stats["skills_used"] += stat_change
-			# točke
-			if player_stats["player_points"] > 0:
-				player_stats["player_points"] += game_rules["points_skill_used"]
 			# energija
 			if player_stats["player_energy"] > 0:
 				player_stats["player_energy"] += game_rules["energy_skill_used"]
 				
 		"burst_released": 
 			player_stats["skills_used"] += 1 # tukaj se kot valju poda burst power
-			# točke
-			if player_stats["player_points"] > 0:
-				player_stats["player_points"] += game_rules["points_skill_used"]
 			# energija
 			if player_stats["player_energy"] > 0:
 				player_stats["player_energy"] += stat_change
@@ -296,9 +289,12 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 		
 	# loose life
 	if player_stats["player_energy"] <= 0:
-		stat_owner.die() # s te metode s spet kliče stat change "player_life"
-		yield(get_tree().create_timer(revive_time), "timeout")
-#		stat_owner.revive()
+		
+		# resetiram energijo ... nujno že tukaj, ker če ne se kliče ob vsaki spremembi statistike in je stack oversize error
+		player_stats["player_energy"] = Profiles.default_player_stats["player_energy"]
 
+		stat_owner.die() # s te metode s spet pošlje statistika change "player_life"
+		yield(get_tree().create_timer(revive_time), "timeout")
+		stat_owner.revive()
 
 
