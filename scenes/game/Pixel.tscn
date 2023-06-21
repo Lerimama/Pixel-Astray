@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scripts/game/Pixel.gd" type="Script" id=1]
 [ext_resource path="res://assets/light_texture.png" type="Texture" id=2]
@@ -6,47 +6,23 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
 
+[sub_resource type="Animation" id=130]
+resource_name = "New Anim"
+
 [sub_resource type="Animation" id=126]
 resource_name = "breath"
-length = 0.7
+length = 1.8
 loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 2
+step = 0.01
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = false
+tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/1/type = "method"
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = false
-tracks/1/keys = {
-"times": PoolRealArray( 1.5 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "queue_free"
-} ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath(".:modulate:a")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.3, 0.7 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ 5.0, 0.0, 1.0 ]
+"points": PoolRealArray( 1.04957, 0, 0, 0.5, 0, 0.8, -0.5, 0, 0, 0, 0.8, 0, 0, 0.5, 0, 1.04957, -0.3, 0, 0, 0 ),
+"times": PoolRealArray( 0, 0.9, 0.93, 1.8 )
 }
 
 [sub_resource type="Animation" id=128]
@@ -362,7 +338,7 @@ cull_mode = 1
 polygon = PoolVector2Array( -17, -16, -17, 16, 15, 16, 15, -16 )
 
 [node name="Pixel" type="KinematicBody2D"]
-modulate = Color( 1, 1, 1, 5 )
+modulate = Color( 1, 1, 1, 0.750908 )
 position = Vector2( 496, 304 )
 script = ExtResource( 1 )
 
@@ -380,6 +356,7 @@ enabled = true
 cast_to = Vector2( 32, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+"anims/New Anim" = SubResource( 130 )
 anims/breath = SubResource( 126 )
 anims/die_long = SubResource( 128 )
 anims/die_player = SubResource( 125 )

@@ -6,6 +6,7 @@ var player_stats: Dictionary
 var game_stats: Dictionary
 
 var fade_time: float = 1
+var default_hud_color: Color = Color.white
 
 onready var player_life: Label = $Life # _temp, pravi je na samih ikonah
 onready var player_energy: Label = $Energy # temp
@@ -96,7 +97,6 @@ func spawn_color_indicators(colors):
 		active_color_indicators.append(new_color_indicator)
 	
 	
-
 func color_picked(picked_pixel_color):
 	
 	erase_color_indicator(picked_pixel_color)
@@ -107,18 +107,18 @@ func color_picked(picked_pixel_color):
 	# color effects
 	var pixels_off_counter = $HudLine_TR/OffedCounter
 	var stray_pixels_counter = $HudLine_TR/StrayCounter
-	var current_counter_modulate: Color = pixels_off_counter.modulate
-	var current_label_modulate: Color = picked_color_label.modulate
-	
+#	var current_counter_modulate: Color = pixels_off_counter.modulate
+#	var current_label_modulate: Color = picked_color_label.modulate
+#
 	picked_color_rect.color = picked_pixel_color
 	
 	picked_color_label.modulate = picked_pixel_color
 	pixels_off_counter.modulate = picked_pixel_color
 	stray_pixels_counter.modulate = picked_pixel_color
 	yield(get_tree().create_timer(0.5), "timeout")
-	picked_color_label.modulate = current_label_modulate
-	pixels_off_counter.modulate = current_counter_modulate
-	stray_pixels_counter.modulate = current_counter_modulate
+	picked_color_label.modulate = default_hud_color
+	pixels_off_counter.modulate = default_hud_color
+	stray_pixels_counter.modulate = default_hud_color
 	
 	
 	stray_pixels_counter

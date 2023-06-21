@@ -53,7 +53,7 @@ var game_rules : Dictionary = { # tole ne uporabljam v zadnji varianti
 	"points_cell_travelled": -3,
 	
 	"energy_color_picked": 20,
-	"energy_skill_used": -3,
+	"energy_skill_used": -1,
 	"energy_cell_travelled": -1,
 }
 

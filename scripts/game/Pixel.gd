@@ -6,19 +6,18 @@ signal stat_changed (stat_owner, stat, stat_change)
 export var pixel_is_player: = false # tukaj setam al ma kontrole al ne
 export var energy_speed_mode: bool = true
 
-enum States {IDLE, STEPPING, SKILLED, BURSTING}
-var current_state = States.IDLE
-
-var pixel_color: Color
-var direction = Vector2.ZERO # prenosna
-#var skills_used_count: int = 0 # prenosna
-
 # steping
 export var step_time: float # = 0.15
 export var walk_time: float = 0.15
 export var run_time: float = 0.05
 export var max_step_time: float = 0.25 # najpočasnejši
 export var min_step_time: float = 0.1 # najhitrejši ... v trenutni kodi je irelevanten
+
+enum States {IDLE, STEPPING, SKILLED, BURSTING}
+var current_state = States.IDLE
+
+var pixel_color: Color
+var direction = Vector2.ZERO # prenosna
 
 # push & pull
 var pull_time: float = 0.3
@@ -63,8 +62,14 @@ onready var floor_cells: Array = Global.game_manager.floor_positions
 onready var collision_shape: CollisionShape2D = $CollisionShape2D
 onready var PixelGhost: PackedScene = preload("res://scenes/game/PixelGhost.tscn")
 
-# glow
+# glow in dihanje
 var skill_connect_alpha: float = 1.2
+var breath_speed: float = 1.2
+var tired_breath_speed: float = 2.4
+# energija je edini stat, ki gamore plejer poznat
+onready var player_energy: float 
+onready var tired_energy_level: float = 0.1 # del energije pri kateri velja, da je utrujen (diha hitreje
+onready var default_player_energy: float = Profiles.default_player_stats["player_energy"]
 
 
 func _ready() -> void:
@@ -87,42 +92,50 @@ func _physics_process(delta: float) -> void:
 	
 	if pixel_is_player:	
 		
+		player_energy = Global.game_manager.player_stats["player_energy"]
+			
 		if detect_collision_in_direction(vision_ray, direction): # more bit neodvisno od stateta, da pull dela
 			skill_inputs()
 				
 		match current_state:
-			States.IDLE: 
+			States.IDLE: # stanje po vsake koraku oz potezi
 				
+				# skill ready
 				if detect_collision_in_direction(vision_ray, direction):# and detect_collision_in_direction(vision_ray, direction).is_in_group(Config.group_strays): # more bit neodvisno od stateta, da pull dela
+					animation_player.stop() # stop dihanje
 					modulate.a = skill_connect_alpha
-				else:
-					modulate.a = 1
+				# dihanje
+				else: 
+					var tired_energy = default_player_energy * tired_energy_level
+					if player_energy < tired_energy:
+						animation_player.set_speed_scale(tired_breath_speed)
+					else:
+						animation_player.set_speed_scale(breath_speed)
+					animation_player.play("breath")
+				# energija in hitrost
+				if energy_speed_mode:
 					
+					var slow_trim_size: float = max_step_time * default_player_energy
+					var energy_factor: float = (default_player_energy - slow_trim_size) / player_energy
+					var energy_step_time = energy_factor / 10 # ta variabla je zato, da se vedno seta nova in potem ne raste s FP
+					# omejim najbolj počasno
+					step_time = clamp(energy_step_time, min_step_time, max_step_time)
+
 				idle_inputs()
 								
 			States.STEPPING:
-				
-				if energy_speed_mode: # vedno hitreje
-					
-					var current_player_energy: float = Global.game_manager.player_stats["player_energy"]
-					var max_player_energy: float = Profiles.default_player_stats["player_energy"]
-					
-					var slow_trim_size: float = max_step_time * max_player_energy
-					var energy_factor: float = (max_player_energy - slow_trim_size) / current_player_energy
-					var energy_step_time = energy_factor / 10 # ta variabla je zato, da se vedno seta nova in potem ne raste s FP
-					
-					# omejim najbolj počasno
-					step_time = clamp(energy_step_time, min_step_time, max_step_time)
-					
+				animation_player.stop() # stop dihanje
 			States.SKILLED:
+				animation_player.stop() # stop dihanje
 				modulate.a = skill_connect_alpha
 			States.BURSTING: 
+				animation_player.stop() # stop dihanje
 				burst_inputs()
 				var velocity = direction * burst_speed
 				collision = move_and_collide(velocity) 
 				if collision:
 					on_collision()
-			
+		
 		
 	else: # če je stray, vedno ve kdo so njegovi sosedi
 		current_neighbouring_cells = check_for_neighbours()
@@ -145,6 +158,9 @@ func on_collision():
 	elif collision.collider.is_in_group(Config.group_strays):
 		
 		Global.main_camera.stray_hit_shake()
+		
+		# za hud
+		emit_signal("stat_changed", self, "color_picked", 1)
 		
 		# return, če je "sosed" mode, in če je sosed določen, in če pobrana barva ni enaka barvi soseda na spektru
 		if Global.game_manager.pick_neighbour_mode:
@@ -213,16 +229,16 @@ func idle_inputs():
 		direction = Vector2.RIGHT
 		step()
 			
-	if Input.is_action_pressed("space") and States.STEPPING:
-		
-		# step_speed -= fast_speed * 0.1
-		# new_tween = get_tree().create_tween()
-		# new_tween.tween_property(self, "step_speed", fast_speed, 1).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		step_time = run_time
-	else:
-		step_time = walk_time
-		
-	if Input.is_action_just_pressed("space"): # brez "just" dela po stisku smeri ... ni ok
+#	if Input.is_action_pressed("space") and States.STEPPING:
+#
+#		# step_speed -= fast_speed * 0.1
+#		# new_tween = get_tree().create_tween()
+#		# new_tween.tween_property(self, "step_speed", fast_speed, 1).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+#		step_time = run_time
+#	else:
+#		step_time = walk_time
+#	print("step_time", step_time)
+	if Input.is_action_just_pressed("space") and current_state == States.IDLE: # brez "just" dela po stisku smeri ... ni ok
 		current_state = States.BURSTING
 
 
@@ -291,14 +307,14 @@ func skill_inputs():
 func die():
 	
 	if pixel_is_player:
-		Global.main_camera.player_die_shake()
 		emit_signal("stat_changed", self, "player_life", -1)
+		Global.main_camera.player_die_shake()
 		set_physics_process(false) # aktivira ga revive(), ki se sproži iz animacije
 		animation_player.play("die_player")
 		pass
 	else:
-		Global.main_camera.stray_die_shake()		
 		emit_signal("stat_changed", self, "off_pixels_count", 1)
+		Global.main_camera.stray_die_shake()		
 		
 		# žrebam animacijo
 		var random_animation_index = randi() % 3 + 1
@@ -315,12 +331,16 @@ func revive():
 # MOVEMENT ______________________________________________________________________________________________________________
 
 func step():
+
+	if player_energy <= 1: # ne koraka z 1 energijo
+		return
 	
 	var step_direction = direction
 	
 	# če kolajda izbrani smeri gibanja prenesem kontrole na skill
 	if not detect_collision_in_direction(vision_ray, step_direction):
 		current_state = States.STEPPING
+		
 		snap_to_nearest_grid()
 		spaw_trail_ghost()
 		new_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
@@ -330,7 +350,7 @@ func step():
 
 		# pošljem signal, da odštejem točko
 		emit_signal("stat_changed", self, "cells_travelled", 1)
-
+	
 
 func end_move():
 	
@@ -471,17 +491,19 @@ func burst(ghosts_count):
 	burst_speed_max = 0
 	cocking_room = true
 				
-	# za hud
-#	skills_used_count += 1
+	# za hud  ... premaknjen v on_collision
 	emit_signal("stat_changed", self, "burst_released", burst_power)
 	
-	# zaključek v on_collision()
+	# zaključek .. tudi signal za pobiranje barv ... v on_collision()
 	
 	
 # SKILLS ______________________________________________________________________________________________________________
 		
 func push():
 	
+	if player_energy <= 1: # ne koraka z 1 energijo
+		return
+			
 	var push_direction = direction
 	var backup_direction = - push_direction
 	
@@ -520,6 +542,9 @@ func push():
 
 func pull():
 	
+	if player_energy <= 1: # ne koraka z 1 energijo
+		return
+			
 	var target_direction = direction
 	var pull_direction = - target_direction
 	

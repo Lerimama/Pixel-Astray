@@ -36,7 +36,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		start_game()
 	if Input.is_action_pressed("no1"):
 #		player_stats["player_life"] -= 1
-		player_stats["player_energy"] -= 10
+		player_stats["player_energy"] -= 1
 	if Input.is_action_pressed("no2"):
 #		player_stats["player_life"] += 1
 		player_stats["player_energy"] += 10
@@ -246,20 +246,33 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 	
 	match changed_stat:
 	# stat_change ima predznak (s pixla ali s def profila) ... tukaj je vse +, če je sprememba -1, se tukaj zgodi -1
+		
+		# od playerja
 		"player_life": 
 			if player_stats["player_life"] > 0:
 				player_stats["player_life"] += stat_change
-				
-				# reset energije
-#				player_stats["player_energy"] = Profiles.default_player_stats["player_energy"]
 			
 				# reset player stats (nekatere) 
-				player_stats["cells_travelled"] = 0
-				player_stats["skills_used"] = 0
+#				player_stats["cells_travelled"] = 0
+#				player_stats["skills_used"] = 0
 			else:
 				game_over()
-				
-		"off_pixels_count": 
+		"cells_travelled": 
+			player_stats["cells_travelled"] += stat_change
+			# energija
+			if player_stats["player_energy"] > 0:
+				player_stats["player_energy"] += game_rules["energy_cell_travelled"]
+		"skills_used": 
+			player_stats["skills_used"] += stat_change
+			# energija
+			if player_stats["player_energy"] > 0:
+				player_stats["player_energy"] += game_rules["energy_skill_used"]
+		"burst_released": 
+			player_stats["skills_used"] += 1 # tukaj se kot valju poda burst power
+		
+		# od straysa
+			
+		"off_pixels_count":
 			game_stats["off_pixels_count"] += stat_change
 			game_stats["stray_pixels_count"] -= stat_change
 			# točke
@@ -267,27 +280,11 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 			# energija
 			player_stats["player_energy"] += game_rules["energy_color_picked"]		
 	
-	
-		"cells_travelled": 
-			player_stats["cells_travelled"] += stat_change
-			# energija
-			if player_stats["player_energy"] > 0:
-				player_stats["player_energy"] += game_rules["energy_cell_travelled"]
-								
-		"skills_used": 
-			player_stats["skills_used"] += stat_change
-			# energija
-			if player_stats["player_energy"] > 0:
-				player_stats["player_energy"] += game_rules["energy_skill_used"]
-				
-		"burst_released": 
-			player_stats["skills_used"] += 1 # tukaj se kot valju poda burst power
-			# energija
-			if player_stats["player_energy"] > 0:
-				player_stats["player_energy"] += stat_change
-
 		
 	# loose life
+	
+	player_stats["player_energy"] = clamp(player_stats["player_energy"], 0, Profiles.default_player_stats["player_energy"])
+	
 	if player_stats["player_energy"] <= 0:
 		
 		# resetiram energijo ... nujno že tukaj, ker če ne se kliče ob vsaki spremembi statistike in je stack oversize error

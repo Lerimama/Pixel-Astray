@@ -1,12 +1,14 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scripts/SoundManager.gd" type="Script" id=1]
 [ext_resource path="res://Main.gd" type="Script" id=2]
+[ext_resource path="res://scripts/DataManager.gd" type="Script" id=3]
 
 [node name="Main" type="Node"]
 script = ExtResource( 2 )
 
-[node name="DataImport" type="Node" parent="."]
+[node name="DataManager" type="Node" parent="."]
+script = ExtResource( 3 )
 
 [node name="SoundManager" type="Node" parent="."]
 script = ExtResource( 1 )
