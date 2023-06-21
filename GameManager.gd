@@ -17,7 +17,6 @@ var floor_positions: Array # po signalu ob kreaciji tilemapa ... tukaj, da ga la
 var available_floor_positions: Array # dplikat floor_positions za spawnanje pixlov
 var revive_time: float = 3 # pavza med die in revive funkcijo
 
-
 onready var StrayPixel = preload("res://scenes/game/Pixel.tscn")
 onready var PlayerPixel = preload("res://scenes/game/Pixel.tscn")
 onready var spectrum_rect: TextureRect = $Spectrum
@@ -41,16 +40,10 @@ func _unhandled_input(event: InputEvent) -> void:
 #		player_stats["player_life"] += 1
 		player_stats["player_energy"] += 10
 	if Input.is_action_pressed("no3"):
-		# pavziram plejerja
 		if not players_in_game.empty():
 			for player in players_in_game:
-				player_stats["player_energy"] = 0
 				player.die() # s te metode s spet kliče stat change "player_life"
-				yield(get_tree().create_timer(revive_time), "timeout")
-				player.revive()
 
-		pass
-		
 		
 func _ready() -> void:
 	
@@ -84,6 +77,11 @@ func set_game():
 	split_stray_colors(game_stats["stray_pixels_count"])
 	yield(get_tree().create_timer(1), "timeout")
 	
+	# highscore za hud
+	var current_highscore_line: Array = Global.data_manager.get_top_highscore(game_stats["level_no"])
+	game_stats["highscore"] = current_highscore_line[0]
+	game_stats["highscore_owner"] = current_highscore_line[1]
+	
 	Global.hud.fade_in() # hud zna vse sam ... vseskozi je GM njegov "mentor"
 	
 	# tukaj pride poziv intro
@@ -116,11 +114,35 @@ func game_over():
 	yield(get_tree().create_timer(3), "timeout")
 #
 	# gameover fade-in ... podatke si pobere sam slovarja statistik
-	Global.gameover_menu.fade_in()
+#	Global.gameover_menu.fade_in()
 
 	# kamera target off
 	Global.camera_target = null
 
+
+	# HS ---------------------------------------------------------------------------------
+	
+	# YIELD 1 
+	print ("GM - YIELD 1")
+	var player_points = player_stats["player_points"]
+	var current_level = game_stats["level_no"]
+	var score_is_ranking = Global.data_manager.manage_gameover_highscores(player_points, current_level)
+	
+	# ... čaka na konec preverke rankinga ... če ni rankinga dobi false, če je ne dobi nič
+	
+	# RESUME 1
+	print ("GM - RESUME 1")
+	Global.gameover_menu.fade_in()
+	
+	if not score_is_ranking:
+		Global.gameover_menu.highscore_table.open_highscore_table()
+	else:
+		yield(get_tree().create_timer(2), "timeout")
+		
+		# odprem input
+		Global.gameover_menu.open_highscore_input()
+		
+		# ko se izvede input imena ... DM pokliče prikaz hs tabele
 
 # SPAWNANJE --------------------------------------------------------------------------------------------------------------------------------
 
@@ -249,14 +271,11 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 		
 		# od playerja
 		"player_life": 
-			if player_stats["player_life"] > 0:
-				player_stats["player_life"] += stat_change
-			
-				# reset player stats (nekatere) 
-#				player_stats["cells_travelled"] = 0
-#				player_stats["skills_used"] = 0
-			else:
+			if player_stats["player_life"] <= 1:
 				game_over()
+			else:
+				player_stats["player_life"] += stat_change
+				stat_owner.revive()
 		"cells_travelled": 
 			player_stats["cells_travelled"] += stat_change
 			# energija
@@ -293,5 +312,3 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 		stat_owner.die() # s te metode s spet pošlje statistika change "player_life"
 		yield(get_tree().create_timer(revive_time), "timeout")
 		stat_owner.revive()
-
-

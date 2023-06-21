@@ -2,28 +2,56 @@ extends Node2D
 
 
 # GLOBAL NODES
+
+# scene switching
+#var current_scene = null # trenutno predvajana scena (za svičanje)
+#var scene_reload_time: float = 1
+
+
+# GLOBAL NODES ---------------------------------------------------------------------------------------------------------
+
 var main_node = null
 var sound_manager = null
-
+var data_manager = null
 var game_manager = null
 var level_tilemap = null
 var node_creation_parent = null # arena
 var hud = null
-
 var main_camera = null
 var camera_target = null
-
-# scene switching
-var current_scene = null # trenutno predvajana scena (za svičanje)
-var scene_reload_time: float = 1
-
-# res rabm?
 var game_countdown = null
 var gameover_menu = null
-var color_indicator_parent = null # za barve v hudu
-#var current_camera = null # za tarčo
-#var level_start_position = null
+#var gameover_gui = null
 
+# res rabm?
+var color_indicator_parent = null # za barve v hudu
+
+
+
+
+# GLOBAL VARS ---------------------------------------------------------------------------------------------------------
+
+# groups
+var group_players = "Players"
+var group_strays = "Strays"
+var group_ghosts = "Ghosts"
+var group_tilemap = "Tilemap"
+
+# sivi klin
+var color_black = Color("#000000")
+var color_gray0 = Color("#171a23") # najtemnejša
+var color_gray1 = Color("#1d212d")
+var color_gray2 = Color("#272d3d")
+var color_gray3 = Color("#2f3649")
+var color_gray4 = Color("#404954")
+var color_gray5 = Color("#535b68") # najsvetlejša
+var color_white = Color("#ffffff")
+
+# colors
+var color_blue = Color("#4b9fff")
+var color_green = Color("#5effa9")
+var color_red = Color("#f35b7f")
+var color_yellow = Color("#fef98b")
 
 
 
@@ -72,10 +100,10 @@ func print_id (object):
 #		# snap it
 #		return Vector2(nearest_cell.x + cell_width/2, nearest_cell.y + cell_width/2)
 
+# SCENE MANAGER ---------------------------------------------------------------------------
 
-
-
-# SCENE MANAGER
+var current_scene = null # trenutno predvajana scena (za svičanje)
+var scene_reload_time: float = 1
 
 # spawn scene
 func spawn_new_scene(scene_path, parent_node):
@@ -105,6 +133,8 @@ func reload_scene(scene_node, scene_path, parent_node):
 	yield(get_tree().create_timer(scene_reload_time), "timeout")
 	spawn_new_scene(scene_path, parent_node)
 	current_scene.modulate.a = 1
+	
+	
 	
 # switch root scene
 

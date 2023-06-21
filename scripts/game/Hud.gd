@@ -8,47 +8,59 @@ var game_stats: Dictionary
 var fade_time: float = 1
 var default_hud_color: Color = Color.white
 
+# HS ček
+var close_to_highscore_part = 0.9 # procent HS vrednosti
+var highscore_broken: bool =  false
+var highscore_broken_popup_time: float = 2
+
+# spectrum indicators
+var active_color_indicators: Array = []
+onready var ColorIndicator: PackedScene = preload("res://scenes/game/HudColorIndicator.tscn")
+onready var indicator_holder: HBoxContainer = $ColorSpectrumLite/IndicatorHolder
+
+
 onready var player_life: Label = $Life # _temp, pravi je na samih ikonah
 onready var player_energy: Label = $Energy # temp
-
-#onready var player_points: Label = $Points
 onready var player_points: Label = $HudLine_TL/PointsCounter/Points
 onready var cells_travelled: Label = $HudLine_TL/CellCounter/CellsTravelled
 onready var skills_used: Label = $HudLine_TL/SkillCounter/SkillsUsed
-
 onready var picked_color_rect: ColorRect = $PickedColor/ColorRect
 onready var picked_color_label: Label = $PickedColor/Value
+onready var game_time: Control = $GameTime
 
 # game hud
 onready var pixels_off: Label = $HudLine_TR/OffedCounter/PixelsOff
 onready var stray_pixels: Label = $HudLine_TR/StrayCounter/PixelsStray
 onready var level: Label = $Level
 
-# spectrum indicators
-var active_color_indicators: Array = []
-#onready var color_spectrum: VBoxContainer = $ColorSpectrum
-onready var ColorIndicator: PackedScene = preload("res://scenes/game/HudColorIndicator.tscn")
-onready var indicator_holder: HBoxContainer = $ColorSpectrumLite/IndicatorHolder
-
-# štopanje
-#onready var timer_on: bool = false setget _start_timer
-onready var game_time: Control = $GameTime
+# hs
+onready var highscore_label: Label = $Highscore
+onready var highscore_popup: Control = $highscore_popup
 
 
 func _ready() -> void:
 	
 	Global.hud = self
 	
-	# skrij statistiko
+	# skrij statistiko in popupe
 	visible = false
 #	color_spectrum = Global.color_indicator_parent
+	highscore_popup.visible = false
 	
 
 func _process(delta: float) -> void:
-		
+	
+	
 	player_stats = Global.game_manager.player_stats
 	game_stats = Global.game_manager.game_stats
 	
+	writing_stats()
+	
+	if not highscore_broken:
+		checking_highscore()
+		
+			
+func writing_stats():	
 	# pixel stats
 	
 	player_points.text = "%04d" % player_stats["player_points"]
@@ -64,6 +76,33 @@ func _process(delta: float) -> void:
 	player_life.text = "LIFE: %01d" % player_stats["player_life"]
 	player_energy.text = "E: %04d" % player_stats["player_energy"]
 	
+	if not highscore_broken:
+		highscore_label.text = "HIGHSCORE: %04d" % game_stats["highscore"]
+	else:
+		highscore_label.text = "HIGHSCORE: %04d" % player_stats["player_points"]
+
+
+func checking_highscore():
+	
+	var current_record = game_stats["highscore"]
+	var current_points = player_stats["player_points"]
+	
+	# rekord!!! ... zaporedje ifo je pomembno zaradi načina setanja pogojev
+	if current_points > current_record:
+		highscore_broken = true
+		highscore_label.modulate = Config.color_green
+		highscore_popup.visible = true
+		yield(get_tree().create_timer(highscore_broken_popup_time), "timeout")
+		highscore_popup.visible = false
+		
+	# blizu rekorda
+	elif current_points > current_record * close_to_highscore_part or current_points == current_record:
+		highscore_label.modulate = Global.color_blue
+	# blah ...
+	else:
+		highscore_label.modulate = default_hud_color
+		
+		
 
 func fade_in():
 	
@@ -176,15 +215,7 @@ func erase_color_indicator(erase_color):
 		active_color_indicators.erase(active_color_indicators[current_indicator_index])
 	
 
-func erase_all_indicators(): # ... zaenkrat ne rabim nikjer
-	
-#	if not active_color_indicators.empty():
-#		for indicator in active_color_indicators:
-#			indicator.queue_free()
-#		active_color_indicators = []
-	pass
-	
-# deathmode
+
 
 func _on_GameTime_deathmode_on() -> void:
 	Global.game_manager.deathmode_on = true
@@ -192,3 +223,12 @@ func _on_GameTime_deathmode_on() -> void:
 
 func _on_GameTime_gametime_is_up() -> void:
 	Global.game_manager.game_over()
+
+
+#func erase_all_indicators(): ... zaenkrat ne rabim nikjer
+#	
+#	if not active_color_indicators.empty():
+#		for indicator in active_color_indicators:
+#			indicator.queue_free()
+#		active_color_indicators = []
+#	pass

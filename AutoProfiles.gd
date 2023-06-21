@@ -1,32 +1,43 @@
 extends Node
 
 
+
+
+
+# PROFILES ---------------------------------------------------------------------------------------------------------
+
+
 var default_player_profiles: Dictionary = { # ime profila ime igralca ... pazi da je CAPS, ker v kodi tega ne pedenam	
 	"P1" : { # ključi bodo kasneje samo indexi
 		"player_name" : "Moe",
 		"player_color" : Config.color_blue, # color_yellow, color_green, color_red
 		"controller_profile" : "ARROWS",
 	},
-	"P2" : {
-		"player_name" : "Zed",
-		"player_color" : Config.color_red,
-		"controller_profile" : "WASD",
+}
+
+# STATS ---------------------------------------------------------------------------------------------------------
+
+var default_level_highscores: Dictionary = { 
+# prazen slovar ... uporabi se ob kreiranju fileta ... uporabi ga Glo
+	"1": {
+		"P1": 60,
 	},
-	"P3" : {
-		"player_name" : "Dot",
-		"player_color" : Config.color_yellow, # color_yellow, color_green, color_red
-		"controller_profile" : "JP1",
+	"2": {
+		"P2": 50,
 	},
-	"P4" : {
-		"player_name" : "Jax",
-		"player_color" : Config.color_green,
-		"controller_profile" : "JP2",
+	"3": {
+		"P3": 40,
+	},
+	"4": {
+		"P4": 30,
+	},
+	"5": {
+		"P5": 1,
 	},
 }
 
-# STATS
-
 var default_player_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
+	"player_name" : "Moe Def",
 	"player_active" : false, # zaenkrat ga v aktivnega setaš na pixlov ready
 	"player_life" : 1,
 	"player_points": 0,
@@ -35,12 +46,14 @@ var default_player_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
 	"cells_travelled" : 0,
 }
 
+#var default_level_stats: Dictionary = { # tole ne uporabljam v zadnji varianti
 var default_game_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
 	"level_no" : 88,
 	"game_time" : 900, # sekund
 	"stray_pixels_count" : 32,
 	"off_pixels_count" : 0,
-#	"color_sum": "000 000 000"
+	"highscore": 0000, # se naloži ob štartu igre, zato, da te lahko opozori že med igro
+	"highscore_owner": "NNNNNNNNNN" # se naloži ob štartu igre, zato, da te lahko opozori že med igro
 }
 
 enum GameModes {BASIC}

@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=1]
 [ext_resource path="res://scripts/game/HudGameTime.gd" type="Script" id=2]
@@ -13,14 +13,17 @@
 [ext_resource path="res://scripts/game/Hud.gd" type="Script" id=11]
 [ext_resource path="res://scripts/game/DKamera.gd" type="Script" id=12]
 [ext_resource path="res://scripts/game/Game.gd" type="Script" id=13]
+[ext_resource path="res://scripts/HighscoreTable.gd" type="Script" id=14]
 [ext_resource path="res://assets/theme/gamer_base_font.tres" type="DynamicFont" id=15]
 [ext_resource path="res://assets/tileset_hud_icons.png" type="Texture" id=16]
 [ext_resource path="res://scripts/game/HudLifeIcons.gd" type="Script" id=17]
 [ext_resource path="res://scripts/game/HudEnergyBar.gd" type="Script" id=18]
 [ext_resource path="res://assets/theme/font_gamer320_countdown.tres" type="DynamicFont" id=19]
 [ext_resource path="res://scripts/game/StartCountdown.gd" type="Script" id=20]
+[ext_resource path="res://assets/arena_environment.tres" type="Environment" id=22]
 
 [sub_resource type="World" id=117]
+environment = ExtResource( 22 )
 
 [sub_resource type="NoiseTexture" id=1]
 width = 246
@@ -502,17 +505,6 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Bottom" type="ColorRect" parent="GUI/Hud"]
-visible = false
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -640.0
-margin_top = -48.0
-margin_right = 640.0
-color = Color( 0.054902, 0.054902, 0.054902, 1 )
-
 [node name="HudLine_TL" type="HBoxContainer" parent="GUI/Hud"]
 margin_left = 31.0
 margin_top = 10.0
@@ -915,6 +907,45 @@ __meta__ = {
 "_editor_description_": ""
 }
 
+[node name="Highscore" type="Label" parent="GUI/Hud"]
+margin_left = 974.0
+margin_top = 678.0
+margin_right = 1144.0
+margin_bottom = 704.0
+text = "HIGHSCORE: 0000"
+
+[node name="highscore_popup" type="Control" parent="GUI/Hud"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -136.0
+margin_top = -68.0
+margin_right = 136.0
+margin_bottom = 68.0
+
+[node name="ColorRect" type="ColorRect" parent="GUI/Hud/highscore_popup"]
+modulate = Color( 1, 1, 1, 0.415686 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="Label" type="Label" parent="GUI/Hud/highscore_popup"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -92.0
+margin_top = -27.5
+margin_right = 92.0
+margin_bottom = 27.5
+size_flags_horizontal = 4
+text = "YEAH!!!
+Podrl si rekord!!!"
+align = 1
+valign = 1
+
 [node name="PauseMenu" type="Control" parent="GUI"]
 pause_mode = 2
 visible = false
@@ -1138,7 +1169,6 @@ autowrap = true
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
-visible = false
 anchor_right = 0.997
 anchor_bottom = 1.0
 margin_right = 3.83997
@@ -1297,10 +1327,10 @@ valign = 2
 
 [node name="Menu" type="Control" parent="GUI/GameOver"]
 pause_mode = 2
-margin_left = 823.0
-margin_top = 429.0
-margin_right = 1028.0
-margin_bottom = 619.0
+margin_left = 499.0
+margin_top = 469.0
+margin_right = 704.0
+margin_bottom = 659.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -1337,7 +1367,228 @@ text = "QUIT"
 position = Vector2( 736, 448 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
+[node name="HighscoreTable" type="VBoxContainer" parent="GUI/GameOver"]
+margin_left = 833.0
+margin_top = 437.0
+margin_right = 1089.0
+margin_bottom = 629.0
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="RowLabels" type="HBoxContainer" parent="GUI/GameOver/HighscoreTable"]
+modulate = Color( 1, 1, 1, 0.45098 )
+margin_right = 256.0
+margin_bottom = 26.0
+
+[node name="Position" type="Label" parent="GUI/GameOver/HighscoreTable/RowLabels"]
+margin_right = 36.0
+margin_bottom = 26.0
+size_flags_horizontal = 2
+text = "Pos"
+
+[node name="Score" type="Label" parent="GUI/GameOver/HighscoreTable/RowLabels"]
+margin_left = 86.0
+margin_right = 146.0
+margin_bottom = 26.0
+size_flags_horizontal = 2
+text = "Score"
+
+[node name="Owner" type="Label" parent="GUI/GameOver/HighscoreTable/RowLabels"]
+margin_left = 200.0
+margin_right = 256.0
+margin_bottom = 26.0
+size_flags_horizontal = 10
+text = "Name"
+
+[node name="ScoreLine1" type="HBoxContainer" parent="GUI/GameOver/HighscoreTable"]
+margin_top = 30.0
+margin_right = 256.0
+margin_bottom = 56.0
+
+[node name="Position" type="Label" parent="GUI/GameOver/HighscoreTable/ScoreLine1"]
+margin_right = 18.0
+margin_bottom = 26.0
+size_flags_horizontal = 2
+text = "2."
+
+[node name="Score" type="Label" parent="GUI/GameOver/HighscoreTable/ScoreLine1"]
+margin_left = 86.0
+margin_right = 132.0
+margin_bottom = 26.0
+size_flags_horizontal = 2
+text = "1200"
+
+[node name="Owner" type="Label" parent="GUI/GameOver/HighscoreTable/ScoreLine1"]
+margin_left = 184.0
+margin_right = 256.0
+margin_bottom = 26.0
+size_flags_horizontal = 10
+text = "Primoz"
+
+[node name="ScoreLine2" type="HBoxContainer" parent="GUI/GameOver/HighscoreTable"]
+margin_top = 60.0
+margin_right = 256.0
+margin_bottom = 86.0
+
+[node name="Position" type="Label" parent="GUI/GameOver/HighscoreTable/ScoreLine2"]
+margin_right = 18.0
+margin_bottom = 26.0
+size_flags_horizontal = 2
+text = "2."
+
+[node name="Score" type="Label" parent="GUI/GameOver/HighscoreTable/ScoreLine2"]
+margin_left = 86.0
+margin_right = 132.0
+margin_bottom = 26.0
+size_flags_horizontal = 2
+text = "1200"
+
+[node name="Owner" type="Label" parent="GUI/GameOver/HighscoreTable/ScoreLine2"]
+margin_left = 184.0
+margin_right = 256.0
+margin_bottom = 26.0
+size_flags_horizontal = 10
+text = "Primoz"
+
+[node name="ScoreLine3" type="HBoxContainer" parent="GUI/GameOver/HighscoreTable"]
+margin_top = 90.0
+margin_right = 256.0
+margin_bottom = 116.0
+
+[node name="Position" type="Label" parent="GUI/GameOver/HighscoreTable/ScoreLine3"]
+margin_right = 18.0
+margin_bottom = 26.0
+size_flags_horizontal = 2
+text = "2."
+
+[node name="Score" type="Label" parent="GUI/GameOver/HighscoreTable/ScoreLine3"]
+margin_left = 86.0
+margin_right = 132.0
+margin_bottom = 26.0
+size_flags_horizontal = 2
+text = "1200"
+
+[node name="Owner" type="Label" parent="GUI/GameOver/HighscoreTable/ScoreLine3"]
+margin_left = 184.0
+margin_right = 256.0
+margin_bottom = 26.0
+size_flags_horizontal = 10
+text = "Primoz"
+
+[node name="ScoreLine4" type="HBoxContainer" parent="GUI/GameOver/HighscoreTable"]
+margin_top = 120.0
+margin_right = 256.0
+margin_bottom = 146.0
+
+[node name="Position" type="Label" parent="GUI/GameOver/HighscoreTable/ScoreLine4"]
+margin_right = 18.0
+margin_bottom = 26.0
+size_flags_horizontal = 2
+text = "2."
+
+[node name="Score" type="Label" parent="GUI/GameOver/HighscoreTable/ScoreLine4"]
+margin_left = 86.0
+margin_right = 132.0
+margin_bottom = 26.0
+size_flags_horizontal = 2
+text = "1200"
+
+[node name="Owner" type="Label" parent="GUI/GameOver/HighscoreTable/ScoreLine4"]
+margin_left = 184.0
+margin_right = 256.0
+margin_bottom = 26.0
+size_flags_horizontal = 10
+text = "Primoz"
+
+[node name="ScoreLine5" type="HBoxContainer" parent="GUI/GameOver/HighscoreTable"]
+margin_top = 150.0
+margin_right = 256.0
+margin_bottom = 176.0
+
+[node name="Position" type="Label" parent="GUI/GameOver/HighscoreTable/ScoreLine5"]
+margin_right = 18.0
+margin_bottom = 26.0
+size_flags_horizontal = 2
+text = "2."
+
+[node name="Score" type="Label" parent="GUI/GameOver/HighscoreTable/ScoreLine5"]
+margin_left = 86.0
+margin_right = 132.0
+margin_bottom = 26.0
+size_flags_horizontal = 2
+text = "1200"
+
+[node name="Owner" type="Label" parent="GUI/GameOver/HighscoreTable/ScoreLine5"]
+margin_left = 184.0
+margin_right = 256.0
+margin_bottom = 26.0
+size_flags_horizontal = 10
+text = "Primoz"
+
+[node name="InputHighscorePopup" type="Control" parent="GUI/GameOver"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -148.0
+margin_top = -144.0
+margin_right = 148.0
+margin_bottom = 144.0
+
+[node name="ColorRect" type="ColorRect" parent="GUI/GameOver/InputHighscorePopup"]
+modulate = Color( 1, 1, 1, 0.643137 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/GameOver/InputHighscorePopup"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -92.5
+margin_top = -88.0
+margin_right = 92.5
+margin_bottom = 88.0
+
+[node name="Label" type="Label" parent="GUI/GameOver/InputHighscorePopup/VBoxContainer"]
+margin_right = 185.0
+margin_bottom = 56.0
+size_flags_vertical = 3
+text = "Write your name:"
+align = 1
+
+[node name="NameEdit" type="LineEdit" parent="GUI/GameOver/InputHighscorePopup/VBoxContainer"]
+margin_top = 60.0
+margin_right = 185.0
+margin_bottom = 116.0
+size_flags_vertical = 7
+text = "asdasdsadsad"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GUI/GameOver/InputHighscorePopup/VBoxContainer"]
+margin_top = 150.0
+margin_right = 185.0
+margin_bottom = 176.0
+size_flags_vertical = 10
+
+[node name="CancelBtn" type="Button" parent="GUI/GameOver/InputHighscorePopup/VBoxContainer/HBoxContainer"]
+margin_right = 74.0
+margin_bottom = 26.0
+size_flags_horizontal = 2
+text = "CANCEL"
+
+[node name="ConfirmBtn" type="Button" parent="GUI/GameOver/InputHighscorePopup/VBoxContainer/HBoxContainer"]
+margin_left = 94.0
+margin_right = 182.0
+margin_bottom = 26.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 0.368627, 1, 0.662745, 1 )
+text = "CONFIRM"
+
 [node name="StartCoundown" type="Control" parent="GUI"]
+visible = false
 modulate = Color( 1, 1, 1, 0 )
 margin_right = 1280.0
 margin_bottom = 720.0
@@ -1444,4 +1695,7 @@ anims/countdown_5 = SubResource( 135 )
 [connection signal="pressed" from="GUI/PauseMenu/Menu/QuitBtn" to="GUI/PauseMenu" method="_on_QuitBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
+[connection signal="text_entered" from="GUI/GameOver/InputHighscorePopup/VBoxContainer/NameEdit" to="GUI/GameOver" method="_on_PopupNameEdit_text_entered"]
+[connection signal="pressed" from="GUI/GameOver/InputHighscorePopup/VBoxContainer/HBoxContainer/CancelBtn" to="GUI/GameOver" method="_on_PopupCancelBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/InputHighscorePopup/VBoxContainer/HBoxContainer/ConfirmBtn" to="GUI/GameOver" method="_on_PopupConfirmBtn_pressed"]
 [connection signal="animation_finished" from="GUI/StartCoundown/AnimationPlayer" to="GUI/StartCoundown" method="_on_AnimationPlayer_animation_finished"]

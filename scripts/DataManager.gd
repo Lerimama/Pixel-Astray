@@ -4,7 +4,7 @@ extends Node
 var data_file: = File.new()
 
 func _ready() -> void:
-	Glo.data_manager = self
+	Global.data_manager = self
 
 	
 func get_top_highscore(current_level):
@@ -70,7 +70,7 @@ func manage_gameover_highscores(player_points, current_level): # iz GM
 	
 		# YIELD 2 
 		print ("DM - YIELD 2")
-		yield(Glo.gameover_gui, "name_input_finished")
+		yield(Global.gameover_menu, "name_input_finished")
 		
 		# ... čaka na novo ime, ki bo prišlo iz GM, ki ga dobi od GO
 		
@@ -78,7 +78,7 @@ func manage_gameover_highscores(player_points, current_level): # iz GM
 		print ("DM - RESUME 2")
 		
 		# nova highscore lestvica		
-		var current_score_owner = Glo.game_manager.player_stats["player_name"]
+		var current_score_owner = Global.game_manager.player_stats["player_name"]
 		
 		# dodam plejer score v array
 		all_scores.insert(better_positions_count, player_points)
@@ -106,7 +106,7 @@ func manage_gameover_highscores(player_points, current_level): # iz GM
 		write_highscores_to_file(current_level, new_level_highscores)
 		
 		# prikažem hs tabelo, ki sama naloži hs iz fileta (tako je bolj modularna=
-		Glo.gameover_gui.highscore_table.open_highscore_table()
+		Global.gameover_menu.highscore_table.open_highscore_table()
 
 
 # READ / WRITE
@@ -123,7 +123,7 @@ func read_highscores_from_file(current_level_no: int):
 #		printt("Error loading file", error)
 		data_file.open("user://level%s_highscores.save" % current_level_no, File.WRITE) # vsak level ma svoj filet
 		# vnesem default HS
-		data_file.store_line(to_json(Pro.default_level_highscores))
+		data_file.store_line(to_json(Profiles.default_level_highscores))
 		data_file.close()
 #		printt("Default file created", data_file)
 		# ko je filet ustvarjen grem naprej na podajanje vse HSjev
