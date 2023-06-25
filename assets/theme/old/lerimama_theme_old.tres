@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=10 format=2]
 
-[ext_resource path="res://assets/theme/lerimama_theme_font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://assets/theme/old/gamer_base_font.tres" type="DynamicFont" id=1]
 
 [sub_resource type="StyleBoxEmpty" id=2]
 
@@ -25,7 +25,7 @@ border_width_bottom = 2
 border_color = Color( 1, 1, 1, 1 )
 
 [sub_resource type="StyleBoxFlat" id=7]
-bg_color = Color( 0, 0, 0, 0.862745 )
+bg_color = Color( 0, 0, 0, 0.705882 )
 border_width_left = 4
 border_width_top = 4
 border_width_right = 4
@@ -34,11 +34,11 @@ border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
 
 [resource]
 default_font = ExtResource( 1 )
-Button/colors/font_color = Color( 0.490196, 0.490196, 0.490196, 1 )
-Button/colors/font_color_disabled = Color( 0.145098, 0.145098, 0.145098, 1 )
-Button/colors/font_color_focus = Color( 0.368627, 1, 0.662745, 1 )
+Button/colors/font_color = Color( 0.32549, 0.356863, 0.407843, 1 )
+Button/colors/font_color_disabled = Color( 0.184314, 0.211765, 0.286275, 1 )
+Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
 Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
-Button/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+Button/colors/font_color_pressed = Color( 0.952941, 0.356863, 0.498039, 1 )
 Button/styles/disabled = SubResource( 2 )
 Button/styles/focus = SubResource( 8 )
 Button/styles/hover = SubResource( 9 )
@@ -47,7 +47,7 @@ Button/styles/pressed = SubResource( 11 )
 CheckBox/icons/checked = null
 CheckBox/icons/unchecked = null
 HSeparator/styles/separator = SubResource( 5 )
-Label/colors/font_color = Color( 0.745098, 0.745098, 0.745098, 1 )
+Label/colors/font_color = Color( 1, 1, 1, 1 )
 Label/colors/font_color_shadow = Color( 0, 0, 0, 0 )
 Label/colors/font_outline_modulate = Color( 1, 1, 1, 1 )
 Label/styles/normal = null
