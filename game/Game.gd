@@ -24,9 +24,15 @@ func set_camera_limits():
 	var tilemap_edge = Global.level_tilemap.get_used_rect()	
 	var tilemap_cell_size = Global.level_tilemap.cell_size
 	
+	var corner_TL: float = tilemap_edge.position.x * tilemap_cell_size.x
+	var corner_TR: float = tilemap_edge.end.x * tilemap_cell_size.x
+	var corner_BL: float = tilemap_edge.position.y * tilemap_cell_size.y
+	var corner_BR: float = tilemap_edge.end.y * tilemap_cell_size.y
+	
+	# v tem koraku odštejem tilemap edge debelino
 	for camera in [minimap_camera, d_camera]:
-		camera.limit_left = tilemap_edge.position.x * tilemap_cell_size.x # 0,0
-		camera.limit_right = tilemap_edge.end.x * tilemap_cell_size.x # 0,0
-		camera.limit_top = tilemap_edge.position.y * tilemap_cell_size.y # 0,0
-		camera.limit_bottom = tilemap_edge.end.y * tilemap_cell_size.y # 0,0
+		camera.limit_left = corner_TL + tilemap_cell_size.x 
+		camera.limit_right = corner_TR - tilemap_cell_size.x
+		camera.limit_top = corner_BL + tilemap_cell_size.y
+		camera.limit_bottom = corner_BR - tilemap_cell_size.y
 

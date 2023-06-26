@@ -74,7 +74,7 @@ func set_game():
 	# pixel on
 	Global.main_camera.zoom = Vector2(2, 2)
 	spawn_player(player_start_position)
-	yield(get_tree().create_timer(2), "timeout")
+#	yield(get_tree().create_timer(2), "timeout")
 	
 #	var plejer
 #	# pixel event
@@ -90,7 +90,7 @@ func set_game():
 ##	plejer.animation_player.play("still_alive")	
 ##	yield(get_tree().create_timer(3.5), "timeout")
 	
-	yield(get_tree().create_timer(2), "timeout")
+#	yield(get_tree().create_timer(2), "timeout")
 	Global.main_camera.animation_player.play("intro_zoom")
 	
 #	Global.game_countdown.start_countdown()
@@ -184,7 +184,7 @@ func spawn_player(spawn_position):
 	new_player_pixel.global_position = spawn_position # + grid_cell_size/2 ... ne rabim snepat ker se v pixlu na redi funkciji
 	
 	# _temp
-	new_player_pixel.pixel_is_player = true # ta pixel je plejer in ne računalnik
+#	new_player_pixel.pixel_is_player = true # ta pixel je plejer in ne računalnik
 	
 	#spawn
 	Global.node_creation_parent.add_child(new_player_pixel)

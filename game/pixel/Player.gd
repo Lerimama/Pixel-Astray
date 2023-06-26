@@ -3,13 +3,12 @@ extends KinematicBody2D
 
 signal stat_changed (stat_owner, stat, stat_change)
 
-export var pixel_is_player: = false # tukaj setam al ma kontrole al ne
 export var energy_speed_mode: bool = true
 
 # steping
 export var step_time: float # = 0.15
-export var walk_time: float = 0.15
-export var run_time: float = 0.05
+#export var walk_time: float = 0.15
+#export var run_time: float = 0.05
 export var max_step_time: float = 0.25 # najpočasnejši
 export var min_step_time: float = 0.1 # najhitrejši ... v trenutni kodi je irelevanten
 
@@ -139,12 +138,18 @@ func on_collision():
 	if collision.collider.is_in_group(Global.group_tilemap):
 		spawn_collision_particles()
 		Global.main_camera.wall_hit_shake()
-		
+
 		# žrebam animacijo
 		var random_animation_index = randi() % 3 + 1
 		var random_animation_name: String = "glitch_%s" % random_animation_index
 		animation_player.play(random_animation_name)
-	
+#
+#		var floor_tile_index = 3
+#		# get tile index
+#		var floor_tile_index = collision.collider.get_collision_tile(self, direction)
+#		print("floor_tile_index", floor_tile_index)
+		
+			
 	# stray pixel
 	elif collision.collider.is_in_group(Global.group_strays):
 		
@@ -208,16 +213,16 @@ func on_collision():
 
 func idle_inputs():
 	
-	if Input.is_action_pressed("ui_up"):
+	if Input.is_action_pressed("ui_up") and player_energy > 1: # ne koraka z 1 energijo
 		direction = Vector2.UP
 		step()
-	elif Input.is_action_pressed("ui_down"):
+	elif Input.is_action_pressed("ui_down") and player_energy > 1:
 		direction = Vector2.DOWN
 		step()
-	elif Input.is_action_pressed("ui_left"):
+	elif Input.is_action_pressed("ui_left") and player_energy > 1:
 		direction = Vector2.LEFT
 		step()
-	elif Input.is_action_pressed("ui_right"):
+	elif Input.is_action_pressed("ui_right") and player_energy > 1:
 		direction = Vector2.RIGHT
 		step()
 			
@@ -273,12 +278,18 @@ func skill_inputs():
 	if Input.is_action_just_pressed("ui_right"):
 		new_direction = Vector2.RIGHT
 	
-	# select skill
-	if current_state != States.SKILLED:
+	# select skill, če ga še nima 
+	if current_state != States.SKILLED and player_energy > 1:
+		
+		# skill glede na kolajderja
 		var collider: Object = Global.detect_collision_in_direction(vision_ray, direction)
+		var wall_tile_index = 3
+		
 		if new_direction == direction:
 			if collider.is_in_group(Global.group_tilemap):
-				teleport()
+				var colliding_tile_id = collider.get_collision_tile_id(self, direction) # pošljem self, ker kolajder (tilemap) ima koordinate 0,0
+				if colliding_tile_id == wall_tile_index:
+					teleport()
 			elif collider.is_in_group(Global.group_strays):
 				push()	
 		if new_direction == - direction:
@@ -288,21 +299,10 @@ func skill_inputs():
 
 func die():
 	
-	if pixel_is_player:
-		emit_signal("stat_changed", self, "player_life", -1)
-		Global.main_camera.player_die_shake()
-		set_physics_process(false) # aktivira ga revive(), ki se sproži iz animacije
-		animation_player.play("die_player")
-	else:
-		emit_signal("stat_changed", self, "off_pixels_count", 1)
-		Global.main_camera.stray_die_shake()		
-		
-		# žrebam animacijo
-		var random_animation_index = randi() % 5 + 1
-		var random_animation_name: String = "die_stray_%s" % random_animation_index
-		animation_player.play(random_animation_name) 
-		
-		# KVEFRI je v animaciji
+	emit_signal("stat_changed", self, "player_life", -1)
+	Global.main_camera.player_die_shake()
+	set_physics_process(false) # aktivira ga revive(), ki se sproži iz animacije
+	animation_player.play("die_player")
 		
 
 func revive():
@@ -315,9 +315,6 @@ func revive():
 
 func step():
 
-	if player_energy <= 1: # ne koraka z 1 energijo
-		return
-	
 	var step_direction = direction
 	
 	# če kolajda izbrani smeri gibanja prenesem kontrole na skill
@@ -471,8 +468,6 @@ func burst(ghosts_count):
 		
 func push():
 	
-	if player_energy <= 1: # ne koraka z 1 energijo
-		return
 			
 	var push_direction = direction
 	var backup_direction = - push_direction
@@ -518,9 +513,6 @@ func push():
 
 func pull():
 	
-	if player_energy <= 1: # ne koraka z 1 energijo
-		return
-			
 	var target_direction = direction
 	var pull_direction = - target_direction
 	
@@ -548,7 +540,7 @@ func pull():
 	
 
 func teleport():
-	
+		
 	var teleport_direction = direction
 	
 	current_state = States.SKILLED
@@ -607,7 +599,6 @@ func spawn_ghost(current_pixel_position):
 	Global.node_creation_parent.add_child(new_pixel_ghost)
 
 	return new_pixel_ghost
-
 
 
 func random_blink():
