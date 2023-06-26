@@ -4,6 +4,10 @@ extends TileMap
 signal floor_completed (floor_tiles_global_positions, player_start_global_position)
 
 
+var floor_cells_global_positions: Array # global koordinate celic
+var player_start_global_position: Vector2 
+
+
 func _ready() -> void:
 	
 	Global.print_id(self)
@@ -16,8 +20,6 @@ func _ready() -> void:
 
 func get_floor_tiles():
 	
-	var floor_cells_global_positions: Array # global koordinate celic
-	var player_start_global_position: Vector2 
 	
 	# prečesi vse celice in določi globalne pozicije
 	for x in get_used_rect().size.x: # širina v celicah

@@ -17,8 +17,10 @@ var floor_positions: Array # po signalu ob kreaciji tilemapa ... tukaj, da ga la
 var available_floor_positions: Array # dplikat floor_positions za spawnanje pixlov
 var revive_time: float = 3 # pavza med die in revive funkcijo
 
-onready var StrayPixel = preload("res://game/arena/Pixel.tscn")
-onready var PlayerPixel = preload("res://game/arena/Pixel.tscn")
+#onready var StrayPixel = preload("res://game/pixel/Pixel.tscn")
+onready var StrayPixel = preload("res://game/pixel/Stray.tscn")
+#onready var PlayerPixel = preload("res://game/pixel/Pixel.tscn")
+onready var PlayerPixel = preload("res://game/pixel/Player.tscn")
 onready var spectrum_rect: TextureRect = $Spectrum
 var player_start_position: Vector2
 #onready var player_start_position: Position2D = $"../StartPosition"
@@ -27,7 +29,7 @@ var player_start_position: Vector2
 onready var player_stats: Dictionary = Profiles.default_player_stats.duplicate() # duplikat default profila
 onready var game_stats: Dictionary = Profiles.default_level_stats.duplicate() # duplikat default profila
 onready var game_rules: Dictionary = Profiles.game_rules 
-onready var FloatingTag = preload("res://game/arena/FloatingTag.tscn")
+onready var FloatingTag = preload("res://game/pixel/FloatingTag.tscn")
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -178,7 +180,6 @@ func spawn_player(spawn_position):
 	var new_player_pixel = PlayerPixel.instance()
 	new_player_pixel.name = "P%s" % str(spawned_player_index)
 	new_player_pixel.pixel_color = Global.color_white
-	new_player_pixel.add_to_group(Global.group_players)
 	
 	new_player_pixel.global_position = spawn_position # + grid_cell_size/2 ... ne rabim snepat ker se v pixlu na redi funkciji
 	
@@ -254,7 +255,6 @@ func spawn_stray(stray_color):
 	var new_stray_pixel = StrayPixel.instance()
 	new_stray_pixel.name = "Stray%s" % str(spawned_player_index)
 	new_stray_pixel.pixel_color = stray_color
-	new_stray_pixel.add_to_group(Global.group_strays)
 	
 	# random grid pozicija
 	var random_range = available_floor_positions.size()

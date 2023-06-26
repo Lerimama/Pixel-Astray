@@ -58,13 +58,46 @@ var color_yellow = Color("#fef98b")
 func _ready():
 	
 	randomize()
+
+
+
+func snap_to_nearest_grid(current_global_position: Vector2):
+
+	var floor_cells: Array = level_tilemap.floor_cells_global_positions
+	var cell_size_x: int = level_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 	
-	# za menjavo scen
-#	var root = get_tree().root
-#	current_scene = root.get_child(root.get_child_count() - 1)
-#
-#	print ("root: ", root)
-#	print ("current_scene: ", current_scene)
+	var current_position: Vector2 = Vector2(current_global_position.x - cell_size_x/2, current_global_position.y - cell_size_x/2)
+	
+	# če ni že snepano
+	if not floor_cells.has(current_position): 
+		# določimo distanco znotraj katere preverjamo bližino točke
+		var distance_to_position: float = cell_size_x # začetna distanca je velikosti celice, ker na koncu je itak bližja
+		var nearest_cell: Vector2
+		for cell in floor_cells:
+			if cell.distance_to(current_position) < distance_to_position:
+				distance_to_position = cell.distance_to(current_position)
+				nearest_cell = cell
+
+		# snap position
+		var snap_to_position: Vector2 = Vector2(nearest_cell.x + cell_size_x/2, nearest_cell.y + cell_size_x/2)
+
+		return snap_to_position
+	else: 
+		return current_global_position # vrneš isto pozicijo na katere že je 
+
+
+func detect_collision_in_direction(ray, direction_to_check):
+	
+#	var floor_cells: Array = level_tilemap.floor_cells_global_positions
+	var cell_size_x: int = level_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
+	
+	ray.cast_to = direction_to_check * cell_size_x # ray kaže na naslednjo pozicijo 
+	ray.force_raycast_update()	
+	
+	if ray.is_colliding():
+		var ray_collider = ray.get_collider()
+		return ray_collider
+		
 
 
 func print_id (object):

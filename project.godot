@@ -8,6 +8,16 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "KinematicBody2D",
+"class": "Pixel",
+"language": "GDScript",
+"path": "res://_odl/Pixel_base.gd"
+} ]
+_global_script_class_icons={
+"Pixel": ""
+}
+
 [application]
 
 config/name="Stray Pixels"
