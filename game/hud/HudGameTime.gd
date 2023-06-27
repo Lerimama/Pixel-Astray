@@ -92,8 +92,8 @@ func stopwatch(delta):
 		time += delta #* 50
 		
 		# sekunde
-		var game_seconds: int = round(time)
-		var current_second = game_seconds % 60
+		var game_seconds: float = round(time)
+		var current_second = int(game_seconds) % 60
 		if current_second > 59:
 			current_second = 00
 		secs.text = "%02d" % current_second

@@ -13,6 +13,10 @@ onready var vision_ray: RayCast2D = $VisionRay
 #var breath_speed: float = 1.2
 #var tired_breath_speed: float = 2.4
 
+export (float, 0, 1) var die_shake_power: float = 0.2
+export (float, 0, 10) var die_shake_time: float = 0.4
+export (float, 0, 1) var die_shake_decay: float = 0.3
+
 
 func _ready() -> void:
 	
@@ -33,7 +37,7 @@ func _physics_process(delta: float) -> void:
 func die():
 	
 	emit_signal("stat_changed", self, "off_pixels_count", 1)
-	Global.main_camera.stray_die_shake()		
+#	Global.main_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
 	
 	# žrebam animacijo
 	var random_animation_index = randi() % 5 + 1

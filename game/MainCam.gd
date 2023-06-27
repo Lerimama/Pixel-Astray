@@ -17,10 +17,10 @@ var trauma_strength = 0 # na začetku vedno 0
 var time: float = 0 # za offset noise
 
 # game šejk
-export (float, 0, 1) var stray_hit_strength = 0.1 # bullet add_trauma
-export (float, 0, 1) var wall_hit_strength = 0.35 # bullet add_trauma
-export (float, 0, 1) var player_die_strength = 0.25 # bullet add_trauma
-export (float, 0, 1) var stray_die_strength = 0.30 # bullet add_trauma
+#export (float, 0, 1) var stray_hit_strength = 0.1 # bullet add_trauma
+#export (float, 0, 1) var wall_hit_strength = 0.35 # bullet add_trauma
+#export (float, 0, 1) var player_die_strength = 0.25 # bullet add_trauma
+#export (float, 0, 1) var stray_die_strength = 0.30 # bullet add_trauma
 
 # test hud
 var test_view_on = false
@@ -61,7 +61,7 @@ onready var cell_size_x = Global.level_tilemap.cell_size.x # za zamik glede na t
 
 func _ready():
 
-	Global.print_id(name)
+	Global.print_id(self)
 	Global.main_camera = self
 	Global.camera_target = null # da se nulira (pri quit game) in je naslednji play brez errorja ... seta se ob spawnanju plejerja
 
@@ -103,7 +103,7 @@ func _ready():
 	zoom_slider.hide()
 
 
-func _input(event: InputEvent) -> void:
+func _input(_event: InputEvent) -> void:
 
 	if Input.is_action_just_pressed("left_click") and test_view_on and not mouse_used:
 		drag_on = true
@@ -167,49 +167,32 @@ func _physics_process(delta: float) -> void:
 
 # ŠEJK ------------------------------------------------------------------------------------------------------------------------
 
+var t_strength = 0
+var t_time = 0
+var t_decay = 0
 
-func shake_camera(shake_strength): 
-	# on btn
+func shake_camera(shake_power, shake_time, shake_decay): 
 	
-	trauma_strength = shake_strength
+	# fixed
+	trauma_strength = shake_power
+	trauma_time = shake_time
+	decay_speed = shake_decay
+	
+	# growing
+#	t_strength += shake_power
+#	t_time += shake_time
+#	t_decay += shake_decay
+#	trauma_strength = t_strength
+#	trauma_time = t_time
+#	decay_speed = t_decay
+	
+	# apply shake
 	trauma_strength = clamp(trauma_strength, 0, 1)
 
 
-func stray_hit_shake():
-	
-	stray_hit_strength = 0.2
-	trauma_time = 0.3
-	decay_speed = 0.7
-	
-	shake_camera(stray_hit_strength)
-
-
-func wall_hit_shake():
-	
-	wall_hit_strength = 0.25
-	trauma_time = 0.5
-	decay_speed = 0.2
-	
-	shake_camera(wall_hit_strength)
-
-
-func stray_die_shake():
-	
-	return
-	stray_die_strength = 0
-	trauma_time = 0.2
-	decay_speed = 0.7
-	
-	shake_camera(stray_die_strength)
-
-
-func player_die_shake():
-	
-	player_die_strength = 0.2
-	trauma_time = 0.7
-	decay_speed = 0.1
-	
-	shake_camera(player_die_strength)
+func shake_camera_in(shake_strength): 
+	trauma_strength = shake_strength
+	trauma_strength = clamp(trauma_strength, 0, 1)
 
 
 # FOLLOW ------------------------------------------------------------------------------------------------------------------------
@@ -234,6 +217,8 @@ func reset_camera_position():
 
 # TESTHUD ------------------------------------------------------------------------------------------------------------------------
 
+# toggle testhud
+
 func _on_CheckBox_toggled(button_pressed: bool) -> void:
 
 	if test_view_on:
@@ -247,9 +232,12 @@ func _on_CheckBox_mouse_entered() -> void:
 func _on_CheckBox_mouse_exited() -> void:
 	mouse_used = false
 
+# shake btn
+
 func _on_AddTraumaBtn_pressed() -> void:
 	mouse_used = true
-	shake_camera(trauma_strength_addon)
+	trauma_strength = trauma_strength_addon
+	trauma_strength = clamp(trauma_strength, 0, 1)
 func _on_AddTraumaBtn_mouse_entered() -> void:
 	mouse_used = true
 func _on_AddTraumaBtn_mouse_exited() -> void:

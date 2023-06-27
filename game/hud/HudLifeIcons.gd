@@ -45,7 +45,7 @@ func _on_value_change(new_value): # ne rabim parametra
 
 func set_icons_state():
 	
-	var loop_index: int		
+	var loop_index: int = 0	
 	for icon in life_icons:
 		loop_index += 1
 		if loop_index >= life_count + 1: # če je ena preveč

@@ -71,6 +71,14 @@ var game_rules : Dictionary = { # tole ne uporabljam v zadnji varianti
 	"energy_cell_travelled": -1,
 }
 
+#var game_config : Dictionary = { # tole ne uporabljam v zadnji varianti
+#	"stray_hit_shake": 0,
+#	"wall_hit_shake": 0,
+#	"stray_die_shake": 0,
+#	"player_die_shake": 0,
+#}
+
+
 #enum Levels {FIRST, SQUARE, CIRCLE, TRIANGLE
 #}
 #

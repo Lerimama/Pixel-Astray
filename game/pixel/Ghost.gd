@@ -23,8 +23,7 @@ var colliding_with_tilemap :bool = false
 func _ready() -> void:
 	
 	Global.print_id(self)
-	
-	add_to_group(Global.group_ghosts)
+#	add_to_group(Global.group_ghosts)
 	
 
 func _physics_process(delta: float) -> void:

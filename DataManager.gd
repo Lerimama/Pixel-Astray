@@ -14,8 +14,8 @@ func get_top_highscore(current_level):
 	
 	
 	# current higscore in lastnik
-	var all_scores: Array # = loaded_level_highscores.values()
-	var all_score_owners: Array # = loaded_level_highscores.keys()
+	var all_scores: Array = []# = loaded_level_highscores.values()
+	var all_score_owners: Array = []# = loaded_level_highscores.keys()
 	
 	for hs_position_key in loaded_level_highscores:
 		# dodam vrednost s pozicija
@@ -43,7 +43,7 @@ func manage_gameover_highscores(player_points, current_level): # iz GM
 	var all_scores: Array
 	var all_score_owners: Array
 	var current_level_highscores: Dictionary # zaenkrat samo pri GO
-	var new_score_position: int
+#	var new_score_position: int
 	var better_positions_count: int
 	
 	current_level_highscores = read_highscores_from_file(current_level) # ... v odprtem filetu se potem naloži highscore
@@ -68,15 +68,12 @@ func manage_gameover_highscores(player_points, current_level): # iz GM
 	# JE na lestvici
 	else:
 	
-		# YIELD 2 
+		# YIELD 2 ... čaka na novo ime, ki bo prišlo iz GM, ki ga dobi od GO
 		print ("DM - YIELD 2")
 		yield(Global.gameover_menu, "name_input_finished")
 		
-		# ... čaka na novo ime, ki bo prišlo iz GM, ki ga dobi od GO
-		
 		# RESUME 2
 		print ("DM - RESUME 2")
-		
 		# nova highscore lestvica		
 		var current_score_owner = Global.game_manager.player_stats["player_name"]
 		
@@ -104,9 +101,7 @@ func manage_gameover_highscores(player_points, current_level): # iz GM
 
 		# sejvam hs slovar v filet
 		write_highscores_to_file(current_level, new_level_highscores)
-		
-		# prikažem hs tabelo, ki sama naloži hs iz fileta (tako je bolj modularna)
-#		Global.gameover_menu.show_content()
+		Global.gameover_menu.show_content()
 
 
 # READ / WRITE

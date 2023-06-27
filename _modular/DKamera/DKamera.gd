@@ -49,7 +49,7 @@ onready var test_toggle_btn = $UILayer/TestToggle
 
 func _ready():
 
-	Global.print_id(name)
+	Global.print_id(self)
 	Global.main_camera = self
 	Global.camera_target = null # da se nulira (pri quit game) in je naslednji play brez errorja ... seta se ob spawnanju plejerja
 

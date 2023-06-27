@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://home/GameIntro.gd" type="Script" id=1]
 [ext_resource path="res://assets/arena_tileset.tres" type="TileSet" id=2]
 [ext_resource path="res://game/FloorMap.gd" type="Script" id=3]
+[ext_resource path="res://home/Pixel.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/arena_environment.tres" type="Environment" id=8]
 
 [node name="GameIntro" type="Node2D"]
@@ -13,6 +14,7 @@ __meta__ = {
 }
 
 [node name="Undi" type="Node2D" parent="."]
+visible = false
 z_index = -1
 
 [node name="Undi" type="ColorRect" parent="Undi"]
@@ -58,3 +60,7 @@ polygon = PoolVector2Array( -624, -288, -480, -224, 2112, -224, 2112, 1664, -480
 
 [node name="ArenaEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 8 )
+
+[node name="Pixel" parent="." instance=ExtResource( 4 )]
+modulate = Color( 1, 1, 1, 1.04495 )
+position = Vector2( 320, 496 )

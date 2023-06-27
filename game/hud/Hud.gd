@@ -35,7 +35,7 @@ onready var level: Label = $Level
 
 # hs
 onready var highscore_label: Label = $Highscore
-onready var highscore_popup: Control = $highscore_popup
+onready var highscore_popup: Control = $HighscorePopup
 
 
 func _ready() -> void:
@@ -116,6 +116,9 @@ func start_timer():
 	
 	game_time.restart_timer(Profiles.default_level_stats["game_time"])
 
+func stop_timer():
+	game_time.timing_on = false
+
 
 # COLORS ---------------------------------------------------------------------------------------------------------------------------
 
@@ -147,7 +150,7 @@ func color_picked(picked_pixel_color):
 	var stray_pixels_counter = $HudLine_TR/StrayCounter
 #	var current_counter_modulate: Color = pixels_off_counter.modulate
 #	var current_label_modulate: Color = picked_color_label.modulate
-#
+
 	picked_color_rect.color = picked_pixel_color
 	
 	picked_color_label.modulate = picked_pixel_color
@@ -159,7 +162,6 @@ func color_picked(picked_pixel_color):
 	stray_pixels_counter.modulate = default_hud_color
 	
 	
-	stray_pixels_counter
 	
 	
 func erase_color_indicator(erase_color):

@@ -17,24 +17,23 @@ var floor_positions: Array # po signalu ob kreaciji tilemapa ... tukaj, da ga la
 var available_floor_positions: Array # dplikat floor_positions za spawnanje pixlov
 var revive_time: float = 3 # pavza med die in revive funkcijo
 
-onready var StrayPixel = preload("res://game/pixel/Stray.tscn")
-onready var PlayerPixel = preload("res://game/pixel/Player.tscn")
+onready var StrayPixel = preload("res://game/arena/Pixel.tscn")
+onready var PlayerPixel = preload("res://game/arena/Pixel.tscn")
 onready var spectrum_rect: TextureRect = $Spectrum
 var player_start_position: Vector2
+#onready var player_start_position: Position2D = $"../StartPosition"
 
 # stats
 onready var player_stats: Dictionary = Profiles.default_player_stats.duplicate() # duplikat default profila
 onready var game_stats: Dictionary = Profiles.default_level_stats.duplicate() # duplikat default profila
 onready var game_rules: Dictionary = Profiles.game_rules 
-onready var FloatingTag = preload("res://game/pixel/FloatingTag.tscn")
 
 
-func _unhandled_input(_event: InputEvent) -> void:
+
+func _unhandled_input(event: InputEvent) -> void:
 
 	if Input.is_action_just_pressed("r"):
-#		start_game()
-		printt("players_in_game", players_in_game)
-		
+		start_game()
 	if Input.is_action_pressed("no1"):
 		player_stats["player_energy"] -= 1
 	if Input.is_action_pressed("no2"):
@@ -54,61 +53,29 @@ func _ready() -> void:
 	# štartej igro
 	yield(get_tree().create_timer(0.1), "timeout") # zato da se vse naloži
 	set_game()
-#	play_intro()
+	
 	
 func _process(delta: float) -> void:
 	
 	players_in_game = get_tree().get_nodes_in_group(Global.group_players)
 	# strays_in_game = get_tree().get_nodes_in_group(Global.group_strays)
-#	if players_in_game.empty():
-#		Global.camera_target = null
+	
+	if players_in_game.empty():
+		Global.camera_target = null
 
 
 # GAME LOOP --------------------------------------------------------------------------------------------------------------------------------
 
-func play_intro():
-	
-	Global.main_camera.zoom = Vector2(2, 2)
-	spawn_player(player_start_position)
-	
-	yield(get_tree().create_timer(2), "timeout")
-	
-	var plejer
-	# pixel event
-	if not players_in_game.empty():
-		for player in players_in_game:
-			plejer = player
-	plejer.animation_player.play("color_burst")	
-	
-	yield(get_tree().create_timer(3.6), "timeout")
-	
-	split_stray_colors(game_stats["stray_pixels_count"])
-	# -> tukaj daš fejdin efekt na strejse
-	
-	yield(get_tree().create_timer(0.5), "timeout")
-
-	plejer.animation_player.stop()	
-	plejer.animation_player.play("still_alive")	
-	yield(get_tree().create_timer(3.5), "timeout")
-
-
-#	yield(get_tree().create_timer(2), "timeout")
-	Global.main_camera.animation_player.play("intro_zoom")
-	
-#	Global.game_countdown.start_countdown()
-#	return
-
-	# tukaj pride poziv intro
-	yield(get_tree().create_timer(1), "timeout")
-	Global.game_countdown.start_countdown()
-	
-#	play_intro()
-	
 func set_game():
 	
-	Global.main_camera.zoom = Vector2(1, 1)
+#	player_start_position.global_position = Profiles.game_rules["player_start_position"]
+	
 	spawn_player(player_start_position)
+#	spawn_player(player_start_position.global_position)
+	yield(get_tree().create_timer(1), "timeout")
+	
 	split_stray_colors(game_stats["stray_pixels_count"])
+	yield(get_tree().create_timer(1), "timeout")
 	
 	# highscore za hud
 	var current_highscore_line: Array = Global.data_manager.get_top_highscore(game_stats["level_no"])
@@ -116,12 +83,11 @@ func set_game():
 	game_stats["highscore_owner"] = current_highscore_line[1]
 	
 	Global.hud.fade_in() # hud zna vse sam ... vseskozi je GM njegov "mentor"
-	yield(get_tree().create_timer(1), "timeout") # ne moreš klicat start game v istem frejmu, ker potem še ne prepozna plejerja
-	start_game()
+	
+	# tukaj pride poziv intro
+	yield(get_tree().create_timer(1), "timeout")
+	Global.game_countdown.start_countdown()
 
-	
-	
-	
 	
 func start_game():
 	
@@ -132,9 +98,7 @@ func start_game():
 	if not players_in_game.empty():
 		for player in players_in_game:
 			player.set_physics_process(true)
-	else:			
-		print("PLAYER = NIGA")
-	
+			
 	
 func game_over():
 	
@@ -147,28 +111,39 @@ func game_over():
 		for player in players_in_game:
 			player.set_physics_process(false)
 	
-	Global.hud.stop_timer()
-	yield(get_tree().create_timer(2), "timeout")
+	yield(get_tree().create_timer(3), "timeout")
 
-	# YIELD 1 ... čaka na konec preverke rankinga ... če ni rankinga dobi false, če je ne dobi nič
-	print ("GM - YIELD 1")
+	# kamera target off
+	Global.camera_target = null
+
+
+	# HS ---------------------------------------------------------------------------------
 	
+	# YIELD 1 
+	print ("GM - YIELD 1")
 	var player_points = player_stats["player_points"]
 	var current_level = game_stats["level_no"]
 	var score_is_ranking = Global.data_manager.manage_gameover_highscores(player_points, current_level)
 	
+	# ... čaka na konec preverke rankinga ... če ni rankinga dobi false, če je ne dobi nič
+	
 	# RESUME 1
 	print ("GM - RESUME 1")
-
-	if not score_is_ranking:
-		Global.gameover_menu.fade_in()																																																							
-	else:
-		Global.gameover_menu.fade_in_empty()
-
+	yield(get_tree().create_timer(1), "timeout")
 	
+	Global.gameover_menu.fade_in()
+	
+	if not score_is_ranking:
+		Global.gameover_menu.show_all_content()
+	else:
+		yield(get_tree().create_timer(1), "timeout")
+		
+		# odprem input
+		Global.gameover_menu.open_highscore_input()
+		
+		# ko se izvede input imena ... DM pokliče prikaz hs tabele
 
 # SPAWNANJE --------------------------------------------------------------------------------------------------------------------------------
-
 
 func spawn_player(spawn_position):
 	
@@ -178,8 +153,12 @@ func spawn_player(spawn_position):
 	var new_player_pixel = PlayerPixel.instance()
 	new_player_pixel.name = "P%s" % str(spawned_player_index)
 	new_player_pixel.pixel_color = Global.color_white
+	new_player_pixel.add_to_group(Global.group_players)
 	
 	new_player_pixel.global_position = spawn_position # + grid_cell_size/2 ... ne rabim snepat ker se v pixlu na redi funkciji
+	
+	# _temp
+	new_player_pixel.pixel_is_player = true # ta pixel je plejer in ne računalnik
 	
 	#spawn
 	Global.node_creation_parent.add_child(new_player_pixel)
@@ -242,12 +221,15 @@ func split_stray_colors(stray_pixels_count):
 
 func spawn_stray(stray_color):
 	
+	
+	
 	spawned_stray_index += 1
 
 	# instance
 	var new_stray_pixel = StrayPixel.instance()
 	new_stray_pixel.name = "Stray%s" % str(spawned_player_index)
 	new_stray_pixel.pixel_color = stray_color
+	new_stray_pixel.add_to_group(Global.group_strays)
 	
 	# random grid pozicija
 	var random_range = available_floor_positions.size()
@@ -264,20 +246,8 @@ func spawn_stray(stray_color):
 	# odstranim uporabljeno pozicijo
 	available_floor_positions.remove(selected_cell_index)
 
-
-func spawn_tag_popup(position: Vector2, value): # kliče ga GM
-	
-	var cell_size_x: float = Global.level_tilemap.cell_size.x
-	
-	var new_floating_tag = FloatingTag.instance()
-	new_floating_tag.z_index = 2
-	new_floating_tag.global_position = position - Vector2 (cell_size_x/2, cell_size_x + cell_size_x/2)
-	Global.node_creation_parent.add_child(new_floating_tag)
-	new_floating_tag.label.text = str(value)
-
 	
 # SIGNALI ----------------------------------------------------------------------------------
-
 
 func _on_FloorMap_floor_completed(floor_cells_global_positions: Array, player_start_global_position: Vector2) -> void:
 
@@ -290,6 +260,16 @@ func _on_FloorMap_floor_completed(floor_cells_global_positions: Array, player_st
 		available_floor_positions.erase(player_start_position)
 	else:
 		print("ne najdem pozicije plejerja")
+
+
+#	var start_position = player_start_position.global_position - Vector2(16,16)
+#	var new_start_position = Vector2(start_position.y, start_position.x) # tudi obraten vektor očitnon ne deluje
+#	printt ("start_grid_position", start_position, new_start_position, player_start_position.global_position)
+#	available_floor_positions.erase(start_position)
+#	if not available_floor_positions.has(start_position): 
+#		print(available_floor_positions)
+	
+	pass
 
 
 func _on_stat_changed(stat_owner, changed_stat, stat_change):
@@ -344,4 +324,17 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 		stat_owner.die() # s te metode s spet pošlje statistika change "player_life"
 		yield(get_tree().create_timer(revive_time), "timeout")
 		stat_owner.revive()
+
+
+# TAGS
+onready var FloatingTag = preload("res://game/arena/FloatingTag.tscn")
+
+func spawn_tag_popup(position: Vector2, value): # kliče ga GM
+	
+	var new_floating_tag = FloatingTag.instance()
+	new_floating_tag.z_index = 2
+	new_floating_tag.global_position = position - Vector2 (8, 48)
+	Global.node_creation_parent.add_child(new_floating_tag)
+	new_floating_tag.label.text = str(value)
+	
 

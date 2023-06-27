@@ -47,7 +47,7 @@ func fade_in():
 	visible = true
 #	set_process_input(false)
 	
-	# hud int tile in
+	# hud + title
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(self, "modulate:a", 1, 0.5)
 	
@@ -71,10 +71,24 @@ func fade_in_empty():
 	visible = true
 #	set_process_input(false)
 	
-	# hud z napisom
+	# hud + title + name input
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(self, "modulate:a", 1, 0.5)
 	fade_in.tween_callback(self, "open_name_input").set_delay(1)
+
+
+func show_content():
+	
+	# title se odfejda v close_name_input()
+	
+	write_gameover_data()
+	highscore_table.get_highscore_table()
+	
+	var fade_in_tween = get_tree().create_tween()		
+	fade_in_tween.tween_property(content, "modulate:a", 1, 1).set_delay(0.3)
+	fade_in_tween.tween_callback(self, "pause_tree")
+
+	restart_btn.grab_focus()
 
 
 func write_gameover_data():
@@ -83,7 +97,7 @@ func write_gameover_data():
 	var game_gameover_stats: Dictionary = Global.game_manager.game_stats
 
 	# write stats
-	time.text = "Skills used: %04d" % player_gameover_stats["skills_used"]
+	time.text = "Time: " + str(Global.hud.game_time.mins.text) + "min " + str(Global.hud.game_time.secs.text) + " sec" # čas vzmem direkt iz tajmerja
 	points.text = "Points scored: %04d" % player_gameover_stats["player_points"]
 	cells_travelled.text = "Cells travelled: %04d" % player_gameover_stats["cells_travelled"]
 	skills_used.text = "Skills used: %04d" % player_gameover_stats["skills_used"]
@@ -101,8 +115,8 @@ func open_name_input():
 	name_input_popup.visible = true
 	name_input_popup.modulate.a = 0
 
-	var fade_in = get_tree().create_tween()
-	fade_in.tween_property(name_input_popup, "modulate:a", 1, 0.5)
+	var fade_in_tween = get_tree().create_tween()
+	fade_in_tween.tween_property(name_input_popup, "modulate:a", 1, 0.5)
 	
 	name_input.grab_focus()
 	print ("GO - open input")
@@ -114,21 +128,13 @@ func confirm_name_input():
 	close_name_input()
 	
 	
-func close_name_input(): 
-
-	write_gameover_data()
-	highscore_table.get_highscore_table()
+func close_name_input (): 
 	
-	# title out, content in
-	var fade = get_tree().create_tween()
-	fade.tween_property(title, "modulate:a", 0, 0.5)
-	fade.parallel().tween_property(undi, "modulate:a", 0.9, 0.5)
-	fade.parallel().tween_property(name_input_popup, "modulate:a", 0, 0.5)
-	fade.tween_property(name_input_popup, "visible", true, 0.01)
-	fade.tween_property(content, "modulate:a", 1, 1).set_delay(0.3)
-	fade.tween_callback(self, "pause_tree")
-
-	restart_btn.grab_focus()
+	var fade_out_tween = get_tree().create_tween()
+	fade_out_tween.tween_property(title, "modulate:a", 0, 0.5)
+	fade_out_tween.parallel().tween_property(undi, "modulate:a", 0.9, 0.5)
+	fade_out_tween.parallel().tween_property(name_input_popup, "modulate:a", 0, 0.5)
+	fade_out_tween.tween_property(name_input_popup, "visible", false, 0.01)
 	
 	emit_signal("name_input_finished")
 	
@@ -140,6 +146,7 @@ func pause_tree():
 	
 #	Global.node_creation_parent.pause_mode = 
 	get_tree().paused = true
+	pass
 
 
 func unpause_tree():

@@ -11,9 +11,9 @@ func _ready() -> void:
 
 func _on_Particles2D2_tree_exited() -> void:
 	queue_free()
-	print("kvefri")
+#	print("partikls 1 kvefri")
 
 
 func _on_Particles2D_tree_exited() -> void:
 	queue_free()
-	print("kvefri")
+#	print("partikls 2 kvefri")

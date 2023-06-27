@@ -5,18 +5,27 @@ signal stat_changed (stat_owner, stat, stat_change)
 
 export var energy_speed_mode: bool = true
 
-# steping
-export var step_time: float # = 0.15
-#export var walk_time: float = 0.15
-#export var run_time: float = 0.05
-export var max_step_time: float = 0.25 # najpočasnejši
-export var min_step_time: float = 0.1 # najhitrejši ... v trenutni kodi je irelevanten
-
 enum States {IDLE, STEPPING, SKILLED, BURSTING}
 var current_state = States.IDLE
 
 var pixel_color: Color
 var direction = Vector2.ZERO # prenosna
+var collision: KinematicCollision2D
+
+# steping
+export var step_time: float # = 0.15
+export var max_step_time: float = 0.25 # najpočasnejši
+export var min_step_time: float = 0.1 # najhitrejši ... v trenutni kodi je irelevanten
+
+# energy
+var player_energy: float # energija je edini stat, ki gamore plejer poznat
+var tired_energy_level: float = 0.1 # del energije pri kateri velja, da je utrujen (diha hitreje
+onready var default_player_energy: float = Profiles.default_player_stats["player_energy"]
+
+# glow in dihanje
+var skill_connect_alpha: float = 1.2
+var breath_speed: float = 1.2
+var tired_breath_speed: float = 2.4
 
 # push & pull
 var pull_time: float = 0.3
@@ -48,10 +57,18 @@ var strech_ghost_shrink_time: float = 0.2
 var burst_direction_set: bool = false
 var burst_power: int # moč v številu ghosts_count
 
-# stray
-#var current_neighbouring_cells: Array = [] # stray stalno čekira sosede
+# shaking camera
+var burst_power_shake_adon: float = 0.03
+var hit_wall_shake_power: float = 0.25
+var hit_wall_shake_time: float = 0.5
+var hit_wall_shake_decay: float = 0.2
+var hit_stray_shake_power: float = 0.2
+var hit_stray_shake_time: float = 0.3
+var hit_stray_shake_decay: float = 0.7
+var die_shake_power: float = 0.2
+var die_shake_time: float = 0.7
+var die_shake_decay: float = 0.1
 
-var collision: KinematicCollision2D
 
 onready var cell_size_x: int = Global.level_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -60,15 +77,6 @@ onready var floor_cells: Array = Global.game_manager.floor_positions
 onready var collision_shape: CollisionShape2D = $CollisionShape2D
 onready var Ghost: PackedScene = preload("res://game/pixel/Ghost.tscn")
 onready var PixelCollisionParticles: PackedScene = preload("res://game/pixel/PixelCollisionParticles.tscn")
-
-# glow in dihanje
-var skill_connect_alpha: float = 1.2
-var breath_speed: float = 1.2
-var tired_breath_speed: float = 2.4
-
-onready var player_energy: float # energija je edini stat, ki gamore plejer poznat
-onready var tired_energy_level: float = 0.1 # del energije pri kateri velja, da je utrujen (diha hitreje
-onready var default_player_energy: float = Profiles.default_player_stats["player_energy"]
 
 
 func _ready() -> void:
@@ -92,7 +100,7 @@ func _physics_process(delta: float) -> void:
 		skill_inputs()
 			
 	match current_state:
-		States.IDLE: # stanje po vsake koraku oz potezi
+		States.IDLE:
 			
 			# skill ready
 			if Global.detect_collision_in_direction(vision_ray, direction):
@@ -108,7 +116,6 @@ func _physics_process(delta: float) -> void:
 				animation_player.play("breath")
 			# energija in hitrost
 			if energy_speed_mode:
-				
 				var slow_trim_size: float = max_step_time * default_player_energy
 				var energy_factor: float = (default_player_energy - slow_trim_size) / player_energy
 				var energy_step_time = energy_factor / 10 # ta variabla je zato, da se vedno seta nova in potem ne raste s FP
@@ -132,43 +139,34 @@ func _physics_process(delta: float) -> void:
 		
 	
 func on_collision(): 
-# fizka je prisotna samo pri burstanju
-
-	# stena
+	
+	# shake calc
+	var added_shake_power = hit_stray_shake_power + burst_power_shake_adon * burst_power
+	var added_shake_time = hit_stray_shake_time + burst_power_shake_adon * burst_power
+	
 	if collision.collider.is_in_group(Global.group_tilemap):
 		spawn_collision_particles()
-		Global.main_camera.wall_hit_shake()
-
+		Global.main_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
 		# žrebam animacijo
 		var random_animation_index = randi() % 3 + 1
 		var random_animation_name: String = "glitch_%s" % random_animation_index
 		animation_player.play(random_animation_name)
-#
-#		var floor_tile_index = 3
-#		# get tile index
-#		var floor_tile_index = collision.collider.get_collision_tile(self, direction)
-#		print("floor_tile_index", floor_tile_index)
 		
-			
-	# stray pixel
+		
 	elif collision.collider.is_in_group(Global.group_strays):
-		
-		# vzamem barvo kolajderja kolajderja	
 		pixel_color = collision.collider.pixel_color
-		
 		spawn_collision_particles()
-		Global.main_camera.stray_hit_shake()
-		
-		# za hud
+		Global.main_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
 		emit_signal("stat_changed", self, "color_picked", 1)
 		
-		# return, če je "sosed" mode, in če je sosed določen, in če pobrana barva ni enaka barvi soseda na spektru
+		# "sosednja barva" mode
 		if Global.game_manager.pick_neighbour_mode:
+			# če je sosed določen, in če pobrana barva ni enaka barvi soseda na spektru
 			if Global.game_manager.colors_to_pick and not Global.game_manager.colors_to_pick.has(collision.collider.pixel_color):
 				end_move()
 				return
-	
-		# NABEREM SOSEDE 
+		
+		# multikil
 		
 		var all_neighbouring_pixels: Array = []
 		var neighbours_checked: Array = []
@@ -191,7 +189,7 @@ func on_collision():
 				# po nabirki ga dodam med preverjene sosede
 				neighbours_checked.append(neighbour_pixel)
 		
-		# destroj kolajderja	ž
+		# destroj kolajderja
 		Global.hud.color_picked(collision.collider.pixel_color)
 		collision.collider.die()
 		
@@ -300,7 +298,8 @@ func skill_inputs():
 func die():
 	
 	emit_signal("stat_changed", self, "player_life", -1)
-	Global.main_camera.player_die_shake()
+	Global.main_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
+	
 	set_physics_process(false) # aktivira ga revive(), ki se sproži iz animacije
 	animation_player.play("die_player")
 		

@@ -443,7 +443,7 @@ tracks/0/keys = {
 }
 
 [node name="Pixel" type="KinematicBody2D"]
-modulate = Color( 1, 1, 1, 1.04495 )
+modulate = Color( 1, 1, 1, 1.04957 )
 
 [node name="PolyPixel" type="Polygon2D" parent="."]
 position = Vector2( -16, -16 )

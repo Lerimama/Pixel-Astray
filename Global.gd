@@ -24,7 +24,7 @@ var gameover_menu = null
 #var gameover_gui = null
 
 # res rabm?
-var color_indicator_parent = null # za barve v hudu
+#var color_indicator_parent = null # za barve v hudu
 
 
 
@@ -34,8 +34,8 @@ var color_indicator_parent = null # za barve v hudu
 # groups
 var group_players = "Players"
 var group_strays = "Strays"
-var group_ghosts = "Ghosts"
 var group_tilemap = "Tilemap"
+#var group_ghosts = "Ghosts"
 
 # sivi klin
 var color_black = Color("#000000")
@@ -59,12 +59,14 @@ func _ready():
 	
 	randomize()
 
-
+func print_id (node: Node):
+#	printt("Živijo! Jaz sem " + node.name + " na koordinatah " + str(node.global_position) + ".")
+	pass
 
 func snap_to_nearest_grid(current_global_position: Vector2):
 
 	var floor_cells: Array = level_tilemap.floor_cells_global_positions
-	var cell_size_x: int = level_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
+	var cell_size_x: float = level_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 	
 	var current_position: Vector2 = Vector2(current_global_position.x - cell_size_x/2, current_global_position.y - cell_size_x/2)
 	
@@ -100,10 +102,6 @@ func detect_collision_in_direction(ray, direction_to_check):
 		
 
 
-func print_id (object):
-#	print ("current_scene: ", current_scene)
-#	printt("Printam ... ", object.name, object.global_position)
-	pass
 	
 
 #func get_random_member_index(group_of_elements, offset):
@@ -115,23 +113,6 @@ func print_id (object):
 ##		printt(current_array, random_range, random_int, selected_int)
 #		return selected_int
 
-
-#func snap_to_nearest_grid(current_global_position, cell_width, floor_cells):
-#
-#	var current_position = Vector2(current_global_position.x - cell_width/2, current_global_position.y - cell_width/2)
-#
-#	# če ni že snepano
-#	if not floor_cells.has(current_position): 
-#		# določimo distanco znotraj katere preverjamo bližino točke
-#		var distance_to_position: float = cell_width # začetna distanca je velikosti celice, ker na koncu je itak bližja
-#		var nearest_cell: Vector2
-#		for cell in floor_cells:
-#			if cell.distance_to(current_position) < distance_to_position:
-#				distance_to_position = cell.distance_to(current_position)
-#				nearest_cell = cell
-#
-#		# snap it
-#		return Vector2(nearest_cell.x + cell_width/2, nearest_cell.y + cell_width/2)
 
 # SCENE MANAGER ---------------------------------------------------------------------------
 

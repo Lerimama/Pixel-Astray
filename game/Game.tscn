@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://assets/arena_environment.tres" type="Environment" id=1]
 [ext_resource path="res://game/gui/GameOver.gd" type="Script" id=2]
@@ -8,7 +8,6 @@
 [ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=8]
 [ext_resource path="res://assets/tileset_hud_icons.png" type="Texture" id=9]
 [ext_resource path="res://assets/dkamera_noise.tres" type="OpenSimplexNoise" id=10]
-[ext_resource path="res://assets/theme/font_gamer320_countdown.tres" type="DynamicFont" id=11]
 [ext_resource path="res://game/Arena.tscn" type="PackedScene" id=12]
 [ext_resource path="res://game/gui/PauseMenu.gd" type="Script" id=13]
 [ext_resource path="res://game/hud/HudLifeIcons.gd" type="Script" id=14]
@@ -85,58 +84,6 @@ region = Rect2( 16, 16, 16, 16 )
 atlas = ExtResource( 9 )
 region = Rect2( 16, 0, 16, 16 )
 
-[sub_resource type="ConvexPolygonShape2D" id=136]
-points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
-
-[sub_resource type="TileSet" id=139]
-0/name = "tile_title.png 0"
-0/texture = ExtResource( 22 )
-0/tex_offset = Vector2( 0, 0 )
-0/modulate = Color( 1, 1, 1, 1 )
-0/region = Rect2( 0, 0, 16, 16 )
-0/tile_mode = 0
-0/occluder_offset = Vector2( 0, 0 )
-0/navigation_offset = Vector2( 0, 0 )
-0/shape_offset = Vector2( 0, 0 )
-0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-0/shape = SubResource( 136 )
-0/shape_one_way = false
-0/shape_one_way_margin = 1.0
-0/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 136 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-0/z_index = 0
-
-[sub_resource type="ConvexPolygonShape2D" id=137]
-points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
-
-[sub_resource type="TileSet" id=138]
-0/name = "tile_title.png 0"
-0/texture = ExtResource( 22 )
-0/tex_offset = Vector2( 0, 0 )
-0/modulate = Color( 1, 1, 1, 1 )
-0/region = Rect2( 0, 0, 16, 16 )
-0/tile_mode = 0
-0/occluder_offset = Vector2( 0, 0 )
-0/navigation_offset = Vector2( 0, 0 )
-0/shape_offset = Vector2( 0, 0 )
-0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-0/shape = SubResource( 137 )
-0/shape_one_way = false
-0/shape_one_way_margin = 1.0
-0/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 137 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-0/z_index = 0
-
 [sub_resource type="Animation" id=140]
 length = 0.001
 tracks/0/type = "value"
@@ -191,6 +138,58 @@ tracks/2/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 0.368627, 1, 0.662745, 0 ), Color( 0.368627, 1, 0.662745, 1 ) ]
 }
+
+[sub_resource type="ConvexPolygonShape2D" id=136]
+points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
+
+[sub_resource type="TileSet" id=139]
+0/name = "tile_title.png 0"
+0/texture = ExtResource( 22 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 16, 16 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape = SubResource( 136 )
+0/shape_one_way = false
+0/shape_one_way_margin = 1.0
+0/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 136 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+0/z_index = 0
+
+[sub_resource type="ConvexPolygonShape2D" id=137]
+points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
+
+[sub_resource type="TileSet" id=138]
+0/name = "tile_title.png 0"
+0/texture = ExtResource( 22 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 16, 16 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape = SubResource( 137 )
+0/shape_one_way = false
+0/shape_one_way_margin = 1.0
+0/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 137 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+0/z_index = 0
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 15 )
@@ -251,7 +250,6 @@ drag_margin_right = 0.0
 drag_margin_bottom = 0.0
 script = ExtResource( 18 )
 noise = ExtResource( 10 )
-decay_speed = 0.718
 
 [node name="UILayer" type="CanvasLayer" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam"]
 layer = 3
@@ -571,12 +569,14 @@ rect_min_size = Vector2( 1280, 720 )
 script = ExtResource( 16 )
 
 [node name="Header" type="ColorRect" parent="GUI/Hud"]
+visible = false
 margin_right = 1280.0
 margin_bottom = 56.0
 rect_min_size = Vector2( 1280, 48 )
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
 [node name="Futer" type="ColorRect" parent="GUI/Hud"]
+visible = false
 margin_top = 664.0
 margin_right = 1280.0
 margin_bottom = 720.0
@@ -995,7 +995,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="highscore_popup" type="Control" parent="GUI/Hud"]
+[node name="HighscorePopup" type="Control" parent="GUI/Hud"]
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
@@ -1006,11 +1006,11 @@ margin_top = -56.0
 margin_right = 128.0
 margin_bottom = 40.0
 
-[node name="Undi" type="Panel" parent="GUI/Hud/highscore_popup"]
+[node name="Undi" type="Panel" parent="GUI/Hud/HighscorePopup"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="Label" type="Label" parent="GUI/Hud/highscore_popup"]
+[node name="Label" type="Label" parent="GUI/Hud/HighscorePopup"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1024,6 +1024,65 @@ text = "YEAH!!!
 Podrl si rekord!!!"
 align = 1
 valign = 1
+
+[node name="StartCoundown" type="Control" parent="GUI"]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+margin_right = 1280.0
+margin_bottom = 720.0
+rect_min_size = Vector2( 1280, 720 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 21 )
+
+[node name="Undi" type="ColorRect" parent="GUI/StartCoundown"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0, 0, 0, 0.498039 )
+
+[node name="StartCoundown" type="VBoxContainer" parent="GUI/StartCoundown"]
+margin_left = 523.0
+margin_top = 234.0
+margin_right = 751.0
+margin_bottom = 260.0
+custom_constants/separation = 0
+
+[node name="label" type="Label" parent="GUI/StartCoundown/StartCoundown"]
+modulate = Color( 1, 1, 1, 0.313726 )
+margin_right = 246.0
+margin_bottom = 21.0
+size_flags_vertical = 8
+text = "LEVEL 01 START IN ..."
+align = 1
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="PositionControl" type="Control" parent="GUI/StartCoundown/StartCoundown"]
+modulate = Color( 0.368627, 1, 0.662745, 1 )
+margin_top = 21.0
+margin_right = 246.0
+margin_bottom = 26.0
+size_flags_vertical = 3
+
+[node name="noz" type="Label" parent="GUI/StartCoundown/StartCoundown/PositionControl"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -113.0
+margin_top = -2.0
+margin_right = 132.0
+margin_bottom = 178.0
+size_flags_vertical = 8
+text = "05"
+align = 1
+valign = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/StartCoundown"]
+anims/RESET = SubResource( 140 )
+anims/countdown_5 = SubResource( 135 )
 
 [node name="PauseMenu" type="Control" parent="GUI"]
 pause_mode = 2
@@ -1669,66 +1728,6 @@ size_flags_vertical = 9
 custom_colors/font_color = Color( 0.368627, 1, 0.662745, 1 )
 text = "CONFIRM"
 
-[node name="StartCoundown" type="Control" parent="GUI"]
-visible = false
-modulate = Color( 1, 1, 1, 0 )
-margin_right = 1280.0
-margin_bottom = 720.0
-rect_min_size = Vector2( 1280, 720 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-script = ExtResource( 21 )
-
-[node name="Undi" type="ColorRect" parent="GUI/StartCoundown"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-color = Color( 0, 0, 0, 0.498039 )
-
-[node name="StartCoundown" type="VBoxContainer" parent="GUI/StartCoundown"]
-margin_left = 523.0
-margin_top = 234.0
-margin_right = 751.0
-margin_bottom = 260.0
-custom_constants/separation = 0
-
-[node name="label" type="Label" parent="GUI/StartCoundown/StartCoundown"]
-modulate = Color( 1, 1, 1, 0.313726 )
-margin_right = 228.0
-margin_bottom = 22.0
-size_flags_vertical = 8
-text = "LEVEL 01 START IN ..."
-align = 1
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="PositionControl" type="Control" parent="GUI/StartCoundown/StartCoundown"]
-modulate = Color( 0.368627, 1, 0.662745, 1 )
-margin_top = 22.0
-margin_right = 228.0
-margin_bottom = 26.0
-size_flags_vertical = 3
-
-[node name="noz" type="Label" parent="GUI/StartCoundown/StartCoundown/PositionControl"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -113.0
-margin_top = -2.0
-margin_right = 132.0
-margin_bottom = 178.0
-size_flags_vertical = 8
-custom_fonts/font = ExtResource( 11 )
-text = "05"
-align = 1
-valign = 2
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/StartCoundown"]
-anims/RESET = SubResource( 140 )
-anims/countdown_5 = SubResource( 135 )
-
 [connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestToggle" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_CheckBox_mouse_entered"]
 [connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestToggle" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_CheckBox_mouse_exited"]
 [connection signal="toggled" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestToggle" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_CheckBox_toggled"]
@@ -1772,6 +1771,7 @@ anims/countdown_5 = SubResource( 135 )
 [connection signal="pressed" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_AddTraumaBtn_pressed"]
 [connection signal="deathmode_on" from="GUI/Hud/GameTime" to="GUI/Hud" method="_on_GameTime_deathmode_on"]
 [connection signal="gametime_is_up" from="GUI/Hud/GameTime" to="GUI/Hud" method="_on_GameTime_gametime_is_up"]
+[connection signal="animation_finished" from="GUI/StartCoundown/AnimationPlayer" to="GUI/StartCoundown" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="pressed" from="GUI/PauseMenu/Menu/QuitBtn" to="GUI/PauseMenu" method="_on_QuitBtn_pressed"]
 [connection signal="pressed" from="GUI/PauseMenu/Menu/RestartBtn" to="GUI/PauseMenu" method="_on_RestartBtn_pressed"]
 [connection signal="pressed" from="GUI/PauseMenu/Menu/PlayBtn" to="GUI/PauseMenu" method="_on_PlayBtn_pressed"]
@@ -1781,4 +1781,3 @@ anims/countdown_5 = SubResource( 135 )
 [connection signal="text_entered" from="GUI/GameOver/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_PopupNameEdit_text_entered"]
 [connection signal="pressed" from="GUI/GameOver/NameInputPopup/HBoxContainer/CancelBtn" to="GUI/GameOver" method="_on_PopupCancelBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/NameInputPopup/HBoxContainer/ConfirmBtn" to="GUI/GameOver" method="_on_PopupConfirmBtn_pressed"]
-[connection signal="animation_finished" from="GUI/StartCoundown/AnimationPlayer" to="GUI/StartCoundown" method="_on_AnimationPlayer_animation_finished"]
