@@ -22,10 +22,22 @@ func _ready() -> void:
 	
 	Global.print_id(self)
 	add_to_group(Global.group_strays)
+	randomize() # za random die animacije
 	
 	modulate = pixel_color
-	randomize() # za random die animacije
+	modulate.a = 0
+	
 	global_position = Global.snap_to_nearest_grid(global_position)
+	
+	#fade_in() ... kliče se iz GM
+
+
+func fade_in():
+	
+	# žrebam animacijo
+	var random_animation_index = randi() % 3 + 1
+	var random_animation_name: String = "glitch_%s" % random_animation_index
+	animation_player.play(random_animation_name) 
 
 
 func _physics_process(delta: float) -> void:

@@ -162,14 +162,11 @@ func _physics_process(delta: float) -> void:
 #	if camera_target:
 #		position = camera_target.position
 	if Global.camera_target:
-		position = Global.camera_target.position + Vector2(cell_size_x / 2, 0)
+		position = Global.camera_target.position #+ Vector2(cell_size_x / 2, 0)
 
 
 # ŠEJK ------------------------------------------------------------------------------------------------------------------------
 
-var t_strength = 0
-var t_time = 0
-var t_decay = 0
 
 func shake_camera(shake_power, shake_time, shake_decay): 
 	
@@ -177,14 +174,6 @@ func shake_camera(shake_power, shake_time, shake_decay):
 	trauma_strength = shake_power
 	trauma_time = shake_time
 	decay_speed = shake_decay
-	
-	# growing
-#	t_strength += shake_power
-#	t_time += shake_time
-#	t_decay += shake_decay
-#	trauma_strength = t_strength
-#	trauma_time = t_time
-#	decay_speed = t_decay
 	
 	# apply shake
 	trauma_strength = clamp(trauma_strength, 0, 1)

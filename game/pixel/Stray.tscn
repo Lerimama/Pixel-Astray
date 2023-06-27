@@ -4,5 +4,5 @@
 [ext_resource path="res://game/pixel/Stray.gd" type="Script" id=2]
 
 [node name="StrayPixel" instance=ExtResource( 1 )]
-modulate = Color( 1, 1, 1, 1.04957 )
+modulate = Color( 1, 1, 1, 0.904175 )
 script = ExtResource( 2 )

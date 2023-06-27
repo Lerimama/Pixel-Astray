@@ -125,11 +125,11 @@ func spawn_new_scene(scene_path, parent_node):
 	var scene_resource = ResourceLoader.load(scene_path)
 	
 	current_scene = scene_resource.instance()
-	printt ("SCENE INSTANCED: ", current_scene.name, current_scene)	
+	print ("SCENE INSTANCED: ", current_scene)	
 	
 	current_scene.modulate.a = 0
 	parent_node.add_child(current_scene) # direct child of root
-	printt ("SCENE ADDED: ", current_scene.name, current_scene)	
+	print ("SCENE ADDED: ", current_scene)	
 	
 
 # release scene
@@ -137,7 +137,7 @@ func release_scene(scene_node):
 	call_deferred("_free_scene", scene_node)	
 
 func _free_scene(scene_node):
-	printt ("SCENE RELEASED (next step): ", current_scene.name, current_scene)	
+	print ("SCENE RELEASED (in next step): ", current_scene)	
 	scene_node.free()
 
 # reload scene

@@ -1,6 +1,5 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=38 format=2]
 
-[ext_resource path="res://assets/arena_environment.tres" type="Environment" id=1]
 [ext_resource path="res://game/gui/GameOver.gd" type="Script" id=2]
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=5]
 [ext_resource path="res://_materiali/PixelAstray_design_game.png" type="Texture" id=6]
@@ -21,7 +20,6 @@
 [ext_resource path="res://assets/tile_title.png" type="Texture" id=22]
 
 [sub_resource type="World" id=117]
-environment = ExtResource( 1 )
 
 [sub_resource type="NoiseTexture" id=1]
 width = 246
@@ -42,6 +40,30 @@ tracks/0/keys = {
 "transitions": PoolRealArray( -2, 1 ),
 "update": 0,
 "values": [ Vector2( 2, 2 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:drag_margin_h_enabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 3 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:drag_margin_v_enabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 3 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
 }
 
 [sub_resource type="AtlasTexture" id=122]
@@ -239,6 +261,7 @@ position = Vector2( 640, 308 )
 rotation = 3.14159
 rotating = true
 current = true
+zoom = Vector2( 2, 2 )
 limit_smoothed = true
 drag_margin_h_enabled = true
 drag_margin_v_enabled = true
@@ -532,7 +555,6 @@ rect_min_size = Vector2( 1280, 48 )
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
 [node name="Minimap" type="ViewportContainer" parent="."]
-visible = false
 modulate = Color( 1, 1, 1, 0.784314 )
 margin_left = 1088.0
 margin_top = 80.0
@@ -545,7 +567,7 @@ size = Vector2( 160, 92 )
 world = SubResource( 117 )
 transparent_bg = true
 handle_input_locally = false
-render_target_update_mode = 0
+render_target_update_mode = 3
 
 [node name="MinimapCam" type="Camera2D" parent="Minimap/MinimapViewport"]
 current = true

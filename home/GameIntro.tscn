@@ -3,7 +3,7 @@
 [ext_resource path="res://home/GameIntro.gd" type="Script" id=1]
 [ext_resource path="res://assets/arena_tileset.tres" type="TileSet" id=2]
 [ext_resource path="res://game/FloorMap.gd" type="Script" id=3]
-[ext_resource path="res://home/Pixel.tscn" type="PackedScene" id=4]
+[ext_resource path="res://game/pixel/AnimatedPixel.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/arena_environment.tres" type="Environment" id=8]
 
 [node name="GameIntro" type="Node2D"]

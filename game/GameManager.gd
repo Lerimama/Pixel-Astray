@@ -8,7 +8,16 @@ var colors_to_pick: Array # za hud nejbrhud pravila
 var game_on: bool = false
 var deathmode_on = false
 
+# intro
+var stray_pixels_count: int = Profiles.default_level_stats["stray_pixels_count"]
+var spawn_shake_power: float = 0.25
+var spawn_shake_time: float = 0.5
+var spawn_shake_decay: float = 0.2	
+var strays_spawn_loop: int = 0	
+var strays_shown: Array = []
+
 # spawning
+var player_start_position: Vector2 # pogreba iz tajlmepa
 var spawned_player_index: int = 0
 var spawned_stray_index: int = 0
 var players_in_game: Array = []
@@ -20,7 +29,8 @@ var revive_time: float = 3 # pavza med die in revive funkcijo
 onready var StrayPixel = preload("res://game/pixel/Stray.tscn")
 onready var PlayerPixel = preload("res://game/pixel/Player.tscn")
 onready var spectrum_rect: TextureRect = $Spectrum
-var player_start_position: Vector2
+onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
+onready var animated_pixel: KinematicBody2D = $"../Pixel"
 
 # stats
 onready var player_stats: Dictionary = Profiles.default_player_stats.duplicate() # duplikat default profila
@@ -48,67 +58,89 @@ func _unhandled_input(_event: InputEvent) -> void:
 func _ready() -> void:
 	
 	Global.game_manager = self	
-	
 	randomize()
 	
 	# štartej igro
-	yield(get_tree().create_timer(0.1), "timeout") # zato da se vse naloži
-	set_game()
-#	play_intro()
+	yield(get_tree().create_timer(0.1), "timeout") # blink igre, da se ziher vse naloži
+#	set_game()
+	play_intro()
+	Global.camera_target = animated_pixel
+	
 	
 func _process(delta: float) -> void:
 	
 	players_in_game = get_tree().get_nodes_in_group(Global.group_players)
-	# strays_in_game = get_tree().get_nodes_in_group(Global.group_strays)
-#	if players_in_game.empty():
-#		Global.camera_target = null
-
+	strays_in_game = get_tree().get_nodes_in_group(Global.group_strays)
+	
 
 # GAME LOOP --------------------------------------------------------------------------------------------------------------------------------
+
 
 func play_intro():
 	
 	Global.main_camera.zoom = Vector2(2, 2)
-	spawn_player(player_start_position)
+	split_stray_colors(stray_pixels_count)	
 	
+	# pavza pred pixelate eventom
 	yield(get_tree().create_timer(2), "timeout")
 	
-	var plejer
-	# pixel event
-	if not players_in_game.empty():
-		for player in players_in_game:
-			plejer = player
-	plejer.animation_player.play("color_burst")	
+	# spawnam strayse v več grupah
+	animation_player.play("pixelate")
+		
 	
-	yield(get_tree().create_timer(3.6), "timeout")
+	return
 	
-	split_stray_colors(game_stats["stray_pixels_count"])
+#	split_stray_colors(game_stats["stray_pixels_count"])
 	# -> tukaj daš fejdin efekt na strejse
 	
-	yield(get_tree().create_timer(0.5), "timeout")
 
-	plejer.animation_player.stop()	
-	plejer.animation_player.play("still_alive")	
-	yield(get_tree().create_timer(3.5), "timeout")
+#	plejer.animation_player.stop()	
+#	plejer.animation_player.play("still_alive")	
 
+	
 
-#	yield(get_tree().create_timer(2), "timeout")
+func show_strays():
+	
+	Global.main_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
+	
+	var strays_to_show_count: int # količina strejsov se more ujemat s številom spawnanih
+	
+	strays_spawn_loop += 1
+	match strays_spawn_loop:
+		1: # polovica
+			strays_to_show_count = round(strays_in_game.size()/2)
+		2: # četrtina
+			strays_to_show_count = round(strays_in_game.size()/4)
+		3: # osmina
+			strays_to_show_count = round(strays_in_game.size()/8)
+		4: # še preostale
+			strays_to_show_count = strays_in_game.size() - strays_shown.size()
+	
+	# fade-in za vsak stray v igri ... med še ne pokazanimi (strays_to_show)
+	var loop_count = 0
+	for stray in strays_in_game:
+		# če stray še ni pokazan ga pokažem in dodam me pokazane
+		if not strays_shown.has(stray):# and loop_count < strays_count_to_reveal:
+			stray.fade_in()	
+			strays_shown.append(stray)
+			loop_count += 1 # šterjem tukaj, ker se šteje samo če se pixel pokaže
+		if loop_count >= strays_to_show_count:
+			break
+	print("shown strays: ", strays_shown.size())	
+					
+
+func set_game():
+
+	animated_pixel.queue_free()
+	strays_spawn_loop = 0
+	
+	yield(get_tree().create_timer(1), "timeout")
+
 	Global.main_camera.animation_player.play("intro_zoom")
+#	Global.main_camera.zoom = Vector2(1, 1)
 	
 #	Global.game_countdown.start_countdown()
-#	return
-
-	# tukaj pride poziv intro
-	yield(get_tree().create_timer(1), "timeout")
-	Global.game_countdown.start_countdown()
 	
-#	play_intro()
-	
-func set_game():
-	
-	Global.main_camera.zoom = Vector2(1, 1)
-	spawn_player(player_start_position)
-	split_stray_colors(game_stats["stray_pixels_count"])
 	
 	# highscore za hud
 	var current_highscore_line: Array = Global.data_manager.get_top_highscore(game_stats["level_no"])
@@ -116,12 +148,11 @@ func set_game():
 	game_stats["highscore_owner"] = current_highscore_line[1]
 	
 	Global.hud.fade_in() # hud zna vse sam ... vseskozi je GM njegov "mentor"
+	
 	yield(get_tree().create_timer(1), "timeout") # ne moreš klicat start game v istem frejmu, ker potem še ne prepozna plejerja
+	
 	start_game()
 
-	
-	
-	
 	
 func start_game():
 	
@@ -170,8 +201,10 @@ func game_over():
 # SPAWNANJE --------------------------------------------------------------------------------------------------------------------------------
 
 
-func spawn_player(spawn_position):
+func spawn_player():
+#func spawn_player(spawn_position):
 	
+	var spawn_position = player_start_position
 	spawned_player_index += 1
 	
 	# instance
@@ -263,7 +296,7 @@ func spawn_stray(stray_color):
 	
 	# odstranim uporabljeno pozicijo
 	available_floor_positions.remove(selected_cell_index)
-
+	
 
 func spawn_tag_popup(position: Vector2, value): # kliče ga GM
 	

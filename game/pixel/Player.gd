@@ -8,7 +8,7 @@ export var energy_speed_mode: bool = true
 enum States {IDLE, STEPPING, SKILLED, BURSTING}
 var current_state = States.IDLE
 
-var pixel_color: Color
+var pixel_color: Color # = Global.color_white
 var direction = Vector2.ZERO # prenosna
 var collision: KinematicCollision2D
 
@@ -22,10 +22,6 @@ var player_energy: float # energija je edini stat, ki gamore plejer poznat
 var tired_energy_level: float = 0.1 # del energije pri kateri velja, da je utrujen (diha hitreje
 onready var default_player_energy: float = Profiles.default_player_stats["player_energy"]
 
-# glow in dihanje
-var skill_connect_alpha: float = 1.2
-var breath_speed: float = 1.2
-var tired_breath_speed: float = 2.4
 
 # push & pull
 var pull_time: float = 0.3
@@ -90,7 +86,15 @@ func _ready() -> void:
 	
 	# deaktiviram plejerja ... aktivira ga GM, ko v start_game
 	set_physics_process(false)
+	
+	modulate.a = 0
+	animation_player.play("stil_alive")
 
+# glow in dihanje
+var skill_ready_alpha: float = 1.2
+var breath_speed: float = 1.2
+var tired_breath_speed: float = 2.4
+export var breath_alpha_adon: float
 
 func _physics_process(delta: float) -> void:
 	
@@ -101,11 +105,13 @@ func _physics_process(delta: float) -> void:
 			
 	match current_state:
 		States.IDLE:
+			# dihanje
+			modulate.a = modulate.a + breath_alpha_adon # adon je animiran
 			
 			# skill ready
-			if Global.detect_collision_in_direction(vision_ray, direction):
+			if Global.detect_collision_in_direction(vision_ray, direction): # ta koda je tukaj, da ne blink ob kontaktu s sosedo
 				animation_player.stop() # stop dihanje
-				modulate.a = skill_connect_alpha
+				modulate.a = skill_ready_alpha # resetiraš na skill ready stanje
 			# dihanje
 			else: 
 				var tired_energy = default_player_energy * tired_energy_level
@@ -114,6 +120,7 @@ func _physics_process(delta: float) -> void:
 				else:
 					animation_player.set_speed_scale(breath_speed)
 				animation_player.play("breath")
+			
 			# energija in hitrost
 			if energy_speed_mode:
 				var slow_trim_size: float = max_step_time * default_player_energy
@@ -128,7 +135,7 @@ func _physics_process(delta: float) -> void:
 			animation_player.stop() # stop dihanje
 		States.SKILLED:
 			animation_player.stop() # stop dihanje
-			modulate.a = skill_connect_alpha
+			modulate.a = skill_ready_alpha
 		States.BURSTING: 
 			animation_player.stop() # stop dihanje
 			burst_inputs()
