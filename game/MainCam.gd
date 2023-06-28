@@ -3,24 +3,28 @@ extends Camera2D
 
 export (OpenSimplexNoise) var noise # tekstura za vizualizacijo ma kopijo tega noisa
 
+# in-house šejk setup ... ne interaktira z nastavitvami za igro
+export var test_trauma_strength = 0.1 # šejk sajz na testnem gumbu ... se multiplicira s prtiskanjem
+export var test_trauma_time = 0.2 # decay delay
+export var test_decay_speed = 0.7 # krajši je 
 
-# šejk setup
-export(float, 0, 1) var trauma_strength_addon = 0.1 # na testnem gumbu
-export(float, 0, 10) var trauma_time = 0.2 # decay delay
-export(float, 0, 1) var decay_speed = 0.7 # krajši je 
+# game camera noise setup ... enako kot dkamera.noise
+var noise_seed: float = 8
+var noise_octaves: float = 1
+var noise_period: float = 5
+var noise_persistence: float = 0
+var noise_lacunarity: float = 3.2
 
-export var max_horizontal = 150
-export var max_vertical = 150
-export var max_rotation = 5
-export var time_speed: float = 150 # za offset noise
-var trauma_strength = 0 # na začetku vedno 0
+var trauma_strength = 0 # na začetku vedno 0, pride iz šejk klica
 var time: float = 0 # za offset noise
+var time_speed: float = 150 # za offset noise
+var decay_rate: float # enačba na kakšen način gre šejk do nule
+var trauma_time: float
+var decay_speed: float
 
-# game šejk
-#export (float, 0, 1) var stray_hit_strength = 0.1 # bullet add_trauma
-#export (float, 0, 1) var wall_hit_strength = 0.35 # bullet add_trauma
-#export (float, 0, 1) var player_die_strength = 0.25 # bullet add_trauma
-#export (float, 0, 1) var stray_die_strength = 0.30 # bullet add_trauma
+var max_horizontal = 150
+var max_vertical = 150
+var max_rotation = 5
 
 # test hud
 var test_view_on = false
@@ -35,82 +39,32 @@ var drag_on: bool = false
 onready var trauma_time_slider: HSlider = $UILayer/TestHud/TraumaControl/TraumaTime
 onready var trauma_strength_slider: HSlider = $UILayer/TestHud/TraumaControl/TraumaStrength
 onready var decay_slider: HSlider = $UILayer/TestHud/TraumaControl/ShakeDecay
-
 onready var trauma_bar = $UILayer/TestHud/TraumaBar
 onready var shake_bar = $UILayer/TestHud/ShakeBar
 onready var trauma_btn = $UILayer/TestHud/AddTraumaBtn
-
 onready var zoom_label: Label = $UILayer/TestHud/ZoomLabel
 onready var zoom_slider = $UILayer/TestHud/ZoomSlider
 onready var time_slider = $UILayer/TestHud/TimeSlider
 onready var reset_view_btn = $UILayer/TestHud/ResetViewBtn
-
 onready var seed_slider = $UILayer/TestHud/NoiseControl/Seed
 onready var octaves_slider = $UILayer/TestHud/NoiseControl/Octaves
 onready var period_slider = $UILayer/TestHud/NoiseControl/Period
 onready var persistence_slider = $UILayer/TestHud/NoiseControl/Persistence
 onready var lacunarity_slider = $UILayer/TestHud/NoiseControl/Lacunarity
-
 onready var testhud_node = $UILayer/TestHud
 onready var test_toggle_btn = $UILayer/TestToggle
 
 # novo!
-onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var cell_size_x = Global.level_tilemap.cell_size.x # za zamik glede na tile
-
-
-func _ready():
-
-	Global.print_id(self)
-	Global.main_camera = self
-	Global.camera_target = null # da se nulira (pri quit game) in je naslednji play brez errorja ... seta se ob spawnanju plejerja
-
-	# base šejk setup ... specialne nastavitve so v metodah
-	noise.seed = 8
-	noise.octaves = 1
-	noise.period = 5
-	noise.persistence = 0
-	noise.lacunarity = 3.2
-	
-	
-	# UI
-	
-	seed_slider.value = noise.seed
-	octaves_slider.value = noise.octaves
-	period_slider.value = noise.period 
-	persistence_slider.value = noise.persistence
-	lacunarity_slider.value = noise.lacunarity 
-
-	trauma_time_slider.value = trauma_time
-	trauma_strength_slider.value = trauma_strength_addon
-	
-	testhud_node.hide()
-	test_toggle_btn.set_focus_mode(0)
-
-	trauma_btn.set_focus_mode(0)
-	trauma_time_slider.set_focus_mode(0)
-	trauma_strength_slider.set_focus_mode(0)
-	
-	seed_slider.set_focus_mode(0)
-	octaves_slider.set_focus_mode(0)
-	period_slider.set_focus_mode(0)
-	persistence_slider.set_focus_mode(0)
-	lacunarity_slider.set_focus_mode(0)
-
-	reset_view_btn.set_focus_mode(0)
-	zoom_slider.set_focus_mode(0)
-	time_slider.set_focus_mode(0)
-	zoom_slider.hide()
 
 
 func _input(_event: InputEvent) -> void:
 
 	if Input.is_action_just_pressed("left_click") and test_view_on and not mouse_used:
-		drag_on = true
-		mouse_position_on_drag_start = get_global_mouse_position() # definiraj zamik pozicije miške napram centru
-
-	if Input.is_action_just_released("left_click"):
-		drag_on = false
+		multy_shake_camera(test_trauma_strength, test_trauma_time, test_decay_speed)
+		
+#		test_trauma_strength = test_trauma_strength
+#		test_shake_camera(test_trauma_strength)
 
 	if Input.is_mouse_button_pressed(BUTTON_WHEEL_UP) and test_view_on:
 		zoom -= Vector2(0.1, 0.1)
@@ -121,38 +75,122 @@ func _input(_event: InputEvent) -> void:
 		drag_on = false
 		zoom_label.text = "Zoom Level: " + str(round(zoom.x * 100)) + "%"
 
+func _ready():
+	
+	Global.print_id(self)
+	Global.main_camera = self
+	Global.camera_target = null # da se nulira (pri quit game) in je naslednji play brez errorja ... seta se ob spawnanju plejerja
+	
+	
+	set_ui_focus()	
+	update_ui()
+	
+	# intro start zoom
+	zoom = Vector2(2, 2)
+	
+
+onready var current_viewport = get_viewport()
+onready var view_futer: ColorRect = $"%ViewFuter"
+onready var view_heder: ColorRect = $"%ViewHeder"
+
+var view_heder_game_h: float = 56
+var view_futer_game_h: float = view_heder_game_h
+var viewport_start_h: float = 720
+var viewport_game_h: float = 608
+
+#hud
+onready var hud_line_tl: HBoxContainer = $"%HudLine_TL"
+onready var game_time: HBoxContainer = $"%GameTime"
+onready var highscore: Label = $"%Highscore"
+onready var level: Label = $"%Level"
+
+onready var picked_color: Control = $"%PickedColor"
+onready var color_spectrum_lite: VBoxContainer = $"%ColorSpectrumLite"
+onready var hud_line_tr: HBoxContainer = $"%HudLine_TR"
+
+
+func zoom_in():
+	
+	print(get_viewport().size)
+	
+	# prvi zoom
+	var format_corector: float = viewport_start_h / viewport_game_h
+	var final_zoom = Vector2.ONE / format_corector
+	
+	# set hud poze
+	hud_line_tl.rect_position.y -= view_heder_game_h
+	game_time.rect_position.y -= view_heder_game_h
+	highscore.rect_position.y -= view_heder_game_h
+	level.rect_position.y -= view_heder_game_h
+	picked_color.rect_position.y += view_futer_game_h
+	color_spectrum_lite.rect_position.y += view_futer_game_h
+	hud_line_tr.rect_position.y += view_futer_game_h
+
+	var zoom_in_tween = get_tree().create_tween()
+	zoom_in_tween.tween_property(self, "zoom", final_zoom, 2).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	zoom_in_tween.tween_callback(self, "go_widescreen")
+	
+	yield(get_tree().create_timer(2), "timeout")
+	
+	
+func go_widescreen():
+	
+	Global.hud.fade_in() # hud zna vse sam ... vseskozi je GM njegov "mentor"
+	var final_zoom = Vector2.ONE
+	
+	view_futer.rect_min_size.y = 0
+	view_futer.visible = true
+	view_heder.rect_min_size.y = 0
+	view_heder.visible = true
+	
+	var widescreen_tween = get_tree().create_tween()
+	widescreen_tween.tween_property(get_viewport(), "size:y", viewport_game_h, 2).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	widescreen_tween.parallel().tween_property(view_heder, "rect_min_size:y", view_heder_game_h, 2).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	widescreen_tween.parallel().tween_property(view_futer, "rect_min_size:y", view_futer_game_h, 2).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	widescreen_tween.parallel().tween_property(self, "zoom", final_zoom, 2).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	# hud staf
+	widescreen_tween.parallel().tween_property(hud_line_tl, "rect_position:y", hud_line_tl.rect_position.y + view_heder_game_h, 2).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	widescreen_tween.parallel().tween_property(game_time, "rect_position:y", game_time.rect_position.y + view_heder_game_h, 2).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	widescreen_tween.parallel().tween_property(highscore, "rect_position:y", highscore.rect_position.y + view_heder_game_h, 2).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	widescreen_tween.parallel().tween_property(level, "rect_position:y", level.rect_position.y + view_heder_game_h, 2).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	widescreen_tween.parallel().tween_property(picked_color, "rect_position:y", picked_color.rect_position.y - view_futer_game_h, 2).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	widescreen_tween.parallel().tween_property(color_spectrum_lite, "rect_position:y", color_spectrum_lite.rect_position.y - view_futer_game_h, 2).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	widescreen_tween.parallel().tween_property(hud_line_tr, "rect_position:y", hud_line_tr.rect_position.y - view_futer_game_h, 2).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	widescreen_tween.tween_callback(Global.game_countdown, "start_countdown")
+	
+	print(get_viewport().size)
+	
+	
 
 func _process(delta):
-	
+
 	time += delta
+	
+	# SHAKE KODA
+	
+	# camera noise setup 
+	noise.seed = noise_seed
+	noise.octaves = noise_octaves
+	noise.period = noise_period
+	noise.persistence = noise_persistence
+	noise.lacunarity = noise_lacunarity
 
 	# start decay
-	var shake = pow(trauma_strength, 2) # narašča s kvadratno funkcijo 
-	# var shake = trauma_strength ... narašča linerano
-	offset.x = noise.get_noise_3d(time * time_speed, 0, 0) * max_horizontal * shake
-	offset.y = noise.get_noise_3d(0, time * time_speed, 0) * max_vertical * shake
-	rotation_degrees = noise.get_noise_3d(0, 0, time * time_speed) * max_rotation * shake
+	decay_rate = pow(trauma_strength, 2) # pada s kvadratno funkcijo
+	# decay_rate = trauma_strength ... pada linerano
+	offset.x = noise.get_noise_3d(time * time_speed, 0, 0) * max_horizontal * decay_rate
+	offset.y = noise.get_noise_3d(0, time * time_speed, 0) * max_vertical * decay_rate
+	rotation_degrees = noise.get_noise_3d(0, 0, time * time_speed) * max_rotation * decay_rate
 
 	# start decay
 	if trauma_strength > 0:
 		yield(get_tree().create_timer(trauma_time), "timeout")
 		trauma_strength = clamp(trauma_strength - (delta * decay_speed), 0, 1)
-
-	# UI
-	seed_slider.value = noise.seed
-	octaves_slider.value = noise.octaves
-	period_slider.value = noise.period 
-	persistence_slider.value = noise.persistence
-	lacunarity_slider.value = noise.lacunarity 
-
-	trauma_time_slider.value = trauma_time
-	trauma_strength_slider.value = trauma_strength_addon
-	decay_slider.value = decay_speed
-	trauma_bar.value = trauma_strength
-	shake_bar.value = shake
 	
 	
-	# mouse drag
+	# TESTHUD
+	
+	update_ui()
 	if drag_on:
 		position += mouse_position_on_drag_start - get_global_mouse_position()
 
@@ -162,7 +200,7 @@ func _physics_process(delta: float) -> void:
 #	if camera_target:
 #		position = camera_target.position
 	if Global.camera_target:
-		position = Global.camera_target.position #+ Vector2(cell_size_x / 2, 0)
+		position = Global.camera_target.position + Vector2(cell_size_x / 2, 0)
 
 
 # ŠEJK ------------------------------------------------------------------------------------------------------------------------
@@ -179,8 +217,13 @@ func shake_camera(shake_power, shake_time, shake_decay):
 	trauma_strength = clamp(trauma_strength, 0, 1)
 
 
-func shake_camera_in(shake_strength): 
-	trauma_strength = shake_strength
+func multy_shake_camera(shake_power, shake_time, shake_decay): 
+	
+	trauma_strength += shake_power
+	trauma_time = shake_time
+	decay_speed = shake_decay
+	
+	# apply shake
 	trauma_strength = clamp(trauma_strength, 0, 1)
 
 
@@ -206,6 +249,37 @@ func reset_camera_position():
 
 # TESTHUD ------------------------------------------------------------------------------------------------------------------------
 
+func set_ui_focus():
+	testhud_node.hide()
+	test_toggle_btn.set_focus_mode(0)
+	trauma_btn.set_focus_mode(0)
+	trauma_time_slider.set_focus_mode(0)
+	trauma_strength_slider.set_focus_mode(0)
+	seed_slider.set_focus_mode(0)
+	octaves_slider.set_focus_mode(0)
+	period_slider.set_focus_mode(0)
+	persistence_slider.set_focus_mode(0)
+	lacunarity_slider.set_focus_mode(0)
+	reset_view_btn.set_focus_mode(0)
+	zoom_slider.set_focus_mode(0)
+	time_slider.set_focus_mode(0)
+	zoom_slider.hide()
+	
+func update_ui():
+	
+	seed_slider.value = noise.seed
+	octaves_slider.value = noise.octaves
+	period_slider.value = noise.period 
+	persistence_slider.value = noise.persistence
+	lacunarity_slider.value = noise.lacunarity 
+	trauma_time_slider.value = trauma_time
+	trauma_strength_slider.value = test_trauma_strength
+
+	trauma_bar.value = trauma_strength
+	shake_bar.value = decay_rate
+	decay_slider.value = decay_speed
+
+
 # toggle testhud
 
 func _on_CheckBox_toggled(button_pressed: bool) -> void:
@@ -225,8 +299,8 @@ func _on_CheckBox_mouse_exited() -> void:
 
 func _on_AddTraumaBtn_pressed() -> void:
 	mouse_used = true
-	trauma_strength = trauma_strength_addon
-	trauma_strength = clamp(trauma_strength, 0, 1)
+	multy_shake_camera(test_trauma_strength, test_trauma_time, test_decay_speed)
+
 func _on_AddTraumaBtn_mouse_entered() -> void:
 	mouse_used = true
 func _on_AddTraumaBtn_mouse_exited() -> void:
@@ -284,7 +358,7 @@ func _on_TraumaTime_mouse_exited() -> void:
 	mouse_used = false
 
 func _on_TraumaStrength_value_changed(value: float) -> void:
-	trauma_strength_addon = value
+	test_trauma_strength = value
 func _on_TraumaStrength_mouse_entered() -> void:
 	mouse_used = true
 func _on_TraumaStrength_mouse_exited() -> void:

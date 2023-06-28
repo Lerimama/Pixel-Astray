@@ -10,6 +10,7 @@ onready var minimap_camera: Camera2D = $Minimap/MinimapViewport/MinimapCam
 
 func _ready() -> void:
 	
+	get_viewport()	
 	minimap_viewport.world_2d = viewport_1.world_2d
 	
 	# višina minimape v razmerju s formatom levela

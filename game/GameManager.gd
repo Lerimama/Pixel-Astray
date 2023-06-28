@@ -15,6 +15,7 @@ var spawn_shake_time: float = 0.5
 var spawn_shake_decay: float = 0.2	
 var strays_spawn_loop: int = 0	
 var strays_shown: Array = []
+onready var floor_cover: ColorRect = $"../FloorCover"
 
 # spawning
 var player_start_position: Vector2 # pogreba iz tajlmepa
@@ -30,7 +31,7 @@ onready var StrayPixel = preload("res://game/pixel/Stray.tscn")
 onready var PlayerPixel = preload("res://game/pixel/Player.tscn")
 onready var spectrum_rect: TextureRect = $Spectrum
 onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
-onready var animated_pixel: KinematicBody2D = $"../Pixel"
+onready var actor_pixel: KinematicBody2D = $"../Actor"
 
 # stats
 onready var player_stats: Dictionary = Profiles.default_player_stats.duplicate() # duplikat default profila
@@ -38,8 +39,10 @@ onready var game_stats: Dictionary = Profiles.default_level_stats.duplicate() # 
 onready var game_rules: Dictionary = Profiles.game_rules 
 onready var FloatingTag = preload("res://game/pixel/FloatingTag.tscn")
 
+export var skip_intro_allowed: bool
 
-func _unhandled_input(_event: InputEvent) -> void:
+
+func _unhandled_input(event: InputEvent) -> void:
 
 	if Input.is_action_just_pressed("r"):
 #		start_game()
@@ -53,7 +56,13 @@ func _unhandled_input(_event: InputEvent) -> void:
 		if not players_in_game.empty():
 			for player in players_in_game:
 				player.die() # s te metode s spet kliče stat change "player_life"
-
+	
+	if skip_intro_allowed: # not Global.game_manager.game_on:
+		if event is InputEventKey:
+			if event.pressed and event.scancode == KEY_ESCAPE:
+				skip_intro()
+				
+				
 		
 func _ready() -> void:
 	
@@ -62,9 +71,9 @@ func _ready() -> void:
 	
 	# štartej igro
 	yield(get_tree().create_timer(0.1), "timeout") # blink igre, da se ziher vse naloži
-#	set_game()
-	play_intro()
-	Global.camera_target = animated_pixel
+
+#	play_intro()
+	skip_intro()
 	
 	
 func _process(delta: float) -> void:
@@ -78,7 +87,7 @@ func _process(delta: float) -> void:
 
 func play_intro():
 	
-	Global.main_camera.zoom = Vector2(2, 2)
+#	Global.camera_target = animated_pixel
 	split_stray_colors(stray_pixels_count)	
 	
 	# pavza pred pixelate eventom
@@ -86,18 +95,28 @@ func play_intro():
 	
 	# spawnam strayse v več grupah
 	animation_player.play("pixelate")
-		
-	
-	return
-	
-#	split_stray_colors(game_stats["stray_pixels_count"])
-	# -> tukaj daš fejdin efekt na strejse
 	
 
-#	plejer.animation_player.stop()	
-#	plejer.animation_player.play("still_alive")	
-
+func skip_intro():
 	
+	animation_player.stop()
+	skip_intro_allowed = false
+	floor_cover.color = Color("00ffffff")
+	
+	split_stray_colors(stray_pixels_count) # samo za test 
+	
+	spawn_player()
+	yield(get_tree().create_timer(2), "timeout")
+	show_strays()
+	yield(get_tree().create_timer(0.2), "timeout")
+	show_strays()
+	yield(get_tree().create_timer(0.2), "timeout")
+	show_strays()
+	yield(get_tree().create_timer(0.2), "timeout")
+	show_strays()
+	
+	set_game()	
+
 
 func show_strays():
 	
@@ -106,6 +125,9 @@ func show_strays():
 	var strays_to_show_count: int # količina strejsov se more ujemat s številom spawnanih
 	
 	strays_spawn_loop += 1
+	if strays_spawn_loop > 4:
+		return
+	
 	match strays_spawn_loop:
 		1: # polovica
 			strays_to_show_count = round(strays_in_game.size()/2)
@@ -131,35 +153,41 @@ func show_strays():
 
 func set_game():
 
-	animated_pixel.queue_free()
+	if not players_in_game.empty():
+		for player in players_in_game:
+			player.set_physics_process(false)
+	
+	actor_pixel.queue_free()
+	
 	strays_spawn_loop = 0
 	
-	yield(get_tree().create_timer(1), "timeout")
-
-	Global.main_camera.animation_player.play("intro_zoom")
-#	Global.main_camera.zoom = Vector2(1, 1)
-	
-#	Global.game_countdown.start_countdown()
-	
-	
-	# highscore za hud
+	# HS za spremljat med igro
 	var current_highscore_line: Array = Global.data_manager.get_top_highscore(game_stats["level_no"])
 	game_stats["highscore"] = current_highscore_line[0]
 	game_stats["highscore_owner"] = current_highscore_line[1]
 	
-	Global.hud.fade_in() # hud zna vse sam ... vseskozi je GM njegov "mentor"
+	Global.main_camera.zoom_in()
+	# Global.hud.fade_in() ... v zoom_in funkciji na kameri 
 	
-	yield(get_tree().create_timer(1), "timeout") # ne moreš klicat start game v istem frejmu, ker potem še ne prepozna plejerja
+#	yield(get_tree().create_timer(1), "timeout") # ne moreš klicat start game v istem frejmu, ker potem še ne prepozna plejerja
+	
+	# YIELD ... čaka da game_countdown odšteje
+	print ("GM start - YIELD")
+	# Global.game_countdown.start_countdown() ... zdej je na kameri
+	yield(Global.game_countdown, "countdown_finished")	
+	
+	# RESUME
+	print ("GM start - RESUME")
 	
 	start_game()
 
 	
 func start_game():
 	
+
 	game_on = true
+	# aktiviram plejerja in tajmer
 	Global.hud.start_timer()
-	
-	# aktiviram plejerja
 	if not players_in_game.empty():
 		for player in players_in_game:
 			player.set_physics_process(true)
@@ -181,15 +209,16 @@ func game_over():
 	Global.hud.stop_timer()
 	yield(get_tree().create_timer(2), "timeout")
 
-	# YIELD 1 ... čaka na konec preverke rankinga ... če ni rankinga dobi false, če je ne dobi nič
-	print ("GM - YIELD 1")
-	
 	var player_points = player_stats["player_points"]
 	var current_level = game_stats["level_no"]
-	var score_is_ranking = Global.data_manager.manage_gameover_highscores(player_points, current_level)
 	
-	# RESUME 1
-	print ("GM - RESUME 1")
+	# YIELD 1 ... čaka na konec preverke rankinga ... če ni rankinga dobi false, če je ne dobi nič
+	print ("GM gameover - YIELD 1")
+	
+	# ker kličem funkcijo v variablo more počakat, da se funkcija izvede do returna
+	var score_is_ranking = Global.data_manager.manage_gameover_highscores(player_points, current_level) # yielda 2 za name input je v tej funkciji
+	
+	print ("GM gameover - RESUME 1")
 
 	if not score_is_ranking:
 		Global.gameover_menu.fade_in()																																																							
@@ -234,16 +263,13 @@ func spawn_player():
 	
 	# premik kamere na štartu
 	yield(get_tree().create_timer(1), "timeout")
-	Global.main_camera.drag_margin_top = 0.2
-	Global.main_camera.drag_margin_bottom = 0.2
-	Global.main_camera.drag_margin_left = 0.3
-	Global.main_camera.drag_margin_right = 0.3
+
 	
 
-func split_stray_colors(stray_pixels_count):
+func split_stray_colors(strays_count):
 	
 	# split colors
-	var color_count: int = stray_pixels_count 
+	var color_count: int = strays_count 
 	color_count = clamp(color_count, 1, color_count) # za vsak slučaj klempam, da ne more biti nikoli 0 ...  ker je error			
 	
 	# poberem sliko
@@ -356,13 +382,13 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 			game_stats["off_pixels_count"] += stat_change
 			game_stats["stray_pixels_count"] -= stat_change
 			# točke
-			player_stats["player_points"] += game_rules["points_color_picked"]
+			player_stats["player_points"] += game_rules["points_color_picked"] * stat_change
 			# energija
-			player_stats["player_energy"] += game_rules["energy_color_picked"]		
+			player_stats["player_energy"] += game_rules["energy_color_picked"] * stat_change		
 			
 			# points tag
 #			Global.hud.spawn_tag_popup(stat_owner.global_position, game_rules["points_color_picked"]) 
-			spawn_tag_popup(stat_owner.global_position, game_rules["points_color_picked"]) 
+			spawn_tag_popup(stat_owner.global_position, game_rules["points_color_picked"] * stat_change) 
 			
 		
 	# loose life

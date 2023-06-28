@@ -40,8 +40,8 @@ func manage_gameover_highscores(player_points, current_level): # iz GM
 	
 	# med izvajanjem te kode GM čaka na RESUME 1
 	
-	var all_scores: Array
-	var all_score_owners: Array
+	var all_scores: Array = []
+	var all_score_owners: Array = []
 	var current_level_highscores: Dictionary # zaenkrat samo pri GO
 #	var new_score_position: int
 	var better_positions_count: int
@@ -69,11 +69,11 @@ func manage_gameover_highscores(player_points, current_level): # iz GM
 	else:
 	
 		# YIELD 2 ... čaka na novo ime, ki bo prišlo iz GM, ki ga dobi od GO
-		print ("DM - YIELD 2")
+		print ("DM gameover - YIELD 2")
 		yield(Global.gameover_menu, "name_input_finished")
 		
 		# RESUME 2
-		print ("DM - RESUME 2")
+		print ("DM gameover - RESUME 2")
 		# nova highscore lestvica		
 		var current_score_owner = Global.game_manager.player_stats["player_name"]
 		

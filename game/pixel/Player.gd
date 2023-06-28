@@ -173,7 +173,7 @@ func on_collision():
 				end_move()
 				return
 		
-		# multikil
+		# MULTIKILL
 		
 		var all_neighbouring_pixels: Array = []
 		var neighbours_checked: Array = []
@@ -198,6 +198,7 @@ func on_collision():
 		
 		# destroj kolajderja
 		Global.hud.color_picked(collision.collider.pixel_color)
+		# stray_die_value = 1 ... default
 		collision.collider.die()
 		
 		# odstranim kolajderja iz sosed, če je bil sosed nekomu
@@ -211,6 +212,8 @@ func on_collision():
 			if loop_index < burst_power: 
 				# zbrišeš indikator
 				Global.hud.color_picked(neighbouring_pixel.pixel_color)
+				# stryas die
+				neighbouring_pixel.stray_die_value = loop_index + 1
 				neighbouring_pixel.die()
 
 	end_move() # more bit tukaj spoadaj, da lahko pogreba podatke v svoji smeri

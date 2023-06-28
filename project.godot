@@ -29,6 +29,11 @@ config/icon="res://_materiali/icon.png"
 Global="*res://Global.gd"
 Profiles="*res://Profiles.gd"
 
+[debug]
+
+gdscript/warnings/unused_argument=false
+gdscript/warnings/return_value_discarded=false
+
 [display]
 
 window/size/width=1280
@@ -39,6 +44,12 @@ window/size/test_width=640
 window/size/test_height=360
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
+
+[global]
+
+debug=false
+argument=false
+return=false
 
 [gui]
 
@@ -170,5 +181,5 @@ common/enable_pause_aware_picking=true
 quality/intended_usage/framebuffer_allocation=0
 quality/intended_usage/framebuffer_allocation.mobile=0
 2d/snapping/use_gpu_pixel_snap=true
-environment/default_clear_color=Color( 0.439216, 0.439216, 0.439216, 1 )
+environment/default_clear_color=Color( 0.188235, 0.188235, 0.188235, 1 )
 environment/default_environment="res://default_env.tres"

@@ -6,6 +6,8 @@ signal stat_changed (stat_owner, stat, stat_change)
 var pixel_color: Color
 var neighbouring_cells: Array = [] # stray stalno čekira sosede
 
+var stray_die_value: int = 1 # def 1
+
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var vision_ray: RayCast2D = $VisionRay
 
@@ -48,7 +50,8 @@ func _physics_process(delta: float) -> void:
 
 func die():
 	
-	emit_signal("stat_changed", self, "off_pixels_count", 1)
+	print ("STRAY DIE: ", stray_die_value)
+	emit_signal("stat_changed", self, "off_pixels_count", stray_die_value)
 #	Global.main_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
 	
 	# žrebam animacijo

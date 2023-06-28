@@ -9,14 +9,16 @@ onready var play_btn: Button = $Menu/PlayBtn
 
 
 func _input(event: InputEvent) -> void:
+#func _unhandled_key_input(event: InputEventKey) -> void:
 	
-	if event is InputEventKey:
-		if event.pressed and event.scancode == KEY_ESCAPE:
-			if not pause_on:
-				pause_game()
-			else:
-				play_on()
-			accept_event()
+	if Global.game_manager.game_on:
+		if event is InputEventKey:
+			if event.pressed and event.scancode == KEY_ESCAPE:
+				if not pause_on:
+					pause_game()
+				else:
+					play_on()
+				accept_event()
 
 
 func _ready() -> void:

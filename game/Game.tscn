@@ -1,6 +1,7 @@
 [gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://game/gui/GameOver.gd" type="Script" id=2]
+[ext_resource path="res://assets/gamecam_noise.tres" type="OpenSimplexNoise" id=3]
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=5]
 [ext_resource path="res://_materiali/PixelAstray_design_game.png" type="Texture" id=6]
 [ext_resource path="res://game/hud/HudColorIndicator.tscn" type="PackedScene" id=7]
@@ -25,46 +26,6 @@
 width = 246
 height = 246
 noise = ExtResource( 10 )
-
-[sub_resource type="Animation" id=141]
-resource_name = "intro_zoom"
-length = 3.0
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:zoom")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 3 ),
-"transitions": PoolRealArray( -2, 1 ),
-"update": 0,
-"values": [ Vector2( 2, 2 ), Vector2( 1, 1 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:drag_margin_h_enabled")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 3 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath(".:drag_margin_v_enabled")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 3 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
 
 [sub_resource type="AtlasTexture" id=122]
 atlas = ExtResource( 9 )
@@ -109,7 +70,7 @@ region = Rect2( 16, 0, 16, 16 )
 [sub_resource type="Animation" id=140]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("StartCoundown/PositionControl/noz:text")
+tracks/0/path = NodePath("Countdown/PositionControl/noz:text")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -125,7 +86,7 @@ tracks/0/keys = {
 resource_name = "countdown_5"
 length = 7.0
 tracks/0/type = "value"
-tracks/0/path = NodePath("StartCoundown/PositionControl/noz:text")
+tracks/0/path = NodePath("Countdown/PositionControl/noz:text")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -149,7 +110,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("StartCoundown/PositionControl:modulate")
+tracks/2/path = NodePath("Countdown/PositionControl:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -227,26 +188,27 @@ texture = ExtResource( 6 )
 
 [node name="GameView" type="VBoxContainer" parent="."]
 margin_right = 1280.0
-margin_bottom = 720.0
+margin_bottom = 784.0
 custom_constants/separation = 0
 
-[node name="Header" type="ColorRect" parent="GameView"]
+[node name="ViewHeder" type="ColorRect" parent="GameView"]
+unique_name_in_owner = true
+visible = false
 margin_right = 1280.0
-margin_bottom = 48.0
-rect_min_size = Vector2( 1280, 48 )
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+rect_min_size = Vector2( 1280, 0 )
+color = Color( 0.109804, 0.109804, 0.109804, 1 )
 
 [node name="Viewports" type="HBoxContainer" parent="GameView"]
-margin_top = 48.0
 margin_right = 1280.0
-margin_bottom = 672.0
+margin_bottom = 720.0
 
 [node name="ViewportContainer1" type="ViewportContainer" parent="GameView/Viewports"]
 margin_right = 1280.0
-margin_bottom = 624.0
+margin_bottom = 720.0
 
 [node name="Viewport1" type="Viewport" parent="GameView/Viewports/ViewportContainer1"]
-size = Vector2( 1280, 624 )
+size = Vector2( 1280, 720 )
+size_override_stretch = true
 world = SubResource( 117 )
 handle_input_locally = false
 render_target_update_mode = 3
@@ -257,22 +219,16 @@ __meta__ = {
 }
 
 [node name="GameCam" type="Camera2D" parent="GameView/Viewports/ViewportContainer1/Viewport1"]
-position = Vector2( 640, 308 )
+position = Vector2( 640, 304 )
 rotation = 3.14159
 rotating = true
 current = true
-zoom = Vector2( 2, 2 )
 limit_smoothed = true
-drag_margin_h_enabled = true
-drag_margin_v_enabled = true
 smoothing_enabled = true
-smoothing_speed = 10.0
-drag_margin_left = 0.0
-drag_margin_top = 0.0
-drag_margin_right = 0.0
-drag_margin_bottom = 0.0
+editor_draw_limits = true
+editor_draw_drag_margin = true
 script = ExtResource( 18 )
-noise = ExtResource( 10 )
+noise = ExtResource( 3 )
 
 [node name="UILayer" type="CanvasLayer" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam"]
 layer = 3
@@ -544,17 +500,17 @@ custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
 custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
 text = "tresi"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam"]
-anims/intro_zoom = SubResource( 141 )
-
-[node name="Futer" type="ColorRect" parent="GameView"]
-margin_top = 672.0
+[node name="ViewFuter" type="ColorRect" parent="GameView"]
+unique_name_in_owner = true
+visible = false
+margin_top = 720.0
 margin_right = 1280.0
 margin_bottom = 720.0
-rect_min_size = Vector2( 1280, 48 )
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+rect_min_size = Vector2( 1280, 0 )
+color = Color( 0.109804, 0.109804, 0.109804, 1 )
 
 [node name="Minimap" type="ViewportContainer" parent="."]
+visible = false
 modulate = Color( 1, 1, 1, 0.784314 )
 margin_left = 1088.0
 margin_top = 80.0
@@ -567,7 +523,7 @@ size = Vector2( 160, 92 )
 world = SubResource( 117 )
 transparent_bg = true
 handle_input_locally = false
-render_target_update_mode = 3
+render_target_update_mode = 0
 
 [node name="MinimapCam" type="Camera2D" parent="Minimap/MinimapViewport"]
 current = true
@@ -583,10 +539,6 @@ __meta__ = {
 }
 
 [node name="Hud" type="Control" parent="GUI"]
-anchor_right = 0.997
-anchor_bottom = 0.994
-margin_right = 3.84009
-margin_bottom = 4.32001
 rect_min_size = Vector2( 1280, 720 )
 script = ExtResource( 16 )
 
@@ -606,6 +558,7 @@ rect_min_size = Vector2( 1280, 48 )
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
 [node name="HudLine_TL" type="HBoxContainer" parent="GUI/Hud"]
+unique_name_in_owner = true
 margin_left = 31.0
 margin_top = 16.0
 margin_right = 451.0
@@ -791,6 +744,7 @@ __meta__ = {
 }
 
 [node name="GameTime" type="HBoxContainer" parent="GUI/Hud"]
+unique_name_in_owner = true
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -34.0
@@ -831,7 +785,34 @@ text = "00"
 align = 2
 valign = 2
 
+[node name="Level" type="Label" parent="GUI/Hud"]
+unique_name_in_owner = true
+modulate = Color( 1, 1, 1, 0.313726 )
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -349.0
+margin_top = 17.0
+margin_right = -241.0
+margin_bottom = 39.0
+text = "LEVEL 00"
+align = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Highscore" type="Label" parent="GUI/Hud"]
+unique_name_in_owner = true
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -225.0
+margin_top = 17.0
+margin_right = -31.0
+margin_bottom = 43.0
+text = "HIGHSCORE 0000"
+align = 2
+
 [node name="PickedColor" type="Control" parent="GUI/Hud"]
+unique_name_in_owner = true
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 32.0
@@ -863,6 +844,7 @@ __meta__ = {
 }
 
 [node name="ColorSpectrumLite" type="VBoxContainer" parent="GUI/Hud"]
+unique_name_in_owner = true
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -903,6 +885,7 @@ texture = ExtResource( 5 )
 stretch_mode = 1
 
 [node name="HudLine_TR" type="HBoxContainer" parent="GUI/Hud"]
+unique_name_in_owner = true
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -969,31 +952,8 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Level" type="Label" parent="GUI/Hud"]
-modulate = Color( 1, 1, 1, 0.313726 )
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -349.0
-margin_top = 17.0
-margin_right = -241.0
-margin_bottom = 39.0
-text = "LEVEL 00"
-align = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Highscore" type="Label" parent="GUI/Hud"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -225.0
-margin_top = 17.0
-margin_right = -31.0
-margin_bottom = 43.0
-text = "HIGHSCORE 0000"
-align = 2
-
 [node name="Life" type="Label" parent="GUI/Hud"]
+unique_name_in_owner = true
 visible = false
 margin_left = 32.0
 margin_top = 92.0
@@ -1047,7 +1007,7 @@ Podrl si rekord!!!"
 align = 1
 valign = 1
 
-[node name="StartCoundown" type="Control" parent="GUI"]
+[node name="GameCountdown" type="Control" parent="GUI"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 margin_right = 1280.0
@@ -1057,21 +1017,21 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 21 )
 
-[node name="Undi" type="ColorRect" parent="GUI/StartCoundown"]
+[node name="Undi" type="ColorRect" parent="GUI/GameCountdown"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color( 0, 0, 0, 0.498039 )
 
-[node name="StartCoundown" type="VBoxContainer" parent="GUI/StartCoundown"]
+[node name="Countdown" type="VBoxContainer" parent="GUI/GameCountdown"]
 margin_left = 523.0
 margin_top = 234.0
 margin_right = 751.0
 margin_bottom = 260.0
 custom_constants/separation = 0
 
-[node name="label" type="Label" parent="GUI/StartCoundown/StartCoundown"]
+[node name="label" type="Label" parent="GUI/GameCountdown/Countdown"]
 modulate = Color( 1, 1, 1, 0.313726 )
 margin_right = 246.0
 margin_bottom = 21.0
@@ -1083,14 +1043,14 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="PositionControl" type="Control" parent="GUI/StartCoundown/StartCoundown"]
+[node name="PositionControl" type="Control" parent="GUI/GameCountdown/Countdown"]
 modulate = Color( 0.368627, 1, 0.662745, 1 )
 margin_top = 21.0
 margin_right = 246.0
 margin_bottom = 26.0
 size_flags_vertical = 3
 
-[node name="noz" type="Label" parent="GUI/StartCoundown/StartCoundown/PositionControl"]
+[node name="noz" type="Label" parent="GUI/GameCountdown/Countdown/PositionControl"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -113.0
@@ -1102,20 +1062,16 @@ text = "05"
 align = 1
 valign = 2
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/StartCoundown"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/GameCountdown"]
 anims/RESET = SubResource( 140 )
 anims/countdown_5 = SubResource( 135 )
 
 [node name="PauseMenu" type="Control" parent="GUI"]
 pause_mode = 2
 visible = false
-anchor_right = 0.997
-anchor_bottom = 1.0
-margin_right = 3.83997
+margin_right = 1280.0
+margin_bottom = 720.0
 script = ExtResource( 13 )
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="Undi" type="ColorRect" parent="GUI/PauseMenu"]
 anchor_right = 0.997
@@ -1199,7 +1155,7 @@ autowrap = true
 
 [node name="Controller2" type="Control" parent="GUI/PauseMenu/HBoxContainer"]
 margin_left = 282.0
-margin_right = 560.0
+margin_right = 561.0
 margin_bottom = 151.0
 size_flags_horizontal = 3
 
@@ -1227,8 +1183,8 @@ SPACE + DIR - burst"
 autowrap = true
 
 [node name="Controller3" type="Control" parent="GUI/PauseMenu/HBoxContainer"]
-margin_left = 564.0
-margin_right = 843.0
+margin_left = 565.0
+margin_right = 844.0
 margin_bottom = 151.0
 size_flags_horizontal = 3
 
@@ -1306,9 +1262,8 @@ text = "PLAY ON"
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
 visible = false
-anchor_right = 0.997
-anchor_bottom = 1.0
-margin_right = 3.83997
+margin_right = 1280.0
+margin_bottom = 720.0
 script = ExtResource( 2 )
 
 [node name="Undi" type="ColorRect" parent="GUI/GameOver"]
@@ -1669,7 +1624,6 @@ position = Vector2( 656, 88 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
 [node name="NameInputPopup" type="Control" parent="GUI/GameOver"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1793,7 +1747,7 @@ text = "CONFIRM"
 [connection signal="pressed" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_AddTraumaBtn_pressed"]
 [connection signal="deathmode_on" from="GUI/Hud/GameTime" to="GUI/Hud" method="_on_GameTime_deathmode_on"]
 [connection signal="gametime_is_up" from="GUI/Hud/GameTime" to="GUI/Hud" method="_on_GameTime_gametime_is_up"]
-[connection signal="animation_finished" from="GUI/StartCoundown/AnimationPlayer" to="GUI/StartCoundown" method="_on_AnimationPlayer_animation_finished"]
+[connection signal="animation_finished" from="GUI/GameCountdown/AnimationPlayer" to="GUI/GameCountdown" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="pressed" from="GUI/PauseMenu/Menu/QuitBtn" to="GUI/PauseMenu" method="_on_QuitBtn_pressed"]
 [connection signal="pressed" from="GUI/PauseMenu/Menu/RestartBtn" to="GUI/PauseMenu" method="_on_RestartBtn_pressed"]
 [connection signal="pressed" from="GUI/PauseMenu/Menu/PlayBtn" to="GUI/PauseMenu" method="_on_PlayBtn_pressed"]

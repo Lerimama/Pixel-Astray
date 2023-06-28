@@ -22,6 +22,7 @@ var camera_target = null
 var game_countdown = null
 var gameover_menu = null
 #var gameover_gui = null
+var game_viewport = null
 
 # res rabm?
 #var color_indicator_parent = null # za barve v hudu
