@@ -11,3 +11,8 @@ breath_alpha_adon = 0.25
 
 [node name="AnimationPlayer" parent="." index="3"]
 anims/pixelate = ExtResource( 2 )
+
+[node name="LastBreathTimer" type="Timer" parent="." index="4"]
+one_shot = true
+
+[connection signal="timeout" from="LastBreathTimer" to="." method="_on_LastBreathTimer_timeout"]

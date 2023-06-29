@@ -1,7 +1,9 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=41 format=2]
 
+[ext_resource path="res://assets/arena_environment.tres" type="Environment" id=1]
 [ext_resource path="res://game/gui/GameOver.gd" type="Script" id=2]
 [ext_resource path="res://assets/gamecam_noise.tres" type="OpenSimplexNoise" id=3]
+[ext_resource path="res://assets/theme/fonts/16bfZX.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=5]
 [ext_resource path="res://_materiali/PixelAstray_design_game.png" type="Texture" id=6]
 [ext_resource path="res://game/hud/HudColorIndicator.tscn" type="PackedScene" id=7]
@@ -21,6 +23,7 @@
 [ext_resource path="res://assets/tile_title.png" type="Texture" id=22]
 
 [sub_resource type="World" id=117]
+environment = ExtResource( 1 )
 
 [sub_resource type="NoiseTexture" id=1]
 width = 246
@@ -67,6 +70,10 @@ region = Rect2( 16, 16, 16, 16 )
 atlas = ExtResource( 9 )
 region = Rect2( 16, 0, 16, 16 )
 
+[sub_resource type="DynamicFont" id=141]
+size = 341
+font_data = ExtResource( 4 )
+
 [sub_resource type="Animation" id=140]
 length = 0.001
 tracks/0/type = "value"
@@ -84,7 +91,8 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=135]
 resource_name = "countdown_5"
-length = 7.0
+length = 7.6
+step = 0.02
 tracks/0/type = "value"
 tracks/0/path = NodePath("Countdown/PositionControl/noz:text")
 tracks/0/interp = 1
@@ -92,10 +100,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1, 2, 3, 4, 5, 6, 7 ),
+"times": PoolRealArray( 0, 1, 2, 3, 4, 5, 6, 7.6 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ "05", "05", "04", "03", "02", "01", "GO", "GO" ]
+"values": [ "05", "05", "04", "03", "02", "01", "GO!", "GO!" ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:modulate")
@@ -104,7 +112,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.8, 1, 6.8, 7 ),
+"times": PoolRealArray( 0, 0.8, 1, 7.4, 7.6 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
@@ -116,10 +124,22 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 1.8, 1.9, 2, 2.1, 2.8, 2.9, 3, 3.1, 3.8, 3.9, 4, 4.1, 4.8, 4.9, 5, 5.1, 5.8, 5.9, 6, 6.1 ),
+"times": PoolRealArray( 0, 1.8, 1.9, 2, 2.1, 2.8, 2.9, 3, 3.1, 3.8, 3.9, 4, 4.1, 4.8, 4.9, 5, 5.1, 5.8, 5.9, 6.02, 6.12 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 0.368627, 1, 0.662745, 0 ), Color( 0.368627, 1, 0.662745, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Countdown/label:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.8, 1, 5.8, 5.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0, 1.0, 0.0 ]
 }
 
 [sub_resource type="ConvexPolygonShape2D" id=136]
@@ -225,8 +245,8 @@ rotating = true
 current = true
 limit_smoothed = true
 smoothing_enabled = true
+smoothing_speed = 7.0
 editor_draw_limits = true
-editor_draw_drag_margin = true
 script = ExtResource( 18 )
 noise = ExtResource( 3 )
 
@@ -966,7 +986,6 @@ __meta__ = {
 }
 
 [node name="Energy" type="Label" parent="GUI/Hud"]
-visible = false
 margin_left = 128.0
 margin_top = 80.0
 margin_right = 221.0
@@ -1008,7 +1027,6 @@ align = 1
 valign = 1
 
 [node name="GameCountdown" type="Control" parent="GUI"]
-visible = false
 modulate = Color( 1, 1, 1, 0 )
 margin_right = 1280.0
 margin_bottom = 720.0
@@ -1025,18 +1043,19 @@ size_flags_vertical = 3
 color = Color( 0, 0, 0, 0.498039 )
 
 [node name="Countdown" type="VBoxContainer" parent="GUI/GameCountdown"]
-margin_left = 523.0
-margin_top = 234.0
-margin_right = 751.0
-margin_bottom = 260.0
+margin_left = 511.0
+margin_top = 263.0
+margin_right = 771.0
+margin_bottom = 289.0
 custom_constants/separation = 0
 
 [node name="label" type="Label" parent="GUI/GameCountdown/Countdown"]
-modulate = Color( 1, 1, 1, 0.313726 )
-margin_right = 246.0
+visible = false
+modulate = Color( 1, 1, 1, -2.98023e-07 )
+margin_right = 260.0
 margin_bottom = 21.0
 size_flags_vertical = 8
-text = "LEVEL 01 START IN ..."
+text = "LEVEL 01 STARTS IN ..."
 align = 1
 valign = 2
 __meta__ = {
@@ -1044,20 +1063,19 @@ __meta__ = {
 }
 
 [node name="PositionControl" type="Control" parent="GUI/GameCountdown/Countdown"]
-modulate = Color( 0.368627, 1, 0.662745, 1 )
-margin_top = 21.0
-margin_right = 246.0
+margin_right = 260.0
 margin_bottom = 26.0
 size_flags_vertical = 3
 
 [node name="noz" type="Label" parent="GUI/GameCountdown/Countdown/PositionControl"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -113.0
-margin_top = -2.0
-margin_right = 132.0
-margin_bottom = 178.0
+margin_left = -171.0
+margin_top = -38.0
+margin_right = 191.0
+margin_bottom = 197.0
 size_flags_vertical = 8
+custom_fonts/font = SubResource( 141 )
 text = "05"
 align = 1
 valign = 2
@@ -1261,7 +1279,6 @@ text = "PLAY ON"
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
-visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
 script = ExtResource( 2 )
@@ -1592,7 +1609,6 @@ format = 1
 tile_data = PoolIntArray( 0, -1610612736, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 7, -1610612736, 0, 8, -1610612736, 0, 9, -1610612736, 0, 12, -1610612736, 0, 13, -1610612736, 0, 14, -1610612736, 0, 15, -1610612736, 0, 16, -1610612736, 0, 18, -1610612736, 0, 19, -1610612736, 0, 20, -1610612736, 0, 21, -1610612736, 0, 24, -1610612736, 0, 25, -1610612736, 0, 26, -1610612736, 0, 27, -1610612736, 0, 30, -1610612736, 0, 34, -1610612736, 0, 65536, -1610612736, 0, 65540, -1610612736, 0, 65542, -1610612736, 0, 65550, -1610612736, 0, 65554, -1610612736, 0, 65558, -1610612736, 0, 65560, -1610612736, 0, 65564, -1610612736, 0, 65567, -1610612736, 0, 65569, -1610612736, 0, 131072, -1610612736, 0, 131073, -1610612736, 0, 131074, -1610612736, 0, 131075, -1610612736, 0, 131076, -1610612736, 0, 131078, -1610612736, 0, 131079, -1610612736, 0, 131080, -1610612736, 0, 131081, -1610612736, 0, 131086, -1610612736, 0, 131090, -1610612736, 0, 131091, -1610612736, 0, 131092, -1610612736, 0, 131093, -1610612736, 0, 131096, -1610612736, 0, 131097, -1610612736, 0, 131098, -1610612736, 0, 131099, -1610612736, 0, 131100, -1610612736, 0, 131104, -1610612736, 0, 196608, -1610612736, 0, 196612, -1610612736, 0, 196618, -1610612736, 0, 196622, -1610612736, 0, 196626, -1610612736, 0, 196630, -1610612736, 0, 196632, -1610612736, 0, 196636, -1610612736, 0, 196640, -1610612736, 0, 262144, -1610612736, 0, 262148, -1610612736, 0, 262154, -1610612736, 0, 262158, -1610612736, 0, 262162, -1610612736, 0, 262166, -1610612736, 0, 262168, -1610612736, 0, 262172, -1610612736, 0, 262176, -1610612736, 0, 327680, -1610612736, 0, 327684, -1610612736, 0, 327686, -1610612736, 0, 327690, -1610612736, 0, 327694, -1610612736, 0, 327698, -1610612736, 0, 327702, -1610612736, 0, 327704, -1610612736, 0, 327708, -1610612736, 0, 327712, -1610612736, 0, 393216, -1610612736, 0, 393220, -1610612736, 0, 393223, -1610612736, 0, 393224, -1610612736, 0, 393225, -1610612736, 0, 393230, -1610612736, 0, 393234, -1610612736, 0, 393238, -1610612736, 0, 393240, -1610612736, 0, 393244, -1610612736, 0, 393248, -1610612736, 0 )
 
 [node name="Title" type="Control" parent="GUI/GameOver"]
-visible = false
 modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -1602,6 +1618,30 @@ margin_left = -384.0
 margin_top = -112.0
 margin_right = 384.0
 margin_bottom = 64.0
+
+[node name="DiedLabel" type="Label" parent="GUI/GameOver/Title"]
+modulate = Color( 1.1, 1.1, 1.1, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -91.0
+margin_top = -159.5
+margin_right = 91.0
+margin_bottom = -138.5
+text = "You finaly died!"
+
+[node name="TimeupLabel" type="Label" parent="GUI/GameOver/Title"]
+modulate = Color( 1.1, 1.1, 1.1, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -91.0
+margin_top = -159.5
+margin_right = 91.0
+margin_bottom = -138.5
+text = "Time is up!"
 
 [node name="Title1" type="TileMap" parent="GUI/GameOver/Title"]
 tile_set = SubResource( 138 )
@@ -1624,6 +1664,7 @@ position = Vector2( 656, 88 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
 [node name="NameInputPopup" type="Control" parent="GUI/GameOver"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

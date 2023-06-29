@@ -54,6 +54,8 @@ var color_green = Color("#5effa9")
 var color_red = Color("#f35b7f")
 var color_yellow = Color("#fef98b")
 
+var game_over_reason_life = "player_life"
+var game_over_reason_time = "game_time"
 
 
 func _ready():
@@ -142,12 +144,12 @@ func _free_scene(scene_node):
 	scene_node.free()
 
 # reload scene
-func reload_scene(scene_node, scene_path, parent_node):
-	
-	release_scene(scene_node)
-	yield(get_tree().create_timer(scene_reload_time), "timeout")
-	spawn_new_scene(scene_path, parent_node)
-	current_scene.modulate.a = 1
+#func reload_scene(scene_node, scene_path, parent_node): ... je ne uporabljam
+#
+#	release_scene(scene_node)
+#	yield(get_tree().create_timer(scene_reload_time), "timeout")
+#	spawn_new_scene(scene_path, parent_node)
+#	current_scene.modulate.a = 1
 	
 	
 	

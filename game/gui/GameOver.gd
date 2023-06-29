@@ -12,6 +12,9 @@ onready var restart_btn: Button = $Content/Menu/RestartBtn
 onready var undi: ColorRect = $Undi
 onready var title: Control = $Title
 onready var content: Control = $Content
+onready var died_label: Label = $Title/DiedLabel
+onready var timeup_label: Label = $Title/TimeupLabel
+
 
 # level stats
 onready var time: Label = $Content/DataContainer/Time
@@ -28,7 +31,6 @@ onready var highscore_table: VBoxContainer = $Content/HighscoreTable
 onready var name_input: LineEdit = $NameInputPopup/NameInput
 
 
-
 func _ready() -> void:
 	
 	Global.gameover_menu = self
@@ -38,12 +40,21 @@ func _ready() -> void:
 	
 	name_input_popup.visible = false
 	content.modulate.a = 0
-	title.visible = true
-	title.modulate.a = 1
+#	title.visible = true
+#	title.modulate.a = 1
 	
 
-func fade_in():
-
+func fade_in(gameover_reason: String):
+	
+	match gameover_reason:
+		"game_time":
+			timeup_label.visible = true
+			died_label.visible = false
+		"player_life":
+			timeup_label.visible = false
+			died_label.visible = true
+			
+	modulate.a = 0	
 	visible = true
 #	set_process_input(false)
 	
@@ -66,7 +77,7 @@ func fade_in():
 	restart_btn.grab_focus()
 	
 
-func fade_in_empty():
+func fade_in_empty(gameover_reason: String):
 
 	visible = true
 #	set_process_input(false)

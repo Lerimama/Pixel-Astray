@@ -49,7 +49,7 @@ var default_player_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
 #var default_level_stats: Dictionary = { # tole ne uporabljam v zadnji varianti
 var default_level_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
 	"level_no" : 88,
-	"game_time" : 500, # sekund
+	"game_time" : 5, # sekund
 	"stray_pixels_count" : 32,
 	"off_pixels_count" : 0,
 	"highscore": 0000, # se naloži ob štartu igre, zato, da te lahko opozori že med igro

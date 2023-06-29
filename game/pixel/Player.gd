@@ -17,11 +17,7 @@ export var step_time: float # = 0.15
 export var max_step_time: float = 0.25 # najpočasnejši
 export var min_step_time: float = 0.1 # najhitrejši ... v trenutni kodi je irelevanten
 
-# energy
-var player_energy: float # energija je edini stat, ki gamore plejer poznat
-var tired_energy_level: float = 0.1 # del energije pri kateri velja, da je utrujen (diha hitreje
-onready var default_player_energy: float = Profiles.default_player_stats["player_energy"]
-
+var skill_ready_alpha: float = 1.2
 
 # push & pull
 var pull_time: float = 0.3
@@ -65,6 +61,20 @@ var die_shake_power: float = 0.2
 var die_shake_time: float = 0.7
 var die_shake_decay: float = 0.1
 
+# energija
+var player_energy: float # energija je edini stat, ki gamore plejer poznat
+onready var default_player_energy: float = Profiles.default_player_stats["player_energy"]
+var tired_energy_level: float = 0.1 # del energije pri kateri velja, da je utrujen (diha hitreje
+
+# dihanje
+var breath_speed: float = 1.2
+var tired_breath_speed: float = 2.4
+export var breath_alpha_adon: float
+
+# zadnji dih
+var last_breath_on: bool =  false
+var last_breath_time = 5
+onready var last_breath_timer: Timer = $LastBreathTimer
 
 onready var cell_size_x: int = Global.level_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -90,15 +100,23 @@ func _ready() -> void:
 	modulate.a = 0
 	animation_player.play("stil_alive")
 
-# glow in dihanje
-var skill_ready_alpha: float = 1.2
-var breath_speed: float = 1.2
-var tired_breath_speed: float = 2.4
-export var breath_alpha_adon: float
 
 func _physics_process(delta: float) -> void:
 	
 	player_energy = Global.game_manager.player_stats["player_energy"]
+	
+	# zadnji izdihljaji
+	if player_energy == 1 and not last_breath_on: 
+		last_breath_timer.start(last_breath_time)
+		last_breath_on = true
+		print("prvi zadnji dih")
+	elif player_energy == 1:
+		modulate = Global.color_red
+	elif player_energy > 1:
+		last_breath_on = false
+		last_breath_timer.stop()
+		modulate = pixel_color
+			
 		
 	if Global.detect_collision_in_direction(vision_ray, direction): # more bit neodvisno od stateta, da pull dela
 		skill_inputs()
@@ -307,6 +325,7 @@ func skill_inputs():
 
 func die():
 	
+	end_move()
 	emit_signal("stat_changed", self, "player_life", -1)
 	Global.main_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
 	
@@ -643,6 +662,9 @@ func _on_ghost_detected_body(body):
 	if body != self:
 		cocking_room = false
 
+func _on_LastBreathTimer_timeout() -> void:
+	die()
+
 
 
 	
@@ -678,3 +700,4 @@ func _on_ghost_detected_body(body):
 #
 #	# dodam celico v array celic tega zaleta
 #	cocked_ghosts.append(new_pixel_ghost)
+

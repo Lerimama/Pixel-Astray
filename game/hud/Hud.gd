@@ -225,7 +225,7 @@ func _on_GameTime_deathmode_on() -> void:
 
 
 func _on_GameTime_gametime_is_up() -> void:
-	Global.game_manager.game_over()
+	Global.game_manager.game_over(Global.game_over_reason_time)
 
 
 #func erase_all_indicators(): ... zaenkrat ne rabim nikjer

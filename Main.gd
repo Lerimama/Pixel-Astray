@@ -46,13 +46,14 @@ func game_out():
 	var fade_out = get_tree().create_tween()
 	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
 	fade_out.tween_callback(Global, "release_scene", [Global.current_scene])
-	fade_out.tween_callback(self, "home_in").set_delay(1)
+	fade_out.tween_callback(self, "home_in").set_delay(1) # dober delay ker se relese zgodi šele v naslednjem frejmu
 
 
 func reload_game():
 	
 	var fade_out = get_tree().create_tween()
 	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
+#	fade_out.tween_callback(Global, "reload_scene", [Global.current_scene])
 	fade_out.tween_callback(Global, "release_scene", [Global.current_scene])
-	fade_out.tween_callback(self, "game_in")
+	fade_out.tween_callback(self, "game_in").set_delay(1) # dober delay ker se relese zgodi šele v naslednjem frejmu
 	

@@ -48,7 +48,7 @@ func _unhandled_input(event: InputEvent) -> void:
 #		start_game()
 		printt("players_in_game", players_in_game)
 		
-	if Input.is_action_pressed("no1"):
+	if Input.is_action_pressed("no1") and player_stats["player_energy"] > 1:
 		player_stats["player_energy"] -= 1
 	if Input.is_action_pressed("no2"):
 		player_stats["player_energy"] += 10
@@ -166,11 +166,8 @@ func set_game():
 	game_stats["highscore"] = current_highscore_line[0]
 	game_stats["highscore_owner"] = current_highscore_line[1]
 	
+	
 	Global.main_camera.zoom_in()
-	# Global.hud.fade_in() ... v zoom_in funkciji na kameri 
-	
-#	yield(get_tree().create_timer(1), "timeout") # ne moreš klicat start game v istem frejmu, ker potem še ne prepozna plejerja
-	
 	# YIELD ... čaka da game_countdown odšteje
 	print ("GM start - YIELD")
 	# Global.game_countdown.start_countdown() ... zdej je na kameri
@@ -195,7 +192,7 @@ func start_game():
 		print("PLAYER = NIGA")
 	
 	
-func game_over():
+func game_over(game_over_reason: String):
 	
 	# ustavim igro
 	game_on = false
@@ -207,7 +204,13 @@ func game_over():
 			player.set_physics_process(false)
 	
 	Global.hud.stop_timer()
-	yield(get_tree().create_timer(2), "timeout")
+	
+	# YIELD 0 ... čaka na konec zoomouta
+	print ("GM gameover - YIELD 0")
+	var camera_zoomed_out = Global.main_camera.zoom_out()
+	
+	yield(Global.main_camera, "zoomed_out")
+	print ("GM gameover - RESUME 0")
 
 	var player_points = player_stats["player_points"]
 	var current_level = game_stats["level_no"]
@@ -221,9 +224,9 @@ func game_over():
 	print ("GM gameover - RESUME 1")
 
 	if not score_is_ranking:
-		Global.gameover_menu.fade_in()																																																							
+		Global.gameover_menu.fade_in(game_over_reason)																																																							
 	else:
-		Global.gameover_menu.fade_in_empty()
+		Global.gameover_menu.fade_in_empty(game_over_reason)
 
 	
 
@@ -359,7 +362,7 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 		# od playerja
 		"player_life": 
 			if player_stats["player_life"] <= 1:
-				game_over()
+				game_over(Global.game_over_reason_life)
 			else:
 				player_stats["player_life"] += stat_change
 				stat_owner.revive()
