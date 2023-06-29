@@ -1,6 +1,8 @@
 extends Camera2D
 
 
+signal zoomed_out
+
 export (OpenSimplexNoise) var noise # tekstura za vizualizacijo ma kopijo tega noisa
 
 # in-house šejk setup ... ne interaktira z nastavitvami za igro
@@ -156,15 +158,11 @@ func go_widescreen():
 	widescreen_tween.parallel().tween_property(hud_line_tr, "rect_position:y", hud_line_tr.rect_position.y - view_futer_game_h, 2)
 	widescreen_tween.tween_callback(Global.game_countdown, "start_countdown")
 	
-	print(get_viewport().size)
-	
 
-signal zoomed_out
 func zoom_out():
 
-#	Global.hud.fade_in() # hud zna vse sam ... vseskozi je GM njegov "mentor"
 	var final_zoom = Vector2(2, 2)
-	yield(get_tree().create_timer(1), "timeout")
+	yield(get_tree().create_timer(0.5), "timeout")
 	
 	var widescreen_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	widescreen_tween.tween_property(get_viewport(), "size:y", viewport_start_h, 2)
@@ -179,7 +177,7 @@ func zoom_out():
 	widescreen_tween.parallel().tween_property(picked_color, "rect_position:y", picked_color.rect_position.y + view_futer_game_h, 2)
 	widescreen_tween.parallel().tween_property(color_spectrum_lite, "rect_position:y", color_spectrum_lite.rect_position.y + view_futer_game_h, 2)
 	widescreen_tween.parallel().tween_property(hud_line_tr, "rect_position:y", hud_line_tr.rect_position.y + view_futer_game_h, 2)
-	widescreen_tween.tween_callback(self, "emit_signal", ["zoomed_out"]).set_delay(1)
+	widescreen_tween.parallel().tween_callback(self, "emit_signal", ["zoomed_out"]).set_delay(1.7)
 	
 	
 

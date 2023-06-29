@@ -78,7 +78,16 @@ func fade_in(gameover_reason: String):
 	
 
 func fade_in_empty(gameover_reason: String):
-
+	
+	match gameover_reason:
+		"game_time":
+			timeup_label.visible = true
+			died_label.visible = false
+		"player_life":
+			timeup_label.visible = false
+			died_label.visible = true
+			
+	modulate.a = 0	
 	visible = true
 #	set_process_input(false)
 	
@@ -123,22 +132,26 @@ func write_gameover_data():
 
 func open_name_input():
 	
+	print ("GO - open name input")
+	
 	name_input_popup.visible = true
 	name_input_popup.modulate.a = 0
 
 	var fade_in_tween = get_tree().create_tween()
 	fade_in_tween.tween_property(name_input_popup, "modulate:a", 1, 0.5)
 	
+	# setam input label
+	name_input.text = input_invite_text
 	name_input.grab_focus()
-	print ("GO - open input")
 	
-	
+# pogrebam string
 func confirm_name_input():
 	
+	# zapišem ime v končno statistiko igralca
 	Global.game_manager.player_stats["player_name"] = input_string
 	close_name_input()
 	
-	
+# samo zaprem
 func close_name_input (): 
 	
 	var fade_out_tween = get_tree().create_tween()
@@ -168,21 +181,30 @@ func unpause_tree():
 
 # SIGNALI --------------------------------------------------------------------	
 
-func _on_PopupNameEdit_text_entered(new_text: String) -> void:
-	input_string = new_text
-	confirm_name_input()
-	
-	
-func _on_NameEdit_text_changed(new_text: String) -> void:
-	input_string = new_text
 
+var input_invite_text: String = "Your name ..."
 var input_string: String# = "" # neki more bit, če plejer nč ne vtipka in potrdi predvsem da zaznava vsako črko in jo lahko potrdiš na gumbu
 
+# signal, ki redno beleži vnešeni string
+func _on_NameEdit_text_changed(new_text: String) -> void:
+	input_string = new_text
+	
+func _on_PopupNameEdit_text_entered(new_text: String) -> void:
+	printt("input_string", input_string)
+	if input_string == input_invite_text or input_string.empty():
+		input_string = Profiles.default_player_stats["player_name"] #Moe
+		confirm_name_input()
+	else:
+		confirm_name_input()
+	
+
 func _on_PopupConfirmBtn_pressed() -> void:
-	print (input_string)
-	if input_string.empty():
-		close_name_input()
-	confirm_name_input()
+	printt("btn input_string", input_string)
+	if input_string == input_invite_text or input_string.empty():
+		input_string = Profiles.default_player_stats["player_name"] #Moe
+		confirm_name_input()
+	else:
+		confirm_name_input()
 	
 	
 func _on_PopupCancelBtn_pressed() -> void:

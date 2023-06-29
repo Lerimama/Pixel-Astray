@@ -8,16 +8,10 @@ var game_stats: Dictionary
 var fade_time: float = 1
 var default_hud_color: Color = Color.white
 
-# HS ček
-var close_to_highscore_part = 0.9 # procent HS vrednosti
-var highscore_broken: bool =  false
-var highscore_broken_popup_time: float = 2
-
 # spectrum indicators
 var active_color_indicators: Array = []
 onready var ColorIndicator: PackedScene = preload("res://game/hud/HudColorIndicator.tscn")
 onready var indicator_holder: HBoxContainer = $ColorSpectrumLite/IndicatorHolder
-
 
 onready var player_life: Label = $Life # _temp, pravi je na samih ikonah
 onready var player_energy: Label = $Energy # temp
@@ -35,7 +29,14 @@ onready var level: Label = $Level
 
 # hs
 onready var highscore_label: Label = $Highscore
-onready var highscore_popup: Control = $HighscorePopup
+onready var hud_popup: Control = $HudPopup
+
+# HS ček
+var close_to_highscore_part = 0.9 # procent HS vrednosti
+var highscore_broken: bool =  false
+var highscore_broken_popup_time: float = 2
+onready var hs_waiting_label: Label = $HudPopup/HSWaitingLabel
+onready var hs_reached_label: Label = $HudPopup/HSReachedLabel
 
 
 func _ready() -> void:
@@ -45,7 +46,7 @@ func _ready() -> void:
 	# skrij statistiko in popupe
 	visible = false
 #	color_spectrum = Global.color_indicator_parent
-	highscore_popup.visible = false
+	hud_popup.visible = false
 	
 
 func _process(delta: float) -> void:
@@ -56,7 +57,7 @@ func _process(delta: float) -> void:
 	
 	writing_stats()
 	
-	if not highscore_broken:
+	if not highscore_broken and Global.game_manager.game_on:
 		checking_highscore()
 		
 			
@@ -89,18 +90,29 @@ func checking_highscore():
 	
 	# rekord!!! ... zaporedje ifo je pomembno zaradi načina setanja pogojev
 	if current_points > current_record:
+#		printt("1", current_record,current_points)
 		highscore_broken = true
 		highscore_label.modulate = Global.color_green
-		highscore_popup.visible = true
+		hud_popup.visible = true
+		hs_waiting_label.visible = false
+		
+		hs_reached_label.visible = true
 		yield(get_tree().create_timer(highscore_broken_popup_time), "timeout")
-		highscore_popup.visible = false
+		hud_popup.visible = false
+		hs_reached_label.visible = false
 		
 	# blizu rekorda
 	elif current_points > current_record * close_to_highscore_part or current_points == current_record:
+#		printt("2", current_record,current_points)
 		highscore_label.modulate = Global.color_blue
+		hud_popup.visible = true
+		hs_waiting_label.visible = true
 	# blah ...
 	else:
+#		printt("3", current_record,current_points)
 		highscore_label.modulate = default_hud_color
+#		hud_popup.visible = false
+#		hs_waiting_label.visible = false
 		
 
 func fade_in():
@@ -160,8 +172,6 @@ func color_picked(picked_pixel_color):
 	picked_color_label.modulate = default_hud_color
 	pixels_off_counter.modulate = default_hud_color
 	stray_pixels_counter.modulate = default_hud_color
-	
-	
 	
 	
 func erase_color_indicator(erase_color):

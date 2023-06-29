@@ -84,6 +84,10 @@ onready var collision_shape: CollisionShape2D = $CollisionShape2D
 onready var Ghost: PackedScene = preload("res://game/pixel/Ghost.tscn")
 onready var PixelCollisionParticles: PackedScene = preload("res://game/pixel/PixelCollisionParticles.tscn")
 
+# transparenca
+var skill_ready_alpha_adon: float = 0.2
+
+onready var poly_pixel: Polygon2D = $PolyPixel
 
 func _ready() -> void:
 	
@@ -97,13 +101,19 @@ func _ready() -> void:
 	# deaktiviram plejerja ... aktivira ga GM, ko v start_game
 	set_physics_process(false)
 	
-	modulate.a = 0
-	animation_player.play("stil_alive")
-
+	modulate.a = 1
+	poly_pixel.modulate.a = 1
+#	animation_player.play("stil_alive")
+	animation_player.play("stil_alive_poly")
+#	printt("plajer REDI modulate", modulate)
+#	Global.game_manager.player_stats["player_energy"]
 
 func _physics_process(delta: float) -> void:
-	
 	player_energy = Global.game_manager.player_stats["player_energy"]
+	var def_energy: float = Profiles.default_player_stats["player_energy"]
+	var alpha_factor = player_energy / def_energy
+	
+	poly_pixel.modulate.a = clamp(alpha_factor, 0.3, alpha_factor)
 	
 	# zadnji izdihljaji
 	if player_energy == 1 and not last_breath_on: 
@@ -115,7 +125,7 @@ func _physics_process(delta: float) -> void:
 	elif player_energy > 1:
 		last_breath_on = false
 		last_breath_timer.stop()
-		modulate = pixel_color
+#		modulate = pixel_color
 			
 		
 	if Global.detect_collision_in_direction(vision_ray, direction): # more bit neodvisno od stateta, da pull dela
@@ -125,8 +135,8 @@ func _physics_process(delta: float) -> void:
 		States.IDLE:
 			# dihanje
 			modulate.a = modulate.a + breath_alpha_adon # adon je animiran
-			
-			# skill ready
+
+#			# skill ready
 			if Global.detect_collision_in_direction(vision_ray, direction): # ta koda je tukaj, da ne blink ob kontaktu s sosedo
 				animation_player.stop() # stop dihanje
 				modulate.a = skill_ready_alpha # resetiraš na skill ready stanje
@@ -326,6 +336,7 @@ func skill_inputs():
 func die():
 	
 	end_move()
+	
 	emit_signal("stat_changed", self, "player_life", -1)
 	Global.main_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
 	
@@ -625,6 +636,7 @@ func spawn_ghost(current_pixel_position):
 	new_pixel_ghost.global_position = current_pixel_position
 	new_pixel_ghost.modulate = pixel_color
 	Global.node_creation_parent.add_child(new_pixel_ghost)
+	new_pixel_ghost.poly_pixel.modulate.a = poly_pixel.modulate.a
 
 	return new_pixel_ghost
 
@@ -653,7 +665,7 @@ func _on_ghost_target_reached(ghost_body, ghost_position):
 	
 			
 	# za hud
-#	skills_used_count += 1
+	# skills_used_count += 1
 	emit_signal("stat_changed", self, "skills_used", 1)
 	
 
@@ -662,42 +674,8 @@ func _on_ghost_detected_body(body):
 	if body != self:
 		cocking_room = false
 
+
 func _on_LastBreathTimer_timeout() -> void:
 	die()
 
-
-
-	
-#	# bolj počasna varianta
-#	var new_pixel_ghost = Ghost.instance()
-#	# ghost je trenutne barve pixla
-#	new_pixel_ghost.modulate = pixel_color
-#	# z vsakim naj bo bolj prosojen (relativno z max številom celic)
-#	# gledena faktor
-#	new_pixel_ghost.modulate.a = cocked_ghost_alpha - (cocked_ghosts_count / cocked_ghost_alpha_factor)
-#	# glede na max moč 
-##	new_pixel_ghost.modulate.a = 0.5 - (cocked_ghosts_count / float(cocked_ghost_count_max + 1))
-#	# z vsakim se zamika pozicija
-#	new_pixel_ghost.global_position = global_position + cocking_direction * cell_size_x * cocked_ghosts_count# pozicija se zamakne za celico
-#	new_pixel_ghost.global_position -= cocking_direction * cell_size_x/2
-#	new_pixel_ghost.direction = cocking_direction
-#	# v kateri smeri je scale
-#	if direction.y == 0: # smer horiz
-#		new_pixel_ghost.scale.x = 0
-#	elif direction.x == 0: # smer ver
-#		new_pixel_ghost.scale.y = 0
-#	# spawn
-#	Global.node_creation_parent.add_child(new_pixel_ghost)
-#
-#	# animiram cell animacijo
-#	var cock_cell_tween = get_tree().create_tween()
-#	cock_cell_tween.tween_property(new_pixel_ghost, "scale", Vector2.ONE, ghost_cocking_time_limit).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-#	cock_cell_tween.parallel().tween_property(new_pixel_ghost, "position", global_position + cocking_direction * cell_size_x * cocked_ghosts_count, ghost_cocking_time_limit).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-#
-#	# ray detect velikost je velikost napenjanja
-#	new_pixel_ghost.ghost_ray.cast_to = direction * cell_size_x
-#	new_pixel_ghost.connect("ghost_detected_body", self, "_on_ghost_detected_body")
-#
-#	# dodam celico v array celic tega zaleta
-#	cocked_ghosts.append(new_pixel_ghost)
 

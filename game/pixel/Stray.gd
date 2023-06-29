@@ -3,21 +3,16 @@ extends KinematicBody2D
 
 signal stat_changed (stat_owner, stat, stat_change)
 
-var pixel_color: Color
-var neighbouring_cells: Array = [] # stray stalno čekira sosede
-
-var stray_die_value: int = 1 # def 1
-
-onready var animation_player: AnimationPlayer = $AnimationPlayer
-onready var vision_ray: RayCast2D = $VisionRay
-
-# glow in dihanje
-#var breath_speed: float = 1.2
-#var tired_breath_speed: float = 2.4
-
 export (float, 0, 1) var die_shake_power: float = 0.2
 export (float, 0, 10) var die_shake_time: float = 0.4
 export (float, 0, 1) var die_shake_decay: float = 0.3
+
+var pixel_color: Color
+var neighbouring_cells: Array = [] # stray stalno čekira sosede
+var stray_die_value: int = 1 # def = 1, če ima sosede se duplicira
+
+onready var animation_player: AnimationPlayer = $AnimationPlayer
+onready var vision_ray: RayCast2D = $VisionRay
 
 
 func _ready() -> void:
@@ -50,9 +45,8 @@ func _physics_process(delta: float) -> void:
 
 func die():
 	
-	print ("STRAY DIE: ", stray_die_value)
 	emit_signal("stat_changed", self, "off_pixels_count", stray_die_value)
-#	Global.main_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
+	# Global.main_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
 	
 	# žrebam animacijo
 	var random_animation_index = randi() % 5 + 1

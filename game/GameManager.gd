@@ -25,7 +25,6 @@ var players_in_game: Array = []
 var strays_in_game: Array = []
 var floor_positions: Array # po signalu ob kreaciji tilemapa ... tukaj, da ga lahko grebam do zunaj
 var available_floor_positions: Array # dplikat floor_positions za spawnanje pixlov
-var revive_time: float = 3 # pavza med die in revive funkcijo
 
 onready var StrayPixel = preload("res://game/pixel/Stray.tscn")
 onready var PlayerPixel = preload("res://game/pixel/Player.tscn")
@@ -208,7 +207,6 @@ func game_over(game_over_reason: String):
 	# YIELD 0 ... čaka na konec zoomouta
 	print ("GM gameover - YIELD 0")
 	var camera_zoomed_out = Global.main_camera.zoom_out()
-	
 	yield(Global.main_camera, "zoomed_out")
 	print ("GM gameover - RESUME 0")
 
@@ -217,10 +215,8 @@ func game_over(game_over_reason: String):
 	
 	# YIELD 1 ... čaka na konec preverke rankinga ... če ni rankinga dobi false, če je ne dobi nič
 	print ("GM gameover - YIELD 1")
-	
 	# ker kličem funkcijo v variablo more počakat, da se funkcija izvede do returna
 	var score_is_ranking = Global.data_manager.manage_gameover_highscores(player_points, current_level) # yielda 2 za name input je v tej funkciji
-	
 	print ("GM gameover - RESUME 1")
 
 	if not score_is_ranking:
@@ -249,6 +245,8 @@ func spawn_player():
 	#spawn
 	Global.node_creation_parent.add_child(new_player_pixel)
 	
+	
+	
 	# vzamem lokacijo za izbrisat
 #	new_player_pixel.snap_to_nearest_grid()
 #	if available_floor_positions.has(new_player_pixel.global_position):
@@ -257,9 +255,10 @@ func spawn_player():
 	# povežem
 	new_player_pixel.connect("stat_changed", self, "_on_stat_changed")
 	
-	# aktiviram plejerja (hud mora vedet)
+	# aktiviram plejerja in mu dodelim energijo
 	player_stats["player_active"] = true
-
+	player_stats["player_energy"] = game_stats["player_start_energy"]
+	
 	# camera target
 	Global.camera_target = new_player_pixel
 	Global.main_camera.reset_camera_position()
@@ -353,6 +352,7 @@ func _on_FloorMap_floor_completed(floor_cells_global_positions: Array, player_st
 	else:
 		print("ne najdem pozicije plejerja")
 
+var dead_time: float = 2 # pavza med die in revive funkcijo
 
 func _on_stat_changed(stat_owner, changed_stat, stat_change):
 	
@@ -361,11 +361,16 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 		
 		# od playerja
 		"player_life": 
-			if player_stats["player_life"] <= 1:
+			player_stats["player_life"] += stat_change
+			if player_stats["player_life"] < 1:
+				yield(get_tree().create_timer(dead_time), "timeout")
 				game_over(Global.game_over_reason_life)
 			else:
-				player_stats["player_life"] += stat_change
+				yield(get_tree().create_timer(dead_time), "timeout")
+				# resetiram energijo
+				player_stats["player_energy"] = Profiles.default_player_stats["player_energy"]
 				stat_owner.revive()
+				
 		"cells_travelled": 
 			player_stats["cells_travelled"] += stat_change
 			# energija
@@ -399,11 +404,5 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 	player_stats["player_energy"] = clamp(player_stats["player_energy"], 0, Profiles.default_player_stats["player_energy"])
 	
 	if player_stats["player_energy"] <= 0:
-		
-		# resetiram energijo ... nujno že tukaj, ker če ne se kliče ob vsaki spremembi statistike in je stack oversize error
-		player_stats["player_energy"] = Profiles.default_player_stats["player_energy"]
-
 		stat_owner.die() # s te metode s spet pošlje statistika change "player_life"
-		yield(get_tree().create_timer(revive_time), "timeout")
-		stat_owner.revive()
 

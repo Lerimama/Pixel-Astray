@@ -206,6 +206,92 @@ visible = false
 position = Vector2( 640, 360 )
 texture = ExtResource( 6 )
 
+[node name="Node2D" type="Node2D" parent="."]
+pause_mode = 1
+visible = false
+z_index = 4
+
+[node name="NameInputPopup" type="Control" parent="Node2D"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 416.0
+margin_top = 192.0
+margin_right = 864.0
+margin_bottom = 480.0
+
+[node name="Undi" type="Panel" parent="Node2D/NameInputPopup"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Label" type="Label" parent="Node2D/NameInputPopup"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -92.0
+margin_top = 38.0
+margin_right = 92.0
+margin_bottom = 59.0
+size_flags_vertical = 3
+text = "Congrats!"
+align = 1
+autowrap = true
+
+[node name="Label2" type="Label" parent="Node2D/NameInputPopup"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -176.0
+margin_top = 77.0
+margin_right = 176.0
+margin_bottom = 133.0
+size_flags_vertical = 3
+text = "You are one of the best \"Pixel Astray\" players ever."
+align = 1
+autowrap = true
+
+[node name="NameInput" type="LineEdit" parent="Node2D/NameInputPopup"]
+margin_left = 104.0
+margin_top = 151.0
+margin_right = 344.0
+margin_bottom = 191.0
+rect_min_size = Vector2( 240, 40 )
+focus_neighbour_top = NodePath("../HBoxContainer/ConfirmBtn")
+focus_next = NodePath("../HBoxContainer/ConfirmBtn")
+focus_previous = NodePath("../HBoxContainer/CancelBtn")
+size_flags_horizontal = 4
+size_flags_vertical = 6
+text = "Your name ..."
+align = 1
+caret_blink = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Node2D/NameInputPopup"]
+margin_left = 106.0
+margin_top = 224.0
+margin_right = 341.0
+margin_bottom = 245.0
+rect_min_size = Vector2( 235, 0 )
+size_flags_horizontal = 4
+size_flags_vertical = 11
+
+[node name="CancelBtn" type="Button" parent="Node2D/NameInputPopup/HBoxContainer"]
+margin_right = 61.0
+margin_bottom = 21.0
+focus_neighbour_left = NodePath("../ConfirmBtn")
+focus_neighbour_top = NodePath("../../NameInput")
+size_flags_horizontal = 2
+text = "CANCEL"
+
+[node name="ConfirmBtn" type="Button" parent="Node2D/NameInputPopup/HBoxContainer"]
+margin_left = 162.0
+margin_right = 235.0
+margin_bottom = 21.0
+focus_neighbour_left = NodePath("../CancelBtn")
+focus_neighbour_top = NodePath("../../NameInput")
+size_flags_horizontal = 0
+size_flags_vertical = 9
+custom_colors/font_color = Color( 0.368627, 1, 0.662745, 1 )
+text = "CONFIRM"
+
 [node name="GameView" type="VBoxContainer" parent="."]
 margin_right = 1280.0
 margin_bottom = 784.0
@@ -996,22 +1082,23 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="HighscorePopup" type="Control" parent="GUI/Hud"]
-visible = false
+[node name="HudPopup" type="Control" parent="GUI/Hud"]
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -128.0
-margin_top = -56.0
-margin_right = 128.0
-margin_bottom = 40.0
+anchor_bottom = 1.0
+margin_left = -640.0
+margin_top = -168.0
+margin_right = 640.0
+margin_bottom = -112.0
 
-[node name="Undi" type="Panel" parent="GUI/Hud/HighscorePopup"]
+[node name="Undi" type="Panel" parent="GUI/Hud/HudPopup"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="Label" type="Label" parent="GUI/Hud/HighscorePopup"]
+[node name="Label" type="Label" parent="GUI/Hud/HudPopup"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1023,6 +1110,31 @@ margin_bottom = 24.5
 size_flags_horizontal = 4
 text = "YEAH!!!
 Podrl si rekord!!!"
+align = 1
+valign = 1
+
+[node name="HSWaitingLabel" type="Label" parent="GUI/Hud/HudPopup"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -229.0
+margin_right = 229.0
+margin_bottom = 55.0
+size_flags_horizontal = 4
+text = "Bravo! Si čisto blizu rekordu. Še mal ..."
+align = 1
+valign = 1
+
+[node name="HSReachedLabel" type="Label" parent="GUI/Hud/HudPopup"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -139.0
+margin_right = 139.0
+margin_bottom = 55.0
+size_flags_horizontal = 4
+custom_colors/font_color = Color( 0.368627, 1, 0.662745, 1 )
+text = "YEAH!!! Podrl si rekord!!!"
 align = 1
 valign = 1
 
@@ -1279,6 +1391,7 @@ text = "PLAY ON"
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
+visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
 script = ExtResource( 2 )
@@ -1664,7 +1777,6 @@ position = Vector2( 656, 88 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
 [node name="NameInputPopup" type="Control" parent="GUI/GameOver"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1708,12 +1820,11 @@ margin_top = 151.0
 margin_right = 344.0
 margin_bottom = 191.0
 rect_min_size = Vector2( 240, 40 )
-focus_neighbour_top = NodePath("../HBoxContainer/ConfirmBtn")
+focus_neighbour_bottom = NodePath("../HBoxContainer/ConfirmBtn")
 focus_next = NodePath("../HBoxContainer/ConfirmBtn")
-focus_previous = NodePath("../HBoxContainer/CancelBtn")
 size_flags_horizontal = 4
 size_flags_vertical = 6
-text = "Your name ..."
+text = "..."
 align = 1
 caret_blink = true
 
@@ -1729,8 +1840,9 @@ size_flags_vertical = 11
 [node name="CancelBtn" type="Button" parent="GUI/GameOver/NameInputPopup/HBoxContainer"]
 margin_right = 84.0
 margin_bottom = 21.0
-focus_neighbour_left = NodePath("../ConfirmBtn")
 focus_neighbour_top = NodePath("../../NameInput")
+focus_neighbour_right = NodePath("../ConfirmBtn")
+focus_next = NodePath("../../NameInput")
 size_flags_horizontal = 2
 text = "CANCEL"
 
@@ -1740,11 +1852,15 @@ margin_right = 235.0
 margin_bottom = 21.0
 focus_neighbour_left = NodePath("../CancelBtn")
 focus_neighbour_top = NodePath("../../NameInput")
+focus_next = NodePath("../CancelBtn")
 size_flags_horizontal = 0
 size_flags_vertical = 9
-custom_colors/font_color = Color( 0.368627, 1, 0.662745, 1 )
 text = "CONFIRM"
 
+[connection signal="text_changed" from="Node2D/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_NameEdit_text_changed"]
+[connection signal="text_entered" from="Node2D/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_PopupNameEdit_text_entered"]
+[connection signal="pressed" from="Node2D/NameInputPopup/HBoxContainer/CancelBtn" to="GUI/GameOver" method="_on_PopupCancelBtn_pressed"]
+[connection signal="pressed" from="Node2D/NameInputPopup/HBoxContainer/ConfirmBtn" to="GUI/GameOver" method="_on_PopupConfirmBtn_pressed"]
 [connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestToggle" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_CheckBox_mouse_entered"]
 [connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestToggle" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_CheckBox_mouse_exited"]
 [connection signal="toggled" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestToggle" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_CheckBox_toggled"]
