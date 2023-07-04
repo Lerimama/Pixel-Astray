@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://assets/menu_environment.tres" type="Environment" id=1]
+[ext_resource path="res://assets/resources/menu_environment.tres" type="Environment" id=1]
 [ext_resource path="res://home/Home.gd" type="Script" id=2]
-[ext_resource path="res://assets/tile_title.png" type="Texture" id=3]
+[ext_resource path="res://assets/tiles/tile_title.png" type="Texture" id=3]
 [ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=4]
 [ext_resource path="res://assets/32_pixel_colors.png" type="Texture" id=5]
 

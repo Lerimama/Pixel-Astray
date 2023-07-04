@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/NFF-cool-success.wav-a08e92fde57852ac1c62539f6535f835.sample"
+
+[deps]
+
+source_file="res://assets/sounds/events/fail/NFF-cool-success.wav"
+dest_files=[ "res://.import/NFF-cool-success.wav-a08e92fde57852ac1c62539f6535f835.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

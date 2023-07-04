@@ -168,7 +168,6 @@ func close_name_input ():
 
 func pause_tree():
 	
-#	Global.node_creation_parent.pause_mode = 
 	get_tree().paused = true
 	pass
 

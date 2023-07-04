@@ -14,7 +14,8 @@ func _ready() -> void:
 func start_countdown():
 	modulate.a = 0
 	visible = true
-	emit_signal("countdown_finished") # preda štafeto na GM
+	
+	emit_signal("countdown_finished") # ... še na GM
 #	animation_player.play("countdown_5")
 	
 func _on_AnimationPlayer_animation_finished(coundown_5) -> void:

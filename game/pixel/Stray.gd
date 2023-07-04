@@ -41,7 +41,7 @@ func _physics_process(delta: float) -> void:
 	
 	# stray vedno ve kdo so njegovi sosedi
 	neighbouring_cells = check_for_neighbours()
-
+	
 
 func die():
 	
@@ -52,7 +52,7 @@ func die():
 	var random_animation_index = randi() % 5 + 1
 	var random_animation_name: String = "die_stray_%s" % random_animation_index
 	animation_player.play(random_animation_name) 
-	
+	Global.sound_manager.game.get_node("StrayOffed").play()
 	# KVEFRI je v animaciji
 
 

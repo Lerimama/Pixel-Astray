@@ -59,7 +59,7 @@ var default_level_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
 	"off_pixels_count" : 0,
 	"highscore": 0000, # se naloži ob štartu igre, zato, da te lahko opozori že med igro
 	"highscore_owner": "NNNNNNNNNN", # se naloži ob štartu igre, zato, da te lahko opozori že med igro
-	"player_start_energy" : 5, # max, da se lepo ujema s pixli
+	"player_start_energy" : 172, # max, da se lepo ujema s pixli
 }
 
 enum GameModes {BASIC}

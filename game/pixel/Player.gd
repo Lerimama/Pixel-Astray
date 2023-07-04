@@ -187,13 +187,18 @@ func on_collision():
 		var random_animation_name: String = "glitch_%s" % random_animation_index
 		animation_player.play(random_animation_name)
 		
+		Global.sound_manager.game.get_node("HitWall").play()
+		
 		
 	elif collision.collider.is_in_group(Global.group_strays):
 		pixel_color = collision.collider.pixel_color
 		spawn_collision_particles()
 		Global.main_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
 		emit_signal("stat_changed", self, "color_picked", 1)
-		
+			
+		Global.sound_manager.game.get_node("HitStray").play()
+		Global.sound_manager.game.get_node("HitWall").play()
+			
 		# "sosednja barva" mode
 		if Global.game_manager.pick_neighbour_mode:
 			# če je sosed določen, in če pobrana barva ni enaka barvi soseda na spektru
@@ -370,7 +375,8 @@ func step():
 
 		# pošljem signal, da odštejem točko
 		emit_signal("stat_changed", self, "cells_travelled", 1)
-	
+		
+		Global.sound_manager.game.get_node("Stepping").play()
 
 func end_move():
 	
@@ -594,7 +600,7 @@ func teleport():
 	new_teleport_ghost.connect("ghost_target_reached", self, "_on_ghost_target_reached")
 	
 	Global.camera_target = new_teleport_ghost
-
+	Global.sound_manager.game.get_node("SkillTeleport").play()
 	
 	# zaključek v signalu _on_ghost_target_reached
 	
