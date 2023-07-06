@@ -52,9 +52,11 @@ func die():
 	var random_animation_index = randi() % 5 + 1
 	var random_animation_name: String = "die_stray_%s" % random_animation_index
 	animation_player.play(random_animation_name) 
-	Global.sound_manager.game.get_node("StrayOffed").play()
+	
 	# KVEFRI je v animaciji
-
+	
+func play_blinking_sound():
+	Global.sound_manager.play_sfx("blinking")
 
 func check_for_neighbours(): 
 	

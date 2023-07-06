@@ -57,3 +57,7 @@ func reload_game():
 	fade_out.tween_callback(Global, "release_scene", [Global.current_scene])
 	fade_out.tween_callback(self, "game_in").set_delay(1) # dober delay ker se relese zgodi šele v naslednjem frejmu
 	
+
+
+func _on_TeleportStart_finished() -> void:
+	pass # Replace with function body.

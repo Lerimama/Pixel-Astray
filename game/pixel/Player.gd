@@ -187,7 +187,7 @@ func on_collision():
 		var random_animation_name: String = "glitch_%s" % random_animation_index
 		animation_player.play(random_animation_name)
 		
-		Global.sound_manager.game.get_node("HitWall").play()
+#		Global.sound_manager.game.get_node("HitWall").play()
 		
 		
 	elif collision.collider.is_in_group(Global.group_strays):
@@ -196,8 +196,8 @@ func on_collision():
 		Global.main_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
 		emit_signal("stat_changed", self, "color_picked", 1)
 			
-		Global.sound_manager.game.get_node("HitStray").play()
-		Global.sound_manager.game.get_node("HitWall").play()
+#		Global.sound_manager.game.get_node("HitStray").play()
+#		Global.sound_manager.game.get_node("HitWall").play()
 			
 		# "sosednja barva" mode
 		if Global.game_manager.pick_neighbour_mode:
@@ -346,8 +346,12 @@ func die():
 	Global.main_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
 	
 	set_physics_process(false) # aktivira ga revive(), ki se sproži iz animacije
-	animation_player.play("die_player")
+#	animation_player.play("die_player")
+	animation_player.play("die_player_unique")
 		
+func play_blinking_sound():
+	Global.sound_manager.play_sfx("blinking")
+	
 
 func revive():
 	modulate.a = 0
@@ -376,7 +380,8 @@ func step():
 		# pošljem signal, da odštejem točko
 		emit_signal("stat_changed", self, "cells_travelled", 1)
 		
-		Global.sound_manager.game.get_node("Stepping").play()
+		Global.sound_manager.play_sfx("stepping")
+
 
 func end_move():
 	
@@ -600,7 +605,8 @@ func teleport():
 	new_teleport_ghost.connect("ghost_target_reached", self, "_on_ghost_target_reached")
 	
 	Global.camera_target = new_teleport_ghost
-	Global.sound_manager.game.get_node("SkillTeleport").play()
+	
+	Global.sound_manager.play_sfx("teleport")
 	
 	# zaključek v signalu _on_ghost_target_reached
 	
@@ -669,6 +675,7 @@ func _on_ghost_target_reached(ghost_body, ghost_position):
 	teleport_tween.tween_property(self, "modulate:a", 1, ghost_fade_time)
 	teleport_tween.tween_callback(ghost_body, "fade_out")
 	
+	Global.sound_manager.stop_sfx("teleport")
 			
 	# za hud
 	# skills_used_count += 1
