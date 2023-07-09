@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/confirm_NFF-click-switch.wav-bc623aedc7aa9bf06f268f5b5c1377ff.sample"
+
+[deps]
+
+source_file="res://assets/sounds/_rezerva_ostanki/_test/confirm_NFF-click-switch.wav"
+dest_files=[ "res://.import/confirm_NFF-click-switch.wav-bc623aedc7aa9bf06f268f5b5c1377ff.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

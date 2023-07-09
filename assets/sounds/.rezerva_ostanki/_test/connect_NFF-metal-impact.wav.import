@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/connect_NFF-metal-impact.wav-f9a1a4b943a6d2ca1d29f4dca538a196.sample"
+
+[deps]
+
+source_file="res://assets/sounds/_rezerva_ostanki/_test/connect_NFF-metal-impact.wav"
+dest_files=[ "res://.import/connect_NFF-metal-impact.wav-f9a1a4b943a6d2ca1d29f4dca538a196.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

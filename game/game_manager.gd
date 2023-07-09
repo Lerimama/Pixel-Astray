@@ -94,7 +94,7 @@ func play_intro():
 	# spawnam strayse v več grupah
 	animation_player.play("pixelate")
 	
-onready var floor_cover: ColorRect = $"../Level/FloorCover"
+onready var floor_cover: ColorRect = $"../Level/FloorCover" # _temp
 func skip_intro():
 	
 	animation_player.stop()
@@ -179,7 +179,8 @@ func set_game():
 	
 func start_game():
 	
-
+	Global.sound_manager.play_sfx("game_music")
+	
 	game_on = true
 	# aktiviram plejerja in tajmer
 	Global.hud.start_timer()
@@ -191,6 +192,8 @@ func start_game():
 	
 	
 func game_over(game_over_reason: String):
+
+	Global.sound_manager.stop_sfx("game_music")
 	
 	# ustavim igro
 	game_on = false
@@ -217,7 +220,7 @@ func game_over(game_over_reason: String):
 	# ker kličem funkcijo v variablo more počakat, da se funkcija izvede do returna
 	var score_is_ranking = Global.data_manager.manage_gameover_highscores(player_points, current_level) # yielda 2 za name input je v tej funkciji
 	print ("GM gameover - RESUME 1")
-
+	
 	if not score_is_ranking:
 		Global.gameover_menu.fade_in(game_over_reason)																																																							
 	else:
@@ -351,7 +354,7 @@ func _on_TileMap_floor_completed(floor_cells_global_positions: Array, player_sta
 	else:
 		print("ne najdem pozicije plejerja")
 
-var dead_time: float = 2 # pavza med die in revive funkcijo
+var dead_time: float = 3 # pavza med die in revive funkcijo
 
 func _on_stat_changed(stat_owner, changed_stat, stat_change):
 	

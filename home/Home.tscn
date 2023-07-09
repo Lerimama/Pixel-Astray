@@ -567,7 +567,5 @@ margin_bottom = 382.0
 text = "In addition to displays, pixels are also a fundamental concept in digital photography, image editing, and computer graphics. Understanding pixels and their properties is essential when working with digital images and designing visual content."
 autowrap = true
 
+[connection signal="focus_exited" from="Menu/PlayBtn" to="." method="_on_PlayBtn_focus_exited"]
 [connection signal="pressed" from="Menu/PlayBtn" to="." method="_on_PlayBtn_pressed"]
-[connection signal="pressed" from="Menu/AboutBtn" to="." method="_on_PlayBtn_pressed"]
-[connection signal="pressed" from="Menu/SettingsBtn" to="." method="_on_PlayBtn_pressed"]
-[connection signal="pressed" from="Menu/QuitBtn" to="." method="_on_PlayBtn_pressed"]

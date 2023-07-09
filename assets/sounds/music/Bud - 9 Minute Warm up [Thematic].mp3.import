@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Bud - 9 Minute Warm up [Thematic].mp3-a8c7c504fa032710a40a7cb0f7e2af2a.mp3str"
+
+[deps]
+
+source_file="res://assets/sounds/music/Bud - 9 Minute Warm up [Thematic].mp3"
+dest_files=[ "res://.import/Bud - 9 Minute Warm up [Thematic].mp3-a8c7c504fa032710a40a7cb0f7e2af2a.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

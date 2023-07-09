@@ -40,11 +40,10 @@ func _ready() -> void:
 	
 	name_input_popup.visible = false
 	content.modulate.a = 0
-#	title.visible = true
-#	title.modulate.a = 1
-	
+
 
 func fade_in(gameover_reason: String):
+	
 	
 	match gameover_reason:
 		"game_time":
@@ -56,11 +55,14 @@ func fade_in(gameover_reason: String):
 			
 	modulate.a = 0	
 	visible = true
-#	set_process_input(false)
+	# set_process_input(false)
+	
+#	Global.sound_manager.play_sfx("loose_jingle")
 	
 	# hud + title
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(self, "modulate:a", 1, 0.5)
+	fade_in.tween_callback(Global.sound_manager, "play_sfx", ["loose_jingle"])
 	
 	write_gameover_data()
 	highscore_table.get_highscore_table()
@@ -91,9 +93,12 @@ func fade_in_empty(gameover_reason: String):
 	visible = true
 #	set_process_input(false)
 	
+#	Global.sound_manager.play_sfx("win_jingle")
+	
 	# hud + title + name input
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(self, "modulate:a", 1, 0.5)
+	fade_in.tween_callback(Global.sound_manager, "play_sfx", ["win_jingle"])
 	fade_in.tween_callback(self, "open_name_input").set_delay(1)
 
 
@@ -125,9 +130,24 @@ func write_gameover_data():
 	level.text = "Level reched: %02d" % game_gameover_stats["level_no"]
 	astray_pixels.text = "Pixels astray: %02d" % game_gameover_stats["stray_pixels_count"]
 	pixels_off.text = "Pixels offed: %02d" % game_gameover_stats["off_pixels_count"]
+
+
+# PAVZIRANJE --------------------------------------------------------------------	
+
+
+func pause_tree():
+	
+	get_tree().paused = true
+	pass
+
+
+func unpause_tree():
+	
+	get_tree().paused = false
+	set_process_input(true) # zato da se lahko animacija izvede
 	
 	
-# INPUT --------------------------------------------------------------------	
+# POPUP INPUT --------------------------------------------------------------------	
 
 
 func open_name_input():
@@ -143,16 +163,18 @@ func open_name_input():
 	# setam input label
 	name_input.text = input_invite_text
 	name_input.grab_focus()
+
 	
-# pogrebam string
 func confirm_name_input():
 	
+	# pogrebam string
 	# zapišem ime v končno statistiko igralca
 	Global.game_manager.player_stats["player_name"] = input_string
 	close_name_input()
+
 	
-# samo zaprem
 func close_name_input (): 
+# samo zaprem
 	
 	var fade_out_tween = get_tree().create_tween()
 	fade_out_tween.tween_property(title, "modulate:a", 0, 0.5)
@@ -161,64 +183,70 @@ func close_name_input ():
 	fade_out_tween.tween_property(name_input_popup, "visible", false, 0.01)
 	
 	emit_signal("name_input_finished")
-	
 
 
-# PAVZIRANJE --------------------------------------------------------------------	
-
-func pause_tree():
-	
-	get_tree().paused = true
-	pass
-
-
-func unpause_tree():
-	
-	get_tree().paused = false
-	set_process_input(true) # zato da se lahko animacija izvede
-
-
-# SIGNALI --------------------------------------------------------------------	
+# POPUP SIGNALI ---------------------------------------------------------------------------------------------
 
 
 var input_invite_text: String = "Your name ..."
 var input_string: String# = "" # neki more bit, če plejer nč ne vtipka in potrdi predvsem da zaznava vsako črko in jo lahko potrdiš na gumbu
 
-# signal, ki redno beleži vnešeni string
+
+func _on_NameInput_focus_exited() -> void:
+	Global.sound_manager.play_sfx("btn_focus_change")
+	
 func _on_NameEdit_text_changed(new_text: String) -> void:
+	# signal, ki redno beleži vnešeni string
 	input_string = new_text
+	Global.sound_manager.play_sfx("stepping")
 	
 func _on_PopupNameEdit_text_entered(new_text: String) -> void:
-	printt("input_string", input_string)
+	Global.sound_manager.play_sfx("btn_confirm")
 	if input_string == input_invite_text or input_string.empty():
 		input_string = Profiles.default_player_stats["player_name"] #Moe
 		confirm_name_input()
 	else:
 		confirm_name_input()
-	
 
-func _on_PopupConfirmBtn_pressed() -> void:
-	printt("btn input_string", input_string)
+
+func _on_ConfirmBtn_focus_exited() -> void:
+	Global.sound_manager.play_sfx("btn_focus_change")
+	
+func _on_ConfirmBtn_pressed() -> void:
+	Global.sound_manager.play_sfx("btn_confirm")
 	if input_string == input_invite_text or input_string.empty():
 		input_string = Profiles.default_player_stats["player_name"] #Moe
 		confirm_name_input()
 	else:
 		confirm_name_input()
-	
-	
-func _on_PopupCancelBtn_pressed() -> void:
+		
+		
+func _on_CancelBtn_focus_exited() -> void:
+	Global.sound_manager.play_sfx("btn_focus_change")
+
+func _on_CancelBtn_pressed() -> void:
+	Global.sound_manager.play_sfx("btn_cancel")
 	close_name_input()
+
+
+# MENU SIGNALI ---------------------------------------------------------------------------------------------
+
 	
-	
+func _on_RestartBtn_focus_exited() -> void:
+	if get_tree().paused:
+		Global.sound_manager.play_sfx("btn_focus_change")
+
 func _on_RestartBtn_pressed() -> void:
-	
+	Global.sound_manager.play_sfx("btn_confirm")
 	unpause_tree()
 	Global.main_node.reload_game()
-	
+
+
+func _on_QuitBtn_focus_exited() -> void:
+	if get_tree().paused:
+		Global.sound_manager.play_sfx("btn_focus_change")
 
 func _on_QuitBtn_pressed() -> void:
-	
+	Global.sound_manager.play_sfx("btn_cancel")
 	unpause_tree()
 	Global.main_node.game_out()
-
-

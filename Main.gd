@@ -11,11 +11,12 @@ func _ready() -> void:
 	
 	Global.main_node = self
 	
-#	home_in()
-	game_in()
+	home_in()
+#	game_in()
 	
 
 func home_in():
+	Global.sound_manager.play_sfx("menu_music")	
 	
 	Global.spawn_new_scene(home_scene_path, self)
 	Global.current_scene.modulate = Color.black
@@ -24,7 +25,10 @@ func home_in():
 	
 
 func home_out():
-	print ("out")
+	
+	Global.sound_manager.stop_sfx("menu_music")
+	Global.sound_manager.play_sfx("fade_in_out")
+	
 	var fade_out = get_tree().create_tween()
 	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
 	fade_out.tween_callback(Global, "release_scene", [Global.current_scene])
@@ -42,7 +46,9 @@ func game_in():
 
 
 func game_out():
-		
+	
+	Global.sound_manager.play_sfx("fade_in_out")
+	
 	var fade_out = get_tree().create_tween()
 	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
 	fade_out.tween_callback(Global, "release_scene", [Global.current_scene])
@@ -57,7 +63,3 @@ func reload_game():
 	fade_out.tween_callback(Global, "release_scene", [Global.current_scene])
 	fade_out.tween_callback(self, "game_in").set_delay(1) # dober delay ker se relese zgodi šele v naslednjem frejmu
 	
-
-
-func _on_TeleportStart_finished() -> void:
-	pass # Replace with function body.

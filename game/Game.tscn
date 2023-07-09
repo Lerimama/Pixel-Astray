@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://game/gui/GameOver.gd" type="Script" id=2]
 [ext_resource path="res://assets/resources/gamecam_noise.tres" type="OpenSimplexNoise" id=3]
@@ -87,8 +87,166 @@ tracks/0/keys = {
 "values": [ "05" ]
 }
 
-[sub_resource type="Animation" id=135]
+[sub_resource type="Animation" id=143]
+resource_name = "countdown_3"
+length = 5.0
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Countdown/PositionControl/noz:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6, 1.6, 2.6, 3.6, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ "3", "3", "2", "1", "GO!", "GO!" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.6, 0.8, 4.8, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Countdown/PositionControl:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.6, 0.8, 1.5, 1.6, 1.7, 1.8, 2.5, 2.6, 2.7, 2.8, 3.5, 3.6, 3.72, 3.82 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 0.368627, 1, 0.662745, 0 ), Color( 0.368627, 1, 0.662745, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Countdown/label:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.6, 0.8, 3.6, 3.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0, 1.0, 0.0 ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.8, 1.8, 2.8, 3.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_countdown_a_sound"
+}, {
+"args": [  ],
+"method": "play_countdown_a_sound"
+}, {
+"args": [  ],
+"method": "play_countdown_a_sound"
+}, {
+"args": [  ],
+"method": "play_countdown_b_sound"
+} ]
+}
+
+[sub_resource type="Animation" id=142]
 resource_name = "countdown_5"
+length = 7.0
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Countdown/PositionControl/noz:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6, 1.6, 2.6, 3.6, 4.6, 5.6, 7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ "05", "05", "04", "03", "02", "01", "GO!", "GO!" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.6, 0.8, 6.8, 7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Countdown/PositionControl:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.6, 0.8, 1.5, 1.6, 1.7, 1.8, 2.5, 2.6, 2.7, 2.8, 3.5, 3.6, 3.7, 3.8, 4.5, 4.6, 4.7, 4.8, 5.5, 5.6, 5.72, 5.82 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 0.368627, 1, 0.662745, 0 ), Color( 0.368627, 1, 0.662745, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Countdown/label:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.6, 0.8, 5.6, 5.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0, 1.0, 0.0 ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.8, 1.8, 2.8, 3.8, 4.8, 5.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_countdown_a_sound"
+}, {
+"args": [  ],
+"method": "play_countdown_a_sound"
+}, {
+"args": [  ],
+"method": "play_countdown_a_sound"
+}, {
+"args": [  ],
+"method": "play_countdown_a_sound"
+}, {
+"args": [  ],
+"method": "play_countdown_a_sound"
+}, {
+"args": [  ],
+"method": "play_countdown_b_sound"
+} ]
+}
+
+[sub_resource type="Animation" id=135]
+resource_name = "countdown_5_v1"
 length = 7.6
 step = 0.02
 tracks/0/type = "value"
@@ -310,6 +468,7 @@ noise = ExtResource( 3 )
 
 [node name="UILayer" type="CanvasLayer" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam"]
 layer = 3
+visible = false
 
 [node name="TestToggle" type="CheckBox" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer"]
 margin_left = 32.0
@@ -1044,6 +1203,7 @@ __meta__ = {
 }
 
 [node name="Energy" type="Label" parent="GUI/Hud"]
+visible = false
 margin_left = 128.0
 margin_top = 80.0
 margin_right = 221.0
@@ -1111,7 +1271,6 @@ align = 1
 valign = 1
 
 [node name="GameCountdown" type="Control" parent="GUI"]
-modulate = Color( 1, 1, 1, 0 )
 margin_right = 1280.0
 margin_bottom = 720.0
 rect_min_size = Vector2( 1280, 720 )
@@ -1135,7 +1294,6 @@ custom_constants/separation = 0
 
 [node name="label" type="Label" parent="GUI/GameCountdown/Countdown"]
 visible = false
-modulate = Color( 1, 1, 1, -2.98023e-07 )
 margin_right = 260.0
 margin_bottom = 21.0
 size_flags_vertical = 8
@@ -1147,6 +1305,7 @@ __meta__ = {
 }
 
 [node name="PositionControl" type="Control" parent="GUI/GameCountdown/Countdown"]
+modulate = Color( 1, 1, 1, 0 )
 margin_right = 260.0
 margin_bottom = 26.0
 size_flags_vertical = 3
@@ -1166,7 +1325,9 @@ valign = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/GameCountdown"]
 anims/RESET = SubResource( 140 )
-anims/countdown_5 = SubResource( 135 )
+anims/countdown_3 = SubResource( 143 )
+anims/countdown_5 = SubResource( 142 )
+anims/countdown_5_v1 = SubResource( 135 )
 
 [node name="PauseMenu" type="Control" parent="GUI"]
 pause_mode = 2
@@ -1314,7 +1475,6 @@ JP BTN A + DIR - burst"
 autowrap = true
 
 [node name="Menu" type="HBoxContainer" parent="GUI/PauseMenu"]
-pause_mode = 2
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1363,6 +1523,7 @@ text = "PLAY ON"
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
+visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
 script = ExtResource( 2 )
@@ -1748,7 +1909,6 @@ position = Vector2( 656, 88 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
 [node name="NameInputPopup" type="Control" parent="GUI/GameOver"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1877,12 +2037,20 @@ text = "CONFIRM"
 [connection signal="deathmode_on" from="GUI/Hud/GameTime" to="GUI/Hud" method="_on_GameTime_deathmode_on"]
 [connection signal="gametime_is_up" from="GUI/Hud/GameTime" to="GUI/Hud" method="_on_GameTime_gametime_is_up"]
 [connection signal="animation_finished" from="GUI/GameCountdown/AnimationPlayer" to="GUI/GameCountdown" method="_on_AnimationPlayer_animation_finished"]
+[connection signal="focus_exited" from="GUI/PauseMenu/Menu/QuitBtn" to="GUI/PauseMenu" method="_on_QuitBtn_focus_exited"]
 [connection signal="pressed" from="GUI/PauseMenu/Menu/QuitBtn" to="GUI/PauseMenu" method="_on_QuitBtn_pressed"]
+[connection signal="focus_exited" from="GUI/PauseMenu/Menu/RestartBtn" to="GUI/PauseMenu" method="_on_RestartBtn_focus_exited"]
 [connection signal="pressed" from="GUI/PauseMenu/Menu/RestartBtn" to="GUI/PauseMenu" method="_on_RestartBtn_pressed"]
+[connection signal="focus_exited" from="GUI/PauseMenu/Menu/PlayBtn" to="GUI/PauseMenu" method="_on_PlayBtn_focus_exited"]
 [connection signal="pressed" from="GUI/PauseMenu/Menu/PlayBtn" to="GUI/PauseMenu" method="_on_PlayBtn_pressed"]
+[connection signal="focus_exited" from="GUI/GameOver/Content/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_focus_exited"]
 [connection signal="pressed" from="GUI/GameOver/Content/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
+[connection signal="focus_exited" from="GUI/GameOver/Content/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_focus_exited"]
 [connection signal="pressed" from="GUI/GameOver/Content/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
+[connection signal="focus_exited" from="GUI/GameOver/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_NameInput_focus_exited"]
 [connection signal="text_changed" from="GUI/GameOver/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_NameEdit_text_changed"]
 [connection signal="text_entered" from="GUI/GameOver/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_PopupNameEdit_text_entered"]
-[connection signal="pressed" from="GUI/GameOver/NameInputPopup/HBoxContainer/CancelBtn" to="GUI/GameOver" method="_on_PopupCancelBtn_pressed"]
-[connection signal="pressed" from="GUI/GameOver/NameInputPopup/HBoxContainer/ConfirmBtn" to="GUI/GameOver" method="_on_PopupConfirmBtn_pressed"]
+[connection signal="focus_exited" from="GUI/GameOver/NameInputPopup/HBoxContainer/CancelBtn" to="GUI/GameOver" method="_on_CancelBtn_focus_exited"]
+[connection signal="pressed" from="GUI/GameOver/NameInputPopup/HBoxContainer/CancelBtn" to="GUI/GameOver" method="_on_CancelBtn_pressed"]
+[connection signal="focus_exited" from="GUI/GameOver/NameInputPopup/HBoxContainer/ConfirmBtn" to="GUI/GameOver" method="_on_ConfirmBtn_focus_exited"]
+[connection signal="pressed" from="GUI/GameOver/NameInputPopup/HBoxContainer/ConfirmBtn" to="GUI/GameOver" method="_on_ConfirmBtn_pressed"]

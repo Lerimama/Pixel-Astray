@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/cancel_NFF-cancel-03.wav-a36ed9349c85e2e8eeef04e598d85c72.sample"
+
+[deps]
+
+source_file="res://assets/sounds/_rezerva_ostanki/cancel_NFF-cancel-03.wav"
+dest_files=[ "res://.import/cancel_NFF-cancel-03.wav-a36ed9349c85e2e8eeef04e598d85c72.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

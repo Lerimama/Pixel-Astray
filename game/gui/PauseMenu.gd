@@ -31,12 +31,13 @@ func pause_game():
 	visible = true
 	set_process_input(false)
 	
+	pause_on = true
+	
 	var fade_in_tween = get_tree().create_tween()
 	fade_in_tween.tween_property(self, "modulate:a", 1, pause_fade_time)
 	fade_in_tween.tween_callback(self, "pause_tree")
 	
 	play_btn.grab_focus()
-	
 
 
 func play_on():
@@ -44,14 +45,13 @@ func play_on():
 	var fade_out_tween = get_tree().create_tween()
 	fade_out_tween.set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_out_tween.tween_property(self, "modulate:a", 0, pause_fade_time)
-	fade_out_tween.tween_property(self, "visible:a", false, 0.01)
-	
+	fade_out_tween.tween_property(self, "visible", false, 0.01)
 	fade_out_tween.tween_callback(self, "unpause_tree")
 
 
 func pause_tree():
 	
-	pause_on = true
+#	pause_on = true
 	get_tree().paused = true
 	set_process_input(true) # zato da se lahko animacija izvede
 		
@@ -59,21 +59,40 @@ func pause_tree():
 func unpause_tree():
 	
 	get_tree().paused = false
-	pause_on = false
+#	pause_on = false
 	set_process_input(true) # zato da se lahko animacija izvede
 	
 	
+# MENU ---------------------------------------------------------------------------------------------
+	
+	
+func _on_PlayBtn_focus_exited() -> void:
+	if pause_on:
+		Global.sound_manager.play_sfx("btn_focus_change")
+
 func _on_PlayBtn_pressed() -> void:
+	Global.sound_manager.play_sfx("btn_confirm")
+	pause_on = false
 	play_on()
 
 
+func _on_RestartBtn_focus_exited() -> void:
+	if pause_on:
+		Global.sound_manager.play_sfx("btn_focus_change")
+
 func _on_RestartBtn_pressed() -> void:
-	
+	Global.sound_manager.play_sfx("btn_confirm")
+	pause_on = false
 	unpause_tree()
 	Global.main_node.reload_game()
 
 
-func _on_QuitBtn_pressed() -> void:
+func _on_QuitBtn_focus_exited() -> void:
+	if pause_on:
+		Global.sound_manager.play_sfx("btn_focus_change")
 
+func _on_QuitBtn_pressed() -> void:
+	Global.sound_manager.play_sfx("btn_cancel")
+	pause_on = false
 	unpause_tree()
 	Global.main_node.game_out()

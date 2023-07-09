@@ -83,12 +83,13 @@ onready var floor_cells: Array = Global.game_manager.floor_positions
 onready var collision_shape: CollisionShape2D = $CollisionShape2D
 onready var Ghost: PackedScene = preload("res://game/pixel/Ghost.tscn")
 onready var PixelCollisionParticles: PackedScene = preload("res://game/pixel/PixelCollisionParticles.tscn")
+onready var PixelDizzyParticles: PackedScene = preload("res://game/pixel/PixelDizzyParticles.tscn")
 
 # transparenca
 var skill_ready_alpha_adon: float = 0.2
 
 onready var poly_pixel: Polygon2D = $PolyPixel
-
+onready var skill_sfx_active: bool = false
 func _ready() -> void:
 	
 	Global.print_id(self)
@@ -140,6 +141,11 @@ func _physics_process(delta: float) -> void:
 			if Global.detect_collision_in_direction(vision_ray, direction): # ta koda je tukaj, da ne blink ob kontaktu s sosedo
 				animation_player.stop() # stop dihanje
 				modulate.a = skill_ready_alpha # resetiraš na skill ready stanje
+				
+				if not skill_sfx_active:
+					Global.sound_manager.play_sfx("skilled")
+					skill_sfx_active = true
+					
 			# dihanje
 			else: 
 				var tired_energy = default_player_energy * tired_energy_level
@@ -148,7 +154,10 @@ func _physics_process(delta: float) -> void:
 				else:
 					animation_player.set_speed_scale(breath_speed)
 				animation_player.play("breath")
-			
+				
+				skill_sfx_active = false
+				Global.sound_manager.stop_sfx("skilled")
+				
 			# energija in hitrost
 			if energy_speed_mode:
 				var slow_trim_size: float = max_step_time * default_player_energy
@@ -161,9 +170,11 @@ func _physics_process(delta: float) -> void:
 							
 		States.STEPPING:
 			animation_player.stop() # stop dihanje
+		
 		States.SKILLED:
 			animation_player.stop() # stop dihanje
 			modulate.a = skill_ready_alpha
+			
 		States.BURSTING: 
 			animation_player.stop() # stop dihanje
 			burst_inputs()
@@ -181,13 +192,18 @@ func on_collision():
 	
 	if collision.collider.is_in_group(Global.group_tilemap):
 		spawn_collision_particles()
-		Global.main_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
-		# žrebam animacijo
-		var random_animation_index = randi() % 3 + 1
-		var random_animation_name: String = "glitch_%s" % random_animation_index
-		animation_player.play(random_animation_name)
+		spawn_dizzy_particles()
+		die()
 		
-#		Global.sound_manager.game.get_node("HitWall").play()
+		Global.main_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
+		
+		# žrebam animacijo
+#		var random_animation_index = randi() % 3 + 1
+#		var random_animation_name: String = "glitch_%s" % random_animation_index
+#		animation_player.play(random_animation_name)
+#
+		Global.sound_manager.stop_sfx("burst")
+		Global.sound_manager.play_sfx("hit_wall")
 		
 		
 	elif collision.collider.is_in_group(Global.group_strays):
@@ -195,9 +211,9 @@ func on_collision():
 		spawn_collision_particles()
 		Global.main_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
 		emit_signal("stat_changed", self, "color_picked", 1)
-			
-#		Global.sound_manager.game.get_node("HitStray").play()
-#		Global.sound_manager.game.get_node("HitWall").play()
+		
+		Global.sound_manager.stop_sfx("burst")
+		Global.sound_manager.play_sfx("hit_stray")
 			
 		# "sosednja barva" mode
 		if Global.game_manager.pick_neighbour_mode:
@@ -300,6 +316,7 @@ func burst_inputs():
 			
 	if Input.is_action_just_released("space"):
 		if burst_direction_set:
+			
 			release_burst()
 		else:
 			end_move()
@@ -322,7 +339,7 @@ func skill_inputs():
 	# select skill, če ga še nima 
 	if current_state != States.SKILLED and player_energy > 1:
 		
-		# skill glede na kolajderja
+		# skill glede na kolajderja 
 		var collider: Object = Global.detect_collision_in_direction(vision_ray, direction)
 		var wall_tile_index = 3
 		
@@ -348,6 +365,7 @@ func die():
 	set_physics_process(false) # aktivira ga revive(), ki se sproži iz animacije
 #	animation_player.play("die_player")
 	animation_player.play("die_player_unique")
+
 		
 func play_blinking_sound():
 	Global.sound_manager.play_sfx("blinking")
@@ -406,10 +424,16 @@ func cock_burst():
 	var burst_direction = direction
 	var cock_direction = - burst_direction
 	
+	Global.sound_manager.play_sfx("burst_cocking")
+	
 	# prostor za začetek napenjanja preverja pixel
 	if Global.detect_collision_in_direction(vision_ray, cock_direction): 
-		end_move() 
+		end_move()
+		
+#		Global.sound_manager.play_sfx("burst_fail")
+		Global.sound_manager.stop_sfx("burst_cocking")
 		return	# dobra praksa ... zazih
+	
 		
 	# prostor nadaljevanje napenjanja preverja ghost
 	if cocked_ghosts.size() < cocked_ghost_count_max and cocking_room:
@@ -457,6 +481,8 @@ func spawn_cock_ghost(cocking_direction, cocked_ghosts_count):
 
 func release_burst():
 	
+	Global.sound_manager.play_sfx("burst_cocked")
+	
 	# napeti ghosti animirajo do alfa 1
 	for ghost in cocked_ghosts:
 		var get_set_tween = get_tree().create_tween()
@@ -495,6 +521,11 @@ func burst(ghosts_count):
 		ghost.queue_free()
 	cocked_ghosts = []
 	
+	
+	Global.sound_manager.play_sfx("burst")
+	Global.sound_manager.stop_sfx("burst_cocking")
+	
+	
 	# release ghost 
 	var release_tween = get_tree().create_tween()
 	release_tween.tween_property(new_stretch_ghost, "scale", Vector2.ONE, strech_ghost_shrink_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
@@ -526,6 +557,7 @@ func push():
 	
 	# prostor za zalet?
 	if Global.detect_collision_in_direction(vision_ray, backup_direction):
+		Global.sound_manager.play_sfx("skill_fail")
 		return
 	
 	current_state = States.SKILLED
@@ -537,24 +569,30 @@ func push():
 	if ray_collider.is_in_group(Global.group_strays):
 		# prostor pred kolajderjem
 		if Global.detect_collision_in_direction(ray_collider.vision_ray, push_direction):
-
+			
+			Global.sound_manager.play_sfx("push")
+			
 			var empty_push_tween = get_tree().create_tween()
 			empty_push_tween.tween_property(self, "position", global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 			empty_push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost.global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 			empty_push_tween.tween_property(self, "position", global_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
+			empty_push_tween.tween_callback(Global.sound_manager, "play_sfx", ["skill_fail"])
 			empty_push_tween.tween_callback(self, "end_move")
 			empty_push_tween.parallel().tween_callback(new_push_ghost, "queue_free")
 
 		else:
-
+			Global.sound_manager.play_sfx("push")
+			
 			# napnem
 			var push_tween = get_tree().create_tween()
 			push_tween.tween_property(self, "position", global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 			push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost.global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 			# spustim
 			push_tween.tween_property(self, "position", global_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
+			push_tween.tween_callback(Global.sound_manager, "play_sfx", ["pushed"])
 			push_tween.tween_property(ray_collider, "position", ray_collider.global_position + push_direction * cell_size_x * push_cell_count, 0.08).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(0.05)
 			push_tween.tween_callback(self, "end_move")
+			push_tween.tween_callback(Global.sound_manager, "play_sfx", ["skill_success"])
 			push_tween.parallel().tween_callback(new_push_ghost, "queue_free")
 			
 		# za hud
@@ -570,10 +608,13 @@ func pull():
 	
 	# preverjam če ma prostor v smeri premika
 	if Global.detect_collision_in_direction(vision_ray, pull_direction): 
+		Global.sound_manager.play_sfx("skill_fail")
 		return	
 		
 	current_state = States.SKILLED
-
+	
+	Global.sound_manager.play_sfx("pull")
+	
 	# spawn ghosta pod mano
 	var new_pull_ghost = spawn_ghost(global_position + target_direction * cell_size_x)
 	new_pull_ghost.modulate.a = modulate.a
@@ -582,7 +623,9 @@ func pull():
 	pull_tween.tween_property(self, "position", global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
 	pull_tween.parallel().tween_property(new_pull_ghost, "position", new_pull_ghost.global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
 	pull_tween.tween_property(target_pixel, "position", target_pixel.global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
+	pull_tween.parallel().tween_callback(Global.sound_manager, "play_sfx", ["pulled"])
 	pull_tween.tween_callback(self, "end_move")
+	pull_tween.tween_callback(Global.sound_manager, "play_sfx", ["skill_success"])
 	pull_tween.parallel().tween_callback(new_pull_ghost, "queue_free")
 	
 	# za hud
@@ -595,6 +638,8 @@ func teleport():
 	
 	current_state = States.SKILLED
 	
+	Global.sound_manager.play_sfx("teleport")
+	
 	# spawn ghost
 	var new_teleport_ghost = spawn_ghost(global_position)
 	new_teleport_ghost.direction = teleport_direction
@@ -606,13 +651,25 @@ func teleport():
 	
 	Global.camera_target = new_teleport_ghost
 	
-	Global.sound_manager.play_sfx("teleport")
 	
 	# zaključek v signalu _on_ghost_target_reached
 	
 
 # UTIL ________________________________________________________________________________________________________________
 
+
+func spawn_dizzy_particles():
+	
+	var new_dizzy_pixels = PixelDizzyParticles.instance()
+	new_dizzy_pixels.global_position = global_position
+	new_dizzy_pixels.modulate = pixel_color
+#	match direction:
+#		Vector2.UP: new_collision_pixels.rotate(deg2rad(-90))
+#		Vector2.DOWN: new_collision_pixels.rotate(deg2rad(90))
+#		Vector2.LEFT: new_collision_pixels.rotate(deg2rad(180))
+#		Vector2.RIGHT:new_collision_pixels.rotate(deg2rad(0))
+	Global.node_creation_parent.add_child(new_dizzy_pixels)
+	
 
 func spawn_collision_particles():
 	
@@ -625,7 +682,7 @@ func spawn_collision_particles():
 		Vector2.LEFT: new_collision_pixels.rotate(deg2rad(180))
 		Vector2.RIGHT:new_collision_pixels.rotate(deg2rad(0))
 	Global.node_creation_parent.add_child(new_collision_pixels)
-			
+	
 	
 func spawn_trail_ghost():
 	
@@ -686,6 +743,9 @@ func _on_ghost_detected_body(body):
 	
 	if body != self:
 		cocking_room = false
+
+		Global.sound_manager.play_sfx("burst_limit")
+		
 
 
 func _on_LastBreathTimer_timeout() -> void:

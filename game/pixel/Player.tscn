@@ -6,7 +6,7 @@
 
 [sub_resource type="Animation" id=2]
 resource_name = "die_player_unique"
-length = 2.0
+length = 3.0
 step = 0.02
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
@@ -15,10 +15,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = false
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.0605592, 0.114726, 0.185737, 0.234325, 0.447234, 0.53924, 0.672547, 0.73924, 0.803158, 0.841606, 0.9, 1, 1.1, 1.2, 1.36541, 1.5, 1.6, 1.6544, 2 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.0605592, 0.114726, 0.185737, 0.234325, 0.447234, 0.53924, 0.672547, 0.73924, 0.803158, 0.841606, 0.9, 1, 1.1, 1.2, 1.36541, 1.5, 1.6, 1.6544, 1.94, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.215686 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.215686 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.545098 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.215686 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.360784 ), Color( 1, 1, 1, 0.486275 ), Color( 1, 1, 1, 0.203922 ), Color( 1, 1, 1, 0.533333 ), Color( 1, 1, 1, 0 ) ]
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.215686 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.215686 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.545098 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.215686 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.360784 ), Color( 1, 1, 1, 0.486275 ), Color( 1, 1, 1, 0.203922 ), Color( 1, 1, 1, 0.533333 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.282353 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:modulate:a")
@@ -27,10 +27,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.0605592, 0.115436, 0.184698, 0.232797, 0.445392, 0.539576, 0.67419, 0.738793, 0.8, 0.841557, 0.899275, 1, 1.10076, 1.19941, 1.36723, 1.49998, 1.60081, 1.6553, 2 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.0605592, 0.115436, 0.184698, 0.232797, 0.445392, 0.539576, 0.67419, 0.738793, 0.8, 0.841557, 0.899275, 1, 1.10076, 1.19941, 1.36723, 1.49998, 1.60081, 1.6553, 1.94, 2, 2.1, 2.6, 2.7, 2.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 1.0, 0.2, 1.0, 0.2, 1.0, 1.0, 0.55, 1.0, 0.2, 0.118591, 0.4, 1.0, 0.2, 0.2, 1.0, 0.4, 0.55, 0.2, 0.55, 0.0 ]
+"values": [ 1.0, 0.2, 1.0, 0.2, 1.0, 1.0, 0.55, 1.0, 0.2, 0.118591, 0.4, 1.0, 0.2, 0.2, 1.0, 0.4, 0.55, 0.2, 0.55, 0.0, 0.5, 0.2, 0.55, 0.55, 0.2 ]
 }
 tracks/2/type = "method"
 tracks/2/path = NodePath(".")
@@ -76,6 +76,20 @@ tracks/2/keys = {
 "method": "play_blinking_sound"
 } ]
 }
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = false
+tracks/3/keys = {
+"times": PoolRealArray( 3 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "revive"
+} ]
+}
 
 [sub_resource type="Animation" id=1]
 resource_name = "stil_alive_poly"
@@ -107,7 +121,7 @@ tracks/1/keys = {
 }
 
 [node name="Player" instance=ExtResource( 1 )]
-modulate = Color( 1, 1, 1, 0 )
+modulate = Color( 1, 1, 1, 0.2 )
 script = ExtResource( 3 )
 breath_alpha_adon = 0.25
 
