@@ -445,7 +445,6 @@ func cock_burst():
 			if ghost_cocking_time > ghost_cocking_time_limit:
 				
 				ghost_cocking_time = 0
-				
 				# prištejem hitrost bursta
 				burst_speed_max += burst_speed_max_addon
 				# spawnaj cock celico
@@ -454,12 +453,17 @@ func cock_burst():
 	
 func spawn_cock_ghost(cocking_direction, cocked_ghosts_count):
 	
-	# spawn ghosta pod mano
+	cocked_ghost_alpha = 0.7
+	cocked_ghost_alpha_factor = 20
+	
+	# spawn ghosta pod manom
 	var new_cock_ghost = spawn_ghost(global_position + cocking_direction * cell_size_x * cocked_ghosts_count)
+	print("new_cock_ghost", new_cock_ghost.modulate)
 	new_cock_ghost.global_position -= cocking_direction * cell_size_x/2
 	new_cock_ghost.modulate.a = cocked_ghost_alpha - (cocked_ghosts_count / cocked_ghost_alpha_factor)
 	new_cock_ghost.direction = cocking_direction
 	
+	print("new_cock_ghost", new_cock_ghost.modulate)
 	# v kateri smeri je scale
 	if direction.y == 0: # smer horiz
 		new_cock_ghost.scale.x = 0

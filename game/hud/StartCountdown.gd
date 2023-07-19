@@ -15,8 +15,8 @@ func start_countdown():
 	modulate.a = 0
 	visible = true
 	
-#	emit_signal("countdown_finished") # ... še na GM
-	animation_player.play("countdown_3")
+	emit_signal("countdown_finished") # ... še na GM
+#	animation_player.play("countdown_3")
 	
 func play_countdown_a_sound():
 	Global.sound_manager.play_sfx("countdown_a")

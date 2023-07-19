@@ -149,27 +149,27 @@ volume_db = -20.0
 
 [node name="Step1" type="AudioStreamPlayer" parent="SoundManager/Game/Stepping"]
 stream = SubResource( 18 )
-volume_db = -20.0
+volume_db = -10.0
 pitch_scale = 0.5
 
 [node name="Step2" type="AudioStreamPlayer" parent="SoundManager/Game/Stepping"]
 stream = SubResource( 19 )
-volume_db = -20.0
+volume_db = -10.0
 pitch_scale = 0.5
 
 [node name="Step3" type="AudioStreamPlayer" parent="SoundManager/Game/Stepping"]
 stream = SubResource( 20 )
-volume_db = -20.0
+volume_db = -10.0
 pitch_scale = 0.5
 
 [node name="Step4" type="AudioStreamPlayer" parent="SoundManager/Game/Stepping"]
 stream = SubResource( 21 )
-volume_db = -20.0
+volume_db = -10.0
 pitch_scale = 0.5
 
 [node name="Step5" type="AudioStreamPlayer" parent="SoundManager/Game/Stepping"]
 stream = SubResource( 22 )
-volume_db = -20.0
+volume_db = -10.0
 pitch_scale = 0.5
 
 [node name="Blinking" type="Node2D" parent="SoundManager/Game"]
@@ -307,21 +307,27 @@ volume_db = -15.0
 
 [node name="BtnFocus" type="AudioStreamPlayer" parent="SoundManager/Gui"]
 stream = ExtResource( 35 )
+volume_db = -15.0
 
 [node name="BtnConfirm" type="AudioStreamPlayer" parent="SoundManager/Gui"]
 stream = ExtResource( 9 )
+volume_db = -15.0
 
 [node name="BtnCancel" type="AudioStreamPlayer" parent="SoundManager/Gui"]
 stream = ExtResource( 10 )
+volume_db = -15.0
 
 [node name="FadeInOut" type="AudioStreamPlayer" parent="SoundManager/Gui"]
 stream = ExtResource( 46 )
+volume_db = -20.0
 
 [node name="CoundownA" type="AudioStreamPlayer" parent="SoundManager/Gui"]
 stream = ExtResource( 39 )
+volume_db = -20.0
 
 [node name="CoundownB" type="AudioStreamPlayer" parent="SoundManager/Gui"]
 stream = ExtResource( 40 )
+volume_db = -20.0
 
 [node name="LooseLife" type="AudioStreamPlayer" parent="SoundManager/Gui"]
 stream = ExtResource( 6 )
@@ -376,18 +382,21 @@ align = 0
 
 [node name="GameMusic1" type="AudioStreamPlayer" parent="SoundManager/Music"]
 stream = ExtResource( 48 )
-volume_db = -10.0
+volume_db = -15.0
 
 [node name="GameMusic2" type="AudioStreamPlayer" parent="SoundManager/Music"]
 stream = ExtResource( 50 )
-volume_db = -10.0
+volume_db = -15.0
 
 [node name="GameMusic3" type="AudioStreamPlayer" parent="SoundManager/Music"]
 stream = ExtResource( 49 )
-volume_db = -10.0
+volume_db = -15.0
 
 [node name="GameMusic4" type="AudioStreamPlayer" parent="SoundManager/Music"]
 stream = ExtResource( 47 )
+volume_db = -15.0
+
+[node name="GameMusic5" type="AudioStreamPlayer" parent="SoundManager/Music"]
 
 [connection signal="finished" from="SoundManager/Game/Skills/TeleportIn" to="SoundManager" method="_on_TeleportStart_finished"]
 [connection signal="button_up" from="SoundManager/GameSfxBtn" to="SoundManager" method="_on_GameSfxBtn_button_up"]
