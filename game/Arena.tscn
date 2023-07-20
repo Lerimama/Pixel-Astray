@@ -111,7 +111,6 @@ __meta__ = {
 
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource( 10 )
-skip_intro_allowed = true
 
 [node name="Spectrum" type="TextureRect" parent="GameManager"]
 visible = false
@@ -157,7 +156,6 @@ tile_data = PoolIntArray( -1, 1, 0, -65536, 1, 0, -65535, 1, 0, -65534, 1, 0, -6
 script = ExtResource( 3 )
 
 [node name="FloorCover" type="ColorRect" parent="Level"]
-visible = false
 margin_left = -72.0
 margin_top = -176.0
 margin_right = 2664.0
@@ -177,6 +175,7 @@ color = Color( 0, 0, 0, 1 )
 environment = ExtResource( 8 )
 
 [node name="Actor" parent="." instance=ExtResource( 5 )]
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 1392, 912 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

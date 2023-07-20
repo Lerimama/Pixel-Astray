@@ -16,7 +16,7 @@ func _ready() -> void:
 	
 
 func home_in():
-	Global.sound_manager.play_sfx("menu_music")	
+#	Global.sound_manager.play_sfx("menu_music")	
 	
 	Global.spawn_new_scene(home_scene_path, self)
 	Global.current_scene.modulate = Color.black

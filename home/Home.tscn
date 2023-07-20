@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://assets/resources/menu_environment.tres" type="Environment" id=1]
 [ext_resource path="res://home/Home.gd" type="Script" id=2]
@@ -32,6 +32,260 @@ points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 } ]
 0/z_index = 0
 
+[sub_resource type="Animation" id=143]
+resource_name = "MOJ RESET"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Settings:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -848, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("About:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 720 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SelectGame:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1280, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Credits:rect_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, -600 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Graphics:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Menu:rect_position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 449, 510 ) ]
+}
+
+[sub_resource type="Animation" id=144]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Settings:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -848, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("About:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 720 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SelectGame:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1280, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Credits:rect_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, -600 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Graphics:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Menu:rect_position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 449, 510 ) ]
+}
+
+[sub_resource type="Animation" id=137]
+resource_name = "about"
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Graphics:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -272 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Menu:rect_position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 449, 510 ), Vector2( 449, 238 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Menu:modulate:a")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("About:rect_position")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 0, 720 ), Vector2( 0, 120 ) ]
+}
+
+[sub_resource type="Animation" id=141]
+resource_name = "credits"
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Graphics:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 432 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Menu:rect_position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 449, 510 ), Vector2( 449, 942 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Menu:modulate:a")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Credits:rect_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 0, -600 ), Vector2( 0, 0 ) ]
+}
+
 [sub_resource type="Animation" id=132]
 resource_name = "main_out"
 tracks/0/type = "method"
@@ -49,6 +303,174 @@ tracks/0/keys = {
 } ]
 }
 
+[sub_resource type="Animation" id=138]
+resource_name = "play"
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Graphics:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( -848, 0 ), Vector2( -1248, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Menu:rect_position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( -399, 510 ), Vector2( -799, 510 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Menu:modulate:a")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("SelectGame:rect_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 432, 0 ), Vector2( 0, 0 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("SelectGame:modulate:a")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+
+[sub_resource type="Animation" id=142]
+resource_name = "select_game"
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Graphics:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( -848, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Menu:rect_position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 449, 510 ), Vector2( -399, 510 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Menu:modulate:a")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("SelectGame:rect_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 1280, 0 ), Vector2( 432, 0 ) ]
+}
+
+[sub_resource type="Animation" id=140]
+resource_name = "settings"
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Graphics:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 848, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Menu:rect_position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 449, 510 ), Vector2( 1297, 510 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Menu:modulate:a")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Settings:rect_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( -848, 0 ), Vector2( 0, 0 ) ]
+}
+
 [node name="Home" type="Node2D"]
 script = ExtResource( 2 )
 __meta__ = {
@@ -62,285 +484,17 @@ rect_min_size = Vector2( 1280, 720 )
 color = Color( 0, 0, 0, 1 )
 
 [node name="32PixelColors" type="Sprite" parent="."]
-position = Vector2( 544, 872 )
+position = Vector2( 2263, 1557 )
 rotation = 3.14159
 scale = Vector2( 1, -1 )
 texture = ExtResource( 5 )
 
-[node name="img" type="Node2D" parent="."]
-visible = false
-position = Vector2( 544, 464 )
-rotation = 3.14159
-scale = Vector2( 1, -1 )
-
-[node name="strejs" type="Node2D" parent="img"]
-position = Vector2( 0, 80 )
-
-[node name="PolyPixel" type="Polygon2D" parent="img/strejs"]
-position = Vector2( 384, 96 )
-color = Color( 0.52549, 0.482353, 0.933333, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel2" type="Polygon2D" parent="img/strejs"]
-position = Vector2( 512, -96 )
-color = Color( 0.815686, 0.458824, 0.627451, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel3" type="Polygon2D" parent="img/strejs"]
-position = Vector2( 480, 32 )
-color = Color( 0.996078, 0.866667, 0.478431, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel4" type="Polygon2D" parent="img/strejs"]
-position = Vector2( -96, 192 )
-color = Color( 0.341176, 0.65098, 1, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel5" type="Polygon2D" parent="img/strejs"]
-position = Vector2( 352, 0 )
-color = Color( 0.490196, 1, 0.52549, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel8" type="Polygon2D" parent="img/strejs"]
-position = Vector2( 128, -64 )
-color = Color( 0.741176, 0.996078, 0.466667, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel10" type="Polygon2D" parent="img/strejs"]
-position = Vector2( 416, -160 )
-color = Color( 0.341176, 0.65098, 1, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 12.8702, 32, 32, 0, 32 )
-
-[node name="PolyPixel11" type="Polygon2D" parent="img/strejs"]
-position = Vector2( 64, 64 )
-color = Color( 0.47451, 0.580392, 0.984314, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel12" type="Polygon2D" parent="img/strejs"]
-position = Vector2( 384, 256 )
-color = Color( 0.368627, 1, 0.662745, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel6" type="Polygon2D" parent="img/strejs"]
-position = Vector2( 256, -224 )
-color = Color( 0.647059, 0.47451, 0.772549, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel7" type="Polygon2D" parent="img/strejs"]
-position = Vector2( -32, 0 )
-color = Color( 0.494118, 0.996078, 0.752941, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel13" type="Polygon2D" parent="img/strejs"]
-position = Vector2( 576, 128 )
-color = Color( 0.341176, 0.65098, 1, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel14" type="Polygon2D" parent="img/strejs"]
-position = Vector2( 320, -128 )
-color = Color( 0.490196, 0.858824, 0.988235, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel15" type="Polygon2D" parent="img/strejs"]
-position = Vector2( 256, 64 )
-color = Color( 1, 0.6, 0.521569, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="strejs2" type="Node2D" parent="img"]
-modulate = Color( 1, 1, 1, 0.235294 )
-position = Vector2( -32, 80 )
-
-[node name="PolyPixel" type="Polygon2D" parent="img/strejs2"]
-position = Vector2( 384, 96 )
-color = Color( 0.52549, 0.482353, 0.933333, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel2" type="Polygon2D" parent="img/strejs2"]
-position = Vector2( 512, -96 )
-color = Color( 0.815686, 0.458824, 0.627451, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel3" type="Polygon2D" parent="img/strejs2"]
-position = Vector2( 480, 32 )
-color = Color( 0.996078, 0.866667, 0.478431, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel4" type="Polygon2D" parent="img/strejs2"]
-position = Vector2( -96, 192 )
-color = Color( 0.341176, 0.65098, 1, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel5" type="Polygon2D" parent="img/strejs2"]
-position = Vector2( 352, 0 )
-color = Color( 0.490196, 1, 0.52549, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel8" type="Polygon2D" parent="img/strejs2"]
-position = Vector2( 128, -64 )
-color = Color( 0.741176, 0.996078, 0.466667, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel10" type="Polygon2D" parent="img/strejs2"]
-position = Vector2( 416, -160 )
-color = Color( 0.341176, 0.65098, 1, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 12.8702, 32, 32, 0, 32 )
-
-[node name="PolyPixel11" type="Polygon2D" parent="img/strejs2"]
-position = Vector2( 96, 96 )
-color = Color( 0.47451, 0.580392, 0.984314, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel12" type="Polygon2D" parent="img/strejs2"]
-position = Vector2( 448, 256 )
-color = Color( 0.368627, 1, 0.662745, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel6" type="Polygon2D" parent="img/strejs2"]
-position = Vector2( 288, -192 )
-color = Color( 0.647059, 0.47451, 0.772549, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel7" type="Polygon2D" parent="img/strejs2"]
-position = Vector2( -32, 0 )
-color = Color( 0.494118, 0.996078, 0.752941, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel13" type="Polygon2D" parent="img/strejs2"]
-position = Vector2( 608, 160 )
-color = Color( 0.341176, 0.65098, 1, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel14" type="Polygon2D" parent="img/strejs2"]
-position = Vector2( 352, -96 )
-color = Color( 0.490196, 0.858824, 0.988235, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel15" type="Polygon2D" parent="img/strejs2"]
-position = Vector2( 256, 64 )
-color = Color( 1, 0.6, 0.521569, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="strejs3" type="Node2D" parent="img"]
-modulate = Color( 1, 1, 1, 0.0784314 )
-position = Vector2( -64, 80 )
-
-[node name="PolyPixel" type="Polygon2D" parent="img/strejs3"]
-position = Vector2( 384, 96 )
-color = Color( 0.52549, 0.482353, 0.933333, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel2" type="Polygon2D" parent="img/strejs3"]
-position = Vector2( 512, -96 )
-color = Color( 0.815686, 0.458824, 0.627451, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel3" type="Polygon2D" parent="img/strejs3"]
-position = Vector2( 480, 32 )
-color = Color( 0.996078, 0.866667, 0.478431, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel4" type="Polygon2D" parent="img/strejs3"]
-position = Vector2( -96, 192 )
-color = Color( 0.341176, 0.65098, 1, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel5" type="Polygon2D" parent="img/strejs3"]
-position = Vector2( 352, 0 )
-color = Color( 0.490196, 1, 0.52549, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel8" type="Polygon2D" parent="img/strejs3"]
-position = Vector2( 128, -64 )
-color = Color( 0.741176, 0.996078, 0.466667, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel10" type="Polygon2D" parent="img/strejs3"]
-position = Vector2( 416, -160 )
-color = Color( 0.341176, 0.65098, 1, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 12.8702, 32, 32, 0, 32 )
-
-[node name="PolyPixel11" type="Polygon2D" parent="img/strejs3"]
-position = Vector2( 128, 128 )
-color = Color( 0.47451, 0.580392, 0.984314, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel12" type="Polygon2D" parent="img/strejs3"]
-position = Vector2( 512, 256 )
-color = Color( 0.368627, 1, 0.662745, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel6" type="Polygon2D" parent="img/strejs3"]
-position = Vector2( 320, -160 )
-color = Color( 0.647059, 0.47451, 0.772549, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel7" type="Polygon2D" parent="img/strejs3"]
-position = Vector2( -32, 0 )
-color = Color( 0.494118, 0.996078, 0.752941, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel13" type="Polygon2D" parent="img/strejs3"]
-position = Vector2( 640, 192 )
-color = Color( 0.341176, 0.65098, 1, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel14" type="Polygon2D" parent="img/strejs3"]
-position = Vector2( 384, -64 )
-color = Color( 0.490196, 0.858824, 0.988235, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PolyPixel15" type="Polygon2D" parent="img/strejs3"]
-position = Vector2( 256, 64 )
-color = Color( 1, 0.6, 0.521569, 1 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PIxel" type="Polygon2D" parent="img"]
-position = Vector2( -384, 80 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PixelTail" type="Node2D" parent="img"]
-modulate = Color( 1, 1, 1, 0.470588 )
-position = Vector2( -384, 80 )
+[node name="Graphics" type="Node2D" parent="."]
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="PIxel2" type="Polygon2D" parent="img/PixelTail"]
-modulate = Color( 1, 1, 1, 0.588235 )
-position = Vector2( -32, 0 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PIxel3" type="Polygon2D" parent="img/PixelTail"]
-modulate = Color( 1, 1, 1, 0.45098 )
-position = Vector2( -64, 0 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
-
-[node name="PIxel4" type="Polygon2D" parent="img/PixelTail"]
-modulate = Color( 1, 1, 1, 0.360784 )
-position = Vector2( -96, 0 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32, 0, 18.4241 )
-
-[node name="PIxel5" type="Polygon2D" parent="img/PixelTail"]
-modulate = Color( 1, 1, 1, 0.282353 )
-position = Vector2( -128, 0 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32, 0, 18.4241 )
-
-[node name="PIxel6" type="Polygon2D" parent="img/PixelTail"]
-modulate = Color( 1, 1, 1, 0.219608 )
-position = Vector2( -160, 0 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32, 0, 18.4241 )
-
-[node name="PIxel7" type="Polygon2D" parent="img/PixelTail"]
-modulate = Color( 1, 1, 1, 0.152941 )
-position = Vector2( -192, 0 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32, 0, 18.4241 )
-
-[node name="PIxel8" type="Polygon2D" parent="img/PixelTail"]
-modulate = Color( 1, 1, 1, 0.0705882 )
-position = Vector2( -224, 0 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32, 0, 18.4241 )
-
-[node name="Title" type="Control" parent="."]
+[node name="Title" type="Control" parent="Graphics"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -350,14 +504,14 @@ margin_top = 176.0
 margin_right = 1116.0
 margin_bottom = 368.0
 
-[node name="Title1" type="TileMap" parent="Title"]
+[node name="Title1" type="TileMap" parent="Graphics/Title"]
 tile_set = SubResource( 135 )
 cell_size = Vector2( 16, 16 )
 cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 format = 1
 tile_data = PoolIntArray( 0, -1610612736, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 6, -1610612736, 0, 8, 0, 0, 12, 0, 0, 14, 0, 0, 15, -1610612736, 0, 16, 0, 0, 17, -1610612736, 0, 20, -1610612736, 0, 65536, 0, 0, 65540, -1610612736, 0, 65542, 0, 0, 65545, 0, 0, 65547, 0, 0, 65550, 0, 0, 65556, -1610612736, 0, 131072, 0, 0, 131073, -1610612736, 0, 131074, -1610612736, 0, 131075, -1610612736, 0, 131076, -1610612736, 0, 131078, -1610612736, 0, 131082, 0, 0, 131086, 0, 0, 131087, -1610612736, 0, 131088, -1610612736, 0, 131092, -1610612736, 0, 196608, 0, 0, 196614, -1610612736, 0, 196617, 0, 0, 196619, 0, 0, 196622, 0, 0, 196628, -1610612736, 0, 262144, 0, 0, 262150, -1610612736, 0, 262152, 0, 0, 262156, 0, 0, 262158, 0, 0, 262164, -1610612736, 0, 327680, -1610612736, 0, 327686, -1610612736, 0, 327688, -1610612736, 0, 327692, -1610612736, 0, 327694, -1610612736, 0, 327700, -1610612736, 0, 393216, -1610612736, 0, 393222, -1610612736, 0, 393224, -1610612736, 0, 393228, -1610612736, 0, 393230, 0, 0, 393231, -1610612736, 0, 393232, -1610612736, 0, 393233, 0, 0, 393234, 0, 0, 393236, -1610612736, 0, 393237, -1610612736, 0, 393238, -1610612736, 0, 393239, -1610612736, 0, 393240, -1610612736, 0 )
 
-[node name="Title2" type="TileMap" parent="Title"]
+[node name="Title2" type="TileMap" parent="Graphics/Title"]
 position = Vector2( 368, 64 )
 tile_set = SubResource( 135 )
 cell_size = Vector2( 16, 16 )
@@ -365,7 +519,7 @@ cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 format = 1
 tile_data = PoolIntArray( 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 7, -1610612736, 0, 8, -1610612736, 0, 9, -1610612736, 0, 12, -1610612736, 0, 13, -1610612736, 0, 14, -1610612736, 0, 15, -1610612736, 0, 16, -1610612736, 0, 18, -1610612736, 0, 19, -1610612736, 0, 20, -1610612736, 0, 21, -1610612736, 0, 25, -1610612736, 0, 26, -1610612736, 0, 27, -1610612736, 0, 30, -1610612736, 0, 34, -1610612736, 0, 65536, -1610612736, 0, 65540, -1610612736, 0, 65542, -1610612736, 0, 65550, -1610612736, 0, 65554, -1610612736, 0, 65558, -1610612736, 0, 65560, -1610612736, 0, 65564, -1610612736, 0, 65567, -1610612736, 0, 65569, -1610612736, 0, 131072, -1610612736, 0, 131073, -1610612736, 0, 131074, -1610612736, 0, 131075, -1610612736, 0, 131076, -1610612736, 0, 131078, -1610612736, 0, 131079, -1610612736, 0, 131080, -1610612736, 0, 131081, -1610612736, 0, 131086, -1610612736, 0, 131090, -1610612736, 0, 131091, -1610612736, 0, 131092, -1610612736, 0, 131093, -1610612736, 0, 131096, -1610612736, 0, 131097, -1610612736, 0, 131098, -1610612736, 0, 131099, -1610612736, 0, 131100, -1610612736, 0, 131104, -1610612736, 0, 196608, -1610612736, 0, 196612, -1610612736, 0, 196618, -1610612736, 0, 196622, -1610612736, 0, 196626, -1610612736, 0, 196630, -1610612736, 0, 196632, -1610612736, 0, 196636, -1610612736, 0, 196640, -1610612736, 0, 262144, -1610612736, 0, 262148, -1610612736, 0, 262154, -1610612736, 0, 262158, -1610612736, 0, 262162, -1610612736, 0, 262166, -1610612736, 0, 262168, -1610612736, 0, 262172, -1610612736, 0, 262176, -1610612736, 0, 327680, -1610612736, 0, 327684, -1610612736, 0, 327686, -1610612736, 0, 327690, -1610612736, 0, 327694, -1610612736, 0, 327698, -1610612736, 0, 327702, -1610612736, 0, 327704, -1610612736, 0, 327708, -1610612736, 0, 327712, -1610612736, 0, 393216, 0, 0, 393220, -1610612736, 0, 393223, -1610612736, 0, 393224, -1610612736, 0, 393225, -1610612736, 0, 393230, -1610612736, 0, 393234, -1610612736, 0, 393238, -1610612736, 0, 393240, -1610612736, 0, 393244, -1610612736, 0, 393248, -1610612736, 0 )
 
-[node name="TitlePixels" type="Control" parent="."]
+[node name="TitlePixels" type="Control" parent="Graphics"]
 modulate = Color( 1, 1, 1, 0.156863 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -376,7 +530,7 @@ margin_top = 176.0
 margin_right = 1116.0
 margin_bottom = 368.0
 
-[node name="Title" type="TileMap" parent="TitlePixels"]
+[node name="Title" type="TileMap" parent="Graphics/TitlePixels"]
 tile_set = SubResource( 135 )
 cell_size = Vector2( 16, 16 )
 cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
@@ -390,17 +544,13 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = 449.0
 margin_top = 510.0
-margin_right = 831.0
+margin_right = 831.001
 margin_bottom = 532.0
 custom_constants/separation = 32
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="PlayBtn" type="Button" parent="Menu"]
-margin_top = 1.0
 margin_right = 56.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 focus_neighbour_right = NodePath("../AboutBtn")
 focus_mode = 1
 size_flags_horizontal = 2
@@ -412,48 +562,301 @@ align = 0
 
 [node name="AboutBtn" type="Button" parent="Menu"]
 margin_left = 88.0
-margin_top = 1.0
 margin_right = 158.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 focus_neighbour_left = NodePath("../PlayBtn")
 focus_neighbour_right = NodePath("../SettingsBtn")
 focus_mode = 1
 size_flags_horizontal = 2
 size_flags_vertical = 8
 theme = ExtResource( 4 )
-disabled = true
 enabled_focus_mode = 1
 text = "ABOUT"
 
 [node name="SettingsBtn" type="Button" parent="Menu"]
 margin_left = 190.0
-margin_top = 1.0
 margin_right = 298.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 focus_neighbour_left = NodePath("../AboutBtn")
-focus_neighbour_right = NodePath("../QuitBtn")
+focus_neighbour_right = NodePath("../CreditsBtn")
 focus_mode = 1
 size_flags_horizontal = 2
 size_flags_vertical = 8
 theme = ExtResource( 4 )
-disabled = true
 enabled_focus_mode = 1
 text = "SETTINGS"
 
-[node name="QuitBtn" type="Button" parent="Menu"]
+[node name="CreditsBtn" type="Button" parent="Menu"]
 margin_left = 330.0
-margin_top = 1.0
 margin_right = 382.0
-margin_bottom = 22.0
+margin_bottom = 21.0
 focus_neighbour_left = NodePath("../SettingsBtn")
 focus_mode = 1
 size_flags_horizontal = 2
 size_flags_vertical = 8
 theme = ExtResource( 4 )
-disabled = true
 enabled_focus_mode = 1
 text = "QUIT"
 align = 2
+
+[node name="About" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 720.0
+margin_right = 1280.0
+margin_bottom = 1320.0
+rect_min_size = Vector2( 1280, 600 )
+theme = ExtResource( 4 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="BackBtn" type="Button" parent="About"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -64.0
+margin_top = 80.0
+margin_right = -24.0
+margin_bottom = 101.0
+rect_rotation = -89.9999
+text = ">>>"
+
+[node name="Text3" type="Label" parent="About"]
+margin_left = 116.0
+margin_top = 50.0
+margin_right = 406.0
+margin_bottom = 422.0
+size_flags_horizontal = 3
+text = "Each pixel represents a specific color and intensity, and together they create the images we see. The resolution of an image refers to the number of pixels it contains. Higher resolutions mean more pixels are packed into the same area, resulting in a sharper and more detailed image."
+autowrap = true
+
+[node name="Text5" type="Label" parent="About"]
+margin_left = 116.0
+margin_top = 427.0
+margin_right = 1170.0
+margin_bottom = 540.0
+size_flags_horizontal = 3
+text = "Each pixel represents a specific color and intensity, and together they create the images we see. The resolution of an image refers to the number of pixels it contains. Higher resolutions mean more pixels are packed into the same area, resulting in a sharper and more detailed image."
+autowrap = true
+
+[node name="Text4" type="Label" parent="About"]
+margin_left = 515.0
+margin_top = 39.0
+margin_right = 823.0
+margin_bottom = 472.0
+size_flags_horizontal = 3
+text = "Each pixel represents a specific color and intensity, and together they create the images we see. The resolution of an image refers to the number of pixels it contains. Higher resolutions mean more pixels are packed into the same area, resulting in a sharper and more detailed image."
+autowrap = true
+
+[node name="Text8" type="Label" parent="About"]
+margin_left = 890.0
+margin_top = 35.0
+margin_right = 1174.0
+margin_bottom = 508.0
+size_flags_horizontal = 3
+text = "Each pixel represents a specific color and intensity, and together they create the images we see. The resolution of an image refers to the number of pixels it contains. Higher resolutions mean more pixels are packed into the same area, resulting in a sharper and more detailed image."
+autowrap = true
+
+[node name="Credits" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -600.0
+margin_right = 1280.0
+rect_min_size = Vector2( 1280, 600 )
+theme = ExtResource( 4 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="BackBtn" type="Button" parent="Credits"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 64.0
+margin_top = -53.0
+margin_right = 104.0
+margin_bottom = -32.0
+rect_rotation = -89.9999
+text = ">>>"
+
+[node name="Text3" type="Label" parent="Credits"]
+margin_left = 76.0
+margin_top = 90.0
+margin_right = 454.0
+margin_bottom = 440.0
+size_flags_horizontal = 3
+text = "Each pixel represents a specific color and intensity, and together they create the images we see. The resolution of an image refers to the number of pixels it contains. Higher resolutions mean more pixels are packed into the same area, resulting in a sharper and more detailed image."
+autowrap = true
+
+[node name="Text4" type="Label" parent="Credits"]
+margin_left = 509.0
+margin_top = 87.0
+margin_right = 887.0
+margin_bottom = 437.0
+size_flags_horizontal = 3
+text = "Each pixel represents a specific color and intensity, and together they create the images we see. The resolution of an image refers to the number of pixels it contains. Higher resolutions mean more pixels are packed into the same area, resulting in a sharper and more detailed image."
+autowrap = true
+
+[node name="Text8" type="Label" parent="Credits"]
+margin_left = 876.0
+margin_top = 87.0
+margin_right = 1254.0
+margin_bottom = 437.0
+size_flags_horizontal = 3
+text = "Each pixel represents a specific color and intensity, and together they create the images we see. The resolution of an image refers to the number of pixels it contains. Higher resolutions mean more pixels are packed into the same area, resulting in a sharper and more detailed image."
+autowrap = true
+
+[node name="Text5" type="Label" parent="Credits"]
+margin_left = 135.0
+margin_top = 417.0
+margin_right = 1201.0
+margin_bottom = 539.0
+size_flags_horizontal = 3
+text = "Each pixel represents a specific color and intensity, and together they create the images we see. The resolution of an image refers to the number of pixels it contains. Higher resolutions mean more pixels are packed into the same area, resulting in a sharper and more detailed image."
+autowrap = true
+
+[node name="SelectGame" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1280.0
+margin_right = 2128.0
+margin_bottom = 720.0
+rect_min_size = Vector2( 848, 720 )
+theme = ExtResource( 4 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="BackBtn" type="Button" parent="SelectGame"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 88.0
+margin_top = -45.0
+margin_right = 128.0
+margin_bottom = -24.0
+text = ">>>"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SelectGame"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 72.0
+margin_top = 64.0
+margin_right = -60.002
+margin_bottom = 206.0
+theme = ExtResource( 4 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SelectGame/HBoxContainer"]
+margin_right = 236.0
+margin_bottom = 862.0
+size_flags_horizontal = 3
+
+[node name="SelectGame1Btn" type="Button" parent="SelectGame/HBoxContainer/VBoxContainer"]
+margin_right = 236.0
+margin_bottom = 21.0
+text = "SELECT GAME >"
+
+[node name="Text2" type="Label" parent="SelectGame/HBoxContainer/VBoxContainer"]
+margin_top = 25.0
+margin_right = 236.0
+margin_bottom = 382.0
+size_flags_horizontal = 3
+text = "Pixels, short for \"picture elements,\" are the smallest individual units of a digital image. They are tiny squares or dots that combine to form the visual content on displays such as computer screens, smartphones, cameras, and televisions."
+autowrap = true
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="SelectGame/HBoxContainer"]
+margin_left = 240.0
+margin_right = 476.0
+margin_bottom = 862.0
+size_flags_horizontal = 3
+
+[node name="SelectGame2Btn" type="Button" parent="SelectGame/HBoxContainer/VBoxContainer2"]
+margin_right = 236.0
+margin_bottom = 21.0
+text = "SELECT GAME >"
+
+[node name="Text2" type="Label" parent="SelectGame/HBoxContainer/VBoxContainer2"]
+margin_top = 25.0
+margin_right = 236.0
+margin_bottom = 454.0
+size_flags_horizontal = 3
+text = "Each pixel represents a specific color and intensity, and together they create the images we see. The resolution of an image refers to the number of pixels it contains. Higher resolutions mean more pixels are packed into the same area, resulting in a sharper and more detailed image."
+autowrap = true
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="SelectGame/HBoxContainer"]
+margin_left = 480.0
+margin_right = 716.0
+margin_bottom = 862.0
+size_flags_horizontal = 3
+
+[node name="SelectGame3Btn" type="Button" parent="SelectGame/HBoxContainer/VBoxContainer3"]
+margin_right = 236.0
+margin_bottom = 21.0
+text = "SELECT GAME >"
+
+[node name="Text2" type="Label" parent="SelectGame/HBoxContainer/VBoxContainer3"]
+margin_top = 25.0
+margin_right = 236.0
+margin_bottom = 646.0
+size_flags_horizontal = 3
+text = "Pixels are often represented using a combination of red, green, and blue (RGB) values. In RGB color mode, each pixel has three color channels: red, green, and blue, and each channel can have a value ranging from 0 to 255. By varying the intensity of each channel, different colors can be created. For example, an RGB value of (255, 0, 0) represents pure red, while (0, 255, 0) represents pure green, and (0, 0, 255) represents pure blue."
+autowrap = true
+
+[node name="Settings" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -848.0
+margin_bottom = 720.0
+rect_min_size = Vector2( 848, 720 )
+theme = ExtResource( 4 )
+
+[node name="BackBtn" type="Button" parent="Settings"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -104.0
+margin_top = -35.0
+margin_right = -64.0
+margin_bottom = -14.0
+text = "<<<"
+
+[node name="Text4" type="Label" parent="Settings"]
+margin_left = 69.0
+margin_top = 63.0
+margin_right = 447.0
+margin_bottom = 413.0
+size_flags_horizontal = 3
+text = "Each pixel represents a specific color and intensity, and together they create the images we see. The resolution of an image refers to the number of pixels it contains. Higher resolutions mean more pixels are packed into the same area, resulting in a sharper and more detailed image."
+autowrap = true
+
+[node name="Text6" type="Label" parent="Settings"]
+margin_left = 52.0
+margin_top = 376.0
+margin_right = 430.0
+margin_bottom = 726.0
+size_flags_horizontal = 3
+text = "Each pixel represents a specific color and intensity, and together they create the images we see. The resolution of an image refers to the number of pixels it contains. Higher resolutions mean more pixels are packed into the same area, resulting in a sharper and more detailed image."
+autowrap = true
+
+[node name="Text7" type="Label" parent="Settings"]
+margin_left = 433.0
+margin_top = 372.0
+margin_right = 705.0
+margin_bottom = 713.0
+size_flags_horizontal = 3
+text = "Each pixel represents a specific color and intensity, and together they create the images we see. The resolution of an image refers to the number of pixels it contains. Higher resolutions mean more pixels are packed into the same area, resulting in a sharper and more detailed image."
+autowrap = true
+
+[node name="Text8" type="Label" parent="Settings"]
+margin_left = 436.0
+margin_top = 63.0
+margin_right = 814.0
+margin_bottom = 413.0
+size_flags_horizontal = 3
+text = "Each pixel represents a specific color and intensity, and together they create the images we see. The resolution of an image refers to the number of pixels it contains. Higher resolutions mean more pixels are packed into the same area, resulting in a sharper and more detailed image."
+autowrap = true
 
 [node name="MenuEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 1 )
@@ -462,110 +865,27 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+"anims/MOJ RESET" = SubResource( 143 )
+anims/RESET = SubResource( 144 )
+anims/about = SubResource( 137 )
+anims/credits = SubResource( 141 )
 anims/main_out = SubResource( 132 )
-
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_left = 816.0
-margin_top = 816.0
-margin_right = 2016.0
-margin_bottom = 1696.0
-theme = ExtResource( 4 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
-margin_right = 236.0
-margin_bottom = 880.0
-size_flags_horizontal = 3
-
-[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer"]
-margin_right = 236.0
-margin_bottom = 21.0
-text = "SELECT GAME >"
-
-[node name="Text2" type="Label" parent="HBoxContainer/VBoxContainer"]
-margin_top = 25.0
-margin_right = 236.0
-margin_bottom = 382.0
-size_flags_horizontal = 3
-text = "Pixels, short for \"picture elements,\" are the smallest individual units of a digital image. They are tiny squares or dots that combine to form the visual content on displays such as computer screens, smartphones, cameras, and televisions."
-autowrap = true
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
-margin_left = 240.0
-margin_right = 477.0
-margin_bottom = 880.0
-size_flags_horizontal = 3
-
-[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer2"]
-margin_right = 237.0
-margin_bottom = 21.0
-text = "SELECT GAME >"
-
-[node name="Text2" type="Label" parent="HBoxContainer/VBoxContainer2"]
-margin_top = 25.0
-margin_right = 237.0
-margin_bottom = 454.0
-size_flags_horizontal = 3
-text = "Each pixel represents a specific color and intensity, and together they create the images we see. The resolution of an image refers to the number of pixels it contains. Higher resolutions mean more pixels are packed into the same area, resulting in a sharper and more detailed image."
-autowrap = true
-
-[node name="VBoxContainer3" type="VBoxContainer" parent="HBoxContainer"]
-margin_left = 481.0
-margin_right = 718.0
-margin_bottom = 880.0
-size_flags_horizontal = 3
-
-[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer3"]
-margin_right = 237.0
-margin_bottom = 21.0
-text = "SELECT GAME >"
-
-[node name="Text2" type="Label" parent="HBoxContainer/VBoxContainer3"]
-margin_top = 25.0
-margin_right = 237.0
-margin_bottom = 646.0
-size_flags_horizontal = 3
-text = "Pixels are often represented using a combination of red, green, and blue (RGB) values. In RGB color mode, each pixel has three color channels: red, green, and blue, and each channel can have a value ranging from 0 to 255. By varying the intensity of each channel, different colors can be created. For example, an RGB value of (255, 0, 0) represents pure red, while (0, 255, 0) represents pure green, and (0, 0, 255) represents pure blue."
-autowrap = true
-
-[node name="VBoxContainer4" type="VBoxContainer" parent="HBoxContainer"]
-margin_left = 722.0
-margin_right = 959.0
-margin_bottom = 880.0
-size_flags_horizontal = 3
-
-[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer4"]
-margin_right = 237.0
-margin_bottom = 21.0
-text = "SELECT GAME >"
-
-[node name="Text2" type="Label" parent="HBoxContainer/VBoxContainer4"]
-margin_top = 25.0
-margin_right = 237.0
-margin_bottom = 550.0
-size_flags_horizontal = 3
-text = "Advancements in technology have led to the development of various pixel types, such as OLED (organic light-emitting diode) and AMOLED (active-matrix organic light-emitting diode) displays, which offer improved color reproduction, contrast ratios, and power efficiency compared to traditional LCD (liquid crystal display) screens."
-autowrap = true
-
-[node name="VBoxContainer5" type="VBoxContainer" parent="HBoxContainer"]
-margin_left = 963.0
-margin_right = 1200.0
-margin_bottom = 880.0
-size_flags_horizontal = 3
-
-[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer5"]
-margin_right = 237.0
-margin_bottom = 21.0
-text = "SELECT GAME >"
-
-[node name="Text2" type="Label" parent="HBoxContainer/VBoxContainer5"]
-margin_top = 25.0
-margin_right = 237.0
-margin_bottom = 382.0
-text = "In addition to displays, pixels are also a fundamental concept in digital photography, image editing, and computer graphics. Understanding pixels and their properties is essential when working with digital images and designing visual content."
-autowrap = true
+anims/play = SubResource( 138 )
+anims/select_game = SubResource( 142 )
+anims/settings = SubResource( 140 )
 
 [connection signal="focus_exited" from="Menu/PlayBtn" to="." method="_on_PlayBtn_focus_exited"]
 [connection signal="pressed" from="Menu/PlayBtn" to="." method="_on_PlayBtn_pressed"]
+[connection signal="focus_exited" from="Menu/AboutBtn" to="." method="_on_AboutBtn_focus_exited"]
+[connection signal="pressed" from="Menu/AboutBtn" to="." method="_on_AboutBtn_pressed"]
+[connection signal="focus_exited" from="Menu/SettingsBtn" to="." method="_on_SettingsBtn_focus_exited"]
+[connection signal="pressed" from="Menu/SettingsBtn" to="." method="_on_SettingsBtn_pressed"]
+[connection signal="focus_exited" from="Menu/CreditsBtn" to="." method="_on_CreditsBtn_focus_exited"]
+[connection signal="pressed" from="Menu/CreditsBtn" to="." method="_on_CreditsBtn_pressed"]
+[connection signal="pressed" from="About/BackBtn" to="." method="_on_AboutBackBtn_pressed"]
+[connection signal="pressed" from="Credits/BackBtn" to="." method="_on_CreditsBackBtn_pressed"]
+[connection signal="pressed" from="SelectGame/BackBtn" to="." method="_on_PlayBackBtn_pressed"]
+[connection signal="pressed" from="SelectGame/HBoxContainer/VBoxContainer/SelectGame1Btn" to="." method="_on_SelectGame1Btn_pressed"]
+[connection signal="pressed" from="SelectGame/HBoxContainer/VBoxContainer2/SelectGame2Btn" to="." method="_on_SelectGame2Btn_pressed"]
+[connection signal="pressed" from="SelectGame/HBoxContainer/VBoxContainer3/SelectGame3Btn" to="." method="_on_SelectGame3Btn_pressed"]
+[connection signal="pressed" from="Settings/BackBtn" to="." method="_on_SettingsBackBtn_pressed"]
