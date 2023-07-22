@@ -1,63 +1,62 @@
-[gd_scene load_steps=71 format=2]
+[gd_scene load_steps=79 format=2]
 
-[ext_resource path="res://assets/sounds/burst/hit_stray_4.wav" type="AudioStream" id=1]
-[ext_resource path="res://Main.gd" type="Script" id=2]
+[ext_resource path="res://assets/sfx/burst/hit_stray.wav" type="AudioStream" id=1]
+[ext_resource path="res://main.gd" type="Script" id=2]
 [ext_resource path="res://DataManager.gd" type="Script" id=3]
 [ext_resource path="res://managers/sound_manager.gd" type="Script" id=4]
-[ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=5]
-[ext_resource path="res://assets/sounds/loose_life_NFF-bad-whistle.wav" type="AudioStream" id=6]
-[ext_resource path="res://assets/sounds/burst/hit_wall.wav" type="AudioStream" id=7]
-[ext_resource path="res://assets/sounds/.rezerva_ostanki/_test/NFF-toggle.wav" type="AudioStream" id=8]
-[ext_resource path="res://assets/sounds/gui/btn_confirm_NFF-home-switch-on.wav" type="AudioStream" id=9]
-[ext_resource path="res://assets/sounds/gui/btn_cancel_NFF-home-switch-off.wav" type="AudioStream" id=10]
-[ext_resource path="res://assets/sounds/burst/hit_wall_dizzy_NFF-dizzyness.wav" type="AudioStream" id=11]
-[ext_resource path="res://assets/sounds/skills/pull.wav" type="AudioStream" id=12]
-[ext_resource path="res://assets/sounds/.rezerva_ostanki/_test/push_NFF-karate-huh.wav" type="AudioStream" id=13]
-[ext_resource path="res://assets/sounds/stepping/key_3.wav" type="AudioStream" id=14]
-[ext_resource path="res://assets/sounds/stepping/key_2.wav" type="AudioStream" id=15]
-[ext_resource path="res://assets/sounds/stepping/key_1.wav" type="AudioStream" id=16]
-[ext_resource path="res://assets/sounds/stepping/key_4.wav" type="AudioStream" id=17]
-[ext_resource path="res://assets/sounds/stepping/key_5.wav" type="AudioStream" id=18]
-[ext_resource path="res://assets/sounds/blinking/blink_2.wav" type="AudioStream" id=19]
-[ext_resource path="res://assets/sounds/blinking/blink_3.wav" type="AudioStream" id=20]
-[ext_resource path="res://assets/sounds/blinking/blink_static_6.wav" type="AudioStream" id=21]
-[ext_resource path="res://assets/sounds/blinking/blink_static_2.wav" type="AudioStream" id=22]
-[ext_resource path="res://assets/sounds/blinking/blink_4.wav" type="AudioStream" id=23]
-[ext_resource path="res://assets/sounds/blinking/blink_static_3.wav" type="AudioStream" id=24]
-[ext_resource path="res://assets/sounds/blinking/blink_static_5.wav" type="AudioStream" id=25]
-[ext_resource path="res://assets/sounds/blinking/blink_static_4.wav" type="AudioStream" id=26]
-[ext_resource path="res://assets/sounds/blinking/blink_static_1.wav" type="AudioStream" id=27]
-[ext_resource path="res://assets/sounds/blinking/blink_1.wav" type="AudioStream" id=28]
-[ext_resource path="res://assets/sounds/skills/teleport_out.wav" type="AudioStream" id=29]
-[ext_resource path="res://assets/sounds/skills/teleport_in.wav" type="AudioStream" id=30]
-[ext_resource path="res://assets/sounds/skills/teleport_loop.wav" type="AudioStream" id=31]
-[ext_resource path="res://assets/sounds/burst/burst.wav" type="AudioStream" id=32]
-[ext_resource path="res://assets/sounds/burst/burst_cocking_long.wav" type="AudioStream" id=33]
-[ext_resource path="res://assets/sounds/burst/burst_cocking_loop.wav" type="AudioStream" id=34]
-[ext_resource path="res://assets/sounds/gui/btn_focus_change.wav" type="AudioStream" id=35]
-[ext_resource path="res://assets/sounds/skills/pull_stone_slide.wav" type="AudioStream" id=36]
-[ext_resource path="res://assets/sounds/gui/win_jingle_270528__littlerobotsoundfactory__jingle_win_00.wav" type="AudioStream" id=37]
-[ext_resource path="res://assets/sounds/gui/loose_jingle_GAMEOVER.wav" type="AudioStream" id=38]
-[ext_resource path="res://assets/sounds/gui/countdown-a.ogg" type="AudioStream" id=39]
-[ext_resource path="res://assets/sounds/gui/countdown-b.ogg" type="AudioStream" id=40]
-[ext_resource path="res://assets/sounds/skills/push_stone_slide.wav" type="AudioStream" id=41]
-[ext_resource path="res://assets/sounds/skills/skill_fail_NFF-feed-2.wav" type="AudioStream" id=42]
-[ext_resource path="res://assets/sounds/skills/skilled_2_NFF-bad-whistle.wav" type="AudioStream" id=43]
-[ext_resource path="res://assets/sounds/skills/skill_success_b_NFF-glocken-good.wav" type="AudioStream" id=44]
-[ext_resource path="res://assets/sounds/skills/skill_success_a_NFF-glocken-bad.wav" type="AudioStream" id=45]
-[ext_resource path="res://assets/sounds/gui/fade_in_out.wav" type="AudioStream" id=46]
-[ext_resource path="res://assets/sounds/music/Bud - 9 Minute Warm up [Thematic].mp3" type="AudioStream" id=47]
-[ext_resource path="res://assets/sounds/music/mus_tictac.wav" type="AudioStream" id=48]
-[ext_resource path="res://assets/sounds/music/mus_secret.wav" type="AudioStream" id=49]
-[ext_resource path="res://assets/sounds/music/mus_upbeat.wav" type="AudioStream" id=50]
-[ext_resource path="res://assets/sounds/music/mus_tension.wav" type="AudioStream" id=51]
-
-[sub_resource type="AudioStreamRandomPitch" id=16]
-audio_stream = ExtResource( 1 )
-random_pitch = 1.05
-
-[sub_resource type="AudioStreamRandomPitch" id=17]
-audio_stream = ExtResource( 7 )
+[ext_resource path="res://assets/sfx/gui/screen_slide.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/sfx/last_beat.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/sfx/burst/hit_wall.wav" type="AudioStream" id=7]
+[ext_resource path="res://assets/sfx/NFF-toggle.wav" type="AudioStream" id=8]
+[ext_resource path="res://assets/sfx/gui/btn_confirm_NFF-home-switch-on.wav" type="AudioStream" id=9]
+[ext_resource path="res://assets/sfx/gui/btn_cancel_NFF-home-switch-off.wav" type="AudioStream" id=10]
+[ext_resource path="res://assets/sfx/burst/hit_wall_dizzy_NFF-dizzyness.wav" type="AudioStream" id=11]
+[ext_resource path="res://assets/sfx/skills/pull.wav" type="AudioStream" id=12]
+[ext_resource path="res://assets/sfx/_obs/push_NFF-karate-huh.wav" type="AudioStream" id=13]
+[ext_resource path="res://assets/sfx/stepping/key_3.wav" type="AudioStream" id=14]
+[ext_resource path="res://assets/sfx/stepping/key_2.wav" type="AudioStream" id=15]
+[ext_resource path="res://assets/sfx/stepping/key_1.wav" type="AudioStream" id=16]
+[ext_resource path="res://assets/sfx/stepping/key_4.wav" type="AudioStream" id=17]
+[ext_resource path="res://assets/sfx/stepping/key_5.wav" type="AudioStream" id=18]
+[ext_resource path="res://assets/sfx/blinking/blink_2.wav" type="AudioStream" id=19]
+[ext_resource path="res://assets/sfx/blinking/blink_3.wav" type="AudioStream" id=20]
+[ext_resource path="res://assets/sfx/blinking/blink_static_6.wav" type="AudioStream" id=21]
+[ext_resource path="res://assets/sfx/blinking/blink_static_2.wav" type="AudioStream" id=22]
+[ext_resource path="res://assets/sfx/blinking/blink_4.wav" type="AudioStream" id=23]
+[ext_resource path="res://assets/sfx/blinking/blink_static_3.wav" type="AudioStream" id=24]
+[ext_resource path="res://assets/sfx/blinking/blink_static_5.wav" type="AudioStream" id=25]
+[ext_resource path="res://assets/sfx/blinking/blink_static_4.wav" type="AudioStream" id=26]
+[ext_resource path="res://assets/sfx/blinking/blink_static_1.wav" type="AudioStream" id=27]
+[ext_resource path="res://assets/sfx/blinking/blink_1.wav" type="AudioStream" id=28]
+[ext_resource path="res://assets/sfx/skills/teleport_out.wav" type="AudioStream" id=29]
+[ext_resource path="res://assets/sfx/skills/teleport_in.wav" type="AudioStream" id=30]
+[ext_resource path="res://assets/sfx/skills/teleport_loop.wav" type="AudioStream" id=31]
+[ext_resource path="res://assets/sfx/burst/burst.wav" type="AudioStream" id=32]
+[ext_resource path="res://assets/sfx/burst/burst_cocking.wav" type="AudioStream" id=33]
+[ext_resource path="res://assets/sfx/_obs/burst_cocking_loop.wav" type="AudioStream" id=34]
+[ext_resource path="res://assets/sfx/gui/btn_focus_change.wav" type="AudioStream" id=35]
+[ext_resource path="res://assets/sfx/skills/pull_stone_slide.wav" type="AudioStream" id=36]
+[ext_resource path="res://assets/sfx/events/win_jingle_270528__littlerobotsoundfactory__jingle_win_00.wav" type="AudioStream" id=37]
+[ext_resource path="res://assets/sfx/events/loose_jingle_GAMEOVER.wav" type="AudioStream" id=38]
+[ext_resource path="res://assets/sfx/events/countdown-a.ogg" type="AudioStream" id=39]
+[ext_resource path="res://assets/sfx/events/countdown-b.ogg" type="AudioStream" id=40]
+[ext_resource path="res://assets/sfx/skills/push_stone_slide.wav" type="AudioStream" id=41]
+[ext_resource path="res://assets/sfx/skill_fail_NFF-feed-2.wav" type="AudioStream" id=42]
+[ext_resource path="res://assets/sfx/skills/skilled_2_NFF-bad-whistle.wav" type="AudioStream" id=43]
+[ext_resource path="res://assets/sfx/skill_success_b_NFF-glocken-good.wav" type="AudioStream" id=44]
+[ext_resource path="res://assets/sfx/skill_success_a_NFF-glocken-bad.wav" type="AudioStream" id=45]
+[ext_resource path="res://assets/sfx/gui/menu_fade.wav" type="AudioStream" id=46]
+[ext_resource path="res://assets/music/Bud - 9 Minute Warm up [Thematic].mp3" type="AudioStream" id=47]
+[ext_resource path="res://assets/music/mus_tictac.wav" type="AudioStream" id=48]
+[ext_resource path="res://assets/music/mus_secret.wav" type="AudioStream" id=49]
+[ext_resource path="res://assets/music/mus_upbeat.wav" type="AudioStream" id=50]
+[ext_resource path="res://assets/music/mus_tension.wav" type="AudioStream" id=51]
+[ext_resource path="res://assets/sfx/events/cheers_people.wav" type="AudioStream" id=52]
+[ext_resource path="res://assets/sfx/burst/burst_laser_NFF-laser-gun.wav" type="AudioStream" id=53]
+[ext_resource path="res://assets/music/Ludum Dare 28 - Track 1_loop.wav" type="AudioStream" id=57]
+[ext_resource path="res://assets/music/Ludum Dare 38 - Track 4_loop.wav" type="AudioStream" id=58]
+[ext_resource path="res://assets/music/Ludum Dare 30 - Track 9_loop.wav" type="AudioStream" id=59]
+[ext_resource path="res://assets/music/Patreon Goal Reward Loops - Track 08_loop.wav" type="AudioStream" id=61]
 
 [sub_resource type="AudioStreamRandomPitch" id=18]
 audio_stream = ExtResource( 16 )
@@ -106,6 +105,19 @@ audio_stream = ExtResource( 25 )
 [sub_resource type="AudioStreamRandomPitch" id=11]
 audio_stream = ExtResource( 21 )
 
+[sub_resource type="AudioStreamRandomPitch" id=25]
+audio_stream = ExtResource( 53 )
+
+[sub_resource type="AudioStreamRandomPitch" id=24]
+audio_stream = ExtResource( 32 )
+random_pitch = 1.05
+
+[sub_resource type="AudioStreamRandomPitch" id=16]
+audio_stream = ExtResource( 1 )
+
+[sub_resource type="AudioStreamRandomPitch" id=17]
+audio_stream = ExtResource( 7 )
+
 [sub_resource type="AudioStreamRandomPitch" id=1]
 audio_stream = ExtResource( 12 )
 random_pitch = 1.2
@@ -120,8 +132,6 @@ script = ExtResource( 2 )
 [node name="DataManager" type="Node" parent="."]
 script = ExtResource( 3 )
 
-[node name="SoundManager_old" type="Node" parent="."]
-
 [node name="Undi" type="ColorRect" parent="."]
 margin_right = 1280.0
 margin_bottom = 720.0
@@ -131,274 +141,258 @@ color = Color( 0, 0, 0, 1 )
 pause_mode = 2
 script = ExtResource( 4 )
 
-[node name="Game" type="Node2D" parent="SoundManager"]
+[node name="GameSfx" type="Node2D" parent="SoundManager"]
 
-[node name="HitStray" type="AudioStreamPlayer" parent="SoundManager/Game"]
-stream = SubResource( 16 )
+[node name="Stepping" type="Node2D" parent="SoundManager/GameSfx"]
 
-[node name="HitWall" type="AudioStreamPlayer" parent="SoundManager/Game"]
-stream = SubResource( 17 )
-volume_db = 2.364
-pitch_scale = 1.2
-
-[node name="HitDizzy" type="AudioStreamPlayer" parent="SoundManager/Game"]
-stream = ExtResource( 11 )
-volume_db = -20.0
-
-[node name="Stepping" type="Node2D" parent="SoundManager/Game"]
-
-[node name="Step1" type="AudioStreamPlayer" parent="SoundManager/Game/Stepping"]
+[node name="Step1" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Stepping"]
 stream = SubResource( 18 )
-volume_db = -10.0
-pitch_scale = 0.5
+volume_db = -15.0
+pitch_scale = 0.6
 
-[node name="Step2" type="AudioStreamPlayer" parent="SoundManager/Game/Stepping"]
+[node name="Step2" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Stepping"]
 stream = SubResource( 19 )
-volume_db = -10.0
-pitch_scale = 0.5
+volume_db = -15.0
+pitch_scale = 0.6
 
-[node name="Step3" type="AudioStreamPlayer" parent="SoundManager/Game/Stepping"]
+[node name="Step3" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Stepping"]
 stream = SubResource( 20 )
-volume_db = -10.0
-pitch_scale = 0.5
+volume_db = -15.0
+pitch_scale = 0.6
 
-[node name="Step4" type="AudioStreamPlayer" parent="SoundManager/Game/Stepping"]
+[node name="Step4" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Stepping"]
 stream = SubResource( 21 )
-volume_db = -10.0
-pitch_scale = 0.5
+volume_db = -15.0
+pitch_scale = 0.6
 
-[node name="Step5" type="AudioStreamPlayer" parent="SoundManager/Game/Stepping"]
+[node name="Step5" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Stepping"]
 stream = SubResource( 22 )
-volume_db = -10.0
-pitch_scale = 0.5
+volume_db = -15.0
+pitch_scale = 0.6
 
-[node name="Blinking" type="Node2D" parent="SoundManager/Game"]
+[node name="Blinking" type="Node2D" parent="SoundManager/GameSfx"]
 
-[node name="Blink1" type="AudioStreamPlayer" parent="SoundManager/Game/Blinking"]
+[node name="Blink1" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Blinking"]
 stream = SubResource( 12 )
 volume_db = -10.0
 
-[node name="Blink2" type="AudioStreamPlayer" parent="SoundManager/Game/Blinking"]
+[node name="Blink2" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Blinking"]
 stream = SubResource( 13 )
 volume_db = -10.0
 
-[node name="Blink3" type="AudioStreamPlayer" parent="SoundManager/Game/Blinking"]
+[node name="Blink3" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Blinking"]
 stream = SubResource( 14 )
 volume_db = -10.0
 
-[node name="Blink4" type="AudioStreamPlayer" parent="SoundManager/Game/Blinking"]
+[node name="Blink4" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Blinking"]
 stream = SubResource( 15 )
 volume_db = -10.0
 
-[node name="Blink5_mute" type="AudioStreamPlayer" parent="SoundManager/Game/Blinking"]
+[node name="Blink5_mute" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Blinking"]
 stream = SubResource( 15 )
 volume_db = -80.0
 
-[node name="Blink6_mute" type="AudioStreamPlayer" parent="SoundManager/Game/Blinking"]
+[node name="Blink6_mute" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Blinking"]
 stream = SubResource( 15 )
 volume_db = -80.0
 
-[node name="BlinkingStatic" type="Node2D" parent="SoundManager/Game"]
+[node name="BlinkingStatic" type="Node2D" parent="SoundManager/GameSfx"]
 
-[node name="BlinkStatic1" type="AudioStreamPlayer" parent="SoundManager/Game/BlinkingStatic"]
+[node name="BlinkStatic1" type="AudioStreamPlayer" parent="SoundManager/GameSfx/BlinkingStatic"]
 stream = SubResource( 6 )
 
-[node name="BlinkStatic2" type="AudioStreamPlayer" parent="SoundManager/Game/BlinkingStatic"]
+[node name="BlinkStatic2" type="AudioStreamPlayer" parent="SoundManager/GameSfx/BlinkingStatic"]
 stream = SubResource( 7 )
 
-[node name="BlinkStatic3" type="AudioStreamPlayer" parent="SoundManager/Game/BlinkingStatic"]
+[node name="BlinkStatic3" type="AudioStreamPlayer" parent="SoundManager/GameSfx/BlinkingStatic"]
 stream = SubResource( 8 )
 
-[node name="BlinkStatic4" type="AudioStreamPlayer" parent="SoundManager/Game/BlinkingStatic"]
+[node name="BlinkStatic4" type="AudioStreamPlayer" parent="SoundManager/GameSfx/BlinkingStatic"]
 stream = SubResource( 9 )
 
-[node name="BlinkStatic5" type="AudioStreamPlayer" parent="SoundManager/Game/BlinkingStatic"]
+[node name="BlinkStatic5" type="AudioStreamPlayer" parent="SoundManager/GameSfx/BlinkingStatic"]
 stream = SubResource( 10 )
 
-[node name="BlinkStatic6" type="AudioStreamPlayer" parent="SoundManager/Game/BlinkingStatic"]
+[node name="BlinkStatic6" type="AudioStreamPlayer" parent="SoundManager/GameSfx/BlinkingStatic"]
 stream = SubResource( 11 )
 
-[node name="Burst" type="Node2D" parent="SoundManager/Game"]
+[node name="Burst" type="Node2D" parent="SoundManager/GameSfx"]
 
-[node name="Burst" type="AudioStreamPlayer" parent="SoundManager/Game/Burst"]
-stream = ExtResource( 32 )
-volume_db = -11.243
-pitch_scale = 1.22
+[node name="BurstLaser" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Burst"]
+stream = SubResource( 25 )
+volume_db = -20.0
 
-[node name="BurstCocked" type="AudioStreamPlayer" parent="SoundManager/Game/Burst"]
+[node name="Burst" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Burst"]
+stream = SubResource( 24 )
+volume_db = -15.0
 
-[node name="BurstCocking" type="AudioStreamPlayer" parent="SoundManager/Game/Burst"]
+[node name="BurstCocking" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Burst"]
 stream = ExtResource( 33 )
+volume_db = -15.0
+pitch_scale = 0.9
+
+[node name="HitStray" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Burst"]
+stream = SubResource( 16 )
 volume_db = -10.0
-pitch_scale = 1.2
 
-[node name="BurstCockingLoop" type="AudioStreamPlayer" parent="SoundManager/Game/Burst"]
-stream = ExtResource( 34 )
+[node name="HitWall" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Burst"]
+stream = SubResource( 17 )
+volume_db = -5.0
+pitch_scale = 1.1
 
-[node name="BurstLimit" type="AudioStreamPlayer" parent="SoundManager/Game/Burst"]
-stream = ExtResource( 13 )
+[node name="HitDizzy" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Burst"]
+stream = ExtResource( 11 )
+volume_db = -25.0
 
-[node name="Jingles" type="Node2D" parent="SoundManager/Game"]
+[node name="Events" type="Node2D" parent="SoundManager/GameSfx"]
 
-[node name="WinJingle" type="AudioStreamPlayer" parent="SoundManager/Game/Jingles"]
+[node name="Win" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Events"]
 stream = ExtResource( 37 )
+volume_db = -10.0
 
-[node name="LooseJingle" type="AudioStreamPlayer" parent="SoundManager/Game/Jingles"]
+[node name="Loose" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Events"]
 stream = ExtResource( 38 )
 
-[node name="Music" type="Node2D" parent="SoundManager/Game"]
+[node name="CoundownA" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Events"]
+stream = ExtResource( 39 )
+volume_db = -20.0
 
-[node name="Skills" type="Node2D" parent="SoundManager/Game"]
+[node name="CoundownB" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Events"]
+stream = ExtResource( 40 )
+volume_db = -20.0
 
-[node name="TeleportLoop" type="AudioStreamPlayer" parent="SoundManager/Game/Skills"]
+[node name="RecordCheers" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Events"]
+stream = ExtResource( 52 )
+
+[node name="Skills" type="Node2D" parent="SoundManager/GameSfx"]
+
+[node name="TeleportLoop" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
 stream = ExtResource( 31 )
 volume_db = -10.0
 
-[node name="TeleportIn" type="AudioStreamPlayer" parent="SoundManager/Game/Skills"]
+[node name="TeleportIn" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
 stream = ExtResource( 30 )
 volume_db = -10.0
 
-[node name="TeleportOut" type="AudioStreamPlayer" parent="SoundManager/Game/Skills"]
+[node name="TeleportOut" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
 stream = ExtResource( 29 )
 volume_db = -10.0
 
-[node name="Pull" type="AudioStreamPlayer" parent="SoundManager/Game/Skills"]
+[node name="Pull" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
 stream = SubResource( 1 )
 volume_db = -5.0
 
-[node name="Pulled" type="AudioStreamPlayer" parent="SoundManager/Game/Skills"]
+[node name="Pulled" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
 stream = SubResource( 1 )
 volume_db = -5.0
 pitch_scale = 0.7
 
-[node name="Push" type="AudioStreamPlayer" parent="SoundManager/Game/Skills"]
+[node name="Push" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
 stream = ExtResource( 13 )
 volume_db = -5.0
 
-[node name="Pushed" type="AudioStreamPlayer" parent="SoundManager/Game/Skills"]
+[node name="Pushed" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
 stream = ExtResource( 8 )
 volume_db = -5.0
 
-[node name="Skilled" type="AudioStreamPlayer" parent="SoundManager/Game/Skills"]
+[node name="Skilled" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
 stream = SubResource( 23 )
 volume_db = -18.0
 
-[node name="SkillSuccessA" type="AudioStreamPlayer" parent="SoundManager/Game/Skills"]
+[node name="SkillSuccessA" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
 stream = ExtResource( 45 )
 volume_db = -20.0
 pitch_scale = 1.1
 
-[node name="SkillSuccessB" type="AudioStreamPlayer" parent="SoundManager/Game/Skills"]
+[node name="SkillSuccessB" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
 stream = ExtResource( 44 )
 volume_db = -20.0
 pitch_scale = 1.1
 
-[node name="PullStoneSlide" type="AudioStreamPlayer" parent="SoundManager/Game/Skills"]
+[node name="PullStoneSlide" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
 stream = ExtResource( 36 )
 
-[node name="PushStoneSlide" type="AudioStreamPlayer" parent="SoundManager/Game/Skills"]
+[node name="PushStoneSlide" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
 stream = ExtResource( 41 )
 
-[node name="SkillFail" type="AudioStreamPlayer" parent="SoundManager/Game/Skills"]
+[node name="SkillFail" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
 stream = ExtResource( 42 )
 volume_db = -15.0
 
-[node name="Gui" type="Node2D" parent="SoundManager"]
-
-[node name="BtnFocus" type="AudioStreamPlayer" parent="SoundManager/Gui"]
-stream = ExtResource( 35 )
-volume_db = -15.0
-
-[node name="BtnConfirm" type="AudioStreamPlayer" parent="SoundManager/Gui"]
-stream = ExtResource( 9 )
-volume_db = -15.0
-
-[node name="BtnCancel" type="AudioStreamPlayer" parent="SoundManager/Gui"]
-stream = ExtResource( 10 )
-volume_db = -15.0
-
-[node name="FadeInOut" type="AudioStreamPlayer" parent="SoundManager/Gui"]
-stream = ExtResource( 46 )
-volume_db = -20.0
-
-[node name="CoundownA" type="AudioStreamPlayer" parent="SoundManager/Gui"]
-stream = ExtResource( 39 )
-volume_db = -20.0
-
-[node name="CoundownB" type="AudioStreamPlayer" parent="SoundManager/Gui"]
-stream = ExtResource( 40 )
-volume_db = -20.0
-
-[node name="LooseLife" type="AudioStreamPlayer" parent="SoundManager/Gui"]
+[node name="LastBeat" type="AudioStreamPlayer" parent="SoundManager/GameSfx"]
 stream = ExtResource( 6 )
 volume_db = -10.0
+pitch_scale = 1.1
 
-[node name="MenuMusic" type="AudioStreamPlayer" parent="SoundManager/Gui"]
-stream = ExtResource( 51 )
+[node name="GuiSfx" type="Node2D" parent="SoundManager"]
 
-[node name="GameSfxBtn" type="Button" parent="SoundManager"]
-visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 519.0
-margin_top = 318.0
-margin_right = 715.0
-margin_bottom = 339.0
-theme = ExtResource( 5 )
-text = "NEXT GAME SFX >"
-align = 0
+[node name="BtnFocus" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
+stream = ExtResource( 35 )
+volume_db = -20.0
 
-[node name="GuiSfxBtn" type="Button" parent="SoundManager"]
-visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 519.0
-margin_top = 350.0
-margin_right = 719.0
-margin_bottom = 371.0
-theme = ExtResource( 5 )
-text = "NEXT GUI SFX >"
-align = 0
+[node name="BtnConfirm" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
+stream = ExtResource( 9 )
+volume_db = -20.0
 
-[node name="ResetCountBtn" type="Button" parent="SoundManager"]
-visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 519.0
-margin_top = 382.0
-margin_right = 719.0
-margin_bottom = 403.0
-theme = ExtResource( 5 )
-text = "reset count"
-align = 0
+[node name="BtnCancel" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
+stream = ExtResource( 10 )
+volume_db = -20.0
+
+[node name="MenuFade" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
+stream = ExtResource( 46 )
+volume_db = -10.0
+
+[node name="ScreenSlide" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
+stream = ExtResource( 5 )
+pitch_scale = 1.2
 
 [node name="Music" type="Node2D" parent="SoundManager"]
 
-[node name="GameMusic1" type="AudioStreamPlayer" parent="SoundManager/Music"]
+[node name="MenuMusic" type="Node2D" parent="SoundManager/Music"]
+
+[node name="WarmUpShort" type="AudioStreamPlayer" parent="SoundManager/Music/MenuMusic"]
+stream = ExtResource( 51 )
+
+[node name="GameMusic" type="Node2D" parent="SoundManager/Music"]
+
+[node name="Music1" type="AudioStreamPlayer" parent="SoundManager/Music/GameMusic"]
+stream = ExtResource( 57 )
+volume_db = -17.0
+
+[node name="Music2" type="AudioStreamPlayer" parent="SoundManager/Music/GameMusic"]
+stream = ExtResource( 59 )
+volume_db = -15.0
+
+[node name="Music3" type="AudioStreamPlayer" parent="SoundManager/Music/GameMusic"]
+stream = ExtResource( 58 )
+volume_db = -18.0
+
+[node name="Music4" type="AudioStreamPlayer" parent="SoundManager/Music/GameMusic"]
+stream = ExtResource( 61 )
+volume_db = -15.0
+
+[node name="Music5" type="AudioStreamPlayer" parent="SoundManager/Music/GameMusic"]
 stream = ExtResource( 48 )
-volume_db = -15.0
+volume_db = -17.0
 
-[node name="GameMusic2" type="AudioStreamPlayer" parent="SoundManager/Music"]
+[node name="Music6" type="AudioStreamPlayer" parent="SoundManager/Music/GameMusic"]
 stream = ExtResource( 50 )
-volume_db = -15.0
+volume_db = -18.0
 
-[node name="GameMusic3" type="AudioStreamPlayer" parent="SoundManager/Music"]
+[node name="Music7" type="AudioStreamPlayer" parent="SoundManager/Music/GameMusic"]
 stream = ExtResource( 49 )
-volume_db = -15.0
+volume_db = -18.0
 
-[node name="GameMusic4" type="AudioStreamPlayer" parent="SoundManager/Music"]
+[node name="Music8" type="AudioStreamPlayer" parent="SoundManager/Music/GameMusic"]
 stream = ExtResource( 47 )
 volume_db = -15.0
 
-[node name="GameMusic5" type="AudioStreamPlayer" parent="SoundManager/Music"]
+[node name="BurstCocked_" type="AudioStreamPlayer" parent="SoundManager"]
 
-[connection signal="finished" from="SoundManager/Game/Skills/TeleportIn" to="SoundManager" method="_on_TeleportStart_finished"]
-[connection signal="button_up" from="SoundManager/GameSfxBtn" to="SoundManager" method="_on_GameSfxBtn_button_up"]
-[connection signal="button_up" from="SoundManager/GuiSfxBtn" to="SoundManager" method="_on_GuiSfxBtn_button_up"]
-[connection signal="pressed" from="SoundManager/ResetCountBtn" to="SoundManager" method="_on_ResetCountBtn_pressed"]
+[node name="BurstCockingLoop" type="AudioStreamPlayer" parent="SoundManager"]
+stream = ExtResource( 34 )
+
+[node name="BurstLimit" type="AudioStreamPlayer" parent="SoundManager"]
+stream = ExtResource( 13 )
+
+[connection signal="finished" from="SoundManager/GameSfx/Skills/TeleportIn" to="SoundManager" method="_on_TeleportStart_finished"]

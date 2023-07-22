@@ -43,7 +43,7 @@ var default_level_highscores: Dictionary = {
 var default_player_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
 	"player_name" : "Moe", # to ime se piše v HS procesu
 	"player_active" : false, # zaenkrat ga v aktivnega setaš na pixlov ready
-	"player_life" : 2,
+	"player_life" : 3,
 	"player_points": 0,
 	"player_energy" : 172, # max, da se lepo ujema s pixli
 #	"player_energy" : 5, # max, da se lepo ujema s pixli
@@ -55,6 +55,8 @@ var default_player_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
 var default_level_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
 	"level_no" : 88,
 	"game_time" : 120, # sekund
+	"game_time_limit" : 90, # sekund
+	"death_mode_limit" : 10, # sekund
 	"stray_pixels_count" : 32,
 	"off_pixels_count" : 0,
 	"highscore": 0000, # se naloži ob štartu igre, zato, da te lahko opozori že med igro

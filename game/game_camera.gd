@@ -102,9 +102,10 @@ var viewport_game_h: float = 608
 
 #hud
 onready var hud_line_tl: HBoxContainer = $"%HudLine_TL"
-onready var game_time: HBoxContainer = $"%GameTime"
+#onready var game_time: HBoxContainer = $"%GameTime"
 onready var highscore: Label = $"%Highscore"
 onready var level: Label = $"%Level"
+onready var game_timer: HBoxContainer = $"%GameTimer"
 
 onready var picked_color: Control = $"%PickedColor"
 onready var color_spectrum_lite: VBoxContainer = $"%ColorSpectrumLite"
@@ -121,7 +122,7 @@ func zoom_in():
 	
 	# set hud poze
 	hud_line_tl.rect_position.y -= view_heder_game_h
-	game_time.rect_position.y -= view_heder_game_h
+	game_timer.rect_position.y -= view_heder_game_h
 	highscore.rect_position.y -= view_heder_game_h
 	level.rect_position.y -= view_heder_game_h
 	picked_color.rect_position.y += view_futer_game_h
@@ -150,7 +151,7 @@ func go_widescreen():
 	widescreen_tween.parallel().tween_property(self, "zoom", final_zoom, 2).set_ease(Tween.EASE_IN_OUT)
 	# hud staf
 	widescreen_tween.parallel().tween_property(hud_line_tl, "rect_position:y", hud_line_tl.rect_position.y + view_heder_game_h, 2)
-	widescreen_tween.parallel().tween_property(game_time, "rect_position:y", game_time.rect_position.y + view_heder_game_h, 2)
+	widescreen_tween.parallel().tween_property(game_timer, "rect_position:y", game_timer.rect_position.y + view_heder_game_h, 2)
 	widescreen_tween.parallel().tween_property(highscore, "rect_position:y", highscore.rect_position.y + view_heder_game_h, 2)
 	widescreen_tween.parallel().tween_property(level, "rect_position:y", level.rect_position.y + view_heder_game_h, 2)
 	widescreen_tween.parallel().tween_property(picked_color, "rect_position:y", picked_color.rect_position.y - view_futer_game_h, 2)
@@ -171,7 +172,7 @@ func zoom_out():
 	widescreen_tween.parallel().tween_property(self, "zoom", final_zoom, 2)
 	# hud staf
 	widescreen_tween.parallel().tween_property(hud_line_tl, "rect_position:y", hud_line_tl.rect_position.y - view_heder_game_h, 2)
-	widescreen_tween.parallel().tween_property(game_time, "rect_position:y", game_time.rect_position.y - view_heder_game_h, 2).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	widescreen_tween.parallel().tween_property(game_timer, "rect_position:y", game_timer.rect_position.y - view_heder_game_h, 2).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	widescreen_tween.parallel().tween_property(highscore, "rect_position:y", highscore.rect_position.y - view_heder_game_h, 2)
 	widescreen_tween.parallel().tween_property(level, "rect_position:y", level.rect_position.y - view_heder_game_h, 2)
 	widescreen_tween.parallel().tween_property(picked_color, "rect_position:y", picked_color.rect_position.y + view_futer_game_h, 2)

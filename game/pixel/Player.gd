@@ -37,7 +37,7 @@ var cocked_ghost_count_max: int = 7
 var cocked_ghost_alpha: float = 0.3
 var cocked_ghost_alpha_factor: float = 25
 var ghost_cocking_time: float = 0 # trenuten čas nastajanja cocking ghosta
-var ghost_cocking_time_limit: float = 0.16 # max čas nastajanja cocking ghosta (tudi animacija)
+var ghost_cocking_time_limit: float = 0.12 # max čas nastajanja cocking ghosta (tudi animacija)
 var cocked_ghost_fill_time: float = 0.04 # čas za napolnitev vseh spawnanih ghostov (tik pred burstom)
 var cocked_pause_time: float = 0.05 # čas za napolnitev vseh spawnanih ghostov (tik pred burstom)
 
@@ -120,12 +120,17 @@ func _physics_process(delta: float) -> void:
 	if player_energy == 1 and not last_breath_on: 
 		last_breath_timer.start(last_breath_time)
 		last_breath_on = true
-		print("prvi zadnji dih")
+		Global.sound_manager.play_sfx("last_breath")
+		
 	elif player_energy == 1:
 		modulate = Global.color_red
+		
 	elif player_energy > 1:
 		last_breath_on = false
 		last_breath_timer.stop()
+		Global.sound_manager.stop_sfx("last_breath")
+		
+	
 #		modulate = pixel_color
 			
 		
@@ -358,6 +363,7 @@ func skill_inputs():
 func die():
 	
 	end_move()
+	Global.sound_manager.stop_sfx("last_breath")
 	
 	emit_signal("stat_changed", self, "player_life", -1)
 	Global.main_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
@@ -453,8 +459,8 @@ func cock_burst():
 	
 func spawn_cock_ghost(cocking_direction, cocked_ghosts_count):
 	
-	cocked_ghost_alpha = 0.7
-	cocked_ghost_alpha_factor = 20
+#	cocked_ghost_alpha = 0.7
+#	cocked_ghost_alpha_factor = 20
 	
 	# spawn ghosta pod manom
 	var new_cock_ghost = spawn_ghost(global_position + cocking_direction * cell_size_x * cocked_ghosts_count)

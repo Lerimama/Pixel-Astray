@@ -1,6 +1,7 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=44 format=2]
 
-[ext_resource path="res://game/gui/GameOver.gd" type="Script" id=2]
+[ext_resource path="res://assets/resources/arena_environment.tres" type="Environment" id=1]
+[ext_resource path="res://game/gui/game_over.gd" type="Script" id=2]
 [ext_resource path="res://assets/resources/gamecam_noise.tres" type="OpenSimplexNoise" id=3]
 [ext_resource path="res://assets/theme/fonts/16bfZX.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=5]
@@ -9,19 +10,20 @@
 [ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=8]
 [ext_resource path="res://assets/tileset_hud_icons.png" type="Texture" id=9]
 [ext_resource path="res://assets/resources/graphics_tileset.tres" type="TileSet" id=10]
+[ext_resource path="res://game/hud/hud_game_timer.gd" type="Script" id=11]
 [ext_resource path="res://game/Arena.tscn" type="PackedScene" id=12]
-[ext_resource path="res://game/gui/PauseMenu.gd" type="Script" id=13]
-[ext_resource path="res://game/hud/HudLifeIcons.gd" type="Script" id=14]
+[ext_resource path="res://game/gui/pause_menu.gd" type="Script" id=13]
+[ext_resource path="res://game/hud/hud_life_icons.gd" type="Script" id=14]
 [ext_resource path="res://game/game.gd" type="Script" id=15]
-[ext_resource path="res://game/hud/Hud.gd" type="Script" id=16]
-[ext_resource path="res://game/hud/HudGameTime.gd" type="Script" id=17]
+[ext_resource path="res://game/hud/hud.gd" type="Script" id=16]
 [ext_resource path="res://game/game_camera.gd" type="Script" id=18]
-[ext_resource path="res://game/gui/HighscoreTable.gd" type="Script" id=19]
-[ext_resource path="res://game/hud/HudEnergyBar.gd" type="Script" id=20]
+[ext_resource path="res://game/gui/highscore_table.gd" type="Script" id=19]
+[ext_resource path="res://game/hud/hud energy_bar.gd" type="Script" id=20]
 [ext_resource path="res://game/hud/StartCountdown.gd" type="Script" id=21]
 [ext_resource path="res://assets/tiles/tile_title.png" type="Texture" id=22]
 
 [sub_resource type="World" id=117]
+environment = ExtResource( 1 )
 
 [sub_resource type="NoiseTexture" id=1]
 width = 246
@@ -32,9 +34,12 @@ noise = ExtResource( 3 )
 atlas = ExtResource( 9 )
 region = Rect2( 0, 0, 16, 16 )
 
+[sub_resource type="StreamTexture" id=144]
+load_path = "res://.import/tileset_hud_icons.png-be9f67bfe9cd2fc31c012c696d1f0b84.stex"
+
 [sub_resource type="AtlasTexture" id=123]
-atlas = ExtResource( 9 )
-region = Rect2( 0, 16, 16, 16 )
+atlas = SubResource( 144 )
+region = Rect2( 0, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=125]
 atlas = ExtResource( 9 )
@@ -59,6 +64,14 @@ region = Rect2( 64, 32, 16, 16 )
 [sub_resource type="AtlasTexture" id=130]
 atlas = ExtResource( 9 )
 region = Rect2( 64, 16, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=145]
+atlas = SubResource( 144 )
+region = Rect2( 0, 80, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=146]
+atlas = SubResource( 144 )
+region = Rect2( 16, 80, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=128]
 atlas = ExtResource( 9 )
@@ -794,6 +807,29 @@ margin_bottom = 720.0
 rect_min_size = Vector2( 1280, 48 )
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
+[node name="Life" type="Label" parent="GUI/Hud"]
+unique_name_in_owner = true
+margin_left = 32.0
+margin_top = 65.0
+margin_right = 114.0
+margin_bottom = 86.0
+text = "LIFE: 0"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Energy" type="Label" parent="GUI/Hud"]
+margin_left = 128.0
+margin_top = 65.0
+margin_right = 221.0
+margin_bottom = 86.0
+text = "E: 0000"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
 [node name="HudLine_TL" type="HBoxContainer" parent="GUI/Hud"]
 unique_name_in_owner = true
 margin_left = 31.0
@@ -980,7 +1016,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="GameTime" type="HBoxContainer" parent="GUI/Hud"]
+[node name="GameTimer" type="HBoxContainer" parent="GUI/Hud"]
 unique_name_in_owner = true
 anchor_left = 0.5
 anchor_right = 0.5
@@ -989,12 +1025,12 @@ margin_top = 16.0
 margin_right = 36.0
 margin_bottom = 38.0
 theme = ExtResource( 8 )
-script = ExtResource( 17 )
+script = ExtResource( 11 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Mins" type="Label" parent="GUI/Hud/GameTime"]
+[node name="Mins" type="Label" parent="GUI/Hud/GameTimer"]
 margin_top = 1.0
 margin_right = 28.0
 margin_bottom = 22.0
@@ -1002,7 +1038,7 @@ size_flags_vertical = 8
 text = "00"
 valign = 2
 
-[node name="Dots" type="Label" parent="GUI/Hud/GameTime"]
+[node name="Dots" type="Label" parent="GUI/Hud/GameTimer"]
 margin_left = 32.0
 margin_top = 1.0
 margin_right = 38.0
@@ -1012,7 +1048,7 @@ text = ":"
 align = 1
 valign = 2
 
-[node name="Secs" type="Label" parent="GUI/Hud/GameTime"]
+[node name="Secs" type="Label" parent="GUI/Hud/GameTimer"]
 margin_left = 42.0
 margin_top = 1.0
 margin_right = 70.0
@@ -1021,6 +1057,8 @@ size_flags_vertical = 8
 text = "00"
 align = 2
 valign = 2
+
+[node name="Timer" type="Timer" parent="GUI/Hud/GameTimer"]
 
 [node name="Level" type="Label" parent="GUI/Hud"]
 unique_name_in_owner = true
@@ -1048,8 +1086,35 @@ margin_bottom = 43.0
 text = "HIGHSCORE 0000"
 align = 2
 
+[node name="MusicLabel" type="Label" parent="GUI/Hud"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 32.0
+margin_top = -39.0
+margin_right = 81.0
+margin_bottom = -18.0
+text = "00"
+align = 2
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="OnIcon" type="TextureRect" parent="GUI/Hud/MusicLabel"]
+margin_top = 3.0
+margin_right = 16.0
+margin_bottom = 19.0
+texture = SubResource( 145 )
+
+[node name="OffIcon" type="TextureRect" parent="GUI/Hud/MusicLabel"]
+margin_top = 3.0
+margin_right = 16.0
+margin_bottom = 19.0
+texture = SubResource( 146 )
+
 [node name="PickedColor" type="Control" parent="GUI/Hud"]
 unique_name_in_owner = true
+visible = false
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 32.0
@@ -1189,84 +1254,41 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Life" type="Label" parent="GUI/Hud"]
-unique_name_in_owner = true
-visible = false
-margin_left = 32.0
-margin_top = 92.0
-margin_right = 114.0
-margin_bottom = 118.0
-text = "LIFE: 0"
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Energy" type="Label" parent="GUI/Hud"]
-visible = false
-margin_left = 128.0
-margin_top = 80.0
-margin_right = 221.0
-margin_bottom = 118.0
-text = "E: 0000"
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
 [node name="HudPopup" type="Control" parent="GUI/Hud"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -640.0
-margin_top = -168.0
-margin_right = 640.0
-margin_bottom = -112.0
-
-[node name="Undi" type="Panel" parent="GUI/Hud/HudPopup"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-
-[node name="Label" type="Label" parent="GUI/Hud/HudPopup"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -92.0
-margin_top = -30.5
-margin_right = 102.0
-margin_bottom = 24.5
-size_flags_horizontal = 4
-text = "YEAH!!!
-Podrl si rekord!!!"
-align = 1
-valign = 1
+margin_left = -157.0
+margin_top = -53.0
+margin_right = 157.0
+margin_bottom = 53.0
 
-[node name="HSWaitingLabel" type="Label" parent="GUI/Hud/HudPopup"]
+[node name="HSClose" type="Label" parent="GUI/Hud/HudPopup"]
 visible = false
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -229.0
+margin_top = 245.0
 margin_right = 229.0
-margin_bottom = 55.0
+margin_bottom = 300.0
 size_flags_horizontal = 4
 text = "Bravo! Si čisto blizu rekordu. Še mal ..."
 align = 1
 valign = 1
 
-[node name="HSReachedLabel" type="Label" parent="GUI/Hud/HudPopup"]
+[node name="HSBroken" type="Label" parent="GUI/Hud/HudPopup"]
 visible = false
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -139.0
-margin_right = 139.0
-margin_bottom = 55.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_top = 10.0
+margin_right = -20.0
+margin_bottom = -10.0
 size_flags_horizontal = 4
 custom_colors/font_color = Color( 0.368627, 1, 0.662745, 1 )
-text = "YEAH!!! Podrl si rekord!!!"
+text = "YEAH!!! 
+Podrl si rekord!!!"
 align = 1
 valign = 1
 
@@ -1490,6 +1512,7 @@ __meta__ = {
 [node name="QuitBtn" type="Button" parent="GUI/PauseMenu/Menu"]
 margin_right = 52.0
 margin_bottom = 21.0
+focus_neighbour_left = NodePath("../PlayBtn")
 focus_neighbour_right = NodePath("../RestartBtn")
 focus_mode = 1
 size_flags_vertical = 0
@@ -1515,6 +1538,7 @@ margin_left = 242.0
 margin_right = 336.0
 margin_bottom = 21.0
 focus_neighbour_left = NodePath("../RestartBtn")
+focus_neighbour_right = NodePath("../QuitBtn")
 focus_mode = 1
 size_flags_vertical = 0
 theme = ExtResource( 8 )
@@ -1805,6 +1829,7 @@ __meta__ = {
 margin_top = 1.0
 margin_right = 52.0
 margin_bottom = 22.0
+focus_neighbour_left = NodePath("../RestartBtn")
 focus_neighbour_right = NodePath("../RestartBtn")
 focus_mode = 1
 size_flags_horizontal = 2
@@ -1819,6 +1844,7 @@ margin_top = 1.0
 margin_right = 227.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../QuitBtn")
+focus_neighbour_right = NodePath("../QuitBtn")
 focus_mode = 1
 size_flags_horizontal = 8
 size_flags_vertical = 8
@@ -1972,6 +1998,7 @@ size_flags_vertical = 11
 [node name="CancelBtn" type="Button" parent="GUI/GameOver/NameInputPopup/HBoxContainer"]
 margin_right = 84.0
 margin_bottom = 21.0
+focus_neighbour_left = NodePath("../../../../../Node2D/NameInputPopup/HBoxContainer/ConfirmBtn")
 focus_neighbour_top = NodePath("../../NameInput")
 focus_neighbour_right = NodePath("../ConfirmBtn")
 focus_next = NodePath("../../NameInput")
@@ -1984,6 +2011,7 @@ margin_right = 235.0
 margin_bottom = 21.0
 focus_neighbour_left = NodePath("../CancelBtn")
 focus_neighbour_top = NodePath("../../NameInput")
+focus_neighbour_right = NodePath("../../../../../Node2D/NameInputPopup/HBoxContainer/CancelBtn")
 focus_next = NodePath("../CancelBtn")
 size_flags_horizontal = 0
 size_flags_vertical = 9
@@ -2034,23 +2062,15 @@ text = "CONFIRM"
 [connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_AddTraumaBtn_mouse_entered"]
 [connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_AddTraumaBtn_mouse_exited"]
 [connection signal="pressed" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_AddTraumaBtn_pressed"]
-[connection signal="deathmode_on" from="GUI/Hud/GameTime" to="GUI/Hud" method="_on_GameTime_deathmode_on"]
-[connection signal="gametime_is_up" from="GUI/Hud/GameTime" to="GUI/Hud" method="_on_GameTime_gametime_is_up"]
+[connection signal="gametime_is_up" from="GUI/Hud/GameTimer" to="GUI/Hud" method="_on_GameTimer_gametime_is_up"]
+[connection signal="timeout" from="GUI/Hud/GameTimer/Timer" to="GUI/Hud/GameTimer" method="_on_Timer_timeout"]
 [connection signal="animation_finished" from="GUI/GameCountdown/AnimationPlayer" to="GUI/GameCountdown" method="_on_AnimationPlayer_animation_finished"]
-[connection signal="focus_exited" from="GUI/PauseMenu/Menu/QuitBtn" to="GUI/PauseMenu" method="_on_QuitBtn_focus_exited"]
 [connection signal="pressed" from="GUI/PauseMenu/Menu/QuitBtn" to="GUI/PauseMenu" method="_on_QuitBtn_pressed"]
-[connection signal="focus_exited" from="GUI/PauseMenu/Menu/RestartBtn" to="GUI/PauseMenu" method="_on_RestartBtn_focus_exited"]
 [connection signal="pressed" from="GUI/PauseMenu/Menu/RestartBtn" to="GUI/PauseMenu" method="_on_RestartBtn_pressed"]
-[connection signal="focus_exited" from="GUI/PauseMenu/Menu/PlayBtn" to="GUI/PauseMenu" method="_on_PlayBtn_focus_exited"]
 [connection signal="pressed" from="GUI/PauseMenu/Menu/PlayBtn" to="GUI/PauseMenu" method="_on_PlayBtn_pressed"]
-[connection signal="focus_exited" from="GUI/GameOver/Content/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_focus_exited"]
 [connection signal="pressed" from="GUI/GameOver/Content/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
-[connection signal="focus_exited" from="GUI/GameOver/Content/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_focus_exited"]
 [connection signal="pressed" from="GUI/GameOver/Content/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
-[connection signal="focus_exited" from="GUI/GameOver/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_NameInput_focus_exited"]
 [connection signal="text_changed" from="GUI/GameOver/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_NameEdit_text_changed"]
 [connection signal="text_entered" from="GUI/GameOver/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_PopupNameEdit_text_entered"]
-[connection signal="focus_exited" from="GUI/GameOver/NameInputPopup/HBoxContainer/CancelBtn" to="GUI/GameOver" method="_on_CancelBtn_focus_exited"]
 [connection signal="pressed" from="GUI/GameOver/NameInputPopup/HBoxContainer/CancelBtn" to="GUI/GameOver" method="_on_CancelBtn_pressed"]
-[connection signal="focus_exited" from="GUI/GameOver/NameInputPopup/HBoxContainer/ConfirmBtn" to="GUI/GameOver" method="_on_ConfirmBtn_focus_exited"]
 [connection signal="pressed" from="GUI/GameOver/NameInputPopup/HBoxContainer/ConfirmBtn" to="GUI/GameOver" method="_on_ConfirmBtn_pressed"]

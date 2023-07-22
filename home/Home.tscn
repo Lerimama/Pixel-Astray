@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://assets/resources/menu_environment.tres" type="Environment" id=1]
-[ext_resource path="res://home/Home.gd" type="Script" id=2]
+[ext_resource path="res://home/home.gd" type="Script" id=2]
 [ext_resource path="res://assets/tiles/tile_title.png" type="Texture" id=3]
 [ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=4]
 [ext_resource path="res://assets/32_pixel_colors.png" type="Texture" id=5]
@@ -544,13 +544,14 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = 449.0
 margin_top = 510.0
-margin_right = 831.001
+margin_right = 873.0
 margin_bottom = 532.0
 custom_constants/separation = 32
 
 [node name="PlayBtn" type="Button" parent="Menu"]
+margin_top = 1.0
 margin_right = 56.0
-margin_bottom = 21.0
+margin_bottom = 22.0
 focus_neighbour_right = NodePath("../AboutBtn")
 focus_mode = 1
 size_flags_horizontal = 2
@@ -562,8 +563,9 @@ align = 0
 
 [node name="AboutBtn" type="Button" parent="Menu"]
 margin_left = 88.0
+margin_top = 1.0
 margin_right = 158.0
-margin_bottom = 21.0
+margin_bottom = 22.0
 focus_neighbour_left = NodePath("../PlayBtn")
 focus_neighbour_right = NodePath("../SettingsBtn")
 focus_mode = 1
@@ -575,8 +577,9 @@ text = "ABOUT"
 
 [node name="SettingsBtn" type="Button" parent="Menu"]
 margin_left = 190.0
+margin_top = 1.0
 margin_right = 298.0
-margin_bottom = 21.0
+margin_bottom = 22.0
 focus_neighbour_left = NodePath("../AboutBtn")
 focus_neighbour_right = NodePath("../CreditsBtn")
 focus_mode = 1
@@ -588,15 +591,16 @@ text = "SETTINGS"
 
 [node name="CreditsBtn" type="Button" parent="Menu"]
 margin_left = 330.0
-margin_right = 382.0
-margin_bottom = 21.0
+margin_top = 1.0
+margin_right = 424.0
+margin_bottom = 22.0
 focus_neighbour_left = NodePath("../SettingsBtn")
 focus_mode = 1
 size_flags_horizontal = 2
 size_flags_vertical = 8
 theme = ExtResource( 4 )
 enabled_focus_mode = 1
-text = "QUIT"
+text = "CREDITS"
 align = 2
 
 [node name="About" type="Control" parent="."]
@@ -733,50 +737,27 @@ margin_left = 88.0
 margin_top = -45.0
 margin_right = 128.0
 margin_bottom = -24.0
+focus_neighbour_top = NodePath("../Game1/SelectGame1Btn")
+focus_neighbour_bottom = NodePath("../Game1/SelectGame1Btn")
 text = ">>>"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="SelectGame"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 72.0
+[node name="Game1" type="VBoxContainer" parent="SelectGame"]
+margin_left = 311.0
 margin_top = 64.0
-margin_right = -60.002
-margin_bottom = 206.0
-theme = ExtResource( 4 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="SelectGame/HBoxContainer"]
-margin_right = 236.0
-margin_bottom = 862.0
+margin_right = 547.0
+margin_bottom = 926.0
 size_flags_horizontal = 3
 
-[node name="SelectGame1Btn" type="Button" parent="SelectGame/HBoxContainer/VBoxContainer"]
+[node name="SelectGame1Btn" type="Button" parent="SelectGame/Game1"]
 margin_right = 236.0
 margin_bottom = 21.0
+focus_neighbour_left = NodePath("../../Game2/SelectGame2Btn")
+focus_neighbour_top = NodePath("../../BackBtn")
+focus_neighbour_right = NodePath("../../Game2/SelectGame2Btn")
+focus_neighbour_bottom = NodePath("../../BackBtn")
 text = "SELECT GAME >"
 
-[node name="Text2" type="Label" parent="SelectGame/HBoxContainer/VBoxContainer"]
-margin_top = 25.0
-margin_right = 236.0
-margin_bottom = 382.0
-size_flags_horizontal = 3
-text = "Pixels, short for \"picture elements,\" are the smallest individual units of a digital image. They are tiny squares or dots that combine to form the visual content on displays such as computer screens, smartphones, cameras, and televisions."
-autowrap = true
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="SelectGame/HBoxContainer"]
-margin_left = 240.0
-margin_right = 476.0
-margin_bottom = 862.0
-size_flags_horizontal = 3
-
-[node name="SelectGame2Btn" type="Button" parent="SelectGame/HBoxContainer/VBoxContainer2"]
-margin_right = 236.0
-margin_bottom = 21.0
-text = "SELECT GAME >"
-
-[node name="Text2" type="Label" parent="SelectGame/HBoxContainer/VBoxContainer2"]
+[node name="Description" type="Label" parent="SelectGame/Game1"]
 margin_top = 25.0
 margin_right = 236.0
 margin_bottom = 454.0
@@ -784,18 +765,23 @@ size_flags_horizontal = 3
 text = "Each pixel represents a specific color and intensity, and together they create the images we see. The resolution of an image refers to the number of pixels it contains. Higher resolutions mean more pixels are packed into the same area, resulting in a sharper and more detailed image."
 autowrap = true
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="SelectGame/HBoxContainer"]
-margin_left = 480.0
-margin_right = 716.0
-margin_bottom = 862.0
+[node name="Game2" type="VBoxContainer" parent="SelectGame"]
+margin_left = 551.0
+margin_top = 64.0
+margin_right = 787.0
+margin_bottom = 926.0
 size_flags_horizontal = 3
 
-[node name="SelectGame3Btn" type="Button" parent="SelectGame/HBoxContainer/VBoxContainer3"]
+[node name="SelectGame2Btn" type="Button" parent="SelectGame/Game2"]
 margin_right = 236.0
 margin_bottom = 21.0
+focus_neighbour_left = NodePath("../../Game1/SelectGame1Btn")
+focus_neighbour_top = NodePath("../../BackBtn")
+focus_neighbour_right = NodePath("../../Game1/SelectGame1Btn")
+focus_neighbour_bottom = NodePath("../../BackBtn")
 text = "SELECT GAME >"
 
-[node name="Text2" type="Label" parent="SelectGame/HBoxContainer/VBoxContainer3"]
+[node name="Description" type="Label" parent="SelectGame/Game2"]
 margin_top = 25.0
 margin_right = 236.0
 margin_bottom = 646.0
@@ -874,18 +860,14 @@ anims/play = SubResource( 138 )
 anims/select_game = SubResource( 142 )
 anims/settings = SubResource( 140 )
 
-[connection signal="focus_exited" from="Menu/PlayBtn" to="." method="_on_PlayBtn_focus_exited"]
 [connection signal="pressed" from="Menu/PlayBtn" to="." method="_on_PlayBtn_pressed"]
-[connection signal="focus_exited" from="Menu/AboutBtn" to="." method="_on_AboutBtn_focus_exited"]
 [connection signal="pressed" from="Menu/AboutBtn" to="." method="_on_AboutBtn_pressed"]
-[connection signal="focus_exited" from="Menu/SettingsBtn" to="." method="_on_SettingsBtn_focus_exited"]
 [connection signal="pressed" from="Menu/SettingsBtn" to="." method="_on_SettingsBtn_pressed"]
-[connection signal="focus_exited" from="Menu/CreditsBtn" to="." method="_on_CreditsBtn_focus_exited"]
 [connection signal="pressed" from="Menu/CreditsBtn" to="." method="_on_CreditsBtn_pressed"]
 [connection signal="pressed" from="About/BackBtn" to="." method="_on_AboutBackBtn_pressed"]
 [connection signal="pressed" from="Credits/BackBtn" to="." method="_on_CreditsBackBtn_pressed"]
 [connection signal="pressed" from="SelectGame/BackBtn" to="." method="_on_PlayBackBtn_pressed"]
-[connection signal="pressed" from="SelectGame/HBoxContainer/VBoxContainer/SelectGame1Btn" to="." method="_on_SelectGame1Btn_pressed"]
-[connection signal="pressed" from="SelectGame/HBoxContainer/VBoxContainer2/SelectGame2Btn" to="." method="_on_SelectGame2Btn_pressed"]
-[connection signal="pressed" from="SelectGame/HBoxContainer/VBoxContainer3/SelectGame3Btn" to="." method="_on_SelectGame3Btn_pressed"]
+[connection signal="pressed" from="SelectGame/Game1/SelectGame1Btn" to="." method="_on_SelectGame1Btn_pressed"]
+[connection signal="pressed" from="SelectGame/Game2/SelectGame2Btn" to="." method="_on_SelectGame2Btn_pressed"]
 [connection signal="pressed" from="Settings/BackBtn" to="." method="_on_SettingsBackBtn_pressed"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

@@ -179,11 +179,11 @@ func set_game():
 	
 func start_game():
 	
-	Global.sound_manager.play_sfx("game_music")
+	Global.sound_manager.play_music("game")
 	
 	game_on = true
 	# aktiviram plejerja in tajmer
-	Global.hud.start_timer()
+	Global.hud.game_timer.start_timer(Profiles.default_level_stats["game_time_limit"])
 	if not players_in_game.empty():
 		for player in players_in_game:
 			player.set_physics_process(true)
@@ -193,8 +193,6 @@ func start_game():
 	
 func game_over(game_over_reason: String):
 
-	Global.sound_manager.stop_sfx("game_music")
-	
 	# ustavim igro
 	game_on = false
 	deathmode_on =  false
@@ -204,14 +202,16 @@ func game_over(game_over_reason: String):
 		for player in players_in_game:
 			player.set_physics_process(false)
 	
-	Global.hud.stop_timer()
+#	Global.hud.stop_timer()
 	
-	# YIELD 0 ... čaka na konec zoomouta
+	# YIELD 0 ... čaka na konec zoomoutamm
 	print ("GM gameover - YIELD 0")
 	var camera_zoomed_out = Global.main_camera.zoom_out()
+	
 	yield(Global.main_camera, "zoomed_out")
 	print ("GM gameover - RESUME 0")
 
+	Global.sound_manager.stop_music("game")
 	var player_points = player_stats["player_points"]
 	var current_level = game_stats["level_no"]
 	

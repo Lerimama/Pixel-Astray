@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=10 format=2]
+[gd_resource type="Theme" load_steps=13 format=2]
 
 [ext_resource path="res://assets/theme/lerimama_theme_font.tres" type="DynamicFont" id=1]
 
@@ -11,6 +11,17 @@
 [sub_resource type="StyleBoxEmpty" id=10]
 
 [sub_resource type="StyleBoxEmpty" id=11]
+
+[sub_resource type="StreamTexture" id=13]
+load_path = "res://.import/tileset_hud_icons.png-be9f67bfe9cd2fc31c012c696d1f0b84.stex"
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = SubResource( 13 )
+region = Rect2( 16, 80, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = SubResource( 13 )
+region = Rect2( 0, 80, 16, 16 )
 
 [sub_resource type="StyleBoxLine" id=5]
 color = Color( 1, 1, 1, 1 )
@@ -46,6 +57,8 @@ Button/styles/normal = SubResource( 10 )
 Button/styles/pressed = SubResource( 11 )
 CheckBox/icons/checked = null
 CheckBox/icons/unchecked = null
+CheckButton/icons/off = SubResource( 14 )
+CheckButton/icons/on = SubResource( 15 )
 HSeparator/styles/separator = SubResource( 5 )
 Label/colors/font_color = Color( 0.745098, 0.745098, 0.745098, 1 )
 Label/colors/font_color_shadow = Color( 0, 0, 0, 0 )

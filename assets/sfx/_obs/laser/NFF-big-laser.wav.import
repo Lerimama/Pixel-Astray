@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/NFF-big-laser.wav-7eee3fb4e3ef31e346f2f531274b78fc.sample"
+
+[deps]
+
+source_file="res://assets/sfx/_obs/laser/NFF-big-laser.wav"
+dest_files=[ "res://.import/NFF-big-laser.wav-7eee3fb4e3ef31e346f2f531274b78fc.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

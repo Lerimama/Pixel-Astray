@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/last_breath_NFF-heart-beat.wav-99e74726b3d3db14981e4e338e609534.sample"
+
+[deps]
+
+source_file="res://assets/sfx/_obs/last_breath_NFF-heart-beat.wav"
+dest_files=[ "res://.import/last_breath_NFF-heart-beat.wav-99e74726b3d3db14981e4e338e609534.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=2
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0
