@@ -24,6 +24,8 @@ func play_sfx(effect_for: String):
 		
 		"stepping": # tudi za tipkanje 
 			select_random_sfx(stepping).play()
+			$GameSfx/StepSlide.play()
+			
 		"blinking":
 			select_random_sfx(blinking_static).play()
 			select_random_sfx(blinking).play()
@@ -62,8 +64,10 @@ func play_sfx(effect_for: String):
 			$GameSfx/Skills/TeleportIn.play()
 		"skilled":
 			$GameSfx/Skills/Skilled.play()
+			$GameSfx/Skills/SkilledFrcer.play()
 		"skill_fail":
-			$GameSfx/Skills/SkillFail.play()
+#			$GameSfx/Skills/SkillFail.play()
+			pass
 		"skill_success":
 #			skill_success_count += 1
 #			if skill_success_count < Profiles.game_rules["skills_in_row_limit"]:
@@ -106,6 +110,7 @@ func stop_sfx(sfx_to_stop: String):
 				$GameSfx/Skills/TeleportOut.play()
 			"skilled":
 				$GameSfx/Skills/Skilled.stop()
+				$GameSfx/Skills/SkilledFrcer.stop()
 			"burst_cocking":
 				$GameSfx/Burst/BurstCocking.stop()
 			"last_breath":
@@ -181,7 +186,7 @@ func stop_music(music_to_stop: String):
 					fade_out.tween_property(music, "volume_db", -80, 1)
 					fade_out.tween_callback(music, "stop")
 					fade_out.tween_property(music, "volume_db", current_music_volume, 0.1) # reset glasnosti
-#					return
+					# return
 
 
 func skip_music():	
@@ -203,53 +208,3 @@ func skip_music():
 
 			
 	
-## random gumbi -------------------------------------------------------------------------------------
-#
-#onready var game: Node2D = $GameSfx
-#onready var gui: Node2D = $GuiSfx
-#var game_click_count = 0
-#var gui_click_count = 0
-#
-#onready var all_game_sounds: Array = game.get_children()
-#onready var all_gui_sounds: Array = gui.get_children()
-#
-#
-#func na_gumbe(sfx_name =  null):
-#
-#	var all_sounds = all_gui_sounds
-#	var sound_to_play = all_sounds[sfx_name]
-#	sound_to_play.play()
-#
-#	if sfx_name:
-#		get_node(sfx_name).play()
-#	else:
-#		var c = randi() % get_child_count()
-#		get_child(c).play() 
-#
-#
-### OLD ------------------------------------------------------------------------------------------------
-#
-#
-#func _on_GameSfxBtn_button_up() -> void:
-#
-#	all_game_sounds[game_click_count].play()
-#
-#	printt ("game_click_count", game_click_count, game.get_child_count())
-#	game_click_count += 1 
-#	if game_click_count == game.get_child_count():
-#		game_click_count = 0	
-#
-#
-#func _on_GuiSfxBtn_button_up() -> void:
-#
-#	all_gui_sounds[gui_click_count].play()
-#	printt ("gui_click_count", gui_click_count, gui.get_child_count())
-#	gui_click_count += 1 
-#	if gui_click_count == gui.get_child_count():
-#		gui_click_count = 0	
-#
-#
-#func _on_ResetCountBtn_pressed() -> void:
-#	game_click_count = 0
-#	gui_click_count = 0
-

@@ -67,7 +67,7 @@ func animation_reversed(from_screen: String):
 		# set focus
 		match from_screen:
 			"select_game":
-				$Menu/PlayBtn.grab_focus()
+				$Menu/SelectGameBtn.grab_focus()
 			"about":
 				$Menu/AboutBtn.grab_focus()
 			"settings":
@@ -79,6 +79,10 @@ func animation_reversed(from_screen: String):
 
 
 func _on_PlayBtn_pressed() -> void:
+	Global.sound_manager.play_sfx("btn_confirm")
+	Global.main_node.home_out() # ... tole je, če ni animacije ... Quick play?
+
+func _on_SelectGameBtn_pressed() -> void:
 	Global.sound_manager.play_sfx("screen_slide")
 	Global.sound_manager.play_sfx("btn_confirm")
 	animation_player.play("select_game")
@@ -105,7 +109,7 @@ func _on_CreditsBtn_pressed() -> void:
 # BACK BTNZ ---------------------------------------------------------------------------------------------------
 
 
-func _on_PlayBackBtn_pressed() -> void:
+func _on_SelectGameBackBtn_pressed() -> void:
 	Global.sound_manager.play_sfx("btn_cancel")
 	Global.sound_manager.play_sfx("screen_slide")
 	animation_player.play_backwards("select_game")

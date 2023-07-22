@@ -1,7 +1,7 @@
 extends Control
 
-# ta node more bit na vrhu zaradi zaporedja nalaganja
 
+# ta node more bit na vrhu zaradi zaporedja nalaganja
 var player_stats: Dictionary
 var game_stats: Dictionary
 
@@ -11,33 +11,38 @@ var default_hud_color: Color = Color.white
 # spectrum indicators
 var active_color_indicators: Array = []
 onready var ColorIndicator: PackedScene = preload("res://game/hud/HudColorIndicator.tscn")
-onready var indicator_holder: HBoxContainer = $ColorSpectrumLite/IndicatorHolder
+onready var indicator_holder: HBoxContainer = $Footer/ColorSpectrumLite/IndicatorHolder
 
+#header
+onready var header: Control = $Header
 onready var player_life: Label = $Life # _temp, pravi je na samih ikonah
 onready var player_energy: Label = $Energy # temp
-onready var player_points: Label = $HudLine_TL/PointsCounter/Points
-onready var cells_travelled: Label = $HudLine_TL/CellCounter/CellsTravelled
-onready var skills_used: Label = $HudLine_TL/SkillCounter/SkillsUsed
-onready var picked_color_rect: ColorRect = $PickedColor/ColorRect
-onready var picked_color_label: Label = $PickedColor/Value
-#onready var game_time: Control = $GameTime
-onready var game_timer: HBoxContainer = $"%GameTimer"
-
-# game hud
-onready var pixels_off: Label = $HudLine_TR/OffedCounter/PixelsOff
-onready var stray_pixels: Label = $HudLine_TR/StrayCounter/PixelsStray
-onready var level: Label = $Level
+onready var player_points: Label = $Header/HudLine_TL/PointsCounter/Points
+onready var cells_travelled: Label = $Header/HudLine_TL/CellCounter/CellsTravelled
+onready var skills_used: Label = $Header/HudLine_TL/SkillCounter/SkillsUsed
+onready var game_timer: HBoxContainer = $Header/GameTimer
+onready var music_label: Label = $Header/MusicLabel
+onready var level: Label = $Header/Level
+onready var highscore_label: Label = $Header/Highscore
 
 
-# hs 
-onready var highscore_label: Label = $Highscore
+#futer
+onready var footer: Control = $Footer
+onready var picked_color_rect: ColorRect = $Footer/PickedColor/ColorRect
+onready var picked_color_label: Label = $Footer/PickedColor/Value
+onready var pixels_off_counter = $Footer/HudLine_TR/OffedCounter
+onready var pixels_off: Label = $Footer/HudLine_TR/OffedCounter/PixelsOff
+onready var stray_pixels_counter = $Footer/HudLine_TR/StrayCounter
+onready var stray_pixels: Label = $Footer/HudLine_TR/StrayCounter/PixelsStray
+
+
+# hs popup 
 var close_to_highscore_part = 0.85 # procent HS vrednosti
 var highscore_broken: bool =  false
 var highscore_broken_popup_time: float = 2
-onready var highscore_popup_close: Label = $HudPopup/HSClose
-onready var highscore_popup_broken: Label = $HudPopup/HSBroken
+onready var highscore_popup_close: Label = $Popups/HSClose
+onready var highscore_popup_broken: Label = $Popups/HSBroken
 
-onready var music_label: Label = $MusicLabel
 
 func _ready() -> void:
 	
@@ -158,11 +163,6 @@ func color_picked(picked_pixel_color):
 	picked_color_label.text = str(round(255 * picked_pixel_color.r)) + " " + str(round(255 * picked_pixel_color.g)) + " " + str(round(255 * picked_pixel_color.b))
 	
 	# color effects
-	var pixels_off_counter = $HudLine_TR/OffedCounter
-	var stray_pixels_counter = $HudLine_TR/StrayCounter
-#	var current_counter_modulate: Color = pixels_off_counter.modulate
-#	var current_label_modulate: Color = picked_color_label.modulate
-
 	picked_color_rect.color = picked_pixel_color
 	
 	picked_color_label.modulate = picked_pixel_color

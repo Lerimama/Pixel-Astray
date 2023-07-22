@@ -64,7 +64,7 @@ var die_shake_decay: float = 0.1
 # energija
 var player_energy: float # energija je edini stat, ki gamore plejer poznat
 onready var default_player_energy: float = Profiles.default_player_stats["player_energy"]
-var tired_energy_level: float = 0.1 # del energije pri kateri velja, da je utrujen (diha hitreje
+onready var tired_energy_part: float = Profiles.game_rules["tired_energy_part"] # del energije pri kateri velja, da je utrujen (diha hitreje
 
 # dihanje
 var breath_speed: float = 1.2
@@ -153,7 +153,7 @@ func _physics_process(delta: float) -> void:
 					
 			# dihanje
 			else: 
-				var tired_energy = default_player_energy * tired_energy_level
+				var tired_energy = default_player_energy * tired_energy_part
 				if player_energy < tired_energy:
 					animation_player.set_speed_scale(tired_breath_speed)
 				else:
@@ -380,8 +380,7 @@ func play_blinking_sound():
 func revive():
 	modulate.a = 0
 	animation_player.play("revive") # kvefrija se v animaciji
-
-
+	
 # MOVEMENT ______________________________________________________________________________________________________________
 
 
@@ -459,17 +458,12 @@ func cock_burst():
 	
 func spawn_cock_ghost(cocking_direction, cocked_ghosts_count):
 	
-#	cocked_ghost_alpha = 0.7
-#	cocked_ghost_alpha_factor = 20
-	
 	# spawn ghosta pod manom
 	var new_cock_ghost = spawn_ghost(global_position + cocking_direction * cell_size_x * cocked_ghosts_count)
-	print("new_cock_ghost", new_cock_ghost.modulate)
 	new_cock_ghost.global_position -= cocking_direction * cell_size_x/2
 	new_cock_ghost.modulate.a = cocked_ghost_alpha - (cocked_ghosts_count / cocked_ghost_alpha_factor)
 	new_cock_ghost.direction = cocking_direction
 	
-	print("new_cock_ghost", new_cock_ghost.modulate)
 	# v kateri smeri je scale
 	if direction.y == 0: # smer horiz
 		new_cock_ghost.scale.x = 0

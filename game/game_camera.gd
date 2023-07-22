@@ -59,8 +59,15 @@ onready var test_toggle_btn = $UILayer/TestToggle
 # novo!
 onready var cell_size_x = Global.level_tilemap.cell_size.x # za zamik glede na tile
 
+# zoom animation
+var header_off_position = - 56
+var footer_off_position = 720
 
-func _input(_event: InputEvent) -> void:
+onready var current_viewport = get_viewport()
+onready var viewport_footer: ColorRect = $"%ViewFuter"
+onready var viewport_header: ColorRect = $"%ViewHeder"
+
+func _input(_event: InputEvent) -> void: # testview inputs
 
 	if Input.is_action_just_pressed("left_click") and test_view_on and not mouse_used:
 		multy_shake_camera(test_trauma_strength, test_trauma_time, test_decay_speed)
@@ -77,109 +84,59 @@ func _input(_event: InputEvent) -> void:
 		drag_on = false
 		zoom_label.text = "Zoom Level: " + str(round(zoom.x * 100)) + "%"
 
+
 func _ready():
 	
 	Global.print_id(self)
 	Global.main_camera = self
 	Global.camera_target = null # da se nulira (pri quit game) in je naslednji play brez errorja ... seta se ob spawnanju plejerja
 	
-	
 	set_ui_focus()	
 	update_ui()
 	
 	# intro start zoom
 	zoom = Vector2(2, 2)
-	
-
-onready var current_viewport = get_viewport()
-onready var view_futer: ColorRect = $"%ViewFuter"
-onready var view_heder: ColorRect = $"%ViewHeder"
-
-var view_heder_game_h: float = 56
-var view_futer_game_h: float = view_heder_game_h
-var viewport_start_h: float = 720
-var viewport_game_h: float = 608
-
-#hud
-onready var hud_line_tl: HBoxContainer = $"%HudLine_TL"
-#onready var game_time: HBoxContainer = $"%GameTime"
-onready var highscore: Label = $"%Highscore"
-onready var level: Label = $"%Level"
-onready var game_timer: HBoxContainer = $"%GameTimer"
-
-onready var picked_color: Control = $"%PickedColor"
-onready var color_spectrum_lite: VBoxContainer = $"%ColorSpectrumLite"
-onready var hud_line_tr: HBoxContainer = $"%HudLine_TR"
 
 
 func zoom_in():
 	
-	print(get_viewport().size)
-	
 	# prvi zoom
-	var format_corector: float = viewport_start_h / viewport_game_h
-	var final_zoom = Vector2.ONE / format_corector
-	
-	# set hud poze
-	hud_line_tl.rect_position.y -= view_heder_game_h
-	game_timer.rect_position.y -= view_heder_game_h
-	highscore.rect_position.y -= view_heder_game_h
-	level.rect_position.y -= view_heder_game_h
-	picked_color.rect_position.y += view_futer_game_h
-	color_spectrum_lite.rect_position.y += view_futer_game_h
-	hud_line_tr.rect_position.y += view_futer_game_h
-
-	var zoom_in_tween = get_tree().create_tween()
-	zoom_in_tween.tween_property(self, "zoom", final_zoom, 2).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
-	zoom_in_tween.tween_callback(self, "go_widescreen").set_delay(1)
-	
-	
-func go_widescreen():
-	
-	Global.hud.fade_in() # hud zna vse sam ... vseskozi je GM njegov "mentor"
 	var final_zoom = Vector2.ONE
 	
-	view_futer.rect_min_size.y = 0
-	view_futer.visible = true
-	view_heder.rect_min_size.y = 0
-	view_heder.visible = true
+	# set hud poze ... zamaknjene za višino hederja
+	Global.hud.header.rect_position.y = header_off_position
+	Global.hud.footer.rect_position.y = footer_off_position
 	
-	var widescreen_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
-	widescreen_tween.tween_property(get_viewport(), "size:y", viewport_game_h, 2)
-	widescreen_tween.parallel().tween_property(view_heder, "rect_min_size:y", view_heder_game_h, 2)
-	widescreen_tween.parallel().tween_property(view_futer, "rect_min_size:y", view_futer_game_h, 2)
-	widescreen_tween.parallel().tween_property(self, "zoom", final_zoom, 2).set_ease(Tween.EASE_IN_OUT)
-	# hud staf
-	widescreen_tween.parallel().tween_property(hud_line_tl, "rect_position:y", hud_line_tl.rect_position.y + view_heder_game_h, 2)
-	widescreen_tween.parallel().tween_property(game_timer, "rect_position:y", game_timer.rect_position.y + view_heder_game_h, 2)
-	widescreen_tween.parallel().tween_property(highscore, "rect_position:y", highscore.rect_position.y + view_heder_game_h, 2)
-	widescreen_tween.parallel().tween_property(level, "rect_position:y", level.rect_position.y + view_heder_game_h, 2)
-	widescreen_tween.parallel().tween_property(picked_color, "rect_position:y", picked_color.rect_position.y - view_futer_game_h, 2)
-	widescreen_tween.parallel().tween_property(color_spectrum_lite, "rect_position:y", color_spectrum_lite.rect_position.y - view_futer_game_h, 2)
-	widescreen_tween.parallel().tween_property(hud_line_tr, "rect_position:y", hud_line_tr.rect_position.y - view_futer_game_h, 2)
-	widescreen_tween.tween_callback(Global.game_countdown, "start_countdown")
+	# viewport controlls
+	viewport_footer.rect_min_size.y = 0
+	viewport_footer.visible = true
+	viewport_header.rect_min_size.y = 0
+	viewport_header.visible = true
+	Global.hud.fade_in()
+	
+	var zoom_in_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	zoom_in_tween.tween_property(self, "zoom", final_zoom, 2)
+	zoom_in_tween.parallel().tween_property(get_viewport(), "size:y", 720 - 112, 2)
+	zoom_in_tween.parallel().tween_property(viewport_header, "rect_min_size:y", 56, 2)
+	zoom_in_tween.parallel().tween_property(viewport_footer, "rect_min_size:y", 56, 2)
+	zoom_in_tween.parallel().tween_property(Global.hud.header, "rect_position:y", 0, 2)
+	zoom_in_tween.parallel().tween_property(Global.hud.footer, "rect_position:y", 720 - 56, 2)
+	zoom_in_tween.tween_callback(Global.game_countdown, "start_countdown").set_delay(1)
 	
 
 func zoom_out():
 
 	var final_zoom = Vector2(2, 2)
 	yield(get_tree().create_timer(0.5), "timeout")
-	
-	var widescreen_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
-	widescreen_tween.tween_property(get_viewport(), "size:y", viewport_start_h, 2)
-	widescreen_tween.parallel().tween_property(view_heder, "rect_min_size:y", 0, 2)
-	widescreen_tween.parallel().tween_property(view_futer, "rect_min_size:y", 0, 2)
-	widescreen_tween.parallel().tween_property(self, "zoom", final_zoom, 2)
-	# hud staf
-	widescreen_tween.parallel().tween_property(hud_line_tl, "rect_position:y", hud_line_tl.rect_position.y - view_heder_game_h, 2)
-	widescreen_tween.parallel().tween_property(game_timer, "rect_position:y", game_timer.rect_position.y - view_heder_game_h, 2).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
-	widescreen_tween.parallel().tween_property(highscore, "rect_position:y", highscore.rect_position.y - view_heder_game_h, 2)
-	widescreen_tween.parallel().tween_property(level, "rect_position:y", level.rect_position.y - view_heder_game_h, 2)
-	widescreen_tween.parallel().tween_property(picked_color, "rect_position:y", picked_color.rect_position.y + view_futer_game_h, 2)
-	widescreen_tween.parallel().tween_property(color_spectrum_lite, "rect_position:y", color_spectrum_lite.rect_position.y + view_futer_game_h, 2)
-	widescreen_tween.parallel().tween_property(hud_line_tr, "rect_position:y", hud_line_tr.rect_position.y + view_futer_game_h, 2)
-	widescreen_tween.parallel().tween_callback(self, "emit_signal", ["zoomed_out"]).set_delay(1.7)
-	
+
+	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	zoom_out_tween.tween_property(self, "zoom", final_zoom, 2)
+	zoom_out_tween.parallel().tween_property(get_viewport(), "size:y", 720, 2)
+	zoom_out_tween.parallel().tween_property(viewport_header, "rect_min_size:y", 0, 2)
+	zoom_out_tween.parallel().tween_property(viewport_footer, "rect_min_size:y", 0, 2)
+	zoom_out_tween.parallel().tween_property(Global.hud.header, "rect_position:y", 0 - 56, 2)
+	zoom_out_tween.parallel().tween_property(Global.hud.footer, "rect_position:y", 720, 2)
+	zoom_out_tween.tween_callback(self, "emit_signal", ["zoomed_out"]).set_delay(1)
 	
 
 func _process(delta):
@@ -187,7 +144,6 @@ func _process(delta):
 	time += delta
 	
 	# SHAKE KODA
-	
 	# camera noise setup 
 	noise.seed = noise_seed
 	noise.octaves = noise_octaves

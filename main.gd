@@ -11,8 +11,8 @@ func _ready() -> void:
 	
 	Global.main_node = self
 	
-#	home_in()
-	game_in()
+	home_in()
+#	game_in()
 	
 
 func home_in():

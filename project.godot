@@ -16,8 +16,8 @@ config/icon="res://_materiali/icon.png"
 
 [autoload]
 
-Global="*res://Global.gd"
-Profiles="*res://Profiles.gd"
+Global="*res://global.gd"
+Profiles="*res://profiles.gd"
 
 [debug]
 
