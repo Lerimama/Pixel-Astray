@@ -41,7 +41,7 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 			if animation_reversed("select_game"):
 				return
 			current_screen = Screens.SELECT_GAME
-			$SelectGame/Game1/SelectGame1Btn.grab_focus()
+			$SelectGame/Game1/SelectGameBtn.grab_focus()
 			
 		"about":
 			if animation_reversed("about"):

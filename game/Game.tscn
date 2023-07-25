@@ -1257,44 +1257,49 @@ __meta__ = {
 }
 
 [node name="Popups" type="Control" parent="GUI/Hud"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -157.0
-margin_top = -53.0
-margin_right = 157.0
-margin_bottom = 53.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 
 [node name="HSClose" type="Label" parent="GUI/Hud/Popups"]
 visible = false
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -229.0
-margin_top = 245.0
-margin_right = 229.0
-margin_bottom = 300.0
+margin_left = -188.0
+margin_top = 111.0
+margin_right = 188.0
+margin_bottom = 132.0
 size_flags_horizontal = 4
-text = "Bravo! Si čisto blizu rekordu. Še mal ..."
+text = "Si čisto blizu rekordu. Še mal ..."
 align = 1
 valign = 1
 
-[node name="HSBroken" type="Label" parent="GUI/Hud/Popups"]
+[node name="HSBroken" type="Control" parent="GUI/Hud/Popups"]
 visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -144.0
+margin_top = 88.0
+margin_right = 144.0
+margin_bottom = 184.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Panel" type="Panel" parent="GUI/Hud/Popups/HSBroken"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 20.0
-margin_top = 10.0
-margin_right = -20.0
-margin_bottom = -10.0
+
+[node name="Label" type="Label" parent="GUI/Hud/Popups/HSBroken"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 size_flags_horizontal = 4
-custom_colors/font_color = Color( 0.368627, 1, 0.662745, 1 )
-text = "YEAH!!! 
+text = "BRAVISIMO!!! 
 Podrl si rekord!!!"
 align = 1
 valign = 1
 
 [node name="GameCountdown" type="Control" parent="GUI"]
+visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
 rect_min_size = Vector2( 1280, 720 )

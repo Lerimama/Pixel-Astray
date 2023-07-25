@@ -212,7 +212,7 @@ func _on_NameEdit_text_changed(new_text: String) -> void:
 	
 	# signal, ki redno beleži vnešeni string
 	input_string = new_text
-	Global.sound_manager.play_sfx("stepping")
+	Global.sound_manager.play_sfx("typing")
 
 	
 func _on_PopupNameEdit_text_entered(new_text: String) -> void:

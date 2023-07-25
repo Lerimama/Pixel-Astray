@@ -17,16 +17,31 @@ func _ready() -> void:
 	randomize()
 	
 
+func play_stepping_sfx(current_player_energy_part: float):
+	
+		# NEW
+#		printt("current_player_energy_part", current_player_energy_part)
+		select_random_sfx($GameSfx/Stepping/Tapping2).play()
+#		$GameSfx/Stepping/Tapping2.pitch_scale = current_player_energy_part
+
+		select_random_sfx($GameSfx/Stepping/Tapping3).play()
+#		$GameSfx/Stepping/Tapping3.pitch_scale = current_player_energy_part
+
+		select_random_sfx($GameSfx/Stepping/TappingWahVar).play()
+#		select_random_sfx($GameSfx/Stepping/TappingWah).play()
+#		$GameSfx/Stepping/StepSlide.pitch_scale = current_player_energy_part
+	
+		# OLD
+#		select_random_sfx($GameSfx/Stepping/Tapping1).play()
+#		$GameSfx/Stepping/StepSlide.play()
+	
 func play_sfx(effect_for: String):
 	
 	# če zvoka ni tukaj, pomeni da ga kličem direktno
 	match effect_for:
 		
-		"stepping": # tudi za tipkanje 
-			select_random_sfx(stepping).play()
-			$GameSfx/StepSlide.play()
-			
 		"blinking":
+			# nekateri so na mute, ker so drugače prepogosti soundi
 			select_random_sfx(blinking_static).play()
 			select_random_sfx(blinking).play()
 		"last_breath":
@@ -51,19 +66,21 @@ func play_sfx(effect_for: String):
 							
 		# skills
 		"pull":
-			$GameSfx/Skills/Pull.play()
+			$GameSfx/Skills/PushPull.play()
 		"pulled":
-			$GameSfx/Skills/Pulled.play()
+			$GameSfx/Skills/PushedPulled.play()
 			$GameSfx/Skills/PullStoneSlide.play()
 		"push":
-			$GameSfx/Skills/Pull.play()
+			$GameSfx/Skills/PushPull.play()
 		"pushed":
-			$GameSfx/Skills/Pulled.play()
+			$GameSfx/Skills/PushedPulled.play()
 			$GameSfx/Skills/PushStoneSlide.play()
 		"teleport":
 			$GameSfx/Skills/TeleportIn.play()
 		"skilled":
-			$GameSfx/Skills/Skilled.play()
+#			$GameSfx/Skills/SkilledBeep.play()
+#			$GameSfx/Skills/SkilledCrystal.play()
+#			$GameSfx/Skills/SkilledCrystal_long.play()
 			$GameSfx/Skills/SkilledFrcer.play()
 		"skill_fail":
 #			$GameSfx/Skills/SkillFail.play()
@@ -87,9 +104,11 @@ func play_sfx(effect_for: String):
 		"loose_jingle":
 			$GameSfx/Events/Loose.play()
 		"record_cheers":
-			$GameSfx/Events/RecordCheers.play()
+			$GameSfx/Events/RecordFanfare.play()
 			
 		# gui
+		"typing":
+			select_random_sfx($GuiSfx/Typing).play()
 		"btn_confirm":
 			$GuiSfx/BtnConfirm.play()
 		"btn_cancel":
@@ -109,8 +128,8 @@ func stop_sfx(sfx_to_stop: String):
 				$GameSfx/Skills/TeleportLoop.stop()
 				$GameSfx/Skills/TeleportOut.play()
 			"skilled":
-				$GameSfx/Skills/Skilled.stop()
 				$GameSfx/Skills/SkilledFrcer.stop()
+				pass
 			"burst_cocking":
 				$GameSfx/Burst/BurstCocking.stop()
 			"last_breath":
@@ -154,6 +173,8 @@ func _input(event: InputEvent) -> void:
 
 func play_music(music_for: String):
 	
+#	return
+	
 	match music_for:
 		"menu":
 			$Music/MenuMusic/WarmUpShort.play()
@@ -166,7 +187,6 @@ func play_music(music_for: String):
 			game_music.get_child(current_music_index - 1).stream_paused = false
 			Global.hud.music_label.get_node("OnIcon").visible = true
 			Global.hud.music_label.get_node("OffIcon").visible = false
-			
 
 
 func stop_music(music_to_stop: String):

@@ -40,8 +40,8 @@ onready var stray_pixels: Label = $Footer/HudLine_TR/StrayCounter/PixelsStray
 var close_to_highscore_part = 0.85 # procent HS vrednosti
 var highscore_broken: bool =  false
 var highscore_broken_popup_time: float = 2
-onready var highscore_popup_close: Label = $Popups/HSClose
-onready var highscore_popup_broken: Label = $Popups/HSBroken
+onready var highscore_close_popup: Label = $Popups/HSClose
+onready var highscore_broken_popup: Control = $Popups/HSBroken
 
 
 func _ready() -> void:
@@ -50,6 +50,8 @@ func _ready() -> void:
 	
 	# skrij statistiko in popupe
 	visible = false
+	highscore_close_popup.visible = false
+	highscore_broken_popup.visible = false
 #	color_spectrum = Global.color_indicator_parent
 	
 
@@ -100,20 +102,20 @@ func checking_highscore():
 		highscore_broken = true
 		highscore_label.modulate = Global.color_green
 		
-		highscore_popup_close.visible = false
-		highscore_popup_broken.visible = true
+		highscore_close_popup.visible = false
+		highscore_broken_popup.visible = true
 		yield(get_tree().create_timer(highscore_broken_popup_time), "timeout")
-		highscore_popup_broken.visible = false
+		highscore_broken_popup.visible = false
 	
 	# blizu rekorda
 	elif current_points >= close_to_highscore_limit or current_points == current_highscore:
 		highscore_label.modulate = Global.color_blue
-		highscore_popup_close.visible = true
+		highscore_close_popup.visible = true
 	
 	# blah ... še ni uspeha
 	elif current_points < close_to_highscore_limit:
-		highscore_popup_close.visible = false
-		highscore_popup_broken.visible = false
+		highscore_close_popup.visible = false
+		highscore_broken_popup.visible = false
 		highscore_label.modulate = default_hud_color
 		
 
