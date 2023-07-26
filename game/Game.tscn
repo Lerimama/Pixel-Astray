@@ -790,6 +790,19 @@ __meta__ = {
 "_editor_description_": ""
 }
 
+[node name="SkipLabel" type="Label" parent="GUI"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -158.0
+margin_top = -129.0
+margin_right = 38.0
+margin_bottom = -108.0
+size_flags_horizontal = 4
+text = "Esc or JPBtn to skip intro ..."
+valign = 1
+
 [node name="Hud" type="Control" parent="GUI"]
 rect_min_size = Vector2( 1280, 720 )
 script = ExtResource( 16 )

@@ -1,15 +1,8 @@
 extends Node2D
 
 
-var skill_success_count: int = 0
-
-
-# grupe zvokov	
-onready var stepping: Node2D = $GameSfx/Stepping
-onready var blinking: Node2D = $GameSfx/Blinking
-onready var blinking_static: Node2D = $GameSfx/BlinkingStatic
-onready var burst: Node2D = $GameSfx/Burst
-onready var music: Node2D = $Music
+var current_music_index = 1 # ga ne resetiraš, da ostane v spominu skozi celo igro
+onready var game_music: Node2D = $Music/GameMusic
 
 
 func _ready() -> void:
@@ -41,9 +34,8 @@ func play_sfx(effect_for: String):
 	match effect_for:
 		
 		"blinking":
-			# nekateri so na mute, ker so drugače prepogosti soundi
-			select_random_sfx(blinking_static).play()
-			select_random_sfx(blinking).play()
+			select_random_sfx($GameSfx/Blinking).play() # nekateri so na mute, ker so drugače prepogosti soundi
+			select_random_sfx($GameSfx/BlinkingStatic).play()
 		"last_breath":
 			if $GameSfx/LastBeat.is_playing():
 				return
@@ -82,17 +74,6 @@ func play_sfx(effect_for: String):
 #			$GameSfx/Skills/SkilledCrystal.play()
 #			$GameSfx/Skills/SkilledCrystal_long.play()
 			$GameSfx/Skills/SkilledFrcer.play()
-		"skill_fail":
-#			$GameSfx/Skills/SkillFail.play()
-			pass
-		"skill_success":
-#			skill_success_count += 1
-#			if skill_success_count < Profiles.game_rules["skills_in_row_limit"]:
-#				$GameSfx/Skills/SkillSuccessA.play()
-#			else:
-#				$GameSfx/Skills/SkillSuccessB.play()
-#				skill_success_count = 0
-			pass
 			
 		# events
 		"countdown_a":
@@ -150,10 +131,6 @@ func _on_TeleportStart_finished() -> void:
 # MUSKA --------------------------------------------------------------------------------------------------------
 
 
-var current_music_index = 1 # ga ne resetiraš, da ostane v spominu skozi celo igro
-onready var game_music: Node2D = $Music/GameMusic
-
-
 func _input(event: InputEvent) -> void:
 	
 	if Input.is_action_just_pressed("n"):
@@ -173,7 +150,7 @@ func _input(event: InputEvent) -> void:
 
 func play_music(music_for: String):
 	
-#	return
+	return
 	
 	match music_for:
 		"menu":
@@ -209,7 +186,7 @@ func stop_music(music_to_stop: String):
 					# return
 
 
-func skip_music():	
+func skip_music():
 	
 	current_music_index += 1
 	

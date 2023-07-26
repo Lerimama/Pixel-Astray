@@ -1,13 +1,11 @@
-[gd_scene load_steps=103 format=2]
+[gd_scene load_steps=101 format=2]
 
 [ext_resource path="res://assets/sfx/events/new_record_449069__ricniclas__fanfare.wav" type="AudioStream" id=1]
 [ext_resource path="res://main.gd" type="Script" id=2]
 [ext_resource path="res://managers/data_manager.gd" type="Script" id=3]
 [ext_resource path="res://managers/sound_manager.gd" type="Script" id=4]
 [ext_resource path="res://assets/sfx/gui/screen_slide.wav" type="AudioStream" id=5]
-[ext_resource path="res://assets/sfx/last_beat.wav" type="AudioStream" id=6]
 [ext_resource path="res://assets/sfx/burst/hit_wall.wav" type="AudioStream" id=7]
-[ext_resource path="res://assets/sfx/.obs/NFF-toggle.wav" type="AudioStream" id=8]
 [ext_resource path="res://assets/sfx/gui/btn_confirm_NFF-home-switch-on.wav" type="AudioStream" id=9]
 [ext_resource path="res://assets/sfx/gui/btn_cancel_NFF-home-switch-off.wav" type="AudioStream" id=10]
 [ext_resource path="res://assets/sfx/burst/hit_wall_dizzy_NFF-dizzyness.wav" type="AudioStream" id=11]
@@ -40,7 +38,7 @@
 [ext_resource path="res://assets/sfx/events/countdown-a.ogg" type="AudioStream" id=39]
 [ext_resource path="res://assets/sfx/events/countdown-b.ogg" type="AudioStream" id=40]
 [ext_resource path="res://assets/sfx/skills/push_stone_slide.wav" type="AudioStream" id=41]
-[ext_resource path="res://assets/sfx/.obs/skill_fail_NFF-feed-2.wav" type="AudioStream" id=42]
+[ext_resource path="res://assets/sfx/last_beat.wav" type="AudioStream" id=42]
 [ext_resource path="res://assets/sfx/skills/skilled_frcer.wav" type="AudioStream" id=43]
 [ext_resource path="res://assets/sfx/_unused/skill_success_b_NFF-glocken-good.wav" type="AudioStream" id=44]
 [ext_resource path="res://assets/sfx/_unused/skill_success_a_NFF-glocken-bad.wav" type="AudioStream" id=45]
@@ -420,8 +418,14 @@ volume_db = -5.0
 pitch_scale = 0.7
 
 [node name="Pushed" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
-stream = ExtResource( 8 )
+stream = ExtResource( 42 )
 volume_db = -5.0
+
+[node name="PushStoneSlide" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
+stream = ExtResource( 41 )
+
+[node name="PullStoneSlide" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
+stream = ExtResource( 36 )
 
 [node name="SkilledBeep" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
 stream = SubResource( 28 )
@@ -449,19 +453,13 @@ stream = ExtResource( 44 )
 volume_db = -20.0
 pitch_scale = 1.1
 
-[node name="PullStoneSlide" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
-stream = ExtResource( 36 )
-
-[node name="PushStoneSlide" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
-stream = ExtResource( 41 )
-
 [node name="SkillFail" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
 stream = ExtResource( 42 )
 volume_db = -22.696
 pitch_scale = 0.88
 
 [node name="LastBeat" type="AudioStreamPlayer" parent="SoundManager/GameSfx"]
-stream = ExtResource( 6 )
+stream = ExtResource( 42 )
 volume_db = -10.0
 pitch_scale = 1.1
 

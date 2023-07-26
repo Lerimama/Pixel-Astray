@@ -67,6 +67,7 @@ onready var current_viewport = get_viewport()
 onready var viewport_footer: ColorRect = $"%ViewFuter"
 onready var viewport_header: ColorRect = $"%ViewHeder"
 
+
 func _input(_event: InputEvent) -> void: # testview inputs
 
 	if Input.is_action_just_pressed("left_click") and test_view_on and not mouse_used:

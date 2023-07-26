@@ -7,6 +7,7 @@ onready var viewport_1: Viewport = $GameView/Viewports/ViewportContainer1/Viewpo
 onready var minimap_viewport: Viewport = $Minimap/MinimapViewport
 onready var minimap_camera: Camera2D = $Minimap/MinimapViewport/MinimapCam
 
+onready var skip_intro_popup: Label = $GUI/SkipLabel
 
 func _ready() -> void:
 	
@@ -19,6 +20,13 @@ func _ready() -> void:
 	
 	set_camera_limits()
 
+func _process(delta: float) -> void:
+	
+	if Global.game_manager.can_skip_intro:
+		skip_intro_popup.visible = true
+	else:
+		skip_intro_popup.visible = false
+	
 	
 func set_camera_limits():
 	

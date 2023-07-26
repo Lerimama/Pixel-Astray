@@ -18,31 +18,36 @@ func _ready() -> void:
 #	set_game()
 
 #func _process(delta: float) -> void:
+#	yield(get_tree().create_timer(0.1), "timeout") # zato da se vse naloži
+#	step(Vector2.UP)
+#	yield(get_tree().create_timer(0.1), "timeout") # zato da se vse naloži
+##	step(Vector2.UP)
+#	step(Vector2(100,100))
+##
+##	if Input.is_action_pressed("ui_up"): # ne koraka z 1 energijo
+##		direction = Vector2.UP
+##		step()
+##	elif Input.is_action_pressed("ui_down"):
+##		direction = Vector2.DOWN
+##		step()
+##	elif Input.is_action_pressed("ui_left"):
+##		direction = Vector2.LEFT
+##		step()
+##	elif Input.is_action_pressed("ui_right"):
+##		direction = Vector2.RIGHT
+##		step()
+##
+##
+#func step(step_direction):
 #
-#	if Input.is_action_pressed("ui_up"): # ne koraka z 1 energijo
-#		direction = Vector2.UP
-#		step()
-#	elif Input.is_action_pressed("ui_down"):
-#		direction = Vector2.DOWN
-#		step()
-#	elif Input.is_action_pressed("ui_left"):
-#		direction = Vector2.LEFT
-#		step()
-#	elif Input.is_action_pressed("ui_right"):
-#		direction = Vector2.RIGHT
-#		step()
 #
-#
-#func step():
-#
-#	var step_direction = direction
-#
-#	# če kolajda izbrani smeri gibanja prenesem kontrole na skill
-#
+#	global_position += direction * cell_size_x
+	# če kolajda izbrani smeri gibanja prenesem kontrole na skill
+	
 #	global_position = Global.snap_to_nearest_grid(global_position)
-#
-##	spawn_trail_ghost()
-#
+	
+#	spawn_trail_ghost()
+
 #	var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 #	step_tween.tween_property(self, "position", global_position + direction * cell_size_x, step_time)
 #	step_tween.tween_callback(self, "end_move")

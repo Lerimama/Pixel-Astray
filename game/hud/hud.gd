@@ -35,13 +35,14 @@ onready var pixels_off: Label = $Footer/HudLine_TR/OffedCounter/PixelsOff
 onready var stray_pixels_counter = $Footer/HudLine_TR/StrayCounter
 onready var stray_pixels: Label = $Footer/HudLine_TR/StrayCounter/PixelsStray
 
-
-# hs popup 
+# popups 
 var close_to_highscore_part = 0.85 # procent HS vrednosti
 var highscore_broken: bool =  false
 var highscore_broken_popup_time: float = 2
 onready var highscore_close_popup: Label = $Popups/HSClose
 onready var highscore_broken_popup: Control = $Popups/HSBroken
+onready var skip_btn: Button = $Popups/SkipBtn
+onready var skip_label: Label = $Popups/SkipLabel
 
 
 func _ready() -> void:
@@ -87,8 +88,8 @@ func writing_stats():
 		highscore_label.text = "HIGHSCORE %04d" % game_stats["highscore"]
 	else:
 		highscore_label.text = "HIGHSCORE %04d" % player_stats["player_points"]
-
-
+		
+		
 func checking_highscore():
 	
 	var current_highscore = game_stats["highscore"]

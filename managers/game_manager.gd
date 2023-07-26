@@ -2,6 +2,8 @@ extends Node
 
 
 export var pick_neighbour_mode = false
+export var can_skip_intro: bool
+var dead_time: float = 3 # pavza med die in revive funkcijo
 var colors_to_pick: Array # za hud nejbrhud pravila
 
 # states
@@ -17,7 +19,8 @@ var strays_spawn_loop: int = 0
 var strays_shown: Array = []
 
 # spawning
-var player_start_position: Vector2 # pogreba iz tajlmepa
+#var player_start_position: Vector2  # pogreba iz tajlmepa
+var player_start_position = null  # pogreba iz tajlmepa
 var spawned_player_index: int = 0
 var spawned_stray_index: int = 0
 var players_in_game: Array = []
@@ -37,7 +40,7 @@ onready var game_stats: Dictionary = Profiles.default_level_stats.duplicate() # 
 onready var game_rules: Dictionary = Profiles.game_rules 
 onready var FloatingTag = preload("res://game/pixel/FloatingTag.tscn")
 
-export var skip_intro_allowed: bool
+
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -47,7 +50,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		printt("players_in_game", players_in_game)
 		
 	if Input.is_action_pressed("no1") and player_stats["player_energy"] > 1:
-		player_stats["player_energy"] -= 1
+		player_stats["player_energy"] -= 10
 	if Input.is_action_pressed("no2"):
 		player_stats["player_energy"] += 10
 	if Input.is_action_pressed("no3"):
@@ -55,11 +58,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			for player in players_in_game:
 				player.die() # s te metode s spet kliče stat change "player_life"
 	
-	if skip_intro_allowed: # not Global.game_manager.game_on:
+	if can_skip_intro: # tajmiran v animaciji in skip funkciji
 		if event is InputEventKey:
 			if event.pressed and event.scancode == KEY_ESCAPE:
 				skip_intro()
-				
 				
 		
 func _ready() -> void:
@@ -70,8 +72,8 @@ func _ready() -> void:
 	# štartej igro
 	yield(get_tree().create_timer(0.1), "timeout") # blink igre, da se ziher vse naloži
 
-#	play_intro()
-	skip_intro() # še countdown
+	play_intro()
+#	skip_intro() # še countdown
 	
 	
 func _process(delta: float) -> void:
@@ -83,26 +85,18 @@ func _process(delta: float) -> void:
 # GAME LOOP --------------------------------------------------------------------------------------------------------------------------------
 
 
-func play_intro():
-	
-#	Global.camera_target = animated_pixel
-	split_stray_colors(stray_pixels_count)	
-	
-	# pavza pred pixelate eventom
-	yield(get_tree().create_timer(2), "timeout")
-	
-	# spawnam strayse v več grupah
-	animation_player.play("pixelate")
-	
-onready var floor_cover: ColorRect = $"../Level/FloorCover" # _temp
-func skip_intro():
+
+func skip_intro(): # spawnanje, ki bi se drugače zgodilo v intro animaciji
 	
 	animation_player.stop()
-	skip_intro_allowed = false
-	floor_cover.color = Color("00ffffff") # _temp
+	can_skip_intro = false
 	
-	split_stray_colors(stray_pixels_count) # samo za test 
-	
+	# za intro animacijo?
+	#onready var floor_cover: ColorRect = $"../Level/FloorCover"
+	# _temp ... ugasnjeno pred izbrisom
+	# floor_cover.color = Color("00ffffff")
+		
+	split_stray_colors() 
 	spawn_player()
 	yield(get_tree().create_timer(2), "timeout")
 	show_strays()
@@ -114,6 +108,17 @@ func skip_intro():
 	show_strays()
 	
 	set_game()	
+
+
+func play_intro():
+	
+	spawn_player() # ob spawnu pritegne kamero, ga skrijem in ga prikažem ko je potrebno
+	
+	# pavza pred pixelate eventom
+	yield(get_tree().create_timer(2), "timeout")
+	
+	animation_player.play("game_intro")
+	# v animaciji spawnam strayse v več grupah, pljerja in zaženem set_game()
 
 
 func show_strays():
@@ -149,12 +154,12 @@ func show_strays():
 	print("shown strays: ", strays_shown.size())	
 					
 
-func set_game():
+func set_game(): # setam ves data igre
 
 	if not players_in_game.empty():
 		for player in players_in_game:
+			player.visible = true
 			player.set_physics_process(false)
-	
 	actor_pixel.queue_free()
 	
 	strays_spawn_loop = 0
@@ -177,18 +182,17 @@ func set_game():
 	start_game()
 
 	
-func start_game():
+func start_game(): # goli štart
 	
 	Global.sound_manager.play_music("game")
 	
 	game_on = true
+	
 	# aktiviram plejerja in tajmer
 	Global.hud.game_timer.start_timer(Profiles.default_level_stats["game_time_limit"])
 	if not players_in_game.empty():
 		for player in players_in_game:
 			player.set_physics_process(true)
-	else:			
-		print("PLAYER = NIGA")
 	
 	
 func game_over(game_over_reason: String):
@@ -201,8 +205,6 @@ func game_over(game_over_reason: String):
 	if not players_in_game.empty():
 		for player in players_in_game:
 			player.set_physics_process(false)
-	
-#	Global.hud.stop_timer()
 	
 	# YIELD 0 ... čaka na konec zoomoutamm
 	print ("GM gameover - YIELD 0")
@@ -241,9 +243,8 @@ func spawn_player():
 	var new_player_pixel = PlayerPixel.instance()
 	new_player_pixel.name = "P%s" % str(spawned_player_index)
 	new_player_pixel.pixel_color = Global.color_white
-	
 	new_player_pixel.global_position = spawn_position # + grid_cell_size/2 ... ne rabim snepat ker se v pixlu na redi funkciji
-	
+	new_player_pixel.visible = false
 	#spawn
 	Global.node_creation_parent.add_child(new_player_pixel)
 	
@@ -268,12 +269,12 @@ func spawn_player():
 	# premik kamere na štartu
 	yield(get_tree().create_timer(1), "timeout")
 
-	
 
-func split_stray_colors(strays_count):
+func split_stray_colors():
+#func split_stray_colors(strays_count):
 	
 	# split colors
-	var color_count: int = strays_count 
+	var color_count: int = stray_pixels_count 
 	color_count = clamp(color_count, 1, color_count) # za vsak slučaj klempam, da ne more biti nikoli 0 ...  ker je error			
 	
 	# poberem sliko
@@ -354,7 +355,6 @@ func _on_TileMap_floor_completed(floor_cells_global_positions: Array, player_sta
 	else:
 		print("ne najdem pozicije plejerja")
 
-var dead_time: float = 3 # pavza med die in revive funkcijo
 
 func _on_stat_changed(stat_owner, changed_stat, stat_change):
 	
