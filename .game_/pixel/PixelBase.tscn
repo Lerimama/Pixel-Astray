@@ -1,0 +1,476 @@
+[gd_scene load_steps=16 format=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 16, 16 )
+
+[sub_resource type="Animation" id=126]
+resource_name = "breath"
+length = 1.8
+loop = true
+step = 0.01
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 1.04957, 0, 0, 0.5, 0, 0.8, -0.5, 0, 0, 0, 0.8, 0, 0, 0.5, 0, 1.04957, -0.3, 0, 0, 0 ),
+"times": PoolRealArray( 0, 0.9, 0.93, 1.8 )
+}
+
+[sub_resource type="Animation" id=133]
+resource_name = "color_burst"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.0671055, 0.192166, 0.527694, 0.594799, 0.652754, 0.695458, 1.00048, 1.10114, 1.19265, 1.40312, 1.50072, 1.76679, 1.83056, 1.95521, 1.99182, 2.05817, 2.08332, 2.16616, 2.20228, 2.23952, 2.26634, 2.41272, 2.44325, 2.53701, 2.56221, 2.69642, 2.9, 3.50437, 3.6076, 3.65741, 3.99827, 5.12445, 5.26415, 5.33244, 5.55089, 5.62481, 5.74944, 5.81379, 5.89506, 5.93855, 6.01379, 6.07789, 6.12601, 6.23897, 6.34231, 6.38221, 6.46349, 6.5355, 6.60667, 6.70323, 7.30323 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 1.0, 1.0, 0.7, 1.0, 0.0, 1.0, 0.7, 1.0, 1.0, 0.7, 0.7, 0.8, 1.0, 0.7, 0.8, 0.0, 0.6, 0.0, 0.6, 0.0, 0.6, 0.0, 0.6, 0.0, 1.0, 1.0, 1.5, 1.4, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.15, 0.0, 0.15, 0.1, 0.0, 0.25, 0.0, 0.15, 0.2, 0.0, 0.15, 0.1, 0.0, 0.2, 0.25, 0.0 ]
+}
+
+[sub_resource type="Animation" id=128]
+resource_name = "die_long"
+length = 3.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.0666933, 0.2, 0.533307, 0.6, 0.663918, 0.693141, 1, 1.1, 1.2, 1.4, 1.5, 1.76698, 1.8326, 1.96069, 1.98991, 2.05678, 2.08461, 2.17197, 2.20536, 2.24291, 2.27213, 2.41788, 2.44572, 2.53201, 2.56124, 2.7, 3.1, 3.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.784314 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.784314 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.627451 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.54902 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.470588 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.0671055, 0.192166, 0.527694, 0.594799, 0.652754, 0.695458, 1.00048, 1.10114, 1.19265, 1.40312, 1.50072, 1.76679, 1.83056, 1.95521, 1.99182, 2.05817, 2.08332, 2.16616, 2.20228, 2.23952, 2.26634, 2.41272, 2.44325, 2.53701, 2.56221, 2.69642, 3.1, 3.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.8, 1.0, 0.0, 0.8, 0.0, 0.6, 0.0, 0.6, 0.0, 0.6, 0.0, 0.6, 0.0, 1.0, 1.0, 0.0 ]
+}
+
+[sub_resource type="Animation" id=125]
+resource_name = "die_player"
+length = 2.0
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.0605592, 0.114726, 0.185737, 0.234325, 0.447234, 0.53924, 0.672547, 0.73924, 0.803158, 0.841606, 0.9, 1, 1.1, 1.2, 1.36541, 1.5, 1.6, 1.6544, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.215686 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.215686 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.545098 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.215686 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.360784 ), Color( 1, 1, 1, 0.486275 ), Color( 1, 1, 1, 0.203922 ), Color( 1, 1, 1, 0.533333 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate:a")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.0605592, 0.115436, 0.184698, 0.232797, 0.445392, 0.539576, 0.67419, 0.738793, 0.8, 0.841557, 0.899275, 1, 1.10076, 1.19941, 1.36723, 1.49998, 1.60081, 1.6553, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.2, 1.0, 0.2, 1.0, 1.0, 0.55, 1.0, 0.2, 0.118591, 0.4, 1.0, 0.2, 0.2, 1.0, 0.4, 0.55, 0.2, 0.55, 0.0 ]
+}
+
+[sub_resource type="Animation" id=122]
+resource_name = "die_stray_1"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.063323, 0.114726, 0.185737, 0.234325, 0.479153, 0.571159, 0.704466, 0.771159, 0.835077, 0.8643, 0.991427, 1.01665, 1.10663, 1.14002, 1.17757, 1.20679, 1.39812, 1.49589 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.215686 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.215686 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.545098 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.784314 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.627451 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.54902 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:modulate:a")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.0647365, 0.112226, 0.190969, 0.234796, 0.477586, 0.569436, 0.7, 0.765204, 0.840752, 0.867398, 0.989812, 1.0185, 1.1, 1.13902, 1.17602, 1.20694, 1.39195, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.2, 1.0, 0.2, 1.0, 1.0, 0.55, 1.0, 0.2, 1.0, 0.2, 0.8, 0.2, 0.6, 0.0, 0.55, 0.2, 0.55, 0.0 ]
+}
+
+[sub_resource type="Animation" id=127]
+resource_name = "die_stray_2"
+length = 1.7
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.0666933, 0.2, 0.533307, 0.6, 0.663918, 0.693141, 0.9, 1, 1.1, 1.27132, 1.4, 1.50596, 1.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.784314 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.54902 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.0671055, 0.192166, 0.527694, 0.594799, 0.652754, 0.695458, 0.9, 1.00048, 1.10114, 1.26397, 1.4, 1.44379, 1.51518, 1.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.6, 1.0, 0.0, 1.0, 0.6, 0.6, 1.0, 0.0 ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 1.7 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+
+[sub_resource type="Animation" id=129]
+resource_name = "die_stray_3"
+length = 1.3
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.20034, 0.267316, 0.46103, 0.49025, 0.58495, 0.67231, 0.7057, 0.77247, 0.886208, 0.950725, 1.02886, 1.07256, 1.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.627451 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.470588 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.20034, 0.330904, 0.455552, 0.492155, 0.585, 0.702623, 0.772461, 0.888398, 0.948258, 1.02492, 1.06898, 1.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 0.8, 1.0, 0.0, 0.8, 0.0, 0.6, 0.7, 0.0, 0.7, 1.0, 0.0 ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 1.3 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+
+[sub_resource type="Animation" id=131]
+resource_name = "die_stray_4"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.115685, 0.229303, 0.319553, 0.379559, 0.501613, 0.535003, 0.601773, 0.712446, 0.831086, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.627451 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.115685, 0.229303, 0.321458, 0.379609, 0.505558, 0.601764, 0.708506, 0.827506, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 1.0, 0.0, 0.8, 0.0, 0.6, 0.7, 1.0, 0.0 ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+
+[sub_resource type="Animation" id=132]
+resource_name = "die_stray_5"
+length = 1.4
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.0666933, 0.203418, 0.338597, 0.510816, 0.669907, 0.769907, 0.941227, 1.06991, 1.17587, 1.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.784314 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.54902 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.0671055, 0.202442, 0.340914, 0.510816, 0.670387, 0.771047, 0.933877, 1.06991, 1.1137, 1.18509, 1.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 1.0, 0.0, 0.6, 1.0, 0.0, 1.0, 0.6, 0.6, 1.0, 0.0 ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 1.4 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+
+[sub_resource type="Animation" id=118]
+resource_name = "glitch_1"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.0503924, 0.2, 0.244985, 0.3, 0.975, 1, 1.075, 1.1, 1.2, 1.225, 1.275, 2.27213, 2.41788, 2.44572, 2.53201, 2.56124, 2.7, 2.77147, 3.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.196078 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.196078 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.784314 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.627451 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.54902 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.470588 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.0590907, 0.2, 0.244513, 0.3, 0.977586, 1.0025, 1.06867, 1.10846, 1.195, 1.22664, 1.27446, 2.27373, 2.41257, 2.44489, 2.53483, 2.56103, 2.69801, 2.76729, 3.20084 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.2, 1.0, 0.2, 1.0, 1.0, 0.0, 0.8, 0.0, 0.6, 0.0, 0.5, 0.0, 0.5, 0.0, 0.5, 0.0, 1.0, 1.0, 0.0 ]
+}
+
+[sub_resource type="Animation" id=119]
+resource_name = "glitch_2"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.0423229, 0.130222, 0.193762, 0.3, 0.425164, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.784314 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.627451 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate:a")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.0425728, 0.131745, 0.192728, 0.3, 0.37311, 0.42418, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.1, 0.6, 0.1, 0.6, 1.0, 0.1, 1.0 ]
+}
+
+[sub_resource type="Animation" id=120]
+resource_name = "glitch_3"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.0328999, 0.0832719, 0.135846, 0.173116, 0.242209, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.470588 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.0321468, 0.0825391, 0.135538, 0.172898, 0.239798, 0.298878 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 0.5, 1.0, 0.0, 0.5, 1.0 ]
+}
+
+[sub_resource type="Animation" id=124]
+resource_name = "revive"
+length = 3.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.2, 1.4, 1.5, 1.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.545098 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0.470588 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.54902 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.627451 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0.784314 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ true ],
+"method": "set_physics_process"
+} ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:modulate:a")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.2, 1.4, 1.5, 1.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.933033, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.5, 0.0, 0.4, 0.45, 1.0, 0.5, 1.0, 0.0, 1.0, 0.35, 0.75, 1.0 ]
+}
+
+[sub_resource type="Animation" id=134]
+resource_name = "stil_alive"
+length = 2.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.324479, 0.464183, 0.532472, 0.750925, 0.824842, 0.949468, 1.01382, 1.09509, 1.13858, 1.21382, 1.27792, 1.32604, 1.439, 1.54235, 1.58225, 1.66352, 1.73553, 1.8067, 1.90326, 2.50326 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0812916, 0.0, 0.1, 0.0, 0.0, 0.15, 0.0, 0.15, 0.1, 0.0, 0.25, 0.0, 0.15, 0.2, 0.0, 0.15, 0.1, 0.0, 0.2, 0.25, 0.0 ]
+}
+
+[node name="Pixel" type="KinematicBody2D"]
+modulate = Color( 1, 1, 1, 1.04957 )
+
+[node name="PolyPixel" type="Polygon2D" parent="."]
+position = Vector2( -16, -16 )
+polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+scale = Vector2( 0.9, 0.9 )
+shape = SubResource( 1 )
+
+[node name="VisionRay" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 32, 0 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/breath = SubResource( 126 )
+anims/color_burst = SubResource( 133 )
+anims/die_long = SubResource( 128 )
+anims/die_player = SubResource( 125 )
+anims/die_stray_1 = SubResource( 122 )
+anims/die_stray_2 = SubResource( 127 )
+anims/die_stray_3 = SubResource( 129 )
+anims/die_stray_4 = SubResource( 131 )
+anims/die_stray_5 = SubResource( 132 )
+anims/glitch_1 = SubResource( 118 )
+anims/glitch_2 = SubResource( 119 )
+anims/glitch_3 = SubResource( 120 )
+anims/revive = SubResource( 124 )
+anims/stil_alive = SubResource( 134 )
