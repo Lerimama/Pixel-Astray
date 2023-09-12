@@ -71,7 +71,7 @@ onready var viewport_header: ColorRect = $"%ViewHeder"
 func _input(_event: InputEvent) -> void: # testview inputs
 
 	if Input.is_action_just_pressed("left_click") and test_view_on and not mouse_used:
-		multy_shake_camera(test_trauma_strength, test_trauma_time, test_decay_speed)
+		multi_shake_camera(test_trauma_strength, test_trauma_time, test_decay_speed)
 		
 #		test_trauma_strength = test_trauma_strength
 #		test_shake_camera(test_trauma_strength)
@@ -90,13 +90,17 @@ func _ready():
 	
 	Global.print_id(self)
 	Global.main_camera = self
+	printt("Global.main_camera CAMERA", Global.main_camera)
 	Global.camera_target = null # da se nulira (pri quit game) in je naslednji play brez errorja ... seta se ob spawnanju plejerja
 	
 	set_ui_focus()	
 	update_ui()
 	
-	# intro start zoom
+	# start setup
 	zoom = Vector2(2, 2)
+	position = Global.game_manager.player_start_position #+ Vector2(cell_size_x / 2, 0)
+	
+	print("player_start_position ", Global.game_manager.player_start_position)
 
 
 func zoom_in():
@@ -174,8 +178,6 @@ func _process(delta):
 
 func _physics_process(delta: float) -> void:
 
-#	if camera_target:
-#		position = camera_target.position
 	if Global.camera_target:
 		position = Global.camera_target.position + Vector2(cell_size_x / 2, 0)
 
@@ -185,6 +187,8 @@ func _physics_process(delta: float) -> void:
 
 func shake_camera(shake_power, shake_time, shake_decay): 
 	
+	if not Global.main_node.camera_shake_on:
+		return
 	# fixed
 	trauma_strength = shake_power
 	trauma_time = shake_time
@@ -194,7 +198,7 @@ func shake_camera(shake_power, shake_time, shake_decay):
 	trauma_strength = clamp(trauma_strength, 0, 1)
 
 
-func multy_shake_camera(shake_power, shake_time, shake_decay): 
+func multi_shake_camera(shake_power, shake_time, shake_decay): 
 	
 	trauma_strength += shake_power
 	trauma_time = shake_time
@@ -206,22 +210,21 @@ func multy_shake_camera(shake_power, shake_time, shake_decay):
 
 # FOLLOW ------------------------------------------------------------------------------------------------------------------------
 
-
-func reset_camera_position():
-	
-	drag_margin_top = 0
-	drag_margin_bottom = 0
-	drag_margin_left = 0
-	drag_margin_right = 0
-	
-	# position = Global.level_start_position.global_position
-
-	yield(get_tree().create_timer(1), "timeout")
-
-	drag_margin_top = 0.2
-	drag_margin_bottom = 0.2
-	drag_margin_left = 0.3
-	drag_margin_right = 0.3
+#func reset_camera_position():
+#
+#	drag_margin_top = 0
+#	drag_margin_bottom = 0
+#	drag_margin_left = 0
+#	drag_margin_right = 0
+#
+#	# position = Global.level_start_position.global_position
+#
+#	yield(get_tree().create_timer(1), "timeout")
+#
+#	drag_margin_top = 0.2
+#	drag_margin_bottom = 0.2
+#	drag_margin_left = 0.3
+#	drag_margin_right = 0.3
 
 
 # TESTHUD ------------------------------------------------------------------------------------------------------------------------
@@ -276,7 +279,7 @@ func _on_CheckBox_mouse_exited() -> void:
 
 func _on_AddTraumaBtn_pressed() -> void:
 	mouse_used = true
-	multy_shake_camera(test_trauma_strength, test_trauma_time, test_decay_speed)
+	multi_shake_camera(test_trauma_strength, test_trauma_time, test_decay_speed)
 
 func _on_AddTraumaBtn_mouse_entered() -> void:
 	mouse_used = true

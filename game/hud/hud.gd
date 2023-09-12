@@ -2,15 +2,15 @@ extends Control
 
 
 # ta node more bit na vrhu zaradi zaporedja nalaganja
-var player_stats: Dictionary
-var game_stats: Dictionary
+var player_stats_on_hud: Dictionary
+var game_stats_on_hud: Dictionary
 
 var fade_time: float = 1
 var default_hud_color: Color = Color.white
 
 # spectrum indicators
 var active_color_indicators: Array = []
-onready var ColorIndicator: PackedScene = preload("res://game/hud/HudColorIndicator.tscn")
+onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
 onready var indicator_holder: HBoxContainer = $Footer/ColorSpectrumLite/IndicatorHolder
 
 #header
@@ -21,10 +21,11 @@ onready var player_points: Label = $Header/HudLine_TL/PointsCounter/Points
 onready var cells_travelled: Label = $Header/HudLine_TL/CellCounter/CellsTravelled
 onready var skills_used: Label = $Header/HudLine_TL/SkillCounter/SkillsUsed
 onready var game_timer: HBoxContainer = $Header/GameTimer
-onready var music_label: Label = $Header/MusicLabel
 onready var level: Label = $Header/Level
 onready var highscore_label: Label = $Header/Highscore
-
+onready var music_label: Label = $Header/MusicLabel
+onready var on_icon: TextureRect = $Header/MusicLabel/OnIcon
+onready var off_icon: TextureRect = $Header/MusicLabel/OffIcon
 
 #futer
 onready var footer: Control = $Footer
@@ -41,59 +42,70 @@ var highscore_broken: bool =  false
 var highscore_broken_popup_time: float = 2
 onready var highscore_close_popup: Label = $Popups/HSClose
 onready var highscore_broken_popup: Control = $Popups/HSBroken
-onready var skip_btn: Button = $Popups/SkipBtn
-onready var skip_label: Label = $Popups/SkipLabel
 
 
 func _ready() -> void:
 	
 	Global.hud = self
 	
+#	color_spectrum = Global.color_indicator_parent
+
 	# skrij statistiko in popupe
 	visible = false
 	highscore_close_popup.visible = false
 	highscore_broken_popup.visible = false
-#	color_spectrum = Global.color_indicator_parent
 	
 
 func _process(delta: float) -> void:
 	
 	
-	player_stats = Global.game_manager.player_stats
-	game_stats = Global.game_manager.game_stats
+	player_stats_on_hud = Global.game_manager.player_stats
+	game_stats_on_hud = Global.game_manager.game_stats
 	
 	writing_stats()
 	
+	
 	if not highscore_broken and Global.game_manager.game_on:
 		checking_highscore()
+	elif not Global.game_manager.game_on:
+		highscore_close_popup.visible = false
+	
+	# music plejer display
+	music_label.text = "%02d" % Global.sound_manager.currently_playing_track_index
+	if Global.sound_manager.game_music_set_to_off:
+		on_icon.visible = false
+		off_icon.visible = true
+	else:
+		on_icon.visible = true
+		off_icon.visible = false
 		
 			
 func writing_stats():	
-	# pixel stats
 	
-	player_points.text = "%04d" % player_stats["player_points"]
-	cells_travelled.text = "%04d" % player_stats["cells_travelled"]
-	skills_used.text = "%04d" % player_stats["skills_used"]
+	# pixel stats
+	player_points.text = "%04d" % player_stats_on_hud["player_points"]
+	cells_travelled.text = "%04d" % player_stats_on_hud["cells_travelled"]
+	skills_used.text = "%04d" % player_stats_on_hud["skills_used"]
 	
 	# game stats
-	level.text = "LEVEL %02d" % game_stats["level_no"]
-	stray_pixels.text = "%03d" % game_stats["stray_pixels_count"]
-	pixels_off.text = "%03d" % game_stats["off_pixels_count"]
+	level.text = "LEVEL %02d" % game_stats_on_hud["level_no"]
+	stray_pixels.text = "%03d" % game_stats_on_hud["stray_pixels_count"]
+	pixels_off.text = "%03d" % game_stats_on_hud["off_pixels_count"]
 	
 	# _temp
-	player_life.text = "LIFE: %01d" % player_stats["player_life"]
-	player_energy.text = "E: %04d" % player_stats["player_energy"]
+	player_life.text = "LIFE: %01d" % player_stats_on_hud["player_life"]
+	player_energy.text = "E: %04d" % player_stats_on_hud["player_energy"]
 	
 	if not highscore_broken:
-		highscore_label.text = "HIGHSCORE %04d" % game_stats["highscore"]
+		highscore_label.text = "HS %04d" % game_stats_on_hud["highscore"]
 	else:
-		highscore_label.text = "HIGHSCORE %04d" % player_stats["player_points"]
+		highscore_label.text = "HIGHSCORE %04d" % player_stats_on_hud["player_points"]
 		
 		
 func checking_highscore():
 	
-	var current_highscore = game_stats["highscore"]
-	var current_points = player_stats["player_points"]
+	var current_highscore = game_stats_on_hud["highscore"]
+	var current_points = player_stats_on_hud["player_points"]
 	var close_to_highscore_limit: float = abs(current_highscore * close_to_highscore_part)
 	
 	
@@ -128,19 +140,9 @@ func fade_in():
 	var fade_in_tween = get_tree().create_tween()
 	fade_in_tween.tween_property(self, "modulate:a", 1, fade_time)
 
-	
-		
-func start_timer():
-	game_timer.start_timer(Profiles.default_level_stats["game_time_limit"])
-	
-#	game_time.restart_timer(Profiles.default_level_stats["game_time"])
-
-func stop_timer():
-	game_timer.stop_timer()
-#	game_time.timing_on = false
-
 
 # COLORS ---------------------------------------------------------------------------------------------------------------------------
+
 
 func spawn_color_indicators(colors): 
 # ukaz pride iz GM
@@ -184,16 +186,16 @@ func erase_color_indicator(erase_color):
 	for indicator in active_color_indicators:
 		if indicator.color == erase_color:
 			current_indicator_index = active_color_indicators.find(indicator)
-			if Global.game_manager.pick_neighbour_mode:
+			if Profiles.game_rules["pick_neighbour_mode"]:
 				indicator.modulate.a = 0
 			else:
 				indicator.modulate.a = 0.3
 				break
 		else:
-			if Global.game_manager.pick_neighbour_mode:
+			if Profiles.game_rules["pick_neighbour_mode"]:
 				indicator.modulate.a = 0.5
 			
-	if Global.game_manager.pick_neighbour_mode:	
+	if Profiles.game_rules["pick_neighbour_mode"]:	
 		# opredelitev sosedov glede na položaj pobrane barve
 		if active_color_indicators.size() == 1: # če je samo še en indikator, nima sosedov	
 			return
@@ -233,14 +235,13 @@ func erase_color_indicator(erase_color):
 # SIGNALS ---------------------------------------------------------------------------------------------------------------------------
 
 
-func _on_GameTime_deathmode_on() -> void:
-	Global.game_manager.deathmode_on = true
-	pass
+func _on_GameTimer_deathmode_active() -> void:
+	Global.game_manager.deathmode_active = true
+
 
 func _on_GameTimer_gametime_is_up() -> void:
-#	print("ASGNALAASGNALAASGNALAASGNALAASGNALAASGNALAASGNALA")
-	Global.game_manager.game_over(Global.game_over_reason_time)
-	pass
+#	Global.game_manager.game_over(Global.game_over_reason_time)
+	Global.game_manager.game_over("time is up")
 
 #func erase_all_indicators(): ... zaenkrat ne rabim nikjer
 #	
@@ -249,5 +250,7 @@ func _on_GameTimer_gametime_is_up() -> void:
 #			indicator.queue_free()
 #		active_color_indicators = []
 #	pass
+
+
 
 

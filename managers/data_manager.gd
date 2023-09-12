@@ -3,6 +3,7 @@ extends Node
 
 var data_file: = File.new()
 
+
 func _ready() -> void:
 	Global.data_manager = self
 

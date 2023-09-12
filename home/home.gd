@@ -7,28 +7,66 @@ enum Screens {MAIN_MENU, SELECT_GAME, ABOUT, SETTINGS, CREDITS}
 var current_screen = Screens.MAIN_MENU
 
 
-func _ready():
-	$Menu/PlayBtn.grab_focus()
-	pass
+func _input(event: InputEvent) -> void:
+#func _unhandled_input(event: InputEvent) -> void:
 
-
-func _process(delta: float) -> void:
+	if event is InputEventKey:
+#		if event.pressed and event.scancode == KEY_ESCAPE:
+		if Input.is_action_just_pressed("ui_cancel"):
+				
+			match current_screen:
+				Screens.MAIN_MENU:
+					 pass
+				Screens.SELECT_GAME:
+					_on_SelectGameBackBtn_pressed()
+				Screens.ABOUT:
+					_on_AboutBackBtn_pressed()
+				Screens.SETTINGS:
+					_on_SettingsBackBtn_pressed()
+				Screens.CREDITS:
+					_on_CreditsBackBtn_pressed()
 	
-	# change focus sounds
 	if current_screen == Screens.MAIN_MENU:
 		if Input.is_action_just_pressed("ui_left"):
-			Global.sound_manager.play_sfx("btn_focus_change")
+			Global.sound_manager.play_gui_sfx("btn_focus_change")
 		elif Input.is_action_just_pressed("ui_right"):
-			Global.sound_manager.play_sfx("btn_focus_change")
-	elif current_screen == Screens.SELECT_GAME: # or current_screen == Screens.SETTINGS:
+			Global.sound_manager.play_gui_sfx("btn_focus_change")
+	elif current_screen == Screens.SELECT_GAME or current_screen == Screens.SETTINGS:
 		if Input.is_action_just_pressed("ui_left"):
-			Global.sound_manager.play_sfx("btn_focus_change")
+			Global.sound_manager.play_gui_sfx("btn_focus_change")
 		elif Input.is_action_just_pressed("ui_right"):
-			Global.sound_manager.play_sfx("btn_focus_change")	
-		if Input.is_action_just_pressed("ui_up"):
-			Global.sound_manager.play_sfx("btn_focus_change")
+			Global.sound_manager.play_gui_sfx("btn_focus_change")	
+		elif Input.is_action_just_pressed("ui_up"):
+			Global.sound_manager.play_gui_sfx("btn_focus_change")
 		elif Input.is_action_just_pressed("ui_down"):
-			Global.sound_manager.play_sfx("btn_focus_change")
+			Global.sound_manager.play_gui_sfx("btn_focus_change")
+		elif Input.is_action_just_pressed("ui_focus_next"):
+			Global.sound_manager.play_gui_sfx("btn_focus_change")
+		elif Input.is_action_just_pressed("ui_focus_prev"):
+			Global.sound_manager.play_gui_sfx("btn_focus_change")
+					
+					
+func _ready():
+	$Menu/PlayBtn.grab_focus()
+
+
+#func _process(delta: float) -> void:
+#
+#	# change focus sounds
+#	if current_screen == Screens.MAIN_MENU:
+#		if Input.is_action_just_pressed("ui_left"):
+#			Global.sound_manager.play_gui_sfx("btn_focus_change")
+#		elif Input.is_action_just_pressed("ui_right"):
+#			Global.sound_manager.play_gui_sfx("btn_focus_change")
+#	elif current_screen == Screens.SELECT_GAME: # or current_screen == Screens.SETTINGS:
+#		if Input.is_action_just_pressed("ui_left"):
+#			Global.sound_manager.play_gui_sfx("btn_focus_change")
+#		elif Input.is_action_just_pressed("ui_right"):
+#			Global.sound_manager.play_gui_sfx("btn_focus_change")	
+#		if Input.is_action_just_pressed("ui_up"):
+#			Global.sound_manager.play_gui_sfx("btn_focus_change")
+#		elif Input.is_action_just_pressed("ui_down"):
+#			Global.sound_manager.play_gui_sfx("btn_focus_change")
 			
 			
 # MAIN MENU ---------------------------------------------------------------------------------------------------
@@ -41,24 +79,24 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 			if animation_reversed("select_game"):
 				return
 			current_screen = Screens.SELECT_GAME
-			$SelectGame/Game1/SelectGameBtn.grab_focus()
+			$SelectGame/SelectGameBtn.grab_focus()
 			
 		"about":
 			if animation_reversed("about"):
 				return
 			current_screen = Screens.ABOUT
-			$About/BackBtn.grab_focus()
+			$About/AboutBackBtn.grab_focus()
 		"settings":
 			if animation_reversed("settings"):
 				return
 			current_screen = Screens.SETTINGS
-			$Settings/BackBtn.grab_focus()
+			$Settings/MenuMusicCheckBox.grab_focus()
 		"credits":
 			if animation_reversed("credits"):
 				return
 			current_screen = Screens.CREDITS
-			$Credits/BackBtn.grab_focus()
-	
+			$Credits/CreditsBackBtn.grab_focus()
+
 
 func animation_reversed(from_screen: String):
 	
@@ -79,30 +117,30 @@ func animation_reversed(from_screen: String):
 
 
 func _on_PlayBtn_pressed() -> void:
-	Global.sound_manager.play_sfx("btn_confirm")
+	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.home_out() # ... tole je, če ni animacije ... Quick play?
 
 func _on_SelectGameBtn_pressed() -> void:
-	Global.sound_manager.play_sfx("screen_slide")
-	Global.sound_manager.play_sfx("btn_confirm")
+	Global.sound_manager.play_gui_sfx("screen_slide")
+	Global.sound_manager.play_gui_sfx("btn_confirm")
 	animation_player.play("select_game")
 
 
 func _on_AboutBtn_pressed() -> void:
-	Global.sound_manager.play_sfx("screen_slide")
-	Global.sound_manager.play_sfx("btn_confirm")
+	Global.sound_manager.play_gui_sfx("screen_slide")
+	Global.sound_manager.play_gui_sfx("btn_confirm")
 	animation_player.play("about")
 
 
 func _on_SettingsBtn_pressed() -> void:
-	Global.sound_manager.play_sfx("screen_slide")
-	Global.sound_manager.play_sfx("btn_confirm")
+	Global.sound_manager.play_gui_sfx("screen_slide")
+	Global.sound_manager.play_gui_sfx("btn_confirm")
 	animation_player.play("settings")
 
 
 func _on_CreditsBtn_pressed() -> void:
-	Global.sound_manager.play_sfx("screen_slide")
-	Global.sound_manager.play_sfx("btn_confirm")
+	Global.sound_manager.play_gui_sfx("screen_slide")
+	Global.sound_manager.play_gui_sfx("btn_confirm")
 	animation_player.play("credits")
 
 
@@ -110,25 +148,25 @@ func _on_CreditsBtn_pressed() -> void:
 
 
 func _on_SelectGameBackBtn_pressed() -> void:
-	Global.sound_manager.play_sfx("btn_cancel")
-	Global.sound_manager.play_sfx("screen_slide")
+	Global.sound_manager.play_gui_sfx("btn_cancel")
+	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play_backwards("select_game")
 
 func _on_AboutBackBtn_pressed() -> void:
-	Global.sound_manager.play_sfx("btn_cancel")
-	Global.sound_manager.play_sfx("screen_slide")
+	Global.sound_manager.play_gui_sfx("btn_cancel")
+	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play_backwards("about")
 
-	
+
 func _on_SettingsBackBtn_pressed() -> void:
-	Global.sound_manager.play_sfx("btn_cancel")
-	Global.sound_manager.play_sfx("screen_slide")
+	Global.sound_manager.play_gui_sfx("btn_cancel")
+	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play_backwards("settings")
 	
 	
 func _on_CreditsBackBtn_pressed() -> void:
-	Global.sound_manager.play_sfx("btn_cancel")
-	Global.sound_manager.play_sfx("screen_slide")
+	Global.sound_manager.play_gui_sfx("btn_cancel")
+	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play_backwards("credits")
 
 
@@ -136,10 +174,6 @@ func _on_CreditsBackBtn_pressed() -> void:
 
 	
 func _on_SelectGame1Btn_pressed() -> void:
-	Global.sound_manager.play_sfx("btn_confirm")
+	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.home_out() # ... tole je, če ni animacije ... Quick play?
 
-
-func _on_SelectGame2Btn_pressed() -> void:
-	Global.sound_manager.play_sfx("btn_confirm")
-	Global.main_node.home_out() 

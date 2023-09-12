@@ -4,6 +4,7 @@ extends Node
 onready var d_camera: Camera2D = $GameView/Viewports/ViewportContainer1/Viewport1/GameCam
 onready var viewport_1: Viewport = $GameView/Viewports/ViewportContainer1/Viewport1
 
+onready var minimap: ViewportContainer = $Minimap
 onready var minimap_viewport: Viewport = $Minimap/MinimapViewport
 onready var minimap_camera: Camera2D = $Minimap/MinimapViewport/MinimapCam
 
@@ -12,13 +13,19 @@ onready var skip_intro_popup: Label = $GUI/SkipLabel
 func _ready() -> void:
 	
 	get_viewport()	
-	minimap_viewport.world_2d = viewport_1.world_2d
+	set_camera_limits()
 	
+	# minimapa
+	if Profiles.game_rules["minimap_on"]:
+		minimap.visible = true
+	else:
+		minimap.visible = false
+	minimap_viewport.world_2d = viewport_1.world_2d
 	# višina minimape v razmerju s formatom levela
 	var rect = Global.level_tilemap.get_used_rect()
 	minimap_viewport.size.y = minimap_viewport.size.x * rect.size.y / rect.size.x
 	
-	set_camera_limits()
+
 
 func _process(delta: float) -> void:
 	

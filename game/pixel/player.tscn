@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://game/pixel/PixelBase.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/resources/animation_pixelate.tres" type="Animation" id=2]
-[ext_resource path="res://game/pixel/player.gd" type="Script" id=3]
+[ext_resource path="res://game/pixel/player.gd" type="Script" id=2]
+[ext_resource path="res://assets/resources/animation_pixelate.tres" type="Animation" id=3]
 
 [sub_resource type="Animation" id=2]
 resource_name = "die_player_unique"
@@ -121,13 +121,11 @@ tracks/1/keys = {
 }
 
 [node name="Player" instance=ExtResource( 1 )]
-modulate = Color( 1, 1, 1, 0.2 )
-script = ExtResource( 3 )
-breath_alpha_adon = 0.25
+script = ExtResource( 2 )
 
 [node name="AnimationPlayer" parent="." index="3"]
 anims/die_player_unique = SubResource( 2 )
-anims/pixelate = ExtResource( 2 )
+anims/pixelate = ExtResource( 3 )
 anims/stil_alive_poly = SubResource( 1 )
 
 [node name="LastBreathTimer" type="Timer" parent="." index="4"]

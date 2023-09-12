@@ -1,76 +1,90 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=41 format=2]
 
-[ext_resource path="res://game/gui/game_over.gd" type="Script" id=2]
-[ext_resource path="res://assets/resources/gamecam_noise.tres" type="OpenSimplexNoise" id=3]
-[ext_resource path="res://assets/theme/fonts/16bfZX.ttf" type="DynamicFontData" id=4]
-[ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=5]
-[ext_resource path="res://_materiali/PixelAstray_design_game.png" type="Texture" id=6]
-[ext_resource path="res://game/hud/HudColorIndicator.tscn" type="PackedScene" id=7]
-[ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=8]
-[ext_resource path="res://assets/tileset_hud_icons.png" type="Texture" id=9]
-[ext_resource path="res://assets/resources/graphics_tileset.tres" type="TileSet" id=10]
-[ext_resource path="res://game/Arena.tscn" type="PackedScene" id=12]
-[ext_resource path="res://game/gui/pause_menu.gd" type="Script" id=13]
-[ext_resource path="res://game/hud/hud_life_icons.gd" type="Script" id=14]
-[ext_resource path="res://game/game.gd" type="Script" id=15]
-[ext_resource path="res://game/hud/hud.gd" type="Script" id=16]
-[ext_resource path="res://_obs/HudGameTime.gd" type="Script" id=17]
-[ext_resource path="res://game/game_camera.gd" type="Script" id=18]
-[ext_resource path="res://game/gui/highscore_table.gd" type="Script" id=19]
-[ext_resource path="res://game/hud/hud energy_bar.gd" type="Script" id=20]
-[ext_resource path="res://game/hud/StartCountdown.gd" type="Script" id=21]
-[ext_resource path="res://assets/tiles/tile_title.png" type="Texture" id=22]
+[ext_resource path="res://game/hud/hud_game_timer.gd" type="Script" id=1]
+[ext_resource path="res://game/hud/hud.gd" type="Script" id=2]
+[ext_resource path="res://game/gui/game_over.gd" type="Script" id=3]
+[ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=4]
+[ext_resource path="res://assets/theme/lerimama_theme_title_font.tres" type="DynamicFont" id=5]
+[ext_resource path="res://game/game.gd" type="Script" id=6]
+[ext_resource path="res://game/gui/highscore_table.gd" type="Script" id=7]
+[ext_resource path="res://game/game_camera.gd" type="Script" id=8]
+[ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=9]
+[ext_resource path="res://game/gui/pause_menu.gd" type="Script" id=10]
+[ext_resource path="res://assets/resources/gamecam_noise.tres" type="OpenSimplexNoise" id=11]
+[ext_resource path="res://game/hud/hud_life_icons.gd" type="Script" id=12]
+[ext_resource path="res://game/hud/hud energy_bar.gd" type="Script" id=13]
+[ext_resource path="res://assets/tileset_hud_icons.png" type="Texture" id=14]
+[ext_resource path="res://game/hud/game_countdown.gd" type="Script" id=15]
+[ext_resource path="res://game/hud/hud_color_indicator.tscn" type="PackedScene" id=16]
+[ext_resource path="res://game/arena.tscn" type="PackedScene" id=17]
+[ext_resource path="res://assets/resources/graphics_tileset.tres" type="TileSet" id=18]
+[ext_resource path="res://assets/theme/fonts/16bfZX.ttf" type="DynamicFontData" id=19]
 
 [sub_resource type="World" id=117]
 
 [sub_resource type="NoiseTexture" id=1]
 width = 246
 height = 246
-noise = ExtResource( 3 )
+noise = ExtResource( 11 )
 
-[sub_resource type="AtlasTexture" id=122]
-atlas = ExtResource( 9 )
+[sub_resource type="AtlasTexture" id=147]
+atlas = ExtResource( 14 )
 region = Rect2( 0, 0, 16, 16 )
 
+[sub_resource type="StreamTexture" id=144]
+load_path = "res://.import/tileset_hud_icons.png-be9f67bfe9cd2fc31c012c696d1f0b84.stex"
+
 [sub_resource type="AtlasTexture" id=123]
-atlas = ExtResource( 9 )
+atlas = SubResource( 144 )
 region = Rect2( 0, 16, 16, 16 )
 
+[sub_resource type="AtlasTexture" id=122]
+atlas = ExtResource( 14 )
+region = Rect2( 0, 0, 16, 16 )
+
 [sub_resource type="AtlasTexture" id=125]
-atlas = ExtResource( 9 )
-region = Rect2( 36, 48, 8, 16 )
+atlas = ExtResource( 14 )
+region = Rect2( 18, 48, 10, 16 )
 
 [sub_resource type="AtlasTexture" id=126]
-atlas = ExtResource( 9 )
+atlas = ExtResource( 14 )
 region = Rect2( 32, 64, 48, 16 )
 
 [sub_resource type="AtlasTexture" id=132]
-atlas = ExtResource( 9 )
+atlas = ExtResource( 14 )
 region = Rect2( 32, 80, 48, 16 )
 
 [sub_resource type="AtlasTexture" id=129]
-atlas = ExtResource( 9 )
+atlas = ExtResource( 14 )
 region = Rect2( 64, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=131]
-atlas = ExtResource( 9 )
+atlas = ExtResource( 14 )
 region = Rect2( 64, 32, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=130]
-atlas = ExtResource( 9 )
+atlas = ExtResource( 14 )
 region = Rect2( 64, 16, 16, 16 )
 
+[sub_resource type="AtlasTexture" id=148]
+atlas = ExtResource( 14 )
+region = Rect2( 2, 80, 14, 16 )
+
+[sub_resource type="AtlasTexture" id=146]
+atlas = ExtResource( 14 )
+region = Rect2( 18, 80, 6, 16 )
+
 [sub_resource type="AtlasTexture" id=128]
-atlas = ExtResource( 9 )
+atlas = ExtResource( 14 )
 region = Rect2( 16, 16, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=127]
-atlas = ExtResource( 9 )
+atlas = ExtResource( 14 )
 region = Rect2( 16, 0, 16, 16 )
 
 [sub_resource type="DynamicFont" id=141]
 size = 341
-font_data = ExtResource( 4 )
+font_data = ExtResource( 19 )
 
 [sub_resource type="Animation" id=140]
 length = 0.001
@@ -87,8 +101,166 @@ tracks/0/keys = {
 "values": [ "05" ]
 }
 
-[sub_resource type="Animation" id=135]
+[sub_resource type="Animation" id=143]
+resource_name = "countdown_3"
+length = 5.0
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Countdown/PositionControl/noz:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6, 1.6, 2.6, 3.6, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ "3", "3", "2", "1", "GO!", "GO!" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.6, 0.8, 4.8, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Countdown/PositionControl:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.6, 0.8, 1.5, 1.6, 1.7, 1.8, 2.5, 2.6, 2.7, 2.8, 3.5, 3.6, 3.72, 3.82 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 0.368627, 1, 0.662745, 0 ), Color( 0.368627, 1, 0.662745, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Countdown/label:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.6, 0.8, 3.6, 3.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0, 1.0, 0.0 ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.8, 1.8, 2.8, 3.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_countdown_a_sound"
+}, {
+"args": [  ],
+"method": "play_countdown_a_sound"
+}, {
+"args": [  ],
+"method": "play_countdown_a_sound"
+}, {
+"args": [  ],
+"method": "play_countdown_b_sound"
+} ]
+}
+
+[sub_resource type="Animation" id=142]
 resource_name = "countdown_5"
+length = 7.0
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Countdown/PositionControl/noz:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6, 1.6, 2.6, 3.6, 4.6, 5.6, 7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ "05", "05", "04", "03", "02", "01", "GO!", "GO!" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.6, 0.8, 6.8, 7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Countdown/PositionControl:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.6, 0.8, 1.5, 1.6, 1.7, 1.8, 2.5, 2.6, 2.7, 2.8, 3.5, 3.6, 3.7, 3.8, 4.5, 4.6, 4.7, 4.8, 5.5, 5.6, 5.72, 5.82 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 0.368627, 1, 0.662745, 0 ), Color( 0.368627, 1, 0.662745, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Countdown/label:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.6, 0.8, 5.6, 5.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0, 1.0, 0.0 ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.8, 1.8, 2.8, 3.8, 4.8, 5.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_countdown_a_sound"
+}, {
+"args": [  ],
+"method": "play_countdown_a_sound"
+}, {
+"args": [  ],
+"method": "play_countdown_a_sound"
+}, {
+"args": [  ],
+"method": "play_countdown_a_sound"
+}, {
+"args": [  ],
+"method": "play_countdown_a_sound"
+}, {
+"args": [  ],
+"method": "play_countdown_b_sound"
+} ]
+}
+
+[sub_resource type="Animation" id=135]
+resource_name = "countdown_5_v1"
 length = 7.6
 step = 0.02
 tracks/0/type = "value"
@@ -140,129 +312,12 @@ tracks/3/keys = {
 "values": [ 0.0, 1.0, 1.0, 0.0 ]
 }
 
-[sub_resource type="ConvexPolygonShape2D" id=136]
-points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
-
-[sub_resource type="TileSet" id=139]
-0/name = "tile_title.png 0"
-0/texture = ExtResource( 22 )
-0/tex_offset = Vector2( 0, 0 )
-0/modulate = Color( 1, 1, 1, 1 )
-0/region = Rect2( 0, 0, 16, 16 )
-0/tile_mode = 0
-0/occluder_offset = Vector2( 0, 0 )
-0/navigation_offset = Vector2( 0, 0 )
-0/shape_offset = Vector2( 0, 0 )
-0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-0/shape = SubResource( 136 )
-0/shape_one_way = false
-0/shape_one_way_margin = 1.0
-0/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 136 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-0/z_index = 0
-
 [node name="Game" type="Node2D"]
-script = ExtResource( 15 )
+script = ExtResource( 6 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 34.0, 360.0, 698.0, 686.0 ],
+"_edit_horizontal_guides_": [ 34.0, 376.0, 698.0, 686.0, 216.0, 176.0, 504.0, 536.0 ],
 "_edit_vertical_guides_": [ 640.0, 1248.0 ]
 }
-
-[node name="design" type="Sprite" parent="."]
-visible = false
-position = Vector2( 640, 360 )
-texture = ExtResource( 6 )
-
-[node name="Node2D" type="Node2D" parent="."]
-pause_mode = 1
-visible = false
-z_index = 4
-
-[node name="NameInputPopup" type="Control" parent="Node2D"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 416.0
-margin_top = 192.0
-margin_right = 864.0
-margin_bottom = 480.0
-
-[node name="Undi" type="Panel" parent="Node2D/NameInputPopup"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-
-[node name="Label" type="Label" parent="Node2D/NameInputPopup"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -92.0
-margin_top = 38.0
-margin_right = 92.0
-margin_bottom = 59.0
-size_flags_vertical = 3
-text = "Congrats!"
-align = 1
-autowrap = true
-
-[node name="Label2" type="Label" parent="Node2D/NameInputPopup"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -176.0
-margin_top = 77.0
-margin_right = 176.0
-margin_bottom = 133.0
-size_flags_vertical = 3
-text = "You are one of the best \"Pixel Astray\" players ever."
-align = 1
-autowrap = true
-
-[node name="NameInput" type="LineEdit" parent="Node2D/NameInputPopup"]
-margin_left = 104.0
-margin_top = 151.0
-margin_right = 344.0
-margin_bottom = 191.0
-rect_min_size = Vector2( 240, 40 )
-focus_neighbour_top = NodePath("../HBoxContainer/ConfirmBtn")
-focus_next = NodePath("../HBoxContainer/ConfirmBtn")
-focus_previous = NodePath("../HBoxContainer/CancelBtn")
-size_flags_horizontal = 4
-size_flags_vertical = 6
-text = "Your name ..."
-align = 1
-caret_blink = true
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Node2D/NameInputPopup"]
-margin_left = 106.0
-margin_top = 224.0
-margin_right = 341.0
-margin_bottom = 245.0
-rect_min_size = Vector2( 235, 0 )
-size_flags_horizontal = 4
-size_flags_vertical = 11
-
-[node name="CancelBtn" type="Button" parent="Node2D/NameInputPopup/HBoxContainer"]
-margin_right = 61.0
-margin_bottom = 21.0
-focus_neighbour_left = NodePath("../ConfirmBtn")
-focus_neighbour_top = NodePath("../../NameInput")
-size_flags_horizontal = 2
-text = "CANCEL"
-
-[node name="ConfirmBtn" type="Button" parent="Node2D/NameInputPopup/HBoxContainer"]
-margin_left = 162.0
-margin_right = 235.0
-margin_bottom = 21.0
-focus_neighbour_left = NodePath("../CancelBtn")
-focus_neighbour_top = NodePath("../../NameInput")
-size_flags_horizontal = 0
-size_flags_vertical = 9
-custom_colors/font_color = Color( 0.368627, 1, 0.662745, 1 )
-text = "CONFIRM"
 
 [node name="GameView" type="VBoxContainer" parent="."]
 margin_right = 1280.0
@@ -271,7 +326,6 @@ custom_constants/separation = 0
 
 [node name="ViewHeder" type="ColorRect" parent="GameView"]
 unique_name_in_owner = true
-visible = false
 margin_right = 1280.0
 rect_min_size = Vector2( 1280, 0 )
 color = Color( 0.109804, 0.109804, 0.109804, 1 )
@@ -291,7 +345,7 @@ world = SubResource( 117 )
 handle_input_locally = false
 render_target_update_mode = 3
 
-[node name="Arena" parent="GameView/Viewports/ViewportContainer1/Viewport1" instance=ExtResource( 12 )]
+[node name="Arena" parent="GameView/Viewports/ViewportContainer1/Viewport1" instance=ExtResource( 17 )]
 __meta__ = {
 "_edit_horizontal_guides_": [ 44.0, 32.0, 20.0, 64.0, 660.0, 688.0, 676.0, 648.0 ]
 }
@@ -305,29 +359,29 @@ limit_smoothed = true
 smoothing_enabled = true
 smoothing_speed = 7.0
 editor_draw_limits = true
-script = ExtResource( 18 )
-noise = ExtResource( 3 )
+script = ExtResource( 8 )
+noise = ExtResource( 11 )
 
 [node name="UILayer" type="CanvasLayer" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam"]
 layer = 3
+visible = false
 
 [node name="TestToggle" type="CheckBox" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer"]
 margin_left = 32.0
 margin_top = 10.0
 margin_right = 96.0
 margin_bottom = 36.0
-theme = ExtResource( 8 )
+theme = ExtResource( 4 )
 text = "test"
 
 [node name="TestHud" type="Control" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer"]
-visible = false
 margin_left = 32.0
 margin_top = 32.0
 margin_right = 1248.0
 margin_bottom = 612.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
-theme = ExtResource( 8 )
+theme = ExtResource( 4 )
 
 [node name="ZoomLabel" type="Label" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud"]
 anchor_left = 1.0
@@ -348,7 +402,7 @@ margin_left = 992.0
 margin_top = -104.0
 margin_right = 1180.0
 margin_bottom = -78.0
-theme = ExtResource( 8 )
+theme = ExtResource( 4 )
 text = "resetiraj pogled"
 
 [node name="ShakeBar" type="ProgressBar" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud"]
@@ -363,7 +417,7 @@ margin_right = 608.0
 margin_bottom = -29.0
 rect_min_size = Vector2( 0, 16 )
 size_flags_horizontal = 3
-theme = ExtResource( 8 )
+theme = ExtResource( 4 )
 max_value = 1.0
 
 [node name="TraumaBar" type="ProgressBar" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud"]
@@ -378,7 +432,7 @@ margin_right = 608.0
 margin_bottom = 2.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource( 8 )
+theme = ExtResource( 4 )
 max_value = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -394,7 +448,7 @@ margin_left = -51.0
 margin_top = -300.0
 margin_right = -35.0
 margin_bottom = 212.0
-theme = ExtResource( 8 )
+theme = ExtResource( 4 )
 max_value = 1.0
 step = 0.1
 value = 1.0
@@ -408,7 +462,7 @@ margin_top = -302.0
 margin_right = 16.0
 margin_bottom = 209.0
 rect_scale = Vector2( -1, 1 )
-theme = ExtResource( 8 )
+theme = ExtResource( 4 )
 max_value = 2.0
 step = 0.1
 value = 1.0
@@ -419,7 +473,7 @@ anchor_bottom = 1.0
 margin_top = -516.0
 margin_right = 248.0
 margin_bottom = -151.0
-theme = ExtResource( 8 )
+theme = ExtResource( 4 )
 
 [node name="NoiseVisual" type="TextureRect" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl"]
 margin_right = 246.0
@@ -571,7 +625,7 @@ margin_left = 73.0
 margin_top = -417.0
 margin_right = 173.0
 margin_bottom = -368.0
-theme = ExtResource( 8 )
+theme = ExtResource( 4 )
 custom_colors/font_color_focus = Color( 1, 1, 1, 1 )
 custom_colors/font_color = Color( 0.945098, 0.945098, 0.945098, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
@@ -580,7 +634,6 @@ text = "tresi"
 
 [node name="ViewFuter" type="ColorRect" parent="GameView"]
 unique_name_in_owner = true
-visible = false
 margin_top = 720.0
 margin_right = 1280.0
 margin_bottom = 720.0
@@ -588,7 +641,6 @@ rect_min_size = Vector2( 1280, 0 )
 color = Color( 0.109804, 0.109804, 0.109804, 1 )
 
 [node name="Minimap" type="ViewportContainer" parent="."]
-visible = false
 modulate = Color( 1, 1, 1, 0.784314 )
 margin_left = 1088.0
 margin_top = 80.0
@@ -601,7 +653,7 @@ size = Vector2( 160, 92 )
 world = SubResource( 117 )
 transparent_bg = true
 handle_input_locally = false
-render_target_update_mode = 0
+render_target_update_mode = 3
 
 [node name="MinimapCam" type="Camera2D" parent="Minimap/MinimapViewport"]
 current = true
@@ -611,32 +663,61 @@ limit_smoothed = true
 [node name="GUI" type="Control" parent="."]
 margin_right = 1280.0
 margin_bottom = 720.0
-theme = ExtResource( 8 )
+theme = ExtResource( 4 )
 __meta__ = {
 "_editor_description_": ""
 }
 
+[node name="SkipLabel" type="Label" parent="GUI"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -157.0
+margin_top = 94.0
+margin_right = 157.0
+margin_bottom = 116.0
+size_flags_horizontal = 4
+text = "ESC/Stop to skip intro"
+align = 1
+valign = 1
+
 [node name="Hud" type="Control" parent="GUI"]
 rect_min_size = Vector2( 1280, 720 )
-script = ExtResource( 16 )
+script = ExtResource( 2 )
 
-[node name="Header" type="ColorRect" parent="GUI/Hud"]
+[node name="Energy" type="Label" parent="GUI/Hud"]
 visible = false
+margin_left = 128.0
+margin_top = 69.0
+margin_right = 221.0
+margin_bottom = 90.0
+text = "E: 0000"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Life" type="Label" parent="GUI/Hud"]
+visible = false
+margin_left = 32.0
+margin_top = 71.0
+margin_right = 114.0
+margin_bottom = 92.0
+text = "LIFE: 0"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Header" type="Control" parent="GUI/Hud"]
+anchor_right = 1.0
+
+[node name="HeaderUndi" type="ColorRect" parent="GUI/Hud/Header"]
 margin_right = 1280.0
 margin_bottom = 56.0
 rect_min_size = Vector2( 1280, 48 )
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Futer" type="ColorRect" parent="GUI/Hud"]
-visible = false
-margin_top = 664.0
-margin_right = 1280.0
-margin_bottom = 720.0
-rect_min_size = Vector2( 1280, 48 )
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
-
-[node name="HudLine_TL" type="HBoxContainer" parent="GUI/Hud"]
-unique_name_in_owner = true
+[node name="HudLine_TL" type="HBoxContainer" parent="GUI/Hud/Header"]
 margin_left = 31.0
 margin_top = 16.0
 margin_right = 451.0
@@ -646,33 +727,33 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="LifeIcons" type="HBoxContainer" parent="GUI/Hud/HudLine_TL"]
+[node name="LifeIcons" type="HBoxContainer" parent="GUI/Hud/Header/HudLine_TL"]
 margin_top = 3.0
 margin_right = 52.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 19 )
 size_flags_vertical = 8
 custom_constants/separation = 2
-script = ExtResource( 14 )
+script = ExtResource( 12 )
 
-[node name="LifeIcon" type="Control" parent="GUI/Hud/HudLine_TL/LifeIcons"]
+[node name="LifeIcon" type="Control" parent="GUI/Hud/Header/HudLine_TL/LifeIcons"]
 margin_top = 1.0
 margin_right = 16.0
 margin_bottom = 19.0
 rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
 
-[node name="OffIcon" type="TextureRect" parent="GUI/Hud/HudLine_TL/LifeIcons/LifeIcon"]
+[node name="OffIcon" type="TextureRect" parent="GUI/Hud/Header/HudLine_TL/LifeIcons/LifeIcon"]
 margin_right = 16.0
 margin_bottom = 16.0
-texture = SubResource( 122 )
+texture = SubResource( 147 )
 
-[node name="OnIcon" type="TextureRect" parent="GUI/Hud/HudLine_TL/LifeIcons/LifeIcon"]
+[node name="OnIcon" type="TextureRect" parent="GUI/Hud/Header/HudLine_TL/LifeIcons/LifeIcon"]
 margin_right = 16.0
 margin_bottom = 16.0
 texture = SubResource( 123 )
 
-[node name="LifeIcon2" type="Control" parent="GUI/Hud/HudLine_TL/LifeIcons"]
+[node name="LifeIcon2" type="Control" parent="GUI/Hud/Header/HudLine_TL/LifeIcons"]
 margin_left = 18.0
 margin_top = 1.0
 margin_right = 34.0
@@ -680,17 +761,17 @@ margin_bottom = 19.0
 rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
 
-[node name="OffIcon" type="TextureRect" parent="GUI/Hud/HudLine_TL/LifeIcons/LifeIcon2"]
+[node name="OffIcon" type="TextureRect" parent="GUI/Hud/Header/HudLine_TL/LifeIcons/LifeIcon2"]
 margin_right = 16.0
 margin_bottom = 16.0
 texture = SubResource( 122 )
 
-[node name="OnIcon" type="TextureRect" parent="GUI/Hud/HudLine_TL/LifeIcons/LifeIcon2"]
+[node name="OnIcon" type="TextureRect" parent="GUI/Hud/Header/HudLine_TL/LifeIcons/LifeIcon2"]
 margin_right = 16.0
 margin_bottom = 16.0
 texture = SubResource( 123 )
 
-[node name="LifeIcon3" type="Control" parent="GUI/Hud/HudLine_TL/LifeIcons"]
+[node name="LifeIcon3" type="Control" parent="GUI/Hud/Header/HudLine_TL/LifeIcons"]
 margin_left = 36.0
 margin_top = 1.0
 margin_right = 52.0
@@ -698,57 +779,56 @@ margin_bottom = 19.0
 rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
 
-[node name="OffIcon" type="TextureRect" parent="GUI/Hud/HudLine_TL/LifeIcons/LifeIcon3"]
+[node name="OffIcon" type="TextureRect" parent="GUI/Hud/Header/HudLine_TL/LifeIcons/LifeIcon3"]
 margin_right = 16.0
 margin_bottom = 16.0
 texture = SubResource( 122 )
 
-[node name="OnIcon" type="TextureRect" parent="GUI/Hud/HudLine_TL/LifeIcons/LifeIcon3"]
+[node name="OnIcon" type="TextureRect" parent="GUI/Hud/Header/HudLine_TL/LifeIcons/LifeIcon3"]
 margin_right = 16.0
 margin_bottom = 16.0
 texture = SubResource( 123 )
 
-[node name="EnergyBar" type="HBoxContainer" parent="GUI/Hud/HudLine_TL"]
+[node name="EnergyBar" type="HBoxContainer" parent="GUI/Hud/Header/HudLine_TL"]
 margin_left = 68.0
 margin_top = 3.0
-margin_right = 132.0
+margin_right = 134.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 19 )
 size_flags_vertical = 8
 custom_constants/separation = 8
-script = ExtResource( 20 )
+script = ExtResource( 13 )
 
-[node name="TextureRect7" type="TextureRect" parent="GUI/Hud/HudLine_TL/EnergyBar"]
+[node name="TextureRect7" type="TextureRect" parent="GUI/Hud/Header/HudLine_TL/EnergyBar"]
 margin_top = 1.0
-margin_right = 8.0
+margin_right = 10.0
 margin_bottom = 19.0
 rect_min_size = Vector2( 0, 18 )
 size_flags_vertical = 8
 texture = SubResource( 125 )
 
-[node name="TextureProgress" type="TextureProgress" parent="GUI/Hud/HudLine_TL/EnergyBar"]
-margin_left = 16.0
+[node name="TextureProgress" type="TextureProgress" parent="GUI/Hud/Header/HudLine_TL/EnergyBar"]
+margin_left = 18.0
 margin_top = 1.0
-margin_right = 64.0
+margin_right = 66.0
 margin_bottom = 19.0
 rect_min_size = Vector2( 0, 18 )
 size_flags_vertical = 8
-min_value = -8.0
-max_value = 184.0
+max_value = 192.0
 step = 8.0
-value = 176.0
 texture_over = SubResource( 126 )
 texture_progress = SubResource( 132 )
 
-[node name="PointsCounter" type="HBoxContainer" parent="GUI/Hud/HudLine_TL"]
-margin_left = 148.0
-margin_right = 228.0
+[node name="PointsCounter" type="HBoxContainer" parent="GUI/Hud/Header/HudLine_TL"]
+margin_left = 150.0
+margin_right = 206.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 22 )
 size_flags_vertical = 8
 custom_constants/separation = 8
 
-[node name="TextureRect4" type="TextureRect" parent="GUI/Hud/HudLine_TL/PointsCounter"]
+[node name="TextureRect4" type="TextureRect" parent="GUI/Hud/Header/HudLine_TL/PointsCounter"]
+visible = false
 margin_top = 4.0
 margin_right = 16.0
 margin_bottom = 22.0
@@ -756,141 +836,185 @@ rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
 texture = SubResource( 129 )
 
-[node name="Points" type="Label" parent="GUI/Hud/HudLine_TL/PointsCounter"]
-margin_left = 24.0
-margin_top = 1.0
-margin_right = 80.0
+[node name="Points" type="Label" parent="GUI/Hud/Header/HudLine_TL/PointsCounter"]
+margin_right = 56.0
 margin_bottom = 22.0
 size_flags_vertical = 8
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "0000"
 valign = 1
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="CellCounter" type="HBoxContainer" parent="GUI/Hud/HudLine_TL"]
-margin_left = 244.0
-margin_right = 324.0
-margin_bottom = 21.0
-size_flags_vertical = 2
+[node name="CellCounter" type="HBoxContainer" parent="GUI/Hud/Header/HudLine_TL"]
+visible = false
+margin_left = 246.0
+margin_right = 326.0
+margin_bottom = 22.0
+size_flags_vertical = 8
 custom_constants/separation = 8
 
-[node name="TextureRect6" type="TextureRect" parent="GUI/Hud/HudLine_TL/CellCounter"]
-margin_top = 3.0
+[node name="TextureRect6" type="TextureRect" parent="GUI/Hud/Header/HudLine_TL/CellCounter"]
+margin_top = 4.0
 margin_right = 16.0
-margin_bottom = 21.0
+margin_bottom = 22.0
 rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
 texture = SubResource( 131 )
 
-[node name="CellsTravelled" type="Label" parent="GUI/Hud/HudLine_TL/CellCounter"]
+[node name="CellsTravelled" type="Label" parent="GUI/Hud/Header/HudLine_TL/CellCounter"]
 margin_left = 24.0
 margin_right = 80.0
-margin_bottom = 21.0
+margin_bottom = 22.0
 size_flags_vertical = 8
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "0000"
 valign = 1
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="SkillCounter" type="HBoxContainer" parent="GUI/Hud/HudLine_TL"]
-margin_left = 340.0
-margin_top = 1.0
-margin_right = 420.0
+[node name="SkillCounter" type="HBoxContainer" parent="GUI/Hud/Header/HudLine_TL"]
+visible = false
+margin_left = 246.0
+margin_right = 326.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
 
-[node name="TextureRect5" type="TextureRect" parent="GUI/Hud/HudLine_TL/SkillCounter"]
-margin_top = 3.0
+[node name="TextureRect5" type="TextureRect" parent="GUI/Hud/Header/HudLine_TL/SkillCounter"]
+margin_top = 4.0
 margin_right = 16.0
-margin_bottom = 21.0
+margin_bottom = 22.0
 rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
 texture = SubResource( 130 )
 
-[node name="SkillsUsed" type="Label" parent="GUI/Hud/HudLine_TL/SkillCounter"]
+[node name="SkillsUsed" type="Label" parent="GUI/Hud/Header/HudLine_TL/SkillCounter"]
 margin_left = 24.0
 margin_right = 80.0
-margin_bottom = 21.0
+margin_bottom = 22.0
 size_flags_vertical = 8
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "0000"
 valign = 1
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="GameTime" type="HBoxContainer" parent="GUI/Hud"]
-unique_name_in_owner = true
+[node name="GameTimer" type="HBoxContainer" parent="GUI/Hud/Header"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -34.0
 margin_top = 16.0
 margin_right = 36.0
 margin_bottom = 38.0
-theme = ExtResource( 8 )
-script = ExtResource( 17 )
+theme = ExtResource( 4 )
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Mins" type="Label" parent="GUI/Hud/GameTime"]
-margin_top = 1.0
+[node name="Mins" type="Label" parent="GUI/Hud/Header/GameTimer"]
 margin_right = 28.0
 margin_bottom = 22.0
 size_flags_vertical = 8
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "00"
 valign = 2
 
-[node name="Dots" type="Label" parent="GUI/Hud/GameTime"]
+[node name="Dots" type="Label" parent="GUI/Hud/Header/GameTimer"]
 margin_left = 32.0
-margin_top = 1.0
 margin_right = 38.0
 margin_bottom = 22.0
 size_flags_vertical = 8
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = ":"
 align = 1
 valign = 2
 
-[node name="Secs" type="Label" parent="GUI/Hud/GameTime"]
+[node name="Secs" type="Label" parent="GUI/Hud/Header/GameTimer"]
 margin_left = 42.0
-margin_top = 1.0
 margin_right = 70.0
 margin_bottom = 22.0
 size_flags_vertical = 8
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "00"
 align = 2
 valign = 2
 
-[node name="Level" type="Label" parent="GUI/Hud"]
-unique_name_in_owner = true
-modulate = Color( 1, 1, 1, 0.313726 )
+[node name="Timer" type="Timer" parent="GUI/Hud/Header/GameTimer"]
+
+[node name="MusicLabel" type="Label" parent="GUI/Hud/Header"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -349.0
-margin_top = 17.0
-margin_right = -241.0
-margin_bottom = 39.0
+margin_left = -320.0
+margin_top = 16.0
+margin_right = -276.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 44, 0 )
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "00"
+align = 2
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="OnIcon" type="TextureRect" parent="GUI/Hud/Header/MusicLabel"]
+margin_top = 3.0
+margin_right = 14.0
+margin_bottom = 16.0
+texture = SubResource( 148 )
+
+[node name="OffIcon" type="TextureRect" parent="GUI/Hud/Header/MusicLabel"]
+margin_top = 3.0
+margin_right = 6.0
+margin_bottom = 19.0
+texture = SubResource( 146 )
+
+[node name="Level" type="Label" parent="GUI/Hud/Header"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -254.0
+margin_top = 16.0
+margin_right = -146.0
+margin_bottom = 38.0
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "LEVEL 00"
 align = 2
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Highscore" type="Label" parent="GUI/Hud"]
-unique_name_in_owner = true
+[node name="Highscore" type="Label" parent="GUI/Hud/Header"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -225.0
-margin_top = 17.0
-margin_right = -31.0
-margin_bottom = 43.0
-text = "HIGHSCORE 0000"
+margin_left = -124.0
+margin_top = 16.0
+margin_right = -30.0
+margin_bottom = 38.0
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "HS 0000"
 align = 2
 
-[node name="PickedColor" type="Control" parent="GUI/Hud"]
-unique_name_in_owner = true
+[node name="Footer" type="Control" parent="GUI/Hud"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -56.0
+
+[node name="FuterUndi" type="ColorRect" parent="GUI/Hud/Footer"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -640.0
+margin_right = 640.0
+margin_bottom = 56.0
+rect_min_size = Vector2( 1280, 56 )
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="PickedColor" type="Control" parent="GUI/Hud/Footer"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 32.0
@@ -901,28 +1025,27 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="ColorRect" type="ColorRect" parent="GUI/Hud/PickedColor"]
+[node name="ColorRect" type="ColorRect" parent="GUI/Hud/Footer/PickedColor"]
 margin_top = 3.0
 margin_right = 12.0
 margin_bottom = 15.0
 size_flags_vertical = 4
 
-[node name="Value" type="Label" parent="GUI/Hud/PickedColor"]
-modulate = Color( 1, 1, 1, 0.313726 )
+[node name="Value" type="Label" parent="GUI/Hud/Footer/PickedColor"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 24.0
 margin_top = -27.0
 margin_right = 170.0
 margin_bottom = -1.0
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "255 255 255"
 valign = 2
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="ColorSpectrumLite" type="VBoxContainer" parent="GUI/Hud"]
-unique_name_in_owner = true
+[node name="ColorSpectrumLite" type="VBoxContainer" parent="GUI/Hud/Footer"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -938,32 +1061,31 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="IndicatorHolder" type="HBoxContainer" parent="GUI/Hud/ColorSpectrumLite"]
+[node name="IndicatorHolder" type="HBoxContainer" parent="GUI/Hud/Footer/ColorSpectrumLite"]
 margin_right = 44.0
 margin_bottom = 12.0
 grow_horizontal = 2
 rect_min_size = Vector2( 0, 12 )
 alignment = 1
 
-[node name="SpectrumColorIndicator3" parent="GUI/Hud/ColorSpectrumLite/IndicatorHolder" instance=ExtResource( 7 )]
+[node name="SpectrumColorIndicator3" parent="GUI/Hud/Footer/ColorSpectrumLite/IndicatorHolder" instance=ExtResource( 16 )]
 visible = false
 margin_left = 16.0
 margin_right = 28.0
 size_flags_horizontal = 0
 size_flags_vertical = 3
 
-[node name="Spectrum" type="TextureRect" parent="GUI/Hud/ColorSpectrumLite"]
+[node name="Spectrum" type="TextureRect" parent="GUI/Hud/Footer/ColorSpectrumLite"]
 visible = false
 margin_top = 20.0
 margin_right = 512.0
 margin_bottom = 21.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture = ExtResource( 5 )
+texture = ExtResource( 9 )
 stretch_mode = 1
 
-[node name="HudLine_TR" type="HBoxContainer" parent="GUI/Hud"]
-unique_name_in_owner = true
+[node name="HudLine_TR" type="HBoxContainer" parent="GUI/Hud/Footer"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -977,147 +1099,114 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="StrayCounter" type="HBoxContainer" parent="GUI/Hud/HudLine_TR"]
-margin_top = 1.0
+[node name="StrayCounter" type="HBoxContainer" parent="GUI/Hud/Footer/HudLine_TR"]
 margin_right = 66.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
 
-[node name="TextureRect3" type="TextureRect" parent="GUI/Hud/HudLine_TR/StrayCounter"]
-margin_top = 3.0
+[node name="TextureRect3" type="TextureRect" parent="GUI/Hud/Footer/HudLine_TR/StrayCounter"]
+margin_top = 4.0
 margin_right = 16.0
-margin_bottom = 21.0
+margin_bottom = 22.0
 rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
 texture = SubResource( 128 )
 
-[node name="PixelsStray" type="Label" parent="GUI/Hud/HudLine_TR/StrayCounter"]
+[node name="PixelsStray" type="Label" parent="GUI/Hud/Footer/HudLine_TR/StrayCounter"]
 margin_left = 24.0
 margin_right = 66.0
-margin_bottom = 21.0
+margin_bottom = 22.0
 size_flags_vertical = 8
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "000"
 valign = 2
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="OffedCounter" type="HBoxContainer" parent="GUI/Hud/HudLine_TR"]
+[node name="OffedCounter" type="HBoxContainer" parent="GUI/Hud/Footer/HudLine_TR"]
 margin_left = 82.0
-margin_top = 1.0
 margin_right = 148.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
 
-[node name="TextureRect2" type="TextureRect" parent="GUI/Hud/HudLine_TR/OffedCounter"]
-margin_top = 3.0
+[node name="TextureRect2" type="TextureRect" parent="GUI/Hud/Footer/HudLine_TR/OffedCounter"]
+margin_top = 4.0
 margin_right = 16.0
-margin_bottom = 21.0
+margin_bottom = 22.0
 rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
 texture = SubResource( 127 )
 
-[node name="PixelsOff" type="Label" parent="GUI/Hud/HudLine_TR/OffedCounter"]
+[node name="PixelsOff" type="Label" parent="GUI/Hud/Footer/HudLine_TR/OffedCounter"]
 margin_left = 24.0
 margin_right = 66.0
-margin_bottom = 21.0
+margin_bottom = 22.0
 size_flags_vertical = 8
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "000"
 valign = 2
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Life" type="Label" parent="GUI/Hud"]
-unique_name_in_owner = true
-visible = false
-margin_left = 32.0
-margin_top = 92.0
-margin_right = 114.0
-margin_bottom = 118.0
-text = "LIFE: 0"
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Energy" type="Label" parent="GUI/Hud"]
-margin_left = 128.0
-margin_top = 80.0
-margin_right = 221.0
-margin_bottom = 118.0
-text = "E: 0000"
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="HudPopup" type="Control" parent="GUI/Hud"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -640.0
-margin_top = -168.0
-margin_right = 640.0
-margin_bottom = -112.0
-
-[node name="Undi" type="Panel" parent="GUI/Hud/HudPopup"]
-visible = false
+[node name="Popups" type="Control" parent="GUI/Hud"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="Label" type="Label" parent="GUI/Hud/HudPopup"]
+[node name="HSClose" type="Label" parent="GUI/Hud/Popups"]
 visible = false
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -92.0
-margin_top = -30.5
-margin_right = 102.0
-margin_bottom = 24.5
+margin_left = -188.0
+margin_top = 95.0
+margin_right = 188.0
+margin_bottom = 116.0
 size_flags_horizontal = 4
-text = "YEAH!!!
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Si čisto blizu rekordu. Še mal ..."
+align = 1
+valign = 1
+
+[node name="HSBroken" type="Control" parent="GUI/Hud/Popups"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -144.0
+margin_top = 88.0
+margin_right = 144.0
+margin_bottom = 184.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Panel" type="Panel" parent="GUI/Hud/Popups/HSBroken"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Label" type="Label" parent="GUI/Hud/Popups/HSBroken"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 4
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "BRAVISIMO!!! 
 Podrl si rekord!!!"
 align = 1
 valign = 1
 
-[node name="HSWaitingLabel" type="Label" parent="GUI/Hud/HudPopup"]
-visible = false
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -229.0
-margin_right = 229.0
-margin_bottom = 55.0
-size_flags_horizontal = 4
-text = "Bravo! Si čisto blizu rekordu. Še mal ..."
-align = 1
-valign = 1
-
-[node name="HSReachedLabel" type="Label" parent="GUI/Hud/HudPopup"]
-visible = false
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -139.0
-margin_right = 139.0
-margin_bottom = 55.0
-size_flags_horizontal = 4
-custom_colors/font_color = Color( 0.368627, 1, 0.662745, 1 )
-text = "YEAH!!! Podrl si rekord!!!"
-align = 1
-valign = 1
-
 [node name="GameCountdown" type="Control" parent="GUI"]
-modulate = Color( 1, 1, 1, 0 )
+visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
 rect_min_size = Vector2( 1280, 720 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource( 21 )
+script = ExtResource( 15 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Undi" type="ColorRect" parent="GUI/GameCountdown"]
 anchor_right = 1.0
@@ -1134,11 +1223,10 @@ margin_bottom = 289.0
 custom_constants/separation = 0
 
 [node name="label" type="Label" parent="GUI/GameCountdown/Countdown"]
-visible = false
-modulate = Color( 1, 1, 1, -2.98023e-07 )
 margin_right = 260.0
-margin_bottom = 21.0
+margin_bottom = 22.0
 size_flags_vertical = 8
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "LEVEL 01 STARTS IN ..."
 align = 1
 valign = 2
@@ -1147,6 +1235,8 @@ __meta__ = {
 }
 
 [node name="PositionControl" type="Control" parent="GUI/GameCountdown/Countdown"]
+modulate = Color( 1, 1, 1, 0 )
+margin_top = 22.0
 margin_right = 260.0
 margin_bottom = 26.0
 size_flags_vertical = 3
@@ -1159,6 +1249,7 @@ margin_top = -38.0
 margin_right = 191.0
 margin_bottom = 197.0
 size_flags_vertical = 8
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 custom_fonts/font = SubResource( 141 )
 text = "05"
 align = 1
@@ -1166,14 +1257,18 @@ valign = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/GameCountdown"]
 anims/RESET = SubResource( 140 )
-anims/countdown_5 = SubResource( 135 )
+anims/countdown_3 = SubResource( 143 )
+anims/countdown_5 = SubResource( 142 )
+anims/countdown_5_v1 = SubResource( 135 )
 
 [node name="PauseMenu" type="Control" parent="GUI"]
 pause_mode = 2
-visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
-script = ExtResource( 13 )
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Undi" type="ColorRect" parent="GUI/PauseMenu"]
 anchor_right = 0.997
@@ -1187,141 +1282,241 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -512.0
-margin_top = -264.0
+margin_top = -256.0
 margin_right = 512.0
-margin_bottom = 248.0
+margin_bottom = 240.0
 
-[node name="Pause" type="Label" parent="GUI/PauseMenu"]
-modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
-margin_left = 448.0
-margin_top = 143.0
-margin_right = 832.0
-margin_bottom = 170.0
-size_flags_horizontal = 3
-theme = ExtResource( 8 )
-text = "Game is paused ..."
-align = 1
-
-[node name="Rules" type="Label" parent="GUI/PauseMenu"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -424.0
+[node name="Settings" type="Control" parent="GUI/PauseMenu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 704.0
 margin_top = 207.0
-margin_right = 408.0
-margin_bottom = 325.0
-size_flags_horizontal = 3
-theme = ExtResource( 8 )
-text = "Pixels, short for \"picture elements,\" are the smallest individual units of a digital image. They are tiny squares or dots that combine to form the visual content on displays such as computer screens, smartphones, cameras, and televisions."
-autowrap = true
+margin_right = -183.0
+margin_bottom = -344.0
+theme = ExtResource( 4 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="GUI/PauseMenu"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -422.0
-margin_top = -30.0
-margin_right = 422.0
-margin_bottom = 121.0
+[node name="Title" type="Label" parent="GUI/PauseMenu/Settings"]
+visible = false
+modulate = Color( 1, 1, 1, 0.901961 )
+margin_top = -1.0
+margin_right = 96.0
+margin_bottom = 26.0
+size_flags_horizontal = 3
+theme = ExtResource( 4 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Settings"
+
+[node name="GameMusicCheckBox" type="CheckBox" parent="GUI/PauseMenu/Settings"]
+margin_left = -1.0
+margin_top = -1.0
+margin_right = 161.0
+margin_bottom = 21.0
+focus_neighbour_top = NodePath("../../Menu/PlayBtn")
+pressed = true
+text = "Game music"
+
+[node name="GameMusicVolume" type="Label" parent="GUI/PauseMenu/Settings"]
+margin_left = -1.0
+margin_top = 39.0
+margin_right = 227.0
+margin_bottom = 61.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Game music volume"
+
+[node name="GameMusicSlider" type="HSlider" parent="GUI/PauseMenu/Settings"]
+margin_left = -1.0
+margin_top = 69.0
+margin_right = 299.0
+margin_bottom = 85.0
+rect_min_size = Vector2( 300, 16 )
+min_value = -30.0
+max_value = 10.0
+step = 5.0
+rounded = true
+
+[node name="_shapeadon" type="Polygon2D" parent="GUI/PauseMenu/Settings/GameMusicSlider"]
+position = Vector2( -234, -9 )
+color = Color( 0.494118, 0.517647, 0.545098, 1 )
+polygon = PoolVector2Array( 234, 14, 234, 20, 236, 20, 236, 14 )
+
+[node name="Polygon2D3" type="Polygon2D" parent="GUI/PauseMenu/Settings/GameMusicSlider"]
+show_behind_parent = true
+position = Vector2( -14, 9 )
+color = Color( 0.494118, 0.517647, 0.545098, 1 )
+polygon = PoolVector2Array( 234, 1, 234, -3, 238, -3, 238, 1 )
+
+[node name="GameSfxCheckBox" type="CheckBox" parent="GUI/PauseMenu/Settings"]
+margin_left = -1.0
+margin_top = 103.0
+margin_right = 193.0
+margin_bottom = 125.0
+pressed = true
+text = "Sound fx"
+
+[node name="CamerShakeCheckBox" type="CheckBox" parent="GUI/PauseMenu/Settings"]
+margin_left = -1.0
+margin_top = 143.0
+margin_right = 191.0
+margin_bottom = 165.0
+focus_neighbour_bottom = NodePath("../../Menu/PlayBtn")
+pressed = true
+text = "Camera shake"
+
+[node name="Controller1" type="Control" parent="GUI/PauseMenu"]
+visible = false
+margin_left = 192.0
+margin_top = 186.0
+margin_right = 702.0
+margin_bottom = 359.0
+size_flags_horizontal = 0
+size_flags_vertical = 3
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Controller" type="Control" parent="GUI/PauseMenu/HBoxContainer"]
-margin_right = 278.0
-margin_bottom = 151.0
-size_flags_horizontal = 3
-
-[node name="Controller" type="Label" parent="GUI/PauseMenu/HBoxContainer/Controller"]
+[node name="Controller" type="Label" parent="GUI/PauseMenu/Controller1"]
 modulate = Color( 1, 1, 1, 0.588235 )
+margin_left = 4.0
 margin_top = 5.0
-margin_right = 144.0
-margin_bottom = 18.0
+margin_right = 112.0
+margin_bottom = 26.0
 size_flags_vertical = 0
-theme = ExtResource( 8 )
-text = "arrows"
+theme = ExtResource( 4 )
+text = "Keyboard"
+
+[node name="Text" type="Label" parent="GUI/PauseMenu/Controller1"]
+margin_left = 144.0
+margin_top = 5.0
+margin_right = 462.0
+margin_bottom = 122.0
+size_flags_vertical = 0
+theme = ExtResource( 4 )
+text = "UP or W / move up
+DOWN or S / move down
+LEFT or A / move left
+RIGHT or D / move right
+SPACE + DIR / burst"
 autowrap = true
 
-[node name="Text" type="Label" parent="GUI/PauseMenu/HBoxContainer/Controller"]
-margin_top = 37.0
-margin_right = 244.0
-margin_bottom = 184.0
-size_flags_vertical = 0
-theme = ExtResource( 8 )
-text = "UP - move up
-DOWN - move down
-LEFT - move left
-RIGHT - move right
-SPACE + DIR - burst"
-autowrap = true
+[node name="Controller3" type="Control" parent="GUI/PauseMenu"]
+visible = false
+margin_left = 193.0
+margin_top = 344.0
+margin_right = 640.0
+margin_bottom = 504.0
+size_flags_horizontal = 0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_group_": true
+}
 
-[node name="Controller2" type="Control" parent="GUI/PauseMenu/HBoxContainer"]
-margin_left = 282.0
-margin_right = 561.0
-margin_bottom = 151.0
-size_flags_horizontal = 3
-
-[node name="Controller" type="Label" parent="GUI/PauseMenu/HBoxContainer/Controller2"]
+[node name="Controller" type="Label" parent="GUI/PauseMenu/Controller3"]
 modulate = Color( 1, 1, 1, 0.588235 )
-margin_top = 5.0
-margin_right = 144.0
-margin_bottom = 18.0
+margin_left = 27.0
+margin_top = -1.0
+margin_right = 111.0
+margin_bottom = 20.0
 size_flags_vertical = 0
-theme = ExtResource( 8 )
-text = "WASD"
-autowrap = true
-
-[node name="Text" type="Label" parent="GUI/PauseMenu/HBoxContainer/Controller2"]
-margin_top = 37.0
-margin_right = 252.0
-margin_bottom = 184.0
-size_flags_vertical = 0
-theme = ExtResource( 8 )
-text = "W - move up
-S - move down
-A - move left
-D - move right
-SPACE + DIR - burst"
-autowrap = true
-
-[node name="Controller3" type="Control" parent="GUI/PauseMenu/HBoxContainer"]
-margin_left = 565.0
-margin_right = 844.0
-margin_bottom = 151.0
-size_flags_horizontal = 3
-
-[node name="Controller" type="Label" parent="GUI/PauseMenu/HBoxContainer/Controller3"]
-modulate = Color( 1, 1, 1, 0.588235 )
-margin_top = 5.0
-margin_right = 144.0
-margin_bottom = 18.0
-size_flags_vertical = 0
-theme = ExtResource( 8 )
+theme = ExtResource( 4 )
 text = "JoyPad"
+
+[node name="Text" type="Label" parent="GUI/PauseMenu/Controller3"]
+margin_left = 142.0
+margin_top = -1.0
+margin_right = 419.0
+margin_bottom = 116.0
+size_flags_vertical = 0
+theme = ExtResource( 4 )
+text = "UP / move up
+DOWN / move down
+LEFT / move left
+RIGHT / move right
+BTN A + DIR / burst"
 autowrap = true
 
-[node name="Text" type="Label" parent="GUI/PauseMenu/HBoxContainer/Controller3"]
-margin_top = 37.0
-margin_right = 277.0
-margin_bottom = 179.0
+[node name="keyboard" type="Label" parent="GUI/PauseMenu"]
+modulate = Color( 1, 1, 1, 0.901961 )
+margin_left = 160.0
+margin_top = 206.0
+margin_right = 268.0
+margin_bottom = 228.0
 size_flags_vertical = 0
-theme = ExtResource( 8 )
-text = "JP UP - move up
-JP DOWN - move down
-JP LEFT - move left
-JP RIGHT - move right
-JP BTN A + DIR - burst"
+theme = ExtResource( 4 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Keyboard"
+
+[node name="content3" type="Label" parent="GUI/PauseMenu"]
+margin_left = 288.0
+margin_top = 206.0
+margin_right = 664.0
+margin_bottom = 343.0
+size_flags_vertical = 0
+theme = ExtResource( 4 )
+text = "move up = W, UP
+move down = S, DOWN
+move left = A, LEFT
+move right = D, RIGHT
+burst = SPACE + opp direction"
+autowrap = true
+
+[node name="joypad" type="Label" parent="GUI/PauseMenu"]
+modulate = Color( 1, 1, 1, 0.901961 )
+margin_left = 184.0
+margin_top = 358.0
+margin_right = 268.0
+margin_bottom = 383.0
+size_flags_vertical = 0
+theme = ExtResource( 4 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "JoyPad"
+
+[node name="content4" type="Label" parent="GUI/PauseMenu"]
+margin_left = 288.0
+margin_top = 358.0
+margin_right = 670.0
+margin_bottom = 495.0
+size_flags_vertical = 0
+theme = ExtResource( 4 )
+text = "Move up = UP 
+Move down = DOWN
+Move left = LEFT
+Move right = RIGHT
+Burst =  BTN A + opp direction"
+autowrap = true
+
+[node name="shortcuts" type="Label" parent="GUI/PauseMenu"]
+visible = false
+modulate = Color( 1, 1, 1, 0.588235 )
+margin_left = 689.0
+margin_top = 366.0
+margin_right = 803.0
+margin_bottom = 391.0
+size_flags_vertical = 0
+theme = ExtResource( 4 )
+text = "Shortcuts"
+
+[node name="content5" type="Label" parent="GUI/PauseMenu"]
+visible = false
+margin_left = 823.0
+margin_top = 366.0
+margin_right = 1239.0
+margin_bottom = 447.0
+size_flags_vertical = 0
+theme = ExtResource( 4 )
+text = "Toggle game pause = ESC/Stop
+Toggle game music on/off = M/L2
+Cycle music tracks = N/L4"
 autowrap = true
 
 [node name="Menu" type="HBoxContainer" parent="GUI/PauseMenu"]
-pause_mode = 2
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -168.0
+margin_left = -145.0
 margin_top = 174.0
-margin_right = 168.0
+margin_right = 145.0
 margin_bottom = 196.0
 __meta__ = {
 "_edit_group_": true
@@ -1329,368 +1524,90 @@ __meta__ = {
 
 [node name="QuitBtn" type="Button" parent="GUI/PauseMenu/Menu"]
 margin_right = 52.0
-margin_bottom = 21.0
+margin_bottom = 22.0
+focus_neighbour_left = NodePath("../PlayBtn")
+focus_neighbour_top = NodePath("../../Settings/CamerShakeCheckBox")
 focus_neighbour_right = NodePath("../RestartBtn")
+focus_neighbour_bottom = NodePath("../../Settings/GameMusicCheckBox")
 focus_mode = 1
 size_flags_vertical = 0
-theme = ExtResource( 8 )
+theme = ExtResource( 4 )
 enabled_focus_mode = 1
 text = "QUIT"
 
 [node name="RestartBtn" type="Button" parent="GUI/PauseMenu/Menu"]
 margin_left = 56.0
-margin_right = 238.0
-margin_bottom = 21.0
+margin_right = 192.0
+margin_bottom = 22.0
 focus_neighbour_left = NodePath("../QuitBtn")
+focus_neighbour_top = NodePath("../../Settings/CamerShakeCheckBox")
 focus_neighbour_right = NodePath("../PlayBtn")
+focus_neighbour_bottom = NodePath("../../Settings/GameMusicCheckBox")
 focus_mode = 1
 size_flags_horizontal = 3
 size_flags_vertical = 0
-theme = ExtResource( 8 )
+theme = ExtResource( 4 )
 enabled_focus_mode = 1
 text = "RESTART"
 
 [node name="PlayBtn" type="Button" parent="GUI/PauseMenu/Menu"]
-margin_left = 242.0
-margin_right = 336.0
-margin_bottom = 21.0
+margin_left = 196.0
+margin_right = 290.0
+margin_bottom = 22.0
 focus_neighbour_left = NodePath("../RestartBtn")
+focus_neighbour_top = NodePath("../../Settings/CamerShakeCheckBox")
+focus_neighbour_right = NodePath("../QuitBtn")
+focus_neighbour_bottom = NodePath("../../Settings/GameMusicCheckBox")
 focus_mode = 1
 size_flags_vertical = 0
-theme = ExtResource( 8 )
+theme = ExtResource( 4 )
 enabled_focus_mode = 1
 text = "PLAY ON"
 
+[node name="Title" type="Label" parent="GUI/PauseMenu"]
+margin_left = 502.0
+margin_top = 134.0
+margin_right = 778.0
+margin_bottom = 166.0
+size_flags_horizontal = 3
+theme = ExtResource( 4 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_fonts/font = ExtResource( 5 )
+text = "Game is paused"
+
+[node name="HSeparator" type="HSeparator" parent="GUI/PauseMenu/Title"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+margin_top = 30.0
+margin_right = 274.0
+margin_bottom = 41.0
+
+[node name="Shorts" type="Label" parent="GUI/PauseMenu"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 65.0
+margin_top = 414.0
+margin_right = 512.0
+margin_bottom = 523.0
+size_flags_horizontal = 3
+theme = ExtResource( 4 )
+text = "To control sound during game use shortcuts M/L2  to toggle music on/off, and N/L4 for next track."
+autowrap = true
+
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
+visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
-script = ExtResource( 2 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Undi" type="ColorRect" parent="GUI/GameOver"]
 modulate = Color( 1, 1, 1, 0.627451 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 1 )
-
-[node name="Content" type="Control" parent="GUI/GameOver"]
-margin_right = 1280.0
-margin_bottom = 720.0
-
-[node name="Text" type="Label" parent="GUI/GameOver/Content"]
-margin_left = 320.0
-margin_top = 151.0
-margin_right = 960.0
-margin_bottom = 248.0
-text = "Each pixel represents a specific color and intensity, and together they create the images we see. The resolution of an image refers to the number of pixels it contains."
-autowrap = true
-
-[node name="DataContainer" type="VBoxContainer" parent="GUI/GameOver/Content"]
-modulate = Color( 0.32549, 0.356863, 0.407843, 1 )
-margin_left = 320.0
-margin_top = 302.0
-margin_right = 566.0
-margin_bottom = 504.0
-custom_constants/separation = 8
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Time" type="Label" parent="GUI/GameOver/Content/DataContainer"]
-margin_right = 246.0
-margin_bottom = 21.0
-text = "Time used: 00"
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Level" type="Label" parent="GUI/GameOver/Content/DataContainer"]
-margin_top = 29.0
-margin_right = 246.0
-margin_bottom = 50.0
-text = "Level reached: 00"
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Points" type="Label" parent="GUI/GameOver/Content/DataContainer"]
-margin_top = 58.0
-margin_right = 246.0
-margin_bottom = 79.0
-text = "Points scored: 00"
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="CellsTravelled" type="Label" parent="GUI/GameOver/Content/DataContainer"]
-margin_top = 87.0
-margin_right = 246.0
-margin_bottom = 108.0
-text = "Cells travelled: 0000"
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="SkillsUsed" type="Label" parent="GUI/GameOver/Content/DataContainer"]
-margin_top = 116.0
-margin_right = 246.0
-margin_bottom = 137.0
-text = "Skills used: 00"
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="AstrayPixels" type="Label" parent="GUI/GameOver/Content/DataContainer"]
-margin_top = 145.0
-margin_right = 246.0
-margin_bottom = 166.0
-text = "Pixels astray: 00"
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="PixelsOff" type="Label" parent="GUI/GameOver/Content/DataContainer"]
-visible = false
-margin_top = 180.0
-margin_right = 216.0
-margin_bottom = 202.0
-text = "Pixels offed: 0000"
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="HighscoreTable" type="VBoxContainer" parent="GUI/GameOver/Content"]
-margin_left = 688.0
-margin_top = 302.0
-margin_right = 944.0
-margin_bottom = 494.0
-custom_constants/separation = 8
-script = ExtResource( 19 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="RowLabels" type="HBoxContainer" parent="GUI/GameOver/Content/HighscoreTable"]
-modulate = Color( 0.32549, 0.356863, 0.407843, 1 )
-margin_right = 256.0
-margin_bottom = 21.0
-
-[node name="Position" type="Label" parent="GUI/GameOver/Content/HighscoreTable/RowLabels"]
-margin_right = 42.0
-margin_bottom = 21.0
-size_flags_horizontal = 2
-text = "Pos"
-
-[node name="Score" type="Label" parent="GUI/GameOver/Content/HighscoreTable/RowLabels"]
-margin_left = 86.0
-margin_right = 152.0
-margin_bottom = 21.0
-size_flags_horizontal = 2
-text = "Score"
-
-[node name="Owner" type="Label" parent="GUI/GameOver/Content/HighscoreTable/RowLabels"]
-margin_left = 196.0
-margin_right = 256.0
-margin_bottom = 21.0
-size_flags_horizontal = 10
-text = "Name"
-
-[node name="ScoreLine1" type="HBoxContainer" parent="GUI/GameOver/Content/HighscoreTable"]
-margin_top = 29.0
-margin_right = 256.0
-margin_bottom = 50.0
-
-[node name="Position" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine1"]
-margin_right = 20.0
-margin_bottom = 21.0
-size_flags_horizontal = 2
-text = "2."
-
-[node name="Score" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine1"]
-margin_left = 86.0
-margin_right = 138.0
-margin_bottom = 21.0
-size_flags_horizontal = 2
-text = "1200"
-
-[node name="Owner" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine1"]
-margin_left = 180.0
-margin_right = 256.0
-margin_bottom = 21.0
-size_flags_horizontal = 10
-text = "Primoz"
-
-[node name="ScoreLine2" type="HBoxContainer" parent="GUI/GameOver/Content/HighscoreTable"]
-margin_top = 58.0
-margin_right = 256.0
-margin_bottom = 79.0
-
-[node name="Position" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine2"]
-margin_right = 20.0
-margin_bottom = 21.0
-size_flags_horizontal = 2
-text = "2."
-
-[node name="Score" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine2"]
-margin_left = 86.0
-margin_right = 138.0
-margin_bottom = 21.0
-size_flags_horizontal = 2
-text = "1200"
-
-[node name="Owner" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine2"]
-margin_left = 180.0
-margin_right = 256.0
-margin_bottom = 21.0
-size_flags_horizontal = 10
-text = "Primoz"
-
-[node name="ScoreLine3" type="HBoxContainer" parent="GUI/GameOver/Content/HighscoreTable"]
-margin_top = 87.0
-margin_right = 256.0
-margin_bottom = 108.0
-
-[node name="Position" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine3"]
-margin_right = 20.0
-margin_bottom = 21.0
-size_flags_horizontal = 2
-text = "2."
-
-[node name="Score" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine3"]
-margin_left = 86.0
-margin_right = 138.0
-margin_bottom = 21.0
-size_flags_horizontal = 2
-text = "1200"
-
-[node name="Owner" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine3"]
-margin_left = 180.0
-margin_right = 256.0
-margin_bottom = 21.0
-size_flags_horizontal = 10
-text = "Primoz"
-
-[node name="ScoreLine4" type="HBoxContainer" parent="GUI/GameOver/Content/HighscoreTable"]
-margin_top = 116.0
-margin_right = 256.0
-margin_bottom = 137.0
-
-[node name="Position" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine4"]
-margin_right = 20.0
-margin_bottom = 21.0
-size_flags_horizontal = 2
-text = "2."
-
-[node name="Score" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine4"]
-margin_left = 86.0
-margin_right = 138.0
-margin_bottom = 21.0
-size_flags_horizontal = 2
-text = "1200"
-
-[node name="Owner" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine4"]
-margin_left = 180.0
-margin_right = 256.0
-margin_bottom = 21.0
-size_flags_horizontal = 10
-text = "Primoz"
-
-[node name="ScoreLine5" type="HBoxContainer" parent="GUI/GameOver/Content/HighscoreTable"]
-margin_top = 145.0
-margin_right = 256.0
-margin_bottom = 166.0
-
-[node name="Position" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine5"]
-margin_right = 20.0
-margin_bottom = 21.0
-size_flags_horizontal = 2
-text = "2."
-
-[node name="Score" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine5"]
-margin_left = 86.0
-margin_right = 138.0
-margin_bottom = 21.0
-size_flags_horizontal = 2
-text = "1200"
-
-[node name="Owner" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine5"]
-margin_left = 180.0
-margin_right = 256.0
-margin_bottom = 21.0
-size_flags_horizontal = 10
-text = "Primoz"
-
-[node name="Menu" type="HBoxContainer" parent="GUI/GameOver/Content"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -113.0
-margin_top = -161.0
-margin_right = 114.0
-margin_bottom = -139.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="QuitBtn" type="Button" parent="GUI/GameOver/Content/Menu"]
-margin_top = 1.0
-margin_right = 52.0
-margin_bottom = 22.0
-focus_neighbour_right = NodePath("../RestartBtn")
-focus_mode = 1
-size_flags_horizontal = 2
-size_flags_vertical = 8
-theme = ExtResource( 8 )
-enabled_focus_mode = 1
-text = "QUIT"
-
-[node name="RestartBtn" type="Button" parent="GUI/GameOver/Content/Menu"]
-margin_left = 95.0
-margin_top = 1.0
-margin_right = 227.0
-margin_bottom = 22.0
-focus_neighbour_left = NodePath("../QuitBtn")
-focus_mode = 1
-size_flags_horizontal = 8
-size_flags_vertical = 8
-theme = ExtResource( 8 )
-enabled_focus_mode = 1
-text = "PLAY AGAIN"
-
-[node name="Title" type="Control" parent="GUI/GameOver/Content"]
-visible = false
-modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -472.0
-margin_top = 216.0
-margin_right = 468.0
-margin_bottom = 408.0
-
-[node name="Title1" type="TileMap" parent="GUI/GameOver/Content/Title"]
-tile_set = SubResource( 139 )
-cell_size = Vector2( 16, 16 )
-cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
-format = 1
-tile_data = PoolIntArray( 0, -1610612736, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 6, -1610612736, 0, 8, 0, 0, 12, 0, 0, 14, -1610612736, 0, 15, -1610612736, 0, 16, 0, 0, 17, -1610612736, 0, 20, -1610612736, 0, 65536, 0, 0, 65540, -1610612736, 0, 65542, -1610612736, 0, 65545, 0, 0, 65547, 0, 0, 65550, 0, 0, 65556, -1610612736, 0, 131072, 0, 0, 131073, -1610612736, 0, 131074, -1610612736, 0, 131075, -1610612736, 0, 131076, -1610612736, 0, 131078, -1610612736, 0, 131082, 0, 0, 131086, 0, 0, 131087, -1610612736, 0, 131088, -1610612736, 0, 131092, -1610612736, 0, 196608, 0, 0, 196614, -1610612736, 0, 196617, 0, 0, 196619, 0, 0, 196622, 0, 0, 196628, -1610612736, 0, 262144, 0, 0, 262150, -1610612736, 0, 262152, 0, 0, 262156, 0, 0, 262158, 0, 0, 262164, -1610612736, 0, 327680, -1610612736, 0, 327686, -1610612736, 0, 327688, -1610612736, 0, 327692, -1610612736, 0, 327694, -1610612736, 0, 327700, -1610612736, 0, 393216, -1610612736, 0, 393222, -1610612736, 0, 393224, -1610612736, 0, 393228, -1610612736, 0, 393230, -1610612736, 0, 393231, -1610612736, 0, 393232, -1610612736, 0, 393233, -1610612736, 0, 393234, -1610612736, 0, 393236, -1610612736, 0, 393237, -1610612736, 0, 393238, -1610612736, 0, 393239, -1610612736, 0, 393240, -1610612736, 0 )
-
-[node name="Title2" type="TileMap" parent="GUI/GameOver/Content/Title"]
-position = Vector2( 368, 64 )
-tile_set = SubResource( 139 )
-cell_size = Vector2( 16, 16 )
-cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
-format = 1
-tile_data = PoolIntArray( 0, -1610612736, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 7, -1610612736, 0, 8, -1610612736, 0, 9, -1610612736, 0, 12, -1610612736, 0, 13, -1610612736, 0, 14, -1610612736, 0, 15, -1610612736, 0, 16, -1610612736, 0, 18, -1610612736, 0, 19, -1610612736, 0, 20, -1610612736, 0, 21, -1610612736, 0, 24, -1610612736, 0, 25, -1610612736, 0, 26, -1610612736, 0, 27, -1610612736, 0, 30, -1610612736, 0, 34, -1610612736, 0, 65536, -1610612736, 0, 65540, -1610612736, 0, 65542, -1610612736, 0, 65550, -1610612736, 0, 65554, -1610612736, 0, 65558, -1610612736, 0, 65560, -1610612736, 0, 65564, -1610612736, 0, 65567, -1610612736, 0, 65569, -1610612736, 0, 131072, -1610612736, 0, 131073, -1610612736, 0, 131074, -1610612736, 0, 131075, -1610612736, 0, 131076, -1610612736, 0, 131078, -1610612736, 0, 131079, -1610612736, 0, 131080, -1610612736, 0, 131081, -1610612736, 0, 131086, -1610612736, 0, 131090, -1610612736, 0, 131091, -1610612736, 0, 131092, -1610612736, 0, 131093, -1610612736, 0, 131096, -1610612736, 0, 131097, -1610612736, 0, 131098, -1610612736, 0, 131099, -1610612736, 0, 131100, -1610612736, 0, 131104, -1610612736, 0, 196608, -1610612736, 0, 196612, -1610612736, 0, 196618, -1610612736, 0, 196622, -1610612736, 0, 196626, -1610612736, 0, 196630, -1610612736, 0, 196632, -1610612736, 0, 196636, -1610612736, 0, 196640, -1610612736, 0, 262144, -1610612736, 0, 262148, -1610612736, 0, 262154, -1610612736, 0, 262158, -1610612736, 0, 262162, -1610612736, 0, 262166, -1610612736, 0, 262168, -1610612736, 0, 262172, -1610612736, 0, 262176, -1610612736, 0, 327680, -1610612736, 0, 327684, -1610612736, 0, 327686, -1610612736, 0, 327690, -1610612736, 0, 327694, -1610612736, 0, 327698, -1610612736, 0, 327702, -1610612736, 0, 327704, -1610612736, 0, 327708, -1610612736, 0, 327712, -1610612736, 0, 393216, -1610612736, 0, 393220, -1610612736, 0, 393223, -1610612736, 0, 393224, -1610612736, 0, 393225, -1610612736, 0, 393230, -1610612736, 0, 393234, -1610612736, 0, 393238, -1610612736, 0, 393240, -1610612736, 0, 393244, -1610612736, 0, 393248, -1610612736, 0 )
 
 [node name="Title" type="Control" parent="GUI/GameOver"]
 modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
@@ -1699,36 +1616,40 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -384.0
-margin_top = -112.0
+margin_top = -72.0
 margin_right = 384.0
-margin_bottom = 64.0
+margin_bottom = 104.0
 
 [node name="DiedLabel" type="Label" parent="GUI/GameOver/Title"]
-modulate = Color( 1.1, 1.1, 1.1, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -91.0
-margin_top = -159.5
-margin_right = 91.0
-margin_bottom = -138.5
+margin_left = -136.0
+margin_top = -185.5
+margin_right = 137.0
+margin_bottom = -153.5
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 5 )
 text = "You finaly died!"
+align = 1
 
 [node name="TimeupLabel" type="Label" parent="GUI/GameOver/Title"]
-modulate = Color( 1.1, 1.1, 1.1, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -91.0
-margin_top = -159.5
-margin_right = 91.0
-margin_bottom = -138.5
+margin_left = -94.0
+margin_top = -185.5
+margin_right = 95.0
+margin_bottom = -153.5
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 5 )
 text = "Time is up!"
+align = 1
 
 [node name="Title1" type="TileMap" parent="GUI/GameOver/Title"]
-tile_set = ExtResource( 10 )
+tile_set = ExtResource( 18 )
 cell_size = Vector2( 16, 16 )
 cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 format = 1
@@ -1736,16 +1657,533 @@ tile_data = PoolIntArray( 0, 0, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -161
 
 [node name="Title2" type="TileMap" parent="GUI/GameOver/Title"]
 position = Vector2( 400, 64 )
-tile_set = ExtResource( 10 )
+tile_set = ExtResource( 18 )
 cell_size = Vector2( 16, 16 )
 cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 format = 1
 tile_data = PoolIntArray( 0, -1610612736, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 6, 0, 0, 10, 0, 0, 12, -1610612736, 0, 13, -1610612736, 0, 14, -1610612736, 0, 15, -1610612736, 0, 18, -1610612736, 0, 19, -1610612736, 0, 20, -1610612736, 0, 21, -1610612736, 0, 65536, -1610612736, 0, 65540, -1610612736, 0, 65542, 0, 0, 65546, 0, 0, 65548, 0, 0, 65554, -1610612736, 0, 65558, -1610612736, 0, 131072, -1610612736, 0, 131076, -1610612736, 0, 131078, 0, 0, 131082, 0, 0, 131084, 0, 0, 131085, 0, 0, 131086, 0, 0, 131090, -1610612736, 0, 131091, -1610612736, 0, 131092, -1610612736, 0, 131093, -1610612736, 0, 196608, -1610612736, 0, 196612, -1610612736, 0, 196614, 0, 0, 196618, 0, 0, 196620, 0, 0, 196626, -1610612736, 0, 196630, -1610612736, 0, 262144, -1610612736, 0, 262148, -1610612736, 0, 262150, 0, 0, 262154, 0, 0, 262156, 0, 0, 262162, -1610612736, 0, 262166, -1610612736, 0, 327680, -1610612736, 0, 327684, -1610612736, 0, 327687, 0, 0, 327689, 0, 0, 327692, 0, 0, 327698, -1610612736, 0, 327702, -1610612736, 0, 393216, -1610612736, 0, 393217, 0, 0, 393218, 0, 0, 393219, 0, 0, 393220, -1610612736, 0, 393224, 0, 0, 393228, 0, 0, 393229, 0, 0, 393230, 0, 0, 393231, 0, 0, 393232, 0, 0, 393234, -1610612736, 0, 393238, -1610612736, 0 )
 
-[node name="PolyPixel" type="Polygon2D" parent="GUI/GameOver"]
+[node name="Content" type="Control" parent="GUI/GameOver"]
+margin_right = 1280.0
+margin_bottom = 720.0
+
+[node name="Title" type="Label" parent="GUI/GameOver/Content"]
+modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -91.0
+margin_top = -274.5
+margin_right = 98.0
+margin_bottom = -242.5
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 5 )
+text = "GAME OVER"
+align = 1
+
+[node name="Text" type="Label" parent="GUI/GameOver/Content"]
+margin_left = 320.0
+margin_top = 158.0
+margin_right = 640.0
+margin_bottom = 303.0
+text = "Each pixel represents and specific color become intensity, and together create the images."
+autowrap = true
+
+[node name="Title2" type="Label" parent="GUI/GameOver/Content"]
+margin_left = 320.0
+margin_top = 318.0
+margin_right = 526.0
+margin_bottom = 340.0
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "YOUR GAME STATS"
+
+[node name="DataContainer" type="VBoxContainer" parent="GUI/GameOver/Content"]
+margin_left = 320.0
+margin_top = 358.0
+margin_right = 576.0
+margin_bottom = 540.0
+custom_constants/separation = 10
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Time" type="Label" parent="GUI/GameOver/Content/DataContainer"]
 visible = false
-position = Vector2( 656, 88 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
+margin_right = 256.0
+margin_bottom = 22.0
+text = "Time used: 00"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Level" type="Label" parent="GUI/GameOver/Content/DataContainer"]
+margin_right = 256.0
+margin_bottom = 22.0
+text = "Level reached: 00"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Points" type="Label" parent="GUI/GameOver/Content/DataContainer"]
+margin_top = 32.0
+margin_right = 256.0
+margin_bottom = 54.0
+text = "Points scored: 0000"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="CellsTravelled" type="Label" parent="GUI/GameOver/Content/DataContainer"]
+margin_top = 64.0
+margin_right = 256.0
+margin_bottom = 86.0
+text = "Cells travelled: 0000"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SkillsUsed" type="Label" parent="GUI/GameOver/Content/DataContainer"]
+margin_top = 96.0
+margin_right = 256.0
+margin_bottom = 118.0
+text = "Skills used: 00"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="PixelsOff" type="Label" parent="GUI/GameOver/Content/DataContainer"]
+margin_top = 128.0
+margin_right = 256.0
+margin_bottom = 150.0
+text = "Collected colors: 00"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="AstrayPixels" type="Label" parent="GUI/GameOver/Content/DataContainer"]
+margin_top = 160.0
+margin_right = 256.0
+margin_bottom = 182.0
+text = "Pixels astray: 00"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Title3" type="Label" parent="GUI/GameOver/Content"]
+margin_left = 704.0
+margin_top = 158.0
+margin_right = 940.0
+margin_bottom = 180.0
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "BEST 10  PIXELS EVER"
+
+[node name="HighscoreTable" type="VBoxContainer" parent="GUI/GameOver/Content"]
+margin_left = 704.0
+margin_top = 198.0
+margin_right = 960.0
+margin_bottom = 536.0
+custom_constants/separation = 10
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="RowLabels" type="HBoxContainer" parent="GUI/GameOver/Content/HighscoreTable"]
+margin_right = 256.0
+margin_bottom = 22.0
+
+[node name="Position" type="Label" parent="GUI/GameOver/Content/HighscoreTable/RowLabels"]
+margin_right = 42.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Pos"
+
+[node name="Score" type="Label" parent="GUI/GameOver/Content/HighscoreTable/RowLabels"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Score"
+align = 1
+
+[node name="Owner" type="Label" parent="GUI/GameOver/Content/HighscoreTable/RowLabels"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Name"
+align = 2
+
+[node name="ScoreLine1" type="HBoxContainer" parent="GUI/GameOver/Content/HighscoreTable"]
+margin_top = 32.0
+margin_right = 256.0
+margin_bottom = 54.0
+
+[node name="Position" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine1"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine1"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine1"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primož"
+align = 2
+
+[node name="ScoreLine2" type="HBoxContainer" parent="GUI/GameOver/Content/HighscoreTable"]
+margin_top = 64.0
+margin_right = 256.0
+margin_bottom = 86.0
+
+[node name="Position" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine2"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine2"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine2"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine3" type="HBoxContainer" parent="GUI/GameOver/Content/HighscoreTable"]
+margin_top = 96.0
+margin_right = 256.0
+margin_bottom = 118.0
+
+[node name="Position" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine3"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine3"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine3"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine4" type="HBoxContainer" parent="GUI/GameOver/Content/HighscoreTable"]
+margin_top = 128.0
+margin_right = 256.0
+margin_bottom = 150.0
+
+[node name="Position" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine4"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine4"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine4"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine5" type="HBoxContainer" parent="GUI/GameOver/Content/HighscoreTable"]
+margin_top = 160.0
+margin_right = 256.0
+margin_bottom = 182.0
+
+[node name="Position" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine5"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine5"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine5"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine6" type="HBoxContainer" parent="GUI/GameOver/Content/HighscoreTable"]
+margin_top = 192.0
+margin_right = 256.0
+margin_bottom = 214.0
+
+[node name="Position" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine6"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine6"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine6"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine7" type="HBoxContainer" parent="GUI/GameOver/Content/HighscoreTable"]
+margin_top = 224.0
+margin_right = 256.0
+margin_bottom = 246.0
+
+[node name="Position" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine7"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine7"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine7"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine8" type="HBoxContainer" parent="GUI/GameOver/Content/HighscoreTable"]
+margin_top = 256.0
+margin_right = 256.0
+margin_bottom = 278.0
+
+[node name="Position" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine8"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine8"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine8"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine9" type="HBoxContainer" parent="GUI/GameOver/Content/HighscoreTable"]
+margin_top = 288.0
+margin_right = 256.0
+margin_bottom = 310.0
+
+[node name="Position" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine9"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine9"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine9"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine10" type="HBoxContainer" parent="GUI/GameOver/Content/HighscoreTable"]
+margin_top = 320.0
+margin_right = 256.0
+margin_bottom = 342.0
+
+[node name="Position" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine10"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine10"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine10"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="Menu" type="HBoxContainer" parent="GUI/GameOver/Content"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -105.0
+margin_top = -122.0
+margin_right = 106.0
+margin_bottom = -100.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="QuitBtn" type="Button" parent="GUI/GameOver/Content/Menu"]
+margin_right = 52.0
+margin_bottom = 22.0
+focus_neighbour_left = NodePath("../RestartBtn")
+focus_neighbour_right = NodePath("../RestartBtn")
+focus_mode = 1
+size_flags_horizontal = 2
+size_flags_vertical = 8
+theme = ExtResource( 4 )
+enabled_focus_mode = 1
+text = "QUIT"
+
+[node name="RestartBtn" type="Button" parent="GUI/GameOver/Content/Menu"]
+margin_left = 79.0
+margin_right = 211.0
+margin_bottom = 22.0
+focus_neighbour_left = NodePath("../QuitBtn")
+focus_neighbour_right = NodePath("../QuitBtn")
+focus_mode = 1
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme = ExtResource( 4 )
+enabled_focus_mode = 1
+text = "PLAY AGAIN"
 
 [node name="NameInputPopup" type="Control" parent="GUI/GameOver"]
 visible = false
@@ -1798,6 +2236,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 6
 text = "..."
 align = 1
+max_length = 10
 caret_blink = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="GUI/GameOver/NameInputPopup"]
@@ -1811,7 +2250,7 @@ size_flags_vertical = 11
 
 [node name="CancelBtn" type="Button" parent="GUI/GameOver/NameInputPopup/HBoxContainer"]
 margin_right = 84.0
-margin_bottom = 21.0
+margin_bottom = 22.0
 focus_neighbour_top = NodePath("../../NameInput")
 focus_neighbour_right = NodePath("../ConfirmBtn")
 focus_next = NodePath("../../NameInput")
@@ -1821,7 +2260,7 @@ text = "CANCEL"
 [node name="ConfirmBtn" type="Button" parent="GUI/GameOver/NameInputPopup/HBoxContainer"]
 margin_left = 137.0
 margin_right = 235.0
-margin_bottom = 21.0
+margin_bottom = 22.0
 focus_neighbour_left = NodePath("../CancelBtn")
 focus_neighbour_top = NodePath("../../NameInput")
 focus_next = NodePath("../CancelBtn")
@@ -1829,10 +2268,6 @@ size_flags_horizontal = 0
 size_flags_vertical = 9
 text = "CONFIRM"
 
-[connection signal="text_changed" from="Node2D/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_NameEdit_text_changed"]
-[connection signal="text_entered" from="Node2D/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_PopupNameEdit_text_entered"]
-[connection signal="pressed" from="Node2D/NameInputPopup/HBoxContainer/CancelBtn" to="GUI/GameOver" method="_on_PopupCancelBtn_pressed"]
-[connection signal="pressed" from="Node2D/NameInputPopup/HBoxContainer/ConfirmBtn" to="GUI/GameOver" method="_on_PopupConfirmBtn_pressed"]
 [connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestToggle" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_CheckBox_mouse_entered"]
 [connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestToggle" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_CheckBox_mouse_exited"]
 [connection signal="toggled" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestToggle" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_CheckBox_toggled"]
@@ -1874,9 +2309,14 @@ text = "CONFIRM"
 [connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_AddTraumaBtn_mouse_entered"]
 [connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_AddTraumaBtn_mouse_exited"]
 [connection signal="pressed" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_AddTraumaBtn_pressed"]
-[connection signal="deathmode_on" from="GUI/Hud/GameTime" to="GUI/Hud" method="_on_GameTime_deathmode_on"]
-[connection signal="gametime_is_up" from="GUI/Hud/GameTime" to="GUI/Hud" method="_on_GameTime_gametime_is_up"]
+[connection signal="deathmode_active" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_deathmode_active"]
+[connection signal="gametime_is_up" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_gametime_is_up"]
+[connection signal="timeout" from="GUI/Hud/Header/GameTimer/Timer" to="GUI/Hud/Header/GameTimer" method="_on_Timer_timeout"]
 [connection signal="animation_finished" from="GUI/GameCountdown/AnimationPlayer" to="GUI/GameCountdown" method="_on_AnimationPlayer_animation_finished"]
+[connection signal="toggled" from="GUI/PauseMenu/Settings/GameMusicCheckBox" to="GUI/PauseMenu" method="_on_GameMusicCheckBox_toggled"]
+[connection signal="value_changed" from="GUI/PauseMenu/Settings/GameMusicSlider" to="GUI/PauseMenu" method="_on_GameMusicSlider_value_changed"]
+[connection signal="toggled" from="GUI/PauseMenu/Settings/GameSfxCheckBox" to="GUI/PauseMenu" method="_on_GameSfxCheckBox_toggled"]
+[connection signal="toggled" from="GUI/PauseMenu/Settings/CamerShakeCheckBox" to="GUI/PauseMenu" method="_on_CamerShakeCheckBox_toggled"]
 [connection signal="pressed" from="GUI/PauseMenu/Menu/QuitBtn" to="GUI/PauseMenu" method="_on_QuitBtn_pressed"]
 [connection signal="pressed" from="GUI/PauseMenu/Menu/RestartBtn" to="GUI/PauseMenu" method="_on_RestartBtn_pressed"]
 [connection signal="pressed" from="GUI/PauseMenu/Menu/PlayBtn" to="GUI/PauseMenu" method="_on_PlayBtn_pressed"]
@@ -1884,5 +2324,5 @@ text = "CONFIRM"
 [connection signal="pressed" from="GUI/GameOver/Content/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
 [connection signal="text_changed" from="GUI/GameOver/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_NameEdit_text_changed"]
 [connection signal="text_entered" from="GUI/GameOver/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_PopupNameEdit_text_entered"]
-[connection signal="pressed" from="GUI/GameOver/NameInputPopup/HBoxContainer/CancelBtn" to="GUI/GameOver" method="_on_PopupCancelBtn_pressed"]
-[connection signal="pressed" from="GUI/GameOver/NameInputPopup/HBoxContainer/ConfirmBtn" to="GUI/GameOver" method="_on_PopupConfirmBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/NameInputPopup/HBoxContainer/CancelBtn" to="GUI/GameOver" method="_on_CancelBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/NameInputPopup/HBoxContainer/ConfirmBtn" to="GUI/GameOver" method="_on_ConfirmBtn_pressed"]

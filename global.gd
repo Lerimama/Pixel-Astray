@@ -1,30 +1,28 @@
 extends Node2D
 
-
-# GLOBAL NODES
-
-# scene switching
-#var current_scene = null # trenutno predvajana scena (za svičanje)
-#var scene_reload_time: float = 1
+## globalne funkcije in variable
 
 
 # GLOBAL NODES ---------------------------------------------------------------------------------------------------------
 
 var main_node = null
+
+# managers
 var sound_manager = null
 var data_manager = null
 var game_manager = null
-var level_tilemap = null
-var node_creation_parent = null # arena
-var hud = null
+
+# game
 var main_camera = null
 var camera_target = null
+var node_creation_parent = null # arena
+var level_tilemap = null
+var hud = null
 var game_countdown = null
 var gameover_menu = null
-#var gameover_gui = null
-var game_viewport = null
 
 # res rabm?
+#var game_viewport = null
 #var color_indicator_parent = null # za barve v hudu
 
 
@@ -36,7 +34,6 @@ var game_viewport = null
 var group_players = "Players"
 var group_strays = "Strays"
 var group_tilemap = "Tilemap"
-#var group_ghosts = "Ghosts"
 
 # sivi klin
 var color_black = Color("#000000")
@@ -54,17 +51,20 @@ var color_green = Color("#5effa9")
 var color_red = Color("#f35b7f")
 var color_yellow = Color("#fef98b")
 
-var game_over_reason_life = "player_life"
-var game_over_reason_time = "game_time"
+# reasons for game-over ... samo za info
+#var game_over_reason_life = "player_life"
+var game_over_reason_life = "player died"
+var game_over_reason_time = "time is up"
 
 
 func _ready():
-	
 	randomize()
+
 
 func print_id (node: Node):
 #	printt("Živijo! Jaz sem " + node.name + " na koordinatah " + str(node.global_position) + ".")
 	pass
+
 
 func snap_to_nearest_grid(current_global_position: Vector2):
 

@@ -1,31 +1,50 @@
-[gd_resource type="Theme" load_steps=13 format=2]
+[gd_resource type="Theme" load_steps=17 format=2]
 
 [ext_resource path="res://assets/theme/lerimama_theme_font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://assets/theme/iconset_lerimama_theme.png" type="Texture" id=3]
 
 [sub_resource type="StyleBoxEmpty" id=2]
 
 [sub_resource type="StyleBoxEmpty" id=8]
 
-[sub_resource type="StyleBoxEmpty" id=9]
+[sub_resource type="StyleBoxEmpty" id=159]
 
-[sub_resource type="StyleBoxEmpty" id=10]
+[sub_resource type="StyleBoxEmpty" id=160]
 
-[sub_resource type="StyleBoxEmpty" id=11]
+[sub_resource type="StyleBoxEmpty" id=161]
 
-[sub_resource type="StreamTexture" id=13]
-load_path = "res://.import/tileset_hud_icons.png-be9f67bfe9cd2fc31c012c696d1f0b84.stex"
+[sub_resource type="AtlasTexture" id=157]
+atlas = ExtResource( 3 )
+region = Rect2( 16, 16, 14, 16 )
 
-[sub_resource type="AtlasTexture" id=14]
-atlas = SubResource( 13 )
-region = Rect2( 16, 80, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=15]
-atlas = SubResource( 13 )
-region = Rect2( 0, 80, 16, 16 )
+[sub_resource type="AtlasTexture" id=158]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 16, 14, 16 )
 
 [sub_resource type="StyleBoxLine" id=5]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
+
+[sub_resource type="AtlasTexture" id=150]
+atlas = ExtResource( 3 )
+region = Rect2( 32, 0, 10, 10 )
+
+[sub_resource type="AtlasTexture" id=155]
+atlas = ExtResource( 3 )
+region = Rect2( 32, 16, 10, 10 )
+
+[sub_resource type="AtlasTexture" id=152]
+atlas = ExtResource( 3 )
+region = Rect2( 32, 32, 16, 8 )
+
+[sub_resource type="StyleBoxTexture" id=153]
+texture = SubResource( 152 )
+region_rect = Rect2( 0, 0, 16, 8 )
+margin_left = 3.34132
+margin_right = 4.0
+margin_top = 4.0
+margin_bottom = 4.0
+modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 
 [sub_resource type="StyleBoxFlat" id=12]
 bg_color = Color( 0, 0, 0, 0 )
@@ -45,25 +64,29 @@ border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
 
 [resource]
 default_font = ExtResource( 1 )
-Button/colors/font_color = Color( 0.490196, 0.490196, 0.490196, 1 )
-Button/colors/font_color_disabled = Color( 0.145098, 0.145098, 0.145098, 1 )
+Button/colors/font_color = Color( 1, 1, 1, 0.901961 )
+Button/colors/font_color_disabled = Color( 1, 1, 1, 0.470588 )
 Button/colors/font_color_focus = Color( 0.368627, 1, 0.662745, 1 )
-Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
-Button/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+Button/colors/font_color_hover = Color( 0.368627, 1, 0.662745, 1 )
+Button/colors/font_color_pressed = Color( 0.368627, 1, 0.662745, 1 )
 Button/styles/disabled = SubResource( 2 )
 Button/styles/focus = SubResource( 8 )
-Button/styles/hover = SubResource( 9 )
-Button/styles/normal = SubResource( 10 )
-Button/styles/pressed = SubResource( 11 )
-CheckBox/icons/checked = null
-CheckBox/icons/unchecked = null
-CheckButton/icons/off = SubResource( 14 )
-CheckButton/icons/on = SubResource( 15 )
+Button/styles/hover = SubResource( 159 )
+Button/styles/normal = SubResource( 160 )
+Button/styles/pressed = SubResource( 161 )
+CheckBox/colors/font_color = Color( 1, 1, 1, 0.901961 )
+CheckBox/colors/font_color_focus = Color( 0.368627, 1, 0.662745, 1 )
+CheckBox/colors/font_color_hover = Color( 0.368627, 1, 0.662745, 1 )
+CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
+CheckBox/colors/font_color_pressed = Color( 1, 1, 1, 0.901961 )
+CheckBox/icons/checked = SubResource( 157 )
+CheckBox/icons/unchecked = SubResource( 158 )
 HSeparator/styles/separator = SubResource( 5 )
-Label/colors/font_color = Color( 0.745098, 0.745098, 0.745098, 1 )
-Label/colors/font_color_shadow = Color( 0, 0, 0, 0 )
-Label/colors/font_outline_modulate = Color( 1, 1, 1, 1 )
-Label/styles/normal = null
+HSlider/icons/grabber = SubResource( 150 )
+HSlider/icons/grabber_highlight = SubResource( 155 )
+HSlider/styles/slider = SubResource( 153 )
+Label/colors/font_color = Color( 0.72549, 0.737255, 0.764706, 1 )
+Label/constants/line_spacing = 6
 LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
 LineEdit/colors/selection_color = Color( 0.815686, 0.815686, 0.815686, 1 )
 LineEdit/styles/normal = SubResource( 12 )

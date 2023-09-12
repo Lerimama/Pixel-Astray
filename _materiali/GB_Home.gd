@@ -149,8 +149,8 @@ func _on_clean_up_btn_pressed():
 
 # quit
 func _on_quit_btn_pressed():
-#	Global.switch_to_scene("res://scenes/arena/Arena.tscn")
-#	Global.switch_to_scene("res://scenes/Game.tscn")
+#	Global.switch_to_scene("res://scenes/arena/arena.tscn")
+#	Global.switch_to_scene("res://scenes/game.tscn")
 	_on_players1_confirm_btn_pressed()
 
 
@@ -178,7 +178,7 @@ func _on_AnimationPlayer_animation_finished(animation) -> void:
 			# shrani trenutno mapo v profile
 			Profiles.arena_tilemap_profiles[arena_save_name] = current_used_cells
 			print(current_used_cells)
-			switch_to_scene("res://scenes/arena/Arena.tscn", current_used_cells) # 2. arg je zato, da jih zbrišemo
+			switch_to_scene("res://scenes/arena/arena.tscn", current_used_cells) # 2. arg je zato, da jih zbrišemo
 			
 			
 var current_arena_scene = null		

@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/resources/arena_tileset.tres" type="TileSet" id=2]
 [ext_resource path="res://game/arena_tilemap.gd" type="Script" id=3]
 [ext_resource path="res://assets/resources/animation_pixelate.tres" type="Animation" id=4]
-[ext_resource path="res://game/pixel/Actor.tscn" type="PackedScene" id=5]
+[ext_resource path="res://game/pixel/actor.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=6]
 [ext_resource path="res://assets/resources/arena_environment.tres" type="Environment" id=8]
 [ext_resource path="res://managers/game_manager.gd" type="Script" id=10]
@@ -109,7 +109,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 7.48, 9.28 ),
+"times": PoolRealArray( 7.48, 8.98 ),
 "transitions": PoolRealArray( 1, 1 ),
 "values": [ {
 "args": [  ],
@@ -257,7 +257,6 @@ __meta__ = {
 
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource( 10 )
-can_skip_intro = true
 
 [node name="Spectrum" type="TextureRect" parent="GameManager"]
 visible = false
@@ -269,29 +268,14 @@ expand = true
 [node name="Level" type="Node2D" parent="."]
 
 [node name="Undi" type="Node2D" parent="Level"]
-visible = false
 z_index = -1
 
-[node name="ColorRect" type="ColorRect" parent="Level/Undi"]
-margin_right = 2704.0
-margin_bottom = 1848.0
+[node name="Undi" type="ColorRect" parent="Level/Undi"]
+margin_left = -40.0
+margin_top = -40.0
+margin_right = 3540.0
+margin_bottom = 2440.0
 color = Color( 0, 0, 0, 1 )
-
-[node name="ColorRect2" type="ColorRect" parent="Level/Undi"]
-visible = false
-margin_left = 1240.0
-margin_right = 1464.0
-margin_bottom = 1848.0
-color = Color( 0.129412, 0.901961, 0.866667, 0.403922 )
-
-[node name="ColorRect3" type="ColorRect" parent="Level/Undi"]
-visible = false
-margin_left = -113.0
-margin_top = 1024.0
-margin_right = 111.0
-margin_bottom = 3945.0
-rect_rotation = -89.9999
-color = Color( 0.129412, 0.901961, 0.866667, 0.403922 )
 
 [node name="TileMap" type="TileMap" parent="Level"]
 z_index = -1
@@ -306,16 +290,16 @@ script = ExtResource( 3 )
 [node name="FloorCover" type="ColorRect" parent="Level"]
 margin_left = -40.0
 margin_top = -40.0
-margin_right = 3516.0
-margin_bottom = 2474.0
+margin_right = 3540.0
+margin_bottom = 2440.0
 color = Color( 1, 1, 1, 0 )
 
-[node name="ColorRect" type="ColorRect" parent="Level"]
-modulate = Color( 1, 1, 1, 0.627451 )
+[node name="TilemapCover" type="ColorRect" parent="Level"]
+modulate = Color( 1, 1, 1, 0.666667 )
 margin_left = -40.0
 margin_top = -40.0
-margin_right = 3516.0
-margin_bottom = 2474.0
+margin_right = 3540.0
+margin_bottom = 2440.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="_muštr_camera_out" type="ColorRect" parent="Level"]
@@ -338,8 +322,7 @@ color = Color( 0.156863, 0.145098, 0, 1 )
 environment = ExtResource( 8 )
 
 [node name="Actor" parent="." instance=ExtResource( 5 )]
-visible = false
-modulate = Color( 1, 1, 1, 0.766387 )
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 432, 912 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

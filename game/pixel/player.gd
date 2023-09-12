@@ -3,7 +3,12 @@ extends KinematicBody2D
 
 signal stat_changed (stat_owner, stat, stat_change)
 
-export var energy_speed_mode: bool = true
+#export var energy_speed_mode: bool = true
+var step_time: float # uporabi se pri step tweenu in je nekonstanten, če je "energy_speed_mode"
+export var max_step_time: float = 0.15 # najpočasnejši
+export var min_step_time: float = 0.09 # najhitrejši
+export var breath_alpha_adon: float = 0.25
+export var skill_ready_alpha: float = 1.2
 
 enum States {IDLE, STEPPING, SKILLED, BURSTING}
 var current_state = States.IDLE
@@ -11,13 +16,6 @@ var current_state = States.IDLE
 var pixel_color: Color # = Global.color_white
 var direction = Vector2.ZERO # prenosna
 var collision: KinematicCollision2D
-
-# steping
-export var step_time: float # = 0.15
-export var max_step_time: float = 0.25 # najpočasnejši
-export var min_step_time: float = 0.1 # najhitrejši ... v trenutni kodi je irelevanten
-
-var skill_ready_alpha: float = 1.2
 
 # push & pull
 var pull_time: float = 0.3
@@ -44,7 +42,7 @@ var cocked_pause_time: float = 0.05 # čas za napolnitev vseh spawnanih ghostov 
 # bursting
 var burst_speed: float = 0
 var burst_speed_max: float = 0 # maximalna hitrost v tweenu
-var burst_speed_max_addon: float = 10
+var burst_speed_max_addon: float = 15
 var strech_ghost_shrink_time: float = 0.2
 var burst_direction_set: bool = false
 var burst_power: int # moč v številu ghosts_count
@@ -64,33 +62,35 @@ var die_shake_decay: float = 0.1
 # energija
 var player_energy: float = Global.game_manager.player_stats["player_energy"] # energija je edini stat, ki gamore plejer poznat ... greba se iz globalnih statsov
 onready var default_player_energy: float = Profiles.default_player_stats["player_energy"]
-onready var tired_energy_part: float = Profiles.game_rules["tired_energy_part"] # del energije pri kateri velja, da je utrujen (diha hitreje
+onready var tired_energy_level: float = Profiles.game_rules["tired_energy_level"] # del energije pri kateri velja, da je utrujen (diha hitreje)
 onready var current_player_energy_part: float # = player_energy/default_player_energy # delež celotne energije
 
 # dihanje
 var breath_speed: float = 1.2
 var tired_breath_speed: float = 2.4
-export var breath_alpha_adon: float
 
 # zadnji dih
-var last_breath_on: bool =  false
+var last_breath_active: bool = false 
 var last_breath_time = 5
 onready var last_breath_timer: Timer = $LastBreathTimer
+
+# transparenca energije
+var skill_ready_alpha_adon: float = 0.2
+onready var poly_pixel: Polygon2D = $PolyPixel
+onready var skill_sfx_active: bool = false
 
 onready var cell_size_x: int = Global.level_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var vision_ray: RayCast2D = $VisionRay
 onready var floor_cells: Array = Global.game_manager.floor_positions
 onready var collision_shape: CollisionShape2D = $CollisionShape2D
-onready var Ghost: PackedScene = preload("res://game/pixel/Ghost.tscn")
-onready var PixelCollisionParticles: PackedScene = preload("res://game/pixel/PixelCollisionParticles.tscn")
-onready var PixelDizzyParticles: PackedScene = preload("res://game/pixel/PixelDizzyParticles.tscn")
+onready var Ghost: PackedScene = preload("res://game/pixel/ghost.tscn")
+onready var PixelCollisionParticles: PackedScene = preload("res://game/pixel/pixel_collision_particles.tscn")
+onready var PixelDizzyParticles: PackedScene = preload("res://game/pixel/pixel_dizzy_particles.tscn")
 
-# transparenca
-var skill_ready_alpha_adon: float = 0.2
 
-onready var poly_pixel: Polygon2D = $PolyPixel
-onready var skill_sfx_active: bool = false
+
+
 func _ready() -> void:
 	
 	Global.print_id(self)
@@ -105,10 +105,8 @@ func _ready() -> void:
 	
 	modulate.a = 1
 	poly_pixel.modulate.a = 1
-#	animation_player.play("stil_alive")
 	animation_player.play("stil_alive_poly")
-#	printt("plajer REDI modulate", modulate)
-#	Global.game_manager.player_stats["player_energy"]
+
 
 func _physics_process(delta: float) -> void:
 	
@@ -121,23 +119,24 @@ func _physics_process(delta: float) -> void:
 	poly_pixel.modulate.a = clamp(alpha_factor, 0.3, alpha_factor)
 	
 	# zadnji izdihljaji
-	if player_energy == 1 and not last_breath_on: 
-		last_breath_timer.start(last_breath_time)
-		last_breath_on = true
+	if player_energy == 1 and not last_breath_active: 
+		last_breath_active = true
 		Global.sound_manager.play_sfx("last_breath")
+		if Profiles.game_rules["last_breath_mode"]:
+			last_breath_timer.start(last_breath_time)
 		
 	elif player_energy == 1:
-		modulate = Global.color_red
+#		modulate = Global.color_red
+		pass
 		
 	elif player_energy > 1:
-		last_breath_on = false
-		last_breath_timer.stop()
+		last_breath_active = false
 		Global.sound_manager.stop_sfx("last_breath")
+		if Profiles.game_rules["last_breath_mode"]:
+			last_breath_timer.stop()
 		
-	
 #		modulate = pixel_color
 			
-		
 	if Global.detect_collision_in_direction(vision_ray, direction): # more bit neodvisno od stateta, da pull dela
 		skill_inputs()
 			
@@ -157,7 +156,7 @@ func _physics_process(delta: float) -> void:
 					
 			# dihanje
 			else: 
-				var tired_energy = default_player_energy * tired_energy_part
+				var tired_energy = default_player_energy * tired_energy_level
 				if player_energy < tired_energy:
 					animation_player.set_speed_scale(tired_breath_speed)
 				else:
@@ -168,13 +167,12 @@ func _physics_process(delta: float) -> void:
 				Global.sound_manager.stop_sfx("skilled")
 				
 			# energija in hitrost
-			if energy_speed_mode:
-				var slow_trim_size: float = max_step_time * default_player_energy
-				var energy_factor: float = (default_player_energy - slow_trim_size) / player_energy
-				var energy_step_time = energy_factor / 10 # ta variabla je zato, da se vedno seta nova in potem ne raste s FP
-				# omejim najbolj počasno
-				step_time = clamp(energy_step_time, min_step_time, max_step_time)
-
+			var slow_trim_size: float = max_step_time * default_player_energy
+			var energy_factor: float = (default_player_energy - slow_trim_size) / player_energy
+			var energy_step_time = energy_factor / 10 # ta variabla je zato, da se vedno seta nova in potem ne raste s FP
+			# omejim najbolj počasno
+			step_time = clamp(energy_step_time, min_step_time, max_step_time)
+				
 			idle_inputs()
 							
 		States.STEPPING:
@@ -225,7 +223,7 @@ func on_collision():
 		Global.sound_manager.play_sfx("hit_stray")
 			
 		# "sosednja barva" mode
-		if Global.game_manager.pick_neighbour_mode:
+		if Profiles.game_rules["pick_neighbour_mode"]:
 			# če je sosed določen, in če pobrana barva ni enaka barvi soseda na spektru
 			if Global.game_manager.colors_to_pick and not Global.game_manager.colors_to_pick.has(collision.collider.pixel_color):
 				end_move()

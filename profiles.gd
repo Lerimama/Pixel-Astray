@@ -1,105 +1,105 @@
 extends Node
 
 
-
-
-
-# PROFILES ---------------------------------------------------------------------------------------------------------
-
-
-var default_player_profiles: Dictionary = { # ime profila ime igralca ... pazi da je CAPS, ker v kodi tega ne pedenam	
-	"player_name" : "Moe",
-	"player_color" : Global.color_blue, # color_yellow, color_green, color_red
-	"controller_profile" : "ARROWS",
-	
-#	"P1" : { # ključi bodo kasneje samo indexi
-#		"player_name" : "Moe",
-#		"player_color" : Global.color_blue, # color_yellow, color_green, color_red
-#		"controller_profile" : "ARROWS",
-#	},
-}
-
 # STATS ---------------------------------------------------------------------------------------------------------
 
-var default_level_highscores: Dictionary = { 
-# prazen slovar ... uporabi se ob kreiranju fileta ... uporabi ga Glo
-	"1": {
-		"P1": 60,
-	},
-	"2": {
-		"P2": 50,
-	},
-	"3": {
-		"P3": 40,
-	},
-	"4": {
-		"P4": 30,
-	},
-	"5": {
-		"P5": 1,
-	},
+
+var default_level_highscores: Dictionary = { # prazen slovar ... uporabi se ob kreiranju fileta ... uporabi ga Glo
+	"1": {"Prvi": 30,},
+	"2": {"Drugi": 20,},
+	"3": {"Tretji": 20,},
+	"4": {"Četrti": 10,},
+	"5": {"Peti": 9,},
+	"6": {"Šesti": 8,},
+	"7": {"Sedmi": 7,},
+	"8": {"Osmi": 6,},
+	"9": {"Deveti": 2,},
+	"10": {"Deseti": 1,},
 }
 
-var default_player_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
-	"player_name" : "Moe", # to ime se piše v HS procesu
-	"player_active" : false, # zaenkrat ga v aktivnega setaš na pixlov ready
-	"player_life" : 3,
+
+var default_player_stats : Dictionary = { # bo verjetno za vsak mode drugačen
+	"player_name" : "Moe", # to ime se piše v HS procesu, če igralec pusti prazno
+	"player_life" : 1,
 	"player_points": 0,
-	"player_energy" : 172, # max, da se lepo ujema s pixli
-#	"player_energy" : 5, # max, da se lepo ujema s pixli
+	"player_energy" : 192, # max, da se lepo ujema s pixli (24
 	"skills_used" : 0,
 	"cells_travelled" : 0,
 }
 
-#var default_level_stats: Dictionary = { # tole ne uporabljam v zadnji varianti
-var default_level_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
+var default_level_stats : Dictionary = { # na štartu igre se tole duplicira in postane game stats
 	"level_no" : 88,
-	"game_time" : 120, # sekund
-	"game_time_limit" : 90, # sekund
-	"death_mode_limit" : 10, # sekund
-	"stray_pixels_count" : 32,
+	"game_time_limit" : 120, # sekund
+	"death_mode_limit" : 20, # sekund
+	"timer_countdown_mode" : true,
+	"stray_pixels_count" : 50,
 	"off_pixels_count" : 0,
-	"highscore": 0000, # se naloži ob štartu igre, zato, da te lahko opozori že med igro
-	"highscore_owner": "NNNNNNNNNN", # se naloži ob štartu igre, zato, da te lahko opozori že med igro
-	"player_start_energy" : 172, # max, da se lepo ujema s pixli
+	"highscore": 0000, # se naloži iz  "default_level_highscores" lestvice ob štartu igre, zato, da te lahko opozori že med igro
+	"highscore_owner": "NNNNNNNNNN", # se naloži iz  "default_level_highscores" lestvice ob štartu igre, zato, da te lahko opozori že med igro
 }
 
-enum GameModes {BASIC}
+
+# GAMES ---------------------------------------------------------------------------------------------------------
 
 
-var game_rules : Dictionary = { # tole ne uporabljam v zadnji varianti
-	"game_mode" : GameModes.BASIC,
-	"tired_energy_part" : 0.1,
-#	"player_start_position" : Vector2(500, 500),
-	"points_color_picked": 10,
-	"points_skill_used": 0,
-	"points_cell_travelled": 0,
+enum GameModes {PROTOYPE, TRAINING, RUNNER, CLEANER, FINISHER}
+
+
+# var game_rules_training: Dictionary = {
+var game_rules: Dictionary = { # tole ne uporabljam v zadnji varianti
+	"color_picked_points": 10,
+	"color_picked_energy": 10,
+	"additional_color_picked_points": 20,
+	"additional_color_picked_energy": 20,
+#	"cell_travelled_points": 0,
+	"cell_travelled_energy": -1,
+#	"skill_used_points": 0,
+	"skill_used_energy": 0,
+	"tired_energy_level" : 0.1, # procent cele energije
 	
-	"energy_color_picked": 10,
-	"energy_skill_used": -1,
-	"energy_cell_travelled": -1,
-	"energy_hit_wall": 72,
-	
-	"skills_in_row_limit": 5,
+	# config ... ne vem če je vse za ta slovar?
+	"pick_neighbour_mode": false,
+	"deathmode_on": false,
+	"last_breath_mode": true,
+	"minimap_on": false,
+	"energy_speed_mode": true, # premikanje ne porablja energije ... pogoj je v on_stat_change
+#	"stray_energy_pull": true, 
+#	"skills_in_row": false,
 }
 
-#var game_config : Dictionary = { # tole ne uporabljam v zadnji varianti
-#	"stray_hit_shake": 0,
-#	"wall_hit_shake": 0,
-#	"stray_die_shake": 0,
-#	"player_die_shake": 0,
-#}
 
+var game_rules_runner: Dictionary = {
+	"color_picked_points": 10,
+	"color_picked_energy": 10,
+	"additional_color_picked_points": 20,
+	"additional_color_picked_energy": 20,
+	"cell_travelled_points": 0,
+	"cell_travelled_energy": -1,
+	"skill_used_points": 0,
+	"skill_used_energy": 0,
+	"tired_energy_level" : 0.1, # procent cele energije
+}
 
-#enum Levels {FIRST, SQUARE, CIRCLE, TRIANGLE
-#}
-#
-#var default_level_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
-#	Levels.FIRST: {
-##		"player_start_position" : Vector2(0, 0),
-#		"game_time" : 5,
-#		"level" : 0,
-#		"stray_pixels_count" : 32,
-#	}
-#}
+var game_rules_cleaner: Dictionary = {
+	"color_picked_points": 10,
+	"color_picked_energy": 10,
+	"additional_color_picked_points": 20,
+	"additional_color_picked_energy": 20,
+	"cell_travelled_points": 0,
+	"cell_travelled_energy": -1,
+	"skill_used_points": 0,
+	"skill_used_energy": 0,
+	"tired_energy_level" : 0.1, # procent cele energije
+}
 
+var game_rules_finisher: Dictionary = {
+	"color_picked_points": 10,
+	"color_picked_energy": 10,
+	"additional_color_picked_points": 20,
+	"additional_color_picked_energy": 20,
+	"cell_travelled_points": 0,
+	"cell_travelled_energy": -1,
+	"skill_used_points": 0,
+	"skill_used_energy": 0,
+	"tired_energy_level" : 0.1, # procent cele energije
+}

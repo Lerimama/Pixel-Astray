@@ -1,7 +1,7 @@
 extends HBoxContainer
 
 
-var energy: int setget _on_amount_change
+var energy: int setget _on_amount_change # energija je konveratana v razmerju velikosti bara
 var previous_energy: int # preverjam smer spremembe lajfa
 var low_energy: float 
 var low_energy_level: float = 0.2 # 10% ... going red 

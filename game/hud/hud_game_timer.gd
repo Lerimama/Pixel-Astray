@@ -1,10 +1,8 @@
 extends Control
 
 
-signal deathmode_on # pošlje se v hud, ki javi game managerju
+signal deathmode_active # pošlje se v hud, ki javi game managerju
 signal gametime_is_up # pošlje se v hud, ki javi game managerju
-
-export var countdown_mode: bool = false
 
 var current_second: int # trenutna sekunda znotraj minutnega kroga ... ia izpis na uri
 var game_time: int # čas v tajmerju v sekundah
@@ -12,33 +10,31 @@ var game_time_limit: int # podatki glede časovnih omejitev se pošljejo iz GM-j
 var time_running_out_limit: int = 10
 
 onready var deathmode_limit: int = Profiles.default_level_stats["death_mode_limit"]
+onready var level_time_limit: int = Profiles.default_level_stats["game_time_limit"]
+onready var countdown_mode: bool = Profiles.default_level_stats["timer_countdown_mode"]
 
 
 func _ready() -> void:
 	modulate = Global.color_white
+	
+	# display pred štartom
+	if countdown_mode:
+		$Mins.text = "%02d" % (level_time_limit / 60)
+		$Secs.text = "%02d" % (level_time_limit % 60)
 
 
 func _process(delta: float) -> void:
-	
-	# display
-	current_second = int(game_time) % 60
-	$Mins.text = "%02d" % (game_time / 60)
-	$Secs.text = "%02d" % current_second
 	
 	# če ne štopam se tukaj ustavim
 	if $Timer.is_stopped():
 		return
 	
+	# display ko štopa
+	current_second = int(game_time) % 60
+	$Mins.text = "%02d" % (game_time / 60)
+	$Secs.text = "%02d" % current_second
 		
 	if countdown_mode:
-		
-		# deathmode
-		if game_time > deathmode_limit:
-			modulate = Global.color_white
-		elif game_time == deathmode_limit:
-			emit_signal("deathmode_on") # pošlje se v hud, ki javi game managerju		
-		elif game_time < deathmode_limit:
-			modulate = Global.color_red
 		
 		# time is up	
 		if game_time <= 0:
@@ -47,21 +43,33 @@ func _process(delta: float) -> void:
 			modulate = Global.color_red
 			emit_signal("gametime_is_up") # pošlje se v hud, ki javi game managerju		
 	
-	else:
-		# deathmode
-		if game_time < game_time_limit - deathmode_limit:
-			modulate = Global.color_white
-		elif game_time == game_time_limit - deathmode_limit:
-			emit_signal("deathmode_on") # pošlje se v hud, ki javi game managerju		
-		elif game_time > game_time_limit - deathmode_limit:
-			modulate = Global.color_red
+		# activate deathmode
+		if Profiles.game_rules["deathmode_on"]:
+			if game_time > deathmode_limit:
+				modulate = Global.color_white
+			elif game_time == deathmode_limit:
+				emit_signal("deathmode_active") # pošlje se v hud, ki javi game managerju		
+			elif game_time < deathmode_limit:
+				modulate = Global.color_red
 		
+	else:
 		if game_time >= game_time_limit: # ker uravnavam s časom, ki je PRETEKEL
 			stop_timer()
 			emit_signal("gametime_is_up")		
+		
+		# activate deathmode
+		if Profiles.game_rules["deathmode_on"]:
+			if game_time < game_time_limit - deathmode_limit:
+				modulate = Global.color_white
+			elif game_time == game_time_limit - deathmode_limit:
+				emit_signal("deathmode_active") # pošlje se v hud, ki javi game managerju		
+			elif game_time > game_time_limit - deathmode_limit:
+				modulate = Global.color_red
+		
 	
 	
-func start_timer(level_time_limit):
+func start_timer():
+#func start_timer(level_time_limit):
 	
 	modulate = Global.color_white
 	

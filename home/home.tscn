@@ -1,0 +1,1721 @@
+[gd_scene load_steps=25 format=2]
+
+[ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=1]
+[ext_resource path="res://assets/theme/iconset_lerimama_theme.png" type="Texture" id=2]
+[ext_resource path="res://home/settings.gd" type="Script" id=3]
+[ext_resource path="res://assets/theme/lerimama_theme_title_font.tres" type="DynamicFont" id=4]
+[ext_resource path="res://home/home.gd" type="Script" id=5]
+[ext_resource path="res://assets/resources/menu_environment.tres" type="Environment" id=6]
+[ext_resource path="res://assets/tiles/tile_title.png" type="Texture" id=7]
+[ext_resource path="res://assets/32_pixel_colors.png" type="Texture" id=8]
+[ext_resource path="res://assets/theme/stylebox_panelwithborder.tres" type="StyleBox" id=9]
+[ext_resource path="res://assets/theme/lerimama_theme_select_game_font.tres" type="DynamicFont" id=10]
+
+[sub_resource type="ConvexPolygonShape2D" id=136]
+points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
+
+[sub_resource type="TileSet" id=135]
+0/name = "tile_title.png 0"
+0/texture = ExtResource( 7 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 16, 16 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape = SubResource( 136 )
+0/shape_one_way = false
+0/shape_one_way_margin = 1.0
+0/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 136 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+0/z_index = 0
+
+[sub_resource type="AtlasTexture" id=150]
+atlas = ExtResource( 2 )
+region = Rect2( 28, 48, 20, 20 )
+
+[sub_resource type="AtlasTexture" id=149]
+atlas = ExtResource( 2 )
+region = Rect2( 28, 68, 20, 20 )
+
+[sub_resource type="StyleBoxFlat" id=152]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.368627, 1, 0.662745, 1 )
+
+[sub_resource type="StyleBoxFlat" id=153]
+bg_color = Color( 0.368627, 1, 0.662745, 0.313726 )
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.368627, 1, 0.662745, 1 )
+
+[sub_resource type="StyleBoxEmpty" id=151]
+
+[sub_resource type="Animation" id=144]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Settings:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -848, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("About:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 720 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SelectGame:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1280, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Credits:rect_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, -600 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Graphics:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Menu:rect_position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 296, 574 ) ]
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("Settings:rect_position:x")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( -672, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/7/type = "bezier"
+tracks/7/path = NodePath("Settings:rect_position:y")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/8/type = "bezier"
+tracks/8/path = NodePath("Credits:rect_position:y")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"points": PoolRealArray( -600, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+
+[sub_resource type="Animation" id=137]
+resource_name = "about"
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Graphics:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -320 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Menu:rect_position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 296, 574 ), Vector2( 296, 254 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Menu:modulate:a")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("About:rect_position")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = false
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 0, 720 ), Vector2( 0, 104 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("About:modulate:a")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.04, 0.3, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 0.0, 1.0 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Graphics:modulate:a")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.32 ]
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("Graphics:position:y")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 0, 0, 0, 0.5, 0, -320, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/7/type = "bezier"
+tracks/7/path = NodePath("Menu:rect_position:y")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"points": PoolRealArray( 574, 0, 0, 0.5, 0, 254, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/8/type = "bezier"
+tracks/8/path = NodePath("About:rect_position:y")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"points": PoolRealArray( 720, 0, 0, 0.5, 0, 104, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+
+[sub_resource type="Animation" id=141]
+resource_name = "credits"
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Graphics:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 512 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Menu:rect_position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 296, 574 ), Vector2( 296, 1086 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Menu:modulate:a")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Credits:rect_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = false
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 0, -600 ), Vector2( 0, -80 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Credits:modulate:a")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.04, 0.3, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 0.0, 1.0 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Graphics:modulate:a")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.32 ]
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("Graphics:position:y")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 0, 0, 0, 0.5, 0, 512, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/7/type = "bezier"
+tracks/7/path = NodePath("Menu:rect_position:y")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"points": PoolRealArray( 574, 0, 0, 0.5, 0, 1086, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/8/type = "bezier"
+tracks/8/path = NodePath("Credits:rect_position:y")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"points": PoolRealArray( -600, 0, 0, 0.5, 0, -80, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+
+[sub_resource type="Animation" id=132]
+resource_name = "main_out"
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "_load_game"
+} ]
+}
+
+[sub_resource type="Animation" id=138]
+resource_name = "play"
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Graphics:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( -848, 0 ), Vector2( -1968, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Menu:rect_position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( -552, 574 ), Vector2( -1672, 574 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Menu:modulate:a")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("SelectGame:rect_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = false
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 448, 0 ), Vector2( -672, 0 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("SelectGame:modulate:a")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("Menu:rect_position:x")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( -552, 0, 0, 0.5, 0, -1672, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("SelectGame:rect_position:x")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 448, 0, 0, 0.5, 0, -672, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/7/type = "bezier"
+tracks/7/path = NodePath("Graphics:position:x")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"points": PoolRealArray( -848, 0, 0, 0.5, 0, -1968, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+
+[sub_resource type="Animation" id=142]
+resource_name = "select_game"
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Graphics:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( -848, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Menu:rect_position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 296, 574 ), Vector2( -536, 574 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Menu:modulate:a")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("SelectGame:rect_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = false
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 1280, 0 ), Vector2( 448, 0 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("SelectGame:modulate:a")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.04, 0.3, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 0.0, 1.0 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Graphics:modulate:a")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.32 ]
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("SelectGame:rect_position:x")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 1280, 0, 0, 0.5, 0, 448, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/7/type = "bezier"
+tracks/7/path = NodePath("Graphics:position:x")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.5, 0, -848, -0.5, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/8/type = "bezier"
+tracks/8/path = NodePath("Menu:rect_position:x")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"points": PoolRealArray( 296, 0, 0, 0.5, 0, -536, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+
+[sub_resource type="Animation" id=140]
+resource_name = "settings"
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Graphics:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 672, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Menu:rect_position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( 296, 574 ), Vector2( 970, 574 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Menu:modulate:a")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Settings:rect_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = false
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 2 ),
+"update": 0,
+"values": [ Vector2( -672, 0 ), Vector2( 0, 0 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Settings:modulate:a")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.04, 0.3, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 0.0, 1.0 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Graphics:modulate:a")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.32 ]
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("Graphics:position:x")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.5, 0, 672, -0.5, 0, 0.5, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/7/type = "bezier"
+tracks/7/path = NodePath("Menu:rect_position:x")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"points": PoolRealArray( 296, 0, 0, 0.5, 0, 970, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/8/type = "bezier"
+tracks/8/path = NodePath("Settings:rect_position:x")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"points": PoolRealArray( -672, 0, 0, 0.5, 0, 0, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+
+[node name="Home" type="Node2D"]
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 1408.0, 1320.0, -600.0, -536.0, 192.0, 592.0, 128.0, 176.0, 744.0 ],
+"_edit_vertical_guides_": [ 640.0, -848.0, -655.0, -192.0, 2112.0, 65.0, 1280.0, 1184.0, 448.0 ]
+}
+
+[node name="Undi" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 1280, 720 )
+color = Color( 0, 0, 0, 1 )
+
+[node name="32PixelColors" type="Sprite" parent="."]
+position = Vector2( 2263, 1557 )
+rotation = 3.14159
+scale = Vector2( 1, -1 )
+texture = ExtResource( 8 )
+
+[node name="Graphics" type="Node2D" parent="."]
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" type="Control" parent="Graphics"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 176.0
+margin_top = 176.0
+margin_right = 1116.0
+margin_bottom = 368.0
+
+[node name="Title1" type="TileMap" parent="Graphics/Title"]
+tile_set = SubResource( 135 )
+cell_size = Vector2( 16, 16 )
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+format = 1
+tile_data = PoolIntArray( 0, -1610612736, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 6, -1610612736, 0, 8, 0, 0, 12, 0, 0, 14, 0, 0, 15, -1610612736, 0, 16, 0, 0, 17, -1610612736, 0, 20, -1610612736, 0, 65536, 0, 0, 65540, -1610612736, 0, 65542, 0, 0, 65545, 0, 0, 65547, 0, 0, 65550, 0, 0, 65556, -1610612736, 0, 131072, 0, 0, 131073, -1610612736, 0, 131074, -1610612736, 0, 131075, -1610612736, 0, 131076, -1610612736, 0, 131078, -1610612736, 0, 131082, 0, 0, 131086, 0, 0, 131087, -1610612736, 0, 131088, -1610612736, 0, 131092, -1610612736, 0, 196608, 0, 0, 196614, -1610612736, 0, 196617, 0, 0, 196619, 0, 0, 196622, 0, 0, 196628, -1610612736, 0, 262144, 0, 0, 262150, -1610612736, 0, 262152, 0, 0, 262156, 0, 0, 262158, 0, 0, 262164, -1610612736, 0, 327680, -1610612736, 0, 327686, -1610612736, 0, 327688, -1610612736, 0, 327692, -1610612736, 0, 327694, -1610612736, 0, 327700, -1610612736, 0, 393216, -1610612736, 0, 393222, -1610612736, 0, 393224, -1610612736, 0, 393228, -1610612736, 0, 393230, 0, 0, 393231, -1610612736, 0, 393232, -1610612736, 0, 393233, 0, 0, 393234, 0, 0, 393236, -1610612736, 0, 393237, -1610612736, 0, 393238, -1610612736, 0 )
+
+[node name="Title2" type="TileMap" parent="Graphics/Title"]
+position = Vector2( 368, 64 )
+tile_set = SubResource( 135 )
+cell_size = Vector2( 16, 16 )
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+format = 1
+tile_data = PoolIntArray( 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 7, -1610612736, 0, 8, -1610612736, 0, 9, -1610612736, 0, 12, -1610612736, 0, 13, -1610612736, 0, 14, -1610612736, 0, 15, -1610612736, 0, 16, -1610612736, 0, 18, -1610612736, 0, 19, -1610612736, 0, 20, -1610612736, 0, 21, -1610612736, 0, 25, -1610612736, 0, 26, -1610612736, 0, 27, -1610612736, 0, 30, -1610612736, 0, 34, -1610612736, 0, 65536, -1610612736, 0, 65540, -1610612736, 0, 65542, -1610612736, 0, 65550, -1610612736, 0, 65554, -1610612736, 0, 65558, -1610612736, 0, 65560, -1610612736, 0, 65564, -1610612736, 0, 65567, -1610612736, 0, 65569, -1610612736, 0, 131072, -1610612736, 0, 131073, -1610612736, 0, 131074, -1610612736, 0, 131075, -1610612736, 0, 131076, -1610612736, 0, 131078, -1610612736, 0, 131079, -1610612736, 0, 131080, -1610612736, 0, 131081, -1610612736, 0, 131086, -1610612736, 0, 131090, -1610612736, 0, 131091, -1610612736, 0, 131092, -1610612736, 0, 131093, -1610612736, 0, 131096, -1610612736, 0, 131097, -1610612736, 0, 131098, -1610612736, 0, 131099, -1610612736, 0, 131100, -1610612736, 0, 131104, -1610612736, 0, 196608, -1610612736, 0, 196612, -1610612736, 0, 196618, -1610612736, 0, 196622, -1610612736, 0, 196626, -1610612736, 0, 196630, -1610612736, 0, 196632, -1610612736, 0, 196636, -1610612736, 0, 196640, -1610612736, 0, 262144, -1610612736, 0, 262148, -1610612736, 0, 262154, -1610612736, 0, 262158, -1610612736, 0, 262162, -1610612736, 0, 262166, -1610612736, 0, 262168, -1610612736, 0, 262172, -1610612736, 0, 262176, -1610612736, 0, 327680, -1610612736, 0, 327684, -1610612736, 0, 327686, -1610612736, 0, 327690, -1610612736, 0, 327694, -1610612736, 0, 327698, -1610612736, 0, 327702, -1610612736, 0, 327704, -1610612736, 0, 327708, -1610612736, 0, 327712, -1610612736, 0, 393216, 0, 0, 393220, -1610612736, 0, 393223, -1610612736, 0, 393224, -1610612736, 0, 393225, -1610612736, 0, 393230, -1610612736, 0, 393234, -1610612736, 0, 393238, -1610612736, 0, 393240, -1610612736, 0, 393244, -1610612736, 0, 393248, -1610612736, 0 )
+
+[node name="TitlePixels" type="Control" parent="Graphics"]
+modulate = Color( 1, 1, 1, 0.156863 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 176.0
+margin_top = 176.0
+margin_right = 1116.0
+margin_bottom = 368.0
+
+[node name="Title" type="TileMap" parent="Graphics/TitlePixels"]
+tile_set = SubResource( 135 )
+cell_size = Vector2( 16, 16 )
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+format = 1
+tile_data = PoolIntArray( -65528, 0, 0, -65517, 0, 0, -65492, 0, 0, 0, -1610612736, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 6, 0, 0, 8, 0, 0, 12, 0, 0, 14, 0, 0, 15, -1610612736, 0, 16, 0, 0, 17, -1610612736, 0, 20, 0, 0, 33, 0, 0, 44, 0, 0, 57, 0, 0, 65536, 0, 0, 65540, -1610612736, 0, 65542, 0, 0, 65545, 0, 0, 65547, 0, 0, 65550, 0, 0, 65556, -1610612736, 0, 65568, 0, 0, 65581, 0, 0, 131072, 0, 0, 131073, -1610612736, 0, 131074, -1610612736, 0, 131075, -1610612736, 0, 131076, -1610612736, 0, 131078, -1610612736, 0, 131082, 0, 0, 131086, 0, 0, 131087, -1610612736, 0, 131088, -1610612736, 0, 131092, -1610612736, 0, 131104, 0, 0, 131125, 0, 0, 131128, 0, 0, 196608, 0, 0, 196614, -1610612736, 0, 196617, 0, 0, 196619, 0, 0, 196622, 0, 0, 196628, -1610612736, 0, 196653, 0, 0, 196661, 0, 0, 262144, 0, 0, 262150, -1610612736, 0, 262152, 0, 0, 262156, 0, 0, 262158, 0, 0, 262164, -1610612736, 0, 262168, -1610612736, 0, 262169, -1610612736, 0, 262170, -1610612736, 0, 262174, -1610612736, 0, 262175, -1610612736, 0, 262176, -1610612736, 0, 262179, -1610612736, 0, 262180, -1610612736, 0, 262181, -1610612736, 0, 262182, -1610612736, 0, 262183, -1610612736, 0, 262185, -1610612736, 0, 262186, -1610612736, 0, 262187, -1610612736, 0, 262188, -1610612736, 0, 262192, -1610612736, 0, 262193, -1610612736, 0, 262194, -1610612736, 0, 262197, -1610612736, 0, 262201, -1610612736, 0, 327680, -1610612736, 0, 327686, -1610612736, 0, 327688, -1610612736, 0, 327692, -1610612736, 0, 327694, -1610612736, 0, 327700, -1610612736, 0, 327703, -1610612736, 0, 327707, -1610612736, 0, 327709, -1610612736, 0, 327717, -1610612736, 0, 327721, -1610612736, 0, 327725, -1610612736, 0, 327727, -1610612736, 0, 327731, -1610612736, 0, 327734, -1610612736, 0, 327736, -1610612736, 0, 393216, -1610612736, 0, 393222, -1610612736, 0, 393224, 0, 0, 393228, -1610612736, 0, 393230, 0, 0, 393231, -1610612736, 0, 393232, -1610612736, 0, 393233, 0, 0, 393234, 0, 0, 393236, -1610612736, 0, 393237, -1610612736, 0, 393238, -1610612736, 0, 393239, -1610612736, 0, 393240, -1610612736, 0, 393241, -1610612736, 0, 393242, -1610612736, 0, 393243, -1610612736, 0, 393245, -1610612736, 0, 393246, -1610612736, 0, 393247, -1610612736, 0, 393248, -1610612736, 0, 393253, -1610612736, 0, 393257, -1610612736, 0, 393258, -1610612736, 0, 393259, -1610612736, 0, 393260, -1610612736, 0, 393263, -1610612736, 0, 393264, -1610612736, 0, 393265, -1610612736, 0, 393266, -1610612736, 0, 393267, -1610612736, 0, 393271, -1610612736, 0, 458753, 0, 0, 458758, 0, 0, 458764, 0, 0, 458770, 0, 0, 458775, -1610612736, 0, 458779, -1610612736, 0, 458785, -1610612736, 0, 458789, -1610612736, 0, 458793, -1610612736, 0, 458797, -1610612736, 0, 458799, -1610612736, 0, 458803, -1610612736, 0, 458807, -1610612736, 0, 524288, 0, 0, 524294, 0, 0, 524300, 0, 0, 524305, 0, 0, 524311, -1610612736, 0, 524315, -1610612736, 0, 524321, -1610612736, 0, 524325, -1610612736, 0, 524329, -1610612736, 0, 524333, -1610612736, 0, 524335, -1610612736, 0, 524339, -1610612736, 0, 524343, -1610612736, 0, 589824, 0, 0, 589830, 0, 0, 589847, 0, 0, 589851, -1610612736, 0, 589853, -1610612736, 0, 589857, -1610612736, 0, 589861, -1610612736, 0, 589865, -1610612736, 0, 589869, -1610612736, 0, 589871, -1610612736, 0, 589875, -1610612736, 0, 589879, -1610612736, 0, 655360, 0, 0, 655366, 0, 0, 655371, 0, 0, 655383, 0, 0, 655387, -1610612736, 0, 655390, -1610612736, 0, 655391, -1610612736, 0, 655392, -1610612736, 0, 655397, 0, 0, 655401, -1610612736, 0, 655405, -1610612736, 0, 655407, -1610612736, 0, 655411, -1610612736, 0, 655415, -1610612736, 0, 720896, 0, 0, 720902, 0, 0, 720908, 0, 0, 720918, 0, 0, 720934, 0, 0, 720947, 0, 0, 720951, 0, 0, 786432, 0, 0, 786438, 0, 0, 786444, 0, 0, 786455, 0, 0, 786470, 0, 0, 786477, 0, 0, 786483, 0, 0, 786487, 0, 0, 851969, 0, 0, 851991, 0, 0, 852005, 0, 0, 852019, 0, 0, 852023, 0, 0, 917505, 0, 0, 917527, 0, 0, 917541, 0, 0, 917559, 0, 0, 983041, 0, 0, 983052, 0, 0, 983090, 0, 0, 983095, 0, 0, 1048577, 0, 0, 1048583, 0, 0, 1048588, 0, 0, 1048627, 0, 0, 1048631, 0, 0, 1114112, 0, 0, 1114119, 0, 0, 1114157, 0, 0, 1114163, 0, 0, 1114166, 0, 0, 1179648, 0, 0, 1179654, 0, 0, 1179702, 0, 0, 1245190, 0, 0, 1245238, 0, 0, 1310726, 0, 0, 1310775, 0, 0, 1376256, 0, 0, 1376307, 0, 0, 1376311, 0, 0, 1441843, 0, 0, 1507334, 0, 0, 1572865, 0, 0, 1638455, 0, 0, 1769472, 0, 0 )
+
+[node name="Menu" type="Control" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 296.0
+margin_top = 574.0
+margin_right = 981.998
+margin_bottom = 599.0
+
+[node name="PlayBtn" type="Button" parent="Menu"]
+margin_top = -1.0
+margin_right = 132.0
+margin_bottom = 24.0
+focus_neighbour_left = NodePath("../CreditsBtn")
+focus_neighbour_right = NodePath("../SelectGameBtn")
+focus_mode = 1
+size_flags_horizontal = 2
+size_flags_vertical = 8
+theme = ExtResource( 1 )
+enabled_focus_mode = 1
+text = "QUICK PLAY"
+align = 0
+
+[node name="SelectGameBtn" type="Button" parent="Menu"]
+margin_left = 164.0
+margin_top = -1.0
+margin_right = 318.0
+margin_bottom = 24.0
+focus_neighbour_left = NodePath("../PlayBtn")
+focus_neighbour_right = NodePath("../SettingsBtn")
+focus_mode = 1
+size_flags_horizontal = 2
+size_flags_vertical = 8
+theme = ExtResource( 1 )
+enabled_focus_mode = 1
+text = "SELECT GAME"
+align = 0
+
+[node name="SettingsBtn" type="Button" parent="Menu"]
+margin_left = 351.0
+margin_top = -1.0
+margin_right = 459.0
+margin_bottom = 24.0
+focus_neighbour_left = NodePath("../SelectGameBtn")
+focus_neighbour_right = NodePath("../AboutBtn")
+focus_mode = 1
+size_flags_horizontal = 2
+size_flags_vertical = 8
+theme = ExtResource( 1 )
+enabled_focus_mode = 1
+text = "SETTINGS"
+
+[node name="AboutBtn" type="Button" parent="Menu"]
+margin_left = 492.0
+margin_top = -1.0
+margin_right = 562.0
+margin_bottom = 24.0
+focus_neighbour_left = NodePath("../SettingsBtn")
+focus_neighbour_right = NodePath("../CreditsBtn")
+focus_mode = 1
+size_flags_horizontal = 2
+size_flags_vertical = 8
+theme = ExtResource( 1 )
+enabled_focus_mode = 1
+text = "ABOUT"
+
+[node name="CreditsBtn" type="Button" parent="Menu"]
+margin_left = 594.0
+margin_top = -1.0
+margin_right = 688.0
+margin_bottom = 24.0
+focus_neighbour_left = NodePath("../AboutBtn")
+focus_neighbour_right = NodePath("../PlayBtn")
+focus_mode = 1
+size_flags_horizontal = 2
+size_flags_vertical = 8
+theme = ExtResource( 1 )
+enabled_focus_mode = 1
+text = "CREDITS"
+align = 2
+
+[node name="merca" type="Polygon2D" parent="Menu"]
+visible = false
+position = Vector2( 325, -8 )
+polygon = PoolVector2Array( 132, 2, 132, 18, 167, 18, 167, 2 )
+
+[node name="About" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 720.0
+margin_right = 1280.0
+margin_bottom = 1340.0
+rect_min_size = Vector2( 1280, 620 )
+theme = ExtResource( 1 )
+
+[node name="AboutBackBtn" type="TextureButton" parent="About"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -64.0
+margin_top = 8.0
+margin_right = -48.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 16, 16 )
+rect_rotation = 89.9999
+texture_normal = SubResource( 150 )
+texture_hover = SubResource( 149 )
+flip_h = true
+
+[node name="Title" type="Label" parent="About"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -512.0
+margin_top = -2.0
+margin_right = -356.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_fonts/font = ExtResource( 4 )
+text = "About"
+
+[node name="HSeparator" type="HSeparator" parent="About/Title"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+margin_top = 31.0
+margin_right = 96.0
+margin_bottom = 42.0
+
+[node name="Text5" type="Label" parent="About"]
+margin_left = 128.0
+margin_top = 375.0
+margin_right = 640.0
+margin_bottom = 540.0
+size_flags_horizontal = 3
+text = "Each pixel represents a specific color and intensity, and together they create the images we see. The resolution of an image refers to the number of pixels it contains. Higher resolutions mean more pixels are packed into the same area."
+autowrap = true
+
+[node name="gameplay" type="Label" parent="About"]
+margin_left = 128.0
+margin_top = 71.0
+margin_right = 244.0
+margin_bottom = 92.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "GAMEPLAY"
+
+[node name="content" type="Label" parent="About"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -512.0
+margin_top = 111.0
+margin_right = 2.0
+margin_bottom = 192.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+text = "Its a game that focuses arround .... Pixels, short for picture elements."
+autowrap = true
+
+[node name="story" type="Label" parent="About"]
+margin_left = 128.0
+margin_top = 335.0
+margin_right = 198.0
+margin_bottom = 360.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "STORY"
+
+[node name="content2" type="Label" parent="About"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -512.0
+margin_top = 187.0
+margin_bottom = 296.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+text = "Player interacts with ... They are tiny squares or dots that combine to form the visual content on displays such as computer screens."
+autowrap = true
+
+[node name="controls" type="Label" parent="About"]
+margin_left = 704.0
+margin_top = 71.0
+margin_right = 816.0
+margin_bottom = 92.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+text = "CONTROLS"
+
+[node name="keyboard" type="Label" parent="About"]
+modulate = Color( 1, 1, 1, 0.901961 )
+margin_left = 704.0
+margin_top = 111.0
+margin_right = 812.0
+margin_bottom = 132.0
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Keyboard"
+
+[node name="content3" type="Label" parent="About"]
+margin_left = 832.0
+margin_top = 111.0
+margin_right = 1208.0
+margin_bottom = 248.0
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+text = "move up = W, UP
+move down = S, DOWN
+move left = A, LEFT
+move right = D, RIGHT
+burst = SPACE + opp direction"
+autowrap = true
+
+[node name="joypad" type="Label" parent="About"]
+modulate = Color( 1, 1, 1, 0.901961 )
+margin_left = 728.0
+margin_top = 263.0
+margin_right = 812.0
+margin_bottom = 288.0
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "JoyPad"
+
+[node name="content4" type="Label" parent="About"]
+margin_left = 832.0
+margin_top = 263.0
+margin_right = 1280.0
+margin_bottom = 400.0
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+text = "Move up = UP 
+Move down = DOWN
+Move left = LEFT
+Move right = RIGHT
+Burst =  BTN A + opp direction"
+autowrap = true
+
+[node name="shortcuts" type="Label" parent="About"]
+modulate = Color( 1, 1, 1, 0.901961 )
+margin_left = 698.0
+margin_top = 415.0
+margin_right = 812.0
+margin_bottom = 440.0
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Shortcuts"
+
+[node name="content5" type="Label" parent="About"]
+margin_left = 832.0
+margin_top = 415.0
+margin_right = 1248.0
+margin_bottom = 496.0
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+text = "Toggle game pause = ESC/Stop
+Toggle game music on/off = M/L2
+Cycle music tracks = N/L4"
+autowrap = true
+
+[node name="Highscores and achievements" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1568.0
+margin_top = 720.0
+margin_right = 2848.0
+margin_bottom = 1340.0
+rect_min_size = Vector2( 1280, 620 )
+theme = ExtResource( 1 )
+
+[node name="AboutBackBtn" type="TextureButton" parent="Highscores and achievements"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -64.0
+margin_top = 8.0
+margin_right = -48.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 16, 16 )
+rect_rotation = 89.9999
+texture_normal = SubResource( 150 )
+texture_hover = SubResource( 149 )
+flip_h = true
+
+[node name="Title" type="Label" parent="Highscores and achievements"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -512.0
+margin_top = -2.0
+margin_right = -356.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_fonts/font = ExtResource( 4 )
+text = "Highscores and achievements"
+
+[node name="HSeparator" type="HSeparator" parent="Highscores and achievements/Title"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+margin_top = 31.0
+margin_right = 96.0
+margin_bottom = 42.0
+
+[node name="Text5" type="Label" parent="Highscores and achievements"]
+margin_left = 128.0
+margin_top = 375.0
+margin_right = 640.0
+margin_bottom = 540.0
+size_flags_horizontal = 3
+text = "Each pixel represents a specific color and intensity, and together they create the images we see. The resolution of an image refers to the number of pixels it contains. Higher resolutions mean more pixels are packed into the same area."
+autowrap = true
+
+[node name="gameplay" type="Label" parent="Highscores and achievements"]
+margin_left = 128.0
+margin_top = 71.0
+margin_right = 244.0
+margin_bottom = 92.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "GAMEPLAY"
+
+[node name="content" type="Label" parent="Highscores and achievements"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -512.0
+margin_top = 111.0
+margin_right = 2.0
+margin_bottom = 192.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+text = "Its a game that focuses arround .... Pixels, short for picture elements."
+autowrap = true
+
+[node name="story" type="Label" parent="Highscores and achievements"]
+margin_left = 128.0
+margin_top = 335.0
+margin_right = 198.0
+margin_bottom = 360.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "STORY"
+
+[node name="content2" type="Label" parent="Highscores and achievements"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -512.0
+margin_top = 187.0
+margin_bottom = 296.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+text = "Player interacts with ... They are tiny squares or dots that combine to form the visual content on displays such as computer screens."
+autowrap = true
+
+[node name="controls" type="Label" parent="Highscores and achievements"]
+margin_left = 704.0
+margin_top = 71.0
+margin_right = 816.0
+margin_bottom = 92.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+text = "CONTROLS"
+
+[node name="keyboard" type="Label" parent="Highscores and achievements"]
+modulate = Color( 1, 1, 1, 0.901961 )
+margin_left = 704.0
+margin_top = 111.0
+margin_right = 812.0
+margin_bottom = 132.0
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Keyboard"
+
+[node name="content3" type="Label" parent="Highscores and achievements"]
+margin_left = 832.0
+margin_top = 111.0
+margin_right = 1208.0
+margin_bottom = 248.0
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+text = "move up = W, UP
+move down = S, DOWN
+move left = A, LEFT
+move right = D, RIGHT
+burst = SPACE + opp direction"
+autowrap = true
+
+[node name="joypad" type="Label" parent="Highscores and achievements"]
+modulate = Color( 1, 1, 1, 0.901961 )
+margin_left = 728.0
+margin_top = 263.0
+margin_right = 812.0
+margin_bottom = 288.0
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "JoyPad"
+
+[node name="content4" type="Label" parent="Highscores and achievements"]
+margin_left = 832.0
+margin_top = 263.0
+margin_right = 1280.0
+margin_bottom = 400.0
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+text = "Move up = UP 
+Move down = DOWN
+Move left = LEFT
+Move right = RIGHT
+Burst =  BTN A + opp direction"
+autowrap = true
+
+[node name="shortcuts" type="Label" parent="Highscores and achievements"]
+modulate = Color( 1, 1, 1, 0.901961 )
+margin_left = 698.0
+margin_top = 415.0
+margin_right = 812.0
+margin_bottom = 440.0
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Shortcuts"
+
+[node name="content5" type="Label" parent="Highscores and achievements"]
+margin_left = 832.0
+margin_top = 415.0
+margin_right = 1248.0
+margin_bottom = 496.0
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+text = "Toggle game pause = ESC/Stop
+Toggle game music on/off = M/L2
+Cycle music tracks = N/L4"
+autowrap = true
+
+[node name="Credits" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -600.0
+margin_right = 1280.0
+rect_min_size = Vector2( 1280, 600 )
+theme = ExtResource( 1 )
+
+[node name="CreditsBackBtn" type="TextureButton" parent="Credits"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -64.0
+margin_top = 192.0
+margin_right = -44.0
+margin_bottom = 212.0
+rect_min_size = Vector2( 16, 16 )
+rect_rotation = 89.9999
+texture_normal = SubResource( 150 )
+texture_hover = SubResource( 149 )
+flip_h = true
+
+[node name="Title2" type="Label" parent="Credits"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -512.0
+margin_top = 182.0
+margin_right = -356.0
+margin_bottom = 214.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_fonts/font = ExtResource( 4 )
+text = "Credits"
+
+[node name="HSeparator" type="HSeparator" parent="Credits/Title2"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+margin_top = 31.0
+margin_right = 120.0
+margin_bottom = 42.0
+
+[node name="Text6" type="Label" parent="Credits"]
+margin_left = 128.0
+margin_top = 495.0
+margin_right = 640.0
+margin_bottom = 601.0
+size_flags_horizontal = 3
+text = "Each pixel represents a specific color and intensity, and together they create the images we see. The resolution of an image refers to the numbe."
+autowrap = true
+
+[node name="gameplay" type="Label" parent="Credits"]
+margin_left = 128.0
+margin_top = 255.0
+margin_right = 264.0
+margin_bottom = 280.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "PRODUCTION"
+
+[node name="content" type="Label" parent="Credits"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -512.0
+margin_top = 295.0
+margin_right = 2.0
+margin_bottom = 376.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+text = "Its a game that focuses arround .... Pixels, short for picture elements."
+autowrap = true
+
+[node name="content2" type="Label" parent="Credits"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -512.0
+margin_top = 371.0
+margin_bottom = 480.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+text = "Player interacts with ... They are tiny squares or dots that combine to form the visual content on displays such as computer screens."
+autowrap = true
+
+[node name="controls" type="Label" parent="Credits"]
+margin_left = 704.0
+margin_top = 255.0
+margin_right = 830.0
+margin_bottom = 280.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "RESOURCES"
+
+[node name="keyboard" type="Label" parent="Credits"]
+modulate = Color( 1, 1, 1, 0.588235 )
+margin_left = 704.0
+margin_top = 295.0
+margin_right = 812.0
+margin_bottom = 320.0
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Music"
+
+[node name="content3" type="Label" parent="Credits"]
+margin_left = 832.0
+margin_top = 295.0
+margin_right = 1184.0
+margin_bottom = 460.0
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+text = "Each pixel a specific color 
+And intensity, and together
+Tthey create the images 
+The resolution to 
+The number of pixels
+Higher resolutions mean"
+autowrap = true
+
+[node name="joypad" type="Label" parent="Credits"]
+modulate = Color( 1, 1, 1, 0.588235 )
+margin_left = 704.0
+margin_top = 479.0
+margin_right = 812.0
+margin_bottom = 504.0
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Sound FX"
+
+[node name="content4" type="Label" parent="Credits"]
+margin_left = 832.0
+margin_top = 479.0
+margin_right = 1280.0
+margin_bottom = 557.0
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+text = "Move up = UP 
+Move down = DOWN
+Move left = LEFT"
+autowrap = true
+
+[node name="shortcuts" type="Label" parent="Credits"]
+modulate = Color( 1, 1, 1, 0.588235 )
+margin_left = 706.0
+margin_top = 575.0
+margin_right = 820.0
+margin_bottom = 600.0
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Fonts"
+
+[node name="content5" type="Label" parent="Credits"]
+margin_left = 832.0
+margin_top = 575.0
+margin_right = 1160.0
+margin_bottom = 608.0
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+text = "16bfZX.ttf www.dafont.com"
+autowrap = true
+
+[node name="SelectGame" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1280.0
+margin_right = 2112.0
+margin_bottom = 720.0
+rect_min_size = Vector2( 832, 720 )
+theme = ExtResource( 1 )
+
+[node name="Title" type="Label" parent="SelectGame"]
+margin_top = 102.0
+margin_right = 216.0
+margin_bottom = 134.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_fonts/font = ExtResource( 4 )
+text = "Select game"
+
+[node name="HSeparator" type="HSeparator" parent="SelectGame/Title"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+margin_top = 30.0
+margin_right = 213.0
+margin_bottom = 41.0
+
+[node name="SelectGameBackBtn" type="TextureButton" parent="SelectGame"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -176.0
+margin_top = 112.0
+margin_right = -156.0
+margin_bottom = 132.0
+rect_min_size = Vector2( 16, 16 )
+texture_normal = SubResource( 150 )
+texture_hover = SubResource( 149 )
+flip_h = true
+
+[node name="SelectGameBtn" type="Button" parent="SelectGame"]
+margin_top = 176.0
+margin_right = 320.0
+margin_bottom = 369.0
+custom_fonts/font = ExtResource( 10 )
+custom_styles/hover = SubResource( 152 )
+custom_styles/pressed = SubResource( 153 )
+custom_styles/focus = SubResource( 152 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+
+[node name="Title" type="Label" parent="SelectGame/SelectGameBtn"]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 32.0
+margin_top = 23.0
+margin_right = -32.0
+margin_bottom = -139.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "TRAINING SESSION"
+autowrap = true
+
+[node name="Description" type="Label" parent="SelectGame/SelectGameBtn"]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 32.0
+margin_top = 62.0
+margin_right = -32.0
+margin_bottom = -28.0
+size_flags_horizontal = 3
+text = "V navadni areni, 50 pobeglih pixlov, 2 minuti  časa. Več točk, večji uspeh."
+autowrap = true
+
+[node name="SelectGameBtn2" type="Button" parent="SelectGame"]
+margin_left = 352.0
+margin_top = 177.0
+margin_right = 672.0
+margin_bottom = 369.0
+custom_fonts/font = ExtResource( 10 )
+custom_styles/hover = SubResource( 152 )
+custom_styles/pressed = SubResource( 153 )
+custom_styles/focus = SubResource( 152 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+disabled = true
+
+[node name="Title" type="Label" parent="SelectGame/SelectGameBtn2"]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 32.0
+margin_top = 22.0
+margin_right = -32.0
+margin_bottom = -140.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "RUNNER"
+autowrap = true
+
+[node name="Description" type="Label" parent="SelectGame/SelectGameBtn2"]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 32.0
+margin_top = 62.0
+margin_right = -32.0
+margin_bottom = -28.0
+size_flags_horizontal = 3
+text = "V navadni areni, 50 pobeglih pixlov, 2 minuti  časa. Več točk, večji uspeh."
+autowrap = true
+
+[node name="SelectGameBtn3" type="Button" parent="SelectGame"]
+margin_top = 401.0
+margin_right = 320.0
+margin_bottom = 592.0
+custom_fonts/font = ExtResource( 10 )
+custom_styles/hover = SubResource( 152 )
+custom_styles/pressed = SubResource( 153 )
+custom_styles/focus = SubResource( 152 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+disabled = true
+
+[node name="Title" type="Label" parent="SelectGame/SelectGameBtn3"]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 32.0
+margin_top = 22.0
+margin_right = -32.0
+margin_bottom = -140.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "CLEANER"
+autowrap = true
+
+[node name="Description" type="Label" parent="SelectGame/SelectGameBtn3"]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 32.0
+margin_top = 62.0
+margin_right = -32.0
+margin_bottom = -28.0
+size_flags_horizontal = 3
+text = "V navadni areni, 50 pobeglih pixlov, 2 minuti  časa. Več točk, večji uspeh."
+autowrap = true
+
+[node name="SelectGameBtn4" type="Button" parent="SelectGame"]
+margin_left = 352.0
+margin_top = 401.0
+margin_right = 672.0
+margin_bottom = 592.0
+custom_fonts/font = ExtResource( 10 )
+custom_styles/hover = SubResource( 152 )
+custom_styles/pressed = SubResource( 153 )
+custom_styles/focus = SubResource( 152 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+disabled = true
+
+[node name="Title" type="Label" parent="SelectGame/SelectGameBtn4"]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 32.0
+margin_top = 22.0
+margin_right = -32.0
+margin_bottom = -140.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "FINISHER"
+autowrap = true
+
+[node name="Description" type="Label" parent="SelectGame/SelectGameBtn4"]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 32.0
+margin_top = 62.0
+margin_right = -32.0
+margin_bottom = -28.0
+size_flags_horizontal = 3
+text = "V navadni areni, 50 pobeglih pixlov, 2 minuti  časa. Več točk, večji uspeh."
+autowrap = true
+
+[node name="Settings" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -672.0
+margin_bottom = 720.0
+rect_min_size = Vector2( 632, 720 )
+theme = ExtResource( 1 )
+script = ExtResource( 3 )
+
+[node name="SettingsBackBtn" type="TextureButton" parent="Settings"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -20.0
+margin_top = 113.0
+margin_bottom = 133.0
+rect_min_size = Vector2( 16, 16 )
+texture_normal = SubResource( 150 )
+texture_pressed = SubResource( 149 )
+texture_hover = SubResource( 149 )
+texture_focused = SubResource( 149 )
+
+[node name="Title" type="Label" parent="Settings"]
+margin_left = 224.0
+margin_top = 102.0
+margin_right = 608.0
+margin_bottom = 134.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_fonts/font = ExtResource( 4 )
+text = "Settings"
+
+[node name="HSeparator" type="HSeparator" parent="Settings/Title"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+margin_top = 31.0
+margin_right = 140.0
+margin_bottom = 42.0
+
+[node name="MenuMusicCheckBox" type="CheckBox" parent="Settings"]
+margin_left = 224.0
+margin_top = 174.0
+margin_right = 386.0
+margin_bottom = 196.0
+pressed = true
+text = "Menu music"
+
+[node name="GameMusicCheckBox" type="CheckBox" parent="Settings"]
+margin_left = 224.0
+margin_top = 214.0
+margin_right = 386.0
+margin_bottom = 236.0
+pressed = true
+text = "Game music"
+
+[node name="GameMusicVol" type="Label" parent="Settings"]
+margin_left = 224.0
+margin_top = 254.0
+margin_right = 452.0
+margin_bottom = 276.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Game music volume"
+
+[node name="GameMusicSlider" type="HSlider" parent="Settings"]
+margin_left = 224.0
+margin_top = 284.0
+margin_right = 544.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 320, 0 )
+min_value = -30.0
+max_value = 10.0
+step = 5.0
+
+[node name="_shapeadon" type="Polygon2D" parent="Settings/GameMusicSlider"]
+position = Vector2( -234, -9 )
+color = Color( 0.568627, 0.568627, 0.568627, 1 )
+polygon = PoolVector2Array( 234, 14, 234, 20, 236, 20, 236, 14 )
+
+[node name="Polygon2D2" type="Polygon2D" parent="Settings/GameMusicSlider"]
+show_behind_parent = true
+position = Vector2( 0, 9 )
+color = Color( 0.568627, 0.568627, 0.568627, 1 )
+polygon = PoolVector2Array( 234, 1, 234, -3, 238, -3, 238, 1 )
+
+[node name="GameSfxCheckBox" type="CheckBox" parent="Settings"]
+margin_left = 224.0
+margin_top = 318.0
+margin_right = 418.0
+margin_bottom = 340.0
+pressed = true
+text = "Game sound fx"
+
+[node name="CamerShakeCheckBox" type="CheckBox" parent="Settings"]
+margin_left = 224.0
+margin_top = 358.0
+margin_right = 446.0
+margin_bottom = 380.0
+pressed = true
+text = "Camera shake on"
+
+[node name="Shorts" type="Label" parent="Settings"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -111.0
+margin_top = 422.0
+margin_right = 336.0
+margin_bottom = 531.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+text = "Settings are also available in pause menu. To control sound during game use shortcuts M/L2  to toggle music on/off, and N/L4 for next track."
+autowrap = true
+
+[node name="Rules" type="Label" parent="Settings"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -223.0
+margin_top = 551.0
+margin_right = 97.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+text = "N ... cycle through tracks
+M ... toggle music on/off"
+autowrap = true
+
+[node name="MenuEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 6 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 144 )
+anims/about = SubResource( 137 )
+anims/credits = SubResource( 141 )
+anims/main_out = SubResource( 132 )
+anims/play = SubResource( 138 )
+anims/select_game = SubResource( 142 )
+anims/settings = SubResource( 140 )
+
+[connection signal="pressed" from="Menu/PlayBtn" to="." method="_on_PlayBtn_pressed"]
+[connection signal="pressed" from="Menu/SelectGameBtn" to="." method="_on_SelectGameBtn_pressed"]
+[connection signal="pressed" from="Menu/SettingsBtn" to="." method="_on_SettingsBtn_pressed"]
+[connection signal="pressed" from="Menu/AboutBtn" to="." method="_on_AboutBtn_pressed"]
+[connection signal="pressed" from="Menu/CreditsBtn" to="." method="_on_CreditsBtn_pressed"]
+[connection signal="pressed" from="About/AboutBackBtn" to="." method="_on_AboutBackBtn_pressed"]
+[connection signal="pressed" from="Highscores and achievements/AboutBackBtn" to="." method="_on_AboutBackBtn_pressed"]
+[connection signal="pressed" from="Credits/CreditsBackBtn" to="." method="_on_CreditsBackBtn_pressed"]
+[connection signal="pressed" from="SelectGame/SelectGameBackBtn" to="." method="_on_SelectGameBackBtn_pressed"]
+[connection signal="pressed" from="SelectGame/SelectGameBtn" to="." method="_on_SelectGame1Btn_pressed"]
+[connection signal="pressed" from="SelectGame/SelectGameBtn2" to="." method="_on_SelectGame1Btn_pressed"]
+[connection signal="pressed" from="SelectGame/SelectGameBtn3" to="." method="_on_SelectGame1Btn_pressed"]
+[connection signal="pressed" from="SelectGame/SelectGameBtn4" to="." method="_on_SelectGame1Btn_pressed"]
+[connection signal="pressed" from="Settings/SettingsBackBtn" to="." method="_on_SettingsBackBtn_pressed"]
+[connection signal="toggled" from="Settings/MenuMusicCheckBox" to="Settings" method="_on_MenuMusicCheckBox_toggled"]
+[connection signal="toggled" from="Settings/GameMusicCheckBox" to="Settings" method="_on_GameMusicCheckBox_toggled"]
+[connection signal="value_changed" from="Settings/GameMusicSlider" to="Settings" method="_on_MusicHSlider_value_changed"]
+[connection signal="toggled" from="Settings/GameSfxCheckBox" to="Settings" method="_on_GameSfxCheckBox_toggled"]
+[connection signal="toggled" from="Settings/CamerShakeCheckBox" to="Settings" method="_on_CamerShakeCheckBox_toggled"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

@@ -1,35 +1,68 @@
 extends Node2D
 
 
-var current_music_index = 1 # ga ne resetiraš, da ostane v spominu skozi celo igro
+var game_sfx_set_to_off: bool = false
+var menu_music_set_to_off: bool = false
+var game_music_set_to_off: bool = false
+
+var currently_playing_track_index = 1 # ga ne resetiraš, da ostane v spominu skozi celo igro
+
+var game_music_tracks_volumes_on_node: Array = [] # napolneš ga na _ready
+var game_music_volume_slider_value: int # trenutni poožaj na slajderju ... da je poenoteno med obemi settingsi 
+
 onready var game_music: Node2D = $Music/GameMusic
+onready var menu_music = $Music/MenuMusic/WarmUpShort
+onready var menu_music_volume_on_node = menu_music.volume_db # za reset po fejdoutu (game_over)
+onready var game_music_tracks: Array = game_music.get_children()
 
 
+func _input(event: InputEvent) -> void:
+	
+	if Input.is_action_just_pressed("n"):
+		if game_music_set_to_off:
+			return
+		skip_track()
+	
+	# music toggle
+	if Input.is_action_just_pressed("m") and Global.game_manager != null: # tukaj damo samo na mute ... kar ni isto kot paused
+		
+		if game_music_set_to_off:
+			game_music_set_to_off = false
+			play_music("game")
+		else:
+			stop_music("game")
+			game_music_set_to_off = true
+	
+	
 func _ready() -> void:
+	
 	Global.sound_manager = self
 	randomize()
 	
+	# pogrebam on-node volumne v array vzporeden areju komadov 
+	for track in game_music.get_children():
+		game_music_tracks_volumes_on_node.append(track.volume_db)
+			
 
+# SFX --------------------------------------------------------------------------------------------------------
+
+	
 func play_stepping_sfx(current_player_energy_part: float):
-	
-		# NEW
-#		printt("current_player_energy_part", current_player_energy_part)
-		select_random_sfx($GameSfx/Stepping/Tapping2).play()
-#		$GameSfx/Stepping/Tapping2.pitch_scale = current_player_energy_part
 
-		select_random_sfx($GameSfx/Stepping/Tapping3).play()
-#		$GameSfx/Stepping/Tapping3.pitch_scale = current_player_energy_part
+		if game_sfx_set_to_off:
+			return		
 
-		select_random_sfx($GameSfx/Stepping/TappingWahVar).play()
-#		select_random_sfx($GameSfx/Stepping/TappingWah).play()
-#		$GameSfx/Stepping/StepSlide.pitch_scale = current_player_energy_part
+		var selected_tap = select_random_sfx($GameSfx/Stepping)
+		selected_tap.pitch_scale = current_player_energy_part
+		selected_tap.pitch_scale = clamp(selected_tap.pitch_scale, 0.6, 1)
+		selected_tap.play()
 	
-		# OLD
-#		select_random_sfx($GameSfx/Stepping/Tapping1).play()
-#		$GameSfx/Stepping/StepSlide.play()
 	
 func play_sfx(effect_for: String):
 	
+	if game_sfx_set_to_off:
+		return	
+		
 	# če zvoka ni tukaj, pomeni da ga kličem direktno
 	match effect_for:
 		
@@ -70,10 +103,7 @@ func play_sfx(effect_for: String):
 		"teleport":
 			$GameSfx/Skills/TeleportIn.play()
 		"skilled":
-#			$GameSfx/Skills/SkilledBeep.play()
-#			$GameSfx/Skills/SkilledCrystal.play()
-#			$GameSfx/Skills/SkilledCrystal_long.play()
-			$GameSfx/Skills/SkilledFrcer.play()
+			$GameSfx/Skills/SkilledStatic.play()
 			
 		# events
 		"countdown_a":
@@ -86,7 +116,11 @@ func play_sfx(effect_for: String):
 			$GameSfx/Events/Loose.play()
 		"record_cheers":
 			$GameSfx/Events/RecordFanfare.play()
+	
 			
+func play_gui_sfx(effect_for: String):
+	
+	match effect_for:
 		# gui
 		"typing":
 			select_random_sfx($GuiSfx/Typing).play()
@@ -101,7 +135,7 @@ func play_sfx(effect_for: String):
 		"screen_slide":
 			$GuiSfx/ScreenSlide.play()
 			
-			
+	
 func stop_sfx(sfx_to_stop: String):
 	
 	match sfx_to_stop:
@@ -109,13 +143,13 @@ func stop_sfx(sfx_to_stop: String):
 				$GameSfx/Skills/TeleportLoop.stop()
 				$GameSfx/Skills/TeleportOut.play()
 			"skilled":
-				$GameSfx/Skills/SkilledFrcer.stop()
+				$GameSfx/Skills/SkilledStatic.stop()
 				pass
 			"burst_cocking":
 				$GameSfx/Burst/BurstCocking.stop()
 			"last_breath":
 				$GameSfx/LastBeat.stop()
-
+	
 
 func select_random_sfx(sound_group):
 	
@@ -129,42 +163,24 @@ func _on_TeleportStart_finished() -> void:
 	
 		
 # MUSKA --------------------------------------------------------------------------------------------------------
-
-
-func _input(event: InputEvent) -> void:
-	
-	if Input.is_action_just_pressed("n"):
-		skip_music()
 		
-	if Input.is_action_just_pressed("m"):
-		if game_music.get_child(current_music_index - 1).stream_paused == false:
-			game_music.get_child(current_music_index - 1).stream_paused = true
-			Global.hud.music_label.get_node("OffIcon").visible = true
-			Global.hud.music_label.get_node("OnIcon").visible = false
-			
-		else:
-			game_music.get_child(current_music_index - 1).stream_paused = false
-			Global.hud.music_label.get_node("OnIcon").visible = true
-			Global.hud.music_label.get_node("OffIcon").visible = false
-
 
 func play_music(music_for: String):
 	
-	return
-	
 	match music_for:
+		
 		"menu":
-			$Music/MenuMusic/WarmUpShort.play()
+			if menu_music_set_to_off:
+				return
+			menu_music.play()
+		
 		"game":
-			game_music.get_child(current_music_index - 1).play()
-			Global.hud.music_label.text = "%02d" % current_music_index
-			printt("music_index ", current_music_index)	
+			if game_music_set_to_off:
+				return
+			# set track
+			var current_track = game_music.get_child(currently_playing_track_index - 1)
+			current_track.play()
 			
-			# če je na pavzi ga odpavzam
-			game_music.get_child(current_music_index - 1).stream_paused = false
-			Global.hud.music_label.get_node("OnIcon").visible = true
-			Global.hud.music_label.get_node("OffIcon").visible = false
-
 
 func stop_music(music_to_stop: String):
 	
@@ -172,26 +188,48 @@ func stop_music(music_to_stop: String):
 		
 		"menu":
 			var fade_out = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT)	
-			fade_out.tween_property($Music/MenuMusic/WarmUpShort, "volume_db", -80, 0.5)
-			fade_out.tween_callback($Music/MenuMusic/WarmUpShort, "stop")
-		
+			fade_out.tween_property(menu_music, "volume_db", -80, 0.5)
+			fade_out.tween_callback(menu_music, "stop")
+			# volume nazaj
+			fade_out.tween_property(menu_music, "volume_db", menu_music_volume_on_node, 0.5)
+			
 		"game":
+			for music in game_music.get_children():
+				music.stop()
+
+		"game_fade":
 			for music in game_music.get_children():
 				if music.is_playing():
 					var current_music_volume = music.volume_db
 					var fade_out = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT)	
 					fade_out.tween_property(music, "volume_db", -80, 1)
 					fade_out.tween_callback(music, "stop")
+					# volume nazaj
 					fade_out.tween_property(music, "volume_db", current_music_volume, 0.1) # reset glasnosti
-					# return
 
 
-func skip_music():
+func set_game_music_volume(game_music_volume_on_slider: float): # kliče se iz settingsov
 	
-	current_music_index += 1
+	# slajder je omeje od -30 do 10
+	# vsakič ko sporoči vrednost je to vrednost adaptacije na setan volumen
 	
-	if current_music_index > game_music.get_child_count():
-		current_music_index = 1
+	game_music_volume_slider_value = game_music_volume_on_slider # da je poenoteno med obemi settingsi
+	
+	var track_index = 0
+	for track in game_music_tracks:
+		var track_volume_on_node = game_music_tracks_volumes_on_node[track_index]
+		var new_track_volume = track_volume_on_node + game_music_volume_on_slider
+		track.volume_db = new_track_volume
+		
+		track_index += 1
+		
+		
+func skip_track():
+	
+	currently_playing_track_index += 1
+	
+	if currently_playing_track_index > game_music.get_child_count():
+		currently_playing_track_index = 1
 	
 	for music in game_music.get_children():
 		if music.is_playing():
@@ -200,8 +238,5 @@ func skip_music():
 			fade_out.tween_property(music, "volume_db", -80, 0.5)
 			fade_out.tween_callback(music, "stop")
 			fade_out.tween_property(music, "volume_db", current_music_volume, 0.1) # reset glasnosti
-			fade_out.tween_callback(self, "play_music", ["game"]).set_delay(0.5)
+			fade_out.tween_callback(self, "play_music", ["game"])
 			return
-
-			
-	

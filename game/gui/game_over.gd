@@ -35,11 +35,19 @@ func _input(event: InputEvent) -> void:
 	
 	if name_input_popup.visible == true:
 		if event is InputEventKey:
-			if event.pressed and event.scancode == KEY_ESCAPE:
+#			if event.pressed and event.scancode == KEY_ESCAPE:
+			if Input.is_action_just_pressed("ui_cancel"):
 				_on_CancelBtn_pressed()
 				accept_event()
 	
-	
+	# change focus sounds
+	if content.modulate.a == 1:
+		if Input.is_action_just_pressed("ui_left"):
+			Global.sound_manager.play_gui_sfx("btn_focus_change")
+		elif Input.is_action_just_pressed("ui_right"):
+			Global.sound_manager.play_gui_sfx("btn_focus_change")
+			
+				
 func _ready() -> void:
 	
 	Global.gameover_menu = self
@@ -49,34 +57,33 @@ func _ready() -> void:
 	
 	name_input_popup.visible = false
 	content.modulate.a = 0
-
-
-func _process(delta: float) -> void:
 	
-	# change focus sounds
-	if content.modulate.a == 1:
-		if Input.is_action_just_pressed("ui_left"):
-			Global.sound_manager.play_sfx("btn_focus_change")
-		elif Input.is_action_just_pressed("ui_right"):
-			Global.sound_manager.play_sfx("btn_focus_change")
 
 
+#func _process(delta: float) -> void:
+#
+#	# change focus sounds
+#	if content.modulate.a == 1:
+#		if Input.is_action_just_pressed("ui_left"):
+#			Global.sound_manager.play_gui_sfx("btn_focus_change")
+#		elif Input.is_action_just_pressed("ui_right"):
+#			Global.sound_manager.play_gui_sfx("btn_focus_change")
+
+# no HS
 func fade_in(gameover_reason: String):
 	
 	
 	match gameover_reason:
-		"game_time":
+		"time is up":
 			timeup_label.visible = true
 			died_label.visible = false
-		"player_life":
+		"player died":
 			timeup_label.visible = false
 			died_label.visible = true
 			
 	modulate.a = 0	
 	visible = true
 	# set_process_input(false)
-	
-#	Global.sound_manager.play_sfx("loose_jingle")
 	
 	# hud + title
 	var fade_in = get_tree().create_tween()
@@ -86,25 +93,27 @@ func fade_in(gameover_reason: String):
 	write_gameover_data()
 	highscore_table.get_highscore_table()
 	
-	yield(get_tree().create_timer(2), "timeout")
+	yield(get_tree().create_timer(1.5), "timeout")
+
 
 	# title out, content in
+	restart_btn.grab_focus()
+
 	var fade = get_tree().create_tween()
 	fade.tween_property(title, "modulate:a", 0, 1)
 	fade.parallel().tween_property(undi, "modulate:a", 0.9, 1)
-	fade.tween_property(content, "modulate:a", 1, 1).set_delay(0.3)
+	fade.tween_property(content, "modulate:a", 1, 1)#.set_delay(0.3)
 	fade.tween_callback(self, "pause_tree")
 	
-	restart_btn.grab_focus()
 	
-
+# jes HS
 func fade_in_empty(gameover_reason: String):
 	
 	match gameover_reason:
-		"game_time":
+		"time is up":
 			timeup_label.visible = true
 			died_label.visible = false
-		"player_life":
+		"player died":
 			timeup_label.visible = false
 			died_label.visible = true
 			
@@ -112,27 +121,25 @@ func fade_in_empty(gameover_reason: String):
 	visible = true
 #	set_process_input(false)
 	
-#	Global.sound_manager.play_sfx("win_jingle")
-	
 	# hud + title + name input
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(self, "modulate:a", 1, 0.5)
 	fade_in.tween_callback(self, "open_name_input").set_delay(1)
 	fade_in.parallel().tween_callback(Global.sound_manager, "play_sfx", ["win_jingle"])
 
-
+# jes HS
 func show_content():
 	
-	# title se odfejda v close_name_input()
+	restart_btn.grab_focus()
 	
+	# title se odfejda v close_name_input()
 	write_gameover_data()
 	highscore_table.get_highscore_table()
 	
 	var fade_in_tween = get_tree().create_tween()		
-	fade_in_tween.tween_property(content, "modulate:a", 1, 1).set_delay(0.3)
+	fade_in_tween.tween_property(content, "modulate:a", 1, 1)#.set_delay(0.3)
 	fade_in_tween.tween_callback(self, "pause_tree")
 
-	restart_btn.grab_focus()
 
 
 func write_gameover_data():
@@ -144,11 +151,11 @@ func write_gameover_data():
 	time.text = "Time: " + str(Global.hud.game_timer.game_time) + "seconds" # čas vzmem direkt iz tajmerja
 	points.text = "Points scored: %04d" % player_gameover_stats["player_points"]
 	cells_travelled.text = "Cells travelled: %04d" % player_gameover_stats["cells_travelled"]
-	skills_used.text = "Skills used: %04d" % player_gameover_stats["skills_used"]
+	skills_used.text = "Skills used: %02d" % player_gameover_stats["skills_used"]
 	
 	level.text = "Level reched: %02d" % game_gameover_stats["level_no"]
+	pixels_off.text = "Collected colors: %02d" % game_gameover_stats["off_pixels_count"]
 	astray_pixels.text = "Pixels astray: %02d" % game_gameover_stats["stray_pixels_count"]
-	pixels_off.text = "Pixels offed: %02d" % game_gameover_stats["off_pixels_count"]
 
 
 # PAVZIRANJE --------------------------------------------------------------------	
@@ -173,7 +180,7 @@ var input_string: String # = "" # neki more bit, če plejer nč ne vtipka in pot
 
 func open_name_input():
 	
-	Global.sound_manager.play_sfx("screen_slide")
+	Global.sound_manager.play_gui_sfx("screen_slide")
 	
 	name_input_popup.visible = true
 	name_input_popup.modulate.a = 0
@@ -198,7 +205,7 @@ func confirm_name_input():
 func close_name_input (): 
 	# samo zaprem
 	
-	Global.sound_manager.play_sfx("screen_slide")
+	Global.sound_manager.play_gui_sfx("screen_slide")
 	
 	var fade_out_tween = get_tree().create_tween()
 	fade_out_tween.tween_property(name_input_popup, "modulate:a", 0, 0.5)
@@ -212,29 +219,37 @@ func _on_NameEdit_text_changed(new_text: String) -> void:
 	
 	# signal, ki redno beleži vnešeni string
 	input_string = new_text
-	Global.sound_manager.play_sfx("typing")
+	Global.sound_manager.play_gui_sfx("typing")
 
 	
-func _on_PopupNameEdit_text_entered(new_text: String) -> void:
-	Global.sound_manager.play_sfx("btn_confirm")
-	if input_string == input_invite_text or input_string.empty():
-		input_string = Profiles.default_player_stats["player_name"] #Moe
-		confirm_name_input()
-	else:
-		confirm_name_input()
+func _on_PopupNameEdit_text_entered(new_text: String) -> void: # ko stisneš return
+	
+	_on_ConfirmBtn_pressed()
+
+	
+#	Global.sound_manager.play_gui_sfx("btn_confirm")
+#	if input_string == input_invite_text or input_string.empty():
+##		input_string = Profiles.default_player_stats["player_name"] #Moe
+#		input_string = Global.game_manager.player_stats["player_name"]
+#		confirm_name_input()
+#	else:
+#		confirm_name_input()
 
 	
 func _on_ConfirmBtn_pressed() -> void:
-	Global.sound_manager.play_sfx("btn_confirm")
+	$NameInputPopup/HBoxContainer/ConfirmBtn.grab_focus() # da se obarva ko stisnem RETURN
+	Global.sound_manager.play_gui_sfx("btn_confirm")
 	if input_string == input_invite_text or input_string.empty():
-		input_string = Profiles.default_player_stats["player_name"] #Moe
+#		input_string = Profiles.default_player_stats["player_name"] #Moe
+		input_string = Global.game_manager.player_stats["player_name"]
 		confirm_name_input()
 	else:
 		confirm_name_input()
 		
 
 func _on_CancelBtn_pressed() -> void:
-	Global.sound_manager.play_sfx("btn_cancel")
+	$NameInputPopup/HBoxContainer/CancelBtn.grab_focus() # da se obarva ko stisnem ESC
+	Global.sound_manager.play_gui_sfx("btn_cancel")
 	close_name_input()
 
 
@@ -242,12 +257,12 @@ func _on_CancelBtn_pressed() -> void:
 
 
 func _on_RestartBtn_pressed() -> void:
-	Global.sound_manager.play_sfx("btn_confirm")
+	Global.sound_manager.play_gui_sfx("btn_confirm")
 	unpause_tree()
 	Global.main_node.reload_game()
 
 
 func _on_QuitBtn_pressed() -> void:
-	Global.sound_manager.play_sfx("btn_cancel")
+	Global.sound_manager.play_gui_sfx("btn_cancel")
 	unpause_tree()
 	Global.main_node.game_out()
