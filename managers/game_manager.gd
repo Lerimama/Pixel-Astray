@@ -4,7 +4,7 @@ extends Node
 #export var pick_neighbour_mode = false
 export var can_skip_intro: bool # čas ko lahko skipneš intro ... exportan, ker je tajmiran v animaciji in skip funkciji
 
-var dead_time: float = 3 # pavza med die in revive funkcijo
+#var dead_time: float = 3 # pavza med die in revive funkcijo
 var colors_to_pick: Array # za hud nejbrhud pravila
 
 # states
@@ -32,9 +32,7 @@ onready var player_stats: Dictionary = Profiles.default_player_stats.duplicate()
 onready var game_stats: Dictionary = Profiles.default_level_stats.duplicate() # duplikat default profila, ker ga me igro spreminjaš
 onready var stray_pixels_count: int = Profiles.default_level_stats["stray_pixels_count"]
 onready var game_rules: Dictionary = Profiles.game_rules # ker ga med ne spreminjaš
-onready var pick_neighbour_mode = game_rules["pick_neighbour_mode"]
-
-
+#onready var pick_neighbour_mode = game_rules["pick_neighbour_mode"]
 
 onready var spectrum_rect: TextureRect = $Spectrum
 onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
@@ -74,9 +72,19 @@ func _ready() -> void:
 	
 	# štartej igro
 	yield(get_tree().create_timer(0.1), "timeout") # blink igre, da se ziher vse naloži
-
-#	play_intro()
-	skip_intro() # še countdown
+	
+	# toggle max energy start
+#	if Profiles.game_rules["max_energy_start_on"]:
+#		player_stats["player_energy"] = Profiles.game_rules["player_max_energy"]
+#	else:
+#		player_stats["player_energy"] = Profiles.game_rules["player_max_energy"]
+	player_stats["player_energy"] = game_rules["player_start_energy"]
+	
+	# toggle intro
+	if game_rules["game_intro_on"]:
+		play_intro()
+	else:
+		skip_intro() # še countdown
 	
 	
 func _process(delta: float) -> void:
@@ -102,10 +110,10 @@ func skip_intro(): # spawnanje, ki bi se drugače zgodilo v intro animaciji
 	split_stray_colors() 
 	spawn_player()
 	yield(get_tree().create_timer(2), "timeout")
-	show_strays()
+	show_strays() # 1 ...v metodi šteje število "klicev" ... tam se določa spawn število na vsak krog
 	yield(get_tree().create_timer(0.2), "timeout")
-	show_strays()
-	yield(get_tree().create_timer(0.2), "timeout")
+	show_strays() # 2 ...
+#	yield(get_tree().create_timer(0.2), "timeout")
 	show_strays()
 	yield(get_tree().create_timer(0.2), "timeout")
 	show_strays()
@@ -344,6 +352,8 @@ func spawn_tag_popup(position: Vector2, value): # kliče ga GM
 	var new_floating_points = FloatingPoints.instance()
 	new_floating_points.z_index = 2
 	new_floating_points.global_position = position - Vector2 (cell_size_x/2, cell_size_x + cell_size_x/2)
+	if value < 0:
+		new_floating_points.modulate = Global.color_red
 	Global.node_creation_parent.add_child(new_floating_points)
 	new_floating_points.label.text = str(value)
 
@@ -367,54 +377,19 @@ func _on_TileMap_floor_completed(floor_cells_global_positions: Array, player_sta
 func _on_stat_changed(stat_owner, changed_stat, stat_change):
 	
 	match changed_stat:
-	# stat_change ima predznak (s pixla ali s def profila) ... tukaj je vse +, če je sprememba -1, se tukaj zgodi -1
 		
-		# od playerja
-		"player_life": 
-			player_stats["player_life"] += stat_change
-			
-			# energija ob izgubi lajfa na tired nivo
-			var tired_energy = Profiles.default_player_stats["player_energy"] * Profiles.game_rules["tired_energy_level"]
-			player_stats["player_energy"] = 0
-			
-			if player_stats["player_life"] < 1:
-				yield(get_tree().create_timer(dead_time), "timeout")
-#				game_over(Global.game_over_reason_life)
-				game_over("player died")
-			else:
-				yield(get_tree().create_timer(dead_time), "timeout")
-				# resetiram energijo ... če je loose lajf, ker je bila porabljena
-				player_stats["player_energy"] = Profiles.default_player_stats["player_energy"]
-				stat_owner.revive()
-				
-		"cells_travelled": 
-			player_stats["cells_travelled"] += stat_change
-			# energija
-			if Profiles.game_rules["energy_speed_mode"]:
-				if player_stats["player_energy"] > 0:
-					player_stats["player_energy"] += game_rules["cell_travelled_energy"]
-		"skills_used": 
-			player_stats["skills_used"] += stat_change
-			# energija
-			if player_stats["player_energy"] > 0:
-				player_stats["player_energy"] += game_rules["skill_used_energy"]
-		"burst_released": 
-			player_stats["skills_used"] += 1 # tukaj se kot valju poda burst power
-		
-		# signal od ubitega stray pixla (1)
-		"off_pixels_count":
-			printt("STAT CHANGE", stat_change)
-			# statistika še ostalih pixlov
-			game_stats["off_pixels_count"] += stat_change
-			game_stats["stray_pixels_count"] -= stat_change
-			
-			# točke, energija in floating prikaz za prvi pixel 
+		# stray = stat_owner
+		"stray_hit":
+			# hud statistika stray pixlov
+			printt("strayhit", stat_owner, changed_stat, stat_change)
+			game_stats["off_pixels_count"] += 1
+			game_stats["stray_pixels_count"] -= 1
+			# stats za prvi pixel 
 			if stat_change == 1:
 				player_stats["player_points"] += game_rules["color_picked_points"]
 				player_stats["player_energy"] += game_rules["color_picked_energy"]
 				spawn_tag_popup(stat_owner.global_position, game_rules["color_picked_points"]) 
-			
-			# točke, energija in floating prikaz za vsakega naslednega v vrsti 
+			# stats za vsakega naslednega v vrsti 
 			elif stat_change > 1:
 				var points_for_seq_pixel = (game_rules["additional_color_picked_points"] * stat_change) - game_rules["color_picked_points"] # odštejem, da se točke od prvega pixla ne podvajajo
 				var energy_for_seq_pixel = (game_rules["additional_color_picked_energy"] * stat_change) - game_rules["color_picked_energy"]
@@ -422,16 +397,49 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				player_stats["player_energy"] += energy_for_seq_pixel
 				spawn_tag_popup(stat_owner.global_position, points_for_seq_pixel) 
 			
-			# points tag
-#			Global.hud.spawn_tag_popup(stat_owner.global_position, game_rules["color_picked_points"]) 
-#			spawn_tag_popup(stat_owner.global_position, game_rules["color_picked_points"] * stat_change) 
+		# player = stat_owner	
+		"wall_hit":
+			stat_owner.die() # smrt še ne pomeni "loose_life"
 			
+			if game_rules["loose_life_on_wall"]:
+				loose_life(stat_owner, stat_change)
+			else:
+				spawn_tag_popup(stat_owner.global_position, game_rules["wall_hit_points"]) 
+				player_stats["player_points"] += game_rules["wall_hit_points"]
+				player_stats["player_energy"] += game_rules["wall_hit_energy"]
+				yield(get_tree().create_timer(game_rules["dead_time"]), "timeout")
+				stat_owner.revive()
+				
+		"cells_travelled": 
+			player_stats["cells_travelled"] += stat_change
+			player_stats["player_energy"] += game_rules["cell_travelled_energy"]
+			player_stats["player_points"] += game_rules["cell_travelled_points"]
+		"skills_used": 
+			player_stats["skills_used"] += stat_change
+			player_stats["player_energy"] += game_rules["skill_used_energy"]
+			player_stats["player_points"] += game_rules["skill_used_points"]
+		"burst_released": 
+			player_stats["skills_used"] += 1 # tukaj se kot valju poda burst power
 			
+	# na koncu poskrbim za klempanje
+	player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_max_energy"]) # 1 je najnižja, ker tam se že odšteva zadnji izdihljaj
+	player_stats["player_points"] = clamp(player_stats["player_points"], 0, player_stats["player_points"])	
 		
-	# loose life 
-#	 ne vpliva v trenutnem formatu
-#	player_stats["player_energy"] = clamp(player_stats["player_energy"], 0, Profiles.default_player_stats["player_energy"])
-#	if player_stats["player_energy"] <= 0:
-#		stat_owner.die() # s te metode s spet pošlje statistika change "player_life"
-
-	pass
+		
+func loose_life(life_looser, life_to_loose_amount):
+	
+	player_stats["player_life"] -= life_to_loose_amount
+	
+	# game-over, če je bil to zadnji lajf
+	if player_stats["player_life"] < 1:
+		# yield(get_tree().create_timer(dead_time), "timeout")
+		game_over("player died")
+	
+	else: # če mam še lajfov
+		yield(get_tree().create_timer(game_rules["dead_time"]), "timeout")
+		life_looser.revive()
+		# resetiram energijo, če je tako določeno
+		if game_rules["revive_energy_reset"]:
+			# da ne znižam energije, če je višja od "star_energy" ... zazih v bistvu	
+			if player_stats["player_energy"] < game_rules["player_start_energy"]: 
+				player_stats["player_energy"] = game_rules["player_start_energy"]

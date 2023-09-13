@@ -123,6 +123,9 @@ tracks/1/keys = {
 [node name="Player" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
+[node name="PolyPixel" parent="." index="0"]
+modulate = Color( 1, 1, 1, 0.3 )
+
 [node name="AnimationPlayer" parent="." index="3"]
 anims/die_player_unique = SubResource( 2 )
 anims/pixelate = ExtResource( 3 )

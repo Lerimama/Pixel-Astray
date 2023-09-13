@@ -9,7 +9,8 @@ export (float, 0, 1) var die_shake_decay: float = 0.3
 
 var pixel_color: Color
 var neighbouring_cells: Array = [] # stray stalno čekira sosede
-var stray_die_value: int = 1 # def = 1, če ima sosede se duplicira
+#var stray_in_row: int = 1 # def = 1, če ima sosede se duplicira
+#var stray_die_value: int = 1 # def = 1, če ima sosede se duplicira
 
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var vision_ray: RayCast2D = $VisionRay
@@ -35,7 +36,10 @@ func fade_in():
 	var random_animation_index = randi() % 3 + 1
 	var random_animation_name: String = "glitch_%s" % random_animation_index
 	animation_player.play(random_animation_name) 
-
+	printt("ja?", random_animation_name)
+	
+#	Global.sound_manager.play_sfx("blinking")
+	
 
 func _physics_process(delta: float) -> void:
 	
@@ -43,9 +47,9 @@ func _physics_process(delta: float) -> void:
 	neighbouring_cells = check_for_neighbours()
 	
 
-func die():
+func die(stray_in_row):
 	
-	emit_signal("stat_changed", self, "off_pixels_count", stray_die_value)
+	emit_signal("stat_changed", self, "stray_hit", stray_in_row)
 	# Global.main_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
 	
 	# žrebam animacijo
@@ -54,9 +58,13 @@ func die():
 	animation_player.play(random_animation_name) 
 	
 	# KVEFRI je v animaciji
+
+func test():
+	print("juhej")
 	
 func play_blinking_sound():
 	Global.sound_manager.play_sfx("blinking")
+
 
 func check_for_neighbours(): 
 	

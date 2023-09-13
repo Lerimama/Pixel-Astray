@@ -163,15 +163,15 @@ pitch_scale = 1.1
 
 [node name="Blink1" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Blinking"]
 stream = SubResource( 12 )
-volume_db = -15.0
+volume_db = -20.0
 
 [node name="Blink2" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Blinking"]
 stream = SubResource( 13 )
-volume_db = -15.0
+volume_db = -20.0
 
 [node name="Blink3" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Blinking"]
 stream = SubResource( 14 )
-volume_db = -15.0
+volume_db = -20.0
 
 [node name="Blink4_mute" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Blinking"]
 stream = SubResource( 15 )
@@ -190,26 +190,32 @@ volume_db = -80.0
 [node name="BlinkStatic1" type="AudioStreamPlayer" parent="SoundManager/GameSfx/BlinkingStatic"]
 stream = SubResource( 6 )
 volume_db = -5.0
+pitch_scale = 1.2
 
 [node name="BlinkStatic2" type="AudioStreamPlayer" parent="SoundManager/GameSfx/BlinkingStatic"]
 stream = SubResource( 7 )
 volume_db = -5.0
+pitch_scale = 1.2
 
 [node name="BlinkStatic3" type="AudioStreamPlayer" parent="SoundManager/GameSfx/BlinkingStatic"]
 stream = SubResource( 8 )
 volume_db = -5.0
+pitch_scale = 1.2
 
 [node name="BlinkStatic4" type="AudioStreamPlayer" parent="SoundManager/GameSfx/BlinkingStatic"]
 stream = SubResource( 9 )
 volume_db = -5.0
+pitch_scale = 1.2
 
 [node name="BlinkStatic5" type="AudioStreamPlayer" parent="SoundManager/GameSfx/BlinkingStatic"]
 stream = SubResource( 10 )
 volume_db = -5.0
+pitch_scale = 1.2
 
 [node name="BlinkStatic6" type="AudioStreamPlayer" parent="SoundManager/GameSfx/BlinkingStatic"]
 stream = SubResource( 11 )
 volume_db = -5.0
+pitch_scale = 1.2
 
 [node name="Burst" type="Node2D" parent="SoundManager/GameSfx"]
 
@@ -238,7 +244,7 @@ pitch_scale = 0.9
 
 [node name="HitDizzy" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Burst"]
 stream = ExtResource( 33 )
-volume_db = -20.0
+volume_db = -25.0
 
 [node name="Events" type="Node2D" parent="SoundManager/GameSfx"]
 
@@ -251,7 +257,7 @@ stream = ExtResource( 57 )
 
 [node name="CoundownA" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Events"]
 stream = ExtResource( 22 )
-volume_db = -20.0
+volume_db = -30.0
 
 [node name="CoundownB" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Events"]
 stream = ExtResource( 59 )

@@ -13,7 +13,7 @@ var target_reached: float = false
 var fade_out_time: float = 0.2
 
 onready var cell_size_x: float = Global.level_tilemap.cell_size.x
-onready var poly_pixel: Polygon2D = $PolyPixel # za barvanje
+onready var poly_pixel: Polygon2D = $PolyPixel # za transparenco gled na energijo ... sam pixel je skos alfa 1, 
 onready var ghost_ray: RayCast2D = $RayCast2D
 
 var colliding_with_pixel :bool = false
