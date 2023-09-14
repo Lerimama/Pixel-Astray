@@ -139,16 +139,20 @@ func play_gui_sfx(effect_for: String):
 func stop_sfx(sfx_to_stop: String):
 	
 	match sfx_to_stop:
-			"teleport":
-				$GameSfx/Skills/TeleportLoop.stop()
-				$GameSfx/Skills/TeleportOut.play()
-			"skilled":
-				$GameSfx/Skills/SkilledStatic.stop()
-				pass
-			"burst_cocking":
-				$GameSfx/Burst/BurstCocking.stop()
-			"last_breath":
-				$GameSfx/LastBeat.stop()
+		"teleport":
+			$GameSfx/Skills/TeleportLoop.stop()
+			$GameSfx/Skills/TeleportOut.play()
+		"skilled":
+			$GameSfx/Skills/SkilledStatic.stop()
+			pass
+		"burst_cocking":
+			$GameSfx/Burst/BurstCocking.stop()
+		"last_breath":
+			$GameSfx/LastBeat.stop()
+		"loose_jingle": 
+			$GameSfx/Events/Loose.stop()
+		"win_jingle":
+			$GameSfx/Events/Win.stop()
 	
 
 func select_random_sfx(sound_group):
@@ -167,19 +171,20 @@ func _on_TeleportStart_finished() -> void:
 
 func play_music(music_for: String):
 	
-	match music_for:
-		
-		"menu":
-			if menu_music_set_to_off:
-				return
-			menu_music.play()
-		
-		"game":
-			if game_music_set_to_off:
-				return
-			# set track
-			var current_track = game_music.get_child(currently_playing_track_index - 1)
-			current_track.play()
+#	match music_for:
+#
+#		"menu":
+#			if menu_music_set_to_off:
+#				return
+#			menu_music.play()
+#
+#		"game":
+#			if game_music_set_to_off:
+#				return
+#			# set track
+#			var current_track = game_music.get_child(currently_playing_track_index - 1)
+#			current_track.play()
+	pass
 			
 
 func stop_music(music_to_stop: String):
@@ -197,7 +202,7 @@ func stop_music(music_to_stop: String):
 			for music in game_music.get_children():
 				music.stop()
 
-		"game_fade":
+		"game_on_game-over": 
 			for music in game_music.get_children():
 				if music.is_playing():
 					var current_music_volume = music.volume_db
@@ -206,7 +211,7 @@ func stop_music(music_to_stop: String):
 					fade_out.tween_callback(music, "stop")
 					# volume nazaj
 					fade_out.tween_property(music, "volume_db", current_music_volume, 0.1) # reset glasnosti
-
+		
 
 func set_game_music_volume(game_music_volume_on_slider: float): # kliče se iz settingsov
 	

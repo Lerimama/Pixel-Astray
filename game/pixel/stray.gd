@@ -36,7 +36,7 @@ func fade_in():
 	var random_animation_index = randi() % 3 + 1
 	var random_animation_name: String = "glitch_%s" % random_animation_index
 	animation_player.play(random_animation_name) 
-	printt("ja?", random_animation_name)
+#	printt("ja?", random_animation_name)
 	
 #	Global.sound_manager.play_sfx("blinking")
 	

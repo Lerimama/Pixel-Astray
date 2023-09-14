@@ -148,15 +148,12 @@ func spawn_color_indicators(colors):
 # ukaz pride iz GM
 
 	for color in colors:
-
 		var new_color_indicator = ColorIndicator.instance()
 		new_color_indicator.color = color
 		indicator_holder.add_child(new_color_indicator)
-		
 		# zapis indexa ... invisible ... za debug
 		var indicator_index = active_color_indicators.find(new_color_indicator)
 		new_color_indicator.get_node("Label").text = str(indicator_index)
-	
 		active_color_indicators.append(new_color_indicator)
 	
 	
@@ -204,24 +201,18 @@ func erase_color_indicator(erase_color):
 		var next_indicator_index: int = current_indicator_index + 1
 		var prev_indicator_index: int = current_indicator_index - 1
 		
-	#	for indicator in active_color_indicators:
-			
 		# na začetku živih indikatorjev 
 		if current_indicator_index == 0:		
-	#		active_color_indicators[next_indicator_index].get_node("Line").visible = true
 			active_color_indicators[next_indicator_index].modulate.a = 1
 			# pošljem sosednje barve v GM
 			Global.game_manager.colors_to_pick = [active_color_indicators[next_indicator_index].color]
 		# na koncu živih indikatorjev
 		elif current_indicator_index == active_color_indicators.size() - 1: # ker je index vedno eno manjši	
-	#		active_color_indicators[prev_indicator_index].get_node("Line").visible = true
 			active_color_indicators[prev_indicator_index].modulate.a = 1
 			# pošljem sosednje barve v GM
 			Global.game_manager.colors_to_pick = [active_color_indicators[prev_indicator_index].color]
 		# povsod vmes med živimi indikatorji
 		elif current_indicator_index > 0 and current_indicator_index < (active_color_indicators.size() - 1):
-	#		active_color_indicators[next_indicator_index].get_node("Line").visible = true
-	#		active_color_indicators[prev_indicator_index].get_node("Line").visible = true
 			active_color_indicators[next_indicator_index].modulate.a = 1
 			active_color_indicators[prev_indicator_index].modulate.a = 1
 			# pošljem sosednje barve v GM
@@ -240,16 +231,8 @@ func _on_GameTimer_deathmode_active() -> void:
 
 
 func _on_GameTimer_gametime_is_up() -> void:
-#	Global.game_manager.game_over(Global.game_over_reason_time)
-	Global.game_manager.game_over("time is up")
+	Global.game_manager.game_over(Global.reason_time)
 
-#func erase_all_indicators(): ... zaenkrat ne rabim nikjer
-#	
-#	if not active_color_indicators.empty():
-#		for indicator in active_color_indicators:
-#			indicator.queue_free()
-#		active_color_indicators = []
-#	pass
 
 
 

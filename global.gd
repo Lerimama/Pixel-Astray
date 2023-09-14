@@ -1,7 +1,7 @@
 extends Node2D
 
-## globalne funkcije in variable
 
+## globalne variable in metode
 
 # GLOBAL NODES ---------------------------------------------------------------------------------------------------------
 
@@ -21,12 +21,11 @@ var hud = null
 var game_countdown = null
 var gameover_menu = null
 
-# res rabm?
+# zaenkrat uporabljam
+#enum GameStates {HOME, INTRO, GAME_ON, GAME_PAUSED, GAME_OVER} # ne dala zato uporabljam zgornjo varianto
+#var pause_menu = null
 #var game_viewport = null
 #var color_indicator_parent = null # za barve v hudu
-
-
-
 
 # GLOBAL VARS ---------------------------------------------------------------------------------------------------------
 
@@ -51,10 +50,11 @@ var color_green = Color("#5effa9")
 var color_red = Color("#f35b7f")
 var color_yellow = Color("#fef98b")
 
-# reasons for game-over ... samo za info
-#var game_over_reason_life = "player_life"
-var game_over_reason_life = "player died"
-var game_over_reason_time = "time is up"
+# reasons for ...
+var reason_life = "reason_life" # game-over
+var reason_time = "reason_time" # game-over
+var reason_wall = "reason_wall" # player die()
+var reason_energy = "reason_energy" # player die()
 
 
 func _ready():

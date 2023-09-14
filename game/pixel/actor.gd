@@ -9,6 +9,7 @@ func _ready() -> void:
 
 func play_stepping_loop():
 	if not actor_in_motion:
+		Global.sound_manager.stop_sfx("stepping")
 		return
 	Global.sound_manager.play_stepping_sfx(1)
 	yield(get_tree().create_timer(step_time), "timeout")

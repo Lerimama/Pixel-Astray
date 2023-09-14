@@ -58,8 +58,9 @@ var game_rules: Dictionary = { # tole ne uporabljam v zadnji varianti
 	"cell_travelled_energy": -1,
 	"skill_used_points": -1, # isto kot stepanje
 	"skill_used_energy": -1,
-	"tired_energy_level" : 0.1, # procent cele energije
-	
+	"tired_energy" : 20, # procent cele energije
+	"skilled_energy_drain": -1,
+	"skilled_energy_drain_speed": 0.1, # čas med vsakim odvzemom
 	# config ... ne vem če je vse za ta slovar?
 	"pick_neighbour_mode": false, # na hud.gd, player.gd
 	"deathmode_on": true, # na hud_game_timer.gd
@@ -72,10 +73,9 @@ var game_rules: Dictionary = { # tole ne uporabljam v zadnji varianti
 #	"stray_energy_pull": true, 
 #	"skills_in_row": false,
 #	"stop in burst"
-#	"loose_life_mode": true,
 	"wall_hit_points": -5,
 	"wall_hit_energy": -96,
-	"loose_life_on_wall": true, # v tem primeru, ne izgubiš energije niti točk
+	"loose_life_on": true, # v tem primeru, ne izgubiš energije niti točk
 	"revive_energy_reset": true,
 	"player_max_energy": 192, # na player.gd .. max, da se lepo ujema s pixli (24)
 	"player_start_energy": 192, # na GM
@@ -84,6 +84,7 @@ var game_rules: Dictionary = { # tole ne uporabljam v zadnji varianti
 	"min_step_time": 0.09, # na player.gd
 	# energija
 	"dead_time": 3,
+	"skilled_energy_drain_on": true
 }
 
 

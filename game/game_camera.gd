@@ -99,8 +99,6 @@ func _ready():
 	# start setup
 	zoom = Vector2(2, 2)
 	position = Global.game_manager.player_start_position #+ Vector2(cell_size_x / 2, 0)
-	
-	print("player_start_position ", Global.game_manager.player_start_position)
 
 
 func zoom_in():

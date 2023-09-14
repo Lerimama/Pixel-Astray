@@ -9,17 +9,12 @@ onready var play_btn: Button = $Menu/PlayBtn
 
 
 func _input(event: InputEvent) -> void:
-# func _unhandled_key_input(event: InputEventKey) -> void:
-	
 	if Global.game_manager.game_on:
-		if event is InputEventKey:
-#			if event.pressed and event.scancode == KEY_ESCAPE:
-			if Input.is_action_just_pressed("ui_cancel"):
-				if not pause_on:
-					pause_game()
-				else:
-					play_on()
-				accept_event()
+		if Input.is_action_just_pressed("ui_cancel"):
+			if not pause_on:
+				pause_game()
+			else:
+				play_on()
 	
 	# change focus sounds
 	if pause_on:

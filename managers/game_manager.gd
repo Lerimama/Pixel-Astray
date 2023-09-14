@@ -1,11 +1,7 @@
 extends Node
 
 
-#export var pick_neighbour_mode = false
-export var can_skip_intro: bool # čas ko lahko skipneš intro ... exportan, ker je tajmiran v animaciji in skip funkciji
-
-#var dead_time: float = 3 # pavza med die in revive funkcijo
-var colors_to_pick: Array # za hud nejbrhud pravila
+export var can_skip_intro: bool = false # čas ko lahko skipneš intro ... exportan, ker je ponoven off tajmiran v animaciji
 
 # states
 var game_on: bool = false
@@ -27,12 +23,13 @@ var strays_in_game: Array = []
 var floor_positions: Array # po signalu ob kreaciji tilemapa ... tukaj, da ga lahko grebam do zunaj
 var available_floor_positions: Array # dplikat floor_positions za spawnanje pixlov
 
+var colors_to_pick: Array # za hud nejbrhud pravila
+
 # stats
 onready var player_stats: Dictionary = Profiles.default_player_stats.duplicate() # duplikat default profila
 onready var game_stats: Dictionary = Profiles.default_level_stats.duplicate() # duplikat default profila, ker ga me igro spreminjaš
 onready var stray_pixels_count: int = Profiles.default_level_stats["stray_pixels_count"]
 onready var game_rules: Dictionary = Profiles.game_rules # ker ga med ne spreminjaš
-#onready var pick_neighbour_mode = game_rules["pick_neighbour_mode"]
 
 onready var spectrum_rect: TextureRect = $Spectrum
 onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
@@ -51,18 +48,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 	if Input.is_action_pressed("no1") and player_stats["player_energy"] > 1:
 		player_stats["player_energy"] -= 1
+		player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_max_energy"]) # 1 je najnižja, ker tam se že odšteva zadnji izdihljaj
 	if Input.is_action_pressed("no2"):
 		player_stats["player_energy"] += 10
-	if Input.is_action_pressed("no3"):
-		if not players_in_game.empty():
-			for player in players_in_game:
-				player.die() # s te metode s spet kliče stat change "player_life"
 	
 	if can_skip_intro: # tajmiran v animaciji in skip funkciji
-		if event is InputEventKey:
-#			if event.pressed and event.scancode == KEY_ESCAPE:
-			if Input.is_action_just_pressed("ui_cancel"):
-				skip_intro()
+		if Input.is_action_just_pressed("ui_cancel") and can_skip_intro:
+			skip_intro()
 				
 		
 func _ready() -> void:
@@ -73,11 +65,6 @@ func _ready() -> void:
 	# štartej igro
 	yield(get_tree().create_timer(0.1), "timeout") # blink igre, da se ziher vse naloži
 	
-	# toggle max energy start
-#	if Profiles.game_rules["max_energy_start_on"]:
-#		player_stats["player_energy"] = Profiles.game_rules["player_max_energy"]
-#	else:
-#		player_stats["player_energy"] = Profiles.game_rules["player_max_energy"]
 	player_stats["player_energy"] = game_rules["player_start_energy"]
 	
 	# toggle intro
@@ -88,7 +75,6 @@ func _ready() -> void:
 	
 	
 func _process(delta: float) -> void:
-	
 	players_in_game = get_tree().get_nodes_in_group(Global.group_players)
 	strays_in_game = get_tree().get_nodes_in_group(Global.group_strays)
 	
@@ -96,38 +82,35 @@ func _process(delta: float) -> void:
 # GAME LOOP --------------------------------------------------------------------------------------------------------------------------------
 
 
+func play_intro():
+	yield(get_tree().create_timer(2), "timeout") # pavza pred pixelate eventom
+	animation_player.play("game_intro") # v animaciji spawnam strayse v več grupah, plejerja in zaženem set_game()
+	can_skip_intro = true # ponoven off tajmiran v animaciji (če ne skipaš)
+	
 
-func skip_intro(): # spawnanje, ki bi se drugače zgodilo v intro animaciji
+func skip_intro():
 	
-	animation_player.stop()
 	can_skip_intro = false
+	animation_player.stop()
 	
-	# za intro animacijo?
-	#onready var floor_cover: ColorRect = $"../Level/FloorCover"
-	# _temp ... ugasnjeno pred izbrisom
-	# floor_cover.color = Color("00ffffff")
+	# actor KVEFRI ... preverjam, če skipnem še predno je naložen  
+	if get_parent().get_children().has(actor_pixel): # precej šepav način
+		actor_pixel.actor_in_motion = false
+		actor_pixel.queue_free()
 		
-	split_stray_colors() 
-	spawn_player()
-	yield(get_tree().create_timer(2), "timeout")
+	split_stray_colors()  # spawnanje, ki bi se drugače zgodilo v intro animaciji ... ampak so še skriti
+	spawn_player() # pokaže ga šele v set_game
+			
+	# show strays
+	yield(get_tree().create_timer(0.5), "timeout")
 	show_strays() # 1 ...v metodi šteje število "klicev" ... tam se določa spawn število na vsak krog
 	yield(get_tree().create_timer(0.2), "timeout")
 	show_strays() # 2 ...
-#	yield(get_tree().create_timer(0.2), "timeout")
 	show_strays()
 	yield(get_tree().create_timer(0.2), "timeout")
 	show_strays()
 	
 	set_game()	
-
-
-func play_intro():
-	
-	# pavza pred pixelate eventom
-	yield(get_tree().create_timer(2), "timeout")
-	
-	animation_player.play("game_intro")
-	# v animaciji spawnam strayse v več grupah, pljerja in zaženem set_game()
 
 
 func show_strays():
@@ -160,17 +143,21 @@ func show_strays():
 			loop_count += 1 # šterjem tukaj, ker se šteje samo če se pixel pokaže
 		if loop_count >= strays_to_show_count:
 			break
-	print("shown strays: ", strays_shown.size())	
 					
 
-func set_game(): # setam ves data igre
-
+func set_game(): 
+# setam ves data igre
+	
+	can_skip_intro = false # zazih ... ker ne skipaš
+	
 	if not players_in_game.empty():
 		for player in players_in_game:
 			player.visible = true
 			player.set_physics_process(false)
 	
-	actor_pixel.queue_free()
+	# actor KVEFRI, če intro ni bil skipan  
+	if get_parent().get_children().has($"../Actor"): # precej šepav način
+		actor_pixel.queue_free()
 	
 	strays_spawn_loop = 0
 	
@@ -191,14 +178,11 @@ func set_game(): # setam ves data igre
 	start_game()
 
 	
-func start_game(): # goli štart
+func start_game():
 	
 	Global.sound_manager.play_music("game")
-	
 	game_on = true
-	
 	# aktiviram plejerja in tajmer
-#	Global.hud.game_timer.start_timer(Profiles.default_level_stats["game_time_limit"])
 	Global.hud.game_timer.start_timer() # tajmer pobere čas igre in tip štetja iz profila
 	
 	if not players_in_game.empty():
@@ -227,7 +211,7 @@ func game_over(game_over_reason: String):
 	yield(Global.main_camera, "zoomed_out")
 	print ("GM gameover - RESUME 0")
 
-	Global.sound_manager.stop_music("game_fade")
+	Global.sound_manager.stop_music("game_on_game-over")
 	Global.hud.visible = false # zazih
 	
 	var player_points = player_stats["player_points"]
@@ -243,51 +227,29 @@ func game_over(game_over_reason: String):
 		Global.gameover_menu.fade_in(game_over_reason)																																																							
 	else:
 		Global.gameover_menu.fade_in_empty(game_over_reason)
-
 	
 
 # SPAWNANJE --------------------------------------------------------------------------------------------------------------------------------
 
 
 func spawn_player():
-#func spawn_player(spawn_position):
 	
 	var spawn_position = player_start_position
 	spawned_player_index += 1
 	
-	# instance
 	var new_player_pixel = PlayerPixel.instance()
 	new_player_pixel.name = "P%s" % str(spawned_player_index)
 	new_player_pixel.pixel_color = Global.color_white
 	new_player_pixel.global_position = spawn_position # + grid_cell_size/2 ... ne rabim snepat ker se v pixlu na redi funkciji
 	new_player_pixel.visible = false
-	
-	#spawn
 	Global.node_creation_parent.add_child(new_player_pixel)
 	
-	# vzamem lokacijo za izbrisat
-#	new_player_pixel.snap_to_nearest_grid()
-#	if available_floor_positions.has(new_player_pixel.global_position):
-#		pass
-	
-	# povežem
 	new_player_pixel.connect("stat_changed", self, "_on_stat_changed")
 	
-	# aktiviram plejerja in mu dodelim energijo
-#	player_stats["player_active"] = true
-#	player_stats["player_energy"] = game_stats["player_start_energy"]
-	
-	# camera target
 	Global.camera_target = new_player_pixel
-#	Global.main_camera.reset_camera_position() ... pozicijo raje setam na kameri ob njenem rojstvu
-	
-	
-	# premik kamere na štartu
-	yield(get_tree().create_timer(1), "timeout")
 
 
 func split_stray_colors():
-#func split_stray_colors(strays_count):
 	
 	# split colors
 	var color_count: int = stray_pixels_count 
@@ -373,15 +335,22 @@ func _on_TileMap_floor_completed(floor_cells_global_positions: Array, player_sta
 	else:
 		print("ne najdem pozicije plejerja")
 
-
+var energy_draining_active: bool = false # za kontrolo črpanja energije
 func _on_stat_changed(stat_owner, changed_stat, stat_change):
 	
 	match changed_stat:
 		
-		# stray = stat_owner
+		# from stray
+		"skilled":
+			if not energy_draining_active:
+				energy_draining_active = true
+				player_stats["player_energy"] += game_rules["skilled_energy_drain"]
+				player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_max_energy"]) # 1 je najnižja, ker tam se že odšteva zadnji izdihljaj
+				yield(get_tree().create_timer(Profiles.game_rules["skilled_energy_drain_speed"]), "timeout")
+				energy_draining_active = false
+				
 		"stray_hit":
 			# hud statistika stray pixlov
-			printt("strayhit", stat_owner, changed_stat, stat_change)
 			game_stats["off_pixels_count"] += 1
 			game_stats["stray_pixels_count"] -= 1
 			# stats za prvi pixel 
@@ -397,43 +366,49 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				player_stats["player_energy"] += energy_for_seq_pixel
 				spawn_tag_popup(stat_owner.global_position, points_for_seq_pixel) 
 			
-		# player = stat_owner	
+		# from player
 		"wall_hit":
-			stat_owner.die() # smrt še ne pomeni "loose_life"
-			
-			if game_rules["loose_life_on_wall"]:
-				loose_life(stat_owner, stat_change)
+			if game_rules["loose_life_on"]:
+				loose_life_stat(stat_owner, stat_change)
 			else:
 				spawn_tag_popup(stat_owner.global_position, game_rules["wall_hit_points"]) 
 				player_stats["player_points"] += game_rules["wall_hit_points"]
 				player_stats["player_energy"] += game_rules["wall_hit_energy"]
 				yield(get_tree().create_timer(game_rules["dead_time"]), "timeout")
 				stat_owner.revive()
-				
+		
+		"out_of_breath":
+			if game_rules["loose_life_on"]:
+				loose_life_stat(stat_owner, stat_change)
+			else:
+				yield(get_tree().create_timer(game_rules["dead_time"]), "timeout")
+				stat_owner.revive()
+		
 		"cells_travelled": 
 			player_stats["cells_travelled"] += stat_change
 			player_stats["player_energy"] += game_rules["cell_travelled_energy"]
 			player_stats["player_points"] += game_rules["cell_travelled_points"]
+		
 		"skills_used": 
 			player_stats["skills_used"] += stat_change
 			player_stats["player_energy"] += game_rules["skill_used_energy"]
 			player_stats["player_points"] += game_rules["skill_used_points"]
+		
 		"burst_released": 
 			player_stats["skills_used"] += 1 # tukaj se kot valju poda burst power
 			
 	# na koncu poskrbim za klempanje
 	player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_max_energy"]) # 1 je najnižja, ker tam se že odšteva zadnji izdihljaj
 	player_stats["player_points"] = clamp(player_stats["player_points"], 0, player_stats["player_points"])	
+	
 		
-		
-func loose_life(life_looser, life_to_loose_amount):
+func loose_life_stat(life_looser, life_to_loose_amount):
 	
 	player_stats["player_life"] -= life_to_loose_amount
 	
 	# game-over, če je bil to zadnji lajf
 	if player_stats["player_life"] < 1:
-		# yield(get_tree().create_timer(dead_time), "timeout")
-		game_over("player died")
+		game_over(Global.reason_life)
 	
 	else: # če mam še lajfov
 		yield(get_tree().create_timer(game_rules["dead_time"]), "timeout")

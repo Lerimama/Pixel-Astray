@@ -70,14 +70,14 @@ func _ready() -> void:
 #			Global.sound_manager.play_gui_sfx("btn_focus_change")
 
 # no HS
-func fade_in(gameover_reason: String):
+func fade_in(gameover_reason):
 	
 	
 	match gameover_reason:
-		"time is up":
+		"reason_time":
 			timeup_label.visible = true
 			died_label.visible = false
-		"player died":
+		"reason_life":
 			timeup_label.visible = false
 			died_label.visible = true
 			
@@ -107,13 +107,13 @@ func fade_in(gameover_reason: String):
 	
 	
 # jes HS
-func fade_in_empty(gameover_reason: String):
+func fade_in_empty(gameover_reason):
 	
 	match gameover_reason:
-		"time is up":
+		"reason_time":
 			timeup_label.visible = true
 			died_label.visible = false
-		"player died":
+		"reason_life":
 			timeup_label.visible = false
 			died_label.visible = true
 			
@@ -223,24 +223,13 @@ func _on_NameEdit_text_changed(new_text: String) -> void:
 
 	
 func _on_PopupNameEdit_text_entered(new_text: String) -> void: # ko stisneš return
-	
 	_on_ConfirmBtn_pressed()
-
-	
-#	Global.sound_manager.play_gui_sfx("btn_confirm")
-#	if input_string == input_invite_text or input_string.empty():
-##		input_string = Profiles.default_player_stats["player_name"] #Moe
-#		input_string = Global.game_manager.player_stats["player_name"]
-#		confirm_name_input()
-#	else:
-#		confirm_name_input()
 
 	
 func _on_ConfirmBtn_pressed() -> void:
 	$NameInputPopup/HBoxContainer/ConfirmBtn.grab_focus() # da se obarva ko stisnem RETURN
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	if input_string == input_invite_text or input_string.empty():
-#		input_string = Profiles.default_player_stats["player_name"] #Moe
 		input_string = Global.game_manager.player_stats["player_name"]
 		confirm_name_input()
 	else:
@@ -263,6 +252,7 @@ func _on_RestartBtn_pressed() -> void:
 
 
 func _on_QuitBtn_pressed() -> void:
-	Global.sound_manager.play_gui_sfx("btn_cancel")
+	
+	Global.sound_manager.stop_("btn_cancel")
 	unpause_tree()
 	Global.main_node.game_out()

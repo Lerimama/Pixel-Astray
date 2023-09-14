@@ -305,7 +305,7 @@ volume_db = -25.0
 
 [node name="SkilledStatic" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
 stream = ExtResource( 2 )
-volume_db = -25.0
+volume_db = -30.0
 
 [node name="LastBeat" type="AudioStreamPlayer" parent="SoundManager/GameSfx"]
 stream = ExtResource( 58 )

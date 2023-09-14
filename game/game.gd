@@ -10,6 +10,7 @@ onready var minimap_camera: Camera2D = $Minimap/MinimapViewport/MinimapCam
 
 onready var skip_intro_popup: Label = $GUI/SkipLabel
 
+
 func _ready() -> void:
 	
 	get_viewport()	

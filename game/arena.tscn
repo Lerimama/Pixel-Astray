@@ -59,10 +59,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 7.38, 7.44 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 7.44 ),
+"transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ true, true, false ]
+"values": [ false ]
 }
 tracks/3/type = "method"
 tracks/3/path = NodePath("GameManager")
@@ -422,7 +422,7 @@ color = Color( 0.156863, 0.145098, 0, 1 )
 environment = ExtResource( 8 )
 
 [node name="Actor" parent="." instance=ExtResource( 5 )]
-modulate = Color( 1, 1, 1, 0.060909 )
+modulate = Color( 0.621176, 1, 0.797647, 0.5 )
 position = Vector2( 432, 912 )
 actor_in_motion = false
 
