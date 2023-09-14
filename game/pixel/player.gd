@@ -62,8 +62,6 @@ onready var current_player_energy_part: float # = player_energy/default_player_e
 
 # dihanje
 var breath_speed: float = 2.4
-#var tired_breath_speed: float = 2.4
-#export var breath_alpha_adon: float = 0.25 # exportan za animacijo
 export var skilled_alpha: float = 1.2
 
 # zadnji dih
@@ -73,7 +71,6 @@ onready var last_breath_timer: Timer = $LastBreathTimer
 
 # transparenca energije
 onready var poly_pixel: Polygon2D = $PolyPixel
-#onready var skilled_on: bool = false
 var skill_sfx_playing: bool = false # da lahko kličem is procesne funkcije
 
 onready var cell_size_x: int = Global.level_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
@@ -120,7 +117,7 @@ func _physics_process(delta: float) -> void:
 	# toggle energy_apha mode
 	if Profiles.game_rules["energy_alpha_mode"]:
 		var alpha_factor = current_player_energy_part
-		poly_pixel.modulate.a = clamp(alpha_factor, 0.2, alpha_factor)
+		poly_pixel.modulate.a = clamp(alpha_factor, Profiles.game_rules["min_player_alpha"], alpha_factor)
 	else:
 		poly_pixel.modulate.a = 1
 	

@@ -70,6 +70,7 @@ var game_rules: Dictionary = { # tole ne uporabljam v zadnji varianti
 	"game_countdown_on": false, # na game_countdown.gd
 	"energy_speed_mode": true, # na GM _on_stat_change, player.gd
 	"energy_alpha_mode": false, # na hud_game_timer.gd
+	"min_player_alpha": 0.2,
 #	"stray_energy_pull": true, 
 #	"skills_in_row": false,
 #	"stop in burst"
