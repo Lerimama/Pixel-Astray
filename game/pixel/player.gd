@@ -4,7 +4,7 @@ extends KinematicBody2D
 signal stat_changed (stat_owner, stat, stat_change)
 
 
-enum States {IDLE, STEPPING, SKILLING, BURSTING}
+enum States {IDLE, STEPPING, SKILLING, COCKING, BURSTING}
 var current_state # = States.IDLE
 
 var pixel_color: Color # = Global.color_white
@@ -35,15 +35,15 @@ var cocked_ghost_fill_time: float = 0.04 # čas za napolnitev vseh spawnanih gho
 var cocked_pause_time: float = 0.05 # čas za napolnitev vseh spawnanih ghostov (tik pred burstom)
 
 # bursting
-var burst_speed: float = 0
-var burst_speed_max: float = 0 # maximalna hitrost v tweenu
-var burst_speed_max_addon: float = 15
+var burst_speed: float = 0 # glavna (trenutna) hitrost
+var burst_speed_max: float = 0 # maximalna hitrost v tweenu (določena med kokanjem)
 var strech_ghost_shrink_time: float = 0.2
 var burst_direction_set: bool = false
 var burst_power: int # moč v številu ghosts_count
+var burst_is_releasing: bool = false # uporaba prekinitev delovavnja inputa v stanju od release do potiska plejerja
 
 # shaking camera
-var burst_power_shake_adon: float = 0.03
+var burst_power_shake_addon: float = 0.03
 var hit_wall_shake_power: float = 0.25
 var hit_wall_shake_time: float = 0.5
 var hit_wall_shake_decay: float = 0.2
@@ -54,11 +54,13 @@ var die_shake_power: float = 0.2
 var die_shake_time: float = 0.7
 var die_shake_decay: float = 0.1
 
-# energija
+# energija in hitrost
+var current_player_energy_part: float # 
 var player_energy: float = Global.game_manager.player_stats["player_energy"] # energija je edini stat, ki gamore plejer poznat ... greba se iz globalnih statsov
 onready var max_player_energy: float = Profiles.game_rules["player_max_energy"]
-onready var tired_energy: int = Profiles.game_rules["tired_energy"] # del energije pri kateri velja, da je utrujen (diha hitreje)
-onready var current_player_energy_part: float # = player_energy/default_player_energy # delež celotne energije
+#onready var tired_energy: int = Profiles.game_rules["tired_energy"] # del energije pri kateri velja, da je utrujen (diha hitreje)
+onready var max_step_time: float = Profiles.game_rules["max_step_time"]
+onready var min_step_time: float = Profiles.game_rules["min_step_time"]
 
 # dihanje
 var breath_speed: float = 2.4
@@ -82,9 +84,7 @@ onready var Ghost: PackedScene = preload("res://game/pixel/ghost.tscn")
 onready var PixelCollisionParticles: PackedScene = preload("res://game/pixel/pixel_collision_particles.tscn")
 onready var PixelDizzyParticles: PackedScene = preload("res://game/pixel/pixel_dizzy_particles.tscn")
 
-# speed
-onready var max_step_time: float = Profiles.game_rules["max_step_time"]
-onready var min_step_time: float = Profiles.game_rules["min_step_time"]
+
 
 
 func _ready() -> void:
@@ -110,6 +110,8 @@ func tets():
 	
 	
 func _physics_process(delta: float) -> void:
+	
+#	print("current_state, ", current_state)
 	
 	player_energy = Global.game_manager.player_stats["player_energy"] # stalni apdejt energije iz GMja
 	current_player_energy_part = player_energy / max_player_energy # delež celotne energije
@@ -143,6 +145,10 @@ func _physics_process(delta: float) -> void:
 	if Global.detect_collision_in_direction(vision_ray, direction): # more bit neodvisno od stateta, da pull dela
 		skill_inputs()
 	
+	stat_machine()
+	
+	
+func stat_machine():
 	match current_state:
 		
 		States.IDLE:
@@ -175,25 +181,24 @@ func _physics_process(delta: float) -> void:
 							
 		States.STEPPING:
 			animation_player.stop() # stop dihanje
-		
 		States.SKILLING: # stanje ko se skill izvaja
 			animation_player.stop() # stop dihanje
 			modulate.a = skilled_alpha
-			
-		States.BURSTING: 
+		States.COCKING: 
 			animation_player.stop() # stop dihanje
-			burst_inputs()
+			cocking_inputs()
+		States.BURSTING: # se prižge na štartu releasa bursta
 			var velocity = direction * burst_speed
 			collision = move_and_collide(velocity) 
 			if collision:
 				on_collision()
-		
+			bursting_inputs()
 	
 func on_collision(): 
 	
 	# shake calc
-	var added_shake_power = hit_stray_shake_power + burst_power_shake_adon * burst_power
-	var added_shake_time = hit_stray_shake_time + burst_power_shake_adon * burst_power
+	var added_shake_power = hit_stray_shake_power + burst_power_shake_addon * burst_power
+	var added_shake_time = hit_stray_shake_time + burst_power_shake_addon * burst_power
 	
 	if collision.collider.is_in_group(Global.group_tilemap):
 		die(Global.reason_wall)
@@ -278,10 +283,10 @@ func idle_inputs():
 		step()
 			
 	if Input.is_action_just_pressed("space") and current_state == States.IDLE: # brez "just" dela po stisku smeri ... ni ok
-		current_state = States.BURSTING
+		current_state = States.COCKING
 
 
-func burst_inputs():
+func cocking_inputs():
 
 	if Input.is_action_pressed("ui_up"):
 		if not burst_direction_set:
@@ -314,6 +319,15 @@ func burst_inputs():
 			release_burst()
 		else:
 			end_move()
+
+
+
+func bursting_inputs():
+
+	if Input.is_action_just_pressed("space") and not burst_is_releasing:
+		stop_burst()
+#		end_move()
+
 
 	
 func skill_inputs():
@@ -350,6 +364,7 @@ func skill_inputs():
 
 
 func die(die_reason: String):
+	print("mru")
 	end_move()
 	
 	match die_reason:
@@ -364,7 +379,7 @@ func die(die_reason: String):
 	Global.main_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
 	
 	set_physics_process(false) # aktivira ga revive(), ki se sproži iz animacije
-#	animation_player.play("die_player")
+	# animation_player.play("die_player")
 	animation_player.play("die_player_unique")
 
 
@@ -386,21 +401,19 @@ func step():
 	
 	# če kolajda izbrani smeri gibanja prenesem kontrole na skill
 	if not Global.detect_collision_in_direction(vision_ray, step_direction):
+		
 		current_state = States.STEPPING
 		
 		global_position = Global.snap_to_nearest_grid(global_position)
-		
 		spawn_trail_ghost()
-		
 		var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 		step_tween.tween_property(self, "position", global_position + direction * cell_size_x, step_time)
 		step_tween.tween_callback(self, "end_move")
+		Global.sound_manager.play_stepping_sfx(current_player_energy_part)
 
 		# pošljem signal, da odštejem točko
 		emit_signal("stat_changed", self, "cells_travelled", 1)
 		
-#		Global.sound_manager.play_sfx("stepping")
-		Global.sound_manager.play_stepping_sfx(current_player_energy_part)
 
 
 func end_move():
@@ -442,7 +455,7 @@ func cock_burst():
 			if ghost_cocking_time > ghost_cocking_time_limit:
 				ghost_cocking_time = 0
 				# prištejem hitrost bursta
-				burst_speed_max += burst_speed_max_addon
+				burst_speed_max += Profiles.game_rules["burst_speed_addon"]
 				# spawnaj cock celico
 				spawn_cock_ghost(cock_direction, cocked_ghosts.size() + 1) # + 1 zato, da se prvi ne spawna direktno nad pixlom
 	
@@ -474,28 +487,27 @@ func spawn_cock_ghost(cocking_direction, cocked_ghosts_count):
 	cocked_ghosts.append(new_cock_ghost)	
 
 
-func release_burst():
+func release_burst(): # delo os release do potiska pleyerjevega pixla
+	
+	burst_is_releasing = true
+	current_state = States.BURSTING
 	
 	Global.sound_manager.play_sfx("burst_cocked")
-	
 	# napeti ghosti animirajo do alfa 1
 	for ghost in cocked_ghosts:
 		var get_set_tween = get_tree().create_tween()
 		get_set_tween.tween_property(ghost, "modulate:a", 1, cocked_ghost_fill_time)
 		yield(get_tree().create_timer(cocked_ghost_fill_time),"timeout")
-	
 	# pavza pred strelom	
 	yield(get_tree().create_timer(cocked_pause_time), "timeout")
-	
 	burst(cocked_ghosts.size())
+	burst_is_releasing = false
 		
 
 func burst(ghosts_count):
 	
 	var burst_direction = direction
-	
 	burst_power = ghosts_count
-		
 	var ray_collider = vision_ray.get_collider() # ! more bit za detect_wall() ... ta ga šele pogreba?
 	var backup_direction = - burst_direction
 
@@ -537,6 +549,28 @@ func burst(ghosts_count):
 	emit_signal("stat_changed", self, "burst_released", burst_power)
 	
 	# zaključek .. tudi signal za pobiranje barv ... v on_collision()
+
+
+func stop_burst():
+	
+	# je vklopljeno?
+	if not Profiles.game_rules["stop_burst_mode"]:
+		return 
+	
+	# če je hitrost večja od ene enote ne rabim overšuta
+	if burst_speed <= Profiles.game_rules["burst_speed_addon"]:
+		end_move()
+		return
+
+	var burst_direction = direction
+	end_move()
+	# spawn and animate
+	var new_overshoot_ghost = spawn_ghost(global_position)
+	new_overshoot_ghost.position = global_position
+	new_overshoot_ghost.modulate.a = 0.8
+	var overshoot_tween = get_tree().create_tween()
+	overshoot_tween.tween_property(new_overshoot_ghost, "position", new_overshoot_ghost.position + burst_direction * cell_size_x, 0.05)
+	overshoot_tween.tween_property(new_overshoot_ghost, "modulate:a", 0, 0.1)
 	
 	
 # SKILLS ______________________________________________________________________________________________________________

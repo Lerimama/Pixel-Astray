@@ -18,20 +18,6 @@ tracks/0/keys = {
 "points": PoolRealArray( 1.2, 0, 0, 0.5, 0, 1, -0.5, 0, 0, 0, 1, 0, 0, 0.5, 0, 1.2, -0.3, 0, 0, 0 ),
 "times": PoolRealArray( 0, 0.9, 0.93, 1.8 )
 }
-tracks/1/type = "method"
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0.35 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "tets"
-} ]
-}
 
 [sub_resource type="Animation" id=133]
 resource_name = "color_burst"
