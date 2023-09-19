@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=2]
+[gd_scene load_steps=80 format=2]
 
 [ext_resource path="res://assets/music/menu_track_secret.wav" type="AudioStream" id=1]
 [ext_resource path="res://assets/sfx/skills/skilled_frcer.wav" type="AudioStream" id=2]
@@ -43,6 +43,7 @@
 [ext_resource path="res://assets/music/menu_track_WarmUpShort.wav" type="AudioStream" id=41]
 [ext_resource path="res://assets/music/track_upbeat.wav" type="AudioStream" id=42]
 [ext_resource path="res://assets/music/moose.mp3" type="AudioStream" id=43]
+[ext_resource path="res://assets/sfx/burst/burs_stop_phaser.wav" type="AudioStream" id=44]
 [ext_resource path="res://assets/sfx/skills/skilled_tickle.wav" type="AudioStream" id=45]
 [ext_resource path="res://assets/sfx/burst/burst_laser_NFF-laser-gun.wav" type="AudioStream" id=47]
 [ext_resource path="res://assets/sfx/skills/teleport_in_v2.wav" type="AudioStream" id=48]
@@ -224,6 +225,11 @@ stream = SubResource( 31 )
 volume_db = -30.0
 pitch_scale = 0.8
 
+[node name="BurstStop" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Burst"]
+stream = ExtResource( 44 )
+volume_db = 2.0
+pitch_scale = 0.9
+
 [node name="Burst" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Burst"]
 stream = SubResource( 24 )
 volume_db = -15.0
@@ -293,15 +299,11 @@ pitch_scale = 0.7
 
 [node name="PushStoneSlide" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
 stream = ExtResource( 60 )
-volume_db = -10.0
+volume_db = -20.0
 
 [node name="PullStoneSlide" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
 stream = ExtResource( 9 )
 volume_db = -10.0
-
-[node name="SkilledCrystal" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
-stream = SubResource( 33 )
-volume_db = -25.0
 
 [node name="SkilledStatic" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
 stream = ExtResource( 2 )
@@ -427,5 +429,9 @@ pitch_scale = 1.1
 stream = ExtResource( 5 )
 volume_db = -20.0
 pitch_scale = 1.1
+
+[node name="SkilledCrystal" type="AudioStreamPlayer" parent="SoundManager/rezerva"]
+stream = SubResource( 33 )
+volume_db = -25.0
 
 [connection signal="finished" from="SoundManager/GameSfx/Skills/TeleportIn" to="SoundManager" method="_on_TeleportStart_finished"]

@@ -1,0 +1,17 @@
+[gd_resource type="Animation" format=2]
+
+[resource]
+resource_name = "stil_alive"
+length = 2.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.324479, 0.464183, 0.532472, 0.750925, 0.824842, 0.949468, 1.01382, 1.09509, 1.13858, 1.21382, 1.27792, 1.32604, 1.439, 1.54235, 1.58225, 1.66352, 1.73553, 1.8067, 1.90326, 2.50326 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0812916, 0.0, 0.1, 0.0, 0.0, 0.15, 0.0, 0.15, 0.1, 0.0, 0.25, 0.0, 0.15, 0.2, 0.0, 0.15, 0.1, 0.0, 0.2, 0.25, 0.0 ]
+}

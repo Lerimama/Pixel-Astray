@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://game/pixel/floating_points.gd" type="Script" id=1]
+[ext_resource path="res://game/hud/floating_points.gd" type="Script" id=1]
 [ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=2]
 
 [sub_resource type="Animation" id=139]

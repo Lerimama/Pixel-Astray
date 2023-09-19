@@ -66,7 +66,7 @@ var game_rules: Dictionary = { # tole ne uporabljam v zadnji varianti
 	"deathmode_on": true, # na hud_game_timer.gd
 	"last_breath_mode": true, # na player.gd
 	"minimap_on": false, # na game.gd
-	"game_intro_on": false, # na GM
+	"game_intro_on": true, # na GM
 	"game_countdown_on": false, # na game_countdown.gd
 	"energy_speed_mode": true, # na GM _on_stat_change, player.gd
 	"energy_alpha_mode": true, # na hud_game_timer.gd
@@ -88,6 +88,7 @@ var game_rules: Dictionary = { # tole ne uporabljam v zadnji varianti
 	"skilled_energy_drain_on": true,
 	"burst_speed_addon": 12, # dodatek hitrosti na cock_ghost
 	"stop_burst_mode": true,
+	"randomize_stray_spawning": false,
 }
 
 

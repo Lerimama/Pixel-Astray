@@ -103,10 +103,6 @@ func detect_collision_in_direction(ray, direction_to_check):
 		var ray_collider = ray.get_collider()
 		return ray_collider
 		
-
-
-	
-
 #func get_random_member_index(group_of_elements, offset):
 #
 #		var random_range = group_of_elements.size()

@@ -99,7 +99,7 @@ func writing_stats():
 	if not highscore_broken:
 		highscore_label.text = "HS %04d" % game_stats_on_hud["highscore"]
 	else:
-		highscore_label.text = "HIGHSCORE %04d" % player_stats_on_hud["player_points"]
+		highscore_label.text = "HS %04d" % player_stats_on_hud["player_points"]
 		
 		
 func checking_highscore():

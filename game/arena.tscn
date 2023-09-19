@@ -422,9 +422,8 @@ color = Color( 0.156863, 0.145098, 0, 1 )
 environment = ExtResource( 8 )
 
 [node name="Actor" parent="." instance=ExtResource( 5 )]
-modulate = Color( 0.621176, 1, 0.797647, 0.5 )
+modulate = Color( 1, 1, 1, 1.04957 )
 position = Vector2( 432, 912 )
-actor_in_motion = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 3 )

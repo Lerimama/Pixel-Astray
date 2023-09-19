@@ -88,7 +88,9 @@ func play_sfx(effect_for: String):
 			if $GameSfx/Burst/BurstCocking.is_playing():
 				return
 			$GameSfx/Burst/BurstCocking.play()	
-							
+		"burst_stop":
+			$GameSfx/Burst/BurstStop.play()
+			
 		# skills
 		"pull":
 			$GameSfx/Skills/PushPull.play()

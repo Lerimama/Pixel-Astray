@@ -1,8 +1,7 @@
 extends KinematicBody2D
 
 
-signal stat_changed (stat_owner, stat, stat_change)
-
+signal stat_changed (stat_owner, event, stat_change)
 
 enum States {IDLE, STEPPING, SKILLING, COCKING, BURSTING}
 var current_state # = States.IDLE
@@ -104,9 +103,10 @@ func _ready() -> void:
 	animation_player.play("stil_alive_poly")
 	current_state = States.IDLE
 	
+	
 func tets():
+	# poly_pixel.modulate.a = 0.5
 	print("dsddddddddddddddddddddddddddddddddddddddddddddddddsddddddddddddddddddddddddddddddddddddddddddddddd")	
-#	poly_pixel.modulate.a = 0.5
 	
 	
 func _physics_process(delta: float) -> void:
@@ -145,15 +145,15 @@ func _physics_process(delta: float) -> void:
 	if Global.detect_collision_in_direction(vision_ray, direction): # more bit neodvisno od stateta, da pull dela
 		skill_inputs()
 	
-	stat_machine()
+	state_machine()
 	
 	
-func stat_machine():
+func state_machine():
+	
 	match current_state:
 		
 		States.IDLE:
-			
-			# skilled
+			# skilled?
 			if Global.detect_collision_in_direction(vision_ray, direction) and player_energy > 1: # koda je tukaj, da ne blinkne ob kontaktu s sosedo
 				animation_player.stop() # stop dihanje
 				modulate.a = skilled_alpha # resetiraš na skill ready stanje
@@ -166,7 +166,6 @@ func stat_machine():
 				if skill_sfx_playing: # to je zato da FP ne klie na vsak frejm
 					Global.sound_manager.stop_sfx("skilled")
 					skill_sfx_playing = false
-				
 			# toggle energy_speed mode
 			if Profiles.game_rules["energy_speed_mode"]:
 				var slow_trim_size: float = max_step_time * max_player_energy
@@ -176,23 +175,26 @@ func stat_machine():
 				step_time = clamp(energy_step_time, min_step_time, max_step_time)
 			else:
 				step_time = min_step_time
-					
 			idle_inputs()
 							
 		States.STEPPING:
 			animation_player.stop() # stop dihanje
+		
 		States.SKILLING: # stanje ko se skill izvaja
 			animation_player.stop() # stop dihanje
 			modulate.a = skilled_alpha
+		
 		States.COCKING: 
 			animation_player.stop() # stop dihanje
 			cocking_inputs()
+		
 		States.BURSTING: # se prižge na štartu releasa bursta
 			var velocity = direction * burst_speed
 			collision = move_and_collide(velocity) 
 			if collision:
 				on_collision()
 			bursting_inputs()
+	
 	
 func on_collision(): 
 	
@@ -321,13 +323,10 @@ func cocking_inputs():
 			end_move()
 
 
-
 func bursting_inputs():
 
 	if Input.is_action_just_pressed("space") and not burst_is_releasing:
 		stop_burst()
-#		end_move()
-
 
 	
 func skill_inputs():
@@ -364,7 +363,6 @@ func skill_inputs():
 
 
 func die(die_reason: String):
-	print("mru")
 	end_move()
 	
 	match die_reason:
@@ -379,7 +377,6 @@ func die(die_reason: String):
 	Global.main_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
 	
 	set_physics_process(false) # aktivira ga revive(), ki se sproži iz animacije
-	# animation_player.play("die_player")
 	animation_player.play("die_player_unique")
 
 
@@ -388,7 +385,8 @@ func revive():
 	animation_player.play("revive") # kvefrija se v animaciji
 
 		
-func play_blinking_sound():
+func play_blinking_sound(): 
+	# more bit metoda, da jo lahko kličem iz animacije
 	Global.sound_manager.play_sfx("blinking")
 
 	
@@ -414,7 +412,6 @@ func step():
 		# pošljem signal, da odštejem točko
 		emit_signal("stat_changed", self, "cells_travelled", 1)
 		
-
 
 func end_move():
 	
@@ -458,33 +455,6 @@ func cock_burst():
 				burst_speed_max += Profiles.game_rules["burst_speed_addon"]
 				# spawnaj cock celico
 				spawn_cock_ghost(cock_direction, cocked_ghosts.size() + 1) # + 1 zato, da se prvi ne spawna direktno nad pixlom
-	
-	
-func spawn_cock_ghost(cocking_direction, cocked_ghosts_count):
-	
-	# spawn ghosta pod manom
-	var new_cock_ghost = spawn_ghost(global_position + cocking_direction * cell_size_x * cocked_ghosts_count)
-	new_cock_ghost.global_position -= cocking_direction * cell_size_x/2
-	new_cock_ghost.modulate.a = cocked_ghost_alpha - (cocked_ghosts_count / cocked_ghost_alpha_factor)
-	new_cock_ghost.direction = cocking_direction
-	
-	# v kateri smeri je scale
-	if direction.y == 0: # smer horiz
-		new_cock_ghost.scale.x = 0
-	elif direction.x == 0: # smer ver
-		new_cock_ghost.scale.y = 0
-
-	# animiram cell animacijo
-	var cock_cell_tween = get_tree().create_tween()
-	cock_cell_tween.tween_property(new_cock_ghost, "scale", Vector2.ONE, ghost_cocking_time_limit).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	cock_cell_tween.parallel().tween_property(new_cock_ghost, "position", global_position + cocking_direction * cell_size_x * cocked_ghosts_count, ghost_cocking_time_limit).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	
-	# ray detect velikost je velikost napenjanja
-	new_cock_ghost.ghost_ray.cast_to = direction * cell_size_x
-	new_cock_ghost.connect("ghost_detected_body", self, "_on_ghost_detected_body")
-	
-	# dodam celico v array celic tega zaleta
-	cocked_ghosts.append(new_cock_ghost)	
 
 
 func release_burst(): # delo os release do potiska pleyerjevega pixla
@@ -556,21 +526,20 @@ func stop_burst():
 	# je vklopljeno?
 	if not Profiles.game_rules["stop_burst_mode"]:
 		return 
-	
+	Global.sound_manager.play_sfx("burst_stop")
 	# če je hitrost večja od ene enote ne rabim overšuta
 	if burst_speed <= Profiles.game_rules["burst_speed_addon"]:
 		end_move()
-		return
-
-	var burst_direction = direction
-	end_move()
-	# spawn and animate
-	var new_overshoot_ghost = spawn_ghost(global_position)
-	new_overshoot_ghost.position = global_position
-	new_overshoot_ghost.modulate.a = 0.8
-	var overshoot_tween = get_tree().create_tween()
-	overshoot_tween.tween_property(new_overshoot_ghost, "position", new_overshoot_ghost.position + burst_direction * cell_size_x, 0.05)
-	overshoot_tween.tween_property(new_overshoot_ghost, "modulate:a", 0, 0.1)
+	else:
+		var burst_direction = direction # smer moram pobrat pred "end_move"
+		end_move()
+		# spawn and animate
+		var new_overshoot_ghost = spawn_ghost(global_position)
+		new_overshoot_ghost.position = global_position
+		new_overshoot_ghost.modulate.a = 0.8
+		var overshoot_tween = get_tree().create_tween()
+		overshoot_tween.tween_property(new_overshoot_ghost, "position", new_overshoot_ghost.position + burst_direction * cell_size_x, 0.05)
+		overshoot_tween.tween_property(new_overshoot_ghost, "modulate:a", 0, 0.1)
 	
 	
 # SKILLS ______________________________________________________________________________________________________________
@@ -591,8 +560,9 @@ func push():
 	
 	current_state = States.SKILLING
 		
-	# spawn ghosta pod mano
-	var new_push_ghost = spawn_ghost(global_position + push_direction * cell_size_x)
+	# spawn ghosta pod pixlom
+	var new_push_ghost_position = global_position + push_direction * cell_size_x
+	var new_push_ghost = spawn_ghost(new_push_ghost_position)
 	new_push_ghost.modulate.a = modulate.a
 	
 	if ray_collider.is_in_group(Global.group_strays):
@@ -618,6 +588,7 @@ func push():
 			push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost.global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 			# spustim
 			push_tween.tween_property(self, "position", global_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
+			# push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
 			push_tween.tween_callback(Global.sound_manager, "play_sfx", ["pushed"])
 			push_tween.tween_property(ray_collider, "position", ray_collider.global_position + push_direction * cell_size_x * push_cell_count, 0.08).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(0.05)
 			push_tween.tween_callback(self, "end_move")
@@ -706,7 +677,34 @@ func spawn_collision_particles():
 		Vector2.RIGHT:new_collision_pixels.rotate(deg2rad(0))
 	Global.node_creation_parent.add_child(new_collision_pixels)
 	
+
+func spawn_cock_ghost(cocking_direction, cocked_ghosts_count):
 	
+	# spawn ghosta pod manom
+	var new_cock_ghost = spawn_ghost(global_position + cocking_direction * cell_size_x * cocked_ghosts_count)
+	new_cock_ghost.global_position -= cocking_direction * cell_size_x/2
+	new_cock_ghost.poly_pixel.modulate.a  = cocked_ghost_alpha - (cocked_ghosts_count / cocked_ghost_alpha_factor)
+	new_cock_ghost.direction = cocking_direction
+	
+	# v kateri smeri je scale
+	if direction.y == 0: # smer horiz
+		new_cock_ghost.scale.x = 0
+	elif direction.x == 0: # smer ver
+		new_cock_ghost.scale.y = 0
+
+	# animiram cell animacijo
+	var cock_cell_tween = get_tree().create_tween()
+	cock_cell_tween.tween_property(new_cock_ghost, "scale", Vector2.ONE, ghost_cocking_time_limit).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	cock_cell_tween.parallel().tween_property(new_cock_ghost, "position", global_position + cocking_direction * cell_size_x * cocked_ghosts_count, ghost_cocking_time_limit).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	
+	# ray detect velikost je velikost napenjanja
+	new_cock_ghost.ghost_ray.cast_to = direction * cell_size_x
+	new_cock_ghost.connect("ghost_detected_body", self, "_on_ghost_detected_body")
+	
+	# dodam celico v array celic tega zaleta
+	cocked_ghosts.append(new_cock_ghost)	
+
+
 func spawn_trail_ghost():
 	
 	var trail_alpha: float = 0.2

@@ -9,13 +9,14 @@ export (float, 0, 1) var die_shake_decay: float = 0.3
 
 var pixel_color: Color
 var neighbouring_cells: Array = [] # stray stalno čekira sosede
-#var stray_in_row: int = 1 # def = 1, če ima sosede se duplicira
-#var stray_die_value: int = 1 # def = 1, če ima sosede se duplicira
 
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var vision_ray: RayCast2D = $VisionRay
 
 
+func test():
+	print("juhej")
+	
 func _ready() -> void:
 	
 	Global.print_id(self)
@@ -26,19 +27,14 @@ func _ready() -> void:
 	modulate.a = 0
 	
 	global_position = Global.snap_to_nearest_grid(global_position)
-	
-	#fade_in() ... kliče se iz GM
 
 
-func fade_in():
+func fade_in(): # kliče GM
 	
 	# žrebam animacijo
 	var random_animation_index = randi() % 3 + 1
 	var random_animation_name: String = "glitch_%s" % random_animation_index
 	animation_player.play(random_animation_name) 
-#	printt("ja?", random_animation_name)
-	
-#	Global.sound_manager.play_sfx("blinking")
 	
 
 func _physics_process(delta: float) -> void:
@@ -59,8 +55,6 @@ func die(stray_in_row):
 	
 	# KVEFRI je v animaciji
 
-func test():
-	print("juhej")
 	
 func play_blinking_sound():
 	Global.sound_manager.play_sfx("blinking")
@@ -69,6 +63,8 @@ func play_blinking_sound():
 func check_for_neighbours(): 
 	
 	var directions_to_check: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
+
+# warning-ignore:unassigned_variable
 	var current_cell_neighbours: Array
 	
 	for dir in directions_to_check:

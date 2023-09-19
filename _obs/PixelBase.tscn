@@ -427,7 +427,7 @@ tracks/2/keys = {
 "values": [ 0.0, 0.5, 0.0, 0.4, 0.45, 1.0, 0.5, 1.0, 0.0, 1.0, 0.35, 0.75, 1.0 ]
 }
 
-[sub_resource type="Animation" id=134]
+[sub_resource type="Animation" id=139]
 resource_name = "stil_alive"
 length = 2.5
 tracks/0/type = "value"
@@ -444,7 +444,7 @@ tracks/0/keys = {
 }
 
 [node name="Pixel" type="KinematicBody2D"]
-modulate = Color( 1, 1, 1, 1.2 )
+modulate = Color( 1, 1, 1, 1.0337 )
 
 [node name="PolyPixel" type="Polygon2D" parent="."]
 position = Vector2( -16, -16 )
@@ -473,4 +473,4 @@ anims/glitch_1 = SubResource( 118 )
 anims/glitch_2 = SubResource( 119 )
 anims/glitch_3 = SubResource( 120 )
 anims/revive = SubResource( 124 )
-anims/stil_alive = SubResource( 134 )
+anims/stil_alive = SubResource( 139 )

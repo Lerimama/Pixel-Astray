@@ -35,7 +35,7 @@ onready var spectrum_rect: TextureRect = $Spectrum
 onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
 onready var actor_pixel: KinematicBody2D = $"../Actor"
 
-onready var FloatingPoints = preload("res://game/pixel/floating_points.tscn")
+onready var FloatingTag = preload("res://game/hud/floating_tag.tscn")
 onready var StrayPixel = preload("res://game/pixel/stray.tscn")
 onready var PlayerPixel = preload("res://game/pixel/player.tscn")
 
@@ -60,7 +60,10 @@ func _unhandled_input(event: InputEvent) -> void:
 func _ready() -> void:
 	
 	Global.game_manager = self	
-	randomize()
+	
+	if game_rules["randomize_stray_spawning"]:
+		print("rand")
+		randomize()
 	
 	# štartej igro
 	yield(get_tree().create_timer(0.1), "timeout") # blink igre, da se ziher vse naloži
@@ -94,7 +97,7 @@ func skip_intro():
 	animation_player.stop()
 	
 	# actor KVEFRI ... preverjam, če skipnem še predno je naložen  
-	if get_parent().get_children().has(actor_pixel): # precej šepav način
+	if is_instance_valid(actor_pixel):
 		actor_pixel.actor_in_motion = false
 		actor_pixel.queue_free()
 		
@@ -156,7 +159,7 @@ func set_game():
 			player.set_physics_process(false)
 	
 	# actor KVEFRI, če intro ni bil skipan  
-	if get_parent().get_children().has($"../Actor"): # precej šepav način
+	if is_instance_valid(actor_pixel):
 		actor_pixel.queue_free()
 	
 	strays_spawn_loop = 0
@@ -240,7 +243,7 @@ func spawn_player():
 	var new_player_pixel = PlayerPixel.instance()
 	new_player_pixel.name = "P%s" % str(spawned_player_index)
 	new_player_pixel.pixel_color = Global.color_white
-	new_player_pixel.global_position = spawn_position # + grid_cell_size/2 ... ne rabim snepat ker se v pixlu na redi funkciji
+	new_player_pixel.global_position = spawn_position # ... ne rabim snepat ker se v pixlu na redi funkciji
 	new_player_pixel.visible = false
 	Global.node_creation_parent.add_child(new_player_pixel)
 	
@@ -311,13 +314,13 @@ func spawn_tag_popup(position: Vector2, value): # kliče ga GM
 	
 	var cell_size_x: float = Global.level_tilemap.cell_size.x
 	
-	var new_floating_points = FloatingPoints.instance()
-	new_floating_points.z_index = 2
-	new_floating_points.global_position = position - Vector2 (cell_size_x/2, cell_size_x + cell_size_x/2)
+	var new_floating_tag = FloatingTag.instance()
+	new_floating_tag.z_index = 2
+	new_floating_tag.global_position = position - Vector2 (cell_size_x/2, cell_size_x + cell_size_x/2)
 	if value < 0:
-		new_floating_points.modulate = Global.color_red
-	Global.node_creation_parent.add_child(new_floating_points)
-	new_floating_points.label.text = str(value)
+		new_floating_tag.modulate = Global.color_red
+	Global.node_creation_parent.add_child(new_floating_tag)
+	new_floating_tag.label.text = str(value)
 
 	
 # SIGNALI ----------------------------------------------------------------------------------

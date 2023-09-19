@@ -1,10 +1,14 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://game/pixel/stray.gd" type="Script" id=1]
-[ext_resource path="res://game/pixel/PixelBase.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/resources/zbrisane_zazih.../pixelglitch_1.tres" type="Animation" id=2]
+[ext_resource path="res://assets/resources/zbrisane_zazih.../pixelglitch_2.tres" type="Animation" id=3]
+[ext_resource path="res://assets/resources/zbrisane_zazih.../pixelglitch_3.tres" type="Animation" id=4]
 
-[sub_resource type="Animation" id=133]
-resource_name = "die_stray_1"
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 16, 16 )
+
+[sub_resource type="Animation" id=138]
 length = 1.5
 step = 0.02
 tracks/0/type = "value"
@@ -440,12 +444,29 @@ tracks/3/keys = {
 } ]
 }
 
-[node name="StrayPixel" instance=ExtResource( 2 )]
+[node name="Stray" type="KinematicBody2D"]
+modulate = Color( 1, 1, 1, 0.232156 )
 script = ExtResource( 1 )
 
-[node name="AnimationPlayer" parent="." index="3"]
-anims/die_stray_1 = SubResource( 133 )
+[node name="PolyPixel" type="Polygon2D" parent="."]
+position = Vector2( -16, -16 )
+polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+scale = Vector2( 0.9, 0.9 )
+shape = SubResource( 1 )
+
+[node name="VisionRay" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 32, 0 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/die_stray_1 = SubResource( 138 )
 anims/die_stray_2 = SubResource( 134 )
 anims/die_stray_3 = SubResource( 135 )
 anims/die_stray_4 = SubResource( 136 )
 anims/die_stray_5 = SubResource( 137 )
+anims/glitch_1 = ExtResource( 2 )
+anims/glitch_2 = ExtResource( 3 )
+anims/glitch_3 = ExtResource( 4 )
