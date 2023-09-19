@@ -8,23 +8,19 @@ var current_screen = Screens.MAIN_MENU
 
 
 func _input(event: InputEvent) -> void:
-#func _unhandled_input(event: InputEvent) -> void:
 
-	if event is InputEventKey:
-#		if event.pressed and event.scancode == KEY_ESCAPE:
-		if Input.is_action_just_pressed("ui_cancel"):
-				
-			match current_screen:
-				Screens.MAIN_MENU:
-					 pass
-				Screens.SELECT_GAME:
-					_on_SelectGameBackBtn_pressed()
-				Screens.ABOUT:
-					_on_AboutBackBtn_pressed()
-				Screens.SETTINGS:
-					_on_SettingsBackBtn_pressed()
-				Screens.CREDITS:
-					_on_CreditsBackBtn_pressed()
+	if Input.is_action_just_pressed("ui_cancel"):
+		match current_screen:
+			Screens.MAIN_MENU:
+				 pass
+			Screens.SELECT_GAME:
+				_on_SelectGameBackBtn_pressed()
+			Screens.ABOUT:
+				_on_AboutBackBtn_pressed()
+			Screens.SETTINGS:
+				_on_SettingsBackBtn_pressed()
+			Screens.CREDITS:
+				_on_CreditsBackBtn_pressed()
 	
 	if current_screen == Screens.MAIN_MENU:
 		if Input.is_action_just_pressed("ui_left"):

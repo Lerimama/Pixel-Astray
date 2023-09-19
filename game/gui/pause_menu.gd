@@ -7,7 +7,6 @@ var pause_on: bool = false # samo za esc
 # focus btn
 onready var play_btn: Button = $Menu/PlayBtn
 
-
 func _input(event: InputEvent) -> void:
 	if Global.game_manager.game_on:
 		if Input.is_action_just_pressed("ui_cancel"):

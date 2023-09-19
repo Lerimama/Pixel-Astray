@@ -34,11 +34,9 @@ onready var name_input: LineEdit = $NameInputPopup/NameInput
 func _input(event: InputEvent) -> void:
 	
 	if name_input_popup.visible == true:
-		if event is InputEventKey:
-#			if event.pressed and event.scancode == KEY_ESCAPE:
-			if Input.is_action_just_pressed("ui_cancel"):
-				_on_CancelBtn_pressed()
-				accept_event()
+		if Input.is_action_just_pressed("ui_cancel"):
+			_on_CancelBtn_pressed()
+			accept_event()
 	
 	# change focus sounds
 	if content.modulate.a == 1:
@@ -253,6 +251,6 @@ func _on_RestartBtn_pressed() -> void:
 
 func _on_QuitBtn_pressed() -> void:
 	
-	Global.sound_manager.stop_("btn_cancel")
+	Global.sound_manager.play_sfx("btn_cancel")
 	unpause_tree()
 	Global.main_node.game_out()

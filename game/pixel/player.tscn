@@ -103,32 +103,20 @@ tracks/0/path = NodePath(".:modulate:a")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = false
+tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.32, 0.464183, 0.532472, 0.750925, 0.824842, 0.96, 1.01382, 1.09509, 1.13858, 1.22, 1.27792, 1.32604, 1.439, 1.54235, 1.58225, 1.66352, 1.73553, 1.8067, 1.92, 2.50326 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 0.0812916, 0.0, 0.1, 0.0, 0.0, 0.15, 0.0, 0.15, 0.1, 0.0, 0.25, 0.0, 0.15, 0.2, 0.0, 0.15, 0.1, 0.0, 0.2, 0.25, 0.0 ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath("PolyPixel:modulate:a")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.32, 0.46, 0.54, 0.76, 0.82, 0.96, 1.02, 1.1, 1.14, 1.22, 1.28, 1.32, 1.44, 1.54, 1.6, 1.66, 1.74, 1.84, 1.94, 2.5 ),
-"transitions": PoolRealArray( 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5 ),
-"update": 0,
-"values": [ 1.0, 0.0, 0.1, 0.0, 0.0, 0.15, 0.0, 0.15, 0.1, 0.0, 0.25, 0.0, 0.15, 0.2, 0.0, 0.15, 0.1, 0.0, 0.2, 0.25, 0.3 ]
-}
 
 [node name="Player" type="KinematicBody2D"]
-modulate = Color( 1, 1, 1, 1.0337 )
+modulate = Color( 1, 1, 1, 1.2 )
 script = ExtResource( 2 )
 
 [node name="PolyPixel" type="Polygon2D" parent="."]
-modulate = Color( 1, 1, 1, 0.268047 )
+modulate = Color( 1, 1, 1, 1.2 )
 position = Vector2( -16, -16 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 

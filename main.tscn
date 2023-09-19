@@ -402,35 +402,35 @@ volume_db = -28.0
 stream = ExtResource( 68 )
 volume_db = -23.0
 
-[node name="rezerva" type="Node2D" parent="SoundManager"]
+[node name="_rezerva" type="Node2D" parent="SoundManager"]
 
-[node name="Track7_menu" type="AudioStreamPlayer" parent="SoundManager/rezerva"]
+[node name="Track7_menu" type="AudioStreamPlayer" parent="SoundManager/_rezerva"]
 stream = ExtResource( 1 )
 volume_db = -18.0
 
-[node name="_Track11_4" type="AudioStreamPlayer" parent="SoundManager/rezerva"]
+[node name="_Track11_4" type="AudioStreamPlayer" parent="SoundManager/_rezerva"]
 stream = ExtResource( 69 )
 volume_db = -10.0
 
-[node name="_Track13_4" type="AudioStreamPlayer" parent="SoundManager/rezerva"]
+[node name="_Track13_4" type="AudioStreamPlayer" parent="SoundManager/_rezerva"]
 stream = ExtResource( 15 )
 volume_db = -16.0
 
-[node name="_Track17_4" type="AudioStreamPlayer" parent="SoundManager/rezerva"]
+[node name="_Track17_4" type="AudioStreamPlayer" parent="SoundManager/_rezerva"]
 stream = ExtResource( 70 )
 volume_db = -15.0
 
-[node name="SkillSuccessA" type="AudioStreamPlayer" parent="SoundManager/rezerva"]
+[node name="SkillSuccessA" type="AudioStreamPlayer" parent="SoundManager/_rezerva"]
 stream = ExtResource( 4 )
 volume_db = -20.0
 pitch_scale = 1.1
 
-[node name="SkillSuccessB" type="AudioStreamPlayer" parent="SoundManager/rezerva"]
+[node name="SkillSuccessB" type="AudioStreamPlayer" parent="SoundManager/_rezerva"]
 stream = ExtResource( 5 )
 volume_db = -20.0
 pitch_scale = 1.1
 
-[node name="SkilledCrystal" type="AudioStreamPlayer" parent="SoundManager/rezerva"]
+[node name="SkilledCrystal" type="AudioStreamPlayer" parent="SoundManager/_rezerva"]
 stream = SubResource( 33 )
 volume_db = -25.0
 

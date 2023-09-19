@@ -26,8 +26,8 @@ var ghost_max_speed: float = 10
 var cocked_ghosts: Array
 var cocking_room: bool = true
 var cocked_ghost_count_max: int = 7
-var cocked_ghost_alpha: float = 0.3
-var cocked_ghost_alpha_factor: float = 25
+var cocked_ghost_alpha: float = 0.55 # najnižji alfa za ghoste
+var cocked_ghost_alpha_factor: float = 14 # faktor nižanja po zaporedju (manjši je bolj oster
 var ghost_cocking_time: float = 0 # trenuten čas nastajanja cocking ghosta
 var ghost_cocking_time_limit: float = 0.12 # max čas nastajanja cocking ghosta (tudi animacija)
 var cocked_ghost_fill_time: float = 0.04 # čas za napolnitev vseh spawnanih ghostov (tik pred burstom)
@@ -384,11 +384,6 @@ func revive():
 	modulate.a = 0
 	animation_player.play("revive") # kvefrija se v animaciji
 
-		
-func play_blinking_sound(): 
-	# more bit metoda, da jo lahko kličem iz animacije
-	Global.sound_manager.play_sfx("blinking")
-
 	
 # MOVEMENT ______________________________________________________________________________________________________________
 
@@ -420,6 +415,7 @@ func end_move():
 	burst_direction_set = false
 	burst_speed = 0 # more bit tukaj pred _change state, če ne uničuje tudi sam sebe
 	
+	print("ENERGIJA, ", player_energy , Global.game_manager.player_stats["player_energy"])
 	# reset direction
 	modulate = pixel_color
 	global_position = Global.snap_to_nearest_grid(global_position)
@@ -466,7 +462,7 @@ func release_burst(): # delo os release do potiska pleyerjevega pixla
 	# napeti ghosti animirajo do alfa 1
 	for ghost in cocked_ghosts:
 		var get_set_tween = get_tree().create_tween()
-		get_set_tween.tween_property(ghost, "modulate:a", 1, cocked_ghost_fill_time)
+		get_set_tween.tween_property(ghost.poly_pixel, "modulate:a", 1, cocked_ghost_fill_time)
 		yield(get_tree().create_timer(cocked_ghost_fill_time),"timeout")
 	# pavza pred strelom	
 	yield(get_tree().create_timer(cocked_pause_time), "timeout")
@@ -588,12 +584,13 @@ func push():
 			push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost.global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 			# spustim
 			push_tween.tween_property(self, "position", global_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
-			# push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
+			push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
+			push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
 			push_tween.tween_callback(Global.sound_manager, "play_sfx", ["pushed"])
+			push_tween.parallel().tween_callback(new_push_ghost, "queue_free")
 			push_tween.tween_property(ray_collider, "position", ray_collider.global_position + push_direction * cell_size_x * push_cell_count, 0.08).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(0.05)
 			push_tween.tween_callback(self, "end_move")
 			push_tween.tween_callback(Global.sound_manager, "play_sfx", ["skill_success"])
-			push_tween.parallel().tween_callback(new_push_ghost, "queue_free")
 			
 		# za hud
 		emit_signal("stat_changed", self, "skills_used", 1)
@@ -725,7 +722,10 @@ func spawn_ghost(current_pixel_position):
 	var new_pixel_ghost = Ghost.instance()
 	new_pixel_ghost.global_position = current_pixel_position
 	new_pixel_ghost.modulate = pixel_color
+#	new_pixel_ghost.z_index = z_index - 1
+	
 	Global.node_creation_parent.add_child(new_pixel_ghost)
+	
 	new_pixel_ghost.poly_pixel.modulate.a = poly_pixel.modulate.a
 
 	return new_pixel_ghost
@@ -736,6 +736,11 @@ func random_blink():
 	var random_animation_index = randi() % 3 + 1
 	var random_animation_name: String = "glitch_%s" % random_animation_index
 	return random_animation_name
+
+
+func play_blinking_sound(): 
+	# more bit metoda, da jo lahko kličem iz animacije
+	Global.sound_manager.play_sfx("blinking")
 
 
 # SIGNALI ______________________________________________________________________________________________________________
