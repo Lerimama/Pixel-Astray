@@ -5,15 +5,15 @@ extends Node
 
 
 var default_level_highscores: Dictionary = { # prazen slovar ... uporabi se ob kreiranju fileta ... uporabi ga Glo
-	"1": {"Prvi": 30,},
-	"2": {"Drugi": 20,},
-	"3": {"Tretji": 20,},
-	"4": {"Četrti": 10,},
-	"5": {"Peti": 9,},
-	"6": {"Šesti": 8,},
-	"7": {"Sedmi": 7,},
-	"8": {"Osmi": 6,},
-	"9": {"Deveti": 2,},
+	"01": {"Prvi": 30,},
+	"02": {"Drugi": 20,},
+	"03": {"Tretji": 20,},
+	"04": {"Četrti": 10,},
+	"05": {"Peti": 9,},
+	"06": {"Šesti": 8,},
+	"07": {"Sedmi": 7,},
+	"08": {"Osmi": 6,},
+	"09": {"Deveti": 2,},
 	"10": {"Deseti": 1,},
 }
 
@@ -32,7 +32,7 @@ var default_level_stats : Dictionary = { # na štartu igre se tole duplicira in 
 	"game_time_limit" : 120, # sekund
 	"death_mode_limit" : 20, # sekund
 	"timer_countdown_mode" : true,
-	"stray_pixels_count" : 50,
+	"stray_pixels_count" : 76,
 	"off_pixels_count" : 0,
 	"highscore": 0000, # se naloži iz  "default_level_highscores" lestvice ob štartu igre, zato, da te lahko opozori že med igro
 	"highscore_owner": "NNNNNNNNNN", # se naloži iz  "default_level_highscores" lestvice ob štartu igre, zato, da te lahko opozori že med igro
@@ -50,12 +50,12 @@ var game_rules: Dictionary = { # tole ne uporabljam v zadnji varianti
 	"color_picked_energy": 20, # GM
 	"additional_color_picked_points": 20, # GM
 	"additional_color_picked_energy": 40, # GM
-	"cell_travelled_points": -1, # GM
+	"cell_travelled_points": 0, # GM
 	"cell_travelled_energy": -1, # GM
-	"skill_used_points": -1, # GM ... isto kot stepanje
-	"skill_used_energy": -1, # GM
+	"skill_used_points": 0, # GM ... isto kot stepanje
+	"skill_used_energy": 0, # GM
 	"skilled_energy_drain": -1, # GM
-	"wall_hit_points": -5, # GM
+	"wall_hit_points": 0, # GM
 	"wall_hit_energy": -96, # GM
 	"skilled_energy_drain_speed": 0.1, # GM ... čas med vsakim odvzemom
 	"player_start_energy": 192, # GM

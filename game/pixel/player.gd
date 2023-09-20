@@ -415,7 +415,6 @@ func end_move():
 	burst_direction_set = false
 	burst_speed = 0 # more bit tukaj pred _change state, če ne uničuje tudi sam sebe
 	
-	print("ENERGIJA, ", player_energy , Global.game_manager.player_stats["player_energy"])
 	# reset direction
 	modulate = pixel_color
 	global_position = Global.snap_to_nearest_grid(global_position)

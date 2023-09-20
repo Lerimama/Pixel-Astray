@@ -182,7 +182,7 @@ func set_game():
 
 	
 func start_game():
-	
+	print("s ", strays_in_game.size())
 	Global.sound_manager.play_music("game")
 	game_on = true
 	# aktiviram plejerja in tajmer

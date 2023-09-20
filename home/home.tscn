@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=1]
 [ext_resource path="res://assets/theme/iconset_lerimama_theme.png" type="Texture" id=2]
@@ -39,11 +39,11 @@ points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 
 [sub_resource type="AtlasTexture" id=150]
 atlas = ExtResource( 2 )
-region = Rect2( 28, 48, 20, 20 )
+region = Rect2( 0, 48, 24, 20 )
 
 [sub_resource type="AtlasTexture" id=149]
 atlas = ExtResource( 2 )
-region = Rect2( 28, 68, 20, 20 )
+region = Rect2( 0, 68, 24, 20 )
 
 [sub_resource type="StyleBoxFlat" id=152]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
@@ -64,111 +64,6 @@ border_width_bottom = 4
 border_color = Color( 0.368627, 1, 0.662745, 1 )
 
 [sub_resource type="StyleBoxEmpty" id=151]
-
-[sub_resource type="Animation" id=144]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("Settings:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -848, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("About:rect_position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 0, 720 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("SelectGame:rect_position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 1280, 0 ) ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Credits:rect_position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 0, -600 ) ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("Graphics:position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ) ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("Menu:rect_position")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 296, 574 ) ]
-}
-tracks/6/type = "bezier"
-tracks/6/path = NodePath("Settings:rect_position:x")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"points": PoolRealArray( -672, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/7/type = "bezier"
-tracks/7/path = NodePath("Settings:rect_position:y")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/8/type = "bezier"
-tracks/8/path = NodePath("Credits:rect_position:y")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
-"points": PoolRealArray( -600, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
 
 [sub_resource type="Animation" id=137]
 resource_name = "about"
@@ -289,7 +184,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 2 ),
 "update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, 512 ) ]
+"values": [ Vector2( 0, 0 ), Vector2( 0, 448 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Menu:rect_position")
@@ -301,7 +196,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 2 ),
 "update": 0,
-"values": [ Vector2( 296, 574 ), Vector2( 296, 1086 ) ]
+"values": [ Vector2( 296, 574 ), Vector2( 296, 1022 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("Menu:modulate:a")
@@ -358,7 +253,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"points": PoolRealArray( 0, 0, 0, 0.5, 0, 512, -0.5, 0, 0, 0 ),
+"points": PoolRealArray( 0, 0, 0, 0.5, 0, 448, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0, 1 )
 }
 tracks/7/type = "bezier"
@@ -368,7 +263,7 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"points": PoolRealArray( 574, 0, 0, 0.5, 0, 1086, -0.5, 0, 0, 0 ),
+"points": PoolRealArray( 574, 0, 0, 0.5, 0, 1022, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0, 1 )
 }
 tracks/8/type = "bezier"
@@ -1570,8 +1465,9 @@ script = ExtResource( 3 )
 [node name="SettingsBackBtn" type="TextureButton" parent="Settings"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -20.0
+margin_left = -28.0
 margin_top = 113.0
+margin_right = -4.0
 margin_bottom = 133.0
 rect_min_size = Vector2( 16, 16 )
 texture_normal = SubResource( 150 )
@@ -1658,13 +1554,20 @@ margin_bottom = 380.0
 pressed = true
 text = "Camera shake on"
 
+[node name="StrayCountOptionButton" type="OptionButton" parent="Settings"]
+margin_left = 224.0
+margin_top = 398.0
+margin_right = 272.0
+margin_bottom = 420.0
+text = "00 pixels astrayed in Quick Play"
+
 [node name="Shorts" type="Label" parent="Settings"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -111.0
-margin_top = 422.0
+margin_top = 466.0
 margin_right = 336.0
-margin_bottom = 531.0
+margin_bottom = 575.0
 size_flags_horizontal = 3
 theme = ExtResource( 1 )
 text = "Settings are also available in pause menu. To control sound during game use shortcuts M/L2  to toggle music on/off, and N/L4 for next track."
@@ -1691,7 +1594,6 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/RESET = SubResource( 144 )
 anims/about = SubResource( 137 )
 anims/credits = SubResource( 141 )
 anims/main_out = SubResource( 132 )
@@ -1718,4 +1620,5 @@ anims/settings = SubResource( 140 )
 [connection signal="value_changed" from="Settings/GameMusicSlider" to="Settings" method="_on_MusicHSlider_value_changed"]
 [connection signal="toggled" from="Settings/GameSfxCheckBox" to="Settings" method="_on_GameSfxCheckBox_toggled"]
 [connection signal="toggled" from="Settings/CamerShakeCheckBox" to="Settings" method="_on_CamerShakeCheckBox_toggled"]
+[connection signal="item_selected" from="Settings/StrayCountOptionButton" to="Settings" method="_on_StrayCountOptionButton_item_selected"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

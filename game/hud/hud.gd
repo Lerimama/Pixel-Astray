@@ -11,7 +11,7 @@ var default_hud_color: Color = Color.white
 # spectrum indicators
 var active_color_indicators: Array = []
 onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
-onready var indicator_holder: HBoxContainer = $Footer/ColorSpectrumLite/IndicatorHolder
+onready var indicator_holder: GridContainer = $Footer/ColorSpectrumLite/GridContainer
 
 #header
 onready var header: Control = $Header
@@ -21,20 +21,31 @@ onready var player_points: Label = $Header/HudLine_TL/PointsCounter/Points
 onready var cells_travelled: Label = $Header/HudLine_TL/CellCounter/CellsTravelled
 onready var skills_used: Label = $Header/HudLine_TL/SkillCounter/SkillsUsed
 onready var game_timer: HBoxContainer = $Header/GameTimer
-onready var level: Label = $Header/Level
-onready var highscore_label: Label = $Header/Highscore
-onready var music_label: Label = $Header/MusicLabel
-onready var on_icon: TextureRect = $Header/MusicLabel/OnIcon
-onready var off_icon: TextureRect = $Header/MusicLabel/OffIcon
+#onready var level: Label = $Header/Level
+#onready var highscore_label: Label = $Header/Highscore
+#onready var music_label: Label = $Header/MusicLabel
+#onready var on_icon: TextureRect = $Header/MusicLabel/OnIcon
+#onready var off_icon: TextureRect = $Header/MusicLabel/OffIcon
+onready var level: Label = $Header/HudLine_TR/Level
+onready var highscore_label: Label = $Header/HudLine_TL/Highscore
+onready var music_label: Label = $Header/HudLine_TR/MusicLabel
+onready var on_icon: TextureRect = $Header/HudLine_TR/MusicLabel/OnIcon
+onready var off_icon: TextureRect = $Header/HudLine_TR/MusicLabel/OffIcon
 
 #futer
 onready var footer: Control = $Footer
-onready var picked_color_rect: ColorRect = $Footer/PickedColor/ColorRect
-onready var picked_color_label: Label = $Footer/PickedColor/Value
-onready var pixels_off_counter = $Footer/HudLine_TR/OffedCounter
-onready var pixels_off: Label = $Footer/HudLine_TR/OffedCounter/PixelsOff
-onready var stray_pixels_counter = $Footer/HudLine_TR/StrayCounter
-onready var stray_pixels: Label = $Footer/HudLine_TR/StrayCounter/PixelsStray
+#onready var picked_color_rect: ColorRect = $Footer/PickedColor/ColorRect
+#onready var picked_color_label: Label = $Footer/PickedColor/Value
+#onready var pixels_off_counter = $Footer/HudLine_TR/OffedCounter
+#onready var stray_pixels_counter = $Footer/HudLine_TR/StrayCounter
+#onready var stray_pixels: Label = $Footer/HudLine_TR/StrayCounter/PixelsStray
+#onready var pixels_off: Label = $Footer/HudLine_TR/OffedCounter/PixelsOff
+onready var picked_color_rect: ColorRect = $Header/HudLine_TR/PickedColor/ColorRect
+onready var picked_color_label: Label = $Header/HudLine_TR/PickedColor/Value
+onready var pixels_off: Label = $Header/HudLine_TR/OffedCounter/PixelsOff
+onready var stray_pixels_counter: HBoxContainer = $Header/HudLine_TR/StrayCounter
+onready var stray_pixels: Label = $Header/HudLine_TR/StrayCounter/PixelsStray
+onready var pixels_off_counter: HBoxContainer = $Header/HudLine_TR/OffedCounter
 
 # popups 
 var close_to_highscore_part = 0.85 # procent HS vrednosti
@@ -88,7 +99,7 @@ func writing_stats():
 	skills_used.text = "%04d" % player_stats_on_hud["skills_used"]
 	
 	# game stats
-	level.text = "LEVEL %02d" % game_stats_on_hud["level_no"]
+	level.text = "L%02d" % game_stats_on_hud["level_no"]
 	stray_pixels.text = "%03d" % game_stats_on_hud["stray_pixels_count"]
 	pixels_off.text = "%03d" % game_stats_on_hud["off_pixels_count"]
 	
