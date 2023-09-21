@@ -121,13 +121,17 @@ func _on_RestartBtn_pressed() -> void:
 	pause_on = false
 	unpause_tree()
 	Global.main_node.reload_game()
-
-
+	
+	$Menu/RestartBtn.disabled = true # da ne moreš multiklikat
+	
+	
 func _on_QuitBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("btn_cancel")
 	pause_on = false
 	unpause_tree()
 	Global.main_node.game_out()
+	
+	$Menu/QuitBtn.disabled = true # da ne moreš multiklikat
 
 
 # SETTINGS BTNZ ---------------------------------------------------------------------------------------------

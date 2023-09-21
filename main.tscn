@@ -227,8 +227,7 @@ pitch_scale = 0.8
 
 [node name="BurstStop" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Burst"]
 stream = ExtResource( 44 )
-volume_db = 2.0
-pitch_scale = 0.9
+volume_db = 5.0
 
 [node name="Burst" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Burst"]
 stream = SubResource( 24 )
@@ -256,10 +255,11 @@ volume_db = -25.0
 
 [node name="Win" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Events"]
 stream = ExtResource( 38 )
-volume_db = -12.0
+volume_db = -20.0
 
 [node name="Loose" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Events"]
 stream = ExtResource( 57 )
+volume_db = -10.0
 
 [node name="CoundownA" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Events"]
 stream = ExtResource( 22 )

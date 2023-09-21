@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://game/hud/hud_game_timer.gd" type="Script" id=1]
 [ext_resource path="res://game/hud/hud.gd" type="Script" id=2]
@@ -19,8 +19,10 @@
 [ext_resource path="res://game/arena.tscn" type="PackedScene" id=17]
 [ext_resource path="res://assets/resources/graphics_tileset.tres" type="TileSet" id=18]
 [ext_resource path="res://assets/theme/fonts/16bfZX.ttf" type="DynamicFontData" id=19]
+[ext_resource path="res://assets/resources/arena_environment.tres" type="Environment" id=20]
 
 [sub_resource type="World" id=117]
+environment = ExtResource( 20 )
 
 [sub_resource type="NoiseTexture" id=1]
 width = 246
@@ -668,23 +670,23 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="SkipLabel" type="Label" parent="GUI"]
+[node name="SkipIntroLabel" type="Label" parent="GUI"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -157.0
+margin_left = -112.0
 margin_top = 94.0
-margin_right = 157.0
+margin_right = 112.0
 margin_bottom = 116.0
 size_flags_horizontal = 4
-text = "ESC/Stop to skip intro"
+text = "ESC to skip intro"
 align = 1
-valign = 1
 
 [node name="Hud" type="Control" parent="GUI"]
 rect_min_size = Vector2( 1280, 720 )
 script = ExtResource( 2 )
 
 [node name="Energy" type="Label" parent="GUI/Hud"]
+visible = false
 margin_left = 128.0
 margin_top = 69.0
 margin_right = 221.0
@@ -1253,43 +1255,94 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="HSClose" type="Label" parent="GUI/Hud/Popups"]
+[node name="EnergyWarning" type="Control" parent="GUI/Hud/Popups"]
 visible = false
+modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -188.0
-margin_top = 95.0
-margin_right = 188.0
-margin_bottom = 116.0
+margin_left = -216.0
+margin_top = 94.0
+margin_right = 216.0
+margin_bottom = 160.0
+
+[node name="Panel" type="Panel" parent="GUI/Hud/Popups/EnergyWarning"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Warning" type="Label" parent="GUI/Hud/Popups/EnergyWarning"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -74.0
 size_flags_horizontal = 4
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "Si čisto blizu rekordu. Še mal ..."
+text = "WARNING!"
 align = 1
-valign = 1
+
+[node name="StepsRemainingHLine" type="HBoxContainer" parent="GUI/Hud/Popups/EnergyWarning"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -212.0
+margin_right = 212.0
+margin_bottom = 22.0
+grow_horizontal = 2
+custom_constants/separation = 9
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Only 1" type="Label" parent="GUI/Hud/Popups/EnergyWarning/StepsRemainingHLine"]
+margin_right = 302.0
+margin_bottom = 22.0
+size_flags_horizontal = 4
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "You have energy only for"
+
+[node name="StepsRemainingCounter" type="Label" parent="GUI/Hud/Popups/EnergyWarning/StepsRemainingHLine"]
+margin_left = 311.0
+margin_right = 339.0
+margin_bottom = 22.0
+size_flags_horizontal = 4
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "00"
+align = 1
+
+[node name="Only 2" type="Label" parent="GUI/Hud/Popups/EnergyWarning/StepsRemainingHLine"]
+margin_left = 348.0
+margin_right = 420.0
+margin_bottom = 22.0
+size_flags_horizontal = 4
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "steps."
 
 [node name="HSBroken" type="Control" parent="GUI/Hud/Popups"]
 visible = false
+modulate = Color( 0.368627, 1, 0.662745, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -144.0
-margin_top = 88.0
-margin_right = 144.0
-margin_bottom = 184.0
+margin_left = -168.0
+margin_top = 94.0
+margin_right = 168.0
+margin_bottom = 117.0
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Panel" type="Panel" parent="GUI/Hud/Popups/HSBroken"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Label" type="Label" parent="GUI/Hud/Popups/HSBroken"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -166.0
+margin_right = 166.0
+margin_bottom = 22.0
 size_flags_horizontal = 4
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "BRAVISIMO!!! 
-Podrl si rekord!!!"
+text = "BRAVISIMO!!! Podrl si rekord!"
 align = 1
 valign = 1
 
@@ -1433,12 +1486,7 @@ max_value = 10.0
 step = 5.0
 rounded = true
 
-[node name="_shapeadon" type="Polygon2D" parent="GUI/PauseMenu/Settings/GameMusicSlider"]
-position = Vector2( -234, -9 )
-color = Color( 0.494118, 0.517647, 0.545098, 1 )
-polygon = PoolVector2Array( 234, 14, 234, 20, 236, 20, 236, 14 )
-
-[node name="Polygon2D3" type="Polygon2D" parent="GUI/PauseMenu/Settings/GameMusicSlider"]
+[node name="Tick" type="Polygon2D" parent="GUI/PauseMenu/Settings/GameMusicSlider"]
 show_behind_parent = true
 position = Vector2( -14, 9 )
 color = Color( 0.494118, 0.517647, 0.545098, 1 )
@@ -1693,7 +1741,6 @@ autowrap = true
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
-visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
 script = ExtResource( 3 )
@@ -1708,6 +1755,7 @@ anchor_bottom = 1.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="Title" type="Control" parent="GUI/GameOver"]
+visible = false
 modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -1782,25 +1830,25 @@ align = 1
 
 [node name="Text" type="Label" parent="GUI/GameOver/Content"]
 margin_left = 320.0
-margin_top = 158.0
+margin_top = 182.0
 margin_right = 640.0
-margin_bottom = 303.0
+margin_bottom = 327.0
 text = "Each pixel represents and specific color become intensity, and together create the images."
 autowrap = true
 
 [node name="Title2" type="Label" parent="GUI/GameOver/Content"]
 margin_left = 320.0
-margin_top = 318.0
+margin_top = 326.0
 margin_right = 526.0
-margin_bottom = 340.0
+margin_bottom = 348.0
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "YOUR GAME STATS"
 
 [node name="DataContainer" type="VBoxContainer" parent="GUI/GameOver/Content"]
 margin_left = 320.0
-margin_top = 358.0
+margin_top = 366.0
 margin_right = 576.0
-margin_bottom = 540.0
+margin_bottom = 548.0
 custom_constants/separation = 10
 __meta__ = {
 "_edit_group_": true
@@ -1877,17 +1925,23 @@ __meta__ = {
 
 [node name="Title3" type="Label" parent="GUI/GameOver/Content"]
 margin_left = 704.0
-margin_top = 158.0
-margin_right = 940.0
-margin_bottom = 180.0
+margin_top = 182.0
+margin_right = 960.0
+margin_bottom = 204.0
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "BEST 10  PIXELS EVER"
 
+[node name="HSeparator" type="HSeparator" parent="GUI/GameOver/Content/Title3"]
+modulate = Color( 1, 1, 1, 0.901961 )
+margin_top = 30.0
+margin_right = 255.0
+margin_bottom = 41.0
+
 [node name="HighscoreTable" type="VBoxContainer" parent="GUI/GameOver/Content"]
 margin_left = 704.0
-margin_top = 198.0
+margin_top = 238.0
 margin_right = 960.0
-margin_bottom = 536.0
+margin_bottom = 576.0
 custom_constants/separation = 10
 script = ExtResource( 7 )
 __meta__ = {
@@ -2213,47 +2267,15 @@ custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "Primoz"
 align = 2
 
-[node name="ScoreLine10" type="HBoxContainer" parent="GUI/GameOver/Content/HighscoreTable"]
-margin_top = 320.0
-margin_right = 256.0
-margin_bottom = 342.0
-
-[node name="Position" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine10"]
-margin_right = 20.0
-margin_bottom = 22.0
-size_flags_horizontal = 2
-custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "2."
-
-[node name="Score" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine10"]
-margin_left = 62.0
-margin_right = 132.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 2
-custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "1200"
-align = 1
-
-[node name="Owner" type="Label" parent="GUI/GameOver/Content/HighscoreTable/ScoreLine10"]
-margin_left = 136.0
-margin_right = 256.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 120, 0 )
-size_flags_horizontal = 10
-custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "Primoz"
-align = 2
-
 [node name="Menu" type="HBoxContainer" parent="GUI/GameOver/Content"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -105.0
-margin_top = -122.0
+margin_top = -106.0
 margin_right = 106.0
-margin_bottom = -100.0
+margin_bottom = -84.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -2263,11 +2285,9 @@ margin_right = 52.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../RestartBtn")
 focus_neighbour_right = NodePath("../RestartBtn")
-focus_mode = 1
 size_flags_horizontal = 2
 size_flags_vertical = 8
 theme = ExtResource( 4 )
-enabled_focus_mode = 1
 text = "QUIT"
 
 [node name="RestartBtn" type="Button" parent="GUI/GameOver/Content/Menu"]

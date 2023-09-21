@@ -44,25 +44,6 @@ func _input(event: InputEvent) -> void:
 					
 func _ready():
 	$Menu/PlayBtn.grab_focus()
-
-
-#func _process(delta: float) -> void:
-#
-#	# change focus sounds
-#	if current_screen == Screens.MAIN_MENU:
-#		if Input.is_action_just_pressed("ui_left"):
-#			Global.sound_manager.play_gui_sfx("btn_focus_change")
-#		elif Input.is_action_just_pressed("ui_right"):
-#			Global.sound_manager.play_gui_sfx("btn_focus_change")
-#	elif current_screen == Screens.SELECT_GAME: # or current_screen == Screens.SETTINGS:
-#		if Input.is_action_just_pressed("ui_left"):
-#			Global.sound_manager.play_gui_sfx("btn_focus_change")
-#		elif Input.is_action_just_pressed("ui_right"):
-#			Global.sound_manager.play_gui_sfx("btn_focus_change")	
-#		if Input.is_action_just_pressed("ui_up"):
-#			Global.sound_manager.play_gui_sfx("btn_focus_change")
-#		elif Input.is_action_just_pressed("ui_down"):
-#			Global.sound_manager.play_gui_sfx("btn_focus_change")
 			
 			
 # MAIN MENU ---------------------------------------------------------------------------------------------------
@@ -115,6 +96,8 @@ func animation_reversed(from_screen: String):
 func _on_PlayBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.home_out() # ... tole je, če ni animacije ... Quick play?
+	
+	$Menu/PlayBtn.disabled = true # da ne moreš multiklikat
 
 func _on_SelectGameBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
@@ -173,3 +156,4 @@ func _on_SelectGame1Btn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.home_out() # ... tole je, če ni animacije ... Quick play?
 
+	$SelectGame/SelectGameBtn.disabled = true # da ne moreš multiklikat

@@ -21,11 +21,6 @@ onready var player_points: Label = $Header/HudLine_TL/PointsCounter/Points
 onready var cells_travelled: Label = $Header/HudLine_TL/CellCounter/CellsTravelled
 onready var skills_used: Label = $Header/HudLine_TL/SkillCounter/SkillsUsed
 onready var game_timer: HBoxContainer = $Header/GameTimer
-#onready var level: Label = $Header/Level
-#onready var highscore_label: Label = $Header/Highscore
-#onready var music_label: Label = $Header/MusicLabel
-#onready var on_icon: TextureRect = $Header/MusicLabel/OnIcon
-#onready var off_icon: TextureRect = $Header/MusicLabel/OffIcon
 onready var level: Label = $Header/HudLine_TR/Level
 onready var highscore_label: Label = $Header/HudLine_TL/Highscore
 onready var music_label: Label = $Header/HudLine_TR/MusicLabel
@@ -34,12 +29,6 @@ onready var off_icon: TextureRect = $Header/HudLine_TR/MusicLabel/OffIcon
 
 #futer
 onready var footer: Control = $Footer
-#onready var picked_color_rect: ColorRect = $Footer/PickedColor/ColorRect
-#onready var picked_color_label: Label = $Footer/PickedColor/Value
-#onready var pixels_off_counter = $Footer/HudLine_TR/OffedCounter
-#onready var stray_pixels_counter = $Footer/HudLine_TR/StrayCounter
-#onready var stray_pixels: Label = $Footer/HudLine_TR/StrayCounter/PixelsStray
-#onready var pixels_off: Label = $Footer/HudLine_TR/OffedCounter/PixelsOff
 onready var picked_color_rect: ColorRect = $Header/HudLine_TR/PickedColor/ColorRect
 onready var picked_color_label: Label = $Header/HudLine_TR/PickedColor/Value
 onready var pixels_off: Label = $Header/HudLine_TR/OffedCounter/PixelsOff
@@ -48,38 +37,51 @@ onready var stray_pixels: Label = $Header/HudLine_TR/StrayCounter/PixelsStray
 onready var pixels_off_counter: HBoxContainer = $Header/HudLine_TR/OffedCounter
 
 # popups 
-var close_to_highscore_part = 0.85 # procent HS vrednosti
 var highscore_broken: bool =  false
 var highscore_broken_popup_time: float = 2
-onready var highscore_close_popup: Label = $Popups/HSClose
 onready var highscore_broken_popup: Control = $Popups/HSBroken
+onready var energy_warning_popup: Control = $Popups/EnergyWarning
+onready var steps_remaining_counter: Label = $Popups/EnergyWarning/StepsRemainingHLine/StepsRemainingCounter
+onready var popups: Control = $Popups # za skrit na gameover
 
 
 func _ready() -> void:
 	
 	Global.hud = self
 	
-#	color_spectrum = Global.color_indicator_parent
-
 	# skrij statistiko in popupe
 	visible = false
-	highscore_close_popup.visible = false
-	highscore_broken_popup.visible = false
 	
 
 func _process(delta: float) -> void:
-	
 	
 	player_stats_on_hud = Global.game_manager.player_stats
 	game_stats_on_hud = Global.game_manager.game_stats
 	
 	writing_stats()
 	
+	# ček HS and show popup
+	var current_highscore = game_stats_on_hud["highscore"]
+	var current_points = player_stats_on_hud["player_points"]
+	if current_points > current_highscore: # zaporedje ifov je pomembno zaradi načina setanja pogojev
+		if not highscore_broken:
+			# Global.sound_manager.play_sfx("record_cheers")
+			highscore_broken = true
+			highscore_label.modulate = Global.color_green
+			highscore_broken_popup.visible = true
+			yield(get_tree().create_timer(highscore_broken_popup_time), "timeout")
+			highscore_broken_popup.visible = false
+	else:
+		highscore_broken_popup.visible = false
+		highscore_label.modulate = default_hud_color
+		highscore_broken = false # more bit, če zgubiš rekord med igro
 	
-	if not highscore_broken and Global.game_manager.game_on:
-		checking_highscore()
-	elif not Global.game_manager.game_on:
-		highscore_close_popup.visible = false
+	# show popup energy warning
+	if player_stats_on_hud["player_energy"] <= Profiles.game_rules["tired_energy"] and player_stats_on_hud["player_energy"] > 1:# and player_stats_on_hud["player_energy"] > 1:
+		energy_warning_popup.visible = true
+		steps_remaining_counter.text = str(player_stats_on_hud["player_energy"])
+	else:
+		energy_warning_popup.visible = false		
 	
 	# music plejer display
 	music_label.text = "%02d" % Global.sound_manager.currently_playing_track_index
@@ -89,7 +91,7 @@ func _process(delta: float) -> void:
 	else:
 		on_icon.visible = true
 		off_icon.visible = false
-		
+			
 			
 func writing_stats():	
 	
@@ -113,36 +115,6 @@ func writing_stats():
 		highscore_label.text = "HS %04d" % player_stats_on_hud["player_points"]
 		
 		
-func checking_highscore():
-	
-	var current_highscore = game_stats_on_hud["highscore"]
-	var current_points = player_stats_on_hud["player_points"]
-	var close_to_highscore_limit: float = abs(current_highscore * close_to_highscore_part)
-	
-	
-	# rekord!!! ... zaporedje ifov je pomembno zaradi načina setanja pogojev
-	if current_points > current_highscore:
-		Global.sound_manager.play_sfx("record_cheers")
-		highscore_broken = true
-		highscore_label.modulate = Global.color_green
-		
-		highscore_close_popup.visible = false
-		highscore_broken_popup.visible = true
-		yield(get_tree().create_timer(highscore_broken_popup_time), "timeout")
-		highscore_broken_popup.visible = false
-	
-	# blizu rekorda
-	elif current_points >= close_to_highscore_limit or current_points == current_highscore:
-		highscore_label.modulate = Global.color_blue
-		highscore_close_popup.visible = true
-	
-	# blah ... še ni uspeha
-	elif current_points < close_to_highscore_limit:
-		highscore_close_popup.visible = false
-		highscore_broken_popup.visible = false
-		highscore_label.modulate = default_hud_color
-		
-
 func fade_in():
 	
 	modulate.a = 0
@@ -178,13 +150,13 @@ func color_picked(picked_pixel_color):
 	# color effects
 	picked_color_rect.color = picked_pixel_color
 	
-	picked_color_label.modulate = picked_pixel_color
-	pixels_off_counter.modulate = picked_pixel_color
-	stray_pixels_counter.modulate = picked_pixel_color
-	yield(get_tree().create_timer(0.5), "timeout")
-	picked_color_label.modulate = default_hud_color
-	pixels_off_counter.modulate = default_hud_color
-	stray_pixels_counter.modulate = default_hud_color
+	# picked_color_label.modulate = picked_pixel_color
+	# pixels_off_counter.modulate = picked_pixel_color
+	# stray_pixels_counter.modulate = picked_pixel_color
+	# yield(get_tree().create_timer(0.5), "timeout")
+	# picked_color_label.modulate = default_hud_color
+	# pixels_off_counter.modulate = default_hud_color
+	# stray_pixels_counter.modulate = default_hud_color
 	
 	
 func erase_color_indicator(erase_color):
@@ -243,8 +215,4 @@ func _on_GameTimer_deathmode_active() -> void:
 
 func _on_GameTimer_gametime_is_up() -> void:
 	Global.game_manager.game_over(Global.reason_time)
-
-
-
-
 

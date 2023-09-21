@@ -55,19 +55,9 @@ func _ready() -> void:
 	
 	name_input_popup.visible = false
 	content.modulate.a = 0
-	
 
 
-#func _process(delta: float) -> void:
-#
-#	# change focus sounds
-#	if content.modulate.a == 1:
-#		if Input.is_action_just_pressed("ui_left"):
-#			Global.sound_manager.play_gui_sfx("btn_focus_change")
-#		elif Input.is_action_just_pressed("ui_right"):
-#			Global.sound_manager.play_gui_sfx("btn_focus_change")
-
-# no HS
+# brez HS
 func fade_in(gameover_reason):
 	
 	
@@ -81,7 +71,6 @@ func fade_in(gameover_reason):
 			
 	modulate.a = 0	
 	visible = true
-	# set_process_input(false)
 	
 	# hud + title
 	var fade_in = get_tree().create_tween()
@@ -93,18 +82,16 @@ func fade_in(gameover_reason):
 	
 	yield(get_tree().create_timer(1.5), "timeout")
 
-
 	# title out, content in
-	restart_btn.grab_focus()
-
 	var fade = get_tree().create_tween()
 	fade.tween_property(title, "modulate:a", 0, 1)
 	fade.parallel().tween_property(undi, "modulate:a", 0.9, 1)
 	fade.tween_property(content, "modulate:a", 1, 1)#.set_delay(0.3)
-	fade.tween_callback(self, "pause_tree")
+	fade.tween_callback(self, "pause_tree") # šele tukaj, da se tween sploh zgodi
+	fade.tween_callback(restart_btn, "grab_focus") # šele tukaj, da se tween sploh zgodi,če 
 	
 	
-# jes HS
+# HS
 func fade_in_empty(gameover_reason):
 	
 	match gameover_reason:
@@ -117,7 +104,6 @@ func fade_in_empty(gameover_reason):
 			
 	modulate.a = 0	
 	visible = true
-#	set_process_input(false)
 	
 	# hud + title + name input
 	var fade_in = get_tree().create_tween()
@@ -125,19 +111,21 @@ func fade_in_empty(gameover_reason):
 	fade_in.tween_callback(self, "open_name_input").set_delay(1)
 	fade_in.parallel().tween_callback(Global.sound_manager, "play_sfx", ["win_jingle"])
 
+
 # jes HS
 func show_content():
 	
-	restart_btn.grab_focus()
 	
 	# title se odfejda v close_name_input()
 	write_gameover_data()
-	highscore_table.get_highscore_table()
+	highscore_table.get_highscore_table(Global.data_manager.current_player_ranking)
+	
+#	restart_btn.grab_focus()
 	
 	var fade_in_tween = get_tree().create_tween()		
 	fade_in_tween.tween_property(content, "modulate:a", 1, 1)#.set_delay(0.3)
 	fade_in_tween.tween_callback(self, "pause_tree")
-
+	fade_in_tween.tween_callback(restart_btn, "grab_focus")
 
 
 func write_gameover_data():
@@ -194,8 +182,7 @@ func open_name_input():
 	
 func confirm_name_input():
 	
-	# pogrebam string
-	# zapišem ime v končno statistiko igralca
+	# pogrebam string in zapišem ime v končno statistiko igralca
 	Global.game_manager.player_stats["player_name"] = input_string
 	close_name_input()
 
@@ -247,10 +234,14 @@ func _on_RestartBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	unpause_tree()
 	Global.main_node.reload_game()
-
-
+	
+	$Content/Menu/RestartBtn.disabled = true # da ne moreš multiklikat
+	
+	
 func _on_QuitBtn_pressed() -> void:
 	
 	Global.sound_manager.play_sfx("btn_cancel")
 	unpause_tree()
 	Global.main_node.game_out()
+	
+	$Content/Menu/QuitBtn.disabled = true # da ne moreš multiklikat

@@ -67,7 +67,7 @@ export var skilled_alpha: float = 1.2
 
 # zadnji dih
 var last_breath_active: bool = false 
-var last_breath_time = 5
+#onready var last_breath_time = Profiles.game_rules["last_breath_time"]
 onready var last_breath_timer: Timer = $LastBreathTimer
 
 # transparenca energije
@@ -130,10 +130,11 @@ func _physics_process(delta: float) -> void:
 		animation_player.play("breath")
 		Global.sound_manager.play_sfx("last_breath")
 		if Profiles.game_rules["last_breath_mode"]:
-			last_breath_timer.start(last_breath_time)
+			last_breath_timer.start(Profiles.game_rules["last_breath_time"])
 	elif player_energy == 1:
 		modulate = Global.color_red
-		poly_pixel.modulate.a = 1 # da je svetel, ko krvavi (tudi kadar je energy_alpha on
+#		poly_pixel.modulate.a = 1 # da je svetel, ko krvavi (tudi kadar je energy_alpha on
+		pass
 	elif player_energy > 1:
 		last_breath_active = false
 		animation_player.stop()		
@@ -203,6 +204,7 @@ func on_collision():
 	var added_shake_time = hit_stray_shake_time + burst_power_shake_addon * burst_power
 	
 	if collision.collider.is_in_group(Global.group_tilemap):
+		Input.start_joy_vibration(0, 0.5, 0.6, 0.7)
 		die(Global.reason_wall)
 		spawn_collision_particles()
 		spawn_dizzy_particles()
@@ -210,7 +212,10 @@ func on_collision():
 		Global.sound_manager.stop_sfx("burst")
 		Global.sound_manager.play_sfx("hit_wall")
 		
+
+
 	elif collision.collider.is_in_group(Global.group_strays):
+		Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
 		pixel_color = collision.collider.pixel_color
 		spawn_collision_particles()
 		Global.main_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
@@ -259,11 +264,14 @@ func on_collision():
 		# destroj soseda in sosedov
 		var loop_index = 1
 		for neighbouring_pixel in all_neighbouring_pixels:
-			if loop_index < burst_power: 
+			if loop_index < burst_power or burst_power == cocked_ghost_count_max: 
 				# zbrišeš indikator
 				Global.hud.color_picked(neighbouring_pixel.pixel_color)
-				stray_in_row = loop_index + 1
+				stray_in_row = loop_index + 1 # +1 je ker gre za soseda
 				neighbouring_pixel.die(stray_in_row)
+#			elif burst_power == cocked_ghost_count_max:
+#				print("polna moč")
+#			print("nimam moč")
 			loop_index += 1
 
 	end_move() # more bit tukaj spoadaj, da lahko pogreba podatke v svoji smeri
@@ -289,7 +297,8 @@ func idle_inputs():
 
 
 func cocking_inputs():
-
+	
+	# cocking
 	if Input.is_action_pressed("ui_up"):
 		if not burst_direction_set:
 			direction = Vector2.DOWN
@@ -314,13 +323,15 @@ func cocking_inputs():
 			burst_direction_set = true
 		else:
 			cock_burst()
-			
+	
+	# releasing		
 	if Input.is_action_just_released("space"):
-		if burst_direction_set:
-			
-			release_burst()
-		else:
-			end_move()
+		release_burst()
+	# if Input.is_action_just_released("ui_up") \
+	# or Input.is_action_just_released("ui_down") \
+	# or Input.is_action_just_released("ui_left") \
+	# or Input.is_action_just_released("ui_right"):
+	# 	release_burst()
 
 
 func bursting_inputs():
@@ -431,13 +442,13 @@ func cock_burst():
 	var burst_direction = direction
 	var cock_direction = - burst_direction
 	
-	Global.sound_manager.play_sfx("burst_cocking")
 	
 	# prostor za začetek napenjanja preverja pixel
 	if Global.detect_collision_in_direction(vision_ray, cock_direction): 
 		end_move()
 		Global.sound_manager.stop_sfx("burst_cocking")
 		return	# dobra praksa ... zazih
+	Global.sound_manager.play_sfx("burst_cocking")
 		
 	# prostor nadaljevanje napenjanja preverja ghost
 	if cocked_ghosts.size() < cocked_ghost_count_max and cocking_room:
@@ -453,6 +464,10 @@ func cock_burst():
 
 
 func release_burst(): # delo os release do potiska pleyerjevega pixla
+	
+	if not burst_direction_set:
+		end_move()
+		return
 	
 	burst_is_releasing = true
 	current_state = States.BURSTING
@@ -521,6 +536,7 @@ func stop_burst():
 	# je vklopljeno?
 	if not Profiles.game_rules["stop_burst_mode"]:
 		return 
+	Input.start_joy_vibration(0, 0.6, 0.2, 0.2)
 	Global.sound_manager.play_sfx("burst_stop")
 	# če je hitrost večja od ene enote ne rabim overšuta
 	if burst_speed <= Profiles.game_rules["burst_speed_addon"]:
@@ -558,7 +574,7 @@ func push():
 	# spawn ghosta pod pixlom
 	var new_push_ghost_position = global_position + push_direction * cell_size_x
 	var new_push_ghost = spawn_ghost(new_push_ghost_position)
-	new_push_ghost.modulate.a = modulate.a
+	new_push_ghost.poly_pixel.modulate.a = poly_pixel.modulate.a
 	
 	if ray_collider.is_in_group(Global.group_strays):
 		# prostor pred kolajderjem
@@ -613,7 +629,7 @@ func pull():
 	
 	# spawn ghosta pod mano
 	var new_pull_ghost = spawn_ghost(global_position + target_direction * cell_size_x)
-	new_pull_ghost.modulate.a = modulate.a
+	new_pull_ghost.poly_pixel.modulate.a = poly_pixel.modulate.a
 
 	var pull_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 	pull_tween.tween_property(self, "position", global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
@@ -634,13 +650,15 @@ func teleport():
 	
 	current_state = States.SKILLING
 	
+	Input.start_joy_vibration(0, 0.3, 0, 0)
 	Global.sound_manager.play_sfx("teleport")
 	
 	# spawn ghost
 	var new_teleport_ghost = spawn_ghost(global_position)
 	new_teleport_ghost.direction = teleport_direction
 	new_teleport_ghost.max_speed = ghost_max_speed
-	new_teleport_ghost.modulate.a = 0.5
+	new_teleport_ghost.poly_pixel.modulate.a = poly_pixel.modulate.a * 0.5
+#	new_teleport_ghost.modulate.a = poly_pixel.modulate.a * 0.5
 	new_teleport_ghost.floor_cells = floor_cells
 	new_teleport_ghost.cell_size_x = cell_size_x
 	new_teleport_ghost.connect("ghost_target_reached", self, "_on_ghost_target_reached")
@@ -679,6 +697,9 @@ func spawn_cock_ghost(cocking_direction, cocked_ghosts_count):
 	# spawn ghosta pod manom
 	var new_cock_ghost = spawn_ghost(global_position + cocking_direction * cell_size_x * cocked_ghosts_count)
 	new_cock_ghost.global_position -= cocking_direction * cell_size_x/2
+	# alfa ghosta je enaka alfi polipixla
+	new_cock_ghost.modulate.a  = poly_pixel.modulate.a
+	# polipixel ima čez alfa adon
 	new_cock_ghost.poly_pixel.modulate.a  = cocked_ghost_alpha - (cocked_ghosts_count / cocked_ghost_alpha_factor)
 	new_cock_ghost.direction = cocking_direction
 	
@@ -763,6 +784,7 @@ func _on_ghost_target_reached(ghost_body, ghost_position):
 	# skills_used_count += 1
 	emit_signal("stat_changed", self, "skills_used", 1)
 	
+	Input.stop_joy_vibration(0)
 
 func _on_ghost_detected_body(body):
 	

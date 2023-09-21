@@ -3,8 +3,8 @@ extends HBoxContainer
 
 var energy: int setget _on_amount_change # energija je konveratana v razmerju velikosti bara
 var previous_energy: int # preverjam smer spremembe lajfa
-var low_energy: float 
-var low_energy_level: float = 0.2 # 10% ... going red 
+onready var tired_energy: int = Profiles.game_rules["tired_energy"]
+#var low_energy_level: float = 0.2 # 10% ... going red 
 
 onready var texture_progress: TextureProgress = $TextureProgress
 
@@ -12,7 +12,7 @@ onready var texture_progress: TextureProgress = $TextureProgress
 func _ready() -> void:
 	
 	set_icons_state() # preveri lajf na začetku in seta pravilno stanje ikon 
-	low_energy = texture_progress.max_value * low_energy_level
+#	tired_energy = texture_progress.max_value * low_energy_level
 
 func _process(delta: float) -> void:
 	
@@ -27,18 +27,18 @@ func _on_amount_change(new_value):
 	# setam current energy
 	energy = new_value # v bistvu Global.game_manager.player_stats["player_energy"]
 	
-	if previous_energy > energy and energy > low_energy:
+	if previous_energy > energy and energy > tired_energy:
 #		modulate = Global.color_red
 #		yield(get_tree().create_timer(0.5), "timeout")
 #		modulate = Color.white
 		pass
 	
-	elif previous_energy < energy and energy > low_energy:
+	elif previous_energy < energy and energy > tired_energy:
 		modulate = Global.color_green
 		yield(get_tree().create_timer(0.5), "timeout")
 		modulate = Color.white
 		
-	elif energy <= low_energy:
+	elif energy <= tired_energy:
 		modulate = Global.color_red
 		
 	else: # če ni spremembe	

@@ -14,8 +14,8 @@ func _ready() -> void:
 	
 	Global.main_node = self
 	
-	home_in()
-#	game_in()
+#	home_in()
+	game_in()
 	
 
 func home_in():
@@ -53,6 +53,8 @@ func game_in():
 
 
 func game_out():
+	
+	print ("game_out()")
 	Global.sound_manager.play_gui_sfx("menu_fade")
 	# ustavim vse možne sounde
 	Global.sound_manager.stop_music("game")

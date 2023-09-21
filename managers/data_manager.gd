@@ -2,7 +2,7 @@ extends Node
 
 
 var data_file: = File.new()
-
+var current_player_ranking: int # da ob rendriranju HS, lahko označim aktualni rezultat ... v GM
 
 func _ready() -> void:
 	Global.data_manager = self
@@ -38,43 +38,39 @@ func get_top_highscore(current_level):
 
 
 func manage_gameover_highscores(player_points, current_level): # iz GM
-	
 	# med izvajanjem te kode GM čaka na RESUME 1
 	
 	var all_scores: Array = []
 	var all_score_owners: Array = []
-	var current_level_highscores: Dictionary # zaenkrat samo pri GO
-#	var new_score_position: int
+	var current_level_highscores: Dictionary # zaenkrat samo pri G-O
 	var better_positions_count: int
 	
 	current_level_highscores = read_highscores_from_file(current_level) # ... v odprtem filetu se potem naloži highscore
 	
 	# poberemo lestvico v arraye
 	for hs_position_key in current_level_highscores:
-		
 		var current_position_dict = current_level_highscores[hs_position_key]
 		all_scores += current_position_dict.values()
 		all_score_owners += current_position_dict.keys()
 	
-	# izračun uvrstitve ... štejem pozicije pred mano
+	# izračun uvrstitve na lestvico ... štejem pozicije pred mano
 	better_positions_count = 0 # 0 je 1. mesto
 	for score in all_scores:
 		# če je score večji od trenutih točk igralca
 		if score >= player_points:
 			better_positions_count += 1
 	
+	current_player_ranking = better_positions_count + 1 # za označitev linije na lestvici
+	
 	# NI na lestvici
 	if better_positions_count >= all_scores.size():
 		return false
 	# JE na lestvici
 	else:
-	
 		# YIELD 2 ... čaka na novo ime, ki bo prišlo iz GM, ki ga dobi od GO
-		print ("DM gameover - YIELD 2")
 		yield(Global.gameover_menu, "name_input_finished")
 		
 		# RESUME 2
-		print ("DM gameover - RESUME 2")
 		# nova highscore lestvica		
 		var current_score_owner = Global.game_manager.player_stats["player_name"]
 		

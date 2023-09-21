@@ -8,7 +8,7 @@ onready var minimap: ViewportContainer = $Minimap
 onready var minimap_viewport: Viewport = $Minimap/MinimapViewport
 onready var minimap_camera: Camera2D = $Minimap/MinimapViewport/MinimapCam
 
-onready var skip_intro_popup: Label = $GUI/SkipLabel
+onready var skip_intro_popup: Label = $GUI/SkipIntroLabel
 
 
 func _ready() -> void:
@@ -26,7 +26,6 @@ func _ready() -> void:
 	var rect = Global.level_tilemap.get_used_rect()
 	minimap_viewport.size.y = minimap_viewport.size.x * rect.size.y / rect.size.x
 	
-
 
 func _process(delta: float) -> void:
 	
@@ -54,3 +53,5 @@ func set_camera_limits():
 		camera.limit_bottom = corner_BR - tilemap_cell_size.y
 
 
+func _on_SkipIntroBtn_pressed() -> void:
+	Global.game_manager.skip_intro()

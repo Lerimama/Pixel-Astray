@@ -16,22 +16,22 @@ onready var menu_music_volume_on_node = menu_music.volume_db # za reset po fejdo
 onready var game_music_tracks: Array = game_music.get_children()
 
 
-func _input(event: InputEvent) -> void:
-	
-	if Input.is_action_just_pressed("n"):
-		if game_music_set_to_off:
-			return
-		skip_track()
-	
-	# music toggle
-	if Input.is_action_just_pressed("m") and Global.game_manager != null: # tukaj damo samo na mute ... kar ni isto kot paused
-		
-		if game_music_set_to_off:
-			game_music_set_to_off = false
-			play_music("game")
-		else:
-			stop_music("game")
-			game_music_set_to_off = true
+#func _input(event: InputEvent) -> void:
+#
+#	if Input.is_action_just_pressed("n"):
+#		if game_music_set_to_off:
+#			return
+#		skip_track()
+#
+#	# music toggle
+#	if Input.is_action_just_pressed("m") and Global.game_manager != null: # tukaj damo samo na mute ... kar ni isto kot paused
+#
+#		if game_music_set_to_off:
+#			game_music_set_to_off = false
+#			play_music("game")
+#		else:
+#			stop_music("game")
+#			game_music_set_to_off = true
 	
 	
 func _ready() -> void:
@@ -146,7 +146,6 @@ func stop_sfx(sfx_to_stop: String):
 			$GameSfx/Skills/TeleportOut.play()
 		"skilled":
 			$GameSfx/Skills/SkilledStatic.stop()
-			pass
 		"burst_cocking":
 			$GameSfx/Burst/BurstCocking.stop()
 		"last_breath":
@@ -173,20 +172,19 @@ func _on_TeleportStart_finished() -> void:
 
 func play_music(music_for: String):
 	
-#	match music_for:
-#
-#		"menu":
-#			if menu_music_set_to_off:
-#				return
-#			menu_music.play()
-#
-#		"game":
-#			if game_music_set_to_off:
-#				return
-#			# set track
-#			var current_track = game_music.get_child(currently_playing_track_index - 1)
-#			current_track.play()
-	pass
+	match music_for:
+
+		"menu":
+			if menu_music_set_to_off:
+				return
+			menu_music.play()
+
+		"game":
+			if game_music_set_to_off:
+				return
+			# set track
+			var current_track = game_music.get_child(currently_playing_track_index - 1)
+			current_track.play()
 			
 
 func stop_music(music_to_stop: String):

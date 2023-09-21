@@ -24,6 +24,7 @@ var floor_positions: Array # po signalu ob kreaciji tilemapa ... tukaj, da ga la
 var available_floor_positions: Array # dplikat floor_positions za spawnanje pixlov
 
 var colors_to_pick: Array # za hud nejbrhud pravila
+var energy_draining_active: bool = false # za kontrolo črpanja energije
 
 # stats
 onready var player_stats: Dictionary = Profiles.default_player_stats.duplicate() # duplikat default profila
@@ -42,10 +43,6 @@ onready var PlayerPixel = preload("res://game/pixel/player.tscn")
 
 func _unhandled_input(event: InputEvent) -> void:
 
-	if Input.is_action_just_pressed("r"):
-#		start_game()
-		printt("players_in_game", players_in_game)
-		
 	if Input.is_action_pressed("no1") and player_stats["player_energy"] > 1:
 		player_stats["player_energy"] -= 1
 		player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_max_energy"]) # 1 je najnižja, ker tam se že odšteva zadnji izdihljaj
@@ -55,7 +52,24 @@ func _unhandled_input(event: InputEvent) -> void:
 	if can_skip_intro: # tajmiran v animaciji in skip funkciji
 		if Input.is_action_just_pressed("ui_cancel") and can_skip_intro:
 			skip_intro()
-				
+
+	if Input.is_action_just_pressed("n"):
+		if Global.sound_manager.game_music_set_to_off:
+			return
+		Global.sound_manager.skip_track()
+		print("n")
+	
+	# music toggle
+	if Input.is_action_just_pressed("m") and game_on: # tukaj damo samo na mute ... kar ni isto kot paused
+		print("m")
+		if Global.sound_manager.game_music_set_to_off:
+			Global.sound_manager.game_music_set_to_off = false
+			Global.sound_manager.play_music("game")
+		else:
+			Global.sound_manager.stop_music("game")
+			Global.sound_manager.game_music_set_to_off = true
+
+
 		
 func _ready() -> void:
 	
@@ -81,7 +95,36 @@ func _process(delta: float) -> void:
 	players_in_game = get_tree().get_nodes_in_group(Global.group_players)
 	strays_in_game = get_tree().get_nodes_in_group(Global.group_strays)
 	
-
+#	in_game_input()
+#	if Input.is_action_just_pressed("r"):
+##		start_game()
+#		printt("players_in_game", players_in_game)
+#
+#	if Input.is_action_pressed("no1") and player_stats["player_energy"] > 1:
+#		player_stats["player_energy"] -= 1
+#		player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_max_energy"]) # 1 je najnižja, ker tam se že odšteva zadnji izdihljaj
+#	if Input.is_action_pressed("no2"):
+#		player_stats["player_energy"] += 10
+#
+#	if can_skip_intro: # tajmiran v animaciji in skip funkciji
+#		if Input.is_action_just_pressed("ui_cancel") and can_skip_intro:
+#			skip_intro()
+#
+#	if Input.is_action_just_pressed("n"):
+#		if Global.sound_manager.game_music_set_to_off:
+#			return
+#		Global.sound_manager.skip_track()
+#		print("n")
+#
+#	# music toggle
+#	if Input.is_action_just_pressed("m") and Global.game_manager != null: # tukaj damo samo na mute ... kar ni isto kot paused
+#		print("m")
+#		if Global.sound_manager.game_music_set_to_off:
+#			Global.sound_manager.game_music_set_to_off = false
+#			Global.sound_manager.play_music("game")
+#		else:
+#			Global.sound_manager.stop_music("game")
+#			Global.sound_manager.game_music_set_to_off = true
 # GAME LOOP --------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -160,6 +203,7 @@ func set_game():
 	
 	# actor KVEFRI, če intro ni bil skipan  
 	if is_instance_valid(actor_pixel):
+		actor_pixel.actor_in_motion = false
 		actor_pixel.queue_free()
 	
 	strays_spawn_loop = 0
@@ -194,25 +238,29 @@ func start_game():
 	
 	
 func game_over(game_over_reason: String):
-
-	# ustavim igro
+	
+	# ustavljanje elementov igre
 	game_on = false
 	deathmode_active =  false
-	
+	# in-gejm keyboard inputs
+	get_viewport().gui_disable_input = true
 	# ustavim tajmer	
 	Global.hud.game_timer.stop_timer()
-	
 	# pavziram plejerja
 	if not players_in_game.empty():
 		for player in players_in_game:
 			player.set_physics_process(false)
+	# ugasnem vse efekte, ki bi bili lahko neskončno slišni
+	Global.sound_manager.stop_sfx("teleport")
+	Global.sound_manager.stop_sfx("skilled")
+	Global.sound_manager.stop_sfx("last_breath")
+	# skrijem morebitne popupe
+	Global.hud.popups.visible = false
 	
 	# YIELD 0 ... čaka na konec zoomoutamm
-	print ("GM gameover - YIELD 0")
 	var camera_zoomed_out = Global.main_camera.zoom_out() # hud gre ven
 	
 	yield(Global.main_camera, "zoomed_out")
-	print ("GM gameover - RESUME 0")
 
 	Global.sound_manager.stop_music("game_on_game-over")
 	Global.hud.visible = false # zazih
@@ -221,11 +269,8 @@ func game_over(game_over_reason: String):
 	var current_level = game_stats["level_no"]
 	
 	# YIELD 1 ... čaka na konec preverke rankinga ... če ni rankinga dobi false, če je ne dobi nič
-	print ("GM gameover - YIELD 1")
 	# ker kličem funkcijo v variablo more počakat, da se funkcija izvede do returna
 	var score_is_ranking = Global.data_manager.manage_gameover_highscores(player_points, current_level) # yielda 2 za name input je v tej funkciji
-	print ("GM gameover - RESUME 1")
-	
 	if not score_is_ranking:
 		Global.gameover_menu.fade_in(game_over_reason)																																																							
 	else:
@@ -338,7 +383,7 @@ func _on_TileMap_floor_completed(floor_cells_global_positions: Array, player_sta
 	else:
 		print("ne najdem pozicije plejerja")
 
-var energy_draining_active: bool = false # za kontrolo črpanja energije
+
 func _on_stat_changed(stat_owner, changed_stat, stat_change):
 	
 	match changed_stat:

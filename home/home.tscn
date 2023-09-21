@@ -1124,7 +1124,6 @@ rect_min_size = Vector2( 16, 16 )
 rect_rotation = 89.9999
 texture_normal = SubResource( 150 )
 texture_hover = SubResource( 149 )
-flip_h = true
 
 [node name="Title2" type="Label" parent="Credits"]
 anchor_left = 0.5
@@ -1277,8 +1276,9 @@ rect_min_size = Vector2( 832, 720 )
 theme = ExtResource( 1 )
 
 [node name="Title" type="Label" parent="SelectGame"]
+margin_left = 8.0
 margin_top = 102.0
-margin_right = 216.0
+margin_right = 224.0
 margin_bottom = 134.0
 size_flags_horizontal = 3
 theme = ExtResource( 1 )
@@ -1295,19 +1295,23 @@ margin_bottom = 41.0
 [node name="SelectGameBackBtn" type="TextureButton" parent="SelectGame"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -176.0
+margin_left = -168.0
 margin_top = 112.0
-margin_right = -156.0
+margin_right = -144.0
 margin_bottom = 132.0
 rect_min_size = Vector2( 16, 16 )
+focus_neighbour_bottom = NodePath("../SelectGameBtn")
 texture_normal = SubResource( 150 )
 texture_hover = SubResource( 149 )
 flip_h = true
 
 [node name="SelectGameBtn" type="Button" parent="SelectGame"]
+margin_left = 8.0
 margin_top = 176.0
-margin_right = 320.0
+margin_right = 328.0
 margin_bottom = 369.0
+focus_neighbour_left = NodePath("../SelectGameBackBtn")
+focus_neighbour_top = NodePath("../SelectGameBackBtn")
 custom_fonts/font = ExtResource( 10 )
 custom_styles/hover = SubResource( 152 )
 custom_styles/pressed = SubResource( 153 )
@@ -1341,9 +1345,9 @@ text = "V navadni areni, 50 pobeglih pixlov, 2 minuti  časa. Več točk, večji
 autowrap = true
 
 [node name="SelectGameBtn2" type="Button" parent="SelectGame"]
-margin_left = 352.0
+margin_left = 360.0
 margin_top = 177.0
-margin_right = 672.0
+margin_right = 680.0
 margin_bottom = 369.0
 custom_fonts/font = ExtResource( 10 )
 custom_styles/hover = SubResource( 152 )
@@ -1379,8 +1383,9 @@ text = "V navadni areni, 50 pobeglih pixlov, 2 minuti  časa. Več točk, večji
 autowrap = true
 
 [node name="SelectGameBtn3" type="Button" parent="SelectGame"]
+margin_left = 8.0
 margin_top = 401.0
-margin_right = 320.0
+margin_right = 328.0
 margin_bottom = 592.0
 custom_fonts/font = ExtResource( 10 )
 custom_styles/hover = SubResource( 152 )
@@ -1416,9 +1421,9 @@ text = "V navadni areni, 50 pobeglih pixlov, 2 minuti  časa. Več točk, večji
 autowrap = true
 
 [node name="SelectGameBtn4" type="Button" parent="SelectGame"]
-margin_left = 352.0
+margin_left = 360.0
 margin_top = 401.0
-margin_right = 672.0
+margin_right = 680.0
 margin_bottom = 592.0
 custom_fonts/font = ExtResource( 10 )
 custom_styles/hover = SubResource( 152 )
@@ -1465,9 +1470,9 @@ script = ExtResource( 3 )
 [node name="SettingsBackBtn" type="TextureButton" parent="Settings"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -28.0
+margin_left = -32.0
 margin_top = 113.0
-margin_right = -4.0
+margin_right = -8.0
 margin_bottom = 133.0
 rect_min_size = Vector2( 16, 16 )
 texture_normal = SubResource( 150 )
@@ -1526,16 +1531,12 @@ rect_min_size = Vector2( 320, 0 )
 min_value = -30.0
 max_value = 10.0
 step = 5.0
+value = -20.0
 
-[node name="_shapeadon" type="Polygon2D" parent="Settings/GameMusicSlider"]
-position = Vector2( -234, -9 )
-color = Color( 0.568627, 0.568627, 0.568627, 1 )
-polygon = PoolVector2Array( 234, 14, 234, 20, 236, 20, 236, 14 )
-
-[node name="Polygon2D2" type="Polygon2D" parent="Settings/GameMusicSlider"]
+[node name="Tick" type="Polygon2D" parent="Settings/GameMusicSlider"]
 show_behind_parent = true
 position = Vector2( 0, 9 )
-color = Color( 0.568627, 0.568627, 0.568627, 1 )
+color = Color( 0.494118, 0.517647, 0.545098, 1 )
 polygon = PoolVector2Array( 234, 1, 234, -3, 238, -3, 238, 1 )
 
 [node name="GameSfxCheckBox" type="CheckBox" parent="Settings"]

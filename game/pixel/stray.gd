@@ -45,8 +45,9 @@ func _physics_process(delta: float) -> void:
 
 func die(stray_in_row):
 	
+	$CollisionShape2D.disabled = true
 	emit_signal("stat_changed", self, "stray_hit", stray_in_row)
-	# Global.main_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
+	# Glsobal.main_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
 	
 	# žrebam animacijo
 	var random_animation_index = randi() % 5 + 1
