@@ -100,7 +100,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0, 7.44, 7.52, 7.6, 7.68, 7.86, 7.94, 8, 8.06, 8.12, 8.32 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 0.952941, 0.356863, 0.498039, 0.862745 ), Color( 1, 1, 1, 0 ), Color( 0.368627, 1, 0.662745, 0.862745 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 0.996078, 0.976471, 0.545098, 0.862745 ), Color( 1, 1, 1, 0 ), Color( 0.341176, 0.65098, 1, 0.862745 ), Color( 1, 1, 1, 0 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 0.952941, 0.356863, 0.498039, 0.470588 ), Color( 1, 1, 1, 0 ), Color( 0.368627, 1, 0.662745, 0.470588 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 0.996078, 0.976471, 0.545098, 0.54902 ), Color( 1, 1, 1, 0 ), Color( 0.341176, 0.65098, 1, 0.627451 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/5/type = "method"
 tracks/5/path = NodePath("GameManager")
@@ -109,7 +109,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 7.48, 9.48 ),
+"times": PoolRealArray( 7.4523, 9.48 ),
 "transitions": PoolRealArray( 1, 1 ),
 "values": [ {
 "args": [  ],
@@ -249,7 +249,7 @@ tracks/11/loop_wrap = true
 tracks/11/imported = false
 tracks/11/enabled = true
 tracks/11/keys = {
-"times": PoolRealArray( 7.52, 7.56, 7.68, 8, 8.12 ),
+"times": PoolRealArray( 7.46, 7.56, 7.68, 8, 8.12 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "values": [ {
 "args": [  ],
@@ -418,9 +418,10 @@ margin_left = -40.0
 margin_top = -40.0
 margin_right = 3540.0
 margin_bottom = 2440.0
-color = Color( 1, 1, 1, 0 )
+color = Color( 0.976471, 0.678431, 0.74902, 0.156863 )
 
 [node name="TilemapCover" type="ColorRect" parent="Level"]
+visible = false
 modulate = Color( 1, 1, 1, 0.666667 )
 margin_left = -40.0
 margin_top = -40.0
@@ -448,7 +449,7 @@ color = Color( 0.156863, 0.145098, 0, 1 )
 environment = ExtResource( 8 )
 
 [node name="Actor" parent="." instance=ExtResource( 5 )]
-modulate = Color( 1, 1, 1, 1.04957 )
+modulate = Color( 0.368627, 1, 0.662745, 1 )
 position = Vector2( 432, 912 )
 actor_in_motion = false
 

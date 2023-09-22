@@ -6,7 +6,6 @@ signal stat_changed (stat_owner, event, stat_change)
 enum States {IDLE, STEPPING, SKILLING, COCKING, BURSTING}
 var current_state # = States.IDLE
 
-var pixel_color: Color # = Global.color_white
 var direction = Vector2.ZERO # prenosna
 var collision: KinematicCollision2D
 var step_time: float # uporabi se pri step tweenu in je nekonstanten, če je "energy_speed_mode"
@@ -63,7 +62,7 @@ onready var min_step_time: float = Profiles.game_rules["min_step_time"]
 
 # dihanje
 var breath_speed: float = 2.4
-export var skilled_alpha: float = 1.2
+export var skilled_alpha: float = 1.1
 
 # zadnji dih
 var last_breath_active: bool = false 
@@ -74,6 +73,7 @@ onready var last_breath_timer: Timer = $LastBreathTimer
 onready var poly_pixel: Polygon2D = $PolyPixel
 var skill_sfx_playing: bool = false # da lahko kličem is procesne funkcije
 
+onready var pixel_color: Color = Profiles.game_rules["pixel_start_color"]
 onready var cell_size_x: int = Global.level_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var vision_ray: RayCast2D = $VisionRay

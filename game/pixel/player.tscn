@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/resources/pixelbreath.tres" type="Animation" id=1]
 [ext_resource path="res://game/pixel/player.gd" type="Script" id=2]
+[ext_resource path="res://assets/light_texture.png" type="Texture" id=3]
 [ext_resource path="res://assets/resources/zbrisane_zazih.../pixeldie_player.tres" type="Animation" id=4]
 [ext_resource path="res://assets/resources/zbrisane_zazih.../pixelrevive.tres" type="Animation" id=10]
 
@@ -105,10 +106,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.32, 0.464183, 0.532472, 0.750925, 0.824842, 0.96, 1.01382, 1.09509, 1.13858, 1.22, 1.27792, 1.32604, 1.439, 1.54235, 1.58225, 1.66352, 1.73553, 1.8067, 1.92, 2.50326 ),
+"times": PoolRealArray( 0, 0.32, 0.464183, 0.532472, 0.750925, 0.824842, 0.96, 1.01382, 1.09509, 1.13858, 1.22, 1.27792, 1.32604, 1.439, 1.54235, 1.58225, 1.66352, 1.73553, 1.8067, 1.92, 2.5 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 0.0812916, 0.0, 0.1, 0.0, 0.0, 0.15, 0.0, 0.15, 0.1, 0.0, 0.25, 0.0, 0.15, 0.2, 0.0, 0.15, 0.1, 0.0, 0.2, 0.25, 0.0 ]
+"values": [ 0.0812916, 0.0, 0.1, 0.0, 0.0, 0.15, 0.0, 0.15, 0.1, 0.0, 0.25, 0.0, 0.15, 0.2, 0.0, 0.15, 0.1, 0.0, 0.2, 0.25, 0.8 ]
 }
 tracks/1/type = "method"
 tracks/1/path = NodePath(".")
@@ -156,8 +157,15 @@ tracks/1/keys = {
 }
 
 [node name="Player" type="KinematicBody2D"]
-modulate = Color( 1, 1, 1, 0.5 )
+modulate = Color( 1, 1, 1, 0.25 )
 script = ExtResource( 2 )
+
+[node name="Light2D" type="Light2D" parent="."]
+position = Vector2( -1.52588e-05, 1.52588e-05 )
+scale = Vector2( 1.5, 1.25 )
+texture = ExtResource( 3 )
+color = Color( 0.952941, 0.356863, 0.498039, 1 )
+energy = 0.5
 
 [node name="PolyPixel" type="Polygon2D" parent="."]
 modulate = Color( 1, 1, 1, 1.2 )

@@ -258,7 +258,7 @@ func spawn_player():
 	
 	var new_player_pixel = PlayerPixel.instance()
 	new_player_pixel.name = "P%s" % str(spawned_player_index)
-	new_player_pixel.pixel_color = Global.color_white
+#	new_player_pixel.pixel_color = Global.color_white
 	new_player_pixel.global_position = spawn_position # ... ne rabim snepat ker se v pixlu na redi funkciji
 	new_player_pixel.visible = false
 	Global.node_creation_parent.add_child(new_player_pixel)

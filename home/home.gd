@@ -119,7 +119,9 @@ func _on_SettingsBtn_pressed() -> void:
 func _on_HighscoresBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	Global.sound_manager.play_gui_sfx("btn_confirm")
-	$Highscores/HighscoreTable.get_highscore_table(100) # številka je ranking izven lesvice in nič ni označeno
+	
+	var fake_player_ranking: int = 100
+	$Highscores/HighscoreTable.get_highscore_table(fake_player_ranking) # številka je ranking izven lesvice in nič ni označeno
 	animation_player.play("highscores")
 
 
@@ -141,7 +143,7 @@ func _on_SettingsBackBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("btn_cancel")
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play_backwards("settings")
-	
+
 
 func _on_HighscoresBackBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("btn_cancel")
@@ -158,11 +160,13 @@ func _on_SelectGameBtn1_pressed() -> void:
 	Global.main_node.home_out() # ... tole je, če ni animacije ... Quick play?
 	$SelectGame/SelectGameBtn1.disabled = true # da ne moreš multiklikat
 
+
 func _on_SelectGame2Btn_pressed() -> void:
 	Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_2
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.home_out() # ... tole je, če ni animacije ... Quick play?
 	$SelectGame/SelectGameBtn2.disabled = true # da ne moreš multiklikat
+
 
 func _on_SelectGame3Btn_pressed() -> void:
 	Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_3
@@ -170,11 +174,13 @@ func _on_SelectGame3Btn_pressed() -> void:
 	Global.main_node.home_out() # ... tole je, če ni animacije ... Quick play?
 	$SelectGame/SelectGameBtn3.disabled = true # da ne moreš multiklikat
 
+
 func _on_SelectGame4Btn_pressed() -> void:
 	Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_4
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.home_out() # ... tole je, če ni animacije ... Quick play?
 	$SelectGame/SelectGameBtn4.disabled = true # da ne moreš multiklikat
+
 
 func _on_SelectGame5Btn_pressed() -> void:
 	Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_5
