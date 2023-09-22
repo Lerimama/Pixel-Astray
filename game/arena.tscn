@@ -100,7 +100,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0, 7.44, 7.52, 7.6, 7.68, 7.86, 7.94, 8, 8.06, 8.12, 8.32 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 0.952941, 0.356863, 0.498039, 0.705882 ), Color( 1, 1, 1, 0 ), Color( 0.368627, 1, 0.662745, 0.705882 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 0.996078, 0.976471, 0.545098, 0.705882 ), Color( 1, 1, 1, 0 ), Color( 0.341176, 0.65098, 1, 0.705882 ), Color( 1, 1, 1, 0 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 0.952941, 0.356863, 0.498039, 0.862745 ), Color( 1, 1, 1, 0 ), Color( 0.368627, 1, 0.662745, 0.862745 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 0.996078, 0.976471, 0.545098, 0.862745 ), Color( 1, 1, 1, 0 ), Color( 0.341176, 0.65098, 1, 0.862745 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/5/type = "method"
 tracks/5/path = NodePath("GameManager")
@@ -241,6 +241,32 @@ tracks/10/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true, false, true, false ]
+}
+tracks/11/type = "method"
+tracks/11/path = NodePath("Actor")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 7.52, 7.56, 7.68, 8, 8.12 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_thunder_strike"
+}, {
+"args": [  ],
+"method": "play_thunder_strike"
+}, {
+"args": [  ],
+"method": "play_thunder_strike"
+}, {
+"args": [  ],
+"method": "play_thunder_strike"
+}, {
+"args": [  ],
+"method": "play_thunder_strike"
+} ]
 }
 
 [sub_resource type="Animation" id=1]
@@ -424,6 +450,7 @@ environment = ExtResource( 8 )
 [node name="Actor" parent="." instance=ExtResource( 5 )]
 modulate = Color( 1, 1, 1, 1.04957 )
 position = Vector2( 432, 912 )
+actor_in_motion = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 3 )

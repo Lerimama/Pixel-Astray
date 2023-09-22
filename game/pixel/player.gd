@@ -393,7 +393,8 @@ func die(die_reason: String):
 
 func revive():
 	modulate.a = 0
-	animation_player.play("revive") # kvefrija se v animaciji
+#	animation_player.play("revive") # kvefrija se v animaciji
+	animation_player.play("stil_alive_poly") # kvefrija se v animaciji
 
 	
 # MOVEMENT ______________________________________________________________________________________________________________

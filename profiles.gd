@@ -3,6 +3,13 @@ extends Node
 
 # STATS ---------------------------------------------------------------------------------------------------------
 
+var settings_strays_amount_1: int = 1
+var settings_strays_amount_2: int = 32
+var settings_strays_amount_3: int = 78
+var settings_strays_amount_4: int = 156
+var settings_strays_amount_5: int = 234
+
+
 var default_level_highscores: Dictionary = { # prazen slovar ... uporabi se ob kreiranju fileta ... uporabi ga Glo
 # če id uporabim kot gole številke, se vseeno prebere kot string
 	"1": {"Prvi": 30,},
@@ -19,7 +26,7 @@ var default_level_highscores: Dictionary = { # prazen slovar ... uporabi se ob k
 
 var default_player_stats : Dictionary = { # bo verjetno za vsak mode drugačen
 	"player_name" : "Moe", # to ime se piše v HS procesu, če igralec pusti prazno
-	"player_life" : 1,
+	"player_life" : 3,
 	"player_points": 0,
 	"player_energy" : 192, # tukaj določena je nepomembna, ker se jo na začetku opredeli iz gam settings
 	"skills_used" : 0,
@@ -31,7 +38,7 @@ var default_level_stats : Dictionary = { # na štartu igre se tole duplicira in 
 	"game_time_limit" : 120, # sekund
 	"death_mode_duration" : 20, # sekund
 	"timer_countdown_mode" : true,
-	"stray_pixels_count" : 76, # 32, 76, 152, 228
+	"stray_pixels_count" : settings_strays_amount_4, # 1, 32, 78, 156, 234
 	"off_pixels_count" : 0,
 	"highscore": 0000, # se naloži iz  "default_level_highscores" lestvice ob štartu igre, zato, da te lahko opozori že med igro
 	"highscore_owner": "NNNNNNNNNN", # se naloži iz  "default_level_highscores" lestvice ob štartu igre, zato, da te lahko opozori že med igro

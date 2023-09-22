@@ -36,17 +36,10 @@ func _ready() -> void:
 	visible = false
 	modulate.a = 0
 	
-	$Settings/GameMusicSlider.value = Global.sound_manager.game_music_volume_slider_value # za_poenoten slajder v settingsih in pavzi
+	$Settings/GameMusicSlider.value = AudioServer.get_bus_volume_db(AudioServer.get_bus_index("GameMusic"))
 
 
 func _process(delta: float) -> void:
-	
-	# change focus sounds
-#	if pause_on:
-#		if Input.is_action_just_pressed("ui_left"):
-#			Global.sound_manager.play_gui_sfx("btn_focus_change")
-#		elif Input.is_action_just_pressed("ui_right"):
-#			Global.sound_manager.play_gui_sfx("btn_focus_change")
 	
 	# pravilno stanje settingsov
 	# game music

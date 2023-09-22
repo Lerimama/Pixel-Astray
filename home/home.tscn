@@ -1500,7 +1500,7 @@ margin_bottom = 42.0
 [node name="MenuMusicCheckBox" type="CheckBox" parent="Settings"]
 margin_left = 224.0
 margin_top = 174.0
-margin_right = 386.0
+margin_right = 380.0
 margin_bottom = 196.0
 pressed = true
 text = "Menu music"
@@ -1508,7 +1508,7 @@ text = "Menu music"
 [node name="GameMusicCheckBox" type="CheckBox" parent="Settings"]
 margin_left = 224.0
 margin_top = 214.0
-margin_right = 386.0
+margin_right = 380.0
 margin_bottom = 236.0
 pressed = true
 text = "Game music"
@@ -1534,6 +1534,7 @@ step = 5.0
 value = -20.0
 
 [node name="Tick" type="Polygon2D" parent="Settings/GameMusicSlider"]
+visible = false
 show_behind_parent = true
 position = Vector2( 0, 9 )
 color = Color( 0.494118, 0.517647, 0.545098, 1 )
@@ -1560,7 +1561,7 @@ margin_left = 224.0
 margin_top = 398.0
 margin_right = 272.0
 margin_bottom = 420.0
-text = "00 pixels astrayed in Quick Play"
+text = "00 pixels astrayed"
 
 [node name="Shorts" type="Label" parent="Settings"]
 anchor_left = 0.5

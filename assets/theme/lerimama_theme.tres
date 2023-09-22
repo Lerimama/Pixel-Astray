@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=20 format=2]
+[gd_resource type="Theme" load_steps=21 format=2]
 
 [ext_resource path="res://assets/theme/lerimama_theme_font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/theme/iconset_lerimama_theme.png" type="Texture" id=3]
@@ -21,6 +21,12 @@ region = Rect2( 16, 16, 14, 16 )
 atlas = ExtResource( 3 )
 region = Rect2( 0, 16, 14, 16 )
 
+[sub_resource type="StyleBoxFlat" id=164]
+bg_color = Color( 1, 1, 1, 0.196078 )
+expand_margin_left = 5.0
+expand_margin_right = 4.0
+expand_margin_bottom = 2.0
+
 [sub_resource type="StyleBoxLine" id=5]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
@@ -33,10 +39,13 @@ region = Rect2( 32, 0, 10, 10 )
 atlas = ExtResource( 3 )
 region = Rect2( 32, 16, 10, 10 )
 
-[sub_resource type="StyleBoxFlat" id=163]
+[sub_resource type="StyleBoxEmpty" id=163]
 
-[sub_resource type="StyleBoxFlat" id=164]
-bg_color = Color( 0.952941, 0.356863, 0.498039, 1 )
+[sub_resource type="StyleBoxFlat" id=165]
+bg_color = Color( 1, 1, 1, 0.196078 )
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_bottom = 5.0
 
 [sub_resource type="AtlasTexture" id=152]
 atlas = ExtResource( 3 )
@@ -84,22 +93,29 @@ Button/styles/hover = SubResource( 159 )
 Button/styles/normal = SubResource( 160 )
 Button/styles/pressed = SubResource( 161 )
 CheckBox/colors/font_color = Color( 1, 1, 1, 0.901961 )
-CheckBox/colors/font_color_focus = Color( 0.368627, 1, 0.662745, 1 )
-CheckBox/colors/font_color_hover = Color( 0.368627, 1, 0.662745, 1 )
-CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
 CheckBox/colors/font_color_pressed = Color( 1, 1, 1, 0.901961 )
 CheckBox/icons/checked = SubResource( 157 )
 CheckBox/icons/unchecked = SubResource( 158 )
+CheckBox/styles/focus = SubResource( 164 )
+CheckBox/styles/hover = SubResource( 164 )
+CheckBox/styles/hover_pressed = SubResource( 164 )
 HSeparator/styles/separator = SubResource( 5 )
 HSlider/icons/grabber = SubResource( 150 )
 HSlider/icons/grabber_highlight = SubResource( 155 )
 HSlider/styles/grabber_area = SubResource( 163 )
-HSlider/styles/grabber_area_highlight = SubResource( 164 )
+HSlider/styles/grabber_area_highlight = SubResource( 165 )
 HSlider/styles/slider = SubResource( 153 )
 Label/colors/font_color = Color( 0.72549, 0.737255, 0.764706, 1 )
 Label/constants/line_spacing = 6
 LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
 LineEdit/colors/selection_color = Color( 0.815686, 0.815686, 0.815686, 1 )
 LineEdit/styles/normal = SubResource( 12 )
+OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_pressed = Color( 0.368627, 1, 0.662745, 1 )
 OptionButton/icons/arrow = SubResource( 162 )
+OptionButton/styles/focus = SubResource( 164 )
+OptionButton/styles/hover = SubResource( 164 )
+OptionButton/styles/pressed = SubResource( 164 )
 Panel/styles/panel = SubResource( 7 )

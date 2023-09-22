@@ -14,8 +14,8 @@ func _ready() -> void:
 	
 	Global.main_node = self
 	
-#	home_in()
-	game_in()
+	home_in()
+#	game_in()
 	
 
 func home_in():
@@ -47,15 +47,14 @@ func game_in():
 	yield(get_tree().create_timer(1), "timeout")
 	Global.current_scene.modulate = Color.black
 	yield(get_tree().create_timer(1), "timeout")
-#	Global.current_scene.modulate = Color.white
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(Global.current_scene, "modulate", Color.white, fade_time)
 
 
 func game_out():
 	
-	print ("game_out()")
 	Global.sound_manager.play_gui_sfx("menu_fade")
+	
 	# ustavim vse možne sounde
 	Global.sound_manager.stop_music("game")
 	Global.sound_manager.stop_sfx("loose_jingle")
@@ -70,6 +69,7 @@ func game_out():
 func reload_game():
 	
 	Global.sound_manager.play_gui_sfx("menu_fade")
+	
 	# ustavim vse možne sounde
 	Global.sound_manager.stop_music("game")
 	Global.sound_manager.stop_sfx("loose_jingle")
@@ -77,7 +77,6 @@ func reload_game():
 	
 	var fade_out = get_tree().create_tween()
 	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
-#	fade_out.tween_callback(Global, "reload_scene", [Global.current_scene])
 	fade_out.tween_callback(Global, "release_scene", [Global.current_scene])
 	fade_out.tween_callback(self, "game_in").set_delay(1) # dober delay ker se relese zgodi šele v naslednjem frejmu
 	

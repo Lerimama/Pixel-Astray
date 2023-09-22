@@ -7,31 +7,10 @@ var game_music_set_to_off: bool = false
 
 var currently_playing_track_index = 1 # ga ne resetiraš, da ostane v spominu skozi celo igro
 
-var game_music_tracks_volumes_on_node: Array = [] # napolneš ga na _ready
-var game_music_volume_slider_value: int # trenutni poožaj na slajderju ... da je poenoteno med obemi settingsi 
-
 onready var game_music: Node2D = $Music/GameMusic
 onready var menu_music = $Music/MenuMusic/WarmUpShort
 onready var menu_music_volume_on_node = menu_music.volume_db # za reset po fejdoutu (game_over)
 onready var game_music_tracks: Array = game_music.get_children()
-
-
-#func _input(event: InputEvent) -> void:
-#
-#	if Input.is_action_just_pressed("n"):
-#		if game_music_set_to_off:
-#			return
-#		skip_track()
-#
-#	# music toggle
-#	if Input.is_action_just_pressed("m") and Global.game_manager != null: # tukaj damo samo na mute ... kar ni isto kot paused
-#
-#		if game_music_set_to_off:
-#			game_music_set_to_off = false
-#			play_music("game")
-#		else:
-#			stop_music("game")
-#			game_music_set_to_off = true
 	
 	
 func _ready() -> void:
@@ -39,10 +18,6 @@ func _ready() -> void:
 	Global.sound_manager = self
 	randomize()
 	
-	# pogrebam on-node volumne v array vzporeden areju komadov 
-	for track in game_music.get_children():
-		game_music_tracks_volumes_on_node.append(track.volume_db)
-			
 
 # SFX --------------------------------------------------------------------------------------------------------
 
@@ -84,6 +59,7 @@ func play_sfx(effect_for: String):
 			yield(get_tree().create_timer(0.1), "timeout")
 			$GameSfx/Burst/Burst.play()
 			$GameSfx/Burst/BurstLaser.play()
+
 		"burst_cocking":
 			if $GameSfx/Burst/BurstCocking.is_playing():
 				return
@@ -118,7 +94,16 @@ func play_sfx(effect_for: String):
 			$GameSfx/Events/Loose.play()
 		"record_cheers":
 			$GameSfx/Events/RecordFanfare.play()
-	
+
+		# intro
+		"thunder_strike":
+			$GameSfx/Burst/Burst.play()
+		"intro_stepping":
+			$GameSfx/Burst/Burst.play()
+			var selected_tap = select_random_sfx($GameSfx/Stepping)
+			selected_tap.play()
+			
+			
 			
 func play_gui_sfx(effect_for: String):
 	
@@ -213,20 +198,9 @@ func stop_music(music_to_stop: String):
 					fade_out.tween_property(music, "volume_db", current_music_volume, 0.1) # reset glasnosti
 		
 
-func set_game_music_volume(game_music_volume_on_slider: float): # kliče se iz settingsov
-	
+func set_game_music_volume(value_on_slider: float): # kliče se iz settingsov
 	# slajder je omeje od -30 do 10
-	# vsakič ko sporoči vrednost je to vrednost adaptacije na setan volumen
-	
-	game_music_volume_slider_value = game_music_volume_on_slider # da je poenoteno med obemi settingsi
-	
-	var track_index = 0
-	for track in game_music_tracks:
-		var track_volume_on_node = game_music_tracks_volumes_on_node[track_index]
-		var new_track_volume = track_volume_on_node + game_music_volume_on_slider
-		track.volume_db = new_track_volume
-		
-		track_index += 1
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("GameMusic"), value_on_slider)
 		
 		
 func skip_track():

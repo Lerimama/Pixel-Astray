@@ -94,37 +94,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	players_in_game = get_tree().get_nodes_in_group(Global.group_players)
 	strays_in_game = get_tree().get_nodes_in_group(Global.group_strays)
+
 	
-#	in_game_input()
-#	if Input.is_action_just_pressed("r"):
-##		start_game()
-#		printt("players_in_game", players_in_game)
-#
-#	if Input.is_action_pressed("no1") and player_stats["player_energy"] > 1:
-#		player_stats["player_energy"] -= 1
-#		player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_max_energy"]) # 1 je najnižja, ker tam se že odšteva zadnji izdihljaj
-#	if Input.is_action_pressed("no2"):
-#		player_stats["player_energy"] += 10
-#
-#	if can_skip_intro: # tajmiran v animaciji in skip funkciji
-#		if Input.is_action_just_pressed("ui_cancel") and can_skip_intro:
-#			skip_intro()
-#
-#	if Input.is_action_just_pressed("n"):
-#		if Global.sound_manager.game_music_set_to_off:
-#			return
-#		Global.sound_manager.skip_track()
-#		print("n")
-#
-#	# music toggle
-#	if Input.is_action_just_pressed("m") and Global.game_manager != null: # tukaj damo samo na mute ... kar ni isto kot paused
-#		print("m")
-#		if Global.sound_manager.game_music_set_to_off:
-#			Global.sound_manager.game_music_set_to_off = false
-#			Global.sound_manager.play_music("game")
-#		else:
-#			Global.sound_manager.stop_music("game")
-#			Global.sound_manager.game_music_set_to_off = true
 # GAME LOOP --------------------------------------------------------------------------------------------------------------------------------
 
 
