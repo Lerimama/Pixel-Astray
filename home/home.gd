@@ -3,7 +3,7 @@ extends Node
 
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 
-enum Screens {MAIN_MENU, SELECT_GAME, ABOUT, SETTINGS, CREDITS}
+enum Screens {MAIN_MENU, SELECT_GAME, ABOUT, SETTINGS, HIGHSCORES}
 var current_screen = Screens.MAIN_MENU
 
 
@@ -19,8 +19,8 @@ func _input(event: InputEvent) -> void:
 				_on_AboutBackBtn_pressed()
 			Screens.SETTINGS:
 				_on_SettingsBackBtn_pressed()
-			Screens.CREDITS:
-				_on_CreditsBackBtn_pressed()
+			Screens.HIGHSCORES:
+				_on_HighscoresBackBtn_pressed()
 	
 	if current_screen == Screens.MAIN_MENU:
 		if Input.is_action_just_pressed("ui_left"):
@@ -56,7 +56,7 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 			if animation_reversed("select_game"):
 				return
 			current_screen = Screens.SELECT_GAME
-			$SelectGame/SelectGameBtn.grab_focus()
+			$SelectGame/SelectGameBtn1.grab_focus()
 			
 		"about":
 			if animation_reversed("about"):
@@ -68,11 +68,11 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 				return
 			current_screen = Screens.SETTINGS
 			$Settings/MenuMusicCheckBox.grab_focus()
-		"credits":
-			if animation_reversed("credits"):
+		"highscores":
+			if animation_reversed("highscores"):
 				return
-			current_screen = Screens.CREDITS
-			$Credits/CreditsBackBtn.grab_focus()
+			current_screen = Screens.HIGHSCORES
+			$Highscores/HighscoresBackBtn.grab_focus()
 
 
 func animation_reversed(from_screen: String):
@@ -87,8 +87,8 @@ func animation_reversed(from_screen: String):
 				$Menu/AboutBtn.grab_focus()
 			"settings":
 				$Menu/SettingsBtn.grab_focus()
-			"credits":
-				$Menu/CreditsBtn.grab_focus()
+			"highscores":
+				$Menu/HighscoresBtn.grab_focus()
 		current_screen = Screens.MAIN_MENU
 		return true
 
@@ -116,11 +116,11 @@ func _on_SettingsBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	animation_player.play("settings")
 
-
-func _on_CreditsBtn_pressed() -> void:
+func _on_HighscoresBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	Global.sound_manager.play_gui_sfx("btn_confirm")
-	animation_player.play("credits")
+	$Highscores/HighscoreTable.get_highscore_table(100) # številka je ranking izven lesvice in nič ni označeno
+	animation_player.play("highscores")
 
 
 # BACK BTNZ ---------------------------------------------------------------------------------------------------
@@ -142,18 +142,42 @@ func _on_SettingsBackBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play_backwards("settings")
 	
-	
-func _on_CreditsBackBtn_pressed() -> void:
+
+func _on_HighscoresBackBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("btn_cancel")
 	Global.sound_manager.play_gui_sfx("screen_slide")
-	animation_player.play_backwards("credits")
+	animation_player.play_backwards("highscores")
 
 
 # SELECT GAME ---------------------------------------------------------------------------------------------------
 
 	
-func _on_SelectGame1Btn_pressed() -> void:
+func _on_SelectGameBtn1_pressed() -> void:
+	Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_1
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.home_out() # ... tole je, če ni animacije ... Quick play?
+	$SelectGame/SelectGameBtn1.disabled = true # da ne moreš multiklikat
 
-	$SelectGame/SelectGameBtn.disabled = true # da ne moreš multiklikat
+func _on_SelectGame2Btn_pressed() -> void:
+	Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_2
+	Global.sound_manager.play_gui_sfx("btn_confirm")
+	Global.main_node.home_out() # ... tole je, če ni animacije ... Quick play?
+	$SelectGame/SelectGameBtn2.disabled = true # da ne moreš multiklikat
+
+func _on_SelectGame3Btn_pressed() -> void:
+	Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_3
+	Global.sound_manager.play_gui_sfx("btn_confirm")
+	Global.main_node.home_out() # ... tole je, če ni animacije ... Quick play?
+	$SelectGame/SelectGameBtn3.disabled = true # da ne moreš multiklikat
+
+func _on_SelectGame4Btn_pressed() -> void:
+	Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_4
+	Global.sound_manager.play_gui_sfx("btn_confirm")
+	Global.main_node.home_out() # ... tole je, če ni animacije ... Quick play?
+	$SelectGame/SelectGameBtn4.disabled = true # da ne moreš multiklikat
+
+func _on_SelectGame5Btn_pressed() -> void:
+	Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_5
+	Global.sound_manager.play_gui_sfx("btn_confirm")
+	Global.main_node.home_out() # ... tole je, če ni animacije ... Quick play?
+	$SelectGame/SelectGameBtn5.disabled = true # da ne moreš multiklikat

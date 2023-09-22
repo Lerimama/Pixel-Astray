@@ -1,13 +1,10 @@
 extends VBoxContainer
 
-
-func _ready() -> void:
-#	visible = false
-	pass
 	
 func get_highscore_table(current_player_ranking):
 	
-	var current_level_highscores = Global.data_manager.read_highscores_from_file(Global.game_manager.game_stats["level_no"])
+#	var current_level_highscores = Global.data_manager.read_highscores_from_file(Global.game_manager.game_stats["level_no"])
+	var current_level_highscores = Global.data_manager.read_highscores_from_file(Profiles.default_level_stats["level_no"])
 	
 	var score_lines: Array = get_children()
 	

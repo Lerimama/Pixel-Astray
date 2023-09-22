@@ -78,7 +78,7 @@ func fade_in(gameover_reason):
 	fade_in.tween_callback(Global.sound_manager, "play_sfx", ["loose_jingle"])
 	
 	write_gameover_data()
-	highscore_table.get_highscore_table()
+	highscore_table.get_highscore_table(Global.data_manager.current_player_ranking)
 	
 	yield(get_tree().create_timer(1.5), "timeout")
 

@@ -1431,16 +1431,16 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -512.0
-margin_top = -256.0
+margin_top = -264.0
 margin_right = 512.0
-margin_bottom = 240.0
+margin_bottom = 248.0
 
 [node name="Settings" type="Control" parent="GUI/PauseMenu"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 704.0
+margin_left = 712.0
 margin_top = 207.0
-margin_right = -183.0
+margin_right = -175.0
 margin_bottom = -344.0
 theme = ExtResource( 4 )
 
@@ -1582,9 +1582,9 @@ autowrap = true
 
 [node name="keyboard" type="Label" parent="GUI/PauseMenu"]
 modulate = Color( 1, 1, 1, 0.901961 )
-margin_left = 160.0
+margin_left = 176.0
 margin_top = 206.0
-margin_right = 268.0
+margin_right = 284.0
 margin_bottom = 228.0
 size_flags_vertical = 0
 theme = ExtResource( 4 )
@@ -1592,24 +1592,24 @@ custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Keyboard"
 
 [node name="content3" type="Label" parent="GUI/PauseMenu"]
-margin_left = 288.0
+margin_left = 304.0
 margin_top = 206.0
-margin_right = 664.0
+margin_right = 668.0
 margin_bottom = 343.0
 size_flags_vertical = 0
 theme = ExtResource( 4 )
-text = "move up = W, UP
-move down = S, DOWN
-move left = A, LEFT
-move right = D, RIGHT
-burst = SPACE + opp direction"
+text = "Move up = W, UP
+Move down = S, DOWN
+Move left = A, LEFT
+Move right = D, RIGHT
+Burst = SPACE + opp direction"
 autowrap = true
 
 [node name="joypad" type="Label" parent="GUI/PauseMenu"]
 modulate = Color( 1, 1, 1, 0.901961 )
-margin_left = 184.0
+margin_left = 200.0
 margin_top = 358.0
-margin_right = 268.0
+margin_right = 284.0
 margin_bottom = 383.0
 size_flags_vertical = 0
 theme = ExtResource( 4 )
@@ -1617,9 +1617,9 @@ custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "JoyPad"
 
 [node name="content4" type="Label" parent="GUI/PauseMenu"]
-margin_left = 288.0
+margin_left = 304.0
 margin_top = 358.0
-margin_right = 670.0
+margin_right = 686.0
 margin_bottom = 495.0
 size_flags_vertical = 0
 theme = ExtResource( 4 )
@@ -1627,31 +1627,7 @@ text = "Move up = UP
 Move down = DOWN
 Move left = LEFT
 Move right = RIGHT
-Burst =  BTN A + opp direction"
-autowrap = true
-
-[node name="shortcuts" type="Label" parent="GUI/PauseMenu"]
-visible = false
-modulate = Color( 1, 1, 1, 0.588235 )
-margin_left = 689.0
-margin_top = 366.0
-margin_right = 803.0
-margin_bottom = 391.0
-size_flags_vertical = 0
-theme = ExtResource( 4 )
-text = "Shortcuts"
-
-[node name="content5" type="Label" parent="GUI/PauseMenu"]
-visible = false
-margin_left = 823.0
-margin_top = 366.0
-margin_right = 1239.0
-margin_bottom = 447.0
-size_flags_vertical = 0
-theme = ExtResource( 4 )
-text = "Toggle game pause = ESC/Stop
-Toggle game music on/off = M/L2
-Cycle music tracks = N/L4"
+Burst = B + opp direction"
 autowrap = true
 
 [node name="Menu" type="HBoxContainer" parent="GUI/PauseMenu"]
@@ -1729,18 +1705,17 @@ margin_bottom = 41.0
 [node name="Shorts" type="Label" parent="GUI/PauseMenu"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = 65.0
+margin_left = 72.0
 margin_top = 414.0
-margin_right = 512.0
-margin_bottom = 523.0
+margin_right = 472.0
+margin_bottom = 504.0
 size_flags_horizontal = 3
 theme = ExtResource( 4 )
-text = "To control sound during game use shortcuts M/L2  to toggle music on/off, and N/L4 for next track."
+text = "Use shortcuts in game for sound control. M/L2  to toggle music on/off and N/R2 for next track."
 autowrap = true
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
-visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
 script = ExtResource( 3 )
@@ -1929,7 +1904,8 @@ margin_top = 182.0
 margin_right = 960.0
 margin_bottom = 204.0
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "BEST 10  PIXELS EVER"
+text = "BEST PIXELS EVER"
+align = 1
 
 [node name="HSeparator" type="HSeparator" parent="GUI/GameOver/Content/Title3"]
 modulate = Color( 1, 1, 1, 0.901961 )
@@ -2354,7 +2330,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 6
 text = "..."
 align = 1
-max_length = 10
+max_length = 8
 caret_blink = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="GUI/GameOver/NameInputPopup"]
