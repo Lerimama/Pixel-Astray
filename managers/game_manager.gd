@@ -1,18 +1,15 @@
 extends Node
 
 
-#export var can_skip_intro: bool = false # čas ko lahko skipneš intro ... exportan, ker je ponoven off tajmiran v animaciji
-
 # states
 var game_on: bool = false
 var deathmode_active = false
 
-# intro
+# cam shake
 var spawn_shake_power: float = 0.25
 var spawn_shake_time: float = 0.5
 var spawn_shake_decay: float = 0.2	
 var strays_spawn_loop: int = 0	
-var strays_shown: Array = []
 
 # spawning
 var player_start_position = null  # pogreba iz tajlmepa
@@ -20,6 +17,7 @@ var spawned_player_index: int = 0
 var spawned_stray_index: int = 0
 var players_in_game: Array = []
 var strays_in_game: Array = []
+#var strays_shown: Array = []
 
 var floor_positions: Array # po signalu ob kreaciji tilemapa ... tukaj, da ga lahko grebam do zunaj
 var available_floor_positions: Array # dplikat floor_positions za spawnanje pixlov
@@ -50,10 +48,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_pressed("no2"):
 		player_stats["player_energy"] += 10
 	
-#	if can_skip_intro: # tajmiran v animaciji in skip funkciji
-#		if Input.is_action_just_pressed("ui_cancel") and can_skip_intro:
-#			skip_intro()
-
 	if Input.is_action_just_pressed("n"):
 		if Global.sound_manager.game_music_set_to_off:
 			return
@@ -85,11 +79,6 @@ func _ready() -> void:
 	player_stats["player_energy"] = game_rules["player_start_energy"]
 	
 	set_game()
-	# toggle intro
-#	if game_rules["game_intro_on"]:
-#		play_intro()
-#	else:
-#		skip_intro() # še countdown
 	
 	
 func _process(delta: float) -> void:
@@ -98,37 +87,6 @@ func _process(delta: float) -> void:
 
 	
 # GAME LOOP --------------------------------------------------------------------------------------------------------------------------------
-
-
-#func play_intro():
-#	yield(get_tree().create_timer(2), "timeout") # pavza pred pixelate eventom
-#	animation_player.play("game_intro") # v animaciji spawnam strayse v več grupah, plejerja in zaženem set_game()
-#	can_skip_intro = true # ponoven off tajmiran v animaciji (če ne skipaš)
-	
-
-#func skip_intro():
-#
-##	can_skip_intro = false
-##	animation_player.stop()
-#
-#	# actor KVEFRI ... preverjam, če skipnem še predno je naložen  
-##	if is_instance_valid(actor_pixel):
-##		actor_pixel.actor_in_motion = false
-##		actor_pixel.queue_free()
-#
-#	split_stray_colors()  # spawnanje, ki bi se drugače zgodilo v intro animaciji ... ampak so še skriti
-#	spawn_player() # pokaže ga šele v set_game
-#
-#	# show strays
-#	yield(get_tree().create_timer(0.5), "timeout")
-#	show_strays() # 1 ...v metodi šteje število "klicev" ... tam se določa spawn število na vsak krog
-#	yield(get_tree().create_timer(0.2), "timeout")
-#	show_strays() # 2 ...
-#	show_strays()
-#	yield(get_tree().create_timer(0.2), "timeout")
-#	show_strays()
-#
-#	set_game()	
 
 
 func show_strays():
@@ -141,6 +99,7 @@ func show_strays():
 	if strays_spawn_loop > 4:
 		return
 	
+	var strays_shown: Array = []
 	match strays_spawn_loop:
 		1: # polovica
 			strays_to_show_count = round(strays_in_game.size()/2)
@@ -185,11 +144,6 @@ func set_game():
 		for player in players_in_game:
 			player.visible = true
 			player.set_physics_process(false)
-	
-	# actor KVEFRI, če intro ni bil skipan  
-#	if is_instance_valid(actor_pixel):
-#		actor_pixel.actor_in_motion = false
-#		actor_pixel.queue_free()
 	
 	strays_spawn_loop = 0
 	

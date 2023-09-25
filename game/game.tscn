@@ -1623,10 +1623,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -145.0
+margin_left = -133.0
 margin_top = 174.0
-margin_right = 145.0
+margin_right = 175.0
 margin_bottom = 196.0
+custom_constants/separation = 32
 __meta__ = {
 "_edit_group_": true
 }
@@ -1645,23 +1646,23 @@ enabled_focus_mode = 1
 text = "QUIT"
 
 [node name="RestartBtn" type="Button" parent="GUI/PauseMenu/Menu"]
-margin_left = 56.0
-margin_right = 192.0
+margin_left = 84.0
+margin_right = 182.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../QuitBtn")
 focus_neighbour_top = NodePath("../../Settings/CamerShakeCheckBox")
 focus_neighbour_right = NodePath("../PlayBtn")
 focus_neighbour_bottom = NodePath("../../Settings/GameMusicCheckBox")
 focus_mode = 1
-size_flags_horizontal = 3
+size_flags_horizontal = 6
 size_flags_vertical = 0
 theme = ExtResource( 4 )
 enabled_focus_mode = 1
 text = "RESTART"
 
 [node name="PlayBtn" type="Button" parent="GUI/PauseMenu/Menu"]
-margin_left = 196.0
-margin_right = 290.0
+margin_left = 214.0
+margin_right = 308.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../RestartBtn")
 focus_neighbour_top = NodePath("../../Settings/CamerShakeCheckBox")
@@ -2237,10 +2238,11 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -105.0
+margin_left = -68.0
 margin_top = -106.0
-margin_right = 106.0
+margin_right = 148.0
 margin_bottom = -84.0
+custom_constants/separation = 32
 __meta__ = {
 "_edit_group_": true
 }
@@ -2256,8 +2258,8 @@ theme = ExtResource( 4 )
 text = "QUIT"
 
 [node name="RestartBtn" type="Button" parent="GUI/GameOver/Content/Menu"]
-margin_left = 79.0
-margin_right = 211.0
+margin_left = 84.0
+margin_right = 216.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../QuitBtn")
 focus_neighbour_right = NodePath("../QuitBtn")

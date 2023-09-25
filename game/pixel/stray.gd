@@ -50,7 +50,7 @@ func _physics_process(delta: float) -> void:
 			if is_stepping:
 				return
 			is_stepping = true
-			var random_direction_index: int = randi() % int(7) # + offset
+			var random_direction_index: int = randi() % int(6) # + offset
 			var wandering_direction: Vector2
 			match random_direction_index:
 				0: wandering_direction = Vector2.LEFT
@@ -59,7 +59,7 @@ func _physics_process(delta: float) -> void:
 				4: wandering_direction = Vector2.DOWN
 				5: wandering_direction = Vector2.DOWN
 				6: wandering_direction = Vector2.DOWN
-				7: wandering_direction = Vector2.DOWN
+#				7: wandering_direction = Vector2.DOWN
 #				8: wandering_direction = Vector2.DOWN
 #				9: wandering_direction = Vector2.DOWN
 			var random_pause_time_factor: float = randi() % int(100) + 30
@@ -79,7 +79,7 @@ func step(step_direction):
 		step_tween.tween_property(self, "position", global_position + step_direction * cell_size_x, step_time)
 		step_tween.tween_callback(Global, "snap_to_nearest_grid", [global_position, Global.level_tilemap.floor_cells_global_positions])
 	else:
-		print("stray karambol")	
+		return
 
 
 func die(stray_in_row):

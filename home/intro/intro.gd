@@ -46,7 +46,7 @@ func _process(delta: float) -> void:
 
 
 func play_intro():
-	yield(get_tree().create_timer(2), "timeout") # pavza pred pixelate eventom
+#	yield(get_tree().create_timer(2), "timeout") # pavza pred pixelate eventom
 	animation_player.play("intro_running")
 	# animation_player.advance(7)
 	
@@ -65,30 +65,32 @@ func play_last_breath():
 func skip_intro():
 	animation_player.stop()
 	actor_in_motion = false
-	actor_pixel.queue_free()
+	actor_pixel.visible = false
+	
 	yield(get_tree().create_timer(0.5), "timeout")
 	emit_signal("finished_playing")
 	split_stray_colors()
-	yield(get_tree().create_timer(0.5), "timeout")
-	show_strays()
 	yield(get_tree().create_timer(0.1), "timeout")
-	show_strays()
-	yield(get_tree().create_timer(0.1), "timeout")
-	show_strays()
-	yield(get_tree().create_timer(0.1), "timeout")
-	show_strays()
-	yield(get_tree().create_timer(1), "timeout")
-	for stray in strays_on_screen:
+	for stray in strays_on_screen: # tole je že tukaj, ker ima nakljiučne pavze in drugače predolgo traya
 		stray.current_stray_state = stray.StrayStates.WANDERING
+	show_strays()
+	yield(get_tree().create_timer(0.1), "timeout")
+	show_strays()
+	yield(get_tree().create_timer(0.1), "timeout")
+	show_strays()
+	yield(get_tree().create_timer(0.1), "timeout")
+	show_strays()
+
 		
 func end_intro():
-	animation_player.stop()
-	actor_in_motion = false
-	actor_pixel.queue_free()
-	
-	emit_signal("finished_playing")
 	for stray in strays_on_screen:
 		stray.current_stray_state = stray.StrayStates.WANDERING
+	
+	animation_player.stop()
+	actor_in_motion = false
+	actor_pixel.visible = false
+	
+	emit_signal("finished_playing")
 
 
 # SPAWNING ----------------------------------------------------------------------------------

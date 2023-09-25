@@ -4,12 +4,11 @@ extends Node
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 enum Screens {INTRO, MAIN_MENU, SELECT_GAME, ABOUT, SETTINGS, HIGHSCORES}
-var current_screen # = Screens.MAIN_MENU
+var current_screen # se določi z main animacije
 onready var menu: Control = $Menu
 
 onready var intro: Node2D = $IntroViewPortContainer/Viewport/Intro
 onready var skip_intro_label: Label = $SkipIntroLabel
-
 
 
 func _input(event: InputEvent) -> void:
@@ -18,7 +17,7 @@ func _input(event: InputEvent) -> void:
 		match current_screen:
 			Screens.INTRO:
 				intro.skip_intro() # v MAIN MENU se spremeni, ko intro pošlje signal, da je končal
-#				current_screen = Screens.MAIN_MENU
+				current_screen = Screens.MAIN_MENU
 			Screens.MAIN_MENU:
 				 pass
 			Screens.SELECT_GAME:
@@ -52,25 +51,30 @@ func _input(event: InputEvent) -> void:
 					
 func _ready():
 	
+	menu.visible = false
+	skip_intro_label.visible = false	
+		
+			
+# MAIN MENU ---------------------------------------------------------------------------------------------------
+
+func open_with_intro():
 	intro.play_intro()
 	current_screen = Screens.INTRO
 	menu.visible = false
 	skip_intro_label.visible = true
 	
-#	$Menu/PlayBtn.grab_focus()
-			
-			
-# MAIN MENU ---------------------------------------------------------------------------------------------------
+func open_without_intro():
+	intro.skip_intro()
 
-
+	
 func menu_in():
 	menu.modulate.a = 0
 	menu.visible = true
-#	current_screen = Screens.MAIN_MENU
+	skip_intro_label.visible = false
 	
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(menu, "modulate:a", 1, 1)
-	fade_in.parallel().tween_property(self, "current_screen", Screens.MAIN_MENU, 1)
+	# fade_in.parallel().tween_property(self, "current_screen", Screens.MAIN_MENU, 1)
 	fade_in.tween_callback($Menu/PlayBtn, "grab_focus")
 	
 
@@ -189,6 +193,7 @@ func _on_HighscoresBackBtn_pressed() -> void:
 
 	
 func _on_SelectGameBtn1_pressed() -> void:
+	
 	Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_1
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.home_out() # ... tole je, če ni animacije ... Quick play?
@@ -221,7 +226,7 @@ func _on_SelectGame5Btn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.home_out() # ... tole je, če ni animacije ... Quick play?
 	$SelectGame/SelectGameBtn5.disabled = true # da ne moreš multiklikat
-
+	
 
 func _on_QuitGameBtn_pressed() -> void:
 	get_tree().quit()

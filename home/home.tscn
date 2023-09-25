@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=1]
 [ext_resource path="res://assets/theme/iconset_lerimama_theme.png" type="Texture" id=2]
@@ -12,13 +12,13 @@
 [ext_resource path="res://assets/theme/lerimama_theme_select_game_font.tres" type="DynamicFont" id=10]
 [ext_resource path="res://game/gui/highscore_table.gd" type="Script" id=11]
 
+[sub_resource type="AtlasTexture" id=158]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 60, 24, 20 )
+
 [sub_resource type="AtlasTexture" id=150]
 atlas = ExtResource( 2 )
-region = Rect2( 0, 48, 24, 20 )
-
-[sub_resource type="AtlasTexture" id=149]
-atlas = ExtResource( 2 )
-region = Rect2( 0, 68, 24, 20 )
+region = Rect2( 0, 40, 24, 20 )
 
 [sub_resource type="StyleBoxFlat" id=152]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
@@ -27,7 +27,7 @@ border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color( 0.368627, 1, 0.662745, 1 )
+border_color = Color( 1, 1, 1, 0.901961 )
 
 [sub_resource type="StyleBoxEmpty" id=151]
 
@@ -39,6 +39,10 @@ border_width_top = 4
 border_width_right = 4
 border_width_bottom = 4
 border_color = Color( 0.368627, 1, 0.662745, 1 )
+
+[sub_resource type="AtlasTexture" id=149]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 68, 24, 20 )
 
 [sub_resource type="Animation" id=155]
 length = 0.001
@@ -695,6 +699,7 @@ rect_scale = Vector2( 0.5, 0.5 )
 
 [node name="Viewport" type="Viewport" parent="IntroViewPortContainer"]
 size = Vector2( 2560, 1440 )
+transparent_bg = true
 handle_input_locally = false
 render_target_update_mode = 3
 
@@ -719,7 +724,6 @@ margin_bottom = 519.0
 margin_top = -1.0
 margin_right = 132.0
 margin_bottom = 24.0
-focus_neighbour_left = NodePath("../QuitGameBtn")
 focus_neighbour_right = NodePath("../SelectGameBtn")
 focus_mode = 1
 size_flags_horizontal = 2
@@ -795,7 +799,6 @@ margin_top = -1.0
 margin_right = 722.0
 margin_bottom = 24.0
 focus_neighbour_left = NodePath("../AboutBtn")
-focus_neighbour_right = NodePath("../PlayBtn")
 focus_mode = 1
 size_flags_horizontal = 2
 size_flags_vertical = 8
@@ -822,8 +825,9 @@ margin_right = -40.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 16, 16 )
 rect_rotation = 89.9999
-texture_normal = SubResource( 150 )
-texture_hover = SubResource( 149 )
+texture_normal = SubResource( 158 )
+texture_hover = SubResource( 150 )
+texture_focused = SubResource( 150 )
 flip_h = true
 
 [node name="Title" type="Label" parent="About"]
@@ -998,8 +1002,9 @@ margin_right = -40.0
 margin_bottom = 152.0
 rect_min_size = Vector2( 16, 16 )
 rect_rotation = 89.9999
-texture_normal = SubResource( 150 )
-texture_hover = SubResource( 149 )
+texture_normal = SubResource( 158 )
+texture_hover = SubResource( 150 )
+texture_focused = SubResource( 150 )
 
 [node name="Title2" type="Label" parent="Highscores"]
 anchor_left = 0.5
@@ -2474,8 +2479,9 @@ margin_right = -152.0
 margin_bottom = 132.0
 rect_min_size = Vector2( 16, 16 )
 focus_neighbour_bottom = NodePath("../SelectGameBtn1")
-texture_normal = SubResource( 150 )
-texture_hover = SubResource( 149 )
+texture_normal = SubResource( 158 )
+texture_hover = SubResource( 150 )
+texture_focused = SubResource( 150 )
 flip_h = true
 
 [node name="Description" type="Label" parent="SelectGame"]
@@ -2712,10 +2718,9 @@ margin_top = 113.0
 margin_right = -8.0
 margin_bottom = 133.0
 rect_min_size = Vector2( 16, 16 )
-texture_normal = SubResource( 150 )
-texture_pressed = SubResource( 149 )
-texture_hover = SubResource( 149 )
-texture_focused = SubResource( 149 )
+texture_normal = SubResource( 158 )
+texture_hover = SubResource( 150 )
+texture_focused = SubResource( 150 )
 
 [node name="Title" type="Label" parent="Settings"]
 margin_left = 224.0
@@ -2737,8 +2742,8 @@ margin_bottom = 42.0
 [node name="MenuMusicCheckBox" type="CheckBox" parent="Settings"]
 margin_left = 224.0
 margin_top = 174.0
-margin_right = 380.0
-margin_bottom = 196.0
+margin_right = 384.0
+margin_bottom = 200.0
 pressed = true
 text = "Menu music"
 
@@ -2799,6 +2804,7 @@ margin_top = 398.0
 margin_right = 272.0
 margin_bottom = 420.0
 text = "00 pixels astrayed"
+flat = true
 
 [node name="Shorts" type="Label" parent="Settings"]
 anchor_left = 0.5

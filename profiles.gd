@@ -76,22 +76,15 @@ var game_rules: Dictionary = { # tole ne uporabljam v zadnji varianti
 	"last_breath_time":  10, # cca 1 bit na sekundo
 	"pixel_start_color": Color("#323232"),
 	"intro_strays_count": 149,  # 149 celic je v naslovu, kar je več gre naokrog
-	#var color_gray0 = Color("#171a23") # najtemnejša
-	#var color_gray1 = Color("#1d212d")
-	#var color_gray2 = Color("#272d3d")
-	#var color_gray3 = Color("#2f3649")
-	#var color_gray4 = Color("#404954")
-	#var color_gray5 = Color("#535b68") # najsvetlejša
 		
 	# config ... ne vem če je vse za ta slovar?
 	"pick_neighbour_mode": false, # hud, player
 	"deathmode_on": true, # hud_game_timer
 	"last_breath_mode": true, # player
 	"minimap_on": false, # game
-	"game_intro_on": true, # GM
 	"game_countdown_on": false, # game_countdown
 	"energy_speed_mode": true, # GM, player
-	"energy_alpha_mode": true, # hud_game_timer
+	"energy_alpha_mode": false, # hud_game_timer
 	"loose_life_on": true, # GM ... v tem primeru, ne izgubiš energije niti točk
 	"revive_energy_reset": true,  # GM
 	"stop_burst_mode": true,  # player
