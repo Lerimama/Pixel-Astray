@@ -1,25 +1,17 @@
-[gd_resource type="Theme" load_steps=19 format=2]
+[gd_resource type="Theme" load_steps=20 format=2]
 
 [ext_resource path="res://assets/theme/lerimama_theme_font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/theme/iconset_lerimama_theme.png" type="Texture" id=3]
 
-[sub_resource type="StyleBoxEmpty" id=2]
+[sub_resource type="StyleBoxEmpty" id=169]
 
-[sub_resource type="StyleBoxFlat" id=166]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 1, 1, 1, 0.901961 )
-expand_margin_left = 16.0
-expand_margin_right = 16.0
-expand_margin_top = 3.0
-expand_margin_bottom = 4.0
+[sub_resource type="StyleBoxEmpty" id=170]
 
-[sub_resource type="StyleBoxEmpty" id=167]
+[sub_resource type="StyleBoxEmpty" id=171]
 
-[sub_resource type="StyleBoxEmpty" id=161]
+[sub_resource type="StyleBoxEmpty" id=172]
+
+[sub_resource type="StyleBoxEmpty" id=173]
 
 [sub_resource type="AtlasTexture" id=157]
 atlas = ExtResource( 3 )
@@ -98,14 +90,16 @@ border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
 
 [resource]
 default_font = ExtResource( 1 )
-Button/colors/font_color = Color( 1, 1, 1, 0.901961 )
-Button/colors/font_color_disabled = Color( 1, 1, 1, 0.470588 )
+Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
+Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
+Button/colors/font_color_hover = Color( 1, 1, 1, 0.980392 )
 Button/colors/font_color_pressed = Color( 1, 1, 1, 1 )
-Button/styles/disabled = SubResource( 2 )
-Button/styles/focus = SubResource( 166 )
-Button/styles/hover = SubResource( 166 )
-Button/styles/normal = SubResource( 167 )
-Button/styles/pressed = SubResource( 161 )
+Button/styles/disabled = SubResource( 169 )
+Button/styles/focus = SubResource( 170 )
+Button/styles/hover = SubResource( 171 )
+Button/styles/normal = SubResource( 172 )
+Button/styles/pressed = SubResource( 173 )
 CheckBox/colors/font_color = Color( 1, 1, 1, 0.901961 )
 CheckBox/colors/font_color_pressed = Color( 1, 1, 1, 0.901961 )
 CheckBox/icons/checked = SubResource( 157 )

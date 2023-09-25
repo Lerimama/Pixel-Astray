@@ -21,8 +21,6 @@ func _ready() -> void:
 
 func home_in_intro(): # isto kot home in, samo, da sprož intro
 	
-#	Global.sound_manager.play_music("menu")	# filter set_to_off je v sound managerju
-		
 	Global.spawn_new_scene(home_scene_path, self)
 	Global.current_scene.open_with_intro()
 	var fade_in = get_tree().create_tween()
@@ -31,7 +29,7 @@ func home_in_intro(): # isto kot home in, samo, da sprož intro
 	
 func home_in():
 	
-	Global.sound_manager.play_music("menu")	# filter set_to_off je v sound managerju
+#	Global.sound_manager.play_music("menu")	# filter set_to_off je v sound managerju
 		
 	Global.spawn_new_scene(home_scene_path, self)
 	Global.current_scene.open_without_intro()

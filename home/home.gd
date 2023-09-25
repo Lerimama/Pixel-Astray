@@ -70,13 +70,12 @@ func open_without_intro():
 func menu_in():
 	menu.modulate.a = 0
 	menu.visible = true
-	skip_intro_label.visible = false
 	
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(menu, "modulate:a", 1, 1)
-	# fade_in.parallel().tween_property(self, "current_screen", Screens.MAIN_MENU, 1)
 	fade_in.tween_callback($Menu/PlayBtn, "grab_focus")
-	
+	fade_in.tween_callback(Global.sound_manager, "play_music", ["menu"])
+
 
 func animation_reversed(from_screen: String):
 	
@@ -97,6 +96,7 @@ func animation_reversed(from_screen: String):
 
 
 func _on_Intro_finished_playing() -> void:
+	skip_intro_label.visible = false
 	var fade_out = get_tree().create_tween()
 	fade_out.tween_property(skip_intro_label, "modulate:a", 0, 0.3)	
 	menu_in()

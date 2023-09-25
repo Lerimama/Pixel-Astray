@@ -30,7 +30,8 @@ onready var StrayPixel = preload("res://game/pixel/stray.tscn")
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var actor_pixel: KinematicBody2D = $Actor
 onready var spectrum_rect: TextureRect = $Spectrum
-onready var intro_camera: Camera2D = $IntroCam
+onready var story: Node2D = $Story
+onready var thunder_cover: ColorRect = $Level/ThunderCover
 
 		
 func _ready() -> void:
@@ -63,8 +64,12 @@ func play_last_breath():
 
 
 func skip_intro():
+	
+#	animation_player.advance(0)
 	animation_player.stop()
+	thunder_cover.visible = false
 	actor_in_motion = false
+	story.visible = false
 	actor_pixel.visible = false
 	
 	yield(get_tree().create_timer(0.5), "timeout")
@@ -87,6 +92,8 @@ func end_intro():
 		stray.current_stray_state = stray.StrayStates.WANDERING
 	
 	animation_player.stop()
+	thunder_cover.visible = false
+	story.visible = false
 	actor_in_motion = false
 	actor_pixel.visible = false
 	

@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://assets/tiles/tile_title_16.png" type="Texture" id=1]
 [ext_resource path="res://home/intro/intro.gd" type="Script" id=2]
 [ext_resource path="res://assets/resources/menu_environment.tres" type="Environment" id=3]
 [ext_resource path="res://game/arena_tilemap.gd" type="Script" id=4]
+[ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=5]
 [ext_resource path="res://assets/resources/arena_tileset.tres" type="TileSet" id=7]
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=9]
 
@@ -50,6 +51,66 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Vector2( 432, 912 ) ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("Story/Story4:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Story/Story1:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Story/Story2:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = false
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Story/Story3:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = false
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Level/ThunderCover:color")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
 
 [sub_resource type="Animation" id=139]
 resource_name = "intro_explode"
@@ -86,10 +147,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 2.04, 2.12, 2.2, 2.28, 2.46, 2.54, 2.6, 2.68, 2.72, 2.92 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 2.04, 2.12, 2.2, 2.28, 2.46, 2.54, 2.6, 2.68, 2.72, 2.92 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 0.952941, 0.356863, 0.498039, 0.470588 ), Color( 1, 1, 1, 0 ), Color( 0.368627, 1, 0.662745, 0.470588 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 0.996078, 0.976471, 0.545098, 0.54902 ), Color( 1, 1, 1, 0 ), Color( 0.341176, 0.65098, 1, 0.627451 ), Color( 1, 1, 1, 0 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 0.952941, 0.356863, 0.498039, 0.470588 ), Color( 1, 1, 1, 0 ), Color( 0.368627, 1, 0.662745, 0.470588 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 0.996078, 0.976471, 0.545098, 0.54902 ), Color( 1, 1, 1, 0 ), Color( 0.341176, 0.65098, 1, 0.627451 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("Actor:position")
@@ -232,6 +293,18 @@ tracks/7/keys = {
 "method": "play_thunder_strike"
 } ]
 }
+tracks/8/type = "value"
+tracks/8/path = NodePath("Story/Story4:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 0.3, 1.5, 1.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
 
 [sub_resource type="Animation" id=138]
 resource_name = "intro_running"
@@ -242,12 +315,12 @@ tracks/0/path = NodePath("Actor:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = true
+tracks/0/enabled = false
 tracks/0/keys = {
-"times": PoolRealArray( 0, 5.32, 5.38, 5.52, 5.56, 5.74, 5.8, 5.84, 5.92, 5.96, 6.1, 6.18, 6.22, 6.32, 6.38, 6.42, 6.52, 6.54, 7.38, 7.48, 7.56, 7.62, 7.68, 7.76, 7.9, 8, 8.4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 5.4 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.952941, 0.356863, 0.498039, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.368627, 1, 0.662745, 1 ), Color( 1, 1, 1, 1 ), Color( 0.341176, 0.65098, 1, 1 ), Color( 0.341176, 0.65098, 1, 1 ), Color( 0.996078, 0.976471, 0.545098, 1 ), Color( 0.952941, 0.356863, 0.498039, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.368627, 1, 0.662745, 1 ), Color( 1, 1, 1, 1 ), Color( 0.341176, 0.65098, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.368627, 1, 0.662745, 1 ), Color( 1, 1, 1, 1 ), Color( 0.952941, 0.356863, 0.498039, 1 ), Color( 1, 1, 1, 1 ), Color( 0.341176, 0.65098, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.996078, 0.976471, 0.545098, 1 ), Color( 1, 1, 1, 1 ) ]
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Actor:modulate:a")
@@ -256,10 +329,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 5.32, 5.38, 5.52, 5.56, 5.62, 6.28, 6.32, 6.38, 6.42, 6.52, 6.54, 6.6, 7.3, 7.44, 7.48, 7.56, 7.62, 7.72, 7.94, 8, 8.4, 9.3, 9.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 3.88, 5.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 1.04957, 1.04957, 0.2, 1.04957, 0.2, 1.04957, 1.04957, 0.0, 0.8, 0.0, 0.6, 0.0, 0.5, 0.0, 0.5, 1.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.2, 0.03, 0.03 ]
+"values": [ 1.04957, 1.04957, 0.2 ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("Level/ThunderCover:color")
@@ -268,10 +341,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 7.44, 7.52, 7.6, 7.68, 7.86, 7.94, 8, 8.06, 8.12, 8.32 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 0.952941, 0.356863, 0.498039, 0.470588 ), Color( 1, 1, 1, 0 ), Color( 0.368627, 1, 0.662745, 0.470588 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 0.996078, 0.976471, 0.545098, 0.54902 ), Color( 1, 1, 1, 0 ), Color( 0.341176, 0.65098, 1, 0.627451 ), Color( 1, 1, 1, 0 ) ]
+"values": [ Color( 1, 1, 1, 0 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("Actor:position")
@@ -292,27 +365,9 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 5.4, 7.44, 7.48, 7.64, 7.98, 8.1, 9.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 5.4 ),
+"transitions": PoolRealArray( 1 ),
 "values": [ {
-"args": [  ],
-"method": "play_last_breath"
-}, {
-"args": [  ],
-"method": "split_stray_colors"
-}, {
-"args": [  ],
-"method": "show_strays"
-}, {
-"args": [  ],
-"method": "show_strays"
-}, {
-"args": [  ],
-"method": "show_strays"
-}, {
-"args": [  ],
-"method": "show_strays"
-}, {
 "args": [  ],
 "method": "play_last_breath"
 } ]
@@ -336,8 +391,8 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0.08, 2.02, 3.76, 5.36, 5.48, 5.56, 5.78, 5.84, 6.1, 6.28, 6.36, 6.42, 6.54, 7.34, 7.48, 7.62, 7.7, 7.88, 8, 8.06, 8.18 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0.08, 2.02, 3.76 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "values": [ {
 "args": [  ],
 "method": "play_stepping_loop"
@@ -347,60 +402,6 @@ tracks/6/keys = {
 }, {
 "args": [  ],
 "method": "play_stepping_loop"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
 } ]
 }
 tracks/7/type = "method"
@@ -410,29 +411,51 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 7.46, 7.56, 7.68, 8, 8.12 ),
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"values": [  ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Story/Story1:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 0.72, 1.02, 1.92, 2.22 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"values": [ {
-"args": [  ],
-"method": "play_thunder_strike"
-}, {
-"args": [  ],
-"method": "play_thunder_strike"
-}, {
-"args": [  ],
-"method": "play_thunder_strike"
-}, {
-"args": [  ],
-"method": "play_thunder_strike"
-}, {
-"args": [  ],
-"method": "play_thunder_strike"
-} ]
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Story/Story2:modulate")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 2.28, 2.58, 3.48, 3.82 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Story/Story3:modulate")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0, 3.9, 4.2, 5.1, 5.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
 [sub_resource type="Animation" id=7]
 resource_name = "last_breath"
 length = 0.79
+loop = true
 step = 0.01
 tracks/0/type = "value"
 tracks/0/path = NodePath("Actor:modulate")
@@ -446,25 +469,13 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1.04957 ) ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath("Actor:modulate:a")
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
-tracks/1/enabled = false
+tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.3, 0.4, 0.7 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 0.5, 1.0, 1.0, 0.5 ]
-}
-tracks/2/type = "method"
-tracks/2/path = NodePath(".")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
 "times": PoolRealArray( 0.79 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
@@ -472,17 +483,17 @@ tracks/2/keys = {
 "method": "play_last_breath"
 } ]
 }
-tracks/3/type = "value"
-tracks/3/path = NodePath("Actor:modulate:a")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
+tracks/2/type = "value"
+tracks/2/path = NodePath("Actor:modulate:a")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
 "times": PoolRealArray( 0, 0.06, 0.32, 0.52, 0.79 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 0.0, 0.2, 0.18, 0.0, 0.0 ]
+"values": [ 0.12, 0.2, 0.18, 0.12, 0.12 ]
 }
 
 [node name="Intro" type="Node2D"]
@@ -612,6 +623,74 @@ visible = false
 scale = Vector2( 0.9, 0.9 )
 shape = SubResource( 1 )
 disabled = true
+
+[node name="Story" type="Node2D" parent="."]
+position = Vector2( 1792, 720 )
+scale = Vector2( 2, 2 )
+
+[node name="Story1" type="Label" parent="Story"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -101.0
+margin_top = -10.5
+margin_right = 101.0
+margin_bottom = 11.5
+grow_horizontal = 2
+theme = ExtResource( 5 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Je bil en Bil."
+align = 1
+
+[node name="Story2" type="Label" parent="Story"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -135.0
+margin_top = -11.0
+margin_right = 135.0
+margin_bottom = 11.0
+grow_horizontal = 2
+theme = ExtResource( 5 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "In je bil do popka gnil."
+align = 1
+
+[node name="Story3" type="Label" parent="Story"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -135.0
+margin_top = -11.0
+margin_right = 135.0
+margin_bottom = 11.0
+grow_horizontal = 2
+theme = ExtResource( 5 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Pa je po štengah letu."
+align = 1
+
+[node name="Story4" type="Label" parent="Story"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -212.0
+margin_top = -11.0
+margin_right = 212.0
+margin_bottom = 11.0
+grow_horizontal = 2
+theme = ExtResource( 5 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "In mu je še zadn gumb odletu."
+align = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 3 )

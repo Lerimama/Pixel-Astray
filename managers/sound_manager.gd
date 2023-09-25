@@ -157,9 +157,8 @@ func _on_TeleportStart_finished() -> void:
 		
 
 func play_music(music_for: String):
-	return
+	
 	match music_for:
-
 		"menu":
 			if menu_music_set_to_off:
 				return

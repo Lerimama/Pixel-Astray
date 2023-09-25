@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=1]
 [ext_resource path="res://assets/theme/iconset_lerimama_theme.png" type="Texture" id=2]
@@ -7,7 +7,6 @@
 [ext_resource path="res://home/home.gd" type="Script" id=5]
 [ext_resource path="res://home/intro/intro.tscn" type="PackedScene" id=6]
 [ext_resource path="res://assets/tiles/tile_title_16.png" type="Texture" id=7]
-[ext_resource path="res://assets/32_pixel_colors.png" type="Texture" id=8]
 [ext_resource path="res://assets/theme/stylebox_panelwithborder.tres" type="StyleBox" id=9]
 [ext_resource path="res://assets/theme/lerimama_theme_select_game_font.tres" type="DynamicFont" id=10]
 [ext_resource path="res://game/gui/highscore_table.gd" type="Script" id=11]
@@ -686,11 +685,14 @@ anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 720 )
 color = Color( 0, 0, 0, 1 )
 
-[node name="32PixelColors" type="Sprite" parent="."]
-position = Vector2( 2263, 1557 )
-rotation = 3.14159
-scale = Vector2( 1, -1 )
-texture = ExtResource( 8 )
+[node name="SkipIntroLabel2" type="Label" parent="."]
+margin_left = 539.0
+margin_top = 622.0
+margin_right = 741.0
+margin_bottom = 644.0
+theme = ExtResource( 1 )
+text = "ESC/JP B to skip"
+align = 1
 
 [node name="IntroViewPortContainer" type="ViewportContainer" parent="."]
 margin_right = 2560.0
@@ -702,6 +704,7 @@ size = Vector2( 2560, 1440 )
 transparent_bg = true
 handle_input_locally = false
 render_target_update_mode = 3
+gui_disable_input = true
 
 [node name="Intro" parent="IntroViewPortContainer/Viewport" instance=ExtResource( 6 )]
 
@@ -721,8 +724,9 @@ margin_right = 1000.0
 margin_bottom = 519.0
 
 [node name="PlayBtn" type="Button" parent="Menu"]
+margin_left = -4.0
 margin_top = -1.0
-margin_right = 132.0
+margin_right = 128.0
 margin_bottom = 24.0
 focus_neighbour_right = NodePath("../SelectGameBtn")
 focus_mode = 1
@@ -731,12 +735,12 @@ size_flags_vertical = 8
 theme = ExtResource( 1 )
 enabled_focus_mode = 1
 text = "QUICK PLAY"
-align = 0
+flat = true
 
 [node name="SelectGameBtn" type="Button" parent="Menu"]
-margin_left = 162.0
+margin_left = 159.0
 margin_top = -1.0
-margin_right = 236.0
+margin_right = 233.0
 margin_bottom = 24.0
 focus_neighbour_left = NodePath("../PlayBtn")
 focus_neighbour_right = NodePath("../SettingsBtn")
@@ -746,12 +750,11 @@ size_flags_vertical = 8
 theme = ExtResource( 1 )
 enabled_focus_mode = 1
 text = "GAMES"
-align = 0
 
 [node name="SettingsBtn" type="Button" parent="Menu"]
-margin_left = 266.0
+margin_left = 263.0
 margin_top = -1.0
-margin_right = 374.0
+margin_right = 371.0
 margin_bottom = 24.0
 focus_neighbour_left = NodePath("../SelectGameBtn")
 focus_neighbour_right = NodePath("../HighscoresBtn")
@@ -761,12 +764,11 @@ size_flags_vertical = 8
 theme = ExtResource( 1 )
 enabled_focus_mode = 1
 text = "SETTINGS"
-align = 0
 
 [node name="HighscoresBtn" type="Button" parent="Menu"]
-margin_left = 404.0
+margin_left = 401.0
 margin_top = -1.0
-margin_right = 540.0
+margin_right = 537.0
 margin_bottom = 24.0
 focus_neighbour_left = NodePath("../SettingsBtn")
 focus_neighbour_right = NodePath("../AboutBtn")
@@ -776,12 +778,11 @@ size_flags_vertical = 8
 theme = ExtResource( 1 )
 enabled_focus_mode = 1
 text = "HIGHSCORES"
-align = 0
 
 [node name="AboutBtn" type="Button" parent="Menu"]
-margin_left = 570.0
+margin_left = 567.0
 margin_top = -1.0
-margin_right = 640.0
+margin_right = 637.0
 margin_bottom = 24.0
 focus_neighbour_left = NodePath("../HighscoresBtn")
 focus_neighbour_right = NodePath("../QuitGameBtn")
@@ -791,12 +792,11 @@ size_flags_vertical = 8
 theme = ExtResource( 1 )
 enabled_focus_mode = 1
 text = "ABOUT"
-align = 0
 
 [node name="QuitGameBtn" type="Button" parent="Menu"]
-margin_left = 670.0
+margin_left = 667.0
 margin_top = -1.0
-margin_right = 722.0
+margin_right = 719.0
 margin_bottom = 24.0
 focus_neighbour_left = NodePath("../AboutBtn")
 focus_mode = 1
@@ -805,7 +805,6 @@ size_flags_vertical = 8
 theme = ExtResource( 1 )
 enabled_focus_mode = 1
 text = "QUIT"
-align = 0
 
 [node name="About" type="Control" parent="."]
 anchor_right = 1.0
@@ -2997,10 +2996,11 @@ autowrap = true
 
 [node name="SkipIntroLabel" type="Label" parent="."]
 margin_left = 539.0
-margin_top = 46.0
+margin_top = 622.0
 margin_right = 741.0
-margin_bottom = 68.0
+margin_bottom = 644.0
 theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "ESC/JP B to skip"
 align = 1
 

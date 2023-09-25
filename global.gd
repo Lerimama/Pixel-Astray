@@ -71,9 +71,8 @@ func print_id (node: Node):
 
 func snap_to_nearest_grid(current_global_position: Vector2, cell_positions):
 	
-	if level_tilemap.floor_cells_global_positions.empty(): # da ni errorja, če se tajlmep sprazne ... pazi, ker ti zmanjka pri debuggingu
+	if not is_instance_valid(level_tilemap) and level_tilemap.floor_cells_global_positions.empty(): # da ni errorja, če se tajlmep sprazne ... pazi, ker ti zmanjka pri debuggingu
 		return
-		
 	var floor_cells: Array = level_tilemap.floor_cells_global_positions
 	var tilemap_cells: Array = level_tilemap.floor_cells_global_positions
 	var cell_size_x: float = level_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa

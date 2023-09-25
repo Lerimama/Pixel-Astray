@@ -277,7 +277,7 @@ func spawn_stray(stray_color):
 
 	# instance
 	var new_stray_pixel = StrayPixel.instance()
-	new_stray_pixel.name = "Stray%s" % str(spawned_player_index)
+	new_stray_pixel.name = "Stray%s" % str(spawned_stray_index)
 	new_stray_pixel.pixel_color = stray_color
 	
 	# random grid pozicija
