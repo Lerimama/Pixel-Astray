@@ -1,42 +1,16 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=1]
 [ext_resource path="res://assets/theme/iconset_lerimama_theme.png" type="Texture" id=2]
 [ext_resource path="res://home/settings.gd" type="Script" id=3]
 [ext_resource path="res://assets/theme/lerimama_theme_title_font.tres" type="DynamicFont" id=4]
 [ext_resource path="res://home/home.gd" type="Script" id=5]
-[ext_resource path="res://assets/resources/menu_environment.tres" type="Environment" id=6]
-[ext_resource path="res://assets/tiles/tile_title.png" type="Texture" id=7]
+[ext_resource path="res://home/intro/intro.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/tiles/tile_title_16.png" type="Texture" id=7]
 [ext_resource path="res://assets/32_pixel_colors.png" type="Texture" id=8]
 [ext_resource path="res://assets/theme/stylebox_panelwithborder.tres" type="StyleBox" id=9]
 [ext_resource path="res://assets/theme/lerimama_theme_select_game_font.tres" type="DynamicFont" id=10]
 [ext_resource path="res://game/gui/highscore_table.gd" type="Script" id=11]
-
-[sub_resource type="ConvexPolygonShape2D" id=136]
-points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
-
-[sub_resource type="TileSet" id=135]
-0/name = "tile_title.png 0"
-0/texture = ExtResource( 7 )
-0/tex_offset = Vector2( 0, 0 )
-0/modulate = Color( 1, 1, 1, 1 )
-0/region = Rect2( 0, 0, 16, 16 )
-0/tile_mode = 0
-0/occluder_offset = Vector2( 0, 0 )
-0/navigation_offset = Vector2( 0, 0 )
-0/shape_offset = Vector2( 0, 0 )
-0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-0/shape = SubResource( 136 )
-0/shape_one_way = false
-0/shape_one_way_margin = 1.0
-0/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 136 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-0/z_index = 0
 
 [sub_resource type="AtlasTexture" id=150]
 atlas = ExtResource( 2 )
@@ -66,29 +40,407 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color( 0.368627, 1, 0.662745, 1 )
 
-[sub_resource type="Animation" id=154]
+[sub_resource type="Animation" id=155]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("Menu:rect_position")
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Menu:rect_position:y")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 280, 574 ) ]
+"points": PoolRealArray( 494, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
 }
-tracks/1/type = "bezier"
-tracks/1/path = NodePath("Menu:rect_position:y")
+tracks/1/type = "value"
+tracks/1/path = NodePath("Menu:modulate:a")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"points": PoolRealArray( 574, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Highscores:rect_position:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( -600, 0, 0, 0.5, 0 ),
 "times": PoolRealArray( 0 )
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Highscores:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("Settings:rect_position:x")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( -672, 0, 0, 0.5, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Settings:modulate:a")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("SelectGame:rect_position:x")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 1280, 0, 0, 0.5, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("SelectGame:modulate:a")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("SelectGame:rect_position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1280, 0 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Highscores:rect_position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, -600 ) ]
+}
+tracks/10/type = "bezier"
+tracks/10/path = NodePath("About:rect_position:y")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"points": PoolRealArray( 720, 0, 0, 0.5, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("About:modulate:a")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("About:rect_position")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 720 ) ]
+}
+tracks/13/type = "bezier"
+tracks/13/path = NodePath("Menu:rect_position:x")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"points": PoolRealArray( 280, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("Menu:rect_size")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 720, 25 ) ]
+}
+tracks/15/type = "value"
+tracks/15/path = NodePath("Menu:rect_position")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 280, 494 ) ]
+}
+tracks/16/type = "bezier"
+tracks/16/path = NodePath("IntroViewPortContainer/Viewport/IntroCam:position:x")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
+"points": PoolRealArray( 512, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/17/type = "bezier"
+tracks/17/path = NodePath("IntroViewPortContainer/Viewport/IntroCam:position:y")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/keys = {
+"points": PoolRealArray( 544, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/18/type = "value"
+tracks/18/path = NodePath("Graphics:position")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=137]
+resource_name = "about"
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Menu:modulate:a")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("About:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.04, 0.3, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 0.0, 1.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Graphics:modulate:a")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.32 ]
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("Graphics:position:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = false
+tracks/3/keys = {
+"points": PoolRealArray( 0, 0, 0, 0.5, 0, -320, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("Menu:rect_position:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 494, 0, 0, 0.5, 0, 174, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("About:rect_position:y")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( 720, 0, 0, 0.5, 0, 104, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("IntroViewPortContainer/Viewport/IntroCam:position:y")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 544, 0, 0, 0.5, 0, 1184, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+
+[sub_resource type="Animation" id=141]
+resource_name = "highscores"
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Menu:modulate:a")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Highscores:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.04, 0.3, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 0.0, 1.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Graphics:modulate:a")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.32 ]
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("Graphics:position:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = false
+tracks/3/keys = {
+"points": PoolRealArray( 0, 0, 0, 0.5, 0, 496, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("Menu:rect_position:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 494, 0, 0, 0.5, 0, 990, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("Highscores:rect_position:y")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( -600, 0, 0, 0.5, 0, -24, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("IntroViewPortContainer/Viewport/IntroCam:position:y")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 544, 0, 0, 0.5, 0, -448, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+
+[sub_resource type="Animation" id=138]
+resource_name = "play"
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Menu:modulate:a")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SelectGame:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
 }
 tracks/2/type = "bezier"
 tracks/2/path = NodePath("Menu:rect_position:x")
@@ -97,301 +449,98 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"points": PoolRealArray( 280, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
+"points": PoolRealArray( -568, 0, 0, 0.5, 0, -1688, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
 }
-
-[sub_resource type="Animation" id=137]
-resource_name = "about"
-step = 0.02
-tracks/0/type = "value"
-tracks/0/path = NodePath("Graphics:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = false
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 2 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, -320 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Menu:rect_position")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = false
-tracks/1/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 2 ),
-"update": 0,
-"values": [ Vector2( 280, 574 ), Vector2( 296, 254 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Menu:modulate:a")
-tracks/2/interp = 2
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.7 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 1.0, 0.0 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("About:rect_position")
-tracks/3/interp = 2
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("SelectGame:rect_position:x")
+tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
-tracks/3/enabled = false
+tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 2 ),
-"update": 0,
-"values": [ Vector2( 0, 720 ), Vector2( 0, 104 ) ]
+"points": PoolRealArray( 448, 0, 0, 0.5, 0, -672, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
 }
-tracks/4/type = "value"
-tracks/4/path = NodePath("About:modulate:a")
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("Graphics:position:x")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
-tracks/4/enabled = true
+tracks/4/enabled = false
 tracks/4/keys = {
-"times": PoolRealArray( 0, 0.04, 0.3, 1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 1.0, 0.0, 0.0, 1.0 ]
+"points": PoolRealArray( -848, 0, 0, 0.5, 0, -1968, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
 }
-tracks/5/type = "value"
-tracks/5/path = NodePath("Graphics:modulate:a")
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("IntroViewPortContainer/Viewport/IntroCam:position:x")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 1.0, 0.32 ]
-}
-tracks/6/type = "bezier"
-tracks/6/path = NodePath("Graphics:position:y")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"points": PoolRealArray( 0, 0, 0, 0.5, 0, -320, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0, 1 )
-}
-tracks/7/type = "bezier"
-tracks/7/path = NodePath("Menu:rect_position:y")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"points": PoolRealArray( 574, 0, 0, 0.5, 0, 254, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0, 1 )
-}
-tracks/8/type = "bezier"
-tracks/8/path = NodePath("About:rect_position:y")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
-"points": PoolRealArray( 720, 0, 0, 0.5, 0, 104, -0.5, 0, 0, 0 ),
+"points": PoolRealArray( 2208, 0, 0, 0.5, 0, 4448, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0, 1 )
 }
 
-[sub_resource type="Animation" id=141]
-resource_name = "highscores"
+[sub_resource type="Animation" id=142]
+resource_name = "select_game"
 step = 0.02
 tracks/0/type = "value"
-tracks/0/path = NodePath("Graphics:position")
+tracks/0/path = NodePath("Menu:modulate:a")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = false
+tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 2 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, 448 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Menu:rect_position")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = false
-tracks/1/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 2 ),
-"update": 0,
-"values": [ Vector2( 296, 574 ), Vector2( 296, 1022 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Menu:modulate:a")
-tracks/2/interp = 2
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
 "times": PoolRealArray( 0, 0.7 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 1.0, 0.0 ]
 }
-tracks/3/type = "value"
-tracks/3/path = NodePath("Highscores:rect_position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = false
-tracks/3/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 2 ),
-"update": 0,
-"values": [ Vector2( 0, -600 ), Vector2( 0, -80 ) ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("Highscores:modulate:a")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
+tracks/1/type = "value"
+tracks/1/path = NodePath("SelectGame:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
 "times": PoolRealArray( 0, 0.04, 0.3, 1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 1.0, 0.0, 0.0, 1.0 ]
 }
-tracks/5/type = "value"
-tracks/5/path = NodePath("Graphics:modulate:a")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
+tracks/2/type = "value"
+tracks/2/path = NodePath("Graphics:modulate:a")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 1.0, 0.32 ]
 }
-tracks/6/type = "bezier"
-tracks/6/path = NodePath("Graphics:position:y")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"points": PoolRealArray( 0, 0, 0, 0.5, 0, 448, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0, 1 )
-}
-tracks/7/type = "bezier"
-tracks/7/path = NodePath("Menu:rect_position:y")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"points": PoolRealArray( 574, 0, 0, 0.5, 0, 1022, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0, 1 )
-}
-tracks/8/type = "bezier"
-tracks/8/path = NodePath("Highscores:rect_position:y")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
-"points": PoolRealArray( -600, 0, 0, 0.5, 0, -80, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0, 1 )
-}
-
-[sub_resource type="Animation" id=132]
-resource_name = "main_out"
-tracks/0/type = "method"
-tracks/0/path = NodePath(".")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = false
-tracks/0/keys = {
-"times": PoolRealArray( 1 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "_load_game"
-} ]
-}
-
-[sub_resource type="Animation" id=138]
-resource_name = "play"
-step = 0.02
-tracks/0/type = "value"
-tracks/0/path = NodePath("Graphics:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = false
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 2 ),
-"update": 0,
-"values": [ Vector2( -848, 0 ), Vector2( -1968, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Menu:rect_position")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = false
-tracks/1/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 2 ),
-"update": 0,
-"values": [ Vector2( -568, 574 ), Vector2( -1688, 574 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Menu:modulate:a")
-tracks/2/interp = 2
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 0.0, 0.0 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("SelectGame:rect_position")
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("SelectGame:rect_position:x")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
-tracks/3/enabled = false
+tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 2 ),
-"update": 0,
-"values": [ Vector2( 448, 0 ), Vector2( -672, 0 ) ]
+"points": PoolRealArray( 1280, 0, 0, 0.5, 0, 448, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
 }
-tracks/4/type = "value"
-tracks/4/path = NodePath("SelectGame:modulate:a")
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("Graphics:position:x")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
-tracks/4/enabled = true
+tracks/4/enabled = false
 tracks/4/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 1.0, 0.0 ]
+"points": PoolRealArray( 0, -0.25, 0, 0.5, 0, -848, -0.5, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
 }
 tracks/5/type = "bezier"
 tracks/5/path = NodePath("Menu:rect_position:x")
@@ -400,133 +549,17 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"points": PoolRealArray( -568, 0, 0, 0.5, 0, -1688, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0, 1 )
-}
-tracks/6/type = "bezier"
-tracks/6/path = NodePath("SelectGame:rect_position:x")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"points": PoolRealArray( 448, 0, 0, 0.5, 0, -672, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0, 1 )
-}
-tracks/7/type = "bezier"
-tracks/7/path = NodePath("Graphics:position:x")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"points": PoolRealArray( -848, 0, 0, 0.5, 0, -1968, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0, 1 )
-}
-
-[sub_resource type="Animation" id=142]
-resource_name = "select_game"
-step = 0.02
-tracks/0/type = "value"
-tracks/0/path = NodePath("Graphics:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = false
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 2 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( -848, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Menu:rect_position")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = false
-tracks/1/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 2 ),
-"update": 0,
-"values": [ Vector2( 280, 574 ), Vector2( -552, 574 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Menu:modulate:a")
-tracks/2/interp = 2
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.7 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 1.0, 0.0 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("SelectGame:rect_position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = false
-tracks/3/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 2 ),
-"update": 0,
-"values": [ Vector2( 1280, 0 ), Vector2( 448, 0 ) ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("SelectGame:modulate:a")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0, 0.04, 0.3, 1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 1.0, 0.0, 0.0, 1.0 ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("Graphics:modulate:a")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 1.0, 0.32 ]
-}
-tracks/6/type = "bezier"
-tracks/6/path = NodePath("SelectGame:rect_position:x")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"points": PoolRealArray( 1280, 0, 0, 0.5, 0, 448, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0, 1 )
-}
-tracks/7/type = "bezier"
-tracks/7/path = NodePath("Graphics:position:x")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.5, 0, -848, -0.5, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 1 )
-}
-tracks/8/type = "bezier"
-tracks/8/path = NodePath("Menu:rect_position:x")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
 "points": PoolRealArray( 280, 0, 0, 0.5, 0, -552, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("IntroViewPortContainer/Viewport/IntroCam:position:x")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 512, 0, 0, 0.5, 0, 2208, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0, 1 )
 }
 
@@ -534,113 +567,113 @@ tracks/8/keys = {
 resource_name = "settings"
 step = 0.02
 tracks/0/type = "value"
-tracks/0/path = NodePath("Graphics:position")
+tracks/0/path = NodePath("Menu:modulate:a")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = false
+tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 2 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 672, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Menu:rect_position")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = false
-tracks/1/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 2 ),
-"update": 0,
-"values": [ Vector2( 280, 574 ), Vector2( 954, 574 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Menu:modulate:a")
-tracks/2/interp = 2
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
 "times": PoolRealArray( 0, 0.7 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 1.0, 0.0 ]
 }
-tracks/3/type = "value"
-tracks/3/path = NodePath("Settings:rect_position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = false
-tracks/3/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 2 ),
-"update": 0,
-"values": [ Vector2( -672, 0 ), Vector2( 0, 0 ) ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("Settings:modulate:a")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
+tracks/1/type = "value"
+tracks/1/path = NodePath("Settings:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
 "times": PoolRealArray( 0, 0.04, 0.3, 1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 1.0, 0.0, 0.0, 1.0 ]
 }
-tracks/5/type = "value"
-tracks/5/path = NodePath("Graphics:modulate:a")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
+tracks/2/type = "value"
+tracks/2/path = NodePath("Graphics:modulate:a")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 1.0, 0.32 ]
 }
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("Graphics:position:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = false
+tracks/3/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.5, 0, 672, -0.5, 0, 0.5, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("Menu:rect_position:x")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 280, 0, 0, 0.5, 0, 954, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("Settings:rect_position:x")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( -672, 0, 0, 0.5, 0, 0, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
 tracks/6/type = "bezier"
-tracks/6/path = NodePath("Graphics:position:x")
+tracks/6/path = NodePath("IntroViewPortContainer/Viewport/IntroCam:position:x")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.5, 0, 672, -0.5, 0, 0.5, 0 ),
+"points": PoolRealArray( 512, 0, 0, 0.5, 0, -832, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0, 1 )
 }
-tracks/7/type = "bezier"
-tracks/7/path = NodePath("Menu:rect_position:x")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"points": PoolRealArray( 280, 0, 0, 0.5, 0, 954, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0, 1 )
-}
-tracks/8/type = "bezier"
-tracks/8/path = NodePath("Settings:rect_position:x")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
-"points": PoolRealArray( -672, 0, 0, 0.5, 0, 0, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0, 1 )
-}
+
+[sub_resource type="ConvexPolygonShape2D" id=157]
+points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
+
+[sub_resource type="TileSet" id=135]
+0/name = "tile_title.png 0"
+0/texture = ExtResource( 7 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 16, 16 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape = SubResource( 157 )
+0/shape_one_way = false
+0/shape_one_way_margin = 1.0
+0/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 157 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+0/z_index = 0
 
 [node name="Home" type="Node2D"]
 script = ExtResource( 5 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 1408.0, 1320.0, -600.0, -536.0, 192.0, 592.0, 128.0, 176.0, 744.0 ],
-"_edit_vertical_guides_": [ 640.0, -848.0, -655.0, -192.0, 2112.0, 65.0, 1280.0, 1184.0, 448.0 ]
+"_edit_horizontal_guides_": [ 1408.0, 1320.0, -600.0, -536.0, 192.0, 592.0, 176.0, 744.0, -448.0 ],
+"_edit_vertical_guides_": [ -848.0, -655.0, -192.0, 2112.0, 64.0, 1280.0, 1216.0, 1960.0, 640.0 ]
 }
 
 [node name="Undi" type="ColorRect" parent="."]
@@ -655,53 +688,22 @@ rotation = 3.14159
 scale = Vector2( 1, -1 )
 texture = ExtResource( 8 )
 
-[node name="Graphics" type="Node2D" parent="."]
-__meta__ = {
-"_edit_group_": true
-}
+[node name="IntroViewPortContainer" type="ViewportContainer" parent="."]
+margin_right = 2560.0
+margin_bottom = 1440.0
+rect_scale = Vector2( 0.5, 0.5 )
 
-[node name="Title" type="Control" parent="Graphics"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 176.0
-margin_top = 176.0
-margin_right = 1116.0
-margin_bottom = 368.0
+[node name="Viewport" type="Viewport" parent="IntroViewPortContainer"]
+size = Vector2( 2560, 1440 )
+handle_input_locally = false
+render_target_update_mode = 3
 
-[node name="Title1" type="TileMap" parent="Graphics/Title"]
-tile_set = SubResource( 135 )
-cell_size = Vector2( 16, 16 )
-cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
-format = 1
-tile_data = PoolIntArray( 0, -1610612736, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 6, -1610612736, 0, 8, 0, 0, 12, 0, 0, 14, 0, 0, 15, -1610612736, 0, 16, 0, 0, 17, -1610612736, 0, 20, -1610612736, 0, 65536, 0, 0, 65540, -1610612736, 0, 65542, 0, 0, 65545, 0, 0, 65547, 0, 0, 65550, 0, 0, 65556, -1610612736, 0, 131072, 0, 0, 131073, -1610612736, 0, 131074, -1610612736, 0, 131075, -1610612736, 0, 131076, -1610612736, 0, 131078, -1610612736, 0, 131082, 0, 0, 131086, 0, 0, 131087, -1610612736, 0, 131088, -1610612736, 0, 131092, -1610612736, 0, 196608, 0, 0, 196614, -1610612736, 0, 196617, 0, 0, 196619, 0, 0, 196622, 0, 0, 196628, -1610612736, 0, 262144, 0, 0, 262150, -1610612736, 0, 262152, 0, 0, 262156, 0, 0, 262158, 0, 0, 262164, -1610612736, 0, 327680, -1610612736, 0, 327686, -1610612736, 0, 327688, -1610612736, 0, 327692, -1610612736, 0, 327694, -1610612736, 0, 327700, -1610612736, 0, 393216, -1610612736, 0, 393222, -1610612736, 0, 393224, -1610612736, 0, 393228, -1610612736, 0, 393230, 0, 0, 393231, -1610612736, 0, 393232, -1610612736, 0, 393233, 0, 0, 393234, 0, 0, 393236, -1610612736, 0, 393237, -1610612736, 0, 393238, -1610612736, 0 )
+[node name="Intro" parent="IntroViewPortContainer/Viewport" instance=ExtResource( 6 )]
 
-[node name="Title2" type="TileMap" parent="Graphics/Title"]
-position = Vector2( 368, 64 )
-tile_set = SubResource( 135 )
-cell_size = Vector2( 16, 16 )
-cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
-format = 1
-tile_data = PoolIntArray( 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 7, -1610612736, 0, 8, -1610612736, 0, 9, -1610612736, 0, 12, -1610612736, 0, 13, -1610612736, 0, 14, -1610612736, 0, 15, -1610612736, 0, 16, -1610612736, 0, 18, -1610612736, 0, 19, -1610612736, 0, 20, -1610612736, 0, 21, -1610612736, 0, 25, -1610612736, 0, 26, -1610612736, 0, 27, -1610612736, 0, 30, -1610612736, 0, 34, -1610612736, 0, 65536, -1610612736, 0, 65540, -1610612736, 0, 65542, -1610612736, 0, 65550, -1610612736, 0, 65554, -1610612736, 0, 65558, -1610612736, 0, 65560, -1610612736, 0, 65564, -1610612736, 0, 65567, -1610612736, 0, 65569, -1610612736, 0, 131072, -1610612736, 0, 131073, -1610612736, 0, 131074, -1610612736, 0, 131075, -1610612736, 0, 131076, -1610612736, 0, 131078, -1610612736, 0, 131079, -1610612736, 0, 131080, -1610612736, 0, 131081, -1610612736, 0, 131086, -1610612736, 0, 131090, -1610612736, 0, 131091, -1610612736, 0, 131092, -1610612736, 0, 131093, -1610612736, 0, 131096, -1610612736, 0, 131097, -1610612736, 0, 131098, -1610612736, 0, 131099, -1610612736, 0, 131100, -1610612736, 0, 131104, -1610612736, 0, 196608, -1610612736, 0, 196612, -1610612736, 0, 196618, -1610612736, 0, 196622, -1610612736, 0, 196626, -1610612736, 0, 196630, -1610612736, 0, 196632, -1610612736, 0, 196636, -1610612736, 0, 196640, -1610612736, 0, 262144, -1610612736, 0, 262148, -1610612736, 0, 262154, -1610612736, 0, 262158, -1610612736, 0, 262162, -1610612736, 0, 262166, -1610612736, 0, 262168, -1610612736, 0, 262172, -1610612736, 0, 262176, -1610612736, 0, 327680, -1610612736, 0, 327684, -1610612736, 0, 327686, -1610612736, 0, 327690, -1610612736, 0, 327694, -1610612736, 0, 327698, -1610612736, 0, 327702, -1610612736, 0, 327704, -1610612736, 0, 327708, -1610612736, 0, 327712, -1610612736, 0, 393216, 0, 0, 393220, -1610612736, 0, 393223, -1610612736, 0, 393224, -1610612736, 0, 393225, -1610612736, 0, 393230, -1610612736, 0, 393234, -1610612736, 0, 393238, -1610612736, 0, 393240, -1610612736, 0, 393244, -1610612736, 0, 393248, -1610612736, 0 )
-
-[node name="TitlePixels" type="Control" parent="Graphics"]
-modulate = Color( 1, 1, 1, 0.156863 )
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 176.0
-margin_top = 176.0
-margin_right = 1116.0
-margin_bottom = 368.0
-
-[node name="Title" type="TileMap" parent="Graphics/TitlePixels"]
-tile_set = SubResource( 135 )
-cell_size = Vector2( 16, 16 )
-cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
-format = 1
-tile_data = PoolIntArray( -65528, 0, 0, -65517, 0, 0, -65492, 0, 0, 0, -1610612736, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 6, 0, 0, 8, 0, 0, 12, 0, 0, 14, 0, 0, 15, -1610612736, 0, 16, 0, 0, 17, -1610612736, 0, 20, 0, 0, 33, 0, 0, 44, 0, 0, 57, 0, 0, 65536, 0, 0, 65540, -1610612736, 0, 65542, 0, 0, 65545, 0, 0, 65547, 0, 0, 65550, 0, 0, 65556, -1610612736, 0, 65568, 0, 0, 65581, 0, 0, 131072, 0, 0, 131073, -1610612736, 0, 131074, -1610612736, 0, 131075, -1610612736, 0, 131076, -1610612736, 0, 131078, -1610612736, 0, 131082, 0, 0, 131086, 0, 0, 131087, -1610612736, 0, 131088, -1610612736, 0, 131092, -1610612736, 0, 131104, 0, 0, 131125, 0, 0, 131128, 0, 0, 196608, 0, 0, 196614, -1610612736, 0, 196617, 0, 0, 196619, 0, 0, 196622, 0, 0, 196628, -1610612736, 0, 196653, 0, 0, 196661, 0, 0, 262144, 0, 0, 262150, -1610612736, 0, 262152, 0, 0, 262156, 0, 0, 262158, 0, 0, 262164, -1610612736, 0, 262168, -1610612736, 0, 262169, -1610612736, 0, 262170, -1610612736, 0, 262174, -1610612736, 0, 262175, -1610612736, 0, 262176, -1610612736, 0, 262179, -1610612736, 0, 262180, -1610612736, 0, 262181, -1610612736, 0, 262182, -1610612736, 0, 262183, -1610612736, 0, 262185, -1610612736, 0, 262186, -1610612736, 0, 262187, -1610612736, 0, 262188, -1610612736, 0, 262192, -1610612736, 0, 262193, -1610612736, 0, 262194, -1610612736, 0, 262197, -1610612736, 0, 262201, -1610612736, 0, 327680, -1610612736, 0, 327686, -1610612736, 0, 327688, -1610612736, 0, 327692, -1610612736, 0, 327694, -1610612736, 0, 327700, -1610612736, 0, 327703, -1610612736, 0, 327707, -1610612736, 0, 327709, -1610612736, 0, 327717, -1610612736, 0, 327721, -1610612736, 0, 327725, -1610612736, 0, 327727, -1610612736, 0, 327731, -1610612736, 0, 327734, -1610612736, 0, 327736, -1610612736, 0, 393216, -1610612736, 0, 393222, -1610612736, 0, 393224, 0, 0, 393228, -1610612736, 0, 393230, 0, 0, 393231, -1610612736, 0, 393232, -1610612736, 0, 393233, 0, 0, 393234, 0, 0, 393236, -1610612736, 0, 393237, -1610612736, 0, 393238, -1610612736, 0, 393239, -1610612736, 0, 393240, -1610612736, 0, 393241, -1610612736, 0, 393242, -1610612736, 0, 393243, -1610612736, 0, 393245, -1610612736, 0, 393246, -1610612736, 0, 393247, -1610612736, 0, 393248, -1610612736, 0, 393253, -1610612736, 0, 393257, -1610612736, 0, 393258, -1610612736, 0, 393259, -1610612736, 0, 393260, -1610612736, 0, 393263, -1610612736, 0, 393264, -1610612736, 0, 393265, -1610612736, 0, 393266, -1610612736, 0, 393267, -1610612736, 0, 393271, -1610612736, 0, 458753, 0, 0, 458758, 0, 0, 458764, 0, 0, 458770, 0, 0, 458775, -1610612736, 0, 458779, -1610612736, 0, 458785, -1610612736, 0, 458789, -1610612736, 0, 458793, -1610612736, 0, 458797, -1610612736, 0, 458799, -1610612736, 0, 458803, -1610612736, 0, 458807, -1610612736, 0, 524288, 0, 0, 524294, 0, 0, 524300, 0, 0, 524305, 0, 0, 524311, -1610612736, 0, 524315, -1610612736, 0, 524321, -1610612736, 0, 524325, -1610612736, 0, 524329, -1610612736, 0, 524333, -1610612736, 0, 524335, -1610612736, 0, 524339, -1610612736, 0, 524343, -1610612736, 0, 589824, 0, 0, 589830, 0, 0, 589847, 0, 0, 589851, -1610612736, 0, 589853, -1610612736, 0, 589857, -1610612736, 0, 589861, -1610612736, 0, 589865, -1610612736, 0, 589869, -1610612736, 0, 589871, -1610612736, 0, 589875, -1610612736, 0, 589879, -1610612736, 0, 655360, 0, 0, 655366, 0, 0, 655371, 0, 0, 655383, 0, 0, 655387, -1610612736, 0, 655390, -1610612736, 0, 655391, -1610612736, 0, 655392, -1610612736, 0, 655397, 0, 0, 655401, -1610612736, 0, 655405, -1610612736, 0, 655407, -1610612736, 0, 655411, -1610612736, 0, 655415, -1610612736, 0, 720896, 0, 0, 720902, 0, 0, 720908, 0, 0, 720918, 0, 0, 720934, 0, 0, 720947, 0, 0, 720951, 0, 0, 786432, 0, 0, 786438, 0, 0, 786444, 0, 0, 786455, 0, 0, 786470, 0, 0, 786477, 0, 0, 786483, 0, 0, 786487, 0, 0, 851969, 0, 0, 851991, 0, 0, 852005, 0, 0, 852019, 0, 0, 852023, 0, 0, 917505, 0, 0, 917527, 0, 0, 917541, 0, 0, 917559, 0, 0, 983041, 0, 0, 983052, 0, 0, 983090, 0, 0, 983095, 0, 0, 1048577, 0, 0, 1048583, 0, 0, 1048588, 0, 0, 1048627, 0, 0, 1048631, 0, 0, 1114112, 0, 0, 1114119, 0, 0, 1114157, 0, 0, 1114163, 0, 0, 1114166, 0, 0, 1179648, 0, 0, 1179654, 0, 0, 1179702, 0, 0, 1245190, 0, 0, 1245238, 0, 0, 1310726, 0, 0, 1310775, 0, 0, 1376256, 0, 0, 1376307, 0, 0, 1376311, 0, 0, 1441843, 0, 0, 1507334, 0, 0, 1572865, 0, 0, 1638455, 0, 0, 1769472, 0, 0 )
+[node name="IntroCam" type="Camera2D" parent="IntroViewPortContainer/Viewport"]
+position = Vector2( 512, 544 )
+anchor_mode = 0
+current = true
 
 [node name="Menu" type="Control" parent="."]
 anchor_left = 0.5
@@ -709,18 +711,15 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = 280.0
-margin_top = 574.0
+margin_top = 494.0
 margin_right = 1000.0
-margin_bottom = 599.0
-__meta__ = {
-"_edit_group_": true
-}
+margin_bottom = 519.0
 
 [node name="PlayBtn" type="Button" parent="Menu"]
 margin_top = -1.0
 margin_right = 132.0
 margin_bottom = 24.0
-focus_neighbour_left = NodePath("../HighscoresBtn")
+focus_neighbour_left = NodePath("../QuitGameBtn")
 focus_neighbour_right = NodePath("../SelectGameBtn")
 focus_mode = 1
 size_flags_horizontal = 2
@@ -733,7 +732,7 @@ align = 0
 [node name="SelectGameBtn" type="Button" parent="Menu"]
 margin_left = 162.0
 margin_top = -1.0
-margin_right = 316.0
+margin_right = 236.0
 margin_bottom = 24.0
 focus_neighbour_left = NodePath("../PlayBtn")
 focus_neighbour_right = NodePath("../SettingsBtn")
@@ -742,13 +741,13 @@ size_flags_horizontal = 2
 size_flags_vertical = 8
 theme = ExtResource( 1 )
 enabled_focus_mode = 1
-text = "SELECT GAME"
+text = "GAMES"
 align = 0
 
 [node name="SettingsBtn" type="Button" parent="Menu"]
-margin_left = 347.0
+margin_left = 266.0
 margin_top = -1.0
-margin_right = 455.0
+margin_right = 374.0
 margin_bottom = 24.0
 focus_neighbour_left = NodePath("../SelectGameBtn")
 focus_neighbour_right = NodePath("../HighscoresBtn")
@@ -758,11 +757,12 @@ size_flags_vertical = 8
 theme = ExtResource( 1 )
 enabled_focus_mode = 1
 text = "SETTINGS"
+align = 0
 
 [node name="HighscoresBtn" type="Button" parent="Menu"]
-margin_left = 485.0
+margin_left = 404.0
 margin_top = -1.0
-margin_right = 621.0
+margin_right = 540.0
 margin_bottom = 24.0
 focus_neighbour_left = NodePath("../SettingsBtn")
 focus_neighbour_right = NodePath("../AboutBtn")
@@ -772,21 +772,37 @@ size_flags_vertical = 8
 theme = ExtResource( 1 )
 enabled_focus_mode = 1
 text = "HIGHSCORES"
-align = 2
+align = 0
 
 [node name="AboutBtn" type="Button" parent="Menu"]
-margin_left = 651.0
+margin_left = 570.0
 margin_top = -1.0
-margin_right = 721.0
+margin_right = 640.0
 margin_bottom = 24.0
 focus_neighbour_left = NodePath("../HighscoresBtn")
-focus_neighbour_right = NodePath("../PlayBtn")
+focus_neighbour_right = NodePath("../QuitGameBtn")
 focus_mode = 1
 size_flags_horizontal = 2
 size_flags_vertical = 8
 theme = ExtResource( 1 )
 enabled_focus_mode = 1
 text = "ABOUT"
+align = 0
+
+[node name="QuitGameBtn" type="Button" parent="Menu"]
+margin_left = 670.0
+margin_top = -1.0
+margin_right = 722.0
+margin_bottom = 24.0
+focus_neighbour_left = NodePath("../AboutBtn")
+focus_neighbour_right = NodePath("../PlayBtn")
+focus_mode = 1
+size_flags_horizontal = 2
+size_flags_vertical = 8
+theme = ExtResource( 1 )
+enabled_focus_mode = 1
+text = "QUIT"
+align = 0
 
 [node name="About" type="Control" parent="."]
 anchor_right = 1.0
@@ -801,9 +817,9 @@ theme = ExtResource( 1 )
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -64.0
-margin_top = 8.0
-margin_right = -48.0
-margin_bottom = 24.0
+margin_top = 5.0
+margin_right = -40.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 16, 16 )
 rect_rotation = 89.9999
 texture_normal = SubResource( 150 )
@@ -977,9 +993,9 @@ theme = ExtResource( 1 )
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -64.0
-margin_top = 192.0
-margin_right = -44.0
-margin_bottom = 212.0
+margin_top = 132.0
+margin_right = -40.0
+margin_bottom = 152.0
 rect_min_size = Vector2( 16, 16 )
 rect_rotation = 89.9999
 texture_normal = SubResource( 150 )
@@ -988,64 +1004,72 @@ texture_hover = SubResource( 149 )
 [node name="Title2" type="Label" parent="Highscores"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -512.0
-margin_top = 182.0
-margin_right = -161.0
-margin_bottom = 214.0
+margin_left = -575.0
+margin_top = 126.0
+margin_right = -344.0
+margin_bottom = 158.0
 size_flags_horizontal = 3
 theme = ExtResource( 1 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 custom_fonts/font = ExtResource( 4 )
-text = "All-time best pixels"
+text = "All-time best"
 
 [node name="HSeparator" type="HSeparator" parent="Highscores/Title2"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-margin_top = 30.0
-margin_right = 346.0
-margin_bottom = 41.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = 1.0
+margin_right = -3.0
+margin_bottom = 5.0
 
-[node name="Title3" type="Label" parent="Highscores"]
-visible = false
-margin_left = 640.0
-margin_top = 182.0
-margin_right = 896.0
-margin_bottom = 204.0
+[node name="HSLevel88" type="Control" parent="Highscores"]
+margin_left = 65.0
+margin_top = 200.0
+margin_right = 320.0
+margin_bottom = 576.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title3" type="Label" parent="Highscores/HSLevel88"]
+margin_top = -2.0
+margin_right = 256.0
+margin_bottom = 20.0
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "BEST 9  PIXELS EVER"
+text = "LEVEL 88"
+align = 1
 
-[node name="HSeparator" type="HSeparator" parent="Highscores/Title3"]
+[node name="HSeparator" type="HSeparator" parent="Highscores/HSLevel88/Title3"]
 modulate = Color( 1, 1, 1, 0.901961 )
+margin_left = 1.0
 margin_top = 30.0
-margin_right = 255.0
+margin_right = 254.0
 margin_bottom = 41.0
 
-[node name="HighscoreTable" type="VBoxContainer" parent="Highscores"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -128.0
-margin_top = -86.0
-margin_right = 128.0
-margin_bottom = 252.0
+[node name="HighscoreTable" type="VBoxContainer" parent="Highscores/HSLevel88"]
+margin_top = 47.0
+margin_right = 256.0
+margin_bottom = 385.0
 custom_constants/separation = 10
 script = ExtResource( 11 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="RowLabels" type="HBoxContainer" parent="Highscores/HighscoreTable"]
+[node name="RowLabels" type="HBoxContainer" parent="Highscores/HSLevel88/HighscoreTable"]
 margin_right = 256.0
 margin_bottom = 22.0
 
-[node name="Position" type="Label" parent="Highscores/HighscoreTable/RowLabels"]
+[node name="Position" type="Label" parent="Highscores/HSLevel88/HighscoreTable/RowLabels"]
 margin_right = 42.0
 margin_bottom = 22.0
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Pos"
 
-[node name="Score" type="Label" parent="Highscores/HighscoreTable/RowLabels"]
+[node name="Score" type="Label" parent="Highscores/HSLevel88/HighscoreTable/RowLabels"]
 margin_left = 62.0
 margin_right = 132.0
 margin_bottom = 22.0
@@ -1055,7 +1079,7 @@ custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Score"
 align = 1
 
-[node name="Owner" type="Label" parent="Highscores/HighscoreTable/RowLabels"]
+[node name="Owner" type="Label" parent="Highscores/HSLevel88/HighscoreTable/RowLabels"]
 margin_left = 136.0
 margin_right = 256.0
 margin_bottom = 22.0
@@ -1065,19 +1089,19 @@ custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Name"
 align = 2
 
-[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/HighscoreTable"]
+[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/HSLevel88/HighscoreTable"]
 margin_top = 32.0
 margin_right = 256.0
 margin_bottom = 54.0
 
-[node name="Position" type="Label" parent="Highscores/HighscoreTable/ScoreLine1"]
+[node name="Position" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine1"]
 margin_right = 20.0
 margin_bottom = 22.0
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "2."
 
-[node name="Score" type="Label" parent="Highscores/HighscoreTable/ScoreLine1"]
+[node name="Score" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine1"]
 margin_left = 62.0
 margin_right = 132.0
 margin_bottom = 22.0
@@ -1087,7 +1111,7 @@ custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "1200"
 align = 1
 
-[node name="Owner" type="Label" parent="Highscores/HighscoreTable/ScoreLine1"]
+[node name="Owner" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine1"]
 margin_left = 136.0
 margin_right = 256.0
 margin_bottom = 22.0
@@ -1097,19 +1121,19 @@ custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "Primož"
 align = 2
 
-[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/HighscoreTable"]
+[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/HSLevel88/HighscoreTable"]
 margin_top = 64.0
 margin_right = 256.0
 margin_bottom = 86.0
 
-[node name="Position" type="Label" parent="Highscores/HighscoreTable/ScoreLine2"]
+[node name="Position" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine2"]
 margin_right = 20.0
 margin_bottom = 22.0
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "2."
 
-[node name="Score" type="Label" parent="Highscores/HighscoreTable/ScoreLine2"]
+[node name="Score" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine2"]
 margin_left = 62.0
 margin_right = 132.0
 margin_bottom = 22.0
@@ -1119,7 +1143,7 @@ custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "1200"
 align = 1
 
-[node name="Owner" type="Label" parent="Highscores/HighscoreTable/ScoreLine2"]
+[node name="Owner" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine2"]
 margin_left = 136.0
 margin_right = 256.0
 margin_bottom = 22.0
@@ -1129,19 +1153,19 @@ custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "Primoz"
 align = 2
 
-[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/HighscoreTable"]
+[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/HSLevel88/HighscoreTable"]
 margin_top = 96.0
 margin_right = 256.0
 margin_bottom = 118.0
 
-[node name="Position" type="Label" parent="Highscores/HighscoreTable/ScoreLine3"]
+[node name="Position" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine3"]
 margin_right = 20.0
 margin_bottom = 22.0
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "2."
 
-[node name="Score" type="Label" parent="Highscores/HighscoreTable/ScoreLine3"]
+[node name="Score" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine3"]
 margin_left = 62.0
 margin_right = 132.0
 margin_bottom = 22.0
@@ -1151,7 +1175,7 @@ custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "1200"
 align = 1
 
-[node name="Owner" type="Label" parent="Highscores/HighscoreTable/ScoreLine3"]
+[node name="Owner" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine3"]
 margin_left = 136.0
 margin_right = 256.0
 margin_bottom = 22.0
@@ -1161,19 +1185,19 @@ custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "Primoz"
 align = 2
 
-[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/HighscoreTable"]
+[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/HSLevel88/HighscoreTable"]
 margin_top = 128.0
 margin_right = 256.0
 margin_bottom = 150.0
 
-[node name="Position" type="Label" parent="Highscores/HighscoreTable/ScoreLine4"]
+[node name="Position" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine4"]
 margin_right = 20.0
 margin_bottom = 22.0
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "2."
 
-[node name="Score" type="Label" parent="Highscores/HighscoreTable/ScoreLine4"]
+[node name="Score" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine4"]
 margin_left = 62.0
 margin_right = 132.0
 margin_bottom = 22.0
@@ -1183,7 +1207,7 @@ custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "1200"
 align = 1
 
-[node name="Owner" type="Label" parent="Highscores/HighscoreTable/ScoreLine4"]
+[node name="Owner" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine4"]
 margin_left = 136.0
 margin_right = 256.0
 margin_bottom = 22.0
@@ -1193,19 +1217,19 @@ custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "Primoz"
 align = 2
 
-[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/HighscoreTable"]
+[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/HSLevel88/HighscoreTable"]
 margin_top = 160.0
 margin_right = 256.0
 margin_bottom = 182.0
 
-[node name="Position" type="Label" parent="Highscores/HighscoreTable/ScoreLine5"]
+[node name="Position" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine5"]
 margin_right = 20.0
 margin_bottom = 22.0
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "2."
 
-[node name="Score" type="Label" parent="Highscores/HighscoreTable/ScoreLine5"]
+[node name="Score" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine5"]
 margin_left = 62.0
 margin_right = 132.0
 margin_bottom = 22.0
@@ -1215,7 +1239,7 @@ custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "1200"
 align = 1
 
-[node name="Owner" type="Label" parent="Highscores/HighscoreTable/ScoreLine5"]
+[node name="Owner" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine5"]
 margin_left = 136.0
 margin_right = 256.0
 margin_bottom = 22.0
@@ -1225,19 +1249,19 @@ custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "Primoz"
 align = 2
 
-[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/HighscoreTable"]
+[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/HSLevel88/HighscoreTable"]
 margin_top = 192.0
 margin_right = 256.0
 margin_bottom = 214.0
 
-[node name="Position" type="Label" parent="Highscores/HighscoreTable/ScoreLine6"]
+[node name="Position" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine6"]
 margin_right = 20.0
 margin_bottom = 22.0
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "2."
 
-[node name="Score" type="Label" parent="Highscores/HighscoreTable/ScoreLine6"]
+[node name="Score" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine6"]
 margin_left = 62.0
 margin_right = 132.0
 margin_bottom = 22.0
@@ -1247,7 +1271,7 @@ custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "1200"
 align = 1
 
-[node name="Owner" type="Label" parent="Highscores/HighscoreTable/ScoreLine6"]
+[node name="Owner" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine6"]
 margin_left = 136.0
 margin_right = 256.0
 margin_bottom = 22.0
@@ -1257,19 +1281,19 @@ custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "Primoz"
 align = 2
 
-[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/HighscoreTable"]
+[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/HSLevel88/HighscoreTable"]
 margin_top = 224.0
 margin_right = 256.0
 margin_bottom = 246.0
 
-[node name="Position" type="Label" parent="Highscores/HighscoreTable/ScoreLine7"]
+[node name="Position" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine7"]
 margin_right = 20.0
 margin_bottom = 22.0
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "2."
 
-[node name="Score" type="Label" parent="Highscores/HighscoreTable/ScoreLine7"]
+[node name="Score" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine7"]
 margin_left = 62.0
 margin_right = 132.0
 margin_bottom = 22.0
@@ -1279,7 +1303,7 @@ custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "1200"
 align = 1
 
-[node name="Owner" type="Label" parent="Highscores/HighscoreTable/ScoreLine7"]
+[node name="Owner" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine7"]
 margin_left = 136.0
 margin_right = 256.0
 margin_bottom = 22.0
@@ -1289,19 +1313,19 @@ custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "Primoz"
 align = 2
 
-[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/HighscoreTable"]
+[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/HSLevel88/HighscoreTable"]
 margin_top = 256.0
 margin_right = 256.0
 margin_bottom = 278.0
 
-[node name="Position" type="Label" parent="Highscores/HighscoreTable/ScoreLine8"]
+[node name="Position" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine8"]
 margin_right = 20.0
 margin_bottom = 22.0
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "2."
 
-[node name="Score" type="Label" parent="Highscores/HighscoreTable/ScoreLine8"]
+[node name="Score" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine8"]
 margin_left = 62.0
 margin_right = 132.0
 margin_bottom = 22.0
@@ -1311,7 +1335,7 @@ custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "1200"
 align = 1
 
-[node name="Owner" type="Label" parent="Highscores/HighscoreTable/ScoreLine8"]
+[node name="Owner" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine8"]
 margin_left = 136.0
 margin_right = 256.0
 margin_bottom = 22.0
@@ -1321,19 +1345,19 @@ custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "Primoz"
 align = 2
 
-[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/HighscoreTable"]
+[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/HSLevel88/HighscoreTable"]
 margin_top = 288.0
 margin_right = 256.0
 margin_bottom = 310.0
 
-[node name="Position" type="Label" parent="Highscores/HighscoreTable/ScoreLine9"]
+[node name="Position" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine9"]
 margin_right = 20.0
 margin_bottom = 22.0
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "2."
 
-[node name="Score" type="Label" parent="Highscores/HighscoreTable/ScoreLine9"]
+[node name="Score" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine9"]
 margin_left = 62.0
 margin_right = 132.0
 margin_bottom = 22.0
@@ -1343,7 +1367,1069 @@ custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "1200"
 align = 1
 
-[node name="Owner" type="Label" parent="Highscores/HighscoreTable/ScoreLine9"]
+[node name="Owner" type="Label" parent="Highscores/HSLevel88/HighscoreTable/ScoreLine9"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="HSLevel89" type="Control" parent="Highscores"]
+modulate = Color( 1, 1, 1, 0.313726 )
+margin_left = 360.0
+margin_top = 200.0
+margin_right = 615.0
+margin_bottom = 576.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title3" type="Label" parent="Highscores/HSLevel89"]
+margin_top = -2.0
+margin_right = 256.0
+margin_bottom = 20.0
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "LEVEL 88"
+align = 1
+
+[node name="HSeparator" type="HSeparator" parent="Highscores/HSLevel89/Title3"]
+modulate = Color( 1, 1, 1, 0.901961 )
+margin_left = 1.0
+margin_top = 30.0
+margin_right = 254.0
+margin_bottom = 41.0
+
+[node name="HighscoreTable" type="VBoxContainer" parent="Highscores/HSLevel89"]
+margin_top = 47.0
+margin_right = 256.0
+margin_bottom = 385.0
+custom_constants/separation = 10
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="RowLabels" type="HBoxContainer" parent="Highscores/HSLevel89/HighscoreTable"]
+margin_right = 256.0
+margin_bottom = 22.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel89/HighscoreTable/RowLabels"]
+margin_right = 42.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Pos"
+
+[node name="Score" type="Label" parent="Highscores/HSLevel89/HighscoreTable/RowLabels"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Score"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel89/HighscoreTable/RowLabels"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Name"
+align = 2
+
+[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/HSLevel89/HighscoreTable"]
+margin_top = 32.0
+margin_right = 256.0
+margin_bottom = 54.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine1"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine1"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine1"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primož"
+align = 2
+
+[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/HSLevel89/HighscoreTable"]
+margin_top = 64.0
+margin_right = 256.0
+margin_bottom = 86.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine2"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine2"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine2"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/HSLevel89/HighscoreTable"]
+margin_top = 96.0
+margin_right = 256.0
+margin_bottom = 118.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine3"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine3"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine3"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/HSLevel89/HighscoreTable"]
+margin_top = 128.0
+margin_right = 256.0
+margin_bottom = 150.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine4"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine4"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine4"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/HSLevel89/HighscoreTable"]
+margin_top = 160.0
+margin_right = 256.0
+margin_bottom = 182.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine5"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine5"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine5"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/HSLevel89/HighscoreTable"]
+margin_top = 192.0
+margin_right = 256.0
+margin_bottom = 214.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine6"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine6"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine6"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/HSLevel89/HighscoreTable"]
+margin_top = 224.0
+margin_right = 256.0
+margin_bottom = 246.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine7"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine7"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine7"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/HSLevel89/HighscoreTable"]
+margin_top = 256.0
+margin_right = 256.0
+margin_bottom = 278.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine8"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine8"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine8"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/HSLevel89/HighscoreTable"]
+margin_top = 288.0
+margin_right = 256.0
+margin_bottom = 310.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine9"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine9"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel89/HighscoreTable/ScoreLine9"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="HSLevel90" type="Control" parent="Highscores"]
+modulate = Color( 1, 1, 1, 0.313726 )
+margin_left = 664.0
+margin_top = 200.0
+margin_right = 919.0
+margin_bottom = 576.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title3" type="Label" parent="Highscores/HSLevel90"]
+margin_top = -2.0
+margin_right = 256.0
+margin_bottom = 20.0
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "LEVEL 88"
+align = 1
+
+[node name="HSeparator" type="HSeparator" parent="Highscores/HSLevel90/Title3"]
+modulate = Color( 1, 1, 1, 0.901961 )
+margin_left = 1.0
+margin_top = 30.0
+margin_right = 254.0
+margin_bottom = 41.0
+
+[node name="HighscoreTable" type="VBoxContainer" parent="Highscores/HSLevel90"]
+margin_top = 47.0
+margin_right = 256.0
+margin_bottom = 385.0
+custom_constants/separation = 10
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="RowLabels" type="HBoxContainer" parent="Highscores/HSLevel90/HighscoreTable"]
+margin_right = 256.0
+margin_bottom = 22.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel90/HighscoreTable/RowLabels"]
+margin_right = 42.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Pos"
+
+[node name="Score" type="Label" parent="Highscores/HSLevel90/HighscoreTable/RowLabels"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Score"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel90/HighscoreTable/RowLabels"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Name"
+align = 2
+
+[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/HSLevel90/HighscoreTable"]
+margin_top = 32.0
+margin_right = 256.0
+margin_bottom = 54.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine1"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine1"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine1"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primož"
+align = 2
+
+[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/HSLevel90/HighscoreTable"]
+margin_top = 64.0
+margin_right = 256.0
+margin_bottom = 86.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine2"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine2"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine2"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/HSLevel90/HighscoreTable"]
+margin_top = 96.0
+margin_right = 256.0
+margin_bottom = 118.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine3"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine3"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine3"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/HSLevel90/HighscoreTable"]
+margin_top = 128.0
+margin_right = 256.0
+margin_bottom = 150.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine4"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine4"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine4"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/HSLevel90/HighscoreTable"]
+margin_top = 160.0
+margin_right = 256.0
+margin_bottom = 182.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine5"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine5"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine5"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/HSLevel90/HighscoreTable"]
+margin_top = 192.0
+margin_right = 256.0
+margin_bottom = 214.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine6"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine6"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine6"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/HSLevel90/HighscoreTable"]
+margin_top = 224.0
+margin_right = 256.0
+margin_bottom = 246.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine7"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine7"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine7"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/HSLevel90/HighscoreTable"]
+margin_top = 256.0
+margin_right = 256.0
+margin_bottom = 278.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine8"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine8"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine8"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/HSLevel90/HighscoreTable"]
+margin_top = 288.0
+margin_right = 256.0
+margin_bottom = 310.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine9"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine9"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel90/HighscoreTable/ScoreLine9"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="HSLevel91" type="Control" parent="Highscores"]
+modulate = Color( 1, 1, 1, 0.313726 )
+margin_left = 960.0
+margin_top = 200.0
+margin_right = 1215.0
+margin_bottom = 576.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title3" type="Label" parent="Highscores/HSLevel91"]
+margin_top = -2.0
+margin_right = 256.0
+margin_bottom = 20.0
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "LEVEL 88"
+align = 1
+
+[node name="HSeparator" type="HSeparator" parent="Highscores/HSLevel91/Title3"]
+modulate = Color( 1, 1, 1, 0.901961 )
+margin_left = 1.0
+margin_top = 30.0
+margin_right = 254.0
+margin_bottom = 41.0
+
+[node name="HighscoreTable" type="VBoxContainer" parent="Highscores/HSLevel91"]
+margin_top = 47.0
+margin_right = 256.0
+margin_bottom = 385.0
+custom_constants/separation = 10
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="RowLabels" type="HBoxContainer" parent="Highscores/HSLevel91/HighscoreTable"]
+margin_right = 256.0
+margin_bottom = 22.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel91/HighscoreTable/RowLabels"]
+margin_right = 42.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Pos"
+
+[node name="Score" type="Label" parent="Highscores/HSLevel91/HighscoreTable/RowLabels"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Score"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel91/HighscoreTable/RowLabels"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Name"
+align = 2
+
+[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/HSLevel91/HighscoreTable"]
+margin_top = 32.0
+margin_right = 256.0
+margin_bottom = 54.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine1"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine1"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine1"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primož"
+align = 2
+
+[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/HSLevel91/HighscoreTable"]
+margin_top = 64.0
+margin_right = 256.0
+margin_bottom = 86.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine2"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine2"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine2"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/HSLevel91/HighscoreTable"]
+margin_top = 96.0
+margin_right = 256.0
+margin_bottom = 118.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine3"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine3"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine3"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/HSLevel91/HighscoreTable"]
+margin_top = 128.0
+margin_right = 256.0
+margin_bottom = 150.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine4"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine4"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine4"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/HSLevel91/HighscoreTable"]
+margin_top = 160.0
+margin_right = 256.0
+margin_bottom = 182.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine5"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine5"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine5"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/HSLevel91/HighscoreTable"]
+margin_top = 192.0
+margin_right = 256.0
+margin_bottom = 214.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine6"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine6"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine6"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/HSLevel91/HighscoreTable"]
+margin_top = 224.0
+margin_right = 256.0
+margin_bottom = 246.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine7"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine7"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine7"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/HSLevel91/HighscoreTable"]
+margin_top = 256.0
+margin_right = 256.0
+margin_bottom = 278.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine8"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine8"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine8"]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 120, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Primoz"
+align = 2
+
+[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/HSLevel91/HighscoreTable"]
+margin_top = 288.0
+margin_right = 256.0
+margin_bottom = 310.0
+
+[node name="Position" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine9"]
+margin_right = 20.0
+margin_bottom = 22.0
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Score" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine9"]
+margin_left = 62.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "1200"
+align = 1
+
+[node name="Owner" type="Label" parent="Highscores/HSLevel91/HighscoreTable/ScoreLine9"]
 margin_left = 136.0
 margin_right = 256.0
 margin_bottom = 22.0
@@ -1382,9 +2468,9 @@ margin_bottom = 41.0
 [node name="SelectGameBackBtn" type="TextureButton" parent="SelectGame"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -168.0
+margin_left = -176.0
 margin_top = 112.0
-margin_right = -144.0
+margin_right = -152.0
 margin_bottom = 132.0
 rect_min_size = Vector2( 16, 16 )
 focus_neighbour_bottom = NodePath("../SelectGameBtn1")
@@ -1903,26 +2989,52 @@ theme = ExtResource( 1 )
 text = "16bfZX.ttf www.dafont.com"
 autowrap = true
 
-[node name="MenuEnvironment" type="WorldEnvironment" parent="."]
-environment = ExtResource( 6 )
-__meta__ = {
-"_editor_description_": ""
-}
+[node name="SkipIntroLabel" type="Label" parent="."]
+margin_left = 539.0
+margin_top = 46.0
+margin_right = 741.0
+margin_bottom = 68.0
+theme = ExtResource( 1 )
+text = "ESC/JP B to skip"
+align = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/RESET = SubResource( 154 )
+anims/RESET = SubResource( 155 )
 anims/about = SubResource( 137 )
 anims/highscores = SubResource( 141 )
-anims/main_out = SubResource( 132 )
 anims/play = SubResource( 138 )
 anims/select_game = SubResource( 142 )
 anims/settings = SubResource( 140 )
 
+[node name="Graphics" type="Node2D" parent="."]
+visible = false
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title1" type="TileMap" parent="Graphics"]
+position = Vector2( 176, 176 )
+tile_set = SubResource( 135 )
+cell_size = Vector2( 16, 16 )
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+format = 1
+tile_data = PoolIntArray( 0, -1610612736, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 6, -1610612736, 0, 8, 0, 0, 12, 0, 0, 14, 0, 0, 15, -1610612736, 0, 16, 0, 0, 17, -1610612736, 0, 20, -1610612736, 0, 65536, 0, 0, 65540, -1610612736, 0, 65542, 0, 0, 65545, 0, 0, 65547, 0, 0, 65550, 0, 0, 65556, -1610612736, 0, 131072, 0, 0, 131073, -1610612736, 0, 131074, -1610612736, 0, 131075, -1610612736, 0, 131076, -1610612736, 0, 131078, -1610612736, 0, 131082, 0, 0, 131086, 0, 0, 131087, -1610612736, 0, 131088, -1610612736, 0, 131092, -1610612736, 0, 196608, 0, 0, 196614, -1610612736, 0, 196617, 0, 0, 196619, 0, 0, 196622, 0, 0, 196628, -1610612736, 0, 262144, 0, 0, 262150, -1610612736, 0, 262152, 0, 0, 262156, 0, 0, 262158, 0, 0, 262164, -1610612736, 0, 327680, -1610612736, 0, 327686, -1610612736, 0, 327688, -1610612736, 0, 327692, -1610612736, 0, 327694, -1610612736, 0, 327700, -1610612736, 0, 393216, -1610612736, 0, 393222, -1610612736, 0, 393224, -1610612736, 0, 393228, -1610612736, 0, 393230, 0, 0, 393231, -1610612736, 0, 393232, -1610612736, 0, 393233, 0, 0, 393234, 0, 0, 393236, -1610612736, 0, 393237, -1610612736, 0, 393238, -1610612736, 0 )
+
+[node name="Title2" type="TileMap" parent="Graphics"]
+position = Vector2( 544, 240 )
+tile_set = SubResource( 135 )
+cell_size = Vector2( 16, 16 )
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+format = 1
+tile_data = PoolIntArray( 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 7, -1610612736, 0, 8, -1610612736, 0, 9, -1610612736, 0, 12, -1610612736, 0, 13, -1610612736, 0, 14, -1610612736, 0, 15, -1610612736, 0, 16, -1610612736, 0, 18, -1610612736, 0, 19, -1610612736, 0, 20, -1610612736, 0, 21, -1610612736, 0, 25, -1610612736, 0, 26, -1610612736, 0, 27, -1610612736, 0, 30, -1610612736, 0, 34, -1610612736, 0, 65536, -1610612736, 0, 65540, -1610612736, 0, 65542, -1610612736, 0, 65550, -1610612736, 0, 65554, -1610612736, 0, 65558, -1610612736, 0, 65560, -1610612736, 0, 65564, -1610612736, 0, 65567, -1610612736, 0, 65569, -1610612736, 0, 131072, -1610612736, 0, 131073, -1610612736, 0, 131074, -1610612736, 0, 131075, -1610612736, 0, 131076, -1610612736, 0, 131078, -1610612736, 0, 131079, -1610612736, 0, 131080, -1610612736, 0, 131081, -1610612736, 0, 131086, -1610612736, 0, 131090, -1610612736, 0, 131091, -1610612736, 0, 131092, -1610612736, 0, 131093, -1610612736, 0, 131096, -1610612736, 0, 131097, -1610612736, 0, 131098, -1610612736, 0, 131099, -1610612736, 0, 131100, -1610612736, 0, 131104, -1610612736, 0, 196608, -1610612736, 0, 196612, -1610612736, 0, 196618, -1610612736, 0, 196622, -1610612736, 0, 196626, -1610612736, 0, 196630, -1610612736, 0, 196632, -1610612736, 0, 196636, -1610612736, 0, 196640, -1610612736, 0, 262144, -1610612736, 0, 262148, -1610612736, 0, 262154, -1610612736, 0, 262158, -1610612736, 0, 262162, -1610612736, 0, 262166, -1610612736, 0, 262168, -1610612736, 0, 262172, -1610612736, 0, 262176, -1610612736, 0, 327680, -1610612736, 0, 327684, -1610612736, 0, 327686, -1610612736, 0, 327690, -1610612736, 0, 327694, -1610612736, 0, 327698, -1610612736, 0, 327702, -1610612736, 0, 327704, -1610612736, 0, 327708, -1610612736, 0, 327712, -1610612736, 0, 393216, 0, 0, 393220, -1610612736, 0, 393223, -1610612736, 0, 393224, -1610612736, 0, 393225, -1610612736, 0, 393230, -1610612736, 0, 393234, -1610612736, 0, 393238, -1610612736, 0, 393240, -1610612736, 0, 393244, -1610612736, 0, 393248, -1610612736, 0 )
+
+[connection signal="finished_playing" from="IntroViewPortContainer/Viewport/Intro" to="." method="_on_Intro_finished_playing"]
 [connection signal="pressed" from="Menu/PlayBtn" to="." method="_on_PlayBtn_pressed"]
 [connection signal="pressed" from="Menu/SelectGameBtn" to="." method="_on_SelectGameBtn_pressed"]
 [connection signal="pressed" from="Menu/SettingsBtn" to="." method="_on_SettingsBtn_pressed"]
 [connection signal="pressed" from="Menu/HighscoresBtn" to="." method="_on_HighscoresBtn_pressed"]
 [connection signal="pressed" from="Menu/AboutBtn" to="." method="_on_AboutBtn_pressed"]
+[connection signal="pressed" from="Menu/QuitGameBtn" to="." method="_on_QuitGameBtn_pressed"]
 [connection signal="pressed" from="About/AboutBackBtn" to="." method="_on_AboutBackBtn_pressed"]
 [connection signal="pressed" from="Highscores/HighscoresBackBtn" to="." method="_on_HighscoresBackBtn_pressed"]
 [connection signal="pressed" from="SelectGame/SelectGameBackBtn" to="." method="_on_SelectGameBackBtn_pressed"]

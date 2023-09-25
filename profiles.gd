@@ -75,7 +75,7 @@ var game_rules: Dictionary = { # tole ne uporabljam v zadnji varianti
 	"gameover_countdown_duration": 10, # hud game timer
 	"last_breath_time":  10, # cca 1 bit na sekundo
 	"pixel_start_color": Color("#323232"),
-
+	"intro_strays_count": 149,  # 149 celic je v naslovu, kar je več gre naokrog
 	#var color_gray0 = Color("#171a23") # najtemnejša
 	#var color_gray1 = Color("#1d212d")
 	#var color_gray2 = Color("#272d3d")

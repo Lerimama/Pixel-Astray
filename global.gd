@@ -29,6 +29,9 @@ var gameover_menu = null
 
 # GLOBAL VARS ---------------------------------------------------------------------------------------------------------
 
+enum GameStates {INTRO, HOME, GAME}
+var current_game_state 
+
 # groups
 var group_players = "Players"
 var group_strays = "Strays"
@@ -66,9 +69,10 @@ func print_id (node: Node):
 	pass
 
 
-func snap_to_nearest_grid(current_global_position: Vector2):
+func snap_to_nearest_grid(current_global_position: Vector2, cell_positions):
 
 	var floor_cells: Array = level_tilemap.floor_cells_global_positions
+	var tilemap_cells: Array = level_tilemap.floor_cells_global_positions
 	var cell_size_x: float = level_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 	
 	var current_position: Vector2 = Vector2(current_global_position.x - cell_size_x/2, current_global_position.y - cell_size_x/2)
@@ -103,14 +107,15 @@ func detect_collision_in_direction(ray, direction_to_check):
 		var ray_collider = ray.get_collider()
 		return ray_collider
 		
-#func get_random_member_index(group_of_elements, offset):
-#
-#		var random_range = group_of_elements.size()
-#		var selected_int = randi() % int(random_range) + offset
-##		var selected_value = current_array[random_int]
-#
-##		printt(current_array, random_range, random_int, selected_int)
-#		return selected_int
+func get_random_member_index(group_of_elements, offset): # offset je če zamakneš začetek
+		# uporabljam pri: ... nikjer
+
+		var random_range = group_of_elements.size()
+		var selected_int = randi() % int(random_range) + offset
+#		var selected_value = current_array[random_int]
+
+		printt("RANDOM", random_range, selected_int)
+		return selected_int
 
 
 # SCENE MANAGER ---------------------------------------------------------------------------

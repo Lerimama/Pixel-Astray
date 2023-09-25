@@ -16,25 +16,13 @@ tracks/0/keys = {
 "update": 0,
 "values": [ 1.04957, 0.2, 1.04957, 0.2, 1.04957, 1.04957, 0.0, 0.8, 0.0, 0.6, 0.0, 0.5, 0.0, 0.0, 1.4, 1.4, 0.0, 1.0, 0.5, 0.0, 1.0, 0.0, 0.5, 1.04957, 1.04957, 0.0 ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath("GameManager:stray_pixels_count")
+tracks/1/type = "method"
+tracks/1/path = NodePath("GameManager")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray(  ),
-"transitions": PoolRealArray(  ),
-"update": 1,
-"values": [  ]
-}
-tracks/2/type = "method"
-tracks/2/path = NodePath("GameManager")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
 "times": PoolRealArray( 3.32, 3.48, 4.4 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "values": [ {
@@ -47,6 +35,18 @@ tracks/2/keys = {
 "args": [  ],
 "method": "intro_spawn_strays"
 } ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("GameManager:stray_pixels_count")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 0,
+"values": [  ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("Level/FloorCover:color")

@@ -8,8 +8,6 @@ onready var minimap: ViewportContainer = $Minimap
 onready var minimap_viewport: Viewport = $Minimap/MinimapViewport
 onready var minimap_camera: Camera2D = $Minimap/MinimapViewport/MinimapCam
 
-onready var skip_intro_popup: Label = $GUI/SkipIntroLabel
-
 
 func _ready() -> void:
 	
@@ -25,14 +23,6 @@ func _ready() -> void:
 	# višina minimape v razmerju s formatom levela
 	var rect = Global.level_tilemap.get_used_rect()
 	minimap_viewport.size.y = minimap_viewport.size.x * rect.size.y / rect.size.x
-	
-
-func _process(delta: float) -> void:
-	
-	if Global.game_manager.can_skip_intro:
-		skip_intro_popup.visible = true
-	else:
-		skip_intro_popup.visible = false
 	
 	
 func set_camera_limits():

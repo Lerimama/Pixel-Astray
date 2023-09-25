@@ -93,7 +93,7 @@ func _ready() -> void:
 	
 	modulate = pixel_color
 	randomize() # za random blink animacije
-	global_position = Global.snap_to_nearest_grid(global_position)
+	global_position = Global.snap_to_nearest_grid(global_position, Global.level_tilemap.floor_cells_global_positions)
 	
 	# deaktiviram plejerja ... aktivira ga GM, ko v start_game
 	set_physics_process(false)
@@ -102,11 +102,6 @@ func _ready() -> void:
 #	poly_pixel.modulate.a = 1
 	animation_player.play("stil_alive_poly")
 	current_state = States.IDLE
-	
-	
-func tets():
-	# poly_pixel.modulate.a = 0.5
-	print("dsddddddddddddddddddddddddddddddddddddddddddddddddsddddddddddddddddddddddddddddddddddddddddddddddd")	
 	
 	
 func _physics_process(delta: float) -> void:
@@ -409,7 +404,7 @@ func step():
 		
 		current_state = States.STEPPING
 		
-		global_position = Global.snap_to_nearest_grid(global_position)
+		global_position = Global.snap_to_nearest_grid(global_position, Global.level_tilemap.floor_cells_global_positions)
 		spawn_trail_ghost()
 		var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 		step_tween.tween_property(self, "position", global_position + direction * cell_size_x, step_time)
@@ -429,7 +424,7 @@ func end_move():
 	
 	# reset direction
 	modulate = pixel_color
-	global_position = Global.snap_to_nearest_grid(global_position)
+	global_position = Global.snap_to_nearest_grid(global_position, Global.level_tilemap.floor_cells_global_positions)
 	
 	# reset ray dir
 	direction = Vector2.ZERO

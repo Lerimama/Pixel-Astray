@@ -1,7 +1,7 @@
 extends Node
 
 
-export var can_skip_intro: bool = false # čas ko lahko skipneš intro ... exportan, ker je ponoven off tajmiran v animaciji
+#export var can_skip_intro: bool = false # čas ko lahko skipneš intro ... exportan, ker je ponoven off tajmiran v animaciji
 
 # states
 var game_on: bool = false
@@ -20,11 +20,12 @@ var spawned_player_index: int = 0
 var spawned_stray_index: int = 0
 var players_in_game: Array = []
 var strays_in_game: Array = []
+
 var floor_positions: Array # po signalu ob kreaciji tilemapa ... tukaj, da ga lahko grebam do zunaj
 var available_floor_positions: Array # dplikat floor_positions za spawnanje pixlov
 
 var colors_to_pick: Array # za hud nejbrhud pravila
-var energy_draining_active: bool = false # za kontrolo črpanja energije
+var energy_drain_active: bool = false # za kontrolo črpanja energije
 
 # stats
 onready var player_stats: Dictionary = Profiles.default_player_stats.duplicate() # duplikat default profila
@@ -49,9 +50,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_pressed("no2"):
 		player_stats["player_energy"] += 10
 	
-	if can_skip_intro: # tajmiran v animaciji in skip funkciji
-		if Input.is_action_just_pressed("ui_cancel") and can_skip_intro:
-			skip_intro()
+#	if can_skip_intro: # tajmiran v animaciji in skip funkciji
+#		if Input.is_action_just_pressed("ui_cancel") and can_skip_intro:
+#			skip_intro()
 
 	if Input.is_action_just_pressed("n"):
 		if Global.sound_manager.game_music_set_to_off:
@@ -69,7 +70,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			Global.sound_manager.stop_music("game")
 			Global.sound_manager.game_music_set_to_off = true
 
-
 		
 func _ready() -> void:
 	
@@ -84,11 +84,12 @@ func _ready() -> void:
 	
 	player_stats["player_energy"] = game_rules["player_start_energy"]
 	
+	set_game()
 	# toggle intro
-	if game_rules["game_intro_on"]:
-		play_intro()
-	else:
-		skip_intro() # še countdown
+#	if game_rules["game_intro_on"]:
+#		play_intro()
+#	else:
+#		skip_intro() # še countdown
 	
 	
 func _process(delta: float) -> void:
@@ -99,35 +100,35 @@ func _process(delta: float) -> void:
 # GAME LOOP --------------------------------------------------------------------------------------------------------------------------------
 
 
-func play_intro():
-	yield(get_tree().create_timer(2), "timeout") # pavza pred pixelate eventom
-	animation_player.play("game_intro") # v animaciji spawnam strayse v več grupah, plejerja in zaženem set_game()
-	can_skip_intro = true # ponoven off tajmiran v animaciji (če ne skipaš)
+#func play_intro():
+#	yield(get_tree().create_timer(2), "timeout") # pavza pred pixelate eventom
+#	animation_player.play("game_intro") # v animaciji spawnam strayse v več grupah, plejerja in zaženem set_game()
+#	can_skip_intro = true # ponoven off tajmiran v animaciji (če ne skipaš)
 	
 
-func skip_intro():
-	
-	can_skip_intro = false
-	animation_player.stop()
-	
-	# actor KVEFRI ... preverjam, če skipnem še predno je naložen  
-	if is_instance_valid(actor_pixel):
-		actor_pixel.actor_in_motion = false
-		actor_pixel.queue_free()
-		
-	split_stray_colors()  # spawnanje, ki bi se drugače zgodilo v intro animaciji ... ampak so še skriti
-	spawn_player() # pokaže ga šele v set_game
-			
-	# show strays
-	yield(get_tree().create_timer(0.5), "timeout")
-	show_strays() # 1 ...v metodi šteje število "klicev" ... tam se določa spawn število na vsak krog
-	yield(get_tree().create_timer(0.2), "timeout")
-	show_strays() # 2 ...
-	show_strays()
-	yield(get_tree().create_timer(0.2), "timeout")
-	show_strays()
-	
-	set_game()	
+#func skip_intro():
+#
+##	can_skip_intro = false
+##	animation_player.stop()
+#
+#	# actor KVEFRI ... preverjam, če skipnem še predno je naložen  
+##	if is_instance_valid(actor_pixel):
+##		actor_pixel.actor_in_motion = false
+##		actor_pixel.queue_free()
+#
+#	split_stray_colors()  # spawnanje, ki bi se drugače zgodilo v intro animaciji ... ampak so še skriti
+#	spawn_player() # pokaže ga šele v set_game
+#
+#	# show strays
+#	yield(get_tree().create_timer(0.5), "timeout")
+#	show_strays() # 1 ...v metodi šteje število "klicev" ... tam se določa spawn število na vsak krog
+#	yield(get_tree().create_timer(0.2), "timeout")
+#	show_strays() # 2 ...
+#	show_strays()
+#	yield(get_tree().create_timer(0.2), "timeout")
+#	show_strays()
+#
+#	set_game()	
 
 
 func show_strays():
@@ -165,7 +166,20 @@ func show_strays():
 func set_game(): 
 # setam ves data igre
 	
-	can_skip_intro = false # zazih ... ker ne skipaš
+#	can_skip_intro = false # zazih ... ker ne skipaš
+	yield(get_tree().create_timer(2), "timeout")
+	
+	split_stray_colors()  # spawnanje, ki bi se drugače zgodilo v intro animaciji ... ampak so še skriti
+	spawn_player() # pokaže ga šele v set_game
+			
+	# show strays
+	yield(get_tree().create_timer(0.5), "timeout")
+	show_strays() # 1 ...v metodi šteje število "klicev" ... tam se določa spawn število na vsak krog
+	yield(get_tree().create_timer(0.2), "timeout")
+	show_strays() # 2 ...
+	show_strays()
+	yield(get_tree().create_timer(0.2), "timeout")
+	show_strays()
 	
 	if not players_in_game.empty():
 		for player in players_in_game:
@@ -173,9 +187,9 @@ func set_game():
 			player.set_physics_process(false)
 	
 	# actor KVEFRI, če intro ni bil skipan  
-	if is_instance_valid(actor_pixel):
-		actor_pixel.actor_in_motion = false
-		actor_pixel.queue_free()
+#	if is_instance_valid(actor_pixel):
+#		actor_pixel.actor_in_motion = false
+#		actor_pixel.queue_free()
 	
 	strays_spawn_loop = 0
 	
@@ -183,6 +197,8 @@ func set_game():
 	var current_highscore_line: Array = Global.data_manager.get_top_highscore(game_stats["level_no"])
 	game_stats["highscore"] = current_highscore_line[0]
 	game_stats["highscore_owner"] = current_highscore_line[1]
+	
+	yield(get_tree().create_timer(2), "timeout")
 	
 	Global.main_camera.zoom_in()
 	# YIELD ... čaka da game_countdown odšteje
@@ -197,7 +213,7 @@ func set_game():
 
 	
 func start_game():
-	print("s ", strays_in_game.size())
+	print("strays count ", strays_in_game.size())
 	Global.sound_manager.play_music("game")
 	game_on = true
 	# aktiviram plejerja in tajmer
@@ -313,11 +329,13 @@ func spawn_stray(stray_color):
 	# random grid pozicija
 	var random_range = available_floor_positions.size()
 	var selected_cell_index: int = randi() % int(random_range) # + offset
-	new_stray_pixel.global_position = available_floor_positions[selected_cell_index] # + grid_cell_size/2
+	new_stray_pixel.global_position = available_floor_positions[selected_cell_index]
+	 # + grid_cell_size/2
 	new_stray_pixel.z_index = 1
 	
 	#spawn
 	Global.node_creation_parent.add_child(new_stray_pixel)
+	new_stray_pixel.global_position = Global.snap_to_nearest_grid(new_stray_pixel.global_position, Global.level_tilemap.floor_cells_global_positions)
 	
 	# connect
 	new_stray_pixel.connect("stat_changed", self, "_on_stat_changed")			
@@ -326,7 +344,7 @@ func spawn_stray(stray_color):
 	available_floor_positions.remove(selected_cell_index)
 	
 
-func spawn_tag_popup(position: Vector2, value): # kliče ga GM
+func spawn_floating_tag(position: Vector2, value): # kliče ga GM
 	
 	var cell_size_x: float = Global.level_tilemap.cell_size.x
 	
@@ -361,12 +379,12 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 		
 		# from stray
 		"skilled":
-			if not energy_draining_active:
-				energy_draining_active = true
+			if not energy_drain_active:
+				energy_drain_active = true
 				player_stats["player_energy"] += game_rules["skilled_energy_drain"]
 				player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_max_energy"]) # 1 je najnižja, ker tam se že odšteva zadnji izdihljaj
 				yield(get_tree().create_timer(Profiles.game_rules["skilled_energy_drain_speed"]), "timeout")
-				energy_draining_active = false
+				energy_drain_active = false
 				
 		"stray_hit":
 			# hud statistika stray pixlov
@@ -376,21 +394,21 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 			if stat_change == 1:
 				player_stats["player_points"] += game_rules["color_picked_points"]
 				player_stats["player_energy"] += game_rules["color_picked_energy"]
-				spawn_tag_popup(stat_owner.global_position, game_rules["color_picked_points"]) 
+				spawn_floating_tag(stat_owner.global_position, game_rules["color_picked_points"]) 
 			# stats za vsakega naslednega v vrsti 
 			elif stat_change > 1:
 				var points_for_seq_pixel = (game_rules["additional_color_picked_points"] * stat_change) - game_rules["color_picked_points"] # odštejem, da se točke od prvega pixla ne podvajajo
 				var energy_for_seq_pixel = (game_rules["additional_color_picked_energy"] * stat_change) - game_rules["color_picked_energy"]
 				player_stats["player_points"] += points_for_seq_pixel
 				player_stats["player_energy"] += energy_for_seq_pixel
-				spawn_tag_popup(stat_owner.global_position, points_for_seq_pixel) 
+				spawn_floating_tag(stat_owner.global_position, points_for_seq_pixel) 
 			
 		# from player
 		"wall_hit":
 			if game_rules["loose_life_on"]:
 				loose_life_stat(stat_owner, stat_change)
 			else:
-				spawn_tag_popup(stat_owner.global_position, game_rules["wall_hit_points"]) 
+				spawn_floating_tag(stat_owner.global_position, game_rules["wall_hit_points"]) 
 				player_stats["player_points"] += game_rules["wall_hit_points"]
 				player_stats["player_energy"] += game_rules["wall_hit_energy"]
 				yield(get_tree().create_timer(game_rules["dead_time"]), "timeout")

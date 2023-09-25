@@ -3,14 +3,22 @@ extends Node
 
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 
-enum Screens {MAIN_MENU, SELECT_GAME, ABOUT, SETTINGS, HIGHSCORES}
-var current_screen = Screens.MAIN_MENU
+enum Screens {INTRO, MAIN_MENU, SELECT_GAME, ABOUT, SETTINGS, HIGHSCORES}
+var current_screen # = Screens.MAIN_MENU
+onready var menu: Control = $Menu
+
+onready var intro: Node2D = $IntroViewPortContainer/Viewport/Intro
+onready var skip_intro_label: Label = $SkipIntroLabel
+
 
 
 func _input(event: InputEvent) -> void:
-
+	
 	if Input.is_action_just_pressed("ui_cancel"):
 		match current_screen:
+			Screens.INTRO:
+				intro.skip_intro() # v MAIN MENU se spremeni, ko intro pošlje signal, da je končal
+#				current_screen = Screens.MAIN_MENU
 			Screens.MAIN_MENU:
 				 pass
 			Screens.SELECT_GAME:
@@ -43,12 +51,53 @@ func _input(event: InputEvent) -> void:
 					
 					
 func _ready():
-	$Menu/PlayBtn.grab_focus()
+	
+	intro.play_intro()
+	current_screen = Screens.INTRO
+	menu.visible = false
+	skip_intro_label.visible = true
+	
+#	$Menu/PlayBtn.grab_focus()
 			
 			
 # MAIN MENU ---------------------------------------------------------------------------------------------------
 
 
+func menu_in():
+	menu.modulate.a = 0
+	menu.visible = true
+#	current_screen = Screens.MAIN_MENU
+	
+	var fade_in = get_tree().create_tween()
+	fade_in.tween_property(menu, "modulate:a", 1, 1)
+	fade_in.parallel().tween_property(self, "current_screen", Screens.MAIN_MENU, 1)
+	fade_in.tween_callback($Menu/PlayBtn, "grab_focus")
+	
+
+func animation_reversed(from_screen: String):
+	
+	# pomeni da se odpre main menu
+	if animation_player.current_animation_position == 0:
+		# set focus
+		match from_screen:
+			"select_game":
+				$Menu/SelectGameBtn.grab_focus()
+			"about":
+				$Menu/AboutBtn.grab_focus()
+			"settings":
+				$Menu/SettingsBtn.grab_focus()
+			"highscores":
+				$Menu/HighscoresBtn.grab_focus()
+		current_screen = Screens.MAIN_MENU
+		return true
+
+
+func _on_Intro_finished_playing() -> void:
+	var fade_out = get_tree().create_tween()
+	fade_out.tween_property(skip_intro_label, "modulate:a", 0, 0.3)	
+	menu_in()
+	
+	
 func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 	
 	match animation_name:
@@ -75,29 +124,12 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 			$Highscores/HighscoresBackBtn.grab_focus()
 
 
-func animation_reversed(from_screen: String):
-	
-	# pomeni da se odpre main menu
-	if animation_player.current_animation_position == 0:
-		# set focus
-		match from_screen:
-			"select_game":
-				$Menu/SelectGameBtn.grab_focus()
-			"about":
-				$Menu/AboutBtn.grab_focus()
-			"settings":
-				$Menu/SettingsBtn.grab_focus()
-			"highscores":
-				$Menu/HighscoresBtn.grab_focus()
-		current_screen = Screens.MAIN_MENU
-		return true
-
-
 func _on_PlayBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.home_out() # ... tole je, če ni animacije ... Quick play?
 	
 	$Menu/PlayBtn.disabled = true # da ne moreš multiklikat
+
 
 func _on_SelectGameBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
@@ -116,12 +148,13 @@ func _on_SettingsBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	animation_player.play("settings")
 
+
 func _on_HighscoresBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	
 	var fake_player_ranking: int = 100
-	$Highscores/HighscoreTable.get_highscore_table(fake_player_ranking) # številka je ranking izven lesvice in nič ni označeno
+	$Highscores/HSLevel88/HighscoreTable.get_highscore_table(fake_player_ranking) # številka je ranking izven lesvice in nič ni označeno
 	animation_player.play("highscores")
 
 
@@ -132,6 +165,7 @@ func _on_SelectGameBackBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("btn_cancel")
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play_backwards("select_game")
+
 
 func _on_AboutBackBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("btn_cancel")
@@ -187,3 +221,7 @@ func _on_SelectGame5Btn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.home_out() # ... tole je, če ni animacije ... Quick play?
 	$SelectGame/SelectGameBtn5.disabled = true # da ne moreš multiklikat
+
+
+func _on_QuitGameBtn_pressed() -> void:
+	get_tree().quit()

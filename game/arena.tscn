@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/resources/arena_tileset.tres" type="TileSet" id=2]
 [ext_resource path="res://game/arena_tilemap.gd" type="Script" id=3]
 [ext_resource path="res://assets/resources/animation_pixelate.tres" type="Animation" id=4]
-[ext_resource path="res://game/pixel/actor.tscn" type="PackedScene" id=5]
+[ext_resource path="res://home/intro/actor.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=6]
 [ext_resource path="res://assets/resources/arena_environment.tres" type="Environment" id=8]
 [ext_resource path="res://managers/game_manager.gd" type="Script" id=10]
@@ -418,7 +418,7 @@ margin_left = -40.0
 margin_top = -40.0
 margin_right = 3540.0
 margin_bottom = 2440.0
-color = Color( 0.976471, 0.678431, 0.74902, 0.156863 )
+color = Color( 1, 1, 1, 0 )
 
 [node name="TilemapCover" type="ColorRect" parent="Level"]
 visible = false
@@ -449,9 +449,8 @@ color = Color( 0.156863, 0.145098, 0, 1 )
 environment = ExtResource( 8 )
 
 [node name="Actor" parent="." instance=ExtResource( 5 )]
-modulate = Color( 0.368627, 1, 0.662745, 1 )
+modulate = Color( 1, 1, 1, 0.185714 )
 position = Vector2( 432, 912 )
-actor_in_motion = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 3 )

@@ -45,8 +45,10 @@ func play_sfx(effect_for: String):
 			select_random_sfx($GameSfx/Blinking).play() # nekateri so na mute, ker so drugače prepogosti soundi
 			select_random_sfx($GameSfx/BlinkingStatic).play()
 		"last_breath":
-			if $GameSfx/LastBeat.is_playing():
-				return
+#			if $GameSfx/LastBeat.is_playing():
+#				return
+			$GameSfx/LastBeat.play()
+		"heartbeat":
 			$GameSfx/LastBeat.play()
 		
 		# bursting
@@ -104,7 +106,6 @@ func play_sfx(effect_for: String):
 			selected_tap.play()
 			
 			
-			
 func play_gui_sfx(effect_for: String):
 	
 	match effect_for:
@@ -156,7 +157,7 @@ func _on_TeleportStart_finished() -> void:
 		
 
 func play_music(music_for: String):
-	
+	return
 	match music_for:
 
 		"menu":

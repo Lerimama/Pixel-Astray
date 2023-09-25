@@ -5,19 +5,35 @@ var fade_time = 1
 
 var camera_shake_on: bool =  true #_temp
 
+onready var intro_scene_path: String = "res://home/intro/intro.tscn"
 onready var home_scene_path: String = "res://home/home.tscn"
 onready var game_scene_path: String = "res://game/game.tscn"
-
 
 
 func _ready() -> void:
 	
 	Global.main_node = self
 	
+#	intro_in()
 	home_in()
 #	game_in()
 	
 
+func intro_in():
+		
+	Global.spawn_new_scene(intro_scene_path, self)
+	Global.current_scene.modulate = Color.black
+	var fade_in = get_tree().create_tween()
+	fade_in.tween_property(Global.current_scene, "modulate", Color.white, fade_time)
+
+func intro_out():
+	var fade_out = get_tree().create_tween()
+#	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
+#	fade_out.tween_callback(Global, "release_scene", [Global.current_scene])
+	fade_out.tween_callback(self, "home_in").set_delay(1)	
+	fade_out.tween_callback(Global.sound_manager, "stop_sfx", ["last_breath"])
+	
+	
 func home_in():
 	
 	Global.sound_manager.play_music("menu")	# filter set_to_off je v sound managerju

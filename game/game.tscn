@@ -668,17 +668,6 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="SkipIntroLabel" type="Label" parent="GUI"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -112.0
-margin_top = 94.0
-margin_right = 112.0
-margin_bottom = 116.0
-size_flags_horizontal = 4
-text = "ESC to skip intro"
-align = 1
-
 [node name="Hud" type="Control" parent="GUI"]
 rect_min_size = Vector2( 1280, 720 )
 script = ExtResource( 2 )

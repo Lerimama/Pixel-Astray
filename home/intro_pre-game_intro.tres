@@ -1,0 +1,195 @@
+[gd_resource type="Animation" format=2]
+
+[resource]
+resource_name = "pre-game_intro"
+length = 9.5
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("Actor:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 5.32, 5.38, 5.52, 5.56, 5.74, 5.8, 5.84, 5.92, 5.96, 6.1, 6.18, 6.22, 6.32, 6.38, 6.42, 6.52, 6.54, 7.38, 7.48, 7.56, 7.62, 7.68, 7.76, 7.9, 8, 8.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.952941, 0.356863, 0.498039, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.368627, 1, 0.662745, 1 ), Color( 1, 1, 1, 1 ), Color( 0.341176, 0.65098, 1, 1 ), Color( 0.341176, 0.65098, 1, 1 ), Color( 0.996078, 0.976471, 0.545098, 1 ), Color( 0.952941, 0.356863, 0.498039, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.368627, 1, 0.662745, 1 ), Color( 1, 1, 1, 1 ), Color( 0.341176, 0.65098, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.368627, 1, 0.662745, 1 ), Color( 1, 1, 1, 1 ), Color( 0.952941, 0.356863, 0.498039, 1 ), Color( 1, 1, 1, 1 ), Color( 0.341176, 0.65098, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.996078, 0.976471, 0.545098, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Actor:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 5.32, 5.38, 5.52, 5.56, 5.62, 6.28, 6.32, 6.38, 6.42, 6.52, 6.54, 6.6, 7.3, 7.44, 7.48, 7.56, 7.62, 7.72, 7.94, 8, 8.4, 9.3, 9.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.04957, 1.04957, 0.2, 1.04957, 0.2, 1.04957, 1.04957, 0.0, 0.8, 0.0, 0.6, 0.0, 0.5, 0.0, 0.5, 1.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.2, 0.03, 0.03 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Level/ThunderCover:color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 7.44, 7.52, 7.6, 7.68, 7.86, 7.94, 8, 8.06, 8.12, 8.32 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 0.952941, 0.356863, 0.498039, 0.470588 ), Color( 1, 1, 1, 0 ), Color( 0.368627, 1, 0.662745, 0.470588 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 0.996078, 0.976471, 0.545098, 0.54902 ), Color( 1, 1, 1, 0 ), Color( 0.341176, 0.65098, 1, 0.627451 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Actor:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.8, 0.9, 2, 2.8, 3.7, 4.5, 5.34 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 0.307786, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 144, 912 ), Vector2( 3216, 912 ), Vector2( 3216, 2064 ), Vector2( 1486, 2064 ), Vector2( 1486, 272 ), Vector2( 1744, 272 ), Vector2( 1744, 1264 ), Vector2( 1744, 1264 ) ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 7.44, 7.48, 7.64, 7.98, 8.1, 9.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "split_stray_colors"
+}, {
+"args": [  ],
+"method": "show_strays"
+}, {
+"args": [  ],
+"method": "show_strays"
+}, {
+"args": [  ],
+"method": "show_strays"
+}, {
+"args": [  ],
+"method": "show_strays"
+}, {
+"args": [  ],
+"method": "play_last_breath"
+} ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath(".:actor_in_motion")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.06, 0.78, 1.98, 2.68, 3.74, 4.22 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true, false, true, false ]
+}
+tracks/6/type = "method"
+tracks/6/path = NodePath(".")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0.08, 2.02, 3.76, 5.36, 5.48, 5.56, 5.78, 5.84, 6.1, 6.28, 6.36, 6.42, 6.54, 7.34, 7.48, 7.62, 7.7, 7.88, 8, 8.06, 8.18 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_stepping_loop"
+}, {
+"args": [  ],
+"method": "play_stepping_loop"
+}, {
+"args": [  ],
+"method": "play_stepping_loop"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+} ]
+}
+tracks/7/type = "method"
+tracks/7/path = NodePath(".")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 7.46, 7.56, 7.68, 8, 8.12 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_thunder_strike"
+}, {
+"args": [  ],
+"method": "play_thunder_strike"
+}, {
+"args": [  ],
+"method": "play_thunder_strike"
+}, {
+"args": [  ],
+"method": "play_thunder_strike"
+}, {
+"args": [  ],
+"method": "play_thunder_strike"
+} ]
+}
