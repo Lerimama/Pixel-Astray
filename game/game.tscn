@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://game/hud/hud_game_timer.gd" type="Script" id=1]
 [ext_resource path="res://game/hud/hud.gd" type="Script" id=2]
@@ -19,8 +19,10 @@
 [ext_resource path="res://game/arena.tscn" type="PackedScene" id=17]
 [ext_resource path="res://assets/resources/graphics_tileset.tres" type="TileSet" id=18]
 [ext_resource path="res://assets/theme/fonts/16bfZX.ttf" type="DynamicFontData" id=19]
+[ext_resource path="res://assets/resources/arena_environment.tres" type="Environment" id=20]
 
 [sub_resource type="World" id=117]
+environment = ExtResource( 20 )
 
 [sub_resource type="NoiseTexture" id=1]
 width = 246
@@ -1400,6 +1402,7 @@ anims/countdown_5_v1 = SubResource( 135 )
 
 [node name="PauseMenu" type="Control" parent="GUI"]
 pause_mode = 2
+visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
 script = ExtResource( 10 )

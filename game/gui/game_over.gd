@@ -120,8 +120,6 @@ func show_content():
 	write_gameover_data()
 	highscore_table.get_highscore_table(Global.data_manager.current_player_ranking)
 	
-#	restart_btn.grab_focus()
-	
 	var fade_in_tween = get_tree().create_tween()		
 	fade_in_tween.tween_property(content, "modulate:a", 1, 1)#.set_delay(0.3)
 	fade_in_tween.tween_callback(self, "pause_tree")
@@ -160,7 +158,7 @@ func unpause_tree():
 # POPUP INPUT --------------------------------------------------------------------	
 
 
-var input_invite_text: String = "Your name ..."
+var input_invite_text: String = "..."
 var input_string: String # = "" # neki more bit, če plejer nč ne vtipka in potrdi predvsem da zaznava vsako črko in jo lahko potrdiš na gumbu
 
 

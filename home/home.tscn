@@ -52,7 +52,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"points": PoolRealArray( 494, -0.25, 0, 0.25, 0 ),
+"points": PoolRealArray( 518, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 0 )
 }
 tracks/1/type = "value"
@@ -223,7 +223,7 @@ tracks/15/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 280, 494 ) ]
+"values": [ Vector2( 280, 518 ) ]
 }
 tracks/16/type = "bezier"
 tracks/16/path = NodePath("IntroViewPortContainer/Viewport/IntroCam:position:x")
@@ -314,7 +314,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"points": PoolRealArray( 494, 0, 0, 0.5, 0, 174, -0.5, 0, 0, 0 ),
+"points": PoolRealArray( 518, 0, 0, 0.5, 0, 198, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0, 1 )
 }
 tracks/5/type = "bezier"
@@ -394,7 +394,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"points": PoolRealArray( 494, 0, 0, 0.5, 0, 990, -0.5, 0, 0, 0 ),
+"points": PoolRealArray( 518, 0, 0, 0.5, 0, 1014, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0, 1 )
 }
 tracks/5/type = "bezier"
@@ -685,15 +685,6 @@ anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 720 )
 color = Color( 0, 0, 0, 1 )
 
-[node name="SkipIntroLabel2" type="Label" parent="."]
-margin_left = 539.0
-margin_top = 622.0
-margin_right = 741.0
-margin_bottom = 644.0
-theme = ExtResource( 1 )
-text = "ESC/JP B to skip"
-align = 1
-
 [node name="IntroViewPortContainer" type="ViewportContainer" parent="."]
 margin_right = 2560.0
 margin_bottom = 1440.0
@@ -704,7 +695,6 @@ size = Vector2( 2560, 1440 )
 transparent_bg = true
 handle_input_locally = false
 render_target_update_mode = 3
-gui_disable_input = true
 
 [node name="Intro" parent="IntroViewPortContainer/Viewport" instance=ExtResource( 6 )]
 
@@ -719,9 +709,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = 280.0
-margin_top = 494.0
+margin_top = 518.0
 margin_right = 1000.0
-margin_bottom = 519.0
+margin_bottom = 543.0
 
 [node name="PlayBtn" type="Button" parent="Menu"]
 margin_left = -4.0
@@ -2993,16 +2983,6 @@ size_flags_vertical = 0
 theme = ExtResource( 1 )
 text = "16bfZX.ttf www.dafont.com"
 autowrap = true
-
-[node name="SkipIntroLabel" type="Label" parent="."]
-margin_left = 539.0
-margin_top = 622.0
-margin_right = 741.0
-margin_bottom = 644.0
-theme = ExtResource( 1 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-text = "ESC/JP B to skip"
-align = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 155 )

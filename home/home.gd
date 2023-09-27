@@ -3,21 +3,20 @@ extends Node
 
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 
-enum Screens {INTRO, MAIN_MENU, SELECT_GAME, ABOUT, SETTINGS, HIGHSCORES}
+enum Screens {MAIN_MENU, SELECT_GAME, ABOUT, SETTINGS, HIGHSCORES}
+#enum Screens {INTRO, MAIN_MENU, SELECT_GAME, ABOUT, SETTINGS, HIGHSCORES}
 var current_screen # se določi z main animacije
 onready var menu: Control = $Menu
 
 onready var intro: Node2D = $IntroViewPortContainer/Viewport/Intro
-onready var skip_intro_label: Label = $SkipIntroLabel
+#onready var skip_intro_label: Label = $SkipIntroLabel
+onready var intro_viewport: Viewport = $IntroViewPortContainer/Viewport
 
 
 func _input(event: InputEvent) -> void:
 	
 	if Input.is_action_just_pressed("ui_cancel"):
 		match current_screen:
-			Screens.INTRO:
-				intro.skip_intro() # v MAIN MENU se spremeni, ko intro pošlje signal, da je končal
-				current_screen = Screens.MAIN_MENU
 			Screens.MAIN_MENU:
 				 pass
 			Screens.SELECT_GAME:
@@ -52,22 +51,24 @@ func _input(event: InputEvent) -> void:
 func _ready():
 	
 	menu.visible = false
-	skip_intro_label.visible = false	
+#	skip_intro_label.visible = false	
 		
 			
 # MAIN MENU ---------------------------------------------------------------------------------------------------
 
 func open_with_intro():
 	intro.play_intro()
-	current_screen = Screens.INTRO
 	menu.visible = false
-	skip_intro_label.visible = true
+	
 	
 func open_without_intro():
 	intro.skip_intro()
 
 	
 func menu_in():
+	
+	intro_viewport.gui_disable_input = true # dokler se predvaja mora biti, da skipanje deluje
+	
 	menu.modulate.a = 0
 	menu.visible = true
 	
@@ -96,9 +97,9 @@ func animation_reversed(from_screen: String):
 
 
 func _on_Intro_finished_playing() -> void:
-	skip_intro_label.visible = false
-	var fade_out = get_tree().create_tween()
-	fade_out.tween_property(skip_intro_label, "modulate:a", 0, 0.3)	
+#	skip_intro_label.visible = false
+#	var fade_out = get_tree().create_tween()
+#	fade_out.tween_property(skip_intro_label, "modulate:a", 0, 0.3)	
 	menu_in()
 	
 	

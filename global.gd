@@ -108,6 +108,7 @@ func detect_collision_in_direction(ray, direction_to_check):
 	if ray.is_colliding():
 		var ray_collider = ray.get_collider()
 		return ray_collider
+	
 		
 func get_random_member_index(group_of_elements, offset): # offset je če zamakneš začetek
 		# uporabljam pri: ... nikjer

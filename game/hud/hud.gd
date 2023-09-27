@@ -133,6 +133,7 @@ func spawn_color_indicators(colors):
 	for color in colors:
 		var new_color_indicator = ColorIndicator.instance()
 		new_color_indicator.color = color
+#		new_color_indicator.modulate.a = 0.05
 		indicator_holder.add_child(new_color_indicator)
 		# zapis indexa ... invisible ... za debug
 		var indicator_index = active_color_indicators.find(new_color_indicator)
@@ -143,6 +144,8 @@ func spawn_color_indicators(colors):
 func color_picked(picked_pixel_color):
 	
 	erase_color_indicator(picked_pixel_color)
+#	show_color_indicator(picked_pixel_color)
+	
 	
 	# picked color stats
 	picked_color_label.text = str(round(255 * picked_pixel_color.r)) + " " + str(round(255 * picked_pixel_color.g)) + " " + str(round(255 * picked_pixel_color.b))
@@ -158,7 +161,21 @@ func color_picked(picked_pixel_color):
 	# pixels_off_counter.modulate = default_hud_color
 	# stray_pixels_counter.modulate = default_hud_color
 	
-	
+func show_color_indicator(picked_color):
+	var current_indicator_index: int
+	for indicator in active_color_indicators:
+		if indicator.color == picked_color:
+			current_indicator_index = active_color_indicators.find(indicator)
+			if Profiles.game_rules["pick_neighbour_mode"]:
+				indicator.modulate.a = 2
+			else:
+				indicator.modulate.a = 0.3
+				break
+		else:
+			if Profiles.game_rules["pick_neighbour_mode"]:
+				indicator.modulate.a = 0.5		
+					
+					
 func erase_color_indicator(erase_color):
 	
 	# index indikatorja pobrane barve (prepoznan po enaki barvi)

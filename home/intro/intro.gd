@@ -26,18 +26,22 @@ var title_positions: Array
 var available_title_positions: Array
 
 onready var stray_pixels_count: int = Profiles.game_rules["intro_strays_count"] # 149 celic je v naslovu
-onready var StrayPixel = preload("res://game/pixel/stray.tscn")
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var actor_pixel: KinematicBody2D = $Actor
 onready var spectrum_rect: TextureRect = $Spectrum
-onready var story: Node2D = $Story
+onready var text: Node2D = $Text
 onready var thunder_cover: ColorRect = $Level/ThunderCover
+onready var skip_intro_label: Label = $Text/SkipIntroLabel
+onready var StrayPixel = preload("res://game/pixel/stray.tscn")
 
-		
-func _ready() -> void:
+
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed("ui_cancel") and skip_intro_label.visible:
+		skip_intro()
 	
+	
+func _ready() -> void:
 	randomize()
-#	play_intro()
 	
 func _process(delta: float) -> void:
 	strays_on_screen = get_tree().get_nodes_in_group(Global.group_strays)
@@ -63,18 +67,19 @@ func play_last_breath():
 	last_breath_loop_count += 1
 
 
-func skip_intro():
+func skip_intro(): # kadar je intro skipan
 	
-#	animation_player.advance(0)
+	skip_intro_label.visible = false
 	animation_player.stop()
 	thunder_cover.visible = false
 	actor_in_motion = false
-	story.visible = false
+	text.visible = false
 	actor_pixel.visible = false
 	
 	yield(get_tree().create_timer(0.5), "timeout")
 	emit_signal("finished_playing")
 	split_stray_colors()
+	
 	yield(get_tree().create_timer(0.1), "timeout")
 	for stray in strays_on_screen: # tole je že tukaj, ker ima nakljiučne pavze in drugače predolgo traya
 		stray.current_stray_state = stray.StrayStates.WANDERING
@@ -87,15 +92,9 @@ func skip_intro():
 	show_strays()
 
 		
-func end_intro():
+func end_intro(): # kliče se iz animacije, ko intro pride do konca
 	for stray in strays_on_screen:
 		stray.current_stray_state = stray.StrayStates.WANDERING
-	
-	animation_player.stop()
-	thunder_cover.visible = false
-	story.visible = false
-	actor_in_motion = false
-	actor_pixel.visible = false
 	
 	emit_signal("finished_playing")
 
