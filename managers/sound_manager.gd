@@ -40,17 +40,11 @@ func play_sfx(effect_for: String):
 		
 	# če zvoka ni tukaj, pomeni da ga kličem direktno
 	match effect_for:
-		
 		"blinking":
 			select_random_sfx($GameSfx/Blinking).play() # nekateri so na mute, ker so drugače prepogosti soundi
 			select_random_sfx($GameSfx/BlinkingStatic).play()
 		"last_breath":
-#			if $GameSfx/LastBeat.is_playing():
-#				return
 			$GameSfx/LastBeat.play()
-		"heartbeat":
-			$GameSfx/LastBeat.play()
-		
 		# bursting
 		"hit_stray":
 			$GameSfx/Burst/HitStray.play()
@@ -61,14 +55,12 @@ func play_sfx(effect_for: String):
 			yield(get_tree().create_timer(0.1), "timeout")
 			$GameSfx/Burst/Burst.play()
 			$GameSfx/Burst/BurstLaser.play()
-
 		"burst_cocking":
 			if $GameSfx/Burst/BurstCocking.is_playing():
 				return
 			$GameSfx/Burst/BurstCocking.play()	
 		"burst_stop":
 			$GameSfx/Burst/BurstStop.play()
-			
 		# skills
 		"pull":
 			$GameSfx/Skills/PushPull.play()
@@ -84,7 +76,6 @@ func play_sfx(effect_for: String):
 			$GameSfx/Skills/TeleportIn.play()
 		"skilled":
 			$GameSfx/Skills/SkilledStatic.play()
-			
 		# events
 		"countdown_a":
 			$GameSfx/Events/CoundownA.play()
@@ -96,7 +87,6 @@ func play_sfx(effect_for: String):
 			$GameSfx/Events/Loose.play()
 		"record_cheers":
 			$GameSfx/Events/RecordFanfare.play()
-
 		# intro
 		"thunder_strike":
 			$GameSfx/Burst/Burst.play()
@@ -125,11 +115,13 @@ func play_gui_sfx(effect_for: String):
 			
 	
 func stop_sfx(sfx_to_stop: String):
-	
 	match sfx_to_stop:
 		"teleport":
-			$GameSfx/Skills/TeleportLoop.stop()
-			$GameSfx/Skills/TeleportOut.play()
+			if $GameSfx/Skills/TeleportLoop.is_playing(): # konec teleportanja
+				$GameSfx/Skills/TeleportLoop.stop()
+				$GameSfx/Skills/TeleportOut.play()
+			else: # zazih ob koncu igre
+				$GameSfx/Skills/TeleportLoop.stop()
 		"skilled":
 			$GameSfx/Skills/SkilledStatic.stop()
 		"burst_cocking":

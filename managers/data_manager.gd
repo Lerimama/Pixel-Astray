@@ -31,9 +31,7 @@ func get_top_highscore(current_level):
 	var current_highscore_index: int = all_scores.find(current_highscore)
 	var current_highscore_owner: String = all_score_owners[current_highscore_index]
 	
-	# _temp za GM hud
-	printt ("DM - get_top_hs", current_highscore, current_highscore_owner, loaded_level_highscores)
-	
+	# za GM hud
 	return [current_highscore, current_highscore_owner]
 
 

@@ -2589,6 +2589,7 @@ custom_styles/pressed = SubResource( 153 )
 custom_styles/focus = SubResource( 152 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
+disabled = true
 
 [node name="Title" type="Label" parent="SelectGame/SelectGameBtn02"]
 show_behind_parent = true
@@ -2627,6 +2628,7 @@ custom_styles/pressed = SubResource( 153 )
 custom_styles/focus = SubResource( 152 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
+disabled = true
 
 [node name="Title" type="Label" parent="SelectGame/SelectGameBtn03"]
 show_behind_parent = true
@@ -2664,6 +2666,7 @@ custom_styles/pressed = SubResource( 153 )
 custom_styles/focus = SubResource( 152 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
+disabled = true
 
 [node name="Title" type="Label" parent="SelectGame/SelectGameBtn04"]
 show_behind_parent = true

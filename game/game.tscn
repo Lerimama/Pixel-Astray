@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://game/hud/hud_game_timer.gd" type="Script" id=1]
 [ext_resource path="res://game/hud/hud.gd" type="Script" id=2]
@@ -19,15 +19,13 @@
 [ext_resource path="res://game/arena.tscn" type="PackedScene" id=17]
 [ext_resource path="res://assets/resources/graphics_tileset.tres" type="TileSet" id=18]
 [ext_resource path="res://assets/theme/fonts/16bfZX.ttf" type="DynamicFontData" id=19]
-[ext_resource path="res://assets/resources/arena_environment.tres" type="Environment" id=20]
-
-[sub_resource type="World" id=117]
-environment = ExtResource( 20 )
 
 [sub_resource type="NoiseTexture" id=1]
 width = 246
 height = 246
 noise = ExtResource( 11 )
+
+[sub_resource type="World" id=117]
 
 [sub_resource type="AtlasTexture" id=147]
 atlas = ExtResource( 14 )
@@ -343,7 +341,6 @@ margin_bottom = 720.0
 [node name="Viewport1" type="Viewport" parent="GameView/Viewports/ViewportContainer1"]
 size = Vector2( 1280, 720 )
 size_override_stretch = true
-world = SubResource( 117 )
 handle_input_locally = false
 render_target_update_mode = 3
 
@@ -675,7 +672,6 @@ rect_min_size = Vector2( 1280, 720 )
 script = ExtResource( 2 )
 
 [node name="Energy" type="Label" parent="GUI/Hud"]
-visible = false
 margin_left = 128.0
 margin_top = 69.0
 margin_right = 221.0
@@ -950,9 +946,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -364.0
+margin_left = -132.0
 margin_top = 16.0
-margin_right = -32.0
+margin_right = -30.0
 margin_bottom = 38.0
 grow_horizontal = 0
 custom_constants/separation = 16
@@ -961,6 +957,7 @@ __meta__ = {
 }
 
 [node name="StrayCounter" type="HBoxContainer" parent="GUI/Hud/Header/HudLine_TR"]
+visible = false
 margin_right = 66.0
 margin_bottom = 22.0
 size_flags_vertical = 8
@@ -987,8 +984,8 @@ __meta__ = {
 }
 
 [node name="OffedCounter" type="HBoxContainer" parent="GUI/Hud/Header/HudLine_TR"]
-margin_left = 82.0
-margin_right = 148.0
+visible = false
+margin_right = 66.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
@@ -1013,37 +1010,9 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="MusicLabel" type="Label" parent="GUI/Hud/Header/HudLine_TR"]
-visible = false
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -289.0
-margin_right = -245.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 44, 0 )
-custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "00"
-align = 2
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="OnIcon" type="TextureRect" parent="GUI/Hud/Header/HudLine_TR/MusicLabel"]
-margin_top = 3.0
-margin_right = 14.0
-margin_bottom = 16.0
-texture = SubResource( 148 )
-
-[node name="OffIcon" type="TextureRect" parent="GUI/Hud/Header/HudLine_TR/MusicLabel"]
-margin_top = 3.0
-margin_right = 6.0
-margin_bottom = 19.0
-texture = SubResource( 146 )
-
 [node name="PickedColor" type="Control" parent="GUI/Hud/Header/HudLine_TR"]
-margin_left = 164.0
-margin_right = 332.0
+visible = false
+margin_right = 168.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 168, 0 )
 size_flags_horizontal = 3
@@ -1071,16 +1040,41 @@ __meta__ = {
 }
 
 [node name="Level" type="Label" parent="GUI/Hud/Header/HudLine_TR"]
-visible = false
-margin_left = 358.0
-margin_right = 400.0
+margin_right = 42.0
 margin_bottom = 22.0
+size_flags_horizontal = 8
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "L00"
 align = 2
 __meta__ = {
 "_editor_description_": ""
 }
+
+[node name="MusicLabel" type="Label" parent="GUI/Hud/Header/HudLine_TR"]
+margin_left = 58.0
+margin_right = 102.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 44, 0 )
+size_flags_horizontal = 8
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "00"
+align = 2
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="OnIcon" type="TextureRect" parent="GUI/Hud/Header/HudLine_TR/MusicLabel"]
+margin_top = 3.0
+margin_right = 14.0
+margin_bottom = 16.0
+texture = SubResource( 148 )
+
+[node name="OffIcon" type="TextureRect" parent="GUI/Hud/Header/HudLine_TR/MusicLabel"]
+margin_top = 3.0
+margin_right = 6.0
+margin_bottom = 19.0
+texture = SubResource( 146 )
 
 [node name="Footer" type="Control" parent="GUI/Hud"]
 anchor_top = 1.0
@@ -1098,7 +1092,6 @@ rect_min_size = Vector2( 1280, 56 )
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
 [node name="PickedColor" type="Control" parent="GUI/Hud/Footer"]
-visible = false
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 32.0
@@ -1173,7 +1166,6 @@ size_flags_horizontal = 0
 size_flags_vertical = 3
 
 [node name="HudLine_TR" type="HBoxContainer" parent="GUI/Hud/Footer"]
-visible = false
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0

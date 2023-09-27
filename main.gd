@@ -5,7 +5,6 @@ var fade_time = 1
 
 var camera_shake_on: bool =  true #_temp
 
-onready var intro_scene_path: String = "res://home/intro/intro.tscn"
 onready var home_scene_path: String = "res://home/home.tscn"
 onready var game_scene_path: String = "res://game/game.tscn"
 
@@ -14,9 +13,9 @@ func _ready() -> void:
 	
 	Global.main_node = self
 	
-	home_in_intro()
+#	home_in_intro()
 #	home_in()
-#	game_in()
+	game_in()
 
 
 func home_in_intro(): # isto kot home in, samo, da sprož intro
@@ -42,7 +41,6 @@ func home_in():
 func home_out():
 	
 	Global.current_scene.set_process(false) # zazih
-	Global.current_scene.intro.set_process(false)
 	
 	if not Global.sound_manager.menu_music_set_to_off: # če muzka ni setana na off
 		Global.sound_manager.stop_music("menu")

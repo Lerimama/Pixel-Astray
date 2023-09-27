@@ -88,9 +88,7 @@ func _input(_event: InputEvent) -> void: # testview inputs
 
 func _ready():
 	
-	Global.print_id(self)
 	Global.main_camera = self
-	printt("Global.main_camera CAMERA", Global.main_camera)
 	Global.camera_target = null # da se nulira (pri quit game) in je naslednji play brez errorja ... seta se ob spawnanju plejerja
 	
 	set_ui_focus()	

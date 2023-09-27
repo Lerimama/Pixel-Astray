@@ -66,14 +66,15 @@ var game_rules: Dictionary = { # tole ne uporabljam v zadnji varianti
 	"skilled_energy_drain_speed": 0.1, # GM ... čas med vsakim odvzemom
 	"player_start_energy": 192, # GM
 	"dead_time": 3, # GM
-	"tired_energy" : 32, # player ... procent cele energije
+	"tired_energy": 32, # player ... procent cele energije
 	"min_player_alpha": 0.2, # player
 	"player_max_energy": 192, # player .. max, da se lepo ujema s pixli (24)
 	"max_step_time": 0.15, # player
 	"min_step_time": 0.09, # player
 	"burst_speed_addon": 12, # player ... dodatek hitrosti na cock_ghost
 	"gameover_countdown_duration": 10, # hud game timer
-	"last_breath_time":  10, # cca 1 bit na sekundo
+#	"last_breath_time": 10, # cca 1 bit na sekundo
+	"last_breath_loop_limit": 5, # cca 1 bit na sekundo
 	"pixel_start_color": Color("#323232"),
 	"intro_strays_count": 149,  # 149 celic je v naslovu, kar je več gre naokrog
 		

@@ -21,16 +21,18 @@ var hud = null
 var game_countdown = null
 var gameover_menu = null
 
-# zaenkrat uporabljam
+# zaenkrat ne uporabljam
 #enum GameStates {HOME, INTRO, GAME_ON, GAME_PAUSED, GAME_OVER} # ne dala zato uporabljam zgornjo varianto
 #var pause_menu = null
 #var game_viewport = null
 #var color_indicator_parent = null # za barve v hudu
 
+
 # GLOBAL VARS ---------------------------------------------------------------------------------------------------------
 
-enum GameStates {INTRO, HOME, GAME}
-var current_game_state 
+
+#enum GameStates {INTRO, HOME, GAME}
+#var current_game_state 
 
 # groups
 var group_players = "Players"
@@ -63,20 +65,20 @@ var reason_energy = "reason_energy" # player die()
 func _ready():
 	randomize()
 
-
-func print_id (node: Node):
-#	printt("Živijo! Jaz sem " + node.name + " na koordinatah " + str(node.global_position) + ".")
-	pass
+# za testiranje
+func print_id (node: Node): 
+	printt("Živijo! Jaz sem " + node.name + " na koordinatah " + str(node.global_position) + ".")
 
 
 func snap_to_nearest_grid(current_global_position: Vector2, cell_positions):
 	
-	if not is_instance_valid(level_tilemap) and level_tilemap.floor_cells_global_positions.empty(): # da ni errorja, če se tajlmep sprazne ... pazi, ker ti zmanjka pri debuggingu
+	if not is_instance_valid(level_tilemap):
+		print("ERROR! Snapanje na grid ... manjka Global.level_tilemap")
 		return
+		
 	var floor_cells: Array = level_tilemap.floor_cells_global_positions
 	var tilemap_cells: Array = level_tilemap.floor_cells_global_positions
 	var cell_size_x: float = level_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
-	
 	var current_position: Vector2 = Vector2(current_global_position.x - cell_size_x/2, current_global_position.y - cell_size_x/2)
 	
 	# če ni že snepano
@@ -88,10 +90,8 @@ func snap_to_nearest_grid(current_global_position: Vector2, cell_positions):
 			if cell.distance_to(current_position) < distance_to_position:
 				distance_to_position = cell.distance_to(current_position)
 				nearest_cell = cell
-
 		# snap position
 		var snap_to_position: Vector2 = Vector2(nearest_cell.x + cell_size_x/2, nearest_cell.y + cell_size_x/2)
-
 		return snap_to_position
 	else: 
 		return current_global_position # vrneš isto pozicijo na katere že je 
@@ -99,7 +99,11 @@ func snap_to_nearest_grid(current_global_position: Vector2, cell_positions):
 
 func detect_collision_in_direction(ray, direction_to_check):
 	
-#	var floor_cells: Array = level_tilemap.floor_cells_global_positions
+	if not is_instance_valid(level_tilemap):
+		print("ERROR! Detect_collision ... manjka Global.level_tilemap")
+		return
+	
+	# var floor_cells: Array = level_tilemap.floor_cells_global_positions
 	var cell_size_x: int = level_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 	
 	ray.cast_to = direction_to_check * cell_size_x # ray kaže na naslednjo pozicijo 

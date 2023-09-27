@@ -11,7 +11,6 @@ var title_cells_global_positions: Array
 
 func _ready() -> void:
 	
-	Global.print_id(self)
 	add_to_group(Global.group_tilemap)	
 	
 	Global.level_tilemap = self
@@ -46,7 +45,6 @@ func get_tiles():
 	emit_signal("floor_completed", floor_cells_global_positions, player_start_global_position) # v intru je error
 	emit_signal("tilemap_completed", floor_cells_global_positions, title_cells_global_positions)
 
-	print(floor_cells_global_positions, " MAMA, ", title_cells_global_positions)
 
 func get_collision_tile_id(collider: Node2D, direction: Vector2): # collider je node ki se zaleteva in ne collision object
 	

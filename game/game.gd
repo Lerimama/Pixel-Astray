@@ -41,7 +41,3 @@ func set_camera_limits():
 		camera.limit_right = corner_TR - tilemap_cell_size.x
 		camera.limit_top = corner_BL + tilemap_cell_size.y
 		camera.limit_bottom = corner_BR - tilemap_cell_size.y
-
-
-func _on_SkipIntroBtn_pressed() -> void:
-	Global.game_manager.skip_intro()

@@ -33,7 +33,6 @@ onready var game_rules: Dictionary = Profiles.game_rules # ker ga med ne spremin
 
 onready var spectrum_rect: TextureRect = $Spectrum
 onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
-onready var actor_pixel: KinematicBody2D = $"../Actor"
 
 onready var FloatingTag = preload("res://game/hud/floating_tag.tscn")
 onready var StrayPixel = preload("res://game/pixel/stray.tscn")
@@ -43,7 +42,7 @@ onready var PlayerPixel = preload("res://game/pixel/player.tscn")
 func _unhandled_input(event: InputEvent) -> void:
 
 	if Input.is_action_pressed("no1") and player_stats["player_energy"] > 1:
-		player_stats["player_energy"] -= 1
+		player_stats["player_energy"] -= 10
 		player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_max_energy"]) # 1 je najnižja, ker tam se že odšteva zadnji izdihljaj
 	if Input.is_action_pressed("no2"):
 		player_stats["player_energy"] += 10
@@ -52,11 +51,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		if Global.sound_manager.game_music_set_to_off:
 			return
 		Global.sound_manager.skip_track()
-		print("n")
 	
 	# music toggle
 	if Input.is_action_just_pressed("m") and game_on: # tukaj damo samo na mute ... kar ni isto kot paused
-		print("m")
 		if Global.sound_manager.game_music_set_to_off:
 			Global.sound_manager.game_music_set_to_off = false
 			Global.sound_manager.play_music("game")
@@ -128,11 +125,10 @@ func show_strays():
 func set_game(): 
 # setam ves data igre
 	
-#	can_skip_intro = false # zazih ... ker ne skipaš
 	yield(get_tree().create_timer(2), "timeout")
 	
-	split_stray_colors()  # spawnanje, ki bi se drugače zgodilo v intro animaciji ... ampak so še skriti
-	spawn_player() # pokaže ga šele v set_game
+	split_stray_colors()
+	spawn_player()
 			
 	# show strays
 	yield(get_tree().create_timer(0.5), "timeout")
@@ -170,7 +166,6 @@ func set_game():
 
 	
 func start_game():
-	print("strays count ", strays_in_game.size())
 	Global.sound_manager.play_music("game")
 	game_on = true
 	# aktiviram plejerja in tajmer
@@ -333,7 +328,6 @@ func _on_TileMap_floor_completed(floor_cells_global_positions: Array, player_sta
 func _on_stat_changed(stat_owner, changed_stat, stat_change):
 	
 	match changed_stat:
-		
 		# from stray
 		"skilled":
 			if not energy_drain_active:
@@ -342,7 +336,6 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_max_energy"]) # 1 je najnižja, ker tam se že odšteva zadnji izdihljaj
 				yield(get_tree().create_timer(Profiles.game_rules["skilled_energy_drain_speed"]), "timeout")
 				energy_drain_active = false
-				
 		"stray_hit":
 			# hud statistika stray pixlov
 			game_stats["off_pixels_count"] += 1
@@ -359,7 +352,6 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				player_stats["player_points"] += points_for_seq_pixel
 				player_stats["player_energy"] += energy_for_seq_pixel
 				spawn_floating_tag(stat_owner.global_position, points_for_seq_pixel) 
-			
 		# from player
 		"wall_hit":
 			if game_rules["loose_life_on"]:
@@ -370,24 +362,20 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				player_stats["player_energy"] += game_rules["wall_hit_energy"]
 				yield(get_tree().create_timer(game_rules["dead_time"]), "timeout")
 				stat_owner.revive()
-		
 		"out_of_breath":
 			if game_rules["loose_life_on"]:
 				loose_life_stat(stat_owner, stat_change)
 			else:
 				yield(get_tree().create_timer(game_rules["dead_time"]), "timeout")
 				stat_owner.revive()
-		
 		"cells_travelled": 
 			player_stats["cells_travelled"] += stat_change
 			player_stats["player_energy"] += game_rules["cell_travelled_energy"]
 			player_stats["player_points"] += game_rules["cell_travelled_points"]
-		
 		"skills_used": 
 			player_stats["skills_used"] += stat_change
 			player_stats["player_energy"] += game_rules["skill_used_energy"]
 			player_stats["player_points"] += game_rules["skill_used_points"]
-		
 		"burst_released": 
 			player_stats["skills_used"] += 1 # tukaj se kot valju poda burst power
 			

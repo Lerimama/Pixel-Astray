@@ -7,7 +7,6 @@ signal gametime_is_up # pošlje se v hud, ki javi game managerju
 var current_second: int # trenutna sekunda znotraj minutnega kroga ... ia izpis na uri
 var game_time: int # čas v tajmerju v sekundah
 var game_time_limit: int # podatki glede časovnih omejitev se pošljejo iz GM-ja
-#var gameover_countdown_duration: int = 10 # čas, ko je obarvan in se sliši bip bip
 
 onready var deathmode_limit: int = Profiles.default_level_stats["death_mode_duration"]
 onready var level_time_limit: int = Profiles.default_level_stats["game_time_limit"]
@@ -105,7 +104,7 @@ func _on_Timer_timeout() -> void:
 		# game over countdown
 		if game_time < 1:
 			Global.sound_manager.play_sfx("countdown_b")
-		elif game_time <= gameover_countdown_duration:
+		elif game_time <= gameover_countdown_duration and game_time > 0:
 			Global.sound_manager.play_sfx("countdown_a")
 	else:
 		game_time += 1.0

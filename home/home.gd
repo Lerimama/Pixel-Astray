@@ -131,8 +131,7 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 
 func _on_PlayBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("btn_confirm")
-	Global.main_node.home_out() # ... tole je, če ni animacije ... Quick play?
-	
+	Global.main_node.home_out()
 	$Menu/PlayBtn.disabled = true # da ne moreš multiklikat
 
 
@@ -197,35 +196,35 @@ func _on_SelectGameBtn1_pressed() -> void:
 	
 	Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_1
 	Global.sound_manager.play_gui_sfx("btn_confirm")
-	Global.main_node.home_out() # ... tole je, če ni animacije ... Quick play?
+	Global.main_node.home_out()
 	$SelectGame/SelectGameBtn1.disabled = true # da ne moreš multiklikat
 
 
 func _on_SelectGame2Btn_pressed() -> void:
 	Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_2
 	Global.sound_manager.play_gui_sfx("btn_confirm")
-	Global.main_node.home_out() # ... tole je, če ni animacije ... Quick play?
+	Global.main_node.home_out()
 	$SelectGame/SelectGameBtn2.disabled = true # da ne moreš multiklikat
 
 
 func _on_SelectGame3Btn_pressed() -> void:
 	Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_3
 	Global.sound_manager.play_gui_sfx("btn_confirm")
-	Global.main_node.home_out() # ... tole je, če ni animacije ... Quick play?
+	Global.main_node.home_out()
 	$SelectGame/SelectGameBtn3.disabled = true # da ne moreš multiklikat
 
 
 func _on_SelectGame4Btn_pressed() -> void:
 	Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_4
 	Global.sound_manager.play_gui_sfx("btn_confirm")
-	Global.main_node.home_out() # ... tole je, če ni animacije ... Quick play?
+	Global.main_node.home_out()
 	$SelectGame/SelectGameBtn4.disabled = true # da ne moreš multiklikat
 
 
 func _on_SelectGame5Btn_pressed() -> void:
 	Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_5
 	Global.sound_manager.play_gui_sfx("btn_confirm")
-	Global.main_node.home_out() # ... tole je, če ni animacije ... Quick play?
+	Global.main_node.home_out()
 	$SelectGame/SelectGameBtn5.disabled = true # da ne moreš multiklikat
 	
 

@@ -239,7 +239,7 @@ bus = "GameSfx"
 
 [node name="BurstStop" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Burst"]
 stream = ExtResource( 44 )
-volume_db = 5.0
+volume_db = 10.0
 bus = "GameSfx"
 
 [node name="Burst" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Burst"]

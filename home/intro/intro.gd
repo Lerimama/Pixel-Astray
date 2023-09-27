@@ -42,6 +42,7 @@ func _input(event: InputEvent) -> void:
 	
 func _ready() -> void:
 	randomize()
+
 	
 func _process(delta: float) -> void:
 	strays_on_screen = get_tree().get_nodes_in_group(Global.group_strays)
@@ -51,22 +52,9 @@ func _process(delta: float) -> void:
 
 
 func play_intro():
-#	yield(get_tree().create_timer(2), "timeout") # pavza pred pixelate eventom
 	animation_player.play("intro_running")
-	# animation_player.advance(7)
 	
 	
-func play_last_breath():
-	
-	if last_breath_loop_count < last_breath_loop_limit:
-		animation_player.play("last_breath")
-		Global.sound_manager.play_sfx("heartbeat")
-	else:
-		Global.sound_manager.stop_sfx("last_breath")
-		animation_player.play("intro_explode")
-	last_breath_loop_count += 1
-
-
 func skip_intro(): # kadar je intro skipan
 	
 	skip_intro_label.visible = false
@@ -82,7 +70,7 @@ func skip_intro(): # kadar je intro skipan
 	
 	yield(get_tree().create_timer(0.1), "timeout")
 	for stray in strays_on_screen: # tole je že tukaj, ker ima nakljiučne pavze in drugače predolgo traya
-		stray.current_stray_state = stray.StrayStates.WANDERING
+		stray.current_stray_state = stray.StrayState.WANDERING
 	show_strays()
 	yield(get_tree().create_timer(0.1), "timeout")
 	show_strays()
@@ -94,7 +82,7 @@ func skip_intro(): # kadar je intro skipan
 		
 func end_intro(): # kliče se iz animacije, ko intro pride do konca
 	for stray in strays_on_screen:
-		stray.current_stray_state = stray.StrayStates.WANDERING
+		stray.current_stray_state = stray.StrayState.WANDERING
 	
 	emit_signal("finished_playing")
 
@@ -238,7 +226,18 @@ func _on_TileMap_tilemap_completed(floor_cells_global_positions: Array, title_ce
 
 
 func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
-	
-	if anim_name == "intro_explode":
-		end_intro()
-		
+	match anim_name:
+		"intro_running": 
+			animation_player.play("last_breath")
+			Global.sound_manager.play_sfx("last_breath")
+			last_breath_loop_count = 1	
+		"intro_explode": 
+			end_intro()
+		"last_breath": 
+			last_breath_loop_count += 1
+			if last_breath_loop_count > last_breath_loop_limit:
+				Global.sound_manager.stop_sfx("last_breath")
+				animation_player.play("intro_explode")
+			else:
+				animation_player.play("last_breath")
+				Global.sound_manager.play_sfx("last_breath")

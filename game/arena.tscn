@@ -1,76 +1,39 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://game/arena.gd" type="Script" id=1]
 [ext_resource path="res://assets/resources/arena_tileset.tres" type="TileSet" id=2]
 [ext_resource path="res://game/arena_tilemap.gd" type="Script" id=3]
 [ext_resource path="res://assets/resources/animation_pixelate.tres" type="Animation" id=4]
-[ext_resource path="res://home/intro/actor.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=6]
 [ext_resource path="res://assets/resources/arena_environment.tres" type="Environment" id=8]
 [ext_resource path="res://managers/game_manager.gd" type="Script" id=10]
 
 [sub_resource type="Animation" id=3]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("Actor:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 432, 912 ) ]
-}
 
 [sub_resource type="Animation" id=2]
 resource_name = "game_intro"
 length = 9.5
 step = 0.02
 tracks/0/type = "value"
-tracks/0/path = NodePath("Actor:modulate")
+tracks/0/path = NodePath("GameManager:can_skip_intro")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 5.32, 5.38, 5.52, 5.56, 5.74, 5.8, 5.84, 5.92, 5.96, 6.1, 6.18, 6.22, 6.32, 6.38, 6.42, 6.52, 6.54, 7.38, 7.48, 7.56, 7.62, 7.68, 7.76, 7.9, 8, 8.4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.952941, 0.356863, 0.498039, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.368627, 1, 0.662745, 1 ), Color( 1, 1, 1, 1 ), Color( 0.341176, 0.65098, 1, 1 ), Color( 0.341176, 0.65098, 1, 1 ), Color( 0.996078, 0.976471, 0.545098, 1 ), Color( 0.952941, 0.356863, 0.498039, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.368627, 1, 0.662745, 1 ), Color( 1, 1, 1, 1 ), Color( 0.341176, 0.65098, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.368627, 1, 0.662745, 1 ), Color( 1, 1, 1, 1 ), Color( 0.952941, 0.356863, 0.498039, 1 ), Color( 1, 1, 1, 1 ), Color( 0.341176, 0.65098, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.996078, 0.976471, 0.545098, 1 ), Color( 1, 1, 1, 1 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Actor:modulate:a")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 5.32, 5.38, 5.52, 5.56, 5.62, 6.28, 6.32, 6.38, 6.42, 6.52, 6.54, 6.6, 7.3, 7.44, 7.48, 7.56, 7.62, 7.72, 7.94, 8, 8.4, 9.3, 9.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 1.04957, 1.04957, 0.2, 1.04957, 0.2, 1.04957, 1.04957, 0.0, 0.8, 0.0, 0.6, 0.0, 0.5, 0.0, 0.5, 1.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.2, 0.03, 0.03 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("GameManager:can_skip_intro")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
 "times": PoolRealArray( 7.44 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ false ]
 }
-tracks/3/type = "method"
-tracks/3/path = NodePath("GameManager")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
+tracks/1/type = "method"
+tracks/1/path = NodePath("GameManager")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
 "times": PoolRealArray( 7.5, 7.66, 7.98, 8.1, 9.5 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "values": [ {
@@ -90,25 +53,25 @@ tracks/3/keys = {
 "method": "set_game"
 } ]
 }
-tracks/4/type = "value"
-tracks/4/path = NodePath("Level/FloorCover:color")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
+tracks/2/type = "value"
+tracks/2/path = NodePath("Level/FloorCover:color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
 "times": PoolRealArray( 0, 7.44, 7.52, 7.6, 7.68, 7.86, 7.94, 8, 8.06, 8.12, 8.32 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 0.952941, 0.356863, 0.498039, 0.470588 ), Color( 1, 1, 1, 0 ), Color( 0.368627, 1, 0.662745, 0.470588 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 0.996078, 0.976471, 0.545098, 0.54902 ), Color( 1, 1, 1, 0 ), Color( 0.341176, 0.65098, 1, 0.627451 ), Color( 1, 1, 1, 0 ) ]
 }
-tracks/5/type = "method"
-tracks/5/path = NodePath("GameManager")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
+tracks/3/type = "method"
+tracks/3/path = NodePath("GameManager")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
 "times": PoolRealArray( 7.4523, 9.48 ),
 "transitions": PoolRealArray( 1, 1 ),
 "values": [ {
@@ -119,154 +82,16 @@ tracks/5/keys = {
 "method": "spawn_player"
 } ]
 }
-tracks/6/type = "value"
-tracks/6/path = NodePath("Actor:position")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"times": PoolRealArray( 0, 0.8, 0.9, 2, 2.8, 3.7, 4.5, 5.34 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 0.307786, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 144, 912 ), Vector2( 3216, 912 ), Vector2( 3216, 2064 ), Vector2( 1486, 2064 ), Vector2( 1486, 272 ), Vector2( 1776, 272 ), Vector2( 1776, 1264 ), Vector2( 1776, 1264 ) ]
-}
-tracks/7/type = "method"
-tracks/7/path = NodePath("GameManager")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
+tracks/4/type = "method"
+tracks/4/path = NodePath("GameManager")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
 "times": PoolRealArray(  ),
 "transitions": PoolRealArray(  ),
 "values": [  ]
-}
-tracks/8/type = "method"
-tracks/8/path = NodePath("Actor")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
-"times": PoolRealArray( 5.36, 5.48, 5.56, 5.78, 5.84, 6.1, 6.28, 6.36, 6.42, 6.54, 7.34, 7.48, 7.56, 7.62, 7.7, 7.88, 8, 8.06, 8.18 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"values": [ {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-}, {
-"args": [  ],
-"method": "play_blinking_sound"
-} ]
-}
-tracks/9/type = "method"
-tracks/9/path = NodePath("Actor")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/keys = {
-"times": PoolRealArray( 0.08, 2.02, 3.76 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"values": [ {
-"args": [  ],
-"method": "play_stepping_loop"
-}, {
-"args": [  ],
-"method": "play_stepping_loop"
-}, {
-"args": [  ],
-"method": "play_stepping_loop"
-} ]
-}
-tracks/10/type = "value"
-tracks/10/path = NodePath("Actor:actor_in_motion")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/keys = {
-"times": PoolRealArray( 0.06, 0.78, 1.98, 2.68, 3.74, 4.22 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ true, false, true, false, true, false ]
-}
-tracks/11/type = "method"
-tracks/11/path = NodePath("Actor")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/keys = {
-"times": PoolRealArray( 7.46, 7.56, 7.68, 8, 8.12 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"values": [ {
-"args": [  ],
-"method": "play_thunder_strike"
-}, {
-"args": [  ],
-"method": "play_thunder_strike"
-}, {
-"args": [  ],
-"method": "play_thunder_strike"
-}, {
-"args": [  ],
-"method": "play_thunder_strike"
-}, {
-"args": [  ],
-"method": "play_thunder_strike"
-} ]
 }
 
 [sub_resource type="Animation" id=1]
@@ -274,48 +99,24 @@ resource_name = "pixelate"
 length = 3.5
 step = 0.02
 tracks/0/type = "value"
-tracks/0/path = NodePath("Actor:modulate")
+tracks/0/path = NodePath("GameManager:skip_intro_allowed")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.06, 0.2, 0.24, 0.42, 0.48, 0.52, 0.6, 0.64, 0.78, 0.86, 0.9, 1, 1.06, 1.1, 1.2, 1.22, 2.06, 2.16, 2.24, 2.3, 2.36, 2.58, 2.62, 2.7, 2.76, 2.84 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.952941, 0.356863, 0.498039, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.368627, 1, 0.662745, 1 ), Color( 1, 1, 1, 1 ), Color( 0.341176, 0.65098, 1, 1 ), Color( 0.341176, 0.65098, 1, 1 ), Color( 0.996078, 0.976471, 0.545098, 1 ), Color( 0.952941, 0.356863, 0.498039, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.368627, 1, 0.662745, 1 ), Color( 1, 1, 1, 1 ), Color( 0.341176, 0.65098, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.368627, 1, 0.662745, 1 ), Color( 1, 1, 1, 1 ), Color( 0.952941, 0.356863, 0.498039, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.996078, 0.976471, 0.545098, 1 ), Color( 1, 1, 1, 1 ), Color( 0.341176, 0.65098, 1, 1 ), Color( 1, 1, 1, 1 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Actor:modulate:a")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.06, 0.2, 0.24, 0.3, 0.96, 1, 1.06, 1.1, 1.2, 1.22, 1.28, 1.98, 2.12, 2.16, 2.24, 2.3, 2.4, 2.62, 2.7, 2.76, 2.86 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 1.04957, 0.2, 1.04957, 0.2, 1.04957, 1.04957, 0.0, 0.8, 0.0, 0.6, 0.0, 0.5, 0.0, 0.5, 1.0, 0.0, 1.0, 0.0, 1.0, 0.3, 1.0, 0.0 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("GameManager:skip_intro_allowed")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
 "times": PoolRealArray( 0, 2.06 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
 }
-tracks/3/type = "method"
-tracks/3/path = NodePath("GameManager")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
+tracks/1/type = "method"
+tracks/1/path = NodePath("GameManager")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
 "times": PoolRealArray( 2.18, 2.34, 2.66, 2.78, 3.5 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "values": [ {
@@ -335,25 +136,25 @@ tracks/3/keys = {
 "method": "set_game"
 } ]
 }
-tracks/4/type = "value"
-tracks/4/path = NodePath("Level/FloorCover:color")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
+tracks/2/type = "value"
+tracks/2/path = NodePath("Level/FloorCover:color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
 "times": PoolRealArray( 0, 2.12, 2.2, 2.28, 2.36, 2.54, 2.62, 2.68, 2.74, 2.8, 3 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 0.952941, 0.356863, 0.498039, 0.705882 ), Color( 1, 1, 1, 0 ), Color( 0.368627, 1, 0.662745, 0.705882 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 0.996078, 0.976471, 0.545098, 0.705882 ), Color( 1, 1, 1, 0 ), Color( 0.341176, 0.65098, 1, 0.705882 ), Color( 1, 1, 1, 0 ) ]
 }
-tracks/5/type = "method"
-tracks/5/path = NodePath("GameManager")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
+tracks/3/type = "method"
+tracks/3/path = NodePath("GameManager")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
 "times": PoolRealArray( 3.5 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
@@ -361,13 +162,13 @@ tracks/5/keys = {
 "method": "spawn_player"
 } ]
 }
-tracks/6/type = "value"
-tracks/6/path = NodePath("Level/FloorCover:color")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = false
-tracks/6/keys = {
+tracks/4/type = "value"
+tracks/4/path = NodePath("Level/FloorCover:color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = false
+tracks/4/keys = {
 "times": PoolRealArray(  ),
 "transitions": PoolRealArray(  ),
 "update": 0,
@@ -444,17 +245,13 @@ margin_right = 2432.0
 margin_bottom = 1568.0
 color = Color( 0.156863, 0.145098, 0, 1 )
 
-[node name="ArenaEnvironment" type="WorldEnvironment" parent="."]
-environment = ExtResource( 8 )
-
-[node name="Actor" parent="." instance=ExtResource( 5 )]
-modulate = Color( 1, 1, 1, 0.185714 )
-position = Vector2( 432, 912 )
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 3 )
 anims/game_intro = SubResource( 2 )
 anims/pixelate = SubResource( 1 )
 anims/pixelate_long = ExtResource( 4 )
+
+[node name="ArenaEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 8 )
 
 [connection signal="floor_completed" from="Level/TileMap" to="GameManager" method="_on_TileMap_floor_completed"]

@@ -56,18 +56,18 @@ var die_shake_decay: float = 0.1
 var current_player_energy_part: float # 
 var player_energy: float = Global.game_manager.player_stats["player_energy"] # energija je edini stat, ki gamore plejer poznat ... greba se iz globalnih statsov
 onready var max_player_energy: float = Profiles.game_rules["player_max_energy"]
-#onready var tired_energy: int = Profiles.game_rules["tired_energy"] # del energije pri kateri velja, da je utrujen (diha hitreje)
 onready var max_step_time: float = Profiles.game_rules["max_step_time"]
 onready var min_step_time: float = Profiles.game_rules["min_step_time"]
 
 # dihanje
-var breath_speed: float = 2.4
-export var skilled_alpha: float = 1.1
 
 # zadnji dih
 var last_breath_active: bool = false 
-#onready var last_breath_time = Profiles.game_rules["last_breath_time"]
-onready var last_breath_timer: Timer = $LastBreathTimer
+var last_breath_loop: int = 0
+onready var last_breath_loop_limit: int = Profiles.game_rules["last_breath_loop_limit"]
+
+# onready var last_breath_time = Profiles.game_rules["last_breath_time"]
+#onready var last_breath_timer: Timer = $LastBreathTimer
 
 # transparenca energije
 onready var poly_pixel: Polygon2D = $PolyPixel
@@ -82,13 +82,13 @@ onready var collision_shape: CollisionShape2D = $CollisionShape2D
 onready var Ghost: PackedScene = preload("res://game/pixel/ghost.tscn")
 onready var PixelCollisionParticles: PackedScene = preload("res://game/pixel/pixel_collision_particles.tscn")
 onready var PixelDizzyParticles: PackedScene = preload("res://game/pixel/pixel_dizzy_particles.tscn")
+onready var light_2d: Light2D = $Light2D
 
 
 
 
 func _ready() -> void:
 	
-	Global.print_id(self)
 	add_to_group(Global.group_players)
 	
 	modulate = pixel_color
@@ -119,24 +119,34 @@ func _physics_process(delta: float) -> void:
 		poly_pixel.modulate.a = 1
 	
 	# zadnji izdihljaji
-	if player_energy == 1 and not last_breath_active: 
+#	if Global.game_manager.player_stats["player_energy"] <= 1 and not last_breath_active: # to se zgodi ob prehodu v stanje
+	if player_energy == 1 and not last_breath_active: # to se zgodi ob prehodu v stanje
 		last_breath_active = true
-		animation_player.set_speed_scale(breath_speed)
-		animation_player.play("breath")
+		last_breath_loop = 0
+		animation_player.play("last_breath")		
 		Global.sound_manager.play_sfx("last_breath")
-		if Profiles.game_rules["last_breath_mode"]:
-			last_breath_timer.start(Profiles.game_rules["last_breath_time"])
-	elif player_energy == 1:
 		modulate = Global.color_red
-#		poly_pixel.modulate.a = 1 # da je svetel, ko krvavi (tudi kadar je energy_alpha on
-		pass
+		print("ENERGIJA", player_energy)
+	
+	
+#	if player_energy == 1 and not last_breath_active: 
+#		last_breath_active = true
+#		animation_player.set_speed_scale(breath_speed)
+#		animation_player.play("breath")
+#		if Profiles.game_rules["last_breath_mode"]:
+#			last_breath_timer.start(Profiles.game_rules["last_breath_time"])
+#	elif player_energy == 1:
+#		modulate = Global.color_red
+##		poly_pixel.modulate.a = 1 # da je svetel, ko krvavi (tudi kadar je energy_alpha on
+#		pass
 	elif player_energy > 1:
+#	elif Global.game_manager.player_stats["player_energy"] > 1:
 		last_breath_active = false
-		animation_player.stop()		
-		Global.sound_manager.stop_sfx("last_breath")
-		if Profiles.game_rules["last_breath_mode"]:
-			last_breath_timer.stop()
 		modulate = pixel_color
+#		animation_player.stop()		
+#		Global.sound_manager.stop_sfx("last_breath")
+#		if Profiles.game_rules["last_breath_mode"]:
+#			last_breath_timer.stop()
 			
 	if Global.detect_collision_in_direction(vision_ray, direction): # more bit neodvisno od stateta, da pull dela
 		skill_inputs()
@@ -147,18 +157,17 @@ func _physics_process(delta: float) -> void:
 func state_machine():
 	
 	match current_state:
-		
 		States.IDLE:
-			# skilled?
+			# skilled
 			if Global.detect_collision_in_direction(vision_ray, direction) and player_energy > 1: # koda je tukaj, da ne blinkne ob kontaktu s sosedo
 				animation_player.stop() # stop dihanje
-				modulate.a = skilled_alpha # resetiraš na skill ready stanje
+				light_2d.enabled = true
 				emit_signal("stat_changed", self, "skilled",1) # signal, da je skilled (kaj se zgodi je na GMju)
 				if not skill_sfx_playing: # to je zato da FP ne klie na vsak frejm
 					Global.sound_manager.play_sfx("skilled")
 					skill_sfx_playing = true
 			else: # not skilled
-				modulate.a = modulate.a
+				light_2d.enabled = false		
 				if skill_sfx_playing: # to je zato da FP ne klie na vsak frejm
 					Global.sound_manager.stop_sfx("skilled")
 					skill_sfx_playing = false
@@ -172,18 +181,14 @@ func state_machine():
 			else:
 				step_time = min_step_time
 			idle_inputs()
-							
 		States.STEPPING:
 			animation_player.stop() # stop dihanje
-		
 		States.SKILLING: # stanje ko se skill izvaja
 			animation_player.stop() # stop dihanje
-			modulate.a = skilled_alpha
-		
 		States.COCKING: 
+			light_2d.enabled = true
 			animation_player.stop() # stop dihanje
 			cocking_inputs()
-		
 		States.BURSTING: # se prižge na štartu releasa bursta
 			var velocity = direction * burst_speed
 			collision = move_and_collide(velocity) 
@@ -377,7 +382,7 @@ func die(die_reason: String):
 		Global.reason_energy:
 			emit_signal("stat_changed", self, "out_of_breath", 1)
 			Global.sound_manager.stop_sfx("last_breath")
-			last_breath_active = false
+#			last_breath_active = false
 			animation_player.stop()
 	
 	Global.main_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
@@ -416,16 +421,12 @@ func step():
 		
 
 func end_move():
-	
 	current_state = States.IDLE
-	
 	burst_direction_set = false
-	burst_speed = 0 # more bit tukaj pred _change state, če ne uničuje tudi sam sebe
-	
+	burst_speed = 0 # more bit tukaj pred _change state, če ne uničuje tudi sam sebe ... trenutno ni treba?
 	# reset direction
 	modulate = pixel_color
 	global_position = Global.snap_to_nearest_grid(global_position, Global.level_tilemap.floor_cells_global_positions)
-	
 	# reset ray dir
 	direction = Vector2.ZERO
 
@@ -557,38 +558,30 @@ func push():
 			
 	var push_direction = direction
 	var backup_direction = - push_direction
-	
 	var ray_collider = vision_ray.get_collider() # ! more bit za detect_wall() ... ta ga šele pogreba?
 	
 	# prostor za zalet?
 	if Global.detect_collision_in_direction(vision_ray, backup_direction):
-		Global.sound_manager.play_sfx("skill_fail")
 		return
-	
 	current_state = States.SKILLING
-		
+	
 	# spawn ghosta pod pixlom
 	var new_push_ghost_position = global_position + push_direction * cell_size_x
 	var new_push_ghost = spawn_ghost(new_push_ghost_position)
-	new_push_ghost.poly_pixel.modulate.a = poly_pixel.modulate.a
 	
 	if ray_collider.is_in_group(Global.group_strays):
-		# prostor pred kolajderjem
+		# prostor pred kolajderjem?
 		if Global.detect_collision_in_direction(ray_collider.vision_ray, push_direction):
-			
 			Global.sound_manager.play_sfx("push")
-			
 			var empty_push_tween = get_tree().create_tween()
 			empty_push_tween.tween_property(self, "position", global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 			empty_push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost.global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 			empty_push_tween.tween_property(self, "position", global_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
-			empty_push_tween.tween_callback(Global.sound_manager, "play_sfx", ["skill_fail"])
 			empty_push_tween.tween_callback(self, "end_move")
 			empty_push_tween.parallel().tween_callback(new_push_ghost, "queue_free")
 
 		else:
 			Global.sound_manager.play_sfx("push")
-			
 			# napnem
 			var push_tween = get_tree().create_tween()
 			push_tween.tween_property(self, "position", global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
@@ -611,22 +604,17 @@ func pull():
 	
 	var target_direction = direction
 	var pull_direction = - target_direction
-	
 	var target_pixel = vision_ray.get_collider()
 	
 	# preverjam če ma prostor v smeri premika
 	if Global.detect_collision_in_direction(vision_ray, pull_direction): 
-		Global.sound_manager.play_sfx("skill_fail")
 		return	
-		
 	current_state = States.SKILLING
-	
-	Global.sound_manager.play_sfx("pull")
 	
 	# spawn ghosta pod mano
 	var new_pull_ghost = spawn_ghost(global_position + target_direction * cell_size_x)
-	new_pull_ghost.poly_pixel.modulate.a = poly_pixel.modulate.a
-
+	
+	Global.sound_manager.play_sfx("pull")
 	var pull_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 	pull_tween.tween_property(self, "position", global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
 	pull_tween.parallel().tween_property(new_pull_ghost, "position", new_pull_ghost.global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
@@ -654,7 +642,6 @@ func teleport():
 	new_teleport_ghost.direction = teleport_direction
 	new_teleport_ghost.max_speed = ghost_max_speed
 	new_teleport_ghost.poly_pixel.modulate.a = poly_pixel.modulate.a * 0.5
-#	new_teleport_ghost.modulate.a = poly_pixel.modulate.a * 0.5
 	new_teleport_ghost.floor_cells = floor_cells
 	new_teleport_ghost.cell_size_x = cell_size_x
 	new_teleport_ghost.connect("ghost_target_reached", self, "_on_ghost_target_reached")
@@ -695,7 +682,6 @@ func spawn_cock_ghost(cocking_direction, cocked_ghosts_count):
 	new_cock_ghost.global_position -= cocking_direction * cell_size_x/2
 	# alfa ghosta je enaka alfi polipixla
 	new_cock_ghost.modulate.a  = poly_pixel.modulate.a
-	# polipixel ima čez alfa adon
 	new_cock_ghost.poly_pixel.modulate.a  = cocked_ghost_alpha - (cocked_ghosts_count / cocked_ghost_alpha_factor)
 	new_cock_ghost.direction = cocking_direction
 	
@@ -722,7 +708,6 @@ func spawn_trail_ghost():
 	
 	var trail_alpha: float = 0.2
 	var trail_ghost_fade_time: float = 0.4
-	
 	var new_trail_ghost = spawn_ghost(global_position)
 	new_trail_ghost.modulate.a = trail_alpha
 	
@@ -734,14 +719,10 @@ func spawn_trail_ghost():
 	
 func spawn_ghost(current_pixel_position):
 	
-	# trail ghosts
 	var new_pixel_ghost = Ghost.instance()
 	new_pixel_ghost.global_position = current_pixel_position
 	new_pixel_ghost.modulate = pixel_color
-#	new_pixel_ghost.z_index = z_index - 1
-	
 	Global.node_creation_parent.add_child(new_pixel_ghost)
-	
 	new_pixel_ghost.poly_pixel.modulate.a = poly_pixel.modulate.a
 
 	return new_pixel_ghost
@@ -782,6 +763,7 @@ func _on_ghost_target_reached(ghost_body, ghost_position):
 	
 	Input.stop_joy_vibration(0)
 
+
 func _on_ghost_detected_body(body):
 	
 	if body != self:
@@ -794,3 +776,14 @@ func _on_LastBreathTimer_timeout() -> void:
 	die(Global.reason_energy)
 
 
+func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
+	
+	match anim_name:
+		"last_breath":
+			if last_breath_loop > last_breath_loop_limit:
+				die(Global.reason_energy)
+			else:
+				animation_player.play("last_breath")
+				Global.sound_manager.play_sfx("last_breath")
+			last_breath_loop += 1
+		

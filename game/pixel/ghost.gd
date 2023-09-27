@@ -12,19 +12,13 @@ var floor_cells: Array = []
 var target_reached: float = false
 var fade_out_time: float = 0.2
 
+var colliding_with_pixel :bool = false
+var colliding_with_tilemap :bool = false
+
 onready var cell_size_x: float = Global.level_tilemap.cell_size.x
 onready var poly_pixel: Polygon2D = $PolyPixel # za transparenco gled na energijo ... sam pixel je skos alfa 1, 
 onready var ghost_ray: RayCast2D = $RayCast2D
 
-var colliding_with_pixel :bool = false
-var colliding_with_tilemap :bool = false
-
-
-func _ready() -> void:
-	
-	Global.print_id(self)
-#	add_to_group(Global.group_ghosts)
-	
 
 func _physics_process(delta: float) -> void:
 	

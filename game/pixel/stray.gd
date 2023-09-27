@@ -7,7 +7,7 @@ export (float, 0, 1) var die_shake_power: float = 0.2
 export (float, 0, 10) var die_shake_time: float = 0.4
 export (float, 0, 1) var die_shake_decay: float = 0.3
 
-enum StrayStates {IDLE, WANDERING}
+enum StrayState {IDLE, WANDERING}
 var current_stray_state
 
 var pixel_color: Color
@@ -22,11 +22,10 @@ onready var cell_size_x: int = Global.level_tilemap.cell_size.x  # pogreba od GM
 	
 func _ready() -> void:
 	
-	Global.print_id(self)
 	add_to_group(Global.group_strays)
 	randomize() # za random die animacije
 	
-	current_stray_state = StrayStates.IDLE  
+	current_stray_state = StrayState.IDLE  
 	modulate = pixel_color
 	modulate.a = 0
 	
@@ -42,11 +41,11 @@ func fade_in(): # kliče GM
 func _physics_process(delta: float) -> void:
 	
 	match current_stray_state:
-		StrayStates.IDLE:
+		StrayState.IDLE:
 			# stray vedno ve kdo so njegovi sosedi
 			neighbouring_cells = check_for_neighbours()
-		
-		StrayStates.WANDERING:
+			pass
+		StrayState.WANDERING:
 			if is_stepping:
 				return
 			is_stepping = true
@@ -103,8 +102,6 @@ func play_blinking_sound():
 func check_for_neighbours(): 
 	
 	var directions_to_check: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
-
-# warning-ignore:unassigned_variable
 	var current_cell_neighbours: Array
 	
 	for dir in directions_to_check:
