@@ -264,7 +264,8 @@ func split_stray_colors():
 		all_colors.append(current_color)
 		
 		loop_count += 1		
-		
+	
+#	if not Profiles.game_rules["colors_collecting_mode"]:
 	Global.hud.spawn_color_indicators(all_colors)				
 
 

@@ -76,11 +76,13 @@ region = Rect2( 16, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=148]
 atlas = ExtResource( 14 )
-region = Rect2( 2, 80, 14, 16 )
+region = Rect2( 2, 84, 14, 12 )
+margin = Rect2( 0, 3, 0, 0 )
 
 [sub_resource type="AtlasTexture" id=146]
 atlas = ExtResource( 14 )
-region = Rect2( 18, 80, 6, 16 )
+region = Rect2( 18, 84, 6, 12 )
+margin = Rect2( 0, 3, 0, 0 )
 
 [sub_resource type="DynamicFont" id=141]
 size = 341
@@ -672,6 +674,7 @@ rect_min_size = Vector2( 1280, 720 )
 script = ExtResource( 2 )
 
 [node name="Energy" type="Label" parent="GUI/Hud"]
+visible = false
 margin_left = 128.0
 margin_top = 69.0
 margin_right = 221.0
@@ -951,7 +954,7 @@ margin_top = 16.0
 margin_right = -30.0
 margin_bottom = 38.0
 grow_horizontal = 0
-custom_constants/separation = 16
+custom_constants/separation = 20
 __meta__ = {
 "_edit_group_": true
 }
@@ -1040,21 +1043,20 @@ __meta__ = {
 }
 
 [node name="Level" type="Label" parent="GUI/Hud/Header/HudLine_TR"]
-margin_right = 42.0
+margin_right = 108.0
 margin_bottom = 22.0
 size_flags_horizontal = 8
-custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "L00"
+text = "LEVEL 00"
 align = 2
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="MusicLabel" type="Label" parent="GUI/Hud/Header/HudLine_TR"]
-margin_left = 58.0
-margin_right = 102.0
+margin_left = 128.0
+margin_right = 176.0
 margin_bottom = 22.0
-rect_min_size = Vector2( 44, 0 )
+rect_min_size = Vector2( 48, 0 )
 size_flags_horizontal = 8
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "00"
@@ -1165,7 +1167,7 @@ grow_vertical = 2
 size_flags_horizontal = 0
 size_flags_vertical = 3
 
-[node name="HudLine_TR" type="HBoxContainer" parent="GUI/Hud/Footer"]
+[node name="HudLine_BR" type="HBoxContainer" parent="GUI/Hud/Footer"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -1179,13 +1181,13 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="StrayCounter" type="HBoxContainer" parent="GUI/Hud/Footer/HudLine_TR"]
+[node name="StrayCounter" type="HBoxContainer" parent="GUI/Hud/Footer/HudLine_BR"]
 margin_right = 66.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
 
-[node name="TextureRect3" type="TextureRect" parent="GUI/Hud/Footer/HudLine_TR/StrayCounter"]
+[node name="TextureRect3" type="TextureRect" parent="GUI/Hud/Footer/HudLine_BR/StrayCounter"]
 margin_top = 4.0
 margin_right = 16.0
 margin_bottom = 22.0
@@ -1193,7 +1195,7 @@ rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
 texture = SubResource( 128 )
 
-[node name="PixelsStray" type="Label" parent="GUI/Hud/Footer/HudLine_TR/StrayCounter"]
+[node name="PixelsStray" type="Label" parent="GUI/Hud/Footer/HudLine_BR/StrayCounter"]
 margin_left = 24.0
 margin_right = 66.0
 margin_bottom = 22.0
@@ -1205,14 +1207,14 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="OffedCounter" type="HBoxContainer" parent="GUI/Hud/Footer/HudLine_TR"]
+[node name="OffedCounter" type="HBoxContainer" parent="GUI/Hud/Footer/HudLine_BR"]
 margin_left = 82.0
 margin_right = 148.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
 
-[node name="TextureRect2" type="TextureRect" parent="GUI/Hud/Footer/HudLine_TR/OffedCounter"]
+[node name="TextureRect2" type="TextureRect" parent="GUI/Hud/Footer/HudLine_BR/OffedCounter"]
 margin_top = 4.0
 margin_right = 16.0
 margin_bottom = 22.0
@@ -1220,7 +1222,7 @@ rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
 texture = SubResource( 127 )
 
-[node name="PixelsOff" type="Label" parent="GUI/Hud/Footer/HudLine_TR/OffedCounter"]
+[node name="PixelsOff" type="Label" parent="GUI/Hud/Footer/HudLine_BR/OffedCounter"]
 margin_left = 24.0
 margin_right = 66.0
 margin_bottom = 22.0

@@ -89,6 +89,7 @@ var game_rules: Dictionary = { # tole ne uporabljam v zadnji varianti
 	"revive_energy_reset": true,  # GM
 	"stop_burst_mode": true,  # player
 	"randomize_stray_spawning": false,  # GM
+	"colors_collecting_mode": true, # GM
 }
 
 

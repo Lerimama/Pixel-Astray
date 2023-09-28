@@ -101,7 +101,7 @@ func writing_stats():
 	skills_used.text = "%04d" % player_stats_on_hud["skills_used"]
 	
 	# game stats
-	level.text = "LEVEL %02d" % game_stats_on_hud["level_no"]
+	level.text = "L%02d" % game_stats_on_hud["level_no"]
 	stray_pixels.text = "%03d" % game_stats_on_hud["stray_pixels_count"]
 	pixels_off.text = "%03d" % game_stats_on_hud["off_pixels_count"]
 	
@@ -127,26 +127,13 @@ func fade_in():
 # COLORS ---------------------------------------------------------------------------------------------------------------------------
 
 
-func spawn_color_indicators(colors): # ukaz pride iz GM
-
-#	var new_color_indicator = ColorIndicator.instance()
-#	new_color_indicator.color = colors
-##		new_color_indicator.modulate.a = 0.05
-#	indicator_holder.add_child(new_color_indicator)
-#	# zapis indexa ... invisible ... za debug
-##	var indicator_index = active_color_indicators.find(new_color_indicator)
-##	new_color_indicator.get_node("Label").text = str(indicator_index)
-#	active_color_indicators.append(new_color_indicator)
+func spawn_color_indicators(colors): 
+# ukaz pride iz GM
 
 	for color in colors:
 		var new_color_indicator = ColorIndicator.instance()
-		
-		if Profiles.game_rules["colors_collecting_mode"]:
-#			new_color_indicator.visible = false
-#			new_color_indicator.modulate.a = 0.05
-			new_color_indicator.rect_min_size.x = 0.01
-		else:
-			new_color_indicator.color = color
+		new_color_indicator.color = color
+#		new_color_indicator.modulate.a = 0.05
 		indicator_holder.add_child(new_color_indicator)
 		# zapis indexa ... invisible ... za debug
 		var indicator_index = active_color_indicators.find(new_color_indicator)
@@ -156,30 +143,34 @@ func spawn_color_indicators(colors): # ukaz pride iz GM
 	
 func color_picked(picked_pixel_color):
 	
-	if Profiles.game_rules["colors_collecting_mode"]:
-		erase_color_indicator(picked_pixel_color)
-	else:
-		erase_color_indicator(picked_pixel_color)
+	erase_color_indicator(picked_pixel_color)
+#	show_color_indicator(picked_pixel_color)
+	
 	
 	# picked color stats
 	picked_color_label.text = str(round(255 * picked_pixel_color.r)) + " " + str(round(255 * picked_pixel_color.g)) + " " + str(round(255 * picked_pixel_color.b))
+	
 	# color effects
 	picked_color_rect.color = picked_pixel_color
 	
+	# picked_color_label.modulate = picked_pixel_color
+	# pixels_off_counter.modulate = picked_pixel_color
+	# stray_pixels_counter.modulate = picked_pixel_color
+	# yield(get_tree().create_timer(0.5), "timeout")
+	# picked_color_label.modulate = default_hud_color
+	# pixels_off_counter.modulate = default_hud_color
+	# stray_pixels_counter.modulate = default_hud_color
+
 	
 func show_color_indicator(picked_color):
-	print("juhej", picked_color)
 	var current_indicator_index: int
 	for indicator in active_color_indicators:
-		
 		if indicator.color == picked_color:
-			print("juhej", picked_color)
 			current_indicator_index = active_color_indicators.find(indicator)
 			if Profiles.game_rules["pick_neighbour_mode"]:
 				indicator.modulate.a = 2
 			else:
-				indicator.modulate.a = 1
-				indicator.visible = true
+				indicator.modulate.a = 0.3
 				break
 		else:
 			if Profiles.game_rules["pick_neighbour_mode"]:
@@ -193,15 +184,11 @@ func erase_color_indicator(erase_color):
 	for indicator in active_color_indicators:
 		if indicator.color == erase_color:
 			current_indicator_index = active_color_indicators.find(indicator)
-			if Profiles.game_rules["colors_collecting_mode"]:
-				indicator.rect_size.x = 16
-				indicator.modulate.a = 1
+			if Profiles.game_rules["pick_neighbour_mode"]:
+				indicator.modulate.a = 0
 			else:
-				if Profiles.game_rules["pick_neighbour_mode"]:
-					indicator.modulate.a = 0
-				else:
-					indicator.modulate.a = 0.3
-					break
+				indicator.modulate.a = 0.3
+				break
 		else:
 			if Profiles.game_rules["pick_neighbour_mode"]:
 				indicator.modulate.a = 0.5
