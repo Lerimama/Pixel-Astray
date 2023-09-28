@@ -88,16 +88,14 @@ func _ready() -> void:
 	
 	add_to_group(Global.group_players)
 	
-	modulate = pixel_color
 	randomize() # za random blink animacije
+	
 	global_position = Global.snap_to_nearest_grid(global_position, Global.level_tilemap.floor_cells_global_positions)
+#	set_physics_process(false) # deaktiviram plejerja ... aktivira ga GM, ko v start_game
 	
-	# deaktiviram plejerja ... aktivira ga GM, ko v start_game
-	set_physics_process(false)
-	
-#	modulate.a = 1
-#	poly_pixel.modulate.a = 1
-	animation_player.play("stil_alive_poly")
+	modulate = pixel_color
+	poly_pixel.modulate.a = 1
+	animation_player.play("still_alive")
 	current_state = States.IDLE
 	
 	
@@ -106,7 +104,7 @@ func _physics_process(delta: float) -> void:
 	# print("current_state, ", current_state)
 	player_energy = Global.game_manager.player_stats["player_energy"] # stalni apdejt energije iz GMja
 	current_player_energy_part = player_energy / max_player_energy # delež celotne energije
-	poly_pixel.modulate.a = 1
+#	poly_pixel.modulate.a = 1
 			
 	if Global.detect_collision_in_direction(vision_ray, direction): # more bit neodvisno od stateta, da pull dela
 		skill_inputs()

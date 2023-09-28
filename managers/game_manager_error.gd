@@ -67,7 +67,6 @@ func _ready() -> void:
 	Global.game_manager = self	
 	
 	if game_rules["randomize_stray_spawning"]:
-		print("rand")
 		randomize()
 	
 	# štartej igro
@@ -125,7 +124,7 @@ func show_strays():
 func set_game(): 
 # setam ves data igre
 	
-	yield(get_tree().create_timer(2), "timeout")
+#	yield(get_tree().create_timer(2), "timeout")
 	
 	split_stray_colors()
 	spawn_player()
@@ -226,6 +225,7 @@ func spawn_player():
 	
 	var new_player_pixel = PlayerPixel.instance()
 	new_player_pixel.name = "P%s" % str(spawned_player_index)
+	# new_player_pixel.pixel_color = Global.color_white
 	new_player_pixel.global_position = spawn_position # ... ne rabim snepat ker se v pixlu na redi funkciji
 	new_player_pixel.visible = false
 	Global.node_creation_parent.add_child(new_player_pixel)

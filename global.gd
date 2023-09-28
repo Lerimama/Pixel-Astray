@@ -145,7 +145,9 @@ func spawn_new_scene(scene_path, parent_node):
 
 # release scene
 func release_scene(scene_node):
+	scene_node.set_physics_process(false)
 	call_deferred("_free_scene", scene_node)	
+
 
 func _free_scene(scene_node):
 	print ("SCENE RELEASED (in next step): ", current_scene)	

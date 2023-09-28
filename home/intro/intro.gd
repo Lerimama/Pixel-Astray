@@ -69,21 +69,24 @@ func skip_intro(): # kadar je intro skipan
 	split_stray_colors()
 	
 	yield(get_tree().create_timer(0.1), "timeout")
+	show_strays()
+	yield(get_tree().create_timer(0.1), "timeout")
+	show_strays()
+	yield(get_tree().create_timer(0.1), "timeout")
+	show_strays()
+	yield(get_tree().create_timer(0.1), "timeout")
+	show_strays()
 	for stray in strays_on_screen: # tole je že tukaj, ker ima nakljiučne pavze in drugače predolgo traya
 		stray.current_stray_state = stray.StrayState.WANDERING
-	show_strays()
-	yield(get_tree().create_timer(0.1), "timeout")
-	show_strays()
-	yield(get_tree().create_timer(0.1), "timeout")
-	show_strays()
-	yield(get_tree().create_timer(0.1), "timeout")
-	show_strays()
-
+#		print("št" ,stray)
+	print("število" ,strays_on_screen.size())
+		
 		
 func end_intro(): # kliče se iz animacije, ko intro pride do konca
 	for stray in strays_on_screen:
 		stray.current_stray_state = stray.StrayState.WANDERING
-	
+		print("št" ,stray)
+		
 	emit_signal("finished_playing")
 
 
@@ -140,7 +143,10 @@ func spawn_title_stray(stray_color):
 
 		#spawn
 		add_child(new_stray_pixel)
-
+		
+		# samo intro
+		new_stray_pixel.collision_shape_2d.disabled = true
+		
 		# odstranim uporabljeno pozicijo
 		available_title_positions.remove(selected_cell_index)
 		available_floor_positions.remove(selected_cell_index) # floor ima tudi tajle naslova, zato je ta vrstica nujna
@@ -164,6 +170,9 @@ func spawn_floor_stray(stray_color):
 	#spawn
 	add_child(new_stray_pixel)
 	
+	# samo intro
+	new_stray_pixel.collision_shape_2d.disabled = true
+		
 	# odstranim uporabljeno pozicijo
 	available_floor_positions.remove(selected_cell_index)
 

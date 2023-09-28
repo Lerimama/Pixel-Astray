@@ -97,9 +97,6 @@ func animation_reversed(from_screen: String):
 
 
 func _on_Intro_finished_playing() -> void:
-#	skip_intro_label.visible = false
-#	var fade_out = get_tree().create_tween()
-#	fade_out.tween_property(skip_intro_label, "modulate:a", 0, 0.3)	
 	menu_in()
 	
 	
@@ -111,7 +108,6 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 				return
 			current_screen = Screens.SELECT_GAME
 			$SelectGame/SelectGameBtn1.grab_focus()
-			
 		"about":
 			if animation_reversed("about"):
 				return
@@ -132,6 +128,7 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 func _on_PlayBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.home_out()
+	
 	$Menu/PlayBtn.disabled = true # da ne moreš multiklikat
 
 
