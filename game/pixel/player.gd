@@ -66,9 +66,6 @@ var last_breath_active: bool = false
 var last_breath_loop: int = 0
 onready var last_breath_loop_limit: int = Profiles.game_rules["last_breath_loop_limit"]
 
-# onready var last_breath_time = Profiles.game_rules["last_breath_time"]
-#onready var last_breath_timer: Timer = $LastBreathTimer
-
 # transparenca energije
 onready var poly_pixel: Polygon2D = $PolyPixel
 var skill_sfx_playing: bool = false # da lahko kličem is procesne funkcije
@@ -106,51 +103,15 @@ func _ready() -> void:
 	
 func _physics_process(delta: float) -> void:
 	
-#	print("current_state, ", current_state)
-	
+	# print("current_state, ", current_state)
 	player_energy = Global.game_manager.player_stats["player_energy"] # stalni apdejt energije iz GMja
 	current_player_energy_part = player_energy / max_player_energy # delež celotne energije
-	
-	# toggle energy_apha mode
-	if Profiles.game_rules["energy_alpha_mode"]:
-		var alpha_factor = current_player_energy_part
-		poly_pixel.modulate.a = clamp(alpha_factor, Profiles.game_rules["min_player_alpha"], alpha_factor)
-	else:
-		poly_pixel.modulate.a = 1
-	
-	# zadnji izdihljaji
-#	if Global.game_manager.player_stats["player_energy"] <= 1 and not last_breath_active: # to se zgodi ob prehodu v stanje
-	if player_energy == 1 and not last_breath_active: # to se zgodi ob prehodu v stanje
-		last_breath_active = true
-		last_breath_loop = 0
-		animation_player.play("last_breath")		
-		Global.sound_manager.play_sfx("last_breath")
-		modulate = Global.color_red
-		print("ENERGIJA", player_energy)
-	
-	
-#	if player_energy == 1 and not last_breath_active: 
-#		last_breath_active = true
-#		animation_player.set_speed_scale(breath_speed)
-#		animation_player.play("breath")
-#		if Profiles.game_rules["last_breath_mode"]:
-#			last_breath_timer.start(Profiles.game_rules["last_breath_time"])
-#	elif player_energy == 1:
-#		modulate = Global.color_red
-##		poly_pixel.modulate.a = 1 # da je svetel, ko krvavi (tudi kadar je energy_alpha on
-#		pass
-	elif player_energy > 1:
-#	elif Global.game_manager.player_stats["player_energy"] > 1:
-		last_breath_active = false
-		modulate = pixel_color
-#		animation_player.stop()		
-#		Global.sound_manager.stop_sfx("last_breath")
-#		if Profiles.game_rules["last_breath_mode"]:
-#			last_breath_timer.stop()
+	poly_pixel.modulate.a = 1
 			
 	if Global.detect_collision_in_direction(vision_ray, direction): # more bit neodvisno od stateta, da pull dela
 		skill_inputs()
 	
+	last_breath()
 	state_machine()
 	
 	
@@ -182,9 +143,11 @@ func state_machine():
 				step_time = min_step_time
 			idle_inputs()
 		States.STEPPING:
-			animation_player.stop() # stop dihanje
+#			animation_player.stop() # stop dihanje
+			pass
 		States.SKILLING: # stanje ko se skill izvaja
 			animation_player.stop() # stop dihanje
+			pass
 		States.COCKING: 
 			light_2d.enabled = true
 			animation_player.stop() # stop dihanje
@@ -195,6 +158,20 @@ func state_machine():
 			if collision:
 				on_collision()
 			bursting_inputs()
+
+
+func last_breath(): # zadnji izdihljaji
+	
+	if player_energy == 1 and not last_breath_active: # to se zgodi ob prehodu v stanje
+		last_breath_active = true
+		last_breath_loop = 0
+		animation_player.play("last_breath")		
+	# elif player_energy == 1: # to se dogaja, ko je v tem stanju
+	#	modulate = Global.color_red
+	elif player_energy > 1:
+		# modulate = pixel_color
+		last_breath_active = false
+		animation_player.stop()
 	
 	
 func on_collision(): 
@@ -374,21 +351,17 @@ func skill_inputs():
 
 
 func die(die_reason: String):
-	end_move()
 	
+	end_move()
 	match die_reason:
 		Global.reason_wall:
 			emit_signal("stat_changed", self, "wall_hit", 1)
 		Global.reason_energy:
 			emit_signal("stat_changed", self, "out_of_breath", 1)
-			Global.sound_manager.stop_sfx("last_breath")
-#			last_breath_active = false
-			animation_player.stop()
-	
+			
 	Global.main_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
-	
 	set_physics_process(false) # aktivira ga revive(), ki se sproži iz animacije
-	animation_player.play("die_player_unique")
+	animation_player.play("die_player")
 
 
 func revive():
@@ -406,9 +379,7 @@ func step():
 	
 	# če kolajda izbrani smeri gibanja prenesem kontrole na skill
 	if not Global.detect_collision_in_direction(vision_ray, step_direction):
-		
 		current_state = States.STEPPING
-		
 		global_position = Global.snap_to_nearest_grid(global_position, Global.level_tilemap.floor_cells_global_positions)
 		spawn_trail_ghost()
 		var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
@@ -424,8 +395,8 @@ func end_move():
 	current_state = States.IDLE
 	burst_direction_set = false
 	burst_speed = 0 # more bit tukaj pred _change state, če ne uničuje tudi sam sebe ... trenutno ni treba?
-	# reset direction
 	modulate = pixel_color
+	# reset dir
 	global_position = Global.snap_to_nearest_grid(global_position, Global.level_tilemap.floor_cells_global_positions)
 	# reset ray dir
 	direction = Vector2.ZERO
@@ -772,18 +743,14 @@ func _on_ghost_detected_body(body):
 		Global.sound_manager.play_sfx("burst_limit")
 		
 
-func _on_LastBreathTimer_timeout() -> void:
-	die(Global.reason_energy)
-
-
 func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	
 	match anim_name:
 		"last_breath":
+			last_breath_loop += 1
 			if last_breath_loop > last_breath_loop_limit:
 				die(Global.reason_energy)
 			else:
 				animation_player.play("last_breath")
 				Global.sound_manager.play_sfx("last_breath")
-			last_breath_loop += 1
 		

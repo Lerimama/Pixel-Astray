@@ -1,45 +1,15 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://assets/resources/pixelbreath.tres" type="Animation" id=1]
 [ext_resource path="res://game/pixel/player.gd" type="Script" id=2]
 [ext_resource path="res://assets/light_texture.png" type="Texture" id=3]
-[ext_resource path="res://assets/resources/zbrisane_zazih.../pixeldie_player.tres" type="Animation" id=4]
 [ext_resource path="res://assets/resources/zbrisane_zazih.../pixelrevive.tres" type="Animation" id=10]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
 
-[sub_resource type="Animation" id=136]
-resource_name = "breath slow"
-length = 1.8
-loop = true
-step = 0.01
-tracks/0/type = "bezier"
-tracks/0/path = NodePath(".:modulate:a")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"points": PoolRealArray( 1.2, 0, 0, 0.5, 0, 1, -0.5, 0, 0, 0, 1, 0, 0, 0.5, 0, 1.2, -0.3, 0, 0, 0 ),
-"times": PoolRealArray( 0, 0.9, 0.93, 1.8 )
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("PolyPixel:modulate:a")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = false
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.9, 0.93, 1.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 1.2, 1.0, 1.0, 1.2 ]
-}
-
 [sub_resource type="Animation" id=2]
-resource_name = "die_player_unique"
-length = 3.0
+resource_name = "die_player"
+length = 2.5
 step = 0.02
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
@@ -60,10 +30,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.0605592, 0.115436, 0.184698, 0.232797, 0.445392, 0.539576, 0.67419, 0.738793, 0.8, 0.841557, 0.899275, 1, 1.10076, 1.19941, 1.36723, 1.49998, 1.60081, 1.6553, 1.94, 2, 2.1, 2.6, 2.7, 2.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.0605592, 0.115436, 0.184698, 0.232797, 0.445392, 0.539576, 0.67419, 0.738793, 0.8, 0.841557, 0.899275, 1, 1.10076, 1.19941, 1.36723, 1.49998, 1.60081, 1.6553, 1.94, 2, 2.1, 2.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 1.0, 0.2, 1.0, 0.2, 1.0, 1.0, 0.55, 1.0, 0.2, 0.118591, 0.4, 1.0, 0.2, 0.2, 1.0, 0.4, 0.55, 0.2, 0.55, 0.0, 0.5, 0.2, 0.55, 0.55, 0.2 ]
+"values": [ 1.0, 0.2, 1.0, 0.2, 1.0, 1.0, 0.55, 1.0, 0.2, 0.118591, 0.4, 1.0, 0.2, 0.2, 1.0, 0.4, 0.55, 0.2, 0.55, 0.0, 0.5, 0.2, 0.0 ]
 }
 tracks/2/type = "method"
 tracks/2/path = NodePath(".")
@@ -109,65 +79,38 @@ tracks/2/keys = {
 "method": "play_blinking_sound"
 } ]
 }
-tracks/3/type = "method"
-tracks/3/path = NodePath(".")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = false
-tracks/3/keys = {
-"times": PoolRealArray( 3 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "revive"
-} ]
-}
 
 [sub_resource type="Animation" id=137]
 resource_name = "last_breath"
-length = 0.85
+length = 0.8
 step = 0.01
 tracks/0/type = "value"
-tracks/0/path = NodePath("PolyPixel:modulate:a")
+tracks/0/path = NodePath(".:modulate:a")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = false
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.9, 0.93, 1.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 1.2, 1.0, 1.0, 1.2 ]
-}
-tracks/1/type = "method"
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = false
-tracks/1/keys = {
-"times": PoolRealArray( 0.79 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "play_last_breath"
-} ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath(".:modulate:a")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.06, 0.32, 0.52, 0.79 ),
+"times": PoolRealArray( 0, 0.06, 0.32, 0.52, 0.8 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 0.12, 0.2, 0.18, 0.12, 0.12 ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("PolyPixel:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.06, 0.32, 0.52, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.8, 1.0, 0.98, 0.8, 0.8 ]
+}
 
 [sub_resource type="Animation" id=135]
+resource_name = "stil_alive_poly_obst"
 length = 2.5
 step = 0.02
 tracks/0/type = "value"
@@ -228,7 +171,7 @@ tracks/1/keys = {
 }
 
 [node name="Player" type="KinematicBody2D"]
-modulate = Color( 1, 1, 1, 0.12 )
+modulate = Color( 0.952941, 0.356863, 0.498039, 0 )
 script = ExtResource( 2 )
 
 [node name="Light2D" type="Light2D" parent="."]
@@ -238,7 +181,7 @@ texture = ExtResource( 3 )
 energy = 0.25
 
 [node name="PolyPixel" type="Polygon2D" parent="."]
-modulate = Color( 1, 1, 1, 1.2 )
+modulate = Color( 1, 1, 1, 0.85 )
 position = Vector2( -16, -16 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
@@ -252,16 +195,9 @@ enabled = true
 cast_to = Vector2( 32, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/breath = ExtResource( 1 )
-"anims/breath slow" = SubResource( 136 )
-anims/die_player = ExtResource( 4 )
-anims/die_player_unique = SubResource( 2 )
+anims/die_player = SubResource( 2 )
 anims/last_breath = SubResource( 137 )
 anims/revive = ExtResource( 10 )
-anims/stil_alive_poly = SubResource( 135 )
-
-[node name="LastBreathTimer" type="Timer" parent="."]
-one_shot = true
+anims/stil_alive_poly_obst = SubResource( 135 )
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
-[connection signal="timeout" from="LastBreathTimer" to="." method="_on_LastBreathTimer_timeout"]
