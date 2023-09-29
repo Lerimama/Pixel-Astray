@@ -38,7 +38,7 @@ var default_level_stats : Dictionary = { # na štartu igre se tole duplicira in 
 	"game_time_limit" : 120, # sekund
 	"death_mode_duration" : 20, # sekund
 	"timer_countdown_mode" : true,
-	"stray_pixels_count" : settings_strays_amount_4, # 1, 32, 78, 156, 234
+	"stray_pixels_count" : settings_strays_amount_2, # 1, 32, 78, 156, 234
 	"off_pixels_count" : 0,
 	"highscore": 0000, # se naloži iz  "default_level_highscores" lestvice ob štartu igre, zato, da te lahko opozori že med igro
 	"highscore_owner": "NNNNNNNNNN", # se naloži iz  "default_level_highscores" lestvice ob štartu igre, zato, da te lahko opozori že med igro
@@ -78,20 +78,19 @@ var game_rules: Dictionary = { # tole ne uporabljam v zadnji varianti
 	"intro_strays_count": 149,  # 149 celic je v naslovu, kar je več gre naokrog
 		
 	# config ... ne vem če je vse za ta slovar?
-	"pick_neighbour_mode": false, # hud, player
+	"pick_neighbour_mode": false, # hud, player ... samo, če je "collect_color_mode" false
+	"collect_color_mode": true, # hud 
 	"deathmode_on": true, # hud_game_timer
 	"last_breath_mode": true, # player
 	"minimap_on": false, # game
 	"game_countdown_on": false, # game_countdown
 	"energy_speed_mode": true, # GM, player
-#	"energy_alpha_mode": true, # hud_game_timer
 	"loose_life_on": true, # GM ... v tem primeru, ne izgubiš energije niti točk
 	"revive_energy_reset": true,  # GM
 	"stop_burst_mode": true,  # player
 	"randomize_stray_spawning": false,  # GM
-	"colors_collecting_mode": true, # GM
+	"multikill_mode": true,
 }
-
 
 
 var game_rules_runner: Dictionary = {

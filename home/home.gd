@@ -4,12 +4,10 @@ extends Node
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 enum Screens {MAIN_MENU, SELECT_GAME, ABOUT, SETTINGS, HIGHSCORES}
-#enum Screens {INTRO, MAIN_MENU, SELECT_GAME, ABOUT, SETTINGS, HIGHSCORES}
 var current_screen # se določi z main animacije
 onready var menu: Control = $Menu
 
 onready var intro: Node2D = $IntroViewPortContainer/Viewport/Intro
-#onready var skip_intro_label: Label = $SkipIntroLabel
 onready var intro_viewport: Viewport = $IntroViewPortContainer/Viewport
 
 
@@ -49,13 +47,14 @@ func _input(event: InputEvent) -> void:
 					
 					
 func _ready():
-	
 	menu.visible = false
-#	skip_intro_label.visible = false	
 		
 			
 # MAIN MENU ---------------------------------------------------------------------------------------------------
 
+func _process(delta: float) -> void:
+	printt("current_screen", current_screen)
+	
 func open_with_intro():
 	intro.play_intro()
 	menu.visible = false

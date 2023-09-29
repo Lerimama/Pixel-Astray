@@ -26,15 +26,22 @@ onready var highscore_label: Label = $Header/HudLine_TL/Highscore
 onready var music_label: Label = $Header/HudLine_TR/MusicLabel
 onready var on_icon: TextureRect = $Header/HudLine_TR/MusicLabel/OnIcon
 onready var off_icon: TextureRect = $Header/HudLine_TR/MusicLabel/OffIcon
+# ---
+#onready var picked_color_rect: ColorRect = $Header/HudLine_TR/PickedColor/ColorRect
+#onready var picked_color_label: Label = $Header/HudLine_TR/PickedColor/Value
+#onready var pixels_off: Label = $Header/HudLine_TR/OffedCounter/PixelsOff
+#onready var stray_pixels_counter: HBoxContainer = $Header/HudLine_TR/StrayCounter
+#onready var stray_pixels: Label = $Header/HudLine_TR/StrayCounter/PixelsStray
+#onready var pixels_off_counter: HBoxContainer = $Header/HudLine_TR/OffedCounter
 
 #futer
 onready var footer: Control = $Footer
-onready var picked_color_rect: ColorRect = $Header/HudLine_TR/PickedColor/ColorRect
-onready var picked_color_label: Label = $Header/HudLine_TR/PickedColor/Value
-onready var pixels_off: Label = $Header/HudLine_TR/OffedCounter/PixelsOff
-onready var stray_pixels_counter: HBoxContainer = $Header/HudLine_TR/StrayCounter
-onready var stray_pixels: Label = $Header/HudLine_TR/StrayCounter/PixelsStray
-onready var pixels_off_counter: HBoxContainer = $Header/HudLine_TR/OffedCounter
+onready var picked_color_rect: ColorRect = $Footer/PickedColor/ColorRect
+onready var picked_color_label: Label = $Footer/PickedColor/Value
+onready var pixels_off: Label = $Footer/HudLine_BR/OffedCounter/PixelsOff
+onready var stray_pixels_counter: HBoxContainer = $Footer/HudLine_BR/StrayCounter
+onready var stray_pixels: Label = $Footer/HudLine_BR/StrayCounter/PixelsStray
+onready var pixels_off_counter: HBoxContainer = $Footer/HudLine_BR/OffedCounter
 
 # popups 
 var highscore_broken: bool =  false
@@ -127,84 +134,62 @@ func fade_in():
 # COLORS ---------------------------------------------------------------------------------------------------------------------------
 
 
-func spawn_color_indicators(colors): # ukaz pride iz GM
-
-#	var new_color_indicator = ColorIndicator.instance()
-#	new_color_indicator.color = colors
-##		new_color_indicator.modulate.a = 0.05
-#	indicator_holder.add_child(new_color_indicator)
-#	# zapis indexa ... invisible ... za debug
-##	var indicator_index = active_color_indicators.find(new_color_indicator)
-##	new_color_indicator.get_node("Label").text = str(indicator_index)
-#	active_color_indicators.append(new_color_indicator)
-
-	for color in colors:
+func spawn_color_indicators(available_colors): # ukaz pride iz GM
+	
+	var indicator_index = 0 # za fiksirano zaporedje
+	for color in available_colors:
+		indicator_index += 1 
 		var new_color_indicator = ColorIndicator.instance()
+		indicator_holder.add_child(new_color_indicator)
 		
-		if Profiles.game_rules["colors_collecting_mode"]:
-#			new_color_indicator.visible = false
-#			new_color_indicator.modulate.a = 0.05
-			new_color_indicator.rect_min_size.x = 0.01
+		if Profiles.game_rules["collect_color_mode"]:
+			new_color_indicator.visible = false
+			new_color_indicator.color = color
 		else:
 			new_color_indicator.color = color
-		indicator_holder.add_child(new_color_indicator)
-		# zapis indexa ... invisible ... za debug
-		var indicator_index = active_color_indicators.find(new_color_indicator)
-		new_color_indicator.get_node("Label").text = str(indicator_index)
+		
+		# zapis indexa ... invisible
+		new_color_indicator.get_node("IndicatorCount").text = str(indicator_index)
 		active_color_indicators.append(new_color_indicator)
 	
 	
 func color_picked(picked_pixel_color):
 	
-	if Profiles.game_rules["colors_collecting_mode"]:
-		erase_color_indicator(picked_pixel_color)
-	else:
-		erase_color_indicator(picked_pixel_color)
-	
 	# picked color stats
 	picked_color_label.text = str(round(255 * picked_pixel_color.r)) + " " + str(round(255 * picked_pixel_color.g)) + " " + str(round(255 * picked_pixel_color.b))
 	# color effects
 	picked_color_rect.color = picked_pixel_color
+
+	if Profiles.game_rules["collect_color_mode"]:
+		show_color_indicator(picked_pixel_color)
+	else:
+		hide_color_indicator(picked_pixel_color)
 	
 	
 func show_color_indicator(picked_color):
-	print("juhej", picked_color)
-	var current_indicator_index: int
-	for indicator in active_color_indicators:
-		
-		if indicator.color == picked_color:
-			print("juhej", picked_color)
-			current_indicator_index = active_color_indicators.find(indicator)
-			if Profiles.game_rules["pick_neighbour_mode"]:
-				indicator.modulate.a = 2
-			else:
-				indicator.modulate.a = 1
-				indicator.visible = true
-				break
-		else:
-			if Profiles.game_rules["pick_neighbour_mode"]:
-				indicator.modulate.a = 0.5		
-					
-					
-func erase_color_indicator(erase_color):
 	
-	# index indikatorja pobrane barve (prepoznan po enaki barvi)
+	var current_indicator_index: int # za določanje sosedov
+	for indicator in active_color_indicators:
+		if indicator.color == picked_color:
+			indicator.visible = true
+			break
+	
+					
+func hide_color_indicator(picked_color):
+	
 	var current_indicator_index: int
 	for indicator in active_color_indicators:
-		if indicator.color == erase_color:
+		if indicator.color == picked_color:
 			current_indicator_index = active_color_indicators.find(indicator)
-			if Profiles.game_rules["colors_collecting_mode"]:
-				indicator.rect_size.x = 16
-				indicator.modulate.a = 1
-			else:
-				if Profiles.game_rules["pick_neighbour_mode"]:
-					indicator.modulate.a = 0
-				else:
-					indicator.modulate.a = 0.3
-					break
-		else:
+			# efekt na pobrani barvi
 			if Profiles.game_rules["pick_neighbour_mode"]:
-				indicator.modulate.a = 0.5
+				indicator.modulate.a = 0
+				indicator.visible = false
+			else: 
+				indicator.modulate.a = 0.32
+				break
+		elif Profiles.game_rules["pick_neighbour_mode"]: # efekt na preostalih barvah 
+			indicator.modulate.a = 0.5
 			
 	if Profiles.game_rules["pick_neighbour_mode"]:	
 		# opredelitev sosedov glede na položaj pobrane barve
@@ -235,7 +220,7 @@ func erase_color_indicator(erase_color):
 	# izbris iz arraya živih indikatorjev
 	if not active_color_indicators.empty():
 		active_color_indicators.erase(active_color_indicators[current_indicator_index])
-	
+
 
 # SIGNALS ---------------------------------------------------------------------------------------------------------------------------
 

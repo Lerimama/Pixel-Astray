@@ -179,6 +179,7 @@ func on_collision():
 	var added_shake_time = hit_stray_shake_time + burst_power_shake_addon * burst_power
 	
 	if collision.collider.is_in_group(Global.group_tilemap):
+		
 		Input.start_joy_vibration(0, 0.5, 0.6, 0.7)
 		die(Global.reason_wall)
 		spawn_collision_particles()
@@ -186,25 +187,36 @@ func on_collision():
 		Global.main_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
 		Global.sound_manager.stop_sfx("burst")
 		Global.sound_manager.play_sfx("hit_wall")
-		
-
 
 	elif collision.collider.is_in_group(Global.group_strays):
+		
 		Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
-		pixel_color = collision.collider.pixel_color
 		spawn_collision_particles()
 		Global.main_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
 		Global.sound_manager.stop_sfx("burst")
 		Global.sound_manager.play_sfx("hit_stray")
 			
-		# pick neighbour color
 		if Profiles.game_rules["pick_neighbour_mode"]:
-			# če je sosed določen, in če pobrana barva ni enaka barvi soseda na spektru
-			if Global.game_manager.colors_to_pick and not Global.game_manager.colors_to_pick.has(collision.collider.pixel_color):
+			if Global.game_manager.colors_to_pick and not Global.game_manager.colors_to_pick.has(collision.collider.pixel_color): # če pobrana barva ni enaka barvi soseda
 				end_move()
-				return
+				return # v tem primeru se spodnjidve vrstici ne izvedeta in pixel se ne obarva
 		
-		# multikill
+		# destroj kolajderja ... prvega pixla
+		pixel_color = collision.collider.pixel_color
+		Global.hud.color_picked(collision.collider.pixel_color)
+		collision.collider.die(1) # edini oziroma prvi v vrsti
+		
+		if Profiles.game_rules["pick_neighbour_mode"]:
+			end_move()
+			return # pick_neighbour ne podpira multikilla
+			
+		multikill()
+
+	end_move() # more bit tukaj spodaj, da lahko pogreba podatke v svoji smeri
+
+	
+func multikill():
+
 		var all_neighbouring_pixels: Array = []
 		var neighbours_checked: Array = []
 		
@@ -226,30 +238,18 @@ func on_collision():
 				# po nabirki ga dodam med preverjene sosede
 				neighbours_checked.append(neighbour_pixel)
 		
-		# destroj hud indikatorja od kolajderja
-		Global.hud.color_picked(collision.collider.pixel_color)
-
-		var stray_in_row: int = 1 # to pomeni, da je prvi od sosednjih
-		collision.collider.die(stray_in_row)
-		
 		# odstranim kolajderja iz sosed, če je bil sosed nekomu
 		if all_neighbouring_pixels.has(collision.collider):
 			all_neighbouring_pixels.erase(collision.collider)
 		
 		# destroj soseda in sosedov
-		var loop_index = 1
+		var stray_in_row = 2 # 2 ker je 1 distrojan po defoltu
 		for neighbouring_pixel in all_neighbouring_pixels:
-			if loop_index < burst_power or burst_power == cocked_ghost_count_max: 
+			if stray_in_row < burst_power or burst_power == cocked_ghost_count_max: 
 				# zbrišeš indikator
 				Global.hud.color_picked(neighbouring_pixel.pixel_color)
-				stray_in_row = loop_index + 1 # +1 je ker gre za soseda
 				neighbouring_pixel.die(stray_in_row)
-#			elif burst_power == cocked_ghost_count_max:
-#				print("polna moč")
-#			print("nimam moč")
-			loop_index += 1
-
-	end_move() # more bit tukaj spoadaj, da lahko pogreba podatke v svoji smeri
+			stray_in_row += 1
 	
 
 func idle_inputs():

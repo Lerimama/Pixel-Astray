@@ -988,7 +988,8 @@ __meta__ = {
 
 [node name="OffedCounter" type="HBoxContainer" parent="GUI/Hud/Header/HudLine_TR"]
 visible = false
-margin_right = 66.0
+margin_left = 86.0
+margin_right = 152.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
@@ -1015,7 +1016,8 @@ __meta__ = {
 
 [node name="PickedColor" type="Control" parent="GUI/Hud/Header/HudLine_TR"]
 visible = false
-margin_right = 168.0
+margin_left = 172.0
+margin_right = 340.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 168, 0 )
 size_flags_horizontal = 3
@@ -1150,18 +1152,65 @@ texture = ExtResource( 9 )
 stretch_mode = 1
 
 [node name="GridContainer" type="GridContainer" parent="GUI/Hud/Footer/ColorSpectrumLite"]
-margin_left = 398.0
+margin_left = 347.0
 margin_top = 17.0
-margin_right = 398.0
+margin_right = 449.0
 margin_bottom = 29.0
 grow_horizontal = 2
 grow_vertical = 2
-rect_min_size = Vector2( 0, 12 )
 size_flags_horizontal = 4
+custom_constants/hseparation = 3
 columns = 78
 
+[node name="SpectrumColorIndicator" parent="GUI/Hud/Footer/ColorSpectrumLite/GridContainer" instance=ExtResource( 16 )]
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+
+[node name="SpectrumColorIndicator2" parent="GUI/Hud/Footer/ColorSpectrumLite/GridContainer" instance=ExtResource( 16 )]
+margin_left = 15.0
+margin_right = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+
 [node name="SpectrumColorIndicator3" parent="GUI/Hud/Footer/ColorSpectrumLite/GridContainer" instance=ExtResource( 16 )]
-visible = false
+margin_left = 30.0
+margin_right = 42.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+
+[node name="SpectrumColorIndicator4" parent="GUI/Hud/Footer/ColorSpectrumLite/GridContainer" instance=ExtResource( 16 )]
+margin_left = 45.0
+margin_right = 57.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+
+[node name="SpectrumColorIndicator5" parent="GUI/Hud/Footer/ColorSpectrumLite/GridContainer" instance=ExtResource( 16 )]
+margin_left = 60.0
+margin_right = 72.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+
+[node name="SpectrumColorIndicator6" parent="GUI/Hud/Footer/ColorSpectrumLite/GridContainer" instance=ExtResource( 16 )]
+margin_left = 75.0
+margin_right = 87.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+
+[node name="SpectrumColorIndicator7" parent="GUI/Hud/Footer/ColorSpectrumLite/GridContainer" instance=ExtResource( 16 )]
+margin_left = 90.0
+margin_right = 102.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 0
@@ -1405,10 +1454,10 @@ __meta__ = {
 }
 
 [node name="Undi" type="ColorRect" parent="GUI/PauseMenu"]
-anchor_right = 0.997
+modulate = Color( 1, 1, 1, 0.627451 )
+anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 3.83997
-color = Color( 0, 0, 0, 0.54902 )
+color = Color( 0, 0, 0, 1 )
 
 [node name="Panel" type="Panel" parent="GUI/PauseMenu"]
 anchor_left = 0.5
@@ -1620,9 +1669,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -133.0
+margin_left = -154.0
 margin_top = 174.0
-margin_right = 175.0
+margin_right = 154.0
 margin_bottom = 196.0
 custom_constants/separation = 32
 __meta__ = {
@@ -1672,21 +1721,24 @@ enabled_focus_mode = 1
 text = "PLAY ON"
 
 [node name="Title" type="Label" parent="GUI/PauseMenu"]
-margin_left = 502.0
+margin_left = 506.0
 margin_top = 134.0
-margin_right = 778.0
+margin_right = 773.0
 margin_bottom = 166.0
 size_flags_horizontal = 3
 theme = ExtResource( 4 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 custom_fonts/font = ExtResource( 5 )
-text = "Game is paused"
+text = "Game on pause"
 
 [node name="HSeparator" type="HSeparator" parent="GUI/PauseMenu/Title"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-margin_top = 30.0
-margin_right = 274.0
-margin_bottom = 41.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 1.0
+margin_right = -3.0
+margin_bottom = 5.0
 
 [node name="Shorts" type="Label" parent="GUI/PauseMenu"]
 anchor_left = 0.5
@@ -2235,9 +2287,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -68.0
+margin_left = -106.0
 margin_top = -106.0
-margin_right = 148.0
+margin_right = 110.0
 margin_bottom = -84.0
 custom_constants/separation = 32
 __meta__ = {
