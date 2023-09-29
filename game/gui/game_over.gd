@@ -21,7 +21,7 @@ onready var time: Label = $Content/DataContainer/Time
 onready var level: Label = $Content/DataContainer/Level
 onready var points: Label = $Content/DataContainer/Points
 onready var cells_travelled: Label = $Content/DataContainer/CellsTravelled
-onready var skills_used: Label = $Content/DataContainer/SkillsUsed
+onready var skills_count: Label = $Content/DataContainer/SkillsUsed
 onready var astray_pixels: Label = $Content/DataContainer/AstrayPixels
 onready var pixels_off: Label = $Content/DataContainer/PixelsOff
 
@@ -135,7 +135,7 @@ func write_gameover_data():
 	time.text = "Time: " + str(Global.hud.game_timer.game_time) + "seconds" # čas vzmem direkt iz tajmerja
 	points.text = "Points scored: %04d" % player_gameover_stats["player_points"]
 	cells_travelled.text = "Cells travelled: %04d" % player_gameover_stats["cells_travelled"]
-	skills_used.text = "Skills used: %02d" % player_gameover_stats["skills_used"]
+	skills_count.text = "Skills used: %02d" % player_gameover_stats["skills_count"]
 	
 	level.text = "Level reched: %02d" % game_gameover_stats["level_no"]
 	pixels_off.text = "Collected colors: %02d" % game_gameover_stats["off_pixels_count"]

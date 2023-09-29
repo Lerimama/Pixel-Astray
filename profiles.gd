@@ -29,7 +29,8 @@ var default_player_stats : Dictionary = { # bo verjetno za vsak mode drugačen
 	"player_life" : 3,
 	"player_points": 0,
 	"player_energy" : 192, # tukaj določena je nepomembna, ker se jo na začetku opredeli iz gam settings
-	"skills_used" : 0,
+	"skills_count" : 0,
+	"burst_count" : 0,
 	"cells_travelled" : 0,
 }
 
@@ -89,7 +90,10 @@ var game_rules: Dictionary = { # tole ne uporabljam v zadnji varianti
 	"revive_energy_reset": true,  # GM
 	"stop_burst_mode": true,  # player
 	"randomize_stray_spawning": false,  # GM
-	"multikill_mode": true,
+	"skill_limit_mode": true,
+	"skill_limit_count": 1,
+	"burst_limit_mode": true,
+	"burst_limit_count": 1,
 }
 
 

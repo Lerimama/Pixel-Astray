@@ -268,11 +268,18 @@ func idle_inputs():
 		step()
 			
 	if Input.is_action_just_pressed("space") and current_state == States.IDLE: # brez "just" dela po stisku smeri ... ni ok
+		
+		if Profiles.game_rules["burst_limit_mode"] and Global.game_manager.player_stats["burst_count"] >= Profiles.game_rules["burst_limit_count"]:
+			return	
 		current_state = States.COCKING
 
 
 func cocking_inputs():
-	
+
+	if Profiles.game_rules["burst_limit_mode"] and Global.game_manager.player_stats["burst_count"] >= Profiles.game_rules["burst_limit_count"]:
+		current_state = States.IDLE
+		return		
+
 	# cocking
 	if Input.is_action_pressed("ui_up"):
 		if not burst_direction_set:
@@ -302,11 +309,6 @@ func cocking_inputs():
 	# releasing		
 	if Input.is_action_just_released("space"):
 		release_burst()
-	# if Input.is_action_just_released("ui_up") \
-	# or Input.is_action_just_released("ui_down") \
-	# or Input.is_action_just_released("ui_left") \
-	# or Input.is_action_just_released("ui_right"):
-	# 	release_burst()
 
 
 func bursting_inputs():
@@ -314,9 +316,14 @@ func bursting_inputs():
 	if Input.is_action_just_pressed("space") and not burst_is_releasing:
 		stop_burst()
 
-	
+
 func skill_inputs():
 	
+	if Profiles.game_rules["skill_limit_mode"] and Global.game_manager.player_stats["skills_count"] >= Profiles.game_rules["skill_limit_count"]:
+		return
+	if player_energy <= 1:
+		return
+		
 	var new_direction # nova smer, deluje samo, če ni enaka smeri kolizije
 	
 	# s tem inputom prekinem "is_pressed" input
@@ -330,7 +337,7 @@ func skill_inputs():
 		new_direction = Vector2.RIGHT
 	
 	# select skill, če ga še nima 
-	if current_state != States.SKILLING and player_energy > 1:
+	if current_state != States.SKILLING: # and player_energy > 1:
 		
 		# skill glede na kolajderja 
 		var collider: Object = Global.detect_collision_in_direction(vision_ray, direction)
@@ -452,6 +459,9 @@ func release_burst(): # delo os release do potiska pleyerjevega pixla
 
 func burst(ghosts_count):
 	
+#	emit_signal("stat_changed", self, "burst_released", burst_power)
+	emit_signal("stat_changed", self, "burst_released", 1)		
+	
 	var burst_direction = direction
 	burst_power = ghosts_count
 	var ray_collider = vision_ray.get_collider() # ! more bit za detect_wall() ... ta ga šele pogreba?
@@ -474,7 +484,6 @@ func burst(ghosts_count):
 		ghost.queue_free()
 	cocked_ghosts = []
 	
-	
 	Global.sound_manager.play_sfx("burst")
 	Global.sound_manager.stop_sfx("burst_cocking")
 	
@@ -491,9 +500,6 @@ func burst(ghosts_count):
 	burst_speed_max = 0
 	cocking_room = true
 				
-	# za hud  ... premaknjen v on_collision
-	emit_signal("stat_changed", self, "burst_released", burst_power)
-	
 	# zaključek .. tudi signal za pobiranje barv ... v on_collision()
 
 
@@ -566,7 +572,7 @@ func push():
 			push_tween.tween_callback(Global.sound_manager, "play_sfx", ["skill_success"])
 			
 		# za hud
-		emit_signal("stat_changed", self, "skills_used", 1)
+		emit_signal("stat_changed", self, "skills_count", 1)
 
 
 func pull():
@@ -594,7 +600,7 @@ func pull():
 	pull_tween.parallel().tween_callback(new_pull_ghost, "queue_free")
 	
 	# za hud
-	emit_signal("stat_changed", self, "skills_used", 1)
+	emit_signal("stat_changed", self, "skills_count", 1)
 	
 
 func teleport():
@@ -727,8 +733,7 @@ func _on_ghost_target_reached(ghost_body, ghost_position):
 	Global.sound_manager.stop_sfx("teleport")
 			
 	# za hud
-	# skills_used_count += 1
-	emit_signal("stat_changed", self, "skills_used", 1)
+	emit_signal("stat_changed", self, "skills_count", 1)
 	
 	Input.stop_joy_vibration(0)
 

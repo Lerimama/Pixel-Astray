@@ -19,7 +19,7 @@ onready var player_life: Label = $Life # _temp, pravi je na samih ikonah
 onready var player_energy: Label = $Energy # temp
 onready var player_points: Label = $Header/HudLine_TL/PointsCounter/Points
 onready var cells_travelled: Label = $Header/HudLine_TL/CellCounter/CellsTravelled
-onready var skills_used: Label = $Header/HudLine_TL/SkillCounter/SkillsUsed
+onready var skills_count: Label = $Header/HudLine_TL/SkillCounter/SkillsUsed
 onready var game_timer: HBoxContainer = $Header/GameTimer # uporabljeno v drugih filetih
 onready var level: Label = $Header/HudLine_TR/Level
 onready var highscore_label: Label = $Header/HudLine_TL/Highscore
@@ -105,7 +105,7 @@ func writing_stats():
 	# pixel stats
 	player_points.text = "%04d" % player_stats_on_hud["player_points"]
 	cells_travelled.text = "%04d" % player_stats_on_hud["cells_travelled"]
-	skills_used.text = "%04d" % player_stats_on_hud["skills_used"]
+	skills_count.text = "%04d" % player_stats_on_hud["skills_count"]
 	
 	# game stats
 	level.text = "LEVEL %02d" % game_stats_on_hud["level_no"]

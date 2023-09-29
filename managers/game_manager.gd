@@ -372,12 +372,12 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 			player_stats["cells_travelled"] += stat_change
 			player_stats["player_energy"] += game_rules["cell_travelled_energy"]
 			player_stats["player_points"] += game_rules["cell_travelled_points"]
-		"skills_used": 
-			player_stats["skills_used"] += stat_change
+		"skills_count": 
+			player_stats["skills_count"] += stat_change
 			player_stats["player_energy"] += game_rules["skill_used_energy"]
 			player_stats["player_points"] += game_rules["skill_used_points"]
 		"burst_released": 
-			player_stats["skills_used"] += 1 # tukaj se kot valju poda burst power
+			player_stats["burst_count"] += 1 # tukaj se kot valju poda burst power
 			
 	# na koncu poskrbim za klempanje
 	player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_max_energy"]) # 1 je najnižja, ker tam se že odšteva zadnji izdihljaj
