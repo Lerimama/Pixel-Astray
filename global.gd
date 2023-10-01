@@ -58,6 +58,7 @@ var color_yellow = Color("#fef98b")
 # reasons for ...
 var reason_life = "reason_life" # game-over
 var reason_time = "reason_time" # game-over
+var reason_cleaned = "reason_cleaned" # game-over
 var reason_wall = "reason_wall" # player die()
 var reason_energy = "reason_energy" # player die()
 

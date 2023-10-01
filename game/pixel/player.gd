@@ -82,8 +82,6 @@ onready var PixelDizzyParticles: PackedScene = preload("res://game/pixel/pixel_d
 onready var light_2d: Light2D = $Light2D
 
 
-
-
 func _ready() -> void:
 	
 	add_to_group(Global.group_players)
@@ -191,7 +189,6 @@ func on_collision():
 	elif collision.collider.is_in_group(Global.group_strays):
 		
 		Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
-		spawn_collision_particles()
 		Global.main_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
 		Global.sound_manager.stop_sfx("burst")
 		Global.sound_manager.play_sfx("hit_stray")
@@ -203,6 +200,7 @@ func on_collision():
 		
 		# destroj kolajderja ... prvega pixla
 		pixel_color = collision.collider.pixel_color
+		spawn_collision_particles()
 		Global.hud.color_picked(collision.collider.pixel_color)
 		collision.collider.die(1) # edini oziroma prvi v vrsti
 		
@@ -268,17 +266,12 @@ func idle_inputs():
 		step()
 			
 	if Input.is_action_just_pressed("space") and current_state == States.IDLE: # brez "just" dela po stisku smeri ... ni ok
-		
 		if Profiles.game_rules["burst_limit_mode"] and Global.game_manager.player_stats["burst_count"] >= Profiles.game_rules["burst_limit_count"]:
 			return	
 		current_state = States.COCKING
 
 
 func cocking_inputs():
-
-	if Profiles.game_rules["burst_limit_mode"] and Global.game_manager.player_stats["burst_count"] >= Profiles.game_rules["burst_limit_count"]:
-		current_state = States.IDLE
-		return		
 
 	# cocking
 	if Input.is_action_pressed("ui_up"):
@@ -319,7 +312,7 @@ func bursting_inputs():
 
 func skill_inputs():
 	
-	if Profiles.game_rules["skill_limit_mode"] and Global.game_manager.player_stats["skills_count"] >= Profiles.game_rules["skill_limit_count"]:
+	if Profiles.game_rules["skill_limit_mode"] and Global.game_manager.player_stats["skill_count"] >= Profiles.game_rules["skill_limit_count"]:
 		return
 	if player_energy <= 1:
 		return
@@ -572,7 +565,7 @@ func push():
 			push_tween.tween_callback(Global.sound_manager, "play_sfx", ["skill_success"])
 			
 		# za hud
-		emit_signal("stat_changed", self, "skills_count", 1)
+		emit_signal("stat_changed", self, "skill_used", 1)
 
 
 func pull():
@@ -600,7 +593,7 @@ func pull():
 	pull_tween.parallel().tween_callback(new_pull_ghost, "queue_free")
 	
 	# za hud
-	emit_signal("stat_changed", self, "skills_count", 1)
+	emit_signal("stat_changed", self, "skill_used", 1)
 	
 
 func teleport():
@@ -733,7 +726,7 @@ func _on_ghost_target_reached(ghost_body, ghost_position):
 	Global.sound_manager.stop_sfx("teleport")
 			
 	# za hud
-	emit_signal("stat_changed", self, "skills_count", 1)
+	emit_signal("stat_changed", self, "skill_used", 1)
 	
 	Input.stop_joy_vibration(0)
 

@@ -58,13 +58,13 @@ region = Rect2( 32, 80, 48, 16 )
 atlas = ExtResource( 14 )
 region = Rect2( 64, 0, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=131]
-atlas = ExtResource( 14 )
-region = Rect2( 64, 32, 16, 16 )
-
 [sub_resource type="AtlasTexture" id=130]
 atlas = ExtResource( 14 )
 region = Rect2( 64, 16, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=131]
+atlas = ExtResource( 14 )
+region = Rect2( 64, 32, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=128]
 atlas = ExtResource( 14 )
@@ -81,7 +81,7 @@ margin = Rect2( 0, 3, 0, 0 )
 
 [sub_resource type="AtlasTexture" id=146]
 atlas = ExtResource( 14 )
-region = Rect2( 18, 84, 6, 12 )
+region = Rect2( 18, 84, 14, 12 )
 margin = Rect2( 0, 3, 0, 0 )
 
 [sub_resource type="DynamicFont" id=141]
@@ -317,7 +317,7 @@ tracks/3/keys = {
 [node name="Game" type="Node2D"]
 script = ExtResource( 6 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 34.0, 376.0, 698.0, 686.0, 216.0, 176.0, 504.0, 536.0 ],
+"_edit_horizontal_guides_": [ 34.0, 376.0, 698.0, 686.0, 216.0, 176.0, 504.0, 544.0 ],
 "_edit_vertical_guides_": [ 640.0, 1248.0 ]
 }
 
@@ -837,38 +837,9 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="CellCounter" type="HBoxContainer" parent="GUI/Hud/Header/HudLine_TL"]
-visible = false
-margin_left = 222.0
-margin_right = 302.0
-margin_bottom = 22.0
-size_flags_vertical = 8
-custom_constants/separation = 8
-
-[node name="TextureRect6" type="TextureRect" parent="GUI/Hud/Header/HudLine_TL/CellCounter"]
-margin_top = 4.0
-margin_right = 16.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 16, 18 )
-size_flags_vertical = 8
-texture = SubResource( 131 )
-
-[node name="CellsTravelled" type="Label" parent="GUI/Hud/Header/HudLine_TL/CellCounter"]
-margin_left = 24.0
-margin_right = 80.0
-margin_bottom = 22.0
-size_flags_vertical = 8
-custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "0000"
-valign = 1
-__meta__ = {
-"_editor_description_": ""
-}
-
 [node name="SkillCounter" type="HBoxContainer" parent="GUI/Hud/Header/HudLine_TL"]
-visible = false
-margin_left = 246.0
-margin_right = 326.0
+margin_left = 226.0
+margin_right = 278.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
@@ -881,25 +852,44 @@ rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
 texture = SubResource( 130 )
 
-[node name="SkillsUsed" type="Label" parent="GUI/Hud/Header/HudLine_TL/SkillCounter"]
+[node name="Label" type="Label" parent="GUI/Hud/Header/HudLine_TL/SkillCounter"]
 margin_left = 24.0
-margin_right = 80.0
+margin_right = 52.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "0000"
+text = "00"
 valign = 1
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Highscore" type="Label" parent="GUI/Hud/Header/HudLine_TL"]
-margin_left = 226.0
-margin_right = 320.0
+[node name="BurstCounter" type="HBoxContainer" parent="GUI/Hud/Header/HudLine_TL"]
+margin_left = 294.0
+margin_right = 346.0
 margin_bottom = 22.0
+size_flags_vertical = 8
+custom_constants/separation = 8
+
+[node name="TextureRect6" type="TextureRect" parent="GUI/Hud/Header/HudLine_TL/BurstCounter"]
+margin_top = 4.0
+margin_right = 16.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 16, 18 )
+size_flags_vertical = 8
+texture = SubResource( 131 )
+
+[node name="Label" type="Label" parent="GUI/Hud/Header/HudLine_TL/BurstCounter"]
+margin_left = 24.0
+margin_right = 52.0
+margin_bottom = 22.0
+size_flags_vertical = 8
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "HS 0000"
-align = 2
+text = "00"
+valign = 1
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="GameTimer" type="HBoxContainer" parent="GUI/Hud/Header"]
 anchor_left = 0.5
@@ -1054,9 +1044,17 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="MusicLabel" type="Label" parent="GUI/Hud/Header/HudLine_TR"]
+[node name="Highscore" type="Label" parent="GUI/Hud/Header/HudLine_TR"]
 margin_left = 128.0
-margin_right = 176.0
+margin_right = 222.0
+margin_bottom = 22.0
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "HS 0000"
+align = 2
+
+[node name="MusicLabel" type="Label" parent="GUI/Hud/Header/HudLine_TR"]
+margin_left = 242.0
+margin_right = 290.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 48, 0 )
 size_flags_horizontal = 8
@@ -1126,95 +1124,51 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="ColorSpectrumLite" type="VBoxContainer" parent="GUI/Hud/Footer"]
+[node name="ColorSpectrum" type="HBoxContainer" parent="GUI/Hud/Footer"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -398.0
-margin_top = -51.0
-margin_right = 398.0
-margin_bottom = -5.0
+margin_left = -22.0
+margin_top = -34.0
+margin_right = 22.0
+margin_bottom = -22.0
 grow_horizontal = 2
+rect_min_size = Vector2( 12, 12 )
+custom_constants/separation = 0
+
+[node name="SpectrumColorIndicator" parent="GUI/Hud/Footer/ColorSpectrum" instance=ExtResource( 16 )]
+visible = false
+margin_right = 512.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+
+[node name="_ColorSpectrum_odl" type="VBoxContainer" parent="GUI/Hud/Footer"]
+visible = false
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -384.0
+margin_top = -46.0
+margin_right = 384.0
+grow_horizontal = 2
+rect_min_size = Vector2( 12, 0 )
+size_flags_horizontal = 5
 custom_constants/separation = 8
 alignment = 1
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Spectrum" type="TextureRect" parent="GUI/Hud/Footer/ColorSpectrumLite"]
-visible = false
-margin_right = 796.0
-margin_bottom = 26.0
+[node name="Spectrum" type="TextureRect" parent="GUI/Hud/Footer/_ColorSpectrum_odl"]
+margin_right = 768.0
+margin_bottom = 46.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource( 9 )
 stretch_mode = 1
-
-[node name="GridContainer" type="GridContainer" parent="GUI/Hud/Footer/ColorSpectrumLite"]
-margin_left = 347.0
-margin_top = 17.0
-margin_right = 449.0
-margin_bottom = 29.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-custom_constants/hseparation = 3
-columns = 78
-
-[node name="SpectrumColorIndicator" parent="GUI/Hud/Footer/ColorSpectrumLite/GridContainer" instance=ExtResource( 16 )]
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 0
-size_flags_vertical = 3
-
-[node name="SpectrumColorIndicator2" parent="GUI/Hud/Footer/ColorSpectrumLite/GridContainer" instance=ExtResource( 16 )]
-margin_left = 15.0
-margin_right = 27.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 0
-size_flags_vertical = 3
-
-[node name="SpectrumColorIndicator3" parent="GUI/Hud/Footer/ColorSpectrumLite/GridContainer" instance=ExtResource( 16 )]
-margin_left = 30.0
-margin_right = 42.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 0
-size_flags_vertical = 3
-
-[node name="SpectrumColorIndicator4" parent="GUI/Hud/Footer/ColorSpectrumLite/GridContainer" instance=ExtResource( 16 )]
-margin_left = 45.0
-margin_right = 57.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 0
-size_flags_vertical = 3
-
-[node name="SpectrumColorIndicator5" parent="GUI/Hud/Footer/ColorSpectrumLite/GridContainer" instance=ExtResource( 16 )]
-margin_left = 60.0
-margin_right = 72.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 0
-size_flags_vertical = 3
-
-[node name="SpectrumColorIndicator6" parent="GUI/Hud/Footer/ColorSpectrumLite/GridContainer" instance=ExtResource( 16 )]
-margin_left = 75.0
-margin_right = 87.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 0
-size_flags_vertical = 3
-
-[node name="SpectrumColorIndicator7" parent="GUI/Hud/Footer/ColorSpectrumLite/GridContainer" instance=ExtResource( 16 )]
-margin_left = 90.0
-margin_right = 102.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 0
-size_flags_vertical = 3
 
 [node name="HudLine_BR" type="HBoxContainer" parent="GUI/Hud/Footer"]
 anchor_left = 1.0
@@ -1754,7 +1708,6 @@ autowrap = true
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
-visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
 script = ExtResource( 3 )
@@ -1769,7 +1722,6 @@ anchor_bottom = 1.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="Title" type="Control" parent="GUI/GameOver"]
-visible = false
 modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -1781,6 +1733,7 @@ margin_right = 384.0
 margin_bottom = 104.0
 
 [node name="DiedLabel" type="Label" parent="GUI/GameOver/Title"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1789,12 +1742,14 @@ margin_left = -136.0
 margin_top = -185.5
 margin_right = 137.0
 margin_bottom = -153.5
+grow_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 5 )
 text = "You finaly died!"
 align = 1
 
 [node name="TimeupLabel" type="Label" parent="GUI/GameOver/Title"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1803,9 +1758,26 @@ margin_left = -94.0
 margin_top = -185.5
 margin_right = 95.0
 margin_bottom = -153.5
+grow_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 5 )
 text = "Time is up!"
+align = 1
+
+[node name="CleanedLabel" type="Label" parent="GUI/GameOver/Title"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -136.0
+margin_top = -185.5
+margin_right = 137.0
+margin_bottom = -153.5
+grow_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 5 )
+text = "You are fully colored again!"
 align = 1
 
 [node name="Title1" type="TileMap" parent="GUI/GameOver/Title"]
@@ -1846,21 +1818,21 @@ align = 1
 margin_left = 320.0
 margin_top = 182.0
 margin_right = 640.0
-margin_bottom = 327.0
-text = "Each pixel represents and specific color become intensity, and together create the images."
+margin_bottom = 288.0
+text = "Each pixel represents and specific color. Together it creates an image."
 autowrap = true
 
 [node name="Title2" type="Label" parent="GUI/GameOver/Content"]
 margin_left = 320.0
-margin_top = 326.0
+margin_top = 294.0
 margin_right = 526.0
-margin_bottom = 348.0
+margin_bottom = 316.0
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "YOUR GAME STATS"
+text = "GAME STATS"
 
 [node name="DataContainer" type="VBoxContainer" parent="GUI/GameOver/Content"]
 margin_left = 320.0
-margin_top = 366.0
+margin_top = 334.0
 margin_right = 576.0
 margin_bottom = 548.0
 custom_constants/separation = 10
@@ -1917,10 +1889,20 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="PixelsOff" type="Label" parent="GUI/GameOver/Content/DataContainer"]
+[node name="BurstCount" type="Label" parent="GUI/GameOver/Content/DataContainer"]
 margin_top = 128.0
 margin_right = 256.0
 margin_bottom = 150.0
+text = "Burst count: 00"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="PixelsOff" type="Label" parent="GUI/GameOver/Content/DataContainer"]
+margin_top = 160.0
+margin_right = 256.0
+margin_bottom = 182.0
 text = "Collected colors: 00"
 valign = 2
 __meta__ = {
@@ -1928,9 +1910,9 @@ __meta__ = {
 }
 
 [node name="AstrayPixels" type="Label" parent="GUI/GameOver/Content/DataContainer"]
-margin_top = 160.0
+margin_top = 192.0
 margin_right = 256.0
-margin_bottom = 182.0
+margin_bottom = 214.0
 text = "Pixels astray: 00"
 valign = 2
 __meta__ = {

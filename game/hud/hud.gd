@@ -11,18 +11,20 @@ var default_hud_color: Color = Color.white
 # spectrum indicators
 var active_color_indicators: Array = []
 onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
-onready var indicator_holder: GridContainer = $Footer/ColorSpectrumLite/GridContainer
+#onready var indicator_holder: GridContainer = $Footer/ColorLite/GridContainer
+onready var indicator_holder: HBoxContainer = $Footer/ColorSpectrum
+#onready var spectrum: TextureRect = $Footer/ColorSpectrum/Spectrum
 
 #header
 onready var header: Control = $Header
 onready var player_life: Label = $Life # _temp, pravi je na samih ikonah
 onready var player_energy: Label = $Energy # temp
 onready var player_points: Label = $Header/HudLine_TL/PointsCounter/Points
-onready var cells_travelled: Label = $Header/HudLine_TL/CellCounter/CellsTravelled
-onready var skills_count: Label = $Header/HudLine_TL/SkillCounter/SkillsUsed
+onready var burst_count: Label = $Header/HudLine_TL/BurstCounter/Label
+onready var skill_count: Label = $Header/HudLine_TL/SkillCounter/Label
 onready var game_timer: HBoxContainer = $Header/GameTimer # uporabljeno v drugih filetih
 onready var level: Label = $Header/HudLine_TR/Level
-onready var highscore_label: Label = $Header/HudLine_TL/Highscore
+onready var highscore_label: Label = $Header/HudLine_TR/Highscore
 onready var music_label: Label = $Header/HudLine_TR/MusicLabel
 onready var on_icon: TextureRect = $Header/HudLine_TR/MusicLabel/OnIcon
 onready var off_icon: TextureRect = $Header/HudLine_TR/MusicLabel/OffIcon
@@ -64,6 +66,9 @@ func _process(delta: float) -> void:
 	
 	player_stats_on_hud = Global.game_manager.player_stats
 	game_stats_on_hud = Global.game_manager.game_stats
+	$Footer/ColorSpectrum.rect_size.x = clamp(indicator_holder.rect_size.x, 12, 796)
+
+#	indicator_holder.rect_size.x = clamp(indicator_holder.rect_size.x, 12, 796)
 	
 	writing_stats()
 	
@@ -98,14 +103,31 @@ func _process(delta: float) -> void:
 	else:
 		on_icon.visible = true
 		off_icon.visible = false
-			
+	
+#	var loop = 0
+#	var def_size
+#	for indi in visible_indis:
+#		if loop == 0:
+#			def_size = indi.rect_size.x
+#		else: 
+#			indi.rect_size.x = def_size
+#		loop += 1
+#		printt("def_size", def_size)
+	
+	# manage indikator holder size 
+#	if indicator_holder.rect_size.x < 76:
+#		indicator_holder.rect_size.x = visible_indis.size() * 12
+##		printt("holder_size", indicator_holder.rect_size.x)
+#	else:
+#		indicator_holder.rect_size.x = 76
+		
 			
 func writing_stats():	
 	
 	# pixel stats
 	player_points.text = "%04d" % player_stats_on_hud["player_points"]
-	cells_travelled.text = "%04d" % player_stats_on_hud["cells_travelled"]
-	skills_count.text = "%04d" % player_stats_on_hud["skills_count"]
+	burst_count.text = "%02d" % player_stats_on_hud["burst_count"]
+	skill_count.text = "%02d" % player_stats_on_hud["skill_count"]
 	
 	# game stats
 	level.text = "LEVEL %02d" % game_stats_on_hud["level_no"]
@@ -165,15 +187,27 @@ func color_picked(picked_pixel_color):
 	else:
 		hide_color_indicator(picked_pixel_color)
 	
-	
+var visible_indis: Array = []	
 func show_color_indicator(picked_color):
 	
 	var current_indicator_index: int # za določanje sosedov
 	for indicator in active_color_indicators:
 		if indicator.color == picked_color:
 			indicator.visible = true
+			visible_indis.append(indicator)
+#			indicator.rect_size.x = 12
+			indicator.rect_min_size.x = 12
+#			indicator.rect_min_size.y = 12
 			break
-	
+	if indicator_holder.rect_size.x < 76:
+		indicator_holder.rect_size.x = visible_indis.size() * 12
+		printt("holder_size", indicator_holder.rect_size.x)
+	else:
+		indicator_holder.rect_size.x = 76
+		active_color_indicators[current_indicator_index].rect_min_size.x = indicator_holder.rect_size.x / visible_indis.size()
+#		indicator.rect_min_size.x = indicator_holder.rect_size.x / visible_indis.size()
+
+
 					
 func hide_color_indicator(picked_color):
 	

@@ -1,9 +1,13 @@
 extends Control
 
 
+signal name_input_finished
+
 var fade_time: float = 0.5
 
-signal name_input_finished
+# popup
+var input_invite_text: String = "..."
+var input_string: String # = "" # neki more bit, če plejer nč ne vtipka in potrdi predvsem da zaznava vsako črko in jo lahko potrdiš na gumbu
 
 # focus btn
 onready var restart_btn: Button = $Content/Menu/RestartBtn
@@ -14,16 +18,17 @@ onready var title: Control = $Title
 onready var content: Control = $Content
 onready var died_label: Label = $Title/DiedLabel
 onready var timeup_label: Label = $Title/TimeupLabel
-
+onready var cleaned_label: Label = $Title/CleanedLabel
 
 # level stats
 onready var time: Label = $Content/DataContainer/Time
 onready var level: Label = $Content/DataContainer/Level
 onready var points: Label = $Content/DataContainer/Points
 onready var cells_travelled: Label = $Content/DataContainer/CellsTravelled
-onready var skills_count: Label = $Content/DataContainer/SkillsUsed
-onready var astray_pixels: Label = $Content/DataContainer/AstrayPixels
+onready var skill_count: Label = $Content/DataContainer/SkillsUsed
+onready var burst_count: Label = $Content/DataContainer/BurstCount
 onready var pixels_off: Label = $Content/DataContainer/PixelsOff
+onready var astray_pixels: Label = $Content/DataContainer/AstrayPixels
 
 # hs
 onready var name_input_popup: Control = $NameInputPopup
@@ -65,9 +70,15 @@ func fade_in(gameover_reason):
 		"reason_time":
 			timeup_label.visible = true
 			died_label.visible = false
+			cleaned_label.visible = false
 		"reason_life":
 			timeup_label.visible = false
 			died_label.visible = true
+			cleaned_label.visible = false
+		"reason_cleaned":
+			timeup_label.visible = false
+			died_label.visible = false
+			cleaned_label.visible = true
 			
 	modulate.a = 0	
 	visible = true
@@ -98,9 +109,15 @@ func fade_in_empty(gameover_reason):
 		"reason_time":
 			timeup_label.visible = true
 			died_label.visible = false
+			cleaned_label.visible = false
 		"reason_life":
 			timeup_label.visible = false
 			died_label.visible = true
+			cleaned_label.visible = false
+		"reason_cleaned":
+			timeup_label.visible = false
+			died_label.visible = false
+			cleaned_label.visible = true
 			
 	modulate.a = 0	
 	visible = true
@@ -135,8 +152,8 @@ func write_gameover_data():
 	time.text = "Time: " + str(Global.hud.game_timer.game_time) + "seconds" # čas vzmem direkt iz tajmerja
 	points.text = "Points scored: %04d" % player_gameover_stats["player_points"]
 	cells_travelled.text = "Cells travelled: %04d" % player_gameover_stats["cells_travelled"]
-	skills_count.text = "Skills used: %02d" % player_gameover_stats["skills_count"]
-	
+	skill_count.text = "Skills used: %02d" % player_gameover_stats["skill_count"]
+	burst_count.text = "Burst count: %02d" % player_gameover_stats["burst_count"]
 	level.text = "Level reched: %02d" % game_gameover_stats["level_no"]
 	pixels_off.text = "Collected colors: %02d" % game_gameover_stats["off_pixels_count"]
 	astray_pixels.text = "Pixels astray: %02d" % game_gameover_stats["stray_pixels_count"]
@@ -156,11 +173,6 @@ func unpause_tree():
 	
 	
 # POPUP INPUT --------------------------------------------------------------------	
-
-
-var input_invite_text: String = "..."
-var input_string: String # = "" # neki more bit, če plejer nč ne vtipka in potrdi predvsem da zaznava vsako črko in jo lahko potrdiš na gumbu
-
 
 func open_name_input():
 	

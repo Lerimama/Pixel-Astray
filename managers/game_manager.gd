@@ -352,6 +352,11 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				player_stats["player_points"] += points_for_seq_pixel
 				player_stats["player_energy"] += energy_for_seq_pixel
 				spawn_floating_tag(stat_owner.global_position, points_for_seq_pixel) 
+			
+			printt ("size", strays_in_game.size(), game_stats["stray_pixels_count"])
+			if game_stats["stray_pixels_count"] == 0:
+				game_over(Global.reason_cleaned)
+			
 		# from player
 		"wall_hit":
 			if game_rules["loose_life_on"]:
@@ -372,8 +377,8 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 			player_stats["cells_travelled"] += stat_change
 			player_stats["player_energy"] += game_rules["cell_travelled_energy"]
 			player_stats["player_points"] += game_rules["cell_travelled_points"]
-		"skills_count": 
-			player_stats["skills_count"] += stat_change
+		"skill_used": 
+			player_stats["skill_count"] += stat_change
 			player_stats["player_energy"] += game_rules["skill_used_energy"]
 			player_stats["player_points"] += game_rules["skill_used_points"]
 		"burst_released": 
