@@ -23,7 +23,8 @@ func get_highscore_table(current_player_ranking):
 			scoreline.get_node("Score").text = str(current_position_dict_values[0])
 			scoreline.get_node("Owner").text = str(current_position_dict_owners[0])
 		
-		if scoreline_index == current_player_ranking:
-			scoreline.modulate = Global.color_green
+		# odfejdam ne-tvoje rezultate
+		if not scoreline_index == current_player_ranking:
+			scoreline.modulate.a = 0.5
 			
 #	visible = true

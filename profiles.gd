@@ -4,7 +4,7 @@ extends Node
 # STATS ---------------------------------------------------------------------------------------------------------
 
 var settings_strays_amount_1: int = 1
-var settings_strays_amount_2: int = 32
+var settings_strays_amount_2: int = 320
 var settings_strays_amount_3: int = 78
 var settings_strays_amount_4: int = 156
 var settings_strays_amount_5: int = 234
@@ -42,7 +42,7 @@ var default_level_stats : Dictionary = { # na štartu igre se tole duplicira in 
 	"stray_pixels_count" : settings_strays_amount_2, # 1, 32, 78, 156, 234
 	"off_pixels_count" : 0,
 	"highscore": 0000, # se naloži iz  "default_level_highscores" lestvice ob štartu igre, zato, da te lahko opozori že med igro
-	"highscore_owner": "NNNNNNNNNN", # se naloži iz  "default_level_highscores" lestvice ob štartu igre, zato, da te lahko opozori že med igro
+	"highscore_owner": "12345678", # se naloži iz  "default_level_highscores" lestvice ob štartu igre, zato, da te lahko opozori že med igro
 }
 
 
@@ -79,8 +79,7 @@ var game_rules: Dictionary = { # tole ne uporabljam v zadnji varianti
 	"intro_strays_count": 149,  # 149 celic je v naslovu, kar je več gre naokrog
 		
 	# config ... ne vem če je vse za ta slovar?
-	"pick_neighbour_mode": false, # hud, player ... samo, če je "collect_color_mode" false
-	"collect_color_mode": true, # hud 
+	"pick_neighbour_mode": false, # hud, player
 	"deathmode_on": true, # hud_game_timer
 	"last_breath_mode": true, # player
 	"minimap_on": false, # game

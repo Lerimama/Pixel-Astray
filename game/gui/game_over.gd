@@ -91,7 +91,7 @@ func fade_in(gameover_reason):
 	write_gameover_data()
 	highscore_table.get_highscore_table(Global.data_manager.current_player_ranking)
 	
-	yield(get_tree().create_timer(1.5), "timeout")
+	yield(get_tree().create_timer(3), "timeout")
 
 	# title out, content in
 	var fade = get_tree().create_tween()
@@ -131,7 +131,6 @@ func fade_in_empty(gameover_reason):
 
 # jes HS
 func show_content():
-	
 	
 	# title se odfejda v close_name_input()
 	write_gameover_data()

@@ -353,7 +353,6 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				player_stats["player_energy"] += energy_for_seq_pixel
 				spawn_floating_tag(stat_owner.global_position, points_for_seq_pixel) 
 			
-			printt ("size", strays_in_game.size(), game_stats["stray_pixels_count"])
 			if game_stats["stray_pixels_count"] == 0:
 				game_over(Global.reason_cleaned)
 			

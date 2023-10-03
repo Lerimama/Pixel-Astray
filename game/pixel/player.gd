@@ -109,7 +109,7 @@ func _physics_process(delta: float) -> void:
 	
 	last_breath()
 	state_machine()
-	
+	light_2d.color = pixel_color
 	
 func state_machine():
 	
@@ -202,13 +202,14 @@ func on_collision():
 		pixel_color = collision.collider.pixel_color
 		spawn_collision_particles()
 		Global.hud.color_picked(collision.collider.pixel_color)
-		collision.collider.die(1) # edini oziroma prvi v vrsti
+#		collision.collider.die(1) # edini oziroma prvi v vrsti
 		
-		if Profiles.game_rules["pick_neighbour_mode"]:
+		if Profiles.game_rules["pick_neighbour_mode"]: # pick_neighbour ne podpira multikilla
+			collision.collider.die(1) # edini oziroma prvi v vrsti
 			end_move()
-			return # pick_neighbour ne podpira multikilla
-			
-		multikill()
+			return 
+		else:
+			multikill()
 
 	end_move() # more bit tukaj spodaj, da lahko pogreba podatke v svoji smeri
 
@@ -240,13 +241,15 @@ func multikill():
 		if all_neighbouring_pixels.has(collision.collider):
 			all_neighbouring_pixels.erase(collision.collider)
 		
+		
 		# destroj soseda in sosedov
-		var stray_in_row = 2 # 2 ker je 1 distrojan po defoltu
+		var stray_in_row = 1 # 2 ker je 1 distrojan po defoltu
+		collision.collider.die(stray_in_row) # edini oziroma prvi v vrsti
 		for neighbouring_pixel in all_neighbouring_pixels:
 			if stray_in_row < burst_power or burst_power == cocked_ghost_count_max: 
 				# zbrišeš indikator
 				Global.hud.color_picked(neighbouring_pixel.pixel_color)
-				neighbouring_pixel.die(stray_in_row)
+				neighbouring_pixel.die(stray_in_row + 1)
 			stray_in_row += 1
 	
 

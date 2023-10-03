@@ -18,7 +18,8 @@ font_data = SubResource( 1 )
 margin_right = 12.0
 margin_bottom = 12.0
 rect_min_size = Vector2( 0, 12 )
-size_flags_horizontal = 5
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="Line" type="Panel" parent="."]
 visible = false

@@ -20,6 +20,7 @@ func _ready() -> void:
 	else:
 		minimap.visible = false
 	minimap_viewport.world_2d = viewport_1.world_2d
+	
 	# višina minimape v razmerju s formatom levela
 	var rect = Global.level_tilemap.get_used_rect()
 	minimap_viewport.size.y = minimap_viewport.size.x * rect.size.y / rect.size.x

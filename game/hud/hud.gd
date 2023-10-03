@@ -9,11 +9,9 @@ var fade_time: float = 1
 var default_hud_color: Color = Color.white
 
 # spectrum indicators
-var active_color_indicators: Array = []
+var active_color_indicators: Array = [] # indikatorji so generirani ob spawnanju pixlov (so skriti, ali pa ne)
 onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
-#onready var indicator_holder: GridContainer = $Footer/ColorLite/GridContainer
-onready var indicator_holder: HBoxContainer = $Footer/ColorSpectrum
-#onready var spectrum: TextureRect = $Footer/ColorSpectrum/Spectrum
+onready var indicator_holder: HBoxContainer = $Footer/ColorSpectrum	
 
 #header
 onready var header: Control = $Header
@@ -66,9 +64,6 @@ func _process(delta: float) -> void:
 	
 	player_stats_on_hud = Global.game_manager.player_stats
 	game_stats_on_hud = Global.game_manager.game_stats
-	$Footer/ColorSpectrum.rect_size.x = clamp(indicator_holder.rect_size.x, 12, 796)
-
-#	indicator_holder.rect_size.x = clamp(indicator_holder.rect_size.x, 12, 796)
 	
 	writing_stats()
 	
@@ -103,24 +98,29 @@ func _process(delta: float) -> void:
 	else:
 		on_icon.visible = true
 		off_icon.visible = false
-	
-#	var loop = 0
-#	var def_size
-#	for indi in visible_indis:
-#		if loop == 0:
-#			def_size = indi.rect_size.x
-#		else: 
-#			indi.rect_size.x = def_size
-#		loop += 1
-#		printt("def_size", def_size)
-	
-	# manage indikator holder size 
-#	if indicator_holder.rect_size.x < 76:
-#		indicator_holder.rect_size.x = visible_indis.size() * 12
-##		printt("holder_size", indicator_holder.rect_size.x)
-#	else:
-#		indicator_holder.rect_size.x = 76
 		
+# ------------------------------------------------------------------
+# adaptacija holderja na enak razrez
+#
+#	if not active_color_indicators.empty():
+#		indicator_holder_adaptation()
+#
+#onready var indicator_holder_start_size: int = indicator_holder.rect_size.x
+#var indicator_max_width: float
+#func indicator_holder_adaptation():
+#
+#	# enak razrez
+#	indicator_max_width = float(indicator_holder_start_size) / active_color_indicators.size()
+#
+#	printt("size pre", indicator_holder_start_size, int(indicator_max_width))
+#
+#	indicator_holder.rect_size.x = indicator_max_width * active_color_indicators.size()
+#	indicator_holder.rect_position.x = (1280 - indicator_holder.rect_size.x) / 2
+#
+#	printt("size post", indicator_holder.rect_size.x)
+#
+# ------------------------------------------------------------------
+	
 			
 func writing_stats():	
 	
@@ -155,24 +155,25 @@ func fade_in():
 
 # COLORS ---------------------------------------------------------------------------------------------------------------------------
 
+var picked_indicator_alpha: float = 1
+var unpicked_indicator_alpha: float = 0.2
+var neighbour_indicator_alpha: float = 0.4
 
 func spawn_color_indicators(available_colors): # ukaz pride iz GM
 	
 	var indicator_index = 0 # za fiksirano zaporedje
 	for color in available_colors:
 		indicator_index += 1 
+		
 		var new_color_indicator = ColorIndicator.instance()
+		new_color_indicator.color = color
+		new_color_indicator.modulate.a = unpicked_indicator_alpha
 		indicator_holder.add_child(new_color_indicator)
 		
-		if Profiles.game_rules["collect_color_mode"]:
-			new_color_indicator.visible = false
-			new_color_indicator.color = color
-		else:
-			new_color_indicator.color = color
-		
-		# zapis indexa ... invisible
-		new_color_indicator.get_node("IndicatorCount").text = str(indicator_index)
 		active_color_indicators.append(new_color_indicator)
+			
+		# zapis indexa ... debugging
+		# new_color_indicator.get_node("IndicatorCount").text = str(indicator_index) 
 	
 	
 func color_picked(picked_pixel_color):
@@ -182,76 +183,45 @@ func color_picked(picked_pixel_color):
 	# color effects
 	picked_color_rect.color = picked_pixel_color
 
-	if Profiles.game_rules["collect_color_mode"]:
-		show_color_indicator(picked_pixel_color)
-	else:
-		hide_color_indicator(picked_pixel_color)
-	
-var visible_indis: Array = []	
-func show_color_indicator(picked_color):
-	
-	var current_indicator_index: int # za določanje sosedov
-	for indicator in active_color_indicators:
-		if indicator.color == picked_color:
-			indicator.visible = true
-			visible_indis.append(indicator)
-#			indicator.rect_size.x = 12
-			indicator.rect_min_size.x = 12
-#			indicator.rect_min_size.y = 12
-			break
-	if indicator_holder.rect_size.x < 76:
-		indicator_holder.rect_size.x = visible_indis.size() * 12
-		printt("holder_size", indicator_holder.rect_size.x)
-	else:
-		indicator_holder.rect_size.x = 76
-		active_color_indicators[current_indicator_index].rect_min_size.x = indicator_holder.rect_size.x / visible_indis.size()
-#		indicator.rect_min_size.x = indicator_holder.rect_size.x / visible_indis.size()
-
+	show_color_indicator(picked_pixel_color)
 
 					
-func hide_color_indicator(picked_color):
+func show_color_indicator(picked_color):
 	
 	var current_indicator_index: int
 	for indicator in active_color_indicators:
+		# pobrana barva
 		if indicator.color == picked_color:
 			current_indicator_index = active_color_indicators.find(indicator)
-			# efekt na pobrani barvi
-			if Profiles.game_rules["pick_neighbour_mode"]:
-				indicator.modulate.a = 0
-				indicator.visible = false
-			else: 
-				indicator.modulate.a = 0.32
-				break
+			indicator.modulate.a = picked_indicator_alpha
+			break
+		# preostale barve	
 		elif Profiles.game_rules["pick_neighbour_mode"]: # efekt na preostalih barvah 
-			indicator.modulate.a = 0.5
+			indicator.modulate.a = unpicked_indicator_alpha
 			
-	if Profiles.game_rules["pick_neighbour_mode"]:	
-		# opredelitev sosedov glede na položaj pobrane barve
+	if Profiles.game_rules["pick_neighbour_mode"]:	# opredelitev sosedov glede na položaj pobrane barve
+		
 		if active_color_indicators.size() == 1: # če je samo še en indikator, nima sosedov	
 			return
 
-		# indexi onbeh sosednjih indikatorjev
 		var next_indicator_index: int = current_indicator_index + 1
 		var prev_indicator_index: int = current_indicator_index - 1
 		
-		# na začetku živih indikatorjev 
+		# na začetku holderja indikatorjev 
 		if current_indicator_index == 0:		
-			active_color_indicators[next_indicator_index].modulate.a = 1
-			# pošljem sosednje barve v GM
-			Global.game_manager.colors_to_pick = [active_color_indicators[next_indicator_index].color]
-		# na koncu živih indikatorjev
+			active_color_indicators[next_indicator_index].modulate.a = neighbour_indicator_alpha
+			Global.game_manager.colors_to_pick = [active_color_indicators[next_indicator_index].color] # pošljem sosednje barve v GM
+		# na koncu holderja indikatorjev
 		elif current_indicator_index == active_color_indicators.size() - 1: # ker je index vedno eno manjši	
-			active_color_indicators[prev_indicator_index].modulate.a = 1
-			# pošljem sosednje barve v GM
-			Global.game_manager.colors_to_pick = [active_color_indicators[prev_indicator_index].color]
+			active_color_indicators[prev_indicator_index].modulate.a = neighbour_indicator_alpha
+			Global.game_manager.colors_to_pick = [active_color_indicators[prev_indicator_index].color] # pošljem sosednje barve v GM
 		# povsod vmes med živimi indikatorji
 		elif current_indicator_index > 0 and current_indicator_index < (active_color_indicators.size() - 1):
-			active_color_indicators[next_indicator_index].modulate.a = 1
-			active_color_indicators[prev_indicator_index].modulate.a = 1
-			# pošljem sosednje barve v GM
-			Global.game_manager.colors_to_pick = [active_color_indicators[prev_indicator_index].color, active_color_indicators[next_indicator_index].color]
+			active_color_indicators[next_indicator_index].modulate.a = neighbour_indicator_alpha
+			active_color_indicators[prev_indicator_index].modulate.a = neighbour_indicator_alpha
+			Global.game_manager.colors_to_pick = [active_color_indicators[prev_indicator_index].color, active_color_indicators[next_indicator_index].color] # pošljem sosednje barve v GM
 		
-	# izbris iz arraya živih indikatorjev
+	# izbris iz aktivnih indikatorjev
 	if not active_color_indicators.empty():
 		active_color_indicators.erase(active_color_indicators[current_indicator_index])
 
