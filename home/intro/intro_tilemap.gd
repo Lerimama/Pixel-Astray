@@ -1,8 +1,10 @@
 extends TileMap
 
 
+# tole je pseudo duplikat levelnega tilemapa
+
 signal tilemap_completed #(floor_tiles_global_positions, player_start_global_position)
-signal floor_completed #(floor_tiles_global_positions, player_start_global_position)
+#signal floor_completed #(floor_tiles_global_positions, player_start_global_position)
 
 var floor_cells_global_positions: Array # global koordinate celic
 var player_start_global_position: Vector2 
@@ -42,7 +44,7 @@ func get_tiles():
 					floor_cells_global_positions.append(cell_global_position)
 	# pošljemo podatke v GM
 	# floor_cells_global_positions.append_array(title_cells_global_positions)
-	emit_signal("floor_completed", floor_cells_global_positions, player_start_global_position) # v intru je error
+#	emit_signal("floor_completed", floor_cells_global_positions, player_start_global_position) # v intru je error
 	emit_signal("tilemap_completed", floor_cells_global_positions, title_cells_global_positions)
 
 

@@ -53,6 +53,7 @@ var die_shake_time: float = 0.7
 var die_shake_decay: float = 0.1
 
 # energija in hitrost
+var slowdown_rate: int = 18 # višja je, počasneje se manjša
 var current_player_energy_part: float # 
 var player_energy: float = Global.game_manager.player_stats["player_energy"] # energija je edini stat, ki gamore plejer poznat ... greba se iz globalnih statsov
 onready var max_player_energy: float = Profiles.game_rules["player_max_energy"]
@@ -60,8 +61,6 @@ onready var max_step_time: float = Profiles.game_rules["max_step_time"]
 onready var min_step_time: float = Profiles.game_rules["min_step_time"]
 
 # dihanje
-
-# zadnji dih
 var last_breath_active: bool = false 
 var last_breath_loop: int = 0
 onready var last_breath_loop_limit: int = Profiles.game_rules["last_breath_loop_limit"]
@@ -89,7 +88,7 @@ func _ready() -> void:
 	randomize() # za random blink animacije
 	
 	global_position = Global.snap_to_nearest_grid(global_position, Global.level_tilemap.floor_cells_global_positions)
-#	set_physics_process(false) # deaktiviram plejerja ... aktivira ga GM, ko v start_game
+	# set_physics_process(false) # deaktiviram plejerja ... aktivira ga GM, ko v start_game
 	
 	modulate = pixel_color
 	poly_pixel.modulate.a = 1
@@ -110,7 +109,8 @@ func _physics_process(delta: float) -> void:
 	last_breath()
 	state_machine()
 	light_2d.color = pixel_color
-	
+
+
 func state_machine():
 	
 	match current_state:
@@ -132,7 +132,7 @@ func state_machine():
 			if Profiles.game_rules["energy_speed_mode"]:
 				var slow_trim_size: float = max_step_time * max_player_energy
 				var energy_factor: float = (max_player_energy - slow_trim_size) / player_energy
-				var energy_step_time = energy_factor / 10 # ta variabla je zato, da se vedno seta nova in potem ne raste s FP
+				var energy_step_time = energy_factor / slowdown_rate # ta variabla je zato, da se vedno seta nova in potem ne raste s FP
 				# omejim najbolj počasno
 				step_time = clamp(energy_step_time, min_step_time, max_step_time)
 			else:
@@ -267,8 +267,13 @@ func idle_inputs():
 	elif Input.is_action_pressed("ui_right") and player_energy > 1:
 		direction = Vector2.RIGHT
 		step()
-			
-	if Input.is_action_just_pressed("space") and current_state == States.IDLE: # brez "just" dela po stisku smeri ... ni ok
+	
+	# optimizacija za istočasni klik
+#	if Input.is_action_just_pressed("space") and current_state == States.IDLE:
+#		if Input.is_action_just_pressed("ui_left") or Input.is_action_just_pressed("ui_up") or Input.is_action_just_pressed("ui_right") or Input.is_action_just_pressed("ui_down"):
+#			current_state = States.COCKING
+	# normalno
+	if Input.is_action_pressed("space") and current_state == States.IDLE: # brez "just" dela po stisku smeri ... ni ok
 		if Profiles.game_rules["burst_limit_mode"] and Global.game_manager.player_stats["burst_count"] >= Profiles.game_rules["burst_limit_count"]:
 			return	
 		current_state = States.COCKING
@@ -455,7 +460,6 @@ func release_burst(): # delo os release do potiska pleyerjevega pixla
 
 func burst(ghosts_count):
 	
-#	emit_signal("stat_changed", self, "burst_released", burst_power)
 	emit_signal("stat_changed", self, "burst_released", 1)		
 	
 	var burst_direction = direction

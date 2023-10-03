@@ -17,7 +17,6 @@ var spawned_player_index: int = 0
 var spawned_stray_index: int = 0
 var players_in_game: Array = []
 var strays_in_game: Array = []
-#var strays_shown: Array = []
 
 var floor_positions: Array # po signalu ob kreaciji tilemapa ... tukaj, da ga lahko grebam do zunaj
 var available_floor_positions: Array # dplikat floor_positions za spawnanje pixlov
@@ -101,7 +100,6 @@ func show_strays():
 		1: # polovica
 			Global.sound_manager.play_sfx("thunder_strike")
 			strays_to_show_count = round(strays_in_game.size()/2)
-			
 		2: # četrtina
 			strays_to_show_count = round(strays_in_game.size()/4)
 		3: # osmina

@@ -14,8 +14,8 @@ func _ready() -> void:
 	Global.main_node = self
 	
 #	home_in_intro()
-#	home_in()
-	game_in()
+	home_in()
+#	game_in()
 
 
 func home_in_intro(): # isto kot home in, samo, da sprož intro

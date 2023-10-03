@@ -34,7 +34,6 @@ func play_stepping_sfx(current_player_energy_part: float):
 	
 	
 func play_sfx(effect_for: String):
-	return	
 	
 	if game_sfx_set_to_off:
 		return	
@@ -116,6 +115,7 @@ func play_gui_sfx(effect_for: String):
 			
 	
 func stop_sfx(sfx_to_stop: String):
+	
 	match sfx_to_stop:
 		"teleport":
 			if $GameSfx/Skills/TeleportLoop.is_playing(): # konec teleportanja
@@ -150,7 +150,7 @@ func _on_TeleportStart_finished() -> void:
 		
 
 func play_music(music_for: String):
-	return
+	
 	match music_for:
 		"menu":
 			if menu_music_set_to_off:

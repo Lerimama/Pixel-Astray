@@ -3,7 +3,7 @@
 [ext_resource path="res://assets/tiles/tile_title_16.png" type="Texture" id=1]
 [ext_resource path="res://home/intro/intro.gd" type="Script" id=2]
 [ext_resource path="res://assets/resources/menu_environment.tres" type="Environment" id=3]
-[ext_resource path="res://game/arena_tilemap.gd" type="Script" id=4]
+[ext_resource path="res://home/intro/intro_tilemap.gd" type="Script" id=4]
 [ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=5]
 [ext_resource path="res://assets/resources/arena_tileset.tres" type="TileSet" id=7]
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=9]
@@ -733,6 +733,5 @@ anims/last_breath = SubResource( 7 )
 [node name="ArenaEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 3 )
 
-[connection signal="floor_completed" from="Level/TileMap" to="." method="_on_TileMap_completed"]
 [connection signal="tilemap_completed" from="Level/TileMap" to="." method="_on_TileMap_tilemap_completed"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

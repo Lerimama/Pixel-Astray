@@ -3,11 +3,11 @@ extends Node
 
 # STATS ---------------------------------------------------------------------------------------------------------
 
-var settings_strays_amount_1: int = 1
-var settings_strays_amount_2: int = 320
-var settings_strays_amount_3: int = 78
-var settings_strays_amount_4: int = 156
-var settings_strays_amount_5: int = 234
+var settings_strays_amount_1: int = 5
+var settings_strays_amount_2: int = 32
+var settings_strays_amount_3: int = 140
+var settings_strays_amount_4: int = 230
+var settings_strays_amount_5: int = 320
 
 
 var default_level_highscores: Dictionary = { # prazen slovar ... uporabi se ob kreiranju fileta ... uporabi ga Glo

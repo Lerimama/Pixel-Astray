@@ -78,8 +78,6 @@ func skip_intro(): # kadar je intro skipan
 	show_strays()
 	for stray in strays_on_screen: # tole je že tukaj, ker ima nakljiučne pavze in drugače predolgo traya
 		stray.current_stray_state = stray.StrayState.WANDERING
-#		print("št" ,stray)
-	print("število" ,strays_on_screen.size())
 		
 		
 func end_intro(): # kliče se iz animacije, ko intro pride do konca

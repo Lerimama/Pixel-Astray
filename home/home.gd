@@ -48,12 +48,24 @@ func _input(event: InputEvent) -> void:
 					
 func _ready():
 	menu.visible = false
-		
+	
+	dynamic_text_setup()	
+
+onready var select_game_btn_1: Button = $SelectGame/SelectGameBtn1
+onready var select_game_btn_2: Button = $SelectGame/SelectGameBtn2
+onready var select_game_btn_3: Button = $SelectGame/SelectGameBtn3
+onready var select_game_btn_4: Button = $SelectGame/SelectGameBtn4
+onready var select_game_btn_5: Button = $SelectGame/SelectGameBtn5
+
+func dynamic_text_setup():
+	select_game_btn_1.text = "Only " + str(Profiles.settings_strays_amount_1) + " pixels astray"
+	select_game_btn_2.text = str(Profiles.settings_strays_amount_2) + " pixels astray"
+	select_game_btn_3.text = str(Profiles.settings_strays_amount_3) + " pixels astray"
+	select_game_btn_4.text = str(Profiles.settings_strays_amount_4) + " pixels astray"
+	select_game_btn_5.text = str(Profiles.settings_strays_amount_5) + " pixels astray"
 			
 # MAIN MENU ---------------------------------------------------------------------------------------------------
 
-func _process(delta: float) -> void:
-	printt("current_screen", current_screen)
 	
 func open_with_intro():
 	intro.play_intro()
