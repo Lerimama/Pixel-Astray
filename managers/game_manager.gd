@@ -169,6 +169,9 @@ func start_game():
 	# aktiviram plejerja in tajmer
 	Global.hud.game_timer.start_timer() # tajmer pobere čas igre in tip štetja iz profila
 	
+#	for stray in strays_in_game: # tole je že tukaj, ker ima nakljiučne pavze in drugače predolgo traya
+#		stray.current_stray_state = stray.StrayState.WANDERING
+		
 	if not players_in_game.empty():
 		for player in players_in_game:
 			player.set_physics_process(true)

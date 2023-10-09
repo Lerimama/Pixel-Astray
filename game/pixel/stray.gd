@@ -56,8 +56,8 @@ func _physics_process(delta: float) -> void:
 
 func step(step_direction):
 	
-	# if Global.detect_collision_in_direction(vision_ray, step_direction): # če kolajda izbrani smeri gibanja
-	#	return
+	if Global.detect_collision_in_direction(vision_ray, step_direction): # če kolajda izbrani smeri gibanja
+		return
 	global_position = Global.snap_to_nearest_grid(global_position, Global.level_tilemap.floor_cells_global_positions)
 	var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 	step_tween.tween_property(self, "position", global_position + step_direction * cell_size_x, step_time)
