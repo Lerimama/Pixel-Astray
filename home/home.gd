@@ -58,11 +58,11 @@ onready var select_game_btn_4: Button = $SelectGame/SelectGameBtn4
 onready var select_game_btn_5: Button = $SelectGame/SelectGameBtn5
 
 func dynamic_text_setup():
-	select_game_btn_1.text = "Only " + str(Profiles.settings_strays_amount_1) + " pixels astray"
-	select_game_btn_2.text = str(Profiles.settings_strays_amount_2) + " pixels astray"
-	select_game_btn_3.text = str(Profiles.settings_strays_amount_3) + " pixels astray"
-	select_game_btn_4.text = str(Profiles.settings_strays_amount_4) + " pixels astray"
-	select_game_btn_5.text = str(Profiles.settings_strays_amount_5) + " pixels astray"
+	select_game_btn_1.text = "Only " + str(Profiles.level_1_stats["level"]) + " pixels astray"
+	select_game_btn_2.text = str(Profiles.level_2_stats["level"]) + " pixels astray"
+	select_game_btn_3.text = str(Profiles.level_3_stats["level"]) + " pixels astray"
+	select_game_btn_4.text = str(Profiles.level_4_stats["level"]) + " pixels astray"
+	select_game_btn_5.text = str(Profiles.level_5_stats["level"]) + " pixels astray"
 			
 # MAIN MENU ---------------------------------------------------------------------------------------------------
 
@@ -85,7 +85,7 @@ func menu_in():
 	
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(menu, "modulate:a", 1, 1)
-	fade_in.tween_callback($Menu/PlayBtn, "grab_focus")
+	fade_in.tween_callback($Menu/SelectGameBtn, "grab_focus")
 	fade_in.tween_callback(Global.sound_manager, "play_music", ["menu"])
 
 
@@ -202,35 +202,59 @@ func _on_HighscoresBackBtn_pressed() -> void:
 	
 func _on_SelectGameBtn1_pressed() -> void:
 	
-	Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_1
+	# vnos vrednosti izbranega levela v default level stats
+	Profiles.default_level_stats["level"] = Profiles.level_1_stats["level"]
+	Profiles.default_level_stats["game_time_limit"] = Profiles.level_1_stats["game_time_limit"]
+	Profiles.default_level_stats["stray_pixels_count"] = Profiles.level_1_stats["stray_pixels_count"]
+	
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.home_out()
 	$SelectGame/SelectGameBtn1.disabled = true # da ne moreš multiklikat
 
 
 func _on_SelectGame2Btn_pressed() -> void:
-	Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_2
+	
+	# vnos vrednosti izbranega levela v default level stats
+	Profiles.default_level_stats["level"] = Profiles.level_2_stats["level"]
+	Profiles.default_level_stats["game_time_limit"] = Profiles.level_2_stats["game_time_limit"]
+	Profiles.default_level_stats["stray_pixels_count"] = Profiles.level_2_stats["stray_pixels_count"]
+	
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.home_out()
 	$SelectGame/SelectGameBtn2.disabled = true # da ne moreš multiklikat
 
 
 func _on_SelectGame3Btn_pressed() -> void:
-	Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_3
+	
+	# vnos vrednosti izbranega levela v default level stats
+	Profiles.default_level_stats["level"] = Profiles.level_3_stats["level"]
+	Profiles.default_level_stats["game_time_limit"] = Profiles.level_3_stats["game_time_limit"]
+	Profiles.default_level_stats["stray_pixels_count"] = Profiles.level_3_stats["stray_pixels_count"]
+	
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.home_out()
 	$SelectGame/SelectGameBtn3.disabled = true # da ne moreš multiklikat
 
 
 func _on_SelectGame4Btn_pressed() -> void:
-	Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_4
+	
+	# vnos vrednosti izbranega levela v default level stats
+	Profiles.default_level_stats["level"] = Profiles.level_4_stats["level"]
+	Profiles.default_level_stats["game_time_limit"] = Profiles.level_4_stats["game_time_limit"]
+	Profiles.default_level_stats["stray_pixels_count"] = Profiles.level_4_stats["stray_pixels_count"]
+	
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.home_out()
 	$SelectGame/SelectGameBtn4.disabled = true # da ne moreš multiklikat
 
 
 func _on_SelectGame5Btn_pressed() -> void:
-	Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_5
+	
+	# vnos vrednosti izbranega levela v default level stats
+	Profiles.default_level_stats["level"] = Profiles.level_5_stats["level"]
+	Profiles.default_level_stats["game_time_limit"] = Profiles.level_5_stats["game_time_limit"]
+	Profiles.default_level_stats["stray_pixels_count"] = Profiles.level_5_stats["stray_pixels_count"]
+	
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.home_out()
 	$SelectGame/SelectGameBtn5.disabled = true # da ne moreš multiklikat

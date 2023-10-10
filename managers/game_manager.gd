@@ -144,12 +144,13 @@ func set_game():
 	
 	strays_spawn_loop = 0
 	
-	# HS za spremljat med igro
-	var current_highscore_line: Array = Global.data_manager.get_top_highscore(game_stats["level_no"])
-	game_stats["highscore"] = current_highscore_line[0]
-	game_stats["highscore_owner"] = current_highscore_line[1]
+	# HS za spremljat med igro ... če ni practice
+	if game_stats["level"] != Profiles.Levels.PRACTICE:
+		var current_highscore_line: Array = Global.data_manager.get_top_highscore(game_stats["level"])
+		game_stats["highscore"] = current_highscore_line[0]
+		game_stats["highscore_owner"] = current_highscore_line[1]
 	
-	yield(get_tree().create_timer(2), "timeout")
+	yield(get_tree().create_timer(0.5), "timeout")
 	
 	Global.main_camera.zoom_in()
 	# YIELD ... čaka da game_countdown odšteje
@@ -164,14 +165,13 @@ func set_game():
 
 	
 func start_game():
+	
 	Global.sound_manager.play_music("game")
 	game_on = true
+	
 	# aktiviram plejerja in tajmer
 	Global.hud.game_timer.start_timer() # tajmer pobere čas igre in tip štetja iz profila
 	
-#	for stray in strays_in_game: # tole je že tukaj, ker ima nakljiučne pavze in drugače predolgo traya
-#		stray.current_stray_state = stray.StrayState.WANDERING
-		
 	if not players_in_game.empty():
 		for player in players_in_game:
 			player.set_physics_process(true)
@@ -206,17 +206,21 @@ func game_over(game_over_reason: String):
 	Global.hud.visible = false # zazih
 	
 	var player_points = player_stats["player_points"]
-	var current_level = game_stats["level_no"]
+	var current_level = game_stats["level"]
 	
-	# YIELD 1 ... čaka na konec preverke rankinga ... če ni rankinga dobi false, če je ne dobi nič
-	# ker kličem funkcijo v variablo more počakat, da se funkcija izvede do returna
-	var score_is_ranking = Global.data_manager.manage_gameover_highscores(player_points, current_level) # yielda 2 za name input je v tej funkciji
-	if not score_is_ranking:
-		Global.gameover_menu.fade_in(game_over_reason)																																																							
+	# HS manage
+	if game_stats["level"] != Profiles.Levels.PRACTICE:
+		# YIELD 1 ... čaka na konec preverke rankinga ... če ni rankinga dobi false, če je ne dobi nič
+		# ker kličem funkcijo v variablo more počakat, da se funkcija izvede do returna
+		var score_is_ranking = Global.data_manager.manage_gameover_highscores(player_points, current_level) # yielda 2 za name input je v tej funkciji
+		if not score_is_ranking:
+			Global.gameover_menu.fade_in(game_over_reason)																																																							
+		else:
+			Global.gameover_menu.fade_in_empty(game_over_reason)
 	else:
-		Global.gameover_menu.fade_in_empty(game_over_reason)
-	
-
+			Global.gameover_menu.fade_in_practice(game_over_reason)
+			
+		
 # SPAWNANJE --------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -266,7 +270,6 @@ func split_stray_colors():
 		
 		loop_count += 1		
 	
-#	if not Profiles.game_rules["colors_collecting_mode"]:
 	Global.hud.spawn_color_indicators(all_colors)				
 
 

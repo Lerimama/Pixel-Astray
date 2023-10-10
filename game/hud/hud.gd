@@ -13,7 +13,7 @@ var active_color_indicators: Array = [] # indikatorji so generirani ob spawnanju
 onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
 onready var indicator_holder: HBoxContainer = $Footer/ColorSpectrum	
 
-#header
+# header
 onready var header: Control = $Header
 onready var player_life: Label = $Life # _temp, pravi je na samih ikonah
 onready var player_energy: Label = $Energy # temp
@@ -26,15 +26,8 @@ onready var highscore_label: Label = $Header/HudLine_TR/Highscore
 onready var music_label: Label = $Header/HudLine_TR/MusicLabel
 onready var on_icon: TextureRect = $Header/HudLine_TR/MusicLabel/OnIcon
 onready var off_icon: TextureRect = $Header/HudLine_TR/MusicLabel/OffIcon
-# ---
-#onready var picked_color_rect: ColorRect = $Header/HudLine_TR/PickedColor/ColorRect
-#onready var picked_color_label: Label = $Header/HudLine_TR/PickedColor/Value
-#onready var pixels_off: Label = $Header/HudLine_TR/OffedCounter/PixelsOff
-#onready var stray_pixels_counter: HBoxContainer = $Header/HudLine_TR/StrayCounter
-#onready var stray_pixels: Label = $Header/HudLine_TR/StrayCounter/PixelsStray
-#onready var pixels_off_counter: HBoxContainer = $Header/HudLine_TR/OffedCounter
 
-#futer
+# futer
 onready var footer: Control = $Footer
 onready var picked_color_rect: ColorRect = $Footer/PickedColor/ColorRect
 onready var picked_color_label: Label = $Footer/PickedColor/Value
@@ -68,20 +61,8 @@ func _process(delta: float) -> void:
 	writing_stats()
 	
 	# ček HS and show popup
-	var current_highscore = game_stats_on_hud["highscore"]
-	var current_points = player_stats_on_hud["player_points"]
-	if current_points > current_highscore: # zaporedje ifov je pomembno zaradi načina setanja pogojev
-		if not highscore_broken:
-			# Global.sound_manager.play_sfx("record_cheers")
-			highscore_broken = true
-			highscore_label.modulate = Global.color_green
-			highscore_broken_popup.visible = true
-			yield(get_tree().create_timer(highscore_broken_popup_time), "timeout")
-			highscore_broken_popup.visible = false
-	else:
-		highscore_broken_popup.visible = false
-		highscore_label.modulate = default_hud_color
-		highscore_broken = false # more bit, če zgubiš rekord med igro
+	if Global.game_manager.game_stats["level"] != Profiles.Levels.PRACTICE:
+		check_for_hs()
 	
 	# show popup energy warning
 	if player_stats_on_hud["player_energy"] <= Profiles.game_rules["tired_energy"] and player_stats_on_hud["player_energy"] > 1:# and player_stats_on_hud["player_energy"] > 1:
@@ -98,39 +79,46 @@ func _process(delta: float) -> void:
 	else:
 		on_icon.visible = true
 		off_icon.visible = false
-		
-# ------------------------------------------------------------------
-# adaptacija holderja na enak razrez
-#
-#	if not active_color_indicators.empty():
-#		indicator_holder_adaptation()
-#
-#onready var indicator_holder_start_size: int = indicator_holder.rect_size.x
-#var indicator_max_width: float
-#func indicator_holder_adaptation():
-#
-#	# enak razrez
-#	indicator_max_width = float(indicator_holder_start_size) / active_color_indicators.size()
-#
-#	printt("size pre", indicator_holder_start_size, int(indicator_max_width))
-#
-#	indicator_holder.rect_size.x = indicator_max_width * active_color_indicators.size()
-#	indicator_holder.rect_position.x = (1280 - indicator_holder.rect_size.x) / 2
-#
-#	printt("size post", indicator_holder.rect_size.x)
-#
-# ------------------------------------------------------------------
 	
+		
+func check_for_hs():
+	
+	var current_points = player_stats_on_hud["player_points"]
+	var current_highscore = game_stats_on_hud["highscore"]
+	if current_points > current_highscore: # zaporedje ifov je pomembno zaradi načina setanja pogojev
+		if not highscore_broken:
+			# Global.sound_manager.play_sfx("record_cheers")
+			highscore_broken = true
+			highscore_label.modulate = Global.color_green
+			highscore_broken_popup.visible = true
+			yield(get_tree().create_timer(highscore_broken_popup_time), "timeout")
+			highscore_broken_popup.visible = false
+	else:
+		highscore_broken_popup.visible = false
+		highscore_label.modulate = default_hud_color
+		highscore_broken = false # more bit, če zgubiš rekord med igro
 			
+		
 func writing_stats():	
 	
+	# level setup
+	var level_key = game_stats_on_hud["level"]
+	if level_key == Profiles.Levels.PRACTICE:
+		highscore_label.visible = false
+		level.text = str(Profiles.Levels.keys()[level_key])
+	else:
+		highscore_label.visible = true
+		level.text = "LEVEL " + str(Profiles.Levels.keys()[level_key])
+		# hs label
+		if not highscore_broken:
+			highscore_label.text = "HS %04d" % game_stats_on_hud["highscore"]
+		else:
+			highscore_label.text = "HS %04d" % player_stats_on_hud["player_points"]
+		
 	# pixel stats
 	player_points.text = "%04d" % player_stats_on_hud["player_points"]
 	burst_count.text = "%02d" % player_stats_on_hud["burst_count"]
 	skill_count.text = "%02d" % player_stats_on_hud["skill_count"]
-	
-	# game stats
-	level.text = "LEVEL %02d" % game_stats_on_hud["level_no"]
 	stray_pixels.text = "%03d" % game_stats_on_hud["stray_pixels_count"]
 	pixels_off.text = "%03d" % game_stats_on_hud["off_pixels_count"]
 	
@@ -138,10 +126,6 @@ func writing_stats():
 	player_life.text = "LIFE: %01d" % player_stats_on_hud["player_life"]
 	player_energy.text = "E: %04d" % player_stats_on_hud["player_energy"]
 	
-	if not highscore_broken:
-		highscore_label.text = "HS %04d" % game_stats_on_hud["highscore"]
-	else:
-		highscore_label.text = "HS %04d" % player_stats_on_hud["player_points"]
 		
 		
 func fade_in():

@@ -128,7 +128,6 @@ func read_highscores_from_file(current_level_no: int):
 #	printt("HS loaded and sent to GM", current_level_highscores)
 	return current_level_highscores
 	
-	
 
 func write_highscores_to_file(current_level_no: int, new_level_highscores: Dictionary):
 	

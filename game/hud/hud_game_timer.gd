@@ -8,9 +8,9 @@ var current_second: int # trenutna sekunda znotraj minutnega kroga ... ia izpis 
 var game_time: int # čas v tajmerju v sekundah
 var game_time_limit: int # podatki glede časovnih omejitev se pošljejo iz GM-ja
 
-onready var deathmode_limit: int = Profiles.default_level_stats["death_mode_duration"]
+onready var deathmode_limit: int = Profiles.game_rules["death_mode_duration"]
 onready var level_time_limit: int = Profiles.default_level_stats["game_time_limit"]
-onready var countdown_mode: bool = Profiles.default_level_stats["timer_countdown_mode"]
+onready var countdown_mode: bool = Profiles.game_rules["timer_countdown_mode"]
 onready var gameover_countdown_duration: int = Profiles.game_rules["gameover_countdown_duration"] # čas, ko je obarvan in se sliši bip bip
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=1]
 [ext_resource path="res://assets/theme/iconset_lerimama_theme.png" type="Texture" id=2]
@@ -8,7 +8,6 @@
 [ext_resource path="res://home/intro/intro.tscn" type="PackedScene" id=6]
 [ext_resource path="res://assets/tiles/tile_title_16.png" type="Texture" id=7]
 [ext_resource path="res://assets/theme/stylebox_panelwithborder.tres" type="StyleBox" id=9]
-[ext_resource path="res://assets/theme/lerimama_theme_select_game_font.tres" type="DynamicFont" id=10]
 [ext_resource path="res://game/gui/highscore_table.gd" type="Script" id=11]
 
 [sub_resource type="AtlasTexture" id=158]
@@ -29,15 +28,6 @@ border_width_bottom = 2
 border_color = Color( 1, 1, 1, 0.901961 )
 
 [sub_resource type="StyleBoxEmpty" id=151]
-
-[sub_resource type="StyleBoxFlat" id=153]
-bg_color = Color( 0.368627, 1, 0.662745, 0.313726 )
-draw_center = false
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color( 0.368627, 1, 0.662745, 1 )
 
 [sub_resource type="AtlasTexture" id=149]
 atlas = ExtResource( 2 )
@@ -676,7 +666,7 @@ points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_horizontal_guides_": [ 1408.0, 1320.0, -600.0, -536.0, 192.0, 592.0, 176.0, 744.0, -448.0 ],
-"_edit_vertical_guides_": [ -848.0, -655.0, -192.0, 2112.0, 64.0, 1280.0, 1216.0, 1960.0, 640.0 ]
+"_edit_vertical_guides_": [ -848.0, -655.0, -192.0, 2112.0, 64.0, 1280.0, 1216.0, 1960.0, 640.0, 280.0 ]
 }
 
 [node name="Undi" type="ColorRect" parent="."]
@@ -713,40 +703,40 @@ margin_top = 518.0
 margin_right = 1000.0
 margin_bottom = 543.0
 
-[node name="PlayBtn" type="Button" parent="Menu"]
-margin_left = -4.0
+[node name="SelectGameBtn" type="Button" parent="Menu"]
+margin_left = 15.0
 margin_top = -1.0
-margin_right = 128.0
+margin_right = 89.0
 margin_bottom = 24.0
-focus_neighbour_right = NodePath("../SelectGameBtn")
+focus_neighbour_right = NodePath("../PlayBtn")
 focus_mode = 1
 size_flags_horizontal = 2
 size_flags_vertical = 8
 theme = ExtResource( 1 )
 enabled_focus_mode = 1
-text = "QUICK PLAY"
-flat = true
+text = "PLAY"
 
-[node name="SelectGameBtn" type="Button" parent="Menu"]
-margin_left = 159.0
+[node name="PlayBtn" type="Button" parent="Menu"]
+margin_left = 98.0
 margin_top = -1.0
-margin_right = 233.0
+margin_right = 230.0
 margin_bottom = 24.0
-focus_neighbour_left = NodePath("../PlayBtn")
+focus_neighbour_left = NodePath("../SelectGameBtn")
 focus_neighbour_right = NodePath("../SettingsBtn")
 focus_mode = 1
 size_flags_horizontal = 2
 size_flags_vertical = 8
 theme = ExtResource( 1 )
 enabled_focus_mode = 1
-text = "GAMES"
+text = "PRACTICE"
+flat = true
 
 [node name="SettingsBtn" type="Button" parent="Menu"]
-margin_left = 263.0
+margin_left = 248.0
 margin_top = -1.0
-margin_right = 371.0
+margin_right = 356.0
 margin_bottom = 24.0
-focus_neighbour_left = NodePath("../SelectGameBtn")
+focus_neighbour_left = NodePath("../PlayBtn")
 focus_neighbour_right = NodePath("../HighscoresBtn")
 focus_mode = 1
 size_flags_horizontal = 2
@@ -756,9 +746,9 @@ enabled_focus_mode = 1
 text = "SETTINGS"
 
 [node name="HighscoresBtn" type="Button" parent="Menu"]
-margin_left = 401.0
+margin_left = 386.0
 margin_top = -1.0
-margin_right = 537.0
+margin_right = 522.0
 margin_bottom = 24.0
 focus_neighbour_left = NodePath("../SettingsBtn")
 focus_neighbour_right = NodePath("../AboutBtn")
@@ -770,9 +760,9 @@ enabled_focus_mode = 1
 text = "HIGHSCORES"
 
 [node name="AboutBtn" type="Button" parent="Menu"]
-margin_left = 567.0
+margin_left = 552.0
 margin_top = -1.0
-margin_right = 637.0
+margin_right = 622.0
 margin_bottom = 24.0
 focus_neighbour_left = NodePath("../HighscoresBtn")
 focus_neighbour_right = NodePath("../QuitGameBtn")
@@ -784,9 +774,9 @@ enabled_focus_mode = 1
 text = "ABOUT"
 
 [node name="QuitGameBtn" type="Button" parent="Menu"]
-margin_left = 667.0
+margin_left = 652.0
 margin_top = -1.0
-margin_right = 719.0
+margin_right = 704.0
 margin_bottom = 24.0
 focus_neighbour_left = NodePath("../AboutBtn")
 focus_mode = 1
@@ -2491,11 +2481,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 8.0
 margin_top = 174.0
-margin_right = -600.0
+margin_right = -512.0
 margin_bottom = -524.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "Vaja dela mojstra"
+text = "Practice makes perfect"
 autowrap = true
 
 [node name="SelectGameBtn1" type="Button" parent="SelectGame"]
@@ -2577,121 +2567,6 @@ __meta__ = {
 "_edit_group_": true,
 "_editor_description_": ""
 }
-
-[node name="SelectGameBtn02" type="Button" parent="SelectGame"]
-margin_left = 360.0
-margin_top = 177.0
-margin_right = 680.0
-margin_bottom = 369.0
-custom_fonts/font = ExtResource( 10 )
-custom_styles/hover = SubResource( 152 )
-custom_styles/pressed = SubResource( 153 )
-custom_styles/focus = SubResource( 152 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
-disabled = true
-
-[node name="Title" type="Label" parent="SelectGame/SelectGameBtn02"]
-show_behind_parent = true
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 32.0
-margin_top = 22.0
-margin_right = -32.0
-margin_bottom = -140.0
-size_flags_horizontal = 3
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "RUNNER"
-autowrap = true
-
-[node name="Description" type="Label" parent="SelectGame/SelectGameBtn02"]
-show_behind_parent = true
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 32.0
-margin_top = 62.0
-margin_right = -32.0
-margin_bottom = -28.0
-size_flags_horizontal = 3
-text = "Gradimo za vas!"
-autowrap = true
-
-[node name="SelectGameBtn03" type="Button" parent="SelectGame"]
-visible = false
-margin_left = 8.0
-margin_top = 401.0
-margin_right = 328.0
-margin_bottom = 592.0
-custom_fonts/font = ExtResource( 10 )
-custom_styles/hover = SubResource( 152 )
-custom_styles/pressed = SubResource( 153 )
-custom_styles/focus = SubResource( 152 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
-disabled = true
-
-[node name="Title" type="Label" parent="SelectGame/SelectGameBtn03"]
-show_behind_parent = true
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 32.0
-margin_top = 22.0
-margin_right = -32.0
-margin_bottom = -140.0
-size_flags_horizontal = 3
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "CLEANER"
-autowrap = true
-
-[node name="Description" type="Label" parent="SelectGame/SelectGameBtn03"]
-show_behind_parent = true
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 32.0
-margin_top = 62.0
-margin_right = -32.0
-margin_bottom = -28.0
-size_flags_horizontal = 3
-text = "V navadni areni, 50 pobeglih pixlov, 2 minuti  časa. Več točk, večji uspeh."
-autowrap = true
-
-[node name="SelectGameBtn04" type="Button" parent="SelectGame"]
-margin_left = 360.0
-margin_top = 401.0
-margin_right = 680.0
-margin_bottom = 592.0
-custom_fonts/font = ExtResource( 10 )
-custom_styles/hover = SubResource( 152 )
-custom_styles/pressed = SubResource( 153 )
-custom_styles/focus = SubResource( 152 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
-disabled = true
-
-[node name="Title" type="Label" parent="SelectGame/SelectGameBtn04"]
-show_behind_parent = true
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 32.0
-margin_top = 22.0
-margin_right = -32.0
-margin_bottom = -140.0
-size_flags_horizontal = 3
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "FINISHER"
-autowrap = true
-
-[node name="Description" type="Label" parent="SelectGame/SelectGameBtn04"]
-show_behind_parent = true
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 32.0
-margin_top = 62.0
-margin_right = -32.0
-margin_bottom = -28.0
-size_flags_horizontal = 3
-text = "Tudo to gradimo za vas!"
-autowrap = true
 
 [node name="Settings" type="Control" parent="."]
 anchor_right = 1.0
@@ -2790,38 +2665,17 @@ margin_bottom = 380.0
 pressed = true
 text = "Camera shake on"
 
-[node name="StrayCountOptionButton" type="OptionButton" parent="Settings"]
-margin_left = 224.0
-margin_top = 398.0
-margin_right = 272.0
-margin_bottom = 420.0
-text = "00 pixels astrayed"
-flat = true
-
 [node name="Shorts" type="Label" parent="Settings"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -111.0
-margin_top = 466.0
+margin_top = 462.0
 margin_right = 336.0
-margin_bottom = 575.0
+margin_bottom = 596.0
 size_flags_horizontal = 3
 theme = ExtResource( 1 )
-text = "Settings are also available in pause menu. To control sound during game use shortcuts M/L2  to toggle music on/off, and N/L4 for next track."
-autowrap = true
-
-[node name="Rules" type="Label" parent="Settings"]
-visible = false
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -223.0
-margin_top = 551.0
-margin_right = 97.0
-margin_bottom = 600.0
-size_flags_horizontal = 3
-theme = ExtResource( 1 )
-text = "N ... cycle through tracks
-M ... toggle music on/off"
+text = "*
+Settings are also available in pause menu. To control sound during game use shortcuts M/L2  to toggle music on/off, and N/L4 for next track."
 autowrap = true
 
 [node name="Creditsodl" type="Control" parent="."]
@@ -3018,8 +2872,8 @@ format = 1
 tile_data = PoolIntArray( 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 7, -1610612736, 0, 8, -1610612736, 0, 9, -1610612736, 0, 12, -1610612736, 0, 13, -1610612736, 0, 14, -1610612736, 0, 15, -1610612736, 0, 16, -1610612736, 0, 18, -1610612736, 0, 19, -1610612736, 0, 20, -1610612736, 0, 21, -1610612736, 0, 25, -1610612736, 0, 26, -1610612736, 0, 27, -1610612736, 0, 30, -1610612736, 0, 34, -1610612736, 0, 65536, -1610612736, 0, 65540, -1610612736, 0, 65542, -1610612736, 0, 65550, -1610612736, 0, 65554, -1610612736, 0, 65558, -1610612736, 0, 65560, -1610612736, 0, 65564, -1610612736, 0, 65567, -1610612736, 0, 65569, -1610612736, 0, 131072, -1610612736, 0, 131073, -1610612736, 0, 131074, -1610612736, 0, 131075, -1610612736, 0, 131076, -1610612736, 0, 131078, -1610612736, 0, 131079, -1610612736, 0, 131080, -1610612736, 0, 131081, -1610612736, 0, 131086, -1610612736, 0, 131090, -1610612736, 0, 131091, -1610612736, 0, 131092, -1610612736, 0, 131093, -1610612736, 0, 131096, -1610612736, 0, 131097, -1610612736, 0, 131098, -1610612736, 0, 131099, -1610612736, 0, 131100, -1610612736, 0, 131104, -1610612736, 0, 196608, -1610612736, 0, 196612, -1610612736, 0, 196618, -1610612736, 0, 196622, -1610612736, 0, 196626, -1610612736, 0, 196630, -1610612736, 0, 196632, -1610612736, 0, 196636, -1610612736, 0, 196640, -1610612736, 0, 262144, -1610612736, 0, 262148, -1610612736, 0, 262154, -1610612736, 0, 262158, -1610612736, 0, 262162, -1610612736, 0, 262166, -1610612736, 0, 262168, -1610612736, 0, 262172, -1610612736, 0, 262176, -1610612736, 0, 327680, -1610612736, 0, 327684, -1610612736, 0, 327686, -1610612736, 0, 327690, -1610612736, 0, 327694, -1610612736, 0, 327698, -1610612736, 0, 327702, -1610612736, 0, 327704, -1610612736, 0, 327708, -1610612736, 0, 327712, -1610612736, 0, 393216, 0, 0, 393220, -1610612736, 0, 393223, -1610612736, 0, 393224, -1610612736, 0, 393225, -1610612736, 0, 393230, -1610612736, 0, 393234, -1610612736, 0, 393238, -1610612736, 0, 393240, -1610612736, 0, 393244, -1610612736, 0, 393248, -1610612736, 0 )
 
 [connection signal="finished_playing" from="IntroViewPortContainer/Viewport/Intro" to="." method="_on_Intro_finished_playing"]
-[connection signal="pressed" from="Menu/PlayBtn" to="." method="_on_PlayBtn_pressed"]
 [connection signal="pressed" from="Menu/SelectGameBtn" to="." method="_on_SelectGameBtn_pressed"]
+[connection signal="pressed" from="Menu/PlayBtn" to="." method="_on_PlayBtn_pressed"]
 [connection signal="pressed" from="Menu/SettingsBtn" to="." method="_on_SettingsBtn_pressed"]
 [connection signal="pressed" from="Menu/HighscoresBtn" to="." method="_on_HighscoresBtn_pressed"]
 [connection signal="pressed" from="Menu/AboutBtn" to="." method="_on_AboutBtn_pressed"]
@@ -3032,14 +2886,10 @@ tile_data = PoolIntArray( 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 
 [connection signal="pressed" from="SelectGame/SelectGameBtn3" to="." method="_on_SelectGame3Btn_pressed"]
 [connection signal="pressed" from="SelectGame/SelectGameBtn4" to="." method="_on_SelectGame4Btn_pressed"]
 [connection signal="pressed" from="SelectGame/SelectGameBtn5" to="." method="_on_SelectGame5Btn_pressed"]
-[connection signal="pressed" from="SelectGame/SelectGameBtn02" to="." method="_on_SelectGame1Btn_pressed"]
-[connection signal="pressed" from="SelectGame/SelectGameBtn03" to="." method="_on_SelectGame1Btn_pressed"]
-[connection signal="pressed" from="SelectGame/SelectGameBtn04" to="." method="_on_SelectGame1Btn_pressed"]
 [connection signal="pressed" from="Settings/SettingsBackBtn" to="." method="_on_SettingsBackBtn_pressed"]
 [connection signal="toggled" from="Settings/MenuMusicCheckBox" to="Settings" method="_on_MenuMusicCheckBox_toggled"]
 [connection signal="toggled" from="Settings/GameMusicCheckBox" to="Settings" method="_on_GameMusicCheckBox_toggled"]
 [connection signal="value_changed" from="Settings/GameMusicSlider" to="Settings" method="_on_MusicHSlider_value_changed"]
 [connection signal="toggled" from="Settings/GameSfxCheckBox" to="Settings" method="_on_GameSfxCheckBox_toggled"]
 [connection signal="toggled" from="Settings/CamerShakeCheckBox" to="Settings" method="_on_CamerShakeCheckBox_toggled"]
-[connection signal="item_selected" from="Settings/StrayCountOptionButton" to="Settings" method="_on_StrayCountOptionButton_item_selected"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
