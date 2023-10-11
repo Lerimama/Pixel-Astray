@@ -19,12 +19,14 @@ func get_highscore_table(current_player_ranking):
 			var current_position_dict: Dictionary = current_level_highscores[scoreline_position_key]
 			var current_position_dict_values: Array = current_position_dict.values()
 			var current_position_dict_owners: Array = current_position_dict.keys()
-			scoreline.get_node("Position").text = str(scoreline_index)
+			scoreline.get_node("Position").text = str(scoreline_index) + "."
 			scoreline.get_node("Score").text = str(current_position_dict_values[0])
 			scoreline.get_node("Owner").text = str(current_position_dict_owners[0])
 		
 		# odfejdam ne-tvoje rezultate
-		if not scoreline_index == current_player_ranking:
-			scoreline.modulate.a = 0.5
+		if scoreline_index == current_player_ranking:
+			scoreline.modulate = Global.color_green
+#		if not scoreline_index == current_player_ranking:
+#			scoreline.modulate.a = 0.5
 			
 #	visible = true

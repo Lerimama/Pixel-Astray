@@ -4,6 +4,7 @@ extends Node
 var data_file: = File.new()
 var current_player_ranking: int # da ob rendriranju HS, lahko označim aktualni rezultat ... v GM
 
+
 func _ready() -> void:
 	Global.data_manager = self
 
@@ -101,24 +102,27 @@ func manage_gameover_highscores(player_points, current_level): # iz GM
 
 # READ / WRITE
 
-func read_highscores_from_file(current_level_no: int):
+
+func read_highscores_from_file(current_level_key: int):
 	
+	var current_level_name = Profiles.Levels.keys()[current_level_key]
+	printt("read hs from level name", current_level_name)
 	
 	# preverjam obstoj fileta ... ob prvem nalaganju igre
-	var error = data_file.open("user://level%s_highscores.save" % current_level_no, File.READ)
+	var error = data_file.open("user://level_%s_highscores.save" % current_level_name, File.READ)
 	# The file is created if it does not exist, and truncated if it does.
 	
 	# če fileta ni, ga ustvarim in zapišem default hs dict
 	if error != OK: # OK je 0
 #		printt("Error loading file", error)
-		data_file.open("user://level%s_highscores.save" % current_level_no, File.WRITE) # vsak level ma svoj filet
+		data_file.open("user://level_%s_highscores.save" % current_level_name, File.WRITE) # vsak level ma svoj filet
 		# vnesem default HS
 		data_file.store_line(to_json(Profiles.default_level_highscores))
 		data_file.close()
 #		printt("Default file created", data_file)
 		# ko je filet ustvarjen grem naprej na podajanje vse HSjev
 	
-	data_file.open("user://level%s_highscores.save" % current_level_no, File.READ)
+	data_file.open("user://level_%s_highscores.save" % current_level_name, File.READ)
 #	printt("File loaded", data_file)
 		
 	# prepiši podatke iz fileta v igro
@@ -129,23 +133,26 @@ func read_highscores_from_file(current_level_no: int):
 	return current_level_highscores
 	
 
-func write_highscores_to_file(current_level_no: int, new_level_highscores: Dictionary):
+func write_highscores_to_file(current_level_key: int, new_level_highscores: Dictionary):
+	
+	var current_level_name = Profiles.Levels.keys()[current_level_key]
+	printt("write hs to level name", current_level_name)
 	
 	# podam novi HS v json obliko
 	var json_string = JSON.print(new_level_highscores)
 #	printt("save json_string", json_string)
 	
 	# preverjam obstoj fileta ... v tem primeru že obstaja, ker ga igra ustvari ob prvem nalaganju
-	var error = data_file.open("user://level%s_highscores.save" % current_level_no, File.READ)
+	var error = data_file.open("user://level_%s_highscores.save" % current_level_name, File.READ)
 	
 	# če fileta ni, ga ustvarim in zapišem novi HS
 	if error != OK:
 #		printt("Error opening file", error)
-		data_file.open("user://level%s_highscores.save" % current_level_no, File.WRITE) # vsak level ma svoj filet
+		data_file.open("user://level_%s_highscores.save" % current_level_name, File.WRITE) # vsak level ma svoj filet
 #		printt("Empty file created", data_file)
 	else:
 #		printt("File opened", error)
-		data_file.open("user://level%s_highscores.save" % current_level_no, File.WRITE) # vsak level ma svoj filet
+		data_file.open("user://level_%s_highscores.save" % current_level_name, File.WRITE) # vsak level ma svoj filet
 	
 	# vnesem novi HS
 	data_file.store_line(to_json(new_level_highscores))

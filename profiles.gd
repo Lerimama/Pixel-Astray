@@ -6,19 +6,19 @@ extends Node
 
 var default_level_highscores: Dictionary = { # prazen slovar ... uporabi se ob kreiranju fileta ... uporabi ga Glo
 # če id uporabim kot gole številke, se vseeno prebere kot string
-	"1": {"First": 9,},
-	"2": {"Second": 8,},
-	"3": {"Third": 7,},
-	"4": {"Fourth": 6,},
-	"5": {"Fifth": 5,},
-	"6": {"Sixth": 4,},
-	"7": {"Seventh": 3,},
-	"8": {"Eighth": 2,},
-	"9": {"Ninth": 1,},
+	"1": {"Nobody": 9,},
+	"2": {"Nobody": 8,},
+	"3": {"Nobody": 7,},
+	"4": {"Nobody": 6,},
+	"5": {"Nobody": 5,},
+	"6": {"Nobody": 4,},
+	"7": {"Nobody": 3,},
+	"8": {"Nobody": 2,},
+	"9": {"Nobody": 1,},
 }
 
 var default_player_stats : Dictionary = { # bo verjetno za vsak mode drugačen
-	"player_name" : "Nobody", # to ime se piše v HS procesu, če igralec pusti prazno
+	"player_name" : "Moe", # to ime se piše v HS procesu, če igralec pusti prazno
 	"player_life" : 3,
 	"player_points": 0,
 	"player_energy" : 192, # tukaj določena je nepomembna, ker se jo na začetku opredeli iz gam settings

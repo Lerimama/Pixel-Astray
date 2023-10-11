@@ -1,14 +1,18 @@
 extends Node
 
 
-onready var animation_player: AnimationPlayer = $AnimationPlayer
-
 enum Screens {MAIN_MENU, SELECT_GAME, ABOUT, SETTINGS, HIGHSCORES}
 var current_screen # se določi z main animacije
-onready var menu: Control = $Menu
 
+onready var animation_player: AnimationPlayer = $AnimationPlayer
+onready var menu: Control = $Menu
 onready var intro: Node2D = $IntroViewPortContainer/Viewport/Intro
 onready var intro_viewport: Viewport = $IntroViewPortContainer/Viewport
+onready var select_game_btn_1: Button = $SelectGame/SelectGameBtn1
+onready var select_game_btn_2: Button = $SelectGame/SelectGameBtn2
+onready var select_game_btn_3: Button = $SelectGame/SelectGameBtn3
+onready var select_game_btn_4: Button = $SelectGame/SelectGameBtn4
+onready var select_game_btn_5: Button = $SelectGame/SelectGameBtn5
 
 
 func _input(event: InputEvent) -> void:
@@ -47,22 +51,19 @@ func _input(event: InputEvent) -> void:
 					
 					
 func _ready():
-	menu.visible = false
 	
-	dynamic_text_setup()	
+	menu.visible = false
+	games_buttons_text_setup()	
 
-onready var select_game_btn_1: Button = $SelectGame/SelectGameBtn1
-onready var select_game_btn_2: Button = $SelectGame/SelectGameBtn2
-onready var select_game_btn_3: Button = $SelectGame/SelectGameBtn3
-onready var select_game_btn_4: Button = $SelectGame/SelectGameBtn4
-onready var select_game_btn_5: Button = $SelectGame/SelectGameBtn5
 
-func dynamic_text_setup():
+func games_buttons_text_setup():
 	select_game_btn_1.text = "Only " + str(Profiles.level_1_stats["level"]) + " pixels astray"
 	select_game_btn_2.text = str(Profiles.level_2_stats["level"]) + " pixels astray"
 	select_game_btn_3.text = str(Profiles.level_3_stats["level"]) + " pixels astray"
 	select_game_btn_4.text = str(Profiles.level_4_stats["level"]) + " pixels astray"
 	select_game_btn_5.text = str(Profiles.level_5_stats["level"]) + " pixels astray"
+	
+ 
 			
 # MAIN MENU ---------------------------------------------------------------------------------------------------
 
@@ -77,6 +78,7 @@ func open_without_intro():
 
 	
 func menu_in():
+	current_screen = Screens.MAIN_MENU
 	
 	intro_viewport.gui_disable_input = true # dokler se predvaja mora biti, da skipanje deluje
 	
