@@ -319,7 +319,7 @@ tracks/3/keys = {
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_horizontal_guides_": [ 34.0, 360.0, 698.0, 686.0, 216.0, 176.0, 504.0, 544.0 ],
-"_edit_vertical_guides_": [ 640.0, 1248.0, 31.0, 678.0 ]
+"_edit_vertical_guides_": [ 640.0, 1248.0, 31.0 ]
 }
 
 [node name="GameView" type="VBoxContainer" parent="."]
@@ -1855,18 +1855,18 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -289.0
+margin_left = -273.0
 margin_top = -194.5
-margin_right = -79.0
+margin_right = -63.0
 margin_bottom = -162.5
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 5 )
 text = "GAME STATS"
 
 [node name="DataContainer" type="VBoxContainer" parent="GUI/GameOver/ContentGame"]
-margin_left = 352.0
+margin_left = 368.0
 margin_top = 238.0
-margin_right = 608.0
+margin_right = 624.0
 margin_bottom = 484.0
 custom_constants/separation = 10
 __meta__ = {
@@ -1970,9 +1970,9 @@ margin_right = 250.0
 margin_bottom = 41.0
 
 [node name="HighscoreTable" type="VBoxContainer" parent="GUI/GameOver/ContentGame"]
-margin_left = 678.0
+margin_left = 705.0
 margin_top = 168.0
-margin_right = 928.0
+margin_right = 911.0
 margin_bottom = 506.0
 custom_constants/separation = 10
 script = ExtResource( 7 )
@@ -1981,32 +1981,35 @@ __meta__ = {
 }
 
 [node name="RowLabels" type="HBoxContainer" parent="GUI/GameOver/ContentGame/HighscoreTable"]
-margin_right = 254.0
+margin_right = 206.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 0, 28 )
 
 [node name="Position" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/RowLabels"]
-margin_right = 56.0
+margin_right = 28.0
 margin_bottom = 22.0
+rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 size_flags_vertical = 0
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-text = "Rank"
+text = "#"
 
 [node name="Owner" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/RowLabels"]
-margin_left = 60.0
-margin_right = 180.0
+margin_left = 32.0
+margin_right = 132.0
 margin_bottom = 22.0
-rect_min_size = Vector2( 120, 0 )
-size_flags_horizontal = 10
+rect_min_size = Vector2( 100, 0 )
+size_flags_horizontal = 11
 size_flags_vertical = 0
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Player"
-align = 1
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="Score" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/RowLabels"]
-margin_left = 184.0
-margin_right = 254.0
+margin_left = 136.0
+margin_right = 206.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -2017,290 +2020,318 @@ align = 2
 
 [node name="ScoreLine1" type="HBoxContainer" parent="GUI/GameOver/ContentGame/HighscoreTable"]
 margin_top = 38.0
-margin_right = 254.0
+margin_right = 206.0
 margin_bottom = 60.0
 
 [node name="Position" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine1"]
-margin_right = 20.0
+margin_right = 28.0
 margin_bottom = 22.0
+rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "2."
 
 [node name="Owner" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine1"]
-margin_left = 60.0
-margin_right = 180.0
+margin_left = 32.0
+margin_right = 132.0
 margin_bottom = 22.0
-rect_min_size = Vector2( 120, 0 )
+rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 10
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "Primož"
-percent_visible = 1.33333
+text = "Player"
+percent_visible = 1.16667
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="Score" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine1"]
-margin_left = 184.0
-margin_right = 254.0
+margin_left = 136.0
+margin_right = 206.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "1200"
+text = "0000"
 align = 2
 
 [node name="ScoreLine2" type="HBoxContainer" parent="GUI/GameOver/ContentGame/HighscoreTable"]
 margin_top = 70.0
-margin_right = 254.0
+margin_right = 206.0
 margin_bottom = 92.0
 
 [node name="Position" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine2"]
-margin_right = 20.0
+margin_right = 28.0
 margin_bottom = 22.0
+rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "2."
 
 [node name="Owner" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine2"]
-margin_left = 60.0
-margin_right = 180.0
+margin_left = 32.0
+margin_right = 132.0
 margin_bottom = 22.0
-rect_min_size = Vector2( 120, 0 )
+rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 10
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "Primoz"
-percent_visible = 1.33333
+text = "Player"
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="Score" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine2"]
-margin_left = 184.0
-margin_right = 254.0
+margin_left = 136.0
+margin_right = 206.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "1200"
+text = "0000"
 align = 2
 
 [node name="ScoreLine3" type="HBoxContainer" parent="GUI/GameOver/ContentGame/HighscoreTable"]
 margin_top = 102.0
-margin_right = 254.0
+margin_right = 206.0
 margin_bottom = 124.0
 
 [node name="Position" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine3"]
-margin_right = 20.0
+margin_right = 28.0
 margin_bottom = 22.0
+rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "2."
 
 [node name="Owner" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine3"]
-margin_left = 60.0
-margin_right = 180.0
+margin_left = 32.0
+margin_right = 132.0
 margin_bottom = 22.0
-rect_min_size = Vector2( 120, 0 )
+rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 10
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "Primoz"
-percent_visible = 1.33333
+text = "Player"
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="Score" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine3"]
-margin_left = 184.0
-margin_right = 254.0
+margin_left = 136.0
+margin_right = 206.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "1200"
+text = "0000"
 align = 2
 
 [node name="ScoreLine4" type="HBoxContainer" parent="GUI/GameOver/ContentGame/HighscoreTable"]
 margin_top = 134.0
-margin_right = 254.0
+margin_right = 206.0
 margin_bottom = 156.0
 
 [node name="Position" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine4"]
-margin_right = 20.0
+margin_right = 28.0
 margin_bottom = 22.0
+rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "2."
 
 [node name="Owner" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine4"]
-margin_left = 60.0
-margin_right = 180.0
+margin_left = 32.0
+margin_right = 132.0
 margin_bottom = 22.0
-rect_min_size = Vector2( 120, 0 )
+rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 10
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "Primoz"
-percent_visible = 1.33333
+text = "Player"
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="Score" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine4"]
-margin_left = 184.0
-margin_right = 254.0
+margin_left = 136.0
+margin_right = 206.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "1200"
+text = "0000"
 align = 2
 
 [node name="ScoreLine5" type="HBoxContainer" parent="GUI/GameOver/ContentGame/HighscoreTable"]
 margin_top = 166.0
-margin_right = 254.0
+margin_right = 206.0
 margin_bottom = 188.0
 
 [node name="Position" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine5"]
-margin_right = 20.0
+margin_right = 28.0
 margin_bottom = 22.0
+rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "2."
 
 [node name="Owner" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine5"]
-margin_left = 60.0
-margin_right = 180.0
+margin_left = 32.0
+margin_right = 132.0
 margin_bottom = 22.0
-rect_min_size = Vector2( 120, 0 )
+rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 10
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "Primoz"
-percent_visible = 1.33333
+text = "Player"
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="Score" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine5"]
-margin_left = 184.0
-margin_right = 254.0
+margin_left = 136.0
+margin_right = 206.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "1200"
+text = "0000"
 align = 2
 
 [node name="ScoreLine6" type="HBoxContainer" parent="GUI/GameOver/ContentGame/HighscoreTable"]
 margin_top = 198.0
-margin_right = 254.0
+margin_right = 206.0
 margin_bottom = 220.0
 
 [node name="Position" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine6"]
-margin_right = 20.0
+margin_right = 28.0
 margin_bottom = 22.0
+rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "2."
 
 [node name="Owner" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine6"]
-margin_left = 60.0
-margin_right = 180.0
+margin_left = 32.0
+margin_right = 132.0
 margin_bottom = 22.0
-rect_min_size = Vector2( 120, 0 )
+rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 10
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "Primoz"
-percent_visible = 1.33333
+text = "Player"
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="Score" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine6"]
-margin_left = 184.0
-margin_right = 254.0
+margin_left = 136.0
+margin_right = 206.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "1200"
+text = "0000"
 align = 2
 
 [node name="ScoreLine7" type="HBoxContainer" parent="GUI/GameOver/ContentGame/HighscoreTable"]
 margin_top = 230.0
-margin_right = 254.0
+margin_right = 206.0
 margin_bottom = 252.0
 
 [node name="Position" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine7"]
-margin_right = 20.0
+margin_right = 28.0
 margin_bottom = 22.0
+rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "2."
 
 [node name="Owner" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine7"]
-margin_left = 60.0
-margin_right = 180.0
+margin_left = 32.0
+margin_right = 132.0
 margin_bottom = 22.0
-rect_min_size = Vector2( 120, 0 )
+rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 10
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "Primoz"
-percent_visible = 1.33333
+text = "Player"
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="Score" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine7"]
-margin_left = 184.0
-margin_right = 254.0
+margin_left = 136.0
+margin_right = 206.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "1200"
+text = "0000"
 align = 2
 
 [node name="ScoreLine8" type="HBoxContainer" parent="GUI/GameOver/ContentGame/HighscoreTable"]
 margin_top = 262.0
-margin_right = 254.0
+margin_right = 206.0
 margin_bottom = 284.0
 
 [node name="Position" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine8"]
-margin_right = 20.0
+margin_right = 28.0
 margin_bottom = 22.0
+rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "2."
 
 [node name="Owner" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine8"]
-margin_left = 60.0
-margin_right = 180.0
+margin_left = 32.0
+margin_right = 132.0
 margin_bottom = 22.0
-rect_min_size = Vector2( 120, 0 )
+rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 10
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "Primoz"
-percent_visible = 1.33333
+text = "Player"
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="Score" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine8"]
-margin_left = 184.0
-margin_right = 254.0
+margin_left = 136.0
+margin_right = 206.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "1200"
+text = "0000"
 align = 2
 
 [node name="ScoreLine9" type="HBoxContainer" parent="GUI/GameOver/ContentGame/HighscoreTable"]
 margin_top = 294.0
-margin_right = 254.0
+margin_right = 206.0
 margin_bottom = 316.0
 
 [node name="Position" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine9"]
-margin_right = 20.0
+margin_right = 28.0
 margin_bottom = 22.0
+rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "2."
 
 [node name="Owner" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine9"]
-margin_left = 60.0
-margin_right = 180.0
+margin_left = 32.0
+margin_right = 132.0
 margin_bottom = 22.0
-rect_min_size = Vector2( 120, 0 )
+rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 10
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "Primoz"
-percent_visible = 1.33333
+text = "Player"
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="Score" type="Label" parent="GUI/GameOver/ContentGame/HighscoreTable/ScoreLine9"]
-margin_left = 184.0
-margin_right = 254.0
+margin_left = 136.0
+margin_right = 206.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "1200"
+text = "0000"
 align = 2
 
 [node name="Menu" type="HBoxContainer" parent="GUI/GameOver/ContentGame"]

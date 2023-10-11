@@ -143,7 +143,8 @@ func fade_in(gameover_reason):
 	fade_in.tween_callback(Global.sound_manager, "play_sfx", ["loose_jingle"])
 	
 	write_gameover_data()
-	highscore_table.get_highscore_table(Global.data_manager.current_player_ranking)
+#	highscore_table.get_highscore_table(Global.data_manager.current_player_ranking)
+	highscore_table.get_highscore_table(Global.game_manager.game_stats["level"], Global.data_manager.current_player_ranking)
 	
 	content_game.visible = true
 	
@@ -201,7 +202,7 @@ func show_content():
 	
 	# title se odfejda v "close_name_input()"
 	write_gameover_data()
-	highscore_table.get_highscore_table(Global.data_manager.current_player_ranking)
+	highscore_table.get_highscore_table(Global.game_manager.game_stats["level"], Global.data_manager.current_player_ranking)
 	
 	content_game.visible = true
 

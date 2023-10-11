@@ -167,8 +167,8 @@ func _on_HighscoresBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	
-	var fake_player_ranking: int = 100
-	$Highscores/HSLevel88/HighscoreTable.get_highscore_table(fake_player_ranking) # številka je ranking izven lesvice in nič ni označeno
+#	var fake_player_ranking: int = 100
+#	$Highscores.load_all_highscores(fake_player_ranking)
 	animation_player.play("highscores")
 
 

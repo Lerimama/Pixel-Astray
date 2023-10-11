@@ -52,25 +52,25 @@ var level_1_stats : Dictionary = {
 
 var level_2_stats : Dictionary = {
 	"level": Levels.M,
-	"game_time_limit": 120,
+	"game_time_limit": 5,
 	"stray_pixels_count": 32, 
 }
 
 var level_3_stats : Dictionary = {
 	"level": Levels.L,
-	"game_time_limit": 180,
+	"game_time_limit": 5,
 	"stray_pixels_count": 140, 
 }
 
 var level_4_stats : Dictionary = {
 	"level": Levels.XL,
-	"game_time_limit": 240,
+	"game_time_limit": 5,
 	"stray_pixels_count": 230, 
 }
 
 var level_5_stats : Dictionary = {
 	"level": Levels.XXL,
-	"game_time_limit": 300,
+	"game_time_limit": 5,
 	"stray_pixels_count": 320, 
 }
 
