@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=1]
 [ext_resource path="res://assets/theme/iconset_lerimama_theme.png" type="Texture" id=2]
@@ -9,7 +9,9 @@
 [ext_resource path="res://assets/tiles/tile_title_16.png" type="Texture" id=7]
 [ext_resource path="res://home/highscores.gd" type="Script" id=8]
 [ext_resource path="res://assets/theme/stylebox_panelwithborder.tres" type="StyleBox" id=9]
+[ext_resource path="res://assets/joypad_scheme.png" type="Texture" id=10]
 [ext_resource path="res://game/gui/highscore_table.gd" type="Script" id=11]
+[ext_resource path="res://assets/controls_scheme.png" type="Texture" id=12]
 
 [sub_resource type="AtlasTexture" id=158]
 atlas = ExtResource( 2 )
@@ -18,6 +20,66 @@ region = Rect2( 0, 60, 24, 20 )
 [sub_resource type="AtlasTexture" id=150]
 atlas = ExtResource( 2 )
 region = Rect2( 0, 40, 24, 20 )
+
+[sub_resource type="AtlasTexture" id=160]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 0, 60, 86 )
+
+[sub_resource type="AtlasTexture" id=161]
+atlas = ExtResource( 12 )
+region = Rect2( 10, 17, 22, 22 )
+
+[sub_resource type="AtlasTexture" id=162]
+atlas = ExtResource( 12 )
+region = Rect2( 30, 40, 18, 18 )
+
+[sub_resource type="AtlasTexture" id=159]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 98, 70, 46 )
+
+[sub_resource type="AtlasTexture" id=163]
+atlas = ExtResource( 12 )
+region = Rect2( 80, 98, 70, 46 )
+
+[sub_resource type="AtlasTexture" id=166]
+atlas = ExtResource( 12 )
+region = Rect2( 60, 0, 60, 86 )
+
+[sub_resource type="AtlasTexture" id=164]
+atlas = ExtResource( 12 )
+region = Rect2( 96, 32, 10, 10 )
+
+[sub_resource type="AtlasTexture" id=165]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 154, 110, 22 )
+
+[sub_resource type="AtlasTexture" id=167]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 0, 120, 46 )
+
+[sub_resource type="AtlasTexture" id=168]
+atlas = ExtResource( 12 )
+region = Rect2( 44, 12, 10, 6 )
+
+[sub_resource type="AtlasTexture" id=169]
+atlas = ExtResource( 12 )
+region = Rect2( 20, 0, 80, 4 )
+
+[sub_resource type="AtlasTexture" id=170]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 186, 22, 22 )
+
+[sub_resource type="AtlasTexture" id=171]
+atlas = ExtResource( 12 )
+region = Rect2( 25, 186, 22, 22 )
+
+[sub_resource type="AtlasTexture" id=172]
+atlas = ExtResource( 12 )
+region = Rect2( 49, 186, 22, 22 )
+
+[sub_resource type="AtlasTexture" id=173]
+atlas = ExtResource( 12 )
+region = Rect2( 73, 186, 22, 22 )
 
 [sub_resource type="StyleBoxFlat" id=152]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
@@ -829,15 +891,6 @@ margin_top = 31.0
 margin_right = 96.0
 margin_bottom = 42.0
 
-[node name="Text5" type="Label" parent="About"]
-margin_left = 128.0
-margin_top = 375.0
-margin_right = 640.0
-margin_bottom = 540.0
-size_flags_horizontal = 3
-text = "Each pixel represents a specific color and intensity, and together they create the images we see. The resolution of an image refers to the number of pixels it contains. Higher resolutions mean more pixels are packed into the same area."
-autowrap = true
-
 [node name="gameplay" type="Label" parent="About"]
 margin_left = 128.0
 margin_top = 71.0
@@ -860,16 +913,6 @@ theme = ExtResource( 1 )
 text = "Its a game that focuses arround .... Pixels, short for picture elements."
 autowrap = true
 
-[node name="story" type="Label" parent="About"]
-margin_left = 128.0
-margin_top = 335.0
-margin_right = 198.0
-margin_bottom = 360.0
-size_flags_horizontal = 3
-theme = ExtResource( 1 )
-custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "STORY"
-
 [node name="content2" type="Label" parent="About"]
 anchor_left = 0.5
 anchor_right = 0.5
@@ -881,27 +924,265 @@ theme = ExtResource( 1 )
 text = "Player interacts with ... They are tiny squares or dots that combine to form the visual content on displays such as computer screens."
 autowrap = true
 
-[node name="controls" type="Label" parent="About"]
-margin_left = 704.0
-margin_top = 71.0
-margin_right = 816.0
-margin_bottom = 92.0
+[node name="Move" type="Control" parent="About"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 64.0
+margin_top = 88.0
+margin_right = 304.0
+margin_bottom = 224.0
+rect_pivot_offset = Vector2( 264, 104 )
+
+[node name="TextureRect" type="TextureRect" parent="About/Move"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 178.0
+margin_top = -86.0
+margin_right = 298.0
+texture = SubResource( 160 )
+
+[node name="TextureRect3" type="TextureRect" parent="About/Move"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 188.0
+margin_top = -69.0
+margin_right = 210.0
+margin_bottom = -47.0
+texture = SubResource( 161 )
+
+[node name="TextureRect4" type="TextureRect" parent="About/Move"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 208.0
+margin_top = -46.0
+margin_right = 226.0
+margin_bottom = -28.0
+texture = SubResource( 162 )
+
+[node name="HSeparator" type="VSeparator" parent="About/Move"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 233.0
+margin_top = -85.0
+margin_right = 245.0
+margin_bottom = -1.0
+
+[node name="TextureRect2" type="TextureRect" parent="About/Move"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -46.0
+margin_right = 70.0
+texture = SubResource( 159 )
+
+[node name="TextureRect5" type="TextureRect" parent="About/Move"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 80.0
+margin_top = -46.0
+margin_right = 150.0
+texture = SubResource( 163 )
+
+[node name="Title" type="Label" parent="About/Move"]
+modulate = Color( 1, 1, 1, 0.901961 )
+margin_top = -2.0
+margin_right = 144.0
+margin_bottom = 20.0
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Move player"
+
+[node name="Text" type="Label" parent="About/Move"]
+margin_top = 38.0
+margin_right = 144.0
+margin_bottom = 60.0
 size_flags_horizontal = 3
 theme = ExtResource( 1 )
-text = "CONTROLS"
+text = "Jadadada ..."
 
-[node name="keyboard" type="Label" parent="About"]
+[node name="Burst" type="Control" parent="About"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 64.0
+margin_top = 256.0
+margin_right = 304.0
+margin_bottom = 392.0
+
+[node name="TextureRect" type="TextureRect" parent="About/Burst"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 180.0
+margin_top = -86.0
+margin_right = 240.0
+texture = SubResource( 166 )
+
+[node name="TextureRect3" type="TextureRect" parent="About/Burst"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 216.0
+margin_top = -54.0
+margin_right = 226.0
+margin_bottom = -44.0
+texture = SubResource( 164 )
+
+[node name="HSeparator" type="VSeparator" parent="About/Burst"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 173.0
+margin_top = -85.0
+margin_right = 185.0
+margin_bottom = -1.0
+
+[node name="TextureRect2" type="TextureRect" parent="About/Burst"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -22.0
+margin_right = 110.0
+texture = SubResource( 165 )
+
+[node name="Text" type="Label" parent="About/Burst"]
+modulate = Color( 1, 1, 1, 0.901961 )
+margin_top = 38.0
+margin_right = 144.0
+margin_bottom = 60.0
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+text = "Jadadada ..."
+
+[node name="Title" type="Label" parent="About/Burst"]
+margin_top = -2.0
+margin_right = 168.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Pick color"
+
+[node name="Other" type="Control" parent="About"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 64.0
+margin_top = 416.0
+margin_right = 304.0
+margin_bottom = 568.0
+
+[node name="TextureRect" type="TextureRect" parent="About/Other"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 132.0
+margin_top = -48.0
+margin_right = 252.0
+margin_bottom = -2.0
+texture = SubResource( 167 )
+
+[node name="TextureRect3" type="TextureRect" parent="About/Other"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 176.0
+margin_top = -36.0
+margin_right = 186.0
+margin_bottom = -30.0
+texture = SubResource( 168 )
+
+[node name="TextureRect4" type="TextureRect" parent="About/Other"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 198.0
+margin_top = -36.0
+margin_right = 208.0
+margin_bottom = -30.0
+texture = SubResource( 168 )
+
+[node name="TextureRect5" type="TextureRect" parent="About/Other"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 152.0
+margin_top = -48.0
+margin_right = 232.0
+margin_bottom = -44.0
+texture = SubResource( 169 )
+
+[node name="HSeparator" type="HSeparator" parent="About/Other"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 129.0
+margin_top = -3.0
+margin_right = 255.0
+margin_bottom = 2.0
+
+[node name="TextureRect2" type="TextureRect" parent="About/Other"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -118.0
+margin_right = 22.0
+margin_bottom = -96.0
+texture = SubResource( 170 )
+
+[node name="TextureRect6" type="TextureRect" parent="About/Other"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -86.0
+margin_right = 22.0
+margin_bottom = -64.0
+texture = SubResource( 171 )
+
+[node name="TextureRect7" type="TextureRect" parent="About/Other"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -54.0
+margin_right = 22.0
+margin_bottom = -32.0
+texture = SubResource( 172 )
+
+[node name="TextureRect8" type="TextureRect" parent="About/Other"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -22.0
+margin_right = 22.0
+texture = SubResource( 173 )
+
+[node name="Text" type="Label" parent="About/Other"]
+modulate = Color( 1, 1, 1, 0.901961 )
+margin_left = 56.0
+margin_top = 38.0
+margin_right = 200.0
+margin_bottom = 60.0
+size_flags_vertical = 0
+theme = ExtResource( 1 )
+text = "Jadadada ..."
+
+[node name="Title" type="Label" parent="About/Other"]
+margin_top = -2.0
+margin_right = 168.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Shortcuts"
+
+[node name="Control" type="Control" parent="About"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="keyboard" type="Label" parent="About/Control"]
 modulate = Color( 1, 1, 1, 0.901961 )
 margin_left = 704.0
 margin_top = 111.0
 margin_right = 812.0
-margin_bottom = 132.0
+margin_bottom = 133.0
 size_flags_vertical = 0
 theme = ExtResource( 1 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Keyboard"
 
-[node name="content3" type="Label" parent="About"]
+[node name="content3" type="Label" parent="About/Control"]
 margin_left = 832.0
 margin_top = 111.0
 margin_right = 1208.0
@@ -915,7 +1196,7 @@ Move right = D, RIGHT
 Burst = SPACE + opp direction"
 autowrap = true
 
-[node name="joypad" type="Label" parent="About"]
+[node name="joypad" type="Label" parent="About/Control"]
 modulate = Color( 1, 1, 1, 0.901961 )
 margin_left = 728.0
 margin_top = 263.0
@@ -926,7 +1207,7 @@ theme = ExtResource( 1 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "JoyPad"
 
-[node name="content4" type="Label" parent="About"]
+[node name="content4" type="Label" parent="About/Control"]
 margin_left = 832.0
 margin_top = 263.0
 margin_right = 1280.0
@@ -940,7 +1221,11 @@ Move right = RIGHT
 Burst =  B + opp direction"
 autowrap = true
 
-[node name="shortcuts" type="Label" parent="About"]
+[node name="JoypadScheme" type="Sprite" parent="About/Control/content4"]
+position = Vector2( 344, 57 )
+texture = ExtResource( 10 )
+
+[node name="shortcuts" type="Label" parent="About/Control"]
 modulate = Color( 1, 1, 1, 0.901961 )
 margin_left = 698.0
 margin_top = 415.0
@@ -951,11 +1236,11 @@ theme = ExtResource( 1 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Shortcuts"
 
-[node name="content5" type="Label" parent="About"]
+[node name="content5" type="Label" parent="About/Control"]
 margin_left = 832.0
 margin_top = 415.0
 margin_right = 1248.0
-margin_bottom = 496.0
+margin_bottom = 549.0
 size_flags_vertical = 0
 theme = ExtResource( 1 )
 text = "Toggle game pause = ESC/L1

@@ -784,11 +784,11 @@ texture = SubResource( 123 )
 [node name="EnergyBar" type="HBoxContainer" parent="GUI/Hud/Header/HudLine_TL"]
 margin_left = 76.0
 margin_top = 3.0
-margin_right = 142.0
+margin_right = 140.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 19 )
 size_flags_vertical = 8
-custom_constants/separation = 8
+custom_constants/separation = 6
 script = ExtResource( 13 )
 
 [node name="TextureRect7" type="TextureRect" parent="GUI/Hud/Header/HudLine_TL/EnergyBar"]
@@ -800,9 +800,9 @@ size_flags_vertical = 8
 texture = SubResource( 125 )
 
 [node name="TextureProgress" type="TextureProgress" parent="GUI/Hud/Header/HudLine_TL/EnergyBar"]
-margin_left = 18.0
+margin_left = 16.0
 margin_top = 1.0
-margin_right = 66.0
+margin_right = 64.0
 margin_bottom = 19.0
 rect_min_size = Vector2( 0, 18 )
 size_flags_vertical = 8
@@ -812,8 +812,8 @@ texture_over = SubResource( 126 )
 texture_progress = SubResource( 132 )
 
 [node name="PointsCounter" type="HBoxContainer" parent="GUI/Hud/Header/HudLine_TL"]
-margin_left = 166.0
-margin_right = 226.0
+margin_left = 164.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 22 )
 size_flags_vertical = 8
@@ -1711,6 +1711,7 @@ autowrap = true
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
+visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
 script = ExtResource( 3 )

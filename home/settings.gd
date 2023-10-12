@@ -1,9 +1,6 @@
 extends Control
 
 
-onready var option_button: OptionButton = $StrayCountOptionButton
-
-
 func _ready() -> void:
 	$GameMusicSlider.value = AudioServer.get_bus_volume_db(AudioServer.get_bus_index("GameMusic")) # za_poenoten slajder v settingsih in pavzi
 	

@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=20 format=2]
+[gd_resource type="Theme" load_steps=21 format=2]
 
 [ext_resource path="res://assets/theme/lerimama_theme_font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/theme/iconset_lerimama_theme.png" type="Texture" id=3]
@@ -88,6 +88,11 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
 
+[sub_resource type="StyleBoxLine" id=174]
+color = Color( 1, 1, 1, 1 )
+thickness = 2
+vertical = true
+
 [resource]
 default_font = ExtResource( 1 )
 Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
@@ -130,3 +135,4 @@ OptionButton/styles/focus = SubResource( 168 )
 OptionButton/styles/hover = SubResource( 168 )
 OptionButton/styles/pressed = SubResource( 168 )
 Panel/styles/panel = SubResource( 7 )
+VSeparator/styles/separator = SubResource( 174 )
