@@ -35,7 +35,7 @@ enum Levels {PRACTICE, S, M, L, XL, XXL}
 
 var default_level_stats : Dictionary = { # na štartu igre se tole duplicira in postane game stats
 	"level" : Levels.PRACTICE,
-	"game_time_limit" : 5, # sekund
+	"game_time_limit" : 15, # sekund
 	"stray_pixels_count" : 32,
 	"off_pixels_count" : 0,
 	"highscore": 0000, # se naloži iz  "default_level_highscores" lestvice ob štartu igre, zato, da te lahko opozori že med igro

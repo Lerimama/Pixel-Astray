@@ -728,8 +728,8 @@ points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 [node name="Home" type="Node2D"]
 script = ExtResource( 5 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 1408.0, 1320.0, -600.0, -536.0, 192.0, 592.0, 176.0, 744.0, -448.0 ],
-"_edit_vertical_guides_": [ -848.0, -655.0, -192.0, 2112.0, 64.0, 1280.0, 1216.0, 1960.0, 640.0, 280.0 ]
+"_edit_horizontal_guides_": [ 192.0, 608.0, -448.0, 128.0 ],
+"_edit_vertical_guides_": [ 64.0, 1280.0, 1216.0, 640.0 ]
 }
 
 [node name="Undi" type="ColorRect" parent="."]
@@ -875,21 +875,26 @@ flip_h = true
 [node name="Title" type="Label" parent="About"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -512.0
+margin_left = -49.0
 margin_top = -2.0
-margin_right = -356.0
+margin_right = 50.0
 margin_bottom = 30.0
 size_flags_horizontal = 3
 theme = ExtResource( 1 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "About"
+align = 1
 
 [node name="HSeparator" type="HSeparator" parent="About/Title"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-margin_top = 31.0
-margin_right = 96.0
-margin_bottom = 42.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = 4.0
+margin_right = -5.0
+margin_bottom = 8.0
 
 [node name="gameplay" type="Label" parent="About"]
 margin_left = 128.0
@@ -1275,15 +1280,16 @@ texture_focused = SubResource( 150 )
 [node name="Title" type="Label" parent="Highscores"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -116.0
+margin_left = -96.0
 margin_top = 126.0
-margin_right = 115.0
+margin_right = 96.0
 margin_bottom = 158.0
 size_flags_horizontal = 3
 theme = ExtResource( 1 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 custom_fonts/font = ExtResource( 4 )
-text = "All-time best"
+text = "Highscores"
+align = 1
 
 [node name="HSeparator" type="HSeparator" parent="Highscores/Title"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
@@ -1291,9 +1297,9 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 1.0
-margin_top = 1.0
-margin_right = -3.0
-margin_bottom = 5.0
+margin_top = 4.0
+margin_right = -4.0
+margin_bottom = 8.0
 
 [node name="LevelS" type="Control" parent="Highscores"]
 margin_left = 48.0
@@ -3267,17 +3273,21 @@ text = "Select game"
 
 [node name="HSeparator" type="HSeparator" parent="SelectGame/Title"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-margin_top = 30.0
-margin_right = 213.0
-margin_bottom = 41.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = 4.0
+margin_right = -5.0
+margin_bottom = 8.0
 
 [node name="SelectGameBackBtn" type="TextureButton" parent="SelectGame"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -176.0
-margin_top = 112.0
+margin_top = 108.0
 margin_right = -152.0
-margin_bottom = 132.0
+margin_bottom = 128.0
 rect_min_size = Vector2( 16, 16 )
 focus_neighbour_bottom = NodePath("../SelectGameBtn1")
 texture_normal = SubResource( 158 )
@@ -3403,9 +3413,9 @@ script = ExtResource( 3 )
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -32.0
-margin_top = 113.0
+margin_top = 108.0
 margin_right = -8.0
-margin_bottom = 133.0
+margin_bottom = 128.0
 rect_min_size = Vector2( 16, 16 )
 texture_normal = SubResource( 158 )
 texture_hover = SubResource( 150 )
@@ -3414,7 +3424,7 @@ texture_focused = SubResource( 150 )
 [node name="Title" type="Label" parent="Settings"]
 margin_left = 224.0
 margin_top = 102.0
-margin_right = 608.0
+margin_right = 368.0
 margin_bottom = 134.0
 size_flags_horizontal = 3
 theme = ExtResource( 1 )
@@ -3424,23 +3434,27 @@ text = "Settings"
 
 [node name="HSeparator" type="HSeparator" parent="Settings/Title"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-margin_top = 31.0
-margin_right = 140.0
-margin_bottom = 42.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = 4.0
+margin_right = -4.0
+margin_bottom = 8.0
 
 [node name="MenuMusicCheckBox" type="CheckBox" parent="Settings"]
 margin_left = 224.0
-margin_top = 174.0
+margin_top = 172.0
 margin_right = 384.0
-margin_bottom = 200.0
+margin_bottom = 198.0
 pressed = true
 text = "Menu music"
 
 [node name="GameMusicCheckBox" type="CheckBox" parent="Settings"]
 margin_left = 224.0
-margin_top = 214.0
-margin_right = 380.0
-margin_bottom = 236.0
+margin_top = 212.0
+margin_right = 384.0
+margin_bottom = 238.0
 pressed = true
 text = "Game music"
 
@@ -3473,19 +3487,19 @@ polygon = PoolVector2Array( 234, 1, 234, -3, 238, -3, 238, 1 )
 
 [node name="GameSfxCheckBox" type="CheckBox" parent="Settings"]
 margin_left = 224.0
-margin_top = 318.0
-margin_right = 418.0
-margin_bottom = 340.0
+margin_top = 316.0
+margin_right = 422.0
+margin_bottom = 342.0
 pressed = true
 text = "Game sound fx"
 
 [node name="CamerShakeCheckBox" type="CheckBox" parent="Settings"]
 margin_left = 224.0
-margin_top = 358.0
+margin_top = 356.0
 margin_right = 446.0
-margin_bottom = 380.0
+margin_bottom = 382.0
 pressed = true
-text = "Camera shake on"
+text = "Camera shake"
 
 [node name="Shorts" type="Label" parent="Settings"]
 anchor_left = 0.5
@@ -3497,7 +3511,7 @@ margin_bottom = 596.0
 size_flags_horizontal = 3
 theme = ExtResource( 1 )
 text = "*
-Settings are also available in pause menu. To control sound during game use shortcuts M/L2  to toggle music on/off, and N/L4 for next track."
+Sound settings can also be done during game in pause menu."
 autowrap = true
 
 [node name="Creditsodl" type="Control" parent="."]
