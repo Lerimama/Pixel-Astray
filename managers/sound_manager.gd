@@ -35,7 +35,7 @@ func play_stepping_sfx(current_player_energy_part: float):
 	
 func play_sfx(effect_for: String):
 	
-	return	
+#	return	
 	if game_sfx_set_to_off:
 		return	
 		

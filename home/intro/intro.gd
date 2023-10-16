@@ -6,7 +6,7 @@ signal finished_playing
 # intro
 export var actor_in_motion: bool = true # exportano za animacijo
 var step_time: float = 0.065
-var last_breath_loop_limit: int = 5 
+var last_breath_loop_limit: int = 5
 var last_breath_loop_count: int = 0
 
 # shake
@@ -52,6 +52,8 @@ func _process(delta: float) -> void:
 
 
 func play_intro():
+	
+	yield(get_tree().create_timer(1), "timeout")
 	animation_player.play("intro_running")
 	
 	
@@ -235,16 +237,16 @@ func _on_TileMap_tilemap_completed(floor_cells_global_positions: Array, title_ce
 func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	match anim_name:
 		"intro_running": 
-			animation_player.play("last_breath")
-			Global.sound_manager.play_sfx("last_breath")
-			last_breath_loop_count = 1	
-		"intro_explode": 
+			animation_player.play("intro_explode")
+		"intro_explode":
 			end_intro()
+			# animation_player.play("last_breath")
+			# Global.sound_manager.play_sfx("last_breath")
+			# last_breath_loop_count = 1
 		"last_breath": 
 			last_breath_loop_count += 1
 			if last_breath_loop_count > last_breath_loop_limit:
-				Global.sound_manager.stop_sfx("last_breath")
-				animation_player.play("intro_explode")
+				end_intro()
 			else:
 				animation_player.play("last_breath")
 				Global.sound_manager.play_sfx("last_breath")
