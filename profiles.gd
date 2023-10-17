@@ -100,7 +100,6 @@ var game_rules: Dictionary = { # tole ne uporabljam v zadnji varianti
 	"gameover_countdown_duration": 10, # hud game timer
 	"last_breath_loop_limit": 3, # cca 1 bit na sekundo
 	"pixel_start_color": Color("#141414"),
-	"intro_strays_count": 149,  # 149 celic je v naslovu, kar je več gre naokrog
 	"death_mode_duration" : 20,
 	
 		

@@ -5,9 +5,8 @@ signal finished_playing
 
 # intro
 export var actor_in_motion: bool = true # exportano za animacijo
-var step_time: float = 0.065
-var last_breath_loop_limit: int = 5
-var last_breath_loop_count: int = 0
+var intro_strays_spawned: bool = false
+var step_time: float = 0.08
 
 # shake
 var spawn_shake_power: float = 0.25
@@ -25,19 +24,20 @@ var available_floor_positions: Array # dplikat floor_positions za spawnanje pixl
 var title_positions: Array
 var available_title_positions: Array
 
-onready var stray_pixels_count: int = Profiles.game_rules["intro_strays_count"] # 149 celic je v naslovu
+onready var stray_pixels_count: int =  149 # 149 celic je v naslovu
 onready var animation_player: AnimationPlayer = $AnimationPlayer
+onready var stray_step_timer: Timer = $StrayStepTimer
 onready var actor_pixel: KinematicBody2D = $Actor
 onready var spectrum_rect: TextureRect = $Spectrum
-onready var text: Node2D = $Text
+onready var text_node: Node2D = $Text
 onready var thunder_cover: ColorRect = $Level/ThunderCover
-onready var skip_intro_label: Label = $Text/SkipIntroLabel
+onready var skip_intro: HBoxContainer = $Text/SkipIntro
 onready var StrayPixel = preload("res://game/pixel/stray.tscn")
 
 
 func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("ui_cancel") and skip_intro_label.visible:
-		skip_intro()
+	if Input.is_action_just_pressed("ui_cancel") and skip_intro.visible:
+		end_intro()
 	
 	
 func _ready() -> void:
@@ -57,18 +57,18 @@ func play_intro():
 	animation_player.play("intro_running")
 	
 	
-func skip_intro(): # kadar je intro skipan
+func end_intro():
 	
-	skip_intro_label.visible = false
+	# vse pospravim ... zazih
 	animation_player.stop()
-	thunder_cover.visible = false
+	skip_intro.visible = false
 	actor_in_motion = false
-	text.visible = false
 	actor_pixel.visible = false
+	thunder_cover.visible = false
+	text_node.visible = false
 	
-	yield(get_tree().create_timer(0.5), "timeout")
-	emit_signal("finished_playing")
-	split_stray_colors()
+	if not intro_strays_spawned:
+		split_stray_colors()
 	
 	yield(get_tree().create_timer(0.1), "timeout")
 	show_strays()
@@ -78,17 +78,41 @@ func skip_intro(): # kadar je intro skipan
 	show_strays()
 	yield(get_tree().create_timer(0.1), "timeout")
 	show_strays()
-	for stray in strays_on_screen: # tole je že tukaj, ker ima nakljiučne pavze in drugače predolgo traya
-		stray.current_stray_state = stray.StrayState.WANDERING
-		
-		
-func end_intro(): # kliče se iz animacije, ko intro pride do konca
-	for stray in strays_on_screen:
-		stray.current_stray_state = stray.StrayState.WANDERING
-		print("št" ,stray)
-		
-	emit_signal("finished_playing")
+	
+	yield(get_tree().create_timer(1), "timeout")
+	emit_signal("finished_playing") # menu_in on main
+	yield(get_tree().create_timer(1), "timeout")
+	stray_step()	
 
+
+func stray_step():
+
+	# random dir
+	var random_direction_index: int = randi() % int(6)
+	var stepping_direction: Vector2
+	match random_direction_index:
+		0: stepping_direction = Vector2.LEFT
+		1: stepping_direction = Vector2.UP
+		2: stepping_direction = Vector2.RIGHT
+		3: stepping_direction = Vector2.DOWN
+		# uteži
+		4: stepping_direction = Vector2.LEFT
+		5: stepping_direction = Vector2.RIGHT
+		6: stepping_direction = Vector2.LEFT
+		7: stepping_direction = Vector2.RIGHT
+	
+	# random stray	
+	var random_stray_no: int = randi() % int(strays_on_screen.size())
+	var strays_to_move = strays_on_screen[random_stray_no]
+	if not strays_on_screen.empty():
+		strays_to_move.step(stepping_direction)
+	# strays_to_move.modulate = Color.white
+	
+	# next step random time
+	var random_pause_time_factor: float = randi() % int(5) + 1 # višji offset da manjši razpon v random času
+	var random_pause_time = 0.1 / random_pause_time_factor
+	stray_step_timer.start(random_pause_time)
+		
 
 # SPAWNING ----------------------------------------------------------------------------------
 
@@ -116,14 +140,15 @@ func split_stray_colors():
 		# zajem barve na lokaciji pixla
 		var current_color = spectrum_image.get_pixel(selected_color_position_x, 0)
 		# spawnananje v okolico ... pogoji sem zakompliciral, da dobim obratni vrstni red
-		if loop_count < (stray_pixels_count - title_cells_count): # 
-			spawn_floor_stray(current_color)
-		# spawnananje v naslov
-		elif loop_count < stray_pixels_count:
+		if loop_count < title_cells_count:
 			spawn_title_stray(current_color)
+		else: # če jih je več kot v naslovu
+			return
 		loop_count += 1		
 	
-
+	intro_strays_spawned = true
+	
+	
 func spawn_title_stray(stray_color):
 	
 	spawned_stray_index += 1
@@ -144,42 +169,14 @@ func spawn_title_stray(stray_color):
 		#spawn
 		add_child(new_stray_pixel)
 		
-		# samo intro
-		new_stray_pixel.collision_shape_2d.disabled = true
-		
 		# odstranim uporabljeno pozicijo
 		available_title_positions.remove(selected_cell_index)
 		available_floor_positions.remove(selected_cell_index) # floor ima tudi tajle naslova, zato je ta vrstica nujna
 	
-
-func spawn_floor_stray(stray_color):
-	
-	spawned_stray_index += 1
-
-	# instance
-	var new_stray_pixel = StrayPixel.instance()
-	new_stray_pixel.name = "Stray%s" % str(spawned_stray_index)
-	new_stray_pixel.pixel_color = stray_color
-	
-	# random grid pozicija
-	var random_range = available_floor_positions.size()
-	var selected_cell_index: int = randi() % int(random_range) # + offset
-	new_stray_pixel.global_position = available_floor_positions[selected_cell_index] + Global.level_tilemap.cell_size/2
-	new_stray_pixel.z_index = 1
-	
-	#spawn
-	add_child(new_stray_pixel)
-	
-	# samo intro
-	new_stray_pixel.collision_shape_2d.disabled = true
-		
-	# odstranim uporabljeno pozicijo
-	available_floor_positions.remove(selected_cell_index)
-
 		
 func show_strays():
 	
-#	intro_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
+	# intro_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
 	
 	var strays_to_show_count: int
 	
@@ -240,13 +237,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			animation_player.play("intro_explode")
 		"intro_explode":
 			end_intro()
-			# animation_player.play("last_breath")
-			# Global.sound_manager.play_sfx("last_breath")
-			# last_breath_loop_count = 1
-		"last_breath": 
-			last_breath_loop_count += 1
-			if last_breath_loop_count > last_breath_loop_limit:
-				end_intro()
-			else:
-				animation_player.play("last_breath")
-				Global.sound_manager.play_sfx("last_breath")
+
+
+func _on_StrayStepTimer_timeout() -> void:
+	stray_step()

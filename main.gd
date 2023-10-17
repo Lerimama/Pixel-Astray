@@ -18,7 +18,7 @@ func _ready() -> void:
 #	game_in()
 
 
-func home_in_intro(): # isto kot home in, samo, da sprož intro
+func home_in_intro():
 	
 	Global.spawn_new_scene(home_scene_path, self)
 	Global.current_scene.open_with_intro()

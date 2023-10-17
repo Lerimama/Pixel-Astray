@@ -469,7 +469,3 @@ anims/die_stray_5 = SubResource( 137 )
 anims/glitch_1 = ExtResource( 2 )
 anims/glitch_2 = ExtResource( 3 )
 anims/glitch_3 = ExtResource( 4 )
-
-[node name="SteppingTimer" type="Timer" parent="."]
-
-[connection signal="timeout" from="SteppingTimer" to="." method="_on_SteppingTimer_timeout"]
