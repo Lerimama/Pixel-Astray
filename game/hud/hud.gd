@@ -41,7 +41,7 @@ var highscore_broken: bool =  false
 var highscore_broken_popup_time: float = 2
 onready var highscore_broken_popup: Control = $Popups/HSBroken
 onready var energy_warning_popup: Control = $Popups/EnergyWarning
-onready var steps_remaining_counter: Label = $Popups/EnergyWarning/StepsRemainingHLine/StepsRemainingCounter
+onready var steps_remaining: Label = $Popups/EnergyWarning/StepsRemaining
 onready var popups: Control = $Popups # za skrit na gameover
 
 
@@ -65,12 +65,18 @@ func _process(delta: float) -> void:
 		check_for_hs()
 	
 	# show popup energy warning
-	if player_stats_on_hud["player_energy"] <= Profiles.game_rules["tired_energy"] and player_stats_on_hud["player_energy"] > 1:# and player_stats_on_hud["player_energy"] > 1:
+	if player_stats_on_hud["player_energy"] > Profiles.game_rules["tired_energy"]:
+		energy_warning_popup.visible = false	
+	elif player_stats_on_hud["player_energy"] <= Profiles.game_rules["tired_energy"] and player_stats_on_hud["player_energy"] > 2:
 		energy_warning_popup.visible = true
-		steps_remaining_counter.text = str(player_stats_on_hud["player_energy"])
-	else:
-		energy_warning_popup.visible = false		
-	
+		var energy_warning_string: String = "Low energy! Only %s steps remaining." % str(player_stats_on_hud["player_energy"] - 1)
+		steps_remaining.text = energy_warning_string
+	elif player_stats_on_hud["player_energy"] == 2: # pomeni samo še en korak in rabim ednino
+		steps_remaining.text = "Low energy! Only 1 step remaining."
+	elif player_stats_on_hud["player_energy"] < 2:
+		# steps_remaining.text = "No more steps!"
+		energy_warning_popup.visible = false
+		
 	# music plejer display
 	music_label.text = "%02d" % Global.sound_manager.currently_playing_track_index
 	if Global.sound_manager.game_music_set_to_off:
@@ -219,4 +225,3 @@ func _on_GameTimer_deathmode_active() -> void:
 
 func _on_GameTimer_gametime_is_up() -> void:
 	Global.game_manager.game_over(Global.reason_time)
-

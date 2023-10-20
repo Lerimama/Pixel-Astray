@@ -86,7 +86,7 @@ func end_intro():
 
 
 func stray_step():
-
+	return
 	# random dir
 	var random_direction_index: int = randi() % int(6)
 	var stepping_direction: Vector2

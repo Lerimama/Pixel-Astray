@@ -42,7 +42,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if Input.is_action_pressed("no1") and player_stats["player_energy"] > 1:
 		player_stats["player_energy"] -= 10
-		player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_max_energy"]) # 1 je najnižja, ker tam se že odšteva zadnji izdihljaj
+		player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_max_energy"])
 	if Input.is_action_pressed("no2"):
 		player_stats["player_energy"] += 10
 	
@@ -65,24 +65,35 @@ func _ready() -> void:
 	
 	Global.game_manager = self	
 	
-	if game_rules["randomize_stray_spawning"]:
-		print("rand")
-		randomize()
+	randomize()
+	
+	load_level()
+	yield(get_tree().create_timer(0.01), "timeout") # blink igre, da se ziher vse naloži	
+	
 	
 	# štartej igro
-	yield(get_tree().create_timer(0.1), "timeout") # blink igre, da se ziher vse naloži
 	
-	player_stats["player_energy"] = game_rules["player_start_energy"]
+	yield(get_tree().create_timer(2), "timeout")
 	
-	set_game()
+	set_game() # setam ves data igre
+
 	
+# LEVEL ------------------------------------------------------------------------------------
+
+onready var tile_map: TileMap = $"../Level/TileMap"
+onready var level: Node2D = $"../Level"
+
+func load_level():
+	tile_map.connect("floor_completed", self, "_on_TileMap_floor_completed")
+
+
 	
 func _process(delta: float) -> void:
 	players_in_game = get_tree().get_nodes_in_group(Global.group_players)
 	strays_in_game = get_tree().get_nodes_in_group(Global.group_strays)
 
 	
-# GAME LOOP --------------------------------------------------------------------------------------------------------------------------------
+# GAME LOOP ----------------------------------------------------------------------------------
 
 
 func show_strays():
@@ -121,9 +132,8 @@ func show_strays():
 					
 
 func set_game(): 
-# setam ves data igre
 	
-	yield(get_tree().create_timer(2), "timeout")
+	player_stats["player_energy"] = game_rules["player_start_energy"]
 	
 	split_stray_colors()
 	spawn_player()
@@ -157,7 +167,6 @@ func set_game():
 	print ("GM start - YIELD")
 	# Global.game_countdown.start_countdown() ... zdej je na kameri
 	yield(Global.game_countdown, "countdown_finished")	
-	
 	# RESUME
 	print ("GM start - RESUME")
 	
@@ -212,7 +221,7 @@ func game_over(game_over_reason: String):
 	if game_stats["level"] != Profiles.Levels.PRACTICE:
 		# YIELD 1 ... čaka na konec preverke rankinga ... če ni rankinga dobi false, če je ne dobi nič
 		# ker kličem funkcijo v variablo more počakat, da se funkcija izvede do returna
-		var score_is_ranking = Global.data_manager.manage_gameover_highscores(player_points, current_level) # yielda 2 za name input je v tej funkciji
+		var score_is_ranking = Global.data_manager.manage_gameover_highscores(player_points, current_level) # yielda 2 za name_input je v tej funkciji
 		if not score_is_ranking:
 			Global.gameover_menu.fade_in(game_over_reason)																																																							
 		else:
@@ -221,7 +230,7 @@ func game_over(game_over_reason: String):
 			Global.gameover_menu.fade_in_practice(game_over_reason)
 			
 		
-# SPAWNANJE --------------------------------------------------------------------------------------------------------------------------------
+# SPAWNANJE ----------------------------------------------------------------------------------
 
 
 func spawn_player():
@@ -312,7 +321,7 @@ func spawn_floating_tag(position: Vector2, value): # kliče ga GM
 	Global.node_creation_parent.add_child(new_floating_tag)
 	new_floating_tag.label.text = str(value)
 
-	
+
 # SIGNALI ----------------------------------------------------------------------------------
 
 
@@ -337,7 +346,9 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 			if not energy_drain_active:
 				energy_drain_active = true
 				player_stats["player_energy"] += game_rules["skilled_energy_drain"]
-				player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_max_energy"]) # 1 je najnižja, ker tam se že odšteva zadnji izdihljaj
+				# 1 je najnižja, ker tam se že odšteva zadnji izdihljaj
+				player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_max_energy"]) 
+				
 				yield(get_tree().create_timer(Profiles.game_rules["skilled_energy_drain_speed"]), "timeout")
 				energy_drain_active = false
 		"stray_hit":
@@ -351,7 +362,8 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				spawn_floating_tag(stat_owner.global_position, game_rules["color_picked_points"]) 
 			# stats za vsakega naslednega v vrsti 
 			elif stat_change > 1:
-				var points_for_seq_pixel = (game_rules["additional_color_picked_points"] * stat_change) - game_rules["color_picked_points"] # odštejem, da se točke od prvega pixla ne podvajajo
+				# odštejem, da se točke od prvega pixla ne podvajajo
+				var points_for_seq_pixel = (game_rules["additional_color_picked_points"] * stat_change) - game_rules["color_picked_points"] 
 				var energy_for_seq_pixel = (game_rules["additional_color_picked_energy"] * stat_change) - game_rules["color_picked_energy"]
 				player_stats["player_points"] += points_for_seq_pixel
 				player_stats["player_energy"] += energy_for_seq_pixel
@@ -387,8 +399,8 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 		"burst_released": 
 			player_stats["burst_count"] += 1 # tukaj se kot valju poda burst power
 			
-	# na koncu poskrbim za klempanje
-	player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_max_energy"]) # 1 je najnižja, ker tam se že odšteva zadnji izdihljaj
+	# na koncu koraka poskrbim za klempanje ... 1 je najnižja, ker tam se že odšteva zadnji izdihljaj
+	player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_max_energy"]) 
 	player_stats["player_points"] = clamp(player_stats["player_points"], 0, player_stats["player_points"])	
 	
 		

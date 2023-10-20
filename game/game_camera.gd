@@ -96,7 +96,10 @@ func _ready():
 	
 	# start setup
 	zoom = Vector2(2, 2)
-	position = Global.game_manager.player_start_position #+ Vector2(cell_size_x / 2, 0)
+	if Global.game_manager.player_start_position == null:
+		return
+	else:
+		position = Global.game_manager.player_start_position #+ Vector2(cell_size_x / 2, 0)
 
 
 func zoom_in():

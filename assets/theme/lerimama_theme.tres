@@ -107,6 +107,7 @@ Button/styles/normal = SubResource( 172 )
 Button/styles/pressed = SubResource( 173 )
 CheckBox/colors/font_color = Color( 1, 1, 1, 1 )
 CheckBox/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+CheckBox/constants/hseparation = 4
 CheckBox/icons/checked = SubResource( 157 )
 CheckBox/icons/unchecked = SubResource( 158 )
 CheckBox/styles/focus = SubResource( 168 )

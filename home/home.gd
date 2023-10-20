@@ -5,7 +5,7 @@ enum Screens {MAIN_MENU, SELECT_GAME, ABOUT, SETTINGS, HIGHSCORES}
 var current_screen # se določi z main animacije
 
 onready var animation_player: AnimationPlayer = $AnimationPlayer
-onready var menu: Control = $Menu
+onready var menu: HBoxContainer = $Menu
 onready var intro: Node2D = $IntroViewPortContainer/Viewport/Intro
 onready var intro_viewport: Viewport = $IntroViewPortContainer/Viewport
 onready var select_game_btn_1: Button = $SelectGame/SelectGameBtn1
@@ -74,7 +74,7 @@ func open_with_intro():
 	
 	
 func open_without_intro():
-	intro.skip_intro()
+	intro.end_intro()
 
 	
 func menu_in():
@@ -136,13 +136,6 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 				return
 			current_screen = Screens.HIGHSCORES
 			$Highscores/HighscoresBackBtn.grab_focus()
-
-
-func _on_PlayBtn_pressed() -> void:
-	Global.sound_manager.play_gui_sfx("btn_confirm")
-	Global.main_node.home_out()
-	
-	$Menu/PlayBtn.disabled = true # da ne moreš multiklikat
 
 
 func _on_SelectGameBtn_pressed() -> void:

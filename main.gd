@@ -13,9 +13,9 @@ func _ready() -> void:
 	
 	Global.main_node = self
 	
-	home_in_intro()
+#	home_in_intro()
 #	home_in()
-#	game_in()
+	game_in()
 
 
 func home_in_intro():
@@ -28,8 +28,6 @@ func home_in_intro():
 	
 func home_in():
 	
-#	Global.sound_manager.play_music("menu")	# filter set_to_off je v sound managerju
-		
 	Global.spawn_new_scene(home_scene_path, self)
 	Global.current_scene.open_without_intro()
 	
@@ -39,8 +37,6 @@ func home_in():
 	
 
 func home_out():
-	
-#	Global.current_scene.set_process(false) # zazih
 	
 	if not Global.sound_manager.menu_music_set_to_off: # če muzka ni setana na off
 		Global.sound_manager.stop_music("menu")
@@ -65,8 +61,6 @@ func game_in():
 
 func game_out():
 	
-#	Global.current_scene.set_process(false) # zazih
-
 	Global.sound_manager.play_gui_sfx("menu_fade")
 	# ustavim vse možne sounde
 	Global.sound_manager.stop_music("game")
@@ -80,8 +74,6 @@ func game_out():
 
 
 func reload_game(): # game out z drugačnim zaključkom
-	
-#	Global.current_scene.set_process(false) # zazih
 	
 	Global.sound_manager.play_gui_sfx("menu_fade")
 	# ustavim vse možne sounde

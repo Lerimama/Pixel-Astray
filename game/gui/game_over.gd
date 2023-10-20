@@ -221,26 +221,6 @@ func write_gameover_data():
 	
 	var current_level_key = Global.game_manager.game_stats["level"]
 	var current_level_name = Profiles.Levels.keys()[current_level_key]
-	
-#	if current_level_key == Profiles.Levels.PRACTICE:
-#		$ContentPractice/DataContainer/Level.text = "Level: %s" % current_level_name
-#		$ContentPractice/DataContainer/Points.text = "Total points: %04d" % player_gameover_stats["player_points"]
-#		$ContentPractice/DataContainer/Time.text = "Time used: " + str(time_used) + "s" # čas vzmem direkt iz tajmerja
-#		$ContentPractice/DataContainer/CellsTravelled.text = "Cells travelled: %04d" % player_gameover_stats["cells_travelled"]
-#		$ContentPractice/DataContainer/BurstCount.text = "Burst count: %02d" % player_gameover_stats["burst_count"]
-#		$ContentPractice/DataContainer/SkillsUsed.text = "Skill count: %02d" % player_gameover_stats["skill_count"]
-#		$ContentPractice/DataContainer/PixelsOff.text = "Colors collected: %02d" % game_gameover_stats["off_pixels_count"]
-#		$ContentPractice/DataContainer/AstrayPixels.text = "Pixels still astray: %02d" % game_gameover_stats["stray_pixels_count"]
-#	else:
-#		$ContentGame/TitleHS.text %= current_level_name
-#		$ContentGame/DataContainer/Level.text = "Level: %s" % current_level_name
-#		$ContentGame/DataContainer/Points.text = "Total points: %04d" % player_gameover_stats["player_points"]
-#		$ContentGame/DataContainer/Time.text = "Time used: " + str(time_used) + "s" # čas vzmem direkt iz tajmerja
-#		$ContentGame/DataContainer/CellsTravelled.text = "Cells travelled: %04d" % player_gameover_stats["cells_travelled"]
-#		$ContentGame/DataContainer/BurstCount.text = "Burst count: %02d" % player_gameover_stats["burst_count"]
-#		$ContentGame/DataContainer/SkillsUsed.text = "Skill count: %02d" % player_gameover_stats["skill_count"]
-#		$ContentGame/DataContainer/PixelsOff.text = "Colors collected: %02d" % game_gameover_stats["off_pixels_count"]
-#		$ContentGame/DataContainer/AstrayPixels.text = "Pixels still astray: %02d" % game_gameover_stats["stray_pixels_count"]
 
 	if current_level_key == Profiles.Levels.PRACTICE:
 		$ContentPractice/DataContainer/Level.text %= current_level_name

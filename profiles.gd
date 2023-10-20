@@ -31,7 +31,7 @@ var default_player_stats : Dictionary = { # bo verjetno za vsak mode drugačen
 # === GAMES ===
 
 
-enum Levels {PRACTICE, S, M, L, XL, XXL}
+enum Levels {TUTORIAL, PRACTICE, S, M, L, XL, XXL}
 
 var default_level_stats : Dictionary = { # na štartu igre se tole duplicira in postane game stats
 	"level" : Levels.PRACTICE,
@@ -114,7 +114,6 @@ var game_rules: Dictionary = { # tole ne uporabljam v zadnji varianti
 	"loose_life_on": true, # GM ... v tem primeru, ne izgubiš energije niti točk
 	"revive_energy_reset": true,  # GM
 	"stop_burst_mode": true,  # player
-	"randomize_stray_spawning": false,  # GM
 	"skill_limit_mode": false,
 	"skill_limit_count": 5,
 	"burst_limit_mode": false,
