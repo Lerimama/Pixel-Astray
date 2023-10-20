@@ -115,14 +115,16 @@ func state_machine():
 	
 	match current_state:
 		States.IDLE:
+			
 			# skilled
 			if Global.detect_collision_in_direction(vision_ray, direction) and player_energy > 1: # koda je tukaj, da ne blinkne ob kontaktu s sosedo
 				animation_player.stop() # stop dihanje
 				light_2d.enabled = true
-				emit_signal("stat_changed", self, "skilled",1) # signal, da je skilled (kaj se zgodi je na GMju)
-				if not skill_sfx_playing: # to je zato da FP ne klie na vsak frejm
-					Global.sound_manager.play_sfx("skilled")
-					skill_sfx_playing = true
+				if Global.detect_collision_in_direction(vision_ray, direction).is_in_group(Global.group_strays):
+					emit_signal("stat_changed", self, "skilled",1) # signal, da je skilled (kaj se zgodi je na GMju)
+					if not skill_sfx_playing: # to je zato da FP ne klie na vsak frejm
+						Global.sound_manager.play_sfx("skilled")
+						skill_sfx_playing = true
 			else: # not skilled
 				light_2d.enabled = false		
 				if skill_sfx_playing: # to je zato da FP ne klie na vsak frejm
@@ -143,7 +145,6 @@ func state_machine():
 			pass
 		States.SKILLING: # stanje ko se skill izvaja
 			animation_player.stop() # stop dihanje
-			pass
 		States.COCKING: 
 			light_2d.enabled = true
 			animation_player.stop() # stop dihanje
@@ -179,6 +180,10 @@ func on_collision():
 	if collision.collider.is_in_group(Global.group_tilemap):
 		
 		Input.start_joy_vibration(0, 0.5, 0.6, 0.7)
+		
+		# efekt trka s steno
+		emit_signal("stat_changed", self, "skilled",1) # signal, da je skilled (kaj se zgodi je na GMju)
+		
 		die(Global.reason_wall)
 		spawn_collision_particles()
 		spawn_dizzy_particles()
@@ -372,6 +377,7 @@ func die(die_reason: String):
 
 func revive():
 	modulate.a = 0
+	yield(get_tree().create_timer(Profiles.game_rules["dead_time"]), "timeout")
 	animation_player.play("revive")
 	# animation_player.play("stil_alive_poly") ... če bodo težave s transparenco
 
@@ -398,7 +404,9 @@ func step():
 		
 
 func end_move():
+	
 	current_state = States.IDLE
+	light_2d.enabled = false # da ne blinka ob zaključku
 	burst_direction_set = false
 	burst_speed = 0 # more bit tukaj pred _change state, če ne uničuje tudi sam sebe ... trenutno ni treba?
 	modulate = pixel_color

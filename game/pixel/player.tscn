@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://game/pixel/player.gd" type="Script" id=2]
 [ext_resource path="res://assets/light_texture.png" type="Texture" id=3]
@@ -6,6 +6,51 @@
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
+
+[sub_resource type="Animation" id=138]
+resource_name = "become_white"
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.234773, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate:a")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.0605592, 0.115436, 0.184698, 0.232797, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.2, 1.0, 0.2, 1.0, 1.0 ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.06, 0.185384 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+} ]
+}
 
 [sub_resource type="Animation" id=2]
 resource_name = "die_player"
@@ -171,7 +216,7 @@ tracks/1/keys = {
 }
 
 [node name="Player" type="KinematicBody2D"]
-modulate = Color( 0.952941, 0.356863, 0.498039, 0.8 )
+modulate = Color( 1, 1, 1, 0.20017 )
 script = ExtResource( 2 )
 
 [node name="Light2D" type="Light2D" parent="."]
@@ -195,6 +240,7 @@ enabled = true
 cast_to = Vector2( 32, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/become_white = SubResource( 138 )
 anims/die_player = SubResource( 2 )
 anims/last_breath = SubResource( 137 )
 anims/revive = ExtResource( 10 )

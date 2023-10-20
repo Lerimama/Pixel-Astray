@@ -19,7 +19,7 @@ var default_level_highscores: Dictionary = { # prazen slovar ... uporabi se ob k
 
 var default_player_stats : Dictionary = { # bo verjetno za vsak mode drugačen
 	"player_name" : "Moe", # to ime se piše v HS procesu, če igralec pusti prazno
-	"player_life" : 3,
+	"player_life" : 1, # če je samo en lajf, potem se ikone skrijejo v hudu
 	"player_points": 0,
 	"player_energy" : 192, # tukaj določena je nepomembna, ker se jo na začetku opredeli iz gam settings
 	"skill_count" : 0,
@@ -36,13 +36,19 @@ enum Levels {TUTORIAL, PRACTICE, S, M, L, XL, XXL}
 var default_level_stats : Dictionary = { # na štartu igre se tole duplicira in postane game stats
 	"level" : Levels.PRACTICE,
 	"game_time_limit" : 15, # sekund
-	"stray_pixels_count" : 32,
+	"stray_pixels_count" : 1,
 	"off_pixels_count" : 0,
 	"highscore": 0000, # se naloži iz  "default_level_highscores" lestvice ob štartu igre, zato, da te lahko opozori že med igro
 	"highscore_owner": "Nobody", # se naloži iz  "default_level_highscores" lestvice ob štartu igre, zato, da te lahko opozori že med igro
 }
 
 # na štartu se vrednosti injicirajo v "default_level_stats"
+
+var level_tutorial_stats : Dictionary = { 
+	"level": Levels.TUTORIAL,
+	"game_time_limit": 50,
+	"stray_pixels_count": 5,
+}
 
 var level_1_stats : Dictionary = { 
 	"level": Levels.S,
@@ -77,6 +83,7 @@ var level_5_stats : Dictionary = {
 
 var game_rules: Dictionary = { # tole ne uporabljam v zadnji varianti
 	
+	"all_cleaned_points": 500, # GM
 	"color_picked_points": 10, # GM
 	"color_picked_energy": 20, # GM
 	"additional_color_picked_points": 20, # GM
@@ -111,7 +118,8 @@ var game_rules: Dictionary = { # tole ne uporabljam v zadnji varianti
 	"minimap_on": false, # game
 	"game_countdown_on": false, # game_countdown
 	"energy_speed_mode": true, # GM, player
-	"loose_life_on": true, # GM ... v tem primeru, ne izgubiš energije niti točk
+	"lose_life_on_wall": false, # GM ... v tem primeru, ne izgubiš energije niti točk
+	"lose_life_on_energy": true, # GM ... v tem primeru, ne izgubiš energije niti točk
 	"revive_energy_reset": true,  # GM
 	"stop_burst_mode": true,  # player
 	"skill_limit_mode": false,

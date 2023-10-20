@@ -17,6 +17,7 @@ onready var indicator_holder: HBoxContainer = $Footer/ColorSpectrum
 onready var header: Control = $Header
 onready var player_life: Label = $Life # _temp, pravi je na samih ikonah
 onready var player_energy: Label = $Energy # temp
+onready var life_counter: HBoxContainer = $Header/HudLine_TL/LifeIcons
 onready var player_points: Label = $Header/HudLine_TL/PointsCounter/Points
 onready var burst_count: Label = $Header/HudLine_TL/BurstCounter/Label
 onready var skill_count: Label = $Header/HudLine_TL/SkillCounter/Label
@@ -37,12 +38,12 @@ onready var stray_pixels: Label = $Footer/HudLine_BR/StrayCounter/PixelsStray
 onready var pixels_off_counter: HBoxContainer = $Footer/HudLine_BR/OffedCounter
 
 # popups 
+var popup_time: float = 2
 var highscore_broken: bool =  false
-var highscore_broken_popup_time: float = 2
+onready var popups: Control = $Popups # skoz vidno, skrije se na gameover
 onready var highscore_broken_popup: Control = $Popups/HSBroken
 onready var energy_warning_popup: Control = $Popups/EnergyWarning
 onready var steps_remaining: Label = $Popups/EnergyWarning/StepsRemaining
-onready var popups: Control = $Popups # za skrit na gameover
 
 
 func _ready() -> void:
@@ -51,8 +52,14 @@ func _ready() -> void:
 	
 	# skrij statistiko in popupe
 	visible = false
+	highscore_broken_popup.visible = false
+	energy_warning_popup.visible = false
 	
-
+	# disable life icons if
+	if Profiles.default_player_stats["player_life"] == 1:
+		life_counter.visible = false
+		
+	
 func _process(delta: float) -> void:
 	
 	player_stats_on_hud = Global.game_manager.player_stats
@@ -97,7 +104,7 @@ func check_for_hs():
 			highscore_broken = true
 			highscore_label.modulate = Global.color_green
 			highscore_broken_popup.visible = true
-			yield(get_tree().create_timer(highscore_broken_popup_time), "timeout")
+			yield(get_tree().create_timer(popup_time), "timeout")
 			highscore_broken_popup.visible = false
 	else:
 		highscore_broken_popup.visible = false
@@ -131,7 +138,6 @@ func writing_stats():
 	# _temp
 	player_life.text = "LIFE: %01d" % player_stats_on_hud["player_life"]
 	player_energy.text = "E: %04d" % player_stats_on_hud["player_energy"]
-	
 		
 		
 func fade_in():

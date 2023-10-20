@@ -7,8 +7,8 @@ export (float, 0, 1) var die_shake_power: float = 0.2
 export (float, 0, 10) var die_shake_time: float = 0.4
 export (float, 0, 1) var die_shake_decay: float = 0.3
 
-enum StrayState {IDLE, WANDERING}
-var current_stray_state
+#enum StrayState {IDLE, WANDERING}
+#var current_stray_state
 
 var pixel_color: Color
 var neighbouring_cells: Array = [] # stray stalno čekira sosede
@@ -25,7 +25,7 @@ func _ready() -> void:
 	
 	add_to_group(Global.group_strays)
 
-	current_stray_state = StrayState.IDLE  
+#	current_stray_state = StrayState.IDLE  
 	modulate = pixel_color
 	modulate.a = 0
 	
@@ -42,11 +42,13 @@ func fade_in(): # kliče GM
 
 func _physics_process(delta: float) -> void:
 
-	match current_stray_state:
-		StrayState.IDLE:
-			neighbouring_cells = check_for_neighbours()
-		StrayState.WANDERING:
-			pass
+	neighbouring_cells = check_for_neighbours()
+	
+#	match current_stray_state:
+#		StrayState.IDLE:
+#			neighbouring_cells = check_for_neighbours()
+#		StrayState.WANDERING:
+#			pass
 
 	
 func step(step_direction):

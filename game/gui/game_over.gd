@@ -16,9 +16,6 @@ onready var name_input: LineEdit = $NameInputPopup/NameInput
 
 # animacija
 onready var undi: ColorRect = $Undi
-#onready var died_label: Label = $Title/DiedLabel
-#onready var timeup_label: Label = $Title/TimeupLabel
-#onready var cleaned_label: Label = $Title/CleanedLabel
 onready var title_succes: Control = $TitleSucces
 onready var title_fail_time: Control = $TitleFailTime
 onready var title_fail_life: Control = $TitleFailLife
@@ -119,6 +116,10 @@ func fade_in(gameover_reason):
 			title_fail_life.visible = false
 			
 			current_title = title_succes
+			
+			# malo časa da lahko leta naokrog
+			yield(get_tree().create_timer(Profiles.game_rules["dead_time"]), "timeout")
+			var dance
 
 		"reason_time":
 			title_succes.visible = false

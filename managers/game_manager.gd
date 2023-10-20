@@ -85,8 +85,7 @@ onready var level: Node2D = $"../Level"
 
 func load_level():
 	tile_map.connect("floor_completed", self, "_on_TileMap_floor_completed")
-
-
+	
 	
 func _process(delta: float) -> void:
 	players_in_game = get_tree().get_nodes_in_group(Global.group_players)
@@ -195,10 +194,6 @@ func game_over(game_over_reason: String):
 	get_viewport().gui_disable_input = true
 	# ustavim tajmer	
 	Global.hud.game_timer.stop_timer()
-	# pavziram plejerja
-	if not players_in_game.empty():
-		for player in players_in_game:
-			player.set_physics_process(false)
 	# ugasnem vse efekte, ki bi bili lahko neskončno slišni
 	Global.sound_manager.stop_sfx("teleport")
 	Global.sound_manager.stop_sfx("skilled")
@@ -206,6 +201,13 @@ func game_over(game_over_reason: String):
 	# skrijem morebitne popupe
 	Global.hud.popups.visible = false
 	
+	# pavziram plejerja
+	if not players_in_game.empty():
+		for player in players_in_game:
+			player.set_physics_process(false)
+	
+	# malo časa za show-off
+	yield(get_tree().create_timer(2), "timeout")
 	# YIELD 0 ... čaka na konec zoomoutamm
 	var camera_zoomed_out = Global.main_camera.zoom_out() # hud gre ven
 	
@@ -368,25 +370,31 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				player_stats["player_points"] += points_for_seq_pixel
 				player_stats["player_energy"] += energy_for_seq_pixel
 				spawn_floating_tag(stat_owner.global_position, points_for_seq_pixel) 
-			
+			# cleaned
 			if game_stats["stray_pixels_count"] == 0:
+				player_stats["player_points"] += Profiles.game_rules["all_cleaned_points"]
+				
+				# become white again ... če je multiplejer, je tole treba drugače zrihtat
+				for player in players_in_game:
+					player.pixel_color = Color.white
+					
 				game_over(Global.reason_cleaned)
-			
+		
 		# from player
 		"wall_hit":
-			if game_rules["loose_life_on"]:
-				loose_life(stat_owner, stat_change)
-			else:
-				spawn_floating_tag(stat_owner.global_position, game_rules["wall_hit_points"]) 
-				player_stats["player_points"] += game_rules["wall_hit_points"]
-				player_stats["player_energy"] += game_rules["wall_hit_energy"]
-				yield(get_tree().create_timer(game_rules["dead_time"]), "timeout")
+			if game_rules["lose_life_on_wall"]: # zguba lajfa
+				lose_life(stat_owner, stat_change)
+			else: # zguba energije
+				var half_player_points = round(player_stats["player_points"] / 2)
+				var half_player_energy = round(player_stats["player_energy"] / 2)
+				player_stats["player_points"] -= half_player_points
+				player_stats["player_energy"] -= half_player_energy
+				spawn_floating_tag(stat_owner.global_position, - half_player_points) 
 				stat_owner.revive()
 		"out_of_breath":
-			if game_rules["loose_life_on"]:
-				loose_life(stat_owner, stat_change)
+			if game_rules["lose_life_on_energy"]:
+				lose_life(stat_owner, stat_change)
 			else:
-				yield(get_tree().create_timer(game_rules["dead_time"]), "timeout")
 				stat_owner.revive()
 		"cells_travelled": 
 			player_stats["cells_travelled"] += stat_change
@@ -404,16 +412,14 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 	player_stats["player_points"] = clamp(player_stats["player_points"], 0, player_stats["player_points"])	
 	
 		
-func loose_life(life_looser, life_to_loose_amount):
+func lose_life(life_looser, life_to_loose_amount):
 	
 	player_stats["player_life"] -= life_to_loose_amount
 	
 	# game-over, če je bil to zadnji lajf
 	if player_stats["player_life"] < 1:
 		game_over(Global.reason_life)
-	
 	else: # če mam še lajfov
-		yield(get_tree().create_timer(game_rules["dead_time"]), "timeout")
 		life_looser.revive()
 		# resetiram energijo, če je tako določeno
 		if game_rules["revive_energy_reset"]:

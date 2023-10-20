@@ -404,7 +404,7 @@ tracks/3/keys = {
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_horizontal_guides_": [ 34.0, 360.0, 698.0, 686.0, 216.0, 176.0, 504.0, 544.0 ],
-"_edit_vertical_guides_": [ 640.0, 1248.0, 31.0, 992.0, 1216.0 ]
+"_edit_vertical_guides_": [ 640.0, 1248.0, 31.0, 992.0, 1216.0, 408.0 ]
 }
 
 [node name="GameView" type="VBoxContainer" parent="."]
@@ -762,7 +762,6 @@ rect_min_size = Vector2( 1280, 720 )
 script = ExtResource( 2 )
 
 [node name="Energy" type="Label" parent="GUI/Hud"]
-visible = false
 margin_left = 128.0
 margin_top = 69.0
 margin_right = 221.0
@@ -774,7 +773,6 @@ __meta__ = {
 }
 
 [node name="Life" type="Label" parent="GUI/Hud"]
-visible = false
 margin_left = 32.0
 margin_top = 71.0
 margin_right = 114.0
@@ -1330,6 +1328,7 @@ margin_left = 1.0
 margin_right = 1.0
 
 [node name="EnergyWarning" type="Control" parent="GUI/Hud/Popups"]
+visible = false
 modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
@@ -1339,27 +1338,12 @@ margin_right = 216.0
 margin_bottom = 160.0
 size_flags_horizontal = 5
 
-[node name="Panel" type="Panel" parent="GUI/Hud/Popups/EnergyWarning"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-
 [node name="StepsRemaining" type="Label" parent="GUI/Hud/Popups/EnergyWarning"]
 anchor_right = 1.0
 margin_bottom = 22.0
 grow_horizontal = 2
 size_flags_horizontal = 3
-custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "Low energy!"
-align = 1
-
-[node name="LastWarning" type="Label" parent="GUI/Hud/Popups/EnergyWarning"]
-visible = false
-anchor_right = 1.0
-margin_bottom = 22.0
-size_flags_horizontal = 4
-custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "WARNING!"
 align = 1
 
 [node name="HSBroken" type="Control" parent="GUI/Hud/Popups"]
@@ -1375,24 +1359,19 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Panel" type="Panel" parent="GUI/Hud/Popups/HSBroken"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-
 [node name="Label" type="Label" parent="GUI/Hud/Popups/HSBroken"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -166.0
-margin_right = 166.0
+margin_left = -193.0
+margin_right = 191.0
 margin_bottom = 22.0
 size_flags_horizontal = 4
-custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
-text = "BRAVISIMO!!! Podrl si rekord!"
+text = "YEAH!!! You've broken the record"
 align = 1
 valign = 1
 
 [node name="Tutorial" type="Control" parent="GUI"]
+visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
 rect_min_size = Vector2( 1280, 720 )
@@ -2814,7 +2793,6 @@ autowrap = true
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
-visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
 script = ExtResource( 3 )
@@ -2830,18 +2808,31 @@ color = Color( 0, 0, 0, 1 )
 
 [node name="TitleSucces" type="Control" parent="GUI/GameOver"]
 visible = false
-modulate = Color( 0.368627, 1, 0.662745, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -392.0
-margin_top = -104.0
+margin_top = -168.0
 margin_right = 392.0
-margin_bottom = 88.0
+margin_bottom = 144.0
+
+[node name="CleanedLabel" type="Label" parent="GUI/GameOver/TitleSucces"]
+modulate = Color( 0.368627, 1, 0.662745, 1 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -252.0
+margin_top = -2.0
+margin_right = 252.0
+margin_bottom = 30.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 5 )
+text = "You are full of colors again!"
+align = 1
 
 [node name="Congrats" type="TileMap" parent="GUI/GameOver/TitleSucces"]
-position = Vector2( 0, 16 )
+modulate = Color( 0.368627, 1, 0.662745, 1 )
+position = Vector2( 0, 64 )
 tile_set = ExtResource( 18 )
 cell_size = Vector2( 16, 16 )
 cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
@@ -2864,19 +2855,20 @@ cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 format = 1
 tile_data = PoolIntArray( 65534, 0, 0, 1, 0, 0, 4, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 12, 0, 0, 18, 0, 0, 27, 0, 0, 28, 0, 0, 29, 0, 0, 30, 0, 0, 33, 0, 0, 34, 0, 0, 35, 0, 0, 36, 0, 0, 37, 0, 0, 39, 0, 0, 43, 0, 0, 45, 0, 0, 46, 0, 0, 47, 0, 0, 48, 0, 0, 51, 0, 0, 53, 0, 0, 55, 0, 0, 131070, 0, 0, 65537, 0, 0, 65540, 0, 0, 65542, -1610612736, 0, 65548, 0, 0, 65554, 0, 0, 65563, 0, 0, 65567, 0, 0, 65569, 0, 0, 65573, 0, 0, 65575, 0, 0, 65579, 0, 0, 65581, -1610612736, 0, 65587, 0, 0, 65589, 0, 0, 65591, 0, 0, 196606, 0, 0, 131073, 0, 0, 131076, 0, 0, 131078, -1610612736, 0, 131079, 0, 0, 131080, 0, 0, 131084, 0, 0, 131090, 0, 0, 131099, 0, 0, 131103, 0, 0, 131105, 0, 0, 131109, 0, 0, 131111, 0, 0, 131112, 0, 0, 131115, 0, 0, 131117, -1610612736, 0, 131118, 0, 0, 131119, 0, 0, 131123, 0, 0, 131125, 0, 0, 131127, 0, 0, 262142, 0, 0, 196609, 0, 0, 196612, 0, 0, 196614, -1610612736, 0, 196620, 0, 0, 196626, 0, 0, 196635, 0, 0, 196639, 0, 0, 196641, 0, 0, 196645, 0, 0, 196647, 0, 0, 196649, 0, 0, 196651, 0, 0, 196653, -1610612736, 0, 196659, 0, 0, 196661, 0, 0, 196663, 0, 0, 327678, 0, 0, 262145, 0, 0, 262148, 0, 0, 262150, -1610612736, 0, 262156, 0, 0, 262162, 0, 0, 262171, 0, 0, 262175, 0, 0, 262177, 0, 0, 262181, 0, 0, 262183, 0, 0, 262186, 0, 0, 262187, 0, 0, 262189, -1610612736, 0, 262195, 0, 0, 262197, 0, 0, 262199, 0, 0, 393214, 0, 0, 327681, 0, 0, 327684, 0, 0, 327686, -1610612736, 0, 327692, 0, 0, 327698, 0, 0, 327707, 0, 0, 327711, 0, 0, 327713, 0, 0, 327717, 0, 0, 327719, 0, 0, 327723, 0, 0, 327725, -1610612736, 0, 458751, 0, 0, 393216, 0, 0, 393218, 0, 0, 393219, 0, 0, 393222, 0, 0, 393223, 0, 0, 393224, 0, 0, 393225, 0, 0, 393226, 0, 0, 393228, 0, 0, 393229, 0, 0, 393230, 0, 0, 393231, 0, 0, 393232, 0, 0, 393234, 0, 0, 393235, 0, 0, 393236, 0, 0, 393237, -1610612736, 0, 393238, -1610612736, 0, 393243, 0, 0, 393244, 0, 0, 393245, 0, 0, 393246, 0, 0, 393249, 0, 0, 393250, 0, 0, 393251, 0, 0, 393252, 0, 0, 393253, 0, 0, 393255, 0, 0, 393259, 0, 0, 393261, 0, 0, 393262, 0, 0, 393263, 0, 0, 393264, 0, 0, 393265, 0, 0, 393267, 0, 0, 393269, 0, 0, 393271, 0, 0 )
 
-[node name="CleanedLabel" type="Label" parent="GUI/GameOver/TitleSucces"]
+[node name="Reward" type="Label" parent="GUI/GameOver/TitleSucces"]
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -251.5
-margin_top = 69.5
-margin_right = 252.5
-margin_bottom = 101.5
+anchor_bottom = 1.0
+margin_left = -301.0
+margin_top = -82.0
+margin_right = 302.0
+margin_bottom = -12.0
 grow_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 5 )
-text = "You are full of colors again!"
+text = "Extra 500 points are added
+to your points total."
 align = 1
 
 [node name="TitleFailTime" type="Control" parent="GUI/GameOver"]
@@ -2887,9 +2879,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -384.0
-margin_top = -72.0
+margin_top = -168.0
 margin_right = 384.0
-margin_bottom = 104.0
+margin_bottom = 8.0
 
 [node name="TimeupLabel" type="Label" parent="GUI/GameOver/TitleFailTime"]
 anchor_left = 0.5
@@ -2897,9 +2889,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -94.0
-margin_top = -185.5
+margin_top = -89.5
 margin_right = 95.0
-margin_bottom = -153.5
+margin_bottom = -57.5
 grow_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 5 )
@@ -2907,7 +2899,7 @@ text = "Time is up!"
 align = 1
 
 [node name="GameOver" type="TileMap" parent="GUI/GameOver/TitleFailTime"]
-position = Vector2( 0, -16 )
+position = Vector2( 0, 64 )
 tile_set = ExtResource( 18 )
 cell_size = Vector2( 16, 16 )
 cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
@@ -2922,27 +2914,27 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -384.0
-margin_top = -72.0
+margin_top = -168.0
 margin_right = 384.0
-margin_bottom = 104.0
+margin_bottom = 8.0
 
 [node name="DiedLabel" type="Label" parent="GUI/GameOver/TitleFailLife"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -136.0
-margin_top = -185.5
-margin_right = 137.0
-margin_bottom = -153.5
+margin_left = -190.0
+margin_top = -89.5
+margin_right = 191.0
+margin_bottom = -57.5
 grow_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 5 )
-text = "You finaly died!"
+text = "You are colorless forever!"
 align = 1
 
 [node name="GameOver" type="TileMap" parent="GUI/GameOver/TitleFailLife"]
-position = Vector2( 0, -16 )
+position = Vector2( 0, 64 )
 tile_set = ExtResource( 18 )
 cell_size = Vector2( 16, 16 )
 cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
@@ -2950,6 +2942,7 @@ format = 1
 tile_data = PoolIntArray( 0, 0, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 6, -1610612736, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 12, 0, 0, 16, 0, 0, 18, 0, 0, 19, 0, 0, 20, 0, 0, 21, 0, 0, 65536, 0, 0, 65542, -1610612736, 0, 65546, 0, 0, 65548, 0, 0, 65549, 0, 0, 65551, 0, 0, 65552, 0, 0, 65554, 0, 0, 131072, 0, 0, 131078, -1610612736, 0, 131079, 0, 0, 131080, 0, 0, 131081, 0, 0, 131082, 0, 0, 131084, 0, 0, 131086, 0, 0, 131088, 0, 0, 131090, 0, 0, 131091, 0, 0, 131092, 0, 0, 196608, 0, 0, 196614, -1610612736, 0, 196618, 0, 0, 196620, 0, 0, 196624, 0, 0, 196626, 0, 0, 262144, 0, 0, 262146, 0, 0, 262147, 0, 0, 262150, -1610612736, 0, 262154, 0, 0, 262156, 0, 0, 262160, 0, 0, 262162, 0, 0, 262169, -1610612736, 0, 262170, -1610612736, 0, 262171, -1610612736, 0, 262172, -1610612736, 0, 262175, 0, 0, 262179, 0, 0, 262181, -1610612736, 0, 262182, -1610612736, 0, 262183, -1610612736, 0, 262184, -1610612736, 0, 262187, -1610612736, 0, 262188, -1610612736, 0, 262189, -1610612736, 0, 262190, -1610612736, 0, 327680, -1610612736, 0, 327684, 0, 0, 327686, -1610612736, 0, 327690, 0, 0, 327692, 0, 0, 327696, 0, 0, 327698, 0, 0, 327705, -1610612736, 0, 327709, -1610612736, 0, 327711, 0, 0, 327715, 0, 0, 327717, 0, 0, 327723, -1610612736, 0, 327727, -1610612736, 0, 393216, 0, 0, 393217, 0, 0, 393218, 0, 0, 393219, 0, 0, 393220, 0, 0, 393222, -1610612736, 0, 393226, 0, 0, 393228, 0, 0, 393232, 0, 0, 393234, 0, 0, 393235, 0, 0, 393236, 0, 0, 393237, -1610612736, 0, 393238, -1610612736, 0, 393241, -1610612736, 0, 393245, -1610612736, 0, 393247, 0, 0, 393251, 0, 0, 393253, 0, 0, 393254, 0, 0, 393255, 0, 0, 393259, -1610612736, 0, 393260, -1610612736, 0, 393261, -1610612736, 0, 393262, -1610612736, 0, 458777, -1610612736, 0, 458781, -1610612736, 0, 458783, 0, 0, 458787, 0, 0, 458789, 0, 0, 458795, -1610612736, 0, 458799, -1610612736, 0, 524313, -1610612736, 0, 524317, -1610612736, 0, 524319, 0, 0, 524323, 0, 0, 524325, 0, 0, 524331, -1610612736, 0, 524335, -1610612736, 0, 589849, -1610612736, 0, 589853, -1610612736, 0, 589856, 0, 0, 589858, 0, 0, 589861, 0, 0, 589867, -1610612736, 0, 589871, -1610612736, 0, 655385, -1610612736, 0, 655386, 0, 0, 655387, 0, 0, 655388, 0, 0, 655389, -1610612736, 0, 655393, 0, 0, 655397, 0, 0, 655398, 0, 0, 655399, 0, 0, 655400, 0, 0, 655401, 0, 0, 655403, -1610612736, 0, 655407, -1610612736, 0 )
 
 [node name="ContentGame" type="Control" parent="GUI/GameOver"]
+visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
 
