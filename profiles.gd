@@ -45,7 +45,9 @@ var default_level_stats : Dictionary = { # na štartu igre se tole duplicira in 
 # na štartu se vrednosti injicirajo v "default_level_stats"
 
 var level_tutorial_stats : Dictionary = { 
+	
 	"level": Levels.TUTORIAL,
+	"tilemap_path": "res://game/tilemaps/tutorial_tilemap.tscn",
 	"game_time_limit": 50,
 	"stray_pixels_count": 5,
 }

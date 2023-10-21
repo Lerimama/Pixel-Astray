@@ -120,7 +120,6 @@ func get_random_member_index(group_of_elements, offset): # offset je če zamakne
 # SCENE MANAGER ---------------------------------------------------------------------------
 
 var current_scene = null # trenutno predvajana scena (za svičanje)
-var scene_reload_time: float = 1
 
 
 func release_scene(scene_node): # release scene
@@ -129,7 +128,7 @@ func release_scene(scene_node): # release scene
 
 
 func _free_scene(scene_node):
-	print ("SCENE RELEASED (in next step): ", current_scene)	
+	print ("SCENE RELEASED (in next step): ", scene_node)	
 	scene_node.free()
 	
 
@@ -138,8 +137,10 @@ func spawn_new_scene(scene_path, parent_node): # spawn scene
 	var scene_resource = ResourceLoader.load(scene_path)
 	
 	current_scene = scene_resource.instance()
-	print ("SCENE INSTANCED: ", current_scene)	
+	print ("SCENE INSTANCED: ", current_scene)
 	
 	current_scene.modulate.a = 0
 	parent_node.add_child(current_scene) # direct child of root
 	print ("SCENE ADDED: ", current_scene)	
+	
+	return current_scene

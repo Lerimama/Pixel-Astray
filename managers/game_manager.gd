@@ -37,6 +37,10 @@ onready var FloatingTag = preload("res://game/hud/floating_tag.tscn")
 onready var StrayPixel = preload("res://game/pixel/stray.tscn")
 onready var PlayerPixel = preload("res://game/pixel/player.tscn")
 
+onready var default_level_tilemap: TileMap = $"../LevelHolder/TileMap"
+onready var level_holder: Node2D = $"../LevelHolder"
+var selected_tilemap_path: String
+
 
 func _unhandled_input(event: InputEvent) -> void:
 
@@ -67,24 +71,38 @@ func _ready() -> void:
 	
 	randomize()
 	
-	load_level()
-	yield(get_tree().create_timer(0.01), "timeout") # blink igre, da se ziher vse naloži	
+	selected_tilemap_path = Profiles.level_tutorial_stats["tilemap_path"]
+	set_tilemap(default_level_tilemap)
 	
-	
-	# štartej igro
-	
-	yield(get_tree().create_timer(2), "timeout")
-	
-	set_game() # setam ves data igre
+#	call_deferred("set_game")
+#	set_game() # setam ves data igre
 
 	
 # LEVEL ------------------------------------------------------------------------------------
 
-onready var tile_map: TileMap = $"../Level/TileMap"
-onready var level: Node2D = $"../Level"
+func set_tilemap(current_level_tilemap):
+	# release default tilemap	
+	current_level_tilemap.set_physics_process(false)
+	call_deferred("_free_tilemap", current_level_tilemap)
+	
 
-func load_level():
-	tile_map.connect("floor_completed", self, "_on_TileMap_floor_completed")
+func _free_tilemap(tilemap_to_release):
+	tilemap_to_release.free()
+	spawn_new_tilemap(selected_tilemap_path, level_holder)
+
+
+func spawn_new_tilemap(tilemap_path, tilemap_parent): # spawn scene
+
+	var tilemap_resource = ResourceLoader.load(tilemap_path)
+	
+	var new_tilemap = tilemap_resource.instance()
+	new_tilemap.connect("tilemap_completed", self, "_on_tilemap_completed")
+	tilemap_parent.add_child(new_tilemap) # direct child of root
+
+	yield(get_tree().create_timer(2), "timeout") # da se vidi spawnanje
+#	call_deferred("set_game")
+	set_game() # setam ves data igre
+	
 	
 	
 func _process(delta: float) -> void:
@@ -327,8 +345,11 @@ func spawn_floating_tag(position: Vector2, value): # kliče ga GM
 # SIGNALI ----------------------------------------------------------------------------------
 
 
-func _on_TileMap_floor_completed(floor_cells_global_positions: Array, player_start_global_position: Vector2) -> void:
-
+func _on_tilemap_completed(floor_cells_global_positions: Array, player_start_global_position: Vector2) -> void:
+#func _on_TileMap_floor_completed(floor_cells_global_positions: Array, player_start_global_position: Vector2) -> void:
+	printt("tutorial_tilemap_on_GM", floor_cells_global_positions.size(), player_start_global_position)
+	
+	
 	floor_positions = floor_cells_global_positions 
 	available_floor_positions = floor_positions.duplicate()
 	player_start_position = player_start_global_position

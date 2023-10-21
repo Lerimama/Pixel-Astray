@@ -24,6 +24,7 @@ var available_floor_positions: Array # dplikat floor_positions za spawnanje pixl
 var title_positions: Array
 var available_title_positions: Array
 
+onready var intro_tile_map: TileMap = $Level/TileMap
 onready var stray_pixels_count: int =  149 # 149 celic je v naslovu
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var stray_step_timer: Timer = $StrayStepTimer
@@ -42,7 +43,6 @@ func _input(event: InputEvent) -> void:
 	
 func _ready() -> void:
 	randomize()
-
 	
 func _process(delta: float) -> void:
 	strays_on_screen = get_tree().get_nodes_in_group(Global.group_strays)
@@ -86,7 +86,7 @@ func end_intro():
 
 
 func stray_step():
-	return
+	
 	# random dir
 	var random_direction_index: int = randi() % int(6)
 	var stepping_direction: Vector2
@@ -110,7 +110,7 @@ func stray_step():
 	
 	# next step random time
 	var random_pause_time_factor: float = randi() % int(5) + 1 # višji offset da manjši razpon v random času
-	var random_pause_time = 0.1 / random_pause_time_factor
+	var random_pause_time = 0.2 / random_pause_time_factor
 	stray_step_timer.start(random_pause_time)
 		
 
@@ -222,15 +222,6 @@ func play_thunder_strike():
 # SIGNALI ----------------------------------------------------------------------------------
 
 
-func _on_TileMap_tilemap_completed(floor_cells_global_positions: Array, title_cells_global_positions: Array) -> void:
-	
-	floor_positions = floor_cells_global_positions # title + floor positions
-	title_positions = title_cells_global_positions 
-	title_cells_count = title_positions.size()
-	available_floor_positions = floor_positions.duplicate()
-	available_title_positions = title_positions.duplicate()
-
-
 func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	match anim_name:
 		"intro_running": 
@@ -241,3 +232,13 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 
 func _on_StrayStepTimer_timeout() -> void:
 	stray_step()
+
+
+func _on_TileMap_tilemap_completed(floor_cells_global_positions: Array, title_cells_global_positions: Array) -> void:
+	
+	floor_positions = floor_cells_global_positions # title + floor positions
+	title_positions = title_cells_global_positions 
+	title_cells_count = title_positions.size()
+	
+	available_floor_positions = floor_positions.duplicate()
+	available_title_positions = title_positions.duplicate()

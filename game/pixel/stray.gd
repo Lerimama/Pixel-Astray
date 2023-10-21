@@ -15,7 +15,7 @@ var neighbouring_cells: Array = [] # stray stalno čekira sosede
 var step_time: float = 0.1
 var is_stepping: bool = false
 
-onready var cell_size_x: int = Global.level_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
+onready var cell_size_x: int = Global.level_tilemap.cell_size.x
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var vision_ray: RayCast2D = $VisionRay
 onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
@@ -41,15 +41,8 @@ func fade_in(): # kliče GM
 	
 
 func _physics_process(delta: float) -> void:
-
 	neighbouring_cells = check_for_neighbours()
 	
-#	match current_stray_state:
-#		StrayState.IDLE:
-#			neighbouring_cells = check_for_neighbours()
-#		StrayState.WANDERING:
-#			pass
-
 	
 func step(step_direction):
 		

@@ -37,7 +37,7 @@ tracks/1/keys = {
 "values": [  ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Level/FloorCover:color")
+tracks/2/path = NodePath("LevelHolder/FloorCover:color")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false

@@ -1,20 +1,16 @@
 extends TileMap
+# tole imitacija levelnega tilemapa
 
-
-# tole je pseudo duplikat levelnega tilemapa
 
 signal tilemap_completed #(floor_tiles_global_positions, player_start_global_position)
-#signal floor_completed #(floor_tiles_global_positions, player_start_global_position)
 
-var floor_cells_global_positions: Array # global koordinate celic
-var player_start_global_position: Vector2 
+var floor_cells_global_positions: Array
 var title_cells_global_positions: Array
 
 
 func _ready() -> void:
 	
 	add_to_group(Global.group_tilemap)	
-	
 	Global.level_tilemap = self
 	get_tiles()
 
@@ -35,18 +31,13 @@ func get_tiles():
 			match cell_index:
 				0: # floor
 					floor_cells_global_positions.append(cell_global_position)
-				4:# player start position
-					set_cellv(cell, 0) # menjam celico za celico tal ...
-					floor_cells_global_positions.append(cell_global_position) # v GM damo to pozicijo ven da ni na voljo za generacij pixlov
-					player_start_global_position = cell_global_position + cell_size
-				5: # game title positions
+				5: # game title positions ... stray start positions
 					title_cells_global_positions.append(cell_global_position + cell_size/2) # more bit +, če ne zignjajo
-					floor_cells_global_positions.append(cell_global_position)
-	# pošljemo podatke v GM
-	# floor_cells_global_positions.append_array(title_cells_global_positions)
-#	emit_signal("floor_completed", floor_cells_global_positions, player_start_global_position) # v intru je error
-	emit_signal("tilemap_completed", floor_cells_global_positions, title_cells_global_positions)
+					floor_cells_global_positions.append(cell_global_position) # se dodajo, ker so tla istočasno prostor za premikanje
 
+	# pošljemo podatke v GM
+	emit_signal("tilemap_completed", floor_cells_global_positions, title_cells_global_positions)
+	
 
 func get_collision_tile_id(collider: Node2D, direction: Vector2): # collider je node ki se zaleteva in ne collision object
 	
