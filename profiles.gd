@@ -33,50 +33,58 @@ var default_player_stats : Dictionary = { # bo verjetno za vsak mode drugačen
 
 enum Levels {TUTORIAL, PRACTICE, S, M, L, XL, XXL}
 
-var default_level_stats : Dictionary = { # na štartu igre se tole duplicira in postane game stats
-	"level" : Levels.PRACTICE,
-	"game_time_limit" : 15, # sekund
-	"stray_pixels_count" : 1,
-	"off_pixels_count" : 0,
+var level_data : Dictionary = { # na štartu igre se tole duplicira in postane game stats
+	"level" : Levels.TUTORIAL,
+	"tilemap_path": "res://game/tilemaps/tutorial_tilemap.tscn",
+	"game_time_limit": 600, # sekund
+	"stray_pixels_count": 150,
+	
+	"off_pixels_count": 0,
 	"highscore": 0000, # se naloži iz  "default_level_highscores" lestvice ob štartu igre, zato, da te lahko opozori že med igro
 	"highscore_owner": "Nobody", # se naloži iz  "default_level_highscores" lestvice ob štartu igre, zato, da te lahko opozori že med igro
 }
 
-# na štartu se vrednosti injicirajo v "default_level_stats"
+# na štartu se vrednosti injicirajo v "level_data"
 
-var level_tutorial_stats : Dictionary = { 
-	
+var level_tutorial_data: Dictionary = { 
 	"level": Levels.TUTORIAL,
 	"tilemap_path": "res://game/tilemaps/tutorial_tilemap.tscn",
-	"game_time_limit": 50,
+	"game_time_limit": 600,
 	"stray_pixels_count": 5,
 }
 
-var level_1_stats : Dictionary = { 
+var level_practice: Dictionary = { 
+	"level": Levels.PRACTICE,
+	"tilemap_path": "x",
+#	"game_time_limit": 600,
+	"stray_pixels_count": 5,
+}
+
+var level_1_data: Dictionary = { 
 	"level": Levels.S,
 	"game_time_limit": 5,
 	"stray_pixels_count": 5,
 }
 
-var level_2_stats : Dictionary = {
+var level_2_data: Dictionary = {
 	"level": Levels.M,
 	"game_time_limit": 5,
 	"stray_pixels_count": 32, 
 }
 
-var level_3_stats : Dictionary = {
+var level_3_data: Dictionary = {
 	"level": Levels.L,
 	"game_time_limit": 5,
 	"stray_pixels_count": 140, 
 }
 
-var level_4_stats : Dictionary = {
+var level_4_data: Dictionary = {
 	"level": Levels.XL,
 	"game_time_limit": 5,
 	"stray_pixels_count": 230, 
 }
 
-var level_5_stats : Dictionary = {
+var level_5_data: Dictionary = {
 	"level": Levels.XXL,
 	"game_time_limit": 5,
 	"stray_pixels_count": 320, 
@@ -99,14 +107,14 @@ var game_rules: Dictionary = { # tole ne uporabljam v zadnji varianti
 	"wall_hit_energy": -96, # GM
 	"skilled_energy_drain_speed": 0.1, # GM ... čas med vsakim odvzemom
 	"player_start_energy": 192, # GM
-	"dead_time": 5, # GM
+	"dead_time": 2, # GM
 	"tired_energy": 32, # player ... procent cele energije
 	"min_player_alpha": 0.2, # player
 	"player_max_energy": 192, # player .. max, da se lepo ujema s pixli (24)
 	"max_step_time": 0.15, # player
 	"min_step_time": 0.09, # player
 	"burst_speed_addon": 12, # player ... dodatek hitrosti na cock_ghost
-	"gameover_countdown_duration": 10, # hud game timer
+	"gameover_countdown_duration": 5, # hud game timer
 	"last_breath_loop_limit": 3, # cca 1 bit na sekundo
 	"pixel_start_color": Color("#141414"),
 	"death_mode_duration" : 20,
@@ -115,7 +123,7 @@ var game_rules: Dictionary = { # tole ne uporabljam v zadnji varianti
 	# config ... ne vem če je vse za ta slovar?
 	"timer_countdown_mode" : true,
 	"pick_neighbour_mode": false, # hud, player
-	"deathmode_on": true, # hud_game_timer
+	"deathmode_on": false, # hud_game_timer
 	"last_breath_mode": true, # player
 	"minimap_on": false, # game
 	"game_countdown_on": false, # game_countdown

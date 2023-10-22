@@ -83,16 +83,14 @@ onready var light_2d: Light2D = $Light2D
 
 func _ready() -> void:
 	
-	add_to_group(Global.group_players)
-	
 	randomize() # za random blink animacije
 	
-	global_position = Global.snap_to_nearest_grid(global_position, Global.level_tilemap.floor_cells_global_positions)
-	# set_physics_process(false) # deaktiviram plejerja ... aktivira ga GM, ko v start_game
-	
+	add_to_group(Global.group_players)
+	light_2d.enabled = false
 	modulate = pixel_color
 	poly_pixel.modulate.a = 1
-	animation_player.play("still_alive")
+	
+	global_position = Global.snap_to_nearest_grid(global_position, Global.level_tilemap.floor_cells_global_positions)
 	current_state = States.IDLE
 	
 	

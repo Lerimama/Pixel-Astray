@@ -84,8 +84,8 @@ func _on_CamerShakeCheckBox_toggled(button_pressed: bool) -> void:
 
 #func _on_StrayCountOptionButton_item_selected(index: int) -> void:
 #	match index:
-#		0: Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_1
-#		1: Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_2
-#		2: Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_3
-#		3: Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_4
-#		4: Profiles.default_level_stats["stray_pixels_count"] = Profiles.settings_strays_amount_5
+#		0: Profiles.level_data["stray_pixels_count"] = Profiles.settings_strays_amount_1
+#		1: Profiles.level_data["stray_pixels_count"] = Profiles.settings_strays_amount_2
+#		2: Profiles.level_data["stray_pixels_count"] = Profiles.settings_strays_amount_3
+#		3: Profiles.level_data["stray_pixels_count"] = Profiles.settings_strays_amount_4
+#		4: Profiles.level_data["stray_pixels_count"] = Profiles.settings_strays_amount_5

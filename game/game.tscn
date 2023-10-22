@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=2]
+[gd_scene load_steps=67 format=2]
 
 [ext_resource path="res://game/hud/hud_game_timer.gd" type="Script" id=1]
 [ext_resource path="res://game/hud/hud.gd" type="Script" id=2]
@@ -20,6 +20,7 @@
 [ext_resource path="res://assets/resources/graphics_tileset.tres" type="TileSet" id=18]
 [ext_resource path="res://assets/theme/fonts/16bfZX.ttf" type="DynamicFontData" id=19]
 [ext_resource path="res://assets/controls_scheme.png" type="Texture" id=20]
+[ext_resource path="res://game/gui/tutorial.gd" type="Script" id=21]
 [ext_resource path="res://assets/joypad_scheme.png" type="Texture" id=22]
 [ext_resource path="res://assets/theme/lerimama_theme_body_font.tres" type="DynamicFont" id=23]
 
@@ -88,6 +89,19 @@ atlas = ExtResource( 14 )
 region = Rect2( 18, 84, 14, 12 )
 margin = Rect2( 0, 3, 0, 0 )
 
+[sub_resource type="StyleBoxFlat" id=155]
+content_margin_left = 21.0
+content_margin_right = 19.0
+content_margin_top = 13.0
+content_margin_bottom = 17.0
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+
 [sub_resource type="StyleBoxEmpty" id=168]
 
 [sub_resource type="AtlasTexture" id=150]
@@ -129,19 +143,6 @@ region = Rect2( 54, 0, 66, 86 )
 atlas = ExtResource( 20 )
 region = Rect2( 96, 32, 10, 10 )
 
-[sub_resource type="StyleBoxFlat" id=155]
-content_margin_left = 21.0
-content_margin_right = 19.0
-content_margin_top = 13.0
-content_margin_bottom = 17.0
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-draw_center = false
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-
 [sub_resource type="AtlasTexture" id=161]
 atlas = ExtResource( 20 )
 region = Rect2( 0, 0, 120, 46 )
@@ -169,6 +170,147 @@ region = Rect2( 49, 186, 22, 22 )
 [sub_resource type="AtlasTexture" id=167]
 atlas = ExtResource( 20 )
 region = Rect2( 73, 186, 22, 22 )
+
+[sub_resource type="Animation" id=171]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Goals:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 400, 320 ) ]
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Goals:rect_position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 152, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("ScoringPanel:rect_position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( -352, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("TutorialPanel:rect_position:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 1281, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+
+[sub_resource type="Animation" id=170]
+resource_name = "goals_in"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Goals:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Goals:rect_position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 320, 0, 0, 0, -50, 216, -0.2, 0, 0, 0 ),
+"times": PoolRealArray( 0, 0.5 )
+}
+
+[sub_resource type="Animation" id=172]
+resource_name = "panels_in"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Goals:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.2, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Goals:rect_position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 216, 0, 0, 0.2, 0, 152, 0, 50, 0, 0 ),
+"times": PoolRealArray( 0, 0.5 )
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("TutorialPanel:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.7, 1.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("ScoringPanel:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.1, 0.7, 1.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("TutorialPanel:rect_position:x")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 1281, -0.25, 0, 0.25, 0, 896, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.3, 1.2 )
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("ScoringPanel:rect_position:x")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( -352, -0.25, 0, 0.25, 0, 31, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.3, 1.2 )
+}
 
 [sub_resource type="DynamicFont" id=141]
 size = 341
@@ -762,6 +904,7 @@ rect_min_size = Vector2( 1280, 720 )
 script = ExtResource( 2 )
 
 [node name="Energy" type="Label" parent="GUI/Hud"]
+visible = false
 margin_left = 128.0
 margin_top = 69.0
 margin_right = 221.0
@@ -773,6 +916,7 @@ __meta__ = {
 }
 
 [node name="Life" type="Label" parent="GUI/Hud"]
+visible = false
 margin_left = 32.0
 margin_top = 71.0
 margin_right = 114.0
@@ -1371,22 +1515,136 @@ align = 1
 valign = 1
 
 [node name="Tutorial" type="Control" parent="GUI"]
-visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
 rect_min_size = Vector2( 1280, 720 )
+script = ExtResource( 21 )
 __meta__ = {
 "_editor_description_": ""
+}
+
+[node name="Goals" type="Control" parent="GUI/Tutorial"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -240.0
+margin_top = -208.0
+margin_right = 240.0
+margin_bottom = 23.9997
+theme = ExtResource( 4 )
+
+[node name="Title" type="Label" parent="GUI/Tutorial/Goals"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -144.0
+margin_top = -86.0
+margin_right = 144.0
+margin_bottom = -64.0
+size_flags_vertical = 1
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Bucket list"
+align = 1
+autowrap = true
+
+[node name="Game goals" type="VBoxContainer" parent="GUI/Tutorial/Goals"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -208.0
+margin_top = -52.0
+margin_right = 208.0
+margin_bottom = 36.0
+custom_constants/separation = 12
+
+[node name="Content" type="Label" parent="GUI/Tutorial/Goals/Game goals"]
+margin_right = 416.0
+margin_bottom = 18.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 23 )
+text = "1. Destroy stray pixels and collect their colors"
+align = 1
+autowrap = true
+
+[node name="Content2" type="Label" parent="GUI/Tutorial/Goals/Game goals"]
+margin_top = 30.0
+margin_right = 416.0
+margin_bottom = 48.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 23 )
+text = "2. Main goal is to collect all the colors available"
+align = 1
+autowrap = true
+
+[node name="Content3" type="Label" parent="GUI/Tutorial/Goals/Game goals"]
+margin_top = 60.0
+margin_right = 416.0
+margin_bottom = 78.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 23 )
+text = "3. Success is measured in total points scored"
+align = 1
+autowrap = true
+
+[node name="Menu" type="HBoxContainer" parent="GUI/Tutorial/Goals"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -77.0
+margin_top = 69.0
+margin_right = 77.0
+margin_bottom = 91.0
+custom_constants/separation = 32
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="StartBtn" type="Button" parent="GUI/Tutorial/Goals/Menu"]
+margin_right = 70.0
+margin_bottom = 22.0
+focus_neighbour_left = NodePath("../QuitBtn")
+focus_neighbour_right = NodePath("../QuitBtn")
+focus_mode = 1
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme = ExtResource( 4 )
+enabled_focus_mode = 1
+text = "START"
+
+[node name="QuitBtn" type="Button" parent="GUI/Tutorial/Goals/Menu"]
+margin_left = 102.0
+margin_right = 154.0
+margin_bottom = 22.0
+focus_neighbour_left = NodePath("../StartBtn")
+focus_neighbour_right = NodePath("../StartBtn")
+size_flags_horizontal = 2
+size_flags_vertical = 8
+theme = ExtResource( 4 )
+text = "QUIT"
+
+[node name="Panel" type="Panel" parent="GUI/Tutorial/Goals"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 155 )
+__meta__ = {
+"_edit_lock_": true
 }
 
 [node name="TutorialPanel" type="Control" parent="GUI/Tutorial"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -384.0
+margin_left = 1.0
 margin_top = 73.0
-margin_right = -32.0
+margin_right = 353.0
 margin_bottom = 640.0
 theme = ExtResource( 4 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Title" type="Label" parent="GUI/Tutorial/TutorialPanel"]
 margin_left = 24.0
@@ -1981,69 +2239,19 @@ __meta__ = {
 }
 
 [node name="ScoringPanel" type="Control" parent="GUI/Tutorial"]
-margin_left = 31.0
+margin_left = -352.0
 margin_top = 80.0
-margin_right = 383.0
 margin_bottom = 647.0
 theme = ExtResource( 4 )
-
-[node name="Game goals" type="VBoxContainer" parent="GUI/Tutorial/ScoringPanel"]
-margin_left = 32.0
-margin_top = 30.0
-margin_right = 320.0
-margin_bottom = 434.0
-custom_constants/separation = 12
-
-[node name="Title" type="Label" parent="GUI/Tutorial/ScoringPanel/Game goals"]
-margin_right = 288.0
-margin_bottom = 22.0
-size_flags_vertical = 1
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-text = "Main goals"
-autowrap = true
-
-[node name="Content" type="Label" parent="GUI/Tutorial/ScoringPanel/Game goals"]
-margin_top = 34.0
-margin_right = 288.0
-margin_bottom = 76.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "1. Destroy stray pixels and collect their colors"
-autowrap = true
-
-[node name="Content2" type="Label" parent="GUI/Tutorial/ScoringPanel/Game goals"]
-margin_top = 88.0
-margin_right = 288.0
-margin_bottom = 130.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "2. The end goal is to collect all the colors available"
-autowrap = true
-
-[node name="Content3" type="Label" parent="GUI/Tutorial/ScoringPanel/Game goals"]
-margin_top = 142.0
-margin_right = 288.0
-margin_bottom = 184.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "3. Performance is measured in total points scored"
-autowrap = true
-
-[node name="HSeparator" type="HSeparator" parent="GUI/Tutorial/ScoringPanel"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-margin_left = 33.0
-margin_top = 240.0
-margin_right = 255.0
-margin_bottom = 244.0
 __meta__ = {
-"_editor_description_": ""
+"_edit_group_": true
 }
 
 [node name="Scoring" type="VBoxContainer" parent="GUI/Tutorial/ScoringPanel"]
 margin_left = 32.0
-margin_top = 262.0
+margin_top = 15.0
 margin_right = 320.0
-margin_bottom = 559.0
+margin_bottom = 541.0
 custom_constants/separation = 12
 
 [node name="Title" type="Label" parent="GUI/Tutorial/ScoringPanel/Scoring"]
@@ -2306,116 +2514,10 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Goals" type="Control" parent="GUI/Tutorial"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -240.0
-margin_top = -144.0
-margin_right = 240.0
-margin_bottom = 88.0
-theme = ExtResource( 4 )
-
-[node name="Title" type="Label" parent="GUI/Tutorial/Goals"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -144.0
-margin_top = -86.0
-margin_right = 144.0
-margin_bottom = -64.0
-size_flags_vertical = 1
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-text = "Game goals"
-align = 1
-autowrap = true
-
-[node name="Game goals" type="VBoxContainer" parent="GUI/Tutorial/Goals"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -208.0
-margin_top = -52.0
-margin_right = 208.0
-margin_bottom = 36.0
-custom_constants/separation = 12
-
-[node name="Content" type="Label" parent="GUI/Tutorial/Goals/Game goals"]
-margin_right = 416.0
-margin_bottom = 18.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "Destroy stray pixels and collect their colors"
-align = 1
-autowrap = true
-
-[node name="Content2" type="Label" parent="GUI/Tutorial/Goals/Game goals"]
-margin_top = 30.0
-margin_right = 416.0
-margin_bottom = 48.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "The end goal is to collect all the colors available"
-align = 1
-autowrap = true
-
-[node name="Content3" type="Label" parent="GUI/Tutorial/Goals/Game goals"]
-margin_top = 60.0
-margin_right = 416.0
-margin_bottom = 78.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "Success is measured in total points scored"
-align = 1
-autowrap = true
-
-[node name="Menu" type="HBoxContainer" parent="GUI/Tutorial/Goals"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -77.0
-margin_top = 69.0
-margin_right = 77.0
-margin_bottom = 91.0
-custom_constants/separation = 32
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="RestartBtn" type="Button" parent="GUI/Tutorial/Goals/Menu"]
-margin_right = 70.0
-margin_bottom = 22.0
-focus_neighbour_left = NodePath("../QuitBtn")
-focus_neighbour_right = NodePath("../QuitBtn")
-focus_mode = 1
-size_flags_horizontal = 8
-size_flags_vertical = 8
-theme = ExtResource( 4 )
-enabled_focus_mode = 1
-text = "START"
-
-[node name="QuitBtn" type="Button" parent="GUI/Tutorial/Goals/Menu"]
-margin_left = 102.0
-margin_right = 154.0
-margin_bottom = 22.0
-focus_neighbour_left = NodePath("../RestartBtn")
-focus_neighbour_right = NodePath("../RestartBtn")
-size_flags_horizontal = 2
-size_flags_vertical = 8
-theme = ExtResource( 4 )
-text = "QUIT"
-
-[node name="Panel" type="Panel" parent="GUI/Tutorial/Goals"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_styles/panel = SubResource( 155 )
-__meta__ = {
-"_edit_lock_": true
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/Tutorial"]
+anims/RESET = SubResource( 171 )
+anims/goals_in = SubResource( 170 )
+anims/panels_in = SubResource( 172 )
 
 [node name="GameCountdown" type="Control" parent="GUI"]
 visible = false
@@ -2793,6 +2895,7 @@ autowrap = true
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
+visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
 script = ExtResource( 3 )
@@ -3752,6 +3855,7 @@ text = "CONFIRM"
 [connection signal="deathmode_active" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_deathmode_active"]
 [connection signal="gametime_is_up" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_gametime_is_up"]
 [connection signal="timeout" from="GUI/Hud/Header/GameTimer/Timer" to="GUI/Hud/Header/GameTimer" method="_on_Timer_timeout"]
+[connection signal="pressed" from="GUI/Tutorial/Goals/Menu/StartBtn" to="GUI/Tutorial" method="_on_StartBtn_pressed"]
 [connection signal="animation_finished" from="GUI/GameCountdown/AnimationPlayer" to="GUI/GameCountdown" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="toggled" from="GUI/PauseMenu/Settings/GameMusicCheckBox" to="GUI/PauseMenu" method="_on_GameMusicCheckBox_toggled"]
 [connection signal="value_changed" from="GUI/PauseMenu/Settings/GameMusicSlider" to="GUI/PauseMenu" method="_on_GameMusicSlider_value_changed"]

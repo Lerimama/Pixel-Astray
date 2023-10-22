@@ -37,7 +37,7 @@ func fade_in(): # kliče GM
 	# žrebam animacijo
 	var random_animation_index = randi() % 3 + 1
 	var random_animation_name: String = "glitch_%s" % random_animation_index
-	animation_player.play(random_animation_name) 
+	animation_player.play(random_animation_name)
 	
 
 func _physics_process(delta: float) -> void:

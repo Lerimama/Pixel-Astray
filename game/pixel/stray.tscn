@@ -445,6 +445,7 @@ tracks/3/keys = {
 }
 
 [node name="Stray" type="KinematicBody2D"]
+modulate = Color( 1, 1, 1, 0.432259 )
 script = ExtResource( 1 )
 
 [node name="PolyPixel" type="Polygon2D" parent="."]

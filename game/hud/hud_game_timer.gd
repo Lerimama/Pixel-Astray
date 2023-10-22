@@ -10,7 +10,7 @@ var game_time_limit: int # podatki glede časovnih omejitev se pošljejo iz GM-j
 var time_since_start: int # ne glede na mode, vedno želiš vedet koliko sekund je porabljeno od začetka ... za statistiko
 
 onready var deathmode_limit: int = Profiles.game_rules["death_mode_duration"]
-onready var level_time_limit: int = Profiles.default_level_stats["game_time_limit"]
+onready var level_time_limit: int = Profiles.level_data["game_time_limit"]
 onready var countdown_mode: bool = Profiles.game_rules["timer_countdown_mode"]
 onready var gameover_countdown_duration: int = Profiles.game_rules["gameover_countdown_duration"] # čas, ko je obarvan in se sliši bip bip
 
@@ -109,15 +109,19 @@ func _on_Timer_timeout() -> void:
 		# game over countdown
 		if game_time < 1:
 			Global.sound_manager.play_sfx("countdown_b")
+			modulate = Global.color_red
 		elif game_time <= gameover_countdown_duration and game_time > 0:
 			Global.sound_manager.play_sfx("countdown_a")
+			modulate = Global.color_red
 	else:
 		game_time += 1
 		# game over countdown
 		if game_time > game_time_limit - 1:
 			Global.sound_manager.play_sfx("countdown_b")
+			modulate = Global.color_red
 		elif game_time >= game_time_limit - gameover_countdown_duration:
 			Global.sound_manager.play_sfx("countdown_a")
+			modulate = Global.color_red
 
 	
 	

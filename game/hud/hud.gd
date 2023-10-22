@@ -3,7 +3,7 @@ extends Control
 
 # ta node more bit na vrhu zaradi zaporedja nalaganja
 var player_stats_on_hud: Dictionary
-var game_stats_on_hud: Dictionary
+var game_data_on_hud: Dictionary
 
 var fade_time: float = 1
 var default_hud_color: Color = Color.white
@@ -58,17 +58,18 @@ func _ready() -> void:
 	# disable life icons if
 	if Profiles.default_player_stats["player_life"] == 1:
 		life_counter.visible = false
-		
+	
+	
 	
 func _process(delta: float) -> void:
 	
 	player_stats_on_hud = Global.game_manager.player_stats
-	game_stats_on_hud = Global.game_manager.game_stats
+	game_data_on_hud = Global.game_manager.game_data
 	
 	writing_stats()
 	
 	# ček HS and show popup
-	if Global.game_manager.game_stats["level"] != Profiles.Levels.PRACTICE:
+	if Global.game_manager.game_data["level"] != Profiles.Levels.PRACTICE:
 		check_for_hs()
 	
 	# show popup energy warning
@@ -97,7 +98,7 @@ func _process(delta: float) -> void:
 func check_for_hs():
 	
 	var current_points = player_stats_on_hud["player_points"]
-	var current_highscore = game_stats_on_hud["highscore"]
+	var current_highscore = game_data_on_hud["highscore"]
 	if current_points > current_highscore: # zaporedje ifov je pomembno zaradi načina setanja pogojev
 		if not highscore_broken:
 			# Global.sound_manager.play_sfx("record_cheers")
@@ -115,16 +116,19 @@ func check_for_hs():
 func writing_stats():	
 	
 	# level setup
-	var level_key = game_stats_on_hud["level"]
+	var level_key = game_data_on_hud["level"]
 	if level_key == Profiles.Levels.PRACTICE:
+		game_timer.visible = false
 		highscore_label.visible = false
+		level.text = str(Profiles.Levels.keys()[level_key])
+	elif level_key == Profiles.Levels.TUTORIAL:
 		level.text = str(Profiles.Levels.keys()[level_key])
 	else:
 		highscore_label.visible = true
 		level.text = "LEVEL " + str(Profiles.Levels.keys()[level_key])
 		# hs label
 		if not highscore_broken:
-			highscore_label.text = "HS %04d" % game_stats_on_hud["highscore"]
+			highscore_label.text = "HS %04d" % game_data_on_hud["highscore"]
 		else:
 			highscore_label.text = "HS %04d" % player_stats_on_hud["player_points"]
 		
@@ -132,8 +136,8 @@ func writing_stats():
 	player_points.text = "%04d" % player_stats_on_hud["player_points"]
 	burst_count.text = "%02d" % player_stats_on_hud["burst_count"]
 	skill_count.text = "%02d" % player_stats_on_hud["skill_count"]
-	stray_pixels.text = "%03d" % game_stats_on_hud["stray_pixels_count"]
-	pixels_off.text = "%03d" % game_stats_on_hud["off_pixels_count"]
+	stray_pixels.text = "%03d" % game_data_on_hud["stray_pixels_count"]
+	pixels_off.text = "%03d" % game_data_on_hud["off_pixels_count"]
 	
 	# _temp
 	player_life.text = "LIFE: %01d" % player_stats_on_hud["player_life"]

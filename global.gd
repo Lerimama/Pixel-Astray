@@ -20,6 +20,7 @@ var level_tilemap = null
 var hud = null
 var game_countdown = null
 var gameover_menu = null
+var tutorial_gui = null
 
 
 # GLOBAL VARS ---------------------------------------------------------------------------------------------------------
@@ -117,7 +118,7 @@ func get_random_member_index(group_of_elements, offset): # offset je če zamakne
 		return selected_int
 
 
-# SCENE MANAGER ---------------------------------------------------------------------------
+# SCENE MANAGER (prehajanje med igro in menijem) ----------------------------------------------------------------
 
 var current_scene = null # trenutno predvajana scena (za svičanje)
 

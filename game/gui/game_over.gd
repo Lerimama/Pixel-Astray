@@ -145,7 +145,7 @@ func fade_in(gameover_reason):
 	
 	write_gameover_data()
 #	highscore_table.get_highscore_table(Global.data_manager.current_player_ranking)
-	highscore_table.get_highscore_table(Global.game_manager.game_stats["level"], Global.data_manager.current_player_ranking)
+	highscore_table.get_highscore_table(Global.game_manager.game_data["level"], Global.data_manager.current_player_ranking)
 	
 	content_game.visible = true
 	
@@ -203,7 +203,7 @@ func show_content():
 	
 	# title se odfejda v "close_name_input()"
 	write_gameover_data()
-	highscore_table.get_highscore_table(Global.game_manager.game_stats["level"], Global.data_manager.current_player_ranking)
+	highscore_table.get_highscore_table(Global.game_manager.game_data["level"], Global.data_manager.current_player_ranking)
 	
 	content_game.visible = true
 
@@ -216,11 +216,11 @@ func show_content():
 func write_gameover_data():
 	
 	var player_gameover_stats: Dictionary = Global.game_manager.player_stats
-	var game_gameover_stats: Dictionary = Global.game_manager.game_stats
+	var game_gameover_stats: Dictionary = Global.game_manager.game_data
 
 	var time_used: int = Global.hud.game_timer.time_since_start
 	
-	var current_level_key = Global.game_manager.game_stats["level"]
+	var current_level_key = Global.game_manager.game_data["level"]
 	var current_level_name = Profiles.Levels.keys()[current_level_key]
 
 	if current_level_key == Profiles.Levels.PRACTICE:
@@ -329,7 +329,7 @@ func _on_RestartBtn_pressed() -> void:
 	unpause_tree()
 	Global.main_node.reload_game()
 	
-	if Global.game_manager.game_stats["level"] == Profiles.Levels.PRACTICE:
+	if Global.game_manager.game_data["level"] == Profiles.Levels.PRACTICE:
 		$ContentPractice/Menu/RestartBtn.disabled = true # da ne moreš multiklikat
 	else:
 		$ContentGame/Menu/RestartBtn.disabled = true # da ne moreš multiklikat
@@ -341,7 +341,7 @@ func _on_QuitBtn_pressed() -> void:
 	unpause_tree()
 	Global.main_node.game_out()
 	
-	if Global.game_manager.game_stats["level"] == Profiles.Levels.PRACTICE:
+	if Global.game_manager.game_data["level"] == Profiles.Levels.PRACTICE:
 		$ContentPractice/Menu/QuitBtn.disabled = true # da ne moreš multiklikat
 	else:
 		$ContentGame/Menu/QuitBtn.disabled = true # da ne moreš multiklikat

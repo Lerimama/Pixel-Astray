@@ -12,6 +12,7 @@ var spawn_shake_decay: float = 0.2
 var strays_spawn_loop: int = 0	
 
 # spawning
+var player_pixel: KinematicBody2D
 var player_start_position = null  # pogreba iz tajlmepa
 var spawned_player_index: int = 0
 var spawned_stray_index: int = 0
@@ -20,26 +21,21 @@ var strays_in_game: Array = []
 
 var floor_positions: Array # po signalu ob kreaciji tilemapa ... tukaj, da ga lahko grebam do zunaj
 var available_floor_positions: Array # dplikat floor_positions za spawnanje pixlov
-
 var colors_to_pick: Array # za hud nejbrhud pravila
 var energy_drain_active: bool = false # za kontrolo črpanja energije
 
 # stats
 onready var player_stats: Dictionary = Profiles.default_player_stats.duplicate() # duplikat default profila
-onready var game_stats: Dictionary = Profiles.default_level_stats.duplicate() # duplikat default profila, ker ga me igro spreminjaš
-onready var stray_pixels_count: int = Profiles.default_level_stats["stray_pixels_count"]
+onready var game_data: Dictionary = Profiles.level_data.duplicate() # duplikat default profila, ker ga me igro spreminjaš
+onready var stray_pixels_count: int = Profiles.level_data["stray_pixels_count"]
 onready var game_rules: Dictionary = Profiles.game_rules # ker ga med ne spreminjaš
 
 onready var spectrum_rect: TextureRect = $Spectrum
 onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
-
+onready var default_level_tilemap: TileMap = $"../Tilemap"
 onready var FloatingTag = preload("res://game/hud/floating_tag.tscn")
 onready var StrayPixel = preload("res://game/pixel/stray.tscn")
 onready var PlayerPixel = preload("res://game/pixel/player.tscn")
-
-onready var default_level_tilemap: TileMap = $"../LevelHolder/TileMap"
-onready var level_holder: Node2D = $"../LevelHolder"
-var selected_tilemap_path: String
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -71,38 +67,9 @@ func _ready() -> void:
 	
 	randomize()
 	
-	selected_tilemap_path = Profiles.level_tutorial_stats["tilemap_path"]
-	set_tilemap(default_level_tilemap)
+	set_tilemap()
 	
-#	call_deferred("set_game")
-#	set_game() # setam ves data igre
-
-	
-# LEVEL ------------------------------------------------------------------------------------
-
-func set_tilemap(current_level_tilemap):
-	# release default tilemap	
-	current_level_tilemap.set_physics_process(false)
-	call_deferred("_free_tilemap", current_level_tilemap)
-	
-
-func _free_tilemap(tilemap_to_release):
-	tilemap_to_release.free()
-	spawn_new_tilemap(selected_tilemap_path, level_holder)
-
-
-func spawn_new_tilemap(tilemap_path, tilemap_parent): # spawn scene
-
-	var tilemap_resource = ResourceLoader.load(tilemap_path)
-	
-	var new_tilemap = tilemap_resource.instance()
-	new_tilemap.connect("tilemap_completed", self, "_on_tilemap_completed")
-	tilemap_parent.add_child(new_tilemap) # direct child of root
-
-	yield(get_tree().create_timer(2), "timeout") # da se vidi spawnanje
-#	call_deferred("set_game")
-	set_game() # setam ves data igre
-	
+	call_deferred("set_game")
 	
 	
 func _process(delta: float) -> void:
@@ -113,73 +80,41 @@ func _process(delta: float) -> void:
 # GAME LOOP ----------------------------------------------------------------------------------
 
 
-func show_strays():
-	
-	Global.main_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
-	
-	var strays_to_show_count: int # količina strejsov se more ujemat s številom spawnanih
-	
-	strays_spawn_loop += 1
-	if strays_spawn_loop > 4:
-		return
-	
-	var strays_shown: Array = []
-	match strays_spawn_loop:
-		1: # polovica
-			Global.sound_manager.play_sfx("thunder_strike")
-			strays_to_show_count = round(strays_in_game.size()/2)
-		2: # četrtina
-			strays_to_show_count = round(strays_in_game.size()/4)
-		3: # osmina
-			strays_to_show_count = round(strays_in_game.size()/8)
-		4: # še preostale
-			strays_to_show_count = strays_in_game.size() - strays_shown.size()
-	
-	
-	# fade-in za vsak stray v igri ... med še ne pokazanimi (strays_to_show)
-	var loop_count = 0
-	for stray in strays_in_game:
-		# če stray še ni pokazan ga pokažem in dodam me pokazane
-		if not strays_shown.has(stray):# and loop_count < strays_count_to_reveal:
-			stray.fade_in()	
-			strays_shown.append(stray)
-			loop_count += 1 # šterjem tukaj, ker se šteje samo če se pixel pokaže
-		if loop_count >= strays_to_show_count:
-			break
-					
-
 func set_game(): 
 	
+	# greb tiles
+	Global.level_tilemap.connect("tilemap_completed", self, "_on_tilemap_completed")
+	Global.level_tilemap.get_tiles()
+	
+	# set player
+	player_pixel = spawn_player()
+	Global.camera_target = player_pixel
 	player_stats["player_energy"] = game_rules["player_start_energy"]
 	
+	# počaka fejdin scene
+	yield(get_tree().create_timer(3), "timeout") 
+	
+	# set strays
 	split_stray_colors()
-	spawn_player()
-			
-	# show strays
-	yield(get_tree().create_timer(0.5), "timeout")
-	show_strays() # 1 ...v metodi šteje število "klicev" ... tam se določa spawn število na vsak krog
-	yield(get_tree().create_timer(0.2), "timeout")
-	show_strays() # 2 ...
 	show_strays()
 	yield(get_tree().create_timer(0.2), "timeout")
 	show_strays()
+	yield(get_tree().create_timer(0.1), "timeout")
+	show_strays()
+	yield(get_tree().create_timer(0.1), "timeout")
+	show_strays()
+	strays_spawn_loop = 0 # zazih
+		
+	# set hud ... za spremljat HS med igro
+	if game_data["level"] != Profiles.Levels.PRACTICE or game_data["level"] != Profiles.Levels.TUTORIAL:
+		var current_highscore_line: Array = Global.data_manager.get_top_highscore(game_data["level"])
+		game_data["highscore"] = current_highscore_line[0]
+		game_data["highscore_owner"] = current_highscore_line[1]
 	
-	if not players_in_game.empty():
-		for player in players_in_game:
-			player.visible = true
-			player.set_physics_process(false)
-	
-	strays_spawn_loop = 0
-	
-	# HS za spremljat med igro ... če ni practice
-	if game_stats["level"] != Profiles.Levels.PRACTICE:
-		var current_highscore_line: Array = Global.data_manager.get_top_highscore(game_stats["level"])
-		game_stats["highscore"] = current_highscore_line[0]
-		game_stats["highscore_owner"] = current_highscore_line[1]
-	
-	yield(get_tree().create_timer(0.5), "timeout")
-	
+	# čaka, da si plejer ogleda
+	yield(get_tree().create_timer(1), "timeout")
 	Global.main_camera.zoom_in()
+	
 	# YIELD ... čaka da game_countdown odšteje
 	print ("GM start - YIELD")
 	# Global.game_countdown.start_countdown() ... zdej je na kameri
@@ -192,15 +127,17 @@ func set_game():
 	
 func start_game():
 	
-	Global.sound_manager.play_music("game")
+	# enable tutorial panels
+	if game_data["level"] == Profiles.Levels.TUTORIAL:
+		Global.tutorial_gui.start()
+		Global.hud.game_timer.start_timer() # tajmer pobere čas igre in tip štetja iz profila
+	
+	elif game_data["level"] != Profiles.Levels.PRACTICE:
+		Global.hud.game_timer.start_timer() # tajmer pobere čas igre in tip štetja iz profila
+	
+	player_pixel.set_physics_process(true)
 	game_on = true
-	
-	# aktiviram plejerja in tajmer
-	Global.hud.game_timer.start_timer() # tajmer pobere čas igre in tip štetja iz profila
-	
-	if not players_in_game.empty():
-		for player in players_in_game:
-			player.set_physics_process(true)
+	Global.sound_manager.play_music("game")
 	
 	
 func game_over(game_over_reason: String):
@@ -220,9 +157,10 @@ func game_over(game_over_reason: String):
 	Global.hud.popups.visible = false
 	
 	# pavziram plejerja
-	if not players_in_game.empty():
-		for player in players_in_game:
-			player.set_physics_process(false)
+	player_pixel.set_physics_process(false)
+#	if not players_in_game.empty():
+#		for player in players_in_game:
+#			player.set_physics_process(false)
 	
 	# malo časa za show-off
 	yield(get_tree().create_timer(2), "timeout")
@@ -235,10 +173,10 @@ func game_over(game_over_reason: String):
 	Global.hud.visible = false # zazih
 	
 	var player_points = player_stats["player_points"]
-	var current_level = game_stats["level"]
+	var current_level = game_data["level"]
 	
 	# HS manage
-	if game_stats["level"] != Profiles.Levels.PRACTICE:
+	if game_data["level"] != Profiles.Levels.PRACTICE or game_data["level"] != Profiles.Levels.TUTORIAL:
 		# YIELD 1 ... čaka na konec preverke rankinga ... če ni rankinga dobi false, če je ne dobi nič
 		# ker kličem funkcijo v variablo more počakat, da se funkcija izvede do returna
 		var score_is_ranking = Global.data_manager.manage_gameover_highscores(player_points, current_level) # yielda 2 za name_input je v tej funkciji
@@ -248,10 +186,35 @@ func game_over(game_over_reason: String):
 			Global.gameover_menu.fade_in_empty(game_over_reason)
 	else:
 			Global.gameover_menu.fade_in_practice(game_over_reason)
-			
-		
+	
+	
 # SPAWNANJE ----------------------------------------------------------------------------------
 
+
+func set_tilemap():
+	
+	var tilemap_to_release: TileMap = default_level_tilemap
+#	var tilemap_to_load_path: String = Profiles.level_tutorial_stats["tilemap_path"]
+	var tilemap_to_load_path: String = game_data["tilemap_path"]
+	
+	# release default tilemap	
+	tilemap_to_release.set_physics_process(false)
+	call_deferred("_free_tilemap", tilemap_to_release, tilemap_to_load_path)
+	
+
+func _free_tilemap(tilemap_to_release, tilemap_to_load_path):
+	tilemap_to_release.free()
+	spawn_new_tilemap(tilemap_to_load_path)
+
+
+func spawn_new_tilemap(tilemap_path):
+
+	var tilemap_resource = ResourceLoader.load(tilemap_path)
+	var tilemap_parent = Global.node_creation_parent
+	
+	var new_tilemap = tilemap_resource.instance()
+	tilemap_parent.add_child(new_tilemap) # direct child of root
+		
 
 func spawn_player():
 	
@@ -260,13 +223,16 @@ func spawn_player():
 	
 	var new_player_pixel = PlayerPixel.instance()
 	new_player_pixel.name = "P%s" % str(spawned_player_index)
-	new_player_pixel.global_position = spawn_position # ... ne rabim snepat ker se v pixlu na redi funkciji
-	new_player_pixel.visible = false
+	new_player_pixel.global_position = spawn_position # ... ne rabim snepat ker se v pixlu na ready funkciji
+	new_player_pixel.modulate.a = 0
+#	new_player_pixel.z_index = 1
+	
 	Global.node_creation_parent.add_child(new_player_pixel)
 	
 	new_player_pixel.connect("stat_changed", self, "_on_stat_changed")
+	new_player_pixel.set_physics_process(false)
 	
-	Global.camera_target = new_player_pixel
+	return new_player_pixel
 
 
 func split_stray_colors():
@@ -316,7 +282,7 @@ func spawn_stray(stray_color):
 	var selected_cell_index: int = randi() % int(random_range) # + offset
 	new_stray_pixel.global_position = available_floor_positions[selected_cell_index]
 	 # + grid_cell_size/2
-	new_stray_pixel.z_index = 1
+#	new_stray_pixel.z_index = 1
 	
 	#spawn
 	Global.node_creation_parent.add_child(new_stray_pixel)
@@ -329,12 +295,51 @@ func spawn_stray(stray_color):
 	available_floor_positions.remove(selected_cell_index)
 	
 
+func show_strays():
+	
+	Global.main_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
+	
+	var strays_to_show_count: int # količina strejsov se more ujemat s številom spawnanih
+	
+	strays_spawn_loop += 1
+	if strays_spawn_loop > 4:
+		return
+	
+	var strays_shown: Array = []
+	match strays_spawn_loop:
+		1: # polovica
+			Global.sound_manager.play_sfx("thunder_strike")
+#			Global.sound_manager.play_sfx("blinking")
+			strays_to_show_count = round(strays_in_game.size()/2)
+		2: # četrtina
+			Global.sound_manager.play_sfx("thunder_strike")
+			strays_to_show_count = round(strays_in_game.size()/4)
+		3: # osmina
+			strays_to_show_count = round(strays_in_game.size()/8)
+		4: # še preostale
+			strays_to_show_count = strays_in_game.size() - strays_shown.size()
+	
+	# fade-in za vsak stray v igri ... med še ne pokazanimi (strays_to_show)
+	var loop_count = 0
+	for stray in strays_in_game:
+		# če stray še ni pokazan ga pokažem in dodam me pokazane
+		if not strays_shown.has(stray):# and loop_count < strays_count_to_reveal:
+			stray.fade_in()	
+			strays_shown.append(stray)
+			loop_count += 1 # šterjem tukaj, ker se šteje samo če se pixel pokaže
+		if loop_count >= strays_to_show_count:
+			break
+					
+
 func spawn_floating_tag(position: Vector2, value): # kliče ga GM
 	
+	if value == 0:
+		return
+		
 	var cell_size_x: float = Global.level_tilemap.cell_size.x
 	
 	var new_floating_tag = FloatingTag.instance()
-	new_floating_tag.z_index = 2
+	new_floating_tag.z_index = 1
 	new_floating_tag.global_position = position - Vector2 (cell_size_x/2, cell_size_x + cell_size_x/2)
 	if value < 0:
 		new_floating_tag.modulate = Global.color_red
@@ -346,9 +351,6 @@ func spawn_floating_tag(position: Vector2, value): # kliče ga GM
 
 
 func _on_tilemap_completed(floor_cells_global_positions: Array, player_start_global_position: Vector2) -> void:
-#func _on_TileMap_floor_completed(floor_cells_global_positions: Array, player_start_global_position: Vector2) -> void:
-	printt("tutorial_tilemap_on_GM", floor_cells_global_positions.size(), player_start_global_position)
-	
 	
 	floor_positions = floor_cells_global_positions 
 	available_floor_positions = floor_positions.duplicate()
@@ -376,8 +378,8 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				energy_drain_active = false
 		"stray_hit":
 			# hud statistika stray pixlov
-			game_stats["off_pixels_count"] += 1
-			game_stats["stray_pixels_count"] -= 1
+			game_data["off_pixels_count"] += 1
+			game_data["stray_pixels_count"] -= 1
 			# stats za prvi pixel 
 			if stat_change == 1:
 				player_stats["player_points"] += game_rules["color_picked_points"]
@@ -392,12 +394,11 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				player_stats["player_energy"] += energy_for_seq_pixel
 				spawn_floating_tag(stat_owner.global_position, points_for_seq_pixel) 
 			# cleaned
-			if game_stats["stray_pixels_count"] == 0:
+			if game_data["stray_pixels_count"] == 0:
 				player_stats["player_points"] += Profiles.game_rules["all_cleaned_points"]
 				
-				# become white again ... če je multiplejer, je tole treba drugače zrihtat
-				for player in players_in_game:
-					player.pixel_color = Color.white
+				# become white again
+				player_pixel.pixel_color = Color.white
 					
 				game_over(Global.reason_cleaned)
 		
@@ -405,7 +406,7 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 		"wall_hit":
 			if game_rules["lose_life_on_wall"]: # zguba lajfa
 				lose_life(stat_owner, stat_change)
-			else: # zguba energije
+			else: # zguba polovice energije in točk
 				var half_player_points = round(player_stats["player_points"] / 2)
 				var half_player_energy = round(player_stats["player_energy"] / 2)
 				player_stats["player_points"] -= half_player_points

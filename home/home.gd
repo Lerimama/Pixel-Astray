@@ -8,11 +8,6 @@ onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var menu: HBoxContainer = $Menu
 onready var intro: Node2D = $IntroViewPortContainer/Viewport/Intro
 onready var intro_viewport: Viewport = $IntroViewPortContainer/Viewport
-onready var select_game_btn_1: Button = $SelectGame/SelectGameBtn1
-onready var select_game_btn_2: Button = $SelectGame/SelectGameBtn2
-onready var select_game_btn_3: Button = $SelectGame/SelectGameBtn3
-onready var select_game_btn_4: Button = $SelectGame/SelectGameBtn4
-onready var select_game_btn_5: Button = $SelectGame/SelectGameBtn5
 
 
 func _input(event: InputEvent) -> void:
@@ -57,12 +52,11 @@ func _ready():
 
 
 func games_buttons_text_setup():
-	select_game_btn_1.text = "Only " + str(Profiles.level_1_stats["level"]) + " pixels astray"
-	select_game_btn_2.text = str(Profiles.level_2_stats["level"]) + " pixels astray"
-	select_game_btn_3.text = str(Profiles.level_3_stats["level"]) + " pixels astray"
-	select_game_btn_4.text = str(Profiles.level_4_stats["level"]) + " pixels astray"
-	select_game_btn_5.text = str(Profiles.level_5_stats["level"]) + " pixels astray"
-	
+	$SelectGame/SelectGameBtn1.text = "Only " + str(Profiles.level_1_data["level"]) + " pixels astray"
+	$SelectGame/SelectGameBtn2.text = str(Profiles.level_2_data["level"]) + " pixels astray"
+	$SelectGame/SelectGameBtn3.text = str(Profiles.level_3_data["level"]) + " pixels astray"
+	$SelectGame/SelectGameBtn4.text = str(Profiles.level_4_data["level"]) + " pixels astray"
+	$SelectGame/SelectGameBtn5.text = str(Profiles.level_5_data["level"]) + " pixels astray"
  
 			
 # MAIN MENU ---------------------------------------------------------------------------------------------------
@@ -194,13 +188,29 @@ func _on_HighscoresBackBtn_pressed() -> void:
 
 # SELECT GAME ---------------------------------------------------------------------------------------------------
 
+
+func _on_TutorialBtn_pressed() -> void:
+	
+	# level data
+	Profiles.level_data["level"] = Profiles.level_tutorial_data["level"]
+	Profiles.level_data["game_time_limit"] = Profiles.level_tutorial_data["game_time_limit"]
+	Profiles.level_data["stray_pixels_count"] = Profiles.level_tutorial_data["stray_pixels_count"]
+	
+	Global.sound_manager.play_gui_sfx("btn_confirm")
+	Global.main_node.home_out()
+	$SelectGame/TutorialBtn.disabled = true # da ne moreš multiklikat
+
+
+func _on_SelectGameBtn0_pressed() -> void:
+	pass # Replace with function body.
+
 	
 func _on_SelectGameBtn1_pressed() -> void:
 	
 	# vnos vrednosti izbranega levela v default level stats
-	Profiles.default_level_stats["level"] = Profiles.level_1_stats["level"]
-	Profiles.default_level_stats["game_time_limit"] = Profiles.level_1_stats["game_time_limit"]
-	Profiles.default_level_stats["stray_pixels_count"] = Profiles.level_1_stats["stray_pixels_count"]
+	Profiles.level_data["level"] = Profiles.level_1_data["level"]
+	Profiles.level_data["game_time_limit"] = Profiles.level_1_data["game_time_limit"]
+	Profiles.level_data["stray_pixels_count"] = Profiles.level_1_data["stray_pixels_count"]
 	
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.home_out()
@@ -210,9 +220,9 @@ func _on_SelectGameBtn1_pressed() -> void:
 func _on_SelectGame2Btn_pressed() -> void:
 	
 	# vnos vrednosti izbranega levela v default level stats
-	Profiles.default_level_stats["level"] = Profiles.level_2_stats["level"]
-	Profiles.default_level_stats["game_time_limit"] = Profiles.level_2_stats["game_time_limit"]
-	Profiles.default_level_stats["stray_pixels_count"] = Profiles.level_2_stats["stray_pixels_count"]
+	Profiles.level_data["level"] = Profiles.level_2_data["level"]
+	Profiles.level_data["game_time_limit"] = Profiles.level_2_data["game_time_limit"]
+	Profiles.level_data["stray_pixels_count"] = Profiles.level_2_data["stray_pixels_count"]
 	
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.home_out()
@@ -222,9 +232,9 @@ func _on_SelectGame2Btn_pressed() -> void:
 func _on_SelectGame3Btn_pressed() -> void:
 	
 	# vnos vrednosti izbranega levela v default level stats
-	Profiles.default_level_stats["level"] = Profiles.level_3_stats["level"]
-	Profiles.default_level_stats["game_time_limit"] = Profiles.level_3_stats["game_time_limit"]
-	Profiles.default_level_stats["stray_pixels_count"] = Profiles.level_3_stats["stray_pixels_count"]
+	Profiles.level_data["level"] = Profiles.level_3_data["level"]
+	Profiles.level_data["game_time_limit"] = Profiles.level_3_data["game_time_limit"]
+	Profiles.level_data["stray_pixels_count"] = Profiles.level_3_data["stray_pixels_count"]
 	
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.home_out()
@@ -234,9 +244,9 @@ func _on_SelectGame3Btn_pressed() -> void:
 func _on_SelectGame4Btn_pressed() -> void:
 	
 	# vnos vrednosti izbranega levela v default level stats
-	Profiles.default_level_stats["level"] = Profiles.level_4_stats["level"]
-	Profiles.default_level_stats["game_time_limit"] = Profiles.level_4_stats["game_time_limit"]
-	Profiles.default_level_stats["stray_pixels_count"] = Profiles.level_4_stats["stray_pixels_count"]
+	Profiles.level_data["level"] = Profiles.level_4_data["level"]
+	Profiles.level_data["game_time_limit"] = Profiles.level_4_data["game_time_limit"]
+	Profiles.level_data["stray_pixels_count"] = Profiles.level_4_data["stray_pixels_count"]
 	
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.home_out()
@@ -246,9 +256,9 @@ func _on_SelectGame4Btn_pressed() -> void:
 func _on_SelectGame5Btn_pressed() -> void:
 	
 	# vnos vrednosti izbranega levela v default level stats
-	Profiles.default_level_stats["level"] = Profiles.level_5_stats["level"]
-	Profiles.default_level_stats["game_time_limit"] = Profiles.level_5_stats["game_time_limit"]
-	Profiles.default_level_stats["stray_pixels_count"] = Profiles.level_5_stats["stray_pixels_count"]
+	Profiles.level_data["level"] = Profiles.level_5_data["level"]
+	Profiles.level_data["game_time_limit"] = Profiles.level_5_data["game_time_limit"]
+	Profiles.level_data["stray_pixels_count"] = Profiles.level_5_data["stray_pixels_count"]
 	
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.home_out()
@@ -257,3 +267,4 @@ func _on_SelectGame5Btn_pressed() -> void:
 
 func _on_QuitGameBtn_pressed() -> void:
 	get_tree().quit()
+

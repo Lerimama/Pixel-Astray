@@ -36,6 +36,7 @@ func _ready() -> void:
 	visible = false
 	modulate.a = 0
 	
+	# apdejt glasnosti na slajderju
 	$Settings/GameMusicSlider.value = AudioServer.get_bus_volume_db(AudioServer.get_bus_index("GameMusic"))
 
 
