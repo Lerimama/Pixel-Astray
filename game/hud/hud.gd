@@ -117,6 +117,7 @@ func writing_stats():
 	
 	# level setup
 	var level_key = game_data_on_hud["level"]
+	
 	if level_key == Profiles.Levels.PRACTICE:
 		game_timer.visible = false
 		highscore_label.visible = false

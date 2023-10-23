@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/controls_scheme.png-9ee77a9514109977db18399ec912d13f.stex"
+path="res://.import/iconset_lerimama_theme_colors.png-0a30091fe2fc07cf251ff662c293a71d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/controls_scheme.png"
-dest_files=[ "res://.import/controls_scheme.png-9ee77a9514109977db18399ec912d13f.stex" ]
+source_file="res://_obs/iconset_lerimama_theme_colors.png"
+dest_files=[ "res://.import/iconset_lerimama_theme_colors.png-0a30091fe2fc07cf251ff662c293a71d.stex" ]
 
 [params]
 

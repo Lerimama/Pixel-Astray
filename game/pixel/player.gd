@@ -578,7 +578,7 @@ func push():
 			push_tween.tween_callback(Global.sound_manager, "play_sfx", ["skill_success"])
 			
 		# za hud
-		emit_signal("stat_changed", self, "skill_used", 1)
+		emit_signal("stat_changed", self, "skill_used", 0) # 0 = push, 1 = pull, 2 = teleport ... zaprepoznavanje
 
 
 func pull():
@@ -606,7 +606,7 @@ func pull():
 	pull_tween.parallel().tween_callback(new_pull_ghost, "queue_free")
 	
 	# za hud
-	emit_signal("stat_changed", self, "skill_used", 1)
+	emit_signal("stat_changed", self, "skill_used", 1) # 0 = push, 1 = pull, 2 = teleport ... zaprepoznavanje
 	
 
 func teleport():
@@ -739,7 +739,7 @@ func _on_ghost_target_reached(ghost_body, ghost_position):
 	Global.sound_manager.stop_sfx("teleport")
 			
 	# za hud
-	emit_signal("stat_changed", self, "skill_used", 1)
+	emit_signal("stat_changed", self, "skill_used", 2) # 0 = push, 1 = pull, 2 = teleport ... za prepoznavanje
 	
 	Input.stop_joy_vibration(0)
 

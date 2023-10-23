@@ -1,7 +1,7 @@
 [gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=1]
-[ext_resource path="res://assets/theme/iconset_lerimama_theme.png" type="Texture" id=2]
+[ext_resource path="res://assets/theme/tileset_gui.png" type="Texture" id=2]
 [ext_resource path="res://home/settings.gd" type="Script" id=3]
 [ext_resource path="res://assets/theme/lerimama_theme_title_font.tres" type="DynamicFont" id=4]
 [ext_resource path="res://home/home.gd" type="Script" id=5]
@@ -11,7 +11,7 @@
 [ext_resource path="res://assets/theme/stylebox_panelwithborder.tres" type="StyleBox" id=9]
 [ext_resource path="res://assets/joypad_scheme.png" type="Texture" id=10]
 [ext_resource path="res://game/gui/highscore_table.gd" type="Script" id=11]
-[ext_resource path="res://assets/controls_scheme.png" type="Texture" id=12]
+[ext_resource path="res://assets/tileset_controls.png" type="Texture" id=12]
 [ext_resource path="res://assets/theme/fonts/Habbo.ttf" type="DynamicFontData" id=13]
 [ext_resource path="res://assets/theme/lerimama_theme_body_font.tres" type="DynamicFont" id=14]
 

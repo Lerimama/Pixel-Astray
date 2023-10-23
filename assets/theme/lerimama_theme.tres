@@ -1,7 +1,6 @@
 [gd_resource type="Theme" load_steps=21 format=2]
 
 [ext_resource path="res://assets/theme/lerimama_theme_font.tres" type="DynamicFont" id=1]
-[ext_resource path="res://assets/theme/iconset_lerimama_theme.png" type="Texture" id=3]
 
 [sub_resource type="StyleBoxEmpty" id=169]
 
@@ -13,12 +12,15 @@
 
 [sub_resource type="StyleBoxEmpty" id=173]
 
+[sub_resource type="StreamTexture" id=175]
+load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
+
 [sub_resource type="AtlasTexture" id=157]
-atlas = ExtResource( 3 )
+atlas = SubResource( 175 )
 region = Rect2( 16, 16, 14, 16 )
 
 [sub_resource type="AtlasTexture" id=158]
-atlas = ExtResource( 3 )
+atlas = SubResource( 175 )
 region = Rect2( 0, 16, 14, 16 )
 
 [sub_resource type="StyleBoxFlat" id=168]
@@ -38,7 +40,7 @@ color = Color( 1, 1, 1, 1 )
 thickness = 2
 
 [sub_resource type="AtlasTexture" id=150]
-atlas = ExtResource( 3 )
+atlas = SubResource( 175 )
 region = Rect2( 32, 0, 10, 10 )
 
 [sub_resource type="StyleBoxEmpty" id=163]
@@ -55,7 +57,7 @@ expand_margin_top = 7.0
 expand_margin_bottom = 7.0
 
 [sub_resource type="AtlasTexture" id=152]
-atlas = ExtResource( 3 )
+atlas = SubResource( 175 )
 region = Rect2( 0, 4, 16, 8 )
 
 [sub_resource type="StyleBoxTexture" id=153]
@@ -76,7 +78,7 @@ border_width_bottom = 2
 border_color = Color( 1, 1, 1, 1 )
 
 [sub_resource type="AtlasTexture" id=162]
-atlas = ExtResource( 3 )
+atlas = SubResource( 175 )
 region = Rect2( 16, 0, 16, 12 )
 margin = Rect2( 4, 0, 0, 0 )
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tileset_hud_icons.png-be9f67bfe9cd2fc31c012c696d1f0b84.stex"
+path="res://.import/tileset_gui.png-5e5102f3030224b268139a59df7396da.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tileset_hud_icons.png"
-dest_files=[ "res://.import/tileset_hud_icons.png-be9f67bfe9cd2fc31c012c696d1f0b84.stex" ]
+source_file="res://assets/theme/tileset_gui.png"
+dest_files=[ "res://.import/tileset_gui.png-5e5102f3030224b268139a59df7396da.stex" ]
 
 [params]
 

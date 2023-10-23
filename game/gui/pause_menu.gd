@@ -4,10 +4,9 @@ extends Control
 var pause_fade_time: float = 0.5
 var pause_on: bool = false # samo za esc
 
-# focus btn
-onready var play_btn: Button = $Menu/PlayBtn
 
 func _input(event: InputEvent) -> void:
+	
 	if Global.game_manager.game_on:
 		if Input.is_action_just_pressed("ui_cancel"):
 			if not pause_on:
@@ -69,12 +68,11 @@ func pause_game():
 	pause_on = true
 	
 	Global.sound_manager.play_gui_sfx("screen_slide")
-	play_btn.grab_focus()
+	$Menu/PlayBtn.grab_focus()
 	
 	var fade_in_tween = get_tree().create_tween()
 	fade_in_tween.tween_property(self, "modulate:a", 1, pause_fade_time)
 	fade_in_tween.tween_callback(self, "pause_tree")
-	
 
 
 func play_on():
@@ -98,7 +96,7 @@ func unpause_tree():
 	
 	get_tree().paused = false
 	pause_on = false
-	set_process_input(true) # zato da se lahko animacija izvede
+	set_process_input(true)
 	
 	
 # MENU ---------------------------------------------------------------------------------------------

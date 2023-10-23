@@ -57,7 +57,7 @@ func games_buttons_text_setup():
 	$SelectGame/SelectGameBtn3.text = str(Profiles.level_3_data["level"]) + " pixels astray"
 	$SelectGame/SelectGameBtn4.text = str(Profiles.level_4_data["level"]) + " pixels astray"
 	$SelectGame/SelectGameBtn5.text = str(Profiles.level_5_data["level"]) + " pixels astray"
- 
+			
 			
 # MAIN MENU ---------------------------------------------------------------------------------------------------
 
