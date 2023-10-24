@@ -69,7 +69,8 @@ onready var last_breath_loop_limit: int = Profiles.game_rules["last_breath_loop_
 onready var poly_pixel: Polygon2D = $PolyPixel
 var skill_sfx_playing: bool = false # da lahko kličem is procesne funkcije
 
-onready var pixel_color: Color = Profiles.game_rules["pixel_start_color"]
+var pixel_color: Color
+#onready var pixel_color: Color = Profiles.game_rules["pixel_start_color"]
 onready var cell_size_x: int = Global.level_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var vision_ray: RayCast2D = $VisionRay
@@ -87,19 +88,16 @@ func _ready() -> void:
 	
 	add_to_group(Global.group_players)
 	light_2d.enabled = false
-	modulate = pixel_color
-	poly_pixel.modulate.a = 1
-	
+	modulate = pixel_color # ... pixel_color je določena ob spawnanju z GM
+#	poly_pixel.modulate.a = 1 ... ob spawnanju z GM
 	global_position = Global.snap_to_nearest_grid(global_position, Global.level_tilemap.floor_cells_global_positions)
 	current_state = States.IDLE
 	
 	
 func _physics_process(delta: float) -> void:
 	
-	# print("current_state, ", current_state)
 	player_energy = Global.game_manager.player_stats["player_energy"] # stalni apdejt energije iz GMja
 	current_player_energy_part = player_energy / max_player_energy # delež celotne energije
-#	poly_pixel.modulate.a = 1
 			
 	if Global.detect_collision_in_direction(vision_ray, direction): # more bit neodvisno od stateta, da pull dela
 		skill_inputs()
@@ -377,7 +375,6 @@ func revive():
 	modulate.a = 0
 	yield(get_tree().create_timer(Profiles.game_rules["dead_time"]), "timeout")
 	animation_player.play("revive")
-	# animation_player.play("stil_alive_poly") ... če bodo težave s transparenco
 
 	
 # MOVEMENT ______________________________________________________________________________________________________________

@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://assets/resources/arena_tileset.tres" type="TileSet" id=1]
-[ext_resource path="res://game/arena_tilemap.gd" type="Script" id=2]
+[ext_resource path="res://game/tilemaps/tutorial_tilemap.gd" type="Script" id=2]
 
-[node name="Tilemap" type="TileMap"]
+[node name="TutorialTilemap" type="TileMap"]
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 32, 32 )
 cell_quadrant_size = 8
@@ -18,7 +18,7 @@ z_index = -3
 [node name="BackgroundColor" type="ColorRect" parent="Background"]
 margin_right = 2752.0
 margin_bottom = 1636.0
-color = Color( 0.172549, 1, 0, 1 )
+color = Color( 0, 0, 0, 1 )
 
 [node name="FloorCover" type="Node2D" parent="."]
 z_index = -2

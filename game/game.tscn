@@ -24,7 +24,7 @@
 [ext_resource path="res://assets/joypad_scheme.png" type="Texture" id=22]
 [ext_resource path="res://assets/theme/lerimama_theme_body_font.tres" type="DynamicFont" id=23]
 [ext_resource path="res://assets/theme/tileset_gui.png" type="Texture" id=24]
-[ext_resource path="res://assets/resources/icon_done.tres" type="Texture" id=25]
+[ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=25]
 [ext_resource path="res://assets/resources/icon_not_done.tres" type="Texture" id=26]
 
 [sub_resource type="NoiseTexture" id=1]
@@ -334,9 +334,9 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 
-[sub_resource type="AtlasTexture" id=178]
+[sub_resource type="AtlasTexture" id=179]
 atlas = ExtResource( 24 )
-region = Rect2( 20, 80, 28, 20 )
+region = Rect2( 0, 96, 28, 28 )
 
 [sub_resource type="StyleBoxEmpty" id=168]
 
@@ -384,6 +384,10 @@ atlas = ExtResource( 24 )
 region = Rect2( 0, 80, 6, 6 )
 margin = Rect2( 0, 8, 0, 12 )
 
+[sub_resource type="AtlasTexture" id=178]
+atlas = ExtResource( 24 )
+region = Rect2( 20, 80, 28, 20 )
+
 [sub_resource type="AtlasTexture" id=161]
 atlas = ExtResource( 20 )
 region = Rect2( 0, 0, 120, 46 )
@@ -415,7 +419,7 @@ region = Rect2( 73, 186, 22, 22 )
 [sub_resource type="Animation" id=171]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Goals:modulate")
+tracks/0/path = NodePath("MissionPanel:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -424,10 +428,10 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0.211765 ) ]
+"values": [ Color( 1, 1, 1, 0 ) ]
 }
 tracks/1/type = "bezier"
-tracks/1/path = NodePath("Goals:rect_position:y")
+tracks/1/path = NodePath("MissionPanel:rect_position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -481,7 +485,7 @@ tracks/5/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 tracks/6/type = "bezier"
-tracks/6/path = NodePath("Goals:rect_position:x")
+tracks/6/path = NodePath("MissionPanel:rect_position:x")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -490,60 +494,24 @@ tracks/6/keys = {
 "points": PoolRealArray( 417, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 0 )
 }
-
-[sub_resource type="Animation" id=181]
-resource_name = "done_popup_in"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/path = NodePath("DonePopup:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.3, 1, 1.3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+tracks/7/type = "value"
+tracks/7/path = NodePath("HudExplain:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
-}
-
-[sub_resource type="Animation" id=179]
-resource_name = "done_popup_in_out"
-length = 1.3
-tracks/0/type = "value"
-tracks/0/path = NodePath("DonePopup:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.3, 1, 1.3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
-}
-
-[sub_resource type="Animation" id=180]
-resource_name = "done_popup_out"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/path = NodePath("DonePopup:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+"values": [ Color( 1, 1, 1, 0 ) ]
 }
 
 [sub_resource type="Animation" id=170]
 resource_name = "goals_in"
 length = 0.5
 tracks/0/type = "value"
-tracks/0/path = NodePath("Goals:modulate")
+tracks/0/path = NodePath("MissionPanel:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -555,7 +523,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/1/type = "bezier"
-tracks/1/path = NodePath("Goals:rect_position:y")
+tracks/1/path = NodePath("MissionPanel:rect_position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -565,7 +533,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.5 )
 }
 tracks/2/type = "bezier"
-tracks/2/path = NodePath("Goals:rect_position:x")
+tracks/2/path = NodePath("MissionPanel:rect_position:x")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -575,11 +543,59 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 )
 }
 
+[sub_resource type="Animation" id=180]
+resource_name = "goals_in_with_labels"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("MissionPanel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("MissionPanel:rect_position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 320, 0, 0, 0, -50, 224, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("MissionPanel:rect_position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 417, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("HudExplain:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
 [sub_resource type="Animation" id=172]
 resource_name = "tutorial_start"
 length = 1.2
 tracks/0/type = "value"
-tracks/0/path = NodePath("Goals:modulate")
+tracks/0/path = NodePath("MissionPanel:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -591,7 +607,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/1/type = "bezier"
-tracks/1/path = NodePath("Goals:rect_position:y")
+tracks/1/path = NodePath("MissionPanel:rect_position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -645,7 +661,7 @@ tracks/5/keys = {
 "times": PoolRealArray( 0.3, 1.2 )
 }
 tracks/6/type = "bezier"
-tracks/6/path = NodePath("Goals:rect_position:x")
+tracks/6/path = NodePath("MissionPanel:rect_position:x")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -655,11 +671,103 @@ tracks/6/keys = {
 "times": PoolRealArray( 0 )
 }
 
+[sub_resource type="Animation" id=181]
+resource_name = "tutorial_start_with_labels"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("MissionPanel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.5, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("MissionPanel:rect_position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 224, -0.25, 0, 0.25, 0, 224, -0.25, 0, 0.25, 0, 152, 0, 50, 0, 0 ),
+"times": PoolRealArray( 0, 0.4, 0.8 )
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("TutorialPanel:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("ScoringPanel:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.1, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("TutorialPanel:rect_position:x")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 1281, -0.25, 0, 0.25, 0, 896, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.6, 1.5 )
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("ScoringPanel:rect_position:x")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( -352, -0.25, 0, 0.25, 0, 31, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.6, 1.5 )
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("MissionPanel:rect_position:x")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 417, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("HudExplain:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0.1, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
 [node name="Game" type="Node2D"]
 script = ExtResource( 6 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 34.0, 360.0, 698.0, 686.0, 224.0, 176.0, 504.0, 544.0 ],
-"_edit_vertical_guides_": [ 640.0, 1248.0, 31.0, 1216.0 ]
+"_edit_horizontal_guides_": [ 34.0, 698.0, 686.0, 504.0, 544.0, 280.0, 128.0, 80.0, 612.0 ],
+"_edit_vertical_guides_": [ 640.0, 1248.0, 32.0, 1216.0, 1305.0, 1600.0, 1453.0 ]
 }
 
 [node name="GameView" type="VBoxContainer" parent="."]
@@ -1061,6 +1169,7 @@ __meta__ = {
 }
 
 [node name="LifeIcons" type="HBoxContainer" parent="GUI/Hud/Header/HudLine_TL"]
+visible = false
 margin_top = 3.0
 margin_right = 52.0
 margin_bottom = 22.0
@@ -1123,9 +1232,8 @@ margin_bottom = 16.0
 texture = SubResource( 123 )
 
 [node name="EnergyBar" type="HBoxContainer" parent="GUI/Hud/Header/HudLine_TL"]
-margin_left = 76.0
 margin_top = 3.0
-margin_right = 140.0
+margin_right = 64.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 19 )
 size_flags_vertical = 8
@@ -1153,8 +1261,8 @@ texture_over = SubResource( 126 )
 texture_progress = SubResource( 132 )
 
 [node name="PointsCounter" type="HBoxContainer" parent="GUI/Hud/Header/HudLine_TL"]
-margin_left = 164.0
-margin_right = 224.0
+margin_left = 88.0
+margin_right = 148.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 22 )
 size_flags_vertical = 8
@@ -1694,7 +1802,6 @@ anims/countdown_5 = SubResource( 142 )
 anims/countdown_5_v1 = SubResource( 135 )
 
 [node name="Tutorial" type="Control" parent="GUI"]
-pause_mode = 2
 margin_right = 1280.0
 margin_bottom = 720.0
 rect_min_size = Vector2( 1280, 720 )
@@ -1703,8 +1810,8 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Goals" type="Control" parent="GUI/Tutorial"]
-modulate = Color( 1, 1, 1, 0.211765 )
+[node name="MissionPanel" type="Control" parent="GUI/Tutorial"]
+modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1712,13 +1819,13 @@ anchor_bottom = 0.5
 margin_left = -223.0
 margin_top = -40.0
 margin_right = 225.0
-margin_bottom = 184.0
+margin_bottom = 232.0
 theme = ExtResource( 4 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Panel" type="Panel" parent="GUI/Tutorial/Goals"]
+[node name="Panel" type="Panel" parent="GUI/Tutorial/MissionPanel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_styles/panel = SubResource( 155 )
@@ -1726,76 +1833,58 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Title" type="Label" parent="GUI/Tutorial/Goals"]
+[node name="Title" type="Label" parent="GUI/Tutorial/MissionPanel"]
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
 margin_left = -144.0
-margin_top = -86.0
+margin_top = 22.0
 margin_right = 144.0
-margin_bottom = -64.0
+margin_bottom = 44.0
 size_flags_vertical = 1
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-text = "Bucket list"
+text = "Mission"
 align = 1
 autowrap = true
 
-[node name="Game goals" type="VBoxContainer" parent="GUI/Tutorial/Goals"]
+[node name="Content" type="Label" parent="GUI/Tutorial/MissionPanel"]
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -208.0
-margin_top = -52.0
-margin_right = 208.0
-margin_bottom = 36.0
-custom_constants/separation = 12
-
-[node name="Content" type="Label" parent="GUI/Tutorial/Goals/Game goals"]
-margin_right = 416.0
-margin_bottom = 18.0
+margin_left = -193.0
+margin_top = 56.0
+margin_right = 193.0
+margin_bottom = 122.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "1. Destroy stray pixels and collect their colors"
+text = "Score points by destroying stray pixels and collecting their colors. But your main goal is to collect all the available colors."
 align = 1
 autowrap = true
 
-[node name="Content2" type="Label" parent="GUI/Tutorial/Goals/Game goals"]
-margin_top = 30.0
-margin_right = 416.0
-margin_bottom = 48.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "2. Main goal is to collect all the colors available"
-align = 1
-autowrap = true
-
-[node name="Content3" type="Label" parent="GUI/Tutorial/Goals/Game goals"]
-margin_top = 60.0
-margin_right = 416.0
-margin_bottom = 78.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "3. Success is measured in total points scored"
-align = 1
-autowrap = true
-
-[node name="Menu" type="HBoxContainer" parent="GUI/Tutorial/Goals"]
+[node name="Content2" type="Label" parent="GUI/Tutorial/MissionPanel"]
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
+margin_left = -177.0
+margin_top = 136.0
+margin_right = 177.0
+margin_bottom = 178.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 23 )
+text = "Before starting with the tutorial, don't forget to check the game HUD labels."
+align = 1
+autowrap = true
+
+[node name="Menu" type="HBoxContainer" parent="GUI/Tutorial/MissionPanel"]
+anchor_left = 0.5
+anchor_right = 0.5
 margin_left = -77.0
-margin_top = 69.0
+margin_top = 222.0
 margin_right = 77.0
-margin_bottom = 91.0
+margin_bottom = 244.0
 custom_constants/separation = 32
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="StartBtn" type="Button" parent="GUI/Tutorial/Goals/Menu"]
+[node name="StartBtn" type="Button" parent="GUI/Tutorial/MissionPanel/Menu"]
 margin_right = 70.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../QuitBtn")
@@ -1807,7 +1896,7 @@ theme = ExtResource( 4 )
 enabled_focus_mode = 1
 text = "START"
 
-[node name="QuitBtn" type="Button" parent="GUI/Tutorial/Goals/Menu"]
+[node name="QuitBtn" type="Button" parent="GUI/Tutorial/MissionPanel/Menu"]
 margin_left = 102.0
 margin_right = 154.0
 margin_bottom = 22.0
@@ -1818,89 +1907,181 @@ size_flags_vertical = 8
 theme = ExtResource( 4 )
 text = "QUIT"
 
-[node name="DonePopup" type="Control" parent="GUI/Tutorial"]
-visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -184.0
-margin_top = -103.0
-margin_right = 185.0
-margin_bottom = 104.0
-theme = ExtResource( 4 )
-
-[node name="Panel" type="Panel" parent="GUI/Tutorial/DonePopup"]
+[node name="HudExplain" type="Control" parent="GUI/Tutorial"]
+modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 155 )
+
+[node name="EnergyLabel" type="Label" parent="GUI/Tutorial/HudExplain"]
+margin_left = 32.0
+margin_top = 74.0
+margin_right = 164.0
+margin_bottom = 116.0
+custom_constants/line_spacing = -2
+text = "Available 
+energy"
+align = 1
+uppercase = true
 __meta__ = {
-"_edit_lock_": true
+"_edit_group_": true
 }
 
-[node name="DoneIcon" type="TextureRect" parent="GUI/Tutorial/DonePopup"]
-modulate = Color( 0.368627, 1, 0.662745, 1 )
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -14.0
-margin_top = -76.0
-margin_right = 14.0
-margin_bottom = -56.0
-texture = SubResource( 178 )
+[node name="Line" type="TextureRect" parent="GUI/Tutorial/HudExplain/EnergyLabel"]
+margin_left = 40.0
+margin_top = -30.0
+margin_right = 68.0
+margin_bottom = -2.0
+texture = SubResource( 179 )
 
-[node name="Title" type="Label" parent="GUI/Tutorial/DonePopup"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -175.0
-margin_top = -43.0
-margin_right = 175.0
-margin_bottom = -21.0
-size_flags_vertical = 1
-text = "Great job!"
+[node name="PointsLabel" type="Label" parent="GUI/Tutorial/HudExplain"]
+margin_left = 176.0
+margin_top = 74.0
+margin_right = 256.0
+margin_bottom = 116.0
+custom_constants/line_spacing = -2
+text = "Points
+total"
 align = 1
-autowrap = true
+uppercase = true
+__meta__ = {
+"_edit_group_": true
+}
 
-[node name="LabelStageDone" type="Label" parent="GUI/Tutorial/DonePopup"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -152.5
-margin_top = -0.5
-margin_right = 152.5
-margin_bottom = 17.5
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "Now you know how to %s."
-align = 1
-autowrap = true
+[node name="Line" type="TextureRect" parent="GUI/Tutorial/HudExplain/PointsLabel"]
+margin_left = -12.0
+margin_top = -30.0
+margin_right = 16.0
+margin_bottom = -2.0
+texture = SubResource( 179 )
 
-[node name="LabelNextStage" type="Label" parent="GUI/Tutorial/DonePopup"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -152.5
-margin_top = 23.5
-margin_right = 152.5
-margin_bottom = 72.5
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "Get ready to learn how to %s."
+[node name="TimeLabel" type="Label" parent="GUI/Tutorial/HudExplain"]
+margin_left = 551.0
+margin_top = 74.0
+margin_right = 673.0
+margin_bottom = 116.0
+custom_constants/line_spacing = -2
+text = "Time
+remaining"
 align = 1
-autowrap = true
+uppercase = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Line" type="TextureRect" parent="GUI/Tutorial/HudExplain/TimeLabel"]
+margin_left = 59.0
+margin_top = -30.0
+margin_right = 87.0
+margin_bottom = -2.0
+texture = SubResource( 179 )
+flip_h = true
+
+[node name="LevelLabel" type="Label" parent="GUI/Tutorial/HudExplain"]
+margin_left = 852.0
+margin_top = 74.0
+margin_right = 992.0
+margin_bottom = 96.0
+grow_horizontal = 0
+text = "Level name"
+uppercase = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Line" type="TextureRect" parent="GUI/Tutorial/HudExplain/LevelLabel"]
+margin_left = 136.0
+margin_top = -30.0
+margin_right = 164.0
+margin_bottom = -2.0
+texture = SubResource( 179 )
+flip_h = true
+
+[node name="HighscoreLabel" type="Label" parent="GUI/Tutorial/HudExplain"]
+margin_left = 1016.0
+margin_top = 74.0
+margin_right = 1138.0
+margin_bottom = 116.0
+grow_horizontal = 0
+custom_constants/line_spacing = -2
+text = "Level
+highscore"
+align = 1
+uppercase = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Line" type="TextureRect" parent="GUI/Tutorial/HudExplain/HighscoreLabel"]
+margin_left = 84.0
+margin_top = -30.0
+margin_right = 112.0
+margin_bottom = -2.0
+texture = SubResource( 179 )
+flip_h = true
+
+[node name="MusicLabel" type="Label" parent="GUI/Tutorial/HudExplain"]
+margin_left = 1156.0
+margin_top = 74.0
+margin_right = 1250.0
+margin_bottom = 116.0
+grow_horizontal = 0
+custom_constants/line_spacing = -2
+text = "Track
+playing"
+align = 1
+uppercase = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Line" type="TextureRect" parent="GUI/Tutorial/HudExplain/MusicLabel"]
+margin_left = 44.0
+margin_top = -30.0
+margin_right = 72.0
+margin_bottom = -2.0
+texture = SubResource( 179 )
+flip_h = true
+
+[node name="SpectrumLabel" type="Label" parent="GUI/Tutorial/HudExplain"]
+margin_left = 492.0
+margin_top = 604.0
+margin_right = 788.0
+margin_bottom = 646.0
+grow_horizontal = 2
+custom_constants/line_spacing = -2
+text = "Spectrum of available 
+and collected colors"
+align = 1
+uppercase = true
+
+[node name="Line" type="TextureRect" parent="GUI/Tutorial/HudExplain/SpectrumLabel"]
+margin_left = 120.0
+margin_top = 46.0
+margin_right = 148.0
+margin_bottom = 74.0
+texture = SubResource( 179 )
+flip_v = true
+
+[node name="Spectrum" type="TextureRect" parent="GUI/Tutorial/HudExplain"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -608.0
+margin_top = -34.0
+margin_right = 608.0
+margin_bottom = -22.0
+rect_min_size = Vector2( 0, 12 )
+texture = ExtResource( 25 )
+expand = true
 
 [node name="TutorialPanel" type="Control" parent="GUI/Tutorial"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = 1.0
-margin_top = 73.0
+margin_top = 81.0
 margin_right = 352.0
-margin_bottom = 640.0
+margin_bottom = 648.0
 theme = ExtResource( 4 )
 
 [node name="Panel" type="Panel" parent="GUI/Tutorial/TutorialPanel"]
@@ -1928,22 +2109,24 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 1.0
-margin_top = 4.0
+margin_top = 8.0
 margin_right = -1.0
-margin_bottom = 8.0
+margin_bottom = 12.0
 
 [node name="Checkpoints" type="VBoxContainer" parent="GUI/Tutorial/TutorialPanel"]
-margin_left = 24.0
-margin_top = 71.0
-margin_right = 320.0
-margin_bottom = 177.0
-custom_constants/separation = 6
+margin_left = 26.0
+margin_top = 70.0
+margin_right = 319.0
+margin_bottom = 183.0
+custom_constants/separation = 8
 
 [node name="Traveling" type="Button" parent="GUI/Tutorial/TutorialPanel/Checkpoints"]
-margin_right = 296.0
-margin_bottom = 18.0
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+margin_right = 293.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 0, 20 )
 theme_type_variation = "Lerimama_lite"
-custom_colors/font_color_pressed = Color( 0.368627, 1, 0.662745, 1 )
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 custom_constants/hseparation = 8
 custom_fonts/font = ExtResource( 23 )
 custom_styles/hover = SubResource( 168 )
@@ -1953,18 +2136,20 @@ custom_styles/disabled = SubResource( 168 )
 custom_styles/normal = SubResource( 168 )
 shortcut_in_tooltip = false
 text = "Traveling"
-icon = ExtResource( 25 )
+icon = ExtResource( 26 )
 align = 0
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="Bursting" type="Button" parent="GUI/Tutorial/TutorialPanel/Checkpoints"]
-margin_top = 24.0
-margin_right = 296.0
-margin_bottom = 42.0
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+margin_top = 28.0
+margin_right = 293.0
+margin_bottom = 48.0
+rect_min_size = Vector2( 0, 20 )
 theme_type_variation = "Lerimama_lite"
-custom_colors/font_color_pressed = Color( 0.368627, 1, 0.662745, 1 )
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 custom_constants/hseparation = 8
 custom_fonts/font = ExtResource( 23 )
 custom_styles/hover = SubResource( 168 )
@@ -1981,11 +2166,13 @@ __meta__ = {
 }
 
 [node name="Skilling" type="Button" parent="GUI/Tutorial/TutorialPanel/Checkpoints"]
-margin_top = 48.0
-margin_right = 296.0
-margin_bottom = 66.0
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+margin_top = 56.0
+margin_right = 293.0
+margin_bottom = 76.0
+rect_min_size = Vector2( 0, 20 )
 theme_type_variation = "Lerimama_lite"
-custom_colors/font_color_pressed = Color( 0.368627, 1, 0.662745, 1 )
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 custom_constants/hseparation = 8
 custom_fonts/font = ExtResource( 23 )
 custom_styles/hover = SubResource( 168 )
@@ -2002,11 +2189,13 @@ __meta__ = {
 }
 
 [node name="Stacking" type="Button" parent="GUI/Tutorial/TutorialPanel/Checkpoints"]
-margin_top = 72.0
-margin_right = 296.0
-margin_bottom = 90.0
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+margin_top = 84.0
+margin_right = 293.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 0, 20 )
 theme_type_variation = "Lerimama_lite"
-custom_colors/font_color_pressed = Color( 0.368627, 1, 0.662745, 1 )
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 custom_constants/hseparation = 8
 custom_fonts/font = ExtResource( 23 )
 custom_styles/hover = SubResource( 168 )
@@ -2023,9 +2212,9 @@ align = 0
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
 anchor_right = 1.0
 margin_left = 25.0
-margin_top = 182.0
+margin_top = 196.0
 margin_right = -33.0
-margin_bottom = 187.0
+margin_bottom = 201.0
 __meta__ = {
 "_editor_description_": ""
 }
@@ -2033,13 +2222,14 @@ __meta__ = {
 [node name="Traveling" type="VBoxContainer" parent="GUI/Tutorial/TutorialPanel"]
 visible = false
 anchor_right = 1.0
-margin_left = 24.0
-margin_top = 204.0
-margin_right = -96.0
-margin_bottom = 550.0
+margin_left = 25.0
+margin_top = 215.0
+margin_right = -39.0
+margin_bottom = 561.0
 custom_constants/separation = 12
 
 [node name="Title" type="Label" parent="GUI/Tutorial/TutorialPanel/Traveling"]
+visible = false
 margin_right = 231.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 0, 29 )
@@ -2052,18 +2242,17 @@ __meta__ = {
 }
 
 [node name="Content" type="Label" parent="GUI/Tutorial/TutorialPanel/Traveling"]
-margin_top = 41.0
-margin_right = 231.0
-margin_bottom = 83.0
+margin_right = 287.0
+margin_bottom = 42.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
 text = "Use direction keys to move left, right, up or down."
 autowrap = true
 
 [node name="Keys" type="Control" parent="GUI/Tutorial/TutorialPanel/Traveling"]
-margin_top = 95.0
-margin_right = 231.0
-margin_bottom = 237.0
+margin_top = 54.0
+margin_right = 287.0
+margin_bottom = 196.0
 rect_min_size = Vector2( 0, 142 )
 rect_pivot_offset = Vector2( 264, 104 )
 
@@ -2113,9 +2302,9 @@ margin_right = 12.0
 margin_bottom = 83.0
 
 [node name="Content2" type="Label" parent="GUI/Tutorial/TutorialPanel/Traveling"]
-margin_top = 249.0
-margin_right = 231.0
-margin_bottom = 315.0
+margin_top = 208.0
+margin_right = 287.0
+margin_bottom = 274.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
 text = "To travel you need energy
@@ -2126,12 +2315,13 @@ autowrap = true
 [node name="Bursting" type="VBoxContainer" parent="GUI/Tutorial/TutorialPanel"]
 visible = false
 margin_left = 24.0
-margin_top = 204.0
-margin_right = 312.0
-margin_bottom = 638.0
+margin_top = 215.0
+margin_right = 319.0
+margin_bottom = 649.0
 custom_constants/separation = 12
 
 [node name="Title" type="Label" parent="GUI/Tutorial/TutorialPanel/Bursting"]
+visible = false
 margin_right = 288.0
 margin_bottom = 22.0
 size_flags_vertical = 1
@@ -2140,45 +2330,44 @@ text = "Collecting colors"
 autowrap = true
 
 [node name="Content" type="Label" parent="GUI/Tutorial/TutorialPanel/Bursting"]
-margin_top = 34.0
-margin_right = 288.0
-margin_bottom = 76.0
+margin_right = 295.0
+margin_bottom = 42.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
 text = "Destroy pixels with powerful burst to collect their colors."
 autowrap = true
 
 [node name="Content2" type="Label" parent="GUI/Tutorial/TutorialPanel/Bursting"]
-margin_top = 88.0
-margin_right = 288.0
-margin_bottom = 154.0
+margin_top = 54.0
+margin_right = 295.0
+margin_bottom = 96.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
 text = "1. Hold the burst key and add power in the direction away from target."
 autowrap = true
 
 [node name="Content3" type="Label" parent="GUI/Tutorial/TutorialPanel/Bursting"]
-margin_top = 166.0
-margin_right = 288.0
-margin_bottom = 184.0
+margin_top = 108.0
+margin_right = 295.0
+margin_bottom = 126.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
 text = "2. To burst, release the burst key."
 autowrap = true
 
 [node name="Content4" type="Label" parent="GUI/Tutorial/TutorialPanel/Bursting"]
-margin_top = 196.0
-margin_right = 288.0
-margin_bottom = 238.0
+margin_top = 138.0
+margin_right = 295.0
+margin_bottom = 180.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
 text = "3. To stop while bursting, press the burst key again."
 autowrap = true
 
 [node name="Keys" type="Control" parent="GUI/Tutorial/TutorialPanel/Bursting"]
-margin_top = 250.0
-margin_right = 288.0
-margin_bottom = 404.0
+margin_top = 192.0
+margin_right = 295.0
+margin_bottom = 346.0
 rect_min_size = Vector2( 0, 154 )
 rect_pivot_offset = Vector2( 264, 104 )
 
@@ -2275,9 +2464,9 @@ margin_right = 12.0
 margin_bottom = 83.0
 
 [node name="Hint" type="Label" parent="GUI/Tutorial/TutorialPanel/Bursting"]
-margin_top = 416.0
-margin_right = 288.0
-margin_bottom = 434.0
+margin_top = 358.0
+margin_right = 295.0
+margin_bottom = 376.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
 text = "Burst doesn't use energy."
@@ -2286,12 +2475,13 @@ autowrap = true
 [node name="Skilling" type="VBoxContainer" parent="GUI/Tutorial/TutorialPanel"]
 visible = false
 margin_left = 24.0
-margin_top = 204.0
-margin_right = 312.0
-margin_bottom = 574.0
+margin_top = 215.0
+margin_right = 318.0
+margin_bottom = 585.0
 custom_constants/separation = 12
 
 [node name="Title" type="Label" parent="GUI/Tutorial/TutorialPanel/Skilling"]
+visible = false
 margin_right = 288.0
 margin_bottom = 22.0
 size_flags_vertical = 1
@@ -2300,31 +2490,40 @@ text = "Using skills"
 autowrap = true
 
 [node name="Content" type="Label" parent="GUI/Tutorial/TutorialPanel/Skilling"]
-margin_top = 34.0
-margin_right = 288.0
-margin_bottom = 76.0
+visible = false
+margin_right = 294.0
+margin_bottom = 42.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
 text = "To use skills connect to a target pixel or wall when touching it."
 autowrap = true
 
+[node name="HSeparator" type="HSeparator" parent="GUI/Tutorial/TutorialPanel/Skilling"]
+visible = false
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+margin_top = 54.0
+margin_right = 294.0
+margin_bottom = 58.0
+__meta__ = {
+"_editor_description_": ""
+}
+
 [node name="Keys" type="VBoxContainer" parent="GUI/Tutorial/TutorialPanel/Skilling"]
-margin_top = 88.0
-margin_right = 288.0
-margin_bottom = 244.0
+margin_right = 294.0
+margin_bottom = 156.0
 rect_pivot_offset = Vector2( 264, 104 )
 
 [node name="1" type="Label" parent="GUI/Tutorial/TutorialPanel/Skilling/Keys"]
-margin_right = 288.0
+margin_right = 294.0
 margin_bottom = 66.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "1. Connect to target pixel by pressing in the direction towards the target."
+text = "1. To connect to neighbouring pixel press in the direction towards the target."
 autowrap = true
 
 [node name="2" type="Label" parent="GUI/Tutorial/TutorialPanel/Skilling/Keys"]
 margin_top = 70.0
-margin_right = 288.0
+margin_right = 294.0
 margin_bottom = 88.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
@@ -2333,7 +2532,7 @@ autowrap = true
 
 [node name="3" type="Label" parent="GUI/Tutorial/TutorialPanel/Skilling/Keys"]
 margin_top = 92.0
-margin_right = 288.0
+margin_right = 294.0
 margin_bottom = 110.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
@@ -2342,33 +2541,43 @@ autowrap = true
 
 [node name="4" type="Label" parent="GUI/Tutorial/TutorialPanel/Skilling/Keys"]
 margin_top = 114.0
-margin_right = 288.0
+margin_right = 294.0
 margin_bottom = 156.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
 text = "4. To teleport, move towards a wall you are connected to"
 autowrap = true
 
+[node name="HSeparator2" type="HSeparator" parent="GUI/Tutorial/TutorialPanel/Skilling"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+margin_top = 168.0
+margin_right = 294.0
+margin_bottom = 172.0
+__meta__ = {
+"_editor_description_": ""
+}
+
 [node name="Hint" type="Label" parent="GUI/Tutorial/TutorialPanel/Skilling"]
-margin_top = 256.0
-margin_right = 288.0
-margin_bottom = 370.0
+margin_top = 184.0
+margin_right = 294.0
+margin_bottom = 298.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
 text = "After the move you automatically disconnect.
-Pixel you are connected to will slowly drain your energy.
+Connection to stray pixel will slowly drain your energy.
 Using skill don't use energy."
 autowrap = true
 
 [node name="Stacking" type="VBoxContainer" parent="GUI/Tutorial/TutorialPanel"]
 visible = false
 margin_left = 24.0
-margin_top = 204.0
-margin_right = 312.0
-margin_bottom = 608.0
+margin_top = 215.0
+margin_right = 318.0
+margin_bottom = 543.0
 custom_constants/separation = 12
 
 [node name="Title" type="Label" parent="GUI/Tutorial/TutorialPanel/Stacking"]
+visible = false
 margin_right = 288.0
 margin_bottom = 22.0
 size_flags_vertical = 1
@@ -2377,40 +2586,30 @@ text = "Stacking pixels"
 autowrap = true
 
 [node name="Content" type="Label" parent="GUI/Tutorial/TutorialPanel/Stacking"]
-margin_top = 34.0
-margin_right = 288.0
-margin_bottom = 76.0
+margin_right = 294.0
+margin_bottom = 42.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
 text = "Stacked pixels can be destroyed with a single burst."
 autowrap = true
 
 [node name="Content2" type="Label" parent="GUI/Tutorial/TutorialPanel/Stacking"]
-margin_top = 88.0
-margin_right = 288.0
-margin_bottom = 130.0
+margin_top = 54.0
+margin_right = 294.0
+margin_bottom = 144.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "Amount of stacked pixels destroyed depends of the burst power."
-autowrap = true
-
-[node name="Content3" type="Label" parent="GUI/Tutorial/TutorialPanel/Stacking"]
-margin_top = 142.0
-margin_right = 288.0
-margin_bottom = 184.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "Maximum power always destroys all pixels in a stack."
+text = "Amount of stacked pixels destroyed depends of the burst power, but maximum power always destroys all pixels in a stack."
 autowrap = true
 
 [node name="Keys" type="VBoxContainer" parent="GUI/Tutorial/TutorialPanel/Stacking"]
-margin_top = 196.0
-margin_right = 288.0
-margin_bottom = 260.0
+margin_top = 156.0
+margin_right = 294.0
+margin_bottom = 220.0
 rect_pivot_offset = Vector2( 264, 104 )
 
 [node name="1" type="Label" parent="GUI/Tutorial/TutorialPanel/Stacking/Keys"]
-margin_right = 288.0
+margin_right = 294.0
 margin_bottom = 18.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
@@ -2419,31 +2618,22 @@ autowrap = true
 
 [node name="2" type="Label" parent="GUI/Tutorial/TutorialPanel/Stacking/Keys"]
 margin_top = 22.0
-margin_right = 288.0
+margin_right = 294.0
 margin_bottom = 64.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
 text = "2. Destroy them with maximum power."
 autowrap = true
 
-[node name="Hint" type="Label" parent="GUI/Tutorial/TutorialPanel/Stacking"]
-margin_top = 272.0
-margin_right = 288.0
-margin_bottom = 386.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "Get extra 20 points for destroying a pixel in a stack
-10 points for the first one, 10 + 20 points for the second, 10 + 20 + 20 for the third, and so on"
-autowrap = true
-
 [node name="EndTutorial" type="VBoxContainer" parent="GUI/Tutorial/TutorialPanel"]
 margin_left = 24.0
-margin_top = 204.0
-margin_right = 312.0
-margin_bottom = 608.0
+margin_top = 215.0
+margin_right = 318.0
+margin_bottom = 535.0
 custom_constants/separation = 12
 
 [node name="Title" type="Label" parent="GUI/Tutorial/TutorialPanel/EndTutorial"]
+visible = false
 margin_right = 288.0
 margin_bottom = 22.0
 size_flags_vertical = 1
@@ -2452,44 +2642,101 @@ text = "Stacking pixels"
 autowrap = true
 
 [node name="Content" type="Label" parent="GUI/Tutorial/TutorialPanel/EndTutorial"]
-margin_top = 34.0
-margin_right = 288.0
-margin_bottom = 124.0
+margin_right = 294.0
+margin_bottom = 66.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "When you deplete your energy and do not burst to pick another color in a couple of seconds that are left."
+text = "This is the end of tutorial. You can see that controls are pretty simple and you will master them quickly."
 autowrap = true
 
 [node name="Content2" type="Label" parent="GUI/Tutorial/TutorialPanel/EndTutorial"]
-margin_top = 136.0
-margin_right = 288.0
-margin_bottom = 154.0
+margin_top = 78.0
+margin_right = 294.0
+margin_bottom = 96.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 23 )
+text = "Oh, yes ... And how the game ends:"
+autowrap = true
+
+[node name="LineLabel" type="HBoxContainer" parent="GUI/Tutorial/TutorialPanel/EndTutorial"]
+margin_top = 108.0
+margin_right = 294.0
+margin_bottom = 174.0
+custom_constants/separation = 8
+
+[node name="TextureRect" type="TextureRect" parent="GUI/Tutorial/TutorialPanel/EndTutorial/LineLabel"]
+margin_right = 6.0
+margin_bottom = 18.0
+size_flags_vertical = 0
+texture = SubResource( 173 )
+
+[node name="Content1" type="Label" parent="GUI/Tutorial/TutorialPanel/EndTutorial/LineLabel"]
+margin_left = 14.0
+margin_right = 294.0
+margin_bottom = 66.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 23 )
+text = "When you deplete your energy and don't pick another color in a couple of seconds left."
+autowrap = true
+
+[node name="LineLabel1" type="HBoxContainer" parent="GUI/Tutorial/TutorialPanel/EndTutorial"]
+margin_top = 186.0
+margin_right = 294.0
+margin_bottom = 204.0
+custom_constants/separation = 8
+
+[node name="TextureRect" type="TextureRect" parent="GUI/Tutorial/TutorialPanel/EndTutorial/LineLabel1"]
+margin_right = 6.0
+margin_bottom = 18.0
+size_flags_vertical = 0
+texture = SubResource( 173 )
+
+[node name="Content1" type="Label" parent="GUI/Tutorial/TutorialPanel/EndTutorial/LineLabel1"]
+margin_left = 14.0
+margin_right = 294.0
+margin_bottom = 18.0
+size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
 text = "When time is up."
 autowrap = true
 
-[node name="Content3" type="Label" parent="GUI/Tutorial/TutorialPanel/EndTutorial"]
-margin_top = 166.0
-margin_right = 288.0
-margin_bottom = 208.0
+[node name="LineLabel2" type="HBoxContainer" parent="GUI/Tutorial/TutorialPanel/EndTutorial"]
+margin_top = 216.0
+margin_right = 294.0
+margin_bottom = 258.0
+custom_constants/separation = 8
+
+[node name="TextureRect" type="TextureRect" parent="GUI/Tutorial/TutorialPanel/EndTutorial/LineLabel2"]
+margin_right = 6.0
+margin_bottom = 18.0
+size_flags_vertical = 0
+texture = SubResource( 173 )
+
+[node name="Content2" type="Label" parent="GUI/Tutorial/TutorialPanel/EndTutorial/LineLabel2"]
+margin_left = 14.0
+margin_right = 294.0
+margin_bottom = 42.0
+size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "You have cleared the screen and no pixel is left astray."
+text = "When you have cleared the screen and no pixel is left astray."
 autowrap = true
 
-[node name="Menu" type="HBoxContainer" parent="GUI/Tutorial/TutorialPanel"]
-visible = false
-margin_left = 32.0
-margin_top = 521.0
-margin_right = 214.0
-margin_bottom = 543.0
+[node name="Menu" type="HBoxContainer" parent="GUI/Tutorial/TutorialPanel/EndTutorial"]
+margin_left = 56.0
+margin_top = 298.0
+margin_right = 238.0
+margin_bottom = 320.0
+size_flags_horizontal = 4
+size_flags_vertical = 10
 custom_constants/separation = 32
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="QuitBtn" type="Button" parent="GUI/Tutorial/TutorialPanel/Menu"]
+[node name="QuitBtn" type="Button" parent="GUI/Tutorial/TutorialPanel/EndTutorial/Menu"]
 margin_right = 52.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../RestartBtn")
@@ -2499,7 +2746,7 @@ size_flags_vertical = 8
 theme = ExtResource( 4 )
 text = "QUIT"
 
-[node name="RestartBtn" type="Button" parent="GUI/Tutorial/TutorialPanel/Menu"]
+[node name="RestartBtn" type="Button" parent="GUI/Tutorial/TutorialPanel/EndTutorial/Menu"]
 margin_left = 84.0
 margin_right = 182.0
 margin_bottom = 22.0
@@ -2513,69 +2760,58 @@ enabled_focus_mode = 1
 text = "RESTART"
 
 [node name="StageDone" type="Control" parent="GUI/Tutorial/TutorialPanel"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -152.5
-margin_top = -74.5
-margin_right = 144.5
-margin_bottom = 187.5
+margin_left = -151.5
+margin_top = -66.5
+margin_right = 143.5
+margin_bottom = 219.5
 theme = ExtResource( 4 )
-__meta__ = {
-"_edit_group_": true
-}
 
-[node name="DoneIcon" type="TextureRect" parent="GUI/Tutorial/TutorialPanel/StageDone"]
-modulate = Color( 0.368627, 1, 0.662745, 1 )
+[node name="Content" type="VBoxContainer" parent="GUI/Tutorial/TutorialPanel/StageDone"]
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -14.0
-margin_top = -76.0
-margin_right = 14.0
-margin_bottom = -56.0
+margin_left = -124.5
+margin_top = 20.0
+margin_right = 125.5
+margin_bottom = 244.0
+custom_constants/separation = 10
+
+[node name="DoneIcon" type="TextureRect" parent="GUI/Tutorial/TutorialPanel/StageDone/Content"]
+modulate = Color( 0.368627, 1, 0.662745, 1 )
+margin_left = 111.0
+margin_right = 139.0
+margin_bottom = 20.0
+size_flags_horizontal = 4
 texture = SubResource( 178 )
 
-[node name="Title" type="Label" parent="GUI/Tutorial/TutorialPanel/StageDone"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -175.0
-margin_top = -43.0
-margin_right = 175.0
-margin_bottom = -21.0
+[node name="Title" type="Label" parent="GUI/Tutorial/TutorialPanel/StageDone/Content"]
+margin_top = 30.0
+margin_right = 250.0
+margin_bottom = 62.0
+rect_min_size = Vector2( 0, 32 )
 size_flags_vertical = 1
 text = "Great job!"
 align = 1
 autowrap = true
 
-[node name="LabelStageDone" type="Label" parent="GUI/Tutorial/TutorialPanel/StageDone"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -152.5
-margin_top = -0.5
-margin_right = 152.5
-margin_bottom = 17.5
+[node name="LabelStageDone" type="Label" parent="GUI/Tutorial/TutorialPanel/StageDone/Content"]
+margin_top = 72.0
+margin_right = 250.0
+margin_bottom = 90.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
 text = "Now you know how to %s."
 align = 1
 autowrap = true
 
-[node name="LabelNextStage" type="Label" parent="GUI/Tutorial/TutorialPanel/StageDone"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -152.5
-margin_top = 23.5
-margin_right = 152.5
-margin_bottom = 72.5
+[node name="LabelNextStage" type="Label" parent="GUI/Tutorial/TutorialPanel/StageDone/Content"]
+margin_top = 100.0
+margin_right = 250.0
+margin_bottom = 118.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
 text = "Get ready to learn how to %s."
@@ -2587,9 +2823,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -49.0
-margin_top = -22.0
-margin_right = 49.0
+margin_left = -51.5
+margin_top = -18.0
+margin_right = 56.5
+margin_bottom = 4.0
 grow_horizontal = 2
 focus_neighbour_left = NodePath("../QuitBtn")
 focus_neighbour_right = NodePath("../QuitBtn")
@@ -2598,16 +2835,13 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 theme = ExtResource( 4 )
 enabled_focus_mode = 1
-text = "CONTINUE or X or return"
+text = "CONTINUE"
 
 [node name="ScoringPanel" type="Control" parent="GUI/Tutorial"]
 margin_left = -352.0
 margin_top = 80.0
 margin_bottom = 647.0
 theme = ExtResource( 4 )
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="Panel" type="Panel" parent="GUI/Tutorial/ScoringPanel"]
 anchor_right = 1.0
@@ -2633,48 +2867,51 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 1.0
-margin_top = 4.0
+margin_top = 9.0
 margin_right = -1.0
-margin_bottom = 8.0
+margin_bottom = 13.0
 
 [node name="Scoring" type="VBoxContainer" parent="GUI/Tutorial/ScoringPanel"]
-margin_left = 24.0
+margin_left = 25.0
 margin_top = 72.0
 margin_right = 328.0
 margin_bottom = 544.0
 custom_constants/separation = 16
 
 [node name="Content" type="Label" parent="GUI/Tutorial/ScoringPanel/Scoring"]
-margin_right = 304.0
-margin_bottom = 42.0
+margin_right = 303.0
+margin_bottom = 96.0
+rect_min_size = Vector2( 0, 96 )
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "Performance is measured in total points scored."
+text = "Score points by destroying stray pixels and collecting their colors. But your main goal is to collect all the available colors."
 autowrap = true
 
 [node name="Content1" type="Label" parent="GUI/Tutorial/ScoringPanel/Scoring"]
+visible = false
 margin_top = 58.0
 margin_right = 304.0
 margin_bottom = 100.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "Every 1 point in score, equals 1 point in energy"
+text = "Your main goal is to collect all the colors available."
 autowrap = true
 
 [node name="HSeparator" type="HSeparator" parent="GUI/Tutorial/ScoringPanel/Scoring"]
+visible = false
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-margin_top = 116.0
+margin_top = 106.0
 margin_right = 304.0
-margin_bottom = 132.0
-rect_min_size = Vector2( 0, 16 )
+margin_bottom = 118.0
+rect_min_size = Vector2( 0, 12 )
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="LineLabel" type="HBoxContainer" parent="GUI/Tutorial/ScoringPanel/Scoring"]
-margin_top = 148.0
-margin_right = 304.0
-margin_bottom = 166.0
+margin_top = 112.0
+margin_right = 303.0
+margin_bottom = 154.0
 custom_constants/separation = 8
 
 [node name="TextureRect" type="TextureRect" parent="GUI/Tutorial/ScoringPanel/Scoring/LineLabel"]
@@ -2685,7 +2922,29 @@ texture = SubResource( 173 )
 
 [node name="Content1" type="Label" parent="GUI/Tutorial/ScoringPanel/Scoring/LineLabel"]
 margin_left = 14.0
-margin_right = 304.0
+margin_right = 303.0
+margin_bottom = 42.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 23 )
+text = "Every point in score, equals a point in energy"
+autowrap = true
+
+[node name="LineLabel1" type="HBoxContainer" parent="GUI/Tutorial/ScoringPanel/Scoring"]
+margin_top = 170.0
+margin_right = 303.0
+margin_bottom = 188.0
+custom_constants/separation = 8
+
+[node name="TextureRect" type="TextureRect" parent="GUI/Tutorial/ScoringPanel/Scoring/LineLabel1"]
+margin_right = 6.0
+margin_bottom = 18.0
+size_flags_vertical = 0
+texture = SubResource( 173 )
+
+[node name="Content1" type="Label" parent="GUI/Tutorial/ScoringPanel/Scoring/LineLabel1"]
+margin_left = 14.0
+margin_right = 303.0
 margin_bottom = 18.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -2694,9 +2953,9 @@ text = "Get 10 points for destroying a pixel"
 autowrap = true
 
 [node name="LineLabel2" type="HBoxContainer" parent="GUI/Tutorial/ScoringPanel/Scoring"]
-margin_top = 182.0
-margin_right = 304.0
-margin_bottom = 296.0
+margin_top = 204.0
+margin_right = 303.0
+margin_bottom = 318.0
 custom_constants/separation = 8
 
 [node name="TextureRect" type="TextureRect" parent="GUI/Tutorial/ScoringPanel/Scoring/LineLabel2"]
@@ -2707,18 +2966,21 @@ texture = SubResource( 173 )
 
 [node name="Content2" type="Label" parent="GUI/Tutorial/ScoringPanel/Scoring/LineLabel2"]
 margin_left = 14.0
-margin_right = 304.0
+margin_right = 303.0
 margin_bottom = 114.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "Get 20 points for destroying a pixel in a stack; 10 points for the first one, 10 + 20 points for the second, 10 + 20 + 20 for the third, and so on ..."
+text = "Get 20 points for destroying stacked pixels; 10 points for 
+the first one, 10 + 20 points for 
+the second, 10 + 20 + 20 for 
+the third, and so on ..."
 autowrap = true
 
 [node name="LineLabel3" type="HBoxContainer" parent="GUI/Tutorial/ScoringPanel/Scoring"]
-margin_top = 312.0
-margin_right = 304.0
-margin_bottom = 354.0
+margin_top = 334.0
+margin_right = 303.0
+margin_bottom = 376.0
 custom_constants/separation = 8
 
 [node name="TextureRect" type="TextureRect" parent="GUI/Tutorial/ScoringPanel/Scoring/LineLabel3"]
@@ -2729,7 +2991,7 @@ texture = SubResource( 173 )
 
 [node name="Content3" type="Label" parent="GUI/Tutorial/ScoringPanel/Scoring/LineLabel3"]
 margin_left = 14.0
-margin_right = 304.0
+margin_right = 303.0
 margin_bottom = 42.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -2738,9 +3000,9 @@ text = "Get 500 bonus points if you destroy all available pixels"
 autowrap = true
 
 [node name="LineLabel4" type="HBoxContainer" parent="GUI/Tutorial/ScoringPanel/Scoring"]
-margin_top = 370.0
-margin_right = 304.0
-margin_bottom = 388.0
+margin_top = 392.0
+margin_right = 303.0
+margin_bottom = 410.0
 custom_constants/separation = 8
 
 [node name="TextureRect" type="TextureRect" parent="GUI/Tutorial/ScoringPanel/Scoring/LineLabel4"]
@@ -2751,7 +3013,7 @@ texture = SubResource( 173 )
 
 [node name="Content4" type="Label" parent="GUI/Tutorial/ScoringPanel/Scoring/LineLabel4"]
 margin_left = 14.0
-margin_right = 304.0
+margin_right = 303.0
 margin_bottom = 18.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -2760,9 +3022,9 @@ text = "Lose 1 point per traveling step "
 autowrap = true
 
 [node name="LineLabel5" type="HBoxContainer" parent="GUI/Tutorial/ScoringPanel/Scoring"]
-margin_top = 404.0
-margin_right = 304.0
-margin_bottom = 446.0
+margin_top = 426.0
+margin_right = 303.0
+margin_bottom = 468.0
 custom_constants/separation = 8
 
 [node name="TextureRect" type="TextureRect" parent="GUI/Tutorial/ScoringPanel/Scoring/LineLabel5"]
@@ -2773,7 +3035,7 @@ texture = SubResource( 173 )
 
 [node name="Content5" type="Label" parent="GUI/Tutorial/ScoringPanel/Scoring/LineLabel5"]
 margin_left = 14.0
-margin_right = 304.0
+margin_right = 303.0
 margin_bottom = 42.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -2972,11 +3234,10 @@ custom_styles/panel = SubResource( 155 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/Tutorial"]
 anims/RESET = SubResource( 171 )
-anims/done_popup_in = SubResource( 181 )
-anims/done_popup_in_out = SubResource( 179 )
-anims/done_popup_out = SubResource( 180 )
 anims/goals_in = SubResource( 170 )
+anims/goals_in_with_labels = SubResource( 180 )
 anims/tutorial_start = SubResource( 172 )
+anims/tutorial_start_with_labels = SubResource( 181 )
 
 [node name="PauseMenu" type="Control" parent="GUI"]
 pause_mode = 2
@@ -4250,7 +4511,8 @@ text = "CONFIRM"
 [connection signal="gametime_is_up" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_gametime_is_up"]
 [connection signal="timeout" from="GUI/Hud/Header/GameTimer/Timer" to="GUI/Hud/Header/GameTimer" method="_on_Timer_timeout"]
 [connection signal="animation_finished" from="GUI/GameCountdown/AnimationPlayer" to="GUI/GameCountdown" method="_on_AnimationPlayer_animation_finished"]
-[connection signal="pressed" from="GUI/Tutorial/Goals/Menu/StartBtn" to="GUI/Tutorial" method="_on_StartBtn_pressed"]
+[connection signal="pressed" from="GUI/Tutorial/MissionPanel/Menu/StartBtn" to="GUI/Tutorial" method="_on_StartBtn_pressed"]
+[connection signal="pressed" from="GUI/Tutorial/MissionPanel/Menu/QuitBtn" to="GUI/Tutorial" method="_on_QuitBtn_pressed"]
 [connection signal="pressed" from="GUI/Tutorial/TutorialPanel/Checkpoints/Traveling" to="GUI/Tutorial" method="_on_Traveling_pressed"]
 [connection signal="pressed" from="GUI/Tutorial/TutorialPanel/Checkpoints/Bursting" to="GUI/Tutorial" method="_on_Bursting_pressed"]
 [connection signal="pressed" from="GUI/Tutorial/TutorialPanel/Checkpoints/Skilling" to="GUI/Tutorial" method="_on_Skilling_pressed"]

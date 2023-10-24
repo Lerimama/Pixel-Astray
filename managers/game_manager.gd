@@ -19,15 +19,17 @@ var spawned_stray_index: int = 0
 var players_in_game: Array = []
 var strays_in_game: Array = []
 
-var floor_positions: Array # po signalu ob kreaciji tilemapa ... tukaj, da ga lahko grebam do zunaj
-var available_floor_positions: Array # dplikat floor_positions za spawnanje pixlov
 var colors_to_pick: Array # za hud nejbrhud pravila
 var energy_drain_active: bool = false # za kontrolo črpanja energije
+
+# tilemap signal data
+var floor_positions: Array
+var available_floor_positions: Array
+var stray_pixels_count: int
 
 # stats
 onready var player_stats: Dictionary = Profiles.default_player_stats.duplicate() # duplikat default profila
 onready var game_data: Dictionary = Profiles.level_data.duplicate() # duplikat default profila, ker ga me igro spreminjaš
-onready var stray_pixels_count: int = Profiles.level_data["stray_pixels_count"]
 onready var game_rules: Dictionary = Profiles.game_rules # ker ga med ne spreminjaš
 
 onready var spectrum_rect: TextureRect = $Spectrum
@@ -64,22 +66,22 @@ func _unhandled_input(event: InputEvent) -> void:
 func _ready() -> void:
 	
 	Global.game_manager = self	
-	
 	randomize()
 	
-	set_tilemap()
-	
+#	set_tilemap()
 	if game_data["level"] == Profiles.Levels.TUTORIAL:	
-#		call_deferred("set_game")
+		set_tilemap()
 		call_deferred("set_tutorial")
 	else:
 		call_deferred("set_game")
 	
 	
 func _process(delta: float) -> void:
+	
 	players_in_game = get_tree().get_nodes_in_group(Global.group_players)
 	strays_in_game = get_tree().get_nodes_in_group(Global.group_strays)
-
+	game_data["stray_pixels_count"] = strays_in_game.size()
+	
 	
 # TUTORIAL ----------------------------------------------------------------------------------
 
@@ -91,16 +93,16 @@ func set_tutorial():
 	Global.level_tilemap.get_tiles()
 	
 	# set player
+	game_rules["pixel_start_color"] = Global.color_white
 	player_pixel = spawn_player()
-	Global.camera_target = player_pixel
+	player_pixel.modulate.a = 0
 	player_stats["player_energy"] = game_rules["player_start_energy"]
+	Global.camera_target = player_pixel
 	
 	# počaka fejdin scene
 	yield(get_tree().create_timer(3), "timeout") 
 	
-	# set strays
-	stray_pixels_count = 5
-	spawn_tutorial_strays()
+	Global.game_manager.player_pixel.animation_player.play("start_white")
 	
 	# čaka, da si plejer ogleda
 	yield(get_tree().create_timer(1), "timeout")
@@ -116,7 +118,7 @@ func set_tutorial():
 	start_tutorial()
 
 
-func spawn_tutorial_strays():
+func generate_strays():
 
 	split_stray_colors()
 	show_strays()
@@ -134,8 +136,7 @@ func start_tutorial():
 	# enable tutorial panels
 	Global.tutorial_gui.start()
 #	Global.hud.game_timer.start_timer()
-	
-	player_pixel.set_physics_process(true)
+#	player_pixel.set_physics_process(true)
 	game_on = true
 	Global.sound_manager.play_music("game")
 
@@ -242,15 +243,8 @@ func set_game():
 	yield(get_tree().create_timer(3), "timeout") 
 	
 	# set strays
-	split_stray_colors()
-	show_strays()
-	yield(get_tree().create_timer(0.2), "timeout")
-	show_strays()
-	yield(get_tree().create_timer(0.1), "timeout")
-	show_strays()
-	yield(get_tree().create_timer(0.1), "timeout")
-	show_strays()
-	strays_spawn_loop = 0 # zazih
+#	stray_pixels_count = Profiles.level_data["stray_pixels_count"]
+	generate_strays()
 		
 	# set hud ... za spremljat HS med igro
 	if game_data["level"] != Profiles.Levels.PRACTICE:
@@ -276,6 +270,7 @@ func start_game():
 	
 	if game_data["level"] != Profiles.Levels.PRACTICE:
 		Global.hud.game_timer.start_timer() # skit je v hudu
+	Global.hud.game_timer.start_timer() # skit je v hudu
 	
 	player_pixel.set_physics_process(true)
 	game_on = true
@@ -300,9 +295,6 @@ func game_over(game_over_reason: String):
 	
 	# pavziram plejerja
 	player_pixel.set_physics_process(false)
-#	if not players_in_game.empty():
-#		for player in players_in_game:
-#			player.set_physics_process(false)
 	
 	# malo časa za show-off
 	yield(get_tree().create_timer(2), "timeout")
@@ -366,9 +358,8 @@ func spawn_player():
 	var new_player_pixel = PlayerPixel.instance()
 	new_player_pixel.name = "P%s" % str(spawned_player_index)
 	new_player_pixel.global_position = spawn_position # ... ne rabim snepat ker se v pixlu na ready funkciji
-	new_player_pixel.modulate.a = 0
-#	new_player_pixel.z_index = 1
-	
+	new_player_pixel.pixel_color = Profiles.game_rules["pixel_start_color"]
+#	new_player_pixel.modulate.a = 0
 	Global.node_creation_parent.add_child(new_player_pixel)
 	
 	new_player_pixel.connect("stat_changed", self, "_on_stat_changed")
@@ -454,7 +445,7 @@ func show_strays():
 	match strays_spawn_loop:
 		1: # polovica
 			Global.sound_manager.play_sfx("thunder_strike")
-#			Global.sound_manager.play_sfx("blinking")
+			# Global.sound_manager.play_sfx("blinking")
 			strays_to_show_count = round(strays_in_game.size()/2)
 		2: # četrtina
 			Global.sound_manager.play_sfx("thunder_strike")
@@ -495,19 +486,18 @@ func spawn_floating_tag(position: Vector2, value): # kliče ga GM
 # SIGNALI ----------------------------------------------------------------------------------
 
 
-func _on_tilemap_completed(floor_cells_global_positions: Array, stray_spawn_cells_global_position: Array, player_start_global_position: Vector2) -> void:
+func _on_tilemap_completed(floor_cells_global_positions: Array, stray_cells_global_positions: Array, player_start_global_position: Vector2, stray_count: int) -> void:
 	
-#	floor_positions = floor_cells_global_positions
-#	available_floor_positions = floor_positions.duplicate()
-	
-	if stray_spawn_cells_global_position.empty(): # če ni stray pozicij
+	if stray_cells_global_positions.empty(): # če ni stray pozicij
 		available_floor_positions = floor_cells_global_positions.duplicate()
 	else: # če so stray pozicije
-		available_floor_positions = stray_spawn_cells_global_position.duplicate()
+		available_floor_positions = stray_cells_global_positions.duplicate()
 	
 	player_start_position = player_start_global_position
 	if available_floor_positions.has(player_start_position): # takoj odstranim celico rezervirano za plejerja
 		available_floor_positions.erase(player_start_position)
+
+	stray_pixels_count = stray_count
 
 
 func _on_stat_changed(stat_owner, changed_stat, stat_change):
