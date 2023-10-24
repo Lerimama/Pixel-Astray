@@ -1,0 +1,8 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=2]
+
+[sub_resource type="StreamTexture" id=175]
+load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
+
+[resource]
+atlas = SubResource( 175 )
+region = Rect2( 0, 16, 14, 16 )

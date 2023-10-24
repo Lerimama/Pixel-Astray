@@ -113,8 +113,12 @@ func play_gui_sfx(effect_for: String):
 			$GuiSfx/MenuFade.play()
 		"screen_slide":
 			$GuiSfx/ScreenSlide.play()
-			
-	
+		# tutorial stage
+		"tutorial_stage_done":
+			$GuiSfx/TutorialStageDone.play()
+		
+		
+		
 func stop_sfx(sfx_to_stop: String):
 	
 	match sfx_to_stop:

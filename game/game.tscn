@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=2]
+[gd_scene load_steps=75 format=2]
 
 [ext_resource path="res://game/hud/hud_game_timer.gd" type="Script" id=1]
 [ext_resource path="res://game/hud/hud.gd" type="Script" id=2]
@@ -24,6 +24,8 @@
 [ext_resource path="res://assets/joypad_scheme.png" type="Texture" id=22]
 [ext_resource path="res://assets/theme/lerimama_theme_body_font.tres" type="DynamicFont" id=23]
 [ext_resource path="res://assets/theme/tileset_gui.png" type="Texture" id=24]
+[ext_resource path="res://assets/resources/icon_done.tres" type="Texture" id=25]
+[ext_resource path="res://assets/resources/icon_not_done.tres" type="Texture" id=26]
 
 [sub_resource type="NoiseTexture" id=1]
 width = 246
@@ -332,18 +334,11 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 
+[sub_resource type="AtlasTexture" id=178]
+atlas = ExtResource( 24 )
+region = Rect2( 20, 80, 28, 20 )
+
 [sub_resource type="StyleBoxEmpty" id=168]
-
-[sub_resource type="StreamTexture" id=175]
-load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
-
-[sub_resource type="AtlasTexture" id=157]
-atlas = SubResource( 175 )
-region = Rect2( 16, 16, 14, 16 )
-
-[sub_resource type="AtlasTexture" id=158]
-atlas = SubResource( 175 )
-region = Rect2( 0, 16, 14, 16 )
 
 [sub_resource type="AtlasTexture" id=150]
 atlas = ExtResource( 20 )
@@ -494,6 +489,54 @@ tracks/6/enabled = true
 tracks/6/keys = {
 "points": PoolRealArray( 417, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 0 )
+}
+
+[sub_resource type="Animation" id=181]
+resource_name = "done_popup_in"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("DonePopup:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 1, 1.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=179]
+resource_name = "done_popup_in_out"
+length = 1.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("DonePopup:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 1, 1.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=180]
+resource_name = "done_popup_out"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("DonePopup:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
 [sub_resource type="Animation" id=170]
@@ -1775,6 +1818,82 @@ size_flags_vertical = 8
 theme = ExtResource( 4 )
 text = "QUIT"
 
+[node name="DonePopup" type="Control" parent="GUI/Tutorial"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -184.0
+margin_top = -103.0
+margin_right = 185.0
+margin_bottom = 104.0
+theme = ExtResource( 4 )
+
+[node name="Panel" type="Panel" parent="GUI/Tutorial/DonePopup"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 155 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="DoneIcon" type="TextureRect" parent="GUI/Tutorial/DonePopup"]
+modulate = Color( 0.368627, 1, 0.662745, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -14.0
+margin_top = -76.0
+margin_right = 14.0
+margin_bottom = -56.0
+texture = SubResource( 178 )
+
+[node name="Title" type="Label" parent="GUI/Tutorial/DonePopup"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -175.0
+margin_top = -43.0
+margin_right = 175.0
+margin_bottom = -21.0
+size_flags_vertical = 1
+text = "Great job!"
+align = 1
+autowrap = true
+
+[node name="LabelStageDone" type="Label" parent="GUI/Tutorial/DonePopup"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -152.5
+margin_top = -0.5
+margin_right = 152.5
+margin_bottom = 17.5
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 23 )
+text = "Now you know how to %s."
+align = 1
+autowrap = true
+
+[node name="LabelNextStage" type="Label" parent="GUI/Tutorial/DonePopup"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -152.5
+margin_top = 23.5
+margin_right = 152.5
+margin_bottom = 72.5
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 23 )
+text = "Get ready to learn how to %s."
+align = 1
+autowrap = true
+
 [node name="TutorialPanel" type="Control" parent="GUI/Tutorial"]
 anchor_left = 1.0
 anchor_right = 1.0
@@ -1813,119 +1932,14 @@ margin_top = 4.0
 margin_right = -1.0
 margin_bottom = 8.0
 
-[node name="Checkpoints" type="HBoxContainer" parent="GUI/Tutorial/TutorialPanel"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 71.0
-margin_right = -32.0
-margin_bottom = 177.0
-custom_constants/separation = 6
-
-[node name="Traveling" type="Button" parent="GUI/Tutorial/TutorialPanel/Checkpoints"]
-margin_right = 47.0
-margin_bottom = 106.0
-theme_type_variation = "Lerimama_lite"
-custom_colors/font_color_pressed = Color( 0.368627, 1, 0.662745, 1 )
-custom_constants/hseparation = 8
-custom_fonts/font = ExtResource( 23 )
-custom_styles/hover = SubResource( 168 )
-custom_styles/pressed = SubResource( 168 )
-custom_styles/focus = SubResource( 168 )
-custom_styles/disabled = SubResource( 168 )
-custom_styles/normal = SubResource( 168 )
-shortcut_in_tooltip = false
-text = "Travel"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Arr" type="Label" parent="GUI/Tutorial/TutorialPanel/Checkpoints"]
-margin_left = 53.0
-margin_top = 44.0
-margin_right = 61.0
-margin_bottom = 62.0
-custom_fonts/font = ExtResource( 23 )
-text = ">"
-
-[node name="Bursting" type="Button" parent="GUI/Tutorial/TutorialPanel/Checkpoints"]
-margin_left = 67.0
-margin_right = 172.0
-margin_bottom = 106.0
-theme_type_variation = "Lerimama_lite"
-custom_colors/font_color_pressed = Color( 0.368627, 1, 0.662745, 1 )
-custom_constants/hseparation = 8
-custom_fonts/font = ExtResource( 23 )
-custom_styles/hover = SubResource( 168 )
-custom_styles/pressed = SubResource( 168 )
-custom_styles/focus = SubResource( 168 )
-custom_styles/disabled = SubResource( 168 )
-custom_styles/normal = SubResource( 168 )
-shortcut_in_tooltip = false
-text = "Collect colors"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Arr2" type="Label" parent="GUI/Tutorial/TutorialPanel/Checkpoints"]
-margin_left = 178.0
-margin_top = 44.0
-margin_right = 186.0
-margin_bottom = 62.0
-custom_fonts/font = ExtResource( 23 )
-text = ">"
-
-[node name="Skilling" type="Button" parent="GUI/Tutorial/TutorialPanel/Checkpoints"]
-margin_left = 192.0
-margin_right = 262.0
-margin_bottom = 106.0
-theme_type_variation = "Lerimama_lite"
-custom_colors/font_color_pressed = Color( 0.368627, 1, 0.662745, 1 )
-custom_constants/hseparation = 8
-custom_fonts/font = ExtResource( 23 )
-custom_styles/hover = SubResource( 168 )
-custom_styles/pressed = SubResource( 168 )
-custom_styles/focus = SubResource( 168 )
-custom_styles/disabled = SubResource( 168 )
-custom_styles/normal = SubResource( 168 )
-shortcut_in_tooltip = false
-text = "Use skills"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Arr3" type="Label" parent="GUI/Tutorial/TutorialPanel/Checkpoints"]
-margin_left = 268.0
-margin_top = 44.0
-margin_right = 276.0
-margin_bottom = 62.0
-custom_fonts/font = ExtResource( 23 )
-text = ">"
-
-[node name="Stacking" type="Button" parent="GUI/Tutorial/TutorialPanel/Checkpoints"]
-margin_left = 282.0
-margin_right = 375.0
-margin_bottom = 106.0
-theme_type_variation = "Lerimama_lite"
-custom_colors/font_color_pressed = Color( 0.368627, 1, 0.662745, 1 )
-custom_constants/hseparation = 8
-custom_fonts/font = ExtResource( 23 )
-custom_styles/hover = SubResource( 168 )
-custom_styles/pressed = SubResource( 168 )
-custom_styles/focus = SubResource( 168 )
-custom_styles/disabled = SubResource( 168 )
-custom_styles/normal = SubResource( 168 )
-shortcut_in_tooltip = false
-text = "Stack pixels"
-
-[node name="Checkpoints3" type="VBoxContainer" parent="GUI/Tutorial/TutorialPanel"]
+[node name="Checkpoints" type="VBoxContainer" parent="GUI/Tutorial/TutorialPanel"]
 margin_left = 24.0
 margin_top = 71.0
 margin_right = 320.0
 margin_bottom = 177.0
 custom_constants/separation = 6
 
-[node name="Traveling" type="Button" parent="GUI/Tutorial/TutorialPanel/Checkpoints3"]
+[node name="Traveling" type="Button" parent="GUI/Tutorial/TutorialPanel/Checkpoints"]
 margin_right = 296.0
 margin_bottom = 18.0
 theme_type_variation = "Lerimama_lite"
@@ -1939,13 +1953,13 @@ custom_styles/disabled = SubResource( 168 )
 custom_styles/normal = SubResource( 168 )
 shortcut_in_tooltip = false
 text = "Traveling"
-icon = SubResource( 157 )
+icon = ExtResource( 25 )
 align = 0
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Bursting" type="Button" parent="GUI/Tutorial/TutorialPanel/Checkpoints3"]
+[node name="Bursting" type="Button" parent="GUI/Tutorial/TutorialPanel/Checkpoints"]
 margin_top = 24.0
 margin_right = 296.0
 margin_bottom = 42.0
@@ -1960,13 +1974,13 @@ custom_styles/disabled = SubResource( 168 )
 custom_styles/normal = SubResource( 168 )
 shortcut_in_tooltip = false
 text = "Collecting colors"
-icon = SubResource( 158 )
+icon = ExtResource( 26 )
 align = 0
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Skilling" type="Button" parent="GUI/Tutorial/TutorialPanel/Checkpoints3"]
+[node name="Skilling" type="Button" parent="GUI/Tutorial/TutorialPanel/Checkpoints"]
 margin_top = 48.0
 margin_right = 296.0
 margin_bottom = 66.0
@@ -1981,13 +1995,13 @@ custom_styles/disabled = SubResource( 168 )
 custom_styles/normal = SubResource( 168 )
 shortcut_in_tooltip = false
 text = "Using skills"
-icon = SubResource( 158 )
+icon = ExtResource( 26 )
 align = 0
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Stacking" type="Button" parent="GUI/Tutorial/TutorialPanel/Checkpoints3"]
+[node name="Stacking" type="Button" parent="GUI/Tutorial/TutorialPanel/Checkpoints"]
 margin_top = 72.0
 margin_right = 296.0
 margin_bottom = 90.0
@@ -2002,97 +2016,8 @@ custom_styles/disabled = SubResource( 168 )
 custom_styles/normal = SubResource( 168 )
 shortcut_in_tooltip = false
 text = "Stacking pixels"
-icon = SubResource( 158 )
+icon = ExtResource( 26 )
 align = 0
-
-[node name="Checkpoints2" type="VBoxContainer" parent="GUI/Tutorial/TutorialPanel"]
-visible = false
-margin_left = 24.0
-margin_top = 71.0
-margin_right = 248.0
-margin_bottom = 177.0
-custom_constants/separation = 6
-
-[node name="Traveling" type="CheckBox" parent="GUI/Tutorial/TutorialPanel/Checkpoints2"]
-margin_right = 224.0
-margin_bottom = 18.0
-theme_type_variation = "Lerimama_lite"
-custom_colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
-custom_colors/font_color_pressed = Color( 0.368627, 1, 0.662745, 1 )
-custom_constants/hseparation = 8
-custom_fonts/font = ExtResource( 23 )
-custom_styles/hover = SubResource( 168 )
-custom_styles/pressed = SubResource( 168 )
-custom_styles/focus = SubResource( 168 )
-custom_styles/disabled = SubResource( 168 )
-custom_styles/hover_pressed = SubResource( 168 )
-custom_styles/normal = SubResource( 168 )
-shortcut_in_tooltip = false
-pressed = true
-text = "Traveling"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Bursting" type="CheckBox" parent="GUI/Tutorial/TutorialPanel/Checkpoints2"]
-margin_top = 24.0
-margin_right = 224.0
-margin_bottom = 42.0
-theme_type_variation = "Lerimama_lite"
-custom_colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
-custom_colors/font_color_pressed = Color( 0.368627, 1, 0.662745, 1 )
-custom_constants/hseparation = 8
-custom_fonts/font = ExtResource( 23 )
-custom_styles/hover = SubResource( 168 )
-custom_styles/pressed = SubResource( 168 )
-custom_styles/focus = SubResource( 168 )
-custom_styles/disabled = SubResource( 168 )
-custom_styles/hover_pressed = SubResource( 168 )
-custom_styles/normal = SubResource( 168 )
-shortcut_in_tooltip = false
-text = "Collecting colors"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Skilling" type="CheckBox" parent="GUI/Tutorial/TutorialPanel/Checkpoints2"]
-margin_top = 48.0
-margin_right = 224.0
-margin_bottom = 66.0
-theme_type_variation = "Lerimama_lite"
-custom_colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
-custom_colors/font_color_pressed = Color( 0.368627, 1, 0.662745, 1 )
-custom_constants/hseparation = 8
-custom_fonts/font = ExtResource( 23 )
-custom_styles/hover = SubResource( 168 )
-custom_styles/pressed = SubResource( 168 )
-custom_styles/focus = SubResource( 168 )
-custom_styles/disabled = SubResource( 168 )
-custom_styles/hover_pressed = SubResource( 168 )
-custom_styles/normal = SubResource( 168 )
-shortcut_in_tooltip = false
-text = "Using skills"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Stacking" type="CheckBox" parent="GUI/Tutorial/TutorialPanel/Checkpoints2"]
-margin_top = 72.0
-margin_right = 224.0
-margin_bottom = 90.0
-theme_type_variation = "Lerimama_lite"
-custom_colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
-custom_colors/font_color_pressed = Color( 0.368627, 1, 0.662745, 1 )
-custom_constants/hseparation = 8
-custom_fonts/font = ExtResource( 23 )
-custom_styles/hover = SubResource( 168 )
-custom_styles/pressed = SubResource( 168 )
-custom_styles/focus = SubResource( 168 )
-custom_styles/disabled = SubResource( 168 )
-custom_styles/hover_pressed = SubResource( 168 )
-custom_styles/normal = SubResource( 168 )
-shortcut_in_tooltip = false
-text = "Stacking pixels"
 
 [node name="HSeparator" type="HSeparator" parent="GUI/Tutorial/TutorialPanel"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
@@ -2106,6 +2031,7 @@ __meta__ = {
 }
 
 [node name="Traveling" type="VBoxContainer" parent="GUI/Tutorial/TutorialPanel"]
+visible = false
 anchor_right = 1.0
 margin_left = 24.0
 margin_top = 204.0
@@ -2511,7 +2437,6 @@ text = "Get extra 20 points for destroying a pixel in a stack
 autowrap = true
 
 [node name="EndTutorial" type="VBoxContainer" parent="GUI/Tutorial/TutorialPanel"]
-visible = false
 margin_left = 24.0
 margin_top = 204.0
 margin_right = 312.0
@@ -2586,6 +2511,94 @@ size_flags_vertical = 8
 theme = ExtResource( 4 )
 enabled_focus_mode = 1
 text = "RESTART"
+
+[node name="StageDone" type="Control" parent="GUI/Tutorial/TutorialPanel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -152.5
+margin_top = -74.5
+margin_right = 144.5
+margin_bottom = 187.5
+theme = ExtResource( 4 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="DoneIcon" type="TextureRect" parent="GUI/Tutorial/TutorialPanel/StageDone"]
+modulate = Color( 0.368627, 1, 0.662745, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -14.0
+margin_top = -76.0
+margin_right = 14.0
+margin_bottom = -56.0
+texture = SubResource( 178 )
+
+[node name="Title" type="Label" parent="GUI/Tutorial/TutorialPanel/StageDone"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -175.0
+margin_top = -43.0
+margin_right = 175.0
+margin_bottom = -21.0
+size_flags_vertical = 1
+text = "Great job!"
+align = 1
+autowrap = true
+
+[node name="LabelStageDone" type="Label" parent="GUI/Tutorial/TutorialPanel/StageDone"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -152.5
+margin_top = -0.5
+margin_right = 152.5
+margin_bottom = 17.5
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 23 )
+text = "Now you know how to %s."
+align = 1
+autowrap = true
+
+[node name="LabelNextStage" type="Label" parent="GUI/Tutorial/TutorialPanel/StageDone"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -152.5
+margin_top = 23.5
+margin_right = 152.5
+margin_bottom = 72.5
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 23 )
+text = "Get ready to learn how to %s."
+align = 1
+autowrap = true
+
+[node name="ContinueBtn" type="Button" parent="GUI/Tutorial/TutorialPanel/StageDone"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -49.0
+margin_top = -22.0
+margin_right = 49.0
+grow_horizontal = 2
+focus_neighbour_left = NodePath("../QuitBtn")
+focus_neighbour_right = NodePath("../QuitBtn")
+focus_mode = 1
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme = ExtResource( 4 )
+enabled_focus_mode = 1
+text = "CONTINUE or X or return"
 
 [node name="ScoringPanel" type="Control" parent="GUI/Tutorial"]
 margin_left = -352.0
@@ -2959,6 +2972,9 @@ custom_styles/panel = SubResource( 155 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/Tutorial"]
 anims/RESET = SubResource( 171 )
+anims/done_popup_in = SubResource( 181 )
+anims/done_popup_in_out = SubResource( 179 )
+anims/done_popup_out = SubResource( 180 )
 anims/goals_in = SubResource( 170 )
 anims/tutorial_start = SubResource( 172 )
 
@@ -4239,14 +4255,7 @@ text = "CONFIRM"
 [connection signal="pressed" from="GUI/Tutorial/TutorialPanel/Checkpoints/Bursting" to="GUI/Tutorial" method="_on_Bursting_pressed"]
 [connection signal="pressed" from="GUI/Tutorial/TutorialPanel/Checkpoints/Skilling" to="GUI/Tutorial" method="_on_Skilling_pressed"]
 [connection signal="pressed" from="GUI/Tutorial/TutorialPanel/Checkpoints/Stacking" to="GUI/Tutorial" method="_on_Stacking_pressed"]
-[connection signal="pressed" from="GUI/Tutorial/TutorialPanel/Checkpoints3/Traveling" to="GUI/Tutorial" method="_on_Traveling_pressed"]
-[connection signal="pressed" from="GUI/Tutorial/TutorialPanel/Checkpoints3/Bursting" to="GUI/Tutorial" method="_on_Bursting_pressed"]
-[connection signal="pressed" from="GUI/Tutorial/TutorialPanel/Checkpoints3/Skilling" to="GUI/Tutorial" method="_on_Skilling_pressed"]
-[connection signal="pressed" from="GUI/Tutorial/TutorialPanel/Checkpoints3/Stacking" to="GUI/Tutorial" method="_on_Stacking_pressed"]
-[connection signal="pressed" from="GUI/Tutorial/TutorialPanel/Checkpoints2/Traveling" to="GUI/Tutorial" method="_on_Traveling_pressed"]
-[connection signal="pressed" from="GUI/Tutorial/TutorialPanel/Checkpoints2/Bursting" to="GUI/Tutorial" method="_on_Bursting_pressed"]
-[connection signal="pressed" from="GUI/Tutorial/TutorialPanel/Checkpoints2/Skilling" to="GUI/Tutorial" method="_on_Skilling_pressed"]
-[connection signal="pressed" from="GUI/Tutorial/TutorialPanel/Checkpoints2/Stacking" to="GUI/Tutorial" method="_on_Stacking_pressed"]
+[connection signal="pressed" from="GUI/Tutorial/TutorialPanel/StageDone/ContinueBtn" to="GUI/Tutorial" method="_on_ContinueBtn_pressed"]
 [connection signal="animation_finished" from="GUI/Tutorial/AnimationPlayer" to="GUI/Tutorial" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="toggled" from="GUI/PauseMenu/Settings/GameMusicCheckBox" to="GUI/PauseMenu" method="_on_GameMusicCheckBox_toggled"]
 [connection signal="value_changed" from="GUI/PauseMenu/Settings/GameMusicSlider" to="GUI/PauseMenu" method="_on_GameMusicSlider_value_changed"]

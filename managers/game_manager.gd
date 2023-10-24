@@ -162,7 +162,7 @@ func on_tutorial_stat_changed(stat_owner, changed_stat, stat_change):
 				player_stats["player_points"] += game_rules["color_picked_points"]
 				player_stats["player_energy"] += game_rules["color_picked_energy"]
 				spawn_floating_tag(stat_owner.global_position, game_rules["color_picked_points"]) 
-				Global.tutorial_gui.bursting_done()
+				Global.tutorial_gui.finish_bursting()
 			# stats za vsakega naslednega v vrsti 
 			elif stat_change > 1:
 				# odštejem, da se točke od prvega pixla ne podvajajo
@@ -171,8 +171,12 @@ func on_tutorial_stat_changed(stat_owner, changed_stat, stat_change):
 				player_stats["player_points"] += points_for_seq_pixel
 				player_stats["player_energy"] += energy_for_seq_pixel
 				spawn_floating_tag(stat_owner.global_position, points_for_seq_pixel)
+				Global.tutorial_gui.finish_stacking()
+				print("2")
 			elif stat_change > 2:
-				Global.tutorial_gui.skilling_done()
+				Global.tutorial_gui.finish_stacking()
+				print("2")
+			
 			# cleaned
 			if game_data["stray_pixels_count"] == 0:
 				player_stats["player_points"] += Profiles.game_rules["all_cleaned_points"]

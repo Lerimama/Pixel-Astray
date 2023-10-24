@@ -3,7 +3,7 @@
 [ext_resource path="res://assets/music/menu_track_secret.wav" type="AudioStream" id=1]
 [ext_resource path="res://assets/sfx/skills/skilled_frcer.wav" type="AudioStream" id=2]
 [ext_resource path="res://assets/music/track_tictac.wav" type="AudioStream" id=3]
-[ext_resource path="res://assets/sfx/skill_success_a_NFF-glocken-bad.wav" type="AudioStream" id=4]
+[ext_resource path="res://assets/sfx/gui/tutorial_stage_a_NFF-glocken-bad.wav" type="AudioStream" id=4]
 [ext_resource path="res://assets/sfx/skill_success_b_NFF-glocken-good.wav" type="AudioStream" id=5]
 [ext_resource path="res://assets/sfx/blinking/blink_static_1.wav" type="AudioStream" id=6]
 [ext_resource path="res://assets/sfx/blinking/blink_1.wav" type="AudioStream" id=7]
@@ -368,6 +368,11 @@ pitch_scale = 0.93
 [node name="ScreenSlide" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
 stream = ExtResource( 28 )
 pitch_scale = 0.9
+
+[node name="TutorialStageDone" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
+stream = ExtResource( 4 )
+volume_db = -10.0
+pitch_scale = 1.1
 
 [node name="Typing" type="Node2D" parent="SoundManager/GuiSfx"]
 
