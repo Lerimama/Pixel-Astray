@@ -69,7 +69,8 @@ func _process(delta: float) -> void:
 	writing_stats()
 	
 	# ček HS and show popup
-	if Global.game_manager.game_data["level"] != Profiles.Levels.PRACTICE:
+	if Global.game_manager.game_data["level"] > 1: # 0 = tutorial, 1 = practice
+#	if Global.game_manager.game_data["level"] != Profiles.Levels.PRACTICE and Global.game_manager.game_data["level"] != Profiles.Levels.TUTORIAL:
 		check_for_hs()
 	
 	# show popup energy warning
@@ -96,6 +97,7 @@ func _process(delta: float) -> void:
 	
 		
 func check_for_hs():
+	print("LEKIRMA", Global.game_manager.game_data["level"])
 	
 	var current_points = player_stats_on_hud["player_points"]
 	var current_highscore = game_data_on_hud["highscore"]

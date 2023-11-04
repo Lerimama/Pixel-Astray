@@ -49,7 +49,7 @@ var level_data : Dictionary = { # na štartu igre se tole duplicira in postane g
 var level_tutorial_data: Dictionary = { 
 	"level": Levels.TUTORIAL,
 	"tilemap_path": "res://game/tilemaps/tutorial_tilemap.tscn",
-	"game_time_limit": 10,
+	"game_time_limit": 0,
 #	"stray_pixels_count": 5,
 }
 
@@ -102,7 +102,7 @@ var game_rules: Dictionary = { # tole ne uporabljam v zadnji varianti
 	"cell_travelled_energy": -1, # GM
 	"skill_used_points": 0, # GM ... isto kot stepanje
 	"skill_used_energy": 0, # GM
-	"skilled_energy_drain": -1, # GM
+	"skilled_energy_drain": 0, # GM
 	"wall_hit_points": 0, # GM
 	"wall_hit_energy": -96, # GM
 	"skilled_energy_drain_speed": 0.1, # GM ... čas med vsakim odvzemom
