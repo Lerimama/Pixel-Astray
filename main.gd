@@ -34,6 +34,16 @@ func home_in():
 	Global.current_scene.modulate = Color.black
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(Global.current_scene, "modulate", Color.white, fade_time)
+
+
+func home_in_play_screen():
+	
+	Global.spawn_new_scene(home_scene_path, self)
+	Global.current_scene.open_without_intro()
+	
+	Global.current_scene.modulate = Color.black
+	var fade_in = get_tree().create_tween()
+	fade_in.tween_property(Global.current_scene, "modulate", Color.white, fade_time)
 	
 
 func home_out():

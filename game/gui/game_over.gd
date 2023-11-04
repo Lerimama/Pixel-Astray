@@ -20,7 +20,9 @@ onready var title_succes: Control = $TitleSucces
 onready var title_fail_time: Control = $TitleFailTime
 onready var title_fail_life: Control = $TitleFailLife
 onready var content_practice: Control = $ContentPractice
+onready var content_tutorial: Control = $ContentTutorial
 onready var content_game: Control = $ContentGame
+
 
 var current_title: Node # za določanje trenutnega napisa ob koncu igre
 
@@ -56,6 +58,8 @@ func _ready() -> void:
 	content_game.visible = false
 	content_practice.modulate.a = 0
 	content_practice.visible = false
+#	content_tutorial.modulate.a = 0
+#	content_tutorial.visible = false
 
 
 func fade_in_practice(gameover_reason):
@@ -103,6 +107,47 @@ func fade_in_practice(gameover_reason):
 	fade.tween_property(content_practice, "modulate:a", 1, 1)#.set_delay(0.3)
 	fade.tween_callback(self, "pause_tree") # šele tukaj, da se tween sploh zgodi
 	fade.tween_callback(restart_btn, "grab_focus") # šele tukaj, da se tween sploh zgodi,če 
+	
+	
+func fade_in_tutorial(gameover_reason):
+	
+	var restart_btn = $ContentTutorial/Menu/QuitBtn # za focus
+
+	match gameover_reason:
+		"reason_cleaned":
+			title_succes.visible = true
+			title_fail_time.visible = false
+			title_fail_life.visible = false
+			
+			current_title = title_succes
+			
+		"reason_life":
+			title_succes.visible = false
+			title_fail_time.visible = false
+			title_fail_life.visible = true
+			
+			current_title = title_fail_life
+			
+	modulate.a = 0	
+	visible = true
+	
+	# hud + title
+	var fade_in = get_tree().create_tween()
+	fade_in.tween_property(self, "modulate:a", 1, 0.5)
+	fade_in.tween_callback(Global.sound_manager, "play_sfx", ["loose_jingle"])
+	
+	write_gameover_data()
+	yield(get_tree().create_timer(3), "timeout")
+
+	# title out, content in
+	content_tutorial.visible = true
+	var fade = get_tree().create_tween()
+	fade.tween_property(current_title, "modulate:a", 0, 1)
+	fade.parallel().tween_property(undi, "modulate:a", 0.9, 1)
+	fade.tween_property(content_tutorial, "modulate:a", 1, 1)#.set_delay(0.3)
+	fade.tween_callback(self, "pause_tree") # šele tukaj, da se tween sploh zgodi
+	fade.tween_callback(restart_btn, "grab_focus") # šele tukaj, da se tween sploh zgodi,če 
+
 
 # brez HS
 func fade_in(gameover_reason):

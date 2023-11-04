@@ -1,6 +1,7 @@
 extends Camera2D
 
 
+signal zoomed_in
 signal zoomed_out
 
 export (OpenSimplexNoise) var noise # tekstura za vizualizacijo ma kopijo tega noisa
@@ -125,9 +126,10 @@ func zoom_in():
 	zoom_in_tween.parallel().tween_property(viewport_footer, "rect_min_size:y", 56, 2)
 	zoom_in_tween.parallel().tween_property(Global.hud.header, "rect_position:y", 0, 2)
 	zoom_in_tween.parallel().tween_property(Global.hud.footer, "rect_position:y", 720 - 56, 2)
-	zoom_in_tween.tween_callback(Global.game_countdown, "start_countdown").set_delay(1)
+	zoom_in_tween.tween_callback(self, "emit_signal", ["zoomed_in"])
+#	zoom_in_tween.tween_callback(Global.game_countdown, "start_countdown").set_delay(1)
 	
-
+	
 func zoom_out():
 
 	var final_zoom = Vector2(2, 2)

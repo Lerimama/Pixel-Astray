@@ -8,7 +8,7 @@ var stage_height_traveling: int = 232
 var stage_height_bursting: int = 392
 var stage_height_skilling: int = 392
 var stage_height_stacking: int = 336
-var stage_height_winlose: int = 336
+var stage_height_winlose: int = 320
 
 # za beleženje vmesnih rezultatov
 var traveling_directions: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
@@ -88,8 +88,8 @@ func change_stage(stage_to_hide: Control, next_stage: Control, next_stage_height
 	
 	var close_stage = get_tree().create_tween()
 	close_stage.tween_callback(self, "set_stage", [next_stage])
-	close_stage.tween_property(stage_to_hide, "rect_min_size:y", 0, 1).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
-	close_stage.parallel().tween_callback(self, "open_stage", [next_stage, next_stage_height])
+	close_stage.tween_property(stage_to_hide, "rect_min_size:y", 0, 1).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC).set_delay(0.5)
+	close_stage.tween_callback(self, "open_stage", [next_stage, next_stage_height])
 	
 
 func open_stage(stage_to_show, stage_height):
@@ -105,19 +105,19 @@ func set_stage(active_stage_node):
 	match active_stage_node:
 		traveling_content:
 			current_tutorial_stage = TutorialStage.TRAVELING
-			traveling_label.modulate = Global.color_white
+#			traveling_label.modulate = Global.color_white
 		bursting_content:
 			current_tutorial_stage = TutorialStage.BURSTING
-			bursting_label.modulate = Global.color_white
+#			bursting_label.modulate = Global.color_white
 		skilling_content:
 			current_tutorial_stage = TutorialStage.SKILLING
-			skilling_label.modulate = Global.color_white
+#			skilling_label.modulate = Global.color_white
 		stacking_content:
 			current_tutorial_stage = TutorialStage.STACKING
-			stacking_label.modulate = Global.color_white
+#			stacking_label.modulate = Global.color_white
 		winlose_content:
 			current_tutorial_stage = TutorialStage.WINLOSE
-			winlose_label.modulate = Global.color_white
+#			winlose_label.modulate = Global.color_white
 
 
 # STAGES ------------------------------------------------------------------------------------------------------------------	
@@ -130,8 +130,8 @@ func finish_traveling():
 		return	
 	change_stage(traveling_content, bursting_content, stage_height_bursting)
 	
-	yield(get_tree().create_timer(5), "timeout")		
-	Global.game_manager.stray_pixels_count = 5
+	yield(get_tree().create_timer(2.5), "timeout")
+	Global.game_manager.stray_pixels_count = 10
 	Global.game_manager.generate_strays()	
 
 	
@@ -185,7 +185,7 @@ func teleport_done():
 func finish_tutorial():
 	if not current_tutorial_stage == TutorialStage.WINLOSE:
 		return
-	stacking_label.modulate = Global.color_green	
+	winlose_label.modulate = Global.color_green	
 
 
 # SIGNALS ------------------------------------------------------------------------------------------------------------------	
@@ -198,17 +198,21 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			current_tutorial_stage = TutorialStage.MISSION
 			$MissionPanel/Menu/StartBtn.grab_focus()
 		"tutorial_start":
-			open_stage(traveling_content, stage_height_traveling)
-			Global.game_manager.player_pixel.set_physics_process(true)
+			var show_player = get_tree().create_tween()
+			show_player.tween_property(Global.game_manager.player_pixel, "modulate:a", 1, 1).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_ELASTIC)
+			show_player.tween_callback(self, "open_stage", [traveling_content, stage_height_traveling]).set_delay(1)
+			show_player.tween_callback(Global.game_manager.player_pixel, "set_physics_process", [true]).set_delay(1)
 			
 
 func _on_StartBtn_pressed() -> void:
+	
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	animation_player.play("tutorial_start")
 	$MissionPanel/Menu/StartBtn.disabled = true
 
 
 func _on_QuitBtn_pressed() -> void:
+	
 	Global.sound_manager.play_gui_sfx("btn_cancel")
 	Global.main_node.game_out()
 	$MissionPanel/Menu/QuitBtn.disabled = true # da ne moreš multiklikatpass # Replace with function body.

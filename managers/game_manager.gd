@@ -99,22 +99,17 @@ func set_tutorial():
 	player_stats["player_energy"] = game_rules["player_start_energy"]
 	Global.camera_target = player_pixel
 	
-	# počaka fejdin scene
-	yield(get_tree().create_timer(3), "timeout") 
-	
-	Global.game_manager.player_pixel.animation_player.play("start_white")
-	
 	# čaka, da si plejer ogleda
-	yield(get_tree().create_timer(1), "timeout")
+	yield(get_tree().create_timer(3), "timeout") 
 	Global.main_camera.zoom_in()
 	
-	# YIELD ... čaka da game_countdown odšteje
-	print ("GM start - YIELD")
-	# Global.game_countdown.start_countdown() ... zdej je na kameri
-	yield(Global.game_countdown, "countdown_finished")	
-	# RESUME
-	print ("GM start - RESUME")
+	# YIELD ... čaka, da kamera zumira
+	yield(Global.main_camera, "zoomed_in")
+#	Global.game_countdown.start_countdown()
+	# ... čaka da game_countdown odšteje
+#	yield(Global.game_countdown, "countdown_finished")	
 	
+	# RESUME
 	start_tutorial()
 
 
@@ -298,9 +293,10 @@ func game_over(game_over_reason: String):
 	
 	# malo časa za show-off
 	yield(get_tree().create_timer(2), "timeout")
-	# YIELD 0 ... čaka na konec zoomoutamm
+	if game_data["level"] == Profiles.Levels.TUTORIAL:
+		Global.tutorial_gui.animation_player.play("tutorial_end")
+	# YIELD 0 ... čaka na konec zoomoutam
 	var camera_zoomed_out = Global.main_camera.zoom_out() # hud gre ven
-	
 	yield(Global.main_camera, "zoomed_out")
 
 	Global.sound_manager.stop_music("game_on_game-over")
@@ -310,7 +306,11 @@ func game_over(game_over_reason: String):
 	var current_level = game_data["level"]
 	
 	# HS manage
-	if game_data["level"] != Profiles.Levels.PRACTICE or game_data["level"] != Profiles.Levels.TUTORIAL:
+	if game_data["level"] == Profiles.Levels.TUTORIAL:
+		Global.gameover_menu.fade_in_tutorial(game_over_reason)
+	elif game_data["level"] == Profiles.Levels.PRACTICE:
+		Global.gameover_menu.fade_in_practice(game_over_reason)
+	else:
 		# YIELD 1 ... čaka na konec preverke rankinga ... če ni rankinga dobi false, če je ne dobi nič
 		# ker kličem funkcijo v variablo more počakat, da se funkcija izvede do returna
 		var score_is_ranking = Global.data_manager.manage_gameover_highscores(player_points, current_level) # yielda 2 za name_input je v tej funkciji
@@ -318,9 +318,19 @@ func game_over(game_over_reason: String):
 			Global.gameover_menu.fade_in(game_over_reason)																																																							
 		else:
 			Global.gameover_menu.fade_in_empty(game_over_reason)
-	else:
-			Global.gameover_menu.fade_in_practice(game_over_reason)
 	
+	# HS manage
+#	if game_data["level"] != Profiles.Levels.PRACTICE or game_data["level"] != Profiles.Levels.TUTORIAL:
+#		# YIELD 1 ... čaka na konec preverke rankinga ... če ni rankinga dobi false, če je ne dobi nič
+#		# ker kličem funkcijo v variablo more počakat, da se funkcija izvede do returna
+#		var score_is_ranking = Global.data_manager.manage_gameover_highscores(player_points, current_level) # yielda 2 za name_input je v tej funkciji
+#		if not score_is_ranking:
+#			Global.gameover_menu.fade_in(game_over_reason)																																																							
+#		else:
+#			Global.gameover_menu.fade_in_empty(game_over_reason)
+#	else:
+#			Global.gameover_menu.fade_in_practice(game_over_reason)
+#
 	
 # SPAWNANJE ----------------------------------------------------------------------------------
 

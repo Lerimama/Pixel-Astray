@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=2]
+[gd_scene load_steps=62 format=2]
 
 [ext_resource path="res://game/hud/hud_game_timer.gd" type="Script" id=1]
 [ext_resource path="res://game/hud/hud.gd" type="Script" id=2]
@@ -485,7 +485,7 @@ tracks/9/keys = {
 
 [sub_resource type="Animation" id=180]
 resource_name = "mission_in"
-length = 1.5
+length = 1.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("MissionPanel:modulate")
 tracks/0/interp = 1
@@ -505,8 +505,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"points": PoolRealArray( 320, 0, 0, 0, -50, 224, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 0.5 )
+"points": PoolRealArray( 320, 0, 0, 0, -50, 216, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.7 )
 }
 tracks/2/type = "bezier"
 tracks/2/path = NodePath("MissionPanel:rect_position:x")
@@ -515,8 +515,8 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"points": PoolRealArray( 417, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
+"points": PoolRealArray( 417, -0.25, 0, 0.25, 0, 417, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.7 )
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("HudGuide:modulate")
@@ -525,15 +525,62 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 1, 1.5 ),
+"times": PoolRealArray( 0, 0.7, 1.2 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
+[sub_resource type="Animation" id=182]
+resource_name = "tutorial_end"
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Checkpoints:rect_position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 32, -0.5, 0, 0.25, 0, -360, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.3, 1 )
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Checkpoints:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.3, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("InfoPanel:rect_position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 928, -0.5, 0, 0.25, 0, 1304, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.3, 1 )
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("InfoPanel:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.3, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
 [sub_resource type="Animation" id=172]
 resource_name = "tutorial_start"
-length = 2.0
+length = 1.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("MissionPanel:modulate")
 tracks/0/interp = 1
@@ -553,7 +600,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"points": PoolRealArray( 224, -0.25, 0, 0.25, 0, 224, -0.25, 0, 0.25, 0, 152, 0, 50, 0, 0 ),
+"points": PoolRealArray( 216, -0.25, 0, 0.25, 0, 216, -0.25, 0, 0.25, 0, 152, 0, 50, 0, 0 ),
 "times": PoolRealArray( 0, 0.1, 0.5 )
 }
 tracks/2/type = "bezier"
@@ -620,7 +667,7 @@ tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
 "points": PoolRealArray( 1304, -0.25, 0, 0.25, 0, 1304, -0.25, 0, 0.25, 0, 928, -0.5, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 0.8, 2 )
+"times": PoolRealArray( 0, 0.8, 1.5 )
 }
 tracks/8/type = "value"
 tracks/8/path = NodePath("InfoPanel:modulate")
@@ -629,7 +676,7 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0, 0.1, 1.5, 2 ),
+"times": PoolRealArray( 0, 0.1, 1, 1.5 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
@@ -720,7 +767,7 @@ tracks/6/keys = {
 [node name="Game" type="Node2D"]
 script = ExtResource( 6 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 34.0, 698.0, 686.0, 504.0, 544.0, 280.0, 120.0, 104.0, 152.0 ],
+"_edit_horizontal_guides_": [ 34.0, 698.0, 686.0, 504.0, 544.0, 280.0, 120.0, 104.0, 152.0, 383.0 ],
 "_edit_vertical_guides_": [ 640.0, 1248.0, 32.0, 1216.0, 1304.0, 1632.0, 1453.0, 353.0 ]
 }
 
@@ -1949,10 +1996,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -223.0
-margin_top = -40.0
-margin_right = 225.0
-margin_bottom = 232.0
+margin_left = 417.0
+margin_top = 320.0
+margin_right = 865.0
+margin_bottom = 608.0
 theme = ExtResource( 4 )
 __meta__ = {
 "_edit_group_": true
@@ -1966,30 +2013,16 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Title" type="Label" parent="GUI/Tutorial/MissionPanel"]
-visible = false
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -144.0
-margin_top = 22.0
-margin_right = 144.0
-margin_bottom = 44.0
-size_flags_vertical = 1
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-text = "Mission"
-align = 1
-autowrap = true
-
 [node name="Content" type="Label" parent="GUI/Tutorial/MissionPanel"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -193.0
+margin_left = -185.0
 margin_top = 40.0
-margin_right = 193.0
-margin_bottom = 106.0
+margin_right = 183.0
+margin_bottom = 130.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "Score points by destroying stray pixels and collecting their colors. You've achieved the main goal, if you collect all the colors available "
+text = "This is tutorial to basic controls and mechanics of the game. Every stage includes instructions you must follow to progress the next one. Some hints are also added."
 align = 1
 autowrap = true
 
@@ -1997,12 +2030,12 @@ autowrap = true
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -177.0
-margin_top = 120.0
-margin_right = 177.0
-margin_bottom = 186.0
+margin_top = 152.0
+margin_right = 175.0
+margin_bottom = 194.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "If you wan't to revisit the written instructions, you can always click on the tutorial label."
+text = "Be sure to check the game HUD labels before starting the tutorial."
 align = 1
 autowrap = true
 
@@ -2010,9 +2043,9 @@ autowrap = true
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -77.0
-margin_top = 222.0
+margin_top = 230.0
 margin_right = 77.0
-margin_bottom = 244.0
+margin_bottom = 252.0
 custom_constants/separation = 32
 __meta__ = {
 "_edit_group_": true
@@ -2044,8 +2077,8 @@ text = "QUIT"
 [node name="Checkpoints" type="VBoxContainer" parent="GUI/Tutorial"]
 margin_left = -360.0
 margin_top = 86.0
-margin_right = -34.0
-margin_bottom = 1904.0
+margin_right = -32.0
+margin_bottom = 2001.0
 grow_horizontal = 2
 custom_constants/separation = 4
 __meta__ = {
@@ -2054,7 +2087,7 @@ __meta__ = {
 
 [node name="Traveling" type="Label" parent="GUI/Tutorial/Checkpoints"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-margin_right = 326.0
+margin_right = 328.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 20 )
 theme_type_variation = "Lerimama_lite"
@@ -2067,7 +2100,7 @@ __meta__ = {
 
 [node name="TravelingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
 margin_top = 26.0
-margin_right = 326.0
+margin_right = 328.0
 margin_bottom = 258.0
 rect_min_size = Vector2( 0, 232 )
 rect_clip_content = true
@@ -2085,7 +2118,7 @@ margin_right = 329.0
 margin_bottom = 98.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "You can move in directions up, down, left and right. Move in all available directions to progress to next stage."
+text = "You can move in directions up, down, left and right. Circle around the wall block to progress to next stage."
 autowrap = true
 
 [node name="LineLabel" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
@@ -2151,7 +2184,7 @@ margin_bottom = 1.0
 [node name="Bursting" type="Label" parent="GUI/Tutorial/Checkpoints"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
 margin_top = 262.0
-margin_right = 326.0
+margin_right = 328.0
 margin_bottom = 284.0
 rect_min_size = Vector2( 0, 20 )
 theme_type_variation = "Lerimama_lite"
@@ -2164,7 +2197,7 @@ __meta__ = {
 
 [node name="BurstingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
 margin_top = 288.0
-margin_right = 326.0
+margin_right = 328.0
 margin_bottom = 680.0
 rect_min_size = Vector2( 0, 392 )
 rect_clip_content = true
@@ -2278,7 +2311,7 @@ margin_bottom = 1.0
 [node name="Skilling" type="Label" parent="GUI/Tutorial/Checkpoints"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
 margin_top = 684.0
-margin_right = 326.0
+margin_right = 328.0
 margin_bottom = 706.0
 rect_min_size = Vector2( 0, 20 )
 theme_type_variation = "Lerimama_lite"
@@ -2291,7 +2324,7 @@ __meta__ = {
 
 [node name="SkillingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
 margin_top = 710.0
-margin_right = 326.0
+margin_right = 328.0
 margin_bottom = 1102.0
 rect_min_size = Vector2( 0, 392 )
 rect_clip_content = true
@@ -2411,7 +2444,7 @@ margin_bottom = 1.0
 [node name="Stacking" type="Label" parent="GUI/Tutorial/Checkpoints"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
 margin_top = 1106.0
-margin_right = 326.0
+margin_right = 328.0
 margin_bottom = 1128.0
 rect_min_size = Vector2( 0, 20 )
 theme_type_variation = "Lerimama_lite"
@@ -2421,7 +2454,7 @@ text = "Stacking pixels"
 
 [node name="StackingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
 margin_top = 1132.0
-margin_right = 326.0
+margin_right = 328.0
 margin_bottom = 1468.0
 rect_min_size = Vector2( 0, 336 )
 rect_clip_content = true
@@ -2527,20 +2560,20 @@ margin_bottom = 1.0
 [node name="WinLose" type="Label" parent="GUI/Tutorial/Checkpoints"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
 margin_top = 1472.0
-margin_right = 326.0
+margin_right = 328.0
 margin_bottom = 1494.0
 rect_min_size = Vector2( 0, 20 )
 theme_type_variation = "Lerimama_lite"
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_styles/normal = SubResource( 168 )
-text = "Win or Lose"
+text = "Game Over"
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="WinLoseContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
 margin_top = 1498.0
-margin_right = 326.0
+margin_right = 328.0
 margin_bottom = 1818.0
 rect_min_size = Vector2( 0, 320 )
 rect_clip_content = true
@@ -2548,30 +2581,22 @@ rect_clip_content = true
 [node name="HSeparator" type="HSeparator" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
 anchor_right = 1.0
-margin_bottom = 4.0
+margin_top = 5.0
+margin_bottom = 9.0
 
 [node name="Content" type="Label" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
-margin_top = 26.0
-margin_right = 328.0
-margin_bottom = 92.0
+margin_top = 33.0
+margin_right = 326.0
+margin_bottom = 51.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "This is the end of tutorial. You can see that controls are pretty simple and you will master them quickly."
-autowrap = true
-
-[node name="Content2" type="Label" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
-margin_top = 112.0
-margin_right = 294.0
-margin_bottom = 130.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "Oh, yes ... And how the game ends:"
+text = "Game is over when:"
 autowrap = true
 
 [node name="LineLabel" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
-margin_top = 142.0
-margin_right = 294.0
-margin_bottom = 208.0
+margin_top = 65.0
+margin_right = 326.0
+margin_bottom = 107.0
 custom_constants/separation = 8
 
 [node name="TextureRect" type="TextureRect" parent="GUI/Tutorial/Checkpoints/WinLoseContent/LineLabel"]
@@ -2582,18 +2607,18 @@ texture = SubResource( 173 )
 
 [node name="Content1" type="Label" parent="GUI/Tutorial/Checkpoints/WinLoseContent/LineLabel"]
 margin_left = 14.0
-margin_right = 294.0
-margin_bottom = 66.0
+margin_right = 326.0
+margin_bottom = 42.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "When you deplete your energy and don't pick another color in a couple of seconds left."
+text = "You have no energy and don't destroy another pixel in a couple of seconds"
 autowrap = true
 
 [node name="LineLabel1" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
-margin_top = 220.0
+margin_top = 121.0
 margin_right = 294.0
-margin_bottom = 238.0
+margin_bottom = 139.0
 custom_constants/separation = 8
 
 [node name="TextureRect" type="TextureRect" parent="GUI/Tutorial/Checkpoints/WinLoseContent/LineLabel1"]
@@ -2609,13 +2634,13 @@ margin_bottom = 18.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "When time is up."
+text = "Time runs out"
 autowrap = true
 
 [node name="LineLabel2" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
-margin_top = 250.0
-margin_right = 294.0
-margin_bottom = 292.0
+margin_top = 153.0
+margin_right = 326.0
+margin_bottom = 195.0
 custom_constants/separation = 8
 
 [node name="TextureRect" type="TextureRect" parent="GUI/Tutorial/Checkpoints/WinLoseContent/LineLabel2"]
@@ -2626,56 +2651,30 @@ texture = SubResource( 173 )
 
 [node name="Content2" type="Label" parent="GUI/Tutorial/Checkpoints/WinLoseContent/LineLabel2"]
 margin_left = 14.0
-margin_right = 294.0
+margin_right = 326.0
 margin_bottom = 42.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "When you have cleared the screen and no pixel is left astray."
+text = "You pick all the available colors and no pixel is left astray"
 autowrap = true
 
-[node name="Menu" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
-visible = false
-margin_left = 56.0
-margin_top = 320.0
-margin_right = 238.0
-margin_bottom = 342.0
-size_flags_horizontal = 4
-size_flags_vertical = 10
-custom_constants/separation = 32
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="QuitBtn" type="Button" parent="GUI/Tutorial/Checkpoints/WinLoseContent/Menu"]
-margin_right = 52.0
-margin_bottom = 22.0
-focus_neighbour_left = NodePath("../RestartBtn")
-focus_neighbour_right = NodePath("../RestartBtn")
-size_flags_horizontal = 2
-size_flags_vertical = 8
-theme = ExtResource( 4 )
-text = "QUIT"
-
-[node name="RestartBtn" type="Button" parent="GUI/Tutorial/Checkpoints/WinLoseContent/Menu"]
-margin_left = 84.0
-margin_right = 182.0
-margin_bottom = 22.0
-focus_neighbour_left = NodePath("../QuitBtn")
-focus_neighbour_right = NodePath("../QuitBtn")
-focus_mode = 1
-size_flags_horizontal = 8
-size_flags_vertical = 8
-theme = ExtResource( 4 )
-enabled_focus_mode = 1
-text = "RESTART"
+[node name="Instructions" type="Label" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
+margin_top = 225.0
+margin_right = 328.0
+margin_bottom = 296.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 23 )
+text = "To finish the tutorial try to collect all the colors that are still available and no pixel is left astray."
+autowrap = true
 
 [node name="HSeparator2" type="HSeparator" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -4.0
+margin_top = -3.0
+margin_bottom = 1.0
 
 [node name="HSeparator" type="HSeparator" parent="GUI/Tutorial/Checkpoints"]
 visible = false
@@ -2859,9 +2858,9 @@ expand = true
 [node name="InfoPanel" type="Control" parent="GUI/Tutorial"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = 24.0
+margin_left = 1304.0
 margin_top = 80.0
-margin_right = 352.0
+margin_right = 1624.0
 margin_bottom = 647.0
 theme = ExtResource( 4 )
 
@@ -2871,7 +2870,7 @@ margin_right = 328.0
 margin_bottom = 209.0
 
 [node name="Title" type="Label" parent="GUI/Tutorial/InfoPanel/Controls"]
-margin_right = 328.0
+margin_right = 320.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 0, 38 )
 size_flags_horizontal = 3
@@ -2907,23 +2906,22 @@ text = "Direction keys"
 autowrap = true
 
 [node name="Keyboard1" type="TextureRect" parent="GUI/Tutorial/InfoPanel/Controls/Keys"]
-margin_left = 1.0
-margin_top = 35.0
-margin_right = 71.0
-margin_bottom = 81.0
+margin_top = 37.0
+margin_right = 70.0
+margin_bottom = 83.0
 texture = SubResource( 150 )
 
 [node name="Keyboard2" type="TextureRect" parent="GUI/Tutorial/InfoPanel/Controls/Keys"]
-margin_left = 88.0
-margin_top = 35.0
-margin_right = 158.0
-margin_bottom = 81.0
+margin_left = 90.0
+margin_top = 37.0
+margin_right = 160.0
+margin_bottom = 83.0
 texture = SubResource( 151 )
 
 [node name="Joypad" type="Control" parent="GUI/Tutorial/InfoPanel/Controls/Keys"]
-margin_left = 207.0
+margin_left = 200.0
 margin_top = 12.0
-margin_right = 327.0
+margin_right = 320.0
 margin_bottom = 98.0
 __meta__ = {
 "_edit_group_": true
@@ -2959,32 +2957,32 @@ texture = SubResource( 177 )
 
 [node name="BurstKey" type="Label" parent="GUI/Tutorial/InfoPanel/Controls/Keys"]
 modulate = Color( 0.368627, 1, 0.662745, 1 )
-margin_left = 208.0
-margin_top = 107.0
-margin_right = 285.0
-margin_bottom = 125.0
+margin_left = 209.0
+margin_top = 120.0
+margin_right = 286.0
+margin_bottom = 138.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
 text = "Burst key"
 
 [node name="Space" type="TextureRect" parent="GUI/Tutorial/InfoPanel/Controls/Keys"]
-margin_left = 1.0
-margin_top = 101.0
-margin_right = 161.0
-margin_bottom = 123.0
+margin_top = 115.0
+margin_right = 160.0
+margin_bottom = 137.0
 texture = SubResource( 156 )
 
 [node name="Line2D" type="Line2D" parent="GUI/Tutorial/InfoPanel/Controls/Keys"]
-position = Vector2( -211, 206 )
-points = PoolVector2Array( 489, -97, 518, -148 )
+position = Vector2( -173.302, 207.142 )
+scale = Vector2( 0.913793, 1.00769 )
+points = PoolVector2Array( 488.406, -83.5, 518, -148 )
 width = 0.5
 default_color = Color( 0.368627, 1, 0.662745, 1 )
 sharp_limit = 0.0
 antialiased = true
 
 [node name="Line2D2" type="Line2D" parent="GUI/Tutorial/InfoPanel/Controls/Keys"]
-position = Vector2( -275, 207 )
-points = PoolVector2Array( 478, -89, 441, -94 )
+position = Vector2( -275, 220 )
+points = PoolVector2Array( 476, -89, 442, -94 )
 width = 0.5
 default_color = Color( 0.368627, 1, 0.662745, 1 )
 sharp_limit = 0.0
@@ -3008,22 +3006,22 @@ antialiased = true
 
 [node name="Line2D5" type="Line2D" parent="GUI/Tutorial/InfoPanel/Controls/Keys"]
 position = Vector2( -275, 221 )
-points = PoolVector2Array( 495, -189, 448, -205 )
+points = PoolVector2Array( 487, -188, 448, -205 )
 width = 0.5
 default_color = Color( 0.368627, 1, 0.662745, 1 )
 sharp_limit = 0.0
 antialiased = true
 
 [node name="Scoring" type="Control" parent="GUI/Tutorial/InfoPanel"]
-margin_top = 222.0
-margin_right = 327.0
-margin_bottom = 560.0
+margin_top = 230.0
+margin_right = 320.0
+margin_bottom = 568.0
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Title" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring"]
-margin_right = 328.0
+margin_right = 322.0
 margin_bottom = 34.0
 rect_min_size = Vector2( 0, 34 )
 size_flags_horizontal = 3
@@ -3078,7 +3076,7 @@ autowrap = true
 
 [node name="LineLabel2" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/Scoring"]
 margin_top = 114.0
-margin_right = 336.0
+margin_right = 322.0
 margin_bottom = 204.0
 custom_constants/separation = 8
 __meta__ = {
@@ -3093,14 +3091,13 @@ texture = SubResource( 173 )
 
 [node name="Content2" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring/LineLabel2"]
 margin_left = 14.0
-margin_right = 336.0
+margin_right = 322.0
 margin_bottom = 90.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "Get 20 points for destroying a stacked pixel ... 10 points for the first one, 
-10 + 20 points for the second one,
-10 + 20 + 20 for the third one, ..."
+text = "Get 20 points for destroying 
+a stacked pixel ... 10 points for the first one, 10 + 20 points for the second, 10 + 20 + 20 for the third, ..."
 autowrap = true
 
 [node name="LineLabel3" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/Scoring"]
@@ -3155,7 +3152,7 @@ autowrap = true
 
 [node name="LineLabel5" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/Scoring"]
 margin_top = 282.0
-margin_right = 328.0
+margin_right = 301.0
 margin_bottom = 324.0
 custom_constants/separation = 8
 __meta__ = {
@@ -3170,17 +3167,932 @@ texture = SubResource( 173 )
 
 [node name="Content5" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring/LineLabel5"]
 margin_left = 14.0
-margin_right = 328.0
+margin_right = 301.0
 margin_bottom = 42.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "Lose half of your points if you hit the wall when bursting"
+text = "Lose half of your points if you hit a wall when bursting"
 autowrap = true
+
+[node name="TutorialOver" type="Control" parent="GUI/Tutorial"]
+pause_mode = 2
+visible = false
+margin_right = 1280.0
+margin_bottom = 720.0
+script = ExtResource( 3 )
+
+[node name="Undi" type="ColorRect" parent="GUI/Tutorial/TutorialOver"]
+modulate = Color( 1, 1, 1, 0.627451 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="TitleSucces" type="Control" parent="GUI/Tutorial/TutorialOver"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -392.0
+margin_top = -168.0
+margin_right = 392.0
+margin_bottom = 144.0
+
+[node name="CleanedLabel" type="Label" parent="GUI/Tutorial/TutorialOver/TitleSucces"]
+modulate = Color( 0.368627, 1, 0.662745, 1 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -252.0
+margin_top = -2.0
+margin_right = 252.0
+margin_bottom = 30.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 5 )
+text = "You are full of colors again!"
+align = 1
+
+[node name="Congrats" type="TileMap" parent="GUI/Tutorial/TutorialOver/TitleSucces"]
+modulate = Color( 0.368627, 1, 0.662745, 1 )
+position = Vector2( 0, 64 )
+tile_set = ExtResource( 18 )
+cell_size = Vector2( 16, 16 )
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+format = 1
+tile_data = PoolIntArray( 0, 0, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 4, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 10, 0, 0, 12, 0, 0, 16, 0, 0, 18, 0, 0, 19, 0, 0, 20, 0, 0, 21, 0, 0, 22, 0, 0, 24, 0, 0, 25, 0, 0, 26, 0, 0, 27, 0, 0, 28, 0, 0, 30, 0, 0, 31, 0, 0, 32, 0, 0, 33, 0, 0, 36, 0, 0, 37, 0, 0, 38, 0, 0, 39, 0, 0, 40, 0, 0, 42, 0, 0, 43, 0, 0, 44, 0, 0, 45, 0, 0, 46, 0, 0, 48, 0, 0, 65536, 0, 0, 65542, -1610612736, 0, 65546, 0, 0, 65548, 0, 0, 65552, 0, 0, 65554, 0, 0, 65560, 0, 0, 65564, 0, 0, 65566, 0, 0, 65570, 0, 0, 65574, 0, 0, 65578, 0, 0, 65584, 0, 0, 131072, 0, 0, 131078, -1610612736, 0, 131082, 0, 0, 131084, 0, 0, 131085, 0, 0, 131088, 0, 0, 131090, 0, 0, 131096, 0, 0, 131100, 0, 0, 131102, 0, 0, 131106, 0, 0, 131110, 0, 0, 131114, 0, 0, 131120, 0, 0, 196608, 0, 0, 196614, -1610612736, 0, 196618, 0, 0, 196620, 0, 0, 196622, 0, 0, 196624, 0, 0, 196626, 0, 0, 196632, 0, 0, 196633, 0, 0, 196634, 0, 0, 196635, 0, 0, 196638, 0, 0, 196642, 0, 0, 196646, 0, 0, 196651, 0, 0, 196652, 0, 0, 196653, 0, 0, 196656, 0, 0, 262144, 0, 0, 262150, -1610612736, 0, 262154, 0, 0, 262156, 0, 0, 262159, 0, 0, 262160, 0, 0, 262162, 0, 0, 262165, 0, 0, 262166, 0, 0, 262168, 0, 0, 262172, 0, 0, 262174, 0, 0, 262175, 0, 0, 262176, 0, 0, 262177, 0, 0, 262178, 0, 0, 262182, 0, 0, 262190, 0, 0, 262192, 0, 0, 327680, -1610612736, 0, 327686, -1610612736, 0, 327690, 0, 0, 327692, 0, 0, 327696, 0, 0, 327698, 0, 0, 327702, 0, 0, 327704, 0, 0, 327708, 0, 0, 327710, 0, 0, 327714, 0, 0, 327718, 0, 0, 327726, 0, 0, 393216, 0, 0, 393217, 0, 0, 393218, 0, 0, 393219, 0, 0, 393220, 0, 0, 393222, 0, 0, 393223, 0, 0, 393224, 0, 0, 393225, 0, 0, 393226, 0, 0, 393228, 0, 0, 393232, 0, 0, 393234, 0, 0, 393235, 0, 0, 393236, 0, 0, 393237, -1610612736, 0, 393238, -1610612736, 0, 393240, 0, 0, 393244, 0, 0, 393246, 0, 0, 393250, 0, 0, 393254, 0, 0, 393258, 0, 0, 393259, 0, 0, 393260, 0, 0, 393261, 0, 0, 393262, 0, 0, 393264, 0, 0 )
+
+[node name="Yeah" type="TileMap" parent="GUI/Tutorial/TutorialOver/TitleSucces"]
+visible = false
+tile_set = ExtResource( 18 )
+cell_size = Vector2( 16, 16 )
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+format = 1
+tile_data = PoolIntArray( 0, 0, 0, 4, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 12, 0, 0, 13, 0, 0, 14, 0, 0, 15, 0, 0, 18, 0, 0, 19, 0, 0, 20, 0, 0, 21, 0, 0, 24, 0, 0, 28, 0, 0, 31, 0, 0, 32, 0, 0, 33, 0, 0, 36, 0, 0, 39, 0, 0, 42, 0, 0, 44, 0, 0, 46, 0, 0, 48, 0, 0, 65537, 0, 0, 65539, 0, 0, 65542, -1610612736, 0, 65548, 0, 0, 65554, 0, 0, 65560, 0, 0, 65564, 0, 0, 65566, 0, 0, 65570, 0, 0, 65572, 0, 0, 65575, 0, 0, 65578, 0, 0, 65580, 0, 0, 65582, 0, 0, 65584, 0, 0, 131074, 0, 0, 131078, -1610612736, 0, 131079, 0, 0, 131080, 0, 0, 131084, 0, 0, 131085, 0, 0, 131086, 0, 0, 131090, 0, 0, 131091, 0, 0, 131092, 0, 0, 131096, 0, 0, 131097, 0, 0, 131098, 0, 0, 131099, 0, 0, 131100, 0, 0, 131102, 0, 0, 131103, 0, 0, 131104, 0, 0, 131105, 0, 0, 131106, 0, 0, 131108, 0, 0, 131111, 0, 0, 131114, 0, 0, 131116, 0, 0, 131118, 0, 0, 131120, 0, 0, 196610, 0, 0, 196614, -1610612736, 0, 196620, 0, 0, 196626, 0, 0, 196632, 0, 0, 196636, 0, 0, 196638, 0, 0, 196642, 0, 0, 196644, 0, 0, 196647, 0, 0, 196650, 0, 0, 196652, 0, 0, 196654, 0, 0, 196656, 0, 0, 262146, 0, 0, 262150, -1610612736, 0, 262156, 0, 0, 262162, 0, 0, 262168, 0, 0, 262172, 0, 0, 262174, 0, 0, 262178, 0, 0, 262180, 0, 0, 262183, 0, 0, 262186, 0, 0, 262188, 0, 0, 262190, 0, 0, 262192, 0, 0, 327682, 0, 0, 327686, -1610612736, 0, 327692, 0, 0, 327698, 0, 0, 327704, 0, 0, 327708, 0, 0, 327710, 0, 0, 327714, 0, 0, 327716, 0, 0, 327719, 0, 0, 327722, 0, 0, 393218, 0, 0, 393222, 0, 0, 393223, 0, 0, 393224, 0, 0, 393225, 0, 0, 393226, 0, 0, 393228, 0, 0, 393229, 0, 0, 393230, 0, 0, 393231, 0, 0, 393232, 0, 0, 393234, 0, 0, 393235, 0, 0, 393236, 0, 0, 393237, -1610612736, 0, 393238, -1610612736, 0, 393240, 0, 0, 393244, 0, 0, 393246, 0, 0, 393250, 0, 0, 393253, 0, 0, 393254, 0, 0, 393256, 0, 0, 393257, 0, 0, 393260, 0, 0, 393262, 0, 0, 393264, 0, 0 )
+
+[node name="WellDone" type="TileMap" parent="GUI/Tutorial/TutorialOver/TitleSucces"]
+visible = false
+tile_set = ExtResource( 18 )
+cell_size = Vector2( 16, 16 )
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+format = 1
+tile_data = PoolIntArray( 65534, 0, 0, 1, 0, 0, 4, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 12, 0, 0, 18, 0, 0, 27, 0, 0, 28, 0, 0, 29, 0, 0, 30, 0, 0, 33, 0, 0, 34, 0, 0, 35, 0, 0, 36, 0, 0, 37, 0, 0, 39, 0, 0, 43, 0, 0, 45, 0, 0, 46, 0, 0, 47, 0, 0, 48, 0, 0, 51, 0, 0, 53, 0, 0, 55, 0, 0, 131070, 0, 0, 65537, 0, 0, 65540, 0, 0, 65542, -1610612736, 0, 65548, 0, 0, 65554, 0, 0, 65563, 0, 0, 65567, 0, 0, 65569, 0, 0, 65573, 0, 0, 65575, 0, 0, 65579, 0, 0, 65581, -1610612736, 0, 65587, 0, 0, 65589, 0, 0, 65591, 0, 0, 196606, 0, 0, 131073, 0, 0, 131076, 0, 0, 131078, -1610612736, 0, 131079, 0, 0, 131080, 0, 0, 131084, 0, 0, 131090, 0, 0, 131099, 0, 0, 131103, 0, 0, 131105, 0, 0, 131109, 0, 0, 131111, 0, 0, 131112, 0, 0, 131115, 0, 0, 131117, -1610612736, 0, 131118, 0, 0, 131119, 0, 0, 131123, 0, 0, 131125, 0, 0, 131127, 0, 0, 262142, 0, 0, 196609, 0, 0, 196612, 0, 0, 196614, -1610612736, 0, 196620, 0, 0, 196626, 0, 0, 196635, 0, 0, 196639, 0, 0, 196641, 0, 0, 196645, 0, 0, 196647, 0, 0, 196649, 0, 0, 196651, 0, 0, 196653, -1610612736, 0, 196659, 0, 0, 196661, 0, 0, 196663, 0, 0, 327678, 0, 0, 262145, 0, 0, 262148, 0, 0, 262150, -1610612736, 0, 262156, 0, 0, 262162, 0, 0, 262171, 0, 0, 262175, 0, 0, 262177, 0, 0, 262181, 0, 0, 262183, 0, 0, 262186, 0, 0, 262187, 0, 0, 262189, -1610612736, 0, 262195, 0, 0, 262197, 0, 0, 262199, 0, 0, 393214, 0, 0, 327681, 0, 0, 327684, 0, 0, 327686, -1610612736, 0, 327692, 0, 0, 327698, 0, 0, 327707, 0, 0, 327711, 0, 0, 327713, 0, 0, 327717, 0, 0, 327719, 0, 0, 327723, 0, 0, 327725, -1610612736, 0, 458751, 0, 0, 393216, 0, 0, 393218, 0, 0, 393219, 0, 0, 393222, 0, 0, 393223, 0, 0, 393224, 0, 0, 393225, 0, 0, 393226, 0, 0, 393228, 0, 0, 393229, 0, 0, 393230, 0, 0, 393231, 0, 0, 393232, 0, 0, 393234, 0, 0, 393235, 0, 0, 393236, 0, 0, 393237, -1610612736, 0, 393238, -1610612736, 0, 393243, 0, 0, 393244, 0, 0, 393245, 0, 0, 393246, 0, 0, 393249, 0, 0, 393250, 0, 0, 393251, 0, 0, 393252, 0, 0, 393253, 0, 0, 393255, 0, 0, 393259, 0, 0, 393261, 0, 0, 393262, 0, 0, 393263, 0, 0, 393264, 0, 0, 393265, 0, 0, 393267, 0, 0, 393269, 0, 0, 393271, 0, 0 )
+
+[node name="Reward" type="Label" parent="GUI/Tutorial/TutorialOver/TitleSucces"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -301.0
+margin_top = -82.0
+margin_right = 302.0
+margin_bottom = -12.0
+grow_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 5 )
+text = "Extra 500 points are added
+to your points total."
+align = 1
+
+[node name="TitleFailTime" type="Control" parent="GUI/Tutorial/TutorialOver"]
+visible = false
+modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -384.0
+margin_top = -168.0
+margin_right = 384.0
+margin_bottom = 8.0
+
+[node name="TimeupLabel" type="Label" parent="GUI/Tutorial/TutorialOver/TitleFailTime"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -94.0
+margin_top = -89.5
+margin_right = 95.0
+margin_bottom = -57.5
+grow_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 5 )
+text = "Time is up!"
+align = 1
+
+[node name="GameOver" type="TileMap" parent="GUI/Tutorial/TutorialOver/TitleFailTime"]
+position = Vector2( 0, 64 )
+tile_set = ExtResource( 18 )
+cell_size = Vector2( 16, 16 )
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+format = 1
+tile_data = PoolIntArray( 0, 0, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 6, -1610612736, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 12, 0, 0, 16, 0, 0, 18, 0, 0, 19, 0, 0, 20, 0, 0, 21, 0, 0, 65536, 0, 0, 65542, -1610612736, 0, 65546, 0, 0, 65548, 0, 0, 65549, 0, 0, 65551, 0, 0, 65552, 0, 0, 65554, 0, 0, 131072, 0, 0, 131078, -1610612736, 0, 131079, 0, 0, 131080, 0, 0, 131081, 0, 0, 131082, 0, 0, 131084, 0, 0, 131086, 0, 0, 131088, 0, 0, 131090, 0, 0, 131091, 0, 0, 131092, 0, 0, 196608, 0, 0, 196614, -1610612736, 0, 196618, 0, 0, 196620, 0, 0, 196624, 0, 0, 196626, 0, 0, 262144, 0, 0, 262146, 0, 0, 262147, 0, 0, 262150, -1610612736, 0, 262154, 0, 0, 262156, 0, 0, 262160, 0, 0, 262162, 0, 0, 262169, -1610612736, 0, 262170, -1610612736, 0, 262171, -1610612736, 0, 262172, -1610612736, 0, 262175, 0, 0, 262179, 0, 0, 262181, -1610612736, 0, 262182, -1610612736, 0, 262183, -1610612736, 0, 262184, -1610612736, 0, 262187, -1610612736, 0, 262188, -1610612736, 0, 262189, -1610612736, 0, 262190, -1610612736, 0, 327680, -1610612736, 0, 327684, 0, 0, 327686, -1610612736, 0, 327690, 0, 0, 327692, 0, 0, 327696, 0, 0, 327698, 0, 0, 327705, -1610612736, 0, 327709, -1610612736, 0, 327711, 0, 0, 327715, 0, 0, 327717, 0, 0, 327723, -1610612736, 0, 327727, -1610612736, 0, 393216, 0, 0, 393217, 0, 0, 393218, 0, 0, 393219, 0, 0, 393220, 0, 0, 393222, -1610612736, 0, 393226, 0, 0, 393228, 0, 0, 393232, 0, 0, 393234, 0, 0, 393235, 0, 0, 393236, 0, 0, 393237, -1610612736, 0, 393238, -1610612736, 0, 393241, -1610612736, 0, 393245, -1610612736, 0, 393247, 0, 0, 393251, 0, 0, 393253, 0, 0, 393254, 0, 0, 393255, 0, 0, 393259, -1610612736, 0, 393260, -1610612736, 0, 393261, -1610612736, 0, 393262, -1610612736, 0, 458777, -1610612736, 0, 458781, -1610612736, 0, 458783, 0, 0, 458787, 0, 0, 458789, 0, 0, 458795, -1610612736, 0, 458799, -1610612736, 0, 524313, -1610612736, 0, 524317, -1610612736, 0, 524319, 0, 0, 524323, 0, 0, 524325, 0, 0, 524331, -1610612736, 0, 524335, -1610612736, 0, 589849, -1610612736, 0, 589853, -1610612736, 0, 589856, 0, 0, 589858, 0, 0, 589861, 0, 0, 589867, -1610612736, 0, 589871, -1610612736, 0, 655385, -1610612736, 0, 655386, 0, 0, 655387, 0, 0, 655388, 0, 0, 655389, -1610612736, 0, 655393, 0, 0, 655397, 0, 0, 655398, 0, 0, 655399, 0, 0, 655400, 0, 0, 655401, 0, 0, 655403, -1610612736, 0, 655407, -1610612736, 0 )
+
+[node name="TitleFailLife" type="Control" parent="GUI/Tutorial/TutorialOver"]
+visible = false
+modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -384.0
+margin_top = -168.0
+margin_right = 384.0
+margin_bottom = 8.0
+
+[node name="DiedLabel" type="Label" parent="GUI/Tutorial/TutorialOver/TitleFailLife"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -190.0
+margin_top = -89.5
+margin_right = 191.0
+margin_bottom = -57.5
+grow_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 5 )
+text = "You are colorless forever!"
+align = 1
+
+[node name="GameOver" type="TileMap" parent="GUI/Tutorial/TutorialOver/TitleFailLife"]
+position = Vector2( 0, 64 )
+tile_set = ExtResource( 18 )
+cell_size = Vector2( 16, 16 )
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+format = 1
+tile_data = PoolIntArray( 0, 0, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 6, -1610612736, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 12, 0, 0, 16, 0, 0, 18, 0, 0, 19, 0, 0, 20, 0, 0, 21, 0, 0, 65536, 0, 0, 65542, -1610612736, 0, 65546, 0, 0, 65548, 0, 0, 65549, 0, 0, 65551, 0, 0, 65552, 0, 0, 65554, 0, 0, 131072, 0, 0, 131078, -1610612736, 0, 131079, 0, 0, 131080, 0, 0, 131081, 0, 0, 131082, 0, 0, 131084, 0, 0, 131086, 0, 0, 131088, 0, 0, 131090, 0, 0, 131091, 0, 0, 131092, 0, 0, 196608, 0, 0, 196614, -1610612736, 0, 196618, 0, 0, 196620, 0, 0, 196624, 0, 0, 196626, 0, 0, 262144, 0, 0, 262146, 0, 0, 262147, 0, 0, 262150, -1610612736, 0, 262154, 0, 0, 262156, 0, 0, 262160, 0, 0, 262162, 0, 0, 262169, -1610612736, 0, 262170, -1610612736, 0, 262171, -1610612736, 0, 262172, -1610612736, 0, 262175, 0, 0, 262179, 0, 0, 262181, -1610612736, 0, 262182, -1610612736, 0, 262183, -1610612736, 0, 262184, -1610612736, 0, 262187, -1610612736, 0, 262188, -1610612736, 0, 262189, -1610612736, 0, 262190, -1610612736, 0, 327680, -1610612736, 0, 327684, 0, 0, 327686, -1610612736, 0, 327690, 0, 0, 327692, 0, 0, 327696, 0, 0, 327698, 0, 0, 327705, -1610612736, 0, 327709, -1610612736, 0, 327711, 0, 0, 327715, 0, 0, 327717, 0, 0, 327723, -1610612736, 0, 327727, -1610612736, 0, 393216, 0, 0, 393217, 0, 0, 393218, 0, 0, 393219, 0, 0, 393220, 0, 0, 393222, -1610612736, 0, 393226, 0, 0, 393228, 0, 0, 393232, 0, 0, 393234, 0, 0, 393235, 0, 0, 393236, 0, 0, 393237, -1610612736, 0, 393238, -1610612736, 0, 393241, -1610612736, 0, 393245, -1610612736, 0, 393247, 0, 0, 393251, 0, 0, 393253, 0, 0, 393254, 0, 0, 393255, 0, 0, 393259, -1610612736, 0, 393260, -1610612736, 0, 393261, -1610612736, 0, 393262, -1610612736, 0, 458777, -1610612736, 0, 458781, -1610612736, 0, 458783, 0, 0, 458787, 0, 0, 458789, 0, 0, 458795, -1610612736, 0, 458799, -1610612736, 0, 524313, -1610612736, 0, 524317, -1610612736, 0, 524319, 0, 0, 524323, 0, 0, 524325, 0, 0, 524331, -1610612736, 0, 524335, -1610612736, 0, 589849, -1610612736, 0, 589853, -1610612736, 0, 589856, 0, 0, 589858, 0, 0, 589861, 0, 0, 589867, -1610612736, 0, 589871, -1610612736, 0, 655385, -1610612736, 0, 655386, 0, 0, 655387, 0, 0, 655388, 0, 0, 655389, -1610612736, 0, 655393, 0, 0, 655397, 0, 0, 655398, 0, 0, 655399, 0, 0, 655400, 0, 0, 655401, 0, 0, 655403, -1610612736, 0, 655407, -1610612736, 0 )
+
+[node name="ContentGame" type="Control" parent="GUI/Tutorial/TutorialOver"]
+visible = false
+margin_right = 1280.0
+margin_bottom = 720.0
+
+[node name="Title" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame"]
+modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -273.0
+margin_top = -194.5
+margin_right = -63.0
+margin_bottom = -162.5
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 5 )
+text = "GAME STATS"
+
+[node name="DataContainer" type="VBoxContainer" parent="GUI/Tutorial/TutorialOver/ContentGame"]
+margin_left = 368.0
+margin_top = 238.0
+margin_right = 624.0
+margin_bottom = 484.0
+custom_constants/separation = 10
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Level" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/DataContainer"]
+margin_right = 282.0
+margin_bottom = 22.0
+text = "Level: %s"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Points" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/DataContainer"]
+margin_top = 32.0
+margin_right = 282.0
+margin_bottom = 54.0
+text = "Points total: %s"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Time" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/DataContainer"]
+margin_top = 64.0
+margin_right = 282.0
+margin_bottom = 86.0
+text = "Time used:  %s seconds"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="CellsTravelled" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/DataContainer"]
+margin_top = 96.0
+margin_right = 282.0
+margin_bottom = 118.0
+text = "Cells travelled: %s"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="BurstCount" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/DataContainer"]
+margin_top = 128.0
+margin_right = 282.0
+margin_bottom = 150.0
+text = "Burst count: %s"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SkillsUsed" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/DataContainer"]
+margin_top = 160.0
+margin_right = 282.0
+margin_bottom = 182.0
+text = "Skill count: %s"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="PixelsOff" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/DataContainer"]
+margin_top = 192.0
+margin_right = 282.0
+margin_bottom = 214.0
+text = "Colors collected: %s"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="AstrayPixels" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/DataContainer"]
+margin_top = 224.0
+margin_right = 282.0
+margin_bottom = 246.0
+text = "Pixels left astray: %s"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="TitleHS" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame"]
+visible = false
+margin_left = 678.0
+margin_top = 152.0
+margin_right = 928.0
+margin_bottom = 174.0
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "TOP PLAYERS ON %s"
+align = 1
+
+[node name="HSeparator" type="HSeparator" parent="GUI/Tutorial/TutorialOver/ContentGame/TitleHS"]
+modulate = Color( 1, 1, 1, 0.901961 )
+margin_left = 1.0
+margin_top = 30.0
+margin_right = 250.0
+margin_bottom = 41.0
+
+[node name="HighscoreTable" type="VBoxContainer" parent="GUI/Tutorial/TutorialOver/ContentGame"]
+margin_left = 705.0
+margin_top = 168.0
+margin_right = 911.0
+margin_bottom = 506.0
+custom_constants/separation = 10
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="RowLabels" type="HBoxContainer" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable"]
+margin_right = 206.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 0, 28 )
+
+[node name="Position" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/RowLabels"]
+margin_right = 28.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 28, 0 )
+size_flags_horizontal = 2
+size_flags_vertical = 0
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "#"
+
+[node name="Owner" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/RowLabels"]
+margin_left = 32.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 100, 0 )
+size_flags_horizontal = 11
+size_flags_vertical = 0
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Player"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/RowLabels"]
+margin_left = 136.0
+margin_right = 206.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+size_flags_vertical = 0
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Score"
+align = 2
+
+[node name="ScoreLine1" type="HBoxContainer" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable"]
+margin_top = 38.0
+margin_right = 206.0
+margin_bottom = 60.0
+
+[node name="Position" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine1"]
+margin_right = 28.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 28, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine1"]
+margin_left = 32.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 100, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Player"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine1"]
+margin_left = 136.0
+margin_right = 206.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "0000"
+align = 2
+
+[node name="ScoreLine2" type="HBoxContainer" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable"]
+margin_top = 70.0
+margin_right = 206.0
+margin_bottom = 92.0
+
+[node name="Position" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine2"]
+margin_right = 28.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 28, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine2"]
+margin_left = 32.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 100, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Player"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine2"]
+margin_left = 136.0
+margin_right = 206.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "0000"
+align = 2
+
+[node name="ScoreLine3" type="HBoxContainer" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable"]
+margin_top = 102.0
+margin_right = 206.0
+margin_bottom = 124.0
+
+[node name="Position" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine3"]
+margin_right = 28.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 28, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine3"]
+margin_left = 32.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 100, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Player"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine3"]
+margin_left = 136.0
+margin_right = 206.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "0000"
+align = 2
+
+[node name="ScoreLine4" type="HBoxContainer" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable"]
+margin_top = 134.0
+margin_right = 206.0
+margin_bottom = 156.0
+
+[node name="Position" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine4"]
+margin_right = 28.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 28, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine4"]
+margin_left = 32.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 100, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Player"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine4"]
+margin_left = 136.0
+margin_right = 206.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "0000"
+align = 2
+
+[node name="ScoreLine5" type="HBoxContainer" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable"]
+margin_top = 166.0
+margin_right = 206.0
+margin_bottom = 188.0
+
+[node name="Position" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine5"]
+margin_right = 28.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 28, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine5"]
+margin_left = 32.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 100, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Player"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine5"]
+margin_left = 136.0
+margin_right = 206.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "0000"
+align = 2
+
+[node name="ScoreLine6" type="HBoxContainer" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable"]
+margin_top = 198.0
+margin_right = 206.0
+margin_bottom = 220.0
+
+[node name="Position" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine6"]
+margin_right = 28.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 28, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine6"]
+margin_left = 32.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 100, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Player"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine6"]
+margin_left = 136.0
+margin_right = 206.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "0000"
+align = 2
+
+[node name="ScoreLine7" type="HBoxContainer" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable"]
+margin_top = 230.0
+margin_right = 206.0
+margin_bottom = 252.0
+
+[node name="Position" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine7"]
+margin_right = 28.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 28, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine7"]
+margin_left = 32.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 100, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Player"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine7"]
+margin_left = 136.0
+margin_right = 206.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "0000"
+align = 2
+
+[node name="ScoreLine8" type="HBoxContainer" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable"]
+margin_top = 262.0
+margin_right = 206.0
+margin_bottom = 284.0
+
+[node name="Position" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine8"]
+margin_right = 28.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 28, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine8"]
+margin_left = 32.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 100, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Player"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine8"]
+margin_left = 136.0
+margin_right = 206.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "0000"
+align = 2
+
+[node name="ScoreLine9" type="HBoxContainer" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable"]
+margin_top = 294.0
+margin_right = 206.0
+margin_bottom = 316.0
+
+[node name="Position" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine9"]
+margin_right = 28.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 28, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine9"]
+margin_left = 32.0
+margin_right = 132.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 100, 0 )
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "Player"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/Tutorial/TutorialOver/ContentGame/HighscoreTable/ScoreLine9"]
+margin_left = 136.0
+margin_right = 206.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
+text = "0000"
+align = 2
+
+[node name="Menu" type="HBoxContainer" parent="GUI/Tutorial/TutorialOver/ContentGame"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -106.0
+margin_top = -162.0
+margin_right = 110.0
+margin_bottom = -140.0
+custom_constants/separation = 32
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="QuitBtn" type="Button" parent="GUI/Tutorial/TutorialOver/ContentGame/Menu"]
+margin_right = 52.0
+margin_bottom = 22.0
+focus_neighbour_left = NodePath("../RestartBtn")
+focus_neighbour_right = NodePath("../RestartBtn")
+size_flags_horizontal = 2
+size_flags_vertical = 8
+theme = ExtResource( 4 )
+text = "QUIT"
+
+[node name="RestartBtn" type="Button" parent="GUI/Tutorial/TutorialOver/ContentGame/Menu"]
+margin_left = 84.0
+margin_right = 216.0
+margin_bottom = 22.0
+focus_neighbour_left = NodePath("../QuitBtn")
+focus_neighbour_right = NodePath("../QuitBtn")
+focus_mode = 1
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme = ExtResource( 4 )
+enabled_focus_mode = 1
+text = "PLAY AGAIN"
+
+[node name="ContentPractice" type="Control" parent="GUI/Tutorial/TutorialOver"]
+visible = false
+margin_right = 1280.0
+margin_bottom = 720.0
+
+[node name="Title" type="Label" parent="GUI/Tutorial/TutorialOver/ContentPractice"]
+modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -137.0
+margin_top = -194.5
+margin_right = 136.0
+margin_bottom = -162.5
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 5 )
+text = "GAME STATS"
+align = 1
+
+[node name="DataContainer" type="VBoxContainer" parent="GUI/Tutorial/TutorialOver/ContentPractice"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -128.0
+margin_top = -122.0
+margin_right = 128.0
+margin_bottom = 124.0
+custom_constants/separation = 10
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Level" type="Label" parent="GUI/Tutorial/TutorialOver/ContentPractice/DataContainer"]
+margin_right = 282.0
+margin_bottom = 22.0
+text = "Level: %s"
+align = 1
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Points" type="Label" parent="GUI/Tutorial/TutorialOver/ContentPractice/DataContainer"]
+margin_top = 32.0
+margin_right = 282.0
+margin_bottom = 54.0
+text = "Points total: %s"
+align = 1
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Time" type="Label" parent="GUI/Tutorial/TutorialOver/ContentPractice/DataContainer"]
+margin_top = 64.0
+margin_right = 282.0
+margin_bottom = 86.0
+text = "Time used:  %s seconds"
+align = 1
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="CellsTravelled" type="Label" parent="GUI/Tutorial/TutorialOver/ContentPractice/DataContainer"]
+margin_top = 96.0
+margin_right = 282.0
+margin_bottom = 118.0
+text = "Cells travelled: %s"
+align = 1
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="BurstCount" type="Label" parent="GUI/Tutorial/TutorialOver/ContentPractice/DataContainer"]
+margin_top = 128.0
+margin_right = 282.0
+margin_bottom = 150.0
+text = "Burst count: %s"
+align = 1
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SkillsUsed" type="Label" parent="GUI/Tutorial/TutorialOver/ContentPractice/DataContainer"]
+margin_top = 160.0
+margin_right = 282.0
+margin_bottom = 182.0
+text = "Skill count: %s"
+align = 1
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="PixelsOff" type="Label" parent="GUI/Tutorial/TutorialOver/ContentPractice/DataContainer"]
+margin_top = 192.0
+margin_right = 282.0
+margin_bottom = 214.0
+text = "Colors collected: %s"
+align = 1
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="AstrayPixels" type="Label" parent="GUI/Tutorial/TutorialOver/ContentPractice/DataContainer"]
+margin_top = 224.0
+margin_right = 282.0
+margin_bottom = 246.0
+text = "Pixels left astray: %s"
+align = 1
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Menu" type="HBoxContainer" parent="GUI/Tutorial/TutorialOver/ContentPractice"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -106.0
+margin_top = -162.0
+margin_right = 110.0
+margin_bottom = -140.0
+custom_constants/separation = 32
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="QuitBtn" type="Button" parent="GUI/Tutorial/TutorialOver/ContentPractice/Menu"]
+margin_right = 52.0
+margin_bottom = 22.0
+focus_neighbour_left = NodePath("../RestartBtn")
+focus_neighbour_right = NodePath("../RestartBtn")
+size_flags_horizontal = 2
+size_flags_vertical = 8
+theme = ExtResource( 4 )
+text = "QUIT"
+
+[node name="RestartBtn" type="Button" parent="GUI/Tutorial/TutorialOver/ContentPractice/Menu"]
+margin_left = 84.0
+margin_right = 216.0
+margin_bottom = 22.0
+focus_neighbour_left = NodePath("../QuitBtn")
+focus_neighbour_right = NodePath("../QuitBtn")
+focus_mode = 1
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme = ExtResource( 4 )
+enabled_focus_mode = 1
+text = "PLAY AGAIN"
+
+[node name="NameInputPopup" type="Control" parent="GUI/Tutorial/TutorialOver"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -224.0
+margin_top = -168.0
+margin_right = 224.0
+margin_bottom = 120.0
+
+[node name="Undi" type="Panel" parent="GUI/Tutorial/TutorialOver/NameInputPopup"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Label" type="Label" parent="GUI/Tutorial/TutorialOver/NameInputPopup"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -92.0
+margin_top = 38.0
+margin_right = 92.0
+margin_bottom = 59.0
+size_flags_vertical = 3
+text = "Congrats!"
+align = 1
+autowrap = true
+
+[node name="Label2" type="Label" parent="GUI/Tutorial/TutorialOver/NameInputPopup"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -176.0
+margin_top = 77.0
+margin_right = 176.0
+margin_bottom = 133.0
+size_flags_vertical = 3
+text = "You are one of the best \"Pixel Astray\" players ever."
+align = 1
+autowrap = true
+
+[node name="NameInput" type="LineEdit" parent="GUI/Tutorial/TutorialOver/NameInputPopup"]
+margin_left = 104.0
+margin_top = 151.0
+margin_right = 344.0
+margin_bottom = 191.0
+rect_min_size = Vector2( 240, 40 )
+focus_neighbour_bottom = NodePath("../HBoxContainer/ConfirmBtn")
+focus_next = NodePath("../HBoxContainer/ConfirmBtn")
+size_flags_horizontal = 4
+size_flags_vertical = 6
+text = "..."
+align = 1
+max_length = 8
+caret_blink = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GUI/Tutorial/TutorialOver/NameInputPopup"]
+margin_left = 106.0
+margin_top = 224.0
+margin_right = 341.0
+margin_bottom = 245.0
+rect_min_size = Vector2( 235, 0 )
+size_flags_horizontal = 4
+size_flags_vertical = 11
+
+[node name="CancelBtn" type="Button" parent="GUI/Tutorial/TutorialOver/NameInputPopup/HBoxContainer"]
+margin_right = 84.0
+margin_bottom = 22.0
+focus_neighbour_top = NodePath("../../NameInput")
+focus_neighbour_right = NodePath("../ConfirmBtn")
+focus_next = NodePath("../../NameInput")
+size_flags_horizontal = 2
+text = "CANCEL"
+
+[node name="ConfirmBtn" type="Button" parent="GUI/Tutorial/TutorialOver/NameInputPopup/HBoxContainer"]
+margin_left = 137.0
+margin_right = 235.0
+margin_bottom = 22.0
+focus_neighbour_left = NodePath("../CancelBtn")
+focus_neighbour_top = NodePath("../../NameInput")
+focus_next = NodePath("../CancelBtn")
+size_flags_horizontal = 0
+size_flags_vertical = 9
+text = "CONFIRM"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/Tutorial"]
 anims/RESET = SubResource( 171 )
 anims/mission_in = SubResource( 180 )
+anims/tutorial_end = SubResource( 182 )
 anims/tutorial_start = SubResource( 172 )
 "anims/tutorial_start odl" = SubResource( 181 )
 
@@ -3495,13 +4407,9 @@ autowrap = true
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
-visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
 script = ExtResource( 3 )
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="Undi" type="ColorRect" parent="GUI/GameOver"]
 modulate = Color( 1, 1, 1, 0.627451 )
@@ -3633,7 +4541,7 @@ margin_bottom = -57.5
 grow_horizontal = 2
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 5 )
-text = "You are colorless forever!"
+text = "You are forever colorless!"
 align = 1
 
 [node name="GameOver" type="TileMap" parent="GUI/GameOver/TitleFailLife"]
@@ -4181,13 +5089,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -137.0
-margin_top = -194.5
-margin_right = 136.0
-margin_bottom = -162.5
+margin_left = -141.0
+margin_top = -186.0
+margin_right = 141.0
+margin_bottom = -154.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 5 )
-text = "GAME STATS"
+text = "PRACTICE STATS"
 align = 1
 
 [node name="DataContainer" type="VBoxContainer" parent="GUI/GameOver/ContentPractice"]
@@ -4195,17 +5103,18 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -128.0
-margin_top = -122.0
-margin_right = 128.0
-margin_bottom = 124.0
+margin_left = -141.0
+margin_top = -114.0
+margin_right = 141.0
+margin_bottom = 132.0
 custom_constants/separation = 10
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Level" type="Label" parent="GUI/GameOver/ContentPractice/DataContainer"]
-margin_right = 256.0
+visible = false
+margin_right = 282.0
 margin_bottom = 22.0
 text = "Level: %s"
 align = 1
@@ -4215,9 +5124,8 @@ __meta__ = {
 }
 
 [node name="Points" type="Label" parent="GUI/GameOver/ContentPractice/DataContainer"]
-margin_top = 32.0
-margin_right = 256.0
-margin_bottom = 54.0
+margin_right = 282.0
+margin_bottom = 22.0
 text = "Points total: %s"
 align = 1
 valign = 2
@@ -4226,9 +5134,9 @@ __meta__ = {
 }
 
 [node name="Time" type="Label" parent="GUI/GameOver/ContentPractice/DataContainer"]
-margin_top = 64.0
-margin_right = 256.0
-margin_bottom = 86.0
+margin_top = 32.0
+margin_right = 282.0
+margin_bottom = 54.0
 text = "Time used:  %s seconds"
 align = 1
 valign = 2
@@ -4237,9 +5145,9 @@ __meta__ = {
 }
 
 [node name="CellsTravelled" type="Label" parent="GUI/GameOver/ContentPractice/DataContainer"]
-margin_top = 96.0
-margin_right = 256.0
-margin_bottom = 118.0
+margin_top = 64.0
+margin_right = 282.0
+margin_bottom = 86.0
 text = "Cells travelled: %s"
 align = 1
 valign = 2
@@ -4248,9 +5156,9 @@ __meta__ = {
 }
 
 [node name="BurstCount" type="Label" parent="GUI/GameOver/ContentPractice/DataContainer"]
-margin_top = 128.0
-margin_right = 256.0
-margin_bottom = 150.0
+margin_top = 96.0
+margin_right = 282.0
+margin_bottom = 118.0
 text = "Burst count: %s"
 align = 1
 valign = 2
@@ -4259,9 +5167,9 @@ __meta__ = {
 }
 
 [node name="SkillsUsed" type="Label" parent="GUI/GameOver/ContentPractice/DataContainer"]
-margin_top = 160.0
-margin_right = 256.0
-margin_bottom = 182.0
+margin_top = 128.0
+margin_right = 282.0
+margin_bottom = 150.0
 text = "Skill count: %s"
 align = 1
 valign = 2
@@ -4270,9 +5178,9 @@ __meta__ = {
 }
 
 [node name="PixelsOff" type="Label" parent="GUI/GameOver/ContentPractice/DataContainer"]
-margin_top = 192.0
-margin_right = 256.0
-margin_bottom = 214.0
+margin_top = 160.0
+margin_right = 282.0
+margin_bottom = 182.0
 text = "Colors collected: %s"
 align = 1
 valign = 2
@@ -4281,9 +5189,9 @@ __meta__ = {
 }
 
 [node name="AstrayPixels" type="Label" parent="GUI/GameOver/ContentPractice/DataContainer"]
-margin_top = 224.0
-margin_right = 256.0
-margin_bottom = 246.0
+margin_top = 192.0
+margin_right = 282.0
+margin_bottom = 214.0
 text = "Pixels left astray: %s"
 align = 1
 valign = 2
@@ -4297,9 +5205,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -106.0
-margin_top = -162.0
+margin_top = -178.0
 margin_right = 110.0
-margin_bottom = -140.0
+margin_bottom = -156.0
 custom_constants/separation = 32
 __meta__ = {
 "_edit_group_": true
@@ -4316,6 +5224,165 @@ theme = ExtResource( 4 )
 text = "QUIT"
 
 [node name="RestartBtn" type="Button" parent="GUI/GameOver/ContentPractice/Menu"]
+margin_left = 84.0
+margin_right = 216.0
+margin_bottom = 22.0
+focus_neighbour_left = NodePath("../QuitBtn")
+focus_neighbour_right = NodePath("../QuitBtn")
+focus_mode = 1
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme = ExtResource( 4 )
+enabled_focus_mode = 1
+text = "PLAY AGAIN"
+
+[node name="ContentTutorial" type="Control" parent="GUI/GameOver"]
+visible = false
+margin_right = 1280.0
+margin_bottom = 720.0
+
+[node name="Title" type="Label" parent="GUI/GameOver/ContentTutorial"]
+modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -140.0
+margin_top = -170.5
+margin_right = 142.0
+margin_bottom = -138.5
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 5 )
+text = "TUTORIAL STATS"
+align = 1
+
+[node name="DataContainer" type="VBoxContainer" parent="GUI/GameOver/ContentTutorial"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -128.0
+margin_top = -98.0
+margin_right = 128.0
+margin_bottom = 84.0
+custom_constants/separation = 10
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Level" type="Label" parent="GUI/GameOver/ContentTutorial/DataContainer"]
+visible = false
+margin_right = 282.0
+margin_bottom = 22.0
+text = "Level: %s"
+align = 1
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Points" type="Label" parent="GUI/GameOver/ContentTutorial/DataContainer"]
+margin_right = 256.0
+margin_bottom = 22.0
+text = "Points total: %s"
+align = 1
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Time" type="Label" parent="GUI/GameOver/ContentTutorial/DataContainer"]
+visible = false
+margin_top = 32.0
+margin_right = 282.0
+margin_bottom = 54.0
+text = "Time used:  %s seconds"
+align = 1
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="CellsTravelled" type="Label" parent="GUI/GameOver/ContentTutorial/DataContainer"]
+margin_top = 32.0
+margin_right = 256.0
+margin_bottom = 54.0
+text = "Cells travelled: %s"
+align = 1
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="BurstCount" type="Label" parent="GUI/GameOver/ContentTutorial/DataContainer"]
+margin_top = 64.0
+margin_right = 256.0
+margin_bottom = 86.0
+text = "Burst count: %s"
+align = 1
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SkillsUsed" type="Label" parent="GUI/GameOver/ContentTutorial/DataContainer"]
+margin_top = 96.0
+margin_right = 256.0
+margin_bottom = 118.0
+text = "Skill count: %s"
+align = 1
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="PixelsOff" type="Label" parent="GUI/GameOver/ContentTutorial/DataContainer"]
+margin_top = 128.0
+margin_right = 256.0
+margin_bottom = 150.0
+text = "Colors collected: %s"
+align = 1
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="AstrayPixels" type="Label" parent="GUI/GameOver/ContentTutorial/DataContainer"]
+margin_top = 160.0
+margin_right = 256.0
+margin_bottom = 182.0
+text = "Pixels left astray: %s"
+align = 1
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Menu" type="HBoxContainer" parent="GUI/GameOver/ContentTutorial"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -106.0
+margin_top = -194.0
+margin_right = 110.0
+margin_bottom = -172.0
+custom_constants/separation = 32
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="QuitBtn" type="Button" parent="GUI/GameOver/ContentTutorial/Menu"]
+margin_right = 52.0
+margin_bottom = 22.0
+focus_neighbour_left = NodePath("../RestartBtn")
+focus_neighbour_right = NodePath("../RestartBtn")
+size_flags_horizontal = 2
+size_flags_vertical = 8
+theme = ExtResource( 4 )
+text = "QUIT"
+
+[node name="RestartBtn" type="Button" parent="GUI/GameOver/ContentTutorial/Menu"]
 margin_left = 84.0
 margin_right = 216.0
 margin_bottom = 22.0
@@ -4459,6 +5526,14 @@ text = "CONFIRM"
 [connection signal="pressed" from="GUI/Basics/ContinueBtn" to="GUI/Tutorial" method="_on_ContinueBtn_pressed"]
 [connection signal="pressed" from="GUI/Tutorial/MissionPanel/Menu/StartBtn" to="GUI/Tutorial" method="_on_StartBtn_pressed"]
 [connection signal="pressed" from="GUI/Tutorial/MissionPanel/Menu/QuitBtn" to="GUI/Tutorial" method="_on_QuitBtn_pressed"]
+[connection signal="pressed" from="GUI/Tutorial/TutorialOver/ContentGame/Menu/QuitBtn" to="GUI/Tutorial/TutorialOver" method="_on_QuitBtn_pressed"]
+[connection signal="pressed" from="GUI/Tutorial/TutorialOver/ContentGame/Menu/RestartBtn" to="GUI/Tutorial/TutorialOver" method="_on_RestartBtn_pressed"]
+[connection signal="pressed" from="GUI/Tutorial/TutorialOver/ContentPractice/Menu/QuitBtn" to="GUI/Tutorial/TutorialOver" method="_on_QuitBtn_pressed"]
+[connection signal="pressed" from="GUI/Tutorial/TutorialOver/ContentPractice/Menu/RestartBtn" to="GUI/Tutorial/TutorialOver" method="_on_RestartBtn_pressed"]
+[connection signal="text_changed" from="GUI/Tutorial/TutorialOver/NameInputPopup/NameInput" to="GUI/Tutorial/TutorialOver" method="_on_NameEdit_text_changed"]
+[connection signal="text_entered" from="GUI/Tutorial/TutorialOver/NameInputPopup/NameInput" to="GUI/Tutorial/TutorialOver" method="_on_PopupNameEdit_text_entered"]
+[connection signal="pressed" from="GUI/Tutorial/TutorialOver/NameInputPopup/HBoxContainer/CancelBtn" to="GUI/Tutorial/TutorialOver" method="_on_CancelBtn_pressed"]
+[connection signal="pressed" from="GUI/Tutorial/TutorialOver/NameInputPopup/HBoxContainer/ConfirmBtn" to="GUI/Tutorial/TutorialOver" method="_on_ConfirmBtn_pressed"]
 [connection signal="animation_finished" from="GUI/Tutorial/AnimationPlayer" to="GUI/Tutorial" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="toggled" from="GUI/PauseMenu/Settings/GameMusicCheckBox" to="GUI/PauseMenu" method="_on_GameMusicCheckBox_toggled"]
 [connection signal="value_changed" from="GUI/PauseMenu/Settings/GameMusicSlider" to="GUI/PauseMenu" method="_on_GameMusicSlider_value_changed"]
@@ -4471,6 +5546,8 @@ text = "CONFIRM"
 [connection signal="pressed" from="GUI/GameOver/ContentGame/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/ContentPractice/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/ContentPractice/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/ContentTutorial/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/ContentTutorial/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
 [connection signal="text_changed" from="GUI/GameOver/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_NameEdit_text_changed"]
 [connection signal="text_entered" from="GUI/GameOver/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_PopupNameEdit_text_entered"]
 [connection signal="pressed" from="GUI/GameOver/NameInputPopup/HBoxContainer/CancelBtn" to="GUI/GameOver" method="_on_CancelBtn_pressed"]
