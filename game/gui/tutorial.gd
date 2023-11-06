@@ -4,17 +4,26 @@ extends Control
 enum TutorialStage {MISSION, TRAVELING, BURSTING, SKILLING, STACKING, WINLOSE}
 var current_tutorial_stage
 
-var stage_height_traveling: int = 232
-var stage_height_bursting: int = 392
-var stage_height_skilling: int = 392
-var stage_height_stacking: int = 336
-var stage_height_winlose: int = 320
+# min heights
+var xtra_separation_height: int = 14
+var stage_height_traveling: int = 234
+var stage_height_bursting: int = 394
+var stage_height_skilling: int = 394
+var stage_height_stacking: int = 338
+var stage_height_winlose: int = 300
 
 # za beleženje vmesnih rezultatov
 var traveling_directions: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
 var all_skills: Array = ["push", "pull", "teleport"]
+var xtra_separation: HSeparator # dodatek za razmak pod odprtim tutorial tekstom
 
 onready var animation_player: AnimationPlayer = $AnimationPlayer
+# xtra separation
+onready var travel_sepa: HSeparator = $Checkpoints/TravelSepa
+onready var bursting_sepa: HSeparator = $Checkpoints/BurstingSepa
+onready var skilling_sepa: HSeparator = $Checkpoints/SkillingSepa
+onready var stacking_sepa: HSeparator = $Checkpoints/StackingSepa
+onready var win_lose_sepa: HSeparator = $Checkpoints/WinLoseSepa
 # stages
 onready var mission_panel: Control = $MissionPanel
 onready var hud_guide: Control = $HudGuide
@@ -47,10 +56,6 @@ func _input(event: InputEvent) -> void:
 			finish_traveling()	
 
 	
-#func _process(delta: float) -> void:
-#	pass
-	
-	
 func _ready() -> void:
 	
 	Global.tutorial_gui = self # za statse iz GMja
@@ -61,18 +66,23 @@ func _ready() -> void:
 		
 	traveling_content.visible = true
 	traveling_content.rect_min_size.y = 0
+	travel_sepa.visible = false
 	
 	bursting_content.visible = true
 	bursting_content.rect_min_size.y = 0
+	bursting_sepa.visible = false
 	
 	skilling_content.visible = true
 	skilling_content.rect_min_size.y = 0
+	skilling_sepa.visible = false
 	
 	stacking_content.visible = true
 	stacking_content.rect_min_size.y = 0
+	stacking_sepa.visible = false
 	
 	winlose_content.visible = true
 	winlose_content.rect_min_size.y = 0
+	win_lose_sepa.visible = false
 
 
 func start(): # kliče se z GM
@@ -82,80 +92,60 @@ func start(): # kliče se z GM
 	animation_player.play("mission_in")
 
 
-func change_stage(stage_to_hide: Control, next_stage: Control, next_stage_height: int):
+func change_stage(stage_to_hide: Control, next_stage: Control, next_stage_height: int, separation_adon: Control, next_stage_enum):
 	
 	Global.sound_manager.play_gui_sfx("tutorial_stage_done")
+	current_tutorial_stage = next_stage_enum
 	
 	var close_stage = get_tree().create_tween()
-	close_stage.tween_callback(self, "set_stage", [next_stage])
 	close_stage.tween_property(stage_to_hide, "rect_min_size:y", 0, 1).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC).set_delay(0.5)
-	close_stage.tween_callback(self, "open_stage", [next_stage, next_stage_height])
+	close_stage.parallel().tween_property(xtra_separation, "rect_min_size:y", 0, 0.5).set_delay(0.5)
+	close_stage.parallel().tween_property(xtra_separation, "visible", false, 0).set_delay(1)
+	close_stage.tween_callback(self, "open_stage", [next_stage, next_stage_height, separation_adon])
 	
 
-func open_stage(stage_to_show, stage_height):
+func open_stage(stage_to_show, stage_height, next_separation_adon):
+	
+	xtra_separation = next_separation_adon
 	
 	var open_stage = get_tree().create_tween()
-	open_stage.tween_callback(self, "set_stage", [stage_to_show])
 	open_stage.tween_property(stage_to_show, "rect_min_size:y", stage_height, 1).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
-	open_stage.tween_property(stage_to_show, "modulate:a", 1, 0.5)
-
-			
-func set_stage(active_stage_node):
-	
-	match active_stage_node:
-		traveling_content:
-			current_tutorial_stage = TutorialStage.TRAVELING
-#			traveling_label.modulate = Global.color_white
-		bursting_content:
-			current_tutorial_stage = TutorialStage.BURSTING
-#			bursting_label.modulate = Global.color_white
-		skilling_content:
-			current_tutorial_stage = TutorialStage.SKILLING
-#			skilling_label.modulate = Global.color_white
-		stacking_content:
-			current_tutorial_stage = TutorialStage.STACKING
-#			stacking_label.modulate = Global.color_white
-		winlose_content:
-			current_tutorial_stage = TutorialStage.WINLOSE
-#			winlose_label.modulate = Global.color_white
+	open_stage.parallel().tween_property(xtra_separation, "visible", true, 0).set_delay(0.5)
+	open_stage.parallel().tween_property(xtra_separation, "rect_min_size:y", xtra_separation_height, 0.3).set_delay(0.5)
 
 
 # STAGES ------------------------------------------------------------------------------------------------------------------	
 
 
 func finish_traveling():
-	
-	traveling_label.modulate = Global.color_green
 	if not current_tutorial_stage == TutorialStage.TRAVELING:
 		return	
-	change_stage(traveling_content, bursting_content, stage_height_bursting)
+	traveling_label.modulate = Global.color_green
+	change_stage(traveling_content, bursting_content, stage_height_bursting, bursting_sepa, TutorialStage.BURSTING)
 	
-	yield(get_tree().create_timer(2.5), "timeout")
-	Global.game_manager.stray_pixels_count = 10
+	yield(get_tree().create_timer(1), "timeout")
 	Global.game_manager.generate_strays()	
 
 	
 func finish_bursting():
-
-	bursting_label.modulate = Global.color_green
 	if not current_tutorial_stage == TutorialStage.BURSTING:
 		return
-	change_stage(bursting_content, skilling_content, stage_height_skilling)		
+	bursting_label.modulate = Global.color_green
+	change_stage(bursting_content, skilling_content, stage_height_skilling, skilling_sepa, TutorialStage.SKILLING)		
 
 
 func finish_skilling():
-	skilling_label.modulate = Global.color_green
 	if not current_tutorial_stage == TutorialStage.SKILLING:
 		return
-	change_stage(skilling_content, stacking_content, stage_height_stacking)		
+	skilling_label.modulate = Global.color_green
+	change_stage(skilling_content, stacking_content, stage_height_stacking, stacking_sepa, TutorialStage.STACKING)		
 
 	
 func finish_stacking():
-	
-	stacking_label.modulate = Global.color_green
 	if not current_tutorial_stage == TutorialStage.STACKING:
 		return
-	change_stage(stacking_content, winlose_content, stage_height_winlose)		
+	stacking_label.modulate = Global.color_green
+	change_stage(stacking_content, winlose_content, stage_height_winlose, win_lose_sepa, TutorialStage.WINLOSE)		
 
 
 func push_done():
@@ -200,8 +190,15 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 		"tutorial_start":
 			var show_player = get_tree().create_tween()
 			show_player.tween_property(Global.game_manager.player_pixel, "modulate:a", 1, 1).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_ELASTIC)
-			show_player.tween_callback(self, "open_stage", [traveling_content, stage_height_traveling]).set_delay(1)
+			show_player.tween_callback(self, "open_stage", [traveling_content, stage_height_traveling, travel_sepa]).set_delay(0.5)
 			show_player.tween_callback(Global.game_manager.player_pixel, "set_physics_process", [true]).set_delay(1)
+			current_tutorial_stage = TutorialStage.TRAVELING
+			
+#			var show_player = get_tree().create_tween()
+#			show_player.tween_property(Global.game_manager.player_pixel, "modulate:a", 1, 1).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_ELASTIC)
+#			show_player.tween_callback(self, "open_stage", [winlose_content, stage_height_winlose, win_lose_sepa]).set_delay(1)
+#			show_player.tween_callback(Global.game_manager.player_pixel, "set_physics_process", [true]).set_delay(1)
+#			current_tutorial_stage = TutorialStage.WINLOSE
 			
 
 func _on_StartBtn_pressed() -> void:

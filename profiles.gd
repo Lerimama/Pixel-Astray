@@ -37,7 +37,7 @@ var level_data : Dictionary = { # na štartu igre se tole duplicira in postane g
 	"level" : Levels.TUTORIAL,
 	"tilemap_path": "res://game/tilemaps/tutorial_tilemap.tscn",
 	"game_time_limit": 600, # sekund
-#	"stray_pixels_count": 150, # premaknjeno na tilemap
+	"stray_pixels_count": 7, # premaknjeno na tilemap
 	
 	"off_pixels_count": 0,
 	"highscore": 0000, # se naloži iz  "default_level_highscores" lestvice ob štartu igre, zato, da te lahko opozori že med igro
@@ -50,8 +50,9 @@ var level_tutorial_data: Dictionary = {
 	"level": Levels.TUTORIAL,
 	"tilemap_path": "res://game/tilemaps/tutorial_tilemap.tscn",
 	"game_time_limit": 0,
-#	"stray_pixels_count": 5,
+	"stray_pixels_count": 7,
 }
+
 
 var level_practice: Dictionary = { 
 	"level": Levels.PRACTICE,

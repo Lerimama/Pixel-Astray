@@ -8,11 +8,18 @@ var game_data_on_hud: Dictionary
 var fade_time: float = 1
 var default_hud_color: Color = Color.white
 
-# spectrum indicators
+var popup_time: float = 2
+var highscore_broken: bool =  false
+
+var picked_indicator_alpha: float = 1
+var unpicked_indicator_alpha: float = 0.2
+var neighbour_indicator_alpha: float = 0.4
+
 var active_color_indicators: Array = [] # indikatorji so generirani ob spawnanju pixlov (so skriti, ali pa ne)
+
+# spectrum indicators
 onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
 onready var indicator_holder: HBoxContainer = $Footer/ColorSpectrum	
-
 # header
 onready var header: Control = $Header
 onready var player_life: Label = $Life # _temp, pravi je na samih ikonah
@@ -27,7 +34,6 @@ onready var highscore_label: Label = $Header/HudLine_TR/Highscore
 onready var music_label: Label = $Header/HudLine_TR/MusicLabel
 onready var on_icon: TextureRect = $Header/HudLine_TR/MusicLabel/OnIcon
 onready var off_icon: TextureRect = $Header/HudLine_TR/MusicLabel/OffIcon
-
 # futer
 onready var footer: Control = $Footer
 onready var picked_color_rect: ColorRect = $Footer/PickedColor/ColorRect
@@ -36,10 +42,7 @@ onready var pixels_off: Label = $Footer/HudLine_BR/OffedCounter/PixelsOff
 onready var stray_pixels_counter: HBoxContainer = $Footer/HudLine_BR/StrayCounter
 onready var stray_pixels: Label = $Footer/HudLine_BR/StrayCounter/PixelsStray
 onready var pixels_off_counter: HBoxContainer = $Footer/HudLine_BR/OffedCounter
-
 # popups 
-var popup_time: float = 2
-var highscore_broken: bool =  false
 onready var popups: Control = $Popups # skoz vidno, skrije se na gameover
 onready var highscore_broken_popup: Control = $Popups/HSBroken
 onready var energy_warning_popup: Control = $Popups/EnergyWarning
@@ -158,9 +161,6 @@ func fade_in():
 
 # COLORS ---------------------------------------------------------------------------------------------------------------------------
 
-var picked_indicator_alpha: float = 1
-var unpicked_indicator_alpha: float = 0.2
-var neighbour_indicator_alpha: float = 0.4
 
 func spawn_color_indicators(available_colors): # ukaz pride iz GM
 	
@@ -237,4 +237,5 @@ func _on_GameTimer_deathmode_active() -> void:
 
 
 func _on_GameTimer_gametime_is_up() -> void:
-	Global.game_manager.game_over(Global.reason_time)
+	Global.game_manager.current_gameover_reason = Global.game_manager.GameoverReason.TIME
+	Global.game_manager.game_over()

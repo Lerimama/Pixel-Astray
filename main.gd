@@ -74,7 +74,7 @@ func game_out():
 	Global.sound_manager.play_gui_sfx("menu_fade")
 	# ustavim vse možne sounde
 	Global.sound_manager.stop_music("game")
-	Global.sound_manager.stop_sfx("loose_jingle")
+	Global.sound_manager.stop_sfx("lose_jingle")
 	Global.sound_manager.stop_sfx("win_jingle")
 		
 	var fade_out = get_tree().create_tween()
@@ -88,7 +88,7 @@ func reload_game(): # game out z drugačnim zaključkom
 	Global.sound_manager.play_gui_sfx("menu_fade")
 	# ustavim vse možne sounde
 	Global.sound_manager.stop_music("game")
-	Global.sound_manager.stop_sfx("loose_jingle")
+	Global.sound_manager.stop_sfx("lose_jingle")
 	Global.sound_manager.stop_sfx("win_jingle")
 	
 	var fade_out = get_tree().create_tween()

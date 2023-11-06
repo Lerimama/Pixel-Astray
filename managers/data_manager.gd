@@ -100,9 +100,6 @@ func manage_gameover_highscores(player_points, current_level): # iz GM
 		Global.gameover_menu.show_content()
 
 
-# READ / WRITE
-
-
 func read_highscores_from_file(current_level_key: int):
 	
 	var current_level_name = Profiles.Levels.keys()[current_level_key]

@@ -3,7 +3,9 @@ extends Control
 
 signal name_input_finished
 
-var fade_time: float = 0.5
+#var fade_time: float = 0.5
+var current_title: Node # za določanje trenutnega napisa ob koncu igre
+var current_jingle: String # za jingla ob koncu igre
 
 # popup
 var input_invite_text: String = "..."
@@ -23,8 +25,6 @@ onready var content_practice: Control = $ContentPractice
 onready var content_tutorial: Control = $ContentTutorial
 onready var content_game: Control = $ContentGame
 
-
-var current_title: Node # za določanje trenutnega napisa ob koncu igre
 
 func _input(event: InputEvent) -> void:
 	
@@ -56,45 +56,27 @@ func _ready() -> void:
 	name_input_popup.visible = false
 	content_game.modulate.a = 0
 	content_game.visible = false
+	
 	content_practice.modulate.a = 0
 	content_practice.visible = false
-#	content_tutorial.modulate.a = 0
-#	content_tutorial.visible = false
+	
+	content_tutorial.modulate.a = 0
+	content_tutorial.visible = false
 
 
-func fade_in_practice(gameover_reason):
+func fade_in_practice():
 	
 	var restart_btn = $ContentPractice/Menu/RestartBtn # za focus
 	
-	match gameover_reason:
-		"reason_cleaned":
-			title_succes.visible = true
-			title_fail_time.visible = false
-			title_fail_life.visible = false
-			
-			current_title = title_succes
-
-		"reason_time":
-			title_succes.visible = false
-			title_fail_time.visible = true
-			title_fail_life.visible = false
-			
-			current_title = title_fail_time
-			
-		"reason_life":
-			title_succes.visible = false
-			title_fail_time.visible = false
-			title_fail_life.visible = true
-			
-			current_title = title_fail_life
-			
+	choose_gameover_title()
+	
 	modulate.a = 0	
 	visible = true
 	
 	# hud + title
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(self, "modulate:a", 1, 0.5)
-	fade_in.tween_callback(Global.sound_manager, "play_sfx", ["loose_jingle"])
+	fade_in.tween_callback(Global.sound_manager, "play_sfx", [current_jingle])
 	
 	write_gameover_data()
 	yield(get_tree().create_timer(3), "timeout")
@@ -103,30 +85,17 @@ func fade_in_practice(gameover_reason):
 	content_practice.visible = true
 	var fade = get_tree().create_tween()
 	fade.tween_property(current_title, "modulate:a", 0, 1)
-	fade.parallel().tween_property(undi, "modulate:a", 0.9, 1)
+	# fade.parallel().tween_property(undi, "modulate:a", 0.9, 1)
 	fade.tween_property(content_practice, "modulate:a", 1, 1)#.set_delay(0.3)
 	fade.tween_callback(self, "pause_tree") # šele tukaj, da se tween sploh zgodi
 	fade.tween_callback(restart_btn, "grab_focus") # šele tukaj, da se tween sploh zgodi,če 
 	
 	
-func fade_in_tutorial(gameover_reason):
+func fade_in_tutorial():
 	
 	var restart_btn = $ContentTutorial/Menu/QuitBtn # za focus
-
-	match gameover_reason:
-		"reason_cleaned":
-			title_succes.visible = true
-			title_fail_time.visible = false
-			title_fail_life.visible = false
-			
-			current_title = title_succes
-			
-		"reason_life":
-			title_succes.visible = false
-			title_fail_time.visible = false
-			title_fail_life.visible = true
-			
-			current_title = title_fail_life
+	
+	choose_gameover_title()
 			
 	modulate.a = 0	
 	visible = true
@@ -134,7 +103,7 @@ func fade_in_tutorial(gameover_reason):
 	# hud + title
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(self, "modulate:a", 1, 0.5)
-	fade_in.tween_callback(Global.sound_manager, "play_sfx", ["loose_jingle"])
+	fade_in.tween_callback(Global.sound_manager, "play_sfx", [current_jingle])
 	
 	write_gameover_data()
 	yield(get_tree().create_timer(3), "timeout")
@@ -143,42 +112,44 @@ func fade_in_tutorial(gameover_reason):
 	content_tutorial.visible = true
 	var fade = get_tree().create_tween()
 	fade.tween_property(current_title, "modulate:a", 0, 1)
-	fade.parallel().tween_property(undi, "modulate:a", 0.9, 1)
+	# fade.parallel().tween_property(undi, "modulate:a", 0.9, 1)
 	fade.tween_property(content_tutorial, "modulate:a", 1, 1)#.set_delay(0.3)
 	fade.tween_callback(self, "pause_tree") # šele tukaj, da se tween sploh zgodi
 	fade.tween_callback(restart_btn, "grab_focus") # šele tukaj, da se tween sploh zgodi,če 
 
 
 # brez HS
-func fade_in(gameover_reason):
+func fade_in():
 	
 	var restart_btn = $ContentGame/Menu/RestartBtn # za focus
 	
-	match gameover_reason:
-		"reason_cleaned":
-			title_succes.visible = true
-			title_fail_time.visible = false
-			title_fail_life.visible = false
-			
-			current_title = title_succes
-			
-			# malo časa da lahko leta naokrog
-			yield(get_tree().create_timer(Profiles.game_rules["dead_time"]), "timeout")
-			var dance
-
-		"reason_time":
-			title_succes.visible = false
-			title_fail_time.visible = true
-			title_fail_life.visible = false
-			
-			current_title = title_fail_time
-			
-		"reason_life":
-			title_succes.visible = false
-			title_fail_time.visible = false
-			title_fail_life.visible = true
-			
-			current_title = title_fail_life
+	choose_gameover_title()
+	
+#	match gameover_reason:
+#		"reason_cleaned":
+#			title_succes.visible = true
+#			title_fail_time.visible = false
+#			title_fail_life.visible = false
+#
+#			current_title = title_succes
+#
+#			# malo časa da lahko leta naokrog
+#			yield(get_tree().create_timer(Profiles.game_rules["dead_time"]), "timeout")
+#			var dance
+#
+#		"reason_time":
+#			title_succes.visible = false
+#			title_fail_time.visible = true
+#			title_fail_life.visible = false
+#
+#			current_title = title_fail_time
+#
+#		"reason_life":
+#			title_succes.visible = false
+#			title_fail_time.visible = false
+#			title_fail_life.visible = true
+#
+#			current_title = title_fail_life
 			
 	modulate.a = 0	
 	visible = true
@@ -186,10 +157,9 @@ func fade_in(gameover_reason):
 	# hud + title
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(self, "modulate:a", 1, 0.5)
-	fade_in.tween_callback(Global.sound_manager, "play_sfx", ["loose_jingle"])
+	fade_in.tween_callback(Global.sound_manager, "play_sfx", [current_jingle])
 	
 	write_gameover_data()
-#	highscore_table.get_highscore_table(Global.data_manager.current_player_ranking)
 	highscore_table.get_highscore_table(Global.game_manager.game_data["level"], Global.data_manager.current_player_ranking)
 	
 	content_game.visible = true
@@ -199,38 +169,41 @@ func fade_in(gameover_reason):
 	# title out, content in
 	var fade = get_tree().create_tween()
 	fade.tween_property(current_title, "modulate:a", 0, 1)
-	fade.parallel().tween_property(undi, "modulate:a", 0.9, 1)
+	# fade.parallel().tween_property(undi, "modulate:a", 0.9, 1)
 	fade.tween_property(content_game, "modulate:a", 1, 1)#.set_delay(0.3)
 	fade.tween_callback(self, "pause_tree") # šele tukaj, da se tween sploh zgodi
 	fade.tween_callback(restart_btn, "grab_focus") # šele tukaj, da se tween sploh zgodi,če 
 
 	
 # jes HS
-func fade_in_empty(gameover_reason):
+func fade_in_highscore():
 
 	var restart_btn = $ContentGame/Menu/RestartBtn # za focus
-	
-	match gameover_reason:
-		"reason_cleaned":
-			title_succes.visible = true
-			title_fail_time.visible = false
-			title_fail_life.visible = false
-			
-			current_title = title_succes
 
-		"reason_time":
-			title_succes.visible = false
-			title_fail_time.visible = true
-			title_fail_life.visible = false
-			
-			current_title = title_fail_time
-			
-		"reason_life":
-			title_succes.visible = false
-			title_fail_time.visible = false
-			title_fail_life.visible = true
-			
-			current_title = title_fail_life
+	choose_gameover_title()
+	current_jingle = "win_jingle" # že določen se ponovno opredeli, kerje HS
+	
+#	match gameover_reason:
+#		"reason_cleaned":
+#			title_succes.visible = true
+#			title_fail_time.visible = false
+#			title_fail_life.visible = false
+#
+#			current_title = title_succes
+#
+#		"reason_time":
+#			title_succes.visible = false
+#			title_fail_time.visible = true
+#			title_fail_life.visible = false
+#
+#			current_title = title_fail_time
+#
+#		"reason_life":
+#			title_succes.visible = false
+#			title_fail_time.visible = false
+#			title_fail_life.visible = true
+#
+#			current_title = title_fail_life
 				
 	modulate.a = 0	
 	visible = true
@@ -242,6 +215,35 @@ func fade_in_empty(gameover_reason):
 	fade_in.parallel().tween_callback(Global.sound_manager, "play_sfx", ["win_jingle"])
 
 
+func choose_gameover_title():
+	
+	match Global.game_manager.current_gameover_reason:
+		
+		Global.game_manager.GameoverReason.CLEANED:
+			title_succes.visible = true
+			title_fail_time.visible = false
+			title_fail_life.visible = false
+			
+			current_title = title_succes
+			current_jingle = "win_jingle"
+			
+		Global.game_manager.GameoverReason.LIFE:
+			title_succes.visible = false
+			title_fail_time.visible = false
+			title_fail_life.visible = true
+			
+			current_title = title_fail_life	
+			current_jingle = "lose_jingle"
+
+		Global.game_manager.GameoverReason.TIME:
+			title_succes.visible = false
+			title_fail_time.visible = true
+			title_fail_life.visible = false
+			
+			current_title = title_fail_time
+			current_jingle = "lose_jingle" # current_jingle se ponovno opredeli, če je HS
+			
+			
 func show_content():
 	
 	var restart_btn = $ContentGame/Menu/RestartBtn # za focus
@@ -268,7 +270,16 @@ func write_gameover_data():
 	var current_level_key = Global.game_manager.game_data["level"]
 	var current_level_name = Profiles.Levels.keys()[current_level_key]
 
-	if current_level_key == Profiles.Levels.PRACTICE:
+	if current_level_key == Profiles.Levels.TUTORIAL:
+		$ContentTutorial/DataContainer/Level.text %= current_level_name
+		$ContentTutorial/DataContainer/Points.text %= str(player_gameover_stats["player_points"])
+		$ContentTutorial/DataContainer/Time.text %= str(time_used)
+		$ContentTutorial/DataContainer/CellsTravelled.text %= str(player_gameover_stats["cells_travelled"])
+		$ContentTutorial/DataContainer/BurstCount.text %= str(player_gameover_stats["burst_count"])
+		$ContentTutorial/DataContainer/SkillsUsed.text %= str(player_gameover_stats["skill_count"])
+		$ContentTutorial/DataContainer/PixelsOff.text %= str(game_gameover_stats["off_pixels_count"])
+		$ContentTutorial/DataContainer/AstrayPixels.text %= str(game_gameover_stats["stray_pixels_count"])
+	elif current_level_key == Profiles.Levels.PRACTICE:
 		$ContentPractice/DataContainer/Level.text %= current_level_name
 		$ContentPractice/DataContainer/Points.text %= str(player_gameover_stats["player_points"])
 		$ContentPractice/DataContainer/Time.text %= str(time_used)
@@ -333,7 +344,7 @@ func close_name_input ():
 	
 	var fade_out_tween = get_tree().create_tween()
 	fade_out_tween.tween_property(name_input_popup, "modulate:a", 0, 0.5)
-	fade_out_tween.parallel().tween_property(undi, "modulate:a", 0.9, 1)
+	# fade_out_tween.parallel().tween_property(undi, "modulate:a", 0.9, 1)
 	fade_out_tween.parallel().tween_property(current_title, "modulate:a", 0, 1)
 	fade_out_tween.tween_property(name_input_popup, "visible", false, 0.01)
 	fade_out_tween.tween_callback(self, "emit_signal", ["name_input_finished"]).set_delay(0.5)

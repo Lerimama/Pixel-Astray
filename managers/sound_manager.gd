@@ -84,7 +84,7 @@ func play_sfx(effect_for: String):
 			$GameSfx/Events/CoundownB.play()
 		"win_jingle":
 			$GameSfx/Events/Win.play()
-		"loose_jingle":
+		"lose_jingle":
 			$GameSfx/Events/Loose.play()
 		"record_cheers":
 			$GameSfx/Events/RecordFanfare.play()
@@ -134,7 +134,7 @@ func stop_sfx(sfx_to_stop: String):
 			$GameSfx/Burst/BurstCocking.stop()
 		"last_breath":
 			$GameSfx/LastBeat.stop()
-		"loose_jingle": 
+		"lose_jingle": 
 			$GameSfx/Events/Loose.stop()
 		"win_jingle":
 			$GameSfx/Events/Win.stop()

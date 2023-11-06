@@ -180,7 +180,8 @@ func on_collision():
 		# efekt trka s steno
 		emit_signal("stat_changed", self, "skilled",1) # signal, da je skilled (kaj se zgodi je na GMju)
 		
-		die(Global.reason_wall)
+		Global.game_manager.current_gameover_reason = Global.game_manager.GameoverReason.WALL
+		die()
 		spawn_collision_particles()
 		spawn_dizzy_particles()
 		Global.main_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
@@ -357,13 +358,12 @@ func skill_inputs():
 				pull()	
 
 
-func die(die_reason: String):
+func die():
 	
-	end_move()
-	match die_reason:
-		Global.reason_wall:
+	match Global.game_manager.current_gameover_reason:
+		Global.game_manager.GameoverReason.WALL:
 			emit_signal("stat_changed", self, "wall_hit", 1)
-		Global.reason_energy:
+		Global.game_manager.GameoverReason.ENERGY:
 			emit_signal("stat_changed", self, "out_of_breath", 1)
 			
 	Global.main_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
@@ -755,7 +755,8 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 		"last_breath":
 			last_breath_loop += 1
 			if last_breath_loop > last_breath_loop_limit:
-				die(Global.reason_energy)
+				Global.game_manager.current_gameover_reason = Global.game_manager.GameoverReason.ENERGY
+				die()
 			else:
 				animation_player.play("last_breath")
 				Global.sound_manager.play_sfx("last_breath")

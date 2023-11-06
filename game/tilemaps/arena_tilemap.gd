@@ -4,8 +4,6 @@ class_name ArenaTilemap
 
 signal tilemap_completed #(floor_tiles_global_positions, player_start_global_position)
 
-
-var strays_count: int = 0 # seta se v level tilemapu
 var floor_cells_global_positions: Array # global koordinate celic
 var player_start_global_position: Vector2 
 var stray_spawn_cells_global_positions: Array
@@ -43,7 +41,7 @@ func get_tiles():
 					floor_cells_global_positions.append(cell_global_position)
 					set_cellv(cell, 0) # menjam celico za celico tal ...
 	# pošljemo podatke v GM
-	emit_signal("tilemap_completed", floor_cells_global_positions, stray_spawn_cells_global_positions, player_start_global_position, strays_count)
+	emit_signal("tilemap_completed", floor_cells_global_positions, stray_spawn_cells_global_positions, player_start_global_position)
 
 
 func get_collision_tile_id(collider: Node2D, direction: Vector2): # collider je node ki se zaleteva in ne collision object

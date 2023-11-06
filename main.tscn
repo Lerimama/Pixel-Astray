@@ -342,7 +342,6 @@ bus = "GameSfx"
 
 [node name="LastBeat" type="AudioStreamPlayer" parent="SoundManager/GameSfx"]
 stream = ExtResource( 58 )
-volume_db = -8.0
 pitch_scale = 1.1
 bus = "GameSfx"
 

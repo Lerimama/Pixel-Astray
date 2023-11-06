@@ -1,6 +1,9 @@
 extends Node
 
 
+enum GameoverReason {LIFE, TIME, CLEANED, WALL, ENERGY}
+var current_gameover_reason
+
 # states
 var game_on: bool = false
 var deathmode_active = false
@@ -25,12 +28,12 @@ var energy_drain_active: bool = false # za kontrolo črpanja energije
 # tilemap signal data
 var floor_positions: Array
 var available_floor_positions: Array
-var stray_pixels_count: int
 
 # stats
 onready var player_stats: Dictionary = Profiles.default_player_stats.duplicate() # duplikat default profila
 onready var game_data: Dictionary = Profiles.level_data.duplicate() # duplikat default profila, ker ga me igro spreminjaš
 onready var game_rules: Dictionary = Profiles.game_rules # ker ga med ne spreminjaš
+onready var stray_pixels_count: int = game_data["stray_pixels_count"]
 
 onready var spectrum_rect: TextureRect = $Spectrum
 onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
@@ -80,7 +83,6 @@ func _process(delta: float) -> void:
 	
 	players_in_game = get_tree().get_nodes_in_group(Global.group_players)
 	strays_in_game = get_tree().get_nodes_in_group(Global.group_strays)
-	game_data["stray_pixels_count"] = strays_in_game.size()
 	
 	
 # TUTORIAL ----------------------------------------------------------------------------------
@@ -114,7 +116,7 @@ func set_tutorial():
 
 
 func generate_strays():
-
+	
 	split_stray_colors()
 	show_strays()
 	yield(get_tree().create_timer(0.2), "timeout")
@@ -178,7 +180,9 @@ func on_tutorial_stat_changed(stat_owner, changed_stat, stat_change):
 				player_stats["player_points"] += Profiles.game_rules["all_cleaned_points"]
 				# become white again
 				player_pixel.pixel_color = Color.white
-				game_over(Global.reason_cleaned)
+				current_gameover_reason = GameoverReason.CLEANED
+				game_over()
+
 		# from player
 		"wall_hit":
 			if game_rules["lose_life_on_wall"]: # zguba lajfa
@@ -272,21 +276,19 @@ func start_game():
 	Global.sound_manager.play_music("game")
 	
 	
-func game_over(game_over_reason: String):
+func game_over():
 	
 	# ustavljanje elementov igre
 	game_on = false
 	deathmode_active =  false
-	# in-gejm keyboard inputs
-	get_viewport().gui_disable_input = true
-	# ustavim tajmer	
-	Global.hud.game_timer.stop_timer()
+	get_viewport().gui_disable_input = true	# in-gejm keyboard inputs
+	Global.hud.game_timer.stop_timer() # ustavim tajmer
+	Global.hud.popups.visible = false # skrijem morebitne popupe
+	
 	# ugasnem vse efekte, ki bi bili lahko neskončno slišni
 	Global.sound_manager.stop_sfx("teleport")
 	Global.sound_manager.stop_sfx("skilled")
 	Global.sound_manager.stop_sfx("last_breath")
-	# skrijem morebitne popupe
-	Global.hud.popups.visible = false
 	
 	# pavziram plejerja
 	player_pixel.set_physics_process(false)
@@ -305,19 +307,18 @@ func game_over(game_over_reason: String):
 	var player_points = player_stats["player_points"]
 	var current_level = game_data["level"]
 	
-	# HS manage
+	# Gameover fejdin
 	if game_data["level"] == Profiles.Levels.TUTORIAL:
-		Global.gameover_menu.fade_in_tutorial(game_over_reason)
+		Global.gameover_menu.fade_in_tutorial()
 	elif game_data["level"] == Profiles.Levels.PRACTICE:
-		Global.gameover_menu.fade_in_practice(game_over_reason)
+		Global.gameover_menu.fade_in_practice()
 	else:
 		# YIELD 1 ... čaka na konec preverke rankinga ... če ni rankinga dobi false, če je ne dobi nič
-		# ker kličem funkcijo v variablo more počakat, da se funkcija izvede do returna
 		var score_is_ranking = Global.data_manager.manage_gameover_highscores(player_points, current_level) # yielda 2 za name_input je v tej funkciji
 		if not score_is_ranking:
-			Global.gameover_menu.fade_in(game_over_reason)																																																							
+			Global.gameover_menu.fade_in()																																																							
 		else:
-			Global.gameover_menu.fade_in_empty(game_over_reason)
+			Global.gameover_menu.fade_in_highscore()
 	
 	# HS manage
 #	if game_data["level"] != Profiles.Levels.PRACTICE or game_data["level"] != Profiles.Levels.TUTORIAL:
@@ -330,7 +331,7 @@ func game_over(game_over_reason: String):
 #			Global.gameover_menu.fade_in_empty(game_over_reason)
 #	else:
 #			Global.gameover_menu.fade_in_practice(game_over_reason)
-#
+	
 	
 # SPAWNANJE ----------------------------------------------------------------------------------
 
@@ -338,7 +339,6 @@ func game_over(game_over_reason: String):
 func set_tilemap():
 	
 	var tilemap_to_release: TileMap = default_level_tilemap
-#	var tilemap_to_load_path: String = Profiles.level_tutorial_stats["tilemap_path"]
 	var tilemap_to_load_path: String = game_data["tilemap_path"]
 	
 	# release default tilemap	
@@ -369,7 +369,6 @@ func spawn_player():
 	new_player_pixel.name = "P%s" % str(spawned_player_index)
 	new_player_pixel.global_position = spawn_position # ... ne rabim snepat ker se v pixlu na ready funkciji
 	new_player_pixel.pixel_color = Profiles.game_rules["pixel_start_color"]
-#	new_player_pixel.modulate.a = 0
 	Global.node_creation_parent.add_child(new_player_pixel)
 	
 	new_player_pixel.connect("stat_changed", self, "_on_stat_changed")
@@ -496,7 +495,8 @@ func spawn_floating_tag(position: Vector2, value): # kliče ga GM
 # SIGNALI ----------------------------------------------------------------------------------
 
 
-func _on_tilemap_completed(floor_cells_global_positions: Array, stray_cells_global_positions: Array, player_start_global_position: Vector2, stray_count: int) -> void:
+#func _on_tilemap_completed(floor_cells_global_positions: Array, stray_cells_global_positions: Array, player_start_global_position: Vector2, stray_count: int) -> void:
+func _on_tilemap_completed(floor_cells_global_positions: Array, stray_cells_global_positions: Array, player_start_global_position: Vector2) -> void:
 	
 	if stray_cells_global_positions.empty(): # če ni stray pozicij
 		available_floor_positions = floor_cells_global_positions.duplicate()
@@ -507,7 +507,7 @@ func _on_tilemap_completed(floor_cells_global_positions: Array, stray_cells_glob
 	if available_floor_positions.has(player_start_position): # takoj odstranim celico rezervirano za plejerja
 		available_floor_positions.erase(player_start_position)
 
-	stray_pixels_count = stray_count
+#	stray_pixels_count = stray_count
 
 
 func _on_stat_changed(stat_owner, changed_stat, stat_change):
@@ -549,7 +549,9 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				player_stats["player_points"] += Profiles.game_rules["all_cleaned_points"]
 				# become white again
 				player_pixel.pixel_color = Color.white
-				game_over(Global.reason_cleaned)
+				current_gameover_reason = GameoverReason.CLEANED
+				game_over()
+				
 		# from player
 		"wall_hit":
 			if game_rules["lose_life_on_wall"]: # zguba lajfa
@@ -589,7 +591,9 @@ func lose_life(life_looser, life_to_loose_amount):
 	
 
 	if player_stats["player_life"] < 1: # game-over, če je bil to zadnji lajf
-		game_over(Global.reason_life)
+		current_gameover_reason = GameoverReason.LIFE
+		game_over()
+		
 	else: # če mam še lajfov
 		life_looser.revive()
 		# resetiram energijo, če je tako določeno
