@@ -71,12 +71,10 @@ func _ready() -> void:
 	Global.game_manager = self	
 	randomize()
 	
-#	set_tilemap()
-	if game_data["level"] == Profiles.Levels.TUTORIAL:	
+	if game_data["level"] == Profiles.Levels.TUTORIAL:
 		set_tilemap()
-		call_deferred("set_tutorial")
-	else:
-		call_deferred("set_game")
+#	set_tilemap()
+	call_deferred("set_game") # deferamo, da se naloži tilemap
 	
 	
 func _process(delta: float) -> void:
@@ -84,144 +82,6 @@ func _process(delta: float) -> void:
 	players_in_game = get_tree().get_nodes_in_group(Global.group_players)
 	strays_in_game = get_tree().get_nodes_in_group(Global.group_strays)
 	
-	
-# TUTORIAL ----------------------------------------------------------------------------------
-
-
-func set_tutorial(): 
-	
-	# greb tiles
-	Global.level_tilemap.connect("tilemap_completed", self, "_on_tilemap_completed")
-	Global.level_tilemap.get_tiles()
-	
-	# set player
-	game_rules["pixel_start_color"] = Global.color_white
-	player_pixel = spawn_player()
-	player_pixel.modulate.a = 0
-	player_stats["player_energy"] = game_rules["player_start_energy"]
-	Global.camera_target = player_pixel
-	
-	# čaka, da si plejer ogleda
-	yield(get_tree().create_timer(3), "timeout") 
-	Global.main_camera.zoom_in()
-	
-	# YIELD ... čaka, da kamera zumira
-	yield(Global.main_camera, "zoomed_in")
-#	Global.game_countdown.start_countdown()
-	# ... čaka da game_countdown odšteje
-#	yield(Global.game_countdown, "countdown_finished")	
-	
-	# RESUME
-	start_tutorial()
-
-
-func generate_strays():
-	
-	split_stray_colors()
-	show_strays()
-	yield(get_tree().create_timer(0.2), "timeout")
-	show_strays()
-	yield(get_tree().create_timer(0.1), "timeout")
-	show_strays()
-	yield(get_tree().create_timer(0.1), "timeout")
-	show_strays()
-	strays_spawn_loop = 0 # zazih
-	
-	
-func start_tutorial():
-	
-	# enable tutorial panels
-	Global.tutorial_gui.start()
-#	Global.hud.game_timer.start_timer()
-#	player_pixel.set_physics_process(true)
-	game_on = true
-	Global.sound_manager.play_music("game")
-
-
-func on_tutorial_stat_changed(stat_owner, changed_stat, stat_change):
-
-
-	match changed_stat:
-		# from stray
-		"skilled":
-			if not energy_drain_active:
-				energy_drain_active = true
-				player_stats["player_energy"] += game_rules["skilled_energy_drain"]
-				# 1 je najnižja, ker tam se že odšteva zadnji izdihljaj
-				player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_max_energy"]) 
-				yield(get_tree().create_timer(Profiles.game_rules["skilled_energy_drain_speed"]), "timeout")
-				energy_drain_active = false
-		"stray_hit":
-			# hud statistika stray pixlov
-			game_data["off_pixels_count"] += 1
-			game_data["stray_pixels_count"] -= 1
-			# stats za prvi pixel 
-			if stat_change == 1:
-				player_stats["player_points"] += game_rules["color_picked_points"]
-				player_stats["player_energy"] += game_rules["color_picked_energy"]
-				spawn_floating_tag(stat_owner.global_position, game_rules["color_picked_points"]) 
-				Global.tutorial_gui.finish_bursting()
-			# stats za vsakega naslednega v vrsti 
-			elif stat_change > 1:
-				# odštejem, da se točke od prvega pixla ne podvajajo
-				var points_for_seq_pixel = (game_rules["additional_color_picked_points"] * stat_change) - game_rules["color_picked_points"] 
-				var energy_for_seq_pixel = (game_rules["additional_color_picked_energy"] * stat_change) - game_rules["color_picked_energy"]
-				player_stats["player_points"] += points_for_seq_pixel
-				player_stats["player_energy"] += energy_for_seq_pixel
-				spawn_floating_tag(stat_owner.global_position, points_for_seq_pixel)
-				Global.tutorial_gui.finish_stacking()
-				print("2")
-			elif stat_change > 2:
-				Global.tutorial_gui.finish_stacking()
-				print("2")
-			
-			# cleaned
-			if game_data["stray_pixels_count"] == 0:
-				player_stats["player_points"] += Profiles.game_rules["all_cleaned_points"]
-				# become white again
-				player_pixel.pixel_color = Color.white
-				current_gameover_reason = GameoverReason.CLEANED
-				game_over()
-
-		# from player
-		"wall_hit":
-			if game_rules["lose_life_on_wall"]: # zguba lajfa
-				lose_life(stat_owner, stat_change)
-			else: # zguba polovice energije in točk
-				var half_player_points = round(player_stats["player_points"] / 2)
-				var half_player_energy = round(player_stats["player_energy"] / 2)
-				player_stats["player_points"] -= half_player_points
-				player_stats["player_energy"] -= half_player_energy
-				spawn_floating_tag(stat_owner.global_position, - half_player_points) 
-				stat_owner.revive()
-		"out_of_breath":
-			if game_rules["lose_life_on_energy"]:
-				lose_life(stat_owner, stat_change)
-			else:
-				stat_owner.revive()
-		"cells_travelled": 
-			player_stats["cells_travelled"] += stat_change
-			player_stats["player_energy"] += game_rules["cell_travelled_energy"]
-			player_stats["player_points"] += game_rules["cell_travelled_points"]
-		"skill_used":
-			# 0 = push, 1 = pull, 2 = teleport ... za prepoznavanje
-			match stat_change:
-				0:
-					Global.tutorial_gui.push_done()
-				1:
-					Global.tutorial_gui.pull_done()
-				2:
-					Global.tutorial_gui.teleport_done()
-				
-			player_stats["skill_count"] += 1
-			player_stats["player_energy"] += game_rules["skill_used_energy"]
-			player_stats["player_points"] += game_rules["skill_used_points"]
-		"burst_released": 
-			player_stats["burst_count"] += 1 # tukaj se kot valju poda burst power
-			
-	# na koncu koraka poskrbim za klempanje ... 1 je najnižja, ker tam se že odšteva zadnji izdihljaj
-	player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_max_energy"]) 
-	player_stats["player_points"] = clamp(player_stats["player_points"], 0, player_stats["player_points"])	
 	
 	
 # GAME LOOP ----------------------------------------------------------------------------------
@@ -234,44 +94,54 @@ func set_game():
 	Global.level_tilemap.get_tiles()
 	
 	# set player
-	player_pixel = spawn_player()
+	if game_data["level"] == Profiles.Levels.TUTORIAL: # generirah jih na 2. koraku tutoriala
+		game_rules["pixel_start_color"] = Global.color_white # more bit pred spawnom
+		player_pixel = spawn_player()
+		player_pixel.modulate.a = 0	
+	else:
+		player_pixel = spawn_player()
 	Global.camera_target = player_pixel
 	player_stats["player_energy"] = game_rules["player_start_energy"]
 	
-	# počaka fejdin scene
+	# počakam, da se ekran naloži
 	yield(get_tree().create_timer(3), "timeout") 
 	
 	# set strays
-#	stray_pixels_count = Profiles.level_data["stray_pixels_count"]
-	generate_strays()
+	if game_data["level"] != Profiles.Levels.TUTORIAL: 
+		generate_strays() # tutorial jih generira na 2. koraku
+		yield(get_tree().create_timer(3), "timeout") # čaka, da si plejer ogleda
 		
-	# set hud ... za spremljat HS med igro
-	if game_data["level"] != Profiles.Levels.PRACTICE:
+	# set HS hud ... za spremljat med igro
+	if game_data["level"] != Profiles.Levels.PRACTICE and game_data["level"] != Profiles.Levels.TUTORIAL:
 		var current_highscore_line: Array = Global.data_manager.get_top_highscore(game_data["level"])
 		game_data["highscore"] = current_highscore_line[0]
 		game_data["highscore_owner"] = current_highscore_line[1]
 	
 	# čaka, da si plejer ogleda
-	yield(get_tree().create_timer(1), "timeout")
+	yield(get_tree().create_timer(2), "timeout")
 	Global.main_camera.zoom_in()
 	
 	# YIELD ... čaka da game_countdown odšteje
 	print ("GM start - YIELD")
-	# Global.game_countdown.start_countdown() ... zdej je na kameri
-	yield(Global.game_countdown, "countdown_finished")	
+	if game_data["level"] == Profiles.Levels.TUTORIAL:
+		yield(Global.main_camera, "zoomed_in") # ... čaka, da kamera zumira
+	else:
+		# Global.game_countdown.start_countdown() ... zdej je na kameri ... po nove je tam disejblan
+		yield(Global.game_countdown, "countdown_finished")	
 	# RESUME
 	print ("GM start - RESUME")
 	
 	start_game()
-
+	
 	
 func start_game():
+
+	if game_data["level"] == Profiles.Levels.TUTORIAL:
+		Global.tutorial_gui.start() # enable panels
+	else:
+		Global.hud.game_timer.start_timer() # skrit je v hudu
+		player_pixel.set_physics_process(true)
 	
-	if game_data["level"] != Profiles.Levels.PRACTICE:
-		Global.hud.game_timer.start_timer() # skit je v hudu
-	Global.hud.game_timer.start_timer() # skit je v hudu
-	
-	player_pixel.set_physics_process(true)
 	game_on = true
 	Global.sound_manager.play_music("game")
 	
@@ -295,8 +165,10 @@ func game_over():
 	
 	# malo časa za show-off
 	yield(get_tree().create_timer(2), "timeout")
+	
 	if game_data["level"] == Profiles.Levels.TUTORIAL:
 		Global.tutorial_gui.animation_player.play("tutorial_end")
+	
 	# YIELD 0 ... čaka na konec zoomoutam
 	var camera_zoomed_out = Global.main_camera.zoom_out() # hud gre ven
 	yield(Global.main_camera, "zoomed_out")
@@ -377,6 +249,19 @@ func spawn_player():
 	return new_player_pixel
 
 
+func generate_strays():
+	
+	split_stray_colors()
+	show_strays()
+	yield(get_tree().create_timer(0.2), "timeout")
+	show_strays()
+	yield(get_tree().create_timer(0.1), "timeout")
+	show_strays()
+	yield(get_tree().create_timer(0.1), "timeout")
+	show_strays()
+	strays_spawn_loop = 0 # zazih
+	
+	
 func split_stray_colors():
 	
 	# split colors
@@ -495,7 +380,6 @@ func spawn_floating_tag(position: Vector2, value): # kliče ga GM
 # SIGNALI ----------------------------------------------------------------------------------
 
 
-#func _on_tilemap_completed(floor_cells_global_positions: Array, stray_cells_global_positions: Array, player_start_global_position: Vector2, stray_count: int) -> void:
 func _on_tilemap_completed(floor_cells_global_positions: Array, stray_cells_global_positions: Array, player_start_global_position: Vector2) -> void:
 	
 	if stray_cells_global_positions.empty(): # če ni stray pozicij
@@ -507,14 +391,12 @@ func _on_tilemap_completed(floor_cells_global_positions: Array, stray_cells_glob
 	if available_floor_positions.has(player_start_position): # takoj odstranim celico rezervirano za plejerja
 		available_floor_positions.erase(player_start_position)
 
-#	stray_pixels_count = stray_count
-
 
 func _on_stat_changed(stat_owner, changed_stat, stat_change):
 	
-	if game_data["level"] == Profiles.Levels.TUTORIAL:	
-		on_tutorial_stat_changed(stat_owner, changed_stat, stat_change)
-		return
+#	if game_data["level"] == Profiles.Levels.TUTORIAL:	
+#		on_tutorial_stat_changed(stat_owner, changed_stat, stat_change)
+#		return
 		
 	match changed_stat:
 		# from stray
@@ -527,6 +409,7 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				
 				yield(get_tree().create_timer(Profiles.game_rules["skilled_energy_drain_speed"]), "timeout")
 				energy_drain_active = false
+								
 		"stray_hit":
 			# hud statistika stray pixlov
 			game_data["off_pixels_count"] += 1
@@ -536,6 +419,10 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				player_stats["player_points"] += game_rules["color_picked_points"]
 				player_stats["player_energy"] += game_rules["color_picked_energy"]
 				spawn_floating_tag(stat_owner.global_position, game_rules["color_picked_points"]) 
+				
+				if game_data["level"] == Profiles.Levels.TUTORIAL:
+					Global.tutorial_gui.finish_bursting()
+					
 			# stats za vsakega naslednega v vrsti 
 			elif stat_change > 1:
 				# odštejem, da se točke od prvega pixla ne podvajajo
@@ -544,6 +431,8 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				player_stats["player_points"] += points_for_seq_pixel
 				player_stats["player_energy"] += energy_for_seq_pixel
 				spawn_floating_tag(stat_owner.global_position, points_for_seq_pixel) 
+				if game_data["level"] == Profiles.Levels.TUTORIAL and stat_change > 2:
+					Global.tutorial_gui.finish_stacking()
 			# cleaned
 			if game_data["stray_pixels_count"] == 0:
 				player_stats["player_points"] += Profiles.game_rules["all_cleaned_points"]
@@ -551,7 +440,6 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				player_pixel.pixel_color = Color.white
 				current_gameover_reason = GameoverReason.CLEANED
 				game_over()
-				
 		# from player
 		"wall_hit":
 			if game_rules["lose_life_on_wall"]: # zguba lajfa
@@ -572,11 +460,18 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 			player_stats["cells_travelled"] += stat_change
 			player_stats["player_energy"] += game_rules["cell_travelled_energy"]
 			player_stats["player_points"] += game_rules["cell_travelled_points"]
-		"skill_used": 
-			# stat_change se uporablja za prepoznavanje vrste skilla ... 0 = push, 1 = pull, 2 = teleport
+		"skill_used": # stat_change uporabim za prepoznavanje skilla ... 0 = push, 1 = pull, 2 = teleport
 			player_stats["skill_count"] += 1
 			player_stats["player_energy"] += game_rules["skill_used_energy"]
 			player_stats["player_points"] += game_rules["skill_used_points"]
+			if game_data["level"] == Profiles.Levels.TUTORIAL:
+				match stat_change:
+					0:
+						Global.tutorial_gui.push_done()
+					1:
+						Global.tutorial_gui.pull_done()
+					2:
+						Global.tutorial_gui.teleport_done()			
 		"burst_released": 
 			player_stats["burst_count"] += 1 # tukaj se kot valju poda burst power
 			

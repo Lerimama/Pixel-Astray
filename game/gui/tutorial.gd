@@ -9,7 +9,7 @@ var xtra_separation_height: int = 14
 var stage_height_traveling: int = 234
 var stage_height_bursting: int = 394
 var stage_height_skilling: int = 394
-var stage_height_stacking: int = 338
+var stage_height_stacking: int = 316
 var stage_height_winlose: int = 300
 
 # za beleženje vmesnih rezultatov
@@ -59,6 +59,7 @@ func _input(event: InputEvent) -> void:
 func _ready() -> void:
 	
 	Global.tutorial_gui = self # za statse iz GMja
+	visible = false
 	
 	mission_panel.visible = true
 	hud_guide.visible = true
@@ -87,6 +88,7 @@ func _ready() -> void:
 
 func start(): # kliče se z GM
 	
+	visible = true
 	current_tutorial_stage = TutorialStage.MISSION
 	Global.game_manager.player_pixel.set_physics_process(false)
 	animation_player.play("mission_in")

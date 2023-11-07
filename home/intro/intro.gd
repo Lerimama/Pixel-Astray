@@ -37,12 +37,13 @@ onready var StrayPixel = preload("res://game/pixel/stray.tscn")
 
 
 func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("ui_cancel") and skip_intro.visible:
+	if Input.is_action_just_pressed("ui_accept") and skip_intro.visible:
 		end_intro()
 	
 	
 func _ready() -> void:
 	randomize()
+
 	
 func _process(delta: float) -> void:
 	strays_on_screen = get_tree().get_nodes_in_group(Global.group_strays)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://assets/tiles/tile_title_16.png" type="Texture" id=1]
 [ext_resource path="res://home/intro/intro.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=5]
 [ext_resource path="res://assets/tileset_controls.png" type="Texture" id=6]
 [ext_resource path="res://assets/resources/arena_tileset.tres" type="TileSet" id=7]
+[ext_resource path="res://assets/theme/lerimama_theme_body_font.tres" type="DynamicFont" id=8]
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=9]
 
 [sub_resource type="ConvexPolygonShape2D" id=154]
@@ -40,11 +41,13 @@ extents = Vector2( 16, 16 )
 
 [sub_resource type="AtlasTexture" id=158]
 atlas = ExtResource( 6 )
-region = Rect2( 49, 186, 22, 22 )
+region = Rect2( 72, 186, 22, 22 )
+margin = Rect2( 0, 2, 0, 0 )
 
 [sub_resource type="AtlasTexture" id=159]
 atlas = ExtResource( 6 )
-region = Rect2( 128, 22, 22, 22 )
+region = Rect2( 0, 218, 40, 22 )
+margin = Rect2( -2, 2, 0, 0 )
 
 [sub_resource type="Animation" id=157]
 length = 0.001
@@ -163,18 +166,6 @@ tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ) ]
-}
-tracks/10/type = "value"
-tracks/10/path = NodePath("Text/SkipIntro:modulate")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
@@ -386,18 +377,6 @@ tracks/9/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
-tracks/10/type = "value"
-tracks/10/path = NodePath("Text/SkipIntro:modulate")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/keys = {
-"times": PoolRealArray( 0, 10.7, 11 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
-}
 
 [sub_resource type="Animation" id=138]
 resource_name = "intro_running"
@@ -529,18 +508,6 @@ tracks/8/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/9/type = "value"
-tracks/9/path = NodePath("Text/SkipIntro:modulate")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [node name="Intro" type="Node2D"]
@@ -770,53 +737,54 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -288.0
-margin_top = 313.5
-margin_right = 288.0
-margin_bottom = 391.5
+margin_left = -268.0
+margin_top = 314.0
+margin_right = 268.0
+margin_bottom = 364.0
 grow_horizontal = 2
 theme = ExtResource( 5 )
-text = "Now, he is on a mission to get back all
-that had been taken from him."
+text = "Now, the pixel is on a mission to take back all that has been taken from him."
 align = 1
 autowrap = true
 
 [node name="SkipIntro" type="HBoxContainer" parent="Text"]
-modulate = Color( 1, 1, 1, 0 )
-margin_left = -608.0
-margin_top = 581.5
-margin_right = -432.0
-margin_bottom = 603.5
-custom_constants/separation = 10
+margin_left = -607.0
+margin_top = 582.0
+margin_right = -405.0
+margin_bottom = 604.0
+custom_constants/separation = 8
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Esc" type="TextureRect" parent="Text/SkipIntro"]
+[node name="Enter" type="TextureRect" parent="Text/SkipIntro"]
 margin_right = 22.0
 margin_bottom = 22.0
 texture = SubResource( 158 )
 
 [node name="Label" type="Label" parent="Text/SkipIntro"]
-margin_left = 32.0
-margin_right = 56.0
-margin_bottom = 22.0
+margin_left = 30.0
+margin_top = 2.0
+margin_right = 47.0
+margin_bottom = 20.0
 theme = ExtResource( 5 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_fonts/font = ExtResource( 8 )
 text = "or"
+align = 1
 
-[node name="X" type="TextureRect" parent="Text/SkipIntro"]
-margin_left = 66.0
-margin_right = 88.0
+[node name="Start" type="TextureRect" parent="Text/SkipIntro"]
+margin_left = 55.0
+margin_right = 95.0
 margin_bottom = 22.0
 texture = SubResource( 159 )
 
 [node name="Label2" type="Label" parent="Text/SkipIntro"]
-margin_left = 98.0
-margin_right = 244.0
-margin_bottom = 22.0
+margin_left = 103.0
+margin_top = 2.0
+margin_right = 202.0
+margin_bottom = 20.0
 theme = ExtResource( 5 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_fonts/font = ExtResource( 8 )
 text = "to skip intro"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

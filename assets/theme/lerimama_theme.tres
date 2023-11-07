@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=21 format=2]
+[gd_resource type="Theme" load_steps=24 format=2]
 
 [ext_resource path="res://assets/theme/lerimama_theme_font.tres" type="DynamicFont" id=1]
 
@@ -21,19 +21,23 @@ region = Rect2( 16, 16, 14, 16 )
 
 [sub_resource type="AtlasTexture" id=158]
 atlas = SubResource( 175 )
-region = Rect2( 0, 16, 14, 16 )
+region = Rect2( 0, 16, 10, 16 )
 
-[sub_resource type="StyleBoxFlat" id=168]
+[sub_resource type="StyleBoxFlat" id=176]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 1, 1, 1, 0.901961 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 expand_margin_left = 6.0
 expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxEmpty" id=178]
+
+[sub_resource type="StyleBoxEmpty" id=179]
 
 [sub_resource type="StyleBoxLine" id=5]
 color = Color( 1, 1, 1, 1 )
@@ -45,16 +49,16 @@ region = Rect2( 32, 0, 10, 10 )
 
 [sub_resource type="StyleBoxEmpty" id=163]
 
-[sub_resource type="StyleBoxFlat" id=165]
-bg_color = Color( 1, 1, 1, 0 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 1, 1, 1, 1 )
+[sub_resource type="StyleBoxFlat" id=177]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 expand_margin_left = 6.0
-expand_margin_top = 7.0
-expand_margin_bottom = 7.0
+expand_margin_top = 6.0
+expand_margin_bottom = 6.0
 
 [sub_resource type="AtlasTexture" id=152]
 atlas = SubResource( 175 )
@@ -82,6 +86,18 @@ atlas = SubResource( 175 )
 region = Rect2( 16, 0, 16, 12 )
 margin = Rect2( 4, 0, 0, 0 )
 
+[sub_resource type="StyleBoxFlat" id=168]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 0.901961 )
+expand_margin_left = 6.0
+expand_margin_right = 6.0
+expand_margin_top = 2.0
+expand_margin_bottom = 3.0
+
 [sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 0, 0, 0, 0.862745 )
 border_width_left = 4
@@ -97,7 +113,7 @@ vertical = true
 
 [resource]
 default_font = ExtResource( 1 )
-Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+Button/colors/font_color = Color( 0.368627, 1, 0.662745, 1 )
 Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
 Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
 Button/colors/font_color_hover = Color( 1, 1, 1, 0.980392 )
@@ -107,24 +123,23 @@ Button/styles/focus = SubResource( 170 )
 Button/styles/hover = SubResource( 171 )
 Button/styles/normal = SubResource( 172 )
 Button/styles/pressed = SubResource( 173 )
-CheckBox/colors/font_color = Color( 1, 1, 1, 1 )
-CheckBox/colors/font_color_pressed = Color( 1, 1, 1, 1 )
 CheckBox/constants/hseparation = 4
 CheckBox/icons/checked = SubResource( 157 )
 CheckBox/icons/unchecked = SubResource( 158 )
-CheckBox/styles/focus = SubResource( 168 )
-CheckBox/styles/hover = SubResource( 168 )
-CheckBox/styles/hover_pressed = SubResource( 168 )
-CheckBox/styles/normal = SubResource( 168 )
+CheckBox/styles/focus = SubResource( 176 )
+CheckBox/styles/hover = SubResource( 176 )
+CheckBox/styles/hover_pressed = SubResource( 176 )
+CheckBox/styles/normal = SubResource( 178 )
+CheckBox/styles/pressed = SubResource( 179 )
 HSeparator/styles/separator = SubResource( 5 )
 HSlider/icons/grabber = SubResource( 150 )
 HSlider/icons/grabber_disabled = null
 HSlider/icons/grabber_highlight = SubResource( 150 )
 HSlider/icons/tick = null
 HSlider/styles/grabber_area = SubResource( 163 )
-HSlider/styles/grabber_area_highlight = SubResource( 165 )
+HSlider/styles/grabber_area_highlight = SubResource( 177 )
 HSlider/styles/slider = SubResource( 153 )
-Label/colors/font_color = Color( 1, 1, 1, 1 )
+Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
 Label/constants/line_spacing = 6
 LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
 LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )

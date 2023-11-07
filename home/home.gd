@@ -47,37 +47,46 @@ func _input(event: InputEvent) -> void:
 					
 func _ready():
 	
-	menu.visible = false
-	games_buttons_text_setup()	
-
-
-func games_buttons_text_setup():
+#	menu.visible = false
+	# games buttons text
 	$SelectGame/SelectGameBtn1.text = "Only " + str(Profiles.level_1_data["level"]) + " pixels astray"
 	$SelectGame/SelectGameBtn2.text = str(Profiles.level_2_data["level"]) + " pixels astray"
 	$SelectGame/SelectGameBtn3.text = str(Profiles.level_3_data["level"]) + " pixels astray"
 	$SelectGame/SelectGameBtn4.text = str(Profiles.level_4_data["level"]) + " pixels astray"
 	$SelectGame/SelectGameBtn5.text = str(Profiles.level_5_data["level"]) + " pixels astray"
-			
-			
-# MAIN MENU ---------------------------------------------------------------------------------------------------
 
 	
-func open_with_intro():
-	intro.play_intro()
+func open_with_intro(): # ... kliče main.gd -> home_in_intro()
 	menu.visible = false
+	intro.play_intro() # intro signal na koncu kliče home_in()
 	
 	
-func open_without_intro():
-	intro.end_intro()
+func open_without_intro(): # temp ... debug ... kliče main.gd -> home_in_no_intro()
+	menu.visible = false
+	intro.end_intro() # intro signal na koncu kliče home_in()
 
+
+func open_from_game(): # select_game screen ... kliče main.gd -> home_in_from_game()
 	
-func menu_in():
+	intro.end_intro() # da se prikaže samo naslov ... intro signal na koncu kliče home_in()
+	current_screen = Screens.SELECT_GAME # tole blokira menu_in() 
+	
+	# animacija na konec
+	animation_player.play("select_game")
+	var animation_length: float = animation_player.get_current_animation_length()
+	animation_player.advance(animation_length)
+	
+	
+func menu_in(): # kliče se na koncu intra (tudi na skip)
+	
+	if current_screen == Screens.SELECT_GAME:
+		return
+	
 	current_screen = Screens.MAIN_MENU
-	
 	intro_viewport.gui_disable_input = true # dokler se predvaja mora biti, da skipanje deluje
 	
 	menu.modulate.a = 0
-	menu.visible = true
+	menu.visible = true # skrijem ga ob začetku intra
 	
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(menu, "modulate:a", 1, 1)
@@ -85,22 +94,7 @@ func menu_in():
 	fade_in.tween_callback(Global.sound_manager, "play_music", ["menu"])
 
 
-func animation_reversed(from_screen: String):
-	
-	# pomeni da se odpre main menu
-	if animation_player.current_animation_position == 0:
-		# set focus
-		match from_screen:
-			"select_game":
-				$Menu/SelectGameBtn.grab_focus()
-			"about":
-				$Menu/AboutBtn.grab_focus()
-			"settings":
-				$Menu/SettingsBtn.grab_focus()
-			"highscores":
-				$Menu/HighscoresBtn.grab_focus()
-		current_screen = Screens.MAIN_MENU
-		return true
+# SIGNALI ---------------------------------------------------------------------------------------------------
 
 
 func _on_Intro_finished_playing() -> void:
@@ -130,6 +124,26 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 				return
 			current_screen = Screens.HIGHSCORES
 			$Highscores/HighscoresBackBtn.grab_focus()
+
+
+func animation_reversed(from_screen: String):
+	
+	if animation_player.current_animation_position == 0: # pomeni da se odpre main menu
+		# set focus
+		match from_screen:
+			"select_game":
+				$Menu/SelectGameBtn.grab_focus()
+			"about":
+				$Menu/AboutBtn.grab_focus()
+			"settings":
+				$Menu/SettingsBtn.grab_focus()
+			"highscores":
+				$Menu/HighscoresBtn.grab_focus()
+		current_screen = Screens.MAIN_MENU
+		return true
+
+
+# MENU BTNZ ---------------------------------------------------------------------------------------------------
 
 
 func _on_SelectGameBtn_pressed() -> void:

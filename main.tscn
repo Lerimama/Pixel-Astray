@@ -370,7 +370,7 @@ pitch_scale = 0.9
 
 [node name="TutorialStageDone" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
 stream = ExtResource( 4 )
-volume_db = -10.0
+volume_db = -13.0
 pitch_scale = 1.1
 
 [node name="Typing" type="Node2D" parent="SoundManager/GuiSfx"]

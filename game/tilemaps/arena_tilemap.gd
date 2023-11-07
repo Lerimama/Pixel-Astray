@@ -13,7 +13,6 @@ func _ready() -> void:
 	
 	add_to_group(Global.group_tilemap)	
 	Global.level_tilemap = self
-	# get_tiles() ... sprožim z GM
 
 
 func get_tiles():
