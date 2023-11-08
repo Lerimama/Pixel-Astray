@@ -41,8 +41,13 @@ onready var winlose_label: Label = $Checkpoints/WinLose
 
 
 func _input(event: InputEvent) -> void:
-
-	if current_tutorial_stage == TutorialStage.TRAVELING:
+	
+	if current_tutorial_stage == TutorialStage.MISSION: # namesto menija
+		if Input.is_action_just_pressed("ui_accept"):
+			Global.sound_manager.play_gui_sfx("btn_confirm")
+			animation_player.play("tutorial_start")
+	
+	elif current_tutorial_stage == TutorialStage.TRAVELING:
 		if Input.is_action_pressed("ui_up"):
 			traveling_directions.erase(Vector2.UP)
 		elif Input.is_action_pressed("ui_down"):
@@ -54,7 +59,9 @@ func _input(event: InputEvent) -> void:
 		
 		if traveling_directions.empty():
 			finish_traveling()	
-
+			
+#	if (event.is_pressed() and event.button_index == BUTTON_LEFT):
+#	    print("Wow, a left mouse click")
 	
 func _ready() -> void:
 	
@@ -89,7 +96,7 @@ func _ready() -> void:
 func start(): # kliče se z GM
 	
 	visible = true
-	current_tutorial_stage = TutorialStage.MISSION
+#	current_tutorial_stage = TutorialStage.MISSION
 	Global.game_manager.player_pixel.set_physics_process(false)
 	animation_player.play("mission_in")
 
@@ -188,7 +195,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	match anim_name:
 		"mission_in":
 			current_tutorial_stage = TutorialStage.MISSION
-			$MissionPanel/Menu/StartBtn.grab_focus()
+#			$MissionPanel/Menu/StartBtn.grab_focus()
 		"tutorial_start":
 			var show_player = get_tree().create_tween()
 			show_player.tween_property(Global.game_manager.player_pixel, "modulate:a", 1, 1).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_ELASTIC)

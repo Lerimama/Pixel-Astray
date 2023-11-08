@@ -1,10 +1,10 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://assets/tiles/tile_title_16.png" type="Texture" id=1]
 [ext_resource path="res://home/intro/intro.gd" type="Script" id=2]
 [ext_resource path="res://assets/resources/menu_environment.tres" type="Environment" id=3]
 [ext_resource path="res://home/intro/intro_tilemap.gd" type="Script" id=4]
-[ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=5]
+[ext_resource path="res://assets/theme/lerimama_theme_font.tres" type="DynamicFont" id=5]
 [ext_resource path="res://assets/tileset_controls.png" type="Texture" id=6]
 [ext_resource path="res://assets/resources/arena_tileset.tres" type="TileSet" id=7]
 [ext_resource path="res://assets/theme/lerimama_theme_body_font.tres" type="DynamicFont" id=8]
@@ -39,7 +39,155 @@ points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
 
+[sub_resource type="StyleBoxEmpty" id=169]
+
+[sub_resource type="StreamTexture" id=175]
+load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
+
+[sub_resource type="AtlasTexture" id=157]
+atlas = SubResource( 175 )
+region = Rect2( 16, 16, 14, 16 )
+
 [sub_resource type="AtlasTexture" id=158]
+atlas = SubResource( 175 )
+region = Rect2( 0, 16, 10, 16 )
+
+[sub_resource type="StyleBoxFlat" id=176]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+expand_margin_left = 6.0
+expand_margin_right = 6.0
+expand_margin_top = 2.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxEmpty" id=178]
+
+[sub_resource type="StyleBoxEmpty" id=179]
+
+[sub_resource type="StyleBoxLine" id=5]
+color = Color( 1, 1, 1, 1 )
+thickness = 2
+
+[sub_resource type="AtlasTexture" id=150]
+atlas = SubResource( 175 )
+region = Rect2( 32, 0, 10, 10 )
+
+[sub_resource type="StyleBoxEmpty" id=163]
+
+[sub_resource type="StyleBoxFlat" id=177]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+expand_margin_left = 6.0
+expand_margin_top = 6.0
+expand_margin_bottom = 6.0
+
+[sub_resource type="AtlasTexture" id=152]
+atlas = SubResource( 175 )
+region = Rect2( 0, 4, 16, 8 )
+
+[sub_resource type="StyleBoxTexture" id=153]
+texture = SubResource( 152 )
+region_rect = Rect2( 0, 0, 16, 8 )
+margin_left = 3.34132
+margin_right = 4.0
+margin_top = 4.0
+margin_bottom = 4.0
+modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+
+[sub_resource type="StyleBoxFlat" id=12]
+bg_color = Color( 0, 0, 0, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="AtlasTexture" id=162]
+atlas = SubResource( 175 )
+region = Rect2( 16, 0, 16, 12 )
+margin = Rect2( 4, 0, 0, 0 )
+
+[sub_resource type="StyleBoxFlat" id=168]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 0.901961 )
+expand_margin_left = 6.0
+expand_margin_right = 6.0
+expand_margin_top = 2.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0, 0, 0, 0.862745 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
+
+[sub_resource type="StyleBoxLine" id=174]
+color = Color( 1, 1, 1, 1 )
+thickness = 2
+vertical = true
+
+[sub_resource type="Theme" id=194]
+default_font = ExtResource( 5 )
+Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
+Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
+Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
+Button/styles/disabled = SubResource( 169 )
+Button/styles/focus = SubResource( 169 )
+Button/styles/hover = SubResource( 169 )
+Button/styles/normal = SubResource( 169 )
+Button/styles/pressed = SubResource( 169 )
+CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
+CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
+CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
+CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
+CheckBox/constants/hseparation = 4
+CheckBox/icons/checked = SubResource( 157 )
+CheckBox/icons/unchecked = SubResource( 158 )
+CheckBox/styles/focus = SubResource( 176 )
+CheckBox/styles/hover = SubResource( 176 )
+CheckBox/styles/hover_pressed = SubResource( 176 )
+CheckBox/styles/normal = SubResource( 178 )
+CheckBox/styles/pressed = SubResource( 179 )
+HSeparator/styles/separator = SubResource( 5 )
+HSlider/icons/grabber = SubResource( 150 )
+HSlider/icons/grabber_disabled = null
+HSlider/icons/grabber_highlight = SubResource( 150 )
+HSlider/icons/tick = null
+HSlider/styles/grabber_area = SubResource( 163 )
+HSlider/styles/grabber_area_highlight = SubResource( 177 )
+HSlider/styles/slider = SubResource( 153 )
+Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
+Label/constants/line_spacing = 6
+LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
+LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
+LineEdit/styles/normal = SubResource( 12 )
+OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+OptionButton/icons/arrow = SubResource( 162 )
+OptionButton/styles/focus = SubResource( 168 )
+OptionButton/styles/hover = SubResource( 168 )
+OptionButton/styles/pressed = SubResource( 168 )
+Panel/styles/panel = SubResource( 7 )
+VSeparator/styles/separator = SubResource( 174 )
+
+[sub_resource type="AtlasTexture" id=195]
 atlas = ExtResource( 6 )
 region = Rect2( 72, 186, 22, 22 )
 margin = Rect2( 0, 2, 0, 0 )
@@ -49,7 +197,7 @@ atlas = ExtResource( 6 )
 region = Rect2( 0, 218, 40, 22 )
 margin = Rect2( -2, 2, 0, 0 )
 
-[sub_resource type="Animation" id=157]
+[sub_resource type="Animation" id=196]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("Actor:modulate")
@@ -657,7 +805,7 @@ margin_top = 298.0
 margin_right = 256.0
 margin_bottom = 348.0
 grow_horizontal = 2
-theme = ExtResource( 5 )
+theme = SubResource( 194 )
 text = "A lone pixel glowed on the screen
 of an uninspired designer."
 align = 1
@@ -674,7 +822,7 @@ margin_top = 298.0
 margin_right = 288.0
 margin_bottom = 352.0
 grow_horizontal = 2
-theme = ExtResource( 5 )
+theme = SubResource( 194 )
 text = "He owned all the colors and was
 the brightest pixel on the screen."
 align = 1
@@ -691,7 +839,7 @@ margin_top = 242.0
 margin_right = 240.0
 margin_bottom = 320.0
 grow_horizontal = 2
-theme = ExtResource( 5 )
+theme = SubResource( 194 )
 text = "Running around arrogantly,
 he believed that the shine and glory
 would last forever."
@@ -709,7 +857,7 @@ margin_top = 298.0
 margin_right = 135.0
 margin_bottom = 320.0
 grow_horizontal = 2
-theme = ExtResource( 5 )
+theme = SubResource( 194 )
 text = "But then ..."
 align = 1
 autowrap = true
@@ -725,7 +873,7 @@ margin_top = 326.0
 margin_right = 260.0
 margin_bottom = 404.0
 grow_horizontal = 2
-theme = ExtResource( 5 )
+theme = SubResource( 194 )
 text = "The designer had a brilliant idea
 to shuffle the colors around."
 align = 1
@@ -742,7 +890,7 @@ margin_top = 314.0
 margin_right = 268.0
 margin_bottom = 364.0
 grow_horizontal = 2
-theme = ExtResource( 5 )
+theme = SubResource( 194 )
 text = "Now, the pixel is on a mission to take back all that has been taken from him."
 align = 1
 autowrap = true
@@ -757,38 +905,50 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Enter" type="TextureRect" parent="Text/SkipIntro"]
-margin_right = 22.0
-margin_bottom = 22.0
-texture = SubResource( 158 )
-
 [node name="Label" type="Label" parent="Text/SkipIntro"]
-margin_left = 30.0
 margin_top = 2.0
-margin_right = 47.0
+margin_right = 44.0
 margin_bottom = 20.0
-theme = ExtResource( 5 )
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_fonts/font = ExtResource( 8 )
+text = "Press"
+
+[node name="Enter" type="TextureRect" parent="Text/SkipIntro"]
+margin_left = 52.0
+margin_right = 74.0
+margin_bottom = 22.0
+texture = SubResource( 195 )
+
+[node name="Label2" type="Label" parent="Text/SkipIntro"]
+margin_left = 82.0
+margin_top = 2.0
+margin_right = 99.0
+margin_bottom = 20.0
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 custom_fonts/font = ExtResource( 8 )
 text = "or"
 align = 1
 
 [node name="Start" type="TextureRect" parent="Text/SkipIntro"]
-margin_left = 55.0
-margin_right = 95.0
+margin_left = 107.0
+margin_right = 147.0
 margin_bottom = 22.0
 texture = SubResource( 159 )
 
-[node name="Label2" type="Label" parent="Text/SkipIntro"]
-margin_left = 103.0
+[node name="Label3" type="Label" parent="Text/SkipIntro"]
+margin_left = 155.0
 margin_top = 2.0
-margin_right = 202.0
+margin_right = 254.0
 margin_bottom = 20.0
-theme = ExtResource( 5 )
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 custom_fonts/font = ExtResource( 8 )
 text = "to skip intro"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/RESET = SubResource( 157 )
+anims/RESET = SubResource( 196 )
 anims/intro_explode = SubResource( 139 )
 anims/intro_running = SubResource( 138 )
 

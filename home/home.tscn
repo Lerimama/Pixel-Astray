@@ -1,6 +1,6 @@
-[gd_scene load_steps=60 format=2]
+[gd_scene load_steps=80 format=2]
 
-[ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=1]
+[ext_resource path="res://assets/theme/lerimama_theme_font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/theme/tileset_gui.png" type="Texture" id=2]
 [ext_resource path="res://home/settings.gd" type="Script" id=3]
 [ext_resource path="res://assets/theme/lerimama_theme_title_font.tres" type="DynamicFont" id=4]
@@ -14,16 +14,165 @@
 [ext_resource path="res://assets/tileset_controls.png" type="Texture" id=12]
 [ext_resource path="res://assets/theme/fonts/Habbo.ttf" type="DynamicFontData" id=13]
 [ext_resource path="res://assets/theme/lerimama_theme_body_font.tres" type="DynamicFont" id=14]
+[ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=15]
+
+[sub_resource type="StyleBoxEmpty" id=169]
+
+[sub_resource type="StreamTexture" id=175]
+load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
+
+[sub_resource type="AtlasTexture" id=157]
+atlas = SubResource( 175 )
+region = Rect2( 16, 16, 14, 16 )
 
 [sub_resource type="AtlasTexture" id=158]
+atlas = SubResource( 175 )
+region = Rect2( 0, 16, 10, 16 )
+
+[sub_resource type="StyleBoxFlat" id=176]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+expand_margin_left = 6.0
+expand_margin_right = 6.0
+expand_margin_top = 2.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxEmpty" id=178]
+
+[sub_resource type="StyleBoxEmpty" id=179]
+
+[sub_resource type="StyleBoxLine" id=5]
+color = Color( 1, 1, 1, 1 )
+thickness = 2
+
+[sub_resource type="AtlasTexture" id=150]
+atlas = SubResource( 175 )
+region = Rect2( 32, 0, 10, 10 )
+
+[sub_resource type="StyleBoxEmpty" id=163]
+
+[sub_resource type="StyleBoxFlat" id=177]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+expand_margin_left = 6.0
+expand_margin_top = 6.0
+expand_margin_bottom = 6.0
+
+[sub_resource type="AtlasTexture" id=152]
+atlas = SubResource( 175 )
+region = Rect2( 0, 4, 16, 8 )
+
+[sub_resource type="StyleBoxTexture" id=153]
+texture = SubResource( 152 )
+region_rect = Rect2( 0, 0, 16, 8 )
+margin_left = 3.34132
+margin_right = 4.0
+margin_top = 4.0
+margin_bottom = 4.0
+modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+
+[sub_resource type="StyleBoxFlat" id=12]
+bg_color = Color( 0, 0, 0, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="AtlasTexture" id=162]
+atlas = SubResource( 175 )
+region = Rect2( 16, 0, 16, 12 )
+margin = Rect2( 4, 0, 0, 0 )
+
+[sub_resource type="StyleBoxFlat" id=168]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 0.901961 )
+expand_margin_left = 6.0
+expand_margin_right = 6.0
+expand_margin_top = 2.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0, 0, 0, 0.862745 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
+
+[sub_resource type="StyleBoxLine" id=174]
+color = Color( 1, 1, 1, 1 )
+thickness = 2
+vertical = true
+
+[sub_resource type="Theme" id=194]
+default_font = ExtResource( 1 )
+Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
+Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
+Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
+Button/styles/disabled = SubResource( 169 )
+Button/styles/focus = SubResource( 169 )
+Button/styles/hover = SubResource( 169 )
+Button/styles/normal = SubResource( 169 )
+Button/styles/pressed = SubResource( 169 )
+CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
+CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
+CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
+CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
+CheckBox/constants/hseparation = 4
+CheckBox/icons/checked = SubResource( 157 )
+CheckBox/icons/unchecked = SubResource( 158 )
+CheckBox/styles/focus = SubResource( 176 )
+CheckBox/styles/hover = SubResource( 176 )
+CheckBox/styles/hover_pressed = SubResource( 176 )
+CheckBox/styles/normal = SubResource( 178 )
+CheckBox/styles/pressed = SubResource( 179 )
+HSeparator/styles/separator = SubResource( 5 )
+HSlider/icons/grabber = SubResource( 150 )
+HSlider/icons/grabber_disabled = null
+HSlider/icons/grabber_highlight = SubResource( 150 )
+HSlider/icons/tick = null
+HSlider/styles/grabber_area = SubResource( 163 )
+HSlider/styles/grabber_area_highlight = SubResource( 177 )
+HSlider/styles/slider = SubResource( 153 )
+Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
+Label/constants/line_spacing = 6
+LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
+LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
+LineEdit/styles/normal = SubResource( 12 )
+OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+OptionButton/icons/arrow = SubResource( 162 )
+OptionButton/styles/focus = SubResource( 168 )
+OptionButton/styles/hover = SubResource( 168 )
+OptionButton/styles/pressed = SubResource( 168 )
+Panel/styles/panel = SubResource( 7 )
+VSeparator/styles/separator = SubResource( 174 )
+
+[sub_resource type="AtlasTexture" id=195]
 atlas = ExtResource( 2 )
 region = Rect2( 0, 60, 24, 20 )
 
-[sub_resource type="AtlasTexture" id=150]
+[sub_resource type="AtlasTexture" id=196]
 atlas = ExtResource( 2 )
 region = Rect2( 0, 40, 24, 20 )
 
-[sub_resource type="DynamicFont" id=176]
+[sub_resource type="DynamicFont" id=197]
 size = 24
 extra_spacing_bottom = 2
 font_data = ExtResource( 13 )
@@ -32,7 +181,7 @@ font_data = ExtResource( 13 )
 atlas = ExtResource( 12 )
 region = Rect2( 0, 98, 70, 46 )
 
-[sub_resource type="AtlasTexture" id=163]
+[sub_resource type="AtlasTexture" id=198]
 atlas = ExtResource( 12 )
 region = Rect2( 80, 98, 70, 46 )
 
@@ -44,11 +193,11 @@ region = Rect2( 0, 0, 60, 86 )
 atlas = ExtResource( 12 )
 region = Rect2( 10, 17, 22, 22 )
 
-[sub_resource type="AtlasTexture" id=162]
+[sub_resource type="AtlasTexture" id=199]
 atlas = ExtResource( 12 )
 region = Rect2( 30, 40, 18, 18 )
 
-[sub_resource type="StyleBoxFlat" id=177]
+[sub_resource type="StyleBoxFlat" id=200]
 content_margin_left = 21.0
 content_margin_right = 19.0
 content_margin_top = 13.0
@@ -73,11 +222,11 @@ region = Rect2( 60, 0, 60, 86 )
 atlas = ExtResource( 12 )
 region = Rect2( 96, 32, 10, 10 )
 
-[sub_resource type="AtlasTexture" id=178]
+[sub_resource type="AtlasTexture" id=201]
 atlas = ExtResource( 12 )
 region = Rect2( 130, 178, 12, 12 )
 
-[sub_resource type="StyleBoxFlat" id=175]
+[sub_resource type="StyleBoxFlat" id=202]
 content_margin_left = 21.0
 content_margin_right = 19.0
 content_margin_top = 13.0
@@ -94,11 +243,11 @@ border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 atlas = ExtResource( 12 )
 region = Rect2( 0, 0, 120, 46 )
 
-[sub_resource type="AtlasTexture" id=168]
+[sub_resource type="AtlasTexture" id=203]
 atlas = ExtResource( 12 )
 region = Rect2( 44, 12, 10, 6 )
 
-[sub_resource type="AtlasTexture" id=169]
+[sub_resource type="AtlasTexture" id=204]
 atlas = ExtResource( 12 )
 region = Rect2( 20, 0, 80, 4 )
 
@@ -121,7 +270,7 @@ margin = Rect2( 0, 2, 0, 0 )
 atlas = ExtResource( 12 )
 region = Rect2( 72, 186, 22, 22 )
 
-[sub_resource type="StyleBoxFlat" id=152]
+[sub_resource type="StyleBoxFlat" id=205]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 draw_center = false
 border_width_left = 2
@@ -157,7 +306,7 @@ atlas = ExtResource( 12 )
 region = Rect2( 0, 218, 40, 22 )
 margin = Rect2( -2, 2, 0, 0 )
 
-[sub_resource type="AtlasTexture" id=179]
+[sub_resource type="AtlasTexture" id=206]
 atlas = ExtResource( 12 )
 region = Rect2( 0, 98, 70, 46 )
 
@@ -795,7 +944,7 @@ tracks/6/keys = {
 "times": PoolRealArray( 0, 1 )
 }
 
-[sub_resource type="ConvexPolygonShape2D" id=157]
+[sub_resource type="ConvexPolygonShape2D" id=207]
 points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 
 [sub_resource type="TileSet" id=135]
@@ -809,14 +958,14 @@ points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 0/navigation_offset = Vector2( 0, 0 )
 0/shape_offset = Vector2( 0, 0 )
 0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-0/shape = SubResource( 157 )
+0/shape = SubResource( 207 )
 0/shape_one_way = false
 0/shape_one_way_margin = 1.0
 0/shapes = [ {
 "autotile_coord": Vector2( 0, 0 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 157 ),
+"shape": SubResource( 207 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 0/z_index = 0
@@ -866,64 +1015,64 @@ alignment = 1
 
 [node name="SelectGameBtn" type="Button" parent="Menu"]
 margin_left = 85.0
-margin_top = 3.0
+margin_top = 6.0
 margin_right = 141.0
-margin_bottom = 25.0
+margin_bottom = 28.0
 focus_neighbour_right = NodePath("../SettingsBtn")
 focus_mode = 1
 size_flags_vertical = 8
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 enabled_focus_mode = 1
 text = "PLAY"
 
 [node name="SettingsBtn" type="Button" parent="Menu"]
 margin_left = 173.0
-margin_top = 3.0
+margin_top = 6.0
 margin_right = 281.0
-margin_bottom = 25.0
+margin_bottom = 28.0
 focus_neighbour_left = NodePath("../SelectGameBtn")
 focus_neighbour_right = NodePath("../HighscoresBtn")
 focus_mode = 1
 size_flags_vertical = 8
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 enabled_focus_mode = 1
 text = "SETTINGS"
 
 [node name="HighscoresBtn" type="Button" parent="Menu"]
 margin_left = 313.0
-margin_top = 3.0
+margin_top = 6.0
 margin_right = 449.0
-margin_bottom = 25.0
+margin_bottom = 28.0
 focus_neighbour_left = NodePath("../SettingsBtn")
 focus_neighbour_right = NodePath("../AboutBtn")
 focus_mode = 1
 size_flags_vertical = 8
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 enabled_focus_mode = 1
 text = "HIGHSCORES"
 
 [node name="AboutBtn" type="Button" parent="Menu"]
 margin_left = 481.0
-margin_top = 3.0
+margin_top = 6.0
 margin_right = 551.0
-margin_bottom = 25.0
+margin_bottom = 28.0
 focus_neighbour_left = NodePath("../HighscoresBtn")
 focus_neighbour_right = NodePath("../QuitGameBtn")
 focus_mode = 1
 size_flags_vertical = 8
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 enabled_focus_mode = 1
 text = "ABOUT"
 
 [node name="QuitGameBtn" type="Button" parent="Menu"]
 margin_left = 583.0
-margin_top = 3.0
+margin_top = 6.0
 margin_right = 635.0
-margin_bottom = 25.0
+margin_bottom = 28.0
 focus_neighbour_left = NodePath("../AboutBtn")
 focus_mode = 1
 size_flags_vertical = 8
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 enabled_focus_mode = 1
 text = "QUIT"
 
@@ -934,7 +1083,7 @@ margin_top = 720.0
 margin_right = 1280.0
 margin_bottom = 1340.0
 rect_min_size = Vector2( 1280, 620 )
-theme = ExtResource( 1 )
+theme = ExtResource( 15 )
 
 [node name="AboutBackBtn" type="TextureButton" parent="About"]
 anchor_left = 1.0
@@ -945,9 +1094,9 @@ margin_right = -40.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 16, 16 )
 rect_rotation = 89.9999
-texture_normal = SubResource( 158 )
-texture_hover = SubResource( 150 )
-texture_focused = SubResource( 150 )
+texture_normal = SubResource( 195 )
+texture_hover = SubResource( 196 )
+texture_focused = SubResource( 196 )
 flip_h = true
 
 [node name="Title" type="Label" parent="About"]
@@ -958,7 +1107,7 @@ margin_top = -2.0
 margin_right = 50.0
 margin_bottom = 30.0
 size_flags_horizontal = 3
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "About"
@@ -986,7 +1135,7 @@ margin_right = 448.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 0, 29 )
 size_flags_horizontal = 3
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 text = "MAIN GAME LOOP"
 uppercase = true
 
@@ -1007,7 +1156,7 @@ margin_top = 214.0
 margin_right = 512.0
 margin_bottom = 236.0
 size_flags_vertical = 1
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 text = "Game mechanics"
 uppercase = true
 
@@ -1055,7 +1204,7 @@ rect_min_size = Vector2( 187, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-custom_fonts/font = SubResource( 176 )
+custom_fonts/font = SubResource( 197 )
 text = "Direction keys"
 autowrap = true
 __meta__ = {
@@ -1078,7 +1227,7 @@ margin_left = 25.0
 margin_top = -65.0
 margin_right = 95.0
 margin_bottom = -19.0
-texture = SubResource( 163 )
+texture = SubResource( 198 )
 
 [node name="TextureRect" type="TextureRect" parent="About/2/Move2"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
@@ -1106,7 +1255,7 @@ margin_left = 159.0
 margin_top = -82.0
 margin_right = 177.0
 margin_bottom = -64.0
-texture = SubResource( 162 )
+texture = SubResource( 199 )
 
 [node name="HSeparator" type="VSeparator" parent="About/2/Move2"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
@@ -1122,7 +1271,7 @@ anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -167.0
 margin_right = 224.0
-custom_styles/panel = SubResource( 177 )
+custom_styles/panel = SubResource( 200 )
 
 [node name="3" type="VBoxContainer" parent="About"]
 margin_left = 352.0
@@ -1174,7 +1323,7 @@ rect_min_size = Vector2( 187, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-custom_fonts/font = SubResource( 176 )
+custom_fonts/font = SubResource( 197 )
 text = "Burst key"
 autowrap = true
 __meta__ = {
@@ -1237,13 +1386,13 @@ anchor_bottom = 1.0
 margin_top = -160.0
 margin_right = 240.0
 margin_bottom = -24.0
-custom_styles/panel = SubResource( 177 )
+custom_styles/panel = SubResource( 200 )
 
 [node name="TextureRect4" type="TextureRect" parent="About/3/HBoxContainer"]
 margin_left = 244.0
 margin_right = 256.0
 margin_bottom = 186.0
-texture = SubResource( 178 )
+texture = SubResource( 201 )
 
 [node name="HowTo2" type="Label" parent="About/3/HBoxContainer"]
 margin_left = 260.0
@@ -1252,8 +1401,8 @@ margin_bottom = 186.0
 rect_min_size = Vector2( 187, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 1
-custom_fonts/font = SubResource( 176 )
-custom_styles/normal = SubResource( 175 )
+custom_fonts/font = SubResource( 197 )
+custom_styles/normal = SubResource( 202 )
 text = "Pressing and hold direction key in the direction away from the target to add power."
 autowrap = true
 __meta__ = {
@@ -1267,8 +1416,8 @@ margin_bottom = 186.0
 rect_min_size = Vector2( 207, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 1
-custom_fonts/font = SubResource( 176 )
-custom_styles/normal = SubResource( 175 )
+custom_fonts/font = SubResource( 197 )
+custom_styles/normal = SubResource( 202 )
 text = "Release THE BURST KEY to burst
 - To stop while bursting, press THE BURST KEY again."
 autowrap = true
@@ -1312,8 +1461,8 @@ margin_bottom = 403.0
 rect_min_size = Vector2( 297, 0 )
 size_flags_horizontal = 0
 size_flags_vertical = 1
-custom_fonts/font = SubResource( 176 )
-custom_styles/normal = SubResource( 175 )
+custom_fonts/font = SubResource( 197 )
+custom_styles/normal = SubResource( 202 )
 text = "- Press THE DIRECTION KEY towards the target to connect
 - Then press THE DIRECTION KEY again to push or pull a stray pixel (or teleport through the wall)
 - After the move you automatically disconnect from target"
@@ -1338,7 +1487,7 @@ margin_top = 111.0
 margin_right = 812.0
 margin_bottom = 133.0
 size_flags_vertical = 0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Keyboard"
 
@@ -1348,7 +1497,7 @@ margin_top = 111.0
 margin_right = 1208.0
 margin_bottom = 248.0
 size_flags_vertical = 0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 text = "Move up = W, UP
 Move down = S, DOWN
 Move left = A, LEFT
@@ -1363,7 +1512,7 @@ margin_top = 263.0
 margin_right = 812.0
 margin_bottom = 288.0
 size_flags_vertical = 0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "JoyPad"
 
@@ -1373,7 +1522,7 @@ margin_top = 263.0
 margin_right = 1280.0
 margin_bottom = 400.0
 size_flags_vertical = 0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 text = "Move up = UP 
 Move down = DOWN
 Move left = LEFT
@@ -1392,7 +1541,7 @@ margin_top = 415.0
 margin_right = 812.0
 margin_bottom = 440.0
 size_flags_vertical = 0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Shortcuts"
 
@@ -1402,7 +1551,7 @@ margin_top = 415.0
 margin_right = 1248.0
 margin_bottom = 549.0
 size_flags_vertical = 0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 text = "Toggle game pause = ESC/L1
 Toggle game music = M/L2
 Cycle music tracks = N/R2
@@ -1422,7 +1571,7 @@ size_flags_vertical = 3
 [node name="Panel" type="Panel" parent="About/Move2"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 177 )
+custom_styles/panel = SubResource( 200 )
 
 [node name="TextureRect" type="TextureRect" parent="About/Move2"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
@@ -1441,7 +1590,7 @@ margin_left = 216.0
 margin_top = -51.0
 margin_right = 226.0
 margin_bottom = -45.0
-texture = SubResource( 168 )
+texture = SubResource( 203 )
 
 [node name="TextureRect4" type="TextureRect" parent="About/Move2"]
 anchor_top = 1.0
@@ -1450,7 +1599,7 @@ margin_left = 238.0
 margin_top = -51.0
 margin_right = 248.0
 margin_bottom = -45.0
-texture = SubResource( 168 )
+texture = SubResource( 203 )
 
 [node name="TextureRect5" type="TextureRect" parent="About/Move2"]
 anchor_top = 1.0
@@ -1459,7 +1608,7 @@ margin_left = 192.0
 margin_top = -63.0
 margin_right = 272.0
 margin_bottom = -59.0
-texture = SubResource( 169 )
+texture = SubResource( 204 )
 
 [node name="HSeparator" type="HSeparator" parent="About/Move2"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
@@ -1512,7 +1661,7 @@ anchor_bottom = 1.0
 margin_top = -600.0
 margin_right = 1280.0
 rect_min_size = Vector2( 1280, 600 )
-theme = ExtResource( 1 )
+theme = ExtResource( 15 )
 script = ExtResource( 8 )
 
 [node name="HighscoresBackBtn" type="TextureButton" parent="Highscores"]
@@ -1524,9 +1673,9 @@ margin_right = -40.0
 margin_bottom = 120.0
 rect_min_size = Vector2( 16, 16 )
 rect_rotation = 89.9999
-texture_normal = SubResource( 158 )
-texture_hover = SubResource( 150 )
-texture_focused = SubResource( 150 )
+texture_normal = SubResource( 195 )
+texture_hover = SubResource( 196 )
+texture_focused = SubResource( 196 )
 
 [node name="Title" type="Label" parent="Highscores"]
 anchor_left = 0.5
@@ -1536,7 +1685,7 @@ margin_top = 94.0
 margin_right = 96.0
 margin_bottom = 126.0
 size_flags_horizontal = 3
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "Highscores"
@@ -3505,7 +3654,7 @@ margin_left = 1280.0
 margin_right = 2112.0
 margin_bottom = 720.0
 rect_min_size = Vector2( 832, 720 )
-theme = ExtResource( 1 )
+theme = ExtResource( 15 )
 
 [node name="Title" type="Label" parent="SelectGame"]
 margin_left = 8.0
@@ -3513,7 +3662,7 @@ margin_top = 70.0
 margin_right = 224.0
 margin_bottom = 102.0
 size_flags_horizontal = 3
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "Select game"
@@ -3537,9 +3686,9 @@ margin_right = -152.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 16, 16 )
 focus_neighbour_bottom = NodePath("../SelectGameBtn1")
-texture_normal = SubResource( 158 )
-texture_hover = SubResource( 150 )
-texture_focused = SubResource( 150 )
+texture_normal = SubResource( 195 )
+texture_hover = SubResource( 196 )
+texture_focused = SubResource( 196 )
 flip_h = true
 
 [node name="Title2" type="Label" parent="SelectGame"]
@@ -3561,9 +3710,9 @@ margin_left = 8.0
 margin_top = 192.0
 margin_right = 328.0
 margin_bottom = 248.0
-custom_styles/hover = SubResource( 152 )
-custom_styles/pressed = SubResource( 152 )
-custom_styles/focus = SubResource( 152 )
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "Tutorial"
@@ -3577,9 +3726,9 @@ margin_left = 8.0
 margin_top = 264.0
 margin_right = 328.0
 margin_bottom = 320.0
-custom_styles/hover = SubResource( 152 )
-custom_styles/pressed = SubResource( 152 )
-custom_styles/focus = SubResource( 152 )
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "Practice"
@@ -3593,9 +3742,9 @@ margin_left = 8.0
 margin_top = 328.0
 margin_right = 328.0
 margin_bottom = 384.0
-custom_styles/hover = SubResource( 152 )
-custom_styles/pressed = SubResource( 152 )
-custom_styles/focus = SubResource( 152 )
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "Only 1 pixel astray"
@@ -3609,9 +3758,9 @@ margin_left = 360.0
 margin_top = 176.0
 margin_right = 680.0
 margin_bottom = 232.0
-custom_styles/hover = SubResource( 152 )
-custom_styles/pressed = SubResource( 152 )
-custom_styles/focus = SubResource( 152 )
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "32 pixels astray"
@@ -3625,9 +3774,9 @@ margin_left = 360.0
 margin_top = 240.0
 margin_right = 680.0
 margin_bottom = 296.0
-custom_styles/hover = SubResource( 152 )
-custom_styles/pressed = SubResource( 152 )
-custom_styles/focus = SubResource( 152 )
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "78 pixels astray"
@@ -3641,9 +3790,9 @@ margin_left = 360.0
 margin_top = 304.0
 margin_right = 680.0
 margin_bottom = 360.0
-custom_styles/hover = SubResource( 152 )
-custom_styles/pressed = SubResource( 152 )
-custom_styles/focus = SubResource( 152 )
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "156 pixels astray"
@@ -3657,9 +3806,9 @@ margin_left = 360.0
 margin_top = 368.0
 margin_right = 680.0
 margin_bottom = 424.0
-custom_styles/hover = SubResource( 152 )
-custom_styles/pressed = SubResource( 152 )
-custom_styles/focus = SubResource( 152 )
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "234 pixels astray"
@@ -3682,7 +3831,7 @@ __meta__ = {
 margin_right = 150.0
 margin_bottom = 22.0
 size_flags_horizontal = 3
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "HOW TO PLAY"
 
@@ -3720,7 +3869,7 @@ margin_left = 208.0
 margin_top = -46.0
 margin_right = 226.0
 margin_bottom = -28.0
-texture = SubResource( 162 )
+texture = SubResource( 199 )
 
 [node name="HSeparator" type="VSeparator" parent="SelectGame/Control/Move"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
@@ -3744,7 +3893,7 @@ anchor_bottom = 1.0
 margin_left = 80.0
 margin_top = -46.0
 margin_right = 150.0
-texture = SubResource( 163 )
+texture = SubResource( 198 )
 
 [node name="Title" type="Label" parent="SelectGame/Control/Move"]
 modulate = Color( 1, 1, 1, 0.901961 )
@@ -3752,7 +3901,7 @@ margin_top = -2.0
 margin_right = 144.0
 margin_bottom = 20.0
 size_flags_vertical = 0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Move player"
 
@@ -3761,7 +3910,7 @@ margin_top = 38.0
 margin_right = 144.0
 margin_bottom = 60.0
 size_flags_horizontal = 3
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 text = "Jadadada ..."
 
 [node name="Burst" type="Control" parent="SelectGame/Control"]
@@ -3812,7 +3961,7 @@ margin_top = 38.0
 margin_right = 144.0
 margin_bottom = 60.0
 size_flags_vertical = 0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 text = "Jadadada ..."
 
 [node name="Title" type="Label" parent="SelectGame/Control/Burst"]
@@ -3820,7 +3969,7 @@ margin_top = -2.0
 margin_right = 168.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Pick color"
 
@@ -3832,7 +3981,7 @@ margin_left = -448.0
 margin_top = 168.0
 margin_right = -127.0
 margin_bottom = 648.0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 
 [node name="Shortcuts" type="Control" parent="SelectGame/InfoPanel"]
 margin_top = 263.0
@@ -3847,7 +3996,7 @@ margin_right = 320.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 0, 38 )
 size_flags_horizontal = 3
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Shortcuts"
 
@@ -3880,7 +4029,7 @@ margin_left = 30.0
 margin_top = 2.0
 margin_right = 47.0
 margin_bottom = 20.0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
 text = "or"
 align = 1
@@ -3896,7 +4045,7 @@ margin_left = 85.0
 margin_top = 2.0
 margin_right = 243.0
 margin_bottom = 20.0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
 text = "to mute soundtrack"
 
@@ -3919,7 +4068,7 @@ margin_left = 30.0
 margin_top = 2.0
 margin_right = 47.0
 margin_bottom = 20.0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
 text = "or"
 align = 1
@@ -3935,7 +4084,7 @@ margin_left = 85.0
 margin_top = 2.0
 margin_right = 257.0
 margin_bottom = 20.0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
 text = "to skip current track"
 
@@ -3958,7 +4107,7 @@ margin_left = 30.0
 margin_top = 2.0
 margin_right = 47.0
 margin_bottom = 20.0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
 text = "or"
 align = 1
@@ -3974,7 +4123,7 @@ margin_left = 104.0
 margin_top = 2.0
 margin_right = 296.0
 margin_bottom = 20.0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
 text = "to pause/unpause game"
 
@@ -3997,7 +4146,7 @@ margin_left = 30.0
 margin_top = 2.0
 margin_right = 47.0
 margin_bottom = 20.0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
 text = "or"
 align = 1
@@ -4013,7 +4162,7 @@ margin_left = 103.0
 margin_top = 2.0
 margin_right = 262.0
 margin_bottom = 20.0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
 text = "to confirm selection"
 
@@ -4030,7 +4179,7 @@ margin_right = 320.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 0, 38 )
 size_flags_horizontal = 3
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Controls"
 
@@ -4091,7 +4240,7 @@ antialiased = true
 margin_top = 45.0
 margin_right = 70.0
 margin_bottom = 91.0
-texture = SubResource( 179 )
+texture = SubResource( 206 )
 
 [node name="Keyboard2" type="TextureRect" parent="SelectGame/InfoPanel/Controls/Keys"]
 margin_left = 90.0
@@ -4176,7 +4325,7 @@ margin_left = 8.0
 margin_top = 443.0
 margin_right = 679.0
 margin_bottom = 704.0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 
 [node name="Shortcuts" type="Control" parent="SelectGame/InfoPanelHor"]
 margin_left = 376.0
@@ -4192,7 +4341,7 @@ margin_right = 296.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 0, 38 )
 size_flags_horizontal = 3
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "SHORTCUTS"
 
@@ -4225,7 +4374,7 @@ margin_left = 30.0
 margin_top = 2.0
 margin_right = 47.0
 margin_bottom = 20.0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
 text = "or"
 align = 1
@@ -4241,7 +4390,7 @@ margin_left = 85.0
 margin_top = 2.0
 margin_right = 243.0
 margin_bottom = 20.0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
 text = "to mute soundtrack"
 
@@ -4264,7 +4413,7 @@ margin_left = 30.0
 margin_top = 2.0
 margin_right = 47.0
 margin_bottom = 20.0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
 text = "or"
 align = 1
@@ -4280,7 +4429,7 @@ margin_left = 85.0
 margin_top = 2.0
 margin_right = 257.0
 margin_bottom = 20.0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
 text = "to skip current track"
 
@@ -4303,7 +4452,7 @@ margin_left = 30.0
 margin_top = 2.0
 margin_right = 47.0
 margin_bottom = 20.0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
 text = "or"
 align = 1
@@ -4319,7 +4468,7 @@ margin_left = 104.0
 margin_top = 2.0
 margin_right = 296.0
 margin_bottom = 20.0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
 text = "to pause/unpause game"
 
@@ -4342,7 +4491,7 @@ margin_left = 30.0
 margin_top = 2.0
 margin_right = 47.0
 margin_bottom = 20.0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
 text = "or"
 align = 1
@@ -4358,7 +4507,7 @@ margin_left = 103.0
 margin_top = 2.0
 margin_right = 262.0
 margin_bottom = 20.0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
 text = "to confirm selection"
 
@@ -4375,7 +4524,7 @@ margin_right = 312.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 0, 38 )
 size_flags_horizontal = 3
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "CONTROLS"
 
@@ -4436,7 +4585,7 @@ antialiased = true
 margin_top = 45.0
 margin_right = 70.0
 margin_bottom = 91.0
-texture = SubResource( 179 )
+texture = SubResource( 206 )
 
 [node name="Keyboard2" type="TextureRect" parent="SelectGame/InfoPanelHor/Controls/Keys"]
 margin_left = 90.0
@@ -4522,7 +4671,7 @@ anchor_bottom = 1.0
 margin_left = -672.0
 margin_bottom = 720.0
 rect_min_size = Vector2( 632, 720 )
-theme = ExtResource( 1 )
+theme = ExtResource( 15 )
 script = ExtResource( 3 )
 
 [node name="SettingsBackBtn" type="TextureButton" parent="Settings"]
@@ -4533,9 +4682,9 @@ margin_top = 76.0
 margin_right = -8.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 16, 16 )
-texture_normal = SubResource( 158 )
-texture_hover = SubResource( 150 )
-texture_focused = SubResource( 150 )
+texture_normal = SubResource( 195 )
+texture_hover = SubResource( 196 )
+texture_focused = SubResource( 196 )
 
 [node name="Title" type="Label" parent="Settings"]
 margin_left = 224.0
@@ -4543,7 +4692,7 @@ margin_top = 70.0
 margin_right = 368.0
 margin_bottom = 102.0
 size_flags_horizontal = 3
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "Settings"
@@ -4622,7 +4771,7 @@ margin_top = 568.0
 margin_right = 544.0
 margin_bottom = 634.0
 size_flags_horizontal = 3
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
 text = "*
 In-game settings can also be accessed during game, through pause menu."
@@ -4636,7 +4785,7 @@ margin_top = 1328.0
 margin_right = 1280.0
 margin_bottom = 1928.0
 rect_min_size = Vector2( 1280, 600 )
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 
 [node name="CreditsBackBtn" type="TextureButton" parent="Creditsodl"]
 anchor_left = 1.0
@@ -4647,7 +4796,7 @@ margin_right = -44.0
 margin_bottom = 212.0
 rect_min_size = Vector2( 16, 16 )
 rect_rotation = 89.9999
-texture_normal = SubResource( 150 )
+texture_normal = SubResource( 196 )
 texture_hover = SubResource( 149 )
 
 [node name="Title2" type="Label" parent="Creditsodl"]
@@ -4658,7 +4807,7 @@ margin_top = 182.0
 margin_right = -356.0
 margin_bottom = 214.0
 size_flags_horizontal = 3
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "Credits"
@@ -4684,7 +4833,7 @@ margin_top = 255.0
 margin_right = 264.0
 margin_bottom = 280.0
 size_flags_horizontal = 3
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "PRODUCTION"
 
@@ -4696,7 +4845,7 @@ margin_top = 295.0
 margin_right = 2.0
 margin_bottom = 376.0
 size_flags_horizontal = 3
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 text = "Its a game that focuses arround .... Pixels, short for picture elements."
 autowrap = true
 
@@ -4707,7 +4856,7 @@ margin_left = -512.0
 margin_top = 371.0
 margin_bottom = 480.0
 size_flags_horizontal = 3
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 text = "Player interacts with ... They are tiny squares or dots that combine to form the visual content on displays such as computer screens."
 autowrap = true
 
@@ -4717,7 +4866,7 @@ margin_top = 255.0
 margin_right = 830.0
 margin_bottom = 280.0
 size_flags_horizontal = 3
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 1, 1, 1, 0.901961 )
 text = "RESOURCES"
 
@@ -4728,7 +4877,7 @@ margin_top = 295.0
 margin_right = 812.0
 margin_bottom = 320.0
 size_flags_vertical = 0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Music"
 
@@ -4738,7 +4887,7 @@ margin_top = 295.0
 margin_right = 1184.0
 margin_bottom = 460.0
 size_flags_vertical = 0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 text = "Each pixel a specific color 
 And intensity, and together
 Tthey create the images 
@@ -4754,7 +4903,7 @@ margin_top = 479.0
 margin_right = 812.0
 margin_bottom = 504.0
 size_flags_vertical = 0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Sound FX"
 
@@ -4764,7 +4913,7 @@ margin_top = 479.0
 margin_right = 1280.0
 margin_bottom = 557.0
 size_flags_vertical = 0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 text = "Move up = UP 
 Move down = DOWN
 Move left = LEFT"
@@ -4777,7 +4926,7 @@ margin_top = 575.0
 margin_right = 820.0
 margin_bottom = 600.0
 size_flags_vertical = 0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Fonts"
 
@@ -4787,7 +4936,7 @@ margin_top = 575.0
 margin_right = 1160.0
 margin_bottom = 608.0
 size_flags_vertical = 0
-theme = ExtResource( 1 )
+theme = SubResource( 194 )
 text = "16bfZX.ttf www.dafont.com"
 autowrap = true
 

@@ -59,9 +59,10 @@ func _ready() -> void:
 	energy_warning_popup.visible = false
 	
 	# disable life icons if
-	if Profiles.default_player_stats["player_life"] == 1:
+	if Profiles.game_rules["player_start_life"] == 1:
 		life_counter.visible = false
-	
+	else:
+		life_counter.visible = true
 	
 	
 func _process(delta: float) -> void:
@@ -77,9 +78,9 @@ func _process(delta: float) -> void:
 		check_for_hs()
 	
 	# show popup energy warning
-	if player_stats_on_hud["player_energy"] > Profiles.game_rules["tired_energy"]:
+	if player_stats_on_hud["player_energy"] > Profiles.game_rules["player_tired_energy"]:
 		energy_warning_popup.visible = false	
-	elif player_stats_on_hud["player_energy"] <= Profiles.game_rules["tired_energy"] and player_stats_on_hud["player_energy"] > 2:
+	elif player_stats_on_hud["player_energy"] <= Profiles.game_rules["player_tired_energy"] and player_stats_on_hud["player_energy"] > 2:
 		energy_warning_popup.visible = true
 		var energy_warning_string: String = "Low energy! Only %s steps remaining." % str(player_stats_on_hud["player_energy"] - 1)
 		steps_remaining.text = energy_warning_string
@@ -232,8 +233,8 @@ func show_color_indicator(picked_color):
 # SIGNALS ---------------------------------------------------------------------------------------------------------------------------
 
 
-func _on_GameTimer_deathmode_active() -> void:
-	Global.game_manager.deathmode_active = true
+func _on_GameTimer_sudden_death_active() -> void:
+	pass
 
 
 func _on_GameTimer_gametime_is_up() -> void:

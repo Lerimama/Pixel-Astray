@@ -42,19 +42,14 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	
 	# pravilno stanje settingsov
-	# game music
 	if Global.sound_manager.game_music_set_to_off:
 		$Settings/GameMusicCheckBox.pressed = false
 	else:
 		$Settings/GameMusicCheckBox.pressed = true
-	
-	
-	# game sfx
 	if Global.sound_manager.game_sfx_set_to_off:
 		$Settings/GameSfxCheckBox.pressed = false
 	else:
 		$Settings/GameSfxCheckBox.pressed = true
-	# camera shake
 	if Global.main_node.camera_shake_on:
 		$Settings/CamerShakeCheckBox.pressed = true
 	else:
@@ -103,12 +98,14 @@ func unpause_tree():
 	
 
 func _on_PlayBtn_pressed() -> void:
+	
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	pause_on = false
 	play_on()
 
 
 func _on_RestartBtn_pressed() -> void:
+	
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	pause_on = false
 	unpause_tree()
@@ -118,6 +115,7 @@ func _on_RestartBtn_pressed() -> void:
 	
 	
 func _on_QuitBtn_pressed() -> void:
+	
 	Global.sound_manager.play_gui_sfx("btn_cancel")
 	pause_on = false
 	unpause_tree()
@@ -140,10 +138,12 @@ func _on_GameMusicCheckBox_toggled(button_pressed: bool) -> void:
 
 
 func _on_GameMusicSlider_value_changed(value: float) -> void:
+	
 	Global.sound_manager.set_game_music_volume(value)
 
 
 func _on_GameSfxCheckBox_toggled(button_pressed: bool) -> void:
+	
 	if button_pressed:
 		Global.sound_manager.game_sfx_set_to_off = false
 	else:
@@ -151,6 +151,7 @@ func _on_GameSfxCheckBox_toggled(button_pressed: bool) -> void:
 
 
 func _on_CamerShakeCheckBox_toggled(button_pressed: bool) -> void:
+	
 	if button_pressed:
 		Global.main_node.camera_shake_on = true
 	else:

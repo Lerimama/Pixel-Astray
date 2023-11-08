@@ -1,7 +1,7 @@
 extends Control
 
 
-signal deathmode_active # pošlje se v hud, ki javi game managerju
+signal sudden_death_active # pošlje se v hud, ki javi game managerju
 signal gametime_is_up # pošlje se v hud, ki javi game managerju
 
 var current_second: int # trenutna sekunda znotraj minutnega kroga ... ia izpis na uri
@@ -9,9 +9,9 @@ var game_time: int # čas v tajmerju v sekundah
 var game_time_limit: int # podatki glede časovnih omejitev se pošljejo iz GM-ja
 var time_since_start: int # ne glede na mode, vedno želiš vedet koliko sekund je porabljeno od začetka ... za statistiko
 
-onready var deathmode_limit: int = Profiles.game_rules["death_mode_duration"]
+onready var sudden_death_limit: int = Profiles.game_rules["sudden_death_limit"]
 onready var level_time_limit: int = Profiles.level_data["game_time_limit"]
-onready var countdown_mode: bool = Profiles.game_rules["timer_countdown_mode"]
+onready var countdown_mode: bool = Profiles.game_rules["timer_mode_countdown"]
 onready var gameover_countdown_duration: int = Profiles.game_rules["gameover_countdown_duration"] # čas, ko je obarvan in se sliši bip bip
 
 
@@ -47,13 +47,13 @@ func _process(delta: float) -> void:
 			modulate = Global.color_red
 			emit_signal("gametime_is_up") # pošlje se v hud, ki javi game managerju		
 	
-		# activate deathmode
-		if Profiles.game_rules["deathmode_on"]:
-			if game_time > deathmode_limit:
+		# activate sudden_death
+		if Profiles.game_rules["suddent_death_mode"]:
+			if game_time > sudden_death_limit:
 				modulate = Global.color_white
-			elif game_time == deathmode_limit:
-				emit_signal("deathmode_active") # pošlje se v hud, ki javi game managerju		
-			elif game_time < deathmode_limit:
+			elif game_time == sudden_death_limit:
+				emit_signal("sudden_death_active") # pošlje se v hud, ki javi game managerju		
+			elif game_time < sudden_death_limit:
 				modulate = Global.color_red
 		
 	else:
@@ -61,13 +61,13 @@ func _process(delta: float) -> void:
 			stop_timer()
 			emit_signal("gametime_is_up")		
 		
-		# activate deathmode
-		if Profiles.game_rules["deathmode_on"]:
-			if game_time < game_time_limit - deathmode_limit:
+		# activate sudden_death_active
+		if Profiles.game_rules["suddent_death_mode"]:
+			if game_time < game_time_limit - sudden_death_limit:
 				modulate = Global.color_white
-			elif game_time == game_time_limit - deathmode_limit:
-				emit_signal("deathmode_active") # pošlje se v hud, ki javi game managerju		
-			elif game_time > game_time_limit - deathmode_limit:
+			elif game_time == game_time_limit - sudden_death_limit:
+				emit_signal("sudden_death_active") # pošlje se v hud, ki javi game managerju		
+			elif game_time > game_time_limit - sudden_death_limit:
 				modulate = Global.color_red
 	
 	

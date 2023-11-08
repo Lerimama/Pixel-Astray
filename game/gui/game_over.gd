@@ -25,6 +25,8 @@ onready var content_practice: Control = $ContentPractice
 onready var content_tutorial: Control = $ContentTutorial
 onready var content_game: Control = $ContentGame
 
+var current_content: Control # da ni potrebno pedenat vsega glede na stil igre (tut, practice, game)
+
 
 func _input(event: InputEvent) -> void:
 	
@@ -34,12 +36,8 @@ func _input(event: InputEvent) -> void:
 			accept_event()
 	
 	# change focus sounds
-	if content_game.modulate.a == 1:
-		if Input.is_action_just_pressed("ui_left"):
-			Global.sound_manager.play_gui_sfx("btn_focus_change")
-		elif Input.is_action_just_pressed("ui_right"):
-			Global.sound_manager.play_gui_sfx("btn_focus_change")
-	elif content_practice.modulate.a == 1:
+#	if content_game.modulate.a == 1 or content_practice.modulate.a == 1 or content_tutorial.modulate.a == 1:
+	if current_content != null and current_content.modulate.a == 1:
 		if Input.is_action_just_pressed("ui_left"):
 			Global.sound_manager.play_gui_sfx("btn_focus_change")
 		elif Input.is_action_just_pressed("ui_right"):
@@ -53,17 +51,61 @@ func _ready() -> void:
 	visible = false
 	modulate.a = 0
 	
-	name_input_popup.visible = false
-	content_game.modulate.a = 0
-	content_game.visible = false
+	content_tutorial.modulate.a = 0
+	content_tutorial.visible = false
 	
 	content_practice.modulate.a = 0
 	content_practice.visible = false
 	
-	content_tutorial.modulate.a = 0
-	content_tutorial.visible = false
+	name_input_popup.visible = false
+	content_game.modulate.a = 0
+	content_game.visible = false
 
 
+
+
+func fade_in_new():
+
+
+	var focus_btn: Button
+
+	if Global.game_manager.game_data["level"] == Profiles.Levels.TUTORIAL:
+		current_content = content_tutorial
+		focus_btn = $ContentTutorial/Menu/QuitBtn
+	elif Global.game_manager.game_data["level"] == Profiles.Levels.PRACTICE:
+		current_content = content_practice
+		focus_btn = $ContentPractice/Menu/RestartBtn
+	else:
+		current_content = content_game
+		focus_btn = $ContentGame/Menu/RestartBtn
+	
+	choose_gameover_title()
+			
+	modulate.a = 0	
+	visible = true
+	
+	# hud + title
+	var fade_in = get_tree().create_tween()
+	fade_in.tween_property(self, "modulate:a", 1, 0.5)
+	fade_in.tween_callback(Global.sound_manager, "play_sfx", [current_jingle])
+	
+	write_gameover_data()
+	
+#	if Global.game_manager.game_data["level"] != Profiles.Levels.TUTORIAL and Global.game_manager.game_data["level"] != Profiles.Levels.PRACTICE:
+	if current_content == content_game:
+		highscore_table.get_highscore_table(Global.game_manager.game_data["level"], Global.data_manager.current_player_ranking)
+
+	yield(get_tree().create_timer(3), "timeout")
+	current_content.visible = true
+	
+	# title out, content in
+	var fade = get_tree().create_tween()
+	fade.tween_property(current_title, "modulate:a", 0, 1)
+	fade.tween_property(current_content, "modulate:a", 1, 1)#.set_delay(0.3)
+	fade.tween_callback(self, "pause_tree") # šele tukaj, da se tween sploh zgodi
+	fade.tween_callback(focus_btn, "grab_focus") # šele tukaj, da se tween sploh zgodi,če 
+	
+	
 func fade_in_practice():
 	
 	var restart_btn = $ContentPractice/Menu/RestartBtn # za focus
@@ -119,60 +161,34 @@ func fade_in_tutorial():
 
 
 # brez HS
-func fade_in():
-	
-	var restart_btn = $ContentGame/Menu/RestartBtn # za focus
-	
-	choose_gameover_title()
-	
-#	match gameover_reason:
-#		"reason_cleaned":
-#			title_succes.visible = true
-#			title_fail_time.visible = false
-#			title_fail_life.visible = false
+#func fade_in():
 #
-#			current_title = title_succes
+#	var restart_btn = $ContentGame/Menu/RestartBtn # za focus
 #
-#			# malo časa da lahko leta naokrog
-#			yield(get_tree().create_timer(Profiles.game_rules["dead_time"]), "timeout")
-#			var dance
+#	choose_gameover_title()
 #
-#		"reason_time":
-#			title_succes.visible = false
-#			title_fail_time.visible = true
-#			title_fail_life.visible = false
+#	modulate.a = 0	
+#	visible = true
 #
-#			current_title = title_fail_time
+#	# hud + title
+#	var fade_in = get_tree().create_tween()
+#	fade_in.tween_property(self, "modulate:a", 1, 0.5)
+#	fade_in.tween_callback(Global.sound_manager, "play_sfx", [current_jingle])
 #
-#		"reason_life":
-#			title_succes.visible = false
-#			title_fail_time.visible = false
-#			title_fail_life.visible = true
+#	write_gameover_data()
+#	highscore_table.get_highscore_table(Global.game_manager.game_data["level"], Global.data_manager.current_player_ranking)
 #
-#			current_title = title_fail_life
-			
-	modulate.a = 0	
-	visible = true
-	
-	# hud + title
-	var fade_in = get_tree().create_tween()
-	fade_in.tween_property(self, "modulate:a", 1, 0.5)
-	fade_in.tween_callback(Global.sound_manager, "play_sfx", [current_jingle])
-	
-	write_gameover_data()
-	highscore_table.get_highscore_table(Global.game_manager.game_data["level"], Global.data_manager.current_player_ranking)
-	
-	content_game.visible = true
-	
-	yield(get_tree().create_timer(3), "timeout")
-
-	# title out, content in
-	var fade = get_tree().create_tween()
-	fade.tween_property(current_title, "modulate:a", 0, 1)
-	# fade.parallel().tween_property(undi, "modulate:a", 0.9, 1)
-	fade.tween_property(content_game, "modulate:a", 1, 1)#.set_delay(0.3)
-	fade.tween_callback(self, "pause_tree") # šele tukaj, da se tween sploh zgodi
-	fade.tween_callback(restart_btn, "grab_focus") # šele tukaj, da se tween sploh zgodi,če 
+#	content_game.visible = true
+#
+#	yield(get_tree().create_timer(3), "timeout")
+#
+#	# title out, content in
+#	var fade = get_tree().create_tween()
+#	fade.tween_property(current_title, "modulate:a", 0, 1)
+#	# fade.parallel().tween_property(undi, "modulate:a", 0.9, 1)
+#	fade.tween_property(content_game, "modulate:a", 1, 1)#.set_delay(0.3)
+#	fade.tween_callback(self, "pause_tree") # šele tukaj, da se tween sploh zgodi
+#	fade.tween_callback(restart_btn, "grab_focus") # šele tukaj, da se tween sploh zgodi,če 
 
 	
 # jes HS

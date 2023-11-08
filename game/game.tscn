@@ -1,9 +1,9 @@
-[gd_scene load_steps=77 format=2]
+[gd_scene load_steps=99 format=2]
 
 [ext_resource path="res://game/hud/hud_game_timer.gd" type="Script" id=1]
 [ext_resource path="res://game/hud/hud.gd" type="Script" id=2]
 [ext_resource path="res://game/gui/game_over.gd" type="Script" id=3]
-[ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=4]
+[ext_resource path="res://assets/theme/lerimama_theme_font.tres" type="DynamicFont" id=4]
 [ext_resource path="res://assets/theme/lerimama_theme_title_font.tres" type="DynamicFont" id=5]
 [ext_resource path="res://game/game.gd" type="Script" id=6]
 [ext_resource path="res://game/gui/highscore_table.gd" type="Script" id=7]
@@ -21,9 +21,158 @@
 [ext_resource path="res://assets/theme/fonts/16bfZX.ttf" type="DynamicFontData" id=19]
 [ext_resource path="res://assets/tileset_controls.png" type="Texture" id=20]
 [ext_resource path="res://game/gui/tutorial.gd" type="Script" id=21]
+[ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=22]
 [ext_resource path="res://assets/theme/lerimama_theme_body_font.tres" type="DynamicFont" id=23]
 [ext_resource path="res://assets/theme/tileset_gui.png" type="Texture" id=24]
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=25]
+
+[sub_resource type="StyleBoxEmpty" id=169]
+
+[sub_resource type="StreamTexture" id=175]
+load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
+
+[sub_resource type="AtlasTexture" id=157]
+atlas = SubResource( 175 )
+region = Rect2( 16, 16, 14, 16 )
+
+[sub_resource type="AtlasTexture" id=158]
+atlas = SubResource( 175 )
+region = Rect2( 0, 16, 10, 16 )
+
+[sub_resource type="StyleBoxFlat" id=176]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+expand_margin_left = 6.0
+expand_margin_right = 6.0
+expand_margin_top = 2.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxEmpty" id=178]
+
+[sub_resource type="StyleBoxEmpty" id=179]
+
+[sub_resource type="StyleBoxLine" id=5]
+color = Color( 1, 1, 1, 1 )
+thickness = 2
+
+[sub_resource type="AtlasTexture" id=150]
+atlas = SubResource( 175 )
+region = Rect2( 32, 0, 10, 10 )
+
+[sub_resource type="StyleBoxEmpty" id=163]
+
+[sub_resource type="StyleBoxFlat" id=177]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+expand_margin_left = 6.0
+expand_margin_top = 6.0
+expand_margin_bottom = 6.0
+
+[sub_resource type="AtlasTexture" id=152]
+atlas = SubResource( 175 )
+region = Rect2( 0, 4, 16, 8 )
+
+[sub_resource type="StyleBoxTexture" id=153]
+texture = SubResource( 152 )
+region_rect = Rect2( 0, 0, 16, 8 )
+margin_left = 3.34132
+margin_right = 4.0
+margin_top = 4.0
+margin_bottom = 4.0
+modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+
+[sub_resource type="StyleBoxFlat" id=12]
+bg_color = Color( 0, 0, 0, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="AtlasTexture" id=162]
+atlas = SubResource( 175 )
+region = Rect2( 16, 0, 16, 12 )
+margin = Rect2( 4, 0, 0, 0 )
+
+[sub_resource type="StyleBoxFlat" id=168]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 0.901961 )
+expand_margin_left = 6.0
+expand_margin_right = 6.0
+expand_margin_top = 2.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0, 0, 0, 0.862745 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
+
+[sub_resource type="StyleBoxLine" id=174]
+color = Color( 1, 1, 1, 1 )
+thickness = 2
+vertical = true
+
+[sub_resource type="Theme" id=194]
+default_font = ExtResource( 4 )
+Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
+Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
+Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
+Button/styles/disabled = SubResource( 169 )
+Button/styles/focus = SubResource( 169 )
+Button/styles/hover = SubResource( 169 )
+Button/styles/normal = SubResource( 169 )
+Button/styles/pressed = SubResource( 169 )
+CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
+CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
+CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
+CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
+CheckBox/constants/hseparation = 4
+CheckBox/icons/checked = SubResource( 157 )
+CheckBox/icons/unchecked = SubResource( 158 )
+CheckBox/styles/focus = SubResource( 176 )
+CheckBox/styles/hover = SubResource( 176 )
+CheckBox/styles/hover_pressed = SubResource( 176 )
+CheckBox/styles/normal = SubResource( 178 )
+CheckBox/styles/pressed = SubResource( 179 )
+HSeparator/styles/separator = SubResource( 5 )
+HSlider/icons/grabber = SubResource( 150 )
+HSlider/icons/grabber_disabled = null
+HSlider/icons/grabber_highlight = SubResource( 150 )
+HSlider/icons/tick = null
+HSlider/styles/grabber_area = SubResource( 163 )
+HSlider/styles/grabber_area_highlight = SubResource( 177 )
+HSlider/styles/slider = SubResource( 153 )
+Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
+Label/constants/line_spacing = 6
+LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
+LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
+LineEdit/styles/normal = SubResource( 12 )
+OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+OptionButton/icons/arrow = SubResource( 162 )
+OptionButton/styles/focus = SubResource( 168 )
+OptionButton/styles/hover = SubResource( 168 )
+OptionButton/styles/pressed = SubResource( 168 )
+Panel/styles/panel = SubResource( 7 )
+VSeparator/styles/separator = SubResource( 174 )
 
 [sub_resource type="NoiseTexture" id=1]
 width = 246
@@ -320,6 +469,44 @@ tracks/3/keys = {
 "values": [ 0.0, 1.0, 1.0, 0.0 ]
 }
 
+[sub_resource type="StyleBoxEmpty" id=201]
+
+[sub_resource type="AtlasTexture" id=173]
+atlas = ExtResource( 24 )
+region = Rect2( 0, 80, 6, 6 )
+margin = Rect2( 0, 8, 0, 12 )
+
+[sub_resource type="AtlasTexture" id=202]
+atlas = ExtResource( 20 )
+region = Rect2( 0, 98, 70, 46 )
+
+[sub_resource type="AtlasTexture" id=151]
+atlas = ExtResource( 20 )
+region = Rect2( 80, 98, 70, 46 )
+
+[sub_resource type="StreamTexture" id=183]
+load_path = "res://.import/controls_scheme.png-9ee77a9514109977db18399ec912d13f.stex"
+
+[sub_resource type="AtlasTexture" id=203]
+atlas = SubResource( 183 )
+region = Rect2( 0, 0, 120, 86 )
+
+[sub_resource type="AtlasTexture" id=204]
+atlas = ExtResource( 20 )
+region = Rect2( 10, 17, 22, 22 )
+
+[sub_resource type="AtlasTexture" id=154]
+atlas = ExtResource( 20 )
+region = Rect2( 30, 40, 18, 18 )
+
+[sub_resource type="AtlasTexture" id=205]
+atlas = ExtResource( 20 )
+region = Rect2( 96, 32, 10, 10 )
+
+[sub_resource type="AtlasTexture" id=156]
+atlas = ExtResource( 20 )
+region = Rect2( 0, 154, 160, 22 )
+
 [sub_resource type="StyleBoxFlat" id=155]
 content_margin_left = 21.0
 content_margin_right = 19.0
@@ -332,43 +519,15 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 
-[sub_resource type="StyleBoxEmpty" id=168]
-
-[sub_resource type="AtlasTexture" id=173]
-atlas = ExtResource( 24 )
-region = Rect2( 0, 80, 6, 6 )
-margin = Rect2( 0, 8, 0, 12 )
-
-[sub_resource type="AtlasTexture" id=150]
+[sub_resource type="AtlasTexture" id=199]
 atlas = ExtResource( 20 )
-region = Rect2( 0, 98, 70, 46 )
+region = Rect2( 72, 186, 22, 22 )
+margin = Rect2( 0, 2, 0, 0 )
 
-[sub_resource type="AtlasTexture" id=151]
+[sub_resource type="AtlasTexture" id=200]
 atlas = ExtResource( 20 )
-region = Rect2( 80, 98, 70, 46 )
-
-[sub_resource type="StreamTexture" id=183]
-load_path = "res://.import/controls_scheme.png-9ee77a9514109977db18399ec912d13f.stex"
-
-[sub_resource type="AtlasTexture" id=152]
-atlas = SubResource( 183 )
-region = Rect2( 0, 0, 120, 86 )
-
-[sub_resource type="AtlasTexture" id=153]
-atlas = ExtResource( 20 )
-region = Rect2( 10, 17, 22, 22 )
-
-[sub_resource type="AtlasTexture" id=154]
-atlas = ExtResource( 20 )
-region = Rect2( 30, 40, 18, 18 )
-
-[sub_resource type="AtlasTexture" id=177]
-atlas = ExtResource( 20 )
-region = Rect2( 96, 32, 10, 10 )
-
-[sub_resource type="AtlasTexture" id=156]
-atlas = ExtResource( 20 )
-region = Rect2( 0, 154, 160, 22 )
+region = Rect2( 0, 218, 40, 22 )
+margin = Rect2( -2, 2, 0, 0 )
 
 [sub_resource type="Animation" id=171]
 length = 0.001
@@ -694,7 +853,7 @@ region = Rect2( 80, 98, 70, 46 )
 [sub_resource type="StreamTexture" id=181]
 load_path = "res://.import/controls_scheme.png-9ee77a9514109977db18399ec912d13f.stex"
 
-[sub_resource type="AtlasTexture" id=194]
+[sub_resource type="AtlasTexture" id=206]
 atlas = SubResource( 181 )
 region = Rect2( 0, 0, 120, 86 )
 
@@ -814,7 +973,7 @@ margin_left = 32.0
 margin_top = 10.0
 margin_right = 96.0
 margin_bottom = 36.0
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 text = "test"
 
 [node name="TestHud" type="Control" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer"]
@@ -824,7 +983,7 @@ margin_right = 1248.0
 margin_bottom = 612.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 
 [node name="ZoomLabel" type="Label" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud"]
 anchor_left = 1.0
@@ -845,7 +1004,7 @@ margin_left = 992.0
 margin_top = -104.0
 margin_right = 1180.0
 margin_bottom = -78.0
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 text = "resetiraj pogled"
 
 [node name="ShakeBar" type="ProgressBar" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud"]
@@ -860,7 +1019,7 @@ margin_right = 608.0
 margin_bottom = -29.0
 rect_min_size = Vector2( 0, 16 )
 size_flags_horizontal = 3
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 max_value = 1.0
 
 [node name="TraumaBar" type="ProgressBar" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud"]
@@ -875,7 +1034,7 @@ margin_right = 608.0
 margin_bottom = 2.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 max_value = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -891,7 +1050,7 @@ margin_left = -51.0
 margin_top = -300.0
 margin_right = -35.0
 margin_bottom = 212.0
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 max_value = 1.0
 step = 0.1
 value = 1.0
@@ -905,7 +1064,7 @@ margin_top = -302.0
 margin_right = 16.0
 margin_bottom = 209.0
 rect_scale = Vector2( -1, 1 )
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 max_value = 2.0
 step = 0.1
 value = 1.0
@@ -916,7 +1075,7 @@ anchor_bottom = 1.0
 margin_top = -516.0
 margin_right = 248.0
 margin_bottom = -151.0
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 
 [node name="NoiseVisual" type="TextureRect" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl"]
 margin_right = 246.0
@@ -1068,7 +1227,7 @@ margin_left = 73.0
 margin_top = -417.0
 margin_right = 173.0
 margin_bottom = -368.0
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 custom_colors/font_color_focus = Color( 1, 1, 1, 1 )
 custom_colors/font_color = Color( 0.945098, 0.945098, 0.945098, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
@@ -1107,7 +1266,7 @@ limit_smoothed = true
 [node name="GUI" type="Control" parent="."]
 margin_right = 1280.0
 margin_bottom = 720.0
-theme = ExtResource( 4 )
+theme = ExtResource( 22 )
 __meta__ = {
 "_editor_description_": ""
 }
@@ -1340,7 +1499,7 @@ margin_left = -34.0
 margin_top = 16.0
 margin_right = 36.0
 margin_bottom = 38.0
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
@@ -1714,6 +1873,7 @@ align = 1
 valign = 1
 
 [node name="GameCountdown" type="Control" parent="GUI"]
+visible = false
 modulate = Color( 1, 1, 1, 0 )
 margin_right = 1280.0
 margin_bottom = 720.0
@@ -1774,7 +1934,6 @@ anims/countdown_5 = SubResource( 142 )
 anims/countdown_5_v1 = SubResource( 135 )
 
 [node name="Tutorial" type="Control" parent="GUI"]
-visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
 rect_min_size = Vector2( 1280, 720 )
@@ -1782,90 +1941,6 @@ script = ExtResource( 21 )
 __meta__ = {
 "_editor_description_": ""
 }
-
-[node name="MissionPanel" type="Control" parent="GUI/Tutorial"]
-modulate = Color( 1, 1, 1, 0 )
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -223.0
-margin_top = -40.0
-margin_right = 225.0
-margin_bottom = 248.0
-theme = ExtResource( 4 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Panel" type="Panel" parent="GUI/Tutorial/MissionPanel"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_styles/panel = SubResource( 155 )
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="Content" type="Label" parent="GUI/Tutorial/MissionPanel"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -185.0
-margin_top = 40.0
-margin_right = 183.0
-margin_bottom = 130.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "This is tutorial to basic controls and mechanics of the game. Every stage includes instructions you need to follow to progress to the next one, and also some hints."
-align = 1
-autowrap = true
-
-[node name="Content2" type="Label" parent="GUI/Tutorial/MissionPanel"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -155.0
-margin_top = 152.0
-margin_right = 153.0
-margin_bottom = 194.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "Before starting the tutorial, be sure to check the displayed HUD labels. "
-align = 1
-autowrap = true
-
-[node name="Menu" type="HBoxContainer" parent="GUI/Tutorial/MissionPanel"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -77.0
-margin_top = 230.0
-margin_right = 77.0
-margin_bottom = 252.0
-custom_constants/separation = 32
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="StartBtn" type="Button" parent="GUI/Tutorial/MissionPanel/Menu"]
-margin_right = 70.0
-margin_bottom = 22.0
-focus_neighbour_left = NodePath("../QuitBtn")
-focus_neighbour_right = NodePath("../QuitBtn")
-focus_mode = 1
-size_flags_horizontal = 8
-size_flags_vertical = 8
-theme = ExtResource( 4 )
-enabled_focus_mode = 1
-text = "START"
-
-[node name="QuitBtn" type="Button" parent="GUI/Tutorial/MissionPanel/Menu"]
-margin_left = 102.0
-margin_right = 154.0
-margin_bottom = 22.0
-focus_neighbour_left = NodePath("../StartBtn")
-focus_neighbour_right = NodePath("../StartBtn")
-size_flags_horizontal = 2
-size_flags_vertical = 8
-theme = ExtResource( 4 )
-text = "QUIT"
 
 [node name="Checkpoints" type="VBoxContainer" parent="GUI/Tutorial"]
 margin_left = -360.0
@@ -1885,7 +1960,7 @@ margin_bottom = 22.0
 rect_min_size = Vector2( 0, 20 )
 theme_type_variation = "Lerimama_lite"
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_styles/normal = SubResource( 168 )
+custom_styles/normal = SubResource( 201 )
 text = "Traveling"
 __meta__ = {
 "_editor_description_": ""
@@ -1988,7 +2063,7 @@ margin_bottom = 292.0
 rect_min_size = Vector2( 0, 20 )
 theme_type_variation = "Lerimama_lite"
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_styles/normal = SubResource( 168 )
+custom_styles/normal = SubResource( 201 )
 text = "Collecting colors"
 __meta__ = {
 "_editor_description_": ""
@@ -2121,7 +2196,7 @@ margin_bottom = 722.0
 rect_min_size = Vector2( 0, 20 )
 theme_type_variation = "Lerimama_lite"
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_styles/normal = SubResource( 168 )
+custom_styles/normal = SubResource( 201 )
 text = "Using skills"
 __meta__ = {
 "_editor_description_": ""
@@ -2260,7 +2335,7 @@ margin_bottom = 1152.0
 rect_min_size = Vector2( 0, 20 )
 theme_type_variation = "Lerimama_lite"
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_styles/normal = SubResource( 168 )
+custom_styles/normal = SubResource( 201 )
 text = "Stacking pixels"
 
 [node name="StackingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
@@ -2382,7 +2457,7 @@ margin_bottom = 1506.0
 rect_min_size = Vector2( 0, 20 )
 theme_type_variation = "Lerimama_lite"
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_styles/normal = SubResource( 168 )
+custom_styles/normal = SubResource( 201 )
 text = "Game Over"
 __meta__ = {
 "_editor_description_": ""
@@ -2503,6 +2578,7 @@ margin_bottom = 1816.0
 [node name="HudGuide" type="Control" parent="GUI/Tutorial"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 
 [node name="EnergyLabel" type="Label" parent="GUI/Tutorial/HudGuide"]
 self_modulate = Color( 0.368627, 1, 0.662745, 1 )
@@ -2678,7 +2754,7 @@ margin_left = 24.0
 margin_top = 80.0
 margin_right = 344.0
 margin_bottom = 647.0
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 
 [node name="Controls" type="Control" parent="GUI/Tutorial/InfoPanel"]
 margin_top = 6.0
@@ -2690,7 +2766,7 @@ margin_right = 320.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 0, 38 )
 size_flags_horizontal = 3
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Controls"
 
@@ -2725,7 +2801,7 @@ autowrap = true
 margin_top = 37.0
 margin_right = 70.0
 margin_bottom = 83.0
-texture = SubResource( 150 )
+texture = SubResource( 202 )
 
 [node name="Keyboard2" type="TextureRect" parent="GUI/Tutorial/InfoPanel/Controls/Keys"]
 margin_left = 90.0
@@ -2747,14 +2823,14 @@ __meta__ = {
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
 margin_right = 120.0
 margin_bottom = 86.0
-texture = SubResource( 152 )
+texture = SubResource( 203 )
 
 [node name="btns" type="TextureRect" parent="GUI/Tutorial/InfoPanel/Controls/Keys/Joypad"]
 margin_left = 10.0
 margin_top = 17.0
 margin_right = 32.0
 margin_bottom = 39.0
-texture = SubResource( 153 )
+texture = SubResource( 204 )
 
 [node name="stick" type="TextureRect" parent="GUI/Tutorial/InfoPanel/Controls/Keys/Joypad"]
 visible = false
@@ -2769,7 +2845,7 @@ margin_left = 96.0
 margin_top = 32.0
 margin_right = 106.0
 margin_bottom = 42.0
-texture = SubResource( 177 )
+texture = SubResource( 205 )
 
 [node name="BurstKey" type="Label" parent="GUI/Tutorial/InfoPanel/Controls/Keys"]
 modulate = Color( 0.368627, 1, 0.662745, 1 )
@@ -2841,7 +2917,7 @@ margin_right = 322.0
 margin_bottom = 34.0
 rect_min_size = Vector2( 0, 34 )
 size_flags_horizontal = 3
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Scoring and energy"
 
@@ -2991,6 +3067,140 @@ custom_fonts/font = ExtResource( 23 )
 text = "Hit a wall when bursting ...  - 1/2 of your points and energy"
 autowrap = true
 
+[node name="MissionPanel" type="Control" parent="GUI/Tutorial"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -223.0
+margin_top = -40.0
+margin_right = 225.0
+margin_bottom = 248.0
+theme = SubResource( 194 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Panel" type="Panel" parent="GUI/Tutorial/MissionPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+custom_styles/panel = SubResource( 155 )
+
+[node name="Content" type="Label" parent="GUI/Tutorial/MissionPanel"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -185.0
+margin_top = 40.0
+margin_right = 183.0
+margin_bottom = 130.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 23 )
+text = "This is tutorial to basic controls and mechanics of the game. Every stage includes instructions you need to follow to progress to the next one, and also some hints."
+align = 1
+autowrap = true
+
+[node name="Content2" type="Label" parent="GUI/Tutorial/MissionPanel"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -155.0
+margin_top = 152.0
+margin_right = 153.0
+margin_bottom = 194.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 23 )
+text = "Before starting the tutorial, be sure to check the displayed HUD labels. "
+align = 1
+autowrap = true
+
+[node name="Menu" type="HBoxContainer" parent="GUI/Tutorial/MissionPanel"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -77.0
+margin_top = 230.0
+margin_right = 77.0
+margin_bottom = 252.0
+custom_constants/separation = 32
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="QuitBtn" type="Button" parent="GUI/Tutorial/MissionPanel/Menu"]
+margin_right = 52.0
+margin_bottom = 22.0
+focus_neighbour_right = NodePath("../StartBtn")
+size_flags_horizontal = 2
+size_flags_vertical = 8
+theme = SubResource( 194 )
+text = "QUIT"
+
+[node name="StartBtn" type="Button" parent="GUI/Tutorial/MissionPanel/Menu"]
+margin_left = 84.0
+margin_right = 154.0
+margin_bottom = 22.0
+focus_neighbour_left = NodePath("../QuitBtn")
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme = SubResource( 194 )
+text = "START"
+
+[node name="StartHint" type="HBoxContainer" parent="GUI/Tutorial/MissionPanel"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -111.0
+margin_top = 222.0
+margin_right = 111.0
+margin_bottom = 244.0
+custom_constants/separation = 8
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Label" type="Label" parent="GUI/Tutorial/MissionPanel/StartHint"]
+margin_top = 2.0
+margin_right = 44.0
+margin_bottom = 20.0
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_fonts/font = ExtResource( 23 )
+text = "Press"
+align = 1
+
+[node name="Enter" type="TextureRect" parent="GUI/Tutorial/MissionPanel/StartHint"]
+margin_left = 52.0
+margin_right = 74.0
+margin_bottom = 22.0
+texture = SubResource( 199 )
+
+[node name="Label3" type="Label" parent="GUI/Tutorial/MissionPanel/StartHint"]
+margin_left = 82.0
+margin_top = 2.0
+margin_right = 99.0
+margin_bottom = 20.0
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_fonts/font = ExtResource( 23 )
+text = "or"
+align = 1
+
+[node name="Start" type="TextureRect" parent="GUI/Tutorial/MissionPanel/StartHint"]
+margin_left = 107.0
+margin_right = 147.0
+margin_bottom = 22.0
+texture = SubResource( 200 )
+
+[node name="Label2" type="Label" parent="GUI/Tutorial/MissionPanel/StartHint"]
+margin_left = 155.0
+margin_top = 2.0
+margin_right = 222.0
+margin_bottom = 20.0
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_fonts/font = ExtResource( 23 )
+text = "to start"
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/Tutorial"]
 anims/RESET = SubResource( 171 )
 anims/mission_in = SubResource( 180 )
@@ -3003,6 +3213,9 @@ visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
 script = ExtResource( 10 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Undi" type="ColorRect" parent="GUI/PauseMenu"]
 modulate = Color( 1, 1, 1, 0.627451 )
@@ -3026,7 +3239,6 @@ margin_top = 102.0
 margin_right = 773.0
 margin_bottom = 134.0
 size_flags_horizontal = 3
-theme = ExtResource( 4 )
 custom_colors/font_color = Color( 0.952941, 0.356863, 0.498039, 1 )
 custom_fonts/font = ExtResource( 5 )
 text = "Game on pause"
@@ -3055,7 +3267,7 @@ anchor_right = 1.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 38 )
 size_flags_horizontal = 3
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "CONTROLS"
 
@@ -3138,7 +3350,7 @@ __meta__ = {
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
 margin_right = 120.0
 margin_bottom = 86.0
-texture = SubResource( 194 )
+texture = SubResource( 206 )
 
 [node name="btns" type="TextureRect" parent="GUI/PauseMenu/Controls/Keys/Joypad"]
 margin_left = 10.0
@@ -3210,7 +3422,7 @@ margin_right = 296.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 0, 38 )
 size_flags_horizontal = 3
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "SHORTCUTS"
 
@@ -3243,7 +3455,7 @@ margin_left = 30.0
 margin_top = 2.0
 margin_right = 47.0
 margin_bottom = 20.0
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 23 )
 text = "or"
 align = 1
@@ -3259,7 +3471,7 @@ margin_left = 85.0
 margin_top = 2.0
 margin_right = 243.0
 margin_bottom = 20.0
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 23 )
 text = "to mute soundtrack"
 
@@ -3282,7 +3494,7 @@ margin_left = 30.0
 margin_top = 2.0
 margin_right = 47.0
 margin_bottom = 20.0
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 23 )
 text = "or"
 align = 1
@@ -3298,7 +3510,7 @@ margin_left = 85.0
 margin_top = 2.0
 margin_right = 257.0
 margin_bottom = 20.0
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 23 )
 text = "to skip current track"
 
@@ -3321,7 +3533,7 @@ margin_left = 30.0
 margin_top = 2.0
 margin_right = 47.0
 margin_bottom = 20.0
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 23 )
 text = "or"
 align = 1
@@ -3337,7 +3549,7 @@ margin_left = 104.0
 margin_top = 2.0
 margin_right = 296.0
 margin_bottom = 20.0
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 23 )
 text = "to pause/unpause game"
 
@@ -3360,7 +3572,7 @@ margin_left = 30.0
 margin_top = 2.0
 margin_right = 47.0
 margin_bottom = 20.0
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 23 )
 text = "or"
 align = 1
@@ -3376,7 +3588,7 @@ margin_left = 103.0
 margin_top = 2.0
 margin_right = 262.0
 margin_bottom = 20.0
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 23 )
 text = "to confirm selection"
 
@@ -3387,7 +3599,6 @@ margin_left = 320.0
 margin_top = 405.0
 margin_right = -303.0
 margin_bottom = -194.0
-theme = ExtResource( 4 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -3397,7 +3608,7 @@ anchor_right = 1.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 0, 38 )
 size_flags_horizontal = 3
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "SETTINGS"
 
@@ -3490,10 +3701,8 @@ margin_bottom = 22.0
 focus_neighbour_left = NodePath("../../Settings/GameMusicSlider")
 focus_neighbour_top = NodePath("../../Settings/GameMusicSlider")
 focus_neighbour_right = NodePath("../RestartBtn")
-focus_mode = 1
 size_flags_vertical = 0
-theme = ExtResource( 4 )
-enabled_focus_mode = 1
+theme = SubResource( 194 )
 text = "QUIT"
 
 [node name="RestartBtn" type="Button" parent="GUI/PauseMenu/Menu"]
@@ -3503,11 +3712,9 @@ margin_bottom = 22.0
 focus_neighbour_left = NodePath("../QuitBtn")
 focus_neighbour_top = NodePath("../../Settings/GameMusicSlider")
 focus_neighbour_right = NodePath("../PlayBtn")
-focus_mode = 1
 size_flags_horizontal = 6
 size_flags_vertical = 0
-theme = ExtResource( 4 )
-enabled_focus_mode = 1
+theme = SubResource( 194 )
 text = "RESTART"
 
 [node name="PlayBtn" type="Button" parent="GUI/PauseMenu/Menu"]
@@ -3517,17 +3724,19 @@ margin_bottom = 22.0
 focus_neighbour_left = NodePath("../RestartBtn")
 focus_neighbour_top = NodePath("../../Settings/GameMusicSlider")
 focus_neighbour_right = NodePath("../../Settings/GameMusicSlider")
-focus_mode = 1
 size_flags_vertical = 0
-theme = ExtResource( 4 )
-enabled_focus_mode = 1
+theme = SubResource( 194 )
 text = "PLAY ON"
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
+visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
 script = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Undi" type="ColorRect" parent="GUI/GameOver"]
 anchor_right = 1.0
@@ -3620,12 +3829,12 @@ format = 1
 tile_data = PoolIntArray( 0, 0, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 6, -1610612736, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 12, 0, 0, 16, 0, 0, 18, 0, 0, 19, 0, 0, 20, 0, 0, 21, 0, 0, 65536, 0, 0, 65542, -1610612736, 0, 65546, 0, 0, 65548, 0, 0, 65549, 0, 0, 65551, 0, 0, 65552, 0, 0, 65554, 0, 0, 131072, 0, 0, 131078, -1610612736, 0, 131079, 0, 0, 131080, 0, 0, 131081, 0, 0, 131082, 0, 0, 131084, 0, 0, 131086, 0, 0, 131088, 0, 0, 131090, 0, 0, 131091, 0, 0, 131092, 0, 0, 196608, 0, 0, 196614, -1610612736, 0, 196618, 0, 0, 196620, 0, 0, 196624, 0, 0, 196626, 0, 0, 262144, 0, 0, 262146, 0, 0, 262147, 0, 0, 262150, -1610612736, 0, 262154, 0, 0, 262156, 0, 0, 262160, 0, 0, 262162, 0, 0, 262169, -1610612736, 0, 262170, -1610612736, 0, 262171, -1610612736, 0, 262172, -1610612736, 0, 262175, 0, 0, 262179, 0, 0, 262181, -1610612736, 0, 262182, -1610612736, 0, 262183, -1610612736, 0, 262184, -1610612736, 0, 262187, -1610612736, 0, 262188, -1610612736, 0, 262189, -1610612736, 0, 262190, -1610612736, 0, 327680, -1610612736, 0, 327684, 0, 0, 327686, -1610612736, 0, 327690, 0, 0, 327692, 0, 0, 327696, 0, 0, 327698, 0, 0, 327705, -1610612736, 0, 327709, -1610612736, 0, 327711, 0, 0, 327715, 0, 0, 327717, 0, 0, 327723, -1610612736, 0, 327727, -1610612736, 0, 393216, 0, 0, 393217, 0, 0, 393218, 0, 0, 393219, 0, 0, 393220, 0, 0, 393222, -1610612736, 0, 393226, 0, 0, 393228, 0, 0, 393232, 0, 0, 393234, 0, 0, 393235, 0, 0, 393236, 0, 0, 393237, -1610612736, 0, 393238, -1610612736, 0, 393241, -1610612736, 0, 393245, -1610612736, 0, 393247, 0, 0, 393251, 0, 0, 393253, 0, 0, 393254, 0, 0, 393255, 0, 0, 393259, -1610612736, 0, 393260, -1610612736, 0, 393261, -1610612736, 0, 393262, -1610612736, 0, 458777, -1610612736, 0, 458781, -1610612736, 0, 458783, 0, 0, 458787, 0, 0, 458789, 0, 0, 458795, -1610612736, 0, 458799, -1610612736, 0, 524313, -1610612736, 0, 524317, -1610612736, 0, 524319, 0, 0, 524323, 0, 0, 524325, 0, 0, 524331, -1610612736, 0, 524335, -1610612736, 0, 589849, -1610612736, 0, 589853, -1610612736, 0, 589856, 0, 0, 589858, 0, 0, 589861, 0, 0, 589867, -1610612736, 0, 589871, -1610612736, 0, 655385, -1610612736, 0, 655386, 0, 0, 655387, 0, 0, 655388, 0, 0, 655389, -1610612736, 0, 655393, 0, 0, 655397, 0, 0, 655398, 0, 0, 655399, 0, 0, 655400, 0, 0, 655401, 0, 0, 655403, -1610612736, 0, 655407, -1610612736, 0 )
 
 [node name="GameOver" type="TileMap" parent="GUI/GameOver/TitleFailTime"]
-position = Vector2( -16, 64 )
+position = Vector2( -8, 64 )
 tile_set = ExtResource( 18 )
 cell_size = Vector2( 16, 16 )
 cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 format = 1
-tile_data = PoolIntArray( 0, 0, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 6, -1610612736, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 12, 0, 0, 16, 0, 0, 18, 0, 0, 19, 0, 0, 20, 0, 0, 21, 0, 0, 27, -1610612736, 0, 28, -1610612736, 0, 29, -1610612736, 0, 30, -1610612736, 0, 33, 0, 0, 37, 0, 0, 39, -1610612736, 0, 40, -1610612736, 0, 41, -1610612736, 0, 42, -1610612736, 0, 45, -1610612736, 0, 46, -1610612736, 0, 47, -1610612736, 0, 48, -1610612736, 0, 65536, 0, 0, 65542, -1610612736, 0, 65546, 0, 0, 65548, 0, 0, 65549, 0, 0, 65551, 0, 0, 65552, 0, 0, 65554, 0, 0, 65563, -1610612736, 0, 65567, -1610612736, 0, 65569, 0, 0, 65573, 0, 0, 65575, 0, 0, 65581, -1610612736, 0, 65585, -1610612736, 0, 131072, 0, 0, 131078, -1610612736, 0, 131079, 0, 0, 131080, 0, 0, 131081, 0, 0, 131082, 0, 0, 131084, 0, 0, 131086, 0, 0, 131088, 0, 0, 131090, 0, 0, 131091, 0, 0, 131092, 0, 0, 131099, -1610612736, 0, 131103, -1610612736, 0, 131105, 0, 0, 131109, 0, 0, 131111, 0, 0, 131112, 0, 0, 131113, 0, 0, 131117, -1610612736, 0, 131118, -1610612736, 0, 131119, -1610612736, 0, 131120, -1610612736, 0, 196608, 0, 0, 196614, -1610612736, 0, 196618, 0, 0, 196620, 0, 0, 196624, 0, 0, 196626, 0, 0, 196635, -1610612736, 0, 196639, -1610612736, 0, 196641, 0, 0, 196645, 0, 0, 196647, 0, 0, 196653, -1610612736, 0, 196657, -1610612736, 0, 262144, 0, 0, 262146, 0, 0, 262147, 0, 0, 262150, -1610612736, 0, 262154, 0, 0, 262156, 0, 0, 262160, 0, 0, 262162, 0, 0, 262171, -1610612736, 0, 262175, -1610612736, 0, 262177, 0, 0, 262181, 0, 0, 262183, 0, 0, 262189, -1610612736, 0, 262193, -1610612736, 0, 327680, -1610612736, 0, 327684, 0, 0, 327686, -1610612736, 0, 327690, 0, 0, 327692, 0, 0, 327696, 0, 0, 327698, 0, 0, 327707, -1610612736, 0, 327711, -1610612736, 0, 327714, 0, 0, 327716, 0, 0, 327719, 0, 0, 327725, -1610612736, 0, 327729, -1610612736, 0, 393216, 0, 0, 393217, 0, 0, 393218, 0, 0, 393219, 0, 0, 393220, 0, 0, 393222, -1610612736, 0, 393226, 0, 0, 393228, 0, 0, 393232, 0, 0, 393234, 0, 0, 393235, 0, 0, 393236, 0, 0, 393237, -1610612736, 0, 393238, -1610612736, 0, 393243, -1610612736, 0, 393244, 0, 0, 393245, 0, 0, 393246, 0, 0, 393247, -1610612736, 0, 393251, 0, 0, 393255, 0, 0, 393256, 0, 0, 393257, 0, 0, 393258, 0, 0, 393259, 0, 0, 393261, -1610612736, 0, 393265, -1610612736, 0 )
+tile_data = PoolIntArray( 0, 0, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 6, -1610612736, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 12, 0, 0, 16, 0, 0, 18, 0, 0, 19, 0, 0, 20, 0, 0, 21, 0, 0, 26, -1610612736, 0, 27, -1610612736, 0, 28, -1610612736, 0, 29, -1610612736, 0, 32, 0, 0, 36, 0, 0, 38, -1610612736, 0, 39, -1610612736, 0, 40, -1610612736, 0, 41, -1610612736, 0, 44, -1610612736, 0, 45, -1610612736, 0, 46, -1610612736, 0, 47, -1610612736, 0, 65536, 0, 0, 65542, -1610612736, 0, 65546, 0, 0, 65548, 0, 0, 65549, 0, 0, 65551, 0, 0, 65552, 0, 0, 65554, 0, 0, 65562, -1610612736, 0, 65566, -1610612736, 0, 65568, 0, 0, 65572, 0, 0, 65574, 0, 0, 65580, -1610612736, 0, 65584, -1610612736, 0, 131072, 0, 0, 131078, -1610612736, 0, 131079, 0, 0, 131080, 0, 0, 131081, 0, 0, 131082, 0, 0, 131084, 0, 0, 131086, 0, 0, 131088, 0, 0, 131090, 0, 0, 131091, 0, 0, 131092, 0, 0, 131098, -1610612736, 0, 131102, -1610612736, 0, 131104, 0, 0, 131108, 0, 0, 131110, 0, 0, 131111, 0, 0, 131112, 0, 0, 131116, -1610612736, 0, 131117, -1610612736, 0, 131118, -1610612736, 0, 131119, -1610612736, 0, 196608, 0, 0, 196614, -1610612736, 0, 196618, 0, 0, 196620, 0, 0, 196624, 0, 0, 196626, 0, 0, 196634, -1610612736, 0, 196638, -1610612736, 0, 196640, 0, 0, 196644, 0, 0, 196646, 0, 0, 196652, -1610612736, 0, 196656, -1610612736, 0, 262144, 0, 0, 262146, 0, 0, 262147, 0, 0, 262150, -1610612736, 0, 262154, 0, 0, 262156, 0, 0, 262160, 0, 0, 262162, 0, 0, 262170, -1610612736, 0, 262174, -1610612736, 0, 262176, 0, 0, 262180, 0, 0, 262182, 0, 0, 262188, -1610612736, 0, 262192, -1610612736, 0, 327680, -1610612736, 0, 327684, 0, 0, 327686, -1610612736, 0, 327690, 0, 0, 327692, 0, 0, 327696, 0, 0, 327698, 0, 0, 327706, -1610612736, 0, 327710, -1610612736, 0, 327713, 0, 0, 327715, 0, 0, 327718, 0, 0, 327724, -1610612736, 0, 327728, -1610612736, 0, 393216, 0, 0, 393217, 0, 0, 393218, 0, 0, 393219, 0, 0, 393220, 0, 0, 393222, -1610612736, 0, 393226, 0, 0, 393228, 0, 0, 393232, 0, 0, 393234, 0, 0, 393235, 0, 0, 393236, 0, 0, 393237, -1610612736, 0, 393238, -1610612736, 0, 393242, -1610612736, 0, 393243, 0, 0, 393244, 0, 0, 393245, 0, 0, 393246, -1610612736, 0, 393250, 0, 0, 393254, 0, 0, 393255, 0, 0, 393256, 0, 0, 393257, 0, 0, 393258, 0, 0, 393260, -1610612736, 0, 393264, -1610612736, 0 )
 
 [node name="TitleFailLife" type="Control" parent="GUI/GameOver"]
 visible = false
@@ -3654,12 +3863,12 @@ text = "You are forever colorless!"
 align = 1
 
 [node name="GameOver" type="TileMap" parent="GUI/GameOver/TitleFailLife"]
-position = Vector2( -16, 64 )
+position = Vector2( -8, 64 )
 tile_set = ExtResource( 18 )
 cell_size = Vector2( 16, 16 )
 cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 format = 1
-tile_data = PoolIntArray( 0, 0, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 6, -1610612736, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 12, 0, 0, 16, 0, 0, 18, 0, 0, 19, 0, 0, 20, 0, 0, 21, 0, 0, 27, -1610612736, 0, 28, -1610612736, 0, 29, -1610612736, 0, 30, -1610612736, 0, 33, 0, 0, 37, 0, 0, 39, -1610612736, 0, 40, -1610612736, 0, 41, -1610612736, 0, 42, -1610612736, 0, 45, -1610612736, 0, 46, -1610612736, 0, 47, -1610612736, 0, 48, -1610612736, 0, 65536, 0, 0, 65542, -1610612736, 0, 65546, 0, 0, 65548, 0, 0, 65549, 0, 0, 65551, 0, 0, 65552, 0, 0, 65554, 0, 0, 65563, -1610612736, 0, 65567, -1610612736, 0, 65569, 0, 0, 65573, 0, 0, 65575, 0, 0, 65581, -1610612736, 0, 65585, -1610612736, 0, 131072, 0, 0, 131078, -1610612736, 0, 131079, 0, 0, 131080, 0, 0, 131081, 0, 0, 131082, 0, 0, 131084, 0, 0, 131086, 0, 0, 131088, 0, 0, 131090, 0, 0, 131091, 0, 0, 131092, 0, 0, 131099, -1610612736, 0, 131103, -1610612736, 0, 131105, 0, 0, 131109, 0, 0, 131111, 0, 0, 131112, 0, 0, 131113, 0, 0, 131117, -1610612736, 0, 131118, -1610612736, 0, 131119, -1610612736, 0, 131120, -1610612736, 0, 196608, 0, 0, 196614, -1610612736, 0, 196618, 0, 0, 196620, 0, 0, 196624, 0, 0, 196626, 0, 0, 196635, -1610612736, 0, 196639, -1610612736, 0, 196641, 0, 0, 196645, 0, 0, 196647, 0, 0, 196653, -1610612736, 0, 196657, -1610612736, 0, 262144, 0, 0, 262146, 0, 0, 262147, 0, 0, 262150, -1610612736, 0, 262154, 0, 0, 262156, 0, 0, 262160, 0, 0, 262162, 0, 0, 262171, -1610612736, 0, 262175, -1610612736, 0, 262177, 0, 0, 262181, 0, 0, 262183, 0, 0, 262189, -1610612736, 0, 262193, -1610612736, 0, 327680, -1610612736, 0, 327684, 0, 0, 327686, -1610612736, 0, 327690, 0, 0, 327692, 0, 0, 327696, 0, 0, 327698, 0, 0, 327707, -1610612736, 0, 327711, -1610612736, 0, 327714, 0, 0, 327716, 0, 0, 327719, 0, 0, 327725, -1610612736, 0, 327729, -1610612736, 0, 393216, 0, 0, 393217, 0, 0, 393218, 0, 0, 393219, 0, 0, 393220, 0, 0, 393222, -1610612736, 0, 393226, 0, 0, 393228, 0, 0, 393232, 0, 0, 393234, 0, 0, 393235, 0, 0, 393236, 0, 0, 393237, -1610612736, 0, 393238, -1610612736, 0, 393243, -1610612736, 0, 393244, 0, 0, 393245, 0, 0, 393246, 0, 0, 393247, -1610612736, 0, 393251, 0, 0, 393255, 0, 0, 393256, 0, 0, 393257, 0, 0, 393258, 0, 0, 393259, 0, 0, 393261, -1610612736, 0, 393265, -1610612736, 0 )
+tile_data = PoolIntArray( 0, 0, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 6, -1610612736, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 12, 0, 0, 16, 0, 0, 18, 0, 0, 19, 0, 0, 20, 0, 0, 21, 0, 0, 26, -1610612736, 0, 27, -1610612736, 0, 28, -1610612736, 0, 29, -1610612736, 0, 32, 0, 0, 36, 0, 0, 38, -1610612736, 0, 39, -1610612736, 0, 40, -1610612736, 0, 41, -1610612736, 0, 44, -1610612736, 0, 45, -1610612736, 0, 46, -1610612736, 0, 47, -1610612736, 0, 65536, 0, 0, 65542, -1610612736, 0, 65546, 0, 0, 65548, 0, 0, 65549, 0, 0, 65551, 0, 0, 65552, 0, 0, 65554, 0, 0, 65562, -1610612736, 0, 65566, -1610612736, 0, 65568, 0, 0, 65572, 0, 0, 65574, 0, 0, 65580, -1610612736, 0, 65584, -1610612736, 0, 131072, 0, 0, 131078, -1610612736, 0, 131079, 0, 0, 131080, 0, 0, 131081, 0, 0, 131082, 0, 0, 131084, 0, 0, 131086, 0, 0, 131088, 0, 0, 131090, 0, 0, 131091, 0, 0, 131092, 0, 0, 131098, -1610612736, 0, 131102, -1610612736, 0, 131104, 0, 0, 131108, 0, 0, 131110, 0, 0, 131111, 0, 0, 131112, 0, 0, 131116, -1610612736, 0, 131117, -1610612736, 0, 131118, -1610612736, 0, 131119, -1610612736, 0, 196608, 0, 0, 196614, -1610612736, 0, 196618, 0, 0, 196620, 0, 0, 196624, 0, 0, 196626, 0, 0, 196634, -1610612736, 0, 196638, -1610612736, 0, 196640, 0, 0, 196644, 0, 0, 196646, 0, 0, 196652, -1610612736, 0, 196656, -1610612736, 0, 262144, 0, 0, 262146, 0, 0, 262147, 0, 0, 262150, -1610612736, 0, 262154, 0, 0, 262156, 0, 0, 262160, 0, 0, 262162, 0, 0, 262170, -1610612736, 0, 262174, -1610612736, 0, 262176, 0, 0, 262180, 0, 0, 262182, 0, 0, 262188, -1610612736, 0, 262192, -1610612736, 0, 327680, -1610612736, 0, 327684, 0, 0, 327686, -1610612736, 0, 327690, 0, 0, 327692, 0, 0, 327696, 0, 0, 327698, 0, 0, 327706, -1610612736, 0, 327710, -1610612736, 0, 327713, 0, 0, 327715, 0, 0, 327718, 0, 0, 327724, -1610612736, 0, 327728, -1610612736, 0, 393216, 0, 0, 393217, 0, 0, 393218, 0, 0, 393219, 0, 0, 393220, 0, 0, 393222, -1610612736, 0, 393226, 0, 0, 393228, 0, 0, 393232, 0, 0, 393234, 0, 0, 393235, 0, 0, 393236, 0, 0, 393237, -1610612736, 0, 393238, -1610612736, 0, 393242, -1610612736, 0, 393243, 0, 0, 393244, 0, 0, 393245, 0, 0, 393246, -1610612736, 0, 393250, 0, 0, 393254, 0, 0, 393255, 0, 0, 393256, 0, 0, 393257, 0, 0, 393258, 0, 0, 393260, -1610612736, 0, 393264, -1610612736, 0 )
 
 [node name="ContentTutorial" type="Control" parent="GUI/GameOver"]
 visible = false
@@ -3808,11 +4017,10 @@ __meta__ = {
 [node name="QuitBtn" type="Button" parent="GUI/GameOver/ContentTutorial/Menu"]
 margin_right = 52.0
 margin_bottom = 22.0
-focus_neighbour_left = NodePath("../RestartBtn")
 focus_neighbour_right = NodePath("../RestartBtn")
 size_flags_horizontal = 2
 size_flags_vertical = 8
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 text = "QUIT"
 
 [node name="RestartBtn" type="Button" parent="GUI/GameOver/ContentTutorial/Menu"]
@@ -3820,12 +4028,9 @@ margin_left = 84.0
 margin_right = 216.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../QuitBtn")
-focus_neighbour_right = NodePath("../QuitBtn")
-focus_mode = 1
 size_flags_horizontal = 8
 size_flags_vertical = 8
-theme = ExtResource( 4 )
-enabled_focus_mode = 1
+theme = SubResource( 194 )
 text = "PLAY AGAIN"
 
 [node name="ContentPractice" type="Control" parent="GUI/GameOver"]
@@ -3974,11 +4179,10 @@ __meta__ = {
 [node name="QuitBtn" type="Button" parent="GUI/GameOver/ContentPractice/Menu"]
 margin_right = 52.0
 margin_bottom = 22.0
-focus_neighbour_left = NodePath("../RestartBtn")
 focus_neighbour_right = NodePath("../RestartBtn")
 size_flags_horizontal = 2
 size_flags_vertical = 8
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 text = "QUIT"
 
 [node name="RestartBtn" type="Button" parent="GUI/GameOver/ContentPractice/Menu"]
@@ -3986,12 +4190,9 @@ margin_left = 84.0
 margin_right = 216.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../QuitBtn")
-focus_neighbour_right = NodePath("../QuitBtn")
-focus_mode = 1
 size_flags_horizontal = 8
 size_flags_vertical = 8
-theme = ExtResource( 4 )
-enabled_focus_mode = 1
+theme = SubResource( 194 )
 text = "PLAY AGAIN"
 
 [node name="ContentGame" type="Control" parent="GUI/GameOver"]
@@ -4508,11 +4709,10 @@ __meta__ = {
 [node name="QuitBtn" type="Button" parent="GUI/GameOver/ContentGame/Menu"]
 margin_right = 52.0
 margin_bottom = 22.0
-focus_neighbour_left = NodePath("../RestartBtn")
 focus_neighbour_right = NodePath("../RestartBtn")
 size_flags_horizontal = 2
 size_flags_vertical = 8
-theme = ExtResource( 4 )
+theme = SubResource( 194 )
 text = "QUIT"
 
 [node name="RestartBtn" type="Button" parent="GUI/GameOver/ContentGame/Menu"]
@@ -4520,12 +4720,9 @@ margin_left = 84.0
 margin_right = 216.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../QuitBtn")
-focus_neighbour_right = NodePath("../QuitBtn")
-focus_mode = 1
 size_flags_horizontal = 8
 size_flags_vertical = 8
-theme = ExtResource( 4 )
-enabled_focus_mode = 1
+theme = SubResource( 194 )
 text = "PLAY AGAIN"
 
 [node name="NameInputPopup" type="Control" parent="GUI/GameOver"]
@@ -4652,12 +4849,12 @@ text = "CONFIRM"
 [connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_AddTraumaBtn_mouse_entered"]
 [connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_AddTraumaBtn_mouse_exited"]
 [connection signal="pressed" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_AddTraumaBtn_pressed"]
-[connection signal="deathmode_active" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_deathmode_active"]
 [connection signal="gametime_is_up" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_gametime_is_up"]
+[connection signal="sudden_death_active" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_sudden_death_active"]
 [connection signal="timeout" from="GUI/Hud/Header/GameTimer/Timer" to="GUI/Hud/Header/GameTimer" method="_on_Timer_timeout"]
 [connection signal="animation_finished" from="GUI/GameCountdown/AnimationPlayer" to="GUI/GameCountdown" method="_on_AnimationPlayer_animation_finished"]
-[connection signal="pressed" from="GUI/Tutorial/MissionPanel/Menu/StartBtn" to="GUI/Tutorial" method="_on_StartBtn_pressed"]
 [connection signal="pressed" from="GUI/Tutorial/MissionPanel/Menu/QuitBtn" to="GUI/Tutorial" method="_on_QuitBtn_pressed"]
+[connection signal="pressed" from="GUI/Tutorial/MissionPanel/Menu/StartBtn" to="GUI/Tutorial" method="_on_StartBtn_pressed"]
 [connection signal="animation_finished" from="GUI/Tutorial/AnimationPlayer" to="GUI/Tutorial" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="toggled" from="GUI/PauseMenu/Settings/GameMusicCheckBox" to="GUI/PauseMenu" method="_on_GameMusicCheckBox_toggled"]
 [connection signal="toggled" from="GUI/PauseMenu/Settings/GameSfxCheckBox" to="GUI/PauseMenu" method="_on_GameSfxCheckBox_toggled"]

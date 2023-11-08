@@ -47,7 +47,8 @@ func _input(event: InputEvent) -> void:
 					
 func _ready():
 	
-#	menu.visible = false
+	menu.visible = false
+	
 	# games buttons text
 	$SelectGame/SelectGameBtn1.text = "Only " + str(Profiles.level_1_data["level"]) + " pixels astray"
 	$SelectGame/SelectGameBtn2.text = str(Profiles.level_2_data["level"]) + " pixels astray"
@@ -57,12 +58,10 @@ func _ready():
 
 	
 func open_with_intro(): # ... kliče main.gd -> home_in_intro()
-	menu.visible = false
 	intro.play_intro() # intro signal na koncu kliče home_in()
 	
 	
 func open_without_intro(): # temp ... debug ... kliče main.gd -> home_in_no_intro()
-	menu.visible = false
 	intro.end_intro() # intro signal na koncu kliče home_in()
 
 
@@ -79,14 +78,14 @@ func open_from_game(): # select_game screen ... kliče main.gd -> home_in_from_g
 	
 func menu_in(): # kliče se na koncu intra (tudi na skip)
 	
+	menu.visible = true
+	menu.modulate.a = 0
+	intro_viewport.gui_disable_input = true # dokler se predvaja mora biti, da skipanje deluje
+	
 	if current_screen == Screens.SELECT_GAME:
 		return
 	
 	current_screen = Screens.MAIN_MENU
-	intro_viewport.gui_disable_input = true # dokler se predvaja mora biti, da skipanje deluje
-	
-	menu.modulate.a = 0
-	menu.visible = true # skrijem ga ob začetku intra
 	
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(menu, "modulate:a", 1, 1)

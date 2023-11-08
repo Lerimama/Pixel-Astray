@@ -53,24 +53,23 @@ var die_shake_time: float = 0.7
 var die_shake_decay: float = 0.1
 
 # energija in hitrost
-var slowdown_rate: int = 18 # višja je, počasneje se manjša
-var current_player_energy_part: float # 
-var player_energy: float = Global.game_manager.player_stats["player_energy"] # energija je edini stat, ki gamore plejer poznat ... greba se iz globalnih statsov
-onready var max_player_energy: float = Profiles.game_rules["player_max_energy"]
-onready var max_step_time: float = Profiles.game_rules["max_step_time"]
-onready var min_step_time: float = Profiles.game_rules["min_step_time"]
+var player_energy: float # player jo pozna samo zaradi spreminjanja obnašanja ... = Global.game_manager.player_stats["player_energy"]
+var max_player_energy: float = Profiles.game_rules["player_start_energy"]
+var max_step_time: float = Profiles.game_rules["max_step_time"]
+var min_step_time: float = Profiles.game_rules["min_step_time"]
+var speed_slowdown_rate: int = Profiles.game_rules["speed_slowdown_rate"] # višja je, počasneje se manjša
+var current_player_energy_part: float 
 
 # dihanje
 var last_breath_active: bool = false 
 var last_breath_loop: int = 0
-onready var last_breath_loop_limit: int = Profiles.game_rules["last_breath_loop_limit"]
+var last_breath_loop_limit: int = Profiles.game_rules["last_breath_loop_limit"]
 
 # transparenca energije
 onready var poly_pixel: Polygon2D = $PolyPixel
 var skill_sfx_playing: bool = false # da lahko kličem is procesne funkcije
 
 var pixel_color: Color
-#onready var pixel_color: Color = Profiles.game_rules["pixel_start_color"]
 onready var cell_size_x: int = Global.level_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var vision_ray: RayCast2D = $VisionRay
@@ -127,10 +126,10 @@ func state_machine():
 					Global.sound_manager.stop_sfx("skilled")
 					skill_sfx_playing = false
 			# toggle energy_speed mode
-			if Profiles.game_rules["energy_speed_mode"]:
+			if Profiles.game_rules["speed_with_energy_mode"]:
 				var slow_trim_size: float = max_step_time * max_player_energy
 				var energy_factor: float = (max_player_energy - slow_trim_size) / player_energy
-				var energy_step_time = energy_factor / slowdown_rate # ta variabla je zato, da se vedno seta nova in potem ne raste s FP
+				var energy_step_time = energy_factor / speed_slowdown_rate # ta variabla je zato, da se vedno seta nova in potem ne raste s FP
 				# omejim najbolj počasno
 				step_time = clamp(energy_step_time, min_step_time, max_step_time)
 			else:
@@ -508,9 +507,6 @@ func burst(ghosts_count):
 
 func stop_burst():
 	
-	# je vklopljeno?
-	if not Profiles.game_rules["stop_burst_mode"]:
-		return 
 	Input.start_joy_vibration(0, 0.6, 0.2, 0.2)
 	Global.sound_manager.play_sfx("burst_stop")
 	# če je hitrost večja od ene enote ne rabim overšuta

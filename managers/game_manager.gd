@@ -6,7 +6,6 @@ var current_gameover_reason
 
 # states
 var game_on: bool = false
-var deathmode_active = false
 
 # cam shake
 var spawn_shake_power: float = 0.25
@@ -30,10 +29,9 @@ var floor_positions: Array
 var available_floor_positions: Array
 
 # stats
-onready var player_stats: Dictionary = Profiles.default_player_stats.duplicate() # duplikat default profila
-onready var game_data: Dictionary = Profiles.level_data.duplicate() # duplikat default profila, ker ga me igro spreminjaš
 onready var game_rules: Dictionary = Profiles.game_rules # ker ga med ne spreminjaš
-onready var stray_pixels_count: int = game_data["stray_pixels_count"]
+onready var game_data: Dictionary = Profiles.level_data.duplicate() # duplikat default profila, ker ga me igro spreminjaš
+onready var player_stats: Dictionary = Profiles.default_player_stats.duplicate() # duplikat default profila, ker ga me igro spreminjaš
 
 onready var spectrum_rect: TextureRect = $Spectrum
 onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
@@ -47,7 +45,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if Input.is_action_pressed("no1") and player_stats["player_energy"] > 1:
 		player_stats["player_energy"] -= 10
-		player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_max_energy"])
+		player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_start_energy"])
 	if Input.is_action_pressed("no2"):
 		player_stats["player_energy"] += 10
 	
@@ -70,6 +68,10 @@ func _ready() -> void:
 	
 	Global.game_manager = self	
 	randomize()
+	
+	# nafilam player stats po pravilih igre
+	player_stats["player_energy"] = game_rules["player_start_energy"]
+	player_stats["player_life"] = game_rules["player_start_life"]
 	
 	if game_data["level"] == Profiles.Levels.TUTORIAL:
 		set_tilemap()
@@ -95,7 +97,7 @@ func set_game():
 	
 	# set player
 	if game_data["level"] == Profiles.Levels.TUTORIAL: # generirah jih na 2. koraku tutoriala
-		game_rules["pixel_start_color"] = Global.color_white # more bit pred spawnom
+		game_rules["player_start_color"] = Global.color_white # more bit pred spawnom
 		player_pixel = spawn_player()
 		player_pixel.modulate.a = 0	
 	else:
@@ -150,7 +152,6 @@ func game_over():
 	
 	# ustavljanje elementov igre
 	game_on = false
-	deathmode_active =  false
 	get_viewport().gui_disable_input = true	# in-gejm keyboard inputs
 	Global.hud.game_timer.stop_timer() # ustavim tajmer
 	Global.hud.popups.visible = false # skrijem morebitne popupe
@@ -177,20 +178,31 @@ func game_over():
 	Global.hud.visible = false # zazih
 	
 	var player_points = player_stats["player_points"]
-	var current_level = game_data["level"]
 	
 	# Gameover fejdin
-	if game_data["level"] == Profiles.Levels.TUTORIAL:
-		Global.gameover_menu.fade_in_tutorial()
-	elif game_data["level"] == Profiles.Levels.PRACTICE:
-		Global.gameover_menu.fade_in_practice()
+	if game_data["level"] == Profiles.Levels.TUTORIAL or game_data["level"] == Profiles.Levels.PRACTICE:
+		Global.gameover_menu.fade_in_new()
 	else:
 		# YIELD 1 ... čaka na konec preverke rankinga ... če ni rankinga dobi false, če je ne dobi nič
-		var score_is_ranking = Global.data_manager.manage_gameover_highscores(player_points, current_level) # yielda 2 za name_input je v tej funkciji
+		var score_is_ranking = Global.data_manager.manage_gameover_highscores(player_points, game_data["level"]) # yielda 2 za name_input je v tej funkciji
 		if not score_is_ranking:
-			Global.gameover_menu.fade_in()																																																							
+			Global.gameover_menu.fade_in_new()																																																							
 		else:
 			Global.gameover_menu.fade_in_highscore()
+	
+			
+#	var current_level = game_data["level"]
+#	if game_data["level"] == Profiles.Levels.TUTORIAL:
+#		Global.gameover_menu.fade_in_tutorial()
+#	elif game_data["level"] == Profiles.Levels.PRACTICE:
+#		Global.gameover_menu.fade_in_practice()
+#	else:
+#		# YIELD 1 ... čaka na konec preverke rankinga ... če ni rankinga dobi false, če je ne dobi nič
+#		var score_is_ranking = Global.data_manager.manage_gameover_highscores(player_points, current_level) # yielda 2 za name_input je v tej funkciji
+#		if not score_is_ranking:
+#			Global.gameover_menu.fade_in()																																																							
+#		else:
+#			Global.gameover_menu.fade_in_highscore()
 	
 	# HS manage
 #	if game_data["level"] != Profiles.Levels.PRACTICE or game_data["level"] != Profiles.Levels.TUTORIAL:
@@ -240,7 +252,7 @@ func spawn_player():
 	var new_player_pixel = PlayerPixel.instance()
 	new_player_pixel.name = "P%s" % str(spawned_player_index)
 	new_player_pixel.global_position = spawn_position # ... ne rabim snepat ker se v pixlu na ready funkciji
-	new_player_pixel.pixel_color = Profiles.game_rules["pixel_start_color"]
+	new_player_pixel.pixel_color = Profiles.game_rules["player_start_color"]
 	Global.node_creation_parent.add_child(new_player_pixel)
 	
 	new_player_pixel.connect("stat_changed", self, "_on_stat_changed")
@@ -265,7 +277,7 @@ func generate_strays():
 func split_stray_colors():
 	
 	# split colors
-	var color_count: int = stray_pixels_count 
+	var color_count: int = game_data["stray_pixels_count"] 
 	color_count = clamp(color_count, 1, color_count) # za vsak slučaj klempam, da ne more biti nikoli 0 ...  ker je error			
 	
 	# poberem sliko
@@ -405,7 +417,7 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				energy_drain_active = true
 				player_stats["player_energy"] += game_rules["skilled_energy_drain"]
 				# 1 je najnižja, ker tam se že odšteva zadnji izdihljaj
-				player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_max_energy"]) 
+				player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_start_energy"]) 
 				
 				yield(get_tree().create_timer(Profiles.game_rules["skilled_energy_drain_speed"]), "timeout")
 				energy_drain_active = false
@@ -426,8 +438,8 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 			# stats za vsakega naslednega v vrsti 
 			elif stat_change > 1:
 				# odštejem, da se točke od prvega pixla ne podvajajo
-				var points_for_seq_pixel = (game_rules["additional_color_picked_points"] * stat_change) - game_rules["color_picked_points"] 
-				var energy_for_seq_pixel = (game_rules["additional_color_picked_energy"] * stat_change) - game_rules["color_picked_energy"]
+				var points_for_seq_pixel = (game_rules["stacked_color_picked_points"] * stat_change) - game_rules["color_picked_points"] 
+				var energy_for_seq_pixel = (game_rules["stacked_color_picked_energy"] * stat_change) - game_rules["color_picked_energy"]
 				player_stats["player_points"] += points_for_seq_pixel
 				player_stats["player_energy"] += energy_for_seq_pixel
 				spawn_floating_tag(stat_owner.global_position, points_for_seq_pixel) 
@@ -442,7 +454,7 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				game_over()
 		# from player
 		"wall_hit":
-			if game_rules["lose_life_on_wall"]: # zguba lajfa
+			if game_rules["lose_life_on_wall"]:
 				lose_life(stat_owner, stat_change)
 			else: # zguba polovice energije in točk
 				var half_player_points = round(player_stats["player_points"] / 2)
@@ -452,10 +464,7 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				spawn_floating_tag(stat_owner.global_position, - half_player_points) 
 				stat_owner.revive()
 		"out_of_breath":
-			if game_rules["lose_life_on_energy"]:
-				lose_life(stat_owner, stat_change)
-			else:
-				stat_owner.revive()
+			lose_life(stat_owner, stat_change)
 		"cells_travelled": 
 			player_stats["cells_travelled"] += stat_change
 			player_stats["player_energy"] += game_rules["cell_travelled_energy"]
@@ -476,23 +485,20 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 			player_stats["burst_count"] += 1 # tukaj se kot valju poda burst power
 			
 	# na koncu koraka poskrbim za klempanje ... 1 je najnižja, ker tam se že odšteva zadnji izdihljaj
-	player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_max_energy"]) 
+	player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_rules["player_start_energy"]) 
 	player_stats["player_points"] = clamp(player_stats["player_points"], 0, player_stats["player_points"])	
 
 		
-func lose_life(life_looser, life_to_loose_amount):
+func lose_life(life_loser, life_to_lose_amount):
 	
-	player_stats["player_life"] -= life_to_loose_amount
+	player_stats["player_life"] -= life_to_lose_amount
 	
 
 	if player_stats["player_life"] < 1: # game-over, če je bil to zadnji lajf
 		current_gameover_reason = GameoverReason.LIFE
 		game_over()
-		
 	else: # če mam še lajfov
-		life_looser.revive()
-		# resetiram energijo, če je tako določeno
-		if game_rules["revive_energy_reset"]:
-			# da ne znižam energije, če je višja od "star_energy" ... zazih v bistvu	
-			if player_stats["player_energy"] < game_rules["player_start_energy"]: 
-				player_stats["player_energy"] = game_rules["player_start_energy"]
+		life_loser.revive()
+		# resetiram energijo
+		if player_stats["player_energy"] < game_rules["player_start_energy"]: # da ne znižam energije, če je višja od "start_energy" ... zazih
+			player_stats["player_energy"] = game_rules["player_start_energy"]
