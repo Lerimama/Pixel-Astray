@@ -9,7 +9,7 @@ var game_time: int # čas v tajmerju v sekundah
 var game_time_limit: float # podatki glede časovnih omejitev se pošljejo iz GM-ja
 var time_since_start: float # ne glede na mode, vedno želiš vedet koliko sekund je porabljeno od začetka ... za statistiko
 
-onready var level_time_limit: int = Profiles.default_level_data["game_time_limit"]
+onready var level_time_limit: int = Global.game_manager.game_data["game_time_limit"]
 onready var sudden_death_limit: int = Global.game_manager.game_settings["sudden_death_limit"]
 onready var countdown_mode: bool = Global.game_manager.game_settings["timer_mode_countdown"]
 onready var gameover_countdown_duration: int = Global.game_manager.game_settings["gameover_countdown_duration"] # čas, ko je obarvan in se sliši bip bip

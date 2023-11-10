@@ -1228,7 +1228,7 @@ margin_top = 7.0
 margin_right = -4.0
 margin_bottom = 11.0
 
-[node name="LevelS" type="Control" parent="Highscores"]
+[node name="GameS" type="Control" parent="Highscores"]
 margin_left = 64.0
 margin_top = 158.0
 margin_right = 264.0
@@ -1237,13 +1237,13 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Title" type="Label" parent="Highscores/LevelS"]
+[node name="Title" type="Label" parent="Highscores/GameS"]
 anchor_right = 1.0
 margin_bottom = 22.0
 text = "LEVEL S"
 align = 1
 
-[node name="HSeparator" type="HSeparator" parent="Highscores/LevelS/Title"]
+[node name="HSeparator" type="HSeparator" parent="Highscores/GameS/Title"]
 modulate = Color( 1, 1, 1, 0.901961 )
 anchor_top = 1.0
 anchor_right = 1.0
@@ -1254,7 +1254,7 @@ margin_right = -1.0
 margin_bottom = 13.0
 grow_horizontal = 2
 
-[node name="HighscoreTable" type="VBoxContainer" parent="Highscores/LevelS"]
+[node name="HighscoreTable" type="VBoxContainer" parent="Highscores/GameS"]
 anchor_right = 1.0
 margin_top = 48.0
 margin_bottom = 326.0
@@ -1264,13 +1264,13 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="RowLabels" type="HBoxContainer" parent="Highscores/LevelS/HighscoreTable"]
+[node name="RowLabels" type="HBoxContainer" parent="Highscores/GameS/HighscoreTable"]
 visible = false
 margin_right = 208.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 22 )
 
-[node name="Position" type="Label" parent="Highscores/LevelS/HighscoreTable/RowLabels"]
+[node name="Position" type="Label" parent="Highscores/GameS/HighscoreTable/RowLabels"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
@@ -1279,7 +1279,7 @@ size_flags_vertical = 0
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "#"
 
-[node name="Owner" type="Label" parent="Highscores/LevelS/HighscoreTable/RowLabels"]
+[node name="Owner" type="Label" parent="Highscores/GameS/HighscoreTable/RowLabels"]
 margin_left = 34.0
 margin_right = 134.0
 margin_bottom = 22.0
@@ -1292,7 +1292,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelS/HighscoreTable/RowLabels"]
+[node name="Score" type="Label" parent="Highscores/GameS/HighscoreTable/RowLabels"]
 margin_left = 138.0
 margin_right = 208.0
 margin_bottom = 22.0
@@ -1303,18 +1303,18 @@ custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Score"
 align = 2
 
-[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/LevelS/HighscoreTable"]
+[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/GameS/HighscoreTable"]
 margin_right = 200.0
 margin_bottom = 22.0
 
-[node name="Position" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine1"]
+[node name="Position" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine1"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine1"]
+[node name="Owner" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine1"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -1328,7 +1328,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine1"]
+[node name="Score" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine1"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -1337,19 +1337,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/LevelS/HighscoreTable"]
+[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/GameS/HighscoreTable"]
 margin_top = 32.0
 margin_right = 200.0
 margin_bottom = 54.0
 
-[node name="Position" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine2"]
+[node name="Position" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine2"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine2"]
+[node name="Owner" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine2"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -1363,7 +1363,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine2"]
+[node name="Score" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine2"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -1372,19 +1372,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/LevelS/HighscoreTable"]
+[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/GameS/HighscoreTable"]
 margin_top = 64.0
 margin_right = 200.0
 margin_bottom = 86.0
 
-[node name="Position" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine3"]
+[node name="Position" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine3"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine3"]
+[node name="Owner" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine3"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -1398,7 +1398,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine3"]
+[node name="Score" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine3"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -1407,19 +1407,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/LevelS/HighscoreTable"]
+[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/GameS/HighscoreTable"]
 margin_top = 96.0
 margin_right = 200.0
 margin_bottom = 118.0
 
-[node name="Position" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine4"]
+[node name="Position" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine4"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine4"]
+[node name="Owner" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine4"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -1433,7 +1433,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine4"]
+[node name="Score" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine4"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -1442,19 +1442,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/LevelS/HighscoreTable"]
+[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/GameS/HighscoreTable"]
 margin_top = 128.0
 margin_right = 200.0
 margin_bottom = 150.0
 
-[node name="Position" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine5"]
+[node name="Position" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine5"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine5"]
+[node name="Owner" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine5"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -1468,7 +1468,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine5"]
+[node name="Score" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine5"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -1477,19 +1477,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/LevelS/HighscoreTable"]
+[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/GameS/HighscoreTable"]
 margin_top = 160.0
 margin_right = 200.0
 margin_bottom = 182.0
 
-[node name="Position" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine6"]
+[node name="Position" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine6"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine6"]
+[node name="Owner" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine6"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -1503,7 +1503,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine6"]
+[node name="Score" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine6"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -1512,19 +1512,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/LevelS/HighscoreTable"]
+[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/GameS/HighscoreTable"]
 margin_top = 192.0
 margin_right = 200.0
 margin_bottom = 214.0
 
-[node name="Position" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine7"]
+[node name="Position" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine7"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine7"]
+[node name="Owner" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine7"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -1538,7 +1538,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine7"]
+[node name="Score" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine7"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -1547,19 +1547,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/LevelS/HighscoreTable"]
+[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/GameS/HighscoreTable"]
 margin_top = 224.0
 margin_right = 200.0
 margin_bottom = 246.0
 
-[node name="Position" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine8"]
+[node name="Position" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine8"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine8"]
+[node name="Owner" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine8"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -1573,7 +1573,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine8"]
+[node name="Score" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine8"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -1582,19 +1582,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/LevelS/HighscoreTable"]
+[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/GameS/HighscoreTable"]
 margin_top = 256.0
 margin_right = 200.0
 margin_bottom = 278.0
 
-[node name="Position" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine9"]
+[node name="Position" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine9"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine9"]
+[node name="Owner" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine9"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -1608,7 +1608,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine9"]
+[node name="Score" type="Label" parent="Highscores/GameS/HighscoreTable/ScoreLine9"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -1617,7 +1617,7 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="LevelM" type="Control" parent="Highscores"]
+[node name="GameM" type="Control" parent="Highscores"]
 margin_left = 297.0
 margin_top = 158.0
 margin_right = 497.0
@@ -1626,13 +1626,13 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Title" type="Label" parent="Highscores/LevelM"]
+[node name="Title" type="Label" parent="Highscores/GameM"]
 anchor_right = 1.0
 margin_bottom = 22.0
 text = "LEVEL M"
 align = 1
 
-[node name="HSeparator" type="HSeparator" parent="Highscores/LevelM/Title"]
+[node name="HSeparator" type="HSeparator" parent="Highscores/GameM/Title"]
 modulate = Color( 1, 1, 1, 0.901961 )
 anchor_top = 1.0
 anchor_right = 1.0
@@ -1643,7 +1643,7 @@ margin_right = -1.0
 margin_bottom = 13.0
 grow_horizontal = 2
 
-[node name="HighscoreTable" type="VBoxContainer" parent="Highscores/LevelM"]
+[node name="HighscoreTable" type="VBoxContainer" parent="Highscores/GameM"]
 anchor_right = 1.0
 margin_top = 48.0
 margin_bottom = 326.0
@@ -1653,13 +1653,13 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="RowLabels" type="HBoxContainer" parent="Highscores/LevelM/HighscoreTable"]
+[node name="RowLabels" type="HBoxContainer" parent="Highscores/GameM/HighscoreTable"]
 visible = false
 margin_right = 208.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 22 )
 
-[node name="Position" type="Label" parent="Highscores/LevelM/HighscoreTable/RowLabels"]
+[node name="Position" type="Label" parent="Highscores/GameM/HighscoreTable/RowLabels"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
@@ -1668,7 +1668,7 @@ size_flags_vertical = 0
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "#"
 
-[node name="Owner" type="Label" parent="Highscores/LevelM/HighscoreTable/RowLabels"]
+[node name="Owner" type="Label" parent="Highscores/GameM/HighscoreTable/RowLabels"]
 margin_left = 34.0
 margin_right = 134.0
 margin_bottom = 22.0
@@ -1682,7 +1682,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelM/HighscoreTable/RowLabels"]
+[node name="Score" type="Label" parent="Highscores/GameM/HighscoreTable/RowLabels"]
 margin_left = 138.0
 margin_right = 208.0
 margin_bottom = 22.0
@@ -1693,18 +1693,18 @@ custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Score"
 align = 2
 
-[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/LevelM/HighscoreTable"]
+[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/GameM/HighscoreTable"]
 margin_right = 200.0
 margin_bottom = 22.0
 
-[node name="Position" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine1"]
+[node name="Position" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine1"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine1"]
+[node name="Owner" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine1"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -1718,7 +1718,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine1"]
+[node name="Score" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine1"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -1727,19 +1727,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/LevelM/HighscoreTable"]
+[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/GameM/HighscoreTable"]
 margin_top = 32.0
 margin_right = 200.0
 margin_bottom = 54.0
 
-[node name="Position" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine2"]
+[node name="Position" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine2"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine2"]
+[node name="Owner" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine2"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -1753,7 +1753,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine2"]
+[node name="Score" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine2"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -1762,19 +1762,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/LevelM/HighscoreTable"]
+[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/GameM/HighscoreTable"]
 margin_top = 64.0
 margin_right = 200.0
 margin_bottom = 86.0
 
-[node name="Position" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine3"]
+[node name="Position" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine3"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine3"]
+[node name="Owner" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine3"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -1788,7 +1788,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine3"]
+[node name="Score" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine3"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -1797,19 +1797,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/LevelM/HighscoreTable"]
+[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/GameM/HighscoreTable"]
 margin_top = 96.0
 margin_right = 200.0
 margin_bottom = 118.0
 
-[node name="Position" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine4"]
+[node name="Position" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine4"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine4"]
+[node name="Owner" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine4"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -1823,7 +1823,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine4"]
+[node name="Score" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine4"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -1832,19 +1832,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/LevelM/HighscoreTable"]
+[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/GameM/HighscoreTable"]
 margin_top = 128.0
 margin_right = 200.0
 margin_bottom = 150.0
 
-[node name="Position" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine5"]
+[node name="Position" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine5"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine5"]
+[node name="Owner" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine5"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -1858,7 +1858,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine5"]
+[node name="Score" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine5"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -1867,19 +1867,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/LevelM/HighscoreTable"]
+[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/GameM/HighscoreTable"]
 margin_top = 160.0
 margin_right = 200.0
 margin_bottom = 182.0
 
-[node name="Position" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine6"]
+[node name="Position" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine6"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine6"]
+[node name="Owner" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine6"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -1893,7 +1893,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine6"]
+[node name="Score" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine6"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -1902,19 +1902,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/LevelM/HighscoreTable"]
+[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/GameM/HighscoreTable"]
 margin_top = 192.0
 margin_right = 200.0
 margin_bottom = 214.0
 
-[node name="Position" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine7"]
+[node name="Position" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine7"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine7"]
+[node name="Owner" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine7"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -1928,7 +1928,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine7"]
+[node name="Score" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine7"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -1937,19 +1937,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/LevelM/HighscoreTable"]
+[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/GameM/HighscoreTable"]
 margin_top = 224.0
 margin_right = 200.0
 margin_bottom = 246.0
 
-[node name="Position" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine8"]
+[node name="Position" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine8"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine8"]
+[node name="Owner" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine8"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -1963,7 +1963,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine8"]
+[node name="Score" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine8"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -1972,19 +1972,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/LevelM/HighscoreTable"]
+[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/GameM/HighscoreTable"]
 margin_top = 256.0
 margin_right = 200.0
 margin_bottom = 278.0
 
-[node name="Position" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine9"]
+[node name="Position" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine9"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine9"]
+[node name="Owner" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine9"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -1998,7 +1998,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine9"]
+[node name="Score" type="Label" parent="Highscores/GameM/HighscoreTable/ScoreLine9"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -2007,7 +2007,7 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="LevelL" type="Control" parent="Highscores"]
+[node name="GameL" type="Control" parent="Highscores"]
 margin_left = 536.0
 margin_top = 158.0
 margin_right = 736.0
@@ -2016,13 +2016,13 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Title" type="Label" parent="Highscores/LevelL"]
+[node name="Title" type="Label" parent="Highscores/GameL"]
 anchor_right = 1.0
 margin_bottom = 22.0
 text = "LEVEL L"
 align = 1
 
-[node name="HSeparator" type="HSeparator" parent="Highscores/LevelL/Title"]
+[node name="HSeparator" type="HSeparator" parent="Highscores/GameL/Title"]
 modulate = Color( 1, 1, 1, 0.901961 )
 anchor_top = 1.0
 anchor_right = 1.0
@@ -2033,7 +2033,7 @@ margin_right = -1.0
 margin_bottom = 13.0
 grow_horizontal = 2
 
-[node name="HighscoreTable" type="VBoxContainer" parent="Highscores/LevelL"]
+[node name="HighscoreTable" type="VBoxContainer" parent="Highscores/GameL"]
 anchor_right = 1.0
 margin_top = 48.0
 margin_bottom = 326.0
@@ -2043,13 +2043,13 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="RowLabels" type="HBoxContainer" parent="Highscores/LevelL/HighscoreTable"]
+[node name="RowLabels" type="HBoxContainer" parent="Highscores/GameL/HighscoreTable"]
 visible = false
 margin_right = 208.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 22 )
 
-[node name="Position" type="Label" parent="Highscores/LevelL/HighscoreTable/RowLabels"]
+[node name="Position" type="Label" parent="Highscores/GameL/HighscoreTable/RowLabels"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
@@ -2058,7 +2058,7 @@ size_flags_vertical = 0
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "#"
 
-[node name="Owner" type="Label" parent="Highscores/LevelL/HighscoreTable/RowLabels"]
+[node name="Owner" type="Label" parent="Highscores/GameL/HighscoreTable/RowLabels"]
 margin_left = 34.0
 margin_right = 134.0
 margin_bottom = 22.0
@@ -2071,7 +2071,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelL/HighscoreTable/RowLabels"]
+[node name="Score" type="Label" parent="Highscores/GameL/HighscoreTable/RowLabels"]
 margin_left = 138.0
 margin_right = 208.0
 margin_bottom = 22.0
@@ -2082,18 +2082,18 @@ custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Score"
 align = 2
 
-[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/LevelL/HighscoreTable"]
+[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/GameL/HighscoreTable"]
 margin_right = 200.0
 margin_bottom = 22.0
 
-[node name="Position" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine1"]
+[node name="Position" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine1"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine1"]
+[node name="Owner" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine1"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -2107,7 +2107,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine1"]
+[node name="Score" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine1"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -2116,19 +2116,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/LevelL/HighscoreTable"]
+[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/GameL/HighscoreTable"]
 margin_top = 32.0
 margin_right = 200.0
 margin_bottom = 54.0
 
-[node name="Position" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine2"]
+[node name="Position" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine2"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine2"]
+[node name="Owner" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine2"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -2142,7 +2142,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine2"]
+[node name="Score" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine2"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -2151,19 +2151,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/LevelL/HighscoreTable"]
+[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/GameL/HighscoreTable"]
 margin_top = 64.0
 margin_right = 200.0
 margin_bottom = 86.0
 
-[node name="Position" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine3"]
+[node name="Position" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine3"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine3"]
+[node name="Owner" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine3"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -2177,7 +2177,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine3"]
+[node name="Score" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine3"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -2186,19 +2186,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/LevelL/HighscoreTable"]
+[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/GameL/HighscoreTable"]
 margin_top = 96.0
 margin_right = 200.0
 margin_bottom = 118.0
 
-[node name="Position" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine4"]
+[node name="Position" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine4"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine4"]
+[node name="Owner" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine4"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -2212,7 +2212,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine4"]
+[node name="Score" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine4"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -2221,19 +2221,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/LevelL/HighscoreTable"]
+[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/GameL/HighscoreTable"]
 margin_top = 128.0
 margin_right = 200.0
 margin_bottom = 150.0
 
-[node name="Position" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine5"]
+[node name="Position" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine5"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine5"]
+[node name="Owner" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine5"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -2247,7 +2247,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine5"]
+[node name="Score" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine5"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -2256,19 +2256,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/LevelL/HighscoreTable"]
+[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/GameL/HighscoreTable"]
 margin_top = 160.0
 margin_right = 200.0
 margin_bottom = 182.0
 
-[node name="Position" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine6"]
+[node name="Position" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine6"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine6"]
+[node name="Owner" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine6"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -2282,7 +2282,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine6"]
+[node name="Score" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine6"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -2291,19 +2291,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/LevelL/HighscoreTable"]
+[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/GameL/HighscoreTable"]
 margin_top = 192.0
 margin_right = 200.0
 margin_bottom = 214.0
 
-[node name="Position" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine7"]
+[node name="Position" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine7"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine7"]
+[node name="Owner" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine7"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -2317,7 +2317,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine7"]
+[node name="Score" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine7"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -2326,19 +2326,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/LevelL/HighscoreTable"]
+[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/GameL/HighscoreTable"]
 margin_top = 224.0
 margin_right = 200.0
 margin_bottom = 246.0
 
-[node name="Position" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine8"]
+[node name="Position" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine8"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine8"]
+[node name="Owner" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine8"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -2352,7 +2352,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine8"]
+[node name="Score" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine8"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -2361,19 +2361,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/LevelL/HighscoreTable"]
+[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/GameL/HighscoreTable"]
 margin_top = 256.0
 margin_right = 200.0
 margin_bottom = 278.0
 
-[node name="Position" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine9"]
+[node name="Position" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine9"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine9"]
+[node name="Owner" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine9"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -2387,7 +2387,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine9"]
+[node name="Score" type="Label" parent="Highscores/GameL/HighscoreTable/ScoreLine9"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -2396,7 +2396,7 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="LevelXL" type="Control" parent="Highscores"]
+[node name="GameXL" type="Control" parent="Highscores"]
 margin_left = 776.0
 margin_top = 158.0
 margin_right = 976.0
@@ -2405,13 +2405,13 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Title" type="Label" parent="Highscores/LevelXL"]
+[node name="Title" type="Label" parent="Highscores/GameXL"]
 anchor_right = 1.0
 margin_bottom = 22.0
 text = "LEVEL XL"
 align = 1
 
-[node name="HSeparator" type="HSeparator" parent="Highscores/LevelXL/Title"]
+[node name="HSeparator" type="HSeparator" parent="Highscores/GameXL/Title"]
 modulate = Color( 1, 1, 1, 0.901961 )
 anchor_top = 1.0
 anchor_right = 1.0
@@ -2422,7 +2422,7 @@ margin_right = -1.0
 margin_bottom = 13.0
 grow_horizontal = 2
 
-[node name="HighscoreTable" type="VBoxContainer" parent="Highscores/LevelXL"]
+[node name="HighscoreTable" type="VBoxContainer" parent="Highscores/GameXL"]
 anchor_right = 1.0
 margin_top = 48.0
 margin_bottom = 326.0
@@ -2432,13 +2432,13 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="RowLabels" type="HBoxContainer" parent="Highscores/LevelXL/HighscoreTable"]
+[node name="RowLabels" type="HBoxContainer" parent="Highscores/GameXL/HighscoreTable"]
 visible = false
 margin_right = 208.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 22 )
 
-[node name="Position" type="Label" parent="Highscores/LevelXL/HighscoreTable/RowLabels"]
+[node name="Position" type="Label" parent="Highscores/GameXL/HighscoreTable/RowLabels"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
@@ -2447,7 +2447,7 @@ size_flags_vertical = 0
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "#"
 
-[node name="Owner" type="Label" parent="Highscores/LevelXL/HighscoreTable/RowLabels"]
+[node name="Owner" type="Label" parent="Highscores/GameXL/HighscoreTable/RowLabels"]
 margin_left = 34.0
 margin_right = 134.0
 margin_bottom = 22.0
@@ -2460,7 +2460,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelXL/HighscoreTable/RowLabels"]
+[node name="Score" type="Label" parent="Highscores/GameXL/HighscoreTable/RowLabels"]
 margin_left = 138.0
 margin_right = 208.0
 margin_bottom = 22.0
@@ -2471,18 +2471,18 @@ custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Score"
 align = 2
 
-[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/LevelXL/HighscoreTable"]
+[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/GameXL/HighscoreTable"]
 margin_right = 200.0
 margin_bottom = 22.0
 
-[node name="Position" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine1"]
+[node name="Position" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine1"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine1"]
+[node name="Owner" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine1"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -2496,7 +2496,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine1"]
+[node name="Score" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine1"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -2505,19 +2505,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/LevelXL/HighscoreTable"]
+[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/GameXL/HighscoreTable"]
 margin_top = 32.0
 margin_right = 200.0
 margin_bottom = 54.0
 
-[node name="Position" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine2"]
+[node name="Position" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine2"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine2"]
+[node name="Owner" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine2"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -2531,7 +2531,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine2"]
+[node name="Score" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine2"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -2540,19 +2540,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/LevelXL/HighscoreTable"]
+[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/GameXL/HighscoreTable"]
 margin_top = 64.0
 margin_right = 200.0
 margin_bottom = 86.0
 
-[node name="Position" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine3"]
+[node name="Position" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine3"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine3"]
+[node name="Owner" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine3"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -2566,7 +2566,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine3"]
+[node name="Score" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine3"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -2575,19 +2575,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/LevelXL/HighscoreTable"]
+[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/GameXL/HighscoreTable"]
 margin_top = 96.0
 margin_right = 200.0
 margin_bottom = 118.0
 
-[node name="Position" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine4"]
+[node name="Position" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine4"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine4"]
+[node name="Owner" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine4"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -2601,7 +2601,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine4"]
+[node name="Score" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine4"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -2610,19 +2610,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/LevelXL/HighscoreTable"]
+[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/GameXL/HighscoreTable"]
 margin_top = 128.0
 margin_right = 200.0
 margin_bottom = 150.0
 
-[node name="Position" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine5"]
+[node name="Position" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine5"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine5"]
+[node name="Owner" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine5"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -2636,7 +2636,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine5"]
+[node name="Score" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine5"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -2645,19 +2645,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/LevelXL/HighscoreTable"]
+[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/GameXL/HighscoreTable"]
 margin_top = 160.0
 margin_right = 200.0
 margin_bottom = 182.0
 
-[node name="Position" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine6"]
+[node name="Position" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine6"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine6"]
+[node name="Owner" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine6"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -2671,7 +2671,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine6"]
+[node name="Score" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine6"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -2680,19 +2680,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/LevelXL/HighscoreTable"]
+[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/GameXL/HighscoreTable"]
 margin_top = 192.0
 margin_right = 200.0
 margin_bottom = 214.0
 
-[node name="Position" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine7"]
+[node name="Position" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine7"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine7"]
+[node name="Owner" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine7"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -2706,7 +2706,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine7"]
+[node name="Score" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine7"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -2715,19 +2715,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/LevelXL/HighscoreTable"]
+[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/GameXL/HighscoreTable"]
 margin_top = 224.0
 margin_right = 200.0
 margin_bottom = 246.0
 
-[node name="Position" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine8"]
+[node name="Position" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine8"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine8"]
+[node name="Owner" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine8"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -2741,7 +2741,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine8"]
+[node name="Score" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine8"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -2750,19 +2750,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/LevelXL/HighscoreTable"]
+[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/GameXL/HighscoreTable"]
 margin_top = 256.0
 margin_right = 200.0
 margin_bottom = 278.0
 
-[node name="Position" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine9"]
+[node name="Position" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine9"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine9"]
+[node name="Owner" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine9"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -2776,7 +2776,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine9"]
+[node name="Score" type="Label" parent="Highscores/GameXL/HighscoreTable/ScoreLine9"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -2785,7 +2785,7 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="LevelXXL" type="Control" parent="Highscores"]
+[node name="GameXXL" type="Control" parent="Highscores"]
 margin_left = 1016.0
 margin_top = 158.0
 margin_right = 1216.0
@@ -2794,13 +2794,13 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Title" type="Label" parent="Highscores/LevelXXL"]
+[node name="Title" type="Label" parent="Highscores/GameXXL"]
 anchor_right = 1.0
 margin_bottom = 22.0
 text = "LEVEL XXL"
 align = 1
 
-[node name="HSeparator" type="HSeparator" parent="Highscores/LevelXXL/Title"]
+[node name="HSeparator" type="HSeparator" parent="Highscores/GameXXL/Title"]
 modulate = Color( 1, 1, 1, 0.901961 )
 anchor_top = 1.0
 anchor_right = 1.0
@@ -2811,7 +2811,7 @@ margin_right = -1.0
 margin_bottom = 13.0
 grow_horizontal = 2
 
-[node name="HighscoreTable" type="VBoxContainer" parent="Highscores/LevelXXL"]
+[node name="HighscoreTable" type="VBoxContainer" parent="Highscores/GameXXL"]
 anchor_right = 1.0
 margin_top = 48.0
 margin_bottom = 326.0
@@ -2821,13 +2821,13 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="RowLabels" type="HBoxContainer" parent="Highscores/LevelXXL/HighscoreTable"]
+[node name="RowLabels" type="HBoxContainer" parent="Highscores/GameXXL/HighscoreTable"]
 visible = false
 margin_right = 208.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 22 )
 
-[node name="Position" type="Label" parent="Highscores/LevelXXL/HighscoreTable/RowLabels"]
+[node name="Position" type="Label" parent="Highscores/GameXXL/HighscoreTable/RowLabels"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
@@ -2836,7 +2836,7 @@ size_flags_vertical = 0
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "#"
 
-[node name="Owner" type="Label" parent="Highscores/LevelXXL/HighscoreTable/RowLabels"]
+[node name="Owner" type="Label" parent="Highscores/GameXXL/HighscoreTable/RowLabels"]
 margin_left = 34.0
 margin_right = 134.0
 margin_bottom = 22.0
@@ -2849,7 +2849,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelXXL/HighscoreTable/RowLabels"]
+[node name="Score" type="Label" parent="Highscores/GameXXL/HighscoreTable/RowLabels"]
 margin_left = 138.0
 margin_right = 208.0
 margin_bottom = 22.0
@@ -2860,18 +2860,18 @@ custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Score"
 align = 2
 
-[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/LevelXXL/HighscoreTable"]
+[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/GameXXL/HighscoreTable"]
 margin_right = 200.0
 margin_bottom = 22.0
 
-[node name="Position" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine1"]
+[node name="Position" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine1"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine1"]
+[node name="Owner" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine1"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -2885,7 +2885,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine1"]
+[node name="Score" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine1"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -2894,19 +2894,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/LevelXXL/HighscoreTable"]
+[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/GameXXL/HighscoreTable"]
 margin_top = 32.0
 margin_right = 200.0
 margin_bottom = 54.0
 
-[node name="Position" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine2"]
+[node name="Position" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine2"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine2"]
+[node name="Owner" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine2"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -2920,7 +2920,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine2"]
+[node name="Score" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine2"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -2929,19 +2929,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/LevelXXL/HighscoreTable"]
+[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/GameXXL/HighscoreTable"]
 margin_top = 64.0
 margin_right = 200.0
 margin_bottom = 86.0
 
-[node name="Position" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine3"]
+[node name="Position" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine3"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine3"]
+[node name="Owner" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine3"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -2955,7 +2955,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine3"]
+[node name="Score" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine3"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -2964,19 +2964,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/LevelXXL/HighscoreTable"]
+[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/GameXXL/HighscoreTable"]
 margin_top = 96.0
 margin_right = 200.0
 margin_bottom = 118.0
 
-[node name="Position" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine4"]
+[node name="Position" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine4"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine4"]
+[node name="Owner" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine4"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -2990,7 +2990,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine4"]
+[node name="Score" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine4"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -2999,19 +2999,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/LevelXXL/HighscoreTable"]
+[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/GameXXL/HighscoreTable"]
 margin_top = 128.0
 margin_right = 200.0
 margin_bottom = 150.0
 
-[node name="Position" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine5"]
+[node name="Position" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine5"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine5"]
+[node name="Owner" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine5"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -3025,7 +3025,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine5"]
+[node name="Score" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine5"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -3034,19 +3034,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/LevelXXL/HighscoreTable"]
+[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/GameXXL/HighscoreTable"]
 margin_top = 160.0
 margin_right = 200.0
 margin_bottom = 182.0
 
-[node name="Position" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine6"]
+[node name="Position" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine6"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine6"]
+[node name="Owner" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine6"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -3060,7 +3060,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine6"]
+[node name="Score" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine6"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -3069,19 +3069,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/LevelXXL/HighscoreTable"]
+[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/GameXXL/HighscoreTable"]
 margin_top = 192.0
 margin_right = 200.0
 margin_bottom = 214.0
 
-[node name="Position" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine7"]
+[node name="Position" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine7"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine7"]
+[node name="Owner" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine7"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -3095,7 +3095,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine7"]
+[node name="Score" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine7"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -3104,19 +3104,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/LevelXXL/HighscoreTable"]
+[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/GameXXL/HighscoreTable"]
 margin_top = 224.0
 margin_right = 200.0
 margin_bottom = 246.0
 
-[node name="Position" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine8"]
+[node name="Position" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine8"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine8"]
+[node name="Owner" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine8"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -3130,7 +3130,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine8"]
+[node name="Score" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine8"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -3139,19 +3139,19 @@ size_flags_horizontal = 2
 text = "0000"
 align = 2
 
-[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/LevelXXL/HighscoreTable"]
+[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/GameXXL/HighscoreTable"]
 margin_top = 256.0
 margin_right = 200.0
 margin_bottom = 278.0
 
-[node name="Position" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine9"]
+[node name="Position" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine9"]
 margin_right = 28.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_horizontal = 2
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine9"]
+[node name="Owner" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine9"]
 margin_left = 36.0
 margin_top = 2.0
 margin_right = 126.0
@@ -3165,7 +3165,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine9"]
+[node name="Score" type="Label" parent="Highscores/GameXXL/HighscoreTable/ScoreLine9"]
 margin_left = 130.0
 margin_right = 200.0
 margin_bottom = 22.0
@@ -3246,6 +3246,12 @@ margin_top = 7.0
 margin_right = -4.0
 margin_bottom = 11.0
 
+[node name="Panel" type="Panel" parent="SelectGame"]
+margin_left = 9.0
+margin_top = 136.0
+margin_right = 680.0
+margin_bottom = 390.0
+
 [node name="SelectGameBackBtn" type="TextureButton" parent="SelectGame"]
 anchor_left = 1.0
 anchor_right = 1.0
@@ -3275,9 +3281,9 @@ text = "Practice makes perfect"
 autowrap = true
 
 [node name="TutorialBtn" type="Button" parent="SelectGame"]
-margin_left = 8.0
+margin_left = 40.0
 margin_top = 160.0
-margin_right = 328.0
+margin_right = 256.0
 margin_bottom = 216.0
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -3291,10 +3297,10 @@ __meta__ = {
 }
 
 [node name="SelectGameBtn0" type="Button" parent="SelectGame"]
-margin_left = 8.0
-margin_top = 232.0
-margin_right = 328.0
-margin_bottom = 288.0
+margin_left = 40.0
+margin_top = 237.0
+margin_right = 256.0
+margin_bottom = 293.0
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
@@ -3307,10 +3313,10 @@ __meta__ = {
 }
 
 [node name="SelectGameBtn1" type="Button" parent="SelectGame"]
-margin_left = 8.0
-margin_top = 296.0
-margin_right = 328.0
-margin_bottom = 352.0
+margin_left = 319.0
+margin_top = 286.0
+margin_right = 639.0
+margin_bottom = 342.0
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )

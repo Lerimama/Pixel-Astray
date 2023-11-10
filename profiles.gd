@@ -18,59 +18,59 @@ var default_player_stats: Dictionary = { # bo verjetno za vsak mode drugačen
 # SETTINGS ---------------------------------------------------------------------------------------------------------
 
 
-var default_level_data: Dictionary = { # na štartu se napolne s podatki posameznega levela
-	"level" : Levels.TUTORIAL,
-	"tilemap_path": "res://game/tilemaps/tutorial_tilemap.tscn",
-	"game_time_limit": 600, # sekund
-	"strays_start_count": 10, # premaknjeno na tilemap
-	"highscore": 0000, # se naloži iz  "default_level_highscores" lestvice ob štartu igre, zato, da te lahko opozori že med igro
-	"highscore_owner": "Nobody", # se naloži iz  "default_level_highscores" lestvice ob štartu igre, zato, da te lahko opozori že med igro
-}
+#var default_level_data: Dictionary = { # na štartu se napolne s podatki posameznega levela
+#	"level" : Games.TUTORIAL,
+#	"tilemap_path": "res://game/tilemaps/tutorial_tilemap.tscn",
+#	"game_time_limit": 600, # sekund
+#	"strays_start_count": 10, # premaknjeno na tilemap
+#	"highscore": 0000, # se naloži iz  "default_level_highscores" lestvice ob štartu igre, zato, da te lahko opozori že med igro
+#	"highscore_owner": "Nobody", # se naloži iz  "default_level_highscores" lestvice ob štartu igre, zato, da te lahko opozori že med igro
+#}
 
-# na štartu se vrednosti injicirajo v "level_data"
-enum Levels {TUTORIAL, PRACTICE, S, M, L, XL, XXL}
+# na štartu se vrednosti injicirajo v "current_game_data"
+enum Games {TUTORIAL, PRACTICE, S, M, L, XL, XXL}
+var current_game_data: Dictionary
 
-
-var level_tutorial_data: Dictionary = { 
-	"level": Levels.TUTORIAL,
+var game_data_tutorial: Dictionary = { 
+	"game": Games.TUTORIAL,
 	"tilemap_path": "res://game/tilemaps/tutorial_tilemap.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 10,
 }
 
-var level_practice: Dictionary = { 
-	"level": Levels.PRACTICE,
+var game_data_practice: Dictionary = { 
+	"game": Games.PRACTICE,
 	"tilemap_path": "x",
 	"game_time_limit": 600,
 	"strays_start_count": 500,
 }
 
-var level_1_data: Dictionary = { 
-	"level": Levels.S,
+var game_data_S: Dictionary = { 
+	"game": Games.S,
 	"game_time_limit": 5,
-#	"stray_pixels_count": 5,
+	"strays_start_count": 5, 
 }
 
-var level_2_data: Dictionary = {
-	"level": Levels.M,
+var game_data_M: Dictionary = {
+	"game": Games.M,
 	"game_time_limit": 5,
 	"strays_start_count": 32, 
 }
 
-var level_3_data: Dictionary = {
-	"level": Levels.L,
+var game_data_L: Dictionary = {
+	"game": Games.L,
 	"game_time_limit": 5,
 	"strays_start_count": 140, 
 }
 
-var level_4_data: Dictionary = {
-	"level": Levels.XL,
+var game_data_XL: Dictionary = {
+	"game": Games.XL,
 	"game_time_limit": 5,
 	"strays_start_count": 230, 
 }
 
-var level_5_data: Dictionary = {
-	"level": Levels.XXL,
+var game_data_XXL: Dictionary = {
+	"game": Games.XXL,
 	"game_time_limit": 5,
 	"strays_start_count": 320, 
 }
@@ -114,7 +114,23 @@ var game_settings: Dictionary = {
 	"start_countdown_on": false, # game_countdown
 }
 
+var current_game = Games.PRACTICE
 
+func _ready() -> void:
+	match current_game:
+		Games.TUTORIAL:
+			current_game_data = game_data_tutorial
+		Games.PRACTICE:
+			current_game_data = game_data_practice
+
+func set_game_data(selected_game) -> void:
+	
+	match selected_game:
+		Games.TUTORIAL:
+			current_game_data = game_data_tutorial
+		Games.PRACTICE:
+			current_game_data = game_data_practice
+#			game_settings["start_countdown_on"] = true
 
 
 #var default_level_highscores: Dictionary = { # prazen slovar ... uporabi se ob kreiranju fileta ... uporabi ga Glo

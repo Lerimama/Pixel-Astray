@@ -9,7 +9,7 @@ var xtra_separation_height: int = 14
 var stage_height_traveling: int = 234
 var stage_height_bursting: int = 394
 var stage_height_skilling: int = 394
-var stage_height_stacking: int = 316
+var stage_height_stacking: int = 346
 var stage_height_winlose: int = 300
 
 # za beleženje vmesnih rezultatov
@@ -46,7 +46,9 @@ func _input(event: InputEvent) -> void:
 		if Input.is_action_just_pressed("ui_accept"):
 			Global.sound_manager.play_gui_sfx("btn_confirm")
 			animation_player.play("tutorial_start")
-	
+			Global.sound_manager.play_music("game")
+			Global.sound_manager.skip_track() # skipa prvi komad in zapleja drugega
+			
 	elif current_tutorial_stage == TutorialStage.TRAVELING:
 		if Input.is_action_pressed("ui_up"):
 			traveling_directions.erase(Vector2.UP)
@@ -195,14 +197,17 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	match anim_name:
 		"mission_in":
 			current_tutorial_stage = TutorialStage.MISSION
-#			$MissionPanel/Menu/StartBtn.grab_focus()
 		"tutorial_start":
+			
+			Global.game_manager.player_pixel.animation_player.play("revive")
+			
 			var show_player = get_tree().create_tween()
-			show_player.tween_property(Global.game_manager.player_pixel, "modulate:a", 1, 1).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_ELASTIC)
 			show_player.tween_callback(self, "open_stage", [traveling_content, stage_height_traveling, travel_sepa]).set_delay(0.5)
 			show_player.tween_callback(Global.game_manager.player_pixel, "set_physics_process", [true]).set_delay(1)
 			current_tutorial_stage = TutorialStage.TRAVELING
 			
+#			Global.game_manager.player_pixel.play_revive()
+#			Global.game_manager.player_pixel.animation_player.play("start_white")
 #			var show_player = get_tree().create_tween()
 #			show_player.tween_property(Global.game_manager.player_pixel, "modulate:a", 1, 1).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_ELASTIC)
 #			show_player.tween_callback(self, "open_stage", [winlose_content, stage_height_winlose, win_lose_sepa]).set_delay(1)

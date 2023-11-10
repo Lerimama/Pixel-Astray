@@ -61,6 +61,8 @@ func step(step_direction):
 func die(stray_in_row):
 	
 	collision_shape_2d.disabled = true
+	
+	
 	emit_signal("stat_changed", self, "stray_hit", stray_in_row)
 	
 	# žrebam animacijo
@@ -68,6 +70,10 @@ func die(stray_in_row):
 	var random_animation_name: String = "die_stray_%s" % random_animation_index
 	animation_player.play(random_animation_name) 
 	# KVEFRI je v animaciji
+	
+	# var lose_color = get_tree().create_tween()
+	# lose_color.tween_property(self, "modulate", Color("#323232"), 0.3)
+	# lose_color.tween_callback(animation_player, "play", [random_animation_name])
 	
 	
 func play_blinking_sound():

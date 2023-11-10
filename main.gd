@@ -1,7 +1,7 @@
 extends Node
 
 
-var fade_time = 1
+var fade_time = 0.7
 
 var camera_shake_on: bool =  true #_temp
 
@@ -14,8 +14,8 @@ func _ready() -> void:
 	Global.main_node = self
 	
 #	home_in_intro()
-#	home_in_no_intro()
-	game_in()
+	home_in_no_intro()
+#	game_in()
 
 
 func home_in_intro():

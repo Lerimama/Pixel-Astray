@@ -56,11 +56,11 @@ func _ready():
 	$About/EscHint.modulate.a = 0
 	
 	# games buttons text
-	$SelectGame/SelectGameBtn1.text = "Only " + str(Profiles.level_1_data["level"]) + " pixels astray"
-	$SelectGame/SelectGameBtn2.text = str(Profiles.level_2_data["level"]) + " pixels astray"
-	$SelectGame/SelectGameBtn3.text = str(Profiles.level_3_data["level"]) + " pixels astray"
-	$SelectGame/SelectGameBtn4.text = str(Profiles.level_4_data["level"]) + " pixels astray"
-	$SelectGame/SelectGameBtn5.text = str(Profiles.level_5_data["level"]) + " pixels astray"
+	$SelectGame/SelectGameBtn1.text = "Only " + str(Profiles.game_data_S["game"]) + " pixels astray"
+	$SelectGame/SelectGameBtn2.text = str(Profiles.game_data_M["game"]) + " pixels astray"
+	$SelectGame/SelectGameBtn3.text = str(Profiles.game_data_L["game"]) + " pixels astray"
+	$SelectGame/SelectGameBtn4.text = str(Profiles.game_data_XL["game"]) + " pixels astray"
+	$SelectGame/SelectGameBtn5.text = str(Profiles.game_data_XXL["game"]) + " pixels astray"
 
 	
 func open_with_intro(): # ... kliče main.gd -> home_in_intro()
@@ -223,14 +223,10 @@ func _on_HighscoresBackBtn_pressed() -> void:
 
 func _on_TutorialBtn_pressed() -> void:
 	
-	# level data
-	Profiles.default_level_data["level"] = Profiles.level_tutorial_data["level"]
-	Profiles.default_level_data["game_time_limit"] = Profiles.level_tutorial_data["game_time_limit"]
-	Profiles.default_level_data["strays_start_count"] = Profiles.level_tutorial_data["strays_start_count"]
+	Profiles.set_game_data(Profiles.Games.TUTORIAL)
 	
 	Global.sound_manager.play_gui_sfx("btn_confirm")
-#	Global.main_node.home_out()
-	animation_player.play("play")
+	animation_player.play("play") # home out je signal na koncu animacije
 	$SelectGame/TutorialBtn.disabled = true # da ne moreš multiklikat
 
 
@@ -241,9 +237,9 @@ func _on_SelectGameBtn0_pressed() -> void:
 func _on_SelectGameBtn1_pressed() -> void:
 	
 	# vnos vrednosti izbranega levela v default level stats
-	Profiles.default_level_data["level"] = Profiles.level_1_data["level"]
-	Profiles.default_level_data["game_time_limit"] = Profiles.level_1_data["game_time_limit"]
-	Profiles.default_level_data["strays_start_count"] = Profiles.level_1_data["strays_start_count"]
+#	Profiles.default_game_data["game"] = Profiles.level_1_data["level"]
+#	Profiles.default_level_data["game_time_limit"] = Profiles.level_1_data["game_time_limit"]
+#	Profiles.default_level_data["strays_start_count"] = Profiles.level_1_data["strays_start_count"]
 	
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.home_out()

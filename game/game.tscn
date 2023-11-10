@@ -914,7 +914,7 @@ margin = Rect2( -2, 2, 0, 0 )
 [node name="Game" type="Node2D"]
 script = ExtResource( 6 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 698.0, 1371.0, 1371.0, 120.0, 104.0, 352.0, 206.0 ],
+"_edit_horizontal_guides_": [ 698.0, 1371.0, 1371.0, 120.0, 104.0, 352.0, 206.0, 651.0 ],
 "_edit_vertical_guides_": [ 640.0, 1248.0, 32.0, 1216.0, 1304.0, 1632.0, 1453.0, 353.0 ]
 }
 
@@ -1692,10 +1692,10 @@ anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -608.0
 margin_top = -34.0
-margin_right = 608.0
+margin_right = 432.0
 margin_bottom = -22.0
 grow_horizontal = 2
-rect_min_size = Vector2( 1216, 0 )
+rect_min_size = Vector2( 1040, 0 )
 custom_constants/separation = 0
 alignment = 1
 
@@ -1852,7 +1852,6 @@ valign = 1
 
 [node name="GameCountdown" type="Control" parent="GUI"]
 visible = false
-modulate = Color( 1, 1, 1, 0 )
 margin_right = 1280.0
 margin_bottom = 720.0
 rect_min_size = Vector2( 1280, 720 )
@@ -1865,7 +1864,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-color = Color( 0, 0, 0, 0.498039 )
+color = Color( 0, 0, 0, 0.54902 )
 
 [node name="Countdown" type="VBoxContainer" parent="GUI/GameCountdown"]
 margin_left = 511.0
@@ -1875,6 +1874,8 @@ margin_bottom = 289.0
 custom_constants/separation = 0
 
 [node name="label" type="Label" parent="GUI/GameCountdown/Countdown"]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
 margin_right = 260.0
 margin_bottom = 22.0
 size_flags_vertical = 8
@@ -1886,7 +1887,7 @@ __meta__ = {
 }
 
 [node name="PositionControl" type="Control" parent="GUI/GameCountdown/Countdown"]
-modulate = Color( 1, 1, 1, 0 )
+modulate = Color( 0.368627, 1, 0.662745, 1 )
 margin_top = 22.0
 margin_right = 260.0
 margin_bottom = 26.0
@@ -1927,9 +1928,6 @@ margin_right = -32.0
 margin_bottom = 2001.0
 grow_horizontal = 2
 custom_constants/separation = 4
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="Traveling" type="Label" parent="GUI/Tutorial/Checkpoints"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
@@ -1964,7 +1962,7 @@ margin_right = 329.0
 margin_bottom = 98.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "You can move in directions up, down, left and right. Circle around the wall block to progress to next stage."
+text = "You can move in directions up, down, left, and right. Circle the wall block to progress to the next stage."
 autowrap = true
 
 [node name="LineLabel" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
@@ -1990,7 +1988,7 @@ margin_bottom = 42.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "Traveling costs energy, so you can't travel if you have no energy"
+text = "Traveling costs energy, so you can't travel around without it."
 autowrap = true
 
 [node name="LineLabel2" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
@@ -2016,7 +2014,7 @@ margin_bottom = 18.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "More energy means more speed"
+text = "More energy means more speed."
 autowrap = true
 
 [node name="HSeparator2" type="HSeparator" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
@@ -2123,7 +2121,7 @@ margin_bottom = 66.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "Burst doesn't use energy ... When you have no energy, you can still destroy a stray pixel to regain vitality."
+text = "Burst doesn't use energy, so if you have no energy, you can still destroy a stray pixel to regain vitality."
 autowrap = true
 
 [node name="LineLabel2" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
@@ -2149,7 +2147,7 @@ margin_bottom = 42.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "To stop in the middle of burst press the burst key again"
+text = "To stop in the middle of burst press the burst key again."
 autowrap = true
 
 [node name="HSeparator2" type="HSeparator" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
@@ -2208,18 +2206,18 @@ margin_right = 328.0
 margin_bottom = 194.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "1. Connect to a neighbouring stray pixel 
+text = "1. Connect to a neighboring stray pixel 
   or wall and press in the direction 
-  towards the target"
+  of the target"
 autowrap = true
 
 [node name="Content2" type="Label" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
 margin_top = 208.0
-margin_right = 326.0
+margin_right = 336.0
 margin_bottom = 226.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "2. Move towards stray pixel to push it"
+text = "2. Move towards a stray pixel to push it"
 autowrap = true
 
 [node name="Content3" type="Label" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
@@ -2262,7 +2260,7 @@ margin_bottom = 18.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "Using skills doesn't use energy"
+text = "Skills don't use energy."
 autowrap = true
 
 [node name="HSeparator2" type="HSeparator" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
@@ -2293,8 +2291,8 @@ text = "Stacking pixels"
 [node name="StackingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
 margin_top = 1156.0
 margin_right = 328.0
-margin_bottom = 1472.0
-rect_min_size = Vector2( 0, 316 )
+margin_bottom = 1502.0
+rect_min_size = Vector2( 0, 346 )
 rect_clip_content = true
 
 [node name="HSeparator" type="HSeparator" parent="GUI/Tutorial/Checkpoints/StackingContent"]
@@ -2305,17 +2303,18 @@ margin_bottom = 9.0
 
 [node name="Instructions" type="Label" parent="GUI/Tutorial/Checkpoints/StackingContent"]
 margin_top = 33.0
-margin_right = 332.0
-margin_bottom = 76.0
+margin_right = 329.0
+margin_bottom = 99.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "Destroy at least 3 stray pixels with a single burst to progress to final stage."
+text = "Destroy at least 3 stray pixels with 
+a single burst to progress to the final stage of tutorial."
 autowrap = true
 
 [node name="LineLabel" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/StackingContent"]
-margin_top = 105.0
+margin_top = 129.0
 margin_right = 328.0
-margin_bottom = 147.0
+margin_bottom = 171.0
 custom_constants/separation = 8
 __meta__ = {
 "_edit_group_": true
@@ -2338,9 +2337,9 @@ text = "Amount of stacked pixels destroyed equals the power of your burst."
 autowrap = true
 
 [node name="LineLabel2" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/StackingContent"]
-margin_top = 161.0
+margin_top = 185.0
 margin_right = 329.0
-margin_bottom = 203.0
+margin_bottom = 227.0
 custom_constants/separation = 8
 __meta__ = {
 "_edit_group_": true
@@ -2359,13 +2358,13 @@ margin_bottom = 42.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "Maximum power (7 pixel units) always destroys all pixels in a stack."
+text = "Maximum power (7 units) always destroys all pixels in a stack."
 autowrap = true
 
 [node name="LineLabel3" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/StackingContent"]
-margin_top = 217.0
+margin_top = 241.0
 margin_right = 329.0
-margin_bottom = 283.0
+margin_bottom = 307.0
 custom_constants/separation = 8
 __meta__ = {
 "_edit_group_": true
@@ -2384,7 +2383,7 @@ margin_bottom = 66.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "Destroying pixels in stack will give you more points than destroying them one by one."
+text = "Destroying pixels in a stack will give you more points than destroying them one by one."
 autowrap = true
 
 [node name="HSeparator2" type="HSeparator" parent="GUI/Tutorial/Checkpoints/StackingContent"]
@@ -2397,15 +2396,15 @@ margin_bottom = 1.0
 
 [node name="StackingSepa" type="HSeparator" parent="GUI/Tutorial/Checkpoints"]
 modulate = Color( 1, 1, 1, 0 )
-margin_top = 1476.0
+margin_top = 1506.0
 margin_right = 328.0
-margin_bottom = 1480.0
+margin_bottom = 1510.0
 
 [node name="WinLose" type="Label" parent="GUI/Tutorial/Checkpoints"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-margin_top = 1484.0
+margin_top = 1514.0
 margin_right = 328.0
-margin_bottom = 1506.0
+margin_bottom = 1536.0
 rect_min_size = Vector2( 0, 20 )
 theme_type_variation = "Lerimama_lite"
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -2416,9 +2415,9 @@ __meta__ = {
 }
 
 [node name="WinLoseContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
-margin_top = 1510.0
+margin_top = 1540.0
 margin_right = 328.0
-margin_bottom = 1808.0
+margin_bottom = 1838.0
 rect_min_size = Vector2( 0, 298 )
 rect_clip_content = true
 
@@ -2434,7 +2433,7 @@ margin_right = 326.0
 margin_bottom = 51.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "Game is over when:"
+text = "The game is over if:"
 autowrap = true
 
 [node name="LineLabel" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
@@ -2509,7 +2508,7 @@ margin_right = 312.0
 margin_bottom = 273.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "To finish the tutorial try to destroy all the pixels that are still astray or quit through the pause menu."
+text = "To finish the tutorial, try to destroy all pixels still astray. Or quit through the pause menu."
 autowrap = true
 
 [node name="HSeparator2" type="HSeparator" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
@@ -2523,9 +2522,9 @@ margin_bottom = 1.0
 
 [node name="WinLoseSepa" type="HSeparator" parent="GUI/Tutorial/Checkpoints"]
 modulate = Color( 1, 1, 1, 0 )
-margin_top = 1812.0
+margin_top = 1842.0
 margin_right = 328.0
-margin_bottom = 1816.0
+margin_bottom = 1846.0
 
 [node name="HudGuide" type="Control" parent="GUI/Tutorial"]
 anchor_right = 1.0
@@ -2666,6 +2665,52 @@ width = 0.5
 default_color = Color( 1, 1, 1, 1 )
 antialiased = true
 
+[node name="HighscoreLabel2" type="Label" parent="GUI/Tutorial/HudGuide"]
+self_modulate = Color( 0.368627, 1, 0.662745, 1 )
+margin_left = 973.0
+margin_top = 625.0
+margin_right = 1086.0
+margin_bottom = 643.0
+grow_horizontal = 0
+custom_fonts/font = ExtResource( 23 )
+text = "Pixels astray"
+align = 1
+uppercase = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Line2D2" type="Line2D" parent="GUI/Tutorial/HudGuide/HighscoreLabel2"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+position = Vector2( 31, 58 )
+points = PoolVector2Array( 104, -8, 80, -32 )
+width = 0.5
+default_color = Color( 1, 1, 1, 1 )
+antialiased = true
+
+[node name="MusicLabel2" type="Label" parent="GUI/Tutorial/HudGuide"]
+self_modulate = Color( 0.368627, 1, 0.662745, 1 )
+margin_left = 1108.0
+margin_top = 625.0
+margin_right = 1251.0
+margin_bottom = 643.0
+grow_horizontal = 0
+custom_fonts/font = ExtResource( 23 )
+text = "Pixels destroyed"
+align = 1
+uppercase = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Line2D" type="Line2D" parent="GUI/Tutorial/HudGuide/MusicLabel2"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+position = Vector2( -25, 58 )
+points = PoolVector2Array( 104, -8, 80, -32 )
+width = 0.5
+default_color = Color( 1, 1, 1, 1 )
+antialiased = true
+
 [node name="SpectrumLabel" type="Label" parent="GUI/Tutorial/HudGuide"]
 self_modulate = Color( 0.368627, 1, 0.662745, 1 )
 margin_left = 427.5
@@ -2674,7 +2719,7 @@ margin_right = 852.5
 margin_bottom = 642.0
 grow_horizontal = 2
 custom_fonts/font = ExtResource( 23 )
-text = "Spectrum indicator of picked and available colors"
+text = "Indicator of picked and available colors"
 align = 1
 uppercase = true
 
@@ -2693,7 +2738,7 @@ anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -608.0
 margin_top = -34.0
-margin_right = 608.0
+margin_right = 432.0
 margin_bottom = -22.0
 rect_min_size = Vector2( 0, 12 )
 texture = ExtResource( 25 )
@@ -2857,15 +2902,12 @@ sharp_limit = 0.0
 antialiased = true
 
 [node name="Scoring" type="Control" parent="GUI/Tutorial/InfoPanel"]
-margin_top = 230.0
+margin_top = 246.0
 margin_right = 320.0
-margin_bottom = 568.0
-__meta__ = {
-"_edit_group_": true
-}
+margin_bottom = 584.0
 
 [node name="Title" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring"]
-margin_right = 322.0
+margin_right = 320.0
 margin_bottom = 34.0
 rect_min_size = Vector2( 0, 34 )
 size_flags_horizontal = 3
@@ -2885,15 +2927,417 @@ margin_bottom = 1.0
 
 [node name="Content" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring"]
 margin_top = 50.0
-margin_right = 337.0
+margin_right = 334.0
 margin_bottom = 68.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "One point equals score and energy point."
+text = "A point in score equals an energy point."
 autowrap = true
 
-[node name="LineLabel1" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/Scoring"]
+[node name="PointsLabel" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/Scoring"]
+margin_top = 80.0
+margin_right = 328.0
+margin_bottom = 102.0
+custom_constants/separation = 8
+
+[node name="Points" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring/PointsLabel"]
+modulate = Color( 0.368627, 1, 0.662745, 1 )
+margin_top = 2.0
+margin_right = 25.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 25, 0 )
+custom_fonts/font = ExtResource( 23 )
+text = "10"
+align = 2
+
+[node name="+-" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring/PointsLabel/Points"]
+margin_top = -2.0
+margin_right = 14.0
+margin_bottom = 20.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 23 )
+text = "+"
+
+[node name="Content2" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring/PointsLabel"]
+margin_left = 33.0
+margin_top = 2.0
+margin_right = 328.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 23 )
+text = "... Destroy a stray pixel"
+
+[node name="PointsLabel2" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/Scoring"]
+margin_top = 112.0
+margin_right = 328.0
+margin_bottom = 134.0
+custom_constants/separation = 8
+
+[node name="Points" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring/PointsLabel2"]
+modulate = Color( 0.368627, 1, 0.662745, 1 )
+margin_top = 2.0
+margin_right = 30.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 30, 0 )
+custom_fonts/font = ExtResource( 23 )
+text = "20"
+align = 2
+
+[node name="+-" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring/PointsLabel2/Points"]
+margin_top = -2.0
+margin_right = 14.0
+margin_bottom = 20.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 23 )
+text = "+"
+
+[node name="Content2" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring/PointsLabel2"]
+margin_left = 38.0
+margin_top = 2.0
+margin_right = 328.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 23 )
+text = "... Destroy a stacked stray pixel"
+
+[node name="Content3" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring"]
+margin_top = 138.0
+margin_right = 312.0
+margin_bottom = 204.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_fonts/font = ExtResource( 23 )
+text = "10 points for the first one, 10 + 20 points for the second, 10 + 20 + 20 for the third, and so on."
+autowrap = true
+
+[node name="PointsLabel3" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/Scoring"]
+margin_top = 216.0
+margin_right = 328.0
+margin_bottom = 238.0
+custom_constants/separation = 8
+
+[node name="Points" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring/PointsLabel3"]
+modulate = Color( 0.368627, 1, 0.662745, 1 )
+margin_top = 2.0
+margin_right = 39.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 39, 0 )
+custom_fonts/font = ExtResource( 23 )
+text = "500"
+align = 2
+
+[node name="+-" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring/PointsLabel3/Points"]
+margin_top = -2.0
+margin_right = 14.0
+margin_bottom = 20.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 23 )
+text = "+"
+
+[node name="Content2" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring/PointsLabel3"]
+margin_left = 47.0
+margin_top = 2.0
+margin_right = 328.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 23 )
+text = "... Destroy all stray pixels"
+
+[node name="PointsLabel4" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/Scoring"]
+margin_top = 248.0
+margin_right = 328.0
+margin_bottom = 270.0
+custom_constants/separation = 8
+
+[node name="Points" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring/PointsLabel4"]
+modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
+margin_top = 2.0
+margin_right = 15.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 15, 0 )
+custom_fonts/font = ExtResource( 23 )
+text = "1"
+align = 2
+
+[node name="+-" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring/PointsLabel4/Points"]
+margin_top = -2.0
+margin_right = 14.0
+margin_bottom = 20.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 23 )
+text = "-"
+
+[node name="Content2" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring/PointsLabel4"]
+margin_left = 23.0
+margin_top = 2.0
+margin_right = 328.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 23 )
+text = "... Traveling (per step)"
+
+[node name="PointsLabel5" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/Scoring"]
+margin_top = 280.0
+margin_right = 328.0
+margin_bottom = 302.0
+custom_constants/separation = 8
+
+[node name="Points" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring/PointsLabel5"]
+modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
+margin_top = 2.0
+margin_right = 104.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 104, 0 )
+custom_fonts/font = ExtResource( 23 )
+text = "1/2 of total"
+align = 2
+
+[node name="+-" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring/PointsLabel5/Points"]
+margin_top = -2.0
+margin_right = 14.0
+margin_bottom = 20.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 23 )
+text = "-"
+
+[node name="Content2" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring/PointsLabel5"]
+margin_left = 112.0
+margin_top = 2.0
+margin_right = 328.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 23 )
+text = "... Burst into a wall"
+
+[node name="_Scoring2" type="Control" parent="GUI/Tutorial/InfoPanel"]
+visible = false
+margin_top = 246.0
+margin_right = 320.0
+margin_bottom = 584.0
+
+[node name="Title" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2"]
+margin_right = 320.0
+margin_bottom = 34.0
+rect_min_size = Vector2( 0, 34 )
+size_flags_horizontal = 3
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Scoring and energy"
+
+[node name="HSeparator" type="HSeparator" parent="GUI/Tutorial/InfoPanel/_Scoring2/Title"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = -3.0
+margin_right = -1.0
+margin_bottom = 1.0
+
+[node name="Content" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2"]
+margin_top = 50.0
+margin_right = 334.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 23 )
+text = "A point in score equals an energy point."
+autowrap = true
+
+[node name="PointsLabel" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/_Scoring2"]
+margin_top = 80.0
+margin_right = 328.0
+margin_bottom = 102.0
+custom_constants/separation = 8
+
+[node name="Points" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel"]
+margin_right = 44.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 44, 0 )
+text = "10"
+align = 2
+
+[node name="+-" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel/Points"]
+margin_top = 1.0
+margin_right = 14.0
+margin_bottom = 23.0
+size_flags_vertical = 1
+text = "+"
+
+[node name="Content2" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel"]
+margin_left = 52.0
+margin_top = 2.0
+margin_right = 328.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 23 )
+text = "... destroy a stray pixel"
+
+[node name="PointsLabel2" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/_Scoring2"]
+margin_top = 112.0
+margin_right = 328.0
+margin_bottom = 134.0
+custom_constants/separation = 8
+
+[node name="Points" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel2"]
+margin_right = 47.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 47, 0 )
+text = "20"
+align = 2
+
+[node name="+-" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel2/Points"]
+margin_top = 1.0
+margin_right = 14.0
+margin_bottom = 23.0
+size_flags_vertical = 1
+text = "+"
+
+[node name="Content2" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel2"]
+margin_left = 55.0
+margin_top = 2.0
+margin_right = 328.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 23 )
+text = "... destroy a stacked stray pixel"
+
+[node name="Content3" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2"]
+margin_top = 138.0
+margin_right = 312.0
+margin_bottom = 204.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_fonts/font = ExtResource( 23 )
+text = "10 points for the first one, 10 + 20 points for the second, 10 + 20 + 20 for the third, and so on."
+autowrap = true
+
+[node name="PointsLabel3" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/_Scoring2"]
+margin_top = 216.0
+margin_right = 328.0
+margin_bottom = 238.0
+custom_constants/separation = 8
+
+[node name="Points" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel3"]
+margin_right = 61.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 61, 0 )
+text = "500"
+align = 2
+
+[node name="+-" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel3/Points"]
+margin_top = 1.0
+margin_right = 14.0
+margin_bottom = 23.0
+size_flags_vertical = 1
+text = "+"
+
+[node name="Content2" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel3"]
+margin_left = 69.0
+margin_top = 2.0
+margin_right = 328.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 23 )
+text = "... destroy all stray pixels"
+
+[node name="PointsLabel4" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/_Scoring2"]
+margin_top = 248.0
+margin_right = 328.0
+margin_bottom = 270.0
+custom_constants/separation = 8
+
+[node name="Points" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel4"]
+margin_right = 30.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 30, 0 )
+text = "1"
+align = 2
+
+[node name="+-" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel4/Points"]
+margin_top = 1.0
+margin_right = 14.0
+margin_bottom = 23.0
+size_flags_vertical = 1
+text = "-"
+
+[node name="Content2" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel4"]
+margin_left = 38.0
+margin_top = 2.0
+margin_right = 328.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 23 )
+text = "... traveling (per step)"
+
+[node name="PointsLabel5" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/_Scoring2"]
+margin_top = 280.0
+margin_right = 328.0
+margin_bottom = 302.0
+custom_constants/separation = 8
+
+[node name="Points" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel5"]
+margin_right = 160.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 160, 0 )
+text = "1/2 of total"
+align = 2
+
+[node name="+-" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel5/Points"]
+margin_top = 1.0
+margin_right = 14.0
+margin_bottom = 23.0
+size_flags_vertical = 1
+text = "-"
+
+[node name="Content2" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel5"]
+margin_left = 168.0
+margin_top = 2.0
+margin_right = 328.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 23 )
+text = "... burst into wall"
+
+[node name="_Scoring3" type="Control" parent="GUI/Tutorial/InfoPanel"]
+visible = false
+margin_top = 246.0
+margin_right = 320.0
+margin_bottom = 584.0
+
+[node name="Title" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring3"]
+margin_right = 320.0
+margin_bottom = 34.0
+rect_min_size = Vector2( 0, 34 )
+size_flags_horizontal = 3
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Scoring and energy"
+
+[node name="HSeparator" type="HSeparator" parent="GUI/Tutorial/InfoPanel/_Scoring3/Title"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = -3.0
+margin_right = -1.0
+margin_bottom = 1.0
+
+[node name="Content" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring3"]
+margin_top = 50.0
+margin_right = 334.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 23 )
+text = "A point in score equals an energy point."
+autowrap = true
+
+[node name="LineLabel1" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/_Scoring3"]
 margin_top = 82.0
 margin_right = 319.0
 margin_bottom = 100.0
@@ -2902,23 +3346,23 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Dot" type="TextureRect" parent="GUI/Tutorial/InfoPanel/Scoring/LineLabel1"]
+[node name="Dot" type="TextureRect" parent="GUI/Tutorial/InfoPanel/_Scoring3/LineLabel1"]
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
 texture = ExtResource( 26 )
 
-[node name="Content1" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring/LineLabel1"]
+[node name="Content1" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring3/LineLabel1"]
 margin_left = 14.0
 margin_right = 319.0
 margin_bottom = 18.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "Destroy a pixel ... 10 points"
+text = "Destroy a stray pixel ... +10"
 autowrap = true
 
-[node name="LineLabel2" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/Scoring"]
+[node name="LineLabel2" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/_Scoring3"]
 margin_top = 114.0
 margin_right = 322.0
 margin_bottom = 204.0
@@ -2927,24 +3371,24 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Dot" type="TextureRect" parent="GUI/Tutorial/InfoPanel/Scoring/LineLabel2"]
+[node name="Dot" type="TextureRect" parent="GUI/Tutorial/InfoPanel/_Scoring3/LineLabel2"]
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
 texture = ExtResource( 26 )
 
-[node name="Content2" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring/LineLabel2"]
+[node name="Content2" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring3/LineLabel2"]
 margin_left = 14.0
 margin_right = 322.0
 margin_bottom = 90.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "Destroy a stacked pixel ... 20 points
-10 points for the first one, 10 + 20 points for the second, 10 + 20 + 20 for the third, ..."
+text = "Destroy a pixel in stack ... +20 
+10 points for the first one, 10 + 20 points for the second, 10 + 20 + 20 for the third, and so on."
 autowrap = true
 
-[node name="LineLabel3" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/Scoring"]
+[node name="LineLabel3" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/_Scoring3"]
 margin_top = 218.0
 margin_right = 327.0
 margin_bottom = 236.0
@@ -2953,13 +3397,13 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Dot" type="TextureRect" parent="GUI/Tutorial/InfoPanel/Scoring/LineLabel3"]
+[node name="Dot" type="TextureRect" parent="GUI/Tutorial/InfoPanel/_Scoring3/LineLabel3"]
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
 texture = ExtResource( 26 )
 
-[node name="Content3" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring/LineLabel3"]
+[node name="Content3" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring3/LineLabel3"]
 margin_left = 14.0
 margin_right = 327.0
 margin_bottom = 18.0
@@ -2969,7 +3413,7 @@ custom_fonts/font = ExtResource( 23 )
 text = "Destroy all pixels ... 500 points"
 autowrap = true
 
-[node name="LineLabel4" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/Scoring"]
+[node name="LineLabel4" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/_Scoring3"]
 margin_top = 250.0
 margin_right = 319.0
 margin_bottom = 268.0
@@ -2978,13 +3422,13 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Dot" type="TextureRect" parent="GUI/Tutorial/InfoPanel/Scoring/LineLabel4"]
+[node name="Dot" type="TextureRect" parent="GUI/Tutorial/InfoPanel/_Scoring3/LineLabel4"]
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
 texture = ExtResource( 26 )
 
-[node name="Content4" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring/LineLabel4"]
+[node name="Content4" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring3/LineLabel4"]
 margin_left = 14.0
 margin_right = 319.0
 margin_bottom = 18.0
@@ -2994,7 +3438,7 @@ custom_fonts/font = ExtResource( 23 )
 text = "Traveling ... -1 point per step "
 autowrap = true
 
-[node name="LineLabel5" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/Scoring"]
+[node name="LineLabel5" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/_Scoring3"]
 margin_top = 282.0
 margin_right = 301.0
 margin_bottom = 324.0
@@ -3003,13 +3447,13 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Dot" type="TextureRect" parent="GUI/Tutorial/InfoPanel/Scoring/LineLabel5"]
+[node name="Dot" type="TextureRect" parent="GUI/Tutorial/InfoPanel/_Scoring3/LineLabel5"]
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
 texture = ExtResource( 26 )
 
-[node name="Content5" type="Label" parent="GUI/Tutorial/InfoPanel/Scoring/LineLabel5"]
+[node name="Content5" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring3/LineLabel5"]
 margin_left = 14.0
 margin_right = 301.0
 margin_bottom = 42.0
@@ -3043,13 +3487,13 @@ custom_styles/panel = SubResource( 155 )
 [node name="Content" type="Label" parent="GUI/Tutorial/MissionPanel"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -185.0
+margin_left = -190.0
 margin_top = 40.0
-margin_right = 183.0
+margin_right = 188.0
 margin_bottom = 130.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "This is tutorial to basic controls and mechanics of the game. Every stage includes instructions you need to follow to progress to the next one, and also some hints."
+text = "You are starting a tutorial on the basic mechanics of the game. Every stage has instructions on how to progress to the next one. Added tips can help during the game."
 align = 1
 autowrap = true
 
@@ -3828,7 +4272,6 @@ margin_right = 1280.0
 margin_bottom = 720.0
 
 [node name="Title" type="Label" parent="GUI/GameOver/ContentTutorial"]
-modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -3991,7 +4434,6 @@ margin_right = 1280.0
 margin_bottom = 720.0
 
 [node name="Title" type="Label" parent="GUI/GameOver/ContentPractice"]
-modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -4153,7 +4595,6 @@ margin_right = 1280.0
 margin_bottom = 720.0
 
 [node name="Title" type="Label" parent="GUI/GameOver/ContentGame"]
-modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

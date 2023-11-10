@@ -66,7 +66,7 @@ func _process(delta: float) -> void:
 	writing_stats()
 	
 	# ček HS and show popup
-	if Global.game_manager.level_data["level"] > 1: # 0 = tutorial, 1 = practice
+	if Global.game_manager.game_data["game"] > 1: # 0 = tutorial, 1 = practice
 		check_for_hs()
 	
 	# show popup energy warning
@@ -95,7 +95,7 @@ func _process(delta: float) -> void:
 func check_for_hs():
 	
 	var current_points = Global.game_manager.player_stats["player_points"]
-	var current_highscore = Global.game_manager.level_data["highscore"]
+	var current_highscore = Global.game_manager.game_data["highscore"]
 	
 	if current_points > current_highscore: # zaporedje ifov je pomembno zaradi načina setanja pogojev
 		if not highscore_broken:
@@ -114,20 +114,19 @@ func check_for_hs():
 func writing_stats():	
 	
 	# level setup
-	var level_key = Global.game_manager.level_data["level"]
+	var level_key = Global.game_manager.game_data["game"]
 	
-	if level_key == Profiles.Levels.PRACTICE:
-		game_timer.visible = false
+	if level_key == Profiles.Games.PRACTICE:
 		highscore_label.visible = false
-		level.text = str(Profiles.Levels.keys()[level_key])
-	elif level_key == Profiles.Levels.TUTORIAL:
-		level.text = str(Profiles.Levels.keys()[level_key])
+		level.text = str(Profiles.Games.keys()[level_key])
+	elif level_key == Profiles.Games.TUTORIAL:
+		level.text = str(Profiles.Games.keys()[level_key])
 	else:
 		highscore_label.visible = true
-		level.text = "LEVEL " + str(Profiles.Levels.keys()[level_key])
+		level.text = "LEVEL " + str(Profiles.Games.keys()[level_key])
 		# hs label
 		if not highscore_broken:
-			highscore_label.text = "HS %04d" % Global.game_manager.level_data["highscore"]
+			highscore_label.text = "HS %04d" % Global.game_manager.game_data["highscore"]
 		else:
 			highscore_label.text = "HS %04d" % Global.game_manager.player_stats["player_points"]
 		
@@ -136,7 +135,7 @@ func writing_stats():
 	burst_count.text = "%02d" % Global.game_manager.player_stats["burst_count"]
 	skill_count.text = "%02d" % Global.game_manager.player_stats["skill_count"]
 	pixels_off.text = "%03d" % Global.game_manager.player_stats["colors_collected"]
-	stray_pixels.text = "%03d" % Global.game_manager.stray_pixels_count
+	stray_pixels.text = "%03d" % Global.game_manager.strays_in_game_count
 	
 	# debug
 	player_life.text = "LIFE: %01d" % Global.game_manager.player_stats["player_life"]

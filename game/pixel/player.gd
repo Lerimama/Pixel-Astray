@@ -716,6 +716,9 @@ func play_blinking_sound():
 	# more bit metoda, da jo lahko kličem iz animacije
 	Global.sound_manager.play_sfx("blinking")
 
+func play_revive():
+	animation_player.play("revive")
+	print("revivee")
 
 # SIGNALI ______________________________________________________________________________________________________________
 	

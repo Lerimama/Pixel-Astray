@@ -127,7 +127,6 @@ func zoom_in():
 	zoom_in_tween.parallel().tween_property(Global.hud.header, "rect_position:y", 0, 2)
 	zoom_in_tween.parallel().tween_property(Global.hud.footer, "rect_position:y", 720 - 56, 2)
 	zoom_in_tween.tween_callback(self, "emit_signal", ["zoomed_in"])
-#	zoom_in_tween.tween_callback(Global.start_countdown, "start_countdown").set_delay(1)
 	
 	
 func zoom_out():
@@ -136,6 +135,7 @@ func zoom_out():
 	yield(get_tree().create_timer(0.5), "timeout")
 
 	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+#	zoom_out_tween.tween_callback(self, "release_camera_limits")
 	zoom_out_tween.tween_property(self, "zoom", final_zoom, 2)
 	zoom_out_tween.parallel().tween_property(get_viewport(), "size:y", 720, 2)
 	zoom_out_tween.parallel().tween_property(viewport_header, "rect_min_size:y", 0, 2)
@@ -143,6 +143,14 @@ func zoom_out():
 	zoom_out_tween.parallel().tween_property(Global.hud.header, "rect_position:y", 0 - 56, 2)
 	zoom_out_tween.parallel().tween_property(Global.hud.footer, "rect_position:y", 720, 2)
 	zoom_out_tween.tween_callback(self, "emit_signal", ["zoomed_out"]).set_delay(1)
+
+
+func release_camera_limits():
+	
+	limit_left = - 10000000
+	limit_right = 10000000
+	limit_top = - 10000000
+	limit_bottom = 10000000
 	
 
 func _process(delta):

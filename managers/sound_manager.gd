@@ -118,7 +118,6 @@ func play_gui_sfx(effect_for: String):
 			$GuiSfx/TutorialStageDone.play()
 		
 		
-		
 func stop_sfx(sfx_to_stop: String):
 	
 	match sfx_to_stop:

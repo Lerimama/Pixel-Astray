@@ -1,7 +1,7 @@
 extends Node
 
 
-onready var d_camera: Camera2D = $GameView/Viewports/ViewportContainer1/Viewport1/GameCam
+onready var game_camera: Camera2D = $GameView/Viewports/ViewportContainer1/Viewport1/GameCam
 onready var viewport_1: Viewport = $GameView/Viewports/ViewportContainer1/Viewport1
 
 onready var minimap: ViewportContainer = $Minimap
@@ -37,9 +37,8 @@ func set_camera_limits():
 	var corner_BR: float = tilemap_edge.end.y * tilemap_cell_size.y
 	
 	# v tem koraku odštejem tilemap edge debelino
-	for camera in [minimap_camera, d_camera]:
+	for camera in [minimap_camera, game_camera]:
 		camera.limit_left = corner_TL + tilemap_cell_size.x 
 		camera.limit_right = corner_TR - tilemap_cell_size.x
 		camera.limit_top = corner_BL + tilemap_cell_size.y
 		camera.limit_bottom = corner_BR - tilemap_cell_size.y
-

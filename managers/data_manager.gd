@@ -113,7 +113,7 @@ func manage_gameover_highscores(player_points, current_level): # iz GM
 
 func read_highscores_from_file(current_level_key: int):
 	
-	var current_level_name = Profiles.Levels.keys()[current_level_key]
+	var current_level_name = Profiles.Games.keys()[current_level_key]
 	printt("read hs from level name", current_level_name)
 	
 	# preverjam obstoj fileta ... ob prvem nalaganju igre
@@ -143,7 +143,7 @@ func read_highscores_from_file(current_level_key: int):
 
 func write_highscores_to_file(current_level_key: int, new_level_highscores: Dictionary):
 	
-	var current_level_name = Profiles.Levels.keys()[current_level_key]
+	var current_level_name = Profiles.Games.keys()[current_level_key]
 	printt("write hs to level name", current_level_name)
 	
 	# podam novi HS v json obliko

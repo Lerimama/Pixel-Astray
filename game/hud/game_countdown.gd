@@ -15,12 +15,7 @@ func _ready() -> void:
 func start_countdown():
 	modulate.a = 0
 	visible = true
-	
-	# toggle countdown
-	if Global.game_manager.game_settings["start_countdown_on"]:
-		animation_player.play("countdown_3")
-	else:
-		emit_signal("countdown_finished")
+	animation_player.play("countdown_3")
 	
 	
 func play_countdown_a_sound():
@@ -31,7 +26,7 @@ func play_countdown_b_sound():
 	Global.sound_manager.play_sfx("countdown_b")
 
 	
-func _on_AnimationPlayer_animation_finished(coundown_5) -> void:
+func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	
 	emit_signal("countdown_finished") # preda štafeto na GM
 	visible = false

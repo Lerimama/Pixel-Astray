@@ -27,11 +27,6 @@ var strays_in_game_count: int # za statistiko in GO
 var floor_positions: Array
 var available_floor_positions: Array
 
-# profiles
-onready var game_settings: Dictionary = Profiles.game_settings # ga med igro ne spreminjaš
-onready var level_data: Dictionary = Profiles.default_level_data # .duplicate() # duplikat default profila, ker ga me igro spreminjaš
-onready var player_settings: Dictionary = Profiles.player_settings # ga med igro ne spreminjaš
-onready var player_stats: Dictionary = Profiles.default_player_stats.duplicate() # duplikat default profila, ker ga me igro spreminjaš
 
 onready var spectrum_rect: TextureRect = $Spectrum
 onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
@@ -39,6 +34,17 @@ onready var default_level_tilemap: TileMap = $"../Tilemap"
 onready var FloatingTag = preload("res://game/hud/floating_tag.tscn")
 onready var StrayPixel = preload("res://game/pixel/stray.tscn")
 onready var PlayerPixel = preload("res://game/pixel/player.tscn")
+
+
+# profiles
+onready var game_settings: Dictionary = Profiles.game_settings # ga med igro ne spreminjaš
+onready var player_settings: Dictionary = Profiles.player_settings # ga med igro ne spreminjaš
+onready var player_stats: Dictionary = Profiles.default_player_stats.duplicate() # duplikat default profila, ker ga me igro spreminjaš
+
+#onready var curr_game = Profiles.current_game
+#onready var level_data: Dictionary = Profiles.default_level_data # .duplicate() # duplikat default profila, ker ga me igro spreminjaš
+onready var game_data: Dictionary = Profiles.current_game_data # .duplicate() # duplikat default profila, ker ga me igro spreminjaš
+#var curr_game = 
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -74,7 +80,7 @@ func _ready() -> void:
 	player_stats["player_life"] = player_settings["start_life"]
 	
 	# temp ... na koncu malo drugače
-	if level_data["level"] == Profiles.Levels.TUTORIAL:
+	if game_data["game"] == Profiles.Games.TUTORIAL:
 		set_tilemap()
 #	set_tilemap()
 	call_deferred("set_game") # deferamo, da se naloži tilemap
@@ -91,61 +97,56 @@ func _process(delta: float) -> void:
 
 func set_game(): 
 	
-	# greb tiles
+	# tilemap
 	Global.level_tilemap.connect("tilemap_completed", self, "_on_tilemap_completed")
 	Global.level_tilemap.get_tiles()
 	
-	# set player
-	if level_data["level"] == Profiles.Levels.TUTORIAL: # generirah jih na 2. koraku tutoriala
+	# player
+	if game_data["game"] == Profiles.Games.TUTORIAL:
 		player_settings["start_color"] = Global.color_white # more bit pred spawnom
 		player_pixel = spawn_player()
 		player_pixel.modulate.a = 0	
 	else:
 		player_pixel = spawn_player()
-	Global.camera_target = player_pixel
 	player_stats["player_energy"] = player_settings["start_energy"]
+	Global.camera_target = player_pixel
 	
-	# počakam, da se ekran naloži
-	yield(get_tree().create_timer(3), "timeout") 
+	yield(get_tree().create_timer(3), "timeout") # da se ekran prikaže
 	
-	# set strays
-	if level_data["level"] != Profiles.Levels.TUTORIAL: 
-		generate_strays() # tutorial jih generira na 2. koraku
-		yield(get_tree().create_timer(3), "timeout") # čaka, da si plejer ogleda
+	# strays
+	if game_data["game"] != Profiles.Games.TUTORIAL: 
+		generate_strays()
+		yield(get_tree().create_timer(1), "timeout") # da si plejer ogleda
 		
-	# set HS hud ... za spremljat med igro
-	if level_data["level"] != Profiles.Levels.PRACTICE and level_data["level"] != Profiles.Levels.TUTORIAL:
-		var current_highscore_line: Array = Global.data_manager.get_top_highscore(level_data["level"])
-		level_data["highscore"] = current_highscore_line[0]
-		level_data["highscore_owner"] = current_highscore_line[1]
+	# hud HS
+	if game_data["game"] != Profiles.Games.PRACTICE and game_data["game"] != Profiles.Games.TUTORIAL:
+		var current_highscore_line: Array = Global.data_manager.get_top_highscore(game_data["game"])
+		game_data["highscore"] = current_highscore_line[0]
+		game_data["highscore_owner"] = current_highscore_line[1]
 	
-	# čaka, da si plejer ogleda
-	yield(get_tree().create_timer(2), "timeout")
+	# zoom
 	Global.main_camera.zoom_in()
+	yield(Global.main_camera, "zoomed_in")
 	
-	# YIELD ... čaka da start_countdown odšteje
-	print ("GM start - YIELD")
-	if level_data["level"] == Profiles.Levels.TUTORIAL:
-		yield(Global.main_camera, "zoomed_in") # ... čaka, da kamera zumira
-	else:
-		# Global.start_countdown.start_countdown() ... zdej je na kameri ... po nove je tam disejblan
-		yield(Global.start_countdown, "countdown_finished")	
-	# RESUME
-	print ("GM start - RESUME")
+	# countdown
+	if game_data["game"] != Profiles.Games.TUTORIAL:
+		if Global.game_manager.game_settings["start_countdown_on"]:
+			Global.start_countdown.start_countdown()
+			yield(Global.start_countdown, "countdown_finished")	
 	
 	start_game()
 	
 	
 func start_game():
 
-	if level_data["level"] == Profiles.Levels.TUTORIAL:
+	if game_data["game"] == Profiles.Games.TUTORIAL:
 		Global.tutorial_gui.start() # enable panels
 	else:
-		Global.hud.game_timer.start_timer() # skrit je v hudu
 		player_pixel.set_physics_process(true)
+		Global.hud.game_timer.start_timer() # skrit je v hudu
+		Global.sound_manager.play_music("game")
 	
 	game_on = true
-	Global.sound_manager.play_music("game")
 	
 	
 func game_over():
@@ -167,7 +168,7 @@ func game_over():
 	# malo časa za show-off
 	yield(get_tree().create_timer(2), "timeout")
 	
-	if level_data["level"] == Profiles.Levels.TUTORIAL:
+	if game_data["game"] == Profiles.Games.TUTORIAL:
 		Global.tutorial_gui.animation_player.play("tutorial_end")
 	
 	# YIELD 0 ... čaka na konec zoomoutam
@@ -180,11 +181,11 @@ func game_over():
 	var player_points = player_stats["player_points"]
 	
 	# Gameover fejdin
-	if level_data["level"] == Profiles.Levels.TUTORIAL or level_data["level"] == Profiles.Levels.PRACTICE:
+	if game_data["game"] == Profiles.Games.TUTORIAL or game_data["game"] == Profiles.Games.PRACTICE:
 		Global.gameover_menu.fade_in_new()
 	else:
 		# YIELD 1 ... čaka na konec preverke rankinga ... če ni rankinga dobi false, če je ne dobi nič
-		var score_is_ranking = Global.data_manager.manage_gameover_highscores(player_points, level_data["level"]) # yielda 2 za name_input je v tej funkciji
+		var score_is_ranking = Global.data_manager.manage_gameover_highscores(player_points, game_data["game"]) # yielda 2 za name_input je v tej funkciji
 		if not score_is_ranking:
 			Global.gameover_menu.fade_in_new()																																																							
 		else:
@@ -192,9 +193,9 @@ func game_over():
 	
 			
 #	var current_level = game_data["level"]
-#	if game_data["level"] == Profiles.Levels.TUTORIAL:
+#	if game_data["level"] == Profiles.Games.TUTORIAL:
 #		Global.gameover_menu.fade_in_tutorial()
-#	elif game_data["level"] == Profiles.Levels.PRACTICE:
+#	elif game_data["level"] == Profiles.Games.PRACTICE:
 #		Global.gameover_menu.fade_in_practice()
 #	else:
 #		# YIELD 1 ... čaka na konec preverke rankinga ... če ni rankinga dobi false, če je ne dobi nič
@@ -205,7 +206,7 @@ func game_over():
 #			Global.gameover_menu.fade_in_highscore()
 	
 	# HS manage
-#	if game_data["level"] != Profiles.Levels.PRACTICE or game_data["level"] != Profiles.Levels.TUTORIAL:
+#	if game_data["level"] != Profiles.Games.PRACTICE or game_data["level"] != Profiles.Games.TUTORIAL:
 #		# YIELD 1 ... čaka na konec preverke rankinga ... če ni rankinga dobi false, če je ne dobi nič
 #		# ker kličem funkcijo v variablo more počakat, da se funkcija izvede do returna
 #		var score_is_ranking = Global.data_manager.manage_gameover_highscores(player_points, current_level) # yielda 2 za name_input je v tej funkciji
@@ -223,7 +224,7 @@ func game_over():
 func set_tilemap():
 	
 	var tilemap_to_release: TileMap = default_level_tilemap
-	var tilemap_to_load_path: String = level_data["tilemap_path"]
+	var tilemap_to_load_path: String = game_data["tilemap_path"]
 	
 	# release default tilemap	
 	tilemap_to_release.set_physics_process(false)
@@ -253,6 +254,7 @@ func spawn_player():
 	new_player_pixel.name = "P%s" % str(spawned_player_index)
 	new_player_pixel.global_position = spawn_position # ... ne rabim snepat ker se v pixlu na ready funkciji
 	new_player_pixel.pixel_color = player_settings["start_color"]
+	new_player_pixel.z_index = 2 # višje od straysa
 	Global.node_creation_parent.add_child(new_player_pixel)
 	
 	new_player_pixel.connect("stat_changed", self, "_on_stat_changed")
@@ -277,7 +279,7 @@ func generate_strays():
 func split_stray_colors():
 	
 	# split colors
-	var color_count: int = level_data["strays_start_count"] 
+	var color_count: int = game_data["strays_start_count"] 
 	color_count = clamp(color_count, 1, color_count) # za vsak slučaj klempam, da ne more biti nikoli 0 ...  ker je error			
 	
 	# poberem sliko
@@ -382,7 +384,7 @@ func spawn_floating_tag(position: Vector2, value): # kliče ga GM
 	var cell_size_x: float = Global.level_tilemap.cell_size.x
 	
 	var new_floating_tag = FloatingTag.instance()
-	new_floating_tag.z_index = 1
+	new_floating_tag.z_index = 3 # višje od straysa in playerja
 	new_floating_tag.global_position = position - Vector2 (cell_size_x/2, cell_size_x + cell_size_x/2)
 	if value < 0:
 		new_floating_tag.modulate = Global.color_red
@@ -393,13 +395,18 @@ func spawn_floating_tag(position: Vector2, value): # kliče ga GM
 # SIGNALI ----------------------------------------------------------------------------------
 
 
-func _on_tilemap_completed(floor_cells_global_positions: Array, stray_cells_global_positions: Array, player_start_global_position: Vector2) -> void:
+func _on_tilemap_completed(floor_cells_global_positions: Array, stray_cells_global_positions: Array, no_stray_cells_global_positions: Array, player_start_global_position: Vector2) -> void:
 	
+	# strays
 	if stray_cells_global_positions.empty(): # če ni stray pozicij
 		available_floor_positions = floor_cells_global_positions.duplicate()
+		# odstranim "no stray" pozicije ... ne dela ... :(
+		# available_floor_positions.erase(no_stray_cells_global_positions)
 	else: # če so stray pozicije
+		game_data["strays_start_count"] = stray_cells_global_positions.size()
 		available_floor_positions = stray_cells_global_positions.duplicate()
 	
+	# player
 	player_start_position = player_start_global_position
 	if available_floor_positions.has(player_start_position): # takoj odstranim celico rezervirano za plejerja
 		available_floor_positions.erase(player_start_position)
@@ -407,7 +414,7 @@ func _on_tilemap_completed(floor_cells_global_positions: Array, stray_cells_glob
 
 func _on_stat_changed(stat_owner, changed_stat, stat_change):
 	
-#	if game_data["level"] == Profiles.Levels.TUTORIAL:	
+#	if game_data["level"] == Profiles.Games.TUTORIAL:	
 #		on_tutorial_stat_changed(stat_owner, changed_stat, stat_change)
 #		return
 		
@@ -433,7 +440,7 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				player_stats["player_energy"] += game_settings["color_picked_energy"]
 				spawn_floating_tag(stat_owner.global_position, game_settings["color_picked_points"]) 
 				
-				if level_data["level"] == Profiles.Levels.TUTORIAL:
+				if game_data["game"] == Profiles.Games.TUTORIAL:
 					Global.tutorial_gui.finish_bursting()
 			# score za vsakega naslednega v vrsti 
 			elif stat_change > 1:
@@ -443,7 +450,7 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				player_stats["player_points"] += points_for_seq_pixel
 				player_stats["player_energy"] += energy_for_seq_pixel
 				spawn_floating_tag(stat_owner.global_position, points_for_seq_pixel) 
-				if level_data["level"] == Profiles.Levels.TUTORIAL and stat_change > 2:
+				if game_data["game"] == Profiles.Games.TUTORIAL and stat_change > 2:
 					Global.tutorial_gui.finish_stacking()
 			# cleaned
 			if strays_in_game_count == 0:
@@ -473,7 +480,7 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 			player_stats["skill_count"] += 1
 			player_stats["player_energy"] += game_settings["skill_used_energy"]
 			player_stats["player_points"] += game_settings["skill_used_points"]
-			if level_data["level"] == Profiles.Levels.TUTORIAL:
+			if game_data["game"] == Profiles.Games.TUTORIAL:
 				match stat_change:
 					0:
 						Global.tutorial_gui.push_done()
