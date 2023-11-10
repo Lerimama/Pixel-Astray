@@ -28,7 +28,8 @@ func _input(event: InputEvent) -> void:
 			Global.sound_manager.play_gui_sfx("btn_focus_change")
 		elif Input.is_action_just_pressed("ui_focus_prev"):
 			Global.sound_manager.play_gui_sfx("btn_focus_change")		
-
+		elif Input.is_action_just_pressed("ui_accept"):
+			Global.sound_manager.play_gui_sfx("btn_confirm")
 
 func _ready() -> void:
 	

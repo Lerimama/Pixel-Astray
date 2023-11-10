@@ -4,6 +4,8 @@ extends Node
 enum Screens {MAIN_MENU, SELECT_GAME, ABOUT, SETTINGS, HIGHSCORES}
 var current_screen # se določi z main animacije
 
+var current_esc_hint: HBoxContainer
+
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var menu: HBoxContainer = $Menu
 onready var intro: Node2D = $IntroViewPortContainer/Viewport/Intro
@@ -48,6 +50,10 @@ func _input(event: InputEvent) -> void:
 func _ready():
 	
 	menu.visible = false
+	$Settings/EscHint.modulate.a = 0
+	$SelectGame/EscHint.modulate.a = 0
+	$Highscores/EscHint.modulate.a = 0
+	$About/EscHint.modulate.a = 0
 	
 	# games buttons text
 	$SelectGame/SelectGameBtn1.text = "Only " + str(Profiles.level_1_data["level"]) + " pixels astray"
@@ -102,28 +108,39 @@ func _on_Intro_finished_playing() -> void:
 	
 func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 	
+	
 	match animation_name:
 		"select_game":
 			if animation_reversed("select_game"):
 				return
 			current_screen = Screens.SELECT_GAME
 			$SelectGame/SelectGameBtn1.grab_focus()
+			current_esc_hint = $SelectGame/EscHint
 		"about":
 			if animation_reversed("about"):
 				return
 			current_screen = Screens.ABOUT
 			$About/AboutBackBtn.grab_focus()
+			current_esc_hint = $About/EscHint
 		"settings":
 			if animation_reversed("settings"):
 				return
 			current_screen = Screens.SETTINGS
 			$Settings/MenuMusicCheckBox.grab_focus()
+			current_esc_hint = $Settings/EscHint
 		"highscores":
 			if animation_reversed("highscores"):
 				return
 			current_screen = Screens.HIGHSCORES
 			$Highscores/HighscoresBackBtn.grab_focus()
-
+			current_esc_hint = $Highscores/EscHint
+		"play":
+			Global.main_node.home_out()
+			
+	if current_esc_hint != null:
+		var hint_fade_in = get_tree().create_tween()
+		hint_fade_in.tween_property(current_esc_hint, "modulate:a", 1, 1)
+		
 
 func animation_reversed(from_screen: String):
 	
@@ -139,6 +156,8 @@ func animation_reversed(from_screen: String):
 			"highscores":
 				$Menu/HighscoresBtn.grab_focus()
 		current_screen = Screens.MAIN_MENU
+		current_esc_hint.modulate.a = 0
+		
 		return true
 
 
@@ -205,25 +224,26 @@ func _on_HighscoresBackBtn_pressed() -> void:
 func _on_TutorialBtn_pressed() -> void:
 	
 	# level data
-	Profiles.level_data["level"] = Profiles.level_tutorial_data["level"]
-	Profiles.level_data["game_time_limit"] = Profiles.level_tutorial_data["game_time_limit"]
-	Profiles.level_data["stray_pixels_count"] = Profiles.level_tutorial_data["stray_pixels_count"]
+	Profiles.default_level_data["level"] = Profiles.level_tutorial_data["level"]
+	Profiles.default_level_data["game_time_limit"] = Profiles.level_tutorial_data["game_time_limit"]
+	Profiles.default_level_data["strays_start_count"] = Profiles.level_tutorial_data["strays_start_count"]
 	
 	Global.sound_manager.play_gui_sfx("btn_confirm")
-	Global.main_node.home_out()
+#	Global.main_node.home_out()
+	animation_player.play("play")
 	$SelectGame/TutorialBtn.disabled = true # da ne moreš multiklikat
 
 
 func _on_SelectGameBtn0_pressed() -> void:
-	pass # Replace with function body.
+	pass
 
 	
 func _on_SelectGameBtn1_pressed() -> void:
 	
 	# vnos vrednosti izbranega levela v default level stats
-	Profiles.level_data["level"] = Profiles.level_1_data["level"]
-	Profiles.level_data["game_time_limit"] = Profiles.level_1_data["game_time_limit"]
-	Profiles.level_data["stray_pixels_count"] = Profiles.level_1_data["stray_pixels_count"]
+	Profiles.default_level_data["level"] = Profiles.level_1_data["level"]
+	Profiles.default_level_data["game_time_limit"] = Profiles.level_1_data["game_time_limit"]
+	Profiles.default_level_data["strays_start_count"] = Profiles.level_1_data["strays_start_count"]
 	
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.home_out()
@@ -231,51 +251,19 @@ func _on_SelectGameBtn1_pressed() -> void:
 
 
 func _on_SelectGame2Btn_pressed() -> void:
-	
-	# vnos vrednosti izbranega levela v default level stats
-	Profiles.level_data["level"] = Profiles.level_2_data["level"]
-	Profiles.level_data["game_time_limit"] = Profiles.level_2_data["game_time_limit"]
-	Profiles.level_data["stray_pixels_count"] = Profiles.level_2_data["stray_pixels_count"]
-	
-	Global.sound_manager.play_gui_sfx("btn_confirm")
-	Global.main_node.home_out()
-	$SelectGame/SelectGameBtn2.disabled = true # da ne moreš multiklikat
+	pass
 
 
 func _on_SelectGame3Btn_pressed() -> void:
-	
-	# vnos vrednosti izbranega levela v default level stats
-	Profiles.level_data["level"] = Profiles.level_3_data["level"]
-	Profiles.level_data["game_time_limit"] = Profiles.level_3_data["game_time_limit"]
-	Profiles.level_data["stray_pixels_count"] = Profiles.level_3_data["stray_pixels_count"]
-	
-	Global.sound_manager.play_gui_sfx("btn_confirm")
-	Global.main_node.home_out()
-	$SelectGame/SelectGameBtn3.disabled = true # da ne moreš multiklikat
+	pass
 
 
 func _on_SelectGame4Btn_pressed() -> void:
-	
-	# vnos vrednosti izbranega levela v default level stats
-	Profiles.level_data["level"] = Profiles.level_4_data["level"]
-	Profiles.level_data["game_time_limit"] = Profiles.level_4_data["game_time_limit"]
-	Profiles.level_data["stray_pixels_count"] = Profiles.level_4_data["stray_pixels_count"]
-	
-	Global.sound_manager.play_gui_sfx("btn_confirm")
-	Global.main_node.home_out()
-	$SelectGame/SelectGameBtn4.disabled = true # da ne moreš multiklikat
+	pass
 
 
 func _on_SelectGame5Btn_pressed() -> void:
-	
-	# vnos vrednosti izbranega levela v default level stats
-	Profiles.level_data["level"] = Profiles.level_5_data["level"]
-	Profiles.level_data["game_time_limit"] = Profiles.level_5_data["game_time_limit"]
-	Profiles.level_data["stray_pixels_count"] = Profiles.level_5_data["stray_pixels_count"]
-	
-	Global.sound_manager.play_gui_sfx("btn_confirm")
-	Global.main_node.home_out()
-	$SelectGame/SelectGameBtn5.disabled = true # da ne moreš multiklikat
+	pass
 	
 
 func _on_QuitGameBtn_pressed() -> void:

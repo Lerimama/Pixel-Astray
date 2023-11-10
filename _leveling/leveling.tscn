@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://assets/resources/graphics_tileset.tres" type="TileSet" id=1]
+[ext_resource path="res://assets/resources/tileset_titles.tres" type="TileSet" id=1]
 
 [node name="Leveling" type="Node2D"]
 

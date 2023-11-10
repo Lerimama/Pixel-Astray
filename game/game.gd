@@ -15,7 +15,7 @@ func _ready() -> void:
 	set_camera_limits()
 	
 	# minimapa
-	if Profiles.game_rules["minimap_on"]:
+	if Global.game_manager.game_settings["minimap_on"]:
 		minimap.visible = true
 	else:
 		minimap.visible = false

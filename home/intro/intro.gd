@@ -25,7 +25,7 @@ var title_positions: Array
 var available_title_positions: Array
 
 onready var intro_tile_map: TileMap = $Level/TileMap
-onready var stray_pixels_count: int =  149 # 149 celic je v naslovu
+onready var strays_start_count: int =  149 # 149 celic je v naslovu
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var stray_step_timer: Timer = $StrayStepTimer
 onready var actor_pixel: KinematicBody2D = $Actor
@@ -121,7 +121,7 @@ func stray_step():
 func split_stray_colors():
 	
 	# split colors
-	var color_count: int = stray_pixels_count 
+	var color_count: int = strays_start_count 
 	color_count = clamp(color_count, 1, color_count) # za vsak slučaj klempam, da ne more biti nikoli 0 ...  ker je error			
 	
 	# poberem sliko

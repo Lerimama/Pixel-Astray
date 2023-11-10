@@ -18,7 +18,7 @@ var camera_target = null
 var node_creation_parent = null # arena
 var level_tilemap = null
 var hud = null
-var game_countdown = null
+var start_countdown = null
 var gameover_menu = null
 var tutorial_gui = null
 

@@ -1,10 +1,6 @@
 extends Control
 
 
-# ta node more bit na vrhu zaradi zaporedja nalaganja
-var player_stats_on_hud: Dictionary
-var game_data_on_hud: Dictionary
-
 var fade_time: float = 1
 var default_hud_color: Color = Color.white
 
@@ -59,7 +55,7 @@ func _ready() -> void:
 	energy_warning_popup.visible = false
 	
 	# disable life icons if
-	if Profiles.game_rules["player_start_life"] == 1:
+	if Global.game_manager.player_settings["start_life"] == 1:
 		life_counter.visible = false
 	else:
 		life_counter.visible = true
@@ -67,27 +63,23 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	
-	player_stats_on_hud = Global.game_manager.player_stats
-	game_data_on_hud = Global.game_manager.game_data
-	
 	writing_stats()
 	
 	# ček HS and show popup
-	if Global.game_manager.game_data["level"] > 1: # 0 = tutorial, 1 = practice
-#	if Global.game_manager.game_data["level"] != Profiles.Levels.PRACTICE and Global.game_manager.game_data["level"] != Profiles.Levels.TUTORIAL:
+	if Global.game_manager.level_data["level"] > 1: # 0 = tutorial, 1 = practice
 		check_for_hs()
 	
 	# show popup energy warning
-	if player_stats_on_hud["player_energy"] > Profiles.game_rules["player_tired_energy"]:
+	if Global.game_manager.player_stats["player_energy"] > Global.game_manager.player_settings["tired_energy"]:
 		energy_warning_popup.visible = false	
-	elif player_stats_on_hud["player_energy"] <= Profiles.game_rules["player_tired_energy"] and player_stats_on_hud["player_energy"] > 2:
+	elif Global.game_manager.player_stats["player_energy"] <= Global.game_manager.player_settings["tired_energy"] and Global.game_manager.player_stats["player_energy"] > 2:
 		energy_warning_popup.visible = true
-		var energy_warning_string: String = "Low energy! Only %s steps remaining." % str(player_stats_on_hud["player_energy"] - 1)
+		var energy_warning_string: String = "Low energy! Only %s steps remaining." % str(Global.game_manager.player_stats["player_energy"] - 1)
 		steps_remaining.text = energy_warning_string
-	elif player_stats_on_hud["player_energy"] == 2: # pomeni samo še en korak in rabim ednino
+	elif Global.game_manager.player_stats["player_energy"] == 2: # pomeni samo še en korak in rabim ednino
 		steps_remaining.text = "Low energy! Only 1 step remaining."
-	elif player_stats_on_hud["player_energy"] < 2:
-		# steps_remaining.text = "No more steps!"
+	elif Global.game_manager.player_stats["player_energy"] < 2:
+		# steps_remaining.text = "No more traveling! Collect a color get some energy."
 		energy_warning_popup.visible = false
 		
 	# music plejer display
@@ -101,10 +93,10 @@ func _process(delta: float) -> void:
 	
 		
 func check_for_hs():
-	print("LEKIRMA", Global.game_manager.game_data["level"])
 	
-	var current_points = player_stats_on_hud["player_points"]
-	var current_highscore = game_data_on_hud["highscore"]
+	var current_points = Global.game_manager.player_stats["player_points"]
+	var current_highscore = Global.game_manager.level_data["highscore"]
+	
 	if current_points > current_highscore: # zaporedje ifov je pomembno zaradi načina setanja pogojev
 		if not highscore_broken:
 			# Global.sound_manager.play_sfx("record_cheers")
@@ -122,7 +114,7 @@ func check_for_hs():
 func writing_stats():	
 	
 	# level setup
-	var level_key = game_data_on_hud["level"]
+	var level_key = Global.game_manager.level_data["level"]
 	
 	if level_key == Profiles.Levels.PRACTICE:
 		game_timer.visible = false
@@ -135,20 +127,20 @@ func writing_stats():
 		level.text = "LEVEL " + str(Profiles.Levels.keys()[level_key])
 		# hs label
 		if not highscore_broken:
-			highscore_label.text = "HS %04d" % game_data_on_hud["highscore"]
+			highscore_label.text = "HS %04d" % Global.game_manager.level_data["highscore"]
 		else:
-			highscore_label.text = "HS %04d" % player_stats_on_hud["player_points"]
+			highscore_label.text = "HS %04d" % Global.game_manager.player_stats["player_points"]
 		
 	# pixel stats
-	player_points.text = "%04d" % player_stats_on_hud["player_points"]
-	burst_count.text = "%02d" % player_stats_on_hud["burst_count"]
-	skill_count.text = "%02d" % player_stats_on_hud["skill_count"]
-	stray_pixels.text = "%03d" % game_data_on_hud["stray_pixels_count"]
-	pixels_off.text = "%03d" % game_data_on_hud["off_pixels_count"]
+	player_points.text = "%04d" % Global.game_manager.player_stats["player_points"]
+	burst_count.text = "%02d" % Global.game_manager.player_stats["burst_count"]
+	skill_count.text = "%02d" % Global.game_manager.player_stats["skill_count"]
+	pixels_off.text = "%03d" % Global.game_manager.player_stats["colors_collected"]
+	stray_pixels.text = "%03d" % Global.game_manager.stray_pixels_count
 	
-	# _temp
-	player_life.text = "LIFE: %01d" % player_stats_on_hud["player_life"]
-	player_energy.text = "E: %04d" % player_stats_on_hud["player_energy"]
+	# debug
+	player_life.text = "LIFE: %01d" % Global.game_manager.player_stats["player_life"]
+	player_energy.text = "E: %04d" % Global.game_manager.player_stats["player_energy"]
 		
 		
 func fade_in():
@@ -200,10 +192,10 @@ func show_color_indicator(picked_color):
 			indicator.modulate.a = picked_indicator_alpha
 			break
 		# preostale barve	
-		elif Profiles.game_rules["pick_neighbour_mode"]: # efekt na preostalih barvah 
+		elif Global.game_manager.game_settings["pick_neighbour_mode"]: # efekt na preostalih barvah 
 			indicator.modulate.a = unpicked_indicator_alpha
 			
-	if Profiles.game_rules["pick_neighbour_mode"]:	# opredelitev sosedov glede na položaj pobrane barve
+	if Global.game_manager.game_settings["pick_neighbour_mode"]:	# opredelitev sosedov glede na položaj pobrane barve
 		
 		if active_color_indicators.size() == 1: # če je samo še en indikator, nima sosedov	
 			return

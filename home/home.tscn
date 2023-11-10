@@ -1,35 +1,33 @@
-[gd_scene load_steps=80 format=2]
+[gd_scene load_steps=72 format=2]
 
-[ext_resource path="res://assets/theme/lerimama_theme_font.tres" type="DynamicFont" id=1]
-[ext_resource path="res://assets/theme/tileset_gui.png" type="Texture" id=2]
+[ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
+[ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
 [ext_resource path="res://home/settings.gd" type="Script" id=3]
-[ext_resource path="res://assets/theme/lerimama_theme_title_font.tres" type="DynamicFont" id=4]
+[ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=4]
 [ext_resource path="res://home/home.gd" type="Script" id=5]
 [ext_resource path="res://home/intro/intro.tscn" type="PackedScene" id=6]
-[ext_resource path="res://assets/tiles/tile_title_16.png" type="Texture" id=7]
 [ext_resource path="res://home/highscores.gd" type="Script" id=8]
 [ext_resource path="res://assets/theme/stylebox_panelwithborder.tres" type="StyleBox" id=9]
-[ext_resource path="res://assets/joypad_scheme.png" type="Texture" id=10]
 [ext_resource path="res://game/gui/highscore_table.gd" type="Script" id=11]
-[ext_resource path="res://assets/tileset_controls.png" type="Texture" id=12]
+[ext_resource path="res://assets/atlas_controls.png" type="Texture" id=12]
 [ext_resource path="res://assets/theme/fonts/Habbo.ttf" type="DynamicFontData" id=13]
-[ext_resource path="res://assets/theme/lerimama_theme_body_font.tres" type="DynamicFont" id=14]
-[ext_resource path="res://assets/theme/lerimama_theme.tres" type="Theme" id=15]
+[ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=14]
+[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=15]
 
-[sub_resource type="StyleBoxEmpty" id=169]
+[sub_resource type="StyleBoxEmpty" id=208]
 
 [sub_resource type="StreamTexture" id=175]
 load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
 
-[sub_resource type="AtlasTexture" id=157]
+[sub_resource type="AtlasTexture" id=209]
 atlas = SubResource( 175 )
 region = Rect2( 16, 16, 14, 16 )
 
-[sub_resource type="AtlasTexture" id=158]
+[sub_resource type="AtlasTexture" id=210]
 atlas = SubResource( 175 )
 region = Rect2( 0, 16, 10, 16 )
 
-[sub_resource type="StyleBoxFlat" id=176]
+[sub_resource type="StyleBoxFlat" id=211]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -41,21 +39,21 @@ expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxEmpty" id=178]
+[sub_resource type="StyleBoxEmpty" id=212]
 
-[sub_resource type="StyleBoxEmpty" id=179]
+[sub_resource type="StyleBoxEmpty" id=213]
 
-[sub_resource type="StyleBoxLine" id=5]
+[sub_resource type="StyleBoxLine" id=214]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
 
-[sub_resource type="AtlasTexture" id=150]
+[sub_resource type="AtlasTexture" id=215]
 atlas = SubResource( 175 )
 region = Rect2( 32, 0, 10, 10 )
 
-[sub_resource type="StyleBoxEmpty" id=163]
+[sub_resource type="StyleBoxEmpty" id=216]
 
-[sub_resource type="StyleBoxFlat" id=177]
+[sub_resource type="StyleBoxFlat" id=217]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -66,11 +64,14 @@ expand_margin_left = 6.0
 expand_margin_top = 6.0
 expand_margin_bottom = 6.0
 
+[sub_resource type="StreamTexture" id=218]
+load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
+
 [sub_resource type="AtlasTexture" id=152]
-atlas = SubResource( 175 )
+atlas = SubResource( 218 )
 region = Rect2( 0, 4, 16, 8 )
 
-[sub_resource type="StyleBoxTexture" id=153]
+[sub_resource type="StyleBoxTexture" id=219]
 texture = SubResource( 152 )
 region_rect = Rect2( 0, 0, 16, 8 )
 margin_left = 3.34132
@@ -79,7 +80,7 @@ margin_top = 4.0
 margin_bottom = 4.0
 modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 
-[sub_resource type="StyleBoxFlat" id=12]
+[sub_resource type="StyleBoxFlat" id=220]
 bg_color = Color( 0, 0, 0, 0 )
 border_width_left = 2
 border_width_top = 2
@@ -87,12 +88,12 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="AtlasTexture" id=162]
+[sub_resource type="AtlasTexture" id=221]
 atlas = SubResource( 175 )
 region = Rect2( 16, 0, 16, 12 )
 margin = Rect2( 4, 0, 0, 0 )
 
-[sub_resource type="StyleBoxFlat" id=168]
+[sub_resource type="StyleBoxFlat" id=222]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 2
 border_width_top = 2
@@ -104,7 +105,7 @@ expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=223]
 bg_color = Color( 0, 0, 0, 0.862745 )
 border_width_left = 4
 border_width_top = 4
@@ -112,7 +113,7 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
 
-[sub_resource type="StyleBoxLine" id=174]
+[sub_resource type="StyleBoxLine" id=224]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
 vertical = true
@@ -123,108 +124,63 @@ Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
 Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
 Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
-Button/styles/disabled = SubResource( 169 )
-Button/styles/focus = SubResource( 169 )
-Button/styles/hover = SubResource( 169 )
-Button/styles/normal = SubResource( 169 )
-Button/styles/pressed = SubResource( 169 )
+Button/styles/disabled = SubResource( 208 )
+Button/styles/focus = SubResource( 208 )
+Button/styles/hover = SubResource( 208 )
+Button/styles/normal = SubResource( 208 )
+Button/styles/pressed = SubResource( 208 )
 CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
 CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
 CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
 CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
 CheckBox/constants/hseparation = 4
-CheckBox/icons/checked = SubResource( 157 )
-CheckBox/icons/unchecked = SubResource( 158 )
-CheckBox/styles/focus = SubResource( 176 )
-CheckBox/styles/hover = SubResource( 176 )
-CheckBox/styles/hover_pressed = SubResource( 176 )
-CheckBox/styles/normal = SubResource( 178 )
-CheckBox/styles/pressed = SubResource( 179 )
-HSeparator/styles/separator = SubResource( 5 )
-HSlider/icons/grabber = SubResource( 150 )
+CheckBox/icons/checked = SubResource( 209 )
+CheckBox/icons/unchecked = SubResource( 210 )
+CheckBox/styles/focus = SubResource( 211 )
+CheckBox/styles/hover = SubResource( 211 )
+CheckBox/styles/hover_pressed = SubResource( 211 )
+CheckBox/styles/normal = SubResource( 212 )
+CheckBox/styles/pressed = SubResource( 213 )
+HSeparator/styles/separator = SubResource( 214 )
+HSlider/icons/grabber = SubResource( 215 )
 HSlider/icons/grabber_disabled = null
-HSlider/icons/grabber_highlight = SubResource( 150 )
+HSlider/icons/grabber_highlight = SubResource( 215 )
 HSlider/icons/tick = null
-HSlider/styles/grabber_area = SubResource( 163 )
-HSlider/styles/grabber_area_highlight = SubResource( 177 )
-HSlider/styles/slider = SubResource( 153 )
+HSlider/styles/grabber_area = SubResource( 216 )
+HSlider/styles/grabber_area_highlight = SubResource( 217 )
+HSlider/styles/slider = SubResource( 219 )
 Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
 Label/constants/line_spacing = 6
 LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
 LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
-LineEdit/styles/normal = SubResource( 12 )
+LineEdit/styles/normal = SubResource( 220 )
 OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
-OptionButton/icons/arrow = SubResource( 162 )
-OptionButton/styles/focus = SubResource( 168 )
-OptionButton/styles/hover = SubResource( 168 )
-OptionButton/styles/pressed = SubResource( 168 )
-Panel/styles/panel = SubResource( 7 )
-VSeparator/styles/separator = SubResource( 174 )
+OptionButton/icons/arrow = SubResource( 221 )
+OptionButton/styles/focus = SubResource( 222 )
+OptionButton/styles/hover = SubResource( 222 )
+OptionButton/styles/pressed = SubResource( 222 )
+Panel/styles/panel = SubResource( 223 )
+VSeparator/styles/separator = SubResource( 224 )
 
 [sub_resource type="AtlasTexture" id=195]
 atlas = ExtResource( 2 )
-region = Rect2( 0, 60, 24, 20 )
+region = Rect2( 0, 16, 22, 22 )
 
 [sub_resource type="AtlasTexture" id=196]
 atlas = ExtResource( 2 )
-region = Rect2( 0, 40, 24, 20 )
+region = Rect2( 22, 16, 22, 22 )
+
+[sub_resource type="AtlasTexture" id=201]
+atlas = ExtResource( 12 )
+region = Rect2( 130, 178, 12, 12 )
 
 [sub_resource type="DynamicFont" id=197]
 size = 24
 extra_spacing_bottom = 2
 font_data = ExtResource( 13 )
-
-[sub_resource type="AtlasTexture" id=159]
-atlas = ExtResource( 12 )
-region = Rect2( 0, 98, 70, 46 )
-
-[sub_resource type="AtlasTexture" id=198]
-atlas = ExtResource( 12 )
-region = Rect2( 80, 98, 70, 46 )
-
-[sub_resource type="AtlasTexture" id=160]
-atlas = ExtResource( 12 )
-region = Rect2( 0, 0, 60, 86 )
-
-[sub_resource type="AtlasTexture" id=161]
-atlas = ExtResource( 12 )
-region = Rect2( 10, 17, 22, 22 )
-
-[sub_resource type="AtlasTexture" id=199]
-atlas = ExtResource( 12 )
-region = Rect2( 30, 40, 18, 18 )
-
-[sub_resource type="StyleBoxFlat" id=200]
-content_margin_left = 21.0
-content_margin_right = 19.0
-content_margin_top = 13.0
-content_margin_bottom = 17.0
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-draw_center = false
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-
-[sub_resource type="AtlasTexture" id=165]
-atlas = ExtResource( 12 )
-region = Rect2( 0, 154, 110, 22 )
-
-[sub_resource type="AtlasTexture" id=166]
-atlas = ExtResource( 12 )
-region = Rect2( 60, 0, 60, 86 )
-
-[sub_resource type="AtlasTexture" id=164]
-atlas = ExtResource( 12 )
-region = Rect2( 96, 32, 10, 10 )
-
-[sub_resource type="AtlasTexture" id=201]
-atlas = ExtResource( 12 )
-region = Rect2( 130, 178, 12, 12 )
 
 [sub_resource type="StyleBoxFlat" id=202]
 content_margin_left = 21.0
@@ -239,36 +195,15 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 
-[sub_resource type="AtlasTexture" id=167]
-atlas = ExtResource( 12 )
-region = Rect2( 0, 0, 120, 46 )
-
-[sub_resource type="AtlasTexture" id=203]
-atlas = ExtResource( 12 )
-region = Rect2( 44, 12, 10, 6 )
-
-[sub_resource type="AtlasTexture" id=204]
-atlas = ExtResource( 12 )
-region = Rect2( 20, 0, 80, 4 )
-
-[sub_resource type="AtlasTexture" id=170]
-atlas = ExtResource( 12 )
-region = Rect2( 0, 186, 22, 22 )
-margin = Rect2( 0, 2, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=171]
-atlas = ExtResource( 12 )
-region = Rect2( 24, 186, 22, 22 )
-margin = Rect2( 0, 2, 0, 0 )
-
 [sub_resource type="AtlasTexture" id=172]
 atlas = ExtResource( 12 )
 region = Rect2( 48, 186, 22, 22 )
 margin = Rect2( 0, 2, 0, 0 )
 
-[sub_resource type="AtlasTexture" id=173]
+[sub_resource type="AtlasTexture" id=190]
 atlas = ExtResource( 12 )
-region = Rect2( 72, 186, 22, 22 )
+region = Rect2( 42, 218, 41, 22 )
+margin = Rect2( -2, 2, 0, 0 )
 
 [sub_resource type="StyleBoxFlat" id=205]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
@@ -281,19 +216,56 @@ border_color = Color( 1, 1, 1, 0.901961 )
 
 [sub_resource type="StyleBoxEmpty" id=151]
 
+[sub_resource type="AtlasTexture" id=160]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 0, 60, 86 )
+
+[sub_resource type="AtlasTexture" id=161]
+atlas = ExtResource( 12 )
+region = Rect2( 10, 17, 22, 22 )
+
+[sub_resource type="AtlasTexture" id=199]
+atlas = ExtResource( 12 )
+region = Rect2( 30, 40, 18, 18 )
+
+[sub_resource type="AtlasTexture" id=159]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 98, 70, 46 )
+
+[sub_resource type="AtlasTexture" id=198]
+atlas = ExtResource( 12 )
+region = Rect2( 80, 98, 70, 46 )
+
+[sub_resource type="AtlasTexture" id=166]
+atlas = ExtResource( 12 )
+region = Rect2( 60, 0, 60, 86 )
+
+[sub_resource type="AtlasTexture" id=164]
+atlas = ExtResource( 12 )
+region = Rect2( 96, 32, 10, 10 )
+
+[sub_resource type="AtlasTexture" id=165]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 154, 110, 22 )
+
+[sub_resource type="AtlasTexture" id=170]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 186, 22, 22 )
+margin = Rect2( 0, 2, 0, 0 )
+
 [sub_resource type="AtlasTexture" id=188]
 atlas = ExtResource( 12 )
 region = Rect2( 85, 218, 22, 22 )
 margin = Rect2( -2, 2, 0, 0 )
 
+[sub_resource type="AtlasTexture" id=171]
+atlas = ExtResource( 12 )
+region = Rect2( 24, 186, 22, 22 )
+margin = Rect2( 0, 2, 0, 0 )
+
 [sub_resource type="AtlasTexture" id=189]
 atlas = ExtResource( 12 )
 region = Rect2( 109, 218, 22, 22 )
-margin = Rect2( -2, 2, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=190]
-atlas = ExtResource( 12 )
-region = Rect2( 42, 218, 41, 22 )
 margin = Rect2( -2, 2, 0, 0 )
 
 [sub_resource type="AtlasTexture" id=191]
@@ -372,7 +344,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"points": PoolRealArray( -600, 0, 0, 0.5, 0 ),
+"points": PoolRealArray( -592, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 0 )
 }
 tracks/3/type = "value"
@@ -453,7 +425,7 @@ tracks/9/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 0, -600 ) ]
+"values": [ Vector2( 0, -576 ) ]
 }
 tracks/10/type = "bezier"
 tracks/10/path = NodePath("About:rect_position:y")
@@ -543,18 +515,6 @@ tracks/17/keys = {
 "points": PoolRealArray( 544, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 0 )
 }
-tracks/18/type = "value"
-tracks/18/path = NodePath("Graphics:position")
-tracks/18/interp = 1
-tracks/18/loop_wrap = true
-tracks/18/imported = false
-tracks/18/enabled = true
-tracks/18/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ) ]
-}
 
 [sub_resource type="Animation" id=137]
 resource_name = "about"
@@ -583,55 +543,33 @@ tracks/1/keys = {
 "update": 0,
 "values": [ 1.0, 0.0, 0.0, 1.0 ]
 }
-tracks/2/type = "value"
-tracks/2/path = NodePath("Graphics:modulate:a")
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Menu:rect_position:y")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
-tracks/2/enabled = false
+tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 1.0, 0.32 ]
+"points": PoolRealArray( 518, 0, 0, 0.5, 0, 198, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
 }
 tracks/3/type = "bezier"
-tracks/3/path = NodePath("Graphics:position:y")
+tracks/3/path = NodePath("About:rect_position:y")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
-tracks/3/enabled = false
+tracks/3/enabled = true
 tracks/3/keys = {
-"points": PoolRealArray( 0, 0, 0, 0.5, 0, -320, -0.5, 0, 0, 0 ),
+"points": PoolRealArray( 720, 0, 0, 0.5, 0, 104, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0, 1 )
 }
 tracks/4/type = "bezier"
-tracks/4/path = NodePath("Menu:rect_position:y")
+tracks/4/path = NodePath("IntroViewPortContainer/Viewport/IntroCam:position:y")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"points": PoolRealArray( 518, 0, 0, 0.5, 0, 198, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0, 1 )
-}
-tracks/5/type = "bezier"
-tracks/5/path = NodePath("About:rect_position:y")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"points": PoolRealArray( 720, 0, 0, 0.5, 0, 104, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0, 1 )
-}
-tracks/6/type = "bezier"
-tracks/6/path = NodePath("IntroViewPortContainer/Viewport/IntroCam:position:y")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
 "points": PoolRealArray( 544, 0, 0, 0.5, 0, 1184, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0, 1 )
 }
@@ -663,55 +601,33 @@ tracks/1/keys = {
 "update": 0,
 "values": [ 1.0, 0.0, 0.0, 1.0 ]
 }
-tracks/2/type = "value"
-tracks/2/path = NodePath("Graphics:modulate:a")
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Menu:rect_position:y")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
-tracks/2/enabled = false
+tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 1.0, 0.32 ]
+"points": PoolRealArray( 518, 0, 0, 0.5, 0, 1014, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
 }
 tracks/3/type = "bezier"
-tracks/3/path = NodePath("Graphics:position:y")
+tracks/3/path = NodePath("Highscores:rect_position:y")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
-tracks/3/enabled = false
+tracks/3/enabled = true
 tracks/3/keys = {
-"points": PoolRealArray( 0, 0, 0, 0.5, 0, 496, -0.5, 0, 0, 0 ),
+"points": PoolRealArray( -592, 0, 0, 0.5, 0, 0, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0, 1 )
 }
 tracks/4/type = "bezier"
-tracks/4/path = NodePath("Menu:rect_position:y")
+tracks/4/path = NodePath("IntroViewPortContainer/Viewport/IntroCam:position:y")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"points": PoolRealArray( 518, 0, 0, 0.5, 0, 1014, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0, 1 )
-}
-tracks/5/type = "bezier"
-tracks/5/path = NodePath("Highscores:rect_position:y")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"points": PoolRealArray( -600, 0, 0, 0.5, 0, -24, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0, 1 )
-}
-tracks/6/type = "bezier"
-tracks/6/path = NodePath("IntroViewPortContainer/Viewport/IntroCam:position:y")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
 "points": PoolRealArray( 544, 0, 0, 0.5, 0, -448, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0, 1 )
 }
@@ -764,22 +680,12 @@ tracks/3/keys = {
 "times": PoolRealArray( 0, 1 )
 }
 tracks/4/type = "bezier"
-tracks/4/path = NodePath("Graphics:position:x")
+tracks/4/path = NodePath("IntroViewPortContainer/Viewport/IntroCam:position:x")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
-tracks/4/enabled = false
+tracks/4/enabled = true
 tracks/4/keys = {
-"points": PoolRealArray( -848, 0, 0, 0.5, 0, -1968, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0, 1 )
-}
-tracks/5/type = "bezier"
-tracks/5/path = NodePath("IntroViewPortContainer/Viewport/IntroCam:position:x")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
 "points": PoolRealArray( 2208, 0, 0, 0.5, 0, 4448, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0, 1 )
 }
@@ -811,55 +717,33 @@ tracks/1/keys = {
 "update": 0,
 "values": [ 1.0, 0.0, 0.0, 1.0 ]
 }
-tracks/2/type = "value"
-tracks/2/path = NodePath("Graphics:modulate:a")
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("SelectGame:rect_position:x")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
-tracks/2/enabled = false
+tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 1.0, 0.32 ]
+"points": PoolRealArray( 1280, 0, 0, 0.5, 0, 448, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
 }
 tracks/3/type = "bezier"
-tracks/3/path = NodePath("SelectGame:rect_position:x")
+tracks/3/path = NodePath("Menu:rect_position:x")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"points": PoolRealArray( 1280, 0, 0, 0.5, 0, 448, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0, 1 )
-}
-tracks/4/type = "bezier"
-tracks/4/path = NodePath("Graphics:position:x")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = false
-tracks/4/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.5, 0, -848, -0.5, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 1 )
-}
-tracks/5/type = "bezier"
-tracks/5/path = NodePath("Menu:rect_position:x")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
 "points": PoolRealArray( 280, 0, 0, 0.5, 0, -552, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0, 1 )
 }
-tracks/6/type = "bezier"
-tracks/6/path = NodePath("IntroViewPortContainer/Viewport/IntroCam:position:x")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("IntroViewPortContainer/Viewport/IntroCam:position:x")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
 "points": PoolRealArray( 512, 0, 0, 0.5, 0, 2208, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0, 1 )
 }
@@ -891,89 +775,41 @@ tracks/1/keys = {
 "update": 0,
 "values": [ 1.0, 0.0, 0.0, 1.0 ]
 }
-tracks/2/type = "value"
-tracks/2/path = NodePath("Graphics:modulate:a")
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Menu:rect_position:x")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
-tracks/2/enabled = false
+tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 1.0, 0.32 ]
+"points": PoolRealArray( 280, 0, 0, 0.5, 0, 954, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1 )
 }
 tracks/3/type = "bezier"
-tracks/3/path = NodePath("Graphics:position:x")
+tracks/3/path = NodePath("Settings:rect_position:x")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
-tracks/3/enabled = false
+tracks/3/enabled = true
 tracks/3/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.5, 0, 672, -0.5, 0, 0.5, 0 ),
+"points": PoolRealArray( -672, 0, 0, 0.5, 0, 0, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0, 1 )
 }
 tracks/4/type = "bezier"
-tracks/4/path = NodePath("Menu:rect_position:x")
+tracks/4/path = NodePath("IntroViewPortContainer/Viewport/IntroCam:position:x")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"points": PoolRealArray( 280, 0, 0, 0.5, 0, 954, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0, 1 )
-}
-tracks/5/type = "bezier"
-tracks/5/path = NodePath("Settings:rect_position:x")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"points": PoolRealArray( -672, 0, 0, 0.5, 0, 0, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0, 1 )
-}
-tracks/6/type = "bezier"
-tracks/6/path = NodePath("IntroViewPortContainer/Viewport/IntroCam:position:x")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
 "points": PoolRealArray( 512, 0, 0, 0.5, 0, -832, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0, 1 )
 }
 
-[sub_resource type="ConvexPolygonShape2D" id=207]
-points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
-
-[sub_resource type="TileSet" id=135]
-0/name = "tile_title.png 0"
-0/texture = ExtResource( 7 )
-0/tex_offset = Vector2( 0, 0 )
-0/modulate = Color( 1, 1, 1, 1 )
-0/region = Rect2( 0, 0, 16, 16 )
-0/tile_mode = 0
-0/occluder_offset = Vector2( 0, 0 )
-0/navigation_offset = Vector2( 0, 0 )
-0/shape_offset = Vector2( 0, 0 )
-0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-0/shape = SubResource( 207 )
-0/shape_one_way = false
-0/shape_one_way_margin = 1.0
-0/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 207 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-0/z_index = 0
-
 [node name="Home" type="Node2D"]
 script = ExtResource( 5 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 192.0, 632.0, -448.0, 96.0, 508.0 ],
+"_edit_horizontal_guides_": [ 160.0, 632.0, -448.0, 96.0, 508.0 ],
 "_edit_vertical_guides_": [ 64.0, 1280.0, 1216.0, 640.0, 1128.0 ]
 }
 
@@ -1015,9 +851,9 @@ alignment = 1
 
 [node name="SelectGameBtn" type="Button" parent="Menu"]
 margin_left = 85.0
-margin_top = 6.0
+margin_top = 3.0
 margin_right = 141.0
-margin_bottom = 28.0
+margin_bottom = 25.0
 focus_neighbour_right = NodePath("../SettingsBtn")
 focus_mode = 1
 size_flags_vertical = 8
@@ -1027,9 +863,9 @@ text = "PLAY"
 
 [node name="SettingsBtn" type="Button" parent="Menu"]
 margin_left = 173.0
-margin_top = 6.0
+margin_top = 3.0
 margin_right = 281.0
-margin_bottom = 28.0
+margin_bottom = 25.0
 focus_neighbour_left = NodePath("../SelectGameBtn")
 focus_neighbour_right = NodePath("../HighscoresBtn")
 focus_mode = 1
@@ -1040,9 +876,9 @@ text = "SETTINGS"
 
 [node name="HighscoresBtn" type="Button" parent="Menu"]
 margin_left = 313.0
-margin_top = 6.0
+margin_top = 3.0
 margin_right = 449.0
-margin_bottom = 28.0
+margin_bottom = 25.0
 focus_neighbour_left = NodePath("../SettingsBtn")
 focus_neighbour_right = NodePath("../AboutBtn")
 focus_mode = 1
@@ -1053,9 +889,9 @@ text = "HIGHSCORES"
 
 [node name="AboutBtn" type="Button" parent="Menu"]
 margin_left = 481.0
-margin_top = 6.0
+margin_top = 3.0
 margin_right = 551.0
-margin_bottom = 28.0
+margin_bottom = 25.0
 focus_neighbour_left = NodePath("../HighscoresBtn")
 focus_neighbour_right = NodePath("../QuitGameBtn")
 focus_mode = 1
@@ -1066,9 +902,9 @@ text = "ABOUT"
 
 [node name="QuitGameBtn" type="Button" parent="Menu"]
 margin_left = 583.0
-margin_top = 6.0
+margin_top = 3.0
 margin_right = 635.0
-margin_bottom = 28.0
+margin_bottom = 25.0
 focus_neighbour_left = NodePath("../AboutBtn")
 focus_mode = 1
 size_flags_vertical = 8
@@ -1188,91 +1024,6 @@ text = "- To travel you need energy
 - No energy, no travel"
 autowrap = true
 
-[node name="Move2" type="Control" parent="About/2"]
-margin_top = 103.0
-margin_right = 305.0
-margin_bottom = 294.0
-rect_min_size = Vector2( 0, 191 )
-rect_pivot_offset = Vector2( 264, 104 )
-
-[node name="HowTo2" type="Label" parent="About/2/Move2"]
-margin_left = 15.0
-margin_top = 32.0
-margin_right = 202.0
-margin_bottom = 53.0
-rect_min_size = Vector2( 187, 0 )
-size_flags_horizontal = 3
-size_flags_vertical = 1
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-custom_fonts/font = SubResource( 197 )
-text = "Direction keys"
-autowrap = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="TextureRect2" type="TextureRect" parent="About/2/Move2"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 24.0
-margin_top = -124.0
-margin_right = 94.0
-margin_bottom = -78.0
-texture = SubResource( 159 )
-
-[node name="TextureRect5" type="TextureRect" parent="About/2/Move2"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 25.0
-margin_top = -65.0
-margin_right = 95.0
-margin_bottom = -19.0
-texture = SubResource( 198 )
-
-[node name="TextureRect" type="TextureRect" parent="About/2/Move2"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 129.0
-margin_top = -122.0
-margin_right = 249.0
-margin_bottom = -36.0
-texture = SubResource( 160 )
-
-[node name="TextureRect3" type="TextureRect" parent="About/2/Move2"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 139.0
-margin_top = -105.0
-margin_right = 161.0
-margin_bottom = -83.0
-texture = SubResource( 161 )
-
-[node name="TextureRect4" type="TextureRect" parent="About/2/Move2"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 159.0
-margin_top = -82.0
-margin_right = 177.0
-margin_bottom = -64.0
-texture = SubResource( 199 )
-
-[node name="HSeparator" type="VSeparator" parent="About/2/Move2"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 184.0
-margin_top = -121.0
-margin_right = 196.0
-margin_bottom = -37.0
-
-[node name="Panel" type="Panel" parent="About/2/Move2"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -167.0
-margin_right = 224.0
-custom_styles/panel = SubResource( 200 )
-
 [node name="3" type="VBoxContainer" parent="About"]
 margin_left = 352.0
 margin_top = 254.0
@@ -1305,99 +1056,17 @@ autowrap = true
 [node name="HBoxContainer" type="HBoxContainer" parent="About/3"]
 margin_top = 127.0
 margin_right = 658.0
-margin_bottom = 313.0
-
-[node name="Move2" type="Control" parent="About/3/HBoxContainer"]
-margin_right = 240.0
-margin_bottom = 186.0
-rect_min_size = Vector2( 240, 100 )
-rect_pivot_offset = Vector2( 264, 104 )
-size_flags_vertical = 3
-
-[node name="HowTo2" type="Label" parent="About/3/HBoxContainer/Move2"]
-margin_left = 15.0
-margin_top = 60.0
-margin_right = 202.0
-margin_bottom = 81.0
-rect_min_size = Vector2( 187, 0 )
-size_flags_horizontal = 3
-size_flags_vertical = 1
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-custom_fonts/font = SubResource( 197 )
-text = "Burst key"
-autowrap = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Label" type="Label" parent="About/3/HBoxContainer/Move2"]
-margin_left = 15.0
-margin_top = 35.0
-margin_right = 191.0
-margin_bottom = 57.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 14 )
-text = "Press and hold"
-autowrap = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="TextureRect2" type="TextureRect" parent="About/3/HBoxContainer/Move2"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 16.0
-margin_top = -84.0
-margin_right = 126.0
-margin_bottom = -62.0
-texture = SubResource( 165 )
-
-[node name="TextureRect" type="TextureRect" parent="About/3/HBoxContainer/Move2"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 146.0
-margin_top = -147.0
-margin_right = 206.0
-margin_bottom = -61.0
-texture = SubResource( 166 )
-
-[node name="TextureRect3" type="TextureRect" parent="About/3/HBoxContainer/Move2"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 182.0
-margin_top = -115.0
-margin_right = 192.0
-margin_bottom = -105.0
-texture = SubResource( 164 )
-
-[node name="HSeparator" type="VSeparator" parent="About/3/HBoxContainer/Move2"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 139.0
-margin_top = -146.0
-margin_right = 151.0
-margin_bottom = -62.0
-
-[node name="Panel" type="Panel" parent="About/3/HBoxContainer/Move2"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -160.0
-margin_right = 240.0
-margin_bottom = -24.0
-custom_styles/panel = SubResource( 200 )
+margin_bottom = 232.0
 
 [node name="TextureRect4" type="TextureRect" parent="About/3/HBoxContainer"]
-margin_left = 244.0
-margin_right = 256.0
-margin_bottom = 186.0
+margin_right = 12.0
+margin_bottom = 105.0
 texture = SubResource( 201 )
 
 [node name="HowTo2" type="Label" parent="About/3/HBoxContainer"]
-margin_left = 260.0
-margin_right = 447.0
-margin_bottom = 186.0
+margin_left = 16.0
+margin_right = 335.0
+margin_bottom = 105.0
 rect_min_size = Vector2( 187, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -1410,9 +1079,9 @@ __meta__ = {
 }
 
 [node name="HowTo3" type="Label" parent="About/3/HBoxContainer"]
-margin_left = 451.0
+margin_left = 339.0
 margin_right = 658.0
-margin_bottom = 186.0
+margin_bottom = 105.0
 rect_min_size = Vector2( 207, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -1471,196 +1140,54 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Control" type="Control" parent="About"]
+[node name="EscHint" type="HBoxContainer" parent="About"]
 margin_left = 64.0
-margin_top = 824.0
-margin_right = 104.0
-margin_bottom = 864.0
+margin_top = 526.0
+margin_right = 254.0
+margin_bottom = 548.0
+custom_constants/separation = 8
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="keyboard" type="Label" parent="About/Control"]
-modulate = Color( 1, 1, 1, 0.901961 )
-margin_left = 704.0
-margin_top = 111.0
-margin_right = 812.0
-margin_bottom = 133.0
-size_flags_vertical = 0
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-text = "Keyboard"
-
-[node name="content3" type="Label" parent="About/Control"]
-margin_left = 832.0
-margin_top = 111.0
-margin_right = 1208.0
-margin_bottom = 248.0
-size_flags_vertical = 0
-theme = SubResource( 194 )
-text = "Move up = W, UP
-Move down = S, DOWN
-Move left = A, LEFT
-Move right = D, RIGHT
-Burst = SPACE + opp direction"
-autowrap = true
-
-[node name="joypad" type="Label" parent="About/Control"]
-modulate = Color( 1, 1, 1, 0.901961 )
-margin_left = 728.0
-margin_top = 263.0
-margin_right = 812.0
-margin_bottom = 288.0
-size_flags_vertical = 0
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-text = "JoyPad"
-
-[node name="content4" type="Label" parent="About/Control"]
-margin_left = 832.0
-margin_top = 263.0
-margin_right = 1280.0
-margin_bottom = 400.0
-size_flags_vertical = 0
-theme = SubResource( 194 )
-text = "Move up = UP 
-Move down = DOWN
-Move left = LEFT
-Move right = RIGHT
-Burst =  B + opp direction"
-autowrap = true
-
-[node name="JoypadScheme" type="Sprite" parent="About/Control/content4"]
-position = Vector2( 344, 57 )
-texture = ExtResource( 10 )
-
-[node name="shortcuts" type="Label" parent="About/Control"]
-modulate = Color( 1, 1, 1, 0.901961 )
-margin_left = 698.0
-margin_top = 415.0
-margin_right = 812.0
-margin_bottom = 440.0
-size_flags_vertical = 0
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-text = "Shortcuts"
-
-[node name="content5" type="Label" parent="About/Control"]
-margin_left = 832.0
-margin_top = 415.0
-margin_right = 1248.0
-margin_bottom = 549.0
-size_flags_vertical = 0
-theme = SubResource( 194 )
-text = "Toggle game pause = ESC/L1
-Toggle game music = M/L2
-Cycle music tracks = N/R2
-Exit menu = ESC/L1
-Confirm selection = ENTER/R1"
-autowrap = true
-
-[node name="Move2" type="Control" parent="About"]
-margin_left = 440.0
-margin_top = 760.0
-margin_right = 745.0
-margin_bottom = 900.0
-rect_min_size = Vector2( 0, 140 )
-rect_pivot_offset = Vector2( 264, 104 )
-size_flags_vertical = 3
-
-[node name="Panel" type="Panel" parent="About/Move2"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_styles/panel = SubResource( 200 )
-
-[node name="TextureRect" type="TextureRect" parent="About/Move2"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 172.0
-margin_top = -63.0
-margin_right = 292.0
-margin_bottom = -17.0
-texture = SubResource( 167 )
-
-[node name="TextureRect3" type="TextureRect" parent="About/Move2"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 216.0
-margin_top = -51.0
-margin_right = 226.0
-margin_bottom = -45.0
-texture = SubResource( 203 )
-
-[node name="TextureRect4" type="TextureRect" parent="About/Move2"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 238.0
-margin_top = -51.0
-margin_right = 248.0
-margin_bottom = -45.0
-texture = SubResource( 203 )
-
-[node name="TextureRect5" type="TextureRect" parent="About/Move2"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 192.0
-margin_top = -63.0
-margin_right = 272.0
-margin_bottom = -59.0
-texture = SubResource( 204 )
-
-[node name="HSeparator" type="HSeparator" parent="About/Move2"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 169.0
-margin_top = -18.0
-margin_right = 295.0
-margin_bottom = -13.0
-
-[node name="TextureRect2" type="TextureRect" parent="About/Move2"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 40.0
-margin_top = -133.0
-margin_right = 62.0
-margin_bottom = -111.0
-texture = SubResource( 170 )
-
-[node name="TextureRect6" type="TextureRect" parent="About/Move2"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 40.0
-margin_top = -101.0
-margin_right = 62.0
-margin_bottom = -79.0
-texture = SubResource( 171 )
-
-[node name="TextureRect7" type="TextureRect" parent="About/Move2"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 40.0
-margin_top = -69.0
-margin_right = 62.0
-margin_bottom = -47.0
+[node name="Esc" type="TextureRect" parent="About/EscHint"]
+margin_right = 22.0
+margin_bottom = 22.0
 texture = SubResource( 172 )
 
-[node name="TextureRect8" type="TextureRect" parent="About/Move2"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 40.0
-margin_top = -37.0
-margin_right = 62.0
-margin_bottom = -15.0
-texture = SubResource( 173 )
+[node name="Label" type="Label" parent="About/EscHint"]
+margin_left = 30.0
+margin_top = 2.0
+margin_right = 47.0
+margin_bottom = 20.0
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_fonts/font = ExtResource( 14 )
+text = "or"
+align = 1
+
+[node name="Select" type="TextureRect" parent="About/EscHint"]
+margin_left = 55.0
+margin_right = 96.0
+margin_bottom = 22.0
+texture = SubResource( 190 )
+
+[node name="Label2" type="Label" parent="About/EscHint"]
+margin_left = 104.0
+margin_top = 2.0
+margin_right = 190.0
+margin_bottom = 20.0
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_fonts/font = ExtResource( 14 )
+text = "to go back"
 
 [node name="Highscores" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -600.0
+margin_top = -592.0
 margin_right = 1280.0
-rect_min_size = Vector2( 1280, 600 )
+rect_min_size = Vector2( 1280, 520 )
 theme = ExtResource( 15 )
 script = ExtResource( 8 )
 
@@ -1668,9 +1195,9 @@ script = ExtResource( 8 )
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -64.0
-margin_top = 100.0
+margin_top = 76.0
 margin_right = -40.0
-margin_bottom = 120.0
+margin_bottom = 96.0
 rect_min_size = Vector2( 16, 16 )
 rect_rotation = 89.9999
 texture_normal = SubResource( 195 )
@@ -1681,9 +1208,9 @@ texture_focused = SubResource( 196 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -96.0
-margin_top = 94.0
+margin_top = 70.0
 margin_right = 96.0
-margin_bottom = 126.0
+margin_bottom = 102.0
 size_flags_horizontal = 3
 theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
@@ -1702,16 +1229,16 @@ margin_right = -4.0
 margin_bottom = 11.0
 
 [node name="LevelS" type="Control" parent="Highscores"]
-margin_left = 48.0
-margin_top = 198.0
-margin_right = 256.0
-margin_bottom = 574.0
+margin_left = 64.0
+margin_top = 158.0
+margin_right = 264.0
+margin_bottom = 496.0
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Title" type="Label" parent="Highscores/LevelS"]
-margin_right = 208.0
+anchor_right = 1.0
 margin_bottom = 22.0
 text = "LEVEL S"
 align = 1
@@ -1728,9 +1255,9 @@ margin_bottom = 13.0
 grow_horizontal = 2
 
 [node name="HighscoreTable" type="VBoxContainer" parent="Highscores/LevelS"]
+anchor_right = 1.0
 margin_top = 48.0
-margin_right = 208.0
-margin_bottom = 367.0
+margin_bottom = 326.0
 custom_constants/separation = 10
 script = ExtResource( 11 )
 __meta__ = {
@@ -1777,7 +1304,7 @@ text = "Score"
 align = 2
 
 [node name="ScoreLine1" type="HBoxContainer" parent="Highscores/LevelS/HighscoreTable"]
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 22.0
 
 [node name="Position" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine1"]
@@ -1788,11 +1315,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine1"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -1802,8 +1329,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine1"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -1812,7 +1339,7 @@ align = 2
 
 [node name="ScoreLine2" type="HBoxContainer" parent="Highscores/LevelS/HighscoreTable"]
 margin_top = 32.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 54.0
 
 [node name="Position" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine2"]
@@ -1823,11 +1350,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine2"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -1837,8 +1364,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine2"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -1847,7 +1374,7 @@ align = 2
 
 [node name="ScoreLine3" type="HBoxContainer" parent="Highscores/LevelS/HighscoreTable"]
 margin_top = 64.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 86.0
 
 [node name="Position" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine3"]
@@ -1858,11 +1385,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine3"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -1872,8 +1399,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine3"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -1882,7 +1409,7 @@ align = 2
 
 [node name="ScoreLine4" type="HBoxContainer" parent="Highscores/LevelS/HighscoreTable"]
 margin_top = 96.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 118.0
 
 [node name="Position" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine4"]
@@ -1893,11 +1420,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine4"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -1907,8 +1434,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine4"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -1917,7 +1444,7 @@ align = 2
 
 [node name="ScoreLine5" type="HBoxContainer" parent="Highscores/LevelS/HighscoreTable"]
 margin_top = 128.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 150.0
 
 [node name="Position" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine5"]
@@ -1928,11 +1455,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine5"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -1942,8 +1469,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine5"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -1952,7 +1479,7 @@ align = 2
 
 [node name="ScoreLine6" type="HBoxContainer" parent="Highscores/LevelS/HighscoreTable"]
 margin_top = 160.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 182.0
 
 [node name="Position" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine6"]
@@ -1963,11 +1490,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine6"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -1977,8 +1504,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine6"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -1987,7 +1514,7 @@ align = 2
 
 [node name="ScoreLine7" type="HBoxContainer" parent="Highscores/LevelS/HighscoreTable"]
 margin_top = 192.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 214.0
 
 [node name="Position" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine7"]
@@ -1998,11 +1525,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine7"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -2012,8 +1539,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine7"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -2022,7 +1549,7 @@ align = 2
 
 [node name="ScoreLine8" type="HBoxContainer" parent="Highscores/LevelS/HighscoreTable"]
 margin_top = 224.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 246.0
 
 [node name="Position" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine8"]
@@ -2033,11 +1560,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine8"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -2047,8 +1574,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine8"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -2057,7 +1584,7 @@ align = 2
 
 [node name="ScoreLine9" type="HBoxContainer" parent="Highscores/LevelS/HighscoreTable"]
 margin_top = 256.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 278.0
 
 [node name="Position" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine9"]
@@ -2068,11 +1595,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine9"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -2082,8 +1609,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelS/HighscoreTable/ScoreLine9"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -2091,16 +1618,16 @@ text = "0000"
 align = 2
 
 [node name="LevelM" type="Control" parent="Highscores"]
-margin_left = 290.0
-margin_top = 198.0
-margin_right = 498.0
-margin_bottom = 574.0
+margin_left = 297.0
+margin_top = 158.0
+margin_right = 497.0
+margin_bottom = 496.0
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Title" type="Label" parent="Highscores/LevelM"]
-margin_right = 208.0
+anchor_right = 1.0
 margin_bottom = 22.0
 text = "LEVEL M"
 align = 1
@@ -2117,9 +1644,9 @@ margin_bottom = 13.0
 grow_horizontal = 2
 
 [node name="HighscoreTable" type="VBoxContainer" parent="Highscores/LevelM"]
+anchor_right = 1.0
 margin_top = 48.0
-margin_right = 208.0
-margin_bottom = 367.0
+margin_bottom = 326.0
 custom_constants/separation = 10
 script = ExtResource( 11 )
 __meta__ = {
@@ -2167,7 +1694,7 @@ text = "Score"
 align = 2
 
 [node name="ScoreLine1" type="HBoxContainer" parent="Highscores/LevelM/HighscoreTable"]
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 22.0
 
 [node name="Position" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine1"]
@@ -2178,11 +1705,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine1"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -2192,8 +1719,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine1"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -2202,7 +1729,7 @@ align = 2
 
 [node name="ScoreLine2" type="HBoxContainer" parent="Highscores/LevelM/HighscoreTable"]
 margin_top = 32.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 54.0
 
 [node name="Position" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine2"]
@@ -2213,11 +1740,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine2"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -2227,8 +1754,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine2"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -2237,7 +1764,7 @@ align = 2
 
 [node name="ScoreLine3" type="HBoxContainer" parent="Highscores/LevelM/HighscoreTable"]
 margin_top = 64.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 86.0
 
 [node name="Position" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine3"]
@@ -2248,11 +1775,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine3"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -2262,8 +1789,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine3"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -2272,7 +1799,7 @@ align = 2
 
 [node name="ScoreLine4" type="HBoxContainer" parent="Highscores/LevelM/HighscoreTable"]
 margin_top = 96.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 118.0
 
 [node name="Position" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine4"]
@@ -2283,11 +1810,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine4"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -2297,8 +1824,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine4"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -2307,7 +1834,7 @@ align = 2
 
 [node name="ScoreLine5" type="HBoxContainer" parent="Highscores/LevelM/HighscoreTable"]
 margin_top = 128.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 150.0
 
 [node name="Position" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine5"]
@@ -2318,11 +1845,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine5"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -2332,8 +1859,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine5"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -2342,7 +1869,7 @@ align = 2
 
 [node name="ScoreLine6" type="HBoxContainer" parent="Highscores/LevelM/HighscoreTable"]
 margin_top = 160.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 182.0
 
 [node name="Position" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine6"]
@@ -2353,11 +1880,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine6"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -2367,8 +1894,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine6"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -2377,7 +1904,7 @@ align = 2
 
 [node name="ScoreLine7" type="HBoxContainer" parent="Highscores/LevelM/HighscoreTable"]
 margin_top = 192.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 214.0
 
 [node name="Position" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine7"]
@@ -2388,11 +1915,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine7"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -2402,8 +1929,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine7"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -2412,7 +1939,7 @@ align = 2
 
 [node name="ScoreLine8" type="HBoxContainer" parent="Highscores/LevelM/HighscoreTable"]
 margin_top = 224.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 246.0
 
 [node name="Position" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine8"]
@@ -2423,11 +1950,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine8"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -2437,8 +1964,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine8"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -2447,7 +1974,7 @@ align = 2
 
 [node name="ScoreLine9" type="HBoxContainer" parent="Highscores/LevelM/HighscoreTable"]
 margin_top = 256.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 278.0
 
 [node name="Position" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine9"]
@@ -2458,11 +1985,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine9"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -2472,8 +1999,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelM/HighscoreTable/ScoreLine9"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -2481,16 +2008,16 @@ text = "0000"
 align = 2
 
 [node name="LevelL" type="Control" parent="Highscores"]
-margin_left = 532.0
-margin_top = 198.0
-margin_right = 740.0
-margin_bottom = 574.0
+margin_left = 536.0
+margin_top = 158.0
+margin_right = 736.0
+margin_bottom = 496.0
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Title" type="Label" parent="Highscores/LevelL"]
-margin_right = 208.0
+anchor_right = 1.0
 margin_bottom = 22.0
 text = "LEVEL L"
 align = 1
@@ -2507,9 +2034,9 @@ margin_bottom = 13.0
 grow_horizontal = 2
 
 [node name="HighscoreTable" type="VBoxContainer" parent="Highscores/LevelL"]
+anchor_right = 1.0
 margin_top = 48.0
-margin_right = 208.0
-margin_bottom = 367.0
+margin_bottom = 326.0
 custom_constants/separation = 10
 script = ExtResource( 11 )
 __meta__ = {
@@ -2556,7 +2083,7 @@ text = "Score"
 align = 2
 
 [node name="ScoreLine1" type="HBoxContainer" parent="Highscores/LevelL/HighscoreTable"]
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 22.0
 
 [node name="Position" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine1"]
@@ -2567,11 +2094,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine1"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -2581,8 +2108,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine1"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -2591,7 +2118,7 @@ align = 2
 
 [node name="ScoreLine2" type="HBoxContainer" parent="Highscores/LevelL/HighscoreTable"]
 margin_top = 32.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 54.0
 
 [node name="Position" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine2"]
@@ -2602,11 +2129,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine2"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -2616,8 +2143,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine2"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -2626,7 +2153,7 @@ align = 2
 
 [node name="ScoreLine3" type="HBoxContainer" parent="Highscores/LevelL/HighscoreTable"]
 margin_top = 64.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 86.0
 
 [node name="Position" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine3"]
@@ -2637,11 +2164,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine3"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -2651,8 +2178,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine3"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -2661,7 +2188,7 @@ align = 2
 
 [node name="ScoreLine4" type="HBoxContainer" parent="Highscores/LevelL/HighscoreTable"]
 margin_top = 96.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 118.0
 
 [node name="Position" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine4"]
@@ -2672,11 +2199,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine4"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -2686,8 +2213,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine4"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -2696,7 +2223,7 @@ align = 2
 
 [node name="ScoreLine5" type="HBoxContainer" parent="Highscores/LevelL/HighscoreTable"]
 margin_top = 128.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 150.0
 
 [node name="Position" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine5"]
@@ -2707,11 +2234,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine5"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -2721,8 +2248,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine5"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -2731,7 +2258,7 @@ align = 2
 
 [node name="ScoreLine6" type="HBoxContainer" parent="Highscores/LevelL/HighscoreTable"]
 margin_top = 160.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 182.0
 
 [node name="Position" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine6"]
@@ -2742,11 +2269,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine6"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -2756,8 +2283,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine6"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -2766,7 +2293,7 @@ align = 2
 
 [node name="ScoreLine7" type="HBoxContainer" parent="Highscores/LevelL/HighscoreTable"]
 margin_top = 192.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 214.0
 
 [node name="Position" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine7"]
@@ -2777,11 +2304,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine7"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -2791,8 +2318,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine7"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -2801,7 +2328,7 @@ align = 2
 
 [node name="ScoreLine8" type="HBoxContainer" parent="Highscores/LevelL/HighscoreTable"]
 margin_top = 224.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 246.0
 
 [node name="Position" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine8"]
@@ -2812,11 +2339,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine8"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -2826,8 +2353,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine8"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -2836,7 +2363,7 @@ align = 2
 
 [node name="ScoreLine9" type="HBoxContainer" parent="Highscores/LevelL/HighscoreTable"]
 margin_top = 256.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 278.0
 
 [node name="Position" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine9"]
@@ -2847,11 +2374,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine9"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -2861,8 +2388,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelL/HighscoreTable/ScoreLine9"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -2870,16 +2397,16 @@ text = "0000"
 align = 2
 
 [node name="LevelXL" type="Control" parent="Highscores"]
-margin_left = 774.0
-margin_top = 198.0
-margin_right = 982.0
-margin_bottom = 574.0
+margin_left = 776.0
+margin_top = 158.0
+margin_right = 976.0
+margin_bottom = 496.0
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Title" type="Label" parent="Highscores/LevelXL"]
-margin_right = 208.0
+anchor_right = 1.0
 margin_bottom = 22.0
 text = "LEVEL XL"
 align = 1
@@ -2896,9 +2423,9 @@ margin_bottom = 13.0
 grow_horizontal = 2
 
 [node name="HighscoreTable" type="VBoxContainer" parent="Highscores/LevelXL"]
+anchor_right = 1.0
 margin_top = 48.0
-margin_right = 208.0
-margin_bottom = 367.0
+margin_bottom = 326.0
 custom_constants/separation = 10
 script = ExtResource( 11 )
 __meta__ = {
@@ -2945,7 +2472,7 @@ text = "Score"
 align = 2
 
 [node name="ScoreLine1" type="HBoxContainer" parent="Highscores/LevelXL/HighscoreTable"]
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 22.0
 
 [node name="Position" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine1"]
@@ -2956,11 +2483,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine1"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -2970,8 +2497,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine1"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -2980,7 +2507,7 @@ align = 2
 
 [node name="ScoreLine2" type="HBoxContainer" parent="Highscores/LevelXL/HighscoreTable"]
 margin_top = 32.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 54.0
 
 [node name="Position" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine2"]
@@ -2991,11 +2518,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine2"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -3005,8 +2532,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine2"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -3015,7 +2542,7 @@ align = 2
 
 [node name="ScoreLine3" type="HBoxContainer" parent="Highscores/LevelXL/HighscoreTable"]
 margin_top = 64.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 86.0
 
 [node name="Position" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine3"]
@@ -3026,11 +2553,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine3"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -3040,8 +2567,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine3"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -3050,7 +2577,7 @@ align = 2
 
 [node name="ScoreLine4" type="HBoxContainer" parent="Highscores/LevelXL/HighscoreTable"]
 margin_top = 96.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 118.0
 
 [node name="Position" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine4"]
@@ -3061,11 +2588,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine4"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -3075,8 +2602,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine4"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -3085,7 +2612,7 @@ align = 2
 
 [node name="ScoreLine5" type="HBoxContainer" parent="Highscores/LevelXL/HighscoreTable"]
 margin_top = 128.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 150.0
 
 [node name="Position" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine5"]
@@ -3096,11 +2623,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine5"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -3110,8 +2637,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine5"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -3120,7 +2647,7 @@ align = 2
 
 [node name="ScoreLine6" type="HBoxContainer" parent="Highscores/LevelXL/HighscoreTable"]
 margin_top = 160.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 182.0
 
 [node name="Position" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine6"]
@@ -3131,11 +2658,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine6"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -3145,8 +2672,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine6"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -3155,7 +2682,7 @@ align = 2
 
 [node name="ScoreLine7" type="HBoxContainer" parent="Highscores/LevelXL/HighscoreTable"]
 margin_top = 192.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 214.0
 
 [node name="Position" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine7"]
@@ -3166,11 +2693,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine7"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -3180,8 +2707,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine7"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -3190,7 +2717,7 @@ align = 2
 
 [node name="ScoreLine8" type="HBoxContainer" parent="Highscores/LevelXL/HighscoreTable"]
 margin_top = 224.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 246.0
 
 [node name="Position" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine8"]
@@ -3201,11 +2728,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine8"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -3215,8 +2742,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine8"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -3225,7 +2752,7 @@ align = 2
 
 [node name="ScoreLine9" type="HBoxContainer" parent="Highscores/LevelXL/HighscoreTable"]
 margin_top = 256.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 278.0
 
 [node name="Position" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine9"]
@@ -3236,11 +2763,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine9"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -3250,8 +2777,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelXL/HighscoreTable/ScoreLine9"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -3260,15 +2787,15 @@ align = 2
 
 [node name="LevelXXL" type="Control" parent="Highscores"]
 margin_left = 1016.0
-margin_top = 198.0
-margin_right = 1224.0
-margin_bottom = 574.0
+margin_top = 158.0
+margin_right = 1216.0
+margin_bottom = 496.0
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Title" type="Label" parent="Highscores/LevelXXL"]
-margin_right = 208.0
+anchor_right = 1.0
 margin_bottom = 22.0
 text = "LEVEL XXL"
 align = 1
@@ -3285,9 +2812,9 @@ margin_bottom = 13.0
 grow_horizontal = 2
 
 [node name="HighscoreTable" type="VBoxContainer" parent="Highscores/LevelXXL"]
+anchor_right = 1.0
 margin_top = 48.0
-margin_right = 208.0
-margin_bottom = 367.0
+margin_bottom = 326.0
 custom_constants/separation = 10
 script = ExtResource( 11 )
 __meta__ = {
@@ -3334,7 +2861,7 @@ text = "Score"
 align = 2
 
 [node name="ScoreLine1" type="HBoxContainer" parent="Highscores/LevelXXL/HighscoreTable"]
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 22.0
 
 [node name="Position" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine1"]
@@ -3345,11 +2872,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine1"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -3359,8 +2886,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine1"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -3369,7 +2896,7 @@ align = 2
 
 [node name="ScoreLine2" type="HBoxContainer" parent="Highscores/LevelXXL/HighscoreTable"]
 margin_top = 32.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 54.0
 
 [node name="Position" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine2"]
@@ -3380,11 +2907,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine2"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -3394,8 +2921,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine2"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -3404,7 +2931,7 @@ align = 2
 
 [node name="ScoreLine3" type="HBoxContainer" parent="Highscores/LevelXXL/HighscoreTable"]
 margin_top = 64.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 86.0
 
 [node name="Position" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine3"]
@@ -3415,11 +2942,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine3"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -3429,8 +2956,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine3"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -3439,7 +2966,7 @@ align = 2
 
 [node name="ScoreLine4" type="HBoxContainer" parent="Highscores/LevelXXL/HighscoreTable"]
 margin_top = 96.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 118.0
 
 [node name="Position" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine4"]
@@ -3450,11 +2977,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine4"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -3464,8 +2991,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine4"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -3474,7 +3001,7 @@ align = 2
 
 [node name="ScoreLine5" type="HBoxContainer" parent="Highscores/LevelXXL/HighscoreTable"]
 margin_top = 128.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 150.0
 
 [node name="Position" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine5"]
@@ -3485,11 +3012,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine5"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -3499,8 +3026,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine5"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -3509,7 +3036,7 @@ align = 2
 
 [node name="ScoreLine6" type="HBoxContainer" parent="Highscores/LevelXXL/HighscoreTable"]
 margin_top = 160.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 182.0
 
 [node name="Position" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine6"]
@@ -3520,11 +3047,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine6"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -3534,8 +3061,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine6"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -3544,7 +3071,7 @@ align = 2
 
 [node name="ScoreLine7" type="HBoxContainer" parent="Highscores/LevelXXL/HighscoreTable"]
 margin_top = 192.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 214.0
 
 [node name="Position" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine7"]
@@ -3555,11 +3082,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine7"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -3569,8 +3096,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine7"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -3579,7 +3106,7 @@ align = 2
 
 [node name="ScoreLine8" type="HBoxContainer" parent="Highscores/LevelXXL/HighscoreTable"]
 margin_top = 224.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 246.0
 
 [node name="Position" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine8"]
@@ -3590,11 +3117,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine8"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -3604,8 +3131,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine8"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
@@ -3614,7 +3141,7 @@ align = 2
 
 [node name="ScoreLine9" type="HBoxContainer" parent="Highscores/LevelXXL/HighscoreTable"]
 margin_top = 256.0
-margin_right = 208.0
+margin_right = 200.0
 margin_bottom = 278.0
 
 [node name="Position" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine9"]
@@ -3625,11 +3152,11 @@ size_flags_horizontal = 2
 text = "2."
 
 [node name="Owner" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine9"]
-margin_left = 34.0
+margin_left = 36.0
 margin_top = 2.0
-margin_right = 134.0
+margin_right = 126.0
 margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 90, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 text = "Player"
@@ -3639,13 +3166,55 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/LevelXXL/HighscoreTable/ScoreLine9"]
-margin_left = 138.0
-margin_right = 208.0
+margin_left = 130.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 2
 text = "0000"
 align = 2
+
+[node name="EscHint" type="HBoxContainer" parent="Highscores"]
+margin_left = 1024.0
+margin_top = 566.0
+margin_right = 1214.0
+margin_bottom = 588.0
+custom_constants/separation = 8
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Esc" type="TextureRect" parent="Highscores/EscHint"]
+margin_right = 22.0
+margin_bottom = 22.0
+texture = SubResource( 172 )
+
+[node name="Label" type="Label" parent="Highscores/EscHint"]
+margin_left = 30.0
+margin_top = 2.0
+margin_right = 47.0
+margin_bottom = 20.0
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_fonts/font = ExtResource( 14 )
+text = "or"
+align = 1
+
+[node name="Select" type="TextureRect" parent="Highscores/EscHint"]
+margin_left = 55.0
+margin_right = 96.0
+margin_bottom = 22.0
+texture = SubResource( 190 )
+
+[node name="Label2" type="Label" parent="Highscores/EscHint"]
+margin_left = 104.0
+margin_top = 2.0
+margin_right = 190.0
+margin_bottom = 20.0
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_fonts/font = ExtResource( 14 )
+text = "to go back"
 
 [node name="SelectGame" type="Control" parent="."]
 anchor_right = 1.0
@@ -3707,9 +3276,9 @@ autowrap = true
 
 [node name="TutorialBtn" type="Button" parent="SelectGame"]
 margin_left = 8.0
-margin_top = 192.0
+margin_top = 160.0
 margin_right = 328.0
-margin_bottom = 248.0
+margin_bottom = 216.0
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
@@ -3723,9 +3292,9 @@ __meta__ = {
 
 [node name="SelectGameBtn0" type="Button" parent="SelectGame"]
 margin_left = 8.0
-margin_top = 264.0
+margin_top = 232.0
 margin_right = 328.0
-margin_bottom = 320.0
+margin_bottom = 288.0
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
@@ -3739,9 +3308,9 @@ __meta__ = {
 
 [node name="SelectGameBtn1" type="Button" parent="SelectGame"]
 margin_left = 8.0
-margin_top = 328.0
+margin_top = 296.0
 margin_right = 328.0
-margin_bottom = 384.0
+margin_bottom = 352.0
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
@@ -3755,9 +3324,9 @@ __meta__ = {
 
 [node name="SelectGameBtn2" type="Button" parent="SelectGame"]
 margin_left = 360.0
-margin_top = 176.0
+margin_top = 144.0
 margin_right = 680.0
-margin_bottom = 232.0
+margin_bottom = 200.0
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
@@ -3771,9 +3340,9 @@ __meta__ = {
 
 [node name="SelectGameBtn3" type="Button" parent="SelectGame"]
 margin_left = 360.0
-margin_top = 240.0
+margin_top = 208.0
 margin_right = 680.0
-margin_bottom = 296.0
+margin_bottom = 264.0
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
@@ -3787,9 +3356,9 @@ __meta__ = {
 
 [node name="SelectGameBtn4" type="Button" parent="SelectGame"]
 margin_left = 360.0
-margin_top = 304.0
+margin_top = 272.0
 margin_right = 680.0
-margin_bottom = 360.0
+margin_bottom = 328.0
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
@@ -3803,9 +3372,9 @@ __meta__ = {
 
 [node name="SelectGameBtn5" type="Button" parent="SelectGame"]
 margin_left = 360.0
-margin_top = 368.0
+margin_top = 336.0
 margin_right = 680.0
-margin_bottom = 424.0
+margin_bottom = 392.0
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
@@ -4329,9 +3898,9 @@ theme = SubResource( 194 )
 
 [node name="Shortcuts" type="Control" parent="SelectGame/InfoPanelHor"]
 margin_left = 376.0
-margin_top = 3.0
+margin_top = -29.0
 margin_right = 672.0
-margin_bottom = 212.0
+margin_bottom = 180.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -4512,9 +4081,9 @@ custom_fonts/font = ExtResource( 14 )
 text = "to confirm selection"
 
 [node name="Controls" type="Control" parent="SelectGame/InfoPanelHor"]
-margin_top = 3.0
+margin_top = -29.0
 margin_right = 321.0
-margin_bottom = 206.0
+margin_bottom = 174.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -4665,6 +4234,48 @@ margin_right = 160.0
 margin_bottom = 137.0
 texture = SubResource( 186 )
 
+[node name="EscHint" type="HBoxContainer" parent="SelectGame"]
+margin_left = 8.0
+margin_top = 638.0
+margin_right = 198.0
+margin_bottom = 660.0
+custom_constants/separation = 8
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Esc" type="TextureRect" parent="SelectGame/EscHint"]
+margin_right = 22.0
+margin_bottom = 22.0
+texture = SubResource( 172 )
+
+[node name="Label" type="Label" parent="SelectGame/EscHint"]
+margin_left = 30.0
+margin_top = 2.0
+margin_right = 47.0
+margin_bottom = 20.0
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_fonts/font = ExtResource( 14 )
+text = "or"
+align = 1
+
+[node name="Select" type="TextureRect" parent="SelectGame/EscHint"]
+margin_left = 55.0
+margin_right = 96.0
+margin_bottom = 22.0
+texture = SubResource( 190 )
+
+[node name="Label2" type="Label" parent="SelectGame/EscHint"]
+margin_left = 104.0
+margin_top = 2.0
+margin_right = 190.0
+margin_bottom = 20.0
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_fonts/font = ExtResource( 14 )
+text = "to go back"
+
 [node name="Settings" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -4682,6 +4293,8 @@ margin_top = 76.0
 margin_right = -8.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 16, 16 )
+focus_neighbour_left = NodePath("../MenuMusicCheckBox")
+focus_neighbour_bottom = NodePath("../MenuMusicCheckBox")
 texture_normal = SubResource( 195 )
 texture_hover = SubResource( 196 )
 texture_focused = SubResource( 196 )
@@ -4767,15 +4380,56 @@ text = "Camera shake"
 
 [node name="Shorts" type="Label" parent="Settings"]
 margin_left = 224.0
-margin_top = 568.0
+margin_top = 496.0
 margin_right = 544.0
-margin_bottom = 634.0
+margin_bottom = 562.0
 size_flags_horizontal = 3
 theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
-text = "*
-In-game settings can also be accessed during game, through pause menu."
+text = "In-game settings can also be accessed during game through pause menu."
 autowrap = true
+
+[node name="EscHint" type="HBoxContainer" parent="Settings"]
+margin_left = 224.0
+margin_top = 638.0
+margin_right = 414.0
+margin_bottom = 660.0
+custom_constants/separation = 8
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Esc" type="TextureRect" parent="Settings/EscHint"]
+margin_right = 22.0
+margin_bottom = 22.0
+texture = SubResource( 172 )
+
+[node name="Label" type="Label" parent="Settings/EscHint"]
+margin_left = 30.0
+margin_top = 2.0
+margin_right = 47.0
+margin_bottom = 20.0
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_fonts/font = ExtResource( 14 )
+text = "or"
+align = 1
+
+[node name="Select" type="TextureRect" parent="Settings/EscHint"]
+margin_left = 55.0
+margin_right = 96.0
+margin_bottom = 22.0
+texture = SubResource( 190 )
+
+[node name="Label2" type="Label" parent="Settings/EscHint"]
+margin_left = 104.0
+margin_top = 2.0
+margin_right = 190.0
+margin_bottom = 20.0
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_fonts/font = ExtResource( 14 )
+text = "to go back"
 
 [node name="Creditsodl" type="Control" parent="."]
 visible = false
@@ -4947,28 +4601,6 @@ anims/highscores = SubResource( 141 )
 anims/play = SubResource( 138 )
 anims/select_game = SubResource( 142 )
 anims/settings = SubResource( 140 )
-
-[node name="Graphics" type="Node2D" parent="."]
-visible = false
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title1" type="TileMap" parent="Graphics"]
-position = Vector2( 176, 176 )
-tile_set = SubResource( 135 )
-cell_size = Vector2( 16, 16 )
-cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
-format = 1
-tile_data = PoolIntArray( 0, -1610612736, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 6, -1610612736, 0, 8, 0, 0, 12, 0, 0, 14, 0, 0, 15, -1610612736, 0, 16, 0, 0, 17, -1610612736, 0, 20, -1610612736, 0, 65536, 0, 0, 65540, -1610612736, 0, 65542, 0, 0, 65545, 0, 0, 65547, 0, 0, 65550, 0, 0, 65556, -1610612736, 0, 131072, 0, 0, 131073, -1610612736, 0, 131074, -1610612736, 0, 131075, -1610612736, 0, 131076, -1610612736, 0, 131078, -1610612736, 0, 131082, 0, 0, 131086, 0, 0, 131087, -1610612736, 0, 131088, -1610612736, 0, 131092, -1610612736, 0, 196608, 0, 0, 196614, -1610612736, 0, 196617, 0, 0, 196619, 0, 0, 196622, 0, 0, 196628, -1610612736, 0, 262144, 0, 0, 262150, -1610612736, 0, 262152, 0, 0, 262156, 0, 0, 262158, 0, 0, 262164, -1610612736, 0, 327680, -1610612736, 0, 327686, -1610612736, 0, 327688, -1610612736, 0, 327692, -1610612736, 0, 327694, -1610612736, 0, 327700, -1610612736, 0, 393216, -1610612736, 0, 393222, -1610612736, 0, 393224, -1610612736, 0, 393228, -1610612736, 0, 393230, 0, 0, 393231, -1610612736, 0, 393232, -1610612736, 0, 393233, 0, 0, 393234, 0, 0, 393236, -1610612736, 0, 393237, -1610612736, 0, 393238, -1610612736, 0 )
-
-[node name="Title2" type="TileMap" parent="Graphics"]
-position = Vector2( 544, 240 )
-tile_set = SubResource( 135 )
-cell_size = Vector2( 16, 16 )
-cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
-format = 1
-tile_data = PoolIntArray( 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 7, -1610612736, 0, 8, -1610612736, 0, 9, -1610612736, 0, 12, -1610612736, 0, 13, -1610612736, 0, 14, -1610612736, 0, 15, -1610612736, 0, 16, -1610612736, 0, 18, -1610612736, 0, 19, -1610612736, 0, 20, -1610612736, 0, 21, -1610612736, 0, 25, -1610612736, 0, 26, -1610612736, 0, 27, -1610612736, 0, 30, -1610612736, 0, 34, -1610612736, 0, 65536, -1610612736, 0, 65540, -1610612736, 0, 65542, -1610612736, 0, 65550, -1610612736, 0, 65554, -1610612736, 0, 65558, -1610612736, 0, 65560, -1610612736, 0, 65564, -1610612736, 0, 65567, -1610612736, 0, 65569, -1610612736, 0, 131072, -1610612736, 0, 131073, -1610612736, 0, 131074, -1610612736, 0, 131075, -1610612736, 0, 131076, -1610612736, 0, 131078, -1610612736, 0, 131079, -1610612736, 0, 131080, -1610612736, 0, 131081, -1610612736, 0, 131086, -1610612736, 0, 131090, -1610612736, 0, 131091, -1610612736, 0, 131092, -1610612736, 0, 131093, -1610612736, 0, 131096, -1610612736, 0, 131097, -1610612736, 0, 131098, -1610612736, 0, 131099, -1610612736, 0, 131100, -1610612736, 0, 131104, -1610612736, 0, 196608, -1610612736, 0, 196612, -1610612736, 0, 196618, -1610612736, 0, 196622, -1610612736, 0, 196626, -1610612736, 0, 196630, -1610612736, 0, 196632, -1610612736, 0, 196636, -1610612736, 0, 196640, -1610612736, 0, 262144, -1610612736, 0, 262148, -1610612736, 0, 262154, -1610612736, 0, 262158, -1610612736, 0, 262162, -1610612736, 0, 262166, -1610612736, 0, 262168, -1610612736, 0, 262172, -1610612736, 0, 262176, -1610612736, 0, 327680, -1610612736, 0, 327684, -1610612736, 0, 327686, -1610612736, 0, 327690, -1610612736, 0, 327694, -1610612736, 0, 327698, -1610612736, 0, 327702, -1610612736, 0, 327704, -1610612736, 0, 327708, -1610612736, 0, 327712, -1610612736, 0, 393216, 0, 0, 393220, -1610612736, 0, 393223, -1610612736, 0, 393224, -1610612736, 0, 393225, -1610612736, 0, 393230, -1610612736, 0, 393234, -1610612736, 0, 393238, -1610612736, 0, 393240, -1610612736, 0, 393244, -1610612736, 0, 393248, -1610612736, 0 )
 
 [connection signal="finished_playing" from="IntroViewPortContainer/Viewport/Intro" to="." method="_on_Intro_finished_playing"]
 [connection signal="pressed" from="Menu/SelectGameBtn" to="." method="_on_SelectGameBtn_pressed"]

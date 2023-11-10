@@ -35,6 +35,7 @@ var cocked_pause_time: float = 0.05 # čas za napolnitev vseh spawnanih ghostov 
 # bursting
 var burst_speed: float = 0 # glavna (trenutna) hitrost
 var burst_speed_max: float = 0 # maximalna hitrost v tweenu (določena med kokanjem)
+var burst_speed_addon: float = 12
 var strech_ghost_shrink_time: float = 0.2
 var burst_direction_set: bool = false
 var burst_power: int # moč v številu ghosts_count
@@ -54,20 +55,20 @@ var die_shake_decay: float = 0.1
 
 # energija in hitrost
 var player_energy: float # player jo pozna samo zaradi spreminjanja obnašanja ... = Global.game_manager.player_stats["player_energy"]
-var max_player_energy: float = Profiles.game_rules["player_start_energy"]
-var max_step_time: float = Profiles.game_rules["max_step_time"]
-var min_step_time: float = Profiles.game_rules["min_step_time"]
-var speed_slowdown_rate: int = Profiles.game_rules["speed_slowdown_rate"] # višja je, počasneje se manjša
+var max_player_energy: float = Global.game_manager.player_settings["start_energy"]
+var step_time_slow: float = Global.game_manager.player_settings["step_time_slow"]
+var step_time_fast: float = Global.game_manager.player_settings["step_time_fast"]
+var slowdown_rate: int = Global.game_manager.player_settings["slowdown_rate"] # višja je, počasneje se manjša
 var current_player_energy_part: float 
 
 # dihanje
 var last_breath_active: bool = false 
 var last_breath_loop: int = 0
-var last_breath_loop_limit: int = Profiles.game_rules["last_breath_loop_limit"]
+var last_breath_loop_limit: int = 3
 
 # transparenca energije
-onready var poly_pixel: Polygon2D = $PolyPixel
 var skill_sfx_playing: bool = false # da lahko kličem is procesne funkcije
+onready var poly_pixel: Polygon2D = $PolyPixel
 
 var pixel_color: Color
 onready var cell_size_x: int = Global.level_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
@@ -126,14 +127,14 @@ func state_machine():
 					Global.sound_manager.stop_sfx("skilled")
 					skill_sfx_playing = false
 			# toggle energy_speed mode
-			if Profiles.game_rules["speed_with_energy_mode"]:
-				var slow_trim_size: float = max_step_time * max_player_energy
+			if Global.game_manager.player_settings["slowdown_mode"]:
+				var slow_trim_size: float = step_time_slow * max_player_energy
 				var energy_factor: float = (max_player_energy - slow_trim_size) / player_energy
-				var energy_step_time = energy_factor / speed_slowdown_rate # ta variabla je zato, da se vedno seta nova in potem ne raste s FP
+				var energy_step_time = energy_factor / slowdown_rate # ta variabla je zato, da se vedno seta nova in potem ne raste s FP
 				# omejim najbolj počasno
-				step_time = clamp(energy_step_time, min_step_time, max_step_time)
+				step_time = clamp(energy_step_time, step_time_fast, step_time_slow)
 			else:
-				step_time = min_step_time
+				step_time = step_time_fast
 			idle_inputs()
 		States.STEPPING:
 #			animation_player.stop() # stop dihanje
@@ -194,7 +195,7 @@ func on_collision():
 		Global.sound_manager.stop_sfx("burst")
 		Global.sound_manager.play_sfx("hit_stray")
 			
-		if Profiles.game_rules["pick_neighbour_mode"]:
+		if Global.game_manager.game_settings["pick_neighbour_mode"]:
 			if Global.game_manager.colors_to_pick and not Global.game_manager.colors_to_pick.has(collision.collider.pixel_color): # če pobrana barva ni enaka barvi soseda
 				end_move()
 				return # v tem primeru se spodnjidve vrstici ne izvedeta in pixel se ne obarva
@@ -205,7 +206,7 @@ func on_collision():
 		Global.hud.color_picked(collision.collider.pixel_color)
 #		collision.collider.die(1) # edini oziroma prvi v vrsti
 		
-		if Profiles.game_rules["pick_neighbour_mode"]: # pick_neighbour ne podpira multikilla
+		if Global.game_manager.game_settings["pick_neighbour_mode"]: # pick_neighbour ne podpira multikilla
 			collision.collider.die(1) # edini oziroma prvi v vrsti
 			end_move()
 			return 
@@ -275,7 +276,7 @@ func idle_inputs():
 #			current_state = States.COCKING
 	# normalno
 	if Input.is_action_pressed("space") and current_state == States.IDLE: # brez "just" dela po stisku smeri ... ni ok
-		if Profiles.game_rules["burst_limit_mode"] and Global.game_manager.player_stats["burst_count"] >= Profiles.game_rules["burst_limit_count"]:
+		if Global.game_manager.game_settings["burst_limit_mode"] and Global.game_manager.player_stats["burst_count"] >= Global.game_manager.game_settings["burst_limit_count"]:
 			return	
 		current_state = States.COCKING
 
@@ -321,7 +322,7 @@ func bursting_inputs():
 
 func skill_inputs():
 	
-	if Profiles.game_rules["skill_limit_mode"] and Global.game_manager.player_stats["skill_count"] >= Profiles.game_rules["skill_limit_count"]:
+	if Global.game_manager.game_settings["skill_limit_mode"] and Global.game_manager.player_stats["skill_count"] >= Global.game_manager.game_settings["skill_limit_count"]:
 		return
 	if player_energy <= 1:
 		return
@@ -371,8 +372,10 @@ func die():
 
 
 func revive():
+	
 	modulate.a = 0
-	yield(get_tree().create_timer(Profiles.game_rules["dead_time"]), "timeout")
+	var dead_time: float = 2
+	yield(get_tree().create_timer(dead_time), "timeout")
 	animation_player.play("revive")
 
 	
@@ -434,7 +437,7 @@ func cock_burst():
 			if ghost_cocking_time > ghost_cocking_time_limit:
 				ghost_cocking_time = 0
 				# prištejem hitrost bursta
-				burst_speed_max += Profiles.game_rules["burst_speed_addon"]
+				burst_speed_max += burst_speed_addon
 				# spawnaj cock celico
 				spawn_cock_ghost(cock_direction, cocked_ghosts.size() + 1) # + 1 zato, da se prvi ne spawna direktno nad pixlom
 
@@ -510,7 +513,7 @@ func stop_burst():
 	Input.start_joy_vibration(0, 0.6, 0.2, 0.2)
 	Global.sound_manager.play_sfx("burst_stop")
 	# če je hitrost večja od ene enote ne rabim overšuta
-	if burst_speed <= Profiles.game_rules["burst_speed_addon"]:
+	if burst_speed <= burst_speed_addon:
 		end_move()
 	else:
 		var burst_direction = direction # smer moram pobrat pred "end_move"

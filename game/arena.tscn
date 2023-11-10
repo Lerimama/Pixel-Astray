@@ -1,11 +1,11 @@
 [gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://game/arena.gd" type="Script" id=1]
-[ext_resource path="res://assets/resources/arena_tileset.tres" type="TileSet" id=2]
+[ext_resource path="res://assets/resources/tileset_arena.tres" type="TileSet" id=2]
 [ext_resource path="res://game/tilemaps/arena_tilemap.gd" type="Script" id=3]
-[ext_resource path="res://assets/resources/animation_pixelate.tres" type="Animation" id=4]
+[ext_resource path="res://assets/resources/anim_pixelate.tres" type="Animation" id=4]
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=6]
-[ext_resource path="res://assets/resources/arena_environment.tres" type="Environment" id=8]
+[ext_resource path="res://assets/resources/env_arena.tres" type="Environment" id=8]
 [ext_resource path="res://managers/game_manager.gd" type="Script" id=10]
 
 [sub_resource type="Animation" id=3]

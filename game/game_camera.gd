@@ -127,7 +127,7 @@ func zoom_in():
 	zoom_in_tween.parallel().tween_property(Global.hud.header, "rect_position:y", 0, 2)
 	zoom_in_tween.parallel().tween_property(Global.hud.footer, "rect_position:y", 720 - 56, 2)
 	zoom_in_tween.tween_callback(self, "emit_signal", ["zoomed_in"])
-#	zoom_in_tween.tween_callback(Global.game_countdown, "start_countdown").set_delay(1)
+#	zoom_in_tween.tween_callback(Global.start_countdown, "start_countdown").set_delay(1)
 	
 	
 func zoom_out():

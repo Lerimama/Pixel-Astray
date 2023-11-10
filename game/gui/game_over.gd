@@ -69,10 +69,10 @@ func fade_in_new():
 
 	var focus_btn: Button
 
-	if Global.game_manager.game_data["level"] == Profiles.Levels.TUTORIAL:
+	if Global.game_manager.level_data["level"] == Profiles.Levels.TUTORIAL:
 		current_content = content_tutorial
 		focus_btn = $ContentTutorial/Menu/QuitBtn
-	elif Global.game_manager.game_data["level"] == Profiles.Levels.PRACTICE:
+	elif Global.game_manager.level_data["level"] == Profiles.Levels.PRACTICE:
 		current_content = content_practice
 		focus_btn = $ContentPractice/Menu/RestartBtn
 	else:
@@ -91,9 +91,9 @@ func fade_in_new():
 	
 	write_gameover_data()
 	
-#	if Global.game_manager.game_data["level"] != Profiles.Levels.TUTORIAL and Global.game_manager.game_data["level"] != Profiles.Levels.PRACTICE:
+#	if Global.game_manager.level_data["level"] != Profiles.Levels.TUTORIAL and Global.game_manager.level_data["level"] != Profiles.Levels.PRACTICE:
 	if current_content == content_game:
-		highscore_table.get_highscore_table(Global.game_manager.game_data["level"], Global.data_manager.current_player_ranking)
+		highscore_table.get_highscore_table(Global.game_manager.level_data["level"], Global.data_manager.current_player_ranking)
 
 	yield(get_tree().create_timer(3), "timeout")
 	current_content.visible = true
@@ -176,7 +176,7 @@ func fade_in_tutorial():
 #	fade_in.tween_callback(Global.sound_manager, "play_sfx", [current_jingle])
 #
 #	write_gameover_data()
-#	highscore_table.get_highscore_table(Global.game_manager.game_data["level"], Global.data_manager.current_player_ranking)
+#	highscore_table.get_highscore_table(Global.game_manager.level_data["level"], Global.data_manager.current_player_ranking)
 #
 #	content_game.visible = true
 #
@@ -266,7 +266,7 @@ func show_content():
 	
 	# title se odfejda v "close_name_input()"
 	write_gameover_data()
-	highscore_table.get_highscore_table(Global.game_manager.game_data["level"], Global.data_manager.current_player_ranking)
+	highscore_table.get_highscore_table(Global.game_manager.level_data["level"], Global.data_manager.current_player_ranking)
 	
 	content_game.visible = true
 
@@ -278,41 +278,38 @@ func show_content():
 
 func write_gameover_data():
 	
-	var player_gameover_stats: Dictionary = Global.game_manager.player_stats
-	var game_gameover_stats: Dictionary = Global.game_manager.game_data
-
 	var time_used: int = Global.hud.game_timer.time_since_start
 	
-	var current_level_key = Global.game_manager.game_data["level"]
+	var current_level_key = Global.game_manager.level_data["level"]
 	var current_level_name = Profiles.Levels.keys()[current_level_key]
 
 	if current_level_key == Profiles.Levels.TUTORIAL:
 		$ContentTutorial/DataContainer/Level.text %= current_level_name
-		$ContentTutorial/DataContainer/Points.text %= str(player_gameover_stats["player_points"])
+		$ContentTutorial/DataContainer/Points.text %= str(Global.game_manager.player_stats["player_points"])
 		$ContentTutorial/DataContainer/Time.text %= str(time_used)
-		$ContentTutorial/DataContainer/CellsTravelled.text %= str(player_gameover_stats["cells_travelled"])
-		$ContentTutorial/DataContainer/BurstCount.text %= str(player_gameover_stats["burst_count"])
-		$ContentTutorial/DataContainer/SkillsUsed.text %= str(player_gameover_stats["skill_count"])
-		$ContentTutorial/DataContainer/PixelsOff.text %= str(game_gameover_stats["off_pixels_count"])
-		$ContentTutorial/DataContainer/AstrayPixels.text %= str(game_gameover_stats["stray_pixels_count"])
+		$ContentTutorial/DataContainer/CellsTravelled.text %= str(Global.game_manager.player_stats["cells_travelled"])
+		$ContentTutorial/DataContainer/BurstCount.text %= str(Global.game_manager.player_stats["burst_count"])
+		$ContentTutorial/DataContainer/SkillsUsed.text %= str(Global.game_manager.player_stats["skill_count"])
+		$ContentTutorial/DataContainer/PixelsOff.text %= str(Global.game_manager.player_stats["colors_collected"])
+		$ContentTutorial/DataContainer/AstrayPixels.text %= str(Global.game_manager.stray_pixels_count)
 	elif current_level_key == Profiles.Levels.PRACTICE:
 		$ContentPractice/DataContainer/Level.text %= current_level_name
-		$ContentPractice/DataContainer/Points.text %= str(player_gameover_stats["player_points"])
+		$ContentPractice/DataContainer/Points.text %= str(Global.game_manager.player_stats["player_points"])
 		$ContentPractice/DataContainer/Time.text %= str(time_used)
-		$ContentPractice/DataContainer/CellsTravelled.text %= str(player_gameover_stats["cells_travelled"])
-		$ContentPractice/DataContainer/BurstCount.text %= str(player_gameover_stats["burst_count"])
-		$ContentPractice/DataContainer/SkillsUsed.text %= str(player_gameover_stats["skill_count"])
-		$ContentPractice/DataContainer/PixelsOff.text %= str(game_gameover_stats["off_pixels_count"])
-		$ContentPractice/DataContainer/AstrayPixels.text %= str(game_gameover_stats["stray_pixels_count"])
+		$ContentPractice/DataContainer/CellsTravelled.text %= str(Global.game_manager.player_stats["cells_travelled"])
+		$ContentPractice/DataContainer/BurstCount.text %= str(Global.game_manager.player_stats["burst_count"])
+		$ContentPractice/DataContainer/SkillsUsed.text %= str(Global.game_manager.player_stats["skill_count"])
+		$ContentPractice/DataContainer/PixelsOff.text %= str(Global.game_manager.player_stats["colors_collected"])
+		$ContentPractice/DataContainer/AstrayPixels.text %= str(Global.game_manager.stray_pixels_count)
 	else:
 		$ContentGame/DataContainer/Level.text %= str(current_level_name)
-		$ContentGame/DataContainer/Points.text %= str(player_gameover_stats["player_points"])
+		$ContentGame/DataContainer/Points.text %= str(Global.game_manager.player_stats["player_points"])
 		$ContentGame/DataContainer/Time.text %= str(time_used)
-		$ContentGame/DataContainer/CellsTravelled.text %= str(player_gameover_stats["cells_travelled"])
-		$ContentGame/DataContainer/BurstCount.text %= str(player_gameover_stats["burst_count"])
-		$ContentGame/DataContainer/SkillsUsed.text %= str(player_gameover_stats["skill_count"])
-		$ContentGame/DataContainer/PixelsOff.text %= str(game_gameover_stats["off_pixels_count"])
-		$ContentGame/DataContainer/AstrayPixels.text %= str(game_gameover_stats["stray_pixels_count"])
+		$ContentGame/DataContainer/CellsTravelled.text %= str(Global.game_manager.player_stats["cells_travelled"])
+		$ContentGame/DataContainer/BurstCount.text %= str(Global.game_manager.player_stats["burst_count"])
+		$ContentGame/DataContainer/SkillsUsed.text %= str(Global.game_manager.player_stats["skill_count"])
+		$ContentGame/DataContainer/PixelsOff.text %= str(Global.game_manager.player_stats["colors_collected"])
+		$ContentGame/DataContainer/AstrayPixels.text %= str(Global.game_manager.stray_pixels_count)
 
 
 # PAVZIRANJE --------------------------------------------------------------------	
@@ -401,7 +398,7 @@ func _on_RestartBtn_pressed() -> void:
 	unpause_tree()
 	Global.main_node.reload_game()
 	
-	if Global.game_manager.game_data["level"] == Profiles.Levels.PRACTICE:
+	if Global.game_manager.level_data["level"] == Profiles.Levels.PRACTICE:
 		$ContentPractice/Menu/RestartBtn.disabled = true # da ne moreš multiklikat
 	else:
 		$ContentGame/Menu/RestartBtn.disabled = true # da ne moreš multiklikat
@@ -413,7 +410,7 @@ func _on_QuitBtn_pressed() -> void:
 	unpause_tree()
 	Global.main_node.game_out()
 	
-	if Global.game_manager.game_data["level"] == Profiles.Levels.PRACTICE:
+	if Global.game_manager.level_data["level"] == Profiles.Levels.PRACTICE:
 		$ContentPractice/Menu/QuitBtn.disabled = true # da ne moreš multiklikat
 	else:
 		$ContentGame/Menu/QuitBtn.disabled = true # da ne moreš multiklikat

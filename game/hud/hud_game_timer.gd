@@ -6,13 +6,13 @@ signal gametime_is_up # pošlje se v hud, ki javi game managerju
 
 var current_second: int # trenutna sekunda znotraj minutnega kroga ... ia izpis na uri
 var game_time: int # čas v tajmerju v sekundah
-var game_time_limit: int # podatki glede časovnih omejitev se pošljejo iz GM-ja
-var time_since_start: int # ne glede na mode, vedno želiš vedet koliko sekund je porabljeno od začetka ... za statistiko
+var game_time_limit: float # podatki glede časovnih omejitev se pošljejo iz GM-ja
+var time_since_start: float # ne glede na mode, vedno želiš vedet koliko sekund je porabljeno od začetka ... za statistiko
 
-onready var sudden_death_limit: int = Profiles.game_rules["sudden_death_limit"]
-onready var level_time_limit: int = Profiles.level_data["game_time_limit"]
-onready var countdown_mode: bool = Profiles.game_rules["timer_mode_countdown"]
-onready var gameover_countdown_duration: int = Profiles.game_rules["gameover_countdown_duration"] # čas, ko je obarvan in se sliši bip bip
+onready var level_time_limit: int = Profiles.default_level_data["game_time_limit"]
+onready var sudden_death_limit: int = Global.game_manager.game_settings["sudden_death_limit"]
+onready var countdown_mode: bool = Global.game_manager.game_settings["timer_mode_countdown"]
+onready var gameover_countdown_duration: int = Global.game_manager.game_settings["gameover_countdown_duration"] # čas, ko je obarvan in se sliši bip bip
 
 
 func _ready() -> void:
@@ -48,7 +48,7 @@ func _process(delta: float) -> void:
 			emit_signal("gametime_is_up") # pošlje se v hud, ki javi game managerju		
 	
 		# activate sudden_death
-		if Profiles.game_rules["suddent_death_mode"]:
+		if Global.game_manager.game_settings["suddent_death_mode"]:
 			if game_time > sudden_death_limit:
 				modulate = Global.color_white
 			elif game_time == sudden_death_limit:
@@ -62,7 +62,7 @@ func _process(delta: float) -> void:
 			emit_signal("gametime_is_up")		
 		
 		# activate sudden_death_active
-		if Profiles.game_rules["suddent_death_mode"]:
+		if Global.game_manager.game_settings["suddent_death_mode"]:
 			if game_time < game_time_limit - sudden_death_limit:
 				modulate = Global.color_white
 			elif game_time == game_time_limit - sudden_death_limit:

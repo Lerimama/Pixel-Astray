@@ -4,6 +4,17 @@ extends Node
 var data_file: = File.new()
 var current_player_ranking: int # da ob rendriranju HS, lahko označim aktualni rezultat ... v GM
 
+var default_level_highscores: Dictionary = { # slovar, ki se uporabi, če še ni nobenega v filetu
+	"1": {"Nobody": 9,},
+	"2": {"Nobody": 8,},
+	"3": {"Nobody": 7,},
+	"4": {"Nobody": 6,},
+	"5": {"Nobody": 5,},
+	"6": {"Nobody": 4,},
+	"7": {"Nobody": 3,},
+	"8": {"Nobody": 2,},
+	"9": {"Nobody": 1,},
+}
 
 func _ready() -> void:
 	Global.data_manager = self
@@ -114,7 +125,7 @@ func read_highscores_from_file(current_level_key: int):
 #		printt("Error loading file", error)
 		data_file.open("user://level_%s_highscores.save" % current_level_name, File.WRITE) # vsak level ma svoj filet
 		# vnesem default HS
-		data_file.store_line(to_json(Profiles.default_level_highscores))
+		data_file.store_line(to_json(default_level_highscores))
 		data_file.close()
 #		printt("Default file created", data_file)
 		# ko je filet ustvarjen grem naprej na podajanje vse HSjev

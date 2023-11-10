@@ -8,7 +8,7 @@ onready var position_control: Control = $Countdown/PositionControl
 
 
 func _ready() -> void:
-	Global.game_countdown = self
+	Global.start_countdown = self
 	visible = false
 
 	
@@ -17,7 +17,7 @@ func start_countdown():
 	visible = true
 	
 	# toggle countdown
-	if Profiles.game_rules["game_countdown_on"]:
+	if Global.game_manager.game_settings["start_countdown_on"]:
 		animation_player.play("countdown_3")
 	else:
 		emit_signal("countdown_finished")
