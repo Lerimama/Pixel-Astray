@@ -16,7 +16,7 @@ var game_manager = null
 var main_camera = null
 var camera_target = null
 var node_creation_parent = null # arena
-var level_tilemap = null
+var game_tilemap = null
 var hud = null
 var start_countdown = null
 var gameover_menu = null
@@ -58,13 +58,13 @@ func print_id (node: Node):
 
 func snap_to_nearest_grid(current_global_position: Vector2, cell_positions):
 	
-	if not is_instance_valid(level_tilemap):
-		print("ERROR! Snapanje na grid ... manjka Global.level_tilemap")
+	if not is_instance_valid(game_tilemap):
+		print("ERROR! Snapanje na grid ... manjka Global.game_tilemap")
 		return
 		
-	var floor_cells: Array = level_tilemap.floor_cells_global_positions
-	var tilemap_cells: Array = level_tilemap.floor_cells_global_positions
-	var cell_size_x: float = level_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
+	var floor_cells: Array = game_tilemap.floor_cells_global_positions
+	var tilemap_cells: Array = game_tilemap.floor_cells_global_positions
+	var cell_size_x: float = game_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 	var current_position: Vector2 = Vector2(current_global_position.x - cell_size_x/2, current_global_position.y - cell_size_x/2)
 	
 	# če ni že snepano
@@ -85,12 +85,11 @@ func snap_to_nearest_grid(current_global_position: Vector2, cell_positions):
 
 func detect_collision_in_direction(ray, direction_to_check):
 	
-	if not is_instance_valid(level_tilemap):
-		print("ERROR! Detect_collision ... manjka Global.level_tilemap")
+	if not is_instance_valid(game_tilemap):
+		print("ERROR! Detect_collision ... manjka Global.game_tilemap")
 		return
 	
-	# var floor_cells: Array = level_tilemap.floor_cells_global_positions
-	var cell_size_x: int = level_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
+	var cell_size_x: int = game_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 	
 	ray.cast_to = direction_to_check * cell_size_x # ray kaže na naslednjo pozicijo 
 	ray.force_raycast_update()	

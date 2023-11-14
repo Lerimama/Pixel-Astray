@@ -280,11 +280,11 @@ func write_gameover_data():
 	
 	var time_used: int = Global.hud.game_timer.time_since_start
 	
-	var current_level_key = Global.game_manager.game_data["game"]
-	var current_level_name = Profiles.Games.keys()[current_level_key]
+	var current_game_key = Global.game_manager.game_data["game"]
+#	var current_game_name = Profiles.Games.keys()[current_game_key]
 
-	if current_level_key == Profiles.Games.TUTORIAL:
-		$ContentTutorial/DataContainer/Level.text %= current_level_name
+	if current_game_key == Profiles.Games.TUTORIAL:
+		$ContentTutorial/DataContainer/Game.text %= Global.game_manager.game_data["game_name"]
 		$ContentTutorial/DataContainer/Points.text %= str(Global.game_manager.player_stats["player_points"])
 		$ContentTutorial/DataContainer/Time.text %= str(time_used)
 		$ContentTutorial/DataContainer/CellsTravelled.text %= str(Global.game_manager.player_stats["cells_travelled"])
@@ -292,8 +292,8 @@ func write_gameover_data():
 		$ContentTutorial/DataContainer/SkillsUsed.text %= str(Global.game_manager.player_stats["skill_count"])
 		$ContentTutorial/DataContainer/PixelsOff.text %= str(Global.game_manager.player_stats["colors_collected"])
 		$ContentTutorial/DataContainer/AstrayPixels.text %= str(Global.game_manager.strays_in_game_count)
-	elif current_level_key == Profiles.Games.PRACTICE:
-		$ContentPractice/DataContainer/Level.text %= current_level_name
+	elif current_game_key == Profiles.Games.PRACTICE:
+		$ContentPractice/DataContainer/Game.text %= Global.game_manager.game_data["game_name"]
 		$ContentPractice/DataContainer/Points.text %= str(Global.game_manager.player_stats["player_points"])
 		$ContentPractice/DataContainer/Time.text %= str(time_used)
 		$ContentPractice/DataContainer/CellsTravelled.text %= str(Global.game_manager.player_stats["cells_travelled"])
@@ -302,7 +302,7 @@ func write_gameover_data():
 		$ContentPractice/DataContainer/PixelsOff.text %= str(Global.game_manager.player_stats["colors_collected"])
 		$ContentPractice/DataContainer/AstrayPixels.text %= str(Global.game_manager.strays_in_game_count)
 	else:
-		$ContentGame/DataContainer/Level.text %= str(current_level_name)
+		$ContentGame/DataContainer/Game.text %= Global.game_manager.game_data["game_name"]
 		$ContentGame/DataContainer/Points.text %= str(Global.game_manager.player_stats["player_points"])
 		$ContentGame/DataContainer/Time.text %= str(time_used)
 		$ContentGame/DataContainer/CellsTravelled.text %= str(Global.game_manager.player_stats["cells_travelled"])

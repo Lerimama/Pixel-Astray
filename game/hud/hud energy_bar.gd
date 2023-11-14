@@ -3,9 +3,8 @@ extends HBoxContainer
 
 var energy: int setget _on_amount_change # energija je konveratana v razmerju velikosti bara
 var previous_energy: int # preverjam smer spremembe lajfa
-onready var tired_energy: int = Global.game_manager.player_settings["tired_energy"]
-#var low_energy_level: float = 0.2 # 10% ... going red 
 
+onready var tired_energy: int = Global.game_manager.player_settings["tired_energy"]
 onready var texture_progress: TextureProgress = $TextureProgress
 
 

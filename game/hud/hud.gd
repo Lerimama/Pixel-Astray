@@ -25,6 +25,7 @@ onready var player_points: Label = $Header/HudLine_TL/PointsCounter/Points
 onready var burst_count: Label = $Header/HudLine_TL/BurstCounter/Label
 onready var skill_count: Label = $Header/HudLine_TL/SkillCounter/Label
 onready var game_timer: HBoxContainer = $Header/GameTimer # uporabljeno v drugih filetih
+onready var game_name: Label = $Header/HudLine_TR/Game
 onready var level: Label = $Header/HudLine_TR/Level
 onready var highscore_label: Label = $Header/HudLine_TR/Highscore
 onready var music_label: Label = $Header/HudLine_TR/MusicLabel
@@ -118,12 +119,15 @@ func writing_stats():
 	
 	if level_key == Profiles.Games.PRACTICE:
 		highscore_label.visible = false
-		level.text = str(Profiles.Games.keys()[level_key])
+		game_name.text = Global.game_manager.game_data["game_name"]
+#		game_name.text = str(Profiles.Games.keys()[level_key])
 	elif level_key == Profiles.Games.TUTORIAL:
-		level.text = str(Profiles.Games.keys()[level_key])
+#		game_name.text = str(Profiles.Games.keys()[level_key])
+		game_name.text = Global.game_manager.game_data["game_name"]
 	else:
 		highscore_label.visible = true
-		level.text = "LEVEL " + str(Profiles.Games.keys()[level_key])
+#		game_name.text = "LEVEL " + str(Profiles.Games.keys()[level_key])
+		game_name.text = Global.game_manager.game_data["game_name"]
 		# hs label
 		if not highscore_broken:
 			highscore_label.text = "HS %04d" % Global.game_manager.game_data["highscore"]

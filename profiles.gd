@@ -18,18 +18,10 @@ var default_player_stats: Dictionary = { # bo verjetno za vsak mode drugačen
 # SETTINGS ---------------------------------------------------------------------------------------------------------
 
 
-#var default_level_data: Dictionary = { # na štartu se napolne s podatki posameznega levela
-#	"level" : Games.TUTORIAL,
-#	"tilemap_path": "res://game/tilemaps/tutorial_tilemap.tscn",
-#	"game_time_limit": 600, # sekund
-#	"strays_start_count": 10, # premaknjeno na tilemap
-#	"highscore": 0000, # se naloži iz  "default_level_highscores" lestvice ob štartu igre, zato, da te lahko opozori že med igro
-#	"highscore_owner": "Nobody", # se naloži iz  "default_level_highscores" lestvice ob štartu igre, zato, da te lahko opozori že med igro
-#}
-
 # na štartu se vrednosti injicirajo v "current_game_data"
-enum Games {TUTORIAL, PRACTICE, S, M, L, XL, XXL}
+enum Games {TUTORIAL, PRACTICE, CLEANER, SPRINTER, CLEANER_S, CLEANER_M, CLEANER_L, XL, XXL}
 var current_game_data: Dictionary
+
 
 var game_data_tutorial: Dictionary = { 
 	"game": Games.TUTORIAL,
@@ -38,30 +30,63 @@ var game_data_tutorial: Dictionary = {
 	"strays_start_count": 10,
 }
 
+# cleaner
+
+var game_data_cleaner_S: Dictionary = { 
+	"game": Games.CLEANER_S,
+	"game_name": "Cleaner S",
+	"tilemap_path": "res://game/tilemaps/cleaner_tilemap.tscn",
+	"game_time_limit": 15,
+	"strays_start_count": 32, 
+	"highscore": 0, # more bit, da ga greba za med igro
+}
+
+var game_data_cleaner_M: Dictionary = {
+	"game": Games.CLEANER_M,
+	"game_name": "Cleaner M",
+	"tilemap_path": "res://game/tilemaps/cleaner_tilemap.tscn",
+	"game_time_limit": 5,
+	"strays_start_count": 140, 
+}
+
+var game_data_cleaner_L: Dictionary = {
+	"game": Games.CLEANER_L,
+	"tilemap_path": "res://game/tilemaps/cleaner_tilemap.tscn",
+	"game_time_limit": 5,
+	"strays_start_count": 320, 
+}
+
+
+
+
+
 var game_data_practice: Dictionary = { 
 	"game": Games.PRACTICE,
-	"tilemap_path": "x",
+	"tilemap_path": "res://game/tilemaps/practice_tilemap.tscn",
 	"game_time_limit": 600,
 	"strays_start_count": 500,
 }
 
-var game_data_S: Dictionary = { 
-	"game": Games.S,
-	"game_time_limit": 5,
-	"strays_start_count": 5, 
+var game_data_cleaner: Dictionary = { 
+	"game": Games.CLEANER,
+	"tilemap_path": "res://game/tilemaps/practice_tilemap.tscn",
+	"game_time_limit": 600,
+	"strays_start_count": 0,
 }
 
-var game_data_M: Dictionary = {
-	"game": Games.M,
-	"game_time_limit": 5,
-	"strays_start_count": 32, 
+var game_data_sprinter: Dictionary = { 
+	"game": Games.SPRINTER,
+	"tilemap_path": "res://game/tilemaps/test_tilemap.tscn",
+#	"tilemap_path": "res://game/tilemaps/cleaner_tilemap.tscn",
+	"game_time_limit": 600,
+	"strays_start_count": 500,
 }
 
-var game_data_L: Dictionary = {
-	"game": Games.L,
-	"game_time_limit": 5,
-	"strays_start_count": 140, 
-}
+
+# ---------------------------------------------------------------------------------------
+
+# cleaner games
+
 
 var game_data_XL: Dictionary = {
 	"game": Games.XL,
@@ -74,6 +99,10 @@ var game_data_XXL: Dictionary = {
 	"game_time_limit": 5,
 	"strays_start_count": 320, 
 }
+
+
+# SETTINGS ---------------------------------------------------------------------------------------------------------
+
 
 var player_settings: Dictionary = { 
 	"start_life": 1, # če je samo en lajf, potem se ikone skrijejo v hudu
@@ -114,7 +143,8 @@ var game_settings: Dictionary = {
 	"start_countdown_on": false, # game_countdown
 }
 
-var current_game = Games.PRACTICE
+var current_game = Games.CLEANER_S
+
 
 func _ready() -> void:
 	match current_game:
@@ -122,6 +152,7 @@ func _ready() -> void:
 			current_game_data = game_data_tutorial
 		Games.PRACTICE:
 			current_game_data = game_data_practice
+
 
 func set_game_data(selected_game) -> void:
 	
@@ -131,6 +162,13 @@ func set_game_data(selected_game) -> void:
 		Games.PRACTICE:
 			current_game_data = game_data_practice
 #			game_settings["start_countdown_on"] = true
+		Games.CLEANER_S: 
+			current_game_data = game_data_cleaner_S
+		Games.CLEANER_M: 
+			current_game_data = game_data_cleaner_M
+		Games.CLEANER_L: 
+			current_game_data = game_data_cleaner_L
+		
 
 
 #var default_level_highscores: Dictionary = { # prazen slovar ... uporabi se ob kreiranju fileta ... uporabi ga Glo

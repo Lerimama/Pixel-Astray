@@ -15,7 +15,7 @@ var neighbouring_cells: Array = [] # stray stalno čekira sosede
 var step_time: float = 0.1
 var is_stepping: bool = false
 
-onready var cell_size_x: int = Global.level_tilemap.cell_size.x
+onready var cell_size_x: int = Global.game_tilemap.cell_size.x
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var vision_ray: RayCast2D = $VisionRay
 onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
@@ -51,10 +51,10 @@ func step(step_direction):
 	
 	is_stepping = true
 	
-	global_position = Global.snap_to_nearest_grid(global_position, Global.level_tilemap.floor_cells_global_positions)
+	global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions)
 	var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 	step_tween.tween_property(self, "position", global_position + step_direction * cell_size_x, step_time)
-	step_tween.tween_callback(Global, "snap_to_nearest_grid", [global_position, Global.level_tilemap.floor_cells_global_positions])
+	step_tween.tween_callback(Global, "snap_to_nearest_grid", [global_position, Global.game_tilemap.floor_cells_global_positions])
 	step_tween.tween_property(self, "is_stepping", false, 0.01)
 
 

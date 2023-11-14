@@ -1627,7 +1627,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Level" type="Label" parent="GUI/Hud/Header/HudLine_TR"]
+[node name="Game" type="Label" parent="GUI/Hud/Header/HudLine_TR"]
 margin_right = 108.0
 margin_bottom = 22.0
 size_flags_horizontal = 8
@@ -1637,16 +1637,27 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Highscore" type="Label" parent="GUI/Hud/Header/HudLine_TR"]
+[node name="Level" type="Label" parent="GUI/Hud/Header/HudLine_TR"]
 margin_left = 132.0
-margin_right = 226.0
+margin_right = 240.0
+margin_bottom = 22.0
+size_flags_horizontal = 8
+text = "LEVEL 00"
+align = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Highscore" type="Label" parent="GUI/Hud/Header/HudLine_TR"]
+margin_left = 264.0
+margin_right = 358.0
 margin_bottom = 22.0
 text = "HS 0000"
 align = 2
 
 [node name="MusicLabel" type="Label" parent="GUI/Hud/Header/HudLine_TR"]
-margin_left = 250.0
-margin_right = 298.0
+margin_left = 382.0
+margin_right = 430.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 48, 0 )
 size_flags_horizontal = 8
@@ -3614,7 +3625,7 @@ __meta__ = {
 }
 
 [node name="Undi" type="ColorRect" parent="GUI/PauseMenu"]
-modulate = Color( 1, 1, 1, 0.627451 )
+modulate = Color( 1, 1, 1, 0.784314 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 1 )
@@ -4126,7 +4137,6 @@ text = "PLAY ON"
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
-visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
 script = ExtResource( 3 )
@@ -4138,6 +4148,85 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 1 )
+
+[node name="TitleNextLevel" type="Control" parent="GUI/GameOver"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -392.0
+margin_top = -168.0
+margin_right = 392.0
+margin_bottom = 223.0
+
+[node name="CleanedLabel" type="Label" parent="GUI/GameOver/TitleNextLevel"]
+modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -252.0
+margin_top = 214.0
+margin_right = 252.0
+margin_bottom = 246.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 5 )
+text = "Progress to next level"
+align = 1
+
+[node name="Congrats" type="TileMap" parent="GUI/GameOver/TitleNextLevel"]
+modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
+position = Vector2( 0, 64 )
+tile_set = ExtResource( 18 )
+cell_size = Vector2( 16, 16 )
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+format = 1
+tile_data = PoolIntArray( 0, 0, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 4, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 10, 0, 0, 12, 0, 0, 16, 0, 0, 18, 0, 0, 19, 0, 0, 20, 0, 0, 21, 0, 0, 22, 0, 0, 24, 0, 0, 25, 0, 0, 26, 0, 0, 27, 0, 0, 28, 0, 0, 30, 0, 0, 31, 0, 0, 32, 0, 0, 33, 0, 0, 36, 0, 0, 37, 0, 0, 38, 0, 0, 39, 0, 0, 40, 0, 0, 42, 0, 0, 43, 0, 0, 44, 0, 0, 45, 0, 0, 46, 0, 0, 48, 0, 0, 65536, 0, 0, 65542, -1610612736, 0, 65546, 0, 0, 65548, 0, 0, 65552, 0, 0, 65554, 0, 0, 65560, 0, 0, 65564, 0, 0, 65566, 0, 0, 65570, 0, 0, 65574, 0, 0, 65578, 0, 0, 65584, 0, 0, 131072, 0, 0, 131078, -1610612736, 0, 131082, 0, 0, 131084, 0, 0, 131085, 0, 0, 131088, 0, 0, 131090, 0, 0, 131096, 0, 0, 131100, 0, 0, 131102, 0, 0, 131106, 0, 0, 131110, 0, 0, 131114, 0, 0, 131120, 0, 0, 196608, 0, 0, 196614, -1610612736, 0, 196618, 0, 0, 196620, 0, 0, 196622, 0, 0, 196624, 0, 0, 196626, 0, 0, 196632, 0, 0, 196633, 0, 0, 196634, 0, 0, 196635, 0, 0, 196638, 0, 0, 196642, 0, 0, 196646, 0, 0, 196651, 0, 0, 196652, 0, 0, 196653, 0, 0, 196656, 0, 0, 262144, 0, 0, 262150, -1610612736, 0, 262154, 0, 0, 262156, 0, 0, 262159, 0, 0, 262160, 0, 0, 262162, 0, 0, 262165, 0, 0, 262166, 0, 0, 262168, 0, 0, 262172, 0, 0, 262174, 0, 0, 262175, 0, 0, 262176, 0, 0, 262177, 0, 0, 262178, 0, 0, 262182, 0, 0, 262190, 0, 0, 262192, 0, 0, 327680, -1610612736, 0, 327686, -1610612736, 0, 327690, 0, 0, 327692, 0, 0, 327696, 0, 0, 327698, 0, 0, 327702, 0, 0, 327704, 0, 0, 327708, 0, 0, 327710, 0, 0, 327714, 0, 0, 327718, 0, 0, 327726, 0, 0, 393216, 0, 0, 393217, 0, 0, 393218, 0, 0, 393219, 0, 0, 393220, 0, 0, 393222, 0, 0, 393223, 0, 0, 393224, 0, 0, 393225, 0, 0, 393226, 0, 0, 393228, 0, 0, 393232, 0, 0, 393234, 0, 0, 393235, 0, 0, 393236, 0, 0, 393237, -1610612736, 0, 393238, -1610612736, 0, 393240, 0, 0, 393244, 0, 0, 393246, 0, 0, 393250, 0, 0, 393254, 0, 0, 393258, 0, 0, 393259, 0, 0, 393260, 0, 0, 393261, 0, 0, 393262, 0, 0, 393264, 0, 0 )
+
+[node name="Points" type="Label" parent="GUI/GameOver/TitleNextLevel"]
+margin_left = 229.0
+margin_top = 272.0
+margin_right = 555.0
+margin_bottom = 290.0
+custom_fonts/font = ExtResource( 23 )
+text = "You've managed toclean all in 68 seconds"
+align = 1
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Menu" type="HBoxContainer" parent="GUI/GameOver/TitleNextLevel"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -106.0
+margin_top = -26.0
+margin_right = 110.0
+margin_bottom = -4.0
+custom_constants/separation = 32
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="QuitBtn" type="Button" parent="GUI/GameOver/TitleNextLevel/Menu"]
+margin_right = 52.0
+margin_bottom = 22.0
+focus_neighbour_right = NodePath("../RestartBtn")
+size_flags_horizontal = 2
+size_flags_vertical = 8
+theme = SubResource( 194 )
+text = "QUIT"
+
+[node name="RestartBtn" type="Button" parent="GUI/GameOver/TitleNextLevel/Menu"]
+margin_left = 84.0
+margin_right = 220.0
+margin_bottom = 22.0
+focus_neighbour_left = NodePath("../QuitBtn")
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme = SubResource( 194 )
+text = "NEXT LEVEL"
 
 [node name="TitleSucces" type="Control" parent="GUI/GameOver"]
 visible = false
@@ -4299,7 +4388,7 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Level" type="Label" parent="GUI/GameOver/ContentTutorial/DataContainer"]
+[node name="Game" type="Label" parent="GUI/GameOver/ContentTutorial/DataContainer"]
 visible = false
 margin_right = 282.0
 margin_bottom = 22.0
@@ -4461,7 +4550,7 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Level" type="Label" parent="GUI/GameOver/ContentPractice/DataContainer"]
+[node name="Game" type="Label" parent="GUI/GameOver/ContentPractice/DataContainer"]
 visible = false
 margin_right = 282.0
 margin_bottom = 22.0
@@ -4617,11 +4706,11 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Level" type="Label" parent="GUI/GameOver/ContentGame/DataContainer"]
+[node name="Game" type="Label" parent="GUI/GameOver/ContentGame/DataContainer"]
 margin_right = 256.0
 margin_bottom = 18.0
 custom_fonts/font = ExtResource( 23 )
-text = "Level: %s"
+text = "Game: %s"
 valign = 2
 __meta__ = {
 "_editor_description_": ""
@@ -5256,6 +5345,8 @@ text = "CONFIRM"
 [connection signal="pressed" from="GUI/PauseMenu/Menu/QuitBtn" to="GUI/PauseMenu" method="_on_QuitBtn_pressed"]
 [connection signal="pressed" from="GUI/PauseMenu/Menu/RestartBtn" to="GUI/PauseMenu" method="_on_RestartBtn_pressed"]
 [connection signal="pressed" from="GUI/PauseMenu/Menu/PlayBtn" to="GUI/PauseMenu" method="_on_PlayBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/TitleNextLevel/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/TitleNextLevel/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/ContentTutorial/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/ContentTutorial/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/ContentPractice/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]

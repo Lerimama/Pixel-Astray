@@ -71,7 +71,7 @@ var skill_sfx_playing: bool = false # da lahko kličem is procesne funkcije
 onready var poly_pixel: Polygon2D = $PolyPixel
 
 var pixel_color: Color
-onready var cell_size_x: int = Global.level_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
+onready var cell_size_x: int = Global.game_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var vision_ray: RayCast2D = $VisionRay
 onready var floor_cells: Array = Global.game_manager.floor_positions
@@ -90,7 +90,7 @@ func _ready() -> void:
 	light_2d.enabled = false
 	modulate = pixel_color # ... pixel_color je določena ob spawnanju z GM
 #	poly_pixel.modulate.a = 1 ... ob spawnanju z GM
-	global_position = Global.snap_to_nearest_grid(global_position, Global.level_tilemap.floor_cells_global_positions)
+	global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions)
 	current_state = States.IDLE
 	
 	
@@ -389,7 +389,7 @@ func step():
 	# če kolajda izbrani smeri gibanja prenesem kontrole na skill
 	if not Global.detect_collision_in_direction(vision_ray, step_direction):
 		current_state = States.STEPPING
-		global_position = Global.snap_to_nearest_grid(global_position, Global.level_tilemap.floor_cells_global_positions)
+		global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions)
 		spawn_trail_ghost()
 		var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 		step_tween.tween_property(self, "position", global_position + direction * cell_size_x, step_time)
@@ -408,7 +408,7 @@ func end_move():
 	burst_speed = 0 # more bit tukaj pred _change state, če ne uničuje tudi sam sebe ... trenutno ni treba?
 	modulate = pixel_color
 	# reset dir
-	global_position = Global.snap_to_nearest_grid(global_position, Global.level_tilemap.floor_cells_global_positions)
+	global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions)
 	# reset ray dir
 	direction = Vector2.ZERO
 

@@ -9,7 +9,7 @@ var game_time: int # čas v tajmerju v sekundah
 var game_time_limit: float # podatki glede časovnih omejitev se pošljejo iz GM-ja
 var time_since_start: float # ne glede na mode, vedno želiš vedet koliko sekund je porabljeno od začetka ... za statistiko
 
-onready var level_time_limit: int = Global.game_manager.game_data["game_time_limit"]
+onready var time_limit: int = Global.game_manager.game_data["game_time_limit"]
 onready var sudden_death_limit: int = Global.game_manager.game_settings["sudden_death_limit"]
 onready var countdown_mode: bool = Global.game_manager.game_settings["timer_mode_countdown"]
 onready var gameover_countdown_duration: int = Global.game_manager.game_settings["gameover_countdown_duration"] # čas, ko je obarvan in se sliši bip bip
@@ -21,8 +21,8 @@ func _ready() -> void:
 	
 	# display pred štartom
 	if countdown_mode:
-		$Mins.text = "%02d" % (level_time_limit / 60)
-		$Secs.text = "%02d" % (level_time_limit % 60)
+		$Mins.text = "%02d" % (time_limit / 60)
+		$Secs.text = "%02d" % (time_limit % 60)
 
 	time_since_start = 0
 
@@ -75,7 +75,7 @@ func start_timer():
 	
 	modulate = Global.color_white
 	
-	game_time_limit = level_time_limit
+	game_time_limit = time_limit
 	
 	if countdown_mode:
 		# če odštevam je začetna številka enaka time limitu v

@@ -21,15 +21,15 @@ func _ready() -> void:
 		minimap.visible = false
 	minimap_viewport.world_2d = viewport_1.world_2d
 	
-	# višina minimape v razmerju s formatom levela
-	var rect = Global.level_tilemap.get_used_rect()
+	# višina minimape v razmerju s formatom tilemapa
+	var rect = Global.game_tilemap.get_used_rect()
 	minimap_viewport.size.y = minimap_viewport.size.x * rect.size.y / rect.size.x
 	
 	
 func set_camera_limits():
 	
-	var tilemap_edge = Global.level_tilemap.get_used_rect()	
-	var tilemap_cell_size = Global.level_tilemap.cell_size
+	var tilemap_edge = Global.game_tilemap.get_used_rect()	
+	var tilemap_cell_size = Global.game_tilemap.cell_size
 	
 	var corner_TL: float = tilemap_edge.position.x * tilemap_cell_size.x
 	var corner_TR: float = tilemap_edge.end.x * tilemap_cell_size.x

@@ -11,7 +11,7 @@ var title_cells_global_positions: Array
 func _ready() -> void:
 	
 	add_to_group(Global.group_tilemap)	
-	Global.level_tilemap = self
+	Global.game_tilemap = self
 	get_tiles()
 
 

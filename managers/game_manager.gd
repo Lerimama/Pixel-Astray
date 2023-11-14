@@ -30,11 +30,10 @@ var available_floor_positions: Array
 
 onready var spectrum_rect: TextureRect = $Spectrum
 onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
-onready var default_level_tilemap: TileMap = $"../Tilemap"
+onready var default_tilemap: TileMap = $"../Tilemap"
 onready var FloatingTag = preload("res://game/hud/floating_tag.tscn")
 onready var StrayPixel = preload("res://game/pixel/stray.tscn")
 onready var PlayerPixel = preload("res://game/pixel/player.tscn")
-
 
 # profiles
 onready var game_settings: Dictionary = Profiles.game_settings # ga med igro ne spreminjaš
@@ -42,7 +41,6 @@ onready var player_settings: Dictionary = Profiles.player_settings # ga med igro
 onready var player_stats: Dictionary = Profiles.default_player_stats.duplicate() # duplikat default profila, ker ga me igro spreminjaš
 
 #onready var curr_game = Profiles.current_game
-#onready var level_data: Dictionary = Profiles.default_level_data # .duplicate() # duplikat default profila, ker ga me igro spreminjaš
 onready var game_data: Dictionary = Profiles.current_game_data # .duplicate() # duplikat default profila, ker ga me igro spreminjaš
 #var curr_game = 
 
@@ -80,9 +78,9 @@ func _ready() -> void:
 	player_stats["player_life"] = player_settings["start_life"]
 	
 	# temp ... na koncu malo drugače
-	if game_data["game"] == Profiles.Games.TUTORIAL:
-		set_tilemap()
-#	set_tilemap()
+#	if game_data["game"] == Profiles.Games.TUTORIAL:
+#		set_tilemap()
+	set_tilemap()
 	call_deferred("set_game") # deferamo, da se naloži tilemap
 	
 	
@@ -98,8 +96,8 @@ func _process(delta: float) -> void:
 func set_game(): 
 	
 	# tilemap
-	Global.level_tilemap.connect("tilemap_completed", self, "_on_tilemap_completed")
-	Global.level_tilemap.get_tiles()
+	Global.game_tilemap.connect("tilemap_completed", self, "_on_tilemap_completed")
+	Global.game_tilemap.get_tiles()
 	
 	# player
 	if game_data["game"] == Profiles.Games.TUTORIAL:
@@ -191,39 +189,13 @@ func game_over():
 		else:
 			Global.gameover_menu.fade_in_highscore()
 	
-			
-#	var current_level = game_data["level"]
-#	if game_data["level"] == Profiles.Games.TUTORIAL:
-#		Global.gameover_menu.fade_in_tutorial()
-#	elif game_data["level"] == Profiles.Games.PRACTICE:
-#		Global.gameover_menu.fade_in_practice()
-#	else:
-#		# YIELD 1 ... čaka na konec preverke rankinga ... če ni rankinga dobi false, če je ne dobi nič
-#		var score_is_ranking = Global.data_manager.manage_gameover_highscores(player_points, current_level) # yielda 2 za name_input je v tej funkciji
-#		if not score_is_ranking:
-#			Global.gameover_menu.fade_in()																																																							
-#		else:
-#			Global.gameover_menu.fade_in_highscore()
-	
-	# HS manage
-#	if game_data["level"] != Profiles.Games.PRACTICE or game_data["level"] != Profiles.Games.TUTORIAL:
-#		# YIELD 1 ... čaka na konec preverke rankinga ... če ni rankinga dobi false, če je ne dobi nič
-#		# ker kličem funkcijo v variablo more počakat, da se funkcija izvede do returna
-#		var score_is_ranking = Global.data_manager.manage_gameover_highscores(player_points, current_level) # yielda 2 za name_input je v tej funkciji
-#		if not score_is_ranking:
-#			Global.gameover_menu.fade_in(game_over_reason)																																																							
-#		else:
-#			Global.gameover_menu.fade_in_empty(game_over_reason)
-#	else:
-#			Global.gameover_menu.fade_in_practice(game_over_reason)
-	
 	
 # SPAWNANJE ----------------------------------------------------------------------------------
 
 
 func set_tilemap():
 	
-	var tilemap_to_release: TileMap = default_level_tilemap
+	var tilemap_to_release: TileMap = default_tilemap
 	var tilemap_to_load_path: String = game_data["tilemap_path"]
 	
 	# release default tilemap	
@@ -331,7 +303,7 @@ func spawn_stray(stray_color):
 	
 	#spawn
 	Global.node_creation_parent.add_child(new_stray_pixel)
-	new_stray_pixel.global_position = Global.snap_to_nearest_grid(new_stray_pixel.global_position, Global.level_tilemap.floor_cells_global_positions)
+	new_stray_pixel.global_position = Global.snap_to_nearest_grid(new_stray_pixel.global_position, Global.game_tilemap.floor_cells_global_positions)
 	
 	# connect
 	new_stray_pixel.connect("stat_changed", self, "_on_stat_changed")			
@@ -381,7 +353,7 @@ func spawn_floating_tag(position: Vector2, value): # kliče ga GM
 	if value == 0:
 		return
 		
-	var cell_size_x: float = Global.level_tilemap.cell_size.x
+	var cell_size_x: float = Global.game_tilemap.cell_size.x
 	
 	var new_floating_tag = FloatingTag.instance()
 	new_floating_tag.z_index = 3 # višje od straysa in playerja
@@ -414,10 +386,6 @@ func _on_tilemap_completed(floor_cells_global_positions: Array, stray_cells_glob
 
 func _on_stat_changed(stat_owner, changed_stat, stat_change):
 	
-#	if game_data["level"] == Profiles.Games.TUTORIAL:	
-#		on_tutorial_stat_changed(stat_owner, changed_stat, stat_change)
-#		return
-		
 	match changed_stat:
 		# from stray
 		"skilled":

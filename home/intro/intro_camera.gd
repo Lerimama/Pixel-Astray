@@ -56,9 +56,6 @@ onready var lacunarity_slider = $UILayer/TestHud/NoiseControl/Lacunarity
 onready var testhud_node = $UILayer/TestHud
 onready var test_toggle_btn = $UILayer/TestToggle
 
-# novo!
-#onready var cell_size_x = Global.level_tilemap.cell_size.x # za zamik glede na tile
-
 # zoom animation
 var header_off_position = - 56
 var footer_off_position = 720
@@ -172,12 +169,6 @@ func _process(delta):
 		position += mouse_position_on_drag_start - get_global_mouse_position()
 
 
-#func _physics_process(delta: float) -> void:
-#
-#	if Global.camera_target:
-#		position = Global.camera_target.position + Vector2(cell_size_x / 2, 0)
-
-
 # ŠEJK ------------------------------------------------------------------------------------------------------------------------
 
 
@@ -202,25 +193,6 @@ func multi_shake_camera(shake_power, shake_time, shake_decay):
 	
 	# apply shake
 	trauma_strength = clamp(trauma_strength, 0, 1)
-
-
-# FOLLOW ------------------------------------------------------------------------------------------------------------------------
-
-#func reset_camera_position():
-#
-#	drag_margin_top = 0
-#	drag_margin_bottom = 0
-#	drag_margin_left = 0
-#	drag_margin_right = 0
-#
-#	# position = Global.level_start_position.global_position
-#
-#	yield(get_tree().create_timer(1), "timeout")
-#
-#	drag_margin_top = 0.2
-#	drag_margin_bottom = 0.2
-#	drag_margin_left = 0.3
-#	drag_margin_right = 0.3
 
 
 # TESTHUD ------------------------------------------------------------------------------------------------------------------------

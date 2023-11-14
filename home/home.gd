@@ -11,6 +11,12 @@ onready var menu: HBoxContainer = $Menu
 onready var intro: Node2D = $IntroViewPortContainer/Viewport/Intro
 onready var intro_viewport: Viewport = $IntroViewPortContainer/Viewport
 
+onready var tutorial_btn: Button = $SelectGame/TutorialBtn
+onready var practice_btn: Button = $SelectGame/PracticeBtn
+onready var cleaner_btn: Button = $SelectGame/CleanerBtn
+onready var pointer_btn: Button = $SelectGame/PointerBtn
+onready var riddler_btn: Button = $SelectGame/RiddlerBtn
+
 
 func _input(event: InputEvent) -> void:
 	
@@ -56,11 +62,11 @@ func _ready():
 	$About/EscHint.modulate.a = 0
 	
 	# games buttons text
-	$SelectGame/SelectGameBtn1.text = "Only " + str(Profiles.game_data_S["game"]) + " pixels astray"
-	$SelectGame/SelectGameBtn2.text = str(Profiles.game_data_M["game"]) + " pixels astray"
-	$SelectGame/SelectGameBtn3.text = str(Profiles.game_data_L["game"]) + " pixels astray"
-	$SelectGame/SelectGameBtn4.text = str(Profiles.game_data_XL["game"]) + " pixels astray"
-	$SelectGame/SelectGameBtn5.text = str(Profiles.game_data_XXL["game"]) + " pixels astray"
+#	$SelectGame/SelectGameBtn1.text = "Only " + str(Profiles.game_data_S["game"]) + " pixels astray"
+#	$SelectGame/SelectGameBtn2.text = str(Profiles.game_data_M["game"]) + " pixels astray"
+#	$SelectGame/SelectGameBtn3.text = str(Profiles.game_data_L["game"]) + " pixels astray"
+#	$SelectGame/SelectGameBtn4.text = str(Profiles.game_data_XL["game"]) + " pixels astray"
+#	$SelectGame/SelectGameBtn5.text = str(Profiles.game_data_XXL["game"]) + " pixels astray"
 
 	
 func open_with_intro(): # ... kliče main.gd -> home_in_intro()
@@ -114,7 +120,7 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 			if animation_reversed("select_game"):
 				return
 			current_screen = Screens.SELECT_GAME
-			$SelectGame/SelectGameBtn1.grab_focus()
+			tutorial_btn.grab_focus()
 			current_esc_hint = $SelectGame/EscHint
 		"about":
 			if animation_reversed("about"):
@@ -136,7 +142,7 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 			current_esc_hint = $Highscores/EscHint
 		"play":
 			Global.main_node.home_out()
-			
+
 	if current_esc_hint != null:
 		var hint_fade_in = get_tree().create_tween()
 		hint_fade_in.tween_property(current_esc_hint, "modulate:a", 1, 1)
@@ -191,6 +197,10 @@ func _on_HighscoresBtn_pressed() -> void:
 	animation_player.play("highscores")
 
 
+func _on_QuitGameBtn_pressed() -> void:
+	get_tree().quit()
+	
+	
 # BACK BTNZ ---------------------------------------------------------------------------------------------------
 
 
@@ -225,43 +235,58 @@ func _on_TutorialBtn_pressed() -> void:
 	
 	Profiles.set_game_data(Profiles.Games.TUTORIAL)
 	
+	Global.sound_manager.play_gui_sfx("screen_slide")
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	animation_player.play("play") # home out je signal na koncu animacije
-	$SelectGame/TutorialBtn.disabled = true # da ne moreš multiklikat
-
-
-func _on_SelectGameBtn0_pressed() -> void:
-	pass
-
 	
-func _on_SelectGameBtn1_pressed() -> void:
+	tutorial_btn.disabled = true # da ne moreš multiklikat
+
+# cleaner
+
+func _on_CleanerSBtn_pressed() -> void:
 	
-	# vnos vrednosti izbranega levela v default level stats
-#	Profiles.default_game_data["game"] = Profiles.level_1_data["level"]
-#	Profiles.default_level_data["game_time_limit"] = Profiles.level_1_data["game_time_limit"]
-#	Profiles.default_level_data["strays_start_count"] = Profiles.level_1_data["strays_start_count"]
-	
+	Profiles.set_game_data(Profiles.Games.CLEANER_S)
+	Global.sound_manager.play_gui_sfx("screen_slide")
 	Global.sound_manager.play_gui_sfx("btn_confirm")
-	Global.main_node.home_out()
-	$SelectGame/SelectGameBtn1.disabled = true # da ne moreš multiklikat
+	animation_player.play("play") # home out je signal na koncu animacije
 
 
-func _on_SelectGame2Btn_pressed() -> void:
-	pass
+func _on_CleanerMBtn_pressed() -> void:
+	Profiles.set_game_data(Profiles.Games.CLEANER_M)
+	Global.sound_manager.play_gui_sfx("screen_slide")
+	Global.sound_manager.play_gui_sfx("btn_confirm")
+	animation_player.play("play")
 
 
-func _on_SelectGame3Btn_pressed() -> void:
-	pass
+func _on_CleanerLBtn_pressed() -> void:
 
-
-func _on_SelectGame4Btn_pressed() -> void:
-	pass
-
-
-func _on_SelectGame5Btn_pressed() -> void:
-	pass
+	Profiles.set_game_data(Profiles.Games.CLEANER_L)
+	Global.sound_manager.play_gui_sfx("screen_slide")
+	Global.sound_manager.play_gui_sfx("btn_confirm")
+	animation_player.play("play")
 	
+	
+func _on_PracticeBtn_pressed() -> void:
+	
+	Profiles.set_game_data(Profiles.Games.PRACTICE)
+	
+	Global.sound_manager.play_gui_sfx("screen_slide")
+	Global.sound_manager.play_gui_sfx("btn_confirm")
+	animation_player.play("play") # home out je signal na koncu animacije
+	
+	practice_btn.disabled = true # da ne moreš multiklikat
 
-func _on_QuitGameBtn_pressed() -> void:
-	get_tree().quit()
+
+func _on_CleanerBtn_pressed() -> void:
+	pass # Replace with function body.
+
+
+func _on_PointerBtn_pressed() -> void:
+	pass # Replace with function body.
+
+
+func _on_RiddlerBtn_pressed() -> void:
+	pass # Replace with function body.
+
+
 

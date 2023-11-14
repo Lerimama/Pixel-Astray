@@ -206,10 +206,9 @@ script = ExtResource( 3 )
 z_index = -3
 
 [node name="BackgroundColor" type="ColorRect" parent="Tilemap/Background"]
-visible = false
 margin_right = 2752.0
 margin_bottom = 1636.0
-color = Color( 0.952941, 0.356863, 0.498039, 1 )
+color = Color( 0.996078, 0.976471, 0.545098, 1 )
 
 [node name="FloorCover" type="Node2D" parent="Tilemap"]
 z_index = -2

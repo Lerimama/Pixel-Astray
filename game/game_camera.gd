@@ -58,7 +58,7 @@ onready var testhud_node = $UILayer/TestHud
 onready var test_toggle_btn = $UILayer/TestToggle
 
 # novo!
-onready var cell_size_x = Global.level_tilemap.cell_size.x # za zamik glede na tile
+onready var cell_size_x = Global.game_tilemap.cell_size.x # za zamik glede na tile
 
 # zoom animation
 var header_off_position = - 56
@@ -135,7 +135,6 @@ func zoom_out():
 	yield(get_tree().create_timer(0.5), "timeout")
 
 	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
-#	zoom_out_tween.tween_callback(self, "release_camera_limits")
 	zoom_out_tween.tween_property(self, "zoom", final_zoom, 2)
 	zoom_out_tween.parallel().tween_property(get_viewport(), "size:y", 720, 2)
 	zoom_out_tween.parallel().tween_property(viewport_header, "rect_min_size:y", 0, 2)
@@ -144,14 +143,6 @@ func zoom_out():
 	zoom_out_tween.parallel().tween_property(Global.hud.footer, "rect_position:y", 720, 2)
 	zoom_out_tween.tween_callback(self, "emit_signal", ["zoomed_out"]).set_delay(1)
 
-
-func release_camera_limits():
-	
-	limit_left = - 10000000
-	limit_right = 10000000
-	limit_top = - 10000000
-	limit_bottom = 10000000
-	
 
 func _process(delta):
 
@@ -217,26 +208,8 @@ func multi_shake_camera(shake_power, shake_time, shake_decay):
 	trauma_strength = clamp(trauma_strength, 0, 1)
 
 
-# FOLLOW ------------------------------------------------------------------------------------------------------------------------
-
-#func reset_camera_position():
-#
-#	drag_margin_top = 0
-#	drag_margin_bottom = 0
-#	drag_margin_left = 0
-#	drag_margin_right = 0
-#
-#	# position = Global.level_start_position.global_position
-#
-#	yield(get_tree().create_timer(1), "timeout")
-#
-#	drag_margin_top = 0.2
-#	drag_margin_bottom = 0.2
-#	drag_margin_left = 0.3
-#	drag_margin_right = 0.3
-
-
 # TESTHUD ------------------------------------------------------------------------------------------------------------------------
+
 
 func set_ui_focus():
 	testhud_node.hide()
