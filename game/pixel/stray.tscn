@@ -1,9 +1,9 @@
 [gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://game/pixel/stray.gd" type="Script" id=1]
-[ext_resource path="res://assets/resources/zbrisane_zazih.../pixelglitch_1.tres" type="Animation" id=2]
-[ext_resource path="res://assets/resources/zbrisane_zazih.../pixelglitch_2.tres" type="Animation" id=3]
-[ext_resource path="res://assets/resources/zbrisane_zazih.../pixelglitch_3.tres" type="Animation" id=4]
+[ext_resource path="res://assets/resources/anim_zbrisane/pixelglitch_1.tres" type="Animation" id=2]
+[ext_resource path="res://assets/resources/anim_zbrisane/pixelglitch_2.tres" type="Animation" id=3]
+[ext_resource path="res://assets/resources/anim_zbrisane/pixelglitch_3.tres" type="Animation" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
@@ -445,7 +445,6 @@ tracks/3/keys = {
 }
 
 [node name="Stray" type="KinematicBody2D"]
-modulate = Color( 1, 1, 1, 0 )
 script = ExtResource( 1 )
 
 [node name="PolyPixel" type="Polygon2D" parent="."]

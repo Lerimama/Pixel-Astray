@@ -89,8 +89,8 @@ func _ready() -> void:
 	add_to_group(Global.group_players)
 	light_2d.enabled = false
 	modulate = pixel_color # ... pixel_color je določena ob spawnanju z GM
-#	poly_pixel.modulate.a = 1 ... ob spawnanju z GM
-	global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions)
+	# poly_pixel.modulate.a = 1 ... ob spawnanju z GM
+	# global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions) ... zaenkrat ni treba ker je plejer štart pozicija bolje narejena
 	current_state = States.IDLE
 	
 	
@@ -427,19 +427,19 @@ func cock_burst():
 		end_move()
 		Global.sound_manager.stop_sfx("burst_cocking")
 		return	# dobra praksa ... zazih
-	Global.sound_manager.play_sfx("burst_cocking")
 		
 	# prostor nadaljevanje napenjanja preverja ghost
 	if cocked_ghosts.size() < cocked_ghost_count_max and cocking_room:
-			# čas držanja tipke (znotraj nastajanja ene cock celice)
-			ghost_cocking_time += 1 / 60.0 # fejk delta
-			# ko poteče čas za eno celico mimo, jo spawnam
-			if ghost_cocking_time > ghost_cocking_time_limit:
-				ghost_cocking_time = 0
-				# prištejem hitrost bursta
-				burst_speed_max += burst_speed_addon
-				# spawnaj cock celico
-				spawn_cock_ghost(cock_direction, cocked_ghosts.size() + 1) # + 1 zato, da se prvi ne spawna direktno nad pixlom
+		# čas držanja tipke (znotraj nastajanja ene cock celice)
+		ghost_cocking_time += 1 / 60.0 # fejk delta
+		# ko poteče čas za eno celico mimo, jo spawnam
+		if ghost_cocking_time > ghost_cocking_time_limit:
+			ghost_cocking_time = 0
+			# prištejem hitrost bursta
+			burst_speed_max += burst_speed_addon
+			# spawnaj cock celico
+			spawn_cock_ghost(cock_direction, cocked_ghosts.size() + 1) # + 1 zato, da se prvi ne spawna direktno nad pixlom
+		Global.sound_manager.play_sfx("burst_cocking")
 
 
 func release_burst(): # delo os release do potiska pleyerjevega pixla
@@ -716,9 +716,11 @@ func play_blinking_sound():
 	# more bit metoda, da jo lahko kličem iz animacije
 	Global.sound_manager.play_sfx("blinking")
 
+
 func play_revive():
 	animation_player.play("revive")
 	print("revivee")
+
 
 # SIGNALI ______________________________________________________________________________________________________________
 	

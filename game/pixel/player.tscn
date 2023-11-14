@@ -2,7 +2,7 @@
 
 [ext_resource path="res://game/pixel/player.gd" type="Script" id=2]
 [ext_resource path="res://assets/light_texture.png" type="Texture" id=3]
-[ext_resource path="res://assets/resources/zbrisane_zazih.../pixelrevive.tres" type="Animation" id=10]
+[ext_resource path="res://assets/resources/anim_zbrisane/pixelrevive.tres" type="Animation" id=10]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
@@ -216,7 +216,6 @@ tracks/1/keys = {
 }
 
 [node name="Player" type="KinematicBody2D"]
-modulate = Color( 1, 1, 1, 0 )
 script = ExtResource( 2 )
 
 [node name="Light2D" type="Light2D" parent="."]

@@ -22,11 +22,12 @@ var spawned_stray_index: int = 0
 var players_in_game: Array = []
 var strays_in_game: Array = [] # za spawnanje v rundah
 var strays_in_game_count: int # za statistiko in GO
+var strays_start_count: int
 
-# tilemap signal data
+# tilemap data
 var floor_positions: Array
 var available_floor_positions: Array
-
+var additional_floor_positions: Array # xtra pozicije za kombo spawn
 
 onready var spectrum_rect: TextureRect = $Spectrum
 onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
@@ -36,13 +37,10 @@ onready var StrayPixel = preload("res://game/pixel/stray.tscn")
 onready var PlayerPixel = preload("res://game/pixel/player.tscn")
 
 # profiles
-onready var game_settings: Dictionary = Profiles.game_settings # ga med igro ne spreminjaš
 onready var player_settings: Dictionary = Profiles.player_settings # ga med igro ne spreminjaš
 onready var player_stats: Dictionary = Profiles.default_player_stats.duplicate() # duplikat default profila, ker ga me igro spreminjaš
-
-#onready var curr_game = Profiles.current_game
+onready var game_settings: Dictionary = Profiles.game_settings # ga med igro ne spreminjaš
 onready var game_data: Dictionary = Profiles.current_game_data # .duplicate() # duplikat default profila, ker ga me igro spreminjaš
-#var curr_game = 
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -219,12 +217,11 @@ func spawn_new_tilemap(tilemap_path):
 
 func spawn_player():
 	
-	var spawn_position = player_start_position
 	spawned_player_index += 1
 	
 	var new_player_pixel = PlayerPixel.instance()
 	new_player_pixel.name = "P%s" % str(spawned_player_index)
-	new_player_pixel.global_position = spawn_position # ... ne rabim snepat ker se v pixlu na ready funkciji
+	new_player_pixel.global_position = player_start_position + Global.game_tilemap.cell_size/2 # ... ne rabim snepat ker se v pixlu na ready funkciji
 	new_player_pixel.pixel_color = player_settings["start_color"]
 	new_player_pixel.z_index = 2 # višje od straysa
 	Global.node_creation_parent.add_child(new_player_pixel)
@@ -251,7 +248,7 @@ func generate_strays():
 func split_stray_colors():
 	
 	# split colors
-	var color_count: int = game_data["strays_start_count"] 
+	var color_count: int = strays_start_count
 	color_count = clamp(color_count, 1, color_count) # za vsak slučaj klempam, da ne more biti nikoli 0 ...  ker je error			
 	
 	# poberem sliko
@@ -266,18 +263,21 @@ func split_stray_colors():
 	# nabiranje barv za vsak pixel
 	var all_colors: Array = []
 	var loop_count = 0
+	
 	for color in color_count:
-		
-		# pozicija pixla na sliki
-		var selected_color_position_x = loop_count * color_skip_size
-		
-		# zajem barve na lokaciji pixla
-		var current_color = spectrum_image.get_pixel(selected_color_position_x, 0)
+		var selected_color_position_x = loop_count * color_skip_size # pozicija pixla na sliki
+		var current_color = spectrum_image.get_pixel(selected_color_position_x, 0) # zajem barve na lokaciji pixla
 		spawn_stray(current_color)
 		all_colors.append(current_color)
+		loop_count += 1
 		
-		loop_count += 1		
-	
+		# optimizacija spawnanja
+#		call_deferred("spawn_stray", current_color)
+#		yield(get_tree().create_timer(0.0001), "timeout")
+#		yield(get_tree(), "physics_frame")
+#		yield(get_tree(), "idle_frame")
+		
+		
 	Global.hud.spawn_color_indicators(all_colors)				
 	strays_in_game_count = spawned_stray_index # količina je enaka zadnjemu indexu
 
@@ -286,30 +286,36 @@ func spawn_stray(stray_color):
 	
 	# ne spawnay, če ni več pozicij
 	if available_floor_positions.empty():
+		print ("no available floor positions")
 		return
 	
-	spawned_stray_index += 1
-
+	spawned_stray_index += 1 # prvi stray ma že številko 1
+	
 	# instance
 	var new_stray_pixel = StrayPixel.instance()
 	new_stray_pixel.name = "Stray%s" % str(spawned_stray_index)
 	new_stray_pixel.pixel_color = stray_color
 	
-	# random grid pozicija
+	# pozicija
 	var random_range = available_floor_positions.size()
 	var selected_cell_index: int = randi() % int(random_range) # + offset
-	new_stray_pixel.global_position = available_floor_positions[selected_cell_index] # + grid_cell_size/2
+	new_stray_pixel.global_position = available_floor_positions[selected_cell_index] + Global.game_tilemap.cell_size/2 # dodana adaptacija zaradi središča pixla
 	new_stray_pixel.z_index = 1
 	
 	#spawn
 	Global.node_creation_parent.add_child(new_stray_pixel)
-	new_stray_pixel.global_position = Global.snap_to_nearest_grid(new_stray_pixel.global_position, Global.game_tilemap.floor_cells_global_positions)
+	# new_stray_pixel.global_position = Global.snap_to_nearest_grid(new_stray_pixel.global_position, Global.game_tilemap.floor_cells_global_positions) ... zaenkrat ni treba ker je spawn pozicija bolje narejena
 	
 	# connect
 	new_stray_pixel.connect("stat_changed", self, "_on_stat_changed")			
 	
 	# odstranim uporabljeno pozicijo
 	available_floor_positions.remove(selected_cell_index)
+	
+	# "selected + random spawn" ... dodam nove "random" pozicije
+	if available_floor_positions.empty() and spawned_stray_index < strays_start_count: # če sem porabil že vse pozicije, straysi pa so še na voljo za spawnanje
+		for added_position in additional_floor_positions:
+			available_floor_positions.append(added_position)
 	
 
 func show_strays():
@@ -369,21 +375,39 @@ func spawn_floating_tag(position: Vector2, value): # kliče ga GM
 
 func _on_tilemap_completed(floor_cells_global_positions: Array, stray_cells_global_positions: Array, no_stray_cells_global_positions: Array, player_start_global_position: Vector2) -> void:
 	
-	# strays
-	if stray_cells_global_positions.empty(): # če ni stray pozicij
+	# ni stray pozicij ... random spawn
+	if stray_cells_global_positions.empty():
+		strays_start_count = game_data["strays_start_count"]
 		available_floor_positions = floor_cells_global_positions.duplicate()
-		# odstranim "no stray" pozicije ... ne dela ... :(
-		# available_floor_positions.erase(no_stray_cells_global_positions)
-	else: # če so stray pozicije
-		game_data["strays_start_count"] = stray_cells_global_positions.size()
+	# so stray pozicije in no-stray pozicije ... kombo spawn
+	elif not stray_cells_global_positions.empty() and not no_stray_cells_global_positions.empty():
+		strays_start_count = game_data["strays_start_count"]
+		available_floor_positions = stray_cells_global_positions.duplicate()
+		additional_floor_positions = floor_cells_global_positions.duplicate()
+	# so samo stray pozicije ... selected spawn
+	else:
+		strays_start_count = stray_cells_global_positions.size()
 		available_floor_positions = stray_cells_global_positions.duplicate()
 	
-	# player
+	# odstranim no-stray pozicije iz available in additional
+	for no_stray_position in no_stray_cells_global_positions: 
+		available_floor_positions.erase(no_stray_position)
+		additional_floor_positions.erase(no_stray_position)	
+	
+	 # odstranim player pozicijo iz available in additional
 	player_start_position = player_start_global_position
-	if available_floor_positions.has(player_start_position): # takoj odstranim celico rezervirano za plejerja
+	if available_floor_positions.has(player_start_position):
 		available_floor_positions.erase(player_start_position)
+	if additional_floor_positions.has(player_start_position):
+		additional_floor_positions.erase(player_start_position)
+	
+	# preventam spawnanje več straysov, kot je pozicij
+	var all_available_stray_positions: int = available_floor_positions.size() + additional_floor_positions.size()
+	if strays_start_count > all_available_stray_positions:
+		strays_start_count = all_available_stray_positions
+		printt("to many strays to spawn", strays_start_count)
 
-
+	
 func _on_stat_changed(stat_owner, changed_stat, stat_change):
 	
 	match changed_stat:

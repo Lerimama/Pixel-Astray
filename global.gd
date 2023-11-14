@@ -65,6 +65,8 @@ func snap_to_nearest_grid(current_global_position: Vector2, cell_positions):
 	var floor_cells: Array = game_tilemap.floor_cells_global_positions
 	var tilemap_cells: Array = game_tilemap.floor_cells_global_positions
 	var cell_size_x: float = game_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
+	
+	# adaptacija zaradi središčne točke strejsa in playerja
 	var current_position: Vector2 = Vector2(current_global_position.x - cell_size_x/2, current_global_position.y - cell_size_x/2)
 	
 	# če ni že snepano

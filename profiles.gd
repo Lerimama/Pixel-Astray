@@ -35,25 +35,28 @@ var game_data_tutorial: Dictionary = {
 var game_data_cleaner_S: Dictionary = { 
 	"game": Games.CLEANER_S,
 	"game_name": "Cleaner S",
-	"tilemap_path": "res://game/tilemaps/cleaner_tilemap.tscn",
-	"game_time_limit": 15,
-	"strays_start_count": 32, 
+	"tilemap_path": "res://game/tilemaps/cleaner_S_tilemap.tscn",
+	"game_time_limit": 600,
+	"strays_start_count": 50, # se upošteva, če ni pozicij
 	"highscore": 0, # more bit, da ga greba za med igro
 }
 
 var game_data_cleaner_M: Dictionary = {
 	"game": Games.CLEANER_M,
 	"game_name": "Cleaner M",
-	"tilemap_path": "res://game/tilemaps/cleaner_tilemap.tscn",
-	"game_time_limit": 5,
+	"tilemap_path": "res://game/tilemaps/cleaner_M_tilemap.tscn",
+	"game_time_limit": 600,
 	"strays_start_count": 140, 
+	"highscore": 0, # more bit, da ga greba za med igro
 }
 
 var game_data_cleaner_L: Dictionary = {
 	"game": Games.CLEANER_L,
-	"tilemap_path": "res://game/tilemaps/cleaner_tilemap.tscn",
-	"game_time_limit": 5,
+	"game_name": "Cleaner L",
+	"tilemap_path": "res://game/tilemaps/cleaner_L_tilemap.tscn",
+	"game_time_limit": 600,
 	"strays_start_count": 320, 
+	"highscore": 0, # more bit, da ga greba za med igro
 }
 
 
@@ -143,16 +146,11 @@ var game_settings: Dictionary = {
 	"start_countdown_on": false, # game_countdown
 }
 
-var current_game = Games.CLEANER_S
+var current_game = Games.CLEANER_L
 
 
 func _ready() -> void:
-	match current_game:
-		Games.TUTORIAL:
-			current_game_data = game_data_tutorial
-		Games.PRACTICE:
-			current_game_data = game_data_practice
-
+	set_game_data(current_game)
 
 func set_game_data(selected_game) -> void:
 	

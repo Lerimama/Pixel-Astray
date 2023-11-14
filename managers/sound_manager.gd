@@ -59,7 +59,7 @@ func play_sfx(effect_for: String):
 		"burst_cocking":
 			if $GameSfx/Burst/BurstCocking.is_playing():
 				return
-			$GameSfx/Burst/BurstCocking.play()	
+			$GameSfx/Burst/BurstCocking.play()
 		"burst_stop":
 			$GameSfx/Burst/BurstStop.play()
 		# skills
@@ -76,6 +76,7 @@ func play_sfx(effect_for: String):
 		"teleport":
 			$GameSfx/Skills/TeleportIn.play()
 		"skilled":
+			return
 			$GameSfx/Skills/SkilledStatic.play()
 		# events
 		"countdown_a":
@@ -130,6 +131,13 @@ func stop_sfx(sfx_to_stop: String):
 		"skilled":
 			$GameSfx/Skills/SkilledStatic.stop()
 		"burst_cocking":
+			# fad out ... ne dela kot bi mislil
+			# var sound_fade_out = get_tree().create_tween()
+			# sound_fade_out.tween_property($GameSfx/Burst/BurstCocking, "volume_db", -80, 1.5 ).set_ease(Tween.EASE_IN)
+			# sound_fade_out.tween_callback($GameSfx/Burst/BurstCocking, "stop")
+			# sound_fade_out.tween_callback($GameSfx/Burst/BurstCocking, "seek", [0.0])
+			# yield(get_tree().create_timer(1.5), "timeout")
+			# $GameSfx/Burst/BurstCocking.volume_db = -15
 			$GameSfx/Burst/BurstCocking.stop()
 		"last_breath":
 			$GameSfx/LastBeat.stop()

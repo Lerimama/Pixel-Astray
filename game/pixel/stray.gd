@@ -7,9 +7,6 @@ export (float, 0, 1) var die_shake_power: float = 0.2
 export (float, 0, 10) var die_shake_time: float = 0.4
 export (float, 0, 1) var die_shake_decay: float = 0.3
 
-#enum StrayState {IDLE, WANDERING}
-#var current_stray_state
-
 var pixel_color: Color
 var neighbouring_cells: Array = [] # stray stalno čekira sosede
 var step_time: float = 0.1
