@@ -25,7 +25,6 @@ func _ready() -> void:
 #	current_stray_state = StrayState.IDLE  
 	modulate = pixel_color
 	modulate.a = 0
-	
 	randomize() # za random die animacije
 
 

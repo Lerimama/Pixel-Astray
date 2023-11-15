@@ -1274,7 +1274,6 @@ rect_min_size = Vector2( 1280, 720 )
 script = ExtResource( 2 )
 
 [node name="Energy" type="Label" parent="GUI/Hud"]
-visible = false
 margin_left = 128.0
 margin_top = 69.0
 margin_right = 221.0
@@ -1286,7 +1285,6 @@ __meta__ = {
 }
 
 [node name="Life" type="Label" parent="GUI/Hud"]
-visible = false
 margin_left = 32.0
 margin_top = 71.0
 margin_right = 114.0
@@ -2684,9 +2682,9 @@ expand = true
 [node name="InfoPanel" type="Control" parent="GUI/Tutorial"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = 24.0
+margin_left = 1304.0
 margin_top = 80.0
-margin_right = 344.0
+margin_right = 1624.0
 margin_bottom = 647.0
 theme = SubResource( 194 )
 
@@ -3406,10 +3404,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -223.0
-margin_top = -40.0
-margin_right = 225.0
-margin_bottom = 248.0
+margin_left = 417.0
+margin_top = 320.0
+margin_right = 865.0
+margin_bottom = 608.0
 theme = SubResource( 194 )
 __meta__ = {
 "_edit_group_": true
@@ -4644,6 +4642,7 @@ size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 23 )
 text = "Player"
 clip_text = true
+uppercase = true
 __meta__ = {
 "_editor_description_": ""
 }
@@ -4679,6 +4678,7 @@ size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 23 )
 text = "Player"
 clip_text = true
+uppercase = true
 __meta__ = {
 "_editor_description_": ""
 }
@@ -4714,6 +4714,7 @@ size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 23 )
 text = "Player"
 clip_text = true
+uppercase = true
 __meta__ = {
 "_editor_description_": ""
 }
@@ -4749,6 +4750,7 @@ size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 23 )
 text = "Player"
 clip_text = true
+uppercase = true
 __meta__ = {
 "_editor_description_": ""
 }
@@ -4784,6 +4786,7 @@ size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 23 )
 text = "Player"
 clip_text = true
+uppercase = true
 __meta__ = {
 "_editor_description_": ""
 }
@@ -4819,6 +4822,7 @@ size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 23 )
 text = "Player"
 clip_text = true
+uppercase = true
 __meta__ = {
 "_editor_description_": ""
 }
@@ -4854,6 +4858,7 @@ size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 23 )
 text = "Player"
 clip_text = true
+uppercase = true
 __meta__ = {
 "_editor_description_": ""
 }
@@ -4889,6 +4894,7 @@ size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 23 )
 text = "Player"
 clip_text = true
+uppercase = true
 __meta__ = {
 "_editor_description_": ""
 }
@@ -4924,6 +4930,7 @@ size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 23 )
 text = "Player"
 clip_text = true
+uppercase = true
 __meta__ = {
 "_editor_description_": ""
 }

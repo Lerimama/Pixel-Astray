@@ -222,7 +222,7 @@ func spawn_player():
 	new_player_pixel.name = "P%s" % str(spawned_player_index)
 	new_player_pixel.global_position = player_start_position + Global.game_tilemap.cell_size/2 # ... ne rabim snepat ker se v pixlu na ready funkciji
 	new_player_pixel.pixel_color = game_settings["player_start_color"]
-	new_player_pixel.z_index = 2 # višje od straysa
+	new_player_pixel.z_index = 1 # nižje od straysa
 	Global.node_creation_parent.add_child(new_player_pixel)
 	
 	new_player_pixel.connect("stat_changed", self, "_on_stat_changed")
@@ -299,7 +299,7 @@ func spawn_stray(stray_color):
 	var random_range = available_floor_positions.size()
 	var selected_cell_index: int = randi() % int(random_range) # + offset
 	new_stray_pixel.global_position = available_floor_positions[selected_cell_index] + Global.game_tilemap.cell_size/2 # dodana adaptacija zaradi središča pixla
-	new_stray_pixel.z_index = 1
+	new_stray_pixel.z_index = 2 # višje od plejerja
 	
 	#spawn
 	Global.node_creation_parent.add_child(new_stray_pixel)
