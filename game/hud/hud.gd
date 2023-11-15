@@ -25,8 +25,8 @@ onready var player_points: Label = $Header/HudLine_TL/PointsCounter/Points
 onready var burst_count: Label = $Header/HudLine_TL/BurstCounter/Label
 onready var skill_count: Label = $Header/HudLine_TL/SkillCounter/Label
 onready var game_timer: HBoxContainer = $Header/GameTimer # uporabljeno v drugih filetih
-onready var game_name: Label = $Header/HudLine_TR/Game
-onready var level: Label = $Header/HudLine_TR/Level
+onready var game_name: Label = $Header/HudLine_TR/GameLevel/Game
+onready var level: Label = $Header/HudLine_TR/GameLevel/Level
 onready var highscore_label: Label = $Header/HudLine_TR/Highscore
 onready var music_label: Label = $Header/HudLine_TR/MusicLabel
 onready var on_icon: TextureRect = $Header/HudLine_TR/MusicLabel/OnIcon
@@ -56,7 +56,7 @@ func _ready() -> void:
 	energy_warning_popup.visible = false
 	
 	# disable life icons if
-	if Global.game_manager.player_settings["start_life"] == 1:
+	if Global.game_manager.game_settings["player_start_life"] == 1:
 		life_counter.visible = false
 	else:
 		life_counter.visible = true
@@ -67,13 +67,13 @@ func _process(delta: float) -> void:
 	writing_stats()
 	
 	# ček HS and show popup
-	if Global.game_manager.game_data["game"] > 1: # 0 = tutorial, 1 = practice
+	if Global.game_manager.game_data["game"] != Profiles.Games.TUTORIAL:
 		check_for_hs()
 	
 	# show popup energy warning
-	if Global.game_manager.player_stats["player_energy"] > Global.game_manager.player_settings["tired_energy"]:
+	if Global.game_manager.player_stats["player_energy"] > Global.game_manager.game_settings["tired_energy_level"]:
 		energy_warning_popup.visible = false	
-	elif Global.game_manager.player_stats["player_energy"] <= Global.game_manager.player_settings["tired_energy"] and Global.game_manager.player_stats["player_energy"] > 2:
+	elif Global.game_manager.player_stats["player_energy"] <= Global.game_manager.game_settings["tired_energy_level"] and Global.game_manager.player_stats["player_energy"] > 2:
 		energy_warning_popup.visible = true
 		var energy_warning_string: String = "Low energy! Only %s steps remaining." % str(Global.game_manager.player_stats["player_energy"] - 1)
 		steps_remaining.text = energy_warning_string
@@ -114,30 +114,25 @@ func check_for_hs():
 		
 func writing_stats():	
 	
-	# level setup
-	var level_key = Global.game_manager.game_data["game"]
-	
-	if level_key == Profiles.Games.PRACTICE:
-		highscore_label.visible = false
+	# game hud setup
+	var game_key = Global.game_manager.game_data["game"]
+	if game_key == Profiles.Games.TUTORIAL:
 		game_name.text = Global.game_manager.game_data["game_name"]
-#		game_name.text = str(Profiles.Games.keys()[level_key])
-	elif level_key == Profiles.Games.TUTORIAL:
-#		game_name.text = str(Profiles.Games.keys()[level_key])
-		game_name.text = Global.game_manager.game_data["game_name"]
+		level.visible = false
 	else:
 		highscore_label.visible = true
-#		game_name.text = "LEVEL " + str(Profiles.Games.keys()[level_key])
 		game_name.text = Global.game_manager.game_data["game_name"]
-		# hs label
+		level.text = Global.game_manager.game_data["level"]
+		# manage hs label
 		if not highscore_broken:
-			highscore_label.text = "HS %04d" % Global.game_manager.game_data["highscore"]
+			highscore_label.text = "HS %d" % Global.game_manager.game_data["highscore"]
 		else:
-			highscore_label.text = "HS %04d" % Global.game_manager.player_stats["player_points"]
+			highscore_label.text = "HS %d" % Global.game_manager.player_stats["player_points"]
 		
 	# pixel stats
-	player_points.text = "%04d" % Global.game_manager.player_stats["player_points"]
-	burst_count.text = "%02d" % Global.game_manager.player_stats["burst_count"]
-	skill_count.text = "%02d" % Global.game_manager.player_stats["skill_count"]
+	player_points.text = "%0d" % Global.game_manager.player_stats["player_points"]
+	burst_count.text = "%0d" % Global.game_manager.player_stats["burst_count"]
+	skill_count.text = "%0d" % Global.game_manager.player_stats["skill_count"]
 	pixels_off.text = "%03d" % Global.game_manager.player_stats["colors_collected"]
 	stray_pixels.text = "%03d" % Global.game_manager.strays_in_game_count
 	

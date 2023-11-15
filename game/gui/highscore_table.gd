@@ -1,10 +1,10 @@
 extends VBoxContainer
 
 	
-func get_highscore_table(current_level, current_player_ranking):
+func get_highscore_table(current_game, current_player_ranking):
 	
-	# malo spremenjeno, ko sem dal lestvico v meni ... če bodo level bo treba malce drugače 
-	var current_level_highscores = Global.data_manager.read_highscores_from_file(current_level)
+	# malo spremenjeno, ko sem dal lestvico v meni ... če bodo game bo treba malce drugače 
+	var current_game_highscores = Global.data_manager.read_highscores_from_file(current_game)
 	
 	var score_lines: Array = get_children()
 	
@@ -15,7 +15,7 @@ func get_highscore_table(current_level, current_player_ranking):
 		
 		if scoreline_index != 0: # glava tabele
 			# izberem position slovar glede na pozicijo score lineta
-			var current_position_dict: Dictionary = current_level_highscores[scoreline_position_key]
+			var current_position_dict: Dictionary = current_game_highscores[scoreline_position_key]
 			var current_position_dict_values: Array = current_position_dict.values()
 			var current_position_dict_owners: Array = current_position_dict.keys()
 			scoreline.get_node("Position").text = str(scoreline_index) + "."

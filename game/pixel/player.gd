@@ -55,10 +55,10 @@ var die_shake_decay: float = 0.1
 
 # energija in hitrost
 var player_energy: float # player jo pozna samo zaradi spreminjanja obnašanja ... = Global.game_manager.player_stats["player_energy"]
-var max_player_energy: float = Global.game_manager.player_settings["start_energy"]
-var step_time_slow: float = Global.game_manager.player_settings["step_time_slow"]
-var step_time_fast: float = Global.game_manager.player_settings["step_time_fast"]
-var slowdown_rate: int = Global.game_manager.player_settings["slowdown_rate"] # višja je, počasneje se manjša
+var max_player_energy: float = Global.game_manager.game_settings["player_start_energy"]
+var step_time_slow: float = Global.game_manager.game_settings["step_time_slow"]
+var step_time_fast: float = Global.game_manager.game_settings["step_time_fast"]
+var slowdown_rate: int = Global.game_manager.game_settings["slowdown_rate"] # višja je, počasneje se manjša
 var current_player_energy_part: float 
 
 # dihanje
@@ -127,7 +127,7 @@ func state_machine():
 					Global.sound_manager.stop_sfx("skilled")
 					skill_sfx_playing = false
 			# toggle energy_speed mode
-			if Global.game_manager.player_settings["slowdown_mode"]:
+			if Global.game_manager.game_settings["slowdown_mode"]:
 				var slow_trim_size: float = step_time_slow * max_player_energy
 				var energy_factor: float = (max_player_energy - slow_trim_size) / player_energy
 				var energy_step_time = energy_factor / slowdown_rate # ta variabla je zato, da se vedno seta nova in potem ne raste s FP

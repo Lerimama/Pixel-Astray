@@ -12,7 +12,6 @@ onready var intro: Node2D = $IntroViewPortContainer/Viewport/Intro
 onready var intro_viewport: Viewport = $IntroViewPortContainer/Viewport
 
 onready var tutorial_btn: Button = $SelectGame/TutorialBtn
-onready var practice_btn: Button = $SelectGame/PracticeBtn
 onready var cleaner_btn: Button = $SelectGame/CleanerBtn
 onready var pointer_btn: Button = $SelectGame/PointerBtn
 onready var riddler_btn: Button = $SelectGame/RiddlerBtn
@@ -266,17 +265,6 @@ func _on_CleanerLBtn_pressed() -> void:
 	animation_player.play("play")
 	
 	
-func _on_PracticeBtn_pressed() -> void:
-	
-	Profiles.set_game_data(Profiles.Games.PRACTICE)
-	
-	Global.sound_manager.play_gui_sfx("screen_slide")
-	Global.sound_manager.play_gui_sfx("btn_confirm")
-	animation_player.play("play") # home out je signal na koncu animacije
-	
-	practice_btn.disabled = true # da ne moreš multiklikat
-
-
 func _on_CleanerBtn_pressed() -> void:
 	pass # Replace with function body.
 

@@ -1,5 +1,4 @@
 extends TileMap
-# tole imitacija levelnega tilemapa
 
 
 signal tilemap_completed #(floor_tiles_global_positions, player_start_global_position)
