@@ -28,6 +28,8 @@ func _on_amount_change(new_value):
 	
 	if energy <= tired_energy:
 		modulate = Global.color_red
+	else:
+		modulate = Global.color_white
 	
 	set_icons_state()
  

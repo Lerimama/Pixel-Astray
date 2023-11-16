@@ -64,7 +64,7 @@ var current_player_energy_part: float
 # dihanje
 var last_breath_active: bool = false 
 var last_breath_loop: int = 0
-var last_breath_loop_limit: int = 15
+var last_breath_loop_limit: int = 5
 
 # transparenca energije
 var skill_sfx_playing: bool = false # da lahko kličem is procesne funkcije
@@ -639,19 +639,22 @@ func light_on():
 		if last_breath_active == true:
 			light_energy = 1
 		else:
-			light_energy = 0.7
+			light_energy = 0.8
 	else:
 		light_2d.color = pixel_color
 		if last_breath_active == true:
-			light_energy = 0.4
+			light_energy = 0.5
 		else:
 			light_energy = 0.64
+			
+			
 	
 	
 	var light_fade_in = get_tree().create_tween()
 	light_fade_in.tween_callback(light_2d, "set_enabled", [true])
 	light_fade_in.tween_property(light_2d, "energy", light_energy, 0.2).set_ease(Tween.EASE_IN)
-
+	
+	print("light_energy ", light_energy)
 
 func last_breath():
 	

@@ -1,11 +1,8 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://game/pixel/player.gd" type="Script" id=2]
 [ext_resource path="res://assets/light_texture.png" type="Texture" id=3]
 [ext_resource path="res://assets/resources/anim_zbrisane/pixelrevive.tres" type="Animation" id=10]
-
-[sub_resource type="StreamTexture" id=139]
-load_path = "res://.import/light_texture.png-b0eaee3d05a722bbf076add264cd9ce5.stex"
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
@@ -219,23 +216,14 @@ tracks/1/keys = {
 }
 
 [node name="Player" type="KinematicBody2D"]
-modulate = Color( 1, 1, 1, 0.8 )
+modulate = Color( 1, 1, 1, 0.0812916 )
 script = ExtResource( 2 )
 
-[node name="TextureRect" type="TextureRect" parent="."]
-visible = false
-modulate = Color( 1, 1, 1, 0.623529 )
-margin_left = -256.0
-margin_top = -256.0
-margin_right = 256.0
-margin_bottom = 256.0
-texture = SubResource( 139 )
-
 [node name="Light2D" type="Light2D" parent="."]
-position = Vector2( 7.62939e-06, -1.90735e-06 )
-scale = Vector2( 0.375, 0.375 )
+position = Vector2( 7.62939e-06, -9.53674e-06 )
+scale = Vector2( 0.1875, 0.1875 )
 texture = ExtResource( 3 )
-energy = 0.68
+energy = 0.64
 
 [node name="PolyPixel" type="Polygon2D" parent="."]
 modulate = Color( 1, 1, 1, 0.8 )

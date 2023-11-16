@@ -18,8 +18,6 @@ onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indi
 onready var indicator_holder: HBoxContainer = $Footer/ColorSpectrum	
 # header
 onready var header: Control = $Header
-onready var player_life: Label = $Life # _temp, pravi je na samih ikonah
-onready var player_energy: Label = $Energy # temp
 onready var life_counter: HBoxContainer = $Header/HudLine_TL/LifeIcons
 onready var player_points: Label = $Header/HudLine_TL/PointsCounter/Points
 onready var burst_count: Label = $Header/HudLine_TL/BurstCounter/Label
@@ -44,6 +42,9 @@ onready var popups: Control = $Popups # skoz vidno, skrije se na gameover
 onready var highscore_broken_popup: Control = $Popups/HSBroken
 onready var energy_warning_popup: Control = $Popups/EnergyWarning
 onready var steps_remaining: Label = $Popups/EnergyWarning/StepsRemaining
+# debug
+onready var player_life: Label = $Life
+onready var player_energy: Label = $Energy
 
 
 func _ready() -> void:
