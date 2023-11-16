@@ -36,15 +36,3 @@ tracks/1/keys = {
 "update": 0,
 "values": [  ]
 }
-tracks/2/type = "value"
-tracks/2/path = NodePath("Tilemap/FloorCover/FloorCover:color")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 3.18, 3.32, 3.4, 3.48, 3.66, 4.26, 4.4, 4.66 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.427451 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.427451 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.427451 ), Color( 1, 1, 1, 0 ) ]
-}

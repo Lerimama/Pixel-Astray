@@ -64,6 +64,9 @@ func fade_in_no_highscore(): # title in potem game summary
 	if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
 		current_content = content_tutorial
 		focus_btn = $ContentTutorial/Menu/QuitBtn
+	elif Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
+		current_content = content_tutorial
+		focus_btn = $ContentGame/Menu/RestartBtn
 	else:
 		current_content = content_game
 		focus_btn = $ContentGame/Menu/RestartBtn
@@ -133,6 +136,13 @@ func write_gameover_data():
 	var current_game_key = Global.game_manager.game_data["game"]
 
 	if current_game_key == Profiles.Games.TUTORIAL:
+		$ContentTutorial/DataContainer/Points.text %= str(Global.game_manager.player_stats["player_points"])
+		$ContentTutorial/DataContainer/CellsTravelled.text %= str(Global.game_manager.player_stats["cells_travelled"])
+		$ContentTutorial/DataContainer/BurstCount.text %= str(Global.game_manager.player_stats["burst_count"])
+		$ContentTutorial/DataContainer/SkillsUsed.text %= str(Global.game_manager.player_stats["skill_count"])
+		$ContentTutorial/DataContainer/PixelsOff.text %= str(Global.game_manager.player_stats["colors_collected"])
+		$ContentTutorial/DataContainer/AstrayPixels.text %= str(Global.game_manager.strays_in_game_count)
+	elif current_game_key == Profiles.Games.DUEL:
 		$ContentTutorial/DataContainer/Points.text %= str(Global.game_manager.player_stats["player_points"])
 		$ContentTutorial/DataContainer/CellsTravelled.text %= str(Global.game_manager.player_stats["cells_travelled"])
 		$ContentTutorial/DataContainer/BurstCount.text %= str(Global.game_manager.player_stats["burst_count"])

@@ -3,6 +3,7 @@ extends Node
 
 onready var game_camera: Camera2D = $GameView/Viewports/ViewportContainer1/Viewport1/GameCam
 onready var viewport_1: Viewport = $GameView/Viewports/ViewportContainer1/Viewport1
+onready var viewport_2: Viewport = $GameView/Viewports/ViewportContainer2/Viewport2
 
 onready var minimap: ViewportContainer = $Minimap
 onready var minimap_viewport: Viewport = $Minimap/MinimapViewport
@@ -17,14 +18,15 @@ func _ready() -> void:
 	# minimapa
 	if Global.game_manager.game_settings["minimap_on"]:
 		minimap.visible = true
+		minimap_viewport.world_2d = viewport_1.world_2d
+		# višina minimape v razmerju s formatom tilemapa
+		var rect = Global.game_tilemap.get_used_rect()
+		minimap_viewport.size.y = minimap_viewport.size.x * rect.size.y / rect.size.x
 	else:
 		minimap.visible = false
-	minimap_viewport.world_2d = viewport_1.world_2d
 	
-	# višina minimape v razmerju s formatom tilemapa
-	var rect = Global.game_tilemap.get_used_rect()
-	minimap_viewport.size.y = minimap_viewport.size.x * rect.size.y / rect.size.x
-	
+	# multiplejer setup
+	viewport_2.world_2d = viewport_1.world_2d
 	
 func set_camera_limits():
 	

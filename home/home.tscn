@@ -3188,9 +3188,9 @@ text = "to go back"
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 1280.0
-margin_right = 2112.0
+margin_right = 1960.0
 margin_bottom = 720.0
-rect_min_size = Vector2( 832, 720 )
+rect_min_size = Vector2( 680, 720 )
 theme = ExtResource( 15 )
 
 [node name="Title" type="Label" parent="SelectGame"]
@@ -3217,9 +3217,8 @@ margin_bottom = 11.0
 [node name="SelectGameBackBtn" type="TextureButton" parent="SelectGame"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -174.0
+margin_left = -22.0
 margin_top = 76.0
-margin_right = -152.0
 margin_bottom = 98.0
 rect_min_size = Vector2( 16, 16 )
 texture_normal = SubResource( 195 )
@@ -3231,7 +3230,7 @@ flip_h = true
 margin_left = 8.0
 margin_top = 152.0
 margin_right = 160.0
-margin_bottom = 198.0
+margin_bottom = 259.0
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
@@ -3273,58 +3272,27 @@ custom_fonts/font = ExtResource( 14 )
 text = "Najvec kakor lahko dobiš točk ... as"
 autowrap = true
 
-[node name="PracticeBtn" type="Button" parent="SelectGame"]
-margin_left = 352.0
+[node name="Title2" type="Label" parent="SelectGame"]
+margin_left = 193.0
 margin_top = 152.0
-margin_right = 680.0
-margin_bottom = 232.0
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
-text = "Practice"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="CleanerBtn" type="Button" parent="SelectGame"]
-margin_left = 8.0
-margin_top = 255.0
-margin_right = 264.0
-margin_bottom = 400.0
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Title" type="Label" parent="SelectGame/CleanerBtn"]
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
+margin_right = 281.0
+margin_bottom = 174.0
 text = "Cleaner"
 
-[node name="Label" type="Label" parent="SelectGame/CleanerBtn"]
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
+[node name="Label" type="Label" parent="SelectGame"]
+margin_left = 193.0
+margin_top = 178.0
+margin_right = 396.0
+margin_bottom = 196.0
 custom_fonts/font = ExtResource( 14 )
-text = "Clean the glass ..."
+text = "Points"
 autowrap = true
 
 [node name="CleanerSBtn" type="Button" parent="SelectGame"]
-margin_left = 32.0
-margin_top = 328.0
-margin_right = 90.0
-margin_bottom = 376.0
+margin_left = 193.0
+margin_top = 211.0
+margin_right = 251.0
+margin_bottom = 259.0
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
@@ -3356,10 +3324,10 @@ text = "Clean the glass ..."
 autowrap = true
 
 [node name="CleanerMBtn" type="Button" parent="SelectGame"]
-margin_left = 104.0
-margin_top = 328.0
-margin_right = 162.0
-margin_bottom = 376.0
+margin_left = 265.0
+margin_top = 211.0
+margin_right = 323.0
+margin_bottom = 259.0
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
@@ -3391,10 +3359,10 @@ text = "Clean the glass ..."
 autowrap = true
 
 [node name="CleanerLBtn" type="Button" parent="SelectGame"]
-margin_left = 176.0
-margin_top = 328.0
-margin_right = 234.0
-margin_bottom = 376.0
+margin_left = 337.0
+margin_top = 211.0
+margin_right = 395.0
+margin_bottom = 259.0
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
@@ -3426,16 +3394,17 @@ text = "Clean the glass ..."
 autowrap = true
 
 [node name="PointerBtn" type="Button" parent="SelectGame"]
-margin_left = 360.0
-margin_top = 256.0
-margin_right = 544.0
-margin_bottom = 392.0
+margin_left = 288.0
+margin_top = 292.0
+margin_right = 472.0
+margin_bottom = 358.0
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 __meta__ = {
+"_edit_group_": true,
 "_editor_description_": ""
 }
 
@@ -3454,20 +3423,53 @@ margin_top = 40.0
 margin_right = -24.0
 margin_bottom = 58.0
 custom_fonts/font = ExtResource( 14 )
-text = "Collect as many points as you can"
+text = "Time"
 autowrap = true
 
-[node name="RiddlerBtn" type="Button" parent="SelectGame"]
-margin_left = 568.0
-margin_top = 256.0
-margin_right = 679.0
-margin_bottom = 392.0
+[node name="DuelBtn" type="Button" parent="SelectGame"]
+margin_left = 8.0
+margin_top = 292.0
+margin_right = 256.0
+margin_bottom = 384.0
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 __meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Title" type="Label" parent="SelectGame/DuelBtn"]
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 14.0
+margin_right = -24.0
+margin_bottom = 36.0
+text = "Duel"
+
+[node name="Label" type="Label" parent="SelectGame/DuelBtn"]
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 40.0
+margin_right = -24.0
+margin_bottom = 58.0
+custom_fonts/font = ExtResource( 14 )
+text = "Collect as many points as you can"
+autowrap = true
+
+[node name="RiddlerBtn" type="Button" parent="SelectGame"]
+margin_left = 512.0
+margin_top = 292.0
+margin_right = 678.0
+margin_bottom = 358.0
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+__meta__ = {
+"_edit_group_": true,
 "_editor_description_": ""
 }
 
@@ -3486,7 +3488,7 @@ margin_top = 40.0
 margin_right = -24.0
 margin_bottom = 58.0
 custom_fonts/font = ExtResource( 14 )
-text = "Can you clean all ... but with some restrictions."
+text = "Solve"
 autowrap = true
 
 [node name="InfoPanelHor" type="Control" parent="SelectGame"]
@@ -4235,12 +4237,11 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="Highscores/HighscoresBackBtn" to="." method="_on_HighscoresBackBtn_pressed"]
 [connection signal="pressed" from="SelectGame/SelectGameBackBtn" to="." method="_on_SelectGameBackBtn_pressed"]
 [connection signal="pressed" from="SelectGame/TutorialBtn" to="." method="_on_TutorialBtn_pressed"]
-[connection signal="pressed" from="SelectGame/PracticeBtn" to="." method="_on_PracticeBtn_pressed"]
-[connection signal="pressed" from="SelectGame/CleanerBtn" to="." method="_on_CleanerBtn_pressed"]
 [connection signal="pressed" from="SelectGame/CleanerSBtn" to="." method="_on_CleanerSBtn_pressed"]
 [connection signal="pressed" from="SelectGame/CleanerMBtn" to="." method="_on_CleanerMBtn_pressed"]
 [connection signal="pressed" from="SelectGame/CleanerLBtn" to="." method="_on_CleanerLBtn_pressed"]
 [connection signal="pressed" from="SelectGame/PointerBtn" to="." method="_on_PointerBtn_pressed"]
+[connection signal="pressed" from="SelectGame/DuelBtn" to="." method="_on_PointerBtn_pressed"]
 [connection signal="pressed" from="SelectGame/RiddlerBtn" to="." method="_on_RiddlerBtn_pressed"]
 [connection signal="pressed" from="Settings/SettingsBackBtn" to="." method="_on_SettingsBackBtn_pressed"]
 [connection signal="toggled" from="Settings/MenuMusicCheckBox" to="Settings" method="_on_MenuMusicCheckBox_toggled"]

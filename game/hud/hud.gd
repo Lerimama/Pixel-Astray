@@ -68,7 +68,7 @@ func _process(delta: float) -> void:
 	writing_stats()
 	
 	# ček HS and show popup
-	if Global.game_manager.game_data["game"] != Profiles.Games.TUTORIAL:
+	if Global.game_manager.game_data["game"] != Profiles.Games.TUTORIAL and Global.game_manager.game_data["game"] != Profiles.Games.DUEL:
 		check_for_hs()
 	
 	# show popup energy warning
@@ -116,13 +116,15 @@ func check_for_hs():
 func writing_stats():	
 	
 	# game hud setup
+	game_name.text = Global.game_manager.game_data["game_name"]
+	
 	var game_key = Global.game_manager.game_data["game"]
 	if game_key == Profiles.Games.TUTORIAL:
-		game_name.text = Global.game_manager.game_data["game_name"]
 		level.visible = false
+	elif game_key == Profiles.Games.DUEL:
+		highscore_label.visible = false
 	else:
 		highscore_label.visible = true
-		game_name.text = Global.game_manager.game_data["game_name"]
 		level.text = Global.game_manager.game_data["level"]
 		# manage hs label
 		if not highscore_broken:

@@ -3,7 +3,7 @@
 [ext_resource path="res://game/tilemaps/arena_tilemap.gd" type="Script" id=1]
 [ext_resource path="res://assets/resources/tileset_arena.tres" type="TileSet" id=2]
 
-[node name="Tilemap" type="TileMap"]
+[node name="CleanerTilemap" type="TileMap"]
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 32, 32 )
 cell_quadrant_size = 8
@@ -24,23 +24,6 @@ visible = false
 margin_right = 2752.0
 margin_bottom = 1636.0
 color = Color( 0.294118, 0.623529, 1, 1 )
-
-[node name="FloorCover" type="Node2D" parent="."]
-z_index = -2
-
-[node name="FloorCover" type="ColorRect" parent="FloorCover"]
-margin_right = 2752.0
-margin_bottom = 1636.0
-color = Color( 0, 0, 0, 0.588235 )
-
-[node name="WallCover" type="Node2D" parent="."]
-z_index = -1
-
-[node name="CoverColor" type="ColorRect" parent="WallCover"]
-modulate = Color( 1, 1, 1, 0.666667 )
-margin_right = 2752.0
-margin_bottom = 1636.0
-color = Color( 0, 0, 0, 0.666667 )
 
 [node name="_camer_muštr" type="Node2D" parent="."]
 visible = false

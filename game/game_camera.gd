@@ -74,9 +74,6 @@ func _input(_event: InputEvent) -> void: # testview inputs
 	if Input.is_action_just_pressed("left_click") and test_view_on and not mouse_used:
 		multi_shake_camera(test_trauma_strength, test_trauma_time, test_decay_speed)
 		
-#		test_trauma_strength = test_trauma_strength
-#		test_shake_camera(test_trauma_strength)
-
 	if Input.is_mouse_button_pressed(BUTTON_WHEEL_UP) and test_view_on:
 		zoom -= Vector2(0.1, 0.1)
 		zoom_label.text = "Zoom Level: " + str(round(zoom.x * 100)) + "%"
@@ -89,8 +86,13 @@ func _input(_event: InputEvent) -> void: # testview inputs
 
 func _ready():
 	
-	Global.main_camera = self
-	Global.camera_target = null # da se nulira (pri quit game) in je naslednji play brez errorja ... seta se ob spawnanju plejerja
+	if Global.main_camera == null:
+		Global.main_camera = self
+		print ("main_camera 1 > ", Global.main_camera)
+	else:
+		Global.main_camera_2 = self
+		print ("main_camera 2 > ", Global.main_camera_2)
+	
 	
 	set_ui_focus()	
 	update_ui()

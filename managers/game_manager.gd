@@ -14,12 +14,16 @@ var spawn_shake_time: float = 0.5
 var spawn_shake_decay: float = 0.2	
 var strays_spawn_loop: int = 0	
 
-# spawning
+# players
 var player_pixel: KinematicBody2D
-var player_start_position = null  # pogreba iz tajlmepa
 var spawned_player_index: int = 0
-var spawned_stray_index: int = 0 
 var players_in_game: Array = []
+#var players_start_count: int
+var player_start_position = null
+var player_start_positions: Array
+
+# strays
+var spawned_stray_index: int = 0 
 var strays_in_game: Array = [] # za spawnanje v rundah
 var strays_in_game_count: int # za statistiko in GO
 var strays_start_count: int
@@ -96,15 +100,20 @@ func set_game():
 	Global.game_tilemap.connect("tilemap_completed", self, "_on_tilemap_completed")
 	Global.game_tilemap.get_tiles()
 	
-	# player
+	# players
 	if game_data["game"] == Profiles.Games.TUTORIAL:
 		game_settings["player_start_color"] = Global.color_white # more bit pred spawnom
 		player_pixel = spawn_player()
 		player_pixel.modulate.a = 0	
+#	else:
+#		for player_position in player_start_positions:
+#			player_pixel = spawn_player()
 	else:
-		player_pixel = spawn_player()
+		player_pixel = spawn_players()
+		
 	player_stats["player_energy"] = game_settings["player_start_energy"]
 	Global.camera_target = player_pixel
+	
 	
 	yield(get_tree().create_timer(3), "timeout") # da se ekran prikaže
 	
@@ -120,8 +129,9 @@ func set_game():
 		game_data["highscore_owner"] = current_highscore_line[1]
 	
 	# zoom
-	Global.main_camera.zoom_in()
-	yield(Global.main_camera, "zoomed_in")
+	if player_start_positions.size() == 1:
+		Global.main_camera.zoom_in()
+		yield(Global.main_camera, "zoomed_in")
 	
 	# countdown
 	if game_data["game"] != Profiles.Games.TUTORIAL:
@@ -133,7 +143,7 @@ func set_game():
 	
 	
 func start_game():
-
+	printt("players_in_game", players_in_game.size())
 	if game_data["game"] == Profiles.Games.TUTORIAL:
 		Global.tutorial_gui.start() # enable panels
 	else:
@@ -230,6 +240,27 @@ func spawn_player():
 	
 	return new_player_pixel
 
+	
+func spawn_players():
+	
+	for player_position in player_start_positions:
+		
+		spawned_player_index += 1 # torej začnem z 1
+		
+		var new_player_pixel = PlayerPixel.instance()
+		new_player_pixel.name = "P%s" % str(spawned_player_index)
+		new_player_pixel.global_position = player_position + Global.game_tilemap.cell_size/2 # ... ne rabim snepat ker se v pixlu na ready funkciji
+		new_player_pixel.pixel_color = game_settings["player_start_color"]
+		new_player_pixel.z_index = 1 # nižje od straysa
+		Global.node_creation_parent.add_child(new_player_pixel)
+		
+		new_player_pixel.connect("stat_changed", self, "_on_stat_changed")
+		new_player_pixel.set_physics_process(false)
+		
+		printt (new_player_pixel.name, "je spawnan")
+		
+		return new_player_pixel
+
 
 func generate_strays():
 	
@@ -269,13 +300,6 @@ func split_stray_colors():
 		spawn_stray(current_color)
 		all_colors.append(current_color)
 		loop_count += 1
-		
-		# optimizacija spawnanja
-#		call_deferred("spawn_stray", current_color)
-#		yield(get_tree().create_timer(0.0001), "timeout")
-#		yield(get_tree(), "physics_frame")
-#		yield(get_tree(), "idle_frame")
-		
 		
 	Global.hud.spawn_color_indicators(all_colors)				
 	strays_in_game_count = spawned_stray_index # količina je enaka zadnjemu indexu
@@ -372,40 +396,58 @@ func spawn_floating_tag(position: Vector2, value): # kliče ga GM
 # SIGNALI ----------------------------------------------------------------------------------
 
 
-func _on_tilemap_completed(floor_cells_global_positions: Array, stray_cells_global_positions: Array, no_stray_cells_global_positions: Array, player_start_global_position: Vector2) -> void:
+func _on_tilemap_completed(floor_cells_global_positions: Array, stray_cells_global_positions: Array, no_stray_cells_global_positions: Array, player_start_global_positions: Array) -> void:
+#func _on_tilemap_completed(floor_cells_global_positions: Array, stray_cells_global_positions: Array, no_stray_cells_global_positions: Array, player_start_global_position: Vector2) -> void:
 	
-	# ni stray pozicij ... random spawn
+	# STRAYS
+	
+	# random spawn, če ni stray pozicij
 	if stray_cells_global_positions.empty():
 		strays_start_count = game_data["strays_start_count"]
 		available_floor_positions = floor_cells_global_positions.duplicate()
-	# so stray pozicije in no-stray pozicije ... kombo spawn
+	# kombo spawn, če so stray pozicije in no-stray pozicije
 	elif not stray_cells_global_positions.empty() and not no_stray_cells_global_positions.empty():
 		strays_start_count = game_data["strays_start_count"]
 		available_floor_positions = stray_cells_global_positions.duplicate()
 		additional_floor_positions = floor_cells_global_positions.duplicate()
-	# so samo stray pozicije ... selected spawn
+	# selected spawn, če so samo stray pozicije
 	else:
 		strays_start_count = stray_cells_global_positions.size()
 		available_floor_positions = stray_cells_global_positions.duplicate()
 	
-	# odstranim no-stray pozicije iz available in additional
+	# odstranim no-stray pozicije
 	for no_stray_position in no_stray_cells_global_positions: 
 		available_floor_positions.erase(no_stray_position)
 		additional_floor_positions.erase(no_stray_position)	
 	
-	 # odstranim player pozicijo iz available in additional
-	player_start_position = player_start_global_position
-	if available_floor_positions.has(player_start_position):
-		available_floor_positions.erase(player_start_position)
-	if additional_floor_positions.has(player_start_position):
-		additional_floor_positions.erase(player_start_position)
+	# prevent preveč straysov (več kot je možnih pozicij)
+	if strays_start_count > available_floor_positions.size() + additional_floor_positions.size():
+		print("to many strays to spawn: ", strays_start_count - (available_floor_positions.size() + additional_floor_positions.size()))
+		strays_start_count = available_floor_positions.size() + additional_floor_positions.size()
 	
-	# preventam spawnanje več straysov, kot je pozicij
-	var all_available_stray_positions: int = available_floor_positions.size() + additional_floor_positions.size()
-	if strays_start_count > all_available_stray_positions:
-		strays_start_count = all_available_stray_positions
-		printt("to many strays to spawn", strays_start_count)
-
+#	player_start_position = player_start_global_position
+#	 # odstranim player pozicijo iz available in additional
+#	if available_floor_positions.has(player_start_position):
+#		available_floor_positions.erase(player_start_position)
+#	if additional_floor_positions.has(player_start_position):
+#		additional_floor_positions.erase(player_start_position)
+	
+	# players
+	
+	printt("player pos", player_start_global_positions.size(), player_start_global_positions)
+	player_start_positions = player_start_global_positions
+	if player_start_global_positions.size() == 1:
+		player_start_position = player_start_global_positions[0]
+		 # odstranim player pozicijo iz available in additional
+		if available_floor_positions.has(player_start_global_positions[0]):
+			available_floor_positions.erase(player_start_global_positions[0])
+			print("MA")
+		if additional_floor_positions.has(player_start_global_positions[0]):
+			additional_floor_positions.erase(player_start_global_positions[0])
+			print("MA 2")
+	else: 
+		pass
+	
 	
 func _on_stat_changed(stat_owner, changed_stat, stat_change):
 	

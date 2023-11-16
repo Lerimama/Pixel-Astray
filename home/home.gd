@@ -247,15 +247,20 @@ func _on_CleanerSBtn_pressed() -> void:
 	Profiles.set_game_data(Profiles.Games.CLEANER_S)
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	Global.sound_manager.play_gui_sfx("btn_confirm")
-	animation_player.play("play") # home out je signal na koncu animacije
+	animation_player.play("play")
+
+	$SelectGame/CleanerSBtn.disabled = true
 
 
 func _on_CleanerMBtn_pressed() -> void:
+	
 	Profiles.set_game_data(Profiles.Games.CLEANER_M)
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	animation_player.play("play")
 
+	$SelectGame/CleanerMBtn.disabled = true
+	
 
 func _on_CleanerLBtn_pressed() -> void:
 
@@ -263,6 +268,8 @@ func _on_CleanerLBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	animation_player.play("play")
+	
+	$SelectGame/CleanerLBtn.disabled = true
 	
 	
 func _on_CleanerBtn_pressed() -> void:

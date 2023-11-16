@@ -71,8 +71,9 @@ var game_settings: Dictionary = {
 # GAMES ---------------------------------------------------------------------------------------------------------
 
 
-enum Games {TUTORIAL, CLEANER_S, CLEANER_M, CLEANER_L, SPRINTER}
+enum Games {TUTORIAL, CLEANER_S, CLEANER_M, CLEANER_L, SPRINTER, DUEL}
 var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
+
 
 var game_data_tutorial: Dictionary = { 
 	"game": Games.TUTORIAL,
@@ -87,7 +88,7 @@ var game_data_cleaner_S: Dictionary = {
 	"game_name": "Cleaner",
 	"level": "S",
 	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_S_tilemap.tscn",
-	"game_time_limit": 600,
+	"game_time_limit": 120,
 	"strays_start_count": 50, # se upošteva, če ni pozicij
 	"highscore": 0, # more bit, da ga greba za med igro
 }
@@ -97,7 +98,7 @@ var game_data_cleaner_M: Dictionary = {
 	"game_name": "Cleaner",
 	"level": "M",
 	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_M_tilemap.tscn",
-	"game_time_limit": 600,
+	"game_time_limit": 300,
 	"strays_start_count": 140, 
 	"highscore": 0,
 }
@@ -112,8 +113,17 @@ var game_data_cleaner_L: Dictionary = {
 	"highscore": 0,
 }
 
+var game_data_duel: Dictionary = {
+	"game": Games.DUEL,
+	"game_name": "The Duel",
+	"level": "L",
+	"tilemap_path": "res://game/tilemaps/duel_tilemap.tscn",
+	"game_time_limit": 600,
+	"strays_start_count": 2, 
+	"highscore": 0,
+}
 
-var current_game = Games.CLEANER_L
+var current_game = Games.DUEL
 
 func _ready() -> void:
 	set_game_data(current_game)
@@ -129,6 +139,8 @@ func set_game_data(selected_game) -> void:
 			current_game_data = game_data_cleaner_M
 		Games.CLEANER_L: 
 			current_game_data = game_data_cleaner_L
+		Games.DUEL: 
+			current_game_data = game_data_duel
 #			game_settings["start_countdown_on"] = true
 		
 

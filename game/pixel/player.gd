@@ -54,12 +54,12 @@ var die_shake_time: float = 0.7
 var die_shake_decay: float = 0.1
 
 # energija in hitrost
+var current_player_energy_part: float # za uravnavanje step zvoka
 var player_energy: float # player jo pozna samo zaradi spreminjanja obnašanja ... = Global.game_manager.player_stats["player_energy"]
 var max_player_energy: float = Global.game_manager.game_settings["player_start_energy"]
 var step_time_slow: float = Global.game_manager.game_settings["step_time_slow"]
 var step_time_fast: float = Global.game_manager.game_settings["step_time_fast"]
 var slowdown_rate: int = Global.game_manager.game_settings["slowdown_rate"] # višja je, počasneje se manjša
-var current_player_energy_part: float 
 
 # dihanje
 var last_breath_active: bool = false 
@@ -646,15 +646,11 @@ func light_on():
 			light_energy = 0.5
 		else:
 			light_energy = 0.64
-			
-			
-	
 	
 	var light_fade_in = get_tree().create_tween()
 	light_fade_in.tween_callback(light_2d, "set_enabled", [true])
 	light_fade_in.tween_property(light_2d, "energy", light_energy, 0.2).set_ease(Tween.EASE_IN)
 	
-	print("light_energy ", light_energy)
 
 func last_breath():
 	

@@ -14,6 +14,7 @@ var game_manager = null
 
 # game
 var main_camera = null
+var main_camera_2 = null
 var camera_target = null
 var node_creation_parent = null # arena
 var game_tilemap = null

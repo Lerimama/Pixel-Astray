@@ -5,9 +5,10 @@ class_name ArenaTilemap
 signal tilemap_completed
 
 var floor_cells_global_positions: Array # global koordinate celic
-var player_start_global_position: Vector2 
 var stray_spawn_cells_global_positions: Array
 var no_stray_cells_global_positions: Array
+var player_start_global_positions: Array 
+var player_start_global_position: Vector2 
 
 
 func _ready() -> void:
@@ -41,13 +42,25 @@ func get_tiles():
 					no_stray_cells_global_positions.append(cell_global_position)
 					floor_cells_global_positions.append(cell_global_position)
 					set_cellv(cell, 0)
-				4: # player spawn position
-					player_start_global_position = cell_global_position # + cell_size # naredi zamik, da je lokacijska točka tileta levo zgoraj ... 
-					floor_cells_global_positions.append(cell_global_position) # v GM damo to pozicijo ven da ni na voljo za generacij pixlov
+				4: # player 1 spawn position
+					# 1 plejer
+#					player_start_global_position = cell_global_position # + cell_size # naredi zamik, da je lokacijska točka tileta levo zgoraj ... 
+#					floor_cells_global_positions.append(cell_global_position) # v GM damo to pozicijo ven da ni na voljo za generacijo pixlov
+#					set_cellv(cell, 0)
+					
+					player_start_global_positions.append(cell_global_position)
+					floor_cells_global_positions.append(cell_global_position)
+					set_cellv(cell, 0)
+					
+				6: # player 2 spawn position
+					player_start_global_positions.append(cell_global_position)
+					floor_cells_global_positions.append(cell_global_position)
 					set_cellv(cell, 0)
 	
+	
 	# pošljemo podatke v GM
-	emit_signal("tilemap_completed", floor_cells_global_positions, stray_spawn_cells_global_positions, no_stray_cells_global_positions, player_start_global_position)
+#	emit_signal("tilemap_completed", floor_cells_global_positions, stray_spawn_cells_global_positions, no_stray_cells_global_positions, player_start_global_position)
+	emit_signal("tilemap_completed", floor_cells_global_positions, stray_spawn_cells_global_positions, no_stray_cells_global_positions, player_start_global_positions)
 	
 	
 func get_collision_tile_id(collider: Node2D, direction: Vector2): # collider je node ki se zaleteva in ne collision object
