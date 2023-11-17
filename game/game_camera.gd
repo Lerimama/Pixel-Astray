@@ -180,8 +180,12 @@ func _process(delta):
 
 func _physics_process(delta: float) -> void:
 
-	if Global.camera_target:
+#	if Global.camera_target:
+#		position = Global.camera_target.position + Vector2(cell_size_x / 2, 0)
+	if Global.main_camera == self and Global.camera_target:
 		position = Global.camera_target.position + Vector2(cell_size_x / 2, 0)
+	elif Global.main_camera_2 == self and Global.camera_target_2:
+		position = Global.camera_target_2.position + Vector2(cell_size_x / 2, 0)
 
 
 # ŠEJK ------------------------------------------------------------------------------------------------------------------------

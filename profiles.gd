@@ -82,7 +82,6 @@ var game_data_tutorial: Dictionary = {
 	"strays_start_count": 10,
 }
 
-
 var game_data_cleaner_S: Dictionary = { 
 	"game": Games.CLEANER_S,
 	"game_name": "Cleaner",
@@ -141,6 +140,7 @@ func set_game_data(selected_game) -> void:
 			current_game_data = game_data_cleaner_L
 		Games.DUEL: 
 			current_game_data = game_data_duel
+			game_settings["player_start_life"] = 3
 #			game_settings["start_countdown_on"] = true
 		
 

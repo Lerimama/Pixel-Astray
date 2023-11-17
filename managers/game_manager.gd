@@ -45,6 +45,12 @@ onready var game_settings: Dictionary = Profiles.game_settings # ga med igro ne 
 onready var game_data: Dictionary = Profiles.current_game_data # .duplicate() # duplikat default profila, ker ga me igro spreminjaš
 onready var player_stats: Dictionary = Profiles.default_player_stats.duplicate() # duplikat default profila, ker ga me igro spreminjaš
 
+#NOVO
+var p1_stats: Dictionary = Profiles.default_player_stats.duplicate()
+var p2_stats: Dictionary = Profiles.default_player_stats.duplicate()
+var active_players: Array
+
+
 
 func _unhandled_input(event: InputEvent) -> void:
 
@@ -74,13 +80,10 @@ func _ready() -> void:
 	Global.game_manager = self	
 	randomize()
 	
-	# nafilam player stats po pravilih igre
+	# nafilam player stats po pravilih igre ......... premaknjeno v spawnanje
 	player_stats["player_energy"] = game_settings["player_start_energy"]
 	player_stats["player_life"] = game_settings["player_start_life"]
-	
-	# temp ... na koncu malo drugače
-#	if game_data["game"] == Profiles.Games.TUTORIAL:
-#		set_tilemap()
+
 	set_tilemap()
 	call_deferred("set_game") # deferamo, da se naloži tilemap
 	
@@ -103,17 +106,28 @@ func set_game():
 	# players
 	if game_data["game"] == Profiles.Games.TUTORIAL:
 		game_settings["player_start_color"] = Global.color_white # more bit pred spawnom
-		player_pixel = spawn_player()
-		player_pixel.modulate.a = 0	
-#	else:
-#		for player_position in player_start_positions:
-#			player_pixel = spawn_player()
+		spawn_players()
+		active_players[0].modulate.a = 0	
+#		player_pixel = spawn_player()
+#		player_pixel.modulate.a = 0	
 	else:
-		player_pixel = spawn_players()
-		
-	player_stats["player_energy"] = game_settings["player_start_energy"]
-	Global.camera_target = player_pixel
+		spawn_players()
 	
+	
+#	player_stats["player_energy"] = game_settings["player_start_energy"]
+#	Global.camera_target = player_pixel
+	
+	p1_stats["player_energy"] = game_settings["player_start_energy"]
+	Global.camera_target = active_players[0]
+	active_players[0].player_camera = Global.main_camera # tole bi lahko 
+	if active_players.size() > 1:
+		p2_stats["player_energy"] = game_settings["player_start_energy"]
+		Global.camera_target_2 = active_players[1]
+		active_players[1].player_camera = Global.main_camera_2
+		
+#	player_stats["player_energy"] = game_settings["player_start_energy"]
+#	player_stats["player_life"] = game_settings["player_start_life"]
+
 	
 	yield(get_tree().create_timer(3), "timeout") # da se ekran prikaže
 	
@@ -123,16 +137,18 @@ func set_game():
 		yield(get_tree().create_timer(1), "timeout") # da si plejer ogleda
 		
 	# hud HS
-	if game_data["game"] != Profiles.Games.TUTORIAL:
+	if game_data["game"] != Profiles.Games.TUTORIAL and game_data["game"] != Profiles.Games.DUEL:
+		print("setam hud hs")
 		var current_highscore_line: Array = Global.data_manager.get_top_highscore(game_data["game"])
 		game_data["highscore"] = current_highscore_line[0]
 		game_data["highscore_owner"] = current_highscore_line[1]
 	
 	# zoom
-	if player_start_positions.size() == 1:
-		Global.main_camera.zoom_in()
-		yield(Global.main_camera, "zoomed_in")
-	
+	Global.main_camera.zoom_in()
+	if active_players.size() > 1:
+		Global.main_camera_2.zoom_in()
+	yield(Global.main_camera, "zoomed_in")
+		
 	# countdown
 	if game_data["game"] != Profiles.Games.TUTORIAL:
 		if Global.game_manager.game_settings["start_countdown_on"]:
@@ -143,11 +159,12 @@ func set_game():
 	
 	
 func start_game():
-	printt("players_in_game", players_in_game.size())
+	
 	if game_data["game"] == Profiles.Games.TUTORIAL:
 		Global.tutorial_gui.start() # enable panels
 	else:
-		player_pixel.set_physics_process(true)
+		for player in active_players:
+			player.set_physics_process(true)
 		Global.hud.game_timer.start_timer() # skrit je v hudu
 		Global.sound_manager.play_music("game")
 	
@@ -168,7 +185,10 @@ func game_over():
 	Global.sound_manager.stop_sfx("last_breath")
 	
 	# pavziram plejerja
-	player_pixel.set_physics_process(false)
+#	player_pixel.set_physics_process(false)
+	
+	for player in active_players:
+		player.set_physics_process(false)
 	
 	# malo časa za show-off
 	yield(get_tree().create_timer(2), "timeout")
@@ -186,7 +206,7 @@ func game_over():
 	var player_points = player_stats["player_points"]
 	
 	# Gameover fejdin
-	if game_data["game"] == Profiles.Games.TUTORIAL:
+	if game_data["game"] == Profiles.Games.TUTORIAL or game_data["game"] == Profiles.Games.DUEL:
 		Global.gameover_menu.fade_in_no_highscore()
 	else:
 		# YIELD 1 ... čaka na konec preverke rankinga ... če ni rankinga dobi false, če je ne dobi nič
@@ -248,7 +268,7 @@ func spawn_players():
 		spawned_player_index += 1 # torej začnem z 1
 		
 		var new_player_pixel = PlayerPixel.instance()
-		new_player_pixel.name = "P%s" % str(spawned_player_index)
+		new_player_pixel.name = "p%s" % str(spawned_player_index)
 		new_player_pixel.global_position = player_position + Global.game_tilemap.cell_size/2 # ... ne rabim snepat ker se v pixlu na ready funkciji
 		new_player_pixel.pixel_color = game_settings["player_start_color"]
 		new_player_pixel.z_index = 1 # nižje od straysa
@@ -257,9 +277,12 @@ func spawn_players():
 		new_player_pixel.connect("stat_changed", self, "_on_stat_changed")
 		new_player_pixel.set_physics_process(false)
 		
-		printt (new_player_pixel.name, "je spawnan")
+		active_players.append(new_player_pixel)
 		
-		return new_player_pixel
+		printt (new_player_pixel.name, "je spawnan", active_players)
+		
+#		player_pixel = new_player_pixel
+#		return 
 
 
 func generate_strays():
@@ -344,7 +367,9 @@ func spawn_stray(stray_color):
 func show_strays():
 	
 	Global.main_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
-	
+	if active_players.size() > 1:
+		Global.main_camera_2.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
+		
 	var strays_to_show_count: int # količina strejsov se more ujemat s številom spawnanih
 	
 	strays_spawn_loop += 1
@@ -451,6 +476,15 @@ func _on_tilemap_completed(floor_cells_global_positions: Array, stray_cells_glob
 	
 func _on_stat_changed(stat_owner, changed_stat, stat_change):
 	
+	# opredelim statistiko za spreminjat lastnika
+	match stat_owner.name:
+		"p1": 
+			print("statistika P1 > ", stat_owner.name)
+			player_stats = p1_stats
+		"p2": 
+			print ("statistika P2 > ", stat_owner.name)
+			player_stats = p2_stats
+		
 	match changed_stat:
 		# from stray
 		"skilled":
@@ -489,7 +523,8 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 			if strays_in_game_count == 0:
 				player_stats["player_points"] += game_settings["all_cleaned_points"]
 				# become white again
-				player_pixel.pixel_color = Color.white
+				stat_owner.pixel_color = Color.white
+#				player_pixel.pixel_color = Color.white
 				current_gameover_reason = GameoverReason.CLEANED
 				game_over()
 		# from player
@@ -528,11 +563,14 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 	player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_settings["player_start_energy"]) 
 	player_stats["player_points"] = clamp(player_stats["player_points"], 0, player_stats["player_points"])	
 
+	print(player_stats)
+	printt("P1 stats", p1_stats)
+	printt(p2_stats)
+	
 		
 func lose_life(life_loser, life_to_lose_amount):
 	
 	player_stats["player_life"] -= life_to_lose_amount
-	
 
 	if player_stats["player_life"] < 1: # game-over, če je bil to zadnji lajf
 		current_gameover_reason = GameoverReason.LIFE

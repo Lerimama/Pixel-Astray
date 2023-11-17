@@ -46,6 +46,19 @@ onready var steps_remaining: Label = $Popups/EnergyWarning/StepsRemaining
 onready var player_life: Label = $Life
 onready var player_energy: Label = $Energy
 
+# new
+onready var game_duel: Label = $Header/GameDuel
+onready var music_label_duel: Label = $Header/MusicLabelDuel
+onready var on_icon_duel: TextureRect = $Header/MusicLabelDuel/OnIcon
+onready var off_icon_duel: TextureRect = $Header/MusicLabelDuel/OffIcon
+onready var hudline_duel: HBoxContainer = $Header/HudLine_TR_Duel
+onready var life_icons_duel: HBoxContainer = $Header/HudLine_TR_Duel/LifeIcons
+onready var energy_bar_duel: HBoxContainer = $Header/HudLine_TR_Duel/EnergyBar
+onready var points_counter_duel: HBoxContainer = $Header/HudLine_TR_Duel/PointsCounter
+onready var hudline_tr: HBoxContainer = $Header/HudLine_TR
+onready var energy_bar: HBoxContainer = $Header/HudLine_TL/EnergyBar
+
+
 
 func _ready() -> void:
 	
@@ -56,19 +69,46 @@ func _ready() -> void:
 	highscore_broken_popup.visible = false
 	energy_warning_popup.visible = false
 	
-	# disable life icons if
+	# skrij life icons če je samo en lajf
 	if Global.game_manager.game_settings["player_start_life"] == 1:
 		life_counter.visible = false
 	else:
 		life_counter.visible = true
 	
+	# setaj energijo
+#	energy_bar_duel.set_icons_state()
+#	energy_bar.set_icons_state()
+	# single / multiplejer setup
+	
+	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
+		game_duel.visible = true
+		music_label_duel.visible = true
+		hudline_duel.visible = true
+		hudline_tr.visible = false
+		
+		music_label = music_label_duel
+		on_icon = on_icon_duel
+		off_icon = off_icon_duel
+#		life_icons_duel.visible =  true
+#		energy_bar_duel.visible =  true
+#		points_counter_duel
+	else:
+		game_duel.visible = false
+		music_label_duel.visible = false
+		hudline_duel.visible = false
+		hudline_tr.visible = true
+		
+	
 	
 func _process(delta: float) -> void:
 	
-	writing_stats()
+	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
+		writing_duel_stats()
+	else:		
+		writing_stats()
 	
 	# ček HS and show popup
-	if Global.game_manager.game_data["game"] != Profiles.Games.TUTORIAL and Global.game_manager.game_data["game"] != Profiles.Games.DUEL:
+	if Global.game_manager.game_data["game"] != Profiles.Games.TUTORIAL or Global.game_manager.game_data["game"] != Profiles.Games.DUEL:
 		check_for_hs()
 	
 	# show popup energy warning
@@ -118,10 +158,9 @@ func writing_stats():
 	# game hud setup
 	game_name.text = Global.game_manager.game_data["game_name"]
 	
-	var game_key = Global.game_manager.game_data["game"]
-	if game_key == Profiles.Games.TUTORIAL:
+	if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
 		level.visible = false
-	elif game_key == Profiles.Games.DUEL:
+	elif Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
 		highscore_label.visible = false
 	else:
 		highscore_label.visible = true
@@ -142,6 +181,27 @@ func writing_stats():
 	# debug
 	player_life.text = "LIFE: %01d" % Global.game_manager.player_stats["player_life"]
 	player_energy.text = "E: %04d" % Global.game_manager.player_stats["player_energy"]
+	
+			
+func writing_duel_stats():	
+	
+	# game hud setup
+#	game_name.text = Global.game_manager.game_data["game_name"]
+	
+	
+	# player 1 stats
+	player_points.text = "%0d" % Global.game_manager.p1_stats["player_points"]
+	burst_count.text = "%0d" % Global.game_manager.p1_stats["burst_count"]
+	skill_count.text = "%0d" % Global.game_manager.p1_stats["skill_count"]
+	pixels_off.text = "%03d" % Global.game_manager.p1_stats["colors_collected"]
+	energy_bar_duel.energy = Global.game_manager.p1_stats["player_energy"]
+	
+	# player 1 stats
+	player_points.text = "%0d" % Global.game_manager.p2_stats["player_points"]
+	pixels_off.text = "%03d" % Global.game_manager.p2_stats["colors_collected"]
+	energy_bar_duel.energy = Global.game_manager.p2_stats["player_energy"]
+	
+	stray_pixels.text = "%03d" % Global.game_manager.strays_in_game_count
 		
 		
 func fade_in():

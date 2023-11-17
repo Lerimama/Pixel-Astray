@@ -36,7 +36,7 @@ points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
 0/shape_one_way = false
 0/shape_one_way_margin = 0.0
 0/shapes = [  ]
-0/z_index = -2
+0/z_index = -3
 1/name = "tile_level_edge"
 1/texture = ExtResource( 4 )
 1/tex_offset = Vector2( 0, 0 )
@@ -94,7 +94,7 @@ points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
 "shape": SubResource( 115 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
-3/z_index = -1
+3/z_index = -2
 4/name = "tile_player_1"
 4/texture = ExtResource( 6 )
 4/tex_offset = Vector2( 0, 0 )

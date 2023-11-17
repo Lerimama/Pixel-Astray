@@ -81,18 +81,40 @@ onready var PixelCollisionParticles: PackedScene = preload("res://game/pixel/pix
 onready var PixelDizzyParticles: PackedScene = preload("res://game/pixel/pixel_dizzy_particles.tscn")
 onready var light_2d: Light2D = $Light2D
 
+# new
+var key_left: String
+var key_right: String
+var key_up: String
+var key_down: String
+var key_burst: String
+var player_camera: Node
 
 func _ready() -> void:
 	
 	randomize() # za random blink animacije
-	
 	add_to_group(Global.group_players)
+
+	# controls setup
+	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
+		key_left = "%s_left" % name
+		key_right = "%s_right" % name
+		key_up = "%s_up" % name
+		key_down = "%s_down" % name
+		key_burst = "%s_burst" % name
+	else:
+		key_left = "ui_left"
+		key_right = "ui_right"
+		key_up = "ui_up"
+		key_down = "ui_down"
+		key_burst = "space"
+	
 	light_2d.enabled = false
-	modulate = pixel_color # ... pixel_color je določena ob spawnanju z GM
-	# poly_pixel.modulate.a = 1 ... ob spawnanju z GM
-	# global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions) ... zaenkrat ni treba ker je plejer štart pozicija bolje narejena
+	modulate = pixel_color # pixel_color je določen ob spawnu z GM
 	current_state = States.IDLE
 	
+	# global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions)
+	
+	# players kamera
 	
 func _physics_process(delta: float) -> void:
 	
@@ -163,25 +185,28 @@ func on_collision():
 		# efekt trka s steno
 		emit_signal("stat_changed", self, "skilled",1) # signal, da je skilled (kaj se zgodi je na GMju)
 		
-		Global.game_manager.current_gameover_reason = Global.game_manager.GameoverReason.WALL
+#		Global.game_manager.current_gameover_reason = Global.game_manager.GameoverReason.WALL
+		emit_signal("stat_changed", self, "wall_hit", 1)
 		die()
 		spawn_collision_particles()
 		spawn_dizzy_particles()
-		Global.main_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
+#		Global.main_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
+		player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
 		Global.sound_manager.stop_sfx("burst")
 		Global.sound_manager.play_sfx("hit_wall")
 
 	elif collision.collider.is_in_group(Global.group_strays):
 		
 		Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
-		Global.main_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
+#		Global.main_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
+		player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
 		Global.sound_manager.stop_sfx("burst")
 		Global.sound_manager.play_sfx("hit_stray")
 			
 		if Global.game_manager.game_settings["pick_neighbour_mode"]:
 			if Global.game_manager.colors_to_pick and not Global.game_manager.colors_to_pick.has(collision.collider.pixel_color): # če pobrana barva ni enaka barvi soseda
 				end_move()
-				return # v tem primeru se spodnjidve vrstici ne izvedeta in pixel se ne obarva
+				return # v tem primeru se spodnje vrstice ne izvedejo in pixel se ne obarva
 		
 		# destroj kolajderja ... prvega pixla
 		pixel_color = collision.collider.pixel_color
@@ -194,7 +219,20 @@ func on_collision():
 			return 
 		else:
 			multikill()
-
+	
+	elif collision.collider.is_in_group(Global.group_players):
+		
+		Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
+		player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
+		Global.sound_manager.stop_sfx("burst")
+		Global.sound_manager.play_sfx("hit_stray")
+			
+		# destroj kolajderja
+		pixel_color = collision.collider.pixel_color
+		spawn_collision_particles()
+		
+		collision.collider.die() # edini oziroma prvi v vrsti
+			
 	end_move() # more bit tukaj spodaj, da lahko pogreba podatke v svoji smeri
 
 	
@@ -203,20 +241,20 @@ func on_collision():
 
 func idle_inputs():
 	
-	if Input.is_action_pressed("ui_up") and player_energy > 1: # ne koraka z 1 energijo
+	if Input.is_action_pressed(key_up) and player_energy > 1: # ne koraka z 1 energijo
 		direction = Vector2.UP
 		step()
-	elif Input.is_action_pressed("ui_down") and player_energy > 1:
+	elif Input.is_action_pressed(key_down) and player_energy > 1:
 		direction = Vector2.DOWN
 		step()
-	elif Input.is_action_pressed("ui_left") and player_energy > 1:
+	elif Input.is_action_pressed(key_left) and player_energy > 1:
 		direction = Vector2.LEFT
 		step()
-	elif Input.is_action_pressed("ui_right") and player_energy > 1:
+	elif Input.is_action_pressed(key_right) and player_energy > 1:
 		direction = Vector2.RIGHT
 		step()
 	
-	if Input.is_action_just_pressed("space") and current_state == States.IDLE: # brez "just" dela po stisku smeri ... ni ok
+	if Input.is_action_just_pressed(key_burst) and current_state == States.IDLE: # brez "just" dela po stisku smeri ... ni ok
 		if Global.game_manager.game_settings["burst_limit_mode"] and Global.game_manager.player_stats["burst_count"] >= Global.game_manager.game_settings["burst_limit_count"]:
 			return	
 		current_state = States.COCKING
@@ -226,25 +264,25 @@ func idle_inputs():
 func cocking_inputs():
 	
 	# cocking
-	if Input.is_action_pressed("ui_up"):# and Input.is_action_pressed("space"):
+	if Input.is_action_pressed(key_up):
 		if not burst_direction_set:
 			direction = Vector2.DOWN
 			burst_direction_set = true
 		else:
 			cock_burst()
-	if Input.is_action_pressed("ui_down"):# and Input.is_action_pressed("space"):
+	if Input.is_action_pressed(key_down):
 		if not burst_direction_set:
 			direction = Vector2.UP
 			burst_direction_set = true
 		else:
 			cock_burst()
-	if Input.is_action_pressed("ui_left"):# and Input.is_action_pressed("space"):
+	if Input.is_action_pressed(key_left):
 		if not burst_direction_set:
 			direction = Vector2.RIGHT
 			burst_direction_set = true
 		else:
 			cock_burst()
-	if Input.is_action_pressed("ui_right"):# and Input.is_action_pressed("space"):
+	if Input.is_action_pressed(key_right):
 		if not burst_direction_set:
 			direction = Vector2.LEFT
 			burst_direction_set = true
@@ -252,7 +290,7 @@ func cocking_inputs():
 			cock_burst()
 	
 	# releasing		
-	if Input.is_action_just_released("space"):# and current_state == States.COCKING:
+	if Input.is_action_just_released(key_burst):
 		if not burst_direction_set:
 			end_move()
 		else:
@@ -261,7 +299,7 @@ func cocking_inputs():
 
 func bursting_inputs():
 	
-	if Input.is_action_just_pressed("space"):
+	if Input.is_action_just_pressed(key_burst):
 		end_move()
 		Input.start_joy_vibration(0, 0.6, 0.2, 0.2)
 		Global.sound_manager.play_sfx("burst_stop")
@@ -279,13 +317,13 @@ func skill_inputs():
 	var new_direction # nova smer, deluje samo, če ni enaka smeri kolizije
 	
 	# s tem inputom prekinem "is_pressed" input
-	if Input.is_action_just_pressed("ui_up"):
+	if Input.is_action_just_pressed(key_up):
 		new_direction = Vector2.UP
-	elif Input.is_action_just_pressed("ui_down"):
+	elif Input.is_action_just_pressed(key_down):
 		new_direction = Vector2.DOWN
-	elif Input.is_action_just_pressed("ui_left"):
+	elif Input.is_action_just_pressed(key_left):
 		new_direction = Vector2.LEFT
-	elif Input.is_action_just_pressed("ui_right"):
+	elif Input.is_action_just_pressed(key_right):
 		new_direction = Vector2.RIGHT
 	
 	# select skill, če ga še nima 
@@ -550,7 +588,10 @@ func spawn_dizzy_particles():
 	
 	var new_dizzy_pixels = PixelDizzyParticles.instance()
 	new_dizzy_pixels.global_position = global_position
-	new_dizzy_pixels.modulate = pixel_color
+	if pixel_color == Global.game_manager.game_settings["player_start_color"]:
+		new_dizzy_pixels.modulate = Global.color_white
+	else:
+		new_dizzy_pixels.modulate = pixel_color
 	Global.node_creation_parent.add_child(new_dizzy_pixels)
 	
 
@@ -703,14 +744,15 @@ func multikill():
 
 
 func die():
-	
-	match Global.game_manager.current_gameover_reason:
-		Global.game_manager.GameoverReason.WALL:
-			emit_signal("stat_changed", self, "wall_hit", 1)
-		Global.game_manager.GameoverReason.ENERGY:
-			emit_signal("stat_changed", self, "out_of_breath", 1)
+
+#	match Global.game_manager.current_gameover_reason:
+#		Global.game_manager.GameoverReason.WALL:
+#			emit_signal("stat_changed", self, "wall_hit", 1)
+#		Global.game_manager.GameoverReason.ENERGY:
+#			emit_signal("stat_changed", self, "out_of_breath", 1)
 			
-	Global.main_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
+#	Global.main_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
+	player_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
 	set_physics_process(false) # aktivira ga revive(), ki se sproži iz animacije
 	animation_player.play("die_player")
 
@@ -770,7 +812,8 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 		"last_breath":
 			last_breath_loop += 1
 			if last_breath_loop > last_breath_loop_limit:
-				Global.game_manager.current_gameover_reason = Global.game_manager.GameoverReason.ENERGY
+#				Global.game_manager.current_gameover_reason = Global.game_manager.GameoverReason.ENERGY
+				emit_signal("stat_changed", self, "out_of_breath", 1)
 				die()
 			else:
 				animation_player.play("last_breath")

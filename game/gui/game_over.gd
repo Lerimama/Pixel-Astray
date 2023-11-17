@@ -84,8 +84,9 @@ func fade_in_no_highscore(): # title in potem game summary
 	write_gameover_data()
 	
 	if current_content == content_game:
+		print ("HS na GO")
 		highscore_table.get_highscore_table(Global.game_manager.game_data["game"], Global.data_manager.current_player_ranking)
-
+		
 	yield(get_tree().create_timer(3), "timeout")
 	current_content.visible = true
 	
@@ -120,6 +121,7 @@ func show_game_summary(): # after name input
 	
 	# title se odfejda v "close_name_input()"
 	write_gameover_data()
+	print ("HS na summary")
 	highscore_table.get_highscore_table(Global.game_manager.game_data["game"], Global.data_manager.current_player_ranking)
 	
 	content_game.visible = true
@@ -143,12 +145,13 @@ func write_gameover_data():
 		$ContentTutorial/DataContainer/PixelsOff.text %= str(Global.game_manager.player_stats["colors_collected"])
 		$ContentTutorial/DataContainer/AstrayPixels.text %= str(Global.game_manager.strays_in_game_count)
 	elif current_game_key == Profiles.Games.DUEL:
-		$ContentTutorial/DataContainer/Points.text %= str(Global.game_manager.player_stats["player_points"])
-		$ContentTutorial/DataContainer/CellsTravelled.text %= str(Global.game_manager.player_stats["cells_travelled"])
-		$ContentTutorial/DataContainer/BurstCount.text %= str(Global.game_manager.player_stats["burst_count"])
-		$ContentTutorial/DataContainer/SkillsUsed.text %= str(Global.game_manager.player_stats["skill_count"])
-		$ContentTutorial/DataContainer/PixelsOff.text %= str(Global.game_manager.player_stats["colors_collected"])
-		$ContentTutorial/DataContainer/AstrayPixels.text %= str(Global.game_manager.strays_in_game_count)
+		pass
+#		$ContentTutorial/DataContainer/Points.text %= str(Global.game_manager.player_stats["player_points"])
+#		$ContentTutorial/DataContainer/CellsTravelled.text %= str(Global.game_manager.player_stats["cells_travelled"])
+#		$ContentTutorial/DataContainer/BurstCount.text %= str(Global.game_manager.player_stats["burst_count"])
+#		$ContentTutorial/DataContainer/SkillsUsed.text %= str(Global.game_manager.player_stats["skill_count"])
+#		$ContentTutorial/DataContainer/PixelsOff.text %= str(Global.game_manager.player_stats["colors_collected"])
+#		$ContentTutorial/DataContainer/AstrayPixels.text %= str(Global.game_manager.strays_in_game_count)
 	else:
 		$ContentGame/DataContainer/Game.text %= Global.game_manager.game_data["game_name"]
 		$ContentGame/DataContainer/Level.text %= Global.game_manager.game_data["level"]
@@ -272,8 +275,9 @@ func _on_CancelBtn_pressed() -> void:
 
 
 func _on_RestartBtn_pressed() -> void:
-	Global.sound_manager.play_gui_sfx("btn_confirm")
+	
 	unpause_tree()
+	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.reload_game()
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
@@ -282,13 +286,15 @@ func _on_RestartBtn_pressed() -> void:
 		$ContentGame/Menu/RestartBtn.disabled = true # da ne moreš multiklikat
 	
 	
+	
 func _on_QuitBtn_pressed() -> void:
 	
-	Global.sound_manager.play_sfx("btn_cancel")
 	unpause_tree()
+	Global.sound_manager.play_sfx("btn_cancel")
 	Global.main_node.game_out()
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
 		$ContentTutorial/Menu/QuitBtn.disabled = true # da ne moreš multiklikat
 	else:
 		$ContentGame/Menu/QuitBtn.disabled = true # da ne moreš multiklikat
+	

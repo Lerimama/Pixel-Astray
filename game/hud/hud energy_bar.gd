@@ -10,13 +10,13 @@ onready var texture_progress: TextureProgress = $TextureProgress
 
 func _ready() -> void:
 	
-	set_icons_state() # preveri lajf na začetku in seta pravilno stanje ikon 
+	set_icons_state() # preveri energijo na začetku in seta pravilno stanje ikon 
 
 
 func _process(delta: float) -> void:
 	
-	self.energy = Global.game_manager.player_stats["player_energy"]
-	
+#	self.energy = Global.game_manager.player_stats["player_energy"]
+	pass
 	
 func _on_amount_change(new_value):
 	
