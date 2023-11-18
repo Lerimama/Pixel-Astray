@@ -15,7 +15,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	
-#	self.energy = Global.game_manager.player_stats["player_energy"]
+	# self.energy = Global.game_manager.player_stats["player_energy"] ... premaknjeno v hud
 	pass
 	
 func _on_amount_change(new_value):

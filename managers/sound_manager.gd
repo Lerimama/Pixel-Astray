@@ -76,7 +76,6 @@ func play_sfx(effect_for: String):
 		"teleport":
 			$GameSfx/Skills/TeleportIn.play()
 		"skilled":
-			return
 			$GameSfx/Skills/SkilledStatic.play()
 		# events
 		"countdown_a":

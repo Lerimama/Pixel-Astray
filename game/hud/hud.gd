@@ -3,61 +3,73 @@ extends Control
 
 var fade_time: float = 1
 var default_hud_color: Color = Color.white
-
 var popup_time: float = 2
 var highscore_broken: bool =  false
 
+
 var picked_indicator_alpha: float = 1
 var unpicked_indicator_alpha: float = 0.2
-var neighbour_indicator_alpha: float = 0.4
+var neighbor_indicator_alpha: float = 0.4
+var active_color_indicators: Array = [] # indikatorji so generirani ob spawnanju pixlov, potem pa skriti
 
-var active_color_indicators: Array = [] # indikatorji so generirani ob spawnanju pixlov (so skriti, ali pa ne)
-
-# spectrum indicators
-onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
-onready var indicator_holder: HBoxContainer = $Footer/ColorSpectrum	
-# header
-onready var header: Control = $Header
-onready var life_counter: HBoxContainer = $Header/HudLine_TL/LifeIcons
-onready var player_points: Label = $Header/HudLine_TL/PointsCounter/Points
-onready var burst_count: Label = $Header/HudLine_TL/BurstCounter/Label
-onready var skill_count: Label = $Header/HudLine_TL/SkillCounter/Label
-onready var game_timer: HBoxContainer = $Header/GameTimer # uporabljeno v drugih filetih
-onready var game_name: Label = $Header/HudLine_TR/GameLevel/Game
-onready var level: Label = $Header/HudLine_TR/GameLevel/Level
-onready var highscore_label: Label = $Header/HudLine_TR/Highscore
-onready var music_label: Label = $Header/HudLine_TR/MusicLabel
-onready var on_icon: TextureRect = $Header/HudLine_TR/MusicLabel/OnIcon
-onready var off_icon: TextureRect = $Header/HudLine_TR/MusicLabel/OffIcon
-# futer
-onready var footer: Control = $Footer
-onready var picked_color_rect: ColorRect = $Footer/PickedColor/ColorRect
-onready var picked_color_label: Label = $Footer/PickedColor/Value
-onready var pixels_off: Label = $Footer/HudLine_BR/OffedCounter/PixelsOff
-onready var stray_pixels_counter: HBoxContainer = $Footer/HudLine_BR/StrayCounter
-onready var stray_pixels: Label = $Footer/HudLine_BR/StrayCounter/PixelsStray
-onready var pixels_off_counter: HBoxContainer = $Footer/HudLine_BR/OffedCounter
 # popups 
 onready var popups: Control = $Popups # skoz vidno, skrije se na gameover
 onready var highscore_broken_popup: Control = $Popups/HSBroken
 onready var energy_warning_popup: Control = $Popups/EnergyWarning
 onready var steps_remaining: Label = $Popups/EnergyWarning/StepsRemaining
+
 # debug
 onready var player_life: Label = $Life
 onready var player_energy: Label = $Energy
 
-# new
-onready var game_duel: Label = $Header/GameDuel
-onready var music_label_duel: Label = $Header/MusicLabelDuel
-onready var on_icon_duel: TextureRect = $Header/MusicLabelDuel/OnIcon
-onready var off_icon_duel: TextureRect = $Header/MusicLabelDuel/OffIcon
-onready var hudline_duel: HBoxContainer = $Header/HudLine_TR_Duel
-onready var life_icons_duel: HBoxContainer = $Header/HudLine_TR_Duel/LifeIcons
-onready var energy_bar_duel: HBoxContainer = $Header/HudLine_TR_Duel/EnergyBar
-onready var points_counter_duel: HBoxContainer = $Header/HudLine_TR_Duel/PointsCounter
-onready var hudline_tr: HBoxContainer = $Header/HudLine_TR
-onready var energy_bar: HBoxContainer = $Header/HudLine_TL/EnergyBar
+# HEADER
+onready var header: Control = $Header # kontrole iz kamere
+# player_line 1
+onready var p1_statsline: HBoxContainer = $Header/PlayerLineL # neuporabljeno
+onready var p1_label: Label = $Header/PlayerLineL/PlayerLabel
+onready var p1_life_counter: HBoxContainer = $Header/PlayerLineL/LifeIcons
+onready var p1_energy_counter: HBoxContainer = $Header/PlayerLineL/EnergyBar
+onready var p1_points_holder: HBoxContainer = $Header/PlayerLineL/PointsCounter
+onready var p1_points_counter: Label = $Header/PlayerLineL/PointsCounter/Points
+onready var p1_color_holder: HBoxContainer = $Header/PlayerLineL/ColorCounter
+onready var p1_color_counter: Label = $Header/PlayerLineL/ColorCounter/Label
+onready var p1_skill_holder: HBoxContainer = $Header/PlayerLineL/SkillCounter # neuporabljeno
+onready var p1_skill_counter: Label = $Header/PlayerLineL/SkillCounter/Label
+onready var p1_burst_holder: HBoxContainer = $Header/PlayerLineL/BurstCounter # neuporabljeno
+onready var p1_burst_counter: Label = $Header/PlayerLineL/BurstCounter/Label
+# player_line 2
+onready var p2_statsline: HBoxContainer = $Header/PlayerLineR
+onready var p2_label: Label = $Header/PlayerLineR/PlayerLabel # neuporabljeno
+onready var p2_life_counter: HBoxContainer = $Header/PlayerLineR/LifeIcons
+onready var p2_energy_counter: HBoxContainer = $Header/PlayerLineR/EnergyBar
+onready var p2_points_holder: HBoxContainer = $Header/PlayerLineR/PointsCounter # neuporabljeno
+onready var p2_points_counter: Label = $Header/PlayerLineR/PointsCounter/Points # neuporabljeno
+onready var p2_color_holder: HBoxContainer = $Header/PlayerLineR/ColorCounter # neuporabljeno
+onready var p2_color_counter: Label = $Header/PlayerLineR/ColorCounter/Label
+# game
+onready var game_timer: HBoxContainer = $Header/GameTimer
+onready var highscore_label: Label = $Header/HighscoreLabel
 
+# FUTER
+onready var footer: Control = $Footer # kontrole iz kamere
+# game line
+#onready var game_line: HBoxContainer = $Footer/FooterLine/GameLine
+onready var game_label: Label = $Footer/FooterLine/GameLine/GameLevel/Game
+onready var level_label: Label = $Footer/FooterLine/GameLine/GameLevel/Level
+#onready var music_player: Label = $Footer/FooterLine/GameLine/MusicPlayer
+# spectrum
+#onready var spectrum_holder: Control = $Footer/FooterLine/SpectrumHolder
+onready var spectrum: HBoxContainer = $Footer/FooterLine/SpectrumHolder/ColorSpectrum
+onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
+# strays line
+#onready var stray_line: HBoxContainer = $Footer/FooterLine/StraysLine
+#onready var astray_holder: HBoxContainer = $Footer/FooterLine/StraysLine/AstrayCounter
+onready var astray_counter: Label = $Footer/FooterLine/StraysLine/AstrayCounter/Label
+#onready var picked_holder: HBoxContainer = $Footer/FooterLine/StraysLine/PickedCounter
+onready var picked_counter: Label = $Footer/FooterLine/StraysLine/PickedCounter/Label
+# picked color
+onready var picked_color_rect: ColorRect = $Footer/PickedColor/ColorRect
+onready var picked_color_label: Label = $Footer/PickedColor/Value
 
 
 func _ready() -> void:
@@ -69,46 +81,59 @@ func _ready() -> void:
 	highscore_broken_popup.visible = false
 	energy_warning_popup.visible = false
 	
+	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
+		set_two_players_hud()
+	else:
+		set_one_player_hud()
+
+
+func set_two_players_hud():	
+	
+	# hide
+	highscore_label.visible = false
+	level_label.visible = false
+	p1_points_holder.visible = false
+	# show
+	p1_label.visible = true
+	p1_color_holder.visible = true
+	p2_statsline.visible = true
+	
 	# skrij life icons če je samo en lajf
 	if Global.game_manager.game_settings["player_start_life"] == 1:
-		life_counter.visible = false
+		p1_life_counter.visible = false
+		p2_life_counter.visible = false
 	else:
-		life_counter.visible = true
+		p1_life_counter.visible = true
+		p2_life_counter.visible = true		
+
+
+func set_one_player_hud():
 	
-	# setaj energijo
-#	energy_bar_duel.set_icons_state()
-#	energy_bar.set_icons_state()
-	# single / multiplejer setup
+	# hide
+	p1_label.visible = false
+	p2_statsline.visible = false
+	# show
+	highscore_label.visible = true
+	level_label.visible = true
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
-		game_duel.visible = true
-		music_label_duel.visible = true
-		hudline_duel.visible = true
-		hudline_tr.visible = false
-		
-		music_label = music_label_duel
-		on_icon = on_icon_duel
-		off_icon = off_icon_duel
-#		life_icons_duel.visible =  true
-#		energy_bar_duel.visible =  true
-#		points_counter_duel
+	# skrij life icons če je samo en lajf
+	if Global.game_manager.game_settings["player_start_life"] == 1:
+		p1_life_counter.visible = false
 	else:
-		game_duel.visible = false
-		music_label_duel.visible = false
-		hudline_duel.visible = false
-		hudline_tr.visible = true
+		p1_life_counter.visible = true
 		
-	
 	
 func _process(delta: float) -> void:
+	
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
 		writing_duel_stats()
 	else:		
 		writing_stats()
 	
+	return #temp
 	# ček HS and show popup
-	if Global.game_manager.game_data["game"] != Profiles.Games.TUTORIAL or Global.game_manager.game_data["game"] != Profiles.Games.DUEL:
+	if Global.game_manager.game_data["game"] != Profiles.Games.TUTORIAL and Global.game_manager.game_data["game"] != Profiles.Games.DUEL:
 		check_for_hs()
 	
 	# show popup energy warning
@@ -124,15 +149,6 @@ func _process(delta: float) -> void:
 		# steps_remaining.text = "No more traveling! Collect a color get some energy."
 		energy_warning_popup.visible = false
 		
-	# music plejer display
-	music_label.text = "%02d" % Global.sound_manager.currently_playing_track_index
-	if Global.sound_manager.game_music_set_to_off:
-		on_icon.visible = false
-		off_icon.visible = true
-	else:
-		on_icon.visible = true
-		off_icon.visible = false
-	
 		
 func check_for_hs():
 	
@@ -156,53 +172,61 @@ func check_for_hs():
 func writing_stats():	
 	
 	# game hud setup
-	game_name.text = Global.game_manager.game_data["game_name"]
+#	game_name.text = Global.game_manager.game_data["game_name"]
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
-		level.visible = false
-	elif Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
-		highscore_label.visible = false
-	else:
-		highscore_label.visible = true
-		level.text = Global.game_manager.game_data["level"]
-		# manage hs label
-		if not highscore_broken:
-			highscore_label.text = "HS %d" % Global.game_manager.game_data["highscore"]
-		else:
-			highscore_label.text = "HS %d" % Global.game_manager.player_stats["player_points"]
+#	if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
+#		level.visible = false
+#	elif Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
+#		highscore_label.visible = false
+#	else:
+#		highscore_label.visible = true
+#		level.text = Global.game_manager.game_data["level"]
+#		# manage hs label
+#		if not highscore_broken:
+#			highscore_label.text = "HS %d" % Global.game_manager.game_data["highscore"]
+#		else:
+#			highscore_label.text = "HS %d" % Global.game_manager.player_stats["player_points"]
 		
 	# pixel stats
-	player_points.text = "%0d" % Global.game_manager.player_stats["player_points"]
-	burst_count.text = "%0d" % Global.game_manager.player_stats["burst_count"]
-	skill_count.text = "%0d" % Global.game_manager.player_stats["skill_count"]
-	pixels_off.text = "%03d" % Global.game_manager.player_stats["colors_collected"]
-	stray_pixels.text = "%03d" % Global.game_manager.strays_in_game_count
+#	player_points.text = "%0d" % Global.game_manager.player_stats["player_points"]
+#	burst_count.text = "%0d" % Global.game_manager.player_stats["burst_count"]
+#	skill_count.text = "%0d" % Global.game_manager.player_stats["skill_count"]
+#	pixels_off.text = "%03d" % Global.game_manager.player_stats["colors_collected"]
+#	stray_pixels.text = "%03d" % Global.game_manager.strays_in_game_count
 	
 	# debug
-	player_life.text = "LIFE: %01d" % Global.game_manager.player_stats["player_life"]
-	player_energy.text = "E: %04d" % Global.game_manager.player_stats["player_energy"]
+#	player_life.text = "LIFE: %01d" % Global.game_manager.player_stats["player_life"]
+#	player_energy.text = "E: %04d" % Global.game_manager.player_stats["player_energy"]
 	
+	pass
 			
 func writing_duel_stats():	
 	
-	# game hud setup
-#	game_name.text = Global.game_manager.game_data["game_name"]
-	
-	
-	# player 1 stats
-	player_points.text = "%0d" % Global.game_manager.p1_stats["player_points"]
-	burst_count.text = "%0d" % Global.game_manager.p1_stats["burst_count"]
-	skill_count.text = "%0d" % Global.game_manager.p1_stats["skill_count"]
-	pixels_off.text = "%03d" % Global.game_manager.p1_stats["colors_collected"]
-	energy_bar_duel.energy = Global.game_manager.p1_stats["player_energy"]
+	# game
+	game_label.text = Global.game_manager.game_data["game_name"]
 	
 	# player 1 stats
-	player_points.text = "%0d" % Global.game_manager.p2_stats["player_points"]
-	pixels_off.text = "%03d" % Global.game_manager.p2_stats["colors_collected"]
-	energy_bar_duel.energy = Global.game_manager.p2_stats["player_energy"]
+	p1_life_counter.life_count = Global.game_manager.p1_stats["player_life"]
+	p1_energy_counter.energy = Global.game_manager.p1_stats["player_energy"]
+	p1_points_counter.text = "%d" % Global.game_manager.p1_stats["player_points"]
+	p1_color_counter.text = "%d" % Global.game_manager.p1_stats["colors_collected"]
+	p1_burst_counter.text = "%d" % Global.game_manager.p1_stats["burst_count"]
+	p1_skill_counter.text = "%d" % Global.game_manager.p1_stats["skill_count"]
 	
-	stray_pixels.text = "%03d" % Global.game_manager.strays_in_game_count
-		
+	# player 2 stats
+	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
+		p2_life_counter.life_count = Global.game_manager.p2_stats["player_life"]
+		p2_energy_counter.energy = Global.game_manager.p2_stats["player_energy"]
+		p2_color_counter.text = "%d" % Global.game_manager.p2_stats["colors_collected"]
+	
+	# game stats
+	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
+	picked_counter.text = "%03d" % (Global.game_manager.p1_stats["colors_collected"] + Global.game_manager.p2_stats["colors_collected"])
+	
+	# debug
+	player_life.text = "LIFE: %d" % Global.game_manager.p1_stats["player_life"]
+	player_energy.text = "E: %d" % Global.game_manager.p1_stats["player_energy"]		
+
 		
 func fade_in():
 	
@@ -225,7 +249,7 @@ func spawn_color_indicators(available_colors): # ukaz pride iz GM
 		var new_color_indicator = ColorIndicator.instance()
 		new_color_indicator.color = color
 		new_color_indicator.modulate.a = unpicked_indicator_alpha
-		indicator_holder.add_child(new_color_indicator)
+		spectrum.add_child(new_color_indicator)
 		
 		active_color_indicators.append(new_color_indicator)
 			
@@ -233,11 +257,10 @@ func spawn_color_indicators(available_colors): # ukaz pride iz GM
 		# new_color_indicator.get_node("IndicatorCount").text = str(indicator_index) 
 	
 	
-func color_picked(picked_pixel_color):
+func show_picked_color(picked_pixel_color):
 	
-	# picked color stats
+	# picked color statline
 	picked_color_label.text = str(round(255 * picked_pixel_color.r)) + " " + str(round(255 * picked_pixel_color.g)) + " " + str(round(255 * picked_pixel_color.b))
-	# color effects
 	picked_color_rect.color = picked_pixel_color
 
 	show_color_indicator(picked_pixel_color)
@@ -253,10 +276,10 @@ func show_color_indicator(picked_color):
 			indicator.modulate.a = picked_indicator_alpha
 			break
 		# preostale barve	
-		elif Global.game_manager.game_settings["pick_neighbour_mode"]: # efekt na preostalih barvah 
+		elif Global.game_manager.game_settings["pick_neighbor_mode"]: # efekt na preostalih barvah 
 			indicator.modulate.a = unpicked_indicator_alpha
 			
-	if Global.game_manager.game_settings["pick_neighbour_mode"]:	# opredelitev sosedov glede na položaj pobrane barve
+	if Global.game_manager.game_settings["pick_neighbor_mode"]:	# opredelitev sosedov glede na položaj pobrane barve
 		
 		if active_color_indicators.size() == 1: # če je samo še en indikator, nima sosedov	
 			return
@@ -266,16 +289,16 @@ func show_color_indicator(picked_color):
 		
 		# na začetku holderja indikatorjev 
 		if current_indicator_index == 0:		
-			active_color_indicators[next_indicator_index].modulate.a = neighbour_indicator_alpha
+			active_color_indicators[next_indicator_index].modulate.a = neighbor_indicator_alpha
 			Global.game_manager.colors_to_pick = [active_color_indicators[next_indicator_index].color] # pošljem sosednje barve v GM
 		# na koncu holderja indikatorjev
 		elif current_indicator_index == active_color_indicators.size() - 1: # ker je index vedno eno manjši	
-			active_color_indicators[prev_indicator_index].modulate.a = neighbour_indicator_alpha
+			active_color_indicators[prev_indicator_index].modulate.a = neighbor_indicator_alpha
 			Global.game_manager.colors_to_pick = [active_color_indicators[prev_indicator_index].color] # pošljem sosednje barve v GM
 		# povsod vmes med živimi indikatorji
 		elif current_indicator_index > 0 and current_indicator_index < (active_color_indicators.size() - 1):
-			active_color_indicators[next_indicator_index].modulate.a = neighbour_indicator_alpha
-			active_color_indicators[prev_indicator_index].modulate.a = neighbour_indicator_alpha
+			active_color_indicators[next_indicator_index].modulate.a = neighbor_indicator_alpha
+			active_color_indicators[prev_indicator_index].modulate.a = neighbor_indicator_alpha
 			Global.game_manager.colors_to_pick = [active_color_indicators[prev_indicator_index].color, active_color_indicators[next_indicator_index].color] # pošljem sosednje barve v GM
 		
 	# izbris iz aktivnih indikatorjev
@@ -291,5 +314,5 @@ func _on_GameTimer_sudden_death_active() -> void:
 
 
 func _on_GameTimer_gametime_is_up() -> void:
-	Global.game_manager.current_gameover_reason = Global.game_manager.GameoverReason.TIME
-	Global.game_manager.game_over()
+	
+	Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)

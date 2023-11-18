@@ -26,7 +26,7 @@ var cocked_ghosts: Array
 var cocking_room: bool = true
 var cocked_ghost_count_max: int = 7
 var cocked_ghost_alpha: float = 0.55 # najnižji alfa za ghoste
-var cocked_ghost_alpha_factor: float = 14 # faktor nižanja po zaporedju (manjši je bolj oster
+var cocked_ghost_alpha_divisor: float = 14 # faktor nižanja po zaporedju (manjši je bolj oster
 var ghost_cocking_time: float = 0 # trenuten čas nastajanja cocking ghosta
 var ghost_cocking_time_limit: float = 0.12 # max čas nastajanja cocking ghosta (tudi animacija)
 var cocked_ghost_fill_time: float = 0.04 # čas za napolnitev vseh spawnanih ghostov (tik pred burstom)
@@ -114,11 +114,9 @@ func _ready() -> void:
 	
 	# global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions)
 	
-	# players kamera
 	
 func _physics_process(delta: float) -> void:
 	
-	player_energy = Global.game_manager.player_stats["player_energy"] # stalni apdejt energije iz GMja
 	current_player_energy_part = player_energy / max_player_energy # delež celotne energije
 			
 	if Global.detect_collision_in_direction(vision_ray, direction): # more bit neodvisno od stateta, da pull dela
@@ -138,20 +136,19 @@ func state_machine():
 				light_on()
 				if Global.detect_collision_in_direction(vision_ray, direction).is_in_group(Global.group_strays):
 					emit_signal("stat_changed", self, "skilled",1) # signal, da je skilled (kaj se zgodi je na GMju)
-					if not skill_sfx_playing: # to je zato da FP ne klie na vsak frejm
+					if not skill_sfx_playing and Global.game_manager.game_settings["skilled_energy_drain_mode"]: # to je zato da FP ne klie na vsak frejm
 						Global.sound_manager.play_sfx("skilled")
 						skill_sfx_playing = true
 			else: # not skilled
-				if skill_sfx_playing: # to je zato da FP ne klie na vsak frejm
+				if skill_sfx_playing: # da FP ne kliče na vsak frejm
 					Global.sound_manager.stop_sfx("skilled")
 					skill_sfx_playing = false
 			# toggle energy_speed mode
 			if Global.game_manager.game_settings["slowdown_mode"]:
 				var slow_trim_size: float = step_time_slow * max_player_energy
 				var energy_factor: float = (max_player_energy - slow_trim_size) / player_energy
-				var energy_step_time = energy_factor / slowdown_rate # ta variabla je zato, da se vedno seta nova in potem ne raste s FP
-				# omejim najbolj počasno
-				step_time = clamp(energy_step_time, step_time_fast, step_time_slow)
+				var energy_step_time = energy_factor / slowdown_rate # variabla, da FP ne kliče na vsak frejm
+				step_time = clamp(energy_step_time, step_time_fast, step_time_slow) # omejim najbolj počasno korakanje
 			else:
 				step_time = step_time_fast
 			idle_inputs()
@@ -164,7 +161,7 @@ func state_machine():
 			cocking_inputs()
 		States.RELEASING:
 			pass
-		States.BURSTING: # se prižge na štartu releasa bursta
+		States.BURSTING:
 			burst_velocity = direction * burst_speed
 			collision = move_and_collide(burst_velocity) 
 			if collision:
@@ -180,62 +177,95 @@ func on_collision():
 	
 	if collision.collider.is_in_group(Global.group_tilemap):
 		
+		# efekti
 		Input.start_joy_vibration(0, 0.5, 0.6, 0.7)
-		
-		# efekt trka s steno
-		emit_signal("stat_changed", self, "skilled",1) # signal, da je skilled (kaj se zgodi je na GMju)
-		
 #		Global.game_manager.current_gameover_reason = Global.game_manager.GameoverReason.WALL
-		emit_signal("stat_changed", self, "wall_hit", 1)
-		die()
-		spawn_collision_particles()
-		spawn_dizzy_particles()
-#		Global.main_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
 		player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
 		Global.sound_manager.stop_sfx("burst")
 		Global.sound_manager.play_sfx("hit_wall")
+		spawn_collision_particles()
+		spawn_dizzy_particles()
+		
+		# posledice
+		emit_signal("stat_changed", self, "wall_hit", 1)
+		die()
 
 	elif collision.collider.is_in_group(Global.group_strays):
 		
+		# efekti
 		Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
-#		Global.main_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
 		player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
 		Global.sound_manager.stop_sfx("burst")
 		Global.sound_manager.play_sfx("hit_stray")
-			
-		if Global.game_manager.game_settings["pick_neighbour_mode"]:
-			if Global.game_manager.colors_to_pick and not Global.game_manager.colors_to_pick.has(collision.collider.pixel_color): # če pobrana barva ni enaka barvi soseda
-				end_move()
-				return # v tem primeru se spodnje vrstice ne izvedejo in pixel se ne obarva
-		
-		# destroj kolajderja ... prvega pixla
-		pixel_color = collision.collider.pixel_color
 		spawn_collision_particles()
-		Global.hud.color_picked(collision.collider.pixel_color)
 		
-		if Global.game_manager.game_settings["pick_neighbour_mode"]: # pick_neighbour ne podpira multikilla
-			collision.collider.die(1) # edini oziroma prvi v vrsti
-			end_move()
-			return 
-		else:
-			multikill()
+		# posledice
+		var hit_stray: KinematicBody2D = collision.collider
+		if Global.game_manager.game_settings["pick_neighbor_mode"]:
+			if Global.game_manager.colors_to_pick and not Global.game_manager.colors_to_pick.has(hit_stray.pixel_color): # če pobrana barva ni enaka barvi soseda
+				end_move()
+				return # nadaljna koda se ne izvede
+		# destroj prvega pixla
+		pixel_color = hit_stray.pixel_color
+		Global.hud.show_picked_color(hit_stray.pixel_color)
+		if not Global.game_manager.game_settings["pick_neighbor_mode"]:
+			multikill(hit_stray)
+		else: # pick_neighbor_mode ne podpira multikilla ... tukaj je pomembno zaporedje
+			hit_stray.die(1) # edini oziroma prvi v vrsti
 	
 	elif collision.collider.is_in_group(Global.group_players):
 		
+		# efekti
 		Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
 		player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
 		Global.sound_manager.stop_sfx("burst")
 		Global.sound_manager.play_sfx("hit_stray")
-			
-		# destroj kolajderja
-		pixel_color = collision.collider.pixel_color
 		spawn_collision_particles()
-		
-		collision.collider.die() # edini oziroma prvi v vrsti
 			
-	end_move() # more bit tukaj spodaj, da lahko pogreba podatke v svoji smeri
-
+		var hit_player: KinematicBody2D = collision.collider
+		# najprej preverim, če sem močnejši
+#		hit_player.burst_velocity = direction * burst_speed
+		printt (name, hit_player, hit_player.burst_velocity, hit_player.burst_speed_max, hit_player.burst_speed)
+#		burst_velocity = direction * burst_speed
+		# če sem močnejši, potem sledijo posledice, če ne ne
+		
+		# prevzemem barvo
+		pixel_color = hit_player.pixel_color
+		# prevzamem pixle
+		# preverim če mam večji bursting power
+		
+		# die na kolajderju
+#		hit_player.end_move()
+#		hit_player.die() # edini oziroma prvi v vrsti
+#		hit_player.spawn_dizzy_particles()
+#		hit_player.emit_signal("stat_changed", hit_player, "wall_hit", 1)
+	end_move_on_die()
 	
+	
+#		- katera hitrost se ne izbiše ob stopu
+
+
+
+#	end_move() # more bit tukaj spodaj, da lahko pogreba podatke v svoji smeri
+
+
+func end_move_on_die():
+	
+#	burst_direction_set = false
+#	cocking_room = true
+	burst_speed = 0 # more bit tukaj pred _change state, če ne uničuje tudi sam sebe ... trenutno ni treba?
+#	direction = Vector2.ZERO	
+#	burst_speed_max = 0
+	
+#	modulate = pixel_color
+#	last_breath_active = false # če je burst v steno se ponovno začne
+#
+	direction = Vector2.ZERO # se ustavi (ne zadovoljivo), resetira ray dir
+	global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions)
+	# reset ray dir
+	current_state = States.IDLE # da ga spet lahko premikaš
+	
+	pass
 # INPUTS ------------------------------------------------------------------------------------------
 
 
@@ -328,11 +358,9 @@ func skill_inputs():
 	
 	# select skill, če ga še nima 
 	if current_state != States.SKILLING:
-		
 		# skill glede na kolajderja 
 		var collider: Object = Global.detect_collision_in_direction(vision_ray, direction)
 		var wall_tile_index = 3
-		
 		if new_direction == direction:
 			if collider.is_in_group(Global.group_tilemap):
 				var colliding_tile_id = collider.get_collision_tile_id(self, direction) # pošljem self, ker kolajder (tilemap) ima koordinate 0,0
@@ -415,7 +443,7 @@ func cock_burst():
 		Global.sound_manager.play_sfx("burst_cocking")
 
 
-func release_burst(): # delo os release do potiska pleyerjevega pixla
+func release_burst():
 	
 	current_state = States.RELEASING
 	
@@ -615,7 +643,7 @@ func spawn_cock_ghost(cocking_direction, cocked_ghosts_count):
 	new_cock_ghost.global_position -= cocking_direction * cell_size_x/2
 	# alfa ghosta je enaka alfi polipixla
 	new_cock_ghost.modulate.a  = poly_pixel.modulate.a
-	new_cock_ghost.poly_pixel.modulate.a  = cocked_ghost_alpha - (cocked_ghosts_count / cocked_ghost_alpha_factor)
+	new_cock_ghost.poly_pixel.modulate.a  = cocked_ghost_alpha - (cocked_ghosts_count / cocked_ghost_alpha_divisor)
 	new_cock_ghost.direction = cocking_direction
 	
 	# v kateri smeri je scale
@@ -705,41 +733,43 @@ func last_breath():
 		animation_player.stop()
 	
 	
-func multikill():
+func multikill(hit_stray):
 
-		var all_neighbouring_pixels: Array = []
-		var neighbours_checked: Array = []
+		var all_neighboring_strays: Array = []
+		var neighbors_checked: Array = []
 		
 		# prva runda ... sosede pixla v katerega sem se zaletel
-		for neighbour in collision.collider.neighbouring_cells:
+		for neighbor in hit_stray.neighboring_cells:
 			# trenutne sosede dodam v vse sosede ... če je še ni notri
-			if not all_neighbouring_pixels.has(neighbour):
-				all_neighbouring_pixels.append(neighbour)
-		neighbours_checked.append(collision.collider)
+			if not all_neighboring_strays.has(neighbor):
+				all_neighboring_strays.append(neighbor)
+		neighbors_checked.append(hit_stray)
 		
 		# druga runda ... sosede od pixlov v arrayu vseh sosed (ki še niso med čekiranimi pixli)
-		for neighbour_pixel in all_neighbouring_pixels:
+		for neighbor_stray in all_neighboring_strays:
 			# preverim če sosed ni tudi v "checked" arrayu, preveri in poberi še njegove sosede
-			if not neighbours_checked.has(neighbour_pixel):
+			if not neighbors_checked.has(neighbor_stray):
 				# vsak od sosedov soseda se doda v med vse sosede
-				for np in neighbour_pixel.neighbouring_cells:
-					if not all_neighbouring_pixels.has(np):
-						all_neighbouring_pixels.append(np)
+				for stray in neighbor_stray.neighboring_cells:
+					if not all_neighboring_strays.has(stray):
+						all_neighboring_strays.append(stray)
 				# po nabirki ga dodam med preverjene sosede
-				neighbours_checked.append(neighbour_pixel)
+				neighbors_checked.append(neighbor_stray)
 		
 		# odstranim kolajderja iz sosed, če je bil sosed nekomu
-		if all_neighbouring_pixels.has(collision.collider):
-			all_neighbouring_pixels.erase(collision.collider)
+		if all_neighboring_strays.has(hit_stray):
+			all_neighboring_strays.erase(hit_stray)
 		
-		# destroj soseda in sosedov
+		# destroj prvega soseda
 		var stray_in_row = 1 # 2 ker je 1 distrojan po defoltu
-		collision.collider.die(stray_in_row) # edini oziroma prvi v vrsti
-		for neighbouring_pixel in all_neighbouring_pixels:
+		hit_stray.die(stray_in_row) # edini oziroma prvi v vrsti
+		emit_signal("stat_changed", self, "stray_hit", [stray_in_row, hit_stray])
+		# destroj sosedov od sosedov
+		for neighboring_stray in all_neighboring_strays:
 			if stray_in_row < burst_power or burst_power == cocked_ghost_count_max: 
-				# zbrišeš indikator
-				Global.hud.color_picked(neighbouring_pixel.pixel_color)
-				neighbouring_pixel.die(stray_in_row + 1)
+				Global.hud.show_picked_color(neighboring_stray.pixel_color) # indikator efekt
+				neighboring_stray.die(stray_in_row + 1)
+				emit_signal("stat_changed", self, "stray_hit", [(stray_in_row + 1), neighboring_stray])
 			stray_in_row += 1
 
 
@@ -752,10 +782,15 @@ func die():
 #			emit_signal("stat_changed", self, "out_of_breath", 1)
 			
 #	Global.main_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
+	
+	
 	player_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
 	set_physics_process(false) # aktivira ga revive(), ki se sproži iz animacije
 	animation_player.play("die_player")
 
+
+func get_hit():
+	pass
 
 func revive():
 	

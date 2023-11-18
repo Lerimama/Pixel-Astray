@@ -110,8 +110,8 @@ func stray_step():
 	# strays_to_move.modulate = Color.white
 	
 	# next step random time
-	var random_pause_time_factor: float = randi() % int(5) + 1 # višji offset da manjši razpon v random času
-	var random_pause_time = 0.2 / random_pause_time_factor
+	var random_pause_time_divisor: float = randi() % int(5) + 1 # višji offset da manjši razpon v random času
+	var random_pause_time = 0.2 / random_pause_time_divisor
 	stray_step_timer.start(random_pause_time)
 		
 

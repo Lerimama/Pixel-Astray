@@ -15,8 +15,8 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	
-	self.life_count = Global.game_manager.player_stats["player_life"]
-	
+	# self.life_count = Global.game_manager.player_stats["player_life"] ... premaknjeno v hud
+	pass
 	
 func _on_value_change(new_value): # ne rabim parametra
 	

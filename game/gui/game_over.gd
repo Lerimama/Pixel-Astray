@@ -57,7 +57,7 @@ func _ready() -> void:
 	name_input_popup.visible = false
 
 
-func fade_in_no_highscore(): # title in potem game summary
+func fade_in_no_highscore(gameover_reason): # title in potem game summary
 
 
 	var focus_btn: Button
@@ -71,7 +71,7 @@ func fade_in_no_highscore(): # title in potem game summary
 		current_content = content_game
 		focus_btn = $ContentGame/Menu/RestartBtn
 	
-	choose_gameover_title()
+	choose_gameover_title(gameover_reason)
 			
 	modulate.a = 0	
 	visible = true
@@ -98,11 +98,11 @@ func fade_in_no_highscore(): # title in potem game summary
 	fade.tween_callback(focus_btn, "grab_focus") # šele tukaj, da se tween sploh zgodi,če 
 	
 	
-func fade_in_highscore(): # samo title in name input
+func fade_in_highscore(gameover_reason): # samo title in name input
 
 	var restart_btn = $ContentGame/Menu/RestartBtn # za focus
 
-	choose_gameover_title()
+	choose_gameover_title(gameover_reason)
 	current_jingle = "win_jingle" # že določen se ponovno opredeli, kerje HS
 	
 	modulate.a = 0	
@@ -164,9 +164,10 @@ func write_gameover_data():
 		$ContentGame/DataContainer/AstrayPixels.text %= str(Global.game_manager.strays_in_game_count)
 
 
-func choose_gameover_title():
+func choose_gameover_title(gameover_reason):
 	
-	match Global.game_manager.current_gameover_reason:
+#	match Global.game_manager.current_gameover_reason:
+	match gameover_reason:
 		
 		Global.game_manager.GameoverReason.CLEANED:
 			title_succes.visible = true

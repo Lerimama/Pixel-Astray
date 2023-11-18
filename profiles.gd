@@ -15,12 +15,9 @@ var default_player_stats: Dictionary = { # bo verjetno za vsak mode drugačen
 }
 
 
-
-
 var game_data_sprinter: Dictionary = { 
 	"game": Games.SPRINTER,
 	"tilemap_path": "res://game/tilemaps/test_tilemap.tscn",
-#	"tilemap_path": "res://game/tilemaps/cleaner_tilemap.tscn",
 	"game_time_limit": 600,
 	"strays_start_count": 500,
 }
@@ -41,8 +38,6 @@ var game_settings: Dictionary = {
 	"cell_travelled_energy": -1,
 	"skill_used_points": 0,
 	"skill_used_energy": 0,
-	"skilled_energy_drain": 0,
-	"skilled_energy_drain_speed": 0.1, # čas med vsakim odvzemom
 	# player
 	"player_start_life": 1, # če je samo en lajf, potem se ikone skrijejo v hudu
 	"player_start_energy": 192, # GM
@@ -53,6 +48,8 @@ var game_settings: Dictionary = {
 	"slowdown_mode": true, # hitrost je odvisna od energije
 	"slowdown_rate": 18,
 	# game
+	"skilled_energy_drain_mode" : false,
+	"skilled_energy_drain_speed": 0.1, # pavza predvsakim odvzemom točke
 	"timer_mode_countdown" : true,
 	"gameover_countdown_duration": 5,
 	"suddent_death_mode": false,
@@ -61,8 +58,10 @@ var game_settings: Dictionary = {
 	"skill_limit_count": 5,
 	"burst_limit_mode": false,
 	"burst_limit_count": 5,
-	"lose_life_on_wall": false,
-	"pick_neighbour_mode": false,
+	"lose_life_on_hit": false,
+	"lose_energy_on_hit": true,
+	"lose_energy_divisor": 2,
+	"pick_neighbor_mode": false,
 	"minimap_on": false,
 	"start_countdown_on": false, # game_countdown
 }
@@ -141,6 +140,7 @@ func set_game_data(selected_game) -> void:
 		Games.DUEL: 
 			current_game_data = game_data_duel
 			game_settings["player_start_life"] = 3
+			game_settings["lose_life_on_hit"] = true
 #			game_settings["start_countdown_on"] = true
 		
 

@@ -1,14 +1,14 @@
 extends KinematicBody2D
 
 
-signal stat_changed (stat_owner, stat, stat_change)
+#signal stat_changed (stat_owner, stat, stat_change)
 
 export (float, 0, 1) var die_shake_power: float = 0.2
 export (float, 0, 10) var die_shake_time: float = 0.4
 export (float, 0, 1) var die_shake_decay: float = 0.3
 
 var pixel_color: Color
-var neighbouring_cells: Array = [] # stray stalno čekira sosede
+var neighboring_cells: Array = [] # stray stalno čekira sosede
 var step_time: float = 0.1
 var is_stepping: bool = false
 
@@ -16,13 +16,12 @@ onready var cell_size_x: int = Global.game_tilemap.cell_size.x
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var vision_ray: RayCast2D = $VisionRay
 onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
-
+	
 	
 func _ready() -> void:
 	
 	add_to_group(Global.group_strays)
 
-#	current_stray_state = StrayState.IDLE  
 	modulate = pixel_color
 	modulate.a = 0
 	randomize() # za random die animacije
@@ -37,7 +36,7 @@ func fade_in(): # kliče GM
 	
 
 func _physics_process(delta: float) -> void:
-	neighbouring_cells = check_for_neighbours()
+	neighboring_cells = check_for_neighbors()
 	
 	
 func step(step_direction):
@@ -58,8 +57,7 @@ func die(stray_in_row):
 	
 	collision_shape_2d.disabled = true
 	
-	
-	emit_signal("stat_changed", self, "stray_hit", stray_in_row)
+#	emit_signal("stat_changed", self, "stray_hit", stray_in_row)
 	
 	# žrebam animacijo
 	var random_animation_index = randi() % 5 + 1
@@ -67,25 +65,21 @@ func die(stray_in_row):
 	animation_player.play(random_animation_name) 
 	# KVEFRI je v animaciji
 	
-	# var lose_color = get_tree().create_tween()
-	# lose_color.tween_property(self, "modulate", Color("#323232"), 0.3)
-	# lose_color.tween_callback(animation_player, "play", [random_animation_name])
-	
 	
 func play_blinking_sound():
 	Global.sound_manager.play_sfx("blinking")
 
 
-func check_for_neighbours(): 
+func check_for_neighbors(): 
 	
 	var directions_to_check: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
-	var current_cell_neighbours: Array
+	var current_cell_neighbors: Array
 	
 	for dir in directions_to_check:
 		if Global.detect_collision_in_direction(vision_ray, dir):
 			# če je kolajder stray in ni self
-			var neighbour = Global.detect_collision_in_direction(vision_ray, dir)
-			if neighbour.is_in_group(Global.group_strays) and neighbour != self:
-				current_cell_neighbours.append(neighbour)
+			var neighbor = Global.detect_collision_in_direction(vision_ray, dir)
+			if neighbor.is_in_group(Global.group_strays) and neighbor != self:
+				current_cell_neighbors.append(neighbor)
 				
-	return current_cell_neighbours # uporaba v stalnem čekiranj sosedov
+	return current_cell_neighbors # uporaba v stalnem čekiranj sosedov
