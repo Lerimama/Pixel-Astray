@@ -116,7 +116,7 @@ var game_data_duel: Dictionary = {
 	"game_name": "The Duel",
 	"level": "L",
 	"tilemap_path": "res://game/tilemaps/duel_tilemap.tscn",
-	"game_time_limit": 600,
+	"game_time_limit": 6,
 	"strays_start_count": 2, 
 	"highscore": 0,
 }

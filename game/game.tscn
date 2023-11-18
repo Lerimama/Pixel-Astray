@@ -1581,18 +1581,6 @@ __meta__ = {
 rect_min_size = Vector2( 1280, 720 )
 script = ExtResource( 2 )
 
-[node name="Energy" type="Label" parent="GUI/Hud"]
-visible = false
-margin_left = 128.0
-margin_top = 69.0
-margin_right = 172.0
-margin_bottom = 91.0
-text = "E: 0"
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
 [node name="Life" type="Label" parent="GUI/Hud"]
 visible = false
 margin_left = 32.0
@@ -1600,6 +1588,49 @@ margin_top = 69.0
 margin_right = 114.0
 margin_bottom = 91.0
 text = "LIFE: 0"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Energy" type="Label" parent="GUI/Hud"]
+visible = false
+margin_left = 136.0
+margin_top = 69.0
+margin_right = 180.0
+margin_bottom = 91.0
+text = "E: 0"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="PickedColor" type="Control" parent="GUI/Hud"]
+visible = false
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 200.0
+margin_top = -648.0
+margin_right = 368.0
+margin_bottom = -628.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ColorRect" type="ColorRect" parent="GUI/Hud/PickedColor"]
+margin_top = 3.0
+margin_right = 12.0
+margin_bottom = 15.0
+size_flags_vertical = 4
+
+[node name="Value" type="Label" parent="GUI/Hud/PickedColor"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 24.0
+margin_top = -27.0
+margin_right = 170.0
+margin_bottom = -1.0
+text = "255 255 255"
 valign = 2
 __meta__ = {
 "_editor_description_": ""
@@ -1616,11 +1647,11 @@ rect_min_size = Vector2( 1280, 48 )
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
 [node name="PlayerLineL" type="HBoxContainer" parent="GUI/Hud/Header"]
-margin_left = 31.0
+margin_left = 32.0
 margin_top = 16.0
-margin_right = 133.0
+margin_right = 234.0
 margin_bottom = 38.0
-custom_constants/separation = 20
+custom_constants/separation = 16
 __meta__ = {
 "_edit_group_": true
 }
@@ -1700,9 +1731,9 @@ margin_bottom = 16.0
 texture = SubResource( 123 )
 
 [node name="EnergyBar" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineL"]
-margin_left = 72.0
+margin_left = 68.0
 margin_top = 3.0
-margin_right = 136.0
+margin_right = 132.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 19 )
 size_flags_vertical = 8
@@ -1729,15 +1760,15 @@ step = 8.0
 texture_over = SubResource( 126 )
 texture_progress = SubResource( 132 )
 
-[node name="PointsCounter" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineL"]
-margin_left = 156.0
-margin_right = 170.0
+[node name="PointsHolder" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineL"]
+margin_left = 148.0
+margin_right = 162.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 22 )
 size_flags_vertical = 8
 custom_constants/separation = 8
 
-[node name="TextureRect4" type="TextureRect" parent="GUI/Hud/Header/PlayerLineL/PointsCounter"]
+[node name="TextureRect4" type="TextureRect" parent="GUI/Hud/Header/PlayerLineL/PointsHolder"]
 visible = false
 margin_top = 4.0
 margin_right = 16.0
@@ -1746,7 +1777,7 @@ rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
 texture = SubResource( 129 )
 
-[node name="Points" type="Label" parent="GUI/Hud/Header/PlayerLineL/PointsCounter"]
+[node name="Points" type="Label" parent="GUI/Hud/Header/PlayerLineL/PointsHolder"]
 margin_right = 14.0
 margin_bottom = 22.0
 size_flags_vertical = 8
@@ -1756,7 +1787,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="ColorCounter" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineL"]
+[node name="ColorHolder" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineL"]
 visible = false
 margin_left = 190.0
 margin_right = 242.0
@@ -1764,7 +1795,7 @@ margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
 
-[node name="TextureRect5" type="TextureRect" parent="GUI/Hud/Header/PlayerLineL/ColorCounter"]
+[node name="TextureRect5" type="TextureRect" parent="GUI/Hud/Header/PlayerLineL/ColorHolder"]
 margin_top = 4.0
 margin_right = 16.0
 margin_bottom = 22.0
@@ -1772,7 +1803,7 @@ rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
 texture = SubResource( 225 )
 
-[node name="Label" type="Label" parent="GUI/Hud/Header/PlayerLineL/ColorCounter"]
+[node name="Label" type="Label" parent="GUI/Hud/Header/PlayerLineL/ColorHolder"]
 margin_left = 24.0
 margin_right = 52.0
 margin_bottom = 22.0
@@ -1783,7 +1814,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="SkillCounter" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineL"]
+[node name="SkillHolder" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineL"]
 visible = false
 margin_left = 262.0
 margin_right = 314.0
@@ -1791,7 +1822,7 @@ margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
 
-[node name="TextureRect5" type="TextureRect" parent="GUI/Hud/Header/PlayerLineL/SkillCounter"]
+[node name="TextureRect5" type="TextureRect" parent="GUI/Hud/Header/PlayerLineL/SkillHolder"]
 margin_top = 4.0
 margin_right = 16.0
 margin_bottom = 22.0
@@ -1799,7 +1830,7 @@ rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
 texture = SubResource( 130 )
 
-[node name="Label" type="Label" parent="GUI/Hud/Header/PlayerLineL/SkillCounter"]
+[node name="Label" type="Label" parent="GUI/Hud/Header/PlayerLineL/SkillHolder"]
 margin_left = 24.0
 margin_right = 52.0
 margin_bottom = 22.0
@@ -1810,7 +1841,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="BurstCounter" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineL"]
+[node name="BurstHolder" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineL"]
 visible = false
 margin_left = 334.0
 margin_right = 386.0
@@ -1818,7 +1849,7 @@ margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
 
-[node name="TextureRect6" type="TextureRect" parent="GUI/Hud/Header/PlayerLineL/BurstCounter"]
+[node name="TextureRect6" type="TextureRect" parent="GUI/Hud/Header/PlayerLineL/BurstHolder"]
 margin_top = 4.0
 margin_right = 16.0
 margin_bottom = 22.0
@@ -1826,7 +1857,7 @@ rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
 texture = SubResource( 131 )
 
-[node name="Label" type="Label" parent="GUI/Hud/Header/PlayerLineL/BurstCounter"]
+[node name="Label" type="Label" parent="GUI/Hud/Header/PlayerLineL/BurstHolder"]
 margin_left = 24.0
 margin_right = 52.0
 margin_bottom = 22.0
@@ -1844,6 +1875,7 @@ margin_left = -34.0
 margin_top = 16.0
 margin_right = 36.0
 margin_bottom = 38.0
+grow_horizontal = 2
 theme = SubResource( 194 )
 script = ExtResource( 1 )
 __meta__ = {
@@ -1853,14 +1885,19 @@ __meta__ = {
 [node name="Mins" type="Label" parent="GUI/Hud/Header/GameTimer"]
 margin_right = 28.0
 margin_bottom = 22.0
+grow_horizontal = 0
+rect_min_size = Vector2( 28, 0 )
+size_flags_horizontal = 3
 size_flags_vertical = 8
 text = "00"
+align = 2
 valign = 2
 
 [node name="Dots" type="Label" parent="GUI/Hud/Header/GameTimer"]
 margin_left = 32.0
 margin_right = 38.0
 margin_bottom = 22.0
+rect_min_size = Vector2( 6, 0 )
 size_flags_vertical = 8
 text = ":"
 align = 1
@@ -1870,12 +1907,40 @@ valign = 2
 margin_left = 42.0
 margin_right = 70.0
 margin_bottom = 22.0
+rect_min_size = Vector2( 28, 0 )
 size_flags_vertical = 8
 text = "00"
-align = 2
 valign = 2
 
 [node name="Timer" type="Timer" parent="GUI/Hud/Header/GameTimer"]
+
+[node name="MusicPlayer" type="Label" parent="GUI/Hud/Header"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 58.0
+margin_top = 16.0
+margin_right = 102.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 44, 0 )
+size_flags_horizontal = 8
+text = "00"
+align = 2
+script = ExtResource( 24 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="OnIcon" type="TextureRect" parent="GUI/Hud/Header/MusicPlayer"]
+margin_top = 3.0
+margin_right = 14.0
+margin_bottom = 19.0
+texture = SubResource( 148 )
+
+[node name="OffIcon" type="TextureRect" parent="GUI/Hud/Header/MusicPlayer"]
+margin_top = 3.0
+margin_right = 14.0
+margin_bottom = 19.0
+texture = SubResource( 146 )
 
 [node name="HighscoreLabel" type="Label" parent="GUI/Hud/Header"]
 margin_left = 1198.0
@@ -1890,24 +1955,24 @@ align = 2
 visible = false
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -286.0
+margin_left = -274.0
 margin_top = 16.0
 margin_right = -30.0
 margin_bottom = 38.0
 grow_horizontal = 0
-custom_constants/separation = 20
+custom_constants/separation = 16
+alignment = 2
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="ColorCounter" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineR"]
-margin_left = 248.0
-margin_right = 300.0
+[node name="ColorHolder" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineR"]
+margin_right = 52.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
 
-[node name="TextureRect5" type="TextureRect" parent="GUI/Hud/Header/PlayerLineR/ColorCounter"]
+[node name="TextureRect5" type="TextureRect" parent="GUI/Hud/Header/PlayerLineR/ColorHolder"]
 margin_top = 4.0
 margin_right = 16.0
 margin_bottom = 22.0
@@ -1915,7 +1980,7 @@ rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
 texture = SubResource( 225 )
 
-[node name="Label" type="Label" parent="GUI/Hud/Header/PlayerLineR/ColorCounter"]
+[node name="Label" type="Label" parent="GUI/Hud/Header/PlayerLineR/ColorHolder"]
 margin_left = 24.0
 margin_right = 52.0
 margin_bottom = 22.0
@@ -1926,7 +1991,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="PointsCounter" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineR"]
+[node name="PointsHolder" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineR"]
 visible = false
 margin_left = 164.0
 margin_right = 178.0
@@ -1935,7 +2000,7 @@ rect_min_size = Vector2( 0, 22 )
 size_flags_vertical = 8
 custom_constants/separation = 8
 
-[node name="TextureRect4" type="TextureRect" parent="GUI/Hud/Header/PlayerLineR/PointsCounter"]
+[node name="TextureRect4" type="TextureRect" parent="GUI/Hud/Header/PlayerLineR/PointsHolder"]
 visible = false
 margin_top = 4.0
 margin_right = 16.0
@@ -1944,7 +2009,7 @@ rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
 texture = SubResource( 129 )
 
-[node name="Points" type="Label" parent="GUI/Hud/Header/PlayerLineR/PointsCounter"]
+[node name="Points" type="Label" parent="GUI/Hud/Header/PlayerLineR/PointsHolder"]
 margin_right = 14.0
 margin_bottom = 22.0
 size_flags_vertical = 8
@@ -1955,9 +2020,9 @@ __meta__ = {
 }
 
 [node name="EnergyBar" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineR"]
-margin_left = 76.0
+margin_left = 68.0
 margin_top = 3.0
-margin_right = 140.0
+margin_right = 132.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 19 )
 size_flags_vertical = 8
@@ -1985,8 +2050,9 @@ texture_over = SubResource( 126 )
 texture_progress = SubResource( 132 )
 
 [node name="LifeIcons" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineR"]
+margin_left = 148.0
 margin_top = 3.0
-margin_right = 52.0
+margin_right = 200.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 19 )
 size_flags_vertical = 8
@@ -2047,7 +2113,8 @@ margin_bottom = 16.0
 texture = SubResource( 123 )
 
 [node name="PlayerLabel" type="Label" parent="GUI/Hud/Header/PlayerLineR"]
-margin_right = 28.0
+margin_left = 216.0
+margin_right = 244.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
@@ -2084,20 +2151,12 @@ __meta__ = {
 }
 
 [node name="GameLine" type="HBoxContainer" parent="GUI/Hud/Footer/FooterLine"]
-margin_right = 174.0
-margin_bottom = 22.0
-custom_constants/separation = 16
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="GameLevel" type="HBoxContainer" parent="GUI/Hud/Footer/FooterLine/GameLine"]
 margin_right = 110.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
 
-[node name="Game" type="Label" parent="GUI/Hud/Footer/FooterLine/GameLine/GameLevel"]
+[node name="Game" type="Label" parent="GUI/Hud/Footer/FooterLine/GameLine"]
 margin_right = 60.0
 margin_bottom = 22.0
 size_flags_horizontal = 8
@@ -2108,7 +2167,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Level" type="Label" parent="GUI/Hud/Footer/FooterLine/GameLine/GameLevel"]
+[node name="Level" type="Label" parent="GUI/Hud/Footer/FooterLine/GameLine"]
 margin_left = 68.0
 margin_right = 110.0
 margin_bottom = 22.0
@@ -2119,34 +2178,8 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="MusicPlayer" type="Label" parent="GUI/Hud/Footer/FooterLine/GameLine"]
-margin_left = 126.0
-margin_right = 174.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 48, 0 )
-size_flags_horizontal = 8
-text = "00"
-align = 2
-valign = 2
-script = ExtResource( 24 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="OnIcon" type="TextureRect" parent="GUI/Hud/Footer/FooterLine/GameLine/MusicPlayer"]
-margin_top = 3.0
-margin_right = 14.0
-margin_bottom = 16.0
-texture = SubResource( 148 )
-
-[node name="OffIcon" type="TextureRect" parent="GUI/Hud/Footer/FooterLine/GameLine/MusicPlayer"]
-margin_top = 3.0
-margin_right = 6.0
-margin_bottom = 19.0
-texture = SubResource( 146 )
-
 [node name="SpectrumHolder" type="Control" parent="GUI/Hud/Footer/FooterLine"]
-margin_left = 206.0
+margin_left = 142.0
 margin_right = 1038.0
 margin_bottom = 22.0
 grow_horizontal = 2
@@ -2165,7 +2198,8 @@ custom_constants/separation = 0
 alignment = 1
 
 [node name="SpectrumColorIndicator3" parent="GUI/Hud/Footer/FooterLine/SpectrumHolder/ColorSpectrum" instance=ExtResource( 16 )]
-margin_right = 832.0
+visible = false
+margin_right = 896.0
 margin_bottom = 13.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -2181,13 +2215,13 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="AstrayCounter" type="HBoxContainer" parent="GUI/Hud/Footer/FooterLine/StraysLine"]
+[node name="AstrayHolder" type="HBoxContainer" parent="GUI/Hud/Footer/FooterLine/StraysLine"]
 margin_right = 66.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
 
-[node name="TextureRect3" type="TextureRect" parent="GUI/Hud/Footer/FooterLine/StraysLine/AstrayCounter"]
+[node name="TextureRect3" type="TextureRect" parent="GUI/Hud/Footer/FooterLine/StraysLine/AstrayHolder"]
 margin_top = 4.0
 margin_right = 16.0
 margin_bottom = 22.0
@@ -2195,7 +2229,7 @@ rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
 texture = SubResource( 128 )
 
-[node name="Label" type="Label" parent="GUI/Hud/Footer/FooterLine/StraysLine/AstrayCounter"]
+[node name="Label" type="Label" parent="GUI/Hud/Footer/FooterLine/StraysLine/AstrayHolder"]
 margin_left = 24.0
 margin_right = 66.0
 margin_bottom = 22.0
@@ -2206,14 +2240,14 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="PickedCounter" type="HBoxContainer" parent="GUI/Hud/Footer/FooterLine/StraysLine"]
+[node name="PickedHolder" type="HBoxContainer" parent="GUI/Hud/Footer/FooterLine/StraysLine"]
 margin_left = 82.0
 margin_right = 148.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
 
-[node name="TextureRect2" type="TextureRect" parent="GUI/Hud/Footer/FooterLine/StraysLine/PickedCounter"]
+[node name="TextureRect2" type="TextureRect" parent="GUI/Hud/Footer/FooterLine/StraysLine/PickedHolder"]
 margin_top = 4.0
 margin_right = 16.0
 margin_bottom = 22.0
@@ -2221,43 +2255,12 @@ rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
 texture = SubResource( 127 )
 
-[node name="Label" type="Label" parent="GUI/Hud/Footer/FooterLine/StraysLine/PickedCounter"]
+[node name="Label" type="Label" parent="GUI/Hud/Footer/FooterLine/StraysLine/PickedHolder"]
 margin_left = 24.0
 margin_right = 66.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 text = "000"
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="PickedColor" type="Control" parent="GUI/Hud/Footer"]
-visible = false
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 32.0
-margin_top = -37.0
-margin_right = 200.0
-margin_bottom = -17.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="ColorRect" type="ColorRect" parent="GUI/Hud/Footer/PickedColor"]
-margin_top = 3.0
-margin_right = 12.0
-margin_bottom = 15.0
-size_flags_vertical = 4
-
-[node name="Value" type="Label" parent="GUI/Hud/Footer/PickedColor"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 24.0
-margin_top = -27.0
-margin_right = 170.0
-margin_bottom = -1.0
-text = "255 255 255"
 valign = 2
 __meta__ = {
 "_editor_description_": ""
@@ -3208,9 +3211,9 @@ expand = true
 [node name="InfoPanel" type="Control" parent="GUI/Tutorial"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = 24.0
+margin_left = 1304.0
 margin_top = 80.0
-margin_right = 344.0
+margin_right = 1624.0
 margin_bottom = 647.0
 theme = SubResource( 194 )
 
@@ -3930,10 +3933,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -223.0
-margin_top = -40.0
-margin_right = 225.0
-margin_bottom = 248.0
+margin_left = 417.0
+margin_top = 320.0
+margin_right = 865.0
+margin_bottom = 608.0
 theme = SubResource( 194 )
 __meta__ = {
 "_edit_group_": true

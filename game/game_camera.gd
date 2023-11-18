@@ -6,39 +6,35 @@ signal zoomed_out
 
 export (OpenSimplexNoise) var noise # tekstura za vizualizacijo ma kopijo tega noisa
 
-# in-house šejk setup ... ne interaktira z nastavitvami za igro
+# in-house shake setup ... se ne meša z nastavitvami za igro
 export var test_trauma_strength = 0.1 # šejk sajz na testnem gumbu ... se multiplicira s prtiskanjem
 export var test_trauma_time = 0.2 # decay delay
 export var test_decay_speed = 0.7 # krajši je 
 
-# game camera noise setup ... enako kot dkamera.noise
+# noise setup
 var noise_seed: float = 8
 var noise_octaves: float = 1
 var noise_period: float = 5
 var noise_persistence: float = 0
 var noise_lacunarity: float = 3.2
-
+# shake
 var trauma_strength = 0 # na začetku vedno 0, pride iz šejk klica
 var time: float = 0 # za offset noise
 var time_speed: float = 150 # za offset noise
 var decay_rate: float # enačba na kakšen način gre šejk do nule
 var trauma_time: float
 var decay_speed: float
-
 var max_horizontal = 150
 var max_vertical = 150
 var max_rotation = 5
-
-# test hud
-var test_view_on = false
-
 # mouse drag 
 var mouse_used: bool = false # če je miška ni redi za dreganje ekrana
 var camera_center = Vector2(320, 180)
 var mouse_position_on_drag_start: Vector2 # zamik pozicije miške ob kliku
 var drag_on: bool = false
 
-# ui
+# test ui
+var test_view_on = false
 onready var trauma_time_slider: HSlider = $UILayer/TestHud/TraumaControl/TraumaTime
 onready var trauma_strength_slider: HSlider = $UILayer/TestHud/TraumaControl/TraumaStrength
 onready var decay_slider: HSlider = $UILayer/TestHud/TraumaControl/ShakeDecay
@@ -57,14 +53,7 @@ onready var lacunarity_slider = $UILayer/TestHud/NoiseControl/Lacunarity
 onready var testhud_node = $UILayer/TestHud
 onready var test_toggle_btn = $UILayer/TestToggle
 
-# novo!
-onready var cell_size_x = Global.game_tilemap.cell_size.x # za zamik glede na tile
-
-# zoom animation
-var header_off_position = - 56
-var footer_off_position = 720
-
-onready var current_viewport = get_viewport()
+onready var cell_size_x = Global.game_tilemap.cell_size.x # za zamik kamere glede na tile
 onready var viewport_footer: ColorRect = $"%ViewFuter"
 onready var viewport_header: ColorRect = $"%ViewHeder"
 
@@ -107,18 +96,13 @@ func _ready():
 
 func zoom_in():
 	
-	# prvi zoom
-	var final_zoom = Vector2.ONE
-	
-	# set hud poze ... zamaknjene za višino hederja
-	Global.hud.header.rect_position.y = header_off_position
-	Global.hud.footer.rect_position.y = footer_off_position
-	
-	# viewport controlls
 	viewport_footer.rect_min_size.y = 0
 	viewport_footer.visible = true
 	viewport_header.rect_min_size.y = 0
 	viewport_header.visible = true
+	
+	var final_zoom = Vector2.ONE
+	
 	Global.hud.fade_in()
 	
 	var zoom_in_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
@@ -126,23 +110,20 @@ func zoom_in():
 	zoom_in_tween.parallel().tween_property(get_viewport(), "size:y", 720 - 112, 2)
 	zoom_in_tween.parallel().tween_property(viewport_header, "rect_min_size:y", 56, 2)
 	zoom_in_tween.parallel().tween_property(viewport_footer, "rect_min_size:y", 56, 2)
-	zoom_in_tween.parallel().tween_property(Global.hud.header, "rect_position:y", 0, 2)
-	zoom_in_tween.parallel().tween_property(Global.hud.footer, "rect_position:y", 720 - 56, 2)
 	zoom_in_tween.tween_callback(self, "emit_signal", ["zoomed_in"])
 	
 	
 func zoom_out():
 
 	var final_zoom = Vector2(2, 2)
-	yield(get_tree().create_timer(0.5), "timeout")
+	
+	Global.hud.fade_out()
 
 	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	zoom_out_tween.tween_property(self, "zoom", final_zoom, 2)
 	zoom_out_tween.parallel().tween_property(get_viewport(), "size:y", 720, 2)
 	zoom_out_tween.parallel().tween_property(viewport_header, "rect_min_size:y", 0, 2)
 	zoom_out_tween.parallel().tween_property(viewport_footer, "rect_min_size:y", 0, 2)
-	zoom_out_tween.parallel().tween_property(Global.hud.header, "rect_position:y", 0 - 56, 2)
-	zoom_out_tween.parallel().tween_property(Global.hud.footer, "rect_position:y", 720, 2)
 	zoom_out_tween.tween_callback(self, "emit_signal", ["zoomed_out"]).set_delay(1)
 
 
@@ -180,8 +161,6 @@ func _process(delta):
 
 func _physics_process(delta: float) -> void:
 
-#	if Global.camera_target:
-#		position = Global.camera_target.position + Vector2(cell_size_x / 2, 0)
 	if Global.main_camera == self and Global.camera_target:
 		position = Global.camera_target.position + Vector2(cell_size_x / 2, 0)
 	elif Global.main_camera_2 == self and Global.camera_target_2:
