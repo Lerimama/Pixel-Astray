@@ -58,9 +58,8 @@ var game_settings: Dictionary = {
 	"skill_limit_count": 5,
 	"burst_limit_mode": false,
 	"burst_limit_count": 5,
-	"lose_life_on_hit": false,
-	"lose_energy_on_hit": true,
-	"lose_energy_divisor": 2,
+	"lose_life_on_hit": true,
+	"reset_energy_on_lose_life": true,
 	"pick_neighbor_mode": false,
 	"minimap_on": false,
 	"start_countdown_on": false, # game_countdown
@@ -76,6 +75,8 @@ var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "c
 
 var game_data_tutorial: Dictionary = { 
 	"game": Games.TUTORIAL,
+	"game_name": "Tutorial",
+	"level": "NN",
 	"tilemap_path": "res://game/tilemaps/tutorial_tilemap.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 10,
@@ -114,9 +115,9 @@ var game_data_cleaner_L: Dictionary = {
 var game_data_duel: Dictionary = {
 	"game": Games.DUEL,
 	"game_name": "The Duel",
-	"level": "L",
+	"level": "NN",
 	"tilemap_path": "res://game/tilemaps/duel_tilemap.tscn",
-	"game_time_limit": 6,
+	"game_time_limit": 600,
 	"strays_start_count": 2, 
 	"highscore": 0,
 }
@@ -140,7 +141,7 @@ func set_game_data(selected_game) -> void:
 		Games.DUEL: 
 			current_game_data = game_data_duel
 			game_settings["player_start_life"] = 3
-			game_settings["lose_life_on_hit"] = true
+#			game_settings["lose_life_on_hit"] = true
 #			game_settings["start_countdown_on"] = true
 		
 

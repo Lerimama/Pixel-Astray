@@ -60,9 +60,11 @@ func home_out():
 
 
 func game_in():
+
+	Global.reset_globals()
 	
 	Global.spawn_new_scene(game_scene_path, self)
-	
+
 	yield(get_tree().create_timer(1), "timeout")
 	Global.current_scene.modulate = Color.black
 	yield(get_tree().create_timer(1), "timeout")
@@ -77,7 +79,7 @@ func game_out():
 	Global.sound_manager.stop_music("game")
 	Global.sound_manager.stop_sfx("lose_jingle")
 	Global.sound_manager.stop_sfx("win_jingle")
-		
+	
 	var fade_out = get_tree().create_tween()
 	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
 	fade_out.tween_callback(Global, "release_scene", [Global.current_scene])
@@ -92,7 +94,7 @@ func reload_game(): # game out z drugačnim zaključkom
 	Global.sound_manager.stop_music("game")
 	Global.sound_manager.stop_sfx("lose_jingle")
 	Global.sound_manager.stop_sfx("win_jingle")
-	
+
 	var fade_out = get_tree().create_tween()
 	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
 	fade_out.tween_callback(Global, "release_scene", [Global.current_scene])

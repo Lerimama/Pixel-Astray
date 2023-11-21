@@ -6,26 +6,25 @@ extends Node2D
 # GLOBAL NODES ---------------------------------------------------------------------------------------------------------
 
 var main_node = null
+var node_creation_parent = null # arena
 
 # managers
 var sound_manager = null
 var data_manager = null
 var game_manager = null
 
-# game
-var main_camera = null
-var main_camera_2 = null
-#var viewport_1 = null
-#var viewport_2 = null
-
-var camera_target = null
-var camera_target_2 = null
-var node_creation_parent = null # arena
+# gui
 var game_tilemap = null
 var hud = null
 var start_countdown = null
 var gameover_menu = null
 var tutorial_gui = null
+
+# reset on game-over
+var camera_target = null
+var camera_target_2 = null
+var main_camera = null
+var main_camera_2 = null
 
 
 # GLOBAL VARS ---------------------------------------------------------------------------------------------------------
@@ -56,6 +55,13 @@ var color_yellow = Color("#fef98b")
 func _ready():
 	randomize()
 
+
+func reset_globals():
+	camera_target = null
+	camera_target_2 = null
+	main_camera = null
+	main_camera_2 = null	
+	
 # debugging
 func print_id (node: Node): 
 	printt("Živijo! Jaz sem " + node.name + " na koordinatah " + str(node.global_position) + ".")

@@ -1,6 +1,5 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://game/arena.gd" type="Script" id=1]
 [ext_resource path="res://game/tilemaps/arena_tilemap.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/resources/anim_pixelate.tres" type="Animation" id=4]
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=6]
@@ -139,7 +138,6 @@ tracks/2/keys = {
 }
 
 [node name="Arena" type="Node2D"]
-script = ExtResource( 1 )
 __meta__ = {
 "_edit_horizontal_guides_": [ 719.0 ],
 "_edit_vertical_guides_": [ 1279.0 ]

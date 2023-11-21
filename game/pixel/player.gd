@@ -124,7 +124,7 @@ func _physics_process(delta: float) -> void:
 	
 	last_breath()
 	state_machine()
- 
+	
 		 
 func state_machine():
 	
@@ -143,7 +143,7 @@ func state_machine():
 				if skill_sfx_playing: # da FP ne kliče na vsak frejm
 					Global.sound_manager.stop_sfx("skilled")
 					skill_sfx_playing = false
-			# toggle energy_speed mode
+			# toggle energy_speed_mode
 			if Global.game_manager.game_settings["slowdown_mode"]:
 				var slow_trim_size: float = step_time_slow * max_player_energy
 				var energy_factor: float = (max_player_energy - slow_trim_size) / player_energy
@@ -171,101 +171,121 @@ func state_machine():
 	
 func on_collision(): 
 	
+	spawn_collision_particles()
+	Global.sound_manager.stop_sfx("burst")
+	
 	# shake calc
 	var added_shake_power = hit_stray_shake_power + burst_power_shake_addon * burst_power
 	var added_shake_time = hit_stray_shake_time + burst_power_shake_addon * burst_power
 	
 	if collision.collider.is_in_group(Global.group_tilemap):
-		
 		# efekti
 		Input.start_joy_vibration(0, 0.5, 0.6, 0.7)
-#		Global.game_manager.current_gameover_reason = Global.game_manager.GameoverReason.WALL
-		player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
-		Global.sound_manager.stop_sfx("burst")
 		Global.sound_manager.play_sfx("hit_wall")
-		spawn_collision_particles()
+		player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
 		spawn_dizzy_particles()
-		
 		# posledice
-		emit_signal("stat_changed", self, "wall_hit", 1)
+		emit_signal("stat_changed", self, "hit_wall", 1)
 		die()
 
 	elif collision.collider.is_in_group(Global.group_strays):
-		
 		# efekti
 		Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
+		Global.sound_manager.play_sfx("hit_stray")	
 		player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
-		Global.sound_manager.stop_sfx("burst")
-		Global.sound_manager.play_sfx("hit_stray")
-		spawn_collision_particles()
-		
 		# posledice
-		var hit_stray: KinematicBody2D = collision.collider
-		if Global.game_manager.game_settings["pick_neighbor_mode"]:
-			if Global.game_manager.colors_to_pick and not Global.game_manager.colors_to_pick.has(hit_stray.pixel_color): # če pobrana barva ni enaka barvi soseda
-				end_move()
-				return # nadaljna koda se ne izvede
-		# destroj prvega pixla
-		pixel_color = hit_stray.pixel_color
-		Global.hud.show_picked_color(hit_stray.pixel_color)
-		if not Global.game_manager.game_settings["pick_neighbor_mode"]:
-			multikill(hit_stray)
-		else: # pick_neighbor_mode ne podpira multikilla ... tukaj je pomembno zaporedje
-			hit_stray.die(1) # edini oziroma prvi v vrsti
+		on_hit_stray(collision.collider)
 	
 	elif collision.collider.is_in_group(Global.group_players):
 		
-		# efekti
-		Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
-		player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
-		Global.sound_manager.stop_sfx("burst")
-		Global.sound_manager.play_sfx("hit_stray")
-		spawn_collision_particles()
-			
 		var hit_player: KinematicBody2D = collision.collider
-		# najprej preverim, če sem močnejši
-#		hit_player.burst_velocity = direction * burst_speed
-		printt (name, hit_player, hit_player.burst_velocity, hit_player.burst_speed_max, hit_player.burst_speed)
-#		burst_velocity = direction * burst_speed
-		# če sem močnejši, potem sledijo posledice, če ne ne
-		
-		# prevzemem barvo
-		pixel_color = hit_player.pixel_color
-		# prevzamem pixle
-		# preverim če mam večji bursting power
-		
-		# die na kolajderju
-#		hit_player.end_move()
-#		hit_player.die() # edini oziroma prvi v vrsti
-#		hit_player.spawn_dizzy_particles()
-#		hit_player.emit_signal("stat_changed", hit_player, "wall_hit", 1)
-	end_move_on_die()
-	
-	
-#		- katera hitrost se ne izbiše ob stopu
-
-
-
+		# zmaga
+		if burst_speed_max > hit_player.burst_speed_max or hit_player.current_state != hit_player.States.BURSTING:
+			print(name, " = winer, ", burst_speed_max, "  ", hit_player.name, " = luzer, ", hit_player.burst_speed_max)
+			# efekti
+			Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
+			Global.sound_manager.play_sfx("hit_stray")	
+			player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
+			# posledice
+			if hit_player.pixel_color != Global.game_manager.game_settings["player_start_color"]: 
+				pixel_color = hit_player.pixel_color # prevzamem barvo
+				emit_signal("stat_changed", self, "hit_player", 1) # vzamem mu pobrane barve
+			hit_player.on_get_hit(added_shake_power, added_shake_time)
+		# neodločeno
+		elif burst_speed_max == hit_player.burst_speed_max and hit_player.current_state == hit_player.States.BURSTING: # enaka moč in on tudi bursta
+			print("tie")
+			Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
+			Global.sound_manager.play_sfx("hit_stray")
+			player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
+			
+	stop_on_hit()
 #	end_move() # more bit tukaj spodaj, da lahko pogreba podatke v svoji smeri
 
+		
 
-func end_move_on_die():
+func on_get_hit(added_shake_power, added_shake_time):
 	
-#	burst_direction_set = false
-#	cocking_room = true
-	burst_speed = 0 # more bit tukaj pred _change state, če ne uničuje tudi sam sebe ... trenutno ni treba?
-#	direction = Vector2.ZERO	
-#	burst_speed_max = 0
+	# efekti
+	Input.start_joy_vibration(0, 0.5, 0.6, 0.7)
+	player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)	
+	spawn_dizzy_particles()
+
+	# uničim morebitno napenjanje
+	if burst_speed_max > 0: 
+		burst_speed_max = 0
+		for ghost in cocked_ghosts:
+			var fade_out = get_tree().create_tween()
+			fade_out.tween_property(ghost.poly_pixel, "modulate:a", 0, 0.2)
+			fade_out.tween_callback(ghost, "queue_free")
+		cocked_ghosts = []
+				
+	# stats				
+	Global.game_manager.game_settings["player_start_color"] = Color("#141414") # _temp
+	pixel_color = Global.game_manager.game_settings["player_start_color"] # postane začetne barve
+	emit_signal("stat_changed", self, "hit_by_player", 1)
+	die()
 	
+				
+func stop_on_hit():
+	
+	burst_speed = 0
+	global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions)
 #	modulate = pixel_color
 #	last_breath_active = false # če je burst v steno se ponovno začne
 #
-	direction = Vector2.ZERO # se ustavi (ne zadovoljivo), resetira ray dir
-	global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions)
+#	direction = Vector2.ZERO # se ustavi (ne zadovoljivo), resetira ray dir
 	# reset ray dir
-	current_state = States.IDLE # da ga spet lahko premikaš
+#	current_state = States.IDLE # da ga spet lahko premikaš
+#	call_deferred("end_move")
+#	end_move()
+	current_state = States.IDLE
+	modulate = pixel_color
+
+			
+func end_move():
 	
-	pass
+	# orig zaporedje
+#	current_state = States.IDLE
+#	global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions) 
+	
+	if light_2d.enabled:
+		light_off()
+	
+	# reset burst
+	burst_direction_set = false
+	cocking_room = true
+	burst_speed = 0 # more bit tukaj pred _change state, če ne uničuje tudi sam sebe ... trenutno ni treba?
+	
+	burst_speed_max = 0
+	
+	modulate = pixel_color
+	last_breath_active = false # če je burst v steno se ponovno začne
+	direction = Vector2.ZERO # reset ray dir
+	
+	global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions) 
+	current_state = States.IDLE
+
+		
 # INPUTS ------------------------------------------------------------------------------------------
 
 
@@ -392,27 +412,6 @@ func step():
 
 		# pošljem signal, da odštejem točko
 		emit_signal("stat_changed", self, "cells_travelled", 1)
-		
-			
-func end_move():
-	
-	current_state = States.IDLE
-	
-	if light_2d.enabled:
-		light_off()
-	
-	burst_direction_set = false
-	cocking_room = true
-	burst_speed = 0 # more bit tukaj pred _change state, če ne uničuje tudi sam sebe ... trenutno ni treba?
-	burst_speed_max = 0
-	
-	modulate = pixel_color
-	last_breath_active = false # če je burst v steno se ponovno začne
-	
-	# reset dir
-	global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions) 
-	# reset ray dir
-	direction = Vector2.ZERO
 
 
 # BURST ------------------------------------------------------------------------------------------
@@ -445,6 +444,9 @@ func cock_burst():
 
 func release_burst():
 	
+	if burst_speed_max == 0: # če je vmes zadet
+		return
+		
 	current_state = States.RELEASING
 	
 	Global.sound_manager.play_sfx("burst_cocked")
@@ -732,6 +734,20 @@ func last_breath():
 		last_breath_active = false
 		animation_player.stop()
 	
+
+func on_hit_stray(hit_stray: KinematicBody2D):
+		if Global.game_manager.game_settings["pick_neighbor_mode"]:
+			if Global.game_manager.colors_to_pick and not Global.game_manager.colors_to_pick.has(hit_stray.pixel_color): # če pobrana barva ni enaka barvi soseda
+				end_move()
+				return # nadaljna koda se ne izvede
+		# destroj prvega pixla
+		pixel_color = hit_stray.pixel_color
+		Global.hud.show_picked_color(hit_stray.pixel_color)
+		if not Global.game_manager.game_settings["pick_neighbor_mode"]:
+			multikill(hit_stray)
+		else: # pick_neighbor_mode ne podpira multikilla ... tukaj je pomembno zaporedje
+			hit_stray.die(1) # edini oziroma prvi v vrsti	
+
 	
 func multikill(hit_stray):
 
@@ -763,38 +779,29 @@ func multikill(hit_stray):
 		# destroj prvega soseda
 		var stray_in_row = 1 # 2 ker je 1 distrojan po defoltu
 		hit_stray.die(stray_in_row) # edini oziroma prvi v vrsti
-		emit_signal("stat_changed", self, "stray_hit", [stray_in_row, hit_stray])
+		emit_signal("stat_changed", self, "hit_stray", [stray_in_row, hit_stray])
 		# destroj sosedov od sosedov
 		for neighboring_stray in all_neighboring_strays:
 			if stray_in_row < burst_power or burst_power == cocked_ghost_count_max: 
 				Global.hud.show_picked_color(neighboring_stray.pixel_color) # indikator efekt
 				neighboring_stray.die(stray_in_row + 1)
-				emit_signal("stat_changed", self, "stray_hit", [(stray_in_row + 1), neighboring_stray])
+				emit_signal("stat_changed", self, "hit_stray", [(stray_in_row + 1), neighboring_stray])
 			stray_in_row += 1
 
 
 func die():
 
-#	match Global.game_manager.current_gameover_reason:
-#		Global.game_manager.GameoverReason.WALL:
-#			emit_signal("stat_changed", self, "wall_hit", 1)
-#		Global.game_manager.GameoverReason.ENERGY:
-#			emit_signal("stat_changed", self, "out_of_breath", 1)
-			
-#	Global.main_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
-	
-	
 	player_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
-	set_physics_process(false) # aktivira ga revive(), ki se sproži iz animacije
+#	modulate = pixel_color
+	end_move()
+	
+	set_physics_process(false)
 	animation_player.play("die_player")
 
 
-func get_hit():
-	pass
-
 func revive():
 	
-	modulate.a = 0
+#	modulate.a = 0
 	var dead_time: float = 2
 	yield(get_tree().create_timer(dead_time), "timeout")
 	animation_player.play("revive")
@@ -804,12 +811,6 @@ func play_blinking_sound():
 	# kličem iz animacije
 	
 	Global.sound_manager.play_sfx("blinking")
-
-
-func play_revive():
-	# kličem iz animacije
-	
-	animation_player.play("revive")
 
 
 # SIGNALI ------------------------------------------------------------------------------------------
@@ -853,4 +854,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			else:
 				animation_player.play("last_breath")
 				Global.sound_manager.play_sfx("last_breath")
+		"revive":
+			set_physics_process(true)
+#			end_move()
 		

@@ -6,25 +6,28 @@ signal name_input_finished
 #var fade_time: float = 0.5
 var current_title: Node # za določanje trenutnega napisa ob koncu igre
 var current_jingle: String # za jingla ob koncu igre
+var current_content: Control # da ni potrebno pedenat vsega glede na tip igre
 
 # popup
 var input_invite_text: String = "..."
 var input_string: String # = "" # neki more bit, če plejer nč ne vtipka in potrdi predvsem da zaznava vsako črko in jo lahko potrdiš na gumbu
 
+onready var undi: ColorRect = $Undi
+onready var player_label: Label = $TitleDuel/PlayerLabel
+
 # hs
 onready var name_input_popup: Control = $NameInputPopup
 onready var highscore_table: VBoxContainer = $ContentGame/HighscoreTable
 onready var name_input: LineEdit = $NameInputPopup/NameInput
-
-# animacija
-onready var undi: ColorRect = $Undi
+# titles
 onready var title_succes: Control = $TitleSucces
 onready var title_fail_time: Control = $TitleFailTime
 onready var title_fail_life: Control = $TitleFailLife
+onready var title_duel: Control = $TitleDuel
+# content
 onready var content_tutorial: Control = $ContentTutorial
+onready var content_duel: Control = $ContentDuel
 onready var content_game: Control = $ContentGame
-
-var current_content: Control # da ni potrebno pedenat vsega glede na tip igre
 
 
 func _input(event: InputEvent) -> void:
@@ -57,21 +60,45 @@ func _ready() -> void:
 	name_input_popup.visible = false
 
 
+func fade_in_duel():
+	var focus_btn: Button
+	current_content = content_duel
+	focus_btn = $ContentDuel/Menu/RestartBtn
+
+	current_title = title_duel	
+	current_title.visible = true
+	current_jingle = "lose_jingle"
+	title_succes.visible = false
+	title_fail_time.visible = false	
+	
+	
 func fade_in_no_highscore(gameover_reason): # title in potem game summary
 
 
 	var focus_btn: Button
-	if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
+	
+	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
+		current_content = content_duel
+		focus_btn = $ContentDuel/Menu/RestartBtn
+		
+		player_label.text = "PLEJER MEJER"	
+		current_title = title_duel
+		current_title.visible = true
+		current_jingle = "win_jingle"
+		
+		title_succes.visible = false
+		title_fail_life.visible = false
+		title_fail_time.visible = false
+		
+		
+	elif Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
 		current_content = content_tutorial
 		focus_btn = $ContentTutorial/Menu/QuitBtn
-	elif Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
-		current_content = content_tutorial
-		focus_btn = $ContentGame/Menu/RestartBtn
+		choose_gameover_title(gameover_reason)
 	else:
 		current_content = content_game
 		focus_btn = $ContentGame/Menu/RestartBtn
-	
-	choose_gameover_title(gameover_reason)
+		choose_gameover_title(gameover_reason)
 			
 	modulate.a = 0	
 	visible = true
@@ -132,6 +159,32 @@ func show_game_summary(): # after name input
 	fade_in_tween.tween_callback(restart_btn, "grab_focus")
 
 
+func choose_gameover_title(gameover_reason):
+	
+	match gameover_reason:
+		
+		Global.game_manager.GameoverReason.CLEANED:
+			current_title = title_succes
+			current_title.visible = true
+			current_jingle = "win_jingle"
+			title_fail_time.visible = false
+			title_fail_life.visible = false
+			
+		Global.game_manager.GameoverReason.LIFE:
+			current_title = title_fail_life	
+			current_title.visible = true
+			current_jingle = "lose_jingle"
+			title_succes.visible = false
+			title_fail_time.visible = false
+
+		Global.game_manager.GameoverReason.TIME:
+			current_title = title_fail_time
+			current_title.visible = true
+			current_jingle = "lose_jingle" # current_jingle se ponovno opredeli, če je HS
+			title_succes.visible = false
+			title_fail_life.visible = false
+			
+			
 func write_gameover_data():
 	
 	var time_used: int = Global.hud.game_timer.time_since_start
@@ -146,12 +199,6 @@ func write_gameover_data():
 		$ContentTutorial/DataContainer/AstrayPixels.text %= str(Global.game_manager.strays_in_game_count)
 	elif current_game_key == Profiles.Games.DUEL:
 		pass
-#		$ContentTutorial/DataContainer/Points.text %= str(Global.game_manager.player_stats["player_points"])
-#		$ContentTutorial/DataContainer/CellsTravelled.text %= str(Global.game_manager.player_stats["cells_travelled"])
-#		$ContentTutorial/DataContainer/BurstCount.text %= str(Global.game_manager.player_stats["burst_count"])
-#		$ContentTutorial/DataContainer/SkillsUsed.text %= str(Global.game_manager.player_stats["skill_count"])
-#		$ContentTutorial/DataContainer/PixelsOff.text %= str(Global.game_manager.player_stats["colors_collected"])
-#		$ContentTutorial/DataContainer/AstrayPixels.text %= str(Global.game_manager.strays_in_game_count)
 	else:
 		$ContentGame/DataContainer/Game.text %= Global.game_manager.game_data["game_name"]
 		$ContentGame/DataContainer/Level.text %= Global.game_manager.game_data["level"]
@@ -164,34 +211,6 @@ func write_gameover_data():
 		$ContentGame/DataContainer/AstrayPixels.text %= str(Global.game_manager.strays_in_game_count)
 
 
-func choose_gameover_title(gameover_reason):
-	
-#	match Global.game_manager.current_gameover_reason:
-	match gameover_reason:
-		
-		Global.game_manager.GameoverReason.CLEANED:
-			title_succes.visible = true
-			title_fail_time.visible = false
-			title_fail_life.visible = false
-			
-			current_title = title_succes
-			current_jingle = "win_jingle"
-			
-		Global.game_manager.GameoverReason.LIFE:
-			title_succes.visible = false
-			title_fail_time.visible = false
-			title_fail_life.visible = true
-			
-			current_title = title_fail_life	
-			current_jingle = "lose_jingle"
-
-		Global.game_manager.GameoverReason.TIME:
-			title_succes.visible = false
-			title_fail_time.visible = true
-			title_fail_life.visible = false
-			
-			current_title = title_fail_time
-			current_jingle = "lose_jingle" # current_jingle se ponovno opredeli, če je HS
 			
 			
 # PAVZIRANJE DREVESA --------------------------------------------------------------	
@@ -207,7 +226,7 @@ func unpause_tree():
 	set_process_input(true) # zato da se lahko animacija izvede
 	
 	
-# POPUP INPUT --------------------------------------------------------------------	
+# NAME INPUT --------------------------------------------------------------------	
 
 func open_name_input():
 	
@@ -283,9 +302,10 @@ func _on_RestartBtn_pressed() -> void:
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
 		$ContentTutorial/Menu/RestartBtn.disabled = true # da ne moreš multiklikat
+	elif Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
+		$ContentDuel/Menu/RestartBtn.disabled = true # da ne moreš multiklikat
 	else:
 		$ContentGame/Menu/RestartBtn.disabled = true # da ne moreš multiklikat
-	
 	
 	
 func _on_QuitBtn_pressed() -> void:

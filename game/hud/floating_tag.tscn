@@ -1,7 +1,34 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://game/hud/floating_points.gd" type="Script" id=1]
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=2]
+
+[sub_resource type="Animation" id=140]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Tag:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Tag:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
 
 [sub_resource type="Animation" id=139]
 resource_name = "show_tag"
@@ -54,15 +81,19 @@ __meta__ = {
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
+margin_top = -16.0
 margin_right = 32.0
-margin_bottom = 32.0
+margin_bottom = 16.0
+color = Color( 0.294118, 0.623529, 1, 1 )
 
 [node name="Tag" type="Node2D" parent="."]
 modulate = Color( 1, 1, 1, 0 )
 
 [node name="Label" type="Label" parent="Tag"]
-margin_right = 32.0
-margin_bottom = 32.0
+margin_left = 12.0
+margin_top = -1.0
+margin_right = 22.0
+margin_bottom = 31.0
 grow_horizontal = 2
 theme = ExtResource( 2 )
 text = "00"
@@ -70,4 +101,5 @@ align = 1
 valign = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 140 )
 anims/show_tag = SubResource( 139 )

@@ -57,7 +57,7 @@ func die(stray_in_row):
 	
 	collision_shape_2d.disabled = true
 	
-#	emit_signal("stat_changed", self, "stray_hit", stray_in_row)
+#	emit_signal("stat_changed", self, "hit_stray", stray_in_row)
 	
 	# žrebam animacijo
 	var random_animation_index = randi() % 5 + 1

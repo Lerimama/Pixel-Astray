@@ -54,8 +54,8 @@ onready var picked_counter: Label = $Footer/FooterLine/StraysLine/PickedHolder/L
 # debug
 onready var player_life: Label = $Life
 onready var player_energy: Label = $Energy
-onready var picked_color_rect: ColorRect = $Footer/PickedColor/ColorRect
-onready var picked_color_label: Label = $Footer/PickedColor/Value
+onready var picked_color_rect: ColorRect = $PickedColor/ColorRect
+onready var picked_color_label: Label = $PickedColor/Value
 
 
 func _ready() -> void:

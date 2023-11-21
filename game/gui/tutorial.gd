@@ -99,7 +99,8 @@ func start(): # kliče se z GM
 	
 	visible = true
 #	current_tutorial_stage = TutorialStage.MISSION
-	Global.game_manager.player_pixel.set_physics_process(false)
+#	Global.game_manager.player_pixel.set_physics_process(false)
+	Global.game_manager.p1.set_physics_process(false)
 	animation_player.play("mission_in")
 
 
@@ -199,11 +200,12 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			current_tutorial_stage = TutorialStage.MISSION
 		"tutorial_start":
 			
-			Global.game_manager.player_pixel.animation_player.play("revive")
+			Global.game_manager.p1.animation_player.play("revive")
 			
 			var show_player = get_tree().create_tween()
 			show_player.tween_callback(self, "open_stage", [traveling_content, stage_height_traveling, travel_sepa]).set_delay(0.5)
-			show_player.tween_callback(Global.game_manager.player_pixel, "set_physics_process", [true]).set_delay(1)
+#			show_player.tween_callback(Global.game_manager.player_pixel, "set_physics_process", [true]).set_delay(1)
+			show_player.tween_callback(Global.game_manager.p1, "set_physics_process", [true]).set_delay(1)
 			current_tutorial_stage = TutorialStage.TRAVELING
 			
 #			Global.game_manager.player_pixel.play_revive()
