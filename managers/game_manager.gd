@@ -173,23 +173,12 @@ func game_over(gameover_reason):
 	Global.main_camera.zoom_out()
 	if p2:
 		Global.main_camera_2.zoom_out()
-	yield(Global.main_camera, "zoomed_out") # čaka na konec zoomouta
+#	yield(Global.main_camera, "zoomed_out") # čaka na konec zoomouta
 
 	Global.sound_manager.stop_music("game_on_game-over")
 	
 	# Gameover fejdin
-	if game_data["game"] == Profiles.Games.TUTORIAL:
-		Global.gameover_menu.fade_in_no_highscore(gameover_reason)
-	elif game_data["game"] == Profiles.Games.DUEL:
-		Global.gameover_menu.fade_in_no_highscore(gameover_reason)
-#		Global.gameover_menu.fade_in_duel(gameover_reason)
-	else:
-		# YIELD 1 ... čaka na konec preverke rankinga ... če ni rankinga dobi false, če je ne dobi nič
-		var score_is_ranking = Global.data_manager.manage_gameover_highscores(p1_stats["player_points"], game_data["game"]) # yielda 2 za name_input je v tej funkciji
-		if not score_is_ranking:
-			Global.gameover_menu.fade_in_no_highscore(gameover_reason)																																																							
-		else:
-			Global.gameover_menu.fade_in_highscore(gameover_reason)
+	Global.gameover_menu.show_final_title(gameover_reason)
 	
 	
 # SPAWNANJE ----------------------------------------------------------------------------------
@@ -532,10 +521,10 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 					energy_drain_active = false		
 		"out_of_breath":
 			lose_life(player_stats, stat_owner)
-		"cells_travelled": 
-			player_stats["cells_travelled"] += stat_change
-			player_stats["player_energy"] += game_settings["cell_travelled_energy"]
-			player_stats["player_points"] += game_settings["cell_travelled_points"]
+		"cells_traveled": 
+			player_stats["cells_traveled"] += stat_change
+			player_stats["player_energy"] += game_settings["cell_traveled_energy"]
+			player_stats["player_points"] += game_settings["cell_traveled_points"]
 		"skill_used": # stat_change uporabim za prepoznavanje skilla ... 0 = push, 1 = pull, 2 = teleport
 			player_stats["skill_count"] += 1
 			player_stats["player_energy"] += game_settings["skill_used_energy"]
@@ -558,7 +547,7 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 		
 func lose_life(loser_player_stats, life_loser):
 	
-#	loser_player_stats["player_life"] -= 1
+	loser_player_stats["player_life"] -= 1
 
 	if loser_player_stats["player_life"] < 1: # game-over, če je bil to zadnji lajf
 		game_over(GameoverReason.LIFE)

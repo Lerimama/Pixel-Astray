@@ -29,21 +29,15 @@ var main_camera_2 = null
 
 # GLOBAL VARS ---------------------------------------------------------------------------------------------------------
 
-
 # groups
 var group_players = "Players"
 var group_strays = "Strays"
 var group_tilemap = "Tilemap"
 
 # sivi klin
-var color_black = Color("#000000")
-var color_gray0 = Color("#171a23") # najtemnejša
-var color_gray1 = Color("#1d212d")
-var color_gray2 = Color("#272d3d")
-var color_gray3 = Color("#2f3649")
-var color_gray4 = Color("#404954")
-var color_gray5 = Color("#535b68") # najsvetlejša
 var color_white = Color("#ffffff")
+var color_black_almost = Color("#141414")
+var color_gray_dark = Color("#232323") # hud undi
 
 # colors
 var color_blue = Color("#4b9fff")
@@ -83,8 +77,8 @@ func snap_to_nearest_grid(current_global_position: Vector2, cell_positions):
 	# če ni že snepano
 	if not floor_cells.has(current_position): 
 		# določimo distanco znotraj katere preverjamo bližino točke
-		# var distance_to_position: float = cell_size_x # orig ... začetna distanca je velikosti celice, ker na koncu je itak bližja
-		var distance_to_position: float = cell_size_x/2 # bolj natančno ... polovica, ker je itak vsaj ena polovička bližje točki
+		var distance_to_position: float = cell_size_x # orig ... začetna distanca je velikosti celice, ker na koncu je itak bližja
+		# var distance_to_position: float = cell_size_x/2 # bolj natančno ... ampak buggi vi duel situacijah
 		var nearest_cell: Vector2
 		for cell in floor_cells:
 			if cell.distance_to(current_position) < distance_to_position:

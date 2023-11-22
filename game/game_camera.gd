@@ -101,8 +101,12 @@ func zoom_in():
 	viewport_header.rect_min_size.y = 0
 	viewport_header.visible = true
 	
-	var final_zoom = Vector2.ONE
 	
+	var final_zoom = Vector2.ONE
+	if Profiles.current_game == Profiles.Games.DUEL:
+		final_zoom *= 1.5
+		
+		
 	Global.hud.fade_in()
 	
 	var zoom_in_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)

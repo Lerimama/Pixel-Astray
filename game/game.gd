@@ -7,6 +7,7 @@ onready var viewport_1: Viewport = $GameView/Viewports/ViewportContainer1/Viewpo
 onready var viewport_2: Viewport = $GameView/Viewports/ViewportContainer2/Viewport2
 onready var viewport_container_1: ViewportContainer = $GameView/Viewports/ViewportContainer1
 onready var viewport_container_2: ViewportContainer = $GameView/Viewports/ViewportContainer2
+onready var viewport_separator: VSeparator = $GameView/Viewports/ViewportSeparator
 
 onready var minimap: ViewportContainer = $Minimap
 onready var minimap_viewport: Viewport = $Minimap/MinimapViewport
@@ -14,7 +15,6 @@ onready var minimap_camera: Camera2D = $Minimap/MinimapViewport/MinimapCam
 
 
 func _ready() -> void:
-	print ("game")	
 	get_viewport()	
 	set_camera_limits()
 	
@@ -29,11 +29,13 @@ func _ready() -> void:
 		minimap.visible = false
 	
 	# multiplejer setup
-	viewport_2.world_2d = viewport_1.world_2d
-	
 	if Profiles.current_game == Profiles.Games.DUEL:
+		viewport_2.world_2d = viewport_1.world_2d
 		viewport_container_2.visible = true
-	
+	else:
+		viewport_container_2.visible = false
+		viewport_separator.visible = false
+
 	
 func set_camera_limits():
 	

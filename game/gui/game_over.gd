@@ -4,32 +4,48 @@ extends Control
 signal name_input_finished
 
 #var fade_time: float = 0.5
-var current_title: Node # za določanje trenutnega napisa ob koncu igre
-var current_jingle: String # za jingla ob koncu igre
-var current_content: Control # da ni potrebno pedenat vsega glede na tip igre
+
 
 
 # popup
 var input_invite_text: String = "..."
 var input_string: String # = "" # neki more bit, če plejer nč ne vtipka in potrdi predvsem da zaznava vsako črko in jo lahko potrdiš na gumbu
 
-onready var undi: ColorRect = $Undi
-onready var player_label: Label = $TitleDuel/PlayerLabel
+#onready var undi: ColorRect = $GameSummary/Undi
+onready var player_label: Label = $FinalTitle/TitleDuel/PlayerLabel
 
 # hs
 onready var name_input_popup: Control = $NameInputPopup
-onready var highscore_table: VBoxContainer = $ContentGame/HighscoreTable
 onready var name_input: LineEdit = $NameInputPopup/NameInput
-# titles
-onready var title_succes: Control = $TitleSucces
-onready var title_fail_time: Control = $TitleFailTime
-onready var title_fail_life: Control = $TitleFailLife
-onready var title_duel: Control = $TitleDuel
-# content
-onready var content_tutorial: Control = $ContentTutorial
-onready var content_duel: Control = $ContentDuel
-onready var content_game: Control = $ContentGame
 
+# summary
+onready var highscore_table: VBoxContainer = $GameSummary/ContentGame/HighscoreTable
+onready var content_tutorial: Control = $GameSummary/ContentTutorial
+onready var content_duel: Control = $GameSummary/ContentDuel
+onready var content_game: Control = $GameSummary/ContentGame
+# titles
+onready var title_succes: Control = $FinalTitle/TitleSucces
+onready var title_fail_time: Control = $FinalTitle/TitleFailTime
+onready var title_fail_life: Control = $FinalTitle/TitleFailLife
+onready var title_duel: Control = $FinalTitle/TitleDuel
+
+onready var summary_tutorial: Control = $GameSummary/ContentTutorial
+onready var summary_duel: Control = $GameSummary/ContentDuel
+onready var summary_game: Control = $GameSummary/ContentGame
+
+# novo
+onready var final_title: Control = $FinalTitle
+onready var game_summary: Control = $GameSummary
+onready var background: ColorRect = $Background
+
+var current_title: Node # za določanje trenutnega napisa ob koncu igre
+var current_jingle: String # za jingla ob koncu igre
+var current_content: Control # da ni potrebno pedenat vsega glede na tip igre
+
+var selected_jingle: String # za jingla ob koncu igre
+var selected_title: Control
+var selected_summary: Control
+var selected_btn: Button # za focus
 
 func _input(event: InputEvent) -> void:
 	
@@ -51,166 +67,124 @@ func _ready() -> void:
 	Global.gameover_menu = self
 	
 	visible = false
-	modulate.a = 0
-	
-	content_tutorial.modulate.a = 0
-	content_tutorial.visible = false
-	
-	content_game.modulate.a = 0
-	content_game.visible = false
+	final_title.visible = false
+	game_summary.visible = false
 	name_input_popup.visible = false
-
-
-func fade_in_duel():
-	var focus_btn: Button
-	current_content = content_duel
-	focus_btn = $ContentDuel/Menu/RestartBtn
-
-	current_title = title_duel	
-	current_title.visible = true
-	current_jingle = "lose_jingle"
-	title_succes.visible = false
-	title_fail_time.visible = false	
 	
-	
-func fade_in_no_highscore(gameover_reason): # title in potem game summary
 
+func show_final_title(gameover_reason):
 
-	var focus_btn: Button
-	
 	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
-		current_content = content_duel
-		focus_btn = $ContentDuel/Menu/RestartBtn
-		
 		player_label.text = "PLEJER MEJER"	
-		current_title = title_duel
-		current_title.visible = true
-		current_jingle = "win_jingle"
-		
-		title_succes.visible = false
-		title_fail_life.visible = false
-		title_fail_time.visible = false
-		
+		selected_title = $FinalTitle/TitleDuel
+		selected_summary = $GameSummary/ContentDuel
+		selected_btn = $GameSummary/ContentDuel/Menu/RestartBtn
+		selected_jingle = "win_jingle"
 		
 	elif Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
-		current_content = content_tutorial
-		focus_btn = $ContentTutorial/Menu/QuitBtn
-		choose_gameover_title(gameover_reason)
+		selected_title = $FinalTitle/TitleTutorial
+		selected_summary = $GameSummary/ContentTutorial
+		selected_btn = $GameSummary/ContentTutorial/Menu/QuitBtn
+	
 	else:
-		current_content = content_game
-		focus_btn = $ContentGame/Menu/RestartBtn
-		choose_gameover_title(gameover_reason)
-			
-	modulate.a = 0	
-	visible = true
+		set_gameover_title(gameover_reason)
+		selected_summary = $GameSummary/ContentGame
+		selected_btn = $GameSummary/ContentGame/Menu/RestartBtn
 	
-	# hud + title
+	visible = true
+	selected_title.visible = true	
+	final_title.modulate.a = 0		
+	
+	# title in 
 	var fade_in = get_tree().create_tween()
-	fade_in.tween_property(self, "modulate:a", 1, 0.5)
-	fade_in.tween_callback(Global.sound_manager, "play_sfx", [current_jingle])
+	fade_in.tween_callback(final_title, "set_visible", [true]).set_delay(1) # viden GO control
+	fade_in.tween_property(final_title, "modulate:a", 1, 1)
+	fade_in.parallel().tween_property(background, "modulate:a", 0.7, 1)
+	fade_in.parallel().tween_callback(Global.sound_manager, "play_sfx", [selected_jingle])
+	fade_in.tween_callback(self, "check_if_ranking").set_delay(2)
+
+
+func check_if_ranking():
+	
+	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL or Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
+		show_game_summary()
+	else:
+		var score_is_ranking = Global.data_manager.manage_gameover_highscores(Global.game_manager.p1_stats["player_points"], Global.game_manager.game_data["game"]) # yield čaka na konec preverke
+		if not score_is_ranking: # če ni rankinga = false
+			yield(get_tree().create_timer(1), "timeout")
+			show_game_summary()
+		else: # če je ranking, manage_gameover_highscores počaka na signal iz name_input
+			open_name_input()
+			yield(Global.data_manager, "highscores_updated")
+			highscore_table.get_highscore_table(Global.game_manager.game_data["game"], Global.data_manager.current_player_ranking)
+			show_game_summary()
+	
+
+func show_game_summary():
+
+	selected_summary.visible = true	
+	game_summary.modulate.a = 0	
 	
 	write_gameover_data()
-	
-	if current_content == content_game:
-		print ("HS na GO")
-		highscore_table.get_highscore_table(Global.game_manager.game_data["game"], Global.data_manager.current_player_ranking)
-		
-	yield(get_tree().create_timer(3), "timeout")
-	current_content.visible = true
-	
-	# hide title, show game summary
+
+	# hide title, name_popup > show game summary
 	var fade = get_tree().create_tween()
-	fade.tween_property(current_title, "modulate:a", 0, 1)
-	fade.tween_property(current_content, "modulate:a", 1, 1)#.set_delay(0.3)
+	fade.tween_property(name_input_popup, "modulate:a", 0, 1)
+	fade.parallel().tween_property(final_title, "modulate:a", 0, 1)
+	fade.tween_callback(name_input_popup, "set_visible", [false])
+	fade.parallel().tween_callback(final_title, "set_visible", [false])
+	fade.tween_callback(game_summary, "set_visible", [true])
+	fade.tween_property(game_summary, "modulate:a", 1, 1).set_delay(0.5)
+	fade.parallel().tween_property(background, "modulate:a", 1, 1)
 	fade.tween_callback(self, "pause_tree") # šele tukaj, da se tween sploh zgodi
-	fade.tween_callback(focus_btn, "grab_focus") # šele tukaj, da se tween sploh zgodi,če 
-	
-	
-func fade_in_highscore(gameover_reason): # samo title in name input
-
-	var restart_btn = $ContentGame/Menu/RestartBtn # za focus
-
-	choose_gameover_title(gameover_reason)
-	current_jingle = "win_jingle" # že določen se ponovno opredeli, kerje HS
-	
-	modulate.a = 0	
-	visible = true
-	
-	# hud + title + name input
-	var fade_in = get_tree().create_tween()
-	fade_in.tween_property(self, "modulate:a", 1, 0.5)
-	fade_in.tween_callback(self, "open_name_input").set_delay(1)
-	fade_in.parallel().tween_callback(Global.sound_manager, "play_sfx", ["win_jingle"])
+	fade.tween_callback(selected_btn, "grab_focus") # šele tukaj, da se tween sploh zgodi,če 
 
 
-func show_game_summary(): # after name input
-	
-	var restart_btn = $ContentGame/Menu/RestartBtn # za focus
-	
-	# title se odfejda v "close_name_input()"
-	write_gameover_data()
-	print ("HS na summary")
-	highscore_table.get_highscore_table(Global.game_manager.game_data["game"], Global.data_manager.current_player_ranking)
-	
-	content_game.visible = true
-
-	var fade_in_tween = get_tree().create_tween()		
-	fade_in_tween.tween_property(content_game, "modulate:a", 1, 1)#.set_delay(0.3)
-	fade_in_tween.tween_callback(self, "pause_tree")
-	fade_in_tween.tween_callback(restart_btn, "grab_focus")
-
-
-func choose_gameover_title(gameover_reason):
+func set_gameover_title(gameover_reason):
 	
 	match gameover_reason:
-		
 		Global.game_manager.GameoverReason.CLEANED:
-			current_title = title_succes
-			current_title.visible = true
-			current_jingle = "win_jingle"
-			title_fail_time.visible = false
-			title_fail_life.visible = false
-			
+			selected_title = title_succes
+			selected_jingle = "win_jingle"
 		Global.game_manager.GameoverReason.LIFE:
-			current_title = title_fail_life	
-			current_title.visible = true
-			current_jingle = "lose_jingle"
-			title_succes.visible = false
-			title_fail_time.visible = false
-
+			selected_title = title_fail_life	
+			selected_jingle = "lose_jingle"
 		Global.game_manager.GameoverReason.TIME:
-			current_title = title_fail_time
-			current_title.visible = true
-			current_jingle = "lose_jingle" # current_jingle se ponovno opredeli, če je HS
-			title_succes.visible = false
-			title_fail_life.visible = false
+			selected_title = title_fail_time
+			selected_jingle = "lose_jingle"
 			
 			
 func write_gameover_data():
 	
+	var game_name: String = Global.game_manager.game_data["game_name"]
+	var level_reached: String = Global.game_manager.game_data["level"]
+	var player_points: int = Global.game_manager.p1_stats["player_points"]
 	var time_used: int = Global.hud.game_timer.time_since_start
-	var current_game_key = Global.game_manager.game_data["game"]
-
-	if current_game_key == Profiles.Games.TUTORIAL:
-		$ContentTutorial/DataContainer/Points.text %= str(Global.game_manager.player_stats["player_points"])
-		$ContentTutorial/DataContainer/CellsTravelled.text %= str(Global.game_manager.player_stats["cells_travelled"])
-		$ContentTutorial/DataContainer/BurstCount.text %= str(Global.game_manager.player_stats["burst_count"])
-		$ContentTutorial/DataContainer/SkillsUsed.text %= str(Global.game_manager.player_stats["skill_count"])
-		$ContentTutorial/DataContainer/PixelsOff.text %= str(Global.game_manager.player_stats["colors_collected"])
-		$ContentTutorial/DataContainer/AstrayPixels.text %= str(Global.game_manager.strays_in_game_count)
-	elif current_game_key == Profiles.Games.DUEL:
+	var cells_traveled: int = Global.game_manager.p1_stats["cells_traveled"]
+	var burst_count: int = Global.game_manager.p1_stats["burst_count"]
+	var skills_count: int = Global.game_manager.p1_stats["skill_count"]
+	var colors_collected: int = Global.game_manager.p1_stats["colors_collected"]
+	var astray_pixels: int = Global.game_manager.strays_in_game_count
+	
+	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
+		$GameSummary/ContentTutorial/DataContainer/Points.text %= str(player_points)
+		$GameSummary/ContentTutorial/DataContainer/CellsTraveled.text %= str(cells_traveled)
+		$GameSummary/ContentTutorial/DataContainer/BurstCount.text %= str(burst_count)
+		$GameSummary/ContentTutorial/DataContainer/SkillsUsed.text %= str(skills_count)
+		$GameSummary/ContentTutorial/DataContainer/PixelsOff.text %= str(colors_collected)
+		$GameSummary/ContentTutorial/DataContainer/AstrayPixels.text %= str(astray_pixels)
+	elif Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
 		pass
 	else:
-		$ContentGame/DataContainer/Game.text %= Global.game_manager.game_data["game_name"]
-		$ContentGame/DataContainer/Level.text %= Global.game_manager.game_data["level"]
-		$ContentGame/DataContainer/Points.text %= str(Global.game_manager.player_stats["player_points"])
-		$ContentGame/DataContainer/Time.text %= str(time_used)
-		$ContentGame/DataContainer/CellsTravelled.text %= str(Global.game_manager.player_stats["cells_travelled"])
-		$ContentGame/DataContainer/BurstCount.text %= str(Global.game_manager.player_stats["burst_count"])
-		$ContentGame/DataContainer/SkillsUsed.text %= str(Global.game_manager.player_stats["skill_count"])
-		$ContentGame/DataContainer/PixelsOff.text %= str(Global.game_manager.player_stats["colors_collected"])
-		$ContentGame/DataContainer/AstrayPixels.text %= str(Global.game_manager.strays_in_game_count)
-
+		$GameSummary/ContentGame/DataContainer/Game.text %= game_name
+		$GameSummary/ContentGame/DataContainer/Level.text %= level_reached
+		$GameSummary/ContentGame/DataContainer/Points.text %= str(player_points)
+		$GameSummary/ContentGame/DataContainer/Time.text %= str(time_used)
+		$GameSummary/ContentGame/DataContainer/CellsTraveled.text %= str(cells_traveled)
+		$GameSummary/ContentGame/DataContainer/BurstCount.text %= str(burst_count)
+		$GameSummary/ContentGame/DataContainer/SkillsUsed.text %= str(skills_count)
+		$GameSummary/ContentGame/DataContainer/PixelsOff.text %= str(colors_collected)
+		$GameSummary/ContentGame/DataContainer/AstrayPixels.text %= str(astray_pixels)
 
 			
 			
@@ -248,22 +222,16 @@ func open_name_input():
 func confirm_name_input():
 	
 	# pogrebam string in zapišem ime v končno statistiko igralca
-	Global.game_manager.player_stats["player_name"] = input_string
+	Global.game_manager.p1_stats["player_name"] = input_string
 	close_name_input()
 
 	
 func close_name_input (): 
-	# samo zaprem
 	
-	Global.sound_manager.play_gui_sfx("screen_slide")
+	# sporočim data managerju, da sem končal
+	name_input.editable = false
+	emit_signal("name_input_finished")
 	
-	var fade_out_tween = get_tree().create_tween()
-	fade_out_tween.tween_property(name_input_popup, "modulate:a", 0, 0.5)
-	# fade_out_tween.parallel().tween_property(undi, "modulate:a", 0.9, 1)
-	fade_out_tween.parallel().tween_property(current_title, "modulate:a", 0, 1)
-	fade_out_tween.tween_property(name_input_popup, "visible", false, 0.01)
-	fade_out_tween.tween_callback(self, "emit_signal", ["name_input_finished"]).set_delay(0.5)
-
 
 func _on_NameEdit_text_changed(new_text: String) -> void:
 	
@@ -278,9 +246,11 @@ func _on_PopupNameEdit_text_entered(new_text: String) -> void: # ko stisneš ret
 	
 func _on_ConfirmBtn_pressed() -> void:
 	$NameInputPopup/HBoxContainer/ConfirmBtn.grab_focus() # da se obarva ko stisnem RETURN
+	$NameInputPopup/HBoxContainer/ConfirmBtn.disabled = true
+	$NameInputPopup/HBoxContainer/CancelBtn.disabled = true
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	if input_string == input_invite_text or input_string.empty():
-		input_string = Global.game_manager.player_stats["player_name"]
+		input_string = Global.game_manager.p1_stats["player_name"]
 		confirm_name_input()
 	else:
 		confirm_name_input()
@@ -288,6 +258,8 @@ func _on_ConfirmBtn_pressed() -> void:
 
 func _on_CancelBtn_pressed() -> void:
 	$NameInputPopup/HBoxContainer/CancelBtn.grab_focus() # da se obarva ko stisnem ESC
+	$NameInputPopup/HBoxContainer/ConfirmBtn.disabled = true
+	$NameInputPopup/HBoxContainer/CancelBtn.disabled = true
 	Global.sound_manager.play_gui_sfx("btn_cancel")
 	close_name_input()
 
@@ -302,11 +274,11 @@ func _on_RestartBtn_pressed() -> void:
 	Global.main_node.reload_game()
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
-		$ContentTutorial/Menu/RestartBtn.disabled = true # da ne moreš multiklikat
+		$GameSummary/ContentTutorial/Menu/RestartBtn.disabled = true # da ne moreš multiklikat
 	elif Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
-		$ContentDuel/Menu/RestartBtn.disabled = true # da ne moreš multiklikat
+		$GameSummary/ContentDuel/Menu/RestartBtn.disabled = true # da ne moreš multiklikat
 	else:
-		$ContentGame/Menu/RestartBtn.disabled = true # da ne moreš multiklikat
+		$GameSummary/ContentGame/Menu/RestartBtn.disabled = true # da ne moreš multiklikat
 	
 	
 func _on_QuitBtn_pressed() -> void:
@@ -316,7 +288,7 @@ func _on_QuitBtn_pressed() -> void:
 	Global.main_node.game_out()
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
-		$ContentTutorial/Menu/QuitBtn.disabled = true # da ne moreš multiklikat
+		$GameSummary/ContentTutorial/Menu/QuitBtn.disabled = true # da ne moreš multiklikat
 	else:
-		$ContentGame/Menu/QuitBtn.disabled = true # da ne moreš multiklikat
+		$GameSummary/ContentGame/Menu/QuitBtn.disabled = true # da ne moreš multiklikat
 	

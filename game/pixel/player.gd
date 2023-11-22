@@ -55,7 +55,7 @@ var die_shake_decay: float = 0.1
 
 # energija in hitrost
 var current_player_energy_part: float # za uravnavanje step zvoka
-var player_energy: float # player jo pozna samo zaradi spreminjanja obnašanja ... = Global.game_manager.player_stats["player_energy"]
+var player_energy: float # player jo pozna samo zaradi spreminjanja obnašanja
 var max_player_energy: float = Global.game_manager.game_settings["player_start_energy"]
 var step_time_slow: float = Global.game_manager.game_settings["step_time_slow"]
 var step_time_fast: float = Global.game_manager.game_settings["step_time_fast"]
@@ -187,6 +187,7 @@ func on_collision():
 		# posledice
 		emit_signal("stat_changed", self, "hit_wall", 1)
 		die()
+		# zaključek
 		end_move()
 		
 	elif collision.collider.is_in_group(Global.group_strays):
@@ -196,12 +197,14 @@ func on_collision():
 		player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
 		# posledice
 		on_hit_stray(collision.collider)
+		# zaključek
 		end_move()
 	
 	elif collision.collider.is_in_group(Global.group_players):
 		
 		var hit_player: KinematicBody2D = collision.collider
-		var hit_player_direction = hit_player.direction # za korekcijo
+		var player_direction = direction # za korekcijo
+		
 		# zmaga
 		if burst_speed > hit_player.burst_speed:
 			# efekti
@@ -213,7 +216,7 @@ func on_collision():
 				pixel_color = hit_player.pixel_color # prevzamem barvo
 				emit_signal("stat_changed", self, "hit_player", 1) # vzamem mu pobrane barve
 			hit_player.on_get_hit(added_shake_power, added_shake_time)
-			
+			# zaključek
 			end_move()
 			hit_player.end_move() # plejer, ki prvi zazna kontakt ukaže naprej, da je zaporedje pod kontrolo 
 		# neodločeno
@@ -221,15 +224,13 @@ func on_collision():
 			Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
 			Global.sound_manager.play_sfx("hit_stray")
 			player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
-			
+			# zaključek
 			end_move()
 			hit_player.end_move() # plejer, ki prvi zazna kontakt ukaže naprej, da je zaporedje pod kontrolo 
-		# korekcija, če končata na isti poziciji 	
-		if global_position == hit_player.global_position:
-			printt ("končala sta na isti poziciji > ", global_position, hit_player.global_position)
-			hit_player.global_position = hit_player.global_position + (cell_size_x * (-hit_player_direction))
-			printt ("premik zadetega za polje nazaj > ", global_position, hit_player.global_position)
-
+		
+		# korekcija, če končata na isti poziciji ali preveč narazen
+		hit_player.global_position = global_position + (cell_size_x * player_direction) # zadeti plejer je vedno na polju ob zmagovalcu, v smeri zmagovalca
+		
 				
 func stop_on_hit():
 	
@@ -246,19 +247,18 @@ func end_move():
 	
 	# orig zaporedje
 	# current_state = States.IDLE
-#	global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions) 
+	# global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions) 
 	
 	# reset burst
-	burst_speed = 0 # more bit tukaj pred _change state, če ne uničuje tudi sam sebe ... trenutno ni treba?
+	burst_speed = 0 # more bit pred change state, če ne uničuje tudi sam sebe
 	burst_speed_max = 0
 	burst_direction_set = false
 	cocking_room = true
 	
 	if light_2d.enabled:
 		light_off()
-	
 	modulate = pixel_color
-	last_breath_active = false # če je burst v steno se ponovno začne
+	last_breath_active = false # če je burst v steno, se lahko ponovno začne
 	direction = Vector2.ZERO # reset ray dir
 	
 	global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions) 
@@ -308,8 +308,6 @@ func idle_inputs():
 		step()
 	
 	if Input.is_action_just_pressed(key_burst) and current_state == States.IDLE: # brez "just" dela po stisku smeri ... ni ok
-		if Global.game_manager.game_settings["burst_limit_mode"] and Global.game_manager.player_stats["burst_count"] >= Global.game_manager.game_settings["burst_limit_count"]:
-			return	
 		current_state = States.COCKING
 		light_on()
 		
@@ -362,8 +360,6 @@ func bursting_inputs():
 
 func skill_inputs():
 	
-	if Global.game_manager.game_settings["skill_limit_mode"] and Global.game_manager.player_stats["skill_count"] >= Global.game_manager.game_settings["skill_limit_count"]:
-		return
 	if player_energy <= 1:
 		return
 		
@@ -414,7 +410,7 @@ func step():
 		Global.sound_manager.play_stepping_sfx(current_player_energy_part)
 
 		# pošljem signal, da odštejem točko
-		emit_signal("stat_changed", self, "cells_travelled", 1)
+		emit_signal("stat_changed", self, "cells_traveled", 1)
 
 
 # BURST ------------------------------------------------------------------------------------------
@@ -796,8 +792,6 @@ func die():
 
 	player_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
 #	modulate = pixel_color
-#	end_move()
-	
 	set_physics_process(false)
 	animation_player.play("die_player")
 

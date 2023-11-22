@@ -192,7 +192,11 @@ func fade_in(): # kliče kamera
 	fade_in.tween_callback(self, "set_visible", [true])
 	fade_in.parallel().tween_property(header, "rect_position:y", 0, 2)
 	fade_in.parallel().tween_property(footer, "rect_position:y", 720 - 56, 2)
-
+	
+	for indicator in active_color_indicators:
+		var indicator_fade_in = get_tree().create_tween() #.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
+		indicator_fade_in.tween_property(indicator, "modulate:a", unpicked_indicator_alpha, 0.5).set_delay(1.8).set_ease(Tween.EASE_IN)
+	
 
 func fade_out(): # kliče kamera
 	
@@ -215,11 +219,10 @@ func spawn_color_indicators(available_colors): # ukaz pride iz GM
 		# spawn indicator
 		var new_color_indicator = ColorIndicator.instance()
 		new_color_indicator.color = color
-		new_color_indicator.modulate.a = unpicked_indicator_alpha
+		new_color_indicator.modulate.a = 1 # na fade-in se odfejda do unpicked_indicator_alpha
 		spectrum.add_child(new_color_indicator)
-		
 		active_color_indicators.append(new_color_indicator)
-			
+
 		# debug ... zapis indexa
 		# new_color_indicator.get_node("IndicatorCount").text = str(indicator_index) 
 	

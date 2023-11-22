@@ -24,7 +24,7 @@ func _on_amount_change(new_value):
 	previous_energy = energy 
 	
 	# setam current energy
-	energy = new_value # v bistvu Global.game_manager.player_stats["player_energy"]
+	energy = new_value
 	
 	if energy <= tired_energy:
 		modulate = Global.color_red

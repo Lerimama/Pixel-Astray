@@ -24,7 +24,7 @@ func _on_value_change(new_value): # ne rabim parametra
 	previous_life = life_count
 	
 	# setam current life
-	life_count = new_value # v bistvu Global.game_manager.player_stats["player_life"]
+	life_count = new_value
 	
 	if previous_life > life_count:
 		

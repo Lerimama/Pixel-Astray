@@ -11,7 +11,7 @@ var default_player_stats: Dictionary = { # bo verjetno za vsak mode drugačen
 	"colors_collected": 0,
 	"skill_count" : 0,
 	"burst_count" : 0,
-	"cells_travelled" : 0,
+	"cells_traveled" : 0,
 }
 
 
@@ -34,8 +34,8 @@ var game_settings: Dictionary = {
 	"color_picked_energy": 20,
 	"stacked_color_picked_points": 20,
 	"stacked_color_picked_energy": 20,
-	"cell_travelled_points": -1,
-	"cell_travelled_energy": -1,
+	"cell_traveled_points": -1,
+	"cell_traveled_energy": -1,
 	"skill_used_points": 0,
 	"skill_used_energy": 0,
 	# player
@@ -54,10 +54,10 @@ var game_settings: Dictionary = {
 	"gameover_countdown_duration": 5,
 	"suddent_death_mode": false,
 	"sudden_death_limit" : 20,
-	"skill_limit_mode": false,
-	"skill_limit_count": 5,
-	"burst_limit_mode": false,
-	"burst_limit_count": 5,
+#	"skill_limit_mode": false,
+#	"skill_limit_count": 5,
+#	"burst_limit_mode": false,
+#	"burst_limit_count": 5,
 	"lose_life_on_hit": true,
 	"reset_energy_on_lose_life": true,
 	"pick_neighbor_mode": false,
@@ -107,7 +107,7 @@ var game_data_cleaner_L: Dictionary = {
 	"game_name": "Cleaner",
 	"level": "L",
 	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_L_tilemap.tscn",
-	"game_time_limit": 600,
+	"game_time_limit": 5,
 	"strays_start_count": 320, 
 	"highscore": 0,
 }

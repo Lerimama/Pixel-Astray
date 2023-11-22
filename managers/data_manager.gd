@@ -1,6 +1,8 @@
 extends Node
 
 
+signal highscores_updated # ko je vnešeno ime igralca
+
 var data_file: = File.new()
 var current_player_ranking: int # da ob rendriranju HS, lahko označim aktualni rezultat ... v GM
 
@@ -82,7 +84,7 @@ func manage_gameover_highscores(player_points, current_game): # iz GM
 		
 		# RESUME 2
 		# nova highscore lestvica		
-		var current_score_owner = Global.game_manager.player_stats["player_name"]
+		var current_score_owner = Global.game_manager.p1_stats["player_name"]
 		
 		# dodam plejer score v array
 		all_scores.insert(better_positions_count, player_points)
@@ -108,7 +110,9 @@ func manage_gameover_highscores(player_points, current_game): # iz GM
 
 		# sejvam hs slovar v filet
 		write_highscores_to_file(current_game, new_game_highscores)
-		Global.gameover_menu.show_game_summary()
+		
+		emit_signal("highscores_updated")
+#		Global.gameover_menu.show_game_summary()
 
 
 func read_highscores_from_file(current_game_key: int):
