@@ -8,6 +8,7 @@ var current_title: Node # za določanje trenutnega napisa ob koncu igre
 var current_jingle: String # za jingla ob koncu igre
 var current_content: Control # da ni potrebno pedenat vsega glede na tip igre
 
+
 # popup
 var input_invite_text: String = "..."
 var input_string: String # = "" # neki more bit, če plejer nč ne vtipka in potrdi predvsem da zaznava vsako črko in jo lahko potrdiš na gumbu

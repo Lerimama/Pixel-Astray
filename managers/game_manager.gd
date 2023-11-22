@@ -558,7 +558,7 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 		
 func lose_life(loser_player_stats, life_loser):
 	
-	loser_player_stats["player_life"] -= 1
+#	loser_player_stats["player_life"] -= 1
 
 	if loser_player_stats["player_life"] < 1: # game-over, če je bil to zadnji lajf
 		game_over(GameoverReason.LIFE)

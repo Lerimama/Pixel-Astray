@@ -83,7 +83,8 @@ func snap_to_nearest_grid(current_global_position: Vector2, cell_positions):
 	# če ni že snepano
 	if not floor_cells.has(current_position): 
 		# določimo distanco znotraj katere preverjamo bližino točke
-		var distance_to_position: float = cell_size_x # začetna distanca je velikosti celice, ker na koncu je itak bližja
+		# var distance_to_position: float = cell_size_x # orig ... začetna distanca je velikosti celice, ker na koncu je itak bližja
+		var distance_to_position: float = cell_size_x/2 # bolj natančno ... polovica, ker je itak vsaj ena polovička bližje točki
 		var nearest_cell: Vector2
 		for cell in floor_cells:
 			if cell.distance_to(current_position) < distance_to_position:
