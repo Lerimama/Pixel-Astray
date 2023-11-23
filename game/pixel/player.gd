@@ -106,7 +106,7 @@ func _ready() -> void:
 		key_right = "ui_right"
 		key_up = "ui_up"
 		key_down = "ui_down"
-		key_burst = "space"
+		key_burst = "burst"
 	
 	light_2d.enabled = false
 	modulate = pixel_color # pixel_color je določen ob spawnu z GM

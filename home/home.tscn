@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=2]
+[gd_scene load_steps=65 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -14,20 +14,28 @@
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=14]
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=15]
 
-[sub_resource type="StyleBoxEmpty" id=208]
+[sub_resource type="AtlasTexture" id=195]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 16, 22, 22 )
+
+[sub_resource type="AtlasTexture" id=196]
+atlas = ExtResource( 2 )
+region = Rect2( 22, 16, 22, 22 )
+
+[sub_resource type="StyleBoxEmpty" id=226]
 
 [sub_resource type="StreamTexture" id=175]
 load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
 
-[sub_resource type="AtlasTexture" id=209]
+[sub_resource type="AtlasTexture" id=227]
 atlas = SubResource( 175 )
 region = Rect2( 16, 16, 14, 16 )
 
-[sub_resource type="AtlasTexture" id=210]
+[sub_resource type="AtlasTexture" id=228]
 atlas = SubResource( 175 )
 region = Rect2( 0, 16, 10, 16 )
 
-[sub_resource type="StyleBoxFlat" id=211]
+[sub_resource type="StyleBoxFlat" id=229]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -39,21 +47,21 @@ expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxEmpty" id=212]
+[sub_resource type="StyleBoxEmpty" id=230]
 
-[sub_resource type="StyleBoxEmpty" id=213]
+[sub_resource type="StyleBoxEmpty" id=231]
 
-[sub_resource type="StyleBoxLine" id=214]
+[sub_resource type="StyleBoxLine" id=232]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
 
-[sub_resource type="AtlasTexture" id=215]
+[sub_resource type="AtlasTexture" id=233]
 atlas = SubResource( 175 )
 region = Rect2( 32, 0, 10, 10 )
 
-[sub_resource type="StyleBoxEmpty" id=216]
+[sub_resource type="StyleBoxEmpty" id=234]
 
-[sub_resource type="StyleBoxFlat" id=217]
+[sub_resource type="StyleBoxFlat" id=235]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -64,14 +72,14 @@ expand_margin_left = 6.0
 expand_margin_top = 6.0
 expand_margin_bottom = 6.0
 
-[sub_resource type="StreamTexture" id=218]
+[sub_resource type="StreamTexture" id=236]
 load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
 
 [sub_resource type="AtlasTexture" id=152]
-atlas = SubResource( 218 )
+atlas = SubResource( 236 )
 region = Rect2( 0, 4, 16, 8 )
 
-[sub_resource type="StyleBoxTexture" id=219]
+[sub_resource type="StyleBoxTexture" id=237]
 texture = SubResource( 152 )
 region_rect = Rect2( 0, 0, 16, 8 )
 margin_left = 3.34132
@@ -80,7 +88,7 @@ margin_top = 4.0
 margin_bottom = 4.0
 modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 
-[sub_resource type="StyleBoxFlat" id=220]
+[sub_resource type="StyleBoxFlat" id=238]
 bg_color = Color( 0, 0, 0, 0 )
 border_width_left = 2
 border_width_top = 2
@@ -88,12 +96,12 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="AtlasTexture" id=221]
+[sub_resource type="AtlasTexture" id=239]
 atlas = SubResource( 175 )
 region = Rect2( 16, 0, 16, 12 )
 margin = Rect2( 4, 0, 0, 0 )
 
-[sub_resource type="StyleBoxFlat" id=222]
+[sub_resource type="StyleBoxFlat" id=240]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 2
 border_width_top = 2
@@ -105,7 +113,7 @@ expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxFlat" id=223]
+[sub_resource type="StyleBoxFlat" id=241]
 bg_color = Color( 0, 0, 0, 0.862745 )
 border_width_left = 4
 border_width_top = 4
@@ -113,7 +121,7 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
 
-[sub_resource type="StyleBoxLine" id=224]
+[sub_resource type="StyleBoxLine" id=242]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
 vertical = true
@@ -124,54 +132,46 @@ Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
 Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
 Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
-Button/styles/disabled = SubResource( 208 )
-Button/styles/focus = SubResource( 208 )
-Button/styles/hover = SubResource( 208 )
-Button/styles/normal = SubResource( 208 )
-Button/styles/pressed = SubResource( 208 )
+Button/styles/disabled = SubResource( 226 )
+Button/styles/focus = SubResource( 226 )
+Button/styles/hover = SubResource( 226 )
+Button/styles/normal = SubResource( 226 )
+Button/styles/pressed = SubResource( 226 )
 CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
 CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
 CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
 CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
 CheckBox/constants/hseparation = 4
-CheckBox/icons/checked = SubResource( 209 )
-CheckBox/icons/unchecked = SubResource( 210 )
-CheckBox/styles/focus = SubResource( 211 )
-CheckBox/styles/hover = SubResource( 211 )
-CheckBox/styles/hover_pressed = SubResource( 211 )
-CheckBox/styles/normal = SubResource( 212 )
-CheckBox/styles/pressed = SubResource( 213 )
-HSeparator/styles/separator = SubResource( 214 )
-HSlider/icons/grabber = SubResource( 215 )
+CheckBox/icons/checked = SubResource( 227 )
+CheckBox/icons/unchecked = SubResource( 228 )
+CheckBox/styles/focus = SubResource( 229 )
+CheckBox/styles/hover = SubResource( 229 )
+CheckBox/styles/hover_pressed = SubResource( 229 )
+CheckBox/styles/normal = SubResource( 230 )
+CheckBox/styles/pressed = SubResource( 231 )
+HSeparator/styles/separator = SubResource( 232 )
+HSlider/icons/grabber = SubResource( 233 )
 HSlider/icons/grabber_disabled = null
-HSlider/icons/grabber_highlight = SubResource( 215 )
+HSlider/icons/grabber_highlight = SubResource( 233 )
 HSlider/icons/tick = null
-HSlider/styles/grabber_area = SubResource( 216 )
-HSlider/styles/grabber_area_highlight = SubResource( 217 )
-HSlider/styles/slider = SubResource( 219 )
+HSlider/styles/grabber_area = SubResource( 234 )
+HSlider/styles/grabber_area_highlight = SubResource( 235 )
+HSlider/styles/slider = SubResource( 237 )
 Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
 Label/constants/line_spacing = 6
 LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
 LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
-LineEdit/styles/normal = SubResource( 220 )
+LineEdit/styles/normal = SubResource( 238 )
 OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
-OptionButton/icons/arrow = SubResource( 221 )
-OptionButton/styles/focus = SubResource( 222 )
-OptionButton/styles/hover = SubResource( 222 )
-OptionButton/styles/pressed = SubResource( 222 )
-Panel/styles/panel = SubResource( 223 )
-VSeparator/styles/separator = SubResource( 224 )
-
-[sub_resource type="AtlasTexture" id=195]
-atlas = ExtResource( 2 )
-region = Rect2( 0, 16, 22, 22 )
-
-[sub_resource type="AtlasTexture" id=196]
-atlas = ExtResource( 2 )
-region = Rect2( 22, 16, 22, 22 )
+OptionButton/icons/arrow = SubResource( 239 )
+OptionButton/styles/focus = SubResource( 240 )
+OptionButton/styles/hover = SubResource( 240 )
+OptionButton/styles/pressed = SubResource( 240 )
+Panel/styles/panel = SubResource( 241 )
+VSeparator/styles/separator = SubResource( 242 )
 
 [sub_resource type="AtlasTexture" id=201]
 atlas = ExtResource( 12 )
@@ -212,7 +212,7 @@ border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color( 1, 1, 1, 0.901961 )
+border_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 
 [sub_resource type="StyleBoxEmpty" id=151]
 
@@ -254,11 +254,11 @@ region = Rect2( 0, 98, 70, 46 )
 atlas = ExtResource( 12 )
 region = Rect2( 80, 98, 70, 46 )
 
-[sub_resource type="StreamTexture" id=193]
+[sub_resource type="StreamTexture" id=243]
 load_path = "res://.import/controls_scheme.png-9ee77a9514109977db18399ec912d13f.stex"
 
 [sub_resource type="AtlasTexture" id=182]
-atlas = SubResource( 193 )
+atlas = SubResource( 243 )
 region = Rect2( 0, 0, 120, 86 )
 
 [sub_resource type="AtlasTexture" id=183]
@@ -275,7 +275,11 @@ region = Rect2( 96, 32, 10, 10 )
 
 [sub_resource type="AtlasTexture" id=186]
 atlas = ExtResource( 12 )
-region = Rect2( 0, 154, 160, 22 )
+region = Rect2( 0, 154, 112.074, 22 )
+
+[sub_resource type="AtlasTexture" id=225]
+atlas = ExtResource( 12 )
+region = Rect2( 113.919, 154, 22, 22 )
 
 [sub_resource type="AtlasTexture" id=149]
 atlas = ExtResource( 2 )
@@ -814,6 +818,7 @@ margin_left = 280.0
 margin_top = 518.0
 margin_right = 1000.0
 margin_bottom = 543.0
+theme = ExtResource( 15 )
 custom_constants/separation = 32
 alignment = 1
 
@@ -825,7 +830,6 @@ margin_bottom = 25.0
 focus_neighbour_right = NodePath("../SettingsBtn")
 focus_mode = 1
 size_flags_vertical = 8
-theme = SubResource( 194 )
 enabled_focus_mode = 1
 text = "PLAY"
 
@@ -838,7 +842,6 @@ focus_neighbour_left = NodePath("../SelectGameBtn")
 focus_neighbour_right = NodePath("../HighscoresBtn")
 focus_mode = 1
 size_flags_vertical = 8
-theme = SubResource( 194 )
 enabled_focus_mode = 1
 text = "SETTINGS"
 
@@ -851,7 +854,6 @@ focus_neighbour_left = NodePath("../SettingsBtn")
 focus_neighbour_right = NodePath("../AboutBtn")
 focus_mode = 1
 size_flags_vertical = 8
-theme = SubResource( 194 )
 enabled_focus_mode = 1
 text = "HIGHSCORES"
 
@@ -864,7 +866,6 @@ focus_neighbour_left = NodePath("../HighscoresBtn")
 focus_neighbour_right = NodePath("../QuitGameBtn")
 focus_mode = 1
 size_flags_vertical = 8
-theme = SubResource( 194 )
 enabled_focus_mode = 1
 text = "ABOUT"
 
@@ -876,7 +877,6 @@ margin_bottom = 25.0
 focus_neighbour_left = NodePath("../AboutBtn")
 focus_mode = 1
 size_flags_vertical = 8
-theme = SubResource( 194 )
 enabled_focus_mode = 1
 text = "QUIT"
 
@@ -904,6 +904,7 @@ texture_focused = SubResource( 196 )
 flip_h = true
 
 [node name="Title" type="Label" parent="About"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -49.0
@@ -911,14 +912,11 @@ margin_top = -2.0
 margin_right = 50.0
 margin_bottom = 30.0
 size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "About"
 align = 1
 
 [node name="HSeparator" type="HSeparator" parent="About/Title"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -977,7 +975,6 @@ margin_right = 305.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 0, 29 )
 size_flags_vertical = 1
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Traveling around"
 autowrap = true
 
@@ -1113,6 +1110,7 @@ margin_left = 64.0
 margin_top = 526.0
 margin_right = 254.0
 margin_bottom = 548.0
+theme = ExtResource( 15 )
 custom_constants/separation = 8
 __meta__ = {
 "_edit_group_": true
@@ -1128,8 +1126,7 @@ margin_left = 30.0
 margin_top = 2.0
 margin_right = 47.0
 margin_bottom = 20.0
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 14 )
 text = "or"
 align = 1
@@ -1145,8 +1142,7 @@ margin_left = 104.0
 margin_top = 2.0
 margin_right = 190.0
 margin_bottom = 20.0
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 14 )
 text = "to go back"
 
@@ -1173,6 +1169,7 @@ texture_hover = SubResource( 196 )
 texture_focused = SubResource( 196 )
 
 [node name="Title" type="Label" parent="Highscores"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -96.0
@@ -1180,14 +1177,11 @@ margin_top = 70.0
 margin_right = 96.0
 margin_bottom = 102.0
 size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "Highscores"
 align = 1
 
 [node name="HSeparator" type="HSeparator" parent="Highscores/Title"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -3147,6 +3141,7 @@ margin_left = 1024.0
 margin_top = 566.0
 margin_right = 1214.0
 margin_bottom = 588.0
+theme = ExtResource( 15 )
 custom_constants/separation = 8
 __meta__ = {
 "_edit_group_": true
@@ -3162,8 +3157,7 @@ margin_left = 30.0
 margin_top = 2.0
 margin_right = 47.0
 margin_bottom = 20.0
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 14 )
 text = "or"
 align = 1
@@ -3179,8 +3173,7 @@ margin_left = 104.0
 margin_top = 2.0
 margin_right = 190.0
 margin_bottom = 20.0
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 14 )
 text = "to go back"
 
@@ -3194,18 +3187,16 @@ rect_min_size = Vector2( 680, 720 )
 theme = ExtResource( 15 )
 
 [node name="Title" type="Label" parent="SelectGame"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 7.0
 margin_top = 70.0
 margin_right = 223.0
 margin_bottom = 102.0
 size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "Select game"
 
 [node name="HSeparator" type="HSeparator" parent="SelectGame/Title"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -3507,13 +3498,10 @@ margin_right = 671.0
 margin_bottom = 44.0
 rect_min_size = Vector2( 0, 38 )
 size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 text = "Game controls and shortcuts"
 uppercase = true
 
 [node name="HSeparator" type="HSeparator" parent="SelectGame/InfoPanelHor/Title"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -3749,8 +3737,9 @@ text = "Direction keys"
 autowrap = true
 
 [node name="Line2D4" type="Line2D" parent="SelectGame/InfoPanelHor/Controls/Keys/DirKeys"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-position = Vector2( -339, 218 )
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+position = Vector2( -339, 181.156 )
+scale = Vector2( 1, 0.8125 )
 points = PoolVector2Array( 383, -157, 368, -196 )
 width = 0.5
 default_color = Color( 1, 1, 1, 1 )
@@ -3758,8 +3747,9 @@ sharp_limit = 0.0
 antialiased = true
 
 [node name="Line2D6" type="Line2D" parent="SelectGame/InfoPanelHor/Controls/Keys/DirKeys"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-position = Vector2( -363, 218 )
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+position = Vector2( -363, 181.156 )
+scale = Vector2( 1, 0.8125 )
 points = PoolVector2Array( 349, -157, 373, -196 )
 width = 0.5
 default_color = Color( 1, 1, 1, 1 )
@@ -3767,8 +3757,9 @@ sharp_limit = 0.0
 antialiased = true
 
 [node name="Line2D5" type="Line2D" parent="SelectGame/InfoPanelHor/Controls/Keys/DirKeys"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-position = Vector2( -340, 218 )
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+position = Vector2( -223.306, 106.32 )
+scale = Vector2( 0.757141, 0.48 )
 points = PoolVector2Array( 480, -172, 446, -196 )
 width = 0.5
 default_color = Color( 1, 1, 1, 1 )
@@ -3798,7 +3789,7 @@ __meta__ = {
 }
 
 [node name="jp" type="TextureRect" parent="SelectGame/InfoPanelHor/Controls/Keys/Joypad"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_right = 120.0
 margin_bottom = 86.0
 texture = SubResource( 182 )
@@ -3835,35 +3826,45 @@ custom_fonts/font = ExtResource( 14 )
 text = "Burst key"
 
 [node name="Line2D" type="Line2D" parent="SelectGame/InfoPanelHor/Controls/Keys/BurstKey"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 position = Vector2( -390.302, 87.142 )
 scale = Vector2( 0.913793, 1.00769 )
-points = PoolVector2Array( 496.066, -82.5075, 516.859, -136.095 )
+points = PoolVector2Array( 496, -83, 517, -136 )
 width = 0.5
 default_color = Color( 1, 1, 1, 1 )
 sharp_limit = 0.0
 antialiased = true
 
 [node name="Line2D2" type="Line2D" parent="SelectGame/InfoPanelHor/Controls/Keys/BurstKey"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-position = Vector2( -484, 99 )
-points = PoolVector2Array( 478, -88, 441, -95 )
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+position = Vector2( -554, 83 )
+scale = Vector2( 1.14474, 0.8125 )
+points = PoolVector2Array( 480, -88, 440, -88 )
 width = 0.5
 default_color = Color( 1, 1, 1, 1 )
 sharp_limit = 0.0
 antialiased = true
 
 [node name="Space" type="TextureRect" parent="SelectGame/InfoPanelHor/Controls/Keys"]
+margin_left = 6.0
 margin_top = 99.0
-margin_right = 160.0
+margin_right = 118.0
 margin_bottom = 121.0
 texture = SubResource( 186 )
+
+[node name="Alt" type="TextureRect" parent="SelectGame/InfoPanelHor/Controls/Keys"]
+margin_left = 132.0
+margin_top = 99.0
+margin_right = 154.0
+margin_bottom = 121.0
+texture = SubResource( 225 )
 
 [node name="EscHint" type="HBoxContainer" parent="SelectGame"]
 margin_left = 8.0
 margin_top = 638.0
 margin_right = 198.0
 margin_bottom = 660.0
+theme = ExtResource( 15 )
 custom_constants/separation = 8
 __meta__ = {
 "_edit_group_": true
@@ -3879,8 +3880,7 @@ margin_left = 30.0
 margin_top = 2.0
 margin_right = 47.0
 margin_bottom = 20.0
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 14 )
 text = "or"
 align = 1
@@ -3896,8 +3896,7 @@ margin_left = 104.0
 margin_top = 2.0
 margin_right = 190.0
 margin_bottom = 20.0
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 14 )
 text = "to go back"
 
@@ -3925,18 +3924,16 @@ texture_hover = SubResource( 196 )
 texture_focused = SubResource( 196 )
 
 [node name="Title" type="Label" parent="Settings"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 224.0
 margin_top = 70.0
 margin_right = 368.0
 margin_bottom = 102.0
 size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "Settings"
 
 [node name="HSeparator" type="HSeparator" parent="Settings/Title"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -4019,6 +4016,7 @@ margin_left = 224.0
 margin_top = 638.0
 margin_right = 414.0
 margin_bottom = 660.0
+theme = ExtResource( 15 )
 custom_constants/separation = 8
 __meta__ = {
 "_edit_group_": true
@@ -4034,8 +4032,7 @@ margin_left = 30.0
 margin_top = 2.0
 margin_right = 47.0
 margin_bottom = 20.0
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 14 )
 text = "or"
 align = 1
@@ -4051,8 +4048,7 @@ margin_left = 104.0
 margin_top = 2.0
 margin_right = 190.0
 margin_bottom = 20.0
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 14 )
 text = "to go back"
 

@@ -28,8 +28,7 @@ func _input(event: InputEvent) -> void:
 			Global.sound_manager.play_gui_sfx("btn_focus_change")
 		elif Input.is_action_just_pressed("ui_focus_prev"):
 			Global.sound_manager.play_gui_sfx("btn_focus_change")		
-		elif Input.is_action_just_pressed("ui_accept"):
-			Global.sound_manager.play_gui_sfx("btn_confirm")
+
 
 func _ready() -> void:
 	
@@ -132,9 +131,11 @@ func _on_QuitBtn_pressed() -> void:
 func _on_GameMusicCheckBox_toggled(button_pressed: bool) -> void:
 
 	if button_pressed:
+		Global.sound_manager.play_gui_sfx("btn_confirm")
 		Global.sound_manager.game_music_set_to_off = false
 		Global.sound_manager.play_music("game")
 	else:
+		Global.sound_manager.play_gui_sfx("btn_cancel")
 		Global.sound_manager.game_music_set_to_off = true
 		Global.sound_manager.stop_music("game")
 
@@ -147,16 +148,20 @@ func _on_GameMusicSlider_value_changed(value: float) -> void:
 func _on_GameSfxCheckBox_toggled(button_pressed: bool) -> void:
 	
 	if button_pressed:
+		Global.sound_manager.play_gui_sfx("btn_confirm")
 		Global.sound_manager.game_sfx_set_to_off = false
 	else:
+		Global.sound_manager.play_gui_sfx("btn_cancel")
 		Global.sound_manager.game_sfx_set_to_off = true
 
 
 func _on_CamerShakeCheckBox_toggled(button_pressed: bool) -> void:
 	
 	if button_pressed:
+		Global.sound_manager.play_gui_sfx("btn_confirm")
 		Global.main_node.camera_shake_on = true
 	else:
+		Global.sound_manager.play_gui_sfx("btn_cancel")
 		Global.main_node.camera_shake_on = false
 
 

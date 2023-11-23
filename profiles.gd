@@ -76,7 +76,7 @@ var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "c
 var game_data_tutorial: Dictionary = { 
 	"game": Games.TUTORIAL,
 	"game_name": "Tutorial",
-	"level": "NN",
+	"level": "",
 	"tilemap_path": "res://game/tilemaps/tutorial_tilemap.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 10,
@@ -107,7 +107,7 @@ var game_data_cleaner_L: Dictionary = {
 	"game_name": "Cleaner",
 	"level": "L",
 	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_L_tilemap.tscn",
-	"game_time_limit": 5,
+	"game_time_limit": 2,
 	"strays_start_count": 320, 
 	"highscore": 0,
 }
@@ -115,14 +115,14 @@ var game_data_cleaner_L: Dictionary = {
 var game_data_duel: Dictionary = {
 	"game": Games.DUEL,
 	"game_name": "The Duel",
-	"level": "NN",
+	"level": "",
 	"tilemap_path": "res://game/tilemaps/duel_tilemap.tscn",
-	"game_time_limit": 600,
+	"game_time_limit": 6,
 	"strays_start_count": 2, 
 	"highscore": 0,
 }
 
-var current_game = Games.DUEL
+var current_game = Games.TUTORIAL
 
 func _ready() -> void:
 	set_game_data(current_game)
