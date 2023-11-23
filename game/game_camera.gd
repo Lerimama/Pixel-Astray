@@ -103,7 +103,8 @@ func zoom_in():
 	
 	
 	var final_zoom = Vector2.ONE
-	if Profiles.current_game == Profiles.Games.DUEL:
+	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
+#	if Profiles.current_game == Profiles.Games.DUEL:
 		final_zoom *= 1.5
 		
 		

@@ -12,7 +12,7 @@ onready var intro: Node2D = $IntroViewPortContainer/Viewport/Intro
 onready var intro_viewport: Viewport = $IntroViewPortContainer/Viewport
 
 onready var tutorial_btn: Button = $SelectGame/TutorialBtn
-onready var cleaner_btn: Button = $SelectGame/CleanerBtn
+#onready var cleaner_btn: Button = $SelectGame/CleanerBtn
 onready var pointer_btn: Button = $SelectGame/PointerBtn
 onready var riddler_btn: Button = $SelectGame/RiddlerBtn
 
@@ -272,8 +272,14 @@ func _on_CleanerLBtn_pressed() -> void:
 	$SelectGame/CleanerLBtn.disabled = true
 	
 	
-func _on_CleanerBtn_pressed() -> void:
-	pass # Replace with function body.
+func _on_DuelBtn_pressed() -> void:
+	Profiles.set_game_data(Profiles.Games.DUEL)
+	Global.sound_manager.play_gui_sfx("screen_slide")
+	Global.sound_manager.play_gui_sfx("btn_confirm")
+	animation_player.play("play")
+	
+	$SelectGame/DuelBtn.disabled = true
+	
 
 
 func _on_PointerBtn_pressed() -> void:
@@ -282,6 +288,8 @@ func _on_PointerBtn_pressed() -> void:
 
 func _on_RiddlerBtn_pressed() -> void:
 	pass # Replace with function body.
+
+
 
 
 

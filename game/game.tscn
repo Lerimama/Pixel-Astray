@@ -1,4 +1,4 @@
-[gd_scene load_steps=110 format=2]
+[gd_scene load_steps=111 format=2]
 
 [ext_resource path="res://game/hud/hud_game_timer.gd" type="Script" id=1]
 [ext_resource path="res://game/hud/hud.gd" type="Script" id=2]
@@ -738,8 +738,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"points": PoolRealArray( 32, -0.5, 0, 0.25, 0, -360, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0.3, 1.2 )
+"points": PoolRealArray( 32, 0, 0, 0.5, 0, -360, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1.2 )
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Checkpoints:modulate")
@@ -760,8 +760,8 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"points": PoolRealArray( 928, -0.5, 0, 0.25, 0, 1304, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0.3, 1.2 )
+"points": PoolRealArray( 928, 0, 0, 0.5, 0, 1304, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1.2 )
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("InfoPanel:modulate")
@@ -818,7 +818,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"points": PoolRealArray( -360, -0.25, 0, 0.25, 0, -360, -0.25, 0, 0.25, 0, 32, -0.5, 0, 0.25, 0 ),
+"points": PoolRealArray( -360, 0, 0, 0.5, 0, -360, 0, 0, 0.5, 0, 32, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0, 0.3, 1.5 )
 }
 tracks/4/type = "value"
@@ -864,8 +864,8 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"points": PoolRealArray( 1304, -0.25, 0, 0.25, 0, 1304, -0.25, 0, 0.25, 0, 928, -0.5, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 0.8, 1.5 )
+"points": PoolRealArray( 1304, 0, 0, 0.5, 0, 1304, 0, 0, 0.5, 0, 928, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 0.3, 1.5 )
 }
 tracks/8/type = "value"
 tracks/8/path = NodePath("InfoPanel:modulate")
@@ -907,9 +907,13 @@ region = Rect2( 30, 40, 18, 18 )
 atlas = ExtResource( 20 )
 region = Rect2( 96, 32, 10, 10 )
 
-[sub_resource type="AtlasTexture" id=198]
+[sub_resource type="AtlasTexture" id=235]
 atlas = ExtResource( 20 )
-region = Rect2( 0, 154, 160, 22 )
+region = Rect2( 0, 154, 112.074, 22 )
+
+[sub_resource type="AtlasTexture" id=236]
+atlas = ExtResource( 20 )
+region = Rect2( 113.919, 154, 22, 22 )
 
 [sub_resource type="AtlasTexture" id=184]
 atlas = ExtResource( 20 )
@@ -967,7 +971,7 @@ custom_constants/separation = 0
 unique_name_in_owner = true
 margin_right = 1280.0
 rect_min_size = Vector2( 1280, 0 )
-color = Color( 0.137255, 0.137255, 0.137255, 1 )
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
 [node name="Viewports" type="HBoxContainer" parent="GameView"]
 margin_right = 1280.0
@@ -1617,6 +1621,8 @@ __meta__ = {
 }
 
 [node name="Hud" type="Control" parent="GUI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 720 )
 script = ExtResource( 2 )
 
@@ -2355,7 +2361,6 @@ align = 1
 valign = 1
 
 [node name="DuelScreens" type="Control" parent="GUI/Hud/Popups"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -2364,7 +2369,7 @@ anchor_right = 0.5
 anchor_bottom = 1.0
 
 [node name="Player" type="TileMap" parent="GUI/Hud/Popups/DuelScreens/PlayerLeft"]
-modulate = Color( 1, 1, 1, 0.235294 )
+modulate = Color( 1, 1, 1, 0.54902 )
 position = Vector2( 136, 192 )
 tile_set = ExtResource( 18 )
 cell_size = Vector2( 16, 16 )
@@ -2418,7 +2423,7 @@ margin_left = 640.0
 margin_right = 640.0
 
 [node name="Player" type="TileMap" parent="GUI/Hud/Popups/DuelScreens/PlayerRight"]
-modulate = Color( 1, 1, 1, 0.235294 )
+modulate = Color( 1, 1, 1, 0.54902 )
 position = Vector2( 136, 192 )
 tile_set = ExtResource( 18 )
 cell_size = Vector2( 16, 16 )
@@ -2458,8 +2463,8 @@ texture = SubResource( 231 )
 
 [node name="GameCountdown" type="Control" parent="GUI"]
 visible = false
-margin_right = 1280.0
-margin_bottom = 720.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 720 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -2468,6 +2473,8 @@ script = ExtResource( 15 )
 [node name="Undi" type="ColorRect" parent="GUI/GameCountdown"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = 56.0
+margin_bottom = -56.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color( 0, 0, 0, 0.54902 )
@@ -2494,7 +2501,6 @@ __meta__ = {
 
 [node name="PositionControl" type="Control" parent="GUI/GameCountdown/Countdown"]
 modulate = Color( 0.368627, 1, 0.662745, 1 )
-margin_top = 22.0
 margin_right = 260.0
 margin_bottom = 26.0
 size_flags_vertical = 3
@@ -2519,8 +2525,9 @@ anims/countdown_5 = SubResource( 142 )
 anims/countdown_5_v1 = SubResource( 135 )
 
 [node name="Tutorial" type="Control" parent="GUI"]
-margin_right = 1280.0
-margin_bottom = 720.0
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 720 )
 script = ExtResource( 21 )
 __meta__ = {
@@ -3133,6 +3140,7 @@ margin_right = 328.0
 margin_bottom = 1846.0
 
 [node name="HudGuide" type="Control" parent="GUI/Tutorial"]
+modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -3349,9 +3357,9 @@ expand = true
 [node name="InfoPanel" type="Control" parent="GUI/Tutorial"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = 24.0
+margin_left = 1304.0
 margin_top = 80.0
-margin_right = 344.0
+margin_right = 1624.0
 margin_bottom = 647.0
 theme = SubResource( 194 )
 
@@ -3454,7 +3462,7 @@ margin_right = 286.0
 margin_bottom = 138.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "Burst key"
+text = "Burst keys"
 
 [node name="Space" type="TextureRect" parent="GUI/Tutorial/InfoPanel/Controls/Keys"]
 margin_left = 6.0
@@ -3721,368 +3729,17 @@ size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 23 )
 text = "... Burst into a wall"
 
-[node name="_Scoring2" type="Control" parent="GUI/Tutorial/InfoPanel"]
-visible = false
-margin_top = 246.0
-margin_right = 320.0
-margin_bottom = 584.0
-
-[node name="Title" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2"]
-margin_right = 320.0
-margin_bottom = 34.0
-rect_min_size = Vector2( 0, 34 )
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-text = "Scoring and energy"
-
-[node name="HSeparator" type="HSeparator" parent="GUI/Tutorial/InfoPanel/_Scoring2/Title"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 1.0
-margin_top = -3.0
-margin_right = -1.0
-margin_bottom = 1.0
-
-[node name="Content" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2"]
-margin_top = 50.0
-margin_right = 334.0
-margin_bottom = 68.0
-size_flags_horizontal = 3
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "A point in score equals an energy point."
-autowrap = true
-
-[node name="PointsLabel" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/_Scoring2"]
-margin_top = 80.0
-margin_right = 328.0
-margin_bottom = 102.0
-custom_constants/separation = 8
-
-[node name="Points" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel"]
-margin_right = 44.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 44, 0 )
-text = "10"
-align = 2
-
-[node name="+-" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel/Points"]
-margin_top = 1.0
-margin_right = 14.0
-margin_bottom = 23.0
-size_flags_vertical = 1
-text = "+"
-
-[node name="Content2" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel"]
-margin_left = 52.0
-margin_top = 2.0
-margin_right = 328.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 23 )
-text = "... destroy a stray pixel"
-
-[node name="PointsLabel2" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/_Scoring2"]
-margin_top = 112.0
-margin_right = 328.0
-margin_bottom = 134.0
-custom_constants/separation = 8
-
-[node name="Points" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel2"]
-margin_right = 47.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 47, 0 )
-text = "20"
-align = 2
-
-[node name="+-" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel2/Points"]
-margin_top = 1.0
-margin_right = 14.0
-margin_bottom = 23.0
-size_flags_vertical = 1
-text = "+"
-
-[node name="Content2" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel2"]
-margin_left = 55.0
-margin_top = 2.0
-margin_right = 328.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 23 )
-text = "... destroy a stacked stray pixel"
-
-[node name="Content3" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2"]
-margin_top = 138.0
-margin_right = 312.0
-margin_bottom = 204.0
-size_flags_horizontal = 3
-size_flags_vertical = 1
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-custom_fonts/font = ExtResource( 23 )
-text = "10 points for the first one, 10 + 20 points for the second, 10 + 20 + 20 for the third, and so on."
-autowrap = true
-
-[node name="PointsLabel3" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/_Scoring2"]
-margin_top = 216.0
-margin_right = 328.0
-margin_bottom = 238.0
-custom_constants/separation = 8
-
-[node name="Points" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel3"]
-margin_right = 61.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 61, 0 )
-text = "500"
-align = 2
-
-[node name="+-" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel3/Points"]
-margin_top = 1.0
-margin_right = 14.0
-margin_bottom = 23.0
-size_flags_vertical = 1
-text = "+"
-
-[node name="Content2" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel3"]
-margin_left = 69.0
-margin_top = 2.0
-margin_right = 328.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 23 )
-text = "... destroy all stray pixels"
-
-[node name="PointsLabel4" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/_Scoring2"]
-margin_top = 248.0
-margin_right = 328.0
-margin_bottom = 270.0
-custom_constants/separation = 8
-
-[node name="Points" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel4"]
-margin_right = 30.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 30, 0 )
-text = "1"
-align = 2
-
-[node name="+-" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel4/Points"]
-margin_top = 1.0
-margin_right = 14.0
-margin_bottom = 23.0
-size_flags_vertical = 1
-text = "-"
-
-[node name="Content2" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel4"]
-margin_left = 38.0
-margin_top = 2.0
-margin_right = 328.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 23 )
-text = "... traveling (per step)"
-
-[node name="PointsLabel5" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/_Scoring2"]
-margin_top = 280.0
-margin_right = 328.0
-margin_bottom = 302.0
-custom_constants/separation = 8
-
-[node name="Points" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel5"]
-margin_right = 160.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 160, 0 )
-text = "1/2 of total"
-align = 2
-
-[node name="+-" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel5/Points"]
-margin_top = 1.0
-margin_right = 14.0
-margin_bottom = 23.0
-size_flags_vertical = 1
-text = "-"
-
-[node name="Content2" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring2/PointsLabel5"]
-margin_left = 168.0
-margin_top = 2.0
-margin_right = 328.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 23 )
-text = "... burst into wall"
-
-[node name="_Scoring3" type="Control" parent="GUI/Tutorial/InfoPanel"]
-visible = false
-margin_top = 246.0
-margin_right = 320.0
-margin_bottom = 584.0
-
-[node name="Title" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring3"]
-margin_right = 320.0
-margin_bottom = 34.0
-rect_min_size = Vector2( 0, 34 )
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-text = "Scoring and energy"
-
-[node name="HSeparator" type="HSeparator" parent="GUI/Tutorial/InfoPanel/_Scoring3/Title"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 1.0
-margin_top = -3.0
-margin_right = -1.0
-margin_bottom = 1.0
-
-[node name="Content" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring3"]
-margin_top = 50.0
-margin_right = 334.0
-margin_bottom = 68.0
-size_flags_horizontal = 3
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "A point in score equals an energy point."
-autowrap = true
-
-[node name="LineLabel1" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/_Scoring3"]
-margin_top = 82.0
-margin_right = 319.0
-margin_bottom = 100.0
-custom_constants/separation = 8
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Dot" type="TextureRect" parent="GUI/Tutorial/InfoPanel/_Scoring3/LineLabel1"]
-margin_right = 6.0
-margin_bottom = 18.0
-size_flags_vertical = 0
-texture = ExtResource( 26 )
-
-[node name="Content1" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring3/LineLabel1"]
-margin_left = 14.0
-margin_right = 319.0
-margin_bottom = 18.0
-size_flags_horizontal = 3
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "Destroy a stray pixel ... +10"
-autowrap = true
-
-[node name="LineLabel2" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/_Scoring3"]
-margin_top = 114.0
-margin_right = 322.0
-margin_bottom = 204.0
-custom_constants/separation = 8
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Dot" type="TextureRect" parent="GUI/Tutorial/InfoPanel/_Scoring3/LineLabel2"]
-margin_right = 6.0
-margin_bottom = 18.0
-size_flags_vertical = 0
-texture = ExtResource( 26 )
-
-[node name="Content2" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring3/LineLabel2"]
-margin_left = 14.0
-margin_right = 322.0
-margin_bottom = 90.0
-size_flags_horizontal = 3
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "Destroy a pixel in stack ... +20 
-10 points for the first one, 10 + 20 points for the second, 10 + 20 + 20 for the third, and so on."
-autowrap = true
-
-[node name="LineLabel3" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/_Scoring3"]
-margin_top = 218.0
-margin_right = 327.0
-margin_bottom = 236.0
-custom_constants/separation = 8
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Dot" type="TextureRect" parent="GUI/Tutorial/InfoPanel/_Scoring3/LineLabel3"]
-margin_right = 6.0
-margin_bottom = 18.0
-size_flags_vertical = 0
-texture = ExtResource( 26 )
-
-[node name="Content3" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring3/LineLabel3"]
-margin_left = 14.0
-margin_right = 327.0
-margin_bottom = 18.0
-size_flags_horizontal = 3
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "Destroy all pixels ... 500 points"
-autowrap = true
-
-[node name="LineLabel4" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/_Scoring3"]
-margin_top = 250.0
-margin_right = 319.0
-margin_bottom = 268.0
-custom_constants/separation = 8
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Dot" type="TextureRect" parent="GUI/Tutorial/InfoPanel/_Scoring3/LineLabel4"]
-margin_right = 6.0
-margin_bottom = 18.0
-size_flags_vertical = 0
-texture = ExtResource( 26 )
-
-[node name="Content4" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring3/LineLabel4"]
-margin_left = 14.0
-margin_right = 319.0
-margin_bottom = 18.0
-size_flags_horizontal = 3
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "Traveling ... -1 point per step "
-autowrap = true
-
-[node name="LineLabel5" type="HBoxContainer" parent="GUI/Tutorial/InfoPanel/_Scoring3"]
-margin_top = 282.0
-margin_right = 301.0
-margin_bottom = 324.0
-custom_constants/separation = 8
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Dot" type="TextureRect" parent="GUI/Tutorial/InfoPanel/_Scoring3/LineLabel5"]
-margin_right = 6.0
-margin_bottom = 18.0
-size_flags_vertical = 0
-texture = ExtResource( 26 )
-
-[node name="Content5" type="Label" parent="GUI/Tutorial/InfoPanel/_Scoring3/LineLabel5"]
-margin_left = 14.0
-margin_right = 301.0
-margin_bottom = 42.0
-size_flags_horizontal = 3
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "Hit a wall when bursting ...  - 1/2 of your points and energy"
-autowrap = true
-
 [node name="MissionPanel" type="Control" parent="GUI/Tutorial"]
+visible = false
 modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -223.0
-margin_top = -40.0
-margin_right = 225.0
-margin_bottom = 248.0
+margin_left = 417.0
+margin_top = 320.0
+margin_right = 865.0
+margin_bottom = 608.0
 theme = SubResource( 194 )
 __meta__ = {
 "_edit_group_": true
@@ -4214,8 +3871,8 @@ anims/tutorial_start = SubResource( 172 )
 [node name="PauseMenu" type="Control" parent="GUI"]
 pause_mode = 2
 visible = false
-margin_right = 1280.0
-margin_bottom = 720.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 script = ExtResource( 10 )
 
 [node name="Undi" type="ColorRect" parent="GUI/PauseMenu"]
@@ -4289,43 +3946,6 @@ margin_right = 328.0
 margin_bottom = 186.0
 rect_pivot_offset = Vector2( 264, 104 )
 
-[node name="DirKeys" type="Label" parent="GUI/PauseMenu/Controls/Keys"]
-margin_left = 65.0
-margin_top = 3.0
-margin_right = 176.0
-margin_bottom = 21.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "Direction keys"
-autowrap = true
-
-[node name="Line2D4" type="Line2D" parent="GUI/PauseMenu/Controls/Keys/DirKeys"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-position = Vector2( -339, 218 )
-points = PoolVector2Array( 383, -157, 368, -196 )
-width = 0.5
-default_color = Color( 1, 1, 1, 1 )
-sharp_limit = 0.0
-antialiased = true
-
-[node name="Line2D6" type="Line2D" parent="GUI/PauseMenu/Controls/Keys/DirKeys"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-position = Vector2( -363, 218 )
-points = PoolVector2Array( 349, -157, 373, -196 )
-width = 0.5
-default_color = Color( 1, 1, 1, 1 )
-sharp_limit = 0.0
-antialiased = true
-
-[node name="Line2D5" type="Line2D" parent="GUI/PauseMenu/Controls/Keys/DirKeys"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-position = Vector2( -340, 218 )
-points = PoolVector2Array( 473, -172, 446, -196 )
-width = 0.5
-default_color = Color( 1, 1, 1, 1 )
-sharp_limit = 0.0
-antialiased = true
-
 [node name="Keyboard1" type="TextureRect" parent="GUI/PauseMenu/Controls/Keys"]
 margin_top = 45.0
 margin_right = 70.0
@@ -4376,18 +3996,60 @@ margin_right = 106.0
 margin_bottom = 42.0
 texture = SubResource( 197 )
 
-[node name="BurstKey" type="Label" parent="GUI/PauseMenu/Controls/Keys"]
-margin_left = 201.0
-margin_top = 123.0
-margin_right = 278.0
-margin_bottom = 141.0
+[node name="Space" type="TextureRect" parent="GUI/PauseMenu/Controls/Keys"]
+margin_left = 6.0
+margin_top = 115.0
+margin_right = 118.0
+margin_bottom = 137.0
+texture = SubResource( 235 )
+
+[node name="Alt" type="TextureRect" parent="GUI/PauseMenu/Controls/Keys"]
+margin_left = 132.0
+margin_top = 115.0
+margin_right = 154.0
+margin_bottom = 137.0
+texture = SubResource( 236 )
+
+[node name="Line2D4" type="Line2D" parent="GUI/PauseMenu/Controls/Keys"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+position = Vector2( -274, 221 )
+points = PoolVector2Array( 383, -157, 368, -196 )
+width = 0.5
+default_color = Color( 1, 1, 1, 1 )
+sharp_limit = 0.0
+antialiased = true
+
+[node name="Line2D6" type="Line2D" parent="GUI/PauseMenu/Controls/Keys"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+position = Vector2( -298, 221 )
+points = PoolVector2Array( 349, -157, 373, -196 )
+width = 0.5
+default_color = Color( 1, 1, 1, 1 )
+sharp_limit = 0.0
+antialiased = true
+
+[node name="Line2D5" type="Line2D" parent="GUI/PauseMenu/Controls/Keys"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+position = Vector2( -275, 221 )
+points = PoolVector2Array( 473, -172, 446, -196 )
+width = 0.5
+default_color = Color( 1, 1, 1, 1 )
+sharp_limit = 0.0
+antialiased = true
+
+[node name="DirKeys" type="Label" parent="GUI/PauseMenu/Controls/Keys"]
+margin_left = 65.0
+margin_top = 3.0
+margin_right = 176.0
+margin_bottom = 21.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
-text = "Burst key"
+text = "Direction keys"
+autowrap = true
 
-[node name="Line2D" type="Line2D" parent="GUI/PauseMenu/Controls/Keys/BurstKey"]
+[node name="Line2D" type="Line2D" parent="GUI/PauseMenu/Controls/Keys"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-position = Vector2( -390.302, 87.142 )
+position = Vector2( -189.302, 210.142 )
 scale = Vector2( 0.913793, 1.00769 )
 points = PoolVector2Array( 496.066, -82.5075, 516.859, -136.095 )
 width = 0.5
@@ -4395,20 +4057,24 @@ default_color = Color( 1, 1, 1, 1 )
 sharp_limit = 0.0
 antialiased = true
 
-[node name="Line2D2" type="Line2D" parent="GUI/PauseMenu/Controls/Keys/BurstKey"]
+[node name="Line2D2" type="Line2D" parent="GUI/PauseMenu/Controls/Keys"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-position = Vector2( -484, 99 )
+position = Vector2( -367.895, 222 )
+scale = Vector2( 1.17742, 1 )
 points = PoolVector2Array( 478, -88, 448, -95 )
 width = 0.5
 default_color = Color( 1, 1, 1, 1 )
 sharp_limit = 0.0
 antialiased = true
 
-[node name="Space" type="TextureRect" parent="GUI/PauseMenu/Controls/Keys"]
-margin_top = 115.0
-margin_right = 160.0
-margin_bottom = 137.0
-texture = SubResource( 198 )
+[node name="BurstKey" type="Label" parent="GUI/PauseMenu/Controls/Keys"]
+margin_left = 201.0
+margin_top = 123.0
+margin_right = 278.0
+margin_bottom = 141.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 23 )
+text = "Burst keys"
 
 [node name="Shortcuts" type="Control" parent="GUI/PauseMenu"]
 margin_left = 680.0
@@ -4729,8 +4395,9 @@ text = "PLAY ON"
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
-margin_right = 1280.0
-margin_bottom = 720.0
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
 theme = ExtResource( 22 )
 script = ExtResource( 3 )
 
@@ -4826,6 +4493,7 @@ text = "NEXT LEVEL"
 
 [node name="Duel" type="Control" parent="GUI/GameOver/FinalTitle"]
 visible = false
+modulate = Color( 1, 1, 1, 0.419608 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -4866,9 +4534,9 @@ tile_data = PoolIntArray( 14, 0, 0, 16, 0, 0, 18, 0, 0, 20, 0, 0, 22, 0, 0, 26, 
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -136.0
-margin_top = 206.0
+margin_top = 214.0
 margin_right = 136.0
-margin_bottom = 278.0
+margin_bottom = 286.0
 grow_horizontal = 2
 text = "The winner was better for %s"
 align = 1
@@ -4886,19 +4554,6 @@ margin_top = -112.0
 margin_right = 512.0
 margin_bottom = 152.0
 
-[node name="DuelLabel" type="Label" parent="GUI/GameOver/FinalTitle/Duel/Draw"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -272.0
-margin_top = 150.0
-margin_right = 272.0
-margin_bottom = 222.0
-grow_horizontal = 2
-custom_fonts/font = ExtResource( 5 )
-text = "You both collected the same amount of colors."
-align = 1
-autowrap = true
-
 [node name="Draw" type="TileMap" parent="GUI/GameOver/FinalTitle/Duel/Draw"]
 position = Vector2( 168, 0 )
 tile_set = ExtResource( 18 )
@@ -4907,7 +4562,20 @@ cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 format = 1
 tile_data = PoolIntArray( 10, 0, 0, 11, 0, 0, 12, 0, 0, 13, 0, 0, 16, 0, 0, 17, 0, 0, 18, 0, 0, 19, 0, 0, 23, 0, 0, 24, 0, 0, 25, 0, 0, 28, 0, 0, 30, 0, 0, 32, 0, 0, 65546, 0, 0, 65550, 0, 0, 65552, 0, 0, 65556, 0, 0, 65558, 0, 0, 65562, 0, 0, 65564, 0, 0, 65566, 0, 0, 65568, 0, 0, 131082, 0, 0, 131086, 0, 0, 131088, 0, 0, 131089, 0, 0, 131090, 0, 0, 131091, 0, 0, 131094, 0, 0, 131095, 0, 0, 131096, 0, 0, 131097, 0, 0, 131098, 0, 0, 131100, 0, 0, 131102, 0, 0, 131104, 0, 0, 196618, 0, 0, 196622, 0, 0, 196624, 0, 0, 196628, 0, 0, 196630, 0, 0, 196634, 0, 0, 196636, 0, 0, 196638, 0, 0, 196640, 0, 0, 262154, 0, 0, 262158, 0, 0, 262160, 0, 0, 262164, 0, 0, 262166, 0, 0, 262170, 0, 0, 262172, 0, 0, 262174, 0, 0, 262176, 0, 0, 327690, 0, 0, 327694, 0, 0, 327696, 0, 0, 327700, 0, 0, 327702, 0, 0, 327706, 0, 0, 327708, 0, 0, 327710, 0, 0, 327712, 0, 0, 393226, 0, 0, 393227, 0, 0, 393228, 0, 0, 393229, 0, 0, 393232, 0, 0, 393236, 0, 0, 393238, 0, 0, 393242, 0, 0, 393244, 0, 0, 393245, 0, 0, 393247, 0, 0, 393248, 0, 0 )
 
-[node name="Menu2" type="HBoxContainer" parent="GUI/GameOver/FinalTitle/Duel"]
+[node name="DuelLabel" type="Label" parent="GUI/GameOver/FinalTitle/Duel/Draw"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -168.0
+margin_top = 158.0
+margin_right = 168.0
+margin_bottom = 230.0
+grow_horizontal = 2
+text = "You both collected the same amount of colors."
+align = 1
+autowrap = true
+
+[node name="Menu" type="HBoxContainer" parent="GUI/GameOver/FinalTitle/Duel"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -4921,7 +4589,7 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="QuitBtn" type="Button" parent="GUI/GameOver/FinalTitle/Duel/Menu2"]
+[node name="QuitBtn" type="Button" parent="GUI/GameOver/FinalTitle/Duel/Menu"]
 margin_right = 52.0
 margin_bottom = 22.0
 focus_neighbour_right = NodePath("../RestartBtn")
@@ -4929,7 +4597,7 @@ size_flags_horizontal = 2
 size_flags_vertical = 8
 text = "QUIT"
 
-[node name="RestartBtn" type="Button" parent="GUI/GameOver/FinalTitle/Duel/Menu2"]
+[node name="RestartBtn" type="Button" parent="GUI/GameOver/FinalTitle/Duel/Menu"]
 margin_left = 84.0
 margin_right = 186.0
 margin_bottom = 22.0
@@ -4945,31 +4613,75 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -512.0
-margin_top = -112.0
+margin_top = -168.0
 margin_right = 512.0
-margin_bottom = 64.0
+margin_bottom = 197.0
 
-[node name="Congrats" type="TileMap" parent="GUI/GameOver/FinalTitle/Tutorial"]
+[node name="Label" type="Label" parent="GUI/GameOver/FinalTitle/Tutorial"]
 modulate = Color( 0.368627, 1, 0.662745, 1 )
-position = Vector2( 120, 0 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -304.0
+margin_right = 304.0
+margin_bottom = 32.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 5 )
+text = "You've learned the basics."
+align = 1
+
+[node name="WellDone" type="TileMap" parent="GUI/GameOver/FinalTitle/Tutorial"]
+modulate = Color( 0.368627, 1, 0.662745, 1 )
+position = Vector2( 104, 56 )
 tile_set = ExtResource( 18 )
 cell_size = Vector2( 16, 16 )
 cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 format = 1
-tile_data = PoolIntArray( 0, 0, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -1610612736, 0, 4, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 10, 0, 0, 12, 0, 0, 16, 0, 0, 18, 0, 0, 19, 0, 0, 20, 0, 0, 21, 0, 0, 22, 0, 0, 24, 0, 0, 25, 0, 0, 26, 0, 0, 27, 0, 0, 28, 0, 0, 30, 0, 0, 31, 0, 0, 32, 0, 0, 33, 0, 0, 36, 0, 0, 37, 0, 0, 38, 0, 0, 39, 0, 0, 40, 0, 0, 42, 0, 0, 43, 0, 0, 44, 0, 0, 45, 0, 0, 46, 0, 0, 48, 0, 0, 65536, 0, 0, 65542, -1610612736, 0, 65546, 0, 0, 65548, 0, 0, 65552, 0, 0, 65554, 0, 0, 65560, 0, 0, 65564, 0, 0, 65566, 0, 0, 65570, 0, 0, 65574, 0, 0, 65578, 0, 0, 65584, 0, 0, 131072, 0, 0, 131078, -1610612736, 0, 131082, 0, 0, 131084, 0, 0, 131085, 0, 0, 131088, 0, 0, 131090, 0, 0, 131096, 0, 0, 131100, 0, 0, 131102, 0, 0, 131106, 0, 0, 131110, 0, 0, 131114, 0, 0, 131120, 0, 0, 196608, 0, 0, 196614, -1610612736, 0, 196618, 0, 0, 196620, 0, 0, 196622, 0, 0, 196624, 0, 0, 196626, 0, 0, 196632, 0, 0, 196633, 0, 0, 196634, 0, 0, 196635, 0, 0, 196638, 0, 0, 196642, 0, 0, 196646, 0, 0, 196651, 0, 0, 196652, 0, 0, 196653, 0, 0, 196656, 0, 0, 262144, 0, 0, 262150, -1610612736, 0, 262154, 0, 0, 262156, 0, 0, 262159, 0, 0, 262160, 0, 0, 262162, 0, 0, 262165, 0, 0, 262166, 0, 0, 262168, 0, 0, 262172, 0, 0, 262174, 0, 0, 262175, 0, 0, 262176, 0, 0, 262177, 0, 0, 262178, 0, 0, 262182, 0, 0, 262190, 0, 0, 262192, 0, 0, 327680, -1610612736, 0, 327686, -1610612736, 0, 327690, 0, 0, 327692, 0, 0, 327696, 0, 0, 327698, 0, 0, 327702, 0, 0, 327704, 0, 0, 327708, 0, 0, 327710, 0, 0, 327714, 0, 0, 327718, 0, 0, 327726, 0, 0, 393216, 0, 0, 393217, 0, 0, 393218, 0, 0, 393219, 0, 0, 393220, 0, 0, 393222, 0, 0, 393223, 0, 0, 393224, 0, 0, 393225, 0, 0, 393226, 0, 0, 393228, 0, 0, 393232, 0, 0, 393234, 0, 0, 393235, 0, 0, 393236, 0, 0, 393237, -1610612736, 0, 393238, -1610612736, 0, 393240, 0, 0, 393244, 0, 0, 393246, 0, 0, 393250, 0, 0, 393254, 0, 0, 393258, 0, 0, 393259, 0, 0, 393260, 0, 0, 393261, 0, 0, 393262, 0, 0, 393264, 0, 0 )
+tile_data = PoolIntArray( 0, 0, 0, 2, -1610612736, 0, 4, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 12, 0, 0, 18, 0, 0, 26, 0, 0, 27, 0, 0, 28, 0, 0, 29, 0, 0, 33, 0, 0, 34, 0, 0, 35, 0, 0, 36, 0, 0, 38, 0, 0, 42, 0, 0, 44, 0, 0, 45, 0, 0, 46, 0, 0, 47, 0, 0, 50, 0, 0, 65536, 0, 0, 65538, 0, 0, 65540, 0, 0, 65542, -1610612736, 0, 65548, 0, 0, 65554, 0, 0, 65562, 0, 0, 65566, 0, 0, 65568, 0, 0, 65572, 0, 0, 65574, 0, 0, 65578, 0, 0, 65580, 0, 0, 65586, 0, 0, 131072, 0, 0, 131074, 0, 0, 131076, 0, 0, 131078, -1610612736, 0, 131079, 0, 0, 131080, 0, 0, 131084, 0, 0, 131090, 0, 0, 131098, 0, 0, 131102, 0, 0, 131104, 0, 0, 131108, 0, 0, 131110, 0, 0, 131111, 0, 0, 131114, 0, 0, 131116, 0, 0, 131117, 0, 0, 131118, 0, 0, 131122, 0, 0, 196608, 0, 0, 196610, 0, 0, 196612, 0, 0, 196614, -1610612736, 0, 196620, 0, 0, 196626, 0, 0, 196634, 0, 0, 196638, 0, 0, 196640, 0, 0, 196644, 0, 0, 196646, 0, 0, 196648, 0, 0, 196650, 0, 0, 196652, 0, 0, 196658, 0, 0, 262144, 0, 0, 262146, 0, 0, 262148, 0, 0, 262150, -1610612736, 0, 262156, 0, 0, 262162, 0, 0, 262170, 0, 0, 262174, 0, 0, 262176, 0, 0, 262180, 0, 0, 262182, 0, 0, 262185, 0, 0, 262186, 0, 0, 262188, 0, 0, 262194, 0, 0, 327680, -1610612736, 0, 327682, 0, 0, 327684, 0, 0, 327686, -1610612736, 0, 327692, 0, 0, 327698, 0, 0, 327706, 0, 0, 327710, 0, 0, 327712, 0, 0, 327716, 0, 0, 327718, 0, 0, 327722, 0, 0, 327724, 0, 0, 393216, 0, 0, 393217, 0, 0, 393219, 0, 0, 393220, 0, 0, 393222, 0, 0, 393223, 0, 0, 393224, 0, 0, 393225, 0, 0, 393226, 0, 0, 393228, 0, 0, 393229, 0, 0, 393230, 0, 0, 393231, 0, 0, 393232, 0, 0, 393234, 0, 0, 393235, 0, 0, 393236, 0, 0, 393237, -1610612736, 0, 393238, -1610612736, 0, 393242, 0, 0, 393243, 0, 0, 393244, 0, 0, 393245, 0, 0, 393248, 0, 0, 393249, 0, 0, 393250, 0, 0, 393251, 0, 0, 393252, 0, 0, 393254, 0, 0, 393258, 0, 0, 393260, 0, 0, 393261, 0, 0, 393262, 0, 0, 393263, 0, 0, 393264, 0, 0, 393266, 0, 0 )
 
-[node name="CleanedLabel" type="Label" parent="GUI/GameOver/FinalTitle/Tutorial"]
+[node name="Label2" type="Label" parent="GUI/GameOver/FinalTitle/Tutorial"]
 modulate = Color( 0.368627, 1, 0.662745, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -252.0
-margin_top = 150.0
-margin_right = 252.0
-margin_bottom = 182.0
+margin_left = -192.0
+margin_top = 214.0
+margin_right = 192.0
+margin_bottom = 264.0
 grow_horizontal = 2
-custom_fonts/font = ExtResource( 5 )
-text = "You are full of colors again!"
+text = "Now, try a real game and become a master."
 align = 1
+autowrap = true
+
+[node name="Menu" type="HBoxContainer" parent="GUI/GameOver/FinalTitle/Tutorial"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -115.0
+margin_top = 135.0
+margin_right = 115.0
+margin_bottom = 157.0
+custom_constants/separation = 32
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="QuitBtn" type="Button" parent="GUI/GameOver/FinalTitle/Tutorial/Menu"]
+margin_right = 52.0
+margin_bottom = 22.0
+focus_neighbour_right = NodePath("../RestartBtn")
+size_flags_horizontal = 2
+size_flags_vertical = 8
+text = "QUIT"
+
+[node name="RestartBtn" type="Button" parent="GUI/GameOver/FinalTitle/Tutorial/Menu"]
+margin_left = 84.0
+margin_right = 230.0
+margin_bottom = 22.0
+focus_neighbour_left = NodePath("../QuitBtn")
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "LEARN AGAIN"
 
 [node name="GameCleaned" type="Control" parent="GUI/GameOver/FinalTitle"]
 visible = false
@@ -6147,8 +5859,10 @@ align = 0
 [connection signal="pressed" from="GUI/PauseMenu/Menu/PlayBtn" to="GUI/PauseMenu" method="_on_PlayBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/FinalTitle/Level/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/FinalTitle/Level/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
-[connection signal="pressed" from="GUI/GameOver/FinalTitle/Duel/Menu2/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
-[connection signal="pressed" from="GUI/GameOver/FinalTitle/Duel/Menu2/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/FinalTitle/Duel/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/FinalTitle/Duel/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/FinalTitle/Tutorial/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/FinalTitle/Tutorial/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/GameSummary/Duel/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/GameSummary/Duel/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/GameSummary/Tutorial/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]

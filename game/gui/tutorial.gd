@@ -201,20 +201,13 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 		"tutorial_start":
 			
 			Global.game_manager.p1.animation_player.play("revive")
+			Global.hud.game_timer.start_timer()
 			
 			var show_player = get_tree().create_tween()
 			show_player.tween_callback(self, "open_stage", [traveling_content, stage_height_traveling, travel_sepa]).set_delay(0.5)
 #			show_player.tween_callback(Global.game_manager.player_pixel, "set_physics_process", [true]).set_delay(1)
 			show_player.tween_callback(Global.game_manager.p1, "set_physics_process", [true]).set_delay(1)
 			current_tutorial_stage = TutorialStage.TRAVELING
-			
-#			Global.game_manager.player_pixel.play_revive()
-#			Global.game_manager.player_pixel.animation_player.play("start_white")
-#			var show_player = get_tree().create_tween()
-#			show_player.tween_property(Global.game_manager.player_pixel, "modulate:a", 1, 1).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_ELASTIC)
-#			show_player.tween_callback(self, "open_stage", [winlose_content, stage_height_winlose, win_lose_sepa]).set_delay(1)
-#			show_player.tween_callback(Global.game_manager.player_pixel, "set_physics_process", [true]).set_delay(1)
-#			current_tutorial_stage = TutorialStage.WINLOSE
 			
 
 func _on_StartBtn_pressed() -> void:

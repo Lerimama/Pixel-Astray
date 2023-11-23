@@ -5,6 +5,7 @@ signal name_input_finished
 
 var selected_title: Control
 var selected_summary: Control
+var selected_menu: Control
 var selected_jingle: String
 var focus_btn: Button
 
@@ -69,16 +70,20 @@ func show_final_title(gameover_reason):
 		else: # tie
 			player_label.text = "You both collected same amount of colors."	
 			$FinalTitle/Duel/Draw.visible = true
+		
 		selected_title = $FinalTitle/Duel
 		selected_summary = $GameSummary/Duel
-		focus_btn = $GameSummary/Duel/Menu/RestartBtn
+#		focus_btn = $GameSummary/Duel/Menu/RestartBtn
+		focus_btn = $FinalTitle/Duel/Menu/RestartBtn
+		selected_menu = $FinalTitle/Duel/Menu
 		selected_jingle = "win_jingle"
-		
 		
 	elif Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
 		selected_title = $FinalTitle/Tutorial
 		selected_summary = $GameSummary/Tutorial
-		focus_btn = $GameSummary/Tutorial/Menu/QuitBtn
+#		focus_btn = $GameSummary/Tutorial/Menu/QuitBtn
+		focus_btn = $FinalTitle/Tutorial/Menu/QuitBtn
+		selected_menu = $FinalTitle/Tutorial/Menu
 	
 	else:
 		set_gameover_title(gameover_reason)
@@ -86,22 +91,28 @@ func show_final_title(gameover_reason):
 		focus_btn = $GameSummary/Game/Menu/RestartBtn
 	
 	visible = true
-	selected_title.visible = true	
-	final_title.modulate.a = 0		
+	selected_title.visible = true
+	final_title.modulate.a = 0
 	
 	# title in 
 	var fade_in = get_tree().create_tween()
-	fade_in.tween_callback(final_title, "set_visible", [true]).set_delay(1)
+	fade_in.tween_callback(final_title, "set_visible", [true])#.set_delay(1)
 	fade_in.tween_property(final_title, "modulate:a", 1, 1)
-	fade_in.parallel().tween_property(background, "modulate:a", 0.6, 1)
 	fade_in.parallel().tween_callback(Global.sound_manager, "play_sfx", [selected_jingle])
+	fade_in.parallel().tween_property(background, "modulate:a", 0.6, 1).set_delay(0.5)
 	fade_in.tween_callback(self, "check_if_ranking").set_delay(2)
 
 
 func check_if_ranking():
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL or Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
-		show_game_summary()
+		selected_menu.visible = false
+		selected_menu.modulate.a = 0
+		var fade_in = get_tree().create_tween()
+		fade_in.tween_callback(selected_menu, "set_visible", [true])#.set_delay(1)
+		fade_in.tween_property(selected_menu, "modulate:a", 1, 1)
+		fade_in.parallel().tween_callback(focus_btn, "grab_focus")
+		return
 	else:
 		var score_is_ranking = Global.data_manager.manage_gameover_highscores(Global.game_manager.p1_stats["player_points"], Global.game_manager.game_data["game"]) # yield čaka na konec preverke
 		if not score_is_ranking: # če ni rankinga = false

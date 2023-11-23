@@ -29,7 +29,8 @@ func _ready() -> void:
 		minimap.visible = false
 	
 	# multiplejer setup
-	if Profiles.current_game == Profiles.Games.DUEL:
+	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
+#	if Profiles.current_game == Profiles.Games.DUEL:
 		viewport_2.world_2d = viewport_1.world_2d
 		viewport_container_2.visible = true
 	else:

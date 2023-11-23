@@ -54,15 +54,15 @@ var game_settings: Dictionary = {
 	"gameover_countdown_duration": 5,
 	"suddent_death_mode": false,
 	"sudden_death_limit" : 20,
+	"lose_life_on_hit": false, # uskladi s količino lajfov
+	"reset_energy_on_lose_life": true,
+	"pick_neighbor_mode": false,
+	"minimap_on": false,
+	"start_countdown_on": true, # game_countdown
 #	"skill_limit_mode": false,
 #	"skill_limit_count": 5,
 #	"burst_limit_mode": false,
 #	"burst_limit_count": 5,
-	"lose_life_on_hit": true,
-	"reset_energy_on_lose_life": true,
-	"pick_neighbor_mode": false,
-	"minimap_on": false,
-	"start_countdown_on": false, # game_countdown
 }
 
 
@@ -78,7 +78,7 @@ var game_data_tutorial: Dictionary = {
 	"game_name": "Tutorial",
 	"level": "",
 	"tilemap_path": "res://game/tilemaps/tutorial_tilemap.tscn",
-	"game_time_limit": 0,
+	"game_time_limit": 3,
 	"strays_start_count": 10,
 }
 
@@ -117,32 +117,52 @@ var game_data_duel: Dictionary = {
 	"game_name": "The Duel",
 	"level": "",
 	"tilemap_path": "res://game/tilemaps/duel_tilemap.tscn",
-	"game_time_limit": 6,
-	"strays_start_count": 2, 
+	"game_time_limit": 3,
+	"strays_start_count": 200, 
 	"highscore": 0,
 }
 
-var current_game = Games.TUTORIAL
 
 func _ready() -> void:
+	var current_game = Games.DUEL
 	set_game_data(current_game)
 
 func set_game_data(selected_game) -> void:
 	
+#	selected_game = Games.CLEANER_L
+	# kar se spreminja more biti setano na vseh igrah
 	match selected_game:
 		Games.TUTORIAL:
 			current_game_data = game_data_tutorial
+			game_settings["player_start_life"] = 1
+			game_settings["timer_mode_countdown"] = false
+			game_settings["lose_life_on_hit"] = false
+			game_settings["start_countdown_on"] = false
+			game_settings["start_countdown_on"] = true
 		Games.CLEANER_S: 
 			current_game_data = game_data_cleaner_S
+			game_settings["player_start_life"] = 1
+			game_settings["timer_mode_countdown"] = true
+			game_settings["lose_life_on_hit"] = false
+			game_settings["start_countdown_on"] = true
 		Games.CLEANER_M: 
 			current_game_data = game_data_cleaner_M
+			game_settings["player_start_life"] = 1
+			game_settings["timer_mode_countdown"] = true
+			game_settings["lose_life_on_hit"] = false
+			game_settings["start_countdown_on"] = true
 		Games.CLEANER_L: 
 			current_game_data = game_data_cleaner_L
+			game_settings["player_start_life"] = 1
+			game_settings["timer_mode_countdown"] = true
+			game_settings["lose_life_on_hit"] = false
+			game_settings["start_countdown_on"] = true
 		Games.DUEL: 
 			current_game_data = game_data_duel
 			game_settings["player_start_life"] = 3
-#			game_settings["lose_life_on_hit"] = true
-#			game_settings["start_countdown_on"] = true
+			game_settings["timer_mode_countdown"] = true
+			game_settings["lose_life_on_hit"] = true
+			game_settings["start_countdown_on"] = true
 		
 
 

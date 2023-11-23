@@ -96,12 +96,11 @@ func set_game():
 	
 	# players
 	if game_data["game"] == Profiles.Games.TUTORIAL:
-		game_settings["player_start_color"] = Color("#00ffffff") # more bit pred spawnom
-		# game_settings["player_start_color"] = Global.color_white # more bit pred spawnom
+		game_settings["player_start_color"] = Global.color_white # more bit pred spawnom
 		set_players()
-		# p1.modulate.a = 0	
+		p1.modulate.a = 0	
 	else:
-		game_settings["player_start_color"] = Color("#ffffff") # more bit pred spawnom
+		game_settings["player_start_color"] = Global.color_white # more bit pred spawnom
 		set_players() # spawn, stats, camera, target
 	
 	yield(get_tree().create_timer(3), "timeout") # da se ekran prikaže
@@ -162,23 +161,30 @@ func game_over(gameover_reason):
 	for player in active_players:
 		player.set_physics_process(false)
 	
-	# malo časa za show-off
-	yield(get_tree().create_timer(2), "timeout")
-	
-	if game_data["game"] == Profiles.Games.TUTORIAL:
-		Global.tutorial_gui.animation_player.play("tutorial_end")
-	
-	# kamera zoomout
-#	var camera_zoomed_out = Global.main_camera.zoom_out() # hud gre ven
-	Global.main_camera.zoom_out()
-	if p2:
+	if game_data["game"] == Profiles.Games.DUEL:
+		Global.sound_manager.stop_music("game_on_game-over")
+		Global.gameover_menu.show_final_title(gameover_reason)
+		yield(get_tree().create_timer(3), "timeout") # showoff time
+		Global.main_camera.zoom_out()
 		Global.main_camera_2.zoom_out()
-#	yield(Global.main_camera, "zoomed_out") # čaka na konec zoomouta
-
-	Global.sound_manager.stop_music("game_on_game-over")
+	else:
+		yield(get_tree().create_timer(2), "timeout") # showoff time
+		Global.sound_manager.stop_music("game_on_game-over")
+		if game_data["game"] == Profiles.Games.TUTORIAL:
+			Global.tutorial_gui.animation_player.play("tutorial_end")
+		Global.main_camera.zoom_out()
+		yield(Global.main_camera, "zoomed_out") # čaka na konec zoomouta
+		Global.gameover_menu.show_final_title(gameover_reason)
 	
-	# Gameover fejdin
-	Global.gameover_menu.show_final_title(gameover_reason)
+	# odl kamera zoomout
+##	var camera_zoomed_out = Global.main_camera.zoom_out() # hud gre ven
+#	Global.main_camera.zoom_out()
+#	if p2:
+#		Global.main_camera_2.zoom_out()
+##	yield(Global.main_camera, "zoomed_out") # čaka na konec zoomouta
+#	Global.sound_manager.stop_music("game_on_game-over")
+#	# Gameover fejdin
+#	Global.gameover_menu.show_final_title(gameover_reason)
 	
 	
 # SPAWNANJE ----------------------------------------------------------------------------------
