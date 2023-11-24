@@ -108,7 +108,7 @@ var game_data_cleaner_L: Dictionary = {
 	"game_name": "Cleaner",
 	"level": "L",
 	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_L_tilemap.tscn",
-	"game_time_limit": 3,
+	"game_time_limit": 600,
 	"strays_start_count": 320, 
 	"highscore": 0,
 }
@@ -133,6 +133,13 @@ func set_game_data(selected_game) -> void:
 #	selected_game = Games.CLEANER_L
 	# kar se spreminja more biti setano na vseh igrah
 	match selected_game:
+		Games.DUEL: 
+			current_game_data = game_data_duel
+			game_settings["player_start_life"] = 3
+			game_settings["timer_mode_countdown"] = true
+			game_settings["lose_life_on_hit"] = true
+			game_settings["start_game_countdown"] = true
+			game_settings["manage_highscores"] = false
 		Games.TUTORIAL:
 			current_game_data = game_data_tutorial
 			game_settings["player_start_life"] = 1
@@ -161,13 +168,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["lose_life_on_hit"] = false
 			game_settings["start_game_countdown"] = true
 			game_settings["manage_highscores"] = true
-		Games.DUEL: 
-			current_game_data = game_data_duel
-			game_settings["player_start_life"] = 3
-			game_settings["timer_mode_countdown"] = true
-			game_settings["lose_life_on_hit"] = true
-			game_settings["start_game_countdown"] = false
-			game_settings["manage_highscores"] = false
+
 		
 
 

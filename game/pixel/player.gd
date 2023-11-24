@@ -272,7 +272,7 @@ func on_get_hit(added_shake_power, added_shake_time):
 		cocked_ghosts = []
 				
 	# stats				
-	Global.game_manager.game_settings["player_start_color"] = Color("#545454") # _temp
+	Global.game_manager.game_settings["player_start_color"] = Color("#545454") # temp
 	pixel_color = Global.game_manager.game_settings["player_start_color"] # postane začetne barve
 	emit_signal("stat_changed", self, "hit_by_player", 1)
 	die()
@@ -729,15 +729,15 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 		if Global.game_manager.game_settings["pick_neighbor_mode"]:
 			if Global.game_manager.colors_to_pick and not Global.game_manager.colors_to_pick.has(hit_stray.pixel_color): # če pobrana barva ni enaka barvi soseda
 				end_move()
-				return # nadaljna koda se ne izvede
-		
-		# destroj zadetega pixla
-		pixel_color = hit_stray.pixel_color
-		Global.hud.show_picked_color(hit_stray.pixel_color)
-		if not Global.game_manager.game_settings["pick_neighbor_mode"]:
-			multikill(hit_stray)
-		else: # pick_neighbor_mode ne podpira multikilla ... tukaj je pomembno zaporedje
-			hit_stray.die(1) # edini oziroma prvi v vrsti	
+			else:
+				pixel_color = hit_stray.pixel_color
+				Global.hud.show_picked_color(hit_stray.pixel_color)
+				hit_stray.die(1) # edini
+		else:
+			pixel_color = hit_stray.pixel_color
+			Global.hud.show_picked_color(hit_stray.pixel_color)
+			hit_stray.die(1) # uničim zadetega pixla
+			multikill(hit_stray) # uničim še sosede
 
 	
 func multikill(hit_stray):
@@ -745,7 +745,7 @@ func multikill(hit_stray):
 		var all_neighboring_strays: Array = [] # vse nabrane sosede, ki grejo potem v uničenje
 		var neighbors_checked: Array = [] # vsi sosedi, katerih sosede sem že preveril
 		
-		# nabiranje sosed
+		# NABIRANJE SOSED
 		
 		# prva runda ... sosede zadetega straya
 		var first_neighbors: Array = hit_stray.check_for_neighbors()
@@ -766,6 +766,8 @@ func multikill(hit_stray):
 		
 		if all_neighboring_strays.has(hit_stray): 
 			all_neighboring_strays.erase(hit_stray) # hit stray odstranim iz vseh sosed, ker je uničen že z burstom
+		
+		# UNIČEVANJE SOSED
 		
 		# uničim prvega soseda (prvi z extra točkami)
 		var stray_in_row_index = 1 # 1 zato, ker 0 je hit stray

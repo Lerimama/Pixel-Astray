@@ -96,7 +96,7 @@ func set_game():
 		set_players()
 		p1.modulate.a = 0	
 	else:
-		game_settings["player_start_color"] = Global.color_white # more bit pred spawnom
+#		game_settings["player_start_color"] = Global.color_white # more bit pred spawnom
 		set_players() # spawn, stats, camera, target
 	
 	yield(get_tree().create_timer(3), "timeout") # da se ekran prikaže

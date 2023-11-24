@@ -186,7 +186,7 @@ height = 246
 noise = ExtResource( 11 )
 
 [sub_resource type="StyleBoxLine" id=228]
-color = Color( 0.137255, 0.137255, 0.137255, 1 )
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 vertical = true
 
 [sub_resource type="World" id=227]
@@ -2460,6 +2460,7 @@ margin_bottom = 86.0
 texture = SubResource( 231 )
 
 [node name="GameCountdown" type="Control" parent="GUI/Hud/Popups"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 720 )
@@ -2521,6 +2522,7 @@ anims/countdown_5 = SubResource( 142 )
 anims/countdown_5_v1 = SubResource( 135 )
 
 [node name="Tutorial" type="Control" parent="GUI"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 720 )
