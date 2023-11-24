@@ -110,23 +110,20 @@ func set_game():
 		generate_strays()
 		yield(get_tree().create_timer(1), "timeout") # da si plejer ogleda
 		
-	# hud HS
-	if game_data["game"] != Profiles.Games.TUTORIAL and game_data["game"] != Profiles.Games.DUEL:
+	# HS
+	if game_settings["manage_highscores"]:
 		var current_highscore_line: Array = Global.data_manager.get_top_highscore(game_data["game"])
 		game_data["highscore"] = current_highscore_line[0]
 		game_data["highscore_owner"] = current_highscore_line[1]
 	
-	# kamera zoomin
-	Global.main_camera.zoom_in()
-	if p2:
-		Global.main_camera_2.zoom_in()
-	yield(Global.main_camera, "zoomed_in")
+	# hud fejdin ... on kliče kamera zoom
+	Global.hud.fade_in()
+	yield(Global.hud, "hud_is_set")
 		
-	# countdown
-	if game_data["game"] != Profiles.Games.TUTORIAL:
-		if Global.game_manager.game_settings["start_countdown_on"]:
-			Global.start_countdown.start_countdown()
-			yield(Global.start_countdown, "countdown_finished")	
+	# start countdown
+	if Global.game_manager.game_settings["start_game_countdown"]:
+		Global.start_countdown.start_countdown()
+		yield(Global.start_countdown, "countdown_finished")	
 	
 	start_game()
 	
@@ -161,30 +158,9 @@ func game_over(gameover_reason):
 	for player in active_players:
 		player.set_physics_process(false)
 	
-	if game_data["game"] == Profiles.Games.DUEL:
-		Global.sound_manager.stop_music("game_on_game-over")
-		Global.gameover_menu.show_final_title(gameover_reason)
-		yield(get_tree().create_timer(3), "timeout") # showoff time
-		Global.main_camera.zoom_out()
-		Global.main_camera_2.zoom_out()
-	else:
-		yield(get_tree().create_timer(2), "timeout") # showoff time
-		Global.sound_manager.stop_music("game_on_game-over")
-		if game_data["game"] == Profiles.Games.TUTORIAL:
-			Global.tutorial_gui.animation_player.play("tutorial_end")
-		Global.main_camera.zoom_out()
-		yield(Global.main_camera, "zoomed_out") # čaka na konec zoomouta
-		Global.gameover_menu.show_final_title(gameover_reason)
+	# open game-over ekran
+	Global.gameover_menu.show_gameover(gameover_reason)
 	
-	# odl kamera zoomout
-##	var camera_zoomed_out = Global.main_camera.zoom_out() # hud gre ven
-#	Global.main_camera.zoom_out()
-#	if p2:
-#		Global.main_camera_2.zoom_out()
-##	yield(Global.main_camera, "zoomed_out") # čaka na konec zoomouta
-#	Global.sound_manager.stop_music("game_on_game-over")
-#	# Gameover fejdin
-#	Global.gameover_menu.show_final_title(gameover_reason)
 	
 	
 # SPAWNANJE ----------------------------------------------------------------------------------
@@ -448,8 +424,7 @@ func _on_tilemap_completed(floor_cells_global_positions: Array, stray_cells_glob
 			print("MA 2")
 	else: 
 		pass
-	
-onready var orig_player_stats: Dictionary = Profiles.default_player_stats.duplicate() # duplikat default profila, ker ga me igro spreminjaš
+
 	
 func _on_stat_changed(stat_owner, changed_stat, stat_change):
 	

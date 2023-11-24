@@ -7,16 +7,13 @@ signal gametime_is_up # pošlje se v hud, ki javi game managerju
 var current_second: int # trenutna sekunda znotraj minutnega kroga ... ia izpis na uri
 var game_time_seconds: int # čas v tajmerju v sekundah ... GLAVNI TIMER, po katerem se vse umerja
 var time_since_start: float # ne glede na mode, vedno želiš vedet koliko sekund je porabljeno od začetka ... za statistiko
+var limitless_mode: bool # če je gejm tajm 0 in je count-up mode
 
 onready var game_time_limit: int = Global.game_manager.game_data["game_time_limit"]
 onready var sudden_death_mode: int = Global.game_manager.game_settings["suddent_death_mode"]
 onready var sudden_death_limit: int = Global.game_manager.game_settings["sudden_death_limit"]
 onready var countdown_mode: bool = Global.game_manager.game_settings["timer_mode_countdown"]
 onready var gameover_countdown_duration: int = Global.game_manager.game_settings["gameover_countdown_duration"] # čas, ko je obarvan in se sliši bip bip
-
-#var game_time: int # čas v tajmerju v sekundah
-#var game_time_limit: float # podatki glede časovnih omejitev se pošljejo iz GM-ja
-#onready var time_limit: int = Global.game_manager.game_data["game_time_limit"]
 
 
 func _ready() -> void:
@@ -27,7 +24,9 @@ func _ready() -> void:
 	if countdown_mode:
 		$Mins.text = "%02d" % (game_time_limit / 60)
 		$Secs.text = "%02d" % (game_time_limit % 60)
-
+	elif game_time_limit == 0:
+		limitless_mode = true
+			
 	time_since_start = 0
 
 
@@ -56,7 +55,7 @@ func _process(delta: float) -> void:
 			elif game_time_seconds < sudden_death_limit:
 				modulate = Global.color_red
 	else:
-		if game_time_seconds >= game_time_limit: # ker uravnavam s časom, ki je PRETEKEL
+		if game_time_seconds >= game_time_limit and not limitless_mode: # ker uravnavam s časom, ki je PRETEKEL
 			stop_timer()
 			emit_signal("gametime_is_up")		
 		if sudden_death_mode:
@@ -111,12 +110,13 @@ func _on_Timer_timeout() -> void:
 	else:
 		game_time_seconds += 1
 		# game over countdown
-		if game_time_seconds > game_time_limit - 1:
-			Global.sound_manager.play_sfx("countdown_b")
-			modulate = Global.color_red
-		elif game_time_seconds >= game_time_limit - gameover_countdown_duration:
-			Global.sound_manager.play_sfx("countdown_a")
-			modulate = Global.color_red
+		if not limitless_mode:
+			if game_time_seconds > game_time_limit - 1:
+				Global.sound_manager.play_sfx("countdown_b")
+				modulate = Global.color_red
+			elif game_time_seconds >= game_time_limit - gameover_countdown_duration:
+				Global.sound_manager.play_sfx("countdown_a")
+				modulate = Global.color_red
 
 	
 	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=2]
+[gd_scene load_steps=66 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -256,11 +256,15 @@ region = Rect2( 80, 98, 70, 46 )
 
 [sub_resource type="AtlasTexture" id=186]
 atlas = ExtResource( 12 )
-region = Rect2( 0, 154, 112.074, 22 )
+region = Rect2( 0, 154, 102, 22 )
 
 [sub_resource type="AtlasTexture" id=225]
 atlas = ExtResource( 12 )
-region = Rect2( 113.919, 154, 22, 22 )
+region = Rect2( 114, 154, 22, 22 )
+
+[sub_resource type="AtlasTexture" id=244]
+atlas = ExtResource( 12 )
+region = Rect2( 138, 154, 22, 22 )
 
 [sub_resource type="StreamTexture" id=243]
 load_path = "res://.import/controls_scheme.png-9ee77a9514109977db18399ec912d13f.stex"
@@ -3730,31 +3734,37 @@ margin_bottom = 178.0
 rect_pivot_offset = Vector2( 264, 104 )
 
 [node name="Keyboard1" type="TextureRect" parent="SelectGame/InfoPanelHor/Controls/Keys"]
-margin_top = 37.0
-margin_right = 70.0
-margin_bottom = 83.0
-texture = SubResource( 206 )
-
-[node name="Keyboard2" type="TextureRect" parent="SelectGame/InfoPanelHor/Controls/Keys"]
 margin_left = 90.0
 margin_top = 37.0
 margin_right = 160.0
 margin_bottom = 83.0
+texture = SubResource( 206 )
+
+[node name="Keyboard2" type="TextureRect" parent="SelectGame/InfoPanelHor/Controls/Keys"]
+margin_top = 37.0
+margin_right = 70.0
+margin_bottom = 83.0
 texture = SubResource( 180 )
 
 [node name="Space" type="TextureRect" parent="SelectGame/InfoPanelHor/Controls/Keys"]
-margin_left = 6.0
 margin_top = 99.0
-margin_right = 118.0
+margin_right = 102.0
 margin_bottom = 121.0
 texture = SubResource( 186 )
 
 [node name="Alt" type="TextureRect" parent="SelectGame/InfoPanelHor/Controls/Keys"]
-margin_left = 132.0
+margin_left = 109.0
 margin_top = 99.0
-margin_right = 154.0
+margin_right = 131.0
 margin_bottom = 121.0
 texture = SubResource( 225 )
+
+[node name="Ctrl" type="TextureRect" parent="SelectGame/InfoPanelHor/Controls/Keys"]
+margin_left = 138.0
+margin_top = 99.0
+margin_right = 160.0
+margin_bottom = 121.0
+texture = SubResource( 244 )
 
 [node name="Joypad" type="Control" parent="SelectGame/InfoPanelHor/Controls/Keys"]
 margin_left = 192.0
@@ -3847,7 +3857,7 @@ antialiased = true
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 position = Vector2( -345, 182 )
 scale = Vector2( 1.14474, 0.8125 )
-points = PoolVector2Array( 480, -88, 440, -88 )
+points = PoolVector2Array( 479.585, -88.6154, 445.516, -88.6154 )
 width = 0.5
 default_color = Color( 1, 1, 1, 1 )
 sharp_limit = 0.0

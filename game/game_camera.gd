@@ -94,42 +94,35 @@ func _ready():
 		position = Global.game_manager.player_start_position #+ Vector2(cell_size_x / 2, 0)
 
 
-func zoom_in():
+func zoom_in(hud_in_time): # kliče hud
 	
 	viewport_footer.rect_min_size.y = 0
 	viewport_footer.visible = true
 	viewport_header.rect_min_size.y = 0
 	viewport_header.visible = true
 	
-	
 	var final_zoom = Vector2.ONE
 	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
-#	if Profiles.current_game == Profiles.Games.DUEL:
 		final_zoom *= 1.5
 		
-		
-	Global.hud.fade_in()
-	
 	var zoom_in_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
-	zoom_in_tween.tween_property(self, "zoom", final_zoom, 2)
-	zoom_in_tween.parallel().tween_property(get_viewport(), "size:y", 720 - 112, 2)
-	zoom_in_tween.parallel().tween_property(viewport_header, "rect_min_size:y", 56, 2)
-	zoom_in_tween.parallel().tween_property(viewport_footer, "rect_min_size:y", 56, 2)
+	zoom_in_tween.tween_property(self, "zoom", final_zoom, hud_in_time)
+	zoom_in_tween.parallel().tween_property(get_viewport(), "size:y", 720 - 112, hud_in_time)
+	zoom_in_tween.parallel().tween_property(viewport_header, "rect_min_size:y", 56, hud_in_time)
+	zoom_in_tween.parallel().tween_property(viewport_footer, "rect_min_size:y", 56, hud_in_time)
 	zoom_in_tween.tween_callback(self, "emit_signal", ["zoomed_in"])
 	
 	
-func zoom_out():
+func zoom_out(hud_out_time): # kliče hud
 
 	var final_zoom = Vector2(2, 2)
 	
-	Global.hud.fade_out()
-
 	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
-	zoom_out_tween.tween_property(self, "zoom", final_zoom, 2)
+	zoom_out_tween.tween_property(self, "zoom", final_zoom, hud_out_time)
 	zoom_out_tween.parallel().tween_property(get_viewport(), "size:y", 720, 2)
-	zoom_out_tween.parallel().tween_property(viewport_header, "rect_min_size:y", 0, 2)
-	zoom_out_tween.parallel().tween_property(viewport_footer, "rect_min_size:y", 0, 2)
-	zoom_out_tween.tween_callback(self, "emit_signal", ["zoomed_out"]).set_delay(1)
+	zoom_out_tween.parallel().tween_property(viewport_header, "rect_min_size:y", 0, hud_out_time)
+	zoom_out_tween.parallel().tween_property(viewport_footer, "rect_min_size:y", 0, hud_out_time)
+#	zoom_out_tween.tween_callback(self, "emit_signal", ["zoomed_out"]).set_delay(1)
 
 
 func _process(delta):

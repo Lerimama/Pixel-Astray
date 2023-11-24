@@ -1,4 +1,4 @@
-[gd_scene load_steps=111 format=2]
+[gd_scene load_steps=110 format=2]
 
 [ext_resource path="res://game/hud/hud_game_timer.gd" type="Script" id=1]
 [ext_resource path="res://game/hud/hud.gd" type="Script" id=2]
@@ -537,13 +537,17 @@ region = Rect2( 30, 40, 18, 18 )
 atlas = ExtResource( 20 )
 region = Rect2( 96, 32, 10, 10 )
 
-[sub_resource type="AtlasTexture" id=156]
+[sub_resource type="AtlasTexture" id=235]
 atlas = ExtResource( 20 )
-region = Rect2( 0, 154, 111.955, 22 )
+region = Rect2( 0, 154, 102, 22 )
 
-[sub_resource type="AtlasTexture" id=229]
+[sub_resource type="AtlasTexture" id=236]
 atlas = ExtResource( 20 )
-region = Rect2( 113.82, 154, 22, 22 )
+region = Rect2( 114, 154, 22, 22 )
+
+[sub_resource type="AtlasTexture" id=237]
+atlas = ExtResource( 20 )
+region = Rect2( 138, 154, 22, 22 )
 
 [sub_resource type="StyleBoxFlat" id=155]
 content_margin_left = 21.0
@@ -906,14 +910,6 @@ region = Rect2( 30, 40, 18, 18 )
 [sub_resource type="AtlasTexture" id=197]
 atlas = ExtResource( 20 )
 region = Rect2( 96, 32, 10, 10 )
-
-[sub_resource type="AtlasTexture" id=235]
-atlas = ExtResource( 20 )
-region = Rect2( 0, 154, 112.074, 22 )
-
-[sub_resource type="AtlasTexture" id=236]
-atlas = ExtResource( 20 )
-region = Rect2( 113.919, 154, 22, 22 )
 
 [sub_resource type="AtlasTexture" id=184]
 atlas = ExtResource( 20 )
@@ -1708,8 +1704,9 @@ margin_right = 24.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-text = "P1"
+text = "Player 1"
 valign = 1
+uppercase = true
 __meta__ = {
 "_editor_description_": ""
 }
@@ -1965,7 +1962,7 @@ anchor_left = 0.5
 anchor_right = 0.5
 margin_left = 58.0
 margin_top = 16.0
-margin_right = 102.0
+margin_right = 105.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 44, 0 )
 size_flags_horizontal = 8
@@ -2164,8 +2161,9 @@ margin_right = 244.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-text = "P2"
+text = "Player 2"
 valign = 1
+uppercase = true
 __meta__ = {
 "_editor_description_": ""
 }
@@ -2361,6 +2359,7 @@ align = 1
 valign = 1
 
 [node name="DuelScreens" type="Control" parent="GUI/Hud/Popups"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -2369,7 +2368,7 @@ anchor_right = 0.5
 anchor_bottom = 1.0
 
 [node name="Player" type="TileMap" parent="GUI/Hud/Popups/DuelScreens/PlayerLeft"]
-modulate = Color( 1, 1, 1, 0.54902 )
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
 position = Vector2( 136, 192 )
 tile_set = ExtResource( 18 )
 cell_size = Vector2( 16, 16 )
@@ -2423,7 +2422,7 @@ margin_left = 640.0
 margin_right = 640.0
 
 [node name="Player" type="TileMap" parent="GUI/Hud/Popups/DuelScreens/PlayerRight"]
-modulate = Color( 1, 1, 1, 0.54902 )
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
 position = Vector2( 136, 192 )
 tile_set = ExtResource( 18 )
 cell_size = Vector2( 16, 16 )
@@ -2461,8 +2460,7 @@ margin_right = 11.0
 margin_bottom = 86.0
 texture = SubResource( 231 )
 
-[node name="GameCountdown" type="Control" parent="GUI"]
-visible = false
+[node name="GameCountdown" type="Control" parent="GUI/Hud/Popups"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 720 )
@@ -2470,23 +2468,22 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 15 )
 
-[node name="Undi" type="ColorRect" parent="GUI/GameCountdown"]
+[node name="Undi" type="ColorRect" parent="GUI/Hud/Popups/GameCountdown"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 56.0
-margin_bottom = -56.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color( 0, 0, 0, 0.54902 )
 
-[node name="Countdown" type="VBoxContainer" parent="GUI/GameCountdown"]
+[node name="Countdown" type="VBoxContainer" parent="GUI/Hud/Popups/GameCountdown"]
 margin_left = 511.0
 margin_top = 263.0
 margin_right = 771.0
 margin_bottom = 289.0
 custom_constants/separation = 0
 
-[node name="label" type="Label" parent="GUI/GameCountdown/Countdown"]
+[node name="label" type="Label" parent="GUI/Hud/Popups/GameCountdown/Countdown"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 margin_right = 260.0
@@ -2499,13 +2496,13 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="PositionControl" type="Control" parent="GUI/GameCountdown/Countdown"]
+[node name="PositionControl" type="Control" parent="GUI/Hud/Popups/GameCountdown/Countdown"]
 modulate = Color( 0.368627, 1, 0.662745, 1 )
 margin_right = 260.0
 margin_bottom = 26.0
 size_flags_vertical = 3
 
-[node name="noz" type="Label" parent="GUI/GameCountdown/Countdown/PositionControl"]
+[node name="noz" type="Label" parent="GUI/Hud/Popups/GameCountdown/Countdown/PositionControl"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -171.0
@@ -2518,14 +2515,13 @@ text = "05"
 align = 1
 valign = 2
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/GameCountdown"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/Hud/Popups/GameCountdown"]
 anims/RESET = SubResource( 140 )
 anims/countdown_3 = SubResource( 143 )
 anims/countdown_5 = SubResource( 142 )
 anims/countdown_5_v1 = SubResource( 135 )
 
 [node name="Tutorial" type="Control" parent="GUI"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 720 )
@@ -3140,7 +3136,6 @@ margin_right = 328.0
 margin_bottom = 1846.0
 
 [node name="HudGuide" type="Control" parent="GUI/Tutorial"]
-modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -3357,9 +3352,9 @@ expand = true
 [node name="InfoPanel" type="Control" parent="GUI/Tutorial"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = 1304.0
+margin_left = 24.0
 margin_top = 80.0
-margin_right = 1624.0
+margin_right = 344.0
 margin_bottom = 647.0
 theme = SubResource( 194 )
 
@@ -3405,15 +3400,15 @@ text = "Direction keys"
 autowrap = true
 
 [node name="Keyboard1" type="TextureRect" parent="GUI/Tutorial/InfoPanel/Controls/Keys"]
+margin_left = 90.0
 margin_top = 37.0
-margin_right = 70.0
+margin_right = 160.0
 margin_bottom = 83.0
 texture = SubResource( 202 )
 
 [node name="Keyboard2" type="TextureRect" parent="GUI/Tutorial/InfoPanel/Controls/Keys"]
-margin_left = 90.0
 margin_top = 37.0
-margin_right = 160.0
+margin_right = 70.0
 margin_bottom = 83.0
 texture = SubResource( 151 )
 
@@ -3464,19 +3459,25 @@ size_flags_vertical = 1
 custom_fonts/font = ExtResource( 23 )
 text = "Burst keys"
 
-[node name="Space" type="TextureRect" parent="GUI/Tutorial/InfoPanel/Controls/Keys"]
-margin_left = 6.0
+[node name="Space2" type="TextureRect" parent="GUI/Tutorial/InfoPanel/Controls/Keys"]
 margin_top = 115.0
-margin_right = 117.0
+margin_right = 102.0
 margin_bottom = 137.0
-texture = SubResource( 156 )
+texture = SubResource( 235 )
 
-[node name="Alt" type="TextureRect" parent="GUI/Tutorial/InfoPanel/Controls/Keys"]
-margin_left = 132.0
+[node name="Alt2" type="TextureRect" parent="GUI/Tutorial/InfoPanel/Controls/Keys"]
+margin_left = 109.0
 margin_top = 115.0
-margin_right = 154.0
+margin_right = 131.0
 margin_bottom = 137.0
-texture = SubResource( 229 )
+texture = SubResource( 236 )
+
+[node name="Ctrl" type="TextureRect" parent="GUI/Tutorial/InfoPanel/Controls/Keys"]
+margin_left = 138.0
+margin_top = 115.0
+margin_right = 160.0
+margin_bottom = 137.0
+texture = SubResource( 237 )
 
 [node name="Line2D" type="Line2D" parent="GUI/Tutorial/InfoPanel/Controls/Keys"]
 position = Vector2( -173.302, 207.142 )
@@ -3489,7 +3490,7 @@ antialiased = true
 
 [node name="Line2D2" type="Line2D" parent="GUI/Tutorial/InfoPanel/Controls/Keys"]
 position = Vector2( -275, 220 )
-points = PoolVector2Array( 476, -89, 435, -94 )
+points = PoolVector2Array( 478, -89, 440, -94 )
 width = 0.5
 default_color = Color( 0.368627, 1, 0.662745, 1 )
 sharp_limit = 0.0
@@ -3730,16 +3731,15 @@ custom_fonts/font = ExtResource( 23 )
 text = "... Burst into a wall"
 
 [node name="MissionPanel" type="Control" parent="GUI/Tutorial"]
-visible = false
 modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 417.0
-margin_top = 320.0
-margin_right = 865.0
-margin_bottom = 608.0
+margin_left = -223.0
+margin_top = -40.0
+margin_right = 225.0
+margin_bottom = 248.0
 theme = SubResource( 194 )
 __meta__ = {
 "_edit_group_": true
@@ -3917,9 +3917,6 @@ margin_left = 304.0
 margin_top = 182.0
 margin_right = 608.0
 margin_bottom = 385.0
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="Title" type="Label" parent="GUI/PauseMenu/Controls"]
 anchor_right = 1.0
@@ -3947,15 +3944,15 @@ margin_bottom = 186.0
 rect_pivot_offset = Vector2( 264, 104 )
 
 [node name="Keyboard1" type="TextureRect" parent="GUI/PauseMenu/Controls/Keys"]
+margin_left = 90.0
 margin_top = 45.0
-margin_right = 70.0
+margin_right = 160.0
 margin_bottom = 91.0
 texture = SubResource( 192 )
 
 [node name="Keyboard2" type="TextureRect" parent="GUI/PauseMenu/Controls/Keys"]
-margin_left = 90.0
 margin_top = 45.0
-margin_right = 160.0
+margin_right = 70.0
 margin_bottom = 91.0
 texture = SubResource( 193 )
 
@@ -3996,19 +3993,25 @@ margin_right = 106.0
 margin_bottom = 42.0
 texture = SubResource( 197 )
 
-[node name="Space" type="TextureRect" parent="GUI/PauseMenu/Controls/Keys"]
-margin_left = 6.0
+[node name="Space2" type="TextureRect" parent="GUI/PauseMenu/Controls/Keys"]
 margin_top = 115.0
-margin_right = 118.0
+margin_right = 102.0
 margin_bottom = 137.0
 texture = SubResource( 235 )
 
-[node name="Alt" type="TextureRect" parent="GUI/PauseMenu/Controls/Keys"]
-margin_left = 132.0
+[node name="Alt2" type="TextureRect" parent="GUI/PauseMenu/Controls/Keys"]
+margin_left = 109.0
 margin_top = 115.0
-margin_right = 154.0
+margin_right = 131.0
 margin_bottom = 137.0
 texture = SubResource( 236 )
+
+[node name="Ctrl" type="TextureRect" parent="GUI/PauseMenu/Controls/Keys"]
+margin_left = 138.0
+margin_top = 115.0
+margin_right = 160.0
+margin_bottom = 137.0
+texture = SubResource( 237 )
 
 [node name="Line2D4" type="Line2D" parent="GUI/PauseMenu/Controls/Keys"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
@@ -4061,7 +4064,7 @@ antialiased = true
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
 position = Vector2( -367.895, 222 )
 scale = Vector2( 1.17742, 1 )
-points = PoolVector2Array( 478, -88, 448, -95 )
+points = PoolVector2Array( 478, -88, 452.595, -95 )
 width = 0.5
 default_color = Color( 1, 1, 1, 1 )
 sharp_limit = 0.0
@@ -4493,7 +4496,6 @@ text = "NEXT LEVEL"
 
 [node name="Duel" type="Control" parent="GUI/GameOver/FinalTitle"]
 visible = false
-modulate = Color( 1, 1, 1, 0.419608 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -4784,434 +4786,34 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="Duel" type="Control" parent="GUI/GameOver/GameSummary"]
-visible = false
-margin_right = 1280.0
-margin_bottom = 720.0
-
-[node name="Title" type="Label" parent="GUI/GameOver/GameSummary/Duel"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -168.0
-margin_top = -178.5
-margin_right = 168.0
-margin_bottom = -146.5
-custom_colors/font_color = Color( 0.952941, 0.356863, 0.498039, 1 )
-custom_fonts/font = ExtResource( 5 )
-text = "BATTLE SUMMARY"
-align = 1
-
-[node name="TitleP1" type="Label" parent="GUI/GameOver/GameSummary/Duel"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -231.0
-margin_top = -106.0
-margin_right = -16.0
-margin_bottom = -80.0
-rect_min_size = Vector2( 28, 26 )
-size_flags_horizontal = 6
-size_flags_vertical = 0
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-text = "Player 1 stats"
-align = 1
-
-[node name="DataContainerP1" type="VBoxContainer" parent="GUI/GameOver/GameSummary/Duel"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -232.0
-margin_top = -72.0
-margin_right = -16.0
-margin_bottom = 110.0
-custom_constants/separation = 14
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="PixelsOff" type="Label" parent="GUI/GameOver/GameSummary/Duel/DataContainerP1"]
-margin_right = 216.0
-margin_bottom = 18.0
-custom_fonts/font = ExtResource( 23 )
-text = "Colors collected: %s"
-align = 1
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Points" type="Label" parent="GUI/GameOver/GameSummary/Duel/DataContainerP1"]
-margin_top = 32.0
-margin_right = 216.0
-margin_bottom = 50.0
-custom_fonts/font = ExtResource( 23 )
-text = "Points total: %s"
-align = 1
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="CellsTraveled" type="Label" parent="GUI/GameOver/GameSummary/Duel/DataContainerP1"]
-margin_top = 64.0
-margin_right = 216.0
-margin_bottom = 82.0
-custom_fonts/font = ExtResource( 23 )
-text = "Cells travelled: %s"
-align = 1
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="BurstCount" type="Label" parent="GUI/GameOver/GameSummary/Duel/DataContainerP1"]
-margin_top = 96.0
-margin_right = 216.0
-margin_bottom = 114.0
-custom_fonts/font = ExtResource( 23 )
-text = "Burst count: %s"
-align = 1
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="SkillsUsed" type="Label" parent="GUI/GameOver/GameSummary/Duel/DataContainerP1"]
-margin_top = 128.0
-margin_right = 216.0
-margin_bottom = 146.0
-custom_fonts/font = ExtResource( 23 )
-text = "Skill count: %s"
-align = 1
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="AstrayPixels" type="Label" parent="GUI/GameOver/GameSummary/Duel/DataContainerP1"]
-visible = false
-margin_top = 160.0
-margin_right = 216.0
-margin_bottom = 178.0
-custom_fonts/font = ExtResource( 23 )
-text = "Pixels left astray: %s"
-align = 1
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="TitleP2" type="Label" parent="GUI/GameOver/GameSummary/Duel"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 16.0
-margin_top = -106.0
-margin_right = 232.0
-margin_bottom = -80.0
-rect_min_size = Vector2( 28, 26 )
-size_flags_horizontal = 6
-size_flags_vertical = 0
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-text = "Player 2 stats"
-align = 1
-
-[node name="DataContainerP2" type="VBoxContainer" parent="GUI/GameOver/GameSummary/Duel"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 16.0
-margin_top = -72.0
-margin_right = 232.0
-margin_bottom = 110.0
-custom_constants/separation = 14
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="PixelsOff" type="Label" parent="GUI/GameOver/GameSummary/Duel/DataContainerP2"]
-margin_right = 216.0
-margin_bottom = 18.0
-custom_fonts/font = ExtResource( 23 )
-text = "Colors collected: %s"
-align = 1
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Points" type="Label" parent="GUI/GameOver/GameSummary/Duel/DataContainerP2"]
-margin_top = 32.0
-margin_right = 216.0
-margin_bottom = 50.0
-custom_fonts/font = ExtResource( 23 )
-text = "Points total: %s"
-align = 1
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="CellsTraveled" type="Label" parent="GUI/GameOver/GameSummary/Duel/DataContainerP2"]
-margin_top = 64.0
-margin_right = 216.0
-margin_bottom = 82.0
-custom_fonts/font = ExtResource( 23 )
-text = "Cells travelled: %s"
-align = 1
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="BurstCount" type="Label" parent="GUI/GameOver/GameSummary/Duel/DataContainerP2"]
-margin_top = 96.0
-margin_right = 216.0
-margin_bottom = 114.0
-custom_fonts/font = ExtResource( 23 )
-text = "Burst count: %s"
-align = 1
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="SkillsUsed" type="Label" parent="GUI/GameOver/GameSummary/Duel/DataContainerP2"]
-margin_top = 128.0
-margin_right = 216.0
-margin_bottom = 146.0
-custom_fonts/font = ExtResource( 23 )
-text = "Skill count: %s"
-align = 1
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="AstrayPixels" type="Label" parent="GUI/GameOver/GameSummary/Duel/DataContainerP2"]
-visible = false
-margin_top = 160.0
-margin_right = 216.0
-margin_bottom = 178.0
-custom_fonts/font = ExtResource( 23 )
-text = "Pixels left astray: %s"
-align = 1
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Menu" type="HBoxContainer" parent="GUI/GameOver/GameSummary/Duel"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -93.0
-margin_top = 150.0
-margin_right = 93.0
-margin_bottom = 172.0
-custom_constants/separation = 32
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="QuitBtn" type="Button" parent="GUI/GameOver/GameSummary/Duel/Menu"]
-margin_right = 52.0
-margin_bottom = 22.0
-focus_neighbour_right = NodePath("../RestartBtn")
-size_flags_horizontal = 2
-size_flags_vertical = 8
-text = "QUIT"
-
-[node name="RestartBtn" type="Button" parent="GUI/GameOver/GameSummary/Duel/Menu"]
-margin_left = 84.0
-margin_right = 186.0
-margin_bottom = 22.0
-focus_neighbour_left = NodePath("../QuitBtn")
-size_flags_horizontal = 8
-size_flags_vertical = 8
-text = "REMATCH"
-
-[node name="Tutorial" type="Control" parent="GUI/GameOver/GameSummary"]
-visible = false
-margin_right = 1280.0
-margin_bottom = 720.0
-
-[node name="Title" type="Label" parent="GUI/GameOver/GameSummary/Tutorial"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -168.0
-margin_top = -178.5
-margin_right = 168.0
-margin_bottom = -146.5
-custom_colors/font_color = Color( 0.952941, 0.356863, 0.498039, 1 )
-custom_fonts/font = ExtResource( 5 )
-text = "TUTORIAL SUMMARY"
-align = 1
-
-[node name="DataContainer" type="VBoxContainer" parent="GUI/GameOver/GameSummary/Tutorial"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -128.0
-margin_top = -104.0
-margin_right = 128.0
-margin_bottom = 78.0
-custom_constants/separation = 14
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Points" type="Label" parent="GUI/GameOver/GameSummary/Tutorial/DataContainer"]
-margin_right = 256.0
-margin_bottom = 18.0
-custom_fonts/font = ExtResource( 23 )
-text = "Points total: %s"
-align = 1
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="CellsTraveled" type="Label" parent="GUI/GameOver/GameSummary/Tutorial/DataContainer"]
-margin_top = 32.0
-margin_right = 256.0
-margin_bottom = 50.0
-custom_fonts/font = ExtResource( 23 )
-text = "Cells travelled: %s"
-align = 1
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="BurstCount" type="Label" parent="GUI/GameOver/GameSummary/Tutorial/DataContainer"]
-margin_top = 64.0
-margin_right = 256.0
-margin_bottom = 82.0
-custom_fonts/font = ExtResource( 23 )
-text = "Burst count: %s"
-align = 1
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="SkillsUsed" type="Label" parent="GUI/GameOver/GameSummary/Tutorial/DataContainer"]
-margin_top = 96.0
-margin_right = 256.0
-margin_bottom = 114.0
-custom_fonts/font = ExtResource( 23 )
-text = "Skill count: %s"
-align = 1
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="PixelsOff" type="Label" parent="GUI/GameOver/GameSummary/Tutorial/DataContainer"]
-margin_top = 128.0
-margin_right = 256.0
-margin_bottom = 146.0
-custom_fonts/font = ExtResource( 23 )
-text = "Colors collected: %s"
-align = 1
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="AstrayPixels" type="Label" parent="GUI/GameOver/GameSummary/Tutorial/DataContainer"]
-margin_top = 160.0
-margin_right = 256.0
-margin_bottom = 178.0
-custom_fonts/font = ExtResource( 23 )
-text = "Pixels left astray: %s"
-align = 1
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Menu" type="HBoxContainer" parent="GUI/GameOver/GameSummary/Tutorial"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -107.0
-margin_top = 150.0
-margin_right = 109.0
-margin_bottom = 172.0
-custom_constants/separation = 32
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="QuitBtn" type="Button" parent="GUI/GameOver/GameSummary/Tutorial/Menu"]
-margin_right = 52.0
-margin_bottom = 22.0
-focus_neighbour_right = NodePath("../RestartBtn")
-size_flags_horizontal = 2
-size_flags_vertical = 8
-text = "QUIT"
-
-[node name="RestartBtn" type="Button" parent="GUI/GameOver/GameSummary/Tutorial/Menu"]
-margin_left = 84.0
-margin_right = 216.0
-margin_bottom = 22.0
-focus_neighbour_left = NodePath("../QuitBtn")
-size_flags_horizontal = 8
-size_flags_vertical = 8
-text = "PLAY AGAIN"
-
-[node name="Game" type="Control" parent="GUI/GameOver/GameSummary"]
-visible = false
-anchor_left = 0.5
-anchor_top = 0.511
-anchor_right = 0.5
-anchor_bottom = 0.511
-margin_left = -640.0
-margin_top = -359.92
-margin_right = 640.0
-margin_bottom = 360.08
-
-[node name="Title" type="Label" parent="GUI/GameOver/GameSummary/Game"]
+[node name="Title" type="Label" parent="GUI/GameOver/GameSummary"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -132.0
-margin_top = -234.5
+margin_top = -226.5
 margin_right = 132.0
-margin_bottom = -202.5
+margin_bottom = -194.5
 custom_colors/font_color = Color( 0.952941, 0.356863, 0.498039, 1 )
 custom_fonts/font = ExtResource( 5 )
 text = "GAME SUMMARY"
 
-[node name="DataContainer" type="VBoxContainer" parent="GUI/GameOver/GameSummary/Game"]
+[node name="DataContainer" type="VBoxContainer" parent="GUI/GameOver/GameSummary"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -215.0
-margin_top = -160.0
+margin_top = -152.0
 margin_right = 8.0
-margin_bottom = 114.0
+margin_bottom = 122.0
 custom_constants/separation = 14
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Game" type="Label" parent="GUI/GameOver/GameSummary/Game/DataContainer"]
+[node name="Game" type="Label" parent="GUI/GameOver/GameSummary/DataContainer"]
 margin_right = 223.0
 margin_bottom = 18.0
 custom_fonts/font = ExtResource( 23 )
@@ -5221,7 +4823,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Level" type="Label" parent="GUI/GameOver/GameSummary/Game/DataContainer"]
+[node name="Level" type="Label" parent="GUI/GameOver/GameSummary/DataContainer"]
 margin_top = 32.0
 margin_right = 223.0
 margin_bottom = 50.0
@@ -5232,7 +4834,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Points" type="Label" parent="GUI/GameOver/GameSummary/Game/DataContainer"]
+[node name="Points" type="Label" parent="GUI/GameOver/GameSummary/DataContainer"]
 margin_top = 64.0
 margin_right = 223.0
 margin_bottom = 82.0
@@ -5243,7 +4845,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Time" type="Label" parent="GUI/GameOver/GameSummary/Game/DataContainer"]
+[node name="Time" type="Label" parent="GUI/GameOver/GameSummary/DataContainer"]
 margin_top = 96.0
 margin_right = 223.0
 margin_bottom = 114.0
@@ -5254,7 +4856,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="CellsTraveled" type="Label" parent="GUI/GameOver/GameSummary/Game/DataContainer"]
+[node name="CellsTraveled" type="Label" parent="GUI/GameOver/GameSummary/DataContainer"]
 margin_top = 128.0
 margin_right = 223.0
 margin_bottom = 146.0
@@ -5265,7 +4867,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="BurstCount" type="Label" parent="GUI/GameOver/GameSummary/Game/DataContainer"]
+[node name="BurstCount" type="Label" parent="GUI/GameOver/GameSummary/DataContainer"]
 margin_top = 160.0
 margin_right = 223.0
 margin_bottom = 178.0
@@ -5276,7 +4878,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="SkillsUsed" type="Label" parent="GUI/GameOver/GameSummary/Game/DataContainer"]
+[node name="SkillsUsed" type="Label" parent="GUI/GameOver/GameSummary/DataContainer"]
 margin_top = 192.0
 margin_right = 223.0
 margin_bottom = 210.0
@@ -5287,7 +4889,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="PixelsOff" type="Label" parent="GUI/GameOver/GameSummary/Game/DataContainer"]
+[node name="PixelsOff" type="Label" parent="GUI/GameOver/GameSummary/DataContainer"]
 margin_top = 224.0
 margin_right = 223.0
 margin_bottom = 242.0
@@ -5298,7 +4900,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="AstrayPixels" type="Label" parent="GUI/GameOver/GameSummary/Game/DataContainer"]
+[node name="AstrayPixels" type="Label" parent="GUI/GameOver/GameSummary/DataContainer"]
 margin_top = 256.0
 margin_right = 223.0
 margin_bottom = 274.0
@@ -5309,22 +4911,22 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="HighscoreTable" type="VBoxContainer" parent="GUI/GameOver/GameSummary/Game"]
+[node name="HighscoreTable" type="VBoxContainer" parent="GUI/GameOver/GameSummary"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = 38.0
-margin_top = -162.0
+margin_top = -154.0
 margin_right = 216.0
-margin_bottom = 116.0
+margin_bottom = 124.0
 custom_constants/separation = 6
 script = ExtResource( 7 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Title" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable"]
+[node name="Title" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable"]
 margin_right = 178.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 28, 26 )
@@ -5333,19 +4935,19 @@ size_flags_vertical = 0
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 text = "Top 9 cleaners"
 
-[node name="ScoreLine1" type="HBoxContainer" parent="GUI/GameOver/GameSummary/Game/HighscoreTable"]
+[node name="ScoreLine1" type="HBoxContainer" parent="GUI/GameOver/GameSummary/HighscoreTable"]
 margin_top = 32.0
 margin_right = 178.0
 margin_bottom = 54.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine1"]
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine1"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine1"]
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine1"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -5359,7 +4961,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine1"]
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine1"]
 margin_left = 108.0
 margin_right = 178.0
 margin_bottom = 22.0
@@ -5368,19 +4970,19 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="ScoreLine2" type="HBoxContainer" parent="GUI/GameOver/GameSummary/Game/HighscoreTable"]
+[node name="ScoreLine2" type="HBoxContainer" parent="GUI/GameOver/GameSummary/HighscoreTable"]
 margin_top = 60.0
 margin_right = 178.0
 margin_bottom = 82.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine2"]
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine2"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine2"]
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine2"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -5394,7 +4996,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine2"]
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine2"]
 margin_left = 108.0
 margin_right = 178.0
 margin_bottom = 22.0
@@ -5403,19 +5005,19 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="ScoreLine3" type="HBoxContainer" parent="GUI/GameOver/GameSummary/Game/HighscoreTable"]
+[node name="ScoreLine3" type="HBoxContainer" parent="GUI/GameOver/GameSummary/HighscoreTable"]
 margin_top = 88.0
 margin_right = 178.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine3"]
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine3"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine3"]
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine3"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -5429,7 +5031,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine3"]
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine3"]
 margin_left = 108.0
 margin_right = 178.0
 margin_bottom = 22.0
@@ -5438,19 +5040,19 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="ScoreLine4" type="HBoxContainer" parent="GUI/GameOver/GameSummary/Game/HighscoreTable"]
+[node name="ScoreLine4" type="HBoxContainer" parent="GUI/GameOver/GameSummary/HighscoreTable"]
 margin_top = 116.0
 margin_right = 178.0
 margin_bottom = 138.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine4"]
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine4"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine4"]
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine4"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -5464,7 +5066,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine4"]
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine4"]
 margin_left = 108.0
 margin_right = 178.0
 margin_bottom = 22.0
@@ -5473,19 +5075,19 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="ScoreLine5" type="HBoxContainer" parent="GUI/GameOver/GameSummary/Game/HighscoreTable"]
+[node name="ScoreLine5" type="HBoxContainer" parent="GUI/GameOver/GameSummary/HighscoreTable"]
 margin_top = 144.0
 margin_right = 178.0
 margin_bottom = 166.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine5"]
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine5"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine5"]
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine5"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -5499,7 +5101,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine5"]
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine5"]
 margin_left = 108.0
 margin_right = 178.0
 margin_bottom = 22.0
@@ -5508,19 +5110,19 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="ScoreLine6" type="HBoxContainer" parent="GUI/GameOver/GameSummary/Game/HighscoreTable"]
+[node name="ScoreLine6" type="HBoxContainer" parent="GUI/GameOver/GameSummary/HighscoreTable"]
 margin_top = 172.0
 margin_right = 178.0
 margin_bottom = 194.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine6"]
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine6"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine6"]
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine6"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -5534,7 +5136,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine6"]
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine6"]
 margin_left = 108.0
 margin_right = 178.0
 margin_bottom = 22.0
@@ -5543,19 +5145,19 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="ScoreLine7" type="HBoxContainer" parent="GUI/GameOver/GameSummary/Game/HighscoreTable"]
+[node name="ScoreLine7" type="HBoxContainer" parent="GUI/GameOver/GameSummary/HighscoreTable"]
 margin_top = 200.0
 margin_right = 178.0
 margin_bottom = 222.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine7"]
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine7"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine7"]
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine7"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -5569,7 +5171,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine7"]
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine7"]
 margin_left = 108.0
 margin_right = 178.0
 margin_bottom = 22.0
@@ -5578,19 +5180,19 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="ScoreLine8" type="HBoxContainer" parent="GUI/GameOver/GameSummary/Game/HighscoreTable"]
+[node name="ScoreLine8" type="HBoxContainer" parent="GUI/GameOver/GameSummary/HighscoreTable"]
 margin_top = 228.0
 margin_right = 178.0
 margin_bottom = 250.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine8"]
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine8"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine8"]
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine8"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -5604,7 +5206,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine8"]
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine8"]
 margin_left = 108.0
 margin_right = 178.0
 margin_bottom = 22.0
@@ -5613,19 +5215,19 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="ScoreLine9" type="HBoxContainer" parent="GUI/GameOver/GameSummary/Game/HighscoreTable"]
+[node name="ScoreLine9" type="HBoxContainer" parent="GUI/GameOver/GameSummary/HighscoreTable"]
 margin_top = 256.0
 margin_right = 178.0
 margin_bottom = 278.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine9"]
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine9"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine9"]
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine9"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -5639,7 +5241,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="GUI/GameOver/GameSummary/Game/HighscoreTable/ScoreLine9"]
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummary/HighscoreTable/ScoreLine9"]
 margin_left = 108.0
 margin_right = 178.0
 margin_bottom = 22.0
@@ -5648,21 +5250,21 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="Menu" type="HBoxContainer" parent="GUI/GameOver/GameSummary/Game"]
+[node name="Menu" type="HBoxContainer" parent="GUI/GameOver/GameSummary"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -107.0
-margin_top = 190.0
+margin_top = 198.0
 margin_right = 109.0
-margin_bottom = 212.0
+margin_bottom = 220.0
 custom_constants/separation = 32
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="QuitBtn" type="Button" parent="GUI/GameOver/GameSummary/Game/Menu"]
+[node name="QuitBtn" type="Button" parent="GUI/GameOver/GameSummary/Menu"]
 margin_right = 52.0
 margin_bottom = 22.0
 focus_neighbour_right = NodePath("../RestartBtn")
@@ -5670,7 +5272,7 @@ size_flags_horizontal = 2
 size_flags_vertical = 8
 text = "QUIT"
 
-[node name="RestartBtn" type="Button" parent="GUI/GameOver/GameSummary/Game/Menu"]
+[node name="RestartBtn" type="Button" parent="GUI/GameOver/GameSummary/Menu"]
 margin_left = 84.0
 margin_right = 216.0
 margin_bottom = 22.0
@@ -5846,7 +5448,7 @@ align = 0
 [connection signal="gametime_is_up" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_gametime_is_up"]
 [connection signal="sudden_death_active" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_sudden_death_active"]
 [connection signal="timeout" from="GUI/Hud/Header/GameTimer/Timer" to="GUI/Hud/Header/GameTimer" method="_on_Timer_timeout"]
-[connection signal="animation_finished" from="GUI/GameCountdown/AnimationPlayer" to="GUI/GameCountdown" method="_on_AnimationPlayer_animation_finished"]
+[connection signal="animation_finished" from="GUI/Hud/Popups/GameCountdown/AnimationPlayer" to="GUI/Hud/Popups/GameCountdown" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="pressed" from="GUI/Tutorial/MissionPanel/Menu/QuitBtn" to="GUI/Tutorial" method="_on_QuitBtn_pressed"]
 [connection signal="pressed" from="GUI/Tutorial/MissionPanel/Menu/StartBtn" to="GUI/Tutorial" method="_on_StartBtn_pressed"]
 [connection signal="animation_finished" from="GUI/Tutorial/AnimationPlayer" to="GUI/Tutorial" method="_on_AnimationPlayer_animation_finished"]
@@ -5863,12 +5465,8 @@ align = 0
 [connection signal="pressed" from="GUI/GameOver/FinalTitle/Duel/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/FinalTitle/Tutorial/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/FinalTitle/Tutorial/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
-[connection signal="pressed" from="GUI/GameOver/GameSummary/Duel/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
-[connection signal="pressed" from="GUI/GameOver/GameSummary/Duel/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
-[connection signal="pressed" from="GUI/GameOver/GameSummary/Tutorial/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
-[connection signal="pressed" from="GUI/GameOver/GameSummary/Tutorial/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
-[connection signal="pressed" from="GUI/GameOver/GameSummary/Game/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
-[connection signal="pressed" from="GUI/GameOver/GameSummary/Game/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/GameSummary/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/GameSummary/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
 [connection signal="text_changed" from="GUI/GameOver/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_NameEdit_text_changed"]
 [connection signal="text_entered" from="GUI/GameOver/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_PopupNameEdit_text_entered"]
 [connection signal="pressed" from="GUI/GameOver/NameInputPopup/HBoxContainer/CancelBtn" to="GUI/GameOver" method="_on_CancelBtn_pressed"]

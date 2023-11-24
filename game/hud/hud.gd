@@ -1,6 +1,8 @@
 extends Control
 
 
+signal hud_is_set
+
 var fade_time: float = 1
 var default_hud_color: Color = Color.white
 var popup_time: float = 2
@@ -88,7 +90,7 @@ func set_two_players_hud():
 	duel_screens_popup.visible = true
 	duel_screens_popup.modulate.a = 0
 	
-	# skrij life, če je samo en lajf
+	# samo 1 lajf
 	if Global.game_manager.game_settings["player_start_life"] == 1:
 		p1_life_counter.visible = false
 		p2_life_counter.visible = false
@@ -107,7 +109,7 @@ func set_one_player_hud():
 	if Global.game_manager.game_data["level"].empty():
 		level_label.visible = false
 	
-	# skrij life, če je samo en lajf
+	# samo 1 lajf
 	if Global.game_manager.game_settings["player_start_life"] == 1:
 		p1_life_counter.visible = false
 	else:
@@ -119,13 +121,13 @@ func _process(delta: float) -> void:
 	update_stats()
 	
 	if Global.game_manager.game_data["game"] != Profiles.Games.DUEL: # samo za 1 player game
-		manage_popups()
+		manage_game_popups()
 	
 		
-func manage_popups():
+func manage_game_popups():
 	
 	# ček HS and show popup
-	if Global.game_manager.game_data["game"] != Profiles.Games.TUTORIAL:
+	if Global.game_manager.game_settings["manage_highscores"]:
 		check_for_hs()
 	
 	# energy warning
@@ -185,28 +187,55 @@ func update_stats():
 	player_energy.text = "E: %d" % Global.game_manager.p1_stats["player_energy"]		
 
 		
-func fade_in(): # kliče kamera
+func fade_in(): # kliče GM na set_game()
+	
+	var fade_in_time: int = 2
+	var duel_screen_time: int = 2
+	
+	# zoom-in kamere
+	var player_cameras: Array = [Global.main_camera]
+	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
+		player_cameras.append(Global.main_camera_2)
+	
+	for camera in player_cameras:
+		camera.zoom_in(fade_in_time)
 	
 	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
-	fade_in.parallel().tween_property(header, "rect_position:y", 0, 2)
-	fade_in.parallel().tween_property(footer, "rect_position:y", 720 - 56, 2)
+	fade_in.tween_property(header, "rect_position:y", 0, fade_in_time)
+	fade_in.parallel().tween_property(footer, "rect_position:y", 720 - 56, fade_in_time)
+	
+	yield(Global.main_camera, "zoomed_in")
 	
 	for indicator in active_color_indicators:
 		var indicator_fade_in = get_tree().create_tween()
-		indicator_fade_in.tween_property(indicator, "modulate:a", unpicked_indicator_alpha, 0.3).set_ease(Tween.EASE_IN).set_delay(2)
+		indicator_fade_in.tween_property(indicator, "modulate:a", unpicked_indicator_alpha, 0.3).set_ease(Tween.EASE_IN)
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
-		var fade = get_tree().create_tween()
-		fade.tween_property(duel_screens_popup, "modulate:a", 1, 0.5).set_delay(2)
-		fade.tween_property(duel_screens_popup, "modulate:a", 0, 1).set_ease(Tween.EASE_IN).set_delay(1.5) # počaka fejdout
-		fade.tween_callback(duel_screens_popup, "set_visible", [false])
-
-
-func fade_out(): # kliče kamera
+		var show_duel_screen = get_tree().create_tween()
+		show_duel_screen.tween_property(duel_screens_popup, "modulate:a", 1, 0.5)
+		show_duel_screen.tween_property(duel_screens_popup, "modulate:a", 0, 0.5).set_ease(Tween.EASE_IN).set_delay(2)
+		show_duel_screen.tween_callback(duel_screens_popup, "set_visible", [false])
+		show_duel_screen.parallel().tween_callback(self, "emit_signal", ["hud_is_set"])
+	else:
+		emit_signal("hud_is_set")
 	
+
+func fade_out(): # kliče GM na game_over()
+	
+	var fade_out_time: int = 2
+	
+	# zoom-out kamere
+	var player_cameras: Array = [Global.main_camera]
+	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
+		player_cameras.append(Global.main_camera_2)
+	
+	for camera in player_cameras:
+		camera.zoom_out(fade_out_time)
+	
+		
 	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
-	fade_in.tween_property(header, "rect_position:y", 0 - 56, 2)
-	fade_in.parallel().tween_property(footer, "rect_position:y", 720, 2)
+	fade_in.tween_property(header, "rect_position:y", 0 - 56, fade_out_time)
+	fade_in.parallel().tween_property(footer, "rect_position:y", 720, fade_out_time)
 	fade_in.tween_callback(self, "set_visible", [false])
 	
 	

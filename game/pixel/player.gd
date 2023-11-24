@@ -229,7 +229,7 @@ func on_collision():
 			hit_player.end_move() # plejer, ki prvi zazna kontakt ukaže naprej, da je zaporedje pod kontrolo 
 		
 		# korekcija, če končata na isti poziciji ali preveč narazen
-		hit_player.global_position = global_position + (cell_size_x * player_direction) # zadeti plejer je vedno na polju ob zmagovalcu, v smeri zmagovalca
+		global_position = hit_player.global_position + (cell_size_x * (- player_direction)) # zadeti plejer je vedno na polju ob zmagovalcu, v smeri zmagovalca
 		
 				
 func stop_on_hit():
