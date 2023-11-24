@@ -230,18 +230,7 @@ func on_collision():
 		
 		# korekcija, če končata na isti poziciji ali preveč narazen
 		global_position = hit_player.global_position + (cell_size_x * (- player_direction)) # zadeti plejer je vedno na polju ob zmagovalcu, v smeri zmagovalca
-		
 				
-func stop_on_hit():
-	
-	burst_speed = 0
-	printt("pozicija pred > ", global_position, burst_speed)
-	global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions)
-	printt("pozicija > ", global_position, burst_speed)
-	
-	current_state = States.IDLE
-	modulate = pixel_color
-
 		
 func end_move():
 	
@@ -736,11 +725,13 @@ func last_breath():
 	
 
 func on_hit_stray(hit_stray: KinematicBody2D):
+		
 		if Global.game_manager.game_settings["pick_neighbor_mode"]:
 			if Global.game_manager.colors_to_pick and not Global.game_manager.colors_to_pick.has(hit_stray.pixel_color): # če pobrana barva ni enaka barvi soseda
 				end_move()
 				return # nadaljna koda se ne izvede
-		# destroj prvega pixla
+		
+		# destroj zadetega pixla
 		pixel_color = hit_stray.pixel_color
 		Global.hud.show_picked_color(hit_stray.pixel_color)
 		if not Global.game_manager.game_settings["pick_neighbor_mode"]:
@@ -751,42 +742,43 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	
 func multikill(hit_stray):
 
-		var all_neighboring_strays: Array = []
-		var neighbors_checked: Array = []
+		var all_neighboring_strays: Array = [] # vse nabrane sosede, ki grejo potem v uničenje
+		var neighbors_checked: Array = [] # vsi sosedi, katerih sosede sem že preveril
 		
-		# prva runda ... sosede pixla v katerega sem se zaletel
-		for neighbor in hit_stray.neighboring_cells:
-			# trenutne sosede dodam v vse sosede ... če je še ni notri
-			if not all_neighboring_strays.has(neighbor):
-				all_neighboring_strays.append(neighbor)
-		neighbors_checked.append(hit_stray)
+		# nabiranje sosed
 		
-		# druga runda ... sosede od pixlov v arrayu vseh sosed (ki še niso med čekiranimi pixli)
-		for neighbor_stray in all_neighboring_strays:
-			# preverim če sosed ni tudi v "checked" arrayu, preveri in poberi še njegove sosede
-			if not neighbors_checked.has(neighbor_stray):
-				# vsak od sosedov soseda se doda v med vse sosede
-				for stray in neighbor_stray.neighboring_cells:
-					if not all_neighboring_strays.has(stray):
-						all_neighboring_strays.append(stray)
-				# po nabirki ga dodam med preverjene sosede
-				neighbors_checked.append(neighbor_stray)
+		# prva runda ... sosede zadetega straya
+		var first_neighbors: Array = hit_stray.check_for_neighbors()
+		for first_neighbor in first_neighbors:
+			if not all_neighboring_strays.has(first_neighbor): # če še ni dodan med vse sosede
+				all_neighboring_strays.append(first_neighbor) # ... ga dodam med vse sosede
 		
-		# odstranim kolajderja iz sosed, če je bil sosed nekomu
-		if all_neighboring_strays.has(hit_stray):
-			all_neighboring_strays.erase(hit_stray)
+		neighbors_checked.append(hit_stray) # zadeti stray gre med "že preverjene" 
 		
-		# destroj prvega soseda
-		var stray_in_row = 1 # 2 ker je 1 distrojan po defoltu
-		hit_stray.die(stray_in_row) # edini oziroma prvi v vrsti
-		emit_signal("stat_changed", self, "hit_stray", [stray_in_row, hit_stray])
-		# destroj sosedov od sosedov
+		# druga runda ... sosede vseh sosed
+		for neighbor in all_neighboring_strays:
+			if not neighbors_checked.has(neighbor): # če še ni med "že preverjenimi" ...
+				var extra_neighbors: Array = neighbor.check_for_neighbors() # ... preverim še njegove sosede
+				for extra_neighbor in extra_neighbors:
+					if not all_neighboring_strays.has(extra_neighbor):  # če še ni dodan med vse sosede ...
+						all_neighboring_strays.append(extra_neighbor) # ... ga dodam med vse sosede
+				neighbors_checked.append(neighbor) # po nabirki ga dodam med preverjene sosede
+		
+		if all_neighboring_strays.has(hit_stray): 
+			all_neighboring_strays.erase(hit_stray) # hit stray odstranim iz vseh sosed, ker je uničen že z burstom
+		
+		# uničim prvega soseda (prvi z extra točkami)
+		var stray_in_row_index = 1 # 1 zato, ker 0 je hit stray
+		hit_stray.die(stray_in_row_index)
+		emit_signal("stat_changed", self, "hit_stray", [stray_in_row_index, hit_stray])
+		
+		# uničim preostale sosede
 		for neighboring_stray in all_neighboring_strays:
-			if stray_in_row < burst_power or burst_power == cocked_ghost_count_max: 
+			if stray_in_row_index < burst_power or burst_power == cocked_ghost_count_max: # odvisnost od moči bursta
 				Global.hud.show_picked_color(neighboring_stray.pixel_color) # indikator efekt
-				neighboring_stray.die(stray_in_row + 1)
-				emit_signal("stat_changed", self, "hit_stray", [(stray_in_row + 1), neighboring_stray])
-			stray_in_row += 1
+				neighboring_stray.die(stray_in_row_index + 1) # +1, ker je bil prvi sosed že uničen
+				emit_signal("stat_changed", self, "hit_stray", [(stray_in_row_index + 1), neighboring_stray])
+			stray_in_row_index += 1
 
 
 func die():

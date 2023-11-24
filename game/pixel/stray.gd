@@ -34,8 +34,8 @@ func fade_in(): # kliče GM
 	
 
 func _physics_process(delta: float) -> void:
-	neighboring_cells = check_for_neighbors()
-	
+#	neighboring_cells = check_for_neighbors()
+	pass
 	
 func step(step_direction):
 		

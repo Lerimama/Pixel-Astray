@@ -186,23 +186,6 @@ func spawn_new_tilemap(tilemap_path):
 	tilemap_parent.add_child(new_tilemap) # direct child of root
 		
 
-#func spawn_player():
-#
-#	spawned_player_index += 1
-#
-#	var new_player_pixel = PlayerPixel.instance()
-#	new_player_pixel.name = "P%s" % str(spawned_player_index)
-#	new_player_pixel.global_position = player_start_position + Global.game_tilemap.cell_size/2 # ... ne rabim snepat ker se v pixlu na ready funkciji
-#	new_player_pixel.pixel_color = game_settings["player_start_color"]
-#	new_player_pixel.z_index = 1 # nižje od straysa
-#	Global.node_creation_parent.add_child(new_player_pixel)
-#
-#	new_player_pixel.connect("stat_changed", self, "_on_stat_changed")
-#	new_player_pixel.set_physics_process(false)
-#
-#	return new_player_pixel
-
-	
 func set_players():
 	
 	# spawn
