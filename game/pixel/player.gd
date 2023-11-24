@@ -9,6 +9,10 @@ var current_state # = States.IDLE
 var direction = Vector2.ZERO # prenosna
 var collision: KinematicCollision2D
 var step_time: float # uporabi se pri step tweenu in je nekonstanten, če je "energy_speed_mode"
+var skill_sfx_playing: bool = false # da lahko kličem is procesne funkcije
+var pixel_color: Color
+var player_camera: Node
+var player_camera_target: Node
 
 # push & pull
 var pull_time: float = 0.3
@@ -66,11 +70,14 @@ var last_breath_active: bool = false
 var last_breath_loop: int = 0
 var last_breath_loop_limit: int = 5
 
-# transparenca energije
-var skill_sfx_playing: bool = false # da lahko kličem is procesne funkcije
-onready var poly_pixel: Polygon2D = $PolyPixel
+# controls
+var key_left: String
+var key_right: String
+var key_up: String
+var key_down: String
+var key_burst: String
 
-var pixel_color: Color
+onready var poly_pixel: Polygon2D = $PolyPixel
 onready var cell_size_x: int = Global.game_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var vision_ray: RayCast2D = $VisionRay
@@ -81,13 +88,6 @@ onready var PixelCollisionParticles: PackedScene = preload("res://game/pixel/pix
 onready var PixelDizzyParticles: PackedScene = preload("res://game/pixel/pixel_dizzy_particles.tscn")
 onready var light_2d: Light2D = $Light2D
 
-# new
-var key_left: String
-var key_right: String
-var key_up: String
-var key_down: String
-var key_burst: String
-var player_camera: Node
 
 func _ready() -> void:
 	
@@ -355,7 +355,7 @@ func bursting_inputs():
 		Input.start_joy_vibration(0, 0.6, 0.2, 0.2)
 		Global.sound_manager.play_sfx("burst_stop")
 		Global.sound_manager.stop_sfx("burst_cocking")	
-#		current_state = States.IDLE
+		# current_state = States.IDLE
 		
 
 func skill_inputs():
@@ -602,7 +602,8 @@ func teleport():
 	new_teleport_ghost.cell_size_x = cell_size_x
 	new_teleport_ghost.connect("ghost_target_reached", self, "_on_ghost_target_reached")
 	
-	Global.camera_target = new_teleport_ghost
+	if name == "p1": Global.p1_camera_target = new_teleport_ghost
+	elif name == "p2": Global.p2_camera_target = new_teleport_ghost
 	
 	yield(get_tree().create_timer(0.2), "timeout")
 	light_off()
@@ -791,7 +792,7 @@ func multikill(hit_stray):
 func die():
 
 	player_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
-#	modulate = pixel_color
+	# modulate = pixel_color
 	set_physics_process(false)
 	animation_player.play("die_player")
 
@@ -815,11 +816,15 @@ func play_blinking_sound():
 		
 func _on_ghost_target_reached(ghost_body, ghost_position):
 	
+	var player_camera_target: String
+	if name == "p1": player_camera_target = "p1_camera_target"
+	elif name == "p2": player_camera_target = "p2_camera_target"
+			
 	var teleport_tween = get_tree().create_tween()
 	teleport_tween.tween_property(poly_pixel, "modulate:a", 0, ghost_fade_time)
-	teleport_tween.tween_property(self, "global_position", ghost_position, 0.01)
+	teleport_tween.tween_property(self, "global_position", ghost_position, 0)
 	# camera follow reset
-	teleport_tween.parallel().tween_property(Global, "camera_target", self, 0.01)
+	teleport_tween.parallel().tween_property(Global, player_camera_target, self, 0)
 	teleport_tween.tween_callback(self, "end_move")
 	teleport_tween.tween_property(poly_pixel, "modulate:a", 1, ghost_fade_time)
 	teleport_tween.tween_callback(ghost_body, "fade_out")
@@ -845,7 +850,6 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 		"last_breath":
 			last_breath_loop += 1
 			if last_breath_loop > last_breath_loop_limit:
-#				Global.game_manager.current_gameover_reason = Global.game_manager.GameoverReason.ENERGY
 				emit_signal("stat_changed", self, "out_of_breath", 1)
 				die()
 			else:

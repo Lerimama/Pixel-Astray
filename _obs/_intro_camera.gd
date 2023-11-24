@@ -85,8 +85,8 @@ func _input(_event: InputEvent) -> void: # testview inputs
 
 func _ready():
 	
-	Global.main_camera = self
-	Global.camera_target = null # da se nulira (pri quit game) in je naslednji play brez errorja ... seta se ob spawnanju plejerja
+	Global.p1_camera = self
+	Global.p1_camera_target = null # da se nulira (pri quit game) in je naslednji play brez errorja ... seta se ob spawnanju plejerja
 	
 	set_ui_focus()	
 	update_ui()

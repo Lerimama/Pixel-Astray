@@ -27,7 +27,7 @@ func home_in_intro():
 	fade_in.tween_property(Global.current_scene, "modulate", Color.white, fade_time)
 	
 	
-func home_in_no_intro(): # temp ...debug
+func home_in_no_intro(): # debug
 	
 	Global.spawn_new_scene(home_scene_path, self)
 	Global.current_scene.open_without_intro()
@@ -61,7 +61,7 @@ func home_out():
 
 func game_in():
 
-	Global.reset_globals()
+	Global.reset_cameras()
 	
 	Global.spawn_new_scene(game_scene_path, self)
 

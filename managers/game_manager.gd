@@ -15,11 +15,11 @@ var spawn_shake_decay: float = 0.2
 var strays_spawn_loop: int = 0	
 
 # players
-var player_pixel: KinematicBody2D
+var p1: KinematicBody2D
+var p2: KinematicBody2D
+var players_in_game: Array
 var spawned_player_index: int = 0
-var players_in_game: Array = []
-#var players_start_count: int
-var player_start_position = null
+#var player_start_position = null
 var player_start_positions: Array
 
 # strays
@@ -41,16 +41,13 @@ onready var StrayPixel = preload("res://game/pixel/stray.tscn")
 onready var PlayerPixel = preload("res://game/pixel/player.tscn")
 
 # profiles
+var p1_stats: Dictionary = Profiles.default_player_stats.duplicate() # tukaj se postavijo prazne vrednosti, ki se nafilajo kasneje
+var p2_stats: Dictionary = Profiles.default_player_stats.duplicate()
 onready var game_settings: Dictionary = Profiles.game_settings # ga med igro ne spreminjaš
 onready var game_data: Dictionary = Profiles.current_game_data # .duplicate() # duplikat default profila, ker ga me igro spreminjaš
 
 #NOVO
-var p1: KinematicBody2D
-var p2: KinematicBody2D
-var p1_stats: Dictionary = Profiles.default_player_stats.duplicate() # tukaj se postavijo prazne vrednosti, ki se nafilajo kasneje
-var p2_stats: Dictionary = Profiles.default_player_stats.duplicate()
-var active_players: Array
-
+#var active_players: Array
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -75,7 +72,6 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	
-	players_in_game = get_tree().get_nodes_in_group(Global.group_players)
 	strays_in_game = get_tree().get_nodes_in_group(Global.group_strays)
 	
 	# plejer se obnaša glede na energijo in jo more skos poznat
@@ -135,7 +131,7 @@ func start_game():
 	else:
 		Global.hud.game_timer.start_timer()
 		Global.sound_manager.play_music("game")
-		for player in active_players:
+		for player in players_in_game:
 			player.set_physics_process(true)
 	
 	game_on = true
@@ -155,7 +151,7 @@ func game_over(gameover_reason):
 	Global.sound_manager.stop_sfx("last_breath")
 	
 	# pavziram plejerja
-	for player in active_players:
+	for player in players_in_game:
 		player.set_physics_process(false)
 	
 	# open game-over ekran
@@ -190,21 +186,21 @@ func spawn_new_tilemap(tilemap_path):
 	tilemap_parent.add_child(new_tilemap) # direct child of root
 		
 
-func spawn_player():
-	
-	spawned_player_index += 1
-	
-	var new_player_pixel = PlayerPixel.instance()
-	new_player_pixel.name = "P%s" % str(spawned_player_index)
-	new_player_pixel.global_position = player_start_position + Global.game_tilemap.cell_size/2 # ... ne rabim snepat ker se v pixlu na ready funkciji
-	new_player_pixel.pixel_color = game_settings["player_start_color"]
-	new_player_pixel.z_index = 1 # nižje od straysa
-	Global.node_creation_parent.add_child(new_player_pixel)
-	
-	new_player_pixel.connect("stat_changed", self, "_on_stat_changed")
-	new_player_pixel.set_physics_process(false)
-	
-	return new_player_pixel
+#func spawn_player():
+#
+#	spawned_player_index += 1
+#
+#	var new_player_pixel = PlayerPixel.instance()
+#	new_player_pixel.name = "P%s" % str(spawned_player_index)
+#	new_player_pixel.global_position = player_start_position + Global.game_tilemap.cell_size/2 # ... ne rabim snepat ker se v pixlu na ready funkciji
+#	new_player_pixel.pixel_color = game_settings["player_start_color"]
+#	new_player_pixel.z_index = 1 # nižje od straysa
+#	Global.node_creation_parent.add_child(new_player_pixel)
+#
+#	new_player_pixel.connect("stat_changed", self, "_on_stat_changed")
+#	new_player_pixel.set_physics_process(false)
+#
+#	return new_player_pixel
 
 	
 func set_players():
@@ -220,22 +216,22 @@ func set_players():
 		Global.node_creation_parent.add_child(new_player_pixel)
 		new_player_pixel.connect("stat_changed", self, "_on_stat_changed")
 		new_player_pixel.set_physics_process(false)
-		active_players.append(new_player_pixel)
+		players_in_game.append(new_player_pixel)
 	
 	# p1
-	p1 = active_players[0]
+	p1 = players_in_game[0]
 	p1_stats["player_energy"] = game_settings["player_start_energy"]
 	p1_stats["player_life"] = game_settings["player_start_life"]
-	Global.camera_target = p1 # tole gre lahko v plejerja
-	p1.player_camera = Global.main_camera
+	Global.p1_camera_target = p1 # tole gre lahko v plejerja
+	p1.player_camera = Global.p1_camera
 	
 	# p2 
-	if active_players.size() > 1:
-		p2 = active_players[1]
+	if players_in_game.size() > 1:
+		p2 = players_in_game[1]
 		p2_stats["player_energy"] = game_settings["player_start_energy"]
 		p2_stats["player_life"] = game_settings["player_start_life"]
-		Global.camera_target_2 = p2 # tole gre lahko v plejerja
-		p2.player_camera = Global.main_camera_2
+		Global.p2_camera_target = p2 # tole gre lahko v plejerja
+		p2.player_camera = Global.p2_camera
 	
 
 func generate_strays():
@@ -305,9 +301,6 @@ func spawn_stray(stray_color):
 	Global.node_creation_parent.add_child(new_stray_pixel)
 	# new_stray_pixel.global_position = Global.snap_to_nearest_grid(new_stray_pixel.global_position, Global.game_tilemap.floor_cells_global_positions)
 	
-	# connect
-#	new_stray_pixel.connect("stat_changed", self, "_on_stat_changed")			
-	
 	# odstranim uporabljeno pozicijo
 	available_floor_positions.remove(selected_cell_index)
 	
@@ -319,9 +312,9 @@ func spawn_stray(stray_color):
 
 func show_strays():
 	
-	Global.main_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
-	if active_players.size() > 1:
-		Global.main_camera_2.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
+	Global.p1_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
+	if p2:
+		Global.p2_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
 		
 	var strays_to_show_count: int # količina strejsov se more ujemat s številom spawnanih
 	
@@ -375,7 +368,6 @@ func spawn_floating_tag(position: Vector2, value): # kliče ga GM
 
 
 func _on_tilemap_completed(floor_cells_global_positions: Array, stray_cells_global_positions: Array, no_stray_cells_global_positions: Array, player_start_global_positions: Array) -> void:
-#func _on_tilemap_completed(floor_cells_global_positions: Array, stray_cells_global_positions: Array, no_stray_cells_global_positions: Array, player_start_global_position: Vector2) -> void:
 	
 	# STRAYS
 	
@@ -398,33 +390,21 @@ func _on_tilemap_completed(floor_cells_global_positions: Array, stray_cells_glob
 		available_floor_positions.erase(no_stray_position)
 		additional_floor_positions.erase(no_stray_position)	
 	
-	# prevent preveč straysov (več kot je možnih pozicij)
+	# preventam preveč straysov (več kot je možnih pozicij)
 	if strays_start_count > available_floor_positions.size() + additional_floor_positions.size():
 		print("to many strays to spawn: ", strays_start_count - (available_floor_positions.size() + additional_floor_positions.size()))
 		strays_start_count = available_floor_positions.size() + additional_floor_positions.size()
 	
-#	player_start_position = player_start_global_position
-#	 # odstranim player pozicijo iz available in additional
-#	if available_floor_positions.has(player_start_position):
-#		available_floor_positions.erase(player_start_position)
-#	if additional_floor_positions.has(player_start_position):
-#		additional_floor_positions.erase(player_start_position)
-	
-	# players
+	# PLAYER
 	
 	player_start_positions = player_start_global_positions
-	if player_start_global_positions.size() == 1:
-		player_start_position = player_start_global_positions[0]
-		 # odstranim player pozicijo iz available in additional
-		if available_floor_positions.has(player_start_global_positions[0]):
-			available_floor_positions.erase(player_start_global_positions[0])
-			print("MA")
-		if additional_floor_positions.has(player_start_global_positions[0]):
-			additional_floor_positions.erase(player_start_global_positions[0])
-			print("MA 2")
-	else: 
-		pass
-
+	
+	for player_start_position in player_start_positions:
+		if available_floor_positions.has(player_start_position):
+			available_floor_positions.erase(player_start_position)
+		if additional_floor_positions.has(player_start_position):
+			additional_floor_positions.erase(player_start_position)
+	
 	
 func _on_stat_changed(stat_owner, changed_stat, stat_change):
 	
@@ -466,7 +446,6 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 			if strays_in_game_count == 0:
 				player_stats["player_points"] += game_settings["all_cleaned_points"]
 				stat_owner.pixel_color = Color.white # become white again
-#				player_pixel.pixel_color = Color.white
 				game_over(GameoverReason.CLEANED)
 		"hit_wall":
 			if game_settings["lose_life_on_hit"]: # resetiram energijo

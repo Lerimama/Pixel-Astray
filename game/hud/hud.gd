@@ -193,9 +193,9 @@ func fade_in(): # kliče GM na set_game()
 	var duel_screen_time: int = 2
 	
 	# zoom-in kamere
-	var player_cameras: Array = [Global.main_camera]
+	var player_cameras: Array = [Global.p1_camera]
 	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
-		player_cameras.append(Global.main_camera_2)
+		player_cameras.append(Global.p2_camera)
 	
 	for camera in player_cameras:
 		camera.zoom_in(fade_in_time)
@@ -204,7 +204,7 @@ func fade_in(): # kliče GM na set_game()
 	fade_in.tween_property(header, "rect_position:y", 0, fade_in_time)
 	fade_in.parallel().tween_property(footer, "rect_position:y", 720 - 56, fade_in_time)
 	
-	yield(Global.main_camera, "zoomed_in")
+	yield(Global.p1_camera, "zoomed_in")
 	
 	for indicator in active_color_indicators:
 		var indicator_fade_in = get_tree().create_tween()
@@ -225,9 +225,9 @@ func fade_out(): # kliče GM na game_over()
 	var fade_out_time: int = 2
 	
 	# zoom-out kamere
-	var player_cameras: Array = [Global.main_camera]
+	var player_cameras: Array = [Global.p1_camera]
 	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
-		player_cameras.append(Global.main_camera_2)
+		player_cameras.append(Global.p2_camera)
 	
 	for camera in player_cameras:
 		camera.zoom_out(fade_out_time)
@@ -243,7 +243,7 @@ func fade_out(): # kliče GM na game_over()
 # SPECTRUM ---------------------------------------------------------------------------------------------------------------------------
 
 
-func spawn_color_indicators(available_colors): # ukaz pride iz GM
+func spawn_color_indicators(available_colors): # kliče GM
 	
 	var indicator_index = 0 # za fiksirano zaporedje
 	

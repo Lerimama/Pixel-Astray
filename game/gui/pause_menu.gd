@@ -77,7 +77,7 @@ func play_on():
 	var fade_out_tween = get_tree().create_tween()
 	fade_out_tween.set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS) # da ga pausa ne ustavi
 	fade_out_tween.tween_property(self, "modulate:a", 0, pause_fade_time)
-	fade_out_tween.tween_property(self, "visible", false, 0.01)
+	fade_out_tween.tween_callback(self, "set_visible", [false])
 	fade_out_tween.tween_callback(self, "unpause_tree")
 
 

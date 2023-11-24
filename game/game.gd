@@ -1,14 +1,16 @@
 extends Node
 
 
-onready var game_camera: Camera2D = $GameView/Viewports/ViewportContainer1/Viewport1/GameCam
-onready var game_camera_2: Camera2D = $GameView/Viewports/ViewportContainer2/Viewport2/GameCam
-onready var viewport_1: Viewport = $GameView/Viewports/ViewportContainer1/Viewport1
-onready var viewport_2: Viewport = $GameView/Viewports/ViewportContainer2/Viewport2
-onready var viewport_container_1: ViewportContainer = $GameView/Viewports/ViewportContainer1
-onready var viewport_container_2: ViewportContainer = $GameView/Viewports/ViewportContainer2
 onready var viewport_separator: VSeparator = $GameView/Viewports/ViewportSeparator
-
+# player 1
+onready var viewport_1: Viewport = $GameView/Viewports/ViewportContainer1/Viewport1
+onready var viewport_container_1: ViewportContainer = $GameView/Viewports/ViewportContainer1
+onready var player_camera_1: Camera2D = $GameView/Viewports/ViewportContainer1/Viewport1/GameCam
+# player 2
+onready var viewport_2: Viewport = $GameView/Viewports/ViewportContainer2/Viewport2
+onready var viewport_container_2: ViewportContainer = $GameView/Viewports/ViewportContainer2
+onready var player_camera_2: Camera2D = $GameView/Viewports/ViewportContainer2/Viewport2/GameCam
+# minimap
 onready var minimap: ViewportContainer = $Minimap
 onready var minimap_viewport: Viewport = $Minimap/MinimapViewport
 onready var minimap_camera: Camera2D = $Minimap/MinimapViewport/MinimapCam
@@ -30,7 +32,6 @@ func _ready() -> void:
 	
 	# multiplejer setup
 	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
-#	if Profiles.current_game == Profiles.Games.DUEL:
 		viewport_2.world_2d = viewport_1.world_2d
 		viewport_container_2.visible = true
 	else:
@@ -48,9 +49,8 @@ func set_camera_limits():
 	var corner_BL: float = tilemap_edge.position.y * tilemap_cell_size.y
 	var corner_BR: float = tilemap_edge.end.y * tilemap_cell_size.y
 	
-	# v tem koraku odštejem tilemap edge debelino
-	for camera in [minimap_camera, game_camera, game_camera_2]:
-		camera.limit_left = corner_TL + tilemap_cell_size.x 
+	for camera in [minimap_camera, player_camera_1, player_camera_2]:
+		camera.limit_left = corner_TL + tilemap_cell_size.x # odštejem tilemap edge debelino
 		camera.limit_right = corner_TR - tilemap_cell_size.x
 		camera.limit_top = corner_BL + tilemap_cell_size.y
 		camera.limit_bottom = corner_BR - tilemap_cell_size.y

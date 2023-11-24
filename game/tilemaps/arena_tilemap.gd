@@ -58,8 +58,7 @@ func get_tiles():
 					set_cellv(cell, 0)
 	
 	
-	# pošljemo podatke v GM
-#	emit_signal("tilemap_completed", floor_cells_global_positions, stray_spawn_cells_global_positions, no_stray_cells_global_positions, player_start_global_position)
+	# pošljem podatke v GM
 	emit_signal("tilemap_completed", floor_cells_global_positions, stray_spawn_cells_global_positions, no_stray_cells_global_positions, player_start_global_positions)
 	
 	

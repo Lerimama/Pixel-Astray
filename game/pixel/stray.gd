@@ -1,8 +1,6 @@
 extends KinematicBody2D
 
 
-#signal stat_changed (stat_owner, stat, stat_change)
-
 export (float, 0, 1) var die_shake_power: float = 0.2
 export (float, 0, 10) var die_shake_time: float = 0.4
 export (float, 0, 1) var die_shake_decay: float = 0.3
@@ -50,14 +48,12 @@ func step(step_direction):
 	var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 	step_tween.tween_property(self, "position", global_position + step_direction * cell_size_x, step_time)
 	step_tween.tween_callback(Global, "snap_to_nearest_grid", [global_position, Global.game_tilemap.floor_cells_global_positions])
-	step_tween.tween_property(self, "is_stepping", false, 0.01)
+	step_tween.tween_property(self, "is_stepping", false, 0)
 
 
 func die(stray_in_row):
 	
 	collision_shape_2d.disabled = true
-	
-#	emit_signal("stat_changed", self, "hit_stray", stray_in_row)
 	
 	# žrebam animacijo
 	var random_animation_index = randi() % 5 + 1

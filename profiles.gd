@@ -14,7 +14,6 @@ var default_player_stats: Dictionary = { # bo verjetno za vsak mode drugačen
 	"cells_traveled" : 0,
 }
 
-
 var game_data_sprinter: Dictionary = { 
 	"game": Games.SPRINTER,
 	"tilemap_path": "res://game/tilemaps/test_tilemap.tscn",
@@ -119,14 +118,14 @@ var game_data_duel: Dictionary = {
 	"game_name": "The Duel",
 	"level": "",
 	"tilemap_path": "res://game/tilemaps/duel_tilemap.tscn",
-	"game_time_limit": 3,
+	"game_time_limit": 30,
 	"strays_start_count": 200, 
 	"highscore": 0,
 }
 
 
 func _ready() -> void:
-	var current_game = Games.CLEANER_L
+	var current_game = Games.DUEL # če greš iz menija je tole poveoženo
 	set_game_data(current_game)
 
 func set_game_data(selected_game) -> void:
@@ -167,7 +166,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["player_start_life"] = 3
 			game_settings["timer_mode_countdown"] = true
 			game_settings["lose_life_on_hit"] = true
-			game_settings["start_game_countdown"] = true
+			game_settings["start_game_countdown"] = false
 			game_settings["manage_highscores"] = false
 		
 

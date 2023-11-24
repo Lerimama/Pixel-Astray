@@ -3491,15 +3491,16 @@ autowrap = true
 
 [node name="InfoPanelHor" type="Control" parent="SelectGame"]
 margin_left = 8.0
-margin_top = 424.0
+margin_top = 400.0
 margin_right = 679.0
-margin_bottom = 616.0
+margin_bottom = 592.0
 theme = SubResource( 194 )
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Title" type="Label" parent="SelectGame/InfoPanelHor"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_top = 6.0
 margin_right = 671.0
 margin_bottom = 44.0
@@ -3519,9 +3520,9 @@ margin_bottom = -3.0
 
 [node name="Shortcuts" type="Control" parent="SelectGame/InfoPanelHor"]
 margin_left = 376.0
-margin_top = 6.0
+margin_top = 14.0
 margin_right = 672.0
-margin_bottom = 184.0
+margin_bottom = 192.0
 
 [node name="Title" type="Label" parent="SelectGame/InfoPanelHor/Shortcuts"]
 visible = false
@@ -3700,9 +3701,9 @@ custom_fonts/font = ExtResource( 14 )
 text = "to confirm selection"
 
 [node name="Controls" type="Control" parent="SelectGame/InfoPanelHor"]
-margin_top = 6.0
+margin_top = 14.0
 margin_right = 321.0
-margin_bottom = 184.0
+margin_bottom = 192.0
 __meta__ = {
 "_edit_group_": true
 }

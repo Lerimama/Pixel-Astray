@@ -2,7 +2,6 @@ extends Camera2D
 
 
 signal zoomed_in
-signal zoomed_out
 
 export (OpenSimplexNoise) var noise # tekstura za vizualizacijo ma kopijo tega noisa
 
@@ -10,6 +9,9 @@ export (OpenSimplexNoise) var noise # tekstura za vizualizacijo ma kopijo tega n
 export var test_trauma_strength = 0.1 # šejk sajz na testnem gumbu ... se multiplicira s prtiskanjem
 export var test_trauma_time = 0.2 # decay delay
 export var test_decay_speed = 0.7 # krajši je 
+
+# target setup ... predvsem za teleportanje
+var camera_target: Node
 
 # noise setup
 var noise_seed: float = 8
@@ -75,23 +77,24 @@ func _input(_event: InputEvent) -> void: # testview inputs
 
 func _ready():
 	
-	if Global.main_camera == null:
-		Global.main_camera = self
-		print ("main_camera 1 > ", Global.main_camera)
+	if Global.p1_camera == null:
+		Global.p1_camera = self
 	else:
-		Global.main_camera_2 = self
-		print ("main_camera 2 > ", Global.main_camera_2)
-	
+		Global.p2_camera = self
 	
 	set_ui_focus()	
 	update_ui()
 	
 	# start setup
 	zoom = Vector2(2, 2)
-	if Global.game_manager.player_start_position == null:
-		return
-	else:
-		position = Global.game_manager.player_start_position #+ Vector2(cell_size_x / 2, 0)
+#	if Global.game_manager.player_start_positions == null:
+#		return
+#	else:
+#		position = Global.gam
+#	if Global.game_manager.player_start_position == null:
+#		return
+#	else:
+#		position = Global.game_manager.player_start_position #+ Vector2(cell_size_x / 2, 0)
 
 
 func zoom_in(hud_in_time): # kliče hud
@@ -122,7 +125,6 @@ func zoom_out(hud_out_time): # kliče hud
 	zoom_out_tween.parallel().tween_property(get_viewport(), "size:y", 720, 2)
 	zoom_out_tween.parallel().tween_property(viewport_header, "rect_min_size:y", 0, hud_out_time)
 	zoom_out_tween.parallel().tween_property(viewport_footer, "rect_min_size:y", 0, hud_out_time)
-#	zoom_out_tween.tween_callback(self, "emit_signal", ["zoomed_out"]).set_delay(1)
 
 
 func _process(delta):
@@ -159,10 +161,11 @@ func _process(delta):
 
 func _physics_process(delta: float) -> void:
 
-	if Global.main_camera == self and Global.camera_target:
-		position = Global.camera_target.position + Vector2(cell_size_x / 2, 0)
-	elif Global.main_camera_2 == self and Global.camera_target_2:
-		position = Global.camera_target_2.position + Vector2(cell_size_x / 2, 0)
+	if Global.p1_camera == self and Global.p1_camera_target:
+		position = Global.p1_camera_target.position + Vector2(cell_size_x / 2, 0)
+	elif Global.p2_camera == self and Global.p2_camera_target:
+		position = Global.p2_camera_target.position + Vector2(cell_size_x / 2, 0)
+	
 
 
 # ŠEJK ------------------------------------------------------------------------------------------------------------------------

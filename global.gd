@@ -1,9 +1,7 @@
 extends Node2D
 
 
-## globalne variable in metode
-
-# GLOBAL NODES ---------------------------------------------------------------------------------------------------------
+# VARS ----------------------------------------------------------
 
 var main_node = null
 var node_creation_parent = null # arena
@@ -20,14 +18,11 @@ var start_countdown = null
 var gameover_menu = null
 var tutorial_gui = null
 
-# reset on game-over
-var camera_target = null
-var camera_target_2 = null
-var main_camera = null
-var main_camera_2 = null
-
-
-# GLOBAL VARS ---------------------------------------------------------------------------------------------------------
+# camera
+var p1_camera = null
+var p2_camera = null
+var p1_camera_target = null
+var p2_camera_target = null
 
 # groups
 var group_players = "Players"
@@ -46,20 +41,22 @@ var color_red = Color("#f35b7f")
 var color_yellow = Color("#fef98b")
 
 
+# METHODS ----------------------------------------------------------
+
+
+var current_scene = null # scene switching
+
+
 func _ready():
 	randomize()
 
 
-func reset_globals():
-	camera_target = null
-	camera_target_2 = null
-	main_camera = null
-	main_camera_2 = null	
+func reset_cameras():
+	p1_camera = null
+	p1_camera_target = null
+	p2_camera = null	
+	p2_camera_target = null
 	
-# debugging
-func print_id (node: Node): 
-	printt("Živijo! Jaz sem " + node.name + " na koordinatah " + str(node.global_position) + ".")
-
 
 func snap_to_nearest_grid(current_global_position: Vector2, cell_positions):
 	
@@ -119,8 +116,6 @@ func get_random_member_index(group_of_elements, offset): # offset je če zamakne
 
 
 # SCENE MANAGER (prehajanje med igro in menijem) ----------------------------------------------------------------
-
-var current_scene = null # trenutno predvajana scena (za svičanje)
 
 
 func release_scene(scene_node): # release scene

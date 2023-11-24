@@ -12,7 +12,6 @@ onready var intro: Node2D = $IntroViewPortContainer/Viewport/Intro
 onready var intro_viewport: Viewport = $IntroViewPortContainer/Viewport
 
 onready var tutorial_btn: Button = $SelectGame/TutorialBtn
-#onready var cleaner_btn: Button = $SelectGame/CleanerBtn
 onready var pointer_btn: Button = $SelectGame/PointerBtn
 onready var riddler_btn: Button = $SelectGame/RiddlerBtn
 
@@ -61,18 +60,18 @@ func _ready():
 	$About/EscHint.modulate.a = 0
 	
 	# games buttons text
-#	$SelectGame/SelectGameBtn1.text = "Only " + str(Profiles.game_data_S["game"]) + " pixels astray"
-#	$SelectGame/SelectGameBtn2.text = str(Profiles.game_data_M["game"]) + " pixels astray"
-#	$SelectGame/SelectGameBtn3.text = str(Profiles.game_data_L["game"]) + " pixels astray"
-#	$SelectGame/SelectGameBtn4.text = str(Profiles.game_data_XL["game"]) + " pixels astray"
-#	$SelectGame/SelectGameBtn5.text = str(Profiles.game_data_XXL["game"]) + " pixels astray"
+	# $SelectGame/SelectGameBtn1.text = "Only " + str(Profiles.game_data_S["game"]) + " pixels astray"
+	# $SelectGame/SelectGameBtn2.text = str(Profiles.game_data_M["game"]) + " pixels astray"
+	# $SelectGame/SelectGameBtn3.text = str(Profiles.game_data_L["game"]) + " pixels astray"
+	# $SelectGame/SelectGameBtn4.text = str(Profiles.game_data_XL["game"]) + " pixels astray"
+	# $SelectGame/SelectGameBtn5.text = str(Profiles.game_data_XXL["game"]) + " pixels astray"
 
 	
-func open_with_intro(): # ... kliče main.gd -> home_in_intro()
+func open_with_intro(): # kliče main.gd -> home_in_intro()
 	intro.play_intro() # intro signal na koncu kliče home_in()
 	
 	
-func open_without_intro(): # temp ... debug ... kliče main.gd -> home_in_no_intro()
+func open_without_intro(): # debug ... kliče main.gd -> home_in_no_intro()
 	intro.end_intro() # intro signal na koncu kliče home_in()
 
 
@@ -191,8 +190,6 @@ func _on_HighscoresBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	
-#	var fake_player_ranking: int = 100
-#	$Highscores.load_all_highscores(fake_player_ranking)
 	animation_player.play("highscores")
 
 

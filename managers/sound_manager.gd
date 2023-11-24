@@ -199,8 +199,7 @@ func stop_music(music_to_stop: String):
 					var fade_out = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT)	
 					fade_out.tween_property(music, "volume_db", -80, 1)
 					fade_out.tween_callback(music, "stop")
-					# volume nazaj
-					fade_out.tween_property(music, "volume_db", current_music_volume, 0.1) # reset glasnosti
+					fade_out.tween_callback(music, "set_volume_db", [current_music_volume]) # reset glasnosti
 		
 
 func set_game_music_volume(value_on_slider: float): # kliče se iz settingsov
@@ -221,6 +220,6 @@ func skip_track():
 			var fade_out = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT)	
 			fade_out.tween_property(music, "volume_db", -80, 0.5)
 			fade_out.tween_callback(music, "stop")
-			fade_out.tween_property(music, "volume_db", current_music_volume, 0.1) # reset glasnosti
+			fade_out.tween_callback(music, "set_volume_db", [current_music_volume]) # reset glasnosti
 			fade_out.tween_callback(self, "play_music", ["game"])
 			return
