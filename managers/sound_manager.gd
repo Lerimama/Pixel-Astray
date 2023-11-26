@@ -75,8 +75,6 @@ func play_sfx(effect_for: String):
 			$GameSfx/Skills/PushStoneSlide.play()
 		"teleport":
 			$GameSfx/Skills/TeleportIn.play()
-		"skilled":
-			$GameSfx/Skills/SkilledStatic.play()
 		# events
 		"countdown_a":
 			$GameSfx/Events/CoundownA.play()
@@ -127,16 +125,7 @@ func stop_sfx(sfx_to_stop: String):
 				$GameSfx/Skills/TeleportOut.play()
 			else: # zazih ob koncu igre
 				$GameSfx/Skills/TeleportLoop.stop()
-		"skilled":
-			$GameSfx/Skills/SkilledStatic.stop()
 		"burst_cocking":
-			# fad out ... ne dela kot bi mislil
-			# var sound_fade_out = get_tree().create_tween()
-			# sound_fade_out.tween_property($GameSfx/Burst/BurstCocking, "volume_db", -80, 1.5 ).set_ease(Tween.EASE_IN)
-			# sound_fade_out.tween_callback($GameSfx/Burst/BurstCocking, "stop")
-			# sound_fade_out.tween_callback($GameSfx/Burst/BurstCocking, "seek", [0.0])
-			# yield(get_tree().create_timer(1.5), "timeout")
-			# $GameSfx/Burst/BurstCocking.volume_db = -15
 			$GameSfx/Burst/BurstCocking.stop()
 		"last_breath":
 			$GameSfx/LastBeat.stop()
@@ -161,7 +150,7 @@ func _on_TeleportStart_finished() -> void:
 		
 
 func play_music(music_for: String):
-#	return	
+	return	
 	
 	match music_for:
 		"menu":

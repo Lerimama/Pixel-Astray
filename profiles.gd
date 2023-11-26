@@ -46,8 +46,8 @@ var game_settings: Dictionary = {
 	"slowdown_mode": true, # hitrost je odvisna od energije
 	"slowdown_rate": 18,
 	# game
-	"skilled_energy_drain_mode" : false,
-	"skilled_energy_drain_speed": 0.1, # pavza predvsakim odvzemom točke
+#	"skilled_energy_drain_mode" : false,
+#	"skilled_energy_drain_speed": 0.1, # pavza predvsakim odvzemom točke
 	"gameover_countdown_duration": 5,
 	"suddent_death_mode": false,
 	"sudden_death_limit" : 20,
@@ -125,12 +125,11 @@ var game_data_duel: Dictionary = {
 
 
 func _ready() -> void:
-	var current_game = Games.DUEL # če greš iz menija je tole poveoženo
+	var current_game = Games.CLEANER_L # če greš iz menija je tole poveoženo
 	set_game_data(current_game)
 
 func set_game_data(selected_game) -> void:
 	
-#	selected_game = Games.CLEANER_L
 	# kar se spreminja more biti setano na vseh igrah
 	match selected_game:
 		Games.DUEL: 
@@ -138,8 +137,9 @@ func set_game_data(selected_game) -> void:
 			game_settings["player_start_life"] = 3
 			game_settings["timer_mode_countdown"] = true
 			game_settings["lose_life_on_hit"] = true
-			game_settings["start_game_countdown"] = true
+#			game_settings["start_game_countdown"] = true
 			game_settings["manage_highscores"] = false
+			game_settings["start_game_countdown"] = false
 		Games.TUTORIAL:
 			current_game_data = game_data_tutorial
 			game_settings["player_start_life"] = 1
@@ -166,8 +166,9 @@ func set_game_data(selected_game) -> void:
 			game_settings["player_start_life"] = 1
 			game_settings["timer_mode_countdown"] = true
 			game_settings["lose_life_on_hit"] = false
-			game_settings["start_game_countdown"] = true
+#			game_settings["start_game_countdown"] = true
 			game_settings["manage_highscores"] = true
+			game_settings["start_game_countdown"] = false
 
 		
 

@@ -187,6 +187,9 @@ noise = ExtResource( 11 )
 
 [sub_resource type="StyleBoxLine" id=228]
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+grow_begin = 0.0
+grow_end = 0.0
+thickness = 2
 vertical = true
 
 [sub_resource type="World" id=227]
@@ -1277,13 +1280,13 @@ text = "tresi"
 
 [node name="ViewportSeparator" type="VSeparator" parent="GameView/Viewports"]
 margin_left = 639.0
-margin_right = 640.0
+margin_right = 641.0
 margin_bottom = 720.0
-custom_constants/separation = 1
+custom_constants/separation = 2
 custom_styles/separator = SubResource( 228 )
 
 [node name="ViewportContainer2" type="ViewportContainer" parent="GameView/Viewports"]
-margin_left = 640.0
+margin_left = 641.0
 margin_right = 1280.0
 margin_bottom = 720.0
 size_flags_horizontal = 3
@@ -1291,7 +1294,7 @@ size_flags_vertical = 3
 stretch = true
 
 [node name="Viewport2" type="Viewport" parent="GameView/Viewports/ViewportContainer2"]
-size = Vector2( 640, 720 )
+size = Vector2( 639, 720 )
 world = SubResource( 227 )
 handle_input_locally = false
 render_target_update_mode = 3
@@ -1634,7 +1637,6 @@ __meta__ = {
 }
 
 [node name="Energy" type="Label" parent="GUI/Hud"]
-visible = false
 margin_left = 136.0
 margin_top = 69.0
 margin_right = 180.0

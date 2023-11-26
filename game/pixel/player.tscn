@@ -1,11 +1,102 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=13 format=2]
 
+[ext_resource path="res://assets/gradient_light.png" type="Texture" id=1]
 [ext_resource path="res://game/pixel/player.gd" type="Script" id=2]
-[ext_resource path="res://assets/light_texture.png" type="Texture" id=3]
+[ext_resource path="res://assets/circle_light.png" type="Texture" id=3]
 [ext_resource path="res://assets/resources/anim_zbrisane/pixelrevive.tres" type="Animation" id=10]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
+
+[sub_resource type="Animation" id=140]
+resource_name = "_junfer short"
+length = 1.25
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.16, 0.26, 0.36, 0.52, 0.66, 0.76, 0.9, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.282353 ), Color( 1, 1, 1, 0.780392 ), Color( 1, 1, 1, 0.215686 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.360784 ), Color( 1, 1, 1, 0.486275 ), Color( 1, 1, 1, 0.203922 ), Color( 1, 1, 1, 0.819608 ), Color( 1, 1, 1, 0.282353 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.12, 0.34, 0.88 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+} ]
+}
+
+[sub_resource type="Animation" id=139]
+resource_name = "_last_breath _polypixel"
+length = 0.8
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.06, 0.32, 0.52, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.12, 0.2, 0.18, 0.12, 0.12 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("PolyPixel:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.06, 0.32, 0.52, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.8, 1.0, 0.98, 0.8, 0.8 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("GlowLight:enabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 1,
+"values": [  ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("GlowLight:energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 0,
+"values": [  ]
+}
 
 [sub_resource type="Animation" id=138]
 resource_name = "_start_white"
@@ -200,7 +291,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.06, 0.32, 0.52, 0.8 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 0.12, 0.2, 0.18, 0.12, 0.12 ]
+"values": [ 0.8, 1.0, 0.98, 0.8, 0.8 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("PolyPixel:modulate:a")
@@ -214,23 +305,94 @@ tracks/1/keys = {
 "update": 0,
 "values": [ 0.8, 1.0, 0.98, 0.8, 0.8 ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("GlowLight:enabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("GlowLight:energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.06, 0.32, 0.52, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.1, 0.7, 0.55, 0.1, 0.1 ]
+}
+
+[sub_resource type="Animation" id=141]
+resource_name = "virgin"
+length = 2.0
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.185737, 0.447234, 0.53924, 0.72, 0.82, 0.9, 1, 1.1, 1.2, 1.36541, 1.5, 1.6, 1.6544, 1.94, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.282353 ), Color( 1, 1, 1, 0.215686 ), Color( 1, 1, 1, 0.764706 ), Color( 1, 1, 1, 0.545098 ), Color( 1, 1, 1, 0.266667 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0.764706 ), Color( 1, 1, 1, 0.266667 ), Color( 1, 1, 1, 0.215686 ), Color( 1, 1, 1, 0.764706 ), Color( 1, 1, 1, 0.360784 ), Color( 1, 1, 1, 0.486275 ), Color( 1, 1, 1, 0.203922 ), Color( 1, 1, 1, 0.533333 ), Color( 1, 1, 1, 0.14902 ), Color( 1, 1, 1, 0.282353 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.4, 0.88, 1.24, 1.92 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+} ]
+}
 
 [node name="Player" type="KinematicBody2D"]
-modulate = Color( 1, 1, 1, 0.829294 )
+modulate = Color( 1, 1, 1, 0.282353 )
 script = ExtResource( 2 )
 
-[node name="Light2D" type="Light2D" parent="."]
+[node name="GlowLight" type="Light2D" parent="."]
 position = Vector2( 7.62939e-06, -9.53674e-06 )
 scale = Vector2( 0.1875, 0.1875 )
 texture = ExtResource( 3 )
-energy = 0.64
+energy = 0.2575
 
 [node name="PolyPixel" type="Polygon2D" parent="."]
-modulate = Color( 1, 1, 1, 0.8 )
+modulate = Color( 1, 1, 1, 0.863 )
 position = Vector2( -16, -16 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
+[node name="SkillLight" type="Light2D" parent="."]
+position = Vector2( 1.97093e-06, 0 )
+scale = Vector2( 0.266667, 0.266667 )
+texture = ExtResource( 1 )
+energy = 0.8
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 scale = Vector2( 0.9, 0.9 )
 shape = SubResource( 1 )
 
@@ -239,10 +401,13 @@ enabled = true
 cast_to = Vector2( 32, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+"anims/_junfer short" = SubResource( 140 )
+"anims/_last_breath _polypixel" = SubResource( 139 )
 anims/_start_white = SubResource( 138 )
 anims/_still_alive = SubResource( 135 )
 anims/die_player = SubResource( 2 )
 anims/last_breath = SubResource( 137 )
 anims/revive = ExtResource( 10 )
+anims/virgin = SubResource( 141 )
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

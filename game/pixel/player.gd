@@ -9,7 +9,7 @@ var current_state # = States.IDLE
 var direction = Vector2.ZERO # prenosna
 var collision: KinematicCollision2D
 var step_time: float # uporabi se pri step tweenu in je nekonstanten, če je "energy_speed_mode"
-var skill_sfx_playing: bool = false # da lahko kličem is procesne funkcije
+var skill_sfx_playing: bool = false #  lahko kličem is procesne funkcije
 var pixel_color: Color
 var player_camera: Node
 var player_camera_target: Node
@@ -21,7 +21,6 @@ var push_time: float = 0.3
 var push_cell_count: int = 1
 
 # teleport
-var ghost_fade_time: float = 0.2
 var backup_time: float = 0.32
 var ghost_max_speed: float = 10
 
@@ -77,7 +76,6 @@ var key_up: String
 var key_down: String
 var key_burst: String
 
-onready var poly_pixel: Polygon2D = $PolyPixel
 onready var cell_size_x: int = Global.game_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var vision_ray: RayCast2D = $VisionRay
@@ -86,8 +84,10 @@ onready var collision_shape: CollisionShape2D = $CollisionShape2D
 onready var Ghost: PackedScene = preload("res://game/pixel/ghost.tscn")
 onready var PixelCollisionParticles: PackedScene = preload("res://game/pixel/pixel_collision_particles.tscn")
 onready var PixelDizzyParticles: PackedScene = preload("res://game/pixel/pixel_dizzy_particles.tscn")
-onready var light_2d: Light2D = $Light2D
+onready var glow_light: Light2D = $GlowLight
+onready var skill_light: Light2D = $SkillLight
 
+var is_virgin: bool
 
 func _ready() -> void:
 	
@@ -108,24 +108,27 @@ func _ready() -> void:
 		key_down = "ui_down"
 		key_burst = "burst"
 	
-	light_2d.enabled = false
 	modulate = pixel_color # pixel_color je določen ob spawnu z GM
 	current_state = States.IDLE
-	
-	# global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions)
+	skill_light.enabled = false
+	glow_light.enabled = false
 	
 	
 func _physics_process(delta: float) -> void:
-	
 	current_player_energy_part = player_energy / max_player_energy # delež celotne energije
 			
 	if Global.detect_collision_in_direction(vision_ray, direction): # more bit neodvisno od stateta, da pull dela
 		skill_inputs()
 	
+	if pixel_color == Global.game_manager.game_settings["player_start_color"]:
+		is_virgin = true
+	else:
+		is_virgin = false
+	
 	last_breath()
 	state_machine()
 	
-		 
+ 
 func state_machine():
 	
 	match current_state:
@@ -133,16 +136,9 @@ func state_machine():
 			# skilled
 			if Global.detect_collision_in_direction(vision_ray, direction) and player_energy > 1: # koda je tukaj, da ne blinkne ob kontaktu s sosedo
 				animation_player.stop() # stop dihanje
-				light_on()
-				if Global.detect_collision_in_direction(vision_ray, direction).is_in_group(Global.group_strays):
-					emit_signal("stat_changed", self, "skilled",1) # signal, da je skilled (kaj se zgodi je na GMju)
-					if not skill_sfx_playing and Global.game_manager.game_settings["skilled_energy_drain_mode"]: # to je zato da FP ne klie na vsak frejm
-						Global.sound_manager.play_sfx("skilled")
-						skill_sfx_playing = true
+				skill_light_on()
 			else: # not skilled
-				if skill_sfx_playing: # da FP ne kliče na vsak frejm
-					Global.sound_manager.stop_sfx("skilled")
-					skill_sfx_playing = false
+				skill_light_off()
 			# toggle energy_speed_mode
 			if Global.game_manager.game_settings["slowdown_mode"]:
 				var slow_trim_size: float = step_time_slow * max_player_energy
@@ -154,8 +150,9 @@ func state_machine():
 			idle_inputs()
 		States.STEPPING:
 			pass
-		States.SKILLING: # stanje ko se skill izvaja
+		States.SKILLING:
 			animation_player.stop() # stop dihanje
+			pass
 		States.COCKING: 
 			animation_player.stop() # stop dihanje
 			cocking_inputs()
@@ -231,52 +228,6 @@ func on_collision():
 		# korekcija, če končata na isti poziciji ali preveč narazen
 		global_position = hit_player.global_position + (cell_size_x * (- player_direction)) # zadeti plejer je vedno na polju ob zmagovalcu, v smeri zmagovalca
 				
-		
-func end_move():
-	
-	# orig zaporedje
-	# current_state = States.IDLE
-	# global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions) 
-	
-	# reset burst
-	burst_speed = 0 # more bit pred change state, če ne uničuje tudi sam sebe
-	burst_speed_max = 0
-	burst_direction_set = false
-	cocking_room = true
-	
-	if light_2d.enabled:
-		light_off()
-	modulate = pixel_color
-	last_breath_active = false # če je burst v steno, se lahko ponovno začne
-	direction = Vector2.ZERO # reset ray dir
-	
-	global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions) 
-	
-	current_state = States.IDLE
-
-
-func on_get_hit(added_shake_power, added_shake_time):
-	
-	# efekti
-	Input.start_joy_vibration(0, 0.5, 0.6, 0.7)
-	player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)	
-	spawn_dizzy_particles()
-
-	# uničim morebitno napenjanje
-	if burst_speed_max > 0: 
-		burst_speed_max = 0
-		for ghost in cocked_ghosts:
-			var fade_out = get_tree().create_tween()
-			fade_out.tween_property(ghost.poly_pixel, "modulate:a", 0, 0.2)
-			fade_out.tween_callback(ghost, "queue_free")
-		cocked_ghosts = []
-				
-	# stats				
-	Global.game_manager.game_settings["player_start_color"] = Color("#545454") # temp
-	pixel_color = Global.game_manager.game_settings["player_start_color"] # postane začetne barve
-	emit_signal("stat_changed", self, "hit_by_player", 1)
-	die()
-
 
 # INPUTS ------------------------------------------------------------------------------------------
 
@@ -298,7 +249,7 @@ func idle_inputs():
 	
 	if Input.is_action_just_pressed(key_burst) and current_state == States.IDLE: # brez "just" dela po stisku smeri ... ni ok
 		current_state = States.COCKING
-		light_on()
+		glow_light_on()
 		
 
 func cocking_inputs():
@@ -401,6 +352,26 @@ func step():
 		# pošljem signal, da odštejem točko
 		emit_signal("stat_changed", self, "cells_traveled", 1)
 
+		
+func end_move():
+	
+	# reset burst
+	burst_speed = 0 # more bit pred change state, če ne uničuje tudi sam sebe
+	burst_speed_max = 0
+	burst_direction_set = false
+	cocking_room = true
+	
+	if glow_light.enabled:
+		glow_light_off()
+	modulate = pixel_color
+	
+	last_breath_active = false # če je burst v steno, se lahko ponovno začne
+	direction = Vector2.ZERO # reset ray dir
+	
+	global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions) 
+	
+	current_state = States.IDLE
+
 
 # BURST ------------------------------------------------------------------------------------------
 
@@ -438,12 +409,12 @@ func release_burst():
 	current_state = States.RELEASING
 	
 	Global.sound_manager.play_sfx("burst_cocked")
-	light_off()
+	glow_light_off()
 
 	# napeti ghosti animirajo do alfa 1
 	for ghost in cocked_ghosts:
 		var get_set_tween = get_tree().create_tween()
-		get_set_tween.tween_property(ghost.poly_pixel, "modulate:a", 1, cocked_ghost_fill_time)
+		get_set_tween.tween_property(ghost, "modulate:a", 1, cocked_ghost_fill_time)
 		yield(get_tree().create_timer(cocked_ghost_fill_time),"timeout")
 	# pavza pred strelom	
 	yield(get_tree().create_timer(cocked_pause_time), "timeout")
@@ -506,6 +477,7 @@ func push():
 	# prostor za zalet?
 	if Global.detect_collision_in_direction(vision_ray, backup_direction):
 		return
+	
 	current_state = States.SKILLING
 	
 	# spawn ghosta pod pixlom
@@ -513,36 +485,37 @@ func push():
 	var new_push_ghost = spawn_ghost(new_push_ghost_position)
 	
 	if ray_collider.is_in_group(Global.group_strays):
-		# prostor pred kolajderjem?
+		# ni prostora
 		if Global.detect_collision_in_direction(ray_collider.vision_ray, push_direction):
 			Global.sound_manager.play_sfx("push")
 			var empty_push_tween = get_tree().create_tween()
 			empty_push_tween.tween_property(self, "position", global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
+			empty_push_tween.parallel().tween_property(skill_light, "position", skill_light.position - backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 			empty_push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost.global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 			empty_push_tween.tween_property(self, "position", global_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
-			empty_push_tween.parallel().tween_callback(self, "light_off")
-			empty_push_tween.tween_callback(self, "end_move")
+			empty_push_tween.parallel().tween_callback(self, "skill_light_off")
+			empty_push_tween.tween_property(skill_light, "position", skill_light.position, 0) # reset pozicije luči # reset pozicije luči
+			empty_push_tween.parallel().tween_callback(self, "end_move")
 			empty_push_tween.parallel().tween_callback(new_push_ghost, "queue_free")
-
-		else:
+		# je prostor
+		else: 
 			Global.sound_manager.play_sfx("push")
 			# napnem
 			var push_tween = get_tree().create_tween()
 			push_tween.tween_property(self, "position", global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
+			push_tween.parallel().tween_property(skill_light, "position", skill_light.position - backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 			push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost.global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 			# spustim
 			push_tween.tween_property(self, "position", global_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
-			push_tween.parallel().tween_callback(self, "light_off")
+			push_tween.parallel().tween_callback(self, "skill_light_off")
 			push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
-			push_tween.tween_callback(Global.sound_manager, "play_sfx", ["pushed"])
+			push_tween.tween_property(skill_light, "position", skill_light.position, 0) # reset pozicije luči
+			push_tween.parallel().tween_callback(Global.sound_manager, "play_sfx", ["pushed"])
 			push_tween.parallel().tween_callback(new_push_ghost, "queue_free")
 			push_tween.tween_property(ray_collider, "position", ray_collider.global_position + push_direction * cell_size_x * push_cell_count, 0.08).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(0.05)
 			push_tween.tween_callback(self, "end_move")
-			push_tween.tween_callback(Global.sound_manager, "play_sfx", ["skill_success"])
+			push_tween.tween_callback(self, "emit_signal", ["stat_changed", self, "skill_used", 0]) # 0 = push, 1 = pull, 2 = teleport ... za prepoznavanje
 			
-		# za hud
-		emit_signal("stat_changed", self, "skill_used", 0) # 0 = push, 1 = pull, 2 = teleport ... zaprepoznavanje
-
 
 func pull():
 	
@@ -561,16 +534,15 @@ func pull():
 	Global.sound_manager.play_sfx("pull")
 	var pull_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 	pull_tween.tween_property(self, "position", global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
+	pull_tween.parallel().tween_property(skill_light, "position", skill_light.position - pull_direction * cell_size_x * push_cell_count, push_time)
 	pull_tween.parallel().tween_property(new_pull_ghost, "position", new_pull_ghost.global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
 	pull_tween.tween_property(target_pixel, "position", target_pixel.global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
+	pull_tween.parallel().tween_callback(self, "skill_light_off")
 	pull_tween.parallel().tween_callback(Global.sound_manager, "play_sfx", ["pulled"])
-	pull_tween.parallel().tween_callback(self, "light_off")
-	pull_tween.tween_callback(self, "end_move")
-	pull_tween.tween_callback(Global.sound_manager, "play_sfx", ["skill_success"])
+	pull_tween.tween_property(skill_light, "position", skill_light.position, 0) # reset pozicije luči
+	pull_tween.parallel().tween_callback(self, "end_move")
 	pull_tween.parallel().tween_callback(new_pull_ghost, "queue_free")
-	
-	# za hud
-	emit_signal("stat_changed", self, "skill_used", 1) # 0 = push, 1 = pull, 2 = teleport ... zaprepoznavanje
+	pull_tween.tween_callback(self, "emit_signal", ["stat_changed", self, "skill_used", 1]) # 0 = push, 1 = pull, 2 = teleport ... za prepoznavanje
 	
 
 func teleport():
@@ -586,17 +558,18 @@ func teleport():
 	var new_teleport_ghost = spawn_ghost(global_position)
 	new_teleport_ghost.direction = teleport_direction
 	new_teleport_ghost.max_speed = ghost_max_speed
-	new_teleport_ghost.poly_pixel.modulate.a = poly_pixel.modulate.a * 0.5
 	new_teleport_ghost.floor_cells = floor_cells
 	new_teleport_ghost.cell_size_x = cell_size_x
+	new_teleport_ghost.modulate.a = modulate.a * 0.5
 	new_teleport_ghost.connect("ghost_target_reached", self, "_on_ghost_target_reached")
 	
-	if name == "p1": Global.p1_camera_target = new_teleport_ghost
-	elif name == "p2": Global.p2_camera_target = new_teleport_ghost
+	# kamera target
+	if name == "p1":
+		Global.p1_camera_target = new_teleport_ghost
+	elif name == "p2":
+		Global.p2_camera_target = new_teleport_ghost
 	
 	yield(get_tree().create_timer(0.2), "timeout")
-	light_off()
-	
 	# zaključek v signalu _on_ghost_target_reached
 	
 
@@ -632,9 +605,7 @@ func spawn_cock_ghost(cocking_direction, cocked_ghosts_count):
 	# spawn ghosta pod manom
 	var new_cock_ghost = spawn_ghost(global_position + cocking_direction * cell_size_x * cocked_ghosts_count)
 	new_cock_ghost.global_position -= cocking_direction * cell_size_x/2
-	# alfa ghosta je enaka alfi polipixla
-	new_cock_ghost.modulate.a  = poly_pixel.modulate.a
-	new_cock_ghost.poly_pixel.modulate.a  = cocked_ghost_alpha - (cocked_ghosts_count / cocked_ghost_alpha_divisor)
+	new_cock_ghost.modulate.a  = cocked_ghost_alpha - (cocked_ghosts_count / cocked_ghost_alpha_divisor)
 	new_cock_ghost.direction = cocking_direction
 	
 	# v kateri smeri je scale
@@ -661,6 +632,7 @@ func spawn_trail_ghost():
 	var trail_alpha: float = 0.2
 	var trail_ghost_fade_time: float = 0.4
 	var new_trail_ghost = spawn_ghost(global_position)
+	new_trail_ghost.modulate = pixel_color
 	new_trail_ghost.modulate.a = trail_alpha
 	
 	# fadeout
@@ -675,7 +647,6 @@ func spawn_ghost(current_pixel_position):
 	new_pixel_ghost.global_position = current_pixel_position
 	new_pixel_ghost.modulate = pixel_color
 	Global.node_creation_parent.add_child(new_pixel_ghost)
-	new_pixel_ghost.poly_pixel.modulate.a = poly_pixel.modulate.a
 
 	return new_pixel_ghost
 
@@ -683,47 +654,85 @@ func spawn_ghost(current_pixel_position):
 # UTIL ------------------------------------------------------------------------------------------
 
 
-func light_off():
+func glow_light_on():
+#	return
+	var glow_light_energy: float
 
+	if pixel_color == Global.game_manager.game_settings["player_start_color"]:
+		# glow_light.color = Global.color_white
+		glow_light_energy = 1.2
+	else:
+		# glow_light.color = pixel_color
+		glow_light_energy = 0.64
+
+	var light_fade_in = get_tree().create_tween()
+	light_fade_in.tween_callback(glow_light, "set_enabled", [true])
+	light_fade_in.tween_property(glow_light, "energy", glow_light_energy, 0.2).set_ease(Tween.EASE_IN)
+
+
+func glow_light_off():
+	
 	var light_fade_out = get_tree().create_tween()
-	light_fade_out.tween_property(light_2d, "energy", 0, 0.5).set_ease(Tween.EASE_IN)
-	light_fade_out.tween_callback(light_2d, "set_enabled", [false])
+	light_fade_out.tween_property(glow_light, "energy", 0, 0.5).set_ease(Tween.EASE_IN)
+	light_fade_out.tween_callback(glow_light, "set_enabled", [false])
 
+
+func skill_light_on():
 	
-func light_on():
-	
-	var light_energy: float
+	skill_light.rotation = vision_ray.cast_to.angle()
+	var skilled_light_energy: float
 	
 	if pixel_color == Global.game_manager.game_settings["player_start_color"]:
-		light_2d.color = Global.color_white
-		if last_breath_active == true:
-			light_energy = 1
-		else:
-			light_energy = 0.8
+		skilled_light_energy = 1.3
 	else:
-		light_2d.color = pixel_color
-		if last_breath_active == true:
-			light_energy = 0.5
-		else:
-			light_energy = 0.64
-	
+		skilled_light_energy = 0.8
+		
 	var light_fade_in = get_tree().create_tween()
-	light_fade_in.tween_callback(light_2d, "set_enabled", [true])
-	light_fade_in.tween_property(light_2d, "energy", light_energy, 0.2).set_ease(Tween.EASE_IN)
+	light_fade_in.tween_callback(skill_light, "set_enabled", [true])
+	light_fade_in.tween_property(skill_light, "energy", skilled_light_energy, 0.15).set_ease(Tween.EASE_IN)
 	
+	
+func skill_light_off():
+	
+	var light_fade_out = get_tree().create_tween()
+	light_fade_out.tween_property(skill_light, "energy", 0, 0.15).set_ease(Tween.EASE_IN)
+	light_fade_out.tween_callback(skill_light, "set_enabled", [false])
+
 
 func last_breath():
 	
 	if player_energy == 1 and not last_breath_active: # to se zgodi ob prehodu v stanje
 		last_breath_active = true
 		last_breath_loop = 0
-		light_on()
 		animation_player.play("last_breath")		
-	elif player_energy > 1:
-		last_breath_active = false
+	elif player_energy > 1 and last_breath_active:
 		animation_player.stop()
-	
+		last_breath_active = false
 
+
+func on_get_hit(added_shake_power, added_shake_time):
+	
+	# efekti
+	Input.start_joy_vibration(0, 0.5, 0.6, 0.7)
+	player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)	
+	spawn_dizzy_particles()
+
+	# uničim morebitno napenjanje
+	if burst_speed_max > 0: 
+		burst_speed_max = 0
+		for ghost in cocked_ghosts:
+			var fade_out = get_tree().create_tween()
+			fade_out.tween_property(ghost.poly_pixel, "modulate:a", 0, 0.2)
+			fade_out.tween_callback(ghost, "queue_free")
+		cocked_ghosts = []
+				
+	# stats				
+	Global.game_manager.game_settings["player_start_color"] = Color("#545454") # temp
+	pixel_color = Global.game_manager.game_settings["player_start_color"] # postane začetne barve
+	emit_signal("stat_changed", self, "hit_by_player", 1)
+	die()
+	
+	
 func on_hit_stray(hit_stray: KinematicBody2D):
 		
 		if Global.game_manager.game_settings["pick_neighbor_mode"]:
@@ -793,7 +802,6 @@ func die():
 
 func revive():
 	
-#	modulate.a = 0
 	var dead_time: float = 2
 	yield(get_tree().create_timer(dead_time), "timeout")
 	animation_player.play("revive")
@@ -811,24 +819,26 @@ func play_blinking_sound():
 func _on_ghost_target_reached(ghost_body, ghost_position):
 	
 	var player_camera_target: String
-	if name == "p1": player_camera_target = "p1_camera_target"
-	elif name == "p2": player_camera_target = "p2_camera_target"
-			
-	var teleport_tween = get_tree().create_tween()
-	teleport_tween.tween_property(poly_pixel, "modulate:a", 0, ghost_fade_time)
-	teleport_tween.tween_property(self, "global_position", ghost_position, 0)
-	# camera follow reset
-	teleport_tween.parallel().tween_property(Global, player_camera_target, self, 0)
-	teleport_tween.tween_callback(self, "end_move")
-	teleport_tween.tween_property(poly_pixel, "modulate:a", 1, ghost_fade_time)
-	teleport_tween.tween_callback(ghost_body, "fade_out")
+	if name == "p1":
+		player_camera_target = "p1_camera_target"
+	elif name == "p2":
+		player_camera_target = "p2_camera_target"
 	
 	Global.sound_manager.stop_sfx("teleport")
-			
-	# za hud
-	emit_signal("stat_changed", self, "skill_used", 2) # 0 = push, 1 = pull, 2 = teleport ... za prepoznavanje
-	
 	Input.stop_joy_vibration(0)
+			
+	var ghost_fade_time: float = 0.5
+	
+	var teleport_tween = get_tree().create_tween()
+	teleport_tween.tween_property(self, "modulate:a", 0, ghost_fade_time * 2/3).set_ease(Tween.EASE_IN)
+	teleport_tween.parallel().tween_callback(self, "skill_light_off")
+	teleport_tween.parallel().tween_property(ghost_body, "modulate:a", 1, ghost_fade_time).set_ease(Tween.EASE_IN)
+	teleport_tween.tween_property(self, "global_position", ghost_position, 0)
+	teleport_tween.parallel().tween_callback(self, "end_move")
+	teleport_tween.parallel().tween_property(self, "modulate:a", 1, 0)#.set_ease(Tween.EASE_IN)
+	teleport_tween.parallel().tween_callback(ghost_body, "queue_free")
+	teleport_tween.parallel().tween_property(Global, player_camera_target, self, 0) # camera follow reset
+	teleport_tween.tween_callback(self, "emit_signal", ["stat_changed", self, "skill_used", 2]) # 0 = push, 1 = pull, 2 = teleport ... za prepoznavanje
 
 
 func _on_ghost_detected_body(body):
@@ -843,12 +853,20 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	match anim_name:
 		"last_breath":
 			last_breath_loop += 1
-			if last_breath_loop > last_breath_loop_limit:
-				emit_signal("stat_changed", self, "out_of_breath", 1)
-				die()
-			else:
+#			if player_energy == 1: #last_breath_active:
+			if last_breath_loop <= last_breath_loop_limit:
 				animation_player.play("last_breath")
 				Global.sound_manager.play_sfx("last_breath")
+			else:
+				glow_light.enabled = false
+				emit_signal("stat_changed", self, "out_of_breath", 1)
+				die()
 		"revive":
 			set_physics_process(true)
-		
+		"virgin":
+			if is_virgin and not last_breath_active:
+				animation_player.play("virgin")
+			else:
+				modulate.a = 1
+				modulate = pixel_color
+				

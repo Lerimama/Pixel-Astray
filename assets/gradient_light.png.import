@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/light_texture.png-b0eaee3d05a722bbf076add264cd9ce5.stex"
+path="res://.import/gradient_light.png-ddc9b8b79dbedb061da8208c71aa903f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/light_texture.png"
-dest_files=[ "res://.import/light_texture.png-b0eaee3d05a722bbf076add264cd9ce5.stex" ]
+source_file="res://assets/gradient_light.png"
+dest_files=[ "res://.import/gradient_light.png-ddc9b8b79dbedb061da8208c71aa903f.stex" ]
 
 [params]
 

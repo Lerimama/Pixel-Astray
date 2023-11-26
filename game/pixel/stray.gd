@@ -22,6 +22,7 @@ func _ready() -> void:
 
 	modulate = pixel_color
 	modulate.a = 0
+	
 	randomize() # za random die animacije
 
 
@@ -32,10 +33,6 @@ func fade_in(): # kliče GM
 	var random_animation_name: String = "glitch_%s" % random_animation_index
 	animation_player.play(random_animation_name)
 	
-
-func _physics_process(delta: float) -> void:
-#	neighboring_cells = check_for_neighbors()
-	pass
 	
 func step(step_direction):
 		
@@ -53,15 +50,15 @@ func step(step_direction):
 
 func die(stray_in_row):
 	
-	collision_shape_2d.disabled = true
-	
 	# žrebam animacijo
 	var random_animation_index = randi() % 5 + 1
 	var random_animation_name: String = "die_stray_%s" % random_animation_index
 	animation_player.play(random_animation_name) 
 	# KVEFRI je v animaciji
 	
-	
+	collision_shape_2d.disabled = true
+
+
 func play_blinking_sound():
 	Global.sound_manager.play_sfx("blinking")
 

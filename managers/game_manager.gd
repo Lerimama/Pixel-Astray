@@ -96,7 +96,7 @@ func set_game():
 		set_players()
 		p1.modulate.a = 0	
 	else:
-#		game_settings["player_start_color"] = Global.color_white # more bit pred spawnom
+#		game_settings["player_start_color"] = Global.color_white # temp
 		set_players() # spawn, stats, camera, target
 	
 	yield(get_tree().create_timer(3), "timeout") # da se ekran prikaže
@@ -133,6 +133,7 @@ func start_game():
 		Global.sound_manager.play_music("game")
 		for player in players_in_game:
 			player.set_physics_process(true)
+			player.animation_player.play("virgin")
 	
 	game_on = true
 	
@@ -147,7 +148,6 @@ func game_over(gameover_reason):
 	
 	# ugasnem vse efekte, ki bi bili lahko neskončno slišni
 	Global.sound_manager.stop_sfx("teleport")
-	Global.sound_manager.stop_sfx("skilled")
 	Global.sound_manager.stop_sfx("last_breath")
 	
 	# pavziram plejerja
@@ -455,13 +455,6 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				var energy_to_lose = round(player_stats["player_energy"] / 2)
 				player_stats["player_energy"] -= energy_to_lose
 				stat_owner.revive()
-		"skilled":
-			if game_settings["skilled_energy_drain_mode"] == true:
-				if not energy_drain_active:
-					energy_drain_active = true
-					player_stats["player_energy"] -= 1
-					yield(get_tree().create_timer(game_settings["skilled_energy_drain_speed"]), "timeout")
-					energy_drain_active = false		
 		"out_of_breath":
 			lose_life(player_stats, stat_owner)
 		"cells_traveled": 

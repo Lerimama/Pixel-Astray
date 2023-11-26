@@ -22,7 +22,6 @@ onready var ghost_ray: RayCast2D = $RayCast2D
 
 func _physics_process(delta: float) -> void:
 	
-	
 	global_position += direction * speed
 	speed = lerp(speed, max_speed, 0.015)
 	ghost_ray.cast_to = direction * cell_size_x
@@ -34,13 +33,6 @@ func _physics_process(delta: float) -> void:
 		ghost_ray.get_collider() 
 		emit_signal("ghost_detected_body", ghost_ray.get_collider() )
 
-
-func fade_out(): # kličem iz pixla
-	
-	var fade_out_tween = get_tree().create_tween()
-	fade_out_tween.tween_property(self, "modulate:a", 0, fade_out_time)
-	fade_out_tween.tween_callback(self, "queue_free")
-	
 
 func _on_PixelGhost_body_exited(body: Node) -> void:
 	
