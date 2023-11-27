@@ -75,7 +75,7 @@ var default_game_settings: Dictionary = {
 
 enum Games {TUTORIAL, CLEANER_S, CLEANER_M, CLEANER_L, RUNNER, DUEL, RIDDLER}
 enum PlayerCount {ONE = 1, TWO}
-var start_player_count: int = PlayerCount.TWO
+#var start_player_count: int = PlayerCount.TWO
 
 var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
 
@@ -156,11 +156,8 @@ var game_settings: Dictionary = {}
 
 func _ready() -> void:
 	
-	var current_game = Games.DUEL # če greš iz menija je tole povoženo
+	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
 	set_game_data(current_game)
-	
-	if current_game == Games.DUEL:
-		start_player_count = PlayerCount.TWO
 	
 func set_game_data(selected_game) -> void:
 	

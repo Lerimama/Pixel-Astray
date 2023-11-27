@@ -340,7 +340,7 @@ stream = ExtResource( 2 )
 volume_db = -25.0
 bus = "GameSfx"
 
-[node name="LastBeat" type="AudioStreamPlayer" parent="SoundManager/GameSfx"]
+[node name="Heartbeat" type="AudioStreamPlayer" parent="SoundManager/GameSfx"]
 stream = ExtResource( 58 )
 pitch_scale = 1.1
 bus = "GameSfx"

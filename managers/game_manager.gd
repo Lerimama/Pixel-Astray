@@ -31,6 +31,12 @@ var floor_positions: Array
 var available_floor_positions: Array
 var additional_floor_positions: Array # xtra pozicije za kombo spawn
 
+# profiles
+var p1_stats: Dictionary = Profiles.default_player_stats.duplicate() # tukaj se postavijo prazne vrednosti, ki se nafilajo kasneje
+var p2_stats: Dictionary = Profiles.default_player_stats.duplicate()
+onready var game_settings: Dictionary = Profiles.game_settings # ga med igro ne spreminjaš
+onready var game_data: Dictionary = Profiles.current_game_data # .duplicate() # duplikat default profila, ker ga me igro spreminjaš
+
 onready var spectrum_rect: TextureRect = $Spectrum
 onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
 onready var default_tilemap: TileMap = $"../Tilemap"
@@ -38,11 +44,6 @@ onready var FloatingTag = preload("res://game/hud/floating_tag.tscn")
 onready var StrayPixel = preload("res://game/pixel/stray.tscn")
 onready var PlayerPixel = preload("res://game/pixel/player.tscn")
 
-# profiles
-var p1_stats: Dictionary = Profiles.default_player_stats.duplicate() # tukaj se postavijo prazne vrednosti, ki se nafilajo kasneje
-var p2_stats: Dictionary = Profiles.default_player_stats.duplicate()
-onready var game_settings: Dictionary = Profiles.game_settings # ga med igro ne spreminjaš
-onready var game_data: Dictionary = Profiles.current_game_data # .duplicate() # duplikat default profila, ker ga me igro spreminjaš
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -88,12 +89,14 @@ func set_game():
 	
 	# players
 	if game_data["game"] == Profiles.Games.TUTORIAL:
-		game_settings["player_start_color"] = Global.color_white # more bit pred spawnom
+#		game_settings["player_start_color"] = Global.color_white # more bit pred spawnom
 		set_players()
 		p1.modulate.a = 0	
 	else:
-#		game_settings["player_start_color"] = Global.color_white # temp
+#		game_settings["player_start_color"] = Global.color_white # more bit pred spawnom
 		set_players() # spawn, stats, camera, target
+#		for player in players_in_game:
+#			player.modulate.a = 0	
 	
 	yield(get_tree().create_timer(3), "timeout") # da se ekran prikaže
 	
@@ -129,7 +132,7 @@ func start_game():
 		Global.sound_manager.play_music("game")
 		for player in players_in_game:
 			player.set_physics_process(true)
-			player.animation_player.play("virgin")
+#			player.animation_player.play("virgin_blink")
 	
 	game_on = true
 	
@@ -144,7 +147,7 @@ func game_over(gameover_reason):
 	
 	# ugasnem vse efekte, ki bi bili lahko neskončno slišni
 	Global.sound_manager.stop_sfx("teleport")
-	Global.sound_manager.stop_sfx("last_breath")
+	Global.sound_manager.stop_sfx("heartbeat")
 	
 	# pavziram plejerja
 	for player in players_in_game:
@@ -456,7 +459,7 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				var energy_to_lose = round(player_stats["player_energy"] / 2)
 				player_stats["player_energy"] -= energy_to_lose
 				stat_owner.revive()
-		"out_of_breath":
+		"out_of_energy":
 			lose_life(player_stats, stat_owner)
 		"cells_traveled": 
 			player_stats["cells_traveled"] += stat_change

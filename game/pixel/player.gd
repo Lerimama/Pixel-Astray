@@ -58,15 +58,15 @@ var die_shake_time: float = 0.7
 var die_shake_decay: float = 0.1
 
 # player settings
+
 var max_player_energy: float = Global.game_manager.game_settings["player_max_energy"]
 var step_time_slow: float = Global.game_manager.game_settings["step_time_slow"]
 var step_time_fast: float = Global.game_manager.game_settings["step_time_fast"]
 var slowdown_rate: int = Global.game_manager.game_settings["slowdown_rate"] # višja je, počasneje se manjša
 
-# dihanje
-var last_breath_active: bool = false 
-var last_breath_loop: int = 0
-var last_breath_loop_limit: int = 5
+# heartbeat
+var heartbeat_active: bool = false 
+var heartbeat_loop: int = 0
 
 # controls
 var key_left: String
@@ -87,6 +87,8 @@ onready var glow_light: Light2D = $GlowLight
 onready var skill_light: Light2D = $SkillLight
 
 var is_virgin: bool
+var has_no_energy: bool
+
 
 func _ready() -> void:
 	
@@ -108,24 +110,50 @@ func _ready() -> void:
 		key_burst = "burst"
 	
 	modulate = pixel_color # pixel_color je določen ob spawnu z GM
-	current_state = States.IDLE
 	skill_light.enabled = false
 	glow_light.enabled = false
 	
+	current_state = States.IDLE
+	
+	virgo = spawn_virgin_sign(global_position)
+
+
+onready var virgin_sign: PackedScene = preload("res://game/pixel/virgin_sign.tscn")
+var virgo
+
+func spawn_virgin_sign(current_pixel_position):
+	var new_virgin_sign = virgin_sign.instance()
+	new_virgin_sign.global_position = current_pixel_position
+	Global.node_creation_parent.add_child(new_virgin_sign)
+
+	return new_virgin_sign	
 	
 func _physics_process(delta: float) -> void:
-#	current_player_energy_part = player_energy / max_player_energy # delež celotne energije
 			
-	if Global.detect_collision_in_direction(vision_ray, direction): # more bit neodvisno od stateta, da pull dela
-		skill_inputs()
+	if Global.detect_collision_in_direction(vision_ray, direction): 
+		skill_inputs() # neodvisno od stateta, da pull dela ... ker med vlečenjem odstrani od straysa
 	
+	state_machine()
+	
+	
+#	virgo.global_position = global_position
 	if pixel_color == Global.game_manager.game_settings["player_start_color"]:
 		is_virgin = true
 	else:
 		is_virgin = false
 	
-	last_breath()
-	state_machine()
+	# heartbeat
+	if player_energy <= 1:
+		has_no_energy = true
+	else:
+		has_no_energy = false
+	if not heartbeat_active and has_no_energy:
+		heartbeat_active = true
+		heartbeat_loop = 0
+		animation_player.play("heartbeat")		
+	elif heartbeat_active and not has_no_energy:
+		heartbeat_active = false
+		animation_player.stop()
 	
  
 func state_machine():
@@ -133,8 +161,7 @@ func state_machine():
 	match current_state:
 		States.IDLE:
 			# skilled
-			if Global.detect_collision_in_direction(vision_ray, direction) and player_energy > 1: # koda je tukaj, da ne blinkne ob kontaktu s sosedo
-				animation_player.stop() # stop dihanje
+			if Global.detect_collision_in_direction(vision_ray, direction) and not has_no_energy: # koda je tukaj, da ne blinkne ob kontaktu s sosedo
 				skill_light_on()
 			else: # not skilled
 				skill_light_off()
@@ -150,10 +177,8 @@ func state_machine():
 		States.STEPPING:
 			pass
 		States.SKILLING:
-			animation_player.stop() # stop dihanje
 			pass
 		States.COCKING: 
-			animation_player.stop() # stop dihanje
 			cocking_inputs()
 		States.RELEASING:
 			pass
@@ -181,7 +206,12 @@ func on_collision():
 		player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
 		spawn_dizzy_particles()
 		# posledice
-		emit_signal("stat_changed", self, "hit_wall", 1)
+		if heartbeat_active: # enako, kot,da bi bil zadnji bit ... kar umre, da se ne animacija ne meša z revive
+			heartbeat_active = false
+			glow_light.enabled = false
+			emit_signal("stat_changed", self, "out_of_energy", 1)
+		else:
+			emit_signal("stat_changed", self, "hit_wall", 1)
 		die()
 		# zaključek
 		end_move()
@@ -208,7 +238,8 @@ func on_collision():
 			Global.sound_manager.play_sfx("hit_stray")	
 			player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
 			# posledice
-			if hit_player.pixel_color != Global.game_manager.game_settings["player_start_color"]: 
+			if not hit_player.is_virgin: 
+#			if hit_player.pixel_color != Global.game_manager.game_settings["player_start_color"]: 
 				pixel_color = hit_player.pixel_color # prevzamem barvo
 				emit_signal("stat_changed", self, "hit_player", 1) # vzamem mu pobrane barve
 			hit_player.on_get_hit(added_shake_power, added_shake_time)
@@ -225,7 +256,7 @@ func on_collision():
 			hit_player.end_move() # plejer, ki prvi zazna kontakt ukaže naprej, da je zaporedje pod kontrolo 
 		
 		# korekcija, če končata na isti poziciji ali preveč narazen
-		global_position = hit_player.global_position + (cell_size_x * (- player_direction)) # zadeti plejer je vedno na polju ob zmagovalcu, v smeri zmagovalca
+		global_position = hit_player.global_position + (cell_size_x * (- player_direction)) # plejer eno polje ob zadetem
 				
 
 # INPUTS ------------------------------------------------------------------------------------------
@@ -233,16 +264,16 @@ func on_collision():
 
 func idle_inputs():
 	
-	if Input.is_action_pressed(key_up) and player_energy > 1: # ne koraka z 1 energijo
+	if Input.is_action_pressed(key_up) and not has_no_energy: # ne koraka z 1 energijo
 		direction = Vector2.UP
 		step()
-	elif Input.is_action_pressed(key_down) and player_energy > 1:
+	elif Input.is_action_pressed(key_down) and not has_no_energy:
 		direction = Vector2.DOWN
 		step()
-	elif Input.is_action_pressed(key_left) and player_energy > 1:
+	elif Input.is_action_pressed(key_left) and not has_no_energy:
 		direction = Vector2.LEFT
 		step()
-	elif Input.is_action_pressed(key_right) and player_energy > 1:
+	elif Input.is_action_pressed(key_right) and not has_no_energy:
 		direction = Vector2.RIGHT
 		step()
 	
@@ -362,15 +393,14 @@ func end_move():
 	
 	if glow_light.enabled:
 		glow_light_off()
-	modulate = pixel_color
 	
-	last_breath_active = false # če je burst v steno, se lahko ponovno začne
 	direction = Vector2.ZERO # reset ray dir
-	
+	modulate = pixel_color
 	global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions) 
-	
 	current_state = States.IDLE
-
+	
+	Global.sound_manager.stop_sfx("teleport") # zazih ... export for windows 
+	
 
 # BURST ------------------------------------------------------------------------------------------
 
@@ -559,6 +589,11 @@ func teleport():
 	new_teleport_ghost.max_speed = ghost_max_speed
 	new_teleport_ghost.floor_cells = floor_cells
 	new_teleport_ghost.cell_size_x = cell_size_x
+#	if is_virgin:
+#		new_teleport_ghost.modulate = Global.color_white
+#		new_teleport_ghost.modulate.a = 0.1
+#	else:
+#		new_teleport_ghost.modulate.a = modulate.a * 0.5
 	new_teleport_ghost.modulate.a = modulate.a * 0.5
 	new_teleport_ghost.connect("ghost_target_reached", self, "_on_ghost_target_reached")
 	
@@ -567,6 +602,8 @@ func teleport():
 		Global.p1_camera_target = new_teleport_ghost
 	elif name == "p2":
 		Global.p2_camera_target = new_teleport_ghost
+	
+	skill_light_off()
 	
 	yield(get_tree().create_timer(0.2), "timeout")
 	# zaključek v signalu _on_ghost_target_reached
@@ -579,7 +616,7 @@ func spawn_dizzy_particles():
 	
 	var new_dizzy_pixels = PixelDizzyParticles.instance()
 	new_dizzy_pixels.global_position = global_position
-	if pixel_color == Global.game_manager.game_settings["player_start_color"]:
+	if is_virgin:
 		new_dizzy_pixels.modulate = Global.color_white
 	else:
 		new_dizzy_pixels.modulate = pixel_color
@@ -648,7 +685,7 @@ func spawn_ghost(current_pixel_position):
 	Global.node_creation_parent.add_child(new_pixel_ghost)
 
 	return new_pixel_ghost
-
+	
 
 # UTIL ------------------------------------------------------------------------------------------
 
@@ -657,7 +694,8 @@ func glow_light_on():
 #	return
 	var glow_light_energy: float
 
-	if pixel_color == Global.game_manager.game_settings["player_start_color"]:
+	if is_virgin:
+#	if pixel_color == Global.game_manager.game_settings["player_start_color"]:
 		# glow_light.color = Global.color_white
 		glow_light_energy = 1.2
 	else:
@@ -681,8 +719,12 @@ func skill_light_on():
 	skill_light.rotation = vision_ray.cast_to.angle()
 	var skilled_light_energy: float
 	
-	if pixel_color == Global.game_manager.game_settings["player_start_color"]:
-		skilled_light_energy = 1.3
+	if is_virgin:
+		if Global.game_manager.game_settings["player_start_color"] == Global.color_white:
+			skilled_light_energy = 0.7
+		else:
+#			skilled_light_energy = 1.3
+			skilled_light_energy = 1.1
 	else:
 		skilled_light_energy = 0.9
 		
@@ -698,17 +740,6 @@ func skill_light_off():
 	light_fade_out.tween_callback(skill_light, "set_enabled", [false])
 
 
-func last_breath():
-	
-	if player_energy == 1 and not last_breath_active: # to se zgodi ob prehodu v stanje
-		last_breath_active = true
-		last_breath_loop = 0
-		animation_player.play("last_breath")		
-	elif player_energy > 1 and last_breath_active:
-		animation_player.stop()
-		last_breath_active = false
-
-
 func on_get_hit(added_shake_power, added_shake_time):
 	
 	# efekti
@@ -721,12 +752,12 @@ func on_get_hit(added_shake_power, added_shake_time):
 		burst_speed_max = 0
 		for ghost in cocked_ghosts:
 			var fade_out = get_tree().create_tween()
-			fade_out.tween_property(ghost.poly_pixel, "modulate:a", 0, 0.2)
+			fade_out.tween_property(ghost, "modulate:a", 0, 0.2)
 			fade_out.tween_callback(ghost, "queue_free")
 		cocked_ghosts = []
 				
 	# stats				
-	Global.game_manager.game_settings["player_start_color"] = Color("#545454") # temp
+#	Global.game_manager.game_settings["player_start_color"] = Color("#545454") # temp
 	pixel_color = Global.game_manager.game_settings["player_start_color"] # postane začetne barve
 	emit_signal("stat_changed", self, "hit_by_player", 1)
 	die()
@@ -794,7 +825,6 @@ func multikill(hit_stray):
 func die():
 
 	player_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
-	# modulate = pixel_color
 	set_physics_process(false)
 	animation_player.play("die_player")
 
@@ -830,7 +860,6 @@ func _on_ghost_target_reached(ghost_body, ghost_position):
 	
 	var teleport_tween = get_tree().create_tween()
 	teleport_tween.tween_property(self, "modulate:a", 0, ghost_fade_time * 2/3).set_ease(Tween.EASE_IN)
-	teleport_tween.parallel().tween_callback(self, "skill_light_off")
 	teleport_tween.parallel().tween_property(ghost_body, "modulate:a", 1, ghost_fade_time).set_ease(Tween.EASE_IN)
 	teleport_tween.tween_property(self, "global_position", ghost_position, 0)
 	teleport_tween.parallel().tween_callback(self, "end_move")
@@ -850,21 +879,20 @@ func _on_ghost_detected_body(body):
 func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	
 	match anim_name:
-		"last_breath":
-			last_breath_loop += 1
-#			if player_energy == 1: #last_breath_active:
-			if last_breath_loop <= last_breath_loop_limit:
-				animation_player.play("last_breath")
-				Global.sound_manager.play_sfx("last_breath")
-			else:
+		"heartbeat":
+			heartbeat_loop += 1
+			if heartbeat_loop <= 5 and heartbeat_active:
+				animation_player.play("heartbeat")
+				Global.sound_manager.play_sfx("heartbeat")
+			elif heartbeat_active:
 				glow_light.enabled = false
-				emit_signal("stat_changed", self, "out_of_breath", 1)
+				emit_signal("stat_changed", self, "out_of_energy", 1)
 				die()
 		"revive":
 			set_physics_process(true)
-		"virgin":
-			if is_virgin and not last_breath_active:
-				animation_player.play("virgin")
+		"virgin_blink":
+			if is_virgin and not heartbeat_active:
+				animation_player.play("virgin_blink")
 			else:
 				modulate.a = 1
 				modulate = pixel_color

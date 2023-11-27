@@ -44,8 +44,8 @@ func play_sfx(effect_for: String):
 		"blinking":
 			select_random_sfx($GameSfx/Blinking).play() # nekateri so na mute, ker so drugače prepogosti soundi
 			select_random_sfx($GameSfx/BlinkingStatic).play()
-		"last_breath":
-			$GameSfx/LastBeat.play()
+		"heartbeat":
+			$GameSfx/Heartbeat.play()
 		# bursting
 		"hit_stray":
 			$GameSfx/Burst/HitStray.play()
@@ -127,8 +127,8 @@ func stop_sfx(sfx_to_stop: String):
 				$GameSfx/Skills/TeleportLoop.stop()
 		"burst_cocking":
 			$GameSfx/Burst/BurstCocking.stop()
-		"last_breath":
-			$GameSfx/LastBeat.stop()
+		"heartbeat":
+			$GameSfx/Heartbeat.stop()
 		"lose_jingle": 
 			$GameSfx/Events/Loose.stop()
 		"win_jingle":

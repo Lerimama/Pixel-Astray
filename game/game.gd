@@ -31,7 +31,7 @@ func _ready() -> void:
 		minimap.visible = false
 	
 	# multiplejer setup
-	if Profiles.start_player_count == 2:
+	if Global.game_manager.game_settings["start_players_count"] == 2:
 		viewport_2.world_2d = viewport_1.world_2d
 		viewport_container_2.visible = true
 	else:

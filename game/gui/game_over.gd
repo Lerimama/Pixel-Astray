@@ -65,7 +65,7 @@ func show_gameover(gameover_reason):
 		
 	else: # katerakoli igra
 		set_game_title(gameover_reason)
-		yield(get_tree().create_timer(2), "timeout") # showoff time
+		yield(get_tree().create_timer(3), "timeout") # showoff time
 		Global.hud.fade_out()
 		Global.sound_manager.stop_music("game_on_game-over")
 		show_gameover_title()
@@ -87,7 +87,7 @@ func show_gameover_title():
 
 func show_menu():
 	
-	if Profiles.start_player_count == 2 or Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
+	if Global.game_manager.game_settings["start_players_count"] == 2 or Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
 		selected_menu.visible = false
 		selected_menu.modulate.a = 0
 		var fade_in = get_tree().create_tween()
