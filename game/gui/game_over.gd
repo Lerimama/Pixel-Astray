@@ -48,7 +48,7 @@ func _ready() -> void:
 	
 func show_gameover(gameover_reason):
 
-	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
+	if Global.game_manager.game_settings["start_players_count"] == 2:
 		set_duel_title()
 		show_gameover_title()
 		Global.sound_manager.stop_music("game_on_game-over")
@@ -87,7 +87,7 @@ func show_gameover_title():
 
 func show_menu():
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL or Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
+	if Profiles.start_player_count == 2 or Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
 		selected_menu.visible = false
 		selected_menu.modulate.a = 0
 		var fade_in = get_tree().create_tween()
@@ -283,7 +283,7 @@ func _on_RestartBtn_pressed() -> void:
 	Global.main_node.reload_game()
 	
 	# disable btn, da ni multiklik
-	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
+	if Global.game_manager.game_settings["start_players_count"] == 2:
 		$FinalTitle/Duel/Menu/RestartBtn.disabled = true
 	elif Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
 		$FinalTitle/Tutorial/Menu/RestartBtn.disabled = true
@@ -298,9 +298,9 @@ func _on_QuitBtn_pressed() -> void:
 	Global.main_node.game_out()
 	
 	# disable btn, da ni multiklik
-	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
+	if Global.game_manager.game_settings["start_players_count"] == 2:
 		$FinalTitle/Duel/Menu/QuitBtn.disabled = true
-	if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
+	elif Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
 		$FinalTitle/Tutorial/Menu/QuitBtn.disabled = true
 	else:
 		$GameSummary/Menu/QuitBtn.disabled = true 

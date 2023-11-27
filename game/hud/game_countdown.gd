@@ -17,6 +17,10 @@ func start_countdown():
 	visible = true
 	animation_player.play("countdown_3")
 	
+	# temp preskok
+	yield(get_tree().create_timer(0.1), "timeout")
+	animation_player.stop()
+	emit_signal("countdown_finished")
 	
 func play_countdown_a_sound():
 	Global.sound_manager.play_sfx("countdown_a")

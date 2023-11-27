@@ -11,6 +11,7 @@ var collision: KinematicCollision2D
 var step_time: float # uporabi se pri step tweenu in je nekonstanten, če je "energy_speed_mode"
 var skill_sfx_playing: bool = false #  lahko kličem is procesne funkcije
 var pixel_color: Color
+var player_energy: float # player jo pozna samo zaradi spreminjanja obnašanja
 var player_camera: Node
 var player_camera_target: Node
 
@@ -56,10 +57,8 @@ var die_shake_power: float = 0.2
 var die_shake_time: float = 0.7
 var die_shake_decay: float = 0.1
 
-# energija in hitrost
-var current_player_energy_part: float # za uravnavanje step zvoka
-var player_energy: float # player jo pozna samo zaradi spreminjanja obnašanja
-var max_player_energy: float = Global.game_manager.game_settings["player_start_energy"]
+# player settings
+var max_player_energy: float = Global.game_manager.game_settings["player_max_energy"]
 var step_time_slow: float = Global.game_manager.game_settings["step_time_slow"]
 var step_time_fast: float = Global.game_manager.game_settings["step_time_fast"]
 var slowdown_rate: int = Global.game_manager.game_settings["slowdown_rate"] # višja je, počasneje se manjša
@@ -95,7 +94,7 @@ func _ready() -> void:
 	add_to_group(Global.group_players)
 
 	# controls setup
-	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
+	if Global.game_manager.game_settings["start_players_count"] == 2:
 		key_left = "%s_left" % name
 		key_right = "%s_right" % name
 		key_up = "%s_up" % name
@@ -115,7 +114,7 @@ func _ready() -> void:
 	
 	
 func _physics_process(delta: float) -> void:
-	current_player_energy_part = player_energy / max_player_energy # delež celotne energije
+#	current_player_energy_part = player_energy / max_player_energy # delež celotne energije
 			
 	if Global.detect_collision_in_direction(vision_ray, direction): # more bit neodvisno od stateta, da pull dela
 		skill_inputs()
@@ -336,7 +335,7 @@ func skill_inputs():
 
 
 func step():
-
+	
 	var step_direction = direction
 	
 	# če kolajda izbrani smeri gibanja prenesem kontrole na skill
@@ -347,7 +346,7 @@ func step():
 		var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 		step_tween.tween_property(self, "position", global_position + direction * cell_size_x, step_time)
 		step_tween.tween_callback(self, "end_move")
-		Global.sound_manager.play_stepping_sfx(current_player_energy_part)
+		Global.sound_manager.play_stepping_sfx(player_energy / max_player_energy) # ulomek je za pitch zvoka
 
 		# pošljem signal, da odštejem točko
 		emit_signal("stat_changed", self, "cells_traveled", 1)
@@ -685,7 +684,7 @@ func skill_light_on():
 	if pixel_color == Global.game_manager.game_settings["player_start_color"]:
 		skilled_light_energy = 1.3
 	else:
-		skilled_light_energy = 0.8
+		skilled_light_energy = 0.9
 		
 	var light_fade_in = get_tree().create_tween()
 	light_fade_in.tween_callback(skill_light, "set_enabled", [true])

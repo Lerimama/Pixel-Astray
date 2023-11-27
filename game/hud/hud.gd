@@ -18,7 +18,7 @@ onready var popups: Control = $Popups # skoz vidno, skrije se na gameover
 onready var highscore_broken_popup: Control = $Popups/HSBroken
 onready var energy_warning_popup: Control = $Popups/EnergyWarning
 onready var steps_remaining_label: Label = $Popups/EnergyWarning/StepsRemaining
-onready var duel_screens_popup: Control = $Popups/DuelScreens
+onready var splitscreen_popup: Control = $Popups/SplitScreens
 # header
 onready var header: Control = $Header # kontrole iz kamere
 onready var game_timer: HBoxContainer = $Header/GameTimer
@@ -71,7 +71,7 @@ func _ready() -> void:
 	header.rect_position.y = header_off_position
 	footer.rect_position.y = footer_off_position	
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
+	if Global.game_manager.game_settings["start_players_count"] == 2:
 		set_two_players_hud()
 	else:
 		set_one_player_hud()
@@ -87,16 +87,16 @@ func set_two_players_hud():
 	p1_label.visible = true
 	p1_color_holder.visible = true
 	p2_statsline.visible = true
-	duel_screens_popup.visible = true
-	duel_screens_popup.modulate.a = 0
+	splitscreen_popup.visible = true
+	splitscreen_popup.modulate.a = 0
 	
 	# samo 1 lajf
-	if Global.game_manager.game_settings["player_start_life"] == 1:
-		p1_life_counter.visible = false
-		p2_life_counter.visible = false
-	else:
+	if Global.game_manager.game_settings["start_players_count"] == 2:
 		p1_life_counter.visible = true
 		p2_life_counter.visible = true		
+	else:
+		p1_life_counter.visible = false
+		p2_life_counter.visible = false
 
 
 func set_one_player_hud():
@@ -120,7 +120,7 @@ func _process(delta: float) -> void:
 	
 	update_stats()
 	
-	if Global.game_manager.game_data["game"] != Profiles.Games.DUEL: # samo za 1 player game
+	if Global.game_manager.game_settings["start_players_count"] == 1:
 		manage_game_popups()
 	
 		
@@ -131,9 +131,9 @@ func manage_game_popups():
 		check_for_hs()
 	
 	# energy warning
-	if Global.game_manager.p1_stats["player_energy"] > Global.game_manager.game_settings["tired_energy_level"]:
+	if Global.game_manager.p1_stats["player_energy"] > Global.game_manager.game_settings["player_tired_energy"]:
 		energy_warning_popup.visible = false	
-	elif Global.game_manager.p1_stats["player_energy"] <= Global.game_manager.game_settings["tired_energy_level"] and Global.game_manager.p1_stats["player_energy"] > 2:
+	elif Global.game_manager.p1_stats["player_energy"] <= Global.game_manager.game_settings["player_tired_energy"] and Global.game_manager.p1_stats["player_energy"] > 2:
 		energy_warning_popup.visible = true
 		var energy_warning_string: String = "Low energy! Only %s steps remaining." % str(Global.game_manager.p1_stats["player_energy"] - 1)
 		steps_remaining_label.text = energy_warning_string
@@ -171,7 +171,7 @@ func update_stats():
 	p1_skill_counter.text = "%d" % Global.game_manager.p1_stats["skill_count"]
 	
 	# player 2 stats
-	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
+	if Global.game_manager.game_settings["start_players_count"] == 2:
 		p2_life_counter.life_count = Global.game_manager.p2_stats["player_life"]
 		p2_energy_counter.energy = Global.game_manager.p2_stats["player_energy"]
 		p2_color_counter.text = "%d" % Global.game_manager.p2_stats["colors_collected"]
@@ -190,11 +190,10 @@ func update_stats():
 func fade_in(): # kliče GM na set_game()
 	
 	var fade_in_time: int = 2
-	var duel_screen_time: int = 2
 	
 	# zoom-in kamere
 	var player_cameras: Array = [Global.p1_camera]
-	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
+	if Global.game_manager.game_settings["start_players_count"] == 2:
 		player_cameras.append(Global.p2_camera)
 	
 	for camera in player_cameras:
@@ -210,12 +209,12 @@ func fade_in(): # kliče GM na set_game()
 		var indicator_fade_in = get_tree().create_tween()
 		indicator_fade_in.tween_property(indicator, "modulate:a", unpicked_indicator_alpha, 0.3).set_ease(Tween.EASE_IN)
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
-		var show_duel_screen = get_tree().create_tween()
-		show_duel_screen.tween_property(duel_screens_popup, "modulate:a", 1, 0.5)
-		show_duel_screen.tween_property(duel_screens_popup, "modulate:a", 0, 0.5).set_ease(Tween.EASE_IN).set_delay(2)
-		show_duel_screen.tween_callback(duel_screens_popup, "set_visible", [false])
-		show_duel_screen.parallel().tween_callback(self, "emit_signal", ["hud_is_set"])
+	if Global.game_manager.game_settings["start_players_count"] == 2:
+		var show_splitscreen_popup = get_tree().create_tween()
+		show_splitscreen_popup.tween_property(splitscreen_popup, "modulate:a", 1, 0.5)
+		show_splitscreen_popup.tween_property(splitscreen_popup, "modulate:a", 0, 0.5).set_ease(Tween.EASE_IN).set_delay(2)
+		show_splitscreen_popup.tween_callback(splitscreen_popup, "set_visible", [false])
+		show_splitscreen_popup.parallel().tween_callback(self, "emit_signal", ["hud_is_set"])
 	else:
 		emit_signal("hud_is_set")
 	
@@ -226,12 +225,11 @@ func fade_out(): # kliče GM na game_over()
 	
 	# zoom-out kamere
 	var player_cameras: Array = [Global.p1_camera]
-	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
+	if Global.game_manager.game_settings["start_players_count"] == 2:
 		player_cameras.append(Global.p2_camera)
 	
 	for camera in player_cameras:
 		camera.zoom_out(fade_out_time)
-	
 		
 	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
 	fade_in.tween_property(header, "rect_position:y", 0 - 56, fade_out_time)

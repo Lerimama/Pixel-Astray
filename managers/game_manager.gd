@@ -1,8 +1,7 @@
 extends Node
 
 
-enum GameoverReason {LIFE, TIME, CLEANED, DUEL}
-#var current_gameover_reason
+enum GameoverReason {LIFE, TIME, CLEANED}
 
 var game_on: bool = false
 var colors_to_pick: Array # za hud nejbrhud pravila
@@ -17,10 +16,9 @@ var strays_spawn_loop: int = 0
 # players
 var p1: KinematicBody2D
 var p2: KinematicBody2D
-var players_in_game: Array
 var spawned_player_index: int = 0
-#var player_start_position = null
 var player_start_positions: Array
+var players_in_game: Array
 
 # strays
 var spawned_stray_index: int = 0 
@@ -46,9 +44,6 @@ var p2_stats: Dictionary = Profiles.default_player_stats.duplicate()
 onready var game_settings: Dictionary = Profiles.game_settings # ga med igro ne spreminjaš
 onready var game_data: Dictionary = Profiles.current_game_data # .duplicate() # duplikat default profila, ker ga me igro spreminjaš
 
-#NOVO
-#var active_players: Array
-
 
 func _unhandled_input(event: InputEvent) -> void:
 
@@ -66,6 +61,7 @@ func _ready() -> void:
 	Global.game_manager = self
 	
 	randomize()
+	
 	set_tilemap()
 	call_deferred("set_game") # deferamo, da se naloži tilemap
 	
@@ -117,7 +113,7 @@ func set_game():
 	yield(Global.hud, "hud_is_set")
 		
 	# start countdown
-	if Global.game_manager.game_settings["start_game_countdown"]:
+	if game_settings["start_game_countdown"]:
 		Global.start_countdown.start_countdown()
 		yield(Global.start_countdown, "countdown_finished")	
 	
@@ -382,25 +378,30 @@ func _on_tilemap_completed(floor_cells_global_positions: Array, stray_cells_glob
 	
 	player_start_positions = player_start_global_positions
 	
+	# odstranim pozicija iz tstih na voljo za strayse
 	for player_start_position in player_start_positions:
 		if available_floor_positions.has(player_start_position):
 			available_floor_positions.erase(player_start_position)
 		if additional_floor_positions.has(player_start_position):
 			additional_floor_positions.erase(player_start_position)
 	
+	# določim mono/multiplayer game
+	if game_settings["start_players_count"] != player_start_positions.size():
+		print ("Player positions not in sync:", game_settings["start_players_count"] , player_start_positions.size())
+	
 	
 func _on_stat_changed(stat_owner, changed_stat, stat_change):
 	
 	var player_stats: Dictionary
-	var other_player_stats: Dictionary # za duel
+	var opponent_player_stats: Dictionary # za 2 player game
 	
 	match stat_owner.name:
 		"p1": 
 			player_stats = p1_stats
-			other_player_stats = p2_stats
+			opponent_player_stats = p2_stats
 		"p2": 
 			player_stats = p2_stats
-			other_player_stats = p1_stats
+			opponent_player_stats = p1_stats
 		
 	match changed_stat:
 		"hit_stray": # stat_change je array
@@ -442,9 +443,9 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				stat_owner.revive()
 		"hit_player":
 			player_stats["player_energy"] += game_settings["color_picked_energy"]
-			player_stats["colors_collected"] += other_player_stats["colors_collected"]
-			spawn_floating_tag(stat_owner.global_position, (+ other_player_stats["colors_collected"]))
-			var energy_to_gain = round(other_player_stats["player_energy"] / 2)
+			player_stats["colors_collected"] += opponent_player_stats["colors_collected"]
+			spawn_floating_tag(stat_owner.global_position, (+ opponent_player_stats["colors_collected"]))
+			var energy_to_gain = round(opponent_player_stats["player_energy"] / 2)
 			player_stats["player_energy"] += energy_to_gain
 		"hit_by_player":
 			spawn_floating_tag(stat_owner.global_position, - player_stats["colors_collected"])
@@ -477,7 +478,7 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 			player_stats["burst_count"] += 1 # tukaj se kot valju poda burst power
 			
 	# klempanje
-	player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_settings["player_start_energy"]) # pri 1 se že odšteva zadnji izdihljaj
+	player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_settings["player_max_energy"]) # pri 1 se že odšteva zadnji izdihljaj
 	player_stats["player_points"] = clamp(player_stats["player_points"], 0, player_stats["player_points"])	
 
 		
@@ -489,5 +490,5 @@ func lose_life(loser_player_stats, life_loser):
 		game_over(GameoverReason.LIFE)
 	else: # če mam še lajfov
 		life_loser.revive()
-		if game_settings["reset_energy_on_lose_life"]: # da ne znižam energije, če je višja od "player_start_energy" ... zazih
-			loser_player_stats["player_energy"] = game_settings["player_start_energy"]
+		if game_settings["reset_energy_on_lose_life"]: # da ne znižam energije, če je višja od "player_max_energy" ... zazih
+			loser_player_stats["player_energy"] = game_settings["player_max_energy"]

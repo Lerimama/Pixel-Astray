@@ -3423,22 +3423,24 @@ custom_fonts/font = ExtResource( 14 )
 text = "Collect as many points as you can"
 autowrap = true
 
-[node name="PointerBtn" type="Button" parent="SelectGame"]
-margin_left = 96.0
-margin_top = 320.0
-margin_right = 280.0
-margin_bottom = 386.0
+[node name="RunnerBtn" type="Button" parent="SelectGame"]
+margin_left = 8.0
+margin_top = 280.0
+margin_right = 319.0
+margin_bottom = 346.0
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
+text = "RUNNER"
 __meta__ = {
 "_edit_group_": true,
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectGame/PointerBtn"]
+[node name="Title" type="Label" parent="SelectGame/RunnerBtn"]
+visible = false
 anchor_right = 1.0
 margin_left = 24.0
 margin_top = 14.0
@@ -3446,7 +3448,8 @@ margin_right = -24.0
 margin_bottom = 36.0
 text = "Runner"
 
-[node name="Label" type="Label" parent="SelectGame/PointerBtn"]
+[node name="Label" type="Label" parent="SelectGame/RunnerBtn"]
+visible = false
 anchor_right = 1.0
 margin_left = 24.0
 margin_top = 40.0
@@ -3457,21 +3460,23 @@ text = "Time"
 autowrap = true
 
 [node name="RiddlerBtn" type="Button" parent="SelectGame"]
-margin_left = 328.0
-margin_top = 320.0
-margin_right = 494.0
-margin_bottom = 386.0
+margin_left = 400.0
+margin_top = 280.0
+margin_right = 678.0
+margin_bottom = 346.0
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
+text = "RIDDLER"
 __meta__ = {
 "_edit_group_": true,
 "_editor_description_": ""
 }
 
 [node name="Title" type="Label" parent="SelectGame/RiddlerBtn"]
+visible = false
 anchor_right = 1.0
 margin_left = 24.0
 margin_top = 14.0
@@ -3480,6 +3485,7 @@ margin_bottom = 36.0
 text = "Riddler"
 
 [node name="Label" type="Label" parent="SelectGame/RiddlerBtn"]
+visible = false
 anchor_right = 1.0
 margin_left = 24.0
 margin_top = 40.0
@@ -4251,7 +4257,7 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="SelectGame/CleanerMBtn" to="." method="_on_CleanerMBtn_pressed"]
 [connection signal="pressed" from="SelectGame/CleanerLBtn" to="." method="_on_CleanerLBtn_pressed"]
 [connection signal="pressed" from="SelectGame/DuelBtn" to="." method="_on_DuelBtn_pressed"]
-[connection signal="pressed" from="SelectGame/PointerBtn" to="." method="_on_PointerBtn_pressed"]
+[connection signal="pressed" from="SelectGame/RunnerBtn" to="." method="_on_RunnerBtn_pressed"]
 [connection signal="pressed" from="SelectGame/RiddlerBtn" to="." method="_on_RiddlerBtn_pressed"]
 [connection signal="pressed" from="Settings/SettingsBackBtn" to="." method="_on_SettingsBackBtn_pressed"]
 [connection signal="toggled" from="Settings/MenuMusicCheckBox" to="Settings" method="_on_MenuMusicCheckBox_toggled"]

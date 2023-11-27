@@ -105,7 +105,7 @@ func zoom_in(hud_in_time): # kliče hud
 	viewport_header.visible = true
 	
 	var final_zoom = Vector2.ONE
-	if Global.game_manager.game_data["game"] == Profiles.Games.DUEL:
+	if Profiles.start_player_count == 2:
 		final_zoom *= 1.5
 		
 	var zoom_in_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)

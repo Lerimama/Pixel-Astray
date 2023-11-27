@@ -1,7 +1,8 @@
 extends Node
 
 
-# STATS ---------------------------------------------------------------------------------------------------------
+# DEFAULT -----------------------------------------------------------------------------------
+
 
 var default_player_stats: Dictionary = { # bo verjetno za vsak mode drugačen
 	"player_name" : "Moe", # to ime se piše v HS procesu, če igralec pusti prazno
@@ -14,18 +15,10 @@ var default_player_stats: Dictionary = { # bo verjetno za vsak mode drugačen
 	"cells_traveled" : 0,
 }
 
-var game_data_sprinter: Dictionary = { 
-	"game": Games.SPRINTER,
-	"tilemap_path": "res://game/tilemaps/test_tilemap.tscn",
-	"game_time_limit": 600,
-	"strays_start_count": 500,
-}
-
-
-# SETTINGS ---------------------------------------------------------------------------------------------------------
-
-
-var game_settings: Dictionary = {
+var default_game_settings: Dictionary = {
+	# default settings so tiste, ki so najbolj pogoste ... opisane v tutorialu
+	"start_players_count": 1, # tole se seta v home > play meniju
+	
 	# scoring
 	"all_cleaned_points": 500,
 	"color_picked_points": 10,
@@ -36,43 +29,74 @@ var game_settings: Dictionary = {
 	"cell_traveled_energy": -1,
 	"skill_used_points": 0,
 	"skill_used_energy": 0,
-	# player
+	
+	# player on start
 	"player_start_life": 1, # če je samo en lajf, potem se ikone skrijejo v hudu
-	"player_start_energy": 192, # GM
+	"player_start_energy": 192, # energija ob štartu
 	"player_start_color": Color("#141414"),
+	# player in game
+	"player_max_energy": 192, # max energija
+	"player_tired_energy": 20, # pokaže steps warning popup in hud oabrva rdeče
 	"step_time_fast": 0.09, # default hitrost
 	"step_time_slow": 0.15, # minimalna hitrost
-	"tired_energy_level": 20, # pokaže steps warning popup in hud oabrva rdeče
+	
+	# game
+	
 	"slowdown_mode": true, # hitrost je odvisna od energije
 	"slowdown_rate": 18,
-	# game
-#	"skilled_energy_drain_mode" : false,
-#	"skilled_energy_drain_speed": 0.1, # pavza predvsakim odvzemom točke
+	
 	"gameover_countdown_duration": 5,
+	
 	"suddent_death_mode": false,
 	"sudden_death_limit" : 20,
+	
 	"lose_life_on_hit": false, # uskladi s količino lajfov
 	"reset_energy_on_lose_life": true,
+	
 	"pick_neighbor_mode": false,
+	
 	"minimap_on": false,
 	
-	# opredelim v vsaki igri
 	"timer_mode_countdown" : true,
-	"start_game_countdown": true, # game_countdown
-	"manage_highscores": true
-#	"skill_limit_mode": false,
-#	"skill_limit_count": 5,
-#	"burst_limit_mode": false,
-#	"burst_limit_count": 5,
+	
+	"start_game_countdown": true,
+	
+	"manage_highscores": false,
+	
+	"skill_limit_mode": false,
+	"skill_limit_count": 5,
+	"burst_limit_mode": false,
+	"burst_limit_count": 5,
 }
 
 
 # GAMES ---------------------------------------------------------------------------------------------------------
 
 
-enum Games {TUTORIAL, CLEANER_S, CLEANER_M, CLEANER_L, SPRINTER, DUEL}
+enum Games {TUTORIAL, CLEANER_S, CLEANER_M, CLEANER_L, RUNNER, DUEL, RIDDLER}
+enum PlayerCount {ONE = 1, TWO}
+var start_player_count: int = PlayerCount.TWO
+
 var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
 
+
+var game_data_runner: Dictionary = { 
+	"game": Games.RUNNER,
+	"game_name": "Runner",
+	"level": "01",
+	"tilemap_path": "res://game/tilemaps/runner_tilemap.tscn",
+	"game_time_limit": 0,
+	"strays_start_count": 10,
+}
+
+var game_data_riddler: Dictionary = { 
+	"game": Games.RIDDLER,
+	"game_name": "Riddled",
+	"level": "01",
+	"tilemap_path": "res://game/tilemaps/riddler/riddler_tilemap.tscn",
+	"game_time_limit": 0,
+	"strays_start_count": 10,
+}
 
 var game_data_tutorial: Dictionary = { 
 	"game": Games.TUTORIAL,
@@ -124,64 +148,49 @@ var game_data_duel: Dictionary = {
 }
 
 
-func _ready() -> void:
-	var current_game = Games.CLEANER_L # če greš iz menija je tole poveoženo
-	set_game_data(current_game)
+# ON GAME START -----------------------------------------------------------------------------------
 
+
+var game_settings: Dictionary = {}
+
+
+func _ready() -> void:
+	
+	var current_game = Games.DUEL # če greš iz menija je tole povoženo
+	set_game_data(current_game)
+	
+	if current_game == Games.DUEL:
+		start_player_count = PlayerCount.TWO
+	
 func set_game_data(selected_game) -> void:
 	
-	# kar se spreminja more biti setano na vseh igrah
+	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
+	
 	match selected_game:
+		Games.RUNNER: 
+			current_game_data = game_data_runner
+			game_settings["player_start_life"] = 3
+			game_settings["timer_mode_countdown"] = false
+			game_settings["cell_traveled_energy"] = 0
+		Games.RIDDLER: 
+			current_game_data = game_data_riddler
+			game_settings["cell_traveled_energy"] = 0
 		Games.DUEL: 
 			current_game_data = game_data_duel
+			game_settings["start_players_count"] = 2
 			game_settings["player_start_life"] = 3
-			game_settings["timer_mode_countdown"] = true
 			game_settings["lose_life_on_hit"] = true
-#			game_settings["start_game_countdown"] = true
-			game_settings["manage_highscores"] = false
-			game_settings["start_game_countdown"] = false
 		Games.TUTORIAL:
 			current_game_data = game_data_tutorial
-			game_settings["player_start_life"] = 1
 			game_settings["timer_mode_countdown"] = false
-			game_settings["lose_life_on_hit"] = false
 			game_settings["start_game_countdown"] = false
-			game_settings["manage_highscores"] = false
 		Games.CLEANER_S: 
 			current_game_data = game_data_cleaner_S
-			game_settings["player_start_life"] = 1
-			game_settings["timer_mode_countdown"] = true
-			game_settings["lose_life_on_hit"] = false
-			game_settings["start_game_countdown"] = true
 			game_settings["manage_highscores"] = true
 		Games.CLEANER_M: 
 			current_game_data = game_data_cleaner_M
-			game_settings["player_start_life"] = 1
-			game_settings["timer_mode_countdown"] = true
-			game_settings["lose_life_on_hit"] = false
-			game_settings["start_game_countdown"] = true
 			game_settings["manage_highscores"] = true
 		Games.CLEANER_L: 
 			current_game_data = game_data_cleaner_L
-			game_settings["player_start_life"] = 1
-			game_settings["timer_mode_countdown"] = true
-			game_settings["lose_life_on_hit"] = false
-#			game_settings["start_game_countdown"] = true
 			game_settings["manage_highscores"] = true
-			game_settings["start_game_countdown"] = false
-
 		
-
-
-#var default_game_highscores: Dictionary = { # prazen slovar ... uporabi se ob kreiranju fileta ... uporabi ga Glo
-## če id uporabim kot gole številke, se vseeno prebere kot string
-#	"1": {"Nobody": 9,},
-#	"2": {"Nobody": 8,},
-#	"3": {"Nobody": 7,},
-#	"4": {"Nobody": 6,},
-#	"5": {"Nobody": 5,},
-#	"6": {"Nobody": 4,},
-#	"7": {"Nobody": 3,},
-#	"8": {"Nobody": 2,},
-#	"9": {"Nobody": 1,},
-#}

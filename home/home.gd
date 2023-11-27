@@ -284,9 +284,18 @@ func _on_PointerBtn_pressed() -> void:
 
 
 func _on_RiddlerBtn_pressed() -> void:
-	pass # Replace with function body.
+	Profiles.set_game_data(Profiles.Games.RIDDLER)
+	Global.sound_manager.play_gui_sfx("screen_slide")
+	Global.sound_manager.play_gui_sfx("btn_confirm")
+	animation_player.play("play")
+	
+	$SelectGame/RiddlerBtn.disabled = true
 
 
-
-
-
+func _on_RunnerBtn_pressed() -> void:
+	Profiles.set_game_data(Profiles.Games.RUNNER)
+	Global.sound_manager.play_gui_sfx("screen_slide")
+	Global.sound_manager.play_gui_sfx("btn_confirm")
+	animation_player.play("play")
+	
+	$SelectGame/RunnerBtn.disabled = true
