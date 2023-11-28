@@ -198,7 +198,8 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			current_tutorial_stage = TutorialStage.MISSION
 		"tutorial_start":
 			
-			Global.game_manager.p1.animation_player.play("revive")
+#			Global.game_manager.p1.animation_player.play("revive")
+			Global.game_manager.p1.animation_player.play("virgin_blink")
 			Global.hud.game_timer.start_timer()
 			
 			var show_player = get_tree().create_tween()

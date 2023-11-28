@@ -86,7 +86,7 @@ onready var PixelDizzyParticles: PackedScene = preload("res://game/pixel/pixel_d
 onready var glow_light: Light2D = $GlowLight
 onready var skill_light: Light2D = $SkillLight
 
-var is_virgin: bool
+var is_virgin: bool # vedno, ko začne je devičnik, neha bit po ob prvem "skilled" stanju ali burstu
 var has_no_energy: bool
 
 
@@ -113,20 +113,10 @@ func _ready() -> void:
 	skill_light.enabled = false
 	glow_light.enabled = false
 	
-	current_state = States.IDLE
+	is_virgin = true
 	
-	virgo = spawn_virgin_sign(global_position)
+	current_state = States.IDLE
 
-
-onready var virgin_sign: PackedScene = preload("res://game/pixel/virgin_sign.tscn")
-var virgo
-
-func spawn_virgin_sign(current_pixel_position):
-	var new_virgin_sign = virgin_sign.instance()
-	new_virgin_sign.global_position = current_pixel_position
-	Global.node_creation_parent.add_child(new_virgin_sign)
-
-	return new_virgin_sign	
 	
 func _physics_process(delta: float) -> void:
 			
@@ -134,13 +124,6 @@ func _physics_process(delta: float) -> void:
 		skill_inputs() # neodvisno od stateta, da pull dela ... ker med vlečenjem odstrani od straysa
 	
 	state_machine()
-	
-	
-#	virgo.global_position = global_position
-	if pixel_color == Global.game_manager.game_settings["player_start_color"]:
-		is_virgin = true
-	else:
-		is_virgin = false
 	
 	# heartbeat
 	if player_energy <= 1:
@@ -162,8 +145,11 @@ func state_machine():
 		States.IDLE:
 			# skilled
 			if Global.detect_collision_in_direction(vision_ray, direction) and not has_no_energy: # koda je tukaj, da ne blinkne ob kontaktu s sosedo
+				if is_virgin:
+					lose_virginity()
 				skill_light_on()
-			else: # not skilled
+			# not skilled
+			else:
 				skill_light_off()
 			# toggle energy_speed_mode
 			if Global.game_manager.game_settings["slowdown_mode"]:
@@ -384,6 +370,7 @@ func step():
 
 		
 func end_move():
+	printt("LUM", pixel_color.get_luminance(), Global.color_white.get_luminance())
 	
 	# reset burst
 	burst_speed = 0 # more bit pred change state, če ne uničuje tudi sam sebe
@@ -395,12 +382,18 @@ func end_move():
 		glow_light_off()
 	
 	direction = Vector2.ZERO # reset ray dir
-	modulate = pixel_color
+	if is_virgin:
+		lose_virginity()
+	else:
+		modulate = pixel_color
 	global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions) 
 	current_state = States.IDLE
 	
-	Global.sound_manager.stop_sfx("teleport") # zazih ... export for windows 
+	if Global.sound_manager.teleport_loop.is_playing(): # zazih ... export for windows 
+		Global.sound_manager.stop_sfx("teleport")
 	
+
+		
 
 # BURST ------------------------------------------------------------------------------------------
 
@@ -414,7 +407,10 @@ func cock_burst():
 	if Global.detect_collision_in_direction(vision_ray, cock_direction): 
 		end_move()
 		Global.sound_manager.stop_sfx("burst_cocking")
-		return	# dobra praksa ... zazih
+#		return	# dobra praksa ... zazih
+	
+	if is_virgin:
+		lose_virginity()
 		
 	# prostor nadaljevanje napenjanja preverja ghost
 	if cocked_ghosts.size() < cocked_ghost_count_max and cocking_room:
@@ -589,11 +585,6 @@ func teleport():
 	new_teleport_ghost.max_speed = ghost_max_speed
 	new_teleport_ghost.floor_cells = floor_cells
 	new_teleport_ghost.cell_size_x = cell_size_x
-#	if is_virgin:
-#		new_teleport_ghost.modulate = Global.color_white
-#		new_teleport_ghost.modulate.a = 0.1
-#	else:
-#		new_teleport_ghost.modulate.a = modulate.a * 0.5
 	new_teleport_ghost.modulate.a = modulate.a * 0.5
 	new_teleport_ghost.connect("ghost_target_reached", self, "_on_ghost_target_reached")
 	
@@ -691,16 +682,21 @@ func spawn_ghost(current_pixel_position):
 
 
 func glow_light_on():
-#	return
-	var glow_light_energy: float
+	
+	glow_light.color = pixel_color
 
-	if is_virgin:
-#	if pixel_color == Global.game_manager.game_settings["player_start_color"]:
-		# glow_light.color = Global.color_white
-		glow_light_energy = 1.2
-	else:
-		# glow_light.color = pixel_color
-		glow_light_energy = 0.64
+	var glow_light_base_energy: float = 0.35
+
+	if pixel_color.get_luminance() == 1: # bela
+		glow_light_base_energy = 0.55
+	elif pixel_color.get_luminance() > 0.90:
+		glow_light_base_energy += 0.2
+	elif pixel_color.get_luminance() > 0.75:
+		glow_light_base_energy += 0.15
+	elif pixel_color.get_luminance() > 0.50:
+		glow_light_base_energy += 0.05
+	
+	var glow_light_energy: float = glow_light_base_energy / pixel_color.get_luminance()
 
 	var light_fade_in = get_tree().create_tween()
 	light_fade_in.tween_callback(glow_light, "set_enabled", [true])
@@ -710,23 +706,21 @@ func glow_light_on():
 func glow_light_off():
 	
 	var light_fade_out = get_tree().create_tween()
-	light_fade_out.tween_property(glow_light, "energy", 0, 0.5).set_ease(Tween.EASE_IN)
+	light_fade_out.tween_property(glow_light, "energy", 0, 0.2).set_ease(Tween.EASE_IN)
 	light_fade_out.tween_callback(glow_light, "set_enabled", [false])
 
 
 func skill_light_on():
 	
 	skill_light.rotation = vision_ray.cast_to.angle()
-	var skilled_light_energy: float
+	skill_light.color = pixel_color
 	
-	if is_virgin:
-		if Global.game_manager.game_settings["player_start_color"] == Global.color_white:
-			skilled_light_energy = 0.7
-		else:
-#			skilled_light_energy = 1.3
-			skilled_light_energy = 1.1
-	else:
-		skilled_light_energy = 0.9
+	var skilled_light_base_energy: float = 0.55
+	if pixel_color.get_luminance() == 1: # bela
+		skilled_light_base_energy = 0.65
+	elif pixel_color.get_luminance() < 0.1: # temno siva
+		skilled_light_base_energy = 0.3
+	var skilled_light_energy: float = skilled_light_base_energy / pixel_color.get_luminance()
 		
 	var light_fade_in = get_tree().create_tween()
 	light_fade_in.tween_callback(skill_light, "set_enabled", [true])
@@ -842,6 +836,16 @@ func play_blinking_sound():
 	Global.sound_manager.play_sfx("blinking")
 
 
+func lose_virginity():
+	
+#	is_virgin = false
+	if not has_no_energy:
+		animation_player.stop()
+	var color_fade_in = get_tree().create_tween()
+	color_fade_in.tween_property(self, "modulate", pixel_color, 0.3).set_ease(Tween.EASE_OUT)
+	color_fade_in.tween_property(self, "is_virgin", false, 0)
+
+
 # SIGNALI ------------------------------------------------------------------------------------------
 	
 		
@@ -893,7 +897,6 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 		"virgin_blink":
 			if is_virgin and not heartbeat_active:
 				animation_player.play("virgin_blink")
-			else:
-				modulate.a = 1
-				modulate = pixel_color
-				
+#			elif not is_virgin:
+#				var color_fade_in = get_tree().create_tween()
+#				color_fade_in.tween_property(self, "modulate", pixel_color, 1)

@@ -88,15 +88,16 @@ func set_game():
 	Global.game_tilemap.get_tiles()
 	
 	# players
-	if game_data["game"] == Profiles.Games.TUTORIAL:
-#		game_settings["player_start_color"] = Global.color_white # more bit pred spawnom
-		set_players()
-		p1.modulate.a = 0	
-	else:
-#		game_settings["player_start_color"] = Global.color_white # more bit pred spawnom
-		set_players() # spawn, stats, camera, target
-#		for player in players_in_game:
-#			player.modulate.a = 0	
+#	if game_data["game"] == Profiles.Games.TUTORIAL:
+##		game_settings["player_start_color"] = Global.color_white # more bit pred spawnom
+#		set_players()
+#		p1.modulate.a = 0	
+#	else:
+
+#	game_settings["player_start_color"] = Global.color_white # more bit pred spawnom
+	set_players() # spawn, stats, camera, target
+	for player in players_in_game:
+		player.modulate.a = 0	
 	
 	yield(get_tree().create_timer(3), "timeout") # da se ekran prikaže
 	
@@ -132,7 +133,7 @@ func start_game():
 		Global.sound_manager.play_music("game")
 		for player in players_in_game:
 			player.set_physics_process(true)
-#			player.animation_player.play("virgin_blink")
+			player.animation_player.play("virgin_blink")
 	
 	game_on = true
 	

@@ -7,6 +7,8 @@ var game_music_set_to_off: bool = false
 
 var currently_playing_track_index = 1 # ga ne resetiraš, da ostane v spominu skozi celo igro
 
+
+onready var teleport_loop: AudioStreamPlayer = $GameSfx/Skills/TeleportLoop # za preverjanje v igri, če se predvaja
 onready var game_music: Node2D = $Music/GameMusic
 onready var menu_music = $Music/MenuMusic/WarmUpShort
 onready var menu_music_volume_on_node = menu_music.volume_db # za reset po fejdoutu (game_over)

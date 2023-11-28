@@ -3,11 +3,37 @@
 [ext_resource path="res://assets/gradient_light.png" type="Texture" id=1]
 [ext_resource path="res://game/pixel/player.gd" type="Script" id=2]
 [ext_resource path="res://assets/circle_light.png" type="Texture" id=3]
-[ext_resource path="res://game/pixel/virgin_sign.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/resources/anim_zbrisane/pixelrevive.tres" type="Animation" id=10]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
+
+[sub_resource type="Animation" id=142]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("GlowLight:enabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=140]
 resource_name = "_junfer short"
@@ -228,7 +254,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.0605592, 0.115436, 0.184698, 0.232797, 0.445392, 0.539576, 0.67419, 0.738793, 0.8, 0.841557, 0.899275, 1, 1.10076, 1.19941, 1.36723, 1.49998, 1.60081, 1.6553, 1.94, 2, 2.1, 2.5 ),
+"times": PoolRealArray( 0, 0.0605592, 0.115436, 0.184698, 0.234449, 0.445392, 0.539576, 0.67419, 0.738793, 0.8, 0.841557, 0.899275, 1, 1.10076, 1.19941, 1.36723, 1.49998, 1.60081, 1.6553, 1.94, 2, 2.1, 2.5 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 1.0, 0.2, 1.0, 0.2, 1.0, 1.0, 0.55, 1.0, 0.2, 0.118591, 0.4, 1.0, 0.2, 0.2, 1.0, 0.4, 0.55, 0.2, 0.55, 0.0, 0.5, 0.2, 0.0 ]
@@ -287,7 +313,7 @@ tracks/0/path = NodePath(".:modulate:a")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = false
+tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.06, 0.32, 0.52, 0.8 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
@@ -295,36 +321,24 @@ tracks/0/keys = {
 "values": [ 0.8, 1.0, 0.98, 0.8, 0.8 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("PolyPixel:modulate:a")
+tracks/1/path = NodePath("GlowLight:enabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.06, 0.32, 0.52, 0.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 0.8, 1.0, 0.98, 0.8, 0.8 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("GlowLight:enabled")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
 "times": PoolRealArray( 0, 0.01 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
 }
-tracks/3/type = "value"
-tracks/3/path = NodePath("GlowLight:energy")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
+tracks/2/type = "value"
+tracks/2/path = NodePath("GlowLight:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
 "times": PoolRealArray( 0, 0.06, 0.32, 0.52, 0.8 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
@@ -342,10 +356,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.185737, 0.447234, 0.53924, 0.72, 0.82, 0.9, 1, 1.1, 1.2, 1.36541, 1.5, 1.6, 1.6544, 1.94, 2 ),
+"times": PoolRealArray( 0, 0.185737, 0.447234, 0.53924, 0.72, 0.82, 0.9, 1, 1.1, 1.2, 1.36541, 1.5, 1.6, 1.6544, 1.86, 2 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0.282353 ), Color( 1, 1, 1, 0.215686 ), Color( 1, 1, 1, 0.764706 ), Color( 1, 1, 1, 0.545098 ), Color( 1, 1, 1, 0.266667 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0.764706 ), Color( 1, 1, 1, 0.266667 ), Color( 1, 1, 1, 0.215686 ), Color( 1, 1, 1, 0.764706 ), Color( 1, 1, 1, 0.360784 ), Color( 1, 1, 1, 0.486275 ), Color( 1, 1, 1, 0.203922 ), Color( 1, 1, 1, 0.533333 ), Color( 1, 1, 1, 0.14902 ), Color( 1, 1, 1, 0.282353 ) ]
+"values": [ Color( 1, 1, 1, 0.0392157 ), Color( 1, 1, 1, 0.215686 ), Color( 1, 1, 1, 0.619608 ), Color( 1, 1, 1, 0.545098 ), Color( 1, 1, 1, 0.0392157 ), Color( 1, 1, 1, 0.27451 ), Color( 1, 1, 1, 0.462745 ), Color( 1, 1, 1, 0.266667 ), Color( 1, 1, 1, 0.0392157 ), Color( 1, 1, 1, 0.0392157 ), Color( 1, 1, 1, 0.360784 ), Color( 1, 1, 1, 0.486275 ), Color( 1, 1, 1, 0.203922 ), Color( 1, 1, 1, 0.305882 ), Color( 1, 1, 1, 0.14902 ), Color( 1, 1, 1, 0.0392157 ) ]
 }
 tracks/1/type = "method"
 tracks/1/path = NodePath(".")
@@ -377,8 +391,9 @@ script = ExtResource( 2 )
 [node name="GlowLight" type="Light2D" parent="."]
 position = Vector2( 7.62939e-06, -9.53674e-06 )
 scale = Vector2( 0.1875, 0.1875 )
+enabled = false
 texture = ExtResource( 3 )
-energy = 0.1
+energy = 0.0
 
 [node name="PolyPixel" type="Polygon2D" parent="."]
 position = Vector2( -16, -16 )
@@ -388,8 +403,7 @@ polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 position = Vector2( 1.97093e-06, 0 )
 scale = Vector2( 0.266667, 0.266667 )
 texture = ExtResource( 1 )
-color = Color( 1, 1, 1, 0.901961 )
-energy = 0.8
+energy = 0.5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -401,6 +415,7 @@ enabled = true
 cast_to = Vector2( 32, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 142 )
 "anims/_junfer short" = SubResource( 140 )
 "anims/_last_breath _polypixel" = SubResource( 139 )
 anims/_start_white = SubResource( 138 )
@@ -409,8 +424,5 @@ anims/die_player = SubResource( 2 )
 anims/heartbeat = SubResource( 137 )
 anims/revive = ExtResource( 10 )
 anims/virgin_blink = SubResource( 141 )
-
-[node name="VirginSign" parent="." instance=ExtResource( 4 )]
-visible = false
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
