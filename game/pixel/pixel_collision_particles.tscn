@@ -57,7 +57,6 @@ randomness = 1.0
 process_material = SubResource( 136 )
 
 [node name="PolyPixel" type="Polygon2D" parent="."]
-visible = false
 position = Vector2( -16, -16 )
 color = Color( 1, 1, 1, 0.54902 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )

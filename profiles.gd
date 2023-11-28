@@ -94,7 +94,7 @@ var game_data_riddler: Dictionary = {
 	"game_name": "Riddled",
 	"level": "01",
 	"tilemap_path": "res://game/tilemaps/riddler/riddler_tilemap.tscn",
-	"game_time_limit": 0,
+	"game_time_limit": 600,
 	"strays_start_count": 10,
 }
 
@@ -156,7 +156,7 @@ var game_settings: Dictionary = {}
 
 func _ready() -> void:
 	
-	var current_game = Games.DUEL # če greš iz menija je tole povoženo
+	var current_game = Games.RIDDLER # če greš iz menija je tole povoženo
 	set_game_data(current_game)
 	
 func set_game_data(selected_game) -> void:

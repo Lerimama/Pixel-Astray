@@ -43,22 +43,16 @@ func get_tiles():
 					floor_cells_global_positions.append(cell_global_position)
 					set_cellv(cell, 0)
 				4: # player 1 spawn position
-					# 1 plejer
-#					player_start_global_position = cell_global_position # + cell_size # naredi zamik, da je lokacijska točka tileta levo zgoraj ... 
-#					floor_cells_global_positions.append(cell_global_position) # v GM damo to pozicijo ven da ni na voljo za generacijo pixlov
-#					set_cellv(cell, 0)
-					
 					player_start_global_positions.append(cell_global_position)
 					floor_cells_global_positions.append(cell_global_position)
 					set_cellv(cell, 0)
-					
 				6: # player 2 spawn position
 					player_start_global_positions.append(cell_global_position)
 					floor_cells_global_positions.append(cell_global_position)
 					set_cellv(cell, 0)
 	
 	
-	# pošljem podatke v GM
+	# pošljem v GM
 	emit_signal("tilemap_completed", floor_cells_global_positions, stray_spawn_cells_global_positions, no_stray_cells_global_positions, player_start_global_positions)
 	
 	

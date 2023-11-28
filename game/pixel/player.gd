@@ -87,7 +87,7 @@ onready var glow_light: Light2D = $GlowLight
 onready var skill_light: Light2D = $SkillLight
 
 # NEU
-var is_virgin: bool # vedno, ko začne je devičnik, neha bit po ob prvem "skilled" stanju ali burstu
+var is_virgin: bool = true # začne kot devičnik ... neha bit na prvi end_move ali na začetku cockanja
 var has_no_energy: bool
 
 
@@ -113,8 +113,6 @@ func _ready() -> void:
 	modulate = pixel_color # pixel_color je določen ob spawnu z GM
 	skill_light.enabled = false
 	glow_light.enabled = false
-	is_virgin = true
-	
 	current_state = States.IDLE
 
 	
@@ -176,7 +174,6 @@ func state_machine():
 	
 func on_collision(): 
 	
-	spawn_collision_particles()
 	Global.sound_manager.stop_sfx("burst")
 	
 	# shake calc
@@ -184,11 +181,6 @@ func on_collision():
 	var added_shake_time = hit_stray_shake_time + burst_power_shake_addon * burst_power
 	
 	if collision.collider.is_in_group(Global.group_tilemap):
-		# efekti
-		Input.start_joy_vibration(0, 0.5, 0.6, 0.7)
-		Global.sound_manager.play_sfx("hit_wall")
-		player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
-		spawn_dizzy_particles()
 		# posledice
 		if heartbeat_active: # enako, kot,da bi bil zadnji bit ... kar umre, da se ne animacija ne meša z revive
 			heartbeat_active = false
@@ -197,16 +189,23 @@ func on_collision():
 		else:
 			emit_signal("stat_changed", self, "hit_wall", 1)
 		die()
+		# efekti
+		Input.start_joy_vibration(0, 0.5, 0.6, 0.7)
+		Global.sound_manager.play_sfx("hit_wall")
+		player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
+		spawn_dizzy_particles()
+		spawn_collision_particles()
 		# zaključek
 		end_move()
 		
 	elif collision.collider.is_in_group(Global.group_strays):
+		# posledice
+		on_hit_stray(collision.collider)
 		# efekti
 		Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
 		Global.sound_manager.play_sfx("hit_stray")	
 		player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
-		# posledice
-		on_hit_stray(collision.collider)
+		spawn_collision_particles()
 		# zaključek
 		end_move()
 	
@@ -217,16 +216,16 @@ func on_collision():
 		
 		# zmaga
 		if burst_speed > hit_player.burst_speed:
+			# posledice
+			if hit_player.pixel_color != Global.game_manager.game_settings["player_start_color"]: # če nima nobene barve mu je ne prevzamem
+				pixel_color = hit_player.pixel_color # prevzamem barvo
+			emit_signal("stat_changed", self, "hit_player", 1) # vzamem mu pobrane barve
+			hit_player.on_get_hit(added_shake_power, added_shake_time)
 			# efekti
 			Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
 			Global.sound_manager.play_sfx("hit_stray")	
 			player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
-			# posledice
-			if not hit_player.is_virgin: 
-#			if hit_player.pixel_color != Global.game_manager.game_settings["player_start_color"]: 
-				pixel_color = hit_player.pixel_color # prevzamem barvo
-				emit_signal("stat_changed", self, "hit_player", 1) # vzamem mu pobrane barve
-			hit_player.on_get_hit(added_shake_power, added_shake_time)
+			spawn_collision_particles()
 			# zaključek
 			end_move()
 			hit_player.end_move() # plejer, ki prvi zazna kontakt ukaže naprej, da je zaporedje pod kontrolo 
@@ -235,13 +234,14 @@ func on_collision():
 			Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
 			Global.sound_manager.play_sfx("hit_stray")
 			player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
+			spawn_collision_particles()
 			# zaključek
 			end_move()
 			hit_player.end_move() # plejer, ki prvi zazna kontakt ukaže naprej, da je zaporedje pod kontrolo 
 		
 		# korekcija, če končata na isti poziciji ali preveč narazen
 		global_position = hit_player.global_position + (cell_size_x * (- player_direction)) # plejer eno polje ob zadetem
-				
+	
 
 # INPUTS ------------------------------------------------------------------------------------------
 
@@ -381,7 +381,7 @@ func end_move():
 	direction = Vector2.ZERO # reset ray dir
 	
 	if is_virgin:
-		lose_virginity()
+		lose_virginity() # barvo prevzame na koncu tweena
 	else:
 		modulate = pixel_color
 	
@@ -391,8 +391,6 @@ func end_move():
 	if Global.sound_manager.teleport_loop.is_playing(): # zazih ... export for windows 
 		Global.sound_manager.stop_sfx("teleport")
 	
-
-		
 
 # BURST ------------------------------------------------------------------------------------------
 
@@ -406,7 +404,7 @@ func cock_burst():
 	if Global.detect_collision_in_direction(vision_ray, cock_direction): 
 		end_move()
 		Global.sound_manager.stop_sfx("burst_cocking")
-#		return	# dobra praksa ... zazih
+		return
 	
 	if is_virgin:
 		lose_virginity()
@@ -422,7 +420,7 @@ func cock_burst():
 			burst_speed_max += burst_speed_addon
 			# spawnaj cock celico
 			spawn_cock_ghost(cock_direction, cocked_ghosts.size() + 1) # + 1 zato, da se prvi ne spawna direktno nad pixlom
-		Global.sound_manager.play_sfx("burst_cocking")
+			Global.sound_manager.play_sfx("burst_cocking")
 
 
 func release_burst():
@@ -604,10 +602,7 @@ func spawn_dizzy_particles():
 	
 	var new_dizzy_pixels = PixelDizzyParticles.instance()
 	new_dizzy_pixels.global_position = global_position
-	if is_virgin:
-		new_dizzy_pixels.modulate = Global.color_white
-	else:
-		new_dizzy_pixels.modulate = pixel_color
+	new_dizzy_pixels.modulate = pixel_color
 	Global.node_creation_parent.add_child(new_dizzy_pixels)
 	
 
@@ -700,36 +695,41 @@ func on_get_hit(added_shake_power, added_shake_time):
 	emit_signal("stat_changed", self, "hit_by_player", 1)
 	die()
 	
-	
+
 func on_hit_stray(hit_stray: KinematicBody2D):
-		
+
 		if Global.game_manager.game_settings["pick_neighbor_mode"]:
 			if Global.game_manager.colors_to_pick and not Global.game_manager.colors_to_pick.has(hit_stray.pixel_color): # če pobrana barva ni enaka barvi soseda
 				end_move()
 			else:
 				pixel_color = hit_stray.pixel_color
 				Global.hud.show_picked_color(hit_stray.pixel_color)
-				hit_stray.die(1) # edini
+				hit_stray.die(0) # edini
+				emit_signal("stat_changed", self, "hit_stray", [1, hit_stray])
 		else:
 			pixel_color = hit_stray.pixel_color
 			Global.hud.show_picked_color(hit_stray.pixel_color)
-			hit_stray.die(1) # uničim zadetega pixla
-			multikill(hit_stray) # uničim še sosede
-
-	
-func multikill(hit_stray):
+			
+			var stacked_neighbors = check_for_neighbors(hit_stray)
+			
+			if stacked_neighbors.empty(): # nima sosed
+				hit_stray.die(0) # 0 je zaporedna številka 
+				emit_signal("stat_changed", self, "hit_stray", [1, hit_stray])
+			else: # ma sosede
+				destroy_all_stacked(stacked_neighbors, hit_stray)
+				printt ("stacked_neighbors", stacked_neighbors.size())
+				
+				
+func check_for_neighbors(hit_stray):
 
 		var all_neighboring_strays: Array = [] # vse nabrane sosede, ki grejo potem v uničenje
 		var neighbors_checked: Array = [] # vsi sosedi, katerih sosede sem že preveril
-		
-		# NABIRANJE SOSED
-		
+
 		# prva runda ... sosede zadetega straya
 		var first_neighbors: Array = hit_stray.check_for_neighbors()
 		for first_neighbor in first_neighbors:
 			if not all_neighboring_strays.has(first_neighbor): # če še ni dodan med vse sosede
 				all_neighboring_strays.append(first_neighbor) # ... ga dodam med vse sosede
-		
 		neighbors_checked.append(hit_stray) # zadeti stray gre med "že preverjene" 
 		
 		# druga runda ... sosede vseh sosed
@@ -741,23 +741,30 @@ func multikill(hit_stray):
 						all_neighboring_strays.append(extra_neighbor) # ... ga dodam med vse sosede
 				neighbors_checked.append(neighbor) # po nabirki ga dodam med preverjene sosede
 		
+		# hit stray izbrišem iz sosed, ker bo uničen posebej
 		if all_neighboring_strays.has(hit_stray): 
-			all_neighboring_strays.erase(hit_stray) # hit stray odstranim iz vseh sosed, ker je uničen že z burstom
+			all_neighboring_strays.erase(hit_stray)
+			
+		return all_neighboring_strays
+
+
+func destroy_all_stacked(all_neighboring_strays, hit_stray):
 		
-		# UNIČEVANJE SOSED
+		var destroy_in_row_time: float = 0.03
 		
-		# uničim prvega soseda (prvi z extra točkami)
-		var stray_in_row_index = 1 # 1 zato, ker 0 je hit stray
-		hit_stray.die(stray_in_row_index)
-		emit_signal("stat_changed", self, "hit_stray", [stray_in_row_index, hit_stray])
+		# uničim zadetega
+		hit_stray.die(1)
+		emit_signal("stat_changed", self, "hit_stray", [1, hit_stray])
 		
 		# uničim preostale sosede
+		var stray_in_row = 2 # 2, ker je prvi 1 ... rabim za primerjavo z burst power, točkovanje, izbira die animacije
 		for neighboring_stray in all_neighboring_strays:
-			if stray_in_row_index < burst_power or burst_power == cocked_ghost_count_max: # odvisnost od moči bursta
+			yield(get_tree().create_timer(destroy_in_row_time), "timeout")
+			if (stray_in_row - 1) < burst_power or burst_power == cocked_ghost_count_max: # odvisnost od moči bursta
 				Global.hud.show_picked_color(neighboring_stray.pixel_color) # indikator efekt
-				neighboring_stray.die(stray_in_row_index + 1) # +1, ker je bil prvi sosed že uničen
-				emit_signal("stat_changed", self, "hit_stray", [(stray_in_row_index + 1), neighboring_stray])
-			stray_in_row_index += 1
+				neighboring_stray.die(stray_in_row)
+				emit_signal("stat_changed", self, "hit_stray", [(stray_in_row), neighboring_stray])
+			stray_in_row += 1
 
 
 func die():
@@ -782,7 +789,6 @@ func play_blinking_sound():
 
 func lose_virginity():
 	
-#	is_virgin = false
 	if not has_no_energy:
 		animation_player.stop()
 	var color_fade_in = get_tree().create_tween()

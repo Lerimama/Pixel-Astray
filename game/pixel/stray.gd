@@ -48,15 +48,17 @@ func step(step_direction):
 	step_tween.tween_property(self, "is_stepping", false, 0)
 
 
-func die(stray_in_row):
+func die(stray_in_stack):
 	
-	# žrebam animacijo
-	var random_animation_index = randi() % 5 + 1
-	var random_animation_name: String = "die_stray_%s" % random_animation_index
-	animation_player.play(random_animation_name) 
-	# KVEFRI je v animaciji
+	if stray_in_stack == 0: # žrebam die animacijo
+		var random_animation_index = randi() % 5 + 1
+		var random_animation_name: String = "die_stray_%s" % random_animation_index
+		animation_player.play(random_animation_name) 
+	else:
+		animation_player.play("die_stray") 
 	
 	collision_shape_2d.disabled = true
+	# KVEFRI je v animaciji
 
 
 func play_blinking_sound():
