@@ -86,6 +86,7 @@ onready var PixelDizzyParticles: PackedScene = preload("res://game/pixel/pixel_d
 onready var glow_light: Light2D = $GlowLight
 onready var skill_light: Light2D = $SkillLight
 
+# NEU
 var is_virgin: bool # vedno, ko začne je devičnik, neha bit po ob prvem "skilled" stanju ali burstu
 var has_no_energy: bool
 
@@ -112,7 +113,6 @@ func _ready() -> void:
 	modulate = pixel_color # pixel_color je določen ob spawnu z GM
 	skill_light.enabled = false
 	glow_light.enabled = false
-	
 	is_virgin = true
 	
 	current_state = States.IDLE
@@ -145,8 +145,6 @@ func state_machine():
 		States.IDLE:
 			# skilled
 			if Global.detect_collision_in_direction(vision_ray, direction) and not has_no_energy: # koda je tukaj, da ne blinkne ob kontaktu s sosedo
-				if is_virgin:
-					lose_virginity()
 				skill_light_on()
 			# not skilled
 			else:
@@ -370,7 +368,6 @@ func step():
 
 		
 func end_move():
-	printt("LUM", pixel_color.get_luminance(), Global.color_white.get_luminance())
 	
 	# reset burst
 	burst_speed = 0 # more bit pred change state, če ne uničuje tudi sam sebe
@@ -382,10 +379,12 @@ func end_move():
 		glow_light_off()
 	
 	direction = Vector2.ZERO # reset ray dir
+	
 	if is_virgin:
 		lose_virginity()
 	else:
 		modulate = pixel_color
+	
 	global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions) 
 	current_state = States.IDLE
 	
@@ -583,8 +582,6 @@ func teleport():
 	var new_teleport_ghost = spawn_ghost(global_position)
 	new_teleport_ghost.direction = teleport_direction
 	new_teleport_ghost.max_speed = ghost_max_speed
-	new_teleport_ghost.floor_cells = floor_cells
-	new_teleport_ghost.cell_size_x = cell_size_x
 	new_teleport_ghost.modulate.a = modulate.a * 0.5
 	new_teleport_ghost.connect("ghost_target_reached", self, "_on_ghost_target_reached")
 	
@@ -679,59 +676,6 @@ func spawn_ghost(current_pixel_position):
 	
 
 # UTIL ------------------------------------------------------------------------------------------
-
-
-func glow_light_on():
-	
-	glow_light.color = pixel_color
-
-	var glow_light_base_energy: float = 0.35
-
-	if pixel_color.get_luminance() == 1: # bela
-		glow_light_base_energy = 0.55
-	elif pixel_color.get_luminance() > 0.90:
-		glow_light_base_energy += 0.2
-	elif pixel_color.get_luminance() > 0.75:
-		glow_light_base_energy += 0.15
-	elif pixel_color.get_luminance() > 0.50:
-		glow_light_base_energy += 0.05
-	
-	var glow_light_energy: float = glow_light_base_energy / pixel_color.get_luminance()
-
-	var light_fade_in = get_tree().create_tween()
-	light_fade_in.tween_callback(glow_light, "set_enabled", [true])
-	light_fade_in.tween_property(glow_light, "energy", glow_light_energy, 0.2).set_ease(Tween.EASE_IN)
-
-
-func glow_light_off():
-	
-	var light_fade_out = get_tree().create_tween()
-	light_fade_out.tween_property(glow_light, "energy", 0, 0.2).set_ease(Tween.EASE_IN)
-	light_fade_out.tween_callback(glow_light, "set_enabled", [false])
-
-
-func skill_light_on():
-	
-	skill_light.rotation = vision_ray.cast_to.angle()
-	skill_light.color = pixel_color
-	
-	var skilled_light_base_energy: float = 0.55
-	if pixel_color.get_luminance() == 1: # bela
-		skilled_light_base_energy = 0.65
-	elif pixel_color.get_luminance() < 0.1: # temno siva
-		skilled_light_base_energy = 0.3
-	var skilled_light_energy: float = skilled_light_base_energy / pixel_color.get_luminance()
-		
-	var light_fade_in = get_tree().create_tween()
-	light_fade_in.tween_callback(skill_light, "set_enabled", [true])
-	light_fade_in.tween_property(skill_light, "energy", skilled_light_energy, 0.15).set_ease(Tween.EASE_IN)
-	
-	
-func skill_light_off():
-	
-	var light_fade_out = get_tree().create_tween()
-	light_fade_out.tween_property(skill_light, "energy", 0, 0.15).set_ease(Tween.EASE_IN)
-	light_fade_out.tween_callback(skill_light, "set_enabled", [false])
 
 
 func on_get_hit(added_shake_power, added_shake_time):
@@ -846,6 +790,59 @@ func lose_virginity():
 	color_fade_in.tween_property(self, "is_virgin", false, 0)
 
 
+func glow_light_on():
+	
+	glow_light.color = pixel_color
+
+	var glow_light_base_energy: float = 0.35
+
+	if pixel_color.get_luminance() == 1: # bela
+		glow_light_base_energy = 0.55
+	elif pixel_color.get_luminance() > 0.90:
+		glow_light_base_energy += 0.2
+	elif pixel_color.get_luminance() > 0.75:
+		glow_light_base_energy += 0.15
+	elif pixel_color.get_luminance() > 0.50:
+		glow_light_base_energy += 0.05
+	
+	var glow_light_energy: float = glow_light_base_energy / pixel_color.get_luminance()
+
+	var light_fade_in = get_tree().create_tween()
+	light_fade_in.tween_callback(glow_light, "set_enabled", [true])
+	light_fade_in.tween_property(glow_light, "energy", glow_light_energy, 0.2).set_ease(Tween.EASE_IN)
+
+
+func glow_light_off():
+	
+	var light_fade_out = get_tree().create_tween()
+	light_fade_out.tween_property(glow_light, "energy", 0, 0.2).set_ease(Tween.EASE_IN)
+	light_fade_out.tween_callback(glow_light, "set_enabled", [false])
+
+
+func skill_light_on():
+	
+	skill_light.rotation = vision_ray.cast_to.angle()
+	skill_light.color = pixel_color
+	
+	var skilled_light_base_energy: float = 0.55
+	if pixel_color.get_luminance() == 1: # bela
+		skilled_light_base_energy = 0.65
+	elif pixel_color.get_luminance() < 0.1: # temno siva
+		skilled_light_base_energy = 0.3
+	var skilled_light_energy: float = skilled_light_base_energy / pixel_color.get_luminance()
+		
+	var light_fade_in = get_tree().create_tween()
+	light_fade_in.tween_callback(skill_light, "set_enabled", [true])
+	light_fade_in.tween_property(skill_light, "energy", skilled_light_energy, 0.15).set_ease(Tween.EASE_IN)
+	
+	
+func skill_light_off():
+	
+	var light_fade_out = get_tree().create_tween()
+	light_fade_out.tween_property(skill_light, "energy", 0, 0.15).set_ease(Tween.EASE_IN)
+	light_fade_out.tween_callback(skill_light, "set_enabled", [false])
+
+
 # SIGNALI ------------------------------------------------------------------------------------------
 	
 		
@@ -897,6 +894,3 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 		"virgin_blink":
 			if is_virgin and not heartbeat_active:
 				animation_player.play("virgin_blink")
-#			elif not is_virgin:
-#				var color_fade_in = get_tree().create_tween()
-#				color_fade_in.tween_property(self, "modulate", pixel_color, 1)

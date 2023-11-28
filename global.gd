@@ -28,6 +28,7 @@ var p2_camera_target = null
 var group_players = "Players"
 var group_strays = "Strays"
 var group_tilemap = "Tilemap"
+var group_cell = "Celica"
 
 # sivi klin
 var color_white = Color("#ffffff")
