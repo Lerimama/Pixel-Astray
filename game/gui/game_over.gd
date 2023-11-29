@@ -72,6 +72,9 @@ func show_gameover(gameover_reason):
 	
 
 func show_gameover_title():
+
+	for player in Global.game_manager.players_in_game:
+		player.set_physics_process(false)
 	
 	visible = true
 	selected_title.visible = true

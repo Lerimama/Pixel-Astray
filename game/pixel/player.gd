@@ -6,11 +6,12 @@ signal stat_changed (stat_owner, event, stat_change)
 enum States {IDLE, STEPPING, SKILLED, SKILLING, COCKING, RELEASING, BURSTING}
 var current_state # = States.IDLE
 
+export var pixel_color: Color # exportano za animacijo "become_white"
+
 var direction = Vector2.ZERO # prenosna
 var collision: KinematicCollision2D
 var step_time: float # uporabi se pri step tweenu in je nekonstanten, če je "energy_speed_mode"
 var skill_sfx_playing: bool = false #  lahko kličem is procesne funkcije
-var pixel_color: Color
 var player_energy: float # player jo pozna samo zaradi spreminjanja obnašanja
 var player_camera: Node
 var player_camera_target: Node
@@ -68,6 +69,7 @@ var slowdown_rate: int = Global.game_manager.game_settings["slowdown_rate"] # vi
 # heartbeat
 var heartbeat_active: bool = false 
 var heartbeat_loop: int = 0
+var has_no_energy: bool
 
 # controls
 var key_left: String
@@ -89,7 +91,6 @@ onready var skill_light: Light2D = $SkillLight
 
 # NEU
 var is_virgin: bool = true # začne kot devičnik ... neha bit na prvi end_move ali na začetku cockanja
-var has_no_energy: bool
 
 
 func _ready() -> void:
@@ -173,7 +174,6 @@ func on_collision():
 	var added_shake_time = hit_stray_shake_time + burst_power_shake_addon * burst_cocked_ghost_count
 	
 	if collision.collider.is_in_group(Global.group_tilemap):
-		# posledice
 		if heartbeat_active: # enako, kot,da bi bil zadnji bit ... kar umre, da se ne animacija ne meša z revive
 			heartbeat_active = false
 			glow_light.enabled = false
@@ -181,56 +181,48 @@ func on_collision():
 		else:
 			emit_signal("stat_changed", self, "hit_wall", 1)
 		die()
+		end_move()
 		# efekti
 		Input.start_joy_vibration(0, 0.5, 0.6, 0.7)
 		Global.sound_manager.play_sfx("hit_wall")
 		player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
 		spawn_dizzy_particles()
 		spawn_collision_particles()
-		# zaključek
-		end_move()
 		
 	elif collision.collider.is_in_group(Global.group_strays):
-		# posledice
 		on_hit_stray(collision.collider)
+		end_move()
 		# efekti
 		Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
 		Global.sound_manager.play_sfx("hit_stray")	
 		player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
 		spawn_collision_particles()
-		# zaključek
-		end_move()
 	
 	elif collision.collider.is_in_group(Global.group_players):
-		
 		var hit_player: KinematicBody2D = collision.collider
 		var player_direction = direction # za korekcijo
-		
 		# zmaga
 		if burst_speed > hit_player.burst_speed:
-			# posledice
 			if hit_player.pixel_color != Global.game_manager.game_settings["player_start_color"]: # če nima nobene barve mu je ne prevzamem
 				pixel_color = hit_player.pixel_color # prevzamem barvo
 			emit_signal("stat_changed", self, "hit_player", 1) # vzamem mu pobrane barve
 			hit_player.on_get_hit(added_shake_power, added_shake_time)
+			end_move()
+			hit_player.end_move() # plejer, ki prvi zazna kontakt ukaže naprej, da je zaporedje pod kontrolo 
 			# efekti
 			Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
 			Global.sound_manager.play_sfx("hit_stray")	
 			player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
 			spawn_collision_particles()
-			# zaključek
-			end_move()
-			hit_player.end_move() # plejer, ki prvi zazna kontakt ukaže naprej, da je zaporedje pod kontrolo 
 		# neodločeno
 		elif burst_speed_max == hit_player.burst_speed:
+			end_move()
+			hit_player.end_move() # plejer, ki prvi zazna kontakt ukaže naprej, da je zaporedje pod kontrolo 
+			# efekti
 			Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
 			Global.sound_manager.play_sfx("hit_stray")
 			player_camera.shake_camera(added_shake_power, added_shake_time, hit_stray_shake_decay)
 			spawn_collision_particles()
-			# zaključek
-			end_move()
-			hit_player.end_move() # plejer, ki prvi zazna kontakt ukaže naprej, da je zaporedje pod kontrolo 
-		
 		# korekcija, če končata na isti poziciji ali preveč narazen
 		global_position = hit_player.global_position + (cell_size_x * (- player_direction)) # plejer eno polje ob zadetem
 	
@@ -600,7 +592,7 @@ func teleport():
 	elif name == "p2":
 		Global.p2_camera_target = new_teleport_ghost
 	
-	skill_light_off()
+#	skill_light_off()
 	
 	yield(get_tree().create_timer(0.2), "timeout")
 	# zaključek v signalu _on_ghost_target_reached
@@ -708,7 +700,7 @@ func on_get_hit(added_shake_power, added_shake_time):
 	
 
 func on_hit_stray(hit_stray: KinematicBody2D):
-
+	
 		if Global.game_manager.game_settings["pick_neighbor_mode"]:
 			if Global.game_manager.colors_to_pick and not Global.game_manager.colors_to_pick.has(hit_stray.pixel_color): # če pobrana barva ni enaka barvi soseda
 				end_move()
@@ -722,12 +714,10 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 			Global.hud.show_picked_color(hit_stray.pixel_color)
 			
 			var stacked_neighbors = check_for_neighbors(hit_stray)
-			
 			if stacked_neighbors.empty(): # nima sosed
 				hit_stray.die(0) # 0 pomeni, da je solo (drugačna animacija)
 			else: # ma sosede
 				destroy_all_stacked(stacked_neighbors, hit_stray)
-				printt ("stacked_neighbors", stacked_neighbors.size())
 			
 			# statistika pobitih
 			var destroyed_strays_count: int
@@ -739,7 +729,6 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 				destroyed_strays_count = burst_cocked_ghost_count
 			
 			emit_signal("stat_changed", self, "hit_stray", destroyed_strays_count)
-			
 				
 				
 func check_for_neighbors(hit_stray):
@@ -772,20 +761,15 @@ func check_for_neighbors(hit_stray):
 
 func destroy_all_stacked(all_neighboring_strays, hit_stray):
 		
-		var destroy_in_row_time: float = 0.15
-		
 		# uničim zadetega
 		hit_stray.die(1)
-		
 		# uničim preostale sosede
-		var stray_in_row = 2 # zadeti ima index 1 ... za določanje koliko jih uniči določena moč
+		var stray_in_row = 2 # za določanje koliko jih uniči določena moč in zaporedje ... hit stray je 1
 		for neighboring_stray in all_neighboring_strays:
-			yield(get_tree().create_timer(destroy_in_row_time), "timeout")
 			if (stray_in_row - 1) < burst_cocked_ghost_count or burst_cocked_ghost_count == cocked_ghost_count_max: # odvisnost od moči bursta
 				Global.hud.show_picked_color(neighboring_stray.pixel_color) # indikator efekt
 				neighboring_stray.die(stray_in_row)
 			stray_in_row += 1
-			destroy_in_row_time /= 1.15 # destroyanje je zmeraj hitrejše
 
 
 func die():
@@ -888,10 +872,11 @@ func _on_ghost_target_reached(ghost_body, ghost_position):
 	
 	var teleport_tween = get_tree().create_tween()
 	teleport_tween.tween_property(self, "modulate:a", 0, ghost_fade_time * 2/3).set_ease(Tween.EASE_IN)
+	teleport_tween.parallel().tween_callback(self, "skill_light_off")
 	teleport_tween.parallel().tween_property(ghost_body, "modulate:a", 1, ghost_fade_time).set_ease(Tween.EASE_IN)
 	teleport_tween.tween_property(self, "global_position", ghost_position, 0)
 	teleport_tween.parallel().tween_callback(self, "end_move")
-	teleport_tween.parallel().tween_property(self, "modulate:a", 1, 0)#.set_ease(Tween.EASE_IN)
+	teleport_tween.parallel().tween_property(self, "modulate:a", 1, 0)
 	teleport_tween.parallel().tween_callback(ghost_body, "queue_free")
 	teleport_tween.parallel().tween_property(Global, player_camera_target, self, 0) # camera follow reset
 	teleport_tween.tween_callback(self, "emit_signal", ["stat_changed", self, "skill_used", 2]) # 0 = push, 1 = pull, 2 = teleport ... za prepoznavanje

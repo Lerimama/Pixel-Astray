@@ -179,8 +179,10 @@ func update_stats():
 	# game stats
 	game_label.text = Global.game_manager.game_data["game_name"]
 	level_label.text = Global.game_manager.game_data["level"]
-	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
-	picked_counter.text = "%03d" % (Global.game_manager.p1_stats["colors_collected"] + Global.game_manager.p2_stats["colors_collected"])
+	# astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
+	# picked_counter.text = "%03d" % (Global.game_manager.p1_stats["colors_collected"] + Global.game_manager.p2_stats["colors_collected"])
+	astray_counter.text = "%03d" % Global.game_manager.strays_in_game.size()
+	picked_counter.text = "%03d" % (Global.game_manager.strays_start_count - Global.game_manager.strays_in_game.size())
 	
 	# debug
 	player_life.text = "LIFE: %d" % Global.game_manager.p1_stats["player_life"]

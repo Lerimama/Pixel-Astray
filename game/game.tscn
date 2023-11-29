@@ -1637,6 +1637,7 @@ __meta__ = {
 }
 
 [node name="Energy" type="Label" parent="GUI/Hud"]
+visible = false
 margin_left = 136.0
 margin_top = 69.0
 margin_right = 180.0
@@ -1806,14 +1807,13 @@ texture_progress = SubResource( 132 )
 
 [node name="PointsHolder" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineL"]
 margin_left = 148.0
-margin_right = 162.0
+margin_right = 186.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 22 )
 size_flags_vertical = 8
 custom_constants/separation = 8
 
 [node name="TextureRect4" type="TextureRect" parent="GUI/Hud/Header/PlayerLineL/PointsHolder"]
-visible = false
 margin_top = 4.0
 margin_right = 16.0
 margin_bottom = 22.0
@@ -1822,7 +1822,8 @@ size_flags_vertical = 8
 texture = SubResource( 129 )
 
 [node name="Points" type="Label" parent="GUI/Hud/Header/PlayerLineL/PointsHolder"]
-margin_right = 14.0
+margin_left = 24.0
+margin_right = 38.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 text = "0"
@@ -2045,7 +2046,6 @@ size_flags_vertical = 8
 custom_constants/separation = 8
 
 [node name="TextureRect4" type="TextureRect" parent="GUI/Hud/Header/PlayerLineR/PointsHolder"]
-visible = false
 margin_top = 4.0
 margin_right = 16.0
 margin_bottom = 22.0
@@ -2525,7 +2525,6 @@ anims/countdown_5 = SubResource( 142 )
 anims/countdown_5_v1 = SubResource( 135 )
 
 [node name="Tutorial" type="Control" parent="GUI"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 720 )
@@ -3180,7 +3179,7 @@ __meta__ = {
 
 [node name="Line2D" type="Line2D" parent="GUI/Tutorial/HudGuide/PointsLabel"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-position = Vector2( -64, 4 )
+position = Vector2( -48, 4 )
 points = PoolVector2Array( 40, -32, 64, -8 )
 width = 0.5
 default_color = Color( 1, 1, 1, 1 )
@@ -3188,9 +3187,9 @@ antialiased = true
 
 [node name="TimeLabel" type="Label" parent="GUI/Tutorial/HudGuide"]
 self_modulate = Color( 0.368627, 1, 0.662745, 1 )
-margin_left = 576.0
+margin_left = 560.0
 margin_top = 72.0
-margin_right = 657.0
+margin_right = 641.0
 margin_bottom = 90.0
 custom_fonts/font = ExtResource( 23 )
 text = "Game time"
@@ -3201,7 +3200,7 @@ __meta__ = {
 
 [node name="Line2D2" type="Line2D" parent="GUI/Tutorial/HudGuide/TimeLabel"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-position = Vector2( -41, 4 )
+position = Vector2( -25, 4 )
 points = PoolVector2Array( 104, -32, 80, -8 )
 width = 0.5
 default_color = Color( 1, 1, 1, 1 )
@@ -3209,9 +3208,9 @@ antialiased = true
 
 [node name="MusicLabel" type="Label" parent="GUI/Tutorial/HudGuide"]
 self_modulate = Color( 0.368627, 1, 0.662745, 1 )
-margin_left = 690.0
+margin_left = 706.0
 margin_top = 72.0
-margin_right = 815.0
+margin_right = 831.0
 margin_bottom = 90.0
 grow_horizontal = 0
 custom_fonts/font = ExtResource( 23 )
@@ -3314,8 +3313,8 @@ __meta__ = {
 
 [node name="Line2D" type="Line2D" parent="GUI/Tutorial/HudGuide/CollectedLabel"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-position = Vector2( -25, 58 )
-points = PoolVector2Array( 104, -8, 80, -32 )
+position = Vector2( 1, 58 )
+points = PoolVector2Array( 104, -8, 104, -32 )
 width = 0.5
 default_color = Color( 1, 1, 1, 1 )
 antialiased = true

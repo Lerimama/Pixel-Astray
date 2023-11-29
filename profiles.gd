@@ -21,9 +21,9 @@ var default_game_settings: Dictionary = {
 	
 	# scoring
 	"all_cleaned_points": 500,
-	"color_picked_points": 10,
+	"color_picked_points": 1,
 	"color_picked_energy": 20,
-	"stacked_color_picked_points": 20,
+	"stacked_color_picked_points": 2,
 	"stacked_color_picked_energy": 20,
 	"cell_traveled_points": -1,
 	"cell_traveled_energy": -1,
@@ -156,7 +156,7 @@ var game_settings: Dictionary = {}
 
 func _ready() -> void:
 	
-	var current_game = Games.RIDDLER # če greš iz menija je tole povoženo
+	var current_game = Games.DUEL # če greš iz menija je tole povoženo
 	set_game_data(current_game)
 	
 func set_game_data(selected_game) -> void:

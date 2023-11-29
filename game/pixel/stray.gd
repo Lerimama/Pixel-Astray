@@ -14,7 +14,9 @@ onready var cell_size_x: int = Global.game_tilemap.cell_size.x
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var vision_ray: RayCast2D = $VisionRay
 onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
-	
+
+# debug
+onready var count_label: Label = $CountLabel
 	
 func _ready() -> void:
 	
@@ -24,7 +26,7 @@ func _ready() -> void:
 	modulate.a = 0
 	
 	randomize() # za random die animacije
-
+	count_label.text = name
 
 func fade_in(): # kliče GM
 	
@@ -54,7 +56,9 @@ func die(stray_in_stack):
 		var random_animation_index = randi() % 5 + 1
 		var random_animation_name: String = "die_stray_%s" % random_animation_index
 		animation_player.play(random_animation_name) 
-	else:
+	else: # če je stacked animacije na žrebam
+		var wait_to_destroy_time: float = sqrt(0.07 * (stray_in_stack - 1)) # -1 je, da hitan stray ne čaka
+		yield(get_tree().create_timer(wait_to_destroy_time), "timeout")
 		animation_player.play("die_stray") 
 	
 	collision_shape_2d.disabled = true
