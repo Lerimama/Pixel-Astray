@@ -10,6 +10,9 @@ var no_stray_cells_global_positions: Array
 var player_start_global_positions: Array 
 var player_start_global_position: Vector2 
 
+# debug
+onready var DebugIndicator = preload("res://assets/position_indicator.tscn")
+
 
 func _ready() -> void:
 	
@@ -69,7 +72,6 @@ func get_collision_tile_id(collider: Node2D, direction: Vector2): # collider je 
 	return tile_index
 
 
-onready var DebugIndicator = preload("res://assets/position_indicator.tscn")
 
 func spawn_debug_indicator(current_cell_position, color):
 	

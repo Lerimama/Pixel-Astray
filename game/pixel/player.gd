@@ -3,7 +3,7 @@ extends KinematicBody2D
 
 signal stat_changed (stat_owner, event, stat_change)
 
-enum States {IDLE, STEPPING, SKILLING, COCKING, RELEASING, BURSTING}
+enum States {IDLE, STEPPING, SKILLED, SKILLING, COCKING, RELEASING, BURSTING}
 var current_state # = States.IDLE
 
 var direction = Vector2.ZERO # prenosna
@@ -118,9 +118,6 @@ func _ready() -> void:
 	
 func _physics_process(delta: float) -> void:
 			
-	if Global.detect_collision_in_direction(vision_ray, direction): 
-		skill_inputs() # neodvisno od stateta, da pull dela ... ker med vlečenjem odstrani od straysa
-	
 	state_machine()
 	
 	# heartbeat
@@ -141,12 +138,8 @@ func state_machine():
 	
 	match current_state:
 		States.IDLE:
-			# skilled
-			if Global.detect_collision_in_direction(vision_ray, direction) and not has_no_energy: # koda je tukaj, da ne blinkne ob kontaktu s sosedo
-				skill_light_on()
-			# not skilled
-			else:
-				skill_light_off()
+			if Global.detect_collision_in_direction(vision_ray, direction): # koda je tukaj, da ne blinkne ob kontaktu s sosedo
+				current_state = States.SKILLED
 			# toggle energy_speed_mode
 			if Global.game_manager.game_settings["slowdown_mode"]:
 				var slow_trim_size: float = step_time_slow * max_player_energy
@@ -156,14 +149,12 @@ func state_machine():
 			else:
 				step_time = step_time_fast
 			idle_inputs()
-		States.STEPPING:
-			pass
-		States.SKILLING:
-			pass
-		States.COCKING: 
+		States.SKILLED:
+			skill_inputs()
+			if not skill_light.enabled:
+				skill_light_on()
+		States.COCKING:
 			cocking_inputs()
-		States.RELEASING:
-			pass
 		States.BURSTING:
 			burst_velocity = direction * burst_speed
 			collision = move_and_collide(burst_velocity) 
@@ -248,20 +239,20 @@ func on_collision():
 
 func idle_inputs():
 	
-	if Input.is_action_pressed(key_up) and not has_no_energy: # ne koraka z 1 energijo
+	if Input.is_action_pressed(key_up):
 		direction = Vector2.UP
 		step()
-	elif Input.is_action_pressed(key_down) and not has_no_energy:
+	elif Input.is_action_pressed(key_down):
 		direction = Vector2.DOWN
 		step()
-	elif Input.is_action_pressed(key_left) and not has_no_energy:
+	elif Input.is_action_pressed(key_left):
 		direction = Vector2.LEFT
 		step()
-	elif Input.is_action_pressed(key_right) and not has_no_energy:
+	elif Input.is_action_pressed(key_right):
 		direction = Vector2.RIGHT
 		step()
 	
-	if Input.is_action_just_pressed(key_burst) and current_state == States.IDLE: # brez "just" dela po stisku smeri ... ni ok
+	if Input.is_action_just_pressed(key_burst): # brez "just" dela po stisku smeri ... ni ok
 		current_state = States.COCKING
 		glow_light_on()
 		
@@ -300,7 +291,8 @@ func cocking_inputs():
 			end_move()
 		else:
 			release_burst()
-
+			glow_light_off()
+			
 
 func bursting_inputs():
 	
@@ -309,15 +301,15 @@ func bursting_inputs():
 		Input.start_joy_vibration(0, 0.6, 0.2, 0.2)
 		Global.sound_manager.play_sfx("burst_stop")
 		Global.sound_manager.stop_sfx("burst_cocking")	
-		# current_state = States.IDLE
 		
 
 func skill_inputs():
 	
-	if player_energy <= 1:
+	if has_no_energy: # ne more skillat, če ni energije
 		return
 		
-	var new_direction # nova smer, deluje samo, če ni enaka smeri kolizije
+	var new_direction # nova smer, ker pritisnem še enkrat
+	var collider: Object = Global.detect_collision_in_direction(vision_ray, direction)
 	
 	# s tem inputom prekinem "is_pressed" input
 	if Input.is_action_just_pressed(key_up):
@@ -329,21 +321,32 @@ func skill_inputs():
 	elif Input.is_action_just_pressed(key_right):
 		new_direction = Vector2.RIGHT
 	
-	# select skill, če ga še nima 
-	if current_state != States.SKILLING:
-		# skill glede na kolajderja 
-		var collider: Object = Global.detect_collision_in_direction(vision_ray, direction)
-		var wall_tile_index = 3
-		if new_direction == direction:
-			if collider.is_in_group(Global.group_tilemap):
-				var colliding_tile_id = collider.get_collision_tile_id(self, direction) # pošljem self, ker kolajder (tilemap) ima koordinate 0,0
-				if colliding_tile_id == wall_tile_index:
-					teleport()
-			elif collider.is_in_group(Global.group_strays):
-				push()	
-		if new_direction == - direction:
-			if collider.is_in_group(Global.group_strays):
-				pull()	
+	# izhod iz skilled stanja
+	if new_direction:
+		var pressed_direction_angle: float = round(rad2deg(vision_ray.cast_to.angle_to(new_direction)))
+		if abs(pressed_direction_angle) == 90 or (pressed_direction_angle == 180 and collider.is_in_group(Global.group_tilemap)):
+			current_state = States.IDLE
+			return	
+		
+	# prehod v cocking stanje
+	if Input.is_action_just_pressed(key_burst): # brez "just" dela po stisku smeri ... ni ok
+		current_state = States.COCKING
+		skill_light_off()
+		glow_light_on()
+		return	
+			
+	# izbor skila
+	var wall_tile_index = 3
+	if new_direction == direction:
+		if collider.is_in_group(Global.group_tilemap):
+			var colliding_tile_id = collider.get_collision_tile_id(self, direction) # pošljem self, ker kolajder (tilemap) ima koordinate 0,0
+			if colliding_tile_id == wall_tile_index:
+				teleport()
+		elif collider.is_in_group(Global.group_strays):
+			push()	
+	if new_direction == - direction:
+		if collider.is_in_group(Global.group_strays):
+			pull()	
 
 	
 # MOVEMENT ------------------------------------------------------------------------------------------
@@ -351,6 +354,9 @@ func skill_inputs():
 
 func step():
 	
+	if has_no_energy: # ne more stepat, če ni energije
+		return
+		
 	var step_direction = direction
 	
 	# če kolajda izbrani smeri gibanja prenesem kontrole na skill
@@ -375,9 +381,12 @@ func end_move():
 	burst_direction_set = false
 	cocking_room = true
 	
+	# ugasnem lučke
 	if glow_light.enabled:
 		glow_light_off()
-	
+	if skill_light.enabled:
+		skill_light_off()
+		
 	direction = Vector2.ZERO # reset ray dir
 	
 	if is_virgin:
@@ -402,8 +411,8 @@ func cock_burst():
 	
 	# prostor za začetek napenjanja preverja pixel
 	if Global.detect_collision_in_direction(vision_ray, cock_direction): 
-		end_move()
 		Global.sound_manager.stop_sfx("burst_cocking")
+		end_move()
 		return
 	
 	if is_virgin:
@@ -431,7 +440,6 @@ func release_burst():
 	current_state = States.RELEASING
 	
 	Global.sound_manager.play_sfx("burst_cocked")
-	glow_light_off()
 
 	# napeti ghosti animirajo do alfa 1
 	for ghost in cocked_ghosts:
@@ -548,6 +556,7 @@ func pull():
 	# preverjam če ma prostor v smeri premika
 	if Global.detect_collision_in_direction(vision_ray, pull_direction): 
 		return	
+	
 	current_state = States.SKILLING
 	
 	# spawn ghosta pod mano
@@ -581,6 +590,7 @@ func teleport():
 	new_teleport_ghost.direction = teleport_direction
 	new_teleport_ghost.max_speed = ghost_max_speed
 	new_teleport_ghost.modulate.a = modulate.a * 0.5
+	new_teleport_ghost.z_index = 3
 	new_teleport_ghost.connect("ghost_target_reached", self, "_on_ghost_target_reached")
 	
 	# kamera target
@@ -645,7 +655,7 @@ func spawn_cock_ghost(cocking_direction, cocked_ghosts_count):
 	# dodam celico v array celic tega zaleta
 	cocked_ghosts.append(new_cock_ghost)	
 
-
+	
 func spawn_trail_ghost():
 	
 	var trail_alpha: float = 0.2
@@ -754,7 +764,12 @@ func destroy_all_stacked(all_neighboring_strays, hit_stray):
 		
 		# uničim zadetega
 		hit_stray.die(1)
-		emit_signal("stat_changed", self, "hit_stray", [1, hit_stray])
+#		emit_signal("stat_changed", self, "hit_stray", [1, hit_stray])
+		if burst_power == cocked_ghost_count_max:
+			emit_signal("stat_changed", self, "new_score", all_neighboring_strays.size())
+		elif burst_power < cocked_ghost_count_max:
+			emit_signal("stat_changed", self, "new_score",burst_power)
+			printt ("cock power", cocked_ghosts.size(), burst_power)
 		
 		# uničim preostale sosede
 		var stray_in_row = 2 # 2, ker je prvi 1 ... rabim za primerjavo z burst power, točkovanje, izbira die animacije
@@ -839,13 +854,13 @@ func skill_light_on():
 		
 	var light_fade_in = get_tree().create_tween()
 	light_fade_in.tween_callback(skill_light, "set_enabled", [true])
-	light_fade_in.tween_property(skill_light, "energy", skilled_light_energy, 0.15).set_ease(Tween.EASE_IN)
+	light_fade_in.tween_property(skill_light, "energy", skilled_light_energy, 0.2).set_ease(Tween.EASE_IN)
 	
 	
 func skill_light_off():
 	
 	var light_fade_out = get_tree().create_tween()
-	light_fade_out.tween_property(skill_light, "energy", 0, 0.15).set_ease(Tween.EASE_IN)
+	light_fade_out.tween_property(skill_light, "energy", 0, 0.2).set_ease(Tween.EASE_IN)
 	light_fade_out.tween_callback(skill_light, "set_enabled", [false])
 
 

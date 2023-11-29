@@ -417,7 +417,8 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 			if stray_count == 1:
 				player_stats["player_points"] += game_settings["color_picked_points"]
 				player_stats["player_energy"] += game_settings["color_picked_energy"]
-				spawn_floating_tag(stray_global_position, game_settings["color_picked_points"]) 
+#				spawn_floating_tag(stat_owner.global_position, game_settings["color_picked_points"]) 
+#				spawn_floating_tag(stray_global_position, game_settings["color_picked_points"]) 
 				if game_data["game"] == Profiles.Games.TUTORIAL:
 					Global.tutorial_gui.finish_bursting()
 			# score za vsakega naslednega v vrsti 
@@ -427,7 +428,9 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				var energy_for_seq_pixel = (game_settings["stacked_color_picked_energy"] * stray_count) - game_settings["color_picked_energy"]
 				player_stats["player_points"] += points_for_seq_pixel
 				player_stats["player_energy"] += energy_for_seq_pixel
-				spawn_floating_tag(stray_global_position, points_for_seq_pixel) 
+				
+#				spawn_floating_tag(stat_owner.global_position, points_for_seq_pixel) 
+#				spawn_floating_tag(stray_global_position, points_for_seq_pixel) 
 				if game_data["game"] == Profiles.Games.TUTORIAL and stray_count > 2:
 					Global.tutorial_gui.finish_stacking()
 			# cleaned
@@ -435,6 +438,17 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				player_stats["player_points"] += game_settings["all_cleaned_points"]
 				stat_owner.pixel_color = Color.white # become white again
 				game_over(GameoverReason.CLEANED)
+		"new_score":
+			var score = 0
+			var index = 1
+			for stray in stat_change: # stat change je količina straysov
+				score += 20 * index
+				index += 1
+			spawn_floating_tag(stat_owner.global_position, score) 
+			
+			
+				
+				
 		"hit_wall":
 			if game_settings["lose_life_on_hit"]: # resetiram energijo
 				lose_life(player_stats, stat_owner)
