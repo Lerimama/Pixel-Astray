@@ -42,7 +42,8 @@ var burst_speed_max: float = 0 # maximalna hitrost v tweenu (določena med kokan
 var burst_speed_addon: float = 12
 var strech_ghost_shrink_time: float = 0.2
 var burst_direction_set: bool = false
-var burst_power: int # moč v številu ghosts_count
+#var burst_power: int # moč v številu ghosts_count
+var burst_cocked_ghost_count: int # moč v številu ghosts_count
 var burst_velocity: Vector2
 
 # shaking camera
@@ -168,8 +169,8 @@ func on_collision():
 	Global.sound_manager.stop_sfx("burst")
 	
 	# shake calc
-	var added_shake_power = hit_stray_shake_power + burst_power_shake_addon * burst_power
-	var added_shake_time = hit_stray_shake_time + burst_power_shake_addon * burst_power
+	var added_shake_power = hit_stray_shake_power + burst_power_shake_addon * burst_cocked_ghost_count
+	var added_shake_time = hit_stray_shake_time + burst_power_shake_addon * burst_cocked_ghost_count
 	
 	if collision.collider.is_in_group(Global.group_tilemap):
 		# posledice
@@ -451,13 +452,13 @@ func release_burst():
 	burst(cocked_ghosts.size())
 		
 
-func burst(ghosts_count):
+func burst(current_ghost_count):
 	
 	
 	emit_signal("stat_changed", self, "burst_released", 1)		
 	
 	var burst_direction = direction
-	burst_power = ghosts_count
+	burst_cocked_ghost_count = current_ghost_count
 	var ray_collider = vision_ray.get_collider() # ! more bit za detect_wall() ... ta ga šele pogreba?
 	var backup_direction = - burst_direction
 
@@ -466,12 +467,12 @@ func burst(ghosts_count):
 	
 	# vertikalno ali horizontalno?
 	if burst_direction.y == 0: # če je smer horiz
-		new_stretch_ghost.scale = Vector2(ghosts_count, 1)
+		new_stretch_ghost.scale = Vector2(current_ghost_count, 1)
 	elif burst_direction.x == 0: # če je smer ver
-		new_stretch_ghost.scale = Vector2(1, ghosts_count)
+		new_stretch_ghost.scale = Vector2(1, current_ghost_count)
 	
 	# strech ghost 
-	new_stretch_ghost.position = global_position - (burst_direction * cell_size_x * ghosts_count)/2 - burst_direction * cell_size_x/2
+	new_stretch_ghost.position = global_position - (burst_direction * cell_size_x * current_ghost_count)/2 - burst_direction * cell_size_x/2
 	
 	# sprazni ghoste
 	for ghost in cocked_ghosts:
@@ -723,16 +724,27 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 			var stacked_neighbors = check_for_neighbors(hit_stray)
 			
 			if stacked_neighbors.empty(): # nima sosed
-				hit_stray.die(0) # 0 je zaporedna številka 
-				emit_signal("stat_changed", self, "hit_stray", [1, hit_stray])
+				hit_stray.die(0) # 0 pomeni, da je solo (drugačna animacija)
 			else: # ma sosede
 				destroy_all_stacked(stacked_neighbors, hit_stray)
 				printt ("stacked_neighbors", stacked_neighbors.size())
+			
+			# statistika pobitih
+			var destroyed_strays_count: int
+			if burst_cocked_ghost_count == cocked_ghost_count_max: # moč je maximalna moč
+				destroyed_strays_count = stacked_neighbors.size() + 1
+			elif burst_cocked_ghost_count > stacked_neighbors.size() + 1: # moč je enaka količini stackanih straysov
+				destroyed_strays_count = stacked_neighbors.size() + 1 # moč je enaka ali manjša, kot količini stackanih straysov
+			else:
+				destroyed_strays_count = burst_cocked_ghost_count
+			
+			emit_signal("stat_changed", self, "hit_stray", destroyed_strays_count)
+			
 				
 				
 func check_for_neighbors(hit_stray):
 
-		var all_neighboring_strays: Array = [] # vse nabrane sosede, ki grejo potem v uničenje
+		var all_neighboring_strays: Array = [] # vsi nabrani sosedi
 		var neighbors_checked: Array = [] # vsi sosedi, katerih sosede sem že preveril
 
 		# prva runda ... sosede zadetega straya
@@ -760,26 +772,20 @@ func check_for_neighbors(hit_stray):
 
 func destroy_all_stacked(all_neighboring_strays, hit_stray):
 		
-		var destroy_in_row_time: float = 0.03
+		var destroy_in_row_time: float = 0.15
 		
 		# uničim zadetega
 		hit_stray.die(1)
-#		emit_signal("stat_changed", self, "hit_stray", [1, hit_stray])
-		if burst_power == cocked_ghost_count_max:
-			emit_signal("stat_changed", self, "new_score", all_neighboring_strays.size())
-		elif burst_power < cocked_ghost_count_max:
-			emit_signal("stat_changed", self, "new_score",burst_power)
-			printt ("cock power", cocked_ghosts.size(), burst_power)
 		
 		# uničim preostale sosede
-		var stray_in_row = 2 # 2, ker je prvi 1 ... rabim za primerjavo z burst power, točkovanje, izbira die animacije
+		var stray_in_row = 2 # zadeti ima index 1 ... za določanje koliko jih uniči določena moč
 		for neighboring_stray in all_neighboring_strays:
 			yield(get_tree().create_timer(destroy_in_row_time), "timeout")
-			if (stray_in_row - 1) < burst_power or burst_power == cocked_ghost_count_max: # odvisnost od moči bursta
+			if (stray_in_row - 1) < burst_cocked_ghost_count or burst_cocked_ghost_count == cocked_ghost_count_max: # odvisnost od moči bursta
 				Global.hud.show_picked_color(neighboring_stray.pixel_color) # indikator efekt
 				neighboring_stray.die(stray_in_row)
-				emit_signal("stat_changed", self, "hit_stray", [(stray_in_row), neighboring_stray])
 			stray_in_row += 1
+			destroy_in_row_time /= 1.15 # destroyanje je zmeraj hitrejše
 
 
 func die():
