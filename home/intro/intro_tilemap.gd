@@ -3,7 +3,7 @@ extends TileMap
 
 signal tilemap_completed #(floor_tiles_global_positions, player_start_global_position)
 
-var floor_cells_global_positions: Array
+var floor_global_positions: Array
 var title_cells_global_positions: Array
 
 
@@ -29,13 +29,13 @@ func get_tiles():
 			var cell_index = get_cellv(cell)
 			match cell_index:
 				0: # floor
-					floor_cells_global_positions.append(cell_global_position)
+					floor_global_positions.append(cell_global_position)
 				5: # game title positions ... stray start positions
 					title_cells_global_positions.append(cell_global_position + cell_size/2) # more bit +, če ne zignjajo
-					floor_cells_global_positions.append(cell_global_position) # se dodajo, ker so tla istočasno prostor za premikanje
+					floor_global_positions.append(cell_global_position) # se dodajo, ker so tla istočasno prostor za premikanje
 
 	# pošljemo podatke v GM
-	emit_signal("tilemap_completed", floor_cells_global_positions, title_cells_global_positions)
+	emit_signal("tilemap_completed", floor_global_positions, title_cells_global_positions)
 	
 
 func get_collision_tile_id(collider: Node2D, direction: Vector2): # collider je node ki se zaleteva in ne collision object

@@ -211,14 +211,15 @@ func fade_in(): # kliče GM na set_game()
 		var indicator_fade_in = get_tree().create_tween()
 		indicator_fade_in.tween_property(indicator, "modulate:a", unpicked_indicator_alpha, 0.3).set_ease(Tween.EASE_IN)
 	
-	if Global.game_manager.game_settings["start_players_count"] == 2:
-		var show_splitscreen_popup = get_tree().create_tween()
-		show_splitscreen_popup.tween_property(splitscreen_popup, "modulate:a", 1, 0.5)
-		show_splitscreen_popup.tween_property(splitscreen_popup, "modulate:a", 0, 0.5).set_ease(Tween.EASE_IN).set_delay(2)
-		show_splitscreen_popup.tween_callback(splitscreen_popup, "set_visible", [false])
-		show_splitscreen_popup.parallel().tween_callback(self, "emit_signal", ["hud_is_set"])
-	else:
-		emit_signal("hud_is_set")
+#	if Global.game_manager.game_settings["start_players_count"] == 2:
+#		var show_splitscreen_popup = get_tree().create_tween()
+#		show_splitscreen_popup.tween_property(splitscreen_popup, "modulate:a", 1, 0.5)
+#		show_splitscreen_popup.tween_property(splitscreen_popup, "modulate:a", 0, 0.5).set_ease(Tween.EASE_IN).set_delay(2)
+#		show_splitscreen_popup.tween_callback(splitscreen_popup, "set_visible", [false])
+#		show_splitscreen_popup.parallel().tween_callback(self, "emit_signal", ["hud_is_set"])
+#	else:
+#		emit_signal("hud_is_set")
+	emit_signal("hud_is_set")
 	
 
 func fade_out(): # kliče GM na game_over()

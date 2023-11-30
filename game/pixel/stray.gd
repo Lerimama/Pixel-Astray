@@ -28,6 +28,7 @@ func _ready() -> void:
 	randomize() # za random die animacije
 	count_label.text = name
 
+
 func fade_in(): # kliče GM
 	
 	# žrebam animacijo
@@ -37,16 +38,17 @@ func fade_in(): # kliče GM
 	
 	
 func step(step_direction):
-		
+	return	
+	
 	if Global.detect_collision_in_direction(vision_ray, step_direction) or is_stepping: # če kolajda izbrani smeri gibanja
 		return
 	
 	is_stepping = true
 	
-	global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_cells_global_positions)
+	global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_global_positions)
 	var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 	step_tween.tween_property(self, "position", global_position + step_direction * cell_size_x, step_time)
-	step_tween.tween_callback(Global, "snap_to_nearest_grid", [global_position, Global.game_tilemap.floor_cells_global_positions])
+	step_tween.tween_callback(Global, "snap_to_nearest_grid", [global_position, Global.game_tilemap.floor_global_positions])
 	step_tween.tween_property(self, "is_stepping", false, 0)
 
 

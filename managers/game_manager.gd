@@ -23,15 +23,18 @@ var player_start_positions: Array
 var players_in_game: Array
 
 # strays
-var spawned_stray_index: int = 0 
 var strays_in_game: Array = [] # za spawnanje v rundah (živ podatek)
 var strays_in_game_count: int # za statistiko in GO (umeten podatek)
 var strays_start_count: int
 
 # tilemap data
 var floor_positions: Array
-var available_floor_positions: Array
-var additional_floor_positions: Array # xtra pozicije za kombo spawn
+var random_spawn_positions: Array
+#var available_stray_positions: Array
+#var available_floor_positions: Array
+#var additional_floor_positions: Array # xtra pozicije za kombo spawn
+var required_spawn_positions: Array
+
 
 # profiles
 var p1_stats: Dictionary = Profiles.default_player_stats.duplicate() # tukaj se postavijo prazne vrednosti, ki se nafilajo kasneje
@@ -155,41 +158,14 @@ func game_over(gameover_reason):
 	Global.sound_manager.stop_sfx("teleport")
 	Global.sound_manager.stop_sfx("heartbeat")
 	
-	# plejerja 
-#	for player in players_in_game:
-#		player.set_physics_process(false)
+	# plejerje pavziram v GO
 	
 	# open game-over ekran
 	Global.gameover_menu.show_gameover(gameover_reason)
 	
 	
-	
-# SPAWNANJE ----------------------------------------------------------------------------------
+# PIXELS ----------------------------------------------------------------------------------
 
-
-func set_tilemap():
-	
-	var tilemap_to_release: TileMap = default_tilemap
-	var tilemap_to_load_path: String = game_data["tilemap_path"]
-	
-	# release default tilemap	
-	tilemap_to_release.set_physics_process(false)
-	call_deferred("_free_tilemap", tilemap_to_release, tilemap_to_load_path)
-	
-
-func _free_tilemap(tilemap_to_release, tilemap_to_load_path):
-	tilemap_to_release.free()
-	spawn_new_tilemap(tilemap_to_load_path)
-
-
-func spawn_new_tilemap(tilemap_path):
-
-	var tilemap_resource = ResourceLoader.load(tilemap_path)
-	var tilemap_parent = Global.node_creation_parent
-	
-	var new_tilemap = tilemap_resource.instance()
-	tilemap_parent.add_child(new_tilemap) # direct child of root
-		
 
 func set_players():
 	
@@ -254,52 +230,45 @@ func split_stray_colors():
 	var all_colors: Array = []
 	var loop_count = 0
 	
-	printt ("available pos", available_floor_positions.size())
-	printt ("adittional_pos", additional_floor_positions.size())
-	printt ("strays_to_spawn", color_count)
+	var spawned_stray_index: int = 1
 	
 	for color in color_count:
-		var selected_color_position_x = loop_count * color_skip_size # pozicija pixla na sliki
+		var selected_color_position_x = spawned_stray_index * color_skip_size # pozicija pixla na sliki
 		var current_color = spectrum_image.get_pixel(selected_color_position_x, 0) # zajem barve na lokaciji pixla
-		spawn_stray(current_color)
+		spawn_stray(current_color, spawned_stray_index)
 		all_colors.append(current_color)
-		loop_count += 1
+		spawned_stray_index += 1
 		
 	Global.hud.spawn_color_indicators(all_colors)				
-	strays_in_game_count = spawned_stray_index # količina je enaka zadnjemu indexu
+	strays_in_game_count = spawned_stray_index # količina je enaka indexu zadnjega
 
 
-func spawn_stray(stray_color):
+func spawn_stray(stray_color, stray_index):
 	
-	# ne spawnay, če ni več pozicij
-	if available_floor_positions.empty():
-		print ("no available floor positions")
+	# izbor spawn pozicije 
+	var available_positions: Array
+	if not required_spawn_positions.empty(): # najprej obvezne
+		available_positions = required_spawn_positions
+	elif required_spawn_positions.empty(): # potem random
+		available_positions = random_spawn_positions
+	elif random_spawn_positions.empty() and required_spawn_positions.empty(): # STOP, če ni prostora, straysi pa so še na voljo
+		print ("No available spawn positions")
 		return
 	
-	spawned_stray_index += 1 # prvi stray ma že številko 1
+	# randomizacija	
+	var random_range = available_positions.size()
+	var selected_cell_index: int = randi() % int(random_range)
 	
-	# instance
+	# spawn
 	var new_stray_pixel = StrayPixel.instance()
-	new_stray_pixel.name = "S%s" % str(spawned_stray_index)
+	new_stray_pixel.name = "S%s" % str(stray_index)
 	new_stray_pixel.pixel_color = stray_color
-	
-	# pozicija
-	var random_range = available_floor_positions.size()
-	var selected_cell_index: int = randi() % int(random_range) # + offset
-	new_stray_pixel.global_position = available_floor_positions[selected_cell_index] + Global.game_tilemap.cell_size/2 # dodana adaptacija zaradi središča pixla
+	new_stray_pixel.global_position = available_positions[selected_cell_index] + Global.game_tilemap.cell_size/2 # dodana adaptacija zaradi središča pixla
 	new_stray_pixel.z_index = 2 # višje od plejerja
-	
-	#spawn
 	Global.node_creation_parent.add_child(new_stray_pixel)
-	# new_stray_pixel.global_position = Global.snap_to_nearest_grid(new_stray_pixel.global_position, Global.game_tilemap.floor_cells_global_positions)
 	
 	# odstranim uporabljeno pozicijo
-	available_floor_positions.remove(selected_cell_index)
-	
-	# "selected + random spawn" ... dodam nove "random" pozicije
-	if available_floor_positions.empty() and spawned_stray_index < strays_start_count: # če sem porabil že vse pozicije, straysi pa so še na voljo za spawnanje
-		for added_position in additional_floor_positions:
-			available_floor_positions.append(added_position)
+	available_positions.remove(selected_cell_index) # ker ni duplikat array, se briše
 	
 
 func show_strays():
@@ -353,55 +322,69 @@ func spawn_floating_tag(owner_player: Node, value): # kliče ga GM
 	Global.node_creation_parent.add_child(new_floating_tag)
 	new_floating_tag.label.text = str(value)
 
+
+# TILEMAP ----------------------------------------------------------------------------------
+
+
+func set_tilemap():
 	
+	var tilemap_to_release: TileMap = default_tilemap
+	var tilemap_to_load_path: String = game_data["tilemap_path"]
+	
+	# release default tilemap	
+	tilemap_to_release.set_physics_process(false)
+	call_deferred("_free_tilemap", tilemap_to_release, tilemap_to_load_path)
+	
+
+func _free_tilemap(tilemap_to_release, tilemap_to_load_path):
+	tilemap_to_release.free()
+	spawn_new_tilemap(tilemap_to_load_path)
+
+
+func spawn_new_tilemap(tilemap_path):
+
+	var tilemap_resource = ResourceLoader.load(tilemap_path)
+	var tilemap_parent = Global.node_creation_parent
+	
+	var new_tilemap = tilemap_resource.instance()
+	tilemap_parent.add_child(new_tilemap) # direct child of root
+
 
 # SIGNALI ----------------------------------------------------------------------------------
 
 
-func _on_tilemap_completed(floor_cells_global_positions: Array, stray_cells_global_positions: Array, no_stray_cells_global_positions: Array, player_start_global_positions: Array) -> void:
+func _on_tilemap_completed(floor_cells_positions: Array, stray_cells_positions: Array, no_stray_cells_positions: Array, player_cells_positions: Array) -> void:
 	
-	# STRAYS
+	# opredelim tipe pozicij
+	random_spawn_positions = floor_cells_positions
+	required_spawn_positions = stray_cells_positions
+	player_start_positions = player_cells_positions
 	
-	# random spawn, če ni stray pozicij
-	if stray_cells_global_positions.empty():
+	# dodam vse pozicije v floor pozicije
+	floor_positions = floor_cells_positions.duplicate() # dupliciram, da ni "praznine", ko je stray uničen
+	floor_positions.append_array(required_spawn_positions)
+	floor_positions.append_array(no_stray_cells_positions)
+	floor_positions.append_array(player_start_positions)
+	
+	# opredelim štartni stray count 
+	if no_stray_cells_positions.empty() and not stray_cells_positions.empty():
+		strays_start_count = required_spawn_positions.size()
+	else:	
 		strays_start_count = game_data["strays_start_count"]
-		available_floor_positions = floor_cells_global_positions.duplicate()
-	# kombo spawn, če so stray pozicije in no-stray pozicije
-	elif not stray_cells_global_positions.empty() and not no_stray_cells_global_positions.empty():
-		strays_start_count = game_data["strays_start_count"]
-		available_floor_positions = stray_cells_global_positions.duplicate()
-		additional_floor_positions = floor_cells_global_positions.duplicate()
-	# selected spawn, če so samo stray pozicije
-	else:
-		strays_start_count = stray_cells_global_positions.size()
-		available_floor_positions = stray_cells_global_positions.duplicate()
-	
-	# odstranim no-stray pozicije
-	for no_stray_position in no_stray_cells_global_positions: 
-		available_floor_positions.erase(no_stray_position)
-		additional_floor_positions.erase(no_stray_position)	
+	print("strays to spawn (from tilemap) ", strays_start_count)
+	printt("floor size pred in po dodajanju ostalih celic ", floor_cells_positions.size(), floor_positions.size())
 	
 	# preventam preveč straysov (več kot je možnih pozicij)
-	if strays_start_count > available_floor_positions.size() + additional_floor_positions.size():
-		print("to many strays to spawn: ", strays_start_count - (available_floor_positions.size() + additional_floor_positions.size()))
-		strays_start_count = available_floor_positions.size() + additional_floor_positions.size()
-	
-	# PLAYER
-	
-	player_start_positions = player_start_global_positions
-	
-	# odstranim pozicija iz tstih na voljo za strayse
-	for player_start_position in player_start_positions:
-		if available_floor_positions.has(player_start_position):
-			available_floor_positions.erase(player_start_position)
-		if additional_floor_positions.has(player_start_position):
-			additional_floor_positions.erase(player_start_position)
-	
-	# določim mono/multiplayer game
+	if strays_start_count > random_spawn_positions.size() + required_spawn_positions.size():
+		print("to many strays to spawn: ", strays_start_count - (random_spawn_positions.size() + required_spawn_positions.size()))
+		strays_start_count = random_spawn_positions.size() + required_spawn_positions.size()
+		print(strays_start_count, " strays spawned")
+
+	# opoozorim na neskladje
 	if game_settings["start_players_count"] != player_start_positions.size():
-		print ("Player positions not in sync:", game_settings["start_players_count"] , player_start_positions.size())
+		print ("player positions not in sync:", game_settings["start_players_count"] , player_start_positions.size())
+			
 	
-var current_floating_tag: Node
 func _on_stat_changed(stat_owner, changed_stat, stat_change):
 	
 	var player_stats: Dictionary

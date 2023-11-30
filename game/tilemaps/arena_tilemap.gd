@@ -4,11 +4,10 @@ class_name ArenaTilemap
 
 signal tilemap_completed
 
-var floor_cells_global_positions: Array # global koordinate celic
-var stray_spawn_cells_global_positions: Array
-var no_stray_cells_global_positions: Array
-var player_start_global_positions: Array 
-var player_start_global_position: Vector2 
+var floor_global_positions: Array # global koordinate celic
+var stray_global_positions: Array
+var no_stray_global_positions: Array
+var player_global_positions: Array 
 
 # debug
 onready var DebugIndicator = preload("res://assets/position_indicator.tscn")
@@ -36,27 +35,23 @@ func get_tiles():
 			match cell_index:
 				
 				0: # floor
-					floor_cells_global_positions.append(cell_global_position)
+					floor_global_positions.append(cell_global_position)
 				5: # stray spawn positions
-					stray_spawn_cells_global_positions.append(cell_global_position)
-					floor_cells_global_positions.append(cell_global_position) # ker so to tudi tla za premikanje
+					stray_global_positions.append(cell_global_position)
 					set_cellv(cell, 0) # menjam za celico tal
 				2: # no stray
-					no_stray_cells_global_positions.append(cell_global_position)
-					floor_cells_global_positions.append(cell_global_position)
+					no_stray_global_positions.append(cell_global_position)
 					set_cellv(cell, 0)
 				4: # player 1 spawn position
-					player_start_global_positions.append(cell_global_position)
-					floor_cells_global_positions.append(cell_global_position)
+					player_global_positions.append(cell_global_position)
 					set_cellv(cell, 0)
 				6: # player 2 spawn position
-					player_start_global_positions.append(cell_global_position)
-					floor_cells_global_positions.append(cell_global_position)
+					player_global_positions.append(cell_global_position)
 					set_cellv(cell, 0)
 	
 	
 	# pošljem v GM
-	emit_signal("tilemap_completed", floor_cells_global_positions, stray_spawn_cells_global_positions, no_stray_cells_global_positions, player_start_global_positions)
+	emit_signal("tilemap_completed", floor_global_positions, stray_global_positions, no_stray_global_positions, player_global_positions)
 	
 	
 func get_collision_tile_id(collider: Node2D, direction: Vector2): # collider je node ki se zaleteva in ne collision object
@@ -70,7 +65,6 @@ func get_collision_tile_id(collider: Node2D, direction: Vector2): # collider je 
 	var tile_index: int = get_cellv(colliding_cell_grid_position) # index zadete celice na poziciji v grid koordinatah
 	
 	return tile_index
-
 
 
 func spawn_debug_indicator(current_cell_position, color):
