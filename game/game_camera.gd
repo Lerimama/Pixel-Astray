@@ -5,10 +5,7 @@ signal zoomed_in
 
 export (OpenSimplexNoise) var noise # tekstura za vizualizacijo ma kopijo tega noisa
 
-# in-house shake setup ... se ne meša z nastavitvami za igro
-export var test_trauma_strength = 0.1 # šejk sajz na testnem gumbu ... se multiplicira s prtiskanjem
-export var test_trauma_time = 0.2 # decay delay
-export var test_decay_speed = 0.7 # krajši je 
+
 
 # target setup ... predvsem za teleportanje
 var camera_target: Node
@@ -19,6 +16,7 @@ var noise_octaves: float = 1
 var noise_period: float = 5
 var noise_persistence: float = 0
 var noise_lacunarity: float = 3.2
+
 # shake
 var trauma_strength = 0 # na začetku vedno 0, pride iz šejk klica
 var time: float = 0 # za offset noise
@@ -29,31 +27,6 @@ var decay_speed: float
 var max_horizontal = 150
 var max_vertical = 150
 var max_rotation = 5
-# mouse drag 
-var mouse_used: bool = false # če je miška ni redi za dreganje ekrana
-var camera_center = Vector2(320, 180)
-var mouse_position_on_drag_start: Vector2 # zamik pozicije miške ob kliku
-var drag_on: bool = false
-
-# test ui
-var test_view_on = false
-onready var trauma_time_slider: HSlider = $UILayer/TestHud/TraumaControl/TraumaTime
-onready var trauma_strength_slider: HSlider = $UILayer/TestHud/TraumaControl/TraumaStrength
-onready var decay_slider: HSlider = $UILayer/TestHud/TraumaControl/ShakeDecay
-onready var trauma_bar = $UILayer/TestHud/TraumaBar
-onready var shake_bar = $UILayer/TestHud/ShakeBar
-onready var trauma_btn = $UILayer/TestHud/AddTraumaBtn
-onready var zoom_label: Label = $UILayer/TestHud/ZoomLabel
-onready var zoom_slider = $UILayer/TestHud/ZoomSlider
-onready var time_slider = $UILayer/TestHud/TimeSlider
-onready var reset_view_btn = $UILayer/TestHud/ResetViewBtn
-onready var seed_slider = $UILayer/TestHud/NoiseControl/Seed
-onready var octaves_slider = $UILayer/TestHud/NoiseControl/Octaves
-onready var period_slider = $UILayer/TestHud/NoiseControl/Period
-onready var persistence_slider = $UILayer/TestHud/NoiseControl/Persistence
-onready var lacunarity_slider = $UILayer/TestHud/NoiseControl/Lacunarity
-onready var testhud_node = $UILayer/TestHud
-onready var test_toggle_btn = $UILayer/TestToggle
 
 onready var cell_size_x = Global.game_tilemap.cell_size.x # za zamik kamere glede na tile
 onready var viewport_footer: ColorRect = $"%ViewFuter"
@@ -87,14 +60,6 @@ func _ready():
 	
 	# start setup
 	zoom = Vector2(2, 2)
-#	if Global.game_manager.player_start_positions == null:
-#		return
-#	else:
-#		position = Global.gam
-#	if Global.game_manager.player_start_position == null:
-#		return
-#	else:
-#		position = Global.game_manager.player_start_position #+ Vector2(cell_size_x / 2, 0)
 
 
 func zoom_in(hud_in_time): # kliče hud
@@ -175,6 +140,7 @@ func shake_camera(shake_power, shake_time, shake_decay):
 	
 	if not Global.main_node.camera_shake_on:
 		return
+	
 	# fixed
 	trauma_strength = shake_power
 	trauma_time = shake_time
@@ -195,6 +161,38 @@ func multi_shake_camera(shake_power, shake_time, shake_decay):
 
 
 # TESTHUD ------------------------------------------------------------------------------------------------------------------------
+
+
+var test_view_on = false
+
+# test shake setup ... se ne meša z nastavitvami za igro
+export var test_trauma_strength = 0.1 # šejk sajz na testnem gumbu ... se multiplicira s prtiskanjem
+export var test_trauma_time = 0.2 # decay delay
+export var test_decay_speed = 0.7 # krajši je 
+
+# mouse drag 
+var mouse_used: bool = false # če je miška ni redi za dreganje ekrana
+var camera_center = Vector2(320, 180)
+var mouse_position_on_drag_start: Vector2 # zamik pozicije miške ob kliku
+var drag_on: bool = false
+
+onready var trauma_time_slider: HSlider = $UILayer/TestHud/TraumaControl/TraumaTime
+onready var trauma_strength_slider: HSlider = $UILayer/TestHud/TraumaControl/TraumaStrength
+onready var decay_slider: HSlider = $UILayer/TestHud/TraumaControl/ShakeDecay
+onready var trauma_bar = $UILayer/TestHud/TraumaBar
+onready var shake_bar = $UILayer/TestHud/ShakeBar
+onready var trauma_btn = $UILayer/TestHud/AddTraumaBtn
+onready var zoom_label: Label = $UILayer/TestHud/ZoomLabel
+onready var zoom_slider = $UILayer/TestHud/ZoomSlider
+onready var time_slider = $UILayer/TestHud/TimeSlider
+onready var reset_view_btn = $UILayer/TestHud/ResetViewBtn
+onready var seed_slider = $UILayer/TestHud/NoiseControl/Seed
+onready var octaves_slider = $UILayer/TestHud/NoiseControl/Octaves
+onready var period_slider = $UILayer/TestHud/NoiseControl/Period
+onready var persistence_slider = $UILayer/TestHud/NoiseControl/Persistence
+onready var lacunarity_slider = $UILayer/TestHud/NoiseControl/Lacunarity
+onready var testhud_node = $UILayer/TestHud
+onready var test_toggle_btn = $UILayer/TestToggle
 
 
 func set_ui_focus():

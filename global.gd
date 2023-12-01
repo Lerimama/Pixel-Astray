@@ -1,6 +1,8 @@
 extends Node2D
 
 
+## konstnte variable in metode
+
 # VARS ----------------------------------------------------------
 
 var main_node = null
@@ -41,6 +43,12 @@ var color_blue = Color("#4b9fff")
 var color_green = Color("#5effa9")
 var color_red = Color("#f35b7f")
 var color_yellow = Color("#fef98b")
+
+# camera shake parameters [0 = power, 1 = time, 2 = decay]
+var hit_wall_shake_parameters: Array = [0.25, 0.5, 0.2]
+var hit_stray_shake_parameters: Array = [0.2, 0.3, 0.7]
+var die_shake_parameters: Array = [0.2, 0.7, 0.1]
+var burst_power_shake_addon: float = 0.03
 
 
 # METHODS ----------------------------------------------------------

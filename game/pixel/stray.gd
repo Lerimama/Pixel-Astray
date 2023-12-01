@@ -22,10 +22,10 @@ func _ready() -> void:
 	
 	add_to_group(Global.group_strays)
 
+	randomize() # za random die animacije
+	
 	modulate = pixel_color
 	modulate.a = 0
-	
-	randomize() # za random die animacije
 	count_label.text = name
 
 

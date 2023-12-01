@@ -13,11 +13,6 @@ func _ready() -> void:
 	set_icons_state() # preveri lajf na začetku in seta pravilno stanje ikon 
 
 
-func _process(delta: float) -> void:
-	
-	# self.life_count = Global.game_manager.player_stats["player_life"] ... premaknjeno v hud
-	pass
-	
 func _on_value_change(new_value): # ne rabim parametra
 	
 	# setam prev life ... pravi_life count se še ni spremenil
@@ -34,7 +29,7 @@ func _on_value_change(new_value): # ne rabim parametra
 	
 	elif previous_life < life_count:
 		
-		modulate = Global.color_green
+#		modulate = Global.color_green
 		yield(get_tree().create_timer(0.5), "timeout")
 		modulate = Color.white
 	else: # če ni spremembe

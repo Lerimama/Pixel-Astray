@@ -1626,7 +1626,6 @@ rect_min_size = Vector2( 1280, 720 )
 script = ExtResource( 2 )
 
 [node name="Life" type="Label" parent="GUI/Hud"]
-visible = false
 margin_left = 32.0
 margin_top = 69.0
 margin_right = 114.0
@@ -1638,7 +1637,6 @@ __meta__ = {
 }
 
 [node name="Energy" type="Label" parent="GUI/Hud"]
-visible = false
 margin_left = 136.0
 margin_top = 69.0
 margin_right = 180.0
@@ -1834,9 +1832,8 @@ __meta__ = {
 }
 
 [node name="ColorHolder" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineL"]
-visible = false
-margin_left = 190.0
-margin_right = 242.0
+margin_left = 202.0
+margin_right = 254.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
@@ -1861,9 +1858,8 @@ __meta__ = {
 }
 
 [node name="SkillHolder" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineL"]
-visible = false
-margin_left = 262.0
-margin_right = 314.0
+margin_left = 270.0
+margin_right = 322.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
@@ -1888,9 +1884,8 @@ __meta__ = {
 }
 
 [node name="BurstHolder" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineL"]
-visible = false
-margin_left = 334.0
-margin_right = 386.0
+margin_left = 338.0
+margin_right = 390.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8

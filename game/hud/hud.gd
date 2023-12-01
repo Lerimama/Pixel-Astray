@@ -121,8 +121,8 @@ func _process(delta: float) -> void:
 	update_stats()
 	
 	if Global.game_manager.game_settings["start_players_count"] == 1:
-		manage_game_popups()
-	
+#		manage_game_popups()
+		pass
 		
 func manage_game_popups():
 	
@@ -159,8 +159,39 @@ func check_for_hs():
 		highscore_label.modulate = default_hud_color
 		highscore_is_broken = false # more bit, če zgubiš rekord med igro
 			
-		
+
+var p1_stats: Dictionary = Profiles.default_player_stats.duplicate()
+
 func update_stats():	
+	
+	# player 1 stats
+	p1_life_counter.life_count = p1_stats["player_life"]
+	p1_energy_counter.energy = p1_stats["player_energy"]
+	p1_points_counter.text = "%d" % p1_stats["player_points"]
+	p1_color_counter.text = "%d" % p1_stats["colors_collected"]
+	p1_burst_counter.text = "%d" % p1_stats["burst_count"]
+	p1_skill_counter.text = "%d" % p1_stats["skill_count"]
+	
+	# player 2 stats
+#	if Global.game_manager.game_settings["start_players_count"] == 2:
+#		p2_life_counter.life_count = Global.game_manager.p2_stats["player_life"]
+#		p2_energy_counter.energy = Global.game_manager.p2_stats["player_energy"]
+#		p2_color_counter.text = "%d" % Global.game_manager.p2_stats["colors_collected"]
+	
+	# game stats
+	game_label.text = Global.game_manager.game_data["game_name"]
+	level_label.text = Global.game_manager.game_data["level"]
+	# astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
+	# picked_counter.text = "%03d" % (Global.game_manager.p1_stats["colors_collected"] + Global.game_manager.p2_stats["colors_collected"])
+	astray_counter.text = "%03d" % Global.game_manager.strays_in_game.size()
+	picked_counter.text = "%03d" % (Global.game_manager.strays_start_count - Global.game_manager.strays_in_game.size())
+	
+	# debug
+	player_life.text = "LIFE: %d" % p1_stats["player_life"]
+	player_energy.text = "E: %d" % p1_stats["player_energy"]
+
+	
+func update_stats_on_GM():	
 	
 	# player 1 stats
 	p1_life_counter.life_count = Global.game_manager.p1_stats["player_life"]
