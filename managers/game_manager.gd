@@ -23,18 +23,13 @@ var player_start_positions: Array
 var players_in_game: Array
 
 # strays
-var strays_in_game: Array = [] # za spawnanje v rundah (živ podatek)
-var strays_in_game_count: int # za statistiko in GO (umeten podatek)
-var strays_start_count: int
+var strays_in_game: Array = [] # za spawnanje v rundah in cleaned GO tajming
+var strays_start_count: int # opredeli se on_tilemap_completed
 
 # tilemap data
 var floor_positions: Array
 var random_spawn_positions: Array
-#var available_stray_positions: Array
-#var available_floor_positions: Array
-#var additional_floor_positions: Array # xtra pozicije za kombo spawn
 var required_spawn_positions: Array
-
 
 # profiles
 var p1_stats: Dictionary = Profiles.default_player_stats.duplicate() # tukaj se postavijo prazne vrednosti, ki se nafilajo kasneje
@@ -48,7 +43,6 @@ onready var default_tilemap: TileMap = $"../Tilemap"
 onready var FloatingTag = preload("res://game/hud/floating_tag.tscn")
 onready var StrayPixel = preload("res://game/pixel/stray.tscn")
 onready var PlayerPixel = preload("res://game/pixel/player.tscn")
-
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -78,8 +72,7 @@ func _process(delta: float) -> void:
 	
 	if strays_in_game.size() == 0 and game_on:
 		emit_signal("all_strays_cleaned")
-		
-	# plejer se obnaša glede na energijo in jo more skos poznat
+	# plejer se obnaša glede na energijo in jo more poznat
 	if p1:
 		p1.player_energy = p1_stats["player_energy"]
 	if p2:
@@ -228,19 +221,21 @@ func split_stray_colors():
 	
 	# nabiranje barv za vsak pixel
 	var all_colors: Array = []
-	var loop_count = 0
+	
 	
 	var spawned_stray_index: int = 1
 	
 	for color in color_count:
-		var selected_color_position_x = spawned_stray_index * color_skip_size # pozicija pixla na sliki
-		var current_color = spectrum_image.get_pixel(selected_color_position_x, 0) # zajem barve na lokaciji pixla
-		spawn_stray(current_color, spawned_stray_index)
+		# lokacija barve v spektrumu
+		var selected_color_position_x = (spawned_stray_index - 1) * color_skip_size # -1, da začne z 0, če ne "out of bounds" error
+		# barva na lokaciji v spektrumu
+		var current_color = spectrum_image.get_pixel(selected_color_position_x, 0)  
 		all_colors.append(current_color)
+		# spawn stray 
+		spawn_stray(current_color, spawned_stray_index)
 		spawned_stray_index += 1
 		
 	Global.hud.spawn_color_indicators(all_colors)				
-	strays_in_game_count = spawned_stray_index # količina je enaka indexu zadnjega
 
 
 func spawn_stray(stray_color, stray_index):
@@ -313,14 +308,18 @@ func spawn_floating_tag(owner_player: Node, value): # kliče ga GM
 	
 	if value == 0:
 		return
-		
+	
 	var new_floating_tag = FloatingTag.instance()
 	new_floating_tag.z_index = 3 # višje od straysa in playerja
+	new_floating_tag.global_position = owner_player.global_position
 	new_floating_tag.tag_owner = owner_player
+	Global.node_creation_parent.add_child(new_floating_tag)
+	
 	if value < 0:
 		new_floating_tag.modulate = Global.color_red
-	Global.node_creation_parent.add_child(new_floating_tag)
-	new_floating_tag.label.text = str(value)
+		new_floating_tag.label.text = str(value)
+	elif value > 0:
+		new_floating_tag.label.text = "+" + str(value)
 
 
 # TILEMAP ----------------------------------------------------------------------------------
@@ -371,8 +370,6 @@ func _on_tilemap_completed(floor_cells_positions: Array, stray_cells_positions: 
 		strays_start_count = required_spawn_positions.size()
 	else:	
 		strays_start_count = game_data["strays_start_count"]
-	print("strays to spawn (from tilemap) ", strays_start_count)
-	printt("floor size pred in po dodajanju ostalih celic ", floor_cells_positions.size(), floor_positions.size())
 	
 	# preventam preveč straysov (več kot je možnih pozicij)
 	if strays_start_count > random_spawn_positions.size() + required_spawn_positions.size():
@@ -411,18 +408,17 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 			player_stats["colors_collected"] += destroyed_strays_count
 			player_stats["player_points"] += points_rewarded
 			player_stats["player_energy"] += energy_rewarded
-			strays_in_game_count -=	destroyed_strays_count		
 			spawn_floating_tag(stat_owner, points_rewarded) 
-			# za tutorial
+			# tutorial
 			if game_data["game"] == Profiles.Games.TUTORIAL:
 				Global.tutorial_gui.finish_bursting()
 				if destroyed_strays_count >= 3:
 					Global.tutorial_gui.finish_stacking()
-			# cleaned
-			if strays_in_game_count == 0:
-				yield(self, "all_strays_cleaned") # počakaj, da v resnici vsi poginejo
+			# cleaned GO
+			yield(self, "all_strays_cleaned") # počakaj, da vsi kvefrijajo
+			if strays_in_game.size() == 0:
 				stat_owner.animation_player.play("become_white")
-				yield(get_tree().create_timer(2), "timeout") # počakam da postane bel ... usklajeno z "become_white
+				yield(get_tree().create_timer(2), "timeout") # počakam da postane bel ... usklajeno z animacijo
 				player_stats["player_points"] += game_settings["all_cleaned_points"]
 				spawn_floating_tag(stat_owner,game_settings["all_cleaned_points"]) 
 				yield(get_tree().create_timer(1), "timeout") # mal počakam
@@ -435,7 +431,7 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 				var energy_to_lose = round(player_stats["player_energy"] / 2)
 				player_stats["player_points"] -= points_to_lose
 				player_stats["player_energy"] -= energy_to_lose
-				spawn_floating_tag(stat_owner.global_position, - points_to_lose) 
+				spawn_floating_tag(stat_owner, - points_to_lose) 
 				stat_owner.revive()
 		"hit_player":
 			player_stats["player_energy"] += game_settings["color_picked_energy"]
@@ -462,9 +458,10 @@ func _on_stat_changed(stat_owner, changed_stat, stat_change):
 			player_stats["skill_count"] += 1
 			player_stats["player_energy"] += game_settings["skill_used_energy"]
 			player_stats["player_points"] += game_settings["skill_used_points"]
+			# tutorial
 			if game_data["game"] == Profiles.Games.TUTORIAL:
 				match stat_change:
-					0: 
+					0:
 						Global.tutorial_gui.push_done()
 					1: 
 						Global.tutorial_gui.pull_done()

@@ -45,10 +45,10 @@ func step(step_direction):
 	
 	is_stepping = true
 	
-	global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_global_positions)
+	global_position = Global.snap_to_nearest_grid(global_position)
 	var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 	step_tween.tween_property(self, "position", global_position + step_direction * cell_size_x, step_time)
-	step_tween.tween_callback(Global, "snap_to_nearest_grid", [global_position, Global.game_tilemap.floor_global_positions])
+	step_tween.tween_callback(Global, "snap_to_nearest_grid", [global_position])
 	step_tween.tween_property(self, "is_stepping", false, 0)
 
 

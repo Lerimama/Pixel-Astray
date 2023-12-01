@@ -956,7 +956,7 @@ margin = Rect2( -2, 2, 0, 0 )
 [node name="Game" type="Node2D"]
 script = ExtResource( 6 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 1371.0, 1371.0 ],
+"_edit_horizontal_guides_": [ 1371.0, 1371.0, 360.0, 416.0 ],
 "_edit_vertical_guides_": [ 640.0, 1632.0, 425.0, 856.0, 128.0, 1152.0, -72.0 ]
 }
 
@@ -2525,6 +2525,7 @@ anims/countdown_5 = SubResource( 142 )
 anims/countdown_5_v1 = SubResource( 135 )
 
 [node name="Tutorial" type="Control" parent="GUI"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 720 )
@@ -4401,7 +4402,6 @@ text = "PLAY ON"
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 22 )
@@ -4414,7 +4414,6 @@ anchor_bottom = 1.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="FinalTitle" type="Control" parent="GUI/GameOver"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -4648,9 +4647,9 @@ modulate = Color( 0.368627, 1, 0.662745, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -192.0
-margin_top = 214.0
+margin_top = 206.0
 margin_right = 192.0
-margin_bottom = 264.0
+margin_bottom = 256.0
 grow_horizontal = 2
 text = "Now, try a real game and become a master."
 align = 1
@@ -4712,9 +4711,9 @@ tile_data = PoolIntArray( 0, 0, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -161
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -252.0
-margin_top = 150.0
+margin_top = 142.0
 margin_right = 252.0
-margin_bottom = 182.0
+margin_bottom = 174.0
 grow_horizontal = 2
 custom_fonts/font = ExtResource( 5 )
 text = "You are full of colors again!"
@@ -4744,9 +4743,9 @@ tile_data = PoolIntArray( 0, 0, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -161
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -177.0
-margin_top = 150.0
+margin_top = 142.0
 margin_right = 177.0
-margin_bottom = 182.0
+margin_bottom = 174.0
 grow_horizontal = 2
 custom_fonts/font = ExtResource( 5 )
 text = "You are out of time!"
@@ -4776,9 +4775,9 @@ tile_data = PoolIntArray( 0, 0, 0, 1, -1610612736, 0, 2, -1610612736, 0, 3, -161
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -234.0
-margin_top = 150.0
+margin_top = 142.0
 margin_right = 234.0
-margin_bottom = 182.0
+margin_bottom = 174.0
 grow_horizontal = 2
 custom_fonts/font = ExtResource( 5 )
 text = "You are forever colorless!"
@@ -5285,15 +5284,14 @@ size_flags_vertical = 8
 text = "PLAY AGAIN"
 
 [node name="NameInputPopup" type="Control" parent="GUI/GameOver"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -256.0
-margin_top = 96.0
+margin_top = 112.0
 margin_right = 256.0
-margin_bottom = 320.0
+margin_bottom = 336.0
 
 [node name="Undi" type="Panel" parent="GUI/GameOver/NameInputPopup"]
 visible = false
@@ -5302,19 +5300,24 @@ anchor_bottom = 1.0
 
 [node name="Label" type="Label" parent="GUI/GameOver/NameInputPopup"]
 anchor_right = 1.0
-margin_top = 22.0
-margin_bottom = 44.0
+margin_left = 40.0
+margin_top = -2.0
+margin_right = -40.0
+margin_bottom = 20.0
 size_flags_vertical = 3
-text = "Great work!"
+text = "%s"
 align = 1
 autowrap = true
 
 [node name="Label2" type="Label" parent="GUI/GameOver/NameInputPopup"]
 anchor_right = 1.0
-margin_top = 54.0
-margin_bottom = 76.0
+margin_left = 48.0
+margin_top = 30.0
+margin_right = -48.0
+margin_bottom = 80.0
 size_flags_vertical = 3
-text = "You are one of the all-time greats."
+custom_constants/line_spacing = 2
+text = "You deserve to write your name as one of the all-time greats."
 align = 1
 autowrap = true
 
@@ -5329,9 +5332,8 @@ focus_neighbour_bottom = NodePath("../HBoxContainer/ConfirmBtn")
 focus_next = NodePath("../HBoxContainer/ConfirmBtn")
 size_flags_horizontal = 4
 size_flags_vertical = 6
-text = "00000000"
+text = "00000000000"
 align = 1
-max_length = 8
 caret_blink = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="GUI/GameOver/NameInputPopup"]

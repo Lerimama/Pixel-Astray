@@ -14,10 +14,12 @@ var input_string: String # = "" # neki more bit, če plejer nč ne vtipka in pot
 
 onready var background: ColorRect = $Background
 onready var highscore_table: VBoxContainer = $GameSummary/HighscoreTable
-onready var name_input_popup: Control = $NameInputPopup
-onready var name_input: LineEdit = $NameInputPopup/NameInput
 onready var gameover_title: Control = $FinalTitle
 onready var game_summary: Control = $GameSummary
+# name input
+onready var name_input_popup: Control = $NameInputPopup
+onready var name_input: LineEdit = $NameInputPopup/NameInput
+onready var name_input_label: Label = $NameInputPopup/Label
 
 
 func _input(event: InputEvent) -> void:
@@ -84,7 +86,7 @@ func show_gameover_title():
 	fade_in.tween_callback(gameover_title, "set_visible", [true])#.set_delay(1)
 	fade_in.tween_property(gameover_title, "modulate:a", 1, 1)
 	fade_in.parallel().tween_callback(Global.sound_manager, "play_sfx", [selected_jingle])
-	fade_in.parallel().tween_property(background, "modulate:a", 0.6, 1).set_delay(0.5)
+	fade_in.parallel().tween_property(background, "modulate:a", 0.7, 1).set_delay(0.5)
 	fade_in.tween_callback(self, "show_menu").set_delay(2)
 
 
@@ -137,7 +139,7 @@ func write_gameover_data():
 	$GameSummary/DataContainer/BurstCount.text %= str(Global.game_manager.p1_stats["burst_count"])
 	$GameSummary/DataContainer/SkillsUsed.text %= str(Global.game_manager.p1_stats["skill_count"])
 	$GameSummary/DataContainer/PixelsOff.text %= str(Global.game_manager.p1_stats["colors_collected"])
-	$GameSummary/DataContainer/AstrayPixels.text %= str(Global.game_manager.strays_in_game_count)
+	$GameSummary/DataContainer/AstrayPixels.text %= str(Global.game_manager.strays_in_game.size())
 
 
 # TITLES --------------------------------------------------------------	
@@ -186,12 +188,15 @@ func set_game_title(gameover_reason):
 		Global.game_manager.GameoverReason.CLEANED:
 			selected_title = $FinalTitle/GameCleaned
 			selected_jingle = "win_jingle"
+			name_input_label.text %= "Great work!"
 		Global.game_manager.GameoverReason.LIFE:
 			selected_title = $FinalTitle/GameLife
 			selected_jingle = "lose_jingle"
+			name_input_label.text %= "But still ... "
 		Global.game_manager.GameoverReason.TIME:
 			selected_title = $FinalTitle/GameTime
 			selected_jingle = "lose_jingle"
+			name_input_label.text %= "But still ... "
 	
 	focus_btn = $GameSummary/Menu/RestartBtn		
 	
@@ -211,8 +216,10 @@ func unpause_tree():
 	
 # NAME INPUT --------------------------------------------------------------------	
 
+
 func open_name_input():
 	
+#	name_input_label.text %= "But still ..." 
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	
 	name_input_popup.visible = true

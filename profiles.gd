@@ -113,7 +113,7 @@ var game_data_cleaner_S: Dictionary = {
 	"level": "S",
 	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_S_tilemap.tscn",
 	"game_time_limit": 120,
-	"strays_start_count": 50, # se upošteva, če ni pozicij
+	"strays_start_count": 6, # se upošteva, če ni pozicij
 	"highscore": 0, # more bit, da ga greba za med igro
 }
 
@@ -156,7 +156,7 @@ var game_settings: Dictionary = {}
 
 func _ready() -> void:
 	
-	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
+	var current_game = Games.CLEANER_S # če greš iz menija je tole povoženo
 	set_game_data(current_game)
 	
 func set_game_data(selected_game) -> void:

@@ -354,8 +354,7 @@ func step():
 	# če kolajda izbrani smeri gibanja prenesem kontrole na skill
 	if not Global.detect_collision_in_direction(vision_ray, step_direction):
 		current_state = States.STEPPING
-		global_position = Global.snap_to_nearest_grid(global_position, Global.game_manager.floor_positions)
-#		global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_global_positions)
+		global_position = Global.snap_to_nearest_grid(global_position)
 		spawn_trail_ghost()
 		var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 		step_tween.tween_property(self, "position", global_position + direction * cell_size_x, step_time)
@@ -387,8 +386,7 @@ func end_move():
 	else:
 		modulate = pixel_color
 	
-#	global_position = Global.snap_to_nearest_grid(global_position, Global.game_tilemap.floor_global_positions) 
-	global_position = Global.snap_to_nearest_grid(global_position, Global.game_manager.floor_positions) 
+	global_position = Global.snap_to_nearest_grid(global_position) 
 	current_state = States.IDLE
 	
 	if Global.sound_manager.teleport_loop.is_playing(): # zazih ... export for windows 

@@ -5,6 +5,7 @@ extends Node2D
 
 var main_node = null
 var node_creation_parent = null # arena
+var game_parent = null
 
 # managers
 var sound_manager = null
@@ -59,19 +60,14 @@ func reset_cameras():
 	p2_camera_target = null
 	
 
-func snap_to_nearest_grid(current_global_position: Vector2, cell_positions):
+func snap_to_nearest_grid(current_global_position: Vector2):
 	
 	if not is_instance_valid(game_tilemap):
 		print("ERROR! Snapanje na grid ... manjka Global.game_tilemap")
-		return
 		
 	var floor_cells: Array = game_manager.floor_positions
-#	var floor_cells: Array = cell_positions
-#	var floor_cells: Array = game_tilemap.floor_global_positions
-#	var tilemap_cells: Array = game_tilemap.floor_global_positions
 	var cell_size_x: float = game_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 	
-	printt ("global floor ", floor_cells.size())
 	# adaptacija zaradi središčne točke strejsa in playerja
 	var current_position: Vector2 = Vector2(current_global_position.x - cell_size_x/2, current_global_position.y - cell_size_x/2)
 	
@@ -93,10 +89,6 @@ func snap_to_nearest_grid(current_global_position: Vector2, cell_positions):
 
 func detect_collision_in_direction(ray, direction_to_check):
 	
-	if not is_instance_valid(game_tilemap):
-		print("ERROR! Detect_collision ... manjka Global.game_tilemap")
-		return
-	
 	var cell_size_x: int = game_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 	
 	ray.cast_to = direction_to_check * cell_size_x # ray kaže na naslednjo pozicijo 
@@ -106,16 +98,17 @@ func detect_collision_in_direction(ray, direction_to_check):
 		var ray_collider = ray.get_collider()
 		return ray_collider
 	
-		
-func get_random_member_index(group_of_elements, offset): # offset je če zamakneš začetek
-		# uporabljam pri: ... nikjer
 
-		var random_range = group_of_elements.size()
-		var selected_int = randi() % int(random_range) + offset
-#		var selected_value = current_array[random_int]
-
-		printt("RANDOM", random_range, selected_int)
-		return selected_int
+# ni v uporabi		
+#func get_random_member_index(group_of_elements, offset): # offset je če zamakneš začetek
+#		# uporabljam pri: ... nikjer
+#
+#		var random_range = group_of_elements.size()
+#		var selected_int = randi() % int(random_range) + offset
+##		var selected_value = current_array[random_int]
+#
+#		printt("RANDOM", random_range, selected_int)
+#		return selected_int
 
 
 # SCENE MANAGER (prehajanje med igro in menijem) ----------------------------------------------------------------
