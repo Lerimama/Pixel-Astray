@@ -188,7 +188,7 @@ func set_game_title(gameover_reason):
 		Global.game_manager.GameoverReason.CLEANED:
 			selected_title = $FinalTitle/GameCleaned
 			selected_jingle = "win_jingle"
-			name_input_label.text %= "Great work!"
+#			name_input_label.text %= "Great work!"
 		Global.game_manager.GameoverReason.LIFE:
 			selected_title = $FinalTitle/GameLife
 			selected_jingle = "lose_jingle"

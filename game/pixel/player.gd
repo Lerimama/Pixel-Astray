@@ -90,6 +90,8 @@ onready var skill_light: Light2D = $SkillLight
 
 # NEU
 var is_virgin: bool = true # začne kot devičnik ... neha bit na prvi end_move ali na začetku cockanja
+# statistika
+var player_stats: Dictionary = Profiles.default_player_stats.duplicate() # tukaj se postavijo prazne vrednosti, ki se nafilajo kasneje
 
 
 func _ready() -> void:
