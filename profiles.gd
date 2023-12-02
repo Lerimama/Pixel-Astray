@@ -8,7 +8,7 @@ extends Node
 
 
 var default_player_stats: Dictionary = {
-	"player_name" : "Moe", # to ime se piše v HS procesu, če igralec pusti prazno
+	"player_name" : "Anonymous", # to ime se piše v HS procesu, če igralec pusti prazno
 	"player_life" : 0, # se opredeli iz game_settings
 	"player_energy" : 0, # se opredeli iz game_settings
 	"player_points": 0,
@@ -18,9 +18,9 @@ var default_player_stats: Dictionary = {
 	"cells_traveled" : 0,
 }
 
-var default_game_settings: Dictionary = {
-	# default settings so tiste, ki so najbolj pogoste ... opisane v tutorialu
-	"start_players_count": 1, # tole se seta v home > play meniju
+var default_game_settings: Dictionary = { # default settings so tiste, ki so najbolj pogoste ... opisane v tutorialu
+
+	"start_players_count": 1, # setano v home/play meniju
 	
 	# scoring
 	"all_cleaned_points": 500,
@@ -34,8 +34,8 @@ var default_game_settings: Dictionary = {
 	"skill_used_energy": 0,
 	
 	# player on start
-	"player_start_life": 3, # če je samo en lajf, potem se ikone skrijejo v hudu
-	"player_start_energy": 192, # energija ob štartu
+	"player_start_life": 3, # 1 lajf skrije ikone v hudu in določi "lose_life_on_hit"
+	"player_start_energy": 192,
 	"player_start_color": Color("#141414"),
 	
 	# player in game
@@ -43,6 +43,7 @@ var default_game_settings: Dictionary = {
 	"player_tired_energy": 20, # pokaže steps warning popup in hud oabrva rdeče
 	"step_time_fast": 0.09, # default hitrost
 	"step_time_slow": 0.15, # minimalna hitrost
+	"step_slowdown_rate": 18,
 	
 	# timer
 	"gameover_countdown_duration": 5,
@@ -50,21 +51,11 @@ var default_game_settings: Dictionary = {
 	"start_countdown": true,
 	
 	# behaviour
-	"slowdown_mode": true, # hitrost je odvisna od energije
-	"slowdown_rate": 18,
-	
+	"step_slowdown_mode": true,
 	"suddent_death_mode": false,
 	"sudden_death_limit" : 20,
-	
-	"lose_life_on_hit": true, # uskladi s količino lajfov
-	"reset_energy_on_lose_life": true,
-	
 	"pick_neighbor_mode": false,
-	
 	"minimap_on": true,
-	
-	
-	
 	"manage_highscores": false,
 	
 	"skill_limit_mode": false,
@@ -78,10 +69,7 @@ var default_game_settings: Dictionary = {
 
 
 enum Games {DEBUG, TUTORIAL, CLEANER_S, CLEANER_M, CLEANER_L, RUNNER, DUEL, RIDDLER}
-enum PlayerCount {ONE = 1, TWO}
-#var start_player_count: int = PlayerCount.TWO
 
-var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
 
 
 var game_data_runner: Dictionary = { 
@@ -165,6 +153,7 @@ var game_data_duel: Dictionary = {
 
 
 var game_settings: Dictionary = {}
+var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
 
 
 func _ready() -> void:
@@ -191,7 +180,6 @@ func set_game_data(selected_game) -> void:
 			current_game_data = game_data_duel
 			game_settings["start_players_count"] = 2
 			game_settings["player_start_life"] = 3
-			game_settings["lose_life_on_hit"] = true
 		Games.TUTORIAL:
 			current_game_data = game_data_tutorial
 			game_settings["timer_mode_countdown"] = false

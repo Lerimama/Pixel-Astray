@@ -15,7 +15,14 @@ script = ExtResource( 1 )
 [node name="Background" type="Node2D" parent="."]
 z_index = -3
 
-[node name="BackgroundColor" type="ColorRect" parent="Background"]
+[node name="Background" type="ColorRect" parent="Background"]
+margin_left = -184.0
+margin_top = -184.0
+margin_right = 2952.0
+margin_bottom = 1824.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="Undi" type="ColorRect" parent="Background"]
 visible = false
 margin_right = 2752.0
 margin_bottom = 1636.0

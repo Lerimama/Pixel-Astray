@@ -10,10 +10,15 @@ export var pixel_color: Color # exportano za animacijo "become_white"
 
 var direction = Vector2.ZERO # prenosna
 var collision: KinematicCollision2D
-var step_time: float # uporabi se pri step tweenu in je nekonstanten, če je "energy_speed_mode"
 var skill_sfx_playing: bool = false # da lahko kličem is procesne funkcije
 var player_camera: Node
 var player_camera_target: Node
+
+# steping
+var step_time: float # uporabi se pri step tweenu in je nekonstanten, če je "energy_speed_mode"
+var step_time_fast: float = Global.game_manager.game_settings["step_time_fast"]
+var step_time_slow: float = Global.game_manager.game_settings["step_time_slow"]
+var step_slowdown_rate: float = Global.game_manager.game_settings["step_slowdown_rate"]
 
 # cocking
 var cocked_ghosts: Array
@@ -23,7 +28,7 @@ var cock_ghost_setup_time = 0.12 # čas nastajanja cocking ghosta in njegova ani
 var ghost_cocking_time: float = 0 # trenuten čas nastajanja cocking ghosta ... more bit zunaj, da ga ne resetira na 0 z vsakim frejmom
 
 # bursting
-var burst_speed: float = 0 # glavna (trenutna) hitrost
+var burst_speed: float = 0 # trenutna hitrost
 var burst_speed_max: float = 0 # maximalna hitrost v tweenu (določena med kokanjem)
 var burst_direction_set: bool = false
 var burst_cocked_ghost_count: int # moč v številu ghosts_count
@@ -41,17 +46,13 @@ var key_up: String
 var key_down: String
 var key_burst: String
 
-# shaking camera
-var burst_power_shake_addon: float = 0.03
-
-
-
 onready var cell_size_x: int = Global.game_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var vision_ray: RayCast2D = $VisionRay
 onready var collision_shape: CollisionShape2D = $CollisionShape2D
 onready var glow_light: Light2D = $GlowLight
 onready var skill_light: Light2D = $SkillLight
+
 onready var Ghost: PackedScene = preload("res://game/pixel/ghost.tscn")
 onready var PixelCollisionParticles: PackedScene = preload("res://game/pixel/pixel_collision_particles.tscn")
 onready var PixelDizzyParticles: PackedScene = preload("res://game/pixel/pixel_dizzy_particles.tscn")
@@ -60,26 +61,27 @@ onready var FloatingTag: PackedScene = preload("res://game/hud/floating_tag.tscn
 # NEU
 var is_virgin: bool = true # začne kot devičnik ... neha bit na prvi end_move ali na začetku cockanja
 var player_stats: Dictionary = Profiles.default_player_stats.duplicate() # tukaj se postavijo prazne vrednosti, ki se nafilajo kasneje
+var lose_life_on_hit: bool = true # če je lajf na štartu večji od 1
 onready var game_settings: Dictionary = Global.game_manager.game_settings 
 
 
 func _unhandled_input(event: InputEvent) -> void:
-
-	if Input.is_action_pressed("no1") and player_stats["player_energy"] > 1:
-		player_stats["player_energy"] -= 10
-		player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_settings["player_start_energy"])
+	
+	if name == "p1":
+		if Input.is_action_pressed("no1"):
+			player_stats["player_energy"] -= 10
+			player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_settings["player_start_energy"])
+	elif name == "p2":
+		if Input.is_action_pressed("no2") and player_stats["player_energy"] > 1:
+			player_stats["player_energy"] -= 10
+			player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_settings["player_start_energy"])
 
 	
 func _ready() -> void:
 	
-	
-	randomize() # za random blink animacije
 	add_to_group(Global.group_players)
 	
-	player_stats["player_energy"] = game_settings["player_start_energy"]
-	player_stats["player_life"] = 3
-	
-	# controls setup
+	# controler setup
 	if Global.game_manager.game_settings["start_players_count"] == 2:
 		key_left = "%s_left" % name
 		key_right = "%s_right" % name
@@ -93,12 +95,22 @@ func _ready() -> void:
 		key_down = "ui_down"
 		key_burst = "burst"
 	
-	modulate = pixel_color # pixel_color je določen ob spawnu z GM
+	player_stats["player_energy"] = game_settings["player_start_energy"]
+	player_stats["player_life"] = game_settings["player_start_life"]
+	
+	if game_settings["player_start_life"] > 1:
+		lose_life_on_hit = true
+	else:
+		lose_life_on_hit = false
+		
 	skill_light.enabled = false
 	glow_light.enabled = false
 	
+	modulate = pixel_color # pixel_color je določen ob spawnu z GM
 	current_state = States.IDLE
-
+	
+	randomize() # za random blink animacije
+	
 	
 func _physics_process(delta: float) -> void:
 	
@@ -126,14 +138,13 @@ func state_machine():
 		States.IDLE:
 			if Global.detect_collision_in_direction(vision_ray, direction): # koda je tukaj, da ne blinkne ob kontaktu s sosedo
 				current_state = States.SKILLED
-			# toggle energy_speed_mode
-			if Global.game_manager.game_settings["slowdown_mode"]:
-				var slow_trim_size: float = Global.game_manager.game_settings["step_time_slow"] * Global.game_manager.game_settings["player_max_energy"]
+			if Global.game_manager.game_settings["step_slowdown_mode"]:
+				var slow_trim_size: float = step_time_slow * Global.game_manager.game_settings["player_max_energy"]
 				var energy_factor: float = (Global.game_manager.game_settings["player_max_energy"] - slow_trim_size) / player_stats["player_energy"]
-				var energy_step_time = energy_factor / Global.game_manager.game_settings["slowdown_rate"] # variabla, da FP ne kliče na vsak frejm
-				step_time = clamp(energy_step_time, Global.game_manager.game_settings["step_time_fast"], Global.game_manager.game_settings["step_time_slow"]) # omejim najbolj počasno korakanje
+				var energy_step_time = energy_factor / step_slowdown_rate # variabla, da FP ne kliče na vsak frejm
+				step_time = clamp(energy_step_time, step_time_fast, step_time_slow) # omejim najbolj počasno korakanje
 			else:
-				step_time = Global.game_manager.game_settings["step_time_fast"]
+				step_time = step_time_fast
 			idle_inputs()
 		States.SKILLED:
 			skill_inputs()
@@ -157,16 +168,17 @@ func on_collision():
 	var hit_shake_power: float = 0.2
 	var hit_shake_time: float = 0.3
 	var hit_shake_decay: float = 0.7
-	
+	var burst_power_shake_addon: float = 0.03
 	var added_shake_power = hit_shake_power + burst_power_shake_addon * burst_cocked_ghost_count
 	var added_shake_time = hit_shake_time + burst_power_shake_addon * burst_cocked_ghost_count
+	
 	player_camera.shake_camera(added_shake_power, added_shake_time, hit_shake_decay)
 	
 	if collision.collider.is_in_group(Global.group_tilemap):
-		if heartbeat_active: # enako, kot,da bi bil zadnji bit ... kar umre, da se ne animacija ne meša z revive
+		if heartbeat_active: # enako, kot, da bi bil zadnji bit ... kar umre, da se ne animacija ne meša z revive
 			heartbeat_active = false
 			glow_light.enabled = false
-			change_stat("out_of_energy")
+			change_stat("no_energy")
 		else:
 			change_stat("hit_wall")
 		die()
@@ -192,10 +204,10 @@ func on_collision():
 		if burst_speed > hit_player.burst_speed:
 			if hit_player.pixel_color != Global.game_manager.game_settings["player_start_color"]: # če nima nobene barve mu je ne prevzamem
 				pixel_color = hit_player.pixel_color # prevzamem barvo
-			change_stat("hit_player")
 			hit_player.on_get_hit(added_shake_power, added_shake_time, hit_shake_decay)
 			end_move()
 			hit_player.end_move() # plejer, ki prvi zazna kontakt ukaže naprej, da je zaporedje pod kontrolo 
+			change_stat("hit_player")
 		# neodločeno
 		elif burst_speed_max == hit_player.burst_speed:
 			end_move()
@@ -581,8 +593,6 @@ func teleport():
 	elif name == "p2":
 		Global.p2_camera_target = new_teleport_ghost
 	
-#	skill_light_off()
-	
 	yield(get_tree().create_timer(0.2), "timeout")
 	# zaključek v signalu _on_ghost_target_reached
 	
@@ -785,18 +795,13 @@ func destroy_all_stacked(all_neighboring_strays, hit_stray):
 
 func die():
 
-#	var die_shake_power: float = 0.2
-#	var die_shake_time: float = 0.7
-#	var die_shake_decay: float = 0.1
-#	player_camera.shake_camera(die_shake_power, die_shake_time, die_shake_decay)
-	
 	set_physics_process(false)
 	animation_player.play("die_player")
 
 
 func revive():
 	
-	var dead_time: float = 2
+	var dead_time: float = 1
 	yield(get_tree().create_timer(dead_time), "timeout")
 	animation_player.play("revive")
 
@@ -910,6 +915,9 @@ func _on_ghost_detected_body(body):
 func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	
 	match anim_name:
+		"virgin_blink":
+			if is_virgin and not heartbeat_active:
+				animation_player.play("virgin_blink")
 		"heartbeat":
 			heartbeat_loop += 1
 			if heartbeat_loop <= 5 and heartbeat_active:
@@ -917,21 +925,42 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 				Global.sound_manager.play_sfx("heartbeat")
 			elif heartbeat_active:
 				glow_light.enabled = false
-				change_stat("out_of_energy")
+				change_stat("no_energy")
 				die()
+		"die_player":
+			if player_stats["player_life"] > 0:
+				revive()
+			else:
+				Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)	
 		"revive":
 			set_physics_process(true)
-		"virgin_blink":
-			if is_virgin and not heartbeat_active:
-				animation_player.play("virgin_blink")
+			if lose_life_on_hit:
+				player_stats["player_energy"] = game_settings["player_max_energy"]
 
 
-# VODENJE STATISTIKE ------------------------------------------------------------------------------------------
+# STAT EVENTS ------------------------------------------------------------------------------------------
 
-
+#	- die() kliče
+#		- hit wall ... on collision()
+#		- hit by player ... on_get_hit()
+#		- no energy ... heartbeat_end in on_get_hit(), če ni energije
+#
+#	- kjer kličem die(), kličem tudi stat_change()
+#		- die() ima čez obnašanje
+#			- FP off
+#			- kliče revive(), če je lajf še na voljo
+#			- kliče GO na GM, če lajfa ni več
+#		- stat_change() pedena statistiko
+#			- vzame lajf, če je to pogojeno
+#			- vzame energijo, če je to pogojeno
+#	- revive() se zgodi, če je še na voljo lajf
+#		- resetira energijo, če je to pogojeno
+#		- FP on
+	
 func change_stat(event: String):
 	
 	match event:
+		# good
 		"hit_stray":
 			# izračun točk
 			var points_rewarded: int = 0
@@ -958,33 +987,37 @@ func change_stat(event: String):
 #				spawn_floating_tag(stat_owner,game_settings["all_cleaned_points"]) 
 #				yield(get_tree().create_timer(1), "timeout") # mal počakam
 #				game_over(GameoverReason.CLEANED)
-		"hit_wall":
-			if game_settings["lose_life_on_hit"]: # resetiram energijo
-				lose_life()
-			else: # zguba polovice energije in točk
-				var points_to_lose = round(player_stats["player_points"] / 2)
-				var energy_to_lose = round(player_stats["player_energy"] / 2)
-				player_stats["player_points"] -= points_to_lose
-				player_stats["player_energy"] -= energy_to_lose
-				spawn_floating_tag(- points_to_lose) 
-				revive()
+			pass
 		"hit_player":
 			player_stats["player_energy"] += game_settings["color_picked_energy"]
 #			player_stats["colors_collected"] += opponent_player_stats["colors_collected"]
 #			spawn_floating_tag(stat_owner, opponent_player_stats["colors_collected"])
 #			var energy_to_gain = round(opponent_player_stats["player_energy"] / 2)
 #			player_stats["player_energy"] += energy_to_gain
+			pass
+			
+		# bad
+		"hit_wall":
+			if lose_life_on_hit:
+				player_stats["player_life"] -= 1
+			else: # zguba polovice energije in točk
+				var points_to_lose = round(player_stats["player_points"] / 2)
+				var energy_to_lose = round(player_stats["player_energy"] / 2)
+				player_stats["player_points"] -= points_to_lose
+				player_stats["player_energy"] -= energy_to_lose
+				spawn_floating_tag(- points_to_lose) 
 		"hit_by_player":
-			spawn_floating_tag(- player_stats["colors_collected"])
-			player_stats["colors_collected"] = 0
-			if game_settings["lose_life_on_hit"]:
-				lose_life()
+			if lose_life_on_hit:
+				player_stats["player_life"] -= 1
 			else:
 				var energy_to_lose = round(player_stats["player_energy"] / 2)
 				player_stats["player_energy"] -= energy_to_lose
-				revive()
-		"out_of_energy":
-			lose_life()
+			spawn_floating_tag(- player_stats["colors_collected"])
+			player_stats["colors_collected"] = 0
+		"no_energy":
+			player_stats["player_life"] -= 1
+		
+		# stats
 		"cells_traveled": 
 			player_stats["cells_traveled"] += 1
 			player_stats["player_energy"] += game_settings["cell_traveled_energy"]
@@ -1018,18 +1051,4 @@ func change_stat(event: String):
 	player_stats["player_points"] = clamp(player_stats["player_points"], 0, player_stats["player_points"])	
 
 	# signal na hud
-	emit_signal("stat_changed", self)
-	
-
-		
-		
-func lose_life():
-	
-	player_stats["player_life"] -= 1
-
-	if player_stats["player_life"] < 1 and Global.game_manager.game_on: # game_on, da ne striže z drugimi GO klici
-		Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)
-	else: # če mam še lajfov
-		revive()
-		if game_settings["reset_energy_on_lose_life"]: # da ne znižam energije, če je višja od "player_max_energy" ... zazih
-			player_stats["player_energy"] = game_settings["player_max_energy"]
+#	emit_signal("stat_changed", self)

@@ -1,10 +1,5 @@
 extends Node
 
-	
-var corner_TL: float
-var corner_TR: float
-var corner_BL: float
-var corner_BR: float
 
 onready var viewport_separator: VSeparator = $GameView/Viewports/ViewportSeparator
 # player 1
@@ -53,10 +48,10 @@ func set_camera_limits():
 	var tilemap_cell_size = Global.game_tilemap.cell_size
 	var cell_edge_length = tilemap_cell_size.x
 	
-	corner_TL = tilemap_edge.position.x * tilemap_cell_size.x #+ cell_edge_length
-	corner_TR = tilemap_edge.end.x * tilemap_cell_size.x #- cell_edge_length
-	corner_BL = tilemap_edge.position.y * tilemap_cell_size.y #+ cell_edge_length
-	corner_BR = tilemap_edge.end.y * tilemap_cell_size.y #- cell_edge_length
+	var corner_TL: float = tilemap_edge.position.x * tilemap_cell_size.x #+ cell_edge_length
+	var corner_TR: float = tilemap_edge.end.x * tilemap_cell_size.x #- cell_edge_length
+	var corner_BL: float = tilemap_edge.position.y * tilemap_cell_size.y #+ cell_edge_length
+	var corner_BR: float = tilemap_edge.end.y * tilemap_cell_size.y #- cell_edge_length
 	
 	Global.game_tilemap.get_used_rect()
 	

@@ -31,7 +31,7 @@ func play_stepping_sfx(current_player_energy_part: float):
 
 		var selected_tap = select_random_sfx($GameSfx/Stepping)
 		selected_tap.pitch_scale = current_player_energy_part
-		selected_tap.pitch_scale = clamp(selected_tap.pitch_scale, 0.6, 1)
+		selected_tap.pitch_scale = clamp(current_player_energy_part, 0.6, 1)
 		selected_tap.play()
 	
 	
