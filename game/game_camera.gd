@@ -5,8 +5,6 @@ signal zoomed_in
 
 export (OpenSimplexNoise) var noise # tekstura za vizualizacijo ma kopijo tega noisa
 
-
-
 # target setup ... predvsem za teleportanje
 var camera_target: Node
 
@@ -75,9 +73,9 @@ func zoom_in(hud_in_time): # kliče hud
 		
 	var zoom_in_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	zoom_in_tween.tween_property(self, "zoom", final_zoom, hud_in_time)
-	zoom_in_tween.parallel().tween_property(get_viewport(), "size:y", 720 - 112, hud_in_time)
-	zoom_in_tween.parallel().tween_property(viewport_header, "rect_min_size:y", 56, hud_in_time)
-	zoom_in_tween.parallel().tween_property(viewport_footer, "rect_min_size:y", 56, hud_in_time)
+	zoom_in_tween.parallel().tween_property(get_viewport(), "size:y", 720 - 80, hud_in_time)
+	zoom_in_tween.parallel().tween_property(viewport_header, "rect_min_size:y", 40, hud_in_time)
+	zoom_in_tween.parallel().tween_property(viewport_footer, "rect_min_size:y", 40, hud_in_time)
 	zoom_in_tween.tween_callback(self, "emit_signal", ["zoomed_in"])
 	
 	
@@ -123,13 +121,13 @@ func _process(delta):
 	if drag_on:
 		position += mouse_position_on_drag_start - get_global_mouse_position()
 
-
+var tilemap_y_adapt: int = 16
 func _physics_process(delta: float) -> void:
 
 	if Global.p1_camera == self and Global.p1_camera_target:
-		position = Global.p1_camera_target.position + Vector2(cell_size_x / 2, 0)
+		position = Global.p1_camera_target.position + Vector2(cell_size_x / 2, tilemap_y_adapt)
 	elif Global.p2_camera == self and Global.p2_camera_target:
-		position = Global.p2_camera_target.position + Vector2(cell_size_x / 2, 0)
+		position = Global.p2_camera_target.position + Vector2(cell_size_x / 2, tilemap_y_adapt)
 	
 
 

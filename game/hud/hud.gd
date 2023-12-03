@@ -45,6 +45,10 @@ onready var p2_points_holder: HBoxContainer = $Header/PlayerLineR/PointsHolder #
 onready var p2_points_counter: Label = $Header/PlayerLineR/PointsHolder/Points # neuporabljeno
 onready var p2_color_holder: HBoxContainer = $Header/PlayerLineR/ColorHolder # neuporabljeno
 onready var p2_color_counter: Label = $Header/PlayerLineR/ColorHolder/Label
+onready var p2_skill_holder: HBoxContainer = $Header/PlayerLineR/SkillHolder # neuporabljeno
+onready var p2_skill_counter: Label = $Header/PlayerLineR/SkillHolder/Label
+onready var p2_burst_holder: HBoxContainer = $Header/PlayerLineR/BurstHolder # neuporabljeno
+onready var p2_burst_counter: Label = $Header/PlayerLineR/BurstHolder/Label
 # futer
 onready var footer: Control = $Footer # kontrole iz kamere
 onready var game_label: Label = $Footer/FooterLine/GameLine/Game
@@ -64,13 +68,15 @@ onready var picked_color_label: Label = $PickedColor/Value
 #var p1_stats: Dictionary = Profiles.default_player_stats.duplicate()
 #var p1_stats: Dictionary
 
+var hud_height: int = 40
+
 
 func _ready() -> void:
 	print ("hud")
 	Global.hud = self
 	
 	# pre fade-in pozicije
-	var header_off_position = - 56
+	var header_off_position = - hud_height
 	var footer_off_position = 720
 	header.rect_position.y = header_off_position
 	footer.rect_position.y = footer_off_position	
@@ -170,7 +176,7 @@ func check_for_hs():
 
 func update_stats(stat_owner: Node, player_stats: Dictionary):	
 	
-	# player 1 stats
+	# player stats
 	match stat_owner.name:
 		"p1":
 			p1_life_counter.life_count = player_stats["player_life"]
@@ -182,8 +188,11 @@ func update_stats(stat_owner: Node, player_stats: Dictionary):
 		"p2":
 			p2_life_counter.life_count = player_stats["player_life"]
 			p2_energy_counter.energy = player_stats["player_energy"]
+			p2_points_counter.text = "%d" % player_stats["player_points"]
 			p2_color_counter.text = "%d" % player_stats["colors_collected"]
-	
+			p2_burst_counter.text = "%d" % player_stats["burst_count"]
+			p2_skill_counter.text = "%d" % player_stats["skill_count"]
+				
 	# game stats
 	game_label.text = Global.game_manager.game_data["game_name"]
 	level_label.text = Global.game_manager.game_data["level"]
@@ -195,7 +204,7 @@ func update_stats(stat_owner: Node, player_stats: Dictionary):
 	player_energy.text = "E: %d" % player_stats["player_energy"]
 
 		
-func fade_in(): # kliče GM na set_game()
+func fade_in(): # kliče GM set_game()
 	
 	var fade_in_time: int = 2
 	
@@ -209,7 +218,7 @@ func fade_in(): # kliče GM na set_game()
 	
 	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
 	fade_in.tween_property(header, "rect_position:y", 0, fade_in_time)
-	fade_in.parallel().tween_property(footer, "rect_position:y", 720 - 56, fade_in_time)
+	fade_in.parallel().tween_property(footer, "rect_position:y", 720 - hud_height, fade_in_time)
 	
 	yield(Global.p1_camera, "zoomed_in")
 	
@@ -228,7 +237,7 @@ func fade_in(): # kliče GM na set_game()
 	emit_signal("hud_is_set")
 	
 
-func fade_out(): # kliče GM na game_over()
+func fade_out(): # kliče GM game_over()
 	
 	var fade_out_time: int = 2
 	
@@ -241,7 +250,7 @@ func fade_out(): # kliče GM na game_over()
 		camera.zoom_out(fade_out_time)
 		
 	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
-	fade_in.tween_property(header, "rect_position:y", 0 - 56, fade_out_time)
+	fade_in.tween_property(header, "rect_position:y", 0 - hud_height, fade_out_time)
 	fade_in.parallel().tween_property(footer, "rect_position:y", 720, fade_out_time)
 	fade_in.tween_callback(self, "set_visible", [false])
 	

@@ -134,7 +134,7 @@ func finish_traveling():
 	change_stage(traveling_content, bursting_content, stage_height_bursting, bursting_sepa, TutorialStage.BURSTING)
 	
 	yield(get_tree().create_timer(1), "timeout")
-	Global.game_manager.generate_strays()	
+	Global.game_manager.set_strays()	
 
 	
 func finish_bursting():

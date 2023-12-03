@@ -80,6 +80,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 func _ready() -> void:
 	print("player")
+	
 	add_to_group(Global.group_players)
 	
 	# controler setup
@@ -96,10 +97,6 @@ func _ready() -> void:
 		key_down = "ui_down"
 		key_burst = "burst"
 	
-	# dodano na spawnanje
-#	player_stats["player_energy"] = game_settings["player_start_energy"]
-#	player_stats["player_life"] = game_settings["player_start_life"]
-	
 	if game_settings["player_start_life"] > 1:
 		lose_life_on_hit = true
 	else:
@@ -112,13 +109,10 @@ func _ready() -> void:
 	current_state = States.IDLE
 	
 	randomize() # za random blink animacije
-#	emit_signal("stat_changed", player_stats)
 	
 	
 func _physics_process(delta: float) -> void:
 	
-#	Global.hud.p1_stats = player_stats
-		
 	state_machine()
 	
 	# heartbeat
@@ -175,7 +169,6 @@ func on_collision():
 	var added_shake_power = hit_shake_power + burst_power_shake_addon * burst_cocked_ghost_count
 	var added_shake_time = hit_shake_time + burst_power_shake_addon * burst_cocked_ghost_count
 	
-	player_camera.shake_camera(added_shake_power, added_shake_time, hit_shake_decay)
 	
 	if collision.collider.is_in_group(Global.group_tilemap):
 		if heartbeat_active: # enako, kot, da bi bil zadnji bit ... kar umre, da se ne animacija ne meša z revive
@@ -222,7 +215,10 @@ func on_collision():
 		# korekcija, če končata na isti poziciji ali preveč narazen
 		global_position = hit_player.global_position + (cell_size_x * (- player_direction)) # plejer eno polje ob zadetem
 	
+	player_camera.shake_camera(added_shake_power, added_shake_time, hit_shake_decay)
 
+
+	
 # INPUTS ------------------------------------------------------------------------------------------
 
 
@@ -405,7 +401,6 @@ func cock_burst():
 	if is_virgin:
 		lose_virginity()
 		
-#	var ghost_cocking_time: float = 0 # trenuten čas nastajanja cocking ghosta
 	var burst_speed_addon: float = 12
 	
 	# prostor nadaljevanje napenjanja preverja ghost
@@ -723,6 +718,7 @@ func on_get_hit(added_shake_power, added_shake_time, hit_shake_decay):
 	
 	
 var hit_stacked_strays_count: int # število zadetih (v stacku)
+var current_hit_strays_count: int # alternativa? ... število zadetih (v stacku)
 
 func on_hit_stray(hit_stray: KinematicBody2D):
 	
