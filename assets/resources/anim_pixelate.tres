@@ -5,7 +5,7 @@ resource_name = "pixelate_long"
 length = 5.0
 step = 0.02
 tracks/0/type = "method"
-tracks/0/path = NodePath("GameManager")
+tracks/0/path = NodePath("_GameManager")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -25,7 +25,7 @@ tracks/0/keys = {
 } ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("GameManager:stray_pixels_count")
+tracks/1/path = NodePath("_GameManager:stray_pixels_count")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false

@@ -39,23 +39,23 @@ onready var game_settings: Dictionary = Profiles.game_settings # ga med igro ne 
 onready var game_data: Dictionary = Profiles.current_game_data # .duplicate() # duplikat default profila, ker ga me igro spreminjaš
 
 onready var spectrum_rect: TextureRect = $Spectrum
+#onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
+onready var default_tilemap: TileMap = $"../Tilemap"
 onready var FloatingTag = preload("res://game/hud/floating_tag.tscn")
 onready var StrayPixel = preload("res://game/pixel/stray.tscn")
 onready var PlayerPixel = preload("res://game/pixel/player.tscn")
 
-#onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
-#onready var arena: Node2D = $"../GameView/Viewports/ViewportContainer1/Viewport1/Arena/Tilemap"
-
 
 func _ready() -> void:
 	
+	Global.node_creation_parent = get_parent() # arena je node creation parent
 	Global.game_manager = self
-		
-	print("GM")
 	
 	randomize()
-	call_deferred("set_game") # deferamo, da se naložijo vsi nodeti tilemap
-
+	
+	set_tilemap()
+	call_deferred("set_game") # deferamo, da se naloži tilemap
+	
 	
 func _process(delta: float) -> void:
 	
@@ -70,7 +70,8 @@ func _process(delta: float) -> void:
 
 func set_game(): 
 	
-	set_tilemap()
+	# tilemap
+	Global.game_tilemap.connect("tilemap_completed", self, "_on_tilemap_completed")
 	Global.game_tilemap.get_tiles()
 	
 #	game_settings["player_start_color"] = Global.color_white # more bit pred spawnom
@@ -91,11 +92,7 @@ func set_game():
 		game_data["highscore"] = current_highscore_line[0]
 		game_data["highscore_owner"] = current_highscore_line[1]
 	
-	
-#	Global.hud.p1_stats = p1.player_stats
-#	Global.hud.update_stats()
 	# hud fejdin ... on kliče kamera zoom
-	print ("hud fejdin")
 	Global.hud.fade_in()
 	yield(Global.hud, "hud_is_set")
 		
@@ -140,27 +137,9 @@ func game_over(gameover_reason):
 	Global.gameover_menu.show_gameover(gameover_reason)
 	
 	
-# SET ----------------------------------------------------------------------------------
+# PIXELS ----------------------------------------------------------------------------------
 
 
-func set_tilemap():
-	
-	var tilemap_to_release: TileMap = Global.game_tilemap # trenutno naložen v areni
-	var tilemap_to_load_path: String = game_data["tilemap_path"]
-	
-	# release default tilemap	
-	tilemap_to_release.set_physics_process(false)
-	tilemap_to_release.free()
-	
-	# spawn new tilemap
-	var GameTilemap = ResourceLoader.load(tilemap_to_load_path)
-	var new_game_tilemap = GameTilemap.instance()
-	Global.node_creation_parent.add_child(new_game_tilemap) # direct child of root
-	
-	# povežem s signalom	
-	Global.game_tilemap.connect("tilemap_completed", self, "_on_tilemap_completed")
-	
-	
 func set_players():
 	
 	# spawn
@@ -171,21 +150,14 @@ func set_players():
 		new_player_pixel.global_position = player_position + Global.game_tilemap.cell_size/2 # ... ne rabim snepat ker se v pixlu na ready funkciji
 		new_player_pixel.pixel_color = game_settings["player_start_color"]
 		new_player_pixel.z_index = 1 # nižje od straysa
-		
-		new_player_pixel.player_stats = Profiles.default_player_stats.duplicate() # tukaj se postavijo prazne vrednosti, ki se nafilajo kasneje
-		new_player_pixel.player_stats["player_energy"] = game_settings["player_start_energy"]
-		new_player_pixel.player_stats["player_life"] = game_settings["player_start_life"]
-		
 		Global.node_creation_parent.add_child(new_player_pixel)
-		new_player_pixel.connect("stat_changed", Global.hud, "_on_stat_changed")
-		new_player_pixel.emit_signal("stat_changed", new_player_pixel, new_player_pixel.player_stats)
+#		new_player_pixel.connect("stat_changed", self, "_on_stat_changed")
 		
 		new_player_pixel.set_physics_process(false)
 		players_in_game.append(new_player_pixel)
 	
 	# p1
 	p1 = players_in_game[0]
-#	p1.emit_signal("stat_changed", p1.player_stats)
 #	p1.player_stats["player_energy"] = game_settings["player_start_energy"]
 #	p1.player_stats["player_life"] = game_settings["player_start_life"]
 	Global.p1_camera_target = p1 # tole gre lahko v plejerja
@@ -315,11 +287,10 @@ func show_strays():
 
 # TILEMAP ----------------------------------------------------------------------------------
 
+
+func set_tilemap():
 	
-func set_tilemap_old():
-	
-	print ("set tilemap")
-	var default_tilemap: TileMap = $"../GameView/Viewports/ViewportContainer1/Viewport1/Arena/Tilemap"
+#	var tilemap_to_release: TileMap = Global.game_tilemap
 	var tilemap_to_release: TileMap = default_tilemap
 	var tilemap_to_load_path: String = game_data["tilemap_path"]
 	

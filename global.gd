@@ -1,13 +1,12 @@
 extends Node2D
 
 
-## konstnte variable in metode
+## konstantne variable in metode
 
 # VARS ----------------------------------------------------------
 
 var main_node = null
 var node_creation_parent = null # arena
-var game_parent = null
 
 # managers
 var sound_manager = null
@@ -33,32 +32,22 @@ var group_strays = "Strays"
 var group_tilemap = "Tilemap"
 var group_cell = "Celica"
 
-# sivi klin
-var color_white = Color("#ffffff")
-var color_black_almost = Color("#141414")
-var color_gray_dark = Color("#232323") # hud undi
-
 # colors
-var color_blue = Color("#4b9fff")
-var color_green = Color("#5effa9")
-var color_red = Color("#f35b7f")
-var color_yellow = Color("#fef98b")
+var color_blue: Color = Color("#4b9fff")
+var color_green: Color = Color("#5effa9")
+var color_red: Color = Color("#f35b7f")
+var color_yellow: Color = Color("#fef98b")
 
-# camera shake parameters [0 = power, 1 = time, 2 = decay]
-var hit_wall_shake_parameters: Array = [0.25, 0.5, 0.2]
-var hit_stray_shake_parameters: Array = [0.2, 0.3, 0.7]
-var die_shake_parameters: Array = [0.2, 0.7, 0.1]
-var burst_power_shake_addon: float = 0.03
+var color_white: Color = Color("#ffffff")
+var hud_text_color: Color = Color("#fafafa")
 
-
-# METHODS ----------------------------------------------------------
-
-
-var current_scene = null # scene switching
+# reference ... niso v kodi
+var color_almost_black: Color = Color("#141414")
+var color_gray_dark: Color = Color("#232323")
+var hud_background_color: Color = Color("#141414")
 
 
-func _ready():
-	randomize()
+# FUNKCIJE -----------------------------------------------------------------------------------------------------
 
 
 func reset_cameras():
@@ -105,21 +94,12 @@ func detect_collision_in_direction(ray, direction_to_check):
 	if ray.is_colliding():
 		var ray_collider = ray.get_collider()
 		return ray_collider
-	
-
-# ni v uporabi		
-#func get_random_member_index(group_of_elements, offset): # offset je če zamakneš začetek
-#		# uporabljam pri: ... nikjer
-#
-#		var random_range = group_of_elements.size()
-#		var selected_int = randi() % int(random_range) + offset
-##		var selected_value = current_array[random_int]
-#
-#		printt("RANDOM", random_range, selected_int)
-#		return selected_int
 
 
-# SCENE MANAGER (prehajanje med igro in menijem) ----------------------------------------------------------------
+# SCENE MANAGER (prehajanje med igro in menijem) --------------------------------------------------------------
+
+
+var current_scene = null # za scene switching
 
 
 func release_scene(scene_node): # release scene
@@ -144,3 +124,17 @@ func spawn_new_scene(scene_path, parent_node): # spawn scene
 	print ("SCENE ADDED: ", current_scene)	
 	
 	return current_scene
+
+
+# NI V RABI --------------------------------------------------------------------------------------------------
+
+	
+#func get_random_member_index(group_of_elements, offset): # offset je če zamakneš začetek
+#		# uporabljam pri: ... nikjer
+#
+#		var random_range = group_of_elements.size()
+#		var selected_int = randi() % int(random_range) + offset
+##		var selected_value = current_array[random_int]
+#
+#		printt("RANDOM", random_range, selected_int)
+#		return selected_int

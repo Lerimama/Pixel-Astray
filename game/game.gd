@@ -18,8 +18,6 @@ onready var minimap_camera: Camera2D = $Minimap/MinimapViewport/MinimapCam
 
 func _ready() -> void:
 	
-	Global.game_parent = self
-	
 	get_viewport()	
 	set_camera_limits()
 	

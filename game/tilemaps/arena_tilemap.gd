@@ -17,6 +17,7 @@ func _ready() -> void:
 	
 	add_to_group(Global.group_tilemap)	
 	Global.game_tilemap = self
+	print("tilemap")
 
 
 func get_tiles():

@@ -60,7 +60,8 @@ onready var FloatingTag: PackedScene = preload("res://game/hud/floating_tag.tscn
 
 # NEU
 var is_virgin: bool = true # začne kot devičnik ... neha bit na prvi end_move ali na začetku cockanja
-var player_stats: Dictionary = Profiles.default_player_stats.duplicate() # tukaj se postavijo prazne vrednosti, ki se nafilajo kasneje
+var player_stats: Dictionary # se napolne ob spawnanju
+#var player_stats: Dictionary = Profiles.default_player_stats.duplicate() # tukaj se postavijo prazne vrednosti, ki se nafilajo kasneje
 var lose_life_on_hit: bool = true # če je lajf na štartu večji od 1
 onready var game_settings: Dictionary = Global.game_manager.game_settings 
 
@@ -78,7 +79,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	
 func _ready() -> void:
-	
+	print("player")
 	add_to_group(Global.group_players)
 	
 	# controler setup
@@ -95,8 +96,9 @@ func _ready() -> void:
 		key_down = "ui_down"
 		key_burst = "burst"
 	
-	player_stats["player_energy"] = game_settings["player_start_energy"]
-	player_stats["player_life"] = game_settings["player_start_life"]
+	# dodano na spawnanje
+#	player_stats["player_energy"] = game_settings["player_start_energy"]
+#	player_stats["player_life"] = game_settings["player_start_life"]
 	
 	if game_settings["player_start_life"] > 1:
 		lose_life_on_hit = true
@@ -110,11 +112,12 @@ func _ready() -> void:
 	current_state = States.IDLE
 	
 	randomize() # za random blink animacije
+#	emit_signal("stat_changed", player_stats)
 	
 	
 func _physics_process(delta: float) -> void:
 	
-	Global.hud.p1_stats = player_stats
+#	Global.hud.p1_stats = player_stats
 		
 	state_machine()
 	
@@ -1051,4 +1054,4 @@ func change_stat(event: String):
 	player_stats["player_points"] = clamp(player_stats["player_points"], 0, player_stats["player_points"])	
 
 	# signal na hud
-#	emit_signal("stat_changed", self)
+	emit_signal("stat_changed", self, player_stats)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=110 format=2]
+[gd_scene load_steps=111 format=2]
 
 [ext_resource path="res://game/hud/hud_game_timer.gd" type="Script" id=1]
 [ext_resource path="res://game/hud/hud.gd" type="Script" id=2]
@@ -26,6 +26,7 @@
 [ext_resource path="res://game/hud/music_player.gd" type="Script" id=24]
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=25]
 [ext_resource path="res://assets/resources/icon_label_dot.tres" type="Texture" id=26]
+[ext_resource path="res://managers/game_manager.gd" type="Script" id=27]
 
 [sub_resource type="World" id=226]
 
@@ -180,7 +181,7 @@ OptionButton/styles/pressed = SubResource( 222 )
 Panel/styles/panel = SubResource( 223 )
 VSeparator/styles/separator = SubResource( 224 )
 
-[sub_resource type="NoiseTexture" id=1]
+[sub_resource type="NoiseTexture" id=238]
 width = 246
 height = 246
 noise = ExtResource( 11 )
@@ -960,6 +961,16 @@ __meta__ = {
 "_edit_vertical_guides_": [ 640.0, 1632.0, 425.0, 856.0, 128.0, 1152.0, -72.0 ]
 }
 
+[node name="GameManager" type="Node" parent="."]
+script = ExtResource( 27 )
+
+[node name="Spectrum" type="TextureRect" parent="GameManager"]
+visible = false
+margin_right = 512.0
+margin_bottom = 12.0
+texture = ExtResource( 25 )
+expand = true
+
 [node name="GameView" type="VBoxContainer" parent="."]
 margin_right = 1280.0
 margin_bottom = 720.0
@@ -969,7 +980,7 @@ custom_constants/separation = 0
 unique_name_in_owner = true
 margin_right = 1280.0
 rect_min_size = Vector2( 1280, 0 )
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+color = Color( 1, 1, 1, 0 )
 
 [node name="Viewports" type="HBoxContainer" parent="GameView"]
 margin_right = 1280.0
@@ -1124,7 +1135,7 @@ theme = SubResource( 194 )
 [node name="NoiseVisual" type="TextureRect" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl"]
 margin_right = 246.0
 margin_bottom = 246.0
-texture = SubResource( 1 )
+texture = SubResource( 238 )
 
 [node name="Seed" type="HSlider" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl"]
 margin_left = 60.0
@@ -1427,7 +1438,7 @@ theme = SubResource( 194 )
 [node name="NoiseVisual" type="TextureRect" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl"]
 margin_right = 246.0
 margin_bottom = 246.0
-texture = SubResource( 1 )
+texture = SubResource( 238 )
 
 [node name="Seed" type="HSlider" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl"]
 margin_left = 60.0
@@ -1587,7 +1598,7 @@ margin_top = 720.0
 margin_right = 1280.0
 margin_bottom = 720.0
 rect_min_size = Vector2( 1280, 0 )
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+color = Color( 1, 1, 1, 0 )
 
 [node name="Minimap" type="ViewportContainer" parent="."]
 visible = false
@@ -1682,7 +1693,6 @@ anchor_right = 1.0
 margin_bottom = 56.0
 
 [node name="HeaderUndi" type="ColorRect" parent="GUI/Hud/Header"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 48 )
@@ -2171,8 +2181,7 @@ anchor_bottom = 1.0
 margin_top = -56.0
 size_flags_horizontal = 3
 
-[node name="FuterUndi" type="ColorRect" parent="GUI/Hud/Footer"]
-visible = false
+[node name="FooterUndi" type="ColorRect" parent="GUI/Hud/Footer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 56 )
