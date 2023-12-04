@@ -5,8 +5,7 @@ signal zoomed_in
 
 export (OpenSimplexNoise) var noise # tekstura za vizualizacijo ma kopijo tega noisa
 
-# target setup ... predvsem za teleportanje
-var camera_target: Node
+var camera_target: Node # target setup ... predvsem za teleportanje
 
 # noise setup
 var noise_seed: float = 8
@@ -26,9 +25,7 @@ var max_horizontal = 150
 var max_vertical = 150
 var max_rotation = 5
 
-onready var cell_size_x = Global.game_tilemap.cell_size.x # za zamik kamere glede na tile
-onready var viewport_footer: ColorRect = $"%ViewFuter"
-onready var viewport_header: ColorRect = $"%ViewHeder"
+onready var cell_size_x: int = Global.game_tilemap.cell_size.x # za zamik kamere glede na tile
 
 
 func _input(_event: InputEvent) -> void: # testview inputs
@@ -48,6 +45,7 @@ func _input(_event: InputEvent) -> void: # testview inputs
 
 func _ready():
 	
+	print (self)
 	if Global.p1_camera == null:
 		Global.p1_camera = self
 	else:
@@ -58,36 +56,6 @@ func _ready():
 	
 	# start setup
 	zoom = Vector2(2, 2)
-
-
-func zoom_in(hud_in_time): # kliče hud
-	
-	viewport_footer.rect_min_size.y = 0
-	viewport_footer.visible = true
-	viewport_header.rect_min_size.y = 0
-	viewport_header.visible = true
-	
-	var final_zoom = Vector2.ONE
-	if Global.game_manager.game_settings["start_players_count"] == 2:
-		final_zoom *= 1.5
-		
-	var zoom_in_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
-	zoom_in_tween.tween_property(self, "zoom", final_zoom, hud_in_time)
-	zoom_in_tween.parallel().tween_property(get_viewport(), "size:y", 720 - 80, hud_in_time)
-	zoom_in_tween.parallel().tween_property(viewport_header, "rect_min_size:y", 40, hud_in_time)
-	zoom_in_tween.parallel().tween_property(viewport_footer, "rect_min_size:y", 40, hud_in_time)
-	zoom_in_tween.tween_callback(self, "emit_signal", ["zoomed_in"])
-	
-	
-func zoom_out(hud_out_time): # kliče hud
-
-	var final_zoom = Vector2(2, 2)
-	
-	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
-	zoom_out_tween.tween_property(self, "zoom", final_zoom, hud_out_time)
-	zoom_out_tween.parallel().tween_property(get_viewport(), "size:y", 720, 2)
-	zoom_out_tween.parallel().tween_property(viewport_header, "rect_min_size:y", 0, hud_out_time)
-	zoom_out_tween.parallel().tween_property(viewport_footer, "rect_min_size:y", 0, hud_out_time)
 
 
 func _process(delta):
@@ -115,20 +83,38 @@ func _process(delta):
 		trauma_strength = clamp(trauma_strength - (delta * decay_speed), 0, 1)
 	
 	
-	# TESTHUD
-	
+	# testhud
 	update_ui()
 	if drag_on:
 		position += mouse_position_on_drag_start - get_global_mouse_position()
 
-var tilemap_y_adapt: int = 16
+
 func _physics_process(delta: float) -> void:
 
 	if Global.p1_camera == self and Global.p1_camera_target:
-		position = Global.p1_camera_target.position + Vector2(cell_size_x / 2, tilemap_y_adapt)
+		position = Global.p1_camera_target.position + Vector2(cell_size_x/2, cell_size_x/2)
 	elif Global.p2_camera == self and Global.p2_camera_target:
-		position = Global.p2_camera_target.position + Vector2(cell_size_x / 2, tilemap_y_adapt)
+		position = Global.p2_camera_target.position + Vector2(cell_size_x/2, cell_size_x/2)
 	
+
+func zoom_in(hud_in_out_time): # kliče hud
+	
+	var final_zoom = Vector2.ONE
+	
+	if Global.game_manager.game_settings["start_players_count"] == 2:
+		final_zoom *= 1.5
+		
+	var zoom_in_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	zoom_in_tween.tween_property(self, "zoom", final_zoom, hud_in_out_time)
+	zoom_in_tween.tween_callback(self, "emit_signal", ["zoomed_in"])
+	
+	
+func zoom_out(hud_in_out_time): # kliče hud
+
+	var final_zoom = Vector2(2, 2)
+	
+	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	zoom_out_tween.tween_property(self, "zoom", final_zoom, hud_in_out_time)
 
 
 # ŠEJK ------------------------------------------------------------------------------------------------------------------------
@@ -208,6 +194,7 @@ func set_ui_focus():
 	zoom_slider.set_focus_mode(0)
 	time_slider.set_focus_mode(0)
 	zoom_slider.hide()
+
 	
 func update_ui():
 	
@@ -244,7 +231,6 @@ func _on_CheckBox_mouse_exited() -> void:
 func _on_AddTraumaBtn_pressed() -> void:
 	mouse_used = true
 	multi_shake_camera(test_trauma_strength, test_trauma_time, test_decay_speed)
-
 func _on_AddTraumaBtn_mouse_entered() -> void:
 	mouse_used = true
 func _on_AddTraumaBtn_mouse_exited() -> void:

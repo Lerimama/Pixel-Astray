@@ -3,22 +3,22 @@ extends Control
 
 signal hud_is_set
 
-#var fade_time: float = 1
-var default_hud_color: Color = Color.white
-var popup_time: float = 2
 var highscore_is_broken: bool = false
 
+# spectrum
 var picked_indicator_alpha: float = 1
 var unpicked_indicator_alpha: float = 0.2
 var neighbor_indicator_alpha: float = 0.4
 var active_color_indicators: Array = [] # indikatorji spawnani že ob spawnanju pixlov
 
 # popups 
+var popup_time: float = 2
 onready var popups: Control = $Popups # skoz vidno, skrije se na gameover
 onready var highscore_broken_popup: Control = $Popups/HSBroken
 onready var energy_warning_popup: Control = $Popups/EnergyWarning
 onready var steps_remaining_label: Label = $Popups/EnergyWarning/StepsRemaining
 onready var splitscreen_popup: Control = $Popups/SplitScreens
+
 # header
 onready var header: Control = $Header # kontrole iz kamere
 onready var game_timer: HBoxContainer = $Header/GameTimer
@@ -65,25 +65,21 @@ onready var picked_color_label: Label = $PickedColor/Value
 
 
 # NEU
-#var p1_stats: Dictionary = Profiles.default_player_stats.duplicate()
-#var p1_stats: Dictionary
-
-var hud_height: int = 40
+var hud_in_out_time: int = 2
+var screen_height:int = 720
+onready var header_height: int = header.rect_size.y
+onready var viewport_footer: ColorRect = $"%ViewFuter"
+onready var viewport_header: ColorRect = $"%ViewHeder"
 
 
 func _ready() -> void:
-	print ("hud")
+	print ("hud ", header_height, " header_height")
+	
 	Global.hud = self
 	
-	# pre fade-in pozicije
-	var header_off_position = - hud_height
-	var footer_off_position = 720
-	header.rect_position.y = header_off_position
-	footer.rect_position.y = footer_off_position	
-	
-	#
-#	print ("update stats ", p1_stats["player_life"])
-#	update_stats()
+	# pred hud in pozicije
+	header.rect_position.y = - header_height
+	footer.rect_position.y = screen_height	
 	
 	if Global.game_manager.game_settings["start_players_count"] == 2:
 		set_two_players_hud()
@@ -137,6 +133,7 @@ func _process(delta: float) -> void:
 	if Global.game_manager.game_settings["start_players_count"] == 1:
 #		manage_game_popups()
 		pass
+
 		
 func manage_game_popups():
 	
@@ -170,7 +167,7 @@ func check_for_hs():
 			highscore_broken_popup.visible = false
 	else:
 		highscore_broken_popup.visible = false
-		highscore_label.modulate = default_hud_color
+		highscore_label.modulate = Global.hud_text_color
 		highscore_is_broken = false # more bit, če zgubiš rekord med igro
 			
 
@@ -203,10 +200,8 @@ func update_stats(stat_owner: Node, player_stats: Dictionary):
 	player_life.text = "LIFE: %d" % player_stats["player_life"]
 	player_energy.text = "E: %d" % player_stats["player_energy"]
 
-		
-func fade_in(): # kliče GM set_game()
 	
-	var fade_in_time: int = 2
+func fade_in(): # kliče GM set_game()
 	
 	# zoom-in kamere
 	var player_cameras: Array = [Global.p1_camera]
@@ -214,11 +209,13 @@ func fade_in(): # kliče GM set_game()
 		player_cameras.append(Global.p2_camera)
 	
 	for camera in player_cameras:
-		camera.zoom_in(fade_in_time)
+		camera.zoom_in(hud_in_out_time)
 	
 	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
-	fade_in.tween_property(header, "rect_position:y", 0, fade_in_time)
-	fade_in.parallel().tween_property(footer, "rect_position:y", 720 - hud_height, fade_in_time)
+	fade_in.tween_property(header, "rect_position:y", 0, hud_in_out_time)
+	fade_in.parallel().tween_property(footer, "rect_position:y", screen_height - header_height, hud_in_out_time)
+	fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", Global.hud.header_height, hud_in_out_time)
+	fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", Global.hud.header_height, hud_in_out_time)
 	
 	yield(Global.p1_camera, "zoomed_in")
 	
@@ -226,6 +223,7 @@ func fade_in(): # kliče GM set_game()
 		var indicator_fade_in = get_tree().create_tween()
 		indicator_fade_in.tween_property(indicator, "modulate:a", unpicked_indicator_alpha, 0.3).set_ease(Tween.EASE_IN)
 	
+	# split screen popup
 #	if Global.game_manager.game_settings["start_players_count"] == 2:
 #		var show_splitscreen_popup = get_tree().create_tween()
 #		show_splitscreen_popup.tween_property(splitscreen_popup, "modulate:a", 1, 0.5)
@@ -234,12 +232,11 @@ func fade_in(): # kliče GM set_game()
 #		show_splitscreen_popup.parallel().tween_callback(self, "emit_signal", ["hud_is_set"])
 #	else:
 #		emit_signal("hud_is_set")
+
 	emit_signal("hud_is_set")
 	
 
 func fade_out(): # kliče GM game_over()
-	
-	var fade_out_time: int = 2
 	
 	# zoom-out kamere
 	var player_cameras: Array = [Global.p1_camera]
@@ -247,11 +244,13 @@ func fade_out(): # kliče GM game_over()
 		player_cameras.append(Global.p2_camera)
 	
 	for camera in player_cameras:
-		camera.zoom_out(fade_out_time)
+		camera.zoom_out(hud_in_out_time)
 		
 	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
-	fade_in.tween_property(header, "rect_position:y", 0 - hud_height, fade_out_time)
-	fade_in.parallel().tween_property(footer, "rect_position:y", 720, fade_out_time)
+	fade_in.tween_property(header, "rect_position:y", 0 - header_height, hud_in_out_time)
+	fade_in.parallel().tween_property(footer, "rect_position:y", screen_height, hud_in_out_time)
+	fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", 0, hud_in_out_time)
+	fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", 0, hud_in_out_time)
 	fade_in.tween_callback(self, "set_visible", [false])
 	
 	

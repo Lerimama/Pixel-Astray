@@ -37,13 +37,19 @@ func _ready() -> void:
 	
 	Global.game_manager = self
 		
-	print("GM")
+	print("Game Manager")
 	
 	randomize()
 	call_deferred("set_game") # deferamo, da se naložijo vsi nodeti tilemap
 
 	
 func _process(delta: float) -> void:
+	
+	# temp
+#	print ("VP", $"../GameView/Viewports".rect_size.y)
+#	print ($"%Viewport1".size.y)
+#	print ($"%Viewport2".size.y)
+	
 	
 	strays_in_game = get_tree().get_nodes_in_group(Global.group_strays)
 	
@@ -145,7 +151,7 @@ func set_tilemap():
 	Global.game_tilemap.connect("tilemap_completed", self, "_on_tilemap_completed")
 
 
-func set_game_view() -> void:
+func set_game_view():
 	
 	# player viewports
 	var viewport_1: Viewport = $"%Viewport1"
@@ -186,10 +192,10 @@ func set_game_view() -> void:
 	var tilemap_cell_size = Global.game_tilemap.cell_size
 	var cell_edge_length = tilemap_cell_size.x
 	
-	var corner_TL: float = tilemap_edge.position.x * tilemap_cell_size.x #+ cell_edge_length # k mejam prištejem edge debelino
-	var corner_TR: float = tilemap_edge.end.x * tilemap_cell_size.x #- cell_edge_length
-	var corner_BL: float = tilemap_edge.position.y * tilemap_cell_size.y #+ cell_edge_length
-	var corner_BR: float = tilemap_edge.end.y * tilemap_cell_size.y #- cell_edge_length
+	var corner_TL: float = tilemap_edge.position.x * tilemap_cell_size.x + cell_edge_length # k mejam prištejem edge debelino
+	var corner_TR: float = tilemap_edge.end.x * tilemap_cell_size.x - cell_edge_length
+	var corner_BL: float = tilemap_edge.position.y * tilemap_cell_size.y + cell_edge_length
+	var corner_BR: float = tilemap_edge.end.y * tilemap_cell_size.y - cell_edge_length
 	
 	Global.game_tilemap.get_used_rect()
 	
@@ -383,10 +389,23 @@ func _on_tilemap_completed(floor_cells_positions: Array, stray_cells_positions: 
 	
 	# preventam preveč straysov (več kot je možnih pozicij)
 	if strays_start_count > random_spawn_positions.size() + required_spawn_positions.size():
-		print("to many strays to spawn: ", strays_start_count - (random_spawn_positions.size() + required_spawn_positions.size()))
+		printt("to many strays to spawn:", strays_start_count - (random_spawn_positions.size() + required_spawn_positions.size()))
 		strays_start_count = random_spawn_positions.size() + required_spawn_positions.size()
-		print(strays_start_count, " strays spawned")
+		printt(strays_start_count, " strays spawned")
 
 	# opoozorim na neskladje glede št. playerjev
 	if game_settings["start_players_count"] != player_start_positions.size():
-		print ("player positions not in sync:", game_settings["start_players_count"] , player_start_positions.size())
+		printt ("player positions not in sync:", game_settings["start_players_count"] , player_start_positions.size())
+	
+	# random player positions, če v tilemapu ni določene
+	if player_start_positions.empty():
+		# p1 position
+		var random_range = random_spawn_positions.size()
+		var p1_selected_cell_index: int = randi() % int(random_range)
+		player_start_positions.append(random_spawn_positions[p1_selected_cell_index])
+		random_spawn_positions.remove(p1_selected_cell_index)
+		# p2 position
+		if game_settings["start_players_count"] == 2:
+			var p2_selected_cell_index: int = randi() % int(random_range)
+			player_start_positions.append(random_spawn_positions[p2_selected_cell_index])
+			random_spawn_positions.remove(p2_selected_cell_index)

@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 
-signal stat_changed (stat_owner, event, stat_change)
+signal stat_changed # spremenjena statistika se pošlje v hud
 
 enum States {IDLE, STEPPING, SKILLED, SKILLING, COCKING, RELEASING, BURSTING}
 var current_state # = States.IDLE
@@ -64,6 +64,7 @@ var player_stats: Dictionary # se napolne ob spawnanju
 #var player_stats: Dictionary = Profiles.default_player_stats.duplicate() # tukaj se postavijo prazne vrednosti, ki se nafilajo kasneje
 var lose_life_on_hit: bool = true # če je lajf na štartu večji od 1
 onready var game_settings: Dictionary = Global.game_manager.game_settings 
+var current_hit_strays_count: int # število zadetih straysov (hit + sosedi)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -716,9 +717,6 @@ func on_get_hit(added_shake_power, added_shake_time, hit_shake_decay):
 	change_stat("hit_by_player")
 	die()
 	
-	
-var hit_stacked_strays_count: int # število zadetih (v stacku)
-var current_hit_strays_count: int # alternativa? ... število zadetih (v stacku)
 
 func on_hit_stray(hit_stray: KinematicBody2D):
 	
@@ -742,11 +740,11 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 			
 			# statistika pobitih
 			if burst_cocked_ghost_count == cocked_ghost_count_max: # moč je maximalna moč
-				hit_stacked_strays_count = stacked_neighbors.size() + 1
+				current_hit_strays_count = stacked_neighbors.size() + 1
 			elif burst_cocked_ghost_count > stacked_neighbors.size() + 1: # moč je enaka količini stackanih straysov
-				hit_stacked_strays_count = stacked_neighbors.size() + 1 # moč je enaka ali manjša, kot količini stackanih straysov
+				current_hit_strays_count = stacked_neighbors.size() + 1 # moč je enaka ali manjša, kot količini stackanih straysov
 			else:
-				hit_stacked_strays_count = burst_cocked_ghost_count
+				current_hit_strays_count = burst_cocked_ghost_count
 			
 			change_stat("hit_stray")
 				
@@ -964,18 +962,18 @@ func change_stat(event: String):
 			# izračun točk
 			var points_rewarded: int = 0
 			var energy_rewarded: int = 0
-			for stray_stack_index in hit_stacked_strays_count:
+			for stray_stack_index in current_hit_strays_count:
 				points_rewarded += game_settings["color_picked_points"] * (stray_stack_index + 1) # + 1 je da se izognem nuli
 				energy_rewarded += game_settings["color_picked_energy"] * (stray_stack_index + 1)
 			# stats
-			player_stats["colors_collected"] += hit_stacked_strays_count
+			player_stats["colors_collected"] += current_hit_strays_count
 			player_stats["player_points"] += points_rewarded
 			player_stats["player_energy"] += energy_rewarded
 			spawn_floating_tag(points_rewarded) 
 			# tutorial
 			if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
 				Global.tutorial_gui.finish_bursting()
-				if hit_stacked_strays_count >= 3:
+				if current_hit_strays_count >= 3:
 					Global.tutorial_gui.finish_stacking()
 			# cleaned game-over
 #			yield(self, "all_strays_cleaned") # počaka, da vsi uničijo, potem ugotovi, če jih ni več
