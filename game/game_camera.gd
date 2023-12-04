@@ -6,6 +6,7 @@ signal zoomed_in
 export (OpenSimplexNoise) var noise # tekstura za vizualizacijo ma kopijo tega noisa
 
 var camera_target: Node # target setup ... predvsem za teleportanje
+var camera_target_vert_adapt: int = 0 # kamera se po zoomanju poravna s tileti
 
 # noise setup
 var noise_seed: float = 8
@@ -90,12 +91,10 @@ func _process(delta):
 
 
 func _physics_process(delta: float) -> void:
-
-	if Global.p1_camera == self and Global.p1_camera_target:
-		position = Global.p1_camera_target.position + Vector2(cell_size_x/2, cell_size_x/2)
-	elif Global.p2_camera == self and Global.p2_camera_target:
-		position = Global.p2_camera_target.position + Vector2(cell_size_x/2, cell_size_x/2)
 	
+	if camera_target:
+		position = camera_target.position + Vector2(cell_size_x/2, camera_target_vert_adapt)
+		
 
 func zoom_in(hud_in_out_time): # kliče hud
 	
@@ -106,6 +105,7 @@ func zoom_in(hud_in_out_time): # kliče hud
 		
 	var zoom_in_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	zoom_in_tween.tween_property(self, "zoom", final_zoom, hud_in_out_time)
+	zoom_in_tween.parallel().tween_property(self, "camera_target_vert_adapt", cell_size_x/2, hud_in_out_time)
 	zoom_in_tween.tween_callback(self, "emit_signal", ["zoomed_in"])
 	
 	
@@ -115,6 +115,7 @@ func zoom_out(hud_in_out_time): # kliče hud
 	
 	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	zoom_out_tween.tween_property(self, "zoom", final_zoom, hud_in_out_time)
+	zoom_out_tween.parallel().tween_property(self, "camera_target_vert_adapt", 0, hud_in_out_time)
 
 
 # ŠEJK ------------------------------------------------------------------------------------------------------------------------

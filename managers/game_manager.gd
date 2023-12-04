@@ -67,8 +67,7 @@ func set_game():
 	
 	set_game_view()
 	
-#	game_settings["player_start_color"] = Global.color_white # more bit pred spawnom
-	set_players() # spawn, stats, camera, target
+	set_players()
 	for player in players_in_game:
 		player.modulate.a = 0	
 	
@@ -79,13 +78,7 @@ func set_game():
 		set_strays()
 		yield(get_tree().create_timer(1), "timeout") # da si plejer ogleda
 		
-	# HS
-	if game_settings["manage_highscores"]:
-		var current_highscore_line: Array = Global.data_manager.get_top_highscore(game_data["game"])
-		game_data["highscore"] = current_highscore_line[0]
-		game_data["highscore_owner"] = current_highscore_line[1]
-	
-	# hud fejdin ... on kliče kamera zoom
+	# hud ... kliče kamera zoom
 	Global.hud.fade_in()
 	yield(Global.hud, "hud_is_set")
 		
@@ -208,6 +201,8 @@ func set_game_view():
 	
 func set_players():
 	
+#	game_settings["player_start_color"] = Global.color_white # more bit pred spawnom
+	
 	# spawn
 	for player_position in player_start_positions: # glavni parameter, ki opredeli število igralcev
 		spawned_player_index += 1 # torej začnem z 1
@@ -228,24 +223,19 @@ func set_players():
 		new_player_pixel.emit_signal("stat_changed", new_player_pixel, new_player_pixel.player_stats) # štartno statistiko tako javim 
 		
 		new_player_pixel.set_physics_process(false)
-		
 		players_in_game.append(new_player_pixel)
+		
 	
 	# p1
 	p1 = players_in_game[0]
-#	p1.emit_signal("stat_changed", p1.player_stats)
-#	p1.player_stats["player_energy"] = game_settings["player_start_energy"]
-#	p1.player_stats["player_life"] = game_settings["player_start_life"]
-	Global.p1_camera_target = p1 # tole gre lahko v plejerja
 	p1.player_camera = Global.p1_camera
+	Global.p1_camera.camera_target = p1
 	
 	# p2 
 	if players_in_game.size() > 1:
 		p2 = players_in_game[1]
-#		p2_stats["player_energy"] = game_settings["player_start_energy"]
-#		p2_stats["player_life"] = game_settings["player_start_life"]
-		Global.p2_camera_target = p2 # tole gre lahko v plejerja
 		p2.player_camera = Global.p2_camera
+		Global.p2_camera.camera_target = p2
 	
 
 func set_strays():

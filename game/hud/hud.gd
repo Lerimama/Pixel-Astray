@@ -2,8 +2,7 @@ extends Control
 
 
 signal hud_is_set
-
-var highscore_is_broken: bool = false
+signal players_ready
 
 # spectrum
 var picked_indicator_alpha: float = 1
@@ -11,18 +10,26 @@ var unpicked_indicator_alpha: float = 0.2
 var neighbor_indicator_alpha: float = 0.4
 var active_color_indicators: Array = [] # indikatorji spawnani že ob spawnanju pixlov
 
+# hs
+var current_highscore: int
+var current_highscore_owner: String
+
+# in/out
+var hud_in_out_time: int = 2
+var screen_height:int = 720
+
 # popups 
-var popup_time: float = 2
 onready var popups: Control = $Popups # skoz vidno, skrije se na gameover
 onready var highscore_broken_popup: Control = $Popups/HSBroken
 onready var energy_warning_popup: Control = $Popups/EnergyWarning
 onready var steps_remaining_label: Label = $Popups/EnergyWarning/StepsRemaining
 onready var splitscreen_popup: Control = $Popups/SplitScreens
-
 # header
 onready var header: Control = $Header # kontrole iz kamere
 onready var game_timer: HBoxContainer = $Header/GameTimer
 onready var highscore_label: Label = $Header/HighscoreLabel
+onready var header_height: int = header.rect_size.y
+onready var viewport_header: ColorRect = $"%ViewHeder"
 # p1
 onready var p1_statsline: HBoxContainer = $Header/PlayerLineL # neuporabljeno
 onready var p1_label: Label = $Header/PlayerLineL/PlayerLabel
@@ -57,6 +64,7 @@ onready var spectrum: HBoxContainer = $Footer/FooterLine/SpectrumHolder/ColorSpe
 onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
 onready var astray_counter: Label = $Footer/FooterLine/StraysLine/AstrayHolder/Label
 onready var picked_counter: Label = $Footer/FooterLine/StraysLine/PickedHolder/Label
+onready var viewport_footer: ColorRect = $"%ViewFuter"
 # debug
 onready var player_life: Label = $Life
 onready var player_energy: Label = $Energy
@@ -64,30 +72,31 @@ onready var picked_color_rect: ColorRect = $PickedColor/ColorRect
 onready var picked_color_label: Label = $PickedColor/Value
 
 
-# NEU
-var hud_in_out_time: int = 2
-var screen_height:int = 720
-onready var header_height: int = header.rect_size.y
-onready var viewport_footer: ColorRect = $"%ViewFuter"
-onready var viewport_header: ColorRect = $"%ViewHeder"
-
-
+func _input(event: InputEvent) -> void:
+	
+	if Input.is_action_just_pressed("ui_accept") and splitscreen_popup.visible:
+		Global.sound_manager.play_gui_sfx("btn_confirm")
+		emit_signal("players_ready")
+	
+	
 func _ready() -> void:
-	print ("hud ", header_height, " header_height")
 	
 	Global.hud = self
 	
 	# pred hud in pozicije
 	header.rect_position.y = - header_height
 	footer.rect_position.y = screen_height	
-	
+
 	if Global.game_manager.game_settings["start_players_count"] == 2:
 		set_two_players_hud()
-		
 	else:
 		set_one_player_hud()
 
-func set_two_players_hud():	
+	if Global.game_manager.game_settings["manage_highscores"]:
+		set_current_highscore()
+	
+		
+func set_two_players_hud():
 	
 	# hide
 	highscore_label.visible = false
@@ -97,8 +106,8 @@ func set_two_players_hud():
 	p1_label.visible = true
 	p1_color_holder.visible = true
 	p2_statsline.visible = true
-	splitscreen_popup.visible = true
-	splitscreen_popup.modulate.a = 0
+#	splitscreen_popup.visible = true
+#	splitscreen_popup.modulate.a = 0
 	
 	# samo 1 lajf
 	if Global.game_manager.game_settings["start_players_count"] == 2:
@@ -124,52 +133,18 @@ func set_one_player_hud():
 		p1_life_counter.visible = false
 	else:
 		p1_life_counter.visible = true
-		
 	
-func _process(delta: float) -> void:
-	
-#	update_stats()
-	
-	if Global.game_manager.game_settings["start_players_count"] == 1:
-#		manage_game_popups()
-		pass
 
-		
-func manage_game_popups():
+func set_current_highscore():
 	
-	# ček HS and show popup
-	if Global.game_manager.game_settings["manage_highscores"]:
-		check_for_hs()
+	var current_game = Global.game_manager.game_data["game"]
+	var current_highscore_line: Array = Global.data_manager.get_top_highscore(current_game)
 	
-	# energy warning
-	if Global.game_manager.p1_stats["player_energy"] > Global.game_manager.game_settings["player_tired_energy"]:
-		energy_warning_popup.visible = false	
-	elif Global.game_manager.p1_stats["player_energy"] <= Global.game_manager.game_settings["player_tired_energy"] and Global.game_manager.p1_stats["player_energy"] > 2:
-		energy_warning_popup.visible = true
-		var energy_warning_string: String = "Low energy! Only %s steps remaining." % str(Global.game_manager.p1_stats["player_energy"] - 1)
-		steps_remaining_label.text = energy_warning_string
-	elif Global.game_manager.p1_stats["player_energy"] == 2: # pomeni samo še en korak in rabim ednino
-		steps_remaining_label.text = "Low energy! Only 1 step remaining."
-	elif Global.game_manager.p1_stats["player_energy"] < 2:
-		# steps_remaining.text = "No more traveling! Collect a color get some energy."
-		energy_warning_popup.visible = false
+	current_highscore = current_highscore_line[0]
+	current_highscore_owner = current_highscore_line[1]
+	
+	highscore_label.text = "Highscore " + str(current_highscore) # se apdejta ob signalu iz plejerja (ob konektanju na začetku?)
 
-		
-func check_for_hs():
-	
-	if Global.game_manager.p1_stats["player_points"] > Global.game_manager.game_data["highscore"]: # zaporedje ifov je pomembno zaradi načina setanja pogojev
-		if not highscore_is_broken:
-			# Global.sound_manager.play_sfx("record_cheers")
-			highscore_is_broken = true
-			highscore_label.modulate = Global.color_green
-			highscore_broken_popup.visible = true
-			yield(get_tree().create_timer(popup_time), "timeout")
-			highscore_broken_popup.visible = false
-	else:
-		highscore_broken_popup.visible = false
-		highscore_label.modulate = Global.hud_text_color
-		highscore_is_broken = false # more bit, če zgubiš rekord med igro
-			
 
 func update_stats(stat_owner: Node, player_stats: Dictionary):	
 	
@@ -199,6 +174,47 @@ func update_stats(stat_owner: Node, player_stats: Dictionary):
 	# debug
 	player_life.text = "LIFE: %d" % player_stats["player_life"]
 	player_energy.text = "E: %d" % player_stats["player_energy"]
+	
+	if Global.game_manager.game_settings["manage_highscores"]:
+		check_for_hs(player_stats)
+	
+	if Global.game_manager.game_settings["start_players_count"] == 1:
+		check_for_warning(player_stats)
+		
+		
+func check_for_hs(player_stats):
+	
+	if player_stats["player_points"] > Global.game_manager.game_data["highscore"]:
+		highscore_label.text = "New highscore " + str(player_stats["player_points"])
+		highscore_label.modulate = Global.color_green
+	else:
+		highscore_label.text = "Highscore " + str(current_highscore)
+		highscore_label.modulate = Global.hud_text_color
+
+		
+func check_for_warning(player_stats):
+	
+	if player_stats["player_energy"] < 1: # ko zgubi lajf
+		if energy_warning_popup.visible == true:
+			warning_out()
+	elif player_stats["player_energy"] < 2:
+		if energy_warning_popup.visible == false:
+			warning_in()
+		steps_remaining_label.text = "NO ENERGY! Collect a color to revitalize."
+	elif player_stats["player_energy"] == 2: # pomeni samo še en korak in rabim ednino
+		if energy_warning_popup.visible == false:
+			warning_in()
+		steps_remaining_label.text = "ENERGY WARNING! Only 1 step remaining."
+	elif player_stats["player_energy"] <= Global.game_manager.game_settings["player_tired_energy"]:
+		if energy_warning_popup.visible == false:
+			warning_in()
+		steps_remaining_label.text = "ENERGY WARNING! Only %s steps remaining." % str(player_stats["player_energy"] - 1)
+	elif player_stats["player_energy"] > Global.game_manager.game_settings["player_tired_energy"]:
+		if energy_warning_popup.visible == true:
+			warning_out()
+
+
+# IN / OUT ---------------------------------------------------------------------------------------------------------------------------
 
 	
 func fade_in(): # kliče GM set_game()
@@ -223,18 +239,11 @@ func fade_in(): # kliče GM set_game()
 		var indicator_fade_in = get_tree().create_tween()
 		indicator_fade_in.tween_property(indicator, "modulate:a", unpicked_indicator_alpha, 0.3).set_ease(Tween.EASE_IN)
 	
-	# split screen popup
-#	if Global.game_manager.game_settings["start_players_count"] == 2:
-#		var show_splitscreen_popup = get_tree().create_tween()
-#		show_splitscreen_popup.tween_property(splitscreen_popup, "modulate:a", 1, 0.5)
-#		show_splitscreen_popup.tween_property(splitscreen_popup, "modulate:a", 0, 0.5).set_ease(Tween.EASE_IN).set_delay(2)
-#		show_splitscreen_popup.tween_callback(splitscreen_popup, "set_visible", [false])
-#		show_splitscreen_popup.parallel().tween_callback(self, "emit_signal", ["hud_is_set"])
-#	else:
-#		emit_signal("hud_is_set")
+	if Global.game_manager.game_settings["start_players_count"] == 2:
+		fade_splitscreen_popup()
+	else:
+		emit_signal("hud_is_set")
 
-	emit_signal("hud_is_set")
-	
 
 func fade_out(): # kliče GM game_over()
 	
@@ -253,8 +262,33 @@ func fade_out(): # kliče GM game_over()
 	fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", 0, hud_in_out_time)
 	fade_in.tween_callback(self, "set_visible", [false])
 	
+
+func warning_in():
+	var warning_in = get_tree().create_tween()
+	warning_in.tween_callback(energy_warning_popup, "set_visible", [true])
+	warning_in.tween_property(energy_warning_popup, "modulate:a", 1, 0.3) #.from(0.0)
+
+
+func warning_out():
+	var warning_out = get_tree().create_tween()
+	warning_out.tween_property(energy_warning_popup, "modulate:a", 0, 0.5)
+	warning_out.tween_callback(energy_warning_popup, "set_visible", [false])
+
+
+func fade_splitscreen_popup():
 	
+	var show_splitscreen_popup = get_tree().create_tween()
+	show_splitscreen_popup.tween_callback(splitscreen_popup, "set_visible", [true])
+	show_splitscreen_popup.tween_property(splitscreen_popup, "modulate:a", 1, 1).from(0.0).set_ease(Tween.EASE_IN)
+
+	yield(self, "players_ready")
 	
+	var hide_splitscreen_popup = get_tree().create_tween()
+	hide_splitscreen_popup.tween_property(splitscreen_popup, "modulate:a", 0, 1).set_ease(Tween.EASE_IN)
+	hide_splitscreen_popup.tween_callback(splitscreen_popup, "set_visible", [false])
+	hide_splitscreen_popup.parallel().tween_callback(self, "emit_signal", ["hud_is_set"])	
+	
+		
 # SPECTRUM ---------------------------------------------------------------------------------------------------------------------------
 
 
@@ -337,5 +371,5 @@ func _on_GameTimer_gametime_is_up() -> void:
 
 
 func _on_stat_changed(stat_owner: Node, current_player_stats: Dictionary):
-	update_stats(stat_owner, current_player_stats)
 	
+	update_stats(stat_owner, current_player_stats)

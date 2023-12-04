@@ -23,14 +23,11 @@ var tutorial_gui = null
 # camera
 var p1_camera = null
 var p2_camera = null
-var p1_camera_target = null
-var p2_camera_target = null
 
 # groups
 var group_players = "Players"
 var group_strays = "Strays"
 var group_tilemap = "Tilemap"
-var group_cell = "Celica"
 
 # colors
 var color_blue: Color = Color("#4b9fff")
@@ -52,9 +49,9 @@ var hud_background_color: Color = Color("#141414")
 
 func reset_cameras():
 	p1_camera = null
-	p1_camera_target = null
+#	p1_camera_target = null
 	p2_camera = null	
-	p2_camera_target = null
+#	p2_camera_target = null
 	
 
 func snap_to_nearest_grid(current_global_position: Vector2):

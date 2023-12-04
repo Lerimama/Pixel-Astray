@@ -1,4 +1,4 @@
-[gd_scene load_steps=110 format=2]
+[gd_scene load_steps=111 format=2]
 
 [ext_resource path="res://game/hud/hud_game_timer.gd" type="Script" id=1]
 [ext_resource path="res://game/hud/hud.gd" type="Script" id=2]
@@ -199,67 +199,13 @@ environment = ExtResource( 9 )
 [sub_resource type="World" id=117]
 environment = ExtResource( 9 )
 
-[sub_resource type="AtlasTexture" id=147]
-atlas = ExtResource( 14 )
-region = Rect2( 0, 0, 16, 16 )
-
-[sub_resource type="StreamTexture" id=144]
-load_path = "res://.import/tileset_hud_icons.png-be9f67bfe9cd2fc31c012c696d1f0b84.stex"
-
-[sub_resource type="AtlasTexture" id=123]
-atlas = SubResource( 144 )
-region = Rect2( 0, 16, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=122]
-atlas = ExtResource( 14 )
-region = Rect2( 0, 0, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=125]
-atlas = ExtResource( 14 )
-region = Rect2( 18, 48, 10, 16 )
-margin = Rect2( -1, 0, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=126]
-atlas = ExtResource( 14 )
-region = Rect2( 32, 64, 48, 16 )
-
-[sub_resource type="AtlasTexture" id=132]
-atlas = ExtResource( 14 )
-region = Rect2( 32, 80, 48, 16 )
-
-[sub_resource type="AtlasTexture" id=129]
-atlas = ExtResource( 14 )
-region = Rect2( 64, 0, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=225]
-atlas = ExtResource( 14 )
-region = Rect2( 32, 32, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=130]
-atlas = ExtResource( 14 )
-region = Rect2( 64, 16, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=131]
-atlas = ExtResource( 14 )
-region = Rect2( 64, 32, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=148]
-atlas = ExtResource( 14 )
-region = Rect2( 2, 84, 14, 12 )
-margin = Rect2( 0, 3, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=146]
-atlas = ExtResource( 14 )
-region = Rect2( 18, 84, 14, 12 )
-margin = Rect2( 0, 3, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=128]
-atlas = ExtResource( 14 )
-region = Rect2( 16, 16, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=127]
-atlas = ExtResource( 14 )
-region = Rect2( 16, 0, 16, 16 )
+[sub_resource type="StyleBoxFlat" id=239]
+bg_color = Color( 0, 0, 0, 0.784314 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.952941, 0.356863, 0.498039, 1 )
 
 [sub_resource type="AtlasTexture" id=232]
 atlas = ExtResource( 20 )
@@ -280,6 +226,16 @@ region = Rect2( 0, 98, 70, 46 )
 [sub_resource type="AtlasTexture" id=231]
 atlas = ExtResource( 20 )
 region = Rect2( 113.919, 154, 22, 22 )
+
+[sub_resource type="AtlasTexture" id=199]
+atlas = ExtResource( 20 )
+region = Rect2( 72, 186, 22, 22 )
+margin = Rect2( 0, 2, 0, 0 )
+
+[sub_resource type="AtlasTexture" id=200]
+atlas = ExtResource( 20 )
+region = Rect2( 0, 218, 40, 22 )
+margin = Rect2( -2, 2, 0, 0 )
 
 [sub_resource type="DynamicFont" id=141]
 size = 341
@@ -511,6 +467,68 @@ tracks/3/keys = {
 "values": [ 0.0, 1.0, 1.0, 0.0 ]
 }
 
+[sub_resource type="AtlasTexture" id=147]
+atlas = ExtResource( 14 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="StreamTexture" id=144]
+load_path = "res://.import/tileset_hud_icons.png-be9f67bfe9cd2fc31c012c696d1f0b84.stex"
+
+[sub_resource type="AtlasTexture" id=123]
+atlas = SubResource( 144 )
+region = Rect2( 0, 16, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=122]
+atlas = ExtResource( 14 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=125]
+atlas = ExtResource( 14 )
+region = Rect2( 18, 48, 10, 16 )
+margin = Rect2( -1, 0, 0, 0 )
+
+[sub_resource type="AtlasTexture" id=126]
+atlas = ExtResource( 14 )
+region = Rect2( 32, 64, 48, 16 )
+
+[sub_resource type="AtlasTexture" id=132]
+atlas = ExtResource( 14 )
+region = Rect2( 32, 80, 48, 16 )
+
+[sub_resource type="AtlasTexture" id=129]
+atlas = ExtResource( 14 )
+region = Rect2( 64, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=225]
+atlas = ExtResource( 14 )
+region = Rect2( 32, 32, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=130]
+atlas = ExtResource( 14 )
+region = Rect2( 64, 16, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=131]
+atlas = ExtResource( 14 )
+region = Rect2( 64, 32, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=148]
+atlas = ExtResource( 14 )
+region = Rect2( 2, 84, 14, 12 )
+margin = Rect2( 0, 3, 0, 0 )
+
+[sub_resource type="AtlasTexture" id=146]
+atlas = ExtResource( 14 )
+region = Rect2( 18, 84, 14, 12 )
+margin = Rect2( 0, 3, 0, 0 )
+
+[sub_resource type="AtlasTexture" id=128]
+atlas = ExtResource( 14 )
+region = Rect2( 16, 16, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=127]
+atlas = ExtResource( 14 )
+region = Rect2( 16, 0, 16, 16 )
+
 [sub_resource type="StyleBoxEmpty" id=201]
 
 [sub_resource type="AtlasTexture" id=202]
@@ -563,16 +581,6 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-
-[sub_resource type="AtlasTexture" id=199]
-atlas = ExtResource( 20 )
-region = Rect2( 72, 186, 22, 22 )
-margin = Rect2( 0, 2, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=200]
-atlas = ExtResource( 20 )
-region = Rect2( 0, 218, 40, 22 )
-margin = Rect2( -2, 2, 0, 0 )
 
 [sub_resource type="Animation" id=171]
 length = 0.001
@@ -956,8 +964,8 @@ margin = Rect2( -2, 2, 0, 0 )
 
 [node name="Game" type="Node2D"]
 __meta__ = {
-"_edit_horizontal_guides_": [ 1371.0, 1371.0, 360.0, 416.0 ],
-"_edit_vertical_guides_": [ 640.0, 1632.0, 425.0, 856.0, 128.0, 1152.0, -72.0 ]
+"_edit_horizontal_guides_": [ 1371.0, 1371.0, 360.0, 416.0, 189.0, 61.0, 659.0 ],
+"_edit_vertical_guides_": [ 640.0, 1632.0, 425.0, 856.0, 128.0, 1152.0, -72.0, 536.0 ]
 }
 
 [node name="GameManager" type="Node" parent="."]
@@ -1606,9 +1614,9 @@ rect_min_size = Vector2( 1280, 0 )
 visible = false
 modulate = Color( 1, 1, 1, 0.784314 )
 margin_left = 1088.0
-margin_top = 80.0
+margin_top = 72.0
 margin_right = 1248.0
-margin_bottom = 172.0
+margin_bottom = 164.0
 size_flags_horizontal = 3
 
 [node name="MinimapViewport" type="Viewport" parent="Minimap"]
@@ -1637,7 +1645,402 @@ anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 720 )
 script = ExtResource( 2 )
 
+[node name="Popups" type="Control" parent="GUI/Hud"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="EnergyWarning" type="Control" parent="GUI/Hud/Popups"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -288.0
+margin_top = 72.0
+margin_right = 288.0
+margin_bottom = 136.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Panel" type="Panel" parent="GUI/Hud/Popups/EnergyWarning"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 239 )
+
+[node name="StepsRemaining" type="Label" parent="GUI/Hud/Popups/EnergyWarning"]
+modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = 21.0
+margin_top = -11.0
+margin_right = -21.0
+margin_bottom = 11.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+text = "NO ENERGY! Collect a color to revitalize."
+align = 1
+
+[node name="HSBroken" type="Control" parent="GUI/Hud/Popups"]
+visible = false
+modulate = Color( 0.368627, 1, 0.662745, 1 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -168.0
+margin_top = 94.0
+margin_right = 168.0
+margin_bottom = 117.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Label" type="Label" parent="GUI/Hud/Popups/HSBroken"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -193.0
+margin_right = 191.0
+margin_bottom = 22.0
+size_flags_horizontal = 4
+text = "YEAH!!! You've broken the record"
+align = 1
+valign = 1
+
+[node name="SplitScreens" type="Control" parent="GUI/Hud/Popups"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Undi" type="ColorRect" parent="GUI/Hud/Popups/SplitScreens"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0, 0, 0, 0.54902 )
+
+[node name="PlayerLeft" type="Control" parent="GUI/Hud/Popups/SplitScreens"]
+anchor_right = 0.5
+anchor_bottom = 1.0
+
+[node name="Panel" type="Panel" parent="GUI/Hud/Popups/SplitScreens/PlayerLeft"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 21.0
+margin_top = 61.0
+margin_right = -22.0
+margin_bottom = -61.0
+
+[node name="Label" type="Label" parent="GUI/Hud/Popups/SplitScreens/PlayerLeft"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+margin_left = 241.0
+margin_top = 269.0
+margin_right = 403.0
+margin_bottom = 301.0
+custom_fonts/font = ExtResource( 5 )
+text = "PLAYER 1"
+align = 1
+
+[node name="Controls" type="Control" parent="GUI/Hud/Popups/SplitScreens/PlayerLeft"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -80.0
+margin_top = -25.0
+margin_right = 80.0
+margin_bottom = 64.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="KeyboardL" type="TextureRect" parent="GUI/Hud/Popups/SplitScreens/PlayerLeft/Controls"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -35.0
+margin_right = 35.0
+margin_bottom = 46.0
+texture = SubResource( 232 )
+
+[node name="Ctrl" type="TextureRect" parent="GUI/Hud/Popups/SplitScreens/PlayerLeft/Controls"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -71.0
+margin_top = 67.0
+margin_right = -49.0
+margin_bottom = 89.0
+texture = SubResource( 234 )
+
+[node name="Space" type="TextureRect" parent="GUI/Hud/Popups/SplitScreens/PlayerLeft/Controls"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -40.0
+margin_top = 67.0
+margin_right = 72.0
+margin_bottom = 89.0
+texture = SubResource( 233 )
+
+[node name="Player" type="TileMap" parent="GUI/Hud/Popups/SplitScreens/PlayerLeft"]
+visible = false
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+position = Vector2( 136, 189 )
+tile_set = ExtResource( 18 )
+cell_size = Vector2( 16, 16 )
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+format = 1
+tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 4, 0, 0, 9, 0, 0, 10, 0, 0, 12, 0, 0, 14, 0, 0, 16, 0, 0, 17, 0, 0, 20, 0, 0, 21, 0, 0, 22, 0, 0, 65536, 0, 0, 65538, 0, 0, 65540, -1610612736, 0, 65544, 0, 0, 65546, 0, 0, 65548, 0, 0, 65550, 0, 0, 65552, 0, 0, 65556, 0, 0, 65558, 0, 0, 131072, 0, 0, 131073, 0, 0, 131074, 0, 0, 131076, -1610612736, 0, 131080, 0, 0, 131081, 0, 0, 131082, 0, 0, 131085, 0, 0, 131088, 0, 0, 131089, 0, 0, 131092, 0, 0, 131093, 0, 0, 196608, 0, 0, 196612, -1610612736, 0, 196616, 0, 0, 196618, 0, 0, 196621, 0, 0, 196624, 0, 0, 196628, 0, 0, 196630, 0, 0, 262144, 0, 0, 262148, -1610612736, 0, 262149, 0, 0, 262150, 0, 0, 262152, 0, 0, 262154, 0, 0, 262157, 0, 0, 262160, 0, 0, 262161, 0, 0, 262162, 0, 0, 262164, 0, 0, 262166, 0, 0, 458763, 0, 0, 524298, 0, 0, 524299, 0, 0, 589835, 0, 0, 655371, 0, 0, 720906, 0, 0, 720907, 0, 0, 720908, 0, 0 )
+
+[node name="Controls2" type="Control" parent="GUI/Hud/Popups/SplitScreens/PlayerLeft"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -80.0
+margin_top = 82.0
+margin_right = 80.0
+margin_bottom = 168.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="KeyboardL" type="TextureRect" parent="GUI/Hud/Popups/SplitScreens/PlayerLeft/Controls2"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -35.0
+margin_right = 35.0
+margin_bottom = 46.0
+texture = SubResource( 232 )
+
+[node name="Ctrl" type="TextureRect" parent="GUI/Hud/Popups/SplitScreens/PlayerLeft/Controls2"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -71.0
+margin_top = 67.0
+margin_right = -49.0
+margin_bottom = 89.0
+texture = SubResource( 234 )
+
+[node name="Space" type="TextureRect" parent="GUI/Hud/Popups/SplitScreens/PlayerLeft/Controls2"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -40.0
+margin_top = 67.0
+margin_right = 72.0
+margin_bottom = 89.0
+texture = SubResource( 233 )
+
+[node name="PlayerRight" type="Control" parent="GUI/Hud/Popups/SplitScreens"]
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 640.0
+margin_right = 640.0
+
+[node name="Panel" type="Panel" parent="GUI/Hud/Popups/SplitScreens/PlayerRight"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 22.0
+margin_top = 61.0
+margin_right = -20.0
+margin_bottom = -61.0
+
+[node name="Label" type="Label" parent="GUI/Hud/Popups/SplitScreens/PlayerRight"]
+margin_left = 241.0
+margin_top = 269.0
+margin_right = 403.0
+margin_bottom = 301.0
+custom_fonts/font = ExtResource( 5 )
+text = "PLAYER 2"
+align = 1
+
+[node name="Controls" type="Control" parent="GUI/Hud/Popups/SplitScreens/PlayerRight"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -64.0
+margin_top = -25.0
+margin_right = 64.0
+margin_bottom = 64.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="KeyboardR" type="TextureRect" parent="GUI/Hud/Popups/SplitScreens/PlayerRight/Controls"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -35.0
+margin_right = 35.0
+margin_bottom = 46.0
+texture = SubResource( 230 )
+
+[node name="Alt" type="TextureRect" parent="GUI/Hud/Popups/SplitScreens/PlayerRight/Controls"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -11.0
+margin_top = 67.0
+margin_right = 11.0
+margin_bottom = 89.0
+texture = SubResource( 231 )
+
+[node name="Player" type="TileMap" parent="GUI/Hud/Popups/SplitScreens/PlayerRight"]
+visible = false
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+position = Vector2( 136, 189 )
+tile_set = ExtResource( 18 )
+cell_size = Vector2( 16, 16 )
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+format = 1
+tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 4, 0, 0, 9, 0, 0, 10, 0, 0, 12, 0, 0, 14, 0, 0, 16, 0, 0, 17, 0, 0, 20, 0, 0, 21, 0, 0, 22, 0, 0, 65536, 0, 0, 65538, 0, 0, 65540, -1610612736, 0, 65544, 0, 0, 65546, 0, 0, 65548, 0, 0, 65550, 0, 0, 65552, 0, 0, 65556, 0, 0, 65558, 0, 0, 131072, 0, 0, 131073, 0, 0, 131074, 0, 0, 131076, -1610612736, 0, 131080, 0, 0, 131081, 0, 0, 131082, 0, 0, 131085, 0, 0, 131088, 0, 0, 131089, 0, 0, 131092, 0, 0, 131093, 0, 0, 196608, 0, 0, 196612, -1610612736, 0, 196616, 0, 0, 196618, 0, 0, 196621, 0, 0, 196624, 0, 0, 196628, 0, 0, 196630, 0, 0, 262144, 0, 0, 262148, -1610612736, 0, 262149, 0, 0, 262150, 0, 0, 262152, 0, 0, 262154, 0, 0, 262157, 0, 0, 262160, 0, 0, 262161, 0, 0, 262162, 0, 0, 262164, 0, 0, 262166, 0, 0, 458762, 0, 0, 458763, 0, 0, 524300, 0, 0, 589835, 0, 0, 655370, 0, 0, 720906, 0, 0, 720907, 0, 0, 720908, 0, 0 )
+
+[node name="Controls2" type="Control" parent="GUI/Hud/Popups/SplitScreens/PlayerRight"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -64.0
+margin_top = 82.0
+margin_right = 64.0
+margin_bottom = 168.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="KeyboardR" type="TextureRect" parent="GUI/Hud/Popups/SplitScreens/PlayerRight/Controls2"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -35.0
+margin_right = 35.0
+margin_bottom = 46.0
+texture = SubResource( 230 )
+
+[node name="Alt" type="TextureRect" parent="GUI/Hud/Popups/SplitScreens/PlayerRight/Controls2"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -11.0
+margin_top = 67.0
+margin_right = 11.0
+margin_bottom = 89.0
+texture = SubResource( 231 )
+
+[node name="StartHint" type="HBoxContainer" parent="GUI/Hud/Popups/SplitScreens"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -111.0
+margin_top = 616.0
+margin_right = 111.0
+margin_bottom = 638.0
+custom_constants/separation = 8
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Label" type="Label" parent="GUI/Hud/Popups/SplitScreens/StartHint"]
+margin_top = 2.0
+margin_right = 44.0
+margin_bottom = 20.0
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+custom_fonts/font = ExtResource( 23 )
+text = "Press"
+align = 1
+
+[node name="Enter" type="TextureRect" parent="GUI/Hud/Popups/SplitScreens/StartHint"]
+margin_left = 52.0
+margin_right = 74.0
+margin_bottom = 22.0
+texture = SubResource( 199 )
+
+[node name="Label3" type="Label" parent="GUI/Hud/Popups/SplitScreens/StartHint"]
+margin_left = 82.0
+margin_top = 2.0
+margin_right = 99.0
+margin_bottom = 20.0
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+custom_fonts/font = ExtResource( 23 )
+text = "or"
+align = 1
+
+[node name="Start" type="TextureRect" parent="GUI/Hud/Popups/SplitScreens/StartHint"]
+margin_left = 107.0
+margin_right = 147.0
+margin_bottom = 22.0
+texture = SubResource( 200 )
+
+[node name="Label2" type="Label" parent="GUI/Hud/Popups/SplitScreens/StartHint"]
+margin_left = 155.0
+margin_top = 2.0
+margin_right = 222.0
+margin_bottom = 20.0
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+custom_fonts/font = ExtResource( 23 )
+text = "to start"
+
+[node name="GameCountdown" type="Control" parent="GUI/Hud/Popups"]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 1280, 720 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 15 )
+
+[node name="Undi" type="ColorRect" parent="GUI/Hud/Popups/GameCountdown"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0, 0, 0, 0.54902 )
+
+[node name="Countdown" type="VBoxContainer" parent="GUI/Hud/Popups/GameCountdown"]
+margin_left = 511.0
+margin_top = 263.0
+margin_right = 771.0
+margin_bottom = 289.0
+custom_constants/separation = 0
+
+[node name="label" type="Label" parent="GUI/Hud/Popups/GameCountdown/Countdown"]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+margin_right = 260.0
+margin_bottom = 22.0
+size_flags_vertical = 8
+text = "LEVEL 01 STARTS IN ..."
+align = 1
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="PositionControl" type="Control" parent="GUI/Hud/Popups/GameCountdown/Countdown"]
+modulate = Color( 1, 1, 1, 0 )
+margin_right = 260.0
+margin_bottom = 26.0
+size_flags_vertical = 3
+
+[node name="noz" type="Label" parent="GUI/Hud/Popups/GameCountdown/Countdown/PositionControl"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -171.0
+margin_top = -38.0
+margin_right = 191.0
+margin_bottom = 197.0
+size_flags_vertical = 8
+custom_fonts/font = SubResource( 141 )
+text = "05"
+align = 1
+valign = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/Hud/Popups/GameCountdown"]
+anims/RESET = SubResource( 140 )
+anims/countdown_3 = SubResource( 143 )
+anims/countdown_5 = SubResource( 142 )
+anims/countdown_5_v1 = SubResource( 135 )
+
 [node name="Life" type="Label" parent="GUI/Hud"]
+visible = false
 margin_left = 32.0
 margin_top = 69.0
 margin_right = 114.0
@@ -1649,6 +2052,7 @@ __meta__ = {
 }
 
 [node name="Energy" type="Label" parent="GUI/Hud"]
+visible = false
 margin_left = 136.0
 margin_top = 69.0
 margin_right = 180.0
@@ -1701,9 +2105,9 @@ color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
 [node name="PlayerLineL" type="HBoxContainer" parent="GUI/Hud/Header"]
 margin_left = 32.0
-margin_top = 8.0
+margin_top = 7.0
 margin_right = 462.0
-margin_bottom = 30.0
+margin_bottom = 29.0
 custom_constants/separation = 16
 __meta__ = {
 "_edit_group_": true
@@ -1923,9 +2327,9 @@ __meta__ = {
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -38.0
-margin_top = 8.0
+margin_top = 7.0
 margin_right = 40.0
-margin_bottom = 30.0
+margin_bottom = 29.0
 grow_horizontal = 2
 theme = SubResource( 194 )
 script = ExtResource( 1 )
@@ -1969,9 +2373,9 @@ valign = 2
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = 54.0
-margin_top = 8.0
+margin_top = 7.0
 margin_right = 101.0
-margin_bottom = 30.0
+margin_bottom = 29.0
 rect_min_size = Vector2( 44, 0 )
 size_flags_horizontal = 8
 text = "00"
@@ -1994,12 +2398,12 @@ margin_bottom = 19.0
 texture = SubResource( 146 )
 
 [node name="HighscoreLabel" type="Label" parent="GUI/Hud/Header"]
-margin_left = 1198.0
-margin_top = 8.0
+margin_left = 1184.0
+margin_top = 7.0
 margin_right = 1250.0
-margin_bottom = 30.0
+margin_bottom = 29.0
 grow_horizontal = 0
-text = "HS 0"
+text = "HS 00"
 align = 2
 
 [node name="PlayerLineR" type="HBoxContainer" parent="GUI/Hud/Header"]
@@ -2007,9 +2411,9 @@ visible = false
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -464.0
-margin_top = 8.0
+margin_top = 7.0
 margin_right = -30.0
-margin_bottom = 30.0
+margin_bottom = 29.0
 grow_horizontal = 0
 custom_constants/separation = 16
 alignment = 2
@@ -2245,9 +2649,9 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 32.0
-margin_top = -32.0
+margin_top = -31.0
 margin_right = -30.0
-margin_bottom = -10.0
+margin_bottom = -9.0
 custom_constants/separation = 32
 __meta__ = {
 "_edit_group_": true
@@ -2301,6 +2705,7 @@ custom_constants/separation = 0
 alignment = 1
 
 [node name="SpectrumColorIndicator3" parent="GUI/Hud/Footer/FooterLine/SpectrumHolder/ColorSpectrum" instance=ExtResource( 16 )]
+visible = false
 margin_right = 896.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -2366,218 +2771,6 @@ valign = 2
 __meta__ = {
 "_editor_description_": ""
 }
-
-[node name="Popups" type="Control" parent="GUI/Hud"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-
-[node name="EnergyWarning" type="Control" parent="GUI/Hud/Popups"]
-visible = false
-modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -216.0
-margin_top = 94.0
-margin_right = 216.0
-margin_bottom = 160.0
-size_flags_horizontal = 5
-
-[node name="StepsRemaining" type="Label" parent="GUI/Hud/Popups/EnergyWarning"]
-anchor_right = 1.0
-margin_bottom = 22.0
-grow_horizontal = 2
-size_flags_horizontal = 3
-text = "Low energy!"
-align = 1
-
-[node name="HSBroken" type="Control" parent="GUI/Hud/Popups"]
-visible = false
-modulate = Color( 0.368627, 1, 0.662745, 1 )
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -168.0
-margin_top = 94.0
-margin_right = 168.0
-margin_bottom = 117.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Label" type="Label" parent="GUI/Hud/Popups/HSBroken"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -193.0
-margin_right = 191.0
-margin_bottom = 22.0
-size_flags_horizontal = 4
-text = "YEAH!!! You've broken the record"
-align = 1
-valign = 1
-
-[node name="SplitScreens" type="Control" parent="GUI/Hud/Popups"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-
-[node name="PlayerLeft" type="Control" parent="GUI/Hud/Popups/SplitScreens"]
-anchor_right = 0.5
-anchor_bottom = 1.0
-
-[node name="Player" type="TileMap" parent="GUI/Hud/Popups/SplitScreens/PlayerLeft"]
-modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-position = Vector2( 136, 192 )
-tile_set = ExtResource( 18 )
-cell_size = Vector2( 16, 16 )
-cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
-format = 1
-tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 4, 0, 0, 9, 0, 0, 10, 0, 0, 12, 0, 0, 14, 0, 0, 16, 0, 0, 17, 0, 0, 20, 0, 0, 21, 0, 0, 22, 0, 0, 65536, 0, 0, 65538, 0, 0, 65540, -1610612736, 0, 65544, 0, 0, 65546, 0, 0, 65548, 0, 0, 65550, 0, 0, 65552, 0, 0, 65556, 0, 0, 65558, 0, 0, 131072, 0, 0, 131073, 0, 0, 131074, 0, 0, 131076, -1610612736, 0, 131080, 0, 0, 131081, 0, 0, 131082, 0, 0, 131085, 0, 0, 131088, 0, 0, 131089, 0, 0, 131092, 0, 0, 131093, 0, 0, 196608, 0, 0, 196612, -1610612736, 0, 196616, 0, 0, 196618, 0, 0, 196621, 0, 0, 196624, 0, 0, 196628, 0, 0, 196630, 0, 0, 262144, 0, 0, 262148, -1610612736, 0, 262149, 0, 0, 262150, 0, 0, 262152, 0, 0, 262154, 0, 0, 262157, 0, 0, 262160, 0, 0, 262161, 0, 0, 262162, 0, 0, 262164, 0, 0, 262166, 0, 0, 458763, 0, 0, 524298, 0, 0, 524299, 0, 0, 589835, 0, 0, 655371, 0, 0, 720906, 0, 0, 720907, 0, 0, 720908, 0, 0 )
-
-[node name="Controls" type="Control" parent="GUI/Hud/Popups/SplitScreens/PlayerLeft"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -80.0
-margin_top = 90.0
-margin_right = 80.0
-margin_bottom = 176.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="KeyboardL" type="TextureRect" parent="GUI/Hud/Popups/SplitScreens/PlayerLeft/Controls"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -35.0
-margin_right = 35.0
-margin_bottom = 46.0
-texture = SubResource( 232 )
-
-[node name="Ctrl" type="TextureRect" parent="GUI/Hud/Popups/SplitScreens/PlayerLeft/Controls"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -71.0
-margin_top = 64.0
-margin_right = -49.0
-margin_bottom = 86.0
-texture = SubResource( 234 )
-
-[node name="Space" type="TextureRect" parent="GUI/Hud/Popups/SplitScreens/PlayerLeft/Controls"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -40.0
-margin_top = 64.0
-margin_right = 72.0
-margin_bottom = 86.0
-texture = SubResource( 233 )
-
-[node name="PlayerRight" type="Control" parent="GUI/Hud/Popups/SplitScreens"]
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = 640.0
-margin_right = 640.0
-
-[node name="Player" type="TileMap" parent="GUI/Hud/Popups/SplitScreens/PlayerRight"]
-modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-position = Vector2( 136, 192 )
-tile_set = ExtResource( 18 )
-cell_size = Vector2( 16, 16 )
-cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
-format = 1
-tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 4, 0, 0, 9, 0, 0, 10, 0, 0, 12, 0, 0, 14, 0, 0, 16, 0, 0, 17, 0, 0, 20, 0, 0, 21, 0, 0, 22, 0, 0, 65536, 0, 0, 65538, 0, 0, 65540, -1610612736, 0, 65544, 0, 0, 65546, 0, 0, 65548, 0, 0, 65550, 0, 0, 65552, 0, 0, 65556, 0, 0, 65558, 0, 0, 131072, 0, 0, 131073, 0, 0, 131074, 0, 0, 131076, -1610612736, 0, 131080, 0, 0, 131081, 0, 0, 131082, 0, 0, 131085, 0, 0, 131088, 0, 0, 131089, 0, 0, 131092, 0, 0, 131093, 0, 0, 196608, 0, 0, 196612, -1610612736, 0, 196616, 0, 0, 196618, 0, 0, 196621, 0, 0, 196624, 0, 0, 196628, 0, 0, 196630, 0, 0, 262144, 0, 0, 262148, -1610612736, 0, 262149, 0, 0, 262150, 0, 0, 262152, 0, 0, 262154, 0, 0, 262157, 0, 0, 262160, 0, 0, 262161, 0, 0, 262162, 0, 0, 262164, 0, 0, 262166, 0, 0, 458762, 0, 0, 458763, 0, 0, 524300, 0, 0, 589835, 0, 0, 655370, 0, 0, 720906, 0, 0, 720907, 0, 0, 720908, 0, 0 )
-
-[node name="Controls" type="Control" parent="GUI/Hud/Popups/SplitScreens/PlayerRight"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -64.0
-margin_top = 90.0
-margin_right = 64.0
-margin_bottom = 176.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="KeyboardR" type="TextureRect" parent="GUI/Hud/Popups/SplitScreens/PlayerRight/Controls"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -35.0
-margin_right = 35.0
-margin_bottom = 46.0
-texture = SubResource( 230 )
-
-[node name="Alt" type="TextureRect" parent="GUI/Hud/Popups/SplitScreens/PlayerRight/Controls"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -11.0
-margin_top = 64.0
-margin_right = 11.0
-margin_bottom = 86.0
-texture = SubResource( 231 )
-
-[node name="GameCountdown" type="Control" parent="GUI/Hud/Popups"]
-visible = false
-modulate = Color( 1, 1, 1, 0 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-rect_min_size = Vector2( 1280, 720 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-script = ExtResource( 15 )
-
-[node name="Undi" type="ColorRect" parent="GUI/Hud/Popups/GameCountdown"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-color = Color( 0, 0, 0, 0.54902 )
-
-[node name="Countdown" type="VBoxContainer" parent="GUI/Hud/Popups/GameCountdown"]
-margin_left = 511.0
-margin_top = 263.0
-margin_right = 771.0
-margin_bottom = 289.0
-custom_constants/separation = 0
-
-[node name="label" type="Label" parent="GUI/Hud/Popups/GameCountdown/Countdown"]
-visible = false
-modulate = Color( 1, 1, 1, 0 )
-margin_right = 260.0
-margin_bottom = 22.0
-size_flags_vertical = 8
-text = "LEVEL 01 STARTS IN ..."
-align = 1
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="PositionControl" type="Control" parent="GUI/Hud/Popups/GameCountdown/Countdown"]
-modulate = Color( 1, 1, 1, 0 )
-margin_right = 260.0
-margin_bottom = 26.0
-size_flags_vertical = 3
-
-[node name="noz" type="Label" parent="GUI/Hud/Popups/GameCountdown/Countdown/PositionControl"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -171.0
-margin_top = -38.0
-margin_right = 191.0
-margin_bottom = 197.0
-size_flags_vertical = 8
-custom_fonts/font = SubResource( 141 )
-text = "05"
-align = 1
-valign = 2
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/Hud/Popups/GameCountdown"]
-anims/RESET = SubResource( 140 )
-anims/countdown_3 = SubResource( 143 )
-anims/countdown_5 = SubResource( 142 )
-anims/countdown_5_v1 = SubResource( 135 )
 
 [node name="Tutorial" type="Control" parent="GUI"]
 visible = false
@@ -3836,36 +4029,6 @@ text = "Before starting the tutorial, be sure to check the displayed HUD labels.
 align = 1
 autowrap = true
 
-[node name="Menu" type="HBoxContainer" parent="GUI/Tutorial/MissionPanel"]
-visible = false
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -77.0
-margin_top = 230.0
-margin_right = 77.0
-margin_bottom = 252.0
-custom_constants/separation = 32
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="QuitBtn" type="Button" parent="GUI/Tutorial/MissionPanel/Menu"]
-margin_right = 52.0
-margin_bottom = 22.0
-focus_neighbour_right = NodePath("../StartBtn")
-size_flags_horizontal = 2
-size_flags_vertical = 8
-text = "QUIT"
-
-[node name="StartBtn" type="Button" parent="GUI/Tutorial/MissionPanel/Menu"]
-margin_left = 84.0
-margin_right = 154.0
-margin_bottom = 22.0
-focus_neighbour_left = NodePath("../QuitBtn")
-size_flags_horizontal = 8
-size_flags_vertical = 8
-text = "START"
-
 [node name="StartHint" type="HBoxContainer" parent="GUI/Tutorial/MissionPanel"]
 anchor_left = 0.5
 anchor_right = 0.5
@@ -3883,7 +4046,7 @@ margin_top = 2.0
 margin_right = 44.0
 margin_bottom = 20.0
 theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 23 )
 text = "Press"
 align = 1
@@ -3900,7 +4063,7 @@ margin_top = 2.0
 margin_right = 99.0
 margin_bottom = 20.0
 theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 23 )
 text = "or"
 align = 1
@@ -3917,7 +4080,7 @@ margin_top = 2.0
 margin_right = 222.0
 margin_bottom = 20.0
 theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 23 )
 text = "to start"
 
@@ -4457,6 +4620,7 @@ text = "PLAY ON"
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 22 )
@@ -5505,12 +5669,10 @@ align = 0
 [connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_AddTraumaBtn_mouse_entered"]
 [connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_AddTraumaBtn_mouse_exited"]
 [connection signal="pressed" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_AddTraumaBtn_pressed"]
+[connection signal="animation_finished" from="GUI/Hud/Popups/GameCountdown/AnimationPlayer" to="GUI/Hud/Popups/GameCountdown" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="gametime_is_up" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_gametime_is_up"]
 [connection signal="sudden_death_active" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_sudden_death_active"]
 [connection signal="timeout" from="GUI/Hud/Header/GameTimer/Timer" to="GUI/Hud/Header/GameTimer" method="_on_Timer_timeout"]
-[connection signal="animation_finished" from="GUI/Hud/Popups/GameCountdown/AnimationPlayer" to="GUI/Hud/Popups/GameCountdown" method="_on_AnimationPlayer_animation_finished"]
-[connection signal="pressed" from="GUI/Tutorial/MissionPanel/Menu/QuitBtn" to="GUI/Tutorial" method="_on_QuitBtn_pressed"]
-[connection signal="pressed" from="GUI/Tutorial/MissionPanel/Menu/StartBtn" to="GUI/Tutorial" method="_on_StartBtn_pressed"]
 [connection signal="animation_finished" from="GUI/Tutorial/AnimationPlayer" to="GUI/Tutorial" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="toggled" from="GUI/PauseMenu/Settings/GameMusicCheckBox" to="GUI/PauseMenu" method="_on_GameMusicCheckBox_toggled"]
 [connection signal="toggled" from="GUI/PauseMenu/Settings/GameSfxCheckBox" to="GUI/PauseMenu" method="_on_GameSfxCheckBox_toggled"]

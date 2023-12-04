@@ -32,6 +32,7 @@ var burst_speed: float = 0 # trenutna hitrost
 var burst_speed_max: float = 0 # maximalna hitrost v tweenu (določena med kokanjem)
 var burst_direction_set: bool = false
 var burst_cocked_ghost_count: int # moč v številu ghosts_count
+var burst_speed_addon: float = 12
 var burst_velocity: Vector2
 
 # heartbeat
@@ -72,12 +73,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	if name == "p1":
 		if Input.is_action_pressed("no1"):
 			player_stats["player_energy"] -= 10
-			player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_settings["player_start_energy"])
+			player_stats["player_energy"] = clamp(player_stats["player_energy"], 5, game_settings["player_start_energy"])
+			emit_signal("stat_changed", self, player_stats)
 	elif name == "p2":
 		if Input.is_action_pressed("no2") and player_stats["player_energy"] > 1:
 			player_stats["player_energy"] -= 10
-			player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_settings["player_start_energy"])
-
+			player_stats["player_energy"] = clamp(player_stats["player_energy"], 5, game_settings["player_start_energy"])
+			emit_signal("stat_changed", self, player_stats)
 	
 func _ready() -> void:
 	print("player")
@@ -151,6 +153,7 @@ func state_machine():
 		States.COCKING:
 			cocking_inputs()
 		States.BURSTING:
+			print (burst_speed)
 			burst_velocity = direction * burst_speed
 			collision = move_and_collide(burst_velocity) 
 			if collision:
@@ -161,21 +164,13 @@ func state_machine():
 func on_collision(): 
 	
 	Global.sound_manager.stop_sfx("burst")
-	
-	# camera shake calc
-	var hit_shake_power: float = 0.2
-	var hit_shake_time: float = 0.3
-	var hit_shake_decay: float = 0.7
-	var burst_power_shake_addon: float = 0.03
-	var added_shake_power = hit_shake_power + burst_power_shake_addon * burst_cocked_ghost_count
-	var added_shake_time = hit_shake_time + burst_power_shake_addon * burst_cocked_ghost_count
-	
-	
+
 	if collision.collider.is_in_group(Global.group_tilemap):
+		
 		if heartbeat_active: # enako, kot, da bi bil zadnji bit ... kar umre, da se ne animacija ne meša z revive
 			heartbeat_active = false
 			glow_light.enabled = false
-			change_stat("no_energy")
+			change_stat("energy_depleted")
 		else:
 			change_stat("hit_wall")
 		die()
@@ -185,56 +180,80 @@ func on_collision():
 		Global.sound_manager.play_sfx("hit_wall")
 		spawn_dizzy_particles()
 		spawn_collision_particles()
-		
+		shake_player_camera(burst_cocked_ghost_count)
+				
 	elif collision.collider.is_in_group(Global.group_strays):
+		print("plejer ", name)
 		on_hit_stray(collision.collider)
 		end_move()
+		
 		# efekti
 		Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
 		Global.sound_manager.play_sfx("hit_stray")	
 		spawn_collision_particles()
+		shake_player_camera(current_hit_strays_count)
 	
 	elif collision.collider.is_in_group(Global.group_players):
+		
 		var hit_player: KinematicBody2D = collision.collider
 		var player_direction = direction # za korekcijo
-		# zmaga
-		if burst_speed > hit_player.burst_speed:
+		if burst_speed > hit_player.burst_speed: # zmaga
 			if hit_player.pixel_color != Global.game_manager.game_settings["player_start_color"]: # če nima nobene barve mu je ne prevzamem
 				pixel_color = hit_player.pixel_color # prevzamem barvo
-			hit_player.on_get_hit(added_shake_power, added_shake_time, hit_shake_decay)
+			
+			var burst_speed_difference: float = burst_speed - hit_player.burst_speed
+			print ("speed diff: ", burst_speed_difference, " plejer ", name)
+			print ("winner is ", name)
+			hit_player.on_get_hit(burst_speed_difference)
 			end_move()
 			hit_player.end_move() # plejer, ki prvi zazna kontakt ukaže naprej, da je zaporedje pod kontrolo 
 			change_stat("hit_player")
-		# neodločeno
-		elif burst_speed_max == hit_player.burst_speed:
+		elif burst_speed_max == hit_player.burst_speed: # neodločeno
 			end_move()
 			hit_player.end_move() # plejer, ki prvi zazna kontakt ukaže naprej, da je zaporedje pod kontrolo 
+		
+		# korekcija, če končata na isti poziciji ali preveč narazen
+		global_position = hit_player.global_position + (cell_size_x * (- player_direction)) # plejer eno polje ob zadetem
+		
 		# efekti
 		Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
 		Global.sound_manager.play_sfx("hit_stray")
 		spawn_collision_particles()
-		# korekcija, če končata na isti poziciji ali preveč narazen
-		global_position = hit_player.global_position + (cell_size_x * (- player_direction)) # plejer eno polje ob zadetem
-	
-	player_camera.shake_camera(added_shake_power, added_shake_time, hit_shake_decay)
 
+#	player_camera.shake_camera(added_shake_power, added_shake_time, hit_shake_decay) # tu spodaj, da so vse variable skalkulirane
 
 	
 # INPUTS ------------------------------------------------------------------------------------------
 
+func shake_player_camera(shake_multiplier):
+	
+	# shake_multiplier je lahko: moč brusta, št. uničenih straysov, razlika v moči bursta med plejerjema
+	shake_multiplier = clamp(shake_multiplier, 0, cocked_ghost_count_max) # omejen je z navečjo možno močjo bursta
+	
+	var shake_multiplier_factor: float = 0.03
+	var shake_power: float = 0.2
+	var shake_power_multiplied: float = shake_power + shake_multiplier_factor * shake_multiplier
+	var shake_time: float = 0.3
+	var shake_time_multiplied: float = shake_time + shake_multiplier_factor * shake_multiplier
+	var shake_decay: float = 0.7
+		
+	player_camera.shake_camera(shake_power_multiplied, shake_time_multiplied, shake_decay)	
+#	printt("shake", shake_power_multiplied, shake_time_multiplied, shake_decay)
+	
+
 
 func idle_inputs():
 	
-	if Input.is_action_pressed(key_up):
+	if Input.is_action_pressed(key_up):# and current_state == States.IDLE: # idle state dodam, zato, da ne dela, ko je enkrat v kocking ... zazih
 		direction = Vector2.UP
 		step()
-	elif Input.is_action_pressed(key_down):
+	elif Input.is_action_pressed(key_down):# and current_state == States.IDLE:
 		direction = Vector2.DOWN
 		step()
-	elif Input.is_action_pressed(key_left):
+	elif Input.is_action_pressed(key_left):# and current_state == States.IDLE:
 		direction = Vector2.LEFT
 		step()
-	elif Input.is_action_pressed(key_right):
+	elif Input.is_action_pressed(key_right):# and current_state == States.IDLE:
 		direction = Vector2.RIGHT
 		step()
 	
@@ -252,19 +271,19 @@ func cocking_inputs():
 			burst_direction_set = true
 		else:
 			cock_burst()
-	if Input.is_action_pressed(key_down):
+	elif Input.is_action_pressed(key_down):
 		if not burst_direction_set:
 			direction = Vector2.UP
 			burst_direction_set = true
 		else:
 			cock_burst()
-	if Input.is_action_pressed(key_left):
+	elif Input.is_action_pressed(key_left):
 		if not burst_direction_set:
 			direction = Vector2.RIGHT
 			burst_direction_set = true
 		else:
 			cock_burst()
-	if Input.is_action_pressed(key_right):
+	elif Input.is_action_pressed(key_right):
 		if not burst_direction_set:
 			direction = Vector2.LEFT
 			burst_direction_set = true
@@ -364,7 +383,12 @@ func end_move():
 	burst_speed_max = 0
 	burst_direction_set = false
 	cocking_room = true
+	burst_cocked_ghost_count = 0
+	for ghost in cocked_ghosts:
+		ghost.queue_free()
+	cocked_ghosts = [] # če ne se lahko
 	
+		
 	# ugasnem lučke
 	if glow_light.enabled:
 		glow_light_off()
@@ -402,8 +426,6 @@ func cock_burst():
 	if is_virgin:
 		lose_virginity()
 		
-	var burst_speed_addon: float = 12
-	
 	# prostor nadaljevanje napenjanja preverja ghost
 	if cocked_ghosts.size() < cocked_ghost_count_max and cocking_room:
 		# čas držanja tipke (znotraj nastajanja ene cock celice)
@@ -442,7 +464,6 @@ func release_burst():
 
 func burst(current_ghost_count):
 	
-	change_stat("burst_released")
 	
 	var burst_direction = direction
 	burst_cocked_ghost_count = current_ghost_count
@@ -468,18 +489,19 @@ func burst(current_ghost_count):
 	
 	Global.sound_manager.play_sfx("burst")
 	Global.sound_manager.stop_sfx("burst_cocking")
+	change_stat("burst_released")
 	
 	# release ghost 
-	current_state = States.BURSTING
-
+	# current_state = States.BURSTING ... old way
 	var strech_ghost_shrink_time: float = 0.2
 	
 	var release_tween = get_tree().create_tween()
 	release_tween.tween_property(new_stretch_ghost, "scale", Vector2.ONE, strech_ghost_shrink_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	release_tween.parallel().tween_property(new_stretch_ghost, "position", global_position - burst_direction * cell_size_x, strech_ghost_shrink_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
-	# release pixel
 	release_tween.tween_callback(new_stretch_ghost, "queue_free")
-	release_tween.parallel().tween_property(self, "burst_speed", burst_speed_max, 0).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
+	# release pixel
+	release_tween.parallel().tween_property(self, "current_state", States.BURSTING, 0)
+	release_tween.parallel().tween_property(self, "burst_speed", burst_speed_max, 0)
 	
 	# zaključek .. tudi signal za pobiranje barv ... v on_collision()
 
@@ -587,10 +609,7 @@ func teleport():
 	new_teleport_ghost.connect("ghost_target_reached", self, "_on_ghost_target_reached")
 	
 	# kamera target
-	if name == "p1":
-		Global.p1_camera_target = new_teleport_ghost
-	elif name == "p2":
-		Global.p2_camera_target = new_teleport_ghost
+	player_camera.camera_target = new_teleport_ghost
 	
 	yield(get_tree().create_timer(0.2), "timeout")
 	# zaključek v signalu _on_ghost_target_reached
@@ -695,13 +714,15 @@ func spawn_floating_tag(value): # kliče ga GM
 # ON HIT ------------------------------------------------------------------------------------------
 
 
-func on_get_hit(added_shake_power, added_shake_time, hit_shake_decay):
+func on_get_hit(burst_speed_difference):
 	
 	# efekti
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.7)
-	player_camera.shake_camera(added_shake_power, added_shake_time, hit_shake_decay)	
 	spawn_dizzy_particles()
-
+	
+	var shake_multiplier = burst_speed_difference / burst_speed_addon # dobim število cock ghosts
+	shake_player_camera(shake_multiplier)
+	
 	# uničim morebitno napenjanje
 	if burst_speed_max > 0: 
 		burst_speed_max = 0
@@ -720,33 +741,33 @@ func on_get_hit(added_shake_power, added_shake_time, hit_shake_decay):
 
 func on_hit_stray(hit_stray: KinematicBody2D):
 	
-		if Global.game_manager.game_settings["pick_neighbor_mode"]:
-			if Global.game_manager.colors_to_pick and not Global.game_manager.colors_to_pick.has(hit_stray.pixel_color): # če pobrana barva ni enaka barvi soseda
-				end_move()
-			else:
-				pixel_color = hit_stray.pixel_color
-				Global.hud.show_picked_color(hit_stray.pixel_color)
-				hit_stray.die(0) # edini
-				change_stat("hit_stray")
+	if Global.game_manager.game_settings["pick_neighbor_mode"]:
+		if Global.game_manager.colors_to_pick and not Global.game_manager.colors_to_pick.has(hit_stray.pixel_color): # če pobrana barva ni enaka barvi soseda
+			end_move()
 		else:
 			pixel_color = hit_stray.pixel_color
 			Global.hud.show_picked_color(hit_stray.pixel_color)
-			
-			var stacked_neighbors = check_for_neighbors(hit_stray)
-			if stacked_neighbors.empty(): # nima sosed
-				hit_stray.die(0) # 0 pomeni, da je solo (drugačna animacija)
-			else: # ma sosede
-				destroy_all_stacked(stacked_neighbors, hit_stray)
-			
-			# statistika pobitih
-			if burst_cocked_ghost_count == cocked_ghost_count_max: # moč je maximalna moč
-				current_hit_strays_count = stacked_neighbors.size() + 1
-			elif burst_cocked_ghost_count > stacked_neighbors.size() + 1: # moč je enaka količini stackanih straysov
-				current_hit_strays_count = stacked_neighbors.size() + 1 # moč je enaka ali manjša, kot količini stackanih straysov
-			else:
-				current_hit_strays_count = burst_cocked_ghost_count
-			
+			hit_stray.die(0) # edini
 			change_stat("hit_stray")
+	else:
+		pixel_color = hit_stray.pixel_color
+		Global.hud.show_picked_color(hit_stray.pixel_color)
+		
+		var stacked_neighbors = check_for_neighbors(hit_stray)
+		if stacked_neighbors.empty(): # nima sosed
+			hit_stray.die(0) # 0 pomeni, da je solo (drugačna animacija)
+		else: # ma sosede
+			destroy_all_stacked(stacked_neighbors, hit_stray)
+		
+		# statistika pobitih
+		if burst_cocked_ghost_count == cocked_ghost_count_max: # moč je maximalna moč
+			current_hit_strays_count = stacked_neighbors.size() + 1
+		elif burst_cocked_ghost_count > stacked_neighbors.size() + 1: # moč je enaka količini stackanih straysov
+			current_hit_strays_count = stacked_neighbors.size() + 1 # moč je enaka ali manjša, kot količini stackanih straysov
+		else:
+			current_hit_strays_count = burst_cocked_ghost_count
+		
+		change_stat("hit_stray")
 				
 				
 func check_for_neighbors(hit_stray):
@@ -879,12 +900,6 @@ func skill_light_off():
 		
 func _on_ghost_target_reached(ghost_body, ghost_position):
 	
-	var player_camera_target: String
-	if name == "p1":
-		player_camera_target = "p1_camera_target"
-	elif name == "p2":
-		player_camera_target = "p2_camera_target"
-	
 	Global.sound_manager.stop_sfx("teleport")
 	Input.stop_joy_vibration(0)
 			
@@ -897,8 +912,8 @@ func _on_ghost_target_reached(ghost_body, ghost_position):
 	teleport_tween.tween_property(self, "global_position", ghost_position, 0)
 	teleport_tween.parallel().tween_callback(self, "end_move")
 	teleport_tween.parallel().tween_property(self, "modulate:a", 1, 0)
+	teleport_tween.parallel().tween_property(player_camera, "camera_target", self, 0) # camera follow reset
 	teleport_tween.parallel().tween_callback(ghost_body, "queue_free")
-	teleport_tween.parallel().tween_property(Global, player_camera_target, self, 0) # camera follow reset
 	teleport_tween.tween_callback(self, "change_stat", ["teleport_used"]) # 0 = push, 1 = pull, 2 = teleport ... za prepoznavanje
 
 
@@ -922,7 +937,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 				Global.sound_manager.play_sfx("heartbeat")
 			elif heartbeat_active:
 				glow_light.enabled = false
-				change_stat("no_energy")
+				change_stat("energy_depleted")
 				die()
 		"die_player":
 			if player_stats["player_life"] > 0:
@@ -932,7 +947,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 		"revive":
 			set_physics_process(true)
 			if lose_life_on_hit:
-				player_stats["player_energy"] = game_settings["player_max_energy"]
+				change_stat("new_life")
 
 
 # STAT EVENTS ------------------------------------------------------------------------------------------
@@ -950,14 +965,14 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 #		- stat_change() pedena statistiko
 #			- vzame lajf, če je to pogojeno
 #			- vzame energijo, če je to pogojeno
-#	- revive() se zgodi, če je še na voljo lajf
-#		- resetira energijo, če je to pogojeno
+#	- revive() se zgodi, če je še lajfa
+#		- kliče stat_change ("new_life") resetira energijo, če je to pogojeno
 #		- FP on
-	
+#	- če je na štartu samo en lajf, se na hit ne izgublja lajfa, ampak energijo
 func change_stat(event: String):
 	
 	match event:
-		# good
+		# hits
 		"hit_stray":
 			# izračun točk
 			var points_rewarded: int = 0
@@ -992,8 +1007,6 @@ func change_stat(event: String):
 #			var energy_to_gain = round(opponent_player_stats["player_energy"] / 2)
 #			player_stats["player_energy"] += energy_to_gain
 			pass
-			
-		# bad
 		"hit_wall":
 			if lose_life_on_hit:
 				player_stats["player_life"] -= 1
@@ -1011,10 +1024,12 @@ func change_stat(event: String):
 				player_stats["player_energy"] -= energy_to_lose
 			spawn_floating_tag(- player_stats["colors_collected"])
 			player_stats["colors_collected"] = 0
-		"no_energy":
-			player_stats["player_life"] -= 1
-		
 		# stats
+		"energy_depleted":
+			player_stats["player_life"] -= 1
+			player_stats["player_energy"] -= 1 # predvsem, da warning popup izgine
+		"new_life":
+			player_stats["player_energy"] = game_settings["player_max_energy"]
 		"cells_traveled": 
 			player_stats["cells_traveled"] += 1
 			player_stats["player_energy"] += game_settings["cell_traveled_energy"]
@@ -1044,7 +1059,7 @@ func change_stat(event: String):
 			player_stats["burst_count"] += 1 # tukaj se kot valju poda burst power
 			
 	# klempanje
-	player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_settings["player_max_energy"]) # pri 1 se že odšteva zadnji izdihljaj
+	player_stats["player_energy"] = clamp(player_stats["player_energy"], 0, game_settings["player_max_energy"]) # pri 1 se že odšteva zadnji izdihljaj
 	player_stats["player_points"] = clamp(player_stats["player_points"], 0, player_stats["player_points"])	
 
 	# signal na hud

@@ -55,7 +55,7 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 	"suddent_death_mode": false,
 	"sudden_death_limit" : 20,
 	"pick_neighbor_mode": false,
-	"minimap_on": true,
+	"minimap_on": false,
 	"manage_highscores": false,
 	
 	"skill_limit_mode": false,
@@ -142,7 +142,7 @@ var game_data_duel: Dictionary = {
 	"game": Games.DUEL,
 	"game_name": "The Duel",
 	"level": "",
-	"tilemap_path": "res://game/tilemaps/duel_tilemap.tscn",
+	"tilemap_path": "res://game/tilemaps/_duel_tilemap.tscn",
 	"game_time_limit": 300,
 	"strays_start_count": 230, 
 	"highscore": 0,
@@ -159,6 +159,7 @@ var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "c
 func _ready() -> void:
 	
 	var current_game = Games.DUEL # če greš iz menija je tole povoženo
+#	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
 	set_game_data(current_game)
 	
 func set_game_data(selected_game) -> void:
