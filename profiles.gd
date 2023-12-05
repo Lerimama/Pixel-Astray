@@ -23,11 +23,12 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 	"start_players_count": 1, # setano v home/play meniju
 	
 	# scoring
+	"hit_player_points": 1000,
 	"all_cleaned_points": 500,
 	"color_picked_points": 1,
 	"color_picked_energy": 20,
 	"stacked_color_picked_points": 2,
-	"stacked_color_picked_energy": 20,
+	"stacked_color_picked_energy": 10,
 	"cell_traveled_points": -1,
 	"cell_traveled_energy": -1,
 	"skill_used_points": 0,
@@ -54,7 +55,7 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 	"step_slowdown_mode": true,
 	"suddent_death_mode": false,
 	"sudden_death_limit" : 20,
-	"pick_neighbor_mode": false,
+#	"pick_neighbor_mode": false,
 	"minimap_on": false,
 	"manage_highscores": false,
 	

@@ -193,23 +193,32 @@ func check_for_hs(player_stats):
 		highscore_label.modulate = Global.hud_text_color
 
 		
+var current_player_life: int
+
 func check_for_warning(player_stats):
+	
 	
 	if player_stats["player_energy"] < 1: # ko zgubi lajf
 		if energy_warning_popup.visible == true:
 			warning_out()
-	elif player_stats["player_energy"] < 2:
-		if energy_warning_popup.visible == false:
-			warning_in()
+	if player_stats["player_energy"] < 2:
 		steps_remaining_label.text = "NO ENERGY! Collect a color to revitalize."
+		if not current_player_life:
+			if energy_warning_popup.visible == false:
+				warning_in()
+			current_player_life = player_stats["player_life"]
+		elif current_player_life > player_stats["player_life"]:
+			if energy_warning_popup.visible == true:
+				warning_out()
+		
 	elif player_stats["player_energy"] == 2: # pomeni samo še en korak in rabim ednino
-		if energy_warning_popup.visible == false:
-			warning_in()
 		steps_remaining_label.text = "ENERGY WARNING! Only 1 step remaining."
-	elif player_stats["player_energy"] <= Global.game_manager.game_settings["player_tired_energy"]:
 		if energy_warning_popup.visible == false:
 			warning_in()
+	elif player_stats["player_energy"] <= Global.game_manager.game_settings["player_tired_energy"]:
 		steps_remaining_label.text = "ENERGY WARNING! Only %s steps remaining." % str(player_stats["player_energy"] - 1)
+		if energy_warning_popup.visible == false:
+			warning_in()
 	elif player_stats["player_energy"] > Global.game_manager.game_settings["player_tired_energy"]:
 		if energy_warning_popup.visible == true:
 			warning_out()
@@ -328,31 +337,31 @@ func show_color_indicator(picked_color):
 			current_indicator_index = active_color_indicators.find(indicator)
 			indicator.modulate.a = picked_indicator_alpha
 			break
-		# preostale barve	
-		elif Global.game_manager.game_settings["pick_neighbor_mode"]: # efekt na preostalih barvah 
-			indicator.modulate.a = unpicked_indicator_alpha
+#		# preostale barve	
+#		elif Global.game_manager.game_settings["pick_neighbor_mode"]: # efekt na preostalih barvah 
+#			indicator.modulate.a = unpicked_indicator_alpha
 			
-	if Global.game_manager.game_settings["pick_neighbor_mode"]:	# opredelitev sosedov glede na položaj pobrane barve
-		
-		if active_color_indicators.size() == 1: # če je samo še en indikator, nima sosedov	
-			return
-
-		var next_indicator_index: int = current_indicator_index + 1
-		var prev_indicator_index: int = current_indicator_index - 1
-		
-		# na začetku holderja indikatorjev 
-		if current_indicator_index == 0:		
-			active_color_indicators[next_indicator_index].modulate.a = neighbor_indicator_alpha
-			Global.game_manager.colors_to_pick = [active_color_indicators[next_indicator_index].color] # pošljem sosednje barve v GM
-		# na koncu holderja indikatorjev
-		elif current_indicator_index == active_color_indicators.size() - 1: # ker je index vedno eno manjši	
-			active_color_indicators[prev_indicator_index].modulate.a = neighbor_indicator_alpha
-			Global.game_manager.colors_to_pick = [active_color_indicators[prev_indicator_index].color] # pošljem sosednje barve v GM
-		# povsod vmes med živimi indikatorji
-		elif current_indicator_index > 0 and current_indicator_index < (active_color_indicators.size() - 1):
-			active_color_indicators[next_indicator_index].modulate.a = neighbor_indicator_alpha
-			active_color_indicators[prev_indicator_index].modulate.a = neighbor_indicator_alpha
-			Global.game_manager.colors_to_pick = [active_color_indicators[prev_indicator_index].color, active_color_indicators[next_indicator_index].color] # pošljem sosednje barve v GM
+#	if Global.game_manager.game_settings["pick_neighbor_mode"]:	# opredelitev sosedov glede na položaj pobrane barve
+#
+#		if active_color_indicators.size() == 1: # če je samo še en indikator, nima sosedov	
+#			return
+#
+#		var next_indicator_index: int = current_indicator_index + 1
+#		var prev_indicator_index: int = current_indicator_index - 1
+#
+#		# na začetku holderja indikatorjev 
+#		if current_indicator_index == 0:		
+#			active_color_indicators[next_indicator_index].modulate.a = neighbor_indicator_alpha
+#			Global.game_manager.colors_to_pick = [active_color_indicators[next_indicator_index].color] # pošljem sosednje barve v GM
+#		# na koncu holderja indikatorjev
+#		elif current_indicator_index == active_color_indicators.size() - 1: # ker je index vedno eno manjši	
+#			active_color_indicators[prev_indicator_index].modulate.a = neighbor_indicator_alpha
+#			Global.game_manager.colors_to_pick = [active_color_indicators[prev_indicator_index].color] # pošljem sosednje barve v GM
+#		# povsod vmes med živimi indikatorji
+#		elif current_indicator_index > 0 and current_indicator_index < (active_color_indicators.size() - 1):
+#			active_color_indicators[next_indicator_index].modulate.a = neighbor_indicator_alpha
+#			active_color_indicators[prev_indicator_index].modulate.a = neighbor_indicator_alpha
+#			Global.game_manager.colors_to_pick = [active_color_indicators[prev_indicator_index].color, active_color_indicators[next_indicator_index].color] # pošljem sosednje barve v GM
 		
 	# izbris iz aktivnih indikatorjev
 	if not active_color_indicators.empty():

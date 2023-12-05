@@ -149,7 +149,7 @@ func set_duel_title():
 	
 	var player_label: Label = $FinalTitle/Duel/Win/PlayerLabel
 	var difference_label: Label = $FinalTitle/Duel/Win/ColorsLabel
-	var difference: int = abs(Global.game_manager.p1_stats["colors_collected"] - Global.game_manager.p2_stats["colors_collected"])
+	var difference: int = abs(Global.game_manager.p1_stats["coenerlors_collected"] - Global.game_manager.p2_stats["colors_collected"])
 	
 	if Global.game_manager.p1_stats["colors_collected"] > Global.game_manager.p2_stats["colors_collected"]:
 		player_label.text = "Player 1"

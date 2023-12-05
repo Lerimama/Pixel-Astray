@@ -346,8 +346,7 @@ func show_strays(show_strays_loop: int):
 	# fade-in za vsak stray v igri ... med še ne pokazanimi (strays_to_show)
 	var loop_count = 0
 	for stray in strays_in_game:
-		# če stray še ni pokazan ga pokažem in dodam med pokazane
-		if not strays_shown.has(stray):# and loop_count < strays_count_to_reveal:
+		if not strays_shown.has(stray): # če stray še ni pokazan ga pokažem in dodam med pokazane
 			stray.fade_in()	
 			strays_shown.append(stray)
 			loop_count += 1 # štejem tukaj, ker se šteje samo če se pixel pokaže
