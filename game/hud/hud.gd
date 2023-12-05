@@ -74,6 +74,7 @@ onready var picked_color_label: Label = $PickedColor/Value
 
 func _input(event: InputEvent) -> void:
 	
+	# splitscreen popup
 	if Input.is_action_just_pressed("ui_accept") and splitscreen_popup.visible:
 		Global.sound_manager.play_gui_sfx("btn_confirm")
 		emit_signal("players_ready")
