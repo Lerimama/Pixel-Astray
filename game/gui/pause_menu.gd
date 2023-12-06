@@ -84,7 +84,7 @@ func play_on():
 func pause_tree():
 	
 	get_tree().paused = true
-	set_process_input(true) # zato da se lahko animacija izvede
+	set_process_input(true)
 		
 	
 func unpause_tree():

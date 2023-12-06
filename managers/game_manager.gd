@@ -59,14 +59,12 @@ func set_game():
 	
 	# tilemap in view se setata na main game_in()
 
+	# game_settings["player_start_color"] = Global.color_white # more bit pred spawnom
 	set_players()
-
-#	yield(get_tree().create_timer(3), "timeout") # da se ekran prikaže
 
 	if game_data["game"] != Profiles.Games.TUTORIAL: 
 		set_strays()
 		yield(get_tree().create_timer(1), "timeout") # da si plejer ogleda
-	
 	
 	Global.hud.slide_in(players_count)
 	yield(Global.start_countdown, "countdown_finished") # sproži ga hud po slide-inu
@@ -85,7 +83,7 @@ func start_game():
 		for player in get_tree().get_nodes_in_group(Global.group_players):
 			player.set_physics_process(true)
 			player.animation_player.play("virgin_blink")
-	
+			
 	game_on = true
 	
 	
@@ -94,7 +92,7 @@ func game_over(gameover_reason):
 	game_on = false
 	
 	# ustavljanje elementov igre
-	get_viewport().gui_disable_input = true	# in-gejm keyboard inputs
+#	get_viewport().gui_disable_input = true	# in-gejm keyboard inputs
 	Global.hud.game_timer.stop_timer() # ustavim tajmer
 	Global.hud.popups.visible = false # skrijem morebitne popupe
 	
@@ -103,9 +101,14 @@ func game_over(gameover_reason):
 	Global.sound_manager.stop_sfx("heartbeat")
 	
 	# plejerje pavziram v GO
+#	for player in get_tree().get_nodes_in_group(Global.group_players):
+#			player.set_process_input(false)
+#			player.set_process(false)
+#			player.set_physics_process(false)
 	
 	# open game-over ekran
-	Global.gameover_menu.show_gameover(gameover_reason)
+	var players_in_game: Array = get_tree().get_nodes_in_group(Global.group_players)
+	Global.gameover_menu.show_gameover(gameover_reason, players_in_game)
 	
 	
 # SETUP --------------------------------------------------------------------------------------
@@ -190,8 +193,6 @@ func set_game_view(players_count: int, player_positions: Array):
 	
 
 func set_players():
-	
-#	game_settings["player_start_color"] = Global.color_white # more bit pred spawnom
 	
 	for player_position in player_start_positions: # glavni parameter, ki opredeli število igralcev
 		spawned_player_index += 1 # torej začnem z 1
@@ -379,7 +380,7 @@ func _on_tilemap_completed(floor_cells_positions: Array, stray_cells_positions: 
 		random_spawn_positions.remove(p1_selected_cell_index)
 		printt ("player position missing. Random position added. ", player_start_positions)
 	
-	players_count = player_start_positions.size()
+	players_count = player_start_positions.size() # tukaj določeno se uporabi za game view setup
 	
 	
 #	if player_start_positions.size() != game_settings["start_players_count"]:

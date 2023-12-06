@@ -49,6 +49,7 @@ var hud_background_color: Color = Color("#141414")
 
 
 func reset_cameras():
+	return
 	player_camera = null
 #	p1_camera_target = null
 	player2_camera = null	
