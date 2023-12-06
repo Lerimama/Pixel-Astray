@@ -4,6 +4,8 @@ extends Control
 signal hud_is_set
 signal players_ready
 
+var current_player_life: int # uravnavanje popapov po domače ... temp
+
 # spectrum
 var picked_indicator_alpha: float = 1
 var unpicked_indicator_alpha: float = 0.2
@@ -88,64 +90,6 @@ func _ready() -> void:
 	header.rect_position.y = - header_height
 	footer.rect_position.y = screen_height	
 
-	if Global.game_manager.game_settings["start_players_count"] == 2:
-		set_two_players_hud()
-	else:
-		set_one_player_hud()
-
-	if Global.game_manager.game_settings["manage_highscores"]:
-		set_current_highscore()
-	
-		
-func set_two_players_hud():
-	
-	# hide
-	highscore_label.visible = false
-	level_label.visible = false
-	p1_points_holder.visible = false
-	# show
-	p1_label.visible = true
-	p1_color_holder.visible = true
-	p2_statsline.visible = true
-#	splitscreen_popup.visible = true
-#	splitscreen_popup.modulate.a = 0
-	
-	# samo 1 lajf
-	if Global.game_manager.game_settings["start_players_count"] == 2:
-		p1_life_counter.visible = true
-		p2_life_counter.visible = true		
-	else:
-		p1_life_counter.visible = false
-		p2_life_counter.visible = false
-
-
-func set_one_player_hud():
-	
-	# hide
-	p1_label.visible = false
-	p2_statsline.visible = false
-	# show
-	highscore_label.visible = true
-	if Global.game_manager.game_data["level"].empty():
-		level_label.visible = false
-	
-	# samo 1 lajf
-	if Global.game_manager.game_settings["player_start_life"] == 1:
-		p1_life_counter.visible = false
-	else:
-		p1_life_counter.visible = true
-	
-
-func set_current_highscore():
-	
-	var current_game = Global.game_manager.game_data["game"]
-	var current_highscore_line: Array = Global.data_manager.get_top_highscore(current_game)
-	
-	current_highscore = current_highscore_line[0]
-	current_highscore_owner = current_highscore_line[1]
-	
-	highscore_label.text = "Highscore " + str(current_highscore) # se apdejta ob signalu iz plejerja (ob konektanju na začetku?)
-
 
 func update_stats(stat_owner: Node, player_stats: Dictionary):	
 	
@@ -158,6 +102,7 @@ func update_stats(stat_owner: Node, player_stats: Dictionary):
 			p1_color_counter.text = "%d" % player_stats["colors_collected"]
 			p1_burst_counter.text = "%d" % player_stats["burst_count"]
 			p1_skill_counter.text = "%d" % player_stats["skill_count"]
+			check_for_warning(player_stats)
 		"p2":
 			p2_life_counter.life_count = player_stats["player_life"]
 			p2_energy_counter.energy = player_stats["player_energy"]
@@ -179,11 +124,8 @@ func update_stats(stat_owner: Node, player_stats: Dictionary):
 	if Global.game_manager.game_settings["manage_highscores"]:
 		check_for_hs(player_stats)
 	
-	if Global.game_manager.game_settings["start_players_count"] == 1:
-		check_for_warning(player_stats)
 		
-		
-func check_for_hs(player_stats):
+func check_for_hs(player_stats: Dictionary):
 	
 	if player_stats["player_points"] > Global.game_manager.game_data["highscore"]:
 		highscore_label.text = "New highscore " + str(player_stats["player_points"])
@@ -191,12 +133,9 @@ func check_for_hs(player_stats):
 	else:
 		highscore_label.text = "Highscore " + str(current_highscore)
 		highscore_label.modulate = Global.hud_text_color
-
 		
-var current_player_life: int
 
-func check_for_warning(player_stats):
-	
+func check_for_warning(player_stats: Dictionary):
 	
 	if player_stats["player_energy"] < 1: # ko zgubi lajf
 		if energy_warning_popup.visible == true:
@@ -224,55 +163,6 @@ func check_for_warning(player_stats):
 			warning_out()
 
 
-# IN / OUT ---------------------------------------------------------------------------------------------------------------------------
-
-	
-func fade_in(): # kliče GM set_game()
-	
-	# zoom-in kamere
-	var player_cameras: Array = [Global.p1_camera]
-	if Global.game_manager.game_settings["start_players_count"] == 2:
-		player_cameras.append(Global.p2_camera)
-	
-	for camera in player_cameras:
-		camera.zoom_in(hud_in_out_time)
-	
-	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
-	fade_in.tween_property(header, "rect_position:y", 0, hud_in_out_time)
-	fade_in.parallel().tween_property(footer, "rect_position:y", screen_height - header_height, hud_in_out_time)
-	fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", Global.hud.header_height, hud_in_out_time)
-	fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", Global.hud.header_height, hud_in_out_time)
-	
-	yield(Global.p1_camera, "zoomed_in")
-	
-	for indicator in active_color_indicators:
-		var indicator_fade_in = get_tree().create_tween()
-		indicator_fade_in.tween_property(indicator, "modulate:a", unpicked_indicator_alpha, 0.3).set_ease(Tween.EASE_IN)
-	
-	if Global.game_manager.game_settings["start_players_count"] == 2:
-		fade_splitscreen_popup()
-	else:
-		emit_signal("hud_is_set")
-
-
-func fade_out(): # kliče GM game_over()
-	
-	# zoom-out kamere
-	var player_cameras: Array = [Global.p1_camera]
-	if Global.game_manager.game_settings["start_players_count"] == 2:
-		player_cameras.append(Global.p2_camera)
-	
-	for camera in player_cameras:
-		camera.zoom_out(hud_in_out_time)
-		
-	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
-	fade_in.tween_property(header, "rect_position:y", 0 - header_height, hud_in_out_time)
-	fade_in.parallel().tween_property(footer, "rect_position:y", screen_height, hud_in_out_time)
-	fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", 0, hud_in_out_time)
-	fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", 0, hud_in_out_time)
-	fade_in.tween_callback(self, "set_visible", [false])
-	
-
 func warning_in():
 	var warning_in = get_tree().create_tween()
 	warning_in.tween_callback(energy_warning_popup, "set_visible", [true])
@@ -283,6 +173,108 @@ func warning_out():
 	var warning_out = get_tree().create_tween()
 	warning_out.tween_property(energy_warning_popup, "modulate:a", 0, 0.5)
 	warning_out.tween_callback(energy_warning_popup, "set_visible", [false])
+
+
+# SET HUD ---------------------------------------------------------------------------------------------------------------------------
+
+	
+func slide_in(players_count: int): # kliče GM set_game()
+	
+	# zoom-in kamere
+#	var player_cameras: Array = [Global.p1_camera]
+#	if Global.game_manager.game_settings["start_players_count"] == 2:
+#		player_cameras.append(Global.p2_camera)
+	
+#	for camera in player_cameras:
+#		camera.zoom_in(hud_in_out_time)
+	
+	set_hud(players_count)
+	
+	get_tree().call_group(Global.group_cameras, "zoom_in", hud_in_out_time, players_count)
+	
+	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
+	fade_in.tween_property(header, "rect_position:y", 0, hud_in_out_time)
+	fade_in.parallel().tween_property(footer, "rect_position:y", screen_height - header_height, hud_in_out_time)
+	fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", Global.hud.header_height, hud_in_out_time)
+	fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", Global.hud.header_height, hud_in_out_time)
+	
+	yield(Global.player_camera, "zoomed_in")
+	
+	for indicator in active_color_indicators:
+		var indicator_fade_in = get_tree().create_tween()
+		indicator_fade_in.tween_property(indicator, "modulate:a", unpicked_indicator_alpha, 0.3).set_ease(Tween.EASE_IN)
+	
+	if players_count == 2:
+		fade_splitscreen_popup()
+	else:
+		Global.start_countdown.start_countdown() # GM yielda za njegov signal
+
+
+func slide_out(): # kliče GM game_over()
+	
+	# zoom-out kamere
+#	var player_cameras: Array = [Global.p1_camera]
+#	if Global.game_manager.game_settings["start_players_count"] == 2:
+#		player_cameras.append(Global.p2_camera)
+#
+#	for camera in player_cameras:
+#		camera.zoom_out(hud_in_out_time)
+	
+	get_tree().call_group(Global.group_cameras, "zoom_out", hud_in_out_time)
+	
+		
+	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
+	fade_in.tween_property(header, "rect_position:y", 0 - header_height, hud_in_out_time)
+	fade_in.parallel().tween_property(footer, "rect_position:y", screen_height, hud_in_out_time)
+	fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", 0, hud_in_out_time)
+	fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", 0, hud_in_out_time)
+	fade_in.tween_callback(self, "set_visible", [false])
+	
+
+func set_hud(players_count: int): # kliče main na game-in
+	
+	if players_count == 1:
+		# hide
+		p1_label.visible = false
+		p2_statsline.visible = false
+		# show
+		highscore_label.visible = true
+		if Global.game_manager.game_data["level"].empty():
+			level_label.visible = false
+		# samo 1 lajf
+		if Global.game_manager.game_settings["player_start_life"] == 1:
+			p1_life_counter.visible = false
+		else:
+			p1_life_counter.visible = true
+	elif players_count == 2:
+		# hide
+		highscore_label.visible = false
+		level_label.visible = false
+		# show
+		p1_label.visible = true
+		p1_color_holder.visible = true
+		p2_statsline.visible = true
+		# samo 1 lajf
+		if Global.game_manager.game_settings["player_start_life"] == 1:
+			p1_life_counter.visible = false
+			p2_life_counter.visible = false
+		else:
+			p1_life_counter.visible = true
+			p2_life_counter.visible = true		
+	
+	if Global.game_manager.game_settings["manage_highscores"]:
+		set_current_highscore()
+
+
+func set_current_highscore():
+	
+	var current_game = Global.game_manager.game_data["game"]
+	var current_highscore_line: Array = Global.data_manager.get_top_highscore(current_game)
+	
+	current_highscore = current_highscore_line[0]
+	current_highscore_owner = current_highscore_line[1]
+	
+	highscore_label.text = "Highscore " + str(current_highscore) # se apdejta ob signalu iz plejerja (ob konektanju na začetku?)
 
 
 func fade_splitscreen_popup():
@@ -296,13 +288,13 @@ func fade_splitscreen_popup():
 	var hide_splitscreen_popup = get_tree().create_tween()
 	hide_splitscreen_popup.tween_property(splitscreen_popup, "modulate:a", 0, 1).set_ease(Tween.EASE_IN)
 	hide_splitscreen_popup.tween_callback(splitscreen_popup, "set_visible", [false])
-	hide_splitscreen_popup.parallel().tween_callback(self, "emit_signal", ["hud_is_set"])	
+	hide_splitscreen_popup.parallel().tween_callback(Global.start_countdown, "start_countdown")	
 	
 		
 # SPECTRUM ---------------------------------------------------------------------------------------------------------------------------
 
 
-func spawn_color_indicators(available_colors): # kliče GM
+func spawn_color_indicators(available_colors: Array): # kliče GM
 	
 	var indicator_index = 0 # za fiksirano zaporedje
 	
@@ -319,7 +311,7 @@ func spawn_color_indicators(available_colors): # kliče GM
 		# new_color_indicator.get_node("IndicatorCount").text = str(indicator_index) 
 	
 	
-func show_picked_color(picked_pixel_color):
+func show_picked_color(picked_pixel_color: Color):
 	
 	# picked color statline
 	picked_color_label.text = str(round(255 * picked_pixel_color.r)) + " " + str(round(255 * picked_pixel_color.g)) + " " + str(round(255 * picked_pixel_color.b))
@@ -328,7 +320,7 @@ func show_picked_color(picked_pixel_color):
 	show_color_indicator(picked_pixel_color)
 
 					
-func show_color_indicator(picked_color):
+func show_color_indicator(picked_color: Color):
 	
 	var current_indicator_index: int
 	for indicator in active_color_indicators:
@@ -337,32 +329,7 @@ func show_color_indicator(picked_color):
 			current_indicator_index = active_color_indicators.find(indicator)
 			indicator.modulate.a = picked_indicator_alpha
 			break
-#		# preostale barve	
-#		elif Global.game_manager.game_settings["pick_neighbor_mode"]: # efekt na preostalih barvah 
-#			indicator.modulate.a = unpicked_indicator_alpha
 			
-#	if Global.game_manager.game_settings["pick_neighbor_mode"]:	# opredelitev sosedov glede na položaj pobrane barve
-#
-#		if active_color_indicators.size() == 1: # če je samo še en indikator, nima sosedov	
-#			return
-#
-#		var next_indicator_index: int = current_indicator_index + 1
-#		var prev_indicator_index: int = current_indicator_index - 1
-#
-#		# na začetku holderja indikatorjev 
-#		if current_indicator_index == 0:		
-#			active_color_indicators[next_indicator_index].modulate.a = neighbor_indicator_alpha
-#			Global.game_manager.colors_to_pick = [active_color_indicators[next_indicator_index].color] # pošljem sosednje barve v GM
-#		# na koncu holderja indikatorjev
-#		elif current_indicator_index == active_color_indicators.size() - 1: # ker je index vedno eno manjši	
-#			active_color_indicators[prev_indicator_index].modulate.a = neighbor_indicator_alpha
-#			Global.game_manager.colors_to_pick = [active_color_indicators[prev_indicator_index].color] # pošljem sosednje barve v GM
-#		# povsod vmes med živimi indikatorji
-#		elif current_indicator_index > 0 and current_indicator_index < (active_color_indicators.size() - 1):
-#			active_color_indicators[next_indicator_index].modulate.a = neighbor_indicator_alpha
-#			active_color_indicators[prev_indicator_index].modulate.a = neighbor_indicator_alpha
-#			Global.game_manager.colors_to_pick = [active_color_indicators[prev_indicator_index].color, active_color_indicators[next_indicator_index].color] # pošljem sosednje barve v GM
-		
 	# izbris iz aktivnih indikatorjev
 	if not active_color_indicators.empty():
 		active_color_indicators.erase(active_color_indicators[current_indicator_index])

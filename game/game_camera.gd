@@ -8,6 +8,9 @@ export (OpenSimplexNoise) var noise # tekstura za vizualizacijo ma kopijo tega n
 var camera_target: Node # target setup ... predvsem za teleportanje
 var camera_target_vert_adapt: int = 0 # kamera se po zoomanju poravna s tileti
 
+var final_zoom = Vector2.ONE
+var start_zoom = Vector2(2, 2)
+
 # noise setup
 var noise_seed: float = 8
 var noise_octaves: float = 1
@@ -29,34 +32,20 @@ var max_rotation = 5
 onready var cell_size_x: int = Global.game_tilemap.cell_size.x # za zamik kamere glede na tile
 
 
-func _input(_event: InputEvent) -> void: # testview inputs
-
-	if Input.is_action_just_pressed("left_click") and test_view_on and not mouse_used:
-		multi_shake_camera(test_trauma_strength, test_trauma_time, test_decay_speed)
-		
-	if Input.is_mouse_button_pressed(BUTTON_WHEEL_UP) and test_view_on:
-		zoom -= Vector2(0.1, 0.1)
-		zoom_label.text = "Zoom Level: " + str(round(zoom.x * 100)) + "%"
-
-	if Input.is_mouse_button_pressed(BUTTON_WHEEL_DOWN) and test_view_on:
-		zoom += Vector2(0.1, 0.1)
-		drag_on = false
-		zoom_label.text = "Zoom Level: " + str(round(zoom.x * 100)) + "%"
-
-
 func _ready():
 	
-	print (self)
-	if Global.p1_camera == null:
-		Global.p1_camera = self
+	add_to_group(Global.group_cameras)
+	
+	if Global.player_camera == null:
+		Global.player_camera = self
 	else:
-		Global.p2_camera = self
+		Global.player2_camera = self
 	
 	set_ui_focus()	
 	update_ui()
 	
 	# start setup
-	zoom = Vector2(2, 2)
+	zoom = start_zoom
 
 
 func _process(delta):
@@ -94,13 +83,11 @@ func _physics_process(delta: float) -> void:
 	
 	if camera_target:
 		position = camera_target.position + Vector2(cell_size_x/2, camera_target_vert_adapt)
-		
-
-func zoom_in(hud_in_out_time): # kliče hud
 	
-	var final_zoom = Vector2.ONE
 	
-	if Global.game_manager.game_settings["start_players_count"] == 2:
+func zoom_in(hud_in_out_time: float, players_count: int): # kliče hud
+	
+	if players_count == 2:
 		final_zoom *= 1.5
 		
 	var zoom_in_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
@@ -111,10 +98,8 @@ func zoom_in(hud_in_out_time): # kliče hud
 	
 func zoom_out(hud_in_out_time): # kliče hud
 
-	var final_zoom = Vector2(2, 2)
-	
 	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
-	zoom_out_tween.tween_property(self, "zoom", final_zoom, hud_in_out_time)
+	zoom_out_tween.tween_property(self, "zoom", start_zoom, hud_in_out_time)
 	zoom_out_tween.parallel().tween_property(self, "camera_target_vert_adapt", 0, hud_in_out_time)
 
 
@@ -178,6 +163,21 @@ onready var persistence_slider = $UILayer/TestHud/NoiseControl/Persistence
 onready var lacunarity_slider = $UILayer/TestHud/NoiseControl/Lacunarity
 onready var testhud_node = $UILayer/TestHud
 onready var test_toggle_btn = $UILayer/TestToggle
+
+
+func _input(_event: InputEvent) -> void: # testview inputs
+
+	if Input.is_action_just_pressed("left_click") and test_view_on and not mouse_used:
+		multi_shake_camera(test_trauma_strength, test_trauma_time, test_decay_speed)
+		
+	if Input.is_mouse_button_pressed(BUTTON_WHEEL_UP) and test_view_on:
+		zoom -= Vector2(0.1, 0.1)
+		zoom_label.text = "Zoom Level: " + str(round(zoom.x * 100)) + "%"
+
+	if Input.is_mouse_button_pressed(BUTTON_WHEEL_DOWN) and test_view_on:
+		zoom += Vector2(0.1, 0.1)
+		drag_on = false
+		zoom_label.text = "Zoom Level: " + str(round(zoom.x * 100)) + "%"
 
 
 func set_ui_focus():

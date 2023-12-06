@@ -13,14 +13,15 @@ func _ready() -> void:
 
 	
 func start_countdown():
-	modulate.a = 0
-	visible = true
-	animation_player.play("countdown_3")
 	
-	# temp preskok
-	yield(get_tree().create_timer(0.1), "timeout")
-	animation_player.stop()
-	emit_signal("countdown_finished")
+	if Global.game_manager.game_settings["start_countdown"]:
+		modulate.a = 0
+		visible = true
+		animation_player.play("countdown_3")
+	else:
+		yield(get_tree().create_timer(0.5), "timeout")
+		emit_signal("countdown_finished") # GM yielda za ta signal
+	
 	
 func play_countdown_a_sound():
 	Global.sound_manager.play_sfx("countdown_a")

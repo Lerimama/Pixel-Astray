@@ -55,28 +55,27 @@ func show_gameover(gameover_reason):
 		show_gameover_title()
 		Global.sound_manager.stop_music("game_on_game-over")
 		yield(get_tree().create_timer(3), "timeout") # showoff time
-		Global.hud.fade_out()
+		Global.hud.slide_out()
 		
 	elif Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
 		set_tutorial_title()
 		yield(get_tree().create_timer(2), "timeout") # showoff time
 		Global.tutorial_gui.animation_player.play("tutorial_end")
-		Global.hud.fade_out()
+		Global.hud.slide_out()
 		Global.sound_manager.stop_music("game_on_game-over")
 		show_gameover_title()
 		
 	else: # katerakoli igra
 		set_game_title(gameover_reason)
 		yield(get_tree().create_timer(3), "timeout") # showoff time
-		Global.hud.fade_out()
+		Global.hud.slide_out()
 		Global.sound_manager.stop_music("game_on_game-over")
 		show_gameover_title()
 	
 
 func show_gameover_title():
 
-	for player in Global.game_manager.players_in_game:
-		player.set_physics_process(false)
+	get_tree().call_group(Global.group_players, "set_physics_process", false)
 	
 	visible = true
 	selected_title.visible = true
@@ -149,7 +148,7 @@ func set_duel_title():
 	
 	var player_label: Label = $FinalTitle/Duel/Win/PlayerLabel
 	var difference_label: Label = $FinalTitle/Duel/Win/ColorsLabel
-	var difference: int = abs(Global.game_manager.p1_stats["coenerlors_collected"] - Global.game_manager.p2_stats["colors_collected"])
+	var difference: int = abs(Global.game_manager.p1_stats["colors_collected"] - Global.game_manager.p2_stats["colors_collected"])
 	
 	if Global.game_manager.p1_stats["colors_collected"] > Global.game_manager.p2_stats["colors_collected"]:
 		player_label.text = "Player 1"

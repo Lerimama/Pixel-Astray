@@ -266,11 +266,11 @@ region = Rect2( 114, 154, 22, 22 )
 atlas = ExtResource( 12 )
 region = Rect2( 138, 154, 22, 22 )
 
-[sub_resource type="StreamTexture" id=243]
+[sub_resource type="StreamTexture" id=245]
 load_path = "res://.import/controls_scheme.png-9ee77a9514109977db18399ec912d13f.stex"
 
 [sub_resource type="AtlasTexture" id=182]
-atlas = SubResource( 243 )
+atlas = SubResource( 245 )
 region = Rect2( 0, 0, 120, 86 )
 
 [sub_resource type="AtlasTexture" id=183]

@@ -60,17 +60,27 @@ func home_out():
 
 
 func game_in():
-
+	
 	Global.reset_cameras()
 	
+	# spawn game scene
 	Global.spawn_new_scene(game_scene_path, self)
-
-	yield(get_tree().create_timer(1), "timeout")
-	Global.current_scene.modulate = Color.black
-	yield(get_tree().create_timer(1), "timeout")
+	
+	# postavim pravi tilemap
+	Global.game_manager.set_tilemap()
+	
+	# setam hud in game view
+	var players_count = Global.game_manager.player_start_positions.size()
+	var player_positions = Global.game_manager.player_start_positions
+	Global.game_manager.set_game_view(players_count, player_positions)
+#	Global.hud.set_hud(players_count)
+	
+#	yield(get_tree().create_timer(1), "timeout") # počakam, da se kamera centrira
+	
 	var fade_in = get_tree().create_tween()
-	fade_in.tween_property(Global.current_scene, "modulate", Color.white, fade_time)
-
+	fade_in.tween_property(Global.current_scene, "modulate", Color.white, fade_time).from(Color.black)
+	fade_in.tween_callback(Global.game_manager, "set_game")
+	
 
 func game_out():
 	

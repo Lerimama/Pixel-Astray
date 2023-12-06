@@ -21,13 +21,14 @@ var gameover_menu = null
 var tutorial_gui = null
 
 # camera
-var p1_camera = null
-var p2_camera = null
+var player_camera = null
+var player2_camera = null
 
 # groups
 var group_players = "Players"
 var group_strays = "Strays"
 var group_tilemap = "Tilemap"
+var group_cameras = "Player Cameras"
 
 # colors
 var color_blue: Color = Color("#4b9fff")
@@ -48,9 +49,9 @@ var hud_background_color: Color = Color("#141414")
 
 
 func reset_cameras():
-	p1_camera = null
+	player_camera = null
 #	p1_camera_target = null
-	p2_camera = null	
+	player2_camera = null	
 #	p2_camera_target = null
 	
 

@@ -20,7 +20,7 @@ var default_player_stats: Dictionary = {
 
 var default_game_settings: Dictionary = { # default settings so tiste, ki so najbolj pogoste ... opisane v tutorialu
 
-	"start_players_count": 1, # setano v home/play meniju
+#	"start_players_count": 1, # setano v home/play meniju
 	
 	# scoring
 	"hit_player_points": 1000,
@@ -49,7 +49,7 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 	# timer
 	"gameover_countdown_duration": 5,
 	"timer_mode_countdown" : true,
-	"start_countdown": true,
+	"start_countdown": false,
 	
 	# behaviour
 	"step_slowdown_mode": true,
@@ -70,7 +70,6 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 
 
 enum Games {DEBUG, TUTORIAL, CLEANER_S, CLEANER_M, CLEANER_L, RUNNER, DUEL, RIDDLER}
-
 
 
 var game_data_runner: Dictionary = { 
@@ -156,13 +155,13 @@ var game_data_duel: Dictionary = {
 var game_settings: Dictionary = {}
 var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
 
-
 func _ready() -> void:
 	
-#	var current_game = Games.DUEL # če greš iz menija je tole povoženo
+	var current_game = Games.DUEL # če greš iz menija je tole povoženo
 #	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
-	var current_game = Games.DEBUG # če greš iz menija je tole povoženo
+#	var current_game = Games.DEBUG # če greš iz menija je tole povoženo
 	set_game_data(current_game)
+	
 	
 func set_game_data(selected_game) -> void:
 	
@@ -181,7 +180,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["cell_traveled_energy"] = 0
 		Games.DUEL: 
 			current_game_data = game_data_duel
-			game_settings["start_players_count"] = 2
+#			game_settings["start_players_count"] = 2
 			game_settings["player_start_life"] = 3
 		Games.TUTORIAL:
 			current_game_data = game_data_tutorial

@@ -11,11 +11,11 @@ var colors_to_pick: Array # za hud nejbrhud pravila
 var energy_drain_active: bool = false # za kontrolo črpanja energije
 
 # players
-var p1: KinematicBody2D
-var p2: KinematicBody2D
+#var p1: KinematicBody2D
+#var p2: KinematicBody2D
 var spawned_player_index: int = 0
 var player_start_positions: Array
-var players_in_game: Array
+var players_count: int
 
 # strays
 var strays_in_game: Array = [] # za spawnanje v rundah in cleaned GO tajming
@@ -40,15 +40,10 @@ func _ready() -> void:
 	print("Game Manager")
 	
 	randomize()
-	call_deferred("set_game") # deferamo, da se naložijo vsi nodeti tilemap
+#	call_deferred("set_game") # deferamo, da se naložijo vsi nodeti tilemap
 
 	
 func _process(delta: float) -> void:
-	
-	# temp
-#	print ("VP", $"../GameView/Viewports".rect_size.y)
-#	print ($"%Viewport1".size.y)
-#	print ($"%Viewport2".size.y)
 	
 	
 	strays_in_game = get_tree().get_nodes_in_group(Global.group_strays)
@@ -62,30 +57,19 @@ func _process(delta: float) -> void:
 
 func set_game(): 
 	
-	set_tilemap()
-	Global.game_tilemap.get_tiles()
-	
-	set_game_view()
-	
+	# tilemap in view se setata na main game_in()
+
 	set_players()
-	for player in players_in_game:
-		player.modulate.a = 0	
-	
-	yield(get_tree().create_timer(3), "timeout") # da se ekran prikaže
-	
-	# strays
+
+#	yield(get_tree().create_timer(3), "timeout") # da se ekran prikaže
+
 	if game_data["game"] != Profiles.Games.TUTORIAL: 
 		set_strays()
 		yield(get_tree().create_timer(1), "timeout") # da si plejer ogleda
-		
-	# hud ... kliče kamera zoom
-	Global.hud.fade_in()
-	yield(Global.hud, "hud_is_set")
-		
-	# start countdown
-	if game_settings["start_countdown"]:
-		Global.start_countdown.start_countdown()
-		yield(Global.start_countdown, "countdown_finished")	
+	
+	
+	Global.hud.slide_in(players_count)
+	yield(Global.start_countdown, "countdown_finished") # sproži ga hud po slide-inu
 	
 	start_game()
 	
@@ -97,7 +81,8 @@ func start_game():
 	else:
 		Global.hud.game_timer.start_timer()
 		Global.sound_manager.play_music("game")
-		for player in players_in_game:
+		
+		for player in get_tree().get_nodes_in_group(Global.group_players):
 			player.set_physics_process(true)
 			player.animation_player.play("virgin_blink")
 	
@@ -142,9 +127,12 @@ func set_tilemap():
 	
 	# povežem s signalom	
 	Global.game_tilemap.connect("tilemap_completed", self, "_on_tilemap_completed")
+	
+	# grab tilemap tiles
+	Global.game_tilemap.get_tiles()
 
 
-func set_game_view():
+func set_game_view(players_count: int, player_positions: Array):
 	
 	# player viewports
 	var viewport_1: Viewport = $"%Viewport1"
@@ -156,11 +144,14 @@ func set_game_view():
 	var player_camera_1: Camera2D = viewport_1.get_node("GameCam")
 	var player_camera_2: Camera2D = viewport_2.get_node("GameCam")	
 	var game_cameras: Array = [player_camera_1]
+	player_camera_1.position = player_positions[0] + Vector2(Global.game_tilemap.cell_size.x/2, 0)
 	
-	if Global.game_manager.game_settings["start_players_count"] == 2:
+	if players_count == 2:
 		viewport_container_2.visible = true
 		viewport_2.world_2d = viewport_1.world_2d
 		game_cameras.append(player_camera_2)
+		player_camera_2.position = player_positions[1] + Vector2(Global.game_tilemap.cell_size.x/2, 0)
+		
 	else:
 		viewport_container_2.visible = false
 		viewport_separator.visible = false
@@ -183,12 +174,11 @@ func set_game_view():
 	# camera limits setup
 	var tilemap_edge = Global.game_tilemap.get_used_rect()
 	var tilemap_cell_size = Global.game_tilemap.cell_size
-	var cell_edge_length = tilemap_cell_size.x
 	
-	var corner_TL: float = tilemap_edge.position.x * tilemap_cell_size.x + cell_edge_length # k mejam prištejem edge debelino
-	var corner_TR: float = tilemap_edge.end.x * tilemap_cell_size.x - cell_edge_length
-	var corner_BL: float = tilemap_edge.position.y * tilemap_cell_size.y + cell_edge_length
-	var corner_BR: float = tilemap_edge.end.y * tilemap_cell_size.y - cell_edge_length
+	var corner_TL: float = tilemap_edge.position.x * tilemap_cell_size.x + Global.game_tilemap.cell_size.x # k mejam prištejem edge debelino
+	var corner_TR: float = tilemap_edge.end.x * tilemap_cell_size.x - Global.game_tilemap.cell_size.x
+	var corner_BL: float = tilemap_edge.position.y * tilemap_cell_size.y + Global.game_tilemap.cell_size.y
+	var corner_BR: float = tilemap_edge.end.y * tilemap_cell_size.y - Global.game_tilemap.cell_size.y
 	
 	Global.game_tilemap.get_used_rect()
 	
@@ -197,16 +187,16 @@ func set_game_view():
 		camera.limit_right = corner_TR
 		camera.limit_top = corner_BL
 		camera.limit_bottom = corner_BR		
-		
 	
+
 func set_players():
 	
 #	game_settings["player_start_color"] = Global.color_white # more bit pred spawnom
 	
-	# spawn
 	for player_position in player_start_positions: # glavni parameter, ki opredeli število igralcev
 		spawned_player_index += 1 # torej začnem z 1
 		
+		# spawn
 		var new_player_pixel = PlayerPixel.instance()
 		new_player_pixel.name = "p%s" % str(spawned_player_index)
 		new_player_pixel.global_position = player_position + Global.game_tilemap.cell_size/2 # ... ne rabim snepat ker se v pixlu na ready funkciji
@@ -214,30 +204,28 @@ func set_players():
 		new_player_pixel.z_index = 1 # nižje od straysa
 		Global.node_creation_parent.add_child(new_player_pixel)
 		
+		# stats
 		new_player_pixel.player_stats = Profiles.default_player_stats.duplicate() # tukaj se postavijo prazne vrednosti, ki se nafilajo kasneje
 		new_player_pixel.player_stats["player_energy"] = game_settings["player_start_energy"]
 		new_player_pixel.player_stats["player_life"] = game_settings["player_start_life"]
 		
-		# povežem plejerja s hudom
+		# povežem s hudom
 		new_player_pixel.connect("stat_changed", Global.hud, "_on_stat_changed")
 		new_player_pixel.emit_signal("stat_changed", new_player_pixel, new_player_pixel.player_stats) # štartno statistiko tako javim 
 		
+		# pregame setup
+		new_player_pixel.modulate.a = 0
 		new_player_pixel.set_physics_process(false)
-		players_in_game.append(new_player_pixel)
 		
+		# players camera
+		if spawned_player_index == 1:
+			new_player_pixel.player_camera = Global.player_camera
+			new_player_pixel.player_camera.camera_target = new_player_pixel
+		elif spawned_player_index == 2:
+			new_player_pixel.player_camera = Global.player2_camera
+			new_player_pixel.player_camera.camera_target = new_player_pixel
 	
-	# p1
-	p1 = players_in_game[0]
-	p1.player_camera = Global.p1_camera
-	Global.p1_camera.camera_target = p1
-	
-	# p2 
-	if players_in_game.size() > 1:
-		p2 = players_in_game[1]
-		p2.player_camera = Global.p2_camera
-		Global.p2_camera.camera_target = p2
-	
-
+		
 func set_strays():
 	
 	split_stray_colors()
@@ -289,7 +277,7 @@ func split_stray_colors():
 	Global.hud.spawn_color_indicators(all_colors)				
 
 
-func spawn_stray(stray_color, stray_index):
+func spawn_stray(stray_color: Color, stray_index: int):
 	
 	# izbor spawn pozicije 
 	var available_positions: Array
@@ -319,13 +307,14 @@ func spawn_stray(stray_color, stray_index):
 
 func show_strays(show_strays_loop: int):
 
-	var spawn_shake_power: float = 0.25
-	var spawn_shake_time: float = 0.5
+	var spawn_shake_power: float = 0.30
+	var spawn_shake_time: float = 0.7
 	var spawn_shake_decay: float = 0.2		
 	
-	Global.p1_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
-	if p2:
-		Global.p2_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
+	get_tree().call_group(Global.group_cameras, "shake_camera", spawn_shake_power, spawn_shake_time, spawn_shake_decay)
+#	Global.p1_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
+##	if p2:
+#	Global.p2_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
 		
 	var strays_to_show_count: int # količina strejsov se more ujemat s številom spawnanih
 	
@@ -382,19 +371,36 @@ func _on_tilemap_completed(floor_cells_positions: Array, stray_cells_positions: 
 		strays_start_count = random_spawn_positions.size() + required_spawn_positions.size()
 		printt(strays_start_count, " strays spawned")
 
-	# opoozorim na neskladje glede št. playerjev
-	if game_settings["start_players_count"] != player_start_positions.size():
-		printt ("player positions not in sync:", game_settings["start_players_count"] , player_start_positions.size())
-	
-	# random player positions, če v tilemapu ni določene
+	# če ni pozicij, je en player ... random pozicija
 	if player_start_positions.empty():
-		# p1 position
-		var random_range = random_spawn_positions.size()
+		var random_range = random_spawn_positions.size() 
 		var p1_selected_cell_index: int = randi() % int(random_range)
 		player_start_positions.append(random_spawn_positions[p1_selected_cell_index])
 		random_spawn_positions.remove(p1_selected_cell_index)
-		# p2 position
-		if game_settings["start_players_count"] == 2:
-			var p2_selected_cell_index: int = randi() % int(random_range)
-			player_start_positions.append(random_spawn_positions[p2_selected_cell_index])
-			random_spawn_positions.remove(p2_selected_cell_index)
+		printt ("player position missing. Random position added. ", player_start_positions)
+	
+	players_count = player_start_positions.size()
+	
+	
+#	if player_start_positions.size() != game_settings["start_players_count"]:
+#		printt ("player positions not in sync:", game_settings["start_players_count"] , player_start_positions.size())
+	
+#	# reševanje neskladja
+#	var random_range = random_spawn_positions.size() 
+#	# tilemap nima player pozicije ... random pozicije
+#	if player_start_positions.empty():
+#		var p1_selected_cell_index: int = randi() % int(random_range)
+#		player_start_positions.append(random_spawn_positions[p1_selected_cell_index])
+#		random_spawn_positions.remove(p1_selected_cell_index)
+#		if game_settings["start_players_count"] == 2:
+#			var p2_selected_cell_index: int = randi() % int(random_range)
+#			player_start_positions.append(random_spawn_positions[p2_selected_cell_index])
+#			random_spawn_positions.remove(p2_selected_cell_index)
+#	# tilemap ima eno player pozicijo, settings pa je 2P ... p2 pozicija je random
+#	elif player_start_positions.size() == 1 and game_settings["start_players_count"] == 2:
+#		var p2_selected_cell_index: int = randi() % int(random_range)
+#		player_start_positions.append(random_spawn_positions[p2_selected_cell_index])
+#		random_spawn_positions.remove(p2_selected_cell_index)	
+#	# tilemap ima dve player poziciji, settings pa je 1P ... eno zbrišem
+#	elif player_start_positions.size() == 1 and game_settings["start_players_count"] == 2:
+#		player_start_positions.pop_back()

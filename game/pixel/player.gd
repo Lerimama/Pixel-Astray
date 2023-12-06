@@ -89,7 +89,7 @@ func _ready() -> void:
 	add_to_group(Global.group_players)
 	
 	# controler setup
-	if Global.game_manager.game_settings["start_players_count"] == 2:
+	if Global.game_manager.players_count == 2:
 		key_left = "%s_left" % name
 		key_right = "%s_right" % name
 		key_up = "%s_up" % name
@@ -314,7 +314,7 @@ func step():
 func end_move():
 	
 	# reset burst
-	burst_speed = 0 # more bit pred change state, če ne uničuje tudi sam sebe
+	burst_speed = 0
 	burst_speed_max = 0
 	cocking_room = true
 	burst_cocked_ghost_count = 0
@@ -336,7 +336,7 @@ func end_move():
 		modulate = pixel_color
 	
 	global_position = Global.snap_to_nearest_grid(global_position) 
-	current_state = States.IDLE
+	current_state = States.IDLE # more bit na kocnu
 	
 	if Global.sound_manager.teleport_loop.is_playing(): # zazih ... export for windows 
 		Global.sound_manager.stop_sfx("teleport")
@@ -361,7 +361,6 @@ func cock_burst():
 		
 	# prostor nadaljevanje napenjanja preverja ghost
 	if cocked_ghosts.size() < cocked_ghost_count_max and cocking_room:
-		print ("cock", cocked_ghosts.size())
 		ghost_cocking_time += 1 / 60.0 # čas držanja tipke (znotraj nastajanja ene cock celice) ... fejk delta
 		if ghost_cocking_time > cock_ghost_setup_time: # ko je čas za eno celico mimo, jo spawnam
 			ghost_cocking_time = 0

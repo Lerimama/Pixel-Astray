@@ -98,7 +98,8 @@ func start(): # kliče se z GM
 	visible = true
 #	current_tutorial_stage = TutorialStage.MISSION
 #	Global.game_manager.player_pixel.set_physics_process(false)
-	Global.game_manager.p1.set_physics_process(false)
+	Global.game_manager.call_group(Global.group_players, "set_physics_process", false)
+#	Global.game_manager.p1.set_physics_process(false)
 	animation_player.play("mission_in")
 
 
