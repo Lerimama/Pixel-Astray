@@ -100,7 +100,7 @@ func menu_in(): # kliče se na koncu intra (tudi na skip)
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(menu, "modulate:a", 1, 1)
 	fade_in.tween_callback($Menu/SelectGameBtn, "grab_focus")
-	fade_in.tween_callback(Global.sound_manager, "play_music", ["menu"])
+	fade_in.tween_callback(Global.sound_manager, "play_music", ["menu_music"])
 
 
 # SIGNALI ---------------------------------------------------------------------------------------------------
@@ -230,9 +230,8 @@ func _on_HighscoresBackBtn_pressed() -> void:
 func _on_TutorialBtn_pressed() -> void:
 	
 	Profiles.set_game_data(Profiles.Games.TUTORIAL)
-	
-	Global.sound_manager.play_gui_sfx("screen_slide")
 	Global.sound_manager.play_gui_sfx("btn_confirm")
+	Global.sound_manager.play_gui_sfx("menu_fade")
 	animation_player.play("play") # home out je signal na koncu animacije
 	
 	tutorial_btn.disabled = true # da ne moreš multiklikat
@@ -242,8 +241,8 @@ func _on_TutorialBtn_pressed() -> void:
 func _on_CleanerSBtn_pressed() -> void:
 	
 	Profiles.set_game_data(Profiles.Games.CLEANER_S)
-	Global.sound_manager.play_gui_sfx("screen_slide")
 	Global.sound_manager.play_gui_sfx("btn_confirm")
+	Global.sound_manager.play_gui_sfx("menu_fade")
 	animation_player.play("play")
 
 	$SelectGame/CleanerSBtn.disabled = true
@@ -252,8 +251,8 @@ func _on_CleanerSBtn_pressed() -> void:
 func _on_CleanerMBtn_pressed() -> void:
 	
 	Profiles.set_game_data(Profiles.Games.CLEANER_M)
-	Global.sound_manager.play_gui_sfx("screen_slide")
 	Global.sound_manager.play_gui_sfx("btn_confirm")
+	Global.sound_manager.play_gui_sfx("menu_fade")
 	animation_player.play("play")
 
 	$SelectGame/CleanerMBtn.disabled = true
@@ -262,8 +261,8 @@ func _on_CleanerMBtn_pressed() -> void:
 func _on_CleanerLBtn_pressed() -> void:
 
 	Profiles.set_game_data(Profiles.Games.CLEANER_L)
-	Global.sound_manager.play_gui_sfx("screen_slide")
 	Global.sound_manager.play_gui_sfx("btn_confirm")
+	Global.sound_manager.play_gui_sfx("menu_fade")
 	animation_player.play("play")
 	
 	$SelectGame/CleanerLBtn.disabled = true
@@ -271,13 +270,12 @@ func _on_CleanerLBtn_pressed() -> void:
 	
 func _on_DuelBtn_pressed() -> void:
 	Profiles.set_game_data(Profiles.Games.DUEL)
-	Global.sound_manager.play_gui_sfx("screen_slide")
 	Global.sound_manager.play_gui_sfx("btn_confirm")
+	Global.sound_manager.play_gui_sfx("menu_fade")
 	animation_player.play("play")
 	
 	$SelectGame/DuelBtn.disabled = true
 	
-
 
 func _on_PointerBtn_pressed() -> void:
 	pass # Replace with function body.
@@ -285,8 +283,8 @@ func _on_PointerBtn_pressed() -> void:
 
 func _on_RiddlerBtn_pressed() -> void:
 	Profiles.set_game_data(Profiles.Games.RIDDLER)
-	Global.sound_manager.play_gui_sfx("screen_slide")
 	Global.sound_manager.play_gui_sfx("btn_confirm")
+	Global.sound_manager.play_gui_sfx("menu_fade")
 	animation_player.play("play")
 	
 	$SelectGame/RiddlerBtn.disabled = true
@@ -294,8 +292,8 @@ func _on_RiddlerBtn_pressed() -> void:
 
 func _on_RunnerBtn_pressed() -> void:
 	Profiles.set_game_data(Profiles.Games.RUNNER)
-	Global.sound_manager.play_gui_sfx("screen_slide")
 	Global.sound_manager.play_gui_sfx("btn_confirm")
+	Global.sound_manager.play_gui_sfx("menu_fade")
 	animation_player.play("play")
 	
 	$SelectGame/RunnerBtn.disabled = true

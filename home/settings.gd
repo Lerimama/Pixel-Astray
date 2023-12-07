@@ -37,10 +37,10 @@ func _process(delta: float) -> void:
 func _on_MenuMusicCheckBox_toggled(button_pressed: bool) -> void:
 	if button_pressed:
 		Global.sound_manager.menu_music_set_to_off = false
-		Global.sound_manager.play_music("menu")
+		Global.sound_manager.play_music("menu_music")
 		Global.sound_manager.play_gui_sfx("btn_confirm")
 	else:
-		Global.sound_manager.stop_music("menu")
+		Global.sound_manager.stop_music("menu_music")
 		Global.sound_manager.menu_music_set_to_off = true
 		Global.sound_manager.play_gui_sfx("btn_cancel")
 

@@ -46,7 +46,7 @@ func _input(event: InputEvent) -> void:
 		if Input.is_action_just_pressed("ui_accept"):
 			Global.sound_manager.play_gui_sfx("btn_confirm")
 			animation_player.play("tutorial_start")
-			Global.sound_manager.play_music("game")
+			Global.sound_manager.play_music("game_music")
 			Global.sound_manager.skip_track() # skipa prvi komad in zapleja drugega
 			
 	elif current_tutorial_stage == TutorialStage.TRAVELING:

@@ -37,10 +37,10 @@ func _ready() -> void:
 	
 	Global.game_manager = self
 		
+	randomize()
 	print("Game Manager")
 	
-	randomize()
-#	call_deferred("set_game") # deferamo, da se naložijo vsi nodeti tilemap
+	#call_deferred("set_game") # deferamo, da se naložijo vsi nodeti tilemap
 
 	
 func _process(delta: float) -> void:
@@ -78,7 +78,7 @@ func start_game():
 		Global.tutorial_gui.start()
 	else:
 		Global.hud.game_timer.start_timer()
-		Global.sound_manager.play_music("game")
+		Global.sound_manager.play_music("game_music")
 		
 		for player in get_tree().get_nodes_in_group(Global.group_players):
 			player.set_physics_process(true)
@@ -92,23 +92,19 @@ func game_over(gameover_reason):
 	game_on = false
 	
 	# ustavljanje elementov igre
-#	get_viewport().gui_disable_input = true	# in-gejm keyboard inputs
 	Global.hud.game_timer.stop_timer() # ustavim tajmer
 	Global.hud.popups.visible = false # skrijem morebitne popupe
+	AudioServer.set_bus_mute(3, true) # mutam game efekte
 	
-	# ugasnem vse efekte, ki bi bili lahko neskončno slišni
-	Global.sound_manager.stop_sfx("teleport")
-	Global.sound_manager.stop_sfx("heartbeat")
+	
+	Global.sound_manager.stop_music("game_music")
 	
 	# plejerje pavziram v GO
-#	for player in get_tree().get_nodes_in_group(Global.group_players):
-#			player.set_process_input(false)
-#			player.set_process(false)
-#			player.set_physics_process(false)
+	# for player in get_tree().get_nodes_in_group(Global.group_players):
+	#		player.set_physics_process(false)
 	
 	# open game-over ekran
-	var players_in_game: Array = get_tree().get_nodes_in_group(Global.group_players)
-	Global.gameover_menu.show_gameover(gameover_reason, players_in_game)
+	Global.gameover_menu.show_gameover(gameover_reason)
 	
 	
 # SETUP --------------------------------------------------------------------------------------
@@ -135,63 +131,42 @@ func set_tilemap():
 	Global.game_tilemap.get_tiles()
 
 
-func set_game_view(players_count: int, player_positions: Array):
+func set_game_view():
 	
-	# player viewports
+	# viewports
 	var viewport_1: Viewport = $"%Viewport1"
 	var viewport_2: Viewport = $"%Viewport2"
 	var viewport_container_2: ViewportContainer = $"%ViewportContainer2"
 	var viewport_separator: VSeparator = $"%ViewportSeparator"
 	
 	# game cameras
-	var player_camera_1: Camera2D = viewport_1.get_node("GameCam")
-	var player_camera_2: Camera2D = viewport_2.get_node("GameCam")	
-	var game_cameras: Array = [player_camera_1]
-	player_camera_1.position = player_positions[0] + Vector2(Global.game_tilemap.cell_size.x/2, 0)
-	
+	Global.player1_camera.position = player_start_positions[0]
 	if players_count == 2:
 		viewport_container_2.visible = true
 		viewport_2.world_2d = viewport_1.world_2d
-		game_cameras.append(player_camera_2)
-		player_camera_2.position = player_positions[1] + Vector2(Global.game_tilemap.cell_size.x/2, 0)
-		
+		Global.player2_camera.position = player_start_positions[1]
 	else:
 		viewport_container_2.visible = false
 		viewport_separator.visible = false
-		
-	# minimap setup
+	
+	# set player camer limits
+	var tilemap_edge = Global.game_tilemap.get_used_rect()
+	var tilemap_cell_size = Global.game_tilemap.cell_size
+	# get_tree().call_group(Global.group_player_cameras, "set_camera_limits", tilemap_edge, tilemap_cell_size)
+	
+	# minimap
 	var minimap_container: ViewportContainer = $"../Minimap"
 	var minimap_viewport: Viewport = $"../Minimap/MinimapViewport"
 	var minimap_camera: Camera2D = $"../Minimap/MinimapViewport/MinimapCam"	
-	
 	if Global.game_manager.game_settings["minimap_on"]:
 		minimap_container.visible = true
 		minimap_viewport.world_2d = viewport_1.world_2d
-		# višina minimape v razmerju s formatom tilemapa
-		var rect = Global.game_tilemap.get_used_rect()
-		minimap_viewport.size.y = minimap_viewport.size.x * rect.size.y / rect.size.x
-		game_cameras.append(minimap_camera)
+		minimap_viewport.size.y = minimap_viewport.size.x * tilemap_edge.size.y / tilemap_edge.size.x # višina minimape v razmerju s formatom tilemapa
+		minimap_camera.set_camera(tilemap_edge, tilemap_cell_size, minimap_viewport.size)
 	else:
 		minimap_container.visible = false
 	
-	# camera limits setup
-	var tilemap_edge = Global.game_tilemap.get_used_rect()
-	var tilemap_cell_size = Global.game_tilemap.cell_size
 	
-	var corner_TL: float = tilemap_edge.position.x * tilemap_cell_size.x + Global.game_tilemap.cell_size.x # k mejam prištejem edge debelino
-	var corner_TR: float = tilemap_edge.end.x * tilemap_cell_size.x - Global.game_tilemap.cell_size.x
-	var corner_BL: float = tilemap_edge.position.y * tilemap_cell_size.y + Global.game_tilemap.cell_size.y
-	var corner_BR: float = tilemap_edge.end.y * tilemap_cell_size.y - Global.game_tilemap.cell_size.y
-	
-	Global.game_tilemap.get_used_rect()
-	
-	for camera in game_cameras:
-		camera.limit_left = corner_TL
-		camera.limit_right = corner_TR
-		camera.limit_top = corner_BL
-		camera.limit_bottom = corner_BR		
-	
-
 func set_players():
 	
 	for player_position in player_start_positions: # glavni parameter, ki opredeli število igralcev
@@ -220,7 +195,7 @@ func set_players():
 		
 		# players camera
 		if spawned_player_index == 1:
-			new_player_pixel.player_camera = Global.player_camera
+			new_player_pixel.player_camera = Global.player1_camera
 			new_player_pixel.player_camera.camera_target = new_player_pixel
 		elif spawned_player_index == 2:
 			new_player_pixel.player_camera = Global.player2_camera
@@ -312,7 +287,7 @@ func show_strays(show_strays_loop: int):
 	var spawn_shake_time: float = 0.7
 	var spawn_shake_decay: float = 0.2		
 	
-	get_tree().call_group(Global.group_cameras, "shake_camera", spawn_shake_power, spawn_shake_time, spawn_shake_decay)
+	get_tree().call_group(Global.group_player_cameras, "shake_camera", spawn_shake_power, spawn_shake_time, spawn_shake_decay)
 #	Global.p1_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
 ##	if p2:
 #	Global.p2_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
@@ -381,27 +356,3 @@ func _on_tilemap_completed(floor_cells_positions: Array, stray_cells_positions: 
 		printt ("player position missing. Random position added. ", player_start_positions)
 	
 	players_count = player_start_positions.size() # tukaj določeno se uporabi za game view setup
-	
-	
-#	if player_start_positions.size() != game_settings["start_players_count"]:
-#		printt ("player positions not in sync:", game_settings["start_players_count"] , player_start_positions.size())
-	
-#	# reševanje neskladja
-#	var random_range = random_spawn_positions.size() 
-#	# tilemap nima player pozicije ... random pozicije
-#	if player_start_positions.empty():
-#		var p1_selected_cell_index: int = randi() % int(random_range)
-#		player_start_positions.append(random_spawn_positions[p1_selected_cell_index])
-#		random_spawn_positions.remove(p1_selected_cell_index)
-#		if game_settings["start_players_count"] == 2:
-#			var p2_selected_cell_index: int = randi() % int(random_range)
-#			player_start_positions.append(random_spawn_positions[p2_selected_cell_index])
-#			random_spawn_positions.remove(p2_selected_cell_index)
-#	# tilemap ima eno player pozicijo, settings pa je 2P ... p2 pozicija je random
-#	elif player_start_positions.size() == 1 and game_settings["start_players_count"] == 2:
-#		var p2_selected_cell_index: int = randi() % int(random_range)
-#		player_start_positions.append(random_spawn_positions[p2_selected_cell_index])
-#		random_spawn_positions.remove(p2_selected_cell_index)	
-#	# tilemap ima dve player poziciji, settings pa je 1P ... eno zbrišem
-#	elif player_start_positions.size() == 1 and game_settings["start_players_count"] == 2:
-#		player_start_positions.pop_back()

@@ -69,18 +69,18 @@ var current_colider: Node
 var teleporting_wall_tile_id = 3
 
 
-#func _unhandled_input(event: InputEvent) -> void:
-#
-#	if name == "p1":
-#		if Input.is_action_pressed("no1"):
-#			player_stats["player_energy"] -= 10
-#			player_stats["player_energy"] = clamp(player_stats["player_energy"], 5, game_settings["player_start_energy"])
-#			emit_signal("stat_changed", self, player_stats)
-#	elif name == "p2":
-#		if Input.is_action_pressed("no2") and player_stats["player_energy"] > 1:
-#			player_stats["player_energy"] -= 10
-#			player_stats["player_energy"] = clamp(player_stats["player_energy"], 5, game_settings["player_start_energy"])
-#			emit_signal("stat_changed", self, player_stats)
+func _unhandled_input(event: InputEvent) -> void:
+
+	if name == "p1":
+		if Input.is_action_pressed("no1"):
+			player_stats["player_energy"] -= 10
+			player_stats["player_energy"] = clamp(player_stats["player_energy"], 5, game_settings["player_start_energy"])
+			emit_signal("stat_changed", self, player_stats)
+	elif name == "p2":
+		if Input.is_action_pressed("no2") and player_stats["player_energy"] > 1:
+			player_stats["player_energy"] -= 10
+			player_stats["player_energy"] = clamp(player_stats["player_energy"], 5, game_settings["player_start_energy"])
+			emit_signal("stat_changed", self, player_stats)
 	
 	
 func _ready() -> void:

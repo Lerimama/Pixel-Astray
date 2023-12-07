@@ -1,18 +1,18 @@
 extends Control
 
 
-var pause_fade_time: float = 0.5
 var pause_on: bool = false # samo za esc
 
 
 func _input(event: InputEvent) -> void:
 	
+			
 	if Global.game_manager.game_on:
 		if Input.is_action_just_pressed("ui_cancel"):
 			if not pause_on:
 				pause_game()
 			else:
-				play_on()
+				_on_PlayBtn_pressed()
 	
 	# change focus sounds
 	if pause_on:
@@ -24,10 +24,6 @@ func _input(event: InputEvent) -> void:
 			Global.sound_manager.play_gui_sfx("btn_focus_change")
 		elif Input.is_action_just_pressed("ui_down"):
 			Global.sound_manager.play_gui_sfx("btn_focus_change")
-		elif Input.is_action_just_pressed("ui_focus_next"):
-			Global.sound_manager.play_gui_sfx("btn_focus_change")
-		elif Input.is_action_just_pressed("ui_focus_prev"):
-			Global.sound_manager.play_gui_sfx("btn_focus_change")		
 
 
 func _ready() -> void:
@@ -60,44 +56,38 @@ func pause_game():
 	
 	visible = true
 	set_process_input(false)
-	pause_on = true
 	
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	$Menu/PlayBtn.grab_focus()
 	
+	var pause_in_time: float = 0.5
 	var fade_in_tween = get_tree().create_tween()
-	fade_in_tween.tween_property(self, "modulate:a", 1, pause_fade_time)
-	fade_in_tween.tween_callback(self, "pause_tree")
+	fade_in_tween.tween_property(self, "modulate:a", 1, pause_in_time)
+	fade_in_tween.tween_property(self, "pause_on", true, 0)
+	fade_in_tween.tween_callback(self, "set_process_input", [true])
+	fade_in_tween.tween_callback(get_tree(), "set_pause", [true])
 
 
 func play_on():
 	
 	Global.sound_manager.play_gui_sfx("screen_slide")
+	set_process_input(false)
 	
-	var fade_out_tween = get_tree().create_tween()
-	fade_out_tween.set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS) # da ga pausa ne ustavi
-	fade_out_tween.tween_property(self, "modulate:a", 0, pause_fade_time)
+	var pause_out_time: float = 0.5
+	var fade_out_tween = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+	fade_out_tween.tween_property(self, "modulate:a", 0, pause_out_time)
 	fade_out_tween.tween_callback(self, "set_visible", [false])
-	fade_out_tween.tween_callback(self, "unpause_tree")
+	fade_out_tween.tween_callback(get_tree(), "set_pause", [false])
+	fade_out_tween.tween_callback(self, "set_process_input", [true])
 
 
-func pause_tree():
-	
-	get_tree().paused = true
-	set_process_input(true)
-		
-	
-func unpause_tree():
-	
-	get_tree().paused = false
-	pause_on = false
-	set_process_input(true)
-	
-	
 # MENU ---------------------------------------------------------------------------------------------
 	
 
 func _on_PlayBtn_pressed() -> void:
+	
+	if not pause_on:
+		return
 	
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	pause_on = false
@@ -105,24 +95,28 @@ func _on_PlayBtn_pressed() -> void:
 
 
 func _on_RestartBtn_pressed() -> void:
-	
+
+	if not pause_on:
+		return
+			
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	pause_on = false
-	unpause_tree()
+	get_tree().paused = false
+#	set_process_input(true)
 	
 	Global.main_node.reload_game()
 	
-	$Menu/RestartBtn.disabled = true # da ne moreš multiklikat
-	
 	
 func _on_QuitBtn_pressed() -> void:
-	
+
+	if not pause_on:
+		return
+			
 	Global.sound_manager.play_gui_sfx("btn_cancel")
 	pause_on = false
-	unpause_tree()
+	get_tree().paused = false
 	Global.main_node.game_out()
 	
-	$Menu/QuitBtn.disabled = true # da ne moreš multiklikat
 
 
 # SETTINGS BTNZ ---------------------------------------------------------------------------------------------
@@ -133,11 +127,11 @@ func _on_GameMusicCheckBox_toggled(button_pressed: bool) -> void:
 	if button_pressed:
 		Global.sound_manager.play_gui_sfx("btn_confirm")
 		Global.sound_manager.game_music_set_to_off = false
-		Global.sound_manager.play_music("game")
+		Global.sound_manager.play_music("game_music")
 	else:
 		Global.sound_manager.play_gui_sfx("btn_cancel")
 		Global.sound_manager.game_music_set_to_off = true
-		Global.sound_manager.stop_music("game")
+		Global.sound_manager.stop_music("game_music")
 
 
 func _on_GameMusicSlider_value_changed(value: float) -> void:

@@ -180,17 +180,9 @@ func warning_out():
 	
 func slide_in(players_count: int): # kliče GM set_game()
 	
-	# zoom-in kamere
-#	var player_cameras: Array = [Global.p1_camera]
-#	if Global.game_manager.game_settings["start_players_count"] == 2:
-#		player_cameras.append(Global.p2_camera)
-	
-#	for camera in player_cameras:
-#		camera.zoom_in(hud_in_out_time)
-	
 	set_hud(players_count)
 	
-	get_tree().call_group(Global.group_cameras, "zoom_in", hud_in_out_time, players_count)
+	get_tree().call_group(Global.group_player_cameras, "zoom_in", hud_in_out_time, players_count)
 	
 	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
 	fade_in.tween_property(header, "rect_position:y", 0, hud_in_out_time)
@@ -198,7 +190,7 @@ func slide_in(players_count: int): # kliče GM set_game()
 	fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", Global.hud.header_height, hud_in_out_time)
 	fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", Global.hud.header_height, hud_in_out_time)
 	
-	yield(Global.player_camera, "zoomed_in")
+	yield(Global.player1_camera, "zoomed_in")
 	
 	for indicator in active_color_indicators:
 		var indicator_fade_in = get_tree().create_tween()
@@ -212,17 +204,8 @@ func slide_in(players_count: int): # kliče GM set_game()
 
 func slide_out(): # kliče GM game_over()
 	
-	# zoom-out kamere
-#	var player_cameras: Array = [Global.p1_camera]
-#	if Global.game_manager.game_settings["start_players_count"] == 2:
-#		player_cameras.append(Global.p2_camera)
-#
-#	for camera in player_cameras:
-#		camera.zoom_out(hud_in_out_time)
+	get_tree().call_group(Global.group_player_cameras, "zoom_out", hud_in_out_time)
 	
-	get_tree().call_group(Global.group_cameras, "zoom_out", hud_in_out_time)
-	
-		
 	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
 	fade_in.tween_property(header, "rect_position:y", 0 - header_height, hud_in_out_time)
 	fade_in.parallel().tween_property(footer, "rect_position:y", screen_height, hud_in_out_time)

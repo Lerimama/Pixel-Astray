@@ -347,58 +347,94 @@ bus = "GameSfx"
 
 [node name="GuiSfx" type="Node2D" parent="SoundManager"]
 
-[node name="BtnFocus" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
+[node name="Inputs" type="Node2D" parent="SoundManager/GuiSfx"]
+
+[node name="Typing" type="Node2D" parent="SoundManager/GuiSfx/Inputs"]
+
+[node name="Key1" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Inputs/Typing"]
+stream = ExtResource( 29 )
+volume_db = -15.0
+pitch_scale = 0.6
+
+[node name="Key2" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Inputs/Typing"]
+stream = ExtResource( 34 )
+volume_db = -15.0
+pitch_scale = 0.6
+
+[node name="Key3" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Inputs/Typing"]
+stream = ExtResource( 32 )
+volume_db = -15.0
+pitch_scale = 0.6
+
+[node name="Key4" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Inputs/Typing"]
+stream = ExtResource( 31 )
+volume_db = -15.0
+pitch_scale = 0.6
+
+[node name="Key5" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Inputs/Typing"]
+stream = ExtResource( 17 )
+volume_db = -15.0
+pitch_scale = 0.6
+
+[node name="BtnFocus" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Inputs"]
 stream = ExtResource( 23 )
 volume_db = -25.0
+bus = "Gui"
 
-[node name="BtnConfirm" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
+[node name="BtnConfirm" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Inputs"]
 stream = ExtResource( 35 )
 volume_db = -25.0
+bus = "Gui"
 
-[node name="BtnCancel" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
+[node name="BtnCancel" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Inputs"]
 stream = ExtResource( 10 )
 volume_db = -25.0
+bus = "Gui"
 
 [node name="MenuFade" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
 stream = ExtResource( 40 )
 volume_db = -15.0
 pitch_scale = 0.93
+bus = "Gui"
 
 [node name="ScreenSlide" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
 stream = ExtResource( 28 )
 pitch_scale = 0.9
+bus = "Gui"
 
-[node name="TutorialStageDone" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
+[node name="Events" type="Node2D" parent="SoundManager/GuiSfx"]
+
+[node name="Win" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Events"]
+stream = ExtResource( 38 )
+volume_db = -15.0
+bus = "GameSfx"
+
+[node name="Loose" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Events"]
+stream = ExtResource( 57 )
+volume_db = -5.0
+bus = "GameSfx"
+
+[node name="CoundownA" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Events"]
+stream = ExtResource( 22 )
+volume_db = -25.0
+bus = "GameSfx"
+
+[node name="CoundownB" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Events"]
+stream = ExtResource( 59 )
+volume_db = -15.0
+bus = "GameSfx"
+
+[node name="RecordFanfare" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Events"]
+stream = ExtResource( 37 )
+volume_db = -10.0
+pitch_scale = 1.1
+bus = "GameSfx"
+
+[node name="TutorialStageDone" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Events"]
 stream = ExtResource( 4 )
 volume_db = -13.0
 pitch_scale = 1.1
-
-[node name="Typing" type="Node2D" parent="SoundManager/GuiSfx"]
-
-[node name="Key1" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Typing"]
-stream = ExtResource( 29 )
-volume_db = -15.0
-pitch_scale = 0.6
-
-[node name="Key2" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Typing"]
-stream = ExtResource( 34 )
-volume_db = -15.0
-pitch_scale = 0.6
-
-[node name="Key3" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Typing"]
-stream = ExtResource( 32 )
-volume_db = -15.0
-pitch_scale = 0.6
-
-[node name="Key4" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Typing"]
-stream = ExtResource( 31 )
-volume_db = -15.0
-pitch_scale = 0.6
-
-[node name="Key5" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Typing"]
-stream = ExtResource( 17 )
-volume_db = -15.0
-pitch_scale = 0.6
+bus = "Gui"
 
 [node name="Music" type="Node2D" parent="SoundManager"]
 
@@ -406,6 +442,7 @@ pitch_scale = 0.6
 
 [node name="WarmUpShort" type="AudioStreamPlayer" parent="SoundManager/Music/MenuMusic"]
 stream = ExtResource( 41 )
+bus = "Gui"
 
 [node name="GameMusic" type="Node2D" parent="SoundManager/Music"]
 

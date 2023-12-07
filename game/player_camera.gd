@@ -5,11 +5,16 @@ signal zoomed_in
 
 export (OpenSimplexNoise) var noise # tekstura za vizualizacijo ma kopijo tega noisa
 
-var camera_target: Node # target setup ... predvsem za teleportanje
-var camera_target_vert_adapt: int = 0 # kamera se po zoomanju poravna s tileti
-
+var camera_target: Node2D
+var tile_align_correction: Vector2 = Vector2.ZERO # za poravnavo kamere s tileti
 var final_zoom = Vector2.ONE
 var start_zoom = Vector2(2, 2)
+
+# limits
+var corner_TL: float
+var corner_TR: float
+var corner_BL: float
+var corner_BR: float
 
 # noise setup
 var noise_seed: float = 8
@@ -29,27 +34,26 @@ var max_horizontal = 150
 var max_vertical = 150
 var max_rotation = 5
 
-onready var cell_size_x: int = Global.game_tilemap.cell_size.x # za zamik kamere glede na tile
-
 
 func _ready():
 	
-	add_to_group(Global.group_cameras)
+	add_to_group(Global.group_player_cameras)
 	
-	if Global.player_camera == null:
-		Global.player_camera = self
+	if Global.player1_camera == null:
+		Global.player1_camera = self
 	else:
 		Global.player2_camera = self
 	
-	set_ui_focus()	
-	update_ui()
-	
 	# start setup
 	zoom = start_zoom
+	
+	# testhud
+	set_ui_focus()	
+	update_ui()
 
 
 func _process(delta):
-
+	
 	time += delta
 	
 	# SHAKE KODA
@@ -72,7 +76,6 @@ func _process(delta):
 		yield(get_tree().create_timer(trauma_time), "timeout")
 		trauma_strength = clamp(trauma_strength - (delta * decay_speed), 0, 1)
 	
-	
 	# testhud
 	update_ui()
 	if drag_on:
@@ -82,17 +85,23 @@ func _process(delta):
 func _physics_process(delta: float) -> void:
 	
 	if camera_target:
-		position = camera_target.position + Vector2(cell_size_x/2, camera_target_vert_adapt)
+		position = camera_target.position + tile_align_correction
 	
-	
+
 func zoom_in(hud_in_out_time: float, players_count: int): # kliče hud
 	
 	if players_count == 2:
 		final_zoom *= 1.5
-		
+	
+	get_camera_limits()	
+	
 	var zoom_in_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	zoom_in_tween.tween_property(self, "zoom", final_zoom, hud_in_out_time)
-	zoom_in_tween.parallel().tween_property(self, "camera_target_vert_adapt", cell_size_x/2, hud_in_out_time)
+	zoom_in_tween.parallel().tween_property(self, "limit_left", corner_TL, hud_in_out_time)
+	zoom_in_tween.parallel().tween_property(self, "limit_right", corner_TR, hud_in_out_time)
+	zoom_in_tween.parallel().tween_property(self, "limit_top", corner_BL, hud_in_out_time)
+	zoom_in_tween.parallel().tween_property(self, "limit_bottom", corner_BR, hud_in_out_time)
+	zoom_in_tween.parallel().tween_property(self, "tile_align_correction", Global.game_tilemap.cell_size/2, hud_in_out_time)
 	zoom_in_tween.tween_callback(self, "emit_signal", ["zoomed_in"])
 	
 	
@@ -100,10 +109,11 @@ func zoom_out(hud_in_out_time): # kliče hud
 
 	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	zoom_out_tween.tween_property(self, "zoom", start_zoom, hud_in_out_time)
+	zoom_out_tween.parallel().tween_property(self, "limit_left", -10000000, hud_in_out_time)
+	zoom_out_tween.parallel().tween_property(self, "limit_right", 10000000, hud_in_out_time)
+	zoom_out_tween.parallel().tween_property(self, "limit_top", -10000000, hud_in_out_time)
+	zoom_out_tween.parallel().tween_property(self, "limit_bottom", 10000000, hud_in_out_time)
 	zoom_out_tween.parallel().tween_property(self, "camera_target_vert_adapt", 0, hud_in_out_time)
-
-
-# ŠEJK ------------------------------------------------------------------------------------------------------------------------
 
 
 func shake_camera(shake_power, shake_time, shake_decay): 
@@ -119,15 +129,58 @@ func shake_camera(shake_power, shake_time, shake_decay):
 	# apply shake
 	trauma_strength = clamp(trauma_strength, 0, 1)
 
+	
+func get_camera_limits():
+	
+	var tilemap_edge: Rect2 = Global.game_tilemap.get_used_rect()
+	var tilemap_cell_size: Vector2 = Global.game_tilemap.cell_size
+	
+	corner_TL = tilemap_edge.position.x * tilemap_cell_size.x + tilemap_cell_size.x # k mejam prištejem edge debelino
+	corner_TR = tilemap_edge.end.x * tilemap_cell_size.x - tilemap_cell_size.x
+	corner_BL = tilemap_edge.position.y * tilemap_cell_size.y + tilemap_cell_size.y
+	corner_BR = tilemap_edge.end.y * tilemap_cell_size.y - tilemap_cell_size.y
+	
 
-func multi_shake_camera(shake_power, shake_time, shake_decay): 
+# ZOOM, LIMITS OLD WAY -------------------------------------------------------------------------------------------------------------
+
+
+func zoom_in_no_limits(hud_in_out_time: float, players_count: int): # kliče hud
 	
-	trauma_strength += shake_power
-	trauma_time = shake_time
-	decay_speed = shake_decay
+	if players_count == 2:
+		final_zoom *= 1.5
+		
+	var zoom_in_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	zoom_in_tween.tween_property(self, "zoom", final_zoom, hud_in_out_time)
+	zoom_in_tween.parallel().tween_property(self, "tile_align_correction", Global.game_tilemap.cell_size/2, hud_in_out_time)
+	zoom_in_tween.tween_callback(self, "emit_signal", ["zoomed_in"])
 	
-	# apply shake
-	trauma_strength = clamp(trauma_strength, 0, 1)
+	
+func zoom_out_no_limits(hud_in_out_time): # kliče hud
+
+	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	zoom_out_tween.tween_property(self, "zoom", start_zoom, hud_in_out_time)
+	zoom_out_tween.parallel().tween_property(self, "camera_target_vert_adapt", 0, hud_in_out_time)
+
+	
+func set_camera_limits(tilemap_edge: Rect2, tilemap_cell_size: Vector2):
+
+	var corner_TL: float = tilemap_edge.position.x * tilemap_cell_size.x + tilemap_cell_size.x # k mejam prištejem edge debelino
+	var corner_TR: float = tilemap_edge.end.x * tilemap_cell_size.x - tilemap_cell_size.x
+	var corner_BL: float = tilemap_edge.position.y * tilemap_cell_size.y + tilemap_cell_size.y
+	var corner_BR: float = tilemap_edge.end.y * tilemap_cell_size.y - tilemap_cell_size.y
+
+	limit_left = corner_TL
+	limit_right = corner_TR
+	limit_top = corner_BL
+	limit_bottom = corner_BR
+
+
+func release_camera_limits():
+	
+	limit_left = -10000000
+	limit_right = 10000000
+	limit_top = -10000000
+	limit_bottom = 10000000		
 
 
 # TESTHUD ------------------------------------------------------------------------------------------------------------------------
@@ -212,6 +265,16 @@ func update_ui():
 	decay_slider.value = decay_speed
 
 
+func multi_shake_camera(shake_power, shake_time, shake_decay): 
+	
+	trauma_strength += shake_power
+	trauma_time = shake_time
+	decay_speed = shake_decay
+	
+	# apply shake
+	trauma_strength = clamp(trauma_strength, 0, 1)
+	
+	
 # toggle testhud
 
 func _on_CheckBox_toggled(button_pressed: bool) -> void:

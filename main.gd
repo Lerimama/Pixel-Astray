@@ -2,7 +2,6 @@ extends Node
 
 
 var fade_time = 0.7
-
 var camera_shake_on: bool =  true #_temp
 
 onready var home_scene_path: String = "res://home/home.tscn"
@@ -50,7 +49,7 @@ func home_in_from_game():
 func home_out():
 	
 	if not Global.sound_manager.menu_music_set_to_off: # če muzka ni setana na off
-		Global.sound_manager.stop_music("menu")
+		Global.sound_manager.stop_music("menu_music")
 	Global.sound_manager.play_gui_sfx("menu_fade")
 	
 	var fade_out = get_tree().create_tween()
@@ -61,21 +60,13 @@ func home_out():
 
 func game_in():
 	
-	Global.reset_cameras()
+#	Global.reset_cameras()
 	
-	# spawn game scene
 	Global.spawn_new_scene(game_scene_path, self)
+	Global.game_manager.set_tilemap() # postavim pravi tilemap
+	Global.game_manager.set_game_view()
 	
-	# postavim pravi tilemap
-	Global.game_manager.set_tilemap()
-	
-	# setam hud in game view
-	var players_count = Global.game_manager.player_start_positions.size()
-	var player_positions = Global.game_manager.player_start_positions
-	Global.game_manager.set_game_view(players_count, player_positions)
-#	Global.hud.set_hud(players_count)
-	
-#	yield(get_tree().create_timer(1), "timeout") # počakam, da se kamera centrira
+	yield(get_tree().create_timer(0.5), "timeout") # da se kamera centrira
 	
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(Global.current_scene, "modulate", Color.white, fade_time).from(Color.black)
@@ -84,26 +75,25 @@ func game_in():
 
 func game_out():
 	
+	Global.player1_camera = null
+	Global.player2_camera = null
+	Global.sound_manager.stop_music("game_music")
+	
 	Global.sound_manager.play_gui_sfx("menu_fade")
-	# ustavim vse možne sounde
-	Global.sound_manager.stop_music("game")
-	Global.sound_manager.stop_sfx("lose_jingle")
-	Global.sound_manager.stop_sfx("win_jingle")
 	
 	var fade_out = get_tree().create_tween()
 	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
 	fade_out.tween_callback(Global, "release_scene", [Global.current_scene])
-	fade_out.tween_callback(self, "home_in_from_game").set_delay(1) # dober delay ker se relese zgodi šele v naslednjem frejmu
-	# fade_out.tween_callback(self, "home_in").set_delay(1) # dober delay ker se relese zgodi šele v naslednjem frejmu
+	fade_out.tween_callback(self, "home_in_from_game").set_delay(1) # fajn delay ker se relese zgodi šele v naslednjem frejmu
 
 
 func reload_game(): # game out z drugačnim zaključkom
 	
+	Global.player1_camera = null
+	Global.player2_camera = null
+	Global.sound_manager.stop_music("game_music")
+	
 	Global.sound_manager.play_gui_sfx("menu_fade")
-	# ustavim vse možne sounde
-	Global.sound_manager.stop_music("game")
-	Global.sound_manager.stop_sfx("lose_jingle")
-	Global.sound_manager.stop_sfx("win_jingle")
 
 	var fade_out = get_tree().create_tween()
 	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)

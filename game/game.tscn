@@ -5,8 +5,9 @@
 [ext_resource path="res://game/gui/game_over.gd" type="Script" id=3]
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=4]
 [ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=5]
+[ext_resource path="res://game/minimap_camera.gd" type="Script" id=6]
 [ext_resource path="res://game/gui/highscore_table.gd" type="Script" id=7]
-[ext_resource path="res://game/game_camera.gd" type="Script" id=8]
+[ext_resource path="res://game/player_camera.gd" type="Script" id=8]
 [ext_resource path="res://assets/resources/env_arena.tres" type="Environment" id=9]
 [ext_resource path="res://game/gui/pause_menu.gd" type="Script" id=10]
 [ext_resource path="res://assets/resources/noise_gamecam.tres" type="OpenSimplexNoise" id=11]
@@ -194,9 +195,6 @@ thickness = 2
 vertical = true
 
 [sub_resource type="World" id=227]
-environment = ExtResource( 9 )
-
-[sub_resource type="World" id=117]
 environment = ExtResource( 9 )
 
 [sub_resource type="AtlasTexture" id=147]
@@ -985,7 +983,7 @@ margin = Rect2( -2, 2, 0, 0 )
 
 [node name="Game" type="Node2D"]
 __meta__ = {
-"_edit_horizontal_guides_": [ 1371.0, 1371.0, 248.0 ],
+"_edit_horizontal_guides_": [ 1371.0, 1371.0, 248.0, 384.0 ],
 "_edit_vertical_guides_": [ 640.0, 1632.0, 425.0, 856.0, 128.0, 1152.0, -72.0, 536.0, 320.0, 960.0 ]
 }
 
@@ -1035,8 +1033,7 @@ __meta__ = {
 "_edit_horizontal_guides_": [ 44.0, 32.0, 20.0, 64.0, 660.0, 688.0, 676.0, 648.0 ]
 }
 
-[node name="GameCam" type="Camera2D" parent="GameView/Viewports/ViewportContainer1/Viewport1"]
-position = Vector2( 640, 304 )
+[node name="PlayerCamera" type="Camera2D" parent="GameView/Viewports/ViewportContainer1/Viewport1"]
 rotation = 3.14159
 rotating = true
 current = true
@@ -1047,11 +1044,11 @@ editor_draw_limits = true
 script = ExtResource( 8 )
 noise = ExtResource( 11 )
 
-[node name="UILayer" type="CanvasLayer" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam"]
+[node name="UILayer" type="CanvasLayer" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera"]
 layer = 3
 visible = false
 
-[node name="TestToggle" type="CheckBox" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer"]
+[node name="TestToggle" type="CheckBox" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer"]
 margin_left = 32.0
 margin_top = 10.0
 margin_right = 96.0
@@ -1059,7 +1056,7 @@ margin_bottom = 36.0
 theme = SubResource( 194 )
 text = "test"
 
-[node name="TestHud" type="Control" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer"]
+[node name="TestHud" type="Control" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer"]
 margin_left = 32.0
 margin_top = 32.0
 margin_right = 1248.0
@@ -1068,7 +1065,7 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 theme = SubResource( 194 )
 
-[node name="ZoomLabel" type="Label" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud"]
+[node name="ZoomLabel" type="Label" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -1080,7 +1077,7 @@ margin_bottom = -120.0
 text = "Zoom level: 100%"
 align = 2
 
-[node name="ResetViewBtn" type="Button" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud"]
+[node name="ResetViewBtn" type="Button" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 992.0
@@ -1090,7 +1087,7 @@ margin_bottom = -78.0
 theme = SubResource( 194 )
 text = "resetiraj pogled"
 
-[node name="ShakeBar" type="ProgressBar" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud"]
+[node name="ShakeBar" type="ProgressBar" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud"]
 modulate = Color( 1, 0, 0, 1 )
 anchor_left = 0.5
 anchor_top = 1.0
@@ -1105,7 +1102,7 @@ size_flags_horizontal = 3
 theme = SubResource( 194 )
 max_value = 1.0
 
-[node name="TraumaBar" type="ProgressBar" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud"]
+[node name="TraumaBar" type="ProgressBar" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud"]
 modulate = Color( 0.12549, 1, 0, 1 )
 anchor_left = 0.5
 anchor_top = 1.0
@@ -1123,7 +1120,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ZoomSlider" type="VSlider" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud"]
+[node name="ZoomSlider" type="VSlider" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud"]
 visible = false
 anchor_left = 1.0
 anchor_top = 0.5
@@ -1138,7 +1135,7 @@ max_value = 1.0
 step = 0.1
 value = 1.0
 
-[node name="TimeSlider" type="VSlider" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud"]
+[node name="TimeSlider" type="VSlider" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud"]
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
@@ -1152,7 +1149,7 @@ max_value = 2.0
 step = 0.1
 value = 1.0
 
-[node name="NoiseControl" type="Control" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud"]
+[node name="NoiseControl" type="Control" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -516.0
@@ -1160,25 +1157,25 @@ margin_right = 248.0
 margin_bottom = -151.0
 theme = SubResource( 194 )
 
-[node name="NoiseVisual" type="TextureRect" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl"]
+[node name="NoiseVisual" type="TextureRect" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl"]
 margin_right = 246.0
 margin_bottom = 246.0
 texture = SubResource( 238 )
 
-[node name="Seed" type="HSlider" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl"]
+[node name="Seed" type="HSlider" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl"]
 margin_left = 60.0
 margin_top = 260.0
 margin_right = 246.0
 margin_bottom = 276.0
 hint_tooltip = "Seed"
 
-[node name="Label" type="Label" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl"]
+[node name="Label" type="Label" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl"]
 margin_top = 252.0
 margin_right = 48.0
 margin_bottom = 278.0
 text = "Seed"
 
-[node name="Octaves" type="HSlider" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl"]
+[node name="Octaves" type="HSlider" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl"]
 margin_left = 88.0
 margin_top = 281.0
 margin_right = 246.0
@@ -1188,13 +1185,13 @@ min_value = 1.0
 max_value = 9.0
 value = 3.0
 
-[node name="Label2" type="Label" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl"]
+[node name="Label2" type="Label" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl"]
 margin_top = 272.0
 margin_right = 82.0
 margin_bottom = 298.0
 text = "Octaves"
 
-[node name="Period" type="HSlider" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl"]
+[node name="Period" type="HSlider" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl"]
 margin_left = 76.0
 margin_top = 300.0
 margin_right = 246.0
@@ -1205,13 +1202,13 @@ max_value = 256.0
 step = 0.1
 value = 64.0
 
-[node name="Label3" type="Label" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl"]
+[node name="Label3" type="Label" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl"]
 margin_top = 292.0
 margin_right = 66.0
 margin_bottom = 318.0
 text = "Period"
 
-[node name="Persistence" type="HSlider" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl"]
+[node name="Persistence" type="HSlider" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl"]
 margin_left = 88.0
 margin_top = 321.0
 margin_right = 246.0
@@ -1222,13 +1219,13 @@ max_value = 1.0
 step = 0.001
 value = 0.5
 
-[node name="Label4" type="Label" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl"]
+[node name="Label4" type="Label" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl"]
 margin_top = 312.0
 margin_right = 124.0
 margin_bottom = 338.0
 text = "Persist"
 
-[node name="Lacunarity" type="HSlider" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl"]
+[node name="Lacunarity" type="HSlider" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl"]
 margin_left = 84.0
 margin_top = 341.0
 margin_right = 246.0
@@ -1239,18 +1236,18 @@ max_value = 4.0
 step = 0.01
 value = 2.0
 
-[node name="Label5" type="Label" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl"]
+[node name="Label5" type="Label" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl"]
 margin_top = 332.0
 margin_right = 124.0
 margin_bottom = 358.0
 text = "Lacuna"
 
-[node name="TraumaControl" type="Control" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud"]
+[node name="TraumaControl" type="Control" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud"]
 margin_top = 432.0
 margin_right = 248.0
 margin_bottom = 501.0
 
-[node name="TraumaTime" type="HSlider" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/TraumaControl"]
+[node name="TraumaTime" type="HSlider" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/TraumaControl"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -184.0
@@ -1260,12 +1257,12 @@ hint_tooltip = "Seed"
 max_value = 10.0
 step = 0.1
 
-[node name="Label" type="Label" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/TraumaControl"]
+[node name="Label" type="Label" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/TraumaControl"]
 margin_right = 74.0
 margin_bottom = 26.0
 text = "Time"
 
-[node name="TraumaStrength" type="HSlider" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/TraumaControl"]
+[node name="TraumaStrength" type="HSlider" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/TraumaControl"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -144.0
@@ -1275,13 +1272,13 @@ hint_tooltip = "Seed"
 max_value = 1.0
 step = 0.01
 
-[node name="Label2" type="Label" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/TraumaControl"]
+[node name="Label2" type="Label" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/TraumaControl"]
 margin_top = 20.0
 margin_right = 92.0
 margin_bottom = 46.0
 text = "Strenght"
 
-[node name="ShakeDecay" type="HSlider" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/TraumaControl"]
+[node name="ShakeDecay" type="HSlider" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/TraumaControl"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -176.0
@@ -1291,19 +1288,19 @@ hint_tooltip = "Seed"
 max_value = 1.0
 step = 0.01
 
-[node name="Label3" type="Label" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/TraumaControl"]
+[node name="Label3" type="Label" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/TraumaControl"]
 margin_top = 40.0
 margin_right = 60.0
 margin_bottom = 66.0
 text = "Decay"
 
-[node name="Panel" type="Panel" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud"]
+[node name="Panel" type="Panel" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud"]
 margin_left = 73.0
 margin_top = 163.0
 margin_right = 173.0
 margin_bottom = 212.0
 
-[node name="AddTraumaBtn" type="Button" parent="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud"]
+[node name="AddTraumaBtn" type="Button" parent="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 73.0
@@ -1341,8 +1338,7 @@ world = SubResource( 227 )
 handle_input_locally = false
 render_target_update_mode = 3
 
-[node name="GameCam" type="Camera2D" parent="GameView/Viewports/ViewportContainer2/Viewport2"]
-position = Vector2( 640, 304 )
+[node name="PlayerCamera" type="Camera2D" parent="GameView/Viewports/ViewportContainer2/Viewport2"]
 rotation = 3.14159
 rotating = true
 current = true
@@ -1353,11 +1349,11 @@ editor_draw_limits = true
 script = ExtResource( 8 )
 noise = ExtResource( 11 )
 
-[node name="UILayer" type="CanvasLayer" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam"]
+[node name="UILayer" type="CanvasLayer" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera"]
 layer = 3
 visible = false
 
-[node name="TestToggle" type="CheckBox" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer"]
+[node name="TestToggle" type="CheckBox" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer"]
 margin_left = 32.0
 margin_top = 10.0
 margin_right = 96.0
@@ -1365,7 +1361,7 @@ margin_bottom = 36.0
 theme = SubResource( 194 )
 text = "test"
 
-[node name="TestHud" type="Control" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer"]
+[node name="TestHud" type="Control" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer"]
 margin_left = 32.0
 margin_top = 32.0
 margin_right = 1248.0
@@ -1374,7 +1370,7 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 theme = SubResource( 194 )
 
-[node name="ZoomLabel" type="Label" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud"]
+[node name="ZoomLabel" type="Label" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -1386,7 +1382,7 @@ margin_bottom = -120.0
 text = "Zoom level: 100%"
 align = 2
 
-[node name="ResetViewBtn" type="Button" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud"]
+[node name="ResetViewBtn" type="Button" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 992.0
@@ -1396,7 +1392,7 @@ margin_bottom = -78.0
 theme = SubResource( 194 )
 text = "resetiraj pogled"
 
-[node name="ShakeBar" type="ProgressBar" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud"]
+[node name="ShakeBar" type="ProgressBar" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud"]
 modulate = Color( 1, 0, 0, 1 )
 anchor_left = 0.5
 anchor_top = 1.0
@@ -1411,7 +1407,7 @@ size_flags_horizontal = 3
 theme = SubResource( 194 )
 max_value = 1.0
 
-[node name="TraumaBar" type="ProgressBar" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud"]
+[node name="TraumaBar" type="ProgressBar" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud"]
 modulate = Color( 0.12549, 1, 0, 1 )
 anchor_left = 0.5
 anchor_top = 1.0
@@ -1429,7 +1425,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ZoomSlider" type="VSlider" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud"]
+[node name="ZoomSlider" type="VSlider" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud"]
 visible = false
 anchor_left = 1.0
 anchor_top = 0.5
@@ -1444,7 +1440,7 @@ max_value = 1.0
 step = 0.1
 value = 1.0
 
-[node name="TimeSlider" type="VSlider" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud"]
+[node name="TimeSlider" type="VSlider" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud"]
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
@@ -1458,7 +1454,7 @@ max_value = 2.0
 step = 0.1
 value = 1.0
 
-[node name="NoiseControl" type="Control" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud"]
+[node name="NoiseControl" type="Control" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -516.0
@@ -1466,25 +1462,25 @@ margin_right = 248.0
 margin_bottom = -151.0
 theme = SubResource( 194 )
 
-[node name="NoiseVisual" type="TextureRect" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl"]
+[node name="NoiseVisual" type="TextureRect" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl"]
 margin_right = 246.0
 margin_bottom = 246.0
 texture = SubResource( 238 )
 
-[node name="Seed" type="HSlider" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl"]
+[node name="Seed" type="HSlider" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl"]
 margin_left = 60.0
 margin_top = 260.0
 margin_right = 246.0
 margin_bottom = 276.0
 hint_tooltip = "Seed"
 
-[node name="Label" type="Label" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl"]
+[node name="Label" type="Label" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl"]
 margin_top = 252.0
 margin_right = 48.0
 margin_bottom = 278.0
 text = "Seed"
 
-[node name="Octaves" type="HSlider" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl"]
+[node name="Octaves" type="HSlider" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl"]
 margin_left = 88.0
 margin_top = 281.0
 margin_right = 246.0
@@ -1494,13 +1490,13 @@ min_value = 1.0
 max_value = 9.0
 value = 3.0
 
-[node name="Label2" type="Label" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl"]
+[node name="Label2" type="Label" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl"]
 margin_top = 272.0
 margin_right = 82.0
 margin_bottom = 298.0
 text = "Octaves"
 
-[node name="Period" type="HSlider" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl"]
+[node name="Period" type="HSlider" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl"]
 margin_left = 76.0
 margin_top = 300.0
 margin_right = 246.0
@@ -1511,13 +1507,13 @@ max_value = 256.0
 step = 0.1
 value = 64.0
 
-[node name="Label3" type="Label" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl"]
+[node name="Label3" type="Label" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl"]
 margin_top = 292.0
 margin_right = 66.0
 margin_bottom = 318.0
 text = "Period"
 
-[node name="Persistence" type="HSlider" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl"]
+[node name="Persistence" type="HSlider" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl"]
 margin_left = 88.0
 margin_top = 321.0
 margin_right = 246.0
@@ -1528,13 +1524,13 @@ max_value = 1.0
 step = 0.001
 value = 0.5
 
-[node name="Label4" type="Label" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl"]
+[node name="Label4" type="Label" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl"]
 margin_top = 312.0
 margin_right = 124.0
 margin_bottom = 338.0
 text = "Persist"
 
-[node name="Lacunarity" type="HSlider" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl"]
+[node name="Lacunarity" type="HSlider" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl"]
 margin_left = 84.0
 margin_top = 341.0
 margin_right = 246.0
@@ -1545,18 +1541,18 @@ max_value = 4.0
 step = 0.01
 value = 2.0
 
-[node name="Label5" type="Label" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl"]
+[node name="Label5" type="Label" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl"]
 margin_top = 332.0
 margin_right = 124.0
 margin_bottom = 358.0
 text = "Lacuna"
 
-[node name="TraumaControl" type="Control" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud"]
+[node name="TraumaControl" type="Control" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud"]
 margin_top = 432.0
 margin_right = 248.0
 margin_bottom = 501.0
 
-[node name="TraumaTime" type="HSlider" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/TraumaControl"]
+[node name="TraumaTime" type="HSlider" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/TraumaControl"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -184.0
@@ -1566,12 +1562,12 @@ hint_tooltip = "Seed"
 max_value = 10.0
 step = 0.1
 
-[node name="Label" type="Label" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/TraumaControl"]
+[node name="Label" type="Label" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/TraumaControl"]
 margin_right = 74.0
 margin_bottom = 26.0
 text = "Time"
 
-[node name="TraumaStrength" type="HSlider" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/TraumaControl"]
+[node name="TraumaStrength" type="HSlider" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/TraumaControl"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -144.0
@@ -1581,13 +1577,13 @@ hint_tooltip = "Seed"
 max_value = 1.0
 step = 0.01
 
-[node name="Label2" type="Label" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/TraumaControl"]
+[node name="Label2" type="Label" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/TraumaControl"]
 margin_top = 20.0
 margin_right = 92.0
 margin_bottom = 46.0
 text = "Strenght"
 
-[node name="ShakeDecay" type="HSlider" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/TraumaControl"]
+[node name="ShakeDecay" type="HSlider" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/TraumaControl"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -176.0
@@ -1597,19 +1593,19 @@ hint_tooltip = "Seed"
 max_value = 1.0
 step = 0.01
 
-[node name="Label3" type="Label" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/TraumaControl"]
+[node name="Label3" type="Label" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/TraumaControl"]
 margin_top = 40.0
 margin_right = 60.0
 margin_bottom = 66.0
 text = "Decay"
 
-[node name="Panel" type="Panel" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud"]
+[node name="Panel" type="Panel" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud"]
 margin_left = 73.0
 margin_top = 163.0
 margin_right = 173.0
 margin_bottom = 212.0
 
-[node name="AddTraumaBtn" type="Button" parent="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud"]
+[node name="AddTraumaBtn" type="Button" parent="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 73.0
@@ -1637,12 +1633,11 @@ modulate = Color( 1, 1, 1, 0.784314 )
 margin_left = 1088.0
 margin_top = 72.0
 margin_right = 1248.0
-margin_bottom = 164.0
+margin_bottom = 172.0
 size_flags_horizontal = 3
 
 [node name="MinimapViewport" type="Viewport" parent="Minimap"]
-size = Vector2( 160, 92 )
-world = SubResource( 117 )
+size = Vector2( 160, 94 )
 transparent_bg = true
 handle_input_locally = false
 render_target_update_mode = 0
@@ -1651,6 +1646,7 @@ render_target_update_mode = 0
 current = true
 zoom = Vector2( 12.2, 12.2 )
 limit_smoothed = true
+script = ExtResource( 6 )
 
 [node name="GUI" type="Control" parent="."]
 margin_right = 1280.0
@@ -5024,9 +5020,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -512.0
-margin_top = -112.0
+margin_top = -88.0
 margin_right = 512.0
-margin_bottom = 64.0
+margin_bottom = 88.0
 
 [node name="Congrats" type="TileMap" parent="GUI/GameOver/FinalTitle/GameCleaned"]
 position = Vector2( 120, 0 )
@@ -5056,9 +5052,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -512.0
-margin_top = -112.0
+margin_top = -88.0
 margin_right = 512.0
-margin_bottom = 64.0
+margin_bottom = 88.0
 
 [node name="GameOver" type="TileMap" parent="GUI/GameOver/FinalTitle/GameTime"]
 position = Vector2( 120, 0 )
@@ -5088,9 +5084,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -512.0
-margin_top = -112.0
+margin_top = -88.0
 margin_right = 512.0
-margin_bottom = 64.0
+margin_bottom = 88.0
 
 [node name="GameOver" type="TileMap" parent="GUI/GameOver/FinalTitle/GameLife"]
 position = Vector2( 120, 0 )
@@ -5612,6 +5608,506 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 text = "PLAY AGAIN"
 
+[node name="GameSummaryHS" type="Control" parent="GUI/GameOver"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Title" type="Label" parent="GUI/GameOver/GameSummaryHS"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -132.0
+margin_top = -226.5
+margin_right = 132.0
+margin_bottom = -194.5
+custom_colors/font_color = Color( 0.952941, 0.356863, 0.498039, 1 )
+custom_fonts/font = ExtResource( 5 )
+text = "GAME SUMMARY"
+
+[node name="DataContainer" type="VBoxContainer" parent="GUI/GameOver/GameSummaryHS"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -215.0
+margin_top = -152.0
+margin_right = 8.0
+margin_bottom = 122.0
+custom_constants/separation = 14
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Game" type="Label" parent="GUI/GameOver/GameSummaryHS/DataContainer"]
+margin_right = 223.0
+margin_bottom = 18.0
+custom_fonts/font = ExtResource( 23 )
+text = "Game: %s"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Level" type="Label" parent="GUI/GameOver/GameSummaryHS/DataContainer"]
+margin_top = 32.0
+margin_right = 223.0
+margin_bottom = 50.0
+custom_fonts/font = ExtResource( 23 )
+text = "Level: %s"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Points" type="Label" parent="GUI/GameOver/GameSummaryHS/DataContainer"]
+margin_top = 64.0
+margin_right = 223.0
+margin_bottom = 82.0
+custom_fonts/font = ExtResource( 23 )
+text = "Points total: %s"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Time" type="Label" parent="GUI/GameOver/GameSummaryHS/DataContainer"]
+margin_top = 96.0
+margin_right = 223.0
+margin_bottom = 114.0
+custom_fonts/font = ExtResource( 23 )
+text = "Time used:  %s seconds"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="CellsTraveled" type="Label" parent="GUI/GameOver/GameSummaryHS/DataContainer"]
+margin_top = 128.0
+margin_right = 223.0
+margin_bottom = 146.0
+custom_fonts/font = ExtResource( 23 )
+text = "Cells travelled: %s"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="BurstCount" type="Label" parent="GUI/GameOver/GameSummaryHS/DataContainer"]
+margin_top = 160.0
+margin_right = 223.0
+margin_bottom = 178.0
+custom_fonts/font = ExtResource( 23 )
+text = "Burst count: %s"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SkillsUsed" type="Label" parent="GUI/GameOver/GameSummaryHS/DataContainer"]
+margin_top = 192.0
+margin_right = 223.0
+margin_bottom = 210.0
+custom_fonts/font = ExtResource( 23 )
+text = "Skill count: %s"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="PixelsOff" type="Label" parent="GUI/GameOver/GameSummaryHS/DataContainer"]
+margin_top = 224.0
+margin_right = 223.0
+margin_bottom = 242.0
+custom_fonts/font = ExtResource( 23 )
+text = "Colors collected: %s"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="AstrayPixels" type="Label" parent="GUI/GameOver/GameSummaryHS/DataContainer"]
+margin_top = 256.0
+margin_right = 223.0
+margin_bottom = 274.0
+custom_fonts/font = ExtResource( 23 )
+text = "Pixels left astray: %s"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="HighscoreTable" type="VBoxContainer" parent="GUI/GameOver/GameSummaryHS"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 38.0
+margin_top = -154.0
+margin_right = 216.0
+margin_bottom = 124.0
+custom_constants/separation = 6
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable"]
+margin_right = 178.0
+margin_bottom = 26.0
+rect_min_size = Vector2( 28, 26 )
+size_flags_horizontal = 6
+size_flags_vertical = 0
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+text = "Top 9 cleaners"
+
+[node name="ScoreLine1" type="HBoxContainer" parent="GUI/GameOver/GameSummaryHS/HighscoreTable"]
+margin_top = 32.0
+margin_right = 178.0
+margin_bottom = 54.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine1"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine1"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 23 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine1"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine2" type="HBoxContainer" parent="GUI/GameOver/GameSummaryHS/HighscoreTable"]
+margin_top = 60.0
+margin_right = 178.0
+margin_bottom = 82.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine2"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine2"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 23 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine2"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine3" type="HBoxContainer" parent="GUI/GameOver/GameSummaryHS/HighscoreTable"]
+margin_top = 88.0
+margin_right = 178.0
+margin_bottom = 110.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine3"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine3"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 23 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine3"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine4" type="HBoxContainer" parent="GUI/GameOver/GameSummaryHS/HighscoreTable"]
+margin_top = 116.0
+margin_right = 178.0
+margin_bottom = 138.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine4"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine4"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 23 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine4"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine5" type="HBoxContainer" parent="GUI/GameOver/GameSummaryHS/HighscoreTable"]
+margin_top = 144.0
+margin_right = 178.0
+margin_bottom = 166.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine5"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine5"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 23 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine5"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine6" type="HBoxContainer" parent="GUI/GameOver/GameSummaryHS/HighscoreTable"]
+margin_top = 172.0
+margin_right = 178.0
+margin_bottom = 194.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine6"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine6"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 23 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine6"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine7" type="HBoxContainer" parent="GUI/GameOver/GameSummaryHS/HighscoreTable"]
+margin_top = 200.0
+margin_right = 178.0
+margin_bottom = 222.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine7"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine7"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 23 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine7"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine8" type="HBoxContainer" parent="GUI/GameOver/GameSummaryHS/HighscoreTable"]
+margin_top = 228.0
+margin_right = 178.0
+margin_bottom = 250.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine8"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine8"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 23 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine8"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine9" type="HBoxContainer" parent="GUI/GameOver/GameSummaryHS/HighscoreTable"]
+margin_top = 256.0
+margin_right = 178.0
+margin_bottom = 278.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine9"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine9"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 23 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummaryHS/HighscoreTable/ScoreLine9"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="Menu" type="HBoxContainer" parent="GUI/GameOver/GameSummaryHS"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -107.0
+margin_top = 198.0
+margin_right = 109.0
+margin_bottom = 220.0
+custom_constants/separation = 32
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="QuitBtn" type="Button" parent="GUI/GameOver/GameSummaryHS/Menu"]
+margin_right = 52.0
+margin_bottom = 22.0
+focus_neighbour_right = NodePath("../RestartBtn")
+size_flags_horizontal = 2
+size_flags_vertical = 8
+text = "QUIT"
+
+[node name="RestartBtn" type="Button" parent="GUI/GameOver/GameSummaryHS/Menu"]
+margin_left = 84.0
+margin_right = 216.0
+margin_bottom = 22.0
+focus_neighbour_left = NodePath("../QuitBtn")
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "PLAY AGAIN"
+
 [node name="NameInputPopup" type="Control" parent="GUI/GameOver"]
 visible = false
 anchor_left = 0.5
@@ -5698,88 +6194,88 @@ size_flags_vertical = 9
 text = "CONFIRM"
 align = 0
 
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestToggle" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_CheckBox_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestToggle" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_CheckBox_mouse_exited"]
-[connection signal="toggled" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestToggle" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_CheckBox_toggled"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/ResetViewBtn" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_ResetView_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/ResetViewBtn" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_ResetView_mouse_exited"]
-[connection signal="pressed" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/ResetViewBtn" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_ResetView_pressed"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/ZoomSlider" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_ZoomSlider_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/ZoomSlider" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_ZoomSlider_mouse_exited"]
-[connection signal="value_changed" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/ZoomSlider" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_ZoomSlider_value_changed"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/TimeSlider" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_TimeSlider_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/TimeSlider" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_TimeSlider_mouse_exited"]
-[connection signal="value_changed" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/TimeSlider" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_TimeSlider_value_changed"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_Control_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_Control_mouse_exited"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl/Seed" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_SeedSlider_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl/Seed" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_SeedSlider_mouse_exited"]
-[connection signal="value_changed" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl/Seed" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_Seed_value_changed"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl/Octaves" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_Octaves_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl/Octaves" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_Octaves_mouse_exited"]
-[connection signal="value_changed" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl/Octaves" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_Octaves_value_changed"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl/Period" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_Period_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl/Period" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_Period_mouse_exited"]
-[connection signal="value_changed" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl/Period" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_Period_value_changed"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl/Persistence" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_Persistance_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl/Persistence" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_Persistance_mouse_exited"]
-[connection signal="value_changed" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl/Persistence" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_Persistence_value_changed"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl/Lacunarity" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_Lacunarity_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl/Lacunarity" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_Lacunarity_mouse_exited"]
-[connection signal="value_changed" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/NoiseControl/Lacunarity" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_Lacunarity_value_changed"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/TraumaControl/TraumaTime" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_TraumaTime_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/TraumaControl/TraumaTime" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_TraumaTime_mouse_exited"]
-[connection signal="value_changed" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/TraumaControl/TraumaTime" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_TraumaTime_value_changed"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/TraumaControl/TraumaStrength" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_TraumaStrength_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/TraumaControl/TraumaStrength" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_TraumaStrength_mouse_exited"]
-[connection signal="value_changed" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/TraumaControl/TraumaStrength" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_TraumaStrength_value_changed"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/TraumaControl/ShakeDecay" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_ShakeDecay_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/TraumaControl/ShakeDecay" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_ShakeDecay_mouse_exited"]
-[connection signal="value_changed" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/TraumaControl/ShakeDecay" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_ShakeDecay_value_changed"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_AddTraumaBtn_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_AddTraumaBtn_mouse_exited"]
-[connection signal="pressed" from="GameView/Viewports/ViewportContainer1/Viewport1/GameCam/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer1/Viewport1/GameCam" method="_on_AddTraumaBtn_pressed"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestToggle" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_CheckBox_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestToggle" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_CheckBox_mouse_exited"]
-[connection signal="toggled" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestToggle" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_CheckBox_toggled"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/ResetViewBtn" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_ResetView_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/ResetViewBtn" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_ResetView_mouse_exited"]
-[connection signal="pressed" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/ResetViewBtn" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_ResetView_pressed"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/ZoomSlider" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_ZoomSlider_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/ZoomSlider" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_ZoomSlider_mouse_exited"]
-[connection signal="value_changed" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/ZoomSlider" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_ZoomSlider_value_changed"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/TimeSlider" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_TimeSlider_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/TimeSlider" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_TimeSlider_mouse_exited"]
-[connection signal="value_changed" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/TimeSlider" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_TimeSlider_value_changed"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_Control_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_Control_mouse_exited"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl/Seed" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_SeedSlider_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl/Seed" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_SeedSlider_mouse_exited"]
-[connection signal="value_changed" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl/Seed" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_Seed_value_changed"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl/Octaves" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_Octaves_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl/Octaves" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_Octaves_mouse_exited"]
-[connection signal="value_changed" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl/Octaves" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_Octaves_value_changed"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl/Period" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_Period_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl/Period" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_Period_mouse_exited"]
-[connection signal="value_changed" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl/Period" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_Period_value_changed"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl/Persistence" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_Persistance_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl/Persistence" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_Persistance_mouse_exited"]
-[connection signal="value_changed" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl/Persistence" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_Persistence_value_changed"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl/Lacunarity" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_Lacunarity_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl/Lacunarity" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_Lacunarity_mouse_exited"]
-[connection signal="value_changed" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/NoiseControl/Lacunarity" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_Lacunarity_value_changed"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/TraumaControl/TraumaTime" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_TraumaTime_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/TraumaControl/TraumaTime" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_TraumaTime_mouse_exited"]
-[connection signal="value_changed" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/TraumaControl/TraumaTime" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_TraumaTime_value_changed"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/TraumaControl/TraumaStrength" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_TraumaStrength_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/TraumaControl/TraumaStrength" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_TraumaStrength_mouse_exited"]
-[connection signal="value_changed" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/TraumaControl/TraumaStrength" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_TraumaStrength_value_changed"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/TraumaControl/ShakeDecay" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_ShakeDecay_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/TraumaControl/ShakeDecay" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_ShakeDecay_mouse_exited"]
-[connection signal="value_changed" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/TraumaControl/ShakeDecay" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_ShakeDecay_value_changed"]
-[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_AddTraumaBtn_mouse_entered"]
-[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_AddTraumaBtn_mouse_exited"]
-[connection signal="pressed" from="GameView/Viewports/ViewportContainer2/Viewport2/GameCam/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer2/Viewport2/GameCam" method="_on_AddTraumaBtn_pressed"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestToggle" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_CheckBox_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestToggle" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_CheckBox_mouse_exited"]
+[connection signal="toggled" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestToggle" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_CheckBox_toggled"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/ResetViewBtn" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_ResetView_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/ResetViewBtn" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_ResetView_mouse_exited"]
+[connection signal="pressed" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/ResetViewBtn" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_ResetView_pressed"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/ZoomSlider" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_ZoomSlider_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/ZoomSlider" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_ZoomSlider_mouse_exited"]
+[connection signal="value_changed" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/ZoomSlider" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_ZoomSlider_value_changed"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/TimeSlider" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_TimeSlider_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/TimeSlider" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_TimeSlider_mouse_exited"]
+[connection signal="value_changed" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/TimeSlider" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_TimeSlider_value_changed"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_Control_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_Control_mouse_exited"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl/Seed" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_SeedSlider_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl/Seed" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_SeedSlider_mouse_exited"]
+[connection signal="value_changed" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl/Seed" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_Seed_value_changed"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl/Octaves" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_Octaves_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl/Octaves" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_Octaves_mouse_exited"]
+[connection signal="value_changed" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl/Octaves" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_Octaves_value_changed"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl/Period" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_Period_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl/Period" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_Period_mouse_exited"]
+[connection signal="value_changed" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl/Period" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_Period_value_changed"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl/Persistence" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_Persistance_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl/Persistence" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_Persistance_mouse_exited"]
+[connection signal="value_changed" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl/Persistence" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_Persistence_value_changed"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl/Lacunarity" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_Lacunarity_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl/Lacunarity" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_Lacunarity_mouse_exited"]
+[connection signal="value_changed" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/NoiseControl/Lacunarity" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_Lacunarity_value_changed"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/TraumaControl/TraumaTime" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_TraumaTime_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/TraumaControl/TraumaTime" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_TraumaTime_mouse_exited"]
+[connection signal="value_changed" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/TraumaControl/TraumaTime" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_TraumaTime_value_changed"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/TraumaControl/TraumaStrength" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_TraumaStrength_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/TraumaControl/TraumaStrength" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_TraumaStrength_mouse_exited"]
+[connection signal="value_changed" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/TraumaControl/TraumaStrength" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_TraumaStrength_value_changed"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/TraumaControl/ShakeDecay" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_ShakeDecay_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/TraumaControl/ShakeDecay" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_ShakeDecay_mouse_exited"]
+[connection signal="value_changed" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/TraumaControl/ShakeDecay" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_ShakeDecay_value_changed"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_AddTraumaBtn_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_AddTraumaBtn_mouse_exited"]
+[connection signal="pressed" from="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer1/Viewport1/PlayerCamera" method="_on_AddTraumaBtn_pressed"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestToggle" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_CheckBox_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestToggle" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_CheckBox_mouse_exited"]
+[connection signal="toggled" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestToggle" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_CheckBox_toggled"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/ResetViewBtn" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_ResetView_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/ResetViewBtn" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_ResetView_mouse_exited"]
+[connection signal="pressed" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/ResetViewBtn" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_ResetView_pressed"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/ZoomSlider" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_ZoomSlider_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/ZoomSlider" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_ZoomSlider_mouse_exited"]
+[connection signal="value_changed" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/ZoomSlider" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_ZoomSlider_value_changed"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/TimeSlider" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_TimeSlider_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/TimeSlider" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_TimeSlider_mouse_exited"]
+[connection signal="value_changed" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/TimeSlider" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_TimeSlider_value_changed"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_Control_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_Control_mouse_exited"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl/Seed" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_SeedSlider_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl/Seed" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_SeedSlider_mouse_exited"]
+[connection signal="value_changed" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl/Seed" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_Seed_value_changed"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl/Octaves" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_Octaves_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl/Octaves" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_Octaves_mouse_exited"]
+[connection signal="value_changed" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl/Octaves" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_Octaves_value_changed"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl/Period" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_Period_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl/Period" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_Period_mouse_exited"]
+[connection signal="value_changed" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl/Period" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_Period_value_changed"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl/Persistence" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_Persistance_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl/Persistence" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_Persistance_mouse_exited"]
+[connection signal="value_changed" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl/Persistence" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_Persistence_value_changed"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl/Lacunarity" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_Lacunarity_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl/Lacunarity" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_Lacunarity_mouse_exited"]
+[connection signal="value_changed" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/NoiseControl/Lacunarity" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_Lacunarity_value_changed"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/TraumaControl/TraumaTime" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_TraumaTime_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/TraumaControl/TraumaTime" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_TraumaTime_mouse_exited"]
+[connection signal="value_changed" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/TraumaControl/TraumaTime" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_TraumaTime_value_changed"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/TraumaControl/TraumaStrength" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_TraumaStrength_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/TraumaControl/TraumaStrength" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_TraumaStrength_mouse_exited"]
+[connection signal="value_changed" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/TraumaControl/TraumaStrength" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_TraumaStrength_value_changed"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/TraumaControl/ShakeDecay" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_ShakeDecay_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/TraumaControl/ShakeDecay" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_ShakeDecay_mouse_exited"]
+[connection signal="value_changed" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/TraumaControl/ShakeDecay" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_ShakeDecay_value_changed"]
+[connection signal="mouse_entered" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_AddTraumaBtn_mouse_entered"]
+[connection signal="mouse_exited" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_AddTraumaBtn_mouse_exited"]
+[connection signal="pressed" from="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera/UILayer/TestHud/AddTraumaBtn" to="GameView/Viewports/ViewportContainer2/Viewport2/PlayerCamera" method="_on_AddTraumaBtn_pressed"]
 [connection signal="gametime_is_up" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_gametime_is_up"]
 [connection signal="sudden_death_active" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_sudden_death_active"]
 [connection signal="timeout" from="GUI/Hud/Header/GameTimer/Timer" to="GUI/Hud/Header/GameTimer" method="_on_Timer_timeout"]
@@ -5800,6 +6296,8 @@ align = 0
 [connection signal="pressed" from="GUI/GameOver/FinalTitle/Tutorial/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/GameSummary/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/GameSummary/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/GameSummaryHS/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/GameSummaryHS/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
 [connection signal="text_changed" from="GUI/GameOver/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_NameEdit_text_changed"]
 [connection signal="text_entered" from="GUI/GameOver/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_PopupNameEdit_text_entered"]
 [connection signal="pressed" from="GUI/GameOver/NameInputPopup/HBoxContainer/CancelBtn" to="GUI/GameOver" method="_on_CancelBtn_pressed"]

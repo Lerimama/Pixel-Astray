@@ -110,7 +110,7 @@ func start_game():
 		Global.tutorial_gui.start()
 	else:
 		Global.hud.game_timer.start_timer()
-		Global.sound_manager.play_music("game")
+		Global.sound_manager.play_music("game_music")
 		for player in players_in_game:
 			player.set_physics_process(true)
 			player.animation_player.play("virgin_blink")

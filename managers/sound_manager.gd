@@ -1,4 +1,4 @@
-extends Node2D
+	extends Node2D
 
 
 var game_sfx_set_to_off: bool = false
@@ -6,7 +6,6 @@ var menu_music_set_to_off: bool = false
 var game_music_set_to_off: bool = false
 
 var currently_playing_track_index = 1 # ga ne resetiraš, da ostane v spominu skozi celo igro
-
 
 onready var teleport_loop: AudioStreamPlayer = $GameSfx/Skills/TeleportLoop # za preverjanje v igri, če se predvaja
 onready var game_music: Node2D = $Music/GameMusic
@@ -20,7 +19,6 @@ func _ready() -> void:
 	Global.sound_manager = self
 	randomize()
 	
-
 # SFX --------------------------------------------------------------------------------------------------------
 
 	
@@ -37,7 +35,6 @@ func play_stepping_sfx(current_player_energy_part: float):
 	
 func play_sfx(effect_for: String):
 	
-	return	
 	if game_sfx_set_to_off:
 		return	
 		
@@ -77,17 +74,6 @@ func play_sfx(effect_for: String):
 			$GameSfx/Skills/PushStoneSlide.play()
 		"teleport":
 			$GameSfx/Skills/TeleportIn.play()
-		# events
-		"countdown_a":
-			$GameSfx/Events/CoundownA.play()
-		"countdown_b":
-			$GameSfx/Events/CoundownB.play()
-		"win_jingle":
-			$GameSfx/Events/Win.play()
-		"lose_jingle":
-			$GameSfx/Events/Loose.play()
-		"record_cheers":
-			$GameSfx/Events/RecordFanfare.play()
 		# intro
 		"thunder_strike":
 			$GameSfx/Burst/Burst.play()
@@ -100,22 +86,33 @@ func play_sfx(effect_for: String):
 func play_gui_sfx(effect_for: String):
 	
 	match effect_for:
-		# gui
+		# events
+		"countdown_a":
+			$GuiSfx/Events/CoundownA.play()
+		"countdown_b":
+			$GuiSfx/Events/CoundownB.play()
+		"win_jingle":
+			$GuiSfx/Events/Win.play()
+		"lose_jingle":
+			$GuiSfx/Events/Loose.play()
+		"record_cheers":
+			$GuiSfx/Events/RecordFanfare.play()
+		"tutorial_stage_done":
+			$GuiSfx/Events/TutorialStageDone.play()
+		# input
 		"typing":
-			select_random_sfx($GuiSfx/Typing).play()
+			select_random_sfx($GuiSfx/Inputs/Typing).play()
 		"btn_confirm":
-			$GuiSfx/BtnConfirm.play()
+			$GuiSfx/Inputs/BtnConfirm.play()
 		"btn_cancel":
-			$GuiSfx/BtnCancel.play()
+			$GuiSfx/Inputs/BtnCancel.play()
 		"btn_focus_change":
-			$GuiSfx/BtnFocus.play()
+			$GuiSfx/Inputs/BtnFocus.play()
+		# menu
 		"menu_fade":
 			$GuiSfx/MenuFade.play()
 		"screen_slide":
 			$GuiSfx/ScreenSlide.play()
-		# tutorial stage
-		"tutorial_stage_done":
-			$GuiSfx/TutorialStageDone.play()
 		
 		
 func stop_sfx(sfx_to_stop: String):
@@ -152,15 +149,14 @@ func _on_TeleportStart_finished() -> void:
 		
 
 func play_music(music_for: String):
-	return	
 	
 	match music_for:
-		"menu":
+		"menu_music":
 			if menu_music_set_to_off:
 				return
 			menu_music.play()
 
-		"game":
+		"game_music":
 			if game_music_set_to_off:
 				return
 			# set track
@@ -172,18 +168,24 @@ func stop_music(music_to_stop: String):
 
 	match music_to_stop:
 		
-		"menu":
+		"menu_music":
 			var fade_out = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT)	
 			fade_out.tween_property(menu_music, "volume_db", -80, 0.5)
 			fade_out.tween_callback(menu_music, "stop")
 			# volume nazaj
 			fade_out.tween_property(menu_music, "volume_db", menu_music_volume_on_node, 0.5)
 			
-		"game":
+		"game_music":
 			for music in game_music.get_children():
-				music.stop()
+				if music.is_playing():
+					var current_music_volume = music.volume_db
+					var fade_out = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+					fade_out.tween_property(music, "volume_db", -80, 1)
+					fade_out.tween_callback(music, "stop")
+					fade_out.tween_callback(music, "set_volume_db", [current_music_volume]) # reset glasnosti
 
 		"game_on_game-over": 
+		
 			for music in game_music.get_children():
 				if music.is_playing():
 					var current_music_volume = music.volume_db
@@ -194,7 +196,8 @@ func stop_music(music_to_stop: String):
 		
 
 func set_game_music_volume(value_on_slider: float): # kliče se iz settingsov
-	# slajder je omeje od -30 do 10
+	
+	# slajder je omejen med -30 in 10
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("GameMusic"), value_on_slider)
 		
 		

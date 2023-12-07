@@ -55,8 +55,7 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 	"step_slowdown_mode": true,
 	"suddent_death_mode": false,
 	"sudden_death_limit" : 20,
-#	"pick_neighbor_mode": false,
-	"minimap_on": false,
+	"minimap_on": true,
 	"manage_highscores": false,
 	
 	"skill_limit_mode": false,
@@ -86,7 +85,7 @@ var game_data_debug: Dictionary = {
 	"game_name": "Debug",
 	"level": "01",
 	"tilemap_path": "res://game/tilemaps/debug_tilemap.tscn",
-	"game_time_limit": 3,
+	"game_time_limit": 30,
 	"strays_start_count": 10,
 }
 
@@ -133,7 +132,7 @@ var game_data_cleaner_L: Dictionary = {
 	"game_name": "Cleaner",
 	"level": "L",
 	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_L_tilemap.tscn",
-	"game_time_limit": 6,
+	"game_time_limit": 1,
 	"strays_start_count": 320, 
 	"highscore": 0,
 }

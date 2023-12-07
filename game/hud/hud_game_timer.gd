@@ -40,31 +40,32 @@ func _process(delta: float) -> void:
 	current_second = int(game_time_seconds) % 60
 	$Mins.text = "%02d" % (game_time_seconds / 60)
 	$Secs.text = "%02d" % current_second
-		
-	if countdown_mode:
-		if game_time_seconds <= 0: # time is up
-			stop_timer()
-			current_second = 0
-			modulate = Global.color_red
-			emit_signal("gametime_is_up") # pošlje se v hud, ki javi game managerju		
-		if sudden_death_mode:
-			if game_time_seconds > sudden_death_limit:
-				modulate = Global.hud_text_color
-			elif game_time_seconds == sudden_death_limit:
-				emit_signal("sudden_death_active") # pošlje se v hud, ki javi game managerju		
-			elif game_time_seconds < sudden_death_limit:
+	
+	if not $Timer.is_stopped():	
+		if countdown_mode:
+			if game_time_seconds <= 0: # time is up
+				stop_timer()
+				current_second = 0
 				modulate = Global.color_red
-	else:
-		if game_time_seconds >= game_time_limit and not limitless_mode: # ker uravnavam s časom, ki je PRETEKEL
-			stop_timer()
-			emit_signal("gametime_is_up")		
-		if sudden_death_mode:
-			if game_time_seconds < game_time_limit - sudden_death_limit:
-				modulate = Global.hud_text_color
-			elif game_time_seconds == game_time_limit - sudden_death_limit:
-				emit_signal("sudden_death_active") # pošlje se v hud, ki javi game managerju		
-			elif game_time_seconds > game_time_limit - sudden_death_limit:
-				modulate = Global.color_red
+				emit_signal("gametime_is_up") # pošlje se v hud, ki javi game managerju		
+			if sudden_death_mode:
+				if game_time_seconds > sudden_death_limit:
+					modulate = Global.hud_text_color
+				elif game_time_seconds == sudden_death_limit:
+					emit_signal("sudden_death_active") # pošlje se v hud, ki javi game managerju		
+				elif game_time_seconds < sudden_death_limit:
+					modulate = Global.color_red
+		else:
+			if game_time_seconds >= game_time_limit and not limitless_mode: # ker uravnavam s časom, ki je PRETEKEL
+				stop_timer()
+				emit_signal("gametime_is_up")	
+			if sudden_death_mode:
+				if game_time_seconds < game_time_limit - sudden_death_limit:
+					modulate = Global.hud_text_color
+				elif game_time_seconds == game_time_limit - sudden_death_limit:
+					emit_signal("sudden_death_active") # pošlje se v hud, ki javi game managerju		
+				elif game_time_seconds > game_time_limit - sudden_death_limit:
+					modulate = Global.color_red
 	
 	
 func start_timer():
@@ -101,20 +102,20 @@ func _on_Timer_timeout() -> void:
 		game_time_seconds -= 1
 		# game over countdown
 		if game_time_seconds < 1:
-			Global.sound_manager.play_sfx("countdown_b")
+			Global.sound_manager.play_gui_sfx("countdown_b")
 			modulate = Global.color_red
 		elif game_time_seconds <= gameover_countdown_duration and game_time_seconds > 0:
-			Global.sound_manager.play_sfx("countdown_a")
+			Global.sound_manager.play_gui_sfx("countdown_a")
 			modulate = Global.color_red
 	else:
 		game_time_seconds += 1
 		# game over countdown
 		if not limitless_mode:
 			if game_time_seconds > game_time_limit - 1:
-				Global.sound_manager.play_sfx("countdown_b")
+				Global.sound_manager.play_gui_sfx("countdown_b")
 				modulate = Global.color_red
 			elif game_time_seconds >= game_time_limit - gameover_countdown_duration:
-				Global.sound_manager.play_sfx("countdown_a")
+				Global.sound_manager.play_gui_sfx("countdown_a")
 				modulate = Global.color_red
 
 	

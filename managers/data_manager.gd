@@ -84,11 +84,11 @@ func manage_gameover_highscores(player_points, current_game): # iz GM
 		
 		# RESUME 2
 		# nova highscore lestvica		
-		var current_score_owner = Global.game_manager.p1_stats["player_name"]
+		var current_score_owner_name = Global.gameover_menu.p1_final_stats["player_name"]
 		
 		# dodam plejer score v array
 		all_scores.insert(better_positions_count, player_points)
-		all_score_owners.insert(better_positions_count, current_score_owner)
+		all_score_owners.insert(better_positions_count, current_score_owner_name)
 
 		# odstranim zadnjega ... najnižjega
 		all_scores.pop_back()
