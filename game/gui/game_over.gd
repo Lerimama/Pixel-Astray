@@ -87,6 +87,7 @@ func open_gameover(gameover_reason):
 	yield(Global.player1_camera, "zoomed_out")
 	show_gameover_title()	
 
+
 func show_gameover_title():
 
 	get_tree().call_group(Global.group_players, "set_physics_process", false)
@@ -179,27 +180,27 @@ func set_duel_gameover_title():
 	focus_btn = selected_gameover_menu.get_node("RestartBtn")
 	selected_gameover_jingle = "win_jingle"
 	
-	var player_label: Label = selected_gameover_title.get_node("Win/PlayerLabel")
-	var points_difference_label: Label = selected_gameover_title.get_node("Win/DifferenceLabel")
 	var points_difference: int = p1_final_stats["player_points"] - p2_final_stats["player_points"]
 	
-	if points_difference > 0: # P1 zmaga
-		player_label.text = "Player 1"
-		if points_difference == 1:
-			points_difference_label.text %= "only one point."
-		else:
-			points_difference_label.text %= str(points_difference) + " point."
-		selected_gameover_title.get_node("Win").visible = true
-	elif points_difference < 0: # P2 zmaga
-		player_label.text = "Player 2"
-		if abs(points_difference) == 1:
-			points_difference_label.text %= "only one point."
-		else:
-			points_difference_label.text %= str(abs(points_difference)) + " point."
-		selected_gameover_title.get_node("Win").visible = true
-	else: # draw
-		player_label.text = "You both collected same amount of points."	
+	if points_difference == 0: # draw
+#		winner_label.text = "You both collected the same amount of points."	
 		selected_gameover_title.get_node("Draw").visible = true
+	else: # win
+		var winner_label: Label = selected_gameover_title.get_node("Win/PlayerLabel")
+		var points_difference_label: Label = selected_gameover_title.get_node("Win/DifferenceLabel")
+		var loser_name: String
+		selected_gameover_title.get_node("Win").visible = true
+		if points_difference > 0: # P1 zmaga
+			winner_label.text = "Player 1"
+			loser_name = "Player 2"
+		elif points_difference < 0: # P2 zmaga
+			winner_label.text = "Player 2"
+			loser_name = "Player 1"
+		if abs(points_difference) == 1:
+			points_difference_label.text = "Winner was better for only one point."
+		else:
+			points_difference_label.text =  winner_label.text + " was " + str(abs(points_difference)) + " points better than " + loser_name + "."# + " points."
+
 		
 			
 func set_game_gameover_title(gameover_reason):

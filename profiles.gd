@@ -54,7 +54,7 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 	"step_slowdown_mode": true,
 	"suddent_death_mode": false,
 	"sudden_death_limit" : 20,
-	"minimap_on": true,
+	"minimap_on": false,
 	"manage_highscores": false,
 	
 	"skill_limit_mode": false,
@@ -84,7 +84,7 @@ var game_data_debug: Dictionary = {
 	"game_name": "Debug",
 	"level": "",
 	"tilemap_path": "res://game/tilemaps/debug_tilemap.tscn",
-	"game_time_limit": 5,
+	"game_time_limit": 10,
 	"strays_start_count": 10,
 #	"highscore": 0,
 }
@@ -142,7 +142,7 @@ var game_data_duel: Dictionary = {
 	"game_name": "The Duel",
 	"level": "",
 	"tilemap_path": "res://game/tilemaps/_duel_tilemap.tscn",
-	"game_time_limit": 3,
+	"game_time_limit": 30,
 	"strays_start_count": 230, 
 }
 

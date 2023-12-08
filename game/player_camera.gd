@@ -108,12 +108,12 @@ func zoom_in(hud_in_out_time: float, players_count: int): # kliče hud
 	
 func zoom_out(hud_in_out_time): # kliče hud
 
-	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
-	zoom_out_tween.tween_property(self, "zoom", start_zoom, hud_in_out_time)
-	zoom_out_tween.parallel().tween_property(self, "limit_left", -10000000, hud_in_out_time)
-	zoom_out_tween.parallel().tween_property(self, "limit_right", 10000000, hud_in_out_time)
-	zoom_out_tween.parallel().tween_property(self, "limit_top", -10000000, hud_in_out_time)
-	zoom_out_tween.parallel().tween_property(self, "limit_bottom", 10000000, hud_in_out_time)
+	var zoom_out_tween = get_tree().create_tween()
+	zoom_out_tween.tween_property(self, "zoom", start_zoom, hud_in_out_time).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+#	zoom_out_tween.parallel().tween_property(self, "limit_left", -10000, hud_in_out_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+#	zoom_out_tween.parallel().tween_property(self, "limit_right", 10000, hud_in_out_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+#	zoom_out_tween.parallel().tween_property(self, "limit_top", -10000, hud_in_out_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+#	zoom_out_tween.parallel().tween_property(self, "limit_bottom", 10000, hud_in_out_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 	zoom_out_tween.parallel().tween_property(self, "tile_align_correction", Vector2.ZERO, hud_in_out_time)
 	zoom_out_tween.tween_callback(self, "emit_signal", ["zoomed_out"]) # pošlje na GO, ki pokaže meni
 	

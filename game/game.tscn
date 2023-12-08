@@ -4863,12 +4863,12 @@ tile_data = PoolIntArray( 14, 0, 0, 16, 0, 0, 18, 0, 0, 20, 0, 0, 22, 0, 0, 26, 
 [node name="DifferenceLabel" type="Label" parent="GUI/GameOver/GameoverTitle/Duel/Win"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -136.0
+margin_left = -160.0
 margin_top = 214.0
-margin_right = 136.0
+margin_right = 160.0
 margin_bottom = 264.0
 grow_horizontal = 2
-text = "The winner was better for %s"
+text = "Winner was better by ..."
 align = 1
 autowrap = true
 
@@ -4884,20 +4884,6 @@ margin_top = -112.0
 margin_right = 512.0
 margin_bottom = 152.0
 
-[node name="PlayerLabel" type="Label" parent="GUI/GameOver/GameoverTitle/Duel/Draw"]
-visible = false
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -272.0
-margin_top = -58.0
-margin_right = 272.0
-margin_bottom = -26.0
-grow_horizontal = 2
-custom_fonts/font = ExtResource( 5 )
-text = "Both players"
-align = 1
-autowrap = true
-
 [node name="Draw" type="TileMap" parent="GUI/GameOver/GameoverTitle/Duel/Draw"]
 position = Vector2( 168, 0 )
 tile_set = ExtResource( 18 )
@@ -4906,7 +4892,7 @@ cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 format = 1
 tile_data = PoolIntArray( 10, 0, 0, 11, 0, 0, 12, 0, 0, 13, 0, 0, 16, 0, 0, 17, 0, 0, 18, 0, 0, 19, 0, 0, 23, 0, 0, 24, 0, 0, 25, 0, 0, 28, 0, 0, 30, 0, 0, 32, 0, 0, 65546, 0, 0, 65550, 0, 0, 65552, 0, 0, 65556, 0, 0, 65558, 0, 0, 65562, 0, 0, 65564, 0, 0, 65566, 0, 0, 65568, 0, 0, 131082, 0, 0, 131086, 0, 0, 131088, 0, 0, 131089, 0, 0, 131090, 0, 0, 131091, 0, 0, 131094, 0, 0, 131095, 0, 0, 131096, 0, 0, 131097, 0, 0, 131098, 0, 0, 131100, 0, 0, 131102, 0, 0, 131104, 0, 0, 196618, 0, 0, 196622, 0, 0, 196624, 0, 0, 196628, 0, 0, 196630, 0, 0, 196634, 0, 0, 196636, 0, 0, 196638, 0, 0, 196640, 0, 0, 262154, 0, 0, 262158, 0, 0, 262160, 0, 0, 262164, 0, 0, 262166, 0, 0, 262170, 0, 0, 262172, 0, 0, 262174, 0, 0, 262176, 0, 0, 327690, 0, 0, 327694, 0, 0, 327696, 0, 0, 327700, 0, 0, 327702, 0, 0, 327706, 0, 0, 327708, 0, 0, 327710, 0, 0, 327712, 0, 0, 393226, 0, 0, 393227, 0, 0, 393228, 0, 0, 393229, 0, 0, 393232, 0, 0, 393236, 0, 0, 393238, 0, 0, 393242, 0, 0, 393244, 0, 0, 393245, 0, 0, 393247, 0, 0, 393248, 0, 0 )
 
-[node name="DuelLabel" type="Label" parent="GUI/GameOver/GameoverTitle/Duel/Draw"]
+[node name="DrawLabel" type="Label" parent="GUI/GameOver/GameoverTitle/Duel/Draw"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -176.0
@@ -4914,8 +4900,7 @@ margin_top = 158.0
 margin_right = 176.0
 margin_bottom = 216.0
 grow_horizontal = 2
-text = "Both players collected
-the same amount of points."
+text = "You both collected the same amount of points."
 align = 1
 autowrap = true
 

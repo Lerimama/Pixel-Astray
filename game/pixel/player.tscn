@@ -34,6 +34,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [ false ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=140]
 resource_name = "_junfer short"
@@ -232,7 +244,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id=143]
-resource_name = "become_white"
+resource_name = "become_white_again"
 length = 2.0
 step = 0.02
 tracks/0/type = "value"
@@ -382,6 +394,18 @@ tracks/2/keys = {
 "method": "play_blinking_sound"
 } ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.18 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [sub_resource type="Animation" id=137]
 resource_name = "heartbeat"
@@ -486,7 +510,6 @@ texture = ExtResource( 1 )
 energy = 0.5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 scale = Vector2( 0.9, 0.9 )
 shape = SubResource( 1 )
 
@@ -500,7 +523,7 @@ anims/RESET = SubResource( 142 )
 "anims/_last_breath _polypixel" = SubResource( 139 )
 anims/_start_white = SubResource( 138 )
 anims/_still_alive = SubResource( 135 )
-anims/become_white = SubResource( 143 )
+anims/become_white_again = SubResource( 143 )
 anims/die_player = SubResource( 2 )
 anims/heartbeat = SubResource( 137 )
 anims/revive = ExtResource( 10 )

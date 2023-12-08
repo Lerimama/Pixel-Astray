@@ -119,11 +119,13 @@ func _physics_process(delta: float) -> void:
 	
 	state_machine()
 	
-	# heartbeat
+	# no energy
 	if player_stats["player_energy"] <= 1:
 		has_no_energy = true
 	else:
 		has_no_energy = false
+		
+	# heartbeat
 	if not heartbeat_active and has_no_energy:
 		heartbeat_active = true
 		heartbeat_loop = 0
@@ -146,6 +148,7 @@ func state_machine():
 	
 	match current_state:
 		States.IDLE:
+			idle_inputs()
 			var current_colider = Global.detect_collision_in_direction(vision_ray, direction)
 			if current_colider:
 				if current_colider.is_in_group(Global.group_strays):
@@ -153,7 +156,6 @@ func state_machine():
 				elif current_colider.is_in_group(Global.group_tilemap):
 					if current_colider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
 						current_state = States.SKILLED
-			idle_inputs()
 		States.SKILLED:
 			skill_inputs()
 			if not skill_light.enabled:
@@ -754,7 +756,7 @@ func die():
 
 func revive():
 	
-	var dead_time: float = 1
+	var dead_time: float = 0.3
 	yield(get_tree().create_timer(dead_time), "timeout")
 	animation_player.play("revive")
 
@@ -922,13 +924,17 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			if player_stats["player_life"] > 0:
 				revive()
 			else:
+				revive()
 				Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)	
 		"revive":
 			set_physics_process(true)
 			if lose_life_on_hit:
 				change_stat("new_life", 1)
-
-
+		"become_white_again":
+			yield(get_tree().create_timer(0.5), "timeout") # za dojet
+			change_stat("all_cleaned", 1)
+		
+		
 # STAT EVENTS ------------------------------------------------------------------------------------------
 
 
@@ -954,15 +960,6 @@ func change_stat(event: String, change_value):
 				Global.tutorial_gui.finish_bursting()
 				if hit_strays_count >= 3:
 					Global.tutorial_gui.finish_stacking()
-			# cleaned game-over
-#			yield(Global.game_manager, "all_strays_cleaned") # počaka, da vsi uničijo, potem ugotovi, če jih ni več
-#			if Global.game_manager.strays_in_game.size() == 0:
-#				animation_player.play("become_white")
-#				yield(get_tree().create_timer(2), "timeout") # počakam da postane bel ... usklajeno z animacijo
-#				player_stats["player_points"] += game_settings["all_cleaned_points"]
-#				spawn_floating_tag(game_settings["all_cleaned_points"]) 
-#				yield(get_tree().create_timer(1), "timeout") # mal počakam
-#				Global.game_manager.game_over(Global.game_manager.GameoverReason.CLEANED)
 		"hit_wall":
 			if lose_life_on_hit:
 				player_stats["player_life"] -= 1
@@ -974,7 +971,7 @@ func change_stat(event: String, change_value):
 			spawn_floating_tag(- points_to_lose) 
 		"hit_player":
 			player_stats["player_energy"] = game_settings["player_max_energy"]
-			player_stats["player_points"] = game_settings["hit_player_points"]
+			player_stats["player_points"] += game_settings["hit_player_points"]
 			spawn_floating_tag(game_settings["hit_player_points"])
 		"hit_by_player":
 			if lose_life_on_hit:
@@ -986,9 +983,11 @@ func change_stat(event: String, change_value):
 			player_stats["player_points"] -= points_to_lose
 			spawn_floating_tag(- points_to_lose) 
 		# stats
+		"all_cleaned":
+			player_stats["player_points"] += game_settings["all_cleaned_points"]
+			spawn_floating_tag(game_settings["all_cleaned_points"])
 		"energy_depleted":
 			player_stats["player_life"] -= 1
-#			player_stats["player_energy"] -= 1 # predvsem, da warning popup izgine
 		"new_life":
 			player_stats["player_energy"] = game_settings["player_max_energy"]
 		"cells_traveled": 
@@ -1025,33 +1024,37 @@ func change_stat(event: String, change_value):
 
 	# signal na hud
 	emit_signal("stat_changed", self, player_stats)
-	
-	# ON HIT WALL 
-	# - loser jo izgubi energijo odvisno od moči bursta glede na max moč
-	# - loser jo izgubi točke odvisno od moči bursta glede na max moč
-	# - energija izgubi, če ni lajf lose
-	
-	# ON HIT PLAYER 
-	# - winner dobi nazaj vso energijo
-	# - winner dobi toliko točk, kot je določeno v settingsih
-	# - loser izgubi energijo odvisno od razlike v moči bursta
-	# - loser zgubi točke glede na razliko v moči bursta
-	# - energija izgubi, če ni lajf lose
-	
-	# LAJF LOOP
-	# - die() kliče
-	#	- hit wall ... on collision()
-	#	- hit by player ... on_get_hit()
-	#	- no energy ... heartbeat_end in on_get_hit(), če ni energije
-	# - kjer kličem die(), kličem tudi stat_change()
-	#	- die() ima čez obnašanje
-	#		- FP off
-	#		- kliče revive(), če je lajf še na voljo
-	#		- kliče GO na GM, če lajfa ni več
-	#	- stat_change() pedena statistiko
-	#		- vzame lajf, če je to pogojeno
-	#		- vzame energijo, če je to pogojeno
-	# - revive() se zgodi, če je še lajfa
-	#	- kliče stat_change ("new_life") resetira energijo, če je to pogojeno
-	#	- FP on
-	# - če je na štartu samo en lajf, se na hit ne izgublja lajfa, ampak energijo
+
+
+# RAZLAGA ------------------------------------------------------------------------------------------
+
+
+# ON HIT WALL 
+# - loser jo izgubi energijo odvisno od moči bursta glede na max moč
+# - loser jo izgubi točke odvisno od moči bursta glede na max moč
+# - energija izgubi, če ni lajf lose
+
+# ON HIT PLAYER 
+# - winner dobi nazaj vso energijo
+# - winner dobi toliko točk, kot je določeno v settingsih
+# - loser izgubi energijo odvisno od razlike v moči bursta
+# - loser zgubi točke glede na razliko v moči bursta
+# - energija izgubi, če ni lajf lose
+
+# LAJF LOOP
+# - die() kliče
+#	- hit wall ... on collision()
+#	- hit by player ... on_get_hit()
+#	- no energy ... heartbeat_end in on_get_hit(), če ni energije
+# - kjer kličem die(), kličem tudi stat_change()
+#	- die() ima čez obnašanje
+#		- FP off
+#		- kliče revive(), če je lajf še na voljo
+#		- kliče GO na GM, če lajfa ni več
+#	- stat_change() pedena statistiko
+#		- vzame lajf, če je to pogojeno
+#		- vzame energijo, če je to pogojeno
+# - revive() se zgodi, če je še lajfa
+#	- kliče stat_change ("new_life") resetira energijo, če je to pogojeno
+#	- FP on
+# - če je na štartu samo en lajf, se na hit ne izgublja lajfa, ampak energijo

@@ -43,7 +43,7 @@ func _process(delta: float) -> void:
 	strays_in_game = get_tree().get_nodes_in_group(Global.group_strays)
 	
 	if strays_in_game.size() == 0 and game_on:
-		emit_signal("all_strays_cleaned")
+		game_over(GameoverReason.CLEANED)
 	
 	
 # GAME LOOP ----------------------------------------------------------------------------------
@@ -53,19 +53,13 @@ func set_game():
 	
 	# tilemap in view se setata na main > game_in
 
-	# game_settings["player_start_color"] = Global.color_white # more bit pred spawnom
+	# game_settings["player_start_color"] = Global.color_white
 	set_players()
 
 	if game_data["game"] != Profiles.Games.TUTORIAL: 
 		set_strays()
 		yield(get_tree().create_timer(1), "timeout") # da si plejer ogleda
 
-#	if game_settings["manage_highscores"]:
-#		var current_highscore_line: Array = Global.data_manager.get_top_highscore(game_data["game"])
-#		game_data["highscore"] = current_highscore_line[0]
-#		game_data["highscore_owner"] = current_highscore_line[1]
-		
-			
 	Global.hud.slide_in(players_count)
 	yield(Global.start_countdown, "countdown_finished") # sproži ga hud po slide-inu
 	
@@ -89,22 +83,32 @@ func start_game():
 	
 func game_over(gameover_reason):
 	
+	if game_on == false: # preprečim double gameover
+		return
+	
 	game_on = false
 	
+	Global.hud.game_timer.stop_timer()
+
 	# ustavljanje elementov igre
-	Global.hud.game_timer.stop_timer() # ustavim tajmer
-	Global.hud.popups.visible = false # skrijem morebitne popupe
+	Global.hud.popups.visible = false # zazih
 	Global.sound_manager.stop_sfx("teleport") # zazih
 	Global.sound_manager.stop_sfx("heartbeat") # zazih
 	Global.sound_manager.stop_music("game_music")
 	
-	# plejerje pavziram v GO
-	# for player in get_tree().get_nodes_in_group(Global.group_players):
-	#		player.set_physics_process(false)
+	if gameover_reason == GameoverReason.CLEANED:
+		var signaling_player: KinematicBody2D
+		for player in get_tree().get_nodes_in_group(Global.group_players):
+			player.animation_player.play("become_white_again")
+			signaling_player = player
+		yield(signaling_player, "stat_changed") # počakam, da poda vse točke
+		yield(get_tree().create_timer(0.5), "timeout") # za dojet
 	
-	# open game-over ekran
 	Global.gameover_menu.open_gameover(gameover_reason)
 	
+	# GAMEOVER LOOP
+	# - reason TIME javi timer preko huda
+	# - reason LIFE javi player
 	
 # SETUP --------------------------------------------------------------------------------------
 
@@ -189,7 +193,7 @@ func set_players():
 		new_player_pixel.emit_signal("stat_changed", new_player_pixel, new_player_pixel.player_stats) # štartno statistiko tako javim 
 		
 		# pregame setup
-		new_player_pixel.modulate.a = 0
+		# new_player_pixel.modulate.a = 0
 		new_player_pixel.set_physics_process(false)
 		
 		# players camera
