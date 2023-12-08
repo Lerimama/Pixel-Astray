@@ -11,15 +11,14 @@ var colors_to_pick: Array # za hud nejbrhud pravila
 var energy_drain_active: bool = false # za kontrolo črpanja energije
 
 # players
-#var p1: KinematicBody2D
-#var p2: KinematicBody2D
 var spawned_player_index: int = 0
 var player_start_positions: Array
 var players_count: int
 
 # strays
-var strays_in_game: Array = [] # za spawnanje v rundah in cleaned GO tajming
 var strays_start_count: int # opredeli se on_tilemap_completed
+var strays_in_game: Array = []
+var strays_shown: Array = []
 
 # tilemap data
 var floor_positions: Array
@@ -36,15 +35,10 @@ onready var PlayerPixel = preload("res://game/pixel/player.tscn")
 func _ready() -> void:
 	
 	Global.game_manager = self
-		
 	randomize()
-	print("Game Manager")
-	
-	#call_deferred("set_game") # deferamo, da se naložijo vsi nodeti tilemap
 
 	
 func _process(delta: float) -> void:
-	
 	
 	strays_in_game = get_tree().get_nodes_in_group(Global.group_strays)
 	
@@ -57,7 +51,7 @@ func _process(delta: float) -> void:
 
 func set_game(): 
 	
-	# tilemap in view se setata na main game_in()
+	# tilemap in view se setata na main > game_in
 
 	# game_settings["player_start_color"] = Global.color_white # more bit pred spawnom
 	set_players()
@@ -65,7 +59,13 @@ func set_game():
 	if game_data["game"] != Profiles.Games.TUTORIAL: 
 		set_strays()
 		yield(get_tree().create_timer(1), "timeout") # da si plejer ogleda
-	
+
+#	if game_settings["manage_highscores"]:
+#		var current_highscore_line: Array = Global.data_manager.get_top_highscore(game_data["game"])
+#		game_data["highscore"] = current_highscore_line[0]
+#		game_data["highscore_owner"] = current_highscore_line[1]
+		
+			
 	Global.hud.slide_in(players_count)
 	yield(Global.start_countdown, "countdown_finished") # sproži ga hud po slide-inu
 	
@@ -94,9 +94,8 @@ func game_over(gameover_reason):
 	# ustavljanje elementov igre
 	Global.hud.game_timer.stop_timer() # ustavim tajmer
 	Global.hud.popups.visible = false # skrijem morebitne popupe
-	AudioServer.set_bus_mute(3, true) # mutam game efekte
-	
-	
+	Global.sound_manager.stop_sfx("teleport") # zazih
+	Global.sound_manager.stop_sfx("heartbeat") # zazih
 	Global.sound_manager.stop_music("game_music")
 	
 	# plejerje pavziram v GO
@@ -104,7 +103,7 @@ func game_over(gameover_reason):
 	#		player.set_physics_process(false)
 	
 	# open game-over ekran
-	Global.gameover_menu.show_gameover(gameover_reason)
+	Global.gameover_menu.open_gameover(gameover_reason)
 	
 	
 # SETUP --------------------------------------------------------------------------------------
@@ -205,18 +204,13 @@ func set_players():
 func set_strays():
 	
 	split_stray_colors()
-
-	var show_strays_loop = 1 # zazih
-	show_strays(show_strays_loop)
-	yield(get_tree().create_timer(0.2), "timeout")
-	show_strays_loop = 2
-	show_strays(show_strays_loop)
-	yield(get_tree().create_timer(0.1), "timeout")
-	show_strays_loop = 3
-	show_strays(show_strays_loop)
-	yield(get_tree().create_timer(0.1), "timeout")
-	show_strays_loop = 4
-	show_strays(show_strays_loop)
+	yield(get_tree().create_timer(0.01), "timeout") # da se vsi straysi spawnajo
+	
+	var show_strays_loop: int
+	while strays_shown != strays_in_game:
+		show_strays_loop += 1 # zazih
+		show_strays(show_strays_loop)
+		yield(get_tree().create_timer(0.1), "timeout")
 	
 	
 func split_stray_colors():
@@ -237,7 +231,6 @@ func split_stray_colors():
 	# nabiranje barv za vsak pixel
 	var all_colors: Array = []
 	
-	
 	var spawned_stray_index: int = 1
 	
 	for color in color_count:
@@ -251,7 +244,7 @@ func split_stray_colors():
 		spawned_stray_index += 1
 		
 	Global.hud.spawn_color_indicators(all_colors)				
-
+	
 
 func spawn_stray(stray_color: Color, stray_index: int):
 	
@@ -286,38 +279,36 @@ func show_strays(show_strays_loop: int):
 	var spawn_shake_power: float = 0.30
 	var spawn_shake_time: float = 0.7
 	var spawn_shake_decay: float = 0.2		
-	
 	get_tree().call_group(Global.group_player_cameras, "shake_camera", spawn_shake_power, spawn_shake_time, spawn_shake_decay)
-#	Global.p1_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
-##	if p2:
-#	Global.p2_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
 		
 	var strays_to_show_count: int # količina strejsov se more ujemat s številom spawnanih
 	
-	var strays_shown: Array = []
 	match show_strays_loop:
-		1: # polovica
+		1:
 			Global.sound_manager.play_sfx("thunder_strike")
 			# Global.sound_manager.play_sfx("blinking")
-			strays_to_show_count = round(strays_in_game.size()/2)
-		2: # četrtina
+			strays_to_show_count = round(strays_in_game.size()/10)
+		2:
 			Global.sound_manager.play_sfx("thunder_strike")
-			strays_to_show_count = round(strays_in_game.size()/4)
-		3: # osmina
 			strays_to_show_count = round(strays_in_game.size()/8)
-		4: # še preostale
+		3:
+			strays_to_show_count = round(strays_in_game.size()/4)
+		4:
+			Global.sound_manager.play_sfx("thunder_strike")
+			strays_to_show_count = round(strays_in_game.size()/2)
+		5: # še preostale
 			strays_to_show_count = strays_in_game.size() - strays_shown.size()
 	
-	# fade-in za vsak stray v igri ... med še ne pokazanimi (strays_to_show)
+	# stray fade-in
 	var loop_count = 0
 	for stray in strays_in_game:
-		if not strays_shown.has(stray): # če stray še ni pokazan ga pokažem in dodam med pokazane
+		if not strays_shown.has(stray): # če stray še ni pokazan, ga pokažem in dodam med pokazane
 			stray.fade_in()	
 			strays_shown.append(stray)
 			loop_count += 1 # štejem tukaj, ker se šteje samo če se pixel pokaže
 		if loop_count >= strays_to_show_count:
 			break
-
+	
 
 # SIGNALI ----------------------------------------------------------------------------------
 

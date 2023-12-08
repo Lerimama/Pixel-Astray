@@ -2,6 +2,7 @@ extends Camera2D
 
 
 signal zoomed_in
+signal zoomed_out
 
 export (OpenSimplexNoise) var noise # tekstura za vizualizacijo ma kopijo tega noisa
 
@@ -102,7 +103,7 @@ func zoom_in(hud_in_out_time: float, players_count: int): # kliče hud
 	zoom_in_tween.parallel().tween_property(self, "limit_top", corner_BL, hud_in_out_time)
 	zoom_in_tween.parallel().tween_property(self, "limit_bottom", corner_BR, hud_in_out_time)
 	zoom_in_tween.parallel().tween_property(self, "tile_align_correction", Global.game_tilemap.cell_size/2, hud_in_out_time)
-	zoom_in_tween.tween_callback(self, "emit_signal", ["zoomed_in"])
+	zoom_in_tween.tween_callback(self, "emit_signal", ["zoomed_in"]) # pošlje na hud, ki sproži countdown
 	
 	
 func zoom_out(hud_in_out_time): # kliče hud
@@ -113,8 +114,9 @@ func zoom_out(hud_in_out_time): # kliče hud
 	zoom_out_tween.parallel().tween_property(self, "limit_right", 10000000, hud_in_out_time)
 	zoom_out_tween.parallel().tween_property(self, "limit_top", -10000000, hud_in_out_time)
 	zoom_out_tween.parallel().tween_property(self, "limit_bottom", 10000000, hud_in_out_time)
-	zoom_out_tween.parallel().tween_property(self, "camera_target_vert_adapt", 0, hud_in_out_time)
-
+	zoom_out_tween.parallel().tween_property(self, "tile_align_correction", Vector2.ZERO, hud_in_out_time)
+	zoom_out_tween.tween_callback(self, "emit_signal", ["zoomed_out"]) # pošlje na GO, ki pokaže meni
+	
 
 func shake_camera(shake_power, shake_time, shake_decay): 
 	

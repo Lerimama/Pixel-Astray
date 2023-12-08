@@ -30,7 +30,6 @@ var ghost_cocking_time: float = 0 # trenuten čas nastajanja cocking ghosta ... 
 # bursting
 var burst_speed: float = 0 # trenutna hitrost
 var burst_speed_max: float = 0 # maximalna hitrost v tweenu (določena med kokanjem)
-#var burst_direction_set: bool = false
 var burst_cocked_ghost_count: int # moč v številu ghosts_count
 var burst_speed_addon: float = 12
 var burst_velocity: Vector2
@@ -307,7 +306,7 @@ func step():
 		var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 		step_tween.tween_property(self, "position", global_position + direction * cell_size_x, step_time)
 		step_tween.tween_callback(self, "end_move")
-		Global.sound_manager.play_stepping_sfx(player_stats["player_energy"] / Global.game_manager.game_settings["player_max_energy"]) # ulomek je za pitch zvoka
+		Global.sound_manager.play_stepping_sfx(player_stats["player_energy"] / float(Global.game_manager.game_settings["player_max_energy"])) # ulomek je za pitch zvoka
 		change_stat("cells_traveled", 1)
 
 		
@@ -463,7 +462,6 @@ func push():
 			empty_push_tween.parallel().tween_property(skill_light, "position", skill_light.position - backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 			empty_push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost.global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 			empty_push_tween.tween_property(self, "position", global_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
-			# empty_push_tween.parallel().tween_callback(self, "skill_light_off")
 			empty_push_tween.tween_property(skill_light, "position", skill_light.position, 0) # reset pozicije luči # reset pozicije luči
 			empty_push_tween.parallel().tween_callback(self, "end_move")
 			empty_push_tween.parallel().tween_callback(new_push_ghost, "queue_free")
@@ -477,14 +475,13 @@ func push():
 			push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost.global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 			# spustim
 			push_tween.tween_property(self, "position", global_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
-			# push_tween.parallel().tween_callback(self, "skill_light_off")
 			push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
 			push_tween.tween_property(skill_light, "position", skill_light.position, 0) # reset pozicije luči
 			push_tween.parallel().tween_callback(Global.sound_manager, "play_sfx", ["pushed"])
 			push_tween.parallel().tween_callback(new_push_ghost, "queue_free")
 			push_tween.tween_property(ray_collider, "position", ray_collider.global_position + push_direction * cell_size_x * push_cell_count, 0.08).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(0.05)
 			push_tween.tween_callback(self, "end_move")
-			push_tween.tween_callback(self, "change_stat", ["push_used"]) # 0 = push, 1 = pull, 2 = teleport ... za prepoznavanje
+			push_tween.tween_callback(self, "change_stat", ["push_used", 1]) # 0 = push, 1 = pull, 2 = teleport ... za prepoznavanje
 			
 
 func pull():
@@ -515,7 +512,7 @@ func pull():
 	pull_tween.tween_property(skill_light, "position", skill_light.position, 0) # reset pozicije luči
 	pull_tween.parallel().tween_callback(self, "end_move")
 	pull_tween.parallel().tween_callback(new_pull_ghost, "queue_free")
-	pull_tween.tween_callback(self, "change_stat", ["pull_used"]) # 0 = push, 1 = pull, 2 = teleport ... za prepoznavanje
+	pull_tween.tween_callback(self, "change_stat", ["pull_used", 1]) # 0 = push, 1 = pull, 2 = teleport ... za prepoznavanje
 	
 
 func teleport():
@@ -811,7 +808,7 @@ func check_for_neighbors(hit_stray: KinematicBody2D):
 	
 func play_blinking_sound(): 
 	# kličem iz animacije
-	
+	print("blink")
 	Global.sound_manager.play_sfx("blinking")
 
 
@@ -896,7 +893,7 @@ func _on_ghost_target_reached(ghost_body: Area2D, ghost_position: Vector2):
 	teleport_tween.parallel().tween_property(self, "modulate:a", 1, 0)
 	teleport_tween.parallel().tween_property(player_camera, "camera_target", self, 0) # camera follow reset
 	teleport_tween.parallel().tween_callback(ghost_body, "queue_free")
-	teleport_tween.tween_callback(self, "change_stat", ["teleport_used"]) # 0 = push, 1 = pull, 2 = teleport ... za prepoznavanje
+	teleport_tween.tween_callback(self, "change_stat", ["teleport_used", 1]) # 0 = push, 1 = pull, 2 = teleport ... za prepoznavanje
 
 
 func _on_ghost_detected_body(body):
@@ -952,21 +949,20 @@ func change_stat(event: String, change_value):
 			player_stats["player_points"] += points_rewarded
 			player_stats["player_energy"] += energy_rewarded
 			spawn_floating_tag(points_rewarded) 
-			
 			# tutorial
 			if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
 				Global.tutorial_gui.finish_bursting()
 				if hit_strays_count >= 3:
 					Global.tutorial_gui.finish_stacking()
 			# cleaned game-over
-#			yield(self, "all_strays_cleaned") # počaka, da vsi uničijo, potem ugotovi, če jih ni več
-#			if strays_in_game.size() == 0:
-#				stat_owner.animation_player.play("become_white")
+#			yield(Global.game_manager, "all_strays_cleaned") # počaka, da vsi uničijo, potem ugotovi, če jih ni več
+#			if Global.game_manager.strays_in_game.size() == 0:
+#				animation_player.play("become_white")
 #				yield(get_tree().create_timer(2), "timeout") # počakam da postane bel ... usklajeno z animacijo
 #				player_stats["player_points"] += game_settings["all_cleaned_points"]
-#				spawn_floating_tag(stat_owner,game_settings["all_cleaned_points"]) 
+#				spawn_floating_tag(game_settings["all_cleaned_points"]) 
 #				yield(get_tree().create_timer(1), "timeout") # mal počakam
-#				game_over(GameoverReason.CLEANED)
+#				Global.game_manager.game_over(Global.game_manager.GameoverReason.CLEANED)
 		"hit_wall":
 			if lose_life_on_hit:
 				player_stats["player_life"] -= 1

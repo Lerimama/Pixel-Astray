@@ -28,7 +28,6 @@ func play_stepping_sfx(current_player_energy_part: float):
 			return		
 
 		var selected_tap = select_random_sfx($GameSfx/Stepping)
-		selected_tap.pitch_scale = current_player_energy_part
 		selected_tap.pitch_scale = clamp(current_player_energy_part, 0.6, 1)
 		selected_tap.play()
 	
@@ -215,5 +214,5 @@ func skip_track():
 			fade_out.tween_property(music, "volume_db", -80, 0.5)
 			fade_out.tween_callback(music, "stop")
 			fade_out.tween_callback(music, "set_volume_db", [current_music_volume]) # reset glasnosti
-			fade_out.tween_callback(self, "play_music", ["game"])
+			fade_out.tween_callback(self, "play_music", ["game_music"])
 			return

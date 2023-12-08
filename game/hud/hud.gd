@@ -1,7 +1,8 @@
 extends Control
 
 
-signal hud_is_set
+#signal hud_is_set
+#signal hud_is_gone
 signal players_ready
 
 var current_player_life: int # uravnavanje popapov po domače ... temp
@@ -30,6 +31,8 @@ onready var splitscreen_popup: Control = $Popups/SplitScreens
 onready var header: Control = $Header # kontrole iz kamere
 onready var game_timer: HBoxContainer = $Header/GameTimer
 onready var highscore_label: Label = $Header/HighscoreLabel
+onready var music_player: Label = $Header/MusicPlayer
+#onready var music_player_alt: Label = $Header/MusicPlayerAlt # če ni HS je tale
 onready var header_height: int = header.rect_size.y
 onready var viewport_header: ColorRect = $"%ViewHeder"
 # p1
@@ -89,6 +92,14 @@ func _ready() -> void:
 	# pred hud in pozicije
 	header.rect_position.y = - header_height
 	footer.rect_position.y = screen_height	
+	game_label.text = Global.game_manager.game_data["game_name"]
+	level_label.text = Global.game_manager.game_data["level"]
+	
+	
+func _process(delta: float) -> void:
+	
+	astray_counter.text = "%03d" % Global.game_manager.strays_in_game.size()
+	picked_counter.text = "%03d" % (Global.game_manager.strays_start_count - Global.game_manager.strays_in_game.size())
 
 
 func update_stats(stat_owner: Node, player_stats: Dictionary):	
@@ -112,10 +123,10 @@ func update_stats(stat_owner: Node, player_stats: Dictionary):
 			p2_skill_counter.text = "%d" % player_stats["skill_count"]
 				
 	# game stats
-	game_label.text = Global.game_manager.game_data["game_name"]
-	level_label.text = Global.game_manager.game_data["level"]
-	astray_counter.text = "%03d" % Global.game_manager.strays_in_game.size()
-	picked_counter.text = "%03d" % (Global.game_manager.strays_start_count - Global.game_manager.strays_in_game.size())
+#	game_label.text = Global.game_manager.game_data["game_name"]
+#	level_label.text = Global.game_manager.game_data["level"]
+#	astray_counter.text = "%03d" % Global.game_manager.strays_in_game.size()
+#	picked_counter.text = "%03d" % (Global.game_manager.strays_start_count - Global.game_manager.strays_in_game.size())
 	
 	# debug
 	player_life.text = "LIFE: %d" % player_stats["player_life"]
@@ -124,10 +135,10 @@ func update_stats(stat_owner: Node, player_stats: Dictionary):
 	if Global.game_manager.game_settings["manage_highscores"]:
 		check_for_hs(player_stats)
 	
-		
+
 func check_for_hs(player_stats: Dictionary):
 	
-	if player_stats["player_points"] > Global.game_manager.game_data["highscore"]:
+	if player_stats["player_points"] > current_highscore: #Global.game_manager.game_data["highscore"]:
 		highscore_label.text = "New highscore " + str(player_stats["player_points"])
 		highscore_label.modulate = Global.color_green
 	else:
@@ -174,9 +185,6 @@ func warning_out():
 	warning_out.tween_property(energy_warning_popup, "modulate:a", 0, 0.5)
 	warning_out.tween_callback(energy_warning_popup, "set_visible", [false])
 
-
-# SET HUD ---------------------------------------------------------------------------------------------------------------------------
-
 	
 func slide_in(players_count: int): # kliče GM set_game()
 	
@@ -214,41 +222,42 @@ func slide_out(): # kliče GM game_over()
 	fade_in.tween_callback(self, "set_visible", [false])
 	
 
+# SET HUD ---------------------------------------------------------------------------------------------------------------------------
+
+
 func set_hud(players_count: int): # kliče main na game-in
 	
 	if players_count == 1:
-		# hide
 		p1_label.visible = false
 		p2_statsline.visible = false
-		# show
-		highscore_label.visible = true
-		if Global.game_manager.game_data["level"].empty():
-			level_label.visible = false
-		# samo 1 lajf
-		if Global.game_manager.game_settings["player_start_life"] == 1:
-			p1_life_counter.visible = false
+		if Global.game_manager.game_settings["manage_highscores"]:
+			highscore_label.visible = true
+			set_current_highscore()
 		else:
-			p1_life_counter.visible = true
+			highscore_label.visible = false
+#			music_player.visible = false
+#			music_player_alt.visible = true
 	elif players_count == 2:
-		# hide
 		highscore_label.visible = false
 		level_label.visible = false
-		# show
 		p1_label.visible = true
 		p1_color_holder.visible = true
 		p2_statsline.visible = true
-		# samo 1 lajf
-		if Global.game_manager.game_settings["player_start_life"] == 1:
-			p1_life_counter.visible = false
-			p2_life_counter.visible = false
-		else:
-			p1_life_counter.visible = true
-			p2_life_counter.visible = true		
 	
-	if Global.game_manager.game_settings["manage_highscores"]:
-		set_current_highscore()
-
-
+	
+	# lajf counter
+	if Global.game_manager.game_settings["player_start_life"] == 1:
+		p1_life_counter.visible = false
+		p2_life_counter.visible = false
+	else:
+		p1_life_counter.visible = true
+		p2_life_counter.visible = true
+	
+	# level label	
+	if Global.game_manager.game_data["level"].empty():
+		level_label.visible = false
+	
+		
 func set_current_highscore():
 	
 	var current_game = Global.game_manager.game_data["game"]
@@ -259,7 +268,7 @@ func set_current_highscore():
 	
 	highscore_label.text = "Highscore " + str(current_highscore) # se apdejta ob signalu iz plejerja (ob konektanju na začetku?)
 
-
+		
 func fade_splitscreen_popup():
 	
 	var show_splitscreen_popup = get_tree().create_tween()

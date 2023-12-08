@@ -26,7 +26,6 @@ __meta__ = {
 }
 
 [node name="GameBackground" type="Node2D" parent="."]
-visible = false
 z_index = -3
 
 [node name="Background" type="ColorRect" parent="GameBackground"]
@@ -34,7 +33,7 @@ margin_left = -1000.0
 margin_top = -824.0
 margin_right = 4040.0
 margin_bottom = 2648.0
-color = Color( 0.294118, 0.623529, 1, 0.203922 )
+color = Color( 0, 0, 0, 1 )
 
 [node name="FloorBackground" type="Node2D" parent="."]
 visible = false

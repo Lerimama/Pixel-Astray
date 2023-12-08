@@ -7,15 +7,15 @@ var data_file: = File.new()
 var current_player_ranking: int # da ob rendriranju HS, lahko označim aktualni rezultat ... v GM
 
 var default_highscores: Dictionary = { # slovar, ki se uporabi, če še ni nobenega v filetu
-	"1": {"Nobody": 9,},
-	"2": {"Nobody": 8,},
-	"3": {"Nobody": 7,},
-	"4": {"Nobody": 6,},
-	"5": {"Nobody": 5,},
-	"6": {"Nobody": 4,},
-	"7": {"Nobody": 3,},
-	"8": {"Nobody": 2,},
-	"9": {"Nobody": 1,},
+	"1": {"Nobody": 0,},
+	"2": {"Nobody": 0,},
+	"3": {"Nobody": 0,},
+	"4": {"Nobody": 0,},
+	"5": {"Nobody": 0,},
+	"6": {"Nobody": 0,},
+	"7": {"Nobody": 0,},
+	"8": {"Nobody": 0,},
+	"9": {"Nobody": 0,},
 }
 
 func _ready() -> void:
@@ -26,7 +26,6 @@ func get_top_highscore(current_game):
 	
 	# load highscore
 	var loaded_game_highscores = read_highscores_from_file(current_game) # ... v odprtem filetu se potem naloži highscore
-	
 	
 	# current higscore in lastnik
 	var all_scores: Array = []
@@ -112,7 +111,6 @@ func manage_gameover_highscores(player_points, current_game): # iz GM
 		write_highscores_to_file(current_game, new_game_highscores)
 		
 		emit_signal("highscores_updated")
-#		Global.gameover_menu.show_game_summary()
 
 
 func read_highscores_from_file(current_game_key: int):

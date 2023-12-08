@@ -6,9 +6,8 @@ extends Node
 
 # DEFAULT -----------------------------------------------------------------------------------
 
-
 var default_player_stats: Dictionary = {
-	"player_name" : "Anonymous", # to ime se piše v HS procesu, če igralec pusti prazno
+	"player_name" : "Somebody", # to ime se piše v HS procesu, če igralec pusti prazno
 	"player_life" : 0, # se opredeli iz game_settings
 	"player_energy" : 0, # se opredeli iz game_settings
 	"player_points": 0,
@@ -83,10 +82,11 @@ var game_data_runner: Dictionary = {
 var game_data_debug: Dictionary = { 
 	"game": Games.DEBUG,
 	"game_name": "Debug",
-	"level": "01",
+	"level": "",
 	"tilemap_path": "res://game/tilemaps/debug_tilemap.tscn",
-	"game_time_limit": 30,
+	"game_time_limit": 5,
 	"strays_start_count": 10,
+#	"highscore": 0,
 }
 
 var game_data_riddler: Dictionary = { 
@@ -114,7 +114,7 @@ var game_data_cleaner_S: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_S_tilemap.tscn",
 	"game_time_limit": 120,
 	"strays_start_count": 6, # se upošteva, če ni pozicij
-	"highscore": 0, # more bit, da ga greba za med igro
+#	"highscore": 0, # more bit, da ga greba za med igro
 }
 
 var game_data_cleaner_M: Dictionary = {
@@ -124,7 +124,7 @@ var game_data_cleaner_M: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_M_tilemap.tscn",
 	"game_time_limit": 300,
 	"strays_start_count": 140, 
-	"highscore": 0,
+#	"highscore": 0,
 }
 
 var game_data_cleaner_L: Dictionary = {
@@ -134,7 +134,7 @@ var game_data_cleaner_L: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_L_tilemap.tscn",
 	"game_time_limit": 1,
 	"strays_start_count": 320, 
-	"highscore": 0,
+#	"highscore": 0,
 }
 
 var game_data_duel: Dictionary = {
@@ -144,7 +144,6 @@ var game_data_duel: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/_duel_tilemap.tscn",
 	"game_time_limit": 3,
 	"strays_start_count": 230, 
-	"highscore": 0,
 }
 
 
@@ -169,6 +168,7 @@ func set_game_data(selected_game) -> void:
 	match selected_game:
 		Games.DEBUG: # default nastavitve
 			current_game_data = game_data_debug
+			game_settings["manage_highscores"] = true
 		Games.RUNNER: 
 			current_game_data = game_data_runner
 			game_settings["player_start_life"] = 3
