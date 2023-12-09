@@ -681,7 +681,6 @@ func on_hit_wall():
 		printt("value hit_wall", value_to_lose_part, burst_cocked_ghost_count, cocked_ghost_count_max)
 		change_stat("hit_wall", value_to_lose_part)
 	
-	
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.7)
 	Global.sound_manager.play_sfx("hit_wall")
 	spawn_dizzy_particles()
@@ -729,10 +728,9 @@ func on_get_hit(burst_speed_difference):
 	var burst_speed_difference_units = burst_speed_difference / burst_speed_addon # dobim število cock ghosts
 	var burst_speed_difference_part: float = burst_speed_difference_units / float(cocked_ghost_count_max)
 	
-	printt("value hit by player", burst_speed_difference_part, burst_speed_difference_units, cocked_ghost_count_max)
-	
 	# efekti
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.7)
+	Global.sound_manager.play_sfx("hit_wall")
 	spawn_dizzy_particles()
 	shake_player_camera(burst_speed_difference_units)
 	
@@ -745,6 +743,12 @@ func on_get_hit(burst_speed_difference):
 	pixel_color = Global.game_manager.game_settings["player_start_color"] # postane začetne barve
 	change_stat("hit_by_player", burst_speed_difference_part)
 	
+	if is_virgin: #animation_player.is_playing(): # problem, če je virgin
+		is_virgin = false
+#		animation_player.stop()
+#		call_deferred("die")
+#	else:
+#		die()
 	die()
 
 
@@ -810,7 +814,7 @@ func check_for_neighbors(hit_stray: KinematicBody2D):
 	
 func play_blinking_sound(): 
 	# kličem iz animacije
-	print("blink")
+#	print("blink")
 	Global.sound_manager.play_sfx("blinking")
 
 
@@ -923,9 +927,8 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 		"die_player":
 			if player_stats["player_life"] > 0:
 				revive()
-			else:
-				revive()
-				Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)	
+#			else:
+#				Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)	
 		"revive":
 			set_physics_process(true)
 			if lose_life_on_hit:
@@ -1021,7 +1024,11 @@ func change_stat(event: String, change_value):
 	# klempanje
 	player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_settings["player_max_energy"]) # pri 1 se že odšteva zadnji izdihljaj
 	player_stats["player_points"] = clamp(player_stats["player_points"], 0, player_stats["player_points"])	
-
+	
+	# ni več lajfa
+	if player_stats["player_life"] == 0:
+		Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)	
+	
 	# signal na hud
 	emit_signal("stat_changed", self, player_stats)
 

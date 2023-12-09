@@ -1873,6 +1873,7 @@ __meta__ = {
 }
 
 [node name="ColorHolder" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineL"]
+visible = false
 margin_left = 258.0
 margin_right = 296.0
 margin_bottom = 22.0
@@ -1899,8 +1900,9 @@ __meta__ = {
 }
 
 [node name="SkillHolder" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineL"]
-margin_left = 312.0
-margin_right = 350.0
+visible = false
+margin_left = 258.0
+margin_right = 296.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
@@ -1925,8 +1927,9 @@ __meta__ = {
 }
 
 [node name="BurstHolder" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineL"]
-margin_left = 366.0
-margin_right = 404.0
+visible = false
+margin_left = 258.0
+margin_right = 296.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
@@ -2076,6 +2079,7 @@ __meta__ = {
 }
 
 [node name="ColorHolder" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineR"]
+visible = false
 margin_left = 136.0
 margin_right = 188.0
 margin_bottom = 22.0
@@ -2102,6 +2106,7 @@ __meta__ = {
 }
 
 [node name="SkillHolder" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineR"]
+visible = false
 margin_left = 68.0
 margin_right = 120.0
 margin_bottom = 22.0
@@ -2128,6 +2133,7 @@ __meta__ = {
 }
 
 [node name="BurstHolder" type="HBoxContainer" parent="GUI/Hud/Header/PlayerLineR"]
+visible = false
 margin_right = 52.0
 margin_bottom = 22.0
 size_flags_vertical = 8
@@ -4737,6 +4743,7 @@ anchor_bottom = 1.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="GameoverTitle" type="Control" parent="GUI/GameOver"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 

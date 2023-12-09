@@ -57,7 +57,7 @@ func set_game():
 	set_players()
 
 	if game_data["game"] != Profiles.Games.TUTORIAL: 
-		set_strays()
+#		set_strays()
 		yield(get_tree().create_timer(1), "timeout") # da si plejer ogleda
 
 	Global.hud.slide_in(players_count)
@@ -96,6 +96,7 @@ func game_over(gameover_reason):
 	Global.sound_manager.stop_sfx("heartbeat") # zazih
 	Global.sound_manager.stop_music("game_music")
 	
+	
 	if gameover_reason == GameoverReason.CLEANED:
 		var signaling_player: KinematicBody2D
 		for player in get_tree().get_nodes_in_group(Global.group_players):
@@ -103,12 +104,20 @@ func game_over(gameover_reason):
 			signaling_player = player
 		yield(signaling_player, "stat_changed") # počakam, da poda vse točke
 		yield(get_tree().create_timer(0.5), "timeout") # za dojet
+	elif gameover_reason == GameoverReason.LIFE:
+		yield(get_tree().create_timer(3), "timeout") # za dojet
+	elif gameover_reason == GameoverReason.TIME:
+		yield(get_tree().create_timer(3), "timeout") # za dojet
 	
+		
 	Global.gameover_menu.open_gameover(gameover_reason)
 	
 	# GAMEOVER LOOP
 	# - reason TIME javi timer preko huda
-	# - reason LIFE javi player
+	# - reason LIFE javi player takoj ko ima 0 lajfa
+	# - reason CLEANED javi GM, ko umre še zadnji stray 
+	#	- yiedla za zmagovalno animacijo, in dodajanje točk
+	
 	
 # SETUP --------------------------------------------------------------------------------------
 
@@ -143,11 +152,11 @@ func set_game_view():
 	var viewport_separator: VSeparator = $"%ViewportSeparator"
 	
 	# game cameras
-	Global.player1_camera.position = player_start_positions[0]
+	Global.player1_camera.position = player_start_positions[0]# + Global.game_tilemap.cell_size/2
 	if players_count == 2:
 		viewport_container_2.visible = true
 		viewport_2.world_2d = viewport_1.world_2d
-		Global.player2_camera.position = player_start_positions[1]
+		Global.player2_camera.position = player_start_positions[1]# + Global.game_tilemap.cell_size/2
 	else:
 		viewport_container_2.visible = false
 		viewport_separator.visible = false

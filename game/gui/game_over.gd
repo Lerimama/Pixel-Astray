@@ -73,15 +73,12 @@ func open_gameover(gameover_reason):
 		set_tutorial_gameover_title()
 		yield(get_tree().create_timer(2), "timeout") # showoff time
 		Global.tutorial_gui.animation_player.play("tutorial_end")
-	
 	if players_in_game.size() == 2:
 		p2_final_stats = players_in_game[1].player_stats
 		set_duel_gameover_title()
 		yield(get_tree().create_timer(3), "timeout") # showoff time
-	
-	else: # katerakoli igra
+	else:
 		set_game_gameover_title(gameover_reason)
-		yield(get_tree().create_timer(3), "timeout") # showoff time
 		
 	Global.hud.slide_out()
 	yield(Global.player1_camera, "zoomed_out")

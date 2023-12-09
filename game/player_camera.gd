@@ -7,7 +7,6 @@ signal zoomed_out
 export (OpenSimplexNoise) var noise # tekstura za vizualizacijo ma kopijo tega noisa
 
 var camera_target: Node2D
-var tile_align_correction: Vector2 = Vector2.ZERO # za poravnavo kamere s tileti
 var final_zoom = Vector2.ONE
 var start_zoom = Vector2(2, 2)
 
@@ -34,6 +33,8 @@ var decay_speed: float
 var max_horizontal = 150
 var max_vertical = 150
 var max_rotation = 5
+
+onready var tile_align_correction: Vector2 = Global.game_tilemap.cell_size/2 #Vector2.ZERO # za poravnavo kamere s tileti
 
 
 func _ready():
@@ -102,7 +103,7 @@ func zoom_in(hud_in_out_time: float, players_count: int): # kliče hud
 	zoom_in_tween.parallel().tween_property(self, "limit_right", corner_TR, hud_in_out_time)
 	zoom_in_tween.parallel().tween_property(self, "limit_top", corner_BL, hud_in_out_time)
 	zoom_in_tween.parallel().tween_property(self, "limit_bottom", corner_BR, hud_in_out_time)
-	zoom_in_tween.parallel().tween_property(self, "tile_align_correction", Global.game_tilemap.cell_size/2, hud_in_out_time)
+#	zoom_in_tween.parallel().tween_property(self, "tile_align_correction", Global.game_tilemap.cell_size/2, hud_in_out_time)
 	zoom_in_tween.tween_callback(self, "emit_signal", ["zoomed_in"]) # pošlje na hud, ki sproži countdown
 	
 	
