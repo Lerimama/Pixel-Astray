@@ -813,7 +813,8 @@ func lose_virginity():
 #		if animation_player.current_animation("virgin_blink"):
 		if animation_player.current_animation == "virgin_blink":
 #			animation_player.stop()
-			print ("blinkam")
+#			print ("blinkam")
+			pass
 #	print ("blinkam")
 		
 #	var color_fade_in = get_tree().create_tween()

@@ -141,7 +141,7 @@ var game_data_debug: Dictionary = {
 	"game_name": "Debug",
 	"level": "",
 	"tilemap_path": "res://game/tilemaps/debug_tilemap.tscn",
-	"game_time_limit": 1,
+	"game_time_limit": 5,
 	"strays_start_count": 10,
 #	"highscore": 0,
 }
@@ -155,10 +155,10 @@ var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "c
 
 func _ready() -> void:
 	
-#	var current_game = Games.DUEL # če greš iz menija je tole povoženo
+	var current_game = Games.DUEL # če greš iz menija je tole povoženo
 #	var current_game = Games.TUTORIAL # če greš iz menija je tole povoženo
 #	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
-	var current_game = Games.DEBUG # če greš iz menija je tole povoženo
+#	var current_game = Games.DEBUG # če greš iz menija je tole povoženo
 	set_game_data(current_game)
 	
 	

@@ -54,7 +54,6 @@ func home_out():
 	
 	if not Global.sound_manager.menu_music_set_to_off: # če muzka ni setana na off
 		Global.sound_manager.stop_music("menu_music")
-#	Global.sound_manager.play_gui_sfx("menu_fade")
 	
 	var fade_out = get_tree().create_tween()
 	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
@@ -79,10 +78,8 @@ func game_in():
 
 func game_out():
 	
-	# stop all
 	Global.player1_camera = null
 	Global.player2_camera = null
-	Global.sound_manager.stop_music("game_music") # za exit iz pavze
 	
 	Global.sound_manager.play_gui_sfx("menu_fade")
 	
@@ -96,7 +93,6 @@ func reload_game(): # game out z drugačnim zaključkom
 	
 	Global.player1_camera = null
 	Global.player2_camera = null
-	Global.sound_manager.stop_music("game_music")
 	
 	Global.sound_manager.play_gui_sfx("menu_fade")
 

@@ -95,9 +95,17 @@ func game_over(gameover_reason):
 			signaling_player = player
 		yield(signaling_player, "stat_changed") # počakam, da poda vse točke
 	
+	print("target1 ", Global.player1_camera.camera_target)
 	yield(get_tree().create_timer(1), "timeout") # za dojet
-		
+	
+#	Global.player1_camera.camera_target = null
+#	Global.player2_camera.camera_target = null
+	
+#	get_tree().call_group(Global.group_player_cameras, "unset_set_camera_limits")
+#	Global.player1_camera.unset_set_camera_limits()	
+	
 	Global.gameover_menu.open_gameover(gameover_reason)
+	print("target2 ", Global.player1_camera.camera_target)
 	
 	
 	

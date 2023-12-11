@@ -102,10 +102,19 @@ func zoom_in(hud_in_out_time: float, players_count: int): # kliče hud
 	zoom_in_tween.tween_property(self, "zoom", zoom_end, hud_in_out_time)
 	zoom_in_tween.parallel().tween_property(self, "cell_align", cell_align_end, hud_in_out_time)
 	zoom_in_tween.tween_callback(self, "emit_signal", ["zoomed_in"]) # pošlje na hud, ki sproži countdown
-	
+
 	
 func zoom_out(hud_in_out_time): # kliče hud
-
+	
+	# unset limits
+	camera_target = null
+	position = get_camera_position() # pozicija postane ofsetana pozicija
+	limit_left = -10000000
+	limit_right = 10000000
+	limit_top = -10000000
+	limit_bottom = 10000000
+	
+	# zoomout	
 	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	zoom_out_tween.tween_property(self, "zoom", zoom_start, hud_in_out_time)
 	zoom_out_tween.tween_callback(self, "emit_signal", ["zoomed_out"]) # pošlje na GO, ki pokaže meni
@@ -134,13 +143,14 @@ func set_camera_limits():
 	corner_TR = tilemap_edge.end.x * tilemap_cell_size.x - tilemap_cell_size.x
 	corner_BL = tilemap_edge.position.y * tilemap_cell_size.y + tilemap_cell_size.y
 	corner_BR = tilemap_edge.end.y * tilemap_cell_size.y - tilemap_cell_size.y
-
+	
 	limit_left = corner_TL
 	limit_right = corner_TR
 	limit_top = corner_BL
 	limit_bottom = corner_BR
 	
 
+	
 # TESTHUD ------------------------------------------------------------------------------------------------------------------------
 
 
