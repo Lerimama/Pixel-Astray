@@ -1,4 +1,4 @@
-extends Node2D
+	extends Node2D
 
 
 var game_sfx_set_to_off: bool = false
@@ -7,9 +7,11 @@ var game_music_set_to_off: bool = false
 
 var currently_playing_track_index = 1 # ga ne resetiraš, da ostane v spominu skozi celo igro
 
+onready var teleport_loop: AudioStreamPlayer = $GameSfx/Skills/TeleportLoop # za preverjanje v igri, če se predvaja
 onready var game_music: Node2D = $Music/GameMusic
 onready var menu_music = $Music/MenuMusic/WarmUpShort
 onready var menu_music_volume_on_node = menu_music.volume_db # za reset po fejdoutu (game_over)
+onready var game_music_tracks: Array = game_music.get_children()
 	
 	
 func _ready() -> void:
@@ -74,6 +76,10 @@ func play_sfx(effect_for: String):
 		# intro
 		"thunder_strike":
 			$GameSfx/Burst/Burst.play()
+		"intro_stepping":
+			$GameSfx/Burst/Burst.play()
+			var selected_tap = select_random_sfx($GameSfx/Stepping)
+			selected_tap.play()
 			
 			
 func play_gui_sfx(effect_for: String):
@@ -122,9 +128,9 @@ func stop_sfx(sfx_to_stop: String):
 		"heartbeat":
 			$GameSfx/Heartbeat.stop()
 		"lose_jingle": 
-			$GuiSfx/Events/Loose.stop()
+			$GameSfx/Events/Loose.stop()
 		"win_jingle":
-			$GuiSfx/Events/Win.stop()
+			$GameSfx/Events/Win.stop()
 	
 
 func select_random_sfx(sound_group):

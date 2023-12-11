@@ -7,8 +7,8 @@ signal zoomed_out
 export (OpenSimplexNoise) var noise # tekstura za vizualizacijo ma kopijo tega noisa
 
 var camera_target: Node2D
-var final_zoom = Vector2.ONE
-var start_zoom = Vector2(2, 2)
+var zoom_end = Vector2.ONE
+var zoom_start = Vector2(2, 2)
 
 # limits
 var corner_TL: float
@@ -34,7 +34,9 @@ var max_horizontal = 150
 var max_vertical = 150
 var max_rotation = 5
 
-onready var tile_align_correction: Vector2 = Global.game_tilemap.cell_size/2 #Vector2.ZERO # za poravnavo kamere s tileti
+# poravnava s celicami
+onready var cell_align: Vector2 = Vector2(Global.game_tilemap.cell_size.x/2, 0)
+onready var cell_align_end: Vector2 = Global.game_tilemap.cell_size/2
 
 
 func _ready():
@@ -47,13 +49,14 @@ func _ready():
 		Global.player2_camera = self
 	
 	# start setup
-	zoom = start_zoom
+	zoom = zoom_start
+	set_camera_limits()	
 	
 	# testhud
 	set_ui_focus()	
 	update_ui()
 
-
+	
 func _process(delta):
 	
 	time += delta
@@ -87,35 +90,24 @@ func _process(delta):
 func _physics_process(delta: float) -> void:
 	
 	if camera_target:
-		position = camera_target.position + tile_align_correction
-	
+		position = camera_target.position + cell_align
+
 
 func zoom_in(hud_in_out_time: float, players_count: int): # kliče hud
 	
 	if players_count == 2:
-		final_zoom *= 1.5
-	
-	get_camera_limits()	
+		zoom_end *= 1.5
 	
 	var zoom_in_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
-	zoom_in_tween.tween_property(self, "zoom", final_zoom, hud_in_out_time)
-	zoom_in_tween.parallel().tween_property(self, "limit_left", corner_TL, hud_in_out_time)
-	zoom_in_tween.parallel().tween_property(self, "limit_right", corner_TR, hud_in_out_time)
-	zoom_in_tween.parallel().tween_property(self, "limit_top", corner_BL, hud_in_out_time)
-	zoom_in_tween.parallel().tween_property(self, "limit_bottom", corner_BR, hud_in_out_time)
-#	zoom_in_tween.parallel().tween_property(self, "tile_align_correction", Global.game_tilemap.cell_size/2, hud_in_out_time)
+	zoom_in_tween.tween_property(self, "zoom", zoom_end, hud_in_out_time)
+	zoom_in_tween.parallel().tween_property(self, "cell_align", cell_align_end, hud_in_out_time)
 	zoom_in_tween.tween_callback(self, "emit_signal", ["zoomed_in"]) # pošlje na hud, ki sproži countdown
 	
 	
 func zoom_out(hud_in_out_time): # kliče hud
 
-	var zoom_out_tween = get_tree().create_tween()
-	zoom_out_tween.tween_property(self, "zoom", start_zoom, hud_in_out_time).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
-#	zoom_out_tween.parallel().tween_property(self, "limit_left", -10000, hud_in_out_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
-#	zoom_out_tween.parallel().tween_property(self, "limit_right", 10000, hud_in_out_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
-#	zoom_out_tween.parallel().tween_property(self, "limit_top", -10000, hud_in_out_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
-#	zoom_out_tween.parallel().tween_property(self, "limit_bottom", 10000, hud_in_out_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
-	zoom_out_tween.parallel().tween_property(self, "tile_align_correction", Vector2.ZERO, hud_in_out_time)
+	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	zoom_out_tween.tween_property(self, "zoom", zoom_start, hud_in_out_time)
 	zoom_out_tween.tween_callback(self, "emit_signal", ["zoomed_out"]) # pošlje na GO, ki pokaže meni
 	
 
@@ -133,7 +125,7 @@ func shake_camera(shake_power, shake_time, shake_decay):
 	trauma_strength = clamp(trauma_strength, 0, 1)
 
 	
-func get_camera_limits():
+func set_camera_limits():
 	
 	var tilemap_edge: Rect2 = Global.game_tilemap.get_used_rect()
 	var tilemap_cell_size: Vector2 = Global.game_tilemap.cell_size
@@ -142,49 +134,12 @@ func get_camera_limits():
 	corner_TR = tilemap_edge.end.x * tilemap_cell_size.x - tilemap_cell_size.x
 	corner_BL = tilemap_edge.position.y * tilemap_cell_size.y + tilemap_cell_size.y
 	corner_BR = tilemap_edge.end.y * tilemap_cell_size.y - tilemap_cell_size.y
-	
-
-# ZOOM, LIMITS OLD WAY -------------------------------------------------------------------------------------------------------------
-
-
-func zoom_in_no_limits(hud_in_out_time: float, players_count: int): # kliče hud
-	
-	if players_count == 2:
-		final_zoom *= 1.5
-		
-	var zoom_in_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
-	zoom_in_tween.tween_property(self, "zoom", final_zoom, hud_in_out_time)
-	zoom_in_tween.parallel().tween_property(self, "tile_align_correction", Global.game_tilemap.cell_size/2, hud_in_out_time)
-	zoom_in_tween.tween_callback(self, "emit_signal", ["zoomed_in"])
-	
-	
-func zoom_out_no_limits(hud_in_out_time): # kliče hud
-
-	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
-	zoom_out_tween.tween_property(self, "zoom", start_zoom, hud_in_out_time)
-	zoom_out_tween.parallel().tween_property(self, "camera_target_vert_adapt", 0, hud_in_out_time)
-
-	
-func set_camera_limits(tilemap_edge: Rect2, tilemap_cell_size: Vector2):
-
-	var corner_TL: float = tilemap_edge.position.x * tilemap_cell_size.x + tilemap_cell_size.x # k mejam prištejem edge debelino
-	var corner_TR: float = tilemap_edge.end.x * tilemap_cell_size.x - tilemap_cell_size.x
-	var corner_BL: float = tilemap_edge.position.y * tilemap_cell_size.y + tilemap_cell_size.y
-	var corner_BR: float = tilemap_edge.end.y * tilemap_cell_size.y - tilemap_cell_size.y
 
 	limit_left = corner_TL
 	limit_right = corner_TR
 	limit_top = corner_BL
 	limit_bottom = corner_BR
-
-
-func release_camera_limits():
 	
-	limit_left = -10000000
-	limit_right = 10000000
-	limit_top = -10000000
-	limit_bottom = 10000000		
-
 
 # TESTHUD ------------------------------------------------------------------------------------------------------------------------
 

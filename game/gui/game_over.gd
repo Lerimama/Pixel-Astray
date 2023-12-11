@@ -67,16 +67,15 @@ func _ready() -> void:
 func open_gameover(gameover_reason):
 	
 	players_in_game = get_tree().get_nodes_in_group(Global.group_players)
+	
 	p1_final_stats = players_in_game[0].player_stats
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
-		set_tutorial_gameover_title()
-		yield(get_tree().create_timer(2), "timeout") # showoff time
 		Global.tutorial_gui.animation_player.play("tutorial_end")
-	if players_in_game.size() == 2:
+		set_tutorial_gameover_title()
+	elif players_in_game.size() == 2:
 		p2_final_stats = players_in_game[1].player_stats
 		set_duel_gameover_title()
-		yield(get_tree().create_timer(3), "timeout") # showoff time
 	else:
 		set_game_gameover_title(gameover_reason)
 		
@@ -97,7 +96,7 @@ func show_gameover_title():
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_callback(gameover_title_holder, "set_visible", [true])#.set_delay(1)
 	fade_in.tween_property(gameover_title_holder, "modulate:a", 1, 1)
-	fade_in.parallel().tween_callback(Global.sound_manager, "play_sfx", [selected_gameover_jingle])
+	fade_in.parallel().tween_callback(Global.sound_manager, "play_gui_sfx", [selected_gameover_jingle])
 	fade_in.parallel().tween_property(background, "modulate:a", 0.7, 1)#.set_delay(0.5)
 	fade_in.tween_callback(self, "show_gameover_menu").set_delay(2)
 
@@ -154,7 +153,6 @@ func show_game_summary():
 	cross_fade.parallel().tween_property(background, "modulate:a", 1, 1)
 	cross_fade.tween_callback(name_input_popup, "set_visible", [false])
 	cross_fade.parallel().tween_callback(gameover_title_holder, "set_visible", [false])
-#	cross_fade.parallel().tween_callback(get_tree(), "set_pause", [true])
 	cross_fade.parallel().tween_property(game_summary_holder, "modulate:a", 1, 1)#.set_delay(1)
 	cross_fade.tween_callback(focus_btn, "grab_focus")
 
@@ -197,7 +195,6 @@ func set_duel_gameover_title():
 			points_difference_label.text = "Winner was better for only one point."
 		else:
 			points_difference_label.text =  winner_label.text + " was " + str(abs(points_difference)) + " points better than " + loser_name + "."# + " points."
-
 		
 			
 func set_game_gameover_title(gameover_reason):
@@ -297,7 +294,7 @@ func _on_RestartBtn_pressed() -> void:
 	menu_btn_clicked = true
 
 	Global.sound_manager.play_gui_sfx("btn_confirm")
-	get_tree().paused = false
+#	get_tree().paused = false
 	Global.main_node.reload_game()
 	
 	
@@ -308,5 +305,5 @@ func _on_QuitBtn_pressed() -> void:
 	menu_btn_clicked = true
 	
 	Global.sound_manager.play_gui_sfx("btn_cancel")
-	get_tree().paused = false
+#	get_tree().paused = false
 	Global.main_node.game_out()

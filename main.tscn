@@ -269,34 +269,6 @@ stream = ExtResource( 33 )
 volume_db = -20.0
 bus = "GameSfx"
 
-[node name="Events" type="Node2D" parent="SoundManager/GameSfx"]
-
-[node name="Win" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Events"]
-stream = ExtResource( 38 )
-volume_db = -15.0
-bus = "GameSfx"
-
-[node name="Loose" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Events"]
-stream = ExtResource( 57 )
-volume_db = -5.0
-bus = "GameSfx"
-
-[node name="CoundownA" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Events"]
-stream = ExtResource( 22 )
-volume_db = -25.0
-bus = "GameSfx"
-
-[node name="CoundownB" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Events"]
-stream = ExtResource( 59 )
-volume_db = -15.0
-bus = "GameSfx"
-
-[node name="RecordFanfare" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Events"]
-stream = ExtResource( 37 )
-volume_db = -10.0
-pitch_scale = 1.1
-bus = "GameSfx"
-
 [node name="Skills" type="Node2D" parent="SoundManager/GameSfx"]
 
 [node name="TeleportIn" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
@@ -391,17 +363,6 @@ stream = ExtResource( 10 )
 volume_db = -25.0
 bus = "Gui"
 
-[node name="MenuFade" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
-stream = ExtResource( 40 )
-volume_db = -15.0
-pitch_scale = 0.93
-bus = "Gui"
-
-[node name="ScreenSlide" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
-stream = ExtResource( 28 )
-pitch_scale = 0.9
-bus = "Gui"
-
 [node name="Events" type="Node2D" parent="SoundManager/GuiSfx"]
 
 [node name="Win" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Events"]
@@ -434,6 +395,17 @@ bus = "GameSfx"
 stream = ExtResource( 4 )
 volume_db = -13.0
 pitch_scale = 1.1
+bus = "Gui"
+
+[node name="MenuFade" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
+stream = ExtResource( 40 )
+volume_db = -15.0
+pitch_scale = 0.93
+bus = "Gui"
+
+[node name="ScreenSlide" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
+stream = ExtResource( 28 )
+pitch_scale = 0.9
 bus = "Gui"
 
 [node name="Music" type="Node2D" parent="SoundManager"]

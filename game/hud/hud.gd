@@ -89,7 +89,7 @@ func _ready() -> void:
 	
 	Global.hud = self
 	
-	# pred hud in pozicije
+	# pre-hud in pozicije
 	header.rect_position.y = - header_height
 	footer.rect_position.y = screen_height	
 	game_label.text = Global.game_manager.game_data["game_name"]
@@ -122,12 +122,6 @@ func update_stats(stat_owner: Node, player_stats: Dictionary):
 			p2_burst_counter.text = "%d" % player_stats["burst_count"]
 			p2_skill_counter.text = "%d" % player_stats["skill_count"]
 				
-	# game stats
-#	game_label.text = Global.game_manager.game_data["game_name"]
-#	level_label.text = Global.game_manager.game_data["level"]
-#	astray_counter.text = "%03d" % Global.game_manager.strays_in_game.size()
-#	picked_counter.text = "%03d" % (Global.game_manager.strays_start_count - Global.game_manager.strays_in_game.size())
-	
 	# debug
 	player_life.text = "LIFE: %d" % player_stats["player_life"]
 	player_energy.text = "E: %d" % player_stats["player_energy"]
@@ -235,8 +229,6 @@ func set_hud(players_count: int): # kliče main na game-in
 			set_current_highscore()
 		else:
 			highscore_label.visible = false
-#			music_player.visible = false
-#			music_player_alt.visible = true
 	elif players_count == 2:
 		highscore_label.visible = false
 		level_label.visible = false

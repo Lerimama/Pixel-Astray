@@ -93,14 +93,28 @@ func _ready() -> void:
 	win_lose_sepa.visible = false
 
 
-func start(): # kliče se z GM
+func open_tutorial(): # kliče se z GM
 	
 	visible = true
 #	current_tutorial_stage = TutorialStage.MISSION
 #	Global.game_manager.player_pixel.set_physics_process(false)
-	Global.game_manager.call_group(Global.group_players, "set_physics_process", false)
+	get_tree().call_group(Global.group_players, "set_physics_process", false)
 #	Global.game_manager.p1.set_physics_process(false)
 	animation_player.play("mission_in")
+	
+	
+func start_tutorial():
+
+	Global.hud.game_timer.start_timer()
+	current_tutorial_stage = TutorialStage.TRAVELING
+	get_tree().call_group(Global.group_players, "set_physics_process", true)
+	
+#	visible = true
+#	current_tutorial_stage = TutorialStage.MISSION
+#	Global.game_manager.player_pixel.set_physics_process(false)
+#	get_tree().call_group(Global.group_players, "set_physics_process", false)
+#	Global.game_manager.p1.set_physics_process(false)
+#	animation_player.play("mission_in")
 
 
 func change_stage(stage_to_hide: Control, next_stage: Control, next_stage_height: int, separation_adon: Control, next_stage_enum):
@@ -135,8 +149,9 @@ func finish_traveling():
 	change_stage(traveling_content, bursting_content, stage_height_bursting, bursting_sepa, TutorialStage.BURSTING)
 	
 	yield(get_tree().create_timer(1), "timeout")
+	Global.game_manager.game_on = true
 	Global.game_manager.set_strays()	
-
+	
 	
 func finish_bursting():
 	if not current_tutorial_stage == TutorialStage.BURSTING:
@@ -199,15 +214,16 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			current_tutorial_stage = TutorialStage.MISSION
 		"tutorial_start":
 #			Global.game_manager.p1.animation_player.play("revive")
-			Global.game_manager.p1.animation_player.play("virgin_blink")
-			Global.hud.game_timer.start_timer()
+#			Global.game_manager.p1.animation_player.play("virgin_blink")
+			
+#			for player in get_tree().get_nodes_in_group(Global.group_players):
+#				player.set_physics_process(true)
 			
 			var show_player = get_tree().create_tween()
 			show_player.tween_callback(self, "open_stage", [traveling_content, stage_height_traveling, travel_sepa]).set_delay(0.5)
-#			show_player.tween_callback(Global.game_manager.player_pixel, "set_physics_process", [true]).set_delay(1)
-			show_player.tween_callback(Global.game_manager.p1, "set_physics_process", [true]).set_delay(1)
-			current_tutorial_stage = TutorialStage.TRAVELING
+			show_player.tween_callback(self, "start_tutorial").set_delay(1)
 			
+
 
 func _on_StartBtn_pressed() -> void:
 	

@@ -83,7 +83,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	
 func _ready() -> void:
-	print("player")
 
 	add_to_group(Global.group_players)
 	
@@ -206,20 +205,28 @@ func idle_inputs():
 			
 
 func cocking_inputs():
-	
+
 	# cocking
 	if Input.is_action_pressed(key_up):
-		direction = Vector2.DOWN
-		cock_burst()
+		if cocked_ghosts.empty(): # če je smer setana, ni pa potrjena
+			direction = Vector2.DOWN
+		if direction == Vector2.DOWN: # če je smer setana (ista)
+			cock_burst()
 	elif Input.is_action_pressed(key_down):
-		direction = Vector2.UP
-		cock_burst()
+		if cocked_ghosts.empty():
+			direction = Vector2.UP
+		if direction == Vector2.UP:
+			cock_burst()
 	elif Input.is_action_pressed(key_left):
-		direction = Vector2.RIGHT
-		cock_burst()
+		if cocked_ghosts.empty():
+			direction = Vector2.RIGHT
+		if direction == Vector2.RIGHT:
+			cock_burst()
 	elif Input.is_action_pressed(key_right):
-		direction = Vector2.LEFT
-		cock_burst()
+		if cocked_ghosts.empty():
+			direction = Vector2.LEFT
+		if direction == Vector2.LEFT:
+			cock_burst()
 	
 	# releasing		
 	if Input.is_action_just_released(key_burst):
@@ -330,17 +337,12 @@ func end_move():
 	
 	# reset vision ray
 	direction = Vector2.ZERO 
-	
-	if is_virgin:
-		lose_virginity() # barvo prevzame na koncu tweena
-	else:
-		modulate = pixel_color
-	
+	lose_virginity()
+	modulate = pixel_color
 	global_position = Global.snap_to_nearest_grid(global_position) 
 	current_state = States.IDLE # more bit na kocnu
 	
-	if Global.sound_manager.teleport_loop.is_playing(): # zazih ... export for windows 
-		Global.sound_manager.stop_sfx("teleport")
+	Global.sound_manager.stop_sfx("teleport") # zazih ... export for windows 
 	
 
 # BURST ------------------------------------------------------------------------------------------
@@ -357,9 +359,6 @@ func cock_burst():
 		end_move()
 		return
 	
-	if is_virgin:
-		lose_virginity()
-		
 	# prostor nadaljevanje napenjanja preverja ghost
 	if cocked_ghosts.size() < cocked_ghost_count_max and cocking_room:
 		ghost_cocking_time += 1 / 60.0 # čas držanja tipke (znotraj nastajanja ene cock celice) ... fejk delta
@@ -392,7 +391,7 @@ func release_burst():
 	burst(cocked_ghosts.size())
 		
 
-func burst(current_ghost_count):
+func burst(current_ghost_count: int):
 	
 	
 	var burst_direction = direction
@@ -427,12 +426,6 @@ func burst(current_ghost_count):
 	# zaključek v on_collision()
 
 
-func empty_cocking_ghosts():
-	
-	while not cocked_ghosts.empty():
-		var ghost = cocked_ghosts.pop_back()
-		ghost.queue_free()
-	
 	
 # SKILLS ------------------------------------------------------------------------------------------
 
@@ -455,6 +448,7 @@ func push():
 	var new_push_ghost_position = global_position + push_direction * cell_size_x
 	var new_push_ghost = spawn_ghost(new_push_ghost_position)
 	
+		
 	if ray_collider.is_in_group(Global.group_strays):
 		# ni prostora
 		if Global.detect_collision_in_direction(ray_collider.vision_ray, push_direction):
@@ -484,7 +478,7 @@ func push():
 			push_tween.tween_property(ray_collider, "position", ray_collider.global_position + push_direction * cell_size_x * push_cell_count, 0.08).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(0.05)
 			push_tween.tween_callback(self, "end_move")
 			push_tween.tween_callback(self, "change_stat", ["push_used", 1]) # 0 = push, 1 = pull, 2 = teleport ... za prepoznavanje
-			
+
 
 func pull():
 	
@@ -516,7 +510,7 @@ func pull():
 	pull_tween.parallel().tween_callback(new_pull_ghost, "queue_free")
 	pull_tween.tween_callback(self, "change_stat", ["pull_used", 1]) # 0 = push, 1 = pull, 2 = teleport ... za prepoznavanje
 	
-
+		
 func teleport():
 		
 	var teleport_direction = direction
@@ -743,17 +737,11 @@ func on_get_hit(burst_speed_difference):
 	pixel_color = Global.game_manager.game_settings["player_start_color"] # postane začetne barve
 	change_stat("hit_by_player", burst_speed_difference_part)
 	
-	if is_virgin: #animation_player.is_playing(): # problem, če je virgin
-		is_virgin = false
-#		animation_player.stop()
-#		call_deferred("die")
-#	else:
-#		die()
 	die()
 
 
 func die():
-
+	
 	set_physics_process(false)
 	animation_player.play("die_player")
 
@@ -780,7 +768,6 @@ func shake_player_camera(shake_multiplier):
 	var shake_time_multiplied: float = shake_time + shake_multiplier_factor * shake_multiplier
 	var shake_decay: float = 0.7
 		
-#	printt("shake", shake_power_multiplied, shake_time_multiplied, shake_decay)
 	player_camera.shake_camera(shake_power_multiplied, shake_time_multiplied, shake_decay)	
 
 				
@@ -820,11 +807,18 @@ func play_blinking_sound():
 
 func lose_virginity():
 	
-	if not has_no_energy:
-		animation_player.stop()
-	var color_fade_in = get_tree().create_tween()
-	color_fade_in.tween_property(self, "modulate", pixel_color, 0.3).set_ease(Tween.EASE_OUT)
-	color_fade_in.tween_property(self, "is_virgin", false, 0)
+#	if not has_no_energy:
+#		animation_player.stop()
+#	if animation_player.is_playing():# and animation_player.current_animation("virgin_blink"):
+#		if animation_player.current_animation("virgin_blink"):
+		if animation_player.current_animation == "virgin_blink":
+#			animation_player.stop()
+			print ("blinkam")
+#	print ("blinkam")
+		
+#	var color_fade_in = get_tree().create_tween()
+#	color_fade_in.tween_property(self, "modulate", pixel_color, 0.3).set_ease(Tween.EASE_OUT)
+#	color_fade_in.tween_property(self, "is_virgin", false, 0)
 
 
 func glow_light_on():
@@ -880,6 +874,13 @@ func skill_light_off():
 	light_fade_out.tween_callback(skill_light, "set_enabled", [false])
 
 
+func empty_cocking_ghosts():
+	
+	while not cocked_ghosts.empty():
+		var ghost = cocked_ghosts.pop_back()
+		ghost.queue_free()
+
+
 # SIGNALI ------------------------------------------------------------------------------------------
 	
 		
@@ -927,8 +928,6 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 		"die_player":
 			if player_stats["player_life"] > 0:
 				revive()
-#			else:
-#				Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)	
 		"revive":
 			set_physics_process(true)
 			if lose_life_on_hit:
@@ -943,6 +942,9 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 
 func change_stat(event: String, change_value):
 	
+	if not Global.game_manager.game_on and not event == "all_cleaned": # statistika se ne beleži več, razen "all_cleaned"
+		return
+		
 	match event:
 		# hits
 		"hit_stray":
@@ -1025,43 +1027,9 @@ func change_stat(event: String, change_value):
 	player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, game_settings["player_max_energy"]) # pri 1 se že odšteva zadnji izdihljaj
 	player_stats["player_points"] = clamp(player_stats["player_points"], 0, player_stats["player_points"])	
 	
-	# ni več lajfa
-	if player_stats["player_life"] == 0:
-		Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)	
-	
 	# signal na hud
 	emit_signal("stat_changed", self, player_stats)
 
-
-# RAZLAGA ------------------------------------------------------------------------------------------
-
-
-# ON HIT WALL 
-# - loser jo izgubi energijo odvisno od moči bursta glede na max moč
-# - loser jo izgubi točke odvisno od moči bursta glede na max moč
-# - energija izgubi, če ni lajf lose
-
-# ON HIT PLAYER 
-# - winner dobi nazaj vso energijo
-# - winner dobi toliko točk, kot je določeno v settingsih
-# - loser izgubi energijo odvisno od razlike v moči bursta
-# - loser zgubi točke glede na razliko v moči bursta
-# - energija izgubi, če ni lajf lose
-
-# LAJF LOOP
-# - die() kliče
-#	- hit wall ... on collision()
-#	- hit by player ... on_get_hit()
-#	- no energy ... heartbeat_end in on_get_hit(), če ni energije
-# - kjer kličem die(), kličem tudi stat_change()
-#	- die() ima čez obnašanje
-#		- FP off
-#		- kliče revive(), če je lajf še na voljo
-#		- kliče GO na GM, če lajfa ni več
-#	- stat_change() pedena statistiko
-#		- vzame lajf, če je to pogojeno
-#		- vzame energijo, če je to pogojeno
-# - revive() se zgodi, če je še lajfa
-#	- kliče stat_change ("new_life") resetira energijo, če je to pogojeno
-#	- FP on
-# - če je na štartu samo en lajf, se na hit ne izgublja lajfa, ampak energijo
+	# ni več lajfa
+	if player_stats["player_life"] == 0:
+		Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)	

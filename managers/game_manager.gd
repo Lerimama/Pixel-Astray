@@ -51,13 +51,11 @@ func _process(delta: float) -> void:
 
 func set_game(): 
 	
-	# tilemap in view se setata na main > game_in
-
 	# game_settings["player_start_color"] = Global.color_white
 	set_players()
 
 	if game_data["game"] != Profiles.Games.TUTORIAL: 
-#		set_strays()
+		set_strays()
 		yield(get_tree().create_timer(1), "timeout") # da si plejer ogleda
 
 	Global.hud.slide_in(players_count)
@@ -69,7 +67,7 @@ func set_game():
 func start_game():
 	
 	if game_data["game"] == Profiles.Games.TUTORIAL:
-		Global.tutorial_gui.start()
+		Global.tutorial_gui.open_tutorial()
 	else:
 		Global.hud.game_timer.start_timer()
 		Global.sound_manager.play_music("game_music")
@@ -78,7 +76,7 @@ func start_game():
 			player.set_physics_process(true)
 			player.animation_player.play("virgin_blink")
 			
-	game_on = true
+		game_on = true
 	
 	
 func game_over(gameover_reason):
@@ -88,14 +86,7 @@ func game_over(gameover_reason):
 	
 	game_on = false
 	
-	Global.hud.game_timer.stop_timer()
-
-	# ustavljanje elementov igre
-	Global.hud.popups.visible = false # zazih
-	Global.sound_manager.stop_sfx("teleport") # zazih
-	Global.sound_manager.stop_sfx("heartbeat") # zazih
-	Global.sound_manager.stop_music("game_music")
-	
+	stop_game_elements()
 	
 	if gameover_reason == GameoverReason.CLEANED:
 		var signaling_player: KinematicBody2D
@@ -103,20 +94,11 @@ func game_over(gameover_reason):
 			player.animation_player.play("become_white_again")
 			signaling_player = player
 		yield(signaling_player, "stat_changed") # počakam, da poda vse točke
-		yield(get_tree().create_timer(0.5), "timeout") # za dojet
-	elif gameover_reason == GameoverReason.LIFE:
-		yield(get_tree().create_timer(3), "timeout") # za dojet
-	elif gameover_reason == GameoverReason.TIME:
-		yield(get_tree().create_timer(3), "timeout") # za dojet
 	
+	yield(get_tree().create_timer(1), "timeout") # za dojet
 		
 	Global.gameover_menu.open_gameover(gameover_reason)
 	
-	# GAMEOVER LOOP
-	# - reason TIME javi timer preko huda
-	# - reason LIFE javi player takoj ko ima 0 lajfa
-	# - reason CLEANED javi GM, ko umre še zadnji stray 
-	#	- yiedla za zmagovalno animacijo, in dodajanje točk
 	
 	
 # SETUP --------------------------------------------------------------------------------------
@@ -151,12 +133,13 @@ func set_game_view():
 	var viewport_container_2: ViewportContainer = $"%ViewportContainer2"
 	var viewport_separator: VSeparator = $"%ViewportSeparator"
 	
-	# game cameras
-	Global.player1_camera.position = player_start_positions[0]# + Global.game_tilemap.cell_size/2
+	var cell_align_start: Vector2 = Vector2(Global.game_tilemap.cell_size.x, Global.game_tilemap.cell_size.y/2)
+	Global.player1_camera.position = player_start_positions[0] + cell_align_start
+	
 	if players_count == 2:
 		viewport_container_2.visible = true
 		viewport_2.world_2d = viewport_1.world_2d
-		Global.player2_camera.position = player_start_positions[1]# + Global.game_tilemap.cell_size/2
+		Global.player2_camera.position = player_start_positions[1] + cell_align_start
 	else:
 		viewport_container_2.visible = false
 		viewport_separator.visible = false
@@ -164,7 +147,6 @@ func set_game_view():
 	# set player camer limits
 	var tilemap_edge = Global.game_tilemap.get_used_rect()
 	var tilemap_cell_size = Global.game_tilemap.cell_size
-	# get_tree().call_group(Global.group_player_cameras, "set_camera_limits", tilemap_edge, tilemap_cell_size)
 	
 	# minimap
 	var minimap_container: ViewportContainer = $"../Minimap"
@@ -209,10 +191,12 @@ func set_players():
 		if spawned_player_index == 1:
 			new_player_pixel.player_camera = Global.player1_camera
 			new_player_pixel.player_camera.camera_target = new_player_pixel
+			
+			
 		elif spawned_player_index == 2:
 			new_player_pixel.player_camera = Global.player2_camera
 			new_player_pixel.player_camera.camera_target = new_player_pixel
-	
+		
 		
 func set_strays():
 	
@@ -321,6 +305,15 @@ func show_strays(show_strays_loop: int):
 			loop_count += 1 # štejem tukaj, ker se šteje samo če se pixel pokaže
 		if loop_count >= strays_to_show_count:
 			break
+	
+
+func stop_game_elements():
+	
+	Global.hud.game_timer.stop_timer()
+	Global.hud.popups.visible = false # zazih
+	Global.sound_manager.stop_sfx("teleport") # zazih
+	Global.sound_manager.stop_sfx("heartbeat") # zazih
+	Global.sound_manager.stop_music("game_music")	
 	
 
 # SIGNALI ----------------------------------------------------------------------------------

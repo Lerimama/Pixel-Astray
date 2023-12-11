@@ -30,7 +30,7 @@ func _physics_process(delta: float) -> void:
 	if ghost_ray.is_colliding():
 		ghost_ray.get_collider() 
 		emit_signal("ghost_detected_body", ghost_ray.get_collider() )
-
+	
 
 func _on_PixelGhost_body_exited(body: Node) -> void:
 	
