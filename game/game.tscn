@@ -1,4 +1,4 @@
-[gd_scene load_steps=117 format=2]
+[gd_scene load_steps=119 format=2]
 
 [ext_resource path="res://game/hud/hud_game_timer.gd" type="Script" id=1]
 [ext_resource path="res://game/hud/hud.gd" type="Script" id=2]
@@ -291,13 +291,13 @@ region = Rect2( 0, 0, 120, 86 )
 atlas = ExtResource( 20 )
 region = Rect2( 10, 17, 22, 22 )
 
-[sub_resource type="AtlasTexture" id=246]
-atlas = ExtResource( 20 )
-region = Rect2( 30, 40, 18, 18 )
-
 [sub_resource type="AtlasTexture" id=247]
 atlas = ExtResource( 20 )
 region = Rect2( 96, 32, 10, 10 )
+
+[sub_resource type="AtlasTexture" id=250]
+atlas = ExtResource( 20 )
+region = Rect2( 146, 6, 6, 10 )
 
 [sub_resource type="AtlasTexture" id=230]
 atlas = ExtResource( 20 )
@@ -306,6 +306,14 @@ region = Rect2( 0, 98, 70, 46 )
 [sub_resource type="AtlasTexture" id=231]
 atlas = ExtResource( 20 )
 region = Rect2( 113.919, 154, 22, 22 )
+
+[sub_resource type="AtlasTexture" id=246]
+atlas = ExtResource( 20 )
+region = Rect2( 30, 40, 18, 18 )
+
+[sub_resource type="AtlasTexture" id=249]
+atlas = ExtResource( 20 )
+region = Rect2( 146, 30, 6, 10 )
 
 [sub_resource type="AtlasTexture" id=199]
 atlas = ExtResource( 20 )
@@ -2568,20 +2576,19 @@ margin_right = 32.0
 margin_bottom = 39.0
 texture = SubResource( 245 )
 
-[node name="stick" type="TextureRect" parent="GUI/Hud/Popups/SplitScreens/PlayerLeft/Joypad"]
-visible = false
-margin_left = 30.0
-margin_top = 40.0
-margin_right = 48.0
-margin_bottom = 58.0
-texture = SubResource( 246 )
-
 [node name="btn" type="TextureRect" parent="GUI/Hud/Popups/SplitScreens/PlayerLeft/Joypad"]
 margin_left = 96.0
 margin_top = 32.0
 margin_right = 106.0
 margin_bottom = 42.0
 texture = SubResource( 247 )
+
+[node name="C1" type="TextureRect" parent="GUI/Hud/Popups/SplitScreens/PlayerLeft/Joypad"]
+margin_left = 57.0
+margin_top = 76.0
+margin_right = 63.0
+margin_bottom = 86.0
+texture = SubResource( 250 )
 
 [node name="Player" type="TileMap" parent="GUI/Hud/Popups/SplitScreens/PlayerLeft"]
 visible = false
@@ -2723,6 +2730,13 @@ margin_top = 32.0
 margin_right = 106.0
 margin_bottom = 42.0
 texture = SubResource( 247 )
+
+[node name="C2" type="TextureRect" parent="GUI/Hud/Popups/SplitScreens/PlayerRight/Joypad"]
+margin_left = 57.0
+margin_top = 76.0
+margin_right = 63.0
+margin_bottom = 86.0
+texture = SubResource( 249 )
 
 [node name="Player" type="TileMap" parent="GUI/Hud/Popups/SplitScreens/PlayerRight"]
 visible = false
@@ -4730,6 +4744,7 @@ text = "PLAY ON"
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 22 )
@@ -4742,6 +4757,7 @@ anchor_bottom = 1.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="GameoverTitle" type="Control" parent="GUI/GameOver"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 

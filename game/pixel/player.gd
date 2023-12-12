@@ -6,7 +6,6 @@ signal stat_changed # spremenjena statistika se pošlje v hud
 enum States {IDLE, STEPPING, SKILLED, SKILLING, COCKING, RELEASING, BURSTING}
 var current_state # = States.IDLE
 
-export var pixel_color: Color # exportano za animacijo "become_white"
 
 var direction = Vector2.ZERO # prenosna
 var collision: KinematicCollision2D
@@ -50,8 +49,7 @@ onready var cell_size_x: int = Global.game_tilemap.cell_size.x  # pogreba od GMj
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var vision_ray: RayCast2D = $VisionRay
 onready var collision_shape: CollisionShape2D = $CollisionShape2D
-onready var glow_light: Light2D = $GlowLight
-onready var skill_light: Light2D = $SkillLight
+
 
 onready var Ghost: PackedScene = preload("res://game/pixel/ghost.tscn")
 onready var PixelCollisionParticles: PackedScene = preload("res://game/pixel/pixel_collision_particles.tscn")
@@ -61,12 +59,16 @@ onready var FloatingTag: PackedScene = preload("res://game/hud/floating_tag.tscn
 # NEU
 var is_virgin: bool = true # začne kot devičnik ... neha bit na prvi end_move ali na začetku cockanja
 var player_stats: Dictionary # se aplicira ob spawnanju
-var lose_life_on_hit: bool = true # če je lajf na štartu večji od 1
+#var lose_life_on_hit: bool = true # če je lajf na štartu večji od 1
 onready var game_settings: Dictionary = Global.game_manager.game_settings 
-
 var current_colider: Node
 var teleporting_wall_tile_id = 3
+onready var color_poly: Polygon2D = $ColorPoly
+export var pixel_color: Color # exportano za animacijo "become_white"
 
+onready var burst_light: Light2D = $BurstLight
+onready var skill_light: Light2D = $SkillLight
+onready var glow_light: Light2D = $GlowLight
 
 func _unhandled_input(event: InputEvent) -> void:
 
@@ -100,15 +102,10 @@ func _ready() -> void:
 		key_down = "ui_down"
 		key_burst = "burst"
 	
-	if game_settings["player_start_life"] > 1:
-		lose_life_on_hit = true
-	else:
-		lose_life_on_hit = false
-		
 	skill_light.enabled = false
-	glow_light.enabled = false
-	
-	modulate = pixel_color # pixel_color je določen ob spawnu z GM
+	burst_light.enabled = false
+		
+	color_poly.modulate = pixel_color # da se obarva že ob spawnu
 	current_state = States.IDLE
 	
 	randomize() # za random blink animacije
@@ -117,6 +114,8 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	
 	state_machine()
+	
+	color_poly.modulate = pixel_color # povezava med variablo in barvo mora obstajati non-stop
 	
 	# no energy
 	if player_stats["player_energy"] <= 1:
@@ -201,7 +200,7 @@ func idle_inputs():
 	
 	if Input.is_action_just_pressed(key_burst): # brez "just" dela po stisku smeri ... ni ok
 		current_state = States.COCKING
-		glow_light_on()
+		burst_light_on()
 			
 
 func cocking_inputs():
@@ -234,7 +233,7 @@ func cocking_inputs():
 			end_move()
 		else:
 			release_burst()
-			glow_light_off()
+			burst_light_off()
 			
 
 func bursting_inputs():
@@ -267,16 +266,9 @@ func skill_inputs():
 	if Input.is_action_just_pressed(key_burst): # brez "just" dela po stisku smeri ... ni ok
 		current_state = States.COCKING
 		skill_light_off()
-		glow_light_on()
+		burst_light_on()
 		return	
 			
-	# izhod iz skilled stanja
-#	if new_direction:
-#		var pressed_direction_angle: float = round(rad2deg(vision_ray.cast_to.angle_to(new_direction)))
-#		if abs(pressed_direction_angle) == 90 or (pressed_direction_angle == 180 and collider.is_in_group(Global.group_tilemap)):
-#			current_state = States.IDLE
-#			return	
-	
 	# izbor skila
 	var collider: Object = Global.detect_collision_in_direction(vision_ray, direction)
 	if new_direction:
@@ -290,11 +282,13 @@ func skill_inputs():
 			skill_light_off()
 			if collider.is_in_group(Global.group_strays):
 				pull()	
-			if collider.is_in_group(Global.group_tilemap):
-				current_state = States.IDLE
+			elif collider.is_in_group(Global.group_tilemap):
+				end_move()
+#				current_state = States.IDLE
 		else:
-			skill_light_off()
-			current_state = States.IDLE
+			end_move()
+#			skill_light_off()
+#			current_state = States.IDLE
 
 				
 # MOVEMENT ------------------------------------------------------------------------------------------
@@ -330,15 +324,15 @@ func end_move():
 		empty_cocking_ghosts()
 		
 	# ugasnem lučke
-	if glow_light.enabled:
-		glow_light_off()
+	if burst_light.enabled:
+		burst_light_off()
 	if skill_light.enabled:
 		skill_light_off()
 	
 	# reset vision ray
 	direction = Vector2.ZERO 
 	lose_virginity()
-	modulate = pixel_color
+	
 	global_position = Global.snap_to_nearest_grid(global_position) 
 	current_state = States.IDLE # more bit na kocnu
 	
@@ -425,7 +419,6 @@ func burst(current_ghost_count: int):
 	
 	# zaključek v on_collision()
 
-
 	
 # SKILLS ------------------------------------------------------------------------------------------
 
@@ -464,6 +457,7 @@ func push():
 		# je prostor
 		else: 
 			Global.sound_manager.play_sfx("push")
+			
 			# napnem
 			var push_tween = get_tree().create_tween()
 			push_tween.tween_property(self, "position", global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
@@ -498,12 +492,13 @@ func pull():
 	var new_pull_ghost = spawn_ghost(global_position + target_direction * cell_size_x)
 	
 	Global.sound_manager.play_sfx("pull")
+	
 	var pull_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 	pull_tween.tween_property(self, "position", global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
 	pull_tween.parallel().tween_property(skill_light, "position", skill_light.position - pull_direction * cell_size_x * pull_cell_count, pull_time)
 	pull_tween.parallel().tween_property(new_pull_ghost, "position", new_pull_ghost.global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
 	pull_tween.tween_property(target_pixel, "position", target_pixel.global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
-	pull_tween.parallel().tween_callback(self, "skill_light_off")
+#	pull_tween.parallel().tween_callback(self, "skill_light_off")
 	pull_tween.parallel().tween_callback(Global.sound_manager, "play_sfx", ["pulled"])
 	pull_tween.tween_property(skill_light, "position", skill_light.position, 0) # reset pozicije luči
 	pull_tween.parallel().tween_callback(self, "end_move")
@@ -533,6 +528,7 @@ func teleport():
 	player_camera.camera_target = new_teleport_ghost
 	
 	yield(get_tree().create_timer(0.2), "timeout")
+	
 	# zaključek v signalu _on_ghost_target_reached
 	
 
@@ -635,6 +631,14 @@ func spawn_floating_tag(value): # kliče ga GM
 # ON HIT ------------------------------------------------------------------------------------------
 
 
+#func interpolate_color (new_color):
+#
+#	pixel_color = new_color
+#	var interween: SceneTreeTween = get_tree().create_tween()
+##	interween.tween_property(self, "pixel_color", new_color, 1)
+#	interween.tween_property(self, "modulate", pixel_color, 2).set_ease(Tween.EASE_IN)#.set_trans(Tween.TRANS_BOUNCE)
+	
+	
 func on_hit_player(hit_player: KinematicBody2D):
 	
 	var player_direction = direction # za korekcijo
@@ -668,7 +672,7 @@ func on_hit_wall():
 	
 	if heartbeat_active: # enako, kot, da bi bil zadnji bit ... kar umre, da se ne animacija ne meša z revive
 		heartbeat_active = false
-		glow_light.enabled = false
+		burst_light.enabled = false
 		change_stat("energy_depleted", 1)
 	else:
 		var value_to_lose_part: float = burst_cocked_ghost_count / float(cocked_ghost_count_max)
@@ -698,20 +702,21 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 		hit_stray.die(stray_in_row)
 		for neighboring_stray in stacked_neighbors: # uničim sosede
 			if stray_in_row < burst_cocked_ghost_count or burst_cocked_ghost_count == cocked_ghost_count_max: # odvisnost od moči bursta
-				Global.hud.show_picked_color(neighboring_stray.pixel_color) # indikator efekt
+				Global.hud.show_picked_color(neighboring_stray.stray_color) # indikator efekt
 				neighboring_stray.die(stray_in_row)
 				stray_in_row += 1 # prištejem šele po uporabi, ker se array vedno začne z 0
 			else: break
 		hit_strays_count = stray_in_row
-		
-	pixel_color = hit_stray.pixel_color # more bit pred coll partikli (barva)
+	
+	pixel_color = hit_stray.stray_color # more bit pred coll partikli (barva)
+#	interpolate_color(hit_stray.stray_color)
 	
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
 	Global.sound_manager.play_sfx("hit_stray")	
 	spawn_collision_particles()
 	shake_player_camera(hit_strays_count)			
 
-	Global.hud.show_picked_color(hit_stray.pixel_color)
+	Global.hud.show_picked_color(hit_stray.stray_color)
 	change_stat("hit_stray", hit_strays_count)
 	
 	end_move() # more bit pred coll partikli (smer)
@@ -801,7 +806,7 @@ func check_for_neighbors(hit_stray: KinematicBody2D):
 	
 func play_blinking_sound(): 
 	# kličem iz animacije
-#	print("blink")
+	
 	Global.sound_manager.play_sfx("blinking")
 
 
@@ -811,57 +816,47 @@ func lose_virginity():
 #		animation_player.stop()
 #	if animation_player.is_playing():# and animation_player.current_animation("virgin_blink"):
 #		if animation_player.current_animation("virgin_blink"):
-		if animation_player.current_animation == "virgin_blink":
+#		if animation_player.current_animation == "virgin_blink":
 #			animation_player.stop()
 #			print ("blinkam")
-			pass
 #	print ("blinkam")
 		
 #	var color_fade_in = get_tree().create_tween()
 #	color_fade_in.tween_property(self, "modulate", pixel_color, 0.3).set_ease(Tween.EASE_OUT)
 #	color_fade_in.tween_property(self, "is_virgin", false, 0)
+	pass
 
 
-func glow_light_on():
+func burst_light_on():
 	
-	glow_light.color = pixel_color
+#	burst_light.color = Color.white
 
-	var glow_light_base_energy: float = 0.35
-
-	if pixel_color.get_luminance() == 1: # bela
-		glow_light_base_energy = 0.55
-	elif pixel_color.get_luminance() > 0.90:
-		glow_light_base_energy += 0.2
-	elif pixel_color.get_luminance() > 0.75:
-		glow_light_base_energy += 0.15
-	elif pixel_color.get_luminance() > 0.50:
-		glow_light_base_energy += 0.05
-	
-	var glow_light_energy: float = glow_light_base_energy / pixel_color.get_luminance()
+	var burst_light_base_energy: float = 0.6
+	var burst_light_energy: float = burst_light_base_energy / pixel_color.v
+	burst_light_energy = clamp(burst_light_energy, 0.5, 1.4) # klempam za dark pixel
+	printt("burst_light_energy", pixel_color.gray(), pixel_color.v, burst_light_energy )
 
 	var light_fade_in = get_tree().create_tween()
-	light_fade_in.tween_callback(glow_light, "set_enabled", [true])
-	light_fade_in.tween_property(glow_light, "energy", glow_light_energy, 0.2).set_ease(Tween.EASE_IN)
+	light_fade_in.tween_callback(burst_light, "set_enabled", [true])
+	light_fade_in.tween_property(burst_light, "energy", burst_light_energy, 0.2).set_ease(Tween.EASE_IN)
 
 
-func glow_light_off():
+func burst_light_off():
 	
 	var light_fade_out = get_tree().create_tween()
-	light_fade_out.tween_property(glow_light, "energy", 0, 0.2).set_ease(Tween.EASE_IN)
-	light_fade_out.tween_callback(glow_light, "set_enabled", [false])
+	light_fade_out.tween_property(burst_light, "energy", 0, 0.2).set_ease(Tween.EASE_IN)
+	light_fade_out.tween_callback(burst_light, "set_enabled", [false])
 
 
 func skill_light_on():
 	
 	skill_light.rotation = vision_ray.cast_to.angle()
-	skill_light.color = pixel_color
+#	skill_light.color = pixel_color
 	
-	var skilled_light_base_energy: float = 0.55
-	if pixel_color.get_luminance() == 1: # bela
-		skilled_light_base_energy = 0.65
-	elif pixel_color.get_luminance() < 0.1: # temno siva
-		skilled_light_base_energy = 0.3
-	var skilled_light_energy: float = skilled_light_base_energy / pixel_color.get_luminance()
+	var skilled_light_base_energy: float = 0.6
+	var skilled_light_energy: float = skilled_light_base_energy / pixel_color.v
+	skilled_light_energy = clamp(skilled_light_energy, 0.5, 1.3) # klempam za dark pixel
+	printt("skilled_light_energy", pixel_color.gray(), pixel_color.v, skilled_light_energy )
 		
 	var light_fade_in = get_tree().create_tween()
 	light_fade_in.tween_callback(skill_light, "set_enabled", [true])
@@ -923,7 +918,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 				animation_player.play("heartbeat")
 				Global.sound_manager.play_sfx("heartbeat")
 			elif heartbeat_active:
-				glow_light.enabled = false
+				burst_light.enabled = false
 				change_stat("energy_depleted", 1)
 				die()
 		"die_player":
@@ -931,7 +926,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 				revive()
 		"revive":
 			set_physics_process(true)
-			if lose_life_on_hit:
+			if Global.game_manager.game_settings:
 				change_stat("new_life", 1)
 		"become_white_again":
 			yield(get_tree().create_timer(0.5), "timeout") # za dojet
@@ -967,7 +962,7 @@ func change_stat(event: String, change_value):
 				if hit_strays_count >= 3:
 					Global.tutorial_gui.finish_stacking()
 		"hit_wall":
-			if lose_life_on_hit:
+			if Global.game_manager.game_settings["lose_life_on_hit"]:
 				player_stats["player_life"] -= 1
 			else:
 				var energy_to_lose = round(player_stats["player_energy"] * change_value)
@@ -980,7 +975,7 @@ func change_stat(event: String, change_value):
 			player_stats["player_points"] += game_settings["hit_player_points"]
 			spawn_floating_tag(game_settings["hit_player_points"])
 		"hit_by_player":
-			if lose_life_on_hit:
+			if Global.game_manager.game_settings["lose_life_on_hit"]:
 				player_stats["player_life"] -= 1
 			else:
 				var energy_to_lose = round(player_stats["player_energy"] * change_value)
@@ -1033,4 +1028,4 @@ func change_stat(event: String, change_value):
 
 	# ni več lajfa
 	if player_stats["player_life"] == 0:
-		Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)	
+		Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)

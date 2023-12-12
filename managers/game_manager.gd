@@ -7,7 +7,7 @@ signal winner_rewarded # signal za sebe, da počaka na animacije in nagrade
 enum GameoverReason {LIFE, TIME, CLEANED}
 
 var game_on: bool = false
-var colors_to_pick: Array # za hud nejbrhud pravila
+#var colors_to_pick: Array # za hud nejbrhud pravila
 var energy_drain_active: bool = false # za kontrolo črpanja energije
 
 # players
@@ -51,7 +51,6 @@ func _process(delta: float) -> void:
 
 func set_game(): 
 	
-	# game_settings["player_start_color"] = Global.color_white
 	set_players()
 
 	if game_data["game"] != Profiles.Games.TUTORIAL: 
@@ -74,7 +73,7 @@ func start_game():
 		
 		for player in get_tree().get_nodes_in_group(Global.group_players):
 			player.set_physics_process(true)
-			player.animation_player.play("virgin_blink")
+#			player.animation_player.play("virgin_blink")
 			
 		game_on = true
 	
@@ -95,18 +94,9 @@ func game_over(gameover_reason):
 			signaling_player = player
 		yield(signaling_player, "stat_changed") # počakam, da poda vse točke
 	
-	print("target1 ", Global.player1_camera.camera_target)
 	yield(get_tree().create_timer(1), "timeout") # za dojet
 	
-#	Global.player1_camera.camera_target = null
-#	Global.player2_camera.camera_target = null
-	
-#	get_tree().call_group(Global.group_player_cameras, "unset_set_camera_limits")
-#	Global.player1_camera.unset_set_camera_limits()	
-	
 	Global.gameover_menu.open_gameover(gameover_reason)
-	print("target2 ", Global.player1_camera.camera_target)
-	
 	
 	
 # SETUP --------------------------------------------------------------------------------------
@@ -170,6 +160,8 @@ func set_game_view():
 	
 	
 func set_players():
+	
+#	game_settings["player_start_color"] = Color.purple
 	
 	for player_position in player_start_positions: # glavni parameter, ki opredeli število igralcev
 		spawned_player_index += 1 # torej začnem z 1
@@ -243,7 +235,10 @@ func split_stray_colors():
 		var selected_color_position_x = (spawned_stray_index - 1) * color_skip_size # -1, da začne z 0, če ne "out of bounds" error
 		# barva na lokaciji v spektrumu
 		var current_color = spectrum_image.get_pixel(selected_color_position_x, 0)  
+#		print ("current_color p: ", current_color)
+#		current_color.a = 1.1
 		all_colors.append(current_color)
+#		print ("current_color a: ", current_color)
 		# spawn stray 
 		spawn_stray(current_color, spawned_stray_index)
 		spawned_stray_index += 1
@@ -270,7 +265,7 @@ func spawn_stray(stray_color: Color, stray_index: int):
 	# spawn
 	var new_stray_pixel = StrayPixel.instance()
 	new_stray_pixel.name = "S%s" % str(stray_index)
-	new_stray_pixel.pixel_color = stray_color
+	new_stray_pixel.stray_color = stray_color
 	new_stray_pixel.global_position = available_positions[selected_cell_index] + Global.game_tilemap.cell_size/2 # dodana adaptacija zaradi središča pixla
 	new_stray_pixel.z_index = 2 # višje od plejerja
 	Global.node_creation_parent.add_child(new_stray_pixel)

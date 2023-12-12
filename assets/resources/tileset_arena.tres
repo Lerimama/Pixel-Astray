@@ -14,9 +14,7 @@ polygon = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
 [sub_resource type="ConvexPolygonShape2D" id=112]
 points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
 
-[sub_resource type="OccluderPolygon2D" id=114]
-closed = false
-cull_mode = 1
+[sub_resource type="OccluderPolygon2D" id=116]
 polygon = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
 
 [sub_resource type="ConvexPolygonShape2D" id=115]
@@ -76,11 +74,11 @@ points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
 3/name = "tile_wall"
 3/texture = ExtResource( 3 )
 3/tex_offset = Vector2( 0, 0 )
-3/modulate = Color( 1, 1, 1, 1 )
+3/modulate = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 3/region = Rect2( 0, 0, 32, 32 )
 3/tile_mode = 0
 3/occluder_offset = Vector2( 0, 0 )
-3/occluder = SubResource( 114 )
+3/occluder = SubResource( 116 )
 3/navigation_offset = Vector2( 0, 0 )
 3/shape_offset = Vector2( 0, 0 )
 3/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )

@@ -56,6 +56,7 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 	"sudden_death_limit" : 20,
 	"minimap_on": false,
 	"manage_highscores": false,
+	"lose_life_on_hit": true, # zadetek od igralca ali v steno pomeni izgubo življenja, alternativa je izguba energije
 	
 	"skill_limit_mode": false,
 	"skill_limit_count": 5,
@@ -141,7 +142,7 @@ var game_data_debug: Dictionary = {
 	"game_name": "Debug",
 	"level": "",
 	"tilemap_path": "res://game/tilemaps/debug_tilemap.tscn",
-	"game_time_limit": 5,
+	"game_time_limit": 500,
 	"strays_start_count": 10,
 #	"highscore": 0,
 }
@@ -155,9 +156,9 @@ var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "c
 
 func _ready() -> void:
 	
-	var current_game = Games.DUEL # če greš iz menija je tole povoženo
+#	var current_game = Games.DUEL # če greš iz menija je tole povoženo
 #	var current_game = Games.TUTORIAL # če greš iz menija je tole povoženo
-#	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
+	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
 #	var current_game = Games.DEBUG # če greš iz menija je tole povoženo
 	set_game_data(current_game)
 	

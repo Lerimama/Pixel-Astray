@@ -11,7 +11,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="PolyPixel" type="Polygon2D" parent="."]
+[node name="ColorPoly" type="Polygon2D" parent="."]
 position = Vector2( -16, -16 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 

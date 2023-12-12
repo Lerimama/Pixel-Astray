@@ -5,7 +5,7 @@ export (float, 0, 1) var die_shake_power: float = 0.2
 export (float, 0, 10) var die_shake_time: float = 0.4
 export (float, 0, 1) var die_shake_decay: float = 0.3
 
-var pixel_color: Color
+var stray_color: Color
 var neighboring_cells: Array = [] # stray stalno čekira sosede
 var step_time: float = 0.1
 var is_stepping: bool = false
@@ -17,6 +17,10 @@ onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 
 # debug
 onready var count_label: Label = $CountLabel
+onready var color_poly: Polygon2D = $ColorPoly
+
+#onready var glow_light: Light2D = $GlowLight
+	
 	
 func _ready() -> void:
 	
@@ -24,7 +28,8 @@ func _ready() -> void:
 
 	randomize() # za random die animacije
 	
-	modulate = pixel_color
+	color_poly.modulate = stray_color
+#	glow_light.color = stray_color
 	modulate.a = 0
 	count_label.text = name
 

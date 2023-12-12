@@ -11,8 +11,8 @@ var direction = Vector2.UP
 var teleporting_bodies: Array = []
 var target_reached: float = false
 
-onready var cell_size_x: float = Global.game_tilemap.cell_size.x
 onready var ghost_ray: RayCast2D = $RayCast2D
+onready var cell_size_x: float = Global.game_tilemap.cell_size.x
 
 
 func _physics_process(delta: float) -> void:
