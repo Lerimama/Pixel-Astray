@@ -1,4 +1,4 @@
-[gd_scene load_steps=119 format=2]
+[gd_scene load_steps=116 format=2]
 
 [ext_resource path="res://game/hud/hud_game_timer.gd" type="Script" id=1]
 [ext_resource path="res://game/hud/hud.gd" type="Script" id=2]
@@ -8,7 +8,6 @@
 [ext_resource path="res://game/minimap_camera.gd" type="Script" id=6]
 [ext_resource path="res://game/gui/highscore_table.gd" type="Script" id=7]
 [ext_resource path="res://game/player_camera.gd" type="Script" id=8]
-[ext_resource path="res://assets/resources/env_arena.tres" type="Environment" id=9]
 [ext_resource path="res://game/gui/pause_menu.gd" type="Script" id=10]
 [ext_resource path="res://assets/resources/noise_gamecam.tres" type="OpenSimplexNoise" id=11]
 [ext_resource path="res://game/hud/hud_life_icons.gd" type="Script" id=12]
@@ -27,8 +26,6 @@
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=25]
 [ext_resource path="res://assets/resources/icon_label_dot.tres" type="Texture" id=26]
 [ext_resource path="res://managers/game_manager.gd" type="Script" id=27]
-
-[sub_resource type="World" id=226]
 
 [sub_resource type="StyleBoxEmpty" id=208]
 
@@ -192,9 +189,6 @@ grow_begin = 0.0
 grow_end = 0.0
 thickness = 2
 vertical = true
-
-[sub_resource type="World" id=227]
-environment = ExtResource( 9 )
 
 [sub_resource type="AtlasTexture" id=147]
 atlas = ExtResource( 14 )
@@ -1031,7 +1025,6 @@ stretch = true
 [node name="Viewport1" type="Viewport" parent="GameView/Viewports/ViewportContainer1"]
 unique_name_in_owner = true
 size = Vector2( 639, 720 )
-world = SubResource( 226 )
 handle_input_locally = false
 render_target_update_mode = 3
 
@@ -1341,7 +1334,6 @@ stretch = true
 [node name="Viewport2" type="Viewport" parent="GameView/Viewports/ViewportContainer2"]
 unique_name_in_owner = true
 size = Vector2( 639, 720 )
-world = SubResource( 227 )
 handle_input_locally = false
 render_target_update_mode = 3
 

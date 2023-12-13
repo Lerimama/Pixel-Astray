@@ -57,16 +57,24 @@ func step(step_direction):
 	step_tween.tween_property(self, "is_stepping", false, 0)
 
 
-func die(stray_in_stack):
+func die(stray_in_stack_index, strays_in_stack: int):
 	
-	if stray_in_stack == 0: # žrebam die animacijo
+	# čakalni čas
+	var wait_to_destroy_time: float = sqrt(0.07 * (stray_in_stack_index)) # -1 je, da hitan stray ne čaka
+	yield(get_tree().create_timer(wait_to_destroy_time), "timeout")
+	
+	# animacije
+	if strays_in_stack <= 3: # žrebam
 		var random_animation_index = randi() % 5 + 1
 		var random_animation_name: String = "die_stray_%s" % random_animation_index
 		animation_player.play(random_animation_name) 
-	else: # če je stacked animacije na žrebam
-		var wait_to_destroy_time: float = sqrt(0.07 * (stray_in_stack - 1)) # -1 je, da hitan stray ne čaka
-		yield(get_tree().create_timer(wait_to_destroy_time), "timeout")
-		animation_player.play("die_stray") 
+	else: # ne žrebam
+		animation_player.play("die_stray")
+	
+	# color vanish
+	var vanish_time = animation_player.get_current_animation_length()
+	var vanish: SceneTreeTween = get_tree().create_tween()
+	vanish.tween_property(self, "color_poly:modulate:a", 0, vanish_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
 	
 	collision_shape_2d.disabled = true
 	# KVEFRI je v animaciji

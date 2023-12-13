@@ -74,6 +74,7 @@ func start_game():
 		for player in get_tree().get_nodes_in_group(Global.group_players):
 			player.set_physics_process(true)
 #			player.animation_player.play("virgin_blink")
+			player.pixel_color = Color.white
 			
 		game_on = true
 	

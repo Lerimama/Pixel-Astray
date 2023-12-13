@@ -40,7 +40,7 @@ var color_white: Color = Color("#ffffff")
 var hud_text_color: Color = Color("#fafafa")
 
 # reference ... niso v kodi
-var color_almost_black: Color = Color("#141414")
+var color_almost_black: Color = Color("#141414") # start player, wall, floor
 var color_gray_dark: Color = Color("#232323")
 var hud_background_color: Color = Color("#141414")
 
