@@ -24,7 +24,7 @@ func _physics_process(delta: float) -> void:
 	# teleporting ghost
 	if target_reached:
 		speed = 0
-		global_position = Global.snap_to_nearest_grid(global_position)
+		global_position = Global.snap_to_nearest_grid(global_position, Global.game_manager.floor_positions)
 	
 	# skill ghost
 	if ghost_ray.is_colliding():

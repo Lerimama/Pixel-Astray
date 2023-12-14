@@ -43,14 +43,17 @@ func _ready():
 	
 	add_to_group(Global.group_player_cameras)
 	
-	if Global.player1_camera == null:
-		Global.player1_camera = self
+	if get_viewport().name == "IntroViewport":
+		Global.intro_camera = self
 	else:
-		Global.player2_camera = self
+		if Global.player1_camera == null:
+			Global.player1_camera = self
+		else:
+			Global.player2_camera = self
 	
-	# start setup
-	zoom = zoom_start
-	set_camera_limits()	
+		# start setup
+		zoom = zoom_start
+		set_camera_limits()	
 	
 	# testhud
 	set_ui_focus()	

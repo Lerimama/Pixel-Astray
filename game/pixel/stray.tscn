@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://game/pixel/stray.gd" type="Script" id=1]
 [ext_resource path="res://assets/resources/anim_zbrisane/pixelglitch_1.tres" type="Animation" id=2]
@@ -584,6 +584,48 @@ tracks/3/keys = {
 } ]
 }
 
+[sub_resource type="Animation" id=141]
+resource_name = "glitch_intro"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.106689, 0.172837, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.196078 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.196078 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.103803, 0.170441, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.2, 1.0, 0.2, 1.0 ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/keys = {
+"times": PoolRealArray( 0.103848 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_blinking_sound"
+} ]
+}
+
 [node name="Stray" type="KinematicBody2D"]
 script = ExtResource( 1 )
 
@@ -592,8 +634,7 @@ position = Vector2( -16, -16 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-scale = Vector2( 0.9, 0.9 )
+scale = Vector2( 0.99, 0.99 )
 shape = SubResource( 1 )
 
 [node name="VisionRay" type="RayCast2D" parent="."]
@@ -611,6 +652,7 @@ anims/die_stray_5 = SubResource( 137 )
 anims/glitch_1 = ExtResource( 2 )
 anims/glitch_2 = ExtResource( 3 )
 anims/glitch_3 = ExtResource( 4 )
+anims/glitch_intro = SubResource( 141 )
 
 [node name="CountLabel" type="Label" parent="."]
 visible = false

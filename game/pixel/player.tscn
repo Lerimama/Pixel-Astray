@@ -572,7 +572,7 @@ position = Vector2( -16, -16 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2( 0.9, 0.9 )
+scale = Vector2( 0.99, 0.99 )
 shape = SubResource( 4 )
 
 [node name="BurstLight" type="Light2D" parent="."]
@@ -606,5 +606,23 @@ anims/heartbeat = SubResource( 137 )
 anims/revive = ExtResource( 10 )
 anims/virgin_blink = SubResource( 141 )
 "anims/virgin_blink old" = SubResource( 144 )
+
+[node name="test_pol" type="Polygon2D" parent="."]
+visible = false
+position = Vector2( -16, -16 )
+color = Color( 0.294118, 0.623529, 1, 1 )
+polygon = PoolVector2Array( 0, 0, 32, 0, 32, 8, 0, 8 )
+
+[node name="test_pol2" type="Polygon2D" parent="."]
+visible = false
+position = Vector2( -16, 8 )
+color = Color( 0.294118, 0.623529, 1, 1 )
+polygon = PoolVector2Array( 0, 0, 32, 0, 32, 8, 0, 8 )
+
+[node name="test_pol3" type="Polygon2D" parent="."]
+visible = false
+position = Vector2( -16, -4 )
+color = Color( 0.294118, 0.623529, 1, 1 )
+polygon = PoolVector2Array( 0, 0, 32, 0, 32, 8, 0, 8 )
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

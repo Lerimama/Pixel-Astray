@@ -27,20 +27,20 @@
 [ext_resource path="res://assets/resources/icon_label_dot.tres" type="Texture" id=26]
 [ext_resource path="res://managers/game_manager.gd" type="Script" id=27]
 
-[sub_resource type="StyleBoxEmpty" id=208]
+[sub_resource type="StyleBoxEmpty" id=251]
 
 [sub_resource type="StreamTexture" id=175]
 load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
 
-[sub_resource type="AtlasTexture" id=209]
+[sub_resource type="AtlasTexture" id=252]
 atlas = SubResource( 175 )
 region = Rect2( 16, 16, 14, 16 )
 
-[sub_resource type="AtlasTexture" id=210]
+[sub_resource type="AtlasTexture" id=253]
 atlas = SubResource( 175 )
 region = Rect2( 0, 16, 10, 16 )
 
-[sub_resource type="StyleBoxFlat" id=211]
+[sub_resource type="StyleBoxFlat" id=254]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -52,21 +52,21 @@ expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxEmpty" id=212]
+[sub_resource type="StyleBoxEmpty" id=255]
 
-[sub_resource type="StyleBoxEmpty" id=213]
+[sub_resource type="StyleBoxEmpty" id=256]
 
-[sub_resource type="StyleBoxLine" id=214]
+[sub_resource type="StyleBoxLine" id=257]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
 
-[sub_resource type="AtlasTexture" id=215]
+[sub_resource type="AtlasTexture" id=258]
 atlas = SubResource( 175 )
 region = Rect2( 32, 0, 10, 10 )
 
-[sub_resource type="StyleBoxEmpty" id=216]
+[sub_resource type="StyleBoxEmpty" id=259]
 
-[sub_resource type="StyleBoxFlat" id=217]
+[sub_resource type="StyleBoxFlat" id=260]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -77,14 +77,14 @@ expand_margin_left = 6.0
 expand_margin_top = 6.0
 expand_margin_bottom = 6.0
 
-[sub_resource type="StreamTexture" id=218]
+[sub_resource type="StreamTexture" id=261]
 load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
 
 [sub_resource type="AtlasTexture" id=152]
-atlas = SubResource( 218 )
+atlas = SubResource( 261 )
 region = Rect2( 0, 4, 16, 8 )
 
-[sub_resource type="StyleBoxTexture" id=219]
+[sub_resource type="StyleBoxTexture" id=262]
 texture = SubResource( 152 )
 region_rect = Rect2( 0, 0, 16, 8 )
 margin_left = 3.34132
@@ -93,7 +93,7 @@ margin_top = 4.0
 margin_bottom = 4.0
 modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 
-[sub_resource type="StyleBoxFlat" id=220]
+[sub_resource type="StyleBoxFlat" id=263]
 bg_color = Color( 0, 0, 0, 0 )
 border_width_left = 2
 border_width_top = 2
@@ -101,12 +101,12 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="AtlasTexture" id=221]
+[sub_resource type="AtlasTexture" id=264]
 atlas = SubResource( 175 )
 region = Rect2( 16, 0, 16, 12 )
 margin = Rect2( 4, 0, 0, 0 )
 
-[sub_resource type="StyleBoxFlat" id=222]
+[sub_resource type="StyleBoxFlat" id=265]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 2
 border_width_top = 2
@@ -118,7 +118,7 @@ expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxFlat" id=223]
+[sub_resource type="StyleBoxFlat" id=266]
 bg_color = Color( 0, 0, 0, 0.862745 )
 border_width_left = 4
 border_width_top = 4
@@ -126,7 +126,7 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
 
-[sub_resource type="StyleBoxLine" id=224]
+[sub_resource type="StyleBoxLine" id=267]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
 vertical = true
@@ -137,46 +137,46 @@ Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
 Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
 Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
-Button/styles/disabled = SubResource( 208 )
-Button/styles/focus = SubResource( 208 )
-Button/styles/hover = SubResource( 208 )
-Button/styles/normal = SubResource( 208 )
-Button/styles/pressed = SubResource( 208 )
+Button/styles/disabled = SubResource( 251 )
+Button/styles/focus = SubResource( 251 )
+Button/styles/hover = SubResource( 251 )
+Button/styles/normal = SubResource( 251 )
+Button/styles/pressed = SubResource( 251 )
 CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
 CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
 CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
 CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
 CheckBox/constants/hseparation = 4
-CheckBox/icons/checked = SubResource( 209 )
-CheckBox/icons/unchecked = SubResource( 210 )
-CheckBox/styles/focus = SubResource( 211 )
-CheckBox/styles/hover = SubResource( 211 )
-CheckBox/styles/hover_pressed = SubResource( 211 )
-CheckBox/styles/normal = SubResource( 212 )
-CheckBox/styles/pressed = SubResource( 213 )
-HSeparator/styles/separator = SubResource( 214 )
-HSlider/icons/grabber = SubResource( 215 )
+CheckBox/icons/checked = SubResource( 252 )
+CheckBox/icons/unchecked = SubResource( 253 )
+CheckBox/styles/focus = SubResource( 254 )
+CheckBox/styles/hover = SubResource( 254 )
+CheckBox/styles/hover_pressed = SubResource( 254 )
+CheckBox/styles/normal = SubResource( 255 )
+CheckBox/styles/pressed = SubResource( 256 )
+HSeparator/styles/separator = SubResource( 257 )
+HSlider/icons/grabber = SubResource( 258 )
 HSlider/icons/grabber_disabled = null
-HSlider/icons/grabber_highlight = SubResource( 215 )
+HSlider/icons/grabber_highlight = SubResource( 258 )
 HSlider/icons/tick = null
-HSlider/styles/grabber_area = SubResource( 216 )
-HSlider/styles/grabber_area_highlight = SubResource( 217 )
-HSlider/styles/slider = SubResource( 219 )
+HSlider/styles/grabber_area = SubResource( 259 )
+HSlider/styles/grabber_area_highlight = SubResource( 260 )
+HSlider/styles/slider = SubResource( 262 )
 Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
 Label/constants/line_spacing = 6
 LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
 LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
-LineEdit/styles/normal = SubResource( 220 )
+LineEdit/styles/normal = SubResource( 263 )
 OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
-OptionButton/icons/arrow = SubResource( 221 )
-OptionButton/styles/focus = SubResource( 222 )
-OptionButton/styles/hover = SubResource( 222 )
-OptionButton/styles/pressed = SubResource( 222 )
-Panel/styles/panel = SubResource( 223 )
-VSeparator/styles/separator = SubResource( 224 )
+OptionButton/icons/arrow = SubResource( 264 )
+OptionButton/styles/focus = SubResource( 265 )
+OptionButton/styles/hover = SubResource( 265 )
+OptionButton/styles/pressed = SubResource( 265 )
+Panel/styles/panel = SubResource( 266 )
+VSeparator/styles/separator = SubResource( 267 )
 
 [sub_resource type="NoiseTexture" id=238]
 width = 246

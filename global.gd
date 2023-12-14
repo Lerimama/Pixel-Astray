@@ -21,6 +21,7 @@ var gameover_menu = null
 var tutorial_gui = null
 
 # camera
+var intro_camera = null
 var player1_camera = null
 var player2_camera = null
 
@@ -48,12 +49,12 @@ var hud_background_color: Color = Color("#141414")
 # FUNKCIJE -----------------------------------------------------------------------------------------------------
 
 
-func snap_to_nearest_grid(current_global_position: Vector2):
+func snap_to_nearest_grid(current_global_position: Vector2, floor_cells: Array):
 	
 	if not is_instance_valid(game_tilemap):
 		print("ERROR! Snapanje na grid ... manjka Global.game_tilemap")
 		
-	var floor_cells: Array = game_manager.floor_positions
+#	var floor_cells: Array = game_manager.floor_positions
 	var cell_size_x: float = game_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 	
 	# adaptacija zaradi središčne točke strejsa in playerja

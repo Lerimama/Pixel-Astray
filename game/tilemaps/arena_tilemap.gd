@@ -1,5 +1,4 @@
 extends TileMap
-class_name ArenaTilemap
 
 
 signal tilemap_completed
@@ -50,7 +49,7 @@ func get_tiles():
 	
 	# pošljem v GM
 	emit_signal("tilemap_completed", floor_global_positions, stray_global_positions, no_stray_global_positions, player_global_positions)
-	
+#	emit_signal("tilemap_completed", floor_global_positions, title_cells_global_positions)
 	
 func get_collision_tile_id(collider: Node2D, direction: Vector2): # collider je node ki se zaleteva in ne collision object
 	

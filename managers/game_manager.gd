@@ -2,13 +2,12 @@ extends Node
 
 
 signal all_strays_cleaned # signal za sebe, počaka, da se vsi kvefrijajo
-signal winner_rewarded # signal za sebe, da počaka na animacije in nagrade
 
 enum GameoverReason {LIFE, TIME, CLEANED}
 
 var game_on: bool = false
 #var colors_to_pick: Array # za hud nejbrhud pravila
-var energy_drain_active: bool = false # za kontrolo črpanja energije
+#var energy_drain_active: bool = false # za kontrolo črpanja energije
 
 # players
 var spawned_player_index: int = 0
@@ -272,7 +271,7 @@ func spawn_stray(stray_color: Color, stray_index: int):
 	Global.node_creation_parent.add_child(new_stray_pixel)
 	
 	# odstranim uporabljeno pozicijo
-	available_positions.remove(selected_cell_index) # ker ni duplikat array, se briše
+	available_positions.remove(selected_cell_index) # ker ni duplikat, se briše iz array baze
 	
 
 func show_strays(show_strays_loop: int):
@@ -340,13 +339,13 @@ func _on_tilemap_completed(floor_cells_positions: Array, stray_cells_positions: 
 	if not stray_cells_positions.empty() and no_stray_cells_positions.empty(): # št. straysov enako številu "required" tiletov
 		strays_start_count = required_spawn_positions.size()
 	else:	
-		strays_start_count = game_data["strays_start_count"]
+		strays_start_count = game_data["strays_start_count"] # podatek mora bit znan pred ukazom s tilemapa, da ga tilemap povozi
 	
 	# preventam preveč straysov (več kot je možnih pozicij)
 	if strays_start_count > random_spawn_positions.size() + required_spawn_positions.size():
-		printt("to many strays to spawn:", strays_start_count - (random_spawn_positions.size() + required_spawn_positions.size()))
-		strays_start_count = random_spawn_positions.size() + required_spawn_positions.size()
-		printt(strays_start_count, " strays spawned")
+		# printt("to many strays to spawn:", strays_start_count - (random_spawn_positions.size() + required_spawn_positions.size()))
+		strays_start_count = random_spawn_positions.size()/2 + required_spawn_positions.size()
+		# printt(strays_start_count, " strays spawned")
 
 	# če ni pozicij, je en player ... random pozicija
 	if player_start_positions.empty():
@@ -354,6 +353,6 @@ func _on_tilemap_completed(floor_cells_positions: Array, stray_cells_positions: 
 		var p1_selected_cell_index: int = randi() % int(random_range)
 		player_start_positions.append(random_spawn_positions[p1_selected_cell_index])
 		random_spawn_positions.remove(p1_selected_cell_index)
-		printt ("player position missing. Random position added. ", player_start_positions)
+		# printt ("player position missing. Random position added. ", player_start_positions)
 	
 	players_count = player_start_positions.size() # tukaj določeno se uporabi za game view setup

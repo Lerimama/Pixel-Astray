@@ -302,7 +302,7 @@ func step():
 	# če kolajda izbrani smeri gibanja prenesem kontrole na skill
 	if not Global.detect_collision_in_direction(vision_ray, step_direction):
 		current_state = States.STEPPING
-		global_position = Global.snap_to_nearest_grid(global_position)
+		global_position = Global.snap_to_nearest_grid(global_position, Global.game_manager.floor_positions)
 		spawn_trail_ghost()
 		var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 		step_tween.tween_property(self, "position", global_position + direction * cell_size_x, step_time)
@@ -331,7 +331,7 @@ func end_move():
 	direction = Vector2.ZERO 
 	lose_virginity()
 	
-	global_position = Global.snap_to_nearest_grid(global_position) 
+	global_position = Global.snap_to_nearest_grid(global_position, Global.game_manager.floor_positions) 
 	current_state = States.IDLE # more bit na kocnu
 	
 	Global.sound_manager.stop_sfx("teleport") # zazih ... export for windows 
@@ -694,6 +694,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	
 	# jih destrojam
 	for stray in strays_to_destroy:
+#		stray.modulate.a = 0
 		var stray_index = strays_to_destroy.find(stray)
 		Global.hud.show_picked_color(stray.stray_color)
 		stray.die(stray_index, strays_to_destroy.size())
@@ -703,7 +704,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
 	Global.sound_manager.play_sfx("hit_stray")	
 	spawn_collision_particles()
-	shake_player_camera(strays_to_destroy.size())			
+#	shake_player_camera(strays_to_destroy.size())			
 
 	change_stat("hit_stray", strays_to_destroy.size())
 	

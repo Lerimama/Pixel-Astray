@@ -12,9 +12,9 @@ func _ready() -> void:
 	
 	Global.main_node = self
 	
-#	home_in_intro()
+	home_in_intro()
 #	home_in_no_intro()
-	game_in()
+#	game_in()
 
 
 func home_in_intro():
@@ -61,7 +61,7 @@ func home_out():
 	fade_out.tween_callback(self, "game_in")#.set_delay(1)
 
 
-func game_in():
+func game_in():	
 	
 	get_tree().set_pause(false)
 	

@@ -8,8 +8,8 @@ var current_esc_hint: HBoxContainer
 
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var menu: HBoxContainer = $Menu
-onready var intro: Node2D = $IntroViewPortContainer/Viewport/Intro
-onready var intro_viewport: Viewport = $IntroViewPortContainer/Viewport
+onready var intro: Node2D = $IntroViewPortContainer/IntroViewport/Intro
+onready var intro_viewport: Viewport = $IntroViewPortContainer/IntroViewport
 
 onready var tutorial_btn: Button = $SelectGame/TutorialBtn
 onready var pointer_btn: Button = $SelectGame/PointerBtn
@@ -82,6 +82,7 @@ func open_from_game(): # select_game screen ... kliče main.gd -> home_in_from_g
 	
 	# animacija na konec
 	animation_player.play("select_game")
+#	animation_player.play_backwards("play")
 	var animation_length: float = animation_player.get_current_animation_length()
 	animation_player.advance(animation_length)
 	
@@ -140,7 +141,7 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 			current_esc_hint = $Highscores/EscHint
 		"play":
 			Global.main_node.home_out()
-
+			
 	if current_esc_hint != null:
 		var hint_fade_in = get_tree().create_tween()
 		hint_fade_in.tween_property(current_esc_hint, "modulate:a", 1, 1)

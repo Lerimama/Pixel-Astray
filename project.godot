@@ -8,16 +8,6 @@
 
 config_version=4
 
-_global_script_classes=[ {
-"base": "TileMap",
-"class": "ArenaTilemap",
-"language": "GDScript",
-"path": "res://game/tilemaps/arena_tilemap.gd"
-} ]
-_global_script_class_icons={
-"ArenaTilemap": ""
-}
-
 [application]
 
 config/name="Stray Pixels"
