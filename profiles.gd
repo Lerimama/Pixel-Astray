@@ -123,7 +123,7 @@ var game_data_cleaner_L: Dictionary = {
 	"game_name": "Cleaner",
 	"level": "L",
 	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_L_tilemap.tscn",
-	"game_time_limit": 1000,
+	"game_time_limit": 300,
 	"strays_start_count": 320, 
 #	"highscore": 0,
 }
@@ -133,7 +133,7 @@ var game_data_duel: Dictionary = {
 	"game_name": "The Duel",
 	"level": "",
 	"tilemap_path": "res://game/tilemaps/_duel_tilemap.tscn",
-	"game_time_limit": 10,
+	"game_time_limit": 1000,
 	"strays_start_count": 230, 
 }
 

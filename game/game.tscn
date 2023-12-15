@@ -1662,7 +1662,6 @@ rect_min_size = Vector2( 1280, 720 )
 script = ExtResource( 2 )
 
 [node name="Life" type="Label" parent="GUI/Hud"]
-visible = false
 margin_left = 32.0
 margin_top = 69.0
 margin_right = 114.0
@@ -1674,7 +1673,6 @@ __meta__ = {
 }
 
 [node name="Energy" type="Label" parent="GUI/Hud"]
-visible = false
 margin_left = 136.0
 margin_top = 69.0
 margin_right = 180.0

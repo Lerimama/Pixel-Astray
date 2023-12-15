@@ -99,7 +99,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	
 	if current_tutorial_stage > 2: # vse, razen mission in traveling
-		if Global.game_manager.strays_in_game.empty() and Global.game_manager.game_on and strays_spawned:
+		if Global.game_manager.strays_in_game_sum == 0 and Global.game_manager.game_on and strays_spawned:
 			strays_spawned = false
 			spawn_new_strays()
 	
@@ -244,7 +244,6 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			current_tutorial_stage = TutorialStage.MISSION
 		"tutorial_start":
 #			Global.game_manager.p1.animation_player.play("revive")
-#			Global.game_manager.p1.animation_player.play("virgin_blink")
 			
 #			for player in get_tree().get_nodes_in_group(Global.group_players):
 #				player.set_physics_process(true)

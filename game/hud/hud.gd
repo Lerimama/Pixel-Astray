@@ -3,8 +3,6 @@ extends Control
 
 signal players_ready # za splitscreen popup
 
-var current_player_life: int # uravnavanje popapov po domače ... temp
-
 # spectrum
 var picked_indicator_alpha: float = 1
 var unpicked_indicator_alpha: float = 0.2
@@ -144,19 +142,13 @@ func check_for_hs(player_stats: Dictionary):
 
 func check_for_warning(player_stats: Dictionary):
 	
-	if player_stats["player_energy"] < 1: # ko zgubi lajf
+	# warning se odfejda, če je sprememba v lajfu (life icons setget)
+	
+	if player_stats["player_energy"] == 0:
 		if energy_warning_popup.visible == true:
-			warning_out()
-	if player_stats["player_energy"] < 2:
+			warning_out()		
+	elif player_stats["player_energy"] == 1:
 		steps_remaining_label.text = "NO ENERGY! Collect a color to revitalize."
-		if not current_player_life:
-			if energy_warning_popup.visible == false:
-				warning_in()
-			current_player_life = player_stats["player_life"]
-		elif current_player_life > player_stats["player_life"]:
-			if energy_warning_popup.visible == true:
-				warning_out()
-		
 	elif player_stats["player_energy"] == 2: # pomeni samo še en korak in rabim ednino
 		steps_remaining_label.text = "ENERGY WARNING! Only 1 step remaining."
 		if energy_warning_popup.visible == false:
@@ -171,12 +163,14 @@ func check_for_warning(player_stats: Dictionary):
 
 
 func warning_in():
+	
 	var warning_in = get_tree().create_tween()
 	warning_in.tween_callback(energy_warning_popup, "set_visible", [true])
 	warning_in.tween_property(energy_warning_popup, "modulate:a", 1, 0.3) #.from(0.0)
 
 
 func warning_out():
+	
 	var warning_out = get_tree().create_tween()
 	warning_out.tween_property(energy_warning_popup, "modulate:a", 0, 0.5)
 	warning_out.tween_callback(energy_warning_popup, "set_visible", [false])

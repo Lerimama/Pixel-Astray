@@ -15,28 +15,27 @@ func _ready() -> void:
 
 func _on_value_change(new_value): # ne rabim parametra
 	
+
 	# setam prev life ... pravi_life count se še ni spremenil
 	previous_life = life_count
 	
 	# setam current life
 	life_count = new_value
 	
-	if previous_life > life_count:
-		
+	if previous_life == life_count:
+		return
+	elif life_count < previous_life:
+#		Global.hud.warning_out() # energy warning se ob spremembi lajfa odfejda
 		modulate = Global.color_red
 		yield(get_tree().create_timer(0.5), "timeout")
 		modulate = Color.white
-	
-	elif previous_life < life_count:
-		
-#		modulate = Global.color_green
+	elif life_count > previous_life:
+		# modulate = Global.color_green
 		yield(get_tree().create_timer(0.5), "timeout")
 		modulate = Color.white
-	else: # če ni spremembe
-		return
 	
 	set_icons_state()
- 
+	
 
 func set_icons_state():
 	
