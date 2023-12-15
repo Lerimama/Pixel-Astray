@@ -11,7 +11,7 @@ var node_creation_parent = null # arena
 # managers
 var sound_manager = null
 var data_manager = null
-var game_manager = null
+var game_manager = null # tudi za intro
 
 # gui
 var game_tilemap = null
@@ -43,6 +43,7 @@ var hud_text_color: Color = Color("#fafafa")
 # reference ... niso v kodi
 var color_almost_black: Color = Color("#141414") # start player, wall, floor
 var color_gray_dark: Color = Color("#232323")
+var color_gui_gray: Color = Color("#838383") # siva v tekstih in ikonah
 var hud_background_color: Color = Color("#141414")
 
 

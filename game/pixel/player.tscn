@@ -563,6 +563,7 @@ position = Vector2( 7.62939e-06, -9.53674e-06 )
 scale = Vector2( 0.75, 0.75 )
 z_index = -1
 texture = ExtResource( 4 )
+energy = 1.5
 range_z_min = -2
 range_z_max = -1
 shadow_enabled = true

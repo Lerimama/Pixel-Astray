@@ -1,8 +1,15 @@
 extends Control
 
 
-enum TutorialStage {MISSION, TRAVELING, BURSTING, SKILLING, STACKING, WINLOSE}
-var current_tutorial_stage
+enum TutorialStage {MISSION = 1, TRAVELING, BURSTING, SKILLING, STACKING, WINLOSE}
+var current_tutorial_stage: int
+
+var strays_spawned: bool = false
+
+# za beleženje vmesnih rezultatov
+var traveling_directions: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
+var all_skills: Array = ["push", "pull", "teleport"]
+var xtra_separation: HSeparator # dodatek za razmak pod odprtim tutorial tekstom
 
 # min heights
 var xtra_separation_height: int = 14
@@ -11,11 +18,6 @@ var stage_height_bursting: int = 394
 var stage_height_skilling: int = 394
 var stage_height_stacking: int = 346
 var stage_height_winlose: int = 300
-
-# za beleženje vmesnih rezultatov
-var traveling_directions: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
-var all_skills: Array = ["push", "pull", "teleport"]
-var xtra_separation: HSeparator # dodatek za razmak pod odprtim tutorial tekstom
 
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 # xtra separation
@@ -46,6 +48,7 @@ func _input(event: InputEvent) -> void:
 		if Input.is_action_just_pressed("ui_accept"):
 			Global.sound_manager.play_gui_sfx("btn_confirm")
 			animation_player.play("tutorial_start")
+			current_tutorial_stage = 0 # anti dablklik
 			Global.sound_manager.play_music("game_music")
 			Global.sound_manager.skip_track() # skipa prvi komad in zapleja drugega
 			
@@ -93,6 +96,14 @@ func _ready() -> void:
 	win_lose_sepa.visible = false
 
 
+func _process(delta: float) -> void:
+	
+	if current_tutorial_stage > 2: # vse, razen mission in traveling
+		if Global.game_manager.strays_in_game.empty() and Global.game_manager.game_on and strays_spawned:
+			strays_spawned = false
+			spawn_new_strays()
+	
+	
 func open_tutorial(): # kliče se z GM
 	
 	visible = true
@@ -105,8 +116,11 @@ func open_tutorial(): # kliče se z GM
 	
 func start_tutorial():
 
-	Global.hud.game_timer.start_timer()
 	current_tutorial_stage = TutorialStage.TRAVELING
+	
+	Global.hud.game_timer.start_timer()
+	Global.game_manager.game_on = true
+	
 	get_tree().call_group(Global.group_players, "set_physics_process", true)
 	
 #	visible = true
@@ -141,16 +155,20 @@ func open_stage(stage_to_show, stage_height, next_separation_adon):
 
 # STAGES ------------------------------------------------------------------------------------------------------------------	
 
-
+func spawn_new_strays():
+	yield(get_tree().create_timer(1), "timeout")
+	Global.game_manager.set_strays(10)
+	strays_spawned = true
+	
 func finish_traveling():
 	if not current_tutorial_stage == TutorialStage.TRAVELING:
 		return	
 	traveling_label.modulate = Global.color_green
 	change_stage(traveling_content, bursting_content, stage_height_bursting, bursting_sepa, TutorialStage.BURSTING)
 	
-	yield(get_tree().create_timer(1), "timeout")
-	Global.game_manager.game_on = true
-	Global.game_manager.set_strays()	
+	spawn_new_strays()
+#	yield(get_tree().create_timer(1), "timeout")
+#	Global.game_manager.set_strays()	
 	
 	
 func finish_bursting():
@@ -159,19 +177,31 @@ func finish_bursting():
 	bursting_label.modulate = Global.color_green
 	change_stage(bursting_content, skilling_content, stage_height_skilling, skilling_sepa, TutorialStage.SKILLING)		
 
+#	if Global.game_manager.strays_in_game.empty(): # če pobije vse, pawnam nove
+#		yield(get_tree().create_timer(1), "timeout")
+#		Global.game_manager.set_strays()
+
 
 func finish_skilling():
 	if not current_tutorial_stage == TutorialStage.SKILLING:
 		return
 	skilling_label.modulate = Global.color_green
 	change_stage(skilling_content, stacking_content, stage_height_stacking, stacking_sepa, TutorialStage.STACKING)		
-
+	
+#	if Global.game_manager.strays_in_game.empty(): # če pobije vse, pawnam nove
+#		yield(get_tree().create_timer(1), "timeout")
+#		Global.game_manager.set_strays()
+	
 	
 func finish_stacking():
 	if not current_tutorial_stage == TutorialStage.STACKING:
 		return
 	stacking_label.modulate = Global.color_green
 	change_stage(stacking_content, winlose_content, stage_height_winlose, win_lose_sepa, TutorialStage.WINLOSE)		
+
+#	if Global.game_manager.strays_in_game.empty(): # če pobije vse, pawnam nove
+#		yield(get_tree().create_timer(1), "timeout")
+#		Global.game_manager.set_strays()
 
 
 func push_done():
@@ -222,7 +252,6 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			var show_player = get_tree().create_tween()
 			show_player.tween_callback(self, "open_stage", [traveling_content, stage_height_traveling, travel_sepa]).set_delay(0.5)
 			show_player.tween_callback(self, "start_tutorial").set_delay(1)
-			
 
 
 func _on_StartBtn_pressed() -> void:

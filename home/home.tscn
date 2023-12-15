@@ -969,6 +969,10 @@ handle_input_locally = false
 render_target_update_mode = 3
 
 [node name="Intro" parent="IntroViewPortContainer/IntroViewport" instance=ExtResource( 6 )]
+__meta__ = {
+"_edit_horizontal_guides_": [ 1984.0, 544.0, 1248.0, 1352.0, 1296.0, 1408.0, 1464.0 ],
+"_edit_vertical_guides_": [ 3080.0, 128.0, 1792.0, 512.0 ]
+}
 
 [node name="IntroCamera" type="Camera2D" parent="IntroViewPortContainer/IntroViewport"]
 position = Vector2( 512, 544 )

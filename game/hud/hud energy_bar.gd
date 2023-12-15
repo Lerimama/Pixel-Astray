@@ -20,7 +20,7 @@ func _process(delta: float) -> void:
 	
 func _on_amount_change(new_value):
 	
-	# setam prev energy ... pravi_life count se še ni spremenil
+	# setam prev energy ... prava energija se še ni spremenila
 	previous_energy = energy 
 	
 	# setam current energy

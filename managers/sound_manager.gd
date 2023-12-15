@@ -145,7 +145,6 @@ func play_music(music_for: String):
 	
 	match music_for:
 		"menu_music":
-			return
 			if menu_music_set_to_off:
 				return
 			menu_music.play()

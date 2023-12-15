@@ -50,7 +50,6 @@ func _ready():
 			Global.player1_camera = self
 		else:
 			Global.player2_camera = self
-	
 		# start setup
 		zoom = zoom_start
 		set_camera_limits()	

@@ -30,9 +30,7 @@ onready var spectrum_rect: TextureRect = $Spectrum
 onready var text_node: Node2D = $Text
 onready var thunder_cover: ColorRect = $ThunderCover/ThunderCover
 onready var skip_intro: HBoxContainer = $Text/SkipIntro
-
 onready var StrayPixel = preload("res://game/pixel/stray.tscn")
-onready var PlayerPixel = preload("res://game/pixel/player.tscn")
 
 
 func _input(event: InputEvent) -> void:

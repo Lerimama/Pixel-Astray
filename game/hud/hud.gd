@@ -1,9 +1,7 @@
 extends Control
 
 
-#signal hud_is_set
-#signal hud_is_gone
-signal players_ready
+signal players_ready # za splitscreen popup
 
 var current_player_life: int # uravnavanje popapov po domače ... temp
 
@@ -20,6 +18,9 @@ var current_highscore_owner: String
 # in/out
 var hud_in_out_time: int = 2
 var screen_height:int = 720
+onready var header_height: int = $Header.rect_size.y
+onready var viewport_header: ColorRect = $"%ViewHeder"
+onready var viewport_footer: ColorRect = $"%ViewFuter"
 
 # popups 
 onready var popups: Control = $Popups # skoz vidno, skrije se na gameover
@@ -27,49 +28,48 @@ onready var highscore_broken_popup: Control = $Popups/HSBroken
 onready var energy_warning_popup: Control = $Popups/EnergyWarning
 onready var steps_remaining_label: Label = $Popups/EnergyWarning/StepsRemaining
 onready var splitscreen_popup: Control = $Popups/SplitScreens
+
 # header
 onready var header: Control = $Header # kontrole iz kamere
 onready var game_timer: HBoxContainer = $Header/GameTimer
-onready var highscore_label: Label = $Header/HighscoreLabel
-onready var music_player: Label = $Header/MusicPlayer
-#onready var music_player_alt: Label = $Header/MusicPlayerAlt # če ni HS je tale
-onready var header_height: int = header.rect_size.y
-onready var viewport_header: ColorRect = $"%ViewHeder"
+onready var highscore_label: Label = $Header/TopLineR/HighscoreLabel
+onready var music_player: Label = $Header/TopLineR/MusicPlayer
 # p1
-onready var p1_statsline: HBoxContainer = $Header/PlayerLineL # neuporabljeno
-onready var p1_label: Label = $Header/PlayerLineL/PlayerLabel
-onready var p1_life_counter: HBoxContainer = $Header/PlayerLineL/LifeIcons
-onready var p1_energy_counter: HBoxContainer = $Header/PlayerLineL/EnergyBar
-onready var p1_points_holder: HBoxContainer = $Header/PlayerLineL/PointsHolder
-onready var p1_points_counter: Label = $Header/PlayerLineL/PointsHolder/Points
-onready var p1_color_holder: HBoxContainer = $Header/PlayerLineL/ColorHolder
-onready var p1_color_counter: Label = $Header/PlayerLineL/ColorHolder/Label
-onready var p1_skill_holder: HBoxContainer = $Header/PlayerLineL/SkillHolder # neuporabljeno
-onready var p1_skill_counter: Label = $Header/PlayerLineL/SkillHolder/Label
-onready var p1_burst_holder: HBoxContainer = $Header/PlayerLineL/BurstHolder # neuporabljeno
-onready var p1_burst_counter: Label = $Header/PlayerLineL/BurstHolder/Label
+onready var p1_statsline: HBoxContainer = $Header/TopLineL # neuporabljeno
+onready var p1_label: Label = $Header/TopLineL/PlayerLabel
+onready var p1_life_counter: HBoxContainer = $Header/TopLineL/LifeIcons
+onready var p1_energy_counter: HBoxContainer = $Header/TopLineL/EnergyBar
+onready var p1_points_holder: HBoxContainer = $Header/TopLineL/PointsHolder
+onready var p1_points_counter: Label = $Header/TopLineL/PointsHolder/Points
+onready var p1_color_holder: HBoxContainer = $Header/TopLineL/ColorHolder
+onready var p1_color_counter: Label = $Header/TopLineL/ColorHolder/Label
+onready var p1_skill_holder: HBoxContainer = $Header/TopLineL/SkillHolder # neuporabljeno
+onready var p1_skill_counter: Label = $Header/TopLineL/SkillHolder/Label
+onready var p1_burst_holder: HBoxContainer = $Header/TopLineL/BurstHolder # neuporabljeno
+onready var p1_burst_counter: Label = $Header/TopLineL/BurstHolder/Label
 # p2
-onready var p2_statsline: HBoxContainer = $Header/PlayerLineR
-onready var p2_label: Label = $Header/PlayerLineR/PlayerLabel # neuporabljeno
-onready var p2_life_counter: HBoxContainer = $Header/PlayerLineR/LifeIcons
-onready var p2_energy_counter: HBoxContainer = $Header/PlayerLineR/EnergyBar
-onready var p2_points_holder: HBoxContainer = $Header/PlayerLineR/PointsHolder # neuporabljeno
-onready var p2_points_counter: Label = $Header/PlayerLineR/PointsHolder/Points # neuporabljeno
-onready var p2_color_holder: HBoxContainer = $Header/PlayerLineR/ColorHolder # neuporabljeno
-onready var p2_color_counter: Label = $Header/PlayerLineR/ColorHolder/Label
-onready var p2_skill_holder: HBoxContainer = $Header/PlayerLineR/SkillHolder # neuporabljeno
-onready var p2_skill_counter: Label = $Header/PlayerLineR/SkillHolder/Label
-onready var p2_burst_holder: HBoxContainer = $Header/PlayerLineR/BurstHolder # neuporabljeno
-onready var p2_burst_counter: Label = $Header/PlayerLineR/BurstHolder/Label
+onready var p2_statsline: HBoxContainer = $Header/TopLineR/PlayerLineR
+onready var p2_label: Label = $Header/TopLineR/PlayerLineR/PlayerLabel # neuporabljeno
+onready var p2_life_counter: HBoxContainer = $Header/TopLineR/PlayerLineR/LifeIcons
+onready var p2_energy_counter: HBoxContainer = $Header/TopLineR/PlayerLineR/EnergyBar
+onready var p2_points_holder: HBoxContainer = $Header/TopLineR/PlayerLineR/PointsHolder # neuporabljeno
+onready var p2_points_counter: Label = $Header/TopLineR/PlayerLineR/PointsHolder/Points # neuporabljeno
+onready var p2_color_holder: HBoxContainer = $Header/TopLineR/PlayerLineR/ColorHolder # neuporabljeno
+onready var p2_color_counter: Label = $Header/TopLineR/PlayerLineR/ColorHolder/Label
+onready var p2_skill_holder: HBoxContainer = $Header/TopLineR/PlayerLineR/SkillHolder # neuporabljeno
+onready var p2_skill_counter: Label = $Header/TopLineR/PlayerLineR/SkillHolder/Label
+onready var p2_burst_holder: HBoxContainer = $Header/TopLineR/PlayerLineR/BurstHolder # neuporabljeno
+onready var p2_burst_counter: Label = $Header/TopLineR/PlayerLineR/BurstHolder/Label
+
 # futer
 onready var footer: Control = $Footer # kontrole iz kamere
 onready var game_label: Label = $Footer/FooterLine/GameLine/Game
 onready var level_label: Label = $Footer/FooterLine/GameLine/Level
-onready var spectrum: HBoxContainer = $Footer/FooterLine/SpectrumHolder/ColorSpectrum
-onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
 onready var astray_counter: Label = $Footer/FooterLine/StraysLine/AstrayHolder/Label
 onready var picked_counter: Label = $Footer/FooterLine/StraysLine/PickedHolder/Label
-onready var viewport_footer: ColorRect = $"%ViewFuter"
+onready var spectrum: HBoxContainer = $Footer/FooterLine/SpectrumHolder/ColorSpectrum
+onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
+
 # debug
 onready var player_life: Label = $Life
 onready var player_energy: Label = $Energy
@@ -95,15 +95,17 @@ func _ready() -> void:
 	game_label.text = Global.game_manager.game_data["game_name"]
 	level_label.text = Global.game_manager.game_data["level"]
 	
+	astray_counter.text = "%03d" % Global.game_manager.game_data["strays_start_count"]
+
 	
 func _process(delta: float) -> void:
 	
-	astray_counter.text = "%03d" % Global.game_manager.strays_in_game.size()
-	picked_counter.text = "%03d" % (Global.game_manager.strays_start_count - Global.game_manager.strays_in_game.size())
+	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_sum
+	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_sum
 
 
 func update_stats(stat_owner: Node, player_stats: Dictionary):	
-	
+
 	# player stats
 	match stat_owner.name:
 		"p1":
@@ -121,11 +123,11 @@ func update_stats(stat_owner: Node, player_stats: Dictionary):
 			p2_color_counter.text = "%d" % player_stats["colors_collected"]
 			p2_burst_counter.text = "%d" % player_stats["burst_count"]
 			p2_skill_counter.text = "%d" % player_stats["skill_count"]
-				
+
 	# debug
 	player_life.text = "LIFE: %d" % player_stats["player_life"]
 	player_energy.text = "E: %d" % player_stats["player_energy"]
-	
+
 	if Global.game_manager.game_settings["manage_highscores"]:
 		check_for_hs(player_stats)
 	
@@ -227,15 +229,17 @@ func set_hud(players_count: int): # kliče main na game-in
 		if Global.game_manager.game_settings["manage_highscores"]:
 			highscore_label.visible = true
 			set_current_highscore()
+		elif Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
+			highscore_label.visible = true
 		else:
 			highscore_label.visible = false
+	
 	elif players_count == 2:
 		highscore_label.visible = false
 		level_label.visible = false
 		p1_label.visible = true
 		p1_color_holder.visible = true
 		p2_statsline.visible = true
-	
 	
 	# lajf counter
 	if Global.game_manager.game_settings["player_start_life"] == 1:

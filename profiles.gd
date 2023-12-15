@@ -94,7 +94,7 @@ var game_data_tutorial: Dictionary = {
 	"game_name": "Tutorial",
 	"level": "",
 	"tilemap_path": "res://game/tilemaps/tutorial_tilemap.tscn",
-	"game_time_limit": 0,
+	"game_time_limit": 100,
 	"strays_start_count": 10,
 }
 
@@ -171,7 +171,7 @@ func set_game_data(selected_game) -> void:
 		Games.DEBUG: # default nastavitve
 			current_game_data = game_data_debug
 			game_settings["player_start_life"] = 2
-			game_settings["manage_highscores"] = true
+			game_settings["manage_highscores"] = false
 		Games.RUNNER: 
 			current_game_data = game_data_runner
 			game_settings["player_start_life"] = 3
@@ -186,6 +186,7 @@ func set_game_data(selected_game) -> void:
 		Games.TUTORIAL:
 			current_game_data = game_data_tutorial
 			game_settings["timer_mode_countdown"] = false
+#			game_settings["manage_highscores"] = true
 			game_settings["start_countdown"] = false
 		Games.CLEANER_S: 
 			current_game_data = game_data_cleaner_S

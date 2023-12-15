@@ -555,7 +555,7 @@ func spawn_collision_particles():
 	
 
 func spawn_cock_ghost(cocking_direction, cocked_ghosts_count):
-
+	
 	var cocked_ghost_alpha: float = 0.55 # najnižji alfa za ghoste
 	var cocked_ghost_alpha_divisor: float = 14 # faktor nižanja po zaporedju (manjši je bolj oster
 	
@@ -704,7 +704,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
 	Global.sound_manager.play_sfx("hit_stray")	
 	spawn_collision_particles()
-#	shake_player_camera(strays_to_destroy.size())			
+	shake_player_camera(strays_to_destroy.size())			
 
 	change_stat("hit_stray", strays_to_destroy.size())
 	
@@ -796,7 +796,7 @@ func check_for_neighbors(hit_stray: KinematicBody2D):
 func transition_to_color (picked_color: Color):
 
 	var change: SceneTreeTween = get_tree().create_tween()
-	change.tween_property(self, "pixel_color", picked_color, 0.7).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
+	change.tween_property(self, "pixel_color", picked_color, 0.5).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
 
 	
 func play_blinking_sound(): 
@@ -948,7 +948,9 @@ func change_stat(event: String, change_value):
 			player_stats["colors_collected"] += hit_strays_count
 			player_stats["player_points"] += points_rewarded
 			player_stats["player_energy"] += energy_rewarded
-			spawn_floating_tag(points_rewarded) 
+			spawn_floating_tag(points_rewarded)
+			# GM strays sum
+			Global.game_manager.strays_in_game_sum = - hit_strays_count
 			# tutorial
 			if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
 				Global.tutorial_gui.finish_bursting()
