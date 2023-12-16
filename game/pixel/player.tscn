@@ -521,7 +521,7 @@ tracks/0/path = NodePath(".:modulate:a")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = true
+tracks/0/enabled = false
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.06, 0.32, 0.52, 0.8 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
@@ -533,7 +533,7 @@ tracks/1/path = NodePath("BurstLight:enabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
-tracks/1/enabled = true
+tracks/1/enabled = false
 tracks/1/keys = {
 "times": PoolRealArray( 0, 0.01 ),
 "transitions": PoolRealArray( 1, 1 ),
@@ -545,7 +545,7 @@ tracks/2/path = NodePath("BurstLight:energy")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
-tracks/2/enabled = true
+tracks/2/enabled = false
 tracks/2/keys = {
 "times": PoolRealArray( 0, 0.06, 0.14, 0.32, 0.52, 0.8 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
@@ -565,6 +565,18 @@ tracks/3/keys = {
 "args": [  ],
 "method": "play_heartbeat_sound"
 } ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath(".:pixel_color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = false
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.996078, 0.976471, 0.545098, 1 ) ]
 }
 
 [node name="Player" type="KinematicBody2D"]

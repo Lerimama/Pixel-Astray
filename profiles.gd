@@ -22,16 +22,20 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 #	"start_players_count": 1, # setano v home/play meniju
 	
 	# scoring
-	"hit_player_points": 1000,
+#	"hit_player_points": 1000,
 	"all_cleaned_points": 500,
 	"color_picked_points": 1,
-	"color_picked_energy": 20,
-	"stacked_color_picked_points": 2,
-	"stacked_color_picked_energy": 10,
+#	"stacked_color_picked_points": 2,
 	"cell_traveled_points": -1,
-	"cell_traveled_energy": -1,
 	"skill_used_points": 0,
+	"on_hit_points_part": 2,
+	
+	# energija
+	"color_picked_energy": 20,
+#	"stacked_color_picked_energy": 10,
+	"cell_traveled_energy": -1,
 	"skill_used_energy": 0,
+	"on_hit_energy_part": 2, # delež porabe od trenutne energije
 	
 	# player on start
 	"player_start_life": 3, # 1 lajf skrije ikone v hudu in določi "lose_life_on_hit"
@@ -123,7 +127,7 @@ var game_data_cleaner_L: Dictionary = {
 	"game_name": "Cleaner",
 	"level": "L",
 	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_L_tilemap.tscn",
-	"game_time_limit": 300,
+	"game_time_limit": 3000,
 	"strays_start_count": 320, 
 #	"highscore": 0,
 }
@@ -156,9 +160,9 @@ var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "c
 
 func _ready() -> void:
 	
-#	var current_game = Games.DUEL # če greš iz menija je tole povoženo
+	var current_game = Games.DUEL # če greš iz menija je tole povoženo
 #	var current_game = Games.TUTORIAL # če greš iz menija je tole povoženo
-	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
+#	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
 #	var current_game = Games.DEBUG # če greš iz menija je tole povoženo
 	set_game_data(current_game)
 	

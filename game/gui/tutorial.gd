@@ -203,7 +203,8 @@ func finish_stacking():
 #		yield(get_tree().create_timer(1), "timeout")
 #		Global.game_manager.set_strays()
 
-
+func skill_done():
+	pass
 func push_done():
 	if not current_tutorial_stage == TutorialStage.SKILLING:
 		return
