@@ -42,7 +42,7 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 	"player_start_energy": 192,
 	"player_start_color": Color("#141414"),
 	
-	# player in game
+	# player in gamead
 	"player_max_energy": 192, # max energija
 	"player_tired_energy": 20, # pokaže steps warning popup in hud oabrva rdeče
 	"step_time_fast": 0.09, # default hitrost
@@ -98,7 +98,7 @@ var game_data_tutorial: Dictionary = {
 	"game_name": "Tutorial",
 	"level": "",
 	"tilemap_path": "res://game/tilemaps/tutorial_tilemap.tscn",
-	"game_time_limit": 100,
+	"game_time_limit": 600,
 	"strays_start_count": 10,
 }
 
@@ -160,8 +160,8 @@ var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "c
 
 func _ready() -> void:
 	
-	var current_game = Games.DUEL # če greš iz menija je tole povoženo
-#	var current_game = Games.TUTORIAL # če greš iz menija je tole povoženo
+#	var current_game = Games.DUEL # če greš iz menija je tole povoženo
+	var current_game = Games.TUTORIAL # če greš iz menija je tole povoženo
 #	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
 #	var current_game = Games.DEBUG # če greš iz menija je tole povoženo
 	set_game_data(current_game)

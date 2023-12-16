@@ -51,8 +51,8 @@ func set_game():
 	
 	set_players()
 	
-	if game_data["game"] != Profiles.Games.TUTORIAL: 
-		set_strays(game_data["strays_start_count"])
+	if not game_data["game"] == Profiles.Games.TUTORIAL: 
+		set_strays()
 		yield(get_tree().create_timer(1), "timeout") # da si plejer ogleda
 
 	Global.hud.slide_in(players_count)
@@ -195,9 +195,11 @@ func set_players():
 			new_player_pixel.player_camera.camera_target = new_player_pixel
 		
 		
-func set_strays(strays_to_spawn_count: int):
+func set_strays():
 	
+	var strays_to_spawn_count = game_data["strays_start_count"]
 	spawn_strays(strays_to_spawn_count)
+	
 	yield(get_tree().create_timer(0.01), "timeout") # da se vsi straysi spawnajo
 	
 	var show_strays_loop: int = 0
@@ -355,41 +357,3 @@ func _on_tilemap_completed(floor_cells_positions: Array, stray_cells_positions: 
 		random_spawn_positions.remove(p1_selected_cell_index)
 	
 	players_count = player_start_positions.size() # tukaj določeno se uporabi za game view setup
-
-
-
-
-#func spawn_stray(stray_color: Color, stray_index: int, stray_position: Vector2):
-	
-#	# izbor spawn pozicije 
-#	var current_spawn_positions: Array
-#	if not required_spawn_positions.empty(): # najprej obvezne
-#		current_spawn_positions = required_spawn_positions
-#	elif required_spawn_positions.empty(): # potem random
-#		current_spawn_positions = random_spawn_positions
-#	elif random_spawn_positions.empty() and required_spawn_positions.empty(): # STOP, če ni prostora, straysi pa so še na voljo
-#		print ("No available spawn positions")
-#		return
-#
-#	# randomizacija	
-#	var random_range = current_spawn_positions.size()
-#	var selected_cell_index: int = randi() % int(random_range)
-#	
-#	# spawn
-#	var new_stray_pixel = StrayPixel.instance()
-#	new_stray_pixel.name = "S%s" % str(stray_index)
-#	new_stray_pixel.stray_color = stray_color
-#	new_stray_pixel.global_position = stray_position + Global.game_tilemap.cell_size/2 # dodana adaptacija zaradi središča pixla
-#	new_stray_pixel.z_index = 2 # višje od plejerja
-#	Global.node_creation_parent.add_child(new_stray_pixel)
-#	
-#	# odstranim uporabljeno pozicijo
-#	current_spawn_positions.remove(selected_cell_index) # ker ni duplikat, se briše iz array baze
-	
-	# spawn
-#	var new_stray_pixel = StrayPixel.instance()
-#	new_stray_pixel.name = "S%s" % str(stray_index)
-#	new_stray_pixel.stray_color = stray_color
-#	new_stray_pixel.global_position = stray_position + Global.game_tilemap.cell_size/2 # dodana adaptacija zaradi središča pixla
-#	new_stray_pixel.z_index = 2 # višje od plejerja
-#	Global.node_creation_parent.add_child(new_stray_pixel)

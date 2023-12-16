@@ -4,8 +4,6 @@ extends Control
 enum TutorialStage {MISSION = 1, TRAVELING, BURSTING, SKILLING, STACKING, WINLOSE}
 var current_tutorial_stage: int
 
-var strays_spawned: bool = false
-
 # za beleženje vmesnih rezultatov
 var traveling_directions: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
 var all_skills: Array = ["push", "pull", "teleport"]
@@ -99,18 +97,15 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	
 	if current_tutorial_stage > 2: # vse, razen mission in traveling
-		if Global.game_manager.strays_in_game_sum == 0 and Global.game_manager.game_on and strays_spawned:
-			strays_spawned = false
-			spawn_new_strays()
-	
+		if Global.game_manager.strays_in_game_sum == 0:
+			finish_tutorial()
+#			strays_spawned = false
+#			spawn_new_strays()
 	
 func open_tutorial(): # kliče se z GM
 	
 	visible = true
-#	current_tutorial_stage = TutorialStage.MISSION
-#	Global.game_manager.player_pixel.set_physics_process(false)
 	get_tree().call_group(Global.group_players, "set_physics_process", false)
-#	Global.game_manager.p1.set_physics_process(false)
 	animation_player.play("mission_in")
 	
 	
@@ -123,13 +118,6 @@ func start_tutorial():
 	
 	get_tree().call_group(Global.group_players, "set_physics_process", true)
 	
-#	visible = true
-#	current_tutorial_stage = TutorialStage.MISSION
-#	Global.game_manager.player_pixel.set_physics_process(false)
-#	get_tree().call_group(Global.group_players, "set_physics_process", false)
-#	Global.game_manager.p1.set_physics_process(false)
-#	animation_player.play("mission_in")
-
 
 func change_stage(stage_to_hide: Control, next_stage: Control, next_stage_height: int, separation_adon: Control, next_stage_enum):
 	
@@ -155,20 +143,15 @@ func open_stage(stage_to_show, stage_height, next_separation_adon):
 
 # STAGES ------------------------------------------------------------------------------------------------------------------	
 
-func spawn_new_strays():
-	yield(get_tree().create_timer(1), "timeout")
-	Global.game_manager.set_strays(10)
-	strays_spawned = true
-	
+
 func finish_traveling():
 	if not current_tutorial_stage == TutorialStage.TRAVELING:
 		return	
 	traveling_label.modulate = Global.color_green
 	change_stage(traveling_content, bursting_content, stage_height_bursting, bursting_sepa, TutorialStage.BURSTING)
 	
-	spawn_new_strays()
-#	yield(get_tree().create_timer(1), "timeout")
-#	Global.game_manager.set_strays()	
+	yield(get_tree().create_timer(1), "timeout")
+	Global.game_manager.set_strays()
 	
 	
 func finish_bursting():
@@ -177,62 +160,40 @@ func finish_bursting():
 	bursting_label.modulate = Global.color_green
 	change_stage(bursting_content, skilling_content, stage_height_skilling, skilling_sepa, TutorialStage.SKILLING)		
 
-#	if Global.game_manager.strays_in_game.empty(): # če pobije vse, pawnam nove
-#		yield(get_tree().create_timer(1), "timeout")
-#		Global.game_manager.set_strays()
-
 
 func finish_skilling():
+	
 	if not current_tutorial_stage == TutorialStage.SKILLING:
 		return
 	skilling_label.modulate = Global.color_green
 	change_stage(skilling_content, stacking_content, stage_height_stacking, stacking_sepa, TutorialStage.STACKING)		
 	
-#	if Global.game_manager.strays_in_game.empty(): # če pobije vse, pawnam nove
-#		yield(get_tree().create_timer(1), "timeout")
-#		Global.game_manager.set_strays()
-	
 	
 func finish_stacking():
+	
 	if not current_tutorial_stage == TutorialStage.STACKING:
 		return
 	stacking_label.modulate = Global.color_green
 	change_stage(stacking_content, winlose_content, stage_height_winlose, win_lose_sepa, TutorialStage.WINLOSE)		
 
-#	if Global.game_manager.strays_in_game.empty(): # če pobije vse, pawnam nove
-#		yield(get_tree().create_timer(1), "timeout")
-#		Global.game_manager.set_strays()
 
-func skill_done():
-	pass
-func push_done():
+func skill_done(skill: String):
+	
 	if not current_tutorial_stage == TutorialStage.SKILLING:
-		return
-	all_skills.erase("push")
+		return	
+	
+	all_skills.erase(skill)
 	if all_skills.empty():
 		finish_skilling()
 
 	
-func pull_done():
-	if not current_tutorial_stage == TutorialStage.SKILLING:
-		return
-	all_skills.erase("pull")
-	if all_skills.empty():
-		finish_skilling()
-
-	
-func teleport_done():
-	if not current_tutorial_stage == TutorialStage.SKILLING:
-		return
-	all_skills.erase("teleport")
-	if all_skills.empty():
-		finish_skilling()
-
-
 func finish_tutorial():
+	
 	if not current_tutorial_stage == TutorialStage.WINLOSE:
 		return
-	winlose_label.modulate = Global.color_green	
+	winlose_label.modulate = Global.color_green
+	
+	Global.game_manager.game_over(Global.game_manager.GameoverReason.CLEANED)
 
 
 # SIGNALS ------------------------------------------------------------------------------------------------------------------	
@@ -244,11 +205,6 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 		"mission_in":
 			current_tutorial_stage = TutorialStage.MISSION
 		"tutorial_start":
-#			Global.game_manager.p1.animation_player.play("revive")
-			
-#			for player in get_tree().get_nodes_in_group(Global.group_players):
-#				player.set_physics_process(true)
-			
 			var show_player = get_tree().create_tween()
 			show_player.tween_callback(self, "open_stage", [traveling_content, stage_height_traveling, travel_sepa]).set_delay(0.5)
 			show_player.tween_callback(self, "start_tutorial").set_delay(1)
