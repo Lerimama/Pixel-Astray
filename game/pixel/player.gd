@@ -730,6 +730,12 @@ func stop_heart():
 	change_stats()
 
 
+func all_cleaned():
+	
+	animation_player.play("become_white_again")
+	set_physics_process(false)
+	
+	
 # SPAWNING ------------------------------------------------------------------------------------------
 
 
@@ -810,9 +816,7 @@ func spawn_ghost(ghost_spawn_position: Vector2):
 	
 func spawn_floating_tag(value: int):
 	
-	if not Global.game_manager.game_on and not value == game_settings["all_cleaned_points"]:
-		return
-	elif value == 0:
+	if value == 0:
 		return
 	
 	var new_floating_tag = FloatingTag.instance()
@@ -996,16 +1000,18 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 		"die_player":
 			if player_stats["player_life"] > 0:
 				revive()
+			else:
+				Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)
 		"revive":
 			set_physics_process(true)
 			if player_stats["player_energy"] == 0: # energija 0 pomeni, da je od srčka ali pa, da je "lose_life_on_hit"
 				player_stats["player_energy"] = game_settings["player_max_energy"]
 				change_stats()
 		"become_white_again":
-			yield(get_tree().create_timer(0.5), "timeout") # za dojet
+			yield(get_tree().create_timer(1), "timeout") # za dojet
 			player_stats["player_points"] += game_settings["all_cleaned_points"]
 			spawn_floating_tag(game_settings["all_cleaned_points"])
-			emit_signal("stat_changed", self, player_stats)
+			change_stats()
 			emit_signal("rewarded_on_game_over")
 
 		
@@ -1017,11 +1023,4 @@ func change_stats():
 	player_stats["player_energy"] = clamp(player_stats["player_energy"], 0, game_settings["player_max_energy"])
 	player_stats["player_points"] = clamp(player_stats["player_points"], 0, player_stats["player_points"]) # 1 je ker drugače gre do -1 ... ne vem zakaj	
 	
-	if Global.game_manager.game_on:
-		emit_signal("stat_changed", self, player_stats)
-	
-#	# ni več lajfa
-#	if player_stats["player_life"] == 0:
-#		Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)
-	
-#	manage_heartbeat()
+	emit_signal("stat_changed", self, player_stats)

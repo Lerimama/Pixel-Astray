@@ -85,7 +85,9 @@ func open_from_game(): # select_game screen ... kliče main.gd -> home_in_from_g
 #	animation_player.play_backwards("play")
 	var animation_length: float = animation_player.get_current_animation_length()
 	animation_player.advance(animation_length)
-	
+	if not Global.sound_manager.menu_music_set_to_off:
+		Global.sound_manager.play_music("menu_music")
+
 	
 func menu_in(): # kliče se na koncu intra (tudi na skip)
 	

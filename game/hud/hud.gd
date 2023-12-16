@@ -88,12 +88,11 @@ func _ready() -> void:
 	
 	# pre-hud in pozicije
 	header.rect_position.y = - header_height
-	footer.rect_position.y = screen_height	
+	footer.rect_position.y = screen_height
+		
 	game_label.text = Global.game_manager.game_data["game_name"]
 	level_label.text = Global.game_manager.game_data["level"]
 	
-	astray_counter.text = "%03d" % Global.game_manager.game_data["strays_start_count"]
-
 	
 func _process(delta: float) -> void:
 	
@@ -102,7 +101,7 @@ func _process(delta: float) -> void:
 
 
 func update_stats(stat_owner: Node, player_stats: Dictionary):	
-
+	
 	# player stats
 	match stat_owner.name:
 		"p1":
@@ -176,6 +175,7 @@ func warning_out(warning_popup: Control):
 	var warning_out = get_tree().create_tween()
 	warning_out.tween_property(warning_popup, "modulate:a", 0, 0.5)
 	warning_out.tween_callback(warning_popup, "set_visible", [false])
+
 
 func popups_out(): # kliče GM na gameover
 	

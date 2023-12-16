@@ -83,21 +83,22 @@ func game_over(gameover_reason: int):
 	
 	if game_on == false: # preprečim double gameover
 		return
-	
 	game_on = false
 	
-	stop_game_elements()
+	Global.hud.game_timer.stop_timer()
 	
 	if gameover_reason == GameoverReason.CLEANED:
 		all_strays_died_alowed = true
 		yield(self, "all_strays_died")
 		var signaling_player: KinematicBody2D
 		for player in get_tree().get_nodes_in_group(Global.group_players):
-			player.animation_player.play("become_white_again")
+			player.all_cleaned()
 			signaling_player = player
 		yield(signaling_player, "rewarded_on_game_over") # počakam, da je nagrajen
 	
-	yield(get_tree().create_timer(1), "timeout") # za dojet
+	yield(get_tree().create_timer(2), "timeout") # za dojet
+	
+	stop_game_elements()
 	
 	Global.gameover_menu.open_gameover(gameover_reason)
 	
@@ -163,8 +164,6 @@ func set_game_view():
 	
 	
 func set_players():
-	
-#	game_settings["player_start_color"] = Color.purple
 	
 	for player_position in player_start_positions: # glavni parameter, ki opredeli število igralcev
 		spawned_player_index += 1 # torej začnem z 1
@@ -312,8 +311,7 @@ func show_strays(show_strays_loop: int):
 
 func stop_game_elements():
 	
-	Global.hud.game_timer.stop_timer()
-	Global.sound_manager.stop_music("game_music")	
+	Global.sound_manager.stop_music("game_music_on_gameover")	
 	
 	# včasih nujno
 	Global.hud.popups_out()

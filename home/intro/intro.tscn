@@ -682,6 +682,7 @@ margin_bottom = 2368.0
 color = Color( 1, 1, 1, 0 )
 
 [node name="_view_muštr" type="ColorRect" parent="."]
+visible = false
 margin_left = 512.0
 margin_top = 544.0
 margin_right = 3072.0
