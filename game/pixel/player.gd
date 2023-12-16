@@ -2,10 +2,10 @@ extends KinematicBody2D
 
 
 signal stat_changed # spremenjena statistika se pošlje v hud
+signal rewarded_on_game_over # dobil nagrado ob cleaned
 
 enum States {IDLE, STEPPING, SKILLED, SKILLING, COCKING, RELEASING, BURSTING}
 var current_state # = States.IDLE
-
 
 var direction = Vector2.ZERO # prenosna
 var collision: KinematicCollision2D
@@ -70,7 +70,7 @@ onready var glow_light: Light2D = $GlowLight
 
 var change_color_tween: SceneTreeTween # če cockam pred končanjem tweena, vzamem to barvo
 var change_to_color: Color
-var heart_stopped: bool # za opredelitev od česa je klican die()
+#var heart_stopped: bool # za opredelitev od česa je klican die()
 
 func _unhandled_input(event: InputEvent) -> void:
 
@@ -139,12 +139,13 @@ func manage_heartbeat():
 			heartbeat_loop = 0
 			animation_player.play("heartbeat")		
 	elif player_stats["player_energy"] > 1: # revitalizacija
-		heart_stopped = false
+#		heart_stopped = false
 		if animation_player.get_current_animation() == "heartbeat":
 			animation_player.stop()
 			# resetiram problematično
 			modulate.a = 1
 			burst_light.enabled = false
+	
 	
 						
 func state_machine():
@@ -617,7 +618,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	for stray in strays_to_destroy:
 		var stray_index = strays_to_destroy.find(stray)
 		Global.hud.show_picked_color(stray.stray_color)
-		stray.die(stray_index, strays_to_destroy.size())
+		stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
 	
 	end_move() # more bit za collision partikli zaradi smeri
 	
@@ -631,7 +632,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	player_stats["player_points"] += points_to_gain
 	player_stats["player_energy"] += energy_to_gain
 	spawn_floating_tag(points_to_gain)
-	Global.game_manager.strays_in_game_sum = - strays_to_destroy.size() # GM strays sum
+	Global.game_manager.strays_in_game_count = - strays_to_destroy.size() # GM strays sum
 	if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL: # tutorial
 		Global.tutorial_gui.finish_bursting()
 		if strays_to_destroy.size() >= 3:
@@ -650,7 +651,7 @@ func on_hit_wall():
 	end_move()
 	
 	if not player_stats["player_energy"] > 1:
-		heart_stops()
+		stop_heart()
 		
 	# stats
 	if Global.game_manager.game_settings["lose_life_on_hit"]:
@@ -682,7 +683,7 @@ func on_get_hit(hit_burst_power: int):
 	pixel_color = Global.game_manager.game_settings["player_start_color"] # postane začetne barve
 	
 	if not player_stats["player_energy"] > 1:
-		heart_stops()
+		stop_heart()
 	
 	# stats
 	if Global.game_manager.game_settings["lose_life_on_hit"]:
@@ -698,6 +699,9 @@ func on_get_hit(hit_burst_power: int):
 	
 	die() # vedno sledi statistiki
 	
+
+# LIFE LOOP ----------------------------------------------------------------------------------------
+
 
 func die():
 	
@@ -716,9 +720,7 @@ func revive():
 	animation_player.play("revive")
 
 
-func heart_stops():
-	
-	heart_stopped = true
+func stop_heart():
 	
 	# resetiram problematično
 	modulate.a = 1
@@ -755,7 +757,7 @@ func spawn_collision_particles():
 func spawn_cock_ghost(cocking_direction: Vector2, cocked_ghosts_count: int):
 	
 	var cocked_ghost_alpha: float = 1 # najnižji alfa za ghoste ... old 0.55
-	var cocked_ghost_alpha_divisor: float = 7.5 # faktor nižanja po zaporedju (manjši je bolj oster) ... old 14
+	var cocked_ghost_alpha_divisor: float = 8 # faktor nižanja po zaporedju (manjši je bolj oster) ... old 14
 	
 	# spawn ghosta pod manom
 	var cock_ghost_position = (global_position - cocking_direction * cell_size_x/2) + (cocking_direction * cell_size_x * cocked_ghosts_count)
@@ -808,7 +810,9 @@ func spawn_ghost(ghost_spawn_position: Vector2):
 	
 func spawn_floating_tag(value: int):
 	
-	if value == 0:
+	if not Global.game_manager.game_on and not value == game_settings["all_cleaned_points"]:
+		return
+	elif value == 0:
 		return
 	
 	var new_floating_tag = FloatingTag.instance()
@@ -987,7 +991,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			if heartbeat_loop <= 5:
 				animation_player.play("heartbeat")
 			else:
-				heart_stops()
+				stop_heart()
 				die()
 		"die_player":
 			if player_stats["player_life"] > 0:
@@ -1001,6 +1005,8 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			yield(get_tree().create_timer(0.5), "timeout") # za dojet
 			player_stats["player_points"] += game_settings["all_cleaned_points"]
 			spawn_floating_tag(game_settings["all_cleaned_points"])
+			emit_signal("stat_changed", self, player_stats)
+			emit_signal("rewarded_on_game_over")
 
 		
 # STAT EVENTS ------------------------------------------------------------------------------------------
@@ -1011,11 +1017,9 @@ func change_stats():
 	player_stats["player_energy"] = clamp(player_stats["player_energy"], 0, game_settings["player_max_energy"])
 	player_stats["player_points"] = clamp(player_stats["player_points"], 0, player_stats["player_points"]) # 1 je ker drugače gre do -1 ... ne vem zakaj	
 	
-	emit_signal("stat_changed", self, player_stats)
+	if Global.game_manager.game_on:
+		emit_signal("stat_changed", self, player_stats)
 	
-#	if not Global.game_manager.game_on and not event == "all_cleaned": # statistika se ne beleži več, razen "all_cleaned"
-#		return
-#
 #	# ni več lajfa
 #	if player_stats["player_life"] == 0:
 #		Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)

@@ -9,7 +9,7 @@ var currently_playing_track_index = 1 # ga ne resetiraš, da ostane v spominu sk
 
 onready var game_music: Node2D = $Music/GameMusic
 onready var menu_music = $Music/MenuMusic/WarmUpShort
-onready var menu_music_volume_on_node = menu_music.volume_db # za reset po fejdoutu (game_over)
+onready var menu_music_volume_on_node = menu_music.volume_db # za reset po fejdoutu (game over)
 	
 	
 func _ready() -> void:

@@ -1,7 +1,7 @@
 extends Node
 
 
-signal all_strays_cleaned # signal za sebe, počaka, da se vsi kvefrijajo
+signal all_strays_died # signal za sebe, počaka, da se vsi kvefrijajo
 
 enum GameoverReason {LIFE, TIME, CLEANED}
 
@@ -15,8 +15,9 @@ var players_count: int
 # strays
 #var strays_in_game: Array = []
 var strays_shown: Array = []
-var strays_in_game_sum: int setget _change_strays_sum # spremlja spremembo količine aktivnih in uničenih straysov
-var strays_cleaned_sum: int
+var strays_in_game_count: int setget _change_strays_in_game_count # spremlja spremembo količine aktivnih in uničenih straysov
+var strays_cleaned_count: int
+var all_strays_died_alowed: bool = false # za omejevnje signala iz FP
 
 # tilemap data
 var floor_positions: Array
@@ -38,11 +39,14 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	
-#	strays_in_game = get_tree().get_nodes_in_group(Global.group_strays)
-#
+	if get_tree().get_nodes_in_group(Global.group_strays).empty() and all_strays_died_alowed:
+		all_strays_died_alowed = false
+		emit_signal("all_strays_died")
+		print("emit")
 #	if strays_in_game.size() == 0 and strays_spawned and game_on:
 #		game_over(GameoverReason.CLEANED)
 	pass
+
 	
 # GAME LOOP ----------------------------------------------------------------------------------
 
@@ -85,11 +89,13 @@ func game_over(gameover_reason: int):
 	stop_game_elements()
 	
 	if gameover_reason == GameoverReason.CLEANED:
+		all_strays_died_alowed = true
+		yield(self, "all_strays_died")
 		var signaling_player: KinematicBody2D
 		for player in get_tree().get_nodes_in_group(Global.group_players):
 			player.animation_player.play("become_white_again")
 			signaling_player = player
-		yield(signaling_player, "stat_changed") # počakam, da poda vse točke
+		yield(signaling_player, "rewarded_on_game_over") # počakam, da je nagrajen
 	
 	yield(get_tree().create_timer(1), "timeout") # za dojet
 	
@@ -197,13 +203,12 @@ func set_players():
 		
 func set_strays():
 	
-	var strays_to_spawn_count = game_data["strays_start_count"]
-	spawn_strays(strays_to_spawn_count)
+	spawn_strays(game_data["strays_start_count"])
 	
 	yield(get_tree().create_timer(0.01), "timeout") # da se vsi straysi spawnajo
 	
 	var show_strays_loop: int = 0
-	while strays_shown.size() < strays_to_spawn_count:
+	while strays_shown.size() < game_data["strays_start_count"]:
 		show_strays_loop += 1 # zazih
 		show_strays(show_strays_loop)
 		yield(get_tree().create_timer(0.1), "timeout")
@@ -212,7 +217,7 @@ func set_strays():
 func spawn_strays(strays_to_spawn_count: int):
 	
 	# split colors
-	var color_count: int = clamp(strays_to_spawn_count, 1, strays_to_spawn_count) # za vsak slučaj klempam, da ne more biti nikoli 0 ...  ker je error			
+	strays_to_spawn_count = clamp(strays_to_spawn_count, 1, strays_to_spawn_count) # za vsak slučaj klempam, da ne more biti nikoli 0 ...  ker je error			
 	
 	# poberem sliko
 	var spectrum_texture: Texture = spectrum_rect.texture
@@ -221,16 +226,16 @@ func spawn_strays(strays_to_spawn_count: int):
 	
 	# izračun razmaka med barvami
 	var spectrum_texture_width = spectrum_rect.rect_size.x
-	var color_skip_size = spectrum_texture_width / color_count # razmak barv po spektru ... - 1 je zato ker je razmakov za 1 manj kot barv
+	var color_skip_size = spectrum_texture_width / strays_to_spawn_count # razmak barv po spektru ... - 1 je zato ker je razmakov za 1 manj kot barv
 	
 	var all_colors: Array = []
 	var available_required_spawn_positions = required_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
 	var available_random_spawn_positions = random_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
 	
-	for color_index in color_count:
+	for stray_index in strays_to_spawn_count:
 		
 		# barva
-		var selected_color_position_x = color_index * color_skip_size # lokacija barve v spektrumu
+		var selected_color_position_x = stray_index * color_skip_size # lokacija barve v spektrumu
 		var current_color = spectrum_image.get_pixel(selected_color_position_x, 0) # barva na lokaciji v spektrumu
 		all_colors.append(current_color)
 		
@@ -251,7 +256,7 @@ func spawn_strays(strays_to_spawn_count: int):
 		
 		# spawn stray
 		var new_stray_pixel = StrayPixel.instance()
-		new_stray_pixel.name = "S%s" % str(color_index)
+		new_stray_pixel.name = "S%s" % str(stray_index)
 		new_stray_pixel.stray_color = current_color
 		new_stray_pixel.global_position = selected_position + Global.game_tilemap.cell_size/2 # dodana adaptacija zaradi središča pixla
 		new_stray_pixel.z_index = 2 # višje od plejerja
@@ -262,7 +267,7 @@ func spawn_strays(strays_to_spawn_count: int):
 	
 	
 	Global.hud.spawn_color_indicators(all_colors) # barve pokažem v hudu			
-	self.strays_in_game_sum = strays_to_spawn_count # setget sprememba
+	self.strays_in_game_count = strays_to_spawn_count # setget sprememba
 
 
 # UTILITI ----------------------------------------------------------------------------------
@@ -281,17 +286,17 @@ func show_strays(show_strays_loop: int):
 		1:
 			Global.sound_manager.play_sfx("thunder_strike")
 			# Global.sound_manager.play_sfx("blinking")
-			strays_to_show_count = round(strays_in_game_sum/10)
+			strays_to_show_count = round(strays_in_game_count/10)
 		2:
 			Global.sound_manager.play_sfx("thunder_strike")
-			strays_to_show_count = round(strays_in_game_sum/8)
+			strays_to_show_count = round(strays_in_game_count/8)
 		3:
-			strays_to_show_count = round(strays_in_game_sum/4)
+			strays_to_show_count = round(strays_in_game_count/4)
 		4:
 			Global.sound_manager.play_sfx("thunder_strike")
-			strays_to_show_count = round(strays_in_game_sum/2)
+			strays_to_show_count = round(strays_in_game_count/2)
 		5: # še preostale
-			strays_to_show_count = strays_in_game_sum - strays_shown.size()
+			strays_to_show_count = strays_in_game_count - strays_shown.size()
 	
 	# stray fade-in
 	var spawned_strays = get_tree().get_nodes_in_group(Global.group_strays)
@@ -305,25 +310,27 @@ func show_strays(show_strays_loop: int):
 			break
 
 
-func _change_strays_sum(sum_change: int):
-	
-	strays_in_game_sum += sum_change # upošteva spawnanje in čiščenje
-	
-	if sum_change < 0: # upošteva samo čiščenje
-		strays_cleaned_sum += abs(sum_change)
-		
-	print ("strays_in_game_sum ", strays_in_game_sum)
-	print ("strays_dest ", strays_cleaned_sum)
-
-
 func stop_game_elements():
 	
 	Global.hud.game_timer.stop_timer()
-	Global.hud.popups.visible = false # zazih
-	Global.sound_manager.stop_sfx("teleport") # zazih
-	Global.sound_manager.stop_sfx("heartbeat") # zazih
 	Global.sound_manager.stop_music("game_music")	
 	
+	# včasih nujno
+	Global.hud.popups_out()
+	Global.sound_manager.stop_sfx("teleport")
+	Global.sound_manager.stop_sfx("heartbeat")
+	
+	
+func _change_strays_in_game_count(strays_count_change: int):
+	
+	strays_in_game_count += strays_count_change # in_game št. upošteva spawnanje in čiščenje (+ in -)
+	
+	if strays_count_change < 0: # cleaned št. upošteva samo čiščenje (+)
+		strays_cleaned_count += abs(strays_count_change)
+	
+	if strays_in_game_count == 0:
+		game_over(GameoverReason.CLEANED)
+		
 
 # SIGNALI ----------------------------------------------------------------------------------
 

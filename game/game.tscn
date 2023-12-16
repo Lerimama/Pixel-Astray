@@ -984,8 +984,8 @@ margin = Rect2( -2, 2, 0, 0 )
 
 [node name="Game" type="Node2D"]
 __meta__ = {
-"_edit_horizontal_guides_": [ 1371.0, 1371.0, 240.0, 384.0, 688.0, 448.0, 664.0, 656.0, 32.0, 64.0, 56.0 ],
-"_edit_vertical_guides_": [ 640.0, 1632.0, 425.0, 856.0, 128.0, 1152.0, -72.0, 536.0, 320.0, 960.0 ]
+"_edit_horizontal_guides_": [ 1371.0, 1371.0, 240.0, 384.0, 688.0, 448.0, 664.0, 656.0, 32.0, 64.0, 56.0, 83.0, 125.0 ],
+"_edit_vertical_guides_": [ 640.0, 1632.0, 425.0, 856.0, 128.0, 1152.0, -72.0, 536.0, 320.0, 960.0, 21.0 ]
 }
 
 [node name="GameManager" type="Node" parent="."]
@@ -1662,6 +1662,7 @@ rect_min_size = Vector2( 1280, 720 )
 script = ExtResource( 2 )
 
 [node name="Life" type="Label" parent="GUI/Hud"]
+visible = false
 margin_left = 32.0
 margin_top = 69.0
 margin_right = 114.0
@@ -1673,6 +1674,7 @@ __meta__ = {
 }
 
 [node name="Energy" type="Label" parent="GUI/Hud"]
+visible = false
 margin_left = 136.0
 margin_top = 69.0
 margin_right = 180.0
@@ -2431,6 +2433,68 @@ anchor_bottom = 1.0
 custom_styles/panel = SubResource( 239 )
 
 [node name="StepsRemaining" type="Label" parent="GUI/Hud/Popups/EnergyWarning"]
+modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = 21.0
+margin_top = -11.0
+margin_right = -21.0
+margin_bottom = 11.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+text = "NO ENERGY! Collect a color to revitalize."
+align = 1
+
+[node name="EnergyWarningP1" type="Control" parent="GUI/Hud/Popups"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -598.0
+margin_top = 83.0
+margin_right = -43.0
+margin_bottom = 125.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Panel" type="Panel" parent="GUI/Hud/Popups/EnergyWarningP1"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 239 )
+
+[node name="StepsRemaining" type="Label" parent="GUI/Hud/Popups/EnergyWarningP1"]
+modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = 21.0
+margin_top = -11.0
+margin_right = -21.0
+margin_bottom = 11.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+text = "NO ENERGY! Collect a color to revitalize."
+align = 1
+
+[node name="EnergyWarningP2" type="Control" parent="GUI/Hud/Popups"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 43.0
+margin_top = 83.0
+margin_right = 598.0
+margin_bottom = 125.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Panel" type="Panel" parent="GUI/Hud/Popups/EnergyWarningP2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 239 )
+
+[node name="StepsRemaining" type="Label" parent="GUI/Hud/Popups/EnergyWarningP2"]
 modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
 anchor_top = 0.5
 anchor_right = 1.0
