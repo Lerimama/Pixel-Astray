@@ -28,6 +28,7 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 #	"stacked_color_picked_points": 2,
 	"cell_traveled_points": -1,
 	"skill_used_points": 0,
+	"burst_released_points": 0,
 	"on_hit_points_part": 2,
 	
 	# energija
@@ -35,6 +36,7 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 #	"stacked_color_picked_energy": 10,
 	"cell_traveled_energy": -1,
 	"skill_used_energy": 0,
+	"burst_released_energy": 0,
 	"on_hit_energy_part": 2, # delež porabe od trenutne energije
 	
 	# player on start
@@ -60,7 +62,7 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 	"sudden_death_limit" : 20,
 	"minimap_on": false,
 	"manage_highscores": false,
-	"lose_life_on_hit": true, # zadetek od igralca ali v steno pomeni izgubo življenja, alternativa je izguba energije
+	"lose_life_on_hit": false, # zadetek od igralca ali v steno pomeni izgubo življenja, alternativa je izguba energije
 	
 	"skill_limit_mode": false,
 	"skill_limit_count": 5,

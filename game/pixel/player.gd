@@ -1,8 +1,8 @@
 extends KinematicBody2D
 
 
-signal stat_changed # spremenjena statistika se pošlje v hud
-signal rewarded_on_game_over # dobil nagrado ob cleaned
+signal stat_changed # spremenjeno statistiko javi v hud
+signal rewarded_on_game_over # da je dobil nagrado ob cleaned javi v GM
 
 enum States {IDLE, STEPPING, SKILLED, SKILLING, COCKING, RELEASING, BURSTING}
 var current_state # = States.IDLE
@@ -76,15 +76,17 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if name == "p1":
 		if Input.is_action_pressed("no1"):
-			player_stats["player_energy"] += -10
-			player_stats["player_energy"] = clamp(player_stats["player_energy"], 5, game_settings["player_start_energy"])
-			change_stats()
+#			player_stats["player_energy"] += -10
+#			player_stats["player_energy"] = clamp(player_stats["player_energy"], 5, game_settings["player_start_energy"])
+#			change_stats()
+			change_stat("debug_player_energy", -10)
 
 	elif name == "p2":
 		if Input.is_action_pressed("no2"):
-			player_stats["player_energy"] += -10
-			player_stats["player_energy"] = clamp(player_stats["player_energy"], 5, game_settings["player_start_energy"])
-			change_stats()
+#			player_stats["player_energy"] += -10
+#			player_stats["player_energy"] = clamp(player_stats["player_energy"], 5, game_settings["player_start_energy"])
+#			change_stats()
+			change_stat("debug_player_energy", -10)
 
 
 func _ready() -> void:
@@ -125,11 +127,6 @@ func _physics_process(delta: float) -> void:
 	
 	state_machine()
 	manage_heartbeat()
-	
-	# klempanje
-#	player_stats["player_energy"] = clamp(player_stats["player_energy"], 0, game_settings["player_max_energy"])
-#	player_stats["player_points"] = clamp(player_stats["player_points"], 1, player_stats["player_points"]) # 1 je ker drugače gre do -1 ... ne vem zakaj
-#	change_stats()
 	
 		
 func manage_heartbeat():
@@ -310,15 +307,9 @@ func step():
 		var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 		step_tween.tween_property(self, "position", global_position + direction * cell_size_x, step_time)
 		step_tween.tween_callback(self, "end_move")
+		step_tween.tween_callback(self, "change_stat", ["cells_traveled", 1]) # točke in energija kot je določeno v settingsih
 		Global.sound_manager.play_stepping_sfx(player_stats["player_energy"] / float(Global.game_manager.game_settings["player_max_energy"])) # ulomek je za pitch zvoka
 		
-		# stats
-#		change_stat("cells_traveled", 1)
-		player_stats["cells_traveled"] += 1
-		player_stats["player_energy"] += game_settings["cell_traveled_energy"]
-		player_stats["player_points"] += game_settings["cell_traveled_points"]
-		change_stats()
-
 		
 func end_move():
 	
@@ -397,7 +388,6 @@ func release_burst():
 
 func burst(current_ghost_count: int):
 	
-	
 	var burst_direction = direction
 	burst_cocked_ghost_count = current_ghost_count
 	var ray_collider = vision_ray.get_collider() # ! more bit za detect_wall() ... ta ga šele pogreba?
@@ -415,7 +405,6 @@ func burst(current_ghost_count: int):
 	
 	Global.sound_manager.play_sfx("burst")
 	Global.sound_manager.stop_sfx("burst_cocking")
-#	change_stat("burst_released", 1)
 	
 	# release ghost 
 	var strech_ghost_shrink_time: float = 0.2
@@ -426,12 +415,7 @@ func burst(current_ghost_count: int):
 	# release pixel
 	release_tween.parallel().tween_property(self, "current_state", States.BURSTING, 0)
 	release_tween.parallel().tween_property(self, "burst_speed", burst_speed_max, 0)
-
-	# stats	
-	player_stats["burst_count"] += 1
-	change_stats()
-	
-	# zaključek v on_collision()
+	release_tween.tween_callback(self, "change_stat", ["burst_released", 1]) # štetje, točke in energija kot je določeno v settingsih
 
 	
 # SKILLS ------------------------------------------------------------------------------------------
@@ -471,7 +455,6 @@ func push():
 		# je prostor
 		else: 
 			Global.sound_manager.play_sfx("push")
-			
 			# napnem
 			var push_tween = get_tree().create_tween()
 			push_tween.tween_property(self, "position", global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
@@ -485,15 +468,8 @@ func push():
 			push_tween.parallel().tween_callback(new_push_ghost, "queue_free")
 			push_tween.tween_property(ray_collider, "position", ray_collider.global_position + push_direction * cell_size_x * push_cell_count, 0.08).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(0.05)
 			push_tween.tween_callback(self, "end_move")
-#			push_tween.tween_callback(self, "change_stat", ["push_used", 1]) # 0 = push, 1 = pull, 2 = teleport ... za prepoznavanje
-			push_tween.tween_callback(Global.tutorial_gui, "skill_done", ["push"])
+			push_tween.tween_callback(self, "change_stat", ["skill_used", 1]) # štetje, točke in energija kot je določeno v settingsih
 			
-			# stats
-			player_stats["skill_count"] += 1
-			player_stats["player_energy"] += game_settings["skill_used_energy"]
-			player_stats["player_points"] += game_settings["skill_used_points"]
-			change_stats()
-
 
 func pull():
 	
@@ -524,14 +500,7 @@ func pull():
 	pull_tween.tween_property(skill_light, "position", skill_light.position, 0) # reset pozicije luči
 	pull_tween.parallel().tween_callback(self, "end_move")
 	pull_tween.parallel().tween_callback(new_pull_ghost, "queue_free")
-#	pull_tween.tween_callback(self, "change_stat", ["pull_used", 1]) # 0 = push, 1 = pull, 2 = teleport ... za prepoznavanje
-	pull_tween.tween_callback(Global.tutorial_gui, "skill_done", ["pull"])
-	
-	# stats
-	player_stats["skill_count"] += 1
-	player_stats["player_energy"] += game_settings["skill_used_energy"]
-	player_stats["player_points"] += game_settings["skill_used_points"]
-	change_stats()
+	pull_tween.tween_callback(self, "change_stat", ["skill_used", 2]) # štetje, točke in energija kot je določeno v settingsih
 	
 			
 func teleport():
@@ -562,38 +531,6 @@ func teleport():
 		
 # ON HIT ------------------------------------------------------------------------------------------
 
-	
-func on_hit_player(hit_player: KinematicBody2D):
-	
-	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
-	Global.sound_manager.play_sfx("hit_stray")
-	spawn_collision_particles()
-	shake_player_camera(burst_cocked_ghost_count)			
-
-	# korekcija pozicije
-	var player_direction = direction # za korekcijo
-	global_position = hit_player.global_position + (cell_size_x * (- player_direction)) # plejer eno polje ob zadetem
-	
-	# opredeli zmagovalca
-	if burst_speed_max == hit_player.burst_speed: # neodločeno
-		end_move()
-		hit_player.end_move() # plejer, ki prvi zazna kontakt ukaže naprej, da je zaporedje pod kontrolo 
-		print ("draw")
-		
-	elif burst_speed > hit_player.burst_speed: # zmaga
-		if not hit_player.pixel_color == Global.game_manager.game_settings["player_start_color"]: # če nima nobene barve mu je ne prevzamem
-			tween_color_change(hit_player.pixel_color)
-		end_move()
-		hit_player.on_get_hit(burst_cocked_ghost_count)
-		print ("winner is ", name)
-		
-		# stats
-		player_stats["player_energy"] = game_settings["player_max_energy"]
-		var points_to_gain: int = round(hit_player.player_stats["player_points"] / game_settings["on_hit_points_part"])
-		player_stats["player_points"] += points_to_gain
-		spawn_floating_tag(points_to_gain)	
-		change_stats()
-
 
 func on_hit_stray(hit_stray: KinematicBody2D):
 	
@@ -622,24 +559,35 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	
 	end_move() # more bit za collision partikli zaradi smeri
 	
-	# stats
-	var points_to_gain: int = 0
-	var energy_to_gain: int = 0
-	for stray_in_row in strays_to_destroy.size():
-		points_to_gain += game_settings["color_picked_points"] * (stray_in_row + 1) # + 1 je da se izognem nuli
-		energy_to_gain += game_settings["color_picked_energy"] * (stray_in_row + 1)
-	player_stats["colors_collected"] += strays_to_destroy.size()
-	player_stats["player_points"] += points_to_gain
-	player_stats["player_energy"] += energy_to_gain
-	spawn_floating_tag(points_to_gain)
-	Global.game_manager.strays_in_game_count = - strays_to_destroy.size() # GM strays sum
-	if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL: # tutorial
-		Global.tutorial_gui.finish_bursting()
-		if strays_to_destroy.size() >= 3:
-			Global.tutorial_gui.finish_stacking()
-	change_stats()
-		
+	change_stat("hit_stray", strays_to_destroy.size()) # štetje, točke in energija glede na število uničenih straysov
+
 	
+func on_hit_player(hit_player: KinematicBody2D):
+	
+	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
+	Global.sound_manager.play_sfx("hit_stray")
+	spawn_collision_particles()
+	shake_player_camera(burst_cocked_ghost_count)			
+
+	# korekcija pozicije
+	var player_direction = direction # za korekcijo
+	global_position = hit_player.global_position + (cell_size_x * (- player_direction)) # plejer eno polje ob zadetem
+	
+	# opredeli zmagovalca
+	if burst_speed_max == hit_player.burst_speed: # neodločeno
+		end_move()
+		hit_player.end_move() # plejer, ki prvi zazna kontakt ukaže naprej, da je zaporedje pod kontrolo 
+		print ("draw")
+		
+	elif burst_speed > hit_player.burst_speed: # zmaga
+		if not hit_player.pixel_color == Global.game_manager.game_settings["player_start_color"]: # če nima nobene barve mu je ne prevzamem
+			tween_color_change(hit_player.pixel_color)
+		end_move()
+		change_stat("hit_player", hit_player.player_stats["player_points"]) # točke glede na delež loserjevih točk, energija se resetira na 100%
+		hit_player.on_get_hit(burst_cocked_ghost_count) # po statistiki, da winer pobere od luserja, ko so točke še polne  
+		print ("winner is ", name)
+		
+
 func on_hit_wall():
 	
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.7)
@@ -648,22 +596,11 @@ func on_hit_wall():
 	spawn_collision_particles()
 	shake_player_camera(burst_cocked_ghost_count)
 	
-	end_move()
+#	end_move()
 	
-	if not player_stats["player_energy"] > 1:
+	if player_stats["player_energy"] <= 1: # more bit pred statistiko
 		stop_heart()
-		
-	# stats
-	if Global.game_manager.game_settings["lose_life_on_hit"]:
-		player_stats["player_energy"] = 0
-	else:
-		player_stats["player_energy"] -= round(player_stats["player_energy"] / game_settings["on_hit_energy_part"])
-		print (round(player_stats["player_energy"] / game_settings["on_hit_energy_part"]))
-	var points_to_lose = round(player_stats["player_points"] / game_settings["on_hit_points_part"])
-	player_stats["player_points"] -= points_to_lose
-	spawn_floating_tag(- points_to_lose) 
-	change_stats()
-	
+	change_stat("hit_wall", 1) # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
 	die() # vedno sledi statistiki
 
 
@@ -682,22 +619,13 @@ func on_get_hit(hit_burst_power: int):
 	
 	pixel_color = Global.game_manager.game_settings["player_start_color"] # postane začetne barve
 	
-	if not player_stats["player_energy"] > 1:
+#	end_move() ... ne rabim, ker je v die()
+	
+	if player_stats["player_energy"] <= 1: # more bit pred statistiko
 		stop_heart()
-	
-	# stats
-	if Global.game_manager.game_settings["lose_life_on_hit"]:
-		player_stats["player_energy"] = 0
-	else:
-		player_stats["player_energy"] -= round(player_stats["player_energy"] / game_settings["on_hit_energy_part"])
-	var points_to_lose = round(player_stats["player_points"] / game_settings["on_hit_points_part"])
-	player_stats["player_points"] -= points_to_lose
-	spawn_floating_tag(- points_to_lose) 
-	change_stats()
-	
-	end_move()
-	
+	change_stat("get_hit", 1) # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
 	die() # vedno sledi statistiki
+	
 	
 
 # LIFE LOOP ----------------------------------------------------------------------------------------
@@ -705,12 +633,11 @@ func on_get_hit(hit_burst_power: int):
 
 func die():
 	
+	end_move()
 	set_physics_process(false)
 	animation_player.play("die_player")
 
-	if player_stats["player_energy"] == 0:
-		player_stats["player_life"] -= 1
-	change_stats()
+	change_stat("die", 1) # izguba lajfa, če je energija 0
 
 	
 func revive():
@@ -726,9 +653,8 @@ func stop_heart():
 	modulate.a = 1
 	burst_light.enabled = false
 	
-	player_stats["player_energy"] = 0
-	change_stats()
-
+	change_stat("stop_heart", 1) # energija = 0
+	
 
 func all_cleaned():
 	
@@ -971,13 +897,7 @@ func _on_ghost_target_reached(ghost_body: Area2D, ghost_position: Vector2):
 	teleport_tween.parallel().tween_property(self, "modulate:a", 1, 0)
 	teleport_tween.parallel().tween_property(player_camera, "camera_target", self, 0) # camera follow reset
 	teleport_tween.parallel().tween_callback(ghost_body, "queue_free")
-	teleport_tween.tween_callback(Global.tutorial_gui, "skill_done", ["teleport"])
-	
-	# stats
-	player_stats["skill_count"] += 1
-	player_stats["player_energy"] += game_settings["skill_used_energy"]
-	player_stats["player_points"] += game_settings["skill_used_points"]
-	change_stats()
+	teleport_tween.tween_callback(self, "change_stat", ["skill_used", 3]) # štetje, točke in energija kot je določeno v settingsih
 
 
 func _on_ghost_detected_body(body: Node2D):
@@ -1004,23 +924,101 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 				Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)
 		"revive":
 			set_physics_process(true)
-			if player_stats["player_energy"] == 0: # energija 0 pomeni, da je od srčka ali pa, da je "lose_life_on_hit"
-				player_stats["player_energy"] = game_settings["player_max_energy"]
-				change_stats()
+			change_stat("revive", 1) # če energija = 0 (izguba lajfa), resetira energijo
 		"become_white_again":
 			yield(get_tree().create_timer(1), "timeout") # za dojet
-			player_stats["player_points"] += game_settings["all_cleaned_points"]
-			spawn_floating_tag(game_settings["all_cleaned_points"])
-			change_stats()
-			emit_signal("rewarded_on_game_over")
+			change_stat("all_cleaned", 1) # nagrada je določena v settingsih
+			emit_signal("rewarded_on_game_over") # javi v GM
 
 		
-# STAT EVENTS ------------------------------------------------------------------------------------------
+# STATS ----------------------------------------------------------------------------------------------
 
 
-func change_stats():
+func change_stat(stat_event: String, stat_value):
 	
+	if not Global.game_manager.game_on and not stat_event == "all_cleaned": # statistika se ne beleži več, razen "all_cleaned"
+		return
+		
+	match stat_event:
+		"cells_traveled": # štetje, točke in energija kot je določeno v settingsih
+			player_stats["cells_traveled"] += 1
+			player_stats["player_energy"] += game_settings["cell_traveled_energy"]
+			player_stats["player_points"] += game_settings["cell_traveled_points"]
+		"skill_used": # štetje, točke in energija kot je določeno v settingsih
+			player_stats["skill_count"] += 1
+			player_stats["player_energy"] += game_settings["skill_used_energy"]
+			player_stats["player_points"] += game_settings["skill_used_points"]
+			# tutorial
+			if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
+				match stat_value:
+					1: Global.tutorial_gui.skill_done("push")
+					2: Global.tutorial_gui.skill_done("pull")
+					3: Global.tutorial_gui.skill_done("teleport")
+		"burst_released": # štetje, točke in energija kot je določeno v settingsih
+			player_stats["burst_count"] += 1
+			player_stats["player_energy"] += game_settings["burst_released_energy"]
+			player_stats["player_points"] += game_settings["burst_released_points"]
+		# ------------------------------------------------------------------------------------------------------------------
+		"hit_stray": # štetje, točke in energija glede na število uničenih straysov
+			var strays_cleaned_count: int = stat_value
+			var points_to_gain: int = 0
+			var energy_to_gain: int = 0
+			for stray_in_row in strays_cleaned_count:
+				points_to_gain += game_settings["color_picked_points"] * (stray_in_row + 1) # + 1 je da se izognem nuli
+				energy_to_gain += game_settings["color_picked_energy"] * (stray_in_row + 1)
+			player_stats["colors_collected"] += strays_cleaned_count
+			player_stats["player_points"] += points_to_gain
+			player_stats["player_energy"] += energy_to_gain
+			spawn_floating_tag(points_to_gain)
+			Global.game_manager.strays_in_game_count = - strays_cleaned_count # GM strays sum
+			if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL: # tutorial
+				Global.tutorial_gui.finish_bursting()
+				if strays_cleaned_count >= 3:
+					Global.tutorial_gui.finish_stacking()
+		"hit_player": # točke glede na delež loserjevih točk, energija se resetira na 100%
+			var hit_player_current_points: int = stat_value
+			player_stats["player_energy"] = game_settings["player_max_energy"]
+			var points_to_gain: int = round(hit_player_current_points / game_settings["on_hit_points_part"])
+			player_stats["player_points"] += points_to_gain
+			spawn_floating_tag(points_to_gain)
+		"hit_wall": # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
+			if Global.game_manager.game_settings["lose_life_on_hit"]:
+				player_stats["player_energy"] = 0
+			else:
+				print (round(player_stats["player_energy"] / game_settings["on_hit_energy_part"]))
+				player_stats["player_energy"] -= round(player_stats["player_energy"] / game_settings["on_hit_energy_part"])
+			var points_to_lose = round(player_stats["player_points"] / game_settings["on_hit_points_part"])
+			player_stats["player_points"] -= points_to_lose
+			spawn_floating_tag(- points_to_lose) 
+		"get_hit": # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
+			if Global.game_manager.game_settings["lose_life_on_hit"]:
+				player_stats["player_energy"] = 0
+			else:
+				print (round(player_stats["player_energy"] / game_settings["on_hit_energy_part"]))
+				player_stats["player_energy"] -= round(player_stats["player_energy"] / game_settings["on_hit_energy_part"])
+			var points_to_lose = round(player_stats["player_points"] / game_settings["on_hit_points_part"])
+			player_stats["player_points"] -= points_to_lose
+			spawn_floating_tag(- points_to_lose) 
+		# ------------------------------------------------------------------------------------------------------------------
+		"die": # izguba lajfa, če je energija 0
+			if player_stats["player_energy"] == 0: # energija = 0 samo zaradi srčka ali hita, če je "lose_life_on_hit"
+				player_stats["player_life"] -= 1
+		"stop_heart": # energija je 0
+			player_stats["player_energy"] = 0
+		"revive": # resetiranje energije, če je izgubil lajfa (energija = 0)
+			if player_stats["player_energy"] == 0: # energija = 0 samo zaradi srčka ali hita, če je "lose_life_on_hit"
+				player_stats["player_energy"] = game_settings["player_max_energy"]	
+		# ------------------------------------------------------------------------------------------------------------------
+		"all_cleaned": # nagrada je določena v settingsih
+			player_stats["player_points"] += game_settings["all_cleaned_points"]
+			spawn_floating_tag(game_settings["all_cleaned_points"])
+		"debug_player_energy":
+			player_stats["player_energy"] += stat_value
+			player_stats["player_energy"] = clamp(player_stats["player_energy"], 5, game_settings["player_start_energy"])
+	
+	# klempanje
 	player_stats["player_energy"] = clamp(player_stats["player_energy"], 0, game_settings["player_max_energy"])
-	player_stats["player_points"] = clamp(player_stats["player_points"], 0, player_stats["player_points"]) # 1 je ker drugače gre do -1 ... ne vem zakaj	
+	player_stats["player_points"] = clamp(player_stats["player_points"], 0, player_stats["player_points"])	
 	
-	emit_signal("stat_changed", self, player_stats)
+	# signal na hud
+	emit_signal("stat_changed", self, player_stats) # javi v hud
