@@ -1,4 +1,4 @@
-[gd_scene load_steps=116 format=2]
+[gd_scene load_steps=117 format=2]
 
 [ext_resource path="res://game/hud/hud_game_timer.gd" type="Script" id=1]
 [ext_resource path="res://game/hud/hud.gd" type="Script" id=2]
@@ -227,6 +227,10 @@ region = Rect2( 64, 0, 16, 16 )
 [sub_resource type="AtlasTexture" id=225]
 atlas = ExtResource( 14 )
 region = Rect2( 32, 32, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=268]
+atlas = ExtResource( 14 )
+region = Rect2( 48, 16, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=130]
 atlas = ExtResource( 14 )
@@ -1895,7 +1899,35 @@ __meta__ = {
 "_editor_description_": ""
 }
 
+[node name="StepsHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineL"]
+visible = false
+margin_left = 272.0
+margin_right = 310.0
+margin_bottom = 22.0
+size_flags_vertical = 8
+custom_constants/separation = 8
+
+[node name="TextureRect5" type="TextureRect" parent="GUI/Hud/Header/TopLineL/StepsHolder"]
+margin_top = 4.0
+margin_right = 16.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 16, 18 )
+size_flags_vertical = 8
+texture = SubResource( 268 )
+
+[node name="Label" type="Label" parent="GUI/Hud/Header/TopLineL/StepsHolder"]
+margin_left = 24.0
+margin_right = 38.0
+margin_bottom = 22.0
+size_flags_vertical = 8
+text = "0"
+valign = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
 [node name="SkillHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineL"]
+visible = false
 margin_left = 272.0
 margin_right = 310.0
 margin_bottom = 22.0
@@ -1922,8 +1954,9 @@ __meta__ = {
 }
 
 [node name="BurstHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineL"]
-margin_left = 326.0
-margin_right = 364.0
+visible = false
+margin_left = 272.0
+margin_right = 310.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
@@ -1996,7 +2029,7 @@ valign = 2
 [node name="TopLineR" type="HBoxContainer" parent="GUI/Hud/Header"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -574.0
+margin_left = -586.0
 margin_top = 7.0
 margin_right = -30.0
 margin_bottom = 29.0
@@ -2027,8 +2060,8 @@ margin_bottom = 19.0
 texture = SubResource( 146 )
 
 [node name="HighscoreLabel" type="Label" parent="GUI/Hud/Header/TopLineR"]
-margin_left = 392.0
-margin_right = 544.0
+margin_left = 404.0
+margin_right = 556.0
 margin_bottom = 22.0
 grow_horizontal = 0
 size_flags_horizontal = 10
@@ -2049,8 +2082,8 @@ __meta__ = {
 }
 
 [node name="PointsHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineR/PlayerLineR"]
-margin_left = 248.0
-margin_right = 286.0
+margin_left = 194.0
+margin_right = 232.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 22 )
 size_flags_vertical = 8
@@ -2076,8 +2109,8 @@ __meta__ = {
 }
 
 [node name="ColorHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineR/PlayerLineR"]
-margin_left = 136.0
-margin_right = 188.0
+margin_left = 248.0
+margin_right = 286.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
@@ -2092,7 +2125,34 @@ texture = SubResource( 225 )
 
 [node name="Label" type="Label" parent="GUI/Hud/Header/TopLineR/PlayerLineR/ColorHolder"]
 margin_left = 24.0
-margin_right = 52.0
+margin_right = 38.0
+margin_bottom = 22.0
+size_flags_vertical = 8
+text = "0"
+valign = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="StepsHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineR/PlayerLineR"]
+visible = false
+margin_left = 248.0
+margin_right = 286.0
+margin_bottom = 22.0
+size_flags_vertical = 8
+custom_constants/separation = 8
+
+[node name="TextureRect5" type="TextureRect" parent="GUI/Hud/Header/TopLineR/PlayerLineR/StepsHolder"]
+margin_top = 4.0
+margin_right = 16.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 16, 18 )
+size_flags_vertical = 8
+texture = SubResource( 268 )
+
+[node name="Label" type="Label" parent="GUI/Hud/Header/TopLineR/PlayerLineR/StepsHolder"]
+margin_left = 24.0
+margin_right = 38.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 text = "0"
@@ -2103,8 +2163,8 @@ __meta__ = {
 
 [node name="SkillHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineR/PlayerLineR"]
 visible = false
-margin_left = 68.0
-margin_right = 120.0
+margin_left = 194.0
+margin_right = 232.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
@@ -2119,7 +2179,7 @@ texture = SubResource( 130 )
 
 [node name="Label" type="Label" parent="GUI/Hud/Header/TopLineR/PlayerLineR/SkillHolder"]
 margin_left = 24.0
-margin_right = 52.0
+margin_right = 38.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 text = "0"
@@ -2130,7 +2190,8 @@ __meta__ = {
 
 [node name="BurstHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineR/PlayerLineR"]
 visible = false
-margin_right = 52.0
+margin_left = 248.0
+margin_right = 286.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
@@ -2145,7 +2206,7 @@ texture = SubResource( 131 )
 
 [node name="Label" type="Label" parent="GUI/Hud/Header/TopLineR/PlayerLineR/BurstHolder"]
 margin_left = 24.0
-margin_right = 52.0
+margin_right = 38.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 text = "0"
@@ -4773,7 +4834,6 @@ text = "PLAY ON"
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 22 )
@@ -4786,7 +4846,6 @@ anchor_bottom = 1.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="GameoverTitle" type="Control" parent="GUI/GameOver"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -4997,7 +5056,75 @@ margin_top = -144.0
 margin_right = 512.0
 margin_bottom = 221.0
 
-[node name="Label" type="Label" parent="GUI/GameOver/GameoverTitle/Tutorial"]
+[node name="NotFinished" type="Control" parent="GUI/GameOver/GameoverTitle/Tutorial"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -512.0
+margin_top = -182.5
+margin_right = 512.0
+margin_bottom = 113.5
+
+[node name="Label" type="Label" parent="GUI/GameOver/GameoverTitle/Tutorial/NotFinished"]
+visible = false
+modulate = Color( 0.368627, 1, 0.662745, 1 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -304.0
+margin_top = -2.0
+margin_right = 304.0
+margin_bottom = 30.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 5 )
+text = "You've cleaned all strays before finishing the stages."
+align = 1
+
+[node name="Uuups" type="TileMap" parent="GUI/GameOver/GameoverTitle/Tutorial/NotFinished"]
+visible = false
+modulate = Color( 0.368627, 1, 0.662745, 1 )
+position = Vector2( 136, 40 )
+tile_set = ExtResource( 18 )
+cell_size = Vector2( 16, 16 )
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+format = 1
+tile_data = PoolIntArray( 8, 0, 0, 12, 0, 0, 14, 0, 0, 18, 0, 0, 20, 0, 0, 24, 0, 0, 26, 0, 0, 27, 0, 0, 28, 0, 0, 29, 0, 0, 33, 0, 0, 34, 0, 0, 35, 0, 0, 38, 0, 0, 65544, 0, 0, 65548, 0, 0, 65550, 0, 0, 65554, 0, 0, 65556, 0, 0, 65560, 0, 0, 65562, 0, 0, 65566, 0, 0, 65568, 0, 0, 65574, 0, 0, 131080, 0, 0, 131084, 0, 0, 131086, 0, 0, 131090, 0, 0, 131092, 0, 0, 131096, 0, 0, 131098, 0, 0, 131099, 0, 0, 131100, 0, 0, 131101, 0, 0, 131104, 0, 0, 131105, 0, 0, 131106, 0, 0, 131107, 0, 0, 131110, 0, 0, 196616, 0, 0, 196620, 0, 0, 196622, 0, 0, 196626, 0, 0, 196628, 0, 0, 196632, 0, 0, 196634, 0, 0, 196644, 0, 0, 196646, 0, 0, 262152, 0, 0, 262156, 0, 0, 262158, 0, 0, 262162, 0, 0, 262164, 0, 0, 262168, 0, 0, 262170, 0, 0, 262180, 0, 0, 262182, 0, 0, 327688, 0, 0, 327692, 0, 0, 327694, 0, 0, 327698, 0, 0, 327700, 0, 0, 327704, 0, 0, 327706, 0, 0, 327716, 0, 0, 393224, 0, 0, 393225, 0, 0, 393226, 0, 0, 393227, 0, 0, 393228, 0, 0, 393230, 0, 0, 393231, 0, 0, 393232, 0, 0, 393233, 0, 0, 393234, 0, 0, 393236, 0, 0, 393237, -1610612736, 0, 393238, -1610612736, 0, 393239, 0, 0, 393240, 0, 0, 393242, 0, 0, 393248, 0, 0, 393249, 0, 0, 393250, 0, 0, 393251, 0, 0, 393252, 0, 0, 393254, 0, 0 )
+
+[node name="Wow" type="TileMap" parent="GUI/GameOver/GameoverTitle/Tutorial/NotFinished"]
+modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
+position = Vector2( 240, 40 )
+tile_set = ExtResource( 18 )
+cell_size = Vector2( 16, 16 )
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+format = 1
+tile_data = PoolIntArray( 8, 0, 0, 10, 0, 0, 12, 0, 0, 15, 0, 0, 16, 0, 0, 17, 0, 0, 18, 0, 0, 20, 0, 0, 22, 0, 0, 24, 0, 0, 26, 0, 0, 65544, 0, 0, 65546, 0, 0, 65548, 0, 0, 65550, 0, 0, 65554, 0, 0, 65556, 0, 0, 65558, 0, 0, 65560, 0, 0, 65562, 0, 0, 131080, 0, 0, 131082, 0, 0, 131084, 0, 0, 131086, 0, 0, 131090, 0, 0, 131092, 0, 0, 131094, 0, 0, 131096, 0, 0, 131098, 0, 0, 196616, 0, 0, 196618, 0, 0, 196620, 0, 0, 196622, 0, 0, 196626, 0, 0, 196628, 0, 0, 196630, 0, 0, 196632, 0, 0, 196634, 0, 0, 262152, 0, 0, 262154, 0, 0, 262156, 0, 0, 262158, 0, 0, 262162, 0, 0, 262164, 0, 0, 262166, 0, 0, 262168, 0, 0, 262170, 0, 0, 327688, 0, 0, 327690, 0, 0, 327692, 0, 0, 327694, 0, 0, 327698, 0, 0, 327700, 0, 0, 327702, 0, 0, 327704, 0, 0, 393224, 0, 0, 393225, 0, 0, 393227, 0, 0, 393228, 0, 0, 393230, 0, 0, 393231, 0, 0, 393232, 0, 0, 393233, 0, 0, 393234, 0, 0, 393236, 0, 0, 393237, -1610612736, 0, 393239, 0, 0, 393240, 0, 0, 393242, 0, 0 )
+
+[node name="Label2" type="Label" parent="GUI/GameOver/GameoverTitle/Tutorial/NotFinished"]
+modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -320.0
+margin_top = 190.0
+margin_right = 320.0
+margin_bottom = 268.0
+grow_horizontal = 2
+text = "You've cleaned all stray pixels before finishing tutorial. Are you sure you wanted to do that?"
+align = 1
+autowrap = true
+
+[node name="Finished" type="Control" parent="GUI/GameOver/GameoverTitle/Tutorial"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -512.0
+margin_top = -182.5
+margin_right = 512.0
+margin_bottom = 113.5
+
+[node name="Label" type="Label" parent="GUI/GameOver/GameoverTitle/Tutorial/Finished"]
 modulate = Color( 0.368627, 1, 0.662745, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
@@ -5010,7 +5137,7 @@ custom_fonts/font = ExtResource( 5 )
 text = "You've learned the basics."
 align = 1
 
-[node name="WellDone" type="TileMap" parent="GUI/GameOver/GameoverTitle/Tutorial"]
+[node name="WellDone" type="TileMap" parent="GUI/GameOver/GameoverTitle/Tutorial/Finished"]
 modulate = Color( 0.368627, 1, 0.662745, 1 )
 position = Vector2( 104, 56 )
 tile_set = ExtResource( 18 )
@@ -5019,7 +5146,7 @@ cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 format = 1
 tile_data = PoolIntArray( 0, 0, 0, 2, -1610612736, 0, 4, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 12, 0, 0, 18, 0, 0, 26, 0, 0, 27, 0, 0, 28, 0, 0, 29, 0, 0, 33, 0, 0, 34, 0, 0, 35, 0, 0, 36, 0, 0, 38, 0, 0, 42, 0, 0, 44, 0, 0, 45, 0, 0, 46, 0, 0, 47, 0, 0, 50, 0, 0, 65536, 0, 0, 65538, 0, 0, 65540, 0, 0, 65542, -1610612736, 0, 65548, 0, 0, 65554, 0, 0, 65562, 0, 0, 65566, 0, 0, 65568, 0, 0, 65572, 0, 0, 65574, 0, 0, 65578, 0, 0, 65580, 0, 0, 65586, 0, 0, 131072, 0, 0, 131074, 0, 0, 131076, 0, 0, 131078, -1610612736, 0, 131079, 0, 0, 131080, 0, 0, 131084, 0, 0, 131090, 0, 0, 131098, 0, 0, 131102, 0, 0, 131104, 0, 0, 131108, 0, 0, 131110, 0, 0, 131111, 0, 0, 131114, 0, 0, 131116, 0, 0, 131117, 0, 0, 131118, 0, 0, 131122, 0, 0, 196608, 0, 0, 196610, 0, 0, 196612, 0, 0, 196614, -1610612736, 0, 196620, 0, 0, 196626, 0, 0, 196634, 0, 0, 196638, 0, 0, 196640, 0, 0, 196644, 0, 0, 196646, 0, 0, 196648, 0, 0, 196650, 0, 0, 196652, 0, 0, 196658, 0, 0, 262144, 0, 0, 262146, 0, 0, 262148, 0, 0, 262150, -1610612736, 0, 262156, 0, 0, 262162, 0, 0, 262170, 0, 0, 262174, 0, 0, 262176, 0, 0, 262180, 0, 0, 262182, 0, 0, 262185, 0, 0, 262186, 0, 0, 262188, 0, 0, 262194, 0, 0, 327680, -1610612736, 0, 327682, 0, 0, 327684, 0, 0, 327686, -1610612736, 0, 327692, 0, 0, 327698, 0, 0, 327706, 0, 0, 327710, 0, 0, 327712, 0, 0, 327716, 0, 0, 327718, 0, 0, 327722, 0, 0, 327724, 0, 0, 393216, 0, 0, 393217, 0, 0, 393219, 0, 0, 393220, 0, 0, 393222, 0, 0, 393223, 0, 0, 393224, 0, 0, 393225, 0, 0, 393226, 0, 0, 393228, 0, 0, 393229, 0, 0, 393230, 0, 0, 393231, 0, 0, 393232, 0, 0, 393234, 0, 0, 393235, 0, 0, 393236, 0, 0, 393237, -1610612736, 0, 393238, -1610612736, 0, 393242, 0, 0, 393243, 0, 0, 393244, 0, 0, 393245, 0, 0, 393248, 0, 0, 393249, 0, 0, 393250, 0, 0, 393251, 0, 0, 393252, 0, 0, 393254, 0, 0, 393258, 0, 0, 393260, 0, 0, 393261, 0, 0, 393262, 0, 0, 393263, 0, 0, 393264, 0, 0, 393266, 0, 0 )
 
-[node name="Label2" type="Label" parent="GUI/GameOver/GameoverTitle/Tutorial"]
+[node name="Label2" type="Label" parent="GUI/GameOver/GameoverTitle/Tutorial/Finished"]
 modulate = Color( 0.368627, 1, 0.662745, 1 )
 anchor_left = 0.5
 anchor_right = 0.5

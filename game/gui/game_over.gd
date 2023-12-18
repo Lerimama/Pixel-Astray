@@ -166,9 +166,15 @@ func set_tutorial_gameover_title():
 	selected_gameover_title = gameover_title_tutorial
 	selected_gameover_menu = selected_gameover_title.get_node("Menu")
 	focus_btn = selected_gameover_menu.get_node("QuitBtn")
-	selected_gameover_jingle = "win_jingle"	
 	
-	
+	if Global.tutorial_gui.current_tutorial_stage == Global.tutorial_gui.TutorialStage.WINLOSE:
+		selected_gameover_title.get_node("Finished").visible = true
+		selected_gameover_jingle = "win_jingle"	
+	else:
+		selected_gameover_title.get_node("NotFinished").visible = true
+		selected_gameover_jingle = "lose_jingle"	
+		
+		
 func set_duel_gameover_title():
 	
 	selected_gameover_title = gameover_title_duel

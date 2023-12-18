@@ -71,6 +71,8 @@ onready var glow_light: Light2D = $GlowLight
 var change_color_tween: SceneTreeTween # če cockam pred končanjem tweena, vzamem to barvo
 var change_to_color: Color
 #var heart_stopped: bool # za opredelitev od česa je klican die()
+var just_hit: bool # heartbeat animacija počaka die animacijo, ko je po karambolu energija = 1
+
 
 func _unhandled_input(event: InputEvent) -> void:
 
@@ -131,18 +133,16 @@ func _physics_process(delta: float) -> void:
 		
 func manage_heartbeat():
 	
-	if player_stats["player_energy"] == 1:
+	if player_stats["player_energy"] == 1 and not just_hit: # just hit, je da heartbeat animacija ne povozi die animacije
 		if not animation_player.get_current_animation() == "heartbeat": # prehod v harbit
 			heartbeat_loop = 0
 			animation_player.play("heartbeat")		
 	elif player_stats["player_energy"] > 1: # revitalizacija
-#		heart_stopped = false
 		if animation_player.get_current_animation() == "heartbeat":
 			animation_player.stop()
 			# resetiram problematično
 			modulate.a = 1
 			burst_light.enabled = false
-	
 	
 						
 func state_machine():
@@ -586,8 +586,8 @@ func on_hit_player(hit_player: KinematicBody2D):
 		change_stat("hit_player", hit_player.player_stats["player_points"]) # točke glede na delež loserjevih točk, energija se resetira na 100%
 		hit_player.on_get_hit(burst_cocked_ghost_count) # po statistiki, da winer pobere od luserja, ko so točke še polne  
 		print ("winner is ", name)
+	
 		
-
 func on_hit_wall():
 	
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.7)
@@ -596,11 +596,12 @@ func on_hit_wall():
 	spawn_collision_particles()
 	shake_player_camera(burst_cocked_ghost_count)
 	
-#	end_move()
+	just_hit = true # da heartbeat animacija ne povozi die animacije
 	
 	if player_stats["player_energy"] <= 1: # more bit pred statistiko
 		stop_heart()
 	change_stat("hit_wall", 1) # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
+	
 	die() # vedno sledi statistiki
 
 
@@ -619,11 +620,12 @@ func on_get_hit(hit_burst_power: int):
 	
 	pixel_color = Global.game_manager.game_settings["player_start_color"] # postane začetne barve
 	
-#	end_move() ... ne rabim, ker je v die()
+	just_hit = true # da heartbeat animacija ne poveozi die animacije
 	
 	if player_stats["player_energy"] <= 1: # more bit pred statistiko
 		stop_heart()
 	change_stat("get_hit", 1) # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
+	
 	die() # vedno sledi statistiki
 	
 	
@@ -635,6 +637,7 @@ func die():
 	
 	end_move()
 	set_physics_process(false)
+	animation_player.stop()
 	animation_player.play("die_player")
 
 	change_stat("die", 1) # izguba lajfa, če je energija 0
@@ -924,6 +927,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 				Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)
 		"revive":
 			set_physics_process(true)
+			just_hit = false # da se heartbeat animacija lahko začne
 			change_stat("revive", 1) # če energija = 0 (izguba lajfa), resetira energijo
 		"become_white_again":
 			yield(get_tree().create_timer(1), "timeout") # za dojet

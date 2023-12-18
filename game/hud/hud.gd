@@ -44,6 +44,8 @@ onready var p1_skill_holder: HBoxContainer = $Header/TopLineL/SkillHolder # neup
 onready var p1_skill_counter: Label = $Header/TopLineL/SkillHolder/Label
 onready var p1_burst_holder: HBoxContainer = $Header/TopLineL/BurstHolder # neuporabljeno
 onready var p1_burst_counter: Label = $Header/TopLineL/BurstHolder/Label
+onready var p1_steps_holder: HBoxContainer = $Header/TopLineL/StepsHolder
+onready var p1_steps_counter: Label = $Header/TopLineL/StepsHolder/Label
 # p2
 onready var p2_statsline: HBoxContainer = $Header/TopLineR/PlayerLineR
 onready var p2_label: Label = $Header/TopLineR/PlayerLineR/PlayerLabel # neuporabljeno
@@ -57,6 +59,8 @@ onready var p2_skill_holder: HBoxContainer = $Header/TopLineR/PlayerLineR/SkillH
 onready var p2_skill_counter: Label = $Header/TopLineR/PlayerLineR/SkillHolder/Label
 onready var p2_burst_holder: HBoxContainer = $Header/TopLineR/PlayerLineR/BurstHolder # neuporabljeno
 onready var p2_burst_counter: Label = $Header/TopLineR/PlayerLineR/BurstHolder/Label
+onready var p2_steps_holder: HBoxContainer = $Header/TopLineR/PlayerLineR/StepsHolder
+onready var p2_steps_counter: Label = $Header/TopLineR/PlayerLineR/StepsHolder/Label
 
 # futer
 onready var footer: Control = $Footer # kontrole iz kamere
@@ -111,6 +115,7 @@ func update_stats(stat_owner: Node, player_stats: Dictionary):
 			p1_color_counter.text = "%d" % player_stats["colors_collected"]
 			p1_burst_counter.text = "%d" % player_stats["burst_count"]
 			p1_skill_counter.text = "%d" % player_stats["skill_count"]
+			p1_steps_counter.text = "%d" % player_stats["cells_traveled"]
 			check_for_warning(player_stats, p1_energy_warning_popup)
 		"p2":
 			p2_life_counter.life_count = player_stats["player_life"]
@@ -119,6 +124,7 @@ func update_stats(stat_owner: Node, player_stats: Dictionary):
 			p2_color_counter.text = "%d" % player_stats["colors_collected"]
 			p2_burst_counter.text = "%d" % player_stats["burst_count"]
 			p2_skill_counter.text = "%d" % player_stats["skill_count"]
+			p2_steps_counter.text = "%d" % player_stats["cells_traveled"]
 			check_for_warning(player_stats, p2_energy_warning_popup)
 
 	# debug
@@ -226,9 +232,12 @@ func slide_out(): # kliče GM na game over
 func set_hud(players_count: int): # kliče main na game-in
 	
 	if players_count == 1:
+		# players
 		p1_label.visible = false
 		p2_statsline.visible = false
+		# popups
 		p1_energy_warning_popup = $Popups/EnergyWarning
+		# hs
 		if Global.game_manager.game_settings["manage_highscores"]:
 			highscore_label.visible = true
 			set_current_highscore()
@@ -238,13 +247,14 @@ func set_hud(players_count: int): # kliče main na game-in
 			highscore_label.visible = false
 	
 	elif players_count == 2:
-		highscore_label.visible = false
-		level_label.visible = false
+		# players
 		p1_label.visible = true
-		p1_color_holder.visible = true
 		p2_statsline.visible = true
+		# popups
 		p1_energy_warning_popup = $Popups/EnergyWarningP1
 		p2_energy_warning_popup = $Popups/EnergyWarningP2
+		# hs		
+		highscore_label.visible = false
 		
 	# lajf counter
 	if Global.game_manager.game_settings["player_start_life"] == 1:

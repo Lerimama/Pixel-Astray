@@ -116,9 +116,13 @@ func zoom_out(hud_in_out_time): # kliče hud
 	limit_top = -10000000
 	limit_bottom = 10000000
 	
+	# korekcija za poravnavo z gameover naslovi
+	var corrected_position = position - Global.game_tilemap.cell_size/2
+	
 	# zoomout	
 	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	zoom_out_tween.tween_property(self, "zoom", zoom_start, hud_in_out_time)
+	zoom_out_tween.parallel().tween_property(self, "position", corrected_position, hud_in_out_time)
 	zoom_out_tween.tween_callback(self, "emit_signal", ["zoomed_out"]) # pošlje na GO, ki pokaže meni
 	
 

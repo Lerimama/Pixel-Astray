@@ -42,10 +42,7 @@ func _process(delta: float) -> void:
 	if get_tree().get_nodes_in_group(Global.group_strays).empty() and all_strays_died_alowed:
 		all_strays_died_alowed = false
 		emit_signal("all_strays_died")
-		print("emit")
-#	if strays_in_game.size() == 0 and strays_spawned and game_on:
-#		game_over(GameoverReason.CLEANED)
-	pass
+		print("all_strays_died emited")
 
 	
 # GAME LOOP ----------------------------------------------------------------------------------
@@ -212,7 +209,10 @@ func set_strays():
 		show_strays(show_strays_loop)
 		yield(get_tree().create_timer(0.1), "timeout")
 	
-	
+	# resetiram, da je mogoče in-game spawn
+	strays_shown.clear()
+
+
 func spawn_strays(strays_to_spawn_count: int):
 	
 	# split colors
@@ -317,7 +317,8 @@ func stop_game_elements():
 	Global.hud.popups_out()
 	Global.sound_manager.stop_sfx("teleport")
 	Global.sound_manager.stop_sfx("heartbeat")
-	
+	get_tree().call_group(Global.group_players, "empty_cocking_ghosts")
+
 	
 func _change_strays_in_game_count(strays_count_change: int):
 	
@@ -326,7 +327,7 @@ func _change_strays_in_game_count(strays_count_change: int):
 	if strays_count_change < 0: # cleaned št. upošteva samo čiščenje (+)
 		strays_cleaned_count += abs(strays_count_change)
 	
-	if strays_in_game_count == 0:
+	if strays_in_game_count == 0 and not game_data["game"] == Profiles.Games.TUTORIAL: # tutorial sam ve kdaj je gameover
 		game_over(GameoverReason.CLEANED)
 		
 

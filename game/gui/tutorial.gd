@@ -4,6 +4,8 @@ extends Control
 enum TutorialStage {MISSION = 1, TRAVELING, BURSTING, SKILLING, STACKING, WINLOSE}
 var current_tutorial_stage: int
 
+var tutorial_finished: bool = false
+
 # za beleženje vmesnih rezultatov
 var traveling_directions: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
 var all_skills: Array = ["push", "pull", "teleport"]
@@ -23,7 +25,7 @@ onready var travel_sepa: HSeparator = $Checkpoints/TravelSepa
 onready var bursting_sepa: HSeparator = $Checkpoints/BurstingSepa
 onready var skilling_sepa: HSeparator = $Checkpoints/SkillingSepa
 onready var stacking_sepa: HSeparator = $Checkpoints/StackingSepa
-onready var win_lose_sepa: HSeparator = $Checkpoints/WinLoseSepa
+onready var win_lose_sepa: HSeparator = $Checkpoints/WinLoseSepa # ni potreben, ampak more bit zaradi metode
 # stages
 onready var mission_panel: Control = $MissionPanel
 onready var hud_guide: Control = $HudGuide
@@ -96,12 +98,15 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	
-	if current_tutorial_stage > 2: # vse, razen mission in traveling
-		if Global.game_manager.strays_in_game_sum == 0:
+	if Global.game_manager.strays_in_game_count == 0 and not tutorial_finished:
+		if current_tutorial_stage > 3 and current_tutorial_stage < 6: # spucano v skilling or stacking 
+			tutorial_finished = true
+			Global.game_manager.game_over(Global.game_manager.GameoverReason.CLEANED)
+		elif current_tutorial_stage == 6: # spucano v winlose
+			tutorial_finished = true
 			finish_tutorial()
-#			strays_spawned = false
-#			spawn_new_strays()
-	
+
+
 func open_tutorial(): # kliče se z GM
 	
 	visible = true
@@ -118,28 +123,6 @@ func start_tutorial():
 	
 	get_tree().call_group(Global.group_players, "set_physics_process", true)
 	
-
-func change_stage(stage_to_hide: Control, next_stage: Control, next_stage_height: int, separation_adon: Control, next_stage_enum):
-	
-	Global.sound_manager.play_gui_sfx("tutorial_stage_done")
-	current_tutorial_stage = next_stage_enum
-	
-	var close_stage = get_tree().create_tween()
-	close_stage.tween_property(stage_to_hide, "rect_min_size:y", 0, 1).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC).set_delay(0.5)
-	close_stage.parallel().tween_property(xtra_separation, "rect_min_size:y", 0, 0.5).set_delay(0.5)
-	close_stage.parallel().tween_callback(xtra_separation, "set_visible", [false]).set_delay(1)
-	close_stage.tween_callback(self, "open_stage", [next_stage, next_stage_height, separation_adon])
-	
-
-func open_stage(stage_to_show, stage_height, next_separation_adon):
-	
-	xtra_separation = next_separation_adon
-	
-	var open_stage = get_tree().create_tween()
-	open_stage.tween_property(stage_to_show, "rect_min_size:y", stage_height, 1).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
-	open_stage.parallel().tween_callback(xtra_separation, "set_visible", [true]).set_delay(0.5)
-	open_stage.parallel().tween_property(xtra_separation, "rect_min_size:y", xtra_separation_height, 0.3).set_delay(0.5)
-
 
 # STAGES ------------------------------------------------------------------------------------------------------------------	
 
@@ -176,6 +159,46 @@ func finish_stacking():
 	stacking_label.modulate = Global.color_green
 	change_stage(stacking_content, winlose_content, stage_height_winlose, win_lose_sepa, TutorialStage.WINLOSE)		
 
+	
+func finish_tutorial():
+	
+	if not current_tutorial_stage == TutorialStage.WINLOSE:
+		return
+	winlose_label.modulate = Global.color_green
+	
+	Global.sound_manager.play_gui_sfx("tutorial_stage_done")
+	
+	var close_final_stage = get_tree().create_tween()
+	close_final_stage.tween_property(winlose_content, "rect_min_size:y", 0, 1).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC).set_delay(0.5)
+	close_final_stage.tween_callback(Global.game_manager, "game_over", [Global.game_manager.GameoverReason.CLEANED])
+
+#	Global.game_manager.game_over(Global.game_manager.GameoverReason.CLEANED)
+
+
+# UTILITI ------------------------------------------------------------------------------------------------------------------	
+
+
+func change_stage(stage_to_hide: Control, next_stage: Control, next_stage_height: int, separation_adon: Control, next_stage_enum):
+	
+	Global.sound_manager.play_gui_sfx("tutorial_stage_done")
+	current_tutorial_stage = next_stage_enum
+	
+	var close_stage = get_tree().create_tween()
+	close_stage.tween_property(stage_to_hide, "rect_min_size:y", 0, 1).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC).set_delay(0.5)
+	close_stage.parallel().tween_property(xtra_separation, "rect_min_size:y", 0, 0.5).set_delay(0.5)
+	close_stage.parallel().tween_callback(xtra_separation, "set_visible", [false]).set_delay(1)
+	close_stage.tween_callback(self, "open_stage", [next_stage, next_stage_height, separation_adon])
+	
+
+func open_stage(stage_to_show, stage_height, next_separation_adon):
+	
+	xtra_separation = next_separation_adon
+	
+	var open_stage = get_tree().create_tween()
+	open_stage.tween_property(stage_to_show, "rect_min_size:y", stage_height, 1).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
+	open_stage.parallel().tween_callback(xtra_separation, "set_visible", [true]).set_delay(0.5)
+	open_stage.parallel().tween_property(xtra_separation, "rect_min_size:y", xtra_separation_height, 0.3).set_delay(0.5)
+
 
 func skill_done(skill: String):
 	
@@ -185,17 +208,8 @@ func skill_done(skill: String):
 	all_skills.erase(skill)
 	if all_skills.empty():
 		finish_skilling()
-
-	
-func finish_tutorial():
-	
-	if not current_tutorial_stage == TutorialStage.WINLOSE:
-		return
-	winlose_label.modulate = Global.color_green
-	
-	Global.game_manager.game_over(Global.game_manager.GameoverReason.CLEANED)
-
-
+		
+		
 # SIGNALS ------------------------------------------------------------------------------------------------------------------	
 
 	
@@ -208,17 +222,3 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			var show_player = get_tree().create_tween()
 			show_player.tween_callback(self, "open_stage", [traveling_content, stage_height_traveling, travel_sepa]).set_delay(0.5)
 			show_player.tween_callback(self, "start_tutorial").set_delay(1)
-
-
-func _on_StartBtn_pressed() -> void:
-	
-	Global.sound_manager.play_gui_sfx("btn_confirm")
-	animation_player.play("tutorial_start")
-	$MissionPanel/Menu/StartBtn.disabled = true
-
-
-func _on_QuitBtn_pressed() -> void:
-	
-	Global.sound_manager.play_gui_sfx("btn_cancel")
-	Global.main_node.game_out()
-	$MissionPanel/Menu/QuitBtn.disabled = true # da ne moreš multiklikatpass # Replace with function body.
