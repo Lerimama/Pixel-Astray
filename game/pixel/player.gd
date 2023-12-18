@@ -14,7 +14,6 @@ var player_camera: Node
 var player_camera_target: Node
 
 # steping
-#var step_time: float # uporabi se pri step tweenu in je nekonstanten, če je "energy_speed_mode"
 var step_time_fast: float = Global.game_manager.game_settings["step_time_fast"]
 var step_time_slow: float = Global.game_manager.game_settings["step_time_slow"]
 var step_slowdown_rate: float = Global.game_manager.game_settings["step_slowdown_rate"]
@@ -24,7 +23,7 @@ var cocked_ghosts: Array
 var cocking_room: bool = true
 var cocked_ghost_count_max: int = 7
 var cock_ghost_setup_time = 0.12 # čas nastajanja cocking ghosta in njegova animacija 
-var ghost_cocking_time: float = 0 # trenuten čas nastajanja cocking ghosta ... more bit zunaj, da ga ne resetira na 0 z vsakim frejmom
+var ghost_cocking_time: float = 0 # trenuten čas nastajanja cocking ghosta ... more bit zunaj, da ga ne nulira z vsakim frejmom
 
 # bursting
 var burst_speed: float = 0 # trenutna hitrost
@@ -34,7 +33,6 @@ var burst_speed_addon: float = 12
 var burst_velocity: Vector2
 
 # heartbeat
-#var heartbeat_active: bool = false # animacijo moram kdaj tudi ustaviti, zato je to stanje glavni indikator
 var heartbeat_loop: int = 0
 
 # controls
@@ -48,8 +46,6 @@ onready var cell_size_x: int = Global.game_tilemap.cell_size.x  # pogreba od GMj
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var vision_ray: RayCast2D = $VisionRay
 onready var collision_shape: CollisionShape2D = $CollisionShape2D
-
-
 onready var Ghost: PackedScene = preload("res://game/pixel/ghost.tscn")
 onready var PixelCollisionParticles: PackedScene = preload("res://game/pixel/pixel_collision_particles.tscn")
 onready var PixelDizzyParticles: PackedScene = preload("res://game/pixel/pixel_dizzy_particles.tscn")
@@ -70,7 +66,6 @@ onready var glow_light: Light2D = $GlowLight
 
 var change_color_tween: SceneTreeTween # če cockam pred končanjem tweena, vzamem to barvo
 var change_to_color: Color
-#var heart_stopped: bool # za opredelitev od česa je klican die()
 var just_hit: bool # heartbeat animacija počaka die animacijo, ko je po karambolu energija = 1
 
 
@@ -122,15 +117,55 @@ func _physics_process(delta: float) -> void:
 	
 	color_poly.modulate = pixel_color # povezava med variablo in barvo mora obstajati non-stop
 	
+	# glow light setup
 	if pixel_color == Global.game_manager.game_settings["player_start_color"]:
 		glow_light.color = Color.white
+		glow_light.energy = 1.7
 	else:
 		glow_light.color = pixel_color
+		glow_light.energy = 1.5
 	
 	state_machine()
 	manage_heartbeat()
 	
-		
+#	# raycasting
+#	var vp_limits = get_viewport_rect()
+#	var vp_limits_x = vp_limits.position.x
+#	var vp_limits_x2 = vp_limits.size.x
+#	var vp_limits_y = vp_limits.position.y
+#	var vp_limits_y2 = vp_limits.size.y
+#
+##	Rect2(x: float, y: float, width: float, height: float)
+#	if get_tree().get_nodes_in_group(Global.group_players).size() == 2:
+##		printt (ray_target_1, ray_target_2)
+#		for player in get_tree().get_nodes_in_group(Global.group_players):
+#			if player.name == "p1":
+#				player_1 = self
+#			elif player.name == "p2":
+#				player_2 = self
+#			ray_target_1 = player_2.global_position
+#			ray_target_2 = player_1.global_position
+#
+#			if name == "p1":
+#				player.player_camera.get_viewport()
+##				printt("p1 ", player.player_camera.get_viewport(), get_viewport_rect())
+##				printt("p1 trans ", player.player_camera.get_viewport_transform())
+#				ray_cast_2d.cast_to = ray_target_2 - ray_cast_2d.global_position
+#			elif name == "p2":
+#				player.player_camera.get_viewport()
+##				printt("p2 ", player.player_camera.get_viewport(), get_viewport_rect())
+##				printt("p2 trans ", player.player_camera.get_viewport_transform())
+#				ray_cast_2d.cast_to = ray_target_1 - ray_cast_2d.global_position
+#				ray_cast_2d.cast_to.x = clamp(ray_cast_2d.cast_to.x, vp_limits_x, vp_limits_x2)
+#				ray_cast_2d.cast_to.y = clamp(ray_cast_2d.cast_to.y, vp_limits_y, vp_limits_y2)
+#
+#
+onready var ray_cast_2d: RayCast2D = $RayCast2D
+#var ray_target_1: Vector2
+#var ray_target_2: Vector2
+#var player_1
+#var player_2
+
 func manage_heartbeat():
 	
 	if player_stats["player_energy"] == 1 and not just_hit: # just hit, je da heartbeat animacija ne povozi die animacije

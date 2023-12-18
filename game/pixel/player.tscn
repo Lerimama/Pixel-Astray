@@ -456,6 +456,18 @@ tracks/3/keys = {
 "method": "play_blinking_sound"
 } ]
 }
+tracks/4/type = "value"
+tracks/4/path = NodePath("GlowLight:color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 1.00277, 1.12096, 1.22691, 1.35324, 1.47142, 1.61202, 1.72613, 1.84023, 1.92989, 2.02362, 2.09697, 2.16218, 2.23145, 2.30481, 2.38, 3.50089 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.952941, 0.356863, 0.498039, 1 ), Color( 0.368627, 1, 0.662745, 1 ), Color( 0.294118, 0.623529, 1, 1 ), Color( 0.996078, 0.976471, 0.545098, 1 ), Color( 0.952941, 0.356863, 0.498039, 1 ), Color( 0.368627, 1, 0.662745, 1 ), Color( 0.294118, 0.623529, 1, 1 ), Color( 0.996078, 0.976471, 0.545098, 1 ), Color( 0.952941, 0.356863, 0.498039, 1 ), Color( 0.294118, 0.623529, 1, 1 ), Color( 0.368627, 1, 0.662745, 1 ), Color( 0.996078, 0.976471, 0.545098, 1 ), Color( 0.952941, 0.356863, 0.498039, 1 ), Color( 0.294118, 0.623529, 1, 1 ), Color( 0.368627, 1, 0.662745, 1 ), Color( 0.980392, 0.980392, 0.980392, 1 ) ]
+}
 
 [sub_resource type="Animation" id=2]
 resource_name = "die_player"
@@ -607,17 +619,18 @@ position = Vector2( 7.62939e-06, -9.53674e-06 )
 scale = Vector2( 0.75, 0.75 )
 z_index = -1
 texture = ExtResource( 4 )
+color = Color( 0.368627, 1, 0.662745, 1 )
 energy = 1.5
 range_z_min = -2
 range_z_max = -1
 shadow_enabled = true
 
 [node name="ColorPoly" type="Polygon2D" parent="."]
-modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
 position = Vector2( -16, -16 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 scale = Vector2( 0.99, 0.99 )
 shape = SubResource( 4 )
 
@@ -652,5 +665,8 @@ anims/become_white_again = SubResource( 143 )
 anims/die_player = SubResource( 2 )
 anims/heartbeat = SubResource( 137 )
 anims/revive = ExtResource( 10 )
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+cast_to = Vector2( -128, 128 )
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

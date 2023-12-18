@@ -44,6 +44,61 @@ func _process(delta: float) -> void:
 		emit_signal("all_strays_died")
 		print("all_strays_died emited")
 
+#	
+		
+	# raycasting
+	
+
+
+#	Rect2(x: float, y: float, width: float, height: float)
+	if get_tree().get_nodes_in_group(Global.group_players).size() == 2 and ray_target_1:
+#		print(ray_target_1)
+#		printt (ray_target_1, ray_target_2)
+		for player in get_tree().get_nodes_in_group(Global.group_players):
+			if player.name == "p1":
+				
+				ray_target_1 = player.global_position
+				player.ray_cast_2d.cast_to = Vector2.ZERO
+				printt(player.global_position, player.player_camera.get_camera_screen_center())
+			if player.name == "p2":
+				indi_2.global_position = player.player_camera.get_camera_screen_center()
+				var vp_limits = player.player_camera.get_viewport_rect()
+				
+				var vp_limits_x = indi_2.global_position.x - vp_limits.size.x
+				var vp_limits_x2 = indi_2.global_position.x + vp_limits.size.x
+				var vp_limits_up = (vp_limits.size.y + player.ray_cast_2d.global_position.y)
+#				printt(vp_limits_up, player.player_camera.get_viewport_rect(), vp_limits.size.y, player.ray_cast_2d.global_position.y)
+				var vp_limits_down = -(vp_limits.size.y - player.ray_cast_2d.global_position.y)
+				
+				ray_target_2 = player.global_position
+				player.ray_cast_2d.cast_to = ray_target_1 - player.ray_cast_2d.global_position
+				
+				player.ray_cast_2d.cast_to.x = clamp(player.ray_cast_2d.cast_to.x, -500, 320)
+				player.ray_cast_2d.cast_to.y = clamp(player.ray_cast_2d.cast_to.y, player.ray_cast_2d.global_position.y - 900, player.ray_cast_2d.global_position.y + 900)
+				
+			
+			
+var ray_target_1: Vector2
+var ray_target_2: Vector2
+var indi_1
+var indi_2
+
+# debug
+onready var PosIndi = preload("res://game/DirectionIndicator.tscn")
+
+func spawn_debug_indicator(position, color):
+	
+	var pos_indi = PosIndi.instance()
+	pos_indi.global_position = position
+	pos_indi.modulate = color
+	pos_indi.z_index = 10
+#	pos_indi.modulate.a = 0.5
+	Global.node_creation_parent.add_child(pos_indi)
+	printt (pos_indi.name, pos_indi.global_position)
+	
+	return pos_indi
+	
+	
 	
 # GAME LOOP ----------------------------------------------------------------------------------
 
@@ -191,11 +246,16 @@ func set_players():
 			new_player_pixel.player_camera = Global.player1_camera
 			new_player_pixel.player_camera.camera_target = new_player_pixel
 			
+			ray_target_1 = new_player_pixel.global_position
+#			indi_1 = spawn_debug_indicator(ray_target_1, Color.red)
 			
 		elif spawned_player_index == 2:
 			new_player_pixel.player_camera = Global.player2_camera
 			new_player_pixel.player_camera.camera_target = new_player_pixel
+			
+			ray_target_2 = new_player_pixel.global_position
 		
+			indi_2 = spawn_debug_indicator(ray_target_2, Color.blue)
 		
 func set_strays():
 	
