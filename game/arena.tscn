@@ -74,11 +74,3 @@ anims/pixelate_long = ExtResource( 4 )
 
 [node name="ArenaEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 8 )
-
-[node name="RayCast2D" type="RayCast2D" parent="."]
-position = Vector2( 568, 832 )
-cast_to = Vector2( 448, 352 )
-
-[node name="Line2D" type="Line2D" parent="."]
-position = Vector2( 216, 304 )
-points = PoolVector2Array( 232, 56, 400, 72 )

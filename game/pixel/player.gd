@@ -112,10 +112,19 @@ func _ready() -> void:
 	
 	randomize() # za random blink animacije
 	
+	position_indicator = spawn_position_indicator(position, Color.blue)
+	
 	
 func _physics_process(delta: float) -> void:
 	
 	color_poly.modulate = pixel_color # povezava med variablo in barvo mora obstajati non-stop
+	
+	if name == "p1":
+		pixel_color = Color.white
+	else:
+		pixel_color = Color.red
+		
+	position_indicator.modulate = pixel_color
 	
 	# glow light setup
 	if pixel_color == Global.game_manager.game_settings["player_start_color"]:
@@ -128,43 +137,113 @@ func _physics_process(delta: float) -> void:
 	state_machine()
 	manage_heartbeat()
 	
-#	# raycasting
-#	var vp_limits = get_viewport_rect()
-#	var vp_limits_x = vp_limits.position.x
-#	var vp_limits_x2 = vp_limits.size.x
-#	var vp_limits_y = vp_limits.position.y
-#	var vp_limits_y2 = vp_limits.size.y
-#
-##	Rect2(x: float, y: float, width: float, height: float)
-#	if get_tree().get_nodes_in_group(Global.group_players).size() == 2:
+	if get_tree().get_nodes_in_group(Global.group_players).size() == 2:
+		var players = get_tree().get_nodes_in_group(Global.group_players)
+		player_1 = players[0]
+		player_2 = players[1]
 ##		printt (ray_target_1, ray_target_2)
 #		for player in get_tree().get_nodes_in_group(Global.group_players):
-#			if player.name == "p1":
-#				player_1 = self
-#			elif player.name == "p2":
-#				player_2 = self
-#			ray_target_1 = player_2.global_position
-#			ray_target_2 = player_1.global_position
+		if name == "p2":
+			ray_cast_2d.visible = false
+#			print("vp 2", get_parent().get_parent().get_parent().rect_position)
+#			print("kamera 2",  player_camera.get_camera_position())
+		
+		if name == "p1":
+			ray_target_pos = player_2.position
+			current_player = player_1
+			current_player_pos = player_1.global_position
+			var camera_position = player_camera.get_camera_position()
+			var viewport_size = get_viewport().size
+			var indi_position: Vector2
+			
+			position_indicator.look_at(ray_target_pos)
+			
+			# limit
+			indi_position.x = clamp(ray_target_pos.x, camera_position.x - viewport_size.x/2 - vp_margin, camera_position.x + viewport_size.x/2 + vp_margin)
+			indi_position.y = clamp(ray_target_pos.y, camera_position.y - viewport_size.y/2 - vp_margin, camera_position.y + viewport_size.y/2 + vp_margin)
+			var limit_l = indi_position.length()
+			
+#			ray_target_pos.y = clamp(ray_target_pos.y, player_camera.get_camera_position().y - 480, player_camera.get_camera_position().y + 480)
+			
+			ray_cast_2d.cast_to = ray_target_pos - current_player_pos
+			var indicator_pos_l = ray_cast_2d.cast_to
+#			position_indicator.global_position = current_player_pos + ray_cast_2d.cast_to / 2
+			position_indicator.global_position.length()
+			var kot = current_player.get_angle_to(ray_target_pos)
+			print(kot)
+			
+			position_indicator.global_position = indi_position
+			
+			
+onready var indi: Polygon2D = $indi
+var vp_margin: float = 140
+
+func _update_indicator():
+	
+	var camera_posn = player_camera.get_camera_position()
+	var viewport = player_camera.get_viewport_rect()
+	
+#	indi.global_position.x = clamp(global_position.y, global_position.y, player_camera.get_viewport_rect().size.y)
+#	indi.global_position.y = clamp(global_position.x, global_position.x, player_camera.get_viewport_rect().size.x)
+	
+	if name == "p1":
+		indi.global_position.x = clamp(position.x, camera_posn.x - viewport.size.x / 2 + margin, camera_posn.x + viewport.size.x / 2 - margin )	
+		indi.global_position.y = clamp(position.y, camera_posn.y - viewport.size.y / 2 + margin, camera_posn.y + viewport.size.y / 2 - margin )	
+			
+onready var line_2d: Line2D = $Line2D
+var margin = 50	
+func _on_VisibilityNotifier2D_viewport_entered(viewport: Viewport) -> void:
+	
+	if name == "p1":
+#		print(player_1.global_position)
+#		print(player_2.global_position)
+#		position_indicator.hide()
+#		printt("VP IN ", name, player_camera.get_viewport(), viewport)
+		pass
+func _on_VisibilityNotifier2D_viewport_exited(viewport: Viewport) -> void:
+	
+	if name == "p1":
+#		print(player_1.global_position)
+#		print(player_2.global_position)
 #
-#			if name == "p1":
-#				player.player_camera.get_viewport()
-##				printt("p1 ", player.player_camera.get_viewport(), get_viewport_rect())
-##				printt("p1 trans ", player.player_camera.get_viewport_transform())
-#				ray_cast_2d.cast_to = ray_target_2 - ray_cast_2d.global_position
-#			elif name == "p2":
-#				player.player_camera.get_viewport()
-##				printt("p2 ", player.player_camera.get_viewport(), get_viewport_rect())
-##				printt("p2 trans ", player.player_camera.get_viewport_transform())
-#				ray_cast_2d.cast_to = ray_target_1 - ray_cast_2d.global_position
-#				ray_cast_2d.cast_to.x = clamp(ray_cast_2d.cast_to.x, vp_limits_x, vp_limits_x2)
-#				ray_cast_2d.cast_to.y = clamp(ray_cast_2d.cast_to.y, vp_limits_y, vp_limits_y2)
-#
-#
+#		print("player_1.position")
+#		print(player_1.position - player_2.position)
+#		print(player_2.position)
+#		position_indicator.show()
+#		printt("VP OUT ", name, player_camera.get_viewport(), viewport)
+		pass
+		
+		
+onready var visibility_notifier_2d: VisibilityNotifier2D = $VisibilityNotifier2D
+
+
+var current_player_pos
+var ray_target_pos: Vector2
 onready var ray_cast_2d: RayCast2D = $RayCast2D
-#var ray_target_1: Vector2
+
+var player_1
+var player_2
+var current_player
 #var ray_target_2: Vector2
-#var player_1
-#var player_2
+
+var position_indicator: Node
+onready var Indi = preload("res://game/DirectionIndicator.tscn")
+
+func spawn_position_indicator(spawn_position, color):
+	
+	var pos_indi = Indi.instance()
+	pos_indi.global_position = spawn_position
+#	pos_indi.modulate = color
+	pos_indi.z_index = 10
+	if name == "p1":
+		pos_indi.modulate.a = 0
+	else:
+		pos_indi.modulate.a = 0
+		
+	Global.node_creation_parent.add_child(pos_indi)
+	
+	return pos_indi
+	
 
 func manage_heartbeat():
 	
@@ -1061,3 +1140,10 @@ func change_stat(stat_event: String, stat_value):
 	
 	# signal na hud
 	emit_signal("stat_changed", self, player_stats) # javi v hud
+
+
+func _on_VisibilityNotifier2D_screen_entered() -> void:
+	print("00")
+
+
+

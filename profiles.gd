@@ -34,7 +34,7 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 	# energija
 	"color_picked_energy": 20,
 #	"stacked_color_picked_energy": 10,
-	"cell_traveled_energy": -1,
+	"cell_traveled_energy": 0,
 	"skill_used_energy": 0,
 	"burst_released_energy": 0,
 	"on_hit_energy_part": 2, # delež porabe od trenutne energije
