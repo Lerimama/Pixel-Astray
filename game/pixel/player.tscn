@@ -630,7 +630,6 @@ position = Vector2( -16, -16 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 scale = Vector2( 0.99, 0.99 )
 shape = SubResource( 4 )
 
@@ -651,7 +650,7 @@ range_z_min = 0
 
 [node name="VisionRay" type="RayCast2D" parent="."]
 enabled = true
-cast_to = Vector2( 32, 0 )
+cast_to = Vector2( 48, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 142 )

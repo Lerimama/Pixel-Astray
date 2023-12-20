@@ -144,11 +144,18 @@ func state_machine():
 			idle_inputs()
 			var current_colider = Global.detect_collision_in_direction(vision_ray, direction)
 			if current_colider:
+				print (current_colider)
 				if current_colider.is_in_group(Global.group_strays):
-					current_state = States.SKILLED
+					if not current_colider.is_stepping:
+						current_state = States.SKILLED
+						current_colider.can_step = false
 				elif current_colider.is_in_group(Global.group_tilemap):
 					if current_colider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
 						current_state = States.SKILLED
+			else:
+				for stray in get_tree().get_nodes_in_group(Global.group_strays):
+					stray.can_step = true
+				
 		States.SKILLED:
 			if player_stats["player_energy"] > 1:
 				skill_inputs()
@@ -265,6 +272,7 @@ func skill_inputs():
 			
 	# izbor skila
 	var collider: Object = Global.detect_collision_in_direction(vision_ray, direction)
+	
 	if new_direction:
 		if new_direction == direction:
 			if collider.is_in_group(Global.group_tilemap):

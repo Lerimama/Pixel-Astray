@@ -7,7 +7,7 @@ export (float, 0, 1) var die_shake_decay: float = 0.3
 
 var stray_color: Color
 var neighboring_cells: Array = [] # stray stalno čekira sosede
-var step_time: float = 0.1
+var step_time: float = 0.2
 var is_stepping: bool = false
 
 onready var cell_size_x: int = Global.game_tilemap.cell_size.x
@@ -40,11 +40,11 @@ func fade_in(): # kliče GM
 	var random_animation_name: String = "glitch_%s" % random_animation_index
 	animation_player.play(random_animation_name)
 	
-	
+var can_step: bool = true
 func step(step_direction):
-#	return	
 	
-	if Global.detect_collision_in_direction(vision_ray, step_direction) or is_stepping: # če kolajda izbrani smeri gibanja
+	if Global.detect_collision_in_direction(vision_ray, step_direction * 2) or is_stepping or not can_step: # če kolajda izbrani smeri gibanja
+		Global.snap_to_nearest_grid(global_position, Global.game_manager.floor_positions)
 		return
 	
 	is_stepping = true
@@ -52,12 +52,14 @@ func step(step_direction):
 	global_position = Global.snap_to_nearest_grid(global_position, Global.game_manager.floor_positions)
 	var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 	step_tween.tween_property(self, "position", global_position + step_direction * cell_size_x, step_time)
-	step_tween.tween_callback(Global, "snap_to_nearest_grid", [global_position, Global.game_manager.floor_positions])
+#	step_tween.tween_callback(Global, "snap_to_nearest_grid", [global_position, Global.game_manager.floor_positions])
 	step_tween.tween_property(self, "is_stepping", false, 0)
 
 
 func die(stray_in_stack_index, strays_in_stack: int):
 	
+#	if is_stepping:
+		
 	# čakalni čas
 	var wait_to_destroy_time: float = sqrt(0.07 * (stray_in_stack_index)) # -1 je, da hitan stray ne čaka
 	yield(get_tree().create_timer(wait_to_destroy_time), "timeout")

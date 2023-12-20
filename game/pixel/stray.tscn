@@ -639,7 +639,7 @@ shape = SubResource( 1 )
 
 [node name="VisionRay" type="RayCast2D" parent="."]
 enabled = true
-cast_to = Vector2( 32, 0 )
+cast_to = Vector2( 48, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/blink = SubResource( 139 )
