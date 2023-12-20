@@ -10,7 +10,7 @@ var game_on: bool = false
 # players
 var spawned_player_index: int = 0
 var player_start_positions: Array
-var players_count: int
+var start_players_count: int
 
 # strays
 #var strays_in_game: Array = []
@@ -56,7 +56,7 @@ func set_game():
 		set_strays()
 		yield(get_tree().create_timer(1), "timeout") # da si plejer ogleda
 
-	Global.hud.slide_in(players_count)
+	Global.hud.slide_in(start_players_count)
 	yield(Global.start_countdown, "countdown_finished") # sproži ga hud po slide-inu
 	
 	start_game()
@@ -123,7 +123,7 @@ func set_tilemap():
 	# grab tilemap tiles
 	Global.game_tilemap.get_tiles()
 
-
+	
 func set_game_view():
 	
 	# viewports
@@ -135,24 +135,15 @@ func set_game_view():
 	var cell_align_start: Vector2 = Vector2(Global.game_tilemap.cell_size.x, Global.game_tilemap.cell_size.y/2)
 	Global.player1_camera.position = player_start_positions[0] + cell_align_start
 	
-	if players_count == 2:
+	if start_players_count == 2:
 		viewport_container_2.visible = true
 		viewport_2.world_2d = viewport_1.world_2d
 		Global.player2_camera.position = player_start_positions[1] + cell_align_start
-		
-		# smerniki
-		Global.player1_camera.direction_indicator.visible = true
-		Global.player2_camera.direction_indicator.visible = true		
-		
 	else:
 		viewport_container_2.visible = false
 		viewport_separator.visible = false
-		
-		Global.player1_camera.direction_indicator.visible = false
-		Global.player2_camera.direction_indicator.visible = false
 	
-	
-	# set player camer limits
+	# set player camera limits
 	var tilemap_edge = Global.game_tilemap.get_used_rect()
 	var tilemap_cell_size = Global.game_tilemap.cell_size
 	
@@ -199,15 +190,9 @@ func set_players():
 		if spawned_player_index == 1:
 			new_player_pixel.player_camera = Global.player1_camera
 			new_player_pixel.player_camera.camera_target = new_player_pixel
-			
-#			if player_start_positions.size() > 1:
-#				Global.player2_camera.direction_indicator_target = new_player_pixel
-			
 		elif spawned_player_index == 2:
 			new_player_pixel.player_camera = Global.player2_camera
 			new_player_pixel.player_camera.camera_target = new_player_pixel
-			
-			Global.player1_camera.direction_indicator_target = new_player_pixel
 			
 		
 func set_strays():
@@ -375,4 +360,4 @@ func _on_tilemap_completed(floor_cells_positions: Array, stray_cells_positions: 
 		player_start_positions.append(random_spawn_positions[p1_selected_cell_index])
 		random_spawn_positions.remove(p1_selected_cell_index)
 	
-	players_count = player_start_positions.size() # tukaj določeno se uporabi za game view setup
+	start_players_count = player_start_positions.size() # tukaj določeno se uporabi za game view setup

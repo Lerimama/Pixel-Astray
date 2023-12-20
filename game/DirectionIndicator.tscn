@@ -11,5 +11,9 @@ polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 position = Vector2( -16, -16 )
 scale = Vector2( 2.14286, 1 )
 z_index = 6
-color = Color( 0.368627, 1, 0.662745, 1 )
 polygon = PoolVector2Array( 0, 0, 7.46667, 8, 14.9333, 16, 7.45113, 24.0166, 0, 32, 4.2, 16 )
+
+[node name="Label" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 14.0
+text = "asdasdasd"

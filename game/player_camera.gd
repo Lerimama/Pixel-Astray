@@ -38,8 +38,6 @@ var max_rotation = 5
 onready var cell_align: Vector2 = Vector2(Global.game_tilemap.cell_size.x/2, 0)
 onready var cell_align_end: Vector2 = Global.game_tilemap.cell_size/2
 
-onready var direction_indicator: Node2D = $DirectionIndicator
-var direction_indicator_target: Node2D
 
 func _ready():
 	
@@ -63,7 +61,6 @@ func _ready():
 	
 func _process(delta):
 	
-	_update_direction_indicator()
 	
 	time += delta
 	
@@ -97,18 +94,7 @@ func _physics_process(delta: float) -> void:
 	
 	if camera_target:
 		position = camera_target.position + cell_align
-	
-
-func _update_direction_indicator():
 		
-	if direction_indicator.visible:
-		print(direction_indicator_target)
-		if direction_indicator_target:
-			direction_indicator.look_at(direction_indicator_target.global_position)
-		pass
-		
-		
-	
 	
 func zoom_in(hud_in_out_time: float, players_count: int): # kliče hud
 	
