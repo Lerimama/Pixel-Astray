@@ -43,33 +43,6 @@ func _process(delta: float) -> void:
 		emit_signal("all_strays_died")
 		print("all_strays_died emited")
 	
-
-func stray_step():
-	
-	# random dir
-	var random_direction_index: int = randi() % int(4)
-	var stepping_direction: Vector2
-	match random_direction_index:
-		0: stepping_direction = Vector2.LEFT
-		1: stepping_direction = Vector2.UP
-		2: stepping_direction = Vector2.RIGHT
-		3: stepping_direction = Vector2.DOWN
-	
-	
-	# random stray	
-	var strays_in_game = get_tree().get_nodes_in_group(Global.group_strays)
-	var random_stray_no: int = randi() % int(strays_in_game.size())
-	var strays_to_move = strays_in_game[random_stray_no]
-	if not strays_in_game.empty():
-		strays_to_move.step(stepping_direction)
-	
-	yield(get_tree().create_timer(0.01), "timeout") # da si plejer ogleda
-	stray_step()
-	# next step random time
-#	var random_pause_time_divisor: float = randi() % int(5) + 1 # višji offset da manjši razpon v random času
-#	var random_pause_time = 0.2 / random_pause_time_divisor
-#	stray_step_timer.start(random_pause_time)
-	
 	
 # GAME LOOP ----------------------------------------------------------------------------------
 
@@ -100,7 +73,6 @@ func start_game():
 			player.set_physics_process(true)
 		
 		game_on = true
-		stray_step()
 	
 	
 func game_over(gameover_reason: int):

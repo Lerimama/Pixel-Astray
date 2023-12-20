@@ -298,7 +298,7 @@ tracks/9/keys = {
 
 [sub_resource type="Animation" id=139]
 resource_name = "intro_explode"
-length = 11.0
+length = 12.0
 step = 0.02
 tracks/0/type = "value"
 tracks/0/path = NodePath("Actor:modulate")
@@ -307,7 +307,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.12, 0.16, 0.34, 0.4, 0.44, 0.52, 0.56, 0.7, 0.78, 0.82, 0.92, 0.98, 1.02, 1.12, 1.14, 2.37984, 2.47984, 2.55984, 2.61984, 2.67984, 2.75984, 2.89984, 2.99984, 3.39984 ),
+"times": PoolRealArray( 0, 0.12, 0.16, 0.34, 0.4, 0.44, 0.52, 0.56, 0.7, 0.78, 0.82, 0.92, 0.98, 1.02, 1.12, 1.14, 2.88, 2.98, 3.06, 3.12, 3.18, 3.26, 3.4, 3.5, 3.9 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 0.952941, 0.356863, 0.498039, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.368627, 1, 0.662745, 1 ), Color( 1, 1, 1, 1 ), Color( 0.341176, 0.65098, 1, 1 ), Color( 0.341176, 0.65098, 1, 1 ), Color( 0.996078, 0.976471, 0.545098, 1 ), Color( 0.952941, 0.356863, 0.498039, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.368627, 1, 0.662745, 1 ), Color( 1, 1, 1, 1 ), Color( 0.341176, 0.65098, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.368627, 1, 0.662745, 1 ), Color( 1, 1, 1, 1 ), Color( 0.952941, 0.356863, 0.498039, 1 ), Color( 1, 1, 1, 1 ), Color( 0.341176, 0.65098, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.996078, 0.976471, 0.545098, 1 ), Color( 1, 1, 1, 1 ) ]
@@ -319,10 +319,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.12, 0.16, 0.22, 0.88, 0.92, 0.98, 1.02, 1.12, 1.14, 1.2, 2.29984, 2.43984, 2.47984, 2.55984, 2.61984, 2.71984, 2.93984, 2.99984, 3.39984, 3.5, 3.56 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.12, 0.16, 0.22, 0.88, 0.92, 0.98, 1.02, 1.12, 1.14, 1.2, 2.8, 2.94, 2.98, 3.06, 3.12, 3.22, 3.44, 3.5, 3.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 0.2, 1.04957, 0.2, 1.04957, 1.04957, 0.0, 0.8, 0.0, 0.6, 0.0, 0.5, 0.0, 0.5, 1.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.2, 0.2, 0.0 ]
+"values": [ 0.2, 1.04957, 0.2, 1.04957, 1.04957, 0.0, 0.8, 0.0, 0.6, 0.0, 0.5, 0.0, 0.5, 1.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0 ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("ThunderCover/ThunderCover:color")
@@ -331,7 +331,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 2.43984, 2.52, 2.59984, 2.67984, 2.85984, 2.93984, 3, 3.07984, 3.11984, 3.31984 ),
+"times": PoolRealArray( 0, 2.94, 3.02, 3.1, 3.18, 3.36, 3.44, 3.5, 3.58, 3.62, 3.82 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 0.952941, 0.356863, 0.498039, 0.627451 ), Color( 1, 1, 1, 0 ), Color( 0.368627, 1, 0.662745, 0.627451 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 0.996078, 0.976471, 0.545098, 0.627451 ), Color( 1, 1, 1, 0 ), Color( 0.341176, 0.65098, 1, 0.627451 ), Color( 1, 1, 1, 0 ) ]
@@ -343,7 +343,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 2.3, 2.52, 2.54, 2.68, 3, 3.12 ),
+"times": PoolRealArray( 2.8, 3.02, 3.04, 3.18, 3.5, 3.62 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "values": [ {
 "args": [  ],
@@ -384,7 +384,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 0.08, 0.16, 0.38, 0.44, 0.7, 0.88, 0.96, 1.02, 1.14, 2.33984, 2.47984, 2.61984, 2.69984, 2.87984, 2.99984, 3.07984, 3.17984 ),
+"times": PoolRealArray( 0, 0.08, 0.16, 0.38, 0.44, 0.7, 0.88, 0.96, 1.02, 1.14, 2.84, 2.98, 3.12, 3.2, 3.38, 3.5, 3.58, 3.68 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "values": [ {
 "args": [  ],
@@ -449,7 +449,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 2.52, 2.68, 2.99984, 3.12 ),
+"times": PoolRealArray( 3.02, 3.18, 3.5, 3.62 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "values": [ {
 "args": [  ],
@@ -472,7 +472,7 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0, 0.4, 4.9, 5.3 ),
+"times": PoolRealArray( 0, 0.4, 2.3, 2.7 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
@@ -484,7 +484,7 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0, 5.6, 6, 9, 11 ),
+"times": PoolRealArray( 0, 5.9, 6.2, 10, 12 ),
 "transitions": PoolRealArray( 1, 1, 1, 2, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
@@ -496,7 +496,7 @@ tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 0, 2, 2.4 ),
+"times": PoolRealArray( 0, 2.3, 2.7 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
@@ -504,7 +504,7 @@ tracks/9/keys = {
 
 [sub_resource type="Animation" id=138]
 resource_name = "intro_running"
-length = 16.5
+length = 18.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Actor:modulate:a")
 tracks/0/interp = 1
@@ -512,10 +512,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5, 1.8, 2.1, 2.3, 2.6, 2.9, 3.1, 3.4, 3.7, 3.9, 4.2, 4.5, 4.7, 5, 5.3, 5.5, 5.8, 6.1, 6.3, 6.6, 6.9, 7.1, 7.4, 7.7, 8.5, 15.4, 16.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.5, 1.8, 2.1, 2.3, 2.6, 2.9, 3.1, 3.4, 3.7, 3.9, 4.2, 4.5, 4.7, 5, 5.3, 5.5, 5.8, 6.1, 6.3, 6.6, 6.9, 7.1, 7.4, 7.7, 7.9, 8.2, 8.5, 8.7, 9, 9.3, 9.5, 10, 16.9, 18 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 0.0, 1.0, 1.0, 1.2, 1.2, 1.0, 1.2, 1.2, 1.0, 1.2, 1.2, 1.0, 1.2, 1.2, 1.0, 1.2, 1.2, 1.0, 1.2, 1.2, 1.0, 1.2, 1.2, 1.0, 1.2, 1.04957, 1.04957, 0.2 ]
+"values": [ 0.0, 1.0, 1.0, 1.2, 1.2, 1.0, 1.2, 1.2, 1.0, 1.2, 1.2, 1.0, 1.2, 1.2, 1.0, 1.2, 1.2, 1.0, 1.2, 1.2, 1.0, 1.2, 1.2, 1.0, 1.2, 1.2, 1.0, 1.2, 1.2, 1.0, 1.2, 1.2, 1.04957, 1.04957, 0.2 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("ThunderCover/ThunderCover:color")
@@ -536,7 +536,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 8.5, 8.9, 9.8, 11, 11.6, 12.7, 13, 13.5, 14, 15.3, 15.4, 15.7, 15.9, 16.2, 16.4 ),
+"times": PoolRealArray( 0, 10, 10.4, 11.3, 12.5, 13.1, 14.2, 14.5, 15, 15.5, 16.8, 16.9, 17.2, 17.4, 17.7, 17.9 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 1792, 1264 ), Vector2( 1792, 1264 ), Vector2( 3136, 1264 ), Vector2( 3136, 904 ), Vector2( 448, 904 ), Vector2( 464, 1648 ), Vector2( 3136, 1648 ), Vector2( 3144, 512 ), Vector2( 1808, 480 ), Vector2( 1808, 1232 ), Vector2( 1808, 1232 ), Vector2( 1536, 1232 ), Vector2( 1536, 1232 ), Vector2( 2048, 1232 ), Vector2( 2048, 1232 ), Vector2( 1808, 1232 ) ]
@@ -548,7 +548,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 8.5, 9.1, 9.8, 11, 11.6, 12.7, 13.3, 14, 15.3, 15.4, 15.7, 15.9, 16.2, 16.4 ),
+"times": PoolRealArray( 10, 10.6, 11.3, 12.5, 13.1, 14.2, 14.8, 15.5, 16.8, 16.9, 17.2, 17.4, 17.7, 17.9 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true, false, true, false, true, false, true, false, true, false, true, false ]
@@ -560,7 +560,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 8.5, 9.8, 11.6, 13.4, 15.3, 15.7, 16.2 ),
+"times": PoolRealArray( 10, 11.3, 13.1, 14.9, 16.8, 17.2, 17.7 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "values": [ {
 "args": [  ],
@@ -592,7 +592,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 8.7, 9.2, 13.5, 14 ),
+"times": PoolRealArray( 0, 10.2, 10.7, 15, 15.5 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
@@ -604,7 +604,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0, 15.3, 15.5, 17, 17.3 ),
+"times": PoolRealArray( 0, 16.8, 17, 18.5, 18.8 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
@@ -616,7 +616,7 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0, 1, 1.5, 3.8, 4.3 ),
+"times": PoolRealArray( 0, 1, 1.5, 4.8, 5.3 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
@@ -628,7 +628,7 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0, 4.6, 5.1, 7.9, 8.4 ),
+"times": PoolRealArray( 0, 5.6, 6.1, 9.4, 9.9 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
@@ -741,7 +741,7 @@ margin_right = 288.0
 margin_bottom = 352.0
 grow_horizontal = 2
 theme = SubResource( 194 )
-text = "He owned all the colors and was
+text = "It owned all the colors and was
 the brightest pixel on the screen."
 align = 1
 autowrap = true
@@ -759,7 +759,7 @@ margin_bottom = 320.0
 grow_horizontal = 2
 theme = SubResource( 194 )
 text = "Running around arrogantly,
-he believed that the shine and glory
+it believed that the shine and glory
 would last forever."
 align = 1
 autowrap = true
@@ -789,11 +789,10 @@ anchor_bottom = 0.5
 margin_left = -260.0
 margin_top = 326.0
 margin_right = 260.0
-margin_bottom = 404.0
+margin_bottom = 348.0
 grow_horizontal = 2
 theme = SubResource( 194 )
-text = "The designer had a brilliant idea
-to shuffle the colors around."
+text = "The designer had a brilliant idea!"
 align = 1
 autowrap = true
 
@@ -803,13 +802,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -268.0
+margin_left = -292.0
 margin_top = 314.0
-margin_right = 268.0
-margin_bottom = 364.0
+margin_right = 292.0
+margin_bottom = 392.0
 grow_horizontal = 2
 theme = SubResource( 194 )
-text = "Now, the pixel is on a mission to take back all that has been taken from him."
+text = "Now, its mission is to take back the colors and become the brightest on the screen again."
 align = 1
 autowrap = true
 

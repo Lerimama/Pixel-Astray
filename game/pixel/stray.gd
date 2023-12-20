@@ -19,8 +19,6 @@ onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 onready var count_label: Label = $CountLabel
 onready var color_poly: Polygon2D = $ColorPoly
 
-#onready var glow_light: Light2D = $GlowLight
-	
 	
 func _ready() -> void:
 	
@@ -39,27 +37,10 @@ func fade_in(): # kliče GM
 	var random_animation_index = randi() % 3 + 1
 	var random_animation_name: String = "glitch_%s" % random_animation_index
 	animation_player.play(random_animation_name)
-	
-var can_step: bool = true
-func step(step_direction):
-	
-	if Global.detect_collision_in_direction(vision_ray, step_direction * 2) or is_stepping or not can_step: # če kolajda izbrani smeri gibanja
-		Global.snap_to_nearest_grid(global_position, Global.game_manager.floor_positions)
-		return
-	
-	is_stepping = true
-	
-	global_position = Global.snap_to_nearest_grid(global_position, Global.game_manager.floor_positions)
-	var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
-	step_tween.tween_property(self, "position", global_position + step_direction * cell_size_x, step_time)
-#	step_tween.tween_callback(Global, "snap_to_nearest_grid", [global_position, Global.game_manager.floor_positions])
-	step_tween.tween_property(self, "is_stepping", false, 0)
 
-
+	
 func die(stray_in_stack_index, strays_in_stack: int):
 	
-#	if is_stepping:
-		
 	# čakalni čas
 	var wait_to_destroy_time: float = sqrt(0.07 * (stray_in_stack_index)) # -1 je, da hitan stray ne čaka
 	yield(get_tree().create_timer(wait_to_destroy_time), "timeout")
@@ -98,3 +79,18 @@ func check_for_neighbors():
 				current_cell_neighbors.append(neighbor)
 				
 	return current_cell_neighbors # uporaba v stalnem čekiranj sosedov
+
+
+func step(step_direction):
+	
+	if Global.detect_collision_in_direction(vision_ray, step_direction) or is_stepping: # če kolajda izbrani smeri gibanja
+		Global.snap_to_nearest_grid(global_position, Global.game_manager.floor_positions)
+		return
+	
+	is_stepping = true
+	
+	global_position = Global.snap_to_nearest_grid(global_position, Global.game_manager.floor_positions)
+	var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
+	step_tween.tween_property(self, "position", global_position + step_direction * cell_size_x, step_time)
+	step_tween.tween_callback(Global, "snap_to_nearest_grid", [global_position, Global.game_manager.floor_positions])
+	step_tween.tween_property(self, "is_stepping", false, 0)

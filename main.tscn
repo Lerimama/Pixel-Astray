@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=2]
+[gd_scene load_steps=81 format=2]
 
 [ext_resource path="res://assets/sound/music/menu_track_secret.wav" type="AudioStream" id=1]
 [ext_resource path="res://assets/sound/sfx/skills/skilled_frcer.wav" type="AudioStream" id=2]
@@ -45,6 +45,7 @@
 [ext_resource path="res://assets/sound/music/moose.mp3" type="AudioStream" id=43]
 [ext_resource path="res://assets/sound/sfx/burst/burs_stop_phaser.wav" type="AudioStream" id=44]
 [ext_resource path="res://assets/sound/sfx/skills/skilled_tickle.wav" type="AudioStream" id=45]
+[ext_resource path="res://assets/sound/music/Ludum Dare 30 - Track 3_menu_cut.wav" type="AudioStream" id=46]
 [ext_resource path="res://assets/sound/sfx/burst/burst_laser_NFF-laser-gun.wav" type="AudioStream" id=47]
 [ext_resource path="res://assets/sound/sfx/skills/teleport_in_v2.wav" type="AudioStream" id=48]
 [ext_resource path="res://assets/sound/sfx/stepping/step_4.wav" type="AudioStream" id=49]
@@ -414,6 +415,11 @@ bus = "Gui"
 
 [node name="WarmUpShort" type="AudioStreamPlayer" parent="SoundManager/Music/MenuMusic"]
 stream = ExtResource( 41 )
+volume_db = -5.0
+bus = "Gui"
+
+[node name="LudumDare30-Track3" type="AudioStreamPlayer" parent="SoundManager/Music/MenuMusic"]
+stream = ExtResource( 46 )
 bus = "Gui"
 
 [node name="GameMusic" type="Node2D" parent="SoundManager/Music"]

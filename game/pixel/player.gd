@@ -122,20 +122,6 @@ func _physics_process(delta: float) -> void:
 	state_machine()
 	manage_heartbeat()
 	
-
-func manage_heartbeat():
-	
-	if player_stats["player_energy"] == 1 and not just_hit: # just hit, je da heartbeat animacija ne povozi die animacije
-		if not animation_player.get_current_animation() == "heartbeat": # prehod v harbit
-			heartbeat_loop = 0
-			animation_player.play("heartbeat")		
-	elif player_stats["player_energy"] > 1: # revitalizacija
-		if animation_player.get_current_animation() == "heartbeat":
-			animation_player.stop()
-			# resetiram problematično
-			modulate.a = 1
-			burst_light.enabled = false
-	
 						
 func state_machine():
 	
@@ -148,14 +134,9 @@ func state_machine():
 				if current_colider.is_in_group(Global.group_strays):
 					if not current_colider.is_stepping:
 						current_state = States.SKILLED
-						current_colider.can_step = false
 				elif current_colider.is_in_group(Global.group_tilemap):
 					if current_colider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
 						current_state = States.SKILLED
-			else:
-				for stray in get_tree().get_nodes_in_group(Global.group_strays):
-					stray.can_step = true
-				
 		States.SKILLED:
 			if player_stats["player_energy"] > 1:
 				skill_inputs()
@@ -202,7 +183,11 @@ func idle_inputs():
 	
 	if Input.is_action_just_pressed(key_burst): # brez "just" dela po stisku smeri ... ni ok
 		current_state = States.COCKING
+		if change_color_tween and change_color_tween.is_running(): # če sprememba barve še poteka, jo spremenim takoj
+			change_color_tween.kill()
+			pixel_color = change_to_color
 		burst_light_on()
+		
 			
 
 func cocking_inputs():
@@ -349,10 +334,6 @@ func cock_burst():
 		Global.sound_manager.stop_sfx("burst_cocking")
 		end_move()
 		return
-	
-	if change_color_tween and change_color_tween.is_running(): # če sprememba barve še poteka, jo spremenim takoj
-		change_color_tween.kill()
-		pixel_color = change_to_color
 	
 	# preverjam prostor za napenjanje
 	if cocked_ghosts.size() < cocked_ghost_count_max and cocking_room: # ... preverja ghost
@@ -838,7 +819,7 @@ func burst_light_on():
 	var burst_light_base_energy: float = 0.5
 	var burst_light_energy: float = burst_light_base_energy / pixel_color.v
 	burst_light_energy = clamp(burst_light_energy, 0.5, 1.4) # klempam za dark pixel
-	
+	printt(burst_light_energy, pixel_color)
 	var light_fade_in = get_tree().create_tween()
 	light_fade_in.tween_callback(burst_light, "set_enabled", [true])
 	light_fade_in.tween_property(burst_light, "energy", burst_light_energy, 0.2).set_ease(Tween.EASE_IN)
@@ -870,7 +851,21 @@ func skill_light_off():
 	light_fade_out.tween_property(skill_light, "energy", 0, 0.2).set_ease(Tween.EASE_IN)
 	light_fade_out.tween_callback(skill_light, "set_enabled", [false])
 
+
+func manage_heartbeat():
 	
+	if player_stats["player_energy"] == 1 and not just_hit: # just hit, je da heartbeat animacija ne povozi die animacije
+		if not animation_player.get_current_animation() == "heartbeat": # prehod v harbit
+			heartbeat_loop = 0
+			animation_player.play("heartbeat")		
+	elif player_stats["player_energy"] > 1: # revitalizacija
+		if animation_player.get_current_animation() == "heartbeat":
+			animation_player.stop()
+			# resetiram problematično
+			modulate.a = 1
+			burst_light.enabled = false
+			
+
 func play_blinking_sound(): 
 	# kličem iz animacije
 	Global.sound_manager.play_sfx("blinking")
