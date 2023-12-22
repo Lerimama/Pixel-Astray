@@ -265,7 +265,7 @@ func _on_PopupNameEdit_text_entered(new_text: String) -> void: # ko stisneš ret
 	
 func _on_ConfirmBtn_pressed() -> void:
 
-	if name_input.editable == false:
+	if name_input.editable == false: # prevent dablklik
 		return
 			
 	$NameInputPopup/HBoxContainer/ConfirmBtn.grab_focus() # da se obarva ko stisnem RETURN
@@ -280,7 +280,7 @@ func _on_ConfirmBtn_pressed() -> void:
 
 func _on_CancelBtn_pressed() -> void:
 
-	if name_input.editable == false:
+	if name_input.editable == false: # prevent dablklik
 		return
 			
 	$NameInputPopup/HBoxContainer/CancelBtn.grab_focus() # da se obarva ko stisnem ESC
@@ -294,21 +294,19 @@ func _on_CancelBtn_pressed() -> void:
 
 func _on_RestartBtn_pressed() -> void:
 
-	if menu_btn_clicked:
+	if menu_btn_clicked: # prevent dablklik
 		return
 	menu_btn_clicked = true
 
 	Global.sound_manager.play_gui_sfx("btn_confirm")
-#	get_tree().paused = false
 	Global.main_node.reload_game()
 	
 	
 func _on_QuitBtn_pressed() -> void:
 
-	if menu_btn_clicked:
+	if menu_btn_clicked: # prevent dablklik
 		return
 	menu_btn_clicked = true
 	
 	Global.sound_manager.play_gui_sfx("btn_cancel")
-#	get_tree().paused = false
 	Global.main_node.game_out()

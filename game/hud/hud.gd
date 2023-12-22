@@ -23,7 +23,6 @@ onready var viewport_footer: ColorRect = $"%ViewFuter"
 # popups 
 var p1_energy_warning_popup: Control
 var p2_energy_warning_popup: Control
-#onready var popups: Control = $Popups # skos vidno, skrije se samo na gameover
 onready var splitscreen_popup: Control = $Popups/SplitScreens
 
 # header
@@ -73,7 +72,7 @@ onready var picked_color_label: Label = $PickedColor/Value
 func _input(event: InputEvent) -> void:
 	
 	# splitscreen popup
-	if Input.is_action_just_pressed("ui_accept") and splitscreen_popup.visible:
+	if Input.is_action_just_pressed("ui_accept") and splitscreen_popup.visible and splitscreen_popup.modulate.a == 1: # prevent dablklik ... old 
 		Global.sound_manager.play_gui_sfx("btn_confirm")
 		emit_signal("players_ready")
 	
