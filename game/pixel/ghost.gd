@@ -42,7 +42,6 @@ func _on_PixelGhost_body_exited(body: Node) -> void:
 		teleporting_bodies.erase(body)
 	
 	if teleporting_bodies.empty():
-		# speed = 0 # tukaj je zato ker se lepše ustavi
 		target_reached = true
 		emit_signal("ghost_target_reached", self, global_position)
 			

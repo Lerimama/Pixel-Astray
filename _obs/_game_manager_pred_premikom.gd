@@ -290,7 +290,6 @@ func show_strays():
 
 func set_tilemap():
 	
-#	var tilemap_to_release: TileMap = Global.game_tilemap
 	var tilemap_to_release: TileMap = default_tilemap
 	var tilemap_to_load_path: String = game_data["tilemap_path"]
 	
@@ -339,7 +338,6 @@ func _on_tilemap_completed(floor_cells_positions: Array, stray_cells_positions: 
 	if strays_start_count > random_spawn_positions.size() + required_spawn_positions.size():
 		print("to many strays to spawn: ", strays_start_count - (random_spawn_positions.size() + required_spawn_positions.size()))
 		strays_start_count = random_spawn_positions.size() + required_spawn_positions.size()
-		print(strays_start_count, " strays spawned")
 
 	# opoozorim na neskladje glede št. playerjev
 	if game_settings["start_players_count"] != player_start_positions.size():

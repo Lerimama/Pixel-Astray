@@ -1,22 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://game/arena.gd" type="Script" id=1]
 [ext_resource path="res://game/tilemaps/arena_tilemap.tscn" type="PackedScene" id=2]
-[ext_resource path="res://assets/resources/anim_pixelate.tres" type="Animation" id=4]
 [ext_resource path="res://assets/resources/env_arena.tres" type="Environment" id=8]
-
-[sub_resource type="Animation" id=3]
-length = 0.001
-
-[sub_resource type="Animation" id=2]
-resource_name = "game_intro"
-length = 9.5
-step = 0.02
-
-[sub_resource type="Animation" id=1]
-resource_name = "pixelate"
-length = 3.5
-step = 0.02
 
 [node name="Arena" type="Node2D"]
 script = ExtResource( 1 )
@@ -65,12 +51,6 @@ modulate = Color( 1, 1, 1, 0.666667 )
 margin_right = 2752.0
 margin_bottom = 1636.0
 color = Color( 0, 0, 0, 0.666667 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/RESET = SubResource( 3 )
-anims/game_intro = SubResource( 2 )
-anims/pixelate = SubResource( 1 )
-anims/pixelate_long = ExtResource( 4 )
 
 [node name="ArenaEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 8 )

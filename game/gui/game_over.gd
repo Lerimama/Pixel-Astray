@@ -64,7 +64,7 @@ func _ready() -> void:
 	name_input_popup.visible = false
 	
 	
-func open_gameover(gameover_reason):
+func open_gameover(gameover_reason: int):
 	
 	players_in_game = get_tree().get_nodes_in_group(Global.group_players)
 	
@@ -87,7 +87,6 @@ func open_gameover(gameover_reason):
 func show_gameover_title():
 
 	get_tree().call_group(Global.group_players, "set_physics_process", false)
-#	get_tree().call_group(Global.group_players, "set_process", false)
 	
 	visible = true
 	selected_gameover_title.visible = true
@@ -140,7 +139,6 @@ func show_game_summary():
 	selected_game_summary.get_node("DataContainer/BurstCount").text %= str(p1_final_stats["burst_count"])
 	selected_game_summary.get_node("DataContainer/SkillsUsed").text %= str(p1_final_stats["skill_count"])
 	selected_game_summary.get_node("DataContainer/PixelsOff").text %= str(p1_final_stats["colors_collected"])
-#	selected_game_summary.get_node("DataContainer/AstrayPixels").text %= str(Global.game_manager.strays_in_game.size())
 	selected_game_summary.get_node("DataContainer/AstrayPixels").text %= str(Global.game_manager.strays_in_game_count)
 	
 	selected_game_summary.visible = true	
@@ -185,7 +183,6 @@ func set_duel_gameover_title():
 	var points_difference: int = p1_final_stats["player_points"] - p2_final_stats["player_points"]
 	
 	if points_difference == 0: # draw
-#		winner_label.text = "You both collected the same amount of points."	
 		selected_gameover_title.get_node("Draw").visible = true
 	else: # win
 		var winner_label: Label = selected_gameover_title.get_node("Win/PlayerLabel")
@@ -204,7 +201,7 @@ func set_duel_gameover_title():
 			points_difference_label.text =  winner_label.text + " was " + str(abs(points_difference)) + " points better than " + loser_name + "."# + " points."
 		
 			
-func set_game_gameover_title(gameover_reason):
+func set_game_gameover_title(gameover_reason: int):
 	
 	match gameover_reason:
 		Global.game_manager.GameoverReason.CLEANED:

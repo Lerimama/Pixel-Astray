@@ -1,7 +1,7 @@
 extends VBoxContainer
 
 	
-func get_highscore_table(current_game, current_player_ranking):
+func get_highscore_table(current_game: int, current_player_ranking: int):
 	
 	# malo spremenjeno, ko sem dal lestvico v meni ... če bodo game bo treba malce drugače 
 	var current_game_highscores = Global.data_manager.read_highscores_from_file(current_game)
@@ -22,7 +22,7 @@ func get_highscore_table(current_game, current_player_ranking):
 			scoreline.get_node("Score").text = str(current_position_dict_values[0])
 			scoreline.get_node("Owner").text = str(current_position_dict_owners[0])
 		
-		# povdarim tvoj rezultat
+		# povdarim trenuten rezultat
 		if scoreline_index == current_player_ranking:
 			scoreline.modulate = Global.color_green
 			

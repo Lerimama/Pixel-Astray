@@ -13,7 +13,6 @@ func _ready() -> void:
 	
 	add_to_group(Global.group_tilemap)	
 	Global.game_tilemap = self
-	print("tilemap")
 
 
 func get_tiles():
@@ -49,7 +48,7 @@ func get_tiles():
 	
 	# pošljem v GM
 	emit_signal("tilemap_completed", floor_global_positions, stray_global_positions, no_stray_global_positions, player_global_positions)
-#	emit_signal("tilemap_completed", floor_global_positions, title_cells_global_positions)
+	
 	
 func get_collision_tile_id(collider: Node2D, direction: Vector2): # collider je node ki se zaleteva in ne collision object
 	
@@ -62,16 +61,3 @@ func get_collision_tile_id(collider: Node2D, direction: Vector2): # collider je 
 	var tile_index: int = get_cellv(colliding_cell_grid_position) # index zadete celice na poziciji v grid koordinatah
 	
 	return tile_index
-
-
-# debug
-onready var DebugIndicator = preload("res://assets/position_indicator.tscn")
-
-func spawn_debug_indicator(current_cell_position, color):
-	
-	var pos_indi = DebugIndicator.instance()
-	pos_indi.rect_position = current_cell_position
-	pos_indi.modulate = color
-	pos_indi.modulate.a = 0.5
-	pos_indi.get_node("Label").text = str(current_cell_position)
-	Global.node_creation_parent.add_child(pos_indi)

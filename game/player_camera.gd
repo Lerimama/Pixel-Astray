@@ -59,7 +59,7 @@ func _ready():
 	update_ui()
 	
 	
-func _process(delta):
+func _process(delta: float):
 	
 	
 	time += delta
@@ -107,7 +107,7 @@ func zoom_in(hud_in_out_time: float, players_count: int): # kliče hud
 	zoom_in_tween.tween_callback(self, "emit_signal", ["zoomed_in"]) # pošlje na hud, ki sproži countdown
 
 	
-func zoom_out(hud_in_out_time): # kliče hud
+func zoom_out(hud_in_out_time: float): # kliče hud
 	
 	# unset limits
 	camera_target = null
@@ -127,7 +127,7 @@ func zoom_out(hud_in_out_time): # kliče hud
 	zoom_out_tween.tween_callback(self, "emit_signal", ["zoomed_out"]) # pošlje na GO, ki pokaže meni
 	
 
-func shake_camera(shake_power, shake_time, shake_decay): 
+func shake_camera(shake_power: float, shake_time: float, shake_decay: float): 
 	
 	if not Global.main_node.camera_shake_on:
 		return
@@ -239,7 +239,7 @@ func update_ui():
 	decay_slider.value = decay_speed
 
 
-func multi_shake_camera(shake_power, shake_time, shake_decay): 
+func multi_shake_camera(shake_power: float, shake_time: float, shake_decay: float): 
 	
 	trauma_strength += shake_power
 	trauma_time = shake_time

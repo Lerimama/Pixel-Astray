@@ -1,23 +1,17 @@
 extends KinematicBody2D
 
 
-export (float, 0, 1) var die_shake_power: float = 0.2
-export (float, 0, 10) var die_shake_time: float = 0.4
-export (float, 0, 1) var die_shake_decay: float = 0.3
-
 var stray_color: Color
 var neighboring_cells: Array = [] # stray stalno čekira sosede
 var step_time: float = 0.2
 var is_stepping: bool = false
 
-onready var cell_size_x: int = Global.game_tilemap.cell_size.x
+onready var color_poly: Polygon2D = $ColorPoly
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var vision_ray: RayCast2D = $VisionRay
 onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
-
-# debug
-onready var count_label: Label = $CountLabel
-onready var color_poly: Polygon2D = $ColorPoly
+onready var count_label: Label = $CountLabel # debug
+onready var cell_size_x: int = Global.game_tilemap.cell_size.x
 
 	
 func _ready() -> void:
@@ -39,7 +33,7 @@ func fade_in(): # kliče GM
 	animation_player.play(random_animation_name)
 
 	
-func die(stray_in_stack_index, strays_in_stack: int):
+func die(stray_in_stack_index: int, strays_in_stack: int):
 	
 	# čakalni čas
 	var wait_to_destroy_time: float = sqrt(0.07 * (stray_in_stack_index)) # -1 je, da hitan stray ne čaka
@@ -81,7 +75,7 @@ func check_for_neighbors():
 	return current_cell_neighbors # uporaba v stalnem čekiranj sosedov
 
 
-func step(step_direction):
+func step(step_direction: Vector2):
 	
 	if Global.detect_collision_in_direction(vision_ray, step_direction) or is_stepping: # če kolajda izbrani smeri gibanja
 		Global.snap_to_nearest_grid(global_position, Global.game_manager.floor_positions)

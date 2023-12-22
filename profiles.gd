@@ -164,8 +164,8 @@ func _ready() -> void:
 	
 #	var current_game = Games.DUEL # če greš iz menija je tole povoženo
 #	var current_game = Games.TUTORIAL # če greš iz menija je tole povoženo
-#	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
-	var current_game = Games.DEBUG # če greš iz menija je tole povoženo
+	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
+#	var current_game = Games.DEBUG # če greš iz menija je tole povoženo
 	set_game_data(current_game)
 	
 	

@@ -1,7 +1,9 @@
 extends Node2D
 
+
 onready var btm_particles: Particles2D = $BtmParticles
 onready var top_particles: Particles2D = $TopParticles
+
 
 func _ready() -> void:
 	top_particles.emitting = true

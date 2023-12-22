@@ -32,7 +32,6 @@ onready var game_timer: HBoxContainer = $Header/GameTimer
 onready var highscore_label: Label = $Header/TopLineR/HighscoreLabel
 onready var music_player: Label = $Header/TopLineR/MusicPlayer
 # p1
-onready var p1_statsline: HBoxContainer = $Header/TopLineL # neuporabljeno
 onready var p1_label: Label = $Header/TopLineL/PlayerLabel
 onready var p1_life_counter: HBoxContainer = $Header/TopLineL/LifeIcons
 onready var p1_energy_counter: HBoxContainer = $Header/TopLineL/EnergyBar
@@ -40,24 +39,17 @@ onready var p1_points_holder: HBoxContainer = $Header/TopLineL/PointsHolder
 onready var p1_points_counter: Label = $Header/TopLineL/PointsHolder/Points
 onready var p1_color_holder: HBoxContainer = $Header/TopLineL/ColorHolder
 onready var p1_color_counter: Label = $Header/TopLineL/ColorHolder/Label
-onready var p1_skill_holder: HBoxContainer = $Header/TopLineL/SkillHolder # neuporabljeno
 onready var p1_skill_counter: Label = $Header/TopLineL/SkillHolder/Label
-onready var p1_burst_holder: HBoxContainer = $Header/TopLineL/BurstHolder # neuporabljeno
 onready var p1_burst_counter: Label = $Header/TopLineL/BurstHolder/Label
 onready var p1_steps_holder: HBoxContainer = $Header/TopLineL/StepsHolder
 onready var p1_steps_counter: Label = $Header/TopLineL/StepsHolder/Label
 # p2
 onready var p2_statsline: HBoxContainer = $Header/TopLineR/PlayerLineR
-onready var p2_label: Label = $Header/TopLineR/PlayerLineR/PlayerLabel # neuporabljeno
 onready var p2_life_counter: HBoxContainer = $Header/TopLineR/PlayerLineR/LifeIcons
 onready var p2_energy_counter: HBoxContainer = $Header/TopLineR/PlayerLineR/EnergyBar
-onready var p2_points_holder: HBoxContainer = $Header/TopLineR/PlayerLineR/PointsHolder # neuporabljeno
-onready var p2_points_counter: Label = $Header/TopLineR/PlayerLineR/PointsHolder/Points # neuporabljeno
-onready var p2_color_holder: HBoxContainer = $Header/TopLineR/PlayerLineR/ColorHolder # neuporabljeno
+onready var p2_points_counter: Label = $Header/TopLineR/PlayerLineR/PointsHolder/Points
 onready var p2_color_counter: Label = $Header/TopLineR/PlayerLineR/ColorHolder/Label
-onready var p2_skill_holder: HBoxContainer = $Header/TopLineR/PlayerLineR/SkillHolder # neuporabljeno
 onready var p2_skill_counter: Label = $Header/TopLineR/PlayerLineR/SkillHolder/Label
-onready var p2_burst_holder: HBoxContainer = $Header/TopLineR/PlayerLineR/BurstHolder # neuporabljeno
 onready var p2_burst_counter: Label = $Header/TopLineR/PlayerLineR/BurstHolder/Label
 onready var p2_steps_holder: HBoxContainer = $Header/TopLineR/PlayerLineR/StepsHolder
 onready var p2_steps_counter: Label = $Header/TopLineR/PlayerLineR/StepsHolder/Label
@@ -310,8 +302,7 @@ func spawn_color_indicators(available_colors: Array): # kliče GM
 		spectrum.add_child(new_color_indicator)
 		active_color_indicators.append(new_color_indicator)
 
-		# debug ... zapis indexa
-		# new_color_indicator.get_node("IndicatorCount").text = str(indicator_index) 
+		# new_color_indicator.get_node("IndicatorCount").text = str(indicator_index) # debug ... zapis indexa
 	
 	
 func show_picked_color(picked_pixel_color: Color):

@@ -13,7 +13,7 @@ func _ready() -> void:
 	set_icons_state() # preveri lajf na začetku in seta pravilno stanje ikon 
 
 
-func _on_value_change(new_value): # ne rabim parametra
+func _on_value_change(new_value: int): # ne rabim parametra
 	
 
 	# setam prev life ... pravi_life count se še ni spremenil
@@ -25,7 +25,6 @@ func _on_value_change(new_value): # ne rabim parametra
 	if previous_life == life_count:
 		return
 	elif life_count < previous_life:
-#		Global.hud.warning_out() # energy warning se ob spremembi lajfa odfejda
 		modulate = Global.color_red
 		yield(get_tree().create_timer(0.5), "timeout")
 		modulate = Color.white

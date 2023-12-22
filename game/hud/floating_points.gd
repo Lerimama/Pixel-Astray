@@ -21,6 +21,7 @@ func _ready() -> void:
 	
 	# KVEFRI je v animaciji
 
+
 func _physics_process(delta: float) -> void:
 	
 	if tag_owner:

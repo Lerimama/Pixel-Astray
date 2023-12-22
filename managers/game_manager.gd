@@ -16,7 +16,7 @@ var start_players_count: int
 #var strays_in_game: Array = []
 var strays_shown: Array = []
 var strays_in_game_count: int setget _change_strays_in_game_count # spremlja spremembo količine aktivnih in uničenih straysov
-var strays_cleaned_count: int
+var strays_cleaned_count: int # za statistiko na hudu
 var all_strays_died_alowed: bool = false # za omejevnje signala iz FP
 
 # tilemap data
@@ -36,12 +36,12 @@ func _ready() -> void:
 	Global.game_manager = self
 	randomize()
 	
+	
 func _process(delta: float) -> void:
 	
 	if get_tree().get_nodes_in_group(Global.group_strays).empty() and all_strays_died_alowed:
 		all_strays_died_alowed = false
 		emit_signal("all_strays_died")
-		print("all_strays_died emited")
 	
 	
 # GAME LOOP ----------------------------------------------------------------------------------
@@ -281,17 +281,21 @@ func show_strays(show_strays_loop: int):
 	match show_strays_loop:
 		1:
 			Global.sound_manager.play_sfx("thunder_strike")
-			# Global.sound_manager.play_sfx("blinking")
+			Global.sound_manager.play_sfx("blinking")
 			strays_to_show_count = round(strays_in_game_count/10)
 		2:
 			Global.sound_manager.play_sfx("thunder_strike")
+			Global.sound_manager.play_sfx("blinking")
 			strays_to_show_count = round(strays_in_game_count/8)
 		3:
+			Global.sound_manager.play_sfx("blinking")
 			strays_to_show_count = round(strays_in_game_count/4)
 		4:
 			Global.sound_manager.play_sfx("thunder_strike")
+			Global.sound_manager.play_sfx("blinking")
 			strays_to_show_count = round(strays_in_game_count/2)
 		5: # še preostale
+			Global.sound_manager.play_sfx("blinking")
 			strays_to_show_count = strays_in_game_count - strays_shown.size()
 	
 	# stray fade-in

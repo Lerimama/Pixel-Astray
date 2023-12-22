@@ -203,7 +203,8 @@ func show_strays(show_strays_loop: int):
 	var strays_to_show_count: int # količina strejsov se more ujemat s številom spawnanih
 	
 	match show_strays_loop:
-		1:
+		1:	
+			# sound efekti so v animaciji		
 			strays_to_show_count = round(strays_in_game.size()/10)
 		2:
 			strays_to_show_count = round(strays_in_game.size()/8)
@@ -287,5 +288,3 @@ func _on_TileMap_completed(floor_cells_positions: Array, stray_cells_positions: 
 		random_spawn_positions.remove(p1_selected_cell_index)
 	
 	players_count = player_start_positions.size() # tukaj določeno se uporabi za game view setup
-	
-	printt ("intro spawn: ", player_start_positions.size(), required_spawn_positions.size(), strays_start_count)

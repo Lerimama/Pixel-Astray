@@ -9,13 +9,14 @@ var currently_playing_track_index: int = 1 # ga ne resetiraš, da ostane v spomi
 
 onready var game_music: Node2D = $Music/GameMusic
 onready var menu_music: AudioStreamPlayer = $Music/MenuMusic/WarmUpShort
-
 onready var menu_music_volume_on_node = menu_music.volume_db # za reset po fejdoutu (game over)
+
 	
 func _ready() -> void:
 	
 	Global.sound_manager = self
 	randomize()
+
 	
 # SFX --------------------------------------------------------------------------------------------------------
 
@@ -127,10 +128,11 @@ func stop_sfx(sfx_to_stop: String):
 			$GuiSfx/Events/Win.stop()
 	
 
-func select_random_sfx(sound_group):
+func select_random_sfx(sound_group: Node2D):
 	
 	var random_index = randi() % sound_group.get_child_count()
 	var selected_sound = sound_group.get_child(random_index)
+	
 	return selected_sound
 	
 	
@@ -163,11 +165,13 @@ func stop_music(music_to_stop: String):
 		
 		"menu_music":
 			menu_music.stop()
-#			var fade_out = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT)	
-#			fade_out.tween_property(menu_music, "volume_db", -80, 0.5)
-#			fade_out.tween_callback(menu_music, "stop")
-#			# volume reset
-#			fade_out.tween_property(menu_music, "volume_db", menu_music_volume_on_node, 0.5)
+			
+			# fejdout
+			# var fade_out = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT)	
+			# fade_out.tween_property(menu_music, "volume_db", -80, 0.5)
+			# fade_out.tween_callback(menu_music, "stop")
+			# volume reset
+			# fade_out.tween_property(menu_music, "volume_db", menu_music_volume_on_node, 0.5)
 			
 		"game_music":
 			for music in game_music.get_children():
@@ -206,4 +210,3 @@ func skip_track():
 			fade_out.tween_callback(music, "stop")
 			fade_out.tween_callback(music, "set_volume_db", [current_music_volume]) # reset glasnosti
 			fade_out.tween_callback(self, "play_music", ["game_music"])
-			return
