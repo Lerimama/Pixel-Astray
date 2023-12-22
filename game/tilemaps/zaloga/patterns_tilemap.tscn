@@ -2,7 +2,7 @@
 
 [ext_resource path="res://game/tilemaps/arena_tilemap.gd" type="Script" id=1]
 [ext_resource path="res://assets/resources/tileset_arena.tres" type="TileSet" id=2]
-[ext_resource path="res://assets/art/Pinterest_Download10.jpg" type="Texture" id=3]
+[ext_resource path="res://_mat/tilemap art/Pinterest_Download10_owned.jpg" type="Texture" id=3]
 
 [node name="Tilemap" type="TileMap"]
 tile_set = ExtResource( 2 )

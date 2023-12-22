@@ -386,12 +386,6 @@ stream = ExtResource( 59 )
 volume_db = -15.0
 bus = "GameSfx"
 
-[node name="RecordFanfare" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Events"]
-stream = ExtResource( 37 )
-volume_db = -10.0
-pitch_scale = 1.1
-bus = "GameSfx"
-
 [node name="TutorialStageDone" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Events"]
 stream = ExtResource( 4 )
 volume_db = -13.0
@@ -416,10 +410,6 @@ bus = "Gui"
 [node name="WarmUpShort" type="AudioStreamPlayer" parent="SoundManager/Music/MenuMusic"]
 stream = ExtResource( 41 )
 volume_db = -5.0
-bus = "Gui"
-
-[node name="LudumDare30-Track3" type="AudioStreamPlayer" parent="SoundManager/Music/MenuMusic"]
-stream = ExtResource( 46 )
 bus = "Gui"
 
 [node name="GameMusic" type="Node2D" parent="SoundManager/Music"]
@@ -490,5 +480,15 @@ pitch_scale = 1.1
 [node name="SkilledCrystal" type="AudioStreamPlayer" parent="SoundManager/_rezerva"]
 stream = SubResource( 33 )
 volume_db = -25.0
+
+[node name="LudumDare30-Track3_menu" type="AudioStreamPlayer" parent="SoundManager/_rezerva"]
+stream = ExtResource( 46 )
+bus = "Gui"
+
+[node name="RecordFanfare" type="AudioStreamPlayer" parent="SoundManager/_rezerva"]
+stream = ExtResource( 37 )
+volume_db = -10.0
+pitch_scale = 1.1
+bus = "GameSfx"
 
 [connection signal="finished" from="SoundManager/GameSfx/Skills/TeleportIn" to="SoundManager" method="_on_TeleportStart_finished"]

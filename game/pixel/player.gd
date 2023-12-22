@@ -3,6 +3,7 @@ extends KinematicBody2D
 
 signal stat_changed # spremenjeno statistiko javi v hud
 signal rewarded_on_game_over # da je dobil nagrado ob cleaned javi v GM
+signal player_pixel_set # player je pripravljen
 
 enum States {IDLE, STEPPING, SKILLED, SKILLING, COCKING, RELEASING, BURSTING}
 var current_state # = States.IDLE
@@ -12,9 +13,10 @@ var player_camera: Node
 var player_stats: Dictionary # se aplicira ob spawnanju
 var collision: KinematicCollision2D
 var teleporting_wall_tile_id = 3 
+export var glow_light_energy = 1.5 # exportano za animacijo
 
 # colors
-var pixel_color: Color
+var pixel_color: Color = Global.game_manager.game_settings["player_start_color"]
 var change_color_tween: SceneTreeTween # če cockam pred končanjem tweena, vzamem to barvo
 var change_to_color: Color
 
@@ -77,6 +79,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _ready() -> void:
 
 	add_to_group(Global.group_players)
+	randomize() # za random blink animacije
 	
 	# controler setup
 	if Global.game_manager.start_players_count == 2:
@@ -92,13 +95,13 @@ func _ready() -> void:
 		key_down = "ui_down"
 		key_burst = "burst"
 	
+	
+	color_poly.modulate = pixel_color # barva že ob spawnu
+	
 	skill_light.enabled = false
 	burst_light.enabled = false
-		
-	color_poly.modulate = pixel_color # da se obarva že ob spawnu
-	current_state = States.IDLE
 	
-	randomize() # za random blink animacije
+	current_state = States.IDLE
 	
 	
 func _physics_process(delta: float) -> void:
@@ -111,7 +114,7 @@ func _physics_process(delta: float) -> void:
 		glow_light.energy = 1.7
 	else:
 		glow_light.color = pixel_color
-		glow_light.energy = 1.5
+		glow_light.energy = glow_light_energy
 	
 	state_machine()
 	manage_heartbeat()
@@ -897,6 +900,10 @@ func _on_ghost_detected_body(body: Node2D):
 func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	
 	match anim_name:
+		"lose_white_on_start":
+			# setam looknfeel playerja ob štartu FP
+			modulate.a = 1
+			color_poly.modulate = pixel_color
 		"heartbeat":
 			heartbeat_loop += 1
 			if heartbeat_loop <= 5:

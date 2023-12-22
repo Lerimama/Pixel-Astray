@@ -12,7 +12,7 @@ config_version=4
 
 config/name="Stray Pixels"
 run/main_scene="res://main.tscn"
-config/icon="res://_materiali/icon.png"
+config/icon="res://_mat/icon.png"
 
 [autoload]
 

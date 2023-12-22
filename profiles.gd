@@ -34,7 +34,7 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 	# energija
 	"color_picked_energy": 20,
 #	"stacked_color_picked_energy": 10,
-	"cell_traveled_energy": 0,
+	"cell_traveled_energy": -1,
 	"skill_used_energy": 0,
 	"burst_released_energy": 0,
 	"on_hit_energy_part": 2, # delež porabe od trenutne energije
@@ -163,8 +163,8 @@ var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "c
 func _ready() -> void:
 	
 #	var current_game = Games.DUEL # če greš iz menija je tole povoženo
-#	var current_game = Games.TUTORIAL # če greš iz menija je tole povoženo
-	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
+	var current_game = Games.TUTORIAL # če greš iz menija je tole povoženo
+#	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
 #	var current_game = Games.DEBUG # če greš iz menija je tole povoženo
 	set_game_data(current_game)
 	
@@ -189,6 +189,7 @@ func set_game_data(selected_game) -> void:
 		Games.DUEL: 
 			current_game_data = game_data_duel
 			game_settings["player_start_life"] = 2
+			game_settings["start_countdown"] = true
 		Games.TUTORIAL:
 			current_game_data = game_data_tutorial
 			game_settings["timer_mode_countdown"] = false
@@ -203,5 +204,6 @@ func set_game_data(selected_game) -> void:
 		Games.CLEANER_L: 
 			current_game_data = game_data_cleaner_L
 			game_settings["player_start_life"] = 3
+			game_settings["start_countdown"] = true
 			game_settings["manage_highscores"] = true
 		

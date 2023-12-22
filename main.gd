@@ -45,6 +45,8 @@ func home_in_from_game():
 	Global.spawn_new_scene(home_scene_path, self)
 	Global.current_scene.open_from_game() # select game screen
 	
+	yield(get_tree().create_timer(0.7), "timeout") # da se title naštima
+	
 	Global.current_scene.modulate = Color.black
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(Global.current_scene, "modulate", Color.white, fade_time)

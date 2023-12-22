@@ -77,14 +77,14 @@ func open_without_intro(): # debug ... kliče main.gd -> home_in_no_intro()
 
 func open_from_game(): # select_game screen ... kliče main.gd -> home_in_from_game()
 	
-	intro.end_intro() # da se prikaže samo naslov ... intro signal na koncu kliče home_in()
-	current_screen = Screens.SELECT_GAME # tole blokira menu_in() 
+#	animation_player.play("select_game_from_game")
+#	current_screen = Screens.SELECT_GAME # tole blokira menu_in() 
 	
 	# animacija na konec
 	animation_player.play("select_game")
-#	animation_player.play_backwards("play")
 	var animation_length: float = animation_player.get_current_animation_length()
 	animation_player.advance(animation_length)
+	intro.end_intro() # da se prikaže samo naslov ... intro signal na koncu kliče home_in()
 	if not Global.sound_manager.menu_music_set_to_off:
 		Global.sound_manager.play_music("menu_music")
 
@@ -115,11 +115,14 @@ func _on_Intro_finished_playing() -> void:
 	
 func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 	
-	
 	match animation_name:
 		"select_game":
 			if animation_reversed("select_game"):
 				return
+			current_screen = Screens.SELECT_GAME
+			tutorial_btn.grab_focus()
+			current_esc_hint = $SelectGame/EscHint
+		"select_game_from_game":
 			current_screen = Screens.SELECT_GAME
 			tutorial_btn.grab_focus()
 			current_esc_hint = $SelectGame/EscHint
@@ -192,7 +195,6 @@ func _on_SettingsBtn_pressed() -> void:
 func _on_HighscoresBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	Global.sound_manager.play_gui_sfx("btn_confirm")
-	
 	animation_player.play("highscores")
 
 

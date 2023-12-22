@@ -89,8 +89,8 @@ func play_gui_sfx(effect_for: String):
 			$GuiSfx/Events/Win.play()
 		"lose_jingle":
 			$GuiSfx/Events/Loose.play()
-		"record_cheers":
-			$GuiSfx/Events/RecordFanfare.play()
+#		"record_cheers":
+#			$GuiSfx/Events/RecordFanfare.play()
 		"tutorial_stage_done":
 			$GuiSfx/Events/TutorialStageDone.play()
 		# input
@@ -145,6 +145,7 @@ func _on_TeleportStart_finished() -> void:
 
 func play_music(music_for: String):
 	
+	return
 	match music_for:
 		"menu_music":
 			if menu_music_set_to_off:

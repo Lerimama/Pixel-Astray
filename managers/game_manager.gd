@@ -51,6 +51,13 @@ func set_game():
 	
 	set_players()
 	
+	# player intro animacija
+	var signaling_player: KinematicBody2D
+	for player in get_tree().get_nodes_in_group(Global.group_players):
+		player.animation_player.play("lose_white_on_start")
+		signaling_player = player # da se zgodi na obeh plejerjih istočasno
+	yield(signaling_player, "player_pixel_set") # javi player iz intro animacije
+		
 	if not game_data["game"] == Profiles.Games.TUTORIAL: 
 		set_strays()
 		yield(get_tree().create_timer(1), "timeout") # da si plejer ogleda
@@ -89,7 +96,7 @@ func game_over(gameover_reason: int):
 		var signaling_player: KinematicBody2D
 		for player in get_tree().get_nodes_in_group(Global.group_players):
 			player.all_cleaned()
-			signaling_player = player
+			signaling_player = player # da se zgodi na obeh plejerjih istočasno
 		yield(signaling_player, "rewarded_on_game_over") # počakam, da je nagrajen
 	
 	yield(get_tree().create_timer(2), "timeout") # za dojet
@@ -168,7 +175,6 @@ func set_players():
 		var new_player_pixel = PlayerPixel.instance()
 		new_player_pixel.name = "p%s" % str(spawned_player_index)
 		new_player_pixel.global_position = player_position + Global.game_tilemap.cell_size/2 # ... ne rabim snepat ker se v pixlu na ready funkciji
-		new_player_pixel.pixel_color = game_settings["player_start_color"]
 		new_player_pixel.z_index = 1 # nižje od straysa
 		Global.node_creation_parent.add_child(new_player_pixel)
 		
@@ -182,7 +188,6 @@ func set_players():
 		new_player_pixel.emit_signal("stat_changed", new_player_pixel, new_player_pixel.player_stats) # štartno statistiko tako javim 
 		
 		# pregame setup
-		# new_player_pixel.modulate.a = 0
 		new_player_pixel.set_physics_process(false)
 		
 		# players camera

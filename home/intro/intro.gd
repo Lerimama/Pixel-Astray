@@ -195,10 +195,10 @@ func spawn_stray(stray_color: Color, stray_index: int):
 func show_strays(show_strays_loop: int):
 	
 	# shake
-	var spawn_shake_power: float = 0.25
-	var spawn_shake_time: float = 0.5
-	var spawn_shake_decay: float = 0.2
-	Global.intro_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
+#	var spawn_shake_power: float = 0.25
+#	var spawn_shake_time: float = 0.5
+#	var spawn_shake_decay: float = 0.2
+#	Global.intro_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
 	
 	var strays_to_show_count: int # količina strejsov se more ujemat s številom spawnanih
 	
@@ -225,7 +225,16 @@ func show_strays(show_strays_loop: int):
 		if loop_count >= strays_to_show_count:
 			break
 	
-
+	
+func shake_camera_on_show_strays():
+	
+	# shake
+	var spawn_shake_power: float = 0.35
+	var spawn_shake_time: float = 1
+	var spawn_shake_decay: float = 0.2
+	Global.intro_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
+	
+	
 # SOUNDS -------------------------------------------------------------------------------------
 
 	

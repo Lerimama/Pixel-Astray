@@ -129,7 +129,7 @@ func update_stats(stat_owner: Node, player_stats: Dictionary):
 
 func check_for_hs(player_stats: Dictionary):
 	
-	if player_stats["player_points"] > current_highscore: #Global.game_manager.game_data["highscore"]:
+	if player_stats["player_points"] > current_highscore: 
 		highscore_label.text = "New highscore " + str(player_stats["player_points"])
 		highscore_label.modulate = Global.color_green
 	else:
