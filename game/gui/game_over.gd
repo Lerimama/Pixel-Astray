@@ -80,23 +80,24 @@ func open_gameover(gameover_reason: int):
 		set_game_gameover_title(gameover_reason)
 		
 	Global.hud.slide_out()
-	yield(Global.player1_camera, "zoomed_out")
+	yield(Global.player1_camera, "zoomed_out") # tukaj notri setam zamik
 	show_gameover_title()	
 
 
 func show_gameover_title():
 
-	get_tree().call_group(Global.group_players, "set_physics_process", false)
+#	get_tree().call_group(Global.group_players, "set_physics_process", false)
 	
 	visible = true
 	selected_gameover_title.visible = true
 	gameover_title_holder.modulate.a = 0
 	
 	var fade_in = get_tree().create_tween()
-	fade_in.tween_callback(gameover_title_holder, "set_visible", [true])#.set_delay(1)
+	fade_in.tween_callback(gameover_title_holder, "set_visible", [true])
 	fade_in.tween_property(gameover_title_holder, "modulate:a", 1, 1)
+	fade_in.parallel().tween_callback(Global.sound_manager, "stop_music", ["game_music_on_gameover"])
 	fade_in.parallel().tween_callback(Global.sound_manager, "play_gui_sfx", [selected_gameover_jingle])
-	fade_in.parallel().tween_property(background, "modulate:a", 0.7, 1)#.set_delay(0.5)
+	fade_in.parallel().tween_property(background, "modulate:a", 0.7, 0.5).set_delay(0.5)
 	fade_in.tween_callback(self, "show_gameover_menu").set_delay(2)
 
 

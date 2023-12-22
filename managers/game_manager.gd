@@ -49,7 +49,7 @@ func _process(delta: float) -> void:
 
 func set_game(): 
 	
-	set_players()
+	# set_players() # kliče M (main.gd), da je plejer viden že na fejdin
 	
 	# player intro animacija
 	var signaling_player: KinematicBody2D
@@ -99,7 +99,10 @@ func game_over(gameover_reason: int):
 			signaling_player = player # da se zgodi na obeh plejerjih istočasno
 		yield(signaling_player, "rewarded_on_game_over") # počakam, da je nagrajen
 	
+	get_tree().call_group(Global.group_players, "set_physics_process", false)
+	
 	yield(get_tree().create_timer(2), "timeout") # za dojet
+	
 	
 	stop_game_elements()
 	
@@ -175,6 +178,7 @@ func set_players():
 		var new_player_pixel = PlayerPixel.instance()
 		new_player_pixel.name = "p%s" % str(spawned_player_index)
 		new_player_pixel.global_position = player_position + Global.game_tilemap.cell_size/2 # ... ne rabim snepat ker se v pixlu na ready funkciji
+		new_player_pixel.modulate = Global.color_white
 		new_player_pixel.z_index = 1 # nižje od straysa
 		Global.node_creation_parent.add_child(new_player_pixel)
 		
@@ -317,7 +321,7 @@ func show_strays(show_strays_loop: int):
 
 func stop_game_elements():
 	
-	Global.sound_manager.stop_music("game_music_on_gameover")	
+	# Global.sound_manager.stop_music("game_music_on_gameover") ... prelije se v jingle
 	
 	# včasih nujno
 	Global.hud.popups_out()

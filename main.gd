@@ -70,6 +70,7 @@ func game_in():
 	Global.spawn_new_scene(game_scene_path, self)
 	Global.game_manager.set_tilemap()
 	Global.game_manager.set_game_view()
+	Global.game_manager.set_players()
 	
 	yield(get_tree().create_timer(0.5), "timeout") # da se kamera centrira (na restart)
 	

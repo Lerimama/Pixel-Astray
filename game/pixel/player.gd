@@ -13,7 +13,6 @@ var player_camera: Node
 var player_stats: Dictionary # se aplicira ob spawnanju
 var collision: KinematicCollision2D
 var teleporting_wall_tile_id = 3 
-export var glow_light_energy = 1.5 # exportano za animacijo
 
 # colors
 var pixel_color: Color = Global.game_manager.game_settings["player_start_color"]
@@ -95,9 +94,6 @@ func _ready() -> void:
 		key_down = "ui_down"
 		key_burst = "burst"
 	
-	
-	color_poly.modulate = pixel_color # barva že ob spawnu
-	
 	skill_light.enabled = false
 	burst_light.enabled = false
 	
@@ -114,7 +110,7 @@ func _physics_process(delta: float) -> void:
 		glow_light.energy = 1.7
 	else:
 		glow_light.color = pixel_color
-		glow_light.energy = glow_light_energy
+		glow_light.energy = 1.5 # če spremeniš, je treba spremenit tudi v animacijah
 	
 	state_machine()
 	manage_heartbeat()
@@ -609,6 +605,9 @@ func on_get_hit(hit_burst_power: int):
 func die():
 	
 	end_move()
+	
+	# if not Global.game_manager.game_on: # stara zaščita .. raje izklopim FP ob prejemanju nagrade
+	#	return
 	set_physics_process(false)
 	animation_player.stop()
 	animation_player.play("die_player")
@@ -635,7 +634,7 @@ func stop_heart():
 func all_cleaned():
 	
 	animation_player.play("become_white_again")
-	set_physics_process(false)
+	set_physics_process(false) # malo kasneje se kliče tudi v GM
 	
 	
 # SPAWNING ------------------------------------------------------------------------------------------
@@ -902,8 +901,10 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	match anim_name:
 		"lose_white_on_start":
 			# setam looknfeel playerja ob štartu FP
-			modulate.a = 1
 			color_poly.modulate = pixel_color
+			var player_fade_in = get_tree().create_tween()
+			player_fade_in.tween_property(self, "modulate:a", 1, 0.2)
+			player_fade_in.parallel().tween_property(glow_light, "energy", 1.5, 0.5)
 		"heartbeat":
 			heartbeat_loop += 1
 			if heartbeat_loop <= 5:
@@ -921,7 +922,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			just_hit = false # da se heartbeat animacija lahko začne
 			change_stat("revive", 1) # če energija = 0 (izguba lajfa), resetira energijo
 		"become_white_again":
-			yield(get_tree().create_timer(1), "timeout") # za dojet
+			yield(get_tree().create_timer(0.2), "timeout") # za dojet
 			change_stat("all_cleaned", 1) # nagrada je določena v settingsih
 			emit_signal("rewarded_on_game_over") # javi v GM
 

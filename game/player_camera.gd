@@ -124,7 +124,7 @@ func zoom_out(hud_in_out_time: float): # kliče hud
 	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	zoom_out_tween.tween_property(self, "zoom", zoom_start, hud_in_out_time)
 	zoom_out_tween.parallel().tween_property(self, "position", corrected_position, hud_in_out_time)
-	zoom_out_tween.tween_callback(self, "emit_signal", ["zoomed_out"]) # pošlje na GO, ki pokaže meni
+	zoom_out_tween.parallel().tween_callback(self, "emit_signal", ["zoomed_out"]).set_delay(hud_in_out_time/3) # pošlje na GO, ki pokaže meni
 	
 
 func shake_camera(shake_power: float, shake_time: float, shake_decay: float): 
