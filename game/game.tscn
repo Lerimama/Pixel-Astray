@@ -1249,9 +1249,9 @@ margin_bottom = -61.0
 [node name="Label" type="Label" parent="GUI/Hud/Popups/SplitScreens/PlayerLeft"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
 margin_left = 241.0
-margin_top = 222.0
+margin_top = 182.0
 margin_right = 403.0
-margin_bottom = 254.0
+margin_bottom = 214.0
 custom_fonts/font = ExtResource( 5 )
 text = "PLAYER 1"
 align = 1
@@ -1262,9 +1262,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -80.0
-margin_top = -65.0
+margin_top = -105.0
 margin_right = 80.0
-margin_bottom = 24.0
+margin_bottom = -16.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -1298,9 +1298,9 @@ texture = SubResource( 233 )
 
 [node name="Joypad" type="Control" parent="GUI/Hud/Popups/SplitScreens/PlayerLeft"]
 margin_left = 260.0
-margin_top = 422.0
+margin_top = 382.0
 margin_right = 380.0
-margin_bottom = 508.0
+margin_bottom = 468.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -1399,9 +1399,9 @@ margin_bottom = -61.0
 
 [node name="Label" type="Label" parent="GUI/Hud/Popups/SplitScreens/PlayerRight"]
 margin_left = 241.0
-margin_top = 222.0
+margin_top = 182.0
 margin_right = 403.0
-margin_bottom = 254.0
+margin_bottom = 214.0
 custom_fonts/font = ExtResource( 5 )
 text = "PLAYER 2"
 align = 1
@@ -1412,9 +1412,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -64.0
-margin_top = -64.0
+margin_top = -104.0
 margin_right = 64.0
-margin_bottom = 25.0
+margin_bottom = -15.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -1438,9 +1438,9 @@ texture = SubResource( 231 )
 
 [node name="Joypad" type="Control" parent="GUI/Hud/Popups/SplitScreens/PlayerRight"]
 margin_left = 260.0
-margin_top = 422.0
+margin_top = 382.0
 margin_right = 380.0
-margin_bottom = 508.0
+margin_bottom = 468.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -1639,6 +1639,7 @@ anims/countdown_5 = SubResource( 142 )
 anims/countdown_5_v1 = SubResource( 135 )
 
 [node name="Life" type="Label" parent="GUI/Hud"]
+visible = false
 margin_left = 32.0
 margin_top = 69.0
 margin_right = 114.0
@@ -1650,6 +1651,7 @@ __meta__ = {
 }
 
 [node name="Energy" type="Label" parent="GUI/Hud"]
+visible = false
 margin_left = 136.0
 margin_top = 69.0
 margin_right = 180.0
@@ -3253,9 +3255,9 @@ expand = true
 [node name="InfoPanel" type="Control" parent="GUI/Tutorial"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = 24.0
+margin_left = 1304.0
 margin_top = 80.0
-margin_right = 344.0
+margin_right = 1624.0
 margin_bottom = 647.0
 theme = SubResource( 194 )
 
@@ -3637,10 +3639,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -223.0
-margin_top = -40.0
-margin_right = 225.0
-margin_bottom = 248.0
+margin_left = 417.0
+margin_top = 320.0
+margin_right = 865.0
+margin_bottom = 608.0
 theme = SubResource( 194 )
 __meta__ = {
 "_edit_group_": true
@@ -4281,6 +4283,7 @@ anchor_bottom = 1.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="GameoverTitle" type="Control" parent="GUI/GameOver"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 

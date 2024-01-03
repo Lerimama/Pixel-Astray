@@ -84,3 +84,15 @@ tracks/4/keys = {
 "update": 0,
 "values": [ 0.0, 0.7, 0.0, 0.5, 0.6, 1.5, 0.7, 1.5, 0.0, 1.5, 0.5, 1.5 ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("CollisionShapeExt:disabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 1.5 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}

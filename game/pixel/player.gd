@@ -49,13 +49,15 @@ var key_up: String
 var key_down: String
 var key_burst: String
 
+onready var collision_shape: CollisionShape2D = $CollisionShape2D
+onready var extended_shape: CollisionShape2D = $CollisionShapeExt
+onready var vision_rays: Array = [$Vision/VisionRay1, $Vision/VisionRay2, $Vision/VisionRay3]
+onready var vision: Node2D = $Vision
 onready var color_poly: Polygon2D = $ColorPoly # on daje barvo celemu pixlu
 onready var burst_light: Light2D = $BurstLight
 onready var skill_light: Light2D = $SkillLight
 onready var glow_light: Light2D = $GlowLight
 onready var animation_player: AnimationPlayer = $AnimationPlayer
-onready var vision_ray: RayCast2D = $VisionRay
-onready var collision_shape: CollisionShape2D = $CollisionShape2D
 onready var game_settings: Dictionary = Global.game_manager.game_settings 
 onready var cell_size_x: int = Global.game_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 onready var Ghost: PackedScene = preload("res://game/pixel/ghost.tscn")
@@ -76,7 +78,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _ready() -> void:
-
+		
 	add_to_group(Global.group_players)
 	randomize() # za random blink animacije
 	
@@ -112,6 +114,11 @@ func _physics_process(delta: float) -> void:
 		glow_light.color = pixel_color
 		glow_light.energy = 1.5 # če spremeniš, je treba spremenit tudi v animacijah
 	
+	# če ni smeri, ni pogleda
+	if direction == Vector2.ZERO:
+		for ray in vision_rays:
+			ray.cast_to = Vector2.ZERO
+			
 	state_machine()
 	manage_heartbeat()
 	
@@ -121,14 +128,16 @@ func state_machine():
 	match current_state:
 		States.IDLE:
 			idle_inputs()
-			var current_colider = Global.detect_collision_in_direction(vision_ray, direction)
-			if current_colider:
-				if current_colider.is_in_group(Global.group_strays):
-					if not current_colider.is_stepping:
-						current_state = States.SKILLED
-				elif current_colider.is_in_group(Global.group_tilemap):
-					if current_colider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
-						current_state = States.SKILLED
+			if not direction == Vector2.ZERO: # preverja samo, ko je smer
+				var current_colider: Node2D = detect_collision_in_direction(direction)
+				if current_colider:
+					if current_colider.is_in_group(Global.group_strays):
+						if current_colider.current_state == current_colider.States.IDLE:
+#						if not current_colider.is_stepping:
+							current_state = States.SKILLED
+					elif current_colider.is_in_group(Global.group_tilemap):
+						if current_colider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
+							current_state = States.SKILLED 
 		States.SKILLED:
 			if player_stats["player_energy"] > 1:
 				skill_inputs()
@@ -216,6 +225,7 @@ func cocking_inputs():
 
 func bursting_inputs():
 	
+	# stop burst
 	if Input.is_action_just_pressed(key_burst):
 		end_move()
 		Input.start_joy_vibration(0, 0.6, 0.2, 0.2)
@@ -225,10 +235,11 @@ func bursting_inputs():
 
 func skill_inputs():
 	
-	if not skill_light.enabled:
+	if not skill_light.enabled:# and not direction == Vector2.ZERO:
 		skill_light_on()
 	
-	var new_direction # nova smer, ker pritisnem še enkrat
+	var new_direction: Vector2 # nova smer, ker pritisnem še enkrat
+	
 	# s tem inputom prekinem "is_pressed" input
 	if Input.is_action_just_pressed(key_up):
 		new_direction = Vector2.UP
@@ -247,41 +258,48 @@ func skill_inputs():
 		return	
 			
 	# izbor skila
-	var collider: Object = Global.detect_collision_in_direction(vision_ray, direction)
+	var current_collider: Object = detect_collision_in_direction(direction)
 	
-	if new_direction:
-		if new_direction == direction:
-			if collider.is_in_group(Global.group_tilemap):
-				teleport()
-			elif collider.is_in_group(Global.group_strays):
+	if current_collider and not current_collider.current_state == current_collider.States.MOVING:
+		if new_direction:
+			if new_direction == direction:
+				if current_collider.is_in_group(Global.group_tilemap):
+					teleport()
+				elif current_collider.is_in_group(Global.group_strays):
+					skill_light_off()
+					push()
+			elif new_direction == - direction:
 				skill_light_off()
-				push()
-		elif new_direction == - direction:
-			skill_light_off()
-			if collider.is_in_group(Global.group_strays):
-				pull()	
-			elif collider.is_in_group(Global.group_tilemap):
+				if current_collider.is_in_group(Global.group_strays):
+					pull()	
+				elif current_collider.is_in_group(Global.group_tilemap):
+					end_move()
+			else: # izhod iz skilla
 				end_move()
-		else:
-			end_move()
+	else:
+		end_move()
+		
 
 				
 # MOVEMENT ------------------------------------------------------------------------------------------
 
 	
-func step():
-	
+func step(): # step koda se ob držanju tipke v smeri izvaja stalno
+	 
 	var step_direction = direction
-	
-	# če kolajda izbrani smeri gibanja prenesem kontrole na skill
-	if not Global.detect_collision_in_direction(vision_ray, step_direction):
+		
+	# preverim, če kolajda v smeri
+	if not detect_collision_in_direction(step_direction):
 		
 		current_state = States.STEPPING
-		# global_position = Global.snap_to_nearest_grid(global_position, Global.game_manager.floor_positions)
+		
+		extended_shape.position = step_direction * cell_size_x # vržem koližn v smer premika
 		spawn_trail_ghost()
 		var step_time = get_step_time()
+		
 		var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 		step_tween.tween_property(self, "position", global_position + direction * cell_size_x, step_time)
+		step_tween.parallel().tween_property(extended_shape, "position", Vector2.ZERO, step_time)
 		step_tween.tween_callback(self, "end_move")
 		step_tween.tween_callback(self, "change_stat", ["cells_traveled", 1]) # točke in energija kot je določeno v settingsih
 		Global.sound_manager.play_stepping_sfx(player_stats["player_energy"] / float(Global.game_manager.game_settings["player_max_energy"])) # ulomek je za pitch zvoka
@@ -303,13 +321,13 @@ func end_move():
 	if skill_light.enabled:
 		skill_light_off()
 	
-	# reset vision ray
+	# reset ključnih vrednosti (če je v skill tweenu, se poštima)
 	direction = Vector2.ZERO 
-	
+	extended_shape.position = Vector2.ZERO
 	global_position = Global.snap_to_nearest_grid(global_position, Global.game_manager.floor_positions) 
 	current_state = States.IDLE # more bit na kocnu
 	
-	Global.sound_manager.stop_sfx("teleport") # zazih ... export for windows 
+#	Global.sound_manager.stop_sfx("teleport") # zazih ... export for windows 
 	
 
 # BURST ------------------------------------------------------------------------------------------
@@ -321,7 +339,7 @@ func cock_burst():
 	var cock_direction = - burst_direction
 	
 	# prostor za začetek napenjanja preverja pixel
-	if Global.detect_collision_in_direction(vision_ray, cock_direction): 
+	if detect_collision_in_direction(cock_direction):
 		Global.sound_manager.stop_sfx("burst_cocking")
 		end_move()
 		return
@@ -361,19 +379,18 @@ func release_burst():
 func burst(current_ghost_count: int):
 	
 	var burst_direction = direction
-	burst_cocked_ghost_count = current_ghost_count
-	var ray_collider = vision_ray.get_collider() # ! more bit za detect_wall() ... ta ga šele pogreba?
 	var backup_direction = - burst_direction
+	burst_cocked_ghost_count = current_ghost_count
 
 	# spawn stretch ghost
 	var new_stretch_ghost = spawn_ghost(global_position)
-	if burst_direction.y == 0: # če je smer horiz
+	if burst_direction.y == 0: # če je smer hor
 		new_stretch_ghost.scale = Vector2(current_ghost_count, 1)
 	elif burst_direction.x == 0: # če je smer ver
 		new_stretch_ghost.scale = Vector2(1, current_ghost_count)
 	new_stretch_ghost.position = global_position - (burst_direction * cell_size_x * current_ghost_count)/2 - burst_direction * cell_size_x/2
 	
-	empty_cocking_ghosts() # sprazni ghoste
+	empty_cocking_ghosts() # sprazni cock ghoste
 	
 	Global.sound_manager.play_sfx("burst")
 	Global.sound_manager.stop_sfx("burst_cocking")
@@ -393,88 +410,112 @@ func burst(current_ghost_count: int):
 # SKILLS ------------------------------------------------------------------------------------------
 
 		
-func push():
-			
+func push(): # skilled inputs opredeli vrsto skila glede na kolajderja
+	
 	var push_direction = direction
 	var backup_direction = - push_direction
-	var ray_collider = vision_ray.get_collider() # ! more bit za detect_wall() ... ta ga šele pogreba?
+	
+	var target_collider = detect_collision_in_direction(push_direction) # shranim straysa, ker se ga sredi mova neham dotikat
 		
 	# prostor za zalet?
-	if Global.detect_collision_in_direction(vision_ray, backup_direction):
+	if detect_collision_in_direction(backup_direction):
 		end_move()
 		return
-
+	
 	current_state = States.SKILLING
+	target_collider.current_state = target_collider.States.MOVING	
+	
+	extended_shape.position = backup_direction * cell_size_x # vržem koližn v smer premika
+	Global.sound_manager.play_sfx("push")
 	
 	var push_time: float = 0.3
 	var push_cell_count: int = 1	
 	var new_push_ghost_position = global_position + push_direction * cell_size_x
 	var new_push_ghost = spawn_ghost(new_push_ghost_position)
 	
-		
-	if ray_collider.is_in_group(Global.group_strays):
-		# ni prostora
-		if Global.detect_collision_in_direction(ray_collider.vision_ray, push_direction):
-			Global.sound_manager.play_sfx("push")
-			var empty_push_tween = get_tree().create_tween()
-			empty_push_tween.tween_property(self, "position", global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
-			empty_push_tween.parallel().tween_property(skill_light, "position", skill_light.position - backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
-			empty_push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost.global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
-			empty_push_tween.tween_property(self, "position", global_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
-			empty_push_tween.tween_property(skill_light, "position", skill_light.position, 0) # reset pozicije luči # reset pozicije luči
-			empty_push_tween.parallel().tween_callback(self, "end_move")
-			empty_push_tween.parallel().tween_callback(new_push_ghost, "queue_free")
-		# je prostor
-		else: 
-			Global.sound_manager.play_sfx("push")
-			# napnem
-			var push_tween = get_tree().create_tween()
-			push_tween.tween_property(self, "position", global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
-			push_tween.parallel().tween_property(skill_light, "position", skill_light.position - backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
-			push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost.global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
-			# spustim
-			push_tween.tween_property(self, "position", global_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
-			push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
-			push_tween.tween_property(skill_light, "position", skill_light.position, 0) # reset pozicije luči
-			push_tween.parallel().tween_callback(Global.sound_manager, "play_sfx", ["pushed"])
-			push_tween.parallel().tween_callback(new_push_ghost, "queue_free")
-			push_tween.tween_property(ray_collider, "position", ray_collider.global_position + push_direction * cell_size_x * push_cell_count, 0.08).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(0.05)
-			push_tween.tween_callback(self, "end_move")
-			push_tween.tween_callback(self, "change_stat", ["skill_used", 1]) # štetje, točke in energija kot je določeno v settingsih
+	# ni prostora 
+	if target_collider.detect_collision_in_direction(push_direction):# and not target_collider.detect_collision_in_direction(push_direction).has(self): # če stray kolajda in to ni on sam
+		var empty_push_tween = get_tree().create_tween()
+		# napnem
+		empty_push_tween.tween_property(self, "position", global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
+		empty_push_tween.parallel().tween_property(extended_shape, "position", Vector2.ZERO, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
+		empty_push_tween.parallel().tween_property(skill_light, "position", skill_light.position - backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
+		empty_push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost.global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
+		empty_push_tween.parallel().tween_property(target_collider.extended_shape, "position", backup_direction * cell_size_x, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT) # stray ext shape
+		# spustim
+		empty_push_tween.tween_property(self, "position", global_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
+		empty_push_tween.parallel().tween_property(target_collider.extended_shape, "position", Vector2.ZERO, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN) # stray ext shape
+		empty_push_tween.tween_property(skill_light, "position", skill_light.position, 0) # reset pozicije luči
+		# reset
+		empty_push_tween.tween_callback(self, "end_move")
+		empty_push_tween.tween_callback(target_collider, "end_move")
+		empty_push_tween.tween_callback(new_push_ghost, "queue_free")
+	# je prostor
+	else: 
+		var push_tween = get_tree().create_tween()
+		# napnem
+		push_tween.tween_property(self, "position", global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		push_tween.parallel().tween_property(extended_shape, "position", Vector2.ZERO, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		push_tween.parallel().tween_property(skill_light, "position", skill_light.position - backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
+		push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost.global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		push_tween.parallel().tween_property(target_collider.extended_shape, "position", backup_direction * cell_size_x, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT) # stray ext shape
+		# spustim
+		push_tween.tween_property(self, "position", global_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
+		push_tween.parallel().tween_property(target_collider.extended_shape, "position", Vector2.ZERO, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	# stray ext shape
+		push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
+		push_tween.tween_property(skill_light, "position", skill_light.position, 0) # reset pozicije luči
+		push_tween.tween_callback(Global.sound_manager, "play_sfx", ["pushed"])
+		push_tween.tween_callback(new_push_ghost, "queue_free")
+		push_tween.tween_callback(target_collider.extended_shape, "set_position", [push_direction * cell_size_x]) # stray ext shape
+		push_tween.tween_property(target_collider, "position", target_collider.global_position + push_direction * cell_size_x * push_cell_count, 0.08).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(0.05)
+		push_tween.parallel().tween_property(target_collider.extended_shape, "position", Vector2.ZERO, 0.08).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(0.05) # stray ext shape
+		# reset
+		push_tween.tween_callback(self, "end_move")
+		push_tween.tween_callback(target_collider, "end_move")
+		push_tween.tween_callback(self, "change_stat", ["skill_used", 1]) # štetje, točke in energija kot je določeno v settingsih
 			
 
-func pull():
+func pull(): # skilled inputs opredeli vrsto skila glede na kolajderja
 	
 	var target_direction = direction
 	var pull_direction = - target_direction
-	var target_pixel = vision_ray.get_collider()
 	
-	# preverjam če ma prostor v smeri premika
-	if Global.detect_collision_in_direction(vision_ray, pull_direction): 
+	var target_collider = detect_collision_in_direction(target_direction) # shranim straysa, ker se ga sredi mova neham dotikat
+	
+	# prostor v smeri premika?
+	if detect_collision_in_direction(pull_direction): 
 		end_move()
 		return	
 	
 	current_state = States.SKILLING
+	target_collider.current_state = target_collider.States.MOVING
 	
-	var pull_time: float = 0.3
-	var pull_cell_count: int = 1
-	var new_pull_ghost = spawn_ghost(global_position + target_direction * cell_size_x)
-	
+	extended_shape.position = pull_direction * cell_size_x # vržem koližn v smer premika
 	Global.sound_manager.play_sfx("pull")
 	
-	var pull_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
-	pull_tween.tween_property(self, "position", global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
-	pull_tween.parallel().tween_property(skill_light, "position", skill_light.position - pull_direction * cell_size_x * pull_cell_count, pull_time)
-	pull_tween.parallel().tween_property(new_pull_ghost, "position", new_pull_ghost.global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
-	pull_tween.tween_property(target_pixel, "position", target_pixel.global_position + pull_direction * cell_size_x * pull_cell_count, pull_time)
+	var pull_time: float = 0.3
+	var new_pull_ghost = spawn_ghost(global_position + target_direction * cell_size_x)
+	
+	var pull_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	# move self
+	pull_tween.tween_property(self, "position", global_position + pull_direction * cell_size_x, pull_time)
+	pull_tween.parallel().tween_property(extended_shape, "position", Vector2.ZERO, pull_time)
+	pull_tween.parallel().tween_property(skill_light, "position", skill_light.position - pull_direction * cell_size_x, pull_time)
+	pull_tween.parallel().tween_property(new_pull_ghost, "position", new_pull_ghost.global_position + pull_direction * cell_size_x, pull_time)
+	pull_tween.parallel().tween_property(target_collider.extended_shape, "position", pull_direction * cell_size_x, pull_time) # stray ext shape
+	# pull stray
+	pull_tween.tween_property(target_collider, "position", target_collider.global_position + pull_direction * cell_size_x, pull_time)
+	pull_tween.parallel().tween_property(target_collider.extended_shape, "position", Vector2.ZERO, pull_time) # stray ext shape
 	pull_tween.parallel().tween_callback(Global.sound_manager, "play_sfx", ["pulled"])
-	pull_tween.tween_property(skill_light, "position", skill_light.position, 0) # reset pozicije luči
-	pull_tween.parallel().tween_callback(self, "end_move")
-	pull_tween.parallel().tween_callback(new_pull_ghost, "queue_free")
+	pull_tween.tween_callback(skill_light, "set_position", [skill_light.position]) # reset pozicije luči
+	# reset
+	pull_tween.tween_callback(self, "end_move")
+	pull_tween.tween_callback(target_collider, "end_move")
+	pull_tween.tween_callback(new_pull_ghost, "queue_free")
 	pull_tween.tween_callback(self, "change_stat", ["skill_used", 2]) # štetje, točke in energija kot je določeno v settingsih
 	
 			
-func teleport():
+func teleport(): # skilled inputs opredeli vrsto skila glede na kolajderja
 		
 	var teleport_direction = direction
 	
@@ -513,7 +554,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	tween_color_change(hit_stray.stray_color)
 
 	# preverim sosede
-	var hit_stray_neighbors = check_for_neighbors(hit_stray)
+	var hit_stray_neighbors = check_strays_neighbors(hit_stray)
 	# naberem strayse za destrojat
 	var strays_to_destroy: Array = []
 	strays_to_destroy.append(hit_stray)
@@ -736,6 +777,27 @@ func spawn_floating_tag(value: int):
 # UTIL --------------------------------------------------------------------------------------------
 
 
+func detect_collision_in_direction(direction_to_check):
+	
+	# obrnem vision grupo v smeri...
+	vision.look_at(global_position + direction_to_check)
+	
+	# vsi ray gledajo naravnost
+	for ray in vision_rays:
+		ray.cast_to = Vector2(47, 0) # en pixel manj kot 48, da ne seže preko celice
+	
+	# grebanje kolajderja	
+	var first_collider: Node2D
+	for ray in vision_rays:
+		ray.add_exception(self)
+		ray.force_raycast_update()
+		if ray.is_colliding():
+			first_collider = ray.get_collider()
+			break # ko je kolajder neham čekirat
+	
+	return first_collider
+	
+	
 func get_step_time():
 	
 	if Global.game_manager.game_settings["step_slowdown_mode"]:
@@ -762,7 +824,7 @@ func shake_player_camera(shake_multiplier: float):
 	player_camera.shake_camera(shake_power_multiplied, shake_time_multiplied, shake_decay)	
 
 				
-func check_for_neighbors(hit_stray: KinematicBody2D):
+func check_strays_neighbors(hit_stray: KinematicBody2D):
 
 		var all_neighboring_strays: Array = [] # vsi nabrani sosedi
 		var neighbors_checked: Array = [] # vsi sosedi, katerih sosede sem že preveril
@@ -823,9 +885,9 @@ func burst_light_off():
 	light_fade_out.tween_callback(burst_light, "set_enabled", [false])
 
 
-func skill_light_on():
+func skill_light_on(): 
 	
-	skill_light.rotation = vision_ray.cast_to.angle()
+	skill_light.rotation = vision.rotation
 	
 	var skilled_light_base_energy: float = 0.6
 	var skilled_light_energy: float = skilled_light_base_energy / pixel_color.v
@@ -878,15 +940,32 @@ func _on_ghost_target_reached(ghost_body: Area2D, ghost_position: Vector2):
 	var ghost_fade_time: float = 0.5
 	
 	var teleport_tween = get_tree().create_tween()
+	# odfejdam pixel na začetku
 	teleport_tween.tween_property(self, "modulate:a", 0, ghost_fade_time * 2/3).set_ease(Tween.EASE_IN)
 	teleport_tween.parallel().tween_callback(self, "skill_light_off")
 	teleport_tween.parallel().tween_property(ghost_body, "modulate:a", 1, ghost_fade_time).set_ease(Tween.EASE_IN)
-	teleport_tween.tween_property(self, "global_position", ghost_position, 0)
-	teleport_tween.parallel().tween_callback(self, "end_move")
-	teleport_tween.parallel().tween_property(self, "modulate:a", 1, 0)
-	teleport_tween.parallel().tween_property(player_camera, "camera_target", self, 0) # camera follow reset
-	teleport_tween.parallel().tween_callback(ghost_body, "queue_free")
+	# premaknem pixel na konec in ga pokažem
+	teleport_tween.tween_callback(self, "set_global_position", [ghost_position])
+	teleport_tween.tween_callback(self, "end_move") # more bit pred prikazom pixla, da je "klempan"
+	teleport_tween.tween_property(self, "modulate:a", 1, 0)
+	teleport_tween.tween_property(player_camera, "camera_target", self, 0) # camera follow reset
+	# zaključek
+	teleport_tween.tween_property(ghost_body, "modulate:a", 0, 0)
+#	teleport_tween.tween_callback(ghost_body, "set_z_index", [0])
+#	teleport_tween.tween_callback(ghost_body, "queue_free")
 	teleport_tween.tween_callback(self, "change_stat", ["skill_used", 3]) # štetje, točke in energija kot je določeno v settingsih
+	
+	# ODL
+#	var teleport_tween = get_tree().create_tween()
+#	teleport_tween.tween_property(self, "modulate:a", 0, ghost_fade_time * 2/3).set_ease(Tween.EASE_IN)
+#	teleport_tween.parallel().tween_callback(self, "skill_light_off")
+#	teleport_tween.parallel().tween_property(ghost_body, "modulate:a", 1, ghost_fade_time).set_ease(Tween.EASE_IN)
+#	teleport_tween.tween_property(self, "global_position", ghost_position, 0)
+#	teleport_tween.parallel().tween_callback(self, "end_move")
+#	teleport_tween.parallel().tween_property(self, "modulate:a", 1, 0)
+#	teleport_tween.parallel().tween_property(player_camera, "camera_target", self, 0) # camera follow reset
+#	teleport_tween.parallel().tween_callback(ghost_body, "queue_free")
+#	teleport_tween.tween_callback(self, "change_stat", ["skill_used", 3]) # štetje, točke in energija kot je določeno v settingsih
 
 
 func _on_ghost_detected_body(body: Node2D):

@@ -48,13 +48,14 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 	"player_max_energy": 192, # max energija
 	"player_tired_energy": 20, # pokaže steps warning popup in hud oabrva rdeče
 	"step_time_fast": 0.09, # default hitrost
+#	"step_time_fast": 0.09, # default hitrost
 	"step_time_slow": 0.15, # minimalna hitrost
-	"step_slowdown_rate": 18,
+	"step_slowdown_rate": 18, # delež energije
 	
 	# timer
 	"gameover_countdown_duration": 5,
 	"timer_mode_countdown" : true,
-	"start_countdown": false,
+	"start_countdown": true,
 	
 	# behaviour
 	"step_slowdown_mode": true,
@@ -129,7 +130,7 @@ var game_data_cleaner_L: Dictionary = {
 	"game_name": "Cleaner",
 	"level": "L",
 	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_L_tilemap.tscn",
-	"game_time_limit": 3000,
+	"game_time_limit": 600,
 	"strays_start_count": 320, 
 #	"highscore": 0,
 }
@@ -139,7 +140,7 @@ var game_data_duel: Dictionary = {
 	"game_name": "The Duel",
 	"level": "",
 	"tilemap_path": "res://game/tilemaps/_duel_tilemap.tscn",
-	"game_time_limit": 1000,
+	"game_time_limit": 600,
 	"strays_start_count": 230, 
 }
 
@@ -148,7 +149,7 @@ var game_data_debug: Dictionary = {
 	"game_name": "Debug",
 	"level": "",
 	"tilemap_path": "res://game/tilemaps/debug_tilemap.tscn",
-	"game_time_limit": 5,
+	"game_time_limit": 500,
 	"strays_start_count": 10,
 #	"highscore": 0,
 }
@@ -162,10 +163,10 @@ var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "c
 
 func _ready() -> void:
 	
-	var current_game = Games.DUEL # če greš iz menija je tole povoženo
+#	var current_game = Games.DUEL # če greš iz menija je tole povoženo
 #	var current_game = Games.TUTORIAL # če greš iz menija je tole povoženo
 #	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
-#	var current_game = Games.DEBUG # če greš iz menija je tole povoženo
+	var current_game = Games.DEBUG # če greš iz menija je tole povoženo
 	set_game_data(current_game)
 	
 	
@@ -178,6 +179,9 @@ func set_game_data(selected_game) -> void:
 			current_game_data = game_data_debug
 			game_settings["player_start_life"] = 2
 			game_settings["manage_highscores"] = false
+			game_settings["start_countdown"] = false
+			game_settings["step_slowdown_mode"] = false
+#			game_settings["step_time_fast"] = 1.15
 		Games.RUNNER: 
 			current_game_data = game_data_runner
 			game_settings["player_start_life"] = 3
@@ -188,12 +192,14 @@ func set_game_data(selected_game) -> void:
 			game_settings["cell_traveled_energy"] = 0
 		Games.DUEL: 
 			current_game_data = game_data_duel
-			game_settings["player_start_life"] = 2
-			game_settings["start_countdown"] = true
+			game_settings["player_start_life"] = 3
+			game_settings["lose_life_on_hit"] = true
+			game_settings["start_countdown"] = false
+			game_settings["step_slowdown_mode"] = false
+			game_settings["step_time_fast"] = 1.15
 		Games.TUTORIAL:
 			current_game_data = game_data_tutorial
 			game_settings["timer_mode_countdown"] = false
-#			game_settings["manage_highscores"] = true
 			game_settings["start_countdown"] = false
 		Games.CLEANER_S: 
 			current_game_data = game_data_cleaner_S
@@ -204,6 +210,6 @@ func set_game_data(selected_game) -> void:
 		Games.CLEANER_L: 
 			current_game_data = game_data_cleaner_L
 			game_settings["player_start_life"] = 3
-			game_settings["start_countdown"] = true
 			game_settings["manage_highscores"] = true
+			game_settings["lose_life_on_hit"] = true
 		

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://game/pixel/stray.gd" type="Script" id=1]
 [ext_resource path="res://_obs/v rabi?/pixelglitch_2.tres" type="Animation" id=2]
@@ -7,7 +7,10 @@
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 16, 16 )
+extents = Vector2( 15.95, 15.95 )
+
+[sub_resource type="RectangleShape2D" id=142]
+extents = Vector2( 15.95, 15.95 )
 
 [sub_resource type="Animation" id=139]
 resource_name = "blink"
@@ -634,12 +637,35 @@ position = Vector2( -16, -16 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2( 0.99, 0.99 )
 shape = SubResource( 1 )
 
+[node name="CollisionShapeExt" type="CollisionShape2D" parent="."]
+shape = SubResource( 142 )
+
 [node name="VisionRay" type="RayCast2D" parent="."]
-enabled = true
+visible = false
 cast_to = Vector2( 48, 0 )
+
+[node name="Vision" type="Node2D" parent="."]
+
+[node name="VisionRay1" type="RayCast2D" parent="Vision"]
+position = Vector2( 0, -15.9 )
+enabled = true
+cast_to = Vector2( 47, 0 )
+
+[node name="VisionRay2" type="RayCast2D" parent="Vision"]
+enabled = true
+cast_to = Vector2( 47, 0 )
+
+[node name="VisionRay3" type="RayCast2D" parent="Vision"]
+position = Vector2( 0, 15.9 )
+enabled = true
+cast_to = Vector2( 47, 0 )
+
+[node name="ColorPoly" type="Polygon2D" parent="Vision"]
+visible = false
+position = Vector2( -16, -16 )
+polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32, 16, 16 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/blink = SubResource( 139 )

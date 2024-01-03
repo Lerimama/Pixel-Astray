@@ -30,6 +30,7 @@ var group_players = "Players"
 var group_strays = "Strays"
 var group_tilemap = "Tilemap"
 var group_player_cameras = "Player Cameras"
+var group_ghosts = "Ghosts"
 
 # colors
 var color_blue: Color = Color("#4b9fff")
@@ -76,18 +77,71 @@ func snap_to_nearest_grid(current_global_position: Vector2, floor_cells: Array):
 	else: 
 		return current_global_position # vrneš isto pozicijo na katere že je 
 
-
-func detect_collision_in_direction(ray, direction_to_check):
+		
+func detect_collision(ray, direction_to_check, ignore):
 	
-	var cell_size_x: int = game_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
+	var cell_size_x: int = game_tilemap.cell_size.x #+ game_tilemap.cell_size.x/2 # pogreba od GMja, ki jo dobi od tilemapa
 	
 	ray.cast_to = direction_to_check * cell_size_x # ray kaže na naslednjo pozicijo 
 	ray.force_raycast_update()	
 	
 	if ray.is_colliding():
 		var ray_collider = ray.get_collider()
-		return ray_collider
+		
+#		print("ray colider ", ray_collider)
+		if ray_collider.is_in_group(Global.group_ghosts) or ignore:
+			return null 	
+		else: 
+			return ray_collider
 
+				
+func detect_group_collision_in_direction(ray_group, direction_to_check):
+	
+	var cell_size_x: int = game_tilemap.cell_size.x #+ game_tilemap.cell_size.x/2 # pogreba od GMja, ki jo dobi od tilemapa
+	var current_colliders: Array 
+	print("current_colliders 1 ", current_colliders)
+	
+	for ray in ray_group:
+#		if ray_group.find(ray) == 0:
+#			pass
+#		if ray_group.find(ray) == 1:
+#			ray.position.x = direction_to_check.x -16
+#			ray.position.y = direction_to_check.y + 16
+#		if ray_group.find(ray) == 2:
+#			pass
+##			ray.position.x = direction_to_check.x + 16
+##			ray.position.y = direction_to_check.y - 16
+#		ray.cast_to = direction_to_check * cell_size_x # ray kaže na naslednjo pozicijo 
+#		ray.position.y = direction_to_check.y - ray_group.find(ray) * -16
+		pass
+		
+	for ray in ray_group:
+		ray.force_raycast_update()
+		if ray.is_colliding():
+			var ray_collider = ray.get_collider()
+			current_colliders.append(ray_collider)
+#			print("ray colider ", ray_collider)
+#			return [ray_collider]
+	
+#	print("current_colliders ", current_colliders)
+	return current_colliders
+#			break
+			
+					
+func detect_collision_in_direction(ray, direction_to_check):
+	
+	var cell_size_x: int = game_tilemap.cell_size.x #+ game_tilemap.cell_size.x/2 # pogreba od GMja, ki jo dobi od tilemapa
+	
+	ray.cast_to = direction_to_check * cell_size_x # ray kaže na naslednjo pozicijo 
+	ray.force_raycast_update()
+	
+	if ray.is_colliding():
+		var ray_collider = ray.get_collider()
+		if not ray_collider.is_in_group(Global.group_ghosts):
+#			print("ray colider ", ray_collider)
+			return ray_collider
+		else: 
+			return null 
 
 # SCENE MANAGER (prehajanje med igro in menijem) --------------------------------------------------------------
 

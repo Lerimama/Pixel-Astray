@@ -80,7 +80,36 @@ func start_game():
 			player.set_physics_process(true)
 		
 		game_on = true
+		stray_step()
+
+
+func stray_step():
 	
+	# random dir
+	var random_direction_index: int = randi() % int(6)
+	var stepping_direction: Vector2
+	match random_direction_index:
+		0: stepping_direction = Vector2.LEFT
+		1: stepping_direction = Vector2.UP
+		2: stepping_direction = Vector2.RIGHT
+		3: stepping_direction = Vector2.DOWN
+		# uteži
+		4: stepping_direction = Vector2.LEFT
+		5: stepping_direction = Vector2.RIGHT
+		6: stepping_direction = Vector2.LEFT
+		7: stepping_direction = Vector2.RIGHT
+	
+	# random stray	
+	var random_stray_no: int = randi() % int(get_tree().get_nodes_in_group(Global.group_strays).size())
+	var stray_to_move = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_no]
+	stray_to_move.step(stepping_direction)
+	
+	# next step random time
+	var random_pause_time_divisor: float = randi() % int(5) + 1 # višji offset da manjši razpon v random času
+	var random_pause_time = 0.2 / random_pause_time_divisor
+	yield(get_tree().create_timer(0.1), "timeout")
+	stray_step()
+
 	
 func game_over(gameover_reason: int):
 	
@@ -320,8 +349,6 @@ func show_strays(show_strays_loop: int):
 
 
 func stop_game_elements():
-	
-	# Global.sound_manager.stop_music("game_music_on_gameover") ... prelije se v jingle
 	
 	# včasih nujno
 	Global.hud.popups_out()

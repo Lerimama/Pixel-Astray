@@ -16,6 +16,11 @@ onready var cell_size_x: float = Global.game_tilemap.cell_size.x
 onready var glow_light: Light2D = $GlowLight
 
 
+func _ready() -> void:
+
+	add_to_group(Global.group_ghosts)
+	
+		
 func _physics_process(delta: float) -> void:
 	
 	global_position += direction * speed
@@ -50,6 +55,8 @@ func _on_PixelGhost_body_entered(body: Node) -> void:
 	
 	# polnenje array kolajderjev
 	if body.is_in_group(Global.group_strays):
+		teleporting_bodies.append(body)
+	elif body.is_in_group(Global.group_players):
 		teleporting_bodies.append(body)
 	elif body.is_in_group(Global.group_tilemap):
 		teleporting_bodies.append(body)

@@ -86,7 +86,7 @@ func open_gameover(gameover_reason: int):
 
 func show_gameover_title():
 
-#	get_tree().call_group(Global.group_players, "set_physics_process", false)
+	# get_tree().call_group(Global.group_players, "set_physics_process", false) ... old
 	
 	visible = true
 	selected_gameover_title.visible = true
