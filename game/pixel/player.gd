@@ -128,16 +128,7 @@ func state_machine():
 	match current_state:
 		States.IDLE:
 			idle_inputs()
-			if not direction == Vector2.ZERO: # preverja samo, ko je smer
-				var current_colider: Node2D = detect_collision_in_direction(direction)
-				if current_colider:
-					if current_colider.is_in_group(Global.group_strays):
-						if current_colider.current_state == current_colider.States.IDLE:
-#						if not current_colider.is_stepping:
-							current_state = States.SKILLED
-					elif current_colider.is_in_group(Global.group_tilemap):
-						if current_colider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
-							current_state = States.SKILLED 
+
 		States.SKILLED:
 			if player_stats["player_energy"] > 1:
 				skill_inputs()
@@ -188,8 +179,18 @@ func idle_inputs():
 			change_color_tween.kill()
 			pixel_color = change_to_color
 		burst_light_on()
-			
-
+	
+	# preklop v SKILLED		
+	if not direction == Vector2.ZERO: # preverja samo, ko je smer
+		var current_colider: Node2D = detect_collision_in_direction(direction)
+		if current_colider:
+			if current_colider.is_in_group(Global.group_strays):
+					current_state = States.SKILLED
+			elif current_colider.is_in_group(Global.group_tilemap):
+				if current_colider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
+					current_state = States.SKILLED 
+					
+					
 func cocking_inputs():
 
 	# cocking
@@ -257,24 +258,23 @@ func skill_inputs():
 		burst_light_on()
 		return	
 			
-	# izbor skila
+	# izbor skila v novi smeri
 	var current_collider: Object = detect_collision_in_direction(direction)
-	
-	if current_collider and not current_collider.current_state == current_collider.States.MOVING:
+	if current_collider: # zaščita, če se povežeš in ti potem pobegne
 		if new_direction:
-			if new_direction == direction:
+			if new_direction == direction: # naprej
 				if current_collider.is_in_group(Global.group_tilemap):
 					teleport()
-				elif current_collider.is_in_group(Global.group_strays):
+				elif current_collider.is_in_group(Global.group_strays) and current_collider.current_state == current_collider.States.IDLE:
 					skill_light_off()
 					push()
-			elif new_direction == - direction:
+			elif new_direction == - direction: # nazaj
 				skill_light_off()
-				if current_collider.is_in_group(Global.group_strays):
+				if current_collider.is_in_group(Global.group_strays) and current_collider.current_state == current_collider.States.IDLE:
 					pull()	
 				elif current_collider.is_in_group(Global.group_tilemap):
 					end_move()
-			else: # izhod iz skilla
+			else: # levo/desno ... izhod iz skilla
 				end_move()
 	else:
 		end_move()
@@ -710,6 +710,7 @@ func spawn_cock_ghost(cocking_direction: Vector2, cocked_ghosts_count: int):
 	# spawn ghosta pod manom
 	var cock_ghost_position = (global_position - cocking_direction * cell_size_x/2) + (cocking_direction * cell_size_x * cocked_ghosts_count)
 	var new_cock_ghost = spawn_ghost(cock_ghost_position)
+	new_cock_ghost.z_index = 3 # nad straysi in playerjem
 	new_cock_ghost.modulate.a  = cocked_ghost_alpha - (cocked_ghosts_count / cocked_ghost_alpha_divisor)
 	new_cock_ghost.direction = cocking_direction
 	
@@ -950,23 +951,10 @@ func _on_ghost_target_reached(ghost_body: Area2D, ghost_position: Vector2):
 	teleport_tween.tween_property(self, "modulate:a", 1, 0)
 	teleport_tween.tween_property(player_camera, "camera_target", self, 0) # camera follow reset
 	# zaključek
-	teleport_tween.tween_property(ghost_body, "modulate:a", 0, 0)
-#	teleport_tween.tween_callback(ghost_body, "set_z_index", [0])
-#	teleport_tween.tween_callback(ghost_body, "queue_free")
+#	teleport_tween.tween_property(ghost_body, "modulate:a", 0, 0)
+	teleport_tween.tween_callback(ghost_body, "queue_free")
 	teleport_tween.tween_callback(self, "change_stat", ["skill_used", 3]) # štetje, točke in energija kot je določeno v settingsih
 	
-	# ODL
-#	var teleport_tween = get_tree().create_tween()
-#	teleport_tween.tween_property(self, "modulate:a", 0, ghost_fade_time * 2/3).set_ease(Tween.EASE_IN)
-#	teleport_tween.parallel().tween_callback(self, "skill_light_off")
-#	teleport_tween.parallel().tween_property(ghost_body, "modulate:a", 1, ghost_fade_time).set_ease(Tween.EASE_IN)
-#	teleport_tween.tween_property(self, "global_position", ghost_position, 0)
-#	teleport_tween.parallel().tween_callback(self, "end_move")
-#	teleport_tween.parallel().tween_property(self, "modulate:a", 1, 0)
-#	teleport_tween.parallel().tween_property(player_camera, "camera_target", self, 0) # camera follow reset
-#	teleport_tween.parallel().tween_callback(ghost_body, "queue_free")
-#	teleport_tween.tween_callback(self, "change_stat", ["skill_used", 3]) # štetje, točke in energija kot je določeno v settingsih
-
 
 func _on_ghost_detected_body(body: Node2D):
 	

@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-enum States {IDLE, MOVING}
+enum States {IDLE, MOVING, STATIC} # static, unmovable
 var current_state # = States.IDLE
 
 var stray_color: Color
@@ -30,17 +30,23 @@ func _ready() -> void:
 	count_label.text = name
 
 
-func fade_in(): # kliče GM
+func show(): # kliče GM
 	
 	# žrebam animacijo
 	var random_animation_index = randi() % 3 + 1
 	var random_animation_name: String = "glitch_%s" % random_animation_index
 	animation_player.play(random_animation_name)
 
-
+	
 func step(step_direction: Vector2):
 	
-	if detect_collision_in_direction(step_direction) or current_state == States.MOVING: # če kolajda izbrani smeri gibanja ali je "moving"
+	if not current_state == States.IDLE:
+		return
+	
+	if detect_collision_in_direction(step_direction): # če kolajda izbrani smeri gibanja zarotira smer za 90 in poskusi znova
+		var new_direction = step_direction.rotated(deg2rad(90))
+		print ("dir", step_direction, new_direction)
+		step(new_direction)
 		return
 	
 	current_state = States.MOVING
@@ -61,7 +67,8 @@ func end_move():
 		
 func die(stray_in_stack_index: int, strays_in_stack: int):
 	
-	end_move()
+	current_state = States.STATIC
+	global_position = Global.snap_to_nearest_grid(global_position, Global.game_manager.floor_positions) 
 	
 	# čakalni čas
 	var wait_to_destroy_time: float = sqrt(0.07 * (stray_in_stack_index)) # -1 je, da hitan stray ne čaka
@@ -125,3 +132,4 @@ func detect_collision_in_direction(direction_to_check):
 			break # ko je kolajder neham čekirat
 	
 	return first_collider
+	print (first_collider)

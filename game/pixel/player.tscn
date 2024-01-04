@@ -706,6 +706,27 @@ shape = SubResource( 4 )
 shape = SubResource( 4 )
 disabled = true
 
+[node name="Vision" type="Node2D" parent="."]
+
+[node name="VisionRay1" type="RayCast2D" parent="Vision"]
+position = Vector2( 0, -15.9 )
+enabled = true
+cast_to = Vector2( 32, 0 )
+
+[node name="VisionRay2" type="RayCast2D" parent="Vision"]
+enabled = true
+cast_to = Vector2( 47, 0 )
+
+[node name="VisionRay3" type="RayCast2D" parent="Vision"]
+position = Vector2( 0, 15.9 )
+enabled = true
+cast_to = Vector2( 32, 0 )
+
+[node name="ColorPoly" type="Polygon2D" parent="Vision"]
+visible = false
+position = Vector2( -16, -16 )
+polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32, 16, 16 )
+
 [node name="BurstLight" type="Light2D" parent="."]
 position = Vector2( 7.62939e-06, -9.53674e-06 )
 scale = Vector2( 0.25, 0.25 )
@@ -730,26 +751,5 @@ anims/die_player = SubResource( 2 )
 anims/heartbeat = SubResource( 137 )
 anims/lose_white_on_start = SubResource( 144 )
 anims/revive = ExtResource( 10 )
-
-[node name="Vision" type="Node2D" parent="."]
-
-[node name="VisionRay1" type="RayCast2D" parent="Vision"]
-position = Vector2( 0, -15.9 )
-enabled = true
-cast_to = Vector2( 32, 0 )
-
-[node name="VisionRay2" type="RayCast2D" parent="Vision"]
-enabled = true
-cast_to = Vector2( 47, 0 )
-
-[node name="VisionRay3" type="RayCast2D" parent="Vision"]
-position = Vector2( 0, 15.9 )
-enabled = true
-cast_to = Vector2( 32, 0 )
-
-[node name="ColorPoly" type="Polygon2D" parent="Vision"]
-visible = false
-position = Vector2( -16, -16 )
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32, 16, 16 )
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
