@@ -37,16 +37,17 @@ func show(): # kliče GM
 	var random_animation_name: String = "glitch_%s" % random_animation_index
 	animation_player.play(random_animation_name)
 
-	
+var step_try: int = 1
 func step(step_direction: Vector2):
 	
 	if not current_state == States.IDLE:
 		return
 	
 	if detect_collision_in_direction(step_direction): # če kolajda izbrani smeri gibanja zarotira smer za 90 in poskusi znova
-		var new_direction = step_direction.rotated(deg2rad(90))
-		print ("dir", step_direction, new_direction)
-		step(new_direction)
+		step_try += 1
+		if step_try < 5:
+			var new_direction = step_direction.rotated(deg2rad(90))
+			step(new_direction)
 		return
 	
 	current_state = States.MOVING

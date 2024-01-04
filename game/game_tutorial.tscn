@@ -1,4 +1,4 @@
-[gd_scene load_steps=117 format=2]
+[gd_scene load_steps=115 format=2]
 
 [ext_resource path="res://game/hud/hud_game_timer.gd" type="Script" id=1]
 [ext_resource path="res://game/hud/hud.gd" type="Script" id=2]
@@ -25,13 +25,6 @@
 [ext_resource path="res://assets/resources/icon_label_dot.tres" type="Texture" id=26]
 [ext_resource path="res://managers/game_manager.gd" type="Script" id=27]
 [ext_resource path="res://game/PlayerCamera.tscn" type="PackedScene" id=28]
-
-[sub_resource type="Gradient" id=271]
-colors = PoolColorArray( 1, 0, 0, 1, 0.3125, 0.00457875, 0.00457875, 1 )
-
-[sub_resource type="GradientTexture" id=270]
-gradient = SubResource( 271 )
-width = 700
 
 [sub_resource type="StyleBoxLine" id=228]
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
@@ -996,17 +989,10 @@ __meta__ = {
 script = ExtResource( 27 )
 
 [node name="Spectrum" type="TextureRect" parent="GameManager"]
+visible = false
 margin_right = 512.0
 margin_bottom = 12.0
 texture = ExtResource( 25 )
-expand = true
-
-[node name="SpectrumGradient" type="TextureRect" parent="GameManager"]
-margin_top = -72.0
-margin_right = 488.0
-margin_bottom = -24.0
-size_flags_horizontal = 0
-texture = SubResource( 270 )
 expand = true
 
 [node name="GameView" type="VBoxContainer" parent="."]

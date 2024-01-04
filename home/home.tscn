@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=2]
+[gd_scene load_steps=102 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -419,6 +419,89 @@ region = Rect2( 30, 40, 18, 18 )
 [sub_resource type="AtlasTexture" id=185]
 atlas = ExtResource( 12 )
 region = Rect2( 96, 32, 10, 10 )
+
+[sub_resource type="Gradient" id=255]
+interpolation_mode = 1
+offsets = PoolRealArray( 0.498534 )
+colors = PoolColorArray( 1, 0.539589, 0.539589, 1 )
+
+[sub_resource type="GradientTexture" id=252]
+gradient = SubResource( 255 )
+width = 24
+
+[sub_resource type="StyleBoxFlat" id=254]
+bg_color = Color( 0, 0, 0, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.980392, 0.980392, 0.980392, 1 )
+expand_margin_left = 2.0
+expand_margin_right = 2.0
+expand_margin_top = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="Gradient" id=260]
+offsets = PoolRealArray( 1 )
+colors = PoolColorArray( 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=261]
+gradient = SubResource( 260 )
+width = 24
+
+[sub_resource type="Gradient" id=258]
+interpolation_mode = 1
+offsets = PoolRealArray( 0.478006 )
+colors = PoolColorArray( 0.078125, 0, 1, 1 )
+
+[sub_resource type="GradientTexture" id=259]
+gradient = SubResource( 258 )
+width = 24
+
+[sub_resource type="Gradient" id=262]
+interpolation_mode = 1
+offsets = PoolRealArray( 0.498534 )
+colors = PoolColorArray( 1, 0.585938, 0, 1 )
+
+[sub_resource type="GradientTexture" id=263]
+gradient = SubResource( 262 )
+width = 24
+
+[sub_resource type="Gradient" id=264]
+interpolation_mode = 1
+offsets = PoolRealArray( 0.498534 )
+colors = PoolColorArray( 0.828125, 0, 1, 1 )
+
+[sub_resource type="GradientTexture" id=265]
+gradient = SubResource( 264 )
+width = 24
+
+[sub_resource type="Gradient" id=271]
+interpolation_mode = 1
+offsets = PoolRealArray( 0.492669 )
+colors = PoolColorArray( 1, 0.960938, 0, 1 )
+
+[sub_resource type="GradientTexture" id=272]
+gradient = SubResource( 271 )
+width = 24
+
+[sub_resource type="Gradient" id=267]
+interpolation_mode = 1
+offsets = PoolRealArray( 0.498534 )
+colors = PoolColorArray( 1, 0, 0.234375, 1 )
+
+[sub_resource type="GradientTexture" id=268]
+gradient = SubResource( 267 )
+width = 24
+
+[sub_resource type="Gradient" id=269]
+interpolation_mode = 1
+offsets = PoolRealArray( 0.498534 )
+colors = PoolColorArray( 0, 1, 0.929688, 1 )
+
+[sub_resource type="GradientTexture" id=270]
+gradient = SubResource( 269 )
+width = 24
 
 [sub_resource type="Animation" id=155]
 length = 0.001
@@ -4415,6 +4498,7 @@ margin_left = 64.0
 margin_top = 172.0
 margin_right = 224.0
 margin_bottom = 198.0
+mouse_default_cursor_shape = 2
 pressed = true
 text = "Menu music"
 
@@ -4423,6 +4507,7 @@ margin_left = 64.0
 margin_top = 228.0
 margin_right = 224.0
 margin_bottom = 254.0
+mouse_default_cursor_shape = 2
 pressed = true
 text = "Game music"
 
@@ -4440,6 +4525,7 @@ margin_top = 316.0
 margin_right = 384.0
 margin_bottom = 332.0
 rect_min_size = Vector2( 320, 0 )
+mouse_default_cursor_shape = 2
 min_value = -30.0
 max_value = 10.0
 step = 5.0
@@ -4457,6 +4543,7 @@ margin_left = 64.0
 margin_top = 364.0
 margin_right = 262.0
 margin_bottom = 390.0
+mouse_default_cursor_shape = 2
 pressed = true
 text = "Game sound fx"
 
@@ -4465,14 +4552,32 @@ margin_left = 64.0
 margin_top = 420.0
 margin_right = 252.0
 margin_bottom = 446.0
+mouse_default_cursor_shape = 2
 pressed = true
 text = "Camera shake"
 
+[node name="ColorOptions_odl" type="OptionButton" parent="Settings"]
+visible = false
+margin_left = 64.0
+margin_top = 478.0
+margin_right = 320.0
+margin_bottom = 500.0
+text = "Color scheme"
+expand_icon = true
+
+[node name="ColorSchemeIcon" type="TextureRect" parent="Settings/ColorOptions_odl"]
+margin_top = 32.0
+margin_right = 24.0
+margin_bottom = 56.0
+rect_min_size = Vector2( 0, 24 )
+size_flags_vertical = 3
+texture = SubResource( 252 )
+
 [node name="Shorts" type="Label" parent="Settings"]
 margin_left = 64.0
-margin_top = 496.0
+margin_top = 552.0
 margin_right = 368.0
-margin_bottom = 562.0
+margin_bottom = 618.0
 size_flags_horizontal = 3
 theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
@@ -4519,6 +4624,175 @@ margin_bottom = 20.0
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 14 )
 text = "to go back"
+
+[node name="ColorSchemeOptions" type="Control" parent="Settings"]
+margin_left = 64.0
+margin_top = 472.0
+margin_right = 320.0
+margin_bottom = 528.0
+
+[node name="Label" type="Label" parent="Settings/ColorSchemeOptions"]
+anchor_right = 1.0
+margin_bottom = 22.0
+text = "Select color scheme"
+
+[node name="Colors" type="HBoxContainer" parent="Settings/ColorSchemeOptions"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -24.0
+custom_constants/separation = 8
+
+[node name="ColorBtn" type="Button" parent="Settings/ColorSchemeOptions/Colors"]
+margin_right = 24.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 24 )
+mouse_default_cursor_shape = 2
+custom_styles/pressed = SubResource( 254 )
+toggle_mode = true
+expand_icon = true
+
+[node name="ColorSchemeIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn"]
+show_behind_parent = true
+margin_right = 24.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 24 )
+size_flags_vertical = 3
+texture = SubResource( 261 )
+expand = true
+
+[node name="ColorBtn2" type="Button" parent="Settings/ColorSchemeOptions/Colors"]
+margin_left = 32.0
+margin_right = 56.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 24 )
+mouse_default_cursor_shape = 2
+custom_styles/pressed = SubResource( 254 )
+toggle_mode = true
+expand_icon = true
+
+[node name="ColorSchemeIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn2"]
+show_behind_parent = true
+margin_right = 24.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 24 )
+size_flags_vertical = 3
+texture = SubResource( 259 )
+expand = true
+
+[node name="ColorBtn3" type="Button" parent="Settings/ColorSchemeOptions/Colors"]
+margin_left = 64.0
+margin_right = 88.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 24 )
+mouse_default_cursor_shape = 2
+custom_styles/pressed = SubResource( 254 )
+toggle_mode = true
+expand_icon = true
+
+[node name="ColorSchemeIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn3"]
+show_behind_parent = true
+margin_right = 24.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 24 )
+size_flags_vertical = 3
+texture = SubResource( 252 )
+expand = true
+
+[node name="ColorBtn4" type="Button" parent="Settings/ColorSchemeOptions/Colors"]
+margin_left = 96.0
+margin_right = 120.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 24 )
+mouse_default_cursor_shape = 2
+custom_styles/pressed = SubResource( 254 )
+toggle_mode = true
+expand_icon = true
+
+[node name="ColorSchemeIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn4"]
+show_behind_parent = true
+margin_right = 24.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 24 )
+size_flags_vertical = 3
+texture = SubResource( 263 )
+expand = true
+
+[node name="ColorBtn5" type="Button" parent="Settings/ColorSchemeOptions/Colors"]
+margin_left = 128.0
+margin_right = 152.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 24 )
+mouse_default_cursor_shape = 2
+custom_styles/pressed = SubResource( 254 )
+toggle_mode = true
+expand_icon = true
+
+[node name="ColorSchemeIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn5"]
+show_behind_parent = true
+margin_right = 24.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 24 )
+size_flags_vertical = 3
+texture = SubResource( 265 )
+expand = true
+
+[node name="ColorBtn6" type="Button" parent="Settings/ColorSchemeOptions/Colors"]
+margin_left = 160.0
+margin_right = 184.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 24 )
+mouse_default_cursor_shape = 2
+custom_styles/pressed = SubResource( 254 )
+toggle_mode = true
+expand_icon = true
+
+[node name="ColorSchemeIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn6"]
+show_behind_parent = true
+margin_right = 24.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 24 )
+size_flags_vertical = 3
+texture = SubResource( 272 )
+expand = true
+
+[node name="ColorBtn7" type="Button" parent="Settings/ColorSchemeOptions/Colors"]
+margin_left = 192.0
+margin_right = 216.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 24 )
+mouse_default_cursor_shape = 2
+custom_styles/pressed = SubResource( 254 )
+toggle_mode = true
+expand_icon = true
+
+[node name="ColorSchemeIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn7"]
+show_behind_parent = true
+margin_right = 24.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 24 )
+size_flags_vertical = 3
+texture = SubResource( 268 )
+expand = true
+
+[node name="ColorBtn8" type="Button" parent="Settings/ColorSchemeOptions/Colors"]
+margin_left = 224.0
+margin_right = 248.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 24 )
+mouse_default_cursor_shape = 2
+custom_styles/pressed = SubResource( 254 )
+toggle_mode = true
+expand_icon = true
+
+[node name="ColorSchemeIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn8"]
+show_behind_parent = true
+margin_right = 24.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 24 )
+size_flags_vertical = 3
+texture = SubResource( 270 )
+expand = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 155 )
@@ -4592,4 +4866,12 @@ anims/settings = SubResource( 140 )
 [connection signal="value_changed" from="Settings/GameMusicSlider" to="Settings" method="_on_MusicHSlider_value_changed"]
 [connection signal="toggled" from="Settings/GameSfxCheckBox" to="Settings" method="_on_GameSfxCheckBox_toggled"]
 [connection signal="toggled" from="Settings/CamerShakeCheckBox" to="Settings" method="_on_CamerShakeCheckBox_toggled"]
+[connection signal="toggled" from="Settings/ColorSchemeOptions/Colors/ColorBtn" to="Settings" method="_on_ColorBtn_toggled"]
+[connection signal="toggled" from="Settings/ColorSchemeOptions/Colors/ColorBtn2" to="Settings" method="_on_ColorBtn2_toggled"]
+[connection signal="toggled" from="Settings/ColorSchemeOptions/Colors/ColorBtn3" to="Settings" method="_on_ColorBtn3_toggled"]
+[connection signal="toggled" from="Settings/ColorSchemeOptions/Colors/ColorBtn4" to="Settings" method="_on_ColorBtn4_toggled"]
+[connection signal="toggled" from="Settings/ColorSchemeOptions/Colors/ColorBtn5" to="Settings" method="_on_ColorBtn5_toggled"]
+[connection signal="toggled" from="Settings/ColorSchemeOptions/Colors/ColorBtn6" to="Settings" method="_on_ColorBtn6_toggled"]
+[connection signal="toggled" from="Settings/ColorSchemeOptions/Colors/ColorBtn7" to="Settings" method="_on_ColorBtn7_toggled"]
+[connection signal="toggled" from="Settings/ColorSchemeOptions/Colors/ColorBtn8" to="Settings" method="_on_ColorBtn8_toggled"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

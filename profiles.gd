@@ -6,6 +6,44 @@ extends Node
 
 # DEFAULT -----------------------------------------------------------------------------------
 
+var game_color_schemes: Dictionary = {
+	"color_scheme_1": { # default
+		1: Color.black,
+		2: Color.white,	
+	},
+	"color_scheme_2":{
+		1: Color.blue,
+		2: Color.white,
+	},
+	"color_scheme_3":{
+		1: Color.violet,
+		2: Color.white,
+	},
+	"color_scheme_4":{
+		1: Color.orange,
+		2: Color.white,
+	},
+	"color_scheme_5":{
+		1: Color.purple,
+		2: Color.white,
+	},
+	"color_scheme_6":{
+		1: Color.yellow,
+		2: Color.white,
+	},
+	"color_scheme_7":{
+		1: Color.red,
+		2: Color.white,
+	},
+	"color_scheme_8":{
+		1: Color.turquoise,
+		2: Color.white,
+	},
+}
+
+var current_color_scheme: Dictionary = game_color_schemes["color_scheme_1"]
+
+
 var default_player_stats: Dictionary = {
 	"player_name" : "Somebody", # to ime se piše v HS procesu, če igralec pusti prazno
 	"player_life" : 0, # se opredeli iz game_settings

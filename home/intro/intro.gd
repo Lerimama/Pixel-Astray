@@ -86,9 +86,22 @@ func end_intro():
 	yield(get_tree().create_timer(1), "timeout")
 	stray_step()		
 
+func reset_intro_colors():
+	
+	for stray in get_tree().get_nodes_in_group(Global.group_strays):
+		stray.queue_free()
+	yield(get_tree().create_timer(2), "timeout")
+	split_stray_colors()
+
+	yield(get_tree().create_timer(0.01), "timeout") # da se vsi straysi spawnajo
+
+	var show_strays_loop: int
+	while strays_shown != strays_in_game:
+		show_strays_loop += 1 # zazih
+		show_strays(show_strays_loop)
 
 func stray_step():
-	
+	return
 	# random dir
 	var random_direction_index: int = randi() % int(6)
 	var stepping_direction: Vector2
@@ -131,38 +144,98 @@ func set_strays():
 	
 	
 func split_stray_colors():
-	
+
 	# split colors
 	var color_count: int = strays_start_count
-	
 	color_count = clamp(color_count, 1, color_count) # za vsak slučaj klempam, da ne more biti nikoli 0 ...  ker je error			
 	
-	# poberem sliko
-	var spectrum_texture: Texture = spectrum_rect.texture
-	var spectrum_image: Image = spectrum_texture.get_data()
-	spectrum_image.lock()
+	if Profiles.current_color_scheme == Profiles.game_color_schemes["color_scheme_1"]: # default spectrum
+		
+		# poberem sliko
+		var spectrum_texture: Texture = spectrum_rect.texture
+		var spectrum_image: Image = spectrum_texture.get_data()
+		spectrum_image.lock()
+		
+		# izračun razmaka med barvami
+		var spectrum_texture_width = spectrum_rect.rect_size.x
+		var color_skip_size = spectrum_texture_width / color_count # razmak barv po spektru ... - 1 je zato ker je razmakov za 1 manj kot barv
+		
+		# nabiranje barv za vsak pixel
+		var all_colors: Array = []
+		
+		var spawned_stray_index: int = 1
+		
+		for color in color_count:
+			# lokacija barve v spektrumu
+			var selected_color_position_x = (spawned_stray_index - 1) * color_skip_size # -1, da začne z 0, če ne "out of bounds" error
+			# barva na lokaciji v spektrumu
+			var current_color = spectrum_image.get_pixel(selected_color_position_x, 0)  
+			all_colors.append(current_color)
+			# spawn stray 
+			spawn_stray(current_color, spawned_stray_index)
+			spawned_stray_index += 1
 	
-	# izračun razmaka med barvami
-	var spectrum_texture_width = spectrum_rect.rect_size.x
-	var color_skip_size = spectrum_texture_width / color_count # razmak barv po spektru ... - 1 je zato ker je razmakov za 1 manj kot barv
 	
-	# nabiranje barv za vsak pixel
-	var all_colors: Array = []
 	
-	var spawned_stray_index: int = 1
+	else:
+		print("NOVA")
+		var gradient = $SpectrumGradient.texture.get_gradient()
+		gradient.set_color(0, Profiles.current_color_scheme[1])
+		gradient.set_color(1, Profiles.current_color_scheme[2])
+		
+		# razmak med barvami
+		var color_offset: float = 1.0 / color_count
+		
+		var all_colors: Array = []
+		var available_required_spawn_positions = required_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
+		var available_random_spawn_positions = random_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
+		
+		var spawned_stray_index: int = 1
+		for stray_index in color_count:
+			
+			# barva
+			var selected_color_position_x = stray_index * color_offset # lokacija barve v spektrumu
+			var current_color = spectrum_gradient.texture.gradient.interpolate(selected_color_position_x) # barva na lokaciji v spektrumu
+	#		printt (current_color, selected_color_position_x, stray_index, color_offset)
+			all_colors.append(current_color)
+			# spawn stray 
+			spawn_stray(current_color, spawned_stray_index)
+#			spawn_strays_from_grad(current_color, spawned_stray_index)
+			spawned_stray_index += 1
 	
-	for color in color_count:
-		# lokacija barve v spektrumu
-		var selected_color_position_x = (spawned_stray_index - 1) * color_skip_size # -1, da začne z 0, če ne "out of bounds" error
-		# barva na lokaciji v spektrumu
-		var current_color = spectrum_image.get_pixel(selected_color_position_x, 0)  
-		all_colors.append(current_color)
-		# spawn stray 
-		spawn_stray(current_color, spawned_stray_index)
-		spawned_stray_index += 1
 		
 	intro_strays_spawned = true	
 
+
+onready var spectrum_gradient: TextureRect = $SpectrumGradient
+
+func spawn_strays_from_grad(stray_color: Color, stray_index: int):
+		
+	# možne spawn pozicije
+	var available_positions: Array
+	if not required_spawn_positions.empty(): # najprej obvezne
+		available_positions = required_spawn_positions
+	elif required_spawn_positions.empty(): # potem random
+		available_positions = random_spawn_positions
+	elif random_spawn_positions.empty() and required_spawn_positions.empty(): # STOP, če ni prostora, straysi pa so še na voljo
+		print ("No available spawn positions")
+		return
+	
+	# izbor zaporedne pozicije med možnimi
+	var selected_cell_index: int = available_positions.size() - 1
+	var selected_position = available_positions[selected_cell_index]
+	
+	# spawn stray
+	var new_stray_pixel = StrayPixel.instance()
+	new_stray_pixel.name = "S%s" % str(stray_index)
+	new_stray_pixel.stray_color = stray_color
+	new_stray_pixel.global_position = available_positions[selected_cell_index] + Global.game_tilemap.cell_size/2 # dodana adaptacija zaradi središča pixla
+	new_stray_pixel.z_index = 2 # višje od plejerja
+	add_child(new_stray_pixel)
+	
+	# odstranim uporabljeno pozicijo
+	available_positions.remove(selected_cell_index) # ker ni duplikat array, se briše baze
+	
 
 func spawn_stray(stray_color: Color, stray_index: int):
 	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://home/intro/intro.gd" type="Script" id=2]
 [ext_resource path="res://assets/resources/env_menu.tres" type="Environment" id=3]
@@ -8,6 +8,13 @@
 [ext_resource path="res://assets/resources/tileset_arena.tres" type="TileSet" id=7]
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=8]
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=9]
+
+[sub_resource type="Gradient" id=271]
+colors = PoolColorArray( 1, 0, 0, 1, 0.3125, 0.00457875, 0.00457875, 1 )
+
+[sub_resource type="GradientTexture" id=272]
+gradient = SubResource( 271 )
+width = 700
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
@@ -665,6 +672,14 @@ visible = false
 margin_right = 512.0
 margin_bottom = 12.0
 texture = ExtResource( 9 )
+expand = true
+
+[node name="SpectrumGradient" type="TextureRect" parent="."]
+margin_top = -72.0
+margin_right = 488.0
+margin_bottom = -24.0
+size_flags_horizontal = 0
+texture = SubResource( 272 )
 expand = true
 
 [node name="_Undi" type="Node2D" parent="."]
