@@ -14,7 +14,7 @@ var data_manager = null
 var game_manager = null # tudi za intro
 
 # gui
-var game_tilemap = null
+var current_tilemap = null
 var hud = null
 var start_countdown = null
 var gameover_menu = null
@@ -51,13 +51,14 @@ var hud_background_color: Color = Color("#141414")
 # FUNKCIJE -----------------------------------------------------------------------------------------------------
 
 
-func snap_to_nearest_grid(current_global_position: Vector2, floor_cells: Array):
+func snap_to_nearest_grid(current_global_position: Vector2):
+#func snap_to_nearest_grid(current_global_position: Vector2, floor_cells: Array):
 	
-	if not is_instance_valid(game_tilemap):
-		print("ERROR! Snapanje na grid ... manjka Global.game_tilemap")
+	if not is_instance_valid(current_tilemap):
+		print("ERROR! Snapanje na grid ... manjka Global.current_tilemap")
 		
-#	var floor_cells: Array = game_manager.floor_positions
-	var cell_size_x: float = game_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
+	var floor_cells: Array = current_tilemap.floor_global_positions
+	var cell_size_x: float = current_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 	
 	# adaptacija zaradi središčne točke strejsa in playerja
 	var current_position: Vector2 = Vector2(current_global_position.x - cell_size_x/2, current_global_position.y - cell_size_x/2)
@@ -80,7 +81,7 @@ func snap_to_nearest_grid(current_global_position: Vector2, floor_cells: Array):
 		
 func detect_collision(ray, direction_to_check, ignore):
 	
-	var cell_size_x: int = game_tilemap.cell_size.x #+ game_tilemap.cell_size.x/2 # pogreba od GMja, ki jo dobi od tilemapa
+	var cell_size_x: int = current_tilemap.cell_size.x #+ current_tilemap.cell_size.x/2 # pogreba od GMja, ki jo dobi od tilemapa
 	
 	ray.cast_to = direction_to_check * cell_size_x # ray kaže na naslednjo pozicijo 
 	ray.force_raycast_update()	
@@ -97,7 +98,7 @@ func detect_collision(ray, direction_to_check, ignore):
 				
 func detect_group_collision_in_direction(ray_group, direction_to_check):
 	
-	var cell_size_x: int = game_tilemap.cell_size.x #+ game_tilemap.cell_size.x/2 # pogreba od GMja, ki jo dobi od tilemapa
+	var cell_size_x: int = current_tilemap.cell_size.x #+ current_tilemap.cell_size.x/2 # pogreba od GMja, ki jo dobi od tilemapa
 	var current_colliders: Array 
 	print("current_colliders 1 ", current_colliders)
 	
@@ -130,7 +131,7 @@ func detect_group_collision_in_direction(ray_group, direction_to_check):
 					
 func detect_collision_in_direction(ray, direction_to_check):
 	
-	var cell_size_x: int = game_tilemap.cell_size.x #+ game_tilemap.cell_size.x/2 # pogreba od GMja, ki jo dobi od tilemapa
+	var cell_size_x: int = current_tilemap.cell_size.x #+ current_tilemap.cell_size.x/2 # pogreba od GMja, ki jo dobi od tilemapa
 	
 	ray.cast_to = direction_to_check * cell_size_x # ray kaže na naslednjo pozicijo 
 	ray.force_raycast_update()

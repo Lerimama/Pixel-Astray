@@ -14,7 +14,7 @@ onready var vision: Node2D = $Vision
 onready var color_poly: Polygon2D = $ColorPoly
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var count_label: Label = $CountLabel # debug
-onready var cell_size_x: int = Global.game_tilemap.cell_size.x
+onready var cell_size_x: int = Global.current_tilemap.cell_size.x
 
 
 func _ready() -> void:
@@ -63,13 +63,13 @@ func step(step_direction: Vector2):
 func end_move():
 	
 	current_state = States.IDLE
-	global_position = Global.snap_to_nearest_grid(global_position, Global.game_manager.floor_positions) 
+	global_position = Global.snap_to_nearest_grid(global_position) 
 	
 		
 func die(stray_in_stack_index: int, strays_in_stack: int):
 	
 	current_state = States.STATIC
-	global_position = Global.snap_to_nearest_grid(global_position, Global.game_manager.floor_positions) 
+	global_position = Global.snap_to_nearest_grid(global_position) 
 	
 	# čakalni čas
 	var wait_to_destroy_time: float = sqrt(0.07 * (stray_in_stack_index)) # -1 je, da hitan stray ne čaka

@@ -3,7 +3,8 @@ extends TileMap
 
 signal tilemap_completed
 
-var floor_global_positions: Array # global koordinate celic
+var floor_global_positions: Array # tla so prazne + stray + no-stray + player
+var empty_global_positions: Array # ostanejo prazne in so prostor za random spawn
 var stray_global_positions: Array
 var no_stray_global_positions: Array
 var player_global_positions: Array 
@@ -12,7 +13,7 @@ var player_global_positions: Array
 func _ready() -> void:
 	
 	add_to_group(Global.group_tilemap)	
-	Global.game_tilemap = self
+	Global.current_tilemap = self
 
 
 func get_tiles():
@@ -29,25 +30,28 @@ func get_tiles():
 			# zaznavanje tiletov
 			var cell_index = get_cellv(cell)
 			match cell_index:
-				
 				0: # floor
+					empty_global_positions.append(cell_global_position)
 					floor_global_positions.append(cell_global_position)
 				5: # stray spawn positions
 					stray_global_positions.append(cell_global_position)
 					set_cellv(cell, 0) # menjam za celico tal
+					floor_global_positions.append(cell_global_position)
 				2: # no stray
 					no_stray_global_positions.append(cell_global_position)
 					set_cellv(cell, 0)
+					floor_global_positions.append(cell_global_position)
 				4: # player 1 spawn position
 					player_global_positions.append(cell_global_position)
 					set_cellv(cell, 0)
+					floor_global_positions.append(cell_global_position)
 				6: # player 2 spawn position
 					player_global_positions.append(cell_global_position)
 					set_cellv(cell, 0)
-	
+					floor_global_positions.append(cell_global_position)
 	
 	# pošljem v GM
-	emit_signal("tilemap_completed", floor_global_positions, stray_global_positions, no_stray_global_positions, player_global_positions)
+	emit_signal("tilemap_completed", empty_global_positions, stray_global_positions, no_stray_global_positions, player_global_positions)
 	
 	
 func get_collision_tile_id(collider: Node2D, direction: Vector2): # collider je node ki se zaleteva in ne collision object

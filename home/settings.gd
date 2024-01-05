@@ -1,9 +1,15 @@
 extends Control
 
 
+onready var intro: Node2D = $"%Intro"
+onready var colors_container: HBoxContainer = $ColorSchemeOptions/Colors
+
+
 func _ready() -> void:
-	$GameMusicSlider.value = AudioServer.get_bus_volume_db(AudioServer.get_bus_index("GameMusic")) # za_poenoten slajder v settingsih in pavzi
-#	add_color_schemes()
+	
+	$GameMusicSlider.value = AudioServer.get_bus_volume_db(AudioServer.get_bus_index("GameMusic")) # da je slajder v settingsih in pavzi poenoten
+	current_color_scheme_btn_pressed()
+
 	
 func _process(delta: float) -> void:
 	
@@ -32,21 +38,6 @@ func _process(delta: float) -> void:
 		$CamerShakeCheckBox.pressed = true
 	else:
 		$CamerShakeCheckBox.pressed = false
-	
-#onready var color_options: OptionButton = $ColorOptions
-#onready var color_scheme_icon: TextureRect = $ColorOptions/ColorSchemeIcon
-#
-#func add_color_schemes():
-#	color_options.add_item("red", 0)
-#	color_options.add_item("blue", 1)
-#	color_options.add_icon_item(color_scheme_icon.texture, "icon", 2)
-#
-#	var available_color_schemes: Array = color_options.get_children()
-#
-#	print (available_color_schemes.size())
-#	for color_scheme in available_color_schemes:
-#		color_options.add_icon_item(color_scheme, "blue", 2)
-
 	
 	
 func _on_MenuMusicCheckBox_toggled(button_pressed: bool) -> void:
@@ -97,64 +88,85 @@ func _on_CamerShakeCheckBox_toggled(button_pressed: bool) -> void:
 		Global.sound_manager.play_gui_sfx("btn_cancel")
 
 
-
-#func _on_StrayCountOptionButton_item_selected(index: int) -> void:
-#	match index:
-#		0: Profiles.default_level_data["strays_start_count"] = Profiles.settings_strays_amount_1
-#		1: Profiles.default_level_data["strays_start_count"] = Profiles.settings_strays_amount_2
-#		2: Profiles.default_level_data["strays_start_count"] = Profiles.settings_strays_amount_3
-#		3: Profiles.default_level_data["strays_start_count"] = Profiles.settings_strays_amount_4
-#		4: Profiles.default_level_data["strays_start_count"] = Profiles.settings_strays_amount_5
+# COLOR SCHEMES ----------------------------------------------------------------------------------------------------------------
 
 
-onready var colors: HBoxContainer = $ColorSchemeOptions/Colors
-onready var selected_color_scheme: Dictionary = Profiles.game_color_schemes["color_scheme_1"]
+func current_color_scheme_btn_pressed():
+	
+	# deselect all
+	for color_btn in colors_container.get_children():
+		color_btn.set_pressed_no_signal(false)
+	
+	if Profiles.current_color_scheme == Profiles.game_color_schemes["default_color_scheme"]: $ColorSchemeOptions/Colors/ColorBtn.set_pressed_no_signal(true)
+	elif Profiles.current_color_scheme == Profiles.game_color_schemes["color_scheme_2"]: $ColorSchemeOptions/Colors/ColorBtn2.set_pressed_no_signal(true)
+	elif Profiles.current_color_scheme == Profiles.game_color_schemes["color_scheme_3"]: $ColorSchemeOptions/Colors/ColorBtn3.set_pressed_no_signal(true)
+	elif Profiles.current_color_scheme == Profiles.game_color_schemes["color_scheme_4"]: $ColorSchemeOptions/Colors/ColorBtn4.set_pressed_no_signal(true)
+	elif Profiles.current_color_scheme == Profiles.game_color_schemes["color_scheme_5"]: $ColorSchemeOptions/Colors/ColorBtn5.set_pressed_no_signal(true)
+	elif Profiles.current_color_scheme == Profiles.game_color_schemes["color_scheme_6"]: $ColorSchemeOptions/Colors/ColorBtn6.set_pressed_no_signal(true)
+	elif Profiles.current_color_scheme == Profiles.game_color_schemes["color_scheme_7"]: $ColorSchemeOptions/Colors/ColorBtn7.set_pressed_no_signal(true)
+	elif Profiles.current_color_scheme == Profiles.game_color_schemes["color_scheme_8"]: $ColorSchemeOptions/Colors/ColorBtn8.set_pressed_no_signal(true)
 
-
+	# disable pressed
+	for color_btn in colors_container.get_children():
+		if color_btn.is_pressed():
+			color_btn.set_disabled(true)
+			
+		
 func color_scheme_selector(pressed_btn_name: String):
 	
-	var available_color_schemes: Array = colors.get_children()
-	
-	for color_btn in available_color_schemes:
+	for color_btn in colors_container.get_children():
 		if color_btn.name != pressed_btn_name: # deselect all other
 			color_btn.set_pressed_no_signal(false)
-		if color_btn.name == pressed_btn_name and not color_btn.is_pressed(): # retoggle pressed button
-			color_btn.set_pressed_no_signal(true)
+			color_btn.set_disabled(false)
+		if color_btn.name == pressed_btn_name: # zaščita pred ponovnim klikom
+			color_btn.set_disabled(true)
 	
-	print("selected_color_scheme ", selected_color_scheme)	
-
 
 func _on_ColorBtn_toggled(button_pressed: bool) -> void:
-	Profiles.current_color_scheme = Profiles.game_color_schemes["color_scheme_1"]
+	Profiles.current_color_scheme = Profiles.game_color_schemes["default_color_scheme"]
 	color_scheme_selector("ColorBtn")
+	intro.reset_stray_colors()
+
 	
 func _on_ColorBtn2_toggled(button_pressed: bool) -> void:
 	Profiles.current_color_scheme = Profiles.game_color_schemes["color_scheme_2"]
 	color_scheme_selector("ColorBtn2")
-	Global.game_manager.reset_intro_colors()
+	intro.reset_stray_colors()
+
 
 func _on_ColorBtn3_toggled(button_pressed: bool) -> void:
 	Profiles.current_color_scheme = Profiles.game_color_schemes["color_scheme_3"]
 	color_scheme_selector("ColorBtn3")
+	intro.reset_stray_colors()
+
 
 func _on_ColorBtn4_toggled(button_pressed: bool) -> void:
 	Profiles.current_color_scheme = Profiles.game_color_schemes["color_scheme_4"]
 	color_scheme_selector("ColorBtn4")
+	intro.reset_stray_colors()
+
 
 func _on_ColorBtn5_toggled(button_pressed: bool) -> void:
 	Profiles.current_color_scheme = Profiles.game_color_schemes["color_scheme_5"]
 	color_scheme_selector("ColorBtn5")
+	intro.reset_stray_colors()
+
 
 func _on_ColorBtn6_toggled(button_pressed: bool) -> void:
 	Profiles.current_color_scheme = Profiles.game_color_schemes["color_scheme_6"]
 	color_scheme_selector("ColorBtn6")
+	intro.reset_stray_colors()
+
 
 func _on_ColorBtn7_toggled(button_pressed: bool) -> void:
 	Profiles.current_color_scheme = Profiles.game_color_schemes["color_scheme_7"]
 	color_scheme_selector("ColorBtn7")
+	intro.reset_stray_colors()
+
 
 func _on_ColorBtn8_toggled(button_pressed: bool) -> void:
 	Profiles.current_color_scheme = Profiles.game_color_schemes["color_scheme_8"]
 	color_scheme_selector("ColorBtn8")
+	intro.reset_stray_colors()
 
 

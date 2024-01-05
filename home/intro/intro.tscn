@@ -9,11 +9,11 @@
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=8]
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=9]
 
-[sub_resource type="Gradient" id=271]
-colors = PoolColorArray( 1, 0, 0, 1, 0.3125, 0.00457875, 0.00457875, 1 )
+[sub_resource type="Gradient" id=225]
+colors = PoolColorArray( 1, 1, 1, 1, 0.390625, 0.390625, 0.390625, 1 )
 
-[sub_resource type="GradientTexture" id=272]
-gradient = SubResource( 271 )
+[sub_resource type="GradientTexture" id=226]
+gradient = SubResource( 225 )
 width = 700
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -669,17 +669,19 @@ actor_in_motion = false
 
 [node name="Spectrum" type="TextureRect" parent="."]
 visible = false
+margin_top = -40.0
 margin_right = 512.0
-margin_bottom = 12.0
+margin_bottom = -28.0
 texture = ExtResource( 9 )
 expand = true
 
 [node name="SpectrumGradient" type="TextureRect" parent="."]
-margin_top = -72.0
-margin_right = 488.0
-margin_bottom = -24.0
+visible = false
+margin_top = -64.0
+margin_right = 512.0
+margin_bottom = -48.0
 size_flags_horizontal = 0
-texture = SubResource( 272 )
+texture = SubResource( 226 )
 expand = true
 
 [node name="_Undi" type="Node2D" parent="."]

@@ -12,7 +12,7 @@ var teleporting_bodies: Array = []
 var target_reached: float = false
 
 onready var ghost_ray: RayCast2D = $RayCast2D
-onready var cell_size_x: float = Global.game_tilemap.cell_size.x
+onready var cell_size_x: float = Global.current_tilemap.cell_size.x
 onready var glow_light: Light2D = $GlowLight
 
 
@@ -32,7 +32,7 @@ func _physics_process(delta: float) -> void:
 	# teleporting ghost
 	if target_reached:
 		speed = 0
-		global_position = Global.snap_to_nearest_grid(global_position, Global.game_manager.floor_positions)
+		global_position = Global.snap_to_nearest_grid(global_position)
 	
 	# skill ghost
 	if ghost_ray.is_colliding():

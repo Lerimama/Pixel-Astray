@@ -156,15 +156,16 @@ func animation_reversed(from_screen: String):
 	
 	if animation_player.current_animation_position == 0: # pomeni da se odpre main menu
 		# set focus
-		match from_screen:
-			"select_game":
-				$Menu/SelectGameBtn.grab_focus()
-			"about":
-				$Menu/AboutBtn.grab_focus()
-			"settings":
-				$Menu/SettingsBtn.grab_focus()
-			"highscores":
-				$Menu/HighscoresBtn.grab_focus()
+		$Menu/SelectGameBtn.grab_focus()
+		# match from_screen:
+		#	"select_game":
+		#		$Menu/SelectGameBtn.grab_focus()
+		#	"about":
+		#		$Menu/AboutBtn.grab_focus()
+		#	"settings":
+		#		$Menu/SettingsBtn.grab_focus()
+		#	"highscores":
+		#		$Menu/HighscoresBtn.grab_focus()
 		current_screen = Screens.MAIN_MENU
 		current_esc_hint.modulate.a = 0
 		

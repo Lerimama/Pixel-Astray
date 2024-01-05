@@ -1084,6 +1084,7 @@ handle_input_locally = false
 render_target_update_mode = 3
 
 [node name="Intro" parent="IntroViewPortContainer/IntroViewport" instance=ExtResource( 6 )]
+unique_name_in_owner = true
 __meta__ = {
 "_edit_horizontal_guides_": [ 1984.0, 544.0, 1248.0, 1352.0, 1296.0, 1408.0, 1464.0 ],
 "_edit_vertical_guides_": [ 3080.0, 128.0, 1792.0, 512.0 ]
@@ -4649,6 +4650,7 @@ margin_bottom = 24.0
 rect_min_size = Vector2( 24, 24 )
 mouse_default_cursor_shape = 2
 custom_styles/pressed = SubResource( 254 )
+custom_styles/disabled = SubResource( 254 )
 toggle_mode = true
 expand_icon = true
 
@@ -4668,6 +4670,7 @@ margin_bottom = 24.0
 rect_min_size = Vector2( 24, 24 )
 mouse_default_cursor_shape = 2
 custom_styles/pressed = SubResource( 254 )
+custom_styles/disabled = SubResource( 254 )
 toggle_mode = true
 expand_icon = true
 
@@ -4687,6 +4690,7 @@ margin_bottom = 24.0
 rect_min_size = Vector2( 24, 24 )
 mouse_default_cursor_shape = 2
 custom_styles/pressed = SubResource( 254 )
+custom_styles/disabled = SubResource( 254 )
 toggle_mode = true
 expand_icon = true
 
@@ -4706,6 +4710,7 @@ margin_bottom = 24.0
 rect_min_size = Vector2( 24, 24 )
 mouse_default_cursor_shape = 2
 custom_styles/pressed = SubResource( 254 )
+custom_styles/disabled = SubResource( 254 )
 toggle_mode = true
 expand_icon = true
 
@@ -4725,6 +4730,7 @@ margin_bottom = 24.0
 rect_min_size = Vector2( 24, 24 )
 mouse_default_cursor_shape = 2
 custom_styles/pressed = SubResource( 254 )
+custom_styles/disabled = SubResource( 254 )
 toggle_mode = true
 expand_icon = true
 
@@ -4744,6 +4750,7 @@ margin_bottom = 24.0
 rect_min_size = Vector2( 24, 24 )
 mouse_default_cursor_shape = 2
 custom_styles/pressed = SubResource( 254 )
+custom_styles/disabled = SubResource( 254 )
 toggle_mode = true
 expand_icon = true
 
@@ -4763,6 +4770,7 @@ margin_bottom = 24.0
 rect_min_size = Vector2( 24, 24 )
 mouse_default_cursor_shape = 2
 custom_styles/pressed = SubResource( 254 )
+custom_styles/disabled = SubResource( 254 )
 toggle_mode = true
 expand_icon = true
 
@@ -4782,6 +4790,7 @@ margin_bottom = 24.0
 rect_min_size = Vector2( 24, 24 )
 mouse_default_cursor_shape = 2
 custom_styles/pressed = SubResource( 254 )
+custom_styles/disabled = SubResource( 254 )
 toggle_mode = true
 expand_icon = true
 

@@ -2,7 +2,7 @@ extends Node2D
 
 
 var tag_owner: Node
-var cell_size_x: float = Global.game_tilemap.cell_size.x
+var cell_size_x: float = Global.current_tilemap.cell_size.x
 var vertical_offset: float = cell_size_x
 
 onready var animation_player: AnimationPlayer = $AnimationPlayer

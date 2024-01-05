@@ -7,7 +7,7 @@ extends Node
 # DEFAULT -----------------------------------------------------------------------------------
 
 var game_color_schemes: Dictionary = {
-	"color_scheme_1": { # default
+	"default_color_scheme": { # default
 		1: Color.black,
 		2: Color.white,	
 	},
@@ -41,7 +41,7 @@ var game_color_schemes: Dictionary = {
 	},
 }
 
-var current_color_scheme: Dictionary = game_color_schemes["color_scheme_1"]
+var current_color_scheme: Dictionary = game_color_schemes["default_color_scheme"]
 
 
 var default_player_stats: Dictionary = {
