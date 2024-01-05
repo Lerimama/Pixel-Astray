@@ -35,8 +35,9 @@ var max_vertical = 150
 var max_rotation = 5
 
 # poravnava s celicami
-onready var cell_align: Vector2 = Vector2(Global.current_tilemap.cell_size.x/2, 0)
-onready var cell_align_end: Vector2 = Global.current_tilemap.cell_size/2
+onready var cell_size_x: int = Global.current_tilemap.cell_size.x
+onready var cell_align: Vector2 = Vector2(cell_size_x/2, 0)
+onready var cell_align_end: Vector2 = Vector2(cell_size_x/2, cell_size_x/2)
 
 
 func _ready():
@@ -118,7 +119,7 @@ func zoom_out(hud_in_out_time: float): # kliče hud
 	limit_bottom = 10000000
 	
 	# korekcija za poravnavo z gameover naslovi
-	var corrected_position = position - Global.current_tilemap.cell_size/2
+	var corrected_position = position - Vector2(cell_size_x/2, cell_size_x/2)
 	
 	# zoomout	
 	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
@@ -144,12 +145,11 @@ func shake_camera(shake_power: float, shake_time: float, shake_decay: float):
 func set_camera_limits():
 	
 	var tilemap_edge: Rect2 = Global.current_tilemap.get_used_rect()
-	var tilemap_cell_size: Vector2 = Global.current_tilemap.cell_size
 	
-	corner_TL = tilemap_edge.position.x * tilemap_cell_size.x + tilemap_cell_size.x # k mejam prištejem edge debelino
-	corner_TR = tilemap_edge.end.x * tilemap_cell_size.x - tilemap_cell_size.x
-	corner_BL = tilemap_edge.position.y * tilemap_cell_size.y + tilemap_cell_size.y
-	corner_BR = tilemap_edge.end.y * tilemap_cell_size.y - tilemap_cell_size.y
+	corner_TL = tilemap_edge.position.x * cell_size_x + cell_size_x # k mejam prištejem edge debelino
+	corner_TR = tilemap_edge.end.x * cell_size_x - cell_size_x
+	corner_BL = tilemap_edge.position.y * cell_size_x + cell_size_x
+	corner_BR = tilemap_edge.end.y * cell_size_x - cell_size_x
 	
 	limit_left = corner_TL
 	limit_right = corner_TR

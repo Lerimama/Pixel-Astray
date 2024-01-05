@@ -99,7 +99,8 @@ func _on_RestartBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	
 	Global.game_manager.stop_game_elements()
-	get_tree().paused = false
+	Global.sound_manager.stop_music("game_music_on_gameover")
+	# get_tree().paused = false ... tween za izhod pavzo drevesa ignorira
 	Global.main_node.reload_game()
 	
 	
@@ -112,9 +113,9 @@ func _on_QuitBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("btn_cancel")
 	
 	Global.game_manager.stop_game_elements()
-	get_tree().paused = false
+	Global.sound_manager.stop_music("game_music_on_gameover")
+	# get_tree().paused = false ... tween za izhod pavzo drevesa ignorira
 	Global.main_node.game_out()
-	
 
 
 # SETTINGS BTNZ ---------------------------------------------------------------------------------------------

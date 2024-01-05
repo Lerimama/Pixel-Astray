@@ -144,7 +144,7 @@ func state_machine():
 	
 func on_collision(): 
 	
-	Global.sound_manager.stop_sfx("burst")
+	stop_sound("burst")
 	
 	if collision.collider.is_in_group(Global.group_tilemap):
 		on_hit_wall()
@@ -230,8 +230,8 @@ func bursting_inputs():
 	if Input.is_action_just_pressed(key_burst):
 		end_move()
 		Input.start_joy_vibration(0, 0.6, 0.2, 0.2)
-		Global.sound_manager.play_sfx("burst_stop")
-		Global.sound_manager.stop_sfx("burst_cocking")	
+		play_sound("burst_stop")
+		stop_sound("burst_cocking")	
 
 
 func skill_inputs():
@@ -278,7 +278,6 @@ func skill_inputs():
 				end_move()
 	else:
 		end_move()
-		
 
 				
 # MOVEMENT ------------------------------------------------------------------------------------------
@@ -302,7 +301,8 @@ func step(): # step koda se ob držanju tipke v smeri izvaja stalno
 		step_tween.parallel().tween_property(extended_shape, "position", Vector2.ZERO, step_time)
 		step_tween.tween_callback(self, "end_move")
 		step_tween.tween_callback(self, "change_stat", ["cells_traveled", 1]) # točke in energija kot je določeno v settingsih
-		Global.sound_manager.play_stepping_sfx(player_stats["player_energy"] / float(Global.game_manager.game_settings["player_max_energy"])) # ulomek je za pitch zvoka
+		
+		play_stepping_sound(player_stats["player_energy"] / float(Global.game_manager.game_settings["player_max_energy"])) # ulomek je za pitch zvoka
 		
 		
 func end_move():
@@ -327,8 +327,6 @@ func end_move():
 	global_position = Global.snap_to_nearest_grid(global_position) 
 	current_state = States.IDLE # more bit na kocnu
 	
-#	Global.sound_manager.stop_sfx("teleport") # zazih ... export for windows 
-	
 
 # BURST ------------------------------------------------------------------------------------------
 
@@ -340,7 +338,7 @@ func cock_burst():
 	
 	# prostor za začetek napenjanja preverja pixel
 	if detect_collision_in_direction(cock_direction):
-		Global.sound_manager.stop_sfx("burst_cocking")
+		stop_sound("burst_cocking")
 		end_move()
 		return
 	
@@ -351,7 +349,7 @@ func cock_burst():
 			ghost_cocking_time = 0
 			burst_speed_max += burst_speed_addon # prištejem hitrost bursta
 			spawn_cock_ghost(cock_direction, cocked_ghosts.size() + 1) # + 1 zato, da se prvi ne spawna direktno nad pixlom
-			Global.sound_manager.play_sfx("burst_cocking")
+			play_sound("burst_cocking")
 
 
 func release_burst():
@@ -361,7 +359,7 @@ func release_burst():
 		
 	current_state = States.RELEASING
 	
-	Global.sound_manager.play_sfx("burst_cocked")
+	play_sound("burst_cocked")
 
 	var cocked_ghost_fill_time: float = 0.04 # čas za napolnitev vseh spawnanih ghostov (tik pred burstom)
 	var cocked_pause_time: float = 0.05 # pavza pred strelom
@@ -392,8 +390,8 @@ func burst(current_ghost_count: int):
 	
 	empty_cocking_ghosts() # sprazni cock ghoste
 	
-	Global.sound_manager.play_sfx("burst")
-	Global.sound_manager.stop_sfx("burst_cocking")
+	play_sound("burst")
+	stop_sound("burst_cocking")
 	
 	# release ghost 
 	var strech_ghost_shrink_time: float = 0.2
@@ -426,7 +424,7 @@ func push(): # skilled inputs opredeli vrsto skila glede na kolajderja
 	target_collider.current_state = target_collider.States.MOVING	
 	
 	extended_shape.position = backup_direction * cell_size_x # vržem koližn v smer premika
-	Global.sound_manager.play_sfx("push")
+	play_sound("push")
 	
 	var push_time: float = 0.3
 	var push_cell_count: int = 1	
@@ -464,7 +462,8 @@ func push(): # skilled inputs opredeli vrsto skila glede na kolajderja
 		push_tween.parallel().tween_property(target_collider.extended_shape, "position", Vector2.ZERO, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	# stray ext shape
 		push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
 		push_tween.tween_property(skill_light, "position", skill_light.position, 0) # reset pozicije luči
-		push_tween.tween_callback(Global.sound_manager, "play_sfx", ["pushed"])
+#		push_tween.tween_callback(Global.sound_manager, "play_sfx", ["pushed"])
+		push_tween.tween_callback(self, "play_sound", ["pushed"])
 		push_tween.tween_callback(new_push_ghost, "queue_free")
 		push_tween.tween_callback(target_collider.extended_shape, "set_position", [push_direction * cell_size_x]) # stray ext shape
 		push_tween.tween_property(target_collider, "position", target_collider.global_position + push_direction * cell_size_x * push_cell_count, 0.08).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(0.05)
@@ -472,8 +471,10 @@ func push(): # skilled inputs opredeli vrsto skila glede na kolajderja
 		# reset
 		push_tween.tween_callback(self, "end_move")
 		push_tween.tween_callback(target_collider, "end_move")
-		push_tween.tween_callback(self, "change_stat", ["skill_used", 1]) # štetje, točke in energija kot je določeno v settingsih
+		# push_tween.tween_callback(self, "change_stat", ["skill_used", 1]) # štetje, točke in energija kot je določeno v settingsih
 			
+		change_stat("skill_used", 1) # zazih ni v tweenu
+
 
 func pull(): # skilled inputs opredeli vrsto skila glede na kolajderja
 	
@@ -491,7 +492,7 @@ func pull(): # skilled inputs opredeli vrsto skila glede na kolajderja
 	target_collider.current_state = target_collider.States.MOVING
 	
 	extended_shape.position = pull_direction * cell_size_x # vržem koližn v smer premika
-	Global.sound_manager.play_sfx("pull")
+	play_sound("pull")
 	
 	var pull_time: float = 0.3
 	var new_pull_ghost = spawn_ghost(global_position + target_direction * cell_size_x)
@@ -506,13 +507,15 @@ func pull(): # skilled inputs opredeli vrsto skila glede na kolajderja
 	# pull stray
 	pull_tween.tween_property(target_collider, "position", target_collider.global_position + pull_direction * cell_size_x, pull_time)
 	pull_tween.parallel().tween_property(target_collider.extended_shape, "position", Vector2.ZERO, pull_time) # stray ext shape
-	pull_tween.parallel().tween_callback(Global.sound_manager, "play_sfx", ["pulled"])
+	pull_tween.parallel().tween_callback(self, "play_sound", ["pulled"])
 	pull_tween.tween_callback(skill_light, "set_position", [skill_light.position]) # reset pozicije luči
 	# reset
 	pull_tween.tween_callback(self, "end_move")
 	pull_tween.tween_callback(target_collider, "end_move")
 	pull_tween.tween_callback(new_pull_ghost, "queue_free")
-	pull_tween.tween_callback(self, "change_stat", ["skill_used", 2]) # štetje, točke in energija kot je določeno v settingsih
+	# pull_tween.tween_callback(self, "change_stat", ["skill_used", 2]) # štetje, točke in energija kot je določeno v settingsih
+	
+	change_stat("skill_used", 2) # zazih ni v tweenu
 	
 			
 func teleport(): # skilled inputs opredeli vrsto skila glede na kolajderja
@@ -522,7 +525,7 @@ func teleport(): # skilled inputs opredeli vrsto skila glede na kolajderja
 	current_state = States.SKILLING
 	
 	Input.start_joy_vibration(0, 0.3, 0, 0)
-	Global.sound_manager.play_sfx("teleport")
+	play_sound("teleport")
 	
 	var ghost_max_speed: float = 10
 	var new_teleport_ghost = spawn_ghost(global_position)
@@ -547,7 +550,7 @@ func teleport(): # skilled inputs opredeli vrsto skila glede na kolajderja
 func on_hit_stray(hit_stray: KinematicBody2D):
 	
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
-	Global.sound_manager.play_sfx("hit_stray")	
+	play_sound("hit_stray")	
 	spawn_collision_particles()
 	shake_player_camera(burst_cocked_ghost_count)			
 	
@@ -577,7 +580,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 func on_hit_player(hit_player: KinematicBody2D):
 	
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
-	Global.sound_manager.play_sfx("hit_stray")
+	play_sound("hit_stray")
 	spawn_collision_particles()
 	shake_player_camera(burst_cocked_ghost_count)			
 
@@ -601,7 +604,7 @@ func on_hit_player(hit_player: KinematicBody2D):
 func on_hit_wall():
 	
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.7)
-	Global.sound_manager.play_sfx("hit_wall")
+	play_sound("hit_wall")
 	spawn_dizzy_particles()
 	spawn_collision_particles()
 	shake_player_camera(burst_cocked_ghost_count)
@@ -619,7 +622,7 @@ func on_get_hit(hit_burst_power: int):
 	
 	# efekti
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.7)
-	Global.sound_manager.play_sfx("hit_wall")
+	play_sound("hit_wall")
 	spawn_dizzy_particles()
 	shake_player_camera(hit_burst_power)
 	
@@ -685,7 +688,10 @@ func spawn_dizzy_particles():
 	
 	var new_dizzy_pixels = PixelDizzyParticles.instance()
 	new_dizzy_pixels.global_position = global_position
-	new_dizzy_pixels.modulate = pixel_color
+	if pixel_color == Global.game_manager.game_settings["player_start_color"]:
+		new_dizzy_pixels.modulate = Color.white
+	else:
+		new_dizzy_pixels.modulate = pixel_color
 	Global.node_creation_parent.add_child(new_dizzy_pixels)
 	
 
@@ -693,7 +699,10 @@ func spawn_collision_particles():
 	
 	var new_collision_pixels = PixelCollisionParticles.instance()
 	new_collision_pixels.global_position = global_position
-	new_collision_pixels.modulate = pixel_color
+	if pixel_color == Global.game_manager.game_settings["player_start_color"]:
+		new_collision_pixels.modulate = Color.white
+	else:
+		new_collision_pixels.modulate = pixel_color
 	match direction:
 		Vector2.UP: new_collision_pixels.rotate(deg2rad(-90))
 		Vector2.DOWN: new_collision_pixels.rotate(deg2rad(90))
@@ -705,13 +714,13 @@ func spawn_collision_particles():
 func spawn_cock_ghost(cocking_direction: Vector2, cocked_ghosts_count: int):
 	
 	var cocked_ghost_alpha: float = 1 # najnižji alfa za ghoste ... old 0.55
-	var cocked_ghost_alpha_divisor: float = 8 # faktor nižanja po zaporedju (manjši je bolj oster) ... old 14
+	var cocked_ghost_alpha_divider: float = 8 # faktor nižanja po zaporedju (manjši je bolj oster) ... old 14
 	
 	# spawn ghosta pod manom
 	var cock_ghost_position = (global_position - cocking_direction * cell_size_x/2) + (cocking_direction * cell_size_x * cocked_ghosts_count)
 	var new_cock_ghost = spawn_ghost(cock_ghost_position)
 	new_cock_ghost.z_index = 3 # nad straysi in playerjem
-	new_cock_ghost.modulate.a  = cocked_ghost_alpha - (cocked_ghosts_count / cocked_ghost_alpha_divisor)
+	new_cock_ghost.modulate.a  = cocked_ghost_alpha - (cocked_ghosts_count / cocked_ghost_alpha_divider)
 	new_cock_ghost.direction = cocking_direction
 	
 	# v kateri smeri je scale
@@ -920,14 +929,74 @@ func manage_heartbeat():
 			burst_light.enabled = false
 			
 
-func play_blinking_sound(): 
-	# kličem iz animacije
-	Global.sound_manager.play_sfx("blinking")
+func play_stepping_sound(current_player_energy_part: float):
+
+	if Global.sound_manager.game_sfx_set_to_off:
+		return		
+
+	var random_step_index = randi() % $Sounds/Stepping.get_child_count()
+	var selected_step_sound = $Sounds/Stepping.get_child(random_step_index)
+	selected_step_sound.pitch_scale = clamp(current_player_energy_part, 0.6, 1)
+	selected_step_sound.play()
+
+	
+func play_sound(effect_for: String):
+	
+	if Global.sound_manager.game_sfx_set_to_off:
+		return	
+		
+	match effect_for:
+		"blinking":
+			var random_blink_index = randi() % $Sounds/Blinking.get_child_count()
+			$Sounds/Blinking.get_child(random_blink_index).play() # nekateri so na mute, ker so drugače prepogosti soundi
+			var random_static_index = randi() % $Sounds/BlinkingStatic.get_child_count()
+			$Sounds/BlinkingStatic.get_child(random_static_index).play()
+		"heartbeat":
+			$Sounds/Heartbeat.play()
+		# bursting
+		"hit_stray":
+			$Sounds/Burst/HitStray.play()
+		"hit_wall":
+			$Sounds/Burst/HitWall.play()
+			$Sounds/Burst/HitDizzy.play()
+		"burst":
+			yield(get_tree().create_timer(0.1), "timeout")
+			$Sounds/Burst/Burst.play()
+			$Sounds/Burst/BurstLaser.play()
+		"burst_cocking":
+			if $Sounds/Burst/BurstCocking.is_playing():
+				return
+			$Sounds/Burst/BurstCocking.play()
+		"burst_stop":
+			$Sounds/Burst/BurstStop.play()
+		# skills
+		"pull":
+			$Sounds/Skills/PushPull.play()
+		"pulled":
+			$Sounds/Skills/PushedPulled.play()
+			$Sounds/Skills/PullStoneSlide.play()
+		"push":
+			$Sounds/Skills/PushPull.play()
+		"pushed":
+			$Sounds/Skills/PushedPulled.play()
+			$Sounds/Skills/PushStoneSlide.play()
+		"teleport":
+			$Sounds/Skills/TeleportIn.play()
 
 
-func play_heartbeat_sound(): 
-	# kličem iz animacije
-	Global.sound_manager.play_sfx("heartbeat")
+func stop_sound(stop_effect_for: String):
+	
+	match stop_effect_for:
+		"teleport":
+			if $Sounds/Skills/TeleportLoop.is_playing(): # konec teleportanja
+				$Sounds/Skills/TeleportLoop.stop()
+				$Sounds/Skills/TeleportOut.play()
+			else: # zazih ob koncu igre
+				$Sounds/Skills/TeleportLoop.stop()
+		"burst_cocking":
+			$Sounds/Burst/BurstCocking.stop()
+		"heartbeat":
+			$Sounds/Heartbeat.stop()
 
 
 # SIGNALI ------------------------------------------------------------------------------------------
@@ -935,7 +1004,7 @@ func play_heartbeat_sound():
 		
 func _on_ghost_target_reached(ghost_body: Area2D, ghost_position: Vector2):
 	
-	Global.sound_manager.stop_sfx("teleport")
+	stop_sound("teleport")
 	Input.stop_joy_vibration(0)
 			
 	var ghost_fade_time: float = 0.5
@@ -953,15 +1022,21 @@ func _on_ghost_target_reached(ghost_body: Area2D, ghost_position: Vector2):
 	# zaključek
 #	teleport_tween.tween_property(ghost_body, "modulate:a", 0, 0)
 	teleport_tween.tween_callback(ghost_body, "queue_free")
-	teleport_tween.tween_callback(self, "change_stat", ["skill_used", 3]) # štetje, točke in energija kot je določeno v settingsih
+	# teleport_tween.tween_callback(self, "change_stat", ["skill_used", 3]) # štetje, točke in energija kot je določeno v settingsih
+	
+	change_stat("skill_used", 3) # zazih ni v tweenu
 	
 
 func _on_ghost_detected_body(body: Node2D):
 	
 	if body != self:
 		cocking_room = false
-		Global.sound_manager.play_sfx("burst_limit")
 		
+
+func _on_TeleportIn_finished() -> void:
+	
+	$Sounds/Skills/TeleportLoop.play()
+
 
 func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	
@@ -1084,3 +1159,5 @@ func change_stat(stat_event: String, stat_value):
 	
 	# signal na hud
 	emit_signal("stat_changed", self, player_stats) # javi v hud
+
+

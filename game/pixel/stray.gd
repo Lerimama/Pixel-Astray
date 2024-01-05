@@ -4,8 +4,7 @@ enum States {IDLE, MOVING, STATIC} # static, unmovable
 var current_state # = States.IDLE
 
 var stray_color: Color
-#var neighboring_cells: Array = []
-var is_stepping: bool = false
+var step_attempt: int = 1 # če nima prostora, proba v drugo smer (največ 4krat)
 
 onready var extended_shape: CollisionShape2D = $CollisionShapeExt
 onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
@@ -37,15 +36,15 @@ func show(): # kliče GM
 	var random_animation_name: String = "glitch_%s" % random_animation_index
 	animation_player.play(random_animation_name)
 
-var step_try: int = 1
+
 func step(step_direction: Vector2):
 	
 	if not current_state == States.IDLE:
 		return
 	
 	if detect_collision_in_direction(step_direction): # če kolajda izbrani smeri gibanja zarotira smer za 90 in poskusi znova
-		step_try += 1
-		if step_try < 5:
+		step_attempt += 1
+		if step_attempt < 5:
 			var new_direction = step_direction.rotated(deg2rad(90))
 			step(new_direction)
 		return
@@ -96,9 +95,20 @@ func die(stray_in_stack_index: int, strays_in_stack: int):
 # UTILITI ------------------------------------------------------------------------------------------------------
 
 
-func play_blinking_sound():
+func play_sound(effect_for: String):
 	
-	Global.sound_manager.play_sfx("blinking")
+	if Global.sound_manager.game_sfx_set_to_off:
+		return
+		
+	match effect_for:
+		"blinking":
+			var random_blink_index = randi() % $Sounds/Blinking.get_child_count()
+			$Sounds/Blinking.get_child(random_blink_index).play() # nekateri so na mute, ker so drugače prepogosti soundi
+			var random_static_index = randi() % $Sounds/BlinkingStatic.get_child_count()
+			$Sounds/BlinkingStatic.get_child(random_static_index).play()
+		"stepping":
+			var random_step_index = randi() % $Sounds/Stepping.get_child_count()
+			var selected_step_sound = $Sounds/Stepping.get_child(random_step_index).play()
 
 
 func check_for_neighbors(): # kliče player on hit

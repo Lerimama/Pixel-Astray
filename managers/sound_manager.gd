@@ -21,7 +21,7 @@ func _ready() -> void:
 # SFX --------------------------------------------------------------------------------------------------------
 
 	
-func play_stepping_sfx(current_player_energy_part: float):
+func play_stepping_sfx(current_player_energy_part: float): # za intro
 
 		if game_sfx_set_to_off:
 			return		
@@ -36,55 +36,26 @@ func play_sfx(effect_for: String):
 	if game_sfx_set_to_off:
 		return	
 		
-	# če zvoka ni tukaj, pomeni da ga kličem direktno
 	match effect_for:
-		"blinking":
+		"blinking": # GM na strays spawn
 			select_random_sfx($GameSfx/Blinking).play() # nekateri so na mute, ker so drugače prepogosti soundi
 			select_random_sfx($GameSfx/BlinkingStatic).play()
-		"heartbeat":
-			$GameSfx/Heartbeat.play()
-		# bursting
-		"hit_stray":
-			$GameSfx/Burst/HitStray.play()
-		"hit_wall":
-			$GameSfx/Burst/HitWall.play()
-			$GameSfx/Burst/HitDizzy.play()
-		"burst":
-			yield(get_tree().create_timer(0.1), "timeout")
-			$GameSfx/Burst/Burst.play()
-			$GameSfx/Burst/BurstLaser.play()
-		"burst_cocking":
-			if $GameSfx/Burst/BurstCocking.is_playing():
-				return
-			$GameSfx/Burst/BurstCocking.play()
-		"burst_stop":
-			$GameSfx/Burst/BurstStop.play()
-		# skills
-		"pull":
-			$GameSfx/Skills/PushPull.play()
-		"pulled":
-			$GameSfx/Skills/PushedPulled.play()
-			$GameSfx/Skills/PullStoneSlide.play()
-		"push":
-			$GameSfx/Skills/PushPull.play()
-		"pushed":
-			$GameSfx/Skills/PushedPulled.play()
-			$GameSfx/Skills/PushStoneSlide.play()
-		"teleport":
-			$GameSfx/Skills/TeleportIn.play()
-		# intro
-		"thunder_strike":
-			$GameSfx/Burst/Burst.play()
+		"thunder_strike": # intro in GM na strays spawn
+			$GameSfx/Burst.play()
 			
 			
 func play_gui_sfx(effect_for: String):
 	
 	match effect_for:
 		# events
-		"countdown_a":
-			$GuiSfx/Events/CoundownA.play()
-		"countdown_b":
-			$GuiSfx/Events/CoundownB.play()
+		"start_countdown_a":
+			$GuiSfx/Events/StartCoundownA.play()
+		"start_countdown_b":
+			$GuiSfx/Events/StartCoundownB.play()
+		"game_countdown_a":
+			$GuiSfx/Events/GameCoundownA.play()
+		"game_countdown_b":
+			$GuiSfx/Events/GameCoundownB.play()
 		"win_jingle":
 			$GuiSfx/Events/Win.play()
 		"lose_jingle":
@@ -108,25 +79,6 @@ func play_gui_sfx(effect_for: String):
 		"screen_slide":
 			$GuiSfx/ScreenSlide.play()
 		
-		
-func stop_sfx(sfx_to_stop: String):
-	
-	match sfx_to_stop:
-		"teleport":
-			if $GameSfx/Skills/TeleportLoop.is_playing(): # konec teleportanja
-				$GameSfx/Skills/TeleportLoop.stop()
-				$GameSfx/Skills/TeleportOut.play()
-			else: # zazih ob koncu igre
-				$GameSfx/Skills/TeleportLoop.stop()
-		"burst_cocking":
-			$GameSfx/Burst/BurstCocking.stop()
-		"heartbeat":
-			$GameSfx/Heartbeat.stop()
-		"lose_jingle": 
-			$GuiSfx/Events/Loose.stop()
-		"win_jingle":
-			$GuiSfx/Events/Win.stop()
-	
 
 func select_random_sfx(sound_group: Node2D):
 	
@@ -135,17 +87,13 @@ func select_random_sfx(sound_group: Node2D):
 	
 	return selected_sound
 	
-	
-func _on_TeleportStart_finished() -> void:
-	$GameSfx/Skills/TeleportLoop.play()
-	
 		
 # MUSKA --------------------------------------------------------------------------------------------------------
 		
 
 func play_music(music_for: String):
 	
-	return
+#	return
 	match music_for:
 		"menu_music":
 			if menu_music_set_to_off:
@@ -166,19 +114,10 @@ func stop_music(music_to_stop: String):
 		
 		"menu_music":
 			menu_music.stop()
-			
-			# fejdout
-			# var fade_out = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT)	
-			# fade_out.tween_property(menu_music, "volume_db", -80, 0.5)
-			# fade_out.tween_callback(menu_music, "stop")
-			# volume reset
-			# fade_out.tween_property(menu_music, "volume_db", menu_music_volume_on_node, 0.5)
-			
 		"game_music":
 			for music in game_music.get_children():
 				if music.is_playing():
 					music.stop()
-		
 		"game_music_on_gameover":
 			for music in game_music.get_children():
 				if music.is_playing():

@@ -125,48 +125,48 @@ func color_scheme_selector(pressed_btn_name: String):
 func _on_ColorBtn_toggled(button_pressed: bool) -> void:
 	Profiles.current_color_scheme = Profiles.game_color_schemes["default_color_scheme"]
 	color_scheme_selector("ColorBtn")
-	intro.reset_stray_colors()
+	intro.respawn_strays()
 
 	
 func _on_ColorBtn2_toggled(button_pressed: bool) -> void:
 	Profiles.current_color_scheme = Profiles.game_color_schemes["color_scheme_2"]
 	color_scheme_selector("ColorBtn2")
-	intro.reset_stray_colors()
+	intro.respawn_strays()
 
 
 func _on_ColorBtn3_toggled(button_pressed: bool) -> void:
 	Profiles.current_color_scheme = Profiles.game_color_schemes["color_scheme_3"]
 	color_scheme_selector("ColorBtn3")
-	intro.reset_stray_colors()
+	intro.respawn_strays()
 
 
 func _on_ColorBtn4_toggled(button_pressed: bool) -> void:
 	Profiles.current_color_scheme = Profiles.game_color_schemes["color_scheme_4"]
 	color_scheme_selector("ColorBtn4")
-	intro.reset_stray_colors()
+	intro.respawn_strays()
 
 
 func _on_ColorBtn5_toggled(button_pressed: bool) -> void:
 	Profiles.current_color_scheme = Profiles.game_color_schemes["color_scheme_5"]
 	color_scheme_selector("ColorBtn5")
-	intro.reset_stray_colors()
+	intro.respawn_strays()
 
 
 func _on_ColorBtn6_toggled(button_pressed: bool) -> void:
 	Profiles.current_color_scheme = Profiles.game_color_schemes["color_scheme_6"]
 	color_scheme_selector("ColorBtn6")
-	intro.reset_stray_colors()
+	intro.respawn_strays()
 
 
 func _on_ColorBtn7_toggled(button_pressed: bool) -> void:
 	Profiles.current_color_scheme = Profiles.game_color_schemes["color_scheme_7"]
 	color_scheme_selector("ColorBtn7")
-	intro.reset_stray_colors()
+	intro.respawn_strays()
 
 
 func _on_ColorBtn8_toggled(button_pressed: bool) -> void:
 	Profiles.current_color_scheme = Profiles.game_color_schemes["color_scheme_8"]
 	color_scheme_selector("ColorBtn8")
-	intro.reset_stray_colors()
+	intro.respawn_strays()
 
 

@@ -19,6 +19,7 @@ var strays_cleaned_count: int # za statistiko na hudu
 var all_strays_died_alowed: bool = false # za omejevnje signala iz FP
 
 # tilemap data
+var cell_size_x: int # napolne se na koncu setanju tilemapa
 var random_spawn_positions: Array
 var required_spawn_positions: Array
 
@@ -80,7 +81,8 @@ func start_game():
 		
 		game_on = true
 		
-		random_stray_step()
+		if game_settings["stray_step_mode"]:
+			random_stray_step()
 
 	
 func game_over(gameover_reason: int):
@@ -132,6 +134,7 @@ func set_tilemap():
 	
 	# grab tilemap tiles
 	Global.current_tilemap.get_tiles()
+	cell_size_x = Global.current_tilemap.cell_size.x 
 
 	
 func set_game_view():
@@ -142,7 +145,7 @@ func set_game_view():
 	var viewport_container_2: ViewportContainer = $"%ViewportContainer2"
 	var viewport_separator: VSeparator = $"%ViewportSeparator"
 	
-	var cell_align_start: Vector2 = Vector2(Global.current_tilemap.cell_size.x, Global.current_tilemap.cell_size.y/2)
+	var cell_align_start: Vector2 = Vector2(cell_size_x, cell_size_x/2)
 	Global.player1_camera.position = player_start_positions[0] + cell_align_start
 	
 	if start_players_count == 2:
@@ -155,7 +158,6 @@ func set_game_view():
 	
 	# set player camera limits
 	var tilemap_edge = Global.current_tilemap.get_used_rect()
-	var tilemap_cell_size = Global.current_tilemap.cell_size
 	
 	# minimap
 	var minimap_container: ViewportContainer = $"../Minimap"
@@ -165,7 +167,7 @@ func set_game_view():
 		minimap_container.visible = true
 		minimap_viewport.world_2d = viewport_1.world_2d
 		minimap_viewport.size.y = minimap_viewport.size.x * tilemap_edge.size.y / tilemap_edge.size.x # višina minimape v razmerju s formatom tilemapa
-		minimap_camera.set_camera(tilemap_edge, tilemap_cell_size, minimap_viewport.size)
+		minimap_camera.set_camera(tilemap_edge, cell_size_x, minimap_viewport.size)
 	else:
 		minimap_container.visible = false
 	
@@ -178,7 +180,7 @@ func set_players():
 		# spawn
 		var new_player_pixel = PlayerPixel.instance()
 		new_player_pixel.name = "p%s" % str(spawned_player_index)
-		new_player_pixel.global_position = player_position + Global.current_tilemap.cell_size/2 # ... ne rabim snepat ker se v pixlu na ready funkciji
+		new_player_pixel.global_position = player_position + Vector2(cell_size_x/2, cell_size_x/2) # ... ne rabim snepat ker se v pixlu na ready funkciji
 		new_player_pixel.modulate = Global.color_white
 		new_player_pixel.z_index = 1 # nižje od straysa
 		Global.node_creation_parent.add_child(new_player_pixel)
@@ -286,7 +288,7 @@ func spawn_strays(strays_to_spawn_count: int):
 		var new_stray_pixel = StrayPixel.instance()
 		new_stray_pixel.name = "S%s" % str(stray_index)
 		new_stray_pixel.stray_color = current_color
-		new_stray_pixel.global_position = selected_position + Global.current_tilemap.cell_size/2 # dodana adaptacija zaradi središča pixla
+		new_stray_pixel.global_position = selected_position + Vector2(cell_size_x/2, cell_size_x/2) # dodana adaptacija zaradi središča pixla
 		new_stray_pixel.z_index = 2 # višje od plejerja
 		Global.node_creation_parent.add_child(new_stray_pixel)
 		
@@ -359,8 +361,8 @@ func random_stray_step():
 	stray_to_move.step(stepping_direction)
 	
 	# next step random time
-	var random_pause_time_divisor: float = randi() % int(5) + 1 # višji offset da manjši razpon v random času, +1 je da ni 0
-	var random_pause_time = 0.2 / random_pause_time_divisor
+	var random_pause_time_divider: float = randi() % int(game_settings["random_pause_time_divider_range"]) + 1 # višji offset da manjši razpon v random času, +1 je da ni 0
+	var random_pause_time = game_settings["pause_time"] / random_pause_time_divider
 	yield(get_tree().create_timer(random_pause_time), "timeout")
 	
 	if game_on:
@@ -371,9 +373,12 @@ func stop_game_elements():
 	
 	# včasih nujno
 	Global.hud.popups_out()
-	Global.sound_manager.stop_sfx("teleport")
-	Global.sound_manager.stop_sfx("heartbeat")
 	get_tree().call_group(Global.group_players, "empty_cocking_ghosts")
+	for player in get_tree().get_nodes_in_group(Global.group_players):
+		player.stop_sound("teleport")
+		player.stop_sound("heartbeat")
+	for stray in get_tree().get_nodes_in_group(Global.group_strays):
+		stray.current_state = stray.States.STATIC
 
 	
 func _change_strays_in_game_count(strays_count_change: int):

@@ -34,7 +34,7 @@ onready var StrayPixel = preload("res://game/pixel/stray.tscn")
 func _input(event: InputEvent) -> void:
 	
 	if Input.is_action_just_pressed("ui_accept") and skip_intro.visible:
-		end_intro()
+		finish_intro()
 		
 		
 func _ready() -> void:
@@ -56,7 +56,7 @@ func play_intro():
 	animation_player.play("intro_running")
 	
 	
-func end_intro():
+func finish_intro(): # ob skipanju in regularnem koncu intra
 	
 	# vse pospravim ... zazih
 	animation_player.stop()
@@ -224,12 +224,12 @@ func random_stray_step():
 		stray_to_move.step(stepping_direction)
 	
 	# next step random time
-	var random_pause_time_divisor: float = randi() % int(5) + 1 # višji offset da manjši razpon v random času
-	var random_pause_time = 0.2 / random_pause_time_divisor
+	var random_pause_time_divider: float = randi() % int(5) + 1 # višji offset da manjši razpon v random času
+	var random_pause_time = 0.2 / random_pause_time_divider
 	stray_step_timer.start(random_pause_time)
 	
 
-func reset_stray_colors():
+func respawn_strays():
 	
 	stray_step_timer.stop()
 	for stray in get_tree().get_nodes_in_group(Global.group_strays):
@@ -263,7 +263,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 		"intro_running": 
 			animation_player.play("intro_explode")
 		"intro_explode":
-			end_intro()
+			finish_intro()
 
 
 func _on_StrayStepTimer_timeout() -> void:

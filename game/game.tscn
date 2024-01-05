@@ -313,7 +313,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 0.6, 0.8, 1.5, 1.6, 1.7, 1.8, 2.5, 2.6, 2.7, 2.8, 3.5, 3.6, 3.72, 3.82 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 0.368627, 1, 0.662745, 0 ), Color( 0.368627, 1, 0.662745, 1 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 0.368627, 1, 0.662745, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("Countdown/label:modulate:a")
@@ -334,7 +334,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0.8, 1.8, 2.8, 3.8 ),
+"times": PoolRealArray( 0.8, 1.8, 2.8, 3.82 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "values": [ {
 "args": [  ],
@@ -389,7 +389,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 0.6, 0.8, 1.5, 1.6, 1.7, 1.8, 2.5, 2.6, 2.7, 2.8, 3.5, 3.6, 3.7, 3.8, 4.5, 4.6, 4.7, 4.8, 5.5, 5.6, 5.72, 5.82 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 0.368627, 1, 0.662745, 0 ), Color( 0.368627, 1, 0.662745, 1 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 0.368627, 1, 0.662745, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("Countdown/label:modulate:a")
@@ -1594,8 +1594,6 @@ custom_fonts/font = ExtResource( 23 )
 text = "to start"
 
 [node name="GameCountdown" type="Control" parent="GUI/Hud/Popups"]
-visible = false
-modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 720 )
@@ -1612,9 +1610,9 @@ color = Color( 0, 0, 0, 0.54902 )
 
 [node name="Countdown" type="VBoxContainer" parent="GUI/Hud/Popups/GameCountdown"]
 margin_left = 511.0
-margin_top = 263.0
+margin_top = 237.0
 margin_right = 771.0
-margin_bottom = 289.0
+margin_bottom = 263.0
 custom_constants/separation = 0
 
 [node name="label" type="Label" parent="GUI/Hud/Popups/GameCountdown/Countdown"]
@@ -1631,7 +1629,6 @@ __meta__ = {
 }
 
 [node name="PositionControl" type="Control" parent="GUI/Hud/Popups/GameCountdown/Countdown"]
-modulate = Color( 1, 1, 1, 0 )
 margin_right = 260.0
 margin_bottom = 26.0
 size_flags_vertical = 3
@@ -1920,8 +1917,8 @@ __meta__ = {
 
 [node name="SkillHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineL"]
 visible = false
-margin_left = 272.0
-margin_right = 310.0
+margin_left = 326.0
+margin_right = 364.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
@@ -1947,8 +1944,8 @@ __meta__ = {
 
 [node name="BurstHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineL"]
 visible = false
-margin_left = 272.0
-margin_right = 310.0
+margin_left = 380.0
+margin_right = 418.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
@@ -2062,8 +2059,8 @@ align = 2
 
 [node name="PlayerLineR" type="HBoxContainer" parent="GUI/Hud/Header/TopLineR"]
 visible = false
-margin_left = 50.0
-margin_right = 544.0
+margin_left = 256.0
+margin_right = 556.0
 margin_bottom = 22.0
 grow_horizontal = 0
 size_flags_horizontal = 11
@@ -2074,8 +2071,7 @@ __meta__ = {
 }
 
 [node name="PointsHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineR/PlayerLineR"]
-margin_left = 194.0
-margin_right = 232.0
+margin_right = 38.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 22 )
 size_flags_vertical = 8
@@ -2101,8 +2097,8 @@ __meta__ = {
 }
 
 [node name="ColorHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineR/PlayerLineR"]
-margin_left = 248.0
-margin_right = 286.0
+margin_left = 54.0
+margin_right = 92.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
@@ -2208,17 +2204,17 @@ __meta__ = {
 }
 
 [node name="VSeparator" type="VSeparator" parent="GUI/Hud/Header/TopLineR/PlayerLineR"]
-margin_left = 302.0
-margin_right = 302.0
+margin_left = 108.0
+margin_right = 108.0
 margin_bottom = 22.0
 size_flags_vertical = 3
 custom_constants/separation = 0
 custom_styles/separator = SubResource( 248 )
 
 [node name="EnergyBar" type="HBoxContainer" parent="GUI/Hud/Header/TopLineR/PlayerLineR"]
-margin_left = 318.0
+margin_left = 124.0
 margin_top = 3.0
-margin_right = 382.0
+margin_right = 188.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 19 )
 size_flags_vertical = 8
@@ -2246,9 +2242,9 @@ texture_over = SubResource( 126 )
 texture_progress = SubResource( 132 )
 
 [node name="LifeIcons" type="HBoxContainer" parent="GUI/Hud/Header/TopLineR/PlayerLineR"]
-margin_left = 398.0
+margin_left = 204.0
 margin_top = 3.0
-margin_right = 450.0
+margin_right = 256.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 19 )
 size_flags_vertical = 8
@@ -2309,8 +2305,8 @@ margin_bottom = 16.0
 texture = SubResource( 123 )
 
 [node name="PlayerLabel" type="Label" parent="GUI/Hud/Header/TopLineR/PlayerLineR"]
-margin_left = 466.0
-margin_right = 494.0
+margin_left = 272.0
+margin_right = 300.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
@@ -2463,6 +2459,7 @@ __meta__ = {
 }
 
 [node name="Tutorial" type="Control" parent="GUI"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 720 )
@@ -3272,9 +3269,9 @@ expand = true
 [node name="InfoPanel" type="Control" parent="GUI/Tutorial"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = 24.0
+margin_left = 1304.0
 margin_top = 80.0
-margin_right = 344.0
+margin_right = 1624.0
 margin_bottom = 647.0
 theme = SubResource( 194 )
 
@@ -3656,10 +3653,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -223.0
-margin_top = -40.0
-margin_right = 225.0
-margin_bottom = 248.0
+margin_left = 417.0
+margin_top = 320.0
+margin_right = 865.0
+margin_bottom = 608.0
 theme = SubResource( 194 )
 __meta__ = {
 "_edit_group_": true
@@ -4262,6 +4259,7 @@ margin_bottom = 22.0
 focus_neighbour_left = NodePath("../../Settings/GameMusicSlider")
 focus_neighbour_top = NodePath("../../Settings/GameMusicSlider")
 focus_neighbour_right = NodePath("../RestartBtn")
+mouse_default_cursor_shape = 2
 size_flags_vertical = 0
 text = "QUIT"
 
@@ -4272,6 +4270,7 @@ margin_bottom = 22.0
 focus_neighbour_left = NodePath("../QuitBtn")
 focus_neighbour_top = NodePath("../../Settings/GameMusicSlider")
 focus_neighbour_right = NodePath("../PlayBtn")
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 6
 size_flags_vertical = 0
 text = "RESTART"
@@ -4283,6 +4282,7 @@ margin_bottom = 22.0
 focus_neighbour_left = NodePath("../RestartBtn")
 focus_neighbour_top = NodePath("../../Settings/GameMusicSlider")
 focus_neighbour_right = NodePath("../../Settings/GameMusicSlider")
+mouse_default_cursor_shape = 2
 size_flags_vertical = 0
 text = "PLAY ON"
 
@@ -4368,6 +4368,7 @@ __meta__ = {
 margin_right = 52.0
 margin_bottom = 22.0
 focus_neighbour_right = NodePath("../RestartBtn")
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 2
 size_flags_vertical = 8
 theme = SubResource( 194 )
@@ -4378,6 +4379,7 @@ margin_left = 84.0
 margin_right = 220.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../QuitBtn")
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 theme = SubResource( 194 )
@@ -4500,6 +4502,7 @@ __meta__ = {
 margin_right = 52.0
 margin_bottom = 22.0
 focus_neighbour_right = NodePath("../RestartBtn")
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 2
 size_flags_vertical = 8
 text = "QUIT"
@@ -4509,6 +4512,7 @@ margin_left = 84.0
 margin_right = 186.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../QuitBtn")
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 text = "REMATCH"
@@ -4647,6 +4651,7 @@ __meta__ = {
 margin_right = 202.0
 margin_bottom = 22.0
 focus_neighbour_right = NodePath("../RestartBtn")
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 2
 size_flags_vertical = 8
 text = "TRY A REAL GAME"
@@ -4656,6 +4661,7 @@ margin_left = 234.0
 margin_right = 380.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../QuitBtn")
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 text = "LEARN AGAIN"
@@ -4919,6 +4925,7 @@ __meta__ = {
 margin_right = 52.0
 margin_bottom = 22.0
 focus_neighbour_right = NodePath("../RestartBtn")
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 2
 size_flags_vertical = 8
 text = "QUIT"
@@ -4928,6 +4935,7 @@ margin_left = 84.0
 margin_right = 216.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../QuitBtn")
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 text = "PLAY AGAIN"
@@ -5419,6 +5427,7 @@ __meta__ = {
 margin_right = 52.0
 margin_bottom = 22.0
 focus_neighbour_right = NodePath("../RestartBtn")
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 2
 size_flags_vertical = 8
 text = "QUIT"
@@ -5428,6 +5437,7 @@ margin_left = 84.0
 margin_right = 216.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../QuitBtn")
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 text = "PLAY AGAIN"
@@ -5502,6 +5512,7 @@ margin_bottom = 22.0
 focus_neighbour_top = NodePath("../../NameInput")
 focus_neighbour_right = NodePath("../ConfirmBtn")
 focus_next = NodePath("../../NameInput")
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 2
 text = "SKIP"
 align = 0
@@ -5513,6 +5524,7 @@ margin_bottom = 22.0
 focus_neighbour_left = NodePath("../CancelBtn")
 focus_neighbour_top = NodePath("../../NameInput")
 focus_next = NodePath("../CancelBtn")
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 9
 size_flags_vertical = 9
 text = "CONFIRM"

@@ -96,26 +96,26 @@ audio_stream = ExtResource( 14 )
 [sub_resource type="AudioStreamRandomPitch" id=11]
 audio_stream = ExtResource( 8 )
 
-[sub_resource type="AudioStreamRandomPitch" id=31]
-audio_stream = ExtResource( 47 )
-random_pitch = 1.2
-
 [sub_resource type="AudioStreamRandomPitch" id=24]
 audio_stream = ExtResource( 11 )
 random_pitch = 1.05
+
+[sub_resource type="AudioStreamRandomPitch" id=33]
+audio_stream = ExtResource( 45 )
+
+[sub_resource type="AudioStreamRandomPitch" id=1]
+audio_stream = ExtResource( 30 )
+random_pitch = 1.2
+
+[sub_resource type="AudioStreamRandomPitch" id=31]
+audio_stream = ExtResource( 47 )
+random_pitch = 1.2
 
 [sub_resource type="AudioStreamRandomPitch" id=16]
 audio_stream = ExtResource( 65 )
 
 [sub_resource type="AudioStreamRandomPitch" id=17]
 audio_stream = ExtResource( 36 )
-
-[sub_resource type="AudioStreamRandomPitch" id=1]
-audio_stream = ExtResource( 30 )
-random_pitch = 1.2
-
-[sub_resource type="AudioStreamRandomPitch" id=33]
-audio_stream = ExtResource( 45 )
 
 [node name="Main" type="Node"]
 script = ExtResource( 26 )
@@ -230,92 +230,9 @@ stream = SubResource( 11 )
 pitch_scale = 1.2
 bus = "GameSfx"
 
-[node name="Burst" type="Node2D" parent="SoundManager/GameSfx"]
-
-[node name="BurstLaser" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Burst"]
-stream = SubResource( 31 )
-volume_db = -30.0
-pitch_scale = 0.8
-bus = "GameSfx"
-
-[node name="BurstStop" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Burst"]
-stream = ExtResource( 44 )
-volume_db = 10.0
-bus = "GameSfx"
-
-[node name="Burst" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Burst"]
+[node name="Burst" type="AudioStreamPlayer" parent="SoundManager/GameSfx"]
 stream = SubResource( 24 )
 volume_db = -10.0
-bus = "GameSfx"
-
-[node name="BurstCocking" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Burst"]
-stream = ExtResource( 12 )
-volume_db = -15.0
-bus = "GameSfx"
-
-[node name="HitStray" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Burst"]
-stream = SubResource( 16 )
-volume_db = -5.0
-pitch_scale = 0.9
-bus = "GameSfx"
-
-[node name="HitWall" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Burst"]
-stream = SubResource( 17 )
-volume_db = -7.0
-pitch_scale = 0.9
-bus = "GameSfx"
-
-[node name="HitDizzy" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Burst"]
-stream = ExtResource( 33 )
-volume_db = -20.0
-bus = "GameSfx"
-
-[node name="Skills" type="Node2D" parent="SoundManager/GameSfx"]
-
-[node name="TeleportIn" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
-stream = ExtResource( 48 )
-volume_db = -10.0
-bus = "GameSfx"
-
-[node name="TeleportLoop" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
-stream = ExtResource( 20 )
-volume_db = -10.0
-bus = "GameSfx"
-
-[node name="TeleportOut" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
-stream = ExtResource( 18 )
-volume_db = -10.0
-bus = "GameSfx"
-
-[node name="PushPull" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
-stream = SubResource( 1 )
-volume_db = -10.0
-bus = "GameSfx"
-
-[node name="PushedPulled" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
-stream = SubResource( 1 )
-volume_db = -5.0
-pitch_scale = 0.7
-bus = "GameSfx"
-
-[node name="PushStoneSlide" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
-stream = ExtResource( 60 )
-volume_db = -15.0
-bus = "GameSfx"
-
-[node name="PullStoneSlide" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
-stream = ExtResource( 9 )
-volume_db = -5.0
-bus = "GameSfx"
-
-[node name="SkilledStatic" type="AudioStreamPlayer" parent="SoundManager/GameSfx/Skills"]
-stream = ExtResource( 2 )
-volume_db = -25.0
-bus = "GameSfx"
-
-[node name="Heartbeat" type="AudioStreamPlayer" parent="SoundManager/GameSfx"]
-stream = ExtResource( 58 )
-pitch_scale = 1.1
 bus = "GameSfx"
 
 [node name="GuiSfx" type="Node2D" parent="SoundManager"]
@@ -376,12 +293,24 @@ stream = ExtResource( 57 )
 volume_db = -5.0
 bus = "GameSfx"
 
-[node name="CoundownA" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Events"]
+[node name="GameCoundownA" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Events"]
+stream = ExtResource( 22 )
+volume_db = -25.0
+pitch_scale = 0.8
+bus = "GameSfx"
+
+[node name="GameCoundownB" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Events"]
+stream = ExtResource( 59 )
+volume_db = -15.0
+pitch_scale = 0.7
+bus = "GameSfx"
+
+[node name="StartCoundownA" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Events"]
 stream = ExtResource( 22 )
 volume_db = -25.0
 bus = "GameSfx"
 
-[node name="CoundownB" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Events"]
+[node name="StartCoundownB" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Events"]
 stream = ExtResource( 59 )
 volume_db = -15.0
 bus = "GameSfx"
@@ -491,4 +420,87 @@ volume_db = -10.0
 pitch_scale = 1.1
 bus = "GameSfx"
 
-[connection signal="finished" from="SoundManager/GameSfx/Skills/TeleportIn" to="SoundManager" method="_on_TeleportStart_finished"]
+[node name="_obst" type="Node2D" parent="SoundManager"]
+
+[node name="Heartbeat" type="AudioStreamPlayer" parent="SoundManager/_obst"]
+stream = ExtResource( 58 )
+pitch_scale = 1.1
+bus = "GameSfx"
+
+[node name="Skills" type="Node2D" parent="SoundManager/_obst"]
+
+[node name="TeleportIn" type="AudioStreamPlayer" parent="SoundManager/_obst/Skills"]
+stream = ExtResource( 48 )
+volume_db = -10.0
+bus = "GameSfx"
+
+[node name="TeleportLoop" type="AudioStreamPlayer" parent="SoundManager/_obst/Skills"]
+stream = ExtResource( 20 )
+volume_db = -10.0
+bus = "GameSfx"
+
+[node name="TeleportOut" type="AudioStreamPlayer" parent="SoundManager/_obst/Skills"]
+stream = ExtResource( 18 )
+volume_db = -10.0
+bus = "GameSfx"
+
+[node name="PushPull" type="AudioStreamPlayer" parent="SoundManager/_obst/Skills"]
+stream = SubResource( 1 )
+volume_db = -10.0
+bus = "GameSfx"
+
+[node name="PushedPulled" type="AudioStreamPlayer" parent="SoundManager/_obst/Skills"]
+stream = SubResource( 1 )
+volume_db = -5.0
+pitch_scale = 0.7
+bus = "GameSfx"
+
+[node name="PushStoneSlide" type="AudioStreamPlayer" parent="SoundManager/_obst/Skills"]
+stream = ExtResource( 60 )
+volume_db = -15.0
+bus = "GameSfx"
+
+[node name="PullStoneSlide" type="AudioStreamPlayer" parent="SoundManager/_obst/Skills"]
+stream = ExtResource( 9 )
+volume_db = -5.0
+bus = "GameSfx"
+
+[node name="SkilledStatic" type="AudioStreamPlayer" parent="SoundManager/_obst/Skills"]
+stream = ExtResource( 2 )
+volume_db = -25.0
+bus = "GameSfx"
+
+[node name="Burst" type="Node2D" parent="SoundManager/_obst"]
+
+[node name="BurstLaser" type="AudioStreamPlayer" parent="SoundManager/_obst/Burst"]
+stream = SubResource( 31 )
+volume_db = -30.0
+pitch_scale = 0.8
+bus = "GameSfx"
+
+[node name="BurstStop" type="AudioStreamPlayer" parent="SoundManager/_obst/Burst"]
+stream = ExtResource( 44 )
+volume_db = 10.0
+bus = "GameSfx"
+
+[node name="BurstCocking" type="AudioStreamPlayer" parent="SoundManager/_obst/Burst"]
+stream = ExtResource( 12 )
+volume_db = -15.0
+bus = "GameSfx"
+
+[node name="HitStray" type="AudioStreamPlayer" parent="SoundManager/_obst/Burst"]
+stream = SubResource( 16 )
+volume_db = -5.0
+pitch_scale = 0.9
+bus = "GameSfx"
+
+[node name="HitWall" type="AudioStreamPlayer" parent="SoundManager/_obst/Burst"]
+stream = SubResource( 17 )
+volume_db = -7.0
+pitch_scale = 0.9
+bus = "GameSfx"
+
+[node name="HitDizzy" type="AudioStreamPlayer" parent="SoundManager/_obst/Burst"]
+stream = ExtResource( 33 )
+volume_db = -20.0
+bus = "GameSfx"

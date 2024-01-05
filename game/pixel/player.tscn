@@ -1,10 +1,40 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=59 format=2]
 
 [ext_resource path="res://assets/skill_light.png" type="Texture" id=1]
 [ext_resource path="res://game/pixel/player.gd" type="Script" id=2]
 [ext_resource path="res://assets/burst_light.png" type="Texture" id=3]
 [ext_resource path="res://assets/glow_light.png" type="Texture" id=4]
+[ext_resource path="res://assets/sound/sfx/stepping/step_5.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/sound/sfx/burst/burst_cocking.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/sound/sfx/blinking/blink_static_2.wav" type="AudioStream" id=7]
+[ext_resource path="res://assets/sound/sfx/skills/pull.wav" type="AudioStream" id=8]
+[ext_resource path="res://assets/sound/sfx/blinking/blink_static_5.wav" type="AudioStream" id=9]
 [ext_resource path="res://_obs/v rabi?/pixelrevive.tres" type="Animation" id=10]
+[ext_resource path="res://assets/sound/sfx/skills/skilled_frcer.wav" type="AudioStream" id=11]
+[ext_resource path="res://assets/sound/sfx/burst/hit_stray_v2.wav" type="AudioStream" id=12]
+[ext_resource path="res://assets/sound/sfx/blinking/blink_static_4.wav" type="AudioStream" id=13]
+[ext_resource path="res://assets/sound/sfx/skills/pull_stone_slide.wav" type="AudioStream" id=14]
+[ext_resource path="res://assets/sound/sfx/stepping/step_1.wav" type="AudioStream" id=15]
+[ext_resource path="res://assets/sound/sfx/blinking/blink_2.wav" type="AudioStream" id=16]
+[ext_resource path="res://assets/sound/sfx/blinking/blink_3.wav" type="AudioStream" id=17]
+[ext_resource path="res://assets/sound/sfx/skills/push_stone_slide.wav" type="AudioStream" id=18]
+[ext_resource path="res://assets/sound/sfx/burst/burst.wav" type="AudioStream" id=19]
+[ext_resource path="res://assets/sound/sfx/stepping/step_3.wav" type="AudioStream" id=20]
+[ext_resource path="res://assets/sound/sfx/skills/teleport_in_v2.wav" type="AudioStream" id=21]
+[ext_resource path="res://assets/sound/sfx/blinking/blink_static_1.wav" type="AudioStream" id=22]
+[ext_resource path="res://assets/sound/sfx/blinking/blink_static_3.wav" type="AudioStream" id=23]
+[ext_resource path="res://assets/sound/sfx/burst/hit_wall_dizzy_NFF-dizzyness.wav" type="AudioStream" id=24]
+[ext_resource path="res://assets/sound/sfx/burst/burs_stop_phaser.wav" type="AudioStream" id=25]
+[ext_resource path="res://assets/sound/sfx/skills/teleport_out_v2.wav" type="AudioStream" id=26]
+[ext_resource path="res://assets/sound/sfx/burst/hit_wall.wav" type="AudioStream" id=27]
+[ext_resource path="res://assets/sound/sfx/last_beat.wav" type="AudioStream" id=28]
+[ext_resource path="res://assets/sound/sfx/blinking/blink_4.wav" type="AudioStream" id=29]
+[ext_resource path="res://assets/sound/sfx/blinking/blink_1.wav" type="AudioStream" id=30]
+[ext_resource path="res://assets/sound/sfx/blinking/blink_static_6.wav" type="AudioStream" id=31]
+[ext_resource path="res://assets/sound/sfx/stepping/step_2.wav" type="AudioStream" id=32]
+[ext_resource path="res://assets/sound/sfx/burst/burst_laser_NFF-laser-gun.wav" type="AudioStream" id=33]
+[ext_resource path="res://assets/sound/sfx/skills/teleport_loop_v2.wav" type="AudioStream" id=34]
+[ext_resource path="res://assets/sound/sfx/stepping/step_4.wav" type="AudioStream" id=35]
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 15.99, 15.99 )
@@ -320,7 +350,7 @@ tracks/3/path = NodePath(".")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
-tracks/3/enabled = true
+tracks/3/enabled = false
 tracks/3/keys = {
 "times": PoolRealArray( 0.16, 0.48, 0.7, 0.9, 1.08, 1.24, 1.36 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
@@ -371,6 +401,38 @@ tracks/5/keys = {
 "update": 0,
 "values": [ 1.5, 0.0, 0.2, 0.15, 1.5 ]
 }
+tracks/6/type = "method"
+tracks/6/path = NodePath(".")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0.16, 0.48, 0.7, 0.9, 1.08, 1.24, 1.36 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"values": [ {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+} ]
+}
 
 [sub_resource type="Animation" id=2]
 resource_name = "die_player"
@@ -405,7 +467,7 @@ tracks/2/path = NodePath(".")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
-tracks/2/enabled = true
+tracks/2/enabled = false
 tracks/2/keys = {
 "times": PoolRealArray( 0.12, 0.46, 0.7, 0.808553, 0.9, 0.92, 1.18, 1.24, 1.48, 1.52, 1.84 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
@@ -480,6 +542,50 @@ tracks/5/keys = {
 "update": 1,
 "values": [ true ]
 }
+tracks/6/type = "method"
+tracks/6/path = NodePath(".")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0.12, 0.46, 0.7, 0.81, 0.9, 0.92, 1.18, 1.24, 1.48, 1.52, 1.84 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"values": [ {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+} ]
+}
 
 [sub_resource type="Animation" id=137]
 resource_name = "heartbeat"
@@ -531,8 +637,8 @@ tracks/3/keys = {
 "times": PoolRealArray( 0.06 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
-"args": [  ],
-"method": "play_heartbeat_sound"
+"args": [ "heartbeat" ],
+"method": "play_sound"
 } ]
 }
 tracks/4/type = "value"
@@ -593,7 +699,7 @@ tracks/3/path = NodePath(".")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
-tracks/3/enabled = true
+tracks/3/enabled = false
 tracks/3/keys = {
 "times": PoolRealArray( 0.5, 0.72, 0.92, 1.1, 1.24, 1.34, 1.46, 1.52, 1.62, 1.8, 1.92, 2.02, 2.12, 2.38 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
@@ -660,6 +766,59 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
+"times": PoolRealArray( 0.5, 0.72, 0.92, 1.1, 1.24, 1.34, 1.46, 1.52, 1.62, 1.8, 1.92, 2.02, 2.12, 2.38 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"values": [ {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+}, {
+"args": [ "blinking" ],
+"method": "play_sound"
+} ]
+}
+tracks/6/type = "method"
+tracks/6/path = NodePath(".")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
 "times": PoolRealArray( 1.84 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
@@ -667,18 +826,67 @@ tracks/5/keys = {
 "method": "emit_signal"
 } ]
 }
-tracks/6/type = "value"
-tracks/6/path = NodePath("GlowLight:energy")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
+tracks/7/type = "value"
+tracks/7/path = NodePath("GlowLight:energy")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
 "times": PoolRealArray( 0, 1.08, 1.46, 1.6, 1.74, 1.84, 1.92, 2, 2.06, 2.16, 2.26, 2.36, 2.5 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 1.5, 1.5, 0.8, 0.2, 0.45, 0.0, 0.0, 0.4, 0.0, 0.3, 0.0, 0.2, 0.0 ]
 }
+
+[sub_resource type="AudioStreamRandomPitch" id=146]
+audio_stream = ExtResource( 30 )
+
+[sub_resource type="AudioStreamRandomPitch" id=147]
+audio_stream = ExtResource( 16 )
+random_pitch = 1.0
+
+[sub_resource type="AudioStreamRandomPitch" id=148]
+audio_stream = ExtResource( 17 )
+
+[sub_resource type="AudioStreamRandomPitch" id=149]
+audio_stream = ExtResource( 29 )
+
+[sub_resource type="AudioStreamRandomPitch" id=150]
+audio_stream = ExtResource( 22 )
+
+[sub_resource type="AudioStreamRandomPitch" id=151]
+audio_stream = ExtResource( 7 )
+
+[sub_resource type="AudioStreamRandomPitch" id=152]
+audio_stream = ExtResource( 23 )
+
+[sub_resource type="AudioStreamRandomPitch" id=153]
+audio_stream = ExtResource( 13 )
+
+[sub_resource type="AudioStreamRandomPitch" id=154]
+audio_stream = ExtResource( 9 )
+
+[sub_resource type="AudioStreamRandomPitch" id=155]
+audio_stream = ExtResource( 31 )
+
+[sub_resource type="AudioStreamRandomPitch" id=156]
+audio_stream = ExtResource( 33 )
+random_pitch = 1.2
+
+[sub_resource type="AudioStreamRandomPitch" id=157]
+audio_stream = ExtResource( 19 )
+random_pitch = 1.05
+
+[sub_resource type="AudioStreamRandomPitch" id=158]
+audio_stream = ExtResource( 12 )
+
+[sub_resource type="AudioStreamRandomPitch" id=159]
+audio_stream = ExtResource( 27 )
+
+[sub_resource type="AudioStreamRandomPitch" id=160]
+audio_stream = ExtResource( 8 )
+random_pitch = 1.2
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 2 )
@@ -689,7 +897,7 @@ position = Vector2( 7.62939e-06, -9.53674e-06 )
 scale = Vector2( 0.75, 0.75 )
 z_index = -1
 texture = ExtResource( 4 )
-color = Color( 0.980392, 0.980392, 0.980392, 1 )
+color = Color( 0.599482, 0.992601, 0.782612, 1 )
 energy = 1.5
 range_z_min = -2
 range_z_max = -1
@@ -704,7 +912,6 @@ shape = SubResource( 4 )
 
 [node name="CollisionShapeExt" type="CollisionShape2D" parent="."]
 shape = SubResource( 4 )
-disabled = true
 
 [node name="Vision" type="Node2D" parent="."]
 
@@ -752,4 +959,191 @@ anims/heartbeat = SubResource( 137 )
 anims/lose_white_on_start = SubResource( 144 )
 anims/revive = ExtResource( 10 )
 
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="Stepping" type="Node2D" parent="Sounds"]
+
+[node name="Step1" type="AudioStreamPlayer" parent="Sounds/Stepping"]
+stream = ExtResource( 15 )
+volume_db = -10.0
+pitch_scale = 1.1
+bus = "GameSfx"
+
+[node name="Step2" type="AudioStreamPlayer" parent="Sounds/Stepping"]
+stream = ExtResource( 32 )
+volume_db = -10.0
+pitch_scale = 1.1
+bus = "GameSfx"
+
+[node name="Step4" type="AudioStreamPlayer" parent="Sounds/Stepping"]
+stream = ExtResource( 35 )
+volume_db = -10.0
+pitch_scale = 1.1
+bus = "GameSfx"
+
+[node name="Step5" type="AudioStreamPlayer" parent="Sounds/Stepping"]
+stream = ExtResource( 5 )
+volume_db = -10.0
+pitch_scale = 1.1
+bus = "GameSfx"
+
+[node name="Step3" type="AudioStreamPlayer" parent="Sounds/Stepping"]
+stream = ExtResource( 20 )
+volume_db = -10.0
+pitch_scale = 1.1
+bus = "GameSfx"
+
+[node name="Blinking" type="Node2D" parent="Sounds"]
+
+[node name="Blink1" type="AudioStreamPlayer" parent="Sounds/Blinking"]
+stream = SubResource( 146 )
+volume_db = -15.0
+bus = "GameSfx"
+
+[node name="Blink2" type="AudioStreamPlayer" parent="Sounds/Blinking"]
+stream = SubResource( 147 )
+volume_db = -15.0
+bus = "GameSfx"
+
+[node name="Blink3" type="AudioStreamPlayer" parent="Sounds/Blinking"]
+stream = SubResource( 148 )
+volume_db = -15.0
+bus = "GameSfx"
+
+[node name="Blink4_mute" type="AudioStreamPlayer" parent="Sounds/Blinking"]
+stream = SubResource( 149 )
+volume_db = -80.0
+bus = "GameSfx"
+
+[node name="Blink5_mute" type="AudioStreamPlayer" parent="Sounds/Blinking"]
+stream = SubResource( 149 )
+volume_db = -80.0
+bus = "GameSfx"
+
+[node name="Blink6_mute" type="AudioStreamPlayer" parent="Sounds/Blinking"]
+stream = SubResource( 149 )
+volume_db = -80.0
+bus = "GameSfx"
+
+[node name="BlinkingStatic" type="Node2D" parent="Sounds"]
+
+[node name="BlinkStatic1" type="AudioStreamPlayer" parent="Sounds/BlinkingStatic"]
+stream = SubResource( 150 )
+pitch_scale = 1.2
+bus = "GameSfx"
+
+[node name="BlinkStatic2" type="AudioStreamPlayer" parent="Sounds/BlinkingStatic"]
+stream = SubResource( 151 )
+pitch_scale = 1.2
+bus = "GameSfx"
+
+[node name="BlinkStatic3" type="AudioStreamPlayer" parent="Sounds/BlinkingStatic"]
+stream = SubResource( 152 )
+pitch_scale = 1.2
+bus = "GameSfx"
+
+[node name="BlinkStatic4" type="AudioStreamPlayer" parent="Sounds/BlinkingStatic"]
+stream = SubResource( 153 )
+pitch_scale = 1.2
+bus = "GameSfx"
+
+[node name="BlinkStatic5" type="AudioStreamPlayer" parent="Sounds/BlinkingStatic"]
+stream = SubResource( 154 )
+pitch_scale = 1.2
+bus = "GameSfx"
+
+[node name="BlinkStatic6" type="AudioStreamPlayer" parent="Sounds/BlinkingStatic"]
+stream = SubResource( 155 )
+pitch_scale = 1.2
+bus = "GameSfx"
+
+[node name="Burst" type="Node2D" parent="Sounds"]
+
+[node name="BurstLaser" type="AudioStreamPlayer" parent="Sounds/Burst"]
+stream = SubResource( 156 )
+volume_db = -30.0
+pitch_scale = 0.8
+bus = "GameSfx"
+
+[node name="BurstStop" type="AudioStreamPlayer" parent="Sounds/Burst"]
+stream = ExtResource( 25 )
+volume_db = 10.0
+bus = "GameSfx"
+
+[node name="Burst" type="AudioStreamPlayer" parent="Sounds/Burst"]
+stream = SubResource( 157 )
+volume_db = -10.0
+bus = "GameSfx"
+
+[node name="BurstCocking" type="AudioStreamPlayer" parent="Sounds/Burst"]
+stream = ExtResource( 6 )
+volume_db = -15.0
+bus = "GameSfx"
+
+[node name="HitStray" type="AudioStreamPlayer" parent="Sounds/Burst"]
+stream = SubResource( 158 )
+volume_db = -5.0
+pitch_scale = 0.9
+bus = "GameSfx"
+
+[node name="HitWall" type="AudioStreamPlayer" parent="Sounds/Burst"]
+stream = SubResource( 159 )
+volume_db = -7.0
+pitch_scale = 0.9
+bus = "GameSfx"
+
+[node name="HitDizzy" type="AudioStreamPlayer" parent="Sounds/Burst"]
+stream = ExtResource( 24 )
+volume_db = -20.0
+bus = "GameSfx"
+
+[node name="Skills" type="Node2D" parent="Sounds"]
+
+[node name="TeleportIn" type="AudioStreamPlayer" parent="Sounds/Skills"]
+stream = ExtResource( 21 )
+volume_db = -10.0
+bus = "GameSfx"
+
+[node name="TeleportLoop" type="AudioStreamPlayer" parent="Sounds/Skills"]
+stream = ExtResource( 34 )
+volume_db = -10.0
+bus = "GameSfx"
+
+[node name="TeleportOut" type="AudioStreamPlayer" parent="Sounds/Skills"]
+stream = ExtResource( 26 )
+volume_db = -10.0
+bus = "GameSfx"
+
+[node name="PushPull" type="AudioStreamPlayer" parent="Sounds/Skills"]
+stream = SubResource( 160 )
+volume_db = -10.0
+bus = "GameSfx"
+
+[node name="PushedPulled" type="AudioStreamPlayer" parent="Sounds/Skills"]
+stream = SubResource( 160 )
+volume_db = -5.0
+pitch_scale = 0.7
+bus = "GameSfx"
+
+[node name="PushStoneSlide" type="AudioStreamPlayer" parent="Sounds/Skills"]
+stream = ExtResource( 18 )
+volume_db = -15.0
+bus = "GameSfx"
+
+[node name="PullStoneSlide" type="AudioStreamPlayer" parent="Sounds/Skills"]
+stream = ExtResource( 14 )
+volume_db = -5.0
+bus = "GameSfx"
+
+[node name="SkilledStatic" type="AudioStreamPlayer" parent="Sounds/Skills"]
+stream = ExtResource( 11 )
+volume_db = -25.0
+bus = "GameSfx"
+
+[node name="Heartbeat" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 28 )
+pitch_scale = 1.1
+bus = "GameSfx"
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+[connection signal="finished" from="Sounds/Skills/TeleportIn" to="." method="_on_TeleportIn_finished"]

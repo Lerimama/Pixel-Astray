@@ -82,7 +82,7 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 	"player_start_energy": 192,
 	"player_start_color": Color("#141414"),
 	
-	# player in gamead
+	# player in game
 	"player_max_energy": 192, # max energija
 	"player_tired_energy": 20, # pokaže steps warning popup in hud oabrva rdeče
 	"step_time_fast": 0.09, # default hitrost
@@ -107,6 +107,11 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 	"skill_limit_count": 5,
 	"burst_limit_mode": false,
 	"burst_limit_count": 5,
+
+	# strays steping
+	"stray_step_mode": false,
+	"pause_time": 0.2, # pavzo delim z random številom v obsegu ...
+	"random_pause_time_divider_range": 5, # obseg za random število
 }
 
 
@@ -168,7 +173,7 @@ var game_data_cleaner_L: Dictionary = {
 	"game_name": "Cleaner",
 	"level": "L",
 	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_L_tilemap.tscn",
-	"game_time_limit": 600,
+	"game_time_limit": 6,
 	"strays_start_count": 320, 
 #	"highscore": 0,
 }
@@ -218,7 +223,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["player_start_life"] = 2
 			game_settings["manage_highscores"] = false
 			game_settings["start_countdown"] = false
-			game_settings["step_slowdown_mode"] = false
+#			game_settings["step_slowdown_mode"] = false
 #			game_settings["step_time_fast"] = 1.15
 		Games.RUNNER: 
 			current_game_data = game_data_runner

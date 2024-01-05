@@ -16,6 +16,7 @@ var p2_final_stats: Dictionary
 var selected_gameover_title: Control
 var selected_gameover_menu: Control
 var selected_gameover_jingle: String
+
 onready var gameover_title_holder: Control = $GameoverTitle
 onready var gameover_title_cleaned: Control = $GameoverTitle/ReasonCleaned
 onready var gameover_title_time: Control = $GameoverTitle/ReasonTime

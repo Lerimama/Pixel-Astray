@@ -68,50 +68,48 @@ func _ready():
 
 	
 func open_with_intro(): # kliče main.gd -> home_in_intro()
-	intro.play_intro() # intro signal na koncu kliče home_in()
+	intro.play_intro() # intro signal na koncu kliče menu_in()
 	
 	
 func open_without_intro(): # debug ... kliče main.gd -> home_in_no_intro()
-	intro.end_intro() # intro signal na koncu kliče home_in()
+	intro.finish_intro() # intro signal na koncu kliče menu_in()
 
 
 func open_from_game(): # select_game screen ... kliče main.gd -> home_in_from_game()
 	
-#	animation_player.play("select_game_from_game")
-#	current_screen = Screens.SELECT_GAME # tole blokira menu_in() 
-	
-	# animacija na konec
+	# premik animacije na konec
 	animation_player.play("select_game")
 	var animation_length: float = animation_player.get_current_animation_length()
 	animation_player.advance(animation_length)
-	intro.end_intro() # da se prikaže samo naslov ... intro signal na koncu kliče home_in()
-	if not Global.sound_manager.menu_music_set_to_off:
-		Global.sound_manager.play_music("menu_music")
+	
+	current_screen = Screens.SELECT_GAME
+	intro.finish_intro()
 
 	
-func menu_in(): # kliče se na koncu intra (tudi na skip)
+func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drugih ekranov
 	
 	menu.visible = true
 	menu.modulate.a = 0
 	intro_viewport.gui_disable_input = true # dokler se predvaja mora biti, da skipanje deluje
-	
-	if current_screen == Screens.SELECT_GAME:
-		return
 	
 	current_screen = Screens.MAIN_MENU
 	
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(menu, "modulate:a", 1, 1)
 	fade_in.tween_callback($Menu/SelectGameBtn, "grab_focus")
-	fade_in.tween_callback(Global.sound_manager, "play_music", ["menu_music"])
 
 
 # SIGNALI ---------------------------------------------------------------------------------------------------
 
 
 func _on_Intro_finished_playing() -> void:
-	menu_in()
 	
+	if not current_screen == Screens.SELECT_GAME: # v primeru ko se vrnem iz igre
+		menu_in()
+	
+	if not Global.sound_manager.menu_music_set_to_off: # tale pogoj je možen samo ob vračanju iz igre
+		Global.sound_manager.play_music("menu_music")
+
 	
 func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 	
@@ -119,10 +117,6 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 		"select_game":
 			if animation_reversed("select_game"):
 				return
-			current_screen = Screens.SELECT_GAME
-			tutorial_btn.grab_focus()
-			current_esc_hint = $SelectGame/EscHint
-		"select_game_from_game":
 			current_screen = Screens.SELECT_GAME
 			tutorial_btn.grab_focus()
 			current_esc_hint = $SelectGame/EscHint
@@ -155,7 +149,6 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 func animation_reversed(from_screen: String):
 	
 	if animation_player.current_animation_position == 0: # pomeni da se odpre main menu
-		# set focus
 		$Menu/SelectGameBtn.grab_focus()
 		# match from_screen:
 		#	"select_game":
@@ -166,8 +159,9 @@ func animation_reversed(from_screen: String):
 		#		$Menu/SettingsBtn.grab_focus()
 		#	"highscores":
 		#		$Menu/HighscoresBtn.grab_focus()
-		current_screen = Screens.MAIN_MENU
+		# current_screen = Screens.MAIN_MENU ... določi se v menu_in()
 		current_esc_hint.modulate.a = 0
+		menu_in()
 		
 		return true
 
