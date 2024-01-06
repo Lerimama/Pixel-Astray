@@ -225,7 +225,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["start_countdown"] = false
 #			game_settings["step_slowdown_mode"] = false
 #			game_settings["step_time_fast"] = 1.15
-			game_settings["stray_step_mode"] = true
+#			game_settings["stray_step_mode"] = true
 		Games.RUNNER: 
 			current_game_data = game_data_runner
 			game_settings["player_start_life"] = 3

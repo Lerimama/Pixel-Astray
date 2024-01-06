@@ -24,23 +24,19 @@ var step_time_fast: float = Global.game_manager.game_settings["step_time_fast"]
 var step_time_slow: float = Global.game_manager.game_settings["step_time_slow"]
 var step_slowdown_rate: float = Global.game_manager.game_settings["step_slowdown_rate"]
 
-# cocking
-var cocked_ghosts: Array
-var cocking_room: bool = true
-var cocked_ghost_count_max: int = 7
-var cock_ghost_setup_time = 0.12 # čas nastajanja cocking ghosta in njegova animacija 
-var ghost_cocking_time: float = 0 # trenuten čas nastajanja cocking ghosta ... more bit zunaj, da ga ne nulira z vsakim frejmom
-
 # bursting
+var cocking_room: bool = true
+var cock_ghost_cocking_time: float = 0.12 # čas nastajanja ghosta in njegova animacija 
+var current_ghost_cocking_time: float = 0 # trenuten čas nastajanja ghosta ... tukaj, da ga ne nulira z vsakim frejmom
+var cocked_ghost_max_count: int = 7
+var cock_ghost_speed_addon: float = 12
+var cocked_ghosts: Array
 var burst_speed: float = 0 # trenutna hitrost
-var burst_speed_max: float = 0 # maximalna hitrost v tweenu (določena med kokanjem)
-var burst_cocked_ghost_count: int # moč v številu ghosts_count
-var burst_speed_addon: float = 12
 var burst_velocity: Vector2
 
 # heartbeat
 var heartbeat_loop: int = 0
-var just_hit: bool # heartbeat animacija počaka die animacijo, ko je po karambolu energija = 1
+var got_hit: bool # heartbeat animacija počaka die animacijo, ko je po karambolu energija = 1
 
 # controls
 var key_left: String
@@ -307,11 +303,10 @@ func end_move():
 	
 	# reset burst
 	burst_speed = 0
-	burst_speed_max = 0
 	cocking_room = true
-	burst_cocked_ghost_count = 0
-	if not cocked_ghosts.empty():
-		empty_cocking_ghosts()
+	while not cocked_ghosts.empty():
+		var ghost = cocked_ghosts.pop_back()
+		ghost.queue_free()
 		
 	# ugasnem lučke
 	if burst_light.enabled:
@@ -341,20 +336,40 @@ func cock_burst():
 		return
 	
 	# preverjam prostor za napenjanje
-	if cocked_ghosts.size() < cocked_ghost_count_max and cocking_room: # ... preverja ghost
-		ghost_cocking_time += 1 / 60.0 # čas držanja tipke (znotraj nastajanja ene cock celice) ... fejk delta
-		if ghost_cocking_time > cock_ghost_setup_time: # ko je čas za eno celico mimo, jo spawnam
-			ghost_cocking_time = 0
-			burst_speed_max += burst_speed_addon # prištejem hitrost bursta
-			spawn_cock_ghost(cock_direction, cocked_ghosts.size() + 1) # + 1 zato, da se prvi ne spawna direktno nad pixlom
-			play_sound("burst_cocking")
+	if not reverse_cocking:
+		if cocked_ghosts.size() < cocked_ghost_max_count and cocking_room: # ... preverja ghost
+			current_ghost_cocking_time += 1 / 60.0 # čas držanja tipke (znotraj nastajanja ene cock celice) ... fejk delta
+			if current_ghost_cocking_time > cock_ghost_cocking_time: # ko je čas za eno celico mimo, jo spawnam
+				current_ghost_cocking_time = 0
+				var new_cock_ghost = spawn_cock_ghost(cock_direction)
+				cocked_ghosts.append(new_cock_ghost)	
+				play_sound("burst_cocking")
+		elif cocked_ghosts.size() == cocked_ghost_max_count:
+			yield(get_tree().create_timer(cocking_loop_pause), "timeout")
+			reverse_cocking = true
+	else:
+		current_ghost_cocking_time += 1 / 60.0 
+		if current_ghost_cocking_time > cock_ghost_cocking_time * 2: # ko je čas za eno celico mimo, jo zbrišem
+			current_ghost_cocking_time = 0
+			var last_cocked_ghost = cocked_ghosts.back() # najdem zadnjega in ga dam ven iz arraya
+			if last_cocked_ghost:
+				uncock_ghost(last_cocked_ghost, cock_direction)
+				cocked_ghosts.pop_back()
+		elif cocked_ghosts.empty():
+			yield(get_tree().create_timer(cocking_loop_pause), "timeout")
+			reverse_cocking = false
+			
+var cocking_loop_pause: float = 1
+var reverse_cocking: bool
 
+func uncock_ghost(cocked_ghost: Area2D, dir):
+	
+	var cock_cell_tween = get_tree().create_tween()
+	cock_cell_tween.tween_property(cocked_ghost, "modulate:a", 0, 0.5).set_ease(Tween.EASE_IN)
 
+		
 func release_burst():
 	
-	if burst_speed_max == 0: # če je vmes zadet
-		return
-		
 	current_state = States.RELEASING
 	
 	play_sound("burst_cocked")
@@ -369,15 +384,16 @@ func release_burst():
 		yield(get_tree().create_timer(cocked_ghost_fill_time),"timeout")
 
 	yield(get_tree().create_timer(cocked_pause_time), "timeout")
-	burst(cocked_ghosts.size())
+	
+	burst()
 		
 
-func burst(current_ghost_count: int):
+func burst():
 	
 	var burst_direction = direction
 	var backup_direction = - burst_direction
-	burst_cocked_ghost_count = current_ghost_count
-
+	var current_ghost_count = cocked_ghosts.size()
+	
 	# spawn stretch ghost
 	var new_stretch_ghost = spawn_ghost(global_position)
 	if burst_direction.y == 0: # če je smer hor
@@ -386,10 +402,13 @@ func burst(current_ghost_count: int):
 		new_stretch_ghost.scale = Vector2(1, current_ghost_count)
 	new_stretch_ghost.position = global_position - (burst_direction * cell_size_x * current_ghost_count)/2 - burst_direction * cell_size_x/2
 	
-	empty_cocking_ghosts() # sprazni cock ghoste
+	# release cocked ghosts
+	while not cocked_ghosts.empty():
+		var ghost = cocked_ghosts.pop_back()
+		ghost.queue_free()
 	
-	play_sound("burst")
 	stop_sound("burst_cocking")
+	play_sound("burst")
 	
 	# release ghost 
 	var strech_ghost_shrink_time: float = 0.2
@@ -397,10 +416,12 @@ func burst(current_ghost_count: int):
 	release_tween.tween_property(new_stretch_ghost, "scale", Vector2.ONE, strech_ghost_shrink_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	release_tween.parallel().tween_property(new_stretch_ghost, "position", global_position - burst_direction * cell_size_x, strech_ghost_shrink_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	release_tween.tween_callback(new_stretch_ghost, "queue_free")
+	
 	# release pixel
-	release_tween.parallel().tween_property(self, "current_state", States.BURSTING, 0)
-	release_tween.parallel().tween_property(self, "burst_speed", burst_speed_max, 0)
-	release_tween.tween_callback(self, "change_stat", ["burst_released", 1]) # štetje, točke in energija kot je določeno v settingsih
+	yield(get_tree().create_timer(strech_ghost_shrink_time), "timeout") # čaka na zgornji tween
+	current_state = States.BURSTING
+	burst_speed = current_ghost_count * cock_ghost_speed_addon
+	change_stat("burst_released", 1)
 
 	
 # SKILLS ------------------------------------------------------------------------------------------
@@ -558,22 +579,23 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
 	play_sound("hit_stray")	
 	spawn_collision_particles()
-	shake_player_camera(burst_cocked_ghost_count)			
+	shake_player_camera(burst_speed)			
 	
 	if hit_stray.current_state == hit_stray.States.STATIC: # če je že v umiranju, samo kolajdaš
 		end_move()
 		return
-		
+	
 	tween_color_change(hit_stray.stray_color)
 
 	# preverim sosede
 	var hit_stray_neighbors = check_strays_neighbors(hit_stray)
 	# naberem strayse za destrojat
+	var burst_speed_units_count = burst_speed / cock_ghost_speed_addon
 	var strays_to_destroy: Array = []
 	strays_to_destroy.append(hit_stray)
 	if not hit_stray_neighbors.empty():
 		for neighboring_stray in hit_stray_neighbors: # še sosedi glede na moč bursta
-			if strays_to_destroy.size() < burst_cocked_ghost_count or burst_cocked_ghost_count == cocked_ghost_count_max:
+			if strays_to_destroy.size() < burst_speed_units_count or burst_speed_units_count == cocked_ghost_max_count:
 				strays_to_destroy.append(neighboring_stray)
 			else: break
 	# jih destrojam
@@ -592,14 +614,14 @@ func on_hit_player(hit_player: KinematicBody2D):
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
 	play_sound("hit_stray")
 	spawn_collision_particles()
-	shake_player_camera(burst_cocked_ghost_count)			
+	shake_player_camera(burst_speed)			
 
 	# korekcija pozicije
 	var player_direction = direction # za korekcijo
 	global_position = hit_player.global_position + (cell_size_x * (- player_direction)) # plejer eno polje ob zadetem
 	
 	# opredeli zmagovalca
-	if burst_speed_max == hit_player.burst_speed: # neodločeno
+	if burst_speed == hit_player.burst_speed: # neodločeno
 		end_move()
 		hit_player.end_move() # plejer, ki prvi zazna kontakt ukaže naprej, da je zaporedje pod kontrolo 
 	
@@ -608,7 +630,7 @@ func on_hit_player(hit_player: KinematicBody2D):
 			tween_color_change(hit_player.pixel_color)
 		end_move()
 		change_stat("hit_player", hit_player.player_stats["player_points"]) # točke glede na delež loserjevih točk, energija se resetira na 100%
-		hit_player.on_get_hit(burst_cocked_ghost_count) # po statistiki, da winer pobere od luserja, ko so točke še polne  
+		hit_player.on_get_hit(burst_speed) # po statistiki, da winer pobere od luserja, ko so točke še polne  
 	
 		
 func on_hit_wall():
@@ -617,9 +639,9 @@ func on_hit_wall():
 	play_sound("hit_wall")
 	spawn_dizzy_particles()
 	spawn_collision_particles()
-	shake_player_camera(burst_cocked_ghost_count)
+	shake_player_camera(burst_speed)
 	
-	just_hit = true # da heartbeat animacija ne povozi die animacije
+	got_hit = true # da heartbeat animacija ne povozi die animacije
 	
 	if player_stats["player_energy"] <= 1: # more bit pred statistiko
 		stop_heart()
@@ -628,25 +650,20 @@ func on_hit_wall():
 	die() # vedno sledi statistiki
 
 
-func on_get_hit(hit_burst_power: int):
+func on_get_hit(hit_burst_speed: float):
 	
 	# efekti
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.7)
 	play_sound("hit_wall")
 	spawn_dizzy_particles()
-	shake_player_camera(hit_burst_power)
-	
-	# uničim morebitno napenjanje
-	if burst_speed_max > 0: 
-		burst_speed_max = 0
-		empty_cocking_ghosts()
+	shake_player_camera(hit_burst_speed)
 	
 	pixel_color = Global.game_manager.game_settings["player_start_color"] # postane začetne barve
-	
-	just_hit = true # da heartbeat animacija ne poveozi die animacije
+	got_hit = true # da heartbeat animacija ne poveozi die animacije
 	
 	if player_stats["player_energy"] <= 1: # more bit pred statistiko
 		stop_heart()
+	
 	change_stat("get_hit", 1) # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
 	
 	die() # vedno sledi statistiki
@@ -721,16 +738,16 @@ func spawn_collision_particles():
 	Global.node_creation_parent.add_child(new_collision_pixels)
 	
 
-func spawn_cock_ghost(cocking_direction: Vector2, cocked_ghosts_count: int):
+func spawn_cock_ghost(cocking_direction: Vector2):
 	
 	var cocked_ghost_alpha: float = 1 # najnižji alfa za ghoste ... old 0.55
-	var cocked_ghost_alpha_divider: float = 8 # faktor nižanja po zaporedju (manjši je bolj oster) ... old 14
+	var cocked_ghost_alpha_divider: float = 7 # faktor nižanja po zaporedju (manjši je bolj oster) ... old 14
 	
 	# spawn ghosta pod manom
-	var cock_ghost_position = (global_position - cocking_direction * cell_size_x/2) + (cocking_direction * cell_size_x * cocked_ghosts_count)
+	var cock_ghost_position = (global_position - cocking_direction * cell_size_x/2) + (cocking_direction * cell_size_x * (cocked_ghosts.size() + 1)) # +1, da se ne začne na pixlu
 	var new_cock_ghost = spawn_ghost(cock_ghost_position)
 	new_cock_ghost.z_index = 3 # nad straysi in playerjem
-	new_cock_ghost.modulate.a  = cocked_ghost_alpha - (cocked_ghosts_count / cocked_ghost_alpha_divider)
+	new_cock_ghost.modulate.a  = cocked_ghost_alpha - (cocked_ghosts.size() / cocked_ghost_alpha_divider)
 	new_cock_ghost.direction = cocking_direction
 	
 	# v kateri smeri je scale
@@ -741,16 +758,15 @@ func spawn_cock_ghost(cocking_direction: Vector2, cocked_ghosts_count: int):
 
 	# animiram cock celico
 	var cock_cell_tween = get_tree().create_tween()
-	cock_cell_tween.tween_property(new_cock_ghost, "scale", Vector2.ONE, cock_ghost_setup_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	cock_cell_tween.parallel().tween_property(new_cock_ghost, "position", global_position + cocking_direction * cell_size_x * cocked_ghosts_count, cock_ghost_setup_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	cock_cell_tween.tween_property(new_cock_ghost, "scale", Vector2.ONE, cock_ghost_cocking_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	cock_cell_tween.parallel().tween_property(new_cock_ghost, "position", global_position + cocking_direction * cell_size_x * (cocked_ghosts.size() + 1), cock_ghost_cocking_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	
 	# ray detect velikost je velikost napenjanja
 	new_cock_ghost.ghost_ray.cast_to = direction * cell_size_x
 	new_cock_ghost.connect("ghost_detected_body", self, "_on_ghost_detected_body")
 	
-	# dodam celico v array celic tega zaleta
-	cocked_ghosts.append(new_cock_ghost)	
-
+	return new_cock_ghost
+	
 	
 func spawn_trail_ghost():
 	
@@ -830,12 +846,11 @@ func get_step_time():
 		return step_time_fast	
 		
 
-func shake_player_camera(shake_multiplier: float):
+func shake_player_camera(burst_speed: float):
 	
-	# shake_multiplier je lahko: enote moči brusta, št. uničenih straysov, razlika v enotah moči bursta med plejerjema
-	shake_multiplier = clamp(shake_multiplier, 0, cocked_ghost_count_max) # omejen je z navečjo možno močjo bursta
-	
+	var shake_multiplier: float = burst_speed / cock_ghost_speed_addon
 	var shake_multiplier_factor: float = 0.03
+	
 	var shake_power: float = 0.2
 	var shake_power_multiplied: float = shake_power + shake_multiplier_factor * shake_multiplier
 	var shake_time: float = 0.3
@@ -881,13 +896,6 @@ func tween_color_change (new_color: Color):
 	change_color_tween.tween_property(self, "pixel_color", new_color, 0.5).set_ease(Tween.EASE_IN) #.set_trans(Tween.TRANS_CIRC)
 
 
-func empty_cocking_ghosts():
-	
-	while not cocked_ghosts.empty():
-		var ghost = cocked_ghosts.pop_back()
-		ghost.queue_free()
-
-
 func burst_light_on():
 	
 	var burst_light_base_energy: float = 0.6
@@ -928,7 +936,7 @@ func skill_light_off():
 
 func manage_heartbeat():
 	
-	if player_stats["player_energy"] == 1 and not just_hit: # just hit, je da heartbeat animacija ne povozi die animacije
+	if player_stats["player_energy"] == 1 and not got_hit: # just hit, je da heartbeat animacija ne povozi die animacije
 		if not animation_player.get_current_animation() == "heartbeat": # prehod v harbit
 			heartbeat_loop = 0
 			animation_player.play("heartbeat")		
@@ -939,6 +947,9 @@ func manage_heartbeat():
 			modulate.a = 1
 			burst_light.enabled = false
 			
+
+# SOUNDS ------------------------------------------------------------------------------------------
+
 
 func play_stepping_sound(current_player_energy_part: float):
 
@@ -1066,7 +1077,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 				Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)
 		"revive":
 			set_physics_process(true)
-			just_hit = false # da se heartbeat animacija lahko začne
+			got_hit = false # reset ... da se heartbeat animacija lahko začne
 			change_stat("revive", 1) # če energija = 0 (izguba lajfa), resetira energijo
 		"become_white_again":
 			yield(get_tree().create_timer(0.2), "timeout") # za dojet
