@@ -56,7 +56,7 @@ func set_game():
 	for player in get_tree().get_nodes_in_group(Global.group_players):
 		player.animation_player.play("lose_white_on_start")
 		signaling_player = player # da se zgodi na obeh plejerjih istočasno
-	yield(signaling_player, "player_pixel_set") # javi player iz intro animacije
+	yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
 		
 	if not game_data["game"] == Profiles.Games.TUTORIAL: 
 		set_strays()

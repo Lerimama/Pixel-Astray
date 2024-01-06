@@ -532,12 +532,19 @@ func teleport(): # skilled inputs opredeli vrsto skila glede na kolajderja
 
 	new_teleport_ghost.direction = teleport_direction
 	new_teleport_ghost.max_speed = ghost_max_speed
-	new_teleport_ghost.modulate.a = modulate.a * 0.5
+	new_teleport_ghost.modulate.a = modulate.a
+#	new_teleport_ghost.modulate.a = modulate.a * 0.5
 	new_teleport_ghost.z_index = 3
 	new_teleport_ghost.connect("ghost_target_reached", self, "_on_ghost_target_reached")
 	
 	# kamera target
 	player_camera.camera_target = new_teleport_ghost
+	
+	var hide_tween = get_tree().create_tween()
+	# odfejdam pixel na začetku
+	hide_tween.tween_property(self, "modulate:a", 0, 0.1).set_ease(Tween.EASE_IN)
+	hide_tween.parallel().tween_callback(self, "skill_light_off")
+	hide_tween.parallel().tween_property(new_teleport_ghost, "modulate:a", 0.5, 0.5).set_ease(Tween.EASE_IN)
 	
 	yield(get_tree().create_timer(0.2), "timeout")
 	
@@ -761,6 +768,7 @@ func spawn_ghost(ghost_spawn_position: Vector2):
 	var new_pixel_ghost = Ghost.instance()
 	new_pixel_ghost.global_position = ghost_spawn_position
 	new_pixel_ghost.modulate = pixel_color
+	new_pixel_ghost.ghost_owner = self # da ne čekira "sebe"
 	Global.node_creation_parent.add_child(new_pixel_ghost)
 
 	return new_pixel_ghost
@@ -1011,21 +1019,34 @@ func _on_ghost_target_reached(ghost_body: Area2D, ghost_position: Vector2):
 	
 	var teleport_tween = get_tree().create_tween()
 	# odfejdam pixel na začetku
-	teleport_tween.tween_property(self, "modulate:a", 0, ghost_fade_time * 2/3).set_ease(Tween.EASE_IN)
-	teleport_tween.parallel().tween_callback(self, "skill_light_off")
-	teleport_tween.parallel().tween_property(ghost_body, "modulate:a", 1, ghost_fade_time).set_ease(Tween.EASE_IN)
-	# premaknem pixel na konec in ga pokažem
+#	teleport_tween.tween_property(self, "modulate:a", 0, ghost_fade_time * 2/3).set_ease(Tween.EASE_IN)
+#	teleport_tween.parallel().tween_callback(self, "skill_light_off")
+#	teleport_tween.parallel().tween_property(ghost_body, "modulate:a", 1, ghost_fade_time).set_ease(Tween.EASE_IN)
+	teleport_tween.tween_property(ghost_body, "modulate:a", 1, ghost_fade_time).set_ease(Tween.EASE_IN)
+	# premaknem pixel na konec, kjer je ghost in ga pokažem
 	teleport_tween.tween_callback(self, "set_global_position", [ghost_position])
-	teleport_tween.tween_callback(self, "end_move") # more bit pred prikazom pixla, da je "klempan"
-	teleport_tween.tween_property(self, "modulate:a", 1, 0)
-	teleport_tween.tween_property(player_camera, "camera_target", self, 0) # camera follow reset
+	teleport_tween.parallel().tween_callback(self, "end_move") # more bit pred prikazom pixla, da je "klempan"
+	teleport_tween.parallel().tween_property(self, "modulate:a", 1, 0)
+	teleport_tween.parallel().tween_property(player_camera, "camera_target", self, 0) # camera follow reset
 	# zaključek
-#	teleport_tween.tween_property(ghost_body, "modulate:a", 0, 0)
 	teleport_tween.tween_callback(ghost_body, "queue_free")
-	# teleport_tween.tween_callback(self, "change_stat", ["skill_used", 3]) # štetje, točke in energija kot je določeno v settingsih
 	
 	change_stat("skill_used", 3) # zazih ni v tweenu
+
+#	ghost_body.speed = 0
 	
+#	var teleport_tween = get_tree().create_tween()
+#	teleport_tween.tween_property(self, "modulate:a", 0, ghost_fade_time * 2/3).set_ease(Tween.EASE_IN)
+#	teleport_tween.parallel().tween_callback(self, "skill_light_off")
+#	teleport_tween.parallel().tween_property(ghost_body, "modulate:a", 1, ghost_fade_time).set_ease(Tween.EASE_IN)
+##	teleport_tween.tween_property(self, "global_position", ghost_position, 0)
+#	teleport_tween.tween_callback(self, "set_global_position", [ghost_position])
+#	teleport_tween.parallel().tween_callback(self, "end_move")
+#	teleport_tween.parallel().tween_property(self, "modulate:a", 1, 0)
+#	teleport_tween.parallel().tween_property(player_camera, "camera_target", self, 0) # camera follow reset
+#	teleport_tween.parallel().tween_callback(ghost_body, "queue_free")
+#	teleport_tween.tween_callback(self, "change_stat", ["skill_used", 3]) # štetje, točke in energija kot je določeno v settingsih	
+
 
 func _on_ghost_detected_body(body: Node2D):
 	

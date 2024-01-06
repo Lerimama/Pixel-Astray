@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/glow_light.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=116]
-extents = Vector2( 16, 16 )
+extents = Vector2( 15.6, 15.6 )
 
 [node name="Ghost" type="Area2D"]
 collision_layer = 2

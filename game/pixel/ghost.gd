@@ -8,6 +8,7 @@ var speed: float = 0
 var max_speed: float = 0
 var direction = Vector2.UP
 
+var ghost_owner: KinematicBody2D
 var teleporting_bodies: Array = []
 var target_reached: float = false
 
@@ -23,16 +24,19 @@ func _ready() -> void:
 		
 func _physics_process(delta: float) -> void:
 	
+	print (teleporting_bodies)
 	global_position += direction * speed
-	speed = lerp(speed, max_speed, 0.015)
+	if not target_reached:
+		speed = lerp(speed, max_speed, 0.015)
+		
 	ghost_ray.cast_to = direction * cell_size_x
 	
 	glow_light.color = modulate
 	
 	# teleporting ghost
-	if target_reached:
-		speed = 0
-		global_position = Global.snap_to_nearest_grid(global_position)
+#	if target_reached:
+#		speed = 0
+#		global_position = Global.snap_to_nearest_grid(global_position) # tukaj se zgodi dovolj hitro (napram v signalu)
 	
 	# skill ghost
 	if ghost_ray.is_colliding():
@@ -46,17 +50,20 @@ func _on_PixelGhost_body_exited(body: Node) -> void:
 	if teleporting_bodies.has(body):
 		teleporting_bodies.erase(body)
 	
+	# ko je prazno, zaključi teleporting
 	if teleporting_bodies.empty():
 		target_reached = true
+		speed = 0
+		global_position = Global.snap_to_nearest_grid(global_position)
 		emit_signal("ghost_target_reached", self, global_position)
 			
-			
+
 func _on_PixelGhost_body_entered(body: Node) -> void:
 	
 	# polnenje array kolajderjev
 	if body.is_in_group(Global.group_strays):
 		teleporting_bodies.append(body)
-	elif body.is_in_group(Global.group_players):
+	elif body.is_in_group(Global.group_players) and not ghost_owner:
 		teleporting_bodies.append(body)
 	elif body.is_in_group(Global.group_tilemap):
 		teleporting_bodies.append(body)
