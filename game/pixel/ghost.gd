@@ -13,8 +13,8 @@ var teleporting_bodies: Array = []
 var target_reached: float = false
 
 onready var ghost_ray: RayCast2D = $RayCast2D
-onready var cell_size_x: float = Global.current_tilemap.cell_size.x
 onready var glow_light: Light2D = $GlowLight
+onready var cell_size_x: float = Global.current_tilemap.cell_size.x
 
 
 func _ready() -> void:
@@ -24,7 +24,6 @@ func _ready() -> void:
 		
 func _physics_process(delta: float) -> void:
 	
-	print (teleporting_bodies)
 	global_position += direction * speed
 	if not target_reached:
 		speed = lerp(speed, max_speed, 0.015)
@@ -33,10 +32,10 @@ func _physics_process(delta: float) -> void:
 	
 	glow_light.color = modulate
 	
-	# teleporting ghost
-#	if target_reached:
-#		speed = 0
-#		global_position = Global.snap_to_nearest_grid(global_position) # tukaj se zgodi dovolj hitro (napram v signalu)
+	# teleporting ghost odl
+	# if target_reached:
+	#	speed = 0
+	#	global_position = Global.snap_to_nearest_grid(global_position) # tukaj se zgodi dovolj hitro (napram v signalu)
 	
 	# skill ghost
 	if ghost_ray.is_colliding():

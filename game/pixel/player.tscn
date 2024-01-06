@@ -37,7 +37,7 @@
 [ext_resource path="res://assets/sound/sfx/stepping/step_4.wav" type="AudioStream" id=35]
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 15.99, 15.99 )
+extents = Vector2( 15.95, 15.95 )
 
 [sub_resource type="Animation" id=142]
 length = 0.001
