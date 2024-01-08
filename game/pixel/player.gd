@@ -26,6 +26,7 @@ var step_slowdown_rate: float = Global.game_manager.game_settings["step_slowdown
 
 # bursting
 var cocking_room: bool = true
+var uncocking: bool = false
 var cock_ghost_cocking_time: float = 0.12 # čas nastajanja ghosta in njegova animacija 
 var current_ghost_cocking_time: float = 0 # trenuten čas nastajanja ghosta ... tukaj, da ga ne nulira z vsakim frejmom
 var cocked_ghost_max_count: int = 7
@@ -304,6 +305,7 @@ func end_move():
 	# reset burst
 	burst_speed = 0
 	cocking_room = true
+	uncocking = false
 	while not cocked_ghosts.empty():
 		var ghost = cocked_ghosts.pop_back()
 		ghost.queue_free()
@@ -335,8 +337,10 @@ func cock_burst():
 		end_move()
 		return
 	
+	var cocking_loop_pause: float = 1
+	
 	# preverjam prostor za napenjanje
-	if not reverse_cocking:
+	if not uncocking:
 		if cocked_ghosts.size() < cocked_ghost_max_count and cocking_room: # ... preverja ghost
 			current_ghost_cocking_time += 1 / 60.0 # čas držanja tipke (znotraj nastajanja ene cock celice) ... fejk delta
 			if current_ghost_cocking_time > cock_ghost_cocking_time: # ko je čas za eno celico mimo, jo spawnam
@@ -346,26 +350,22 @@ func cock_burst():
 				play_sound("burst_cocking")
 		elif cocked_ghosts.size() == cocked_ghost_max_count:
 			yield(get_tree().create_timer(cocking_loop_pause), "timeout")
-			reverse_cocking = true
+			uncocking = true
 	else:
 		current_ghost_cocking_time += 1 / 60.0 
-		if current_ghost_cocking_time > cock_ghost_cocking_time * 2: # ko je čas za eno celico mimo, jo zbrišem
+		if current_ghost_cocking_time > cock_ghost_cocking_time: # ko je čas za eno celico mimo, jo zbrišem
 			current_ghost_cocking_time = 0
-			var last_cocked_ghost = cocked_ghosts.back() # najdem zadnjega in ga dam ven iz arraya
+			# najdem zadnjega in ga odfejdam
+			var last_cocked_ghost = cocked_ghosts.back()
 			if last_cocked_ghost:
-				uncock_ghost(last_cocked_ghost, cock_direction)
+				var cock_cell_tween = get_tree().create_tween()
+				cock_cell_tween.tween_property(last_cocked_ghost, "modulate:a", 0, cock_ghost_cocking_time)#.set_ease(Tween.EASE_IN)
+				yield(cock_cell_tween, "finished")
 				cocked_ghosts.pop_back()
+				last_cocked_ghost.queue_free()
 		elif cocked_ghosts.empty():
 			yield(get_tree().create_timer(cocking_loop_pause), "timeout")
-			reverse_cocking = false
-			
-var cocking_loop_pause: float = 1
-var reverse_cocking: bool
-
-func uncock_ghost(cocked_ghost: Area2D, dir):
-	
-	var cock_cell_tween = get_tree().create_tween()
-	cock_cell_tween.tween_property(cocked_ghost, "modulate:a", 0, 0.5).set_ease(Tween.EASE_IN)
+			uncocking = false
 
 		
 func release_burst():
