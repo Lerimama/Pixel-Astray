@@ -3,7 +3,6 @@ extends Control
 
 signal name_input_finished
 
-var menu_btn_clicked: bool = false # za disejblanje gumbov
 var focus_btn: Button
 onready var background: ColorRect = $Background
 
@@ -112,13 +111,14 @@ func show_gameover_menu():
 		var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 		fade_in.tween_callback(selected_gameover_menu, "set_visible", [true])#.set_delay(1)
 		fade_in.tween_property(selected_gameover_menu, "modulate:a", 1, 1)
-		fade_in.parallel().tween_callback(focus_btn, "grab_focus")		
+		fade_in.parallel().tween_callback(Global, "grab_focus_no_sfx", [focus_btn])		
 	else:	
 		if Global.game_manager.game_settings["manage_highscores"]:
 			var score_is_ranking = Global.data_manager.manage_gameover_highscores(p1_final_stats["player_points"], Global.game_manager.game_data["game"]) # yield čaka na konec preverke
 			if score_is_ranking: # manage_gameover_highscores počaka na signal iz name_input
 				open_name_input()
 				yield(Global.data_manager, "highscores_updated")
+				get_viewport().set_disable_input(false) # anti dablklik
 			highscore_table.get_highscore_table(Global.game_manager.game_data["game"], Global.data_manager.current_player_ranking)
 			selected_game_summary = game_summary_with_hs
 			show_game_summary()
@@ -155,7 +155,7 @@ func show_game_summary():
 	cross_fade.tween_callback(name_input_popup, "set_visible", [false])
 	cross_fade.parallel().tween_callback(gameover_title_holder, "set_visible", [false])
 	cross_fade.parallel().tween_property(game_summary_holder, "modulate:a", 1, 1)#.set_delay(1)
-	cross_fade.tween_callback(focus_btn, "grab_focus")
+	cross_fade.tween_callback(Global, "grab_focus_no_sfx", [focus_btn])
 
 
 # TITLES --------------------------------------------------------------	
@@ -236,7 +236,7 @@ func open_name_input():
 	# setam input label
 	name_input.text = input_invite_text
 	
-	name_input.grab_focus()
+	Global.grab_focus_no_sfx(name_input)
 	name_input.select_all()
 	
 	
@@ -250,7 +250,7 @@ func confirm_name_input():
 func close_name_input ():
 	
 	name_input.editable = false
-	emit_signal("name_input_finished") # sporočim data managerju, da sem končal (ime povleče iz GO stats)
+	emit_signal("name_input_finished") # sporočim DM, da sem končal (ime povleče iz GO stats) ... on kliče "highscores_updated"
 	
 
 func _on_NameEdit_text_changed(new_text: String) -> void:
@@ -261,17 +261,17 @@ func _on_NameEdit_text_changed(new_text: String) -> void:
 
 	
 func _on_PopupNameEdit_text_entered(new_text: String) -> void: # ko stisneš return
+	
 	_on_ConfirmBtn_pressed()
 
 	
 func _on_ConfirmBtn_pressed() -> void:
 
-	if name_input.editable == false: # prevent dablklik
-		return
-			
-	$NameInputPopup/HBoxContainer/ConfirmBtn.grab_focus() # da se obarva ko stisnem RETURN
+	Global.grab_focus_no_sfx($NameInputPopup/HBoxContainer/ConfirmBtn)
+	get_viewport().set_disable_input(true) # anti dablklik
 	
 	Global.sound_manager.play_gui_sfx("btn_confirm")
+	
 	if input_string == input_invite_text or input_string.empty():
 		input_string = p1_final_stats["player_name"]
 		confirm_name_input()
@@ -280,13 +280,9 @@ func _on_ConfirmBtn_pressed() -> void:
 		
 
 func _on_CancelBtn_pressed() -> void:
-
-	if name_input.editable == false: # prevent dablklik
-		return
-			
-	$NameInputPopup/HBoxContainer/CancelBtn.grab_focus() # da se obarva ko stisnem ESC
 	
-	Global.sound_manager.play_gui_sfx("btn_cancel")
+	Global.grab_focus_no_sfx($NameInputPopup/HBoxContainer/CancelBtn)
+	get_viewport().set_disable_input(true) # anti dablklik
 	close_name_input()
 
 
@@ -295,19 +291,9 @@ func _on_CancelBtn_pressed() -> void:
 
 func _on_RestartBtn_pressed() -> void:
 
-	if menu_btn_clicked: # prevent dablklik
-		return
-	menu_btn_clicked = true
-
-	Global.sound_manager.play_gui_sfx("btn_confirm")
 	Global.main_node.reload_game()
 	
 	
 func _on_QuitBtn_pressed() -> void:
 
-	if menu_btn_clicked: # prevent dablklik
-		return
-	menu_btn_clicked = true
-	
-	Global.sound_manager.play_gui_sfx("btn_cancel")
 	Global.main_node.game_out()

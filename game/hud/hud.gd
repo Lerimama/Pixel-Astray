@@ -72,7 +72,8 @@ onready var picked_color_label: Label = $PickedColor/Value
 func _input(event: InputEvent) -> void:
 	
 	# splitscreen popup
-	if Input.is_action_just_pressed("ui_accept") and splitscreen_popup.visible and splitscreen_popup.modulate.a == 1: # prevent dablklik ... old 
+	if splitscreen_popup.visible and Input.is_action_just_pressed("ui_accept"):
+		get_viewport().set_disable_input(true) # anti dablklik
 		Global.sound_manager.play_gui_sfx("btn_confirm")
 		emit_signal("players_ready")
 	
@@ -282,8 +283,9 @@ func fade_splitscreen_popup():
 	var hide_splitscreen_popup = get_tree().create_tween()
 	hide_splitscreen_popup.tween_property(splitscreen_popup, "modulate:a", 0, 1).set_ease(Tween.EASE_IN)
 	hide_splitscreen_popup.tween_callback(splitscreen_popup, "set_visible", [false])
-	hide_splitscreen_popup.parallel().tween_callback(Global.start_countdown, "start_countdown")	
-	
+	hide_splitscreen_popup.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
+	hide_splitscreen_popup.tween_callback(Global.start_countdown, "start_countdown")	
+		
 		
 # SPECTRUM ---------------------------------------------------------------------------------------------------------------------------
 

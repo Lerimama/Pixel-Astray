@@ -27,6 +27,7 @@ var step_slowdown_rate: float = Global.game_manager.game_settings["step_slowdown
 # bursting
 var cocking_room: bool = true
 var uncocking: bool = false
+var cocking_loop_pause: float = 1
 var cock_ghost_cocking_time: float = 0.12 # čas nastajanja ghosta in njegova animacija 
 var current_ghost_cocking_time: float = 0 # trenuten čas nastajanja ghosta ... tukaj, da ga ne nulira z vsakim frejmom
 var cocked_ghost_max_count: int = 7
@@ -228,7 +229,8 @@ func bursting_inputs():
 		end_move()
 		Input.start_joy_vibration(0, 0.6, 0.2, 0.2)
 		play_sound("burst_stop")
-		stop_sound("burst_cocking")	
+		stop_sound("burst_cocking")
+		stop_sound("burst_uncocking")	
 
 
 func skill_inputs():
@@ -337,11 +339,8 @@ func cock_burst():
 		end_move()
 		return
 	
-	var cocking_loop_pause: float = 1
-	
-	# preverjam prostor za napenjanje
 	if not uncocking:
-		if cocked_ghosts.size() < cocked_ghost_max_count and cocking_room: # ... preverja ghost
+		if cocked_ghosts.size() < cocked_ghost_max_count and cocking_room: # prostor za napenjanje preverja ghost
 			current_ghost_cocking_time += 1 / 60.0 # čas držanja tipke (znotraj nastajanja ene cock celice) ... fejk delta
 			if current_ghost_cocking_time > cock_ghost_cocking_time: # ko je čas za eno celico mimo, jo spawnam
 				current_ghost_cocking_time = 0
@@ -352,18 +351,18 @@ func cock_burst():
 			yield(get_tree().create_timer(cocking_loop_pause), "timeout")
 			uncocking = true
 	else:
-		current_ghost_cocking_time += 1 / 60.0 
-		if current_ghost_cocking_time > cock_ghost_cocking_time: # ko je čas za eno celico mimo, jo zbrišem
-			current_ghost_cocking_time = 0
-			# najdem zadnjega in ga odfejdam
-			var last_cocked_ghost = cocked_ghosts.back()
-			if last_cocked_ghost:
+		if not cocked_ghosts.empty():
+			current_ghost_cocking_time += 1 / 60.0 
+			if current_ghost_cocking_time > cock_ghost_cocking_time:
+				play_sound("burst_uncocking")
+				current_ghost_cocking_time = 0
+				var last_cocked_ghost = cocked_ghosts.back() # najdem zadnjega cockanega in ga odfejdam
 				var cock_cell_tween = get_tree().create_tween()
-				cock_cell_tween.tween_property(last_cocked_ghost, "modulate:a", 0, cock_ghost_cocking_time)#.set_ease(Tween.EASE_IN)
+				cock_cell_tween.tween_property(last_cocked_ghost, "modulate:a", 0, cock_ghost_cocking_time)
 				yield(cock_cell_tween, "finished")
 				cocked_ghosts.pop_back()
 				last_cocked_ghost.queue_free()
-		elif cocked_ghosts.empty():
+		else:
 			yield(get_tree().create_timer(cocking_loop_pause), "timeout")
 			uncocking = false
 
@@ -408,6 +407,7 @@ func burst():
 		ghost.queue_free()
 	
 	stop_sound("burst_cocking")
+	stop_sound("burst_uncocking")
 	play_sound("burst")
 	
 	# release ghost 
@@ -989,6 +989,10 @@ func play_sound(effect_for: String):
 			if $Sounds/Burst/BurstCocking.is_playing():
 				return
 			$Sounds/Burst/BurstCocking.play()
+		"burst_uncocking":
+			if $Sounds/Burst/BurstUncocking.is_playing():
+				return
+			$Sounds/Burst/BurstUncocking.play()			
 		"burst_stop":
 			$Sounds/Burst/BurstStop.play()
 		# skills
@@ -1017,6 +1021,8 @@ func stop_sound(stop_effect_for: String):
 				$Sounds/Skills/TeleportLoop.stop()
 		"burst_cocking":
 			$Sounds/Burst/BurstCocking.stop()
+		"burst_uncocking":
+			$Sounds/Burst/BurstUncocking.stop()	
 		"heartbeat":
 			$Sounds/Heartbeat.stop()
 

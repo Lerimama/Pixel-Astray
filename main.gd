@@ -16,7 +16,10 @@ func _ready() -> void:
 #	home_in_no_intro()
 	game_in()
 
-
+func _process(delta: float) -> void:
+	print("GUI INPUT ", get_viewport().gui_disable_input)
+	print("FOCUS ALLOW ", Global.allow_focus_sfx)
+	
 func home_in_intro():
 	
 	Global.spawn_new_scene(home_scene_path, self)
@@ -65,6 +68,7 @@ func home_out():
 
 func game_in():	
 	
+	get_viewport().set_disable_input(false) # anti dablklik
 	get_tree().set_pause(false)
 	
 	Global.spawn_new_scene(game_scene_path, self)
@@ -81,6 +85,8 @@ func game_in():
 
 func game_out():
 	
+	get_viewport().set_disable_input(true) # anti dablklik
+	
 	Global.player1_camera = null
 	Global.player2_camera = null
 	
@@ -93,6 +99,8 @@ func game_out():
 
 
 func reload_game(): # game out z drugačnim zaključkom
+	
+	get_viewport().set_disable_input(true) # anti dablklik
 	
 	Global.player1_camera = null
 	Global.player2_camera = null

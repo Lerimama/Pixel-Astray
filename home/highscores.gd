@@ -16,3 +16,9 @@ func _ready() -> void:
 	highscore_table_M.get_highscore_table(Profiles.game_data_cleaner_M["game"], fake_player_ranking)
 	highscore_table_L.get_highscore_table(Profiles.game_data_cleaner_L["game"], fake_player_ranking)
 
+
+func _on_BackBtn_pressed() -> void:
+	
+	Global.sound_manager.play_gui_sfx("screen_slide")
+	$"%AnimationPlayer".play_backwards("highscores")
+	get_viewport().set_disable_input(true)

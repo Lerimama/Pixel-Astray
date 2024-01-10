@@ -5,51 +5,27 @@ enum Screens {MAIN_MENU, SELECT_GAME, ABOUT, SETTINGS, HIGHSCORES}
 var current_screen # se določi z main animacije
 
 var current_esc_hint: HBoxContainer
+var allow_ui_sfx: bool = false # za kontrolo defolt focus soundov
 
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var menu: HBoxContainer = $Menu
 onready var intro: Node2D = $IntroViewPortContainer/IntroViewport/Intro
 onready var intro_viewport: Viewport = $IntroViewPortContainer/IntroViewport
 
-onready var tutorial_btn: Button = $SelectGame/TutorialBtn
-onready var pointer_btn: Button = $SelectGame/PointerBtn
-onready var riddler_btn: Button = $SelectGame/RiddlerBtn
-
 
 func _input(event: InputEvent) -> void:
 	
 	if Input.is_action_just_pressed("ui_cancel"):
 		match current_screen:
-			Screens.MAIN_MENU:
-				 pass
 			Screens.SELECT_GAME:
-				_on_SelectGameBackBtn_pressed()
+				$SelectGame._on_BackBtn_pressed()
 			Screens.ABOUT:
-				_on_AboutBackBtn_pressed()
+				$About._on_BackBtn_pressed()
 			Screens.SETTINGS:
-				_on_SettingsBackBtn_pressed()
+				$Settings._on_BackBtn_pressed()
 			Screens.HIGHSCORES:
-				_on_HighscoresBackBtn_pressed()
+				$Highscores._on_BackBtn_pressed()
 	
-	if current_screen == Screens.MAIN_MENU:
-		if Input.is_action_just_pressed("ui_left"):
-			Global.sound_manager.play_gui_sfx("btn_focus_change")
-		elif Input.is_action_just_pressed("ui_right"):
-			Global.sound_manager.play_gui_sfx("btn_focus_change")
-	elif current_screen == Screens.SELECT_GAME or current_screen == Screens.SETTINGS:
-		if Input.is_action_just_pressed("ui_left"):
-			Global.sound_manager.play_gui_sfx("btn_focus_change")
-		elif Input.is_action_just_pressed("ui_right"):
-			Global.sound_manager.play_gui_sfx("btn_focus_change")	
-		elif Input.is_action_just_pressed("ui_up"):
-			Global.sound_manager.play_gui_sfx("btn_focus_change")
-		elif Input.is_action_just_pressed("ui_down"):
-			Global.sound_manager.play_gui_sfx("btn_focus_change")
-		elif Input.is_action_just_pressed("ui_focus_next"):
-			Global.sound_manager.play_gui_sfx("btn_focus_change")
-		elif Input.is_action_just_pressed("ui_focus_prev"):
-			Global.sound_manager.play_gui_sfx("btn_focus_change")
-					
 					
 func _ready():
 	
@@ -59,13 +35,6 @@ func _ready():
 	$Highscores/EscHint.modulate.a = 0
 	$About/EscHint.modulate.a = 0
 	
-	# games buttons text
-	# $SelectGame/SelectGameBtn1.text = "Only " + str(Profiles.game_data_S["game"]) + " pixels astray"
-	# $SelectGame/SelectGameBtn2.text = str(Profiles.game_data_M["game"]) + " pixels astray"
-	# $SelectGame/SelectGameBtn3.text = str(Profiles.game_data_L["game"]) + " pixels astray"
-	# $SelectGame/SelectGameBtn4.text = str(Profiles.game_data_XL["game"]) + " pixels astray"
-	# $SelectGame/SelectGameBtn5.text = str(Profiles.game_data_XXL["game"]) + " pixels astray"
-
 	
 func open_with_intro(): # kliče main.gd -> home_in_intro()
 	intro.play_intro() # intro signal na koncu kliče menu_in()
@@ -94,9 +63,10 @@ func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drug
 	
 	current_screen = Screens.MAIN_MENU
 	
+	Global.grab_focus_no_sfx($Menu/SelectGameBtn)
+		
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(menu, "modulate:a", 1, 1)
-	fade_in.tween_callback($Menu/SelectGameBtn, "grab_focus")
 
 
 # SIGNALI ---------------------------------------------------------------------------------------------------
@@ -113,33 +83,37 @@ func _on_Intro_finished_playing() -> void:
 	
 func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 	
+	get_viewport().set_disable_input(false)
+	
 	match animation_name:
 		"select_game":
 			if animation_reversed("select_game"):
 				return
 			current_screen = Screens.SELECT_GAME
-			tutorial_btn.grab_focus()
 			current_esc_hint = $SelectGame/EscHint
+			Global.grab_focus_no_sfx($SelectGame/TutorialBtn)
 		"about":
 			if animation_reversed("about"):
 				return
 			current_screen = Screens.ABOUT
-			$About/AboutBackBtn.grab_focus()
 			current_esc_hint = $About/EscHint
+			Global.grab_focus_no_sfx($About/BackBtn)
 		"settings":
 			if animation_reversed("settings"):
 				return
 			current_screen = Screens.SETTINGS
-			$Settings/MenuMusicCheckBox.grab_focus()
 			current_esc_hint = $Settings/EscHint
+			Global.grab_focus_no_sfx($Settings/MenuMusicBtn)
 		"highscores":
 			if animation_reversed("highscores"):
 				return
 			current_screen = Screens.HIGHSCORES
-			$Highscores/HighscoresBackBtn.grab_focus()
 			current_esc_hint = $Highscores/EscHint
+			Global.grab_focus_no_sfx($Highscores/BackBtn)
 		"play":
 			Global.main_node.home_out()
+	
+#	Global.allow_focus_sfx = true
 			
 	if current_esc_hint != null:
 		var hint_fade_in = get_tree().create_tween()
@@ -149,20 +123,8 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 func animation_reversed(from_screen: String):
 	
 	if animation_player.current_animation_position == 0: # pomeni da se odpre main menu
-		$Menu/SelectGameBtn.grab_focus()
-		# match from_screen:
-		#	"select_game":
-		#		$Menu/SelectGameBtn.grab_focus()
-		#	"about":
-		#		$Menu/AboutBtn.grab_focus()
-		#	"settings":
-		#		$Menu/SettingsBtn.grab_focus()
-		#	"highscores":
-		#		$Menu/HighscoresBtn.grab_focus()
-		# current_screen = Screens.MAIN_MENU ... določi se v menu_in()
 		current_esc_hint.modulate.a = 0
 		menu_in()
-		
 		return true
 
 
@@ -171,129 +133,27 @@ func animation_reversed(from_screen: String):
 
 func _on_SelectGameBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
-	Global.sound_manager.play_gui_sfx("btn_confirm")
 	animation_player.play("select_game")
+	get_viewport().set_disable_input(true)
 
 
 func _on_AboutBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
-	Global.sound_manager.play_gui_sfx("btn_confirm")
 	animation_player.play("about")
+	get_viewport().set_disable_input(true)
 
 
 func _on_SettingsBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
-	Global.sound_manager.play_gui_sfx("btn_confirm")
 	animation_player.play("settings")
-
+	get_viewport().set_disable_input(true)
+	
 
 func _on_HighscoresBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
-	Global.sound_manager.play_gui_sfx("btn_confirm")
 	animation_player.play("highscores")
+	get_viewport().set_disable_input(true)
 
 
 func _on_QuitGameBtn_pressed() -> void:
 	get_tree().quit()
-	
-	
-# BACK BTNZ ---------------------------------------------------------------------------------------------------
-
-
-func _on_SelectGameBackBtn_pressed() -> void:
-	Global.sound_manager.play_gui_sfx("btn_cancel")
-	Global.sound_manager.play_gui_sfx("screen_slide")
-	animation_player.play_backwards("select_game")
-
-
-func _on_AboutBackBtn_pressed() -> void:
-	Global.sound_manager.play_gui_sfx("btn_cancel")
-	Global.sound_manager.play_gui_sfx("screen_slide")
-	animation_player.play_backwards("about")
-
-
-func _on_SettingsBackBtn_pressed() -> void:
-	Global.sound_manager.play_gui_sfx("btn_cancel")
-	Global.sound_manager.play_gui_sfx("screen_slide")
-	animation_player.play_backwards("settings")
-
-
-func _on_HighscoresBackBtn_pressed() -> void:
-	Global.sound_manager.play_gui_sfx("btn_cancel")
-	Global.sound_manager.play_gui_sfx("screen_slide")
-	animation_player.play_backwards("highscores")
-
-
-# SELECT GAME ---------------------------------------------------------------------------------------------------
-
-
-func _on_TutorialBtn_pressed() -> void:
-	
-	Profiles.set_game_data(Profiles.Games.TUTORIAL)
-	Global.sound_manager.play_gui_sfx("btn_confirm")
-	Global.sound_manager.play_gui_sfx("menu_fade")
-	animation_player.play("play") # home out je signal na koncu animacije
-	
-	tutorial_btn.disabled = true # da ne moreš multiklikat
-
-# cleaner
-
-func _on_CleanerSBtn_pressed() -> void:
-	
-	Profiles.set_game_data(Profiles.Games.CLEANER_S)
-	Global.sound_manager.play_gui_sfx("btn_confirm")
-	Global.sound_manager.play_gui_sfx("menu_fade")
-	animation_player.play("play")
-
-	$SelectGame/CleanerSBtn.disabled = true
-
-
-func _on_CleanerMBtn_pressed() -> void:
-	
-	Profiles.set_game_data(Profiles.Games.CLEANER_M)
-	Global.sound_manager.play_gui_sfx("btn_confirm")
-	Global.sound_manager.play_gui_sfx("menu_fade")
-	animation_player.play("play")
-
-	$SelectGame/CleanerMBtn.disabled = true
-	
-
-func _on_CleanerLBtn_pressed() -> void:
-
-	Profiles.set_game_data(Profiles.Games.CLEANER_L)
-	Global.sound_manager.play_gui_sfx("btn_confirm")
-	Global.sound_manager.play_gui_sfx("menu_fade")
-	animation_player.play("play")
-	
-	$SelectGame/CleanerLBtn.disabled = true
-	
-	
-func _on_DuelBtn_pressed() -> void:
-	Profiles.set_game_data(Profiles.Games.DUEL)
-	Global.sound_manager.play_gui_sfx("btn_confirm")
-	Global.sound_manager.play_gui_sfx("menu_fade")
-	animation_player.play("play")
-	
-	$SelectGame/DuelBtn.disabled = true
-	
-
-func _on_PointerBtn_pressed() -> void:
-	pass # Replace with function body.
-
-
-func _on_RiddlerBtn_pressed() -> void:
-	Profiles.set_game_data(Profiles.Games.RIDDLER)
-	Global.sound_manager.play_gui_sfx("btn_confirm")
-	Global.sound_manager.play_gui_sfx("menu_fade")
-	animation_player.play("play")
-	
-	$SelectGame/RiddlerBtn.disabled = true
-
-
-func _on_RunnerBtn_pressed() -> void:
-	Profiles.set_game_data(Profiles.Games.RUNNER)
-	Global.sound_manager.play_gui_sfx("btn_confirm")
-	Global.sound_manager.play_gui_sfx("menu_fade")
-	animation_player.play("play")
-	
-	$SelectGame/RunnerBtn.disabled = true

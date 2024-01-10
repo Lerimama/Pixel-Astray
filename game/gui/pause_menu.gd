@@ -1,9 +1,6 @@
 extends Control
 
 
-var pause_on: bool = false # samo za esc tipko in preventanje dablklika
-
-
 func _input(event: InputEvent) -> void:
 	
 			
@@ -11,20 +8,9 @@ func _input(event: InputEvent) -> void:
 		if Input.is_action_just_pressed("ui_cancel"):
 			if not visible:
 				pause_game()
-			elif pause_on:
+			else:
 				_on_PlayBtn_pressed()
 	
-	# change focus sounds
-	if pause_on:
-		if Input.is_action_just_pressed("ui_left"):
-			Global.sound_manager.play_gui_sfx("btn_focus_change")
-		elif Input.is_action_just_pressed("ui_right"):
-			Global.sound_manager.play_gui_sfx("btn_focus_change")
-		elif Input.is_action_just_pressed("ui_up"):
-			Global.sound_manager.play_gui_sfx("btn_focus_change")
-		elif Input.is_action_just_pressed("ui_down"):
-			Global.sound_manager.play_gui_sfx("btn_focus_change")
-
 
 func _ready() -> void:
 	
@@ -54,19 +40,24 @@ func _process(delta: float) -> void:
 			
 func pause_game():
 	
+	get_viewport().set_disable_input(true) # anti dablklik
+	
 	visible = true
 	
 	Global.sound_manager.play_gui_sfx("screen_slide")
-	$Menu/PlayBtn.grab_focus()
+	
+	Global.grab_focus_no_sfx($Menu/PlayBtn)
 	
 	var pause_in_time: float = 0.5
 	var fade_in_tween = get_tree().create_tween()
 	fade_in_tween.tween_property(self, "modulate:a", 1, pause_in_time)
-	fade_in_tween.tween_property(self, "pause_on", true, 0)
 	fade_in_tween.tween_callback(get_tree(), "set_pause", [true])
+	fade_in_tween.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
 
 
 func play_on():
+	
+	get_viewport().set_disable_input(true) # anti dablklik
 	
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	
@@ -75,6 +66,7 @@ func play_on():
 	fade_out_tween.tween_property(self, "modulate:a", 0, pause_out_time)
 	fade_out_tween.tween_callback(self, "set_visible", [false])
 	fade_out_tween.tween_callback(get_tree(), "set_pause", [false])
+	fade_out_tween.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
 
 
 # MENU ---------------------------------------------------------------------------------------------
@@ -82,20 +74,11 @@ func play_on():
 
 func _on_PlayBtn_pressed() -> void:
 	
-	if not pause_on:
-		return
-	pause_on = false
-	
-	Global.sound_manager.play_gui_sfx("btn_confirm")
 	play_on()
 
 
 func _on_RestartBtn_pressed() -> void:
 
-	if not pause_on:
-		return
-	pause_on = false
-			
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	
 	Global.game_manager.stop_game_elements()
@@ -106,12 +89,6 @@ func _on_RestartBtn_pressed() -> void:
 	
 func _on_QuitBtn_pressed() -> void:
 
-	if not pause_on:
-		return
-	pause_on = false
-			
-	Global.sound_manager.play_gui_sfx("btn_cancel")
-	
 	Global.game_manager.stop_game_elements()
 	Global.sound_manager.stop_music("game_music_on_gameover")
 	# get_tree().paused = false ... tween za izhod pavzo drevesa ignorira
@@ -156,6 +133,3 @@ func _on_CamerShakeCheckBox_toggled(button_pressed: bool) -> void:
 	else:
 		Global.sound_manager.play_gui_sfx("btn_cancel")
 		Global.main_node.camera_shake_on = false
-
-
-

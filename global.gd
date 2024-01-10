@@ -126,7 +126,6 @@ func detect_group_collision_in_direction(ray_group, direction_to_check):
 	
 #	print("current_colliders ", current_colliders)
 	return current_colliders
-#			break
 			
 					
 func detect_collision_in_direction(ray, direction_to_check):
@@ -143,6 +142,7 @@ func detect_collision_in_direction(ray, direction_to_check):
 			return ray_collider
 		else: 
 			return null 
+
 
 # SCENE MANAGER (prehajanje med igro in menijem) --------------------------------------------------------------
 
@@ -172,6 +172,101 @@ func spawn_new_scene(scene_path, parent_node): # spawn scene
 	print ("SCENE ADDED: ", current_scene)	
 	
 	return current_scene
+
+
+# BUTTONS --------------------------------------------------------------------------------------------------
+
+# vsak hover, postane focus
+# dodam sounde na focus
+# dodam sounde na confirm, cancel, quit
+# dodam modulate na Checkbutton focus
+
+
+var allow_focus_sfx: bool = false
+
+
+func _ready(): # when _ready is called, there might already be nodes in the tree, so connect all existing buttons
+	
+	connect_buttons(get_tree().root)
+	get_tree().connect("node_added", self, "_on_SceneTree_node_added")
+
+
+func _on_SceneTree_node_added(node: Control):
+	
+	if node is BaseButton or node is HSlider:
+		connect_to_button(node)
+
+
+func connect_buttons(root: Node): # recursively connect all buttons
+	
+	for child in root.get_children():
+		if child is BaseButton or child is HSlider:
+			connect_to_button(child)
+		connect_buttons(child)
+
+
+func connect_to_button(button):
+	
+	# pressing btnz
+	if button is CheckButton:
+		button.connect("toggled", self, "_on_button_toggled")
+	elif not HSlider:
+		button.connect("pressed", self, "_on_button_pressed", [button])
+	
+	# hover and focus
+	button.connect("mouse_entered", self, "_on_control_hovered", [button])
+	button.connect("focus_entered", self, "_on_control_focused", [button])
+	button.connect("focus_exited", self, "_on_control_unfocused", [button])
+
+
+func _on_button_pressed(button: BaseButton):
+	
+	if button.name == "BackBtn":
+		Global.sound_manager.play_gui_sfx("btn_confirm")
+	elif button.name == "QuitBtn" or button.name == "CancelBtn":
+		Global.sound_manager.play_gui_sfx("btn_cancel")
+	else:
+		Global.sound_manager.play_gui_sfx("btn_confirm")
+
+	
+func _on_button_toggled(button_pressed: bool) -> void:
+	
+	if button_pressed:
+		Global.sound_manager.play_gui_sfx("btn_confirm")
+	else:
+		Global.sound_manager.play_gui_sfx("btn_cancel")
+
+
+func _on_control_hovered(control: Control):
+	
+	if not control.has_focus():		
+		control.grab_focus()
+		Global.sound_manager.play_gui_sfx("btn_focus_change")
+		
+				
+func _on_control_focused(control: Control):
+	
+	Global.sound_manager.play_gui_sfx("btn_focus_change")
+	# check btn color fix
+	if control is CheckButton or control is HSlider:
+		control.modulate = Color.red
+
+
+func _on_control_unfocused(control: Control):
+	
+	if control is CheckButton or control is HSlider:
+		control.modulate = Color.white
+
+
+func grab_focus_no_sfx(control_to_focus: Control):
+	
+	allow_focus_sfx = false
+	control_to_focus.grab_focus()
+	allow_focus_sfx = true
+	
+	
+	
+
 
 
 # NI V RABI --------------------------------------------------------------------------------------------------

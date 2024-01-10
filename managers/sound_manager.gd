@@ -72,7 +72,8 @@ func play_gui_sfx(effect_for: String):
 		"btn_cancel":
 			$GuiSfx/Inputs/BtnCancel.play()
 		"btn_focus_change":
-			$GuiSfx/Inputs/BtnFocus.play()
+			if Global.allow_focus_sfx:
+				$GuiSfx/Inputs/BtnFocus.play()
 		# menu
 		"menu_fade":
 			$GuiSfx/MenuFade.play()
@@ -93,7 +94,7 @@ func select_random_sfx(sound_group: Node2D):
 
 func play_music(music_for: String):
 	
-#	return
+	return
 	match music_for:
 		"menu_music":
 			if menu_music_set_to_off:
