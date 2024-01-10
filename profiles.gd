@@ -6,38 +6,39 @@ extends Node
 
 # DEFAULT -----------------------------------------------------------------------------------
 
+
 var game_color_schemes: Dictionary = {
 	"default_color_scheme": { # default
-		1: Color.black,
-		2: Color.white,	
+		1: Color.black, # ne velja, ker greba iz spectrum slike
+		2: Color.white,	# ne velja, ker greba iz spectrum slike
 	},
-	"color_scheme_2":{
-		1: Color.blue,
-		2: Color.white,
+	"color_scheme_2":{ 
+		1: Color("#f35b7f"), # red
+		2: Color("#fef98b"), #yellow
 	},
 	"color_scheme_3":{
-		1: Color.violet,
-		2: Color.white,
+		1: Color("#f9aa71"), # orange
+		2: Color("#fef98b"), # blue
 	},
 	"color_scheme_4":{
-		1: Color.orange,
-		2: Color.white,
+		1: Color("#fef98b"), #yellow
+		2: Color("#5effa9"), # green
 	},
 	"color_scheme_5":{
-		1: Color.purple,
-		2: Color.white,
+		1: Color("#5effa9"), # green
+		2: Color("#4b9fff"), # blue
 	},
 	"color_scheme_6":{
-		1: Color.yellow,
-		2: Color.white,
+		1: Color("#74ffff"), # turkizna
+		2: Color("#4b9fff"), # blue
 	},
 	"color_scheme_7":{
-		1: Color.red,
-		2: Color.white,
+		1: Color("#4b9fff"), # blue
+		2: Color("#ec80fb"), #purple
 	},
 	"color_scheme_8":{
-		1: Color.turquoise,
-		2: Color.white,
+		1: Color("#ec80fb"), # purple
+		2: Color("#7053c2"), # viola
 	},
 }
 

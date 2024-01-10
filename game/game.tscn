@@ -1,4 +1,4 @@
-[gd_scene load_steps=117 format=2]
+[gd_scene load_steps=114 format=2]
 
 [ext_resource path="res://game/hud/hud_game_timer.gd" type="Script" id=1]
 [ext_resource path="res://game/hud/hud.gd" type="Script" id=2]
@@ -60,11 +60,15 @@ region = Rect2( 138, 154, 22, 22 )
 atlas = ExtResource( 20 )
 region = Rect2( 0, 154, 102, 22 )
 
-[sub_resource type="StreamTexture" id=243]
-load_path = "res://.import/controls_scheme.png-9ee77a9514109977db18399ec912d13f.stex"
+[sub_resource type="StreamTexture" id=181]
+load_path = "res://.import/atlas_controls.png-75e6b40869d487066545840672dcb98d.stex"
 
-[sub_resource type="AtlasTexture" id=244]
-atlas = SubResource( 243 )
+[sub_resource type="AtlasTexture" id=206]
+atlas = SubResource( 181 )
+region = Rect2( 0, 0, 120, 86 )
+
+[sub_resource type="AtlasTexture" id=203]
+atlas = SubResource( 206 )
 region = Rect2( 0, 0, 120, 86 )
 
 [sub_resource type="AtlasTexture" id=245]
@@ -486,91 +490,12 @@ tracks/3/keys = {
 "values": [ 0.0, 1.0, 1.0, 0.0 ]
 }
 
-[sub_resource type="AtlasTexture" id=192]
-atlas = ExtResource( 20 )
-region = Rect2( 0, 98, 70, 46 )
-
-[sub_resource type="AtlasTexture" id=193]
-atlas = ExtResource( 20 )
-region = Rect2( 80, 98, 70, 46 )
-
-[sub_resource type="StreamTexture" id=181]
-load_path = "res://.import/controls_scheme.png-9ee77a9514109977db18399ec912d13f.stex"
-
-[sub_resource type="AtlasTexture" id=206]
-atlas = SubResource( 181 )
-region = Rect2( 0, 0, 120, 86 )
-
-[sub_resource type="AtlasTexture" id=195]
-atlas = ExtResource( 20 )
-region = Rect2( 10, 17, 22, 22 )
-
-[sub_resource type="AtlasTexture" id=196]
-atlas = ExtResource( 20 )
-region = Rect2( 30, 40, 18, 18 )
-
-[sub_resource type="AtlasTexture" id=197]
-atlas = ExtResource( 20 )
-region = Rect2( 96, 32, 10, 10 )
-
-[sub_resource type="AtlasTexture" id=235]
-atlas = ExtResource( 20 )
-region = Rect2( 0, 154, 102, 22 )
-
-[sub_resource type="AtlasTexture" id=236]
-atlas = ExtResource( 20 )
-region = Rect2( 114, 154, 22, 22 )
-
-[sub_resource type="AtlasTexture" id=237]
-atlas = ExtResource( 20 )
-region = Rect2( 138, 154, 22, 22 )
-
-[sub_resource type="AtlasTexture" id=184]
-atlas = ExtResource( 20 )
-region = Rect2( 0, 186, 22, 22 )
-margin = Rect2( 0, 2, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=185]
-atlas = ExtResource( 20 )
-region = Rect2( 85, 218, 22, 22 )
-margin = Rect2( -2, 2, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=186]
-atlas = ExtResource( 20 )
-region = Rect2( 24, 186, 22, 22 )
-margin = Rect2( 0, 2, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=187]
-atlas = ExtResource( 20 )
-region = Rect2( 109, 218, 22, 22 )
-margin = Rect2( -2, 2, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=188]
-atlas = ExtResource( 20 )
-region = Rect2( 48, 186, 22, 22 )
-margin = Rect2( 0, 2, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=189]
-atlas = ExtResource( 20 )
-region = Rect2( 42, 218, 41, 22 )
-margin = Rect2( -2, 2, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=190]
-atlas = ExtResource( 20 )
-region = Rect2( 72, 186, 22, 22 )
-margin = Rect2( 0, 2, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=191]
-atlas = ExtResource( 20 )
-region = Rect2( 0, 218, 40, 22 )
-margin = Rect2( -2, 2, 0, 0 )
-
 [sub_resource type="AtlasTexture" id=147]
 atlas = ExtResource( 14 )
 region = Rect2( 0, 0, 16, 16 )
 
 [sub_resource type="StreamTexture" id=144]
-load_path = "res://.import/tileset_hud_icons.png-be9f67bfe9cd2fc31c012c696d1f0b84.stex"
+load_path = "res://.import/atlas_hud.png-e7dc1fba151c6637ba4698f0439dac44.stex"
 
 [sub_resource type="AtlasTexture" id=123]
 atlas = SubResource( 144 )
@@ -643,13 +568,6 @@ region = Rect2( 0, 98, 70, 46 )
 atlas = ExtResource( 20 )
 region = Rect2( 80, 98, 70, 46 )
 
-[sub_resource type="StreamTexture" id=183]
-load_path = "res://.import/controls_scheme.png-9ee77a9514109977db18399ec912d13f.stex"
-
-[sub_resource type="AtlasTexture" id=203]
-atlas = SubResource( 183 )
-region = Rect2( 0, 0, 120, 86 )
-
 [sub_resource type="AtlasTexture" id=204]
 atlas = ExtResource( 20 )
 region = Rect2( 10, 17, 22, 22 )
@@ -661,6 +579,18 @@ region = Rect2( 30, 40, 18, 18 )
 [sub_resource type="AtlasTexture" id=205]
 atlas = ExtResource( 20 )
 region = Rect2( 96, 32, 10, 10 )
+
+[sub_resource type="AtlasTexture" id=235]
+atlas = ExtResource( 20 )
+region = Rect2( 0, 154, 102, 22 )
+
+[sub_resource type="AtlasTexture" id=236]
+atlas = ExtResource( 20 )
+region = Rect2( 114, 154, 22, 22 )
+
+[sub_resource type="AtlasTexture" id=237]
+atlas = ExtResource( 20 )
+region = Rect2( 138, 154, 22, 22 )
 
 [sub_resource type="StyleBoxFlat" id=155]
 content_margin_left = 21.0
@@ -987,6 +917,66 @@ tracks/8/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
+[sub_resource type="AtlasTexture" id=192]
+atlas = ExtResource( 20 )
+region = Rect2( 0, 98, 70, 46 )
+
+[sub_resource type="AtlasTexture" id=193]
+atlas = ExtResource( 20 )
+region = Rect2( 80, 98, 70, 46 )
+
+[sub_resource type="AtlasTexture" id=195]
+atlas = ExtResource( 20 )
+region = Rect2( 10, 17, 22, 22 )
+
+[sub_resource type="AtlasTexture" id=196]
+atlas = ExtResource( 20 )
+region = Rect2( 30, 40, 18, 18 )
+
+[sub_resource type="AtlasTexture" id=197]
+atlas = ExtResource( 20 )
+region = Rect2( 96, 32, 10, 10 )
+
+[sub_resource type="AtlasTexture" id=184]
+atlas = ExtResource( 20 )
+region = Rect2( 0, 186, 22, 22 )
+margin = Rect2( 0, 2, 0, 0 )
+
+[sub_resource type="AtlasTexture" id=185]
+atlas = ExtResource( 20 )
+region = Rect2( 85, 218, 22, 22 )
+margin = Rect2( -2, 2, 0, 0 )
+
+[sub_resource type="AtlasTexture" id=186]
+atlas = ExtResource( 20 )
+region = Rect2( 24, 186, 22, 22 )
+margin = Rect2( 0, 2, 0, 0 )
+
+[sub_resource type="AtlasTexture" id=187]
+atlas = ExtResource( 20 )
+region = Rect2( 109, 218, 22, 22 )
+margin = Rect2( -2, 2, 0, 0 )
+
+[sub_resource type="AtlasTexture" id=188]
+atlas = ExtResource( 20 )
+region = Rect2( 48, 186, 22, 22 )
+margin = Rect2( 0, 2, 0, 0 )
+
+[sub_resource type="AtlasTexture" id=189]
+atlas = ExtResource( 20 )
+region = Rect2( 42, 218, 41, 22 )
+margin = Rect2( -2, 2, 0, 0 )
+
+[sub_resource type="AtlasTexture" id=190]
+atlas = ExtResource( 20 )
+region = Rect2( 72, 186, 22, 22 )
+margin = Rect2( 0, 2, 0, 0 )
+
+[sub_resource type="AtlasTexture" id=191]
+atlas = ExtResource( 20 )
+region = Rect2( 0, 218, 40, 22 )
+margin = Rect2( -2, 2, 0, 0 )
+
 [node name="Game" type="Node2D"]
 __meta__ = {
 "_edit_horizontal_guides_": [ 1371.0, 1371.0 ]
@@ -1310,7 +1300,7 @@ __meta__ = {
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_right = 120.0
 margin_bottom = 86.0
-texture = SubResource( 244 )
+texture = SubResource( 203 )
 
 [node name="btns" type="TextureRect" parent="GUI/Hud/Popups/SplitScreens/PlayerLeft/Joypad"]
 margin_left = 10.0
@@ -1450,7 +1440,7 @@ __meta__ = {
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_right = 120.0
 margin_bottom = 86.0
-texture = SubResource( 244 )
+texture = SubResource( 203 )
 
 [node name="btns" type="TextureRect" parent="GUI/Hud/Popups/SplitScreens/PlayerRight/Joypad"]
 margin_left = 10.0
@@ -1637,532 +1627,6 @@ anims/countdown_3 = SubResource( 143 )
 anims/countdown_5 = SubResource( 142 )
 anims/countdown_5_v1 = SubResource( 135 )
 
-[node name="PauseMenu" type="Control" parent="GUI/Hud/Popups"]
-pause_mode = 2
-anchor_right = 1.0
-anchor_bottom = 1.0
-script = ExtResource( 10 )
-
-[node name="Background" type="ColorRect" parent="GUI/Hud/Popups/PauseMenu"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color( 0, 0, 0, 0.784314 )
-
-[node name="Title" type="Label" parent="GUI/Hud/Popups/PauseMenu"]
-margin_left = 506.0
-margin_top = 94.0
-margin_right = 773.0
-margin_bottom = 126.0
-size_flags_horizontal = 3
-custom_colors/font_color = Color( 0.952941, 0.356863, 0.498039, 1 )
-custom_fonts/font = ExtResource( 5 )
-text = "Game on pause"
-
-[node name="HSeparator" type="HSeparator" parent="GUI/Hud/Popups/PauseMenu/Title"]
-visible = false
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = 1.0
-margin_right = -3.0
-margin_bottom = 5.0
-
-[node name="Controls" type="Control" parent="GUI/Hud/Popups/PauseMenu"]
-margin_left = 288.0
-margin_top = 174.0
-margin_right = 632.0
-margin_bottom = 393.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" type="Label" parent="GUI/Hud/Popups/PauseMenu/Controls"]
-anchor_right = 1.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 0, 38 )
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-text = "Player controls"
-uppercase = true
-
-[node name="HSeparator" type="HSeparator" parent="GUI/Hud/Popups/PauseMenu/Controls/Title"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 1.0
-margin_top = -7.0
-margin_right = -1.0
-margin_bottom = -3.0
-
-[node name="Keys" type="Control" parent="GUI/Hud/Popups/PauseMenu/Controls"]
-margin_top = 55.0
-margin_right = 328.0
-margin_bottom = 186.0
-rect_pivot_offset = Vector2( 264, 104 )
-
-[node name="Keyboard1" type="TextureRect" parent="GUI/Hud/Popups/PauseMenu/Controls/Keys"]
-margin_left = 96.0
-margin_top = 53.0
-margin_right = 166.0
-margin_bottom = 99.0
-texture = SubResource( 192 )
-
-[node name="Keyboard2" type="TextureRect" parent="GUI/Hud/Popups/PauseMenu/Controls/Keys"]
-margin_top = 53.0
-margin_right = 70.0
-margin_bottom = 99.0
-texture = SubResource( 193 )
-
-[node name="Joypad" type="Control" parent="GUI/Hud/Popups/PauseMenu/Controls/Keys"]
-margin_left = 224.0
-margin_top = 28.0
-margin_right = 344.0
-margin_bottom = 114.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="jp" type="TextureRect" parent="GUI/Hud/Popups/PauseMenu/Controls/Keys/Joypad"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-margin_right = 120.0
-margin_bottom = 86.0
-texture = SubResource( 206 )
-
-[node name="btns" type="TextureRect" parent="GUI/Hud/Popups/PauseMenu/Controls/Keys/Joypad"]
-margin_left = 10.0
-margin_top = 17.0
-margin_right = 32.0
-margin_bottom = 39.0
-texture = SubResource( 195 )
-
-[node name="stick" type="TextureRect" parent="GUI/Hud/Popups/PauseMenu/Controls/Keys/Joypad"]
-visible = false
-margin_left = 30.0
-margin_top = 40.0
-margin_right = 48.0
-margin_bottom = 58.0
-texture = SubResource( 196 )
-
-[node name="btn" type="TextureRect" parent="GUI/Hud/Popups/PauseMenu/Controls/Keys/Joypad"]
-margin_left = 96.0
-margin_top = 32.0
-margin_right = 106.0
-margin_bottom = 42.0
-texture = SubResource( 197 )
-
-[node name="Space2" type="TextureRect" parent="GUI/Hud/Popups/PauseMenu/Controls/Keys"]
-margin_top = 133.0
-margin_right = 102.0
-margin_bottom = 155.0
-texture = SubResource( 235 )
-
-[node name="Alt2" type="TextureRect" parent="GUI/Hud/Popups/PauseMenu/Controls/Keys"]
-margin_left = 109.0
-margin_top = 133.0
-margin_right = 131.0
-margin_bottom = 155.0
-texture = SubResource( 236 )
-
-[node name="Ctrl" type="TextureRect" parent="GUI/Hud/Popups/PauseMenu/Controls/Keys"]
-margin_left = 138.0
-margin_top = 133.0
-margin_right = 160.0
-margin_bottom = 155.0
-texture = SubResource( 237 )
-
-[node name="Line2D4" type="Line2D" parent="GUI/Hud/Popups/PauseMenu/Controls/Keys"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-position = Vector2( -265, 221 )
-points = PoolVector2Array( 380, -149, 368, -196 )
-width = 0.5
-default_color = Color( 1, 1, 1, 1 )
-sharp_limit = 0.0
-antialiased = true
-
-[node name="Line2D6" type="Line2D" parent="GUI/Hud/Popups/PauseMenu/Controls/Keys"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-position = Vector2( -298, 229 )
-points = PoolVector2Array( 349, -157, 382, -204 )
-width = 0.5
-default_color = Color( 1, 1, 1, 1 )
-sharp_limit = 0.0
-antialiased = true
-
-[node name="Line2D5" type="Line2D" parent="GUI/Hud/Popups/PauseMenu/Controls/Keys"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-position = Vector2( -259, 221 )
-points = PoolVector2Array( 496, -172, 445, -197 )
-width = 0.5
-default_color = Color( 1, 1, 1, 1 )
-sharp_limit = 0.0
-antialiased = true
-
-[node name="DirKeys" type="Label" parent="GUI/Hud/Popups/PauseMenu/Controls/Keys"]
-margin_left = 81.0
-margin_top = 3.0
-margin_right = 192.0
-margin_bottom = 21.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "Direction keys"
-autowrap = true
-
-[node name="Line2D" type="Line2D" parent="GUI/Hud/Popups/PauseMenu/Controls/Keys"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-position = Vector2( -149.302, 218.142 )
-scale = Vector2( 0.913793, 1.00769 )
-points = PoolVector2Array( 485.123, -66.6296, 517.953, -143.042 )
-width = 0.5
-default_color = Color( 1, 1, 1, 1 )
-sharp_limit = 0.0
-antialiased = true
-
-[node name="Line2D2" type="Line2D" parent="GUI/Hud/Popups/PauseMenu/Controls/Keys"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-position = Vector2( -367.895, 238 )
-scale = Vector2( 1.17742, 1 )
-points = PoolVector2Array( 503.554, -81, 452.595, -93 )
-width = 0.5
-default_color = Color( 1, 1, 1, 1 )
-sharp_limit = 0.0
-antialiased = true
-
-[node name="BurstKey" type="Label" parent="GUI/Hud/Popups/PauseMenu/Controls/Keys"]
-margin_left = 232.0
-margin_top = 147.0
-margin_right = 309.0
-margin_bottom = 165.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 23 )
-text = "Burst key"
-
-[node name="Shortcuts" type="Control" parent="GUI/Hud/Popups/PauseMenu"]
-margin_left = 696.0
-margin_top = 174.0
-margin_right = 992.0
-margin_bottom = 383.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" type="Label" parent="GUI/Hud/Popups/PauseMenu/Shortcuts"]
-margin_right = 296.0
-margin_bottom = 38.0
-rect_min_size = Vector2( 0, 38 )
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-text = "Shortcuts"
-uppercase = true
-
-[node name="HSeparator" type="HSeparator" parent="GUI/Hud/Popups/PauseMenu/Shortcuts/Title"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 1.0
-margin_top = -7.0
-margin_right = -1.0
-margin_bottom = -3.0
-
-[node name="Mute" type="HBoxContainer" parent="GUI/Hud/Popups/PauseMenu/Shortcuts"]
-margin_top = 56.0
-margin_right = 262.0
-margin_bottom = 78.0
-custom_constants/separation = 8
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="M" type="TextureRect" parent="GUI/Hud/Popups/PauseMenu/Shortcuts/Mute"]
-margin_right = 22.0
-margin_bottom = 22.0
-texture = SubResource( 184 )
-
-[node name="Label" type="Label" parent="GUI/Hud/Popups/PauseMenu/Shortcuts/Mute"]
-margin_left = 30.0
-margin_top = 2.0
-margin_right = 47.0
-margin_bottom = 20.0
-theme = SubResource( 194 )
-custom_fonts/font = ExtResource( 23 )
-text = "or"
-align = 1
-
-[node name="L1" type="TextureRect" parent="GUI/Hud/Popups/PauseMenu/Shortcuts/Mute"]
-margin_left = 55.0
-margin_right = 77.0
-margin_bottom = 22.0
-texture = SubResource( 185 )
-
-[node name="Label2" type="Label" parent="GUI/Hud/Popups/PauseMenu/Shortcuts/Mute"]
-margin_left = 85.0
-margin_top = 2.0
-margin_right = 198.0
-margin_bottom = 20.0
-theme = SubResource( 194 )
-custom_fonts/font = ExtResource( 23 )
-text = "to mute music"
-
-[node name="Skip" type="HBoxContainer" parent="GUI/Hud/Popups/PauseMenu/Shortcuts"]
-margin_top = 104.0
-margin_right = 262.0
-margin_bottom = 126.0
-custom_constants/separation = 8
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="N" type="TextureRect" parent="GUI/Hud/Popups/PauseMenu/Shortcuts/Skip"]
-margin_right = 22.0
-margin_bottom = 22.0
-texture = SubResource( 186 )
-
-[node name="Label" type="Label" parent="GUI/Hud/Popups/PauseMenu/Shortcuts/Skip"]
-margin_left = 30.0
-margin_top = 2.0
-margin_right = 47.0
-margin_bottom = 20.0
-theme = SubResource( 194 )
-custom_fonts/font = ExtResource( 23 )
-text = "or"
-align = 1
-
-[node name="R1" type="TextureRect" parent="GUI/Hud/Popups/PauseMenu/Shortcuts/Skip"]
-margin_left = 55.0
-margin_right = 77.0
-margin_bottom = 22.0
-texture = SubResource( 187 )
-
-[node name="Label2" type="Label" parent="GUI/Hud/Popups/PauseMenu/Shortcuts/Skip"]
-margin_left = 85.0
-margin_top = 2.0
-margin_right = 257.0
-margin_bottom = 20.0
-theme = SubResource( 194 )
-custom_fonts/font = ExtResource( 23 )
-text = "to skip current track"
-
-[node name="Pause" type="HBoxContainer" parent="GUI/Hud/Popups/PauseMenu/Shortcuts"]
-margin_top = 152.0
-margin_right = 296.0
-margin_bottom = 174.0
-custom_constants/separation = 8
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Esc" type="TextureRect" parent="GUI/Hud/Popups/PauseMenu/Shortcuts/Pause"]
-margin_right = 22.0
-margin_bottom = 22.0
-texture = SubResource( 188 )
-
-[node name="Label" type="Label" parent="GUI/Hud/Popups/PauseMenu/Shortcuts/Pause"]
-margin_left = 30.0
-margin_top = 2.0
-margin_right = 47.0
-margin_bottom = 20.0
-theme = SubResource( 194 )
-custom_fonts/font = ExtResource( 23 )
-text = "or"
-align = 1
-
-[node name="Select" type="TextureRect" parent="GUI/Hud/Popups/PauseMenu/Shortcuts/Pause"]
-margin_left = 55.0
-margin_right = 96.0
-margin_bottom = 22.0
-texture = SubResource( 189 )
-
-[node name="Label2" type="Label" parent="GUI/Hud/Popups/PauseMenu/Shortcuts/Pause"]
-margin_left = 104.0
-margin_top = 2.0
-margin_right = 296.0
-margin_bottom = 20.0
-theme = SubResource( 194 )
-custom_fonts/font = ExtResource( 23 )
-text = "to pause/unpause game"
-
-[node name="Enter" type="HBoxContainer" parent="GUI/Hud/Popups/PauseMenu/Shortcuts"]
-margin_top = 200.0
-margin_right = 268.0
-margin_bottom = 222.0
-custom_constants/separation = 8
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Enter" type="TextureRect" parent="GUI/Hud/Popups/PauseMenu/Shortcuts/Enter"]
-margin_right = 22.0
-margin_bottom = 22.0
-texture = SubResource( 190 )
-
-[node name="Label" type="Label" parent="GUI/Hud/Popups/PauseMenu/Shortcuts/Enter"]
-margin_left = 30.0
-margin_top = 2.0
-margin_right = 47.0
-margin_bottom = 20.0
-theme = SubResource( 194 )
-custom_fonts/font = ExtResource( 23 )
-text = "or"
-align = 1
-
-[node name="Start" type="TextureRect" parent="GUI/Hud/Popups/PauseMenu/Shortcuts/Enter"]
-margin_left = 55.0
-margin_right = 95.0
-margin_bottom = 22.0
-texture = SubResource( 191 )
-
-[node name="Label2" type="Label" parent="GUI/Hud/Popups/PauseMenu/Shortcuts/Enter"]
-margin_left = 103.0
-margin_top = 2.0
-margin_right = 262.0
-margin_bottom = 20.0
-theme = SubResource( 194 )
-custom_fonts/font = ExtResource( 23 )
-text = "to confirm selection"
-
-[node name="Settings" type="Control" parent="GUI/Hud/Popups/PauseMenu"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 288.0
-margin_top = 446.0
-margin_right = -288.0
-margin_bottom = -192.0
-
-[node name="Title" type="Label" parent="GUI/Hud/Popups/PauseMenu/Settings"]
-anchor_right = 1.0
-margin_bottom = 38.0
-rect_min_size = Vector2( 0, 38 )
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-text = "Game settings"
-uppercase = true
-
-[node name="HSeparator" type="HSeparator" parent="GUI/Hud/Popups/PauseMenu/Settings/Title"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 1.0
-margin_top = -7.0
-margin_right = -1.0
-margin_bottom = -3.0
-
-[node name="HSeparator" type="HSeparator" parent="GUI/Hud/Popups/PauseMenu/Settings"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-anchor_right = 1.0
-margin_top = 31.0
-margin_bottom = 35.0
-
-[node name="GameMusicBtn" type="CheckButton" parent="GUI/Hud/Popups/PauseMenu/Settings"]
-margin_top = 51.0
-margin_right = 90.0
-margin_bottom = 83.0
-focus_neighbour_left = NodePath("../CameraShakeBtn")
-focus_neighbour_right = NodePath("../GameMusicSlider")
-focus_neighbour_bottom = NodePath("../../Menu/QuitBtn")
-mouse_default_cursor_shape = 2
-pressed = true
-text = "Music"
-
-[node name="GameMusicSlider" type="HSlider" parent="GUI/Hud/Popups/PauseMenu/Settings"]
-margin_left = 282.0
-margin_top = 59.0
-margin_right = 401.0
-margin_bottom = 75.0
-focus_neighbour_bottom = NodePath("../../Menu/RestartBtn")
-mouse_default_cursor_shape = 2
-size_flags_vertical = 8
-min_value = -30.0
-max_value = 10.0
-step = 5.0
-value = -20.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Tick" type="Polygon2D" parent="GUI/Hud/Popups/PauseMenu/Settings/GameMusicSlider"]
-show_behind_parent = true
-position = Vector2( 58, 5 )
-color = Color( 0.513726, 0.513726, 0.513726, 1 )
-polygon = PoolVector2Array( 0, 6, 0, 0, 2, 0, 2, 6 )
-
-[node name="GameMusicVol" type="Label" parent="GUI/Hud/Popups/PauseMenu/Settings/GameMusicSlider"]
-margin_left = -168.0
-margin_top = -3.0
-margin_right = -10.0
-margin_bottom = 19.0
-size_flags_horizontal = 3
-text = "Music volume"
-
-[node name="GameSfxBtn" type="CheckButton" parent="GUI/Hud/Popups/PauseMenu/Settings"]
-margin_left = 425.0
-margin_top = 51.0
-margin_right = 492.0
-margin_bottom = 83.0
-focus_neighbour_bottom = NodePath("../../Menu/PlayBtn")
-mouse_default_cursor_shape = 2
-pressed = true
-text = "SFX"
-
-[node name="CameraShakeBtn" type="CheckButton" parent="GUI/Hud/Popups/PauseMenu/Settings"]
-margin_left = 516.0
-margin_top = 51.0
-margin_right = 704.0
-margin_bottom = 83.0
-focus_neighbour_right = NodePath("../GameMusicBtn")
-focus_neighbour_bottom = NodePath("../../Menu/PlayBtn")
-mouse_default_cursor_shape = 2
-pressed = true
-text = "Camera Shake"
-
-[node name="Menu" type="HBoxContainer" parent="GUI/Hud/Popups/PauseMenu"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -154.0
-margin_top = 238.0
-margin_right = 154.0
-margin_bottom = 260.0
-custom_constants/separation = 32
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="QuitBtn" type="Button" parent="GUI/Hud/Popups/PauseMenu/Menu"]
-margin_right = 52.0
-margin_bottom = 22.0
-focus_neighbour_top = NodePath("../../Settings/GameMusicBtn")
-focus_neighbour_right = NodePath("../RestartBtn")
-mouse_default_cursor_shape = 2
-size_flags_vertical = 0
-text = "QUIT"
-
-[node name="RestartBtn" type="Button" parent="GUI/Hud/Popups/PauseMenu/Menu"]
-margin_left = 84.0
-margin_right = 182.0
-margin_bottom = 22.0
-focus_neighbour_left = NodePath("../QuitBtn")
-focus_neighbour_right = NodePath("../PlayBtn")
-mouse_default_cursor_shape = 2
-size_flags_horizontal = 6
-size_flags_vertical = 0
-text = "RESTART"
-
-[node name="PlayBtn" type="Button" parent="GUI/Hud/Popups/PauseMenu/Menu"]
-margin_left = 214.0
-margin_right = 308.0
-margin_bottom = 22.0
-focus_neighbour_left = NodePath("../RestartBtn")
-mouse_default_cursor_shape = 2
-size_flags_vertical = 0
-text = "PLAY ON"
-
 [node name="Life" type="Label" parent="GUI/Hud"]
 visible = false
 margin_left = 32.0
@@ -2182,34 +1646,6 @@ margin_top = 69.0
 margin_right = 180.0
 margin_bottom = 91.0
 text = "E: 0"
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="PickedColor" type="Control" parent="GUI/Hud"]
-visible = false
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 200.0
-margin_top = -648.0
-margin_right = 368.0
-margin_bottom = -628.0
-
-[node name="ColorRect" type="ColorRect" parent="GUI/Hud/PickedColor"]
-margin_top = 3.0
-margin_right = 12.0
-margin_bottom = 15.0
-size_flags_vertical = 4
-
-[node name="Value" type="Label" parent="GUI/Hud/PickedColor"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 24.0
-margin_top = -27.0
-margin_right = 170.0
-margin_bottom = -1.0
-text = "255 255 255"
 valign = 2
 __meta__ = {
 "_editor_description_": ""
@@ -5510,14 +4946,533 @@ size_flags_vertical = 9
 text = "CONFIRM"
 align = 0
 
+[node name="PauseMenu" type="Control" parent="GUI"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 10 )
+
+[node name="Background" type="ColorRect" parent="GUI/PauseMenu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.784314 )
+
+[node name="Title" type="Label" parent="GUI/PauseMenu"]
+margin_left = 506.0
+margin_top = 94.0
+margin_right = 773.0
+margin_bottom = 126.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 0.952941, 0.356863, 0.498039, 1 )
+custom_fonts/font = ExtResource( 5 )
+text = "Game on pause"
+
+[node name="HSeparator" type="HSeparator" parent="GUI/PauseMenu/Title"]
+visible = false
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 1.0
+margin_right = -3.0
+margin_bottom = 5.0
+
+[node name="Controls" type="Control" parent="GUI/PauseMenu"]
+margin_left = 288.0
+margin_top = 174.0
+margin_right = 632.0
+margin_bottom = 393.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" type="Label" parent="GUI/PauseMenu/Controls"]
+anchor_right = 1.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 0, 38 )
+size_flags_horizontal = 3
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Player controls"
+uppercase = true
+
+[node name="HSeparator" type="HSeparator" parent="GUI/PauseMenu/Controls/Title"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = -7.0
+margin_right = -1.0
+margin_bottom = -3.0
+
+[node name="Keys" type="Control" parent="GUI/PauseMenu/Controls"]
+margin_top = 55.0
+margin_right = 328.0
+margin_bottom = 186.0
+rect_pivot_offset = Vector2( 264, 104 )
+
+[node name="Keyboard1" type="TextureRect" parent="GUI/PauseMenu/Controls/Keys"]
+margin_left = 96.0
+margin_top = 53.0
+margin_right = 166.0
+margin_bottom = 99.0
+texture = SubResource( 192 )
+
+[node name="Keyboard2" type="TextureRect" parent="GUI/PauseMenu/Controls/Keys"]
+margin_top = 53.0
+margin_right = 70.0
+margin_bottom = 99.0
+texture = SubResource( 193 )
+
+[node name="Joypad" type="Control" parent="GUI/PauseMenu/Controls/Keys"]
+margin_left = 224.0
+margin_top = 28.0
+margin_right = 344.0
+margin_bottom = 114.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="jp" type="TextureRect" parent="GUI/PauseMenu/Controls/Keys/Joypad"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+margin_right = 120.0
+margin_bottom = 86.0
+texture = SubResource( 206 )
+
+[node name="btns" type="TextureRect" parent="GUI/PauseMenu/Controls/Keys/Joypad"]
+margin_left = 10.0
+margin_top = 17.0
+margin_right = 32.0
+margin_bottom = 39.0
+texture = SubResource( 195 )
+
+[node name="stick" type="TextureRect" parent="GUI/PauseMenu/Controls/Keys/Joypad"]
+visible = false
+margin_left = 30.0
+margin_top = 40.0
+margin_right = 48.0
+margin_bottom = 58.0
+texture = SubResource( 196 )
+
+[node name="btn" type="TextureRect" parent="GUI/PauseMenu/Controls/Keys/Joypad"]
+margin_left = 96.0
+margin_top = 32.0
+margin_right = 106.0
+margin_bottom = 42.0
+texture = SubResource( 197 )
+
+[node name="Space2" type="TextureRect" parent="GUI/PauseMenu/Controls/Keys"]
+margin_top = 133.0
+margin_right = 102.0
+margin_bottom = 155.0
+texture = SubResource( 235 )
+
+[node name="Alt2" type="TextureRect" parent="GUI/PauseMenu/Controls/Keys"]
+margin_left = 109.0
+margin_top = 133.0
+margin_right = 131.0
+margin_bottom = 155.0
+texture = SubResource( 236 )
+
+[node name="Ctrl" type="TextureRect" parent="GUI/PauseMenu/Controls/Keys"]
+margin_left = 138.0
+margin_top = 133.0
+margin_right = 160.0
+margin_bottom = 155.0
+texture = SubResource( 237 )
+
+[node name="Line2D4" type="Line2D" parent="GUI/PauseMenu/Controls/Keys"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+position = Vector2( -265, 221 )
+points = PoolVector2Array( 380, -149, 368, -196 )
+width = 0.5
+default_color = Color( 1, 1, 1, 1 )
+sharp_limit = 0.0
+antialiased = true
+
+[node name="Line2D6" type="Line2D" parent="GUI/PauseMenu/Controls/Keys"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+position = Vector2( -298, 229 )
+points = PoolVector2Array( 349, -157, 382, -204 )
+width = 0.5
+default_color = Color( 1, 1, 1, 1 )
+sharp_limit = 0.0
+antialiased = true
+
+[node name="Line2D5" type="Line2D" parent="GUI/PauseMenu/Controls/Keys"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+position = Vector2( -259, 221 )
+points = PoolVector2Array( 496, -172, 445, -197 )
+width = 0.5
+default_color = Color( 1, 1, 1, 1 )
+sharp_limit = 0.0
+antialiased = true
+
+[node name="DirKeys" type="Label" parent="GUI/PauseMenu/Controls/Keys"]
+margin_left = 81.0
+margin_top = 3.0
+margin_right = 192.0
+margin_bottom = 21.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 23 )
+text = "Direction keys"
+autowrap = true
+
+[node name="Line2D" type="Line2D" parent="GUI/PauseMenu/Controls/Keys"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+position = Vector2( -149.302, 218.142 )
+scale = Vector2( 0.913793, 1.00769 )
+points = PoolVector2Array( 485.123, -66.6296, 517.953, -143.042 )
+width = 0.5
+default_color = Color( 1, 1, 1, 1 )
+sharp_limit = 0.0
+antialiased = true
+
+[node name="Line2D2" type="Line2D" parent="GUI/PauseMenu/Controls/Keys"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+position = Vector2( -367.895, 238 )
+scale = Vector2( 1.17742, 1 )
+points = PoolVector2Array( 503.554, -81, 452.595, -93 )
+width = 0.5
+default_color = Color( 1, 1, 1, 1 )
+sharp_limit = 0.0
+antialiased = true
+
+[node name="BurstKey" type="Label" parent="GUI/PauseMenu/Controls/Keys"]
+margin_left = 232.0
+margin_top = 147.0
+margin_right = 309.0
+margin_bottom = 165.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 23 )
+text = "Burst key"
+
+[node name="Shortcuts" type="Control" parent="GUI/PauseMenu"]
+margin_left = 696.0
+margin_top = 174.0
+margin_right = 992.0
+margin_bottom = 383.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" type="Label" parent="GUI/PauseMenu/Shortcuts"]
+margin_right = 296.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 0, 38 )
+size_flags_horizontal = 3
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Shortcuts"
+uppercase = true
+
+[node name="HSeparator" type="HSeparator" parent="GUI/PauseMenu/Shortcuts/Title"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = -7.0
+margin_right = -1.0
+margin_bottom = -3.0
+
+[node name="Mute" type="HBoxContainer" parent="GUI/PauseMenu/Shortcuts"]
+margin_top = 56.0
+margin_right = 262.0
+margin_bottom = 78.0
+custom_constants/separation = 8
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="M" type="TextureRect" parent="GUI/PauseMenu/Shortcuts/Mute"]
+margin_right = 22.0
+margin_bottom = 22.0
+texture = SubResource( 184 )
+
+[node name="Label" type="Label" parent="GUI/PauseMenu/Shortcuts/Mute"]
+margin_left = 30.0
+margin_top = 2.0
+margin_right = 47.0
+margin_bottom = 20.0
+theme = SubResource( 194 )
+custom_fonts/font = ExtResource( 23 )
+text = "or"
+align = 1
+
+[node name="L1" type="TextureRect" parent="GUI/PauseMenu/Shortcuts/Mute"]
+margin_left = 55.0
+margin_right = 77.0
+margin_bottom = 22.0
+texture = SubResource( 185 )
+
+[node name="Label2" type="Label" parent="GUI/PauseMenu/Shortcuts/Mute"]
+margin_left = 85.0
+margin_top = 2.0
+margin_right = 198.0
+margin_bottom = 20.0
+theme = SubResource( 194 )
+custom_fonts/font = ExtResource( 23 )
+text = "to mute music"
+
+[node name="Skip" type="HBoxContainer" parent="GUI/PauseMenu/Shortcuts"]
+margin_top = 104.0
+margin_right = 262.0
+margin_bottom = 126.0
+custom_constants/separation = 8
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="N" type="TextureRect" parent="GUI/PauseMenu/Shortcuts/Skip"]
+margin_right = 22.0
+margin_bottom = 22.0
+texture = SubResource( 186 )
+
+[node name="Label" type="Label" parent="GUI/PauseMenu/Shortcuts/Skip"]
+margin_left = 30.0
+margin_top = 2.0
+margin_right = 47.0
+margin_bottom = 20.0
+theme = SubResource( 194 )
+custom_fonts/font = ExtResource( 23 )
+text = "or"
+align = 1
+
+[node name="R1" type="TextureRect" parent="GUI/PauseMenu/Shortcuts/Skip"]
+margin_left = 55.0
+margin_right = 77.0
+margin_bottom = 22.0
+texture = SubResource( 187 )
+
+[node name="Label2" type="Label" parent="GUI/PauseMenu/Shortcuts/Skip"]
+margin_left = 85.0
+margin_top = 2.0
+margin_right = 257.0
+margin_bottom = 20.0
+theme = SubResource( 194 )
+custom_fonts/font = ExtResource( 23 )
+text = "to skip current track"
+
+[node name="Pause" type="HBoxContainer" parent="GUI/PauseMenu/Shortcuts"]
+margin_top = 152.0
+margin_right = 296.0
+margin_bottom = 174.0
+custom_constants/separation = 8
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Esc" type="TextureRect" parent="GUI/PauseMenu/Shortcuts/Pause"]
+margin_right = 22.0
+margin_bottom = 22.0
+texture = SubResource( 188 )
+
+[node name="Label" type="Label" parent="GUI/PauseMenu/Shortcuts/Pause"]
+margin_left = 30.0
+margin_top = 2.0
+margin_right = 47.0
+margin_bottom = 20.0
+theme = SubResource( 194 )
+custom_fonts/font = ExtResource( 23 )
+text = "or"
+align = 1
+
+[node name="Select" type="TextureRect" parent="GUI/PauseMenu/Shortcuts/Pause"]
+margin_left = 55.0
+margin_right = 96.0
+margin_bottom = 22.0
+texture = SubResource( 189 )
+
+[node name="Label2" type="Label" parent="GUI/PauseMenu/Shortcuts/Pause"]
+margin_left = 104.0
+margin_top = 2.0
+margin_right = 296.0
+margin_bottom = 20.0
+theme = SubResource( 194 )
+custom_fonts/font = ExtResource( 23 )
+text = "to pause/unpause game"
+
+[node name="Enter" type="HBoxContainer" parent="GUI/PauseMenu/Shortcuts"]
+margin_top = 200.0
+margin_right = 268.0
+margin_bottom = 222.0
+custom_constants/separation = 8
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Enter" type="TextureRect" parent="GUI/PauseMenu/Shortcuts/Enter"]
+margin_right = 22.0
+margin_bottom = 22.0
+texture = SubResource( 190 )
+
+[node name="Label" type="Label" parent="GUI/PauseMenu/Shortcuts/Enter"]
+margin_left = 30.0
+margin_top = 2.0
+margin_right = 47.0
+margin_bottom = 20.0
+theme = SubResource( 194 )
+custom_fonts/font = ExtResource( 23 )
+text = "or"
+align = 1
+
+[node name="Start" type="TextureRect" parent="GUI/PauseMenu/Shortcuts/Enter"]
+margin_left = 55.0
+margin_right = 95.0
+margin_bottom = 22.0
+texture = SubResource( 191 )
+
+[node name="Label2" type="Label" parent="GUI/PauseMenu/Shortcuts/Enter"]
+margin_left = 103.0
+margin_top = 2.0
+margin_right = 262.0
+margin_bottom = 20.0
+theme = SubResource( 194 )
+custom_fonts/font = ExtResource( 23 )
+text = "to confirm selection"
+
+[node name="Settings" type="Control" parent="GUI/PauseMenu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 288.0
+margin_top = 446.0
+margin_right = -288.0
+margin_bottom = -192.0
+
+[node name="Title" type="Label" parent="GUI/PauseMenu/Settings"]
+anchor_right = 1.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 0, 38 )
+size_flags_horizontal = 3
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+text = "Game settings"
+uppercase = true
+
+[node name="HSeparator" type="HSeparator" parent="GUI/PauseMenu/Settings/Title"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = -7.0
+margin_right = -1.0
+margin_bottom = -3.0
+
+[node name="HSeparator" type="HSeparator" parent="GUI/PauseMenu/Settings"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+anchor_right = 1.0
+margin_top = 31.0
+margin_bottom = 35.0
+
+[node name="GameMusicBtn" type="CheckButton" parent="GUI/PauseMenu/Settings"]
+margin_top = 51.0
+margin_right = 90.0
+margin_bottom = 83.0
+focus_neighbour_left = NodePath("../CameraShakeBtn")
+focus_neighbour_right = NodePath("../GameMusicSlider")
+focus_neighbour_bottom = NodePath("../../Menu/QuitBtn")
+mouse_default_cursor_shape = 2
+pressed = true
+text = "Music"
+
+[node name="GameMusicSlider" type="HSlider" parent="GUI/PauseMenu/Settings"]
+margin_left = 282.0
+margin_top = 60.0
+margin_right = 401.0
+margin_bottom = 76.0
+focus_neighbour_bottom = NodePath("../../Menu/RestartBtn")
+mouse_default_cursor_shape = 2
+size_flags_vertical = 8
+min_value = -30.0
+max_value = 10.0
+step = 5.0
+value = -20.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Tick" type="Polygon2D" parent="GUI/PauseMenu/Settings/GameMusicSlider"]
+show_behind_parent = true
+position = Vector2( 58, 5 )
+color = Color( 0.513726, 0.513726, 0.513726, 1 )
+polygon = PoolVector2Array( 0, 6, 0, 0, 2, 0, 2, 6 )
+
+[node name="GameMusicVol" type="Label" parent="GUI/PauseMenu/Settings/GameMusicSlider"]
+margin_left = -168.0
+margin_top = -4.0
+margin_right = -10.0
+margin_bottom = 18.0
+size_flags_horizontal = 3
+text = "Music volume"
+
+[node name="GameSfxBtn" type="CheckButton" parent="GUI/PauseMenu/Settings"]
+margin_left = 425.0
+margin_top = 51.0
+margin_right = 492.0
+margin_bottom = 83.0
+focus_neighbour_bottom = NodePath("../../Menu/PlayBtn")
+mouse_default_cursor_shape = 2
+pressed = true
+text = "SFX"
+
+[node name="CameraShakeBtn" type="CheckButton" parent="GUI/PauseMenu/Settings"]
+margin_left = 516.0
+margin_top = 51.0
+margin_right = 704.0
+margin_bottom = 83.0
+focus_neighbour_right = NodePath("../GameMusicBtn")
+focus_neighbour_bottom = NodePath("../../Menu/PlayBtn")
+mouse_default_cursor_shape = 2
+pressed = true
+text = "Camera Shake"
+
+[node name="Menu" type="HBoxContainer" parent="GUI/PauseMenu"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -154.0
+margin_top = 238.0
+margin_right = 154.0
+margin_bottom = 260.0
+custom_constants/separation = 32
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="QuitBtn" type="Button" parent="GUI/PauseMenu/Menu"]
+margin_right = 52.0
+margin_bottom = 22.0
+focus_neighbour_top = NodePath("../../Settings/GameMusicBtn")
+focus_neighbour_right = NodePath("../RestartBtn")
+mouse_default_cursor_shape = 2
+size_flags_vertical = 0
+text = "QUIT"
+
+[node name="RestartBtn" type="Button" parent="GUI/PauseMenu/Menu"]
+margin_left = 84.0
+margin_right = 182.0
+margin_bottom = 22.0
+focus_neighbour_left = NodePath("../QuitBtn")
+focus_neighbour_right = NodePath("../PlayBtn")
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 6
+size_flags_vertical = 0
+text = "RESTART"
+
+[node name="PlayBtn" type="Button" parent="GUI/PauseMenu/Menu"]
+margin_left = 214.0
+margin_right = 308.0
+margin_bottom = 22.0
+focus_neighbour_left = NodePath("../RestartBtn")
+mouse_default_cursor_shape = 2
+size_flags_vertical = 0
+text = "PLAY ON"
+
 [connection signal="animation_finished" from="GUI/Hud/Popups/GameCountdown/AnimationPlayer" to="GUI/Hud/Popups/GameCountdown" method="_on_AnimationPlayer_animation_finished"]
-[connection signal="toggled" from="GUI/Hud/Popups/PauseMenu/Settings/GameMusicBtn" to="GUI/Hud/Popups/PauseMenu" method="_on_GameMusicBtn_toggled"]
-[connection signal="value_changed" from="GUI/Hud/Popups/PauseMenu/Settings/GameMusicSlider" to="GUI/Hud/Popups/PauseMenu" method="_on_GameMusicSlider_value_changed"]
-[connection signal="toggled" from="GUI/Hud/Popups/PauseMenu/Settings/GameSfxBtn" to="GUI/Hud/Popups/PauseMenu" method="_on_GameSfxBtn_toggled"]
-[connection signal="toggled" from="GUI/Hud/Popups/PauseMenu/Settings/CameraShakeBtn" to="GUI/Hud/Popups/PauseMenu" method="_on_CameraShakeBtn_toggled"]
-[connection signal="pressed" from="GUI/Hud/Popups/PauseMenu/Menu/QuitBtn" to="GUI/Hud/Popups/PauseMenu" method="_on_QuitBtn_pressed"]
-[connection signal="pressed" from="GUI/Hud/Popups/PauseMenu/Menu/RestartBtn" to="GUI/Hud/Popups/PauseMenu" method="_on_RestartBtn_pressed"]
-[connection signal="pressed" from="GUI/Hud/Popups/PauseMenu/Menu/PlayBtn" to="GUI/Hud/Popups/PauseMenu" method="_on_PlayBtn_pressed"]
 [connection signal="gametime_is_up" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_gametime_is_up"]
 [connection signal="sudden_death_active" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_sudden_death_active"]
 [connection signal="timeout" from="GUI/Hud/Header/GameTimer/Timer" to="GUI/Hud/Header/GameTimer" method="_on_Timer_timeout"]
@@ -5536,3 +5491,10 @@ align = 0
 [connection signal="text_entered" from="GUI/GameOver/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_PopupNameEdit_text_entered"]
 [connection signal="pressed" from="GUI/GameOver/NameInputPopup/HBoxContainer/CancelBtn" to="GUI/GameOver" method="_on_CancelBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/NameInputPopup/HBoxContainer/ConfirmBtn" to="GUI/GameOver" method="_on_ConfirmBtn_pressed"]
+[connection signal="toggled" from="GUI/PauseMenu/Settings/GameMusicBtn" to="GUI/PauseMenu" method="_on_GameMusicBtn_toggled"]
+[connection signal="value_changed" from="GUI/PauseMenu/Settings/GameMusicSlider" to="GUI/PauseMenu" method="_on_GameMusicSlider_value_changed"]
+[connection signal="toggled" from="GUI/PauseMenu/Settings/GameSfxBtn" to="GUI/PauseMenu" method="_on_GameSfxBtn_toggled"]
+[connection signal="toggled" from="GUI/PauseMenu/Settings/CameraShakeBtn" to="GUI/PauseMenu" method="_on_CameraShakeBtn_toggled"]
+[connection signal="pressed" from="GUI/PauseMenu/Menu/QuitBtn" to="GUI/PauseMenu" method="_on_QuitBtn_pressed"]
+[connection signal="pressed" from="GUI/PauseMenu/Menu/RestartBtn" to="GUI/PauseMenu" method="_on_RestartBtn_pressed"]
+[connection signal="pressed" from="GUI/PauseMenu/Menu/PlayBtn" to="GUI/PauseMenu" method="_on_PlayBtn_pressed"]

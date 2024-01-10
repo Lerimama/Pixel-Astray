@@ -1,7 +1,7 @@
 [gd_scene load_steps=37 format=2]
 
+[ext_resource path="res://assets/resources/env_arena.tres" type="Environment" id=1]
 [ext_resource path="res://home/intro/intro.gd" type="Script" id=2]
-[ext_resource path="res://assets/resources/env_menu.tres" type="Environment" id=3]
 [ext_resource path="res://home/intro/intro_tilemap.gd" type="Script" id=4]
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=5]
 [ext_resource path="res://assets/atlas_controls.png" type="Texture" id=6]
@@ -906,7 +906,7 @@ anims/intro_explode = SubResource( 139 )
 anims/intro_running = SubResource( 138 )
 
 [node name="ArenaEnvironment" type="WorldEnvironment" parent="."]
-environment = ExtResource( 3 )
+environment = ExtResource( 1 )
 
 [connection signal="tilemap_completed" from="TileMap" to="." method="_on_TileMap_completed"]
 [connection signal="timeout" from="StrayStepTimer" to="." method="_on_StrayStepTimer_timeout"]

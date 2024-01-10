@@ -428,13 +428,13 @@ border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color( 0.980392, 0.980392, 0.980392, 1 )
+border_color = Color( 0, 0, 0, 1 )
 
 [sub_resource type="StyleBoxEmpty" id=273]
 
 [sub_resource type="Gradient" id=260]
-offsets = PoolRealArray( 1 )
-colors = PoolColorArray( 0.4375, 0.4375, 0.4375, 1 )
+offsets = PoolRealArray( 0.5 )
+colors = PoolColorArray( 1, 1, 1, 1 )
 
 [sub_resource type="GradientTexture" id=261]
 gradient = SubResource( 260 )
@@ -446,8 +446,8 @@ region = Rect2( 35, 3, 10, 10 )
 
 [sub_resource type="Gradient" id=258]
 interpolation_mode = 1
-offsets = PoolRealArray( 0.478006 )
-colors = PoolColorArray( 0.078125, 0, 1, 1 )
+offsets = PoolRealArray( 0.504808 )
+colors = PoolColorArray( 0.952941, 0.356863, 0.498039, 1 )
 
 [sub_resource type="GradientTexture" id=259]
 gradient = SubResource( 258 )
@@ -455,8 +455,8 @@ width = 24
 
 [sub_resource type="Gradient" id=255]
 interpolation_mode = 1
-offsets = PoolRealArray( 0.498534 )
-colors = PoolColorArray( 1, 0.539589, 0.539589, 1 )
+offsets = PoolRealArray( 0.514423 )
+colors = PoolColorArray( 0.976471, 0.666667, 0.443137, 1 )
 
 [sub_resource type="GradientTexture" id=252]
 gradient = SubResource( 255 )
@@ -464,8 +464,8 @@ width = 24
 
 [sub_resource type="Gradient" id=262]
 interpolation_mode = 1
-offsets = PoolRealArray( 0.498534 )
-colors = PoolColorArray( 1, 0.585938, 0, 1 )
+offsets = PoolRealArray( 0.524038 )
+colors = PoolColorArray( 0.996078, 0.976471, 0.545098, 1 )
 
 [sub_resource type="GradientTexture" id=263]
 gradient = SubResource( 262 )
@@ -474,7 +474,7 @@ width = 24
 [sub_resource type="Gradient" id=264]
 interpolation_mode = 1
 offsets = PoolRealArray( 0.498534 )
-colors = PoolColorArray( 0.828125, 0, 1, 1 )
+colors = PoolColorArray( 0.368627, 1, 0.662745, 1 )
 
 [sub_resource type="GradientTexture" id=265]
 gradient = SubResource( 264 )
@@ -483,7 +483,7 @@ width = 24
 [sub_resource type="Gradient" id=271]
 interpolation_mode = 1
 offsets = PoolRealArray( 0.492669 )
-colors = PoolColorArray( 1, 0.960938, 0, 1 )
+colors = PoolColorArray( 0.454902, 1, 1, 1 )
 
 [sub_resource type="GradientTexture" id=272]
 gradient = SubResource( 271 )
@@ -492,7 +492,7 @@ width = 24
 [sub_resource type="Gradient" id=267]
 interpolation_mode = 1
 offsets = PoolRealArray( 0.498534 )
-colors = PoolColorArray( 1, 0, 0.234375, 1 )
+colors = PoolColorArray( 0.294118, 0.623529, 1, 1 )
 
 [sub_resource type="GradientTexture" id=268]
 gradient = SubResource( 267 )
@@ -501,7 +501,7 @@ width = 24
 [sub_resource type="Gradient" id=269]
 interpolation_mode = 1
 offsets = PoolRealArray( 0.498534 )
-colors = PoolColorArray( 0, 1, 0.929688, 1 )
+colors = PoolColorArray( 0.92549, 0.501961, 0.984314, 1 )
 
 [sub_resource type="GradientTexture" id=270]
 gradient = SubResource( 269 )
@@ -4615,6 +4615,7 @@ texture = SubResource( 261 )
 expand = true
 
 [node name="SelectedIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn"]
+modulate = Color( 0, 0, 0, 1 )
 show_behind_parent = true
 margin_left = 7.0
 margin_top = 7.0
@@ -4647,6 +4648,7 @@ texture = SubResource( 259 )
 expand = true
 
 [node name="SelectedIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn2"]
+modulate = Color( 0, 0, 0, 1 )
 show_behind_parent = true
 margin_left = 7.0
 margin_top = 7.0
@@ -4678,6 +4680,7 @@ texture = SubResource( 252 )
 expand = true
 
 [node name="SelectedIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn3"]
+modulate = Color( 0, 0, 0, 1 )
 show_behind_parent = true
 margin_left = 7.0
 margin_top = 7.0
@@ -4709,6 +4712,7 @@ texture = SubResource( 263 )
 expand = true
 
 [node name="SelectedIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn4"]
+modulate = Color( 0, 0, 0, 1 )
 show_behind_parent = true
 margin_left = 7.0
 margin_top = 7.0
@@ -4740,6 +4744,7 @@ texture = SubResource( 265 )
 expand = true
 
 [node name="SelectedIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn5"]
+modulate = Color( 0, 0, 0, 1 )
 show_behind_parent = true
 margin_left = 7.0
 margin_top = 7.0
@@ -4771,6 +4776,7 @@ texture = SubResource( 272 )
 expand = true
 
 [node name="SelectedIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn6"]
+modulate = Color( 0, 0, 0, 1 )
 show_behind_parent = true
 margin_left = 7.0
 margin_top = 7.0
@@ -4802,6 +4808,7 @@ texture = SubResource( 268 )
 expand = true
 
 [node name="SelectedIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn7"]
+modulate = Color( 0, 0, 0, 1 )
 show_behind_parent = true
 margin_left = 7.0
 margin_top = 7.0
@@ -4834,6 +4841,7 @@ texture = SubResource( 270 )
 expand = true
 
 [node name="SelectedIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn8"]
+modulate = Color( 0, 0, 0, 1 )
 show_behind_parent = true
 margin_left = 7.0
 margin_top = 7.0

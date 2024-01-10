@@ -113,8 +113,6 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 		"play":
 			Global.main_node.home_out()
 	
-#	Global.allow_focus_sfx = true
-			
 	if current_esc_hint != null:
 		var hint_fade_in = get_tree().create_tween()
 		hint_fade_in.tween_property(current_esc_hint, "modulate:a", 1, 1)

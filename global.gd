@@ -50,6 +50,13 @@ var hud_background_color: Color = Color("#141414")
 
 # FUNKCIJE -----------------------------------------------------------------------------------------------------
 
+func _ready(): 
+	
+	# when _ready is called, there might already be nodes in the tree, so connect all existing buttons
+	connect_buttons(get_tree().root)
+	get_tree().connect("node_added", self, "_on_SceneTree_node_added")
+	
+
 
 func snap_to_nearest_grid(current_global_position: Vector2):
 #func snap_to_nearest_grid(current_global_position: Vector2, floor_cells: Array):
@@ -184,13 +191,6 @@ func spawn_new_scene(scene_path, parent_node): # spawn scene
 
 var allow_focus_sfx: bool = false
 
-
-func _ready(): # when _ready is called, there might already be nodes in the tree, so connect all existing buttons
-	
-	connect_buttons(get_tree().root)
-	get_tree().connect("node_added", self, "_on_SceneTree_node_added")
-
-
 func _on_SceneTree_node_added(node: Control):
 	
 	if node is BaseButton or node is HSlider:
@@ -249,7 +249,7 @@ func _on_control_focused(control: Control):
 	Global.sound_manager.play_gui_sfx("btn_focus_change")
 	# check btn color fix
 	if control is CheckButton or control is HSlider:
-		control.modulate = Color.red
+		control.modulate = color_gui_gray
 
 
 func _on_control_unfocused(control: Control):
