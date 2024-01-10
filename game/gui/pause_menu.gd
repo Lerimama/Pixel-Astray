@@ -25,17 +25,19 @@ func _process(delta: float) -> void:
 	
 	# pravilno stanje settingsov
 	if Global.sound_manager.game_music_set_to_off:
-		$Settings/GameMusicCheckBox.pressed = false
+		$Settings/GameMusicBtn.pressed = false
 	else:
-		$Settings/GameMusicCheckBox.pressed = true
+		$Settings/GameMusicBtn.pressed = true
+	
 	if Global.sound_manager.game_sfx_set_to_off:
-		$Settings/GameSfxCheckBox.pressed = false
+		$Settings/GameSfxBtn.pressed = false
 	else:
-		$Settings/GameSfxCheckBox.pressed = true
+		$Settings/GameSfxBtn.pressed = true
+	
 	if Global.main_node.camera_shake_on:
-		$Settings/CamerShakeCheckBox.pressed = true
+		$Settings/CameraShakeBtn.pressed = true
 	else:
-		$Settings/CamerShakeCheckBox.pressed = false
+		$Settings/CameraShakeBtn.pressed = false
 		
 			
 func pause_game():
@@ -98,7 +100,8 @@ func _on_QuitBtn_pressed() -> void:
 # SETTINGS BTNZ ---------------------------------------------------------------------------------------------
 
 	
-func _on_GameMusicCheckBox_toggled(button_pressed: bool) -> void:
+#func _on_GameMusicCheckBox_toggled(button_pressed: bool) -> void:
+func _on_GameMusicBtn_toggled(button_pressed: bool) -> void:
 
 	if button_pressed:
 		Global.sound_manager.play_gui_sfx("btn_confirm")
@@ -115,7 +118,8 @@ func _on_GameMusicSlider_value_changed(value: float) -> void:
 	Global.sound_manager.set_game_music_volume(value)
 
 
-func _on_GameSfxCheckBox_toggled(button_pressed: bool) -> void:
+#func _on_GameSfxCheckBox_toggled(button_pressed: bool) -> void:
+func _on_GameSfxBtn_toggled(button_pressed: bool) -> void:
 	
 	if button_pressed:
 		Global.sound_manager.play_gui_sfx("btn_confirm")
@@ -125,7 +129,8 @@ func _on_GameSfxCheckBox_toggled(button_pressed: bool) -> void:
 		Global.sound_manager.game_sfx_set_to_off = true
 
 
-func _on_CamerShakeCheckBox_toggled(button_pressed: bool) -> void:
+#func _on_CamerShakeCheckBox_toggled(button_pressed: bool) -> void:
+func _on_CameraShakeBtn_toggled(button_pressed: bool) -> void:
 	
 	if button_pressed:
 		Global.sound_manager.play_gui_sfx("btn_confirm")
@@ -133,3 +138,8 @@ func _on_CamerShakeCheckBox_toggled(button_pressed: bool) -> void:
 	else:
 		Global.sound_manager.play_gui_sfx("btn_cancel")
 		Global.main_node.camera_shake_on = false
+
+
+	pass # Replace with function body.
+
+

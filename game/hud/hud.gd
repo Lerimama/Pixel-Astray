@@ -23,6 +23,7 @@ onready var viewport_footer: ColorRect = $"%ViewFuter"
 # popups 
 var p1_energy_warning_popup: Control
 var p2_energy_warning_popup: Control
+onready var energy_warning_holder: Control = $Popups/EnergyWarning
 onready var splitscreen_popup: Control = $Popups/SplitScreens
 
 # header
@@ -65,8 +66,6 @@ onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indi
 # debug
 onready var player_life: Label = $Life
 onready var player_energy: Label = $Energy
-onready var picked_color_rect: ColorRect = $PickedColor/ColorRect
-onready var picked_color_label: Label = $PickedColor/Value
 
 
 func _input(event: InputEvent) -> void:
@@ -164,6 +163,7 @@ func check_for_warning(player_stats: Dictionary, warning_popup: Control):
 func warning_in(warning_popup: Control):
 	
 	var warning_in = get_tree().create_tween()
+	warning_in.tween_callback(energy_warning_holder, "set_visible", [true])
 	warning_in.tween_callback(warning_popup, "set_visible", [true])
 	warning_in.tween_property(warning_popup, "modulate:a", 1, 0.3) #.from(0.0)
 
@@ -173,6 +173,7 @@ func warning_out(warning_popup: Control):
 	var warning_out = get_tree().create_tween()
 	warning_out.tween_property(warning_popup, "modulate:a", 0, 0.5)
 	warning_out.tween_callback(warning_popup, "set_visible", [false])
+	warning_out.tween_callback(energy_warning_holder, "set_visible", [false])
 
 
 func popups_out(): # kliče GM na gameover
@@ -228,7 +229,7 @@ func set_hud(players_count: int): # kliče main na game-in
 		p1_label.visible = false
 		p2_statsline.visible = false
 		# popups
-		p1_energy_warning_popup = $Popups/EnergyWarning
+		p1_energy_warning_popup = $Popups/EnergyWarning/Solo
 		# hs
 		if Global.game_manager.game_settings["manage_highscores"]:
 			highscore_label.visible = true
@@ -243,8 +244,8 @@ func set_hud(players_count: int): # kliče main na game-in
 		p1_label.visible = true
 		p2_statsline.visible = true
 		# popups
-		p1_energy_warning_popup = $Popups/EnergyWarningP1
-		p2_energy_warning_popup = $Popups/EnergyWarningP2
+		p1_energy_warning_popup = $Popups/EnergyWarning/DuelP1
+		p2_energy_warning_popup = $Popups/EnergyWarning/DuelP2
 		# hs		
 		highscore_label.visible = false
 		
@@ -304,15 +305,6 @@ func spawn_color_indicators(available_colors: Array): # kliče GM
 		active_color_indicators.append(new_color_indicator)
 
 		# new_color_indicator.get_node("IndicatorCount").text = str(indicator_index) # debug ... zapis indexa
-	
-	
-func show_picked_color(picked_pixel_color: Color):
-	
-	# picked color statline
-	picked_color_label.text = str(round(255 * picked_pixel_color.r)) + " " + str(round(255 * picked_pixel_color.g)) + " " + str(round(255 * picked_pixel_color.b))
-	picked_color_rect.color = picked_pixel_color
-
-	show_color_indicator(picked_pixel_color)
 
 					
 func show_color_indicator(picked_color: Color):

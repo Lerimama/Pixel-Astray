@@ -97,9 +97,9 @@ func show_gameover_title():
 	fade_in.tween_property(gameover_title_holder, "modulate:a", 1, 1)
 	fade_in.parallel().tween_callback(Global.sound_manager, "stop_music", ["game_music_on_gameover"])
 	fade_in.parallel().tween_callback(Global.sound_manager, "play_gui_sfx", [selected_gameover_jingle])
-	fade_in.parallel().tween_property(background, "modulate:a", 0.7, 0.5).set_delay(0.5)
+	fade_in.parallel().tween_property(background, "color:a", 0.55, 0.5).set_delay(0.5) # a = cca 140
 	fade_in.tween_callback(self, "show_gameover_menu").set_delay(2)
-
+	
 
 func show_gameover_menu():
 	
@@ -151,7 +151,7 @@ func show_game_summary():
 	var cross_fade = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	cross_fade.tween_property(name_input_popup, "modulate:a", 0, 0.5)
 	cross_fade.parallel().tween_property(gameover_title_holder, "modulate:a", 0, 1)
-	cross_fade.parallel().tween_property(background, "modulate:a", 1, 1)
+	cross_fade.parallel().tween_property(background, "color:a", 1, 1)
 	cross_fade.tween_callback(name_input_popup, "set_visible", [false])
 	cross_fade.parallel().tween_callback(gameover_title_holder, "set_visible", [false])
 	cross_fade.parallel().tween_property(game_summary_holder, "modulate:a", 1, 1)#.set_delay(1)

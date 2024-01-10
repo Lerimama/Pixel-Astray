@@ -268,7 +268,8 @@ pitch_scale = 0.6
 
 [node name="BtnFocus" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Inputs"]
 stream = ExtResource( 23 )
-volume_db = -25.0
+volume_db = -30.0
+pitch_scale = 0.7
 bus = "Gui"
 
 [node name="BtnConfirm" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Inputs"]
