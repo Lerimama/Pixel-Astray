@@ -174,7 +174,7 @@ var game_data_cleaner_L: Dictionary = {
 	"game_name": "Cleaner",
 	"level": "L",
 	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_L_tilemap.tscn",
-	"game_time_limit": 6,
+	"game_time_limit": 600,
 	"strays_start_count": 320, 
 #	"highscore": 0,
 }
@@ -209,8 +209,8 @@ func _ready() -> void:
 	
 #	var current_game = Games.DUEL # če greš iz menija je tole povoženo
 #	var current_game = Games.TUTORIAL # če greš iz menija je tole povoženo
-#	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
-	var current_game = Games.DEBUG # če greš iz menija je tole povoženo
+	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
+#	var current_game = Games.DEBUG # če greš iz menija je tole povoženo
 	set_game_data(current_game)
 	
 	
@@ -257,4 +257,6 @@ func set_game_data(selected_game) -> void:
 			game_settings["player_start_life"] = 3
 			game_settings["manage_highscores"] = true
 			game_settings["lose_life_on_hit"] = true
+			game_settings["start_countdown"] = false
+			game_settings["stray_step_mode"] = true
 		

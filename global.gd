@@ -3,7 +3,10 @@ extends Node2D
 
 ## konstantne variable in metode
 
-# VARS ----------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------
+# VARIABLE -----------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------
+
 
 var main_node = null
 var node_creation_parent = null # arena
@@ -25,6 +28,8 @@ var intro_camera = null
 var player1_camera = null
 var player2_camera = null
 
+var strays_on_screen_count: int 
+
 # groups
 var group_players = "Players"
 var group_strays = "Strays"
@@ -41,14 +46,22 @@ var color_yellow: Color = Color("#fef98b")
 var color_white: Color = Color("#ffffff")
 var hud_text_color: Color = Color("#fafafa")
 
-# reference ... niso v kodi
+# reference ... ni nujno, da so v kodi
 var color_almost_black: Color = Color("#141414") # start player, wall, floor
 var color_gray_dark: Color = Color("#232323")
 var color_gui_gray: Color = Color("#838383") # siva v tekstih (naslovi) in ikonah
-var hud_background_color: Color = Color("#141414")
+var color_gui_btn: Color = Color("#82ffffff") # siva gumbih je transparentna bela ... imitacija #838383
+var color_hud_background: Color = Color("#141414")
 
 
+# --------------------------------------------------------------------------------------------------------------
 # FUNKCIJE -----------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------
+
+
+var current_scene = null # za scene switching
+var allow_focus_sfx: bool = false # focus sounds
+
 
 func _ready(): 
 	
@@ -59,7 +72,6 @@ func _ready():
 
 
 func snap_to_nearest_grid(current_global_position: Vector2):
-#func snap_to_nearest_grid(current_global_position: Vector2, floor_cells: Array):
 	
 	if not is_instance_valid(current_tilemap):
 		print("ERROR! Snapanje na grid ... manjka Global.current_tilemap")
@@ -85,76 +97,8 @@ func snap_to_nearest_grid(current_global_position: Vector2):
 	else: 
 		return current_global_position # vrneš isto pozicijo na katere že je 
 
-		
-func detect_collision(ray, direction_to_check, ignore):
-	
-	var cell_size_x: int = current_tilemap.cell_size.x #+ current_tilemap.cell_size.x/2 # pogreba od GMja, ki jo dobi od tilemapa
-	
-	ray.cast_to = direction_to_check * cell_size_x # ray kaže na naslednjo pozicijo 
-	ray.force_raycast_update()	
-	
-	if ray.is_colliding():
-		var ray_collider = ray.get_collider()
-		
-#		print("ray colider ", ray_collider)
-		if ray_collider.is_in_group(Global.group_ghosts) or ignore:
-			return null 	
-		else: 
-			return ray_collider
-
-				
-func detect_group_collision_in_direction(ray_group, direction_to_check):
-	
-	var cell_size_x: int = current_tilemap.cell_size.x #+ current_tilemap.cell_size.x/2 # pogreba od GMja, ki jo dobi od tilemapa
-	var current_colliders: Array 
-	print("current_colliders 1 ", current_colliders)
-	
-	for ray in ray_group:
-#		if ray_group.find(ray) == 0:
-#			pass
-#		if ray_group.find(ray) == 1:
-#			ray.position.x = direction_to_check.x -16
-#			ray.position.y = direction_to_check.y + 16
-#		if ray_group.find(ray) == 2:
-#			pass
-##			ray.position.x = direction_to_check.x + 16
-##			ray.position.y = direction_to_check.y - 16
-#		ray.cast_to = direction_to_check * cell_size_x # ray kaže na naslednjo pozicijo 
-#		ray.position.y = direction_to_check.y - ray_group.find(ray) * -16
-		pass
-		
-	for ray in ray_group:
-		ray.force_raycast_update()
-		if ray.is_colliding():
-			var ray_collider = ray.get_collider()
-			current_colliders.append(ray_collider)
-#			print("ray colider ", ray_collider)
-#			return [ray_collider]
-	
-#	print("current_colliders ", current_colliders)
-	return current_colliders
-			
-					
-func detect_collision_in_direction(ray, direction_to_check):
-	
-	var cell_size_x: int = current_tilemap.cell_size.x #+ current_tilemap.cell_size.x/2 # pogreba od GMja, ki jo dobi od tilemapa
-	
-	ray.cast_to = direction_to_check * cell_size_x # ray kaže na naslednjo pozicijo 
-	ray.force_raycast_update()
-	
-	if ray.is_colliding():
-		var ray_collider = ray.get_collider()
-		if not ray_collider.is_in_group(Global.group_ghosts):
-#			print("ray colider ", ray_collider)
-			return ray_collider
-		else: 
-			return null 
-
 
 # SCENE MANAGER (prehajanje med igro in menijem) --------------------------------------------------------------
-
-
-var current_scene = null # za scene switching
 
 
 func release_scene(scene_node): # release scene
@@ -189,8 +133,6 @@ func spawn_new_scene(scene_path, parent_node): # spawn scene
 # dodam modulate na Checkbutton focus
 
 
-var allow_focus_sfx: bool = false
-
 func _on_SceneTree_node_added(node: Control):
 	
 	if node is BaseButton or node is HSlider:
@@ -210,7 +152,8 @@ func connect_to_button(button):
 	# pressing btnz
 	if button is CheckButton:
 		button.connect("toggled", self, "_on_button_toggled")
-	elif not HSlider:
+#	else:# not HSlider:
+	elif not button is HSlider:
 		button.connect("pressed", self, "_on_button_pressed", [button])
 	
 	# hover and focus
@@ -220,7 +163,7 @@ func connect_to_button(button):
 
 
 func _on_button_pressed(button: BaseButton):
-	
+	print("PRESSED ", button)
 	if button.name == "BackBtn":
 		Global.sound_manager.play_gui_sfx("btn_confirm")
 	elif button.name == "QuitBtn" or button.name == "CancelBtn":
@@ -249,13 +192,13 @@ func _on_control_focused(control: Control):
 	Global.sound_manager.play_gui_sfx("btn_focus_change")
 	# check btn color fix
 	if control is CheckButton or control is HSlider:
-		control.modulate = color_gui_gray
+		control.modulate = Color.white
 
 
 func _on_control_unfocused(control: Control):
 	
 	if control is CheckButton or control is HSlider:
-		control.modulate = Color.white
+		control.modulate = color_gui_btn # Color.white
 
 
 func grab_focus_no_sfx(control_to_focus: Control):
@@ -263,21 +206,3 @@ func grab_focus_no_sfx(control_to_focus: Control):
 	allow_focus_sfx = false
 	control_to_focus.grab_focus()
 	allow_focus_sfx = true
-	
-	
-	
-
-
-
-# NI V RABI --------------------------------------------------------------------------------------------------
-
-	
-#func get_random_member_index(group_of_elements, offset): # offset je če zamakneš začetek
-#		# uporabljam pri: ... nikjer
-#
-#		var random_range = group_of_elements.size()
-#		var selected_int = randi() % int(random_range) + offset
-##		var selected_value = current_array[random_int]
-#
-#		printt("RANDOM", random_range, selected_int)
-#		return selected_int

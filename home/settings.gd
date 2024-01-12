@@ -61,6 +61,16 @@ func _ready() -> void:
 			color_btn.set_disabled(true)
 			color_btn.get_node("SelectedIcon").visible = true
 
+
+func _process(delta: float) -> void:
+	
+	# barvanje color schemes gumba / titla
+	for child in $ColorSchemeOptions/Colors.get_children():
+		if child.has_focus():
+			$ColorSchemeOptions.modulate = Color.white
+			break
+		$ColorSchemeOptions.modulate = Global.color_gui_btn # Color("#82ffffff")
+		
 	
 func _on_BackBtn_pressed() -> void:
 	

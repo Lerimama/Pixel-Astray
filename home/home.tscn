@@ -4505,6 +4505,7 @@ margin_right = -4.0
 margin_bottom = 11.0
 
 [node name="MenuMusicBtn" type="CheckButton" parent="Settings"]
+modulate = Color( 1, 1, 1, 0.509804 )
 margin_left = 64.0
 margin_top = 137.0
 margin_right = 224.0
@@ -4516,6 +4517,7 @@ pressed = true
 text = "Menu music"
 
 [node name="GameMusicBtn" type="CheckButton" parent="Settings"]
+modulate = Color( 1, 1, 1, 0.509804 )
 margin_left = 64.0
 margin_top = 185.0
 margin_right = 224.0
@@ -4526,6 +4528,7 @@ pressed = true
 text = "Game music"
 
 [node name="GameMusicSlider" type="HSlider" parent="Settings"]
+modulate = Color( 1, 1, 1, 0.509804 )
 margin_left = 64.0
 margin_top = 268.0
 margin_right = 314.0
@@ -4541,11 +4544,10 @@ __meta__ = {
 }
 
 [node name="Tick" type="Polygon2D" parent="Settings/GameMusicSlider"]
-visible = false
 show_behind_parent = true
-position = Vector2( 0, 9 )
-color = Color( 0.494118, 0.517647, 0.545098, 1 )
-polygon = PoolVector2Array( 234, 1, 234, -3, 238, -3, 238, 1 )
+position = Vector2( 122, 5 )
+color = Color( 0.513726, 0.513726, 0.513726, 1 )
+polygon = PoolVector2Array( 0, 7, 0, -1, 2, -1, 2, 7 )
 
 [node name="GameMusicVol" type="Label" parent="Settings/GameMusicSlider"]
 margin_top = -30.0
@@ -4555,6 +4557,7 @@ size_flags_horizontal = 3
 text = "Game music volume"
 
 [node name="GameSfxBtn" type="CheckButton" parent="Settings"]
+modulate = Color( 1, 1, 1, 0.509804 )
 margin_left = 64.0
 margin_top = 297.0
 margin_right = 200.0
@@ -4565,6 +4568,7 @@ pressed = true
 text = "Game SFX"
 
 [node name="CameraShakeBtn" type="CheckButton" parent="Settings"]
+modulate = Color( 1, 1, 1, 0.509804 )
 margin_left = 64.0
 margin_top = 345.0
 margin_right = 252.0
@@ -4575,6 +4579,7 @@ pressed = true
 text = "Camera Shake"
 
 [node name="ColorSchemeOptions" type="Control" parent="Settings"]
+modulate = Color( 1, 1, 1, 0.470588 )
 margin_left = 64.0
 margin_top = 398.0
 margin_right = 320.0

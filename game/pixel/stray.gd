@@ -15,6 +15,10 @@ onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var count_label: Label = $CountLabel # debug
 onready var cell_size_x: int = Global.current_tilemap.cell_size.x
 
+# neu
+onready var position_indicator: Node2D = $PositionIndicator
+onready var visibility_notifier_2d: VisibilityNotifier2D = $VisibilityNotifier2D
+
 
 func _ready() -> void:
 	
@@ -29,6 +33,41 @@ func _ready() -> void:
 	count_label.text = name
 
 
+func _process(delta: float) -> void:
+	
+	var vp_pozicija = get_viewport_rect().position
+	var vp_dimenzije = get_viewport_rect().end
+	
+	if Global.player1_camera:
+		if Global.strays_on_screen_count > 0:
+			position_indicator.visible = false
+		else:
+			position_indicator.visible = true
+		print (Global.strays_on_screen_count)
+		var pozicija_kamere = Global.player1_camera.get_camera_screen_center() # središčna pozicija kamere s smoothanjem
+#		var pozicija_kamere = Global.player1_camera.position
+#		var pozicija_kamere = Global.player1_camera.get_camera_position() # središčna pozicija kamere brez smoothanja
+		
+#		print (name)
+		if name == "S1":
+#			printt(vp_pozicija, vp_dimenzije, pozicija_kamere )
+			pass
+	
+#	var meje_indikatorja_pozicija = 
+#	var meje_indikatorja_dimenzije = 
+	
+#	position_indicator.global_position.x = clamp(position_indicator.global_position.x, 200, 1200)
+#	position_indicator.global_position.y = clamp(position_indicator.global_position.y, 200, 1200)
+#	position_indicator.global_position.x = clamp(position_indicator.global_position.x, get_viewport_rect().position.x, get_viewport_rect().end.x)
+#	position_indicator.global_position.y = clamp(position_indicator.global_position.y, get_viewport_rect().position.y, get_viewport_rect().end.y)
+		
+		position_indicator.global_position = global_position
+		position_indicator.global_position.x = clamp(position_indicator.global_position.x, pozicija_kamere.x - vp_dimenzije.x/2, pozicija_kamere.x + vp_dimenzije.x/2)
+		position_indicator.global_position.y = clamp(position_indicator.global_position.y, pozicija_kamere.y - vp_dimenzije.y/2, pozicija_kamere.y + vp_dimenzije.y/2)
+	
+	
+	
+	
 func show(): # kliče GM
 	
 	# žrebam animacijo
@@ -39,6 +78,9 @@ func show(): # kliče GM
 
 func step(step_direction: Vector2):
 	
+#	position_indicator.global_position == global_position
+#	position_indicator.position = Vector2.ZERO
+	print (position_indicator.position)
 	if not current_state == States.IDLE:
 		return
 	
@@ -145,3 +187,22 @@ func detect_collision_in_direction(direction_to_check):
 	
 	return first_collider
 	print (first_collider)
+
+
+func _on_VisibilityNotifier2D_viewport_entered(viewport: Viewport) -> void:
+#	Global.strays_on_screen_count += 1
+	pass
+
+func _on_VisibilityNotifier2D_viewport_exited(viewport: Viewport) -> void:
+#	Global.strays_on_screen_count -= 1
+	pass
+
+
+func _on_VisibilityNotifier2D_screen_exited() -> void:
+	Global.strays_on_screen_count -= 1
+	pass # Replace with function body.
+
+
+func _on_VisibilityNotifier2D_screen_entered() -> void:
+	Global.strays_on_screen_count += 1
+	pass # Replace with function body.
