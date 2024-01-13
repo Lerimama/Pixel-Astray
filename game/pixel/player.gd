@@ -1036,13 +1036,12 @@ func _on_ghost_target_reached(ghost_body: Area2D, ghost_position: Vector2):
 	Input.stop_joy_vibration(0)
 			
 	var ghost_fade_time: float = 0.5
-	
 	global_position = ghost_position
 	modulate.a = 1
-	collision_shape.disabled = false
-	collision_shape_ext.disabled = false
 	player_camera.camera_target = self
 	glow_light.enabled = true
+	collision_shape.set_deferred("disabled", false)
+	collision_shape_ext.set_deferred("disabled", false)
 	ghost_body.queue_free()
 	end_move()
 	

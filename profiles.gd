@@ -103,6 +103,7 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 	"minimap_on": false,
 	"manage_highscores": false,
 	"lose_life_on_hit": false, # zadetek od igralca ali v steno pomeni izgubo življenja, alternativa je izguba energije
+	"show_position_indicator_stray_count": 5,
 	
 	"skill_limit_mode": false,
 	"skill_limit_count": 5,
@@ -175,7 +176,7 @@ var game_data_cleaner_L: Dictionary = {
 	"level": "L",
 	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_L_tilemap.tscn",
 	"game_time_limit": 600,
-	"strays_start_count": 320, 
+	"strays_start_count": 20, 
 #	"highscore": 0,
 }
 
@@ -258,5 +259,5 @@ func set_game_data(selected_game) -> void:
 			game_settings["manage_highscores"] = true
 			game_settings["lose_life_on_hit"] = true
 			game_settings["start_countdown"] = false
-			game_settings["stray_step_mode"] = true
+#			game_settings["stray_step_mode"] = true
 		

@@ -30,6 +30,9 @@ onready var spectrum_gradient: TextureRect = $SpectrumGradient
 onready var StrayPixel = preload("res://game/pixel/stray.tscn")
 onready var PlayerPixel = preload("res://game/pixel/player.tscn")
 
+#neu
+var show_position_indicators: bool
+var show_position_indicator_stray_count: int = 5
 
 func _ready() -> void:
 	
@@ -43,6 +46,11 @@ func _process(delta: float) -> void:
 		all_strays_died_alowed = false
 		emit_signal("all_strays_died")
 	
+	# position indicators	
+	if Global.strays_on_screen.size() <= game_settings["show_position_indicator_stray_count"]:
+		show_position_indicators = true
+	else:
+		show_position_indicators = false
 	
 # GAME LOOP ----------------------------------------------------------------------------------
 

@@ -963,6 +963,18 @@ shape = SubResource( 1 )
 [node name="CollisionShapeExt" type="CollisionShape2D" parent="."]
 shape = SubResource( 142 )
 
+[node name="PositionIndicator" type="Node2D" parent="."]
+
+[node name="Background" type="Polygon2D" parent="PositionIndicator"]
+position = Vector2( -16, -16 )
+color = Color( 1, 1, 1, 0 )
+polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
+
+[node name="PositionPoly" type="Polygon2D" parent="PositionIndicator"]
+position = Vector2( -12, -12 )
+color = Color( 0.980392, 0.980392, 0.980392, 1 )
+polygon = PoolVector2Array( 8, 8, 16, 8, 16, 16, 8, 16 )
+
 [node name="Vision" type="Node2D" parent="."]
 
 [node name="VisionRay1" type="RayCast2D" parent="Vision"]
@@ -978,6 +990,10 @@ cast_to = Vector2( 47, 0 )
 position = Vector2( 0, 15.9 )
 enabled = true
 cast_to = Vector2( 47, 0 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+position = Vector2( 0, 4.76837e-07 )
+rect = Rect2( -1, -1, 2, 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/_blink = SubResource( 139 )
@@ -1100,18 +1116,5 @@ theme = ExtResource( 5 )
 text = "00"
 align = 1
 
-[node name="PositionIndicator" type="Node2D" parent="."]
-
-[node name="ColorPoly" type="Polygon2D" parent="PositionIndicator"]
-position = Vector2( -16, -16 )
-color = Color( 0.980392, 0.980392, 0.980392, 1 )
-polygon = PoolVector2Array( 8, 8, 24, 8, 24, 24, 8, 24 )
-
-[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
-position = Vector2( 4.76837e-07, 4.76837e-07 )
-scale = Vector2( 2.4, 2.4 )
-
-[connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]
-[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="viewport_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_viewport_entered"]
 [connection signal="viewport_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_viewport_exited"]

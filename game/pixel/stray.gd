@@ -30,43 +30,22 @@ func _ready() -> void:
 	
 	color_poly.modulate = stray_color
 	modulate.a = 0
+	position_indicator.get_node("PositionPoly").color = stray_color
 	count_label.text = name
+	position_indicator.visible = false
 
 
 func _process(delta: float) -> void:
-	
-	var vp_pozicija = get_viewport_rect().position
-	var vp_dimenzije = get_viewport_rect().end
-	
-	if Global.player1_camera:
-		if Global.strays_on_screen_count > 0:
-			position_indicator.visible = false
-		else:
-			position_indicator.visible = true
-		print (Global.strays_on_screen_count)
-		var pozicija_kamere = Global.player1_camera.get_camera_screen_center() # središčna pozicija kamere s smoothanjem
-#		var pozicija_kamere = Global.player1_camera.position
-#		var pozicija_kamere = Global.player1_camera.get_camera_position() # središčna pozicija kamere brez smoothanja
+
+	if Global.game_manager.show_position_indicators:
+		position_indicator.visible = true
+	else:
+		position_indicator.visible = false
 		
-#		print (name)
-		if name == "S1":
-#			printt(vp_pozicija, vp_dimenzije, pozicija_kamere )
-			pass
-	
-#	var meje_indikatorja_pozicija = 
-#	var meje_indikatorja_dimenzije = 
-	
-#	position_indicator.global_position.x = clamp(position_indicator.global_position.x, 200, 1200)
-#	position_indicator.global_position.y = clamp(position_indicator.global_position.y, 200, 1200)
-#	position_indicator.global_position.x = clamp(position_indicator.global_position.x, get_viewport_rect().position.x, get_viewport_rect().end.x)
-#	position_indicator.global_position.y = clamp(position_indicator.global_position.y, get_viewport_rect().position.y, get_viewport_rect().end.y)
+	if position_indicator.visible:
+		get_position_indicator_position(get_viewport().get_node("PlayerCamera"))
+		print("visible")	
 		
-		position_indicator.global_position = global_position
-		position_indicator.global_position.x = clamp(position_indicator.global_position.x, pozicija_kamere.x - vp_dimenzije.x/2, pozicija_kamere.x + vp_dimenzije.x/2)
-		position_indicator.global_position.y = clamp(position_indicator.global_position.y, pozicija_kamere.y - vp_dimenzije.y/2, pozicija_kamere.y + vp_dimenzije.y/2)
-	
-	
-	
 	
 func show(): # kliče GM
 	
@@ -78,9 +57,6 @@ func show(): # kliče GM
 
 func step(step_direction: Vector2):
 	
-#	position_indicator.global_position == global_position
-#	position_indicator.position = Vector2.ZERO
-	print (position_indicator.position)
 	if not current_state == States.IDLE:
 		return
 	
@@ -111,7 +87,7 @@ func die(stray_in_stack_index: int, strays_in_stack: int):
 	
 	current_state = States.STATIC
 	global_position = Global.snap_to_nearest_grid(global_position) 
-		
+	
 	# čakalni čas
 	var wait_to_destroy_time: float = sqrt(0.07 * (stray_in_stack_index)) # -1 je, da hitan stray ne čaka
 	yield(get_tree().create_timer(wait_to_destroy_time), "timeout")
@@ -124,6 +100,7 @@ func die(stray_in_stack_index: int, strays_in_stack: int):
 	else: # ne žrebam
 		animation_player.play("die_stray")
 
+	position_indicator.modulate.a = 0	
 	collision_shape.disabled = true
 	collision_shape_ext.disabled = true
 	
@@ -137,6 +114,22 @@ func die(stray_in_stack_index: int, strays_in_stack: int):
 
 # UTILITI ------------------------------------------------------------------------------------------------------
 
+			
+func get_position_indicator_position(current_camera: Camera2D):
+	
+	var viewport_position = get_viewport_rect().position
+	var viewport_size = get_viewport_rect().end
+	var current_camera_position = current_camera.get_camera_screen_center()
+	
+	var camera_edge_clamp_down_x = current_camera_position.x - viewport_size.x/2 + cell_size_x/2 # polovička vp-ja na vsako stran centra kamere
+	var camera_edge_clamp_up_x = current_camera_position.x + viewport_size.x/2 - cell_size_x/2
+	var camera_edge_clamp_down_y = current_camera_position.y - viewport_size.y/2 + cell_size_x/2 # polovička vp-ja na vsako stran centra kamere
+	var camera_edge_clamp_up_y = current_camera_position.y + viewport_size.y/2 - cell_size_x/2
+		
+	position_indicator.global_position = global_position
+	position_indicator.global_position.x = clamp(position_indicator.global_position.x, camera_edge_clamp_down_x, camera_edge_clamp_up_x)
+	position_indicator.global_position.y = clamp(position_indicator.global_position.y, camera_edge_clamp_down_y, camera_edge_clamp_up_y)
+	
 
 func play_sound(effect_for: String):
 	
@@ -189,20 +182,15 @@ func detect_collision_in_direction(direction_to_check):
 	print (first_collider)
 
 
+# SIGNALI ------------------------------------------------------------------------------------------------------
+
+
 func _on_VisibilityNotifier2D_viewport_entered(viewport: Viewport) -> void:
-#	Global.strays_on_screen_count += 1
-	pass
+	# position_indicator.visible = false # zaenkrat ga ne skrivam, ker ni optimalno je iste barve
+	Global.strays_on_screen.append(self)
+
 
 func _on_VisibilityNotifier2D_viewport_exited(viewport: Viewport) -> void:
-#	Global.strays_on_screen_count -= 1
-	pass
-
-
-func _on_VisibilityNotifier2D_screen_exited() -> void:
-	Global.strays_on_screen_count -= 1
-	pass # Replace with function body.
-
-
-func _on_VisibilityNotifier2D_screen_entered() -> void:
-	Global.strays_on_screen_count += 1
-	pass # Replace with function body.
+	# if Global.game_manager.show_position_indicators:
+	#	position_indicator.visible = true # zaenkrat ga ne skrivam, ker ni optimalno je iste barve
+	Global.strays_on_screen.erase(self)

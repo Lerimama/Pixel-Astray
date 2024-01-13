@@ -28,7 +28,7 @@ var intro_camera = null
 var player1_camera = null
 var player2_camera = null
 
-var strays_on_screen_count: int 
+var strays_on_screen: Array = []
 
 # groups
 var group_players = "Players"
