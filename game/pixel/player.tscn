@@ -890,6 +890,7 @@ audio_stream = ExtResource( 8 )
 random_pitch = 1.2
 
 [node name="Player" type="KinematicBody2D"]
+collision_mask = 3
 script = ExtResource( 2 )
 
 [node name="GlowLight" type="Light2D" parent="."]
@@ -920,15 +921,18 @@ shape = SubResource( 4 )
 position = Vector2( 0, -15.9 )
 enabled = true
 cast_to = Vector2( 32, 0 )
+collision_mask = 3
 
 [node name="VisionRay2" type="RayCast2D" parent="Vision"]
 enabled = true
 cast_to = Vector2( 47, 0 )
+collision_mask = 3
 
 [node name="VisionRay3" type="RayCast2D" parent="Vision"]
 position = Vector2( 0, 15.9 )
 enabled = true
 cast_to = Vector2( 32, 0 )
+collision_mask = 3
 
 [node name="ColorPoly" type="Polygon2D" parent="Vision"]
 visible = false

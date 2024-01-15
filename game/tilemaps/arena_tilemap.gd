@@ -12,7 +12,7 @@ var player_global_positions: Array
 
 func _ready() -> void:
 	
-	add_to_group(Global.group_tilemap)	
+	add_to_group(Global.group_tilemap)
 	Global.current_tilemap = self
 
 
@@ -35,7 +35,7 @@ func get_tiles():
 					floor_global_positions.append(cell_global_position)
 				5: # stray spawn positions
 					stray_global_positions.append(cell_global_position)
-#					set_cellv(cell, 0) # menjam za celico tal
+					set_cellv(cell, 0) # menjam za celico tal
 					floor_global_positions.append(cell_global_position)
 				2: # no stray
 					no_stray_global_positions.append(cell_global_position)
@@ -48,6 +48,11 @@ func get_tiles():
 				6: # player 2 spawn position
 					player_global_positions.append(cell_global_position)
 					set_cellv(cell, 0)
+					floor_global_positions.append(cell_global_position)
+				7: # invisible wall
+#					set_cellv(cell, 0)
+					print(cell_global_position)
+
 					floor_global_positions.append(cell_global_position)
 	
 	# pošljem v GM

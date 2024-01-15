@@ -157,7 +157,7 @@ func set_game_view():
 	var cell_align_start: Vector2 = Vector2(cell_size_x, cell_size_x/2)
 	Global.player1_camera.position = player_start_positions[0] + cell_align_start
 	
-	if start_players_count == 2:
+	if start_players_count == 2 and not game_data["game"] == Profiles.Games.SCROLLER:
 		viewport_container_2.visible = true
 		viewport_2.world_2d = viewport_1.world_2d
 		Global.player2_camera.position = player_start_positions[1] + cell_align_start
@@ -167,6 +167,8 @@ func set_game_view():
 	
 	# set player camera limits
 	var tilemap_edge = Global.current_tilemap.get_used_rect()
+	print("TR ",tilemap_edge)
+	Global.player1_camera.set_camera_limits()
 	
 	# minimap
 	var minimap_container: ViewportContainer = $"../Minimap"
@@ -207,12 +209,15 @@ func set_players():
 		new_player_pixel.set_physics_process(false)
 		
 		# players camera
-		if spawned_player_index == 1:
+		if game_data["game"] == Profiles.Games.SCROLLER:
 			new_player_pixel.player_camera = Global.player1_camera
-			new_player_pixel.player_camera.camera_target = new_player_pixel
-		elif spawned_player_index == 2:
-			new_player_pixel.player_camera = Global.player2_camera
-			new_player_pixel.player_camera.camera_target = new_player_pixel
+		else:
+			if spawned_player_index == 1:
+				new_player_pixel.player_camera = Global.player1_camera
+				new_player_pixel.player_camera.camera_target = new_player_pixel
+			elif spawned_player_index == 2:
+				new_player_pixel.player_camera = Global.player2_camera
+				new_player_pixel.player_camera.camera_target = new_player_pixel
 			
 		
 func set_strays():
@@ -439,7 +444,7 @@ func stray_step():
 	
 	var stepping_direction: Vector2
 	
-	if not game_settings["scrolling_mode"]:
+	if not game_data["game"] == Profiles.Games.SCROLLER:
 		# random dir
 		var random_direction_index: int = randi() % int(4)
 		match random_direction_index:

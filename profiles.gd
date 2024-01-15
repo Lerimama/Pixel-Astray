@@ -229,8 +229,8 @@ func _ready() -> void:
 	
 #	var current_game = Games.DUEL # če greš iz menija je tole povoženo
 #	var current_game = Games.TUTORIAL # če greš iz menija je tole povoženo
-	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
-#	var current_game = Games.SCROLLER # če greš iz menija je tole povoženo
+#	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
+	var current_game = Games.SCROLLER # če greš iz menija je tole povoženo
 #	var current_game = Games.DEBUG # če greš iz menija je tole povoženo
 	set_game_data(current_game)
 	
@@ -256,7 +256,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["start_countdown"] = false
 			game_settings["stray_step_mode"] = true
 			game_settings["scrolling_mode"] = true
-#			game_settings["position_indicators_mode"] = false 
+			game_settings["position_indicators_mode"] = false 
 #			game_settings["step_slowdown_mode"] = false
 #			game_settings["step_time_fast"] = 1.15
 #			game_settings["stray_step_mode"] = true

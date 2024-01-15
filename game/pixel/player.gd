@@ -143,7 +143,10 @@ func on_collision():
 	
 	stop_sound("burst")
 	
+	print(collision.collider)
 	if collision.collider.is_in_group(Global.group_tilemap):
+		on_hit_wall()
+	elif collision.collider is StaticBody2D: # top screen limit
 		on_hit_wall()
 	elif collision.collider.is_in_group(Global.group_strays):
 		on_hit_stray(collision.collider)
@@ -272,7 +275,7 @@ func skill_inputs():
 				if current_collider.is_in_group(Global.group_strays) and not current_collider.current_state == current_collider.States.MOVING:
 					pull(current_collider)	
 				elif current_collider.is_in_group(Global.group_tilemap):
-					end_move()
+					end_move() # nazaj ... izhod iz skilla, če gre za steno
 			else: # levo/desno ... izhod iz skilla
 				end_move()
 	else:
@@ -302,7 +305,7 @@ func step(): # step koda se ob držanju tipke v smeri izvaja stalno
 		step_tween.tween_callback(self, "change_stat", ["cells_traveled", 1]) # točke in energija kot je določeno v settingsih
 		
 		play_stepping_sound(player_stats["player_energy"] / float(Global.game_manager.game_settings["player_max_energy"])) # ulomek je za pitch zvoka
-		
+	
 		
 func end_move():
 	
@@ -559,7 +562,8 @@ func teleport(): # skilled inputs opredeli vrsto skila glede na kolajderja
 	new_teleport_ghost.connect("ghost_target_reached", self, "_on_ghost_target_reached")
 	
 	# kamera target
-	player_camera.camera_target = new_teleport_ghost
+	if player_camera:
+		player_camera.camera_target = new_teleport_ghost
 	modulate.a = 0
 	collision_shape.disabled = true
 	collision_shape_ext.disabled = true
@@ -1036,7 +1040,8 @@ func _on_ghost_target_reached(ghost_body: Area2D, ghost_position: Vector2):
 	var ghost_fade_time: float = 0.5
 	global_position = ghost_position
 	modulate.a = 1
-	player_camera.camera_target = self
+	if player_camera:
+		player_camera.camera_target = self
 	glow_light.enabled = true
 	collision_shape.set_deferred("disabled", false)
 	collision_shape_ext.set_deferred("disabled", false)
