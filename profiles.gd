@@ -103,7 +103,12 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 	"minimap_on": false,
 	"manage_highscores": false,
 	"lose_life_on_hit": false, # zadetek od igralca ali v steno pomeni izgubo življenja, alternativa je izguba energije
-	"show_position_indicator_stray_count": 5,
+
+	# postion indis
+	"position_indicators_mode": true, # duel jih nima
+	"show_position_indicators_stray_count": 3,
+	
+
 	
 	"skill_limit_mode": false,
 	"skill_limit_count": 5,
@@ -114,13 +119,16 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 	"stray_step_mode": false,
 	"pause_time": 0.2, # pavzo delim z random številom v obsegu ...
 	"random_pause_time_divider_range": 5, # obseg za random število
+	"scrolling_mode": false,
+	"stray_step_time": 0.2,
+	"scrolling_pause_time": 0.2,
 }
 
 
 # GAMES ---------------------------------------------------------------------------------------------------------
 
 
-enum Games {DEBUG, TUTORIAL, CLEANER_S, CLEANER_M, CLEANER_L, RUNNER, DUEL, RIDDLER}
+enum Games {DEBUG, TUTORIAL, CLEANER_S, CLEANER_M, CLEANER_L, RUNNER, DUEL, RIDDLER, SCROLLER}
 
 
 var game_data_runner: Dictionary = { 
@@ -189,6 +197,17 @@ var game_data_duel: Dictionary = {
 	"strays_start_count": 230, 
 }
 
+var game_data_scroller: Dictionary = { 
+	"game": Games.SCROLLER,
+	"game_name": "Scroller",
+	"level": "",
+	"tilemap_path": "res://game/tilemaps/scrolling_tilemap.tscn",
+	"game_time_limit": 100,
+	"strays_start_count": 50,
+#	"highscore": 0,
+}
+
+
 var game_data_debug: Dictionary = { 
 	"game": Games.DEBUG,
 	"game_name": "Debug",
@@ -211,6 +230,7 @@ func _ready() -> void:
 #	var current_game = Games.DUEL # če greš iz menija je tole povoženo
 #	var current_game = Games.TUTORIAL # če greš iz menija je tole povoženo
 	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
+#	var current_game = Games.SCROLLER # če greš iz menija je tole povoženo
 #	var current_game = Games.DEBUG # če greš iz menija je tole povoženo
 	set_game_data(current_game)
 	
@@ -225,6 +245,18 @@ func set_game_data(selected_game) -> void:
 			game_settings["player_start_life"] = 2
 			game_settings["manage_highscores"] = false
 			game_settings["start_countdown"] = false
+			game_settings["position_indicators_mode"] = false 
+#			game_settings["step_slowdown_mode"] = false
+#			game_settings["step_time_fast"] = 1.15
+#			game_settings["stray_step_mode"] = true
+		Games.SCROLLER:
+			current_game_data = game_data_scroller
+			game_settings["player_start_life"] = 2
+			game_settings["manage_highscores"] = false
+			game_settings["start_countdown"] = false
+			game_settings["stray_step_mode"] = true
+			game_settings["scrolling_mode"] = true
+#			game_settings["position_indicators_mode"] = false 
 #			game_settings["step_slowdown_mode"] = false
 #			game_settings["step_time_fast"] = 1.15
 #			game_settings["stray_step_mode"] = true
@@ -242,6 +274,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["lose_life_on_hit"] = true
 			game_settings["start_countdown"] = false
 			game_settings["step_slowdown_mode"] = false
+			game_settings["position_indicators_mode"] = false 
 			game_settings["step_time_fast"] = 1.15
 		Games.TUTORIAL:
 			current_game_data = game_data_tutorial

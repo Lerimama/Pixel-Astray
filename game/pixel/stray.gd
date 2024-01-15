@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
-enum States {IDLE, MOVING, STATIC} # static, unmovable
+
+enum States {IDLE, MOVING, STATIC, DYING} # static, unmovable
 var current_state # = States.IDLE
 
 var stray_color: Color
@@ -18,6 +19,7 @@ onready var cell_size_x: int = Global.current_tilemap.cell_size.x
 # neu
 onready var position_indicator: Node2D = $PositionIndicator
 onready var visibility_notifier_2d: VisibilityNotifier2D = $VisibilityNotifier2D
+onready var step_time: float = Global.game_manager.game_settings["stray_step_time"]
 
 
 func _ready() -> void:
@@ -44,10 +46,9 @@ func _process(delta: float) -> void:
 		
 	if position_indicator.visible:
 		get_position_indicator_position(get_viewport().get_node("PlayerCamera"))
-		print("visible")	
 		
 	
-func show(): # kliče GM
+func show_stray(): # kliče GM
 	
 	# žrebam animacijo
 	var random_animation_index = randi() % 3 + 1
@@ -57,19 +58,18 @@ func show(): # kliče GM
 
 func step(step_direction: Vector2):
 	
-	if not current_state == States.IDLE:
-		return
-	
-	if detect_collision_in_direction(step_direction): # če kolajda izbrani smeri gibanja zarotira smer za 90 in poskusi znova
-		step_attempt += 1
-		if step_attempt < 5:
-			var new_direction = step_direction.rotated(deg2rad(90))
-			step(new_direction)
-		return
+	if detect_collision_in_direction(step_direction):
+		if Global.game_manager.game_settings["scrolling_mode"]: # če kolajda izbrani smeri gibanja zarotira smer za 90 in poskusi znova
+			return
+		else:
+			step_attempt += 1
+			if step_attempt < 5:
+				var new_direction = step_direction.rotated(deg2rad(90))
+				step(new_direction)
+			return
 	
 	current_state = States.MOVING
 	collision_shape_ext.position = step_direction * cell_size_x # vržem koližn v smer premika
-	var step_time: float = 0.2
 	
 	var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 	step_tween.tween_property(self, "position", global_position + step_direction * cell_size_x, step_time)
@@ -79,13 +79,14 @@ func step(step_direction: Vector2):
 
 func end_move():
 	
-	current_state = States.IDLE
+	if current_state == States.MOVING:
+		current_state = States.IDLE
 	global_position = Global.snap_to_nearest_grid(global_position) 
 	
 		
 func die(stray_in_stack_index: int, strays_in_stack: int):
 	
-	current_state = States.STATIC
+	current_state = States.DYING
 	global_position = Global.snap_to_nearest_grid(global_position) 
 	
 	# čakalni čas

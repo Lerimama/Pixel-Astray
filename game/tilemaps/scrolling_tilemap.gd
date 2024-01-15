@@ -35,7 +35,7 @@ func get_tiles():
 					floor_global_positions.append(cell_global_position)
 				5: # stray spawn positions
 					stray_global_positions.append(cell_global_position)
-#					set_cellv(cell, 0) # menjam za celico tal
+					set_cellv(cell, 0) # menjam za celico tal
 					floor_global_positions.append(cell_global_position)
 				2: # no stray
 					no_stray_global_positions.append(cell_global_position)

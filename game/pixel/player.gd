@@ -126,7 +126,6 @@ func state_machine():
 	match current_state:
 		States.IDLE:
 			idle_inputs()
-
 		States.SKILLED:
 			if player_stats["player_energy"] > 1:
 				skill_inputs()
@@ -183,7 +182,8 @@ func idle_inputs():
 		var current_colider: Node2D = detect_collision_in_direction(direction)
 		if current_colider:
 			if current_colider.is_in_group(Global.group_strays):
-					current_state = States.SKILLED
+				current_state = States.SKILLED
+				current_colider.current_state = current_colider.States.STATIC
 			elif current_colider.is_in_group(Global.group_tilemap):
 				if current_colider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
 					current_state = States.SKILLED 
@@ -264,11 +264,13 @@ func skill_inputs():
 			if new_direction == direction: # naprej
 				if current_collider.is_in_group(Global.group_tilemap):
 					teleport()
-				elif current_collider.is_in_group(Global.group_strays) and current_collider.current_state == current_collider.States.IDLE:
-					push()
+#				elif current_collider.is_in_group(Global.group_strays) and current_collider.current_state == current_collider.States.IDLE:
+				elif current_collider.is_in_group(Global.group_strays) and not current_collider.current_state == current_collider.States.MOVING:
+					push(current_collider)
 			elif new_direction == - direction: # nazaj
-				if current_collider.is_in_group(Global.group_strays) and current_collider.current_state == current_collider.States.IDLE:
-					pull()	
+#				if current_collider.is_in_group(Global.group_strays) and current_collider.current_state == current_collider.States.IDLE:
+				if current_collider.is_in_group(Global.group_strays) and not current_collider.current_state == current_collider.States.MOVING:
+					pull(current_collider)	
 				elif current_collider.is_in_group(Global.group_tilemap):
 					end_move()
 			else: # levo/desno ... izhod iz skilla
@@ -427,20 +429,18 @@ func burst():
 # SKILLS ------------------------------------------------------------------------------------------
 
 		
-func push(): # skilled inputs opredeli vrsto skila glede na kolajderja
+func push(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila glede na kolajderja
 	
 	var push_direction = direction
 	var backup_direction = - push_direction
 	
-	var target_collider = detect_collision_in_direction(push_direction) # shranim straysa, ker se ga sredi mova neham dotikat
-		
 	# prostor za zalet?
 	if detect_collision_in_direction(backup_direction):
 		end_move()
 		return
 	
 	current_state = States.SKILLING
-	target_collider.current_state = target_collider.States.MOVING	
+	stray_to_move.current_state = stray_to_move.States.MOVING	
 	
 	collision_shape_ext.position = backup_direction * cell_size_x # vržem koližn v smer premika
 	skill_light_off()
@@ -452,21 +452,21 @@ func push(): # skilled inputs opredeli vrsto skila glede na kolajderja
 	var new_push_ghost = spawn_ghost(new_push_ghost_position)
 	
 	# ni prostora 
-	if target_collider.detect_collision_in_direction(push_direction):# and not target_collider.detect_collision_in_direction(push_direction).has(self): # če stray kolajda in to ni on sam
+	if stray_to_move.detect_collision_in_direction(push_direction):# and not target_collider.detect_collision_in_direction(push_direction).has(self): # če stray kolajda in to ni on sam
 		var empty_push_tween = get_tree().create_tween()
 		# napnem
 		empty_push_tween.tween_property(self, "position", global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 		empty_push_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 		empty_push_tween.parallel().tween_property(skill_light, "position", skill_light.position - backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 		empty_push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost.global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
-		empty_push_tween.parallel().tween_property(target_collider.collision_shape_ext, "position", backup_direction * cell_size_x, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT) # stray ext shape
+		empty_push_tween.parallel().tween_property(stray_to_move.collision_shape_ext, "position", backup_direction * cell_size_x, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT) # stray ext shape
 		# spustim
 		empty_push_tween.tween_property(self, "position", global_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
-		empty_push_tween.parallel().tween_property(target_collider.collision_shape_ext, "position", Vector2.ZERO, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN) # stray ext shape
+		empty_push_tween.parallel().tween_property(stray_to_move.collision_shape_ext, "position", Vector2.ZERO, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN) # stray ext shape
 		empty_push_tween.tween_property(skill_light, "position", skill_light.position, 0) # reset pozicije luči
 		# reset
 		empty_push_tween.tween_callback(self, "end_move")
-		empty_push_tween.tween_callback(target_collider, "end_move")
+		empty_push_tween.tween_callback(stray_to_move, "end_move")
 		empty_push_tween.tween_callback(new_push_ghost, "queue_free")
 	# je prostor
 	else: 
@@ -476,32 +476,30 @@ func push(): # skilled inputs opredeli vrsto skila glede na kolajderja
 		push_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		push_tween.parallel().tween_property(skill_light, "position", skill_light.position - backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 		push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost.global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		push_tween.parallel().tween_property(target_collider.collision_shape_ext, "position", backup_direction * cell_size_x, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT) # stray ext shape
+		push_tween.parallel().tween_property(stray_to_move.collision_shape_ext, "position", backup_direction * cell_size_x, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT) # stray ext shape
 		# spustim
 		push_tween.tween_property(self, "position", global_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
-		push_tween.parallel().tween_property(target_collider.collision_shape_ext, "position", Vector2.ZERO, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	# stray ext shape
+		push_tween.parallel().tween_property(stray_to_move.collision_shape_ext, "position", Vector2.ZERO, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	# stray ext shape
 		push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
 		push_tween.tween_property(skill_light, "position", skill_light.position, 0) # reset pozicije luči
 #		push_tween.tween_callback(Global.sound_manager, "play_sfx", ["pushed"])
 		push_tween.tween_callback(self, "play_sound", ["pushed"])
 		push_tween.tween_callback(new_push_ghost, "queue_free")
-		push_tween.tween_callback(target_collider.collision_shape_ext, "set_position", [push_direction * cell_size_x]) # stray ext shape
-		push_tween.tween_property(target_collider, "position", target_collider.global_position + push_direction * cell_size_x * push_cell_count, 0.08).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(0.05)
-		push_tween.parallel().tween_property(target_collider.collision_shape_ext, "position", Vector2.ZERO, 0.08).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(0.05) # stray ext shape
+		push_tween.tween_callback(stray_to_move.collision_shape_ext, "set_position", [push_direction * cell_size_x]) # stray ext shape
+		push_tween.tween_property(stray_to_move, "position", stray_to_move.global_position + push_direction * cell_size_x * push_cell_count, 0.08).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(0.05)
+		push_tween.parallel().tween_property(stray_to_move.collision_shape_ext, "position", Vector2.ZERO, 0.08).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(0.05) # stray ext shape
 		# reset
 		push_tween.tween_callback(self, "end_move")
-		push_tween.tween_callback(target_collider, "end_move")
+		push_tween.tween_callback(stray_to_move, "end_move")
 		# push_tween.tween_callback(self, "change_stat", ["skill_used", 1]) # štetje, točke in energija kot je določeno v settingsih
 			
 		change_stat("skill_used", 1) # zazih ni v tweenu
 
 
-func pull(): # skilled inputs opredeli vrsto skila glede na kolajderja
+func pull(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila glede na kolajderja
 	
 	var target_direction = direction
 	var pull_direction = - target_direction
-	
-	var target_collider = detect_collision_in_direction(target_direction) # shranim straysa, ker se ga sredi mova neham dotikat
 	
 	# prostor v smeri premika?
 	if detect_collision_in_direction(pull_direction): 
@@ -509,7 +507,7 @@ func pull(): # skilled inputs opredeli vrsto skila glede na kolajderja
 		return	
 	
 	current_state = States.SKILLING
-	target_collider.current_state = target_collider.States.MOVING
+	stray_to_move.current_state = stray_to_move.States.MOVING
 	
 	collision_shape_ext.position = pull_direction * cell_size_x # vržem koližn v smer premika
 	skill_light_off()
@@ -524,15 +522,15 @@ func pull(): # skilled inputs opredeli vrsto skila glede na kolajderja
 	pull_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, pull_time)
 	pull_tween.parallel().tween_property(skill_light, "position", skill_light.position - pull_direction * cell_size_x, pull_time)
 	pull_tween.parallel().tween_property(new_pull_ghost, "position", new_pull_ghost.global_position + pull_direction * cell_size_x, pull_time)
-	pull_tween.parallel().tween_property(target_collider.collision_shape_ext, "position", pull_direction * cell_size_x, pull_time) # stray ext shape
+	pull_tween.parallel().tween_property(stray_to_move.collision_shape_ext, "position", pull_direction * cell_size_x, pull_time) # stray ext shape
 	# pull stray
-	pull_tween.tween_property(target_collider, "position", target_collider.global_position + pull_direction * cell_size_x, pull_time)
-	pull_tween.parallel().tween_property(target_collider.collision_shape_ext, "position", Vector2.ZERO, pull_time) # stray ext shape
+	pull_tween.tween_property(stray_to_move, "position", stray_to_move.global_position + pull_direction * cell_size_x, pull_time)
+	pull_tween.parallel().tween_property(stray_to_move.collision_shape_ext, "position", Vector2.ZERO, pull_time) # stray ext shape
 	pull_tween.parallel().tween_callback(self, "play_sound", ["pulled"])
 	pull_tween.tween_callback(skill_light, "set_position", [skill_light.position]) # reset pozicije luči
 	# reset
 	pull_tween.tween_callback(self, "end_move")
-	pull_tween.tween_callback(target_collider, "end_move")
+	pull_tween.tween_callback(stray_to_move, "end_move")
 	pull_tween.tween_callback(new_pull_ghost, "queue_free")
 	# pull_tween.tween_callback(self, "change_stat", ["skill_used", 2]) # štetje, točke in energija kot je določeno v settingsih
 	
@@ -581,7 +579,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	spawn_collision_particles()
 	shake_player_camera(burst_speed)			
 	
-	if hit_stray.current_state == hit_stray.States.STATIC: # če je že v umiranju, samo kolajdaš
+	if hit_stray.current_state == hit_stray.States.DYING: # če je že v umiranju, samo kolajdaš
 		end_move()
 		return
 	
