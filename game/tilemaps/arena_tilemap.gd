@@ -51,8 +51,7 @@ func get_tiles():
 					floor_global_positions.append(cell_global_position)
 				7: # invisible wall
 #					set_cellv(cell, 0)
-					print(cell_global_position)
-
+#					print(cell_global_position)
 					floor_global_positions.append(cell_global_position)
 	
 	# pošljem v GM

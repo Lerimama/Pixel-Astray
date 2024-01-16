@@ -261,6 +261,11 @@ func set_hud(players_count: int): # kliče main na game-in
 	if Global.game_manager.game_data["level"].empty():
 		level_label.visible = false
 	
+	# scrolling game 	
+	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
+#		spawn_color_indicators(10)
+		pass
+		
 		
 func set_current_highscore():
 	
@@ -287,7 +292,24 @@ func fade_splitscreen_popup():
 	hide_splitscreen_popup.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
 	hide_splitscreen_popup.tween_callback(Global.start_countdown, "start_countdown")	
 		
-		
+
+# LEVEL INDICATORS -------------------------------------------------------------------------------------------------------------------
+
+#
+#func spawn_level_indicators(level_stages_count: int): # kliče GM
+#
+#	var indicator_index = 0 # za fiksirano zaporedje
+#
+#	for stage in level_stages_count:
+#		indicator_index += 1 
+#		# spawn indicator
+#		var new_color_indicator = ColorIndicator.instance()
+#		new_color_indicator.color = color
+#		new_color_indicator.modulate.a = 1 # na fade-in se odfejda do unpicked_indicator_alpha
+#		spectrum.add_child(new_color_indicator)
+#		active_color_indicators.append(new_color_indicator)
+
+
 # SPECTRUM ---------------------------------------------------------------------------------------------------------------------------
 
 
@@ -300,7 +322,10 @@ func spawn_color_indicators(available_colors: Array): # kliče GM
 		# spawn indicator
 		var new_color_indicator = ColorIndicator.instance()
 		new_color_indicator.color = color
-		new_color_indicator.modulate.a = 1 # na fade-in se odfejda do unpicked_indicator_alpha
+		if not Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
+			new_color_indicator.modulate.a = 1 # na fade-in se odfejda do unpicked_indicator_alpha
+		else:
+			new_color_indicator.modulate.a = 0.3
 		spectrum.add_child(new_color_indicator)
 		active_color_indicators.append(new_color_indicator)
 
@@ -320,6 +345,28 @@ func show_color_indicator(picked_color: Color):
 	# izbris iz aktivnih indikatorjev
 	if not active_color_indicators.empty():
 		active_color_indicators.erase(active_color_indicators[current_indicator_index])
+
+
+func show_stage_indicator(stage_number: int):
+			
+	if not active_color_indicators.empty():
+		var current_indicator = active_color_indicators.front()
+		current_indicator.modulate.a = 1
+		# izbris iz aktivnih indikatorjev
+		active_color_indicators.pop_front()
+		print(active_color_indicators.size())
+	else:
+		if stage_number < 9:
+			var color_scheme_name: String = "color_scheme_%s" % stage_number
+			Profiles.current_color_scheme = Profiles.game_color_schemes[color_scheme_name]
+			for child in spectrum.get_children():
+				print(child)
+				child.queue_free()
+			Global.game_manager.set_scrolling_stage_indicator()
+			show_stage_indicator(1)
+		else:
+			Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
+
 
 
 # SIGNALS ---------------------------------------------------------------------------------------------------------------------------

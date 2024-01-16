@@ -143,7 +143,6 @@ func on_collision():
 	
 	stop_sound("burst")
 	
-	print(collision.collider)
 	if collision.collider.is_in_group(Global.group_tilemap):
 		on_hit_wall()
 	elif collision.collider is StaticBody2D: # top screen limit
@@ -182,13 +181,13 @@ func idle_inputs():
 	
 	# preklop v SKILLED		
 	if not direction == Vector2.ZERO: # preverja samo, ko je smer
-		var current_colider: Node2D = detect_collision_in_direction(direction)
-		if current_colider:
-			if current_colider.is_in_group(Global.group_strays):
+		var current_collider: Node2D = detect_collision_in_direction(direction)
+		if current_collider:
+			if current_collider.is_in_group(Global.group_strays):
 				current_state = States.SKILLED
-				current_colider.current_state = current_colider.States.STATIC
-			elif current_colider.is_in_group(Global.group_tilemap):
-				if current_colider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
+				current_collider.current_state = current_collider.States.STATIC
+			elif current_collider.is_in_group(Global.group_tilemap):
+				if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
 					current_state = States.SKILLED 
 					
 					
@@ -267,17 +266,17 @@ func skill_inputs():
 			if new_direction == direction: # naprej
 				if current_collider.is_in_group(Global.group_tilemap):
 					teleport()
-#				elif current_collider.is_in_group(Global.group_strays) and current_collider.current_state == current_collider.States.IDLE:
 				elif current_collider.is_in_group(Global.group_strays) and not current_collider.current_state == current_collider.States.MOVING:
 					push(current_collider)
 			elif new_direction == - direction: # nazaj
-#				if current_collider.is_in_group(Global.group_strays) and current_collider.current_state == current_collider.States.IDLE:
 				if current_collider.is_in_group(Global.group_strays) and not current_collider.current_state == current_collider.States.MOVING:
 					pull(current_collider)	
 				elif current_collider.is_in_group(Global.group_tilemap):
 					end_move() # nazaj ... izhod iz skilla, če gre za steno
 			else: # levo/desno ... izhod iz skilla
 				end_move()
+				if current_collider.is_in_group(Global.group_strays):
+					current_collider.current_state = current_collider.States.IDLE
 	else:
 		end_move()
 
@@ -603,8 +602,9 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	# jih destrojam
 	for stray in strays_to_destroy:
 		var stray_index = strays_to_destroy.find(stray)
-		Global.hud.show_color_indicator(stray.stray_color)
 		stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
+		if not Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
+			Global.hud.show_color_indicator(stray.stray_color)
 	
 	end_move() # more bit za collision partikli zaradi smeri
 	

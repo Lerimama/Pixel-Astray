@@ -46,25 +46,41 @@ func _process(delta: float) -> void:
 		
 	if position_indicator.visible:
 		get_position_indicator_position(get_viewport().get_node("PlayerCamera"))
-		
+	
+	
+	# state machine debug
+#	match current_state:
+#		States.IDLE:
+#			modulate = Color.yellow
+#		States.MOVING:
+#			modulate = Color.green
+#		States.STATIC:
+#			modulate = Color.red
+#		States.DYING:
+#			modulate = Color.blue
 	
 func show_stray(): # kliče GM
 	
-	# žrebam animacijo
-	var random_animation_index = randi() % 3 + 1
-	var random_animation_name: String = "glitch_%s" % random_animation_index
-	animation_player.play(random_animation_name)
+	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
+		modulate.a = 1
+	else:
+		# žrebam animacijo
+		var random_animation_index = randi() % 3 + 1
+		var random_animation_name: String = "glitch_%s" % random_animation_index
+		animation_player.play(random_animation_name)
 
-var invisible_wall_tile_id = 7
+
 func step(step_direction: Vector2):
 	
-	var current_colider = detect_collision_in_direction(step_direction)
+	var current_collider = detect_collision_in_direction(step_direction)
 	
-	if current_colider: #detect_collision_in_direction(step_direction):
+#	if not current_state == States.IDLE :
+#		modulate = Color.black
+##		modulate = Color.blue
+#		print(current_collider)
+	if current_collider:
 		if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
-#			if current_colider.is_in_group(Global.group_tilemap):
-#				if not current_colider.get_collision_tile_id(self, step_direction) == invisible_wall_tile_id:
-					return
+			return
 		else: # če kolajda izbrani smeri gibanja zarotira smer za 90 in poskusi znova
 			step_attempt += 1
 			if step_attempt < 5:
@@ -73,7 +89,6 @@ func step(step_direction: Vector2):
 			return
 	
 	current_state = States.MOVING
-#	modulate = Color.black
 	collision_shape_ext.position = step_direction * cell_size_x # vržem koližn v smer premika
 	
 	var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
@@ -185,7 +200,6 @@ func detect_collision_in_direction(direction_to_check):
 			break # ko je kolajder neham čekirat
 	
 	return first_collider
-	print (first_collider)
 
 
 # SIGNALI ------------------------------------------------------------------------------------------------------

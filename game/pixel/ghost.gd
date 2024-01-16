@@ -32,16 +32,11 @@ func _physics_process(delta: float) -> void:
 	
 	glow_light.color = modulate
 	
-	# teleporting ghost odl
-	# if target_reached:
-	#	speed = 0
-	#	global_position = Global.snap_to_nearest_grid(global_position) # tukaj se zgodi dovolj hitro (napram v signalu)
-	
 	# skill ghost
 	if ghost_ray.is_colliding():
 		ghost_ray.get_collider() 
 		emit_signal("ghost_detected_body", ghost_ray.get_collider() )
-	
+
 
 func _on_PixelGhost_body_exited(body: Node) -> void:
 	

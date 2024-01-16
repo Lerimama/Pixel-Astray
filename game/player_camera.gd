@@ -54,8 +54,8 @@ func _ready():
 		
 		# start setup
 		if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
-			zoom = zoom_end
-#			zoom = Vector2(2,2)
+#			zoom = zoom_end
+			zoom = Vector2(2,2)
 		else:
 			zoom = zoom_start
 #			set_camera_limits()	
