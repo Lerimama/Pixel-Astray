@@ -181,6 +181,20 @@ func check_for_neighbors(): # kliče player on hit
 	return current_cell_neighbors # uporaba v stalnem čekiranj sosedov
 
 
+
+func check_for_skill_neighbors(direction_to_check: Vector2): # kliče player on hit
+	
+#	var directions_to_check: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
+	var current_cell_neighbor: KinematicBody2D
+	
+	var neighbor = detect_collision_in_direction(direction_to_check)
+	if neighbor and neighbor.is_in_group(Global.group_strays): # če je kolajder, je stray in ni self
+		neighbor.check_for_skill_neighbors(direction_to_check)
+		return neighbor # uporaba v stalnem čekiranj sosedov
+				
+	return
+	
+	
 func detect_collision_in_direction(direction_to_check):
 	
 	# obrnem vision grupo v smeri...

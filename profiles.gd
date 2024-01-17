@@ -184,7 +184,7 @@ var game_data_cleaner_L: Dictionary = {
 	"level": "L",
 	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_L_tilemap.tscn",
 	"game_time_limit": 600,
-	"strays_start_count": 20, 
+	"strays_start_count": 50, 
 #	"highscore": 0,
 }
 
@@ -229,8 +229,8 @@ func _ready() -> void:
 	
 #	var current_game = Games.DUEL # če greš iz menija je tole povoženo
 #	var current_game = Games.TUTORIAL # če greš iz menija je tole povoženo
-#	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
-	var current_game = Games.SCROLLER # če greš iz menija je tole povoženo
+	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
+#	var current_game = Games.SCROLLER # če greš iz menija je tole povoženo
 #	var current_game = Games.DEBUG # če greš iz menija je tole povoženo
 	set_game_data(current_game)
 	

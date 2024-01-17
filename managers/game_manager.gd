@@ -30,11 +30,14 @@ onready var spectrum_gradient: TextureRect = $SpectrumGradient
 onready var StrayPixel = preload("res://game/pixel/stray.tscn")
 onready var PlayerPixel = preload("res://game/pixel/player.tscn")
 
+onready var PlayerPixelScroller = preload("res://game/pixel/player_scroller.tscn")
+
 #neu
 var show_position_indicators: bool
 var show_position_indicator_stray_count: int = 5
 var lines_scroll_counter: int = 0 
-
+var stray_spawning_round: int = 0
+var level_stage_count: int = 1
 
 func _ready() -> void:
 	
@@ -191,7 +194,12 @@ func set_players():
 		spawned_player_index += 1 # torej začnem z 1
 		
 		# spawn
-		var new_player_pixel = PlayerPixel.instance()
+		var new_player_pixel: KinematicBody2D
+		if game_data["game"] == Profiles.Games.SCROLLER:
+			new_player_pixel = PlayerPixelScroller.instance()
+		else:
+			new_player_pixel = PlayerPixelScroller.instance()
+#			new_player_pixel = PlayerPixel.instance()
 		new_player_pixel.name = "p%s" % str(spawned_player_index)
 		new_player_pixel.global_position = player_position + Vector2(cell_size_x/2, cell_size_x/2) # ... ne rabim snepat ker se v pixlu na ready funkciji
 		new_player_pixel.modulate = Global.color_white
@@ -239,8 +247,6 @@ func set_strays():
 		
 		strays_shown.clear() # resetiram, da je mogoč in-game spawn
 
-var stray_spawning_round: int = 0
-var level_stage_count: int = 1
 
 func spawn_strays(strays_to_spawn_count: int):
 	
