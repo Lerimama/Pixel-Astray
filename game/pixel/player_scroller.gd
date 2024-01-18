@@ -493,107 +493,52 @@ func push(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila
 		return
 	
 	current_state = States.SKILLING
-	stray_to_move.current_state = stray_to_move.States.MOVING	
-	
 	collision_shape_ext.position = backup_direction * cell_size_x # vržem koližn v smer premika
-	skill_light_off()
-	play_sound("push")
 	
 	var push_time: float = 0.3
-	var push_cell_count: int = 1	
 	var new_push_ghost_position = global_position + push_direction * cell_size_x
 	var new_push_ghost = spawn_ghost(new_push_ghost_position)
+	var room_for_push: bool = true
+	var strays_to_move: Array = [stray_to_move]
 	
-	# preveri, če ima sosede
-	var stray_collider = stray_to_move.check_for_skill_neighbors(push_direction)
-	print ("stray_collider ", stray_collider)
+	# naberi sosede na liniji in preveri prostor
+	for stray in strays_to_move:
+		var stray_neighbor = stray.detect_collision_in_direction(push_direction)
+		if stray_neighbor:
+			if stray_neighbor.is_in_group(Global.group_strays):
+				strays_to_move.append(stray_neighbor)
+			elif stray_neighbor.is_in_group(Global.group_tilemap):
+				stray_neighbor.modulate = Color.red
+				room_for_push =  false
 	
-	# čekiraj linijo
-	var stray_colliders: Array = []
-	if stray_collider:
-		stray_colliders.append(stray_collider)
-		for stray in stray_colliders:
-			var new_nejbr = stray.check_for_skill_neighbors(push_direction)
-			if new_nejbr:
-				stray_colliders.append(new_nejbr)
-			stray.modulate = Color.blue
-		print (stray_colliders.size())
-	stray_colliders.append(stray_to_move.detect_collision_in_direction(push_direction))
-
+	play_sound("pushpull_start")
+	skill_light_off()
+		
 	var push_tween = get_tree().create_tween()
-	# napnem
-	push_tween.tween_property(self, "position", global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	# cock
+	push_tween.tween_property(self, "position", global_position + backup_direction * cell_size_x, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	if room_for_push:
+		for stray_to_move in strays_to_move:
+			push_tween.parallel().tween_callback(stray_to_move, "push_stray", [push_direction, push_time])
 	push_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	push_tween.parallel().tween_property(skill_light, "position", skill_light.position - backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
-	push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost.global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	for stray_to_move in stray_colliders:
-		push_tween.parallel().tween_property(stray_to_move.collision_shape_ext, "position", backup_direction * cell_size_x, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT) # stray ext shape
-	# spustim
+	push_tween.parallel().tween_property(skill_light, "position", skill_light.position - backup_direction * cell_size_x, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
+	push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost.global_position + backup_direction * cell_size_x, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	# release
+	push_tween.tween_callback(self, "play_sound", ["pushpull_end"])
 	push_tween.tween_property(self, "position", global_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
-	for stray_to_move in stray_colliders:
-		push_tween.parallel().tween_property(stray_to_move.collision_shape_ext, "position", Vector2.ZERO, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	# stray ext shape
-	push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
 	push_tween.tween_property(skill_light, "position", skill_light.position, 0) # reset pozicije luči
-	push_tween.tween_callback(self, "play_sound", ["pushed"])
+	if room_for_push:
+		push_tween.tween_callback(self, "play_sound", ["pushed"]).set_delay(0.07)
 	push_tween.tween_callback(new_push_ghost, "queue_free")
-	for stray_to_move in stray_colliders:
-		push_tween.tween_callback(stray_to_move.collision_shape_ext, "set_position", [push_direction * cell_size_x]) # stray ext shape
-		push_tween.tween_property(stray_to_move, "position", stray_to_move.global_position + push_direction * cell_size_x * push_cell_count, 0.08).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(0.05)
-		push_tween.parallel().tween_property(stray_to_move.collision_shape_ext, "position", Vector2.ZERO, 0.08).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(0.05) # stray ext shape
 	# reset
 	push_tween.tween_callback(self, "end_move")
-	for stray_to_move in stray_colliders:
-		push_tween.tween_callback(stray_to_move, "end_move")	
 	
-	
-#	# ni prostora 
-#	if stray_to_move.detect_collision_in_direction(push_direction):# and not target_collider.detect_collision_in_direction(push_direction).has(self): # če stray kolajda in to ni on sam
-#		var empty_push_tween = get_tree().create_tween()
-#		# napnem
-#		empty_push_tween.tween_property(self, "position", global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
-#		empty_push_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
-#		empty_push_tween.parallel().tween_property(skill_light, "position", skill_light.position - backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
-#		empty_push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost.global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
-#		empty_push_tween.parallel().tween_property(stray_to_move.collision_shape_ext, "position", backup_direction * cell_size_x, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT) # stray ext shape
-#		# spustim
-#		empty_push_tween.tween_property(self, "position", global_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
-#		empty_push_tween.parallel().tween_property(stray_to_move.collision_shape_ext, "position", Vector2.ZERO, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN) # stray ext shape
-#		empty_push_tween.tween_property(skill_light, "position", skill_light.position, 0) # reset pozicije luči
-#		# reset
-#		empty_push_tween.tween_callback(self, "end_move")
-#		empty_push_tween.tween_callback(stray_to_move, "end_move")
-#		empty_push_tween.tween_callback(new_push_ghost, "queue_free")
-#	# je prostor
-#	else: 
-#		var push_tween = get_tree().create_tween()
-#		# napnem
-#		push_tween.tween_property(self, "position", global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-#		push_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-#		push_tween.parallel().tween_property(skill_light, "position", skill_light.position - backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
-#		push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost.global_position + backup_direction * cell_size_x * push_cell_count, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-#		push_tween.parallel().tween_property(stray_to_move.collision_shape_ext, "position", backup_direction * cell_size_x, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT) # stray ext shape
-#		# spustim
-#		push_tween.tween_property(self, "position", global_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
-#		push_tween.parallel().tween_property(stray_to_move.collision_shape_ext, "position", Vector2.ZERO, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	# stray ext shape
-#		push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost_position, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
-#		push_tween.tween_property(skill_light, "position", skill_light.position, 0) # reset pozicije luči
-#		push_tween.tween_callback(self, "play_sound", ["pushed"])
-#		push_tween.tween_callback(new_push_ghost, "queue_free")
-#		push_tween.tween_callback(stray_to_move.collision_shape_ext, "set_position", [push_direction * cell_size_x]) # stray ext shape
-#		push_tween.tween_property(stray_to_move, "position", stray_to_move.global_position + push_direction * cell_size_x * push_cell_count, 0.08).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(0.05)
-#		push_tween.parallel().tween_property(stray_to_move.collision_shape_ext, "position", Vector2.ZERO, 0.08).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(0.05) # stray ext shape
-#		# reset
-#		push_tween.tween_callback(self, "end_move")
-#		push_tween.tween_callback(stray_to_move, "end_move")
-#		# push_tween.tween_callback(self, "change_stat", ["skill_used", 1]) # štetje, točke in energija kot je določeno v settingsih
-#
-#		change_stat("skill_used", 1) # zazih ni v tweenu
+	change_stat("skill_used", 1) # zazih ni v tweenu
 
 
 func pull(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila glede na kolajderja
 	
 	var target_direction = direction 
-#	var target_direction = (stray_to_move.global_position - global_position).normalized()
 	var pull_direction = - target_direction
 	
 	# prostor v smeri premika?
@@ -602,32 +547,27 @@ func pull(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila
 		return	
 	
 	current_state = States.SKILLING
-	stray_to_move.current_state = stray_to_move.States.MOVING
-	
 	collision_shape_ext.position = pull_direction * cell_size_x # vržem koližn v smer premika
-	skill_light_off()
-	play_sound("pull")
 	
 	var pull_time: float = 0.3
 	var new_pull_ghost = spawn_ghost(global_position + target_direction * cell_size_x)
 	
+	skill_light_off()
+	play_sound("pushpull_start")
+	
 	var pull_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	# move self
 	pull_tween.tween_property(self, "position", global_position + pull_direction * cell_size_x, pull_time)
-	pull_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, pull_time)
+	pull_tween.parallel().tween_callback(stray_to_move, "pull_stray", [pull_direction, pull_time]) # kličem tukaj, da animiram njegov collision_ext
+	pull_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, pull_time) # reset collision_ext
 	pull_tween.parallel().tween_property(skill_light, "position", skill_light.position - pull_direction * cell_size_x, pull_time)
 	pull_tween.parallel().tween_property(new_pull_ghost, "position", new_pull_ghost.global_position + pull_direction * cell_size_x, pull_time)
-	pull_tween.parallel().tween_property(stray_to_move.collision_shape_ext, "position", pull_direction * cell_size_x, pull_time) # stray ext shape
 	# pull stray
-	pull_tween.tween_property(stray_to_move, "position", stray_to_move.global_position + pull_direction * cell_size_x, pull_time)
-	pull_tween.parallel().tween_property(stray_to_move.collision_shape_ext, "position", Vector2.ZERO, pull_time) # stray ext shape
 	pull_tween.parallel().tween_callback(self, "play_sound", ["pulled"])
 	pull_tween.tween_callback(skill_light, "set_position", [skill_light.position]) # reset pozicije luči
 	# reset
 	pull_tween.tween_callback(self, "end_move")
-	pull_tween.tween_callback(stray_to_move, "end_move")
-	pull_tween.tween_callback(new_pull_ghost, "queue_free")
-	# pull_tween.tween_callback(self, "change_stat", ["skill_used", 2]) # štetje, točke in energija kot je določeno v settingsih
+	pull_tween.tween_callback(new_pull_ghost, "queue_free").set_delay(pull_time) # delay je zato, ker se pixel premakne kasneje
 	
 	change_stat("skill_used", 2) # zazih ni v tweenu
 	
@@ -1096,12 +1036,14 @@ func play_sound(effect_for: String):
 			$Sounds/Skills/PushPull.play()
 		"pulled":
 			$Sounds/Skills/PushedPulled.play()
-			$Sounds/Skills/PullStoneSlide.play()
-		"push":
+			$Sounds/Skills/StoneSlide.play()
+		"pushpull_start":
 			$Sounds/Skills/PushPull.play()
-		"pushed":
+		"pushpull_end":
 			$Sounds/Skills/PushedPulled.play()
-			$Sounds/Skills/PushStoneSlide.play()
+		"pushed":
+			$Sounds/Skills/Cling.play()
+			$Sounds/Skills/StoneSlide.play()
 		"teleport":
 			$Sounds/Skills/TeleportIn.play()
 

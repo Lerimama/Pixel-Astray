@@ -43,10 +43,6 @@ func _process(delta: float) -> void:
 		position_indicator.visible = true
 	else:
 		position_indicator.visible = false
-		
-	if position_indicator.visible:
-		get_position_indicator_position(get_viewport().get_node("PlayerCamera"))
-	
 	
 	# state machine debug
 #	match current_state:
@@ -59,6 +55,10 @@ func _process(delta: float) -> void:
 #		States.DYING:
 #			modulate = Color.blue
 	
+	if position_indicator.visible:
+		get_position_indicator_position(get_viewport().get_node("PlayerCamera"))
+	
+	
 func show_stray(): # kliče GM
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
@@ -70,40 +70,6 @@ func show_stray(): # kliče GM
 		animation_player.play(random_animation_name)
 
 
-func step(step_direction: Vector2):
-	
-	var current_collider = detect_collision_in_direction(step_direction)
-	
-#	if not current_state == States.IDLE :
-#		modulate = Color.black
-##		modulate = Color.blue
-#		print(current_collider)
-	if current_collider:
-		if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
-			return
-		else: # če kolajda izbrani smeri gibanja zarotira smer za 90 in poskusi znova
-			step_attempt += 1
-			if step_attempt < 5:
-				var new_direction = step_direction.rotated(deg2rad(90))
-				step(new_direction)
-			return
-	
-	current_state = States.MOVING
-	collision_shape_ext.position = step_direction * cell_size_x # vržem koližn v smer premika
-	
-	var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
-	step_tween.tween_property(self, "position", global_position + step_direction * cell_size_x, step_time)
-	step_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, step_time)
-	step_tween.tween_callback(self, "end_move")
-
-
-func end_move():
-	
-	if current_state == States.MOVING:
-		current_state = States.IDLE
-	global_position = Global.snap_to_nearest_grid(global_position) 
-	
-		
 func die(stray_in_stack_index: int, strays_in_stack: int):
 	
 	current_state = States.DYING
@@ -133,9 +99,68 @@ func die(stray_in_stack_index: int, strays_in_stack: int):
 	# KVEFRI je v animaciji
 
 
+# MOVEMENT ------------------------------------------------------------------------------------------------------
+	
+	
+func step(step_direction: Vector2):
+	
+	var current_collider = detect_collision_in_direction(step_direction)
+	
+	if current_collider:
+		if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
+			return
+		else: # če kolajda izbrani smeri gibanja zarotira smer za 90 in poskusi znova
+			step_attempt += 1
+			if step_attempt < 5:
+				var new_direction = step_direction.rotated(deg2rad(90))
+				step(new_direction)
+			return
+	
+	current_state = States.MOVING
+	collision_shape_ext.position = step_direction * cell_size_x # vržem koližn v smer premika
+	
+	var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
+	step_tween.tween_property(self, "position", global_position + step_direction * cell_size_x, step_time)
+	step_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, step_time)
+	step_tween.tween_callback(self, "end_move")
+
+
+func push_stray(push_direction, push_time):
+	
+	current_state = States.MOVING
+	
+	var push_tween = get_tree().create_tween()
+	# napnem
+	push_tween.tween_property(collision_shape_ext, "position", - push_direction * cell_size_x, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT) # collision_ext v smer premika (animiram s premikom plejerja)
+	# spustim
+	push_tween.tween_property(collision_shape_ext, "position", Vector2.ZERO, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
+	push_tween.tween_callback(collision_shape_ext, "set_position", [push_direction * cell_size_x])
+	push_tween.tween_property(self, "position", global_position + push_direction * cell_size_x, 0.08).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(0.05)
+	push_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, 0.08).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(0.05)
+	push_tween.tween_callback(self, "end_move")
+	
+	
+func pull_stray(pull_direction, pull_time):
+	
+	current_state = States.MOVING
+
+	var pull_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	pull_tween.tween_property(collision_shape_ext, "position", pull_direction * cell_size_x, pull_time) # collision_ext v smer premika (animiram s premikom plejerja)
+	pull_tween.tween_property(self, "position", global_position + pull_direction * cell_size_x, pull_time)#.set_delay(pull_time)
+	pull_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, pull_time) # stray ext shape
+	pull_tween.tween_callback(self, "end_move")
+
+
+func end_move():
+	
+	if current_state == States.MOVING:
+		current_state = States.IDLE
+	global_position = Global.snap_to_nearest_grid(global_position) 
+	
+		
 # UTILITI ------------------------------------------------------------------------------------------------------
 
-			
+
 func get_position_indicator_position(current_camera: Camera2D):
 	
 	var viewport_position = get_viewport_rect().position
@@ -181,18 +206,16 @@ func check_for_neighbors(): # kliče player on hit
 	return current_cell_neighbors # uporaba v stalnem čekiranj sosedov
 
 
-
-func check_for_skill_neighbors(direction_to_check: Vector2): # kliče player on hit
-	
-#	var directions_to_check: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
-	var current_cell_neighbor: KinematicBody2D
-	
-	var neighbor = detect_collision_in_direction(direction_to_check)
-	if neighbor and neighbor.is_in_group(Global.group_strays): # če je kolajder, je stray in ni self
-		neighbor.check_for_skill_neighbors(direction_to_check)
-		return neighbor # uporaba v stalnem čekiranj sosedov
-				
-	return
+#func check_for_skill_neighbors(direction_to_check: Vector2): # kliče player on hit
+#
+#	var neighbor = detect_collision_in_direction(direction_to_check)
+##	if neighbor and neighbor.is_in_group(Global.group_strays): # če je kolajder, je stray in ni self
+##	if neighbor:
+##		neighbor.check_for_skill_neighbors(direction_to_check)
+#	print (neighbor)
+#	return neighbor # uporaba v stalnem čekiranj sosedov
+##	else:			
+##		return
 	
 	
 func detect_collision_in_direction(direction_to_check):
