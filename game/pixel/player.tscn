@@ -13,11 +13,11 @@
 [ext_resource path="res://assets/sound/sfx/skills/skilled_frcer.wav" type="AudioStream" id=11]
 [ext_resource path="res://assets/sound/sfx/burst/hit_stray_v2.wav" type="AudioStream" id=12]
 [ext_resource path="res://assets/sound/sfx/blinking/blink_static_4.wav" type="AudioStream" id=13]
-[ext_resource path="res://assets/sound/sfx/skills/pull_stone_slide.wav" type="AudioStream" id=14]
+[ext_resource path="res://assets/sound/sfx/skills/skill_stone_slide_short.wav" type="AudioStream" id=14]
 [ext_resource path="res://assets/sound/sfx/stepping/step_1.wav" type="AudioStream" id=15]
 [ext_resource path="res://assets/sound/sfx/blinking/blink_2.wav" type="AudioStream" id=16]
 [ext_resource path="res://assets/sound/sfx/blinking/blink_3.wav" type="AudioStream" id=17]
-[ext_resource path="res://assets/sound/sfx/skills/push_stone_slide.wav" type="AudioStream" id=18]
+[ext_resource path="res://assets/sound/sfx/skills/skill_cling.wav" type="AudioStream" id=18]
 [ext_resource path="res://assets/sound/sfx/burst/burst.wav" type="AudioStream" id=19]
 [ext_resource path="res://assets/sound/sfx/stepping/step_3.wav" type="AudioStream" id=20]
 [ext_resource path="res://assets/sound/sfx/skills/teleport_in_v2.wav" type="AudioStream" id=21]
@@ -1131,18 +1131,18 @@ bus = "GameSfx"
 
 [node name="PushedPulled" type="AudioStreamPlayer" parent="Sounds/Skills"]
 stream = SubResource( 160 )
-volume_db = -5.0
+volume_db = -7.0
 pitch_scale = 0.7
 bus = "GameSfx"
 
-[node name="PushStoneSlide" type="AudioStreamPlayer" parent="Sounds/Skills"]
+[node name="Cling" type="AudioStreamPlayer" parent="Sounds/Skills"]
 stream = ExtResource( 18 )
-volume_db = -15.0
+volume_db = -7.0
 bus = "GameSfx"
 
-[node name="PullStoneSlide" type="AudioStreamPlayer" parent="Sounds/Skills"]
+[node name="StoneSlide" type="AudioStreamPlayer" parent="Sounds/Skills"]
 stream = ExtResource( 14 )
-volume_db = -5.0
+volume_db = -7.0
 bus = "GameSfx"
 
 [node name="SkilledStatic" type="AudioStreamPlayer" parent="Sounds/Skills"]
@@ -1156,4 +1156,3 @@ pitch_scale = 1.1
 bus = "GameSfx"
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
-[connection signal="finished" from="Sounds/Skills/TeleportIn" to="." method="_on_TeleportIn_finished"]

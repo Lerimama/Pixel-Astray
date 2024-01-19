@@ -6,7 +6,7 @@ signal ghost_detected_body (body)
 
 var speed: float = 0
 var max_speed: float = 0
-var direction = Vector2.UP
+var direction = Vector2.ZERO
 
 var ghost_owner: KinematicBody2D
 var teleporting_bodies: Array = []

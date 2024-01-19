@@ -14,11 +14,9 @@ onready var vision: Node2D = $Vision
 onready var color_poly: Polygon2D = $ColorPoly
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var count_label: Label = $CountLabel # debug
-onready var cell_size_x: int = Global.current_tilemap.cell_size.x
-
-# neu
 onready var position_indicator: Node2D = $PositionIndicator
 onready var visibility_notifier_2d: VisibilityNotifier2D = $VisibilityNotifier2D
+onready var cell_size_x: int = Global.current_tilemap.cell_size.x
 onready var step_time: float = Global.game_manager.game_settings["stray_step_time"]
 
 
@@ -125,18 +123,20 @@ func step(step_direction: Vector2):
 	step_tween.tween_callback(self, "end_move")
 
 
-func push_stray(push_direction, push_time):
+func push_stray(push_direction: Vector2, push_cock_time: float, push_time: float):
 	
 	current_state = States.MOVING
+	var stray_move_time: float = 0.08
+	var heavier_hit_delay: float = 0.05  # z delayom je porinek bolj pristen in "težak"
 	
 	var push_tween = get_tree().create_tween()
 	# napnem
-	push_tween.tween_property(collision_shape_ext, "position", - push_direction * cell_size_x, push_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT) # collision_ext v smer premika (animiram s premikom plejerja)
-	# spustim
-	push_tween.tween_property(collision_shape_ext, "position", Vector2.ZERO, 0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
-	push_tween.tween_callback(collision_shape_ext, "set_position", [push_direction * cell_size_x])
-	push_tween.tween_property(self, "position", global_position + push_direction * cell_size_x, 0.08).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(0.05)
-	push_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, 0.08).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(0.05)
+	push_tween.tween_property(collision_shape_ext, "position", - push_direction * cell_size_x, push_cock_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT) # animiram simultano s premikom plejerja
+#	# spustim
+	push_tween.tween_property(collision_shape_ext, "position", Vector2.ZERO, push_time).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN) # vrnem jo na 0 pozicijo
+	push_tween.tween_callback(collision_shape_ext, "set_position", [push_direction * cell_size_x]) # potem jo takoj vržem pred straja, da zaščiti premik naprej
+	push_tween.tween_property(self, "position", global_position + push_direction * cell_size_x, stray_move_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(heavier_hit_delay)
+	push_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, stray_move_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(heavier_hit_delay)
 	push_tween.tween_callback(self, "end_move")
 	
 	
@@ -153,7 +153,7 @@ func pull_stray(pull_direction, pull_time):
 
 func end_move():
 	
-	if current_state == States.MOVING:
+	if current_state == States.MOVING: # zakaj že rabim ta pogoj
 		current_state = States.IDLE
 	global_position = Global.snap_to_nearest_grid(global_position) 
 	
@@ -205,18 +205,6 @@ func check_for_neighbors(): # kliče player on hit
 				
 	return current_cell_neighbors # uporaba v stalnem čekiranj sosedov
 
-
-#func check_for_skill_neighbors(direction_to_check: Vector2): # kliče player on hit
-#
-#	var neighbor = detect_collision_in_direction(direction_to_check)
-##	if neighbor and neighbor.is_in_group(Global.group_strays): # če je kolajder, je stray in ni self
-##	if neighbor:
-##		neighbor.check_for_skill_neighbors(direction_to_check)
-#	print (neighbor)
-#	return neighbor # uporaba v stalnem čekiranj sosedov
-##	else:			
-##		return
-	
 	
 func detect_collision_in_direction(direction_to_check):
 	
