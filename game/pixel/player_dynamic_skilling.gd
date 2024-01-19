@@ -216,67 +216,68 @@ func skill_inputs():
 	# če je na oviro prišel "iz ovinka" potem moraš za skillanje še potrditi smer (just_pressed)
 	# PS če bi naredil da tudi brez zaleta takoj začneš porivat, potem lahko v pull stanje prideš samo z zaletom
 	
-#	# način, kjer teleportanje deluje po obratnem principu
-#	if current_collider.is_in_group(Global.group_strays):
-#		if previous_direction == direction or previous_direction == Vector2.ZERO: 
-#			if Input.is_action_pressed(key_up):
-#				new_direction = Vector2.UP
-#			elif Input.is_action_pressed(key_down):
-#				new_direction = Vector2.DOWN
-#			elif Input.is_action_pressed(key_left):
-#				new_direction = Vector2.LEFT
-#			elif Input.is_action_pressed(key_right):
-#				new_direction = Vector2.RIGHT
-#		else:
-#			if Input.is_action_just_pressed(key_up):
-#				new_direction = Vector2.UP
-#			elif Input.is_action_just_pressed(key_down):
-#				new_direction = Vector2.DOWN
-#			elif Input.is_action_just_pressed(key_left):
-#				new_direction = Vector2.LEFT
-#			elif Input.is_action_just_pressed(key_right):
-#				new_direction = Vector2.RIGHT
-#	# za teleport grem kar direkt, tudi brez zaleta ... z zelatom ne gre ... dober "obrat"
-#	elif current_collider.is_in_group(Global.group_tilemap):
-#		if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
-#			if not previous_direction == direction and not previous_direction == Vector2.ZERO:# obraten pogoj kot pri skilanju s straysi
-#				if Input.is_action_pressed(key_up):
-#					new_direction = Vector2.UP
-#				elif Input.is_action_pressed(key_down):
-#					new_direction = Vector2.DOWN
-#				elif Input.is_action_pressed(key_left):
-#					new_direction = Vector2.LEFT
-#				elif Input.is_action_pressed(key_right):
-#					new_direction = Vector2.RIGHT
-#			else:
-#				if Input.is_action_just_pressed(key_up):
-#					new_direction = Vector2.UP
-#				elif Input.is_action_just_pressed(key_down):
-#					new_direction = Vector2.DOWN
-#				elif Input.is_action_just_pressed(key_left):
-#					new_direction = Vector2.LEFT
-#				elif Input.is_action_just_pressed(key_right):
-#					new_direction = Vector2.RIGHT
+	# način, kjer teleportanje deluje po obratnem principu
+	if current_collider: # zaščita, če ga zgubim
+		if current_collider.is_in_group(Global.group_strays):
+			if previous_direction == direction or previous_direction == Vector2.ZERO: 
+				if Input.is_action_pressed(key_up):
+					new_direction = Vector2.UP
+				elif Input.is_action_pressed(key_down):
+					new_direction = Vector2.DOWN
+				elif Input.is_action_pressed(key_left):
+					new_direction = Vector2.LEFT
+				elif Input.is_action_pressed(key_right):
+					new_direction = Vector2.RIGHT
+			else:
+				if Input.is_action_just_pressed(key_up):
+					new_direction = Vector2.UP
+				elif Input.is_action_just_pressed(key_down):
+					new_direction = Vector2.DOWN
+				elif Input.is_action_just_pressed(key_left):
+					new_direction = Vector2.LEFT
+				elif Input.is_action_just_pressed(key_right):
+					new_direction = Vector2.RIGHT
+		# za teleport grem kar direkt, tudi brez zaleta ... z zelatom ne gre ... dober "obrat"
+		elif current_collider.is_in_group(Global.group_tilemap):
+			if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
+				if not previous_direction == direction and not previous_direction == Vector2.ZERO:# obraten pogoj kot pri skilanju s straysi
+					if Input.is_action_pressed(key_up):
+						new_direction = Vector2.UP
+					elif Input.is_action_pressed(key_down):
+						new_direction = Vector2.DOWN
+					elif Input.is_action_pressed(key_left):
+						new_direction = Vector2.LEFT
+					elif Input.is_action_pressed(key_right):
+						new_direction = Vector2.RIGHT
+				else:
+					if Input.is_action_just_pressed(key_up):
+						new_direction = Vector2.UP
+					elif Input.is_action_just_pressed(key_down):
+						new_direction = Vector2.DOWN
+					elif Input.is_action_just_pressed(key_left):
+						new_direction = Vector2.LEFT
+					elif Input.is_action_just_pressed(key_right):
+						new_direction = Vector2.RIGHT
 	
-	# način, kjer teleportanje deluje enako kot drugi skilli
-	if previous_direction == direction or previous_direction == Vector2.ZERO: 
-		if Input.is_action_pressed(key_up):
-			new_direction = Vector2.UP
-		elif Input.is_action_pressed(key_down):
-			new_direction = Vector2.DOWN
-		elif Input.is_action_pressed(key_left):
-			new_direction = Vector2.LEFT
-		elif Input.is_action_pressed(key_right):
-			new_direction = Vector2.RIGHT
-	else:
-		if Input.is_action_just_pressed(key_up):
-			new_direction = Vector2.UP
-		elif Input.is_action_just_pressed(key_down):
-			new_direction = Vector2.DOWN
-		elif Input.is_action_just_pressed(key_left):
-			new_direction = Vector2.LEFT
-		elif Input.is_action_just_pressed(key_right):
-			new_direction = Vector2.RIGHT
+#	# način, kjer teleportanje deluje enako kot drugi skilli
+#	if previous_direction == direction or previous_direction == Vector2.ZERO: 
+#		if Input.is_action_pressed(key_up):
+#			new_direction = Vector2.UP
+#		elif Input.is_action_pressed(key_down):
+#			new_direction = Vector2.DOWN
+#		elif Input.is_action_pressed(key_left):
+#			new_direction = Vector2.LEFT
+#		elif Input.is_action_pressed(key_right):
+#			new_direction = Vector2.RIGHT
+#	else:
+#		if Input.is_action_just_pressed(key_up):
+#			new_direction = Vector2.UP
+#		elif Input.is_action_just_pressed(key_down):
+#			new_direction = Vector2.DOWN
+#		elif Input.is_action_just_pressed(key_left):
+#			new_direction = Vector2.LEFT
+#		elif Input.is_action_just_pressed(key_right):
+#			new_direction = Vector2.RIGHT
 	
 	# prehod v cocking stanje
 	if Input.is_action_just_pressed(key_burst): # brez "just" dela po stisku smeri ... ni ok
@@ -622,7 +623,6 @@ func teleport(): # skilled inputs opredeli vrsto skila glede na kolajderja
 	var teleport_direction = direction
 	
 	current_state = States.SKILLING
-	
 	# glow_light.enabled = false
 	
 	# teleporting ghost

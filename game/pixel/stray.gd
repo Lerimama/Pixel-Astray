@@ -17,7 +17,10 @@ onready var count_label: Label = $CountLabel # debug
 onready var position_indicator: Node2D = $PositionIndicator
 onready var visibility_notifier_2d: VisibilityNotifier2D = $VisibilityNotifier2D
 onready var cell_size_x: int = Global.current_tilemap.cell_size.x
+
+# neu
 onready var step_time: float = Global.game_manager.game_settings["stray_step_time"]
+#var step_time: float = 0.2
 
 
 func _ready() -> void:
@@ -36,22 +39,11 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-
+	
 	if Global.game_manager.show_position_indicators:
 		position_indicator.visible = true
 	else:
 		position_indicator.visible = false
-	
-	# state machine debug
-#	match current_state:
-#		States.IDLE:
-#			modulate = Color.yellow
-#		States.MOVING:
-#			modulate = Color.green
-#		States.STATIC:
-#			modulate = Color.red
-#		States.DYING:
-#			modulate = Color.blue
 	
 	if position_indicator.visible:
 		get_position_indicator_position(get_viewport().get_node("PlayerCamera"))
@@ -113,6 +105,7 @@ func step(step_direction: Vector2):
 				var new_direction = step_direction.rotated(deg2rad(90))
 				step(new_direction)
 			return
+	
 	
 	current_state = States.MOVING
 	collision_shape_ext.position = step_direction * cell_size_x # vržem koližn v smer premika
@@ -231,11 +224,10 @@ func detect_collision_in_direction(direction_to_check):
 
 
 func _on_VisibilityNotifier2D_viewport_entered(viewport: Viewport) -> void:
-	# position_indicator.visible = false # zaenkrat ga ne skrivam, ker ni optimalno je iste barve
+	
 	Global.strays_on_screen.append(self)
 
 
 func _on_VisibilityNotifier2D_viewport_exited(viewport: Viewport) -> void:
-	# if Global.game_manager.show_position_indicators:
-	#	position_indicator.visible = true # zaenkrat ga ne skrivam, ker ni optimalno je iste barve
+	
 	Global.strays_on_screen.erase(self)
