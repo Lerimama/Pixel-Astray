@@ -140,12 +140,12 @@ func push_stray(push_direction: Vector2, push_cock_time: float, push_time: float
 	push_tween.tween_callback(self, "end_move")
 	
 	
-func pull_stray(pull_direction, pull_time):
+func pull_stray(pull_direction: Vector2, pull_cock_time: float, pull_time: float):
 	
 	current_state = States.MOVING
 
 	var pull_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
-	pull_tween.tween_property(collision_shape_ext, "position", pull_direction * cell_size_x, pull_time) # collision_ext v smer premika (animiram s premikom plejerja)
+	pull_tween.tween_property(collision_shape_ext, "position", pull_direction * cell_size_x, pull_cock_time) # collision_ext v smer premika (animiram s premikom plejerja)
 	pull_tween.tween_property(self, "position", global_position + pull_direction * cell_size_x, pull_time)#.set_delay(pull_time)
 	pull_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, pull_time) # stray ext shape
 	pull_tween.tween_callback(self, "end_move")

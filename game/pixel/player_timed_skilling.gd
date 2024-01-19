@@ -65,8 +65,8 @@ onready var FloatingTag: PackedScene = preload("res://game/hud/floating_tag.tscn
 
 # neu
 var previous_direction: Vector2
-#var skilling_v1: bool = false
 onready var color_poly_debug: Polygon2D = $ColorPoly_debug
+var after_skill_delay: float = 0.2
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -117,12 +117,6 @@ func _physics_process(delta: float) -> void:
 		glow_light.color = pixel_color
 		glow_light.energy = 1.5 # če spremeniš, je treba spremenit tudi v animacijah
 	
-	# če ni smeri, ni pogleda
-#	if direction == Vector2.ZERO or previous_direction == Vector2.ZERO:
-#		for ray in vision_rays:
-#			ray.cast_to = Vector2.ZERO
-	
-	
 	state_machine()
 	manage_heartbeat()
 	
@@ -166,7 +160,6 @@ func on_collision():
 
 func idle_inputs():
 	
-	
 	if player_stats["player_energy"] > 1:
 		var current_collider: Node2D = detect_collision_in_direction(direction)
 		if not current_collider:
@@ -189,17 +182,17 @@ func idle_inputs():
 				previous_direction = direction
 				direction = Vector2.RIGHT
 				step()
-		else: # je kolizija, postane SKILLED in kontrole prevzme skilled_input
+		else: 
+		# je kolizija, postane SKILLED in kontrole prevzme skilled_input
 			if current_collider.is_in_group(Global.group_strays):
 				current_state = States.SKILLED
 				current_collider.current_state = current_collider.States.STATIC # ko ga premakneš postane MOVING
 			elif current_collider.is_in_group(Global.group_tilemap):
 				if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
 					current_state = States.SKILLED 
-				else:
-					current_state = States.SKILLED 
+				else: # kadar ne kolajda s teleporting steno
+					current_state = States.SKILLED # če bi bil IDLE, ga end_move ne resetira
 					end_move()
-					
 					
 	if Input.is_action_just_pressed(key_burst): # brez "just" dela po stisku smeri ... ni ok
 		current_state = States.COCKING
@@ -211,11 +204,10 @@ func idle_inputs():
 
 func skill_inputs():
 	
-	if not skill_light.enabled:# and not direction == Vector2.ZERO:
-		skill_light_on()
+	skill_light_on()
 	
+	var current_collider: Node2D = detect_collision_in_direction(direction) # koližn že obstaja, tukaj je zato, da pogreba tip koližna
 	var new_direction: Vector2 # nova smer, ker pritisnem še enkrat
-	var current_collider: Node2D = detect_collision_in_direction(direction)
 	
 	# s tem inputom prekinem "is_pressed" input iz idle_inputs
 	# če je prišel na oviro z zaletom, potem nadaljuje z zveznim porivanjem (is_pressed)
@@ -223,47 +215,68 @@ func skill_inputs():
 	# prev_dir ZERO je vključen, ker med zveznim porivanjem postane 0 (zaradi vmesnega reseta glavne smeri)
 	# če je na oviro prišel "iz ovinka" potem moraš za skillanje še potrditi smer (just_pressed)
 	# PS če bi naredil da tudi brez zaleta takoj začneš porivat, potem lahko v pull stanje prideš samo z zaletom
-	if current_collider.is_in_group(Global.group_strays):
-		if previous_direction == direction or previous_direction == Vector2.ZERO: 
-			if Input.is_action_pressed(key_up):
-				new_direction = Vector2.UP
-			elif Input.is_action_pressed(key_down):
-				new_direction = Vector2.DOWN
-			elif Input.is_action_pressed(key_left):
-				new_direction = Vector2.LEFT
-			elif Input.is_action_pressed(key_right):
-				new_direction = Vector2.RIGHT
-		else:
-			if Input.is_action_just_pressed(key_up):
-				new_direction = Vector2.UP
-			elif Input.is_action_just_pressed(key_down):
-				new_direction = Vector2.DOWN
-			elif Input.is_action_just_pressed(key_left):
-				new_direction = Vector2.LEFT
-			elif Input.is_action_just_pressed(key_right):
-				new_direction = Vector2.RIGHT
 	
-	# za teleport grem kar direkt, tudi brez zaleta ... z zelatom ne gre ... dober "obrat"
-	elif current_collider.is_in_group(Global.group_tilemap):
-		if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
-			if not previous_direction == direction and not previous_direction == Vector2.ZERO:# or previous_direction == Vector2.ZERO: 
-				if Input.is_action_pressed(key_up):
-					new_direction = Vector2.UP
-				elif Input.is_action_pressed(key_down):
-					new_direction = Vector2.DOWN
-				elif Input.is_action_pressed(key_left):
-					new_direction = Vector2.LEFT
-				elif Input.is_action_pressed(key_right):
-					new_direction = Vector2.RIGHT
-			else:
-				if Input.is_action_just_pressed(key_up):
-					new_direction = Vector2.UP
-				elif Input.is_action_just_pressed(key_down):
-					new_direction = Vector2.DOWN
-				elif Input.is_action_just_pressed(key_left):
-					new_direction = Vector2.LEFT
-				elif Input.is_action_just_pressed(key_right):
-					new_direction = Vector2.RIGHT
+#	# način, kjer teleportanje deluje po obratnem principu
+#	if current_collider.is_in_group(Global.group_strays):
+#		if previous_direction == direction or previous_direction == Vector2.ZERO: 
+#			if Input.is_action_pressed(key_up):
+#				new_direction = Vector2.UP
+#			elif Input.is_action_pressed(key_down):
+#				new_direction = Vector2.DOWN
+#			elif Input.is_action_pressed(key_left):
+#				new_direction = Vector2.LEFT
+#			elif Input.is_action_pressed(key_right):
+#				new_direction = Vector2.RIGHT
+#		else:
+#			if Input.is_action_just_pressed(key_up):
+#				new_direction = Vector2.UP
+#			elif Input.is_action_just_pressed(key_down):
+#				new_direction = Vector2.DOWN
+#			elif Input.is_action_just_pressed(key_left):
+#				new_direction = Vector2.LEFT
+#			elif Input.is_action_just_pressed(key_right):
+#				new_direction = Vector2.RIGHT
+#	# za teleport grem kar direkt, tudi brez zaleta ... z zelatom ne gre ... dober "obrat"
+#	elif current_collider.is_in_group(Global.group_tilemap):
+#		if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
+#			if not previous_direction == direction and not previous_direction == Vector2.ZERO:# obraten pogoj kot pri skilanju s straysi
+#				if Input.is_action_pressed(key_up):
+#					new_direction = Vector2.UP
+#				elif Input.is_action_pressed(key_down):
+#					new_direction = Vector2.DOWN
+#				elif Input.is_action_pressed(key_left):
+#					new_direction = Vector2.LEFT
+#				elif Input.is_action_pressed(key_right):
+#					new_direction = Vector2.RIGHT
+#			else:
+#				if Input.is_action_just_pressed(key_up):
+#					new_direction = Vector2.UP
+#				elif Input.is_action_just_pressed(key_down):
+#					new_direction = Vector2.DOWN
+#				elif Input.is_action_just_pressed(key_left):
+#					new_direction = Vector2.LEFT
+#				elif Input.is_action_just_pressed(key_right):
+#					new_direction = Vector2.RIGHT
+	
+	# način, kjer teleportanje deluje enako kot drugi skilli
+	if previous_direction == direction or previous_direction == Vector2.ZERO: 
+		if Input.is_action_pressed(key_up):
+			new_direction = Vector2.UP
+		elif Input.is_action_pressed(key_down):
+			new_direction = Vector2.DOWN
+		elif Input.is_action_pressed(key_left):
+			new_direction = Vector2.LEFT
+		elif Input.is_action_pressed(key_right):
+			new_direction = Vector2.RIGHT
+	else:
+		if Input.is_action_just_pressed(key_up):
+			new_direction = Vector2.UP
+		elif Input.is_action_just_pressed(key_down):
+			new_direction = Vector2.DOWN
+		elif Input.is_action_just_pressed(key_left):
+			new_direction = Vector2.LEFT
+		elif Input.is_action_just_pressed(key_right):
+			new_direction = Vector2.RIGHT
 	
 	# prehod v cocking stanje
 	if Input.is_action_just_pressed(key_burst): # brez "just" dela po stisku smeri ... ni ok
@@ -271,32 +284,29 @@ func skill_inputs():
 		skill_light_off()
 		burst_light_on()
 		return	
-		
-	# izbor skila v novi smeri ozirom end_move
-#	var current_collider: Object = detect_collision_in_direction(direction) # # čekiranje preveč? mogoče bi lahko s prenosom trenutnega colliderja ... raje ne 
+	
+	# izbor skila v novi smeri
 	if not current_collider: # ta pogoj je zaščita, če se povežeš s strayom in ti potem pobegne
 		end_move()
 	else:
 		if new_direction:
-			if new_direction == direction: # naprej
-				if current_collider.is_in_group(Global.group_tilemap):
-					if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
-						teleport()
-					else:
-						end_move()			
+			# naprej
+			if new_direction == direction:
+				if current_collider.is_in_group(Global.group_tilemap): # da je pravi tile ID je jasno, ker če ne nebi skillal
+					teleport()
 				elif current_collider.is_in_group(Global.group_strays) and not current_collider.current_state == current_collider.States.MOVING:
 					push(current_collider)
-			elif new_direction == - direction: # nazaj
+			# nazaj
+			elif new_direction == - direction: 
 				if current_collider.is_in_group(Global.group_strays) and not current_collider.current_state == current_collider.States.MOVING:
 					pull(current_collider)	
 				elif current_collider.is_in_group(Global.group_tilemap):
-					vision.look_at(global_position - new_direction) # temp
-					end_move() # nazaj ... izhod iz skilla, če gre za steno
-			else: # levo/desno ... izhod iz skilla
+					end_move()
+			# levo/desno ... izhod iz skilla
+			else:
 				end_move()
-				if current_collider.is_in_group(Global.group_strays):
+				if current_collider.is_in_group(Global.group_strays): # zazih reset straysa
 					current_collider.current_state = current_collider.States.IDLE
-			# printt (previous_direction, direction, new_direction)
 
 					
 func cocking_inputs():
@@ -371,18 +381,16 @@ func step(): # step koda se ob držanju tipke v smeri izvaja stalno
 func end_move():
 	
 	# reset variabel, ki jih posamezno stanje pedena (pazi, zmeraj si lahko zadet od plejerja)
-	# to je stanje v katerem je v trenutku end_move klicem
+	# to je stanje v katerem je v trenutku klica end_move()
 	match current_state:
 		States.STEPPING:
-			# direction = Vector2.ZERO # če resetira potem ni hitrega pusha iz zaleta
+			# direction = Vector2.ZERO ... če resetira potem ni hitrega pusha iz zaleta
 			collision_shape_ext.position = Vector2.ZERO
 		States.SKILLED:
-			vision.look_at(global_position - direction) # izhod iz skilled pogleda stra od trenutnega pokleda, ki je sprožal skilled)
+			# previous_direction = Vector2.ZERO ... ne restiram, ker je čist okej, da star smer skos znana
 			direction = Vector2.ZERO
-			detect_collision_in_direction(Vector2.ZERO)
 			skill_light_off()
 		States.SKILLING:
-#			vision.look_at(global_position + direction)
 			direction = Vector2.ZERO
 			collision_shape_ext.position = Vector2.ZERO
 		States.COCKING: # end_move v primeru prekinitve (spustim gumb na 0 moči)
@@ -527,7 +535,6 @@ func push(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila
 	
 	var push_cock_time: float = 0.3
 	var push_time: float = 0.2
-	var push_end_move_delay: float = 0.23 # zaradi LNF in predvsem zato, da ga ne "zagleda" prezgodaj
 	var sound_delay: float = 0.07 # LNF
 	var new_push_ghost_position = global_position + push_direction * cell_size_x
 	var new_push_ghost = spawn_ghost(new_push_ghost_position)
@@ -541,11 +548,10 @@ func push(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila
 			if stray_neighbor.is_in_group(Global.group_strays):
 				strays_to_move.append(stray_neighbor)
 			elif stray_neighbor.is_in_group(Global.group_tilemap):
-				stray_neighbor.modulate = Color.red
 				room_for_push =  false
 	
 	play_sound("pushpull_start")
-	skill_light_off()
+	
 	collision_shape_ext.position = backup_direction * cell_size_x # vržem koližn v smer zaleta, smer premika pokriva strayev extension
 		
 	var push_tween = get_tree().create_tween()
@@ -555,18 +561,19 @@ func push(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila
 		for stray_to_move in strays_to_move:
 			push_tween.parallel().tween_callback(stray_to_move, "push_stray", [push_direction, push_cock_time, push_time])
 	push_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, push_cock_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT) # animiram s plejerjem na 0 pozicijo
-	push_tween.parallel().tween_property(skill_light, "position", skill_light.position - backup_direction * cell_size_x, push_cock_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 	push_tween.parallel().tween_property(new_push_ghost, "position", new_push_ghost.global_position + backup_direction * cell_size_x, push_cock_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	# lučko zapeljem na začetek ghosta (ostane ob strayu)
+	push_tween.parallel().tween_property(skill_light, "position", skill_light.position - backup_direction * cell_size_x, push_cock_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 	# release
 	push_tween.tween_callback(self, "play_sound", ["pushpull_end"])
-	push_tween.tween_property(self, "position", global_position, push_time).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)	
-	push_tween.tween_callback(skill_light, "set_position", [skill_light.position]) # reset pozicije luči
-#	push_tween.tween_property(skill_light, "position", skill_light.position, 0) # reset pozicije luči
+	push_tween.tween_callback(self, "skill_light_off") # lučko dam v proces ugašanja
+	push_tween.tween_property(self, "position", global_position, push_time).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
+	push_tween.parallel().tween_property(skill_light, "position", Vector2.ZERO, push_time).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN) # lučko zapeljem nazaj na začetno lokacijo
 	if room_for_push:
 		push_tween.tween_callback(self, "play_sound", ["pushed"]).set_delay(sound_delay)
 	push_tween.tween_callback(new_push_ghost, "queue_free")
 	# reset
-	push_tween.tween_callback(self, "end_move").set_delay(push_end_move_delay) #... očitno ga ne rabim
+	push_tween.tween_callback(self, "end_move").set_delay(after_skill_delay) # zaradi LNF in predvsem zato, da ga ne "zagleda" prezgodaj, ker je potem buggy
 	
 	change_stat("skill_used", 1) # zazih ni v tweenu
 
@@ -584,25 +591,26 @@ func pull(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila
 	current_state = States.SKILLING
 	collision_shape_ext.position = pull_direction * cell_size_x # vržem koližn v smer premika
 	
-	var pull_time: float = 0.3
+	var pull_cock_time: float = 0.3
+	var pull_time: float = 0.2
 	var new_pull_ghost = spawn_ghost(global_position + target_direction * cell_size_x)
 	
-	skill_light_off()
 	play_sound("pushpull_start")
 	
 	var pull_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	# move self
-	pull_tween.tween_property(self, "position", global_position + pull_direction * cell_size_x, pull_time)
-	pull_tween.parallel().tween_callback(stray_to_move, "pull_stray", [pull_direction, pull_time]) # kličem tukaj, da animiram njegov collision_ext
-	pull_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, pull_time) # reset collision_ext
-	pull_tween.parallel().tween_property(skill_light, "position", skill_light.position - pull_direction * cell_size_x, pull_time)
-	pull_tween.parallel().tween_property(new_pull_ghost, "position", new_pull_ghost.global_position + pull_direction * cell_size_x, pull_time)
-	# pull stray
+	pull_tween.tween_property(self, "position", global_position + pull_direction * cell_size_x, pull_cock_time)
+	pull_tween.parallel().tween_callback(stray_to_move, "pull_stray", [pull_direction, pull_cock_time, pull_time]) # kličem tukaj, da animiram njegov collision_ext
+	pull_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, pull_cock_time) # reset collision_ext
+	pull_tween.parallel().tween_property(skill_light, "position", skill_light.position - pull_direction * cell_size_x, pull_cock_time) # lučko zapeljem na začetek ghosta (ostane ob strayu)
+	pull_tween.parallel().tween_property(new_pull_ghost, "position", new_pull_ghost.global_position + pull_direction * cell_size_x, pull_cock_time)
 	pull_tween.parallel().tween_callback(self, "play_sound", ["pulled"])
-	pull_tween.tween_callback(skill_light, "set_position", [skill_light.position]) # reset pozicije luči
+	# pull stray
+	pull_tween.tween_callback(self, "skill_light_off") # lučko dam v proces ugašanja
+	pull_tween.tween_property(skill_light, "position", Vector2.ZERO, pull_time) # lučko zapeljem nazaj na začetno lokacijo
 	# reset
 	pull_tween.tween_callback(new_pull_ghost, "queue_free").set_delay(pull_time) # delay je zato, ker se pixel premakne kasneje
-	pull_tween.tween_callback(self, "end_move")
+	pull_tween.tween_callback(self, "end_move").set_delay(after_skill_delay)
 	
 	change_stat("skill_used", 2) # zazih ni v tweenu
 	
@@ -615,27 +623,27 @@ func teleport(): # skilled inputs opredeli vrsto skila glede na kolajderja
 	
 	
 	Input.start_joy_vibration(0, 0.3, 0, 0)
-	skill_light_off()
-	play_sound("teleport")
 	glow_light.enabled = false
 	
 	# teleporting ghost
 	var ghost_max_speed: float = 10
 	var new_teleport_ghost = spawn_ghost(global_position)
 	new_teleport_ghost.direction = teleport_direction
-	new_teleport_ghost.max_speed = ghost_max_speed
-	new_teleport_ghost.modulate.a = 1
+	new_teleport_ghost.modulate.a = 0
 	new_teleport_ghost.z_index = 3
 	new_teleport_ghost.connect("ghost_target_reached", self, "_on_ghost_target_reached")
 	
-	# kamera target
 	if player_camera:
 		player_camera.camera_target = new_teleport_ghost
-	modulate.a = 0
 	collision_shape.disabled = true
 	collision_shape_ext.disabled = true
 	
-	yield(get_tree().create_timer(0.2), "timeout")
+	yield(get_tree().create_timer(0.3), "timeout") # mejčken se ustavi preden se teleporta
+	skill_light_off()
+	play_sound("teleport")
+	new_teleport_ghost.max_speed = ghost_max_speed
+	new_teleport_ghost.modulate.a = 1
+	modulate.a = 0
 	
 	# zaključek v signalu _on_ghost_target_reached
 	
@@ -738,7 +746,6 @@ func on_get_hit(hit_burst_speed: float):
 	change_stat("get_hit", 1) # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
 	
 	die() # vedno sledi statistiki
-	
 	
 
 # LIFE LOOP ----------------------------------------------------------------------------------------
@@ -886,12 +893,21 @@ func spawn_floating_tag(value: int):
 
 
 func detect_collision_in_direction(direction_to_check):
+
+	# če ni smeri, ni pogleda
+	# kadar je smer nula, nuliram tudi vision
+	# dela tudi, če samo zavrnem ob smeri 0
+	if direction_to_check == Vector2.ZERO:
+		vision.look_at(global_position)
+		for ray in vision_rays:
+			ray.cast_to = Vector2.ZERO
+		return
+		
 	# obrnem vision grupo v smeri...
 	vision.look_at(global_position + direction_to_check)
 	
 	# vsi ray gledajo naravnost
 	for ray in vision_rays:
-		# ray.cast_to = Vector2(32, 0) # če zvezno porivanje dela težave
 		ray.cast_to = Vector2(47.5, 0) # en pixel manj kot 48, da ne seže preko celice
 	
 	# grebanje kolajderja	
@@ -902,8 +918,9 @@ func detect_collision_in_direction(direction_to_check):
 		if ray.is_colliding():
 			first_collider = ray.get_collider()
 			break # ko je kolajder neham čekirat
-#	print ("čekiram ", first_collider)
-	return first_collider
+	
+	# print ("čekiram ", first_collider)
+	return first_collider	
 	
 	
 func get_step_time():
@@ -968,7 +985,10 @@ func tween_color_change (new_color: Color):
 
 
 func burst_light_on():
-	
+
+	if burst_light.enabled:
+		return
+			
 	var burst_light_base_energy: float = 0.6
 	var burst_light_energy: float = burst_light_base_energy / pixel_color.v
 	burst_light_energy = clamp(burst_light_energy, 0.5, 1.4) # klempam za dark pixel
@@ -979,7 +999,10 @@ func burst_light_on():
 
 
 func burst_light_off():
-	
+
+	if not burst_light.enabled:
+		return	
+		
 	var light_fade_out = get_tree().create_tween()
 	light_fade_out.tween_property(burst_light, "energy", 0, 0.3).set_ease(Tween.EASE_IN)
 	light_fade_out.tween_callback(burst_light, "set_enabled", [false])
@@ -987,6 +1010,9 @@ func burst_light_off():
 
 func skill_light_on(): 
 	
+	if skill_light.enabled:
+		return
+		
 	skill_light.rotation = vision.rotation
 	
 	var skilled_light_base_energy: float = 0.7
@@ -1000,6 +1026,8 @@ func skill_light_on():
 	
 func skill_light_off():
 	
+	if not skill_light.enabled:
+		return
 	var light_fade_out = get_tree().create_tween()
 	light_fade_out.tween_property(skill_light, "energy", 0, 0.3).set_ease(Tween.EASE_IN)
 	light_fade_out.tween_callback(skill_light, "set_enabled", [false])
@@ -1114,6 +1142,7 @@ func _on_ghost_target_reached(ghost_body: Area2D, ghost_position: Vector2):
 	collision_shape.set_deferred("disabled", false)
 	collision_shape_ext.set_deferred("disabled", false)
 	ghost_body.queue_free()
+	yield(get_tree().create_timer(after_skill_delay),"timeout")
 	end_move()
 	
 	change_stat("skill_used", 3) # zazih ni v tweenu	

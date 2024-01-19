@@ -27,12 +27,12 @@ onready var game_settings: Dictionary = Profiles.game_settings # ga med igro ne 
 onready var game_data: Dictionary = Profiles.current_game_data # .duplicate() # duplikat default profila, ker ga me igro spreminjaš
 onready var spectrum_rect: TextureRect = $Spectrum
 onready var spectrum_gradient: TextureRect = $SpectrumGradient
-onready var StrayPixel = preload("res://game/pixel/stray.tscn")
-onready var PlayerPixel = preload("res://game/pixel/player.tscn")
-
-onready var PlayerPixelScroller = preload("res://game/pixel/player_scroller.tscn")
+onready var StrayPixel: PackedScene = preload("res://game/pixel/stray.tscn")
+onready var PlayerPixel: PackedScene = preload("res://game/pixel/player.tscn")
 
 #neu
+onready var PlayerDynamicSkilling: PackedScene = preload("res://game/pixel/player_timed_skilling.tscn")
+onready var PlayerTimedSkilling: PackedScene = preload("res://game/pixel/player_dynamic_skilling.tscn")
 var show_position_indicators: bool
 var show_position_indicator_stray_count: int = 5
 var lines_scroll_counter: int = 0 
@@ -195,11 +195,9 @@ func set_players():
 		
 		# spawn
 		var new_player_pixel: KinematicBody2D
-		if game_data["game"] == Profiles.Games.SCROLLER:
-			new_player_pixel = PlayerPixelScroller.instance()
-		else:
-			new_player_pixel = PlayerPixelScroller.instance()
-#			new_player_pixel = PlayerPixel.instance()
+		new_player_pixel = PlayerTimedSkilling.instance()
+#		new_player_pixel = PlayerDynamicSkilling.instance()
+#		new_player_pixel = PlayerPixel.instance()
 		new_player_pixel.name = "p%s" % str(spawned_player_index)
 		new_player_pixel.global_position = player_position + Vector2(cell_size_x/2, cell_size_x/2) # ... ne rabim snepat ker se v pixlu na ready funkciji
 		new_player_pixel.modulate = Global.color_white
