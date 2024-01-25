@@ -263,9 +263,9 @@ func _ready() -> void:
 	
 #	var current_game = Games.DUEL # če greš iz menija je tole povoženo
 #	var current_game = Games.TUTORIAL # če greš iz menija je tole povoženo
-	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
+#	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
 #	var current_game = Games.SCROLLER # če greš iz menija je tole povoženo
-#	var current_game = Games.DEBUG # če greš iz menija je tole povoženo
+	var current_game = Games.DEBUG # če greš iz menija je tole povoženo
 	set_game_data(current_game)
 	
 	
@@ -292,6 +292,7 @@ func set_game_data(selected_game) -> void:
 		Games.CLEANER_L: 
 			current_game_data = game_data_cleaner_L
 			# game_settings["manage_highscores"] = true			
+			game_settings["start_countdown"] = false
 			game_settings["timer_mode_countdown"] = false
 		Games.SPRINTER_S: 
 			current_game_data = game_data_sprinter_S
