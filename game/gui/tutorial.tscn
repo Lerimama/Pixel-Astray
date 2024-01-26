@@ -1,11 +1,11 @@
 [gd_scene load_steps=46 format=2]
 
-[ext_resource path="res://game/gui/tutorial.gd" type="Script" id=1]
-[ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=2]
-[ext_resource path="res://assets/resources/icon_label_dot.tres" type="Texture" id=3]
-[ext_resource path="res://assets/atlas_controls.png" type="Texture" id=4]
-[ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=5]
-[ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=6]
+[ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
+[ext_resource path="res://assets/atlas_controls.png" type="Texture" id=2]
+[ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=3]
+[ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=4]
+[ext_resource path="res://game/gui/tutorial.gd" type="Script" id=5]
+[ext_resource path="res://assets/resources/icon_label_dot.tres" type="Texture" id=6]
 
 [sub_resource type="StyleBoxEmpty" id=201]
 
@@ -114,7 +114,7 @@ thickness = 2
 vertical = true
 
 [sub_resource type="Theme" id=194]
-default_font = ExtResource( 5 )
+default_font = ExtResource( 3 )
 Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
 Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
@@ -161,11 +161,11 @@ Panel/styles/panel = SubResource( 266 )
 VSeparator/styles/separator = SubResource( 267 )
 
 [sub_resource type="AtlasTexture" id=202]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 2 )
 region = Rect2( 0, 98, 70, 46 )
 
 [sub_resource type="AtlasTexture" id=151]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 2 )
 region = Rect2( 80, 98, 70, 46 )
 
 [sub_resource type="StreamTexture" id=181]
@@ -180,27 +180,27 @@ atlas = SubResource( 206 )
 region = Rect2( 0, 0, 120, 86 )
 
 [sub_resource type="AtlasTexture" id=204]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 2 )
 region = Rect2( 10, 17, 22, 22 )
 
 [sub_resource type="AtlasTexture" id=154]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 2 )
 region = Rect2( 30, 40, 18, 18 )
 
 [sub_resource type="AtlasTexture" id=205]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 2 )
 region = Rect2( 96, 32, 10, 10 )
 
 [sub_resource type="AtlasTexture" id=235]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 2 )
 region = Rect2( 0, 154, 102, 22 )
 
 [sub_resource type="AtlasTexture" id=236]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 2 )
 region = Rect2( 114, 154, 22, 22 )
 
 [sub_resource type="AtlasTexture" id=237]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 2 )
 region = Rect2( 138, 154, 22, 22 )
 
 [sub_resource type="StyleBoxFlat" id=155]
@@ -216,12 +216,12 @@ border_width_bottom = 2
 border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 
 [sub_resource type="AtlasTexture" id=199]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 2 )
 region = Rect2( 72, 186, 22, 22 )
 margin = Rect2( 0, 2, 0, 0 )
 
 [sub_resource type="AtlasTexture" id=200]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 2 )
 region = Rect2( 0, 218, 40, 22 )
 margin = Rect2( -2, 2, 0, 0 )
 
@@ -543,7 +543,7 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 720 )
-script = ExtResource( 1 )
+script = ExtResource( 5 )
 __meta__ = {
 "_editor_description_": ""
 }
@@ -588,7 +588,7 @@ margin_top = 32.0
 margin_right = 329.0
 margin_bottom = 98.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "You can move in directions up, down, left, and right. Circle the wall block to progress to the next stage."
 autowrap = true
 
@@ -606,7 +606,7 @@ __meta__ = {
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
-texture = ExtResource( 3 )
+texture = ExtResource( 6 )
 
 [node name="Content" type="Label" parent="Checkpoints/TravelingContent/LineLabel"]
 margin_left = 14.0
@@ -614,7 +614,7 @@ margin_right = 303.0
 margin_bottom = 42.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "Traveling costs energy, so you can't travel around without it."
 autowrap = true
 
@@ -632,7 +632,7 @@ __meta__ = {
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
-texture = ExtResource( 3 )
+texture = ExtResource( 6 )
 
 [node name="Content" type="Label" parent="Checkpoints/TravelingContent/LineLabel2"]
 margin_left = 14.0
@@ -640,7 +640,7 @@ margin_right = 303.0
 margin_bottom = 18.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "More energy means more speed."
 autowrap = true
 
@@ -691,7 +691,7 @@ margin_top = 32.0
 margin_right = 327.0
 margin_bottom = 78.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "Destroy a stray pixel and collect its color to progress to the next stage."
 autowrap = true
 
@@ -701,7 +701,7 @@ margin_top = 104.0
 margin_right = 328.0
 margin_bottom = 122.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "1. Press and hold the burst key"
 autowrap = true
 
@@ -711,7 +711,7 @@ margin_top = 136.0
 margin_right = 328.0
 margin_bottom = 178.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "2. Ad burst power by holding direction key in direction away from the target"
 autowrap = true
 
@@ -721,7 +721,7 @@ margin_top = 192.0
 margin_right = 289.0
 margin_bottom = 210.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "3. Release the burst key to burst"
 autowrap = true
 
@@ -739,7 +739,7 @@ __meta__ = {
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
-texture = ExtResource( 3 )
+texture = ExtResource( 6 )
 
 [node name="Content" type="Label" parent="Checkpoints/BurstingContent/LineLabel"]
 margin_left = 14.0
@@ -747,7 +747,7 @@ margin_right = 328.0
 margin_bottom = 66.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "Burst doesn't use energy, so if you have no energy, you can still destroy a stray pixel to regain vitality."
 autowrap = true
 
@@ -765,7 +765,7 @@ __meta__ = {
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
-texture = ExtResource( 3 )
+texture = ExtResource( 6 )
 
 [node name="Content" type="Label" parent="Checkpoints/BurstingContent/LineLabel2"]
 margin_left = 14.0
@@ -773,7 +773,7 @@ margin_right = 328.0
 margin_bottom = 42.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "To stop in the middle of burst press the burst key again."
 autowrap = true
 
@@ -823,7 +823,7 @@ margin_top = 32.0
 margin_right = 326.0
 margin_bottom = 98.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "You can push or pull a stray pixel, or teleport through a wall. Use all three skills to progress to next stage."
 autowrap = true
 
@@ -832,7 +832,7 @@ margin_top = 128.0
 margin_right = 328.0
 margin_bottom = 194.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "1. Connect to a neighboring stray pixel 
   or wall and press in the direction 
   of the target"
@@ -843,7 +843,7 @@ margin_top = 208.0
 margin_right = 336.0
 margin_bottom = 226.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "2. Move towards a stray pixel to push it"
 autowrap = true
 
@@ -852,7 +852,7 @@ margin_top = 240.0
 margin_right = 326.0
 margin_bottom = 258.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "3. Move away from stray pixel to pull it"
 autowrap = true
 
@@ -861,7 +861,7 @@ margin_top = 272.0
 margin_right = 328.0
 margin_bottom = 314.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "4. Move towards a wall to teleport to the other side"
 autowrap = true
 
@@ -878,7 +878,7 @@ __meta__ = {
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
-texture = ExtResource( 3 )
+texture = ExtResource( 6 )
 
 [node name="Content" type="Label" parent="Checkpoints/SkillingContent/LineLabel2"]
 margin_left = 14.0
@@ -886,7 +886,7 @@ margin_right = 328.0
 margin_bottom = 18.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "Skills don't use energy."
 autowrap = true
 
@@ -933,7 +933,7 @@ margin_top = 33.0
 margin_right = 329.0
 margin_bottom = 99.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "Destroy at least 3 stray pixels with 
 a single burst to progress to the final stage of tutorial."
 autowrap = true
@@ -951,7 +951,7 @@ __meta__ = {
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
-texture = ExtResource( 3 )
+texture = ExtResource( 6 )
 
 [node name="Content" type="Label" parent="Checkpoints/StackingContent/LineLabel"]
 margin_left = 14.0
@@ -959,7 +959,7 @@ margin_right = 328.0
 margin_bottom = 42.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "Amount of stacked pixels destroyed equals the power of your burst."
 autowrap = true
 
@@ -976,7 +976,7 @@ __meta__ = {
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
-texture = ExtResource( 3 )
+texture = ExtResource( 6 )
 
 [node name="Content" type="Label" parent="Checkpoints/StackingContent/LineLabel2"]
 margin_left = 14.0
@@ -984,7 +984,7 @@ margin_right = 329.0
 margin_bottom = 42.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "Maximum power (7 units) always destroys all pixels in a stack."
 autowrap = true
 
@@ -1001,7 +1001,7 @@ __meta__ = {
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
-texture = ExtResource( 3 )
+texture = ExtResource( 6 )
 
 [node name="Content" type="Label" parent="Checkpoints/StackingContent/LineLabel3"]
 margin_left = 14.0
@@ -1009,7 +1009,7 @@ margin_right = 329.0
 margin_bottom = 66.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "Destroying pixels in a stack will give you more points than destroying them one by one."
 autowrap = true
 
@@ -1059,7 +1059,7 @@ margin_top = 33.0
 margin_right = 326.0
 margin_bottom = 51.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "The game is over if:"
 autowrap = true
 
@@ -1073,7 +1073,7 @@ custom_constants/separation = 8
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
-texture = ExtResource( 3 )
+texture = ExtResource( 6 )
 
 [node name="Content1" type="Label" parent="Checkpoints/WinLoseContent/LineLabel"]
 margin_left = 14.0
@@ -1081,7 +1081,7 @@ margin_right = 326.0
 margin_bottom = 42.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "You have no energy and don't destroy another pixel in a couple of seconds"
 autowrap = true
 
@@ -1095,7 +1095,7 @@ custom_constants/separation = 8
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
-texture = ExtResource( 3 )
+texture = ExtResource( 6 )
 
 [node name="Content1" type="Label" parent="Checkpoints/WinLoseContent/LineLabel1"]
 margin_left = 14.0
@@ -1103,7 +1103,7 @@ margin_right = 294.0
 margin_bottom = 18.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "Time runs out"
 autowrap = true
 
@@ -1117,7 +1117,7 @@ custom_constants/separation = 8
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
-texture = ExtResource( 3 )
+texture = ExtResource( 6 )
 
 [node name="Content2" type="Label" parent="Checkpoints/WinLoseContent/LineLabel2"]
 margin_left = 14.0
@@ -1125,7 +1125,7 @@ margin_right = 312.0
 margin_bottom = 42.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "You pick all the available colors and no pixel is left astray"
 autowrap = true
 
@@ -1134,7 +1134,7 @@ margin_top = 225.0
 margin_right = 312.0
 margin_bottom = 273.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "To finish the tutorial, try to destroy all pixels still astray. Or quit through the pause menu."
 autowrap = true
 
@@ -1164,7 +1164,7 @@ margin_left = 32.0
 margin_top = 58.0
 margin_right = 130.0
 margin_bottom = 76.0
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "Your life, energy and score count"
 uppercase = true
 __meta__ = {
@@ -1201,7 +1201,7 @@ margin_left = 599.0
 margin_top = 58.0
 margin_right = 680.0
 margin_bottom = 76.0
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "Game time"
 uppercase = true
 __meta__ = {
@@ -1223,7 +1223,7 @@ margin_top = 58.0
 margin_right = 811.0
 margin_bottom = 76.0
 grow_horizontal = 0
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "Music player"
 uppercase = true
 __meta__ = {
@@ -1245,7 +1245,7 @@ margin_top = 58.0
 margin_right = 1250.0
 margin_bottom = 76.0
 grow_horizontal = 0
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "Current highscore"
 align = 2
 uppercase = true
@@ -1267,7 +1267,7 @@ margin_left = 31.0
 margin_top = 640.0
 margin_right = 157.0
 margin_bottom = 658.0
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "Game and level"
 uppercase = true
 __meta__ = {
@@ -1289,7 +1289,7 @@ margin_top = 640.0
 margin_right = 852.5
 margin_bottom = 658.0
 grow_horizontal = 2
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "Indicator of picked and available colors"
 align = 1
 uppercase = true
@@ -1309,7 +1309,7 @@ margin_top = 640.0
 margin_right = 1249.0
 margin_bottom = 658.0
 grow_horizontal = 0
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "Pixels astray and cleaned"
 align = 2
 uppercase = true
@@ -1343,15 +1343,15 @@ margin_top = -25.0
 margin_right = 430.0
 margin_bottom = -13.0
 rect_min_size = Vector2( 0, 12 )
-texture = ExtResource( 6 )
+texture = ExtResource( 4 )
 expand = true
 
 [node name="InfoPanel" type="Control" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = 24.0
+margin_left = 1304.0
 margin_top = 80.0
-margin_right = 344.0
+margin_right = 1624.0
 margin_bottom = 647.0
 theme = SubResource( 194 )
 
@@ -1392,7 +1392,7 @@ margin_top = 3.0
 margin_right = 168.0
 margin_bottom = 21.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "Direction keys"
 autowrap = true
 
@@ -1453,7 +1453,7 @@ margin_top = 120.0
 margin_right = 286.0
 margin_bottom = 138.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "Burst keys"
 
 [node name="Space2" type="TextureRect" parent="InfoPanel/Controls/Keys"]
@@ -1547,7 +1547,7 @@ margin_right = 334.0
 margin_bottom = 68.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "A point in score equals an energy point."
 autowrap = true
 
@@ -1563,7 +1563,7 @@ margin_top = 2.0
 margin_right = 25.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 25, 0 )
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "10"
 align = 2
 
@@ -1572,7 +1572,7 @@ margin_top = -2.0
 margin_right = 14.0
 margin_bottom = 20.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "+"
 
 [node name="Content2" type="Label" parent="InfoPanel/Scoring/PointsLabel"]
@@ -1581,7 +1581,7 @@ margin_top = 2.0
 margin_right = 328.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "... Destroy a stray pixel"
 
 [node name="PointsLabel2" type="HBoxContainer" parent="InfoPanel/Scoring"]
@@ -1596,7 +1596,7 @@ margin_top = 2.0
 margin_right = 30.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 30, 0 )
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "20"
 align = 2
 
@@ -1605,7 +1605,7 @@ margin_top = -2.0
 margin_right = 14.0
 margin_bottom = 20.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "+"
 
 [node name="Content2" type="Label" parent="InfoPanel/Scoring/PointsLabel2"]
@@ -1614,7 +1614,7 @@ margin_top = 2.0
 margin_right = 328.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "... Destroy a stacked stray pixel"
 
 [node name="Content3" type="Label" parent="InfoPanel/Scoring"]
@@ -1624,7 +1624,7 @@ margin_bottom = 204.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "10 points for the first one, 10 + 20 points for the second, 10 + 20 + 20 for the third, and so on."
 autowrap = true
 
@@ -1640,7 +1640,7 @@ margin_top = 2.0
 margin_right = 39.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 39, 0 )
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "500"
 align = 2
 
@@ -1649,7 +1649,7 @@ margin_top = -2.0
 margin_right = 14.0
 margin_bottom = 20.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "+"
 
 [node name="Content2" type="Label" parent="InfoPanel/Scoring/PointsLabel3"]
@@ -1658,7 +1658,7 @@ margin_top = 2.0
 margin_right = 328.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "... Destroy all stray pixels"
 
 [node name="PointsLabel4" type="HBoxContainer" parent="InfoPanel/Scoring"]
@@ -1673,7 +1673,7 @@ margin_top = 2.0
 margin_right = 15.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 15, 0 )
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "1"
 align = 2
 
@@ -1682,7 +1682,7 @@ margin_top = -2.0
 margin_right = 14.0
 margin_bottom = 20.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "-"
 
 [node name="Content2" type="Label" parent="InfoPanel/Scoring/PointsLabel4"]
@@ -1691,7 +1691,7 @@ margin_top = 2.0
 margin_right = 328.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "... Traveling (per step)"
 
 [node name="PointsLabel5" type="HBoxContainer" parent="InfoPanel/Scoring"]
@@ -1706,7 +1706,7 @@ margin_top = 2.0
 margin_right = 104.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 104, 0 )
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "1/2 of total"
 align = 2
 
@@ -1715,7 +1715,7 @@ margin_top = -2.0
 margin_right = 14.0
 margin_bottom = 20.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "-"
 
 [node name="Content2" type="Label" parent="InfoPanel/Scoring/PointsLabel5"]
@@ -1724,7 +1724,7 @@ margin_top = 2.0
 margin_right = 328.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "... Burst into a wall"
 
 [node name="MissionPanel" type="Control" parent="."]
@@ -1733,10 +1733,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -223.0
-margin_top = -40.0
-margin_right = 225.0
-margin_bottom = 248.0
+margin_left = 417.0
+margin_top = 320.0
+margin_right = 865.0
+margin_bottom = 608.0
 theme = SubResource( 194 )
 __meta__ = {
 "_edit_group_": true
@@ -1756,7 +1756,7 @@ margin_top = 40.0
 margin_right = 188.0
 margin_bottom = 130.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "You are starting a tutorial on the basic mechanics of the game. Every stage has instructions on how to progress to the next one. Added tips can help during the game."
 align = 1
 autowrap = true
@@ -1769,7 +1769,7 @@ margin_top = 152.0
 margin_right = 153.0
 margin_bottom = 194.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "Before starting the tutorial, be sure to check the displayed HUD labels. "
 align = 1
 autowrap = true
@@ -1792,7 +1792,7 @@ margin_right = 44.0
 margin_bottom = 20.0
 theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "Press"
 align = 1
 
@@ -1809,7 +1809,7 @@ margin_right = 99.0
 margin_bottom = 20.0
 theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "or"
 align = 1
 
@@ -1826,7 +1826,7 @@ margin_right = 222.0
 margin_bottom = 20.0
 theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
 text = "to start"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

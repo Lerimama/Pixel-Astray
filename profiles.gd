@@ -61,7 +61,7 @@ var default_player_stats: Dictionary = {
 var default_game_settings: Dictionary = { # default settings so tiste, ki so najbolj pogoste ... opisane v tutorialu
 	# to so default CLEANER settings
 	# scoring
-	"all_cleaned_points": 500,
+	"all_cleaned_points": 1000,
 	"color_picked_points": 1,
 	"cell_traveled_points": 0,
 	"skill_used_points": 0,
@@ -93,11 +93,11 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 
 	# game
 	"gameover_countdown_duration": 5,
-	"timer_mode_countdown" : false, # če prišteva in je "game_time_limit" = 0, nima omejitve navzgor
+	"timer_mode_countdown" : true, # če prišteva in je "game_time_limit" = 0, nima omejitve navzgor
 	"start_countdown": true,
 	"minimap_on": false,
 	"position_indicators_mode": true, # duel jih nima 
-	"show_position_indicators_stray_count": 3,
+	"show_position_indicators_stray_count": 5,
 	"suddent_death_mode": false,
 	"sudden_death_limit" : 20,
 	
@@ -123,9 +123,10 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 # GAMES ---------------------------------------------------------------------------------------------------------
 
 enum Games {
-	INTRO, 
+#	INTRO, 
 	DEBUG, 
-	CLEANER_S, CLEANER_M, CLEANER_L,
+	SWEEPER_S, SWEEPER_M, SWEEPER_L,
+	CLEANER_S, CLEANER_M, CLEANER_L, CLEANER_DUEL
 	SPRINTER_S, SPRINTER_M, SPRINTER_L, SPRINTER_DUEL
 	HUNTER, SCROLLER,
 	RUNNER,  RIDDLER,
@@ -134,102 +135,105 @@ enum Games {
 
 enum HighscoreTypes {NO_HS, HS_POINTS, HS_TIME_LOW, HS_TIME_HIGH} # vpliva
 
+#var game_data_difolt: Dictionary = { 
+#	"game": 0,
+#	"highscore_type": 0,
+#	"game_name": "",
+#	"level": "",
+#	"game_scene_path": "",
+#	"tilemap_path": "",
+#	"game_time_limit": 0,
+#	"strays_start_count": 0,
+#}
+
 # tudu
-var game_data_intro: Dictionary = { 
-	"game": Games.INTRO,
-	"game_name": "Intro",
-	"level": "",
-	"tilemap_path": "",
-	#"tilemap_path": "res://game/tilemaps/tutorial_tilemap.tscn",
-	"game_time_limit": 600,
-	"strays_start_count": 10,
-}
+#var game_data_intro: Dictionary = { 
+#	"game": Games.INTRO,
+#	"game_name": "Intro",
+#	"level": "",
+#	"tilemap_path": "",
+#	#"tilemap_path": "res://game/tilemaps/tutorial_tilemap.tscn",
+#	"game_time_limit": 600,
+#	"strays_start_count": 10,
+#}
 
-var game_data_tutorial: Dictionary = { 
-	"game": Games.TUTORIAL,
-	"game_name": "Tutorial",
-	"level": "",
-	"tilemap_path": "res://game/tilemaps/tutorial_tilemap.tscn",
-	"game_time_limit": 0,
-	"strays_start_count": 10,
-}
-
-var game_data_cleaner_S: Dictionary = { 
-	"game": Games.CLEANER_S,
+var game_data_sweeeper_S: Dictionary = { 
+	"game": Games.SWEEPER_S,
 	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"game_name": "Sweeper",
+	"level": "S",
+	"game_scene_path": "res://game/game_cleaning.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_sweeper_S.tscn",
+	"game_time_limit": 0,
+	"strays_start_count": 32,
+}
+
+var game_data_sweeeper_M: Dictionary = {
+	"game": Games.SWEEPER_M,
+	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"game_name": "Sweeper",
+	"level": "M",
+	"game_scene_path": "res://game/game_cleaning.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_sweeper_M.tscn",
+	"game_time_limit": 0,
+	"strays_start_count": 140, 
+}
+
+var game_data_sweeeper_L: Dictionary = {
+	"game": Games.SWEEPER_L,
+	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"game_name": "Sweeper",
+	"level": "L",
+	"game_scene_path": "res://game/game_cleaning.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_sweeper.tscn",
+	"game_time_limit": 0,
+	"strays_start_count": 320, 
+}
+
+var game_data_cleaner_S: Dictionary = {
+	"game": Games.CLEANER_S,
+	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Cleaner",
 	"level": "S",
-	"game_scene_path": "res://game/cleaner_game.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_tilemap.tscn",
-	"game_time_limit": 0,
-	"strays_start_count": 50, # se upošteva, če ni pozicij
+	"game_scene_path": "res://game/game_cleaning.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner.tscn",
+	"game_time_limit": 60,
+	"strays_start_count": 500, 
 }
 
 var game_data_cleaner_M: Dictionary = {
 	"game": Games.CLEANER_M,
-	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Cleaner",
 	"level": "M",
-	"game_scene_path": "res://game/cleaner_game.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_tilemap.tscn",
-	"game_time_limit": 0,
-	"strays_start_count": 4, 
+	"game_scene_path": "res://game/game_cleaning.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner.tscn",
+	"game_time_limit": 120,
+	"strays_start_count": 500, 
 }
 
 var game_data_cleaner_L: Dictionary = {
 	"game": Games.CLEANER_L,
-	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Cleaner",
 	"level": "L",
-	"game_scene_path": "res://game/cleaner_game.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_tilemap.tscn",
-	"game_time_limit": 0,
-	"strays_start_count": 320, 
-}
-
-var game_data_sprinter_S: Dictionary = {
-	"game": Games.SPRINTER_S,
-	"highscore_type": HighscoreTypes.HS_POINTS,
-	"game_name": "Sprinter",
-	"level": "S",
-	"game_scene_path": "res://game/cleaner_game.tscn",
-	"tilemap_path": "res://game/tilemaps/sprinter/sprinter_tilemap.tscn",
-	"game_time_limit": 120,
-	"strays_start_count": 320, 
-}
-
-var game_data_sprinter_M: Dictionary = {
-	"game": Games.SPRINTER_M,
-	"highscore_type": HighscoreTypes.HS_POINTS,
-	"game_name": "Sprinter",
-	"level": "M",
-	"game_scene_path": "res://game/cleaner_game.tscn",
-	"tilemap_path": "res://game/tilemaps/sprinter/sprinter_tilemap.tscn",
+	"game_scene_path": "res://game/game_cleaning.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner.tscn",
 	"game_time_limit": 300,
-	"strays_start_count": 320, 
+	"strays_start_count": 500, 
 }
 
-var game_data_sprinter_L: Dictionary = {
-	"game": Games.SPRINTER_L,
-	"highscore_type": HighscoreTypes.HS_POINTS,
-	"game_name": "Sprinter",
-	"level": "L",
-	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/sprinter/sprinter_tilemap.tscn",
-	"game_time_limit": 600,
-	"strays_start_count": 320, 
-}
-
-var game_data_sprinter_duel: Dictionary = {
-	"game": Games.SPRINTER_DUEL,
+var game_data_cleaner_duel: Dictionary = {
+	"game": Games.CLEANER_DUEL,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Sprinter",
 	"level": "Duel",
-	"game_scene_path": "res://game/cleaner_game.tscn",
-	"tilemap_path": "res://game/tilemaps/sprinter/sprinter_tilemap_duel.tscn",
+	"game_scene_path": "res://game/game_cleaning.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner_duel.tscn",
 	"game_time_limit": 300,
 	"strays_start_count": 320, 
 }
+
 
 var game_data_scroller: Dictionary = { 
 	"game": Games.SCROLLER,
@@ -276,6 +280,15 @@ var game_data_riddler: Dictionary = {
 	"strays_start_count": 10,
 }
 
+var game_data_tutorial: Dictionary = { 
+	"game": Games.TUTORIAL,
+	"game_name": "Tutorial",
+	"level": "",
+	"tilemap_path": "res://game/tilemaps/tutorial_tilemap.tscn",
+	"game_time_limit": 0,
+	"strays_start_count": 10,
+}
+
 # ON GAME START -----------------------------------------------------------------------------------
 
 
@@ -284,11 +297,14 @@ var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "c
 
 func _ready() -> void:
 	
-#	var current_game = Games.DUEL # če greš iz menija je tole povoženo
-#	var current_game = Games.TUTORIAL # če greš iz menija je tole povoženo
-	var current_game = Games.CLEANER_M # če greš iz menija je tole povoženo
-#	var current_game = Games.SCROLLER # če greš iz menija je tole povoženo
-#	var current_game = Games.DEBUG # če greš iz menija je tole povoženo
+	# če greš iz menija je tole povoženo
+#	var current_game = Games.SWEEPER_M
+	var current_game = Games.CLEANER_L 
+	
+#	var current_game = Games.DUEL
+#	var current_game = Games.TUTORIAL
+#	var current_game = Games.SCROLLER
+#	var current_game = Games.DEBUG
 	set_game_data(current_game)
 	
 	
@@ -306,56 +322,69 @@ func set_game_data(selected_game) -> void:
 			game_settings["manage_highscores"] = false
 			game_settings["start_countdown"] = false
 			game_settings["position_indicators_mode"] = false 
+		Games.SWEEPER_S: 
+			current_game_data = game_data_sweeeper_S
+			game_settings["timer_mode_countdown"] = false
+			game_settings["all_cleaned_points"] = 0
+			game_settings["color_picked_points"] = 0
+		Games.SWEEPER_M: 
+			current_game_data = game_data_sweeeper_M
+			game_settings["timer_mode_countdown"] = false
+			game_settings["all_cleaned_points"] = 0
+			game_settings["color_picked_points"] = 0
+		Games.SWEEPER_L: 
+			current_game_data = game_data_sweeeper_L
+			game_settings["timer_mode_countdown"] = false
+			game_settings["all_cleaned_points"] = 0
+			game_settings["color_picked_points"] = 0
+			
 		Games.CLEANER_S: 
 			current_game_data = game_data_cleaner_S
-			game_settings["timer_mode_countdown"] = false
-			game_settings["all_cleaned_points"] = 0
-			game_settings["color_picked_points"] = 0
+			game_settings["cell_traveled_energy"] = 0
+			
 		Games.CLEANER_M: 
 			current_game_data = game_data_cleaner_M
-			game_settings["timer_mode_countdown"] = false
-			game_settings["all_cleaned_points"] = 0
-			game_settings["color_picked_points"] = 0
+			game_settings["cell_traveled_energy"] = 0
 			# debug
 			game_settings["start_countdown"] = false
 		Games.CLEANER_L: 
 			current_game_data = game_data_cleaner_L
-			game_settings["timer_mode_countdown"] = false
-			game_settings["all_cleaned_points"] = 0
-			game_settings["color_picked_points"] = 0
-		Games.SPRINTER_S: 
-			current_game_data = game_data_sprinter_S
-			game_settings["manage_highscores"] = true
-			game_settings["timer_mode_countdown"] = false
-		Games.SPRINTER_M: 
-			current_game_data = game_data_sprinter_M
-			game_settings["manage_highscores"] = true
-			game_settings["timer_mode_countdown"] = false
-		Games.SPRINTER_L: 
-			current_game_data = game_data_sprinter_L
-			game_settings["manage_highscores"] = true			
-			game_settings["timer_mode_countdown"] = false
-		Games.SPRINTER_DUEL: 
-			current_game_data = game_data_sprinter_duel
+			game_settings["cell_traveled_energy"] = 0
+		Games.CLEANER_DUEL: 
+			current_game_data = game_data_cleaner_duel
+			game_settings["cell_traveled_energy"] = 0
 			game_settings["start_countdown"] = false
-			game_settings["lose_life_on_hit"] = true
 			game_settings["position_indicators_mode"] = false 
-		Games.SCROLLER:
-			current_game_data = game_data_scroller
-			game_settings["timer_mode_countdown"] = false
-			game_settings["start_countdown"] = false
-			game_settings["stray_step_mode"] = true
-			game_settings["position_indicators_mode"] = false 
-			game_settings["step_slowdown_mode"] = false
-			# game_settings["scrolling_mode"] = true
-		Games.HUNTER:
-			current_game_data = game_data_hunter
-			game_settings["stray_step_mode"] = true
-			game_settings["step_slowdown_mode"] = false
-		Games.TUTORIAL:
-			current_game_data = game_data_tutorial
-			game_settings["timer_mode_countdown"] = false
-			game_settings["start_countdown"] = false
+		
+#		Games.SPRINTER_S: 
+#			current_game_data = game_data_sprinter_S
+#			game_settings["manage_highscores"] = true
+#			game_settings["timer_mode_countdown"] = false
+#		Games.SPRINTER_M: 
+#			current_game_data = game_data_sprinter_M
+#			game_settings["manage_highscores"] = true
+#			game_settings["timer_mode_countdown"] = false
+#		Games.SPRINTER_L: 
+#			current_game_data = game_data_sprinter_L
+#			game_settings["manage_highscores"] = true			
+#			game_settings["timer_mode_countdown"] = false
+#		Games.SCROLLER:
+#			current_game_data = game_data_scroller
+#			game_settings["timer_mode_countdown"] = false
+#			game_settings["start_countdown"] = false
+#			game_settings["stray_step_mode"] = true
+#			game_settings["position_indicators_mode"] = false 
+#			game_settings["step_slowdown_mode"] = false
+#			# game_settings["scrolling_mode"] = true
+#		Games.HUNTER:
+#			current_game_data = game_data_hunter
+#			game_settings["stray_step_mode"] = true
+#			game_settings["step_slowdown_mode"] = false
+#		Games.TUTORIAL:
+#			current_game_data = game_data_tutorial
+#			game_settings["timer_mode_countdown"] = false
+#			game_settings["start_countdown"] = false
+
 #			game_settings["step_slowdown_mode"] = false
 #			game_settings["step_time_fast"] = 1.15
 #			game_settings["stray_step_mode"] = true

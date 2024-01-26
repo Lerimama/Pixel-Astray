@@ -12,17 +12,17 @@ _global_script_classes=[ {
 "base": "Control",
 "class": "GameHud",
 "language": "GDScript",
-"path": "res://game/hud/cleaner_hud.gd"
+"path": "res://game/hud/hud_cleaning.gd"
 }, {
 "base": "Node",
 "class": "GameManager",
 "language": "GDScript",
-"path": "res://managers/cleaner_game_manager.gd"
+"path": "res://game/managers/game_manager_cleaning.gd"
 }, {
 "base": "Control",
 "class": "GameOver",
 "language": "GDScript",
-"path": "res://game/gui/cleaner_game_over.gd"
+"path": "res://game/gui/game_over_cleaning.gd"
 } ]
 _global_script_class_icons={
 "GameHud": "",

@@ -3712,9 +3712,9 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 8.0
-margin_top = -434.0
+margin_top = -450.0
 margin_right = 3.0
-margin_bottom = -430.0
+margin_bottom = -446.0
 
 [node name="HSeparator3" type="HSeparator" parent="SelectGame"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
@@ -3759,10 +3759,10 @@ texture_focused = SubResource( 196 )
 flip_h = true
 
 [node name="TutorialBtn" type="Button" parent="SelectGame"]
-margin_left = 192.0
+margin_left = 552.0
 margin_top = 152.0
-margin_right = 336.0
-margin_bottom = 248.0
+margin_right = 648.0
+margin_bottom = 232.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -3770,7 +3770,7 @@ custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 disabled = true
-text = "Tutorial"
+text = "Tut"
 __meta__ = {
 "_editor_description_": ""
 }
@@ -3811,32 +3811,31 @@ margin_left = 9.0
 margin_top = 150.0
 margin_right = 97.0
 margin_bottom = 172.0
-text = "Cleaner"
+text = "Sweeper"
 
 [node name="Label2" type="Label" parent="SelectGame"]
 margin_left = 9.0
 margin_top = 184.0
-margin_right = 152.0
-margin_bottom = 256.0
+margin_right = 192.0
+margin_bottom = 226.0
 custom_fonts/font = ExtResource( 14 )
-text = "How fast can you clean all strays on screen?"
+text = "Can you clean all strays on screen?"
 autowrap = true
 
 [node name="Title3" type="Label" parent="SelectGame"]
 margin_left = 9.0
-margin_top = 326.0
+margin_top = 310.0
 margin_right = 101.0
-margin_bottom = 348.0
-text = "Sprinter"
+margin_bottom = 332.0
+text = "Cleaner"
 
 [node name="Label3" type="Label" parent="SelectGame"]
 margin_left = 9.0
-margin_top = 360.0
-margin_right = 152.0
-margin_bottom = 426.0
+margin_top = 344.0
+margin_right = 200.0
+margin_bottom = 386.0
 custom_fonts/font = ExtResource( 14 )
-text = "How many points can you get in 
-a limited time?"
+text = "How many can you clean a limited time?"
 autowrap = true
 
 [node name="Title4" type="Label" parent="SelectGame"]
@@ -3855,11 +3854,11 @@ custom_fonts/font = ExtResource( 14 )
 text = "Can you handle moving strays?"
 autowrap = true
 
-[node name="CleanerSBtn" type="Button" parent="SelectGame"]
-margin_left = 344.0
+[node name="SweeperSBtn" type="Button" parent="SelectGame"]
+margin_left = 240.0
 margin_top = 152.0
-margin_right = 440.0
-margin_bottom = 248.0
+margin_right = 336.0
+margin_bottom = 232.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -3867,6 +3866,114 @@ custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "S 50"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Title" type="Label" parent="SelectGame/SweeperSBtn"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 14.0
+margin_right = -24.0
+margin_bottom = 36.0
+text = "Cleaner"
+
+[node name="Label" type="Label" parent="SelectGame/SweeperSBtn"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 40.0
+margin_right = -24.0
+margin_bottom = 58.0
+custom_fonts/font = ExtResource( 14 )
+text = "Clean the glass ..."
+autowrap = true
+
+[node name="SweeperMBtn" type="Button" parent="SelectGame"]
+margin_left = 344.0
+margin_top = 152.0
+margin_right = 440.0
+margin_bottom = 232.0
+mouse_default_cursor_shape = 2
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "M 140"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Title" type="Label" parent="SelectGame/SweeperMBtn"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 14.0
+margin_right = -24.0
+margin_bottom = 36.0
+text = "Cleaner"
+
+[node name="Label" type="Label" parent="SelectGame/SweeperMBtn"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 40.0
+margin_right = -24.0
+margin_bottom = 58.0
+custom_fonts/font = ExtResource( 14 )
+text = "Clean the glass ..."
+autowrap = true
+
+[node name="SweeperLBtn" type="Button" parent="SelectGame"]
+margin_left = 448.0
+margin_top = 152.0
+margin_right = 544.0
+margin_bottom = 232.0
+mouse_default_cursor_shape = 2
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "L 320"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Title" type="Label" parent="SelectGame/SweeperLBtn"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 14.0
+margin_right = -24.0
+margin_bottom = 36.0
+text = "Cleaner"
+
+[node name="Label" type="Label" parent="SelectGame/SweeperLBtn"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 40.0
+margin_right = -24.0
+margin_bottom = 58.0
+custom_fonts/font = ExtResource( 14 )
+text = "Clean the glass ..."
+autowrap = true
+
+[node name="CleanerSBtn" type="Button" parent="SelectGame"]
+margin_left = 240.0
+margin_top = 312.0
+margin_right = 336.0
+margin_bottom = 392.0
+mouse_default_cursor_shape = 2
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "1min"
 __meta__ = {
 "_editor_description_": ""
 }
@@ -3892,17 +3999,17 @@ text = "Clean the glass ..."
 autowrap = true
 
 [node name="CleanerMBtn" type="Button" parent="SelectGame"]
-margin_left = 448.0
-margin_top = 152.0
-margin_right = 544.0
-margin_bottom = 248.0
+margin_left = 344.0
+margin_top = 312.0
+margin_right = 440.0
+margin_bottom = 392.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "M 140"
+text = "2min"
 __meta__ = {
 "_editor_description_": ""
 }
@@ -3928,17 +4035,17 @@ text = "Clean the glass ..."
 autowrap = true
 
 [node name="CleanerLBtn" type="Button" parent="SelectGame"]
-margin_left = 552.0
-margin_top = 152.0
-margin_right = 648.0
-margin_bottom = 248.0
+margin_left = 448.0
+margin_top = 312.0
+margin_right = 544.0
+margin_bottom = 392.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "L 320"
+text = "5min"
 __meta__ = {
 "_editor_description_": ""
 }
@@ -3963,119 +4070,11 @@ custom_fonts/font = ExtResource( 14 )
 text = "Clean the glass ..."
 autowrap = true
 
-[node name="SprinterSBtn" type="Button" parent="SelectGame"]
-margin_left = 192.0
-margin_top = 328.0
-margin_right = 288.0
-margin_bottom = 424.0
-mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
-text = "2min"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Title" type="Label" parent="SelectGame/SprinterSBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Cleaner"
-
-[node name="Label" type="Label" parent="SelectGame/SprinterSBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Clean the glass ..."
-autowrap = true
-
-[node name="SprinterMBtn" type="Button" parent="SelectGame"]
-margin_left = 296.0
-margin_top = 328.0
-margin_right = 392.0
-margin_bottom = 424.0
-mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
-text = "5min"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Title" type="Label" parent="SelectGame/SprinterMBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Cleaner"
-
-[node name="Label" type="Label" parent="SelectGame/SprinterMBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Clean the glass ..."
-autowrap = true
-
-[node name="SprinterLBtn" type="Button" parent="SelectGame"]
-margin_left = 400.0
-margin_top = 328.0
-margin_right = 496.0
-margin_bottom = 424.0
-mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
-text = "10min"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Title" type="Label" parent="SelectGame/SprinterLBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Cleaner"
-
-[node name="Label" type="Label" parent="SelectGame/SprinterLBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Clean the glass ..."
-autowrap = true
-
 [node name="DuelBtn" type="Button" parent="SelectGame"]
-margin_left = 504.0
-margin_top = 328.0
+margin_left = 552.0
+margin_top = 312.0
 margin_right = 648.0
-margin_bottom = 424.0
+margin_bottom = 392.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -5114,12 +5113,12 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="Highscores/BackBtn" to="Highscores" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectGame/BackBtn" to="SelectGame" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectGame/TutorialBtn" to="SelectGame" method="_on_TutorialBtn_pressed"]
+[connection signal="pressed" from="SelectGame/SweeperSBtn" to="SelectGame" method="_on_SweeperSBtn_pressed"]
+[connection signal="pressed" from="SelectGame/SweeperMBtn" to="SelectGame" method="_on_SweeperMBtn_pressed"]
+[connection signal="pressed" from="SelectGame/SweeperLBtn" to="SelectGame" method="_on_SweeperLBtn_pressed"]
 [connection signal="pressed" from="SelectGame/CleanerSBtn" to="SelectGame" method="_on_CleanerSBtn_pressed"]
 [connection signal="pressed" from="SelectGame/CleanerMBtn" to="SelectGame" method="_on_CleanerMBtn_pressed"]
 [connection signal="pressed" from="SelectGame/CleanerLBtn" to="SelectGame" method="_on_CleanerLBtn_pressed"]
-[connection signal="pressed" from="SelectGame/SprinterSBtn" to="SelectGame" method="_on_SprinterSBtn_pressed"]
-[connection signal="pressed" from="SelectGame/SprinterMBtn" to="SelectGame" method="_on_SprinterMBtn_pressed"]
-[connection signal="pressed" from="SelectGame/SprinterLBtn" to="SelectGame" method="_on_SprinterLBtn_pressed"]
 [connection signal="pressed" from="SelectGame/DuelBtn" to="SelectGame" method="_on_DuelBtn_pressed"]
 [connection signal="pressed" from="SelectGame/WanderingBtn" to="SelectGame" method="_on_WanderingBtn_pressed"]
 [connection signal="pressed" from="SelectGame/FallingBtn" to="SelectGame" method="_on_FallingBtn_pressed"]

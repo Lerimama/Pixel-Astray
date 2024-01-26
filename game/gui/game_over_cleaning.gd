@@ -122,9 +122,11 @@ func show_gameover_menu():
 		else:
 			var current_score_points: int = p1_final_stats["player_points"]
 			var current_score_time: int = Global.hud.game_timer.time_since_start
-			var score_is_ranking: Object = Global.data_manager.manage_gameover_highscores(current_score_points, current_score_time, Global.game_manager.game_data) # yield čaka na konec preverke
 			
-			if Global.game_manager.game_data["game_name"] == "Cleaner" and not current_gameover_reason == Global.game_manager.GameoverReason.CLEANED: # score štejem samo če vse spuca
+			# yield čaka na konec preverke ... tip ni opredeljen, ker je ranking, če nis skora in object, če je ranking
+			var score_is_ranking = Global.data_manager.manage_gameover_highscores(current_score_points, current_score_time, Global.game_manager.game_data) 
+			
+			if Global.game_manager.game_data["game_name"] == "Sweeper" and not current_gameover_reason == Global.game_manager.GameoverReason.CLEANED: # score štejem samo če vse spuca
 				yield(get_tree().create_timer(1), "timeout")
 				current_player_ranking = 100 # zazih ni na lestvici
 			else:
@@ -134,7 +136,7 @@ func show_gameover_menu():
 					get_viewport().set_disable_input(false) # anti dablklik
 					current_player_ranking = Global.data_manager.current_player_ranking
 			
-			highscore_table.get_highscore_table(Global.game_manager.game_data["game"], current_player_ranking)
+			highscore_table.get_highscore_table(Global.game_manager.game_data, current_player_ranking)
 			selected_game_summary = game_summary_with_hs
 			show_game_summary()
 
