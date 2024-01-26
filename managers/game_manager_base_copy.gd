@@ -1,13 +1,19 @@
 extends Node
-# class_name GameManager # default game manager
 
+# original kopija class_name
+
+# default game manager
+# tutorial GM ima drugače
+# scroller GM ima drugače
+# sprinter GM ima drugače
+# cleaner GM ima drugače
 
 signal all_strays_died # signal za sebe, počaka, da se vsi kvefrijajo
 
 enum GameoverReason {LIFE, TIME, CLEANED}
 
 var game_on: bool = false
-var show_position_indicators: bool = false # na začetku jih ne rabim gledat
+var show_position_indicators: bool
 
 # players
 var spawned_player_index: int = 0
@@ -18,12 +24,17 @@ var start_players_count: int
 var strays_shown: Array = []
 var strays_in_game_count: int setget _change_strays_in_game_count # spremlja spremembo količine aktivnih in uničenih straysov
 var strays_cleaned_count: int # za statistiko na hudu
-var all_strays_died_alowed: bool = false # za omejevanje signala iz FP
+var all_strays_died_alowed: bool = false # za omejevnje signala iz FP
 
 # tilemap data
 var cell_size_x: int # napolne se na koncu setanju tilemapa
 var random_spawn_positions: Array
 var required_spawn_positions: Array
+
+# scroller
+var lines_scroll_counter: int = 0 
+var stray_spawning_round: int = 0
+var level_stage_count: int = 1
 
 onready var game_settings: Dictionary = Profiles.game_settings # ga med igro ne spreminjaš
 onready var game_data: Dictionary = Profiles.current_game_data # .duplicate() # duplikat default profila, ker ga me igro spreminjaš
@@ -36,9 +47,7 @@ onready var PlayerPixel: PackedScene = preload("res://game/pixel/player.tscn")
 func _ready() -> void:
 	
 	Global.game_manager = self
-	
 	randomize()
-
 	
 func _process(delta: float) -> void:
 	
@@ -46,25 +55,22 @@ func _process(delta: float) -> void:
 		all_strays_died_alowed = false
 		emit_signal("all_strays_died")
 	
-	# position indicators
-	if game_on:
-		if Global.strays_on_screen.size() <= game_settings["show_position_indicators_stray_count"] and game_settings["position_indicators_mode"]:
-			show_position_indicators = true
-		else:
-			show_position_indicators = false
+	# position indicators	
+	if Global.strays_on_screen.size() <= game_settings["show_position_indicators_stray_count"] and game_settings["position_indicators_mode"]:
+		show_position_indicators = true
 	else:
 		show_position_indicators = false
 	
-		
+	
 # GAME LOOP ----------------------------------------------------------------------------------
 
 
 func set_game(): 
 	
-	# kliče main.gd pred prikazom igre
-	# set_tilemap()
-	# set_game_view()
-	# set_players() # da je plejer viden že na fejdin
+	if game_data["game"] == Profiles.Games.SCROLLER:
+		set_scrolling_stage_indicator()
+	
+	# set_players() # kliče M (main.gd), da je plejer viden že na fejdin
 	
 	# player intro animacija
 	var signaling_player: KinematicBody2D
@@ -73,8 +79,9 @@ func set_game():
 		signaling_player = player # da se zgodi na obeh plejerjih istočasno
 	yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
 		
-	set_strays()
-	yield(get_tree().create_timer(1), "timeout") # da si plejer ogleda
+	if not game_data["game"] == Profiles.Games.TUTORIAL: 
+		set_strays()
+		yield(get_tree().create_timer(1), "timeout") # da si plejer ogleda
 	
 	Global.hud.slide_in(start_players_count)
 	yield(Global.start_countdown, "countdown_finished") # sproži ga hud po slide-inu
@@ -84,13 +91,19 @@ func set_game():
 	
 func start_game():
 	
-	Global.hud.game_timer.start_timer()
-	Global.sound_manager.play_music("game_music")
+	if game_data["game"] == Profiles.Games.TUTORIAL:
+		Global.tutorial_gui.open_tutorial()
+	else:
+		Global.hud.game_timer.start_timer()
+		Global.sound_manager.play_music("game_music")
 		
-	for player in get_tree().get_nodes_in_group(Global.group_players):
-		player.set_physics_process(true)
+		for player in get_tree().get_nodes_in_group(Global.group_players):
+			player.set_physics_process(true)
 		
-	game_on = true
+		game_on = true
+		
+		if game_settings["stray_step_mode"]:
+			stray_step()
 
 	
 func game_over(gameover_reason: int):
@@ -156,7 +169,7 @@ func set_game_view():
 	var cell_align_start: Vector2 = Vector2(cell_size_x, cell_size_x/2)
 	Global.player1_camera.position = player_start_positions[0] + cell_align_start
 	
-	if start_players_count == 2:
+	if start_players_count == 2 and not game_data["game"] == Profiles.Games.SCROLLER:
 		viewport_container_2.visible = true
 		viewport_2.world_2d = viewport_1.world_2d
 		Global.player2_camera.position = player_start_positions[1] + cell_align_start
@@ -172,7 +185,6 @@ func set_game_view():
 	var minimap_container: ViewportContainer = $"../Minimap"
 	var minimap_viewport: Viewport = $"../Minimap/MinimapViewport"
 	var minimap_camera: Camera2D = $"../Minimap/MinimapViewport/MinimapCam"	
-	
 	if Global.game_manager.game_settings["minimap_on"]:
 		minimap_container.visible = true
 		minimap_viewport.world_2d = viewport_1.world_2d
@@ -209,27 +221,33 @@ func set_players():
 		new_player_pixel.set_physics_process(false)
 		
 		# players camera
-		if spawned_player_index == 1:
+		if game_data["game"] == Profiles.Games.SCROLLER:
 			new_player_pixel.player_camera = Global.player1_camera
-			new_player_pixel.player_camera.camera_target = new_player_pixel
-		elif spawned_player_index == 2:
-			new_player_pixel.player_camera = Global.player2_camera
-			new_player_pixel.player_camera.camera_target = new_player_pixel
+		else:
+			if spawned_player_index == 1:
+				new_player_pixel.player_camera = Global.player1_camera
+				new_player_pixel.player_camera.camera_target = new_player_pixel
+			elif spawned_player_index == 2:
+				new_player_pixel.player_camera = Global.player2_camera
+				new_player_pixel.player_camera.camera_target = new_player_pixel
 			
 		
 func set_strays():
 	
-	spawn_strays(game_data["strays_start_count"])
-	
-	yield(get_tree().create_timer(0.01), "timeout") # da se vsi straysi spawnajo
-	
-	var show_strays_loop: int = 0
-	while strays_shown.size() < game_data["strays_start_count"]:
-		show_strays_loop += 1 # zazih
-		show_strays_on_start(show_strays_loop)
-		yield(get_tree().create_timer(0.1), "timeout")
-	
-	strays_shown.clear() # resetiram, da je mogoč in-game spawn
+	if game_data["game"] == Profiles.Games.SCROLLER:
+		spawn_strays(game_data["strays_start_count"])
+	else:
+		spawn_strays(game_data["strays_start_count"])
+		
+		yield(get_tree().create_timer(0.01), "timeout") # da se vsi straysi spawnajo
+		
+		var show_strays_loop: int = 0
+		while strays_shown.size() < game_data["strays_start_count"]:
+			show_strays_loop += 1 # zazih
+			show_strays_on_start(show_strays_loop)
+			yield(get_tree().create_timer(0.1), "timeout")
+		
+		strays_shown.clear() # resetiram, da je mogoč in-game spawn
 
 
 func spawn_strays(strays_to_spawn_count: int):
@@ -260,8 +278,12 @@ func spawn_strays(strays_to_spawn_count: int):
 		
 	var available_required_spawn_positions = required_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
 	var available_random_spawn_positions = random_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
+	
 	var all_colors: Array = [] # za color indikatorje
 
+	printt ("pozicije pred spawnom", available_random_spawn_positions.size(), available_required_spawn_positions.size())
+	printt ("pozicije pred spawnom def", random_spawn_positions.size(), required_spawn_positions.size())
+	
 	for stray_index in strays_to_spawn_count:
 		
 		# barva
@@ -274,7 +296,8 @@ func spawn_strays(strays_to_spawn_count: int):
 			selected_color_position_x = stray_index * color_offset # lokacija barve v spektrumu
 			current_color = spectrum_gradient.texture.gradient.interpolate(selected_color_position_x) # barva na lokaciji v spektrumu
 		
-		all_colors.append(current_color)
+		if not game_data["game"] == Profiles.Games.SCROLLER:
+			all_colors.append(current_color)
 		
 		# možne spawn pozicije
 		var current_spawn_positions: Array
@@ -299,13 +322,60 @@ func spawn_strays(strays_to_spawn_count: int):
 		new_stray_pixel.z_index = 2 # višje od plejerja
 		Global.node_creation_parent.add_child(new_stray_pixel)
 		
-		# odstranim uporabljeno pozicijo
-		current_spawn_positions.remove(selected_cell_index)
+		if game_data["game"] == Profiles.Games.SCROLLER:
+			new_stray_pixel.show_stray()
+			current_spawn_positions.remove(selected_cell_index)
+		else:		
+			# odstranim uporabljeno pozicijo
+			current_spawn_positions.remove(selected_cell_index)
 	
-	Global.hud.spawn_color_indicators(all_colors) # barve pokažem v hudu		
+	if not game_data["game"] == Profiles.Games.SCROLLER:
+		Global.hud.spawn_color_indicators(all_colors) # barve pokažem v hudu		
+	else:
+		stray_spawning_round += 1
+		Global.hud.show_stage_indicator(stray_spawning_round)
+		
 	self.strays_in_game_count = strays_to_spawn_count # setget sprememba
 
+	printt ("pozicije po spawnu", available_random_spawn_positions.size(), available_required_spawn_positions.size())
+	printt ("pozicije po spawnu def", random_spawn_positions.size(), required_spawn_positions.size())
 
+
+func set_scrolling_stage_indicator():
+	
+	var spectrum_image: Image
+	var level_indicator_color_offset: float
+	
+	# difolt barvna shema ali druge
+	if Profiles.current_color_scheme == Profiles.game_color_schemes["default_color_scheme"]:
+		# setam sliko
+		var spectrum_texture: Texture = spectrum_rect.texture
+		spectrum_image = spectrum_texture.get_data()
+		spectrum_image.lock()
+		var spectrum_texture_width: float = spectrum_rect.rect_size.x
+		level_indicator_color_offset = spectrum_texture_width / level_stage_count
+		
+	else:
+		# setam gradient
+		var gradient: Gradient = $SpectrumGradient.texture.get_gradient()
+		gradient.set_color(0, Profiles.current_color_scheme[1])
+		gradient.set_color(1, Profiles.current_color_scheme[2])
+		level_indicator_color_offset = 1.0 / level_stage_count
+		
+	var selected_color_position_x: float
+	var current_color: Color
+	var all_stage_colors: Array = [] # za color indikatorje
+	
+	for stage in level_stage_count:
+		if Profiles.current_color_scheme == Profiles.game_color_schemes["default_color_scheme"]:
+			selected_color_position_x = stage * level_indicator_color_offset # lokacija barve v spektrumu
+			current_color = spectrum_image.get_pixel(selected_color_position_x, 0) # barva na lokaciji v spektrumu
+		else:
+			selected_color_position_x = stage * level_indicator_color_offset # lokacija barve v spektrumu
+			current_color = spectrum_gradient.texture.gradient.interpolate(selected_color_position_x) # barva na lokaciji v spektrumu
+		all_stage_colors.append(current_color)
+		
+	Global.hud.spawn_color_indicators(all_stage_colors) # barve pokažem v hudu	
 	
 	
 # UTILITI ----------------------------------------------------------------------------------
@@ -351,6 +421,45 @@ func show_strays_on_start(show_strays_loop: int):
 		if loop_count >= strays_to_show_count:
 			break
 
+
+func stray_step():
+	
+	var stepping_direction: Vector2
+	
+	if game_data["game"] == Profiles.Games.SCROLLER:
+		stepping_direction = Vector2.DOWN
+		var lines_scroll_limit: int = 23
+		for stray in get_tree().get_nodes_in_group(Global.group_strays):
+			if stray.current_state == stray.States.IDLE: 
+				stray.step(stepping_direction)
+		yield(get_tree().create_timer(game_settings["scrolling_pause_time"]), "timeout")
+		lines_scroll_counter += 1
+		if lines_scroll_counter > lines_scroll_limit:
+			lines_scroll_counter = 0
+			set_strays()
+	else:
+		# random dir
+		var random_direction_index: int = randi() % int(4)
+		match random_direction_index:
+			0: stepping_direction = Vector2.LEFT
+			1: stepping_direction = Vector2.UP
+			2: stepping_direction = Vector2.RIGHT
+			3: stepping_direction = Vector2.DOWN
+	
+		# random stray	
+		var random_stray_no: int = randi() % int(get_tree().get_nodes_in_group(Global.group_strays).size())# + 1
+		var stray_to_move = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_no]
+		if stray_to_move.current_state == stray_to_move.States.IDLE: 
+			stray_to_move.step(stepping_direction)
+		
+		# next step random time
+		var random_pause_time_divider: float = randi() % int(game_settings["random_pause_time_divider_range"]) + 1 # višji offset da manjši razpon v random času, +1 je da ni 0
+		var random_pause_time = game_settings["pause_time"] / random_pause_time_divider
+		yield(get_tree().create_timer(random_pause_time), "timeout")
+		
+	if game_on:
+		stray_step()
+	
 	
 func stop_game_elements():
 	
@@ -371,7 +480,7 @@ func _change_strays_in_game_count(strays_count_change: int):
 	if strays_count_change < 0: # cleaned št. upošteva samo čiščenje (+)
 		strays_cleaned_count += abs(strays_count_change)
 	
-	if strays_in_game_count == 0: # tutorial sam ve kdaj je gameover
+	if strays_in_game_count == 0 and not game_data["game"] == Profiles.Games.TUTORIAL: # tutorial sam ve kdaj je gameover
 		game_over(GameoverReason.CLEANED)
 		
 

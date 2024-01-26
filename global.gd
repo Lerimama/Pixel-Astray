@@ -50,7 +50,8 @@ var hud_text_color: Color = Color("#fafafa")
 var color_almost_black: Color = Color("#141414") # start player, wall, floor
 var color_gray_dark: Color = Color("#232323")
 var color_gui_gray: Color = Color("#838383") # siva v tekstih (naslovi) in ikonah
-var color_gui_btn: Color = Color("#82ffffff") # siva gumbih je transparentna bela ... imitacija #838383
+#var color_gui_btn: Color = Color("#82ffffff") # siva gumbih je transparentna bela ... imitacija #838383
+#var color_gui_btn: Color = Color("#838383") # siva gumbih je transparentna bela ... imitacija #838383
 var color_hud_background: Color = Color("#141414")
 
 
@@ -198,7 +199,7 @@ func _on_control_focused(control: Control):
 func _on_control_unfocused(control: Control):
 	
 	if control is CheckButton or control is HSlider:
-		control.modulate = color_gui_btn # Color.white
+		control.modulate = color_gui_gray # Color.white
 
 
 func grab_focus_no_sfx(control_to_focus: Control):

@@ -183,7 +183,7 @@ func change_stage(stage_to_hide: Control, next_stage: Control, next_stage_height
 	var close_stage = get_tree().create_tween()
 	close_stage.tween_property(stage_to_hide, "rect_min_size:y", 0, 1).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC).set_delay(0.5)
 	close_stage.parallel().tween_property(xtra_separation, "rect_min_size:y", 0, 0.5).set_delay(0.5)
-	close_stage.parallel().tween_callback(xtra_separation, "set_visible", [false]).set_delay(1)
+	close_stage.parallel().tween_callback(xtra_separation, "hide").set_delay(1)
 	close_stage.tween_callback(self, "open_stage", [next_stage, next_stage_height, separation_adon])
 	
 
@@ -193,7 +193,7 @@ func open_stage(stage_to_show: Control, stage_height: int, next_separation_adon:
 	
 	var open_stage = get_tree().create_tween()
 	open_stage.tween_property(stage_to_show, "rect_min_size:y", stage_height, 1).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
-	open_stage.parallel().tween_callback(xtra_separation, "set_visible", [true]).set_delay(0.5)
+	open_stage.parallel().tween_callback(xtra_separation, "show").set_delay(0.5)
 	open_stage.parallel().tween_property(xtra_separation, "rect_min_size:y", xtra_separation_height, 0.3).set_delay(0.5)
 
 

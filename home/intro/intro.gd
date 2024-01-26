@@ -28,12 +28,8 @@ onready var actor_pixel: KinematicBody2D = $Actor
 onready var text_node: Node2D = $Text
 onready var thunder_cover: ColorRect = $ThunderCover/ThunderCover
 onready var skip_intro: HBoxContainer = $Text/SkipIntro
-onready var StrayPixel = preload("res://game/pixel/stray.tscn")
+onready var StrayPixel = preload("res://home/intro/intro_stray.tscn")
 
-# neu
-var show_position_indicators: bool = false
-onready var game_settings: Dictionary = Profiles.game_settings # ga med igro ne spreminjaš
-onready var game_data: Dictionary = Profiles.current_game_data # .duplicate() # duplikat default profila, ker ga me igro spreminjaš
 
 func _input(event: InputEvent) -> void:
 	
@@ -43,7 +39,6 @@ func _input(event: InputEvent) -> void:
 		
 func _ready() -> void:
 	
-	Global.game_manager = self
 	randomize()
 	
 	

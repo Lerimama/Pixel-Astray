@@ -1,4 +1,5 @@
 extends Control
+class_name GameHud
 
 
 signal players_ready # za splitscreen popup
@@ -47,6 +48,7 @@ onready var p1_steps_counter: Label = $Header/TopLineL/StepsHolder/Label
 onready var p2_statsline: HBoxContainer = $Header/TopLineR/PlayerLineR
 onready var p2_life_counter: HBoxContainer = $Header/TopLineR/PlayerLineR/LifeIcons
 onready var p2_energy_counter: HBoxContainer = $Header/TopLineR/PlayerLineR/EnergyBar
+onready var p2_points_holder: HBoxContainer = $Header/TopLineR/PlayerLineR/PointsHolder
 onready var p2_points_counter: Label = $Header/TopLineR/PlayerLineR/PointsHolder/Points
 onready var p2_color_counter: Label = $Header/TopLineR/PlayerLineR/ColorHolder/Label
 onready var p2_skill_counter: Label = $Header/TopLineR/PlayerLineR/SkillHolder/Label
@@ -66,6 +68,9 @@ onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indi
 # debug
 onready var player_life: Label = $Life
 onready var player_energy: Label = $Energy
+
+# neu
+onready var current_gamed_hs_type: int = Global.game_manager.game_data["highscore_type"]
 
 
 func _input(event: InputEvent) -> void:
@@ -122,18 +127,31 @@ func update_stats(stat_owner: Node, player_stats: Dictionary):
 	player_life.text = "LIFE: %d" % player_stats["player_life"]
 	player_energy.text = "E: %d" % player_stats["player_energy"]
 
-	if Global.game_manager.game_settings["manage_highscores"]:
+
+	if not Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NO_HS:
 		check_for_hs(player_stats)
 	
 
 func check_for_hs(player_stats: Dictionary):
 	
-	if player_stats["player_points"] > current_highscore: 
-		highscore_label.text = "New highscore " + str(player_stats["player_points"])
-		highscore_label.modulate = Global.color_green
-	else:
-		highscore_label.text = "Highscore " + str(current_highscore)
-		highscore_label.modulate = Global.hud_text_color
+	match current_gamed_hs_type:
+		Profiles.HighscoreTypes.HS_POINTS:
+			if player_stats["player_points"] > current_highscore:
+				highscore_label.text = "New highscore " + str(player_stats["player_points"])
+				highscore_label.modulate = Global.color_green
+			else:				
+				highscore_label.text = "Highscore " + str(current_highscore)
+				highscore_label.modulate = Global.hud_text_color
+		Profiles.HighscoreTypes.HS_TIME_LOW: # logika je tu malo drugačna kot pri drugih dveh
+			highscore_label.text = "Highscore " + str(current_highscore) + "s"
+			highscore_label.modulate = Global.hud_text_color
+		Profiles.HighscoreTypes.HS_TIME_HIGH:
+			if game_timer.time_since_start > current_highscore:
+				highscore_label.text = "Highscore " +  str(game_timer.time_since_start) + "s"
+				highscore_label.modulate = Global.color_green
+			else:				
+				highscore_label.text = "Highscore " +  str(current_highscore) + "s"
+				highscore_label.modulate = Global.hud_text_color
 		
 
 func check_for_warning(player_stats: Dictionary, warning_popup: Control):
@@ -230,16 +248,6 @@ func set_hud(players_count: int): # kliče main na game-in
 		p2_statsline.visible = false
 		# popups
 		p1_energy_warning_popup = $Popups/EnergyWarning/Solo
-		
-		# hs
-		if Global.game_manager.game_settings["manage_highscores"]:
-			highscore_label.visible = true
-			set_current_highscore()
-		elif Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
-			highscore_label.visible = true
-		else:
-			highscore_label.visible = false
-	
 	elif players_count == 2:
 		# players
 		p1_label.visible = true
@@ -258,14 +266,23 @@ func set_hud(players_count: int): # kliče main na game-in
 		p1_life_counter.visible = true
 		p2_life_counter.visible = true
 	
-	# level label	
+	# level label
 	if Global.game_manager.game_data["level"].empty():
 		level_label.visible = false
 	
-	# scrolling game 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
-#		spawn_color_indicators(10)
-		pass
+	# ha in kaj šteje?
+	if current_gamed_hs_type == Profiles.HighscoreTypes.NO_HS:
+		highscore_label.visible = false
+	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_TIME_HIGH or Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW:
+		p1_points_holder.visible = false
+		p2_points_holder.visible = false
+		highscore_label.visible = true
+		set_current_highscore()
+	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_POINTS:
+		p1_points_holder.visible = true
+		p2_points_holder.visible = true
+		highscore_label.visible = true
+		set_current_highscore()
 		
 		
 func set_current_highscore():
@@ -276,7 +293,10 @@ func set_current_highscore():
 	current_highscore = current_highscore_line[0]
 	current_highscore_owner = current_highscore_line[1]
 	
-	highscore_label.text = "Highscore " + str(current_highscore) # se apdejta ob signalu iz plejerja (ob konektanju na začetku?)
+	if current_gamed_hs_type == Profiles.HighscoreTypes.HS_TIME_HIGH or Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW:
+		highscore_label.text = "Highscore " + str(current_highscore) + "s"
+	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_POINTS:
+		highscore_label.text = "Highscore " + str(current_highscore)
 
 		
 func fade_splitscreen_popup():
@@ -292,23 +312,6 @@ func fade_splitscreen_popup():
 	hide_splitscreen_popup.tween_callback(splitscreen_popup, "hide")
 	hide_splitscreen_popup.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
 	hide_splitscreen_popup.tween_callback(Global.start_countdown, "start_countdown")	
-		
-
-# LEVEL INDICATORS -------------------------------------------------------------------------------------------------------------------
-
-#
-#func spawn_level_indicators(level_stages_count: int): # kliče GM
-#
-#	var indicator_index = 0 # za fiksirano zaporedje
-#
-#	for stage in level_stages_count:
-#		indicator_index += 1 
-#		# spawn indicator
-#		var new_color_indicator = ColorIndicator.instance()
-#		new_color_indicator.color = color
-#		new_color_indicator.modulate.a = 1 # na fade-in se odfejda do unpicked_indicator_alpha
-#		spectrum.add_child(new_color_indicator)
-#		active_color_indicators.append(new_color_indicator)
 
 
 # SPECTRUM ---------------------------------------------------------------------------------------------------------------------------
@@ -323,10 +326,7 @@ func spawn_color_indicators(available_colors: Array): # kliče GM
 		# spawn indicator
 		var new_color_indicator = ColorIndicator.instance()
 		new_color_indicator.color = color
-		if not Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
-			new_color_indicator.modulate.a = 1 # na fade-in se odfejda do unpicked_indicator_alpha
-		else:
-			new_color_indicator.modulate.a = 0.3
+		new_color_indicator.modulate.a = 1 # na fade-in se odfejda do unpicked_indicator_alpha
 		spectrum.add_child(new_color_indicator)
 		active_color_indicators.append(new_color_indicator)
 
@@ -348,38 +348,20 @@ func show_color_indicator(picked_color: Color):
 		active_color_indicators.erase(active_color_indicators[current_indicator_index])
 
 
-#func show_stage_indicator(stage_number: int):
-#
-#	if not active_color_indicators.empty():
-#		var current_indicator = active_color_indicators.front()
-#		current_indicator.modulate.a = 1
-#		# izbris iz aktivnih indikatorjev
-#		active_color_indicators.pop_front()
-#	else:
-#		if stage_number < 9:
-#			var color_scheme_name: String = "color_scheme_%s" % stage_number
-#			Profiles.current_color_scheme = Profiles.game_color_schemes[color_scheme_name]
-#			for child in spectrum.get_children():
-#				child.queue_free()
-#			Global.game_manager.set_scrolling_stage_indicator()
-#			show_stage_indicator(1)
-#		else:
-#			Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
-
-
+func _on_stat_changed(stat_owner: Node, current_player_stats: Dictionary):
+	
+	update_stats(stat_owner, current_player_stats)
+	
 
 # SIGNALS ---------------------------------------------------------------------------------------------------------------------------
 
 
-func _on_GameTimer_sudden_death_active() -> void:
+func _on_GameTimer_sudden_death_active() -> void: # sighal iz tajmerja
 	pass
 
 
-func _on_GameTimer_gametime_is_up() -> void:
+func _on_GameTimer_gametime_is_up() -> void: # signal iz tajmerja
 	
 	Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
 
 
-func _on_stat_changed(stat_owner: Node, current_player_stats: Dictionary):
-	
-	update_stats(stat_owner, current_player_stats)

@@ -8,6 +8,28 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Control",
+"class": "GameHud",
+"language": "GDScript",
+"path": "res://game/hud/cleaner_hud.gd"
+}, {
+"base": "Node",
+"class": "GameManager",
+"language": "GDScript",
+"path": "res://managers/cleaner_game_manager.gd"
+}, {
+"base": "Control",
+"class": "GameOver",
+"language": "GDScript",
+"path": "res://game/gui/cleaner_game_over.gd"
+} ]
+_global_script_class_icons={
+"GameHud": "",
+"GameManager": "",
+"GameOver": ""
+}
+
 [application]
 
 config/name="Stray Pixels"
@@ -32,7 +54,8 @@ gdscript/warnings/integer_division=false
 
 window/size/width=1280
 window/size/height=720
-window/size/always_on_top=true
+window/size/borderless=true
+window/size/fullscreen=true
 window/size/test_width=640
 window/size/test_height=360
 window/dpi/allow_hidpi=true

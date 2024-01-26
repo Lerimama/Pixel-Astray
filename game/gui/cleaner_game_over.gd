@@ -1,4 +1,5 @@
 extends Control
+class_name GameOver
 
 signal name_input_finished
 
@@ -19,7 +20,6 @@ onready var gameover_title_holder: Control = $GameoverTitle
 onready var gameover_title_cleaned: Control = $GameoverTitle/ReasonCleaned
 onready var gameover_title_time: Control = $GameoverTitle/ReasonTime
 onready var gameover_title_life: Control = $GameoverTitle/ReasonLife
-onready var gameover_title_level: Control = $GameoverTitle/Level
 onready var gameover_title_duel: Control = $GameoverTitle/Duel
 
 # game summary
@@ -36,6 +36,8 @@ onready var name_input_popup: Control = $NameInputPopup
 onready var name_input: LineEdit = $NameInputPopup/NameInput
 onready var name_input_label: Label = $NameInputPopup/Label
 
+# neu
+var current_gameover_reason: int # za prenašanje
 
 func _input(event: InputEvent) -> void:
 
@@ -64,6 +66,7 @@ func _ready() -> void:
 	
 func open_gameover(gameover_reason: int):
 	
+	current_gameover_reason = gameover_reason
 	players_in_game = get_tree().get_nodes_in_group(Global.group_players)
 	
 	p1_final_stats = players_in_game[0].player_stats
@@ -72,7 +75,7 @@ func open_gameover(gameover_reason: int):
 		p2_final_stats = players_in_game[1].player_stats
 		set_duel_gameover_title()
 	else:
-		set_game_gameover_title(gameover_reason)
+		set_game_gameover_title()
 		
 	Global.hud.slide_out()
 	yield(Global.player1_camera, "zoomed_out") # tukaj notri setam zamik
@@ -109,18 +112,30 @@ func show_gameover_menu():
 		fade_in.parallel().tween_callback(Global, "grab_focus_no_sfx", [focus_btn])		
 	else:	
 		
-		if Global.game_manager.game_settings["manage_highscores"]:
-			var score_is_ranking = Global.data_manager.manage_gameover_highscores(p1_final_stats["player_points"], Global.game_manager.game_data["game"]) # yield čaka na konec preverke
-			if score_is_ranking: # manage_gameover_highscores počaka na signal iz name_input
-				open_name_input()
-				yield(Global.data_manager, "highscores_updated")
-				get_viewport().set_disable_input(false) # anti dablklik
-			highscore_table.get_highscore_table(Global.game_manager.game_data["game"], Global.data_manager.current_player_ranking)
-			selected_game_summary = game_summary_with_hs
-			show_game_summary()
-		else:
+		var current_highscore_type: int = Global.game_manager.game_data["highscore_type"]
+		var current_player_ranking: int
+		
+		if current_highscore_type == Profiles.HighscoreTypes.NO_HS:
 			selected_game_summary = game_summary_no_hs
 			yield(get_tree().create_timer(1), "timeout") # podaljšam pavzo za branje
+			show_game_summary()
+		else:
+			var current_score_points: int = p1_final_stats["player_points"]
+			var current_score_time: int = Global.hud.game_timer.time_since_start
+			var score_is_ranking: Object = Global.data_manager.manage_gameover_highscores(current_score_points, current_score_time, Global.game_manager.game_data) # yield čaka na konec preverke
+			
+			if Global.game_manager.game_data["game_name"] == "Cleaner" and not current_gameover_reason == Global.game_manager.GameoverReason.CLEANED: # score štejem samo če vse spuca
+				yield(get_tree().create_timer(1), "timeout")
+				current_player_ranking = 100 # zazih ni na lestvici
+			else:
+				if score_is_ranking: # manage_gameover_highscores počaka na signal iz name_input
+					open_name_input()
+					yield(Global.data_manager, "highscores_updated")
+					get_viewport().set_disable_input(false) # anti dablklik
+					current_player_ranking = Global.data_manager.current_player_ranking
+			
+			highscore_table.get_highscore_table(Global.game_manager.game_data["game"], current_player_ranking)
+			selected_game_summary = game_summary_with_hs
 			show_game_summary()
 
 
@@ -185,9 +200,9 @@ func set_duel_gameover_title():
 			points_difference_label.text =  winner_label.text + " was " + str(abs(points_difference)) + " points better than " + loser_name + "."# + " points."
 		
 			
-func set_game_gameover_title(gameover_reason: int):
+func set_game_gameover_title():
 	
-	match gameover_reason:
+	match current_gameover_reason:
 		Global.game_manager.GameoverReason.CLEANED:
 			selected_gameover_title = gameover_title_cleaned
 			selected_gameover_jingle = "win_jingle"

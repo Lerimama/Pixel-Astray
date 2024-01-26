@@ -63,7 +63,7 @@ onready var PixelCollisionParticles: PackedScene = preload("res://game/pixel/pix
 onready var PixelDizzyParticles: PackedScene = preload("res://game/pixel/pixel_dizzy_particles.tscn")
 onready var FloatingTag: PackedScene = preload("res://game/hud/floating_tag.tscn")
 
-# neu
+# specific
 var previous_direction: Vector2
 onready var color_poly_debug: Polygon2D = $ColorPoly_debug
 var after_skill_delay: float = 0.2
@@ -216,68 +216,67 @@ func skill_inputs():
 	# če je na oviro prišel "iz ovinka" potem moraš za skillanje še potrditi smer (just_pressed)
 	# PS če bi naredil da tudi brez zaleta takoj začneš porivat, potem lahko v pull stanje prideš samo z zaletom
 	
-	# način, kjer teleportanje deluje po obratnem principu
-	if current_collider: # zaščita, če ga zgubim
-		if current_collider.is_in_group(Global.group_strays):
-			if previous_direction == direction or previous_direction == Vector2.ZERO: 
-				if Input.is_action_pressed(key_up):
-					new_direction = Vector2.UP
-				elif Input.is_action_pressed(key_down):
-					new_direction = Vector2.DOWN
-				elif Input.is_action_pressed(key_left):
-					new_direction = Vector2.LEFT
-				elif Input.is_action_pressed(key_right):
-					new_direction = Vector2.RIGHT
-			else:
-				if Input.is_action_just_pressed(key_up):
-					new_direction = Vector2.UP
-				elif Input.is_action_just_pressed(key_down):
-					new_direction = Vector2.DOWN
-				elif Input.is_action_just_pressed(key_left):
-					new_direction = Vector2.LEFT
-				elif Input.is_action_just_pressed(key_right):
-					new_direction = Vector2.RIGHT
-		# za teleport grem kar direkt, tudi brez zaleta ... z zelatom ne gre ... dober "obrat"
-		elif current_collider.is_in_group(Global.group_tilemap):
-			if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
-				if not previous_direction == direction and not previous_direction == Vector2.ZERO:# obraten pogoj kot pri skilanju s straysi
-					if Input.is_action_pressed(key_up):
-						new_direction = Vector2.UP
-					elif Input.is_action_pressed(key_down):
-						new_direction = Vector2.DOWN
-					elif Input.is_action_pressed(key_left):
-						new_direction = Vector2.LEFT
-					elif Input.is_action_pressed(key_right):
-						new_direction = Vector2.RIGHT
-				else:
-					if Input.is_action_just_pressed(key_up):
-						new_direction = Vector2.UP
-					elif Input.is_action_just_pressed(key_down):
-						new_direction = Vector2.DOWN
-					elif Input.is_action_just_pressed(key_left):
-						new_direction = Vector2.LEFT
-					elif Input.is_action_just_pressed(key_right):
-						new_direction = Vector2.RIGHT
+#	# način, kjer teleportanje deluje po obratnem principu
+#	if current_collider.is_in_group(Global.group_strays):
+#		if previous_direction == direction or previous_direction == Vector2.ZERO: 
+#			if Input.is_action_pressed(key_up):
+#				new_direction = Vector2.UP
+#			elif Input.is_action_pressed(key_down):
+#				new_direction = Vector2.DOWN
+#			elif Input.is_action_pressed(key_left):
+#				new_direction = Vector2.LEFT
+#			elif Input.is_action_pressed(key_right):
+#				new_direction = Vector2.RIGHT
+#		else:
+#			if Input.is_action_just_pressed(key_up):
+#				new_direction = Vector2.UP
+#			elif Input.is_action_just_pressed(key_down):
+#				new_direction = Vector2.DOWN
+#			elif Input.is_action_just_pressed(key_left):
+#				new_direction = Vector2.LEFT
+#			elif Input.is_action_just_pressed(key_right):
+#				new_direction = Vector2.RIGHT
+#	# za teleport grem kar direkt, tudi brez zaleta ... z zelatom ne gre ... dober "obrat"
+#	elif current_collider.is_in_group(Global.group_tilemap):
+#		if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
+#			if not previous_direction == direction and not previous_direction == Vector2.ZERO:# obraten pogoj kot pri skilanju s straysi
+#				if Input.is_action_pressed(key_up):
+#					new_direction = Vector2.UP
+#				elif Input.is_action_pressed(key_down):
+#					new_direction = Vector2.DOWN
+#				elif Input.is_action_pressed(key_left):
+#					new_direction = Vector2.LEFT
+#				elif Input.is_action_pressed(key_right):
+#					new_direction = Vector2.RIGHT
+#			else:
+#				if Input.is_action_just_pressed(key_up):
+#					new_direction = Vector2.UP
+#				elif Input.is_action_just_pressed(key_down):
+#					new_direction = Vector2.DOWN
+#				elif Input.is_action_just_pressed(key_left):
+#					new_direction = Vector2.LEFT
+#				elif Input.is_action_just_pressed(key_right):
+#					new_direction = Vector2.RIGHT
 	
-#	# način, kjer teleportanje deluje enako kot drugi skilli
-#	if previous_direction == direction or previous_direction == Vector2.ZERO: 
-#		if Input.is_action_pressed(key_up):
-#			new_direction = Vector2.UP
-#		elif Input.is_action_pressed(key_down):
-#			new_direction = Vector2.DOWN
-#		elif Input.is_action_pressed(key_left):
-#			new_direction = Vector2.LEFT
-#		elif Input.is_action_pressed(key_right):
-#			new_direction = Vector2.RIGHT
-#	else:
-#		if Input.is_action_just_pressed(key_up):
-#			new_direction = Vector2.UP
-#		elif Input.is_action_just_pressed(key_down):
-#			new_direction = Vector2.DOWN
-#		elif Input.is_action_just_pressed(key_left):
-#			new_direction = Vector2.LEFT
-#		elif Input.is_action_just_pressed(key_right):
-#			new_direction = Vector2.RIGHT
+	# način, kjer teleportanje deluje enako kot drugi skilli
+	if previous_direction == direction or previous_direction == Vector2.ZERO: 
+		if Input.is_action_pressed(key_up):
+			new_direction = Vector2.UP
+		elif Input.is_action_pressed(key_down):
+			new_direction = Vector2.DOWN
+		elif Input.is_action_pressed(key_left):
+			new_direction = Vector2.LEFT
+		elif Input.is_action_pressed(key_right):
+			new_direction = Vector2.RIGHT
+	else:
+		if Input.is_action_just_pressed(key_up):
+			new_direction = Vector2.UP
+		elif Input.is_action_just_pressed(key_down):
+			new_direction = Vector2.DOWN
+		elif Input.is_action_just_pressed(key_left):
+			new_direction = Vector2.LEFT
+		elif Input.is_action_just_pressed(key_right):
+			new_direction = Vector2.RIGHT
 	
 	# prehod v cocking stanje
 	if Input.is_action_just_pressed(key_burst): # brez "just" dela po stisku smeri ... ni ok
@@ -536,7 +535,6 @@ func push(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila
 	
 	var push_cock_time: float = 0.3
 	var push_time: float = 0.2
-	var push_end_delay: float = 0.23 # zaradi LNF in predvsem zato, da ga ne "zagleda" prezgodaj
 	var sound_delay: float = 0.07 # LNF
 	var new_push_ghost_position = global_position + push_direction * cell_size_x
 	var new_push_ghost = spawn_ghost(new_push_ghost_position)
@@ -575,7 +573,7 @@ func push(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila
 		push_tween.tween_callback(self, "play_sound", ["pushed"]).set_delay(sound_delay)
 	push_tween.tween_callback(new_push_ghost, "queue_free")
 	# reset
-	push_tween.tween_callback(self, "end_move").set_delay(push_end_delay) # zaradi LNF in predvsem zato, da ga ne "zagleda" prezgodaj, ker je potem buggy
+	push_tween.tween_callback(self, "end_move").set_delay(after_skill_delay) # zaradi LNF in predvsem zato, da ga ne "zagleda" prezgodaj, ker je potem buggy
 	
 	change_stat("skill_used", 1) # zazih ni v tweenu
 
@@ -595,7 +593,6 @@ func pull(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila
 	
 	var pull_cock_time: float = 0.3
 	var pull_time: float = 0.2
-	var pull_end_delay: float = 0.1 # zaradi LNF
 	var new_pull_ghost = spawn_ghost(global_position + target_direction * cell_size_x)
 	
 	play_sound("pushpull_start")
@@ -612,8 +609,8 @@ func pull(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila
 	pull_tween.tween_callback(self, "skill_light_off") # lučko dam v proces ugašanja
 	pull_tween.tween_property(skill_light, "position", Vector2.ZERO, pull_time) # lučko zapeljem nazaj na začetno lokacijo
 	# reset
-	pull_tween.tween_callback(new_pull_ghost, "queue_free") # delay je zato, ker se pixel premakne kasneje
-	pull_tween.tween_callback(self, "end_move").set_delay(pull_end_delay)
+	pull_tween.tween_callback(new_pull_ghost, "queue_free").set_delay(pull_time) # delay je zato, ker se pixel premakne kasneje
+	pull_tween.tween_callback(self, "end_move").set_delay(after_skill_delay)
 	
 	change_stat("skill_used", 2) # zazih ni v tweenu
 	
@@ -623,9 +620,13 @@ func teleport(): # skilled inputs opredeli vrsto skila glede na kolajderja
 	var teleport_direction = direction
 	
 	current_state = States.SKILLING
-	# glow_light.enabled = false
+	
+	
+	Input.start_joy_vibration(0, 0.3, 0, 0)
+	glow_light.enabled = false
 	
 	# teleporting ghost
+	var ghost_max_speed: float = 10
 	var new_teleport_ghost = spawn_ghost(global_position)
 	new_teleport_ghost.direction = teleport_direction
 	new_teleport_ghost.modulate.a = 0
@@ -637,12 +638,8 @@ func teleport(): # skilled inputs opredeli vrsto skila glede na kolajderja
 	collision_shape.disabled = true
 	collision_shape_ext.disabled = true
 	
-	var ghost_max_speed: float = 10
-	var teleporting_start_delay: float = 0.3
-	
 	yield(get_tree().create_timer(0.3), "timeout") # mejčken se ustavi preden se teleporta
 	skill_light_off()
-	Input.start_joy_vibration(0, 0.3, 0, 0)
 	play_sound("teleport")
 	new_teleport_ghost.max_speed = ghost_max_speed
 	new_teleport_ghost.modulate.a = 1
@@ -922,7 +919,6 @@ func detect_collision_in_direction(direction_to_check):
 			first_collider = ray.get_collider()
 			break # ko je kolajder neham čekirat
 	
-	# print ("čekiram ", first_collider)
 	return first_collider	
 	
 	

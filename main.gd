@@ -1,12 +1,11 @@
 extends Node
 
-
 var fade_time = 0.7
 var camera_shake_on: bool =  true #_temp
 
 onready var home_scene_path: String = "res://home/home.tscn"
-onready var game_scene_path: String = "res://game/game.tscn"
-
+#onready var game_scene_path: String = "res://game/game.tscn"
+onready var game_scene_path: String = Profiles.current_game_data["game_scene_path"]
 
 func _ready() -> void:
 	
@@ -72,6 +71,9 @@ func game_in():
 	get_tree().set_pause(false)
 	
 	Global.spawn_new_scene(game_scene_path, self)
+	
+	# tukaj se seta GM glede na izbiro igre
+	
 	Global.game_manager.set_tilemap()
 	Global.game_manager.set_game_view()
 	Global.game_manager.set_players()

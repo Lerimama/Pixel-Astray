@@ -56,7 +56,10 @@ var default_player_stats: Dictionary = {
 	"cells_traveled" : 0,
 }
 
+
+# done
 var default_game_settings: Dictionary = { # default settings so tiste, ki so najbolj pogoste ... opisane v tutorialu
+	# to so default CLEANER settings
 	# scoring
 	"all_cleaned_points": 500,
 	"color_picked_points": 1,
@@ -80,32 +83,35 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 	"step_time_fast": 0.09, # default hitrost
 	"step_time_slow": 0.15, # minimalna hitrost
 	"step_slowdown_rate": 18, # delež energije
-	# timer
-	"gameover_countdown_duration": 5,
-	"timer_mode_countdown" : true, # če prišteva in je "game_time_limit" = 0, nima omejitve navzgor
-	"start_countdown": true,
-	# behaviour
 	"step_slowdown_mode": true,
+	"lose_life_on_hit": true, # zadetek od igralca ali v steno pomeni izgubo življenja, alternativa je izguba energije
+#	# skill limits
+#	"skill_limit_mode": false,
+#	"skill_limit_count": 5,
+#	"burst_limit_mode": false,
+#	"burst_limit_count": 5,
+
+	# game
+	"gameover_countdown_duration": 5,
+	"timer_mode_countdown" : false, # če prišteva in je "game_time_limit" = 0, nima omejitve navzgor
+	"start_countdown": true,
+	"minimap_on": false,
+	"position_indicators_mode": true, # duel jih nima 
+	"show_position_indicators_stray_count": 3,
 	"suddent_death_mode": false,
 	"sudden_death_limit" : 20,
-	"minimap_on": false,
-	"manage_highscores": false,
-	"lose_life_on_hit": true, # zadetek od igralca ali v steno pomeni izgubo življenja, alternativa je izguba energije
-	# position indikatorji
-	"position_indicators_mode": true, # duel jih nima
-	"show_position_indicators_stray_count": 3,
-	# skill limits
-	"skill_limit_mode": false,
-	"skill_limit_count": 5,
-	"burst_limit_mode": false,
-	"burst_limit_count": 5,
+	
 	# strays steping
 	"stray_step_mode": false,
 	"pause_time": 0.01, # pavzo delim z random številom v obsegu ...
 	"random_pause_time_divider_range": 50, # obseg za random število ... večji je, bolj se vse premika
 	"stray_step_time": 0.2,
 	"scrolling_pause_time": 0.5,
-	
+
+#	"highscore_type": HighscoreTypes.HS_TIME,
+	"manage_highscores": true,
+
+	# odl	
 	# "scrolling_mode": false,
 	# "hit_player_points": 1000,
 	# "start_players_count": 1, ... nastavim s tiletom v tilemapu # setano v home/play meniju 
@@ -119,13 +125,16 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 enum Games {
 	INTRO, 
 	DEBUG, 
-	TUTORIAL, CLEANER_S, CLEANER_M, CLEANER_L, 
-	SPRINTER_S, SPRINTER_M, SPRINTER_L, DUEL,
+	CLEANER_S, CLEANER_M, CLEANER_L,
+	SPRINTER_S, SPRINTER_M, SPRINTER_L, SPRINTER_DUEL
 	HUNTER, SCROLLER,
 	RUNNER,  RIDDLER,
+	TUTORIAL,
 	}
 
+enum HighscoreTypes {NO_HS, HS_POINTS, HS_TIME_LOW, HS_TIME_HIGH} # vpliva
 
+# tudu
 var game_data_intro: Dictionary = { 
 	"game": Games.INTRO,
 	"game_name": "Intro",
@@ -147,35 +156,43 @@ var game_data_tutorial: Dictionary = {
 
 var game_data_cleaner_S: Dictionary = { 
 	"game": Games.CLEANER_S,
+	"highscore_type": HighscoreTypes.HS_TIME_LOW,
 	"game_name": "Cleaner",
 	"level": "S",
-	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_S_tilemap.tscn",
+	"game_scene_path": "res://game/cleaner_game.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_tilemap.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 50, # se upošteva, če ni pozicij
 }
 
 var game_data_cleaner_M: Dictionary = {
 	"game": Games.CLEANER_M,
+	"highscore_type": HighscoreTypes.HS_TIME_LOW,
 	"game_name": "Cleaner",
 	"level": "M",
-	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_M_tilemap.tscn",
+	"game_scene_path": "res://game/cleaner_game.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_tilemap.tscn",
 	"game_time_limit": 0,
-	"strays_start_count": 140, 
+	"strays_start_count": 4, 
 }
 
 var game_data_cleaner_L: Dictionary = {
 	"game": Games.CLEANER_L,
+	"highscore_type": HighscoreTypes.HS_TIME_LOW,
 	"game_name": "Cleaner",
 	"level": "L",
-	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_L_tilemap.tscn",
+	"game_scene_path": "res://game/cleaner_game.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaner/cleaner_tilemap.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 320, 
 }
 
 var game_data_sprinter_S: Dictionary = {
 	"game": Games.SPRINTER_S,
+	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Sprinter",
 	"level": "S",
+	"game_scene_path": "res://game/cleaner_game.tscn",
 	"tilemap_path": "res://game/tilemaps/sprinter/sprinter_tilemap.tscn",
 	"game_time_limit": 120,
 	"strays_start_count": 320, 
@@ -183,8 +200,10 @@ var game_data_sprinter_S: Dictionary = {
 
 var game_data_sprinter_M: Dictionary = {
 	"game": Games.SPRINTER_M,
+	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Sprinter",
 	"level": "M",
+	"game_scene_path": "res://game/cleaner_game.tscn",
 	"tilemap_path": "res://game/tilemaps/sprinter/sprinter_tilemap.tscn",
 	"game_time_limit": 300,
 	"strays_start_count": 320, 
@@ -192,17 +211,21 @@ var game_data_sprinter_M: Dictionary = {
 
 var game_data_sprinter_L: Dictionary = {
 	"game": Games.SPRINTER_L,
+	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Sprinter",
 	"level": "L",
+	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/sprinter/sprinter_tilemap.tscn",
 	"game_time_limit": 600,
 	"strays_start_count": 320, 
 }
 
-var game_data_duel: Dictionary = {
-	"game": Games.DUEL,
+var game_data_sprinter_duel: Dictionary = {
+	"game": Games.SPRINTER_DUEL,
+	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Sprinter",
 	"level": "Duel",
+	"game_scene_path": "res://game/cleaner_game.tscn",
 	"tilemap_path": "res://game/tilemaps/sprinter/sprinter_tilemap_duel.tscn",
 	"game_time_limit": 300,
 	"strays_start_count": 320, 
@@ -263,9 +286,9 @@ func _ready() -> void:
 	
 #	var current_game = Games.DUEL # če greš iz menija je tole povoženo
 #	var current_game = Games.TUTORIAL # če greš iz menija je tole povoženo
-#	var current_game = Games.CLEANER_L # če greš iz menija je tole povoženo
+	var current_game = Games.CLEANER_M # če greš iz menija je tole povoženo
 #	var current_game = Games.SCROLLER # če greš iz menija je tole povoženo
-	var current_game = Games.DEBUG # če greš iz menija je tole povoženo
+#	var current_game = Games.DEBUG # če greš iz menija je tole povoženo
 	set_game_data(current_game)
 	
 	
@@ -274,26 +297,32 @@ func set_game_data(selected_game) -> void:
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
 	match selected_game:
-		Games.INTRO:
-			current_game_data = game_data_intro
-			game_settings["position_indicators_mode"] = false
-		Games.TUTORIAL:
-			current_game_data = game_data_tutorial
-			game_settings["timer_mode_countdown"] = false
+#		Games.INTRO:
+#			current_game_data = game_data_intro
+#			game_settings["position_indicators_mode"] = false
+		Games.DEBUG: # default nastavitve
+			current_game_data = game_data_debug
+			game_settings["player_start_life"] = 2
+			game_settings["manage_highscores"] = false
 			game_settings["start_countdown"] = false
+			game_settings["position_indicators_mode"] = false 
 		Games.CLEANER_S: 
 			current_game_data = game_data_cleaner_S
-			# game_settings["manage_highscores"] = true
 			game_settings["timer_mode_countdown"] = false
+			game_settings["all_cleaned_points"] = 0
+			game_settings["color_picked_points"] = 0
 		Games.CLEANER_M: 
 			current_game_data = game_data_cleaner_M
-			# game_settings["manage_highscores"] = true
 			game_settings["timer_mode_countdown"] = false
+			game_settings["all_cleaned_points"] = 0
+			game_settings["color_picked_points"] = 0
+			# debug
+			game_settings["start_countdown"] = false
 		Games.CLEANER_L: 
 			current_game_data = game_data_cleaner_L
-			# game_settings["manage_highscores"] = true			
-			game_settings["start_countdown"] = false
 			game_settings["timer_mode_countdown"] = false
+			game_settings["all_cleaned_points"] = 0
+			game_settings["color_picked_points"] = 0
 		Games.SPRINTER_S: 
 			current_game_data = game_data_sprinter_S
 			game_settings["manage_highscores"] = true
@@ -306,8 +335,9 @@ func set_game_data(selected_game) -> void:
 			current_game_data = game_data_sprinter_L
 			game_settings["manage_highscores"] = true			
 			game_settings["timer_mode_countdown"] = false
-		Games.DUEL: 
-			current_game_data = game_data_duel
+		Games.SPRINTER_DUEL: 
+			current_game_data = game_data_sprinter_duel
+			game_settings["start_countdown"] = false
 			game_settings["lose_life_on_hit"] = true
 			game_settings["position_indicators_mode"] = false 
 		Games.SCROLLER:
@@ -322,12 +352,10 @@ func set_game_data(selected_game) -> void:
 			current_game_data = game_data_hunter
 			game_settings["stray_step_mode"] = true
 			game_settings["step_slowdown_mode"] = false
-		Games.DEBUG: # default nastavitve
-			current_game_data = game_data_debug
-			game_settings["player_start_life"] = 2
-			game_settings["manage_highscores"] = false
+		Games.TUTORIAL:
+			current_game_data = game_data_tutorial
+			game_settings["timer_mode_countdown"] = false
 			game_settings["start_countdown"] = false
-			game_settings["position_indicators_mode"] = false 
 #			game_settings["step_slowdown_mode"] = false
 #			game_settings["step_time_fast"] = 1.15
 #			game_settings["stray_step_mode"] = true

@@ -17,7 +17,9 @@ func _on_BackBtn_pressed() -> void:
 
 	
 func _on_TutorialBtn_pressed() -> void:
-
+	
+	return
+	
 	Profiles.set_game_data(Profiles.Games.TUTORIAL)
 	Global.sound_manager.play_gui_sfx("menu_fade")
 	$"%AnimationPlayer".play("play") # home out je signal na koncu animacije
@@ -71,7 +73,7 @@ func _on_SprinterLBtn_pressed() -> void:
 
 func _on_DuelBtn_pressed() -> void:
 	
-	Profiles.set_game_data(Profiles.Games.DUEL)
+	Profiles.set_game_data(Profiles.Games.SPRINTER_DUEL)
 	Global.sound_manager.play_gui_sfx("menu_fade")
 	$"%AnimationPlayer".play("play")
 	get_viewport().set_disable_input(true)

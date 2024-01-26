@@ -69,7 +69,7 @@ func _process(delta: float) -> void:
 		if child.has_focus():
 			$ColorSchemeOptions.modulate = Color.white
 			break
-		$ColorSchemeOptions.modulate = Global.color_gui_btn # Color("#82ffffff")
+		$ColorSchemeOptions.modulate = Global.color_gui_gray
 		
 	
 func _on_BackBtn_pressed() -> void:

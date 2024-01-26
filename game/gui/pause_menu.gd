@@ -66,7 +66,7 @@ func play_on():
 	var pause_out_time: float = 0.5
 	var fade_out_tween = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_out_tween.tween_property(self, "modulate:a", 0, pause_out_time)
-	fade_out_tween.tween_callback(self, "set_visible", [false])
+	fade_out_tween.tween_callback(self, "hide")
 	fade_out_tween.tween_callback(get_tree(), "set_pause", [false])
 	fade_out_tween.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
 
@@ -100,7 +100,6 @@ func _on_QuitBtn_pressed() -> void:
 # SETTINGS BTNZ ---------------------------------------------------------------------------------------------
 
 	
-#func _on_GameMusicCheckBox_toggled(button_pressed: bool) -> void:
 func _on_GameMusicBtn_toggled(button_pressed: bool) -> void:
 
 	if button_pressed:
@@ -118,7 +117,6 @@ func _on_GameMusicSlider_value_changed(value: float) -> void:
 	Global.sound_manager.set_game_music_volume(value)
 
 
-#func _on_GameSfxCheckBox_toggled(button_pressed: bool) -> void:
 func _on_GameSfxBtn_toggled(button_pressed: bool) -> void:
 	
 	if button_pressed:
@@ -129,7 +127,6 @@ func _on_GameSfxBtn_toggled(button_pressed: bool) -> void:
 		Global.sound_manager.game_sfx_set_to_off = true
 
 
-#func _on_CamerShakeCheckBox_toggled(button_pressed: bool) -> void:
 func _on_CameraShakeBtn_toggled(button_pressed: bool) -> void:
 	
 	if button_pressed:
@@ -138,8 +135,4 @@ func _on_CameraShakeBtn_toggled(button_pressed: bool) -> void:
 	else:
 		Global.sound_manager.play_gui_sfx("btn_cancel")
 		Global.main_node.camera_shake_on = false
-
-
-	pass # Replace with function body.
-
 

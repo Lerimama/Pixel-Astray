@@ -1,5 +1,5 @@
 extends Node
-# class_name GameManager # default game manager
+class_name GameManager # default game manager
 
 
 signal all_strays_died # signal za sebe, počaka, da se vsi kvefrijajo
@@ -112,8 +112,7 @@ func game_over(gameover_reason: int):
 	
 	get_tree().call_group(Global.group_players, "set_physics_process", false)
 	
-	yield(get_tree().create_timer(2), "timeout") # za dojet
-	
+	yield(get_tree().create_timer(1), "timeout") # za dojet
 	
 	stop_game_elements()
 	

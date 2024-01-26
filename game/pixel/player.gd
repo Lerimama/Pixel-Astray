@@ -180,6 +180,8 @@ func idle_inputs():
 					current_state = States.SKILLED
 				else:
 					end_move()
+			elif current_collider.is_in_group(Global.group_players):
+				end_move()
 	
 	if Input.is_action_just_pressed(key_burst): # brez "just" dela po stisku smeri ... ni ok
 		current_state = States.COCKING
@@ -320,6 +322,8 @@ func end_move():
 	# reset ključnih vrednosti (če je v skill tweenu, se poštima)
 	direction = Vector2.ZERO 
 	collision_shape_ext.position = Vector2.ZERO
+	
+	# always
 	global_position = Global.snap_to_nearest_grid(global_position) 
 	current_state = States.IDLE # more bit na kocnu
 	
@@ -524,33 +528,6 @@ func pull(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila
 			
 func teleport(): # skilled inputs opredeli vrsto skila glede na kolajderja
 		
-#	var teleport_direction = direction
-#
-#	current_state = States.SKILLING
-#
-#	Input.start_joy_vibration(0, 0.3, 0, 0)
-#	skill_light_off()
-#	play_sound("teleport")
-#	glow_light.enabled = false
-#
-#	# teleporting ghost
-#	var ghost_max_speed: float = 10
-#	var new_teleport_ghost = spawn_ghost(global_position)
-#	new_teleport_ghost.direction = teleport_direction
-#	new_teleport_ghost.max_speed = ghost_max_speed
-#	new_teleport_ghost.modulate.a = 1
-#	new_teleport_ghost.z_index = 3
-#	new_teleport_ghost.connect("ghost_target_reached", self, "_on_ghost_target_reached")
-#
-#	# kamera target
-#	if player_camera:
-#		player_camera.camera_target = new_teleport_ghost
-#	modulate.a = 0
-#	collision_shape.disabled = true
-#	collision_shape_ext.disabled = true
-#
-#	yield(get_tree().create_timer(0.2), "timeout")
-
 	var teleport_direction = direction
 
 	current_state = States.SKILLING
@@ -571,8 +548,8 @@ func teleport(): # skilled inputs opredeli vrsto skila glede na kolajderja
 	var ghost_max_speed: float = 10
 	var teleporting_start_delay: float = 0.3
 
-
 	yield(get_tree().create_timer(teleporting_start_delay), "timeout")
+	
 	skill_light_off()
 	Input.start_joy_vibration(0, 0.3, 0, 0)
 	play_sound("teleport")
@@ -863,9 +840,9 @@ func get_step_time():
 		return step_time_fast	
 		
 
-func shake_player_camera(burst_speed: float):
+func shake_player_camera(current_burst_speed: float):
 	
-	var shake_multiplier: float = burst_speed / cock_ghost_speed_addon
+	var shake_multiplier: float = current_burst_speed / cock_ghost_speed_addon
 	var shake_multiplier_factor: float = 0.03
 	
 	var shake_power: float = 0.2
@@ -1208,5 +1185,6 @@ func change_stat(stat_event: String, stat_value):
 	
 	# signal na hud
 	emit_signal("stat_changed", self, player_stats) # javi v hud
+
 
 
