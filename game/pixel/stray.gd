@@ -1,5 +1,5 @@
 extends KinematicBody2D
-
+class_name Stray
 
 enum States {IDLE, MOVING, STATIC, DYING} # static, unmovable
 var current_state # = States.IDLE

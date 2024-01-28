@@ -23,11 +23,23 @@ _global_script_classes=[ {
 "class": "GameOver",
 "language": "GDScript",
 "path": "res://game/gui/game_over_cleaning.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "Player",
+"language": "GDScript",
+"path": "res://game/pixel/player.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "Stray",
+"language": "GDScript",
+"path": "res://game/pixel/stray.gd"
 } ]
 _global_script_class_icons={
 "GameHud": "",
 "GameManager": "",
-"GameOver": ""
+"GameOver": "",
+"Player": "",
+"Stray": ""
 }
 
 [application]

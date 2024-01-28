@@ -102,12 +102,13 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 	"suddent_death_mode": false,
 	"sudden_death_limit" : 20,
 	
-	# strays steping
-#	"stray_step_mode": false,
-	"pause_time": 0.01, # random pavzo delim z random številom v obsegu ...
-	"random_pause_time_divider_range": 50, # obseg za random število ... večji je, bolj se vse premika
+#	# strays steping ... prenešeno v GM
+##	"stray_step_mode": false,
+#	"pause_time": 0.1, # random pavzo delim z random številom v obsegu ...
+#	"random_pause_time_divider_range": 50, # obseg za random število ... večji je, bolj se vse premika
 	"stray_step_time": 0.2,
-	"scrolling_pause_time": 0.5,
+#	"scrolling_pause_time": 0.5,
+#	"scrolling_pause_time": 0.5,
 
 #	"highscore_type": HighscoreTypes.HS_TIME,
 	"manage_highscores": true,
@@ -351,6 +352,8 @@ func set_game_data(selected_game) -> void:
 		Games.SCROLLER:
 			current_game_data = game_data_scroller
 			game_settings["cell_traveled_energy"] = 0
+			
+			game_settings["player_start_color"] = Color.white
 			
 			game_settings["timer_mode_countdown"] = false
 			game_settings["start_countdown"] = false
