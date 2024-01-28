@@ -348,23 +348,23 @@ func show_color_indicator(picked_color: Color):
 		active_color_indicators.erase(active_color_indicators[current_indicator_index])
 
 
-#func show_stage_indicator(stage_number: int):
-#
-#	if not active_color_indicators.empty():
-#		var current_indicator = active_color_indicators.front()
-#		current_indicator.modulate.a = 1
-#		# izbris iz aktivnih indikatorjev
-#		active_color_indicators.pop_front()
-#	else:
-#		if stage_number < 9:
-#			var color_scheme_name: String = "color_scheme_%s" % stage_number
-#			Profiles.current_color_scheme = Profiles.game_color_schemes[color_scheme_name]
-#			for child in spectrum.get_children():
-#				child.queue_free()
-#			Global.game_manager.set_scrolling_stage_indicator()
-#			show_stage_indicator(1)
-#		else:
-#			Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
+func show_stage_indicator(stage_number: int):
+
+	if not active_color_indicators.empty():
+		var current_indicator = active_color_indicators.front()
+		current_indicator.modulate.a = 1
+		# izbris iz aktivnih indikatorjev
+		active_color_indicators.pop_front()
+	else:
+		if stage_number < 9:
+			var color_scheme_name: String = "color_scheme_%s" % stage_number
+			Profiles.current_color_scheme = Profiles.game_color_schemes[color_scheme_name]
+			for child in spectrum.get_children():
+				child.queue_free()
+			Global.game_manager.set_scrolling_stage_indicator()
+			show_stage_indicator(1)
+		else:
+			Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
 
 
 

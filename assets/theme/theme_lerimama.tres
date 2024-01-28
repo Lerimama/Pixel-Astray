@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=20 format=2]
+[gd_resource type="Theme" load_steps=19 format=2]
 
 [ext_resource path="res://assets/theme/fonts/16bfZX.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=4]
@@ -62,14 +62,6 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 
-[sub_resource type="StyleBoxFlat" id=7]
-bg_color = Color( 0, 0, 0, 0.862745 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-
 [sub_resource type="StyleBoxLine" id=174]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
@@ -107,5 +99,4 @@ LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
 LineEdit/colors/selection_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 LineEdit/styles/normal = SubResource( 12 )
 LineEdit/styles/read_only = SubResource( 12 )
-Panel/styles/panel = SubResource( 7 )
 VSeparator/styles/separator = SubResource( 174 )

@@ -178,9 +178,11 @@ func idle_inputs():
 			elif current_collider.is_in_group(Global.group_tilemap):
 				if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
 					current_state = States.SKILLED
-				else:
+				else: # druge stene
 					end_move()
 			elif current_collider.is_in_group(Global.group_players):
+				end_move()
+			elif current_collider is StaticBody2D: # static body, 
 				end_move()
 	
 	if Input.is_action_just_pressed(key_burst): # brez "just" dela po stisku smeri ... ni ok
@@ -591,8 +593,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	for stray in strays_to_destroy:
 		var stray_index = strays_to_destroy.find(stray)
 		stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
-		if not Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
-			Global.hud.show_color_indicator(stray.stray_color)
+		Global.hud.show_color_indicator(stray.stray_color) # če je scroller se returna na fuknciji
 	
 	end_move() # more bit za collision partikli zaradi smeri
 	

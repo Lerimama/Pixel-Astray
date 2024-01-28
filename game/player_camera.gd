@@ -54,11 +54,10 @@ func _ready():
 		
 		# start setup
 		if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
+			zoom_end = Vector2(2,2) # debug 
 			zoom = zoom_end
-#			zoom = Vector2(2,2)
 		else:
 			zoom = zoom_start
-#			set_camera_limits()	
 	
 	# testhud
 	set_ui_focus()	
@@ -118,25 +117,22 @@ func zoom_in(hud_in_out_time: float, players_count: int): # kliče hud
 	
 func zoom_out(hud_in_out_time: float): # kliče hud
 
-	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
-		emit_signal("zoomed_out")
-	else:	
-		# unset limits
-		camera_target = null
-		position = get_camera_position() # pozicija postane ofsetana pozicija
-		limit_left = -10000000
-		limit_right = 10000000
-		limit_top = -10000000
-		limit_bottom = 10000000
-		
-		# korekcija za poravnavo z gameover naslovi
-		var corrected_position = position - Vector2(cell_size_x/2, cell_size_x/2)
-		
-		# zoomout	
-		var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
-		zoom_out_tween.tween_property(self, "zoom", zoom_start, hud_in_out_time)
-		zoom_out_tween.parallel().tween_property(self, "position", corrected_position, hud_in_out_time)
-		zoom_out_tween.parallel().tween_callback(self, "emit_signal", ["zoomed_out"]).set_delay(hud_in_out_time/3) # pošlje na GO, ki pokaže meni
+	# unset limits
+	camera_target = null
+	position = get_camera_position() # pozicija postane ofsetana pozicija
+	#limit_left = -10000000
+	#limit_right = 10000000
+	#limit_top = -10000000
+	#limit_bottom = 10000000
+	
+	# korekcija za poravnavo z gameover naslovi
+	var corrected_position = position - Vector2(0, cell_size_x/2)
+	
+	# zoomout	
+	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	zoom_out_tween.tween_property(self, "zoom", zoom_start, hud_in_out_time)
+	zoom_out_tween.parallel().tween_property(self, "position", corrected_position, hud_in_out_time)
+	zoom_out_tween.parallel().tween_callback(self, "emit_signal", ["zoomed_out"]).set_delay(hud_in_out_time/3) # pošlje na GO, ki pokaže meni
 	
 
 func shake_camera(shake_power: float, shake_time: float, shake_decay: float): 
@@ -162,6 +158,11 @@ func set_camera_limits():
 	corner_BL = tilemap_edge.position.y * cell_size_x + cell_size_x
 	corner_BR = tilemap_edge.end.y * cell_size_x - cell_size_x
 	
+	if limit_left <= corner_TL and limit_right <= corner_TR and limit_top <= corner_BL and limit_bottom <= corner_BR: # če so meje manjše od kamere
+		return	
+
+	printt("edge tile", corner_TL, corner_TR, corner_BL, corner_BR)
+	printt("limit", limit_left, limit_right, limit_top, limit_bottom)
 	limit_left = corner_TL
 	limit_right = corner_TR
 	limit_top = corner_BL

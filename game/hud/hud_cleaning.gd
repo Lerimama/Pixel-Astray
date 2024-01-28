@@ -50,6 +50,7 @@ onready var p2_life_counter: HBoxContainer = $Header/TopLineR/PlayerLineR/LifeIc
 onready var p2_energy_counter: HBoxContainer = $Header/TopLineR/PlayerLineR/EnergyBar
 onready var p2_points_holder: HBoxContainer = $Header/TopLineR/PlayerLineR/PointsHolder
 onready var p2_points_counter: Label = $Header/TopLineR/PlayerLineR/PointsHolder/Points
+onready var p2_color_holder: HBoxContainer = $Header/TopLineR/PlayerLineR/ColorHolder
 onready var p2_color_counter: Label = $Header/TopLineR/PlayerLineR/ColorHolder/Label
 onready var p2_skill_counter: Label = $Header/TopLineR/PlayerLineR/SkillHolder/Label
 onready var p2_burst_counter: Label = $Header/TopLineR/PlayerLineR/BurstHolder/Label
@@ -265,6 +266,11 @@ func set_hud(players_count: int): # kliče main na game-in
 	else:
 		p1_life_counter.visible = true
 		p2_life_counter.visible = true
+		
+	# energy counter
+	if Global.game_manager.game_settings["cell_traveled_energy"] == 0: 
+		p1_energy_counter.visible = false
+		p2_energy_counter.visible = false
 	
 	# level label
 	if Global.game_manager.game_data["level"].empty():

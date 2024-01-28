@@ -14,7 +14,7 @@ func get_highscore_table(current_game_data: Dictionary, current_player_ranking: 
 	var current_game_highscores = Global.data_manager.read_highscores_from_file(current_game)
 	
 	# naslov tabele
-	highscore_table_title.text = "Top 9 " + current_game_name + "s"  + " " + current_game_level
+	highscore_table_title.text = "Top " + current_game_name + "s"  + " " + current_game_level
 	
 	# za vsako pozicijo vpišemo vrednost, ime in pozicijo
 	var score_lines: Array = get_children()

@@ -378,10 +378,10 @@ func _change_strays_in_game_count(strays_count_change: int):
 # SIGNALI ----------------------------------------------------------------------------------
 
 
-func _on_tilemap_completed(empty_cells_positions: Array, stray_cells_positions: Array, no_stray_cells_positions: Array, player_cells_positions: Array) -> void:
+func _on_tilemap_completed(random_spawn_floor_positions: Array, stray_cells_positions: Array, no_stray_cells_positions: Array, player_cells_positions: Array) -> void:
 	
 	# opredelim tipe pozicij
-	random_spawn_positions = empty_cells_positions
+	random_spawn_positions = random_spawn_floor_positions
 	required_spawn_positions = stray_cells_positions
 	player_start_positions = player_cells_positions
 	

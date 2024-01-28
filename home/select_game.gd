@@ -13,38 +13,29 @@ func _on_BackBtn_pressed() -> void:
 	get_viewport().set_disable_input(true)
 	
 	
-# cleaners -----------------------------------------------------------------------------------------
+# at the cleaners -----------------------------------------------------------------------------------------
 
 
-func _on_SweeperSBtn_pressed() -> void:
+func _on_EraserSBtn_pressed() -> void:
 
-	Profiles.set_game_data(Profiles.Games.SWEEPER_S)
+	Profiles.set_game_data(Profiles.Games.ERASER_S)
 	Global.sound_manager.play_gui_sfx("menu_fade")
 	$"%AnimationPlayer".play("play")
 	get_viewport().set_disable_input(true)
 
+func _on_EraserMBtn_pressed() -> void:
 
-func _on_SweeperMBtn_pressed() -> void:
-
-	Profiles.set_game_data(Profiles.Games.SWEEPER_M)
+	Profiles.set_game_data(Profiles.Games.ERASER_M)
 	Global.sound_manager.play_gui_sfx("menu_fade")
 	$"%AnimationPlayer".play("play")
 	get_viewport().set_disable_input(true)
 
+func _on_EraserLBtn_pressed() -> void:
 
-func _on_SweeperLBtn_pressed() -> void:
-
-	Profiles.set_game_data(Profiles.Games.SWEEPER_L)
+	Profiles.set_game_data(Profiles.Games.ERASER_L)
 	Global.sound_manager.play_gui_sfx("menu_fade")
 	$"%AnimationPlayer".play("play")
 	get_viewport().set_disable_input(true)
-
-
-#func _on_CleanerSBtn_pressed() -> void:
-#func _on_CleanerMBtn_pressed() -> void:
-#func _on_CleanerLBtn_pressed() -> void:
-# sprinter -----------------------------------------------------------------------------------------
-
 
 
 func _on_CleanerSBtn_pressed() -> void:
@@ -68,7 +59,7 @@ func _on_CleanerLBtn_pressed() -> void:
 	$"%AnimationPlayer".play("play")
 	get_viewport().set_disable_input(true)
 
-func _on_DuelBtn_pressed() -> void:
+func _on_CleanerDuelBtn_pressed() -> void:
 	
 	Profiles.set_game_data(Profiles.Games.CLEANER_DUEL)
 	Global.sound_manager.play_gui_sfx("menu_fade")
@@ -76,26 +67,7 @@ func _on_DuelBtn_pressed() -> void:
 	get_viewport().set_disable_input(true)
 
 
-# mover -----------------------------------------------------------------------------------------
-
-	
-func _on_TutorialBtn_pressed() -> void:
-	
-	return
-	
-	Profiles.set_game_data(Profiles.Games.TUTORIAL)
-	Global.sound_manager.play_gui_sfx("menu_fade")
-	$"%AnimationPlayer".play("play") # home out je signal na koncu animacije
-	get_viewport().set_disable_input(true)
-
-
-
-func _on_WanderingBtn_pressed() -> void:
-	
-	Profiles.set_game_data(Profiles.Games.HUNTER)
-	Global.sound_manager.play_gui_sfx("menu_fade")
-	$"%AnimationPlayer".play("play")
-	get_viewport().set_disable_input(true)
+# runners -----------------------------------------------------------------------------------------
 
 func _on_FallingBtn_pressed() -> void:
 	
@@ -106,3 +78,26 @@ func _on_FallingBtn_pressed() -> void:
 
 
 
+
+
+
+
+
+
+
+func _on_WanderingBtn_pressed() -> void:
+	
+	Profiles.set_game_data(Profiles.Games.HUNTER)
+	Global.sound_manager.play_gui_sfx("menu_fade")
+	$"%AnimationPlayer".play("play")
+	get_viewport().set_disable_input(true)
+
+
+func _on_TutorialBtn_pressed() -> void:
+	
+	return
+	
+	Profiles.set_game_data(Profiles.Games.TUTORIAL)
+	Global.sound_manager.play_gui_sfx("menu_fade")
+	$"%AnimationPlayer".play("play") # home out je signal na koncu animacije
+	get_viewport().set_disable_input(true)
