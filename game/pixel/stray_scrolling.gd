@@ -51,10 +51,14 @@ func step(step_direction: Vector2):
 	step_tween.tween_callback(self, "end_move")
 
 
-func check_for_neighbors(): # kliče player on hit
+func check_for_neighbors(hit_direction: Vector2): # kliče player on hit
 	
-#	var directions_to_check: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
-	var directions_to_check: Array = [Vector2.LEFT, Vector2.RIGHT]
+	var directions_to_check: Array
+	
+	if hit_direction.y == 0 and hit_direction.x != 0: # hor smer ... preverjaš vertikalo
+		directions_to_check = [Vector2.UP, Vector2.DOWN]
+	elif hit_direction.y != 0 and hit_direction.x == 0:
+		directions_to_check = [Vector2.LEFT, Vector2.RIGHT]
 	var current_cell_neighbors: Array
 	
 	for direction in directions_to_check:

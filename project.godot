@@ -12,33 +12,33 @@ _global_script_classes=[ {
 "base": "Control",
 "class": "GameHud",
 "language": "GDScript",
-"path": "res://game/hud/hud_cleaning.gd"
+"path": "res://game/hud/hud_class.gd"
 }, {
 "base": "Node",
 "class": "GameManager",
 "language": "GDScript",
-"path": "res://game/managers/game_manager_cleaning.gd"
+"path": "res://game/managers/game_manager_class.gd"
 }, {
 "base": "Control",
 "class": "GameOver",
 "language": "GDScript",
-"path": "res://game/gui/game_over_cleaning.gd"
+"path": "res://game/gui/game_over_class.gd"
 }, {
 "base": "KinematicBody2D",
-"class": "Player",
+"class": "Player_class",
 "language": "GDScript",
-"path": "res://game/pixel/player.gd"
+"path": "res://game/pixel/player_class.gd"
 }, {
 "base": "KinematicBody2D",
 "class": "Stray",
 "language": "GDScript",
-"path": "res://game/pixel/stray.gd"
+"path": "res://game/pixel/stray_class.gd"
 } ]
 _global_script_class_icons={
 "GameHud": "",
 "GameManager": "",
 "GameOver": "",
-"Player": "",
+"Player_class": "",
 "Stray": ""
 }
 
@@ -66,8 +66,7 @@ gdscript/warnings/integer_division=false
 
 window/size/width=1280
 window/size/height=720
-window/size/borderless=true
-window/size/fullscreen=true
+window/size/always_on_top=true
 window/size/test_width=640
 window/size/test_height=360
 window/dpi/allow_hidpi=true

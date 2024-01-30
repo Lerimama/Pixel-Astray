@@ -7,7 +7,7 @@ extends GameHud
 
 
 func set_hud(players_count: int): # kliče main na game-in
-
+	# namen: 
 	if players_count == 1:
 		# players
 		p1_label.visible = false
@@ -46,7 +46,7 @@ func set_hud(players_count: int): # kliče main na game-in
 	if Global.game_manager.game_data["level"].empty():
 		level_label.visible = false
 
-	# ha in kaj šteje?
+	# glede na to kaj šteje ...
 	if current_gamed_hs_type == Profiles.HighscoreTypes.NO_HS:
 		highscore_label.visible = false
 	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_TIME_HIGH or Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW:
@@ -61,6 +61,13 @@ func set_hud(players_count: int): # kliče main na game-in
 		set_current_highscore()
 
 
+func _process(delta: float) -> void:
+	
+	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
+	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
+	level_label.text = "%02d" % Global.game_manager.current_level 
+	
+	
 func set_current_highscore():
 	
 	var current_game = Global.game_manager.game_data["game"]
@@ -110,32 +117,14 @@ func spawn_color_indicators(available_colors: Array): # kliče GM
 		new_color_indicator.modulate.a = 0.3
 		spectrum.add_child(new_color_indicator)
 		active_color_indicators.append(new_color_indicator)
-		# /
-		
-		
-		# new_color_indicator.get_node("IndicatorCount").text = str(indicator_index) # debug ... zapis indexa
-
-#func spawn_color_indicators(available_colors: Array): # kliče GM
-#
-#	var indicator_index = 0 # za fiksirano zaporedje
-#
-#	for color in available_colors:
-#		indicator_index += 1 
-#		# spawn indicator
-#		var new_color_indicator = ColorIndicator.instance()
-#		new_color_indicator.color = color
-#		new_color_indicator.modulate.a = 1 # na fade-in se odfejda do unpicked_indicator_alpha
-#		spectrum.add_child(new_color_indicator)
-#		active_color_indicators.append(new_color_indicator)
-
-		# new_color_indicator.get_node("IndicatorCount").text = str(indicator_index) # debug ... zapis indexa
 
 
-func update_indicator_on_level_up(next_level: int):
+func empty_color_indicators():
+#func update_indicator_on_level_up(current_level: int):
 	
 	# izberem barvno shemo
-	var color_scheme_name: String = "color_scheme_%s" % next_level
-	Profiles.current_color_scheme = Profiles.game_color_schemes[color_scheme_name]
+#	var color_scheme_name: String = "color_scheme_%s" % current_level
+#	Profiles.current_color_scheme = Profiles.game_color_schemes[color_scheme_name]
 	
 	# zbrišem trenutne indikatorje
 	for child in spectrum.get_children():
@@ -143,18 +132,18 @@ func update_indicator_on_level_up(next_level: int):
 	active_color_indicators.clear()
 	
 	# naštimam nove indikatorje
-	Global.game_manager.set_new_level_indicators()	
+#	Global.game_manager.set_level_colors() 	
 	
 	
-func update_indicator_on_stage_up(next_stage: int):
+func update_indicator_on_stage_up(current_stage: int): 
 	
+	# current stage ni pomemben, ker zmeraj obarvam prvega v aktivnih
 	# obarvam indikator
 	if not active_color_indicators.empty(): # zazih
 		var current_indicator = active_color_indicators.front()
 		current_indicator.modulate.a = 1
 		# izbris iz aktivnih indikatorjev
 		active_color_indicators.pop_front()
-
 
 					
 func show_color_indicator(picked_color: Color):

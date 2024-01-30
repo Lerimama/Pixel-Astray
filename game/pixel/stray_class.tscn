@@ -1,6 +1,6 @@
 [gd_scene load_steps=41 format=2]
 
-[ext_resource path="res://game/pixel/stray.gd" type="Script" id=1]
+[ext_resource path="res://game/pixel/stray_class.gd" type="Script" id=1]
 [ext_resource path="res://_obs/v rabi?/pixelglitch_2.tres" type="Animation" id=2]
 [ext_resource path="res://_obs/v rabi?/pixelglitch_1.tres" type="Animation" id=3]
 [ext_resource path="res://_obs/v rabi?/pixelglitch_3.tres" type="Animation" id=4]

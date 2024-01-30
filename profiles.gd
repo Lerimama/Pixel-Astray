@@ -12,6 +12,10 @@ var game_color_schemes: Dictionary = {
 		1: Color.black, # ne velja, ker greba iz spectrum slike
 		2: Color.white,	# ne velja, ker greba iz spectrum slike
 	},
+	"color_scheme_1":{ 
+		1: Color("#ffffff"), # red
+		2: Color("#000000"), #yellow
+	},
 	"color_scheme_2":{ 
 		1: Color("#f35b7f"), # red
 		2: Color("#fef98b"), #yellow
@@ -213,7 +217,7 @@ var game_data_cleaner_L: Dictionary = {
 	"level": "L",
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner.tscn",
-	"game_time_limit": 3,
+	"game_time_limit": 30,
 	"strays_start_count": 500, 
 }
 
@@ -233,7 +237,7 @@ var game_data_scroller: Dictionary = {
 	"game": Games.SCROLLER,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Scroller",
-	"level": "",
+	"level": "01",
 	"game_scene_path": "res://game/game_scrolling.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_scrolling.tscn",
 	"game_time_limit": 0,
@@ -361,6 +365,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["stray_step_mode"] = true
 			game_settings["position_indicators_mode"] = false 
 			game_settings["step_slowdown_mode"] = false
+			game_settings["manage_highscores"] = false
 		Games.SCROLLER_DUEL:
 			current_game_data = game_data_scroller
 			game_settings["cell_traveled_energy"] = 0

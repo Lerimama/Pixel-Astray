@@ -1,5 +1,5 @@
 extends KinematicBody2D
-class_name Player
+class_name Player_class
 
 
 signal stat_changed # spremenjeno statistiko javi v hud
@@ -860,9 +860,11 @@ func check_strays_neighbors(hit_stray: KinematicBody2D):
 
 		var all_neighboring_strays: Array = [] # vsi nabrani sosedi
 		var neighbors_checked: Array = [] # vsi sosedi, katerih sosede sem že preveril
-
+		
+		var hit_direction = direction
+		
 		# prva runda ... sosede zadetega straya
-		var first_neighbors: Array = hit_stray.check_for_neighbors()
+		var first_neighbors: Array = hit_stray.check_for_neighbors(hit_direction) # hit direction je zato da opredelim smer preverjanja sosedov
 		for first_neighbor in first_neighbors:
 			if not all_neighboring_strays.has(first_neighbor): # če še ni dodan med vse sosede
 				all_neighboring_strays.append(first_neighbor) # ... ga dodam med vse sosede
@@ -871,7 +873,7 @@ func check_strays_neighbors(hit_stray: KinematicBody2D):
 		# druga runda ... sosede vseh sosed
 		for neighbor in all_neighboring_strays:
 			if not neighbors_checked.has(neighbor): # če še ni med "že preverjenimi" ...
-				var extra_neighbors: Array = neighbor.check_for_neighbors() # ... preverim še njegove sosede
+				var extra_neighbors: Array = neighbor.check_for_neighbors(hit_direction) # ... preverim še njegove sosede
 				for extra_neighbor in extra_neighbors:
 					if not all_neighboring_strays.has(extra_neighbor):  # če še ni dodan med vse sosede ...
 						all_neighboring_strays.append(extra_neighbor) # ... ga dodam med vse sosede

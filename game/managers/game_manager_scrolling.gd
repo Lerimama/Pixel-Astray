@@ -3,17 +3,17 @@ extends GameManager # default game manager
 
 # premik straysov
 var lines_scrolled_count: int = 0 # prištevam v stray_step()
-var all_lines_scrolled_count: int = 0
+#var all_lines_scrolled_count: int = 0
 # spawnig round iz ? števila premikov ... se ureja v stray_step()
 var lines_scroll_per_round: int = 7
 var current_stray_spawning_round: int = 0 # prištevam na koncu spawna
 var stray_spawning_rounds_per_stage: int = 1
 # stage iz ? števila spawning rund ... točk ali česa drugega ... se ureja v set_stray_()
-var current_stage: int = 1
+var current_stage: int = 0 # na štartu se kliče stage up
 var stages_per_level: int = 3
 # level iz ? števila spawnov
-var current_level: int = 1 # prvi level je 1
-var levels_per_game: int = 8
+var current_level: int = 0 # na štartu se kliče level up
+var levels_per_game: int = 2
 
 # steps 
 var stray_step_time: float = 0.2
@@ -28,11 +28,12 @@ func _ready() -> void:
 
 
 func set_game(): 
+	# namen: setam level indikatorje in strayse spawnam po štratu igre
 	
-#	# kliče main.gd pred prikazom igre
-#	# set_tilemap()
-#	# set_game_view()
-#	# set_players() # da je plejer viden že na fejdin
+	# kliče main.gd pred prikazom igre
+	# set_tilemap()
+	# set_game_view()
+	# set_players() # da je plejer viden že na fejdin
 
 	# player intro animacija
 	var signaling_player: KinematicBody2D
@@ -40,9 +41,9 @@ func set_game():
 		player.animation_player.play("lose_white_on_start")
 		signaling_player = player # da se zgodi na obeh plejerjih istočasno
 	yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
-
-	set_new_level_indicators()
-	set_strays()
+#
+#	set_fresh_level_indicators()
+#	set_strays()
 	
 	yield(get_tree().create_timer(1), "timeout") # da si plejer ogleda
 
@@ -50,6 +51,7 @@ func set_game():
 	yield(Global.start_countdown, "countdown_finished") # sproži ga hud po slide-inu
 
 	start_game()
+
 	
 
 func start_game():
@@ -59,12 +61,44 @@ func start_game():
 
 	for player in get_tree().get_nodes_in_group(Global.group_players):
 		player.set_physics_process(true)
-
+	
+	yield(get_tree().create_timer(2), "timeout") # čaka na hudov slide in
 	game_on = true
+	set_strays()
+#	set_fresh_level_indicators()
 
-	stray_step()
+	stray_step() # prvi step
 
 
+func game_over(gameover_reason: int):
+	
+	if game_on == false: # preprečim double gameover
+		return
+	game_on = false
+	
+	Global.hud.game_timer.stop_timer()
+	
+	if gameover_reason == GameoverReason.TIME:
+		return
+	if gameover_reason == GameoverReason.CLEANED:
+		all_strays_died_alowed = true
+		yield(self, "all_strays_died")
+		var signaling_player: KinematicBody2D
+		for player in get_tree().get_nodes_in_group(Global.group_players):
+			player.all_cleaned()
+			signaling_player = player # da se zgodi na obeh plejerjih istočasno
+		yield(signaling_player, "rewarded_on_game_over") # počakam, da je nagrajen
+	
+	get_tree().call_group(Global.group_players, "set_physics_process", false)
+	
+	yield(get_tree().create_timer(1), "timeout") # za dojet
+	
+	stop_game_elements()
+	
+	Global.gameover_menu.open_gameover(gameover_reason)
+	
+	
+	
 # SETUP --------------------------------------------------------------------------------------
 
 
@@ -89,7 +123,8 @@ func set_game_view():
 	Global.player1_camera.set_camera_limits()
 	
 
-func set_new_level_indicators():
+func set_level_colors():
+#func set_fresh_level_indicators():
 
 	var spectrum_image: Image
 	var level_indicator_color_offset: float
@@ -124,7 +159,7 @@ func set_new_level_indicators():
 		all_level_colors.append(current_color)
 
 	Global.hud.spawn_color_indicators(all_level_colors) # barve pokažem v hudu	
-	current_stray_spawning_round += 1
+#	current_stray_spawning_round += 1
 
 	
 func set_players():
@@ -160,40 +195,80 @@ func set_players():
 		elif spawned_player_index == 2:
 			new_player_pixel.player_camera = Global.player2_camera
 #			new_player_pixel.player_camera.camera_target = new_player_pixel
-			
-			
-func set_strays():
+
+# SCROLLER
+
+#func upgrade_stage():
+#	pass
+#func upgrade_level():
+#	pass
+
+func check_stage_and_level():
+#	if current_progress_type == LevelProgressType.SPAWNING_ROUND:
 	
-	printt ("current level", current_level)
-	printt ("current stage", current_stage)
-	
-	# če je level up
-	if current_stage > stages_per_level:
-		
-		current_level += 1
+#	printt("current_stray_spawning_round ", current_stray_spawning_round)
+	# stage up
+	if current_stage < stages_per_level and not current_stray_spawning_round == 1:
+		match current_progress_type:
+#			LevelProgressType.COLORS_PICKED:
+#				if current_stray_spawning_round % stray_spawning_rounds_per_stage == 0 and not current_stray_spawning_round == 0:
+#					Global.hud.update_indicator_on_stage_up(current_stage) # povdari indikator
+#					current_stage += 1
+#					printt ("current stage", current_stage)
+			LevelProgressType.SPAWNING_ROUND:
+				if current_stray_spawning_round % stray_spawning_rounds_per_stage == 0:# and not current_stray_spawning_round == 0:
+					current_stage += 1
+					printt ("current stage", current_stage)
+					Global.hud.update_indicator_on_stage_up(current_stage) # povdari indikator
+						
+	# level up ... ob štartu
+	else:
 		
 		# če ne presega max levelov
 		if current_level <= levels_per_game:
+			
+			current_level += 1 # številka trenutnega levela 
+			printt ("current level", current_level)
+#			game_data["level"] = current_level # update v slovarju
 			# poštimam level
-			set_new_level_indicators() # ... premaknjeno v hud
-			Global.hud.update_indicator_on_level_up(current_level) # novi indkatorji
+#			set_fresh_level_indicators() # ... premaknjeno v hud
+			var color_scheme_name: String = "color_scheme_%s" % current_level
+			Profiles.current_color_scheme = Profiles.game_color_schemes[color_scheme_name]
+			Global.hud.empty_color_indicators() # novi indkatorji
+			set_level_colors() 	
+#			Global.hud.update_indicator_on_level_up(current_level) # novi indkatorji
 			# poštimam prvi stage levela 
 			current_stage = 1 # resetiram na prvi stage levela
+			printt ("current stage", current_stage)
 			Global.hud.update_indicator_on_stage_up(current_stage) # obarvaj prvega
-			current_stage += 1
+#			current_stage += 1
 		
+			set_level_conditions()	
+			
 		# če presega max levele ... game over
 		else:
 			game_over(GameoverReason.TIME)
 			return # da ne pride dp novega spawna
-	# če ni level up ... stage up
-	else:
-		
-		if current_stray_spawning_round % stray_spawning_rounds_per_stage == 0:
-			Global.hud.update_indicator_on_stage_up(current_stage) # povdari indikator
-			current_stage += 1
+
+
 	
+enum LevelProgressType {TIME, COLORS_PICKED, STRAYS_SPAWNED, SPAWNING_ROUND}
+var current_progress_type: int = LevelProgressType.SPAWNING_ROUND		
+var level_stray_step_pause: Dictionary = {
+	1: 0.5,
+	2: 0.45,
+	3: 0.4,
+	4: 0.35,
+	5: 0.3,
+	6: 0.25,
+	7: 0.2,
+	8: 0.15,
+	9: 0.1,
+	10: 0.05,
+} 
+
 	
+func set_level_conditions():	
 	game_data["strays_start_count"] = 14 # debug
 	var strays_to_spawn: int = game_data["strays_start_count"]
 	
@@ -201,30 +276,45 @@ func set_strays():
 	match current_level:
 		1:
 #			strays_to_spawn = game_data["strays_start_count"] / 3
-			scrolling_pause_time = 0.5
+			scrolling_pause_time = level_stray_step_pause[3]
 		2:
 #			strays_to_spawn = game_data["strays_start_count"] / 3
-			scrolling_pause_time = 0.45
+			scrolling_pause_time = level_stray_step_pause[3]
 		3:
 #			strays_to_spawn = game_data["strays_start_count"] / 3
-			scrolling_pause_time = 0.4
+			scrolling_pause_time = level_stray_step_pause[3]
 		4:
 #			strays_to_spawn = game_data["strays_start_count"] / 2
-			scrolling_pause_time = 0.35
+			scrolling_pause_time = level_stray_step_pause[4]
 		5:
 #			strays_to_spawn = game_data["strays_start_count"] / 2
-			scrolling_pause_time = 0.3
+			scrolling_pause_time = level_stray_step_pause[5]
 		6:
 #			strays_to_spawn = game_data["strays_start_count"] / 2
-			scrolling_pause_time = 0.25
+			scrolling_pause_time = level_stray_step_pause[6]
 		7:
 #			strays_to_spawn = game_data["strays_start_count"]
-			scrolling_pause_time = 0.2
+			scrolling_pause_time = level_stray_step_pause[7]
 		8:
 #			strays_to_spawn = game_data["strays_start_count"]
-			scrolling_pause_time = 0.1
-			
-	spawn_strays(strays_to_spawn) # indikatorje moram poštimat pred spawnanjem straysov
+			scrolling_pause_time = level_stray_step_pause[8]
+
+
+func set_strays(): # ob štartu pred vsako rundo respawna ... torej vrednosti setaš za trenutni level
+	
+	if not game_on:
+		return
+		
+	current_stray_spawning_round += 1
+		
+	check_stage_and_level() # level stage logika
+#	printt ("current level", current_level)
+#	printt ("current stage", current_stage)
+	
+#	set_level_conditions()	
+#	game_data["strays_start_count"] = 14
+	
+	spawn_strays(game_data["strays_start_count"]) # indikatorje moram poštimat pred spawnanjem straysov
 
 
 func spawn_strays(strays_to_spawn_count: int):
@@ -319,8 +409,6 @@ func stray_step():
 			lines_scrolled_count = 0
 			set_strays()
 		
-		all_lines_scrolled_count
-
 	if game_on:
 		stray_step()
 
