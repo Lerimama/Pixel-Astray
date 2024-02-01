@@ -1135,7 +1135,6 @@ func change_stat(stat_event: String, stat_value):
 			for stray_in_row in stack_strays_celaned_count:
 				points_to_gain += game_settings["color_picked_points"] * (stray_in_row + 1) # + 1 je da se izognem nuli
 				energy_to_gain += game_settings["color_picked_energy"] * (stray_in_row + 1)
-				print (points_to_gain)
 			player_stats["colors_collected"] += stack_strays_celaned_count
 			player_stats["player_points"] += points_to_gain
 			player_stats["player_energy"] += energy_to_gain

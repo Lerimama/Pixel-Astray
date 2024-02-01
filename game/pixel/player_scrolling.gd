@@ -367,7 +367,7 @@ func cocking_inputs():
 
 func cock_burst():
 	
-	cocked_ghost_max_count = 3
+#	cocked_ghost_max_count = 3
 	
 	var burst_direction = direction
 	var cock_direction = - burst_direction
@@ -378,14 +378,14 @@ func cock_burst():
 		end_move()
 		return
 	
-	if not uncocking:
-		if cocked_ghosts.size() < cocked_ghost_max_count and cocking_room: # prostor za napenjanje preverja ghost
-			current_ghost_cocking_time += 1 / 60.0 # čas držanja tipke (znotraj nastajanja ene cock celice) ... fejk delta
-			if current_ghost_cocking_time > cock_ghost_cocking_time: # ko je čas za eno celico mimo, jo spawnam
-				current_ghost_cocking_time = 0
-				var new_cock_ghost = spawn_cock_ghost(cock_direction)
-				cocked_ghosts.append(new_cock_ghost)	
-				play_sound("burst_cocking")
+#	if not uncocking:
+	if cocked_ghosts.size() < cocked_ghost_max_count and cocking_room: # prostor za napenjanje preverja ghost
+		current_ghost_cocking_time += 1 / 60.0 # čas držanja tipke (znotraj nastajanja ene cock celice) ... fejk delta
+		if current_ghost_cocking_time > cock_ghost_cocking_time: # ko je čas za eno celico mimo, jo spawnam
+			current_ghost_cocking_time = 0
+			var new_cock_ghost = spawn_cock_ghost(cock_direction)
+			cocked_ghosts.append(new_cock_ghost)	
+			play_sound("burst_cocking")
 #		elif cocked_ghosts.size() == cocked_ghost_max_count:
 #			yield(get_tree().create_timer(cocking_loop_pause), "timeout")
 #			uncocking = true
@@ -490,8 +490,12 @@ func burst():
 	# release pixel
 	yield(get_tree().create_timer(strech_ghost_shrink_time), "timeout") # čaka na zgornji tween
 	current_state = States.BURSTING
+	
 	# burst_speed = current_ghost_count * cock_ghost_speed_addon
-	burst_speed = 2 * cock_ghost_speed_addon
+	if current_ghost_count < cocked_ghost_max_count and not current_ghost_count == 0:
+		burst_speed = 2 * cock_ghost_speed_addon
+	else:
+		burst_speed = 7 * cock_ghost_speed_addon
 	change_stat("burst_released", 1)
 
 
@@ -634,7 +638,9 @@ func burst():
 #
 #
 func on_hit_stray(hit_stray: KinematicBody2D):
-
+	# namen: ... tudi sprožanje čekiranja levelov, plejer ostane bel, preverjanje straysov na podnu
+	
+	
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
 	play_sound("hit_stray")	
 	spawn_collision_particles()
@@ -644,7 +650,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 		end_move()
 		return
 
-	tween_color_change(hit_stray.stray_color)
+#	tween_color_change(hit_stray.stray_color)
 
 	# preverim sosede
 	var hit_stray_neighbors = check_strays_neighbors(hit_stray)
@@ -654,20 +660,31 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	strays_to_destroy.append(hit_stray)
 	if not hit_stray_neighbors.empty():
 		for neighboring_stray in hit_stray_neighbors: # še sosedi glede na moč bursta
-#			if strays_to_destroy.size() < burst_speed_units_count or burst_speed_units_count == cocked_ghost_max_count:
-#				strays_to_destroy.append(neighboring_stray)
+			if strays_to_destroy.size() < burst_speed_units_count or burst_speed_units_count == cocked_ghost_max_count:
+				strays_to_destroy.append(neighboring_stray)
 #			else: break
 			strays_to_destroy.append(neighboring_stray)
 
+	var strays_on_floor: Array = Global.current_tilemap.strays_in_floor_area
+	var strays_on_floor_dying = []
 	# jih destrojam
 	for stray in strays_to_destroy:
 		var stray_index = strays_to_destroy.find(stray)
 		stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
+		
+		if strays_on_floor.has(stray): # če je na tleh, ga dodam med talne, ki umirajo
+			strays_on_floor_dying.append(stray)
+		
 		Global.hud.show_color_indicator(stray.stray_color) # če je scroller se returna na fuknciji
-
+	
+	printt("strays on floor and dying ", strays_on_floor.size(), strays_on_floor_dying.size())
+	if strays_on_floor.size() <= strays_on_floor_dying.size() and not strays_on_floor.size() == 0: # samo da ni teh k umirajo manj, kot teh na tleh 
+		Global.game_manager.on_floor_cleared()
+	
 	end_move() # more bit za collision partikli zaradi smeri
 
 	change_stat("hit_stray", strays_to_destroy.size()) # štetje, točke in energija glede na število uničenih straysov
+	
 #
 #
 #func on_hit_player(hit_player: KinematicBody2D):
@@ -698,17 +715,21 @@ func on_hit_wall():
 
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.7)
 	play_sound("hit_wall")
-	spawn_dizzy_particles()
+#	spawn_dizzy_particles()
 	spawn_collision_particles()
 	shake_player_camera(burst_speed)
-
-	got_hit = true # da heartbeat animacija ne povozi die animacije
-
-	if player_stats["player_energy"] <= 1: # more bit pred statistiko
-		stop_heart()
-	change_stat("hit_wall", 1) # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
 	
-	die() # vedno sledi statistiki
+#	yield(get_tree().create_timer(1), "timeout") # za dojet
+	end_move()
+	
+	
+#	got_hit = true # da heartbeat animacija ne povozi die animacije
+#
+##	if player_stats["player_energy"] <= 1: # more bit pred statistiko
+##		stop_heart()
+#	change_stat("hit_wall", 1) # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
+#
+#	die() # vedno sledi statistiki
 #	set_physics_process(true)
 #	got_hit = false 
 #	end_move()
@@ -745,12 +766,12 @@ func die():
 
 	end_move()
 
-	set_physics_process(false)
-	animation_player.stop()
-#	animation_player.play("die_player")
-	animation_player.play("scrolling_die_player")
-
-	change_stat("die", 1) # izguba lajfa, če je energija 0
+#	set_physics_process(false)
+#	animation_player.stop()
+##	animation_player.play("die_player")
+#	animation_player.play("scrolling_die_player")
+#
+#	change_stat("die", 1) # izguba lajfa, če je energija 0
 #
 #
 #func revive():
@@ -1164,10 +1185,10 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 				revive()
 			else:
 				Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)
-		"scrolling_revive":
-			set_physics_process(true)
-			got_hit = false # reset ... da se heartbeat animacija lahko začne
-			change_stat("revive", 1) # če energija = 0 (izguba lajfa), resetira energijo
+#		"scrolling_revive":
+#			set_physics_process(true)
+#			got_hit = false # reset ... da se heartbeat animacija lahko začne
+#			change_stat("revive", 1) # če energija = 0 (izguba lajfa), resetira energijo
 		"die_player":
 			if player_stats["player_life"] > 0:
 				revive()

@@ -13,8 +13,8 @@ var game_color_schemes: Dictionary = {
 		2: Color.white,	# ne velja, ker greba iz spectrum slike
 	},
 	"color_scheme_1":{ 
-		1: Color("#ffffff"), # red
-		2: Color("#000000"), #yellow
+		1: Color.magenta, # red
+		2: Color.greenyellow, #yellow
 	},
 	"color_scheme_2":{ 
 		1: Color("#f35b7f"), # red
@@ -44,10 +44,81 @@ var game_color_schemes: Dictionary = {
 		1: Color("#ec80fb"), # purple
 		2: Color("#7053c2"), # viola
 	},
+	"color_scheme_9":{ 
+		1: Color.magenta, # red
+		2: Color.greenyellow, #yellow
+	},	
+#	"color_scheme_10":{ 
+#		1: Color.magenta, # red
+#		2: Color.greenyellow, #yellow
+#	},
 }
 
 var current_color_scheme: Dictionary = game_color_schemes["default_color_scheme"]
 
+
+var scrolling_levels_conditions: Dictionary = {
+		1: {
+			"stages_per_level": 50,
+			"color_scheme": game_color_schemes["color_scheme_1"],
+			"scrolling_pause_time": 0.5,
+			"strays_spawn_count": 32
+		},
+		2: {
+			"stages_per_level": 10,
+			"color_scheme": game_color_schemes["color_scheme_2"],
+			"scrolling_pause_time": 0.45,
+			"strays_spawn_count": 10
+		},
+		3: {
+			"stages_per_level": 15,
+			"color_scheme": game_color_schemes["color_scheme_3"],
+			"scrolling_pause_time": 0.4,
+			"strays_spawn_count": 15
+		},
+		4: {
+			"stages_per_level": 20,
+			"color_scheme": game_color_schemes["color_scheme_4"],
+			"scrolling_pause_time": 0.35,
+			"strays_spawn_count": 20
+		},
+		5: {
+			"stages_per_level": 30,
+			"color_scheme": game_color_schemes["color_scheme_5"],
+			"scrolling_pause_time": 0.3,
+			"strays_spawn_count": 30
+		},
+		6: {
+			"stages_per_level": 30,
+			"color_scheme": game_color_schemes["color_scheme_6"],
+			"scrolling_pause_time": 0.25,
+			"strays_spawn_count": 40
+		},
+		7: {
+			"stages_per_level": 30,
+			"color_scheme": game_color_schemes["color_scheme_7"],
+			"scrolling_pause_time": 0.2,
+			"strays_spawn_count": 45
+		},
+		8: {
+			"stages_per_level": 30,
+			"color_scheme": game_color_schemes["color_scheme_8"],
+			"scrolling_pause_time": 0.15,
+			"strays_spawn_count": 50
+		},
+		9: {
+			"stages_per_level": 30,
+			"color_scheme": game_color_schemes["color_scheme_9"],
+			"scrolling_pause_time": 0.1,
+			"strays_spawn_count": 55
+		},
+		10: {
+			"stages_per_level": 3000,
+			"color_scheme": game_color_schemes["default_color_scheme"],
+			"scrolling_pause_time": 0.05,
+			"strays_spawn_count": 60
+		},
+}
 
 var default_player_stats: Dictionary = {
 	"player_name" : "Somebody", # to ime se piše v HS procesu, če igralec pusti prazno

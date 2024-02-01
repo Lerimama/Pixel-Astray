@@ -2,12 +2,15 @@
 extends GameHud
 
 
-
-# SET HUD ---------------------------------------------------------------------------------------------------------------------------
-
-
+func _process(delta: float) -> void:
+	
+	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
+	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
+	level_label.text = "%02d" % Global.game_manager.current_level 
+	
+	
 func set_hud(players_count: int): # kliče main na game-in
-	# namen: 
+	# namen: ikone v player statline
 	if players_count == 1:
 		# players
 		p1_label.visible = false
@@ -61,26 +64,21 @@ func set_hud(players_count: int): # kliče main na game-in
 		set_current_highscore()
 
 
-func _process(delta: float) -> void:
-	
-	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
-	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
-	level_label.text = "%02d" % Global.game_manager.current_level 
-	
-	
-func set_current_highscore():
-	
-	var current_game = Global.game_manager.game_data["game"]
-	var current_highscore_line: Array = Global.data_manager.get_top_highscore(current_game)
-	
-	current_highscore = current_highscore_line[0]
-	current_highscore_owner = current_highscore_line[1]
-	
-	if current_gamed_hs_type == Profiles.HighscoreTypes.HS_TIME_HIGH or Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW:
-		highscore_label.text = "Highscore " + str(current_highscore) + "s"
-	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_POINTS:
-		highscore_label.text = "Highscore " + str(current_highscore)
-
+#func set_current_highscore():
+#
+#	var current_game = Global.game_manager.game_data["game"]
+#	var current_highscore_line: Array = Global.data_manager.get_top_highscore(current_game)
+#
+#	current_highscore = current_highscore_line[0]
+#	current_highscore_owner = current_highscore_line[1]
+#
+#	if current_gamed_hs_type == Profiles.HighscoreTypes.HS_TIME_HIGH or Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW:
+#		highscore_label.text = "Highscore " + str(current_highscore) + "s"
+#	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_POINTS:
+#		highscore_label.text = "Highscore " + str(current_highscore)
+#
+#
+#
 		
 func fade_splitscreen_popup():
 	

@@ -7,6 +7,9 @@ func show_stray(): # kliče GM
 
 
 func die(stray_in_stack_index: int, strays_in_stack: int):
+	# namen: stage upgrade in die, camera shake in vibra
+#	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
+#	shake_player_camera(burst_speed)	
 	
 	current_state = States.DYING
 	global_position = Global.snap_to_nearest_grid(global_position) 
@@ -31,7 +34,10 @@ func die(stray_in_stack_index: int, strays_in_stack: int):
 	var vanish_time = animation_player.get_current_animation_length()
 	var vanish: SceneTreeTween = get_tree().create_tween()
 	vanish.tween_property(self, "color_poly:modulate:a", 0, vanish_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
-	
+
+	if Global.game_manager.current_progress_type == Global.game_manager.LevelProgressType.COLORS_PICKED:
+		Global.game_manager.upgrade_stage_or_level()	
+		
 	# KVEFRI je v animaciji
 
 
@@ -50,17 +56,19 @@ func step(step_direction: Vector2):
 	step_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, step_time)
 	step_tween.tween_callback(self, "end_move")
 
+	
 
 func check_for_neighbors(hit_direction: Vector2): # kliče player on hit
+	# namen drugačen način stackanja
 	
 	var directions_to_check: Array
+	directions_to_check = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
+#	if hit_direction.y == 0 and hit_direction.x != 0: # hor smer ... preverjaš vertikalo
+#		directions_to_check = [Vector2.UP, Vector2.DOWN]
+#	elif hit_direction.y != 0 and hit_direction.x == 0:
+#		directions_to_check = [Vector2.LEFT, Vector2.RIGHT]
 	
-	if hit_direction.y == 0 and hit_direction.x != 0: # hor smer ... preverjaš vertikalo
-		directions_to_check = [Vector2.UP, Vector2.DOWN]
-	elif hit_direction.y != 0 and hit_direction.x == 0:
-		directions_to_check = [Vector2.LEFT, Vector2.RIGHT]
 	var current_cell_neighbors: Array
-	
 	for direction in directions_to_check:
 		var neighbor = detect_collision_in_direction(direction)
 		if neighbor and neighbor.is_in_group(Global.group_strays) and not neighbor == self: # če je kolajder, je stray in ni self

@@ -1,5 +1,5 @@
 extends TileMap
-
+class_name GameTilemap
 
 signal tilemap_completed
 
