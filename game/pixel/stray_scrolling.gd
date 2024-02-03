@@ -48,7 +48,6 @@ func die(stray_in_stack_index: int, strays_in_stack: int):
 func step(step_direction: Vector2):
 	# namen: nerandom smer, pošiljanje collisiona za prepoznavanje stene
 	
-#	if current_state == States.STATIC:
 	if not current_state == States.IDLE:
 		return
 		
@@ -65,31 +64,43 @@ func step(step_direction: Vector2):
 	step_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, step_time)
 	step_tween.tween_callback(self, "end_move")
 
-	
-#var current_cell_neighbor_tilemaps: Array
-#var current_cell_neighbor_tilemaps_count: int
-#var edge_cells: Array
 
-func check_for_neighbors(hit_direction: Vector2): # kliče player on hit
-	# namen: drugačen način uničevanja bulkov, preverjanje soseda tilemapa
-	
-	var directions_to_check: Array
-	directions_to_check = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
-#	if hit_direction.y == 0 and hit_direction.x != 0: # hor smer ... preverjaš vertikalo
-#		directions_to_check = [Vector2.UP, Vector2.DOWN]
-#	elif hit_direction.y != 0 and hit_direction.x == 0:
-#		directions_to_check = [Vector2.LEFT, Vector2.RIGHT]
+# ON FLOOR --------------------------------------------------------------------------------------------
+
+
+func get_all_neighbors_in_directions(directions_to_check: Array): # kliče player on hit
+	# namen: preverjanje vseh_sosedov, tudi tilemapa
 	
 	var current_cell_neighbors: Array
 	for direction in directions_to_check:
 		var neighbor = detect_collision_in_direction(direction)
 		if neighbor and neighbor.is_in_group(Global.group_strays) and not neighbor == self: # če je kolajder, je stray in ni self
 			current_cell_neighbors.append(neighbor)
-		if Global.game_manager.floor_is_filled:
-			if neighbor and neighbor.is_in_group(Global.group_tilemap): # če je kolajder, je tilemap
-				current_cell_neighbors.append(neighbor)
-			
+		if neighbor and neighbor.is_in_group(Global.group_tilemap): # če je kolajder, je tilemap
+			current_cell_neighbors.append(neighbor)
 		
 	return current_cell_neighbors # uporaba v stalnem čekiranj sosedov
 
 
+func turn_to_wall_stray(stray_in_stack_index: int):
+	
+	current_state = States.DYING # takoj je izločen iz igre. po pavzi pa efekt
+	
+	# čakalni čas
+	var wait_to_destroy_time: float = sqrt(0.07 * (stray_in_stack_index)) # -1 je, da hitan stray ne čaka
+	yield(get_tree().create_timer(wait_to_destroy_time), "timeout")
+	
+	# efekti
+	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
+	play_sound("turning_color")
+	# spawn_collision_particles()
+	var shake_power: float = 0.2
+	var shake_time: float = 0.3
+	var shake_decay: float = 0.7
+	Global.player1_camera.shake_camera(shake_power, shake_time, shake_decay)	
+	
+	# turn to color
+	var color_tween: SceneTreeTween = get_tree().create_tween()
+	color_tween.tween_property(self, "color_poly:color", Color.black, 0.2)#.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
+	color_tween.tween_callback(self, "return", [true])#.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
+	

@@ -57,7 +57,7 @@ func show_stray(): # kliče GM
 		animation_player.play(random_animation_name)
 
 
-func die(stray_in_stack_index: int, strays_in_stack: int):
+func die(stray_in_stack_index: int, strays_in_stack_count: int):
 	
 	current_state = States.DYING
 	global_position = Global.snap_to_nearest_grid(global_position) 
@@ -67,7 +67,7 @@ func die(stray_in_stack_index: int, strays_in_stack: int):
 	yield(get_tree().create_timer(wait_to_destroy_time), "timeout")
 	
 	# animacije
-	if strays_in_stack <= 3: # žrebam
+	if strays_in_stack_count <= 3: # žrebam
 		var random_animation_index = randi() % 5 + 1
 		var random_animation_name: String = "die_stray_%s" % random_animation_index
 		animation_player.play(random_animation_name) 
@@ -176,6 +176,9 @@ func play_sound(effect_for: String):
 		return
 		
 	match effect_for:
+		"turning_color":
+			var random_blink_index = randi() % $Sounds/Blinking.get_child_count()
+			$Sounds/Blinking.get_child(random_blink_index).play() # nekateri so na mute, ker so drugače prepogosti soundi
 		"blinking":
 			var random_blink_index = randi() % $Sounds/Blinking.get_child_count()
 			$Sounds/Blinking.get_child(random_blink_index).play() # nekateri so na mute, ker so drugače prepogosti soundi
@@ -186,7 +189,8 @@ func play_sound(effect_for: String):
 			var selected_step_sound = $Sounds/Stepping.get_child(random_step_index).play()
 
 
-func check_for_neighbors(hit_direction: Vector2): # kliče player on hit
+func check_for_neighbor_strays(): # kliče player on hit
+#func check_for_neighbors(hit_direction: Vector2): # kliče player on hit
 	
 	# hit_direction me ne zanima, ker po defaultu destroyam cel bulk
 	 

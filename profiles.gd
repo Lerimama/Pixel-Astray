@@ -62,7 +62,7 @@ var scrolling_levels_conditions: Dictionary = {
 		"lines_scroll_per_spawn_round": 10,
 		"stages_per_level": 100,
 		"color_scheme": game_color_schemes["color_scheme_1"],
-		"scrolling_pause_time": 0.5,
+		"scrolling_pause_time": 0.5, # ne sem bit manjšaq od stray stepa
 		"strays_spawn_count": 32
 	},
 	2: {
@@ -438,7 +438,7 @@ func set_game_data(selected_game) -> void:
 			current_game_data = game_data_scroller
 			game_settings["cell_traveled_energy"] = 0
 			
-			game_settings["player_start_color"] = Color.white
+			game_settings["player_start_color"] = Color.blue
 			
 			game_settings["timer_mode_countdown"] = false
 			game_settings["start_countdown"] = false

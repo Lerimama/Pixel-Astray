@@ -55,7 +55,6 @@ func set_game():
 	yield(Global.start_countdown, "countdown_finished") # sproži ga hud po slide-inu
 
 	start_game()
-
 	
 
 func start_game():
@@ -99,11 +98,12 @@ func game_over(gameover_reason: int):
 	yield(get_tree().create_timer(1), "timeout") # za dojet
 	
 	stop_game_elements()
+
 	
-	Global.gameover_menu.open_gameover(gameover_reason)
+func pause_game():
+	Global.hud.game_timer.stop_timer()
 	
-	
-	
+		
 # SETUP --------------------------------------------------------------------------------------
 
 
@@ -124,7 +124,6 @@ func set_tilemap():
 	
 	# povežem s signalom	
 	Global.current_tilemap.connect("tilemap_completed", self, "_on_tilemap_completed")
-	Global.current_tilemap.connect("floor_area_empty", self, "_on_floor_area_emptied")
 	
 	# grab tilemap tiles
 	Global.current_tilemap.get_tiles()
@@ -280,9 +279,8 @@ func set_level_conditions():
 
 func spawn_strays(strays_to_spawn_count: int):
 	
-	if not game_on:
-		return
-#	print ("CNT ", game_data["strays_start_count"])
+#	if not game_on:
+#		return
 		
 	# split colors
 	strays_to_spawn_count = clamp(strays_to_spawn_count, 1, strays_to_spawn_count) # za vsak slučaj klempam, da ne more biti nikoli 0 ...  ker je error			
@@ -357,8 +355,39 @@ func spawn_strays(strays_to_spawn_count: int):
 	current_stray_spawning_round += 1
 
 
+func stray_step():
+	
+	var stepping_direction: Vector2
+	
+	if game_data["game"] == Profiles.Games.SCROLLER and not floor_is_filled:
+		
+		stepping_direction = Vector2.DOWN
+		
+		# kdo stepa, kličem step in preverim kolajderja 
+		for stray in get_tree().get_nodes_in_group(Global.group_strays):
+			if not floor_strays.has(stray) and not all_strays_on_floor.has(stray): # če stray ni del stene in ni naložen na steni
+				var current_collider = stray.step(stepping_direction)
+				if current_collider:
+					get_strays_floor_collisions(stray, current_collider)
+		
+		check_if_floor_is_filled() # preverim povezanost straysov na robu tal
+		
+		lines_scrolled_count += 1
+		if lines_scrolled_count % lines_scroll_per_spawn_round == 0: # tukaj, da ne spawna če  je konec
+			spawn_strays(game_data["strays_start_count"])
+			
+	if game_on:
+		for player in get_tree().get_nodes_in_group(Global.group_players):		
+			if player.player_surrounded:
+				print("GAME OVER - SURROUNDED")
+				game_over(GameoverReason.TIME)
+				return # da ne falsam game filled
+				
+		yield(get_tree().create_timer(scrolling_pause_time), "timeout")
+		stray_step()
 
 
+# POLNENJE TAL -----------------------------------------------------------------------------
 
 
 # nikoli ne restiram
@@ -367,7 +396,6 @@ var first_floor_round: bool = true
 
 # resetiram na floor filled
 var floor_edge_strays: Array = [] # straysi ki predstavljajo rob tal
-
 var strays_on_floor_edge: Array = [] # strays, ki se dotikajo robnih tiletov tal ... se resetira na vsako polnitev
 var all_strays_on_floor: Array = [] # vsi strays, ki so ustavljeni ker so spodaj tla
 var floor_is_filled: bool = false
@@ -376,66 +404,6 @@ var floor_is_filled: bool = false
 var connected_strays_on_floor_edge: Array = [] # straysi na robu tal, ki so povezani
 
 
-func stray_step():
-	
-	var stepping_direction: Vector2
-	
-	if game_data["game"] == Profiles.Games.SCROLLER:
-	
-		stepping_direction = Vector2.DOWN
-		
-		# opredelim kdo koraka in preverim kolajderja 
-		for stray in get_tree().get_nodes_in_group(Global.group_strays):
-			if not floor_strays.has(stray) and not all_strays_on_floor.has(stray):
-				# step in preveri kolizije
-				var current_collider = stray.step(stepping_direction)
-				if current_collider:
-					get_strays_floor_collisions(stray, current_collider)
-		
-		# preverim povezanost straysov na robu tal
-		get_connected_strays_on_floor_edge()
-
-		# spremenim v stla, če so vse pozicije roba zasedene
-		if strays_on_floor_edge.size() == 40:
-			if first_floor_round: # prva runda
-				on_floor_is_filled()
-				first_floor_round = false
-			else: # druge runde preverjam še za povezanost
-				if connected_strays_on_floor_edge.size() == 40: # vse so povezane
-					on_floor_is_filled()
-#					yield(get_tree().create_timer(5), "timeout")
-	
-	lines_scrolled_count += 1 # prištejem po izvedbi celotnega koraka
-	
-	if lines_scrolled_count % lines_scroll_per_spawn_round == 0:
-		spawn_strays(game_data["strays_start_count"])
-			
-	if game_on:# and not floor_is_filled: # and not floor_is_cleared:
-		yield(get_tree().create_timer(scrolling_pause_time), "timeout")
-		stray_step()
-
-
-
-
-func get_connected_strays_on_floor_edge():
-	
-		# preverim edge strayse
-		connected_strays_on_floor_edge.clear() # spucam, ker vedno znova pregledam vse na tleh
-	
-		floor_is_filled = true # debug da greba tilemap
-		for stray in strays_on_floor_edge:
-			if stray: # eror varovalka
-				var stray_neighbors: Array = stray.check_for_neighbors(Vector2.LEFT) # nepomembna smer
-				if stray: # eror varovalka
-					if stray_neighbors.size() == 4: # sosedi so straysi ali tilemap
-						stray.color_poly.color = Color.green
-						connected_strays_on_floor_edge.append(stray)
-				
-						
-				stray.modulate.a = 1
-		floor_is_filled = false # debug	
-		
-		
 func get_strays_floor_collisions(current_stray: KinematicBody2D, current_collider: Node):
 	
 	# preverim kolajderje, da opredelim rob tal
@@ -443,60 +411,82 @@ func get_strays_floor_collisions(current_stray: KinematicBody2D, current_collide
 		# prva runda ... kolajder tilemap (tla)
 		if current_collider.is_in_group(Global.group_tilemap):
 			# korakajoči stray
-#			current_stray.current_state = current_stray.States.STATIC
 			current_stray.color_poly.color = Color.red
 			strays_on_floor_edge.append(current_stray)
 			all_strays_on_floor.append(current_stray)
-			
 		# druge runde ... kolajder stray in je rob tal
 		elif current_collider.is_in_group(Global.group_strays) and floor_edge_strays.has(current_collider):
 			# korakajoči stray
-#			current_stray.current_state = current_stray.States.STATIC
 			current_stray.color_poly.color = Color.yellow
 			strays_on_floor_edge.append(current_stray)
 			all_strays_on_floor.append(current_stray)
 		# druge runde ... kolajder stray je del bodočih tal ... stray postane bodoča tla ... se umiri0
-#		elif current_collider.is_in_group(Global.group_strays) and current_collider.current_state == current_collider.States.STATIC:
-		elif current_collider.is_in_group(Global.group_strays) and all_strays_on_floor.has(current_collider):#.current_state == current_collider.States.STATIC:
-#			current_stray.current_state = current_stray.States.STATIC
+		elif current_collider.is_in_group(Global.group_strays) and all_strays_on_floor.has(current_collider):
 			all_strays_on_floor.append(current_stray)
+			
+			
+func check_if_floor_is_filled():
+	
+	if strays_on_floor_edge.size() == 40:
+		if first_floor_round: # prva runda
+			# spremenim v tla, če so vse pozicije roba zasedene
+			on_floor_is_filled()
+			first_floor_round = false
+		else: # druge runde preverjam še za povezanost
+			# preverim povezanost straysov na robu
+			connected_strays_on_floor_edge.clear() # spucam, ker vedno znova pregledam vse na tleh
+			for stray in strays_on_floor_edge:
+	#			if not stray.current_state == stray.States.DYING: # eror varovalka
+				var stray_neighbors: Array = stray.get_all_neighbors_in_directions([Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]) # nepomembna smer
+				if stray: # eror varovalka
+					if stray_neighbors.size() == 4: # sosedi so straysi ali tilemap
+						stray.color_poly.color = Color.green
+						connected_strays_on_floor_edge.append(stray)
+			if connected_strays_on_floor_edge.size() == 40: # vse so povezane
+				on_floor_is_filled()
 
 				
 func on_floor_is_filled():
 	
-	printt("40ka", floor_is_filled, strays_on_floor_edge.size(), connected_strays_on_floor_edge.size(), floor_edge_strays.size(), floor_strays.size())
-	
 	floor_is_filled = true
+	
+	Global.hud.game_timer.pause_timer()
+	Global.sound_manager.play_sfx("thunder_strike")
 	
 	# resetiram na začetku funkcije
 	strays_on_floor_edge.clear()
-
-	# razberem robne strayse iz bodočih talnih straysov ... zato resetiram stare
+	#resetiram stare na robu tal ... nove robne strayse razbiram iz bodočih talnih straysov
 	floor_edge_strays.clear()
-	
 	# vse ki so trenutno na tleh preverjam, da ugotovim status v naslednji rundi
 	for stray in all_strays_on_floor:
-		var stray_neighbors: Array = stray.check_for_neighbors(Vector2.LEFT) # nepomembna smer
-		stray.color_poly.color = Color.black
-		# opredelim rob tal 
+		# cela tla
+		var stray_index = all_strays_on_floor.find(stray)
+		floor_strays.append(stray)
+		stray.turn_to_wall_stray(stray_index)
+		# rob tal
+		var stray_neighbors: Array = stray.get_all_neighbors_in_directions([Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]) # nepomembna smer
 		if stray_neighbors.size() < 4:
 			floor_edge_strays.append(stray)
-		# opredelim ostala tla 
-		else:
-		# vse dodam med tla
-			stray.modulate.a = 0.8
-		floor_strays.append(stray)
-		stray.current_state = stray.States.DYING
-
-	# reset vrednosti, ki ji rabim do konca spremembe
-	all_strays_on_floor.clear()
-
 	
-	# tukaj gre cela pavza
-#	yield(get_tree().create_timer(5), "timeout")
+	var total_turning_time: float = 0.2 + all_strays_on_floor.size() * 0.03 # cirka
 	
+	all_strays_on_floor.clear() # reset vrednosti, ki ji rabim do konca spremembe
+			
+	# pavza za celotno spremembo v tla
+	print ("total_turning_time " ,total_turning_time)
+	yield(get_tree().create_timer(total_turning_time), "timeout")
+
+	# preverim, če smo na vrhu ... game_over
+	var current_strays_on_top: Array = Global.current_tilemap.strays_in_top_area
+	for stray in current_strays_on_top:
+		if floor_strays.has(stray):
+			print("GAME OVER - TOP")
+			game_over(GameoverReason.LIFE)
+			return # da ne falsam game filled
+			break
+	
+	Global.hud.game_timer.unpause_timer()
 	floor_is_filled = false
 
-	printt("Post", floor_is_filled, strays_on_floor_edge.size(), connected_strays_on_floor_edge.size(), floor_edge_strays.size(), floor_strays.size())
 			
 		
