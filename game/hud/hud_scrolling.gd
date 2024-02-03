@@ -112,7 +112,10 @@ func spawn_color_indicators(available_colors: Array): # kliče GM
 #		if not Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
 #			new_color_indicator.modulate.a = 1 # na fade-in se odfejda do unpicked_indicator_alpha
 #		else:
-		new_color_indicator.modulate.a = 0.3
+		if Global.game_manager.current_progress_type == Global.game_manager.LevelProgressType.FLOOR_CLEARED:
+			new_color_indicator.modulate.a = 1
+		else:
+			new_color_indicator.modulate.a = 0.3
 		spectrum.add_child(new_color_indicator)
 		active_color_indicators.append(new_color_indicator)
 

@@ -13,8 +13,8 @@ var game_color_schemes: Dictionary = {
 		2: Color.white,	# ne velja, ker greba iz spectrum slike
 	},
 	"color_scheme_1":{ 
-		1: Color.magenta, # red
-		2: Color.greenyellow, #yellow
+		1: Color.white, # red
+		2: Color.white, #yellow
 	},
 	"color_scheme_2":{ 
 		1: Color("#f35b7f"), # red
@@ -58,66 +58,76 @@ var current_color_scheme: Dictionary = game_color_schemes["default_color_scheme"
 
 
 var scrolling_levels_conditions: Dictionary = {
-		1: {
-			"stages_per_level": 50,
-			"color_scheme": game_color_schemes["color_scheme_1"],
-			"scrolling_pause_time": 0.5,
-			"strays_spawn_count": 32
-		},
-		2: {
-			"stages_per_level": 10,
-			"color_scheme": game_color_schemes["color_scheme_2"],
-			"scrolling_pause_time": 0.45,
-			"strays_spawn_count": 10
-		},
-		3: {
-			"stages_per_level": 15,
-			"color_scheme": game_color_schemes["color_scheme_3"],
-			"scrolling_pause_time": 0.4,
-			"strays_spawn_count": 15
-		},
-		4: {
-			"stages_per_level": 20,
-			"color_scheme": game_color_schemes["color_scheme_4"],
-			"scrolling_pause_time": 0.35,
-			"strays_spawn_count": 20
-		},
-		5: {
-			"stages_per_level": 30,
-			"color_scheme": game_color_schemes["color_scheme_5"],
-			"scrolling_pause_time": 0.3,
-			"strays_spawn_count": 30
-		},
-		6: {
-			"stages_per_level": 30,
-			"color_scheme": game_color_schemes["color_scheme_6"],
-			"scrolling_pause_time": 0.25,
-			"strays_spawn_count": 40
-		},
-		7: {
-			"stages_per_level": 30,
-			"color_scheme": game_color_schemes["color_scheme_7"],
-			"scrolling_pause_time": 0.2,
-			"strays_spawn_count": 45
-		},
-		8: {
-			"stages_per_level": 30,
-			"color_scheme": game_color_schemes["color_scheme_8"],
-			"scrolling_pause_time": 0.15,
-			"strays_spawn_count": 50
-		},
-		9: {
-			"stages_per_level": 30,
-			"color_scheme": game_color_schemes["color_scheme_9"],
-			"scrolling_pause_time": 0.1,
-			"strays_spawn_count": 55
-		},
-		10: {
-			"stages_per_level": 3000,
-			"color_scheme": game_color_schemes["default_color_scheme"],
-			"scrolling_pause_time": 0.05,
-			"strays_spawn_count": 60
-		},
+	1: {
+		"lines_scroll_per_spawn_round": 10,
+		"stages_per_level": 100,
+		"color_scheme": game_color_schemes["color_scheme_1"],
+		"scrolling_pause_time": 0.5,
+		"strays_spawn_count": 32
+	},
+	2: {
+		"lines_scroll_per_spawn_round": 9,
+		"stages_per_level": 100,
+		"color_scheme": game_color_schemes["color_scheme_2"],
+		"scrolling_pause_time": 0.45,
+		"strays_spawn_count": 10
+	},
+	3: {
+		"lines_scroll_per_spawn_round": 8,
+		"stages_per_level": 150,
+		"color_scheme": game_color_schemes["color_scheme_3"],
+		"scrolling_pause_time": 0.4,
+		"strays_spawn_count": 15
+	},
+	4: {
+		"lines_scroll_per_spawn_round": 7,
+		"stages_per_level": 20,
+		"color_scheme": game_color_schemes["color_scheme_4"],
+		"scrolling_pause_time": 0.35,
+		"strays_spawn_count": 20
+	},
+	5: {
+		"lines_scroll_per_spawn_round": 6,
+		"stages_per_level": 30,
+		"color_scheme": game_color_schemes["color_scheme_5"],
+		"scrolling_pause_time": 0.3,
+		"strays_spawn_count": 30
+	},
+	6: {
+		"lines_scroll_per_spawn_round": 5,
+		"stages_per_level": 30,
+		"color_scheme": game_color_schemes["color_scheme_6"],
+		"scrolling_pause_time": 0.25,
+		"strays_spawn_count": 40
+	},
+	7: {
+		"lines_scroll_per_spawn_round": 4,
+		"stages_per_level": 30,
+		"color_scheme": game_color_schemes["color_scheme_7"],
+		"scrolling_pause_time": 0.2,
+		"strays_spawn_count": 45
+	},
+	8: {
+		"lines_scroll_per_spawn_round": 3,
+		"stages_per_level": 30,
+		"color_scheme": game_color_schemes["color_scheme_8"],
+		"scrolling_pause_time": 0.15,
+		"strays_spawn_count": 50
+	},
+	9: {
+		"lines_scroll_per_spawn_round": 2,
+		"stages_per_level": 30,
+		"color_scheme": game_color_schemes["color_scheme_9"],
+		"scrolling_pause_time": 0.1,
+		"strays_spawn_count": 55
+	},
+	10: {
+		"lines_scroll_per_spawn_round": 1,
+		"stages_per_level": 3000,
+		"color_scheme": game_color_schemes["default_color_scheme"],
+		"scrolling_pause_time": 0.05,
+		"strays_spawn_count": 60
+	},
 }
 
 var default_player_stats: Dictionary = {
@@ -288,7 +298,7 @@ var game_data_cleaner_L: Dictionary = {
 	"level": "L",
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner.tscn",
-	"game_time_limit": 30,
+	"game_time_limit": 300,
 	"strays_start_count": 500, 
 }
 

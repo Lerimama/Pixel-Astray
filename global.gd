@@ -53,6 +53,7 @@ var color_gui_gray: Color = Color("#838383") # siva v tekstih (naslovi) in ikona
 #var color_gui_btn: Color = Color("#82ffffff") # siva gumbih je transparentna bela ... imitacija #838383
 #var color_gui_btn: Color = Color("#838383") # siva gumbih je transparentna bela ... imitacija #838383
 var color_hud_background: Color = Color("#141414")
+var color_wall_gray: Color = Color("#141414")
 
 
 # --------------------------------------------------------------------------------------------------------------

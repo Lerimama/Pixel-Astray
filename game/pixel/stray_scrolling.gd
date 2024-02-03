@@ -7,10 +7,13 @@ func show_stray(): # kliče GM
 
 
 func die(stray_in_stack_index: int, strays_in_stack: int):
-	# namen: stage upgrade in die, camera shake in vibra
+	# namen: stage upgrade in die, camera shake in vibra, collisions enabled, die off, če je DYING (walled)
 #	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
-#	shake_player_camera(burst_speed)	
+#	shake_player_camera(burst_speed)
 	
+	if current_state == States.DYING:
+		return
+		
 	current_state = States.DYING
 	global_position = Global.snap_to_nearest_grid(global_position) 
 	
@@ -27,26 +30,32 @@ func die(stray_in_stack_index: int, strays_in_stack: int):
 		animation_player.play("die_stray")
 
 	position_indicator.modulate.a = 0	
-	collision_shape.disabled = true
-	collision_shape_ext.disabled = true
+#	collision_shape.disabled = true
+#	collision_shape_ext.disabled = true
 	
 	# color vanish
 	var vanish_time = animation_player.get_current_animation_length()
 	var vanish: SceneTreeTween = get_tree().create_tween()
 	vanish.tween_property(self, "color_poly:modulate:a", 0, vanish_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
 
-	if Global.game_manager.current_progress_type == Global.game_manager.LevelProgressType.COLORS_PICKED:
-		Global.game_manager.upgrade_stage_or_level()	
+	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
+#	if Global.game_manager.current_progress_type == Global.game_manager.LevelProgressType.COLORS_PICKED:
+		Global.game_manager.upgrade_stage()	
 		
 	# KVEFRI je v animaciji
 
 
 func step(step_direction: Vector2):
+	# namen: nerandom smer, pošiljanje collisiona za prepoznavanje stene
 	
+#	if current_state == States.STATIC:
+	if not current_state == States.IDLE:
+		return
+		
 	var current_collider = detect_collision_in_direction(step_direction)
 	
 	if current_collider:
-		return
+		return current_collider
 	
 	current_state = States.MOVING
 	collision_shape_ext.position = step_direction * cell_size_x # vržem koližn v smer premika
@@ -57,9 +66,12 @@ func step(step_direction: Vector2):
 	step_tween.tween_callback(self, "end_move")
 
 	
+#var current_cell_neighbor_tilemaps: Array
+#var current_cell_neighbor_tilemaps_count: int
+#var edge_cells: Array
 
 func check_for_neighbors(hit_direction: Vector2): # kliče player on hit
-	# namen drugačen način stackanja
+	# namen: drugačen način uničevanja bulkov, preverjanje soseda tilemapa
 	
 	var directions_to_check: Array
 	directions_to_check = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
@@ -73,5 +85,11 @@ func check_for_neighbors(hit_direction: Vector2): # kliče player on hit
 		var neighbor = detect_collision_in_direction(direction)
 		if neighbor and neighbor.is_in_group(Global.group_strays) and not neighbor == self: # če je kolajder, je stray in ni self
 			current_cell_neighbors.append(neighbor)
-				
+		if Global.game_manager.floor_is_filled:
+			if neighbor and neighbor.is_in_group(Global.group_tilemap): # če je kolajder, je tilemap
+				current_cell_neighbors.append(neighbor)
+			
+		
 	return current_cell_neighbors # uporaba v stalnem čekiranj sosedov
+
+

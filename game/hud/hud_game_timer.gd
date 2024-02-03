@@ -87,7 +87,19 @@ func start_timer():
 	
 	$Timer.start()
 	
+
+func pause_timer():
 	
+	$Timer.set_paused(true)
+	modulate = Global.color_blue
+	
+
+func unpause_timer():
+	
+	$Timer.set_paused(false)
+	modulate = Global.color_white
+	
+		
 func stop_timer():
 	
 	$Timer.stop()

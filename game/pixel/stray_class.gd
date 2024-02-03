@@ -1,7 +1,7 @@
 extends KinematicBody2D
 class_name Stray
 
-enum States {IDLE, MOVING, STATIC, DYING} # static, unmovable
+enum States {IDLE, MOVING, STATIC, DYING} # static, unmovable ... ko je GO ali pa je poden
 var current_state # = States.IDLE
 
 var stray_color: Color
@@ -91,17 +91,20 @@ func die(stray_in_stack_index: int, strays_in_stack: int):
 	
 func step(step_direction: Vector2):
 	
+	if current_state.STATIC:
+		return
+		
 	var current_collider = detect_collision_in_direction(step_direction)
 	
 	if current_collider:
-		if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
-			return
-		else: # če kolajda izbrani smeri gibanja zarotira smer za 90 in poskusi znova
-			step_attempt += 1
-			if step_attempt < 5:
-				var new_direction = step_direction.rotated(deg2rad(90))
-				step(new_direction)
-			return
+#		if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
+#			return
+#		else: # če kolajda izbrani smeri gibanja zarotira smer za 90 in poskusi znova
+		step_attempt += 1
+		if step_attempt < 5:
+			var new_direction = step_direction.rotated(deg2rad(90))
+			step(new_direction)
+		return
 	
 	
 	current_state = States.MOVING
@@ -143,7 +146,7 @@ func pull_stray(pull_direction: Vector2, pull_cock_time: float, pull_time: float
 
 func end_move():
 	
-	if current_state == States.MOVING: # zakaj že rabim ta pogoj?
+	if current_state == States.MOVING: # da se stanje resetira samo če ni STATIC al pa DYING
 		current_state = States.IDLE
 	global_position = Global.snap_to_nearest_grid(global_position) 
 	
@@ -205,7 +208,7 @@ func detect_collision_in_direction(direction_to_check):
 	
 	# vsi ray gledajo naravnost
 	for ray in vision_rays:
-		ray.cast_to = Vector2(47.5, 0) # en pixel manj kot 48, da ne seže preko celice
+		ray.cast_to = Vector2(45, 0) # en pixel manj kot 48, da ne seže preko celice
 	
 	# grebanje kolajderja	
 	var first_collider: Node2D

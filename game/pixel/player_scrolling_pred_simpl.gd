@@ -154,23 +154,6 @@ func state_machine():
 func idle_inputs():
 	# namen: odstranim SKILLED stanje
 	
-	# preveri vse štiri smeri
-	var directions_to_check: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
-	var direction_with_collision: Array
-	for direction in directions_to_check:
-		var current_collider = detect_collision_in_direction(direction)
-		if current_collider:
-			direction_with_collision.append(direction)
-	# če so vse štiri polne
-	if direction_with_collision.size() == directions_to_check.size():
-#		player_surrounded = true
-		Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
-
-#	else:
-#		player_surrounded = false
-#	if direction_with_collision.has(cock_direction):	
-	
-	
 	if player_stats["player_energy"] > 1:
 		var current_collider: Node2D = detect_collision_in_direction(direction)
 		if not current_collider:
@@ -391,19 +374,68 @@ func cock_burst():
 	var burst_direction = direction
 	var cock_direction = - burst_direction
 	
-	if detect_collision_in_direction(cock_direction):
-		stop_sound("burst_cocking")
-		end_move()
-		return
+	# preveri vse štiri smeri
+	var directions_to_check: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
+	var direction_with_collision: Array
+	for direction in directions_to_check:
+		var current_collider = detect_collision_in_direction(direction)
+		if current_collider:
+			direction_with_collision.append(direction)
+	# če so vse štiri polne
+	if direction_with_collision.size() == directions_to_check.size():
+		player_surrounded = true
+
+#		print ("KABUM")
+#		if cocked_ghosts.size() < cocked_ghost_max_count and cocking_room: # prostor za napenjanje preverja ghost
+#			current_ghost_cocking_time += 1 / 60.0 # čas držanja tipke (znotraj nastajanja ene cock celice) ... fejk delta
+#			if current_ghost_cocking_time > cock_ghost_cocking_time: # ko je čas za eno celico mimo, jo spawnam
+#				current_ghost_cocking_time = 0
+#				var new_cock_ghost = spawn_cock_ghost(Vector2.ZERO)
+#				cocked_ghosts.append(new_cock_ghost)	
+#				play_sound("burst_cocking")
+	# prostor za začetek napenjanja preverja pixel
+	else:
+		player_surrounded = false
+		if direction_with_collision.has(cock_direction):
+	#	if detect_collision_in_direction(cock_direction):
+			stop_sound("burst_cocking")
+			end_move()
+			return
 		
 	if cocked_ghosts.size() < cocked_ghost_max_count and cocking_room: # prostor za napenjanje preverja ghost
 		current_ghost_cocking_time += 1 / 60.0 # čas držanja tipke (znotraj nastajanja ene cock celice) ... fejk delta
 		if current_ghost_cocking_time > cock_ghost_cocking_time: # ko je čas za eno celico mimo, jo spawnam
-			current_ghost_cocking_time = 0
-			var new_cock_ghost = spawn_cock_ghost(cock_direction)
-			cocked_ghosts.append(new_cock_ghost)	
-			play_sound("burst_cocking")
+				current_ghost_cocking_time = 0
+				var new_cock_ghost: Node
+				if player_surrounded:
+					new_cock_ghost = spawn_cock_ghost(Vector2.ZERO)
+#					new_cock_ghost.modulate.a = 0
+				else:
+					new_cock_ghost = spawn_cock_ghost(cock_direction)
+				cocked_ghosts.append(new_cock_ghost)	
+				play_sound("burst_cocking")
 			
+	elif player_surrounded: # release tudi če držiš tipko
+		release_burst()
+		burst_light_off()
+#		elif cocked_ghosts.size() == cocked_ghost_max_count:
+#			yield(get_tree().create_timer(cocking_loop_pause), "timeout")
+#			uncocking = true
+#	else:
+#		if not cocked_ghosts.empty():
+#			current_ghost_cocking_time += 1 / 60.0 
+#			if current_ghost_cocking_time > cock_ghost_cocking_time:
+#				play_sound("burst_uncocking")
+#				current_ghost_cocking_time = 0
+#				var last_cocked_ghost = cocked_ghosts.back() # najdem zadnjega cockanega in ga odfejdam
+#				var cock_cell_tween = get_tree().create_tween()
+#				cock_cell_tween.tween_property(last_cocked_ghost, "modulate:a", 0, cock_ghost_cocking_time)
+#				yield(cock_cell_tween, "finished")
+#				cocked_ghosts.pop_back()
+#				last_cocked_ghost.queue_free()
+#		else:
+#			yield(get_tree().create_timer(cocking_loop_pause), "timeout")
+#			uncocking = false
 
 func spawn_cock_ghost(cocking_direction: Vector2): 
 	# namen: vsi cock ghosti polni barve
@@ -534,22 +566,22 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 				break
 #			strays_to_destroy.append(neighboring_stray)
 
-#	var strays_on_floor: Array = Global.current_tilemap.strays_in_floor_area
-#	var strays_on_floor_dying = []
+	var strays_on_floor: Array = Global.current_tilemap.strays_in_floor_area
+	var strays_on_floor_dying = []
 	# jih destrojam
 	for stray in strays_to_destroy:
 		var stray_index = strays_to_destroy.find(stray)
 		stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
 		Global.hud.show_color_indicator(stray.stray_color) # če je scroller se returna na fuknciji
 	
-#	for stray in strays_on_floor:
-#		if stray.current_state == stray.States.DYING:
-#			strays_on_floor_dying.append(stray)
-#			stray.modulate.a = 0.2
+	for stray in strays_on_floor:
+		if stray.current_state == stray.States.DYING:
+			strays_on_floor_dying.append(stray)
+			stray.modulate.a = 0.2
 	
-#	printt("strays on floor and dying ", strays_on_floor.size(), strays_on_floor_dying.size())
-#	if strays_on_floor.size() <= strays_on_floor_dying.size() and not strays_on_floor.size() == 0: # samo da ni teh k umirajo manj, kot teh na tleh 
-#		Global.game_manager.on_floor_cleared()
+	printt("strays on floor and dying ", strays_on_floor.size(), strays_on_floor_dying.size())
+	if strays_on_floor.size() <= strays_on_floor_dying.size() and not strays_on_floor.size() == 0: # samo da ni teh k umirajo manj, kot teh na tleh 
+		Global.game_manager.on_floor_cleared()
 	
 	end_move() # more bit za collision partikli zaradi smeri
 

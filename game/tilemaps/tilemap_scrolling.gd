@@ -17,6 +17,12 @@ extends GameTilemap
 #	Global.current_tilemap = self
 #
 #
+var floor_cells_count_x: int = 0
+var floor_cells_count_y: int
+
+var floor_cells_tiles_x: Array
+var floor_cells_tiles_y: Array
+
 #func get_tiles():
 #
 #	# prečesi vse celice in določi globalne pozicije
@@ -57,7 +63,7 @@ extends GameTilemap
 #
 #	# pošljem v GM
 #	emit_signal("tilemap_completed", random_spawn_floor_positions, stray_global_positions, no_stray_global_positions, player_global_positions)
-#
+##
 #
 #func get_collision_tile_id(collider: Node2D, direction: Vector2): # collider je node ki se zaleteva in ne collision object
 #
@@ -71,26 +77,45 @@ extends GameTilemap
 #
 #	return tile_index
 
-signal floor_area_empty # preverja, če so tla spucana
 
-var strays_in_floor_area: Array = []
+
+var floor_cells_count: Vector2 = Vector2.ZERO
+
+func get_floor_width_and_height():
+	
+#	for tile in get_used_rect().size.x:
+#		floor_cells_count.x += 1
+#	for tile in get_used_rect().size.y:
+#		floor_cells_count.y += 1
+		
+	# odštejem robne tilete
+	floor_cells_count.x = get_used_rect().size.x - 2 # 40 fullskrin verzija
+	floor_cells_count.y = get_used_rect().size.y - 27 # samo spodnjega ... 20 fullskrin verzija
+	
+	
+#	print("tiles count ", floor_cells_count)
+	
+#		if floor_global_positions.has(x):
+					
+#		match cell_index:
+#				0: # floor
+#					floor_global_positions.append(cell_global_position)
+#					random_spawn_floor_positions.append(cell_global_position)
+	
+	return floor_cells_count
+#			match cell_index:
+#				0: # floor
+#					floor_global_positions.append(cell_global_position)
+#					random_spawn_floor_positions.append(cell_global_position)
+	
+#signal floor_area_empty # preverja, če so tla spucana
+
+#var strays_in_floor_area: Array = []
+#var strays_to_wall: Array = []
 
 func _on_FloorArea_body_entered(body: Node) -> void:
-#	print("not")
-
-#	if strays_in_floor_area.empty():
-#		emit_signal("floor_area_empty")
+	pass
 	
-	if body.is_in_group(Global.group_strays):
-		strays_in_floor_area.append(body)
-#		Global.game_manager.strays_on_floor = strays_in_floor_area#.duplicate()
-		
+	
 func _on_FloorArea_body_exited(body: Node) -> void:
-	
-	var body_to_erase: Node = body 
-	strays_in_floor_area.erase(body_to_erase)
-#	Global.game_manager.strays_on_floor = strays_in_floor_area#.duplicate()
-	
-	if strays_in_floor_area.empty():
-		emit_signal("floor_area_empty")
-#	print("new off floor, ", strays_in_floor_area.size())
+	pass
