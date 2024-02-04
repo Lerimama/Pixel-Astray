@@ -22,7 +22,6 @@ var level_color_scheme: Dictionary # trenutna barvna shema
 onready var leveling_conditions: Dictionary = Profiles.scrolling_levels_conditions
 var stages_per_level: int # = Profiles.scrolling_levels_conditions[1]
 
-
 func _ready() -> void:
 
 	Global.game_manager = self
@@ -85,8 +84,8 @@ func game_over(gameover_reason: int):
 #	if gameover_reason == GameoverReason.TIME:
 #		return
 	if gameover_reason == GameoverReason.CLEANED:
-		all_strays_died_alowed = true
-		yield(self, "all_strays_died")
+#		all_strays_died_alowed = true
+#		yield(self, "all_strays_died")
 		var signaling_player: KinematicBody2D
 		for player in get_tree().get_nodes_in_group(Global.group_players):
 			player.all_cleaned()
@@ -99,10 +98,8 @@ func game_over(gameover_reason: int):
 	
 	stop_game_elements()
 
-	
-func pause_game():
-	Global.hud.game_timer.stop_timer()
-	
+	Global.gameover_menu.open_gameover(gameover_reason)
+		
 		
 # SETUP --------------------------------------------------------------------------------------
 
@@ -189,6 +186,7 @@ func set_level_colors():
 
 	
 func set_players():
+	# namen: podajanje dobljenih točk v GM
 	
 	for player_position in player_start_positions: # glavni parameter, ki opredeli število igralcev
 		spawned_player_index += 1 # torej začnem z 1
@@ -240,27 +238,38 @@ func upgrade_stage():
 		current_stage += 1
 		Global.hud.update_indicator_on_stage_up(current_stage) # povdari indikator
 		printt ("new stage", current_stage)
-		
 	
+var in_level_transition: bool = false
+
 func upgrade_level():
 	# če ne presega max levelov
 	current_level += 1 # številka trenutnega levela 
+	var strays_to_clean_on_screen: Array
 	
+	# če presega max levele ... game over
 	if current_level > levels_per_game:
-		game_over(GameoverReason.TIME)
+		game_over(GameoverReason.CLEANED)
 	else:
-		printt ("new level", current_level)
+		in_level_transition = true
+		printt ("novi level", current_level)
 		# prebarvam in reštaram level
 		set_level_conditions()
 		Global.hud.empty_color_indicators() # novi indkatorji
-#		if current_progress_type == LevelProgressType.FLOOR_CLEARED:
-#			stages_per_level = 3
-		set_level_colors() 
+		set_level_colors()
+#		# zbrišem vse spawnane, ki niso tla ... če sploh, ker si kot plejer tega sploh nebi želel
+#		for stray in get_tree().get_nodes_in_group(Global.group_strays):
+#			var stray_on_screen_index: int = get_tree().get_nodes_in_group(Global.group_strays).find(stray)
+#			if not floor_strays.has(stray):
+#				strays_to_clean_on_screen.append(stray)
+#				stray.die_on_clean_screen(stray_on_screen_index, get_tree().get_nodes_in_group(Global.group_strays).size())
+		
+		yield(get_tree().create_timer(5), "timeout")
+		in_level_transition = false		
 		# poštimam prvi stage levela 
 		current_stage = 1
 		Global.hud.update_indicator_on_stage_up(current_stage) # obarvaj prvega
+
 		
-	# če presega max levele ... game over
 	
 	
 func set_level_conditions():
@@ -359,7 +368,7 @@ func stray_step():
 	
 	var stepping_direction: Vector2
 	
-	if game_data["game"] == Profiles.Games.SCROLLER and not floor_is_filled:
+	if game_data["game"] == Profiles.Games.SCROLLER and not floor_is_filled and not in_level_transition:
 		
 		stepping_direction = Vector2.DOWN
 		
@@ -377,12 +386,14 @@ func stray_step():
 			spawn_strays(game_data["strays_start_count"])
 			
 	if game_on:
+		
+		# čekiram pogoje pred novim korakom
 		for player in get_tree().get_nodes_in_group(Global.group_players):		
 			if player.player_surrounded:
 				print("GAME OVER - SURROUNDED")
-				game_over(GameoverReason.TIME)
+				game_over(GameoverReason.LIFE)
 				return # da ne falsam game filled
-				
+			
 		yield(get_tree().create_timer(scrolling_pause_time), "timeout")
 		stray_step()
 
@@ -436,7 +447,7 @@ func check_if_floor_is_filled():
 			# preverim povezanost straysov na robu
 			connected_strays_on_floor_edge.clear() # spucam, ker vedno znova pregledam vse na tleh
 			for stray in strays_on_floor_edge:
-	#			if not stray.current_state == stray.States.DYING: # eror varovalka
+#				if not stray.current_state == stray.States.DYING: # eror varovalka
 				var stray_neighbors: Array = stray.get_all_neighbors_in_directions([Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]) # nepomembna smer
 				if stray: # eror varovalka
 					if stray_neighbors.size() == 4: # sosedi so straysi ali tilemap
@@ -481,12 +492,8 @@ func on_floor_is_filled():
 	for stray in current_strays_on_top:
 		if floor_strays.has(stray):
 			print("GAME OVER - TOP")
-			game_over(GameoverReason.LIFE)
+			game_over(GameoverReason.TIME)
 			return # da ne falsam game filled
-			break
 	
 	Global.hud.game_timer.unpause_timer()
 	floor_is_filled = false
-
-			
-		

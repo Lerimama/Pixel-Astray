@@ -227,10 +227,9 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 		end_move()
 		return
 
-#	tween_color_change(hit_stray.stray_color)
-
 	# preverim sosede
 	var hit_stray_neighbors = check_strays_neighbors(hit_stray)
+	
 	# naberem strayse za destrojat
 	var burst_speed_units_count = burst_speed / cock_ghost_speed_addon
 	var strays_to_destroy: Array = []
@@ -242,7 +241,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 				strays_to_destroy.append(neighboring_stray)
 			else: 
 				break
-#			strays_to_destroy.append(neighboring_stray)
+			# strays_to_destroy.append(neighboring_stray)
 
 	# jih destrojam
 	for stray in strays_to_destroy:
@@ -257,7 +256,10 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	
 	player_surrounded == false # če je središčni burst
 
-	
+#	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
+#		Global.game_manager.upgrade_stage()	
+		
+		
 func on_hit_wall():
 
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.7)
@@ -269,4 +271,3 @@ func on_hit_wall():
 	# yield(get_tree().create_timer(1), "timeout") # za dojet
 	end_move()
 	
-

@@ -60,7 +60,7 @@ var current_color_scheme: Dictionary = game_color_schemes["default_color_scheme"
 var scrolling_levels_conditions: Dictionary = {
 	1: {
 		"lines_scroll_per_spawn_round": 10,
-		"stages_per_level": 100,
+		"stages_per_level": 50,
 		"color_scheme": game_color_schemes["color_scheme_1"],
 		"scrolling_pause_time": 0.5, # ne sem bit manjšaq od stray stepa
 		"strays_spawn_count": 32
@@ -74,7 +74,7 @@ var scrolling_levels_conditions: Dictionary = {
 	},
 	3: {
 		"lines_scroll_per_spawn_round": 8,
-		"stages_per_level": 150,
+		"stages_per_level": 1000,
 		"color_scheme": game_color_schemes["color_scheme_3"],
 		"scrolling_pause_time": 0.4,
 		"strays_spawn_count": 15

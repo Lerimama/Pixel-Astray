@@ -39,7 +39,6 @@ func die(stray_in_stack_index: int, strays_in_stack: int):
 	vanish.tween_property(self, "color_poly:modulate:a", 0, vanish_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
 
 	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
-#	if Global.game_manager.current_progress_type == Global.game_manager.LevelProgressType.COLORS_PICKED:
 		Global.game_manager.upgrade_stage()	
 		
 	# KVEFRI je v animaciji
@@ -104,3 +103,44 @@ func turn_to_wall_stray(stray_in_stack_index: int):
 	color_tween.tween_property(self, "color_poly:color", Color.black, 0.2)#.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
 	color_tween.tween_callback(self, "return", [true])#.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
 	
+
+func check_for_neighbor_strays_on_hit(): # kliče player on hit
+	 
+	var directions_to_check: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
+	var current_cell_neighbors: Array
+	
+	for direction in directions_to_check:
+		var neighbor = detect_collision_in_direction(direction)
+		if neighbor and neighbor.is_in_group(Global.group_strays) and not neighbor == self: # če je kolajder, je stray in ni selfž
+			if not neighbor.current_state == neighbor.States.DYING: # če je vstanju umiranja se ne šteje za soseda
+				current_cell_neighbors.append(neighbor)
+				
+	return current_cell_neighbors # uporaba v stalnem čekiranj sosedov
+
+
+func die_on_clean_screen(stray_in_stack_index: int, strays_in_stack: int):
+	# namen: stage upgrade in die, camera shake in vibra, collisions enabled, die off, če je DYING (walled)
+#	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
+#	shake_player_camera(burst_speed)
+	
+		
+	current_state = States.DYING
+	global_position = Global.snap_to_nearest_grid(global_position) 
+	
+	# čakalni čas
+	var wait_to_destroy_time: float = sqrt(0.07 * (stray_in_stack_index)) # -1 je, da hitan stray ne čaka
+	yield(get_tree().create_timer(wait_to_destroy_time), "timeout")
+	
+	# animacije
+	animation_player.play("die_stray")
+
+	position_indicator.modulate.a = 0	
+#	collision_shape.disabled = true
+#	collision_shape_ext.disabled = true
+	
+	# color vanish
+	var vanish_time = animation_player.get_current_animation_length()
+	var vanish: SceneTreeTween = get_tree().create_tween()
+	vanish.tween_property(self, "color_poly:modulate:a", 0, vanish_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
+
+	# KVEFRI je v animaciji

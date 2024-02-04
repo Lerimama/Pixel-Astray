@@ -13,11 +13,11 @@
 [ext_resource path="res://assets/atlas_controls.png" type="Texture" id=11]
 [ext_resource path="res://game/hud/hud_color_indicator.tscn" type="PackedScene" id=12]
 [ext_resource path="res://game/hud/hud_game_timer.gd" type="Script" id=13]
+[ext_resource path="res://game/gui/game_over_scrolling.gd" type="Script" id=14]
 [ext_resource path="res://game/gui/highscore_table.gd" type="Script" id=15]
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=16]
 [ext_resource path="res://game/hud/music_player.gd" type="Script" id=17]
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=18]
-[ext_resource path="res://game/gui/game_over_cleaning.gd" type="Script" id=19]
 [ext_resource path="res://game/managers/game_manager_scrolling.gd" type="Script" id=20]
 [ext_resource path="res://game/hud/hud_scrolling.gd" type="Script" id=21]
 [ext_resource path="res://game/PlayerCamera.tscn" type="PackedScene" id=22]
@@ -2558,7 +2558,7 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 2 )
-script = ExtResource( 19 )
+script = ExtResource( 14 )
 
 [node name="Background" type="ColorRect" parent="GUI/GameOver"]
 anchor_right = 1.0
@@ -2729,7 +2729,7 @@ margin_right = 252.0
 margin_bottom = 174.0
 grow_horizontal = 2
 custom_fonts/font = ExtResource( 3 )
-text = "You are full of colors again!"
+text = "No more colors to spawn. You are full of colors again!"
 align = 1
 
 [node name="ReasonTime" type="Control" parent="GUI/GameOver/GameoverTitle"]
@@ -2761,7 +2761,7 @@ margin_right = 177.0
 margin_bottom = 174.0
 grow_horizontal = 2
 custom_fonts/font = ExtResource( 3 )
-text = "You are out of time!"
+text = "The spawning machin has stalled!"
 align = 1
 
 [node name="ReasonLife" type="Control" parent="GUI/GameOver/GameoverTitle"]
@@ -2793,7 +2793,7 @@ margin_right = 234.0
 margin_bottom = 174.0
 grow_horizontal = 2
 custom_fonts/font = ExtResource( 3 )
-text = "You are forever colorless!"
+text = "Moving colors are too much for you ... you are forever colorless!"
 align = 1
 
 [node name="GameSummary" type="Control" parent="GUI/GameOver"]

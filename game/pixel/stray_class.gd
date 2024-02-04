@@ -189,7 +189,8 @@ func play_sound(effect_for: String):
 			var selected_step_sound = $Sounds/Stepping.get_child(random_step_index).play()
 
 
-func check_for_neighbor_strays(): # kliče player on hit
+func check_for_neighbor_strays_on_hit(): # kliče player on hit
+#func check_for_neighbor_strays(): # kliče player on hit
 #func check_for_neighbors(hit_direction: Vector2): # kliče player on hit
 	
 	# hit_direction me ne zanima, ker po defaultu destroyam cel bulk
@@ -200,7 +201,8 @@ func check_for_neighbor_strays(): # kliče player on hit
 	for direction in directions_to_check:
 		var neighbor = detect_collision_in_direction(direction)
 		if neighbor and neighbor.is_in_group(Global.group_strays) and not neighbor == self: # če je kolajder, je stray in ni self
-			current_cell_neighbors.append(neighbor)
+			if not neighbor.current_state == neighbor.States.DYING: # če je vstanju umiranja se ne šteje za soseda
+				current_cell_neighbors.append(neighbor)
 				
 	return current_cell_neighbors # uporaba v stalnem čekiranj sosedov
 

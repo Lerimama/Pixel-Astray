@@ -18,7 +18,7 @@ var start_players_count: int
 var strays_shown: Array = []
 var strays_in_game_count: int setget _change_strays_in_game_count # spremlja spremembo količine aktivnih in uničenih straysov
 var strays_cleaned_count: int = 0 # za statistiko na hudu
-var all_strays_died_alowed: bool = false # za omejevanje signala iz FP
+var all_strays_died_alowed: bool = false # za omejevanje signala iz FP ... kdaj lahko reagira na 0 straysov v igri
 
 # tilemap data
 var cell_size_x: int # napolne se na koncu setanju tilemapa
