@@ -3,6 +3,26 @@ extends Player_class
 
 var player_surrounded: bool = false
 
+
+
+func _physics_process(delta: float) -> void:
+	# namen: detect touch
+	
+	color_poly.modulate = pixel_color # povezava med variablo in barvo mora obstajati non-stop
+	
+	# glow light setup
+	if pixel_color == Global.game_manager.game_settings["player_start_color"]:
+		glow_light.color = Color.white
+		glow_light.energy = 1.7
+	else:
+		glow_light.color = pixel_color
+		glow_light.energy = 1.5 # če spremeniš, je treba spremenit tudi v animacijah
+	
+	detect_touch()	
+	state_machine()
+	manage_heartbeat()
+	
+	
 	
 # INPUTS ------------------------------------------------------------------------------------------
 
@@ -268,4 +288,34 @@ func on_hit_wall():
 	
 	# yield(get_tree().create_timer(1), "timeout") # za dojet
 	end_move()
+
+
+
+func detect_touch():
 	
+	var touch_rays: Array = [$Touch/TouchRay1, $Touch/TouchRay2, $Touch/TouchRay3, $Touch/TouchRay4]	
+	var collider: Node
+	var touching_objects: Array
+	 
+	for ray in touch_rays:
+		ray.add_exception(self)
+		ray.force_raycast_update()
+		if ray.is_colliding():
+			collider = ray.get_collider()
+			touching_objects.append(collider)
+	
+	# posledice dotilka
+	if not touching_objects.empty():
+#		print("touching_objects ", touching_objects.size())
+		for object in touching_objects:
+			if object.is_in_group(Global.group_strays):
+				change_stat("touching_stray", 1) # točke in energija kot je določeno v settingsih
+	
+	if player_stats["player_energy"] == 0:
+		print("DIE")
+		die()
+#		for stray in current_strays_on_top:
+#		if floor_strays.has(stray):
+#			print("GAME OVER - TOP")
+#			game_over(GameoverReason.TIME)
+#			return # da ne falsam game filled

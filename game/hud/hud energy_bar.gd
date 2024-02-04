@@ -23,7 +23,6 @@ func _on_amount_change(new_value: int):
 	
 	# setam prev energy ... prava energija se še ni spremenila
 	previous_energy = energy 
-	
 	# setam current energy
 	energy = new_value
 	
@@ -31,7 +30,13 @@ func _on_amount_change(new_value: int):
 		modulate = Global.color_red
 	else:
 		modulate = Global.hud_text_color
-	
+#
+#	if energy < previous_energy:
+#		modulate = Global.color_red
+#	elif energy == previous_energy:
+#		modulate = Global.hud_text_color
+#	else:
+#		modulate = Global.color_green
 	set_icons_state()
  
 

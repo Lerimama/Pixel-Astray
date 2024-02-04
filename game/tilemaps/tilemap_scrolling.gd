@@ -6,7 +6,7 @@ var floor_cells_count_y: int
 
 var floor_cells_count: Vector2 = Vector2.ZERO
 var strays_in_top_area: Array = []
-
+var stray_in_floor_area: Array = []
 
 func get_floor_width_and_height():
 	
@@ -28,9 +28,12 @@ func _on_TopArea_body_exited(body: Node) -> void:
 	
 
 func _on_FloorArea_body_entered(body: Node) -> void:
-	pass
-	
-	
+	if body.is_in_group(Global.group_strays):
+		stray_in_floor_area.append(body)
+#		print ("in ", stray_in_floor_area.size())
+		
 func _on_FloorArea_body_exited(body: Node) -> void:
-	pass
-
+	if body.is_in_group(Global.group_strays):
+		stray_in_floor_area.erase(body)
+#		print ("out", stray_in_floor_area.size())
+		body.queue_free()

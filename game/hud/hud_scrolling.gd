@@ -139,3 +139,38 @@ func show_color_indicator(picked_color: Color):
 
 	return # player kliče, ampak v scrollerju se nič ne zgodi
 
+
+func check_for_warning(player_stats: Dictionary, warning_popup: Control):
+	# namen drugače prikaže in čekira
+	
+	if warning_popup:
+		var steps_remaining_label: Label
+		steps_remaining_label = warning_popup.get_node("StepsRemaining")
+		if player_stats["player_energy"] < Global.game_manager.game_settings["player_tired_energy"]:
+			steps_remaining_label.text = "LOW ENERGY WARNING!"
+#			steps_remaining_label.text = "ENERGY WARNING! Only %s steps remaining." % str(player_stats["player_energy"] - 1)
+			if warning_popup.visible == false:
+				warning_in(warning_popup)
+		elif player_stats["player_energy"] > Global.game_manager.game_settings["player_tired_energy"]:
+			if warning_popup.visible == true:
+				warning_out(warning_popup)
+		elif player_stats["player_energy"] <= 0:
+			if warning_popup.visible == true:
+				warning_out(warning_popup)		
+	
+#		if player_stats["player_energy"] == 0:
+#			if warning_popup.visible == true:
+#				warning_out(warning_popup)		
+#		elif player_stats["player_energy"] == 1:
+#			steps_remaining_label.text = "NO ENERGY! Collect a color to revitalize."
+#		elif player_stats["player_energy"] == 2: # pomeni samo še en korak in rabim ednino
+#			steps_remaining_label.text = "ENERGY WARNING! Only 1 step remaining."
+#			if warning_popup.visible == false:
+#				warning_in(warning_popup)
+#		elif player_stats["player_energy"] <= Global.game_manager.game_settings["player_tired_energy"]:
+#			steps_remaining_label.text = "ENERGY WARNING! Only %s steps remaining." % str(player_stats["player_energy"] - 1)
+#			if warning_popup.visible == false:
+#				warning_in(warning_popup)
+#		elif player_stats["player_energy"] > Global.game_manager.game_settings["player_tired_energy"]:
+#			if warning_popup.visible == true:
+#				warning_out(warning_popup)

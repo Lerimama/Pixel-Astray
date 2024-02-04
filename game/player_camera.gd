@@ -53,8 +53,9 @@ func _ready():
 			Global.player2_camera = self
 		
 		# start setup
-		if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
-#			zoom_end = Vector2(2,2) # debug 
+		if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER or Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
+#		if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
+			zoom_end = Vector2(2,2) # debug 
 			zoom = zoom_end
 		else:
 			zoom = zoom_start
@@ -103,7 +104,7 @@ func _physics_process(delta: float) -> void:
 	
 func zoom_in(hud_in_out_time: float, players_count: int): # kliče hud
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
+	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER or Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
 		emit_signal("zoomed_in")
 	else:
 		if players_count == 2:

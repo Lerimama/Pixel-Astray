@@ -1186,18 +1186,33 @@ energy = 1.5
 range_z_min = -2
 range_z_max = -1
 shadow_enabled = true
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="ColorPoly" type="Polygon2D" parent="."]
 position = Vector2( -16, -16 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="CollisionShapeExt" type="CollisionShape2D" parent="."]
 shape = SubResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Vision" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="VisionRay1" type="RayCast2D" parent="Vision"]
 position = Vector2( 0, -15.9 )
@@ -1221,6 +1236,37 @@ visible = false
 position = Vector2( -16, -16 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32, 16, 16 )
 
+[node name="Touch" type="Node2D" parent="."]
+
+[node name="TouchRay1" type="RayCast2D" parent="Touch"]
+position = Vector2( 0, -15.9 )
+enabled = true
+cast_to = Vector2( 0, -8.1 )
+collision_mask = 3
+
+[node name="TouchRay2" type="RayCast2D" parent="Touch"]
+position = Vector2( 16, 0 )
+enabled = true
+cast_to = Vector2( 8, 0 )
+collision_mask = 3
+
+[node name="TouchRay3" type="RayCast2D" parent="Touch"]
+position = Vector2( 0, 15.9 )
+enabled = true
+cast_to = Vector2( 0, 8.1 )
+collision_mask = 3
+
+[node name="TouchRay4" type="RayCast2D" parent="Touch"]
+position = Vector2( -16, 0 )
+enabled = true
+cast_to = Vector2( -8, 0 )
+collision_mask = 3
+
+[node name="ColorPoly" type="Polygon2D" parent="Touch"]
+visible = false
+position = Vector2( -16, -16 )
+polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32, 16, 16 )
+
 [node name="BurstLight" type="Light2D" parent="."]
 position = Vector2( 7.62939e-06, -9.53674e-06 )
 scale = Vector2( 0.25, 0.25 )
@@ -1228,13 +1274,19 @@ enabled = false
 texture = ExtResource( 28 )
 energy = 0.0
 range_z_min = 0
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="SkillLight" type="Light2D" parent="."]
-position = Vector2( 1.97093e-06, 0 )
+position = Vector2( -2.27374e-13, 0 )
 scale = Vector2( 0.266667, 0.266667 )
 texture = ExtResource( 15 )
 energy = 0.0
 range_z_min = 0
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 142 )
@@ -1249,6 +1301,9 @@ anims/scrolling_die_player = SubResource( 161 )
 anims/scrolling_revive = SubResource( 162 )
 
 [node name="Sounds" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Stepping" type="Node2D" parent="Sounds"]
 

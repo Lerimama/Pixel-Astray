@@ -1,10 +1,16 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/resources/tileset_arena.tres" type="TileSet" id=1]
 [ext_resource path="res://game/tilemaps/tilemap_scrolling.gd" type="Script" id=2]
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 640, 8 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 640, 8 )
+
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 640, 8 )
 
 [node name="ScrollingTilemap" type="TileMap"]
@@ -180,7 +186,7 @@ __meta__ = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FloorArea"]
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="TopArea" type="Area2D" parent="."]
 position = Vector2( 672, 840 )
@@ -191,7 +197,7 @@ __meta__ = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TopArea"]
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 
 [node name="Polygon2D" type="Polygon2D" parent="TopArea"]
 visible = false

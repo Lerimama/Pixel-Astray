@@ -56,8 +56,7 @@ var game_color_schemes: Dictionary = {
 
 var current_color_scheme: Dictionary = game_color_schemes["default_color_scheme"]
 
-
-var scrolling_levels_conditions: Dictionary = {
+var scrolling_level_conditions: Dictionary = {
 	1: {
 		"lines_scroll_per_spawn_round": 10,
 		"stages_per_level": 3,
@@ -99,6 +98,79 @@ var scrolling_levels_conditions: Dictionary = {
 		"color_scheme": game_color_schemes["color_scheme_6"],
 		"scrolling_pause_time": 0.4,
 		"strays_spawn_count": 32
+	},
+	7: {
+		"lines_scroll_per_spawn_round": 7,
+		"stages_per_level": 30,
+		"color_scheme": game_color_schemes["color_scheme_7"],
+		"scrolling_pause_time": 0.4,
+		"strays_spawn_count": 32
+	},
+	8: {
+		"lines_scroll_per_spawn_round": 7,
+		"stages_per_level": 30,
+		"color_scheme": game_color_schemes["color_scheme_8"],
+		"scrolling_pause_time": 0.5,
+		"strays_spawn_count": 32
+	},
+	9: {
+		"lines_scroll_per_spawn_round": 7,
+		"stages_per_level": 30,
+		"color_scheme": game_color_schemes["color_scheme_9"],
+		"scrolling_pause_time": 0.5,
+		"strays_spawn_count": 32
+	},
+	10: {
+		"lines_scroll_per_spawn_round": 7,
+		"stages_per_level": 30,
+		"color_scheme": game_color_schemes["default_color_scheme"],
+		"scrolling_pause_time": 0.5,
+		"strays_spawn_count": 32
+	},
+}
+
+var sidewinder_level_conditions: Dictionary = {
+	1: {
+		"lines_scroll_per_spawn_round": 10,
+		"stages_per_level": 5, # lines scrolled
+		"color_scheme": game_color_schemes["color_scheme_1"],
+		"scrolling_pause_time": 0.5, # ne sem bit manjšaq od stray stepa
+		"strays_spawn_count": 14
+	},
+	2: {
+		"lines_scroll_per_spawn_round": 9,
+		"stages_per_level": 20,
+		"color_scheme": game_color_schemes["color_scheme_2"],
+		"scrolling_pause_time": 0.45,
+		"strays_spawn_count": 14
+	},
+	3: {
+		"lines_scroll_per_spawn_round": 8,
+		"stages_per_level": 500,
+		"color_scheme": game_color_schemes["color_scheme_3"],
+		"scrolling_pause_time": 0.4,
+		"strays_spawn_count": 14
+	},
+	4: {
+		"lines_scroll_per_spawn_round": 7,
+		"stages_per_level": 20,
+		"color_scheme": game_color_schemes["color_scheme_4"],
+		"scrolling_pause_time": 0.4,
+		"strays_spawn_count": 14
+	},
+	5: {
+		"lines_scroll_per_spawn_round": 7,
+		"stages_per_level": 30,
+		"color_scheme": game_color_schemes["color_scheme_5"],
+		"scrolling_pause_time": 0.4,
+		"strays_spawn_count": 14
+	},
+	6: {
+		"lines_scroll_per_spawn_round": 7,
+		"stages_per_level": 30,
+		"color_scheme": game_color_schemes["color_scheme_6"],
+		"scrolling_pause_time": 0.4,
+		"strays_spawn_count": 14
 	},
 	7: {
 		"lines_scroll_per_spawn_round": 7,
@@ -174,18 +246,15 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 #	"skill_limit_count": 5,
 #	"burst_limit_mode": false,
 #	"burst_limit_count": 5,
-
 	# game
 	"gameover_countdown_duration": 5,
 	"timer_mode_countdown" : true, # če prišteva in je "game_time_limit" = 0, nima omejitve navzgor
-#	
 	"start_countdown": false,
 	"minimap_on": false,
 	"position_indicators_mode": true, # duel jih nima 
 	"show_position_indicators_stray_count": 5,
 	"suddent_death_mode": false,
 	"sudden_death_limit" : 20,
-	
 #	# strays steping ... prenešeno v GM
 ##	"stray_step_mode": false,
 #	"pause_time": 0.1, # random pavzo delim z random številom v obsegu ...
@@ -193,10 +262,10 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 	"stray_step_time": 0.2,
 #	"scrolling_pause_time": 0.5,
 #	"scrolling_pause_time": 0.5,
-
-#	"highscore_type": HighscoreTypes.HS_TIME,
-	"manage_highscores": true,
-
+	"manage_highscores": true, # obsoleten, ker je vključen v HS type
+	
+	"touching_stray_energy": -0.4,
+	
 	# odl	
 	# "scrolling_mode": false,
 	# "hit_player_points": 1000,
@@ -214,7 +283,8 @@ enum Games {
 #	SWEEPER_S, SWEEPER_M, SWEEPER_L,
 	ERASER_S, ERASER_M, ERASER_L,
 	CLEANER_S, CLEANER_M, CLEANER_L, CLEANER_DUEL
-	HUNTER, SCROLLER,
+	SCROLLER, SIDEWINDER,
+	HUNTER, 
 	SPRINTER_S, SPRINTER_M, SPRINTER_L, SPRINTER_DUEL
 	RUNNER,  RIDDLER,
 	TUTORIAL,
@@ -322,9 +392,21 @@ var game_data_scroller: Dictionary = {
 	"game_scene_path": "res://game/game_scrolling.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_scrolling.tscn",
 	"game_time_limit": 0,
-	"strays_start_count": 50,
+	"strays_start_count": 50, # pravi se seta znotraj igre
 	
 }
+
+var game_data_sidewinder: Dictionary = { 
+	"game": Games.SIDEWINDER,
+	"highscore_type": HighscoreTypes.HS_TIME_HIGH,
+	"game_name": "Sidewinder",
+	"level": " ", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
+	"game_scene_path": "res://game/game_scrolling.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_scrolling_sidewinder.tscn",
+	"game_time_limit": 0,
+	"strays_start_count": 50, # pravi se seta znotraj igre
+}
+
 
 var game_data_hunter: Dictionary = {
 	"game": Games.HUNTER,
@@ -382,8 +464,9 @@ func _ready() -> void:
 	# če greš iz menija je tole povoženo
 #	var current_game = Games.ERASER_S
 #	var current_game = Games.CLEANER_L
-	var current_game = Games.CLEANER_DUEL
+#	var current_game = Games.CLEANER_DUEL
 #	var current_game = Games.SCROLLER
+	var current_game = Games.SIDEWINDER
 ##
 ###	var current_game = Games.DUEL
 ###	var current_game = Games.TUTORIAL
@@ -444,22 +527,22 @@ func set_game_data(selected_game) -> void:
 			
 			game_settings["timer_mode_countdown"] = false
 			game_settings["start_countdown"] = false
-			
 			game_settings["stray_step_mode"] = true
 			game_settings["position_indicators_mode"] = false 
 			game_settings["step_slowdown_mode"] = false
-			game_settings["manage_highscores"] = false
-		Games.SCROLLER_DUEL:
-			current_game_data = game_data_scroller
-			game_settings["cell_traveled_energy"] = 0
+		Games.SIDEWINDER:
+			current_game_data = game_data_sidewinder
+			game_settings["cell_traveled_energy"] = 1
+			game_settings["player_start_life"] = 1
+			game_settings["player_start_color"] = Color.blue
 			
 			game_settings["timer_mode_countdown"] = false
 			game_settings["start_countdown"] = false
-			
 			game_settings["stray_step_mode"] = true
 			game_settings["position_indicators_mode"] = false 
 			game_settings["step_slowdown_mode"] = false
-			# game_settings["scrolling_mode"] = true
+			game_settings["player_tired_energy"] = 40
+		
 		
 #		Games.SPRINTER_S: 
 #			current_game_data = game_data_sprinter_S

@@ -1179,6 +1179,11 @@ func change_stat(stat_event: String, stat_value):
 			if player_stats["player_energy"] == 0: # energija = 0 samo zaradi srčka ali hita, če je "lose_life_on_hit"
 				player_stats["player_energy"] = game_settings["player_max_energy"]	
 		# XTRA ---------------------------------------------------------------------------------------------------------------
+		"touching_stray": # če se dotikaš
+			player_stats["player_energy"] += game_settings["touching_stray_energy"]
+#
+#			player_stats["player_points"] += game_settings["all_cleaned_points"]
+#			spawn_floating_tag(game_settings["all_cleaned_points"])
 		"all_cleaned": # nagrada je določena v settingsih
 			player_stats["player_points"] += game_settings["all_cleaned_points"]
 			spawn_floating_tag(game_settings["all_cleaned_points"])

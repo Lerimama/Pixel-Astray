@@ -67,35 +67,25 @@ func _on_CleanerDuelBtn_pressed() -> void:
 	get_viewport().set_disable_input(true)
 
 
-# runners -----------------------------------------------------------------------------------------
+# scrollers -----------------------------------------------------------------------------------------
 
-func _on_FallingBtn_pressed() -> void:
 	
+func _on_RainmanBtn_pressed() -> void:
 	Profiles.set_game_data(Profiles.Games.SCROLLER)
 	Global.sound_manager.play_gui_sfx("menu_fade")
 	$"%AnimationPlayer".play("play")
 	get_viewport().set_disable_input(true)
 
 
+func _on_SidewinderBtn_pressed() -> void:
 
-
-
-
-
-
-
-
-func _on_WanderingBtn_pressed() -> void:
-	
-	Profiles.set_game_data(Profiles.Games.HUNTER)
+	Profiles.set_game_data(Profiles.Games.SIDEWINDER)
 	Global.sound_manager.play_gui_sfx("menu_fade")
 	$"%AnimationPlayer".play("play")
 	get_viewport().set_disable_input(true)
 
 
 func _on_TutorialBtn_pressed() -> void:
-	
-	return
 	
 	Profiles.set_game_data(Profiles.Games.TUTORIAL)
 	Global.sound_manager.play_gui_sfx("menu_fade")

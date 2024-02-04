@@ -19,12 +19,17 @@ var current_progress_type: int = LevelProgressType.COLORS_PICKED
 var levels_per_game: int = 10
 var scrolling_pause_time: float # pavza med stepi
 var level_color_scheme: Dictionary # trenutna barvna shema
-onready var leveling_conditions: Dictionary = Profiles.scrolling_levels_conditions
-var stages_per_level: int # = Profiles.scrolling_levels_conditions[1]
+var stages_per_level: int # = Profiles.scrolling_level_conditions[1]
 
 var in_level_transition: bool = false
 
 
+func _unhandled_input(event: InputEvent) -> void:
+
+	if Input.is_action_just_pressed("n"):
+		upgrade_level()
+			
+			
 func _ready() -> void:
 
 	Global.game_manager = self
@@ -79,7 +84,7 @@ func game_over(gameover_reason: int):
 	
 	Global.hud.game_timer.stop_timer()
 	
-	# ko je igra obrnjena
+	# ko je na koncu
 	if gameover_reason == GameoverReason.CLEANED: 
 		var signaling_player: KinematicBody2D
 		for player in get_tree().get_nodes_in_group(Global.group_players):
@@ -123,7 +128,9 @@ func set_tilemap():
 
 
 func set_game_view():
-
+	
+	#namen: ... tudi fiksirana kamera
+	
 	# viewports
 	var viewport_1: Viewport = $"%Viewport1"
 	var viewport_2: Viewport = $"%Viewport2"
@@ -131,17 +138,15 @@ func set_game_view():
 	var viewport_separator: VSeparator = $"%ViewportSeparator"
 
 	var cell_align_start: Vector2 = Vector2(cell_size_x, cell_size_x/2)
-#	Global.player1_camera.position = player_start_positions[0] + cell_align_start
+	# Global.player1_camera.position = player_start_positions[0] + cell_align_start
 
-	# SCOLLER ... 1 ekran tudi v prmeru dveh plejerjev
 	viewport_container_2.visible = false
 	viewport_separator.visible = false
-	# /
 
 	# set player camera limits
 	var tilemap_edge = Global.current_tilemap.get_used_rect()
-#	Global.player1_camera.set_camera_limits()
-	
+	# Global.player1_camera.set_camera_limits()
+
 
 func set_level_colors():
 
@@ -267,6 +272,13 @@ func upgrade_level():
 	
 func set_level_conditions():
 	
+	var leveling_conditions: Dictionary
+	
+	if Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
+		leveling_conditions = Profiles.sidewinder_level_conditions
+	elif Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
+		leveling_conditions = Profiles.scrolling_level_conditions
+		
 	if current_level > 0:
 		lines_scroll_per_spawn_round = leveling_conditions[current_level].lines_scroll_per_spawn_round
 		stages_per_level = leveling_conditions[current_level].stages_per_level
@@ -360,7 +372,21 @@ func stray_step():
 	
 	var stepping_direction: Vector2
 	
-	if game_data["game"] == Profiles.Games.SCROLLER and not floor_is_filled and not in_level_transition:
+	if game_data["game"] == Profiles.Games.SIDEWINDER and not floor_is_filled and not in_level_transition:
+		
+		stepping_direction = Vector2.LEFT
+		for stray in get_tree().get_nodes_in_group(Global.group_strays):
+		
+			stray.step(stepping_direction)	
+		lines_scrolled_count += 1
+		upgrade_stage()
+		
+		
+		if lines_scrolled_count % lines_scroll_per_spawn_round == 0: # tukaj, da ne spawna če  je konec
+			spawn_strays(game_data["strays_start_count"])
+	
+		
+	elif game_data["game"] == Profiles.Games.SCROLLER and not floor_is_filled and not in_level_transition:
 		
 		stepping_direction = Vector2.DOWN
 		
@@ -368,7 +394,7 @@ func stray_step():
 		for stray in get_tree().get_nodes_in_group(Global.group_strays):
 			
 			if not floor_strays.has(stray) and not all_strays_on_floor.has(stray): # če stray ni del stene in ni naložen na steni
-				stray.step(stepping_direction)
+#				stray.step(stepping_direction)
 				var current_collider = stray.step(stepping_direction)
 				if current_collider:
 					get_strays_floor_collisions(stray, current_collider)

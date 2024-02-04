@@ -50,6 +50,8 @@ func show_stray(): # kliče GM
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
 		modulate.a = 1
+	elif Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
+		modulate.a = 1
 	else:
 		# žrebam animacijo
 		var random_animation_index = randi() % 3 + 1

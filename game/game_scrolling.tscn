@@ -37,14 +37,6 @@ grow_end = 0.0
 thickness = 2
 vertical = true
 
-[sub_resource type="StyleBoxFlat" id=270]
-bg_color = Color( 0, 0, 0, 0.784314 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 0.368627, 1, 0.662745, 1 )
-
 [sub_resource type="StyleBoxFlat" id=239]
 bg_color = Color( 0, 0, 0, 0.784314 )
 border_width_left = 2
@@ -52,6 +44,14 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 0.952941, 0.356863, 0.498039, 1 )
+
+[sub_resource type="StyleBoxFlat" id=270]
+bg_color = Color( 0, 0, 0, 0.784314 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.368627, 1, 0.662745, 1 )
 
 [sub_resource type="AtlasTexture" id=232]
 atlas = ExtResource( 11 )
@@ -748,37 +748,6 @@ script = ExtResource( 21 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="LevelUp" type="Control" parent="GUI/Hud/Popups"]
-visible = false
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -232.0
-margin_top = 72.0
-margin_right = 232.0
-margin_bottom = 136.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Panel" type="Panel" parent="GUI/Hud/Popups/LevelUp"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_styles/panel = SubResource( 270 )
-
-[node name="Label" type="Label" parent="GUI/Hud/Popups/LevelUp"]
-modulate = Color( 0.368627, 1, 0.662745, 1 )
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-margin_left = 30.0
-margin_top = -11.0
-margin_right = -30.0
-margin_bottom = 11.0
-grow_horizontal = 2
-size_flags_horizontal = 3
-text = "BRAVO!"
-align = 1
-
 [node name="EnergyWarning" type="Control" parent="GUI/Hud/Popups"]
 visible = false
 anchor_right = 1.0
@@ -878,6 +847,37 @@ margin_bottom = 11.0
 grow_horizontal = 2
 size_flags_horizontal = 3
 text = "NO ENERGY! Collect a color to revitalize."
+align = 1
+
+[node name="LevelUp" type="Control" parent="GUI/Hud/Popups"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -232.0
+margin_top = 72.0
+margin_right = 232.0
+margin_bottom = 136.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Panel" type="Panel" parent="GUI/Hud/Popups/LevelUp"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 270 )
+
+[node name="Label" type="Label" parent="GUI/Hud/Popups/LevelUp"]
+modulate = Color( 0.368627, 1, 0.662745, 1 )
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = 30.0
+margin_top = -11.0
+margin_right = -30.0
+margin_bottom = 11.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+text = "BRAVO!"
 align = 1
 
 [node name="SplitScreens" type="Control" parent="GUI/Hud/Popups"]
