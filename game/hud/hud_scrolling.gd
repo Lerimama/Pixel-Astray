@@ -2,6 +2,10 @@
 extends GameHud
 
 
+onready var level_up_popup: Control = $Popups/LevelUp
+
+
+
 func _process(delta: float) -> void:
 	
 	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
@@ -78,8 +82,24 @@ func set_hud(players_count: int): # kliče main na game-in
 #		highscore_label.text = "Highscore " + str(current_highscore)
 #
 #
-#
-		
+func level_up_popup_in(level_reached: int):
+	
+	level_up_popup.get_node("Label").text = "BRAVO! You have reached Level %s." % str(level_reached)
+	level_up_popup.show()
+	level_up_popup.modulate.a = 0
+	
+	var popup_in = get_tree().create_tween()
+	popup_in.tween_property(level_up_popup, "modulate:a", 1, 0.3)
+
+
+func level_up_popup_out():
+	
+	var popup_in = get_tree().create_tween()
+	popup_in.tween_property(level_up_popup, "modulate:a", 0, 0.3)
+	popup_in.tween_callback(level_up_popup, "hide")
+	
+				
+						
 func fade_splitscreen_popup():
 	
 	var show_splitscreen_popup = get_tree().create_tween()

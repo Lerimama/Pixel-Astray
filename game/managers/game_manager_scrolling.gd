@@ -22,6 +22,9 @@ var level_color_scheme: Dictionary # trenutna barvna shema
 onready var leveling_conditions: Dictionary = Profiles.scrolling_levels_conditions
 var stages_per_level: int # = Profiles.scrolling_levels_conditions[1]
 
+var in_level_transition: bool = false
+
+
 func _ready() -> void:
 
 	Global.game_manager = self
@@ -81,11 +84,8 @@ func game_over(gameover_reason: int):
 	
 	Global.hud.game_timer.stop_timer()
 	
-#	if gameover_reason == GameoverReason.TIME:
-#		return
-	if gameover_reason == GameoverReason.CLEANED:
-#		all_strays_died_alowed = true
-#		yield(self, "all_strays_died")
+	# ko je igra obrnjena
+	if gameover_reason == GameoverReason.CLEANED: 
 		var signaling_player: KinematicBody2D
 		for player in get_tree().get_nodes_in_group(Global.group_players):
 			player.all_cleaned()
@@ -221,59 +221,53 @@ func set_players():
 			# new_player_pixel.player_camera.camera_target = new_player_pixel
 
 
+# LEVELING --------------------------------------------------------------------------------------
+
+
 func upgrade_stage():
-	# kliče se lahko na:
-	# stray die 
-	# stray step, ki pomeni tudi spawned line
-	# on_floor_cleared ... iz tilemapa s "signalom"
+	# kliče stray na die
 	
-	# stage up
+	# stage up na vsak klic ... tudi ob apgrejdanju level
 	current_stage += 1
+	Global.hud.update_indicator_on_stage_up(current_stage) # povdari indikator
 	
-	if current_stage > stages_per_level:# or current_stray_spawning_round == 0:# and not floor_is_cleared: # pogoj runde preusmeri funkcijo v upgrade levela (spodaj)
-#		yield(get_tree().create_timer(2), "timeout")
+	# če je dosežen level se izvede tudi upgrade levela (ima pavzo)
+	if current_stage > stages_per_level:
 		upgrade_level()
-	else:
-#	if current_stage < stages_per_level and not current_stray_spawning_round == 0:# and not floor_is_cleared: # pogoj runde preusmeri funkcijo v upgrade levela (spodaj)
-		current_stage += 1
-		Global.hud.update_indicator_on_stage_up(current_stage) # povdari indikator
-		printt ("new stage", current_stage)
-	
-var in_level_transition: bool = false
+
 
 func upgrade_level():
-	# če ne presega max levelov
-	current_level += 1 # številka trenutnega levela 
-	var strays_to_clean_on_screen: Array
+	
+	current_level += 1 # številka novega levela 
 	
 	# če presega max levele ... game over
 	if current_level > levels_per_game:
 		game_over(GameoverReason.CLEANED)
 	else:
 		in_level_transition = true
-		printt ("novi level", current_level)
-		# prebarvam in reštaram level
-		set_level_conditions()
+		printt ("nov level", current_level, current_stage)
+			
+		# pogoji novega levela
+		set_level_conditions() 
+		# spraznem in indkatorje
 		Global.hud.empty_color_indicators() # novi indkatorji
+		# naštimam nove barve
 		set_level_colors()
-#		# zbrišem vse spawnane, ki niso tla ... če sploh, ker si kot plejer tega sploh nebi želel
-#		for stray in get_tree().get_nodes_in_group(Global.group_strays):
-#			var stray_on_screen_index: int = get_tree().get_nodes_in_group(Global.group_strays).find(stray)
-#			if not floor_strays.has(stray):
-#				strays_to_clean_on_screen.append(stray)
-#				stray.die_on_clean_screen(stray_on_screen_index, get_tree().get_nodes_in_group(Global.group_strays).size())
 		
-		yield(get_tree().create_timer(5), "timeout")
+		# pavza za pedenanjem indikatorjev
+		if not current_level == 1:
+			current_stage = 1 # ker se šteje pobite strayse je na začetku 0
+			Global.hud.update_indicator_on_stage_up(current_stage) # obarvaj prvega
+			Global.hud.level_up_popup_in(current_level)
+			yield(get_tree().create_timer(2), "timeout")
+			Global.hud.level_up_popup_out()
+		else:
+			current_stage = 0 # ker se šteje pobite strayse je na začetku 0
+		
 		in_level_transition = false		
-		# poštimam prvi stage levela 
-		current_stage = 1
-		Global.hud.update_indicator_on_stage_up(current_stage) # obarvaj prvega
 
-		
-	
 	
 func set_level_conditions():
-		
 	
 	if current_level > 0:
 		lines_scroll_per_spawn_round = leveling_conditions[current_level].lines_scroll_per_spawn_round
@@ -374,7 +368,9 @@ func stray_step():
 		
 		# kdo stepa, kličem step in preverim kolajderja 
 		for stray in get_tree().get_nodes_in_group(Global.group_strays):
+			
 			if not floor_strays.has(stray) and not all_strays_on_floor.has(stray): # če stray ni del stene in ni naložen na steni
+				stray.step(stepping_direction)
 				var current_collider = stray.step(stepping_direction)
 				if current_collider:
 					get_strays_floor_collisions(stray, current_collider)
@@ -400,17 +396,14 @@ func stray_step():
 
 # POLNENJE TAL -----------------------------------------------------------------------------
 
-
 # nikoli ne restiram
 var floor_strays: Array = [] # vsi straysi,ki so celotna tla
 var first_floor_round: bool = true
-
 # resetiram na floor filled
 var floor_edge_strays: Array = [] # straysi ki predstavljajo rob tal
 var strays_on_floor_edge: Array = [] # strays, ki se dotikajo robnih tiletov tal ... se resetira na vsako polnitev
 var all_strays_on_floor: Array = [] # vsi strays, ki so ustavljeni ker so spodaj tla
 var floor_is_filled: bool = false
-
 # resetira se na vsak korak
 var connected_strays_on_floor_edge: Array = [] # straysi na robu tal, ki so povezani
 
@@ -448,8 +441,8 @@ func check_if_floor_is_filled():
 			connected_strays_on_floor_edge.clear() # spucam, ker vedno znova pregledam vse na tleh
 			for stray in strays_on_floor_edge:
 #				if not stray.current_state == stray.States.DYING: # eror varovalka
-				var stray_neighbors: Array = stray.get_all_neighbors_in_directions([Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]) # nepomembna smer
 				if stray: # eror varovalka
+					var stray_neighbors: Array = stray.get_all_neighbors_in_directions([Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]) # nepomembna smer
 					if stray_neighbors.size() == 4: # sosedi so straysi ali tilemap
 						stray.color_poly.color = Color.green
 						connected_strays_on_floor_edge.append(stray)

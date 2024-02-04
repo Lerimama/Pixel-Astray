@@ -94,9 +94,10 @@ func cocking_inputs():
 
 
 func cock_burst():
-	# namen: brez ciklanja, sproži takoj, drugačno polne moči, bomba, če je ujet
+	# namen: brez ciklanja, moč je vedno polna, hitrejše cockanje, manjša dolžina
 	
 	cocked_ghost_max_count = 3
+	cock_ghost_cocking_time = 0.05 # čas nastajanja ghosta in njegova animacija 	
 	
 	var burst_direction = direction
 	var cock_direction = - burst_direction
@@ -118,9 +119,6 @@ func cock_burst():
 func spawn_cock_ghost(cocking_direction: Vector2): 
 	# namen: vsi cock ghosti polni barve
 	
-#	var cocked_ghost_alpha: float = 1 # najnižji alfa za ghoste ... old 0.55
-#	var cocked_ghost_alpha_divider: float = 7 # faktor nižanja po zaporedju (manjši je bolj oster) ... old 14
-	
 	# spawn ghosta pod manom
 	var cock_ghost_position = (global_position - cocking_direction * cell_size_x/2) + (cocking_direction * cell_size_x * (cocked_ghosts.size() + 1)) # +1, da se ne začne na pixlu
 	var new_cock_ghost = spawn_ghost(cock_ghost_position)
@@ -134,7 +132,7 @@ func spawn_cock_ghost(cocking_direction: Vector2):
 	elif direction.x == 0: # smer ver
 		new_cock_ghost.scale.y = 0
 
-#	# animiram cock celico
+	# animiram cock celico
 	var cock_cell_tween = get_tree().create_tween()
 	cock_cell_tween.tween_property(new_cock_ghost, "scale", Vector2.ONE, cock_ghost_cocking_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	cock_cell_tween.parallel().tween_property(new_cock_ghost, "position", global_position + cocking_direction * cell_size_x * (cocked_ghosts.size() + 1), cock_ghost_cocking_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
@@ -166,7 +164,7 @@ func release_burst():
 		
 
 func burst():
-	# namen: konstantna hitrost bursta (neodvisna od vrednosti cocka)
+	# namen: konstantna hitrost bursta (neodvisna od vrednosti cocka), bomba stil
 	
 	var burst_direction = direction
 	var backup_direction = - burst_direction
@@ -199,9 +197,9 @@ func burst():
 		release_tween.tween_property(new_stretch_ghost, "scale", Vector2.ONE, strech_ghost_shrink_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 		release_tween.parallel().tween_property(new_stretch_ghost, "position", global_position - burst_direction * cell_size_x, strech_ghost_shrink_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 		release_tween.tween_callback(new_stretch_ghost, "queue_free")
-	
-	# release pixel
+		# release pixel
 		yield(get_tree().create_timer(strech_ghost_shrink_time), "timeout") # čaka na zgornji tween
+		
 	current_state = States.BURSTING
 	burst_speed = current_ghost_count * cock_ghost_speed_addon
 	#if current_ghost_count < cocked_ghost_max_count and not current_ghost_count == 0:
@@ -215,7 +213,7 @@ func burst():
 
 
 func on_hit_stray(hit_stray: KinematicBody2D):
-	# namen: ... tudi sprožanje čekiranja levelov, plejer ostane bel, preverjanje straysov na podnu
+	# namen: always full stack, tudi sprožanje čekiranja levelov, plejer ostane bel, preverjanje straysov na podnu
 	
 	
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
@@ -237,11 +235,11 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	# na seznam za destroj
 	if not hit_stray_neighbors.empty():
 		for neighboring_stray in hit_stray_neighbors: # še sosedi glede na moč bursta
-			if strays_to_destroy.size() < burst_speed_units_count or burst_speed_units_count == cocked_ghost_max_count:
-				strays_to_destroy.append(neighboring_stray)
-			else: 
-				break
-			# strays_to_destroy.append(neighboring_stray)
+#			if strays_to_destroy.size() < burst_speed_units_count or burst_speed_units_count == cocked_ghost_max_count:
+#				strays_to_destroy.append(neighboring_stray)
+#			else: 
+#				break
+			strays_to_destroy.append(neighboring_stray)
 
 	# jih destrojam
 	for stray in strays_to_destroy:
