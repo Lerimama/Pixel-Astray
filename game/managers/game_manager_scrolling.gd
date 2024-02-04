@@ -35,11 +35,6 @@ func _ready() -> void:
 
 func set_game(): 
 	# namen: setam level indikatorje in strayse spawnam po štratu igre
-	
-	# kliče main.gd pred prikazom igre
-	# set_tilemap()
-	# set_game_view()
-	# set_players() # da je plejer viden že na fejdin
 
 	# player intro animacija
 	var signaling_player: KinematicBody2D
@@ -47,9 +42,9 @@ func set_game():
 		player.animation_player.play("lose_white_on_start")
 		signaling_player = player # da se zgodi na obeh plejerjih istočasno
 	yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
-#
-#	set_fresh_level_indicators()
-#	set_strays()
+	
+	#set_level_indicators()
+	#set_strays()
 	
 	yield(get_tree().create_timer(1), "timeout") # da si plejer ogleda
 
@@ -136,7 +131,7 @@ func set_game_view():
 	var viewport_separator: VSeparator = $"%ViewportSeparator"
 
 	var cell_align_start: Vector2 = Vector2(cell_size_x, cell_size_x/2)
-	Global.player1_camera.position = player_start_positions[0] + cell_align_start
+#	Global.player1_camera.position = player_start_positions[0] + cell_align_start
 
 	# SCOLLER ... 1 ekran tudi v prmeru dveh plejerjev
 	viewport_container_2.visible = false
@@ -145,7 +140,7 @@ func set_game_view():
 
 	# set player camera limits
 	var tilemap_edge = Global.current_tilemap.get_used_rect()
-	Global.player1_camera.set_camera_limits()
+#	Global.player1_camera.set_camera_limits()
 	
 
 func set_level_colors():
@@ -257,10 +252,13 @@ func upgrade_level():
 		# pavza za pedenanjem indikatorjev
 		if not current_level == 1:
 			current_stage = 1 # ker se šteje pobite strayse je na začetku 0
+#			get_tree().call_group(Global.group_players, "empty_cocking_ghosts")
+			get_tree().call_group(Global.group_players, "set_physics_process", false)
 			Global.hud.update_indicator_on_stage_up(current_stage) # obarvaj prvega
 			Global.hud.level_up_popup_in(current_level)
 			yield(get_tree().create_timer(2), "timeout")
 			Global.hud.level_up_popup_out()
+			get_tree().call_group(Global.group_players, "set_physics_process", true)
 		else:
 			current_stage = 0 # ker se šteje pobite strayse je na začetku 0
 		
@@ -396,6 +394,7 @@ func stray_step():
 
 # POLNENJE TAL -----------------------------------------------------------------------------
 
+
 # nikoli ne restiram
 var floor_strays: Array = [] # vsi straysi,ki so celotna tla
 var first_floor_round: bool = true
@@ -452,6 +451,9 @@ func check_if_floor_is_filled():
 				
 func on_floor_is_filled():
 	
+#	get_tree().call_group(Global.group_players, "empty_cocking_ghosts")
+	get_tree().call_group(Global.group_players, "set_physics_process", false)
+	
 	floor_is_filled = true
 	
 	Global.hud.game_timer.pause_timer()
@@ -472,6 +474,7 @@ func on_floor_is_filled():
 		if stray_neighbors.size() < 4:
 			floor_edge_strays.append(stray)
 	
+	
 	var total_turning_time: float = 0.2 + all_strays_on_floor.size() * 0.03 # cirka
 	
 	all_strays_on_floor.clear() # reset vrednosti, ki ji rabim do konca spremembe
@@ -490,3 +493,4 @@ func on_floor_is_filled():
 	
 	Global.hud.game_timer.unpause_timer()
 	floor_is_filled = false
+	get_tree().call_group(Global.group_players, "set_physics_process", true)

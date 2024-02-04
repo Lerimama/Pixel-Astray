@@ -14,40 +14,25 @@ func _process(delta: float) -> void:
 	
 	
 func set_hud(players_count: int): # kliče main na game-in
-	# namen: ikone v player statline
-	if players_count == 1:
-		# players
-		p1_label.visible = false
-		p2_statsline.visible = false
-		# strays count off
-		p1_color_holder.visible = false
-		# popups
-		p1_energy_warning_popup = $Popups/EnergyWarning/Solo
-	elif players_count == 2:
-		# players
-		p1_label.visible = true
-		p2_statsline.visible = true
-		# strays count off
-		p1_color_holder.visible = false
-		p2_color_holder.visible = false
-		# popups
-		p1_energy_warning_popup = $Popups/EnergyWarning/DuelP1
-		p2_energy_warning_popup = $Popups/EnergyWarning/DuelP2
-		# hs		
-		highscore_label.visible = false
+	# namen: ikone v player statline, samo 1 player, ni lajfov, ni energije, level data je vis tudi če je prazen
+
+	# players
+	p1_label.visible = false
+	p2_statsline.visible = false
+	# strays count off
+	p1_color_holder.visible = false
+	# popups
+	p1_energy_warning_popup = $Popups/EnergyWarning/Solo	
 
 	# lajf counter
 	if Global.game_manager.game_settings["player_start_life"] == 1:
 		p1_life_counter.visible = false
-		p2_life_counter.visible = false
 	else:
 		p1_life_counter.visible = true
-		p2_life_counter.visible = true
 
 	# energy counter
 	if Global.game_manager.game_settings["cell_traveled_energy"] == 0: 
 		p1_energy_counter.visible = false
-		p2_energy_counter.visible = false
 
 	# level label
 	if Global.game_manager.game_data["level"].empty():
@@ -58,30 +43,14 @@ func set_hud(players_count: int): # kliče main na game-in
 		highscore_label.visible = false
 	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_TIME_HIGH or Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW:
 		p1_points_holder.visible = false
-		p2_points_holder.visible = false
 		highscore_label.visible = true
 		set_current_highscore()
 	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_POINTS:
 		p1_points_holder.visible = true
-		p2_points_holder.visible = true
 		highscore_label.visible = true
 		set_current_highscore()
 
 
-#func set_current_highscore():
-#
-#	var current_game = Global.game_manager.game_data["game"]
-#	var current_highscore_line: Array = Global.data_manager.get_top_highscore(current_game)
-#
-#	current_highscore = current_highscore_line[0]
-#	current_highscore_owner = current_highscore_line[1]
-#
-#	if current_gamed_hs_type == Profiles.HighscoreTypes.HS_TIME_HIGH or Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW:
-#		highscore_label.text = "Highscore " + str(current_highscore) + "s"
-#	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_POINTS:
-#		highscore_label.text = "Highscore " + str(current_highscore)
-#
-#
 func level_up_popup_in(level_reached: int):
 	
 	level_up_popup.get_node("Label").text = "BRAVO! You have reached Level %s." % str(level_reached)
@@ -97,7 +66,6 @@ func level_up_popup_out():
 	var popup_in = get_tree().create_tween()
 	popup_in.tween_property(level_up_popup, "modulate:a", 0, 0.3)
 	popup_in.tween_callback(level_up_popup, "hide")
-	
 				
 						
 func fade_splitscreen_popup():

@@ -1754,10 +1754,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -592.0
+margin_left = -576.0
 margin_top = -138.0
-margin_right = -414.0
-margin_bottom = 140.0
+margin_right = -384.0
+margin_bottom = 28.0
 custom_constants/separation = 6
 script = ExtResource( 11 )
 __meta__ = {
@@ -1765,18 +1765,18 @@ __meta__ = {
 }
 
 [node name="Title" type="Label" parent="Highscores/EraserSTable"]
-margin_left = 42.0
-margin_right = 136.0
+margin_left = 61.0
+margin_right = 131.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 28, 26 )
 size_flags_horizontal = 6
 size_flags_vertical = 0
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-text = "Top 9 ..."
+text = "Top ..."
 
 [node name="ScoreLine1" type="HBoxContainer" parent="Highscores/EraserSTable"]
 margin_top = 32.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 54.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -1801,8 +1801,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/EraserSTable/ScoreLine1"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -1811,7 +1811,7 @@ align = 2
 
 [node name="ScoreLine2" type="HBoxContainer" parent="Highscores/EraserSTable"]
 margin_top = 60.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 82.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -1836,8 +1836,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/EraserSTable/ScoreLine2"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -1846,7 +1846,7 @@ align = 2
 
 [node name="ScoreLine3" type="HBoxContainer" parent="Highscores/EraserSTable"]
 margin_top = 88.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -1871,8 +1871,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/EraserSTable/ScoreLine3"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -1881,7 +1881,7 @@ align = 2
 
 [node name="ScoreLine4" type="HBoxContainer" parent="Highscores/EraserSTable"]
 margin_top = 116.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 138.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -1906,8 +1906,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/EraserSTable/ScoreLine4"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -1916,7 +1916,7 @@ align = 2
 
 [node name="ScoreLine5" type="HBoxContainer" parent="Highscores/EraserSTable"]
 margin_top = 144.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 166.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -1941,8 +1941,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/EraserSTable/ScoreLine5"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -1950,6 +1950,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine6" type="HBoxContainer" parent="Highscores/EraserSTable"]
+visible = false
 margin_top = 172.0
 margin_right = 178.0
 margin_bottom = 194.0
@@ -1985,6 +1986,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine7" type="HBoxContainer" parent="Highscores/EraserSTable"]
+visible = false
 margin_top = 200.0
 margin_right = 178.0
 margin_bottom = 222.0
@@ -2020,6 +2022,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine8" type="HBoxContainer" parent="Highscores/EraserSTable"]
+visible = false
 margin_top = 228.0
 margin_right = 178.0
 margin_bottom = 250.0
@@ -2055,6 +2058,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine9" type="HBoxContainer" parent="Highscores/EraserSTable"]
+visible = false
 margin_top = 256.0
 margin_right = 178.0
 margin_bottom = 278.0
@@ -2094,10 +2098,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -392.0
+margin_left = -336.0
 margin_top = -138.0
-margin_right = -214.0
-margin_bottom = 140.0
+margin_right = -144.0
+margin_bottom = 28.0
 custom_constants/separation = 6
 script = ExtResource( 11 )
 __meta__ = {
@@ -2105,18 +2109,18 @@ __meta__ = {
 }
 
 [node name="Title" type="Label" parent="Highscores/EraserMTable"]
-margin_left = 42.0
-margin_right = 136.0
+margin_left = 61.0
+margin_right = 131.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 28, 26 )
 size_flags_horizontal = 6
 size_flags_vertical = 0
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-text = "Top 9 ..."
+text = "Top ..."
 
 [node name="ScoreLine1" type="HBoxContainer" parent="Highscores/EraserMTable"]
 margin_top = 32.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 54.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2141,8 +2145,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/EraserMTable/ScoreLine1"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2151,7 +2155,7 @@ align = 2
 
 [node name="ScoreLine2" type="HBoxContainer" parent="Highscores/EraserMTable"]
 margin_top = 60.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 82.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2176,8 +2180,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/EraserMTable/ScoreLine2"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2186,7 +2190,7 @@ align = 2
 
 [node name="ScoreLine3" type="HBoxContainer" parent="Highscores/EraserMTable"]
 margin_top = 88.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2211,8 +2215,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/EraserMTable/ScoreLine3"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2221,7 +2225,7 @@ align = 2
 
 [node name="ScoreLine4" type="HBoxContainer" parent="Highscores/EraserMTable"]
 margin_top = 116.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 138.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2246,8 +2250,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/EraserMTable/ScoreLine4"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2256,7 +2260,7 @@ align = 2
 
 [node name="ScoreLine5" type="HBoxContainer" parent="Highscores/EraserMTable"]
 margin_top = 144.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 166.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2281,8 +2285,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/EraserMTable/ScoreLine5"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2290,6 +2294,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine6" type="HBoxContainer" parent="Highscores/EraserMTable"]
+visible = false
 margin_top = 172.0
 margin_right = 178.0
 margin_bottom = 194.0
@@ -2325,6 +2330,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine7" type="HBoxContainer" parent="Highscores/EraserMTable"]
+visible = false
 margin_top = 200.0
 margin_right = 178.0
 margin_bottom = 222.0
@@ -2360,6 +2366,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine8" type="HBoxContainer" parent="Highscores/EraserMTable"]
+visible = false
 margin_top = 228.0
 margin_right = 178.0
 margin_bottom = 250.0
@@ -2395,6 +2402,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine9" type="HBoxContainer" parent="Highscores/EraserMTable"]
+visible = false
 margin_top = 256.0
 margin_right = 178.0
 margin_bottom = 278.0
@@ -2434,10 +2442,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -192.0
+margin_left = -96.0
 margin_top = -138.0
-margin_right = -14.0
-margin_bottom = 140.0
+margin_right = 96.0
+margin_bottom = 28.0
 custom_constants/separation = 6
 script = ExtResource( 11 )
 __meta__ = {
@@ -2445,18 +2453,18 @@ __meta__ = {
 }
 
 [node name="Title" type="Label" parent="Highscores/EraserLTable"]
-margin_left = 42.0
-margin_right = 136.0
+margin_left = 61.0
+margin_right = 131.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 28, 26 )
 size_flags_horizontal = 6
 size_flags_vertical = 0
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-text = "Top 9 ..."
+text = "Top ..."
 
 [node name="ScoreLine1" type="HBoxContainer" parent="Highscores/EraserLTable"]
 margin_top = 32.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 54.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2481,8 +2489,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/EraserLTable/ScoreLine1"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2491,7 +2499,7 @@ align = 2
 
 [node name="ScoreLine2" type="HBoxContainer" parent="Highscores/EraserLTable"]
 margin_top = 60.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 82.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2516,8 +2524,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/EraserLTable/ScoreLine2"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2526,7 +2534,7 @@ align = 2
 
 [node name="ScoreLine3" type="HBoxContainer" parent="Highscores/EraserLTable"]
 margin_top = 88.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2551,8 +2559,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/EraserLTable/ScoreLine3"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2561,7 +2569,7 @@ align = 2
 
 [node name="ScoreLine4" type="HBoxContainer" parent="Highscores/EraserLTable"]
 margin_top = 116.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 138.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2586,8 +2594,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/EraserLTable/ScoreLine4"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2596,7 +2604,7 @@ align = 2
 
 [node name="ScoreLine5" type="HBoxContainer" parent="Highscores/EraserLTable"]
 margin_top = 144.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 166.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2621,8 +2629,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/EraserLTable/ScoreLine5"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2630,6 +2638,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine6" type="HBoxContainer" parent="Highscores/EraserLTable"]
+visible = false
 margin_top = 172.0
 margin_right = 178.0
 margin_bottom = 194.0
@@ -2665,6 +2674,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine7" type="HBoxContainer" parent="Highscores/EraserLTable"]
+visible = false
 margin_top = 200.0
 margin_right = 178.0
 margin_bottom = 222.0
@@ -2700,6 +2710,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine8" type="HBoxContainer" parent="Highscores/EraserLTable"]
+visible = false
 margin_top = 228.0
 margin_right = 178.0
 margin_bottom = 250.0
@@ -2735,6 +2746,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine9" type="HBoxContainer" parent="Highscores/EraserLTable"]
+visible = false
 margin_top = 256.0
 margin_right = 178.0
 margin_bottom = 278.0
@@ -2774,10 +2786,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 16.0
+margin_left = 144.0
 margin_top = -138.0
-margin_right = 194.0
-margin_bottom = 140.0
+margin_right = 338.0
+margin_bottom = 28.0
 custom_constants/separation = 6
 script = ExtResource( 11 )
 __meta__ = {
@@ -2785,8 +2797,8 @@ __meta__ = {
 }
 
 [node name="Title" type="Label" parent="Highscores/CleanerSTable"]
-margin_left = 42.0
-margin_right = 136.0
+margin_left = 50.0
+margin_right = 144.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 28, 26 )
 size_flags_horizontal = 6
@@ -2796,7 +2808,7 @@ text = "Top 9 ..."
 
 [node name="ScoreLine1" type="HBoxContainer" parent="Highscores/CleanerSTable"]
 margin_top = 32.0
-margin_right = 178.0
+margin_right = 194.0
 margin_bottom = 54.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2821,8 +2833,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerSTable/ScoreLine1"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 124.0
+margin_right = 194.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2831,7 +2843,7 @@ align = 2
 
 [node name="ScoreLine2" type="HBoxContainer" parent="Highscores/CleanerSTable"]
 margin_top = 60.0
-margin_right = 178.0
+margin_right = 194.0
 margin_bottom = 82.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2856,8 +2868,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerSTable/ScoreLine2"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 124.0
+margin_right = 194.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2866,7 +2878,7 @@ align = 2
 
 [node name="ScoreLine3" type="HBoxContainer" parent="Highscores/CleanerSTable"]
 margin_top = 88.0
-margin_right = 178.0
+margin_right = 194.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2891,8 +2903,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerSTable/ScoreLine3"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 124.0
+margin_right = 194.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2901,7 +2913,7 @@ align = 2
 
 [node name="ScoreLine4" type="HBoxContainer" parent="Highscores/CleanerSTable"]
 margin_top = 116.0
-margin_right = 178.0
+margin_right = 194.0
 margin_bottom = 138.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2926,8 +2938,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerSTable/ScoreLine4"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 124.0
+margin_right = 194.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2936,7 +2948,7 @@ align = 2
 
 [node name="ScoreLine5" type="HBoxContainer" parent="Highscores/CleanerSTable"]
 margin_top = 144.0
-margin_right = 178.0
+margin_right = 194.0
 margin_bottom = 166.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2961,8 +2973,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerSTable/ScoreLine5"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 124.0
+margin_right = 194.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2970,6 +2982,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine6" type="HBoxContainer" parent="Highscores/CleanerSTable"]
+visible = false
 margin_top = 172.0
 margin_right = 178.0
 margin_bottom = 194.0
@@ -3005,6 +3018,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine7" type="HBoxContainer" parent="Highscores/CleanerSTable"]
+visible = false
 margin_top = 200.0
 margin_right = 178.0
 margin_bottom = 222.0
@@ -3040,6 +3054,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine8" type="HBoxContainer" parent="Highscores/CleanerSTable"]
+visible = false
 margin_top = 228.0
 margin_right = 178.0
 margin_bottom = 250.0
@@ -3075,6 +3090,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine9" type="HBoxContainer" parent="Highscores/CleanerSTable"]
+visible = false
 margin_top = 256.0
 margin_right = 178.0
 margin_bottom = 278.0
@@ -3114,10 +3130,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 216.0
+margin_left = 384.0
 margin_top = -138.0
-margin_right = 394.0
-margin_bottom = 140.0
+margin_right = 576.0
+margin_bottom = 28.0
 custom_constants/separation = 6
 script = ExtResource( 11 )
 __meta__ = {
@@ -3125,18 +3141,18 @@ __meta__ = {
 }
 
 [node name="Title" type="Label" parent="Highscores/CleanerMTable"]
-margin_left = 42.0
-margin_right = 136.0
+margin_left = 61.0
+margin_right = 131.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 28, 26 )
 size_flags_horizontal = 6
 size_flags_vertical = 0
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-text = "Top 9 ..."
+text = "Top ..."
 
 [node name="ScoreLine1" type="HBoxContainer" parent="Highscores/CleanerMTable"]
 margin_top = 32.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 54.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -3161,8 +3177,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerMTable/ScoreLine1"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -3171,7 +3187,7 @@ align = 2
 
 [node name="ScoreLine2" type="HBoxContainer" parent="Highscores/CleanerMTable"]
 margin_top = 60.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 82.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -3196,8 +3212,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerMTable/ScoreLine2"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -3206,7 +3222,7 @@ align = 2
 
 [node name="ScoreLine3" type="HBoxContainer" parent="Highscores/CleanerMTable"]
 margin_top = 88.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -3231,8 +3247,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerMTable/ScoreLine3"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -3241,7 +3257,7 @@ align = 2
 
 [node name="ScoreLine4" type="HBoxContainer" parent="Highscores/CleanerMTable"]
 margin_top = 116.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 138.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -3266,8 +3282,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerMTable/ScoreLine4"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -3276,7 +3292,7 @@ align = 2
 
 [node name="ScoreLine5" type="HBoxContainer" parent="Highscores/CleanerMTable"]
 margin_top = 144.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 166.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -3301,8 +3317,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerMTable/ScoreLine5"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -3310,6 +3326,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine6" type="HBoxContainer" parent="Highscores/CleanerMTable"]
+visible = false
 margin_top = 172.0
 margin_right = 178.0
 margin_bottom = 194.0
@@ -3345,6 +3362,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine7" type="HBoxContainer" parent="Highscores/CleanerMTable"]
+visible = false
 margin_top = 200.0
 margin_right = 178.0
 margin_bottom = 222.0
@@ -3380,6 +3398,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine8" type="HBoxContainer" parent="Highscores/CleanerMTable"]
+visible = false
 margin_top = 228.0
 margin_right = 178.0
 margin_bottom = 250.0
@@ -3415,6 +3434,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine9" type="HBoxContainer" parent="Highscores/CleanerMTable"]
+visible = false
 margin_top = 256.0
 margin_right = 178.0
 margin_bottom = 278.0
@@ -3454,10 +3474,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 416.0
-margin_top = -138.0
-margin_right = 594.0
-margin_bottom = 140.0
+margin_left = -576.0
+margin_top = 64.0
+margin_right = -384.0
+margin_bottom = 230.0
 custom_constants/separation = 6
 script = ExtResource( 11 )
 __meta__ = {
@@ -3465,18 +3485,18 @@ __meta__ = {
 }
 
 [node name="Title" type="Label" parent="Highscores/CleanerLTable"]
-margin_left = 42.0
-margin_right = 136.0
+margin_left = 61.0
+margin_right = 131.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 28, 26 )
 size_flags_horizontal = 6
 size_flags_vertical = 0
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-text = "Top 9 ..."
+text = "Top ..."
 
 [node name="ScoreLine1" type="HBoxContainer" parent="Highscores/CleanerLTable"]
 margin_top = 32.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 54.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -3501,8 +3521,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerLTable/ScoreLine1"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -3511,7 +3531,7 @@ align = 2
 
 [node name="ScoreLine2" type="HBoxContainer" parent="Highscores/CleanerLTable"]
 margin_top = 60.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 82.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -3536,8 +3556,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerLTable/ScoreLine2"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -3546,7 +3566,7 @@ align = 2
 
 [node name="ScoreLine3" type="HBoxContainer" parent="Highscores/CleanerLTable"]
 margin_top = 88.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -3571,8 +3591,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerLTable/ScoreLine3"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -3581,7 +3601,7 @@ align = 2
 
 [node name="ScoreLine4" type="HBoxContainer" parent="Highscores/CleanerLTable"]
 margin_top = 116.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 138.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -3606,8 +3626,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerLTable/ScoreLine4"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -3616,7 +3636,7 @@ align = 2
 
 [node name="ScoreLine5" type="HBoxContainer" parent="Highscores/CleanerLTable"]
 margin_top = 144.0
-margin_right = 178.0
+margin_right = 192.0
 margin_bottom = 166.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -3641,8 +3661,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerLTable/ScoreLine5"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 122.0
+margin_right = 192.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -3650,6 +3670,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine6" type="HBoxContainer" parent="Highscores/CleanerLTable"]
+visible = false
 margin_top = 172.0
 margin_right = 178.0
 margin_bottom = 194.0
@@ -3685,9 +3706,10 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine7" type="HBoxContainer" parent="Highscores/CleanerLTable"]
-margin_top = 200.0
+visible = false
+margin_top = 172.0
 margin_right = 178.0
-margin_bottom = 222.0
+margin_bottom = 194.0
 rect_min_size = Vector2( 72, 0 )
 
 [node name="Position" type="Label" parent="Highscores/CleanerLTable/ScoreLine7"]
@@ -3720,9 +3742,10 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine8" type="HBoxContainer" parent="Highscores/CleanerLTable"]
-margin_top = 228.0
+visible = false
+margin_top = 172.0
 margin_right = 178.0
-margin_bottom = 250.0
+margin_bottom = 194.0
 rect_min_size = Vector2( 72, 0 )
 
 [node name="Position" type="Label" parent="Highscores/CleanerLTable/ScoreLine8"]
@@ -3755,9 +3778,10 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine9" type="HBoxContainer" parent="Highscores/CleanerLTable"]
-margin_top = 256.0
+visible = false
+margin_top = 172.0
 margin_right = 178.0
-margin_bottom = 278.0
+margin_bottom = 194.0
 rect_min_size = Vector2( 72, 0 )
 
 [node name="Position" type="Label" parent="Highscores/CleanerLTable/ScoreLine9"]
@@ -3781,6 +3805,350 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerLTable/ScoreLine9"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScrollerTable" type="VBoxContainer" parent="Highscores"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -344.0
+margin_top = 64.0
+margin_right = -88.0
+margin_bottom = 230.0
+custom_constants/separation = 6
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" type="Label" parent="Highscores/ScrollerTable"]
+margin_left = 93.0
+margin_right = 163.0
+margin_bottom = 26.0
+rect_min_size = Vector2( 28, 26 )
+size_flags_horizontal = 6
+size_flags_vertical = 0
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+text = "Top ..."
+
+[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/ScrollerTable"]
+margin_top = 32.0
+margin_right = 256.0
+margin_bottom = 54.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/ScrollerTable/ScoreLine1"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/ScrollerTable/ScoreLine1"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/ScrollerTable/ScoreLine1"]
+margin_left = 120.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "1000000000"
+align = 2
+
+[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/ScrollerTable"]
+margin_top = 60.0
+margin_right = 256.0
+margin_bottom = 82.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/ScrollerTable/ScoreLine2"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/ScrollerTable/ScoreLine2"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/ScrollerTable/ScoreLine2"]
+margin_left = 186.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/ScrollerTable"]
+margin_top = 88.0
+margin_right = 256.0
+margin_bottom = 110.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/ScrollerTable/ScoreLine3"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/ScrollerTable/ScoreLine3"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/ScrollerTable/ScoreLine3"]
+margin_left = 186.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/ScrollerTable"]
+margin_top = 116.0
+margin_right = 256.0
+margin_bottom = 138.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/ScrollerTable/ScoreLine4"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/ScrollerTable/ScoreLine4"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/ScrollerTable/ScoreLine4"]
+margin_left = 186.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/ScrollerTable"]
+margin_top = 144.0
+margin_right = 256.0
+margin_bottom = 166.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/ScrollerTable/ScoreLine5"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/ScrollerTable/ScoreLine5"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/ScrollerTable/ScoreLine5"]
+margin_left = 186.0
+margin_right = 256.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/ScrollerTable"]
+visible = false
+margin_top = 172.0
+margin_right = 178.0
+margin_bottom = 194.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/ScrollerTable/ScoreLine6"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/ScrollerTable/ScoreLine6"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/ScrollerTable/ScoreLine6"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/ScrollerTable"]
+visible = false
+margin_top = 200.0
+margin_right = 178.0
+margin_bottom = 222.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/ScrollerTable/ScoreLine7"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/ScrollerTable/ScoreLine7"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/ScrollerTable/ScoreLine7"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/ScrollerTable"]
+visible = false
+margin_top = 228.0
+margin_right = 178.0
+margin_bottom = 250.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/ScrollerTable/ScoreLine8"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/ScrollerTable/ScoreLine8"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/ScrollerTable/ScoreLine8"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/ScrollerTable"]
+visible = false
+margin_top = 256.0
+margin_right = 178.0
+margin_bottom = 278.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/ScrollerTable/ScoreLine9"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/ScrollerTable/ScoreLine9"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/ScrollerTable/ScoreLine9"]
 margin_left = 108.0
 margin_right = 178.0
 margin_bottom = 22.0

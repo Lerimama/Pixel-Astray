@@ -67,6 +67,8 @@ func home_out():
 
 func game_in():	
 	
+	game_scene_path = Profiles.current_game_data["game_scene_path"]	
+	
 	get_viewport().set_disable_input(false) # anti dablklik
 	get_tree().set_pause(false)
 	

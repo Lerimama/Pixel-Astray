@@ -83,50 +83,50 @@ var scrolling_levels_conditions: Dictionary = {
 		"lines_scroll_per_spawn_round": 7,
 		"stages_per_level": 20,
 		"color_scheme": game_color_schemes["color_scheme_4"],
-		"scrolling_pause_time": 0.35,
+		"scrolling_pause_time": 0.4,
 		"strays_spawn_count": 32
 	},
 	5: {
-		"lines_scroll_per_spawn_round": 6,
+		"lines_scroll_per_spawn_round": 7,
 		"stages_per_level": 30,
 		"color_scheme": game_color_schemes["color_scheme_5"],
-		"scrolling_pause_time": 0.3,
-		"strays_spawn_count": 30
+		"scrolling_pause_time": 0.4,
+		"strays_spawn_count": 32
 	},
 	6: {
-		"lines_scroll_per_spawn_round": 5,
+		"lines_scroll_per_spawn_round": 7,
 		"stages_per_level": 30,
 		"color_scheme": game_color_schemes["color_scheme_6"],
-		"scrolling_pause_time": 0.25,
-		"strays_spawn_count": 40
+		"scrolling_pause_time": 0.4,
+		"strays_spawn_count": 32
 	},
 	7: {
-		"lines_scroll_per_spawn_round": 4,
+		"lines_scroll_per_spawn_round": 7,
 		"stages_per_level": 30,
 		"color_scheme": game_color_schemes["color_scheme_7"],
-		"scrolling_pause_time": 0.2,
-		"strays_spawn_count": 45
+		"scrolling_pause_time": 0.4,
+		"strays_spawn_count": 32
 	},
 	8: {
-		"lines_scroll_per_spawn_round": 3,
+		"lines_scroll_per_spawn_round": 7,
 		"stages_per_level": 30,
 		"color_scheme": game_color_schemes["color_scheme_8"],
-		"scrolling_pause_time": 0.15,
-		"strays_spawn_count": 50
+		"scrolling_pause_time": 0.5,
+		"strays_spawn_count": 32
 	},
 	9: {
-		"lines_scroll_per_spawn_round": 2,
+		"lines_scroll_per_spawn_round": 7,
 		"stages_per_level": 30,
 		"color_scheme": game_color_schemes["color_scheme_9"],
-		"scrolling_pause_time": 0.1,
-		"strays_spawn_count": 55
+		"scrolling_pause_time": 0.5,
+		"strays_spawn_count": 32
 	},
 	10: {
-		"lines_scroll_per_spawn_round": 1,
-		"stages_per_level": 3000,
+		"lines_scroll_per_spawn_round": 7,
+		"stages_per_level": 30,
 		"color_scheme": game_color_schemes["default_color_scheme"],
-		"scrolling_pause_time": 0.05,
-		"strays_spawn_count": 60
+		"scrolling_pause_time": 0.5,
+		"strays_spawn_count": 32
 	},
 }
 
@@ -140,7 +140,6 @@ var default_player_stats: Dictionary = {
 	"burst_count" : 0,
 	"cells_traveled" : 0,
 }
-
 
 # done
 var default_game_settings: Dictionary = { # default settings so tiste, ki so najbolj pogoste ... opisane v tutorialu
@@ -231,7 +230,8 @@ enum HighscoreTypes {NO_HS, HS_POINTS, HS_TIME_LOW, HS_TIME_HIGH} # vpliva
 #	"game_scene_path": "",
 #	"tilemap_path": "",
 #	"game_time_limit": 0,
-#	"strays_start_count": 0,
+#	"strays_start_count": 0, 
+### >>>> HS se doda med igro
 #}
 
 # tudu
@@ -318,11 +318,12 @@ var game_data_scroller: Dictionary = {
 	"game": Games.SCROLLER,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Scroller",
-	"level": "01",
+	"level": " ", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
 	"game_scene_path": "res://game/game_scrolling.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_scrolling.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 50,
+	
 }
 
 var game_data_hunter: Dictionary = {
@@ -381,14 +382,15 @@ func _ready() -> void:
 	# če greš iz menija je tole povoženo
 #	var current_game = Games.ERASER_S
 #	var current_game = Games.CLEANER_L
-#	var current_game = Games.CLEANER_DUEL
-	var current_game = Games.SCROLLER
-	
-#	var current_game = Games.DUEL
-#	var current_game = Games.TUTORIAL
-#	var current_game = Games.DEBUG
+	var current_game = Games.CLEANER_DUEL
+#	var current_game = Games.SCROLLER
+##
+###	var current_game = Games.DUEL
+###	var current_game = Games.TUTORIAL
+###	var current_game = Games.DEBUG
 	set_game_data(current_game)
 	
+	pass
 	
 func set_game_data(selected_game) -> void:
 	
@@ -437,7 +439,7 @@ func set_game_data(selected_game) -> void:
 		Games.SCROLLER:
 			current_game_data = game_data_scroller
 			game_settings["cell_traveled_energy"] = 0
-			
+			game_settings["player_start_life"] = 1
 			game_settings["player_start_color"] = Color.blue
 			
 			game_settings["timer_mode_countdown"] = false
