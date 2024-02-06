@@ -53,7 +53,7 @@ func set_hud(players_count: int): # kliče main na game-in
 
 func level_up_popup_in(level_reached: int):
 	
-	level_up_popup.get_node("Label").text = "BRAVO! You have reached Level %s." % str(level_reached)
+	level_up_popup.get_node("Label").text = "LEVEL %s" % str(level_reached)
 	level_up_popup.show()
 	level_up_popup.modulate.a = 0
 	
@@ -87,7 +87,7 @@ func fade_splitscreen_popup():
 
 
 func spawn_color_indicators(available_colors: Array): # kliče GM
-	
+	# namen: moduliram
 	var indicator_index = 0 # za fiksirano zaporedje
 	
 	for color in available_colors:
@@ -96,32 +96,17 @@ func spawn_color_indicators(available_colors: Array): # kliče GM
 		var new_color_indicator = ColorIndicator.instance()
 		new_color_indicator.color = color
 		
-		# SCROLLER
-#		if not Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
-#			new_color_indicator.modulate.a = 1 # na fade-in se odfejda do unpicked_indicator_alpha
-#		else:
-		if Global.game_manager.current_progress_type == Global.game_manager.LevelProgressType.FLOOR_CLEARED:
-			new_color_indicator.modulate.a = 1
-		else:
-			new_color_indicator.modulate.a = 0.3
+		new_color_indicator.modulate.a = 0.3
 		spectrum.add_child(new_color_indicator)
 		active_color_indicators.append(new_color_indicator)
 
 
 func empty_color_indicators():
-#func update_indicator_on_level_up(current_level: int):
-	
-	# izberem barvno shemo
-#	var color_scheme_name: String = "color_scheme_%s" % current_level
-#	Profiles.current_color_scheme = Profiles.game_color_schemes[color_scheme_name]
 	
 	# zbrišem trenutne indikatorje
 	for child in spectrum.get_children():
 		child.queue_free()
 	active_color_indicators.clear()
-	
-	# naštimam nove indikatorje
-#	Global.game_manager.set_level_colors() 	
 	
 	
 func update_indicator_on_stage_up(current_stage: int): 
@@ -146,9 +131,8 @@ func check_for_warning(player_stats: Dictionary, warning_popup: Control):
 	if warning_popup:
 		var steps_remaining_label: Label
 		steps_remaining_label = warning_popup.get_node("StepsRemaining")
-		if player_stats["player_energy"] < Global.game_manager.game_settings["player_tired_energy"]:
+		if player_stats["player_energy"] < Global.game_manager.game_settings["player_tired_energy"] and not player_stats["player_energy"] <= 0:
 			steps_remaining_label.text = "LOW ENERGY WARNING!"
-#			steps_remaining_label.text = "ENERGY WARNING! Only %s steps remaining." % str(player_stats["player_energy"] - 1)
 			if warning_popup.visible == false:
 				warning_in(warning_popup)
 		elif player_stats["player_energy"] > Global.game_manager.game_settings["player_tired_energy"]:
@@ -157,20 +141,3 @@ func check_for_warning(player_stats: Dictionary, warning_popup: Control):
 		elif player_stats["player_energy"] <= 0:
 			if warning_popup.visible == true:
 				warning_out(warning_popup)		
-	
-#		if player_stats["player_energy"] == 0:
-#			if warning_popup.visible == true:
-#				warning_out(warning_popup)		
-#		elif player_stats["player_energy"] == 1:
-#			steps_remaining_label.text = "NO ENERGY! Collect a color to revitalize."
-#		elif player_stats["player_energy"] == 2: # pomeni samo še en korak in rabim ednino
-#			steps_remaining_label.text = "ENERGY WARNING! Only 1 step remaining."
-#			if warning_popup.visible == false:
-#				warning_in(warning_popup)
-#		elif player_stats["player_energy"] <= Global.game_manager.game_settings["player_tired_energy"]:
-#			steps_remaining_label.text = "ENERGY WARNING! Only %s steps remaining." % str(player_stats["player_energy"] - 1)
-#			if warning_popup.visible == false:
-#				warning_in(warning_popup)
-#		elif player_stats["player_energy"] > Global.game_manager.game_settings["player_tired_energy"]:
-#			if warning_popup.visible == true:
-#				warning_out(warning_popup)

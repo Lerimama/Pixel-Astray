@@ -23,8 +23,8 @@
 [ext_resource path="res://assets/sound/sfx/blinking/blink_static_2.wav" type="AudioStream" id=21]
 [ext_resource path="res://assets/sound/sfx/events/countdown-a.ogg" type="AudioStream" id=22]
 [ext_resource path="res://assets/sound/sfx/gui/btn_focus_change.wav" type="AudioStream" id=23]
-[ext_resource path="res://managers/data_manager.gd" type="Script" id=24]
-[ext_resource path="res://managers/sound_manager.gd" type="Script" id=25]
+[ext_resource path="res://managers/sound_manager.gd" type="Script" id=24]
+[ext_resource path="res://managers/data_manager.gd" type="Script" id=25]
 [ext_resource path="res://main.gd" type="Script" id=26]
 [ext_resource path="res://assets/sound/sfx/blinking/blink_2.wav" type="AudioStream" id=27]
 [ext_resource path="res://assets/sound/sfx/gui/screen_slide.wav" type="AudioStream" id=28]
@@ -121,7 +121,7 @@ audio_stream = ExtResource( 36 )
 script = ExtResource( 26 )
 
 [node name="DataManager" type="Node" parent="."]
-script = ExtResource( 24 )
+script = ExtResource( 25 )
 
 [node name="Undi" type="ColorRect" parent="."]
 margin_right = 1280.0
@@ -130,7 +130,7 @@ color = Color( 0, 0, 0, 1 )
 
 [node name="SoundManager" type="Node2D" parent="."]
 pause_mode = 2
-script = ExtResource( 25 )
+script = ExtResource( 24 )
 
 [node name="GameSfx" type="Node2D" parent="SoundManager"]
 

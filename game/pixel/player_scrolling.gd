@@ -1,9 +1,6 @@
 extends Player_class
 
 
-var player_surrounded: bool = false
-
-
 
 func _physics_process(delta: float) -> void:
 	# namen: detect touch
@@ -20,8 +17,7 @@ func _physics_process(delta: float) -> void:
 	
 	detect_touch()	
 	state_machine()
-	manage_heartbeat()
-	
+	# manage_heartbeat()
 	
 	
 # INPUTS ------------------------------------------------------------------------------------------
@@ -29,9 +25,6 @@ func _physics_process(delta: float) -> void:
 
 func idle_inputs():
 	# namen: odstranim SKILLED stanje, dodam surrounded setanje
-	
-	if player_surrounded:
-		return
 	
 	# preveri vse štiri smeri
 	var directions_to_check: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
@@ -41,11 +34,10 @@ func idle_inputs():
 		if current_collider:
 			direction_with_collision.append(direction)
 	
-	# če so vse štiri polne
+	# če so vse štiri polne je gejm over
 	if direction_with_collision.size() == directions_to_check.size():
-		player_surrounded = true
-	else:
-		player_surrounded = false
+		yield(get_tree().create_timer(1),"timeout")
+		player_stats["player_energy"] = 0
 	
 	
 	if player_stats["player_energy"] > 1:
@@ -137,32 +129,31 @@ func cock_burst():
 			
 
 func spawn_cock_ghost(cocking_direction: Vector2): 
-	# namen: vsi cock ghosti polni barve
+	# namen: vsi cock ghosti polni barve, zaznavanje cock_room z deffered klicom (da lahko bolje zazna cock room)
 	
 	# spawn ghosta pod manom
 	var cock_ghost_position = (global_position - cocking_direction * cell_size_x/2) + (cocking_direction * cell_size_x * (cocked_ghosts.size() + 1)) # +1, da se ne začne na pixlu
 	var new_cock_ghost = spawn_ghost(cock_ghost_position)
 	new_cock_ghost.z_index = 3 # nad straysi in playerjem
-	new_cock_ghost.modulate.a  = 1 # cocked_ghost_alpha - (cocked_ghosts.size() / cocked_ghost_alpha_divider)
+	new_cock_ghost.modulate.a  = 0 # cocked_ghost_alpha - (cocked_ghosts.size() / cocked_ghost_alpha_divider)
 	new_cock_ghost.direction = cocking_direction
-	
-	# v kateri smeri je scale
-	if direction.y == 0: # smer horiz
-		new_cock_ghost.scale.x = 0
-	elif direction.x == 0: # smer ver
-		new_cock_ghost.scale.y = 0
-
-	# animiram cock celico
-	var cock_cell_tween = get_tree().create_tween()
-	cock_cell_tween.tween_property(new_cock_ghost, "scale", Vector2.ONE, cock_ghost_cocking_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	cock_cell_tween.parallel().tween_property(new_cock_ghost, "position", global_position + cocking_direction * cell_size_x * (cocked_ghosts.size() + 1), cock_ghost_cocking_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	new_cock_ghost.position = new_cock_ghost.global_position + cocking_direction * cell_size_x/2
 	
 	# ray detect velikost je velikost napenjanja
 	new_cock_ghost.ghost_ray.cast_to = direction * cell_size_x
 	new_cock_ghost.connect("ghost_detected_body", self, "_on_ghost_detected_body")
 	
+	call_deferred("show_ghost", new_cock_ghost)
+	
 	return new_cock_ghost
-		
+
+
+func show_ghost(ghost):
+	
+	if cocking_room:
+		var cock_cell_tween = get_tree().create_tween()
+		cock_cell_tween.tween_property(ghost, "modulate:a", 1, cock_ghost_cocking_time)
+			
 		
 func release_burst(): 
 	# namen: manjšam trajanje in pavzo
@@ -178,8 +169,9 @@ func release_burst():
 	for ghost in cocked_ghosts:
 		var get_set_tween = get_tree().create_tween()
 		get_set_tween.tween_property(ghost, "modulate:a", 1, cocked_ghost_fill_time)
-#		yield(get_tree().create_timer(cocked_ghost_fill_time),"timeout")
-#	yield(get_tree().create_timer(cocked_pause_time), "timeout")
+		# yield(get_tree().create_timer(cocked_ghost_fill_time),"timeout")
+	# yield(get_tree().create_timer(cocked_pause_time), "timeout")
+	
 	burst()
 		
 
@@ -192,14 +184,13 @@ func burst():
 	
 	var new_stretch_ghost: Node
 	
-	if player_surrounded == false: # središčni burst
-		new_stretch_ghost = spawn_ghost(global_position)
-		# spawn stretch ghost
-		if burst_direction.y == 0: # če je smer hor
-			new_stretch_ghost.scale = Vector2(current_ghost_count, 1)
-		elif burst_direction.x == 0: # če je smer ver
-			new_stretch_ghost.scale = Vector2(1, current_ghost_count)
-		new_stretch_ghost.position = global_position - (burst_direction * cell_size_x * current_ghost_count)/2 - burst_direction * cell_size_x/2
+	new_stretch_ghost = spawn_ghost(global_position)
+	# spawn stretch ghost
+	if burst_direction.y == 0: # če je smer hor
+		new_stretch_ghost.scale = Vector2(current_ghost_count, 1)
+	elif burst_direction.x == 0: # če je smer ver
+		new_stretch_ghost.scale = Vector2(1, current_ghost_count)
+	new_stretch_ghost.position = global_position - (burst_direction * cell_size_x * current_ghost_count)/2 - burst_direction * cell_size_x/2
 
 	# release cocked ghosts
 	while not cocked_ghosts.empty():
@@ -210,21 +201,20 @@ func burst():
 	stop_sound("burst_uncocking")
 	play_sound("burst")
 	
-	if player_surrounded == false: # središčni burst
-		# release strech ghost 
-		var strech_ghost_shrink_time: float = 0.05 # original je bila 0.2
-		var release_tween = get_tree().create_tween()
-		release_tween.tween_property(new_stretch_ghost, "scale", Vector2.ONE, strech_ghost_shrink_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
-		release_tween.parallel().tween_property(new_stretch_ghost, "position", global_position - burst_direction * cell_size_x, strech_ghost_shrink_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
-		release_tween.tween_callback(new_stretch_ghost, "queue_free")
-		# release pixel
-		yield(get_tree().create_timer(strech_ghost_shrink_time), "timeout") # čaka na zgornji tween
+	# release strech ghost 
+	var strech_ghost_shrink_time: float = 0.05 # original je bila 0.2
+	var release_tween = get_tree().create_tween()
+	release_tween.tween_property(new_stretch_ghost, "scale", Vector2.ONE, strech_ghost_shrink_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
+	release_tween.parallel().tween_property(new_stretch_ghost, "position", global_position - burst_direction * cell_size_x, strech_ghost_shrink_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
+	release_tween.tween_callback(new_stretch_ghost, "queue_free")
+	# release pixel
+	yield(get_tree().create_timer(strech_ghost_shrink_time), "timeout") # čaka na zgornji tween
 		
 	current_state = States.BURSTING
 	burst_speed = current_ghost_count * cock_ghost_speed_addon
-	#if current_ghost_count < cocked_ghost_max_count and not current_ghost_count == 0:
+	# if current_ghost_count < cocked_ghost_max_count and not current_ghost_count == 0:
 	#	burst_speed = 2 * cock_ghost_speed_addon
-	#else:
+	# else:
 	#	burst_speed = 7 * cock_ghost_speed_addon
 	change_stat("burst_released", 1)
 	
@@ -234,7 +224,6 @@ func burst():
 
 func on_hit_stray(hit_stray: KinematicBody2D):
 	# namen: always full stack, tudi sprožanje čekiranja levelov, plejer ostane bel, preverjanje straysov na podnu
-	
 	
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
 	play_sound("hit_stray")	
@@ -267,16 +256,10 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 		stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
 		Global.hud.show_color_indicator(stray.stray_color) # če je scroller se returna na fuknciji
 	
-	
 	end_move() # more bit za collision partikli zaradi smeri
 
 	change_stat("hit_stray", strays_to_destroy.size()) # štetje, točke in energija glede na število uničenih straysov
 	
-	player_surrounded == false # če je središčni burst
-
-#	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
-#		Global.game_manager.upgrade_stage()	
-		
 		
 func on_hit_wall():
 
@@ -288,7 +271,6 @@ func on_hit_wall():
 	
 	# yield(get_tree().create_timer(1), "timeout") # za dojet
 	end_move()
-
 
 
 func detect_touch():
@@ -312,10 +294,4 @@ func detect_touch():
 				change_stat("touching_stray", 1) # točke in energija kot je določeno v settingsih
 	
 	if player_stats["player_energy"] == 0:
-		print("DIE")
 		die()
-#		for stray in current_strays_on_top:
-#		if floor_strays.has(stray):
-#			print("GAME OVER - TOP")
-#			game_over(GameoverReason.TIME)
-#			return # da ne falsam game filled

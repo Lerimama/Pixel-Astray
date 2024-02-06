@@ -866,7 +866,7 @@ func check_strays_neighbors(hit_stray: KinematicBody2D):
 		# prva runda ... sosede zadetega straya
 #		var first_neighbors: Array = hit_stray.check_for_neighbors(hit_direction) # hit direction je zato da opredelim smer preverjanja sosedov
 #		var first_neighbors: Array = hit_stray.check_for_neighbor_strays() # hit direction je zato da opredelim smer preverjanja sosedov
-		var first_neighbors: Array = hit_stray.check_for_neighbor_strays_on_hit() # hit direction je zato da opredelim smer preverjanja sosedov
+		var first_neighbors: Array = hit_stray.get_neighbor_strays_on_hit() # hit direction je zato da opredelim smer preverjanja sosedov
 		for first_neighbor in first_neighbors:
 			if not all_neighboring_strays.has(first_neighbor): # če še ni dodan med vse sosede
 				all_neighboring_strays.append(first_neighbor) # ... ga dodam med vse sosede
@@ -875,7 +875,7 @@ func check_strays_neighbors(hit_stray: KinematicBody2D):
 		# druga runda ... sosede vseh sosed
 		for neighbor in all_neighboring_strays:
 			if not neighbors_checked.has(neighbor): # če še ni med "že preverjenimi" ...
-				var extra_neighbors: Array = neighbor.check_for_neighbor_strays_on_hit() # ... preverim še njegove sosede
+				var extra_neighbors: Array = neighbor.get_neighbor_strays_on_hit() # ... preverim še njegove sosede
 #				var extra_neighbors: Array = neighbor.check_for_neighbor_strays() # ... preverim še njegove sosede
 				for extra_neighbor in extra_neighbors:
 					if not all_neighboring_strays.has(extra_neighbor):  # če še ni dodan med vse sosede ...
@@ -1061,7 +1061,7 @@ func _on_ghost_target_reached(ghost_body: Area2D, ghost_position: Vector2):
 	
 
 func _on_ghost_detected_body(body: Node2D):
-	
+	print("ghost_body ", body)
 	if body != self:
 		cocking_room = false
 		

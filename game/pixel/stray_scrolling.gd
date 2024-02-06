@@ -38,7 +38,7 @@ func die(stray_in_stack_index: int, strays_in_stack: int):
 	var vanish: SceneTreeTween = get_tree().create_tween()
 	vanish.tween_property(self, "color_poly:modulate:a", 0, vanish_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
 
-	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
+	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER and not Global.game_manager.in_level_transition:
 		Global.game_manager.upgrade_stage()	
 		
 	# KVEFRI je v animaciji
@@ -62,6 +62,8 @@ func step(step_direction: Vector2):
 	step_tween.tween_property(self, "position", global_position + step_direction * cell_size_x, step_time)
 	step_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, step_time)
 	step_tween.tween_callback(self, "end_move")
+#	step_tween.tween_callback(Global, "snap_to_nearest_grid", [global_position + step_direction * cell_size_x])
+#	step_tween.tween_property(self, "current_state", States.IDLE, 0)
 
 
 # ON FLOOR --------------------------------------------------------------------------------------------
@@ -81,7 +83,7 @@ func get_all_neighbors_in_directions(directions_to_check: Array): # kliče playe
 	return current_cell_neighbors # uporaba v stalnem čekiranj sosedov
 
 
-func turn_to_wall_stray(stray_in_stack_index: int):
+func turn_to_wall(stray_in_stack_index: int):
 	
 	current_state = States.DYING # takoj je izločen iz igre. po pavzi pa efekt
 	
@@ -101,18 +103,23 @@ func turn_to_wall_stray(stray_in_stack_index: int):
 	# turn to color
 	var color_tween: SceneTreeTween = get_tree().create_tween()
 	color_tween.tween_property(self, "color_poly:color", Global.color_floor_scroller, 0.2)#.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
-	color_tween.tween_callback(self, "return", [true])#.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
+	color_tween.tween_property(self, "stray_color", Global.color_floor_scroller, 0.2)#.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
+	
+	# povzroča error, ker hoče vrnit funkciji ki ne obstaja več ... nekaj takega
+#	color_tween.tween_callback(self, "return", [true])#.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
 	
 
-func check_for_neighbor_strays_on_hit(): # kliče player on hit
-	 
-	var directions_to_check: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
-	var current_cell_neighbors: Array
-	
-	for direction in directions_to_check:
-		var neighbor = detect_collision_in_direction(direction)
-		if neighbor and neighbor.is_in_group(Global.group_strays) and not neighbor == self: # če je kolajder, je stray in ni selfž
-			if not neighbor.current_state == neighbor.States.DYING: # če je vstanju umiranja se ne šteje za soseda
-				current_cell_neighbors.append(neighbor)
-				
-	return current_cell_neighbors # uporaba v stalnem čekiranj sosedov
+#func check_for_neighbor_strays_on_hit(): # kliče player on hit
+#
+#	var directions_to_check: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
+#	var current_cell_neighbors: Array
+#
+#	for direction in directions_to_check:
+#		var neighbor = detect_collision_in_direction(direction)
+#		if neighbor and neighbor.is_in_group(Global.group_strays) and not neighbor == self: # če je kolajder, je stray in ni selfž
+#			if not neighbor.current_state == neighbor.States.DYING: # če je vstanju umiranja se ne šteje za soseda
+#				current_cell_neighbors.append(neighbor)
+#
+#	return current_cell_neighbors # uporaba v stalnem čekiranj sosedov
+
+

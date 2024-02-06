@@ -191,12 +191,8 @@ func play_sound(effect_for: String):
 			var selected_step_sound = $Sounds/Stepping.get_child(random_step_index).play()
 
 
-func check_for_neighbor_strays_on_hit(): # kliče player on hit
-#func check_for_neighbor_strays(): # kliče player on hit
-#func check_for_neighbors(hit_direction: Vector2): # kliče player on hit
+func get_neighbor_strays_on_hit(): # kliče player on hit
 	
-	# hit_direction me ne zanima, ker po defaultu destroyam cel bulk
-	 
 	var directions_to_check: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
 	var current_cell_neighbors: Array
 	

@@ -12,9 +12,12 @@ var game_color_schemes: Dictionary = {
 		1: Color.black, # ne velja, ker greba iz spectrum slike
 		2: Color.white,	# ne velja, ker greba iz spectrum slike
 	},
+#	"color_scheme_1":{ 
+#		1: Color.white, # red
+#		2: Color.white, #yellow
 	"color_scheme_1":{ 
-		1: Color.white, # red
-		2: Color.white, #yellow
+		1: Color.brown, # red
+		2: Color.bisque, #yellow
 	},
 	"color_scheme_2":{ 
 		1: Color("#f35b7f"), # red
@@ -62,70 +65,70 @@ var scrolling_level_conditions: Dictionary = {
 		"stages_per_level": 3,
 		"color_scheme": game_color_schemes["color_scheme_1"],
 		"scrolling_pause_time": 0.5, # ne sem bit manjšaq od stray stepa
-		"strays_spawn_count": 32
+		"strays_spawn_count": 32,
 	},
 	2: {
 		"lines_scroll_per_spawn_round": 9,
 		"stages_per_level": 5,
 		"color_scheme": game_color_schemes["color_scheme_2"],
 		"scrolling_pause_time": 0.45,
-		"strays_spawn_count": 32
+		"strays_spawn_count": 32,
 	},
 	3: {
 		"lines_scroll_per_spawn_round": 8,
 		"stages_per_level": 5,
 		"color_scheme": game_color_schemes["color_scheme_3"],
 		"scrolling_pause_time": 0.4,
-		"strays_spawn_count": 32
+		"strays_spawn_count": 32,
 	},
 	4: {
 		"lines_scroll_per_spawn_round": 7,
 		"stages_per_level": 20,
 		"color_scheme": game_color_schemes["color_scheme_4"],
 		"scrolling_pause_time": 0.4,
-		"strays_spawn_count": 32
+		"strays_spawn_count": 32,
 	},
 	5: {
 		"lines_scroll_per_spawn_round": 7,
 		"stages_per_level": 30,
 		"color_scheme": game_color_schemes["color_scheme_5"],
 		"scrolling_pause_time": 0.4,
-		"strays_spawn_count": 32
+		"strays_spawn_count": 32,
 	},
 	6: {
 		"lines_scroll_per_spawn_round": 7,
 		"stages_per_level": 30,
 		"color_scheme": game_color_schemes["color_scheme_6"],
 		"scrolling_pause_time": 0.4,
-		"strays_spawn_count": 32
+		"strays_spawn_count": 32,
 	},
 	7: {
 		"lines_scroll_per_spawn_round": 7,
 		"stages_per_level": 30,
 		"color_scheme": game_color_schemes["color_scheme_7"],
 		"scrolling_pause_time": 0.4,
-		"strays_spawn_count": 32
+		"strays_spawn_count": 32,
 	},
 	8: {
 		"lines_scroll_per_spawn_round": 7,
 		"stages_per_level": 30,
 		"color_scheme": game_color_schemes["color_scheme_8"],
 		"scrolling_pause_time": 0.5,
-		"strays_spawn_count": 32
+		"strays_spawn_count": 32,
 	},
 	9: {
 		"lines_scroll_per_spawn_round": 7,
 		"stages_per_level": 30,
 		"color_scheme": game_color_schemes["color_scheme_9"],
 		"scrolling_pause_time": 0.5,
-		"strays_spawn_count": 32
+		"strays_spawn_count": 32,
 	},
 	10: {
 		"lines_scroll_per_spawn_round": 7,
 		"stages_per_level": 30,
 		"color_scheme": game_color_schemes["default_color_scheme"],
 		"scrolling_pause_time": 0.5,
-		"strays_spawn_count": 32
+		"strays_spawn_count": 32,
 	},
 }
 
@@ -231,7 +234,7 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 	"on_hit_energy_part": 2, # delež porabe od trenutne energije
 	# player on start
 	"player_start_life": 3, # 1 lajf skrije ikone v hudu in določi "lose_life_on_hit"
-	"player_start_energy": 192,
+	"player_start_energy": 192, # če je 0, je 0 ... instan GO
 	"player_start_color": Color("#141414"),
 	# player in game
 	"player_max_energy": 192, # max energija
@@ -264,7 +267,7 @@ var default_game_settings: Dictionary = { # default settings so tiste, ki so naj
 #	"scrolling_pause_time": 0.5,
 	"manage_highscores": true, # obsoleten, ker je vključen v HS type
 	
-	"touching_stray_energy": -0.4,
+	"touching_stray_energy": 0,
 	
 	# odl	
 	# "scrolling_mode": false,
@@ -465,8 +468,8 @@ func _ready() -> void:
 #	var current_game = Games.ERASER_S
 #	var current_game = Games.CLEANER_L
 #	var current_game = Games.CLEANER_DUEL
-#	var current_game = Games.SCROLLER
-	var current_game = Games.SIDEWINDER
+	var current_game = Games.SCROLLER
+#	var current_game = Games.SIDEWINDER
 ##
 ###	var current_game = Games.DUEL
 ###	var current_game = Games.TUTORIAL
@@ -523,7 +526,8 @@ func set_game_data(selected_game) -> void:
 			current_game_data = game_data_scroller
 			game_settings["cell_traveled_energy"] = 0
 			game_settings["player_start_life"] = 1
-			game_settings["player_start_color"] = Color.blue
+			game_settings["all_cleaned_points"] = 1000000
+			game_settings["player_start_color"] = Color.white
 			
 			game_settings["timer_mode_countdown"] = false
 			game_settings["start_countdown"] = false
@@ -534,7 +538,7 @@ func set_game_data(selected_game) -> void:
 			current_game_data = game_data_sidewinder
 			game_settings["cell_traveled_energy"] = 1
 			game_settings["player_start_life"] = 1
-			game_settings["player_start_color"] = Color.blue
+			game_settings["player_start_color"] = Color.white
 			
 			game_settings["timer_mode_countdown"] = false
 			game_settings["start_countdown"] = false
@@ -542,6 +546,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["position_indicators_mode"] = false 
 			game_settings["step_slowdown_mode"] = false
 			game_settings["player_tired_energy"] = 40
+			game_settings["touching_stray_energy"] = -0.4
 		
 		
 #		Games.SPRINTER_S: 
