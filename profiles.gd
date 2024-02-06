@@ -293,7 +293,7 @@ enum Games {
 	TUTORIAL,
 	}
 
-enum HighscoreTypes {NO_HS, HS_POINTS, HS_TIME_LOW, HS_TIME_HIGH} # vpliva
+enum HighscoreTypes {NO_HS, HS_POINTS, HS_COLORS, HS_TIME_LOW, HS_TIME_HIGH} # vpliva
 
 #var game_data_difolt: Dictionary = { 
 #	"game": 0,
@@ -389,14 +389,13 @@ var game_data_cleaner_duel: Dictionary = {
 
 var game_data_scroller: Dictionary = { 
 	"game": Games.SCROLLER,
-	"highscore_type": HighscoreTypes.HS_POINTS,
+	"highscore_type": HighscoreTypes.HS_COLORS,
 	"game_name": "Scroller",
 	"level": " ", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
 	"game_scene_path": "res://game/game_scrolling.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_scrolling.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 50, # pravi se seta znotraj igre
-	
 }
 
 var game_data_sidewinder: Dictionary = { 
@@ -409,7 +408,6 @@ var game_data_sidewinder: Dictionary = {
 	"game_time_limit": 0,
 	"strays_start_count": 50, # pravi se seta znotraj igre
 }
-
 
 var game_data_hunter: Dictionary = {
 	"game": Games.HUNTER,
@@ -468,8 +466,8 @@ func _ready() -> void:
 #	var current_game = Games.ERASER_S
 #	var current_game = Games.CLEANER_L
 #	var current_game = Games.CLEANER_DUEL
-	var current_game = Games.SCROLLER
-#	var current_game = Games.SIDEWINDER
+#	var current_game = Games.SCROLLER
+	var current_game = Games.SIDEWINDER
 ##
 ###	var current_game = Games.DUEL
 ###	var current_game = Games.TUTORIAL

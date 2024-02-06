@@ -61,6 +61,7 @@ onready var p2_steps_counter: Label = $Header/TopLineR/PlayerLineR/StepsHolder/L
 onready var footer: Control = $Footer # kontrole iz kamere
 onready var game_label: Label = $Footer/FooterLine/GameLine/Game
 onready var level_label: Label = $Footer/FooterLine/GameLine/Level
+onready var strays_counters_holder: HBoxContainer = $Footer/FooterLine/StraysLine
 onready var astray_counter: Label = $Footer/FooterLine/StraysLine/AstrayHolder/Label
 onready var picked_counter: Label = $Footer/FooterLine/StraysLine/PickedHolder/Label
 onready var spectrum: HBoxContainer = $Footer/FooterLine/SpectrumHolder/ColorSpectrum

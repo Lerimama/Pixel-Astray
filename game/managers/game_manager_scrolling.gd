@@ -269,7 +269,11 @@ func spawn_strays(strays_to_spawn_count: int):
 	var forbiden_positions: Array = []
 	for stray_on_top in current_strays_on_top:
 		var adapted_stray_position: Vector2 = stray_on_top.position - Vector2.ONE * cell_size_x / 2 # za središče
-		adapted_stray_position.y -= 32 # za pozicijo zaznanega straya (kje je detektor pač)  
+		if game_data["game"] == Profiles.Games.SIDEWINDER:
+			adapted_stray_position.x -= 32 # za pozicijo zaznanega straya (kje je detektor pač)  
+		elif game_data["game"] == Profiles.Games.SCROLLER:
+			adapted_stray_position.y -= 32 # za pozicijo zaznanega straya (kje je detektor pač)  
+			
 		forbiden_positions.append(adapted_stray_position)
 	printt ("prepovedane", forbiden_positions.size())
 	
@@ -444,6 +448,9 @@ func clean_strays_in_game():
 
 	var all_strays_alive: Array = get_tree().get_nodes_in_group(Global.group_strays)
 	
+	# javim število, ki se bo pucalo ... to pomeni, da se tudi teli štejejo v spucane od plejjerja
+	# self.strays_in_game_count = all_strays_alive.size() # setget sprememba
+	
 	for stray in all_strays_alive:
 		# najprej setam STATIC ... tudi DYING postanejo static, da lahko kličem die()
 		
@@ -455,6 +462,8 @@ func clean_strays_in_game():
 		var stray_index: int = all_strays_alive.find(stray)
 		var all_strays_alive_count: int = all_strays_alive.size()
 		stray.die(stray_index, all_strays_alive_count)
+	
+	self.strays_in_game_count = all_strays_alive.size() # setget sprememba
 	
 	all_strays_died_alowed = true # javi signal, ko so vsi spucani 
 	

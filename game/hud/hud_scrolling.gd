@@ -5,7 +5,6 @@ extends GameHud
 onready var level_up_popup: Control = $Popups/LevelUp
 
 
-
 func _process(delta: float) -> void:
 	
 	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
@@ -19,8 +18,7 @@ func set_hud(players_count: int): # kliče main na game-in
 	# players
 	p1_label.visible = false
 	p2_statsline.visible = false
-	# strays count off
-	p1_color_holder.visible = false
+	strays_counters_holder.visible = false
 	# popups
 	p1_energy_warning_popup = $Popups/EnergyWarning/Solo	
 
@@ -47,6 +45,11 @@ func set_hud(players_count: int): # kliče main na game-in
 		set_current_highscore()
 	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_POINTS:
 		p1_points_holder.visible = true
+		highscore_label.visible = true
+		set_current_highscore()
+	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_COLORS:
+		p1_points_holder.visible = false
+		p1_color_holder.visible = true
 		highscore_label.visible = true
 		set_current_highscore()
 

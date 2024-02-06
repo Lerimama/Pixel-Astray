@@ -99,14 +99,16 @@ func turn_to_wall(stray_in_stack_index: int):
 	var shake_time: float = 0.3
 	var shake_decay: float = 0.7
 	Global.player1_camera.shake_camera(shake_power, shake_time, shake_decay)	
-	
+
 	# turn to color
+	stray_color.s = 0.0
+	
 	var color_tween: SceneTreeTween = get_tree().create_tween()
-	color_tween.tween_property(self, "color_poly:color", Global.color_floor_scroller, 0.2)#.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
-	color_tween.tween_property(self, "stray_color", Global.color_floor_scroller, 0.2)#.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
+	color_tween.tween_property(self, "color_poly:modulate", stray_color, 0.2) # barva straysa
+	color_tween.parallel().tween_property(self, "modulate", Global.color_floor_scroller, 0.2) # siva stena
 	
 	# povzroča error, ker hoče vrnit funkciji ki ne obstaja več ... nekaj takega
-#	color_tween.tween_callback(self, "return", [true])#.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
+	# color_tween.tween_callback(self, "return", [true])#.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
 	
 
 #func check_for_neighbor_strays_on_hit(): # kliče player on hit
