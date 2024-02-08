@@ -25,7 +25,7 @@ var in_level_transition: bool = false
 
 func _unhandled_input(event: InputEvent) -> void:
 
-	if Input.is_action_just_pressed("n"):
+	if Input.is_action_just_pressed("l"):
 		upgrade_level()
 			
 			
@@ -35,10 +35,30 @@ func _ready() -> void:
 	StrayPixel = preload("res://game/pixel/stray_scrolling.tscn")
 	PlayerPixel = preload("res://game/pixel/player_scrolling.tscn")
 	randomize()
+	
+var step_in_progress: bool = false
+	
+func _process(delta: float) -> void:
+	# namen: kličem stray step
+	
+	if get_tree().get_nodes_in_group(Global.group_strays).empty() and all_strays_died_alowed:
+		all_strays_died_alowed = false
+		emit_signal("all_strays_died")
+	
+	# position indicators off
+	show_position_indicators = false			
+	
+	
+	if game_on and not step_in_progress:
+#		yield(get_tree().create_timer(scrolling_pause_time), "timeout")
+		stray_step()
 
 
 func set_game(): 
 	# namen: setam level indikatorje in strayse spawnam po štratu igre
+
+#	Global.hud.fade_splitscreen_popup()
+#	yield(Global.hud, "players_ready")
 
 	# player intro animacija
 	var signaling_player: KinematicBody2D
@@ -84,8 +104,8 @@ func game_over(gameover_reason: int):
 	Global.hud.game_timer.stop_timer()
 	
 	# ko je na koncu
-	if gameover_reason == GameoverReason.TIME: 
-		return
+#	if gameover_reason == GameoverReason.TIME: 
+#		return
 	if gameover_reason == GameoverReason.CLEANED:
 		clean_strays_in_game()
 		yield(self, "all_strays_died")
@@ -270,12 +290,11 @@ func spawn_strays(strays_to_spawn_count: int):
 	for stray_on_top in current_strays_on_top:
 		var adapted_stray_position: Vector2 = stray_on_top.position - Vector2.ONE * cell_size_x / 2 # za središče
 		if game_data["game"] == Profiles.Games.SIDEWINDER:
-			adapted_stray_position.x -= 32 # za pozicijo zaznanega straya (kje je detektor pač)  
+			adapted_stray_position.x += 64 # za pozicijo zaznanega straya (zamik spawn lokacije glede na detektor)  
 		elif game_data["game"] == Profiles.Games.SCROLLER:
-			adapted_stray_position.y -= 32 # za pozicijo zaznanega straya (kje je detektor pač)  
-			
+			adapted_stray_position.y -= 32 # za pozicijo zaznanega straya (zamik spawn lokacije glede na detektor)
 		forbiden_positions.append(adapted_stray_position)
-	printt ("prepovedane", forbiden_positions.size())
+	# printt ("prepovedane", forbiden_positions)
 	
 	for stray_index in strays_to_spawn_count:
 		# barva
@@ -300,7 +319,7 @@ func spawn_strays(strays_to_spawn_count: int):
 		
 		# random pozicija med možnimi
 		var random_range = current_spawn_positions.size()
-		var selected_cell_index: int = randi() % int(random_range)		
+		var selected_cell_index: int = randi() % int(random_range)# + 1		
 		var selected_position = current_spawn_positions[selected_cell_index]
 
 		# primerjam spawn pozicijo s prepovedanimi
@@ -310,14 +329,26 @@ func spawn_strays(strays_to_spawn_count: int):
 			# spawn stray
 			var new_stray_pixel = StrayPixel.instance()
 			new_stray_pixel.name = "S%s" % str(stray_index)
-			new_stray_pixel.stray_color = current_color
 			new_stray_pixel.global_position = selected_position + Vector2(cell_size_x/2, cell_size_x/2) # dodana adaptacija zaradi središča pixla
 			new_stray_pixel.z_index = 2 # višje od plejerja
+			
+			if game_data["game"] == Profiles.Games.SIDEWINDER:
+				# stray becomes wall
+				var random_wall_count: int = randi() % 5 + 1
+				if random_wall_count == 3:
+					new_stray_pixel.current_state = new_stray_pixel.States.WALL	
+				else:
+					new_stray_pixel.stray_color = current_color
+			else:
+				new_stray_pixel.stray_color = current_color
+			
 			Global.node_creation_parent.add_child(new_stray_pixel)
 			
 			new_stray_pixel.show_stray()
 			realy_spawned_strays_count += 1
-			
+		
+		# print("realy ", realy_spawned_strays_count)
+		
 		# odstranim uporabljeno pozicijo ne glede na al je bila spawnana al ne
 		current_spawn_positions.remove(selected_cell_index)
 
@@ -327,6 +358,12 @@ func spawn_strays(strays_to_spawn_count: int):
 
 func stray_step():
 	
+	# if get_tree().paused:
+	#	return
+
+	step_in_progress = true
+	
+		
 	check_top_for_gameover() 
 	
 	var stepping_direction: Vector2
@@ -334,7 +371,7 @@ func stray_step():
 	
 	if game_data["game"] == Profiles.Games.SIDEWINDER and not in_level_transition:
 		
-		upgrade_stage()
+#		upgrade_stage()
 		
 		stepping_direction = Vector2.LEFT
 		for stray in get_tree().get_nodes_in_group(Global.group_strays):
@@ -361,11 +398,11 @@ func stray_step():
 		if lines_scrolled_count % lines_scroll_per_spawn_round == 0: # tukaj, da ne spawna če  je konec
 			spawn_strays(game_data["strays_start_count"])
 			
-	if game_on:
-		yield(get_tree().create_timer(scrolling_pause_time), "timeout")
-		stray_step()
-
-
+	yield(get_tree().create_timer(scrolling_pause_time), "timeout")
+	
+	step_in_progress = false
+		
+		
 # LEVELING --------------------------------------------------------------------------------------
 
 
@@ -390,7 +427,6 @@ func upgrade_level():
 		game_over(GameoverReason.CLEANED)
 	else:
 		in_level_transition = true
-		printt ("nov level", current_level, current_stage)
 			
 		# pogoji novega levela
 		set_level_conditions() 
@@ -444,8 +480,6 @@ func set_level_conditions():
 
 func clean_strays_in_game():
 	
-	print("wall pre ", wall_strays.size())
-
 	var all_strays_alive: Array = get_tree().get_nodes_in_group(Global.group_strays)
 	
 	# javim število, ki se bo pucalo ... to pomeni, da se tudi teli štejejo v spucane od plejjerja
@@ -476,23 +510,31 @@ func check_top_for_gameover():
 	var current_strays_on_top: Array = Global.current_tilemap.strays_in_top_area
 	var wall_strays_on_top_count: int = 0
 	
-	# GO na stolpec full
+	 # GO na stolpec full
+	var spawn_line_cells_count: int
+	
+	if game_data["game"] == Profiles.Games.SCROLLER:
+		spawn_line_cells_count = 40
+	if game_data["game"] == Profiles.Games.SIDEWINDER:
+		spawn_line_cells_count = 20
+	
+	if current_strays_on_top.size() < spawn_line_cells_count:
 	# if current_strays_on_top.size() < 40:
-	#	for stray_on_top in current_strays_on_top:
-	#		if wall_strays.has(stray_on_top):
-	#			print("GAME OVER - TOP")
-	#			game_over(GameoverReason.TIME)
-	#			return # da ne falsam game filled
+		for stray_on_top in current_strays_on_top:
+			if wall_strays.has(stray_on_top):
+				print("GAME OVER - TOP")
+				game_over(GameoverReason.TIME)
+				return # da ne falsam game filled
 	
 	# GO na top full
 	# štejejo samo spremenjeni v wall
-	for stray in current_strays_on_top:
-		if wall_strays.has(stray):
-			wall_strays_on_top_count += 1
+	# for stray in current_strays_on_top:
+	# 	if wall_strays.has(stray):
+	# 		wall_strays_on_top_count += 1
 			
-	if wall_strays_on_top_count >= 40:
-		print("GAME OVER - FILLED ", wall_strays_on_top_count)
-		game_over(GameoverReason.TIME)
+	# if wall_strays_on_top_count >= spawn_line_cells_count:
+	# 	print("GAME OVER - FILLED ", wall_strays_on_top_count)
+	# 	game_over(GameoverReason.TIME)
 
 
 # POLNENJE TAL -----------------------------------------------------------------------------
@@ -500,7 +542,7 @@ func check_top_for_gameover():
 
 # nikoli ne restiram
 var wall_strays: Array = [] # vsi straysi,ki so celotna tla
-var first_floor_round: bool = true
+var first_wall_round: bool = true
 
 
 # DOTIK STENE --------------------------------------------------------------------------------------------------------------------
@@ -573,8 +615,8 @@ func check_strays_on_wall_edge_connection():
 	# VER 2 ... glede na povezanost podna
 	
 	if strays_on_wall_edge.size() == 40:
-		if first_floor_round: # prva runda
-			first_floor_round = false
+		if first_wall_round: # prva runda
+			first_wall_round = false
 			turn_all_on_wall_to_wall()
 		else: # druge runde preverjam še za povezanost
 			# preverim povezanost straysov na robu

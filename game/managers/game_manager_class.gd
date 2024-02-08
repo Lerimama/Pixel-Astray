@@ -65,7 +65,10 @@ func set_game():
 	# set_tilemap()
 	# set_game_view()
 	# set_players() # da je plejer viden že na fejdin
-	
+
+#	Global.hud.fade_splitscreen_popup()
+#	yield(Global.hud, "players_ready")
+		
 	# player intro animacija
 	var signaling_player: KinematicBody2D
 	for player in get_tree().get_nodes_in_group(Global.group_players):

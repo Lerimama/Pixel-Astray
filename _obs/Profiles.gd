@@ -21,24 +21,24 @@ var default_player_profiles: Dictionary = { # ime profila ime igralca ... pazi d
 
 # STATS ---------------------------------------------------------------------------------------------------------
 
-var default_level_highscores: Dictionary = { 
-# prazen slovar ... uporabi se ob kreiranju fileta ... uporabi ga Glo
-	"1": {
-		"P1": 60,
-	},
-	"2": {
-		"P2": 50,
-	},
-	"3": {
-		"P3": 40,
-	},
-	"4": {
-		"P4": 30,
-	},
-	"5": {
-		"P5": 1,
-	},
-}
+#var default_level_highscores: Dictionary = { 
+## prazen slovar ... uporabi se ob kreiranju fileta ... uporabi ga DM
+##	"1": {
+##		"P1": 60,
+##	},
+##	"2": {
+##		"P2": 50,
+##	},
+##	"3": {
+##		"P3": 40,
+##	},
+##	"4": {
+##		"P4": 30,
+##	},
+##	"5": {
+##		"P5": 1,
+##	},
+#}
 
 var default_player_stats : Dictionary = { # tole ne uporabljam v zadnji varianti
 	"player_name" : "Moe", # to ime se piše v HS procesu

@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://game/tilemaps/arena_tilemap.gd" type="Script" id=1]
 [ext_resource path="res://assets/resources/tileset_arena.tres" type="TileSet" id=2]
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=3]
+[ext_resource path="res://assets/resources/level_edge_panel.tres" type="StyleBox" id=4]
 
 [node name="CleaningTilemap" type="TileMap"]
 tile_set = ExtResource( 2 )
@@ -206,3 +207,12 @@ text = "Zoomout notranje meja ekrana pred nalaganje prikazom huda"
 [node name="Polygon2D2" type="Polygon2D" parent="_razlaga/zoomout_meja no hud"]
 position = Vector2( 592, 456 )
 polygon = PoolVector2Array( -672, -352, -672, 1088, 1824, 1088, 1824, 1056, -640, 1056, -640, -320, 1856, -320, 1856, 1088, 1888, 1088, 1887, -352 )
+
+[node name="Edge" type="Node2D" parent="."]
+
+[node name="LevelEdge" type="Panel" parent="Edge"]
+margin_left = 32.0
+margin_top = 32.0
+margin_right = 2592.0
+margin_bottom = 1472.0
+custom_styles/panel = ExtResource( 4 )

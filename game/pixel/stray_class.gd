@@ -1,8 +1,8 @@
 extends KinematicBody2D
 class_name Stray
 
-enum States {IDLE, MOVING, STATIC, DYING} # static, unmovable ... ko je GO ali pa je poden
-var current_state # = States.IDLE
+enum States {IDLE, MOVING, STATIC, DYING, WALL} # static, unmovable ... ko je GO ali pa je poden
+var current_state = States.IDLE # ni vready, da lahko setam že ob spawnu
 
 var stray_color: Color
 var step_attempt: int = 1 # če nima prostora, proba v drugo smer (največ 4krat)
@@ -26,8 +26,6 @@ func _ready() -> void:
 
 	randomize() # za random die animacije
 	
-	current_state = States.IDLE
-	
 	color_poly.modulate = stray_color
 	modulate.a = 0
 	position_indicator.get_node("PositionPoly").color = stray_color
@@ -48,15 +46,10 @@ func _process(delta: float) -> void:
 	
 func show_stray(): # kliče GM
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
-		modulate.a = 1
-	elif Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
-		modulate.a = 1
-	else:
-		# žrebam animacijo
-		var random_animation_index = randi() % 3 + 1
-		var random_animation_name: String = "glitch_%s" % random_animation_index
-		animation_player.play(random_animation_name)
+	# žrebam animacijo
+	var random_animation_index = randi() % 3 + 1
+	var random_animation_name: String = "glitch_%s" % random_animation_index
+	animation_player.play(random_animation_name)
 
 
 func die(stray_in_stack_index: int, strays_in_stack_count: int):
@@ -93,7 +86,8 @@ func die(stray_in_stack_index: int, strays_in_stack_count: int):
 	
 func step(step_direction: Vector2):
 	
-	if current_state.STATIC:
+	if not current_state == States.IDLE:
+	# if current_state.STATIC:
 		return
 		
 	var current_collider = detect_collision_in_direction(step_direction)
@@ -108,8 +102,8 @@ func step(step_direction: Vector2):
 			step(new_direction)
 		return
 	
-	
 	current_state = States.MOVING
+	
 	collision_shape_ext.position = step_direction * cell_size_x # vržem koližn v smer premika
 	
 	var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
@@ -148,8 +142,9 @@ func pull_stray(pull_direction: Vector2, pull_cock_time: float, pull_time: float
 
 func end_move():
 	
-	if current_state == States.MOVING: # da se stanje resetira samo če ni STATIC al pa DYING
+	if current_state == States.MOVING: # da se stanje resetira samo če ni STATIC al pa DYING al pa WALL
 		current_state = States.IDLE
+		# modulate = Color.red
 	global_position = Global.snap_to_nearest_grid(global_position) 
 	
 		
@@ -199,7 +194,7 @@ func get_neighbor_strays_on_hit(): # kliče player on hit
 	for direction in directions_to_check:
 		var neighbor = detect_collision_in_direction(direction)
 		if neighbor and neighbor.is_in_group(Global.group_strays) and not neighbor == self: # če je kolajder, je stray in ni self
-			if not neighbor.current_state == neighbor.States.DYING: # če je vstanju umiranja se ne šteje za soseda
+			if not neighbor.current_state == neighbor.States.DYING and not neighbor.current_state == neighbor.States.WALL: # če je vstanju umiranja se ne šteje za soseda
 				current_cell_neighbors.append(neighbor)
 				
 	return current_cell_neighbors # uporaba v stalnem čekiranj sosedov

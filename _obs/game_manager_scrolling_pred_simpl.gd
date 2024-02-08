@@ -467,8 +467,6 @@ func on_floor_cleared(): # kliče Player še pred aplciranjem animacij
 	else:
 		# get xtra points
 		pass
-		
-	
 	
 
 func _on_floor_area_emptied(): # ko so zbrisani vsi strayi, reštartam prazna tla

@@ -1331,7 +1331,6 @@ anims/countdown_5 = SubResource( 142 )
 anims/countdown_5_v1 = SubResource( 135 )
 
 [node name="Life" type="Label" parent="GUI/Hud"]
-visible = false
 margin_left = 32.0
 margin_top = 69.0
 margin_right = 114.0

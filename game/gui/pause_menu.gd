@@ -56,7 +56,6 @@ func pause_game():
 	fade_in_tween.tween_callback(get_tree(), "set_pause", [true])
 	fade_in_tween.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
 
-
 func play_on():
 	
 	get_viewport().set_disable_input(true) # anti dablklik

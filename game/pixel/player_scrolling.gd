@@ -132,20 +132,49 @@ func spawn_cock_ghost(cocking_direction: Vector2):
 	# namen: vsi cock ghosti polni barve, zaznavanje cock_room z deffered klicom (da lahko bolje zazna cock room)
 	
 	# spawn ghosta pod manom
+	#	var cock_ghost_position = (global_position - cocking_direction * cell_size_x/2) + (cocking_direction * cell_size_x * (cocked_ghosts.size() + 1)) # +1, da se ne začne na pixlu
+	#	var new_cock_ghost = spawn_ghost(cock_ghost_position)
+	#	new_cock_ghost.z_index = 3 # nad straysi in playerjem
+	#	new_cock_ghost.modulate.a  = 0 # cocked_ghost_alpha - (cocked_ghosts.size() / cocked_ghost_alpha_divider)
+	#	new_cock_ghost.direction = cocking_direction
+	#	new_cock_ghost.position = new_cock_ghost.global_position + cocking_direction * cell_size_x/2
+	#
+	#	# ray detect velikost je velikost napenjanja
+	#	new_cock_ghost.ghost_ray.cast_to = direction * cell_size_x
+	#	new_cock_ghost.connect("ghost_detected_body", self, "_on_ghost_detected_body")
+	#
+	#	call_deferred("show_ghost", new_cock_ghost)
+	#
+	#	return new_cock_ghost
+
+	
+	var cocked_ghost_alpha: float = 1 # najnižji alfa za ghoste ... old 0.55
+	var cocked_ghost_alpha_divider: float = 5 # faktor nižanja po zaporedju (manjši je bolj oster) ... old 14
+	
+	# spawn ghosta pod manom
 	var cock_ghost_position = (global_position - cocking_direction * cell_size_x/2) + (cocking_direction * cell_size_x * (cocked_ghosts.size() + 1)) # +1, da se ne začne na pixlu
 	var new_cock_ghost = spawn_ghost(cock_ghost_position)
 	new_cock_ghost.z_index = 3 # nad straysi in playerjem
-	new_cock_ghost.modulate.a  = 0 # cocked_ghost_alpha - (cocked_ghosts.size() / cocked_ghost_alpha_divider)
+	new_cock_ghost.modulate.a  = cocked_ghost_alpha - (cocked_ghosts.size() / cocked_ghost_alpha_divider)
 	new_cock_ghost.direction = cocking_direction
-	new_cock_ghost.position = new_cock_ghost.global_position + cocking_direction * cell_size_x/2
+	
+	# v kateri smeri je scale
+	if direction.y == 0: # smer horiz
+		new_cock_ghost.scale.x = 0
+	elif direction.x == 0: # smer ver
+		new_cock_ghost.scale.y = 0
+
+	# animiram cock celico
+	var cock_cell_tween = get_tree().create_tween()
+	cock_cell_tween.tween_property(new_cock_ghost, "scale", Vector2.ONE, cock_ghost_cocking_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	cock_cell_tween.parallel().tween_property(new_cock_ghost, "position", global_position + cocking_direction * cell_size_x * (cocked_ghosts.size() + 1), cock_ghost_cocking_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	
 	# ray detect velikost je velikost napenjanja
 	new_cock_ghost.ghost_ray.cast_to = direction * cell_size_x
 	new_cock_ghost.connect("ghost_detected_body", self, "_on_ghost_detected_body")
 	
-	call_deferred("show_ghost", new_cock_ghost)
-	
 	return new_cock_ghost
+
 
 
 func show_ghost(ghost):
@@ -154,25 +183,31 @@ func show_ghost(ghost):
 		var cock_cell_tween = get_tree().create_tween()
 		cock_cell_tween.tween_property(ghost, "modulate:a", 1, cock_ghost_cocking_time)
 			
+
+func spawn_floating_tag(value: int):
+	# namen: floating tag off
+	
+	return
 		
-func release_burst(): 
-	# namen: manjšam trajanje in pavzo
-	
-	current_state = States.RELEASING
-	
-	play_sound("burst_cocked")
-
-	var cocked_ghost_fill_time: float = 0.04 # čas za napolnitev vseh spawnanih ghostov (tik pred burstom)
-	var cocked_pause_time: float = 0.05 # pavza pred strelom
-
-	# napeti ghosti animirajo do alfa 1
-	for ghost in cocked_ghosts:
-		var get_set_tween = get_tree().create_tween()
-		get_set_tween.tween_property(ghost, "modulate:a", 1, cocked_ghost_fill_time)
-		# yield(get_tree().create_timer(cocked_ghost_fill_time),"timeout")
-	# yield(get_tree().create_timer(cocked_pause_time), "timeout")
-	
-	burst()
+				
+#func release_burst(): 
+#	# namen: manjšam trajanje in pavzo
+#
+#	current_state = States.RELEASING
+#
+#	play_sound("burst_cocked")
+#
+#	var cocked_ghost_fill_time: float = 0.04 # čas za napolnitev vseh spawnanih ghostov (tik pred burstom)
+#	var cocked_pause_time: float = 0.05 # pavza pred strelom
+#
+#	# napeti ghosti animirajo do alfa 1
+#	for ghost in cocked_ghosts:
+#		var get_set_tween = get_tree().create_tween()
+#		get_set_tween.tween_property(ghost, "modulate:a", 1, cocked_ghost_fill_time)
+#		# yield(get_tree().create_timer(cocked_ghost_fill_time),"timeout")
+#	# yield(get_tree().create_timer(cocked_pause_time), "timeout")
+#
+#	burst()
 		
 
 func burst():
@@ -223,17 +258,24 @@ func burst():
 
 
 func on_hit_stray(hit_stray: KinematicBody2D):
-	# namen: always full stack, tudi sprožanje čekiranja levelov, plejer ostane bel, preverjanje straysov na podnu
-	
+	# namen: always full stack, tudi sprožanje čekiranja levelov, preverjanje straysov na podnu, on wall hit preusmeritev
+	# možno: plejer ostane bel
+	if hit_stray.current_state == hit_stray.States.WALL:
+		on_hit_wall()
+		return
+		
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
 	play_sound("hit_stray")	
 	spawn_collision_particles()
 	shake_player_camera(burst_speed)			
 
-	if hit_stray.current_state == hit_stray.States.DYING: # če je že v umiranju, samo kolajdaš
+	if hit_stray.current_state == hit_stray.States.DYING or hit_stray.current_state == hit_stray.States.WALL: # če je že v umiranju, samo kolajdaš
 		end_move()
 		return
-
+	
+	# izklopim če začne bel
+	tween_color_change(hit_stray.stray_color)
+	
 	# preverim sosede
 	var hit_stray_neighbors = check_strays_neighbors(hit_stray)
 	
@@ -270,6 +312,7 @@ func on_hit_wall():
 	shake_player_camera(burst_speed)
 	
 	# yield(get_tree().create_timer(1), "timeout") # za dojet
+	change_stat("hit_wall", 1) # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
 	end_move()
 
 
@@ -291,7 +334,8 @@ func detect_touch():
 #		print("touching_objects ", touching_objects.size())
 		for object in touching_objects:
 			if object.is_in_group(Global.group_strays):
-				change_stat("touching_stray", 1) # točke in energija kot je določeno v settingsih
+				if not object.current_state == object.States.DYING and not object.current_state == object.States.WALL:
+					change_stat("touching_stray", 1) # točke in energija kot je določeno v settingsih
 	
 	if player_stats["player_energy"] == 0:
 		die()

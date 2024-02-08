@@ -48,13 +48,12 @@ var hud_text_color: Color = Color("#fafafa")
 
 # reference ... ni nujno, da so v kodi
 var color_almost_black: Color = Color("#141414") # start player, wall, floor
-var color_gray_dark: Color = Color("#232323")
+var color_gray_dark: Color = Color("#232323") # tudi color_floor_scroller
 var color_gui_gray: Color = Color("#838383") # siva v tekstih (naslovi) in ikonah
 #var color_gui_btn: Color = Color("#82ffffff") # siva gumbih je transparentna bela ... imitacija #838383
 #var color_gui_btn: Color = Color("#838383") # siva gumbih je transparentna bela ... imitacija #838383
 var color_hud_background: Color = Color("#141414")
 var color_wall_gray: Color = Color("#141414")
-var color_floor_scroller: Color = color_gray_dark
 
 
 # --------------------------------------------------------------------------------------------------------------

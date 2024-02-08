@@ -1,7 +1,15 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://game/tilemaps/arena_tilemap.gd" type="Script" id=1]
 [ext_resource path="res://assets/resources/tileset_arena.tres" type="TileSet" id=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.137255, 0.137255, 0.137255, 1 )
 
 [node name="Tilemap" type="TileMap"]
 tile_set = ExtResource( 2 )
@@ -20,6 +28,13 @@ visible = false
 margin_right = 2752.0
 margin_bottom = 1636.0
 color = Color( 0.996078, 0.976471, 0.545098, 1 )
+
+[node name="LevelEdge" type="Panel" parent="Background"]
+margin_left = 32.0
+margin_top = 32.0
+margin_right = 2720.0
+margin_bottom = 1600.0
+custom_styles/panel = SubResource( 1 )
 
 [node name="_camer_muštr" type="Node2D" parent="."]
 visible = false

@@ -29,9 +29,9 @@ var step_slowdown_rate: float = Global.game_manager.game_settings["step_slowdown
 var cocking_room: bool = true
 var uncocking: bool = false
 var cocking_loop_pause: float = 1
-var cock_ghost_cocking_time: float = 0.12 # čas nastajanja ghosta in njegova animacija 
+var cock_ghost_cocking_time: float = 0.06 # čas nastajanja ghosta in njegova animacija ... original 0.12
 var current_ghost_cocking_time: float = 0 # trenuten čas nastajanja ghosta ... tukaj, da ga ne nulira z vsakim frejmom
-var cocked_ghost_max_count: int = 7
+var cocked_ghost_max_count: int = 5
 var cock_ghost_speed_addon: float = 12
 var cocked_ghosts: Array
 var burst_speed: float = 0 # trenutna hitrost
@@ -102,6 +102,7 @@ func _ready() -> void:
 	
 	
 func _physics_process(delta: float) -> void:
+	# print("PLAYER PF")
 	
 	color_poly.modulate = pixel_color # povezava med variablo in barvo mora obstajati non-stop
 	
@@ -354,23 +355,27 @@ func cock_burst():
 				cocked_ghosts.append(new_cock_ghost)	
 				play_sound("burst_cocking")
 		elif cocked_ghosts.size() == cocked_ghost_max_count:
-			yield(get_tree().create_timer(cocking_loop_pause), "timeout")
-			uncocking = true
-	else:
-		if not cocked_ghosts.empty():
-			current_ghost_cocking_time += 1 / 60.0 
-			if current_ghost_cocking_time > cock_ghost_cocking_time:
-				play_sound("burst_uncocking")
-				current_ghost_cocking_time = 0
-				var last_cocked_ghost = cocked_ghosts.back() # najdem zadnjega cockanega in ga odfejdam
-				var cock_cell_tween = get_tree().create_tween()
-				cock_cell_tween.tween_property(last_cocked_ghost, "modulate:a", 0, cock_ghost_cocking_time)
-				yield(cock_cell_tween, "finished")
-				cocked_ghosts.pop_back()
-				last_cocked_ghost.queue_free()
-		else:
-			yield(get_tree().create_timer(cocking_loop_pause), "timeout")
-			uncocking = false
+			current_ghost_cocking_time += 1 / 60.0 # čas držanja tipke (znotraj nastajanja ene cock celice) ... fejk delta
+			if current_ghost_cocking_time > 5*cock_ghost_cocking_time: # ko je čas za eno celico mimo, jo spawnam
+				release_burst()
+				burst_light_off()
+#			yield(get_tree().create_timer(cocking_loop_pause), "timeout")
+#			uncocking = true
+#	else:
+#		if not cocked_ghosts.empty():
+#			current_ghost_cocking_time += 1 / 60.0 
+#			if current_ghost_cocking_time > cock_ghost_cocking_time:
+#				play_sound("burst_uncocking")
+#				current_ghost_cocking_time = 0
+#				var last_cocked_ghost = cocked_ghosts.back() # najdem zadnjega cockanega in ga odfejdam
+#				var cock_cell_tween = get_tree().create_tween()
+#				cock_cell_tween.tween_property(last_cocked_ghost, "modulate:a", 0, cock_ghost_cocking_time)
+#				yield(cock_cell_tween, "finished")
+#				cocked_ghosts.pop_back()
+#				last_cocked_ghost.queue_free()
+#		else:
+#			yield(get_tree().create_timer(cocking_loop_pause), "timeout")
+#			uncocking = false
 
 		
 func release_burst():
@@ -379,8 +384,8 @@ func release_burst():
 	
 	play_sound("burst_cocked")
 
-	var cocked_ghost_fill_time: float = 0.04 # čas za napolnitev vseh spawnanih ghostov (tik pred burstom)
-	var cocked_pause_time: float = 0.05 # pavza pred strelom
+	var cocked_ghost_fill_time: float = 0.02 # čas za napolnitev vseh spawnanih ghostov (tik pred burstom)
+	var cocked_pause_time: float = 0.07 # pavza pred strelom
 
 	# napeti ghosti animirajo do alfa 1
 	for ghost in cocked_ghosts:
@@ -572,7 +577,8 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	spawn_collision_particles()
 	shake_player_camera(burst_speed)			
 	
-	if hit_stray.current_state == hit_stray.States.DYING: # če je že v umiranju, samo kolajdaš
+	if hit_stray.current_state == hit_stray.States.DYING or hit_stray.current_state == hit_stray.States.WALL: # če je že v umiranju, samo kolajdaš
+	# if hit_stray.current_state == hit_stray.States.DYING: # če je že v umiranju, samo kolajdaš
 		end_move()
 		return
 	
@@ -731,7 +737,7 @@ func spawn_collision_particles():
 func spawn_cock_ghost(cocking_direction: Vector2):
 	
 	var cocked_ghost_alpha: float = 1 # najnižji alfa za ghoste ... old 0.55
-	var cocked_ghost_alpha_divider: float = 7 # faktor nižanja po zaporedju (manjši je bolj oster) ... old 14
+	var cocked_ghost_alpha_divider: float = 5 # faktor nižanja po zaporedju (manjši je bolj oster) ... old 14
 	
 	# spawn ghosta pod manom
 	var cock_ghost_position = (global_position - cocking_direction * cell_size_x/2) + (cocking_direction * cell_size_x * (cocked_ghosts.size() + 1)) # +1, da se ne začne na pixlu
@@ -760,7 +766,7 @@ func spawn_cock_ghost(cocking_direction: Vector2):
 	
 func spawn_trail_ghost():
 	
-	var trail_alpha: float = 0.2
+	var trail_alpha: float = 0.25
 	var trail_ghost_fade_time: float = 0.4
 	var new_trail_ghost = spawn_ghost(global_position)
 	new_trail_ghost.modulate = pixel_color
@@ -1061,7 +1067,7 @@ func _on_ghost_target_reached(ghost_body: Area2D, ghost_position: Vector2):
 	
 
 func _on_ghost_detected_body(body: Node2D):
-	print("ghost_body ", body)
+	
 	if body != self:
 		cocking_room = false
 		

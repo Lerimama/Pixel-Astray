@@ -94,12 +94,13 @@ func _ready() -> void:
 		
 	game_label.text = Global.game_manager.game_data["game_name"]
 	level_label.text = Global.game_manager.game_data["level"]
-	
+
 	
 func _process(delta: float) -> void:
 	
 	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
 	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
+
 
 func set_hud(players_count: int): # kliče main na game-in
 	
@@ -284,10 +285,13 @@ func slide_in(players_count: int): # kliče GM set_game()
 		var indicator_fade_in = get_tree().create_tween()
 		indicator_fade_in.tween_property(indicator, "modulate:a", unpicked_indicator_alpha, 0.3).set_ease(Tween.EASE_IN)
 	
-	if players_count == 2:
-		fade_splitscreen_popup()
-	else:
-		Global.start_countdown.start_countdown() # GM yielda za njegov signal
+#	if players_count == 2:
+#		fade_splitscreen_popup()
+#		fade_splitscreen_popup()
+#	else:
+#		Global.start_countdown.start_countdown() # GM yielda za njegov signal
+#	fade_splitscreen_popup()
+	Global.start_countdown.start_countdown() # GM yielda za njegov signal
 
 
 func slide_out(): # kliče GM na game over

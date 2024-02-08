@@ -28,7 +28,7 @@ var game_color_schemes: Dictionary = {
 		2: Color("#fef98b"), # blue
 	},
 	"color_scheme_4":{
-		1: Color("#fef98b"), #yellow
+		1: Color("#fef98b"), # yellow
 		2: Color("#5effa9"), # green
 	},
 	"color_scheme_5":{
@@ -135,7 +135,7 @@ var scrolling_level_conditions: Dictionary = {
 var sidewinder_level_conditions: Dictionary = {
 	1: {
 		"lines_scroll_per_spawn_round": 10,
-		"stages_per_level": 5, # lines scrolled
+		"stages_per_level": 32, # lines scrolled
 		"color_scheme": game_color_schemes["color_scheme_1"],
 		"scrolling_pause_time": 0.5, # ne sem bit manjšaq od stray stepa
 		"strays_spawn_count": 14
@@ -295,19 +295,6 @@ enum Games {
 
 enum HighscoreTypes {NO_HS, HS_POINTS, HS_COLORS, HS_TIME_LOW, HS_TIME_HIGH} # vpliva
 
-#var game_data_difolt: Dictionary = { 
-#	"game": 0,
-#	"highscore_type": 0,
-#	"game_name": "",
-#	"level": "",
-#	"game_scene_path": "",
-#	"tilemap_path": "",
-#	"game_time_limit": 0,
-#	"strays_start_count": 0, 
-### >>>> HS se doda med igro
-#}
-
-# tudu
 
 var game_data_eraser_S: Dictionary = { 
 	"game": Games.ERASER_S,
@@ -389,22 +376,22 @@ var game_data_cleaner_duel: Dictionary = {
 
 var game_data_scroller: Dictionary = { 
 	"game": Games.SCROLLER,
-	"highscore_type": HighscoreTypes.HS_COLORS,
+	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Scroller",
 	"level": " ", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
 	"game_scene_path": "res://game/game_scrolling.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_scrolling.tscn",
+	"tilemap_path": "res://game/tilemaps/scrolling/tilemap_scrolling.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 50, # pravi se seta znotraj igre
 }
 
 var game_data_sidewinder: Dictionary = { 
 	"game": Games.SIDEWINDER,
-	"highscore_type": HighscoreTypes.HS_TIME_HIGH,
+	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Sidewinder",
 	"level": " ", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
 	"game_scene_path": "res://game/game_scrolling.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_scrolling_sidewinder.tscn",
+	"tilemap_path": "res://game/tilemaps/scrolling/tilemap_sidewinder.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 50, # pravi se seta znotraj igre
 }
@@ -464,10 +451,10 @@ func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
 #	var current_game = Games.ERASER_S
-#	var current_game = Games.CLEANER_L
+	var current_game = Games.CLEANER_L
 #	var current_game = Games.CLEANER_DUEL
 #	var current_game = Games.SCROLLER
-	var current_game = Games.SIDEWINDER
+#	var current_game = Games.SIDEWINDER
 ##
 ###	var current_game = Games.DUEL
 ###	var current_game = Games.TUTORIAL
@@ -504,7 +491,6 @@ func set_game_data(selected_game) -> void:
 			game_settings["timer_mode_countdown"] = false
 			game_settings["all_cleaned_points"] = 0
 			game_settings["color_picked_points"] = 0
-
 		Games.CLEANER_S: 
 			current_game_data = game_data_cleaner_S
 			game_settings["cell_traveled_energy"] = 0
@@ -516,6 +502,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["cell_traveled_energy"] = 0
 		Games.CLEANER_DUEL: 
 			current_game_data = game_data_cleaner_duel
+			# game_settings["player_start_color"] = Color.white
 			game_settings["position_indicators_mode"] = false 
 			# debug
 			game_settings["start_countdown"] = false
@@ -524,9 +511,9 @@ func set_game_data(selected_game) -> void:
 			current_game_data = game_data_scroller
 			game_settings["cell_traveled_energy"] = 0
 			game_settings["player_start_life"] = 1
-			game_settings["all_cleaned_points"] = 1000000
-			game_settings["player_start_color"] = Color.white
-			
+			game_settings["all_cleaned_points"] = 0
+#			game_settings["player_start_color"] = Color.white
+			game_settings["lose_life_on_hit"] = false # da se nč ne zgodi
 			game_settings["timer_mode_countdown"] = false
 			game_settings["start_countdown"] = false
 			game_settings["stray_step_mode"] = true
@@ -534,18 +521,19 @@ func set_game_data(selected_game) -> void:
 			game_settings["step_slowdown_mode"] = false
 		Games.SIDEWINDER:
 			current_game_data = game_data_sidewinder
-			game_settings["cell_traveled_energy"] = 1
+			game_settings["cell_traveled_energy"] = 0
 			game_settings["player_start_life"] = 1
-			game_settings["player_start_color"] = Color.white
+#			game_settings["player_start_color"] = Color.white
 			
+			game_settings["lose_life_on_hit"] = false # zbija energijo on hit
 			game_settings["timer_mode_countdown"] = false
 			game_settings["start_countdown"] = false
-			game_settings["stray_step_mode"] = true
+#			game_settings["stray_step_mode"] = true
 			game_settings["position_indicators_mode"] = false 
 			game_settings["step_slowdown_mode"] = false
-			game_settings["player_tired_energy"] = 40
+#			game_settings["player_tired_energy"] = 40
 			game_settings["touching_stray_energy"] = -0.4
-		
+#
 		
 #		Games.SPRINTER_S: 
 #			current_game_data = game_data_sprinter_S

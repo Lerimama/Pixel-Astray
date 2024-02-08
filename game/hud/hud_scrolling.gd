@@ -19,6 +19,10 @@ func set_hud(players_count: int): # kliče main na game-in
 	p1_label.visible = false
 	p2_statsline.visible = false
 	strays_counters_holder.visible = false
+	
+	# if Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
+	p1_color_holder.visible = false	
+
 	# popups
 	p1_energy_warning_popup = $Popups/EnergyWarning/Solo	
 
@@ -52,8 +56,8 @@ func set_hud(players_count: int): # kliče main na game-in
 		p1_color_holder.visible = true
 		highscore_label.visible = true
 		set_current_highscore()
-
-
+	
+	
 func level_up_popup_in(level_reached: int):
 	
 	level_up_popup.get_node("Label").text = "LEVEL %s" % str(level_reached)
@@ -130,6 +134,7 @@ func show_color_indicator(picked_color: Color):
 
 func check_for_warning(player_stats: Dictionary, warning_popup: Control):
 	# namen drugače prikaže in čekira
+	return
 	
 	if warning_popup:
 		var steps_remaining_label: Label

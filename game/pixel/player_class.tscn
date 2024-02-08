@@ -5,7 +5,7 @@
 [ext_resource path="res://assets/burst_light.png" type="Texture" id=3]
 [ext_resource path="res://assets/glow_light.png" type="Texture" id=4]
 [ext_resource path="res://assets/sound/sfx/stepping/step_5.wav" type="AudioStream" id=5]
-[ext_resource path="res://assets/sound/sfx/burst/burst_cocking.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/sound/sfx/burst/burst_cocking_short.wav" type="AudioStream" id=6]
 [ext_resource path="res://assets/sound/sfx/blinking/blink_static_2.wav" type="AudioStream" id=7]
 [ext_resource path="res://assets/sound/sfx/skills/pull.wav" type="AudioStream" id=8]
 [ext_resource path="res://assets/sound/sfx/blinking/blink_static_5.wav" type="AudioStream" id=9]
@@ -1092,7 +1092,7 @@ bus = "GameSfx"
 
 [node name="HitStray" type="AudioStreamPlayer" parent="Sounds/Burst"]
 stream = SubResource( 158 )
-volume_db = -5.0
+volume_db = -10.0
 pitch_scale = 0.9
 bus = "GameSfx"
 

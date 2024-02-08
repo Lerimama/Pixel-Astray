@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://game/hud/floating_points.gd" type="Script" id=1]
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=2]
-[ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=3]
 
 [sub_resource type="Animation" id=140]
 length = 0.001
@@ -138,7 +137,6 @@ margin_right = 22.0
 margin_bottom = 31.0
 grow_horizontal = 2
 theme = ExtResource( 2 )
-custom_fonts/font = ExtResource( 3 )
 text = "00"
 align = 1
 valign = 1

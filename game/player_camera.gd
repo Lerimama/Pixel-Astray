@@ -55,7 +55,7 @@ func _ready():
 		# start setup
 		if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER or Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
 #		if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
-			zoom_end = Vector2(2,2) # debug 
+#			zoom_end = Vector2(2,2) # debug 
 			zoom = zoom_end
 		else:
 			zoom = zoom_start
