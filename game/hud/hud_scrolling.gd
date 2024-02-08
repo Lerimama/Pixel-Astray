@@ -13,7 +13,7 @@ func _process(delta: float) -> void:
 	
 	
 func set_hud(players_count: int): # kliče main na game-in
-	# namen: ikone v player statline, samo 1 player, ni lajfov, ni energije, level data je vis tudi če je prazen
+	# namen: ikone v player statline, samo 1 player, ni lajfov, ni energije, level data je vis tudi če je prazen, energy counter
 
 	# players
 	p1_label.visible = false
@@ -33,8 +33,10 @@ func set_hud(players_count: int): # kliče main na game-in
 		p1_life_counter.visible = true
 
 	# energy counter
-	if Global.game_manager.game_settings["cell_traveled_energy"] == 0: 
+	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
 		p1_energy_counter.visible = false
+	if Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
+		p1_energy_counter.visible = true
 
 	# level label
 	if Global.game_manager.game_data["level"].empty():

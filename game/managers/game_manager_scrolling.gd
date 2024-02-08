@@ -332,10 +332,11 @@ func spawn_strays(strays_to_spawn_count: int):
 			new_stray_pixel.global_position = selected_position + Vector2(cell_size_x/2, cell_size_x/2) # dodana adaptacija zaradi središča pixla
 			new_stray_pixel.z_index = 2 # višje od plejerja
 			
+			# naj postane wall ali ne
 			if game_data["game"] == Profiles.Games.SIDEWINDER:
 				# stray becomes wall
-				var random_wall_count: int = randi() % 5 + 1
-				if random_wall_count == 3:
+				var random_wall_count: int = randi() % wall_spawn_random_range + 1
+				if random_wall_count == 1 or random_wall_count == 2:
 					new_stray_pixel.current_state = new_stray_pixel.States.WALL	
 				else:
 					new_stray_pixel.stray_color = current_color
@@ -457,7 +458,7 @@ func upgrade_level():
 		
 		in_level_transition = false		
 
-	
+var wall_spawn_random_range: int
 func set_level_conditions():
 	
 	var leveling_conditions: Dictionary
@@ -473,7 +474,9 @@ func set_level_conditions():
 		level_color_scheme = leveling_conditions[current_level].color_scheme
 		scrolling_pause_time = leveling_conditions[current_level].scrolling_pause_time
 		game_data["strays_start_count"] = leveling_conditions[current_level].strays_spawn_count
-
+		if Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
+			wall_spawn_random_range = leveling_conditions[current_level].wall_spawn_random_range
+			print(wall_spawn_random_range)
 
 # UTILITI -------------------------------------------------------------------------------------------------------------------------------
 
