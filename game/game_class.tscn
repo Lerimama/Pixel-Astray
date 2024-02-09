@@ -16,7 +16,7 @@
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=14]
 [ext_resource path="res://game/hud/hud_life_icons.gd" type="Script" id=15]
 [ext_resource path="res://game/hud/hud_game_timer.gd" type="Script" id=16]
-[ext_resource path="res://game/PlayerCamera.tscn" type="PackedScene" id=17]
+[ext_resource path="res://game/player_camera.tscn" type="PackedScene" id=17]
 [ext_resource path="res://game/gui/pause_menu.gd" type="Script" id=18]
 [ext_resource path="res://game/hud/hud energy_bar.gd" type="Script" id=19]
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=20]

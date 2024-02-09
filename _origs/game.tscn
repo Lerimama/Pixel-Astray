@@ -24,7 +24,7 @@
 [ext_resource path="res://game/hud/music_player.gd" type="Script" id=24]
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=25]
 [ext_resource path="res://assets/resources/icon_label_dot.tres" type="Texture" id=26]
-[ext_resource path="res://game/PlayerCamera.tscn" type="PackedScene" id=28]
+[ext_resource path="res://game/player_camera.tscn" type="PackedScene" id=28]
 
 [sub_resource type="Gradient" id=225]
 colors = PoolColorArray( 1, 1, 1, 1, 0.390625, 0.390625, 0.390625, 1 )

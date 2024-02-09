@@ -26,6 +26,7 @@ margin_bottom = 1636.0
 color = Color( 0.294118, 0.623529, 1, 1 )
 
 [node name="FloorCover" type="Node2D" parent="."]
+visible = false
 z_index = -2
 
 [node name="FloorCover" type="ColorRect" parent="FloorCover"]
@@ -34,6 +35,7 @@ margin_bottom = 1636.0
 color = Color( 0, 0, 0, 0.588235 )
 
 [node name="WallCover" type="Node2D" parent="."]
+visible = false
 z_index = -1
 
 [node name="CoverColor" type="ColorRect" parent="WallCover"]

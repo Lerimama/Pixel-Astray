@@ -29,31 +29,31 @@ var default_game_settings: Dictionary = {
 	"step_time_slow": 0.15, # minimalna hitrost
 	"step_slowdown_rate": 18, # delež energije
 	"step_slowdown_mode": true,
-	"lose_life_on_hit": true, # zadetek od igralca ali v steno pomeni izgubo življenja, alternativa je izguba energije
+	"lose_life_on_hit": false, # zadetek od igralca ali v steno pomeni izgubo življenja, alternativa je izguba energije
 	# scoring
-	"all_cleaned_points": 1000,
-	"color_picked_points": 1,
+	"all_cleaned_points": 100,
+	"color_picked_points": 5, 
 	"cell_traveled_points": 0,
 	"skill_used_points": 0,
 	"burst_released_points": 0,
 	"on_hit_points_part": 2,
 	# energija
-	"color_picked_energy": 20,
+	"color_picked_energy": 10,
 	"cell_traveled_energy": -1,
-	"skill_used_energy": 5,
+	"skill_used_energy": 0,
 	"burst_released_energy": 0,
 	"on_hit_energy_part": 2, # delež porabe od trenutne energije
 	"touching_stray_energy": 0,
 	# game
 	"gameover_countdown_duration": 5,
-	"timer_mode_countdown" : true, # če prišteva in je "game_time_limit" = 0, nima omejitve navzgor
-	"start_countdown": false,
-	"minimap_on": false,
-	"position_indicators_mode": true, # duel jih nima 
-	"show_position_indicators_stray_count": 5,
-	"suddent_death_mode": false,
 	"sudden_death_limit" : 20,
 	"stray_step_time": 0.2,
+	"show_position_indicators_stray_count": 5,
+	"start_countdown": false,
+	"timer_mode_countdown" : true, # če prišteva in je "game_time_limit" = 0, nima omejitve navzgor
+	"minimap_on": false,
+	"position_indicators_mode": true, # duel jih nima 
+	"suddent_death_mode": false,
 	"manage_highscores": true, # obsoleten, ker je vključen v HS type
 }
 
@@ -179,7 +179,6 @@ var scrolling_level_conditions: Dictionary = {
 	},
 }
 
-
 var sidewinder_level_conditions: Dictionary = {
 	1: {
 		"lines_scroll_per_spawn_round": 10,
@@ -266,10 +265,11 @@ var sidewinder_level_conditions: Dictionary = {
 
 # GAMES ---------------------------------------------------------------------------------------------------------
 
+
 enum Games {
 	DEBUG, 
 	ERASER_S, ERASER_M, ERASER_L,
-	CLEANER_S, CLEANER_M, CLEANER_L, CLEANER_DUEL
+	CLEANER, CLEANER_S, CLEANER_M, CLEANER_L, CLEANER_DUEL
 	SCROLLER, SIDEWINDER,
 	TUTORIAL,
 	}
@@ -284,7 +284,7 @@ var game_data_eraser_S: Dictionary = {
 	"game_name": "Eraser",
 	"level": "S",
 	"game_scene_path": "res://game/game_cleaning.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eraser_S.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eraser.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 50,
 }
@@ -296,7 +296,7 @@ var game_data_eraser_M: Dictionary = {
 	"game_name": "Eraser",
 	"level": "M",
 	"game_scene_path": "res://game/game_cleaning.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eraser_M.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eraser.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 140, 
 }
@@ -308,46 +308,53 @@ var game_data_eraser_L: Dictionary = {
 	"game_name": "Eraser",
 	"level": "L",
 	"game_scene_path": "res://game/game_cleaning.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eraser_L.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eraser.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 320, 
 }
 
 
-var game_data_cleaner_S: Dictionary = {
-	"game": Games.CLEANER_S,
+var game_data_cleaner: Dictionary = {
+	"game": Games.CLEANER,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Cleaner",
 	"level": "S",
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner.tscn",
-	"game_time_limit": 60,
-	"strays_start_count": 500, 
-}
-
-
-var game_data_cleaner_M: Dictionary = {
-	"game": Games.CLEANER_M,
-	"highscore_type": HighscoreTypes.HS_POINTS,
-	"game_name": "Cleaner",
-	"level": "M",
-	"game_scene_path": "res://game/game_cleaning.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner.tscn",
-	"game_time_limit": 120,
-	"strays_start_count": 500, 
-}
-
-
-var game_data_cleaner_L: Dictionary = {
-	"game": Games.CLEANER_L,
-	"highscore_type": HighscoreTypes.HS_POINTS,
-	"game_name": "Cleaner",
-	"level": "L",
-	"game_scene_path": "res://game/game_cleaning.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner.tscn",
 	"game_time_limit": 300,
-	"strays_start_count": 500, 
+	"strays_start_count": 320, 
 }
+
+#var game_data_cleaner_S: Dictionary = {
+#	"game": Games.CLEANER_S,
+#	"highscore_type": HighscoreTypes.HS_POINTS,
+#	"game_name": "Cleaner",
+#	"level": "S",
+#	"game_scene_path": "res://game/game_cleaning.tscn",
+#	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner_NEU.tscn",
+#	"game_time_limit": 60,
+#	"strays_start_count": 500, 
+#}
+#var game_data_cleaner_M: Dictionary = {
+#	"game": Games.CLEANER_M,
+#	"highscore_type": HighscoreTypes.HS_POINTS,
+#	"game_name": "Cleaner",
+#	"level": "M",
+#	"game_scene_path": "res://game/game_cleaning.tscn",
+#	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner_NEU.tscn",
+#	"game_time_limit": 120,
+#	"strays_start_count": 500, 
+#}
+#var game_data_cleaner_L: Dictionary = {
+#	"game": Games.CLEANER_L,
+#	"highscore_type": HighscoreTypes.HS_POINTS,
+#	"game_name": "Cleaner",
+#	"level": "L",
+#	"game_scene_path": "res://game/game_cleaning.tscn",
+#	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner_NEU.tscn",
+#	"game_time_limit": 300,
+#	"strays_start_count": 500, 
+#}
 
 
 var game_data_cleaner_duel: Dictionary = {
@@ -406,11 +413,11 @@ var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "c
 func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
+#	var current_game = Games.CLEANER
 #	var current_game = Games.ERASER_S
-#	var current_game = Games.CLEANER_L
 #	var current_game = Games.CLEANER_DUEL
-#	var current_game = Games.SCROLLER
-	var current_game = Games.SIDEWINDER
+	var current_game = Games.SCROLLER
+#	var current_game = Games.SIDEWINDER
 ###	var current_game = Games.TUTORIAL
 	set_game_data(current_game)
 	
@@ -422,29 +429,29 @@ func set_game_data(selected_game) -> void:
 	match selected_game:
 		Games.ERASER_S: 
 			current_game_data = game_data_eraser_S
+			game_settings["player_start_life"] = 1
+#			game_settings["lose_life_on_hit"] = false # zbija energijo on hit namesto lajfa
 			game_settings["timer_mode_countdown"] = false
 			game_settings["all_cleaned_points"] = 0
 			game_settings["color_picked_points"] = 0
 		Games.ERASER_M: 
 			current_game_data = game_data_eraser_M
+#			game_settings["lose_life_on_hit"] = false # zbija energijo on hit namesto lajfa
 			game_settings["timer_mode_countdown"] = false
 			game_settings["all_cleaned_points"] = 0
 			game_settings["color_picked_points"] = 0
 		Games.ERASER_L: 
 			current_game_data = game_data_eraser_L
+#			game_settings["lose_life_on_hit"] = false # zbija energijo on hit namesto lajfa
 			game_settings["timer_mode_countdown"] = false
-			game_settings["all_cleaned_points"] = 0
+			game_settings["all_cleaned_points"] = 1000
 			game_settings["color_picked_points"] = 0
-		Games.CLEANER_S: 
-			current_game_data = game_data_cleaner_S
-			game_settings["cell_traveled_energy"] = 0
-		Games.CLEANER_M: 
-			current_game_data = game_data_cleaner_M
-			game_settings["cell_traveled_energy"] = 0
-		Games.CLEANER_L: 
-			current_game_data = game_data_cleaner_L
-			game_settings["cell_traveled_energy"] = 0
+		Games.CLEANER: 
+			current_game_data = game_data_cleaner
+#			game_settings["lose_life_on_hit"] = false # zbija energijo on hit namesto lajfa
+			game_settings["player_start_life"] = 1
 		Games.CLEANER_DUEL: 
+			game_settings["lose_life_on_hit"] = true
 			current_game_data = game_data_cleaner_duel
 			# game_settings["player_start_color"] = Color.white
 			game_settings["position_indicators_mode"] = false 
@@ -459,14 +466,15 @@ func set_game_data(selected_game) -> void:
 			game_settings["start_countdown"] = false
 			game_settings["position_indicators_mode"] = false 
 			game_settings["step_slowdown_mode"] = false
+#			game_settings["lose_life_on_hit"] = true # preveri ???????
 		Games.SIDEWINDER:
 			current_game_data = game_data_sidewinder
 			game_settings["color_picked_energy"] = 2
 			game_settings["cell_traveled_energy"] = -1
 			game_settings["player_start_life"] = 1
-			game_settings["lose_life_on_hit"] = false # zbija energijo on hit
 			game_settings["timer_mode_countdown"] = false
 			game_settings["start_countdown"] = false
 			game_settings["position_indicators_mode"] = false 
 			game_settings["step_slowdown_mode"] = false
 			game_settings["touching_stray_energy"] = -0.4
+#			game_settings["lose_life_on_hit"] = true # preveri ???????

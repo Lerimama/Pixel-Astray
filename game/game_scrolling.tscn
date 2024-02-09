@@ -21,7 +21,7 @@
 [ext_resource path="res://assets/theme/font_big.tres" type="DynamicFont" id=19]
 [ext_resource path="res://game/managers/game_manager_scrolling.gd" type="Script" id=20]
 [ext_resource path="res://game/hud/hud_scrolling.gd" type="Script" id=21]
-[ext_resource path="res://game/PlayerCamera.tscn" type="PackedScene" id=22]
+[ext_resource path="res://game/player_camera.tscn" type="PackedScene" id=22]
 [ext_resource path="res://game/arena.tscn" type="PackedScene" id=23]
 
 [sub_resource type="Gradient" id=225]

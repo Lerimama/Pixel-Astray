@@ -21,7 +21,7 @@
 [ext_resource path="res://game/gui/game_over_cleaning.gd" type="Script" id=19]
 [ext_resource path="res://game/managers/game_manager_cleaning.gd" type="Script" id=20]
 [ext_resource path="res://game/hud/hud_cleaning.gd" type="Script" id=21]
-[ext_resource path="res://game/PlayerCamera.tscn" type="PackedScene" id=22]
+[ext_resource path="res://game/player_camera.tscn" type="PackedScene" id=22]
 [ext_resource path="res://game/arena.tscn" type="PackedScene" id=23]
 
 [sub_resource type="Gradient" id=225]
@@ -524,7 +524,7 @@ region = Rect2( 64, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=269]
 atlas = ExtResource( 7 )
-region = Rect2( 32, 32, 16, 16 )
+region = Rect2( 16, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=268]
 atlas = ExtResource( 7 )
