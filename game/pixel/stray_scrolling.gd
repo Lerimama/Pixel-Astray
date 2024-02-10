@@ -66,7 +66,9 @@ func step(step_direction: Vector2):
 		current_state = States.MOVING
 	
 	collision_shape_ext.position = step_direction * cell_size_x # vržem koližn v smer premika
-	
+
+	var step_time: float = 0.2
+		
 	var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 	step_tween.tween_property(self, "position", global_position + step_direction * cell_size_x, step_time)
 	step_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, step_time)

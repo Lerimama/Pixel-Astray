@@ -125,10 +125,11 @@ func show_gameover_menu():
 			var current_score_points: int = p1_final_stats["player_points"]
 			var current_score_time: int = Global.hud.game_timer.time_since_start
 			
-			# yield čaka na konec preverke ... tip ni opredeljen, ker je ranking, če nis skora in object, če je ranking
+			# yield čaka na konec preverke ... tip ni opredeljen, ker je ranking, če ni skora kot objecta, če je ranking
 			var score_is_ranking = Global.data_manager.manage_gameover_highscores(current_score_points, current_score_time, Global.game_manager.game_data) 
 			
-			if Global.game_manager.game_data["game_name"] == "Eraser" and not current_gameover_reason == Global.game_manager.GameoverReason.CLEANED: # score štejem samo če vse spuca
+			# score štejem samo če vse spuca
+			if Global.game_manager.game_data["game_name"] == "Eraser" and not current_gameover_reason == Global.game_manager.GameoverReason.CLEANED: 
 				yield(get_tree().create_timer(1), "timeout")
 				current_player_ranking = 100 # zazih ni na lestvici
 			else:

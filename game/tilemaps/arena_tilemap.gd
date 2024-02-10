@@ -8,6 +8,7 @@ var floor_global_positions: Array # original tileti tal
 
 var stray_global_positions: Array
 var no_stray_global_positions: Array
+var goal_stray_global_positions: Array
 var player_global_positions: Array 
 
 
@@ -50,9 +51,11 @@ func get_tiles():
 					player_global_positions.append(cell_global_position)
 					set_cellv(cell, 0)
 					floor_global_positions.append(cell_global_position)
-#				7: # invisible wall
+#				7: # goal stray
+#					goal_stray_global_positions.append(cell_global_position)
+#					stray_global_positions.append(cell_global_position)
 ##					set_cellv(cell, 0)
-##					print(cell_global_position)
+#					print("goal_cell", cell_global_position)
 #					floor_global_positions.append(cell_global_position)
 	
 	# pošljem v GM

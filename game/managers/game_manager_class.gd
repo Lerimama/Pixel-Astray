@@ -24,6 +24,7 @@ var all_strays_died_alowed: bool = false # za omejevanje signala iz FP ... kdaj 
 var cell_size_x: int # napolne se na koncu setanju tilemapa
 var random_spawn_positions: Array
 var required_spawn_positions: Array
+var goal_stray_positions: Array
 
 onready var game_settings: Dictionary = Profiles.game_settings # ga med igro ne spreminjaš
 onready var game_data: Dictionary = Profiles.current_game_data # .duplicate() # duplikat default profila, ker ga me igro spreminjaš
@@ -378,12 +379,13 @@ func _change_strays_in_game_count(strays_count_change: int):
 # SIGNALI ----------------------------------------------------------------------------------
 
 
-func _on_tilemap_completed(random_spawn_floor_positions: Array, stray_cells_positions: Array, no_stray_cells_positions: Array, player_cells_positions: Array) -> void:
+func _on_tilemap_completed(random_spawn_floor_positions: Array, stray_cells_positions: Array, no_stray_cells_positions: Array, player_cells_positions: Array): # , goal_stray_global_positions: Array) -> void:
 	
 	# opredelim tipe pozicij
-	random_spawn_positions = random_spawn_floor_positions
-	required_spawn_positions = stray_cells_positions
 	player_start_positions = player_cells_positions
+	random_spawn_positions = random_spawn_floor_positions
+	required_spawn_positions = stray_cells_positions# + goal_stray_global_positions
+	# goal_stray_positions = goal_stray_global_positions
 	
 	# start strays count setup
 	if not stray_cells_positions.empty() and no_stray_cells_positions.empty(): # št. straysov enako številu "required" tiletov

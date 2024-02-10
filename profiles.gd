@@ -19,7 +19,7 @@ var default_player_stats: Dictionary = {
 var default_game_settings: Dictionary = {
 	# to so default CLEANER settings
 	# player on start
-	"player_start_life": 3, # 1 lajf skrije ikone v hudu in določi "lose_life_on_hit"
+	"player_start_life": 1, # 1 lajf skrije ikone v hudu in določi "lose_life_on_hit"
 	"player_start_energy": 192, # če je 0, je 0 ... instant GO
 	"player_start_color": Color("#141414"),
 	# player in game
@@ -27,12 +27,12 @@ var default_game_settings: Dictionary = {
 	"player_tired_energy": 20, # pokaže steps warning popup in hud oabrva rdeče
 	"step_time_fast": 0.09, # default hitrost
 	"step_time_slow": 0.15, # minimalna hitrost
-	"step_slowdown_rate": 18, # delež energije
+	"step_slowdown_rate": 18, # delež energije, manjši pada hitreje
 	"step_slowdown_mode": true,
 	"lose_life_on_hit": false, # zadetek od igralca ali v steno pomeni izgubo življenja, alternativa je izguba energije
 	# scoring
 	"all_cleaned_points": 100,
-	"color_picked_points": 5, 
+	"color_picked_points": 2, 
 	"cell_traveled_points": 0,
 	"skill_used_points": 0,
 	"burst_released_points": 0,
@@ -47,7 +47,6 @@ var default_game_settings: Dictionary = {
 	# game
 	"gameover_countdown_duration": 5,
 	"sudden_death_limit" : 20,
-	"stray_step_time": 0.2,
 	"show_position_indicators_stray_count": 5,
 	"start_countdown": false,
 	"timer_mode_countdown" : true, # če prišteva in je "game_time_limit" = 0, nima omejitve navzgor
@@ -55,6 +54,7 @@ var default_game_settings: Dictionary = {
 	"position_indicators_mode": true, # duel jih nima 
 	"suddent_death_mode": false,
 	"manage_highscores": true, # obsoleten, ker je vključen v HS type
+#	"stray_step_time": 0.2,
 }
 
 
@@ -107,158 +107,160 @@ var current_color_scheme: Dictionary = game_color_schemes["default_color_scheme"
 
 
 var scrolling_level_conditions: Dictionary = {
-	1: {
-		"lines_scroll_per_spawn_round": 10,
-		"stages_per_level": 3,
+	1: { # tutorial stage ... možnost spucanaj cele linije
 		"color_scheme": game_color_schemes["default_color_scheme"],
-		"scrolling_pause_time": 0.5, # ne sem bit manjšaq od stray stepa
-		"strays_spawn_count": 32,
+		"stages_per_level": 32, # tutorial je kratka ... tolk da je skor poln pa glih napreduješ
+		"scrolling_pause_time": 0.7, # ne sem bit manjša od stray step hitrosti (0.2)
+		"lines_scroll_per_spawn_round": 14,
+		"strays_spawn_count": 5, # ne več kot 20 na linijo 
+		# naj jih bo toliko, da so  lahko tudi bulki in da je čim več barv
+		# kolk cirka dolžina levela ... 2,5min
 	},
 	2: {
-		"lines_scroll_per_spawn_round": 9,
-		"stages_per_level": 5,
 		"color_scheme": game_color_schemes["color_scheme_2"],
-		"scrolling_pause_time": 0.45,
-		"strays_spawn_count": 32,
+		"stages_per_level": 32,
+		"scrolling_pause_time": 0.7,
+		"lines_scroll_per_spawn_round": 10,
+		"strays_spawn_count": 14,
 	},
 	3: {
-		"lines_scroll_per_spawn_round": 8,
-		"stages_per_level": 5,
 		"color_scheme": game_color_schemes["color_scheme_3"],
-		"scrolling_pause_time": 0.4,
-		"strays_spawn_count": 32,
+		"stages_per_level": 32,
+		"scrolling_pause_time": 0.7,
+		"lines_scroll_per_spawn_round": 9,
+		"strays_spawn_count": 14,
 	},
 	4: {
-		"lines_scroll_per_spawn_round": 7,
-		"stages_per_level": 20,
 		"color_scheme": game_color_schemes["color_scheme_4"],
-		"scrolling_pause_time": 0.4,
-		"strays_spawn_count": 32,
+		"stages_per_level": 32,
+		"scrolling_pause_time": 0.7,
+		"lines_scroll_per_spawn_round": 8,
+		"strays_spawn_count": 14,
 	},
 	5: {
-		"lines_scroll_per_spawn_round": 7,
-		"stages_per_level": 30,
 		"color_scheme": game_color_schemes["color_scheme_5"],
-		"scrolling_pause_time": 0.4,
-		"strays_spawn_count": 32,
+		"stages_per_level": 32,
+		"scrolling_pause_time": 0.6,
+		"lines_scroll_per_spawn_round": 10,
+		"strays_spawn_count": 14,
 	},
 	6: {
-		"lines_scroll_per_spawn_round": 7,
-		"stages_per_level": 30,
 		"color_scheme": game_color_schemes["color_scheme_6"],
-		"scrolling_pause_time": 0.4,
-		"strays_spawn_count": 32,
+		"stages_per_level": 32,
+		"scrolling_pause_time": 0.6,
+		"lines_scroll_per_spawn_round": 9,
+		"strays_spawn_count": 14,
 	},
 	7: {
-		"lines_scroll_per_spawn_round": 7,
-		"stages_per_level": 30,
 		"color_scheme": game_color_schemes["color_scheme_7"],
-		"scrolling_pause_time": 0.4,
-		"strays_spawn_count": 32,
+		"stages_per_level": 32,
+		"scrolling_pause_time": 0.6,
+		"lines_scroll_per_spawn_round": 8,
+		"strays_spawn_count": 14,
 	},
 	8: {
-		"lines_scroll_per_spawn_round": 7,
-		"stages_per_level": 30,
 		"color_scheme": game_color_schemes["color_scheme_8"],
+		"stages_per_level": 32,
 		"scrolling_pause_time": 0.5,
-		"strays_spawn_count": 32,
+		"lines_scroll_per_spawn_round": 10,
+		"strays_spawn_count": 14,
 	},
 	9: {
-		"lines_scroll_per_spawn_round": 7,
-		"stages_per_level": 30,
 		"color_scheme": game_color_schemes["color_scheme_9"],
+		"stages_per_level": 32,
 		"scrolling_pause_time": 0.5,
-		"strays_spawn_count": 32,
+		"lines_scroll_per_spawn_round": 9,
+		"strays_spawn_count": 14,
 	},
 	10: {
-		"lines_scroll_per_spawn_round": 7,
-		"stages_per_level": 30,
 		"color_scheme": game_color_schemes["default_color_scheme"],
+		"stages_per_level": 32,
 		"scrolling_pause_time": 0.5,
-		"strays_spawn_count": 32,
+		"lines_scroll_per_spawn_round": 8,
+		"strays_spawn_count": 14,
 	},
 }
 
 var sidewinder_level_conditions: Dictionary = {
-	1: {
-		"lines_scroll_per_spawn_round": 10,
-		"stages_per_level": 32, # lines scrolled
+	1: { # tutorial stage ... lahka in hitr
 		"color_scheme": game_color_schemes["default_color_scheme"],
-		"scrolling_pause_time": 0.5, # ne sem bit manjšaq od stray stepa
+		"stages_per_level": 32, # lines scrolled ... tutorial je kratka ... tolk da je skor poln pa glih napreduješ
+		"scrolling_pause_time": 0.7, # ne sem bit manjša od stray step hitrosti (0.2)
+		"lines_scroll_per_spawn_round": 14,
 		"strays_spawn_count": 14,
 		"wall_spawn_random_range": 5, # določim razpon random izbire, wall se spawna, če je izbrana 1 ali 2 ... manj je več možnosti 
 	},
 	2: {
-		"lines_scroll_per_spawn_round": 9,
-		"stages_per_level": 20,
 		"color_scheme": game_color_schemes["color_scheme_2"],
-		"scrolling_pause_time": 0.45,
+		"stages_per_level": 32,
+		"scrolling_pause_time": 0.65,
+		"lines_scroll_per_spawn_round": 13,
 		"strays_spawn_count": 14,
-		"wall_spawn_random_range": 5, # določim razpon random izbire, wall se spawna, če je izbrana 1 ... manj je več možnosti, 1 je 100% 
+		"wall_spawn_random_range": 5, 
 	},
 	3: {
-		"lines_scroll_per_spawn_round": 8,
-		"stages_per_level": 500,
 		"color_scheme": game_color_schemes["color_scheme_3"],
-		"scrolling_pause_time": 0.4,
+		"stages_per_level": 32,
+		"scrolling_pause_time": 0.6,
+		"lines_scroll_per_spawn_round": 12,
 		"strays_spawn_count": 14,
-		"wall_spawn_random_range": 5, # določim razpon random izbire, wall se spawna, če je izbrana 1 ... manj je več možnosti, 1 je 100% 
+		"wall_spawn_random_range": 5,
 	},
 	4: {
-		"lines_scroll_per_spawn_round": 7,
-		"stages_per_level": 20,
 		"color_scheme": game_color_schemes["color_scheme_4"],
-		"scrolling_pause_time": 0.4,
+		"stages_per_level": 32,
+		"scrolling_pause_time": 0.55,
+		"lines_scroll_per_spawn_round": 11,
 		"strays_spawn_count": 14,
-		"wall_spawn_random_range": 5, # določim razpon random izbire, wall se spawna, če je izbrana 1 ... manj je več možnosti, 1 je 100% 
+		"wall_spawn_random_range": 5,
 	},
 	5: {
-		"lines_scroll_per_spawn_round": 7,
-		"stages_per_level": 30,
 		"color_scheme": game_color_schemes["color_scheme_5"],
-		"scrolling_pause_time": 0.4,
+		"stages_per_level": 32,
+		"scrolling_pause_time": 0.5,
+		"lines_scroll_per_spawn_round": 10,
 		"strays_spawn_count": 14,
-		"wall_spawn_random_range": 5, # določim razpon random izbire, wall se spawna, če je izbrana 1 ... manj je več možnosti, 1 je 100% 
+		"wall_spawn_random_range": 5,
 	},
 	6: {
-		"lines_scroll_per_spawn_round": 7,
-		"stages_per_level": 30,
 		"color_scheme": game_color_schemes["color_scheme_6"],
-		"scrolling_pause_time": 0.4,
+		"stages_per_level": 32,
+		"scrolling_pause_time": 0.45,
+		"lines_scroll_per_spawn_round": 9,
 		"strays_spawn_count": 14,
-		"wall_spawn_random_range": 5, # določim razpon random izbire, wall se spawna, če je izbrana 1 ... manj je več možnosti, 1 je 100% 
+		"wall_spawn_random_range": 5,
 	},
 	7: {
-		"lines_scroll_per_spawn_round": 7,
-		"stages_per_level": 30,
 		"color_scheme": game_color_schemes["color_scheme_7"],
+		"stages_per_level": 32,
 		"scrolling_pause_time": 0.4,
-		"strays_spawn_count": 32,
-		"wall_spawn_random_range": 5, # določim razpon random izbire, wall se spawna, če je izbrana 1 ... manj je več možnosti, 1 je 100% 
+		"lines_scroll_per_spawn_round": 8,
+		"strays_spawn_count": 14,
+		"wall_spawn_random_range": 5,
 	},
 	8: {
-		"lines_scroll_per_spawn_round": 7,
-		"stages_per_level": 30,
 		"color_scheme": game_color_schemes["color_scheme_8"],
-		"scrolling_pause_time": 0.5,
-		"strays_spawn_count": 32,
-		"wall_spawn_random_range": 5, # določim razpon random izbire, wall se spawna, če je izbrana 1 ... manj je več možnosti, 1 je 100% 
+		"stages_per_level": 32,
+		"scrolling_pause_time": 0.35,
+		"lines_scroll_per_spawn_round": 7,
+		"strays_spawn_count": 14,
+		"wall_spawn_random_range": 5,
 	},
 	9: {
-		"lines_scroll_per_spawn_round": 7,
-		"stages_per_level": 30,
 		"color_scheme": game_color_schemes["color_scheme_9"],
-		"scrolling_pause_time": 0.5,
-		"strays_spawn_count": 32,
-		"wall_spawn_random_range": 5, # določim razpon random izbire, wall se spawna, če je izbrana 1 ... manj je več možnosti, 1 je 100% 
+		"stages_per_level": 32,
+		"scrolling_pause_time": 0.3,
+		"lines_scroll_per_spawn_round": 6,
+		"strays_spawn_count": 14,
+		"wall_spawn_random_range": 5,
 	},
 	10: {
-		"lines_scroll_per_spawn_round": 7,
-		"stages_per_level": 30,
 		"color_scheme": game_color_schemes["default_color_scheme"],
-		"scrolling_pause_time": 0.5,
-		"strays_spawn_count": 32,
-		"wall_spawn_random_range": 5, # določim razpon random izbire, wall se spawna, če je izbrana 1 ... manj je več možnosti, 1 je 100% 
+		"stages_per_level": 32,
+		"scrolling_pause_time": 0.25,
+		"lines_scroll_per_spawn_round": 5,
+		"strays_spawn_count": 14,
+		"wall_spawn_random_range": 5,
 	},
 }
 
@@ -271,6 +273,7 @@ enum Games {
 	ERASER_S, ERASER_M, ERASER_L,
 	CLEANER, CLEANER_S, CLEANER_M, CLEANER_L, CLEANER_DUEL
 	SCROLLER, SIDEWINDER,
+	AMAZE,
 	TUTORIAL,
 	}
 
@@ -325,37 +328,6 @@ var game_data_cleaner: Dictionary = {
 	"strays_start_count": 320, 
 }
 
-#var game_data_cleaner_S: Dictionary = {
-#	"game": Games.CLEANER_S,
-#	"highscore_type": HighscoreTypes.HS_POINTS,
-#	"game_name": "Cleaner",
-#	"level": "S",
-#	"game_scene_path": "res://game/game_cleaning.tscn",
-#	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner_NEU.tscn",
-#	"game_time_limit": 60,
-#	"strays_start_count": 500, 
-#}
-#var game_data_cleaner_M: Dictionary = {
-#	"game": Games.CLEANER_M,
-#	"highscore_type": HighscoreTypes.HS_POINTS,
-#	"game_name": "Cleaner",
-#	"level": "M",
-#	"game_scene_path": "res://game/game_cleaning.tscn",
-#	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner_NEU.tscn",
-#	"game_time_limit": 120,
-#	"strays_start_count": 500, 
-#}
-#var game_data_cleaner_L: Dictionary = {
-#	"game": Games.CLEANER_L,
-#	"highscore_type": HighscoreTypes.HS_POINTS,
-#	"game_name": "Cleaner",
-#	"level": "L",
-#	"game_scene_path": "res://game/game_cleaning.tscn",
-#	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner_NEU.tscn",
-#	"game_time_limit": 300,
-#	"strays_start_count": 500, 
-#}
-
 
 var game_data_cleaner_duel: Dictionary = {
 	"game": Games.CLEANER_DUEL,
@@ -365,7 +337,31 @@ var game_data_cleaner_duel: Dictionary = {
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner_duel.tscn",
 	"game_time_limit": 60,
-	"strays_start_count": 320, 
+	"strays_start_count": 1000, 
+}
+
+
+var game_data_amaze: Dictionary = {
+	"game": Games.AMAZE,
+	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"game_name": "A-maze",
+	"level": "",
+	"game_scene_path": "res://game/game_patterns.tscn",
+	"tilemap_path": "res://game/tilemaps/patterns/tilemap_amaze.tscn",
+	"game_time_limit": 0,
+	"strays_start_count": 500, # 468 jih je v stackih
+}
+
+
+var game_data_riddler: Dictionary = {
+	"game": Games.RIDDLER,
+	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"game_name": "Riddler",
+	"level": " ", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
+	"game_scene_path": "res://game/game_patterns.tscn",
+	"tilemap_path": "res://game/tilemaps/patterns/tilemap_riddler_01.tscn",
+	"game_time_limit": 0,
+	"strays_start_count": 0, # 468 jih je v stackih
 }
 
 
@@ -416,9 +412,10 @@ func _ready() -> void:
 #	var current_game = Games.CLEANER
 #	var current_game = Games.ERASER_S
 #	var current_game = Games.CLEANER_DUEL
-	var current_game = Games.SCROLLER
+#	var current_game = Games.SCROLLER
 #	var current_game = Games.SIDEWINDER
 ###	var current_game = Games.TUTORIAL
+	var current_game = Games.AMAZE
 	set_game_data(current_game)
 	
 	
@@ -427,9 +424,11 @@ func set_game_data(selected_game) -> void:
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
 	match selected_game:
+		Games.CLEANER: 
+			current_game_data = game_data_cleaner
 		Games.ERASER_S: 
 			current_game_data = game_data_eraser_S
-			game_settings["player_start_life"] = 1
+#			game_settings["player_start_life"] = 1
 #			game_settings["lose_life_on_hit"] = false # zbija energijo on hit namesto lajfa
 			game_settings["timer_mode_countdown"] = false
 			game_settings["all_cleaned_points"] = 0
@@ -446,35 +445,46 @@ func set_game_data(selected_game) -> void:
 			game_settings["timer_mode_countdown"] = false
 			game_settings["all_cleaned_points"] = 1000
 			game_settings["color_picked_points"] = 0
-		Games.CLEANER: 
-			current_game_data = game_data_cleaner
-#			game_settings["lose_life_on_hit"] = false # zbija energijo on hit namesto lajfa
-			game_settings["player_start_life"] = 1
 		Games.CLEANER_DUEL: 
-			game_settings["lose_life_on_hit"] = true
 			current_game_data = game_data_cleaner_duel
-			# game_settings["player_start_color"] = Color.white
+			game_settings["player_start_life"] = 3
+			game_settings["lose_life_on_hit"] = true
 			game_settings["position_indicators_mode"] = false 
 			# debug
-			game_settings["start_countdown"] = false
+			# game_settings["start_countdown"] = false
+			# game_settings["player_start_color"] = Color.white
 		Games.SCROLLER:
 			current_game_data = game_data_scroller
 			game_settings["cell_traveled_energy"] = 0
-			game_settings["player_start_life"] = 1
 			game_settings["all_cleaned_points"] = 0
 			game_settings["timer_mode_countdown"] = false
 			game_settings["start_countdown"] = false
 			game_settings["position_indicators_mode"] = false 
-			game_settings["step_slowdown_mode"] = false
+#			game_settings["step_slowdown_mode"] = false
+#			game_settings["player_start_life"] = 1
 #			game_settings["lose_life_on_hit"] = true # preveri ???????
 		Games.SIDEWINDER:
 			current_game_data = game_data_sidewinder
 			game_settings["color_picked_energy"] = 2
-			game_settings["cell_traveled_energy"] = -1
-			game_settings["player_start_life"] = 1
+#			game_settings["cell_traveled_energy"] = -1
+#			game_settings["player_start_life"] = 1
+			game_settings["touching_stray_energy"] = -0.4
 			game_settings["timer_mode_countdown"] = false
 			game_settings["start_countdown"] = false
 			game_settings["position_indicators_mode"] = false 
-			game_settings["step_slowdown_mode"] = false
-			game_settings["touching_stray_energy"] = -0.4
+#			game_settings["step_slowdown_mode"] = false
 #			game_settings["lose_life_on_hit"] = true # preveri ???????
+		Games.AMAZE: 
+			current_game_data = game_data_amaze
+			game_settings["minimap_on"] = true
+			game_settings["step_time_fast"] = 0.07
+			game_settings["step_time_slow"] = 0.2
+#			game_settings["step_slowdown_rate"] = 8
+#			game_settings["cell_traveled_energy"] = -2
+			game_settings["timer_mode_countdown"] = false
+			game_settings["color_picked_points"] = 0
+			game_settings["all_cleaned_points"] = 0
+			game_settings["player_start_color"] = Color.white
+#	"step_slowdown_rate": 18, # delež energije
+#	"step_time_fast": 0.09, # default hitrost
+#	"step_time_slow": 0.15, # minimalna hitrost

@@ -15,5 +15,8 @@ func set_camera(tilemap_edge: Rect2, tilemap_cell_size_x: int, viewport_size: Ve
 	limit_bottom = corner_BR
 	
 	# zoom
-	zoom.x = (limit_right - tilemap_cell_size_x) / viewport_size.x
-	zoom.y = zoom.x # (limit_bottom - tilemap_cell_size.x) / viewport_size.y
+#	zoom.x = (limit_right - tilemap_cell_size_x) / viewport_size.x
+#	zoom.y = zoom.x # (limit_bottom - tilemap_cell_size.x) / viewport_size.y
+
+#	zoom.x = 6
+#	zoom.y = 6

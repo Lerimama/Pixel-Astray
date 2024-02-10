@@ -363,17 +363,14 @@ func stray_step():
 	#	return
 
 	step_in_progress = true
-	
 		
 	check_top_for_gameover() 
 	
 	var stepping_direction: Vector2
 	
-	
 	if game_data["game"] == Profiles.Games.SIDEWINDER and not in_level_transition:
 		
 #		upgrade_stage()
-		
 		stepping_direction = Vector2.LEFT
 		for stray in get_tree().get_nodes_in_group(Global.group_strays):
 			stray.step(stepping_direction)
@@ -521,6 +518,7 @@ func check_top_for_gameover():
 	if game_data["game"] == Profiles.Games.SIDEWINDER:
 		spawn_line_cells_count = 20
 	
+	# GO na prvi stopec full	
 	if current_strays_on_top.size() < spawn_line_cells_count:
 	# if current_strays_on_top.size() < 40:
 		for stray_on_top in current_strays_on_top:

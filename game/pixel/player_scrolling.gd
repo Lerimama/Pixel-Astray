@@ -108,8 +108,8 @@ func cocking_inputs():
 func cock_burst():
 	# namen: brez ciklanja, moč je vedno polna, hitrejše cockanje, manjša dolžina
 	
-	cocked_ghost_max_count = 3
-	cock_ghost_cocking_time = 0.05 # čas nastajanja ghosta in njegova animacija 	
+	cocked_ghost_max_count = 1
+	cock_ghost_cocking_time = 0.1 # čas nastajanja ghosta in njegova animacija 	
 	
 	var burst_direction = direction
 	var cock_direction = - burst_direction
@@ -246,11 +246,11 @@ func burst():
 	yield(get_tree().create_timer(strech_ghost_shrink_time), "timeout") # čaka na zgornji tween
 		
 	current_state = States.BURSTING
-	burst_speed = current_ghost_count * cock_ghost_speed_addon
+#	burst_speed = current_ghost_count * cock_ghost_speed_addon
 	# if current_ghost_count < cocked_ghost_max_count and not current_ghost_count == 0:
 	#	burst_speed = 2 * cock_ghost_speed_addon
 	# else:
-	#	burst_speed = 7 * cock_ghost_speed_addon
+	burst_speed = 3 * cock_ghost_speed_addon
 	change_stat("burst_released", 1)
 	
 	

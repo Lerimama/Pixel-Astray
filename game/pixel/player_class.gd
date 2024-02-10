@@ -13,7 +13,7 @@ var direction = Vector2.ZERO # prenosna
 var player_camera: Node
 var player_stats: Dictionary # se aplicira ob spawnanju
 var collision: KinematicCollision2D
-var teleporting_wall_tile_id = 3 
+var teleporting_wall_tile_id = 3
 
 # colors
 var pixel_color: Color = Global.game_manager.game_settings["player_start_color"]
@@ -643,6 +643,8 @@ func on_hit_wall():
 	
 	if player_stats["player_energy"] <= 1: # more bit pred statistiko
 		stop_heart()
+	
+	
 	change_stat("hit_wall", 1) # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
 	
 	die() # vedno sledi statistiki

@@ -17,7 +17,7 @@ onready var count_label: Label = $CountLabel # debug
 onready var position_indicator: Node2D = $PositionIndicator
 onready var visibility_notifier_2d: VisibilityNotifier2D = $VisibilityNotifier2D
 onready var cell_size_x: int = Global.current_tilemap.cell_size.x
-onready var step_time: float = Global.game_manager.game_settings["stray_step_time"]
+#onready var step_time: float = Global.game_manager.game_settings["stray_step_time"]
 
 
 func _ready() -> void:
@@ -105,6 +105,8 @@ func step(step_direction: Vector2):
 	current_state = States.MOVING
 	
 	collision_shape_ext.position = step_direction * cell_size_x # vržem koližn v smer premika
+	
+	var step_time: float = 0.2
 	
 	var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 	step_tween.tween_property(self, "position", global_position + step_direction * cell_size_x, step_time)
