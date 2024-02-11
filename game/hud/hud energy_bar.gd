@@ -29,16 +29,18 @@ func _on_amount_change(new_value: int):
 	if energy <= tired_energy:
 		modulate = Global.color_red
 	else:
-		modulate = Global.hud_text_color
-#
-#	if energy < previous_energy:
-#		modulate = Global.color_red
-#	elif energy == previous_energy:
-#		modulate = Global.hud_text_color
-#	else:
-#		modulate = Global.color_green
+		if energy < previous_energy:
+			var blink_tween = get_tree().create_tween()
+			blink_tween.tween_property(self, "modulate", Global.color_red, 0.2)
+			blink_tween.tween_property(self, "modulate", Global.hud_text_color, 0.2)
+		elif energy > previous_energy:
+			modulate = Global.color_green
+			var blink_tween = get_tree().create_tween()
+			blink_tween.tween_property(self, "modulate", Global.color_green, 0.2)
+			blink_tween.tween_property(self, "modulate", Global.hud_text_color, 0.2)
+	
 	set_icons_state()
- 
+
 
 func set_icons_state():
 	

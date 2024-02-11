@@ -45,10 +45,12 @@ var default_game_settings: Dictionary = {
 	"on_hit_energy_part": 2, # delež porabe od trenutne energije
 	"touching_stray_energy": 0,
 	# game
+	"game_instructions_popup": true,
+	"camera_fixed": false,
 	"gameover_countdown_duration": 5,
 	"sudden_death_limit" : 20,
 	"show_position_indicators_stray_count": 5,
-	"start_countdown": false,
+	"start_countdown": true,
 	"timer_mode_countdown" : true, # če prišteva in je "game_time_limit" = 0, nima omejitve navzgor
 	"minimap_on": false,
 	"position_indicators_mode": true, # duel jih nima 
@@ -264,21 +266,26 @@ var sidewinder_level_conditions: Dictionary = {
 	},
 }
 
-
 # GAMES ---------------------------------------------------------------------------------------------------------
 
 
 enum Games {
-	DEBUG, 
 	ERASER_S, ERASER_M, ERASER_L,
-	CLEANER, CLEANER_S, CLEANER_M, CLEANER_L, CLEANER_DUEL
+	CLEANER, CLEANER_DUEL,
 	SCROLLER, SIDEWINDER,
-	AMAZE,
+	AMAZE, 
+	RIDDLER_S, RIDDLER_M, RIDDLER_L
 	TUTORIAL,
 	}
 
 
-enum HighscoreTypes {NO_HS, HS_POINTS, HS_COLORS, HS_TIME_LOW, HS_TIME_HIGH} # vpliva
+enum HighscoreTypes {
+	NO_HS, 
+	HS_POINTS, 
+	HS_COLORS, 
+	HS_TIME_LOW, 
+	HS_TIME_HIGH
+	}
 
 
 var game_data_eraser_S: Dictionary = { 
@@ -344,7 +351,7 @@ var game_data_cleaner_duel: Dictionary = {
 var game_data_amaze: Dictionary = {
 	"game": Games.AMAZE,
 	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "A-maze",
+	"game_name": "Amaze",
 	"level": "",
 	"game_scene_path": "res://game/game_patterns.tscn",
 	"tilemap_path": "res://game/tilemaps/patterns/tilemap_amaze.tscn",
@@ -353,14 +360,38 @@ var game_data_amaze: Dictionary = {
 }
 
 
-var game_data_riddler: Dictionary = {
-	"game": Games.RIDDLER,
+var game_data_riddler_S: Dictionary = {
+	"game": Games.RIDDLER_S,
 	"highscore_type": HighscoreTypes.HS_TIME_LOW,
 	"game_name": "Riddler",
-	"level": " ", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
+	"level": "S", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
 	"game_scene_path": "res://game/game_patterns.tscn",
-	"tilemap_path": "res://game/tilemaps/patterns/tilemap_riddler_01.tscn",
-	"game_time_limit": 0,
+	"tilemap_path": "res://game/tilemaps/patterns/tilemap_riddler_S.tscn", # odvisna od sselected level
+	"game_time_limit": 0, # odvisna od selected level
+	"strays_start_count": 0, # 468 jih je v stackih
+}
+
+
+var game_data_riddler_M: Dictionary = {
+	"game": Games.RIDDLER_M,
+	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"game_name": "Riddler",
+	"level": "M", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
+	"game_scene_path": "res://game/game_patterns.tscn",
+	"tilemap_path": "res://game/tilemaps/patterns/tilemap_riddler_M.tscn", # odvisna od sselected level
+	"game_time_limit": 0, # odvisna od selected level
+	"strays_start_count": 0, # 468 jih je v stackih
+}
+
+
+var game_data_riddler_L: Dictionary = {
+	"game": Games.RIDDLER_L,
+	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"game_name": "Riddler",
+	"level": "L", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
+	"game_scene_path": "res://game/game_patterns.tscn",
+	"tilemap_path": "res://game/tilemaps/patterns/tilemap_riddler_L.tscn", # odvisna od sselected level
+	"game_time_limit": 0, # odvisna od selected level
 	"strays_start_count": 0, # 468 jih je v stackih
 }
 
@@ -415,7 +446,8 @@ func _ready() -> void:
 #	var current_game = Games.SCROLLER
 #	var current_game = Games.SIDEWINDER
 ###	var current_game = Games.TUTORIAL
-	var current_game = Games.AMAZE
+#	var current_game = Games.AMAZE
+	var current_game = Games.RIDDLER_L
 	set_game_data(current_game)
 	
 	
@@ -428,20 +460,16 @@ func set_game_data(selected_game) -> void:
 			current_game_data = game_data_cleaner
 		Games.ERASER_S: 
 			current_game_data = game_data_eraser_S
-#			game_settings["player_start_life"] = 1
-#			game_settings["lose_life_on_hit"] = false # zbija energijo on hit namesto lajfa
 			game_settings["timer_mode_countdown"] = false
 			game_settings["all_cleaned_points"] = 0
 			game_settings["color_picked_points"] = 0
 		Games.ERASER_M: 
 			current_game_data = game_data_eraser_M
-#			game_settings["lose_life_on_hit"] = false # zbija energijo on hit namesto lajfa
 			game_settings["timer_mode_countdown"] = false
 			game_settings["all_cleaned_points"] = 0
 			game_settings["color_picked_points"] = 0
 		Games.ERASER_L: 
 			current_game_data = game_data_eraser_L
-#			game_settings["lose_life_on_hit"] = false # zbija energijo on hit namesto lajfa
 			game_settings["timer_mode_countdown"] = false
 			game_settings["all_cleaned_points"] = 1000
 			game_settings["color_picked_points"] = 0
@@ -450,41 +478,59 @@ func set_game_data(selected_game) -> void:
 			game_settings["player_start_life"] = 3
 			game_settings["lose_life_on_hit"] = true
 			game_settings["position_indicators_mode"] = false 
-			# debug
 			# game_settings["start_countdown"] = false
-			# game_settings["player_start_color"] = Color.white
 		Games.SCROLLER:
 			current_game_data = game_data_scroller
 			game_settings["cell_traveled_energy"] = 0
 			game_settings["all_cleaned_points"] = 0
+			game_settings["camera_fixed"] = true
 			game_settings["timer_mode_countdown"] = false
 			game_settings["start_countdown"] = false
 			game_settings["position_indicators_mode"] = false 
-#			game_settings["step_slowdown_mode"] = false
-#			game_settings["player_start_life"] = 1
-#			game_settings["lose_life_on_hit"] = true # preveri ???????
 		Games.SIDEWINDER:
 			current_game_data = game_data_sidewinder
 			game_settings["color_picked_energy"] = 2
-#			game_settings["cell_traveled_energy"] = -1
-#			game_settings["player_start_life"] = 1
+			game_settings["camera_fixed"] = true
 			game_settings["touching_stray_energy"] = -0.4
 			game_settings["timer_mode_countdown"] = false
 			game_settings["start_countdown"] = false
 			game_settings["position_indicators_mode"] = false 
-#			game_settings["step_slowdown_mode"] = false
-#			game_settings["lose_life_on_hit"] = true # preveri ???????
 		Games.AMAZE: 
 			current_game_data = game_data_amaze
 			game_settings["minimap_on"] = true
 			game_settings["step_time_fast"] = 0.07
 			game_settings["step_time_slow"] = 0.2
-#			game_settings["step_slowdown_rate"] = 8
-#			game_settings["cell_traveled_energy"] = -2
 			game_settings["timer_mode_countdown"] = false
 			game_settings["color_picked_points"] = 0
 			game_settings["all_cleaned_points"] = 0
 			game_settings["player_start_color"] = Color.white
-#	"step_slowdown_rate": 18, # delež energije
-#	"step_time_fast": 0.09, # default hitrost
-#	"step_time_slow": 0.15, # minimalna hitrost
+		Games.RIDDLER_S:
+			current_game_data = game_data_riddler_S
+			game_settings["cell_traveled_energy"] = 0
+			game_settings["color_picked_points"] = 0
+			game_settings["all_cleaned_points"] = 0
+			game_settings["on_hit_energy_part"] = 1
+			game_settings["timer_mode_countdown"] = false
+			game_settings["camera_fixed"] = true
+			game_settings["position_indicators_mode"] = false 
+			game_settings["player_start_color"] = Color.white
+		Games.RIDDLER_M:
+			current_game_data = game_data_riddler_M
+			game_settings["cell_traveled_energy"] = 0
+			game_settings["color_picked_points"] = 0
+			game_settings["all_cleaned_points"] = 0
+			game_settings["on_hit_energy_part"] = 1
+			game_settings["timer_mode_countdown"] = false
+			game_settings["camera_fixed"] = true
+			game_settings["position_indicators_mode"] = false 
+			game_settings["player_start_color"] = Color.white
+		Games.RIDDLER_L:
+			current_game_data = game_data_riddler_L
+			game_settings["cell_traveled_energy"] = 0
+			game_settings["color_picked_points"] = 0
+			game_settings["all_cleaned_points"] = 0
+			game_settings["on_hit_energy_part"] = 1
+			game_settings["timer_mode_countdown"] = false
+			game_settings["camera_fixed"] = true
+			game_settings["position_indicators_mode"] = false 
+			game_settings["player_start_color"] = Color.white

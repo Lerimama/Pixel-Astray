@@ -20,23 +20,35 @@ func game_over(gameover_reason: int):
 	
 	Global.hud.game_timer.stop_timer()
 	
-	if gameover_reason == GameoverReason.CLEANED:
+	if game_data["game"] == Profiles.Games.AMAZE:
+		if gameover_reason == GameoverReason.CLEANED: # če zadaneš goal steno
+			# animacija indikatorjev
+			Global.hud.deactivate_all_indicators()
+			# ugasnem goal stene
+			for cell in Global.current_tilemap.get_used_cells_by_id(7):
+				Global.current_tilemap.set_cellv(cell, 0) # menjam za celico tal
+				var cell_local_position: Vector2 = Global.current_tilemap.map_to_world(cell)
+				var cell_global_position: Vector2 = Global.current_tilemap.to_global(cell_local_position) # pozicija je levo-zgornji vogal celice
+				Global.current_tilemap.floor_global_positions.append(cell_global_position)
+			# player white animacija
+			var signaling_player: KinematicBody2D
+			for player in get_tree().get_nodes_in_group(Global.group_players):
+				player.all_cleaned()
+				signaling_player = player # da se zgodi na obeh plejerjih istočasno
+			yield(signaling_player, "rewarded_on_game_over") # počakam, da je nagrajen
 		
-		# animacija indikatorjev
-		Global.hud.deactivate_all_indicators()
-		# ugasnem goal stene
-#		printt("used goal cells", Global.current_tilemap.get_used_cells_by_id(7).size())
-		for cell in Global.current_tilemap.get_used_cells_by_id(7):
-			Global.current_tilemap.set_cellv(cell, 0) # menjam za celico tal
-			var cell_local_position: Vector2 = Global.current_tilemap.map_to_world(cell)
-			var cell_global_position: Vector2 = Global.current_tilemap.to_global(cell_local_position) # pozicija je levo-zgornji vogal celice
-			Global.current_tilemap.floor_global_positions.append(cell_global_position)
-		# player white animacija
-		var signaling_player: KinematicBody2D
-		for player in get_tree().get_nodes_in_group(Global.group_players):
-			player.all_cleaned()
-			signaling_player = player # da se zgodi na obeh plejerjih istočasno
-		yield(signaling_player, "rewarded_on_game_over") # počakam, da je nagrajen
+	else: # elif Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
+		if gameover_reason == GameoverReason.CLEANED: # vsi spucani v enem poskusu
+			# počaka da so vsi streyi kvefijani
+			all_strays_died_alowed = true
+			yield(self, "all_strays_died")
+			# player white animacija
+			var signaling_player: KinematicBody2D
+			for player in get_tree().get_nodes_in_group(Global.group_players):
+				player.all_cleaned()
+				signaling_player = player # da se zgodi na obeh plejerjih istočasno
+			yield(signaling_player, "rewarded_on_game_over") # počakam, da je nagrajen
+	
 	
 	get_tree().call_group(Global.group_players, "set_physics_process", false)
 	

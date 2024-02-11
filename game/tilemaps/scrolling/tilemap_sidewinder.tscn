@@ -107,7 +107,6 @@ position = Vector2( 592, 456 )
 polygon = PoolVector2Array( -672, -352, -672, 1088, 1824, 1088, 1824, 1056, -640, 1056, -640, -320, 1856, -320, 1856, 1088, 1888, 1088, 1887, -352 )
 
 [node name="Background" type="Node2D" parent="."]
-visible = false
 position = Vector2( 352, -800 )
 z_index = -3
 

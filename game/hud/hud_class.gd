@@ -25,7 +25,7 @@ onready var viewport_footer: ColorRect = $"%ViewFuter"
 var p1_energy_warning_popup: Control
 var p2_energy_warning_popup: Control
 onready var energy_warning_holder: Control = $Popups/EnergyWarning
-onready var splitscreen_popup: Control = $Popups/SplitScreens
+onready var instructions_popup: Control = $Popups/Instructions
 
 # header
 onready var header: Control = $Header # kontrole iz kamere
@@ -67,6 +67,15 @@ onready var picked_counter: Label = $Footer/FooterLine/StraysLine/PickedHolder/L
 onready var spectrum: HBoxContainer = $Footer/FooterLine/SpectrumHolder/ColorSpectrum
 onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
 
+# instructions popup
+onready var title: Label = $Popups/Instructions/GameInstructions/Title
+onready var label: Label = $Popups/Instructions/GameInstructions/Outline/Label
+onready var label_2: Label = $Popups/Instructions/GameInstructions/Outline/Label2
+onready var label_3: Label = $Popups/Instructions/GameInstructions/Outline/Label3
+onready var label_4: Label = $Popups/Instructions/GameInstructions/Outline/Label4
+onready var label_5: Label = $Popups/Instructions/GameInstructions/Outline/Label5
+onready var label_6: Label = $Popups/Instructions/GameInstructions/Outline/Label6
+
 # debug
 onready var player_life: Label = $Life
 onready var player_energy: Label = $Energy
@@ -78,11 +87,11 @@ onready var current_gamed_hs_type: int = Global.game_manager.game_data["highscor
 func _input(event: InputEvent) -> void:
 	
 	# splitscreen popup
-	if splitscreen_popup.visible and Input.is_action_just_pressed("ui_accept"):
+	if instructions_popup.visible and Input.is_action_just_pressed("ui_accept"):
 		get_viewport().set_disable_input(true) # anti dablklik
 		Global.sound_manager.play_gui_sfx("btn_confirm")
 		emit_signal("players_ready")
-	
+
 	
 func _ready() -> void:
 	
@@ -271,6 +280,16 @@ func slide_in(players_count: int): # kliče GM set_game()
 	
 	set_hud(players_count)
 	
+	# instructions popup
+	if Global.game_manager.game_settings["game_instructions_popup"]:
+		var instructions_popup_time: float = 0.7
+		fade_in_instructions_popup(instructions_popup_time)
+		yield(self, "players_ready")
+		fade_out_instructions_popup(instructions_popup_time)
+		yield(get_tree().create_timer(instructions_popup_time), "timeout")
+	
+	Global.start_countdown.start_countdown() # GM yielda za njegov signal
+	
 	get_tree().call_group(Global.group_player_cameras, "zoom_in", hud_in_out_time, players_count)
 	
 	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
@@ -279,20 +298,12 @@ func slide_in(players_count: int): # kliče GM set_game()
 	fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", Global.hud.header_height, hud_in_out_time)
 	fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", Global.hud.header_height, hud_in_out_time)
 	
-	yield(Global.player1_camera, "zoomed_in")
+	# yield(Global.player1_camera, "zoomed_in") ... namesto tega signaliziranje prevzame start countdown
 	
 	for indicator in active_color_indicators:
 		var indicator_fade_in = get_tree().create_tween()
 		indicator_fade_in.tween_property(indicator, "modulate:a", unpicked_indicator_alpha, 0.3).set_ease(Tween.EASE_IN)
 	
-#	if players_count == 2:
-#		fade_splitscreen_popup()
-#		fade_splitscreen_popup()
-#	else:
-#		Global.start_countdown.start_countdown() # GM yielda za njegov signal
-#	fade_splitscreen_popup()
-	Global.start_countdown.start_countdown() # GM yielda za njegov signal
-
 
 func slide_out(): # kliče GM na game over
 	
@@ -305,20 +316,28 @@ func slide_out(): # kliče GM na game over
 	fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", 0, hud_in_out_time)
 	fade_in.tween_callback(self, "hide")
 	
-
-func fade_splitscreen_popup():
 	
-	var show_splitscreen_popup = get_tree().create_tween()
-	show_splitscreen_popup.tween_callback(splitscreen_popup, "show")
-	show_splitscreen_popup.tween_property(splitscreen_popup, "modulate:a", 1, 1).from(0.0).set_ease(Tween.EASE_IN)
+func fade_in_instructions_popup(in_time: float):
 
-	yield(self, "players_ready")
+	title.text %= "Game name"
+	label.text %= "power vs kill"
+	label_2.text %= "kontrole"
+	label_3.text %= "energija"
+	label_4.text %= "lajf"
+	label_5.text %= "kaj šteje"
+	label_6.text %= "GO pogoji"
+			
+	var show_instructions_popup = get_tree().create_tween()
+	show_instructions_popup.tween_callback(instructions_popup, "show")
+	show_instructions_popup.tween_property(instructions_popup, "modulate:a", 1, in_time).from(0.0).set_ease(Tween.EASE_IN)
+
 	
-	var hide_splitscreen_popup = get_tree().create_tween()
-	hide_splitscreen_popup.tween_property(splitscreen_popup, "modulate:a", 0, 1).set_ease(Tween.EASE_IN)
-	hide_splitscreen_popup.tween_callback(splitscreen_popup, "hide")
-	hide_splitscreen_popup.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
-	hide_splitscreen_popup.tween_callback(Global.start_countdown, "start_countdown")	
+func fade_out_instructions_popup(out_time: float):
+	
+	var hide_instructions_popup = get_tree().create_tween()
+	hide_instructions_popup.tween_property(instructions_popup, "modulate:a", 0, out_time).set_ease(Tween.EASE_IN)
+	hide_instructions_popup.tween_callback(instructions_popup, "hide")
+	hide_instructions_popup.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
 
 
 # SPECTRUM ---------------------------------------------------------------------------------------------------------------------------

@@ -52,14 +52,23 @@ func _ready():
 		else:
 			Global.player2_camera = self
 		
-		# start setup
-		if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER or Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
-#			zoom_end = Vector2.ONE * 3.5 # debug 
+
+		if Global.game_manager.game_settings["camera_fixed"]:
 			zoom = zoom_end
-		elif Global.game_manager.game_data["game"] == Profiles.Games.AMAZE:
-			zoom_start = Vector2.ONE * 6 # debug 
-			zoom = zoom_start
+		# start setup
+#		if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
+#			zoom = zoom_end
+#		elif Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
+#			zoom = zoom_end
+#		elif Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER_01:
+##			zoom_end = Vector2.ONE * 3.5 # debug 
+#			zoom = zoom_end
+#		elif Global.game_manager.game_data["game"] == Profiles.Games.AMAZE:
+#			zoom_start = Vector2.ONE * 6 # debug 
+#			zoom = zoom_start
 		else:
+			if Global.game_manager.game_data["game"] == Profiles.Games.AMAZE:
+				zoom_start = Vector2.ONE * 6 # debug 
 			zoom = zoom_start
 	
 	# testhud
@@ -120,7 +129,8 @@ func zoom_in(hud_in_out_time: float, players_count: int): # kliče hud
 	
 func zoom_out(hud_in_out_time: float): # kliče hud
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER or Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
+	if Global.game_manager.game_settings["camera_fixed"]:
+#	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER or Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
 		yield(get_tree().create_timer(hud_in_out_time), "timeout")
 		emit_signal("zoomed_out")
 	else:
@@ -168,8 +178,8 @@ func set_camera_limits():
 	if limit_left <= corner_TL and limit_right <= corner_TR and limit_top <= corner_BL and limit_bottom <= corner_BR: # če so meje manjše od kamere
 		return	
 
-	printt("edge tile", corner_TL, corner_TR, corner_BL, corner_BR)
-	printt("limit", limit_left, limit_right, limit_top, limit_bottom)
+	# printt("edge tile", corner_TL, corner_TR, corner_BL, corner_BR)
+	# printt("limit", limit_left, limit_right, limit_top, limit_bottom)
 	limit_left = corner_TL
 	limit_right = corner_TR
 	limit_top = corner_BL

@@ -18,7 +18,6 @@ script = ExtResource( 3 )
 z_index = -3
 
 [node name="BackgroundColor" type="ColorRect" parent="Background"]
-visible = false
 margin_left = -688.0
 margin_top = -440.0
 margin_right = 3296.0

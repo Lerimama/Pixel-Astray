@@ -24,8 +24,8 @@ func set_hud(players_count: int): # kliče main na game-in
 	# energy counter
 	if Global.game_manager.game_data["game"] == Profiles.Games.AMAZE:
 		p1_energy_counter.visible = true
-#	if Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
-#		p1_energy_counter.visible = false
+	else: # elif Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
+		p1_energy_counter.visible = false
 
 	# level label
 	if Global.game_manager.game_data["level"].empty():
@@ -50,9 +50,25 @@ func set_hud(players_count: int): # kliče main na game-in
 	
 	
 func slide_in(players_count: int): # kliče GM set_game()
-	# namen: indikatorji ostanejo alpha 1
+	# namen: indikatorji ostanejo alpha 1, start countdown po zoominu
+	
+	var indicator_alpha_on_start: float
+	if Global.game_manager.game_data["game"] == Profiles.Games.AMAZE:	
+		indicator_alpha_on_start = 1
+	else: # elif Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
+		indicator_alpha_on_start = 0.3
 	
 	set_hud(players_count)
+	
+	# instructions popup
+	if Global.game_manager.game_settings["game_instructions_popup"]:
+		var instructions_popup_time: float = 0.7
+		fade_in_instructions_popup(instructions_popup_time)
+		yield(self, "players_ready")
+		fade_out_instructions_popup(instructions_popup_time)
+		yield(get_tree().create_timer(instructions_popup_time), "timeout")
+	
+	Global.start_countdown.start_countdown() # GM yielda za njegov signal
 	
 	get_tree().call_group(Global.group_player_cameras, "zoom_in", hud_in_out_time, players_count)
 	
@@ -62,25 +78,20 @@ func slide_in(players_count: int): # kliče GM set_game()
 	fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", Global.hud.header_height, hud_in_out_time)
 	fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", Global.hud.header_height, hud_in_out_time)
 	
-	yield(Global.player1_camera, "zoomed_in")
+	# yield(Global.player1_camera, "zoomed_in") ... namesto tega signaliziranje prevzame start countdown
 	
-#	for indicator in active_color_indicators:
-#		var indicator_fade_in = get_tree().create_tween()
-#		indicator_fade_in.tween_property(indicator, "modulate:a", unpicked_indicator_alpha, 0.3).set_ease(Tween.EASE_IN)
-#
-#	if players_count == 2:
-#		fade_splitscreen_popup()
-#		fade_splitscreen_popup()
-#	else:
-#		Global.start_countdown.start_countdown() # GM yielda za njegov signal
-#	fade_splitscreen_popup()
-	Global.start_countdown.start_countdown() # GM yielda za njegov signal
+	for indicator in active_color_indicators:
+		var indicator_fade_in = get_tree().create_tween()
+		indicator_fade_in.tween_property(indicator, "modulate:a", unpicked_indicator_alpha, 0.3).set_ease(Tween.EASE_IN)
 	
 	
 func show_color_indicator(picked_color: Color):
 	# namen: pobrani indikatorji potemnijo
 
-	picked_indicator_alpha = 0.3
+	if Global.game_manager.game_data["game"] == Profiles.Games.AMAZE:	
+		picked_indicator_alpha = 0.3
+	else: # elif Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
+		picked_indicator_alpha = 1
 
 	var current_indicator_index: int
 	for indicator in active_color_indicators:
@@ -96,8 +107,11 @@ func show_color_indicator(picked_color: Color):
 
 
 func deactivate_all_indicators():
-	
-	picked_indicator_alpha = 0.3
+
+	if Global.game_manager.game_data["game"] == Profiles.Games.AMAZE:	
+		picked_indicator_alpha = 0.3
+	else: # elif Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
+		picked_indicator_alpha = 1	
 	
 	for indicator in active_color_indicators:
 		indicator.modulate.a = picked_indicator_alpha
@@ -109,3 +123,31 @@ func deactivate_all_indicators():
 	# izbris aktivnih indikatorjev
 	if not active_color_indicators.empty():
 		active_color_indicators.clear()
+
+	
+func fade_in_instructions_popup(in_time: float):
+	# namen: prilagojena navodila
+	
+	$Popups/Instructions/Controls.show()
+	$Popups/Instructions/ControlsDuel.hide()
+	
+	if Global.game_manager.game_data["game"] == Profiles.Games.AMAZE:
+		title.text %= Global.game_manager.game_data["game_name"]
+		label.text %= "power vs kill"
+		label_2.text %= "kontrole"
+		label_3.text %= "energija"
+		label_4.text %= "lajf"
+		label_5.text %= "kaj šteje"
+		label_6.text %= "GO pogoji"
+	else: # RIDDLERs
+		title.text %= Global.game_manager.game_data["game_name"] + " " + Global.game_manager.game_data["level"]
+		label.text %= "power vs kill"
+		label_2.text %= "kontrole"
+		label_3.text %= "energija"
+		label_4.text %= "lajf"
+		label_5.text %= "kaj šteje"
+		label_6.text %= "GO pogoji"
+					
+	var show_instructions_popup = get_tree().create_tween()
+	show_instructions_popup.tween_callback(instructions_popup, "show")
+	show_instructions_popup.tween_property(instructions_popup, "modulate:a", 1, in_time).from(0.0).set_ease(Tween.EASE_IN)

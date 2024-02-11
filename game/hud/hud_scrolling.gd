@@ -77,19 +77,47 @@ func level_up_popup_out():
 	popup_in.tween_callback(level_up_popup, "hide")
 				
 						
-func fade_splitscreen_popup():
+#func fade_splitscreen_popup():
+#
+#	var show_splitscreen_popup = get_tree().create_tween()
+#	show_splitscreen_popup.tween_callback(splitscreen_popup, "show")
+#	show_splitscreen_popup.tween_property(splitscreen_popup, "modulate:a", 1, 1).from(0.0).set_ease(Tween.EASE_IN)
+#
+#	yield(self, "players_ready")
+#
+#	var hide_splitscreen_popup = get_tree().create_tween()
+#	hide_splitscreen_popup.tween_property(splitscreen_popup, "modulate:a", 0, 1).set_ease(Tween.EASE_IN)
+#	hide_splitscreen_popup.tween_callback(splitscreen_popup, "hide")
+#	hide_splitscreen_popup.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
+#	hide_splitscreen_popup.tween_callback(Global.start_countdown, "start_countdown")	
 	
-	var show_splitscreen_popup = get_tree().create_tween()
-	show_splitscreen_popup.tween_callback(splitscreen_popup, "show")
-	show_splitscreen_popup.tween_property(splitscreen_popup, "modulate:a", 1, 1).from(0.0).set_ease(Tween.EASE_IN)
+	
+func fade_in_instructions_popup(in_time: float):
+	# namen: prilagojena navodila
+	
+	$Popups/Instructions/Controls.show()
+	$Popups/Instructions/ControlsDuel.hide()
+	title.text %= Global.game_manager.game_data["game_name"] # + " " + Global.game_manager.game_data["level"]
+	
+	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
+		label.text %= "power vs kill"
+		label_2.text %= "kontrole"
+		label_3.text %= "energija"
+		label_4.text %= "lajf"
+		label_5.text %= "kaj šteje"
+		label_6.text %= "GO pogoji"
+	elif Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
+		label.text %= "power vs kill"
+		label_2.text %= "kontrole"
+		label_3.text %= "energija"
+		label_4.text %= "lajf"
+		label_5.text %= "kaj šteje"
+		label_6.text %= "GO pogoji"
+					
+	var show_instructions_popup = get_tree().create_tween()
+	show_instructions_popup.tween_callback(instructions_popup, "show")
+	show_instructions_popup.tween_property(instructions_popup, "modulate:a", 1, in_time).from(0.0).set_ease(Tween.EASE_IN)
 
-	yield(self, "players_ready")
-	
-	var hide_splitscreen_popup = get_tree().create_tween()
-	hide_splitscreen_popup.tween_property(splitscreen_popup, "modulate:a", 0, 1).set_ease(Tween.EASE_IN)
-	hide_splitscreen_popup.tween_callback(splitscreen_popup, "hide")
-	hide_splitscreen_popup.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
-	hide_splitscreen_popup.tween_callback(Global.start_countdown, "start_countdown")	
 
 
 # SPECTRUM ---------------------------------------------------------------------------------------------------------------------------

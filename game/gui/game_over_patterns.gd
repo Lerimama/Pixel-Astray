@@ -3,7 +3,7 @@ extends GameOver
 
 
 func show_gameover_menu():
-	# namen: izločim beleženje HS, če amaz ni končan
+	# namen: izločim beleženje HS, če amaze ali riddler ni končan
 	
 	get_tree().set_pause(true) # setano čez celotno GO proceduro
 	
@@ -31,7 +31,7 @@ func show_gameover_menu():
 			var score_is_ranking = Global.data_manager.manage_gameover_highscores(current_score_points, current_score_time, Global.game_manager.game_data) 
 			
 			# score štejem samo če vse spuca
-			if Global.game_manager.game_data["game_name"] == "A-maze" and not current_gameover_reason == Global.game_manager.GameoverReason.CLEANED: 
+			if not current_gameover_reason == Global.game_manager.GameoverReason.CLEANED: 
 				yield(get_tree().create_timer(1), "timeout")
 				current_player_ranking = 100 # zazih ni na lestvici
 			else:

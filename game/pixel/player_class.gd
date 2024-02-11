@@ -384,8 +384,8 @@ func release_burst():
 	
 	play_sound("burst_cocked")
 
-	var cocked_ghost_fill_time: float = 0.02 # čas za napolnitev vseh spawnanih ghostov (tik pred burstom)
-	var cocked_pause_time: float = 0.07 # pavza pred strelom
+	var cocked_ghost_fill_time: float = 0.015 # čas za napolnitev vseh spawnanih ghostov (tik pred burstom)
+	var cocked_pause_time: float = 0.03 # pavza pred strelom
 
 	# napeti ghosti animirajo do alfa 1
 	for ghost in cocked_ghosts:
