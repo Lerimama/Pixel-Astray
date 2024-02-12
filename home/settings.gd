@@ -32,7 +32,13 @@ func _ready() -> void:
 		$CameraShakeBtn.pressed = true
 	else:
 		$CameraShakeBtn.pressed = false
-	
+
+	# pregame screen
+	if Profiles.default_game_settings["game_instructions_popup"] == true:
+		$InstructionsBtn.pressed = true
+	else:
+		$InstructionsBtn.pressed = false
+		
 	# color scheme selector state
 	for color_btn in colors_container.get_children(): # deselect all
 		color_btn.set_pressed_no_signal(false)
@@ -121,6 +127,15 @@ func _on_CameraShakeBtn_toggled(button_pressed: bool) -> void:
 		Global.main_node.camera_shake_on = false
 
 
+func _on_InstructionsBtn_toggled(button_pressed: bool) -> void:
+	
+	if button_pressed:
+		Global.sound_manager.game_sfx_set_to_off = false
+		Profiles.default_game_settings["game_instructions_popup"] = true
+	else:
+		Profiles.default_game_settings["game_instructions_popup"] = false
+		
+		
 # COLOR SCHEMES ----------------------------------------------------------------------------------------------------------------
 
 		

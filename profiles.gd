@@ -183,7 +183,7 @@ var scrolling_level_conditions: Dictionary = {
 	},
 }
 
-var sidewinder_level_conditions: Dictionary = {
+var slider_level_conditions: Dictionary = {
 	1: { # tutorial stage ... lahka in hitr
 		"color_scheme": game_color_schemes["default_color_scheme"],
 		"stages_per_level": 32, # lines scrolled ... tutorial je kratka ... tolk da je skor poln pa glih napreduješ
@@ -272,7 +272,7 @@ var sidewinder_level_conditions: Dictionary = {
 enum Games {
 	ERASER_S, ERASER_M, ERASER_L,
 	CLEANER, CLEANER_DUEL,
-	SCROLLER, SIDEWINDER,
+	SCROLLER, SLIDER, SIDEWINDER,
 	AMAZE, 
 	RUNNER, 
 	RIDDLER_S, RIDDLER_M, RIDDLER_L
@@ -409,13 +409,13 @@ var game_data_scroller: Dictionary = {
 }
 
 
-var game_data_sidewinder: Dictionary = { 
-	"game": Games.SIDEWINDER,
+var game_data_slider: Dictionary = { 
+	"game": Games.SLIDER,
 	"highscore_type": HighscoreTypes.HS_POINTS,
-	"game_name": "Sidewinder",
+	"game_name": "Slider",
 	"level": " ", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
 	"game_scene_path": "res://game/game_scrolling.tscn",
-	"tilemap_path": "res://game/tilemaps/scrolling/tilemap_sidewinder.tscn",
+	"tilemap_path": "res://game/tilemaps/scrolling/tilemap_slider.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 50, # pravi se seta znotraj igre
 }
@@ -441,14 +441,14 @@ var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "c
 func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
-	var current_game = Games.CLEANER
+#	var current_game = Games.CLEANER
 #	var current_game = Games.ERASER_S
 #	var current_game = Games.CLEANER_DUEL
 #	var current_game = Games.SCROLLER
-#	var current_game = Games.SIDEWINDER
-###	var current_game = Games.TUTORIAL
+	var current_game = Games.SLIDER
 #	var current_game = Games.RUNNER
 #	var current_game = Games.RIDDLER_L
+#	var current_game = Games.TUTORIAL
 	set_game_data(current_game)
 	
 	
@@ -488,8 +488,8 @@ func set_game_data(selected_game) -> void:
 			game_settings["timer_mode_countdown"] = false
 			game_settings["start_countdown"] = false
 			game_settings["position_indicators_mode"] = false 
-		Games.SIDEWINDER:
-			current_game_data = game_data_sidewinder
+		Games.SLIDER:
+			current_game_data = game_data_slider
 			game_settings["color_picked_energy"] = 2
 			game_settings["camera_fixed"] = true
 			game_settings["touching_stray_energy"] = -0.4

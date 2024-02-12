@@ -4,6 +4,7 @@ class_name GameOver
 signal name_input_finished
 
 var focus_btn: Button
+var current_gameover_reason: int # za prenašanje
 onready var background: ColorRect = $Background
 
 # players
@@ -36,8 +37,6 @@ onready var name_input_popup: Control = $NameInputPopup
 onready var name_input: LineEdit = $NameInputPopup/NameInput
 onready var name_input_label: Label = $NameInputPopup/Label
 
-# neu
-var current_gameover_reason: int # za prenašanje
 
 func _input(event: InputEvent) -> void:
 

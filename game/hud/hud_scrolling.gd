@@ -20,7 +20,7 @@ func set_hud(players_count: int): # kliče main na game-in
 	p2_statsline.visible = false
 	strays_counters_holder.visible = false
 	
-	# if Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
+	# if Global.game_manager.game_data["game"] == Profiles.Games.SLIDER:
 	p1_color_holder.visible = false	
 
 	# popups
@@ -35,7 +35,7 @@ func set_hud(players_count: int): # kliče main na game-in
 	# energy counter
 	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
 		p1_energy_counter.visible = false
-	if Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
+	if Global.game_manager.game_data["game"] == Profiles.Games.SLIDER:
 		p1_energy_counter.visible = true
 
 	# level label
@@ -106,7 +106,7 @@ func fade_in_instructions_popup(in_time: float):
 		label_4.text %= "lajf"
 		label_5.text %= "kaj šteje"
 		label_6.text %= "GO pogoji"
-	elif Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
+	elif Global.game_manager.game_data["game"] == Profiles.Games.SLIDER:
 		label.text %= "power vs kill"
 		label_2.text %= "kontrole"
 		label_3.text %= "energija"

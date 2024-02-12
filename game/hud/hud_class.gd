@@ -76,12 +76,11 @@ onready var label_4: Label = $Popups/Instructions/GameInstructions/Outline/Label
 onready var label_5: Label = $Popups/Instructions/GameInstructions/Outline/Label5
 onready var label_6: Label = $Popups/Instructions/GameInstructions/Outline/Label6
 
+onready var current_gamed_hs_type: int = Global.game_manager.game_data["highscore_type"]
+
 # debug
 onready var player_life: Label = $Life
 onready var player_energy: Label = $Energy
-
-# neu
-onready var current_gamed_hs_type: int = Global.game_manager.game_data["highscore_type"]
 
 
 func _input(event: InputEvent) -> void:
@@ -170,9 +169,9 @@ func set_current_highscore():
 	current_highscore_owner = current_highscore_line[1]
 	
 	if current_gamed_hs_type == Profiles.HighscoreTypes.HS_TIME_HIGH or Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW:
-		highscore_label.text = "Highscore " + str(current_highscore) + "s"
+		highscore_label.text = "HS " + str(current_highscore) + "s"
 	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_POINTS:
-		highscore_label.text = "Highscore " + str(current_highscore)
+		highscore_label.text = "HS " + str(current_highscore)
 		
 		
 func update_stats(stat_owner: Node, player_stats: Dictionary):	
@@ -212,20 +211,20 @@ func check_for_hs(player_stats: Dictionary):
 	match current_gamed_hs_type:
 		Profiles.HighscoreTypes.HS_POINTS:
 			if player_stats["player_points"] > current_highscore:
-				highscore_label.text = "New highscore " + str(player_stats["player_points"])
+				highscore_label.text = "New HS " + str(player_stats["player_points"])
 				highscore_label.modulate = Global.color_green
 			else:				
-				highscore_label.text = "Highscore " + str(current_highscore)
+				highscore_label.text = "HS " + str(current_highscore)
 				highscore_label.modulate = Global.hud_text_color
 		Profiles.HighscoreTypes.HS_TIME_LOW: # logika je tu malo drugačna kot pri drugih dveh
-			highscore_label.text = "Highscore " + str(current_highscore) + "s"
+			highscore_label.text = "HS " + str(current_highscore) + "s"
 			highscore_label.modulate = Global.hud_text_color
 		Profiles.HighscoreTypes.HS_TIME_HIGH:
 			if game_timer.time_since_start > current_highscore:
-				highscore_label.text = "Highscore " +  str(game_timer.time_since_start) + "s"
+				highscore_label.text = "HS " +  str(game_timer.time_since_start) + "s"
 				highscore_label.modulate = Global.color_green
 			else:				
-				highscore_label.text = "Highscore " +  str(current_highscore) + "s"
+				highscore_label.text = "HS " +  str(current_highscore) + "s"
 				highscore_label.modulate = Global.hud_text_color
 		
 

@@ -289,7 +289,7 @@ func spawn_strays(strays_to_spawn_count: int):
 	var forbiden_positions: Array = []
 	for stray_on_top in current_strays_on_top:
 		var adapted_stray_position: Vector2 = stray_on_top.position - Vector2.ONE * cell_size_x / 2 # za središče
-		if game_data["game"] == Profiles.Games.SIDEWINDER:
+		if game_data["game"] == Profiles.Games.SLIDER:
 			adapted_stray_position.x += 64 # za pozicijo zaznanega straya (zamik spawn lokacije glede na detektor)  
 		elif game_data["game"] == Profiles.Games.SCROLLER:
 			adapted_stray_position.y -= 32 # za pozicijo zaznanega straya (zamik spawn lokacije glede na detektor)
@@ -333,7 +333,7 @@ func spawn_strays(strays_to_spawn_count: int):
 			new_stray_pixel.z_index = 2 # višje od plejerja
 			
 			# naj postane wall ali ne
-			if game_data["game"] == Profiles.Games.SIDEWINDER:
+			if game_data["game"] == Profiles.Games.SLIDER:
 				# stray becomes wall
 				var random_wall_count: int = randi() % wall_spawn_random_range + 1
 				if random_wall_count == 1 or random_wall_count == 2:
@@ -368,7 +368,7 @@ func stray_step():
 	
 	var stepping_direction: Vector2
 	
-	if game_data["game"] == Profiles.Games.SIDEWINDER and not in_level_transition:
+	if game_data["game"] == Profiles.Games.SLIDER and not in_level_transition:
 		
 #		upgrade_stage()
 		stepping_direction = Vector2.LEFT
@@ -470,8 +470,8 @@ func set_level_conditions():
 	
 	var leveling_conditions: Dictionary
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
-		leveling_conditions = Profiles.sidewinder_level_conditions
+	if Global.game_manager.game_data["game"] == Profiles.Games.SLIDER:
+		leveling_conditions = Profiles.slider_level_conditions
 	elif Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
 		leveling_conditions = Profiles.scrolling_level_conditions
 		
@@ -481,7 +481,7 @@ func set_level_conditions():
 		level_color_scheme = leveling_conditions[current_level].color_scheme
 		scrolling_pause_time = leveling_conditions[current_level].scrolling_pause_time
 		game_data["strays_start_count"] = leveling_conditions[current_level].strays_spawn_count
-		if Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
+		if Global.game_manager.game_data["game"] == Profiles.Games.SLIDER:
 			wall_spawn_random_range = leveling_conditions[current_level].wall_spawn_random_range
 			print(wall_spawn_random_range)
 
@@ -525,7 +525,7 @@ func check_top_for_gameover():
 	
 	if game_data["game"] == Profiles.Games.SCROLLER:
 		spawn_line_cells_count = 40
-	if game_data["game"] == Profiles.Games.SIDEWINDER:
+	if game_data["game"] == Profiles.Games.SLIDER:
 		spawn_line_cells_count = 20
 	
 	# GO na prvi stopec full	

@@ -1,4 +1,4 @@
-extends Player_class
+extends Player
 
 
 
@@ -312,7 +312,7 @@ func on_hit_wall():
 	shake_player_camera(burst_speed)
 	
 	# yield(get_tree().create_timer(1), "timeout") # za dojet
-	if Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
+	if Global.game_manager.game_data["game"] == Profiles.Games.SLIDER:
 		change_stat("hit_wall", 1) # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
 	
 	end_move()

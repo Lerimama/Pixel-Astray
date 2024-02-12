@@ -1,4 +1,4 @@
-extends Player_class
+extends Player
 
 
 func on_hit_stray(hit_stray: KinematicBody2D):

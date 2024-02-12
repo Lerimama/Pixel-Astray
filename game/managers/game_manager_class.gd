@@ -398,7 +398,6 @@ func _on_tilemap_completed(random_spawn_floor_positions: Array, stray_cells_posi
 	# če ni pozicij, je en player ... random pozicija
 	if player_start_positions.empty():
 		var random_range = random_spawn_positions.size() 
-		print(random_range)
 		var p1_selected_cell_index: int = randi() % int(random_range) + 1
 		player_start_positions.append(random_spawn_positions[p1_selected_cell_index])
 		random_spawn_positions.remove(p1_selected_cell_index)

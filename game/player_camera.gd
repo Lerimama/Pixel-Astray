@@ -44,31 +44,21 @@ func _ready():
 	
 	add_to_group(Global.group_player_cameras)
 	
+	# intro
 	if get_viewport().name == "IntroViewport":
 		Global.intro_camera = self
+	# game
 	else:
 		if Global.player1_camera == null:
 			Global.player1_camera = self
 		else:
 			Global.player2_camera = self
-		
 
 		if Global.game_manager.game_settings["camera_fixed"]:
 			zoom = zoom_end
-		# start setup
-#		if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
-#			zoom = zoom_end
-#		elif Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
-#			zoom = zoom_end
-#		elif Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER_01:
-##			zoom_end = Vector2.ONE * 3.5 # debug 
-#			zoom = zoom_end
-#		elif Global.game_manager.game_data["game"] == Profiles.Games.RUNNER:
-#			zoom_start = Vector2.ONE * 6 # debug 
-#			zoom = zoom_start
 		else:
 			if Global.game_manager.game_data["game"] == Profiles.Games.RUNNER:
-				zoom_start = Vector2.ONE * 6 # debug 
+				zoom_start = Vector2.ONE * 6
 			zoom = zoom_start
 	
 	# testhud
@@ -115,7 +105,7 @@ func _physics_process(delta: float) -> void:
 	
 func zoom_in(hud_in_out_time: float, players_count: int): # kliče hud
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER or Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
+	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER or Global.game_manager.game_data["game"] == Profiles.Games.SLIDER:
 		emit_signal("zoomed_in")
 	else:
 		if players_count == 2:
@@ -130,8 +120,9 @@ func zoom_in(hud_in_out_time: float, players_count: int): # kliče hud
 func zoom_out(hud_in_out_time: float): # kliče hud
 	
 	if Global.game_manager.game_settings["camera_fixed"]:
-#	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER or Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
+#	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER or Global.game_manager.game_data["game"] == Profiles.Games.SLIDER:
 		yield(get_tree().create_timer(hud_in_out_time), "timeout")
+		camera_target = null
 		emit_signal("zoomed_out")
 	else:
 		# unset limits

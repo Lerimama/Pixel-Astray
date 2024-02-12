@@ -23,7 +23,7 @@ func play_selected_game(selected_game_enum: int):
 # at the cleaners -----------------------------------------------------------------------------------------
 
 
-func _on_CleanerSBtn_pressed() -> void:
+func _on_CleanerBtn_pressed() -> void:
 	play_selected_game(Profiles.Games.CLEANER)
 	
 #	Profiles.set_game_data(Profiles.Games.CLEANER_S)
@@ -90,11 +90,10 @@ func _on_ScrollerBtn_pressed() -> void:
 #	$"%AnimationPlayer".play("play")
 #	get_viewport().set_disable_input(true)
 
-
-func _on_SidewinderBtn_pressed() -> void:
-	play_selected_game(Profiles.Games.SIDEWINDER)
+func _on_SliderBtn_pressed() -> void:
+	play_selected_game(Profiles.Games.SLIDER)
 #
-#	Profiles.set_game_data(Profiles.Games.SIDEWINDER)
+#	Profiles.set_game_data(Profiles.Games.SLIDER)
 #	Global.sound_manager.play_gui_sfx("menu_fade")
 #	$"%AnimationPlayer".play("play")
 #	get_viewport().set_disable_input(true)
@@ -118,5 +117,4 @@ func _on_RiddlerBtn3_pressed() -> void:
 
 func _on_RunnerBtn_pressed() -> void:
 	play_selected_game(Profiles.Games.RUNNER)
-
 

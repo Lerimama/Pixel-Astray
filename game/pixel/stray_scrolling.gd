@@ -11,10 +11,7 @@ func show_stray(): # kliče GM
 
 
 func die(stray_in_stack_index: int, strays_in_stack: int):
-	# namen: stage upgrade in die, camera shake in vibra, collisions enabled, die off, če je DYING (walled)
-	
-#	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
-#	shake_player_camera(burst_speed)
+	# namen: stage upgrade in die, camera shake in vibra off, collisions enabled, die off, če je DYING (walled)
 	
 	if current_state == States.DYING:
 		return

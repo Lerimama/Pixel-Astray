@@ -9,7 +9,7 @@ func set_hud(players_count: int): # kliče main na game-in
 	p2_statsline.visible = false
 #	strays_counters_holder.visible = false
 	
-	# if Global.game_manager.game_data["game"] == Profiles.Games.SIDEWINDER:
+	# if Global.game_manager.game_data["game"] == Profiles.Games.SLIDER:
 #	p1_color_holder.visible = false	
 
 	# popups
