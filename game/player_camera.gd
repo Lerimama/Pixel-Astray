@@ -63,11 +63,11 @@ func _ready():
 #		elif Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER_01:
 ##			zoom_end = Vector2.ONE * 3.5 # debug 
 #			zoom = zoom_end
-#		elif Global.game_manager.game_data["game"] == Profiles.Games.AMAZE:
+#		elif Global.game_manager.game_data["game"] == Profiles.Games.RUNNER:
 #			zoom_start = Vector2.ONE * 6 # debug 
 #			zoom = zoom_start
 		else:
-			if Global.game_manager.game_data["game"] == Profiles.Games.AMAZE:
+			if Global.game_manager.game_data["game"] == Profiles.Games.RUNNER:
 				zoom_start = Vector2.ONE * 6 # debug 
 			zoom = zoom_start
 	

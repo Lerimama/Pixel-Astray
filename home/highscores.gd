@@ -7,7 +7,7 @@ onready var eraser_s_table: VBoxContainer = $EraserSTable
 onready var eraser_m_table: VBoxContainer = $EraserMTable
 onready var eraser_l_table: VBoxContainer = $EraserLTable
 
-onready var amaze_table: VBoxContainer = $AmazeTable
+onready var runner_table: VBoxContainer = $RunnerTable
 
 onready var riddler_s_table: VBoxContainer = $RiddlerSTable
 onready var riddler_m_table: VBoxContainer = $RiddlerMTable
@@ -31,7 +31,7 @@ func _ready() -> void:
 	eraser_m_table.get_highscore_table(Profiles.game_data_eraser_M, fake_player_ranking)
 	eraser_l_table.get_highscore_table(Profiles.game_data_eraser_L, fake_player_ranking)
 	
-	amaze_table.get_highscore_table(Profiles.game_data_amaze, fake_player_ranking)
+	runner_table.get_highscore_table(Profiles.game_data_runner, fake_player_ranking)
 	riddler_s_table.get_highscore_table(Profiles.game_data_riddler_S, fake_player_ranking)
 	riddler_m_table.get_highscore_table(Profiles.game_data_riddler_M, fake_player_ranking)
 	riddler_l_table.get_highscore_table(Profiles.game_data_riddler_L, fake_player_ranking)

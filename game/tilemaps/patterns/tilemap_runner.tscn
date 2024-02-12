@@ -3,10 +3,10 @@
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=1]
 [ext_resource path="res://game/tilemaps/arena_tilemap.gd" type="Script" id=2]
 [ext_resource path="res://assets/resources/tileset_arena.tres" type="TileSet" id=3]
-[ext_resource path="res://_mat/render-taj-maze.jpg" type="Texture" id=4]
-[ext_resource path="res://assets/resources/level_edge_panel.tres" type="StyleBox" id=5]
+[ext_resource path="res://assets/resources/level_edge_panel.tres" type="StyleBox" id=4]
+[ext_resource path="res://_mat/render-taj-maze.jpg" type="Texture" id=5]
 
-[node name="AmazeTilemap" type="TileMap"]
+[node name="RunnerTilemap" type="TileMap"]
 tile_set = ExtResource( 3 )
 cell_size = Vector2( 32, 32 )
 cell_quadrant_size = 8
@@ -155,7 +155,7 @@ margin_left = 32.0
 margin_top = 32.0
 margin_right = 7712.0
 margin_bottom = 4320.0
-custom_styles/panel = ExtResource( 5 )
+custom_styles/panel = ExtResource( 4 )
 
 [node name="_razlaga" type="Node2D" parent="."]
 visible = false
@@ -236,4 +236,4 @@ visible = false
 modulate = Color( 1, 1, 1, 0.435294 )
 position = Vector2( 2905, 2906 )
 scale = Vector2( 19.2, 19.2 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )

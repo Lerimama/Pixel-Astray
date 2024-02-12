@@ -3,7 +3,7 @@ extends GameOver
 
 
 func show_gameover_menu():
-	# namen: izločim beleženje HS, če amaze ali riddler ni končan
+	# namen: izločim beleženje HS, če runner ali riddler ni končan
 	
 	get_tree().set_pause(true) # setano čez celotno GO proceduro
 	

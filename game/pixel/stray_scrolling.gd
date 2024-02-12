@@ -76,7 +76,7 @@ func step(step_direction: Vector2):
 #	step_tween.tween_callback(Global, "snap_to_nearest_grid", [global_position + step_direction * cell_size_x])
 #	step_tween.tween_property(self, "current_state", States.IDLE, 0)
 
-
+	
 # ON FLOOR --------------------------------------------------------------------------------------------
 
 
@@ -103,8 +103,9 @@ func turn_to_wall(stray_in_stack_index: int):
 	yield(get_tree().create_timer(wait_to_destroy_time), "timeout")
 	
 	# efekti
-	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
-	play_sound("turning_color")
+	# Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
+	# play_sound("turning_color")
+	play_sound("blinking")
 	
 	var shake_power: float = 0.2
 	var shake_time: float = 0.3

@@ -374,7 +374,7 @@ func stray_step():
 		stepping_direction = Vector2.LEFT
 		for stray in get_tree().get_nodes_in_group(Global.group_strays):
 			stray.step(stepping_direction)
-		
+		# Global.sound_manager.play_sfx("stray_step") # ulomek je za pitch zvoka
 		lines_scrolled_count += 1
 		if lines_scrolled_count % lines_scroll_per_spawn_round == 0: # tukaj, da ne spawna če  je konec
 			spawn_strays(game_data["strays_start_count"])
@@ -390,8 +390,7 @@ func stray_step():
 				var current_collider = stray.step(stepping_direction)
 				if current_collider:
 					check_stray_wall_collisions(stray, current_collider) # brez povezanosti na robu
-					# check_stray_all_wall_collisions(stray, current_collider) # povezanost na robu
-		
+		# Global.sound_manager.play_sfx("stray_step") # ulomek je za pitch zvoka
 		lines_scrolled_count += 1
 		if lines_scrolled_count % lines_scroll_per_spawn_round == 0: # tukaj, da ne spawna če  je konec
 			spawn_strays(game_data["strays_start_count"])
@@ -399,7 +398,18 @@ func stray_step():
 	yield(get_tree().create_timer(scrolling_pause_time), "timeout")
 	
 	step_in_progress = false
+
 		
+func play_stepping_sound(current_player_energy_part: float):
+
+	if Global.sound_manager.game_sfx_set_to_off:
+		return		
+
+	var random_step_index = randi() % $Sounds/Stepping.get_child_count()
+	var selected_step_sound = $Sounds/Stepping.get_child(random_step_index)
+	selected_step_sound.pitch_scale = clamp(current_player_energy_part, 0.6, 1)
+	selected_step_sound.play()
+	
 		
 # LEVELING --------------------------------------------------------------------------------------
 

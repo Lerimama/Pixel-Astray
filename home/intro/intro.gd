@@ -95,7 +95,7 @@ func set_strays():
 	strays_shown.clear()
 	
 	
-func spawn_strays(strays_to_spawn_count: int):
+func spawn_strays(strays_to_spawn_count: int = required_spawn_positions.size()):
 	
 	strays_to_spawn_count = clamp(strays_to_spawn_count, 1, strays_to_spawn_count) # za vsak slučaj klempam, da ne more biti nikoli 0 ...  ker je error			
 

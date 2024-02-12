@@ -1,4 +1,5 @@
 extends KinematicBody2D
+#extends Stray
 
 
 enum States {IDLE, MOVING, STATIC, DYING} # static, unmovable
@@ -157,17 +158,28 @@ func get_position_indicator_position(current_camera: Camera2D):
 	position_indicator.global_position.y = clamp(position_indicator.global_position.y, camera_edge_clamp_down_y, camera_edge_clamp_up_y)
 	
 
-func play_sound(effect_for: String):
+#func play_blinking_sound():
+#	Global.sound_manager.play_sfx("blinking")
+##	var random_blink_index = randi() % $Sounds/Blinking.get_child_count()
+##	$Sounds/Blinking.get_child(random_blink_index).play() # nekateri so na mute, ker so drugače prepogosti soundi
+##	var random_static_index = randi() % $Sounds/BlinkingStatic.get_child_count()
+##	$Sounds/BlinkingStatic.get_child(random_static_index).play()
 	
+	
+func play_sound(effect_for: String):
+
 	if Global.sound_manager.game_sfx_set_to_off:
 		return
-		
+
 	match effect_for:
 		"blinking":
-			var random_blink_index = randi() % $Sounds/Blinking.get_child_count()
-			$Sounds/Blinking.get_child(random_blink_index).play() # nekateri so na mute, ker so drugače prepogosti soundi
-			var random_static_index = randi() % $Sounds/BlinkingStatic.get_child_count()
-			$Sounds/BlinkingStatic.get_child(random_static_index).play()
+			Global.sound_manager.play_sfx("blinking")
+
+			
+#			var random_blink_index = randi() % $Sounds/Blinking.get_child_count()
+#			$Sounds/Blinking.get_child(random_blink_index).play() # nekateri so na mute, ker so drugače prepogosti soundi
+#			var random_static_index = randi() % $Sounds/BlinkingStatic.get_child_count()
+#			$Sounds/BlinkingStatic.get_child(random_static_index).play()
 		"stepping":
 			var random_step_index = randi() % $Sounds/Stepping.get_child_count()
 			var selected_step_sound = $Sounds/Stepping.get_child(random_step_index).play()

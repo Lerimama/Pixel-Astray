@@ -354,7 +354,7 @@ tracks/3/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "values": [ {
 "args": [  ],
-"method": "split_stray_colors"
+"method": "spawn_strays"
 }, {
 "args": [ 1 ],
 "method": "show_strays"
@@ -836,13 +836,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -292.0
+margin_left = -268.0
 margin_top = 314.0
-margin_right = 292.0
+margin_right = 268.0
 margin_bottom = 392.0
 grow_horizontal = 2
 theme = SubResource( 194 )
-text = "Now, its mission is to take back the colors and become the brightest on the screen again."
+text = "Now, former white pixel is on a mission to take back the colors and become the brightest on the screen again."
 align = 1
 autowrap = true
 

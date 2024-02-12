@@ -3125,7 +3125,7 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="AmazeTable" type="VBoxContainer" parent="Highscores"]
+[node name="RunnerTable" type="VBoxContainer" parent="Highscores"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -3140,7 +3140,7 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Title" type="Label" parent="Highscores/AmazeTable"]
+[node name="Title" type="Label" parent="Highscores/RunnerTable"]
 margin_left = 61.0
 margin_right = 131.0
 margin_bottom = 26.0
@@ -3150,19 +3150,19 @@ size_flags_vertical = 0
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 text = "Top ..."
 
-[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/AmazeTable"]
+[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/RunnerTable"]
 margin_top = 32.0
 margin_right = 192.0
 margin_bottom = 54.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="Highscores/AmazeTable/ScoreLine1"]
+[node name="Position" type="Label" parent="Highscores/RunnerTable/ScoreLine1"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/AmazeTable/ScoreLine1"]
+[node name="Owner" type="Label" parent="Highscores/RunnerTable/ScoreLine1"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -3176,7 +3176,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/AmazeTable/ScoreLine1"]
+[node name="Score" type="Label" parent="Highscores/RunnerTable/ScoreLine1"]
 margin_left = 122.0
 margin_right = 192.0
 margin_bottom = 22.0
@@ -3185,19 +3185,19 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/AmazeTable"]
+[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/RunnerTable"]
 margin_top = 60.0
 margin_right = 192.0
 margin_bottom = 82.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="Highscores/AmazeTable/ScoreLine2"]
+[node name="Position" type="Label" parent="Highscores/RunnerTable/ScoreLine2"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/AmazeTable/ScoreLine2"]
+[node name="Owner" type="Label" parent="Highscores/RunnerTable/ScoreLine2"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -3211,7 +3211,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/AmazeTable/ScoreLine2"]
+[node name="Score" type="Label" parent="Highscores/RunnerTable/ScoreLine2"]
 margin_left = 122.0
 margin_right = 192.0
 margin_bottom = 22.0
@@ -3220,19 +3220,19 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/AmazeTable"]
+[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/RunnerTable"]
 margin_top = 88.0
 margin_right = 192.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="Highscores/AmazeTable/ScoreLine3"]
+[node name="Position" type="Label" parent="Highscores/RunnerTable/ScoreLine3"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/AmazeTable/ScoreLine3"]
+[node name="Owner" type="Label" parent="Highscores/RunnerTable/ScoreLine3"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -3246,7 +3246,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/AmazeTable/ScoreLine3"]
+[node name="Score" type="Label" parent="Highscores/RunnerTable/ScoreLine3"]
 margin_left = 122.0
 margin_right = 192.0
 margin_bottom = 22.0
@@ -3255,19 +3255,19 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/AmazeTable"]
+[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/RunnerTable"]
 margin_top = 116.0
 margin_right = 192.0
 margin_bottom = 138.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="Highscores/AmazeTable/ScoreLine4"]
+[node name="Position" type="Label" parent="Highscores/RunnerTable/ScoreLine4"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/AmazeTable/ScoreLine4"]
+[node name="Owner" type="Label" parent="Highscores/RunnerTable/ScoreLine4"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -3281,7 +3281,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/AmazeTable/ScoreLine4"]
+[node name="Score" type="Label" parent="Highscores/RunnerTable/ScoreLine4"]
 margin_left = 122.0
 margin_right = 192.0
 margin_bottom = 22.0
@@ -3290,19 +3290,19 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/AmazeTable"]
+[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/RunnerTable"]
 margin_top = 144.0
 margin_right = 192.0
 margin_bottom = 166.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="Highscores/AmazeTable/ScoreLine5"]
+[node name="Position" type="Label" parent="Highscores/RunnerTable/ScoreLine5"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/AmazeTable/ScoreLine5"]
+[node name="Owner" type="Label" parent="Highscores/RunnerTable/ScoreLine5"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -3316,7 +3316,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/AmazeTable/ScoreLine5"]
+[node name="Score" type="Label" parent="Highscores/RunnerTable/ScoreLine5"]
 margin_left = 122.0
 margin_right = 192.0
 margin_bottom = 22.0
@@ -3325,20 +3325,20 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/AmazeTable"]
+[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/RunnerTable"]
 visible = false
 margin_top = 172.0
 margin_right = 178.0
 margin_bottom = 194.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="Highscores/AmazeTable/ScoreLine6"]
+[node name="Position" type="Label" parent="Highscores/RunnerTable/ScoreLine6"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/AmazeTable/ScoreLine6"]
+[node name="Owner" type="Label" parent="Highscores/RunnerTable/ScoreLine6"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -3352,7 +3352,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/AmazeTable/ScoreLine6"]
+[node name="Score" type="Label" parent="Highscores/RunnerTable/ScoreLine6"]
 margin_left = 108.0
 margin_right = 178.0
 margin_bottom = 22.0
@@ -3361,20 +3361,20 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/AmazeTable"]
+[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/RunnerTable"]
 visible = false
 margin_top = 200.0
 margin_right = 178.0
 margin_bottom = 222.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="Highscores/AmazeTable/ScoreLine7"]
+[node name="Position" type="Label" parent="Highscores/RunnerTable/ScoreLine7"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/AmazeTable/ScoreLine7"]
+[node name="Owner" type="Label" parent="Highscores/RunnerTable/ScoreLine7"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -3388,7 +3388,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/AmazeTable/ScoreLine7"]
+[node name="Score" type="Label" parent="Highscores/RunnerTable/ScoreLine7"]
 margin_left = 108.0
 margin_right = 178.0
 margin_bottom = 22.0
@@ -3397,20 +3397,20 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/AmazeTable"]
+[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/RunnerTable"]
 visible = false
 margin_top = 228.0
 margin_right = 178.0
 margin_bottom = 250.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="Highscores/AmazeTable/ScoreLine8"]
+[node name="Position" type="Label" parent="Highscores/RunnerTable/ScoreLine8"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/AmazeTable/ScoreLine8"]
+[node name="Owner" type="Label" parent="Highscores/RunnerTable/ScoreLine8"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -3424,7 +3424,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/AmazeTable/ScoreLine8"]
+[node name="Score" type="Label" parent="Highscores/RunnerTable/ScoreLine8"]
 margin_left = 108.0
 margin_right = 178.0
 margin_bottom = 22.0
@@ -3433,20 +3433,20 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/AmazeTable"]
+[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/RunnerTable"]
 visible = false
 margin_top = 256.0
 margin_right = 178.0
 margin_bottom = 278.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="Highscores/AmazeTable/ScoreLine9"]
+[node name="Position" type="Label" parent="Highscores/RunnerTable/ScoreLine9"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="Highscores/AmazeTable/ScoreLine9"]
+[node name="Owner" type="Label" parent="Highscores/RunnerTable/ScoreLine9"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -3460,7 +3460,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/AmazeTable/ScoreLine9"]
+[node name="Score" type="Label" parent="Highscores/RunnerTable/ScoreLine9"]
 margin_left = 108.0
 margin_right = 178.0
 margin_bottom = 22.0
@@ -5634,6 +5634,43 @@ custom_fonts/font = ExtResource( 14 )
 text = "Time"
 autowrap = true
 
+[node name="ScrollerBtn" type="Button" parent="SelectGame"]
+margin_left = 184.0
+margin_top = 488.0
+margin_right = 328.0
+margin_bottom = 570.0
+mouse_default_cursor_shape = 2
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "Scroller"
+__meta__ = {
+"_edit_group_": true,
+"_editor_description_": ""
+}
+
+[node name="Title" type="Label" parent="SelectGame/ScrollerBtn"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 14.0
+margin_right = -24.0
+margin_bottom = 36.0
+text = "Riddler"
+
+[node name="Label" type="Label" parent="SelectGame/ScrollerBtn"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 40.0
+margin_right = -24.0
+margin_bottom = 58.0
+custom_fonts/font = ExtResource( 14 )
+text = "Solve"
+autowrap = true
+
 [node name="SidewinderBtn" type="Button" parent="SelectGame"]
 margin_left = 336.0
 margin_top = 488.0
@@ -5669,43 +5706,6 @@ margin_right = -24.0
 margin_bottom = 58.0
 custom_fonts/font = ExtResource( 14 )
 text = "Time"
-autowrap = true
-
-[node name="RainmanBtn" type="Button" parent="SelectGame"]
-margin_left = 184.0
-margin_top = 488.0
-margin_right = 328.0
-margin_bottom = 570.0
-mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
-text = "Rainman"
-__meta__ = {
-"_edit_group_": true,
-"_editor_description_": ""
-}
-
-[node name="Title" type="Label" parent="SelectGame/RainmanBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Riddler"
-
-[node name="Label" type="Label" parent="SelectGame/RainmanBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Solve"
 autowrap = true
 
 [node name="RunnerBtn" type="Button" parent="SelectGame"]
@@ -6683,8 +6683,8 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="SelectGame/RiddlerBtn" to="SelectGame" method="_on_RiddlerBtn_pressed"]
 [connection signal="pressed" from="SelectGame/RiddlerBtn2" to="SelectGame" method="_on_RiddlerBtn2_pressed"]
 [connection signal="pressed" from="SelectGame/RiddlerBtn3" to="SelectGame" method="_on_RiddlerBtn3_pressed"]
+[connection signal="pressed" from="SelectGame/ScrollerBtn" to="SelectGame" method="_on_ScrollerBtn_pressed"]
 [connection signal="pressed" from="SelectGame/SidewinderBtn" to="SelectGame" method="_on_SidewinderBtn_pressed"]
-[connection signal="pressed" from="SelectGame/RainmanBtn" to="SelectGame" method="_on_RainmanBtn_pressed"]
 [connection signal="pressed" from="SelectGame/RunnerBtn" to="SelectGame" method="_on_RunnerBtn_pressed"]
 [connection signal="pressed" from="Settings/BackBtn" to="Settings" method="_on_BackBtn_pressed"]
 [connection signal="toggled" from="Settings/MenuMusicBtn" to="Settings" method="_on_MenuMusicBtn_toggled"]

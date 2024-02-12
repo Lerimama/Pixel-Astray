@@ -274,6 +274,7 @@ enum Games {
 	CLEANER, CLEANER_DUEL,
 	SCROLLER, SIDEWINDER,
 	AMAZE, 
+	RUNNER, 
 	RIDDLER_S, RIDDLER_M, RIDDLER_L
 	TUTORIAL,
 	}
@@ -348,13 +349,13 @@ var game_data_cleaner_duel: Dictionary = {
 }
 
 
-var game_data_amaze: Dictionary = {
-	"game": Games.AMAZE,
+var game_data_runner: Dictionary = {
+	"game": Games.RUNNER,
 	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "Amaze",
+	"game_name": "Runner",
 	"level": "",
 	"game_scene_path": "res://game/game_patterns.tscn",
-	"tilemap_path": "res://game/tilemaps/patterns/tilemap_amaze.tscn",
+	"tilemap_path": "res://game/tilemaps/patterns/tilemap_runner.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 500, # 468 jih je v stackih
 }
@@ -440,14 +441,14 @@ var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "c
 func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
-#	var current_game = Games.CLEANER
+	var current_game = Games.CLEANER
 #	var current_game = Games.ERASER_S
 #	var current_game = Games.CLEANER_DUEL
 #	var current_game = Games.SCROLLER
 #	var current_game = Games.SIDEWINDER
 ###	var current_game = Games.TUTORIAL
-#	var current_game = Games.AMAZE
-	var current_game = Games.RIDDLER_L
+#	var current_game = Games.RUNNER
+#	var current_game = Games.RIDDLER_L
 	set_game_data(current_game)
 	
 	
@@ -495,8 +496,8 @@ func set_game_data(selected_game) -> void:
 			game_settings["timer_mode_countdown"] = false
 			game_settings["start_countdown"] = false
 			game_settings["position_indicators_mode"] = false 
-		Games.AMAZE: 
-			current_game_data = game_data_amaze
+		Games.RUNNER: 
+			current_game_data = game_data_runner
 			game_settings["minimap_on"] = true
 			game_settings["step_time_fast"] = 0.07
 			game_settings["step_time_slow"] = 0.2

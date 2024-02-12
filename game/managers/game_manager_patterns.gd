@@ -20,7 +20,7 @@ func game_over(gameover_reason: int):
 	
 	Global.hud.game_timer.stop_timer()
 	
-	if game_data["game"] == Profiles.Games.AMAZE:
+	if game_data["game"] == Profiles.Games.RUNNER:
 		if gameover_reason == GameoverReason.CLEANED: # če zadaneš goal steno
 			# animacija indikatorjev
 			Global.hud.deactivate_all_indicators()

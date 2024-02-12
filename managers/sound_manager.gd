@@ -21,7 +21,7 @@ func _ready() -> void:
 # SFX --------------------------------------------------------------------------------------------------------
 
 	
-func play_stepping_sfx(current_player_energy_part: float): # za intro
+func play_stepping_sfx(current_player_energy_part: float): # za intro in scrollerje
 
 		if game_sfx_set_to_off:
 			return		
@@ -37,7 +37,9 @@ func play_sfx(effect_for: String):
 		return	
 		
 	match effect_for:
-		"blinking": # GM na strays spawn
+		"stray_step":
+			$GameSfx/StraySlide.play()
+		"blinking": # GM na strays spawn, ker se bolje sliši
 			select_random_sfx($GameSfx/Blinking).play() # nekateri so na mute, ker so drugače prepogosti soundi
 			select_random_sfx($GameSfx/BlinkingStatic).play()
 		"thunder_strike": # intro in GM na strays spawn

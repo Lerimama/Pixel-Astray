@@ -1,4 +1,4 @@
-[gd_scene load_steps=81 format=2]
+[gd_scene load_steps=82 format=2]
 
 [ext_resource path="res://assets/sound/music/menu_track_secret.wav" type="AudioStream" id=1]
 [ext_resource path="res://assets/sound/sfx/skills/skilled_frcer.wav" type="AudioStream" id=2]
@@ -99,6 +99,10 @@ audio_stream = ExtResource( 8 )
 [sub_resource type="AudioStreamRandomPitch" id=24]
 audio_stream = ExtResource( 11 )
 random_pitch = 1.05
+
+[sub_resource type="AudioStreamRandomPitch" id=34]
+audio_stream = ExtResource( 30 )
+random_pitch = 1.2
 
 [sub_resource type="AudioStreamRandomPitch" id=33]
 audio_stream = ExtResource( 45 )
@@ -233,6 +237,12 @@ bus = "GameSfx"
 [node name="Burst" type="AudioStreamPlayer" parent="SoundManager/GameSfx"]
 stream = SubResource( 24 )
 volume_db = -10.0
+bus = "GameSfx"
+
+[node name="StraySlide" type="AudioStreamPlayer" parent="SoundManager/GameSfx"]
+stream = SubResource( 34 )
+volume_db = -25.0
+pitch_scale = 0.8
 bus = "GameSfx"
 
 [node name="GuiSfx" type="Node2D" parent="SoundManager"]
@@ -505,3 +515,5 @@ bus = "GameSfx"
 stream = ExtResource( 33 )
 volume_db = -20.0
 bus = "GameSfx"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="SoundManager"]

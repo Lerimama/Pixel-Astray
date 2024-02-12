@@ -22,7 +22,7 @@ func set_hud(players_count: int): # kliče main na game-in
 		p1_life_counter.visible = true
 
 	# energy counter
-	if Global.game_manager.game_data["game"] == Profiles.Games.AMAZE:
+	if Global.game_manager.game_data["game"] == Profiles.Games.RUNNER:
 		p1_energy_counter.visible = true
 	else: # elif Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
 		p1_energy_counter.visible = false
@@ -53,7 +53,7 @@ func slide_in(players_count: int): # kliče GM set_game()
 	# namen: indikatorji ostanejo alpha 1, start countdown po zoominu
 	
 	var indicator_alpha_on_start: float
-	if Global.game_manager.game_data["game"] == Profiles.Games.AMAZE:	
+	if Global.game_manager.game_data["game"] == Profiles.Games.RUNNER:	
 		indicator_alpha_on_start = 1
 	else: # elif Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
 		indicator_alpha_on_start = 0.3
@@ -88,7 +88,7 @@ func slide_in(players_count: int): # kliče GM set_game()
 func show_color_indicator(picked_color: Color):
 	# namen: pobrani indikatorji potemnijo
 
-	if Global.game_manager.game_data["game"] == Profiles.Games.AMAZE:	
+	if Global.game_manager.game_data["game"] == Profiles.Games.RUNNER:	
 		picked_indicator_alpha = 0.3
 	else: # elif Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
 		picked_indicator_alpha = 1
@@ -108,7 +108,7 @@ func show_color_indicator(picked_color: Color):
 
 func deactivate_all_indicators():
 
-	if Global.game_manager.game_data["game"] == Profiles.Games.AMAZE:	
+	if Global.game_manager.game_data["game"] == Profiles.Games.RUNNER:	
 		picked_indicator_alpha = 0.3
 	else: # elif Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
 		picked_indicator_alpha = 1	
@@ -131,7 +131,7 @@ func fade_in_instructions_popup(in_time: float):
 	$Popups/Instructions/Controls.show()
 	$Popups/Instructions/ControlsDuel.hide()
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.AMAZE:
+	if Global.game_manager.game_data["game"] == Profiles.Games.RUNNER:
 		title.text %= Global.game_manager.game_data["game_name"]
 		label.text %= "power vs kill"
 		label_2.text %= "kontrole"

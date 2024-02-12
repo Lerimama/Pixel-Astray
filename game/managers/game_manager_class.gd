@@ -324,21 +324,21 @@ func show_strays_on_start(show_strays_loop: int):
 	match show_strays_loop:
 		1:
 			Global.sound_manager.play_sfx("thunder_strike")
-			Global.sound_manager.play_sfx("blinking")
+#			Global.sound_manager.play_sfx("blinking")
 			strays_to_show_count = round(strays_in_game_count/10)
 		2:
 			Global.sound_manager.play_sfx("thunder_strike")
-			Global.sound_manager.play_sfx("blinking")
+#			Global.sound_manager.play_sfx("blinking")
 			strays_to_show_count = round(strays_in_game_count/8)
 		3:
-			Global.sound_manager.play_sfx("blinking")
+#			Global.sound_manager.play_sfx("blinking")
 			strays_to_show_count = round(strays_in_game_count/4)
 		4:
 			Global.sound_manager.play_sfx("thunder_strike")
-			Global.sound_manager.play_sfx("blinking")
+#			Global.sound_manager.play_sfx("blinking")
 			strays_to_show_count = round(strays_in_game_count/2)
 		5: # še preostale
-			Global.sound_manager.play_sfx("blinking")
+#			Global.sound_manager.play_sfx("blinking")
 			strays_to_show_count = strays_in_game_count - strays_shown.size()
 	
 	# stray fade-in

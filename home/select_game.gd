@@ -83,7 +83,7 @@ func _on_CleanerDuelBtn_pressed() -> void:
 # scrollers -----------------------------------------------------------------------------------------
 
 	
-func _on_RainmanBtn_pressed() -> void:
+func _on_ScrollerBtn_pressed() -> void:
 	play_selected_game(Profiles.Games.SCROLLER)
 #	Profiles.set_game_data(Profiles.Games.SCROLLER)
 #	Global.sound_manager.play_gui_sfx("menu_fade")
@@ -116,11 +116,7 @@ func _on_RiddlerBtn2_pressed() -> void:
 func _on_RiddlerBtn3_pressed() -> void:
 	play_selected_game(Profiles.Games.RIDDLER_L)
 
-
-
-
-
-
-
 func _on_RunnerBtn_pressed() -> void:
-	play_selected_game(Profiles.Games.AMAZE)
+	play_selected_game(Profiles.Games.RUNNER)
+
+
