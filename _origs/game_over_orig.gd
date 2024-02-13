@@ -1,10 +1,8 @@
 extends Control
-class_name GameOver
 
 signal name_input_finished
 
 var focus_btn: Button
-var current_gameover_reason: int # za prenašanje
 onready var background: ColorRect = $Background
 
 # players
@@ -21,8 +19,8 @@ onready var gameover_title_holder: Control = $GameoverTitle
 onready var gameover_title_cleaned: Control = $GameoverTitle/ReasonCleaned
 onready var gameover_title_time: Control = $GameoverTitle/ReasonTime
 onready var gameover_title_life: Control = $GameoverTitle/ReasonLife
+onready var gameover_title_level: Control = $GameoverTitle/Level
 onready var gameover_title_duel: Control = $GameoverTitle/Duel
-onready var gameover_title_tutorial: Control = $GameoverTitle/Tutorial
 
 # game summary
 var selected_game_summary: Control
@@ -66,7 +64,6 @@ func _ready() -> void:
 	
 func open_gameover(gameover_reason: int):
 	
-	current_gameover_reason = gameover_reason
 	players_in_game = get_tree().get_nodes_in_group(Global.group_players)
 	
 	p1_final_stats = players_in_game[0].player_stats
@@ -75,7 +72,7 @@ func open_gameover(gameover_reason: int):
 		p2_final_stats = players_in_game[1].player_stats
 		set_duel_gameover_title()
 	else:
-		set_game_gameover_title()
+		set_game_gameover_title(gameover_reason)
 		
 	Global.hud.slide_out()
 	yield(Global.player1_camera, "zoomed_out") # tukaj notri setam zamik
@@ -90,14 +87,12 @@ func show_gameover_title():
 	selected_gameover_title.visible = true
 	gameover_title_holder.modulate.a = 0
 	
-	var background_fadein_transparency: float = 0.85 # cca 217
-	
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_callback(gameover_title_holder, "show")
 	fade_in.tween_property(gameover_title_holder, "modulate:a", 1, 1)
 	fade_in.parallel().tween_callback(Global.sound_manager, "stop_music", ["game_music_on_gameover"])
 	fade_in.parallel().tween_callback(Global.sound_manager, "play_gui_sfx", [selected_gameover_jingle])
-	fade_in.parallel().tween_property(background, "color:a", background_fadein_transparency, 0.5).set_delay(0.5) # a = cca 140
+	fade_in.parallel().tween_property(background, "color:a", 0.55, 0.5).set_delay(0.5) # a = cca 140
 	fade_in.tween_callback(self, "show_gameover_menu").set_delay(2)
 	
 
@@ -105,7 +100,7 @@ func show_gameover_menu():
 	
 	get_tree().set_pause(true) # setano čez celotno GO proceduro
 	
-	if players_in_game.size() == 2 or Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
+	if players_in_game.size() == 2:
 		selected_gameover_menu.visible = false
 		selected_gameover_menu.modulate.a = 0
 		var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
@@ -114,33 +109,18 @@ func show_gameover_menu():
 		fade_in.parallel().tween_callback(Global, "grab_focus_no_sfx", [focus_btn])		
 	else:	
 		
-		var current_highscore_type: int = Global.game_manager.game_data["highscore_type"]
-		var current_player_ranking: int
-		
-		if current_highscore_type == Profiles.HighscoreTypes.NO_HS:
-			selected_game_summary = game_summary_no_hs
-			yield(get_tree().create_timer(1), "timeout") # podaljšam pavzo za branje
+		if Global.game_manager.game_settings["manage_highscores"]:
+			var score_is_ranking = Global.data_manager.manage_gameover_highscores(p1_final_stats["player_points"], Global.game_manager.game_data["game"]) # yield čaka na konec preverke
+			if score_is_ranking: # manage_gameover_highscores počaka na signal iz name_input
+				open_name_input()
+				yield(Global.data_manager, "highscores_updated")
+				get_viewport().set_disable_input(false) # anti dablklik
+			highscore_table.get_highscore_table(Global.game_manager.game_data["game"], Global.data_manager.current_player_ranking)
+			selected_game_summary = game_summary_with_hs
 			show_game_summary()
 		else:
-			var current_score_points: int = p1_final_stats["player_points"]
-			var current_score_time: int = Global.hud.game_timer.time_since_start
-			
-			# yield čaka na konec preverke ... tip ni opredeljen, ker je ranking, če ni skora kot objecta, če je ranking
-			var score_is_ranking = Global.data_manager.manage_gameover_highscores(current_score_points, current_score_time, Global.game_manager.game_data) 
-			
-			# score štejem samo če vse spuca
-			if Global.game_manager.game_data["game_name"] == "Eraser" and not current_gameover_reason == Global.game_manager.GameoverReason.CLEANED: 
-				yield(get_tree().create_timer(1), "timeout")
-				current_player_ranking = 100 # zazih ni na lestvici
-			else:
-				if score_is_ranking: # manage_gameover_highscores počaka na signal iz name_input
-					open_name_input()
-					yield(Global.data_manager, "highscores_updated")
-					get_viewport().set_disable_input(false) # anti dablklik
-					current_player_ranking = Global.data_manager.current_player_ranking
-			
-			highscore_table.get_highscore_table(Global.game_manager.game_data, current_player_ranking)
-			selected_game_summary = game_summary_with_hs
+			selected_game_summary = game_summary_no_hs
+			yield(get_tree().create_timer(1), "timeout") # podaljšam pavzo za branje
 			show_game_summary()
 
 
@@ -183,32 +163,15 @@ func set_duel_gameover_title():
 	selected_gameover_menu = selected_gameover_title.get_node("Menu")
 	focus_btn = selected_gameover_menu.get_node("RestartBtn")
 	selected_gameover_jingle = "win_jingle"
-
-	var winner_label: Label = selected_gameover_title.get_node("Win/PlayerLabel")
-	var winning_reason_label: Label = selected_gameover_title.get_node("Win/ReasonLabel")
-	var loser_name: String
-	var draw_label: Label = selected_gameover_title.get_node("Draw/DrawLabel")
 	
-	# če je kdo brez lajfa, zmaga preživeli
-	if p1_final_stats["player_life"] == 0 and p2_final_stats["player_life"] > 0: # P1 zmaga
-		selected_gameover_title.get_node("Win").visible = true
-		winner_label.text = "Player 1"
-		loser_name = "Player 2"
-		winning_reason_label.text = "Player1 cleaned Player2"
-		return
-	elif p2_final_stats["player_life"] == 0 and p1_final_stats["player_life"] > 0: # P2 zmaga
-		selected_gameover_title.get_node("Win").visible = true
-		winner_label.text = "Player 2"
-		loser_name = "Player 1"
-		winning_reason_label.text = "Player2 cleaned Player1"
-		return
-	 
-	# če sta oba preživela ali oba umrla
 	var points_difference: int = p1_final_stats["player_points"] - p2_final_stats["player_points"]
+	
 	if points_difference == 0: # draw
 		selected_gameover_title.get_node("Draw").visible = true
-		draw_label.text = "You both collected the same amount of points."
 	else: # win
+		var winner_label: Label = selected_gameover_title.get_node("Win/PlayerLabel")
+		var points_difference_label: Label = selected_gameover_title.get_node("Win/DifferenceLabel")
+		var loser_name: String
 		selected_gameover_title.get_node("Win").visible = true
 		if points_difference > 0: # P1 zmaga
 			winner_label.text = "Player 1"
@@ -217,39 +180,26 @@ func set_duel_gameover_title():
 			winner_label.text = "Player 2"
 			loser_name = "Player 1"
 		if abs(points_difference) == 1:
-			winning_reason_label.text = "Winner was better for only one point"
-		else: 
-			winning_reason_label.text =  winner_label.text + " was " + str(abs(points_difference)) + " points better than " + loser_name + ""# + " points."
+			points_difference_label.text = "Winner was better for only one point."
+		else:
+			points_difference_label.text =  winner_label.text + " was " + str(abs(points_difference)) + " points better than " + loser_name + "."# + " points."
 		
 			
-func set_game_gameover_title():
+func set_game_gameover_title(gameover_reason: int):
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
-		match current_gameover_reason:
-			Global.game_manager.GameoverReason.CLEANED:
-				gameover_title_tutorial.get_node("Finished").show()
-				selected_gameover_title = gameover_title_tutorial
-				selected_gameover_jingle = "win_jingle"
-			Global.game_manager.GameoverReason.LIFE:
-				gameover_title_tutorial.get_node("NotFinished").show()
-				selected_gameover_title = gameover_title_tutorial
-				selected_gameover_jingle = "lose_jingle"
-		selected_gameover_menu = selected_gameover_title.get_node("Menu")
-		focus_btn = selected_gameover_menu.get_node("QuitBtn")
-	else:
-		match current_gameover_reason:
-			Global.game_manager.GameoverReason.CLEANED:
-				selected_gameover_title = gameover_title_cleaned
-				selected_gameover_jingle = "win_jingle"
-				name_input_label.text = "Great work!"
-			Global.game_manager.GameoverReason.LIFE:
-				selected_gameover_title = gameover_title_life
-				selected_gameover_jingle = "lose_jingle"
-				name_input_label.text = "But still ... "
-			Global.game_manager.GameoverReason.TIME:
-				selected_gameover_title = gameover_title_time
-				selected_gameover_jingle = "lose_jingle"
-				name_input_label.text = "But still ... "
+	match gameover_reason:
+		Global.game_manager.GameoverReason.CLEANED:
+			selected_gameover_title = gameover_title_cleaned
+			selected_gameover_jingle = "win_jingle"
+			name_input_label.text = "Great work!"
+		Global.game_manager.GameoverReason.LIFE:
+			selected_gameover_title = gameover_title_life
+			selected_gameover_jingle = "lose_jingle"
+			name_input_label.text = "But still ... "
+		Global.game_manager.GameoverReason.TIME:
+			selected_gameover_title = gameover_title_time
+			selected_gameover_jingle = "lose_jingle"
+			name_input_label.text = "But still ... "
 	
 	
 # NAME INPUT --------------------------------------------------------------------	

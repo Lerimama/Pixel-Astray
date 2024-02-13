@@ -1,5 +1,5 @@
 extends Node
-class_name GameManager # default game manager
+# class_name GameManager # default game manager
 
 
 signal all_strays_died # signal za sebe, počaka, da se vsi kvefrijajo
@@ -17,21 +17,20 @@ var start_players_count: int
 # strays
 var strays_shown: Array = []
 var strays_in_game_count: int setget _change_strays_in_game_count # spremlja spremembo količine aktivnih in uničenih straysov
-var strays_cleaned_count: int = 0 # za statistiko na hudu
-var all_strays_died_alowed: bool = false # za omejevanje signala iz FP ... kdaj lahko reagira na 0 straysov v igri
+var strays_cleaned_count: int # za statistiko na hudu
+var all_strays_died_alowed: bool = false # za omejevanje signala iz FP
 
 # tilemap data
 var cell_size_x: int # napolne se na koncu setanju tilemapa
 var random_spawn_positions: Array
 var required_spawn_positions: Array
-var goal_stray_positions: Array
 
 onready var game_settings: Dictionary = Profiles.game_settings # ga med igro ne spreminjaš
 onready var game_data: Dictionary = Profiles.current_game_data # .duplicate() # duplikat default profila, ker ga me igro spreminjaš
 onready var spectrum_rect: TextureRect = $Spectrum
 onready var spectrum_gradient: TextureRect = $SpectrumGradient
-onready var StrayPixel: PackedScene = preload("res://game/pixel/stray_class.tscn")
-onready var PlayerPixel: PackedScene = preload("res://game/pixel/player_class.tscn")
+onready var StrayPixel: PackedScene = preload("res://game/pixel/stray.tscn")
+onready var PlayerPixel: PackedScene = preload("res://game/pixel/player.tscn")
 
 
 func _ready() -> void:
@@ -66,23 +65,16 @@ func set_game():
 	# set_tilemap()
 	# set_game_view()
 	# set_players() # da je plejer viden že na fejdin
-
-#	Global.hud.fade_splitscreen_popup()
-#	yield(Global.hud, "players_ready")
-		 
+	
 	# player intro animacija
 	var signaling_player: KinematicBody2D
 	for player in get_tree().get_nodes_in_group(Global.group_players):
 		player.animation_player.play("lose_white_on_start")
 		signaling_player = player # da se zgodi na obeh plejerjih istočasno
-	
 	yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
-	
-	if game_data["game"] == Profiles.Games.TUTORIAL: 
-		yield(get_tree().create_timer(1), "timeout") # da se animacija plejerja konča	
-	else:
-		set_strays()
-		yield(get_tree().create_timer(1), "timeout") # da si plejer ogleda	
+		
+	set_strays()
+	yield(get_tree().create_timer(1), "timeout") # da si plejer ogleda
 	
 	Global.hud.slide_in(start_players_count)
 	yield(Global.start_countdown, "countdown_finished") # sproži ga hud po slide-inu
@@ -92,16 +84,13 @@ func set_game():
 	
 func start_game():
 	
-	if game_data["game"] == Profiles.Games.TUTORIAL:
-		Global.tutorial_gui.open_tutorial()
-	else:
-		Global.hud.game_timer.start_timer()
-		Global.sound_manager.play_music("game_music")
-			
-		for player in get_tree().get_nodes_in_group(Global.group_players):
-			player.set_physics_process(true)
-			
-		game_on = true
+	Global.hud.game_timer.start_timer()
+	Global.sound_manager.play_music("game_music")
+		
+	for player in get_tree().get_nodes_in_group(Global.group_players):
+		player.set_physics_process(true)
+		
+	game_on = true
 
 	
 func game_over(gameover_reason: int):
@@ -123,7 +112,8 @@ func game_over(gameover_reason: int):
 	
 	get_tree().call_group(Global.group_players, "set_physics_process", false)
 	
-	yield(get_tree().create_timer(1), "timeout") # za dojet
+	yield(get_tree().create_timer(2), "timeout") # za dojet
+	
 	
 	stop_game_elements()
 	
@@ -176,7 +166,7 @@ func set_game_view():
 	
 	# set player camera limits
 	var tilemap_edge = Global.current_tilemap.get_used_rect()
-	get_tree().call_group(Global.group_player_cameras, "set_camera_limits")
+	Global.player1_camera.set_camera_limits()
 	
 	# minimap
 	var minimap_container: ViewportContainer = $"../Minimap"
@@ -315,6 +305,8 @@ func spawn_strays(strays_to_spawn_count: int):
 	Global.hud.spawn_color_indicators(all_colors) # barve pokažem v hudu		
 	self.strays_in_game_count = strays_to_spawn_count # setget sprememba
 
+
+	
 	
 # UTILITI ----------------------------------------------------------------------------------
 
@@ -331,21 +323,21 @@ func show_strays_on_start(show_strays_loop: int):
 	match show_strays_loop:
 		1:
 			Global.sound_manager.play_sfx("thunder_strike")
-#			Global.sound_manager.play_sfx("blinking")
+			Global.sound_manager.play_sfx("blinking")
 			strays_to_show_count = round(strays_in_game_count/10)
 		2:
 			Global.sound_manager.play_sfx("thunder_strike")
-#			Global.sound_manager.play_sfx("blinking")
+			Global.sound_manager.play_sfx("blinking")
 			strays_to_show_count = round(strays_in_game_count/8)
 		3:
-#			Global.sound_manager.play_sfx("blinking")
+			Global.sound_manager.play_sfx("blinking")
 			strays_to_show_count = round(strays_in_game_count/4)
 		4:
 			Global.sound_manager.play_sfx("thunder_strike")
-#			Global.sound_manager.play_sfx("blinking")
+			Global.sound_manager.play_sfx("blinking")
 			strays_to_show_count = round(strays_in_game_count/2)
 		5: # še preostale
-#			Global.sound_manager.play_sfx("blinking")
+			Global.sound_manager.play_sfx("blinking")
 			strays_to_show_count = strays_in_game_count - strays_shown.size()
 	
 	# stray fade-in
@@ -379,22 +371,19 @@ func _change_strays_in_game_count(strays_count_change: int):
 	if strays_count_change < 0: # cleaned št. upošteva samo čiščenje (+)
 		strays_cleaned_count += abs(strays_count_change)
 	
-#	if strays_in_game_count == 0: # tutorial sam ve kdaj je gameover
-#		game_over(GameoverReason.CLEANED)
-
-	if strays_in_game_count == 0 and not game_data["game"] == Profiles.Games.TUTORIAL: # tutorial sam ve kdaj je gameover
-		game_over(GameoverReason.CLEANED)		
+	if strays_in_game_count == 0: # tutorial sam ve kdaj je gameover
+		game_over(GameoverReason.CLEANED)
+		
 
 # SIGNALI ----------------------------------------------------------------------------------
 
 
-func _on_tilemap_completed(random_spawn_floor_positions: Array, stray_cells_positions: Array, no_stray_cells_positions: Array, player_cells_positions: Array): # , goal_stray_global_positions: Array) -> void:
+func _on_tilemap_completed(random_spawn_floor_positions: Array, stray_cells_positions: Array, no_stray_cells_positions: Array, player_cells_positions: Array) -> void:
 	
 	# opredelim tipe pozicij
-	player_start_positions = player_cells_positions
 	random_spawn_positions = random_spawn_floor_positions
-	required_spawn_positions = stray_cells_positions# + goal_stray_global_positions
-	# goal_stray_positions = goal_stray_global_positions
+	required_spawn_positions = stray_cells_positions
+	player_start_positions = player_cells_positions
 	
 	# start strays count setup
 	if not stray_cells_positions.empty() and no_stray_cells_positions.empty(): # št. straysov enako številu "required" tiletov
@@ -407,7 +396,7 @@ func _on_tilemap_completed(random_spawn_floor_positions: Array, stray_cells_posi
 	# če ni pozicij, je en player ... random pozicija
 	if player_start_positions.empty():
 		var random_range = random_spawn_positions.size() 
-		var p1_selected_cell_index: int = randi() % int(random_range) + 1
+		var p1_selected_cell_index: int = randi() % int(random_range)
 		player_start_positions.append(random_spawn_positions[p1_selected_cell_index])
 		random_spawn_positions.remove(p1_selected_cell_index)
 	

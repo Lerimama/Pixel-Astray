@@ -423,8 +423,10 @@ var game_data_slider: Dictionary = {
 
 var game_data_tutorial: Dictionary = { 
 	"game": Games.TUTORIAL,
+	"highscore_type": HighscoreTypes.NO_HS,
 	"game_name": "Tutorial",
 	"level": "",
+	"game_scene_path": "res://game/game_class.tscn",
 	"tilemap_path": "res://game/tilemaps/tutorial_tilemap.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 10,
@@ -445,10 +447,10 @@ func _ready() -> void:
 #	var current_game = Games.ERASER_S
 #	var current_game = Games.CLEANER_DUEL
 #	var current_game = Games.SCROLLER
-	var current_game = Games.SLIDER
+#	var current_game = Games.SLIDER
 #	var current_game = Games.RUNNER
 #	var current_game = Games.RIDDLER_L
-#	var current_game = Games.TUTORIAL
+	var current_game = Games.TUTORIAL
 	set_game_data(current_game)
 	
 	
@@ -457,6 +459,12 @@ func set_game_data(selected_game) -> void:
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
 	match selected_game:
+		Games.TUTORIAL: 
+			current_game_data = game_data_tutorial
+			game_settings["player_start_life"] = 3
+			game_settings["game_instructions_popup"] = false
+			game_settings["timer_mode_countdown"] = false
+			game_settings["start_countdown"] = false
 		Games.CLEANER: 
 			current_game_data = game_data_cleaner
 		Games.ERASER_S: 
