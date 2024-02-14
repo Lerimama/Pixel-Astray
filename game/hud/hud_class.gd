@@ -69,6 +69,7 @@ onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indi
 
 # instructions popup
 onready var title: Label = $Popups/Instructions/GameInstructions/Title
+onready var win_label: Label = $Popups/Instructions/GameInstructions/WinLabel
 onready var label: Label = $Popups/Instructions/GameInstructions/Outline/Label
 onready var label_2: Label = $Popups/Instructions/GameInstructions/Outline/Label2
 onready var label_3: Label = $Popups/Instructions/GameInstructions/Outline/Label3

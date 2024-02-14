@@ -4,34 +4,39 @@ extends GameHud
 func fade_in_instructions_popup(in_time: float):
 	# namen: prilagojena navodila
 	
-	title.text %= Global.game_manager.game_data["game_name"] + " " + Global.game_manager.game_data["level"]
 	if Global.game_manager.game_data["game"] == Profiles.Games.CLEANER:
 		$Popups/Instructions/Controls.show()
 		$Popups/Instructions/ControlsDuel.hide()
-		label.text %= "power vs kill"
-		label_2.text %= "kontrole"
-		label_3.text %= "energija"
-		label_4.text %= "lajf"
-		label_5.text %= "kaj šteje"
-		label_6.text %= "GO pogoji"
+		title.text = Global.game_manager.game_data["game_name"]
+		win_label.text = "Collect colors and beat the highscore"
+		label.text = "Game is over when you are out of energy or time runs out"
+		label_2.text = "Energy depletes with travelling or hitting a wall"
+		label_3.text = "Bursting power affects the amount of collected colors in stack"
+		label_4.text = "Time is limited"
+		label_5.text = "Highscore is the highest points total"
+		label_6.text = ""
 	elif Global.game_manager.game_data["game"] == Profiles.Games.CLEANER_DUEL:
 		$Popups/Instructions/Controls.hide()
 		$Popups/Instructions/ControlsDuel.show()
-		label.text %= "power vs kill"
-		label_2.text %= "kontrole"
-		label_3.text %= "energija"
-		label_4.text %= "lajf"
-		label_5.text %= "kaj šteje"
-		label_6.text %= "GO pogoji"
+		title.text = Global.game_manager.game_data["game_name"] + " " + Global.game_manager.game_data["level"]
+		win_label.text = "Surviving player or player with higher points total wins"
+		label.text = "Game is over when a player loses all lives or time runs out"
+		label_2.text = "Energy depletes with travelling or hitting a wall"
+		label_3.text = "Bursting power affects the amount of collected colors in stack"
+		label_4.text = "Time is limited"
+		label_5.text = "No highscores"
+		label_6.text = ""
 	else: # ERASERji
 		$Popups/Instructions/Controls.show()
 		$Popups/Instructions/ControlsDuel.hide()
-		label.text %= "power vs kill"
-		label_2.text %= "kontrole"
-		label_3.text %= "energija"
-		label_4.text %= "lajf"
-		label_5.text %= "kaj šteje"
-		label_6.text %= "GO pogoji"
+		title.text = Global.game_manager.game_data["game_name"] + " " + Global.game_manager.game_data["level"]
+		win_label.text = "Collect all available colors"
+		label.text = "Game is over when you are out of energy"
+		label_2.text = "Energy depletes with travelling or hitting a wall"
+		label_3.text = "Bursting power affects the amount of collected colors in stack"
+		label_4.text = "Time is unlimited"
+		label_5.text = "Highscore is the fastest time"
+		label_6.text = ""
 					
 	var show_instructions_popup = get_tree().create_tween()
 	show_instructions_popup.tween_callback(instructions_popup, "show")

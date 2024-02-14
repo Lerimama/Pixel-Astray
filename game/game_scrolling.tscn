@@ -77,12 +77,12 @@ region = Rect2( 113.919, 154, 22, 22 )
 [sub_resource type="StreamTexture" id=276]
 load_path = "res://.import/atlas_controls.png-75e6b40869d487066545840672dcb98d.stex"
 
-[sub_resource type="AtlasTexture" id=277]
+[sub_resource type="AtlasTexture" id=304]
 atlas = SubResource( 276 )
 region = Rect2( 0, 0, 120, 86 )
 
 [sub_resource type="AtlasTexture" id=278]
-atlas = SubResource( 277 )
+atlas = SubResource( 304 )
 region = Rect2( 0, 0, 120, 86 )
 
 [sub_resource type="AtlasTexture" id=279]
@@ -97,20 +97,20 @@ region = Rect2( 96, 32, 10, 10 )
 atlas = ExtResource( 11 )
 region = Rect2( 146, 6, 6, 10 )
 
-[sub_resource type="StyleBoxEmpty" id=282]
+[sub_resource type="StyleBoxEmpty" id=305]
 
 [sub_resource type="StreamTexture" id=283]
 load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
 
-[sub_resource type="AtlasTexture" id=284]
+[sub_resource type="AtlasTexture" id=306]
 atlas = SubResource( 283 )
 region = Rect2( 16, 16, 14, 16 )
 
-[sub_resource type="AtlasTexture" id=285]
+[sub_resource type="AtlasTexture" id=307]
 atlas = SubResource( 283 )
 region = Rect2( 0, 16, 10, 16 )
 
-[sub_resource type="StyleBoxFlat" id=286]
+[sub_resource type="StyleBoxFlat" id=308]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -122,21 +122,21 @@ expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxEmpty" id=287]
+[sub_resource type="StyleBoxEmpty" id=309]
 
-[sub_resource type="StyleBoxEmpty" id=288]
+[sub_resource type="StyleBoxEmpty" id=310]
 
-[sub_resource type="StyleBoxLine" id=289]
+[sub_resource type="StyleBoxLine" id=311]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
 
-[sub_resource type="AtlasTexture" id=290]
+[sub_resource type="AtlasTexture" id=312]
 atlas = SubResource( 283 )
 region = Rect2( 32, 0, 10, 10 )
 
-[sub_resource type="StyleBoxEmpty" id=291]
+[sub_resource type="StyleBoxEmpty" id=313]
 
-[sub_resource type="StyleBoxFlat" id=292]
+[sub_resource type="StyleBoxFlat" id=314]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -147,14 +147,14 @@ expand_margin_left = 6.0
 expand_margin_top = 6.0
 expand_margin_bottom = 6.0
 
-[sub_resource type="StreamTexture" id=293]
+[sub_resource type="StreamTexture" id=315]
 load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
 
 [sub_resource type="AtlasTexture" id=294]
-atlas = SubResource( 293 )
+atlas = SubResource( 315 )
 region = Rect2( 0, 4, 16, 8 )
 
-[sub_resource type="StyleBoxTexture" id=295]
+[sub_resource type="StyleBoxTexture" id=316]
 texture = SubResource( 294 )
 region_rect = Rect2( 0, 0, 16, 8 )
 margin_left = 3.34132
@@ -163,7 +163,7 @@ margin_top = 4.0
 margin_bottom = 4.0
 modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 
-[sub_resource type="StyleBoxFlat" id=296]
+[sub_resource type="StyleBoxFlat" id=317]
 bg_color = Color( 0, 0, 0, 0 )
 border_width_left = 2
 border_width_top = 2
@@ -171,12 +171,12 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="AtlasTexture" id=297]
+[sub_resource type="AtlasTexture" id=318]
 atlas = SubResource( 283 )
 region = Rect2( 16, 0, 16, 12 )
 margin = Rect2( 4, 0, 0, 0 )
 
-[sub_resource type="StyleBoxFlat" id=298]
+[sub_resource type="StyleBoxFlat" id=319]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 2
 border_width_top = 2
@@ -188,7 +188,7 @@ expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxFlat" id=299]
+[sub_resource type="StyleBoxFlat" id=320]
 bg_color = Color( 0, 0, 0, 0.862745 )
 border_width_left = 4
 border_width_top = 4
@@ -196,7 +196,7 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
 
-[sub_resource type="StyleBoxLine" id=300]
+[sub_resource type="StyleBoxLine" id=321]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
 vertical = true
@@ -207,46 +207,46 @@ Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
 Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
 Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
-Button/styles/disabled = SubResource( 282 )
-Button/styles/focus = SubResource( 282 )
-Button/styles/hover = SubResource( 282 )
-Button/styles/normal = SubResource( 282 )
-Button/styles/pressed = SubResource( 282 )
+Button/styles/disabled = SubResource( 305 )
+Button/styles/focus = SubResource( 305 )
+Button/styles/hover = SubResource( 305 )
+Button/styles/normal = SubResource( 305 )
+Button/styles/pressed = SubResource( 305 )
 CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
 CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
 CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
 CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
 CheckBox/constants/hseparation = 4
-CheckBox/icons/checked = SubResource( 284 )
-CheckBox/icons/unchecked = SubResource( 285 )
-CheckBox/styles/focus = SubResource( 286 )
-CheckBox/styles/hover = SubResource( 286 )
-CheckBox/styles/hover_pressed = SubResource( 286 )
-CheckBox/styles/normal = SubResource( 287 )
-CheckBox/styles/pressed = SubResource( 288 )
-HSeparator/styles/separator = SubResource( 289 )
-HSlider/icons/grabber = SubResource( 290 )
+CheckBox/icons/checked = SubResource( 306 )
+CheckBox/icons/unchecked = SubResource( 307 )
+CheckBox/styles/focus = SubResource( 308 )
+CheckBox/styles/hover = SubResource( 308 )
+CheckBox/styles/hover_pressed = SubResource( 308 )
+CheckBox/styles/normal = SubResource( 309 )
+CheckBox/styles/pressed = SubResource( 310 )
+HSeparator/styles/separator = SubResource( 311 )
+HSlider/icons/grabber = SubResource( 312 )
 HSlider/icons/grabber_disabled = null
-HSlider/icons/grabber_highlight = SubResource( 290 )
+HSlider/icons/grabber_highlight = SubResource( 312 )
 HSlider/icons/tick = null
-HSlider/styles/grabber_area = SubResource( 291 )
-HSlider/styles/grabber_area_highlight = SubResource( 292 )
-HSlider/styles/slider = SubResource( 295 )
+HSlider/styles/grabber_area = SubResource( 313 )
+HSlider/styles/grabber_area_highlight = SubResource( 314 )
+HSlider/styles/slider = SubResource( 316 )
 Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
 Label/constants/line_spacing = 6
 LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
 LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
-LineEdit/styles/normal = SubResource( 296 )
+LineEdit/styles/normal = SubResource( 317 )
 OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
-OptionButton/icons/arrow = SubResource( 297 )
-OptionButton/styles/focus = SubResource( 298 )
-OptionButton/styles/hover = SubResource( 298 )
-OptionButton/styles/pressed = SubResource( 298 )
-Panel/styles/panel = SubResource( 299 )
-VSeparator/styles/separator = SubResource( 300 )
+OptionButton/icons/arrow = SubResource( 318 )
+OptionButton/styles/focus = SubResource( 319 )
+OptionButton/styles/hover = SubResource( 319 )
+OptionButton/styles/pressed = SubResource( 319 )
+Panel/styles/panel = SubResource( 320 )
+VSeparator/styles/separator = SubResource( 321 )
 
 [sub_resource type="AtlasTexture" id=302]
 atlas = ExtResource( 11 )
@@ -788,7 +788,8 @@ margin = Rect2( -2, 2, 0, 0 )
 
 [node name="ScrollingGame" type="Node2D"]
 __meta__ = {
-"_edit_horizontal_guides_": [ 1371.0, 1371.0, 224.0, 576.0, 384.0, 320.0 ]
+"_edit_horizontal_guides_": [ 1371.0, 1371.0, 576.0, 360.0, 96.0, 408.0 ],
+"_edit_vertical_guides_": [ 640.0 ]
 }
 
 [node name="GameManager" type="Node" parent="."]
@@ -1078,101 +1079,114 @@ size_flags_vertical = 3
 color = Color( 0, 0, 0, 0.784314 )
 
 [node name="GameInstructions" type="Control" parent="GUI/Hud/Popups/Instructions"]
+anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = 336.0
-margin_top = 128.0
-margin_right = 304.0
-margin_bottom = -272.0
-
-[node name="Panel" type="Panel" parent="GUI/Hud/Popups/Instructions/GameInstructions"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_bottom = 0.5
+margin_left = -448.0
+margin_top = -240.0
+margin_right = 448.0
+margin_bottom = 16.0
 
 [node name="Title" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
 margin_left = -304.0
-margin_top = -162.0
+margin_top = 6.0
 margin_right = 304.0
-margin_bottom = -130.0
+margin_bottom = 38.0
 custom_fonts/font = ExtResource( 3 )
-text = "%s"
+text = "Game title"
+align = 1
+
+[node name="WinLabel" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+anchor_right = 1.0
+margin_top = 54.0
+margin_bottom = 76.0
+text = "Win"
 align = 1
 
 [node name="Outline" type="VBoxContainer" parent="GUI/Hud/Popups/Instructions/GameInstructions"]
-modulate = Color( 1, 1, 1, 0.603922 )
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -304.0
-margin_top = -106.0
-margin_right = 304.0
-margin_bottom = 76.0
+margin_left = -448.0
+margin_top = 101.0
+margin_right = 449.0
+margin_bottom = 288.0
+grow_horizontal = 2
+grow_vertical = 2
 custom_constants/separation = 10
 
 [node name="Label" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_right = 608.0
-margin_bottom = 22.0
-text = "%s"
+margin_right = 897.0
+margin_bottom = 18.0
+custom_fonts/font = ExtResource( 4 )
+text = "Game over conditions"
 align = 1
+autowrap = true
 
 [node name="Label2" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 32.0
-margin_right = 608.0
-margin_bottom = 54.0
-text = "%s"
+margin_top = 28.0
+margin_right = 897.0
+margin_bottom = 46.0
+custom_fonts/font = ExtResource( 4 )
+text = "Energy and speed"
 align = 1
+autowrap = true
 
 [node name="Label3" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 64.0
-margin_right = 608.0
-margin_bottom = 86.0
-text = "%s"
+margin_top = 56.0
+margin_right = 897.0
+margin_bottom = 74.0
+custom_fonts/font = ExtResource( 4 )
+text = "Burst"
 align = 1
+autowrap = true
 
 [node name="Label4" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 96.0
-margin_right = 608.0
-margin_bottom = 118.0
-text = "%s"
+margin_top = 84.0
+margin_right = 897.0
+margin_bottom = 102.0
+custom_fonts/font = ExtResource( 4 )
+text = "Skills"
 align = 1
+autowrap = true
 
 [node name="Label5" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 128.0
-margin_right = 608.0
-margin_bottom = 150.0
-text = "%s"
+margin_top = 112.0
+margin_right = 897.0
+margin_bottom = 130.0
+custom_fonts/font = ExtResource( 4 )
+text = "Time"
 align = 1
+autowrap = true
 
 [node name="Label6" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 160.0
-margin_right = 608.0
-margin_bottom = 182.0
-text = "%s"
+margin_top = 140.0
+margin_right = 897.0
+margin_bottom = 158.0
+custom_fonts/font = ExtResource( 4 )
+text = "Highscore"
 align = 1
+autowrap = true
 
 [node name="Controls" type="Control" parent="GUI/Hud/Popups/Instructions"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -304.0
-margin_top = 56.0
-margin_right = 448.0
-margin_bottom = 184.0
+margin_left = -320.0
+margin_top = 64.0
+margin_right = 320.0
+margin_bottom = 192.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -1182,9 +1196,8 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -264.0
+margin_left = -192.0
 margin_top = -41.5
-margin_right = -72.0
 margin_bottom = 47.5
 __meta__ = {
 "_edit_group_": true
@@ -1240,9 +1253,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 1.0
+margin_left = 73.0
 margin_top = -40.0
-margin_right = 121.0
+margin_right = 193.0
 margin_bottom = 46.0
 __meta__ = {
 "_edit_group_": true
@@ -1269,6 +1282,7 @@ margin_bottom = 42.0
 texture = SubResource( 280 )
 
 [node name="C1" type="TextureRect" parent="GUI/Hud/Popups/Instructions/Controls/Joypad"]
+visible = false
 margin_left = 57.0
 margin_top = 76.0
 margin_right = 63.0
@@ -1276,6 +1290,7 @@ margin_bottom = 86.0
 texture = SubResource( 281 )
 
 [node name="ControlsDuel" type="Control" parent="GUI/Hud/Popups/Instructions"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1283,7 +1298,7 @@ anchor_bottom = 0.5
 margin_left = -576.0
 margin_top = 56.0
 margin_right = 576.0
-margin_bottom = 184.0
+margin_bottom = 216.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -1295,9 +1310,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -373.0
-margin_top = -90.0
+margin_top = -74.0
 margin_right = -268.0
-margin_bottom = -68.0
+margin_bottom = -52.0
 text = "PLAYER 1"
 align = 1
 
@@ -1307,9 +1322,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -480.0
-margin_top = -41.5
+margin_top = -25.5
 margin_right = -288.0
-margin_bottom = 47.5
+margin_bottom = 63.5
 __meta__ = {
 "_edit_group_": true
 }
@@ -1347,9 +1362,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -288.0
-margin_top = -40.0
+margin_top = -24.0
 margin_right = -168.0
-margin_bottom = 46.0
+margin_bottom = 62.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -1388,9 +1403,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = 268.0
-margin_top = -90.0
+margin_top = -74.0
 margin_right = 376.0
-margin_bottom = -68.0
+margin_bottom = -52.0
 text = "PLAYER 2"
 align = 1
 
@@ -1400,9 +1415,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = 216.0
-margin_top = -40.0
+margin_top = -24.0
 margin_right = 296.0
-margin_bottom = 56.0
+margin_bottom = 72.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -1430,9 +1445,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = 336.0
-margin_top = -40.0
+margin_top = -24.0
 margin_right = 456.0
-margin_bottom = 46.0
+margin_bottom = 62.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -1464,26 +1479,25 @@ margin_right = 63.0
 margin_bottom = 86.0
 texture = SubResource( 281 )
 
-[node name="Line" type="Control" parent="GUI/Hud/Popups/Instructions/ControlsDuel"]
+[node name="ScreenLine" type="Node2D" parent="GUI/Hud/Popups/Instructions/ControlsDuel"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-anchor_right = 1.0
-anchor_bottom = 1.0
+position = Vector2( 576, -56 )
 
-[node name="Line2D" type="Line2D" parent="GUI/Hud/Popups/Instructions/ControlsDuel/Line"]
-position = Vector2( 0, 184 )
+[node name="Line2D" type="Line2D" parent="GUI/Hud/Popups/Instructions/ControlsDuel/ScreenLine"]
+position = Vector2( -576, 240 )
 points = PoolVector2Array( 576, 64, 576, 120 )
 width = 1.0
 default_color = Color( 1, 1, 1, 1 )
 
-[node name="Line2D2" type="Line2D" parent="GUI/Hud/Popups/Instructions/ControlsDuel/Line"]
-position = Vector2( 0, 120 )
-points = PoolVector2Array( 576, 64, 576, -152 )
+[node name="Line2D2" type="Line2D" parent="GUI/Hud/Popups/Instructions/ControlsDuel/ScreenLine"]
+position = Vector2( -576, 176 )
+points = PoolVector2Array( 576, 56, 576, -128 )
 width = 1.0
 default_color = Color( 1, 1, 1, 1 )
 
-[node name="Line2D3" type="Line2D" parent="GUI/Hud/Popups/Instructions/ControlsDuel/Line"]
-position = Vector2( 0, 120 )
-points = PoolVector2Array( 576, -536, 576, -424 )
+[node name="Line2D3" type="Line2D" parent="GUI/Hud/Popups/Instructions/ControlsDuel/ScreenLine"]
+position = Vector2( -576, 176 )
+points = PoolVector2Array( 576, -536, 576, -432 )
 width = 1.0
 default_color = Color( 1, 1, 1, 1 )
 

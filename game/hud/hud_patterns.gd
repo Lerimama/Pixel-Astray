@@ -132,22 +132,25 @@ func fade_in_instructions_popup(in_time: float):
 	$Popups/Instructions/ControlsDuel.hide()
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.RUNNER:
-		title.text %= Global.game_manager.game_data["game_name"]
-		label.text %= "power vs kill"
-		label_2.text %= "kontrole"
-		label_3.text %= "energija"
-		label_4.text %= "lajf"
-		label_5.text %= "kaj šteje"
-		label_6.text %= "GO pogoji"
+		title.text = Global.game_manager.game_data["game_name"]
+		win_label.text = "Get through the maze and hit the white pixel on the other side"
+		label.text = "Game is over when you are out of energy"
+		label_2.text = "Energy depletes with travelling, touching stray pixels or upon hitting a wall"
+		label_3.text = "Bursting power affects the amount of collected colors in stack"
+		label_4.text = "Time is unlimited"
+		label_5.text = "Highscore is fastest time"
+		label_6.text = ""
 	else: # RIDDLERs
-		title.text %= Global.game_manager.game_data["game_name"] + " " + Global.game_manager.game_data["level"]
-		label.text %= "power vs kill"
-		label_2.text %= "kontrole"
-		label_3.text %= "energija"
-		label_4.text %= "lajf"
-		label_5.text %= "kaj šteje"
-		label_6.text %= "GO pogoji"
-					
+		title.text = Global.game_manager.game_data["game_name"] + " " + Global.game_manager.game_data["level"]
+		win_label.text = "Collect all colors with a single burst"
+		label.text = "Game is over when you burst and don't collect all available colors"
+		label_2.text = "Energy and speed are constant"
+		label_3.text = "Bursting always collects all colors in stack"
+		label_4.text = "Time is unlimited"
+		label_5.text = "Highscore is fastest time"
+		label_6.text = ""
+		
+						
 	var show_instructions_popup = get_tree().create_tween()
 	show_instructions_popup.tween_callback(instructions_popup, "show")
 	show_instructions_popup.tween_property(instructions_popup, "modulate:a", 1, in_time).from(0.0).set_ease(Tween.EASE_IN)

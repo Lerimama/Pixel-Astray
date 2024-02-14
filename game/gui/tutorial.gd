@@ -150,7 +150,6 @@ func finish_unfinished_tutorial():
 	close_final_stage.tween_callback(Global.game_manager, "game_over", [Global.game_manager.GameoverReason.LIFE])
 
 
-
 # UTILITI ------------------------------------------------------------------------------------------------------------------	
 
 

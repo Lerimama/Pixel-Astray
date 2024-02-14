@@ -1050,7 +1050,7 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id=366]
 resource_name = "mission_in"
-length = 1.5
+length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("MissionPanel:modulate")
 tracks/0/interp = 1
@@ -1090,7 +1090,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.7, 1.5 ),
+"times": PoolRealArray( 0, 1.5, 2 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
@@ -1533,6 +1533,14 @@ margin_top = -162.0
 margin_right = 304.0
 margin_bottom = -130.0
 custom_fonts/font = ExtResource( 4 )
+text = "%s"
+align = 1
+
+[node name="WinLabel" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+margin_top = 54.0
+margin_right = 608.0
+margin_bottom = 76.0
 text = "%s"
 align = 1
 

@@ -329,7 +329,7 @@ var game_data_cleaner: Dictionary = {
 	"game": Games.CLEANER,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Cleaner",
-	"level": "S",
+	"level": "",
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner.tscn",
 	"game_time_limit": 300,
@@ -341,7 +341,7 @@ var game_data_cleaner_duel: Dictionary = {
 	"game": Games.CLEANER_DUEL,
 	"highscore_type": HighscoreTypes.NO_HS,
 	"game_name": "Cleaner",
-	"level": "DUEL",
+	"level": "Duel",
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner_duel.tscn",
 	"game_time_limit": 60,
@@ -443,14 +443,14 @@ var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "c
 func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
-#	var current_game = Games.CLEANER
+	var current_game = Games.CLEANER
 #	var current_game = Games.ERASER_S
 #	var current_game = Games.CLEANER_DUEL
 #	var current_game = Games.SCROLLER
 #	var current_game = Games.SLIDER
 #	var current_game = Games.RUNNER
 #	var current_game = Games.RIDDLER_L
-	var current_game = Games.TUTORIAL
+#	var current_game = Games.TUTORIAL
 	set_game_data(current_game)
 	
 	

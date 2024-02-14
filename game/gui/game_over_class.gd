@@ -22,7 +22,7 @@ onready var gameover_title_cleaned: Control = $GameoverTitle/ReasonCleaned
 onready var gameover_title_time: Control = $GameoverTitle/ReasonTime
 onready var gameover_title_life: Control = $GameoverTitle/ReasonLife
 onready var gameover_title_duel: Control = $GameoverTitle/Duel
-onready var gameover_title_tutorial: Control = $GameoverTitle/Tutorial
+#onready var gameover_title_tutorial: Control = $GameoverTitle/Tutorial
 
 # game summary
 var selected_game_summary: Control
@@ -225,6 +225,7 @@ func set_duel_gameover_title():
 func set_game_gameover_title():
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
+		var gameover_title_tutorial: Control = $GameoverTitle/Tutorial
 		match current_gameover_reason:
 			Global.game_manager.GameoverReason.CLEANED:
 				gameover_title_tutorial.get_node("Finished").show()
