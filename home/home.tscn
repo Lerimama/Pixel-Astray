@@ -1370,6 +1370,7 @@ custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
 text = "tresi"
 
 [node name="Menu" type="HBoxContainer" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1641,6 +1642,13 @@ margin_right = 22.0
 margin_bottom = 22.0
 texture = SubResource( 172 )
 
+[node name="Button" type="Button" parent="About/EscHint/Esc"]
+margin_left = -8.0
+margin_right = 24.0
+margin_bottom = 26.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+
 [node name="Label" type="Label" parent="About/EscHint"]
 margin_left = 30.0
 margin_top = 2.0
@@ -1656,6 +1664,13 @@ margin_left = 55.0
 margin_right = 96.0
 margin_bottom = 22.0
 texture = SubResource( 190 )
+
+[node name="Button" type="Button" parent="About/EscHint/Select"]
+margin_left = -31.0
+margin_right = 142.0
+margin_bottom = 26.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
 
 [node name="Label2" type="Label" parent="About/EscHint"]
 margin_left = 104.0
@@ -1727,6 +1742,13 @@ margin_right = 22.0
 margin_bottom = 22.0
 texture = SubResource( 172 )
 
+[node name="Button" type="Button" parent="Highscores/EscHint/Esc"]
+margin_left = -8.0
+margin_right = 24.0
+margin_bottom = 26.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+
 [node name="Label" type="Label" parent="Highscores/EscHint"]
 margin_left = 30.0
 margin_top = 2.0
@@ -1742,6 +1764,13 @@ margin_left = 55.0
 margin_right = 96.0
 margin_bottom = 22.0
 texture = SubResource( 190 )
+
+[node name="Button" type="Button" parent="Highscores/EscHint/Select"]
+margin_left = -31.0
+margin_right = 144.0
+margin_bottom = 26.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
 
 [node name="Label2" type="Label" parent="Highscores/EscHint"]
 margin_left = 104.0
@@ -5226,10 +5255,10 @@ text = "Cleaner"
 [node name="Label3" type="Label" parent="SelectGame/Cleaner"]
 margin_left = 25.0
 margin_top = 56.0
-margin_right = 192.0
+margin_right = 184.0
 margin_bottom = 98.0
 custom_fonts/font = ExtResource( 14 )
-text = "How many can you clean a limited time?"
+text = "Collect as many colors as possible"
 autowrap = true
 
 [node name="TutorialBtn" type="Button" parent="SelectGame/Cleaner"]
@@ -5381,7 +5410,7 @@ margin_top = 56.0
 margin_right = 184.0
 margin_bottom = 98.0
 custom_fonts/font = ExtResource( 14 )
-text = "Can you clean all strays on screen?"
+text = "Collect all colors in limited time"
 autowrap = true
 
 [node name="EraserSBtn" type="Button" parent="SelectGame/Eraser"]
@@ -5519,10 +5548,10 @@ text = "Riddler"
 [node name="Label5" type="Label" parent="SelectGame/Riddler"]
 margin_left = 25.0
 margin_top = 56.0
-margin_right = 184.0
+margin_right = 192.0
 margin_bottom = 98.0
 custom_fonts/font = ExtResource( 14 )
-text = "Can you clean all strays on screen?"
+text = "Collect all colors with a single burst"
 autowrap = true
 
 [node name="RiddlerBtn" type="Button" parent="SelectGame/Riddler"]
@@ -5564,16 +5593,16 @@ autowrap = true
 
 [node name="RiddlerBtn2" type="Button" parent="SelectGame/Riddler"]
 margin_left = 24.0
-margin_top = 216.0
+margin_top = 168.0
 margin_right = 184.0
-margin_bottom = 256.0
+margin_bottom = 208.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "Large"
+text = "Medium"
 __meta__ = {
 "_edit_group_": true,
 "_editor_description_": ""
@@ -5601,16 +5630,16 @@ autowrap = true
 
 [node name="RiddlerBtn3" type="Button" parent="SelectGame/Riddler"]
 margin_left = 24.0
-margin_top = 168.0
+margin_top = 216.0
 margin_right = 184.0
-margin_bottom = 208.0
+margin_bottom = 256.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "Medium"
+text = "Large"
 __meta__ = {
 "_edit_group_": true,
 "_editor_description_": ""
@@ -5639,8 +5668,8 @@ autowrap = true
 [node name="Scroller" type="Control" parent="SelectGame"]
 margin_left = 8.0
 margin_top = 440.0
-margin_right = 368.0
-margin_bottom = 592.0
+margin_right = 352.0
+margin_bottom = 568.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -5661,19 +5690,19 @@ margin_bottom = 44.0
 text = "Scroller"
 
 [node name="Label4" type="Label" parent="SelectGame/Scroller"]
-margin_left = 25.0
-margin_top = 56.0
-margin_right = 160.0
-margin_bottom = 128.0
+margin_left = 129.0
+margin_top = 24.0
+margin_right = 320.0
+margin_bottom = 42.0
 custom_fonts/font = ExtResource( 14 )
-text = "Can you handle attacking strays?"
+text = "Collect colors in motion"
 autowrap = true
 
 [node name="ScrollerBtn" type="Button" parent="SelectGame/Scroller"]
-margin_left = 176.0
-margin_top = 24.0
-margin_right = 336.0
-margin_bottom = 72.0
+margin_left = 24.0
+margin_top = 64.0
+margin_right = 168.0
+margin_bottom = 104.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -5708,9 +5737,9 @@ autowrap = true
 
 [node name="SliderBtn" type="Button" parent="SelectGame/Scroller"]
 margin_left = 176.0
-margin_top = 80.0
-margin_right = 336.0
-margin_bottom = 128.0
+margin_top = 64.0
+margin_right = 320.0
+margin_bottom = 104.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -5744,10 +5773,10 @@ text = "Time"
 autowrap = true
 
 [node name="Runner" type="Control" parent="SelectGame"]
-margin_left = 376.0
+margin_left = 360.0
 margin_top = 440.0
 margin_right = 648.0
-margin_bottom = 592.0
+margin_bottom = 568.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -5770,17 +5799,17 @@ text = "Runner"
 [node name="Label4" type="Label" parent="SelectGame/Runner"]
 margin_left = 114.0
 margin_top = 24.0
-margin_right = 272.0
+margin_right = 264.0
 margin_bottom = 48.0
 custom_fonts/font = ExtResource( 14 )
-text = "Whats the hurry?"
+text = "Solve the maze"
 autowrap = true
 
 [node name="RunnerBtn" type="Button" parent="SelectGame/Runner"]
 margin_left = 24.0
 margin_top = 64.0
-margin_right = 248.0
-margin_bottom = 128.0
+margin_right = 264.0
+margin_bottom = 104.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -5835,8 +5864,9 @@ margin_bottom = 11.0
 [node name="BackBtn" type="TextureButton" parent="SelectGame"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -22.0
+margin_left = -28.0
 margin_top = 76.0
+margin_right = -6.0
 margin_bottom = 98.0
 rect_min_size = Vector2( 16, 16 )
 mouse_default_cursor_shape = 2
@@ -6246,6 +6276,13 @@ margin_right = 22.0
 margin_bottom = 22.0
 texture = SubResource( 172 )
 
+[node name="Button" type="Button" parent="SelectGame/EscHint/Esc"]
+margin_left = -8.0
+margin_right = 24.0
+margin_bottom = 26.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+
 [node name="Label" type="Label" parent="SelectGame/EscHint"]
 margin_left = 30.0
 margin_top = 2.0
@@ -6261,6 +6298,13 @@ margin_left = 55.0
 margin_right = 96.0
 margin_bottom = 22.0
 texture = SubResource( 190 )
+
+[node name="Button" type="Button" parent="SelectGame/EscHint/Select"]
+margin_left = -31.0
+margin_right = 140.0
+margin_bottom = 26.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
 
 [node name="Label2" type="Label" parent="SelectGame/EscHint"]
 margin_left = 104.0
@@ -6682,7 +6726,7 @@ margin_bottom = 576.0
 size_flags_horizontal = 3
 theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
-text = "Game settings can also be set in game pause menu."
+text = "Game settings can also be set in games pause menu."
 autowrap = true
 
 [node name="EscHint" type="HBoxContainer" parent="Settings"]
@@ -6701,6 +6745,13 @@ margin_right = 22.0
 margin_bottom = 22.0
 texture = SubResource( 172 )
 
+[node name="Button" type="Button" parent="Settings/EscHint/Esc"]
+margin_left = -5.0
+margin_right = 24.0
+margin_bottom = 26.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+
 [node name="Label" type="Label" parent="Settings/EscHint"]
 margin_left = 30.0
 margin_top = 2.0
@@ -6716,6 +6767,13 @@ margin_left = 55.0
 margin_right = 96.0
 margin_bottom = 22.0
 texture = SubResource( 190 )
+
+[node name="Button" type="Button" parent="Settings/EscHint/Select"]
+margin_left = -31.0
+margin_right = 140.0
+margin_bottom = 26.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
 
 [node name="Label2" type="Label" parent="Settings/EscHint"]
 margin_left = 104.0
@@ -6783,7 +6841,11 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="Menu/AboutBtn" to="." method="_on_AboutBtn_pressed"]
 [connection signal="pressed" from="Menu/QuitGameBtn" to="." method="_on_QuitGameBtn_pressed"]
 [connection signal="pressed" from="About/BackBtn" to="About" method="_on_BackBtn_pressed"]
+[connection signal="pressed" from="About/EscHint/Esc/Button" to="About" method="_on_BackBtn_pressed"]
+[connection signal="pressed" from="About/EscHint/Select/Button" to="About" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="Highscores/BackBtn" to="Highscores" method="_on_BackBtn_pressed"]
+[connection signal="pressed" from="Highscores/EscHint/Esc/Button" to="Highscores" method="_on_BackBtn_pressed"]
+[connection signal="pressed" from="Highscores/EscHint/Select/Button" to="Highscores" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectGame/Cleaner/TutorialBtn" to="SelectGame" method="_on_TutorialBtn_pressed"]
 [connection signal="pressed" from="SelectGame/Cleaner/CleanerBtn" to="SelectGame" method="_on_CleanerBtn_pressed"]
 [connection signal="pressed" from="SelectGame/Cleaner/CleanerDuelBtn" to="SelectGame" method="_on_CleanerDuelBtn_pressed"]
@@ -6797,6 +6859,8 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="SelectGame/Scroller/SliderBtn" to="SelectGame" method="_on_SliderBtn_pressed"]
 [connection signal="pressed" from="SelectGame/Runner/RunnerBtn" to="SelectGame" method="_on_RunnerBtn_pressed"]
 [connection signal="pressed" from="SelectGame/BackBtn" to="SelectGame" method="_on_BackBtn_pressed"]
+[connection signal="pressed" from="SelectGame/EscHint/Esc/Button" to="SelectGame" method="_on_BackBtn_pressed"]
+[connection signal="pressed" from="SelectGame/EscHint/Select/Button" to="SelectGame" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="Settings/BackBtn" to="Settings" method="_on_BackBtn_pressed"]
 [connection signal="toggled" from="Settings/MenuMusicBtn" to="Settings" method="_on_MenuMusicBtn_toggled"]
 [connection signal="toggled" from="Settings/GameMusicBtn" to="Settings" method="_on_GameMusicBtn_toggled"]
@@ -6812,4 +6876,6 @@ anims/settings = SubResource( 140 )
 [connection signal="toggled" from="Settings/ColorSchemeOptions/Colors/ColorBtn6" to="Settings" method="_on_ColorBtn6_toggled"]
 [connection signal="toggled" from="Settings/ColorSchemeOptions/Colors/ColorBtn7" to="Settings" method="_on_ColorBtn7_toggled"]
 [connection signal="toggled" from="Settings/ColorSchemeOptions/Colors/ColorBtn8" to="Settings" method="_on_ColorBtn8_toggled"]
+[connection signal="pressed" from="Settings/EscHint/Esc/Button" to="Settings" method="_on_BackBtn_pressed"]
+[connection signal="pressed" from="Settings/EscHint/Select/Button" to="Settings" method="_on_BackBtn_pressed"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

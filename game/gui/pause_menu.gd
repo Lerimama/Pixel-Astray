@@ -1,5 +1,6 @@
 extends Control
 
+onready var title: Label = $Title
 
 func _input(event: InputEvent) -> void:
 	
@@ -16,6 +17,9 @@ func _ready() -> void:
 	
 	visible = false
 	modulate.a = 0
+	
+	# naslov
+	title.text = str(Global.game_manager.game_data["game_name"]) + " on pause"
 	
 	# apdejt glasnosti na slajderju
 	$Settings/GameMusicSlider.value = AudioServer.get_bus_volume_db(AudioServer.get_bus_index("GameMusic"))

@@ -23,7 +23,7 @@
 [ext_resource path="res://game/hud/game_countdown.gd" type="Script" id=21]
 [ext_resource path="res://assets/resources/tileset_titles.tres" type="TileSet" id=22]
 [ext_resource path="res://game/minimap_camera.gd" type="Script" id=23]
-[ext_resource path="res://game/gui/tutorial.gd" type="Script" id=24]
+[ext_resource path="res://game/gui/tutorial_gui.gd" type="Script" id=24]
 [ext_resource path="res://assets/resources/icon_label_dot.tres" type="Texture" id=25]
 
 [sub_resource type="Gradient" id=225]
@@ -48,63 +48,63 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 0.952941, 0.356863, 0.498039, 1 )
 
-[sub_resource type="AtlasTexture" id=270]
+[sub_resource type="AtlasTexture" id=389]
 atlas = ExtResource( 13 )
 region = Rect2( 80, 98, 70, 46 )
 
-[sub_resource type="AtlasTexture" id=271]
+[sub_resource type="AtlasTexture" id=390]
 atlas = ExtResource( 13 )
 region = Rect2( 0, 98, 70, 46 )
 
-[sub_resource type="AtlasTexture" id=272]
+[sub_resource type="AtlasTexture" id=391]
 atlas = ExtResource( 13 )
 region = Rect2( 138, 154, 22, 22 )
 
-[sub_resource type="AtlasTexture" id=273]
+[sub_resource type="AtlasTexture" id=392]
 atlas = ExtResource( 13 )
 region = Rect2( 0, 154, 102, 22 )
 
-[sub_resource type="AtlasTexture" id=274]
+[sub_resource type="AtlasTexture" id=393]
 atlas = ExtResource( 13 )
 region = Rect2( 113.919, 154, 22, 22 )
 
-[sub_resource type="StreamTexture" id=325]
+[sub_resource type="StreamTexture" id=394]
 load_path = "res://.import/atlas_controls.png-75e6b40869d487066545840672dcb98d.stex"
 
-[sub_resource type="AtlasTexture" id=206]
-atlas = SubResource( 325 )
+[sub_resource type="AtlasTexture" id=365]
+atlas = SubResource( 394 )
 region = Rect2( 0, 0, 120, 86 )
 
-[sub_resource type="AtlasTexture" id=276]
-atlas = SubResource( 206 )
+[sub_resource type="AtlasTexture" id=395]
+atlas = SubResource( 365 )
 region = Rect2( 0, 0, 120, 86 )
 
-[sub_resource type="AtlasTexture" id=277]
+[sub_resource type="AtlasTexture" id=396]
 atlas = ExtResource( 13 )
 region = Rect2( 10, 17, 22, 22 )
 
-[sub_resource type="AtlasTexture" id=278]
+[sub_resource type="AtlasTexture" id=397]
 atlas = ExtResource( 13 )
 region = Rect2( 96, 32, 10, 10 )
 
-[sub_resource type="AtlasTexture" id=279]
+[sub_resource type="AtlasTexture" id=398]
 atlas = ExtResource( 13 )
 region = Rect2( 146, 6, 6, 10 )
 
-[sub_resource type="StyleBoxEmpty" id=251]
+[sub_resource type="StyleBoxEmpty" id=405]
 
 [sub_resource type="StreamTexture" id=280]
 load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
 
-[sub_resource type="AtlasTexture" id=252]
+[sub_resource type="AtlasTexture" id=406]
 atlas = SubResource( 280 )
 region = Rect2( 16, 16, 14, 16 )
 
-[sub_resource type="AtlasTexture" id=253]
+[sub_resource type="AtlasTexture" id=407]
 atlas = SubResource( 280 )
 region = Rect2( 0, 16, 10, 16 )
 
-[sub_resource type="StyleBoxFlat" id=254]
+[sub_resource type="StyleBoxFlat" id=408]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -116,21 +116,21 @@ expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxEmpty" id=255]
+[sub_resource type="StyleBoxEmpty" id=409]
 
-[sub_resource type="StyleBoxEmpty" id=256]
+[sub_resource type="StyleBoxEmpty" id=410]
 
-[sub_resource type="StyleBoxLine" id=257]
+[sub_resource type="StyleBoxLine" id=411]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
 
-[sub_resource type="AtlasTexture" id=258]
+[sub_resource type="AtlasTexture" id=412]
 atlas = SubResource( 280 )
 region = Rect2( 32, 0, 10, 10 )
 
-[sub_resource type="StyleBoxEmpty" id=259]
+[sub_resource type="StyleBoxEmpty" id=413]
 
-[sub_resource type="StyleBoxFlat" id=260]
+[sub_resource type="StyleBoxFlat" id=414]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -141,14 +141,14 @@ expand_margin_left = 6.0
 expand_margin_top = 6.0
 expand_margin_bottom = 6.0
 
-[sub_resource type="StreamTexture" id=261]
+[sub_resource type="StreamTexture" id=415]
 load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
 
 [sub_resource type="AtlasTexture" id=281]
-atlas = SubResource( 261 )
+atlas = SubResource( 415 )
 region = Rect2( 0, 4, 16, 8 )
 
-[sub_resource type="StyleBoxTexture" id=262]
+[sub_resource type="StyleBoxTexture" id=416]
 texture = SubResource( 281 )
 region_rect = Rect2( 0, 0, 16, 8 )
 margin_left = 3.34132
@@ -157,7 +157,7 @@ margin_top = 4.0
 margin_bottom = 4.0
 modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 
-[sub_resource type="StyleBoxFlat" id=263]
+[sub_resource type="StyleBoxFlat" id=417]
 bg_color = Color( 0, 0, 0, 0 )
 border_width_left = 2
 border_width_top = 2
@@ -165,12 +165,12 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="AtlasTexture" id=264]
+[sub_resource type="AtlasTexture" id=418]
 atlas = SubResource( 280 )
 region = Rect2( 16, 0, 16, 12 )
 margin = Rect2( 4, 0, 0, 0 )
 
-[sub_resource type="StyleBoxFlat" id=265]
+[sub_resource type="StyleBoxFlat" id=419]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 2
 border_width_top = 2
@@ -182,7 +182,7 @@ expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxFlat" id=266]
+[sub_resource type="StyleBoxFlat" id=420]
 bg_color = Color( 0, 0, 0, 0.862745 )
 border_width_left = 4
 border_width_top = 4
@@ -190,7 +190,7 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
 
-[sub_resource type="StyleBoxLine" id=267]
+[sub_resource type="StyleBoxLine" id=421]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
 vertical = true
@@ -201,46 +201,46 @@ Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
 Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
 Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
-Button/styles/disabled = SubResource( 251 )
-Button/styles/focus = SubResource( 251 )
-Button/styles/hover = SubResource( 251 )
-Button/styles/normal = SubResource( 251 )
-Button/styles/pressed = SubResource( 251 )
+Button/styles/disabled = SubResource( 405 )
+Button/styles/focus = SubResource( 405 )
+Button/styles/hover = SubResource( 405 )
+Button/styles/normal = SubResource( 405 )
+Button/styles/pressed = SubResource( 405 )
 CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
 CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
 CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
 CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
 CheckBox/constants/hseparation = 4
-CheckBox/icons/checked = SubResource( 252 )
-CheckBox/icons/unchecked = SubResource( 253 )
-CheckBox/styles/focus = SubResource( 254 )
-CheckBox/styles/hover = SubResource( 254 )
-CheckBox/styles/hover_pressed = SubResource( 254 )
-CheckBox/styles/normal = SubResource( 255 )
-CheckBox/styles/pressed = SubResource( 256 )
-HSeparator/styles/separator = SubResource( 257 )
-HSlider/icons/grabber = SubResource( 258 )
+CheckBox/icons/checked = SubResource( 406 )
+CheckBox/icons/unchecked = SubResource( 407 )
+CheckBox/styles/focus = SubResource( 408 )
+CheckBox/styles/hover = SubResource( 408 )
+CheckBox/styles/hover_pressed = SubResource( 408 )
+CheckBox/styles/normal = SubResource( 409 )
+CheckBox/styles/pressed = SubResource( 410 )
+HSeparator/styles/separator = SubResource( 411 )
+HSlider/icons/grabber = SubResource( 412 )
 HSlider/icons/grabber_disabled = null
-HSlider/icons/grabber_highlight = SubResource( 258 )
+HSlider/icons/grabber_highlight = SubResource( 412 )
 HSlider/icons/tick = null
-HSlider/styles/grabber_area = SubResource( 259 )
-HSlider/styles/grabber_area_highlight = SubResource( 260 )
-HSlider/styles/slider = SubResource( 262 )
+HSlider/styles/grabber_area = SubResource( 413 )
+HSlider/styles/grabber_area_highlight = SubResource( 414 )
+HSlider/styles/slider = SubResource( 416 )
 Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
 Label/constants/line_spacing = 6
 LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
 LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
-LineEdit/styles/normal = SubResource( 263 )
+LineEdit/styles/normal = SubResource( 417 )
 OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
-OptionButton/icons/arrow = SubResource( 264 )
-OptionButton/styles/focus = SubResource( 265 )
-OptionButton/styles/hover = SubResource( 265 )
-OptionButton/styles/pressed = SubResource( 265 )
-Panel/styles/panel = SubResource( 266 )
-VSeparator/styles/separator = SubResource( 267 )
+OptionButton/icons/arrow = SubResource( 418 )
+OptionButton/styles/focus = SubResource( 419 )
+OptionButton/styles/hover = SubResource( 419 )
+OptionButton/styles/pressed = SubResource( 419 )
+Panel/styles/panel = SubResource( 420 )
+VSeparator/styles/separator = SubResource( 421 )
 
 [sub_resource type="AtlasTexture" id=283]
 atlas = ExtResource( 13 )
@@ -919,7 +919,7 @@ atlas = ExtResource( 13 )
 region = Rect2( 0, 218, 40, 22 )
 margin = Rect2( -2, 2, 0, 0 )
 
-[sub_resource type="Animation" id=365]
+[sub_resource type="Animation" id=404]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("MissionPanel:modulate")
@@ -1510,109 +1510,114 @@ size_flags_vertical = 3
 color = Color( 0, 0, 0, 0.784314 )
 
 [node name="GameInstructions" type="Control" parent="GUI/Hud/Popups/Instructions"]
+anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = 336.0
-margin_top = 128.0
-margin_right = 304.0
-margin_bottom = -272.0
-
-[node name="Panel" type="Panel" parent="GUI/Hud/Popups/Instructions/GameInstructions"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_bottom = 0.5
+margin_left = -448.0
+margin_top = -240.0
+margin_right = 448.0
+margin_bottom = 16.0
 
 [node name="Title" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
 margin_left = -304.0
-margin_top = -162.0
+margin_top = 6.0
 margin_right = 304.0
-margin_bottom = -130.0
+margin_bottom = 38.0
 custom_fonts/font = ExtResource( 4 )
-text = "%s"
+text = "Game title"
 align = 1
 
 [node name="WinLabel" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+anchor_right = 1.0
 margin_top = 54.0
-margin_right = 608.0
 margin_bottom = 76.0
-text = "%s"
+text = "Win"
 align = 1
 
 [node name="Outline" type="VBoxContainer" parent="GUI/Hud/Popups/Instructions/GameInstructions"]
-modulate = Color( 1, 1, 1, 0.603922 )
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -304.0
-margin_top = -106.0
-margin_right = 304.0
-margin_bottom = 76.0
+margin_left = -448.0
+margin_top = 101.0
+margin_right = 449.0
+margin_bottom = 288.0
+grow_horizontal = 2
+grow_vertical = 2
 custom_constants/separation = 10
 
 [node name="Label" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_right = 608.0
-margin_bottom = 22.0
-text = "%s"
+margin_right = 897.0
+margin_bottom = 18.0
+custom_fonts/font = ExtResource( 3 )
+text = "Game over conditions"
 align = 1
+autowrap = true
 
 [node name="Label2" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 32.0
-margin_right = 608.0
-margin_bottom = 54.0
-text = "%s"
+margin_top = 28.0
+margin_right = 897.0
+margin_bottom = 46.0
+custom_fonts/font = ExtResource( 3 )
+text = "Energy and speed"
 align = 1
+autowrap = true
 
 [node name="Label3" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 64.0
-margin_right = 608.0
-margin_bottom = 86.0
-text = "%s"
+margin_top = 56.0
+margin_right = 897.0
+margin_bottom = 74.0
+custom_fonts/font = ExtResource( 3 )
+text = "Burst"
 align = 1
+autowrap = true
 
 [node name="Label4" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 96.0
-margin_right = 608.0
-margin_bottom = 118.0
-text = "%s"
+margin_top = 84.0
+margin_right = 897.0
+margin_bottom = 102.0
+custom_fonts/font = ExtResource( 3 )
+text = "Skills"
 align = 1
+autowrap = true
 
 [node name="Label5" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 128.0
-margin_right = 608.0
-margin_bottom = 150.0
-text = "%s"
+margin_top = 112.0
+margin_right = 897.0
+margin_bottom = 130.0
+custom_fonts/font = ExtResource( 3 )
+text = "Time"
 align = 1
+autowrap = true
 
 [node name="Label6" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 160.0
-margin_right = 608.0
-margin_bottom = 182.0
-text = "%s"
+margin_top = 140.0
+margin_right = 897.0
+margin_bottom = 158.0
+custom_fonts/font = ExtResource( 3 )
+text = "Highscore"
 align = 1
+autowrap = true
 
 [node name="Controls" type="Control" parent="GUI/Hud/Popups/Instructions"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -304.0
-margin_top = 56.0
-margin_right = 448.0
-margin_bottom = 184.0
+margin_left = -320.0
+margin_top = 64.0
+margin_right = 320.0
+margin_bottom = 192.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -1622,9 +1627,8 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -264.0
+margin_left = -192.0
 margin_top = -41.5
-margin_right = -72.0
 margin_bottom = 47.5
 __meta__ = {
 "_edit_group_": true
@@ -1637,7 +1641,7 @@ margin_left = -80.0
 margin_top = 1.0
 margin_right = -10.0
 margin_bottom = 47.0
-texture = SubResource( 270 )
+texture = SubResource( 389 )
 
 [node name="KeyboardR" type="TextureRect" parent="GUI/Hud/Popups/Instructions/Controls/Keys"]
 anchor_left = 0.5
@@ -1646,7 +1650,7 @@ margin_left = 10.0
 margin_top = 1.0
 margin_right = 80.0
 margin_bottom = 47.0
-texture = SubResource( 271 )
+texture = SubResource( 390 )
 
 [node name="Ctrl" type="TextureRect" parent="GUI/Hud/Popups/Instructions/Controls/Keys"]
 anchor_left = 0.5
@@ -1655,7 +1659,7 @@ margin_left = -88.0
 margin_top = 65.0
 margin_right = -66.0
 margin_bottom = 87.0
-texture = SubResource( 272 )
+texture = SubResource( 391 )
 
 [node name="Space" type="TextureRect" parent="GUI/Hud/Popups/Instructions/Controls/Keys"]
 anchor_left = 0.5
@@ -1664,7 +1668,7 @@ margin_left = -52.0
 margin_top = 65.0
 margin_right = 50.0
 margin_bottom = 87.0
-texture = SubResource( 273 )
+texture = SubResource( 392 )
 
 [node name="Alt" type="TextureRect" parent="GUI/Hud/Popups/Instructions/Controls/Keys"]
 anchor_left = 0.5
@@ -1673,16 +1677,16 @@ margin_left = 66.0
 margin_top = 65.0
 margin_right = 88.0
 margin_bottom = 87.0
-texture = SubResource( 274 )
+texture = SubResource( 393 )
 
 [node name="Joypad" type="Control" parent="GUI/Hud/Popups/Instructions/Controls"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 1.0
+margin_left = 73.0
 margin_top = -40.0
-margin_right = 121.0
+margin_right = 193.0
 margin_bottom = 46.0
 __meta__ = {
 "_edit_group_": true
@@ -1692,30 +1696,32 @@ __meta__ = {
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_right = 120.0
 margin_bottom = 86.0
-texture = SubResource( 276 )
+texture = SubResource( 395 )
 
 [node name="btns" type="TextureRect" parent="GUI/Hud/Popups/Instructions/Controls/Joypad"]
 margin_left = 10.0
 margin_top = 17.0
 margin_right = 32.0
 margin_bottom = 39.0
-texture = SubResource( 277 )
+texture = SubResource( 396 )
 
 [node name="btn" type="TextureRect" parent="GUI/Hud/Popups/Instructions/Controls/Joypad"]
 margin_left = 96.0
 margin_top = 32.0
 margin_right = 106.0
 margin_bottom = 42.0
-texture = SubResource( 278 )
+texture = SubResource( 397 )
 
 [node name="C1" type="TextureRect" parent="GUI/Hud/Popups/Instructions/Controls/Joypad"]
+visible = false
 margin_left = 57.0
 margin_top = 76.0
 margin_right = 63.0
 margin_bottom = 86.0
-texture = SubResource( 279 )
+texture = SubResource( 398 )
 
 [node name="ControlsDuel" type="Control" parent="GUI/Hud/Popups/Instructions"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1723,7 +1729,7 @@ anchor_bottom = 0.5
 margin_left = -576.0
 margin_top = 56.0
 margin_right = 576.0
-margin_bottom = 184.0
+margin_bottom = 216.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -1735,9 +1741,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -373.0
-margin_top = -90.0
+margin_top = -74.0
 margin_right = -268.0
-margin_bottom = -68.0
+margin_bottom = -52.0
 text = "PLAYER 1"
 align = 1
 
@@ -1747,9 +1753,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -480.0
-margin_top = -41.5
+margin_top = -25.5
 margin_right = -288.0
-margin_bottom = 47.5
+margin_bottom = 63.5
 __meta__ = {
 "_edit_group_": true
 }
@@ -1761,7 +1767,7 @@ margin_left = -54.0
 margin_top = 1.0
 margin_right = 16.0
 margin_bottom = 47.0
-texture = SubResource( 270 )
+texture = SubResource( 389 )
 
 [node name="Ctrl" type="TextureRect" parent="GUI/Hud/Popups/Instructions/ControlsDuel/Keys"]
 anchor_left = 0.5
@@ -1770,7 +1776,7 @@ margin_left = -88.0
 margin_top = 65.0
 margin_right = -66.0
 margin_bottom = 87.0
-texture = SubResource( 272 )
+texture = SubResource( 391 )
 
 [node name="Space" type="TextureRect" parent="GUI/Hud/Popups/Instructions/ControlsDuel/Keys"]
 anchor_left = 0.5
@@ -1779,7 +1785,7 @@ margin_left = -52.0
 margin_top = 65.0
 margin_right = 50.0
 margin_bottom = 87.0
-texture = SubResource( 273 )
+texture = SubResource( 392 )
 
 [node name="Joypad" type="Control" parent="GUI/Hud/Popups/Instructions/ControlsDuel"]
 anchor_left = 0.5
@@ -1787,9 +1793,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -288.0
-margin_top = -40.0
+margin_top = -24.0
 margin_right = -168.0
-margin_bottom = 46.0
+margin_bottom = 62.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -1798,28 +1804,28 @@ __meta__ = {
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_right = 120.0
 margin_bottom = 86.0
-texture = SubResource( 276 )
+texture = SubResource( 395 )
 
 [node name="btns" type="TextureRect" parent="GUI/Hud/Popups/Instructions/ControlsDuel/Joypad"]
 margin_left = 10.0
 margin_top = 17.0
 margin_right = 32.0
 margin_bottom = 39.0
-texture = SubResource( 277 )
+texture = SubResource( 396 )
 
 [node name="btn" type="TextureRect" parent="GUI/Hud/Popups/Instructions/ControlsDuel/Joypad"]
 margin_left = 96.0
 margin_top = 32.0
 margin_right = 106.0
 margin_bottom = 42.0
-texture = SubResource( 278 )
+texture = SubResource( 397 )
 
 [node name="C1" type="TextureRect" parent="GUI/Hud/Popups/Instructions/ControlsDuel/Joypad"]
 margin_left = 57.0
 margin_top = 76.0
 margin_right = 63.0
 margin_bottom = 86.0
-texture = SubResource( 279 )
+texture = SubResource( 398 )
 
 [node name="Label2" type="Label" parent="GUI/Hud/Popups/Instructions/ControlsDuel"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
@@ -1828,9 +1834,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = 268.0
-margin_top = -90.0
+margin_top = -74.0
 margin_right = 376.0
-margin_bottom = -68.0
+margin_bottom = -52.0
 text = "PLAYER 2"
 align = 1
 
@@ -1840,9 +1846,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = 216.0
-margin_top = -40.0
+margin_top = -24.0
 margin_right = 296.0
-margin_bottom = 56.0
+margin_bottom = 72.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -1853,7 +1859,7 @@ anchor_right = 0.5
 margin_left = -40.0
 margin_right = 30.0
 margin_bottom = 46.0
-texture = SubResource( 271 )
+texture = SubResource( 390 )
 
 [node name="Alt" type="TextureRect" parent="GUI/Hud/Popups/Instructions/ControlsDuel/Keys2"]
 anchor_left = 0.5
@@ -1862,7 +1868,7 @@ margin_left = -16.0
 margin_top = 64.0
 margin_right = 6.0
 margin_bottom = 86.0
-texture = SubResource( 274 )
+texture = SubResource( 393 )
 
 [node name="Joypad2" type="Control" parent="GUI/Hud/Popups/Instructions/ControlsDuel"]
 anchor_left = 0.5
@@ -1870,9 +1876,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = 336.0
-margin_top = -40.0
+margin_top = -24.0
 margin_right = 456.0
-margin_bottom = 46.0
+margin_bottom = 62.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -1881,58 +1887,57 @@ __meta__ = {
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_right = 120.0
 margin_bottom = 86.0
-texture = SubResource( 276 )
+texture = SubResource( 395 )
 
 [node name="btns" type="TextureRect" parent="GUI/Hud/Popups/Instructions/ControlsDuel/Joypad2"]
 margin_left = 10.0
 margin_top = 17.0
 margin_right = 32.0
 margin_bottom = 39.0
-texture = SubResource( 277 )
+texture = SubResource( 396 )
 
 [node name="btn" type="TextureRect" parent="GUI/Hud/Popups/Instructions/ControlsDuel/Joypad2"]
 margin_left = 96.0
 margin_top = 32.0
 margin_right = 106.0
 margin_bottom = 42.0
-texture = SubResource( 278 )
+texture = SubResource( 397 )
 
 [node name="C1" type="TextureRect" parent="GUI/Hud/Popups/Instructions/ControlsDuel/Joypad2"]
 margin_left = 57.0
 margin_top = 76.0
 margin_right = 63.0
 margin_bottom = 86.0
-texture = SubResource( 279 )
+texture = SubResource( 398 )
 
-[node name="Line" type="Control" parent="GUI/Hud/Popups/Instructions/ControlsDuel"]
+[node name="ScreenLine" type="Node2D" parent="GUI/Hud/Popups/Instructions/ControlsDuel"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-anchor_right = 1.0
-anchor_bottom = 1.0
+position = Vector2( 576, -56 )
 
-[node name="Line2D" type="Line2D" parent="GUI/Hud/Popups/Instructions/ControlsDuel/Line"]
-position = Vector2( 0, 184 )
+[node name="Line2D" type="Line2D" parent="GUI/Hud/Popups/Instructions/ControlsDuel/ScreenLine"]
+position = Vector2( -576, 240 )
 points = PoolVector2Array( 576, 64, 576, 120 )
 width = 1.0
 default_color = Color( 1, 1, 1, 1 )
 
-[node name="Line2D2" type="Line2D" parent="GUI/Hud/Popups/Instructions/ControlsDuel/Line"]
-position = Vector2( 0, 120 )
-points = PoolVector2Array( 576, 64, 576, -152 )
+[node name="Line2D2" type="Line2D" parent="GUI/Hud/Popups/Instructions/ControlsDuel/ScreenLine"]
+position = Vector2( -576, 176 )
+points = PoolVector2Array( 576, 56, 576, -152 )
 width = 1.0
 default_color = Color( 1, 1, 1, 1 )
 
-[node name="Line2D3" type="Line2D" parent="GUI/Hud/Popups/Instructions/ControlsDuel/Line"]
-position = Vector2( 0, 120 )
-points = PoolVector2Array( 576, -536, 576, -424 )
+[node name="Line2D3" type="Line2D" parent="GUI/Hud/Popups/Instructions/ControlsDuel/ScreenLine"]
+position = Vector2( -576, 176 )
+points = PoolVector2Array( 576, -536, 576, -432 )
 width = 1.0
 default_color = Color( 1, 1, 1, 1 )
 
 [node name="StartHint" type="HBoxContainer" parent="GUI/Hud/Popups/Instructions"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -111.0
+margin_left = -73.0
 margin_top = 616.0
-margin_right = 111.0
+margin_right = 103.0
 margin_bottom = 638.0
 custom_constants/separation = 8
 __meta__ = {
@@ -1940,6 +1945,7 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="GUI/Hud/Popups/Instructions/StartHint"]
+visible = false
 margin_top = 2.0
 margin_right = 44.0
 margin_bottom = 20.0
@@ -1950,15 +1956,14 @@ text = "Press"
 align = 1
 
 [node name="Enter" type="TextureRect" parent="GUI/Hud/Popups/Instructions/StartHint"]
-margin_left = 52.0
-margin_right = 74.0
+margin_right = 22.0
 margin_bottom = 22.0
 texture = SubResource( 283 )
 
 [node name="Label3" type="Label" parent="GUI/Hud/Popups/Instructions/StartHint"]
-margin_left = 82.0
+margin_left = 30.0
 margin_top = 2.0
-margin_right = 99.0
+margin_right = 47.0
 margin_bottom = 20.0
 theme = SubResource( 282 )
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
@@ -1967,15 +1972,21 @@ text = "or"
 align = 1
 
 [node name="Start" type="TextureRect" parent="GUI/Hud/Popups/Instructions/StartHint"]
-margin_left = 107.0
-margin_right = 147.0
+margin_left = 55.0
+margin_right = 95.0
 margin_bottom = 22.0
 texture = SubResource( 284 )
 
+[node name="Button" type="Button" parent="GUI/Hud/Popups/Instructions/StartHint/Start"]
+margin_left = -58.0
+margin_right = 122.0
+margin_bottom = 26.0
+mouse_default_cursor_shape = 2
+
 [node name="Label2" type="Label" parent="GUI/Hud/Popups/Instructions/StartHint"]
-margin_left = 155.0
+margin_left = 103.0
 margin_top = 2.0
-margin_right = 222.0
+margin_right = 170.0
 margin_bottom = 20.0
 theme = SubResource( 282 )
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
@@ -3671,10 +3682,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 417.0
-margin_top = 320.0
-margin_right = 865.0
-margin_bottom = 608.0
+margin_left = -223.0
+margin_top = -40.0
+margin_right = 225.0
+margin_bottom = 248.0
 theme = SubResource( 346 )
 __meta__ = {
 "_edit_group_": true
@@ -3769,7 +3780,7 @@ custom_fonts/font = ExtResource( 3 )
 text = "to start"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/Tutorial"]
-anims/RESET = SubResource( 365 )
+anims/RESET = SubResource( 404 )
 "anims/_mission_in from bottom" = SubResource( 369 )
 anims/mission_in = SubResource( 366 )
 anims/tutorial_end = SubResource( 367 )
@@ -3788,14 +3799,15 @@ anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0.784314 )
 
 [node name="Title" type="Label" parent="GUI/PauseMenu"]
-margin_left = 506.0
+margin_left = 322.0
 margin_top = 94.0
-margin_right = 773.0
+margin_right = 960.0
 margin_bottom = 126.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0.952941, 0.356863, 0.498039, 1 )
 custom_fonts/font = ExtResource( 4 )
-text = "Game on pause"
+text = "Game title on pause"
+align = 1
 
 [node name="HSeparator" type="HSeparator" parent="GUI/PauseMenu/Title"]
 visible = false
@@ -4293,6 +4305,7 @@ text = "PLAY ON"
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 5 )
@@ -4639,7 +4652,6 @@ align = 1
 autowrap = true
 
 [node name="Menu" type="HBoxContainer" parent="GUI/GameOver/GameoverTitle/Tutorial"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -4852,7 +4864,6 @@ size_flags_vertical = 8
 text = "PLAY AGAIN"
 
 [node name="WithHS" type="Control" parent="GUI/GameOver/GameSummary"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 

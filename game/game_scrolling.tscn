@@ -97,20 +97,20 @@ region = Rect2( 96, 32, 10, 10 )
 atlas = ExtResource( 11 )
 region = Rect2( 146, 6, 6, 10 )
 
-[sub_resource type="StyleBoxEmpty" id=305]
+[sub_resource type="StyleBoxEmpty" id=427]
 
-[sub_resource type="StreamTexture" id=283]
+[sub_resource type="StreamTexture" id=422]
 load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
 
-[sub_resource type="AtlasTexture" id=306]
-atlas = SubResource( 283 )
+[sub_resource type="AtlasTexture" id=428]
+atlas = SubResource( 422 )
 region = Rect2( 16, 16, 14, 16 )
 
-[sub_resource type="AtlasTexture" id=307]
-atlas = SubResource( 283 )
+[sub_resource type="AtlasTexture" id=429]
+atlas = SubResource( 422 )
 region = Rect2( 0, 16, 10, 16 )
 
-[sub_resource type="StyleBoxFlat" id=308]
+[sub_resource type="StyleBoxFlat" id=430]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -122,21 +122,21 @@ expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxEmpty" id=309]
+[sub_resource type="StyleBoxEmpty" id=431]
 
-[sub_resource type="StyleBoxEmpty" id=310]
+[sub_resource type="StyleBoxEmpty" id=432]
 
-[sub_resource type="StyleBoxLine" id=311]
+[sub_resource type="StyleBoxLine" id=433]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
 
-[sub_resource type="AtlasTexture" id=312]
-atlas = SubResource( 283 )
+[sub_resource type="AtlasTexture" id=434]
+atlas = SubResource( 422 )
 region = Rect2( 32, 0, 10, 10 )
 
-[sub_resource type="StyleBoxEmpty" id=313]
+[sub_resource type="StyleBoxEmpty" id=435]
 
-[sub_resource type="StyleBoxFlat" id=314]
+[sub_resource type="StyleBoxFlat" id=436]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -147,15 +147,15 @@ expand_margin_left = 6.0
 expand_margin_top = 6.0
 expand_margin_bottom = 6.0
 
-[sub_resource type="StreamTexture" id=315]
+[sub_resource type="StreamTexture" id=437]
 load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
 
-[sub_resource type="AtlasTexture" id=294]
-atlas = SubResource( 315 )
+[sub_resource type="AtlasTexture" id=423]
+atlas = SubResource( 437 )
 region = Rect2( 0, 4, 16, 8 )
 
-[sub_resource type="StyleBoxTexture" id=316]
-texture = SubResource( 294 )
+[sub_resource type="StyleBoxTexture" id=438]
+texture = SubResource( 423 )
 region_rect = Rect2( 0, 0, 16, 8 )
 margin_left = 3.34132
 margin_right = 4.0
@@ -163,7 +163,7 @@ margin_top = 4.0
 margin_bottom = 4.0
 modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 
-[sub_resource type="StyleBoxFlat" id=317]
+[sub_resource type="StyleBoxFlat" id=439]
 bg_color = Color( 0, 0, 0, 0 )
 border_width_left = 2
 border_width_top = 2
@@ -171,12 +171,12 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="AtlasTexture" id=318]
-atlas = SubResource( 283 )
+[sub_resource type="AtlasTexture" id=440]
+atlas = SubResource( 422 )
 region = Rect2( 16, 0, 16, 12 )
 margin = Rect2( 4, 0, 0, 0 )
 
-[sub_resource type="StyleBoxFlat" id=319]
+[sub_resource type="StyleBoxFlat" id=441]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 2
 border_width_top = 2
@@ -188,7 +188,7 @@ expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxFlat" id=320]
+[sub_resource type="StyleBoxFlat" id=442]
 bg_color = Color( 0, 0, 0, 0.862745 )
 border_width_left = 4
 border_width_top = 4
@@ -196,64 +196,64 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
 
-[sub_resource type="StyleBoxLine" id=321]
+[sub_resource type="StyleBoxLine" id=443]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
 vertical = true
 
-[sub_resource type="Theme" id=301]
+[sub_resource type="Theme" id=424]
 default_font = ExtResource( 16 )
 Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
 Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
 Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
-Button/styles/disabled = SubResource( 305 )
-Button/styles/focus = SubResource( 305 )
-Button/styles/hover = SubResource( 305 )
-Button/styles/normal = SubResource( 305 )
-Button/styles/pressed = SubResource( 305 )
+Button/styles/disabled = SubResource( 427 )
+Button/styles/focus = SubResource( 427 )
+Button/styles/hover = SubResource( 427 )
+Button/styles/normal = SubResource( 427 )
+Button/styles/pressed = SubResource( 427 )
 CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
 CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
 CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
 CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
 CheckBox/constants/hseparation = 4
-CheckBox/icons/checked = SubResource( 306 )
-CheckBox/icons/unchecked = SubResource( 307 )
-CheckBox/styles/focus = SubResource( 308 )
-CheckBox/styles/hover = SubResource( 308 )
-CheckBox/styles/hover_pressed = SubResource( 308 )
-CheckBox/styles/normal = SubResource( 309 )
-CheckBox/styles/pressed = SubResource( 310 )
-HSeparator/styles/separator = SubResource( 311 )
-HSlider/icons/grabber = SubResource( 312 )
+CheckBox/icons/checked = SubResource( 428 )
+CheckBox/icons/unchecked = SubResource( 429 )
+CheckBox/styles/focus = SubResource( 430 )
+CheckBox/styles/hover = SubResource( 430 )
+CheckBox/styles/hover_pressed = SubResource( 430 )
+CheckBox/styles/normal = SubResource( 431 )
+CheckBox/styles/pressed = SubResource( 432 )
+HSeparator/styles/separator = SubResource( 433 )
+HSlider/icons/grabber = SubResource( 434 )
 HSlider/icons/grabber_disabled = null
-HSlider/icons/grabber_highlight = SubResource( 312 )
+HSlider/icons/grabber_highlight = SubResource( 434 )
 HSlider/icons/tick = null
-HSlider/styles/grabber_area = SubResource( 313 )
-HSlider/styles/grabber_area_highlight = SubResource( 314 )
-HSlider/styles/slider = SubResource( 316 )
+HSlider/styles/grabber_area = SubResource( 435 )
+HSlider/styles/grabber_area_highlight = SubResource( 436 )
+HSlider/styles/slider = SubResource( 438 )
 Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
 Label/constants/line_spacing = 6
 LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
 LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
-LineEdit/styles/normal = SubResource( 317 )
+LineEdit/styles/normal = SubResource( 439 )
 OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
-OptionButton/icons/arrow = SubResource( 318 )
-OptionButton/styles/focus = SubResource( 319 )
-OptionButton/styles/hover = SubResource( 319 )
-OptionButton/styles/pressed = SubResource( 319 )
-Panel/styles/panel = SubResource( 320 )
-VSeparator/styles/separator = SubResource( 321 )
+OptionButton/icons/arrow = SubResource( 440 )
+OptionButton/styles/focus = SubResource( 441 )
+OptionButton/styles/hover = SubResource( 441 )
+OptionButton/styles/pressed = SubResource( 441 )
+Panel/styles/panel = SubResource( 442 )
+VSeparator/styles/separator = SubResource( 443 )
 
-[sub_resource type="AtlasTexture" id=302]
+[sub_resource type="AtlasTexture" id=425]
 atlas = ExtResource( 11 )
 region = Rect2( 72, 186, 22, 22 )
 margin = Rect2( 0, 2, 0, 0 )
 
-[sub_resource type="AtlasTexture" id=303]
+[sub_resource type="AtlasTexture" id=426]
 atlas = ExtResource( 11 )
 region = Rect2( 0, 218, 40, 22 )
 margin = Rect2( -2, 2, 0, 0 )
@@ -1504,9 +1504,9 @@ default_color = Color( 1, 1, 1, 1 )
 [node name="StartHint" type="HBoxContainer" parent="GUI/Hud/Popups/Instructions"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -111.0
+margin_left = -73.0
 margin_top = 616.0
-margin_right = 111.0
+margin_right = 103.0
 margin_bottom = 638.0
 custom_constants/separation = 8
 __meta__ = {
@@ -1514,44 +1514,50 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="GUI/Hud/Popups/Instructions/StartHint"]
+visible = false
 margin_top = 2.0
 margin_right = 44.0
 margin_bottom = 20.0
-theme = SubResource( 301 )
+theme = SubResource( 424 )
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "Press"
 align = 1
 
 [node name="Enter" type="TextureRect" parent="GUI/Hud/Popups/Instructions/StartHint"]
-margin_left = 52.0
-margin_right = 74.0
+margin_right = 22.0
 margin_bottom = 22.0
-texture = SubResource( 302 )
+texture = SubResource( 425 )
 
 [node name="Label3" type="Label" parent="GUI/Hud/Popups/Instructions/StartHint"]
-margin_left = 82.0
+margin_left = 30.0
 margin_top = 2.0
-margin_right = 99.0
+margin_right = 47.0
 margin_bottom = 20.0
-theme = SubResource( 301 )
+theme = SubResource( 424 )
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "or"
 align = 1
 
 [node name="Start" type="TextureRect" parent="GUI/Hud/Popups/Instructions/StartHint"]
-margin_left = 107.0
-margin_right = 147.0
+margin_left = 55.0
+margin_right = 95.0
 margin_bottom = 22.0
-texture = SubResource( 303 )
+texture = SubResource( 426 )
+
+[node name="Button" type="Button" parent="GUI/Hud/Popups/Instructions/StartHint/Start"]
+margin_left = -58.0
+margin_right = 122.0
+margin_bottom = 26.0
+mouse_default_cursor_shape = 2
 
 [node name="Label2" type="Label" parent="GUI/Hud/Popups/Instructions/StartHint"]
-margin_left = 155.0
+margin_left = 103.0
 margin_top = 2.0
-margin_right = 222.0
+margin_right = 170.0
 margin_bottom = 20.0
-theme = SubResource( 301 )
+theme = SubResource( 424 )
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "to start"
@@ -2409,14 +2415,15 @@ anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0.784314 )
 
 [node name="Title" type="Label" parent="GUI/PauseMenu"]
-margin_left = 506.0
+margin_left = 322.0
 margin_top = 94.0
-margin_right = 773.0
+margin_right = 960.0
 margin_bottom = 126.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0.952941, 0.356863, 0.498039, 1 )
 custom_fonts/font = ExtResource( 3 )
-text = "Game on pause"
+text = "Game title on pause"
+align = 1
 
 [node name="HSeparator" type="HSeparator" parent="GUI/PauseMenu/Title"]
 visible = false
@@ -2914,6 +2921,7 @@ text = "PLAY ON"
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 2 )
@@ -2925,6 +2933,7 @@ anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0 )
 
 [node name="GameoverTitle" type="Control" parent="GUI/GameOver"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 

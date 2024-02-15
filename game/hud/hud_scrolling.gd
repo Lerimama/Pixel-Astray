@@ -181,3 +181,9 @@ func check_for_warning(player_stats: Dictionary, warning_popup: Control):
 		elif player_stats["player_energy"] <= 0:
 			if warning_popup.visible == true:
 				warning_out(warning_popup)		
+
+
+func _on_StartButton_pressed() -> void:
+	pass # Replace with function body.
+
+

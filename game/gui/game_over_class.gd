@@ -194,13 +194,13 @@ func set_duel_gameover_title():
 		selected_gameover_title.get_node("Win").visible = true
 		winner_label.text = "Player 1"
 		loser_name = "Player 2"
-		winning_reason_label.text = "Player1 cleaned Player2"
+		winning_reason_label.text = "Player 1 cleaned Player 2"
 		return
 	elif p2_final_stats["player_life"] == 0 and p1_final_stats["player_life"] > 0: # P2 zmaga
 		selected_gameover_title.get_node("Win").visible = true
 		winner_label.text = "Player 2"
 		loser_name = "Player 1"
-		winning_reason_label.text = "Player2 cleaned Player1"
+		winning_reason_label.text = "Player 2 cleaned Player 1"
 		return
 	 
 	# če sta oba preživela ali oba umrla
@@ -217,7 +217,7 @@ func set_duel_gameover_title():
 			winner_label.text = "Player 2"
 			loser_name = "Player 1"
 		if abs(points_difference) == 1:
-			winning_reason_label.text = "Winner was better for only one point"
+			winning_reason_label.text = winner_label.text + " was better by only one point"
 		else: 
 			winning_reason_label.text =  winner_label.text + " was " + str(abs(points_difference)) + " points better than " + loser_name + ""# + " points."
 		

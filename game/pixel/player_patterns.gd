@@ -38,11 +38,12 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	change_stat("hit_stray", strays_to_destroy.size()) # štetje, točke in energija glede na število uničenih straysov	
 	
 	# GO - so spucani vsi?
-	if strays_to_destroy.size() < Global.game_manager.strays_in_game_count:
-		yield(get_tree().create_timer(3), "timeout") # pavza za pucanje zadetih
-		Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)
-	else:
-		Global.game_manager.game_over(Global.game_manager.GameoverReason.CLEANED)
+	if not Global.game_manager.game_data["game"] == Profiles.Games.RUNNER:
+		if strays_to_destroy.size() < Global.game_manager.strays_in_game_count:
+			yield(get_tree().create_timer(3), "timeout") # pavza za pucanje zadetih
+			Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)
+		else:
+			Global.game_manager.game_over(Global.game_manager.GameoverReason.CLEANED)
 		
 		
 func on_hit_wall():

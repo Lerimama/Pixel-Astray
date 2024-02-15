@@ -1,7 +1,8 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://assets/resources/env_arena.tres" type="Environment" id=1]
 [ext_resource path="res://home/intro/intro.gd" type="Script" id=2]
+[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=3]
 [ext_resource path="res://home/intro/intro_tilemap.gd" type="Script" id=4]
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=5]
 [ext_resource path="res://assets/atlas_controls.png" type="Texture" id=6]
@@ -851,49 +852,54 @@ margin_left = -607.0
 margin_top = 582.0
 margin_right = -405.0
 margin_bottom = 604.0
+theme = ExtResource( 3 )
 custom_constants/separation = 8
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Label" type="Label" parent="Text/SkipIntro"]
+visible = false
 margin_top = 2.0
 margin_right = 44.0
 margin_bottom = 20.0
-theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 custom_fonts/font = ExtResource( 8 )
 text = "Press"
 
 [node name="Enter" type="TextureRect" parent="Text/SkipIntro"]
-margin_left = 52.0
-margin_right = 74.0
+margin_right = 22.0
 margin_bottom = 22.0
 texture = SubResource( 195 )
 
 [node name="Label2" type="Label" parent="Text/SkipIntro"]
-margin_left = 82.0
+margin_left = 30.0
 margin_top = 2.0
-margin_right = 99.0
+margin_right = 47.0
 margin_bottom = 20.0
-theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 custom_fonts/font = ExtResource( 8 )
 text = "or"
 align = 1
 
 [node name="Start" type="TextureRect" parent="Text/SkipIntro"]
-margin_left = 107.0
-margin_right = 147.0
+margin_left = 55.0
+margin_right = 95.0
 margin_bottom = 22.0
 texture = SubResource( 159 )
 
+[node name="Button" type="Button" parent="Text/SkipIntro/Start"]
+margin_left = -60.0
+margin_right = 148.0
+margin_bottom = 26.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+
 [node name="Label3" type="Label" parent="Text/SkipIntro"]
-margin_left = 155.0
+margin_left = 103.0
 margin_top = 2.0
-margin_right = 254.0
+margin_right = 202.0
 margin_bottom = 20.0
-theme = SubResource( 194 )
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 custom_fonts/font = ExtResource( 8 )
 text = "to skip intro"
@@ -909,5 +915,6 @@ anims/intro_running = SubResource( 138 )
 environment = ExtResource( 1 )
 
 [connection signal="tilemap_completed" from="TileMap" to="." method="_on_TileMap_completed"]
+[connection signal="pressed" from="Text/SkipIntro/Start/Button" to="." method="_on_StartButton_pressed"]
 [connection signal="timeout" from="StrayStepTimer" to="." method="_on_StrayStepTimer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

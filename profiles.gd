@@ -1,5 +1,5 @@
 extends Node
-
+# game data
 
 # DEFAULT -----------------------------------------------------------------------------------
 
@@ -21,7 +21,7 @@ var default_game_settings: Dictionary = {
 	# player on start
 	"player_start_life": 1, # 1 lajf skrije ikone v hudu in določi "lose_life_on_hit"
 	"player_start_energy": 192, # če je 0, je 0 ... instant GO
-	"player_start_color": Color("#141414"),
+	"player_start_color": Color("#232323"), # old #141414
 	# player in game
 	"player_max_energy": 192, # max energija
 	"player_tired_energy": 20, # pokaže steps warning popup in hud oabrva rdeče
@@ -443,13 +443,13 @@ var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "c
 func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
-	var current_game = Games.CLEANER
+#	var current_game = Games.CLEANER
 #	var current_game = Games.ERASER_S
 #	var current_game = Games.CLEANER_DUEL
 #	var current_game = Games.SCROLLER
 #	var current_game = Games.SLIDER
 #	var current_game = Games.RUNNER
-#	var current_game = Games.RIDDLER_L
+	var current_game = Games.RIDDLER_M
 #	var current_game = Games.TUTORIAL
 	set_game_data(current_game)
 	
@@ -487,7 +487,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["player_start_life"] = 3
 			game_settings["lose_life_on_hit"] = true
 			game_settings["position_indicators_mode"] = false 
-			# game_settings["start_countdown"] = false
+			game_settings["start_countdown"] = false
 		Games.SCROLLER:
 			current_game_data = game_data_scroller
 			game_settings["cell_traveled_energy"] = 0
@@ -512,7 +512,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["timer_mode_countdown"] = false
 			game_settings["color_picked_points"] = 0
 			game_settings["all_cleaned_points"] = 0
-			game_settings["player_start_color"] = Color.white
+#			game_settings["player_start_color"] = Color.white
 		Games.RIDDLER_S:
 			current_game_data = game_data_riddler_S
 			game_settings["cell_traveled_energy"] = 0
@@ -522,7 +522,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["timer_mode_countdown"] = false
 			game_settings["camera_fixed"] = true
 			game_settings["position_indicators_mode"] = false 
-			game_settings["player_start_color"] = Color.white
+#			game_settings["player_start_color"] = Color.white
 		Games.RIDDLER_M:
 			current_game_data = game_data_riddler_M
 			game_settings["cell_traveled_energy"] = 0
@@ -532,7 +532,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["timer_mode_countdown"] = false
 			game_settings["camera_fixed"] = true
 			game_settings["position_indicators_mode"] = false 
-			game_settings["player_start_color"] = Color.white
+#			game_settings["player_start_color"] = Color.white
 		Games.RIDDLER_L:
 			current_game_data = game_data_riddler_L
 			game_settings["cell_traveled_energy"] = 0
@@ -542,4 +542,4 @@ func set_game_data(selected_game) -> void:
 			game_settings["timer_mode_countdown"] = false
 			game_settings["camera_fixed"] = true
 			game_settings["position_indicators_mode"] = false 
-			game_settings["player_start_color"] = Color.white
+#			game_settings["player_start_color"] = Color.white

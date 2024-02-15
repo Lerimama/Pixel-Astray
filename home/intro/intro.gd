@@ -34,7 +34,8 @@ onready var StrayPixel = preload("res://home/intro/intro_stray.tscn")
 func _input(event: InputEvent) -> void:
 	
 	if Input.is_action_just_pressed("ui_accept") and skip_intro.visible:
-		finish_intro()
+		_on_StartButton_pressed()
+#		finish_intro()
 		
 		
 func _ready() -> void:
@@ -293,3 +294,7 @@ func _on_TileMap_completed(random_spawn_floor_positions: Array, stray_cells_posi
 		random_spawn_positions.remove(p1_selected_cell_index)
 	
 	players_count = player_start_positions.size() # tukaj določeno se uporabi za game view setup
+
+
+func _on_StartButton_pressed() -> void:
+	finish_intro()

@@ -16,11 +16,6 @@ onready var riddler_l_table: VBoxContainer = $RiddlerLTable
 onready var scroller_table: VBoxContainer = $ScrollerTable
 onready var slider_table: VBoxContainer = $SliderTable
 
-#onready var cleaner_s_table: VBoxContainer = $CleanerSTable
-#onready var cleaner_m_table: VBoxContainer = $CleanerMTable
-#onready var cleaner_l_table: VBoxContainer = $CleanerLTable
-
-
 
 func _ready() -> void:
 	
@@ -36,12 +31,8 @@ func _ready() -> void:
 	riddler_m_table.get_highscore_table(Profiles.game_data_riddler_M, fake_player_ranking)
 	riddler_l_table.get_highscore_table(Profiles.game_data_riddler_L, fake_player_ranking)
 	
-	
 	scroller_table.get_highscore_table(Profiles.game_data_scroller, fake_player_ranking)
 	slider_table.get_highscore_table(Profiles.game_data_slider, fake_player_ranking)
-#	cleaner_s_table.get_highscore_table(Profiles.game_data_cleaner_S, fake_player_ranking)
-#	cleaner_m_table.get_highscore_table(Profiles.game_data_cleaner_M, fake_player_ranking)
-#	cleaner_l_table.get_highscore_table(Profiles.game_data_cleaner_L, fake_player_ranking)
 
 
 func _on_BackBtn_pressed() -> void:

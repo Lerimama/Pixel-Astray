@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/atlas_controls.png" type="Texture" id=2]
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=3]
 [ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=4]
-[ext_resource path="res://game/gui/tutorial.gd" type="Script" id=5]
+[ext_resource path="res://game/gui/tutorial_gui.gd" type="Script" id=5]
 [ext_resource path="res://assets/resources/icon_label_dot.tres" type="Texture" id=6]
 
 [sub_resource type="StyleBoxEmpty" id=201]

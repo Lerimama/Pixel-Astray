@@ -84,13 +84,20 @@ onready var player_life: Label = $Life
 onready var player_energy: Label = $Energy
 
 
+func confirm_players_ready():
+	get_viewport().set_disable_input(true) # anti dablklik
+	Global.sound_manager.play_gui_sfx("btn_confirm")
+	emit_signal("players_ready")
+	
 func _input(event: InputEvent) -> void:
 	
 	# splitscreen popup
 	if instructions_popup.visible and Input.is_action_just_pressed("ui_accept"):
-		get_viewport().set_disable_input(true) # anti dablklik
-		Global.sound_manager.play_gui_sfx("btn_confirm")
-		emit_signal("players_ready")
+		confirm_players_ready()
+		print("OK")
+#		get_viewport().set_disable_input(true) # anti dablklik
+#		Global.sound_manager.play_gui_sfx("btn_confirm")
+#		emit_signal("players_ready")
 
 	
 func _ready() -> void:
@@ -122,7 +129,9 @@ func set_hud(players_count: int): # kliče main na game-in
 	elif players_count == 2:
 		# players
 		p1_label.visible = true
+		p1_color_holder.visible = false
 		p2_statsline.visible = true
+		p2_color_holder.visible = false
 		# popups
 		p1_energy_warning_popup = $Popups/EnergyWarning/DuelP1
 		p2_energy_warning_popup = $Popups/EnergyWarning/DuelP2
@@ -148,7 +157,9 @@ func set_hud(players_count: int): # kliče main na game-in
 	
 	# glede na to kaj šteje ...
 	if current_gamed_hs_type == Profiles.HighscoreTypes.NO_HS:
-		if not Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
+		if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
+			highscore_label.visible = true
+		else:
 			highscore_label.visible = false
 	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_TIME_HIGH or Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW:
 		p1_points_holder.visible = false
@@ -392,3 +403,5 @@ func _on_GameTimer_gametime_is_up() -> void: # signal iz tajmerja
 	Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
 
 
+func _on_InstructionsStartButton_pressed() -> void:
+	pass # Replace with function body.
