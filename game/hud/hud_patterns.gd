@@ -136,7 +136,7 @@ func fade_in_instructions_popup(in_time: float):
 		win_label.text = "Get through the maze and hit the white pixel on the other side"
 		label.text = "Game is over when you are out of energy"
 		label_2.text = "Energy depletes with travelling, touching stray pixels or upon hitting a wall"
-		label_3.text = "Bursting power affects the amount of collected colors in stack"
+		label_3.text = "Bursting always collects all colors in stack"
 		label_4.text = "Time is unlimited"
 		label_5.text = "Highscore is fastest time"
 		label_6.text = ""
