@@ -3682,10 +3682,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -223.0
-margin_top = -40.0
-margin_right = 225.0
-margin_bottom = 248.0
+margin_left = 417.0
+margin_top = 320.0
+margin_right = 865.0
+margin_bottom = 608.0
 theme = SubResource( 346 )
 __meta__ = {
 "_edit_group_": true
@@ -4305,7 +4305,6 @@ text = "PLAY ON"
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 5 )
@@ -4317,7 +4316,6 @@ anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0 )
 
 [node name="GameoverTitle" type="Control" parent="GUI/GameOver"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -4548,7 +4546,6 @@ text = "You are forever colorless!"
 align = 1
 
 [node name="Tutorial" type="Control" parent="GUI/GameOver/GameoverTitle"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -4606,7 +4603,6 @@ align = 1
 autowrap = true
 
 [node name="Finished" type="Control" parent="GUI/GameOver/GameoverTitle/Tutorial"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -4648,6 +4644,20 @@ margin_right = 288.0
 margin_bottom = 240.0
 grow_horizontal = 2
 text = "Now, try a real game and become a master."
+align = 1
+autowrap = true
+
+[node name="Label3" type="Label" parent="GUI/GameOver/GameoverTitle/Tutorial/Finished"]
+visible = false
+modulate = Color( 0.368627, 1, 0.662745, 1 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -288.0
+margin_top = 242.0
+margin_right = 288.0
+margin_bottom = 292.0
+grow_horizontal = 2
+text = "But beware! Real games have have a little twist on some mechanics"
 align = 1
 autowrap = true
 

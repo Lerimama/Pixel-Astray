@@ -60,6 +60,7 @@ var default_game_settings: Dictionary = {
 }
 
 
+
 # DEFAULT -----------------------------------------------------------------------------------
 
 
@@ -357,7 +358,7 @@ var game_data_runner: Dictionary = {
 	"game_scene_path": "res://game/game_patterns.tscn",
 	"tilemap_path": "res://game/tilemaps/patterns/tilemap_runner.tscn",
 	"game_time_limit": 0,
-	"strays_start_count": 500, # 468 jih je v stackih
+	"strays_start_count": 320, # 468 jih je v stackih
 }
 
 
@@ -443,13 +444,13 @@ var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "c
 func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
-#	var current_game = Games.CLEANER
+	var current_game = Games.CLEANER
 #	var current_game = Games.ERASER_S
 #	var current_game = Games.CLEANER_DUEL
 #	var current_game = Games.SCROLLER
 #	var current_game = Games.SLIDER
 #	var current_game = Games.RUNNER
-	var current_game = Games.RIDDLER_M
+#	var current_game = Games.RIDDLER_M
 #	var current_game = Games.TUTORIAL
 	set_game_data(current_game)
 	
@@ -512,7 +513,13 @@ func set_game_data(selected_game) -> void:
 			game_settings["timer_mode_countdown"] = false
 			game_settings["color_picked_points"] = 0
 			game_settings["all_cleaned_points"] = 0
+			game_settings["touching_stray_energy"] = -0.4
 #			game_settings["player_start_color"] = Color.white
+			
+			# debug kombo
+			game_settings["game_instructions_popup"] = false
+			game_settings["start_countdown"] = false
+			
 		Games.RIDDLER_S:
 			current_game_data = game_data_riddler_S
 			game_settings["cell_traveled_energy"] = 0

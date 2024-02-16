@@ -5,22 +5,18 @@ var current_stray_spawning_round: int = 0 # prištevam na koncu spawna
 
 var lines_scrolled_count: int = 0 # prištevam v stray_step()
 var lines_scroll_per_spawn_round: int = 1 # ob levelu se vleče iz profilov
+var scrolling_pause_time: float # pavza med stepi
+
 
 var current_stage: int = 0 # na štartu se kliče stage up
-
-var current_level: int = 0 # na štartu se kliče level up
-
-# level progres
-#enum LevelProgressType {COLORS_PICKED, SCROLLING_LINES, FLOOR_CLEARED}
-#var current_progress_type: int = LevelProgressType.SCROLLING_LINES		
-#var current_progress_type: int = LevelProgressType.COLORS_PICKED		
-#var current_progress_type: int = LevelProgressType.FLOOR_CLEARED	
-
-var levels_per_game: int = 10
-var scrolling_pause_time: float # pavza med stepi
-var level_color_scheme: Dictionary # trenutna barvna shema
 var stages_per_level: int # = Profiles.scrolling_level_conditions[1]
+var current_level: int = 0 # na štartu se kliče level up
+var levels_per_game: int = 10
+var level_color_scheme: Dictionary # trenutna barvna shema
+
 var in_level_transition: bool = false
+var step_in_progress: bool = false
+var wall_spawn_random_range: int
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -36,7 +32,6 @@ func _ready() -> void:
 	PlayerPixel = preload("res://game/pixel/player_scrolling.tscn")
 	randomize()
 	
-var step_in_progress: bool = false
 	
 func _process(delta: float) -> void:
 	# namen: kličem stray step
@@ -48,27 +43,19 @@ func _process(delta: float) -> void:
 	# position indicators off
 	show_position_indicators = false			
 	
-	
 	if game_on and not step_in_progress:
-#		yield(get_tree().create_timer(scrolling_pause_time), "timeout")
 		stray_step()
 
 
 func set_game(): 
 	# namen: setam level indikatorje in strayse spawnam po štratu igre
-
-#	Global.hud.fade_splitscreen_popup()
-#	yield(Global.hud, "players_ready")
-
+	
 	# player intro animacija
 	var signaling_player: KinematicBody2D
 	for player in get_tree().get_nodes_in_group(Global.group_players):
 		player.animation_player.play("lose_white_on_start")
 		signaling_player = player # da se zgodi na obeh plejerjih istočasno
 	yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
-	
-	#set_level_indicators()
-	#set_strays()
 	
 	yield(get_tree().create_timer(1), "timeout") # da si plejer ogleda
 
@@ -90,9 +77,10 @@ func start_game():
 	game_on = true
 	
 	upgrade_level()
+	
 	spawn_strays(game_data["strays_start_count"])
 
-	stray_step() # prvi step
+	# stray_step() # prvi step ... ne rabim, ker kliče že GM
 
 
 func game_over(gameover_reason: int):
@@ -465,7 +453,7 @@ func upgrade_level():
 		
 		in_level_transition = false		
 
-var wall_spawn_random_range: int
+
 func set_level_conditions():
 	
 	var leveling_conditions: Dictionary

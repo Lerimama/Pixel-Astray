@@ -17,7 +17,7 @@ func _physics_process(delta: float) -> void:
 	
 	detect_touch()	
 	state_machine()
-	# manage_heartbeat()
+	manage_heartbeat()
 	
 	
 # INPUTS ------------------------------------------------------------------------------------------
@@ -109,7 +109,7 @@ func cock_burst():
 	# namen: brez ciklanja, moč je vedno polna, hitrejše cockanje, manjša dolžina
 	
 	cocked_ghost_max_count = 3
-	cock_ghost_cocking_time = 0.1 # čas nastajanja ghosta in njegova animacija 	
+#	cock_ghost_cocking_time = 0.1 # čas nastajanja ghosta in njegova animacija 	
 	
 	var burst_direction = direction
 	var cock_direction = - burst_direction
@@ -130,23 +130,6 @@ func cock_burst():
 
 func spawn_cock_ghost(cocking_direction: Vector2): 
 	# namen: vsi cock ghosti polni barve, zaznavanje cock_room z deffered klicom (da lahko bolje zazna cock room)
-	
-	# spawn ghosta pod manom
-	#	var cock_ghost_position = (global_position - cocking_direction * cell_size_x/2) + (cocking_direction * cell_size_x * (cocked_ghosts.size() + 1)) # +1, da se ne začne na pixlu
-	#	var new_cock_ghost = spawn_ghost(cock_ghost_position)
-	#	new_cock_ghost.z_index = 3 # nad straysi in playerjem
-	#	new_cock_ghost.modulate.a  = 0 # cocked_ghost_alpha - (cocked_ghosts.size() / cocked_ghost_alpha_divider)
-	#	new_cock_ghost.direction = cocking_direction
-	#	new_cock_ghost.position = new_cock_ghost.global_position + cocking_direction * cell_size_x/2
-	#
-	#	# ray detect velikost je velikost napenjanja
-	#	new_cock_ghost.ghost_ray.cast_to = direction * cell_size_x
-	#	new_cock_ghost.connect("ghost_detected_body", self, "_on_ghost_detected_body")
-	#
-	#	call_deferred("show_ghost", new_cock_ghost)
-	#
-	#	return new_cock_ghost
-
 	
 	var cocked_ghost_alpha: float = 1 # najnižji alfa za ghoste ... old 0.55
 	var cocked_ghost_alpha_divider: float = 5 # faktor nižanja po zaporedju (manjši je bolj oster) ... old 14
@@ -176,7 +159,6 @@ func spawn_cock_ghost(cocking_direction: Vector2):
 	return new_cock_ghost
 
 
-
 func show_ghost(ghost):
 	
 	if cocking_room:
@@ -188,26 +170,6 @@ func spawn_floating_tag(value: int):
 	# namen: floating tag off
 	
 	return
-		
-				
-#func release_burst(): 
-#	# namen: manjšam trajanje in pavzo
-#
-#	current_state = States.RELEASING
-#
-#	play_sound("burst_cocked")
-#
-#	var cocked_ghost_fill_time: float = 0.04 # čas za napolnitev vseh spawnanih ghostov (tik pred burstom)
-#	var cocked_pause_time: float = 0.05 # pavza pred strelom
-#
-#	# napeti ghosti animirajo do alfa 1
-#	for ghost in cocked_ghosts:
-#		var get_set_tween = get_tree().create_tween()
-#		get_set_tween.tween_property(ghost, "modulate:a", 1, cocked_ghost_fill_time)
-#		# yield(get_tree().create_timer(cocked_ghost_fill_time),"timeout")
-#	# yield(get_tree().create_timer(cocked_pause_time), "timeout")
-#
-#	burst()
 		
 
 func burst():

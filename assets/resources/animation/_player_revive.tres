@@ -65,7 +65,7 @@ tracks/3/path = NodePath("CollisionShape2D:disabled")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
-tracks/3/enabled = true
+tracks/3/enabled = false
 tracks/3/keys = {
 "times": PoolRealArray( 1.5 ),
 "transitions": PoolRealArray( 1 ),
@@ -89,7 +89,7 @@ tracks/5/path = NodePath("CollisionShapeExt:disabled")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
-tracks/5/enabled = true
+tracks/5/enabled = false
 tracks/5/keys = {
 "times": PoolRealArray( 1.5 ),
 "transitions": PoolRealArray( 1 ),

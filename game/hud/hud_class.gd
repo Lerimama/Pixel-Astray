@@ -94,7 +94,6 @@ func _input(event: InputEvent) -> void:
 	# splitscreen popup
 	if instructions_popup.visible and Input.is_action_just_pressed("ui_accept"):
 		confirm_players_ready()
-		print("OK")
 #		get_viewport().set_disable_input(true) # anti dablklik
 #		Global.sound_manager.play_gui_sfx("btn_confirm")
 #		emit_signal("players_ready")
@@ -247,7 +246,7 @@ func check_for_warning(player_stats: Dictionary, warning_popup: Control):
 		var steps_remaining_label: Label
 		steps_remaining_label = warning_popup.get_node("StepsRemaining")
 	
-		if player_stats["player_energy"] == 0:
+		if player_stats["player_energy"] <= 0:
 			if warning_popup.visible == true:
 				warning_out(warning_popup)		
 		elif player_stats["player_energy"] == 1:

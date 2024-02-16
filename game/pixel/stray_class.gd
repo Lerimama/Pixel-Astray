@@ -6,6 +6,7 @@ var current_state = States.IDLE # ni vready, da lahko setam že ob spawnu
 
 var stray_color: Color
 var step_attempt: int = 1 # če nima prostora, proba v drugo smer (največ 4krat)
+var visible_on_screen: bool = false
 
 onready var collision_shape: CollisionShape2D = $CollisionShape2D
 onready var collision_shape_ext: CollisionShape2D = $CollisionShapeExt
@@ -100,6 +101,7 @@ func step(step_direction: Vector2):
 		if step_attempt < 5:
 			var new_direction = step_direction.rotated(deg2rad(90))
 			step(new_direction)
+			step_attempt = 1
 		return
 	
 	current_state = States.MOVING
@@ -229,8 +231,9 @@ func detect_collision_in_direction(direction_to_check):
 func _on_VisibilityNotifier2D_viewport_entered(viewport: Viewport) -> void:
 	
 	Global.strays_on_screen.append(self)
-
+	visible_on_screen = true
 
 func _on_VisibilityNotifier2D_viewport_exited(viewport: Viewport) -> void:
 	
 	Global.strays_on_screen.erase(self)
+	visible_on_screen = false

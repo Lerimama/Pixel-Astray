@@ -29,10 +29,10 @@ var step_slowdown_rate: float = Global.game_manager.game_settings["step_slowdown
 var cocking_room: bool = true
 var uncocking: bool = false
 var cocking_loop_pause: float = 1
-var cock_ghost_cocking_time: float = 0.06 # čas nastajanja ghosta in njegova animacija ... original 0.12
+var cock_ghost_cocking_time: float = 0.1 # čas nastajanja ghosta in njegova animacija ... original 0.12
 var current_ghost_cocking_time: float = 0 # trenuten čas nastajanja ghosta ... tukaj, da ga ne nulira z vsakim frejmom
 var cocked_ghost_max_count: int = 5
-var cock_ghost_speed_addon: float = 12
+var cock_ghost_speed_addon: float = 10
 var cocked_ghosts: Array
 var burst_speed: float = 0 # trenutna hitrost
 var burst_velocity: Vector2
@@ -348,15 +348,15 @@ func cock_burst():
 	
 	if not uncocking:
 		if cocked_ghosts.size() < cocked_ghost_max_count and cocking_room: # prostor za napenjanje preverja ghost
+			play_sound("burst_cocking")
 			current_ghost_cocking_time += 1 / 60.0 # čas držanja tipke (znotraj nastajanja ene cock celice) ... fejk delta
 			if current_ghost_cocking_time > cock_ghost_cocking_time: # ko je čas za eno celico mimo, jo spawnam
 				current_ghost_cocking_time = 0
 				var new_cock_ghost = spawn_cock_ghost(cock_direction)
 				cocked_ghosts.append(new_cock_ghost)	
-				play_sound("burst_cocking")
 		elif cocked_ghosts.size() == cocked_ghost_max_count:
 			current_ghost_cocking_time += 1 / 60.0 # čas držanja tipke (znotraj nastajanja ene cock celice) ... fejk delta
-			if current_ghost_cocking_time > 5*cock_ghost_cocking_time: # ko je čas za eno celico mimo, jo spawnam
+			if current_ghost_cocking_time > 6 * cock_ghost_cocking_time: # auto burst
 				release_burst()
 				burst_light_off()
 #			yield(get_tree().create_timer(cocking_loop_pause), "timeout")
@@ -1200,6 +1200,7 @@ func change_stat(stat_event: String, stat_value):
 			player_stats["player_energy"] = clamp(player_stats["player_energy"], 5, game_settings["player_start_energy"])
 	
 	# klempanje
+	player_stats["player_energy"] = round(player_stats["player_energy"])
 	player_stats["player_energy"] = clamp(player_stats["player_energy"], 0, game_settings["player_max_energy"])
 	player_stats["player_points"] = clamp(player_stats["player_points"], 0, player_stats["player_points"])	
 	

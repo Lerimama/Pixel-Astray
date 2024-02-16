@@ -333,7 +333,7 @@ tracks/3/path = NodePath("CollisionShape2D:disabled")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
-tracks/3/enabled = true
+tracks/3/enabled = false
 tracks/3/keys = {
 "times": PoolRealArray( 0.06 ),
 "transitions": PoolRealArray( 1 ),
@@ -357,7 +357,7 @@ tracks/5/path = NodePath("CollisionShapeExt:disabled")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
-tracks/5/enabled = true
+tracks/5/enabled = false
 tracks/5/keys = {
 "times": PoolRealArray( 0.06 ),
 "transitions": PoolRealArray( 1 ),
@@ -756,6 +756,37 @@ cast_to = Vector2( 32, 0 )
 collision_mask = 3
 
 [node name="ColorPoly" type="Polygon2D" parent="Vision"]
+visible = false
+position = Vector2( -16, -16 )
+polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32, 16, 16 )
+
+[node name="Touch" type="Node2D" parent="."]
+
+[node name="TouchRay1" type="RayCast2D" parent="Touch"]
+position = Vector2( 0, -15.9 )
+enabled = true
+cast_to = Vector2( 0, -8.1 )
+collision_mask = 3
+
+[node name="TouchRay2" type="RayCast2D" parent="Touch"]
+position = Vector2( 16, 0 )
+enabled = true
+cast_to = Vector2( 8, 0 )
+collision_mask = 3
+
+[node name="TouchRay3" type="RayCast2D" parent="Touch"]
+position = Vector2( 0, 15.9 )
+enabled = true
+cast_to = Vector2( 0, 8.1 )
+collision_mask = 3
+
+[node name="TouchRay4" type="RayCast2D" parent="Touch"]
+position = Vector2( -16, 0 )
+enabled = true
+cast_to = Vector2( -8, 0 )
+collision_mask = 3
+
+[node name="ColorPoly" type="Polygon2D" parent="Touch"]
 visible = false
 position = Vector2( -16, -16 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32, 16, 16 )

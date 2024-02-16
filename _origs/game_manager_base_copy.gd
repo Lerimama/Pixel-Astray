@@ -40,8 +40,8 @@ onready var game_settings: Dictionary = Profiles.game_settings # ga med igro ne 
 onready var game_data: Dictionary = Profiles.current_game_data # .duplicate() # duplikat default profila, ker ga me igro spreminjaš
 onready var spectrum_rect: TextureRect = $Spectrum
 onready var spectrum_gradient: TextureRect = $SpectrumGradient
-onready var StrayPixel: PackedScene = preload("res://game/pixel/stray.tscn")
-onready var PlayerPixel: PackedScene = preload("res://game/pixel/player.tscn")
+onready var StrayPixel: PackedScene = preload("res://game/pixel/stray_class.tscn")
+onready var PlayerPixel: PackedScene = preload("res://game/pixel/player_class.tscn")
 
 
 func _ready() -> void:
