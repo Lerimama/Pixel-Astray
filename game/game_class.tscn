@@ -1,4 +1,4 @@
-[gd_scene load_steps=163 format=2]
+[gd_scene load_steps=190 format=2]
 
 [ext_resource path="res://assets/theme/fonts/16bfZX.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://game/hud/music_player.gd" type="Script" id=2]
@@ -693,6 +693,34 @@ atlas = ExtResource( 12 )
 region = Rect2( 18, 84, 14, 12 )
 margin = Rect2( 0, 3, 0, 0 )
 
+[sub_resource type="AtlasTexture" id=442]
+atlas = ExtResource( 12 )
+region = Rect2( 18, 48, 10, 16 )
+margin = Rect2( -1, 0, 0, 0 )
+
+[sub_resource type="AtlasTexture" id=443]
+atlas = ExtResource( 12 )
+region = Rect2( 32, 64, 48, 16 )
+
+[sub_resource type="AtlasTexture" id=444]
+atlas = ExtResource( 12 )
+region = Rect2( 32, 80, 48, 16 )
+
+[sub_resource type="AtlasTexture" id=445]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="StreamTexture" id=446]
+load_path = "res://.import/atlas_hud.png-e7dc1fba151c6637ba4698f0439dac44.stex"
+
+[sub_resource type="AtlasTexture" id=447]
+atlas = SubResource( 446 )
+region = Rect2( 0, 16, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=448]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 0, 16, 16 )
+
 [sub_resource type="AtlasTexture" id=128]
 atlas = ExtResource( 12 )
 region = Rect2( 16, 16, 16, 16 )
@@ -1181,6 +1209,157 @@ tracks/4/keys = {
 "update": 1,
 "values": [ false ]
 }
+
+[sub_resource type="StyleBoxEmpty" id=422]
+
+[sub_resource type="StreamTexture" id=423]
+load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
+
+[sub_resource type="AtlasTexture" id=424]
+atlas = SubResource( 423 )
+region = Rect2( 16, 16, 14, 16 )
+
+[sub_resource type="AtlasTexture" id=425]
+atlas = SubResource( 423 )
+region = Rect2( 0, 16, 10, 16 )
+
+[sub_resource type="StyleBoxFlat" id=426]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+expand_margin_left = 6.0
+expand_margin_right = 6.0
+expand_margin_top = 2.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxEmpty" id=427]
+
+[sub_resource type="StyleBoxEmpty" id=428]
+
+[sub_resource type="StyleBoxLine" id=429]
+color = Color( 1, 1, 1, 1 )
+thickness = 2
+
+[sub_resource type="AtlasTexture" id=430]
+atlas = SubResource( 423 )
+region = Rect2( 32, 0, 10, 10 )
+
+[sub_resource type="StyleBoxEmpty" id=431]
+
+[sub_resource type="StyleBoxFlat" id=432]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+expand_margin_left = 6.0
+expand_margin_top = 6.0
+expand_margin_bottom = 6.0
+
+[sub_resource type="StreamTexture" id=433]
+load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
+
+[sub_resource type="AtlasTexture" id=434]
+atlas = SubResource( 433 )
+region = Rect2( 0, 4, 16, 8 )
+
+[sub_resource type="StyleBoxTexture" id=435]
+texture = SubResource( 434 )
+region_rect = Rect2( 0, 0, 16, 8 )
+margin_left = 3.34132
+margin_right = 4.0
+margin_top = 4.0
+margin_bottom = 4.0
+modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+
+[sub_resource type="StyleBoxFlat" id=436]
+bg_color = Color( 0, 0, 0, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="AtlasTexture" id=437]
+atlas = SubResource( 423 )
+region = Rect2( 16, 0, 16, 12 )
+margin = Rect2( 4, 0, 0, 0 )
+
+[sub_resource type="StyleBoxFlat" id=438]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 0.901961 )
+expand_margin_left = 6.0
+expand_margin_right = 6.0
+expand_margin_top = 2.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxFlat" id=439]
+bg_color = Color( 0, 0, 0, 0.862745 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
+
+[sub_resource type="StyleBoxLine" id=440]
+color = Color( 1, 1, 1, 1 )
+thickness = 2
+vertical = true
+
+[sub_resource type="Theme" id=441]
+default_font = ExtResource( 20 )
+Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
+Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
+Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
+Button/styles/disabled = SubResource( 422 )
+Button/styles/focus = SubResource( 422 )
+Button/styles/hover = SubResource( 422 )
+Button/styles/normal = SubResource( 422 )
+Button/styles/pressed = SubResource( 422 )
+CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
+CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
+CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
+CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
+CheckBox/constants/hseparation = 4
+CheckBox/icons/checked = SubResource( 424 )
+CheckBox/icons/unchecked = SubResource( 425 )
+CheckBox/styles/focus = SubResource( 426 )
+CheckBox/styles/hover = SubResource( 426 )
+CheckBox/styles/hover_pressed = SubResource( 426 )
+CheckBox/styles/normal = SubResource( 427 )
+CheckBox/styles/pressed = SubResource( 428 )
+HSeparator/styles/separator = SubResource( 429 )
+HSlider/icons/grabber = SubResource( 430 )
+HSlider/icons/grabber_disabled = null
+HSlider/icons/grabber_highlight = SubResource( 430 )
+HSlider/icons/tick = null
+HSlider/styles/grabber_area = SubResource( 431 )
+HSlider/styles/grabber_area_highlight = SubResource( 432 )
+HSlider/styles/slider = SubResource( 435 )
+Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
+Label/constants/line_spacing = 6
+LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
+LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
+LineEdit/styles/normal = SubResource( 436 )
+OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+OptionButton/icons/arrow = SubResource( 437 )
+OptionButton/styles/focus = SubResource( 438 )
+OptionButton/styles/hover = SubResource( 438 )
+OptionButton/styles/pressed = SubResource( 438 )
+Panel/styles/panel = SubResource( 439 )
+VSeparator/styles/separator = SubResource( 440 )
 
 [sub_resource type="AtlasTexture" id=192]
 atlas = ExtResource( 13 )
@@ -2602,7 +2781,7 @@ margin_right = 10.0
 margin_bottom = 19.0
 rect_min_size = Vector2( 0, 18 )
 size_flags_vertical = 8
-texture = SubResource( 125 )
+texture = SubResource( 442 )
 
 [node name="TextureProgress" type="TextureProgress" parent="GUI/Hud/Header/TopLineR/PlayerLineR/EnergyBar"]
 margin_left = 16.0
@@ -2613,8 +2792,8 @@ rect_min_size = Vector2( 0, 18 )
 size_flags_vertical = 8
 max_value = 192.0
 step = 8.0
-texture_over = SubResource( 126 )
-texture_progress = SubResource( 132 )
+texture_over = SubResource( 443 )
+texture_progress = SubResource( 444 )
 
 [node name="LifeIcons" type="HBoxContainer" parent="GUI/Hud/Header/TopLineR/PlayerLineR"]
 margin_left = 204.0
@@ -2636,12 +2815,12 @@ size_flags_vertical = 8
 [node name="OffIcon" type="TextureRect" parent="GUI/Hud/Header/TopLineR/PlayerLineR/LifeIcons/LifeIcon"]
 margin_right = 16.0
 margin_bottom = 16.0
-texture = SubResource( 147 )
+texture = SubResource( 445 )
 
 [node name="OnIcon" type="TextureRect" parent="GUI/Hud/Header/TopLineR/PlayerLineR/LifeIcons/LifeIcon"]
 margin_right = 16.0
 margin_bottom = 16.0
-texture = SubResource( 123 )
+texture = SubResource( 447 )
 
 [node name="LifeIcon2" type="Control" parent="GUI/Hud/Header/TopLineR/PlayerLineR/LifeIcons"]
 margin_left = 18.0
@@ -2654,12 +2833,12 @@ size_flags_vertical = 8
 [node name="OffIcon" type="TextureRect" parent="GUI/Hud/Header/TopLineR/PlayerLineR/LifeIcons/LifeIcon2"]
 margin_right = 16.0
 margin_bottom = 16.0
-texture = SubResource( 122 )
+texture = SubResource( 448 )
 
 [node name="OnIcon" type="TextureRect" parent="GUI/Hud/Header/TopLineR/PlayerLineR/LifeIcons/LifeIcon2"]
 margin_right = 16.0
 margin_bottom = 16.0
-texture = SubResource( 123 )
+texture = SubResource( 447 )
 
 [node name="LifeIcon3" type="Control" parent="GUI/Hud/Header/TopLineR/PlayerLineR/LifeIcons"]
 margin_left = 36.0
@@ -2672,12 +2851,12 @@ size_flags_vertical = 8
 [node name="OffIcon" type="TextureRect" parent="GUI/Hud/Header/TopLineR/PlayerLineR/LifeIcons/LifeIcon3"]
 margin_right = 16.0
 margin_bottom = 16.0
-texture = SubResource( 122 )
+texture = SubResource( 448 )
 
 [node name="OnIcon" type="TextureRect" parent="GUI/Hud/Header/TopLineR/PlayerLineR/LifeIcons/LifeIcon3"]
 margin_right = 16.0
 margin_bottom = 16.0
-texture = SubResource( 123 )
+texture = SubResource( 447 )
 
 [node name="PlayerLabel" type="Label" parent="GUI/Hud/Header/TopLineR/PlayerLineR"]
 margin_left = 272.0
@@ -3682,10 +3861,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 417.0
-margin_top = 320.0
-margin_right = 865.0
-margin_bottom = 608.0
+margin_left = -223.0
+margin_top = -40.0
+margin_right = 225.0
+margin_bottom = 248.0
 theme = SubResource( 346 )
 __meta__ = {
 "_edit_group_": true
@@ -3830,7 +4009,7 @@ anchor_right = 1.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 38 )
 size_flags_horizontal = 3
-theme = SubResource( 194 )
+theme = SubResource( 441 )
 text = "Player controls"
 uppercase = true
 
@@ -3997,7 +4176,7 @@ margin_right = 296.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 0, 38 )
 size_flags_horizontal = 3
-theme = SubResource( 194 )
+theme = SubResource( 441 )
 text = "Shortcuts"
 uppercase = true
 
@@ -4029,7 +4208,7 @@ margin_left = 30.0
 margin_top = 2.0
 margin_right = 47.0
 margin_bottom = 20.0
-theme = SubResource( 194 )
+theme = SubResource( 441 )
 custom_fonts/font = ExtResource( 3 )
 text = "or"
 align = 1
@@ -4045,7 +4224,7 @@ margin_left = 85.0
 margin_top = 2.0
 margin_right = 198.0
 margin_bottom = 20.0
-theme = SubResource( 194 )
+theme = SubResource( 441 )
 custom_fonts/font = ExtResource( 3 )
 text = "to mute music"
 
@@ -4068,7 +4247,7 @@ margin_left = 30.0
 margin_top = 2.0
 margin_right = 47.0
 margin_bottom = 20.0
-theme = SubResource( 194 )
+theme = SubResource( 441 )
 custom_fonts/font = ExtResource( 3 )
 text = "or"
 align = 1
@@ -4084,7 +4263,7 @@ margin_left = 85.0
 margin_top = 2.0
 margin_right = 257.0
 margin_bottom = 20.0
-theme = SubResource( 194 )
+theme = SubResource( 441 )
 custom_fonts/font = ExtResource( 3 )
 text = "to skip current track"
 
@@ -4107,7 +4286,7 @@ margin_left = 30.0
 margin_top = 2.0
 margin_right = 47.0
 margin_bottom = 20.0
-theme = SubResource( 194 )
+theme = SubResource( 441 )
 custom_fonts/font = ExtResource( 3 )
 text = "or"
 align = 1
@@ -4123,7 +4302,7 @@ margin_left = 104.0
 margin_top = 2.0
 margin_right = 296.0
 margin_bottom = 20.0
-theme = SubResource( 194 )
+theme = SubResource( 441 )
 custom_fonts/font = ExtResource( 3 )
 text = "to pause/unpause game"
 
@@ -4146,7 +4325,7 @@ margin_left = 30.0
 margin_top = 2.0
 margin_right = 47.0
 margin_bottom = 20.0
-theme = SubResource( 194 )
+theme = SubResource( 441 )
 custom_fonts/font = ExtResource( 3 )
 text = "or"
 align = 1
@@ -4162,7 +4341,7 @@ margin_left = 103.0
 margin_top = 2.0
 margin_right = 262.0
 margin_bottom = 20.0
-theme = SubResource( 194 )
+theme = SubResource( 441 )
 custom_fonts/font = ExtResource( 3 )
 text = "to confirm selection"
 
@@ -4180,7 +4359,7 @@ anchor_right = 1.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 0, 38 )
 size_flags_horizontal = 3
-theme = SubResource( 194 )
+theme = SubResource( 441 )
 text = "Game settings"
 uppercase = true
 
@@ -5465,8 +5644,6 @@ text = "CONFIRM"
 align = 0
 
 [connection signal="animation_finished" from="GUI/Hud/Popups/GameCountdown/AnimationPlayer" to="GUI/Hud/Popups/GameCountdown" method="_on_AnimationPlayer_animation_finished"]
-[connection signal="gametime_is_up" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_gametime_is_up"]
-[connection signal="sudden_death_active" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_sudden_death_active"]
 [connection signal="timeout" from="GUI/Hud/Header/GameTimer/Timer" to="GUI/Hud/Header/GameTimer" method="_on_Timer_timeout"]
 [connection signal="animation_finished" from="GUI/Tutorial/AnimationPlayer" to="GUI/Tutorial" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="toggled" from="GUI/PauseMenu/Settings/GameMusicBtn" to="GUI/PauseMenu" method="_on_GameMusicBtn_toggled"]

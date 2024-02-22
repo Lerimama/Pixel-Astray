@@ -13,7 +13,7 @@ func _ready() -> void:
 	
 #	home_in_intro()
 	home_in_no_intro()
-#	game_in()
+#	game_in()d
 
 #func _process(delta: float) -> void:
 #	print("GUI INPUT ", get_viewport().gui_disable_input)
