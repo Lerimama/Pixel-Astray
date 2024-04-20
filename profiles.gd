@@ -57,8 +57,9 @@ var default_game_settings: Dictionary = {
 	"suddent_death_mode": false,
 	"manage_highscores": true, # obsoleten, ker je vključen v HS type
 #	"stray_step_time": 0.2,
-	# KLASIKA
-	"classic_mode": false, # obsoleten, ker je vključen v HS type
+	# neu
+	"classic_mode": false,
+	"spectrum_start_on": false,
 }
 
 
@@ -186,6 +187,7 @@ var scrolling_level_conditions: Dictionary = {
 	},
 }
 
+
 var slider_level_conditions: Dictionary = {
 	1: { # tutorial stage ... lahka in hitr
 		"color_scheme": game_color_schemes["default_color_scheme"],
@@ -266,6 +268,24 @@ var slider_level_conditions: Dictionary = {
 		"lines_scroll_per_spawn_round": 5,
 		"strays_spawn_count": 14,
 		"wall_spawn_random_range": 5,
+	},
+}
+
+
+var classic_level_conditions: Dictionary = {
+	1: { # small
+		"color_spectrum_split": 32, # za random color scheme
+		"walling_pause_time": 1,
+		"walling_time_div": 2, # deljenje
+		"walling_strays_count_factor": 5, # množenje
+		"strays_spawn_count_grow": 5, # prištevanje 
+	},
+	2: { # big
+		"color_spectrum_split": 32, # za random color scheme
+		"walling_pause_time": 1,
+		"walling_time_div": 2, # deljenje
+		"walling_strays_count_factor": 5, # množenje
+		"strays_spawn_count_grow": 5, # prištevanje 
 	},
 }
 
@@ -441,12 +461,13 @@ var game_data_classic: Dictionary = {
 	"game": Games.CLASSIC,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Classic",
-	"level": "",
+	"level": "0",
 	"game_scene_path": "res://game/game_cleaning.tscn",
 #	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eraser.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_classic.tscn",
+#	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_classic.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_classic_small.tscn",
 	"game_time_limit": 0,
-	"strays_start_count": 50,
+	"strays_start_count": 5,
 }
 
 
@@ -485,6 +506,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["player_start_life"] = 3
 			game_settings["timer_mode_countdown"] = false
 			game_settings["lose_life_on_hit"] = true
+			game_settings["spectrum_start_on"] = true
 			#
 #			game_settings["camera_fixed"] = true
 			game_settings["start_countdown"] = false

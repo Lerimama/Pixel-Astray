@@ -60,7 +60,7 @@ func _ready():
 			if Global.game_manager.game_data["game"] == Profiles.Games.RUNNER:
 				zoom_start = Vector2.ONE * 6
 			zoom = zoom_start
-	
+		zoom_end = zoom_start
 	# testhud
 	set_ui_focus()	
 	update_ui()

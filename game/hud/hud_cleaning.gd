@@ -52,3 +52,38 @@ func fade_in_instructions_popup(in_time: float):
 	var show_instructions_popup = get_tree().create_tween()
 	show_instructions_popup.tween_callback(instructions_popup, "show")
 	show_instructions_popup.tween_property(instructions_popup, "modulate:a", 1, in_time).from(0.0).set_ease(Tween.EASE_IN)
+
+# samo za classic
+#neu
+onready var level_up_popup: Control = $Popups/LevelUp
+
+func _process(delta: float) -> void:
+	# namen: čekiranje levela
+	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
+	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
+	level_label.text = "%02d" % Global.game_manager.current_level 
+	
+	
+func level_up_popup_in(level_reached: int):
+	
+	level_up_popup.get_node("Label").text = "LEVEL %s" % str(level_reached)
+	level_up_popup.show()
+	level_up_popup.modulate.a = 0
+	
+	var popup_in = get_tree().create_tween()
+	popup_in.tween_property(level_up_popup, "modulate:a", 1, 0.3)
+
+
+func level_up_popup_out():
+	
+	var popup_in = get_tree().create_tween()
+	popup_in.tween_property(level_up_popup, "modulate:a", 0, 0.3)
+	popup_in.tween_callback(level_up_popup, "hide")
+
+
+func empty_color_indicators():
+	
+	# zbrišem trenutne indikatorje
+	for child in spectrum.get_children():
+		child.queue_free()
+	active_color_indicators.clear()

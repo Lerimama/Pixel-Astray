@@ -34,20 +34,28 @@ onready var StrayPixel: PackedScene = preload("res://game/pixel/stray_class.tscn
 onready var PlayerPixel: PackedScene = preload("res://game/pixel/player_class.tscn")
 
 #neu
-var strays_as_wall_count: int = 0 # samo za statistiko, ki je ne bom vodil ...
+#var strays_as_wall_count: int = 0 # samo za statistiko, ki je ne bom vodil ...
 var available_respawn_positions: Array # pozicije na voljo, ki se apdejtajo na vsak stray in player spawn ali usmrtitev 
-
+#var available_respawn_colors: Array # barve se naberejo na vsak umrjen ali wall all stray 
+#var all_stray_colors: Array = [] # v razmerju s HUDom
 
 func _unhandled_input(event: InputEvent) -> void:
 
 	if Input.is_action_pressed("no2"):
 		get_tree().call_group(Global.group_strays, "die_to_wall")
-			
+	if Input.is_action_pressed("ui_accept"):
+			for n in 2:
+				print ("n",n)
+#		for n in 50:
+			# random stray to wall
+			var random_stray_index: int = randi() % int(strays_in_game_count)
+			var random_stray: KinematicBody2D = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_index]
+			random_stray.die_to_wall()
+		
 			
 func _ready() -> void:
 	
 	Global.game_manager = self
-	
 	randomize()
 
 	
@@ -65,6 +73,14 @@ func _process(delta: float) -> void:
 			show_position_indicators = false
 	else:
 		show_position_indicators = false
+
+	
+#	if game_settings["classic_mode"]:
+#		yield(get_tree().create_timer(1),"timeout")
+#		# random stray to wall
+#		var random_stray_index: int = randi() % int(strays_in_game_count)
+#		var random_stray: KinematicBody2D = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_index]
+#		random_stray.die_to_wall()
 	
 		
 # GAME LOOP ----------------------------------------------------------------------------------
@@ -254,52 +270,42 @@ func set_strays():
 	
 	strays_shown.clear() # resetiram, da je mogoč in-game spawn
 
-
+	
 func spawn_strays(strays_to_spawn_count: int):
 	
 	# split colors
 	strays_to_spawn_count = clamp(strays_to_spawn_count, 1, strays_to_spawn_count) # za vsak slučaj klempam, da ne more biti nikoli 0 ...  ker je error			
-
+	
+	# get color scheme
 	var spectrum_image: Image
 	var color_offset: float
 	var level_indicator_color_offset: float
-	
-	# difolt barvna shema ali druge
-	if Profiles.current_color_scheme == Profiles.game_color_schemes["default_color_scheme"]:
-		# setam sliko
+	if Profiles.current_color_scheme == Profiles.game_color_schemes["default_color_scheme"]: # setam sliko
 		var spectrum_texture: Texture = spectrum_rect.texture
 		spectrum_image = spectrum_texture.get_data()
 		spectrum_image.lock()
-		# razmak med barvami za strayse
 		var spectrum_texture_width: float = spectrum_rect.rect_size.x
 		color_offset = spectrum_texture_width / strays_to_spawn_count # razmak barv po spektru ... - 1 je zato ker je razmakov za 1 manj kot barv
-	else:
-		# setam gradient
+	else: # setam gradient
 		var gradient: Gradient = $SpectrumGradient.texture.get_gradient()
 		gradient.set_color(0, Profiles.current_color_scheme[1])
 		gradient.set_color(1, Profiles.current_color_scheme[2])
-		# razmak med barvami za strayse
-		color_offset = 1.0 / strays_to_spawn_count
-		
+		color_offset = 1.0 / strays_to_spawn_count # razmak med barvami za strayse
+
+	# spawn strays
 	var available_required_spawn_positions = required_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
 	var available_random_spawn_positions = random_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
 	var all_colors: Array = [] # za color indikatorje
-
 	for stray_index in strays_to_spawn_count:
-		
-		# barva
+		# stray color
 		var current_color: Color
 		var selected_color_position_x: float
+		selected_color_position_x = stray_index * color_offset # lokacija barve v spektrumu
 		if Profiles.current_color_scheme == Profiles.game_color_schemes["default_color_scheme"]:
-			selected_color_position_x = stray_index * color_offset # lokacija barve v spektrumu
 			current_color = spectrum_image.get_pixel(selected_color_position_x, 0) # barva na lokaciji v spektrumu
 		else:
-			selected_color_position_x = stray_index * color_offset # lokacija barve v spektrumu
 			current_color = spectrum_gradient.texture.gradient.interpolate(selected_color_position_x) # barva na lokaciji v spektrumu
-		
-		all_colors.append(current_color)
-		
-		# možne spawn pozicije
+		# spawn positions
 		var current_spawn_positions: Array
 		if not available_required_spawn_positions.empty(): # najprej obvezne
 			current_spawn_positions = available_required_spawn_positions
@@ -308,13 +314,11 @@ func spawn_strays(strays_to_spawn_count: int):
 		elif available_required_spawn_positions.empty() and available_random_spawn_positions.empty(): # STOP, če ni prostora, straysi pa so še na voljo
 			print ("No available spawn positions")
 			return
-		
-		# random pozicija med možnimi
+		# random position
 		var random_range = current_spawn_positions.size()
 		var selected_cell_index: int = randi() % int(random_range)		
 		var selected_position = current_spawn_positions[selected_cell_index]
-
-		# spawn stray
+		# spawn
 		var new_stray_pixel = StrayPixel.instance()
 		new_stray_pixel.name = "S%s" % str(stray_index)
 		new_stray_pixel.stray_color = current_color
@@ -322,14 +326,16 @@ func spawn_strays(strays_to_spawn_count: int):
 		new_stray_pixel.z_index = 2 # višje od plejerja
 		Global.node_creation_parent.add_child(new_stray_pixel)
 		
-		# odstranim uporabljeno pozicijo
-		current_spawn_positions.remove(selected_cell_index)
-		update_available_respawn_positions("remove", new_stray_pixel.global_position)
-	
-		
+#		all_stray_colors.append(current_color)
+		all_colors.append(current_color)
+		current_spawn_positions.remove(selected_cell_index) # odstranim pozicijo iz nabora za start spawn
+		update_available_respawn_positions("remove", new_stray_pixel.global_position) # odstranim pozicijo iz nabora za respawn
+			
 	Global.hud.spawn_color_indicators(all_colors) # barve pokažem v hudu		
 	self.strays_in_game_count = strays_to_spawn_count # setget sprememba
+	
 
+	
 	
 # UTILITI ----------------------------------------------------------------------------------
 
@@ -340,15 +346,14 @@ func update_available_respawn_positions(action: String, position_to_change: Vect
 	position_to_change -= Vector2(cell_size_x/2, cell_size_x/2) 
 	
 	if action == "add":
-		printt ("IN", position_to_change, available_respawn_positions.size())
+#		printt ("IN", position_to_change, available_respawn_positions.size())
 		available_respawn_positions.append(position_to_change)
 	else:
 		if available_respawn_positions.has(position_to_change):
-			printt ("OUT", position_to_change, available_respawn_positions.size())
+#			printt ("OUT", position_to_change, available_respawn_positions.size())
 			available_respawn_positions.remove(available_respawn_positions.find(position_to_change))
 		else:
 			print("no respawn position to remove found")
-		
 	
 	
 func show_strays_on_start(show_strays_loop: int):

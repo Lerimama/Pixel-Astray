@@ -86,32 +86,18 @@ func die(stray_in_stack_index: int, strays_in_stack_count: int):
 
 func die_to_wall():
 	
-	# efekti
-#	var shake_power: float = 0.2
-#	var shake_time: float = 0.3
-#	var shake_decay: float = 0.7
-	# Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
-#	Global.player1_camera.shake_camera(shake_power, shake_time, shake_decay)	
-	# play_sound("turning_color")
-#	play_sound("blinking")
+		# efekti
+	#	var shake_power: float = 0.2
+	#	var shake_time: float = 0.3
+	#	var shake_decay: float = 0.7
+		# Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
+	#	Global.player1_camera.shake_camera(shake_power, shake_time, shake_decay)	
+		# play_sound("turning_color")
+	#	play_sound("blinking")
 
 	var random_animation_index = randi() % 5 + 1
 	var random_animation_name: String = "die_stray_%s" % random_animation_index
 	animation_player.play(random_animation_name) 
-	
-#	var turn_time = animation_player.get_current_animation_length()
-##	vanish.tween_property(self, "color_poly:modulate:a", 0, vanish_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
-#	var turn_tween = get_tree().create_tween()
-#	turn_tween.tween_property(self, "color_poly:modulate", stray_color, turn_time) # barva straysa
-#	turn_tween.parallel().tween_property(self, "modulate", Global.color_gui_gray, turn_time) # siva stena
-#	yield(turn_tween, "finished")	
-
-#	current_state = States.WALL
-#	add_to_group(Global.group_wall)
-#	remove_from_group(Global.group_strays)
-#	position_indicator.modulate.a = 0	
-##	collision_shape.disabled = true
-#	collision_shape_ext.disabled = true	
 	
 	
 # MOVEMENT ------------------------------------------------------------------------------------------------------
@@ -280,21 +266,32 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	
 	if die_animations.has(anim_name):
 		# če mu je namen umreti
-		if current_state == States.DYING: # 
+		if current_state == States.DYING:
 			Global.game_manager.strays_in_game_count = - 1
-			queue_free()
+			Global.hud.show_color_indicator(stray_color) # če je scroller se returna na fuknciji¨
+			# za respawn
 			Global.game_manager.update_available_respawn_positions("add", global_position)
-			
+#			Global.game_manager.available_respawn_colors.append(stray_color)
+			print ("umrjem")
+			queue_free()
 		# če bo stena
 		else:
+			current_state = States.WALL
+			# wall color
 			modulate.a = 1
 			color_poly.modulate = Global.color_gui_gray
-			current_state = States.WALL
-#			modulate = Color.white
+			# regroup
 			add_to_group(Global.group_wall)
 			remove_from_group(Global.group_strays)
-			position_indicator.modulate.a = 0	
-		#	collision_shape.disabled = true
+			# ugasni delovanje
+			set_physics_process(false)
 			collision_shape_ext.disabled = true	
-			Global.game_manager.strays_as_wall_count += 1
-	
+			position_indicator.modulate.a = 0
+			# hud stats
+			Global.game_manager.strays_in_game_count = - 1
+#			Global.game_manager.strays_as_wall_count += 1
+#			Global.hud.show_color_indicator(stray_color)
+			# za respawn
+			Global.game_manager.respawn_stray(stray_color)
+#			Global.game_manager.available_respawn_colors.append(stray_color)
+			

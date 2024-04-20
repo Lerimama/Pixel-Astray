@@ -1,12 +1,10 @@
 extends GameManager # default game manager
 
-
 var current_stray_spawning_round: int = 0 # prištevam na koncu spawna
 
 var lines_scrolled_count: int = 0 # prištevam v stray_step()
 var lines_scroll_per_spawn_round: int = 1 # ob levelu se vleče iz profilov
 var scrolling_pause_time: float # pavza med stepi
-
 
 var current_stage: int = 0 # na štartu se kliče stage up
 var stages_per_level: int # = Profiles.scrolling_level_conditions[1]

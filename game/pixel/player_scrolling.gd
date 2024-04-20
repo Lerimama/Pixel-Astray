@@ -258,8 +258,8 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	for stray in strays_to_destroy:
 		var stray_index = strays_to_destroy.find(stray)
 		stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
-		Global.hud.show_color_indicator(stray.stray_color) # če je scroller se returna na fuknciji
-	
+#		Global.hud.show_color_indicator(stray.stray_color) # če je scroller se returna na fuknciji
+		
 	end_move() # more bit za collision partikli zaradi smeri
 
 	change_stat("hit_stray", strays_to_destroy.size()) # štetje, točke in energija glede na število uničenih straysov

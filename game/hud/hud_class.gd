@@ -98,6 +98,7 @@ func _input(event: InputEvent) -> void:
 #		Global.sound_manager.play_gui_sfx("btn_confirm")
 #		emit_signal("players_ready")
 
+var spectrum_start_on: bool = true
 	
 func _ready() -> void:
 	
@@ -109,7 +110,13 @@ func _ready() -> void:
 		
 	game_label.text = Global.game_manager.game_data["game_name"]
 	level_label.text = Global.game_manager.game_data["level"]
-
+	
+	if Global.game_manager.game_settings["spectrum_start_on"]:
+		picked_indicator_alpha = 0.2
+		unpicked_indicator_alpha = 1
+	else:
+		picked_indicator_alpha = 1
+		unpicked_indicator_alpha = 0.2
 	
 func _process(delta: float) -> void:
 	
@@ -311,6 +318,10 @@ func slide_in(players_count: int): # kliče GM set_game()
 	
 	# yield(Global.player1_camera, "zoomed_in") ... namesto tega signaliziranje prevzame start countdown
 	
+	# spektrum
+#	if spectrum_start_on:
+#		pass
+#	else:
 	for indicator in active_color_indicators:
 		var indicator_fade_in = get_tree().create_tween()
 		indicator_fade_in.tween_property(indicator, "modulate:a", unpicked_indicator_alpha, 0.3).set_ease(Tween.EASE_IN)
@@ -353,7 +364,7 @@ func fade_out_instructions_popup(out_time: float):
 
 # SPECTRUM ---------------------------------------------------------------------------------------------------------------------------
 
-
+	
 func spawn_color_indicators(available_colors: Array): # kliče GM
 	
 	var indicator_index = 0 # za fiksirano zaporedje
@@ -368,15 +379,19 @@ func spawn_color_indicators(available_colors: Array): # kliče GM
 		active_color_indicators.append(new_color_indicator)
 
 		# new_color_indicator.get_node("IndicatorCount").text = str(indicator_index) # debug ... zapis indexa
-
+					
 					
 func show_color_indicator(picked_color: Color):
+	
 	
 	var current_indicator_index: int
 	for indicator in active_color_indicators:
 		# pobrana barva
 		if indicator.color == picked_color:
 			current_indicator_index = active_color_indicators.find(indicator)
+#			if spectrum_start_on:
+#				indicator.modulate.a = picked_indicator_alpha
+#
 			indicator.modulate.a = picked_indicator_alpha
 			break
 			
