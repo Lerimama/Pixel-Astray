@@ -473,6 +473,7 @@ func set_level_conditions():
 			wall_spawn_random_range = leveling_conditions[current_level].wall_spawn_random_range
 			print(wall_spawn_random_range)
 
+
 # UTILITI -------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -559,21 +560,21 @@ func check_stray_wall_collisions(current_stray: KinematicBody2D, current_collide
 		current_stray.turn_to_wall(1)
 	
 # obst_		
-func turn_strays_to_wall():
-	
-	print("napačna funkcija: ", "turn_strays_to_wall")
-	
-	# VER 1 ... vsak, ki se je v koraku dotaknil tal
-	for stray in all_strays_on_wall:
-		Global.sound_manager.play_sfx("thunder_strike")
-		# samo en stray
-		wall_strays.append(stray)
-		stray.turn_to_wall(1)
-			
-	all_strays_on_wall.clear() # reset vrednosti, ki ji rabim do konca spremembe ... ne briše arraya sredi njegovega preverjanja
-			
-	# preverim, če je vrh zafilan z wall straysi ... game over
-	check_top_for_gameover()
+#func turn_strays_to_wall():
+#
+#	print("napačna funkcija: ", "turn_strays_to_wall")
+#
+#	# VER 1 ... vsak, ki se je v koraku dotaknil tal
+#	for stray in all_strays_on_wall:
+#		Global.sound_manager.play_sfx("thunder_strike")
+#		# samo en stray
+#		wall_strays.append(stray)
+#		stray.turn_to_wall(1)
+#
+#	all_strays_on_wall.clear() # reset vrednosti, ki ji rabim do konca spremembe ... ne briše arraya sredi njegovega preverjanja
+#
+#	# preverim, če je vrh zafilan z wall straysi ... game over
+#	check_top_for_gameover()
 	
 
 # POVEZANOST NA STENI --------------------------------------------------------------------------------------------------------------------

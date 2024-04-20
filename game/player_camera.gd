@@ -99,9 +99,9 @@ func _process(delta: float):
 
 func _physics_process(delta: float) -> void:
 	
-	if camera_target:
+	if camera_target and not Global.game_manager.game_settings["camera_fixed"]:
 		position = camera_target.position + cell_align
-		
+	
 	
 func zoom_in(hud_in_out_time: float, players_count: int): # kliče hud
 	

@@ -1,6 +1,7 @@
 extends Stray
 
 var static_stray: bool
+var step_in_progress: bool = false
 
 
 func _ready() -> void:
@@ -22,6 +23,7 @@ func _ready() -> void:
 		static_stray = false
 	else:
 		static_stray = true
+
 	
 func _process(delta: float) -> void:
 	# namen: self step, indikatorji ven
@@ -44,8 +46,6 @@ func get_step_direction():
 		3: stepping_direction = Vector2.DOWN	
 	
 	return stepping_direction
-	
-var step_in_progress: bool = false
 
 
 func step(step_direction: Vector2): # smer je nepomebna v tem primeru
@@ -97,3 +97,35 @@ func end_move():
 
 func get_player_direction():
 	pass
+
+
+func turn_to_wall(stray_in_stack_index: int):
+	
+	# bilinking skor umrje
+	# ko je siv je wall
+	
+	current_state = States.WALL # takoj je izločen iz igre. po pavzi pa efekt
+	
+	# čakalni čas
+	var wait_to_destroy_time: float = sqrt(0.07 * (stray_in_stack_index)) # -1 je, da hitan stray ne čaka
+	yield(get_tree().create_timer(wait_to_destroy_time), "timeout")
+	
+	# efekti
+	# Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
+	# play_sound("turning_color")
+	play_sound("blinking")
+	
+	var shake_power: float = 0.2
+	var shake_time: float = 0.3
+	var shake_decay: float = 0.7
+	Global.player1_camera.shake_camera(shake_power, shake_time, shake_decay)	
+
+	# turn to color
+	stray_color.s = 0.0
+	
+	var color_tween: SceneTreeTween = get_tree().create_tween()
+	color_tween.tween_property(self, "color_poly:modulate", stray_color, 0.2) # barva straysa
+	color_tween.parallel().tween_property(self, "modulate", Global.color_gray_dark, 0.2) # siva stena
+	
+	# povzroča error, ker hoče vrnit funkciji ki ne obstaja več ... nekaj takega
+	# color_tween.tween_callback(self, "return", [true])#.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)

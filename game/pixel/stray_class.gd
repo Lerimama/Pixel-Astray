@@ -18,11 +18,10 @@ onready var count_label: Label = $CountLabel # debug
 onready var position_indicator: Node2D = $PositionIndicator
 onready var visibility_notifier_2d: VisibilityNotifier2D = $VisibilityNotifier2D
 onready var cell_size_x: int = Global.current_tilemap.cell_size.x
-#onready var step_time: float = Global.game_manager.game_settings["stray_step_time"]
 
 
 func _ready() -> void:
-	
+#	print ("S", global_position)
 	add_to_group(Global.group_strays)
 
 	randomize() # za random die animacije
@@ -51,6 +50,9 @@ func show_stray(): # kliče GM
 	var random_animation_index = randi() % 3 + 1
 	var random_animation_name: String = "glitch_%s" % random_animation_index
 	animation_player.play(random_animation_name)
+	
+#	yield(get_tree().create_timer(3), "timeout")
+#	die_to_wall()
 
 
 func die(stray_in_stack_index: int, strays_in_stack_count: int):
@@ -76,12 +78,42 @@ func die(stray_in_stack_index: int, strays_in_stack_count: int):
 	
 	# color vanish
 	var vanish_time = animation_player.get_current_animation_length()
-	var vanish: SceneTreeTween = get_tree().create_tween()
-	vanish.tween_property(self, "color_poly:modulate:a", 0, vanish_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
+	var vanish_tween = get_tree().create_tween()
+	vanish_tween.tween_property(self, "color_poly:modulate:a", 0, vanish_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
 	
 	# KVEFRI je v animaciji
 
 
+func die_to_wall():
+	
+	# efekti
+#	var shake_power: float = 0.2
+#	var shake_time: float = 0.3
+#	var shake_decay: float = 0.7
+	# Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
+#	Global.player1_camera.shake_camera(shake_power, shake_time, shake_decay)	
+	# play_sound("turning_color")
+#	play_sound("blinking")
+
+	var random_animation_index = randi() % 5 + 1
+	var random_animation_name: String = "die_stray_%s" % random_animation_index
+	animation_player.play(random_animation_name) 
+	
+#	var turn_time = animation_player.get_current_animation_length()
+##	vanish.tween_property(self, "color_poly:modulate:a", 0, vanish_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
+#	var turn_tween = get_tree().create_tween()
+#	turn_tween.tween_property(self, "color_poly:modulate", stray_color, turn_time) # barva straysa
+#	turn_tween.parallel().tween_property(self, "modulate", Global.color_gui_gray, turn_time) # siva stena
+#	yield(turn_tween, "finished")	
+
+#	current_state = States.WALL
+#	add_to_group(Global.group_wall)
+#	remove_from_group(Global.group_strays)
+#	position_indicator.modulate.a = 0	
+##	collision_shape.disabled = true
+#	collision_shape_ext.disabled = true	
+	
+	
 # MOVEMENT ------------------------------------------------------------------------------------------------------
 	
 	
@@ -125,7 +157,7 @@ func push_stray(push_direction: Vector2, push_cock_time: float, push_time: float
 	var push_tween = get_tree().create_tween()
 	# napnem
 	push_tween.tween_property(collision_shape_ext, "position", - push_direction * cell_size_x, push_cock_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT) # animiram simultano s premikom plejerja
-#	# spustim
+	# spustim
 	push_tween.tween_property(collision_shape_ext, "position", Vector2.ZERO, push_time).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN) # vrnem jo na 0 pozicijo
 	push_tween.tween_callback(collision_shape_ext, "set_position", [push_direction * cell_size_x]) # potem jo takoj vržem pred straja, da zaščiti premik naprej
 	push_tween.tween_property(self, "position", global_position + push_direction * cell_size_x, stray_move_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT).set_delay(heavier_hit_delay)
@@ -233,7 +265,36 @@ func _on_VisibilityNotifier2D_viewport_entered(viewport: Viewport) -> void:
 	Global.strays_on_screen.append(self)
 	visible_on_screen = true
 
+
 func _on_VisibilityNotifier2D_viewport_exited(viewport: Viewport) -> void:
 	
 	Global.strays_on_screen.erase(self)
 	visible_on_screen = false
+
+
+func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
+	
+	var die_animations: Array = ["die_stray", "die_stray_1", "die_stray_2", "die_stray_3", "die_stray_4", "die_stray_5", ]
+	
+	var classic_mode: bool = Global.game_manager.game_settings["classic_mode"]
+	
+	if die_animations.has(anim_name):
+		# če mu je namen umreti
+		if current_state == States.DYING: # 
+			Global.game_manager.strays_in_game_count = - 1
+			queue_free()
+			Global.game_manager.update_available_respawn_positions("add", global_position)
+			
+		# če bo stena
+		else:
+			modulate.a = 1
+			color_poly.modulate = Global.color_gui_gray
+			current_state = States.WALL
+#			modulate = Color.white
+			add_to_group(Global.group_wall)
+			remove_from_group(Global.group_strays)
+			position_indicator.modulate.a = 0	
+		#	collision_shape.disabled = true
+			collision_shape_ext.disabled = true	
+			Global.game_manager.strays_as_wall_count += 1
+	

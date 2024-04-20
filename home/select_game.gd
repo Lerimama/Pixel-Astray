@@ -25,10 +25,12 @@ func play_selected_game(selected_game_enum: int):
 
 func _on_CleanerBtn_pressed() -> void:
 	play_selected_game(Profiles.Games.CLEANER)
+	
 func _on_TutorialBtn_pressed() -> void:
 	play_selected_game(Profiles.Games.TUTORIAL)
 func _on_CleanerDuelBtn_pressed() -> void:
-	play_selected_game(Profiles.Games.CLEANER_DUEL)
+	play_selected_game(Profiles.Games.CLASSIC)
+#	play_selected_game(Profiles.Games.CLEANER_DUEL)
 
 
 func _on_EraserSBtn_pressed() -> void:

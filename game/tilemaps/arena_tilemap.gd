@@ -14,7 +14,8 @@ var player_global_positions: Array
 
 func _ready() -> void:
 	
-	add_to_group(Global.group_tilemap)
+	add_to_group(Global.group_tilemap) # za scrolling in patterns
+	add_to_group(Global.group_wall)
 	Global.current_tilemap = self
 
 
@@ -51,12 +52,6 @@ func get_tiles():
 					player_global_positions.append(cell_global_position)
 					set_cellv(cell, 0)
 					floor_global_positions.append(cell_global_position)
-#				7: # goal stray
-#					goal_stray_global_positions.append(cell_global_position)
-#					stray_global_positions.append(cell_global_position)
-##					set_cellv(cell, 0)
-#					print("goal_cell", cell_global_position)
-#					floor_global_positions.append(cell_global_position)
 	
 	# pošljem v GM
 	emit_signal("tilemap_completed", random_spawn_floor_positions, stray_global_positions, no_stray_global_positions, player_global_positions)

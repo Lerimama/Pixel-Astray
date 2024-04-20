@@ -67,16 +67,12 @@ onready var FloatingTag: PackedScene = preload("res://game/hud/floating_tag.tscn
 
 func _unhandled_input(event: InputEvent) -> void:
 
-	if name == "p1":
-		if Input.is_action_pressed("no1"):
-			change_stat("debug_player_energy", -10)
-
-	elif name == "p2":
-		if Input.is_action_pressed("no2"):
-			change_stat("debug_player_energy", -10)
+	if Input.is_action_pressed("no1"):
+		change_stat("debug_player_energy", -10)
 
 
 func _ready() -> void:
+	print ("P", global_position)
 		
 	add_to_group(Global.group_players)
 	randomize() # za random blink animacije
@@ -139,8 +135,12 @@ func state_machine():
 func on_collision(): 
 	
 	stop_sound("burst")
-	
-	if collision.collider.is_in_group(Global.group_tilemap):
+
+	# nova zasedena pozicija je samo kjer je po ta nove zadnji stray (v arrayu)
+	Global.game_manager.update_available_respawn_positions("remove", Global.snap_to_nearest_grid(global_position))
+			
+	if collision.collider.is_in_group(Global.group_wall):
+#	if collision.collider.is_in_group(Global.group_tilemap):
 		on_hit_wall()
 	elif collision.collider is StaticBody2D: # top screen limit
 		on_hit_wall()
@@ -177,11 +177,14 @@ func idle_inputs():
 			if current_collider.is_in_group(Global.group_strays):
 				current_state = States.SKILLED
 				current_collider.current_state = current_collider.States.STATIC # ko ga premakneš postane MOVING
-			elif current_collider.is_in_group(Global.group_tilemap):
-				if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
-					current_state = States.SKILLED
-				else: # druge stene
-					end_move()
+			elif current_collider.is_in_group(Global.group_wall):
+				if current_collider.is_in_group(Global.group_tilemap):
+					if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
+						current_state = States.SKILLED
+					else: # druge stene
+						end_move()
+				else: # stray
+					current_state = States.SKILLED	
 			elif current_collider.is_in_group(Global.group_players):
 				end_move()
 			elif current_collider is StaticBody2D: # static body, 
@@ -223,14 +226,16 @@ func skill_inputs():
 	if current_collider: # zaščita, če se povežeš in ti potem pobegne
 		if new_direction:
 			if new_direction == direction: # naprej
-				if current_collider.is_in_group(Global.group_tilemap):
+				if current_collider.is_in_group(Global.group_wall):
+#				if current_collider.is_in_group(Global.group_tilemap):
 					teleport()
 				elif current_collider.is_in_group(Global.group_strays) and not current_collider.current_state == current_collider.States.MOVING:
 					push(current_collider)
 			elif new_direction == - direction: # nazaj
 				if current_collider.is_in_group(Global.group_strays) and not current_collider.current_state == current_collider.States.MOVING:
 					pull(current_collider)	
-				elif current_collider.is_in_group(Global.group_tilemap):
+				elif current_collider.is_in_group(Global.group_wall):
+#				elif current_collider.is_in_group(Global.group_tilemap):
 					end_move() # nazaj ... izhod iz skilla, če gre za steno
 			else: # levo/desno ... izhod iz skilla
 				end_move()
@@ -290,7 +295,7 @@ func bursting_inputs():
 func step(): # step koda se ob držanju tipke v smeri izvaja stalno
 	 
 	var step_direction = direction
-		
+	
 	# preverim, če kolajda v smeri
 	if not detect_collision_in_direction(step_direction):
 		
@@ -298,15 +303,23 @@ func step(): # step koda se ob držanju tipke v smeri izvaja stalno
 		
 		collision_shape_ext.position = step_direction * cell_size_x # vržem koližn v smer premika
 		spawn_trail_ghost()
-		var step_time = get_step_time()
 		
+		play_stepping_sound(player_stats["player_energy"] / float(Global.game_manager.game_settings["player_max_energy"])) # ulomek je za pitch zvoka
+		
+		var prestep_position: Vector2 = global_position		
+		
+		var step_time = get_step_time()
 		var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 		step_tween.tween_property(self, "position", global_position + direction * cell_size_x, step_time)
 		step_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, step_time)
 		step_tween.tween_callback(self, "end_move")
 		step_tween.tween_callback(self, "change_stat", ["cells_traveled", 1]) # točke in energija kot je določeno v settingsih
+		yield(step_tween, "finished")
 		
-		play_stepping_sound(player_stats["player_energy"] / float(Global.game_manager.game_settings["player_max_energy"])) # ulomek je za pitch zvoka
+		# nova zasedena je nova pozicija, 
+		Global.game_manager.update_available_respawn_positions("remove", global_position)
+		# nova prosta pozicija je stara pozicija
+		Global.game_manager.call_deferred("update_available_respawn_positions", "add", prestep_position)
 	
 		
 func end_move():
@@ -317,6 +330,8 @@ func end_move():
 	uncocking = false
 	while not cocked_ghosts.empty():
 		var ghost = cocked_ghosts.pop_back()
+		var ghost_snaped_position: Vector2 = Global.snap_to_nearest_grid(ghost.global_position)
+		Global.game_manager.update_available_respawn_positions("add", ghost_snaped_position)
 		ghost.queue_free()
 		
 	# ugasnem lučke
@@ -354,28 +369,30 @@ func cock_burst():
 				current_ghost_cocking_time = 0
 				var new_cock_ghost = spawn_cock_ghost(cock_direction)
 				cocked_ghosts.append(new_cock_ghost)	
+				var cocked_ghost_snaped_position: Vector2 = Global.snap_to_nearest_grid(new_cock_ghost.global_position)
+				Global.game_manager.update_available_respawn_positions("remove", cocked_ghost_snaped_position)
 		elif cocked_ghosts.size() == cocked_ghost_max_count:
 			current_ghost_cocking_time += 1 / 60.0 # čas držanja tipke (znotraj nastajanja ene cock celice) ... fejk delta
 			if current_ghost_cocking_time > 6 * cock_ghost_cocking_time: # auto burst
 				release_burst()
 				burst_light_off()
-#			yield(get_tree().create_timer(cocking_loop_pause), "timeout")
-#			uncocking = true
-#	else:
-#		if not cocked_ghosts.empty():
-#			current_ghost_cocking_time += 1 / 60.0 
-#			if current_ghost_cocking_time > cock_ghost_cocking_time:
-#				play_sound("burst_uncocking")
-#				current_ghost_cocking_time = 0
-#				var last_cocked_ghost = cocked_ghosts.back() # najdem zadnjega cockanega in ga odfejdam
-#				var cock_cell_tween = get_tree().create_tween()
-#				cock_cell_tween.tween_property(last_cocked_ghost, "modulate:a", 0, cock_ghost_cocking_time)
-#				yield(cock_cell_tween, "finished")
-#				cocked_ghosts.pop_back()
-#				last_cocked_ghost.queue_free()
-#		else:
-#			yield(get_tree().create_timer(cocking_loop_pause), "timeout")
-#			uncocking = false
+	#			yield(get_tree().create_timer(cocking_loop_pause), "timeout")
+	#			uncocking = true
+	#	else:
+	#		if not cocked_ghosts.empty():
+	#			current_ghost_cocking_time += 1 / 60.0 
+	#			if current_ghost_cocking_time > cock_ghost_cocking_time:
+	#				play_sound("burst_uncocking")
+	#				current_ghost_cocking_time = 0
+	#				var last_cocked_ghost = cocked_ghosts.back() # najdem zadnjega cockanega in ga odfejdam
+	#				var cock_cell_tween = get_tree().create_tween()
+	#				cock_cell_tween.tween_property(last_cocked_ghost, "modulate:a", 0, cock_ghost_cocking_time)
+	#				yield(cock_cell_tween, "finished")
+	#				cocked_ghosts.pop_back()
+	#				last_cocked_ghost.queue_free()
+	#		else:
+	#			yield(get_tree().create_timer(cocking_loop_pause), "timeout")
+	#			uncocking = false
 
 		
 func release_burst():
@@ -415,6 +432,8 @@ func burst():
 	# release cocked ghosts
 	while not cocked_ghosts.empty():
 		var ghost = cocked_ghosts.pop_back()
+		var ghost_snaped_position: Vector2 = Global.snap_to_nearest_grid(ghost.global_position)
+		Global.game_manager.update_available_respawn_positions("add", ghost_snaped_position)
 		ghost.queue_free()
 	
 	stop_sound("burst_cocking")
@@ -428,13 +447,19 @@ func burst():
 	release_tween.parallel().tween_property(new_stretch_ghost, "position", global_position - burst_direction * cell_size_x, strech_ghost_shrink_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	release_tween.tween_callback(new_stretch_ghost, "queue_free")
 	
+	var preburst_position: Vector2 = global_position
+	
 	# release pixel
 	yield(get_tree().create_timer(strech_ghost_shrink_time), "timeout") # čaka na zgornji tween
 	current_state = States.BURSTING
 	burst_speed = current_ghost_count * cock_ghost_speed_addon
-	change_stat("burst_released", 1)
-
 	
+	change_stat("burst_released", 1)
+	
+	# nova prosta pozicija je stara pozicija prvega straysa	
+	Global.game_manager.call_deferred("update_available_respawn_positions", "add", preburst_position)	
+	
+
 # SKILLS ------------------------------------------------------------------------------------------
 
 		
@@ -464,16 +489,21 @@ func push(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila
 		if stray_neighbor:
 			if stray_neighbor.is_in_group(Global.group_strays):
 				strays_to_move.append(stray_neighbor)
-			elif stray_neighbor.is_in_group(Global.group_tilemap):
+			elif stray_neighbor.is_in_group(Global.group_wall):
 				room_for_push =  false
 	
 	play_sound("pushpull_start")
 		
 	collision_shape_ext.position = backup_direction * cell_size_x # vržem koližn v smer zaleta, smer premika pokriva strayev extension
 	
+	# takoj odstranim push cock pozicijo in grebam pozicijo prvega straysa
+	var push_cock_position: Vector2 = global_position + backup_direction * cell_size_x		
+	Global.game_manager.update_available_respawn_positions("remove", push_cock_position)
+	var stray_to_move_prepush_position = stray_to_move.global_position	
+	
 	var push_tween = get_tree().create_tween()
 	# cock
-	push_tween.tween_property(self, "position", global_position + backup_direction * cell_size_x, push_cock_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	push_tween.tween_property(self, "position", push_cock_position, push_cock_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	if room_for_push:
 		for stray_to_move in strays_to_move:
 			push_tween.parallel().tween_callback(stray_to_move, "push_stray", [push_direction, push_cock_time, push_time])
@@ -491,8 +521,18 @@ func push(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila
 	push_tween.tween_callback(new_push_ghost, "queue_free")
 	# reset
 	push_tween.tween_callback(self, "end_move")
+	yield(push_tween, "finished")
 	
 	change_stat("skill_used", 1) # zazih ni v tweenu
+	
+	if room_for_push:
+		# nova zasedena pozicija je samo kjer je po ta nove zadnji stray (v arrayu)
+		var last_pushed_stray: KinematicBody2D = strays_to_move[strays_to_move.size() - 1]
+		Global.game_manager.update_available_respawn_positions("remove", last_pushed_stray.global_position)
+		# nova prosta pozicija je stara pozicija prvega straysa	
+		Global.game_manager.call_deferred("update_available_respawn_positions", "add", stray_to_move_prepush_position)	
+	# nova prosta pozicija push cock pozicija (spet) 	
+	Global.game_manager.call_deferred("update_available_respawn_positions", "add", push_cock_position)	
 
 
 func pull(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila glede na kolajderja
@@ -514,7 +554,9 @@ func pull(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila
 	var new_pull_ghost = spawn_ghost(global_position + target_direction * cell_size_x)
 	
 	play_sound("pushpull_start")
-
+	
+	var stray_to_move_prepull_position: Vector2 = stray_to_move.global_position
+	
 	var pull_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	# move self
 	pull_tween.tween_property(self, "position", global_position + pull_direction * cell_size_x, pull_cock_time)
@@ -529,8 +571,13 @@ func pull(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila
 	# reset
 	pull_tween.tween_callback(self, "end_move")
 	pull_tween.tween_callback(new_pull_ghost, "queue_free").set_delay(pull_end_delay) # delay je zato, ker se pixel premakne kasneje
+	yield(pull_tween, "finished")
 	
 	change_stat("skill_used", 2) # zazih ni v tweenu
+	
+	# zasedena sta nova pozicija in stara, prosta pa je stara pozicija straysa
+	Global.game_manager.update_available_respawn_positions("remove", global_position)
+	Global.game_manager.call_deferred("update_available_respawn_positions", "add", stray_to_move_prepull_position)	
 	
 			
 func teleport(): # skilled inputs opredeli vrsto skila glede na kolajderja
@@ -740,6 +787,7 @@ func spawn_cock_ghost(cocking_direction: Vector2):
 	
 	var cocked_ghost_alpha: float = 1 # najnižji alfa za ghoste ... old 0.55
 	var cocked_ghost_alpha_divider: float = 5 # faktor nižanja po zaporedju (manjši je bolj oster) ... old 14
+	
 	
 	# spawn ghosta pod manom
 	var cock_ghost_position = (global_position - cocking_direction * cell_size_x/2) + (cocking_direction * cell_size_x * (cocked_ghosts.size() + 1)) # +1, da se ne začne na pixlu
@@ -1055,7 +1103,10 @@ func _on_ghost_target_reached(ghost_body: Area2D, ghost_position: Vector2):
 	Input.stop_joy_vibration(0)
 			
 	var ghost_fade_time: float = 0.5
+	
+	# premaknem plejerja in ga setam	
 	global_position = ghost_position
+	var preteleport_position: Vector2 = global_position		
 	modulate.a = 1
 	if player_camera:
 		player_camera.camera_target = self
@@ -1066,7 +1117,12 @@ func _on_ghost_target_reached(ghost_body: Area2D, ghost_position: Vector2):
 	end_move()
 	
 	change_stat("skill_used", 3) # zazih ni v tweenu	
-	
+		
+	# nova zasedena je nova pozicija, 
+	Global.game_manager.update_available_respawn_positions("remove", global_position)
+	# nova prosta pozicija je stara pozicija
+	Global.game_manager.call_deferred("update_available_respawn_positions", "add", preteleport_position)
+
 
 func _on_ghost_detected_body(body: Node2D):
 	
@@ -1140,20 +1196,21 @@ func change_stat(stat_event: String, stat_value):
 			player_stats["player_points"] += game_settings["burst_released_points"]
 		# HITS ------------------------------------------------------------------------------------------------------------------
 		"hit_stray": # štetje, točke in energija glede na število uničenih straysov
-			var stack_strays_celaned_count: int = stat_value
+			var stack_strays_cleaned_count: int = stat_value
 			var points_to_gain: int = 0
 			var energy_to_gain: int = 0
-			for stray_in_row in stack_strays_celaned_count:
+			for stray_in_row in stack_strays_cleaned_count:
 				points_to_gain += game_settings["color_picked_points"] * (stray_in_row + 1) # + 1 je da se izognem nuli
 				energy_to_gain += game_settings["color_picked_energy"] * (stray_in_row + 1)
-			player_stats["colors_collected"] += stack_strays_celaned_count
+			player_stats["colors_collected"] += stack_strays_cleaned_count
 			player_stats["player_points"] += points_to_gain
 			player_stats["player_energy"] += energy_to_gain
 			spawn_floating_tag(points_to_gain)
-			Global.game_manager.strays_in_game_count = - stack_strays_celaned_count # GM strays sum
+			
+#			Global.game_manager.strays_in_game_count = - stack_strays_cleaned_count # GM strays sum
 			if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL: # tutorial
 				Global.tutorial_gui.finish_bursting()
-				if stack_strays_celaned_count >= 3:
+				if stack_strays_cleaned_count >= 3:
 					Global.tutorial_gui.finish_stacking()
 		"hit_player": # točke glede na delež loserjevih točk, energija se resetira na 100%
 			var hit_player_current_points: int = stat_value
@@ -1163,15 +1220,22 @@ func change_stat(stat_event: String, stat_value):
 			spawn_floating_tag(points_to_gain)
 		"hit_wall": # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
 			if Global.game_manager.game_settings["lose_life_on_hit"]:
-				player_stats["player_energy"] = 0
+				if Global.game_manager.game_settings["classic_mode"]:
+					pass
+				else:	
+					player_stats["player_energy"] = 0
 			else:
 				player_stats["player_energy"] -= round(player_stats["player_energy"] / game_settings["on_hit_energy_part"])
 			var points_to_lose = round(player_stats["player_points"] / game_settings["on_hit_points_part"])
 			player_stats["player_points"] -= points_to_lose
 			spawn_floating_tag(- points_to_lose) 
 		"get_hit": # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
+			
 			if Global.game_manager.game_settings["lose_life_on_hit"]:
-				player_stats["player_energy"] = 0
+				if Global.game_manager.game_settings["classic_mode"]:
+					pass
+				else:					
+					player_stats["player_energy"] = 0
 			else:
 				player_stats["player_energy"] -= round(player_stats["player_energy"] / game_settings["on_hit_energy_part"])
 			var points_to_lose = round(player_stats["player_points"] / game_settings["on_hit_points_part"])
@@ -1180,12 +1244,22 @@ func change_stat(stat_event: String, stat_value):
 		# LIFE LOOP ------------------------------------------------------------------------------------------------------------
 		"die": # izguba lajfa, če je energija 0
 			if player_stats["player_energy"] == 0: # energija = 0 samo zaradi srčka ali hita, če je "lose_life_on_hit"
-				player_stats["player_life"] -= 1
+				if Global.game_manager.game_settings["classic_mode"]:
+					player_stats["player_life"] -= player_stats["player_life"] 
+				else:
+					player_stats["player_life"] -= 1
+			else:
+				if Global.game_manager.game_settings["classic_mode"]: # vsaka zadeta stena je izguba lajfa
+					player_stats["player_life"] -= 1
 		"stop_heart": # energija je 0
 			player_stats["player_energy"] = 0
 		"revive": # resetiranje energije, če je izgubil lajfa (energija = 0)
 			if player_stats["player_energy"] == 0: # energija = 0 samo zaradi srčka ali hita, če je "lose_life_on_hit"
-				player_stats["player_energy"] = game_settings["player_max_energy"]	
+				if Global.game_manager.game_settings["classic_mode"]: # v classic mode se energija ne restira, ker jo lahko bilda samo z zbijanjem strejsov 
+					pass
+				else:
+					player_stats["player_energy"] = game_settings["player_max_energy"]
+			
 		# XTRA ---------------------------------------------------------------------------------------------------------------
 		"touching_stray": # če se dotikaš
 			player_stats["player_energy"] += game_settings["touching_stray_energy"]

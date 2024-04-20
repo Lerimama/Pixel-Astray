@@ -33,7 +33,8 @@ var strays_on_screen: Array = []
 # groups
 var group_players = "Players"
 var group_strays = "Strays"
-var group_tilemap = "Tilemap"
+var group_tilemap = "Tilemap" # scroller in patterns
+var group_wall = "Wall" # cleaning
 var group_player_cameras = "Player Cameras"
 var group_ghosts = "Ghosts"
 

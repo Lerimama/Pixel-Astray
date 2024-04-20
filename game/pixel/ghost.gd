@@ -59,5 +59,7 @@ func _on_PixelGhost_body_entered(body: Node) -> void:
 		teleporting_bodies.append(body)
 	elif body.is_in_group(Global.group_players) and not ghost_owner:
 		teleporting_bodies.append(body)
-	elif body.is_in_group(Global.group_tilemap):
+#	elif body.is_in_group(Global.group_tilemap):
+#		teleporting_bodies.append(body)
+	elif body.is_in_group(Global.group_wall):
 		teleporting_bodies.append(body)

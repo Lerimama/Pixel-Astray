@@ -57,6 +57,8 @@ var default_game_settings: Dictionary = {
 	"suddent_death_mode": false,
 	"manage_highscores": true, # obsoleten, ker je vključen v HS type
 #	"stray_step_time": 0.2,
+	# KLASIKA
+	"classic_mode": false, # obsoleten, ker je vključen v HS type
 }
 
 
@@ -278,6 +280,7 @@ enum Games {
 	RUNNER, 
 	RIDDLER_S, RIDDLER_M, RIDDLER_L
 	TUTORIAL,
+	CLASSIC,
 	}
 
 
@@ -434,6 +437,19 @@ var game_data_tutorial: Dictionary = {
 }
 
 
+var game_data_classic: Dictionary = { 
+	"game": Games.CLASSIC,
+	"highscore_type": HighscoreTypes.HS_POINTS,
+	"game_name": "Classic",
+	"level": "",
+	"game_scene_path": "res://game/game_cleaning.tscn",
+#	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eraser.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_classic.tscn",
+	"game_time_limit": 0,
+	"strays_start_count": 50,
+}
+
+
 # ON GAME START -----------------------------------------------------------------------------------
 
 
@@ -444,7 +460,8 @@ var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "c
 func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
-	var current_game = Games.CLEANER
+	var current_game = Games.CLASSIC
+#	var current_game = Games.CLEANER
 #	var current_game = Games.ERASER_S
 #	var current_game = Games.CLEANER_DUEL
 #	var current_game = Games.SCROLLER
@@ -460,6 +477,46 @@ func set_game_data(selected_game) -> void:
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
 	match selected_game:
+		Games.CLASSIC: 
+			current_game_data = game_data_classic
+			game_settings["classic_mode"] = true
+			game_settings["suddent_death_mode"] = false
+			game_settings["sudden_death_limit"] = 20
+			game_settings["player_start_life"] = 3
+			game_settings["timer_mode_countdown"] = false
+			game_settings["lose_life_on_hit"] = true
+			#
+#			game_settings["camera_fixed"] = true
+			game_settings["start_countdown"] = false
+			game_settings["game_instructions_popup"] = false
+
+
+#	"player_start_color": Color("#232323"), # old #141414
+#	# player in game
+#	"player_tired_energy": 20, # pokaže steps warning popup in hud oabrva rdeče
+#	"step_slowdown_mode": true,
+#	"lose_life_on_hit": false, # zadetek od igralca ali v steno pomeni izgubo življenja, alternativa je izguba energije
+#	# scoring
+#	"cell_traveled_energy": -1,
+#	"all_cleaned_points": 100,
+#	"color_picked_points": 2, 
+#	"cell_traveled_points": 0,
+#	"skill_used_points": 0,
+#	"burst_released_points": 0,
+#	"on_hit_points_part": 2,
+#	# energija
+#	"color_picked_energy": 10,
+#	"skill_used_energy": 0,
+#	"burst_released_energy": 0,
+#	"on_hit_energy_part": 2, # delež porabe od trenutne energije
+#	"touching_stray_energy": 0,
+
+
+
+
+			
+			
+			
 		Games.TUTORIAL: 
 			current_game_data = game_data_tutorial
 			game_settings["player_start_life"] = 3
