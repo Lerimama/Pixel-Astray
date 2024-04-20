@@ -66,6 +66,7 @@ onready var astray_counter: Label = $Footer/FooterLine/StraysLine/AstrayHolder/L
 onready var picked_counter: Label = $Footer/FooterLine/StraysLine/PickedHolder/Label
 onready var spectrum: HBoxContainer = $Footer/FooterLine/SpectrumHolder/ColorSpectrum
 onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
+onready var current_gamed_hs_type: int = Global.game_manager.game_data["highscore_type"]
 
 # instructions popup
 onready var title: Label = $Popups/Instructions/GameInstructions/Title
@@ -77,28 +78,18 @@ onready var label_4: Label = $Popups/Instructions/GameInstructions/Outline/Label
 onready var label_5: Label = $Popups/Instructions/GameInstructions/Outline/Label5
 onready var label_6: Label = $Popups/Instructions/GameInstructions/Outline/Label6
 
-onready var current_gamed_hs_type: int = Global.game_manager.game_data["highscore_type"]
 
 # debug
 onready var player_life: Label = $Life
 onready var player_energy: Label = $Energy
-
-
-func confirm_players_ready():
-	get_viewport().set_disable_input(true) # anti dablklik
-	Global.sound_manager.play_gui_sfx("btn_confirm")
-	emit_signal("players_ready")
+	
 	
 func _input(event: InputEvent) -> void:
 	
 	# splitscreen popup
 	if instructions_popup.visible and Input.is_action_just_pressed("ui_accept"):
 		confirm_players_ready()
-#		get_viewport().set_disable_input(true) # anti dablklik
-#		Global.sound_manager.play_gui_sfx("btn_confirm")
-#		emit_signal("players_ready")
 
-var spectrum_start_on: bool = true
 	
 func _ready() -> void:
 	
@@ -117,6 +108,7 @@ func _ready() -> void:
 	else:
 		picked_indicator_alpha = 1
 		unpicked_indicator_alpha = 0.2
+	
 	
 func _process(delta: float) -> void:
 	
@@ -192,7 +184,7 @@ func set_current_highscore():
 	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_POINTS:
 		highscore_label.text = "HS " + str(current_highscore)
 		
-		
+			
 func update_stats(stat_owner: Node, player_stats: Dictionary):	
 	
 	# player stats
@@ -361,6 +353,12 @@ func fade_out_instructions_popup(out_time: float):
 	hide_instructions_popup.tween_callback(instructions_popup, "hide")
 	hide_instructions_popup.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
 
+
+func confirm_players_ready():
+	get_viewport().set_disable_input(true) # anti dablklik
+	Global.sound_manager.play_gui_sfx("btn_confirm")
+	emit_signal("players_ready")
+	
 
 # SPECTRUM ---------------------------------------------------------------------------------------------------------------------------
 

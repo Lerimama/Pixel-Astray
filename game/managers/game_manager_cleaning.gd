@@ -1,26 +1,16 @@
 extends GameManager
 
 
-func _ready() -> void:
+var current_level: int = 1 # za classic
 
-	Global.game_manager = self
-	
-	StrayPixel = preload("res://game/pixel/stray_cleaning.tscn")
-	PlayerPixel = preload("res://game/pixel/player_cleaning.tscn")
-	
-	randomize()
+var strays_wall_count: int = 0 # za pravilno brisanje in beleženje, resetiram na 0 na vsak novi level
 
-# samo za klasiko
-# neu
-var current_stage: int = 0 # na štartu se kliče stage up
-var stages_per_level: int # = Profiles.scrolling_level_conditions[1]
-var current_level: int = 1 # na štartu se kliče level up
-var levels_per_game: int = 10
-var level_color_scheme: Dictionary # trenutna barvna shema
-
-var in_level_transition: bool = false
-var step_in_progress: bool = false
-var wall_spawn_random_range: int
+onready var turn_to_wall_timer: Timer = $"../TurnToWallTimer"
+onready	var level_conditions: Dictionary = Profiles.classic_level_conditions[Profiles.Games.CLASSIC]
+onready var turn_to_wall_time: float = level_conditions["turn_to_wall_time"]
+onready var turn_to_wall_strays_count: int = level_conditions["turn_to_wall_strays_count"]
+onready var level_points_limit: int = level_conditions["level_points_limit"]
+onready var strays_spawn_count: int #  = level_conditions["level_points_limit"]
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -31,23 +21,39 @@ func _unhandled_input(event: InputEvent) -> void:
 		upgrade_level()
 		
 	if Input.is_action_pressed("ui_accept"):
-			for n in 2:
-				print ("n",n)
-#		for n in 50:
+		for n in 1:
 			# random stray to wall
 			var random_stray_index: int = randi() % int(strays_in_game_count)
 			var random_stray: KinematicBody2D = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_index]
 			random_stray.die_to_wall()
 			
-			
-func _process(delta: float) -> void:
-	# namen: walling v klasiki, 
-	# drug signal ob CLEANED
 	
-	# cleaned?
-	if get_tree().get_nodes_in_group(Global.group_strays).empty() and all_strays_died_alowed:
-		all_strays_died_alowed = false
-		emit_signal("all_strays_died")
+func _ready() -> void:
+
+	Global.game_manager = self
+	
+	StrayPixel = preload("res://game/pixel/stray_cleaning.tscn")
+	PlayerPixel = preload("res://game/pixel/player_cleaning.tscn")
+	
+	randomize()
+
+
+func _process(delta: float) -> void:
+	# namen: respawnanje straysov ... za classic in upoštevanje wall straysov zaznavanju cleaned
+	
+	# če sem v fazi, ko lahko preverjam cleaned (po spawnu)
+	printt("COUNT", strays_in_game_count, all_strays_died_alowed)
+	if all_strays_died_alowed:
+		print("GO")
+		# če ni nobene stene, me zanimajo samo prazni strajsi
+		if strays_in_game_count == 0:
+			all_strays_died_alowed = false
+			emit_signal("all_strays_died")
+		# če so v igri samo še straysi, ki so stene
+		elif strays_in_game_count == strays_wall_count:
+	#	if get_tree().get_nodes_in_group(Global.group_strays).empty() and all_strays_died_alowed:
+			all_strays_died_alowed = false
+			emit_signal("all_strays_died")
 	
 	# position indicators
 	if game_on:
@@ -55,18 +61,45 @@ func _process(delta: float) -> void:
 			show_position_indicators = true
 		else:
 			show_position_indicators = false
+
 	else:
 		show_position_indicators = false
 
-	# walling
-#	if game_settings["classic_mode"]:
-#		yield(get_tree().create_timer(walling_pause_time),"timeout")
-#		# random stray to wall
-#		var random_stray_index: int = randi() % int(strays_in_game_count)
-#		var random_stray: KinematicBody2D = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_index]
-#		random_stray.die_to_wall()
 	
+func start_game():
+	# namen: turn to wall respawn štartrespawnanje straysov ... za classic
+	
+	if game_data["game"] == Profiles.Games.TUTORIAL:
+		Global.tutorial_gui.open_tutorial()
+	else:
+		Global.hud.game_timer.start_timer()
+		Global.sound_manager.play_music("game_music")
+			
+		for player in get_tree().get_nodes_in_group(Global.group_players):
+			player.set_physics_process(true)
+			
+		game_on = true
+		
+		# turn to wall
+		var first_turn_to_wall_time: float = 1
+#		all_strays_died_alowed = true
+#		turn_to_wall_timer.start(first_turn_to_wall_time)
 
+		
+func turn_random_strays_to_wall():
+	
+	for count in turn_to_wall_strays_count:
+		# random stray to wall
+		printt("strays_in_game_count", strays_in_game_count)
+		printt("group_count", get_tree().get_nodes_in_group(Global.group_strays).size())
+		var random_stray_index: int = randi() % int(strays_in_game_count)
+		if get_tree().get_nodes_in_group(Global.group_strays).size() > random_stray_index:
+			var random_stray: KinematicBody2D = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_index]
+			if game_settings["stray_to_wall_mode"]:
+				random_stray.die_to_wall()
+				yield(get_tree().create_timer(1), "timeout")
+			Global.game_manager.respawn_stray(random_stray.stray_color)	
+	
 	
 func spawn_strays(strays_to_spawn_count: int):
 	# namen: split colors ...  naredim gradient iz naklujčnih barv iz spektruma	
@@ -158,56 +191,54 @@ func spawn_strays(strays_to_spawn_count: int):
 			
 	Global.hud.spawn_color_indicators(all_colors) # barve pokažem v hudu		
 	self.strays_in_game_count = strays_to_spawn_count # setget sprememba
-	
 
-var walling_pause_time: float =  2
-var walling_strays_count: int
-var strays_spawn_count: int
-#var color_spectrum_split_count: int
 
-func set_level_conditions():
-	
-	var level_conditions: Dictionary = Profiles.classic_level_conditions[1]
+func set_level_conditions(): # za classic
 	
 	if current_level > 0:
-		# time
-		walling_pause_time /= level_conditions["walling_time_div"]
-		# strays count
-		walling_strays_count *= level_conditions["walling_strays_count_factor"]
-		strays_spawn_count += level_conditions["walling_strays_count_factor"]
+		level_points_limit += level_conditions["level_points_limit"]
+		turn_to_wall_time /= level_conditions["turn_to_wall_time_div"]
+		turn_to_wall_strays_count = level_conditions["turn_to_wall_strays_count_factor"]
+		# spawn strays count
+		strays_spawn_count += level_conditions["strays_spawn_count_grow"]
 		game_data["strays_start_count"] = strays_spawn_count
-		printt("newlevel", current_level)
+		printt("new level", current_level)
 	
-#
-func upgrade_level():
+	
+func upgrade_level(): # za classic
 	# levelov je neskončno, samo hitrost se veča
-	
+
 	current_level += 1 # številka novega levela 
-#	in_level_transition = true
-
-	# pogoji novega levela
+	
 	set_level_conditions() 
+	Global.hud.empty_color_indicators()
+	turn_to_wall_timer.stop()
+	Global.hud.level_up_popup_in(current_level)
+	strays_wall_count = 0
+	
+	get_tree().call_group(Global.group_players, "set_physics_process", false)
+	clean_strays_in_game() # puca vse v igri
+	
+	all_strays_died_alowed = true
+	yield(self, "all_strays_died") # ko so vsi iz igre grem naprej
+	var signaling_player: KinematicBody2D
+	for player in get_tree().get_nodes_in_group(Global.group_players):
+		player.all_cleaned()
+		signaling_player = player # da se zgodi na obeh plejerjih istočasno
+	yield(signaling_player, "rewarded_on_game_over") # počakam, da je nagrajen	
+	yield(get_tree().create_timer(1), "timeout") # za dojet
+	set_strays() 
+	Global.hud.level_up_popup_out()
+	get_tree().call_group(Global.group_players, "set_physics_process", true)
 
-	# spraznem in indkatorje
-	Global.hud.empty_color_indicators() # novi indkatorji
+	turn_to_wall_timer.stop()
 
-	# razen prvega levela
-	if not current_level == 1:
-		Global.hud.level_up_popup_in(current_level)
-		# pavza pri prehodu lavela .... za pedenanjem indikatorjev in pucanje ekrana
-		get_tree().call_group(Global.group_players, "set_physics_process", false)
-		clean_strays_in_game() # puca vse v igri
-		yield(self, "all_strays_died") # ko so vsi iz igre grem naprej
-		yield(get_tree().create_timer(2), "timeout")
-		set_strays()
-		Global.hud.level_up_popup_out()
-		get_tree().call_group(Global.group_players, "set_physics_process", true)
-
-#	in_level_transition = false	
+#	yield(get_tree().create_timer(1), "timeout") # za dojet
+	var first_turn_to_wall_time: float = 1
+	turn_to_wall_timer.start(first_turn_to_wall_time)
 
 
-
-func clean_strays_in_game():
+func clean_strays_in_game(): # za classic
 	
 	# vsi straysi
 	var all_strays_alive: Array = get_tree().get_nodes_in_group(Global.group_strays)
@@ -220,24 +251,22 @@ func clean_strays_in_game():
 		var stray_index: int = all_strays_alive.find(stray)
 		var all_strays_alive_count: int = all_strays_alive.size()
 		stray.die(stray_index, all_strays_alive_count)
-
+	printt("all_strays_alive", all_strays_alive.size())
+	
 	# javim število, ki se bo pucalo ... to pomeni, da se tudi teli štejejo v spucane od plejerja
-	self.strays_in_game_count = all_strays_alive.size() # setget sprememba
-	all_strays_died_alowed = true # javi signal, ko so vsi spucani 
+#	self.strays_in_game_count = - all_strays_alive.size() # setget sprememba
+#	all_strays_died_alowed = true # javi signal, ko so vsi spucani 
 
 	return true
 
 	
-func respawn_stray(spawned_stray_color: Color):
+func respawn_stray(spawned_stray_color: Color): # za classic
+	
 	if available_respawn_positions.empty():
 		# turn all to wall?
 		return
 	print("spawn")
 	
-	# random stray
-#	var random_stray_index: int = randi() % int(strays_in_game_count)
-#	var random_stray: KinematicBody2D = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_index]
-#	random_stray.die_to_wall()
 	
 	# random position
 	var random_range = available_respawn_positions.size()
@@ -259,32 +288,26 @@ func respawn_stray(spawned_stray_color: Color):
 	new_stray_pixel.show_stray()
 
 	self.strays_in_game_count = 1 # setget sprememba	
+
+
+func _change_strays_in_game_count(strays_count_change: int):
+	# namen: vpelje upgrade level
+	strays_in_game_count += strays_count_change # in_game št. upošteva spawnanje in čiščenje (+ in -)
+	strays_in_game_count = clamp(0, strays_in_game_count, strays_in_game_count)
 	
+	if strays_count_change < 0: # cleaned št. upošteva samo čiščenje (+)
+		strays_cleaned_count += abs(strays_count_change)
 	
+	if game_data["game"] == Profiles.Games.TUTORIAL:
+		return
+	elif game_data["game"] == Profiles.Games.CLASSIC:
+		if strays_in_game_count == 0 or strays_in_game_count == strays_wall_count: # tutorial sam ve kdaj je gameover, klasika pa nima cleaned modela 
+			Global.game_manager.upgrade_level()
+	else:
+		if strays_in_game_count == 0: # tutorial sam ve kdaj je gameover, klasika pa nima cleaned modela 
+			game_over(GameoverReason.CLEANED)	
+
+func _on_TurnToWallTimer_timeout() -> void:
 	
-#
-#func _on_tilemap_completed(random_spawn_floor_positions: Array, stray_cells_positions: Array, no_stray_cells_positions: Array, player_cells_positions: Array) -> void:
-#	# namen: ciljni stray
-#
-#	# opredelim tipe pozicij
-#	random_spawn_positions = random_spawn_floor_positions
-#	required_spawn_positions = stray_cells_positions
-#	player_start_positions = player_cells_positions
-#
-#	# start strays count setup
-#	if not stray_cells_positions.empty() and no_stray_cells_positions.empty(): # št. straysov enako številu "required" tiletov
-#		game_data["strays_start_count"] = required_spawn_positions.size()
-#
-#	# preventam preveč straysov (več kot je možnih pozicij)
-#	if game_data["strays_start_count"] > random_spawn_positions.size() + required_spawn_positions.size():
-#		game_data["strays_start_count"] = random_spawn_positions.size()/2 + required_spawn_positions.size()
-#
-#	# če ni pozicij, je en player ... random pozicija
-#	if player_start_positions.empty():
-#		var random_range = random_spawn_positions.size() 
-#		print(random_range)
-#		var p1_selected_cell_index: int = randi() % int(random_range) + 1
-#		player_start_positions.append(random_spawn_positions[p1_selected_cell_index])
-#		random_spawn_positions.remove(p1_selected_cell_index)
-#
-#	start_players_count = player_start_positions.size() # tukaj določeno se uporabi za game view setup
+	turn_random_strays_to_wall()
+	turn_to_wall_timer.start(turn_to_wall_time)

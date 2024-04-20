@@ -21,7 +21,7 @@ func _ready() -> void:
 	
 	var fake_player_ranking: int = 100 # številka je ranking izven lestvice, da ni označenega plejerja
 
-	cleaner_table.get_highscore_table(Profiles.game_data_classic, fake_player_ranking)
+	cleaner_table.get_highscore_table(Profiles.game_data_classic_S, fake_player_ranking)
 #	cleaner_table.get_highscore_table(Profiles.game_data_cleaner, fake_player_ranking)
 	eraser_s_table.get_highscore_table(Profiles.game_data_eraser_S, fake_player_ranking)
 	eraser_m_table.get_highscore_table(Profiles.game_data_eraser_M, fake_player_ranking)

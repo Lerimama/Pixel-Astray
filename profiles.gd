@@ -60,6 +60,7 @@ var default_game_settings: Dictionary = {
 	# neu
 	"classic_mode": false,
 	"spectrum_start_on": false,
+	"stray_to_wall_mode": true,
 }
 
 
@@ -273,19 +274,22 @@ var slider_level_conditions: Dictionary = {
 
 
 var classic_level_conditions: Dictionary = {
-	1: { # small
-		"color_spectrum_split": 32, # za random color scheme
-		"walling_pause_time": 1,
-		"walling_time_div": 2, # deljenje
-		"walling_strays_count_factor": 5, # množenje
+	
+	Games.CLASSIC: { # small
+		"turn_to_wall_time": 2,
+		"turn_to_wall_time_div": 2, # deljenje
+		"turn_to_wall_strays_count": 5,
+		"turn_to_wall_strays_count_factor": 2, # množenje
 		"strays_spawn_count_grow": 5, # prištevanje 
+		"level_points_limit": 150, # prištevanje 
 	},
-	2: { # big
-		"color_spectrum_split": 32, # za random color scheme
-		"walling_pause_time": 1,
-		"walling_time_div": 2, # deljenje
-		"walling_strays_count_factor": 5, # množenje
+	"CLASSIC_XL": { # big
+		"turn_to_wall_time": 2,
+		"turn_to_wall_time_div": 2, # deljenje
+		"turn_to_wall_strays_count": 5,
+		"turn_to_wall_strays_count_factor": 2, # množenje
 		"strays_spawn_count_grow": 5, # prištevanje 
+		"level_points_limit": 50, # prištevanje 
 	},
 }
 
@@ -300,7 +304,7 @@ enum Games {
 	RUNNER, 
 	RIDDLER_S, RIDDLER_M, RIDDLER_L
 	TUTORIAL,
-	CLASSIC,
+	CLASSIC, CLASSIC_XL,
 	}
 
 
@@ -463,11 +467,21 @@ var game_data_classic: Dictionary = {
 	"game_name": "Classic",
 	"level": "0",
 	"game_scene_path": "res://game/game_cleaning.tscn",
-#	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eraser.tscn",
 #	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_classic.tscn",
 	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_classic_small.tscn",
 	"game_time_limit": 0,
-	"strays_start_count": 5,
+	"strays_start_count": 2,
+}
+
+var game_data_classic_XL: Dictionary = { 
+	"game": Games.CLASSIC_XL,
+	"highscore_type": HighscoreTypes.HS_POINTS,
+	"game_name": "Classic XL",
+	"level": "0",
+	"game_scene_path": "res://game/game_cleaning.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_classic.tscn",
+	"game_time_limit": 0,
+	"strays_start_count": 2,
 }
 
 
@@ -509,6 +523,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["spectrum_start_on"] = true
 			#
 #			game_settings["camera_fixed"] = true
+			game_settings["stray_to_wall_mode"] = false
 			game_settings["start_countdown"] = false
 			game_settings["game_instructions_popup"] = false
 

@@ -1,5 +1,16 @@
 extends GameHud
 
+
+onready var level_up_popup: Control = $Popups/LevelUp # za classic
+
+
+func _process(delta: float) -> void:
+	# namen: dodam čekiranje levela
+	
+	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
+	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
+	level_label.text = "%02d" % Global.game_manager.current_level 
+	
 	
 func fade_in_instructions_popup(in_time: float):
 	# namen: za to igro prilagojena navodila
@@ -53,18 +64,8 @@ func fade_in_instructions_popup(in_time: float):
 	show_instructions_popup.tween_callback(instructions_popup, "show")
 	show_instructions_popup.tween_property(instructions_popup, "modulate:a", 1, in_time).from(0.0).set_ease(Tween.EASE_IN)
 
-# samo za classic
-#neu
-onready var level_up_popup: Control = $Popups/LevelUp
-
-func _process(delta: float) -> void:
-	# namen: čekiranje levela
-	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
-	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
-	level_label.text = "%02d" % Global.game_manager.current_level 
 	
-	
-func level_up_popup_in(level_reached: int):
+func level_up_popup_in(level_reached: int): # za classic
 	
 	level_up_popup.get_node("Label").text = "LEVEL %s" % str(level_reached)
 	level_up_popup.show()
@@ -74,16 +75,51 @@ func level_up_popup_in(level_reached: int):
 	popup_in.tween_property(level_up_popup, "modulate:a", 1, 0.3)
 
 
-func level_up_popup_out():
+func level_up_popup_out(): # za classic
 	
 	var popup_in = get_tree().create_tween()
 	popup_in.tween_property(level_up_popup, "modulate:a", 0, 0.3)
 	popup_in.tween_callback(level_up_popup, "hide")
 
 
-func empty_color_indicators():
+func empty_color_indicators(): # za classic
 	
 	# zbrišem trenutne indikatorje
 	for child in spectrum.get_children():
 		child.queue_free()
 	active_color_indicators.clear()
+
+
+func update_stats(stat_owner: Node, player_stats: Dictionary): # za classic
+	# namen: preverjanje števila točk in klic next level v GM (na koncu)	
+	
+	# player stats
+	match stat_owner.name:
+		"p1":
+			p1_life_counter.life_count = player_stats["player_life"]
+			p1_energy_counter.energy = player_stats["player_energy"]
+			p1_points_counter.text = "%d" % player_stats["player_points"]
+			p1_color_counter.text = "%d" % player_stats["colors_collected"]
+			p1_burst_counter.text = "%d" % player_stats["burst_count"]
+			p1_skill_counter.text = "%d" % player_stats["skill_count"]
+			p1_steps_counter.text = "%d" % player_stats["cells_traveled"]
+			check_for_warning(player_stats, p1_energy_warning_popup)
+		"p2":
+			p2_life_counter.life_count = player_stats["player_life"]
+			p2_energy_counter.energy = player_stats["player_energy"]
+			p2_points_counter.text = "%d" % player_stats["player_points"]
+			p2_color_counter.text = "%d" % player_stats["colors_collected"]
+			p2_burst_counter.text = "%d" % player_stats["burst_count"]
+			p2_skill_counter.text = "%d" % player_stats["skill_count"]
+			p2_steps_counter.text = "%d" % player_stats["cells_traveled"]
+			check_for_warning(player_stats, p2_energy_warning_popup)
+
+	# debug
+	player_life.text = "LIFE: %d" % player_stats["player_life"]
+	player_energy.text = "E: %d" % player_stats["player_energy"]
+
+	if not Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NO_HS:
+		check_for_hs(player_stats)
+
+	if player_stats["player_points"] > Global.game_manager.level_points_limit:
+		Global.game_manager.upgrade_level()

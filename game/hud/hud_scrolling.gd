@@ -77,21 +77,6 @@ func level_up_popup_out():
 	popup_in.tween_callback(level_up_popup, "hide")
 				
 						
-#func fade_splitscreen_popup():
-#
-#	var show_splitscreen_popup = get_tree().create_tween()
-#	show_splitscreen_popup.tween_callback(splitscreen_popup, "show")
-#	show_splitscreen_popup.tween_property(splitscreen_popup, "modulate:a", 1, 1).from(0.0).set_ease(Tween.EASE_IN)
-#
-#	yield(self, "players_ready")
-#
-#	var hide_splitscreen_popup = get_tree().create_tween()
-#	hide_splitscreen_popup.tween_property(splitscreen_popup, "modulate:a", 0, 1).set_ease(Tween.EASE_IN)
-#	hide_splitscreen_popup.tween_callback(splitscreen_popup, "hide")
-#	hide_splitscreen_popup.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
-#	hide_splitscreen_popup.tween_callback(Global.start_countdown, "start_countdown")	
-	
-	
 func fade_in_instructions_popup(in_time: float):
 	# namen: prilagojena navodila
 	
@@ -119,7 +104,6 @@ func fade_in_instructions_popup(in_time: float):
 	var show_instructions_popup = get_tree().create_tween()
 	show_instructions_popup.tween_callback(instructions_popup, "show")
 	show_instructions_popup.tween_property(instructions_popup, "modulate:a", 1, in_time).from(0.0).set_ease(Tween.EASE_IN)
-
 
 
 # SPECTRUM ---------------------------------------------------------------------------------------------------------------------------

@@ -34,25 +34,9 @@ onready var StrayPixel: PackedScene = preload("res://game/pixel/stray_class.tscn
 onready var PlayerPixel: PackedScene = preload("res://game/pixel/player_class.tscn")
 
 #neu
-#var strays_as_wall_count: int = 0 # samo za statistiko, ki je ne bom vodil ...
 var available_respawn_positions: Array # pozicije na voljo, ki se apdejtajo na vsak stray in player spawn ali usmrtitev 
-#var available_respawn_colors: Array # barve se naberejo na vsak umrjen ali wall all stray 
-#var all_stray_colors: Array = [] # v razmerju s HUDom
 
-func _unhandled_input(event: InputEvent) -> void:
 
-	if Input.is_action_pressed("no2"):
-		get_tree().call_group(Global.group_strays, "die_to_wall")
-	if Input.is_action_pressed("ui_accept"):
-			for n in 2:
-				print ("n",n)
-#		for n in 50:
-			# random stray to wall
-			var random_stray_index: int = randi() % int(strays_in_game_count)
-			var random_stray: KinematicBody2D = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_index]
-			random_stray.die_to_wall()
-		
-			
 func _ready() -> void:
 	
 	Global.game_manager = self
@@ -75,14 +59,6 @@ func _process(delta: float) -> void:
 		show_position_indicators = false
 
 	
-#	if game_settings["classic_mode"]:
-#		yield(get_tree().create_timer(1),"timeout")
-#		# random stray to wall
-#		var random_stray_index: int = randi() % int(strays_in_game_count)
-#		var random_stray: KinematicBody2D = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_index]
-#		random_stray.die_to_wall()
-	
-		
 # GAME LOOP ----------------------------------------------------------------------------------
 
 
@@ -326,15 +302,12 @@ func spawn_strays(strays_to_spawn_count: int):
 		new_stray_pixel.z_index = 2 # višje od plejerja
 		Global.node_creation_parent.add_child(new_stray_pixel)
 		
-#		all_stray_colors.append(current_color)
 		all_colors.append(current_color)
 		current_spawn_positions.remove(selected_cell_index) # odstranim pozicijo iz nabora za start spawn
 		update_available_respawn_positions("remove", new_stray_pixel.global_position) # odstranim pozicijo iz nabora za respawn
 			
 	Global.hud.spawn_color_indicators(all_colors) # barve pokažem v hudu		
 	self.strays_in_game_count = strays_to_spawn_count # setget sprememba
-	
-
 	
 	
 # UTILITI ----------------------------------------------------------------------------------
@@ -345,16 +318,16 @@ func update_available_respawn_positions(action: String, position_to_change: Vect
 	# prilagodim zamik centra pixla
 	position_to_change -= Vector2(cell_size_x/2, cell_size_x/2) 
 	
+	# pozicijo je na voljo
 	if action == "add":
-#		printt ("IN", position_to_change, available_respawn_positions.size())
 		available_respawn_positions.append(position_to_change)
-	else:
-		if available_respawn_positions.has(position_to_change):
-#			printt ("OUT", position_to_change, available_respawn_positions.size())
-			available_respawn_positions.remove(available_respawn_positions.find(position_to_change))
-		else:
-			print("no respawn position to remove found")
-	
+	# pozicija ni na voljo
+	elif action == "remove":
+		available_respawn_positions.remove(available_respawn_positions.find(position_to_change))
+		if available_respawn_positions.empty():
+			game_over(GameoverReason.TIME)		
+			
+				
 	
 func show_strays_on_start(show_strays_loop: int):
 
@@ -368,21 +341,16 @@ func show_strays_on_start(show_strays_loop: int):
 	match show_strays_loop:
 		1:
 			Global.sound_manager.play_sfx("thunder_strike")
-#			Global.sound_manager.play_sfx("blinking")
 			strays_to_show_count = round(strays_in_game_count/10)
 		2:
 			Global.sound_manager.play_sfx("thunder_strike")
-#			Global.sound_manager.play_sfx("blinking")
 			strays_to_show_count = round(strays_in_game_count/8)
 		3:
-#			Global.sound_manager.play_sfx("blinking")
 			strays_to_show_count = round(strays_in_game_count/4)
 		4:
 			Global.sound_manager.play_sfx("thunder_strike")
-#			Global.sound_manager.play_sfx("blinking")
 			strays_to_show_count = round(strays_in_game_count/2)
 		5: # še preostale
-#			Global.sound_manager.play_sfx("blinking")
 			strays_to_show_count = strays_in_game_count - strays_shown.size()
 	
 	# stray fade-in
@@ -412,15 +380,16 @@ func stop_game_elements():
 func _change_strays_in_game_count(strays_count_change: int):
 	
 	strays_in_game_count += strays_count_change # in_game št. upošteva spawnanje in čiščenje (+ in -)
+	strays_in_game_count = clamp(0, strays_in_game_count, strays_in_game_count)
 	
 	if strays_count_change < 0: # cleaned št. upošteva samo čiščenje (+)
 		strays_cleaned_count += abs(strays_count_change)
 	
-#	if strays_in_game_count == 0: # tutorial sam ve kdaj je gameover
-#		game_over(GameoverReason.CLEANED)
-
-	if strays_in_game_count == 0 and not game_data["game"] == Profiles.Games.TUTORIAL: # tutorial sam ve kdaj je gameover
-		game_over(GameoverReason.CLEANED)		
+	if game_data["game"] == Profiles.Games.TUTORIAL:
+		return
+	else:
+		if strays_in_game_count == 0: # tutorial sam ve kdaj je gameover, klasika pa nima cleaned modela 
+			game_over(GameoverReason.CLEANED)		
 
 
 # SIGNALI ----------------------------------------------------------------------------------
@@ -430,7 +399,6 @@ func _on_tilemap_completed(random_spawn_floor_positions: Array, stray_cells_posi
 	
 	# opredelim tipe pozicij
 	player_start_positions = player_cells_positions
-	print ("U", player_start_positions)
 	random_spawn_positions = random_spawn_floor_positions
 	required_spawn_positions = stray_cells_positions
 	
@@ -451,5 +419,5 @@ func _on_tilemap_completed(random_spawn_floor_positions: Array, stray_cells_posi
 	
 	start_players_count = player_start_positions.size() # tukaj določeno se uporabi za game view setup
 	
-	# CLASSIC
+	# grab respawn positions
 	available_respawn_positions = Global.current_tilemap.floor_global_positions.duplicate()

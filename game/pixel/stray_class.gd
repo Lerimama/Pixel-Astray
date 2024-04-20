@@ -51,9 +51,6 @@ func show_stray(): # kliče GM
 	var random_animation_name: String = "glitch_%s" % random_animation_index
 	animation_player.play(random_animation_name)
 	
-#	yield(get_tree().create_timer(3), "timeout")
-#	die_to_wall()
-
 
 func die(stray_in_stack_index: int, strays_in_stack_count: int):
 	
@@ -276,22 +273,20 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			queue_free()
 		# če bo stena
 		else:
+#			Global.game_manager.strays_in_game_count = - 1
+
 			current_state = States.WALL
-			# wall color
-			modulate.a = 1
-			color_poly.modulate = Global.color_gui_gray
 			# regroup
 			add_to_group(Global.group_wall)
 			remove_from_group(Global.group_strays)
+			# wall color
+			modulate.a = 1
+			color_poly.modulate = Global.color_gui_gray
 			# ugasni delovanje
 			set_physics_process(false)
 			collision_shape_ext.disabled = true	
 			position_indicator.modulate.a = 0
-			# hud stats
-			Global.game_manager.strays_in_game_count = - 1
-#			Global.game_manager.strays_as_wall_count += 1
-#			Global.hud.show_color_indicator(stray_color)
-			# za respawn
-			Global.game_manager.respawn_stray(stray_color)
-#			Global.game_manager.available_respawn_colors.append(stray_color)
+			# za classic
+			Global.game_manager.strays_wall_count += 1
+#			Global.game_manager.respawn_stray(stray_color)
 			
