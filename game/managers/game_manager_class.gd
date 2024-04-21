@@ -19,6 +19,7 @@ var strays_shown: Array = []
 var strays_in_game_count: int setget _change_strays_in_game_count # spremlja spremembo količine aktivnih in uničenih straysov
 var strays_cleaned_count: int = 0 # za statistiko na hudu
 var all_strays_died_alowed: bool = false # za omejevanje signala iz FP ... kdaj lahko reagira na 0 straysov v igri
+var available_respawn_positions: Array # pozicije na voljo, ki se apdejtajo na vsak stray in player spawn ali usmrtitev 
 
 # tilemap data
 var cell_size_x: int # napolne se na koncu setanju tilemapa
@@ -32,9 +33,6 @@ onready var spectrum_rect: TextureRect = $Spectrum
 onready var spectrum_gradient: TextureRect = $SpectrumGradient
 onready var StrayPixel: PackedScene = preload("res://game/pixel/stray_class.tscn")
 onready var PlayerPixel: PackedScene = preload("res://game/pixel/player_class.tscn")
-
-#neu
-var available_respawn_positions: Array # pozicije na voljo, ki se apdejtajo na vsak stray in player spawn ali usmrtitev 
 
 
 func _ready() -> void:
@@ -69,9 +67,6 @@ func set_game():
 	# set_game_view()
 	# set_players() # da je plejer viden že na fejdin
 
-#	Global.hud.fade_splitscreen_popup()
-#	yield(Global.hud, "players_ready")
-		 
 	# player intro animacija
 	var signaling_player: KinematicBody2D
 	for player in get_tree().get_nodes_in_group(Global.group_players):
@@ -324,9 +319,9 @@ func update_available_respawn_positions(action: String, position_to_change: Vect
 	# pozicija ni na voljo
 	elif action == "remove":
 		available_respawn_positions.remove(available_respawn_positions.find(position_to_change))
+		# če ni več noeben pozicije na voljo, je GO
 		if available_respawn_positions.empty():
 			game_over(GameoverReason.TIME)		
-			
 				
 	
 func show_strays_on_start(show_strays_loop: int):
@@ -387,9 +382,8 @@ func _change_strays_in_game_count(strays_count_change: int):
 	
 	if game_data["game"] == Profiles.Games.TUTORIAL:
 		return
-	else:
-		if strays_in_game_count == 0: # tutorial sam ve kdaj je gameover, klasika pa nima cleaned modela 
-			game_over(GameoverReason.CLEANED)		
+	if strays_in_game_count == 0: # tutorial sam ve kdaj je gameover, klasika pa nima cleaned modela 
+		game_over(GameoverReason.CLEANED)		
 
 
 # SIGNALI ----------------------------------------------------------------------------------

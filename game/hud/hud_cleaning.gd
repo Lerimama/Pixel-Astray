@@ -1,7 +1,7 @@
 extends GameHud
 
 
-onready var level_up_popup: Control = $Popups/LevelUp # za classic
+onready var level_up_popup: Control = $Popups/LevelUp # za neverending
 
 
 func _process(delta: float) -> void:
@@ -15,7 +15,7 @@ func _process(delta: float) -> void:
 func fade_in_instructions_popup(in_time: float):
 	# namen: za to igro prilagojena navodila
 
-	if Global.game_manager.game_data["game"] == Profiles.Games.CLASSIC:
+	if Global.game_manager.game_data["game"] == Profiles.Games.NEVERENDING:
 		$Popups/Instructions/Controls.show()
 		$Popups/Instructions/ControlsDuel.hide()
 		title.text = Global.game_manager.game_data["game_name"]
@@ -65,24 +65,24 @@ func fade_in_instructions_popup(in_time: float):
 	show_instructions_popup.tween_property(instructions_popup, "modulate:a", 1, in_time).from(0.0).set_ease(Tween.EASE_IN)
 
 	
-func level_up_popup_in(level_reached: int): # za classic
+func level_up_popup_in(level_reached: int): # za neverending
 	
+	level_up_popup.modulate.a = 0
 	level_up_popup.get_node("Label").text = "LEVEL %s" % str(level_reached)
 	level_up_popup.show()
-	level_up_popup.modulate.a = 0
 	
 	var popup_in = get_tree().create_tween()
 	popup_in.tween_property(level_up_popup, "modulate:a", 1, 0.3)
 
 
-func level_up_popup_out(): # za classic
+func level_up_popup_out(): # za neverending
 	
 	var popup_in = get_tree().create_tween()
 	popup_in.tween_property(level_up_popup, "modulate:a", 0, 0.3)
 	popup_in.tween_callback(level_up_popup, "hide")
 
 
-func empty_color_indicators(): # za classic
+func empty_color_indicators(): # za neverending
 	
 	# zbrišem trenutne indikatorje
 	for child in spectrum.get_children():
@@ -90,7 +90,7 @@ func empty_color_indicators(): # za classic
 	active_color_indicators.clear()
 
 
-func update_stats(stat_owner: Node, player_stats: Dictionary): # za classic
+func update_stats(stat_owner: Node, player_stats: Dictionary): # za neverending
 	# namen: preverjanje števila točk in klic next level v GM (na koncu)	
 	
 	# player stats

@@ -78,20 +78,11 @@ func die(stray_in_stack_index: int, strays_in_stack_count: int):
 	var vanish_tween = get_tree().create_tween()
 	vanish_tween.tween_property(self, "color_poly:modulate:a", 0, vanish_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
 	
-	# KVEFRI je v animaciji
+	# KVEFRI je na koncu animacije
 
 
 func die_to_wall():
 	
-		# efekti
-	#	var shake_power: float = 0.2
-	#	var shake_time: float = 0.3
-	#	var shake_decay: float = 0.7
-		# Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
-	#	Global.player1_camera.shake_camera(shake_power, shake_time, shake_decay)	
-		# play_sound("turning_color")
-	#	play_sound("blinking")
-
 	var random_animation_index = randi() % 5 + 1
 	var random_animation_name: String = "die_stray_%s" % random_animation_index
 	animation_player.play(random_animation_name) 
@@ -259,7 +250,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	
 	var die_animations: Array = ["die_stray", "die_stray_1", "die_stray_2", "die_stray_3", "die_stray_4", "die_stray_5", ]
 	
-	var classic_mode: bool = Global.game_manager.game_settings["classic_mode"]
+#	var neverending_mode: bool = Global.game_manager.game_settings["neverending_mode"]
 	
 	if die_animations.has(anim_name):
 		# če mu je namen umreti
@@ -268,13 +259,9 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			Global.hud.show_color_indicator(stray_color) # če je scroller se returna na fuknciji¨
 			# za respawn
 			Global.game_manager.update_available_respawn_positions("add", global_position)
-#			Global.game_manager.available_respawn_colors.append(stray_color)
-			print ("umrjem")
 			queue_free()
 		# če bo stena
 		else:
-#			Global.game_manager.strays_in_game_count = - 1
-
 			current_state = States.WALL
 			# regroup
 			add_to_group(Global.group_wall)
@@ -286,7 +273,6 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			set_physics_process(false)
 			collision_shape_ext.disabled = true	
 			position_indicator.modulate.a = 0
-			# za classic
+			# za neverending
 			Global.game_manager.strays_wall_count += 1
-#			Global.game_manager.respawn_stray(stray_color)
 			

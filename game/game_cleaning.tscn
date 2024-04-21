@@ -2912,7 +2912,6 @@ text = "PLAY ON"
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 2 )
@@ -2933,7 +2932,6 @@ anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0 )
 
 [node name="GameoverTitle" type="Control" parent="GUI/GameOver"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -3099,7 +3097,6 @@ text = "You are full of colors again!"
 align = 1
 
 [node name="ReasonTime" type="Control" parent="GUI/GameOver/GameoverTitle"]
-visible = false
 modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
 anchor_left = 0.5
 anchor_top = 0.5

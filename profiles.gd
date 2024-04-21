@@ -1,6 +1,51 @@
 extends Node
 # game data
 
+
+var game_color_schemes: Dictionary = {
+	"default_color_scheme": { # default
+		1: Color.black, # ne velja, ker greba iz spectrum slike
+		2: Color.white,	# ne velja, ker greba iz spectrum slike
+	},
+	"color_scheme_1":{ 
+		1: Color.brown, # red
+		2: Color.bisque, #yellow
+	},
+	"color_scheme_2":{ 
+		1: Color("#f35b7f"), # red
+		2: Color("#fef98b"), #yellow
+	},
+	"color_scheme_3":{
+		1: Color("#f9aa71"), # orange
+		2: Color("#fef98b"), # blue
+	},
+	"color_scheme_4":{
+		1: Color("#fef98b"), # yellow
+		2: Color("#5effa9"), # green
+	},
+	"color_scheme_5":{
+		1: Color("#5effa9"), # green
+		2: Color("#4b9fff"), # blue
+	},
+	"color_scheme_6":{
+		1: Color("#74ffff"), # turkizna
+		2: Color("#4b9fff"), # blue
+	},
+	"color_scheme_7":{
+		1: Color("#4b9fff"), # blue
+		2: Color("#ec80fb"), #purple
+	},
+	"color_scheme_8":{
+		1: Color("#ec80fb"), # purple
+		2: Color("#7053c2"), # viola
+	},
+	"color_scheme_9":{ 
+		1: Color.magenta, # red
+		2: Color.greenyellow, #yellow
+	},	
+}
+
+
 # DEFAULT -----------------------------------------------------------------------------------
 
 
@@ -58,59 +103,179 @@ var default_game_settings: Dictionary = {
 	"manage_highscores": true, # obsoleten, ker je vključen v HS type
 #	"stray_step_time": 0.2,
 	# neu
-	"classic_mode": false,
+	"neverending_mode": false,
 	"spectrum_start_on": false,
 	"stray_to_wall_mode": true,
 }
 
 
+# GAMES -----------------------------------------------------------------------------------
 
-# DEFAULT -----------------------------------------------------------------------------------
+
+enum Games {
+	ERASER_S, ERASER_M, ERASER_L,
+	CLEANER, CLEANER_DUEL,
+	SCROLLER, SLIDER, SIDEWINDER,
+	AMAZE, 
+	RUNNER, 
+	RIDDLER_S, RIDDLER_M, RIDDLER_L
+	TUTORIAL,
+	NEVERENDING, NEVERENDING_XL,
+	}
 
 
-var game_color_schemes: Dictionary = {
-	"default_color_scheme": { # default
-		1: Color.black, # ne velja, ker greba iz spectrum slike
-		2: Color.white,	# ne velja, ker greba iz spectrum slike
-	},
-	"color_scheme_1":{ 
-		1: Color.brown, # red
-		2: Color.bisque, #yellow
-	},
-	"color_scheme_2":{ 
-		1: Color("#f35b7f"), # red
-		2: Color("#fef98b"), #yellow
-	},
-	"color_scheme_3":{
-		1: Color("#f9aa71"), # orange
-		2: Color("#fef98b"), # blue
-	},
-	"color_scheme_4":{
-		1: Color("#fef98b"), # yellow
-		2: Color("#5effa9"), # green
-	},
-	"color_scheme_5":{
-		1: Color("#5effa9"), # green
-		2: Color("#4b9fff"), # blue
-	},
-	"color_scheme_6":{
-		1: Color("#74ffff"), # turkizna
-		2: Color("#4b9fff"), # blue
-	},
-	"color_scheme_7":{
-		1: Color("#4b9fff"), # blue
-		2: Color("#ec80fb"), #purple
-	},
-	"color_scheme_8":{
-		1: Color("#ec80fb"), # purple
-		2: Color("#7053c2"), # viola
-	},
-	"color_scheme_9":{ 
-		1: Color.magenta, # red
-		2: Color.greenyellow, #yellow
-	},	
+enum HighscoreTypes {
+	NO_HS, 
+	HS_POINTS, 
+	HS_COLORS, 
+	HS_TIME_LOW, 
+	HS_TIME_HIGH
+	}
+
+
+var game_data_eraser_S: Dictionary = { 
+	"game": Games.ERASER_S,
+	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"game_name": "Eraser",
+	"level": "S",
+	"game_scene_path": "res://game/game_cleaning.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eraser.tscn",
+	"game_time_limit": 0,
+	"strays_start_count": 50,
 }
-var current_color_scheme: Dictionary = game_color_schemes["default_color_scheme"]
+var game_data_eraser_M: Dictionary = {
+	"game": Games.ERASER_M,
+	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"game_name": "Eraser",
+	"level": "M",
+	"game_scene_path": "res://game/game_cleaning.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eraser.tscn",
+	"game_time_limit": 0,
+	"strays_start_count": 140, 
+}
+var game_data_eraser_L: Dictionary = {
+	"game": Games.ERASER_L,
+	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"game_name": "Eraser",
+	"level": "L",
+	"game_scene_path": "res://game/game_cleaning.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eraser.tscn",
+	"game_time_limit": 0,
+	"strays_start_count": 320, 
+}
+var game_data_cleaner: Dictionary = {
+	"game": Games.CLEANER,
+	"highscore_type": HighscoreTypes.HS_POINTS,
+	"game_name": "Cleaner",
+	"level": "",
+	"game_scene_path": "res://game/game_cleaning.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner.tscn",
+	"game_time_limit": 300,
+	"strays_start_count": 320, 
+}
+var game_data_cleaner_duel: Dictionary = {
+	"game": Games.CLEANER_DUEL,
+	"highscore_type": HighscoreTypes.NO_HS,
+	"game_name": "Cleaner",
+	"level": "Duel",
+	"game_scene_path": "res://game/game_cleaning.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner_duel.tscn",
+	"game_time_limit": 60,
+	"strays_start_count": 1000, 
+}
+var game_data_runner: Dictionary = {
+	"game": Games.RUNNER,
+	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"game_name": "Runner",
+	"level": "",
+	"game_scene_path": "res://game/game_patterns.tscn",
+	"tilemap_path": "res://game/tilemaps/patterns/tilemap_runner.tscn",
+	"game_time_limit": 0,
+	"strays_start_count": 320, # 468 jih je v stackih
+}
+var game_data_riddler_S: Dictionary = {
+	"game": Games.RIDDLER_S,
+	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"game_name": "Riddler",
+	"level": "S", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
+	"game_scene_path": "res://game/game_patterns.tscn",
+	"tilemap_path": "res://game/tilemaps/patterns/tilemap_riddler_S.tscn", # odvisna od sselected level
+	"game_time_limit": 0, # odvisna od selected level
+	"strays_start_count": 0, # 468 jih je v stackih
+}
+var game_data_riddler_M: Dictionary = {
+	"game": Games.RIDDLER_M,
+	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"game_name": "Riddler",
+	"level": "M", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
+	"game_scene_path": "res://game/game_patterns.tscn",
+	"tilemap_path": "res://game/tilemaps/patterns/tilemap_riddler_M.tscn", # odvisna od sselected level
+	"game_time_limit": 0, # odvisna od selected level
+	"strays_start_count": 0, # 468 jih je v stackih
+}
+var game_data_riddler_L: Dictionary = {
+	"game": Games.RIDDLER_L,
+	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"game_name": "Riddler",
+	"level": "L", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
+	"game_scene_path": "res://game/game_patterns.tscn",
+	"tilemap_path": "res://game/tilemaps/patterns/tilemap_riddler_L.tscn", # odvisna od sselected level
+	"game_time_limit": 0, # odvisna od selected level
+	"strays_start_count": 0, # 468 jih je v stackih
+}
+var game_data_scroller: Dictionary = { 
+	"game": Games.SCROLLER,
+	"highscore_type": HighscoreTypes.HS_POINTS,
+	"game_name": "Scroller",
+	"level": " ", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
+	"game_scene_path": "res://game/game_scrolling.tscn",
+	"tilemap_path": "res://game/tilemaps/scrolling/tilemap_scrolling.tscn",
+	"game_time_limit": 0,
+	"strays_start_count": 50, # pravi se seta znotraj igre
+}
+var game_data_slider: Dictionary = { 
+	"game": Games.SLIDER,
+	"highscore_type": HighscoreTypes.HS_POINTS,
+	"game_name": "Slider",
+	"level": " ", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
+	"game_scene_path": "res://game/game_scrolling.tscn",
+	"tilemap_path": "res://game/tilemaps/scrolling/tilemap_slider.tscn",
+	"game_time_limit": 0,
+	"strays_start_count": 50, # pravi se seta znotraj igre
+}
+var game_data_tutorial: Dictionary = { 
+	"game": Games.TUTORIAL,
+	"highscore_type": HighscoreTypes.NO_HS,
+	"game_name": "Tutorial",
+	"level": "",
+	"game_scene_path": "res://game/game_class.tscn",
+	"tilemap_path": "res://game/tilemaps/tutorial_tilemap.tscn",
+	"game_time_limit": 0,
+	"strays_start_count": 10,
+}
+var game_data_neverending: Dictionary = { 
+	"game": Games.NEVERENDING,
+	"highscore_type": HighscoreTypes.HS_POINTS,
+	"game_name": "Neverending",
+	"level": "0",
+	"game_scene_path": "res://game/game_cleaning.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_neverending.tscn",
+	"game_time_limit": 0,
+	"strays_start_count": 50,
+}
+var game_data_neverending_XL: Dictionary = { 
+	"game": Games.NEVERENDING_XL,
+	"highscore_type": HighscoreTypes.HS_POINTS,
+	"game_name": "Neverending XL",
+	"level": "0",
+	"game_scene_path": "res://game/game_cleaning.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_neverending_xl.tscn",
+	"game_time_limit": 0,
+	"strays_start_count": 2,
+}
+
+
+# LEVEL -----------------------------------------------------------------------------------
 
 
 var scrolling_level_conditions: Dictionary = {
@@ -273,215 +438,19 @@ var slider_level_conditions: Dictionary = {
 }
 
 
-var classic_level_conditions: Dictionary = {
+var neverending_level_conditions: Dictionary = {
 	
-	Games.CLASSIC: { # small
-		"turn_to_wall_time": 2,
-		"turn_to_wall_time_div": 2, # deljenje
-		"turn_to_wall_strays_count": 5,
-		"turn_to_wall_strays_count_factor": 2, # množenje
-		"strays_spawn_count_grow": 5, # prištevanje 
-		"level_points_limit": 150, # prištevanje 
+	Games.NEVERENDING: { # small
+		"respawn_wait_time": 1,
+		"respawn_wait_time_factor": 0.7, # množim
+		"respawn_strays_count": 1,
+		"respawn_strays_count_grow": 1, # prištejem
+		"level_points_limit": 150,
+		"level_points_limit_grow": 150, # prištejem
+		"level_spawn_strays_count_grow": 5, # prištejem 
 	},
-	"CLASSIC_XL": { # big
-		"turn_to_wall_time": 2,
-		"turn_to_wall_time_div": 2, # deljenje
-		"turn_to_wall_strays_count": 5,
-		"turn_to_wall_strays_count_factor": 2, # množenje
-		"strays_spawn_count_grow": 5, # prištevanje 
-		"level_points_limit": 50, # prištevanje 
+	Games.NEVERENDING_XL: { # big
 	},
-}
-
-# GAMES ---------------------------------------------------------------------------------------------------------
-
-
-enum Games {
-	ERASER_S, ERASER_M, ERASER_L,
-	CLEANER, CLEANER_DUEL,
-	SCROLLER, SLIDER, SIDEWINDER,
-	AMAZE, 
-	RUNNER, 
-	RIDDLER_S, RIDDLER_M, RIDDLER_L
-	TUTORIAL,
-	CLASSIC, CLASSIC_XL,
-	}
-
-
-enum HighscoreTypes {
-	NO_HS, 
-	HS_POINTS, 
-	HS_COLORS, 
-	HS_TIME_LOW, 
-	HS_TIME_HIGH
-	}
-
-
-var game_data_eraser_S: Dictionary = { 
-	"game": Games.ERASER_S,
-	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "Eraser",
-	"level": "S",
-	"game_scene_path": "res://game/game_cleaning.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eraser.tscn",
-	"game_time_limit": 0,
-	"strays_start_count": 50,
-}
-
-
-var game_data_eraser_M: Dictionary = {
-	"game": Games.ERASER_M,
-	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "Eraser",
-	"level": "M",
-	"game_scene_path": "res://game/game_cleaning.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eraser.tscn",
-	"game_time_limit": 0,
-	"strays_start_count": 140, 
-}
-
-
-var game_data_eraser_L: Dictionary = {
-	"game": Games.ERASER_L,
-	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "Eraser",
-	"level": "L",
-	"game_scene_path": "res://game/game_cleaning.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eraser.tscn",
-	"game_time_limit": 0,
-	"strays_start_count": 320, 
-}
-
-
-var game_data_cleaner: Dictionary = {
-	"game": Games.CLEANER,
-	"highscore_type": HighscoreTypes.HS_POINTS,
-	"game_name": "Cleaner",
-	"level": "",
-	"game_scene_path": "res://game/game_cleaning.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner.tscn",
-	"game_time_limit": 300,
-	"strays_start_count": 320, 
-}
-
-
-var game_data_cleaner_duel: Dictionary = {
-	"game": Games.CLEANER_DUEL,
-	"highscore_type": HighscoreTypes.NO_HS,
-	"game_name": "Cleaner",
-	"level": "Duel",
-	"game_scene_path": "res://game/game_cleaning.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner_duel.tscn",
-	"game_time_limit": 60,
-	"strays_start_count": 1000, 
-}
-
-
-var game_data_runner: Dictionary = {
-	"game": Games.RUNNER,
-	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "Runner",
-	"level": "",
-	"game_scene_path": "res://game/game_patterns.tscn",
-	"tilemap_path": "res://game/tilemaps/patterns/tilemap_runner.tscn",
-	"game_time_limit": 0,
-	"strays_start_count": 320, # 468 jih je v stackih
-}
-
-
-var game_data_riddler_S: Dictionary = {
-	"game": Games.RIDDLER_S,
-	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "Riddler",
-	"level": "S", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
-	"game_scene_path": "res://game/game_patterns.tscn",
-	"tilemap_path": "res://game/tilemaps/patterns/tilemap_riddler_S.tscn", # odvisna od sselected level
-	"game_time_limit": 0, # odvisna od selected level
-	"strays_start_count": 0, # 468 jih je v stackih
-}
-
-
-var game_data_riddler_M: Dictionary = {
-	"game": Games.RIDDLER_M,
-	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "Riddler",
-	"level": "M", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
-	"game_scene_path": "res://game/game_patterns.tscn",
-	"tilemap_path": "res://game/tilemaps/patterns/tilemap_riddler_M.tscn", # odvisna od sselected level
-	"game_time_limit": 0, # odvisna od selected level
-	"strays_start_count": 0, # 468 jih je v stackih
-}
-
-
-var game_data_riddler_L: Dictionary = {
-	"game": Games.RIDDLER_L,
-	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "Riddler",
-	"level": "L", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
-	"game_scene_path": "res://game/game_patterns.tscn",
-	"tilemap_path": "res://game/tilemaps/patterns/tilemap_riddler_L.tscn", # odvisna od sselected level
-	"game_time_limit": 0, # odvisna od selected level
-	"strays_start_count": 0, # 468 jih je v stackih
-}
-
-
-var game_data_scroller: Dictionary = { 
-	"game": Games.SCROLLER,
-	"highscore_type": HighscoreTypes.HS_POINTS,
-	"game_name": "Scroller",
-	"level": " ", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
-	"game_scene_path": "res://game/game_scrolling.tscn",
-	"tilemap_path": "res://game/tilemaps/scrolling/tilemap_scrolling.tscn",
-	"game_time_limit": 0,
-	"strays_start_count": 50, # pravi se seta znotraj igre
-}
-
-
-var game_data_slider: Dictionary = { 
-	"game": Games.SLIDER,
-	"highscore_type": HighscoreTypes.HS_POINTS,
-	"game_name": "Slider",
-	"level": " ", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
-	"game_scene_path": "res://game/game_scrolling.tscn",
-	"tilemap_path": "res://game/tilemaps/scrolling/tilemap_slider.tscn",
-	"game_time_limit": 0,
-	"strays_start_count": 50, # pravi se seta znotraj igre
-}
-
-
-var game_data_tutorial: Dictionary = { 
-	"game": Games.TUTORIAL,
-	"highscore_type": HighscoreTypes.NO_HS,
-	"game_name": "Tutorial",
-	"level": "",
-	"game_scene_path": "res://game/game_class.tscn",
-	"tilemap_path": "res://game/tilemaps/tutorial_tilemap.tscn",
-	"game_time_limit": 0,
-	"strays_start_count": 10,
-}
-
-
-var game_data_classic: Dictionary = { 
-	"game": Games.CLASSIC,
-	"highscore_type": HighscoreTypes.HS_POINTS,
-	"game_name": "Classic",
-	"level": "0",
-	"game_scene_path": "res://game/game_cleaning.tscn",
-#	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_classic.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_classic_small.tscn",
-	"game_time_limit": 0,
-	"strays_start_count": 2,
-}
-
-var game_data_classic_XL: Dictionary = { 
-	"game": Games.CLASSIC_XL,
-	"highscore_type": HighscoreTypes.HS_POINTS,
-	"game_name": "Classic XL",
-	"level": "0",
-	"game_scene_path": "res://game/game_cleaning.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_classic.tscn",
-	"game_time_limit": 0,
-	"strays_start_count": 2,
 }
 
 
@@ -490,12 +459,13 @@ var game_data_classic_XL: Dictionary = {
 
 var game_settings: Dictionary = {}
 var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
+var current_color_scheme: Dictionary = game_color_schemes["default_color_scheme"]
 
 
 func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
-	var current_game = Games.CLASSIC
+	var current_game = Games.NEVERENDING
 #	var current_game = Games.CLEANER
 #	var current_game = Games.ERASER_S
 #	var current_game = Games.CLEANER_DUEL
@@ -512,48 +482,24 @@ func set_game_data(selected_game) -> void:
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
 	match selected_game:
-		Games.CLASSIC: 
-			current_game_data = game_data_classic
-			game_settings["classic_mode"] = true
-			game_settings["suddent_death_mode"] = false
-			game_settings["sudden_death_limit"] = 20
+		Games.NEVERENDING: 
+			current_game_data = game_data_neverending
+			game_settings["neverending_mode"] = true
 			game_settings["player_start_life"] = 3
 			game_settings["timer_mode_countdown"] = false
 			game_settings["lose_life_on_hit"] = true
 			game_settings["spectrum_start_on"] = true
-			#
-#			game_settings["camera_fixed"] = true
-			game_settings["stray_to_wall_mode"] = false
 			game_settings["start_countdown"] = false
+			#
+			game_settings["position_indicators_mode"] = false
+			game_settings["stray_to_wall_mode"] = false
 			game_settings["game_instructions_popup"] = false
-
-
-#	"player_start_color": Color("#232323"), # old #141414
-#	# player in game
-#	"player_tired_energy": 20, # pokaže steps warning popup in hud oabrva rdeče
-#	"step_slowdown_mode": true,
-#	"lose_life_on_hit": false, # zadetek od igralca ali v steno pomeni izgubo življenja, alternativa je izguba energije
-#	# scoring
-#	"cell_traveled_energy": -1,
-#	"all_cleaned_points": 100,
-#	"color_picked_points": 2, 
-#	"cell_traveled_points": 0,
-#	"skill_used_points": 0,
-#	"burst_released_points": 0,
-#	"on_hit_points_part": 2,
-#	# energija
-#	"color_picked_energy": 10,
-#	"skill_used_energy": 0,
-#	"burst_released_energy": 0,
-#	"on_hit_energy_part": 2, # delež porabe od trenutne energije
-#	"touching_stray_energy": 0,
-
-
-
-
-			
-			
-			
+			game_settings["all_cleaned_points"] = 100
+			game_settings["color_picked_points"] = 10
+						
+		Games.NEVERENDING_XL: 
+			current_game_data = game_data_neverending
+			pass
 		Games.TUTORIAL: 
 			current_game_data = game_data_tutorial
 			game_settings["player_start_life"] = 3

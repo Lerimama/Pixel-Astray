@@ -1,6 +1,12 @@
 extends GameManager
 
 
+var step_in_progress: bool = false
+var scrolling_pause_time: float = 0.5 # pavza med stepi
+var lines_scrolled_count: int = 0 # prištevam v stray_step()
+var lines_scroll_per_spawn_round: int = 1 # ob levelu se vleče iz profilov
+
+
 func _ready() -> void:
 
 	Global.game_manager = self
@@ -20,24 +26,6 @@ func _process(delta: float) -> void:
 	
 	# position indicators off
 	show_position_indicators = false			
-	
-#	if game_on and not step_in_progress:
-#		stray_step()
-
-#func start_game():
-#	# namen: stray step
-#
-#	Global.hud.game_timer.start_timer()
-#	Global.sound_manager.play_music("game_music")
-#
-#	for player in get_tree().get_nodes_in_group(Global.group_players):
-#		player.set_physics_process(true)
-#
-#	yield(get_tree().create_timer(2), "timeout") # čaka na hudov slide in
-#
-#	game_on = true
-#
-##	stray_step() # prvi step
 	
 	
 func game_over(gameover_reason: int):
@@ -126,12 +114,6 @@ func set_game_view():
 		minimap_container.visible = false	
 
 
-var step_in_progress: bool = false
-var scrolling_pause_time: float = 0.5 # pavza med stepi
-var lines_scrolled_count: int = 0 # prištevam v stray_step()
-var lines_scroll_per_spawn_round: int = 1 # ob levelu se vleče iz profilov
-
-
 func stray_step():
 	
 	step_in_progress = true
@@ -176,5 +158,3 @@ func stray_step():
 #	yield(get_tree().create_timer(scrolling_pause_time), "timeout")
 	step_in_progress = false
 		
-#	if game_on:
-#		stray_step()

@@ -72,7 +72,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _ready() -> void:
-	print ("P", global_position)
 		
 	add_to_group(Global.group_players)
 	randomize() # za random blink animacije
@@ -647,7 +646,6 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	for stray in strays_to_destroy:
 		var stray_index = strays_to_destroy.find(stray)
 		stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
-#		Global.hud.show_color_indicator(stray.stray_color) # če je scroller se returna na fuknciji
 		
 	end_move() # more bit za collision partikli zaradi smeri
 	
@@ -1220,7 +1218,7 @@ func change_stat(stat_event: String, stat_value):
 			spawn_floating_tag(points_to_gain)
 		"hit_wall": # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
 			if Global.game_manager.game_settings["lose_life_on_hit"]:
-				if Global.game_manager.game_settings["classic_mode"]:
+				if Global.game_manager.game_settings["neverending_mode"]:
 					pass
 				else:	
 					player_stats["player_energy"] = 0
@@ -1232,7 +1230,7 @@ func change_stat(stat_event: String, stat_value):
 		"get_hit": # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
 			
 			if Global.game_manager.game_settings["lose_life_on_hit"]:
-				if Global.game_manager.game_settings["classic_mode"]:
+				if Global.game_manager.game_settings["neverending_mode"]:
 					pass
 				else:					
 					player_stats["player_energy"] = 0
@@ -1244,18 +1242,18 @@ func change_stat(stat_event: String, stat_value):
 		# LIFE LOOP ------------------------------------------------------------------------------------------------------------
 		"die": # izguba lajfa, če je energija 0
 			if player_stats["player_energy"] == 0: # energija = 0 samo zaradi srčka ali hita, če je "lose_life_on_hit"
-				if Global.game_manager.game_settings["classic_mode"]:
+				if Global.game_manager.game_settings["neverending_mode"]:
 					player_stats["player_life"] -= player_stats["player_life"] 
 				else:
 					player_stats["player_life"] -= 1
 			else:
-				if Global.game_manager.game_settings["classic_mode"]: # vsaka zadeta stena je izguba lajfa
+				if Global.game_manager.game_settings["neverending_mode"]: # vsaka zadeta stena je izguba lajfa
 					player_stats["player_life"] -= 1
 		"stop_heart": # energija je 0
 			player_stats["player_energy"] = 0
 		"revive": # resetiranje energije, če je izgubil lajfa (energija = 0)
 			if player_stats["player_energy"] == 0: # energija = 0 samo zaradi srčka ali hita, če je "lose_life_on_hit"
-				if Global.game_manager.game_settings["classic_mode"]: # v classic mode se energija ne restira, ker jo lahko bilda samo z zbijanjem strejsov 
+				if Global.game_manager.game_settings["neverending_mode"]: # v neverending_mode se energija ne restira, ker jo lahko bilda samo z zbijanjem strejsov 
 					pass
 				else:
 					player_stats["player_energy"] = game_settings["player_max_energy"]

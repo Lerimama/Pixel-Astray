@@ -5231,11 +5231,112 @@ rect_min_size = Vector2( 0, 720 )
 theme = ExtResource( 15 )
 script = ExtResource( 13 )
 
-[node name="Cleaner" type="Control" parent="SelectGame"]
+[node name="Neverending" type="Control" parent="SelectGame"]
 margin_left = 8.0
 margin_top = 160.0
 margin_right = 216.0
-margin_bottom = 440.0
+margin_bottom = 288.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Panel" type="Panel" parent="SelectGame/Neverending"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 274 )
+
+[node name="Title5" type="Label" parent="SelectGame/Neverending"]
+visible = false
+margin_left = 25.0
+margin_top = 22.0
+margin_right = 117.0
+margin_bottom = 44.0
+text = "Neverending"
+
+[node name="Label3" type="Label" parent="SelectGame/Neverending"]
+visible = false
+margin_left = 25.0
+margin_top = 56.0
+margin_right = 184.0
+margin_bottom = 98.0
+custom_fonts/font = ExtResource( 14 )
+text = "Collect as many colors as possible"
+autowrap = true
+
+[node name="NeverendingBtn" type="Button" parent="SelectGame/Neverending"]
+margin_right = 208.0
+margin_bottom = 64.0
+mouse_default_cursor_shape = 2
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "Neverending"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Title" type="Label" parent="SelectGame/Neverending/NeverendingBtn"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 14.0
+margin_right = -24.0
+margin_bottom = 36.0
+text = "Duel"
+
+[node name="Label" type="Label" parent="SelectGame/Neverending/NeverendingBtn"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 40.0
+margin_right = -24.0
+margin_bottom = 58.0
+custom_fonts/font = ExtResource( 14 )
+text = "Collect as many points as you can"
+autowrap = true
+
+[node name="NeverendingXLBtn" type="Button" parent="SelectGame/Neverending"]
+margin_top = 64.0
+margin_right = 208.0
+margin_bottom = 128.0
+mouse_default_cursor_shape = 2
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "NeverendingXL"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Title" type="Label" parent="SelectGame/Neverending/NeverendingXLBtn"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 14.0
+margin_right = -24.0
+margin_bottom = 36.0
+text = "Duel"
+
+[node name="Label" type="Label" parent="SelectGame/Neverending/NeverendingXLBtn"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 40.0
+margin_right = -24.0
+margin_bottom = 58.0
+custom_fonts/font = ExtResource( 14 )
+text = "Collect as many points as you can"
+autowrap = true
+
+[node name="Cleaner" type="Control" parent="SelectGame"]
+margin_left = 8.0
+margin_top = 296.0
+margin_right = 216.0
+margin_bottom = 576.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -5308,6 +5409,80 @@ custom_fonts/font = ExtResource( 14 )
 text = "Najvec kakor lahko dobiš točk ... as"
 autowrap = true
 
+[node name="NeverendingBtn" type="Button" parent="SelectGame/Cleaner"]
+visible = false
+margin_left = 24.0
+margin_top = 168.0
+margin_right = 184.0
+margin_bottom = 208.0
+mouse_default_cursor_shape = 2
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "Neverending"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Title" type="Label" parent="SelectGame/Cleaner/NeverendingBtn"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 14.0
+margin_right = -24.0
+margin_bottom = 36.0
+text = "Duel"
+
+[node name="Label" type="Label" parent="SelectGame/Cleaner/NeverendingBtn"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 40.0
+margin_right = -24.0
+margin_bottom = 58.0
+custom_fonts/font = ExtResource( 14 )
+text = "Collect as many points as you can"
+autowrap = true
+
+[node name="NeverendingXLBtn" type="Button" parent="SelectGame/Cleaner"]
+visible = false
+margin_left = 24.0
+margin_top = 216.0
+margin_right = 184.0
+margin_bottom = 256.0
+mouse_default_cursor_shape = 2
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "Endless"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Title" type="Label" parent="SelectGame/Cleaner/NeverendingXLBtn"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 14.0
+margin_right = -24.0
+margin_bottom = 36.0
+text = "Duel"
+
+[node name="Label" type="Label" parent="SelectGame/Cleaner/NeverendingXLBtn"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 40.0
+margin_right = -24.0
+margin_bottom = 58.0
+custom_fonts/font = ExtResource( 14 )
+text = "Collect as many points as you can"
+autowrap = true
+
 [node name="CleanerBtn" type="Button" parent="SelectGame/Cleaner"]
 margin_left = 24.0
 margin_top = 168.0
@@ -5355,7 +5530,7 @@ custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "!!! Klasika"
+text = "The Duel"
 __meta__ = {
 "_editor_description_": ""
 }
@@ -5665,10 +5840,82 @@ custom_fonts/font = ExtResource( 14 )
 text = "Time"
 autowrap = true
 
-[node name="Scroller" type="Control" parent="SelectGame"]
-margin_left = 8.0
+[node name="Runner" type="Control" parent="SelectGame"]
+margin_left = 432.0
 margin_top = 448.0
-margin_right = 352.0
+margin_right = 648.0
+margin_bottom = 576.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Panel" type="Panel" parent="SelectGame/Runner"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 274 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Title4" type="Label" parent="SelectGame/Runner"]
+visible = false
+margin_left = 25.0
+margin_top = 22.0
+margin_right = 117.0
+margin_bottom = 44.0
+text = "Runner"
+
+[node name="Label4" type="Label" parent="SelectGame/Runner"]
+visible = false
+margin_left = 114.0
+margin_top = 24.0
+margin_right = 192.0
+margin_bottom = 48.0
+custom_fonts/font = ExtResource( 14 )
+text = "The maze"
+autowrap = true
+
+[node name="RunnerBtn" type="Button" parent="SelectGame/Runner"]
+margin_left = 72.0
+margin_top = 64.0
+margin_right = 192.0
+margin_bottom = 104.0
+mouse_default_cursor_shape = 2
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "Runner"
+__meta__ = {
+"_edit_group_": true,
+"_editor_description_": ""
+}
+
+[node name="Title" type="Label" parent="SelectGame/Runner/RunnerBtn"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 14.0
+margin_right = -24.0
+margin_bottom = 36.0
+text = "Riddler"
+
+[node name="Label" type="Label" parent="SelectGame/Runner/RunnerBtn"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 40.0
+margin_right = -24.0
+margin_bottom = 58.0
+custom_fonts/font = ExtResource( 14 )
+text = "Solve"
+autowrap = true
+
+[node name="Scroller" type="Control" parent="SelectGame"]
+margin_left = 224.0
+margin_top = 448.0
+margin_right = 432.0
 margin_bottom = 576.0
 __meta__ = {
 "_edit_group_": true
@@ -5687,21 +5934,21 @@ margin_left = 25.0
 margin_top = 22.0
 margin_right = 117.0
 margin_bottom = 44.0
-text = "Scroller"
+text = "On the move"
 
 [node name="Label4" type="Label" parent="SelectGame/Scroller"]
-margin_left = 129.0
+margin_left = 185.0
 margin_top = 24.0
-margin_right = 320.0
+margin_right = 312.0
 margin_bottom = 42.0
 custom_fonts/font = ExtResource( 14 )
-text = "Collect colors in motion"
+text = "Colors in motion"
 autowrap = true
 
 [node name="ScrollerBtn" type="Button" parent="SelectGame/Scroller"]
 margin_left = 24.0
 margin_top = 64.0
-margin_right = 168.0
+margin_right = 144.0
 margin_bottom = 104.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
@@ -5736,9 +5983,9 @@ text = "Solve"
 autowrap = true
 
 [node name="SliderBtn" type="Button" parent="SelectGame/Scroller"]
-margin_left = 176.0
+margin_left = 152.0
 margin_top = 64.0
-margin_right = 320.0
+margin_right = 272.0
 margin_bottom = 104.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
@@ -5770,76 +6017,6 @@ margin_right = -24.0
 margin_bottom = 58.0
 custom_fonts/font = ExtResource( 14 )
 text = "Time"
-autowrap = true
-
-[node name="Runner" type="Control" parent="SelectGame"]
-margin_left = 360.0
-margin_top = 448.0
-margin_right = 648.0
-margin_bottom = 576.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Panel" type="Panel" parent="SelectGame/Runner"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_styles/panel = SubResource( 274 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Title4" type="Label" parent="SelectGame/Runner"]
-margin_left = 25.0
-margin_top = 22.0
-margin_right = 117.0
-margin_bottom = 44.0
-text = "Runner"
-
-[node name="Label4" type="Label" parent="SelectGame/Runner"]
-margin_left = 114.0
-margin_top = 24.0
-margin_right = 264.0
-margin_bottom = 48.0
-custom_fonts/font = ExtResource( 14 )
-text = "Solve the maze"
-autowrap = true
-
-[node name="RunnerBtn" type="Button" parent="SelectGame/Runner"]
-margin_left = 24.0
-margin_top = 64.0
-margin_right = 264.0
-margin_bottom = 104.0
-mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
-text = "Runner"
-__meta__ = {
-"_edit_group_": true,
-"_editor_description_": ""
-}
-
-[node name="Title" type="Label" parent="SelectGame/Runner/RunnerBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Riddler"
-
-[node name="Label" type="Label" parent="SelectGame/Runner/RunnerBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Solve"
 autowrap = true
 
 [node name="Title" type="Label" parent="SelectGame"]
@@ -6847,7 +7024,11 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="Highscores/BackBtn" to="Highscores" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="Highscores/EscHint/Esc/Button" to="Highscores" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="Highscores/EscHint/Select/Button" to="Highscores" method="_on_BackBtn_pressed"]
+[connection signal="pressed" from="SelectGame/Neverending/NeverendingBtn" to="SelectGame" method="_on_NeverendingBtn_pressed"]
+[connection signal="pressed" from="SelectGame/Neverending/NeverendingXLBtn" to="SelectGame" method="_on_NeverendingXLBtn_pressed"]
 [connection signal="pressed" from="SelectGame/Cleaner/TutorialBtn" to="SelectGame" method="_on_TutorialBtn_pressed"]
+[connection signal="pressed" from="SelectGame/Cleaner/NeverendingBtn" to="SelectGame" method="_on_NeverendingBtn_pressed"]
+[connection signal="pressed" from="SelectGame/Cleaner/NeverendingXLBtn" to="SelectGame" method="_on_NeverendingXLBtn_pressed"]
 [connection signal="pressed" from="SelectGame/Cleaner/CleanerBtn" to="SelectGame" method="_on_CleanerBtn_pressed"]
 [connection signal="pressed" from="SelectGame/Cleaner/CleanerDuelBtn" to="SelectGame" method="_on_CleanerDuelBtn_pressed"]
 [connection signal="pressed" from="SelectGame/Eraser/EraserSBtn" to="SelectGame" method="_on_EraserSBtn_pressed"]
@@ -6856,9 +7037,9 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="SelectGame/Riddler/RiddlerBtn" to="SelectGame" method="_on_RiddlerBtn_pressed"]
 [connection signal="pressed" from="SelectGame/Riddler/RiddlerBtn2" to="SelectGame" method="_on_RiddlerBtn2_pressed"]
 [connection signal="pressed" from="SelectGame/Riddler/RiddlerBtn3" to="SelectGame" method="_on_RiddlerBtn3_pressed"]
+[connection signal="pressed" from="SelectGame/Runner/RunnerBtn" to="SelectGame" method="_on_RunnerBtn_pressed"]
 [connection signal="pressed" from="SelectGame/Scroller/ScrollerBtn" to="SelectGame" method="_on_ScrollerBtn_pressed"]
 [connection signal="pressed" from="SelectGame/Scroller/SliderBtn" to="SelectGame" method="_on_SliderBtn_pressed"]
-[connection signal="pressed" from="SelectGame/Runner/RunnerBtn" to="SelectGame" method="_on_RunnerBtn_pressed"]
 [connection signal="pressed" from="SelectGame/BackBtn" to="SelectGame" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectGame/EscHint/Esc/Button" to="SelectGame" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectGame/EscHint/Select/Button" to="SelectGame" method="_on_BackBtn_pressed"]
