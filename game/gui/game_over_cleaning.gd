@@ -31,7 +31,7 @@ func set_game_gameover_title():
 				selected_gameover_jingle = "lose_jingle"
 				name_input_label.text = "But still ... "
 			Global.game_manager.GameoverReason.TIME:
-				if Global.game_manager.game_data["game"] == Profiles.Games.NEVERENDING:
+				if Global.game_manager.game_data["game"] == Profiles.Games.ETERNAL:
 					timeup_label.text = "Too colorful?"
 				else:
 					timeup_label.text = "You are out of time!"

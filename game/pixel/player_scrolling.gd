@@ -109,7 +109,6 @@ func cock_burst():
 	# namen: brez ciklanja, moč je vedno polna, hitrejše cockanje, manjša dolžina
 	
 	cocked_ghost_max_count = 3
-#	cock_ghost_cocking_time = 0.1 # čas nastajanja ghosta in njegova animacija 	
 	
 	var burst_direction = direction
 	var cock_direction = - burst_direction

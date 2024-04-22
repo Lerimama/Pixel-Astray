@@ -1,7 +1,7 @@
 extends GameManager
 
 
-var current_level: int = 1 # za neverending
+var current_level: int = 1 # za eternal
 
 var strays_wall_count: int = 0 # za pravilno beleženje vseh straysov v igri, resetiram na 0 na vsak novi level
 var first_respawn_time: float = 5
@@ -9,7 +9,7 @@ var all_stray_colors: Array
 var level_upgrade_in_progress: bool = false # ustavim klicanje naslednjih levelov
 
 onready var respawn_timer: Timer = $"../RespawnTimer"
-onready	var level_conditions: Dictionary = Profiles.neverending_level_conditions[Profiles.Games.NEVERENDING]
+onready	var level_conditions: Dictionary = Profiles.neverending_level_conditions[Profiles.Games.ETERNAL]
 onready var respawn_wait_time: float = level_conditions["respawn_wait_time"]
 onready var respawn_strays_count: int = level_conditions["respawn_strays_count"]
 onready var level_points_limit: int = level_conditions["level_points_limit"]
@@ -39,16 +39,9 @@ func _ready() -> void:
 	
 	randomize()
 
-	printt("COND 1", current_level)
-	printt("points_limit", level_points_limit)
-	printt("respawn time", respawn_wait_time)
-	printt("respawn strays count", respawn_strays_count)
-#	printt("strays spawn count", level_spawn_strays_count)
-	printt("---")
-
 
 func _process(delta: float) -> void:
-	# namen: respawnanje straysov ... za neverending in upoštevanje wall straysov zaznavanju cleaned
+	# namen: respawnanje straysov ... za eternal in upoštevanje wall straysov zaznavanju cleaned
 	
 	# če sem v fazi, ko lahko preverjam cleaned (po spawnu)
 	if all_strays_died_alowed:
@@ -72,7 +65,7 @@ func _process(delta: float) -> void:
 
 	
 func start_game():
-	# namen: turn to wall respawn štartrespawnanje straysov ... za neverending
+	# namen: turn to wall respawn štartrespawnanje straysov ... za eternal
 	
 	if game_data["game"] == Profiles.Games.TUTORIAL:
 		Global.tutorial_gui.open_tutorial()
@@ -222,7 +215,7 @@ func spawn_strays(strays_to_spawn_count: int):
 	printt ("TREU", all_stray_colors.pop_front(), all_stray_colors.pop_back())
 
 
-func respawn_stray(): # za neverending
+func respawn_stray(): # za eternal
 	
 	# odstranim pozicije plejerjev ... zazih
 	for player in get_tree().get_nodes_in_group(Global.group_players):
@@ -270,7 +263,7 @@ func respawn_stray(): # za neverending
 		self.strays_in_game_count = 1 # setget sprememba	
 	
 	
-func clean_strays_in_game(): # za neverending
+func clean_strays_in_game(): # za eternal
 	
 	# vsi straysi
 	var all_strays_alive: Array = get_tree().get_nodes_in_group(Global.group_strays)
@@ -296,7 +289,7 @@ func clean_strays_in_game(): # za neverending
 	return true
 
 
-func turn_random_strays_to_wall(): # za neverending
+func turn_random_strays_to_wall(): # za eternal
 	
 	var random_stray_index: int = randi() % int(strays_in_game_count)
 	if get_tree().get_nodes_in_group(Global.group_strays).size() > random_stray_index: # error prevent
@@ -309,7 +302,7 @@ func turn_random_strays_to_wall(): # za neverending
 # LEVELS --------------------------------------------------------------------------------------------	
 
 
-func upgrade_level(): # za neverending
+func upgrade_level(): # za eternal
 	
 	if level_upgrade_in_progress:
 		print("level_upgrade_in_progress")
@@ -350,7 +343,7 @@ func upgrade_level(): # za neverending
 	level_upgrade_in_progress = false
 	
 
-func set_level_conditions(): # za neverending
+func set_level_conditions(): # za eternal
 	
 	if current_level > 0:
 		level_points_limit += level_conditions["level_points_limit_grow"]
@@ -359,13 +352,6 @@ func set_level_conditions(): # za neverending
 		# število spawnanih straysov
 		game_data["strays_start_count"] += level_conditions["level_spawn_strays_count_grow"]
 	
-	
-	printt("COND", current_level)
-	printt("points_limit", level_points_limit)
-	printt("respawn time", respawn_wait_time)
-	printt("respawn strays count", respawn_strays_count)
-	printt("---")
-
 
 func _change_strays_in_game_count(strays_count_change: int):
 	# namen: vpelje upgrade level
@@ -378,7 +364,7 @@ func _change_strays_in_game_count(strays_count_change: int):
 	
 	if game_data["game"] == Profiles.Games.TUTORIAL:
 		return
-	elif game_data["game"] == Profiles.Games.NEVERENDING:
+	elif game_data["game"] == Profiles.Games.ETERNAL:
 		if strays_in_game_count == 0 or strays_in_game_count == strays_wall_count: # tutorial sam ve kdaj je gameover, klasika pa nima cleaned modela 
 			upgrade_level()
 	else:

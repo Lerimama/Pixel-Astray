@@ -27,9 +27,8 @@ var step_slowdown_rate: float = Global.game_manager.game_settings["step_slowdown
 
 # bursting
 var cocking_room: bool = true
-var uncocking: bool = false
 var cocking_loop_pause: float = 1
-var cock_ghost_cocking_time: float = 0.1 # čas nastajanja ghosta in njegova animacija ... original 0.12
+var cock_ghost_cocking_time: float = 0.06 # čas nastajanja ghosta in njegova animacija ... original 0.12
 var current_ghost_cocking_time: float = 0 # trenuten čas nastajanja ghosta ... tukaj, da ga ne nulira z vsakim frejmom
 var cocked_ghost_max_count: int = 5
 var cock_ghost_speed_addon: float = 10
@@ -137,10 +136,8 @@ func on_collision():
 
 	# nova zasedena pozicija je samo kjer se je ustavil)
 	Global.game_manager.update_available_respawn_positions("remove", global_position)
-	printt ("KOLAJDAM", collision.collider)
 		
 	if collision.collider.is_in_group(Global.group_wall):
-#	if collision.collider.is_in_group(Global.group_tilemap):
 		on_hit_wall()
 	elif collision.collider is StaticBody2D: # top screen limit
 		on_hit_wall()
@@ -332,7 +329,6 @@ func end_move():
 	# reset burst
 	burst_speed = 0
 	cocking_room = true
-	uncocking = false
 	while not cocked_ghosts.empty():
 		var ghost = cocked_ghosts.pop_back()
 		Global.game_manager.update_available_respawn_positions("add", ghost.global_position)
@@ -355,7 +351,7 @@ func end_move():
 
 
 func cock_burst():
-	
+
 	var burst_direction = direction
 	var cock_direction = - burst_direction
 	
@@ -365,37 +361,21 @@ func cock_burst():
 		end_move()
 		return
 	
-	if not uncocking:
-		if cocked_ghosts.size() < cocked_ghost_max_count and cocking_room: # prostor za napenjanje preverja ghost
-			play_sound("burst_cocking")
-			current_ghost_cocking_time += 1 / 60.0 # čas držanja tipke (znotraj nastajanja ene cock celice) ... fejk delta
-			if current_ghost_cocking_time > cock_ghost_cocking_time: # ko je čas za eno celico mimo, jo spawnam
-				current_ghost_cocking_time = 0
-				var new_cock_ghost = spawn_cock_ghost(cock_direction)
-				cocked_ghosts.append(new_cock_ghost)	
-				Global.game_manager.update_available_respawn_positions("remove", new_cock_ghost.global_position)
-		elif cocked_ghosts.size() == cocked_ghost_max_count:
-			current_ghost_cocking_time += 1 / 60.0 # čas držanja tipke (znotraj nastajanja ene cock celice) ... fejk delta
-			if current_ghost_cocking_time > 6 * cock_ghost_cocking_time: # auto burst
-				release_burst()
-				burst_light_off()
-	#			yield(get_tree().create_timer(cocking_loop_pause), "timeout")
-	#			uncocking = true
-	#	else:
-	#		if not cocked_ghosts.empty():
-	#			current_ghost_cocking_time += 1 / 60.0 
-	#			if current_ghost_cocking_time > cock_ghost_cocking_time:
-	#				play_sound("burst_uncocking")
-	#				current_ghost_cocking_time = 0
-	#				var last_cocked_ghost = cocked_ghosts.back() # najdem zadnjega cockanega in ga odfejdam
-	#				var cock_cell_tween = get_tree().create_tween()
-	#				cock_cell_tween.tween_property(last_cocked_ghost, "modulate:a", 0, cock_ghost_cocking_time)
-	#				yield(cock_cell_tween, "finished")
-	#				cocked_ghosts.pop_back()
-	#				last_cocked_ghost.queue_free()
-	#		else:
-	#			yield(get_tree().create_timer(cocking_loop_pause), "timeout")
-	#			uncocking = false
+	if cocked_ghosts.size() < cocked_ghost_max_count and cocking_room: # prostor za napenjanje preverja ghost
+		play_sound("burst_cocking")
+		current_ghost_cocking_time += 1 / 60.0 # čas držanja tipke (znotraj nastajanja ene cock celice) ... fejk delta
+		if current_ghost_cocking_time > cock_ghost_cocking_time: # ko je čas za eno celico mimo, jo spawnam
+			current_ghost_cocking_time = 0
+			var new_cock_ghost = spawn_cock_ghost(cock_direction)
+			cocked_ghosts.append(new_cock_ghost)	
+			Global.game_manager.update_available_respawn_positions("remove", new_cock_ghost.global_position)
+	# auto-release		
+	#	elif cocked_ghosts.size() == cocked_ghost_max_count:
+	#		current_ghost_cocking_time += 1 / 60.0 # čas držanja tipke (znotraj nastajanja ene cock celice) ... fejk delta
+	#		if current_ghost_cocking_time > 6 * cock_ghost_cocking_time: # auto burst
+	#			release_burst()
+	#			burst_light_off()
+
 
 		
 func release_burst():

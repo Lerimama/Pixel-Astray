@@ -5231,7 +5231,7 @@ rect_min_size = Vector2( 0, 720 )
 theme = ExtResource( 15 )
 script = ExtResource( 13 )
 
-[node name="Neverending" type="Control" parent="SelectGame"]
+[node name="Eternal" type="Control" parent="SelectGame"]
 margin_left = 8.0
 margin_top = 160.0
 margin_right = 216.0
@@ -5240,12 +5240,12 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Panel" type="Panel" parent="SelectGame/Neverending"]
+[node name="Panel" type="Panel" parent="SelectGame/Eternal"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_styles/panel = SubResource( 274 )
 
-[node name="Title5" type="Label" parent="SelectGame/Neverending"]
+[node name="Title5" type="Label" parent="SelectGame/Eternal"]
 visible = false
 margin_left = 25.0
 margin_top = 22.0
@@ -5253,7 +5253,7 @@ margin_right = 117.0
 margin_bottom = 44.0
 text = "Neverending"
 
-[node name="Label3" type="Label" parent="SelectGame/Neverending"]
+[node name="Label3" type="Label" parent="SelectGame/Eternal"]
 visible = false
 margin_left = 25.0
 margin_top = 56.0
@@ -5263,8 +5263,10 @@ custom_fonts/font = ExtResource( 14 )
 text = "Collect as many colors as possible"
 autowrap = true
 
-[node name="NeverendingBtn" type="Button" parent="SelectGame/Neverending"]
-margin_right = 208.0
+[node name="EternalBtn" type="Button" parent="SelectGame/Eternal"]
+margin_left = 24.0
+margin_top = 24.0
+margin_right = 184.0
 margin_bottom = 64.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
@@ -5272,12 +5274,12 @@ custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "Neverending"
+text = "Eternal"
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectGame/Neverending/NeverendingBtn"]
+[node name="Title" type="Label" parent="SelectGame/Eternal/EternalBtn"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -5286,7 +5288,7 @@ margin_right = -24.0
 margin_bottom = 36.0
 text = "Duel"
 
-[node name="Label" type="Label" parent="SelectGame/Neverending/NeverendingBtn"]
+[node name="Label" type="Label" parent="SelectGame/Eternal/EternalBtn"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -5297,22 +5299,23 @@ custom_fonts/font = ExtResource( 14 )
 text = "Collect as many points as you can"
 autowrap = true
 
-[node name="NeverendingXLBtn" type="Button" parent="SelectGame/Neverending"]
-margin_top = 64.0
-margin_right = 208.0
-margin_bottom = 128.0
+[node name="EternalXLBtn" type="Button" parent="SelectGame/Eternal"]
+margin_left = 24.0
+margin_top = 72.0
+margin_right = 184.0
+margin_bottom = 112.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "NeverendingXL"
+text = "Eternal XL"
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectGame/Neverending/NeverendingXLBtn"]
+[node name="Title" type="Label" parent="SelectGame/Eternal/EternalXLBtn"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -5321,7 +5324,7 @@ margin_right = -24.0
 margin_bottom = 36.0
 text = "Duel"
 
-[node name="Label" type="Label" parent="SelectGame/Neverending/NeverendingXLBtn"]
+[node name="Label" type="Label" parent="SelectGame/Eternal/EternalXLBtn"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -7024,8 +7027,8 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="Highscores/BackBtn" to="Highscores" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="Highscores/EscHint/Esc/Button" to="Highscores" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="Highscores/EscHint/Select/Button" to="Highscores" method="_on_BackBtn_pressed"]
-[connection signal="pressed" from="SelectGame/Neverending/NeverendingBtn" to="SelectGame" method="_on_NeverendingBtn_pressed"]
-[connection signal="pressed" from="SelectGame/Neverending/NeverendingXLBtn" to="SelectGame" method="_on_NeverendingXLBtn_pressed"]
+[connection signal="pressed" from="SelectGame/Eternal/EternalBtn" to="SelectGame" method="_on_EternalBtn_pressed"]
+[connection signal="pressed" from="SelectGame/Eternal/EternalXLBtn" to="SelectGame" method="_on_EternalXLBtn_pressed"]
 [connection signal="pressed" from="SelectGame/Cleaner/TutorialBtn" to="SelectGame" method="_on_TutorialBtn_pressed"]
 [connection signal="pressed" from="SelectGame/Cleaner/NeverendingBtn" to="SelectGame" method="_on_NeverendingBtn_pressed"]
 [connection signal="pressed" from="SelectGame/Cleaner/NeverendingXLBtn" to="SelectGame" method="_on_NeverendingXLBtn_pressed"]

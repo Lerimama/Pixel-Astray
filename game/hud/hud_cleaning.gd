@@ -1,7 +1,7 @@
 extends GameHud
 
 
-onready var level_up_popup: Control = $Popups/LevelUp # za neverending
+onready var level_up_popup: Control = $Popups/LevelUp # za eternal
 onready var level_limit_holder: HBoxContainer = $Footer/FooterLine/LevelLimitHolder
 onready var level_limit_label: Label = $Footer/FooterLine/LevelLimitHolder/Label
 
@@ -12,7 +12,7 @@ func _process(delta: float) -> void:
 	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
 	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.NEVERENDING:
+	if Global.game_manager.game_data["game"] == Profiles.Games.ETERNAL:
 		level_label.text = "%02d" % Global.game_manager.current_level 
 		# kateri ima višji score
 		var current_biggest_score: int = 0
@@ -24,7 +24,7 @@ func _process(delta: float) -> void:
 	
 
 func set_hud(players_count: int): # kliče main na game-in
-	# namen: dodam level points limit counter ... za neverending
+	# namen: dodam level points limit counter ... za eternal
 	
 	if players_count == 1:
 		# players
@@ -56,7 +56,7 @@ func set_hud(players_count: int): # kliče main na game-in
 	if Global.game_manager.game_data["level"].empty():
 		level_label.visible = false
 		
-	if Global.game_manager.game_data["game"] == Profiles.Games.NEVERENDING:
+	if Global.game_manager.game_data["game"] == Profiles.Games.ETERNAL:
 		level_limit_holder.visible = true
 		strays_counters_holder.visible = false
 	
@@ -81,49 +81,49 @@ func set_hud(players_count: int): # kliče main na game-in
 func fade_in_instructions_popup(in_time: float):
 	# namen: za to igro prilagojena navodila
 
-	if Global.game_manager.game_data["game"] == Profiles.Games.NEVERENDING:
+	if Global.game_manager.game_data["game"] == Profiles.Games.ETERNAL:
 		$Popups/Instructions/Controls.show()
 		$Popups/Instructions/ControlsDuel.hide()
 		title.text = Global.game_manager.game_data["game_name"]
-		win_label.text = "NNNNNNNNNN"
-		label.text = "Game is over when you are out of energy or time runs out"
-		label_2.text = "Energy depletes with travelling or hitting a wall"
-		label_3.text = "Bursting power affects the amount of collected colors in stack"
-		label_4.text = "Time is limited"
+		win_label.text = "Collect colors and beat the highscore."
+		label.text = "Game is over when you are out of energy, life or the screen is full of colors."
+		label_2.text = "Energy depletes with travelling."
+		label_3.text = "Bursting power affects the amount of collected colors in stack."
+		label_4.text = "No time limit. Pixels never stop appearing."
 		label_5.text = "Highscore is the highest points total"
-		label_6.text = ""
+		label_6.text = "Don't try to beat the game. It's useless."
 	elif Global.game_manager.game_data["game"] == Profiles.Games.CLEANER:
 		$Popups/Instructions/Controls.show()
 		$Popups/Instructions/ControlsDuel.hide()
 		title.text = Global.game_manager.game_data["game_name"]
-		win_label.text = "Collect colors and beat the highscore"
-		label.text = "Game is over when you are out of energy or time runs out"
-		label_2.text = "Energy depletes with travelling or hitting a wall"
-		label_3.text = "Bursting power affects the amount of collected colors in stack"
-		label_4.text = "Time is limited"
-		label_5.text = "Highscore is the highest points total"
+		win_label.text = "Collect colors and beat the highscore."
+		label.text = "Game is over when you are out of energy or time runs out."
+		label_2.text = "Energy depletes with travelling or hitting a wall."
+		label_3.text = "Bursting power affects the amount of collected colors in stack."
+		label_4.text = "Time is limited."
+		label_5.text = "Highscore is the highest points total."
 		label_6.text = ""
 	elif Global.game_manager.game_data["game"] == Profiles.Games.CLEANER_DUEL:
 		$Popups/Instructions/Controls.hide()
 		$Popups/Instructions/ControlsDuel.show()
 		title.text = Global.game_manager.game_data["game_name"] + " " + Global.game_manager.game_data["level"]
-		win_label.text = "Surviving player or player with higher points total wins"
-		label.text = "Game is over when a player loses all lives or time runs out"
-		label_2.text = "Energy depletes with travelling or hitting a wall"
-		label_3.text = "Bursting power affects the amount of collected colors in stack"
-		label_4.text = "Time is limited"
-		label_5.text = "No highscores"
+		win_label.text = "Surviving player or player with higher points total wins."
+		label.text = "Game is over when a player loses all lives or time runs out."
+		label_2.text = "Energy depletes with travelling or hitting a wall."
+		label_3.text = "Bursting power affects the amount of collected colors in stack."
+		label_4.text = "Time is limited."
+		label_5.text = "No highscores."
 		label_6.text = ""
 	else: # ERASERji
 		$Popups/Instructions/Controls.show()
 		$Popups/Instructions/ControlsDuel.hide()
 		title.text = Global.game_manager.game_data["game_name"] + " " + Global.game_manager.game_data["level"]
-		win_label.text = "Collect all available colors"
-		label.text = "Game is over when you are out of energy"
-		label_2.text = "Energy depletes with travelling or hitting a wall"
-		label_3.text = "Bursting power affects the amount of collected colors in stack"
-		label_4.text = "Time is unlimited"
-		label_5.text = "Highscore is the fastest time"
+		win_label.text = "Collect all available colors."
+		label.text = "Game is over when you are out of energy."
+		label_2.text = "Energy depletes with travelling or hitting a wall."
+		label_3.text = "Bursting power affects the amount of collected colors in stack."
+		label_4.text = "Time is unlimited."
+		label_5.text = "Highscore is the fastest time."
 		label_6.text = ""
 
 	var show_instructions_popup = get_tree().create_tween()
@@ -131,7 +131,7 @@ func fade_in_instructions_popup(in_time: float):
 	show_instructions_popup.tween_property(instructions_popup, "modulate:a", 1, in_time).from(0.0).set_ease(Tween.EASE_IN)
 
 	
-func level_up_popup_in(level_reached: int): # za neverending
+func level_up_popup_in(level_reached: int): # za eternal
 	
 	level_up_popup.modulate.a = 0
 	level_up_popup.get_node("Label").text = "LEVEL %s" % str(level_reached)
@@ -141,14 +141,14 @@ func level_up_popup_in(level_reached: int): # za neverending
 	popup_in.tween_property(level_up_popup, "modulate:a", 1, 0.3)
 
 
-func level_up_popup_out(): # za neverending
+func level_up_popup_out(): # za eternal
 	
 	var popup_in = get_tree().create_tween()
 	popup_in.tween_property(level_up_popup, "modulate:a", 0, 0.3)
 	popup_in.tween_callback(level_up_popup, "hide")
 
 
-func empty_color_indicators(): # za neverending
+func empty_color_indicators(): # za eternal
 	
 	# zbrišem trenutne indikatorje
 	for child in spectrum.get_children():
@@ -156,7 +156,7 @@ func empty_color_indicators(): # za neverending
 	active_color_indicators.clear()
 
 
-func update_stats(stat_owner: Node, player_stats: Dictionary): # za neverending
+func update_stats(stat_owner: Node, player_stats: Dictionary): # za eternal
 	# namen: preverjanje števila točk in klic next level v GM (na koncu)	
 	
 	# player stats

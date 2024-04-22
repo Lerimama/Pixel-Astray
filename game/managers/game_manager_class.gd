@@ -61,18 +61,10 @@ func _process(delta: float) -> void:
 		available_respawn_positions = Global.current_tilemap.floor_global_positions.duplicate()
 		for stray in get_tree().get_nodes_in_group(Global.group_strays):
 			if available_respawn_positions.has(stray.global_position - Vector2(cell_size_x/2, cell_size_x/2)):
-	#			print("MAM")
-				pass
-			else:
-				print("NIMAM")
-			available_respawn_positions.erase(stray.global_position - Vector2(cell_size_x/2, cell_size_x/2) )
+				available_respawn_positions.erase(stray.global_position - Vector2(cell_size_x/2, cell_size_x/2) )
 		for player in get_tree().get_nodes_in_group(Global.group_players):
 			if available_respawn_positions.has(player.global_position - Vector2(cell_size_x/2, cell_size_x/2)):
-				print("PLEJER JE")
-				pass
-			else:
-				print("NIMAM")
-			available_respawn_positions.erase(player.global_position - Vector2(cell_size_x/2, cell_size_x/2) )
+				available_respawn_positions.erase(player.global_position - Vector2(cell_size_x/2, cell_size_x/2) )
 		
 		if Global.strays_on_screen.size() <= game_settings["show_position_indicators_stray_count"] and game_settings["position_indicators_mode"]:
 			show_position_indicators = true

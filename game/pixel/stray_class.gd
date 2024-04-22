@@ -273,6 +273,6 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			set_physics_process(false)
 			collision_shape_ext.disabled = true	
 			position_indicator.modulate.a = 0
-			# za neverending
+			# za eternal
 			Global.game_manager.strays_wall_count += 1
 			

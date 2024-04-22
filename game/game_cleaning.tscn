@@ -519,13 +519,13 @@ region = Rect2( 32, 80, 48, 16 )
 
 [sub_resource type="StyleBoxEmpty" id=248]
 
-[sub_resource type="AtlasTexture" id=129]
-atlas = ExtResource( 7 )
-region = Rect2( 64, 0, 16, 16 )
-
 [sub_resource type="AtlasTexture" id=269]
 atlas = ExtResource( 7 )
 region = Rect2( 16, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=129]
+atlas = ExtResource( 7 )
+region = Rect2( 64, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=268]
 atlas = ExtResource( 7 )
@@ -1774,36 +1774,9 @@ margin_bottom = 22.0
 custom_constants/separation = 0
 custom_styles/separator = SubResource( 248 )
 
-[node name="PointsHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineL"]
+[node name="ColorHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineL"]
 margin_left = 148.0
 margin_right = 186.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 0, 22 )
-size_flags_vertical = 8
-custom_constants/separation = 8
-
-[node name="TextureRect4" type="TextureRect" parent="GUI/Hud/Header/TopLineL/PointsHolder"]
-margin_top = 4.0
-margin_right = 16.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 16, 18 )
-size_flags_vertical = 8
-texture = SubResource( 129 )
-
-[node name="Points" type="Label" parent="GUI/Hud/Header/TopLineL/PointsHolder"]
-margin_left = 24.0
-margin_right = 38.0
-margin_bottom = 22.0
-size_flags_vertical = 8
-text = "0"
-valign = 1
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="ColorHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineL"]
-margin_left = 202.0
-margin_right = 240.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
@@ -1819,6 +1792,44 @@ texture = SubResource( 269 )
 [node name="Label" type="Label" parent="GUI/Hud/Header/TopLineL/ColorHolder"]
 margin_left = 24.0
 margin_right = 38.0
+margin_bottom = 22.0
+size_flags_vertical = 8
+text = "0"
+valign = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="PointsHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineL"]
+margin_left = 202.0
+margin_right = 294.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 0, 22 )
+size_flags_vertical = 8
+custom_constants/separation = 8
+
+[node name="TextureRect4" type="TextureRect" parent="GUI/Hud/Header/TopLineL/PointsHolder"]
+visible = false
+margin_top = 4.0
+margin_right = 16.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 16, 18 )
+size_flags_vertical = 8
+texture = SubResource( 129 )
+
+[node name="Label" type="Label" parent="GUI/Hud/Header/TopLineL/PointsHolder"]
+margin_right = 70.0
+margin_bottom = 22.0
+size_flags_vertical = 8
+text = "SCORE"
+valign = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Points" type="Label" parent="GUI/Hud/Header/TopLineL/PointsHolder"]
+margin_left = 78.0
+margin_right = 92.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 text = "0"

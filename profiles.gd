@@ -120,7 +120,7 @@ enum Games {
 	RUNNER, 
 	RIDDLER_S, RIDDLER_M, RIDDLER_L
 	TUTORIAL,
-	NEVERENDING, NEVERENDING_XL,
+	ETERNAL, ETERNAL_XL,
 	}
 
 
@@ -254,9 +254,9 @@ var game_data_tutorial: Dictionary = {
 	"strays_start_count": 10,
 }
 var game_data_neverending: Dictionary = { 
-	"game": Games.NEVERENDING,
+	"game": Games.ETERNAL,
 	"highscore_type": HighscoreTypes.HS_POINTS,
-	"game_name": "Neverending",
+	"game_name": "Eternal",
 	"level": "0",
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_neverending.tscn",
@@ -264,9 +264,9 @@ var game_data_neverending: Dictionary = {
 	"strays_start_count": 50,
 }
 var game_data_neverending_XL: Dictionary = { 
-	"game": Games.NEVERENDING_XL,
+	"game": Games.ETERNAL_XL,
 	"highscore_type": HighscoreTypes.HS_POINTS,
-	"game_name": "Neverending XL",
+	"game_name": "Eternal XL",
 	"level": "0",
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_neverending_xl.tscn",
@@ -440,16 +440,16 @@ var slider_level_conditions: Dictionary = {
 
 var neverending_level_conditions: Dictionary = {
 	
-	Games.NEVERENDING: { # small
+	Games.ETERNAL: { # small
 		"respawn_wait_time": 1,
 		"respawn_wait_time_factor": 0.7, # množim
 		"respawn_strays_count": 1,
 		"respawn_strays_count_grow": 1, # prištejem
-		"level_points_limit": 1500,
+		"level_points_limit": 10,
 		"level_points_limit_grow": 20, # prištejem
 		"level_spawn_strays_count_grow": 5, # prištejem 
 	},
-	Games.NEVERENDING_XL: { # big
+	Games.ETERNAL_XL: { # big
 	},
 }
 
@@ -465,7 +465,7 @@ var current_color_scheme: Dictionary = game_color_schemes["default_color_scheme"
 func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
-	var current_game = Games.NEVERENDING
+	var current_game = Games.ETERNAL
 #	var current_game = Games.CLEANER
 #	var current_game = Games.ERASER_S
 #	var current_game = Games.CLEANER_DUEL
@@ -482,7 +482,7 @@ func set_game_data(selected_game) -> void:
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
 	match selected_game:
-		Games.NEVERENDING: 
+		Games.ETERNAL: 
 			current_game_data = game_data_neverending
 			game_settings["neverending_mode"] = true
 			game_settings["player_start_life"] = 3
@@ -498,7 +498,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["all_cleaned_points"] = 1 # debug
 			game_settings["color_picked_points"] = 10
 						
-		Games.NEVERENDING_XL: 
+		Games.ETERNAL_XL: 
 			current_game_data = game_data_neverending
 			pass
 		Games.TUTORIAL: 

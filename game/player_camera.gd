@@ -59,12 +59,12 @@ func _ready():
 		else:
 			if Global.game_manager.game_data["game"] == Profiles.Games.RUNNER:
 				zoom_start = Vector2.ONE * 6
-			elif Global.game_manager.game_data["game"] == Profiles.Games.NEVERENDING:
+			elif Global.game_manager.game_data["game"] == Profiles.Games.ETERNAL:
 				zoom_end = Vector2.ONE * 1.5
+				smoothing_speed = 5
 			zoom = zoom_start
 		
 #		zoom_end = zoom_start
-
 
 	# testhud
 	set_ui_focus()	
