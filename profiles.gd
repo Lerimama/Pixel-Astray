@@ -445,8 +445,8 @@ var neverending_level_conditions: Dictionary = {
 		"respawn_wait_time_factor": 0.7, # množim
 		"respawn_strays_count": 1,
 		"respawn_strays_count_grow": 1, # prištejem
-		"level_points_limit": 150,
-		"level_points_limit_grow": 150, # prištejem
+		"level_points_limit": 1500,
+		"level_points_limit_grow": 20, # prištejem
 		"level_spawn_strays_count_grow": 5, # prištejem 
 	},
 	Games.NEVERENDING_XL: { # big
@@ -493,8 +493,9 @@ func set_game_data(selected_game) -> void:
 			#
 			game_settings["position_indicators_mode"] = false
 			game_settings["stray_to_wall_mode"] = false
+			
 			game_settings["game_instructions_popup"] = false
-			game_settings["all_cleaned_points"] = 100
+			game_settings["all_cleaned_points"] = 1 # debug
 			game_settings["color_picked_points"] = 10
 						
 		Games.NEVERENDING_XL: 

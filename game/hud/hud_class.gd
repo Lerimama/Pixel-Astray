@@ -144,11 +144,6 @@ func set_hud(players_count: int): # kliče main na game-in
 		p1_life_counter.visible = true
 		p2_life_counter.visible = true
 		
-	# energy counter
-#	if Global.game_manager.game_settings["cell_traveled_energy"] == 0: 
-#		p1_energy_counter.visible = false
-#		p2_energy_counter.visible = false
-	
 	# level label
 	if Global.game_manager.game_data["level"].empty():
 		level_label.visible = false

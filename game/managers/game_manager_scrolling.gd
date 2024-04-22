@@ -237,14 +237,63 @@ func set_players():
 
 func spawn_strays(strays_to_spawn_count: int):
 	
-#	if not game_on:
-#		return
-		
 	# split colors
 	strays_to_spawn_count = clamp(strays_to_spawn_count, 1, strays_to_spawn_count) # za vsak slučaj klempam, da ne more biti nikoli 0 ...  ker je error			
 
+
+	#	# COLORS
+	#
+	#	# setam sliko spektruma (za šrebanje in prvi level)
+	#	var spectrum_image: Image
+	#	var spectrum_texture: Texture = spectrum_rect.texture
+	#	spectrum_image = spectrum_texture.get_data()
+	#	spectrum_image.lock()
+	#	var spectrum_texture_width: float = spectrum_rect.rect_size.x
+	#
+	#	# get color scheme
+	#	var color_split_offset: float
+	#	# prvi level je pisan ... vsi naslednji imajo random gradient
+	#	if current_level <= 1:
+	#		color_split_offset = spectrum_texture_width / stages_per_level # razmak barv po spektru ... - 1 je zato ker je razmakov za 1 manj kot barv
+	#	else:
+	#		# izžrebam barvi gradienta iz nastavljenega spektruma
+	#		var new_color_scheme_colors: Array
+	#		var new_color_scheme_split_size: float = spectrum_texture_width / stages_per_level
+	#
+	#		# žrebam prvo barvo iz celotnega bazena barv 
+	#		var random_split_index_1: int = randi() % int(stages_per_level)
+	#		var random_color_position_x_1: float = random_split_index_1 * new_color_scheme_split_size # lokacija barve v spektrumu
+	#		var random_color_1: Color = spectrum_image.get_pixel(random_color_position_x_1, 0) # barva na lokaciji v spektrumu
+	#		# žrebam drugi index iz omejenega nabora indexov barv  
+	#		var split_minimal_distance: int = 20
+	#		var split_min: int = random_split_index_1 - split_minimal_distance
+	#		var split_max: int = random_split_index_1 + split_minimal_distance	
+	#		var available_random_splits: Array
+	#
+	#		for n in stages_per_level:
+	#			if n < split_min or n > split_max:
+	#				available_random_splits.append(n)
+	#
+	#		var random_split_index_2: int # ... potem random število uporabim za random index v vseh splitih
+	#		if available_random_splits.empty(): # v primeru ko je distanca prevelika, je navadno žrebanje
+	#			random_split_index_2 = randi() % int(strays_to_spawn_count)
+	#		# žrebam drugo barvo iz bazena barv, ki so od prve oddaljene za  xx  split_minimal_distance 
+	#		else: 
+	#			var available_random_split_index: int = randi() % int(available_random_splits.size()) # med index števili na voljo izbere random število
+	#			random_split_index_2 = available_random_splits[available_random_split_index] # ... potem random število uporabim za random index v vseh splitih
+	#		var random_color_position_x_2: float = random_split_index_2 * new_color_scheme_split_size # lokacija barve v spektrumu
+	#		var random_color_2: Color = spectrum_image.get_pixel(random_color_position_x_2, 0) # barva na lokaciji v spektrumu		
+	#
+	#		new_color_scheme_colors = [random_color_1, random_color_2]
+	#
+	#		# setam gradient barvne sheme (node)
+	#		var scheme_gradient: Gradient = $SpectrumGradient.texture.get_gradient()
+	#		scheme_gradient.set_color(0, new_color_scheme_colors[0])
+	#		scheme_gradient.set_color(1, new_color_scheme_colors[1])	
+	#		color_split_offset = 1.0 / strays_to_spawn_count
+
 	var spectrum_image: Image
-	var color_offset: float
+	var color_split_offset: float
 	var level_indicator_color_offset: float
 
 	# difolt barvna shema ali druge
@@ -255,14 +304,15 @@ func spawn_strays(strays_to_spawn_count: int):
 		spectrum_image.lock()
 		# razmak med barvami za strayse
 		var spectrum_texture_width: float = spectrum_rect.rect_size.x
-		color_offset = spectrum_texture_width / strays_to_spawn_count # razmak barv po spektru ... - 1 je zato ker je razmakov za 1 manj kot barv
+		color_split_offset = spectrum_texture_width / strays_to_spawn_count # razmak barv po spektru ... - 1 je zato ker je razmakov za 1 manj kot barv
 	else:
 		# setam gradient
 		var gradient: Gradient = $SpectrumGradient.texture.get_gradient()
 		gradient.set_color(0, level_color_scheme[1])
 		gradient.set_color(1, level_color_scheme[2])
 		# razmak med barvami za strayse
-		color_offset = 1.0 / strays_to_spawn_count
+		color_split_offset = 1.0 / strays_to_spawn_count
+
 
 	var available_required_spawn_positions = required_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
 	var available_random_spawn_positions = random_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
@@ -285,12 +335,10 @@ func spawn_strays(strays_to_spawn_count: int):
 	for stray_index in strays_to_spawn_count:
 		# barva
 		var current_color: Color
-		var selected_color_position_x: float
+		var selected_color_position_x: float = stray_index * color_split_offset # lokacija barve v spektrumu
 		if level_color_scheme == Profiles.game_color_schemes["default_color_scheme"]:
-			selected_color_position_x = stray_index * color_offset # lokacija barve v spektrumu
 			current_color = spectrum_image.get_pixel(selected_color_position_x, 0) # barva na lokaciji v spektrumu
 		else:
-			selected_color_position_x = stray_index * color_offset # lokacija barve v spektrumu
 			current_color = spectrum_gradient.texture.gradient.interpolate(selected_color_position_x) # barva na lokaciji v spektrumu
 
 		# možne spawn pozicije

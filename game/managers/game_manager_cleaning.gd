@@ -3,15 +3,16 @@ extends GameManager
 
 var current_level: int = 1 # za neverending
 
-var strays_wall_count: int = 0 # za pravilno brisanje in beleženje, resetiram na 0 na vsak novi level
-var first_turn_to_wall_time: float = 5
+var strays_wall_count: int = 0 # za pravilno beleženje vseh straysov v igri, resetiram na 0 na vsak novi level
+var first_respawn_time: float = 5
+var all_stray_colors: Array
+var level_upgrade_in_progress: bool = false # ustavim klicanje naslednjih levelov
 
-onready var turn_to_wall_timer: Timer = $"../TurnToWallTimer"
+onready var respawn_timer: Timer = $"../RespawnTimer"
 onready	var level_conditions: Dictionary = Profiles.neverending_level_conditions[Profiles.Games.NEVERENDING]
 onready var respawn_wait_time: float = level_conditions["respawn_wait_time"]
 onready var respawn_strays_count: int = level_conditions["respawn_strays_count"]
 onready var level_points_limit: int = level_conditions["level_points_limit"]
-onready var strays_spawn_count: int
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -37,6 +38,13 @@ func _ready() -> void:
 	PlayerPixel = preload("res://game/pixel/player_cleaning.tscn")
 	
 	randomize()
+
+	printt("COND 1", current_level)
+	printt("points_limit", level_points_limit)
+	printt("respawn time", respawn_wait_time)
+	printt("respawn strays count", respawn_strays_count)
+#	printt("strays spawn count", level_spawn_strays_count)
+	printt("---")
 
 
 func _process(delta: float) -> void:
@@ -77,9 +85,8 @@ func start_game():
 			
 		game_on = true
 		
-		# turn to wall
-		var first_turn_to_wall_time: float = 5
-		turn_to_wall_timer.start(first_turn_to_wall_time)
+		# start respawning
+#		respawn_timer.start(first_respawn_time)
 
 
 # STRAYS --------------------------------------------------------------------------------------------	
@@ -108,23 +115,51 @@ func spawn_strays(strays_to_spawn_count: int):
 		# izžrebam barvi gradienta iz nastavljenega spektruma
 		var new_color_scheme_colors: Array
 		var new_color_scheme_split_size: float = spectrum_texture_width / strays_to_spawn_count
-		for n in 2:
-			var random_split_index: int = randi() % int(strays_to_spawn_count)
-			var random_color_position_x: float = random_split_index * new_color_scheme_split_size # lokacija barve v spektrumu
-			var random_color: Color = spectrum_image.get_pixel(random_color_position_x, 0) # barva na lokaciji v spektrumu
-			new_color_scheme_colors.append(random_color)
+		
+		# žrebam prvo barvo iz celotnega bazena barv 
+		var random_split_index_1: int = randi() % int(strays_to_spawn_count)
+		var random_color_position_x_1: float = random_split_index_1 * new_color_scheme_split_size # lokacija barve v spektrumu
+		var random_color_1: Color = spectrum_image.get_pixel(random_color_position_x_1, 0) # barva na lokaciji v spektrumu
+		# žrebam drugi index iz omejenega nabora indexov barv  
+		var split_minimal_distance: int = 20
+		var split_min: int = random_split_index_1 - split_minimal_distance
+		var split_max: int = random_split_index_1 + split_minimal_distance	
+		var available_random_splits: Array
+		for n in strays_to_spawn_count:
+			if n < split_min or n > split_max:
+				available_random_splits.append(n)
+		var random_split_index_2: int # ... potem random število uporabim za random index v vseh splitih
+		if available_random_splits.empty(): # v primeru ko je distanca prevelika, je navadno žrebanje
+			random_split_index_2 = randi() % int(strays_to_spawn_count)
+		# žrebam drugo barvo iz bazena barv, ki so od prve oddaljene za  xx  split_minimal_distance 
+		else: 
+			var available_random_split_index: int = randi() % int(available_random_splits.size()) # med index števili na voljo izbere random število
+			random_split_index_2 = available_random_splits[available_random_split_index] # ... potem random število uporabim za random index v vseh splitih
+		
+		var random_color_position_x_2: float = random_split_index_2 * new_color_scheme_split_size # lokacija barve v spektrumu
+		var random_color_2: Color = spectrum_image.get_pixel(random_color_position_x_2, 0) # barva na lokaciji v spektrumu		
+		
+		new_color_scheme_colors = [random_color_1, random_color_2]
+		
+		#		for n in 2:
+		#			var random_split_index: int = randi() % int(strays_to_spawn_count)
+		#			var random_color_position_x: float = random_split_index * new_color_scheme_split_size # lokacija barve v spektrumu
+		#			var random_color: Color = spectrum_image.get_pixel(random_color_position_x, 0) # barva na lokaciji v spektrumu
+		#			new_color_scheme_colors.append(random_color)
+
 		# setam gradient barvne sheme (node)
 		var scheme_gradient: Gradient = $SpectrumGradient.texture.get_gradient()
 		scheme_gradient.set_color(0, new_color_scheme_colors[0])
 		scheme_gradient.set_color(1, new_color_scheme_colors[1])	
-		
 		color_split_offset = 1.0 / strays_to_spawn_count
 	
 	# STRAYS
 	
 	var available_required_spawn_positions = required_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
 	var available_random_spawn_positions = random_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
-	var all_colors: Array = [] # za color indikatorje
+	
+	# pred novim spawnom, ga resetiram
+	all_stray_colors = [] # za color indikatorje
 
 	for stray_index in strays_to_spawn_count:
 		
@@ -150,10 +185,17 @@ func spawn_strays(strays_to_spawn_count: int):
 		else: # spawnanje na vse available za respawn
 			if not available_respawn_positions.empty():
 				current_spawn_positions = available_respawn_positions
+#			if not proces_respawn_positions.empty():
+#				current_spawn_positions = proces_respawn_positions
 			else:
 				print ("No available spawn positions")
 				return
 		
+		# odstranim pozicije plejerjev ... zazih
+		for player in get_tree().get_nodes_in_group(Global.group_players):
+			if current_spawn_positions.has(player.global_position):
+				current_spawn_positions.erase(player.global_position)
+
 		# žrebanje random position
 		var random_range = current_spawn_positions.size()
 		var selected_cell_index: int = randi() % int(random_range)		
@@ -167,40 +209,65 @@ func spawn_strays(strays_to_spawn_count: int):
 		new_stray_pixel.z_index = 2 # višje od plejerja
 		Global.node_creation_parent.add_child(new_stray_pixel)
 		
-		all_colors.append(current_color)
+		all_stray_colors.append(current_color)
 		current_spawn_positions.remove(selected_cell_index) # odstranim pozicijo iz nabora za start spawn
 		update_available_respawn_positions("remove", new_stray_pixel.global_position) # odstranim pozicijo iz nabora za respawn
 		
 		new_stray_pixel.show_stray()
 			
-	Global.hud.spawn_color_indicators(all_colors) # barve pokažem v hudu		
+#	Global.hud.spawn_color_indicators(all_colors) # barve pokažem v hudu		
+	Global.hud.spawn_color_indicators(all_stray_colors) # barve pokažem v hudu		
 	self.strays_in_game_count = strays_to_spawn_count # setget sprememba
 
-	
-func respawn_stray(spawned_stray_color: Color): # za neverending
-	
-	if available_respawn_positions.empty():
-		return
-	
-	# random position
-	var random_range = available_respawn_positions.size()
-	var selected_position_index: int = randi() % int(random_range)		
-	var selected_position = available_respawn_positions[selected_position_index]
+	printt ("TREU", all_stray_colors.pop_front(), all_stray_colors.pop_back())
 
-	# spawn stray
-	var new_stray_pixel = StrayPixel.instance()
-	new_stray_pixel.name = "S%s" % str(strays_in_game_count)
-	new_stray_pixel.stray_color = spawned_stray_color
-	
-	new_stray_pixel.global_position = selected_position + Vector2(cell_size_x/2, cell_size_x/2) # dodana adaptacija zaradi središča pixla
-	new_stray_pixel.z_index = 2 # višje od plejerja
-	Global.node_creation_parent.add_child(new_stray_pixel)
-	
-	# odstranim uporabljeno pozicijo
-	update_available_respawn_positions("remove", new_stray_pixel.global_position)
-	new_stray_pixel.show_stray()
 
-	self.strays_in_game_count = 1 # setget sprememba	
+func respawn_stray(): # za neverending
+	
+	# odstranim pozicije plejerjev ... zazih
+	for player in get_tree().get_nodes_in_group(Global.group_players):
+		if available_respawn_positions.has(player.global_position):
+			available_respawn_positions.erase(player.global_position)
+	
+	for n in respawn_strays_count:
+	
+		if available_respawn_positions.empty():
+#		if proces_respawn_positions.empty():
+			return
+		
+		# get color
+		var spawned_stray_color: Color
+		# stray to wall color
+		if game_settings["stray_to_wall_mode"]:
+			spawned_stray_color = turn_random_strays_to_wall()
+			if spawned_stray_color == null:
+				return
+			yield(get_tree().create_timer(1), "timeout") # da se ne spawna, ko še ni wall
+		# random color
+		else:
+			var random_color_index: int = randi() % int(all_stray_colors.size())		
+			spawned_stray_color = all_stray_colors[random_color_index]
+		
+		# random position
+		var random_range = available_respawn_positions.size()
+#		var random_range = proces_respawn_positions.size()
+		var selected_position_index: int = randi() % int(random_range)		
+		var selected_position = available_respawn_positions[selected_position_index]
+#		var selected_position = proces_respawn_positions[selected_position_index]
+
+		# spawn stray
+		var new_stray_pixel = StrayPixel.instance()
+		new_stray_pixel.name = "S%s" % str(strays_in_game_count)
+		new_stray_pixel.stray_color = spawned_stray_color
+		new_stray_pixel.global_position = selected_position + Vector2(cell_size_x/2, cell_size_x/2) # dodana adaptacija zaradi središča pixla
+		new_stray_pixel.z_index = 2 # višje od plejerja
+		Global.node_creation_parent.add_child(new_stray_pixel)
+		
+		# odstranim uporabljeno pozicijo
+		update_available_respawn_positions("remove", new_stray_pixel.global_position)
+		new_stray_pixel.show_stray()
+
+		self.strays_in_game_count = 1 # setget sprememba	
 	
 	
 func clean_strays_in_game(): # za neverending
@@ -231,26 +298,31 @@ func clean_strays_in_game(): # za neverending
 
 func turn_random_strays_to_wall(): # za neverending
 	
-	for count in respawn_strays_count:
-		# random stray to wall
-		var random_stray_index: int = randi() % int(strays_in_game_count)
-		if get_tree().get_nodes_in_group(Global.group_strays).size() > random_stray_index:
-			var random_stray: KinematicBody2D = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_index]
-			if game_settings["stray_to_wall_mode"]:
-				random_stray.die_to_wall()
-				yield(get_tree().create_timer(1), "timeout")
-			Global.game_manager.respawn_stray(random_stray.stray_color)	
+	var random_stray_index: int = randi() % int(strays_in_game_count)
+	if get_tree().get_nodes_in_group(Global.group_strays).size() > random_stray_index: # error prevent
+		var random_stray: KinematicBody2D = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_index]
+		random_stray.die_to_wall()
+		
+		return random_stray.stray_color
 	
 	
 # LEVELS --------------------------------------------------------------------------------------------	
 
-	
+
 func upgrade_level(): # za neverending
+	
+	if level_upgrade_in_progress:
+		print("level_upgrade_in_progress")
+		return
+	
+	randomize()
+	
+	level_upgrade_in_progress = true	
 	# levelov je neskončno, samo hitrost se veča
 
 	current_level += 1 # številka novega levela 
 	
-	turn_to_wall_timer.stop()
+	respawn_timer.stop()
 	Global.hud.level_up_popup_in(current_level)
 	
 	# set new level
@@ -268,14 +340,15 @@ func upgrade_level(): # za neverending
 		player.all_cleaned()
 		signaling_player = player # da se zgodi na obeh plejerjih istočasno
 	yield(signaling_player, "rewarded_on_game_over") # počakam, da je nagrajen	
-#	yield(get_tree().create_timer(1), "timeout") # za dojet
+	
 	set_strays() 
 	Global.hud.level_up_popup_out()
 	get_tree().call_group(Global.group_players, "set_physics_process", true)
 
-	yield(get_tree().create_timer(1), "timeout") # za dojet
-	turn_to_wall_timer.start(first_turn_to_wall_time)
-
+#	yield(get_tree().create_timer(1), "timeout") # za dojet
+	respawn_timer.start(first_respawn_time)
+	level_upgrade_in_progress = false
+	
 
 func set_level_conditions(): # za neverending
 	
@@ -283,10 +356,15 @@ func set_level_conditions(): # za neverending
 		level_points_limit += level_conditions["level_points_limit_grow"]
 		respawn_wait_time *= level_conditions["respawn_wait_time_factor"]
 		respawn_strays_count = level_conditions["respawn_strays_count_grow"]
-		# spawn strays count
-		strays_spawn_count += level_conditions["level_spawn_strays_count_grow"]
-		game_data["strays_start_count"] = strays_spawn_count
+		# število spawnanih straysov
+		game_data["strays_start_count"] += level_conditions["level_spawn_strays_count_grow"]
 	
+	
+	printt("COND", current_level)
+	printt("points_limit", level_points_limit)
+	printt("respawn time", respawn_wait_time)
+	printt("respawn strays count", respawn_strays_count)
+	printt("---")
 
 
 func _change_strays_in_game_count(strays_count_change: int):
@@ -302,7 +380,7 @@ func _change_strays_in_game_count(strays_count_change: int):
 		return
 	elif game_data["game"] == Profiles.Games.NEVERENDING:
 		if strays_in_game_count == 0 or strays_in_game_count == strays_wall_count: # tutorial sam ve kdaj je gameover, klasika pa nima cleaned modela 
-			Global.game_manager.upgrade_level()
+			upgrade_level()
 	else:
 		if strays_in_game_count == 0: # tutorial sam ve kdaj je gameover, klasika pa nima cleaned modela 
 			game_over(GameoverReason.CLEANED)	
@@ -311,9 +389,9 @@ func _change_strays_in_game_count(strays_count_change: int):
 # SIGNALI --------------------------------------------------------------------------------------------	
 
 
-func _on_TurnToWallTimer_timeout() -> void:
+func _on_RespawnTimer_timeout() -> void:
 	
-	turn_random_strays_to_wall()
-	turn_to_wall_timer.stop()
-	turn_to_wall_timer.wait_time = respawn_wait_time
-	turn_to_wall_timer.start()
+	respawn_stray()
+	respawn_timer.stop()
+	respawn_timer.wait_time = respawn_wait_time
+	respawn_timer.start()

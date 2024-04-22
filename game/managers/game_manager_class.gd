@@ -40,8 +40,14 @@ func _ready() -> void:
 	Global.game_manager = self
 	randomize()
 
-	
+
+#var proces_respawn_positions: Array
+var all_possible_pos: Array
+
+
 func _process(delta: float) -> void:
+	
+	
 	
 	if get_tree().get_nodes_in_group(Global.group_strays).empty() and all_strays_died_alowed:
 		all_strays_died_alowed = false
@@ -49,6 +55,25 @@ func _process(delta: float) -> void:
 	
 	# position indicators
 	if game_on:
+		if available_respawn_positions.empty():
+			game_over(GameoverReason.TIME)	
+				
+		available_respawn_positions = Global.current_tilemap.floor_global_positions.duplicate()
+		for stray in get_tree().get_nodes_in_group(Global.group_strays):
+			if available_respawn_positions.has(stray.global_position - Vector2(cell_size_x/2, cell_size_x/2)):
+	#			print("MAM")
+				pass
+			else:
+				print("NIMAM")
+			available_respawn_positions.erase(stray.global_position - Vector2(cell_size_x/2, cell_size_x/2) )
+		for player in get_tree().get_nodes_in_group(Global.group_players):
+			if available_respawn_positions.has(player.global_position - Vector2(cell_size_x/2, cell_size_x/2)):
+				print("PLEJER JE")
+				pass
+			else:
+				print("NIMAM")
+			available_respawn_positions.erase(player.global_position - Vector2(cell_size_x/2, cell_size_x/2) )
+		
 		if Global.strays_on_screen.size() <= game_settings["show_position_indicators_stray_count"] and game_settings["position_indicators_mode"]:
 			show_position_indicators = true
 		else:
@@ -309,20 +334,24 @@ func spawn_strays(strays_to_spawn_count: int):
 
 
 func update_available_respawn_positions(action: String, position_to_change: Vector2):
-	
+	return
 	# prilagodim zamik centra pixla
-	position_to_change -= Vector2(cell_size_x/2, cell_size_x/2) 
+	var snapped_position_to_change: Vector2 = Global.snap_to_nearest_grid(position_to_change)
+	snapped_position_to_change -= Vector2(cell_size_x/2, cell_size_x/2) 
 	
 	# pozicijo je na voljo
 	if action == "add":
-		available_respawn_positions.append(position_to_change)
+		available_respawn_positions.append(snapped_position_to_change)
+#		print("not poz")
 	# pozicija ni na voljo
 	elif action == "remove":
-		available_respawn_positions.remove(available_respawn_positions.find(position_to_change))
+		available_respawn_positions.remove(available_respawn_positions.find(snapped_position_to_change))
+#		print("ven poz")
 		# če ni več noeben pozicije na voljo, je GO
 		if available_respawn_positions.empty():
 			game_over(GameoverReason.TIME)		
 				
+	printt("POZ", available_respawn_positions.size())
 	
 func show_strays_on_start(show_strays_loop: int):
 

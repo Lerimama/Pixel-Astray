@@ -2,16 +2,82 @@ extends GameHud
 
 
 onready var level_up_popup: Control = $Popups/LevelUp # za neverending
+onready var level_limit_holder: HBoxContainer = $Footer/FooterLine/LevelLimitHolder
+onready var level_limit_label: Label = $Footer/FooterLine/LevelLimitHolder/Label
 
 
 func _process(delta: float) -> void:
-	# namen: dodam čekiranje levela
+	# namen: dodam čekiranje levela in limite level točk
 	
 	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
 	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
-	level_label.text = "%02d" % Global.game_manager.current_level 
 	
+	if Global.game_manager.game_data["game"] == Profiles.Games.NEVERENDING:
+		level_label.text = "%02d" % Global.game_manager.current_level 
+		# kateri ima višji score
+		var current_biggest_score: int = 0
+		for player in get_tree().get_nodes_in_group(Global.group_players):
+			if player.player_stats["player_points"] > current_biggest_score:
+				current_biggest_score = player.player_stats["player_points"]
+		# razlika med limito in višjim skorom
+		level_limit_label.text = "%d" % (Global.game_manager.level_points_limit - current_biggest_score) 
 	
+
+func set_hud(players_count: int): # kliče main na game-in
+	# namen: dodam level points limit counter ... za neverending
+	
+	if players_count == 1:
+		# players
+		p1_label.visible = false
+		p2_statsline.visible = false
+		# popups
+		p1_energy_warning_popup = $Popups/EnergyWarning/Solo
+	elif players_count == 2:
+		# players
+		p1_label.visible = true
+		p1_color_holder.visible = false
+		p2_statsline.visible = true
+		p2_color_holder.visible = false
+		# popups
+		p1_energy_warning_popup = $Popups/EnergyWarning/DuelP1
+		p2_energy_warning_popup = $Popups/EnergyWarning/DuelP2
+		# hs		
+		highscore_label.visible = false
+		
+	# lajf counter
+	if Global.game_manager.game_settings["player_start_life"] == 1:
+		p1_life_counter.visible = false
+		p2_life_counter.visible = false
+	else:
+		p1_life_counter.visible = true
+		p2_life_counter.visible = true
+		
+	# level label
+	if Global.game_manager.game_data["level"].empty():
+		level_label.visible = false
+		
+	if Global.game_manager.game_data["game"] == Profiles.Games.NEVERENDING:
+		level_limit_holder.visible = true
+		strays_counters_holder.visible = false
+	
+	# glede na to kaj šteje ...
+	if current_gamed_hs_type == Profiles.HighscoreTypes.NO_HS:
+		if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
+			highscore_label.visible = true
+		else:
+			highscore_label.visible = false
+	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_TIME_HIGH or Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW:
+		p1_points_holder.visible = false
+		p2_points_holder.visible = false
+		highscore_label.visible = true
+		set_current_highscore()
+	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_POINTS:
+		p1_points_holder.visible = true
+		p2_points_holder.visible = true
+		highscore_label.visible = true
+		set_current_highscore()
+
+
 func fade_in_instructions_popup(in_time: float):
 	# namen: za to igro prilagojena navodila
 
@@ -121,5 +187,5 @@ func update_stats(stat_owner: Node, player_stats: Dictionary): # za neverending
 	if not Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NO_HS:
 		check_for_hs(player_stats)
 
-	if player_stats["player_points"] > Global.game_manager.level_points_limit:
+	if player_stats["player_points"] >= Global.game_manager.level_points_limit:
 		Global.game_manager.upgrade_level()

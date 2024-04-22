@@ -135,9 +135,10 @@ func on_collision():
 	
 	stop_sound("burst")
 
-	# nova zasedena pozicija je samo kjer je po ta nove zadnji stray (v arrayu)
-	Global.game_manager.update_available_respawn_positions("remove", Global.snap_to_nearest_grid(global_position))
-			
+	# nova zasedena pozicija je samo kjer se je ustavil)
+	Global.game_manager.update_available_respawn_positions("remove", global_position)
+	printt ("KOLAJDAM", collision.collider)
+		
 	if collision.collider.is_in_group(Global.group_wall):
 #	if collision.collider.is_in_group(Global.group_tilemap):
 		on_hit_wall()
@@ -300,7 +301,11 @@ func step(): # step koda se ob držanju tipke v smeri izvaja stalno
 		
 		current_state = States.STEPPING
 		
+		
 		collision_shape_ext.position = step_direction * cell_size_x # vržem koližn v smer premika
+		var coll_extended_position:Vector2 = collision_shape_ext.global_position # da jo lahko po tvinu spet dodam
+		Global.game_manager.update_available_respawn_positions("remove", coll_extended_position)
+		
 		spawn_trail_ghost()
 		
 		play_stepping_sound(player_stats["player_energy"] / float(Global.game_manager.game_settings["player_max_energy"])) # ulomek je za pitch zvoka
@@ -315,9 +320,10 @@ func step(): # step koda se ob držanju tipke v smeri izvaja stalno
 		step_tween.tween_callback(self, "change_stat", ["cells_traveled", 1]) # točke in energija kot je določeno v settingsih
 		yield(step_tween, "finished")
 		
-		# nova zasedena je nova pozicija, 
+		# zasedeno je nova pozicija, 
 		Global.game_manager.update_available_respawn_positions("remove", global_position)
 		# nova prosta pozicija je stara pozicija
+		Global.game_manager.update_available_respawn_positions("add", coll_extended_position)
 		Global.game_manager.call_deferred("update_available_respawn_positions", "add", prestep_position)
 	
 		
@@ -329,8 +335,7 @@ func end_move():
 	uncocking = false
 	while not cocked_ghosts.empty():
 		var ghost = cocked_ghosts.pop_back()
-		var ghost_snaped_position: Vector2 = Global.snap_to_nearest_grid(ghost.global_position)
-		Global.game_manager.update_available_respawn_positions("add", ghost_snaped_position)
+		Global.game_manager.update_available_respawn_positions("add", ghost.global_position)
 		ghost.queue_free()
 		
 	# ugasnem lučke
@@ -368,8 +373,7 @@ func cock_burst():
 				current_ghost_cocking_time = 0
 				var new_cock_ghost = spawn_cock_ghost(cock_direction)
 				cocked_ghosts.append(new_cock_ghost)	
-				var cocked_ghost_snaped_position: Vector2 = Global.snap_to_nearest_grid(new_cock_ghost.global_position)
-				Global.game_manager.update_available_respawn_positions("remove", cocked_ghost_snaped_position)
+				Global.game_manager.update_available_respawn_positions("remove", new_cock_ghost.global_position)
 		elif cocked_ghosts.size() == cocked_ghost_max_count:
 			current_ghost_cocking_time += 1 / 60.0 # čas držanja tipke (znotraj nastajanja ene cock celice) ... fejk delta
 			if current_ghost_cocking_time > 6 * cock_ghost_cocking_time: # auto burst
@@ -431,8 +435,7 @@ func burst():
 	# release cocked ghosts
 	while not cocked_ghosts.empty():
 		var ghost = cocked_ghosts.pop_back()
-		var ghost_snaped_position: Vector2 = Global.snap_to_nearest_grid(ghost.global_position)
-		Global.game_manager.update_available_respawn_positions("add", ghost_snaped_position)
+		Global.game_manager.update_available_respawn_positions("add", ghost.global_position)
 		ghost.queue_free()
 	
 	stop_sound("burst_cocking")
@@ -494,6 +497,8 @@ func push(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila
 	play_sound("pushpull_start")
 		
 	collision_shape_ext.position = backup_direction * cell_size_x # vržem koližn v smer zaleta, smer premika pokriva strayev extension
+	var coll_extended_position:Vector2 = collision_shape_ext.global_position # da jo lahko po tvinu spet dodam
+	Global.game_manager.update_available_respawn_positions("remove", coll_extended_position)
 	
 	# takoj odstranim push cock pozicijo in grebam pozicijo prvega straysa
 	var push_cock_position: Vector2 = global_position + backup_direction * cell_size_x		
@@ -524,6 +529,7 @@ func push(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila
 	
 	change_stat("skill_used", 1) # zazih ni v tweenu
 	
+	# respawn pozicije
 	if room_for_push:
 		# nova zasedena pozicija je samo kjer je po ta nove zadnji stray (v arrayu)
 		var last_pushed_stray: KinematicBody2D = strays_to_move[strays_to_move.size() - 1]
@@ -532,6 +538,7 @@ func push(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila
 		Global.game_manager.call_deferred("update_available_respawn_positions", "add", stray_to_move_prepush_position)	
 	# nova prosta pozicija push cock pozicija (spet) 	
 	Global.game_manager.call_deferred("update_available_respawn_positions", "add", push_cock_position)	
+	Global.game_manager.update_available_respawn_positions("add", coll_extended_position)
 
 
 func pull(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila glede na kolajderja
@@ -545,8 +552,11 @@ func pull(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila
 		return	
 	
 	current_state = States.SKILLING
+	
 	collision_shape_ext.position = pull_direction * cell_size_x # vržem koližn v smer premika
-
+	var coll_extended_position:Vector2 = collision_shape_ext.global_position # da jo lahko po tvinu spet dodam
+	Global.game_manager.update_available_respawn_positions("remove", coll_extended_position)
+	
 	var pull_cock_time: float = 0.3
 	var pull_time: float = 0.2	
 	var pull_end_delay: float = 0.1 # zaradi LNF
@@ -577,6 +587,7 @@ func pull(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila
 	# zasedena sta nova pozicija in stara, prosta pa je stara pozicija straysa
 	Global.game_manager.update_available_respawn_positions("remove", global_position)
 	Global.game_manager.call_deferred("update_available_respawn_positions", "add", stray_to_move_prepull_position)	
+	Global.game_manager.update_available_respawn_positions("add", coll_extended_position)
 	
 			
 func teleport(): # skilled inputs opredeli vrsto skila glede na kolajderja
