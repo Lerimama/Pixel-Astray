@@ -261,8 +261,9 @@ var game_data_neverending: Dictionary = {
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_neverending.tscn",
 	"game_time_limit": 0,
-	"strays_start_count": 50,
+	"strays_start_count": 100,
 }
+
 var game_data_neverending_XL: Dictionary = { 
 	"game": Games.ETERNAL_XL,
 	"highscore_type": HighscoreTypes.HS_POINTS,
@@ -445,7 +446,7 @@ var neverending_level_conditions: Dictionary = {
 		"respawn_wait_time_factor": 0.7, # množim
 		"respawn_strays_count": 1,
 		"respawn_strays_count_grow": 1, # prištejem
-		"level_points_limit": 10,
+		"level_points_limit": 10000,
 		"level_points_limit_grow": 20, # prištejem
 		"level_spawn_strays_count_grow": 5, # prištejem 
 	},

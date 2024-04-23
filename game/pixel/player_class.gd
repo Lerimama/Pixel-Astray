@@ -113,6 +113,7 @@ func _physics_process(delta: float) -> void:
 	
 						
 func state_machine():
+	#	printt ("current_state", current_state)
 	
 	match current_state:
 		States.IDLE:
@@ -224,7 +225,6 @@ func skill_inputs():
 		if new_direction:
 			if new_direction == direction: # naprej
 				if current_collider.is_in_group(Global.group_wall):
-#				if current_collider.is_in_group(Global.group_tilemap):
 					teleport()
 				elif current_collider.is_in_group(Global.group_strays) and not current_collider.current_state == current_collider.States.MOVING:
 					push(current_collider)
@@ -232,7 +232,6 @@ func skill_inputs():
 				if current_collider.is_in_group(Global.group_strays) and not current_collider.current_state == current_collider.States.MOVING:
 					pull(current_collider)	
 				elif current_collider.is_in_group(Global.group_wall):
-#				elif current_collider.is_in_group(Global.group_tilemap):
 					end_move() # nazaj ... izhod iz skilla, če gre za steno
 			else: # levo/desno ... izhod iz skilla
 				end_move()
@@ -375,7 +374,6 @@ func cock_burst():
 	#		if current_ghost_cocking_time > 6 * cock_ghost_cocking_time: # auto burst
 	#			release_burst()
 	#			burst_light_off()
-
 
 		
 func release_burst():
@@ -776,7 +774,6 @@ func spawn_cock_ghost(cocking_direction: Vector2):
 	
 	var cocked_ghost_alpha: float = 1 # najnižji alfa za ghoste ... old 0.55
 	var cocked_ghost_alpha_divider: float = 5 # faktor nižanja po zaporedju (manjši je bolj oster) ... old 14
-	
 	
 	# spawn ghosta pod manom
 	var cock_ghost_position = (global_position - cocking_direction * cell_size_x/2) + (cocking_direction * cell_size_x * (cocked_ghosts.size() + 1)) # +1, da se ne začne na pixlu

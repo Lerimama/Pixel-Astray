@@ -21,7 +21,7 @@ onready var cell_size_x: int = Global.current_tilemap.cell_size.x
 
 
 func _ready() -> void:
-#	print ("S", global_position)
+	
 	add_to_group(Global.group_strays)
 
 	randomize() # za random die animacije
@@ -100,9 +100,6 @@ func step(step_direction: Vector2):
 	var current_collider = detect_collision_in_direction(step_direction)
 	
 	if current_collider:
-#		if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
-#			return
-#		else: # če kolajda izbrani smeri gibanja zarotira smer za 90 in poskusi znova
 		step_attempt += 1
 		if step_attempt < 5:
 			var new_direction = step_direction.rotated(deg2rad(90))
