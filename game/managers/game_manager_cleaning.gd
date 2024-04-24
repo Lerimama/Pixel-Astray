@@ -204,7 +204,6 @@ func spawn_strays(strays_to_spawn_count: int):
 		
 		all_stray_colors.append(current_color)
 		current_spawn_positions.remove(selected_cell_index) # odstranim pozicijo iz nabora za start spawn
-		update_available_respawn_positions("remove", new_stray_pixel.global_position) # odstranim pozicijo iz nabora za respawn
 		
 		new_stray_pixel.show_stray()
 			
@@ -256,8 +255,6 @@ func respawn_stray(): # za eternal
 		new_stray_pixel.z_index = 2 # višje od plejerja
 		Global.node_creation_parent.add_child(new_stray_pixel)
 		
-		# odstranim uporabljeno pozicijo
-		update_available_respawn_positions("remove", new_stray_pixel.global_position)
 		new_stray_pixel.show_stray()
 
 		self.strays_in_game_count = 1 # setget sprememba	

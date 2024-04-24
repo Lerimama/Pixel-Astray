@@ -66,7 +66,8 @@ var default_game_settings: Dictionary = {
 	# player on start
 	"player_start_life": 1, # 1 lajf skrije ikone v hudu in določi "lose_life_on_hit"
 	"player_start_energy": 192, # če je 0, je 0 ... instant GO
-	"player_start_color": Color("#232323"), # old #141414
+	"player_start_color": Color("#ffffff"), # old #141414
+#	"player_start_color": Color("#232323"), # old #141414
 	# player in game
 	"player_max_energy": 192, # max energija
 	"player_tired_energy": 20, # pokaže steps warning popup in hud oabrva rdeče
@@ -103,9 +104,14 @@ var default_game_settings: Dictionary = {
 	"manage_highscores": true, # obsoleten, ker je vključen v HS type
 #	"stray_step_time": 0.2,
 	# neu
-	"neverending_mode": false,
+	"eternal_mode": false,
+	"reburst_mode": true,
 	"spectrum_start_on": false,
 	"stray_to_wall_mode": true,
+	"reburst_limit": 0, # 0 je unlimited
+	"reburst_window_time": 0.5,
+	"full_power_mode": false,
+	"reburst_hit_power": 1, # kolk jih destroya ... 0 gre po original pravilih moči
 }
 
 
@@ -485,7 +491,7 @@ func set_game_data(selected_game) -> void:
 	match selected_game:
 		Games.ETERNAL: 
 			current_game_data = game_data_neverending
-			game_settings["neverending_mode"] = true
+			game_settings["eternal_mode"] = true
 			game_settings["player_start_life"] = 3
 			game_settings["timer_mode_countdown"] = false
 			game_settings["lose_life_on_hit"] = true

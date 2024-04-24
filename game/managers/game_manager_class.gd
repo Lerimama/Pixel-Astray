@@ -41,9 +41,6 @@ func _ready() -> void:
 	randomize()
 
 
-#var proces_respawn_positions: Array
-var all_possible_pos: Array
-
 
 func _process(delta: float) -> void:
 	
@@ -220,9 +217,6 @@ func set_players():
 		new_player_pixel.z_index = 1 # nižje od straysa
 		Global.node_creation_parent.add_child(new_player_pixel)
 		
-		# odstranim pozicijo
-		update_available_respawn_positions("remove", new_player_pixel.global_position)
-		
 		# stats
 		new_player_pixel.player_stats = Profiles.default_player_stats.duplicate() # tukaj se postavijo prazne vrednosti, ki se nafilajo kasneje
 		new_player_pixel.player_stats["player_energy"] = game_settings["player_start_energy"]
@@ -316,7 +310,6 @@ func spawn_strays(strays_to_spawn_count: int):
 		
 		all_colors.append(current_color)
 		current_spawn_positions.remove(selected_cell_index) # odstranim pozicijo iz nabora za start spawn
-		update_available_respawn_positions("remove", new_stray_pixel.global_position) # odstranim pozicijo iz nabora za respawn
 			
 	Global.hud.spawn_color_indicators(all_colors) # barve pokažem v hudu		
 	self.strays_in_game_count = strays_to_spawn_count # setget sprememba

@@ -247,15 +247,15 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	
 	var die_animations: Array = ["die_stray", "die_stray_1", "die_stray_2", "die_stray_3", "die_stray_4", "die_stray_5", ]
 	
-#	var neverending_mode: bool = Global.game_manager.game_settings["neverending_mode"]
+#	var eternal_mode: bool = Global.game_manager.game_settings["eternal_mode"]
 	
 	if die_animations.has(anim_name):
 		# če mu je namen umreti
 		if current_state == States.DYING:
+			collision_shape.disabled = true
+			collision_shape_ext.disabled = true
 			Global.game_manager.strays_in_game_count = - 1
 			Global.hud.show_color_indicator(stray_color) # če je scroller se returna na fuknciji¨
-			# za respawn
-			Global.game_manager.update_available_respawn_positions("add", global_position)
 			queue_free()
 		# če bo stena
 		else:
