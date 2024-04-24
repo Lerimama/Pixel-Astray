@@ -247,8 +247,6 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	
 	var die_animations: Array = ["die_stray", "die_stray_1", "die_stray_2", "die_stray_3", "die_stray_4", "die_stray_5", ]
 	
-#	var eternal_mode: bool = Global.game_manager.game_settings["eternal_mode"]
-	
 	if die_animations.has(anim_name):
 		# če mu je namen umreti
 		if current_state == States.DYING:

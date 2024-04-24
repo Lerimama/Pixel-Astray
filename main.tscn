@@ -255,26 +255,31 @@ bus = "GameSfx"
 stream = ExtResource( 29 )
 volume_db = -15.0
 pitch_scale = 0.6
+bus = "Gui"
 
 [node name="Key2" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Inputs/Typing"]
 stream = ExtResource( 34 )
 volume_db = -15.0
 pitch_scale = 0.6
+bus = "Gui"
 
 [node name="Key3" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Inputs/Typing"]
 stream = ExtResource( 32 )
 volume_db = -15.0
 pitch_scale = 0.6
+bus = "Gui"
 
 [node name="Key4" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Inputs/Typing"]
 stream = ExtResource( 31 )
 volume_db = -15.0
 pitch_scale = 0.6
+bus = "Gui"
 
 [node name="Key5" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Inputs/Typing"]
 stream = ExtResource( 17 )
 volume_db = -15.0
 pitch_scale = 0.6
+bus = "Gui"
 
 [node name="BtnFocus" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Inputs"]
 stream = ExtResource( 23 )
@@ -297,39 +302,45 @@ bus = "Gui"
 [node name="Win" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Events"]
 stream = ExtResource( 38 )
 volume_db = -15.0
-bus = "GameSfx"
+bus = "Gui"
 
 [node name="Loose" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Events"]
 stream = ExtResource( 57 )
 volume_db = -5.0
-bus = "GameSfx"
+bus = "Gui"
 
 [node name="GameCoundownA" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Events"]
 stream = ExtResource( 22 )
 volume_db = -25.0
 pitch_scale = 0.8
-bus = "GameSfx"
+bus = "Gui"
 
 [node name="GameCoundownB" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Events"]
 stream = ExtResource( 59 )
 volume_db = -15.0
 pitch_scale = 0.7
-bus = "GameSfx"
+bus = "Gui"
 
 [node name="StartCoundownA" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Events"]
 stream = ExtResource( 22 )
 volume_db = -25.0
-bus = "GameSfx"
+bus = "Gui"
 
 [node name="StartCoundownB" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Events"]
 stream = ExtResource( 59 )
 volume_db = -15.0
-bus = "GameSfx"
+bus = "Gui"
 
 [node name="TutorialStageDone" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Events"]
 stream = ExtResource( 4 )
 volume_db = -13.0
 pitch_scale = 1.1
+bus = "Gui"
+
+[node name="ReburstReward" type="AudioStreamPlayer" parent="SoundManager/GuiSfx/Events"]
+stream = ExtResource( 4 )
+volume_db = -20.0
+pitch_scale = 1.2
 bus = "Gui"
 
 [node name="MenuFade" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
@@ -407,20 +418,6 @@ volume_db = -16.0
 stream = ExtResource( 70 )
 volume_db = -15.0
 
-[node name="SkillSuccessA" type="AudioStreamPlayer" parent="SoundManager/_rezerva"]
-stream = ExtResource( 4 )
-volume_db = -20.0
-pitch_scale = 1.1
-
-[node name="SkillSuccessB" type="AudioStreamPlayer" parent="SoundManager/_rezerva"]
-stream = ExtResource( 5 )
-volume_db = -20.0
-pitch_scale = 1.1
-
-[node name="SkilledCrystal" type="AudioStreamPlayer" parent="SoundManager/_rezerva"]
-stream = SubResource( 33 )
-volume_db = -25.0
-
 [node name="LudumDare30-Track3_menu" type="AudioStreamPlayer" parent="SoundManager/_rezerva"]
 stream = ExtResource( 46 )
 bus = "Gui"
@@ -430,6 +427,17 @@ stream = ExtResource( 37 )
 volume_db = -10.0
 pitch_scale = 1.1
 bus = "GameSfx"
+
+[node name="SkillSuccessB" type="AudioStreamPlayer" parent="SoundManager/_rezerva"]
+stream = ExtResource( 5 )
+volume_db = -20.0
+pitch_scale = 1.1
+bus = "Gui"
+
+[node name="SkilledCrystal" type="AudioStreamPlayer" parent="SoundManager/_rezerva"]
+stream = SubResource( 33 )
+volume_db = -25.0
+bus = "Gui"
 
 [node name="_obst" type="Node2D" parent="SoundManager"]
 

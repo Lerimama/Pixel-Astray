@@ -1,33 +1,19 @@
 extends Player
 
-
-
 # REBURST
-# cock moč je vedno na polno 
-# cock ghost število pove koliko reburstov je možno (max = neskončno burstov)
-# po koliziji s straysom, je kratek čas ko s pritiskom v smeri ponoviš burst (brez napenjanja?) 
-# zadetek > REBURSTING state, sproži timer
-# reburst > BURSTING states, ustavi timer, odšteje število burstov
-# rebursting zadetek > če je dovolj moči REBURSTING state, sproži timer, če ne end_move()
-# burst sprožilka (alt) tudi izklopi REBURSTING
-
-# neu
 
 var reburst_count: int = 0 # resetira se s tajmerjem
 var can_reburst: bool = false
-var reburst_window_time: float = 5
-#var reburst_limit: int = 3 # cocking count
-#var reburst_speed: float = 1
-#var reburst_cock_limit: int = 0
-var reburst_speed_units_count: float = 0 # za prenos original hitrosti v naslednje rebursta
-var reburst_max_cock_count: int = 1 # za kolk se napolni
-onready var reburst_limit: int = Global.game_manager.game_settings["reburst_limit"] # cocking count
-#onready var reburst_window_time: int = Global.game_manager.game_settings["reburst_window_time"] # cocking count
-onready var rebursting_timer: Timer = $ReburstingTimer
 var is_rebursting: bool = false # za regulacijo moči on hit stray
-var reburst_power: int = 1 # če je max cock count je neskončna moč
-#var reburst_hit_power: int = 0 # kolk jih destroya ... če je 0 gre po original pravilih moči
+var reburst_speed_units_count: float = 0 # za prenos original hitrosti v naslednje rebursta
+var reburst_max_cock_count: int = 1 # za kolk se nakoka (samo vizualni efekt)
+var reburst_reward__count: int = 1 # za kolk se nakoka (samo vizualni efekt)
+
+onready var rebursting_timer: Timer = $ReburstingTimer
+onready var reburst_window_time: int = 2.1 # Global.game_manager.game_settings["reburst_window_time"] # cocking count
+onready var reburst_count_limit: int = Global.game_manager.game_settings["reburst_count_limit"] # cocking count
 onready var reburst_hit_power: int = Global.game_manager.game_settings["reburst_hit_power"] # kolk jih destroya ... če je 0 gre po original pravilih moči
+
 
 func idle_inputs():
 #	namen: 
@@ -85,7 +71,7 @@ func idle_inputs():
 
 
 func end_move():
-#	namen: reburst reset
+#	namen: reburst reset, odstranim burst_light_off()
 	
 	close_reburst_window()
 	is_rebursting = false 
@@ -98,7 +84,7 @@ func end_move():
 		ghost.queue_free()
 		
 	# ugasnem lučke
-	burst_light_off()
+	#	burst_light_off()
 	skill_light_off()
 	
 	# reset ključnih vrednosti (če je v skill tweenu, se poštima)
@@ -118,6 +104,14 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	spawn_collision_particles()
 	shake_player_camera(burst_speed)			
 	
+	# reburst nagrada
+	var reward_limit: int = 2#Global.game_manager.game_settings["reburst_reward_limit"]
+	if reward_limit > 0:
+		var till_reward_count: int = reburst_count % reward_limit
+		if till_reward_count <= 0 and not reburst_count == 0:
+			Global.sound_manager.play_gui_sfx("reburst_reward")
+			change_stat("reburst_reward", 1)
+			
 	if hit_stray.current_state == hit_stray.States.DYING or hit_stray.current_state == hit_stray.States.WALL: # če je že v umiranju, samo kolajdaš
 		end_move()
 		return
@@ -151,18 +145,48 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	end_move()
 	
 	# reburst
-	printt("reburst_count", reburst_count)
-	if reburst_count < reburst_limit or reburst_limit == 0:
-#		reburst_speed_units_count = 
+	if reburst_count < reburst_count_limit or reburst_count_limit == 0:
 		can_reburst = true
+		burst_light_on()	
+		rebursting_timer.stop() # ... zazih
 		rebursting_timer.start(reburst_window_time)
-		reburst_count += 1
 	else:
 		# vpliva samo kadar odigram vse reburste, drugi reset je v stepanju
 		close_reburst_window()
 		reburst_count = 0
 
 
+func spawn_cock_ghost(cocking_direction: Vector2):
+	# namen: cock ghost alpha
+	
+	var cocked_ghost_alpha: float = 1 # najnižji alfa za ghoste ... old 0.55
+	var cocked_ghost_alpha_divider: float = 5 # faktor nižanja po zaporedju (manjši je bolj oster) ... old 14
+	
+	# spawn ghosta pod manom
+	var cock_ghost_position = (global_position - cocking_direction * cell_size_x/2) + (cocking_direction * cell_size_x * (cocked_ghosts.size() + 1)) # +1, da se ne začne na pixlu
+	var new_cock_ghost = spawn_ghost(cock_ghost_position)
+	new_cock_ghost.z_index = 3 # nad straysi in playerjem
+	new_cock_ghost.modulate.a  = cocked_ghost_alpha - (cocked_ghosts.size() / cocked_ghost_alpha_divider)
+	new_cock_ghost.direction = cocking_direction
+	
+	# v kateri smeri je scale
+	if direction.y == 0: # smer horiz
+		new_cock_ghost.scale.x = 0
+	elif direction.x == 0: # smer ver
+		new_cock_ghost.scale.y = 0
+
+	# animiram cock celico
+	var cock_cell_tween = get_tree().create_tween()
+	cock_cell_tween.tween_property(new_cock_ghost, "scale", Vector2.ONE, cock_ghost_cocking_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	cock_cell_tween.parallel().tween_property(new_cock_ghost, "position", global_position + cocking_direction * cell_size_x * (cocked_ghosts.size() + 1), cock_ghost_cocking_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	
+	# ray detect velikost je velikost napenjanja
+	new_cock_ghost.ghost_ray.cast_to = direction * cell_size_x
+	new_cock_ghost.connect("ghost_detected_body", self, "_on_ghost_detected_body")
+	
+	return new_cock_ghost
+	
+	
 # ADDED ------------------------------------------------------------------
 
 
@@ -201,7 +225,6 @@ func cock_reburst():
 	if change_color_tween and change_color_tween.is_running(): # če sprememba barve še poteka, jo spremenim takoj
 		change_color_tween.kill()
 		pixel_color = change_to_color
-	burst_light_on()
 	
 	var burst_direction = direction
 	var cock_direction = - burst_direction
@@ -209,14 +232,13 @@ func cock_reburst():
 	# če je zraven pixla konča (potem postane skilled)
 	if detect_collision_in_direction(burst_direction):
 		stop_sound("burst_cocking")
-		burst_light_off()
 		end_move()
+		burst_light_off()
 		return
 	# če ni prostora, ne dela cockinga
 	if detect_collision_in_direction(cock_direction):
 		stop_sound("burst_cocking")
 		release_reburst()
-		burst_light_off()
 	else:
 	# če je prostor cocka
 		for cock in reburst_max_cock_count:
@@ -225,7 +247,6 @@ func cock_reburst():
 			if not cocking_room:
 				break
 		release_reburst()
-		burst_light_off()			
 
 
 func release_reburst():
@@ -246,10 +267,12 @@ func release_reburst():
 func reburst():
 
 	is_rebursting = true
-		
+
+	reburst_count += 1
+	print ("reburst_count", reburst_count) 
+			
 	var burst_direction = direction
 	var backup_direction = - burst_direction
-#	var current_ghost_count = 2
 	var current_ghost_count = cocked_ghosts.size()
 	
 	# spawn stretch ghost
@@ -285,11 +308,14 @@ func reburst():
 	change_stat("burst_released", 1)
 
 
+
+
 func close_reburst_window():
 	
 	can_reburst = false
 	rebursting_timer.stop()
-		
+	burst_light_off()
+	
 		
 func _on_ReburstingTimer_timeout() -> void:
 	close_reburst_window()

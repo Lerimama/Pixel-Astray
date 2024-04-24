@@ -321,7 +321,7 @@ func end_move():
 		ghost.queue_free()
 		
 	# ugasnem lučke
-	burst_light_off()
+	burst_light_off() # pomoje ne rabm ... zazih
 	skill_light_off()
 	
 	# reset ključnih vrednosti (če je v skill tweenu, se poštima)
@@ -803,7 +803,9 @@ func spawn_floating_tag(value: int):
 	elif value > 0:
 		new_floating_tag.label.text = "+" + str(value)
 		
-
+	return new_floating_tag
+	
+	
 # UTIL --------------------------------------------------------------------------------------------
 
 
@@ -867,8 +869,6 @@ func check_strays_neighbors(hit_stray: KinematicBody2D):
 		var hit_direction = direction
 		
 		# prva runda ... sosede zadetega straya
-#		var first_neighbors: Array = hit_stray.check_for_neighbors(hit_direction) # hit direction je zato da opredelim smer preverjanja sosedov
-#		var first_neighbors: Array = hit_stray.check_for_neighbor_strays() # hit direction je zato da opredelim smer preverjanja sosedov
 		var first_neighbors: Array = hit_stray.get_neighbor_strays_on_hit() # hit direction je zato da opredelim smer preverjanja sosedov
 		for first_neighbor in first_neighbors:
 			if not all_neighboring_strays.has(first_neighbor): # če še ni dodan med vse sosede
@@ -1162,10 +1162,7 @@ func change_stat(stat_event: String, stat_value):
 			spawn_floating_tag(points_to_gain)
 		"hit_wall": # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
 			if Global.game_manager.game_settings["lose_life_on_hit"]:
-				if Global.game_manager.game_settings["neverending_mode"]:
-					pass
-				else:	
-					player_stats["player_energy"] = 0
+				player_stats["player_energy"] = 0
 			else:
 				player_stats["player_energy"] -= round(player_stats["player_energy"] / game_settings["on_hit_energy_part"])
 			var points_to_lose = round(player_stats["player_points"] / game_settings["on_hit_points_part"])
@@ -1174,10 +1171,7 @@ func change_stat(stat_event: String, stat_value):
 		"get_hit": # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
 			
 			if Global.game_manager.game_settings["lose_life_on_hit"]:
-				if Global.game_manager.game_settings["eternal_mode"]:
-					pass
-				else:					
-					player_stats["player_energy"] = 0
+				player_stats["player_energy"] = 0
 			else:
 				player_stats["player_energy"] -= round(player_stats["player_energy"] / game_settings["on_hit_energy_part"])
 			var points_to_lose = round(player_stats["player_points"] / game_settings["on_hit_points_part"])
@@ -1186,31 +1180,25 @@ func change_stat(stat_event: String, stat_value):
 		# LIFE LOOP ------------------------------------------------------------------------------------------------------------
 		"die": # izguba lajfa, če je energija 0
 			if player_stats["player_energy"] == 0: # energija = 0 samo zaradi srčka ali hita, če je "lose_life_on_hit"
-				if Global.game_manager.game_settings["eternal_mode"]:
-					player_stats["player_life"] -= player_stats["player_life"] 
-				else:
-					player_stats["player_life"] -= 1
-			else:
-				if Global.game_manager.game_settings["eternal_mode"]: # vsaka zadeta stena je izguba lajfa
-					player_stats["player_life"] -= 1
+				player_stats["player_life"] -= 1
 		"stop_heart": # energija je 0
 			player_stats["player_energy"] = 0
 		"revive": # resetiranje energije, če je izgubil lajfa (energija = 0)
 			if player_stats["player_energy"] == 0: # energija = 0 samo zaradi srčka ali hita, če je "lose_life_on_hit"
-				if Global.game_manager.game_settings["eternal_mode"]: # v eternal_mode se energija ne restira, ker jo lahko bilda samo z zbijanjem strejsov 
-					pass
-				else:
-					player_stats["player_energy"] = game_settings["player_max_energy"]
+				player_stats["player_energy"] = game_settings["player_max_energy"]
 			
 		# XTRA ---------------------------------------------------------------------------------------------------------------
+		"reburst_reward": # če se dotikaš
+			player_stats["player_points"] += game_settings["reburst_reward_points"]
+			yield(get_tree().create_timer(0.7), "timeout")
+			var reward_tag: Node = spawn_floating_tag(game_settings["reburst_reward_points"]) 
+			reward_tag.modulate = Global.color_green
 		"touching_stray": # če se dotikaš
 			player_stats["player_energy"] += game_settings["touching_stray_energy"]
-#
-#			player_stats["player_points"] += game_settings["all_cleaned_points"]
-#			spawn_floating_tag(game_settings["all_cleaned_points"])
 		"all_cleaned": # nagrada je določena v settingsih
 			player_stats["player_points"] += game_settings["all_cleaned_points"]
-			spawn_floating_tag(game_settings["all_cleaned_points"])
+			var reward_tag: Node = spawn_floating_tag(game_settings["all_cleaned_points"])
+			reward_tag.modulate = Global.color_green
 		"debug_player_energy":
 			player_stats["player_energy"] += stat_value
 			player_stats["player_energy"] = clamp(player_stats["player_energy"], 5, game_settings["player_start_energy"])

@@ -50,6 +50,8 @@ func play_gui_sfx(effect_for: String):
 	
 	match effect_for:
 		# events
+		"reburst_reward":
+			$GuiSfx/Events/ReburstReward.play()
 		"start_countdown_a":
 			$GuiSfx/Events/StartCoundownA.play()
 		"start_countdown_b":

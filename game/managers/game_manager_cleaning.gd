@@ -1,15 +1,14 @@
 extends GameManager
 
 
-var current_level: int = 1 # za eternal
+var current_level: int = 0 # za eternal
 
 var strays_wall_count: int = 0 # za pravilno beleženje vseh straysov v igri, resetiram na 0 na vsak novi level
 var first_respawn_time: float = 5
-var all_stray_colors: Array
 var level_upgrade_in_progress: bool = false # ustavim klicanje naslednjih levelov
 
 onready var respawn_timer: Timer = $"../RespawnTimer"
-onready	var level_conditions: Dictionary = Profiles.neverending_level_conditions[Profiles.Games.ETERNAL]
+onready	var level_conditions: Dictionary = Profiles.eternal_level_conditions[Profiles.Games.ETERNAL]
 onready var respawn_wait_time: float = level_conditions["respawn_wait_time"]
 onready var respawn_strays_count: int = level_conditions["respawn_strays_count"]
 onready var level_points_limit: int = level_conditions["level_points_limit"]
@@ -79,7 +78,8 @@ func start_game():
 		game_on = true
 		
 		# start respawning
-#		respawn_timer.start(first_respawn_time)
+		if game_data["game"] == Profiles.Games.ETERNAL:
+			respawn_timer.start(first_respawn_time)
 
 
 # STRAYS --------------------------------------------------------------------------------------------	
@@ -207,11 +207,8 @@ func spawn_strays(strays_to_spawn_count: int):
 		
 		new_stray_pixel.show_stray()
 			
-#	Global.hud.spawn_color_indicators(all_colors) # barve pokažem v hudu		
 	Global.hud.spawn_color_indicators(all_stray_colors) # barve pokažem v hudu		
 	self.strays_in_game_count = strays_to_spawn_count # setget sprememba
-
-	printt ("TREU", all_stray_colors.pop_front(), all_stray_colors.pop_back())
 
 
 func respawn_stray(): # za eternal
@@ -308,21 +305,18 @@ func upgrade_level(): # za eternal
 	randomize()
 	
 	level_upgrade_in_progress = true	
-	# levelov je neskončno, samo hitrost se veča
-
-	current_level += 1 # številka novega levela 
 	
+	current_level += 1 # številka novega levela 
 	respawn_timer.stop()
 	Global.hud.level_up_popup_in(current_level)
 	
-	# set new level
+	# set for new level
 	set_level_conditions() 
-	
 	Global.hud.empty_color_indicators()
-	
 	get_tree().call_group(Global.group_players, "set_physics_process", false)
 	clean_strays_in_game() # puca vse v igri
 	
+	# strays cleaned
 	all_strays_died_alowed = true
 	yield(self, "all_strays_died") # ko so vsi iz igre grem naprej
 	var signaling_player: KinematicBody2D
@@ -331,11 +325,10 @@ func upgrade_level(): # za eternal
 		signaling_player = player # da se zgodi na obeh plejerjih istočasno
 	yield(signaling_player, "rewarded_on_game_over") # počakam, da je nagrajen	
 	
+	# start ne level
 	set_strays() 
 	Global.hud.level_up_popup_out()
 	get_tree().call_group(Global.group_players, "set_physics_process", true)
-
-#	yield(get_tree().create_timer(1), "timeout") # za dojet
 	respawn_timer.start(first_respawn_time)
 	level_upgrade_in_progress = false
 	
@@ -347,8 +340,12 @@ func set_level_conditions(): # za eternal
 		respawn_wait_time *= level_conditions["respawn_wait_time_factor"]
 		respawn_strays_count = level_conditions["respawn_strays_count_grow"]
 		# število spawnanih straysov
-		game_data["strays_start_count"] += level_conditions["level_spawn_strays_count_grow"]
+#		game_data["strays_start_count"] += level_conditions["level_spawn_strays_count_grow"]
+		start_strays_spawn_count += level_conditions["level_spawn_strays_count_grow"]
 	
+	if current_level == 1:
+		start_strays_spawn_count = game_data["strays_start_count"]
+
 
 func _change_strays_in_game_count(strays_count_change: int):
 	# namen: vpelje upgrade level

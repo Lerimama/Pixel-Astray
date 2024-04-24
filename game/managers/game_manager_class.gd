@@ -19,7 +19,6 @@ var strays_shown: Array = []
 var strays_in_game_count: int setget _change_strays_in_game_count # spremlja spremembo količine aktivnih in uničenih straysov
 var strays_cleaned_count: int = 0 # za statistiko na hudu
 var all_strays_died_alowed: bool = false # za omejevanje signala iz FP ... kdaj lahko reagira na 0 straysov v igri
-var available_respawn_positions: Array # pozicije na voljo, ki se apdejtajo na vsak stray in player spawn ali usmrtitev 
 
 # tilemap data
 var cell_size_x: int # napolne se na koncu setanju tilemapa
@@ -34,12 +33,16 @@ onready var spectrum_gradient: TextureRect = $SpectrumGradient
 onready var StrayPixel: PackedScene = preload("res://game/pixel/stray_class.tscn")
 onready var PlayerPixel: PackedScene = preload("res://game/pixel/player_class.tscn")
 
+# neu
+var all_stray_colors: Array
+var available_respawn_positions: Array # pozicije na voljo, ki se apdejtajo na vsak stray in player spawn ali usmrtitev 
+onready var start_strays_spawn_count: int = game_data["strays_start_count"] # število se lahko popravi iz tilempa signala
+
 
 func _ready() -> void:
 	
 	Global.game_manager = self
 	randomize()
-
 
 
 func _process(delta: float) -> void:
@@ -240,12 +243,14 @@ func set_players():
 		
 func set_strays():
 	
-	spawn_strays(game_data["strays_start_count"])
+	spawn_strays(start_strays_spawn_count)
+#	spawn_strays(game_data["strays_start_count"])
 	
 	yield(get_tree().create_timer(0.01), "timeout") # da se vsi straysi spawnajo
 	
 	var show_strays_loop: int = 0
-	while strays_shown.size() < game_data["strays_start_count"]:
+#	while strays_shown.size() < game_data["strays_start_count"]:
+	while strays_shown.size() < start_strays_spawn_count:
 		show_strays_loop += 1 # zazih
 		show_strays_on_start(show_strays_loop)
 		yield(get_tree().create_timer(0.1), "timeout")
@@ -277,7 +282,10 @@ func spawn_strays(strays_to_spawn_count: int):
 	# spawn strays
 	var available_required_spawn_positions = required_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
 	var available_random_spawn_positions = random_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
-	var all_colors: Array = [] # za color indikatorje
+	
+	# pred novim spawnom, ga resetiram
+	all_stray_colors = [] # za color indikatorje
+	
 	for stray_index in strays_to_spawn_count:
 		# stray color
 		var current_color: Color
@@ -308,10 +316,10 @@ func spawn_strays(strays_to_spawn_count: int):
 		new_stray_pixel.z_index = 2 # višje od plejerja
 		Global.node_creation_parent.add_child(new_stray_pixel)
 		
-		all_colors.append(current_color)
+		all_stray_colors.append(current_color)
 		current_spawn_positions.remove(selected_cell_index) # odstranim pozicijo iz nabora za start spawn
 			
-	Global.hud.spawn_color_indicators(all_colors) # barve pokažem v hudu		
+	Global.hud.spawn_color_indicators(all_stray_colors) # barve pokažem v hudu		
 	self.strays_in_game_count = strays_to_spawn_count # setget sprememba
 	
 	
@@ -337,6 +345,7 @@ func update_available_respawn_positions(action: String, position_to_change: Vect
 			game_over(GameoverReason.TIME)		
 				
 	printt("POZ", available_respawn_positions.size())
+	
 	
 func show_strays_on_start(show_strays_loop: int):
 
@@ -412,11 +421,14 @@ func _on_tilemap_completed(random_spawn_floor_positions: Array, stray_cells_posi
 	
 	# start strays count setup
 	if not stray_cells_positions.empty() and no_stray_cells_positions.empty(): # št. straysov enako številu "required" tiletov
-		game_data["strays_start_count"] = required_spawn_positions.size()
+#		game_data["strays_start_count"] = required_spawn_positions.size()
+		start_strays_spawn_count = required_spawn_positions.size()
 	
 	# preventam preveč straysov (več kot je možnih pozicij)
-	if game_data["strays_start_count"] > random_spawn_positions.size() + required_spawn_positions.size():
-		game_data["strays_start_count"] = random_spawn_positions.size()/2 + required_spawn_positions.size()
+	if start_strays_spawn_count > random_spawn_positions.size() + required_spawn_positions.size():
+#	if game_data["strays_start_count"] > random_spawn_positions.size() + required_spawn_positions.size():
+#		game_data["strays_start_count"] = random_spawn_positions.size()/2 + required_spawn_positions.size()
+		start_strays_spawn_count = random_spawn_positions.size()/2 + required_spawn_positions.size()
 
 	# če ni pozicij, je en player ... random pozicija
 	if player_start_positions.empty():

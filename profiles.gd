@@ -62,7 +62,7 @@ var default_player_stats: Dictionary = {
 
 
 var default_game_settings: Dictionary = {
-	# to so default CLEANER settings
+	# to so default CLEANING settings
 	# player on start
 	"player_start_life": 1, # 1 lajf skrije ikone v hudu in določi "lose_life_on_hit"
 	"player_start_energy": 192, # če je 0, je 0 ... instant GO
@@ -103,14 +103,17 @@ var default_game_settings: Dictionary = {
 	"suddent_death_mode": false,
 	"manage_highscores": true, # obsoleten, ker je vključen v HS type
 #	"stray_step_time": 0.2,
+
 	# neu
-	"eternal_mode": false,
+#	"eternal_mode": false,
 	"reburst_mode": true,
-	"spectrum_start_on": false,
-	"stray_to_wall_mode": true,
-	"reburst_limit": 0, # 0 je unlimited
-	"reburst_window_time": 0.5,
-	"full_power_mode": false,
+	"spectrum_start_on": false, # a pobrane prižigam al ugašam
+	"stray_to_wall_mode": true, # eternal big screen
+	"reburst_count_limit": 0, # 0 je unlimited
+	"reburst_reward_limit": 5, # 0 je brez nagrade
+	"reburst_reward_points": 100, # kolk jih destroya ... 0 gre po original pravilih moči
+	"reburst_window_time": 0.1,
+	"full_power_mode": false, # hitrost je tudi max_cock_coiunt > vedno destroja ves bulk 
 	"reburst_hit_power": 1, # kolk jih destroya ... 0 gre po original pravilih moči
 }
 
@@ -259,24 +262,24 @@ var game_data_tutorial: Dictionary = {
 	"game_time_limit": 0,
 	"strays_start_count": 10,
 }
-var game_data_neverending: Dictionary = { 
+var game_data_eternal: Dictionary = { 
 	"game": Games.ETERNAL,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Eternal",
 	"level": "0",
 	"game_scene_path": "res://game/game_cleaning.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_neverending.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eternal.tscn",
 	"game_time_limit": 0,
-	"strays_start_count": 100,
+	"strays_start_count": 50,
 }
 
-var game_data_neverending_XL: Dictionary = { 
+var game_data_eternal_XL: Dictionary = { 
 	"game": Games.ETERNAL_XL,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Eternal XL",
 	"level": "0",
 	"game_scene_path": "res://game/game_cleaning.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_neverending_xl.tscn",
+	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eternal_xl.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 2,
 }
@@ -445,16 +448,16 @@ var slider_level_conditions: Dictionary = {
 }
 
 
-var neverending_level_conditions: Dictionary = {
+var eternal_level_conditions: Dictionary = {
 	
 	Games.ETERNAL: { # small
 		"respawn_wait_time": 1,
-		"respawn_wait_time_factor": 0.7, # množim
+		"respawn_wait_time_factor": 0.7, # množim z vsakim levelom
 		"respawn_strays_count": 1,
-		"respawn_strays_count_grow": 1, # prištejem
-		"level_points_limit": 10000,
-		"level_points_limit_grow": 20, # prištejem
-		"level_spawn_strays_count_grow": 5, # prištejem 
+		"respawn_strays_count_grow": 1, # prištejem z vsakim levelom
+		"level_points_limit": 320,
+		"level_points_limit_grow": 320, # prištejem z vsakim levelom
+		"level_spawn_strays_count_grow": 5, # prištejem z vsakim levelom
 	},
 	Games.ETERNAL_XL: { # big
 	},
@@ -490,11 +493,11 @@ func set_game_data(selected_game) -> void:
 	
 	match selected_game:
 		Games.ETERNAL: 
-			current_game_data = game_data_neverending
-			game_settings["eternal_mode"] = true
+			current_game_data = game_data_eternal
+			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
+			game_settings["lose_life_on_hit"] = true
 			game_settings["player_start_life"] = 3
 			game_settings["timer_mode_countdown"] = false
-			game_settings["lose_life_on_hit"] = true
 			game_settings["spectrum_start_on"] = true
 			game_settings["start_countdown"] = false
 			#
@@ -506,7 +509,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["color_picked_points"] = 10
 						
 		Games.ETERNAL_XL: 
-			current_game_data = game_data_neverending
+			current_game_data = game_data_eternal
 			pass
 		Games.TUTORIAL: 
 			current_game_data = game_data_tutorial

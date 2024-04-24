@@ -43,6 +43,11 @@ func set_hud(players_count: int): # kliče main na game-in
 		p2_energy_warning_popup = $Popups/EnergyWarning/DuelP2
 		# hs		
 		highscore_label.visible = false
+	
+	# energy bar
+	if Global.game_manager.game_data["game"] == Profiles.Games.ETERNAL:
+		p1_energy_counter.visible = false
+		p2_energy_counter.visible = true	
 		
 	# lajf counter
 	if Global.game_manager.game_settings["player_start_life"] == 1:
