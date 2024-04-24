@@ -105,7 +105,7 @@ var default_game_settings: Dictionary = {
 #	"stray_step_time": 0.2,
 
 	# neu
-#	"eternal_mode": false,
+	"eternal_mode": false,
 	"reburst_mode": true,
 	"spectrum_start_on": false, # a pobrane prižigam al ugašam
 	"stray_to_wall_mode": true, # eternal big screen
@@ -115,6 +115,8 @@ var default_game_settings: Dictionary = {
 	"reburst_window_time": 0.1,
 	"full_power_mode": false, # hitrost je tudi max_cock_coiunt > vedno destroja ves bulk 
 	"reburst_hit_power": 1, # kolk jih destroya ... 0 gre po original pravilih moči
+	
+#	"light_theme": false,
 }
 
 
@@ -273,7 +275,7 @@ var game_data_eternal: Dictionary = {
 	"strays_start_count": 50,
 }
 
-var game_data_eternal_XL: Dictionary = { 
+var game_data_eternal_xl: Dictionary = { 
 	"game": Games.ETERNAL_XL,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Eternal XL",
@@ -281,7 +283,7 @@ var game_data_eternal_XL: Dictionary = {
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eternal_xl.tscn",
 	"game_time_limit": 0,
-	"strays_start_count": 2,
+	"strays_start_count": 320,
 }
 
 
@@ -449,8 +451,7 @@ var slider_level_conditions: Dictionary = {
 
 
 var eternal_level_conditions: Dictionary = {
-	
-	Games.ETERNAL: { # small
+	1: { # small
 		"respawn_wait_time": 1,
 		"respawn_wait_time_factor": 0.7, # množim z vsakim levelom
 		"respawn_strays_count": 1,
@@ -459,7 +460,14 @@ var eternal_level_conditions: Dictionary = {
 		"level_points_limit_grow": 320, # prištejem z vsakim levelom
 		"level_spawn_strays_count_grow": 5, # prištejem z vsakim levelom
 	},
-	Games.ETERNAL_XL: { # big
+	2: { # big
+		"respawn_wait_time": 1,
+		"respawn_wait_time_factor": 0.7, # množim z vsakim levelom
+		"respawn_strays_count": 1,
+		"respawn_strays_count_grow": 1, # prištejem z vsakim levelom
+		"level_points_limit": 10,
+		"level_points_limit_grow": 320, # prištejem z vsakim levelom
+		"level_spawn_strays_count_grow": 50, # prištejem z vsakim levelom
 	},
 }
 
@@ -475,7 +483,8 @@ var current_color_scheme: Dictionary = game_color_schemes["default_color_scheme"
 func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
-	var current_game = Games.ETERNAL
+	var current_game = Games.ETERNAL_XL
+#	var current_game = Games.ETERNAL
 #	var current_game = Games.CLEANER
 #	var current_game = Games.ERASER_S
 #	var current_game = Games.CLEANER_DUEL
@@ -494,23 +503,37 @@ func set_game_data(selected_game) -> void:
 	match selected_game:
 		Games.ETERNAL: 
 			current_game_data = game_data_eternal
+			game_settings["eternal_mode"] = true # energija ni pomembna
 			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
 			game_settings["lose_life_on_hit"] = true
 			game_settings["player_start_life"] = 3
 			game_settings["timer_mode_countdown"] = false
 			game_settings["spectrum_start_on"] = true
-			game_settings["start_countdown"] = false
 			#
 			game_settings["position_indicators_mode"] = false
-			game_settings["stray_to_wall_mode"] = false
-			
+			game_settings["stray_to_wall_mode"] = true
+			#
+			game_settings["start_countdown"] = false
 			game_settings["game_instructions_popup"] = false
-			game_settings["all_cleaned_points"] = 1 # debug
+			game_settings["all_cleaned_points"] = 100 # debug
 			game_settings["color_picked_points"] = 10
 						
 		Games.ETERNAL_XL: 
-			current_game_data = game_data_eternal
-			pass
+			current_game_data = game_data_eternal_xl
+			game_settings["eternal_mode"] = true # energija ni pomembna
+			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
+			game_settings["lose_life_on_hit"] = true
+			game_settings["player_start_life"] = 3
+			game_settings["timer_mode_countdown"] = false
+			game_settings["spectrum_start_on"] = true
+			#
+			game_settings["position_indicators_mode"] = true
+			game_settings["stray_to_wall_mode"] = true
+			#
+			game_settings["start_countdown"] = false
+			game_settings["game_instructions_popup"] = false
+			game_settings["all_cleaned_points"] = 100 # debug
+			game_settings["color_picked_points"] = 10
 		Games.TUTORIAL: 
 			current_game_data = game_data_tutorial
 			game_settings["player_start_life"] = 3

@@ -11,12 +11,23 @@ var no_stray_global_positions: Array
 var goal_stray_global_positions: Array
 var player_global_positions: Array 
 
+var wall_tile_id: int = 3
+var edge_tile_id: int = 1
+var floor_tile_id: int = 0
+
+onready var background: ColorRect = $Background/BackgroundColor
+
 
 func _ready() -> void:
 	
 	add_to_group(Global.group_tilemap) # za scrolling in patterns
-	add_to_group(Global.group_wall)
 	Global.current_tilemap = self
+
+	# set_color_theme
+	get_tileset().tile_set_modulate(wall_tile_id, Global.color_wall_dark_theme)
+	get_tileset().tile_set_modulate(edge_tile_id, Global.color_edge_dark_theme)
+	background.color = Global.color_background_dark_theme
+	get_tileset().tile_set_modulate(floor_tile_id, Global.color_floor_dark_theme)
 
 
 func get_tiles():

@@ -32,7 +32,7 @@ func _on_CleanerDuelBtn_pressed() -> void:
 func _on_EternalBtn_pressed() -> void:
 	play_selected_game(Profiles.Games.ETERNAL)
 func _on_NeverendingXLBtn_pressed() -> void:
-	play_selected_game(Profiles.Games.ETERNAL)
+	play_selected_game(Profiles.Games.ETERNAL_XL)
 
 
 func _on_EraserSBtn_pressed() -> void:

@@ -135,12 +135,15 @@ func on_collision():
 	
 	stop_sound("burst")
 
-	if collision.collider.is_in_group(Global.group_wall):
+	if collision.collider.is_in_group(Global.group_tilemap):
 		on_hit_wall()
 	elif collision.collider is StaticBody2D: # top screen limit
 		on_hit_wall()
 	elif collision.collider.is_in_group(Global.group_strays):
-		on_hit_stray(collision.collider)
+		if collision.collider.current_state == collision.collider.States.WALL:
+			on_hit_wall()
+		else:
+			on_hit_stray(collision.collider)
 	elif collision.collider.is_in_group(Global.group_players):
 		on_hit_player(collision.collider)
 
@@ -170,16 +173,14 @@ func idle_inputs():
 		# ko zazna kolizijo postane skilled ali pa end move 
 		# kontrole prevzame skilled_input
 			if current_collider.is_in_group(Global.group_strays):
+				if not current_collider.current_state == current_collider.States.WALL:
+					current_collider.current_state = current_collider.States.STATIC # ko ga premakneš postane MOVING
 				current_state = States.SKILLED
-				current_collider.current_state = current_collider.States.STATIC # ko ga premakneš postane MOVING
-			elif current_collider.is_in_group(Global.group_wall):
-				if current_collider.is_in_group(Global.group_tilemap):
-					if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
-						current_state = States.SKILLED
-					else: # druge stene
-						end_move()
-				else: # stray
-					current_state = States.SKILLED	
+			elif current_collider.is_in_group(Global.group_tilemap):
+				if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
+					current_state = States.SKILLED
+				else: # druge stene
+					end_move()
 			elif current_collider.is_in_group(Global.group_players):
 				end_move()
 			elif current_collider is StaticBody2D: # static body, 
@@ -221,18 +222,24 @@ func skill_inputs():
 	if current_collider: # zaščita, če se povežeš in ti potem pobegne
 		if new_direction:
 			if new_direction == direction: # naprej
-				if current_collider.is_in_group(Global.group_wall):
+				if current_collider.is_in_group(Global.group_tilemap):
 					teleport()
 				elif current_collider.is_in_group(Global.group_strays) and not current_collider.current_state == current_collider.States.MOVING:
-					push(current_collider)
+					if current_collider.current_state == current_collider.States.WALL:
+						teleport()
+					else:
+						push(current_collider)
 			elif new_direction == - direction: # nazaj
 				if current_collider.is_in_group(Global.group_strays) and not current_collider.current_state == current_collider.States.MOVING:
-					pull(current_collider)	
-				elif current_collider.is_in_group(Global.group_wall):
+					if current_collider.current_state == current_collider.States.WALL:
+						end_move()
+					else:
+						pull(current_collider)	
+				elif current_collider.is_in_group(Global.group_tilemap):
 					end_move() # nazaj ... izhod iz skilla, če gre za steno
 			else: # levo/desno ... izhod iz skilla
 				end_move()
-				if current_collider.is_in_group(Global.group_strays):
+				if current_collider.is_in_group(Global.group_strays) and not current_collider.current_state == current_collider.States.WALL:
 					current_collider.current_state = current_collider.States.IDLE
 	else:
 		end_move()
@@ -454,8 +461,11 @@ func push(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila
 		var stray_neighbor = stray.detect_collision_in_direction(push_direction)
 		if stray_neighbor:
 			if stray_neighbor.is_in_group(Global.group_strays):
-				strays_to_move.append(stray_neighbor)
-			elif stray_neighbor.is_in_group(Global.group_wall):
+				if stray_neighbor.current_state == stray_neighbor.States.WALL:
+					room_for_push =  false
+				else:
+					strays_to_move.append(stray_neighbor)
+			elif stray_neighbor.is_in_group(Global.group_tilemap):
 				room_for_push =  false
 	
 	play_sound("pushpull_start")

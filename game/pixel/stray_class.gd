@@ -23,7 +23,6 @@ onready var cell_size_x: int = Global.current_tilemap.cell_size.x
 func _ready() -> void:
 	
 	add_to_group(Global.group_strays)
-
 	randomize() # za random die animacije
 	
 	color_poly.modulate = stray_color
@@ -43,7 +42,7 @@ func _process(delta: float) -> void:
 	if position_indicator.visible:
 		get_position_indicator_position(get_viewport().get_node("PlayerCamera"))
 	
-	
+	1
 func show_stray(): # kliče GM
 	
 	# žrebam animacijo
@@ -186,8 +185,9 @@ func play_sound(effect_for: String):
 		"blinking":
 			var random_blink_index = randi() % $Sounds/Blinking.get_child_count()
 			$Sounds/Blinking.get_child(random_blink_index).play() # nekateri so na mute, ker so drugače prepogosti soundi
-			var random_static_index = randi() % $Sounds/BlinkingStatic.get_child_count()
-			$Sounds/BlinkingStatic.get_child(random_static_index).play()
+			if current_state == States.DYING: # da se ne oglaša ob obračanju v steno
+				var random_static_index = randi() % $Sounds/BlinkingStatic.get_child_count()
+				$Sounds/BlinkingStatic.get_child(random_static_index).play()
 		"stepping":
 			var random_step_index = randi() % $Sounds/Stepping.get_child_count()
 			var selected_step_sound = $Sounds/Stepping.get_child(random_step_index).play()
@@ -258,16 +258,11 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 		# če bo stena
 		else:
 			current_state = States.WALL
-			# regroup
-			add_to_group(Global.group_wall)
-			remove_from_group(Global.group_strays)
 			# wall color
 			modulate.a = 1
-			color_poly.modulate = Global.color_gui_gray
+			color_poly.modulate = Global.color_wall_dark_theme
 			# ugasni delovanje
 			set_physics_process(false)
 			collision_shape_ext.disabled = true	
 			position_indicator.modulate.a = 0
-			# za eternal
-			Global.game_manager.strays_wall_count += 1
 			

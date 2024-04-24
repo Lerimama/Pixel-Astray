@@ -3984,6 +3984,7 @@ text = "CONFIRM"
 align = 0
 
 [node name="RespawnTimer" type="Timer" parent="."]
+wait_time = 5.0
 one_shot = true
 
 [connection signal="animation_finished" from="GUI/Hud/Popups/GameCountdown/AnimationPlayer" to="GUI/Hud/Popups/GameCountdown" method="_on_AnimationPlayer_animation_finished"]

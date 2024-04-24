@@ -46,20 +46,19 @@ func idle_inputs():
 		# ko zazna kolizijo postane skilled ali pa end move 
 		# kontrole prevzame skilled_input
 			if current_collider.is_in_group(Global.group_strays):
+				if not current_collider.current_state == current_collider.States.WALL:
+					current_collider.current_state = current_collider.States.STATIC # ko ga premakneš postane MOVING
 				current_state = States.SKILLED
-				current_collider.current_state = current_collider.States.STATIC # ko ga premakneš postane MOVING
-			elif current_collider.is_in_group(Global.group_wall):
-				if current_collider.is_in_group(Global.group_tilemap):
-					if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
-						current_state = States.SKILLED
-					else: # druge stene
-						end_move()
-				else: # stray
-					current_state = States.SKILLED	
+			elif current_collider.is_in_group(Global.group_tilemap):
+				if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
+					current_state = States.SKILLED
+				else: # druge stene
+					end_move()
 			elif current_collider.is_in_group(Global.group_players):
 				end_move()
 			elif current_collider is StaticBody2D: # static body, 
 				end_move()
+	
 	
 	if Input.is_action_just_pressed(key_burst): # brez "just" dela po stisku smeri ... ni ok
 		current_state = States.COCKING

@@ -12,7 +12,7 @@ func _process(delta: float) -> void:
 	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
 	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.ETERNAL:
+	if Global.game_manager.game_settings["eternal_mode"]:
 		level_label.text = "%02d" % Global.game_manager.current_level 
 		# kateri ima višji score
 		var current_biggest_score: int = 0
@@ -44,11 +44,6 @@ func set_hud(players_count: int): # kliče main na game-in
 		# hs		
 		highscore_label.visible = false
 	
-	# energy bar
-	if Global.game_manager.game_data["game"] == Profiles.Games.ETERNAL:
-		p1_energy_counter.visible = false
-		p2_energy_counter.visible = true	
-		
 	# lajf counter
 	if Global.game_manager.game_settings["player_start_life"] == 1:
 		p1_life_counter.visible = false
@@ -61,7 +56,9 @@ func set_hud(players_count: int): # kliče main na game-in
 	if Global.game_manager.game_data["level"].empty():
 		level_label.visible = false
 		
-	if Global.game_manager.game_data["game"] == Profiles.Games.ETERNAL:
+	if Global.game_manager.game_settings["eternal_mode"]:
+		p1_energy_counter.visible = false
+		p2_energy_counter.visible = true	
 		level_limit_holder.visible = true
 		strays_counters_holder.visible = false
 	
@@ -86,7 +83,7 @@ func set_hud(players_count: int): # kliče main na game-in
 func fade_in_instructions_popup(in_time: float):
 	# namen: za to igro prilagojena navodila
 
-	if Global.game_manager.game_data["game"] == Profiles.Games.ETERNAL:
+	if Global.game_manager.game_settings["eternal_mode"]:
 		$Popups/Instructions/Controls.show()
 		$Popups/Instructions/ControlsDuel.hide()
 		title.text = Global.game_manager.game_data["game_name"]

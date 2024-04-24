@@ -76,7 +76,6 @@ func start_game():
 	
 	upgrade_level()
 	
-#	spawn_strays(game_data["strays_start_count"])
 	spawn_strays(start_strays_spawn_count)
 
 	# stray_step() # prvi step ... ne rabim, ker kliče že GM
@@ -413,7 +412,6 @@ func stray_step():
 		# Global.sound_manager.play_sfx("stray_step") # ulomek je za pitch zvoka
 		lines_scrolled_count += 1
 		if lines_scrolled_count % lines_scroll_per_spawn_round == 0: # tukaj, da ne spawna če  je konec
-#			spawn_strays(game_data["strays_start_count"])
 			spawn_strays(start_strays_spawn_count)
 	
 		
@@ -430,7 +428,6 @@ func stray_step():
 		# Global.sound_manager.play_sfx("stray_step") # ulomek je za pitch zvoka
 		lines_scrolled_count += 1
 		if lines_scrolled_count % lines_scroll_per_spawn_round == 0: # tukaj, da ne spawna če  je konec
-#			spawn_strays(game_data["strays_start_count"])
 			spawn_strays(start_strays_spawn_count)
 			
 	yield(get_tree().create_timer(scrolling_pause_time), "timeout")
@@ -518,7 +515,6 @@ func set_level_conditions():
 		stages_per_level = leveling_conditions[current_level].stages_per_level
 		level_color_scheme = leveling_conditions[current_level].color_scheme
 		scrolling_pause_time = leveling_conditions[current_level].scrolling_pause_time
-#		game_data["strays_start_count"] = leveling_conditions[current_level].strays_spawn_count
 		start_strays_spawn_count = leveling_conditions[current_level].strays_spawn_count
 		if Global.game_manager.game_data["game"] == Profiles.Games.SLIDER:
 			wall_spawn_random_range = leveling_conditions[current_level].wall_spawn_random_range
