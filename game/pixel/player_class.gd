@@ -113,7 +113,6 @@ func _physics_process(delta: float) -> void:
 	
 						
 func state_machine():
-	#	printt ("current_state", current_state)
 	
 	match current_state:
 		States.IDLE:
@@ -1208,7 +1207,7 @@ func change_stat(stat_event: String, stat_value):
 		"all_cleaned": # nagrada je določena v settingsih
 			player_stats["player_points"] += game_settings["all_cleaned_points"]
 			var reward_tag: Node = spawn_floating_tag(game_settings["all_cleaned_points"])
-			reward_tag.modulate = Global.color_green
+#			reward_tag.modulate = Global.color_green
 		"debug_player_energy":
 			player_stats["player_energy"] += stat_value
 			player_stats["player_energy"] = clamp(player_stats["player_energy"], 5, game_settings["player_start_energy"])
@@ -1220,6 +1219,3 @@ func change_stat(stat_event: String, stat_value):
 	
 	# signal na hud
 	emit_signal("stat_changed", self, player_stats) # javi v hud
-
-
-

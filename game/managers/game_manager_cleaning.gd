@@ -37,13 +37,14 @@ func _ready() -> void:
 	randomize()
 	
 	# level cond on start
-	if game_data["game"] == Profiles.Games.ETERNAL:
-		level_conditions = Profiles.eternal_level_conditions[1]
-	elif game_data["game"] == Profiles.Games.ETERNAL_XL:
-		level_conditions = Profiles.eternal_level_conditions[2]
-	respawn_wait_time = level_conditions["respawn_wait_time"]
-	respawn_strays_count = level_conditions["respawn_strays_count"]
-	level_points_limit = level_conditions["level_points_limit"]
+	if game_settings["eternal_mode"]:
+		if game_data["game"] == Profiles.Games.ETERNAL:
+			level_conditions = Profiles.eternal_level_conditions[1]
+		elif game_data["game"] == Profiles.Games.ETERNAL_XL:
+			level_conditions = Profiles.eternal_level_conditions[2]
+		respawn_wait_time = level_conditions["respawn_wait_time"]
+		respawn_strays_count = level_conditions["respawn_strays_count"]
+		level_points_limit = level_conditions["level_points_limit"]
 
 
 func _process(delta: float) -> void:

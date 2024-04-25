@@ -55,12 +55,6 @@ var color_gui_gray: Color = Color("#838383") # siva v tekstih (naslovi) in ikona
 var color_hud_background: Color = Color("#141414")
 var color_wall_gray: Color = Color("#141414")
 
-var wall_tile_id: int = 3
-var edge_tile_id: int = 1
-var floor_tile_id: int = 0
-var stray_wall_tile
-onready var background: ColorRect = $Background/BackgroundColor
-
 # za dark / light theme
 #var color_wall_light_theme: Color = Color("#efefef") # stena
 #var color_edge_light_theme: Color = Color.white # rob

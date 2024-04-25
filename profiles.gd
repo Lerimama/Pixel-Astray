@@ -132,6 +132,7 @@ enum Games {
 	RIDDLER_S, RIDDLER_M, RIDDLER_L
 	TUTORIAL,
 	ETERNAL, ETERNAL_XL,
+	ENIGMA,
 	}
 
 
@@ -274,7 +275,6 @@ var game_data_eternal: Dictionary = {
 	"game_time_limit": 0,
 	"strays_start_count": 50,
 }
-
 var game_data_eternal_xl: Dictionary = { 
 	"game": Games.ETERNAL_XL,
 	"highscore_type": HighscoreTypes.HS_POINTS,
@@ -285,7 +285,16 @@ var game_data_eternal_xl: Dictionary = {
 	"game_time_limit": 0,
 	"strays_start_count": 320,
 }
-
+var game_data_enigma: Dictionary = {
+	"game": Games.ENIGMA,
+	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"game_name": "Enigma",
+	"level": "0", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
+	"game_scene_path": "res://game/game_cleaning.tscn",
+	"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_00.tscn", # odvisna od sselected level
+	"game_time_limit": 0, # odvisna od selected level
+	"strays_start_count": 0, # 468 jih je v stackih
+}
 
 # LEVEL -----------------------------------------------------------------------------------
 
@@ -483,8 +492,9 @@ var current_color_scheme: Dictionary = game_color_schemes["default_color_scheme"
 func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
-	var current_game = Games.ETERNAL_XL
+	var current_game = Games.ENIGMA
 #	var current_game = Games.ETERNAL
+#	var current_game = Games.ETERNAL_XL
 #	var current_game = Games.CLEANER
 #	var current_game = Games.ERASER_S
 #	var current_game = Games.CLEANER_DUEL
@@ -501,39 +511,53 @@ func set_game_data(selected_game) -> void:
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
 	match selected_game:
+		Games.ENIGMA: 
+			current_game_data = game_data_enigma
+			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
+			game_settings["lose_life_on_hit"] = true
+			game_settings["timer_mode_countdown"] = false
+			game_settings["spectrum_start_on"] = true
+			game_settings["position_indicators_mode"] = false
+			game_settings["color_picked_points"] = 0
+			game_settings["all_cleaned_points"] = 0
+			# iz riddlerja
+#			game_settings["eternal_mode"] = true
+#			game_settings["on_hit_energy_part"] = 1
+#			game_settings["camera_fixed"] = false
+			#
+			game_settings["start_countdown"] = false
+			game_settings["game_instructions_popup"] = false
 		Games.ETERNAL: 
 			current_game_data = game_data_eternal
-			game_settings["eternal_mode"] = true # energija ni pomembna
+			game_settings["eternal_mode"] = true
 			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
 			game_settings["lose_life_on_hit"] = true
 			game_settings["player_start_life"] = 3
 			game_settings["timer_mode_countdown"] = false
 			game_settings["spectrum_start_on"] = true
-			#
 			game_settings["position_indicators_mode"] = false
-			game_settings["stray_to_wall_mode"] = true
+			game_settings["stray_to_wall_mode"] = false
+			game_settings["all_cleaned_points"] = 100 # debug
+			game_settings["color_picked_points"] = 10
 			#
 			game_settings["start_countdown"] = false
 			game_settings["game_instructions_popup"] = false
-			game_settings["all_cleaned_points"] = 100 # debug
-			game_settings["color_picked_points"] = 10
 						
 		Games.ETERNAL_XL: 
 			current_game_data = game_data_eternal_xl
-			game_settings["eternal_mode"] = true # energija ni pomembna
+			game_settings["eternal_mode"] = true
 			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
 			game_settings["lose_life_on_hit"] = true
 			game_settings["player_start_life"] = 3
 			game_settings["timer_mode_countdown"] = false
 			game_settings["spectrum_start_on"] = true
-			#
 			game_settings["position_indicators_mode"] = true
 			game_settings["stray_to_wall_mode"] = true
+			game_settings["all_cleaned_points"] = 100 # debug
+			game_settings["color_picked_points"] = 10
 			#
 			game_settings["start_countdown"] = false
 			game_settings["game_instructions_popup"] = false
-			game_settings["all_cleaned_points"] = 100 # debug
-			game_settings["color_picked_points"] = 10
 		Games.TUTORIAL: 
 			current_game_data = game_data_tutorial
 			game_settings["player_start_life"] = 3

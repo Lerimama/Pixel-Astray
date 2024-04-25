@@ -345,8 +345,6 @@ func update_available_respawn_positions(action: String, position_to_change: Vect
 		if available_respawn_positions.empty():
 			game_over(GameoverReason.TIME)		
 				
-	printt("POZ", available_respawn_positions.size())
-	
 	
 func show_strays_on_start(show_strays_loop: int):
 

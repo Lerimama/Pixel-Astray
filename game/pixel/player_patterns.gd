@@ -67,6 +67,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 func on_hit_wall():
 	# namen: dodam ciljno steno (GO)
 	
+	
 	# if goal wall hit
 	var goal_wall_id = 7
 	var current_collider: Node = detect_collision_in_direction(direction)

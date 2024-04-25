@@ -188,6 +188,7 @@ func update_stats(stat_owner: Node, player_stats: Dictionary): # za eternal
 
 	if not Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NO_HS:
 		check_for_hs(player_stats)
-
-	if player_stats["player_points"] >= Global.game_manager.level_points_limit:
-		Global.game_manager.upgrade_level()
+	
+	if Global.game_manager.game_settings["eternal_mode"]:
+		if player_stats["player_points"] >= Global.game_manager.level_points_limit:
+			Global.game_manager.upgrade_level()

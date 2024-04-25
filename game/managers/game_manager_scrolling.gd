@@ -331,7 +331,6 @@ func spawn_strays(strays_to_spawn_count: int):
 		elif game_data["game"] == Profiles.Games.SCROLLER:
 			adapted_stray_position.y -= 32 # za pozicijo zaznanega straya (zamik spawn lokacije glede na detektor)
 		forbiden_positions.append(adapted_stray_position)
-	# printt ("prepovedane", forbiden_positions)
 	
 	for stray_index in strays_to_spawn_count:
 		# barva
