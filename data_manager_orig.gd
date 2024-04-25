@@ -22,38 +22,24 @@ func _ready() -> void:
 	Global.data_manager = self
 
 	
-func get_top_highscore(current_game_data: Dictionary):
+func get_top_highscore(current_game: int):
 	
 	# load highscore
-	var loaded_game_highscores = read_highscores_from_file(current_game_data) # ... v odprtem filetu se potem naloži highscore
+	var loaded_game_highscores = read_highscores_from_file(current_game) # ... v odprtem filetu se potem naloži highscore
 	
 	# current higscore in lastnik
 	var all_scores: Array = []
 	var all_score_owners: Array = []
 	
 	for hs_position_key in loaded_game_highscores:
-		# dodam vrednost s pozicijo
+		# dodam vrednost s pozicija
 		var current_position_dict = loaded_game_highscores[hs_position_key]
+		
 		all_scores += current_position_dict.values()
 		all_score_owners += current_position_dict.keys()
 		
 	# setam top score
-	var current_highscore: float
-#	var current_highscore_index: int
-#	var current_highscore_owner: String
-	match current_game_data["highscore_type"]:
-		Profiles.HighscoreTypes.HS_POINTS:
-			current_highscore = all_scores.max()
-		Profiles.HighscoreTypes.HS_TIME_LOW:
-			var valid_scores: Array # vsi, ki niso 0
-			for score in all_scores:
-				if score > 0:
-					valid_scores.append(score)
-			current_highscore = valid_scores.min()
-		Profiles.HighscoreTypes.HS_TIME_HIGH:
-			current_highscore = all_scores.max()
-
-
+	var current_highscore: float = all_scores.max()
 	var current_highscore_index: int = all_scores.find(current_highscore)
 	var current_highscore_owner: String = all_score_owners[current_highscore_index]
 	
@@ -63,10 +49,13 @@ func get_top_highscore(current_game_data: Dictionary):
 
 func manage_gameover_highscores(current_score_points: int, current_score_time: int, current_game_data: Dictionary): # iz GM
 	# med izvajanjem te kode GM čaka na RESUME 1
-
+	
+	var current_game: int = Global.game_manager.game_data["game"]
+	var current_game_highscores: Dictionary # zaenkrat samo pri G-O
 	var all_ranking_scores: Array = []
 	var all_ranking_score_owners: Array = []
-	var current_game_highscores: Dictionary = read_highscores_from_file(current_game_data) # ... v odprtem filetu se potem naloži highscore
+	
+	current_game_highscores = read_highscores_from_file(current_game) # ... v odprtem filetu se potem naloži highscore
 	
 	# poberemo lestvico v arraye
 	for hs_position_key in current_game_highscores:
@@ -74,12 +63,15 @@ func manage_gameover_highscores(current_score_points: int, current_score_time: i
 		all_ranking_scores += current_position_dict.values()
 		all_ranking_score_owners += current_position_dict.keys()
 	
+	
 	var better_positions_count: int
 	var current_value_to_rank: int
 	var current_secondary_value: int
 	
+	
 	# izračun uvrstitve na lestvico ... štejem pozicije pred mano 
 	# trenutno je setano, da se da uporabit sekundarno vrednost za dodatno ločevanje
+	
 	better_positions_count = 0 # 0 je 1. mesto
 	for ranking_score in all_ranking_scores:
 		match current_game_data["highscore_type"]:
@@ -136,35 +128,31 @@ func manage_gameover_highscores(current_score_points: int, current_score_time: i
 			highscore_index += 1
 
 		# sejvam hs slovar v filet
-		write_highscores_to_file(current_game_data, new_game_highscores)
+		write_highscores_to_file(current_game, new_game_highscores)
 		
 		emit_signal("highscores_updated")
 
 
-func read_highscores_from_file(read_game_data: Dictionary):
-
-	var read_game_name: String
-	if read_game_data["level"].empty():
-		read_game_name = read_game_data["game_name"]
-	else:
-		read_game_name = read_game_data["game_name"] + "_" + read_game_data["level"]
-	printt("read hs from game name", read_game_name)
+func read_highscores_from_file(current_game_key: int):
+	
+	var current_game_name = Profiles.Games.keys()[current_game_key]
+	printt("read hs from game name", current_game_name)
 	
 	# preverjam obstoj fileta ... ob prvem nalaganju igre
-	var error = data_file.open("user://game_%s_highscores.save" % read_game_name, File.READ)
+	var error = data_file.open("user://game_%s_highscores.save" % current_game_name, File.READ)
 	# The file is created if it does not exist, and truncated if it does.
 	
 	# če fileta ni, ga ustvarim in zapišem default hs dict
 	if error != OK: # OK je 0
 		# printt("Error loading file", error)
-		data_file.open("user://game_%s_highscores.save" % read_game_name, File.WRITE) # vsak game ma svoj filet
+		data_file.open("user://game_%s_highscores.save" % current_game_name, File.WRITE) # vsak game ma svoj filet
 		# vnesem default HS
 		data_file.store_line(to_json(default_highscores))
 		data_file.close()
 		# printt("Default file created", data_file)
 		# ko je filet ustvarjen grem naprej na podajanje vse HSjev
 	
-	data_file.open("user://game_%s_highscores.save" % read_game_name, File.READ)
+	data_file.open("user://game_%s_highscores.save" % current_game_name, File.READ)
 	# printt("File loaded", data_file)
 		
 	# prepiši podatke iz fileta v igro
@@ -174,31 +162,26 @@ func read_highscores_from_file(read_game_data: Dictionary):
 	return current_game_highscores
 	
 
-func write_highscores_to_file(write_game_data: Dictionary, new_game_highscores: Dictionary):
-
-	# load highscore
-	var write_game_name: String
-	if write_game_data["level"].empty():
-		write_game_name = write_game_data["game_name"]
-	else:
-		write_game_name = write_game_data["game_name"] + "_" + write_game_data["level"]	
-	printt("write hs to game name", write_game_name)
+func write_highscores_to_file(current_game_key: int, new_game_highscores: Dictionary):
+	
+	var current_game_name = Profiles.Games.keys()[current_game_key]
+	printt("write hs to game name", current_game_name)
 	
 	# podam novi HS v json obliko
 	var json_string = JSON.print(new_game_highscores)
 	printt("save json_string", json_string)
 	
 	# preverjam obstoj fileta ... v tem primeru že obstaja, ker ga igra ustvari ob prvem nalaganju
-	var error = data_file.open("user://game_%s_highscores.save" % write_game_name, File.READ)
+	var error = data_file.open("user://game_%s_highscores.save" % current_game_name, File.READ)
 	
 	# če fileta ni, ga ustvarim in zapišem novi HS
 	if error != OK:
 		# printt("Error opening file", error)
-		data_file.open("user://game_%s_highscores.save" % write_game_name, File.WRITE) # vsak game ma svoj filet
+		data_file.open("user://game_%s_highscores.save" % current_game_name, File.WRITE) # vsak game ma svoj filet
 		printt("Empty file created", data_file)
 	else:
 		# printt("File opened", error)
-		data_file.open("user://game_%s_highscores.save" % write_game_name, File.WRITE) # vsak game ma svoj filet
+		data_file.open("user://game_%s_highscores.save" % current_game_name, File.WRITE) # vsak game ma svoj filet
 	
 	# vnesem novi HS
 	data_file.store_line(to_json(new_game_highscores))

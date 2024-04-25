@@ -6,9 +6,14 @@ onready var level_up_popup: Control = $Popups/LevelUp
 
 
 func _process(delta: float) -> void:
+	# namen: update level label
 	
 	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
 	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
+
+	# level label show on fill
+	if not Global.game_manager.game_data["level"].empty() and not level_label.visible:
+		level_label.visible = true	
 	level_label.text = "%02d" % Global.game_manager.current_level 
 	
 	

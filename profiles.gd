@@ -229,7 +229,7 @@ var game_data_riddler_L: Dictionary = {
 	"game": Games.RIDDLER_L,
 	"highscore_type": HighscoreTypes.HS_TIME_LOW,
 	"game_name": "Riddler",
-	"level": "L", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
+	"level": "L",
 	"game_scene_path": "res://game/game_patterns.tscn",
 	"tilemap_path": "res://game/tilemaps/patterns/tilemap_riddler_L.tscn", # odvisna od sselected level
 	"game_time_limit": 0, # odvisna od selected level
@@ -239,7 +239,7 @@ var game_data_scroller: Dictionary = {
 	"game": Games.SCROLLER,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Scroller",
-	"level": " ", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
+	"level": "", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico ... sem uredil da hud preverja in prikaže
 	"game_scene_path": "res://game/game_scrolling.tscn",
 	"tilemap_path": "res://game/tilemaps/scrolling/tilemap_scrolling.tscn",
 	"game_time_limit": 0,
@@ -249,7 +249,7 @@ var game_data_slider: Dictionary = {
 	"game": Games.SLIDER,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Slider",
-	"level": " ", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
+	"level": "", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico ... sem uredil da hud preverja in prikaže
 	"game_scene_path": "res://game/game_scrolling.tscn",
 	"tilemap_path": "res://game/tilemaps/scrolling/tilemap_slider.tscn",
 	"game_time_limit": 0,
@@ -269,7 +269,7 @@ var game_data_eternal: Dictionary = {
 	"game": Games.ETERNAL,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Eternal",
-	"level": "0",
+	"level": "",
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eternal.tscn",
 	"game_time_limit": 0,
@@ -278,8 +278,8 @@ var game_data_eternal: Dictionary = {
 var game_data_eternal_xl: Dictionary = { 
 	"game": Games.ETERNAL_XL,
 	"highscore_type": HighscoreTypes.HS_POINTS,
-	"game_name": "Eternal XL",
-	"level": "0",
+	"game_name": "Eternal",
+	"level": "XL",
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eternal_xl.tscn",
 	"game_time_limit": 0,
@@ -289,13 +289,13 @@ var game_data_enigma: Dictionary = {
 	"game": Games.ENIGMA,
 	"highscore_type": HighscoreTypes.HS_TIME_LOW,
 	"game_name": "Enigma",
-	"level": "0", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_00.tscn", # samo za prvo stopnjo
 	"game_time_limit": 0, # odvisna od selected level
 	"strays_start_count": 0, # 468 jih je v stackih
+	"level": "0NE", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
 	
-	"level_number": 1, # tole se seta ob izbiri igre v home ... vpliva na pogoje
+	"level_number": 1, # tole se seta ob izbiri igre v home ... samo za grebanje iz pravega slovarja pogojev
 }
 
 # LEVEL -----------------------------------------------------------------------------------
@@ -484,8 +484,8 @@ var eternal_level_conditions: Dictionary = {
 
 var enigma_level_conditions: Dictionary = {
 	1: {
-		"level_name": "ONE", # prištejem z vsakim levelom
-		"level_hs": 1, # prištejem z vsakim levelom
+		"level_name": "ONE", # ko se nalouda level tole postane "level v game_data slovarju
+		"level_hs": 1, 
 		"strays_to_clean_count": 0,
 		"level_tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_00.tscn",
 		"level_description": "Description ...",

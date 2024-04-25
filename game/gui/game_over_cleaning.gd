@@ -177,5 +177,6 @@ func _on_NextLevelBtn_pressed() -> void:
 	
 	var next_level_number: int = Global.game_manager.current_level + 1
 	Profiles.game_data_enigma["level_number"] = next_level_number
+	Profiles.game_data_enigma["level"] = str("%02d" % next_level_number)
 	Global.main_node.reload_game()
 	

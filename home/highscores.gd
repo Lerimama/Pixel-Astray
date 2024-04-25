@@ -21,8 +21,7 @@ func _ready() -> void:
 	
 	var fake_player_ranking: int = 100 # številka je ranking izven lestvice, da ni označenega plejerja
 
-	cleaner_table.get_highscore_table(Profiles.game_data_eternal, fake_player_ranking)
-#	cleaner_table.get_highscore_table(Profiles.game_data_cleaner, fake_player_ranking)
+	cleaner_table.get_highscore_table(Profiles.game_data_cleaner, fake_player_ranking)
 	eraser_s_table.get_highscore_table(Profiles.game_data_eraser_S, fake_player_ranking)
 	eraser_m_table.get_highscore_table(Profiles.game_data_eraser_M, fake_player_ranking)
 	eraser_l_table.get_highscore_table(Profiles.game_data_eraser_L, fake_player_ranking)
@@ -30,10 +29,14 @@ func _ready() -> void:
 	runner_table.get_highscore_table(Profiles.game_data_runner, fake_player_ranking)
 	riddler_s_table.get_highscore_table(Profiles.game_data_riddler_S, fake_player_ranking)
 	riddler_m_table.get_highscore_table(Profiles.game_data_riddler_M, fake_player_ranking)
-	riddler_l_table.get_highscore_table(Profiles.game_data_riddler_L, fake_player_ranking)
+#	riddler_l_table.get_highscore_table(Profiles.game_data_riddler_L, fake_player_ranking)
 	
-	scroller_table.get_highscore_table(Profiles.game_data_scroller, fake_player_ranking)
-	slider_table.get_highscore_table(Profiles.game_data_slider, fake_player_ranking)
+#	scroller_table.get_highscore_table(Profiles.game_data_scroller, fake_player_ranking)
+#	slider_table.get_highscore_table(Profiles.game_data_slider, fake_player_ranking)
+
+	riddler_l_table.get_highscore_table(Profiles.game_data_eternal, fake_player_ranking)
+	slider_table.get_highscore_table(Profiles.game_data_enigma, fake_player_ranking)
+	scroller_table.get_highscore_table(Profiles.game_data_eternal_xl, fake_player_ranking)
 
 
 func _on_BackBtn_pressed() -> void:

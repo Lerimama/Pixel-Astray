@@ -36,7 +36,7 @@ func _ready() -> void:
 	
 	randomize()
 	
-	# set_level_conditions on startlevel cond on start
+	# set_level_conditions on start
 	if game_settings["eternal_mode"]:
 		if game_data["game"] == Profiles.Games.ETERNAL:
 			level_conditions = Profiles.eternal_level_conditions[1]
@@ -48,8 +48,9 @@ func _ready() -> void:
 	if game_data["game"] == Profiles.Games.ENIGMA:
 		current_level = game_data["level_number"]
 		level_conditions = Profiles.enigma_level_conditions[current_level]
-		current_enigma_name = level_conditions["level_name"]
-		printt ("LEVEL", current_level, current_enigma_name)
+		game_data["level"] = level_conditions["level_name"]
+#		current_enigma_name = level_conditions["level_name"]
+#		printt ("LEVEL", current_level, current_enigma_name)
 
 
 func _process(delta: float) -> void:

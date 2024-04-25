@@ -114,6 +114,10 @@ func _process(delta: float) -> void:
 	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
 	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
 
+	# level label show on fill
+	if not Global.game_manager.game_data["level"].empty() and not level_label.visible:
+		level_label.visible = true
+
 
 func set_hud(players_count: int): # kliče main na game-in
 	
@@ -167,8 +171,12 @@ func set_hud(players_count: int): # kliče main na game-in
 		
 func set_current_highscore():
 	
-	var current_game = Global.game_manager.game_data["game"]
-	var current_highscore_line: Array = Global.data_manager.get_top_highscore(current_game)
+#	var current_game = Global.game_manager.game_data["game"]
+	var current_game_name = Global.game_manager.game_data["game_name"]
+	var current_game_level = Global.game_manager.game_data["level"]
+#	var current_highscore_line: Array = Global.data_manager.get_top_highscore(current_game)
+#	var current_highscore_line: Array = Global.data_manager.get_top_highscore(current_game_name, current_game_level)
+	var current_highscore_line: Array = Global.data_manager.get_top_highscore(Global.game_manager.game_data)
 	
 	current_highscore = current_highscore_line[0]
 	current_highscore_owner = current_highscore_line[1]
