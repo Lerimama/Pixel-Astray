@@ -2324,7 +2324,7 @@ __meta__ = {
 
 [node name="SpectrumHolder" type="Control" parent="GUI/Hud/Footer/FooterLine"]
 margin_left = 142.0
-margin_right = 900.0
+margin_right = 1038.0
 margin_bottom = 22.0
 grow_horizontal = 2
 size_flags_horizontal = 3
@@ -2349,9 +2349,8 @@ grow_vertical = 2
 color = Color( 0.494118, 0.517647, 0.545098, 1 )
 
 [node name="StraysLine" type="HBoxContainer" parent="GUI/Hud/Footer/FooterLine"]
-visible = false
-margin_left = 972.0
-margin_right = 1120.0
+margin_left = 1070.0
+margin_right = 1218.0
 margin_bottom = 22.0
 size_flags_horizontal = 9
 custom_constants/separation = 16
@@ -2411,6 +2410,7 @@ __meta__ = {
 }
 
 [node name="LevelLimitHolder" type="HBoxContainer" parent="GUI/Hud/Footer/FooterLine"]
+visible = false
 margin_left = 932.0
 margin_right = 1218.0
 margin_bottom = 22.0
@@ -2441,7 +2441,7 @@ margin_left = 50.0
 margin_right = 286.0
 margin_bottom = 22.0
 size_flags_vertical = 8
-text = "POINTS TO LEVEL UP"
+text = "%POINTS TO LEVEL UP"
 valign = 2
 __meta__ = {
 "_editor_description_": ""
@@ -2966,7 +2966,6 @@ text = "PLAY ON"
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 2 )
@@ -3896,6 +3895,457 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 text = "PLAY AGAIN"
 
+[node name="GameSummaryEnigma" type="Control" parent="GUI/GameOver"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Title" type="Label" parent="GUI/GameOver/GameSummaryEnigma"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -132.0
+margin_top = -226.5
+margin_right = 132.0
+margin_bottom = -194.5
+custom_colors/font_color = Color( 0.952941, 0.356863, 0.498039, 1 )
+custom_fonts/font = ExtResource( 3 )
+text = "GAME SUMMARY"
+
+[node name="DataContainer" type="VBoxContainer" parent="GUI/GameOver/GameSummaryEnigma"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -215.0
+margin_top = -152.0
+margin_right = 8.0
+margin_bottom = 122.0
+custom_constants/separation = 14
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Game" type="Label" parent="GUI/GameOver/GameSummaryEnigma/DataContainer"]
+margin_right = 223.0
+margin_bottom = 18.0
+custom_fonts/font = ExtResource( 4 )
+text = "Game: %s"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Level" type="Label" parent="GUI/GameOver/GameSummaryEnigma/DataContainer"]
+margin_top = 32.0
+margin_right = 223.0
+margin_bottom = 50.0
+custom_fonts/font = ExtResource( 4 )
+text = "Level: %s"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="AstrayPixels" type="Label" parent="GUI/GameOver/GameSummaryEnigma/DataContainer"]
+margin_top = 64.0
+margin_right = 223.0
+margin_bottom = 82.0
+custom_fonts/font = ExtResource( 4 )
+text = "Pixels left astray: %s"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="HighscoreTable" type="VBoxContainer" parent="GUI/GameOver/GameSummaryEnigma"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 142.0
+margin_top = -154.0
+margin_right = 320.0
+margin_bottom = 124.0
+custom_constants/separation = 6
+script = ExtResource( 15 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable"]
+margin_right = 178.0
+margin_bottom = 26.0
+rect_min_size = Vector2( 28, 26 )
+size_flags_horizontal = 6
+size_flags_vertical = 0
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+text = "Top 9 cleaners"
+
+[node name="ScoreLine1" type="HBoxContainer" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable"]
+margin_top = 32.0
+margin_right = 178.0
+margin_bottom = 54.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine1"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine1"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 4 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine1"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine2" type="HBoxContainer" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable"]
+margin_top = 60.0
+margin_right = 178.0
+margin_bottom = 82.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine2"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine2"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 4 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine2"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine3" type="HBoxContainer" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable"]
+margin_top = 88.0
+margin_right = 178.0
+margin_bottom = 110.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine3"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine3"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 4 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine3"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine4" type="HBoxContainer" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable"]
+margin_top = 116.0
+margin_right = 178.0
+margin_bottom = 138.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine4"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine4"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 4 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine4"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine5" type="HBoxContainer" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable"]
+margin_top = 144.0
+margin_right = 178.0
+margin_bottom = 166.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine5"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine5"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 4 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine5"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine6" type="HBoxContainer" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable"]
+margin_top = 172.0
+margin_right = 178.0
+margin_bottom = 194.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine6"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine6"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 4 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine6"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine7" type="HBoxContainer" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable"]
+margin_top = 200.0
+margin_right = 178.0
+margin_bottom = 222.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine7"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine7"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 4 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine7"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine8" type="HBoxContainer" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable"]
+margin_top = 228.0
+margin_right = 178.0
+margin_bottom = 250.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine8"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine8"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 4 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine8"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine9" type="HBoxContainer" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable"]
+margin_top = 256.0
+margin_right = 178.0
+margin_bottom = 278.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine9"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine9"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 4 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="GUI/GameOver/GameSummaryEnigma/HighscoreTable/ScoreLine9"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="Menu" type="HBoxContainer" parent="GUI/GameOver/GameSummaryEnigma"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -356.0
+margin_top = 222.0
+margin_right = 356.0
+margin_bottom = 244.0
+grow_horizontal = 2
+custom_constants/separation = 32
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="QuitBtn" type="Button" parent="GUI/GameOver/GameSummaryEnigma/Menu"]
+margin_right = 160.0
+margin_bottom = 22.0
+mouse_default_cursor_shape = 2
+size_flags_vertical = 8
+text = "QUIT TO MENU"
+
+[node name="RestartBtn" type="Button" parent="GUI/GameOver/GameSummaryEnigma/Menu"]
+margin_left = 192.0
+margin_right = 324.0
+margin_bottom = 22.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "PLAY AGAIN"
+
+[node name="NextLevelBtn" type="Button" parent="GUI/GameOver/GameSummaryEnigma/Menu"]
+margin_left = 356.0
+margin_right = 492.0
+margin_bottom = 22.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "NEXT LEVEL"
+
+[node name="ExitGameBtn" type="Button" parent="GUI/GameOver/GameSummaryEnigma/Menu"]
+margin_left = 524.0
+margin_right = 646.0
+margin_bottom = 22.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "EXIT GAME"
+
 [node name="NameInputPopup" type="Control" parent="GUI/GameOver"]
 visible = false
 anchor_left = 0.5
@@ -4005,6 +4455,10 @@ one_shot = true
 [connection signal="pressed" from="GUI/GameOver/GameSummary/NoHS/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/GameSummary/WithHS/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/GameSummary/WithHS/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/GameSummaryEnigma/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/GameSummaryEnigma/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/GameSummaryEnigma/Menu/NextLevelBtn" to="GUI/GameOver" method="_on_NextLevelBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/GameSummaryEnigma/Menu/ExitGameBtn" to="GUI/GameOver" method="_on_ExitGameBtn_pressed"]
 [connection signal="text_changed" from="GUI/GameOver/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_NameEdit_text_changed"]
 [connection signal="text_entered" from="GUI/GameOver/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_PopupNameEdit_text_entered"]
 [connection signal="pressed" from="GUI/GameOver/NameInputPopup/HBoxContainer/CancelBtn" to="GUI/GameOver" method="_on_CancelBtn_pressed"]

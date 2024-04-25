@@ -3,6 +3,7 @@ extends GameManager
 
 var current_level: int = 0 # za eternal
 var level_upgrade_in_progress: bool = false # ustavim klicanje naslednjih levelov
+var current_enigma_name: String = "Null"# ime levele ... lahko številka
 
 var level_conditions: Dictionary
 var first_respawn_time: float = 5
@@ -11,7 +12,6 @@ var respawn_strays_count: int
 var level_points_limit: int
 
 onready var respawn_timer: Timer = $"../RespawnTimer"
-
 
 func _unhandled_input(event: InputEvent) -> void:
 
@@ -36,7 +36,7 @@ func _ready() -> void:
 	
 	randomize()
 	
-	# level cond on start
+	# set_level_conditions on startlevel cond on start
 	if game_settings["eternal_mode"]:
 		if game_data["game"] == Profiles.Games.ETERNAL:
 			level_conditions = Profiles.eternal_level_conditions[1]
@@ -45,11 +45,15 @@ func _ready() -> void:
 		respawn_wait_time = level_conditions["respawn_wait_time"]
 		respawn_strays_count = level_conditions["respawn_strays_count"]
 		level_points_limit = level_conditions["level_points_limit"]
+	if game_data["game"] == Profiles.Games.ENIGMA:
+		current_level = game_data["level_number"]
+		level_conditions = Profiles.enigma_level_conditions[current_level]
+		current_enigma_name = level_conditions["level_name"]
+		printt ("LEVEL", current_level, current_enigma_name)
 
 
 func _process(delta: float) -> void:
 	# namen: respawnanje straysov ... za eternal in upoštevanje wall straysov zaznavanju cleaned
-	
 	
 	var wall_strays_count: int
 	for stray in get_tree().get_nodes_in_group(Global.group_strays):
@@ -95,6 +99,34 @@ func start_game():
 			respawn_timer.start(first_respawn_time)
 
 
+func set_tilemap():
+	# namen: load enigma level tilemap
+	
+	var tilemap_to_release: TileMap = Global.current_tilemap # trenutno naložen v areni
+	
+	var tilemap_to_load_path: String
+	if game_data["game"] == Profiles.Games.ENIGMA: # path vlečem iz level conditions
+		tilemap_to_load_path = level_conditions["level_tilemap_path"]
+	else:
+		tilemap_to_load_path = game_data["tilemap_path"]
+		
+	# release default tilemap	
+	tilemap_to_release.set_physics_process(false)
+	tilemap_to_release.free()
+	
+	# spawn new tilemap
+	var GameTilemap = ResourceLoader.load(tilemap_to_load_path)
+	var new_tilemap = GameTilemap.instance()
+	Global.node_creation_parent.add_child(new_tilemap) # direct child of root
+	
+	# povežem s signalom	
+	Global.current_tilemap.connect("tilemap_completed", self, "_on_tilemap_completed")
+	
+	# grab tilemap tiles
+	Global.current_tilemap.get_tiles()
+	cell_size_x = Global.current_tilemap.cell_size.x 
+	
+	
 # STRAYS --------------------------------------------------------------------------------------------	
 
 
@@ -316,7 +348,7 @@ func upgrade_level(): # za eternal
 	Global.hud.level_up_popup_in(current_level)
 	
 	# set for new level
-	set_level_conditions() 
+	set_new_level_conditions() 
 	Global.hud.empty_color_indicators()
 	get_tree().call_group(Global.group_players, "set_physics_process", false)
 	clean_strays_in_game() # puca vse v igri
@@ -338,17 +370,19 @@ func upgrade_level(): # za eternal
 	respawn_timer.start(first_respawn_time)
 	
 
-func set_level_conditions(): # za eternal
-
-	if current_level > 0:
-		level_points_limit += level_conditions["level_points_limit_grow"]
-		respawn_wait_time *= level_conditions["respawn_wait_time_factor"]
-		respawn_strays_count = level_conditions["respawn_strays_count_grow"]
-		# število spawnanih straysov
-		start_strays_spawn_count += level_conditions["level_spawn_strays_count_grow"]
+func set_new_level_conditions(): # za eternal
 	
-	if current_level == 1:
-		start_strays_spawn_count = game_data["strays_start_count"]
+	if game_settings["eternal_mode"]:
+		if current_level > 0:
+			level_points_limit += level_conditions["level_points_limit_grow"]
+			respawn_wait_time *= level_conditions["respawn_wait_time_factor"]
+			respawn_strays_count = level_conditions["respawn_strays_count_grow"]
+			# število spawnanih straysov
+			start_strays_spawn_count += level_conditions["level_spawn_strays_count_grow"]
+		
+		if current_level == 1:
+			start_strays_spawn_count = game_data["strays_start_count"]
+	
 
 
 func _change_strays_in_game_count(strays_count_change: int):

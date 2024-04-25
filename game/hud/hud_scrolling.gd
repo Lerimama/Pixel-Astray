@@ -86,20 +86,20 @@ func fade_in_instructions_popup(in_time: float):
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
 		win_label.text = "Collect colors to progress through all 10 levels."
-		label.text = "Game is over when first wall column reaches the top or you have no room to move."
-		label_2.text = "Energy and speed are constant."
-		label_3.text = "Bursting always collects all colors in stack."
-		label_4.text = "Skills are not available."
-		label_5.text = "Time is unlimited."
-		label_6.text = "Highscore is the highest points total."
+		instructions_label.text = "Game is over when first wall column reaches the top or you have no room to move."
+		instructions_label_2.text = "Energy and speed are constant."
+		instructions_label_3.text = "Bursting always collects all colors in stack."
+		instructions_label_4.text = "Skills are not available."
+		instructions_label_5.text = "Time is unlimited."
+		instructions_label_6.text = "Highscore is the highest points total."
 	elif Global.game_manager.game_data["game"] == Profiles.Games.SLIDER:
 		win_label.text = "Collect colors to progress through all 10 levels."
-		label.text = "Game is over when you are out of energy."
-		label_2.text = "Energy depletes with travelling, touching stray pixels or hitting a wall."
-		label_3.text = "Bursting always collects all colors in stack."
-		label_4.text = "Skills are not available."
-		label_5.text = "Time is unlimited."
-		label_6.text = "Highscore is the highest points total."
+		instructions_label.text = "Game is over when you are out of energy."
+		instructions_label_2.text = "Energy depletes with travelling, touching stray pixels or hitting a wall."
+		instructions_label_3.text = "Bursting always collects all colors in stack."
+		instructions_label_4.text = "Skills are not available."
+		instructions_label_5.text = "Time is unlimited."
+		instructions_label_6.text = "Highscore is the highest points total."
 					
 	var show_instructions_popup = get_tree().create_tween()
 	show_instructions_popup.tween_callback(instructions_popup, "show")

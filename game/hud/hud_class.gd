@@ -71,13 +71,12 @@ onready var current_gamed_hs_type: int = Global.game_manager.game_data["highscor
 # instructions popup
 onready var title: Label = $Popups/Instructions/GameInstructions/Title
 onready var win_label: Label = $Popups/Instructions/GameInstructions/WinLabel
-onready var label: Label = $Popups/Instructions/GameInstructions/Outline/Label
-onready var label_2: Label = $Popups/Instructions/GameInstructions/Outline/Label2
-onready var label_3: Label = $Popups/Instructions/GameInstructions/Outline/Label3
-onready var label_4: Label = $Popups/Instructions/GameInstructions/Outline/Label4
-onready var label_5: Label = $Popups/Instructions/GameInstructions/Outline/Label5
-onready var label_6: Label = $Popups/Instructions/GameInstructions/Outline/Label6
-
+onready var instructions_label: Label = $Popups/Instructions/GameInstructions/Outline/Label
+onready var instructions_label_2: Label = $Popups/Instructions/GameInstructions/Outline/Label2
+onready var instructions_label_3: Label = $Popups/Instructions/GameInstructions/Outline/Label3
+onready var instructions_label_4: Label = $Popups/Instructions/GameInstructions/Outline/Label4
+onready var instructions_label_5: Label = $Popups/Instructions/GameInstructions/Outline/Label5
+onready var instructions_label_6: Label = $Popups/Instructions/GameInstructions/Outline/Label6
 
 # debug
 onready var player_life: Label = $Life
@@ -329,12 +328,12 @@ func slide_out(): # kliče GM na game over
 func fade_in_instructions_popup(in_time: float):
 
 	title.text %= "Game name"
-	label.text %= "power vs kill"
-	label_2.text %= "kontrole"
-	label_3.text %= "energija"
-	label_4.text %= "lajf"
-	label_5.text %= "kaj šteje"
-	label_6.text %= "GO pogoji"
+	instructions_label.text %= "power vs kill"
+	instructions_label_2.text %= "kontrole"
+	instructions_label_3.text %= "energija"
+	instructions_label_4.text %= "lajf"
+	instructions_label_5.text %= "kaj šteje"
+	instructions_label_6.text %= "GO pogoji"
 			
 	var show_instructions_popup = get_tree().create_tween()
 	show_instructions_popup.tween_callback(instructions_popup, "show")

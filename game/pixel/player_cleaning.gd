@@ -17,6 +17,9 @@ onready var reburst_hit_power: int = Global.game_manager.game_settings["reburst_
 # neu
 var enigma_move_started: bool = false # ob cockanju se začne poteza (konča se v steni ali na koncu reburstanja, kadar resetam reburst_count)
 var enigma_mode: bool = true
+var enigma_start_strays_count: int = 0 # število straysow pred movetom
+var enigma_cleaned_strays_count: int = 0 # beleži vse uničene v času enigma move
+
 
 func idle_inputs():
 	# namen: rebursting_inputs reburst_count reset ... za reburst
@@ -80,8 +83,9 @@ func idle_inputs():
 			pixel_color = change_to_color
 		burst_light_on()
 		reburst_count = 0
-		if enigma_mode:	
-			finish_enigma_move()
+		if enigma_mode:
+			enigma_move_started = true	
+			enigma_start_strays_count = Global.game_manager.strays_in_game_count
 			
 		
 func end_move():
@@ -111,7 +115,7 @@ func end_move():
 		
 
 func on_hit_stray(hit_stray: KinematicBody2D):
-	# namen: activate reburst
+	# namen: activate reburst, enigma cleaned count
 	
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
 	play_sound("hit_stray")	
@@ -153,6 +157,8 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	for stray in strays_to_destroy:
 		var stray_index = strays_to_destroy.find(stray)
 		stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
+		if enigma_mode:
+			enigma_cleaned_strays_count += 1
 
 	change_stat("hit_stray", strays_to_destroy.size()) # štetje, točke in energija glede na število uničenih straysov
 
@@ -325,19 +331,35 @@ func reburst():
 
 
 func close_reburst_window():
-	
+	# se resetira na vsak reburst in drugo 
 	can_reburst = false
 	rebursting_timer.stop()
 	burst_light_off()
 		
 		
 func _on_ReburstingTimer_timeout() -> void:
+	# čas zamujen ... ne moreš več reburstat
+	# resetira vse
+	print("stop reburst on timer")
 	close_reburst_window()
+	reburst_count = 0
+	if enigma_mode:	
+		finish_enigma_move()
 
 	
 # ENIGMA ------------------------------------------------------------------
 	
 	
 func finish_enigma_move():
-	enigma_move_started = false
+	
+	if enigma_move_started:
+		enigma_move_started = false
+		print("GO FALSE")
+		# če je količina uničenih enaka količini na ekranu
+		if enigma_cleaned_strays_count < enigma_start_strays_count:
+			print("PORAZ - TIME")
+			Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
+		else:
+			print("ZMAGA - CLEANED")
+			pass # to naredi GM po defaultu
 	# ček for succes

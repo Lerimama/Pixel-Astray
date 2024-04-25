@@ -3,7 +3,10 @@ extends GameHud
 
 onready var level_up_popup: Control = $Popups/LevelUp # za eternal
 onready var level_limit_holder: HBoxContainer = $Footer/FooterLine/LevelLimitHolder
-onready var level_limit_label: Label = $Footer/FooterLine/LevelLimitHolder/Label
+onready var level_limit_label_1: Label = $Footer/FooterLine/LevelLimitHolder/Label
+onready var level_limit_label_2: Label = $Footer/FooterLine/LevelLimitHolder/Label2
+onready var pixel_picked_holder: HBoxContainer = $Footer/FooterLine/StraysLine/PickedHolder
+onready var pixel_astray_holder: HBoxContainer = $Footer/FooterLine/StraysLine/AstrayHolder
 
 
 func _process(delta: float) -> void:
@@ -12,6 +15,7 @@ func _process(delta: float) -> void:
 	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
 	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
 	
+	# zapis točk do rekorda
 	if Global.game_manager.game_settings["eternal_mode"]:
 		level_label.text = "%02d" % Global.game_manager.current_level 
 		# kateri ima višji score
@@ -20,11 +24,17 @@ func _process(delta: float) -> void:
 			if player.player_stats["player_points"] > current_biggest_score:
 				current_biggest_score = player.player_stats["player_points"]
 		# razlika med limito in višjim skorom
-		level_limit_label.text = "%d" % (Global.game_manager.level_points_limit - current_biggest_score) 
-	
+		level_limit_label_1.text = "%d" % (Global.game_manager.level_points_limit - current_biggest_score) 
+		level_limit_label_2.text = "POINTS TO LEVEL UP"
+	# zapis straysov na mizi
+	elif Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
+		level_label.text = "%s" % Global.game_manager.current_enigma_name 
+		level_limit_label_1.text = "%d" % Global.game_manager.strays_in_game_count
+		level_limit_label_2.text = "COLORS TO PICK"
+
 
 func set_hud(players_count: int): # kliče main na game-in
-	# namen: dodam level points limit counter ... za eternal
+	# namen: dodam level points limit counter za eternal in setam hud za enigmo 
 	
 	if players_count == 1:
 		# players
@@ -55,12 +65,22 @@ func set_hud(players_count: int): # kliče main na game-in
 	# level label
 	if Global.game_manager.game_data["level"].empty():
 		level_label.visible = false
-		
+	
+	# eternal		
 	if Global.game_manager.game_settings["eternal_mode"]:
 		p1_energy_counter.visible = false
-		p2_energy_counter.visible = true	
+		p2_energy_counter.visible = false	
 		level_limit_holder.visible = true
 		strays_counters_holder.visible = false
+	
+	if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
+		p1_energy_counter.visible = false
+		p1_points_counter.visible = false
+		highscore_label.visible = true
+		strays_counters_holder.visible = false
+		level_limit_holder.visible = true
+#		pixel_picked_holder.visible = false
+#		pixel_astray_holder.visible = true
 	
 	# glede na to kaj šteje ...
 	if current_gamed_hs_type == Profiles.HighscoreTypes.NO_HS:
@@ -88,45 +108,55 @@ func fade_in_instructions_popup(in_time: float):
 		$Popups/Instructions/ControlsDuel.hide()
 		title.text = Global.game_manager.game_data["game_name"]
 		win_label.text = "Collect colors and beat the highscore."
-		label.text = "Game is over when you are out of energy, life or the screen is full of colors."
-		label_2.text = "Energy depletes with travelling."
-		label_3.text = "Bursting power affects the amount of collected colors in stack."
-		label_4.text = "No time limit. Pixels never stop appearing."
-		label_5.text = "Highscore is the highest points total"
-		label_6.text = "Don't try to beat the game. It's useless."
+		instructions_label.text = "Game is over when you are out of energy, life or the screen is full of colors."
+		instructions_label_2.text = "Energy depletes with travelling."
+		instructions_label_3.text = "Bursting power affects the amount of collected colors in stack."
+		instructions_label_4.text = "No time limit. Pixels never stop appearing."
+		instructions_label_5.text = "Highscore is the highest points total"
+		instructions_label_6.text = "Don't try to beat the game. It's useless."
+	elif Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
+		title.text = Global.game_manager.game_data["game_name"]  + " " + Global.game_manager.level_conditions["level_name"]
+		win_label.text = "Collect all colors with a single burst."
+		instructions_label.text = Global.game_manager.level_conditions["level_description"]
+#		instructions_label.text = "DODAJ ŠE NAVODILA ... OPIS LEVELA"
+		instructions_label_2.text = "" #"Energy and speed are constant."
+		instructions_label_3.text = "Bursting collects all colors in stack, reburst collects one."
+		instructions_label_4.text = "No time limit. Highscore is the fastest time."
+		instructions_label_5.text = ""
+		instructions_label_6.text = "Game is over when you burst and don't collect all available colors."
 	elif Global.game_manager.game_data["game"] == Profiles.Games.CLEANER:
 		$Popups/Instructions/Controls.show()
 		$Popups/Instructions/ControlsDuel.hide()
 		title.text = Global.game_manager.game_data["game_name"]
 		win_label.text = "Collect colors and beat the highscore."
-		label.text = "Game is over when you are out of energy or time runs out."
-		label_2.text = "Energy depletes with travelling or hitting a wall."
-		label_3.text = "Bursting power affects the amount of collected colors in stack."
-		label_4.text = "Time is limited."
-		label_5.text = "Highscore is the highest points total."
-		label_6.text = ""
+		instructions_label.text = "Game is over when you are out of energy or time runs out."
+		instructions_label_2.text = "Energy depletes with travelling or hitting a wall."
+		instructions_label_3.text = "Bursting power affects the amount of collected colors in stack."
+		instructions_label_4.text = "Time is limited."
+		instructions_label_5.text = "Highscore is the highest points total."
+		instructions_label_6.text = ""
 	elif Global.game_manager.game_data["game"] == Profiles.Games.CLEANER_DUEL:
 		$Popups/Instructions/Controls.hide()
 		$Popups/Instructions/ControlsDuel.show()
 		title.text = Global.game_manager.game_data["game_name"] + " " + Global.game_manager.game_data["level"]
 		win_label.text = "Surviving player or player with higher points total wins."
-		label.text = "Game is over when a player loses all lives or time runs out."
-		label_2.text = "Energy depletes with travelling or hitting a wall."
-		label_3.text = "Bursting power affects the amount of collected colors in stack."
-		label_4.text = "Time is limited."
-		label_5.text = "No highscores."
-		label_6.text = ""
+		instructions_label.text = "Game is over when a player loses all lives or time runs out."
+		instructions_label_2.text = "Energy depletes with travelling or hitting a wall."
+		instructions_label_3.text = "Bursting power affects the amount of collected colors in stack."
+		instructions_label_4.text = "Time is limited."
+		instructions_label_5.text = "No highscores."
+		instructions_label_6.text = ""
 	else: # ERASERji
 		$Popups/Instructions/Controls.show()
 		$Popups/Instructions/ControlsDuel.hide()
 		title.text = Global.game_manager.game_data["game_name"] + " " + Global.game_manager.game_data["level"]
 		win_label.text = "Collect all available colors."
-		label.text = "Game is over when you are out of energy."
-		label_2.text = "Energy depletes with travelling or hitting a wall."
-		label_3.text = "Bursting power affects the amount of collected colors in stack."
-		label_4.text = "Time is unlimited."
-		label_5.text = "Highscore is the fastest time."
-		label_6.text = ""
+		instructions_label.text = "Game is over when you are out of energy."
+		instructions_label_2.text = "Energy depletes with travelling or hitting a wall."
+		instructions_label_3.text = "Bursting power affects the amount of collected colors in stack."
+		instructions_label_4.text = "Time is unlimited."
+		instructions_label_5.text = "Highscore is the fastest time."
+		instructions_label_6.text = ""
 
 	var show_instructions_popup = get_tree().create_tween()
 	show_instructions_popup.tween_callback(instructions_popup, "show")

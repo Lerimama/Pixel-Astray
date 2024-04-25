@@ -291,9 +291,11 @@ var game_data_enigma: Dictionary = {
 	"game_name": "Enigma",
 	"level": "0", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
 	"game_scene_path": "res://game/game_cleaning.tscn",
-	"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_00.tscn", # odvisna od sselected level
+	"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_00.tscn", # samo za prvo stopnjo
 	"game_time_limit": 0, # odvisna od selected level
 	"strays_start_count": 0, # 468 jih je v stackih
+	
+	"level_number": 1, # tole se seta ob izbiri igre v home ... vpliva na pogoje
 }
 
 # LEVEL -----------------------------------------------------------------------------------
@@ -480,6 +482,23 @@ var eternal_level_conditions: Dictionary = {
 	},
 }
 
+var enigma_level_conditions: Dictionary = {
+	1: {
+		"level_name": "ONE", # prištejem z vsakim levelom
+		"level_hs": 1, # prištejem z vsakim levelom
+		"strays_to_clean_count": 0,
+		"level_tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_00.tscn",
+		"level_description": "Description ...",
+	},
+	2: {
+		"level_name": "TWO", # prištejem z vsakim levelom
+		"level_hs": 1, # prištejem z vsakim levelom
+		"strays_to_clean_count": 0,
+		"level_tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_01.tscn",
+		"level_description": "Description ...",
+	},
+}
+
 
 # ON GAME START -----------------------------------------------------------------------------------
 
@@ -513,6 +532,7 @@ func set_game_data(selected_game) -> void:
 	match selected_game:
 		Games.ENIGMA: 
 			current_game_data = game_data_enigma
+			current_game_data["level_number"] = 1
 			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
 			game_settings["lose_life_on_hit"] = true
 			game_settings["timer_mode_countdown"] = false
@@ -520,13 +540,13 @@ func set_game_data(selected_game) -> void:
 			game_settings["position_indicators_mode"] = false
 			game_settings["color_picked_points"] = 0
 			game_settings["all_cleaned_points"] = 0
-			# iz riddlerja
-#			game_settings["eternal_mode"] = true
-#			game_settings["on_hit_energy_part"] = 1
-#			game_settings["camera_fixed"] = false
 			#
+#			game_settings["camera_fixed"] = false
+			game_settings["player_start_color"] = Color.white
 			game_settings["start_countdown"] = false
 			game_settings["game_instructions_popup"] = false
+			
+			
 		Games.ETERNAL: 
 			current_game_data = game_data_eternal
 			game_settings["eternal_mode"] = true
@@ -542,7 +562,6 @@ func set_game_data(selected_game) -> void:
 			#
 			game_settings["start_countdown"] = false
 			game_settings["game_instructions_popup"] = false
-						
 		Games.ETERNAL_XL: 
 			current_game_data = game_data_eternal_xl
 			game_settings["eternal_mode"] = true
@@ -617,7 +636,6 @@ func set_game_data(selected_game) -> void:
 			# debug kombo
 			game_settings["game_instructions_popup"] = false
 			game_settings["start_countdown"] = false
-			
 		Games.RIDDLER_S:
 			current_game_data = game_data_riddler_S
 			game_settings["cell_traveled_energy"] = 0
@@ -627,7 +645,6 @@ func set_game_data(selected_game) -> void:
 			game_settings["timer_mode_countdown"] = false
 			game_settings["camera_fixed"] = true
 			game_settings["position_indicators_mode"] = false 
-#			game_settings["player_start_color"] = Color.white
 		Games.RIDDLER_M:
 			current_game_data = game_data_riddler_M
 			game_settings["cell_traveled_energy"] = 0
@@ -637,7 +654,6 @@ func set_game_data(selected_game) -> void:
 			game_settings["timer_mode_countdown"] = false
 			game_settings["camera_fixed"] = true
 			game_settings["position_indicators_mode"] = false 
-#			game_settings["player_start_color"] = Color.white
 		Games.RIDDLER_L:
 			current_game_data = game_data_riddler_L
 			game_settings["cell_traveled_energy"] = 0
@@ -647,4 +663,3 @@ func set_game_data(selected_game) -> void:
 			game_settings["timer_mode_countdown"] = false
 			game_settings["camera_fixed"] = true
 			game_settings["position_indicators_mode"] = false 
-#			game_settings["player_start_color"] = Color.white
