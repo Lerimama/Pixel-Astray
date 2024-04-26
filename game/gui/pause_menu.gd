@@ -97,7 +97,7 @@ func _on_QuitBtn_pressed() -> void:
 	Global.game_manager.stop_game_elements()
 	Global.sound_manager.stop_music("game_music_on_gameover")
 	# get_tree().paused = false ... tween za izhod pavzo drevesa ignorira
-	Global.main_node.game_out()
+	Global.main_node.game_out(Global.game_manager.game_data["game"])
 
 
 # SETTINGS BTNZ ---------------------------------------------------------------------------------------------

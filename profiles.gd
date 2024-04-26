@@ -492,6 +492,55 @@ var enigma_level_conditions: Dictionary = {
 		"level_tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_01.tscn",
 		"level_description": "Description ...",
 	},
+	3: {
+		"level_name": "THREE", # prištejem z vsakim levelom
+		"level_hs": 1, # prištejem z vsakim levelom
+		"strays_to_clean_count": 0,
+		"level_tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_01.tscn",
+		"level_description": "Description ...",
+	},
+	4: {
+		"level_name": "FOUR", # prištejem z vsakim levelom
+		"level_hs": 1, # prištejem z vsakim levelom
+		"strays_to_clean_count": 0,
+		"level_tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_01.tscn",
+		"level_description": "Description ...",
+	},
+	5: {
+		"level_name": "FIVE", # prištejem z vsakim levelom
+		"level_hs": 1, # prištejem z vsakim levelom
+		"strays_to_clean_count": 0,
+		"level_tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_01.tscn",
+		"level_description": "Description ...",
+	},
+	6: {
+		"level_name": "SIX", # prištejem z vsakim levelom
+		"level_hs": 1, # prištejem z vsakim levelom
+		"strays_to_clean_count": 0,
+		"level_tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_01.tscn",
+		"level_description": "Description ...",
+	},
+	7: {
+		"level_name": "SEVEN", # prištejem z vsakim levelom
+		"level_hs": 1, # prištejem z vsakim levelom
+		"strays_to_clean_count": 0,
+		"level_tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_01.tscn",
+		"level_description": "Description ...",
+	},
+	8: {
+		"level_name": "EIGHT", # prištejem z vsakim levelom
+		"level_hs": 1, # prištejem z vsakim levelom
+		"strays_to_clean_count": 0,
+		"level_tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_01.tscn",
+		"level_description": "Description ...",
+	},
+	9: {
+		"level_name": "NINE", # prištejem z vsakim levelom
+		"level_hs": 1, # prištejem z vsakim levelom
+		"strays_to_clean_count": 0,
+		"level_tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_01.tscn",
+		"level_description": "Description ...",
+	},
 }
 
 

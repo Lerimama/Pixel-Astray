@@ -1,18 +1,16 @@
 extends Control
 
 
-onready var cleaner_table: VBoxContainer = $CleanerTable
+onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
 
+onready var cleaner_table: VBoxContainer = $CleanerTable
 onready var eraser_s_table: VBoxContainer = $EraserSTable
 onready var eraser_m_table: VBoxContainer = $EraserMTable
 onready var eraser_l_table: VBoxContainer = $EraserLTable
-
 onready var runner_table: VBoxContainer = $RunnerTable
-
 onready var riddler_s_table: VBoxContainer = $RiddlerSTable
 onready var riddler_m_table: VBoxContainer = $RiddlerMTable
 onready var riddler_l_table: VBoxContainer = $RiddlerLTable
-
 onready var scroller_table: VBoxContainer = $ScrollerTable
 onready var slider_table: VBoxContainer = $SliderTable
 
@@ -42,5 +40,5 @@ func _ready() -> void:
 func _on_BackBtn_pressed() -> void:
 	
 	Global.sound_manager.play_gui_sfx("screen_slide")
-	$"%AnimationPlayer".play_backwards("highscores")
+	animation_player.play_backwards("highscores")
 	get_viewport().set_disable_input(true)

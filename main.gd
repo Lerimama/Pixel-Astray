@@ -12,8 +12,8 @@ func _ready() -> void:
 	Global.main_node = self
 	
 #	home_in_intro()
-#	home_in_no_intro()
-	game_in()
+	home_in_no_intro()
+#	game_in()
 
 #func _process(delta: float) -> void:
 #	print("GUI INPUT ", get_viewport().gui_disable_input)
@@ -40,12 +40,13 @@ func home_in_no_intro(): # debug
 	fade_in.tween_property(Global.current_scene, "modulate", Color.white, fade_time)
 
 
-func home_in_from_game():
+func home_in_from_game(from_game: int):
 	
 	get_tree().set_pause(false)
 	
 	Global.spawn_new_scene(home_scene_path, self)
-	Global.current_scene.open_from_game() # select game screen
+	
+	Global.current_scene.open_from_game(from_game) # select game screen
 	
 	yield(get_tree().create_timer(0.7), "timeout") # da se title naštima
 	
@@ -87,7 +88,7 @@ func game_in():
 	fade_in.tween_callback(Global.game_manager, "set_game")
 	
 
-func game_out():
+func game_out(game_to_exit: int):
 	
 	get_viewport().set_disable_input(true) # anti dablklik
 	
@@ -99,7 +100,7 @@ func game_out():
 	var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
 	fade_out.tween_callback(Global, "release_scene", [Global.current_scene])
-	fade_out.tween_callback(self, "home_in_from_game").set_delay(1) # fajn delay ker se release zgodi šele v naslednjem frejmu
+	fade_out.tween_callback(self, "home_in_from_game", [game_to_exit]).set_delay(1) # fajn delay ker se release zgodi šele v naslednjem frejmu
 
 
 func reload_game(): # game out z drugačnim zaključkom

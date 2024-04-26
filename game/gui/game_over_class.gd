@@ -329,4 +329,4 @@ func _on_RestartBtn_pressed() -> void:
 	
 func _on_QuitBtn_pressed() -> void:
 
-	Global.main_node.game_out()
+	Global.main_node.game_out(Global.game_manager.game_data["game"])

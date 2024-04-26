@@ -1,7 +1,7 @@
 extends Node
 
 
-enum Screens {MAIN_MENU, SELECT_GAME, ABOUT, SETTINGS, HIGHSCORES}
+enum Screens {MAIN_MENU, SELECT_GAME, ABOUT, SETTINGS, HIGHSCORES, SELECT_LEVEL}
 var current_screen # se določi z main animacije
 
 var current_esc_hint: HBoxContainer
@@ -25,6 +25,8 @@ func _input(event: InputEvent) -> void:
 				$Settings._on_BackBtn_pressed()
 			Screens.HIGHSCORES:
 				$Highscores._on_BackBtn_pressed()
+			Screens.SELECT_LEVEL:
+				$SelectLevel._on_BackBtn_pressed()
 	
 					
 func _ready():
@@ -44,14 +46,18 @@ func open_without_intro(): # debug ... kliče main.gd -> home_in_no_intro()
 	intro.finish_intro() # intro signal na koncu kliče menu_in()
 
 
-func open_from_game(): # select_game screen ... kliče main.gd -> home_in_from_game()
+func open_from_game(from_game: int): # select_game screen ... kliče main.gd -> home_in_from_game()
+	
+	if from_game == Profiles.Games.ENIGMA:
+		animation_player.play("select_enigma_level")
+		current_screen = Screens.SELECT_LEVEL
+	else:
+		animation_player.play("select_game")
+		current_screen = Screens.SELECT_GAME
 	
 	# premik animacije na konec
-	animation_player.play("select_game")
 	var animation_length: float = animation_player.get_current_animation_length()
 	animation_player.advance(animation_length)
-	
-	current_screen = Screens.SELECT_GAME
 	intro.finish_intro()
 
 	
@@ -74,7 +80,7 @@ func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drug
 
 func _on_Intro_finished_playing() -> void:
 	
-	if not current_screen == Screens.SELECT_GAME: # v primeru ko se vrnem iz igre
+	if not current_screen == Screens.SELECT_GAME and not current_screen == Screens.SELECT_LEVEL : # v primeru ko se vrnem iz igre
 		menu_in()
 	
 	if not Global.sound_manager.menu_music_set_to_off: # tale pogoj je možen samo ob vračanju iz igre
@@ -110,7 +116,18 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 			current_screen = Screens.HIGHSCORES
 			current_esc_hint = $Highscores/EscHint
 			Global.grab_focus_no_sfx($Highscores/BackBtn)
-		"play":
+		"play_game":
+			Global.main_node.home_out()
+		"select_enigma_level":
+			if animation_reversed("select_enigma_level"):
+				current_screen = Screens.SELECT_GAME
+				Global.grab_focus_no_sfx($SelectGame/Eternal/EnigmaBtn)
+				print("iz enigme")
+				return
+			current_screen = Screens.SELECT_LEVEL
+			current_esc_hint = $SelectLevel/EscHint
+			Global.grab_focus_no_sfx($SelectLevel/LevelGrid/GridContainer/Enigma01Btn)
+		"play_enigma_level":
 			Global.main_node.home_out()
 	
 	if current_esc_hint != null:
@@ -120,9 +137,14 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 
 func animation_reversed(from_screen: String):
 	
-	if animation_player.current_animation_position == 0: # pomeni da se odpre main menu
+	if animation_player.current_animation_position == 0: # pomeni, da je animacija v rikverc končana
 		current_esc_hint.modulate.a = 0
-		menu_in()
+		if from_screen == "select_enigma_level":
+			pass
+		else: # odpre se main menu ekran
+			print("iz drugje")
+			menu_in()
+		
 		return true
 
 

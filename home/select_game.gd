@@ -1,28 +1,20 @@
 extends Control
 
 onready var enigma_btn: Button = $Eternal/EnigmaBtn
-
-
-func _ready() -> void:
-	
-	# get solved enigmas
-	var solved_levels: Array = Global.data_manager.read_solved_status_from_file(Profiles.game_data_enigma)
-	if solved_levels.has(Profiles.game_data_enigma["level"]):
-		enigma_btn.modulate = Global.color_green
+onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
 	 
 
 func _on_BackBtn_pressed() -> void:
 	
 	Global.sound_manager.play_gui_sfx("screen_slide")
-	$"%AnimationPlayer".play_backwards("select_game")
-	
+	animation_player.play_backwards("select_game")
 	get_viewport().set_disable_input(true)
 	
 
 func play_selected_game(selected_game_enum: int):
 	Profiles.set_game_data(selected_game_enum)
 	Global.sound_manager.play_gui_sfx("menu_fade")
-	$"%AnimationPlayer".play("play")
+	animation_player.play("play_game")
 	get_viewport().set_disable_input(true)
 	
 		
@@ -39,8 +31,11 @@ func _on_EternalBtn_pressed() -> void:
 	play_selected_game(Profiles.Games.ETERNAL)
 func _on_EternalXLBtn_pressed() -> void:
 	play_selected_game(Profiles.Games.ETERNAL_XL)
+	
 func _on_Enigma_Btn_pressed() -> void:
-	play_selected_game(Profiles.Games.ENIGMA)
+	Global.sound_manager.play_gui_sfx("screen_slide")
+	animation_player.play("select_enigma_level")
+	get_viewport().set_disable_input(true)
 
 func _on_EraserSBtn_pressed() -> void:
 	play_selected_game(Profiles.Games.ERASER_S)
