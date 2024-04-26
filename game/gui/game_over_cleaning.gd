@@ -2,12 +2,9 @@ extends GameOver
 
 
 onready var timeup_label: Label = $GameoverTitle/ReasonTime/TimeupLabel
-
-# neu
-onready var game_summary_enigma: Control = $GameSummaryEnigma
-onready var enigma_highscore_table: VBoxContainer = $GameSummaryEnigma/HighscoreTable
-#onready var enigma_menu: HBoxContainer = $GameSummaryEnigma/Menu
-
+onready var enigma_game_summary: Control = $EnigmaGameSummary
+onready var enigma_highscore_table: VBoxContainer = $EnigmaGameSummary/HighscoreTable
+				
 				
 func _ready() -> void:
 	# namen: dodan enigam game summary
@@ -18,7 +15,7 @@ func _ready() -> void:
 	gameover_title_holder.visible = false
 	game_summary_holder.visible = false
 	name_input_popup.visible = false
-	game_summary_enigma.visible = false
+	enigma_game_summary.visible = false
 	
 
 func set_game_gameover_title():
@@ -135,13 +132,13 @@ func show_game_summary():
 	var game_summary_to_show: Control
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
-		focus_btn = game_summary_enigma.get_node("Menu/NextLevelBtn")
-		game_summary_enigma.get_node("DataContainer/Game").text %= str(Global.game_manager.game_data["game_name"])
-		game_summary_enigma.get_node("DataContainer/Level").text %= str(Global.game_manager.game_data["level"])
-		game_summary_enigma.get_node("DataContainer/AstrayPixels").text %= str(Global.game_manager.strays_in_game_count)
-		game_summary_enigma.visible = true	
-		game_summary_enigma.modulate.a = 0	
-		game_summary_to_show = game_summary_enigma
+		focus_btn = enigma_game_summary.get_node("Menu/NextLevelBtn")
+		enigma_game_summary.get_node("DataContainer/Game").text %= str(Global.game_manager.game_data["game_name"])
+		enigma_game_summary.get_node("DataContainer/Level").text %= str(Global.game_manager.game_data["level"])
+		enigma_game_summary.get_node("DataContainer/AstrayPixels").text %= str(Global.game_manager.strays_in_game_count)
+		enigma_game_summary.visible = true	
+		enigma_game_summary.modulate.a = 0	
+		game_summary_to_show = enigma_game_summary
 	else:
 		focus_btn = selected_game_summary.get_node("Menu/RestartBtn")
 		selected_game_summary.get_node("DataContainer/Game").text %= str(Global.game_manager.game_data["game_name"])

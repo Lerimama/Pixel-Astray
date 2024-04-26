@@ -19,8 +19,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_tree().call_group(Global.group_strays, "die_to_wall")
 	if Input.is_action_pressed("no1"):
 		upgrade_level()
-		
-	if Input.is_action_pressed("ui_accept"):
+	if Input.is_action_pressed("t"):
 		for n in 50:
 			# random stray to wall
 			var random_stray_index: int = randi() % int(strays_in_game_count)
@@ -49,8 +48,6 @@ func _ready() -> void:
 		current_level = game_data["level_number"]
 		level_conditions = Profiles.enigma_level_conditions[current_level]
 		game_data["level"] = level_conditions["level_name"]
-#		current_enigma_name = level_conditions["level_name"]
-#		printt ("LEVEL", current_level, current_enigma_name)
 
 
 func _process(delta: float) -> void:
@@ -79,7 +76,7 @@ func _process(delta: float) -> void:
 			show_position_indicators = false
 	else:
 		show_position_indicators = false
-
+	
 	
 func start_game():
 	# namen: turn to wall respawn štartrespawnanje straysov ... za eternal
@@ -272,7 +269,7 @@ func respawn_stray(): # za eternal
 		# get color
 		var spawned_stray_color: Color
 		# stray to wall color
-		if game_settings["stray_to_wall_mode"] and not get_tree().get_nodes_in_group(Global.group_strays).empty():
+		if game_settings["turn_stray_to_wall"] and not get_tree().get_nodes_in_group(Global.group_strays).empty():
 			spawned_stray_color = turn_random_strays_to_wall()
 			yield(get_tree().create_timer(1), "timeout") # da se ne spawna, ko še ni wall
 		# random color

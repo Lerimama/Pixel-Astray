@@ -96,7 +96,7 @@ func show_gameover_title():
 	fade_in.tween_callback(gameover_title_holder, "show")
 	fade_in.tween_property(gameover_title_holder, "modulate:a", 1, 1)
 	fade_in.parallel().tween_callback(Global.sound_manager, "stop_music", ["game_music_on_gameover"])
-	fade_in.parallel().tween_callback(Global.sound_manager, "play_gui_sfx", [selected_gameover_jingle])
+	fade_in.parallel().tween_callback(Global.sound_manager, "play_sfx", [selected_gameover_jingle])
 	fade_in.parallel().tween_property(background, "color:a", background_fadein_transparency, 0.5).set_delay(0.5) # a = cca 140
 	fade_in.tween_callback(self, "show_gameover_menu").set_delay(2)
 	

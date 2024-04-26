@@ -114,20 +114,20 @@ func _on_Timer_timeout() -> void:
 		game_time_seconds -= 1
 		# game over countdown
 		if game_time_seconds < 1:
-			Global.sound_manager.play_gui_sfx("game_countdown_b")
+			Global.sound_manager.play_sfx("game_countdown_b")
 			modulate = Global.color_red
 		elif game_time_seconds <= gameover_countdown_duration and game_time_seconds > 0:
-			Global.sound_manager.play_gui_sfx("game_countdown_a")
+			Global.sound_manager.play_sfx("game_countdown_a")
 			modulate = Global.color_red
 	else:
 		game_time_seconds += 1
 		# game over countdown
 		if not limitless_mode:
 			if game_time_seconds > game_time_limit - 1:
-				Global.sound_manager.play_gui_sfx("countdown_b")
+				Global.sound_manager.play_sfx("countdown_b")
 				modulate = Global.color_red
 			elif game_time_seconds >= game_time_limit - gameover_countdown_duration:
-				Global.sound_manager.play_gui_sfx("countdown_a")
+				Global.sound_manager.play_sfx("countdown_a")
 				modulate = Global.color_red
 
 	

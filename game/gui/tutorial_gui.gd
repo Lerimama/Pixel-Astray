@@ -133,7 +133,7 @@ func finish_tutorial():
 	
 	if not current_tutorial_stage == TutorialStage.WINLOSE:
 		return
-	Global.sound_manager.play_gui_sfx("tutorial_stage_done")
+	Global.sound_manager.play_sfx("tutorial_stage_done")
 	
 	var fadeout_delay: float = 3  # čaka končanje GO animacijo plejerja
 	var close_final_stage = get_tree().create_tween()
@@ -155,7 +155,7 @@ func finish_unfinished_tutorial():
 
 func change_stage(stage_to_hide: Control, next_stage: Control, next_stage_enum: int):
 	
-	Global.sound_manager.play_gui_sfx("tutorial_stage_done")
+	Global.sound_manager.play_sfx("tutorial_stage_done")
 	current_tutorial_stage = next_stage_enum
 	
 	yield(get_tree().create_timer(1), "timeout")

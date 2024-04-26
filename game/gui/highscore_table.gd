@@ -3,6 +3,7 @@ extends VBoxContainer
 
 onready var highscore_table_title: Label = $Title
 
+
 func get_highscore_table(current_game_data: Dictionary, current_player_ranking: int):
 	
 	var current_game_hs_type = current_game_data["highscore_type"]

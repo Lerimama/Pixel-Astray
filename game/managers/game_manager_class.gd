@@ -19,6 +19,8 @@ var strays_shown: Array = []
 var strays_in_game_count: int setget _change_strays_in_game_count # spremlja spremembo količine aktivnih in uničenih straysov
 var strays_cleaned_count: int = 0 # za statistiko na hudu
 var all_strays_died_alowed: bool = false # za omejevanje signala iz FP ... kdaj lahko reagira na 0 straysov v igri
+var all_stray_colors: Array # barve na štartnem spawnu (site kot v spektrumu)
+var available_respawn_positions: Array # pozicije na voljo, ki se apdejtajo na vsak stray in player spawn ali usmrtitev 
 
 # tilemap data
 var cell_size_x: int # napolne se na koncu setanju tilemapa
@@ -28,23 +30,13 @@ var goal_stray_positions: Array
 
 onready var game_settings: Dictionary = Profiles.game_settings # ga med igro ne spreminjaš
 onready var game_data: Dictionary = Profiles.current_game_data # .duplicate() # duplikat default profila, ker ga me igro spreminjaš
+onready var start_strays_spawn_count: int = game_data["strays_start_count"] # število se lahko popravi iz tilempa signala
 onready var spectrum_rect: TextureRect = $Spectrum
 onready var spectrum_gradient: TextureRect = $SpectrumGradient
 onready var StrayPixel: PackedScene = preload("res://game/pixel/stray_class.tscn")
 onready var PlayerPixel: PackedScene = preload("res://game/pixel/player_class.tscn")
 
-# neu
-var all_stray_colors: Array
-var available_respawn_positions: Array # pozicije na voljo, ki se apdejtajo na vsak stray in player spawn ali usmrtitev 
-onready var start_strays_spawn_count: int = game_data["strays_start_count"] # število se lahko popravi iz tilempa signala
 
-
-func _unhandled_input(event: InputEvent) -> void:
-
-	if Input.is_action_pressed("t"):
-		pass
-
-		
 func _ready() -> void:
 	
 	Global.game_manager = self
@@ -104,6 +96,8 @@ func set_game():
 	
 	Global.hud.slide_in(start_players_count)
 	yield(Global.start_countdown, "countdown_finished") # sproži ga hud po slide-inu
+	
+	printt("POZ 3", Global.player1_camera.position, Global.player1_camera.get_camera_position())
 	
 	start_game()
 	
@@ -181,13 +175,27 @@ func set_game_view():
 	var viewport_container_2: ViewportContainer = $"%ViewportContainer2"
 	var viewport_separator: VSeparator = $"%ViewportSeparator"
 	
-	var cell_align_start: Vector2 = Vector2(cell_size_x, cell_size_x/2)
-	Global.player1_camera.position = player_start_positions[0] + cell_align_start
+#	printt("POZ 1", Global.player1_camera.position)
+#	printt("POZ 2", Global.player1_camera.position, Global.player1_camera.get_camera_position())
 	
+	# pre-zoom pozicija kamere
+#	var tilemap_center: Vector2 = Vector2(Global.current_tilemap.get_used_rect().size.x, Global.current_tilemap.get_used_rect().size.y) * cell_size_x / 2 
+#	tilemap_center = Vector2(2200, Global.current_tilemap.get_used_rect().size.y) * cell_size_x / 2 
+#	var cell_align_start: Vector2 = Vector2(cell_size_x, cell_size_x/2)
+#
+#	if game_data["game"] == Profiles.Games.ENIGMA:	
+#		Global.player1_camera.position = tilemap_center
+#		printt ("P", tilemap_center, Global.player1_camera.position, player_start_positions[0] )
+#	else:	
+#		Global.player1_camera.position = player_start_positions[0] + cell_align_start
+#
 	if start_players_count == 2:
 		viewport_container_2.visible = true
 		viewport_2.world_2d = viewport_1.world_2d
-		Global.player2_camera.position = player_start_positions[1] + cell_align_start
+#		if game_data["game"] == Profiles.Games.ENIGMA:	
+#			Global.player1_camera.position = tilemap_center
+#		else:
+#			Global.player2_camera.position = player_start_positions[1] + cell_align_start
 	else:
 		viewport_container_2.visible = false
 		viewport_separator.visible = false
@@ -195,7 +203,9 @@ func set_game_view():
 	# set player camera limits
 	var tilemap_edge = Global.current_tilemap.get_used_rect()
 	get_tree().call_group(Global.group_player_cameras, "set_camera_limits")
-	
+	if game_data["game"] == Profiles.Games.ENIGMA:	
+		get_tree().call_group(Global.group_player_cameras, "set_zoom_to_level_size")
+			
 	# minimap
 	var minimap_container: ViewportContainer = $"../Minimap"
 	var minimap_viewport: Viewport = $"../Minimap/MinimapViewport"

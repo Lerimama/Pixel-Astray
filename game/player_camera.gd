@@ -61,10 +61,13 @@ func _ready():
 				zoom_start = Vector2.ONE * 6
 			elif Global.game_manager.game_settings["eternal_mode"]:
 				zoom_end = Vector2.ONE * 1.5
-				smoothing_speed = 5
+				smoothing_speed = 5 # ni ok za XL
+			elif Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
+				pass # enigma zoom seta iz GMja ob setanju limitsov
+				
 			zoom = zoom_start
-		
-#		zoom_end = zoom_start
+#			zoom_end = zoom_start
+
 
 	# testhud
 	set_ui_focus()	
@@ -161,7 +164,22 @@ func shake_camera(shake_power: float, shake_time: float, shake_decay: float):
 	# apply shake
 	trauma_strength = clamp(trauma_strength, 0, 1)
 
+
+func set_zoom_to_level_size():
+
+	var zoom_1_width_limit: float = 1344 # 1 zoom, 42 tiletov širine 
+	var zoom_2_width_limit: float = 1984 # 1.5 zoom, 62 tiletov širine
+	var zoom_3_width_limit: float = 2624 # 2 zoom, 82 tiletov širine
 	
+	var current_tilemap_width: float = Global.current_tilemap.get_used_rect().size.x * cell_size_x
+	if current_tilemap_width <= zoom_1_width_limit:
+		zoom_end = Vector2.ONE
+	elif current_tilemap_width <= zoom_2_width_limit:
+		zoom_end = Vector2.ONE * 1.5
+	else:
+		zoom_end = Vector2.ONE * 2
+	
+		
 func set_camera_limits():
 	
 	var tilemap_edge: Rect2 = Global.current_tilemap.get_used_rect()

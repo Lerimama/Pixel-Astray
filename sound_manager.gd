@@ -44,30 +44,27 @@ func play_sfx(effect_for: String):
 			select_random_sfx($GameSfx/BlinkingStatic).play()
 		"thunder_strike": # intro in GM na strays spawn
 			$GameSfx/Burst.play()
-			
+		"reburst_reward":
+			$GameSfx/ReburstReward.play()
+		"start_countdown_a":
+			$GameSfx/StartCoundownA.play()
+		"start_countdown_b":
+			$GameSfx/StartCoundownB.play()
+		"game_countdown_a":
+			$GameSfx/GameCoundownA.play()
+		"game_countdown_b":
+			$GameSfx/GameCoundownB.play()
+		"win_jingle":
+			$GameSfx/Win.play()
+		"lose_jingle":
+			$GameSfx/Loose.play()
+		"tutorial_stage_done":
+			$GameSfx/TutorialStageDone.play()
+	
 			
 func play_gui_sfx(effect_for: String):
 	
 	match effect_for:
-		# events
-		"reburst_reward":
-			$GuiSfx/Events/ReburstReward.play()
-		"start_countdown_a":
-			$GuiSfx/Events/StartCoundownA.play()
-		"start_countdown_b":
-			$GuiSfx/Events/StartCoundownB.play()
-		"game_countdown_a":
-			$GuiSfx/Events/GameCoundownA.play()
-		"game_countdown_b":
-			$GuiSfx/Events/GameCoundownB.play()
-		"win_jingle":
-			$GuiSfx/Events/Win.play()
-		"lose_jingle":
-			$GuiSfx/Events/Loose.play()
-#		"record_cheers":
-#			$GuiSfx/Events/RecordFanfare.play()
-		"tutorial_stage_done":
-			$GuiSfx/Events/TutorialStageDone.play()
 		# input
 		"typing":
 			select_random_sfx($GuiSfx/Inputs/Typing).play()

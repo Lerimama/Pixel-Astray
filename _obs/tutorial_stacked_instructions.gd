@@ -165,7 +165,7 @@ func finish_tutorial():
 	if not current_tutorial_stage == TutorialStage.WINLOSE:
 		return
 	winlose_label.modulate = Global.color_green
-	Global.sound_manager.play_gui_sfx("tutorial_stage_done")
+	Global.sound_manager.play_sfx("tutorial_stage_done")
 	
 	var close_final_stage = get_tree().create_tween()
 	close_final_stage.tween_property(winlose_content, "rect_min_size:y", 0, 1).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC).set_delay(0.5)
@@ -177,7 +177,7 @@ func finish_tutorial():
 
 func change_stage(stage_to_hide: Control, next_stage: Control, next_stage_height: int, separation_adon: Control, next_stage_enum: int):
 	
-	Global.sound_manager.play_gui_sfx("tutorial_stage_done")
+	Global.sound_manager.play_sfx("tutorial_stage_done")
 	current_tutorial_stage = next_stage_enum
 	
 	var close_stage = get_tree().create_tween()

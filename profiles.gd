@@ -90,6 +90,12 @@ var default_game_settings: Dictionary = {
 	"burst_released_energy": 0,
 	"on_hit_energy_part": 2, # delež porabe od trenutne energije
 	"touching_stray_energy": 0,
+	# reburst
+	"reburst_count_limit": 0, # 0 je unlimited
+	"reburst_reward_limit": 5, # 0 je brez nagrade
+	"reburst_reward_points": 100, # kolk jih destroya ... 0 gre po original pravilih moči
+	"reburst_window_time": 0.1,
+	"reburst_hit_power": 1, # kolk jih destroya ... 0 gre po original pravilih moči
 	# game
 	"game_instructions_popup": true,
 	"camera_fixed": false,
@@ -102,21 +108,10 @@ var default_game_settings: Dictionary = {
 	"position_indicators_mode": true, # duel jih nima 
 	"suddent_death_mode": false,
 	"manage_highscores": true, # obsoleten, ker je vključen v HS type
-#	"stray_step_time": 0.2,
-
-	# neu
 	"eternal_mode": false,
-	"reburst_mode": true,
 	"spectrum_start_on": false, # a pobrane prižigam al ugašam
-	"stray_to_wall_mode": true, # eternal big screen
-	"reburst_count_limit": 0, # 0 je unlimited
-	"reburst_reward_limit": 5, # 0 je brez nagrade
-	"reburst_reward_points": 100, # kolk jih destroya ... 0 gre po original pravilih moči
-	"reburst_window_time": 0.1,
+	"turn_stray_to_wall": true, # eternal big screen
 	"full_power_mode": false, # hitrost je tudi max_cock_coiunt > vedno destroja ves bulk 
-	"reburst_hit_power": 1, # kolk jih destroya ... 0 gre po original pravilih moči
-	
-#	"light_theme": false,
 }
 
 
@@ -556,7 +551,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["timer_mode_countdown"] = false
 			game_settings["spectrum_start_on"] = true
 			game_settings["position_indicators_mode"] = false
-			game_settings["stray_to_wall_mode"] = false
+			game_settings["turn_stray_to_wall"] = false
 			game_settings["all_cleaned_points"] = 100 # debug
 			game_settings["color_picked_points"] = 10
 			#
@@ -571,7 +566,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["timer_mode_countdown"] = false
 			game_settings["spectrum_start_on"] = true
 			game_settings["position_indicators_mode"] = true
-			game_settings["stray_to_wall_mode"] = true
+			game_settings["turn_stray_to_wall"] = true
 			game_settings["all_cleaned_points"] = 100 # debug
 			game_settings["color_picked_points"] = 10
 			#
