@@ -4,7 +4,8 @@ extends GameOver
 onready var timeup_label: Label = $GameoverTitle/ReasonTime/TimeupLabel
 onready var enigma_game_summary: Control = $EnigmaGameSummary
 onready var enigma_highscore_table: VBoxContainer = $EnigmaGameSummary/HighscoreTable
-				
+
+var enigma_solved: bool = false				
 				
 func _ready() -> void:
 	# namen: dodan enigam game summary
@@ -20,6 +21,7 @@ func _ready() -> void:
 
 func set_game_gameover_title():
 	# namen: sprememba teksta v GO - TIME komentarju glede na to katera igra je
+	# namen: opredelim, če je bila enigma rešena
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
 		var gameover_title_tutorial: Control = $GameoverTitle/Tutorial
@@ -40,6 +42,11 @@ func set_game_gameover_title():
 				selected_gameover_title = gameover_title_cleaned
 				selected_gameover_jingle = "win_jingle"
 				name_input_label.text = "Great work!"
+				
+				# write enigma to solved enigmas
+				Global.data_manager.write_solved_status_to_file(Global.game_manager.game_data)
+			
+#				enigma_solved = true
 			Global.game_manager.GameoverReason.LIFE:
 				selected_gameover_title = gameover_title_life
 				selected_gameover_jingle = "lose_jingle"
@@ -80,7 +87,7 @@ func set_game_gameover_title():
 
 
 func show_gameover_menu():
-	# namen: enigma HS table, izločim beleženje HS, če ENIGMA ni končana, 
+	# namen: enigma HS table, izločim beleženje HS, če ENIGMA ni končana,
 	
 	get_tree().set_pause(true) # setano čez celotno GO proceduro
 	
@@ -107,7 +114,7 @@ func show_gameover_menu():
 			# yield čaka na konec preverke ... tip ni opredeljen, ker je ranking, če ni skora kot objecta, če je ranking
 			var score_is_ranking = Global.data_manager.manage_gameover_highscores(current_score_points, current_score_time, Global.game_manager.game_data) 
 			
-			# če je enirgma score štejem samo, če vse spuca
+			# če je enigma score štejem samo, če vse spuca
 			if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA and not current_gameover_reason == Global.game_manager.GameoverReason.CLEANED: 
 				yield(get_tree().create_timer(1), "timeout")
 				current_player_ranking = 100 # zazih ni na lestvici

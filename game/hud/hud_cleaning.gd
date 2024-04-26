@@ -83,8 +83,6 @@ func set_hud(players_count: int): # kliče main na game-in
 		highscore_label.visible = true
 		strays_counters_holder.visible = false
 		level_limit_holder.visible = true
-#		pixel_picked_holder.visible = false
-#		pixel_astray_holder.visible = true
 	
 	# glede na to kaj šteje ...
 	if current_gamed_hs_type == Profiles.HighscoreTypes.NO_HS:
@@ -120,14 +118,16 @@ func fade_in_instructions_popup(in_time: float):
 		instructions_label_6.text = "Don't try to beat the game. It's useless."
 	elif Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
 		title.text = Global.game_manager.game_data["game_name"]  + " " + Global.game_manager.level_conditions["level_name"]
-		win_label.text = "Collect all colors with a single burst."
-		instructions_label.text = Global.game_manager.level_conditions["level_description"]
-#		instructions_label.text = "DODAJ ŠE NAVODILA ... OPIS LEVELA"
-		instructions_label_2.text = "" #"Energy and speed are constant."
-		instructions_label_3.text = "Bursting collects all colors in stack, reburst collects one."
-		instructions_label_4.text = "No time limit. Highscore is the fastest time."
-		instructions_label_5.text = ""
-		instructions_label_6.text = "Game is over when you burst and don't collect all available colors."
+		if current_highscore > 0:
+			win_label.text = "Current record by " + str(current_highscore_owner) + " is " + str(current_highscore) + " seconds"
+		else:
+			win_label.text = "This enigma is still unsolved."
+		instructions_label.text = ""
+		instructions_label_2.text = "Collect all colors with a single burst."
+		instructions_label_3.text = Global.game_manager.level_conditions["level_description"]
+		instructions_label_4.text = "Bursting collects all colors in stack, reburst collects one."
+		instructions_label_5.text = "No time limit. Highscore is the fastest time."
+		instructions_label_6.text = ""
 	elif Global.game_manager.game_data["game"] == Profiles.Games.CLEANER:
 		$Popups/Instructions/Controls.show()
 		$Popups/Instructions/ControlsDuel.hide()

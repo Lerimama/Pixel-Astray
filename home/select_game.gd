@@ -1,14 +1,21 @@
 extends Control
 
+onready var enigma_btn: Button = $Eternal/EnigmaBtn
+
 
 func _ready() -> void:
-	pass # Replace with function body.
-
+	
+	# get solved enigmas
+	var solved_levels: Array = Global.data_manager.read_solved_status_from_file(Profiles.game_data_enigma)
+	if solved_levels.has(Profiles.game_data_enigma["level"]):
+		enigma_btn.modulate = Global.color_green
+	 
 
 func _on_BackBtn_pressed() -> void:
 	
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	$"%AnimationPlayer".play_backwards("select_game")
+	
 	get_viewport().set_disable_input(true)
 	
 

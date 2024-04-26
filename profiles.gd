@@ -539,7 +539,7 @@ func set_game_data(selected_game) -> void:
 #			game_settings["camera_fixed"] = false
 			game_settings["player_start_color"] = Color.white
 			game_settings["start_countdown"] = false
-			game_settings["game_instructions_popup"] = false
+			game_settings["game_instructions_popup"] = true
 			
 			
 		Games.ETERNAL: 

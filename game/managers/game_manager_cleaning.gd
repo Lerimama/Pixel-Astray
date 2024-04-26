@@ -19,13 +19,18 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_tree().call_group(Global.group_strays, "die_to_wall")
 	if Input.is_action_pressed("no1"):
 		upgrade_level()
+	if Input.is_action_pressed("ui_accept"):
+		Global.data_manager.read_solved_status_from_file(game_data)
+		print("read")
 	if Input.is_action_pressed("t"):
-		for n in 50:
-			# random stray to wall
-			var random_stray_index: int = randi() % int(strays_in_game_count)
-			var random_stray: KinematicBody2D = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_index]
-			random_stray.die_to_wall()
-			
+		Global.data_manager.write_solved_status_to_file(game_data)
+		print("write")
+#		for n in 50:
+#			# random stray to wall
+#			var random_stray_index: int = randi() % int(strays_in_game_count)
+#			var random_stray: KinematicBody2D = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_index]
+#			random_stray.die_to_wall()
+	
 	
 func _ready() -> void:
 
@@ -380,7 +385,6 @@ func set_new_level_conditions(): # za eternal
 		
 		if current_level == 1:
 			start_strays_spawn_count = game_data["strays_start_count"]
-	
 
 
 func _change_strays_in_game_count(strays_count_change: int):
@@ -402,7 +406,7 @@ func _change_strays_in_game_count(strays_count_change: int):
 		if strays_in_game_count == wall_strays_count or strays_in_game_count == 0: 
 			upgrade_level()
 	else:
-		if strays_in_game_count == 0: # tutorial sam ve kdaj je gameover, klasika pa nima cleaned modela 
+		if strays_in_game_count == 0: # tutorial sam ve kdaj je gameover, eternal pa nima cleaned GO možnosti 
 			game_over(GameoverReason.CLEANED)	
 
 

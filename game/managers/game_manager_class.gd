@@ -97,7 +97,7 @@ func set_game():
 	Global.hud.slide_in(start_players_count)
 	yield(Global.start_countdown, "countdown_finished") # sproži ga hud po slide-inu
 	
-	printt("POZ 3", Global.player1_camera.position, Global.player1_camera.get_camera_position())
+#	printt("POZ 3", Global.player1_camera.position, Global.player1_camera.get_camera_position())
 	
 	start_game()
 	
