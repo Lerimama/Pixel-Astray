@@ -59,8 +59,6 @@ var default_player_stats: Dictionary = {
 	"burst_count" : 0,
 	"cells_traveled" : 0,
 }
-
-
 var default_game_settings: Dictionary = {
 	# to so default CLEANING settings
 	# player on start
@@ -106,7 +104,7 @@ var default_game_settings: Dictionary = {
 	"timer_mode_countdown" : true, # če prišteva in je "game_time_limit" = 0, nima omejitve navzgor
 	"minimap_on": false,
 	"position_indicators_mode": true, # duel jih nima 
-	"suddent_death_mode": false,
+	"sudden_death_mode": false,
 	"manage_highscores": true, # obsoleten, ker je vključen v HS type
 	"eternal_mode": false,
 	"spectrum_start_on": false, # a pobrane prižigam al ugašam
@@ -129,8 +127,6 @@ enum Games {
 	ETERNAL, ETERNAL_XL,
 	ENIGMA,
 	}
-
-
 enum HighscoreTypes {
 	NO_HS, 
 	HS_POINTS, 
@@ -297,13 +293,13 @@ var game_data_enigma: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_00.tscn", # samo za prvo stopnjo
 	"strays_start_count": 0, 
 	# xtra
-	"level": 0,
+	"level": 0, # nafila se iz enigma_level_setting
 }
 
 # LEVEL -----------------------------------------------------------------------------------
 
 
-var scrolling_level_conditions: Dictionary = {
+var scrolling_level_settings: Dictionary = {
 	1: { # tutorial stage ... možnost spucanaj cele linije
 		"color_scheme": game_color_schemes["default_color_scheme"],
 		"stages_per_level": 32, # tutorial je kratka ... tolk da je skor poln pa glih napreduješ
@@ -377,9 +373,7 @@ var scrolling_level_conditions: Dictionary = {
 		"strays_spawn_count": 14,
 	},
 }
-
-
-var slider_level_conditions: Dictionary = {
+var slider_level_settings: Dictionary = {
 	1: { # tutorial stage ... lahka in hitr
 		"color_scheme": game_color_schemes["default_color_scheme"],
 		"stages_per_level": 32, # lines scrolled ... tutorial je kratka ... tolk da je skor poln pa glih napreduješ
@@ -461,43 +455,20 @@ var slider_level_conditions: Dictionary = {
 		"wall_spawn_random_range": 5,
 	},
 }
-
-
-var eternal_level_conditions: Dictionary = {
-	1: { # small
-		"respawn_wait_time": 1,
-		"respawn_wait_time_factor": 0.7, # množim z vsakim levelom
-		"respawn_strays_count": 1,
-		"respawn_strays_count_grow": 1, # prištejem z vsakim levelom
-		"level_points_limit": 320,
-		"level_points_limit_grow": 320, # prištejem z vsakim levelom
-		"level_spawn_strays_count_grow": 5, # prištejem z vsakim levelom
-	},
-	2: { # big
-		"respawn_wait_time": 1,
-		"respawn_wait_time_factor": 0.7, # množim z vsakim levelom
-		"respawn_strays_count": 1,
-		"respawn_strays_count_grow": 1, # prištejem z vsakim levelom
-		"level_points_limit": 10,
-		"level_points_limit_grow": 320, # prištejem z vsakim levelom
-		"level_spawn_strays_count_grow": 50, # prištejem z vsakim levelom
-	},
-}
-
-var enigma_level_conditions: Dictionary = { # ključ je tudi številka levela
+var enigma_level_setting: Dictionary = { # ključ je tudi številka levela
 	1: { 
 #		"level": "ONE", # ko se nalouda level tole postane "level v game_data slovarju
 		"level_name": "ONE", # ko se nalouda level tole postane "level v game_data slovarju
 		"level_hs": 1, 
 		"strays_to_clean_count": 0,
-		"level_tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_00.tscn",
+		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_00.tscn",
 		"level_description": "Description ...",
 	},
 	2: {
 		"level_name": "TWO", # prištejem z vsakim levelom
 		"level_hs": 1, # prištejem z vsakim levelom
 		"strays_to_clean_count": 0,
-		"level_tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_01.tscn",
+		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_01.tscn",
 		"level_description": "Description ...",
 	},
 	3: {
@@ -563,8 +534,8 @@ var current_color_scheme: Dictionary = game_color_schemes["default_color_scheme"
 func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
-#	var current_game = Games.ENIGMA
-	var current_game = Games.ETERNAL
+	var current_game = Games.ENIGMA
+#	var current_game = Games.ETERNAL
 #	var current_game = Games.ETERNAL_XL
 #	var current_game = Games.CLEANER
 #	var current_game = Games.ERASER_S
@@ -584,9 +555,6 @@ func set_game_data(selected_game) -> void:
 	match selected_game:
 		Games.ENIGMA: 
 			current_game_data = game_data_enigma
-			current_game_data["level"] = 1
-#			current_game_data["level_number"] = 1
-			
 			
 			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
 			game_settings["lose_life_on_hit"] = true
@@ -595,7 +563,8 @@ func set_game_data(selected_game) -> void:
 			game_settings["position_indicators_mode"] = false
 			game_settings["color_picked_points"] = 0
 			game_settings["all_cleaned_points"] = 0
-			#
+			# debug
+			current_game_data["level"] = 1
 #			game_settings["camera_fixed"] = false
 			game_settings["player_start_color"] = Color.white
 			game_settings["start_countdown"] = false
@@ -614,7 +583,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["turn_stray_to_wall"] = false
 			game_settings["all_cleaned_points"] = 100 # debug
 			game_settings["color_picked_points"] = 10
-			#
+			# debug
 			game_settings["start_countdown"] = false
 			game_settings["game_instructions_popup"] = false
 		Games.ETERNAL_XL: 

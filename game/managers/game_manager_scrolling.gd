@@ -7,7 +7,7 @@ var lines_scroll_per_spawn_round: int = 1 # ob levelu se vleče iz profilov
 var scrolling_pause_time: float # pavza med stepi
 
 var current_stage: int = 0 # na štartu se kliče stage up
-var stages_per_level: int # = Profiles.scrolling_level_conditions[1]
+var stages_per_level: int # = Profiles.scrolling_level_settings[1]
 var current_level: int = 0 # na štartu se kliče level up
 var levels_per_game: int = 10
 var level_color_scheme: Dictionary # trenutna barvna shema
@@ -505,9 +505,9 @@ func set_level_conditions():
 	var leveling_conditions: Dictionary
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.SLIDER:
-		leveling_conditions = Profiles.slider_level_conditions
+		leveling_conditions = Profiles.slider_level_settings
 	elif Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
-		leveling_conditions = Profiles.scrolling_level_conditions
+		leveling_conditions = Profiles.scrolling_level_settings
 		
 	if current_level > 0:
 		lines_scroll_per_spawn_round = leveling_conditions[current_level].lines_scroll_per_spawn_round

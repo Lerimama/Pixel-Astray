@@ -42,11 +42,8 @@ func set_game_gameover_title():
 				selected_gameover_title = gameover_title_cleaned
 				selected_gameover_jingle = "win_jingle"
 				name_input_label.text = "Great work!"
-				
 				# write enigma to solved enigmas
 				Global.data_manager.write_solved_status_to_file(Global.game_manager.game_data)
-			
-#				enigma_solved = true
 			Global.game_manager.GameoverReason.LIFE:
 				selected_gameover_title = gameover_title_life
 				selected_gameover_jingle = "lose_jingle"
@@ -109,7 +106,9 @@ func show_gameover_menu():
 			show_game_summary()
 		else:
 			var current_score_points: int = p1_final_stats["player_points"]
-			var current_score_time: int = Global.hud.game_timer.time_since_start
+			
+			var current_score_time: float = Global.hud.game_timer.absolute_game_time
+#			var current_score_time: int = Global.hud.game_timer.time_since_start
 			
 			# yield čaka na konec preverke ... tip ni opredeljen, ker je ranking, če ni skora kot objecta, če je ranking
 			var score_is_ranking = Global.data_manager.manage_gameover_highscores(current_score_points, current_score_time, Global.game_manager.game_data) 
@@ -139,7 +138,14 @@ func show_game_summary():
 	var game_summary_to_show: Control
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
-		focus_btn = enigma_game_summary.get_node("Menu/NextLevelBtn")
+		# focus btn
+		if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
+			print("SUCC")
+			focus_btn = enigma_game_summary.get_node("Menu/NextLevelBtn")
+		else:
+			print("false")
+			focus_btn = enigma_game_summary.get_node("Menu/RestartBtn")
+			
 		enigma_game_summary.get_node("DataContainer/Game").text %= str(Global.game_manager.game_data["game_name"])
 		enigma_game_summary.get_node("DataContainer/Level").text %= str(Global.game_manager.game_data["level"])
 		enigma_game_summary.get_node("DataContainer/AstrayPixels").text %= str(Global.game_manager.strays_in_game_count)
@@ -155,7 +161,8 @@ func show_game_summary():
 			selected_game_summary.get_node("DataContainer/Level").text %= str(Global.game_manager.game_data["level"])
 #		selected_game_summary.get_node("DataContainer/Level").text %= str(Global.game_manager.game_data["level"])
 		selected_game_summary.get_node("DataContainer/Points").text %= str(p1_final_stats["player_points"])
-		selected_game_summary.get_node("DataContainer/Time").text %= str(Global.hud.game_timer.time_since_start)
+		selected_game_summary.get_node("DataContainer/Time").text %= str(Global.hud.game_timer.absolute_game_time)
+#		selected_game_summary.get_node("DataContainer/Time").text %= str(Global.hud.game_timer.time_since_start)
 		selected_game_summary.get_node("DataContainer/CellsTraveled").text %= str(p1_final_stats["cells_traveled"])
 		selected_game_summary.get_node("DataContainer/BurstCount").text %= str(p1_final_stats["burst_count"])
 		selected_game_summary.get_node("DataContainer/SkillsUsed").text %= str(p1_final_stats["skill_count"])

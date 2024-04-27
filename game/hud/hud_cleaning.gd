@@ -169,10 +169,12 @@ func fade_in_instructions_popup(in_time: float):
 	show_instructions_popup.tween_property(instructions_popup, "modulate:a", 1, in_time).from(0.0).set_ease(Tween.EASE_IN)
 
 	
-func level_up_popup_in(level_reached: int): # za eternal
+func level_up_popup_in(level_reached: int): 
+	# za eternal
 	
 	level_up_popup.modulate.a = 0
-	level_up_popup.get_node("Label").text = "LEVEL %s" % str(level_reached)
+	level_up_popup.get_node("Label").text = "LEVEL UP"
+	#	level_up_popup.get_node("Label").text = "LEVEL %s" % str(level_reached)
 	level_up_popup.show()
 	
 	var popup_in = get_tree().create_tween()
@@ -228,3 +230,11 @@ func update_stats(stat_owner: Node, player_stats: Dictionary): # za eternal
 	if Global.game_manager.game_settings["eternal_mode"]:
 		if player_stats["player_points"] >= Global.game_manager.level_points_limit:
 			Global.game_manager.upgrade_level()
+
+
+func _on_GameTimer2_sudden_death_activated() -> void:
+	pass # Replace with function body.
+
+
+func _on_GameTimer_sudden_death_activated() -> void:
+	pass # Replace with function body.

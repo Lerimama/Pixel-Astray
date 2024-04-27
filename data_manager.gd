@@ -66,12 +66,18 @@ func get_top_highscore(current_game_data: Dictionary):
 	return [current_highscore, current_highscore_owner]
 
 
-func manage_gameover_highscores(current_score_points: int, current_score_time: int, current_game_data: Dictionary): # iz GM
+func manage_gameover_highscores(current_score_points: int, current_score_time: float, current_game_data: Dictionary): # iz GM
 	# med izvajanjem te kode GM čaka na RESUME 1
 
 	var all_ranking_scores: Array = []
 	var all_ranking_score_owners: Array = []
 	var current_game_highscores: Dictionary = read_highscores_from_file(current_game_data) # ... v odprtem filetu se potem naloži highscore
+	
+	# zaokrožim na dve decimalki
+	var current_score_time_decimals: float = current_score_time - floor(current_score_time)
+	var current_score_time_hundreds: float = round(current_score_time_decimals * 100)
+	# score je sekunde + stotinke kot decimalke
+	current_score_time = floor(current_score_time) + current_score_time_hundreds / 100
 	
 	# poberemo lestvico v arraye
 	for hs_position_key in current_game_highscores:
@@ -80,7 +86,7 @@ func manage_gameover_highscores(current_score_points: int, current_score_time: i
 		all_ranking_score_owners += current_position_dict.keys()
 	
 	var better_positions_count: int
-	var current_value_to_rank: int
+	var current_value_to_rank: float
 	var current_secondary_value: int
 	
 	# izračun uvrstitve na lestvico ... štejem pozicije pred mano 
@@ -206,12 +212,12 @@ func write_solved_status_to_file(write_game_data: Dictionary): # kadar je klican
 	
 	# sestavim array vseh rešenih levelov
 	var all_solved_levels: Array = read_solved_status_from_file(write_game_data) # če fileta ni ga funckija ustvari in zapiše prazen array
-	all_solved_levels.append(solved_level)
-		
-	var json_string = JSON.print(all_solved_levels) # v json obliko
-	data_file.open("user://%s_solved.save" % write_game_name, File.WRITE) # 
-	
-	data_file.store_line(to_json(all_solved_levels))
+	# zapišem samo če še ne obstaja
+	if not solved_level in all_solved_levels:
+		all_solved_levels.append(solved_level)
+		var json_string = JSON.print(all_solved_levels) # v json obliko
+		data_file.open("user://%s_solved.save" % write_game_name, File.WRITE) # 
+		data_file.store_line(to_json(all_solved_levels))
 	data_file.close()
 		
 		

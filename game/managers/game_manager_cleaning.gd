@@ -13,6 +13,9 @@ var level_points_limit: int
 
 onready var respawn_timer: Timer = $"../RespawnTimer"
 
+# neu
+var universal_time: float = 0 # za merjenje trajanja raznih stvari ... debug
+
 func _unhandled_input(event: InputEvent) -> void:
 
 	if Input.is_action_pressed("no2"):
@@ -51,6 +54,7 @@ func _ready() -> void:
 #		for key in current_level_settings:
 #			game_data[key] = current_level_settings[key]
 		# setam level settings
+		game_data["level"] = 1 # zmeraj začnem s prvim levelom
 		respawn_wait_time = game_data["respawn_wait_time"]
 		respawn_strays_count = game_data["respawn_strays_count"]
 		level_points_limit = game_data["level_points_limit"]
@@ -60,7 +64,7 @@ func _ready() -> void:
 #		current_level = 1
 #		current_level = game_data["level"]
 #		current_level = game_data["level"]
-		var current_level_settings: Dictionary = Profiles.enigma_level_conditions[game_data["level"]]
+		var current_level_settings: Dictionary = Profiles.enigma_level_setting[game_data["level"]]
 #		print ("cond", Profiles.enigma_level_conditions[current_level])
 		for setting in current_level_settings:
 #			printt ("key", key)
@@ -89,6 +93,8 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	# namen: respawnanje straysov ... za eternal in upoštevanje wall straysov zaznavanju cleaned
+
+	universal_time += delta
 	
 	var wall_strays_count: int
 	for stray in get_tree().get_nodes_in_group(Global.group_strays):
@@ -140,9 +146,10 @@ func set_tilemap():
 	var tilemap_to_release: TileMap = Global.current_tilemap # trenutno naložen v areni
 	
 	var tilemap_to_load_path: String
-	if game_data["game"] == Profiles.Games.ENIGMA: # path vlečem iz level conditions
+	if game_data["game"] == Profiles.Games.ENIGMA: # path vlečem iz level settings
 #		tilemap_to_load_path = level_conditions["level_tilemap_path"]
-		tilemap_to_load_path = game_data["level_tilemap_path"]
+#		tilemap_to_load_path = game_data["level_tilemap_path"]
+		tilemap_to_load_path = game_data["tilemap_path"]
 	else:
 		tilemap_to_load_path = game_data["tilemap_path"]
 		
@@ -382,11 +389,11 @@ func upgrade_level(): # za eternal
 	
 	game_data["level"] += 1 # številka novega levela 
 	respawn_timer.stop()
+	
 	Global.hud.level_up_popup_in(game_data["level"])
-#	Global.hud.level_up_popup_in(current_level)
 	
 	# set for new level
-	set_new_level_conditions() 
+	set_new_level() 
 	Global.hud.empty_color_indicators()
 	get_tree().call_group(Global.group_players, "set_physics_process", false)
 	clean_strays_in_game() # puca vse v igri
@@ -394,6 +401,10 @@ func upgrade_level(): # za eternal
 	# strays cleaned
 	all_strays_died_alowed = true
 	yield(self, "all_strays_died") # ko so vsi iz igre grem naprej
+	
+	var curr_time = universal_time
+	printt("upgrade start", curr_time)
+	
 	var signaling_player: KinematicBody2D
 	for player in get_tree().get_nodes_in_group(Global.group_players):
 		player.all_cleaned()
@@ -401,14 +412,17 @@ func upgrade_level(): # za eternal
 	yield(signaling_player, "rewarded_on_game_over") # počakam, da je nagrajen	
 	
 	# start new level
+	Global.hud.level_up_popup_out()
 	level_upgrade_in_progress = false
 	set_strays() 
-	Global.hud.level_up_popup_out()
 	get_tree().call_group(Global.group_players, "set_physics_process", true)
 	respawn_timer.start(first_respawn_time)
 	
+	printt("upgrade time from cleaned", universal_time - curr_time)
+	
 
-func set_new_level_conditions(): # za eternal
+func set_new_level(): 
+	# samo za eternal
 	
 	if game_settings["eternal_mode"]:
 #		if current_level > 0:

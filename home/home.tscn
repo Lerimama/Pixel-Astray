@@ -1,4 +1,4 @@
-[gd_scene load_steps=110 format=2]
+[gd_scene load_steps=112 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=15]
 [ext_resource path="res://home/about.gd" type="Script" id=16]
 [ext_resource path="res://home/select_level.gd" type="Script" id=17]
+[ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=18]
 
 [sub_resource type="StyleBoxEmpty" id=208]
 
@@ -429,6 +430,15 @@ region = Rect2( 96, 32, 10, 10 )
 [sub_resource type="StyleBoxFlat" id=277]
 bg_color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
+[sub_resource type="StyleBoxFlat" id=278]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 1 )
+
 [sub_resource type="StyleBoxFlat" id=254]
 bg_color = Color( 0, 0, 0, 0 )
 border_width_left = 2
@@ -723,7 +733,7 @@ tracks/18/loop_wrap = true
 tracks/18/imported = false
 tracks/18/enabled = true
 tracks/18/keys = {
-"points": PoolRealArray( 1280, -0.25, 0, 0.25, 0 ),
+"points": PoolRealArray( 2176, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 0 )
 }
 tracks/19/type = "bezier"
@@ -6680,8 +6690,8 @@ text = "to go back"
 [node name="SelectLevel" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 1280.0
-margin_right = 1936.0
+margin_left = 2176.0
+margin_right = 2832.0
 margin_bottom = 720.0
 rect_min_size = Vector2( 0, 720 )
 theme = ExtResource( 15 )
@@ -6733,15 +6743,15 @@ custom_constants/vseparation = 16
 custom_constants/hseparation = 16
 columns = 3
 
-[node name="Enigma01Btn" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
+[node name="EnigmaBtn" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
 margin_right = 187.0
 margin_bottom = 107.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
+custom_styles/hover = SubResource( 278 )
+custom_styles/pressed = SubResource( 278 )
+custom_styles/focus = SubResource( 278 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "Enigma 01"
@@ -6749,7 +6759,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/Enigma01Btn"]
+[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -6758,7 +6768,7 @@ margin_right = -24.0
 margin_bottom = 36.0
 text = "Duel"
 
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/Enigma01Btn"]
+[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -6769,16 +6779,16 @@ custom_fonts/font = ExtResource( 14 )
 text = "Collect as many points as you can"
 autowrap = true
 
-[node name="Enigma02Btn" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
+[node name="EnigmaBtn2" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
 margin_left = 203.0
 margin_right = 389.0
 margin_bottom = 107.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
+custom_styles/hover = SubResource( 278 )
+custom_styles/pressed = SubResource( 278 )
+custom_styles/focus = SubResource( 278 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "Enigma 02"
@@ -6786,7 +6796,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/Enigma02Btn"]
+[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn2"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -6795,7 +6805,7 @@ margin_right = -24.0
 margin_bottom = 36.0
 text = "Duel"
 
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/Enigma02Btn"]
+[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn2"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -6806,129 +6816,16 @@ custom_fonts/font = ExtResource( 14 )
 text = "Collect as many points as you can"
 autowrap = true
 
-[node name="Enigma01Btn2" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
+[node name="EnigmaBtn3" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
 margin_left = 405.0
 margin_right = 591.0
 margin_bottom = 107.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
-text = "Enigma 01"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/Enigma01Btn2"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Duel"
-
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/Enigma01Btn2"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Collect as many points as you can"
-autowrap = true
-
-[node name="Enigma01Btn3" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
-margin_top = 123.0
-margin_right = 187.0
-margin_bottom = 230.0
-mouse_default_cursor_shape = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
-text = "Enigma 01"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/Enigma01Btn3"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Duel"
-
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/Enigma01Btn3"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Collect as many points as you can"
-autowrap = true
-
-[node name="Enigma01Btn4" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
-margin_left = 203.0
-margin_top = 123.0
-margin_right = 389.0
-margin_bottom = 230.0
-mouse_default_cursor_shape = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
-text = "Enigma 01"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/Enigma01Btn4"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Duel"
-
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/Enigma01Btn4"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Collect as many points as you can"
-autowrap = true
-
-[node name="Enigma02Btn2" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
-margin_left = 405.0
-margin_top = 123.0
-margin_right = 591.0
-margin_bottom = 230.0
-mouse_default_cursor_shape = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
+custom_styles/hover = SubResource( 278 )
+custom_styles/pressed = SubResource( 278 )
+custom_styles/focus = SubResource( 278 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "Enigma 02"
@@ -6936,7 +6833,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/Enigma02Btn2"]
+[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn3"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -6945,7 +6842,7 @@ margin_right = -24.0
 margin_bottom = 36.0
 text = "Duel"
 
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/Enigma02Btn2"]
+[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn3"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -6956,54 +6853,16 @@ custom_fonts/font = ExtResource( 14 )
 text = "Collect as many points as you can"
 autowrap = true
 
-[node name="Enigma01Btn5" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
-margin_top = 246.0
+[node name="EnigmaBtn4" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
+margin_top = 123.0
 margin_right = 187.0
-margin_bottom = 352.0
+margin_bottom = 230.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
-text = "Enigma 01"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/Enigma01Btn5"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Duel"
-
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/Enigma01Btn5"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Collect as many points as you can"
-autowrap = true
-
-[node name="Enigma02Btn3" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
-margin_left = 203.0
-margin_top = 246.0
-margin_right = 389.0
-margin_bottom = 352.0
-mouse_default_cursor_shape = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
+custom_styles/hover = SubResource( 278 )
+custom_styles/pressed = SubResource( 278 )
+custom_styles/focus = SubResource( 278 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "Enigma 02"
@@ -7011,7 +6870,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/Enigma02Btn3"]
+[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn4"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -7020,7 +6879,7 @@ margin_right = -24.0
 margin_bottom = 36.0
 text = "Duel"
 
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/Enigma02Btn3"]
+[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn4"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -7031,25 +6890,25 @@ custom_fonts/font = ExtResource( 14 )
 text = "Collect as many points as you can"
 autowrap = true
 
-[node name="Enigma01Btn6" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
-margin_left = 405.0
-margin_top = 246.0
-margin_right = 591.0
-margin_bottom = 352.0
+[node name="EnigmaBtn5" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
+margin_left = 203.0
+margin_top = 123.0
+margin_right = 389.0
+margin_bottom = 230.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
+custom_styles/hover = SubResource( 278 )
+custom_styles/pressed = SubResource( 278 )
+custom_styles/focus = SubResource( 278 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "Enigma 01"
+text = "Enigma 02"
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/Enigma01Btn6"]
+[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn5"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -7058,7 +6917,158 @@ margin_right = -24.0
 margin_bottom = 36.0
 text = "Duel"
 
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/Enigma01Btn6"]
+[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn5"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 40.0
+margin_right = -24.0
+margin_bottom = 58.0
+custom_fonts/font = ExtResource( 14 )
+text = "Collect as many points as you can"
+autowrap = true
+
+[node name="EnigmaBtn6" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
+margin_left = 405.0
+margin_top = 123.0
+margin_right = 591.0
+margin_bottom = 230.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/hover = SubResource( 278 )
+custom_styles/pressed = SubResource( 278 )
+custom_styles/focus = SubResource( 278 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "Enigma 02"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn6"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 14.0
+margin_right = -24.0
+margin_bottom = 36.0
+text = "Duel"
+
+[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn6"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 40.0
+margin_right = -24.0
+margin_bottom = 58.0
+custom_fonts/font = ExtResource( 14 )
+text = "Collect as many points as you can"
+autowrap = true
+
+[node name="EnigmaBtn7" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
+margin_top = 246.0
+margin_right = 187.0
+margin_bottom = 352.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/hover = SubResource( 278 )
+custom_styles/pressed = SubResource( 278 )
+custom_styles/focus = SubResource( 278 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "Enigma 02"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn7"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 14.0
+margin_right = -24.0
+margin_bottom = 36.0
+text = "Duel"
+
+[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn7"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 40.0
+margin_right = -24.0
+margin_bottom = 58.0
+custom_fonts/font = ExtResource( 14 )
+text = "Collect as many points as you can"
+autowrap = true
+
+[node name="EnigmaBtn8" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
+margin_left = 203.0
+margin_top = 246.0
+margin_right = 389.0
+margin_bottom = 352.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/hover = SubResource( 278 )
+custom_styles/pressed = SubResource( 278 )
+custom_styles/focus = SubResource( 278 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "Enigma 02"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn8"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 14.0
+margin_right = -24.0
+margin_bottom = 36.0
+text = "Duel"
+
+[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn8"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 40.0
+margin_right = -24.0
+margin_bottom = 58.0
+custom_fonts/font = ExtResource( 14 )
+text = "Collect as many points as you can"
+autowrap = true
+
+[node name="EnigmaBtn9" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
+margin_left = 405.0
+margin_top = 246.0
+margin_right = 591.0
+margin_bottom = 352.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/hover = SubResource( 278 )
+custom_styles/pressed = SubResource( 278 )
+custom_styles/focus = SubResource( 278 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "Enigma 02"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn9"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 14.0
+margin_right = -24.0
+margin_bottom = 36.0
+text = "Duel"
+
+[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn9"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -7135,6 +7145,13 @@ margin_bottom = 20.0
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 14 )
 text = "to go back"
+
+[node name="Spectrum" type="TextureRect" parent="SelectLevel"]
+margin_top = -80.0
+margin_right = 512.0
+margin_bottom = -64.0
+texture = ExtResource( 18 )
+expand = true
 
 [node name="Settings" type="Control" parent="."]
 anchor_right = 1.0
@@ -7688,15 +7705,15 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="SelectGame/BackBtn" to="SelectGame" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectGame/EscHint/Esc/Button" to="SelectGame" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectGame/EscHint/Select/Button" to="SelectGame" method="_on_BackBtn_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/Enigma01Btn" to="SelectLevel" method="_on_Enigma01_Btn_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/Enigma02Btn" to="SelectLevel" method="_on_Enigma02_Btn_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/Enigma01Btn2" to="SelectLevel" method="_on_Enigma01_Btn_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/Enigma01Btn3" to="SelectLevel" method="_on_Enigma01_Btn_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/Enigma01Btn4" to="SelectLevel" method="_on_Enigma01_Btn_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/Enigma02Btn2" to="SelectLevel" method="_on_Enigma02_Btn_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/Enigma01Btn5" to="SelectLevel" method="_on_Enigma01_Btn_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/Enigma02Btn3" to="SelectLevel" method="_on_Enigma02_Btn_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/Enigma01Btn6" to="SelectLevel" method="_on_Enigma01_Btn_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn" to="SelectLevel" method="_on_EnigmaBtn_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn2" to="SelectLevel" method="_on_EnigmaBtn2_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn3" to="SelectLevel" method="_on_EnigmaBtn3_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn4" to="SelectLevel" method="_on_EnigmaBtn4_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn5" to="SelectLevel" method="_on_EnigmaBtn5_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn6" to="SelectLevel" method="_on_EnigmaBtn6_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn7" to="SelectLevel" method="_on_EnigmaBtn7_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn8" to="SelectLevel" method="_on_EnigmaBtn8_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn9" to="SelectLevel" method="_on_EnigmaBtn9_pressed"]
 [connection signal="pressed" from="SelectLevel/BackBtn" to="SelectLevel" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectLevel/EscHint/Esc/Button" to="SelectLevel" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectLevel/EscHint/Select/Button" to="SelectLevel" method="_on_BackBtn_pressed"]

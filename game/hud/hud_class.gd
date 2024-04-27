@@ -29,7 +29,8 @@ onready var instructions_popup: Control = $Popups/Instructions
 
 # header
 onready var header: Control = $Header # kontrole iz kamere
-onready var game_timer: HBoxContainer = $Header/GameTimer
+#onready var game_timer: HBoxContainer = $Header/GameTimer
+onready var game_timer: HBoxContainer = $Header/GameTimerHunds
 onready var highscore_label: Label = $Header/TopLineR/HighscoreLabel
 onready var music_player: Label = $Header/TopLineR/MusicPlayer
 # p1
@@ -406,10 +407,6 @@ func _on_stat_changed(stat_owner: Node, current_player_stats: Dictionary):
 	
 
 # SIGNALS ---------------------------------------------------------------------------------------------------------------------------
-
-
-func _on_GameTimer_sudden_death_active() -> void: # sighal iz tajmerja
-	pass
 
 
 func _on_GameTimer_gametime_is_up() -> void: # signal iz tajmerja

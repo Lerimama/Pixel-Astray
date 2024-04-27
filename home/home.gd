@@ -126,7 +126,7 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 				return
 			current_screen = Screens.SELECT_LEVEL
 			current_esc_hint = $SelectLevel/EscHint
-			Global.grab_focus_no_sfx($SelectLevel/LevelGrid/GridContainer/Enigma01Btn)
+			Global.grab_focus_no_sfx($SelectLevel/LevelGrid/GridContainer/EnigmaBtn)
 		"play_enigma_level":
 			Global.main_node.home_out()
 	
