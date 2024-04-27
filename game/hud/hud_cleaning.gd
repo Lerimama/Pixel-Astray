@@ -16,12 +16,13 @@ func _process(delta: float) -> void:
 	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
 
 	# level label show on fill
-	if not Global.game_manager.game_data["level"].empty() and not level_label.visible:
-		level_label.visible = true	
+	if not Global.game_manager.game_data.has("level"):
+		if Global.game_manager.game_data.has("level") and not level_label.visible:
+			level_label.visible = true	
 			
 	# zapis točk do rekorda
 	if Global.game_manager.game_settings["eternal_mode"]:
-		level_label.text = "%02d" % Global.game_manager.current_level 
+		level_label.text = "%02d" % Global.game_manager.game_data["level"]
 		# kateri ima višji score
 		var current_biggest_score: int = 0
 		for player in get_tree().get_nodes_in_group(Global.group_players):
@@ -32,6 +33,7 @@ func _process(delta: float) -> void:
 		level_limit_label_2.text = "POINTS TO LEVEL UP"
 	# zapis straysov na mizi
 	elif Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
+#		if Global.game_manager.game_data.has("level"):
 		level_label.text = "%s" % Global.game_manager.game_data["level"] 
 		level_limit_label_1.text = "%d" % Global.game_manager.strays_in_game_count
 		level_limit_label_2.text = "COLORS TO PICK"
@@ -67,7 +69,7 @@ func set_hud(players_count: int): # kliče main na game-in
 		p2_life_counter.visible = true
 		
 	# level label
-	if Global.game_manager.game_data["level"].empty():
+	if not Global.game_manager.game_data.has("level"):
 		level_label.visible = false
 	
 	# eternal		
@@ -117,14 +119,14 @@ func fade_in_instructions_popup(in_time: float):
 		instructions_label_5.text = "Highscore is the highest points total"
 		instructions_label_6.text = "Don't try to beat the game. It's useless."
 	elif Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
-		title.text = Global.game_manager.game_data["game_name"]  + " " + Global.game_manager.level_conditions["level_name"]
+		title.text = Global.game_manager.game_data["game_name"]  + " " + Global.game_manager.game_data["level_name"]
 		if current_highscore > 0:
 			win_label.text = "Current record by " + str(current_highscore_owner) + " is " + str(current_highscore) + " seconds"
 		else:
 			win_label.text = "This enigma is still unsolved."
 		instructions_label.text = ""
 		instructions_label_2.text = "Collect all colors with a single burst."
-		instructions_label_3.text = Global.game_manager.level_conditions["level_description"]
+		instructions_label_3.text = Global.game_manager.game_data["level_description"]
 		instructions_label_4.text = "Bursting collects all colors in stack, reburst collects one."
 		instructions_label_5.text = "No time limit. Highscore is the fastest time."
 		instructions_label_6.text = ""
@@ -142,7 +144,7 @@ func fade_in_instructions_popup(in_time: float):
 	elif Global.game_manager.game_data["game"] == Profiles.Games.CLEANER_DUEL:
 		$Popups/Instructions/Controls.hide()
 		$Popups/Instructions/ControlsDuel.show()
-		title.text = Global.game_manager.game_data["game_name"] + " " + Global.game_manager.game_data["level"]
+		title.text = Global.game_manager.game_data["game_name"]
 		win_label.text = "Surviving player or player with higher points total wins."
 		instructions_label.text = "Game is over when a player loses all lives or time runs out."
 		instructions_label_2.text = "Energy depletes with travelling or hitting a wall."
@@ -153,7 +155,7 @@ func fade_in_instructions_popup(in_time: float):
 	else: # ERASERji
 		$Popups/Instructions/Controls.show()
 		$Popups/Instructions/ControlsDuel.hide()
-		title.text = Global.game_manager.game_data["game_name"] + " " + Global.game_manager.game_data["level"]
+		title.text = Global.game_manager.game_data["game_name"]
 		win_label.text = "Collect all available colors."
 		instructions_label.text = "Game is over when you are out of energy."
 		instructions_label_2.text = "Energy depletes with travelling or hitting a wall."

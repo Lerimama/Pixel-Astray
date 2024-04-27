@@ -28,8 +28,7 @@ func _ready() -> void:
 	# za vsak gumb preverim če pripada rešenemu level
 	for btn in btn_grid_container.get_children():
 		var btn_index: int = btn_grid_container.get_children().find(btn)
-		var btn_level_conditions: Dictionary = Profiles.enigma_level_conditions[btn_index + 1]
-		if solved_levels.has(btn_level_conditions["level_name"]):
+		if btn_index + 1 in solved_levels:
 			btn.modulate = Global.color_green
 		
 
@@ -45,8 +44,9 @@ func play_selected_level(selected_level: int):
 	# set enigma game data
 	Profiles.set_game_data(Profiles.Games.ENIGMA)
 	# spremeni game data level v level name iz level conditions
-	Profiles.current_game_data["level"] = Profiles.enigma_level_conditions[selected_level]["level_name"]
-	Profiles.current_game_data["level_number"] = selected_level
+	Profiles.current_game_data["level"] = selected_level
+#	Profiles.current_game_data["level"] = Profiles.enigma_level_conditions[selected_level]["level_name"]
+#	Profiles.current_game_data["level_number"] = selected_level
 	Global.sound_manager.play_gui_sfx("menu_fade")
 	animation_player.play("play_enigma_level")
 	get_viewport().set_disable_input(true)

@@ -8,15 +8,17 @@ func show_game_summary():
 
 	# get stats
 	selected_game_summary.get_node("DataContainer/Game").text %= str(Global.game_manager.game_data["game_name"])
-#	selected_game_summary.get_node("DataContainer/Level").text %= str(Global.game_manager.game_data["level"])
-	selected_game_summary.get_node("DataContainer/Level").text %= str(Global.game_manager.current_level)
+	if not Global.game_manager.game_data.has("level"):
+		selected_game_summary.get_node("DataContainer/Level").hide()
+	else:
+		selected_game_summary.get_node("DataContainer/Level").text %= str(Global.game_manager.game_data["level"])
 	selected_game_summary.get_node("DataContainer/Points").text %= str(p1_final_stats["player_points"])
 	selected_game_summary.get_node("DataContainer/Time").text %= str(Global.hud.game_timer.time_since_start)
 	selected_game_summary.get_node("DataContainer/CellsTraveled").text %= str(p1_final_stats["cells_traveled"])
 	selected_game_summary.get_node("DataContainer/BurstCount").text %= str(p1_final_stats["burst_count"])
-#	selected_game_summary.get_node("DataContainer/SkillsUsed").text %= str(p1_final_stats["skill_count"])
 	selected_game_summary.get_node("DataContainer/PixelsOff").text %= str(p1_final_stats["colors_collected"])
-#	selected_game_summary.get_node("DataContainer/AstrayPixels").text %= str(Global.game_manager.strays_in_game_count)
+	#	selected_game_summary.get_node("DataContainer/SkillsUsed").text %= str(p1_final_stats["skill_count"])
+	#	selected_game_summary.get_node("DataContainer/AstrayPixels").text %= str(Global.game_manager.strays_in_game_count)
 	
 	selected_game_summary.visible = true	
 	game_summary_holder.visible = true	

@@ -28,7 +28,7 @@ func set_hud(players_count: int): # kliče main na game-in
 		p1_energy_counter.visible = false
 
 	# level label
-	if Global.game_manager.game_data["level"].empty():
+	if not Global.game_manager.game_data.has("level"):
 		level_label.visible = false
 
 	# glede na to kaj šteje ...
@@ -141,7 +141,7 @@ func fade_in_instructions_popup(in_time: float):
 		instructions_label_5.text = "Highscore is the fastest time."
 		instructions_label_6.text = ""
 	else: # RIDDLERs
-		title.text = Global.game_manager.game_data["game_name"] + " " + Global.game_manager.game_data["level"]
+		title.text = Global.game_manager.game_data["game_name"]
 		win_label.text = "Collect all colors with a single burst."
 		instructions_label.text = "Game is over when you burst and don't collect all available colors."
 		instructions_label_2.text = "Energy and speed are constant."

@@ -143,8 +143,7 @@ enum HighscoreTypes {
 var game_data_eraser_S: Dictionary = { 
 	"game": Games.ERASER_S,
 	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "Eraser",
-	"level": "S",
+	"game_name": "Eraser S",
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eraser.tscn",
 	"game_time_limit": 0,
@@ -153,8 +152,7 @@ var game_data_eraser_S: Dictionary = {
 var game_data_eraser_M: Dictionary = {
 	"game": Games.ERASER_M,
 	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "Eraser",
-	"level": "M",
+	"game_name": "Eraser M",
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eraser.tscn",
 	"game_time_limit": 0,
@@ -163,8 +161,7 @@ var game_data_eraser_M: Dictionary = {
 var game_data_eraser_L: Dictionary = {
 	"game": Games.ERASER_L,
 	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "Eraser",
-	"level": "L",
+	"game_name": "Eraser L",
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eraser.tscn",
 	"game_time_limit": 0,
@@ -174,7 +171,6 @@ var game_data_cleaner: Dictionary = {
 	"game": Games.CLEANER,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Cleaner",
-	"level": "",
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner.tscn",
 	"game_time_limit": 300,
@@ -183,8 +179,7 @@ var game_data_cleaner: Dictionary = {
 var game_data_cleaner_duel: Dictionary = {
 	"game": Games.CLEANER_DUEL,
 	"highscore_type": HighscoreTypes.NO_HS,
-	"game_name": "Cleaner",
-	"level": "Duel",
+	"game_name": "Cleaner Duel",
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner_duel.tscn",
 	"game_time_limit": 60,
@@ -194,7 +189,6 @@ var game_data_runner: Dictionary = {
 	"game": Games.RUNNER,
 	"highscore_type": HighscoreTypes.HS_TIME_LOW,
 	"game_name": "Runner",
-	"level": "",
 	"game_scene_path": "res://game/game_patterns.tscn",
 	"tilemap_path": "res://game/tilemaps/patterns/tilemap_runner.tscn",
 	"game_time_limit": 0,
@@ -203,8 +197,7 @@ var game_data_runner: Dictionary = {
 var game_data_riddler_S: Dictionary = {
 	"game": Games.RIDDLER_S,
 	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "Riddler",
-	"level": "S", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
+	"game_name": "Riddler S",
 	"game_scene_path": "res://game/game_patterns.tscn",
 	"tilemap_path": "res://game/tilemaps/patterns/tilemap_riddler_S.tscn", # odvisna od sselected level
 	"game_time_limit": 0, # odvisna od selected level
@@ -213,8 +206,7 @@ var game_data_riddler_S: Dictionary = {
 var game_data_riddler_M: Dictionary = {
 	"game": Games.RIDDLER_M,
 	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "Riddler",
-	"level": "M", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
+	"game_name": "Riddler M",
 	"game_scene_path": "res://game/game_patterns.tscn",
 	"tilemap_path": "res://game/tilemaps/patterns/tilemap_riddler_M.tscn", # odvisna od sselected level
 	"game_time_limit": 0, # odvisna od selected level
@@ -223,8 +215,7 @@ var game_data_riddler_M: Dictionary = {
 var game_data_riddler_L: Dictionary = {
 	"game": Games.RIDDLER_L,
 	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "Riddler",
-	"level": "L",
+	"game_name": "Riddler L",
 	"game_scene_path": "res://game/game_patterns.tscn",
 	"tilemap_path": "res://game/tilemaps/patterns/tilemap_riddler_L.tscn", # odvisna od sselected level
 	"game_time_limit": 0, # odvisna od selected level
@@ -234,27 +225,28 @@ var game_data_scroller: Dictionary = {
 	"game": Games.SCROLLER,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Scroller",
-	"level": "", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico ... sem uredil da hud preverja in prikaže
 	"game_scene_path": "res://game/game_scrolling.tscn",
 	"tilemap_path": "res://game/tilemaps/scrolling/tilemap_scrolling.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 50, # pravi se seta znotraj igre
+	# xtra
+	"level": "", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico ... sem uredil da hud preverja in prikaže
 }
 var game_data_slider: Dictionary = { 
 	"game": Games.SLIDER,
 	"highscore_type": HighscoreTypes.HS_POINTS,
-	"game_name": "Slider",
 	"level": "", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico ... sem uredil da hud preverja in prikaže
 	"game_scene_path": "res://game/game_scrolling.tscn",
 	"tilemap_path": "res://game/tilemaps/scrolling/tilemap_slider.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 50, # pravi se seta znotraj igre
+	# xtra
+	"game_name": "Slider",
 }
 var game_data_tutorial: Dictionary = { 
 	"game": Games.TUTORIAL,
 	"highscore_type": HighscoreTypes.NO_HS,
 	"game_name": "Tutorial",
-	"level": "",
 	"game_scene_path": "res://game/game_class.tscn",
 	"tilemap_path": "res://game/tilemaps/tutorial_tilemap.tscn",
 	"game_time_limit": 0,
@@ -264,33 +256,48 @@ var game_data_eternal: Dictionary = {
 	"game": Games.ETERNAL,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Eternal",
-	"level": "",
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eternal.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 50,
+	# xtra
+	"level": 1, # zmerej se začne s prvim
+	"respawn_wait_time": 1,
+	"respawn_wait_time_factor": 0.7, # množim z vsakim levelom
+	"respawn_strays_count": 1,
+	"respawn_strays_count_grow": 1, # prištejem z vsakim levelom
+	"level_points_limit": 320,
+	"level_points_limit_grow": 320, # prištejem z vsakim levelom
+	"level_spawn_strays_count_grow": 5, # prištejem z vsakim levelom
 }
 var game_data_eternal_xl: Dictionary = { 
 	"game": Games.ETERNAL_XL,
 	"highscore_type": HighscoreTypes.HS_POINTS,
-	"game_name": "Eternal",
-	"level": "XL",
+	"game_name": "Eternal XL",
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eternal_xl.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 320,
+	# xtra
+	"level": 1, # zmerej se začne s prvim
+	"respawn_wait_time": 1,
+	"respawn_wait_time_factor": 0.7, # množim z vsakim levelom
+	"respawn_strays_count": 1,
+	"respawn_strays_count_grow": 1, # prištejem z vsakim levelom
+	"level_points_limit": 10,
+	"level_points_limit_grow": 320, # prištejem z vsakim levelom
+	"level_spawn_strays_count_grow": 50, # prištejem z vsakim levelom
 }
 var game_data_enigma: Dictionary = {
 	"game": Games.ENIGMA,
 	"highscore_type": HighscoreTypes.HS_TIME_LOW,
 	"game_name": "Enigma",
 	"game_scene_path": "res://game/game_cleaning.tscn",
+	"game_time_limit": 0,
 	"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_00.tscn", # samo za prvo stopnjo
-	"game_time_limit": 0, # odvisna od selected level
-	"strays_start_count": 0, # 468 jih je v stackih
-	"level": "0NE", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico
-	
-	"level_number": 1, # tole se seta ob izbiri igre v home ... samo za grebanje iz pravega slovarja pogojev
+	"strays_start_count": 0, 
+	# xtra
+	"level": 0,
 }
 
 # LEVEL -----------------------------------------------------------------------------------
@@ -477,8 +484,9 @@ var eternal_level_conditions: Dictionary = {
 	},
 }
 
-var enigma_level_conditions: Dictionary = {
-	1: {
+var enigma_level_conditions: Dictionary = { # ključ je tudi številka levela
+	1: { 
+#		"level": "ONE", # ko se nalouda level tole postane "level v game_data slovarju
 		"level_name": "ONE", # ko se nalouda level tole postane "level v game_data slovarju
 		"level_hs": 1, 
 		"strays_to_clean_count": 0,
@@ -555,8 +563,8 @@ var current_color_scheme: Dictionary = game_color_schemes["default_color_scheme"
 func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
-	var current_game = Games.ENIGMA
-#	var current_game = Games.ETERNAL
+#	var current_game = Games.ENIGMA
+	var current_game = Games.ETERNAL
 #	var current_game = Games.ETERNAL_XL
 #	var current_game = Games.CLEANER
 #	var current_game = Games.ERASER_S
@@ -576,7 +584,10 @@ func set_game_data(selected_game) -> void:
 	match selected_game:
 		Games.ENIGMA: 
 			current_game_data = game_data_enigma
-			current_game_data["level_number"] = 1
+			current_game_data["level"] = 1
+#			current_game_data["level_number"] = 1
+			
+			
 			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
 			game_settings["lose_life_on_hit"] = true
 			game_settings["timer_mode_countdown"] = false
@@ -588,7 +599,7 @@ func set_game_data(selected_game) -> void:
 #			game_settings["camera_fixed"] = false
 			game_settings["player_start_color"] = Color.white
 			game_settings["start_countdown"] = false
-			game_settings["game_instructions_popup"] = true
+			game_settings["game_instructions_popup"] = false
 			
 			
 		Games.ETERNAL: 

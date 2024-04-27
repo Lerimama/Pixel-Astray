@@ -12,9 +12,10 @@ func _process(delta: float) -> void:
 	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
 
 	# level label show on fill
-	if not Global.game_manager.game_data["level"].empty() and not level_label.visible:
-		level_label.visible = true	
-	level_label.text = "%02d" % Global.game_manager.current_level 
+	if Global.game_manager.game_data.has("level"):
+		if not level_label.visible:
+			level_label.visible = true	
+		level_label.text = "%02d" % Global.game_manager.game_data["level"]
 	
 	
 func set_hud(players_count: int): # kliče main na game-in
@@ -44,7 +45,7 @@ func set_hud(players_count: int): # kliče main na game-in
 		p1_energy_counter.visible = true
 
 	# level label
-	if Global.game_manager.game_data["level"].empty():
+	if not Global.game_manager.game_data.has("level"):
 		level_label.visible = false
 
 	# glede na to kaj šteje ...
@@ -87,7 +88,7 @@ func fade_in_instructions_popup(in_time: float):
 	
 	$Popups/Instructions/Controls.show()
 	$Popups/Instructions/ControlsDuel.hide()
-	title.text = Global.game_manager.game_data["game_name"] # + " " + Global.game_manager.game_data["level"]
+	title.text = Global.game_manager.game_data["game_name"]
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
 		win_label.text = "Collect colors to progress through all 10 levels."

@@ -1,11 +1,11 @@
 extends GameManager
 
 
-var current_level: int = 0 # za eternal
+#var current_level: int = 1 # za eternal
 var level_upgrade_in_progress: bool = false # ustavim klicanje naslednjih levelov
 var current_enigma_name: String = "Null"# ime levele ... lahko številka
 
-var level_conditions: Dictionary
+#var level_conditions: Dictionary
 var first_respawn_time: float = 5
 var respawn_wait_time: float
 var respawn_strays_count: int
@@ -42,17 +42,49 @@ func _ready() -> void:
 	
 	# set_level_conditions on start
 	if game_settings["eternal_mode"]:
-		if game_data["game"] == Profiles.Games.ETERNAL:
-			level_conditions = Profiles.eternal_level_conditions[1]
-		elif game_data["game"] == Profiles.Games.ETERNAL_XL:
-			level_conditions = Profiles.eternal_level_conditions[2]
-		respawn_wait_time = level_conditions["respawn_wait_time"]
-		respawn_strays_count = level_conditions["respawn_strays_count"]
-		level_points_limit = level_conditions["level_points_limit"]
+#		var current_level_settings: Dictionary
+#		if game_data["game"] == Profiles.Games.ETERNAL:
+#			current_level_settings = Profiles.eternal_level_conditions[1]
+#		elif game_data["game"] == Profiles.Games.ETERNAL_XL:
+#			current_level_settings = Profiles.eternal_level_conditions[2]
+#		# prepišem level slovar v game data slovar
+#		for key in current_level_settings:
+#			game_data[key] = current_level_settings[key]
+		# setam level settings
+		respawn_wait_time = game_data["respawn_wait_time"]
+		respawn_strays_count = game_data["respawn_strays_count"]
+		level_points_limit = game_data["level_points_limit"]
+#		current_level = game_data["level"]
+	
 	if game_data["game"] == Profiles.Games.ENIGMA:
-		current_level = game_data["level_number"]
-		level_conditions = Profiles.enigma_level_conditions[current_level]
-		game_data["level"] = level_conditions["level_name"]
+#		current_level = 1
+#		current_level = game_data["level"]
+#		current_level = game_data["level"]
+		var current_level_settings: Dictionary = Profiles.enigma_level_conditions[game_data["level"]]
+#		print ("cond", Profiles.enigma_level_conditions[current_level])
+		for setting in current_level_settings:
+#			printt ("key", key)
+			game_data[setting] = current_level_settings[setting]
+		print ("GD", game_data)
+		
+#		level_conditions = Profiles.enigma_level_conditions[current_level]
+#		game_data["level"] = level_conditions["level_name"]	
+
+
+#	# set_level_conditions on start
+#	if game_settings["eternal_mode"]:
+#		if game_data["game"] == Profiles.Games.ETERNAL:
+#			level_conditions = Profiles.eternal_level_conditions[1]
+#		elif game_data["game"] == Profiles.Games.ETERNAL_XL:
+#			level_conditions = Profiles.eternal_level_conditions[2]
+#		respawn_wait_time = level_conditions["respawn_wait_time"]
+#		respawn_strays_count = level_conditions["respawn_strays_count"]
+#		level_points_limit = level_conditions["level_points_limit"]
+#	if game_data["game"] == Profiles.Games.ENIGMA:
+##		current_level = game_data["level_number"]
+#		current_level = game_data["level"]
+#		level_conditions = Profiles.enigma_level_conditions[current_level]
+##		game_data["level"] = level_conditions["level_name"]
 
 
 func _process(delta: float) -> void:
@@ -109,7 +141,8 @@ func set_tilemap():
 	
 	var tilemap_to_load_path: String
 	if game_data["game"] == Profiles.Games.ENIGMA: # path vlečem iz level conditions
-		tilemap_to_load_path = level_conditions["level_tilemap_path"]
+#		tilemap_to_load_path = level_conditions["level_tilemap_path"]
+		tilemap_to_load_path = game_data["level_tilemap_path"]
 	else:
 		tilemap_to_load_path = game_data["tilemap_path"]
 		
@@ -137,6 +170,7 @@ func spawn_strays(strays_to_spawn_count: int):
 	# namen: split colors ...  naredim gradient iz naklujčnih barv iz spektruma	
 	
 	strays_to_spawn_count = clamp(strays_to_spawn_count, 1, strays_to_spawn_count) # za vsak slučaj klempam, da ne more biti nikoli 0 ...  ker je error			
+	var current_level: int = game_data["level"]
 	
 	# COLORS
 	
@@ -346,9 +380,10 @@ func upgrade_level(): # za eternal
 	
 	level_upgrade_in_progress = true	
 	
-	current_level += 1 # številka novega levela 
+	game_data["level"] += 1 # številka novega levela 
 	respawn_timer.stop()
-	Global.hud.level_up_popup_in(current_level)
+	Global.hud.level_up_popup_in(game_data["level"])
+#	Global.hud.level_up_popup_in(current_level)
 	
 	# set for new level
 	set_new_level_conditions() 
@@ -376,14 +411,15 @@ func upgrade_level(): # za eternal
 func set_new_level_conditions(): # za eternal
 	
 	if game_settings["eternal_mode"]:
-		if current_level > 0:
-			level_points_limit += level_conditions["level_points_limit_grow"]
-			respawn_wait_time *= level_conditions["respawn_wait_time_factor"]
-			respawn_strays_count = level_conditions["respawn_strays_count_grow"]
-			# število spawnanih straysov
-			start_strays_spawn_count += level_conditions["level_spawn_strays_count_grow"]
-		
-		if current_level == 1:
+#		if current_level > 0:
+#		game_data["level"] += 1
+#		game_data["level"] = current_level
+		level_points_limit += game_data["level_points_limit_grow"]
+		respawn_wait_time *= game_data["respawn_wait_time_factor"]
+		respawn_strays_count = game_data["respawn_strays_count_grow"]
+		# število spawnanih straysov
+		start_strays_spawn_count += game_data["level_spawn_strays_count_grow"]
+		if game_data["level"] == 2: # prvi level ko se štarta zares
 			start_strays_spawn_count = game_data["strays_start_count"]
 
 

@@ -129,7 +129,9 @@ func show_gameover_menu():
 			var score_is_ranking = Global.data_manager.manage_gameover_highscores(current_score_points, current_score_time, Global.game_manager.game_data) 
 			
 			# score štejem samo če vse spuca
-			if Global.game_manager.game_data["game_name"] == "Eraser" and not current_gameover_reason == Global.game_manager.GameoverReason.CLEANED: 
+			var eraser_games: Array = [Profiles.Games.ERASER_S, Profiles.Games.ERASER_M, Profiles.Games.ERASER_L]
+			if eraser_games.has(Global.game_manager.game_data["game"]) and not current_gameover_reason == Global.game_manager.GameoverReason.CLEANED: 
+#			if Global.game_manager.game_data["game"] == Profiles.Games.ERASER_L and not current_gameover_reason == Global.game_manager.GameoverReason.CLEANED: 
 				yield(get_tree().create_timer(1), "timeout")
 				current_player_ranking = 100 # zazih ni na lestvici
 			else:
@@ -150,7 +152,10 @@ func show_game_summary():
 
 	# get stats
 	selected_game_summary.get_node("DataContainer/Game").text %= str(Global.game_manager.game_data["game_name"])
-	selected_game_summary.get_node("DataContainer/Level").text %= str(Global.game_manager.game_data["level"])
+	if not Global.game_manager.game_data.has("level"):
+		selected_game_summary.get_node("DataContainer/Level").hide()
+	else:
+		selected_game_summary.get_node("DataContainer/Level").text %= str(Global.game_manager.game_data["level"])
 	selected_game_summary.get_node("DataContainer/Points").text %= str(p1_final_stats["player_points"])
 	selected_game_summary.get_node("DataContainer/Time").text %= str(Global.hud.game_timer.time_since_start)
 	selected_game_summary.get_node("DataContainer/CellsTraveled").text %= str(p1_final_stats["cells_traveled"])

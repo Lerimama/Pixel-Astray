@@ -86,7 +86,8 @@ func _ready() -> void:
 	footer.rect_position.y = screen_height
 		
 	game_label.text = Global.game_manager.game_data["game_name"]
-	level_label.text = Global.game_manager.game_data["level"]
+	if Global.game_manager.game_data.has("level"):
+		level_label.text = "%02d" % Global.game_manager.game_data["level"]
 	
 	
 func _process(delta: float) -> void:
@@ -259,7 +260,7 @@ func set_hud(players_count: int): # kliče main na game-in
 		p2_life_counter.visible = true
 	
 	# level label	
-	if Global.game_manager.game_data["level"].empty():
+	if not Global.game_manager.game_data.has("level"):
 		level_label.visible = false
 	
 	# scrolling game 	

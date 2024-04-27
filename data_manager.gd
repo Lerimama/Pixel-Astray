@@ -5,7 +5,7 @@ signal highscores_updated # ko je vnešeno ime igralca
 
 var data_file: = File.new()
 var current_player_ranking: int # da ob rendriranju HS, lahko označim aktualni rezultat ... v GM
-
+var all_games_key
 var default_highscores: Dictionary = { # slovar, ki se uporabi, če še ni nobenega v filetu
 	"1": {"Nobody": 0,},
 	"2": {"Nobody": 0,},
@@ -150,10 +150,10 @@ func write_highscores_to_file(write_game_data: Dictionary, new_game_highscores: 
 
 	# load highscore
 	var write_game_name: String
-	if write_game_data["level"].empty():
-		write_game_name = write_game_data["game_name"]
+	if write_game_data.has("level"):
+		write_game_name = Profiles.Games.keys()[write_game_data["game"]] + "_" + str(write_game_data["level"])
 	else:
-		write_game_name = write_game_data["game_name"] + "_" + write_game_data["level"]	
+		write_game_name = Profiles.Games.keys()[write_game_data["game"]]
 	
 	# podam novi HS v json obliko
 	var json_string = JSON.print(new_game_highscores)
@@ -169,10 +169,10 @@ func write_highscores_to_file(write_game_data: Dictionary, new_game_highscores: 
 func read_highscores_from_file(read_game_data: Dictionary):
 
 	var read_game_name: String
-	if read_game_data["level"].empty():
-		read_game_name = read_game_data["game_name"]
+	if read_game_data.has("level"):
+		read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_" + str(read_game_data["level"])
 	else:
-		read_game_name = read_game_data["game_name"] + "_" + read_game_data["level"]
+		read_game_name = Profiles.Games.keys()[read_game_data["game"]]
 	
 	# preverjam obstoj fileta ... ob prvem nalaganju igre
 	var error = data_file.open("user://%s_highscores.save" % read_game_name, File.READ)
@@ -195,10 +195,14 @@ func read_highscores_from_file(read_game_data: Dictionary):
 
 
 func write_solved_status_to_file(write_game_data: Dictionary): # kadar je klican, pomeni, da je uganka rešena
+#	print(Profiles.Games.keys()[Profiles.Games.write_game_data["game"]])
+#	print(write_game_data["game"], Profiles.Games.keys()[write_game_data["game"]])
+#	var write_game: String = Profiles.Games.keys()[write_game_data["game"]]
+#	print(write_game)
 
 	# load highscore
-	var write_game_name: String = write_game_data["game_name"]
-	var solved_level: String = write_game_data["level"]
+	var write_game_name: String = Profiles.Games.keys()[write_game_data["game"]]
+	var solved_level: int = write_game_data["level"]
 	
 	# sestavim array vseh rešenih levelov
 	var all_solved_levels: Array = read_solved_status_from_file(write_game_data) # če fileta ni ga funckija ustvari in zapiše prazen array
@@ -213,7 +217,7 @@ func write_solved_status_to_file(write_game_data: Dictionary): # kadar je klican
 		
 func read_solved_status_from_file(read_game_data: Dictionary):
 
-	var read_game_name: String = read_game_data["game_name"]
+	var read_game_name: String = Profiles.Games.keys()[read_game_data["game"]]
 
 	# preverjam obstoj fileta ... ob prvem nalaganju igre
 	var error = data_file.open("user://%s_solved.save" % read_game_name, File.READ)

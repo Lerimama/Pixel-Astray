@@ -99,7 +99,8 @@ func _ready() -> void:
 	footer.rect_position.y = screen_height
 		
 	game_label.text = Global.game_manager.game_data["game_name"]
-	level_label.text = Global.game_manager.game_data["level"]
+	if Global.game_manager.game_data.has("level"):
+		level_label.text = "%02d" % Global.game_manager.game_data["level"]
 	
 	if Global.game_manager.game_settings["spectrum_start_on"]:
 		picked_indicator_alpha = 0.2
@@ -115,8 +116,10 @@ func _process(delta: float) -> void:
 	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
 
 	# level label show on fill
-	if not Global.game_manager.game_data["level"].empty() and not level_label.visible:
-		level_label.visible = true
+	if Global.game_manager.game_data.has("level"):
+		if not level_label.visible:
+			level_label.visible = true	
+		level_label.text = "%02d" % Global.game_manager.game_data["level"]
 
 
 func set_hud(players_count: int): # kliče main na game-in
@@ -148,7 +151,7 @@ func set_hud(players_count: int): # kliče main na game-in
 		p2_life_counter.visible = true
 		
 	# level label
-	if Global.game_manager.game_data["level"].empty():
+	if not Global.game_manager.game_data.has("level"):
 		level_label.visible = false
 	
 	# glede na to kaj šteje ...
@@ -171,10 +174,10 @@ func set_hud(players_count: int): # kliče main na game-in
 		
 func set_current_highscore():
 	
-	var current_game_name = Global.game_manager.game_data["game_name"]
-	var current_game_level = Global.game_manager.game_data["level"]
+#	var current_game_name = Global.game_manager.game_data["game_name"]
+#	var current_game_name = Profiles.Games.keys()[Global.game_manager.game_data["game"]]
+#	var current_game_level = Global.game_manager.game_data["level"]
 	var current_highscore_line: Array = Global.data_manager.get_top_highscore(Global.game_manager.game_data)
-	
 	current_highscore = current_highscore_line[0]
 	current_highscore_owner = current_highscore_line[1]
 	
