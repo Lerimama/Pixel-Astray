@@ -123,7 +123,7 @@ func show_gameover_menu():
 			show_game_summary()
 		else:
 			var current_score_points: int = p1_final_stats["player_points"]
-			var current_score_time: int = Global.hud.game_timer.time_since_start
+			var current_score_time: int = Global.hud.game_timer.absolute_game_time
 			
 			# yield čaka na konec preverke ... tip ni opredeljen, ker je ranking, če ni skora kot objecta, če je ranking
 			var score_is_ranking = Global.data_manager.manage_gameover_highscores(current_score_points, current_score_time, Global.game_manager.game_data) 
@@ -157,7 +157,7 @@ func show_game_summary():
 	else:
 		selected_game_summary.get_node("DataContainer/Level").text %= str(Global.game_manager.game_data["level"])
 	selected_game_summary.get_node("DataContainer/Points").text %= str(p1_final_stats["player_points"])
-	selected_game_summary.get_node("DataContainer/Time").text %= str(Global.hud.game_timer.time_since_start)
+	selected_game_summary.get_node("DataContainer/Time").text %= str(Global.hud.game_timer.absolute_game_time)
 	selected_game_summary.get_node("DataContainer/CellsTraveled").text %= str(p1_final_stats["cells_traveled"])
 	selected_game_summary.get_node("DataContainer/BurstCount").text %= str(p1_final_stats["burst_count"])
 	selected_game_summary.get_node("DataContainer/SkillsUsed").text %= str(p1_final_stats["skill_count"])

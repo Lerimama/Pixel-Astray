@@ -1,4 +1,4 @@
-[gd_scene load_steps=163 format=2]
+[gd_scene load_steps=164 format=2]
 
 [ext_resource path="res://assets/theme/fonts/16bfZX.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://game/hud/music_player.gd" type="Script" id=2]
@@ -25,6 +25,7 @@
 [ext_resource path="res://game/minimap_camera.gd" type="Script" id=23]
 [ext_resource path="res://game/gui/tutorial_gui.gd" type="Script" id=24]
 [ext_resource path="res://assets/resources/icon_label_dot.tres" type="Texture" id=25]
+[ext_resource path="res://game/hud/hud_game_timer_hunds.tscn" type="PackedScene" id=26]
 
 [sub_resource type="Gradient" id=225]
 colors = PoolColorArray( 1, 1, 1, 1, 0.390625, 0.390625, 0.390625, 1 )
@@ -2343,7 +2344,14 @@ __meta__ = {
 "_editor_description_": ""
 }
 
+[node name="GameTimerHunds" parent="GUI/Hud/Header" instance=ExtResource( 26 )]
+margin_left = 588.0
+margin_top = -3.0
+margin_right = 692.0
+margin_bottom = 29.0
+
 [node name="GameTimer" type="HBoxContainer" parent="GUI/Hud/Header"]
+visible = false
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -38.0
@@ -5465,6 +5473,8 @@ text = "CONFIRM"
 align = 0
 
 [connection signal="animation_finished" from="GUI/Hud/Popups/GameCountdown/AnimationPlayer" to="GUI/Hud/Popups/GameCountdown" method="_on_AnimationPlayer_animation_finished"]
+[connection signal="gametime_is_up" from="GUI/Hud/Header/GameTimerHunds" to="GUI/Hud" method="_on_GameTimer_gametime_is_up"]
+[connection signal="sudden_death_activated" from="GUI/Hud/Header/GameTimerHunds" to="GUI/Hud" method="_on_GameTimer_sudden_death_active"]
 [connection signal="gametime_is_up" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_gametime_is_up"]
 [connection signal="sudden_death_active" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_sudden_death_active"]
 [connection signal="timeout" from="GUI/Hud/Header/GameTimer/Timer" to="GUI/Hud/Header/GameTimer" method="_on_Timer_timeout"]

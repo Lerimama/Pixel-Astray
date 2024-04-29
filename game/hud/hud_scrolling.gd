@@ -175,5 +175,3 @@ func check_for_warning(player_stats: Dictionary, warning_popup: Control):
 
 func _on_StartButton_pressed() -> void:
 	pass # Replace with function body.
-
-

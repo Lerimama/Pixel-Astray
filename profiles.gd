@@ -224,20 +224,52 @@ var game_data_scroller: Dictionary = {
 	"game_scene_path": "res://game/game_scrolling.tscn",
 	"tilemap_path": "res://game/tilemaps/scrolling/tilemap_scrolling.tscn",
 	"game_time_limit": 0,
-	"strays_start_count": 50, # pravi se seta znotraj igre
+	"strays_start_count": 1, # samo spawn prve runde
 	# xtra
-	"level": "", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico ... sem uredil da hud preverja in prikaže
+	"level": 1, # zmeraj začne s prvim
+	"stages_per_level": 4,
+	"stages_per_level_grow": 0,
+	"lines_scroll_per_spawn_round": 1,
+	# pavza med stepanjem
+	"scrolling_pause_time": 0.7, # ne sem bit manjša od stray step hitrosti (0.2)
+	"scrolling_pause_time_factor": 0.9, # množim z vsakim levelom
+	# random spawn na rundo
+	"stray_to_spawn_round_range": [1, 13], # random spawn count, največ 20
+	"round_range_factor_1": 1, # množim spodnjo mejo
+	"round_range_factor_2": 1, # množim zgornjo mejo
+	# možnost spawna v rundi
+	"round_spawn_possibility": 20, # procenti
+	"round_spawn_possibility_factor": 2, # množim procente
 }
+
 var game_data_slider: Dictionary = { 
 	"game": Games.SLIDER,
 	"highscore_type": HighscoreTypes.HS_POINTS,
-	"level": "", # če je čist prazen se ne izpisuje, rabim da samo zgleda prazen za HS lestvico ... sem uredil da hud preverja in prikaže
+	"game_name": "Slider",
 	"game_scene_path": "res://game/game_scrolling.tscn",
 	"tilemap_path": "res://game/tilemaps/scrolling/tilemap_slider.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 50, # pravi se seta znotraj igre
 	# xtra
-	"game_name": "Slider",
+	# neimplementirano
+	"level": 1, # zmeraj začne s prvim
+	"stages_per_level": 32,
+	"stages_per_level_grow": 0,
+	"lines_scroll_per_spawn_round": 14,
+	# pavza med stepanjem
+	"scrolling_pause_time": 0.7, # ne sem bit manjša od stray step hitrosti (0.2)
+	"scrolling_pause_time_factor": 0.9, # množim z vsakim levelom
+	# random spawn na rundo
+	"stray_to_spawn_round_range": [1, 13], # random spawn count, največ 20
+	"round_range_factor_1": 1, # množim spodnjo mejo
+	"round_range_factor_2": 1, # množim zgornjo mejo
+	# možnost spawna v rundi
+	"round_spawn_possibility": 20, # procenti
+	"round_spawn_possibility_factor": 2, # množim procente
+	"color_scheme": game_color_schemes["default_color_scheme"],
+	# old
+	"strays_spawn_count": 14,
+	"wall_spawn_random_range": 5, # določim razpon random izbire, wall se spawna, če je izbrana 1 ali 2 ... manj je več možnosti 
 }
 var game_data_tutorial: Dictionary = { 
 	"game": Games.TUTORIAL,
@@ -264,7 +296,7 @@ var game_data_eternal: Dictionary = {
 	"respawn_strays_count_grow": 1, # prištejem z vsakim levelom
 	"level_points_limit": 320,
 	"level_points_limit_grow": 320, # prištejem z vsakim levelom
-	"level_spawn_strays_count_grow": 5, # prištejem z vsakim levelom
+	"level_strays_spawn_count_grow": 5, # prištejem z vsakim levelom
 }
 var game_data_eternal_xl: Dictionary = { 
 	"game": Games.ETERNAL_XL,
@@ -282,7 +314,7 @@ var game_data_eternal_xl: Dictionary = {
 	"respawn_strays_count_grow": 1, # prištejem z vsakim levelom
 	"level_points_limit": 10,
 	"level_points_limit_grow": 320, # prištejem z vsakim levelom
-	"level_spawn_strays_count_grow": 50, # prištejem z vsakim levelom
+	"level_strays_spawn_count_grow": 50, # prištejem z vsakim levelom
 }
 var game_data_enigma: Dictionary = {
 	"game": Games.ENIGMA,
@@ -290,170 +322,10 @@ var game_data_enigma: Dictionary = {
 	"game_name": "Enigma",
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"game_time_limit": 0,
-#	"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_00.tscn", # samo za prvo stopnjo
 	"strays_start_count": 100, 
-	# xtra
-#	"level": 2, # nafila se iz enigma_level_setting
-}
-
-# LEVEL -----------------------------------------------------------------------------------
-
-
-var scrolling_level_settings: Dictionary = {
-	1: { # tutorial stage ... možnost spucanaj cele linije
-		"color_scheme": game_color_schemes["default_color_scheme"],
-		"stages_per_level": 32, # tutorial je kratka ... tolk da je skor poln pa glih napreduješ
-		"scrolling_pause_time": 0.7, # ne sem bit manjša od stray step hitrosti (0.2)
-		"lines_scroll_per_spawn_round": 14,
-		"strays_spawn_count": 5, # ne več kot 20 na linijo 
-		# naj jih bo toliko, da so  lahko tudi bulki in da je čim več barv
-		# kolk cirka dolžina levela ... 2,5min
-	},
-	2: {
-		"color_scheme": game_color_schemes["color_scheme_2"],
-		"stages_per_level": 32,
-		"scrolling_pause_time": 0.7,
-		"lines_scroll_per_spawn_round": 10,
-		"strays_spawn_count": 14,
-	},
-	3: {
-		"color_scheme": game_color_schemes["color_scheme_3"],
-		"stages_per_level": 32,
-		"scrolling_pause_time": 0.7,
-		"lines_scroll_per_spawn_round": 9,
-		"strays_spawn_count": 14,
-	},
-	4: {
-		"color_scheme": game_color_schemes["color_scheme_4"],
-		"stages_per_level": 32,
-		"scrolling_pause_time": 0.7,
-		"lines_scroll_per_spawn_round": 8,
-		"strays_spawn_count": 14,
-	},
-	5: {
-		"color_scheme": game_color_schemes["color_scheme_5"],
-		"stages_per_level": 32,
-		"scrolling_pause_time": 0.6,
-		"lines_scroll_per_spawn_round": 10,
-		"strays_spawn_count": 14,
-	},
-	6: {
-		"color_scheme": game_color_schemes["color_scheme_6"],
-		"stages_per_level": 32,
-		"scrolling_pause_time": 0.6,
-		"lines_scroll_per_spawn_round": 9,
-		"strays_spawn_count": 14,
-	},
-	7: {
-		"color_scheme": game_color_schemes["color_scheme_7"],
-		"stages_per_level": 32,
-		"scrolling_pause_time": 0.6,
-		"lines_scroll_per_spawn_round": 8,
-		"strays_spawn_count": 14,
-	},
-	8: {
-		"color_scheme": game_color_schemes["color_scheme_8"],
-		"stages_per_level": 32,
-		"scrolling_pause_time": 0.5,
-		"lines_scroll_per_spawn_round": 10,
-		"strays_spawn_count": 14,
-	},
-	9: {
-		"color_scheme": game_color_schemes["color_scheme_9"],
-		"stages_per_level": 32,
-		"scrolling_pause_time": 0.5,
-		"lines_scroll_per_spawn_round": 9,
-		"strays_spawn_count": 14,
-	},
-	10: {
-		"color_scheme": game_color_schemes["default_color_scheme"],
-		"stages_per_level": 32,
-		"scrolling_pause_time": 0.5,
-		"lines_scroll_per_spawn_round": 8,
-		"strays_spawn_count": 14,
-	},
-}
-var slider_level_settings: Dictionary = {
-	1: { # tutorial stage ... lahka in hitr
-		"color_scheme": game_color_schemes["default_color_scheme"],
-		"stages_per_level": 32, # lines scrolled ... tutorial je kratka ... tolk da je skor poln pa glih napreduješ
-		"scrolling_pause_time": 0.7, # ne sem bit manjša od stray step hitrosti (0.2)
-		"lines_scroll_per_spawn_round": 14,
-		"strays_spawn_count": 14,
-		"wall_spawn_random_range": 5, # določim razpon random izbire, wall se spawna, če je izbrana 1 ali 2 ... manj je več možnosti 
-	},
-	2: {
-		"color_scheme": game_color_schemes["color_scheme_2"],
-		"stages_per_level": 32,
-		"scrolling_pause_time": 0.65,
-		"lines_scroll_per_spawn_round": 13,
-		"strays_spawn_count": 14,
-		"wall_spawn_random_range": 5, 
-	},
-	3: {
-		"color_scheme": game_color_schemes["color_scheme_3"],
-		"stages_per_level": 32,
-		"scrolling_pause_time": 0.6,
-		"lines_scroll_per_spawn_round": 12,
-		"strays_spawn_count": 14,
-		"wall_spawn_random_range": 5,
-	},
-	4: {
-		"color_scheme": game_color_schemes["color_scheme_4"],
-		"stages_per_level": 32,
-		"scrolling_pause_time": 0.55,
-		"lines_scroll_per_spawn_round": 11,
-		"strays_spawn_count": 14,
-		"wall_spawn_random_range": 5,
-	},
-	5: {
-		"color_scheme": game_color_schemes["color_scheme_5"],
-		"stages_per_level": 32,
-		"scrolling_pause_time": 0.5,
-		"lines_scroll_per_spawn_round": 10,
-		"strays_spawn_count": 14,
-		"wall_spawn_random_range": 5,
-	},
-	6: {
-		"color_scheme": game_color_schemes["color_scheme_6"],
-		"stages_per_level": 32,
-		"scrolling_pause_time": 0.45,
-		"lines_scroll_per_spawn_round": 9,
-		"strays_spawn_count": 14,
-		"wall_spawn_random_range": 5,
-	},
-	7: {
-		"color_scheme": game_color_schemes["color_scheme_7"],
-		"stages_per_level": 32,
-		"scrolling_pause_time": 0.4,
-		"lines_scroll_per_spawn_round": 8,
-		"strays_spawn_count": 14,
-		"wall_spawn_random_range": 5,
-	},
-	8: {
-		"color_scheme": game_color_schemes["color_scheme_8"],
-		"stages_per_level": 32,
-		"scrolling_pause_time": 0.35,
-		"lines_scroll_per_spawn_round": 7,
-		"strays_spawn_count": 14,
-		"wall_spawn_random_range": 5,
-	},
-	9: {
-		"color_scheme": game_color_schemes["color_scheme_9"],
-		"stages_per_level": 32,
-		"scrolling_pause_time": 0.3,
-		"lines_scroll_per_spawn_round": 6,
-		"strays_spawn_count": 14,
-		"wall_spawn_random_range": 5,
-	},
-	10: {
-		"color_scheme": game_color_schemes["default_color_scheme"],
-		"stages_per_level": 32,
-		"scrolling_pause_time": 0.25,
-		"lines_scroll_per_spawn_round": 5,
-		"strays_spawn_count": 14,
-		"wall_spawn_random_range": 5,
-	},
+	# nafila iz level settingsov
+	#	"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_00.tscn", # samo za prvo stopnjo
+	#	"level": 2, # tudi ob kliku na gumb
 }
 var enigma_level_setting: Dictionary = { 
 	1: { # ključ je tudi številka levela
@@ -515,14 +387,14 @@ var current_color_scheme: Dictionary = game_color_schemes["default_color_scheme"
 func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
-	var debug_game = Games.ENIGMA
+#	var debug_game = Games.ENIGMA
 	
-#	var current_game = Games.ETERNAL
+#	var debug_game = Games.ETERNAL
 #	var current_game = Games.ETERNAL_XL
 #	var current_game = Games.CLEANER
 #	var current_game = Games.ERASER_S
 #	var current_game = Games.CLEANER_DUEL
-#	var current_game = Games.SCROLLER
+	var debug_game = Games.SCROLLER
 #	var current_game = Games.SLIDER
 #	var current_game = Games.RUNNER
 #	var current_game = Games.RIDDLER_M
@@ -545,8 +417,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["color_picked_points"] = 0
 			game_settings["all_cleaned_points"] = 0
 			game_settings["reburst_window_time"] = 0 # 0 = neomejeno
-			
-			game_settings["all_cleaned_points"] = 1
+			game_settings["all_cleaned_points"] = 1 # vsaj ena točka, če ne se sploh ne pokaže ... izpiše se "SUCCESS!"
 			game_settings["color_picked_points"] = 0
 			game_settings["reburst_reward_points"] = 0
 			# debug
@@ -622,6 +493,9 @@ func set_game_data(selected_game) -> void:
 			game_settings["timer_mode_countdown"] = false
 			game_settings["start_countdown"] = false
 			game_settings["position_indicators_mode"] = false 
+			
+			game_settings["game_instructions_popup"] = false
+			current_game_data["level"] = 1
 		Games.SLIDER:
 			current_game_data = game_data_slider
 			game_settings["color_picked_energy"] = 2

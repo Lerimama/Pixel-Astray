@@ -104,10 +104,10 @@ func turn_to_wall(stray_in_stack_index: int):
 	# play_sound("turning_color")
 	play_sound("blinking")
 	
-	var shake_power: float = 0.2
-	var shake_time: float = 0.3
-	var shake_decay: float = 0.7
-	Global.player1_camera.shake_camera(shake_power, shake_time, shake_decay)	
+#	var shake_power: float = 0.2
+#	var shake_time: float = 0.3
+#	var shake_decay: float = 0.7
+#	Global.player1_camera.shake_camera(shake_power, shake_time, shake_decay)	
 
 	# turn to color
 	stray_color.s = 0.0

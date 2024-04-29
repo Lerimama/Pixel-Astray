@@ -8,7 +8,7 @@ enum TimerStates {COUNTING, STOPPED, PAUSED}
 var current_timer_state: int = TimerStates.STOPPED
 
 var limitless_mode: bool # če je gejm tajm 0 in je count-up mode
-var absolute_game_time: float # pozitiven čas igre v sekundah (tudi decimalke)
+var absolute_game_time: float # pozitiven čas igre v sekundah (na 2 decimalki)
 var coundown_second: int # za uravnavanje GO odštevanja ... opredeli s v ready
 
 var game_time_limit: int
@@ -47,7 +47,13 @@ func _process(delta: float) -> void:
 		
 	# game time
 	absolute_game_time += delta # stotinke ... absouletnega uporabljam za izračune v vseh modetih
+	# zaokrožim na dve decimalki
+	var absolute_game_time_decimals: float = absolute_game_time - floor(absolute_game_time)
+	var absolute_game_time_hundreds: float = round(absolute_game_time_decimals * 100)
+	# score je sekunde + stotinke kot decimalke
+	absolute_game_time = floor(absolute_game_time) + absolute_game_time_hundreds / 100
 	
+		
 	# display
 	if stopwatch_mode:	
 		$Mins.text = "%02d" % floor(absolute_game_time/60)

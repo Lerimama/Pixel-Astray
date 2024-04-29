@@ -40,7 +40,7 @@ func _ready() -> void:
 	
 	randomize()
 	
-	# set_level_conditions on start
+	# set_new_level on start
 	if game_settings["eternal_mode"]:
 		game_data["level"] = 1 # zmeraj začnem s prvim levelom
 		respawn_wait_time = game_data["respawn_wait_time"]
@@ -397,7 +397,7 @@ func set_new_level():
 		respawn_wait_time *= game_data["respawn_wait_time_factor"]
 		respawn_strays_count = game_data["respawn_strays_count_grow"]
 		# število spawnanih straysov
-		start_strays_spawn_count += game_data["level_spawn_strays_count_grow"]
+		start_strays_spawn_count += game_data["level_strays_spawn_count_grow"]
 		if game_data["level"] == 2: # prvi level ko se štarta zares
 			start_strays_spawn_count = game_data["strays_start_count"]
 

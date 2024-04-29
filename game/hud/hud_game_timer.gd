@@ -6,7 +6,7 @@ signal gametime_is_up # pošlje se v hud, ki javi game managerju
 
 var current_second: int # trenutna sekunda znotraj minutnega kroga ... ia izpis na uri
 var game_time_seconds: int # čas v tajmerju v sekundah ... GLAVNI TIMER, po katerem se vse umerja
-var time_since_start: float # ne glede na mode, vedno želiš vedet koliko sekund je porabljeno od začetka ... za statistiko
+var absolute_game_time: float # ne glede na mode, vedno želiš vedet koliko sekund je porabljeno od začetka ... za statistiko
 var limitless_mode: bool # če je gejm tajm 0 in je count-up mode
 
 onready var game_time_limit: int = Global.game_manager.game_data["game_time_limit"]
@@ -27,7 +27,7 @@ func _ready() -> void:
 	elif game_time_limit == 0:
 		limitless_mode = true
 			
-	time_since_start = 0
+	absolute_game_time = 0
 
 
 func _process(delta: float) -> void:
@@ -108,7 +108,7 @@ func stop_timer():
 
 func _on_Timer_timeout() -> void:
 	
-	time_since_start += 1
+	absolute_game_time += 1
 	
 	if countdown_mode:
 		game_time_seconds -= 1

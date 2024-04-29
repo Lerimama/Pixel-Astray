@@ -234,8 +234,8 @@ func check_for_hs(player_stats: Dictionary):
 			highscore_label.text = "HS " + str(current_highscore) + "s"
 			highscore_label.modulate = Global.color_hud_text
 		Profiles.HighscoreTypes.HS_TIME_HIGH:
-			if game_timer.time_since_start > current_highscore:
-				highscore_label.text = "HS " +  str(game_timer.time_since_start) + "s"
+			if game_timer.absolute_game_time > current_highscore:
+				highscore_label.text = "HS " +  str(game_timer.absolute_game_time) + "s"
 				highscore_label.modulate = Global.color_green
 			else:				
 				highscore_label.text = "HS " +  str(current_highscore) + "s"
@@ -414,5 +414,5 @@ func _on_GameTimer_gametime_is_up() -> void: # signal iz tajmerja
 	Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
 
 
-func _on_InstructionsStartButton_pressed() -> void:
+func _on_GameTimer_sudden_death_active() -> void:
 	pass # Replace with function body.

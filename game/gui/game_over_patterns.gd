@@ -25,7 +25,7 @@ func show_gameover_menu():
 			show_game_summary()
 		else:
 			var current_score_points: int = p1_final_stats["player_points"]
-			var current_score_time: int = Global.hud.game_timer.time_since_start
+			var current_score_time: int = Global.hud.game_timer.absolute_game_time
 			
 			# yield čaka na konec preverke ... tip ni opredeljen, ker je ranking, če ni skora kot objecta, če je ranking
 			var score_is_ranking = Global.data_manager.manage_gameover_highscores(current_score_points, current_score_time, Global.game_manager.game_data) 
