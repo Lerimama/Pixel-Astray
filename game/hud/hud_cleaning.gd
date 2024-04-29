@@ -16,9 +16,8 @@ func _process(delta: float) -> void:
 	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
 
 	# level label show on fill
-	if not Global.game_manager.game_data.has("level"):
-		if Global.game_manager.game_data.has("level") and not level_label.visible:
-			level_label.visible = true	
+	if Global.game_manager.game_data.has("level") and not level_label.visible:
+		level_label.visible = true	
 			
 	# zapis točk do rekorda
 	if Global.game_manager.game_settings["eternal_mode"]:
@@ -34,7 +33,8 @@ func _process(delta: float) -> void:
 	# zapis straysov na mizi
 	elif Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
 #		if Global.game_manager.game_data.has("level"):
-		level_label.text = "%s" % Global.game_manager.game_data["level"] 
+#		level_label.text = "%s" % Global.game_manager.game_data["level_name"] 
+#		level_label.text = "%s" % Global.game_manager.game_data["level"] 
 		level_limit_label_1.text = "%d" % Global.game_manager.strays_in_game_count
 		level_limit_label_2.text = "COLORS TO PICK"
 

@@ -230,7 +230,7 @@ func set_players():
 		new_player_pixel = PlayerPixel.instance()
 		new_player_pixel.name = "p%s" % str(spawned_player_index)
 		new_player_pixel.global_position = player_position + Vector2(cell_size_x/2, cell_size_x/2) # ... ne rabim snepat ker se v pixlu na ready funkciji
-		new_player_pixel.modulate = Global.color_white
+		new_player_pixel.modulate = Color.white
 		new_player_pixel.z_index = 1 # nižje od straysa
 		Global.node_creation_parent.add_child(new_player_pixel)
 		

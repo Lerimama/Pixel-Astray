@@ -23,7 +23,7 @@ func _ready() -> void:
 	# večino setam ob štartu tajmerja
 		
 
-	modulate = Global.color_white
+	modulate = Global.color_hud_text
 	# debug
 #	stopwatch_mode = true 
 #	game_time_limit = 10
@@ -79,12 +79,12 @@ func _process(delta: float) -> void:
 			modulate = Global.color_green
 			emit_signal("sudden_death_activated") # pošlje se v hud, ki javi game managerju
 		else:
-			modulate = Global.color_white
+			modulate = Global.color_hud_text
 	
 
 func reset_timer():
 	absolute_game_time = 0
-	modulate = Global.color_white
+	modulate = Global.color_hud_text
 
 	
 func start_timer():

@@ -18,7 +18,7 @@ onready var gameover_countdown_duration: int = Global.game_manager.game_settings
 
 func _ready() -> void:
 	
-	modulate = Global.hud_text_color
+	modulate = Global.color_hud_text
 	
 	# display pred štartom
 	if countdown_mode:
@@ -50,7 +50,7 @@ func _process(delta: float) -> void:
 				emit_signal("gametime_is_up") # pošlje se v hud, ki javi game managerju		
 			if sudden_death_mode:
 				if game_time_seconds > sudden_death_limit:
-					modulate = Global.hud_text_color
+					modulate = Global.color_hud_text
 				elif game_time_seconds == sudden_death_limit:
 					emit_signal("sudden_death_active") # pošlje se v hud, ki javi game managerju		
 				elif game_time_seconds < sudden_death_limit:
@@ -61,7 +61,7 @@ func _process(delta: float) -> void:
 				emit_signal("gametime_is_up")	
 			if sudden_death_mode:
 				if game_time_seconds < game_time_limit - sudden_death_limit:
-					modulate = Global.hud_text_color
+					modulate = Global.color_hud_text
 				elif game_time_seconds == game_time_limit - sudden_death_limit:
 					emit_signal("sudden_death_active") # pošlje se v hud, ki javi game managerju		
 				elif game_time_seconds > game_time_limit - sudden_death_limit:
@@ -70,7 +70,7 @@ func _process(delta: float) -> void:
 	
 func start_timer():
 	
-	modulate = Global.hud_text_color
+	modulate = Global.color_hud_text
 
 	if countdown_mode:
 		# če odštevam je začetna številka enaka time limitu v
@@ -97,7 +97,7 @@ func pause_timer():
 func unpause_timer():
 	
 	$Timer.set_paused(false)
-	modulate = Global.color_white
+	modulate = Global.color_hud_text
 	
 		
 func stop_timer():

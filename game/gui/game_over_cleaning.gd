@@ -147,7 +147,7 @@ func show_game_summary():
 			focus_btn = enigma_game_summary.get_node("Menu/RestartBtn")
 			
 		enigma_game_summary.get_node("DataContainer/Game").text %= str(Global.game_manager.game_data["game_name"])
-		enigma_game_summary.get_node("DataContainer/Level").text %= str(Global.game_manager.game_data["level"])
+		enigma_game_summary.get_node("DataContainer/Level").text %= str(Global.game_manager.game_data["level_name"])
 		enigma_game_summary.get_node("DataContainer/AstrayPixels").text %= str(Global.game_manager.strays_in_game_count)
 		enigma_game_summary.visible = true	
 		enigma_game_summary.modulate.a = 0	

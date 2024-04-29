@@ -3,7 +3,7 @@ extends Player
 # enigma
 var enigma_move_started: bool = false # ob cockanju se začne poteza (konča se v steni ali na koncu reburstanja, kadar resetam reburst_count)
 var enigma_start_strays_count: int = 0 # število straysow pred movetom
-var enigma_cleaned_strays_count: int = 0 # beleži vse uničene v času enigma move
+var enigma_cleaned_strays_count: int = 0 # beleži vse uničene v času enigma move, za preverjanje uspeha
 
 # reburst
 var is_rebursting: bool = false # za regulacijo moči on hit stray
@@ -14,20 +14,44 @@ var reburst_max_cock_count: int = 1 # za kolk se nakoka (samo vizualni efekt)
 var reburst_reward__count: int = 1 # za kolk se nakoka (samo vizualni efekt)
 
 onready var rebursting_timer: Timer = $ReburstingTimer
-onready var reburst_window_time: int = 2.1 # Global.game_manager.game_settings["reburst_window_time"] # cocking count
-onready var reburst_count_limit: int = Global.game_manager.game_settings["reburst_count_limit"] # cocking count
-onready var reburst_hit_power: int = Global.game_manager.game_settings["reburst_hit_power"] # kolk jih destroya ... če je 0 gre po original pravilih moči
+#onready var reburst_window_time: int = Global.game_manager.game_settings["reburst_window_time"] # cocking count
+#onready var reburst_count_limit: int = Global.game_manager.game_settings["reburst_count_limit"] # cocking count
+#onready var reburst_hit_power: int = Global.game_manager.game_settings["reburst_hit_power"] # kolk jih destroya ... če je 0 gre po original pravilih moči
 
 
+func _ready() -> void:
+	
+	add_to_group(Global.group_players)
+	randomize() # za random blink animacije
+	
+	# controler setup
+	if Global.game_manager.start_players_count == 2:
+		key_left = "%s_left" % name
+		key_right = "%s_right" % name
+		key_up = "%s_up" % name
+		key_down = "%s_down" % name
+		key_burst = "%s_burst" % name
+	else:
+		key_left = "ui_left"
+		key_right = "ui_right"
+		key_up = "ui_up"
+		key_down = "ui_down"
+		key_burst = "burst"
+	
+	skill_light.enabled = false
+	burst_light.enabled = false
+	
+	current_state = States.IDLE
+
+	
 func idle_inputs():
 	# namen: rebursting_inputs reburst_count reset ... za reburst
-	# namen: enigma finish (kery_burst, direction key)
+	# namen: enigma finish (cocking key, direction key)
 	
 	if player_stats["player_energy"] > 1:
 		var current_collider: Node2D = detect_collision_in_direction(direction)
 		
-		if not current_collider:
-		# dokler ne zazna kolizije se premika zvezno ... is_action_pressed
+		if not current_collider: # dokler ne zazna kolizije se premika zvezno ... is_action_pressed
 			if can_reburst:
 				rebursting_inputs()
 			else:
@@ -35,26 +59,18 @@ func idle_inputs():
 					direction = Vector2.UP
 					step()
 					reburst_count = 0
-					if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:	
-						finish_enigma_move()
 				elif Input.is_action_pressed(key_down):
 					direction = Vector2.DOWN
 					step()
 					reburst_count = 0
-					if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:	
-						finish_enigma_move()
 				elif Input.is_action_pressed(key_left):
 					direction = Vector2.LEFT
 					step()
 					reburst_count = 0
-					if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:	
-						finish_enigma_move()
 				elif Input.is_action_pressed(key_right):
 					direction = Vector2.RIGHT
 					step()
 					reburst_count = 0
-					if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:	
-						finish_enigma_move()
 				
 		else:
 		# ko zazna kolizijo postane skilled ali pa end move 
@@ -82,8 +98,7 @@ func idle_inputs():
 		burst_light_on()
 		reburst_count = 0
 		if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:	
-			enigma_move_started = true	
-			enigma_start_strays_count = Global.game_manager.strays_in_game_count
+			finish_enigma_move()		
 			
 		
 func end_move():
@@ -113,13 +128,18 @@ func end_move():
 		
 
 func on_hit_stray(hit_stray: KinematicBody2D):
-	# namen: activate reburst, enigma cleaned count
+	# namen: activate reburst, start enigma move, enigma cleaned count ček
 	
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
 	play_sound("hit_stray")	
 	spawn_collision_particles()
 	shake_player_camera(burst_speed)			
-	
+
+	# start enigma move
+	if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA and not enigma_move_started:	
+		enigma_move_started = true	
+		enigma_start_strays_count = Global.game_manager.strays_in_game_count
+		
 	# reburst nagrada
 	var reward_limit: int = Global.game_manager.game_settings["reburst_reward_limit"]
 	if reward_limit > 0:
@@ -141,8 +161,8 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	var burst_speed_units_count = burst_speed / cock_ghost_speed_addon
 	reburst_speed_units_count = burst_speed_units_count # hitrost rebursta je enaka hitrosti original bursta
 	if is_rebursting:
-		if not reburst_hit_power == 0:
-			burst_speed_units_count = reburst_hit_power
+		if not Global.game_manager.game_settings["reburst_hit_power"] == 0:
+			burst_speed_units_count = Global.game_manager.game_settings["reburst_hit_power"]
 	var strays_to_destroy: Array = []
 	strays_to_destroy.append(hit_stray)
 	if not hit_stray_neighbors.empty():
@@ -155,6 +175,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	for stray in strays_to_destroy:
 		var stray_index = strays_to_destroy.find(stray)
 		stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
+		# prišteje v enigma strayse
 		if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:	
 			enigma_cleaned_strays_count += 1
 
@@ -163,11 +184,11 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	end_move()
 	
 	# reburst
-	if reburst_count < reburst_count_limit or reburst_count_limit == 0:
+	if reburst_count < Global.game_manager.game_settings["reburst_count_limit"] or Global.game_manager.game_settings["reburst_count_limit"] == 0:
 		can_reburst = true
 		burst_light_on()	
 		rebursting_timer.stop() # ... zazih
-		rebursting_timer.start(reburst_window_time)
+		rebursting_timer.start(Global.game_manager.game_settings["reburst_window_time"])
 	else:
 		# vpliva samo kadar odigram vse reburste, drugi reset je v stepanju
 		close_reburst_window()
@@ -337,7 +358,7 @@ func close_reburst_window():
 func _on_ReburstingTimer_timeout() -> void:
 	
 	# če je enigma je čas naskončen
-	if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:	
+	if Global.game_manager.game_settings["reburst_window_time"] == 0:
 		return
 	
 	# čas zamujen ... ne moreš več reburstat

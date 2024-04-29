@@ -10,6 +10,8 @@ onready var level_grid_btns: Array = btn_grid_container.get_children()
 
 func _ready() -> void:
 	
+	Profiles.game_data_enigma["level"] = 1
+	
 	# get solved enigmas
 	var solved_levels: Array = Global.data_manager.read_solved_status_from_file(Profiles.game_data_enigma)
 
@@ -43,7 +45,8 @@ func play_selected_level(selected_level: int):
 	# set enigma game data
 	Profiles.set_game_data(Profiles.Games.ENIGMA)
 	# spremeni game data level s tistim v level settings
-	Profiles.current_game_data["level"] = selected_level
+	Profiles.game_data_enigma["level"] = selected_level
+#	Profiles.current_game_data["level"] = selected_level
 	Global.sound_manager.play_gui_sfx("menu_fade")
 	animation_player.play("play_enigma_level")
 	get_viewport().set_disable_input(true)

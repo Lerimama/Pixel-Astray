@@ -92,19 +92,19 @@ var default_game_settings: Dictionary = {
 	"reburst_count_limit": 0, # 0 je unlimited
 	"reburst_reward_limit": 5, # 0 je brez nagrade
 	"reburst_reward_points": 100, # kolk jih destroya ... 0 gre po original pravilih moči
-	"reburst_window_time": 0.1,
+	"reburst_window_time": 0,#.1, # 0 je neomejen čas
 	"reburst_hit_power": 1, # kolk jih destroya ... 0 gre po original pravilih moči
 	# game
 	"game_instructions_popup": true,
 	"camera_fixed": false,
 	"gameover_countdown_duration": 5,
+	"sudden_death_mode": false,
 	"sudden_death_limit" : 20,
 	"show_position_indicators_stray_count": 5,
 	"start_countdown": true,
 	"timer_mode_countdown" : true, # če prišteva in je "game_time_limit" = 0, nima omejitve navzgor
 	"minimap_on": false,
 	"position_indicators_mode": true, # duel jih nima 
-	"sudden_death_mode": false,
 	"manage_highscores": true, # obsoleten, ker je vključen v HS type
 	"eternal_mode": false,
 	"spectrum_start_on": false, # a pobrane prižigam al ugašam
@@ -290,10 +290,10 @@ var game_data_enigma: Dictionary = {
 	"game_name": "Enigma",
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"game_time_limit": 0,
-	"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_00.tscn", # samo za prvo stopnjo
-	"strays_start_count": 0, 
+#	"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_00.tscn", # samo za prvo stopnjo
+	"strays_start_count": 100, 
 	# xtra
-	"level": 0, # nafila se iz enigma_level_setting
+#	"level": 2, # nafila se iz enigma_level_setting
 }
 
 # LEVEL -----------------------------------------------------------------------------------
@@ -455,69 +455,50 @@ var slider_level_settings: Dictionary = {
 		"wall_spawn_random_range": 5,
 	},
 }
-var enigma_level_setting: Dictionary = { # ključ je tudi številka levela
-	1: { 
-#		"level": "ONE", # ko se nalouda level tole postane "level v game_data slovarju
-		"level_name": "ONE", # ko se nalouda level tole postane "level v game_data slovarju
-		"level_hs": 1, 
-		"strays_to_clean_count": 0,
-		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_00.tscn",
-		"level_description": "Description ...",
+var enigma_level_setting: Dictionary = { 
+	1: { # ključ je tudi številka levela
+		"level_name": "ONE", # za prezentacijo (hud in GO
+		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_01.tscn",
+		"level_description": "Description ...", # pre-game instructions
 	},
 	2: {
-		"level_name": "TWO", # prištejem z vsakim levelom
-		"level_hs": 1, # prištejem z vsakim levelom
-		"strays_to_clean_count": 0,
-		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_01.tscn",
+		"level_name": "TWO",
+		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_02.tscn",
 		"level_description": "Description ...",
 	},
 	3: {
-		"level_name": "THREE", # prištejem z vsakim levelom
-		"level_hs": 1, # prištejem z vsakim levelom
-		"strays_to_clean_count": 0,
-		"level_tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_01.tscn",
+		"level_name": "THREE",
+		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_03.tscn",
 		"level_description": "Description ...",
 	},
 	4: {
-		"level_name": "FOUR", # prištejem z vsakim levelom
-		"level_hs": 1, # prištejem z vsakim levelom
-		"strays_to_clean_count": 0,
-		"level_tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_01.tscn",
+		"level_name": "FOUR",
+		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_04.tscn",
 		"level_description": "Description ...",
 	},
 	5: {
-		"level_name": "FIVE", # prištejem z vsakim levelom
-		"level_hs": 1, # prištejem z vsakim levelom
-		"strays_to_clean_count": 0,
-		"level_tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_01.tscn",
+		"level_name": "FIVE",
+		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_05.tscn",
 		"level_description": "Description ...",
 	},
 	6: {
-		"level_name": "SIX", # prištejem z vsakim levelom
-		"level_hs": 1, # prištejem z vsakim levelom
-		"strays_to_clean_count": 0,
-		"level_tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_01.tscn",
+		"level_name": "SIX",
+		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_06.tscn",
 		"level_description": "Description ...",
 	},
 	7: {
-		"level_name": "SEVEN", # prištejem z vsakim levelom
-		"level_hs": 1, # prištejem z vsakim levelom
-		"strays_to_clean_count": 0,
-		"level_tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_01.tscn",
+		"level_name": "SEVEN",
+		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_07.tscn",
 		"level_description": "Description ...",
 	},
 	8: {
-		"level_name": "EIGHT", # prištejem z vsakim levelom
-		"level_hs": 1, # prištejem z vsakim levelom
-		"strays_to_clean_count": 0,
-		"level_tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_01.tscn",
+		"level_name": "EIGHT",
+		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_08.tscn",
 		"level_description": "Description ...",
 	},
 	9: {
-		"level_name": "NINE", # prištejem z vsakim levelom
-		"level_hs": 1, # prištejem z vsakim levelom
-		"strays_to_clean_count": 0,
-		"level_tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_01.tscn",
+		"level_name": "NINE",
+		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_09.tscn",
 		"level_description": "Description ...",
 	},
 }
@@ -534,7 +515,8 @@ var current_color_scheme: Dictionary = game_color_schemes["default_color_scheme"
 func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
-	var current_game = Games.ENIGMA
+	var debug_game = Games.ENIGMA
+	
 #	var current_game = Games.ETERNAL
 #	var current_game = Games.ETERNAL_XL
 #	var current_game = Games.CLEANER
@@ -545,7 +527,7 @@ func _ready() -> void:
 #	var current_game = Games.RUNNER
 #	var current_game = Games.RIDDLER_M
 #	var current_game = Games.TUTORIAL
-	set_game_data(current_game)
+	set_game_data(debug_game)
 	
 	
 func set_game_data(selected_game) -> void:
@@ -555,7 +537,6 @@ func set_game_data(selected_game) -> void:
 	match selected_game:
 		Games.ENIGMA: 
 			current_game_data = game_data_enigma
-			
 			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
 			game_settings["lose_life_on_hit"] = true
 			game_settings["timer_mode_countdown"] = false
@@ -563,14 +544,17 @@ func set_game_data(selected_game) -> void:
 			game_settings["position_indicators_mode"] = false
 			game_settings["color_picked_points"] = 0
 			game_settings["all_cleaned_points"] = 0
+			game_settings["reburst_window_time"] = 0 # 0 = neomejeno
+			
+			game_settings["all_cleaned_points"] = 1
+			game_settings["color_picked_points"] = 0
+			game_settings["reburst_reward_points"] = 0
 			# debug
 			current_game_data["level"] = 1
 #			game_settings["camera_fixed"] = false
 			game_settings["player_start_color"] = Color.white
 			game_settings["start_countdown"] = false
 			game_settings["game_instructions_popup"] = false
-			
-			
 		Games.ETERNAL: 
 			current_game_data = game_data_eternal
 			game_settings["eternal_mode"] = true
@@ -598,7 +582,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["turn_stray_to_wall"] = true
 			game_settings["all_cleaned_points"] = 100 # debug
 			game_settings["color_picked_points"] = 10
-			#
+			# debug
 			game_settings["start_countdown"] = false
 			game_settings["game_instructions_popup"] = false
 		Games.TUTORIAL: 
@@ -655,8 +639,6 @@ func set_game_data(selected_game) -> void:
 			game_settings["color_picked_points"] = 0
 			game_settings["all_cleaned_points"] = 0
 			game_settings["touching_stray_energy"] = -0.4
-#			game_settings["player_start_color"] = Color.white
-			
 			# debug kombo
 			game_settings["game_instructions_popup"] = false
 			game_settings["start_countdown"] = false

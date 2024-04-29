@@ -76,7 +76,6 @@ func game_in():
 	Global.spawn_new_scene(game_scene_path, self)
 	
 	# tukaj se seta GM glede na izbiro igre
-	
 	Global.game_manager.set_tilemap()
 	Global.game_manager.set_game_view()
 	Global.game_manager.set_players()

@@ -229,17 +229,17 @@ func check_for_hs(player_stats: Dictionary):
 				highscore_label.modulate = Global.color_green
 			else:				
 				highscore_label.text = "HS " + str(current_highscore)
-				highscore_label.modulate = Global.hud_text_color
+				highscore_label.modulate = Global.color_hud_text
 		Profiles.HighscoreTypes.HS_TIME_LOW: # logika je tu malo drugačna kot pri drugih dveh
 			highscore_label.text = "HS " + str(current_highscore) + "s"
-			highscore_label.modulate = Global.hud_text_color
+			highscore_label.modulate = Global.color_hud_text
 		Profiles.HighscoreTypes.HS_TIME_HIGH:
 			if game_timer.time_since_start > current_highscore:
 				highscore_label.text = "HS " +  str(game_timer.time_since_start) + "s"
 				highscore_label.modulate = Global.color_green
 			else:				
 				highscore_label.text = "HS " +  str(current_highscore) + "s"
-				highscore_label.modulate = Global.hud_text_color
+				highscore_label.modulate = Global.color_hud_text
 		
 
 func check_for_warning(player_stats: Dictionary, warning_popup: Control):

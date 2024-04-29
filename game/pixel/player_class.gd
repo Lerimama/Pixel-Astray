@@ -71,7 +71,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _ready() -> void:
-		
+	
 	add_to_group(Global.group_players)
 	randomize() # za random blink animacije
 	
@@ -806,11 +806,14 @@ func spawn_floating_tag(value: int):
 	new_floating_tag.tag_owner = self
 	Global.node_creation_parent.add_child(new_floating_tag)
 	
-	if value < 0:
-		new_floating_tag.modulate = Global.color_red
-		new_floating_tag.label.text = str(value)
-	elif value > 0:
-		new_floating_tag.label.text = "+" + str(value)
+	if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
+		new_floating_tag.label.text = "SUCCESS!"
+	else:
+		if value < 0:
+			new_floating_tag.modulate = Global.color_red
+			new_floating_tag.label.text = str(value)
+		elif value > 0:
+			new_floating_tag.label.text = "+" + str(value)
 		
 	return new_floating_tag
 	

@@ -1,7 +1,5 @@
 extends Node2D
-# references
 
-## konstantne variable in metode
 
 # --------------------------------------------------------------------------------------------------------------
 # VARIABLE -----------------------------------------------------------------------------------------------------
@@ -37,33 +35,24 @@ var group_tilemap = "Tilemap" # scroller in patterns
 var group_player_cameras = "Player Cameras"
 var group_ghosts = "Ghosts"
 
-# colors
+# pixel colors
 var color_blue: Color = Color("#4b9fff")
 var color_green: Color = Color("#5effa9")
 var color_red: Color = Color("#f35b7f")
 var color_yellow: Color = Color("#fef98b")
-
-var color_white: Color = Color("#ffffff")
-var hud_text_color: Color = Color("#fafafa")
-
-# reference ... ni nujno, da so v kodi
-var color_almost_black: Color = Color("#141414") # start player, wall, floor
 var color_gray_dark: Color = Color("#232323") # tudi color_floor_scroller
-var color_gui_gray: Color = Color("#838383") # siva v tekstih (naslovi) in ikonah
-#var color_gui_btn: Color = Color("#82ffffff") # siva gumbih je transparentna bela ... imitacija #838383
-#var color_gui_btn: Color = Color("#838383") # siva gumbih je transparentna bela ... imitacija #838383
-var color_hud_background: Color = Color("#141414")
-var color_wall_gray: Color = Color("#141414")
-
-# za dark / light theme
-#var color_wall_light_theme: Color = Color("#efefef") # stena
-#var color_edge_light_theme: Color = Color.white # rob
-#var color_floor_light_theme: Color = Color("#20000000") # transparenca floor pikic
-#var color_background_light_theme: Color = Color.white # ozadje ... tla
+# level colors
 var color_wall_dark_theme: Color = Color("#141414")
 var color_edge_dark_theme: Color = Color.black
 var color_floor_dark_theme: Color = Color("#20ffffff")
 var color_background_dark_theme: Color = Color.black
+# gui colors
+var color_hud_text: Color = Color("#fafafa")
+var color_gui_gray: Color = Color("#838383") # siva v tekstih (naslovi) in ikonah
+# samo za reference ... niso v kodi
+var color_almost_black: Color = Color("#141414") # start player, wall, floor
+var color_hud_background: Color = Color("#141414")
+var color_wall_gray: Color = Color("#141414")
 
 
 # --------------------------------------------------------------------------------------------------------------
@@ -129,6 +118,7 @@ func spawn_new_scene(scene_path, parent_node): # spawn scene
 	
 	current_scene = scene_resource.instance()
 	print ("SCENE INSTANCED: ", current_scene)
+	print ("---")
 	
 	current_scene.modulate.a = 0
 	parent_node.add_child(current_scene) # direct child of root
@@ -175,7 +165,7 @@ func connect_to_button(button):
 
 
 func _on_button_pressed(button: BaseButton):
-	print("PRESSED ", button)
+#	print("PRESSED ", button)
 	if button.name == "BackBtn":
 		Global.sound_manager.play_gui_sfx("btn_confirm")
 	elif button.name == "QuitBtn" or button.name == "CancelBtn":

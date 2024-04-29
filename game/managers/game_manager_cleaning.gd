@@ -1,11 +1,10 @@
 extends GameManager
 
 
-#var current_level: int = 1 # za eternal
 var level_upgrade_in_progress: bool = false # ustavim klicanje naslednjih levelov
 var current_enigma_name: String = "Null"# ime levele ... lahko številka
+var universal_time: float = 0 # za merjenje trajanja raznih stvari ... debug
 
-#var level_conditions: Dictionary
 var first_respawn_time: float = 5
 var respawn_wait_time: float
 var respawn_strays_count: int
@@ -13,8 +12,6 @@ var level_points_limit: int
 
 onready var respawn_timer: Timer = $"../RespawnTimer"
 
-# neu
-var universal_time: float = 0 # za merjenje trajanja raznih stvari ... debug
 
 func _unhandled_input(event: InputEvent) -> void:
 
@@ -28,11 +25,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_pressed("t"):
 		Global.data_manager.write_solved_status_to_file(game_data)
 		print("write")
-#		for n in 50:
-#			# random stray to wall
-#			var random_stray_index: int = randi() % int(strays_in_game_count)
-#			var random_stray: KinematicBody2D = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_index]
-#			random_stray.die_to_wall()
+		#		for n in 50:
+		#			# random stray to wall
+		#			var random_stray_index: int = randi() % int(strays_in_game_count)
+		#			var random_stray: KinematicBody2D = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_index]
+		#			random_stray.die_to_wall()
 	
 	
 func _ready() -> void:
@@ -45,51 +42,20 @@ func _ready() -> void:
 	
 	# set_level_conditions on start
 	if game_settings["eternal_mode"]:
-#		var current_level_settings: Dictionary
-#		if game_data["game"] == Profiles.Games.ETERNAL:
-#			current_level_settings = Profiles.eternal_level_conditions[1]
-#		elif game_data["game"] == Profiles.Games.ETERNAL_XL:
-#			current_level_settings = Profiles.eternal_level_conditions[2]
-#		# prepišem level slovar v game data slovar
-#		for key in current_level_settings:
-#			game_data[key] = current_level_settings[key]
-		# setam level settings
 		game_data["level"] = 1 # zmeraj začnem s prvim levelom
 		respawn_wait_time = game_data["respawn_wait_time"]
 		respawn_strays_count = game_data["respawn_strays_count"]
 		level_points_limit = game_data["level_points_limit"]
-#		current_level = game_data["level"]
 	
 	if game_data["game"] == Profiles.Games.ENIGMA:
-#		current_level = 1
-#		current_level = game_data["level"]
-#		current_level = game_data["level"]
-		var current_level_settings: Dictionary = Profiles.enigma_level_setting[game_data["level"]]
-#		print ("cond", Profiles.enigma_level_conditions[current_level])
+		var current_level_settings: Dictionary
+#		if Profiles.game_data_enigma.has("level"):
+		current_level_settings = Profiles.enigma_level_setting[game_data["level"]]
+#		else: # debug
+#			current_level_settings = Profiles.enigma_level_setting[Profiles.debug_game_data["level"]]
 		for setting in current_level_settings:
-#			printt ("key", key)
 			game_data[setting] = current_level_settings[setting]
-		print ("GD", game_data)
 		
-#		level_conditions = Profiles.enigma_level_conditions[current_level]
-#		game_data["level"] = level_conditions["level_name"]	
-
-
-#	# set_level_conditions on start
-#	if game_settings["eternal_mode"]:
-#		if game_data["game"] == Profiles.Games.ETERNAL:
-#			level_conditions = Profiles.eternal_level_conditions[1]
-#		elif game_data["game"] == Profiles.Games.ETERNAL_XL:
-#			level_conditions = Profiles.eternal_level_conditions[2]
-#		respawn_wait_time = level_conditions["respawn_wait_time"]
-#		respawn_strays_count = level_conditions["respawn_strays_count"]
-#		level_points_limit = level_conditions["level_points_limit"]
-#	if game_data["game"] == Profiles.Games.ENIGMA:
-##		current_level = game_data["level_number"]
-#		current_level = game_data["level"]
-#		level_conditions = Profiles.enigma_level_conditions[current_level]
-##		game_data["level"] = level_conditions["level_name"]
-
 
 func _process(delta: float) -> void:
 	# namen: respawnanje straysov ... za eternal in upoštevanje wall straysov zaznavanju cleaned
@@ -147,8 +113,6 @@ func set_tilemap():
 	
 	var tilemap_to_load_path: String
 	if game_data["game"] == Profiles.Games.ENIGMA: # path vlečem iz level settings
-#		tilemap_to_load_path = level_conditions["level_tilemap_path"]
-#		tilemap_to_load_path = game_data["level_tilemap_path"]
 		tilemap_to_load_path = game_data["tilemap_path"]
 	else:
 		tilemap_to_load_path = game_data["tilemap_path"]
@@ -177,7 +141,12 @@ func spawn_strays(strays_to_spawn_count: int):
 	# namen: split colors ...  naredim gradient iz naklujčnih barv iz spektruma	
 	
 	strays_to_spawn_count = clamp(strays_to_spawn_count, 1, strays_to_spawn_count) # za vsak slučaj klempam, da ne more biti nikoli 0 ...  ker je error			
-	var current_level: int = game_data["level"]
+	
+	var current_level: int
+	if game_data.has("level"): 
+		current_level = game_data["level"]
+	else:
+		current_level = 0
 	
 	# COLORS
 	
@@ -191,7 +160,7 @@ func spawn_strays(strays_to_spawn_count: int):
 	# get color scheme
 	var color_split_offset: float
 	# prvi level je pisan ... vsi naslednji imajo random gradient
-	if current_level <= 1:
+	if current_level <= 1 or game_data["game"] == Profiles.Games.ENIGMA: # kadar so druge igre od enigme ineterenal je current level 0
 		color_split_offset = spectrum_texture_width / strays_to_spawn_count # razmak barv po spektru ... - 1 je zato ker je razmakov za 1 manj kot barv
 	else:
 		# izžrebam barvi gradienta iz nastavljenega spektruma
@@ -248,27 +217,23 @@ func spawn_strays(strays_to_spawn_count: int):
 		# stray color
 		var current_color: Color
 		var selected_color_position_x: float = stray_index * color_split_offset # lokacija barve v spektrumu
-		
-		if current_level <= 1: # default_color_scheme
+		if current_level <= 1 or game_data["game"] == Profiles.Games.ENIGMA: # default_color_scheme
 			current_color = spectrum_image.get_pixel(selected_color_position_x, 0) # barva na lokaciji v spektrumu
 		else:
 			current_color = spectrum_gradient.texture.gradient.interpolate(selected_color_position_x) # barva na lokaciji v spektrumu
 	
 		# available spawn positions
 		var current_spawn_positions: Array
-		if current_level <= 1: # spawnanje po "navidilih tilemapa
+		if current_level <= 1 or game_data["game"] == Profiles.Games.ENIGMA: # vse igre razen enigme ineterenal imajo level 0
 			if not available_required_spawn_positions.empty(): # najprej obvezne
 				current_spawn_positions = available_required_spawn_positions
 			elif available_required_spawn_positions.empty(): # potem random
 				current_spawn_positions = available_random_spawn_positions
 			elif available_required_spawn_positions.empty() and available_random_spawn_positions.empty(): # STOP, če ni prostora, straysi pa so še na voljo
-				print ("No available spawn positions")
 				return
 		else: # spawnanje na vse available za respawn
 			if not available_respawn_positions.empty():
 				current_spawn_positions = available_respawn_positions
-#			if not proces_respawn_positions.empty():
-#				current_spawn_positions = proces_respawn_positions
 			else:
 				print ("No available spawn positions")
 				return
