@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/spectrum_bar.png-06f657e475dfb0f7d3036fde815239e3.stex"
+path="res://.import/color_theme_spectrum.png-5209eafe936598945178a4df6294b81f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/spectrum_bar.png"
-dest_files=[ "res://.import/spectrum_bar.png-06f657e475dfb0f7d3036fde815239e3.stex" ]
+source_file="res://assets/theme/color_theme_spectrum.png"
+dest_files=[ "res://.import/color_theme_spectrum.png-5209eafe936598945178a4df6294b81f.stex" ]
 
 [params]
 

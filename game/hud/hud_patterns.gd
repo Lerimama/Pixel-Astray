@@ -133,22 +133,28 @@ func fade_in_instructions_popup(in_time: float):
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.RUNNER:
 		title.text = Global.game_manager.game_data["game_name"]
-		win_label.text = "Get through the maze and hit the white pixel on the other side."
-		instructions_label.text = "Game is over when you are out of energy."
-		instructions_label_2.text = "Energy depletes with travelling, touching stray pixels or upon hitting a wall."
-		instructions_label_3.text = "Bursting always collects all colors in stack."
-		instructions_label_4.text = "Time is unlimited."
-		instructions_label_5.text = "Highscore is the fastest time."
-		instructions_label_6.text = ""
+		if current_highscore > 0:
+			win_label.text = "Current record by " + str(current_highscore_owner) + " is " + str(current_highscore) + " seconds"
+		else:
+			win_label.text = "No record score yet."
+		instructions_label.text = "Get through the maze and hit the white pixel on the other side."
+		instructions_label_2.text = "Game is over when you are out of energy."
+		instructions_label_3.text = "Energy depletes with travelling, touching stray pixels or upon hitting a wall."
+		instructions_label_4.text = "Bursting always collects all colors in stack."
+		instructions_label_5.text = "Time is unlimited."
+		instructions_label_6.text = "Highscore is the fastest time."
 	else: # RIDDLERs
 		title.text = Global.game_manager.game_data["game_name"]
-		win_label.text = "Collect all colors with a single burst."
-		instructions_label.text = "Game is over when you burst and don't collect all available colors."
-		instructions_label_2.text = "Energy and speed are constant."
-		instructions_label_3.text = "Bursting always collects all colors in stack."
-		instructions_label_4.text = "Time is unlimited."
-		instructions_label_5.text = "Highscore is the fastest time."
-		instructions_label_6.text = ""
+		if current_highscore > 0:
+			win_label.text = "Current record by " + str(current_highscore_owner) + " is " + str(current_highscore) + " seconds"
+		else:
+			win_label.text = "No record score yet."
+		instructions_label.text = "Collect all colors with a single burst."
+		instructions_label_2.text = "Game is over when you burst and don't collect all available colors."
+		instructions_label_3.text = "Energy and speed are constant."
+		instructions_label_4.text = "Bursting always collects all colors in stack."
+		instructions_label_5.text = "Time is unlimited."
+		instructions_label_6.text = "Highscore is the fastest time."
 		
 						
 	var show_instructions_popup = get_tree().create_tween()

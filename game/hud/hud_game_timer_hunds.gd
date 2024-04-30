@@ -96,8 +96,6 @@ func reset_timer():
 func start_timer():
 	
 	game_time_limit = Global.game_manager.game_data["game_time_limit"]
-	sudden_death_mode = Global.game_manager.game_settings["sudden_death_mode"]
-	sudden_death_limit = Global.game_manager.game_settings["sudden_death_limit"]
 	stopwatch_mode = Global.game_manager.game_settings["timer_mode_countdown"]
 	gameover_countdown_duration = Global.game_manager.game_settings["gameover_countdown_duration"] # čas, ko je obarvan in se sliši bip bip	
 

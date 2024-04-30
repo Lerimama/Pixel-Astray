@@ -63,13 +63,20 @@ func _ready() -> void:
 	game_summary_holder.visible = false
 	name_input_popup.visible = false
 	
-	
+var score_is_ranking # včasih bool včasih object?!
 func open_gameover(gameover_reason: int):
+
 	
 	current_gameover_reason = gameover_reason
 	players_in_game = get_tree().get_nodes_in_group(Global.group_players)
 	
 	p1_final_stats = players_in_game[0].player_stats
+	
+	# ranking preverim takoj, da lahko obarvam title
+	var current_score_points: int = p1_final_stats["player_points"]
+	var current_score_time: int = Global.hud.game_timer.absolute_game_time
+	# yield čaka na konec preverke ... tip ni opredeljen, ker je ranking, če ni skora kot objecta, če je ranking
+	score_is_ranking = Global.data_manager.manage_gameover_highscores(current_score_points, current_score_time, Global.game_manager.game_data) 
 	
 	if players_in_game.size() == 2:
 		p2_final_stats = players_in_game[1].player_stats
@@ -122,16 +129,15 @@ func show_gameover_menu():
 			yield(get_tree().create_timer(1), "timeout") # podaljšam pavzo za branje
 			show_game_summary()
 		else:
-			var current_score_points: int = p1_final_stats["player_points"]
-			var current_score_time: int = Global.hud.game_timer.absolute_game_time
+#			var current_score_points: int = p1_final_stats["player_points"]
+#			var current_score_time: int = Global.hud.game_timer.absolute_game_time
 			
 			# yield čaka na konec preverke ... tip ni opredeljen, ker je ranking, če ni skora kot objecta, če je ranking
-			var score_is_ranking = Global.data_manager.manage_gameover_highscores(current_score_points, current_score_time, Global.game_manager.game_data) 
+#			var score_is_ranking = Global.data_manager.manage_gameover_highscores(current_score_points, current_score_time, Global.game_manager.game_data) 
 			
 			# score štejem samo če vse spuca
 			var eraser_games: Array = [Profiles.Games.ERASER_S, Profiles.Games.ERASER_M, Profiles.Games.ERASER_L]
 			if eraser_games.has(Global.game_manager.game_data["game"]) and not current_gameover_reason == Global.game_manager.GameoverReason.CLEANED: 
-#			if Global.game_manager.game_data["game"] == Profiles.Games.ERASER_L and not current_gameover_reason == Global.game_manager.GameoverReason.CLEANED: 
 				yield(get_tree().create_timer(1), "timeout")
 				current_player_ranking = 100 # zazih ni na lestvici
 			else:
@@ -228,7 +234,7 @@ func set_duel_gameover_title():
 		
 			
 func set_game_gameover_title():
-	
+
 	if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
 		var gameover_title_tutorial: Control = $GameoverTitle/Tutorial
 		match current_gameover_reason:

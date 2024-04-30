@@ -275,38 +275,21 @@ func spawn_strays(strays_to_spawn_count: int):
 	# split colors
 	strays_to_spawn_count = clamp(strays_to_spawn_count, 1, strays_to_spawn_count) # za vsak slučaj klempam, da ne more biti nikoli 0 ...  ker je error			
 	
-	# get color scheme
-	var spectrum_image: Image
-	var color_offset: float
-	var level_indicator_color_offset: float
-	if Profiles.current_color_scheme == Profiles.game_color_schemes["default_color_scheme"]: # setam sliko
-		var spectrum_texture: Texture = spectrum_rect.texture
-		spectrum_image = spectrum_texture.get_data()
-		spectrum_image.lock()
-		var spectrum_texture_width: float = spectrum_rect.rect_size.x
-		color_offset = spectrum_texture_width / strays_to_spawn_count # razmak barv po spektru ... - 1 je zato ker je razmakov za 1 manj kot barv
-	else: # setam gradient
-		var gradient: Gradient = $SpectrumGradient.texture.get_gradient()
-		gradient.set_color(0, Profiles.current_color_scheme[1])
-		gradient.set_color(1, Profiles.current_color_scheme[2])
-		color_offset = 1.0 / strays_to_spawn_count # razmak med barvami za strayse
-
-	# spawn strays
+	# colors
+	var all_colors_available: Array
+	if Profiles.use_custom_color_theme:
+		all_colors_available = Global.get_random_gradient_colors(strays_to_spawn_count)
+	else:
+		all_colors_available = Global.get_spectrum_colors(strays_to_spawn_count) # prvi level je original ... vsi naslednji imajo random gradient
+	all_stray_colors = [] # reset ... za color indikatorje
+	
+	# positions
 	var available_required_spawn_positions = required_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
 	var available_random_spawn_positions = random_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
 	
-	# pred novim spawnom, ga resetiram
-	all_stray_colors = [] # za color indikatorje
-	
+	# spawn
 	for stray_index in strays_to_spawn_count:
-		# stray color
-		var current_color: Color
-		var selected_color_position_x: float
-		selected_color_position_x = stray_index * color_offset # lokacija barve v spektrumu
-		if Profiles.current_color_scheme == Profiles.game_color_schemes["default_color_scheme"]:
-			current_color = spectrum_image.get_pixel(selected_color_position_x, 0) # barva na lokaciji v spektrumu
-		else:
-			current_color = spectrum_gradient.texture.gradient.interpolate(selected_color_position_x) # barva na lokaciji v spektrumu
+		var current_color: Color = all_colors_available[stray_index] # barva na lokaciji v spektrumu
 		# spawn positions
 		var current_spawn_positions: Array
 		if not available_required_spawn_positions.empty(): # najprej obvezne
@@ -338,23 +321,21 @@ func spawn_strays(strays_to_spawn_count: int):
 # UTILITI ----------------------------------------------------------------------------------
 
 
-func update_available_respawn_positions(action: String, position_to_change: Vector2):
-	return
-	# prilagodim zamik centra pixla
-	var snapped_position_to_change: Vector2 = Global.snap_to_nearest_grid(position_to_change)
-	snapped_position_to_change -= Vector2(cell_size_x/2, cell_size_x/2) 
-	
-	# pozicijo je na voljo
-	if action == "add":
-		available_respawn_positions.append(snapped_position_to_change)
-#		print("not poz")
-	# pozicija ni na voljo
-	elif action == "remove":
-		available_respawn_positions.remove(available_respawn_positions.find(snapped_position_to_change))
-#		print("ven poz")
-		# če ni več noeben pozicije na voljo, je GO
-		if available_respawn_positions.empty():
-			game_over(GameoverReason.TIME)		
+#func update_available_respawn_positions(action: String, position_to_change: Vector2):
+#	return
+#	# prilagodim zamik centra pixla
+#	var snapped_position_to_change: Vector2 = Global.snap_to_nearest_grid(position_to_change)
+#	snapped_position_to_change -= Vector2(cell_size_x/2, cell_size_x/2) 
+#
+#	# pozicijo je na voljo
+#	if action == "add":
+#		available_respawn_positions.append(snapped_position_to_change)
+#	# pozicija ni na voljo
+#	elif action == "remove":
+#		available_respawn_positions.remove(available_respawn_positions.find(snapped_position_to_change))
+#		# če ni več noeben pozicije na voljo, je GO
+#		if available_respawn_positions.empty():
+#			game_over(GameoverReason.TIME)		
 				
 	
 func show_strays_on_start(show_strays_loop: int):

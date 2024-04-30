@@ -91,12 +91,15 @@ func fade_in_instructions_popup(in_time: float):
 	title.text = Global.game_manager.game_data["game_name"]
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
-		win_label.text = "Collect colors to progress through all 10 levels."
+		if current_highscore > 0:
+			win_label.text = "Current record by " + str(current_highscore_owner) + " is " + str(current_highscore) + " seconds"
+		else:
+			win_label.text = "No record score yet."
 		instructions_label.text = "Game is over when first wall column reaches the top or you have no room to move."
 		instructions_label_2.text = "Energy and speed are constant."
 		instructions_label_3.text = "Bursting always collects all colors in stack."
 		instructions_label_4.text = "Skills are not available."
-		instructions_label_5.text = "Time is unlimited."
+		instructions_label_5.text = "Unlimited levels. Unlimited time. Game is unbeatable."
 		instructions_label_6.text = "Highscore is the highest points total."
 	elif Global.game_manager.game_data["game"] == Profiles.Games.SLIDER:
 		win_label.text = "Collect colors to progress through all 10 levels."

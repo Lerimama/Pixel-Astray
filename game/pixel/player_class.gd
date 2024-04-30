@@ -1178,7 +1178,8 @@ func change_stat(stat_event: String, stat_value):
 			else:
 				player_stats["player_energy"] -= round(player_stats["player_energy"] / game_settings["on_hit_energy_part"])
 			var points_to_lose = round(player_stats["player_points"] / game_settings["on_hit_points_part"])
-			player_stats["player_points"] -= points_to_lose
+#			player_stats["player_points"] -= points_to_lose
+			player_stats["player_points"] /= game_settings["on_hit_points_part"]
 			spawn_floating_tag(- points_to_lose) 
 		"get_hit": # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
 			
@@ -1187,7 +1188,8 @@ func change_stat(stat_event: String, stat_value):
 			else:
 				player_stats["player_energy"] -= round(player_stats["player_energy"] / game_settings["on_hit_energy_part"])
 			var points_to_lose = round(player_stats["player_points"] / game_settings["on_hit_points_part"])
-			player_stats["player_points"] -= points_to_lose
+#			player_stats["player_points"] -= points_to_lose
+			player_stats["player_points"] /= game_settings["on_hit_points_part"]
 			spawn_floating_tag(- points_to_lose) 
 		# LIFE LOOP ------------------------------------------------------------------------------------------------------------
 		"die": # izguba lajfa, če je energija 0
@@ -1204,7 +1206,7 @@ func change_stat(stat_event: String, stat_value):
 			player_stats["player_points"] += game_settings["reburst_reward_points"]
 			yield(get_tree().create_timer(0.7), "timeout")
 			var reward_tag: Node = spawn_floating_tag(game_settings["reburst_reward_points"]) 
-			reward_tag.modulate = Global.color_green
+#			reward_tag.modulate = Global.color_green
 		"touching_stray": # če se dotikaš
 			player_stats["player_energy"] += game_settings["touching_stray_energy"]
 		"all_cleaned": # nagrada je določena v settingsih

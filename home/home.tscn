@@ -1,4 +1,4 @@
-[gd_scene load_steps=112 format=2]
+[gd_scene load_steps=96 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -17,7 +17,8 @@
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=15]
 [ext_resource path="res://home/about.gd" type="Script" id=16]
 [ext_resource path="res://home/select_level.gd" type="Script" id=17]
-[ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=18]
+[ext_resource path="res://assets/theme/color_theme_spectrum.png" type="Texture" id=18]
+[ext_resource path="res://assets/theme/color_theme_gradient.tres" type="Texture" id=19]
 
 [sub_resource type="StyleBoxEmpty" id=208]
 
@@ -439,90 +440,21 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="StyleBoxFlat" id=254]
-bg_color = Color( 0, 0, 0, 0 )
+[sub_resource type="StyleBoxFlat" id=279]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color( 0, 0, 0, 1 )
+border_color = Color( 1, 1, 1, 1 )
+expand_margin_left = 2.0
+expand_margin_right = 2.0
+expand_margin_top = 2.0
+expand_margin_bottom = 2.0
 
-[sub_resource type="StyleBoxEmpty" id=273]
-
-[sub_resource type="Gradient" id=260]
-offsets = PoolRealArray( 0.5 )
-colors = PoolColorArray( 1, 1, 1, 1 )
-
-[sub_resource type="GradientTexture" id=261]
-gradient = SubResource( 260 )
-width = 24
-
-[sub_resource type="AtlasTexture" id=150]
+[sub_resource type="AtlasTexture" id=280]
 atlas = ExtResource( 2 )
-region = Rect2( 35, 3, 10, 10 )
-
-[sub_resource type="Gradient" id=258]
-interpolation_mode = 1
-offsets = PoolRealArray( 0.504808 )
-colors = PoolColorArray( 0.952941, 0.356863, 0.498039, 1 )
-
-[sub_resource type="GradientTexture" id=259]
-gradient = SubResource( 258 )
-width = 24
-
-[sub_resource type="Gradient" id=255]
-interpolation_mode = 1
-offsets = PoolRealArray( 0.514423 )
-colors = PoolColorArray( 0.976471, 0.666667, 0.443137, 1 )
-
-[sub_resource type="GradientTexture" id=252]
-gradient = SubResource( 255 )
-width = 24
-
-[sub_resource type="Gradient" id=262]
-interpolation_mode = 1
-offsets = PoolRealArray( 0.524038 )
-colors = PoolColorArray( 0.996078, 0.976471, 0.545098, 1 )
-
-[sub_resource type="GradientTexture" id=263]
-gradient = SubResource( 262 )
-width = 24
-
-[sub_resource type="Gradient" id=264]
-interpolation_mode = 1
-offsets = PoolRealArray( 0.498534 )
-colors = PoolColorArray( 0.368627, 1, 0.662745, 1 )
-
-[sub_resource type="GradientTexture" id=265]
-gradient = SubResource( 264 )
-width = 24
-
-[sub_resource type="Gradient" id=271]
-interpolation_mode = 1
-offsets = PoolRealArray( 0.492669 )
-colors = PoolColorArray( 0.454902, 1, 1, 1 )
-
-[sub_resource type="GradientTexture" id=272]
-gradient = SubResource( 271 )
-width = 24
-
-[sub_resource type="Gradient" id=267]
-interpolation_mode = 1
-offsets = PoolRealArray( 0.498534 )
-colors = PoolColorArray( 0.294118, 0.623529, 1, 1 )
-
-[sub_resource type="GradientTexture" id=268]
-gradient = SubResource( 267 )
-width = 24
-
-[sub_resource type="Gradient" id=269]
-interpolation_mode = 1
-offsets = PoolRealArray( 0.498534 )
-colors = PoolColorArray( 0.92549, 0.501961, 0.984314, 1 )
-
-[sub_resource type="GradientTexture" id=270]
-gradient = SubResource( 269 )
-width = 24
+region = Rect2( 32, 64, 16, 16 )
 
 [sub_resource type="Animation" id=155]
 length = 0.001
@@ -7146,13 +7078,6 @@ custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 14 )
 text = "to go back"
 
-[node name="Spectrum" type="TextureRect" parent="SelectLevel"]
-margin_top = -80.0
-margin_right = 512.0
-margin_bottom = -64.0
-texture = ExtResource( 18 )
-expand = true
-
 [node name="Settings" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -7200,7 +7125,7 @@ margin_left = 64.0
 margin_top = 145.0
 margin_right = 224.0
 margin_bottom = 177.0
-focus_neighbour_top = NodePath("../ColorSchemeOptions/Colors/ColorBtn")
+focus_neighbour_top = NodePath("../InstructionsBtn")
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
 pressed = true
@@ -7264,308 +7189,98 @@ margin_top = 353.0
 margin_right = 252.0
 margin_bottom = 385.0
 focus_neighbour_right = NodePath("../BackBtn")
+focus_neighbour_bottom = NodePath("../ColorSchemeOptions/RandomizeBtn")
 mouse_default_cursor_shape = 2
 pressed = true
 text = "Camera Shake"
 
+[node name="ColorSchemeOptions" type="Control" parent="Settings"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 64.0
+margin_top = -320.0
+margin_right = -14.0
+margin_bottom = -288.0
+
+[node name="RandomizeBtn" type="Button" parent="Settings/ColorSchemeOptions"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+margin_left = 173.0
+margin_top = 0.5
+margin_right = 197.0
+margin_bottom = 24.5
+rect_min_size = Vector2( 24, 24 )
+mouse_default_cursor_shape = 2
+custom_styles/hover = SubResource( 279 )
+custom_styles/focus = SubResource( 279 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Label2" type="Label" parent="Settings/ColorSchemeOptions/RandomizeBtn"]
+margin_left = -173.0
+margin_top = 4.5
+margin_right = -15.0
+margin_bottom = 26.5
+text = "Color scheme"
+align = 2
+
+[node name="SpectrumIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/RandomizeBtn"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 24, 24 )
+texture = ExtResource( 18 )
+expand = true
+
+[node name="GradientIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/RandomizeBtn"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 24, 24 )
+texture = ExtResource( 19 )
+expand = true
+
+[node name="ResetBtn" type="Button" parent="Settings/ColorSchemeOptions"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+margin_left = 210.0
+margin_top = 8.0
+margin_right = 226.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 16, 16 )
+focus_neighbour_right = NodePath("../../BackBtn")
+mouse_default_cursor_shape = 2
+expand_icon = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="SelectedIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/ResetBtn"]
+margin_right = 16.0
+margin_bottom = 16.0
+size_flags_vertical = 3
+texture = SubResource( 280 )
+
 [node name="InstructionsBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 64.0
-margin_top = 481.0
+margin_top = 449.0
 margin_right = 348.0
-margin_bottom = 513.0
+margin_bottom = 481.0
+focus_neighbour_top = NodePath("../ColorSchemeOptions/RandomizeBtn")
 focus_neighbour_right = NodePath("../BackBtn")
+focus_neighbour_bottom = NodePath("../MenuMusicBtn")
 mouse_default_cursor_shape = 2
 pressed = true
 text = "Pre-game instructions"
 
-[node name="ColorSchemeOptions" type="Control" parent="Settings"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-margin_left = 64.0
-margin_top = 398.0
-margin_right = 320.0
-margin_bottom = 454.0
-
-[node name="Label" type="Label" parent="Settings/ColorSchemeOptions"]
-anchor_right = 1.0
-margin_top = 8.0
-margin_bottom = 30.0
-text = "Select color scheme"
-
-[node name="Colors" type="HBoxContainer" parent="Settings/ColorSchemeOptions"]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -24.0
-custom_constants/separation = 8
-
-[node name="ColorBtn" type="Button" parent="Settings/ColorSchemeOptions/Colors"]
-margin_right = 24.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 24, 24 )
-focus_neighbour_left = NodePath("../ColorBtn8")
-focus_neighbour_bottom = NodePath("../../../MenuMusicBtn")
-mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 254 )
-custom_styles/focus = SubResource( 254 )
-custom_styles/disabled = SubResource( 273 )
-toggle_mode = true
-expand_icon = true
-
-[node name="ColorSchemeIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn"]
-show_behind_parent = true
-margin_right = 24.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 24, 24 )
-size_flags_vertical = 3
-texture = SubResource( 261 )
-expand = true
-
-[node name="SelectedIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn"]
-modulate = Color( 0, 0, 0, 1 )
-show_behind_parent = true
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 17.0
-margin_bottom = 17.0
-size_flags_vertical = 3
-texture = SubResource( 150 )
-
-[node name="ColorBtn2" type="Button" parent="Settings/ColorSchemeOptions/Colors"]
-margin_left = 32.0
-margin_right = 56.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 24, 24 )
-focus_neighbour_bottom = NodePath("../../../MenuMusicBtn")
-mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 254 )
-custom_styles/focus = SubResource( 254 )
-custom_styles/disabled = SubResource( 273 )
-toggle_mode = true
-pressed = true
-expand_icon = true
-
-[node name="ColorSchemeIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn2"]
-show_behind_parent = true
-margin_right = 24.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 24, 24 )
-size_flags_vertical = 3
-texture = SubResource( 259 )
-expand = true
-
-[node name="SelectedIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn2"]
-modulate = Color( 0, 0, 0, 1 )
-show_behind_parent = true
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 17.0
-margin_bottom = 17.0
-size_flags_vertical = 3
-texture = SubResource( 150 )
-
-[node name="ColorBtn3" type="Button" parent="Settings/ColorSchemeOptions/Colors"]
-margin_left = 64.0
-margin_right = 88.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 24, 24 )
-focus_neighbour_bottom = NodePath("../../../MenuMusicBtn")
-mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 254 )
-custom_styles/focus = SubResource( 254 )
-custom_styles/disabled = SubResource( 273 )
-toggle_mode = true
-expand_icon = true
-
-[node name="ColorSchemeIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn3"]
-show_behind_parent = true
-margin_right = 24.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 24, 24 )
-size_flags_vertical = 3
-texture = SubResource( 252 )
-expand = true
-
-[node name="SelectedIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn3"]
-modulate = Color( 0, 0, 0, 1 )
-show_behind_parent = true
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 17.0
-margin_bottom = 17.0
-size_flags_vertical = 3
-texture = SubResource( 150 )
-
-[node name="ColorBtn4" type="Button" parent="Settings/ColorSchemeOptions/Colors"]
-margin_left = 96.0
-margin_right = 120.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 24, 24 )
-focus_neighbour_bottom = NodePath("../../../MenuMusicBtn")
-mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 254 )
-custom_styles/focus = SubResource( 254 )
-custom_styles/disabled = SubResource( 273 )
-toggle_mode = true
-expand_icon = true
-
-[node name="ColorSchemeIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn4"]
-show_behind_parent = true
-margin_right = 24.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 24, 24 )
-size_flags_vertical = 3
-texture = SubResource( 263 )
-expand = true
-
-[node name="SelectedIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn4"]
-modulate = Color( 0, 0, 0, 1 )
-show_behind_parent = true
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 17.0
-margin_bottom = 17.0
-size_flags_vertical = 3
-texture = SubResource( 150 )
-
-[node name="ColorBtn5" type="Button" parent="Settings/ColorSchemeOptions/Colors"]
-margin_left = 128.0
-margin_right = 152.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 24, 24 )
-focus_neighbour_bottom = NodePath("../../../MenuMusicBtn")
-mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 254 )
-custom_styles/focus = SubResource( 254 )
-custom_styles/disabled = SubResource( 273 )
-toggle_mode = true
-expand_icon = true
-
-[node name="ColorSchemeIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn5"]
-show_behind_parent = true
-margin_right = 24.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 24, 24 )
-size_flags_vertical = 3
-texture = SubResource( 265 )
-expand = true
-
-[node name="SelectedIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn5"]
-modulate = Color( 0, 0, 0, 1 )
-show_behind_parent = true
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 17.0
-margin_bottom = 17.0
-size_flags_vertical = 3
-texture = SubResource( 150 )
-
-[node name="ColorBtn6" type="Button" parent="Settings/ColorSchemeOptions/Colors"]
-margin_left = 160.0
-margin_right = 184.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 24, 24 )
-focus_neighbour_bottom = NodePath("../../../MenuMusicBtn")
-mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 254 )
-custom_styles/focus = SubResource( 254 )
-custom_styles/disabled = SubResource( 273 )
-toggle_mode = true
-expand_icon = true
-
-[node name="ColorSchemeIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn6"]
-show_behind_parent = true
-margin_right = 24.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 24, 24 )
-size_flags_vertical = 3
-texture = SubResource( 272 )
-expand = true
-
-[node name="SelectedIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn6"]
-modulate = Color( 0, 0, 0, 1 )
-show_behind_parent = true
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 17.0
-margin_bottom = 17.0
-size_flags_vertical = 3
-texture = SubResource( 150 )
-
-[node name="ColorBtn7" type="Button" parent="Settings/ColorSchemeOptions/Colors"]
-margin_left = 192.0
-margin_right = 216.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 24, 24 )
-focus_neighbour_bottom = NodePath("../../../MenuMusicBtn")
-mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 254 )
-custom_styles/focus = SubResource( 254 )
-custom_styles/disabled = SubResource( 273 )
-toggle_mode = true
-expand_icon = true
-
-[node name="ColorSchemeIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn7"]
-show_behind_parent = true
-margin_right = 24.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 24, 24 )
-size_flags_vertical = 3
-texture = SubResource( 268 )
-expand = true
-
-[node name="SelectedIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn7"]
-modulate = Color( 0, 0, 0, 1 )
-show_behind_parent = true
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 17.0
-margin_bottom = 17.0
-size_flags_vertical = 3
-texture = SubResource( 150 )
-
-[node name="ColorBtn8" type="Button" parent="Settings/ColorSchemeOptions/Colors"]
-margin_left = 224.0
-margin_right = 248.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 24, 24 )
-focus_neighbour_right = NodePath("../ColorBtn")
-focus_neighbour_bottom = NodePath("../../../MenuMusicBtn")
-mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 254 )
-custom_styles/focus = SubResource( 254 )
-custom_styles/disabled = SubResource( 273 )
-toggle_mode = true
-expand_icon = true
-
-[node name="ColorSchemeIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn8"]
-show_behind_parent = true
-margin_right = 24.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 24, 24 )
-size_flags_vertical = 3
-texture = SubResource( 270 )
-expand = true
-
-[node name="SelectedIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/Colors/ColorBtn8"]
-modulate = Color( 0, 0, 0, 1 )
-show_behind_parent = true
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 17.0
-margin_bottom = 17.0
-size_flags_vertical = 3
-texture = SubResource( 150 )
-
 [node name="Shorts" type="Label" parent="Settings"]
 margin_left = 64.0
-margin_top = 536.0
+margin_top = 504.0
 margin_right = 320.0
-margin_bottom = 584.0
+margin_bottom = 552.0
 size_flags_horizontal = 3
 theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
-text = "Game settings can also be set in games pause menu."
+text = "Game settings can also be set in game pause menu."
 autowrap = true
 
 [node name="EscHint" type="HBoxContainer" parent="Settings"]
@@ -7723,15 +7438,9 @@ anims/settings = SubResource( 140 )
 [connection signal="value_changed" from="Settings/GameMusicSlider" to="Settings" method="_on_MusicHSlider_value_changed"]
 [connection signal="toggled" from="Settings/GameSfxBtn" to="Settings" method="_on_GameSfxBtn_toggled"]
 [connection signal="toggled" from="Settings/CameraShakeBtn" to="Settings" method="_on_CameraShakeBtn_toggled"]
+[connection signal="pressed" from="Settings/ColorSchemeOptions/RandomizeBtn" to="Settings" method="_on_RandomizeBtn_pressed"]
+[connection signal="pressed" from="Settings/ColorSchemeOptions/ResetBtn" to="Settings" method="_on_ResetBtn_pressed"]
 [connection signal="toggled" from="Settings/InstructionsBtn" to="Settings" method="_on_InstructionsBtn_toggled"]
-[connection signal="toggled" from="Settings/ColorSchemeOptions/Colors/ColorBtn" to="Settings" method="_on_ColorBtn_toggled"]
-[connection signal="toggled" from="Settings/ColorSchemeOptions/Colors/ColorBtn2" to="Settings" method="_on_ColorBtn2_toggled"]
-[connection signal="toggled" from="Settings/ColorSchemeOptions/Colors/ColorBtn3" to="Settings" method="_on_ColorBtn3_toggled"]
-[connection signal="toggled" from="Settings/ColorSchemeOptions/Colors/ColorBtn4" to="Settings" method="_on_ColorBtn4_toggled"]
-[connection signal="toggled" from="Settings/ColorSchemeOptions/Colors/ColorBtn5" to="Settings" method="_on_ColorBtn5_toggled"]
-[connection signal="toggled" from="Settings/ColorSchemeOptions/Colors/ColorBtn6" to="Settings" method="_on_ColorBtn6_toggled"]
-[connection signal="toggled" from="Settings/ColorSchemeOptions/Colors/ColorBtn7" to="Settings" method="_on_ColorBtn7_toggled"]
-[connection signal="toggled" from="Settings/ColorSchemeOptions/Colors/ColorBtn8" to="Settings" method="_on_ColorBtn8_toggled"]
 [connection signal="pressed" from="Settings/EscHint/Esc/Button" to="Settings" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="Settings/EscHint/Select/Button" to="Settings" method="_on_BackBtn_pressed"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

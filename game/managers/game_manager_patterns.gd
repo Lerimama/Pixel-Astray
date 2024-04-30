@@ -42,12 +42,12 @@ func game_over(gameover_reason: int):
 			# animacija indikatorjev
 			Global.hud.deactivate_all_indicators()
 			# ugasnem goal stene
-#			for cell in Global.current_tilemap.get_used_cells_by_id(7):
-#				Global.current_tilemap.set_cellv(cell, 3) # menjam za celico stene
-#				Global.current_tilemap.set_cellv(cell, 0) # menjam za celico tal
-#				var cell_local_position: Vector2 = Global.current_tilemap.map_to_world(cell)
-#				var cell_global_position: Vector2 = Global.current_tilemap.to_global(cell_local_position) # pozicija je levo-zgornji vogal celice
-#				Global.current_tilemap.floor_global_positions.append(cell_global_position)
+			#			for cell in Global.current_tilemap.get_used_cells_by_id(7):
+			#				Global.current_tilemap.set_cellv(cell, 3) # menjam za celico stene
+			#				Global.current_tilemap.set_cellv(cell, 0) # menjam za celico tal
+			#				var cell_local_position: Vector2 = Global.current_tilemap.map_to_world(cell)
+			#				var cell_global_position: Vector2 = Global.current_tilemap.to_global(cell_local_position) # pozicija je levo-zgornji vogal celice
+			#				Global.current_tilemap.floor_global_positions.append(cell_global_position)
 			# player white animacija
 			var signaling_player: KinematicBody2D
 			for player in get_tree().get_nodes_in_group(Global.group_players):
@@ -147,14 +147,8 @@ func stray_step():
 			stray_to_move.step(stepping_direction)
 		
 		# next step random time
-#		var random_pause_time_divider: float = randi() % int(game_settings["random_pause_time_divider_range"]) + 1 # višji offset da manjši razpon v random času, +1 je da ni 0
 		var random_pause_time_divider: float = randi() % int(5) + 1 # višji offset da manjši razpon v random času, +1 je da ni 0
-#		var random_pause_time = game_settings["pause_time"] / random_pause_time_divider
-#		var random_pause_time = 0.5 / random_pause_time_divider
-#		yield(get_tree().create_timer(random_pause_time), "timeout")
 		yield(get_tree().create_timer(0.01), "timeout")
 	
-	
-#	yield(get_tree().create_timer(scrolling_pause_time), "timeout")
 	step_in_progress = false
 		

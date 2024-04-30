@@ -39,12 +39,12 @@ func show_game_summary():
 
 		
 func set_game_gameover_title():
-	
+		
 	match current_gameover_reason:
-		Global.game_manager.GameoverReason.CLEANED:
-			selected_gameover_title = gameover_title_cleaned
-			selected_gameover_jingle = "win_jingle"
-			name_input_label.text = "Great work!"
+		#		Global.game_manager.GameoverReason.CLEANED:
+		#			selected_gameover_title = gameover_title_cleaned
+		#			selected_gameover_jingle = "win_jingle"
+		#			name_input_label.text = "Great work!"
 		Global.game_manager.GameoverReason.LIFE:
 			selected_gameover_title = gameover_title_life
 			selected_gameover_jingle = "lose_jingle"
@@ -53,3 +53,5 @@ func set_game_gameover_title():
 			selected_gameover_title = gameover_title_time
 			selected_gameover_jingle = "lose_jingle"
 			name_input_label.text = "But still ... "
+	if score_is_ranking:
+		selected_gameover_title.modulate = Global.color_green	

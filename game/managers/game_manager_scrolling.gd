@@ -13,6 +13,7 @@ var current_stage: int = 0 # na štartu se kliče stage up
 var stages_per_level: int
 var current_level: int = 0 # na štartu se kliče level up
 var levels_per_game: int = 1
+var all_level_colors_available: Array
 
 var in_level_transition: bool = false
 var step_in_progress: bool = false
@@ -227,14 +228,11 @@ func set_players():
 
 
 func spawn_strays(strays_to_spawn_count: int):
-	
-	# split colors
-#	strays_to_spawn_count = clamp(strays_to_spawn_count, 1, strays_to_spawn_count) # za vsak slučaj klempam, da ne more biti nikoli 0 ...  ker je error			
-	printt ("count", strays_to_spawn_count)
+	# namen: no clampin, ker je lahko spawn 0
 
 	var available_required_spawn_positions = required_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
 	var available_random_spawn_positions = random_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
-	
+
 	# preverim prepovedane pozicije ... zasedene in podobno
 	var realy_spawned_strays_count: int = 0 # za štetje zares spawnanih
 	var current_strays_on_top: Array = Global.current_tilemap.strays_in_top_area
@@ -250,9 +248,9 @@ func spawn_strays(strays_to_spawn_count: int):
 	for stray_index in strays_to_spawn_count:
 		
 		# žrebam barvo iz vseh barv v indikatorjih
-		var random_color_range = all_stray_colors.size()
+		var random_color_range = all_level_colors_available.size()
 		var random_selected_index: int = randi() % int(random_color_range) # + 1		
-		var random_selected_color: Color = all_stray_colors[random_selected_index]		
+		var random_selected_color: Color = all_level_colors_available[random_selected_index]		
 		
 		# možne spawn pozicije
 		var current_spawn_positions: Array
@@ -270,8 +268,6 @@ func spawn_strays(strays_to_spawn_count: int):
 		var selected_position = current_spawn_positions[selected_cell_index]
 
 		# primerjam spawn pozicijo s prepovedanimi
-		# if not forbiden_positions.empty():
-		#	print("curr position ", selected_position)
 		if not forbiden_positions.has(selected_position):
 			# spawn stray
 			var new_stray_pixel = StrayPixel.instance()
@@ -396,11 +392,8 @@ func upgrade_level():
 		
 		# pavza pri prehoud lavela .... za pedenanjem indikatorjev in pucanje ekrana
 		get_tree().call_group(Global.group_players, "set_physics_process", false)
-#			yield(get_tree().create_timer(2), "timeout")
 		clean_strays_in_game() #puca vse v igri
 		yield(self, "all_strays_died") # ko so vsi iz igre grem naprej
-#			yield(get_tree().create_timer(2), "timeout")
-#			yield(self, "all_strays_died")
 		
 		Global.hud.level_up_popup_out()
 		get_tree().call_group(Global.group_players, "set_physics_process", true)
@@ -433,68 +426,22 @@ func set_new_level():
 
 func set_level_colors():
 	
-	# setam sliko spektruma (za šrebanje in prvi level)
-	var spectrum_image: Image
-	var spectrum_texture: Texture = spectrum_rect.texture
-	spectrum_image = spectrum_texture.get_data()
-	spectrum_image.lock()
-	var spectrum_texture_width: float = spectrum_rect.rect_size.x
-	
-	# get color scheme
-	var color_split_offset: float
-	# prvi level je pisan ... vsi naslednji imajo random gradient
+	all_level_colors_available = []
 	if current_level <= 1: # na začetku je pisana tema
-		color_split_offset = spectrum_texture_width / stages_per_level # razmak barv po spektru ... - 1 je zato ker je razmakov za 1 manj kot barv
+		all_level_colors_available = Global.get_spectrum_colors(stages_per_level)
 	else:
-		# izžrebam barvi gradienta iz nastavljenega spektruma
-		var new_color_scheme_colors: Array
-		var new_color_scheme_split_size: float = spectrum_texture_width / stages_per_level
+		all_level_colors_available = Global.get_random_gradient_colors(stages_per_level)
 		
-		# žrebam prvo barvo iz celotnega bazena barv 
-		var random_split_index_1: int = randi() % int(stages_per_level)
-		var random_color_position_x_1: float = random_split_index_1 * new_color_scheme_split_size # lokacija barve v spektrumu
-		var random_color_1: Color = spectrum_image.get_pixel(random_color_position_x_1, 0) # barva na lokaciji v spektrumu
-		# žrebam drugi index iz omejenega nabora indexov barv  
-		var split_minimal_distance: int = 20
-		var split_min: int = random_split_index_1 - split_minimal_distance
-		var split_max: int = random_split_index_1 + split_minimal_distance	
-		var available_random_splits: Array
-		for n in stages_per_level:
-			if n < split_min or n > split_max:
-				available_random_splits.append(n)
-		var random_split_index_2: int # ... potem random število uporabim za random index v vseh splitih
-		if available_random_splits.empty(): # v primeru ko je distanca prevelika, je navadno žrebanje
-			random_split_index_2 = randi() % int(stages_per_level)
-		# žrebam drugo barvo iz bazena barv, ki so od prve oddaljene za  xx  split_minimal_distance 
-		else: 
-			var available_random_split_index: int = randi() % int(available_random_splits.size()) # med index števili na voljo izbere random število
-			random_split_index_2 = available_random_splits[available_random_split_index] # ... potem random število uporabim za random index v vseh splitih
-		
-		var random_color_position_x_2: float = random_split_index_2 * new_color_scheme_split_size # lokacija barve v spektrumu
-		var random_color_2: Color = spectrum_image.get_pixel(random_color_position_x_2, 0) # barva na lokaciji v spektrumu		
-		
-		new_color_scheme_colors = [random_color_1, random_color_2]
-		
-		# setam gradient barvne sheme (node)
-		var scheme_gradient: Gradient = $SpectrumGradient.texture.get_gradient()
-		scheme_gradient.set_color(0, new_color_scheme_colors[0])
-		scheme_gradient.set_color(1, new_color_scheme_colors[1])	
-		color_split_offset = 1.0 / stages_per_level
-	
 	var selected_color_position_x: float
 	var current_color: Color
-	all_stray_colors = [] # reset na vsa level
 	
 	for stage in stages_per_level:
 		if current_level <= 1: # na začetku je pisana tema
-			selected_color_position_x = stage * color_split_offset # lokacija barve v spektrumu
-			current_color = spectrum_image.get_pixel(selected_color_position_x, 0)
+			current_color = all_level_colors_available[stage]
 		else:
-			selected_color_position_x = stage * color_split_offset
-			current_color = spectrum_gradient.texture.gradient.interpolate(selected_color_position_x)
-		all_stray_colors.append(current_color)
+			current_color = all_level_colors_available[stage]
 
-	Global.hud.spawn_color_indicators(all_stray_colors) # barve pokažem v hudu	
+	Global.hud.spawn_color_indicators(all_level_colors_available) # barve pokažem v hudu	
 		
 
 # UTILITI -------------------------------------------------------------------------------------------------------------------------------

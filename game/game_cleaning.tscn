@@ -17,7 +17,7 @@
 [ext_resource path="res://game/gui/highscore_table.gd" type="Script" id=15]
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=16]
 [ext_resource path="res://game/hud/music_player.gd" type="Script" id=17]
-[ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=18]
+[ext_resource path="res://assets/theme/color_theme_spectrum.png" type="Texture" id=18]
 [ext_resource path="res://game/gui/game_over_cleaning.gd" type="Script" id=19]
 [ext_resource path="res://game/managers/game_manager_cleaning.gd" type="Script" id=20]
 [ext_resource path="res://game/hud/hud_cleaning.gd" type="Script" id=21]
@@ -524,10 +524,6 @@ region = Rect2( 32, 80, 48, 16 )
 atlas = ExtResource( 7 )
 region = Rect2( 16, 0, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=129]
-atlas = ExtResource( 7 )
-region = Rect2( 64, 0, 16, 16 )
-
 [sub_resource type="AtlasTexture" id=268]
 atlas = ExtResource( 7 )
 region = Rect2( 48, 16, 16, 16 )
@@ -539,6 +535,10 @@ region = Rect2( 64, 16, 16, 16 )
 [sub_resource type="AtlasTexture" id=131]
 atlas = ExtResource( 7 )
 region = Rect2( 64, 32, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=129]
+atlas = ExtResource( 7 )
+region = Rect2( 64, 0, 16, 16 )
 
 [sub_resource type="StyleBoxEmpty" id=287]
 
@@ -1801,44 +1801,6 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="PointsHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineL"]
-margin_left = 202.0
-margin_right = 294.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 0, 22 )
-size_flags_vertical = 8
-custom_constants/separation = 8
-
-[node name="TextureRect4" type="TextureRect" parent="GUI/Hud/Header/TopLineL/PointsHolder"]
-visible = false
-margin_top = 4.0
-margin_right = 16.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 16, 18 )
-size_flags_vertical = 8
-texture = SubResource( 129 )
-
-[node name="Label" type="Label" parent="GUI/Hud/Header/TopLineL/PointsHolder"]
-margin_right = 70.0
-margin_bottom = 22.0
-size_flags_vertical = 8
-text = "SCORE"
-valign = 1
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Points" type="Label" parent="GUI/Hud/Header/TopLineL/PointsHolder"]
-margin_left = 78.0
-margin_right = 92.0
-margin_bottom = 22.0
-size_flags_vertical = 8
-text = "0"
-valign = 1
-__meta__ = {
-"_editor_description_": ""
-}
-
 [node name="StepsHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineL"]
 visible = false
 margin_left = 272.0
@@ -1912,6 +1874,44 @@ texture = SubResource( 131 )
 [node name="Label" type="Label" parent="GUI/Hud/Header/TopLineL/BurstHolder"]
 margin_left = 24.0
 margin_right = 38.0
+margin_bottom = 22.0
+size_flags_vertical = 8
+text = "0"
+valign = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="PointsHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineL"]
+margin_left = 202.0
+margin_right = 294.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 0, 22 )
+size_flags_vertical = 8
+custom_constants/separation = 8
+
+[node name="TextureRect4" type="TextureRect" parent="GUI/Hud/Header/TopLineL/PointsHolder"]
+visible = false
+margin_top = 4.0
+margin_right = 16.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 16, 18 )
+size_flags_vertical = 8
+texture = SubResource( 129 )
+
+[node name="Label" type="Label" parent="GUI/Hud/Header/TopLineL/PointsHolder"]
+margin_right = 70.0
+margin_bottom = 22.0
+size_flags_vertical = 8
+text = "SCORE"
+valign = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Points" type="Label" parent="GUI/Hud/Header/TopLineL/PointsHolder"]
+margin_left = 78.0
+margin_right = 92.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 text = "0"
@@ -2017,8 +2017,8 @@ align = 2
 
 [node name="PlayerLineR" type="HBoxContainer" parent="GUI/Hud/Header/TopLineR"]
 visible = false
-margin_left = 256.0
-margin_right = 556.0
+margin_left = 206.0
+margin_right = 544.0
 margin_bottom = 22.0
 grow_horizontal = 0
 size_flags_horizontal = 11
@@ -2029,13 +2029,14 @@ __meta__ = {
 }
 
 [node name="PointsHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineR/PlayerLineR"]
-margin_right = 38.0
+margin_right = 92.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 22 )
 size_flags_vertical = 8
 custom_constants/separation = 8
 
 [node name="TextureRect4" type="TextureRect" parent="GUI/Hud/Header/TopLineR/PlayerLineR/PointsHolder"]
+visible = false
 margin_top = 4.0
 margin_right = 16.0
 margin_bottom = 22.0
@@ -2043,9 +2044,19 @@ rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
 texture = SubResource( 129 )
 
+[node name="Label" type="Label" parent="GUI/Hud/Header/TopLineR/PlayerLineR/PointsHolder"]
+margin_right = 70.0
+margin_bottom = 22.0
+size_flags_vertical = 8
+text = "SCORE"
+valign = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
 [node name="Points" type="Label" parent="GUI/Hud/Header/TopLineR/PlayerLineR/PointsHolder"]
-margin_left = 24.0
-margin_right = 38.0
+margin_left = 78.0
+margin_right = 92.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 text = "0"
@@ -2055,8 +2066,8 @@ __meta__ = {
 }
 
 [node name="ColorHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineR/PlayerLineR"]
-margin_left = 54.0
-margin_right = 92.0
+margin_left = 108.0
+margin_right = 146.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
@@ -2171,9 +2182,9 @@ custom_constants/separation = 0
 custom_styles/separator = SubResource( 248 )
 
 [node name="EnergyBar" type="HBoxContainer" parent="GUI/Hud/Header/TopLineR/PlayerLineR"]
-margin_left = 124.0
+margin_left = 162.0
 margin_top = 3.0
-margin_right = 188.0
+margin_right = 226.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 19 )
 size_flags_vertical = 8
@@ -2201,9 +2212,9 @@ texture_over = SubResource( 126 )
 texture_progress = SubResource( 132 )
 
 [node name="LifeIcons" type="HBoxContainer" parent="GUI/Hud/Header/TopLineR/PlayerLineR"]
-margin_left = 204.0
+margin_left = 242.0
 margin_top = 3.0
-margin_right = 256.0
+margin_right = 294.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 19 )
 size_flags_vertical = 8
@@ -2264,8 +2275,8 @@ margin_bottom = 16.0
 texture = SubResource( 123 )
 
 [node name="PlayerLabel" type="Label" parent="GUI/Hud/Header/TopLineR/PlayerLineR"]
-margin_left = 272.0
-margin_right = 300.0
+margin_left = 310.0
+margin_right = 338.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
@@ -3895,7 +3906,6 @@ size_flags_vertical = 8
 text = "PLAY AGAIN"
 
 [node name="EnigmaGameSummary" type="Control" parent="GUI/GameOver"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -4302,9 +4312,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -356.0
+margin_left = -246.0
 margin_top = 222.0
-margin_right = 356.0
+margin_right = 246.0
 margin_bottom = 244.0
 grow_horizontal = 2
 custom_constants/separation = 32
@@ -4324,7 +4334,6 @@ margin_left = 192.0
 margin_right = 324.0
 margin_bottom = 22.0
 mouse_default_cursor_shape = 2
-size_flags_horizontal = 8
 size_flags_vertical = 8
 text = "PLAY AGAIN"
 
@@ -4333,16 +4342,15 @@ margin_left = 356.0
 margin_right = 492.0
 margin_bottom = 22.0
 mouse_default_cursor_shape = 2
-size_flags_horizontal = 8
 size_flags_vertical = 8
 text = "NEXT LEVEL"
 
 [node name="ExitGameBtn" type="Button" parent="GUI/GameOver/EnigmaGameSummary/Menu"]
+visible = false
 margin_left = 524.0
 margin_right = 646.0
 margin_bottom = 22.0
 mouse_default_cursor_shape = 2
-size_flags_horizontal = 8
 size_flags_vertical = 8
 text = "EXIT GAME"
 
@@ -4440,9 +4448,7 @@ one_shot = true
 
 [connection signal="animation_finished" from="GUI/Hud/Popups/GameCountdown/AnimationPlayer" to="GUI/Hud/Popups/GameCountdown" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="gametime_is_up" from="GUI/Hud/Header/GameTimerHunds" to="GUI/Hud" method="_on_GameTimer_gametime_is_up"]
-[connection signal="sudden_death_activated" from="GUI/Hud/Header/GameTimerHunds" to="GUI/Hud" method="_on_GameTimer_sudden_death_active"]
 [connection signal="gametime_is_up" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_gametime_is_up"]
-[connection signal="sudden_death_active" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_sudden_death_active"]
 [connection signal="timeout" from="GUI/Hud/Header/GameTimer/Timer" to="GUI/Hud/Header/GameTimer" method="_on_Timer_timeout"]
 [connection signal="toggled" from="GUI/PauseMenu/Settings/GameMusicBtn" to="GUI/PauseMenu" method="_on_GameMusicBtn_toggled"]
 [connection signal="value_changed" from="GUI/PauseMenu/Settings/GameMusicSlider" to="GUI/PauseMenu" method="_on_GameMusicSlider_value_changed"]

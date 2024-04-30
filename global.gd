@@ -66,11 +66,12 @@ var allow_focus_sfx: bool = false # focus sounds
 
 func _ready(): 
 	
+	randomize() # custom color scheme
+	
 	# when _ready is called, there might already be nodes in the tree, so connect all existing buttons
 	connect_buttons(get_tree().root)
 	get_tree().connect("node_added", self, "_on_SceneTree_node_added")
 	
-
 
 func snap_to_nearest_grid(current_global_position: Vector2):
 	
@@ -127,6 +128,117 @@ func spawn_new_scene(scene_path, parent_node): # spawn scene
 	return current_scene
 
 
+# split colors ------------------------------------------------------------------------------------------------
+
+
+var spectrum_rect: TextureRect
+onready var gradient_texture: Resource = preload("res://assets/theme/color_theme_gradient.tres")
+onready	var spectrum_texture_scene: PackedScene = preload("res://assets/theme/color_theme_spectrum.tscn")
+
+
+func get_random_gradient_colors(color_count: int):
+	
+	var setting_custom_color_theme: bool = false 
+	if color_count == 0: # pomeni, da se kliče iz settingsov
+		setting_custom_color_theme = true
+		color_count = 320
+	
+	# grabam texturo spectruma
+#	if not spectrum_rect:
+	spectrum_rect = spectrum_texture_scene.instance()
+	var spectrum_texture: Texture = spectrum_rect.texture
+	var spectrum_image: Image = spectrum_texture.get_data()
+	spectrum_image.lock()
+
+	# izžrebam barvi gradienta iz nastavljenega spektruma
+	var spectrum_texture_width: float = spectrum_rect.rect_size.x
+	var new_color_scheme_split_size: float = spectrum_texture_width / color_count
+
+	# PRVA barva 
+	var random_split_index_1: int = randi() % int(color_count)
+	var random_color_position_x_1: float = random_split_index_1 * new_color_scheme_split_size # lokacija barve v spektrumu
+	var random_color_1: Color = spectrum_image.get_pixel(random_color_position_x_1, 0) # barva na lokaciji v spektrumu
+	
+	# DRUGA barva z razmakom
+#	# omejena najmanjšo razdaljo od obeh barv ... ne deluje optimalno
+#	var split_minimal_distance: int = 20
+#	var split_min: int = random_split_index_1 - split_minimal_distance
+#	var split_max: int = random_split_index_1 + split_minimal_distance	
+#	# naberem vse dovoljenje indexe
+#	var available_random_splits: Array
+#	for n in color_count:
+#		if n < split_min or n > split_max:
+#			available_random_splits.append(n)
+#	# izžrebam dovoljeni index in pogrebam barvo iz indexov celega spectruma 
+#	var random_split_index_2: int
+#	# če je distanca večja od maximalnega nabora barv ... je navadno žrebanje
+#	if available_random_splits.empty():
+#		random_split_index_2 = randi() % int(color_count)
+#	# če je distanca OK, žrebam drugo barvo iz bazena barv, ki so od prve oddaljene za  xx  split_minimal_distance 
+#	else: 
+#		var available_random_split_index: int = randi() % int(available_random_splits.size()) # med index števili na voljo izbere random število
+#		random_split_index_2 = available_random_splits[available_random_split_index] # ... potem random število uporabim za random index v vseh splitih
+#	# določim drugo barvo
+#	var random_color_position_x_2: float = random_split_index_2 * new_color_scheme_split_size # lokacija barve v spektrumu
+#	var random_color_2: Color = spectrum_image.get_pixel(random_color_position_x_2, 0) # barva na lokaciji v spektrumu		
+	
+	# DRUGA barva - alt
+	var random_split_index_2: int = randi() % int(color_count)
+	var random_color_position_x_2: float = random_split_index_2 * new_color_scheme_split_size # lokacija barve v spektrumu
+	var random_color_2: Color = spectrum_image.get_pixel(random_color_position_x_2, 0) # barva na lokaciji v spektrumu	
+	
+	# TRETJA barva 
+	var random_split_index_3: int = randi() % int(color_count)
+	var random_color_position_x_3: float = random_split_index_3 * new_color_scheme_split_size # lokacija barve v spektrumu
+	var random_color_3: Color = spectrum_image.get_pixel(random_color_position_x_3, 0) # barva na lokaciji v spektrumu
+
+	# GRADIENT
+
+	# setam gradient barvne sheme (node)
+	var scheme_gradient: Gradient = gradient_texture.get_gradient()
+	scheme_gradient.set_color(0, random_color_1)
+	scheme_gradient.set_color(1, random_color_2)
+	scheme_gradient.set_color(2, random_color_3)
+
+	# naberem barve glede na število potrebnih barv
+	var split_colors: Array
+	var color_split_offset: float = 1.0 / color_count
+	for n in color_count:
+		var color_position_x: float = n * color_split_offset # lokacija barve v spektrumu
+		var color = scheme_gradient.interpolate(color_position_x) # barva na lokaciji v spektrumu
+		split_colors.append(color)
+	
+	if setting_custom_color_theme: # settingsi rabijo barvno temo 
+		return	scheme_gradient
+	else: # ostali rabijo barve
+		return	split_colors
+	
+	
+func get_spectrum_colors(color_count: int):
+	randomize()
+	
+	# grabam texturo spectruma
+	if not spectrum_rect:
+		spectrum_rect = spectrum_texture_scene.instance()
+	var spectrum_texture: Texture = spectrum_rect.texture
+	var spectrum_image: Image = spectrum_texture.get_data()
+	spectrum_image.lock()
+
+	# izžrebam barvi gradienta iz nastavljenega spektruma
+	var spectrum_texture_width: float = spectrum_rect.rect_size.x
+	var new_color_scheme_split_size: float = spectrum_texture_width / color_count
+	
+	# naberem barve glede na število potrebnih barv
+	var split_colors: Array
+	var color_split_offset: float = spectrum_texture_width / color_count
+	for n in color_count:
+		var color_position_x: float = n * color_split_offset # lokacija barve v spektrumu
+		var color = spectrum_image.get_pixel(color_position_x, 0) # barva na lokaciji v spektrumu
+		split_colors.append(color)
+	
+	return	split_colors
+	
+	
 # BUTTONS --------------------------------------------------------------------------------------------------
 
 # vsak hover, postane focus
@@ -154,7 +266,6 @@ func connect_to_button(button):
 	# pressing btnz
 	if button is CheckButton:
 		button.connect("toggled", self, "_on_button_toggled")
-#	else:# not HSlider:
 	elif not button is HSlider:
 		button.connect("pressed", self, "_on_button_pressed", [button])
 	
@@ -193,13 +304,13 @@ func _on_control_focused(control: Control):
 	
 	Global.sound_manager.play_gui_sfx("btn_focus_change")
 	# check btn color fix
-	if control is CheckButton or control is HSlider:
+	if control is CheckButton or control is HSlider or control.name == "RandomizeBtn" or control.name == "ResetBtn":
 		control.modulate = Color.white
 
 
 func _on_control_unfocused(control: Control):
 	
-	if control is CheckButton or control is HSlider:
+	if control is CheckButton or control is HSlider or control.name == "RandomizeBtn" or control.name == "ResetBtn":
 		control.modulate = color_gui_gray # Color.white
 
 

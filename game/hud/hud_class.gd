@@ -412,7 +412,3 @@ func _on_stat_changed(stat_owner: Node, current_player_stats: Dictionary):
 func _on_GameTimer_gametime_is_up() -> void: # signal iz tajmerja
 	
 	Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
-
-
-func _on_GameTimer_sudden_death_active() -> void:
-	pass # Replace with function body.

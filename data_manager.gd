@@ -72,12 +72,7 @@ func manage_gameover_highscores(current_score_points: int, current_score_time: f
 	var all_ranking_scores: Array = []
 	var all_ranking_score_owners: Array = []
 	var current_game_highscores: Dictionary = read_highscores_from_file(current_game_data) # ... v odprtem filetu se potem naloži highscore
-	
-	# zaokrožim na dve decimalki
-	var current_score_time_decimals: float = current_score_time - floor(current_score_time)
-	var current_score_time_hundreds: float = round(current_score_time_decimals * 100)
-	# score je sekunde + stotinke kot decimalke
-	current_score_time = floor(current_score_time) + current_score_time_hundreds / 100
+	# current_score_time je že zaokrožen na 2 decimalki
 	
 	# poberemo lestvico v arraye
 	for hs_position_key in current_game_highscores:

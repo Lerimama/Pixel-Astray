@@ -23,13 +23,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		Global.data_manager.read_solved_status_from_file(game_data)
 		print("read")
 	if Input.is_action_pressed("t"):
-		Global.data_manager.write_solved_status_to_file(game_data)
-		print("write")
-		#		for n in 50:
-		#			# random stray to wall
-		#			var random_stray_index: int = randi() % int(strays_in_game_count)
-		#			var random_stray: KinematicBody2D = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_index]
-		#			random_stray.die_to_wall()
+		var colors: Array  = Global.get_random_gradient_colors(5)
 	
 	
 func _ready() -> void:
@@ -138,7 +132,7 @@ func set_tilemap():
 
 
 func spawn_strays(strays_to_spawn_count: int):
-	# namen: split colors ...  naredim gradient iz naklujčnih barv iz spektruma	
+	# namen: gradient iz naključnih barv iz spektruma	
 	
 	strays_to_spawn_count = clamp(strays_to_spawn_count, 1, strays_to_spawn_count) # za vsak slučaj klempam, da ne more biti nikoli 0 ...  ker je error			
 	
@@ -148,80 +142,24 @@ func spawn_strays(strays_to_spawn_count: int):
 	else:
 		current_level = 0
 	
-	# COLORS
-	
-	# setam sliko spektruma (za šrebanje in prvi level)
-	var spectrum_image: Image
-	var spectrum_texture: Texture = spectrum_rect.texture
-	spectrum_image = spectrum_texture.get_data()
-	spectrum_image.lock()
-	var spectrum_texture_width: float = spectrum_rect.rect_size.x
-	
-	# get color scheme
-	var color_split_offset: float
-	# prvi level je pisan ... vsi naslednji imajo random gradient
+	# colors
+	var all_colors_available: Array
+#	if Profiles.use_custom_color_theme:
+#		all_colors_available = Global.get_random_gradient_colors(strays_to_spawn_count)
+#	else:
 	if current_level <= 1 or game_data["game"] == Profiles.Games.ENIGMA: # kadar so druge igre od enigme ineterenal je current level 0
-		color_split_offset = spectrum_texture_width / strays_to_spawn_count # razmak barv po spektru ... - 1 je zato ker je razmakov za 1 manj kot barv
+		all_colors_available = Global.get_spectrum_colors(strays_to_spawn_count) # prvi level je original ... vsi naslednji imajo random gradient
 	else:
-		# izžrebam barvi gradienta iz nastavljenega spektruma
-		var new_color_scheme_colors: Array
-		var new_color_scheme_split_size: float = spectrum_texture_width / strays_to_spawn_count
-		
-		# žrebam prvo barvo iz celotnega bazena barv 
-		var random_split_index_1: int = randi() % int(strays_to_spawn_count)
-		var random_color_position_x_1: float = random_split_index_1 * new_color_scheme_split_size # lokacija barve v spektrumu
-		var random_color_1: Color = spectrum_image.get_pixel(random_color_position_x_1, 0) # barva na lokaciji v spektrumu
-		# žrebam drugi index iz omejenega nabora indexov barv  
-		var split_minimal_distance: int = 20
-		var split_min: int = random_split_index_1 - split_minimal_distance
-		var split_max: int = random_split_index_1 + split_minimal_distance	
-		var available_random_splits: Array
-		for n in strays_to_spawn_count:
-			if n < split_min or n > split_max:
-				available_random_splits.append(n)
-		var random_split_index_2: int # ... potem random število uporabim za random index v vseh splitih
-		if available_random_splits.empty(): # v primeru ko je distanca prevelika, je navadno žrebanje
-			random_split_index_2 = randi() % int(strays_to_spawn_count)
-		# žrebam drugo barvo iz bazena barv, ki so od prve oddaljene za  xx  split_minimal_distance 
-		else: 
-			var available_random_split_index: int = randi() % int(available_random_splits.size()) # med index števili na voljo izbere random število
-			random_split_index_2 = available_random_splits[available_random_split_index] # ... potem random število uporabim za random index v vseh splitih
-		
-		var random_color_position_x_2: float = random_split_index_2 * new_color_scheme_split_size # lokacija barve v spektrumu
-		var random_color_2: Color = spectrum_image.get_pixel(random_color_position_x_2, 0) # barva na lokaciji v spektrumu		
-		
-		new_color_scheme_colors = [random_color_1, random_color_2]
-		
-		#		for n in 2:
-		#			var random_split_index: int = randi() % int(strays_to_spawn_count)
-		#			var random_color_position_x: float = random_split_index * new_color_scheme_split_size # lokacija barve v spektrumu
-		#			var random_color: Color = spectrum_image.get_pixel(random_color_position_x, 0) # barva na lokaciji v spektrumu
-		#			new_color_scheme_colors.append(random_color)
-
-		# setam gradient barvne sheme (node)
-		var scheme_gradient: Gradient = $SpectrumGradient.texture.get_gradient()
-		scheme_gradient.set_color(0, new_color_scheme_colors[0])
-		scheme_gradient.set_color(1, new_color_scheme_colors[1])	
-		color_split_offset = 1.0 / strays_to_spawn_count
+		all_colors_available = Global.get_random_gradient_colors(strays_to_spawn_count)
+	all_stray_colors = [] # reset ... za color indikatorje
 	
-	# STRAYS
-	
+	# positions
 	var available_required_spawn_positions = required_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
 	var available_random_spawn_positions = random_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
 	
-	# pred novim spawnom, ga resetiram
-	all_stray_colors = [] # za color indikatorje
-
+	# spawn
 	for stray_index in strays_to_spawn_count:
-		
-		# stray color
-		var current_color: Color
-		var selected_color_position_x: float = stray_index * color_split_offset # lokacija barve v spektrumu
-		if current_level <= 1 or game_data["game"] == Profiles.Games.ENIGMA: # default_color_scheme
-			current_color = spectrum_image.get_pixel(selected_color_position_x, 0) # barva na lokaciji v spektrumu
-		else:
-			current_color = spectrum_gradient.texture.gradient.interpolate(selected_color_position_x) # barva na lokaciji v spektrumu
-	
+		var current_color: Color = all_colors_available[stray_index] # barva na lokaciji v spektrumu
 		# available spawn positions
 		var current_spawn_positions: Array
 		if current_level <= 1 or game_data["game"] == Profiles.Games.ENIGMA: # vse igre razen enigme ineterenal imajo level 0

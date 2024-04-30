@@ -99,45 +99,20 @@ func set_strays():
 func spawn_strays(strays_to_spawn_count: int = required_spawn_positions.size()):
 	
 	strays_to_spawn_count = clamp(strays_to_spawn_count, 1, strays_to_spawn_count) # za vsak slučaj klempam, da ne more biti nikoli 0 ...  ker je error			
-
-	var spectrum_image: Image
-	var color_offset: float
 	
-	# difolt barvna shema ali druge
-	if Profiles.current_color_scheme == Profiles.game_color_schemes["default_color_scheme"]:
-		# setam sliko
-		var spectrum_texture: Texture = spectrum_rect.texture
-		spectrum_image = spectrum_texture.get_data()
-		spectrum_image.lock()
-		# razmak med barvami
-		var spectrum_texture_width: float = spectrum_rect.rect_size.x
-		color_offset = spectrum_texture_width / strays_to_spawn_count # razmak barv po spektru ... - 1 je zato ker je razmakov za 1 manj kot barv
+	# colors
+	var all_colors_available: Array	
+	if Profiles.use_custom_color_theme:
+		all_colors_available = Global.get_random_gradient_colors(strays_to_spawn_count)
 	else:
-		# setam gradient
-		var gradient: Gradient = $SpectrumGradient.texture.get_gradient()
-		gradient.set_color(0, Profiles.current_color_scheme[1])
-		gradient.set_color(1, Profiles.current_color_scheme[2])
-		# razmak med barvami
-		color_offset = 1.0 / strays_to_spawn_count
+		all_colors_available = Global.get_spectrum_colors(strays_to_spawn_count) # prvi level je original ... vsi naslednji imajo random gradient
 	
 	var available_required_spawn_positions = required_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
 	var available_random_spawn_positions = random_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
 	
-	var all_colors: Array = [] # za color indikatorje
-	
+	# spawn
 	for stray_index in strays_to_spawn_count:
-		
-		# barva
-		var current_color: Color
-		var selected_color_position_x: float
-		if Profiles.current_color_scheme == Profiles.game_color_schemes["default_color_scheme"]:
-			selected_color_position_x = stray_index * color_offset # lokacija barve v spektrumu
-			current_color = spectrum_image.get_pixel(selected_color_position_x, 0) # barva na lokaciji v spektrumu
-		else:
-			selected_color_position_x = stray_index * color_offset # lokacija barve v spektrumu
-			current_color = spectrum_gradient.texture.gradient.interpolate(selected_color_position_x) # barva na lokaciji v spektrumu
-		all_colors.append(current_color)
-		
+		var current_color: Color = all_colors_available[stray_index] # barva na lokaciji v spektrumu
 		# možne spawn pozicije
 		var current_spawn_positions: Array
 		if not available_required_spawn_positions.empty(): # najprej obvezne
@@ -147,12 +122,10 @@ func spawn_strays(strays_to_spawn_count: int = required_spawn_positions.size()):
 		elif available_required_spawn_positions.empty() and available_random_spawn_positions.empty(): # STOP, če ni prostora, straysi pa so še na voljo
 			print ("No available spawn positions")
 			return
-		
 		# random pozicija med možnimi
 		var random_range = current_spawn_positions.size()
 		var selected_cell_index: int = randi() % int(random_range)		
 		var selected_position = current_spawn_positions[selected_cell_index]
-		
 		# spawn stray
 		var new_stray_pixel = StrayPixel.instance()
 		new_stray_pixel.name = "S%s" % str(stray_index)
@@ -160,12 +133,10 @@ func spawn_strays(strays_to_spawn_count: int = required_spawn_positions.size()):
 		new_stray_pixel.global_position = selected_position + Global.current_tilemap.cell_size/2 # dodana adaptacija zaradi središča pixla
 		new_stray_pixel.z_index = 2 # višje od plejerja
 		add_child(new_stray_pixel)
-		
-		# odstranim uporabljeno pozicijo
 		current_spawn_positions.remove(selected_cell_index)
 		
 	intro_strays_spawned = true	
-	
+
 
 func show_strays(show_strays_loop: int):
 	

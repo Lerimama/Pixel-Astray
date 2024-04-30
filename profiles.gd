@@ -2,53 +2,6 @@ extends Node
 # game data
 
 
-var game_color_schemes: Dictionary = {
-	"default_color_scheme": { # default
-		1: Color.black, # ne velja, ker greba iz spectrum slike
-		2: Color.white,	# ne velja, ker greba iz spectrum slike
-	},
-	"color_scheme_1":{ 
-		1: Color.brown, # red
-		2: Color.bisque, #yellow
-	},
-	"color_scheme_2":{ 
-		1: Color("#f35b7f"), # red
-		2: Color("#fef98b"), #yellow
-	},
-	"color_scheme_3":{
-		1: Color("#f9aa71"), # orange
-		2: Color("#fef98b"), # blue
-	},
-	"color_scheme_4":{
-		1: Color("#fef98b"), # yellow
-		2: Color("#5effa9"), # green
-	},
-	"color_scheme_5":{
-		1: Color("#5effa9"), # green
-		2: Color("#4b9fff"), # blue
-	},
-	"color_scheme_6":{
-		1: Color("#74ffff"), # turkizna
-		2: Color("#4b9fff"), # blue
-	},
-	"color_scheme_7":{
-		1: Color("#4b9fff"), # blue
-		2: Color("#ec80fb"), #purple
-	},
-	"color_scheme_8":{
-		1: Color("#ec80fb"), # purple
-		2: Color("#7053c2"), # viola
-	},
-	"color_scheme_9":{ 
-		1: Color.magenta, # red
-		2: Color.greenyellow, #yellow
-	},	
-}
-
-
-# DEFAULT -----------------------------------------------------------------------------------
-
-
 var default_player_stats: Dictionary = {
 	"player_name" : "Somebody", # to ime se piše v HS procesu, če igralec pusti prazno
 	"player_life" : 0, # se opredeli iz game_settings
@@ -92,14 +45,12 @@ var default_game_settings: Dictionary = {
 	"reburst_count_limit": 0, # 0 je unlimited
 	"reburst_reward_limit": 5, # 0 je brez nagrade
 	"reburst_reward_points": 100, # kolk jih destroya ... 0 gre po original pravilih moči
-	"reburst_window_time": 0,#.1, # 0 je neomejen čas
+	"reburst_window_time": 0.5, # 0 je neomejen čas
 	"reburst_hit_power": 1, # kolk jih destroya ... 0 gre po original pravilih moči
 	# game
 	"game_instructions_popup": true,
 	"camera_fixed": false,
 	"gameover_countdown_duration": 5,
-	"sudden_death_mode": false,
-	"sudden_death_limit" : 20,
 	"show_position_indicators_stray_count": 5,
 	"start_countdown": true,
 	"timer_mode_countdown" : true, # če prišteva in je "game_time_limit" = 0, nima omejitve navzgor
@@ -110,6 +61,7 @@ var default_game_settings: Dictionary = {
 	"spectrum_start_on": false, # a pobrane prižigam al ugašam
 	"turn_stray_to_wall": true, # eternal big screen
 	"full_power_mode": false, # hitrost je tudi max_cock_coiunt > vedno destroja ves bulk 
+#	"default_color_scheme": true
 }
 
 
@@ -241,7 +193,6 @@ var game_data_scroller: Dictionary = {
 	"round_spawn_possibility": 20, # procenti
 	"round_spawn_possibility_factor": 2, # množim procente
 }
-
 var game_data_slider: Dictionary = { 
 	"game": Games.SLIDER,
 	"highscore_type": HighscoreTypes.HS_POINTS,
@@ -266,7 +217,7 @@ var game_data_slider: Dictionary = {
 	# možnost spawna v rundi
 	"round_spawn_possibility": 20, # procenti
 	"round_spawn_possibility_factor": 2, # množim procente
-	"color_scheme": game_color_schemes["default_color_scheme"],
+#	"color_scheme": game_color_schemes["default_color_scheme"],
 	# old
 	"strays_spawn_count": 14,
 	"wall_spawn_random_range": 5, # določim razpon random izbire, wall se spawna, če je izbrana 1 ali 2 ... manj je več možnosti 
@@ -381,7 +332,15 @@ var enigma_level_setting: Dictionary = {
 
 var game_settings: Dictionary = {}
 var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
-var current_color_scheme: Dictionary = game_color_schemes["default_color_scheme"]
+var custom_color_theme: Dictionary = {
+	1: Color.black,
+	2: Color.gray,
+	3: Color.white,
+}
+var use_custom_color_theme: bool = false
+
+#var default_color_scheme: Dictionary = game_color_schemes["default_color_scheme"]
+#var current_color_scheme: Dictionary = game_color_schemes["default_color_scheme"]
 
 
 func _ready() -> void:
@@ -390,15 +349,15 @@ func _ready() -> void:
 #	var debug_game = Games.ENIGMA
 	
 #	var debug_game = Games.ETERNAL
-#	var current_game = Games.ETERNAL_XL
-#	var current_game = Games.CLEANER
-#	var current_game = Games.ERASER_S
-#	var current_game = Games.CLEANER_DUEL
+#	var debug_game = Games.ETERNAL_XL
+#	var debug_game = Games.CLEANER
+#	var debug_game = Games.ERASER_S
+#	var debug_game = Games.CLEANER_DUEL
 	var debug_game = Games.SCROLLER
-#	var current_game = Games.SLIDER
-#	var current_game = Games.RUNNER
-#	var current_game = Games.RIDDLER_M
-#	var current_game = Games.TUTORIAL
+#	var debug_game = Games.SLIDER
+#	var debug_game = Games.RUNNER
+#	var debug_game = Games.RIDDLER_M
+#	var debug_game = Games.TUTORIAL
 	set_game_data(debug_game)
 	
 	
@@ -421,7 +380,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["color_picked_points"] = 0
 			game_settings["reburst_reward_points"] = 0
 			# debug
-			current_game_data["level"] = 1
+			current_game_data["level"] = 6
 #			game_settings["camera_fixed"] = false
 			game_settings["player_start_color"] = Color.white
 			game_settings["start_countdown"] = false
@@ -438,6 +397,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["turn_stray_to_wall"] = false
 			game_settings["all_cleaned_points"] = 100 # debug
 			game_settings["color_picked_points"] = 10
+			game_settings["on_hit_points_part"] = 1
 			# debug
 			game_settings["start_countdown"] = false
 			game_settings["game_instructions_popup"] = false
@@ -453,6 +413,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["turn_stray_to_wall"] = true
 			game_settings["all_cleaned_points"] = 100 # debug
 			game_settings["color_picked_points"] = 10
+			game_settings["on_hit_points_part"] = 1
 			# debug
 			game_settings["start_countdown"] = false
 			game_settings["game_instructions_popup"] = false
