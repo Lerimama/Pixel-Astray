@@ -10,19 +10,33 @@ onready var color_spectrum: TextureRect = $"../Spectrum"
 
 func _ready() -> void:
 	
-	Profiles.game_data_enigma["level"] = 1
+	Profiles.game_data_enigma["level"] = 1 # ni nujno
+	
+	update_enigma_btns_color()
+
+
+func update_enigma_btns_color():
 	
 	# obarvam solved gumbe 
 	var solved_levels: Array = Global.data_manager.read_solved_status_from_file(Profiles.game_data_enigma)
 	var level_grid_btns: Array = btn_grid_container.get_children()
-	var btn_colors: Array = Global.get_spectrum_colors(level_grid_btns.size())
+	
+	var btn_colors: Array
+	if Profiles.use_custom_color_theme:
+		var color_split_offset: float = 1.0 / level_grid_btns.size()
+		for btn_count in level_grid_btns.size():
+			var color = Global.game_color_theme_gradient.interpolate(btn_count * color_split_offset) # barva na lokaciji v spektrumu
+			btn_colors.append(color)	
+	else:			
+		btn_colors = Global.get_spectrum_colors(level_grid_btns.size())
+	
 	for btn in level_grid_btns:
 		var btn_index: int = level_grid_btns.find(btn)
 		# za vsak gumb preverim če pripada rešenemu level
 		if level_grid_btns.find(btn) + 1 in solved_levels:
 			btn.modulate = btn_colors[btn_index]
-		
-		
+			
+			
 func _on_BackBtn_pressed() -> void:
 	
 	Global.sound_manager.play_gui_sfx("screen_slide")

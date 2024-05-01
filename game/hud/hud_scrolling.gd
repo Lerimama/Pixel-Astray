@@ -26,7 +26,6 @@ func set_hud(players_count: int): # kliče main na game-in
 	p2_statsline.visible = false
 	strays_counters_holder.visible = false
 	
-	# if Global.game_manager.game_data["game"] == Profiles.Games.SLIDER:
 	p1_color_holder.visible = false	
 
 	# popups
@@ -39,10 +38,7 @@ func set_hud(players_count: int): # kliče main na game-in
 		p1_life_counter.visible = true
 
 	# energy counter
-	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
-		p1_energy_counter.visible = false
-	if Global.game_manager.game_data["game"] == Profiles.Games.SLIDER:
-		p1_energy_counter.visible = true
+	p1_energy_counter.visible = false
 
 	# level label
 	if not Global.game_manager.game_data.has("level"):
@@ -90,25 +86,16 @@ func fade_in_instructions_popup(in_time: float):
 	$Popups/Instructions/ControlsDuel.hide()
 	title.text = Global.game_manager.game_data["game_name"]
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER:
-		if current_highscore > 0:
-			win_label.text = "Current record by " + str(current_highscore_owner) + " is " + str(current_highscore) + " seconds"
-		else:
-			win_label.text = "No record score yet."
-		instructions_label.text = "Game is over when first wall column reaches the top or you have no room to move."
-		instructions_label_2.text = "Energy and speed are constant."
-		instructions_label_3.text = "Bursting always collects all colors in stack."
-		instructions_label_4.text = "Skills are not available."
-		instructions_label_5.text = "Unlimited levels. Unlimited time. Game is unbeatable."
-		instructions_label_6.text = "Highscore is the highest points total."
-	elif Global.game_manager.game_data["game"] == Profiles.Games.SLIDER:
-		win_label.text = "Collect colors to progress through all 10 levels."
-		instructions_label.text = "Game is over when you are out of energy."
-		instructions_label_2.text = "Energy depletes with travelling, touching stray pixels or hitting a wall."
-		instructions_label_3.text = "Bursting always collects all colors in stack."
-		instructions_label_4.text = "Skills are not available."
-		instructions_label_5.text = "Time is unlimited."
-		instructions_label_6.text = "Highscore is the highest points total."
+	if current_highscore > 0:
+		win_label.text = "Current record by " + str(current_highscore_owner) + " is " + str(current_highscore) + " seconds"
+	else:
+		win_label.text = "No record score yet."
+	instructions_label.text = "Game is over when first wall column reaches the top or you have no room to move."
+	instructions_label_2.text = "Energy and speed are constant."
+	instructions_label_3.text = "Bursting always collects all colors in stack."
+	instructions_label_4.text = "Skills are not available."
+	instructions_label_5.text = "Unlimited levels. Unlimited time. Game is unbeatable."
+	instructions_label_6.text = "Highscore is the highest points total."
 					
 	var show_instructions_popup = get_tree().create_tween()
 	show_instructions_popup.tween_callback(instructions_popup, "show")

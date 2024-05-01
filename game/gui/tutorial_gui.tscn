@@ -539,7 +539,6 @@ tracks/8/keys = {
 }
 
 [node name="Tutorial" type="Control"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 720 )
@@ -559,7 +558,7 @@ custom_constants/separation = 4
 [node name="Traveling" type="Label" parent="Checkpoints"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
 margin_right = 328.0
-margin_bottom = 22.0
+margin_bottom = 20.0
 rect_min_size = Vector2( 0, 20 )
 theme_type_variation = "Lerimama_lite"
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -570,9 +569,9 @@ __meta__ = {
 }
 
 [node name="TravelingContent" type="Control" parent="Checkpoints"]
-margin_top = 26.0
+margin_top = 24.0
 margin_right = 328.0
-margin_bottom = 258.0
+margin_bottom = 256.0
 rect_min_size = Vector2( 0, 232 )
 rect_clip_content = true
 
@@ -654,15 +653,15 @@ margin_bottom = 1.0
 
 [node name="TravelSepa" type="HSeparator" parent="Checkpoints"]
 modulate = Color( 1, 1, 1, 0 )
-margin_top = 262.0
+margin_top = 260.0
 margin_right = 328.0
-margin_bottom = 266.0
+margin_bottom = 264.0
 
 [node name="Bursting" type="Label" parent="Checkpoints"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-margin_top = 270.0
+margin_top = 268.0
 margin_right = 328.0
-margin_bottom = 292.0
+margin_bottom = 288.0
 rect_min_size = Vector2( 0, 20 )
 theme_type_variation = "Lerimama_lite"
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -673,9 +672,9 @@ __meta__ = {
 }
 
 [node name="BurstingContent" type="Control" parent="Checkpoints"]
-margin_top = 296.0
+margin_top = 292.0
 margin_right = 328.0
-margin_bottom = 688.0
+margin_bottom = 684.0
 rect_min_size = Vector2( 0, 392 )
 rect_clip_content = true
 
@@ -787,15 +786,15 @@ margin_bottom = 1.0
 
 [node name="BurstingSepa" type="HSeparator" parent="Checkpoints"]
 modulate = Color( 1, 1, 1, 0 )
-margin_top = 692.0
+margin_top = 688.0
 margin_right = 328.0
-margin_bottom = 696.0
+margin_bottom = 692.0
 
 [node name="Skilling" type="Label" parent="Checkpoints"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-margin_top = 700.0
+margin_top = 696.0
 margin_right = 328.0
-margin_bottom = 722.0
+margin_bottom = 716.0
 rect_min_size = Vector2( 0, 20 )
 theme_type_variation = "Lerimama_lite"
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -806,9 +805,9 @@ __meta__ = {
 }
 
 [node name="SkillingContent" type="Control" parent="Checkpoints"]
-margin_top = 726.0
+margin_top = 720.0
 margin_right = 328.0
-margin_bottom = 1118.0
+margin_bottom = 1112.0
 rect_min_size = Vector2( 0, 392 )
 rect_clip_content = true
 
@@ -900,15 +899,15 @@ margin_bottom = 1.0
 
 [node name="SkillingSepa" type="HSeparator" parent="Checkpoints"]
 modulate = Color( 1, 1, 1, 0 )
-margin_top = 1122.0
+margin_top = 1116.0
 margin_right = 328.0
-margin_bottom = 1126.0
+margin_bottom = 1120.0
 
 [node name="Stacking" type="Label" parent="Checkpoints"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-margin_top = 1130.0
+margin_top = 1124.0
 margin_right = 328.0
-margin_bottom = 1152.0
+margin_bottom = 1144.0
 rect_min_size = Vector2( 0, 20 )
 theme_type_variation = "Lerimama_lite"
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -916,9 +915,9 @@ custom_styles/normal = SubResource( 201 )
 text = "Stacking pixels"
 
 [node name="StackingContent" type="Control" parent="Checkpoints"]
-margin_top = 1156.0
+margin_top = 1148.0
 margin_right = 328.0
-margin_bottom = 1502.0
+margin_bottom = 1494.0
 rect_min_size = Vector2( 0, 346 )
 rect_clip_content = true
 
@@ -1023,15 +1022,15 @@ margin_bottom = 1.0
 
 [node name="StackingSepa" type="HSeparator" parent="Checkpoints"]
 modulate = Color( 1, 1, 1, 0 )
-margin_top = 1506.0
+margin_top = 1498.0
 margin_right = 328.0
-margin_bottom = 1510.0
+margin_bottom = 1502.0
 
 [node name="WinLose" type="Label" parent="Checkpoints"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-margin_top = 1514.0
+margin_top = 1506.0
 margin_right = 328.0
-margin_bottom = 1536.0
+margin_bottom = 1526.0
 rect_min_size = Vector2( 0, 20 )
 theme_type_variation = "Lerimama_lite"
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -1042,9 +1041,9 @@ __meta__ = {
 }
 
 [node name="WinLoseContent" type="Control" parent="Checkpoints"]
-margin_top = 1540.0
+margin_top = 1530.0
 margin_right = 328.0
-margin_bottom = 1838.0
+margin_bottom = 1828.0
 rect_min_size = Vector2( 0, 298 )
 rect_clip_content = true
 
@@ -1149,9 +1148,9 @@ margin_bottom = 1.0
 
 [node name="WinLoseSepa" type="HSeparator" parent="Checkpoints"]
 modulate = Color( 1, 1, 1, 0 )
-margin_top = 1842.0
+margin_top = 1832.0
 margin_right = 328.0
-margin_bottom = 1846.0
+margin_bottom = 1836.0
 
 [node name="HudGuide" type="Control" parent="."]
 anchor_right = 1.0

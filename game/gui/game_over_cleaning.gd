@@ -23,20 +23,7 @@ func set_game_gameover_title():
 	# namen: sprememba teksta v GO - TIME komentarju glede na to katera igra je
 	# namen: opredelim, če je bila enigma rešena
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
-		var gameover_title_tutorial: Control = $GameoverTitle/Tutorial
-		match current_gameover_reason:
-			Global.game_manager.GameoverReason.CLEANED:
-				gameover_title_tutorial.get_node("Finished").show()
-				selected_gameover_title = gameover_title_tutorial
-				selected_gameover_jingle = "win_jingle"
-			Global.game_manager.GameoverReason.LIFE:
-				gameover_title_tutorial.get_node("NotFinished").show()
-				selected_gameover_title = gameover_title_tutorial
-				selected_gameover_jingle = "lose_jingle"
-		selected_gameover_menu = selected_gameover_title.get_node("Menu")
-		focus_btn = selected_gameover_menu.get_node("QuitBtn")
-	elif Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
+	if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
 		match current_gameover_reason:
 			Global.game_manager.GameoverReason.CLEANED:
 				selected_gameover_title = gameover_title_cleaned

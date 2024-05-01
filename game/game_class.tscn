@@ -513,10 +513,6 @@ region = Rect2( 32, 80, 48, 16 )
 
 [sub_resource type="StyleBoxEmpty" id=248]
 
-[sub_resource type="AtlasTexture" id=129]
-atlas = ExtResource( 12 )
-region = Rect2( 64, 0, 16, 16 )
-
 [sub_resource type="AtlasTexture" id=269]
 atlas = ExtResource( 12 )
 region = Rect2( 16, 0, 16, 16 )
@@ -532,6 +528,10 @@ region = Rect2( 64, 16, 16, 16 )
 [sub_resource type="AtlasTexture" id=131]
 atlas = ExtResource( 12 )
 region = Rect2( 64, 32, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=129]
+atlas = ExtResource( 12 )
+region = Rect2( 64, 0, 16, 16 )
 
 [sub_resource type="StyleBoxEmpty" id=285]
 
@@ -2210,36 +2210,9 @@ margin_bottom = 22.0
 custom_constants/separation = 0
 custom_styles/separator = SubResource( 248 )
 
-[node name="PointsHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineL"]
+[node name="ColorHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineL"]
 margin_left = 148.0
 margin_right = 186.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 0, 22 )
-size_flags_vertical = 8
-custom_constants/separation = 8
-
-[node name="TextureRect4" type="TextureRect" parent="GUI/Hud/Header/TopLineL/PointsHolder"]
-margin_top = 4.0
-margin_right = 16.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 16, 18 )
-size_flags_vertical = 8
-texture = SubResource( 129 )
-
-[node name="Points" type="Label" parent="GUI/Hud/Header/TopLineL/PointsHolder"]
-margin_left = 24.0
-margin_right = 38.0
-margin_bottom = 22.0
-size_flags_vertical = 8
-text = "0"
-valign = 1
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="ColorHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineL"]
-margin_left = 202.0
-margin_right = 240.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
@@ -2344,6 +2317,44 @@ __meta__ = {
 "_editor_description_": ""
 }
 
+[node name="PointsHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineL"]
+margin_left = 202.0
+margin_right = 294.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 0, 22 )
+size_flags_vertical = 8
+custom_constants/separation = 8
+
+[node name="TextureRect4" type="TextureRect" parent="GUI/Hud/Header/TopLineL/PointsHolder"]
+visible = false
+margin_top = 4.0
+margin_right = 16.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 16, 18 )
+size_flags_vertical = 8
+texture = SubResource( 129 )
+
+[node name="Label" type="Label" parent="GUI/Hud/Header/TopLineL/PointsHolder"]
+margin_right = 70.0
+margin_bottom = 22.0
+size_flags_vertical = 8
+text = "SCORE"
+valign = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Points" type="Label" parent="GUI/Hud/Header/TopLineL/PointsHolder"]
+margin_left = 78.0
+margin_right = 92.0
+margin_bottom = 22.0
+size_flags_vertical = 8
+text = "0"
+valign = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
 [node name="GameTimerHunds" parent="GUI/Hud/Header" instance=ExtResource( 26 )]
 margin_left = 588.0
 margin_top = -3.0
@@ -2400,12 +2411,15 @@ valign = 2
 [node name="TopLineR" type="HBoxContainer" parent="GUI/Hud/Header"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -586.0
+margin_left = -568.0
 margin_top = 7.0
 margin_right = -30.0
 margin_bottom = 29.0
 grow_horizontal = 0
 alignment = 2
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="MusicPlayer" type="Label" parent="GUI/Hud/Header/TopLineR"]
 margin_right = 46.0
@@ -2431,8 +2445,8 @@ margin_bottom = 19.0
 texture = SubResource( 146 )
 
 [node name="HighscoreLabel" type="Label" parent="GUI/Hud/Header/TopLineR"]
-margin_left = 490.0
-margin_right = 556.0
+margin_left = 472.0
+margin_right = 538.0
 margin_bottom = 22.0
 grow_horizontal = 0
 size_flags_horizontal = 10
@@ -2460,12 +2474,23 @@ size_flags_vertical = 8
 custom_constants/separation = 8
 
 [node name="TextureRect4" type="TextureRect" parent="GUI/Hud/Header/TopLineR/PlayerLineR/PointsHolder"]
+visible = false
 margin_top = 4.0
 margin_right = 16.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
 texture = SubResource( 129 )
+
+[node name="Label" type="Label" parent="GUI/Hud/Header/TopLineR/PlayerLineR/PointsHolder"]
+margin_right = 70.0
+margin_bottom = 22.0
+size_flags_vertical = 8
+text = "SCORE"
+valign = 1
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="Points" type="Label" parent="GUI/Hud/Header/TopLineR/PlayerLineR/PointsHolder"]
 margin_left = 24.0
@@ -2842,7 +2867,6 @@ __meta__ = {
 }
 
 [node name="Tutorial" type="Control" parent="GUI"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 720 )
@@ -3483,7 +3507,6 @@ sharp_limit = 0.0
 antialiased = true
 
 [node name="HudGuide" type="Control" parent="GUI/Tutorial"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -3495,7 +3518,7 @@ margin_top = 58.0
 margin_right = 130.0
 margin_bottom = 76.0
 custom_fonts/font = ExtResource( 3 )
-text = "Life, energy, points and picked colors counters"
+text = "Life, energy and picked colors"
 uppercase = true
 __meta__ = {
 "_edit_group_": true
@@ -3526,6 +3549,7 @@ default_color = Color( 1, 1, 1, 1 )
 antialiased = true
 
 [node name="Line2D5" type="Line2D" parent="GUI/Tutorial/HudGuide/PlayerLabel"]
+visible = false
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 position = Vector2( 170, 6 )
 points = PoolVector2Array( 40, -32, 40, -8 )
@@ -3796,6 +3820,7 @@ anims/tutorial_start = SubResource( 368 )
 
 [node name="PauseMenu" type="Control" parent="GUI"]
 pause_mode = 2
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 18 )

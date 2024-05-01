@@ -103,7 +103,11 @@ func spawn_strays(strays_to_spawn_count: int = required_spawn_positions.size()):
 	# colors
 	var all_colors_available: Array	
 	if Profiles.use_custom_color_theme:
-		all_colors_available = Global.get_random_gradient_colors(strays_to_spawn_count)
+		# naberem barve glede na število potrebnih barv
+		var color_split_offset: float = 1.0 / strays_to_spawn_count
+		for stray_count in strays_to_spawn_count:
+			var color = Global.game_color_theme_gradient.interpolate(stray_count * color_split_offset) # barva na lokaciji v spektrumu
+			all_colors_available.append(color)	
 	else:
 		all_colors_available = Global.get_spectrum_colors(strays_to_spawn_count) # prvi level je original ... vsi naslednji imajo random gradient
 	

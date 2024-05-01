@@ -1,4 +1,4 @@
-[gd_scene load_steps=96 format=2]
+[gd_scene load_steps=81 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -18,7 +18,6 @@
 [ext_resource path="res://home/about.gd" type="Script" id=16]
 [ext_resource path="res://home/select_level.gd" type="Script" id=17]
 [ext_resource path="res://assets/theme/color_theme_spectrum.png" type="Texture" id=18]
-[ext_resource path="res://assets/theme/color_theme_gradient.tres" type="Texture" id=19]
 
 [sub_resource type="StyleBoxEmpty" id=208]
 
@@ -359,75 +358,6 @@ border_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 
 [sub_resource type="StyleBoxEmpty" id=151]
 
-[sub_resource type="AtlasTexture" id=170]
-atlas = ExtResource( 12 )
-region = Rect2( 0, 186, 22, 22 )
-margin = Rect2( 0, 2, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=188]
-atlas = ExtResource( 12 )
-region = Rect2( 85, 218, 22, 22 )
-margin = Rect2( -2, 2, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=171]
-atlas = ExtResource( 12 )
-region = Rect2( 24, 186, 22, 22 )
-margin = Rect2( 0, 2, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=189]
-atlas = ExtResource( 12 )
-region = Rect2( 109, 218, 22, 22 )
-margin = Rect2( -2, 2, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=191]
-atlas = ExtResource( 12 )
-region = Rect2( 72, 186, 22, 22 )
-margin = Rect2( 0, 2, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=192]
-atlas = ExtResource( 12 )
-region = Rect2( 0, 218, 40, 22 )
-margin = Rect2( -2, 2, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=206]
-atlas = ExtResource( 12 )
-region = Rect2( 0, 98, 70, 46 )
-
-[sub_resource type="AtlasTexture" id=180]
-atlas = ExtResource( 12 )
-region = Rect2( 80, 98, 70, 46 )
-
-[sub_resource type="AtlasTexture" id=186]
-atlas = ExtResource( 12 )
-region = Rect2( 0, 154, 102, 22 )
-
-[sub_resource type="AtlasTexture" id=225]
-atlas = ExtResource( 12 )
-region = Rect2( 114, 154, 22, 22 )
-
-[sub_resource type="AtlasTexture" id=244]
-atlas = ExtResource( 12 )
-region = Rect2( 138, 154, 22, 22 )
-
-[sub_resource type="StreamTexture" id=245]
-load_path = "res://.import/controls_scheme.png-9ee77a9514109977db18399ec912d13f.stex"
-
-[sub_resource type="AtlasTexture" id=182]
-atlas = SubResource( 245 )
-region = Rect2( 0, 0, 120, 86 )
-
-[sub_resource type="AtlasTexture" id=183]
-atlas = ExtResource( 12 )
-region = Rect2( 10, 17, 22, 22 )
-
-[sub_resource type="AtlasTexture" id=184]
-atlas = ExtResource( 12 )
-region = Rect2( 30, 40, 18, 18 )
-
-[sub_resource type="AtlasTexture" id=185]
-atlas = ExtResource( 12 )
-region = Rect2( 96, 32, 10, 10 )
-
 [sub_resource type="StyleBoxFlat" id=277]
 bg_color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
@@ -451,6 +381,14 @@ expand_margin_left = 2.0
 expand_margin_right = 2.0
 expand_margin_top = 2.0
 expand_margin_bottom = 2.0
+
+[sub_resource type="Gradient" id=281]
+offsets = PoolRealArray( 0, 0.497076, 1 )
+colors = PoolColorArray( 0, 0, 0, 1, 0.476608, 0.476608, 0.476608, 1, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=282]
+gradient = SubResource( 281 )
+width = 700
 
 [sub_resource type="AtlasTexture" id=280]
 atlas = ExtResource( 2 )
@@ -1219,8 +1157,8 @@ tracks/5/keys = {
 [node name="Home" type="Node2D"]
 script = ExtResource( 5 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 640.0, -448.0, 152.0, 576.0 ],
-"_edit_vertical_guides_": [ 64.0, 1280.0, 1216.0, 640.0, 1960.0, -320.0 ]
+"_edit_horizontal_guides_": [ 640.0, -448.0, 152.0, 576.0, -416.0 ],
+"_edit_vertical_guides_": [ 64.0, 1280.0, 1216.0, 640.0, 1960.0, -320.0, 928.0, 352.0 ]
 }
 
 [node name="Undi" type="ColorRect" parent="."]
@@ -1943,14 +1881,10 @@ custom_fonts/font = ExtResource( 14 )
 text = "to go back"
 
 [node name="CleanerTable" type="VBoxContainer" parent="Highscores"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -576.0
-margin_top = -138.0
-margin_right = -382.0
-margin_bottom = 28.0
+margin_left = 96.0
+margin_top = 158.0
+margin_right = 320.0
+margin_bottom = 324.0
 custom_constants/separation = 6
 script = ExtResource( 11 )
 __meta__ = {
@@ -1958,18 +1892,18 @@ __meta__ = {
 }
 
 [node name="Title" type="Label" parent="Highscores/CleanerTable"]
-margin_left = 62.0
-margin_right = 132.0
+margin_left = 60.0
+margin_right = 164.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 28, 26 )
 size_flags_horizontal = 6
 size_flags_vertical = 0
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-text = "Top ..."
+text = "%Cleaner"
 
 [node name="ScoreLine1" type="HBoxContainer" parent="Highscores/CleanerTable"]
 margin_top = 32.0
-margin_right = 194.0
+margin_right = 224.0
 margin_bottom = 54.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -1994,8 +1928,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerTable/ScoreLine1"]
-margin_left = 124.0
-margin_right = 194.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2004,7 +1938,7 @@ align = 2
 
 [node name="ScoreLine2" type="HBoxContainer" parent="Highscores/CleanerTable"]
 margin_top = 60.0
-margin_right = 194.0
+margin_right = 224.0
 margin_bottom = 82.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2029,8 +1963,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerTable/ScoreLine2"]
-margin_left = 124.0
-margin_right = 194.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2039,7 +1973,7 @@ align = 2
 
 [node name="ScoreLine3" type="HBoxContainer" parent="Highscores/CleanerTable"]
 margin_top = 88.0
-margin_right = 194.0
+margin_right = 224.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2064,8 +1998,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerTable/ScoreLine3"]
-margin_left = 124.0
-margin_right = 194.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2074,7 +2008,7 @@ align = 2
 
 [node name="ScoreLine4" type="HBoxContainer" parent="Highscores/CleanerTable"]
 margin_top = 116.0
-margin_right = 194.0
+margin_right = 224.0
 margin_bottom = 138.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2099,8 +2033,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerTable/ScoreLine4"]
-margin_left = 124.0
-margin_right = 194.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2109,7 +2043,7 @@ align = 2
 
 [node name="ScoreLine5" type="HBoxContainer" parent="Highscores/CleanerTable"]
 margin_top = 144.0
-margin_right = 194.0
+margin_right = 224.0
 margin_bottom = 166.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2134,8 +2068,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerTable/ScoreLine5"]
-margin_left = 124.0
-margin_right = 194.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2143,9 +2077,8 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine6" type="HBoxContainer" parent="Highscores/CleanerTable"]
-visible = false
 margin_top = 172.0
-margin_right = 178.0
+margin_right = 224.0
 margin_bottom = 194.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2170,8 +2103,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerTable/ScoreLine6"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2179,9 +2112,8 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine7" type="HBoxContainer" parent="Highscores/CleanerTable"]
-visible = false
 margin_top = 200.0
-margin_right = 178.0
+margin_right = 224.0
 margin_bottom = 222.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2206,8 +2138,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerTable/ScoreLine7"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2215,9 +2147,8 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine8" type="HBoxContainer" parent="Highscores/CleanerTable"]
-visible = false
 margin_top = 228.0
-margin_right = 178.0
+margin_right = 224.0
 margin_bottom = 250.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2242,8 +2173,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerTable/ScoreLine8"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2251,9 +2182,8 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine9" type="HBoxContainer" parent="Highscores/CleanerTable"]
-visible = false
 margin_top = 256.0
-margin_right = 178.0
+margin_right = 224.0
 margin_bottom = 278.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2278,6 +2208,686 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/CleanerTable/ScoreLine9"]
+margin_left = 154.0
+margin_right = 224.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="EternalTable" type="VBoxContainer" parent="Highscores"]
+margin_left = 384.0
+margin_top = 158.0
+margin_right = 606.0
+margin_bottom = 324.0
+custom_constants/separation = 6
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" type="Label" parent="Highscores/EternalTable"]
+margin_left = 61.0
+margin_right = 161.0
+margin_bottom = 26.0
+rect_min_size = Vector2( 28, 26 )
+size_flags_horizontal = 6
+size_flags_vertical = 0
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+text = "%Eternal"
+
+[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/EternalTable"]
+margin_top = 32.0
+margin_right = 222.0
+margin_bottom = 54.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/EternalTable/ScoreLine1"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/EternalTable/ScoreLine1"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/EternalTable/ScoreLine1"]
+margin_left = 152.0
+margin_right = 222.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/EternalTable"]
+margin_top = 60.0
+margin_right = 222.0
+margin_bottom = 82.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/EternalTable/ScoreLine2"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/EternalTable/ScoreLine2"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/EternalTable/ScoreLine2"]
+margin_left = 152.0
+margin_right = 222.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/EternalTable"]
+margin_top = 88.0
+margin_right = 222.0
+margin_bottom = 110.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/EternalTable/ScoreLine3"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/EternalTable/ScoreLine3"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/EternalTable/ScoreLine3"]
+margin_left = 152.0
+margin_right = 222.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/EternalTable"]
+margin_top = 116.0
+margin_right = 222.0
+margin_bottom = 138.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/EternalTable/ScoreLine4"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/EternalTable/ScoreLine4"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/EternalTable/ScoreLine4"]
+margin_left = 152.0
+margin_right = 222.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/EternalTable"]
+margin_top = 144.0
+margin_right = 222.0
+margin_bottom = 166.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/EternalTable/ScoreLine5"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/EternalTable/ScoreLine5"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/EternalTable/ScoreLine5"]
+margin_left = 152.0
+margin_right = 222.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/EternalTable"]
+visible = false
+margin_top = 172.0
+margin_right = 178.0
+margin_bottom = 194.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/EternalTable/ScoreLine6"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/EternalTable/ScoreLine6"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/EternalTable/ScoreLine6"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/EternalTable"]
+visible = false
+margin_top = 200.0
+margin_right = 178.0
+margin_bottom = 222.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/EternalTable/ScoreLine7"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/EternalTable/ScoreLine7"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/EternalTable/ScoreLine7"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/EternalTable"]
+visible = false
+margin_top = 228.0
+margin_right = 178.0
+margin_bottom = 250.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/EternalTable/ScoreLine8"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/EternalTable/ScoreLine8"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/EternalTable/ScoreLine8"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/EternalTable"]
+visible = false
+margin_top = 256.0
+margin_right = 178.0
+margin_bottom = 278.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/EternalTable/ScoreLine9"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/EternalTable/ScoreLine9"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/EternalTable/ScoreLine9"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="EternalXLTable" type="VBoxContainer" parent="Highscores"]
+margin_left = 384.0
+margin_top = 350.0
+margin_right = 608.0
+margin_bottom = 516.0
+custom_constants/separation = 6
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" type="Label" parent="Highscores/EternalXLTable"]
+margin_left = 43.0
+margin_right = 181.0
+margin_bottom = 26.0
+rect_min_size = Vector2( 28, 26 )
+size_flags_horizontal = 6
+size_flags_vertical = 0
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+text = "%Eternal XL"
+
+[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/EternalXLTable"]
+margin_top = 32.0
+margin_right = 224.0
+margin_bottom = 54.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/EternalXLTable/ScoreLine1"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/EternalXLTable/ScoreLine1"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/EternalXLTable/ScoreLine1"]
+margin_left = 154.0
+margin_right = 224.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/EternalXLTable"]
+margin_top = 60.0
+margin_right = 224.0
+margin_bottom = 82.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/EternalXLTable/ScoreLine2"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/EternalXLTable/ScoreLine2"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/EternalXLTable/ScoreLine2"]
+margin_left = 154.0
+margin_right = 224.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/EternalXLTable"]
+margin_top = 88.0
+margin_right = 224.0
+margin_bottom = 110.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/EternalXLTable/ScoreLine3"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/EternalXLTable/ScoreLine3"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/EternalXLTable/ScoreLine3"]
+margin_left = 154.0
+margin_right = 224.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/EternalXLTable"]
+margin_top = 116.0
+margin_right = 224.0
+margin_bottom = 138.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/EternalXLTable/ScoreLine4"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/EternalXLTable/ScoreLine4"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/EternalXLTable/ScoreLine4"]
+margin_left = 154.0
+margin_right = 224.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/EternalXLTable"]
+margin_top = 144.0
+margin_right = 224.0
+margin_bottom = 166.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/EternalXLTable/ScoreLine5"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/EternalXLTable/ScoreLine5"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/EternalXLTable/ScoreLine5"]
+margin_left = 154.0
+margin_right = 224.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/EternalXLTable"]
+visible = false
+margin_top = 172.0
+margin_right = 224.0
+margin_bottom = 194.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/EternalXLTable/ScoreLine6"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/EternalXLTable/ScoreLine6"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/EternalXLTable/ScoreLine6"]
+margin_left = 154.0
+margin_right = 224.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/EternalXLTable"]
+visible = false
+margin_top = 200.0
+margin_right = 178.0
+margin_bottom = 222.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/EternalXLTable/ScoreLine7"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/EternalXLTable/ScoreLine7"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/EternalXLTable/ScoreLine7"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/EternalXLTable"]
+visible = false
+margin_top = 228.0
+margin_right = 178.0
+margin_bottom = 250.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/EternalXLTable/ScoreLine8"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/EternalXLTable/ScoreLine8"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/EternalXLTable/ScoreLine8"]
+margin_left = 108.0
+margin_right = 178.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+text = "00000"
+align = 2
+
+[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/EternalXLTable"]
+visible = false
+margin_top = 256.0
+margin_right = 178.0
+margin_bottom = 278.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="Highscores/EternalXLTable/ScoreLine9"]
+margin_right = 24.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 24, 0 )
+text = "2."
+
+[node name="Owner" type="Label" parent="Highscores/EternalXLTable/ScoreLine9"]
+margin_left = 28.0
+margin_top = 2.0
+margin_right = 100.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 72, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "PLAYERRR"
+clip_text = true
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/EternalXLTable/ScoreLine9"]
 margin_left = 108.0
 margin_right = 178.0
 margin_bottom = 22.0
@@ -2287,14 +2897,10 @@ text = "00000"
 align = 2
 
 [node name="EraserSTable" type="VBoxContainer" parent="Highscores"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -336.0
-margin_top = -138.0
-margin_right = -144.0
-margin_bottom = 28.0
+margin_left = 672.0
+margin_top = 158.0
+margin_right = 896.0
+margin_bottom = 268.0
 custom_constants/separation = 6
 script = ExtResource( 11 )
 __meta__ = {
@@ -2302,18 +2908,18 @@ __meta__ = {
 }
 
 [node name="Title" type="Label" parent="Highscores/EraserSTable"]
-margin_left = 61.0
-margin_right = 131.0
+margin_left = 54.0
+margin_right = 170.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 28, 26 )
 size_flags_horizontal = 6
 size_flags_vertical = 0
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-text = "Top ..."
+text = "%Eraser S"
 
 [node name="ScoreLine1" type="HBoxContainer" parent="Highscores/EraserSTable"]
 margin_top = 32.0
-margin_right = 192.0
+margin_right = 224.0
 margin_bottom = 54.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2338,8 +2944,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/EraserSTable/ScoreLine1"]
-margin_left = 122.0
-margin_right = 192.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2348,7 +2954,7 @@ align = 2
 
 [node name="ScoreLine2" type="HBoxContainer" parent="Highscores/EraserSTable"]
 margin_top = 60.0
-margin_right = 192.0
+margin_right = 224.0
 margin_bottom = 82.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2373,8 +2979,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/EraserSTable/ScoreLine2"]
-margin_left = 122.0
-margin_right = 192.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2383,7 +2989,7 @@ align = 2
 
 [node name="ScoreLine3" type="HBoxContainer" parent="Highscores/EraserSTable"]
 margin_top = 88.0
-margin_right = 192.0
+margin_right = 224.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2408,8 +3014,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/EraserSTable/ScoreLine3"]
-margin_left = 122.0
-margin_right = 192.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2417,6 +3023,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine4" type="HBoxContainer" parent="Highscores/EraserSTable"]
+visible = false
 margin_top = 116.0
 margin_right = 192.0
 margin_bottom = 138.0
@@ -2452,6 +3059,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine5" type="HBoxContainer" parent="Highscores/EraserSTable"]
+visible = false
 margin_top = 144.0
 margin_right = 192.0
 margin_bottom = 166.0
@@ -2631,14 +3239,10 @@ text = "00000"
 align = 2
 
 [node name="EraserMTable" type="VBoxContainer" parent="Highscores"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -96.0
-margin_top = -138.0
-margin_right = 96.0
-margin_bottom = 28.0
+margin_left = 672.0
+margin_top = 294.0
+margin_right = 896.0
+margin_bottom = 404.0
 custom_constants/separation = 6
 script = ExtResource( 11 )
 __meta__ = {
@@ -2646,18 +3250,18 @@ __meta__ = {
 }
 
 [node name="Title" type="Label" parent="Highscores/EraserMTable"]
-margin_left = 61.0
-margin_right = 131.0
+margin_left = 52.0
+margin_right = 172.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 28, 26 )
 size_flags_horizontal = 6
 size_flags_vertical = 0
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-text = "Top ..."
+text = "%Eraser M"
 
 [node name="ScoreLine1" type="HBoxContainer" parent="Highscores/EraserMTable"]
 margin_top = 32.0
-margin_right = 192.0
+margin_right = 224.0
 margin_bottom = 54.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2682,8 +3286,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/EraserMTable/ScoreLine1"]
-margin_left = 122.0
-margin_right = 192.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2692,7 +3296,7 @@ align = 2
 
 [node name="ScoreLine2" type="HBoxContainer" parent="Highscores/EraserMTable"]
 margin_top = 60.0
-margin_right = 192.0
+margin_right = 224.0
 margin_bottom = 82.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2717,8 +3321,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/EraserMTable/ScoreLine2"]
-margin_left = 122.0
-margin_right = 192.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2727,7 +3331,7 @@ align = 2
 
 [node name="ScoreLine3" type="HBoxContainer" parent="Highscores/EraserMTable"]
 margin_top = 88.0
-margin_right = 192.0
+margin_right = 224.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -2752,8 +3356,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/EraserMTable/ScoreLine3"]
-margin_left = 122.0
-margin_right = 192.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -2761,6 +3365,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine4" type="HBoxContainer" parent="Highscores/EraserMTable"]
+visible = false
 margin_top = 116.0
 margin_right = 192.0
 margin_bottom = 138.0
@@ -2796,6 +3401,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine5" type="HBoxContainer" parent="Highscores/EraserMTable"]
+visible = false
 margin_top = 144.0
 margin_right = 192.0
 margin_bottom = 166.0
@@ -2975,14 +3581,10 @@ text = "00000"
 align = 2
 
 [node name="EraserLTable" type="VBoxContainer" parent="Highscores"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 144.0
-margin_top = -138.0
-margin_right = 336.0
-margin_bottom = 28.0
+margin_left = 672.0
+margin_top = 430.0
+margin_right = 896.0
+margin_bottom = 540.0
 custom_constants/separation = 6
 script = ExtResource( 11 )
 __meta__ = {
@@ -2990,18 +3592,18 @@ __meta__ = {
 }
 
 [node name="Title" type="Label" parent="Highscores/EraserLTable"]
-margin_left = 61.0
-margin_right = 131.0
+margin_left = 54.0
+margin_right = 170.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 28, 26 )
 size_flags_horizontal = 6
 size_flags_vertical = 0
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-text = "Top ..."
+text = "%Eraser L"
 
 [node name="ScoreLine1" type="HBoxContainer" parent="Highscores/EraserLTable"]
 margin_top = 32.0
-margin_right = 192.0
+margin_right = 224.0
 margin_bottom = 54.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -3026,8 +3628,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/EraserLTable/ScoreLine1"]
-margin_left = 122.0
-margin_right = 192.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -3036,7 +3638,7 @@ align = 2
 
 [node name="ScoreLine2" type="HBoxContainer" parent="Highscores/EraserLTable"]
 margin_top = 60.0
-margin_right = 192.0
+margin_right = 224.0
 margin_bottom = 82.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -3061,8 +3663,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/EraserLTable/ScoreLine2"]
-margin_left = 122.0
-margin_right = 192.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -3071,7 +3673,7 @@ align = 2
 
 [node name="ScoreLine3" type="HBoxContainer" parent="Highscores/EraserLTable"]
 margin_top = 88.0
-margin_right = 192.0
+margin_right = 224.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -3096,8 +3698,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/EraserLTable/ScoreLine3"]
-margin_left = 122.0
-margin_right = 192.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -3105,6 +3707,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine4" type="HBoxContainer" parent="Highscores/EraserLTable"]
+visible = false
 margin_top = 116.0
 margin_right = 192.0
 margin_bottom = 138.0
@@ -3140,6 +3743,7 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine5" type="HBoxContainer" parent="Highscores/EraserLTable"]
+visible = false
 margin_top = 144.0
 margin_right = 192.0
 margin_bottom = 166.0
@@ -3318,1391 +3922,11 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="RunnerTable" type="VBoxContainer" parent="Highscores"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 384.0
-margin_top = -138.0
-margin_right = 576.0
-margin_bottom = 28.0
-custom_constants/separation = 6
-script = ExtResource( 11 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" type="Label" parent="Highscores/RunnerTable"]
-margin_left = 61.0
-margin_right = 131.0
-margin_bottom = 26.0
-rect_min_size = Vector2( 28, 26 )
-size_flags_horizontal = 6
-size_flags_vertical = 0
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-text = "Top ..."
-
-[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/RunnerTable"]
-margin_top = 32.0
-margin_right = 192.0
-margin_bottom = 54.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RunnerTable/ScoreLine1"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RunnerTable/ScoreLine1"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RunnerTable/ScoreLine1"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/RunnerTable"]
-margin_top = 60.0
-margin_right = 192.0
-margin_bottom = 82.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RunnerTable/ScoreLine2"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RunnerTable/ScoreLine2"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RunnerTable/ScoreLine2"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/RunnerTable"]
-margin_top = 88.0
-margin_right = 192.0
-margin_bottom = 110.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RunnerTable/ScoreLine3"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RunnerTable/ScoreLine3"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RunnerTable/ScoreLine3"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/RunnerTable"]
-margin_top = 116.0
-margin_right = 192.0
-margin_bottom = 138.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RunnerTable/ScoreLine4"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RunnerTable/ScoreLine4"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RunnerTable/ScoreLine4"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/RunnerTable"]
-margin_top = 144.0
-margin_right = 192.0
-margin_bottom = 166.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RunnerTable/ScoreLine5"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RunnerTable/ScoreLine5"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RunnerTable/ScoreLine5"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/RunnerTable"]
-visible = false
-margin_top = 172.0
-margin_right = 178.0
-margin_bottom = 194.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RunnerTable/ScoreLine6"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RunnerTable/ScoreLine6"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RunnerTable/ScoreLine6"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/RunnerTable"]
-visible = false
-margin_top = 200.0
-margin_right = 178.0
-margin_bottom = 222.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RunnerTable/ScoreLine7"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RunnerTable/ScoreLine7"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RunnerTable/ScoreLine7"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/RunnerTable"]
-visible = false
-margin_top = 228.0
-margin_right = 178.0
-margin_bottom = 250.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RunnerTable/ScoreLine8"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RunnerTable/ScoreLine8"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RunnerTable/ScoreLine8"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/RunnerTable"]
-visible = false
-margin_top = 256.0
-margin_right = 178.0
-margin_bottom = 278.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RunnerTable/ScoreLine9"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RunnerTable/ScoreLine9"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RunnerTable/ScoreLine9"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="RiddlerSTable" type="VBoxContainer" parent="Highscores"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -576.0
-margin_top = 62.0
-margin_right = -384.0
-margin_bottom = 228.0
-custom_constants/separation = 6
-script = ExtResource( 11 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" type="Label" parent="Highscores/RiddlerSTable"]
-margin_left = 61.0
-margin_right = 131.0
-margin_bottom = 26.0
-rect_min_size = Vector2( 28, 26 )
-size_flags_horizontal = 6
-size_flags_vertical = 0
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-text = "Top ..."
-
-[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/RiddlerSTable"]
-margin_top = 32.0
-margin_right = 192.0
-margin_bottom = 54.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerSTable/ScoreLine1"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerSTable/ScoreLine1"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerSTable/ScoreLine1"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/RiddlerSTable"]
-margin_top = 60.0
-margin_right = 192.0
-margin_bottom = 82.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerSTable/ScoreLine2"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerSTable/ScoreLine2"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerSTable/ScoreLine2"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/RiddlerSTable"]
-margin_top = 88.0
-margin_right = 192.0
-margin_bottom = 110.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerSTable/ScoreLine3"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerSTable/ScoreLine3"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerSTable/ScoreLine3"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/RiddlerSTable"]
-margin_top = 116.0
-margin_right = 192.0
-margin_bottom = 138.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerSTable/ScoreLine4"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerSTable/ScoreLine4"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerSTable/ScoreLine4"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/RiddlerSTable"]
-margin_top = 144.0
-margin_right = 192.0
-margin_bottom = 166.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerSTable/ScoreLine5"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerSTable/ScoreLine5"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerSTable/ScoreLine5"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/RiddlerSTable"]
-visible = false
-margin_top = 172.0
-margin_right = 178.0
-margin_bottom = 194.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerSTable/ScoreLine6"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerSTable/ScoreLine6"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerSTable/ScoreLine6"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/RiddlerSTable"]
-visible = false
-margin_top = 200.0
-margin_right = 178.0
-margin_bottom = 222.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerSTable/ScoreLine7"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerSTable/ScoreLine7"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerSTable/ScoreLine7"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/RiddlerSTable"]
-visible = false
-margin_top = 228.0
-margin_right = 178.0
-margin_bottom = 250.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerSTable/ScoreLine8"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerSTable/ScoreLine8"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerSTable/ScoreLine8"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/RiddlerSTable"]
-visible = false
-margin_top = 256.0
-margin_right = 178.0
-margin_bottom = 278.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerSTable/ScoreLine9"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerSTable/ScoreLine9"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerSTable/ScoreLine9"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="RiddlerMTable" type="VBoxContainer" parent="Highscores"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -336.0
-margin_top = 62.0
-margin_right = -144.0
-margin_bottom = 228.0
-custom_constants/separation = 6
-script = ExtResource( 11 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" type="Label" parent="Highscores/RiddlerMTable"]
-margin_left = 61.0
-margin_right = 131.0
-margin_bottom = 26.0
-rect_min_size = Vector2( 28, 26 )
-size_flags_horizontal = 6
-size_flags_vertical = 0
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-text = "Top ..."
-
-[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/RiddlerMTable"]
-margin_top = 32.0
-margin_right = 192.0
-margin_bottom = 54.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerMTable/ScoreLine1"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerMTable/ScoreLine1"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerMTable/ScoreLine1"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/RiddlerMTable"]
-margin_top = 60.0
-margin_right = 192.0
-margin_bottom = 82.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerMTable/ScoreLine2"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerMTable/ScoreLine2"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerMTable/ScoreLine2"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/RiddlerMTable"]
-margin_top = 88.0
-margin_right = 192.0
-margin_bottom = 110.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerMTable/ScoreLine3"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerMTable/ScoreLine3"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerMTable/ScoreLine3"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/RiddlerMTable"]
-margin_top = 116.0
-margin_right = 192.0
-margin_bottom = 138.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerMTable/ScoreLine4"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerMTable/ScoreLine4"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerMTable/ScoreLine4"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/RiddlerMTable"]
-margin_top = 144.0
-margin_right = 192.0
-margin_bottom = 166.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerMTable/ScoreLine5"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerMTable/ScoreLine5"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerMTable/ScoreLine5"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/RiddlerMTable"]
-visible = false
-margin_top = 172.0
-margin_right = 178.0
-margin_bottom = 194.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerMTable/ScoreLine6"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerMTable/ScoreLine6"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerMTable/ScoreLine6"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/RiddlerMTable"]
-visible = false
-margin_top = 200.0
-margin_right = 178.0
-margin_bottom = 222.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerMTable/ScoreLine7"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerMTable/ScoreLine7"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerMTable/ScoreLine7"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/RiddlerMTable"]
-visible = false
-margin_top = 228.0
-margin_right = 178.0
-margin_bottom = 250.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerMTable/ScoreLine8"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerMTable/ScoreLine8"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerMTable/ScoreLine8"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/RiddlerMTable"]
-visible = false
-margin_top = 256.0
-margin_right = 178.0
-margin_bottom = 278.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerMTable/ScoreLine9"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerMTable/ScoreLine9"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerMTable/ScoreLine9"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="RiddlerLTable" type="VBoxContainer" parent="Highscores"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -96.0
-margin_top = 62.0
-margin_right = 96.0
-margin_bottom = 228.0
-custom_constants/separation = 6
-script = ExtResource( 11 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" type="Label" parent="Highscores/RiddlerLTable"]
-margin_left = 61.0
-margin_right = 131.0
-margin_bottom = 26.0
-rect_min_size = Vector2( 28, 26 )
-size_flags_horizontal = 6
-size_flags_vertical = 0
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-text = "Top ..."
-
-[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/RiddlerLTable"]
-margin_top = 32.0
-margin_right = 192.0
-margin_bottom = 54.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerLTable/ScoreLine1"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerLTable/ScoreLine1"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerLTable/ScoreLine1"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/RiddlerLTable"]
-margin_top = 60.0
-margin_right = 192.0
-margin_bottom = 82.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerLTable/ScoreLine2"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerLTable/ScoreLine2"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerLTable/ScoreLine2"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/RiddlerLTable"]
-margin_top = 88.0
-margin_right = 192.0
-margin_bottom = 110.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerLTable/ScoreLine3"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerLTable/ScoreLine3"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerLTable/ScoreLine3"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/RiddlerLTable"]
-margin_top = 116.0
-margin_right = 192.0
-margin_bottom = 138.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerLTable/ScoreLine4"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerLTable/ScoreLine4"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerLTable/ScoreLine4"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/RiddlerLTable"]
-margin_top = 144.0
-margin_right = 192.0
-margin_bottom = 166.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerLTable/ScoreLine5"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerLTable/ScoreLine5"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerLTable/ScoreLine5"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/RiddlerLTable"]
-visible = false
-margin_top = 172.0
-margin_right = 178.0
-margin_bottom = 194.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerLTable/ScoreLine6"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerLTable/ScoreLine6"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerLTable/ScoreLine6"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/RiddlerLTable"]
-visible = false
-margin_top = 200.0
-margin_right = 178.0
-margin_bottom = 222.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerLTable/ScoreLine7"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerLTable/ScoreLine7"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerLTable/ScoreLine7"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/RiddlerLTable"]
-visible = false
-margin_top = 228.0
-margin_right = 178.0
-margin_bottom = 250.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerLTable/ScoreLine8"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerLTable/ScoreLine8"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerLTable/ScoreLine8"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/RiddlerLTable"]
-visible = false
-margin_top = 256.0
-margin_right = 178.0
-margin_bottom = 278.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/RiddlerLTable/ScoreLine9"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/RiddlerLTable/ScoreLine9"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/RiddlerLTable/ScoreLine9"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
 [node name="ScrollerTable" type="VBoxContainer" parent="Highscores"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 144.0
-margin_top = 62.0
-margin_right = 336.0
-margin_bottom = 228.0
+margin_left = 960.0
+margin_top = 158.0
+margin_right = 1184.0
+margin_bottom = 436.0
 custom_constants/separation = 6
 script = ExtResource( 11 )
 __meta__ = {
@@ -4710,18 +3934,18 @@ __meta__ = {
 }
 
 [node name="Title" type="Label" parent="Highscores/ScrollerTable"]
-margin_left = 61.0
-margin_right = 131.0
+margin_left = 58.0
+margin_right = 166.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 28, 26 )
 size_flags_horizontal = 6
 size_flags_vertical = 0
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-text = "Top ..."
+text = "%Scroller"
 
 [node name="ScoreLine1" type="HBoxContainer" parent="Highscores/ScrollerTable"]
 margin_top = 32.0
-margin_right = 192.0
+margin_right = 224.0
 margin_bottom = 54.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -4746,8 +3970,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/ScrollerTable/ScoreLine1"]
-margin_left = 108.0
-margin_right = 192.0
+margin_left = 140.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -4756,7 +3980,7 @@ align = 2
 
 [node name="ScoreLine2" type="HBoxContainer" parent="Highscores/ScrollerTable"]
 margin_top = 60.0
-margin_right = 192.0
+margin_right = 224.0
 margin_bottom = 82.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -4781,8 +4005,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/ScrollerTable/ScoreLine2"]
-margin_left = 122.0
-margin_right = 192.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -4791,7 +4015,7 @@ align = 2
 
 [node name="ScoreLine3" type="HBoxContainer" parent="Highscores/ScrollerTable"]
 margin_top = 88.0
-margin_right = 192.0
+margin_right = 224.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -4816,8 +4040,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/ScrollerTable/ScoreLine3"]
-margin_left = 122.0
-margin_right = 192.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -4826,7 +4050,7 @@ align = 2
 
 [node name="ScoreLine4" type="HBoxContainer" parent="Highscores/ScrollerTable"]
 margin_top = 116.0
-margin_right = 192.0
+margin_right = 224.0
 margin_bottom = 138.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -4851,8 +4075,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/ScrollerTable/ScoreLine4"]
-margin_left = 122.0
-margin_right = 192.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -4861,7 +4085,7 @@ align = 2
 
 [node name="ScoreLine5" type="HBoxContainer" parent="Highscores/ScrollerTable"]
 margin_top = 144.0
-margin_right = 192.0
+margin_right = 224.0
 margin_bottom = 166.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -4886,8 +4110,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/ScrollerTable/ScoreLine5"]
-margin_left = 122.0
-margin_right = 192.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -4895,9 +4119,8 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine6" type="HBoxContainer" parent="Highscores/ScrollerTable"]
-visible = false
 margin_top = 172.0
-margin_right = 178.0
+margin_right = 224.0
 margin_bottom = 194.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -4922,8 +4145,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/ScrollerTable/ScoreLine6"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -4931,9 +4154,8 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine7" type="HBoxContainer" parent="Highscores/ScrollerTable"]
-visible = false
 margin_top = 200.0
-margin_right = 178.0
+margin_right = 224.0
 margin_bottom = 222.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -4958,8 +4180,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/ScrollerTable/ScoreLine7"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -4967,9 +4189,8 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine8" type="HBoxContainer" parent="Highscores/ScrollerTable"]
-visible = false
 margin_top = 228.0
-margin_right = 178.0
+margin_right = 224.0
 margin_bottom = 250.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -4994,8 +4215,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/ScrollerTable/ScoreLine8"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -5003,9 +4224,8 @@ text = "00000"
 align = 2
 
 [node name="ScoreLine9" type="HBoxContainer" parent="Highscores/ScrollerTable"]
-visible = false
 margin_top = 256.0
-margin_right = 178.0
+margin_right = 224.0
 margin_bottom = 278.0
 rect_min_size = Vector2( 72, 0 )
 
@@ -5030,352 +4250,8 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="Highscores/ScrollerTable/ScoreLine9"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="SliderTable" type="VBoxContainer" parent="Highscores"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 384.0
-margin_top = 62.0
-margin_right = 576.0
-margin_bottom = 228.0
-custom_constants/separation = 6
-script = ExtResource( 11 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" type="Label" parent="Highscores/SliderTable"]
-margin_left = 61.0
-margin_right = 131.0
-margin_bottom = 26.0
-rect_min_size = Vector2( 28, 26 )
-size_flags_horizontal = 6
-size_flags_vertical = 0
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-text = "Top ..."
-
-[node name="ScoreLine1" type="HBoxContainer" parent="Highscores/SliderTable"]
-margin_top = 32.0
-margin_right = 192.0
-margin_bottom = 54.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/SliderTable/ScoreLine1"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/SliderTable/ScoreLine1"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/SliderTable/ScoreLine1"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/SliderTable"]
-margin_top = 60.0
-margin_right = 192.0
-margin_bottom = 82.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/SliderTable/ScoreLine2"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/SliderTable/ScoreLine2"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/SliderTable/ScoreLine2"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/SliderTable"]
-margin_top = 88.0
-margin_right = 192.0
-margin_bottom = 110.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/SliderTable/ScoreLine3"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/SliderTable/ScoreLine3"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/SliderTable/ScoreLine3"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/SliderTable"]
-margin_top = 116.0
-margin_right = 192.0
-margin_bottom = 138.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/SliderTable/ScoreLine4"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/SliderTable/ScoreLine4"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/SliderTable/ScoreLine4"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/SliderTable"]
-margin_top = 144.0
-margin_right = 192.0
-margin_bottom = 166.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/SliderTable/ScoreLine5"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/SliderTable/ScoreLine5"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/SliderTable/ScoreLine5"]
-margin_left = 122.0
-margin_right = 192.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/SliderTable"]
-visible = false
-margin_top = 172.0
-margin_right = 178.0
-margin_bottom = 194.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/SliderTable/ScoreLine6"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/SliderTable/ScoreLine6"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/SliderTable/ScoreLine6"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/SliderTable"]
-visible = false
-margin_top = 172.0
-margin_right = 178.0
-margin_bottom = 194.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/SliderTable/ScoreLine7"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/SliderTable/ScoreLine7"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/SliderTable/ScoreLine7"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/SliderTable"]
-visible = false
-margin_top = 172.0
-margin_right = 178.0
-margin_bottom = 194.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/SliderTable/ScoreLine8"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/SliderTable/ScoreLine8"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/SliderTable/ScoreLine8"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/SliderTable"]
-visible = false
-margin_top = 172.0
-margin_right = 178.0
-margin_bottom = 194.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="Highscores/SliderTable/ScoreLine9"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="Highscores/SliderTable/ScoreLine9"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 14 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="Highscores/SliderTable/ScoreLine9"]
-margin_left = 108.0
-margin_right = 178.0
+margin_left = 154.0
+margin_right = 224.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
@@ -5392,43 +4268,76 @@ rect_min_size = Vector2( 0, 720 )
 theme = ExtResource( 15 )
 script = ExtResource( 13 )
 
-[node name="Eternal" type="Control" parent="SelectGame"]
-margin_left = 8.0
-margin_top = 160.0
-margin_right = 216.0
-margin_bottom = 344.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Panel" type="Panel" parent="SelectGame/Eternal"]
+[node name="Panel" type="Panel" parent="SelectGame"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 152.0
+margin_right = -24.0
+margin_bottom = -144.0
 custom_styles/panel = SubResource( 274 )
+__meta__ = {
+"_editor_description_": ""
+}
 
-[node name="Title5" type="Label" parent="SelectGame/Eternal"]
-visible = false
-margin_left = 25.0
-margin_top = 22.0
-margin_right = 117.0
-margin_bottom = 44.0
-text = "Neverending"
+[node name="Title2" type="Label" parent="SelectGame"]
+margin_left = 48.0
+margin_top = 173.0
+margin_right = 136.0
+margin_bottom = 195.0
+text = "Eraser"
 
-[node name="Label3" type="Label" parent="SelectGame/Eternal"]
-visible = false
-margin_left = 25.0
-margin_top = 56.0
-margin_right = 184.0
-margin_bottom = 98.0
+[node name="Label2" type="Label" parent="SelectGame"]
+margin_left = 49.0
+margin_top = 208.0
+margin_right = 208.0
+margin_bottom = 250.0
 custom_fonts/font = ExtResource( 14 )
-text = "Collect as many colors as possible"
+text = "Collect all colors in limited time"
 autowrap = true
 
-[node name="EternalBtn" type="Button" parent="SelectGame/Eternal"]
-margin_left = 24.0
-margin_top = 24.0
-margin_right = 184.0
-margin_bottom = 64.0
+[node name="Title6" type="Label" parent="SelectGame"]
+margin_left = 241.0
+margin_top = 173.0
+margin_right = 329.0
+margin_bottom = 195.0
+text = "Riddles"
+
+[node name="Label5" type="Label" parent="SelectGame"]
+margin_left = 241.0
+margin_top = 207.0
+margin_right = 408.0
+margin_bottom = 249.0
+custom_fonts/font = ExtResource( 14 )
+text = "Collect all colors with a single burst"
+autowrap = true
+
+[node name="Title4" type="Label" parent="SelectGame"]
+margin_left = 432.0
+margin_top = 174.0
+margin_right = 524.0
+margin_bottom = 196.0
+text = "Neverending"
+
+[node name="Label4" type="Label" parent="SelectGame"]
+margin_left = 433.0
+margin_top = 208.0
+margin_right = 592.0
+margin_bottom = 256.0
+custom_fonts/font = ExtResource( 14 )
+text = "Game is unbeatable. But you can try ..."
+autowrap = true
+
+[node name="GameBtns" type="Control" parent="SelectGame"]
+margin_left = 48.0
+margin_top = 272.0
+margin_right = 48.0
+margin_bottom = 272.0
+
+[node name="EternalBtn" type="Button" parent="SelectGame/GameBtns"]
+margin_left = 384.0
+margin_right = 544.0
+margin_bottom = 40.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -5440,31 +4349,11 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectGame/Eternal/EternalBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Duel"
-
-[node name="Label" type="Label" parent="SelectGame/Eternal/EternalBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Collect as many points as you can"
-autowrap = true
-
-[node name="EternalXLBtn" type="Button" parent="SelectGame/Eternal"]
-margin_left = 24.0
-margin_top = 72.0
-margin_right = 184.0
-margin_bottom = 112.0
+[node name="EternalXLBtn" type="Button" parent="SelectGame/GameBtns"]
+margin_left = 384.0
+margin_top = 56.0
+margin_right = 544.0
+margin_bottom = 96.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -5476,31 +4365,11 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectGame/Eternal/EternalXLBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Duel"
-
-[node name="Label" type="Label" parent="SelectGame/Eternal/EternalXLBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Collect as many points as you can"
-autowrap = true
-
-[node name="EnigmaBtn" type="Button" parent="SelectGame/Eternal"]
-margin_left = 24.0
-margin_top = 120.0
-margin_right = 184.0
-margin_bottom = 160.0
+[node name="EnigmaBtn" type="Button" parent="SelectGame/GameBtns"]
+margin_left = 192.0
+margin_top = 56.0
+margin_right = 352.0
+margin_bottom = 96.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -5512,62 +4381,9 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectGame/Eternal/EnigmaBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Duel"
-
-[node name="Label" type="Label" parent="SelectGame/Eternal/EnigmaBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Collect as many points as you can"
-autowrap = true
-
-[node name="Cleaner" type="Control" parent="SelectGame"]
-margin_left = 8.0
-margin_top = 352.0
-margin_right = 216.0
-margin_bottom = 576.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Panel" type="Panel" parent="SelectGame/Cleaner"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_styles/panel = SubResource( 274 )
-
-[node name="Title5" type="Label" parent="SelectGame/Cleaner"]
-margin_left = 25.0
-margin_top = 22.0
-margin_right = 117.0
-margin_bottom = 44.0
-text = "Cleaner"
-
-[node name="Label3" type="Label" parent="SelectGame/Cleaner"]
-visible = false
-margin_left = 25.0
-margin_top = 56.0
-margin_right = 184.0
-margin_bottom = 98.0
-custom_fonts/font = ExtResource( 14 )
-text = "Collect as many colors as possible"
-autowrap = true
-
-[node name="TutorialBtn" type="Button" parent="SelectGame/Cleaner"]
-margin_left = 24.0
-margin_top = 64.0
-margin_right = 184.0
-margin_bottom = 104.0
+[node name="TutorialBtn" type="Button" parent="SelectGame/GameBtns"]
+margin_right = 160.0
+margin_bottom = 40.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -5579,42 +4395,10 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectGame/Cleaner/TutorialBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Tutorial"
-
-[node name="Label" type="Label" parent="SelectGame/Cleaner/TutorialBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 128.0
-margin_top = 16.0
-margin_right = -24.0
-margin_bottom = 34.0
-custom_fonts/font = ExtResource( 14 )
-text = "Najvec kakor lahko"
-autowrap = true
-
-[node name="Label2" type="Label" parent="SelectGame/Cleaner/TutorialBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Najvec kakor lahko dobiš točk ... as"
-autowrap = true
-
-[node name="CleanerBtn" type="Button" parent="SelectGame/Cleaner"]
-margin_left = 24.0
-margin_top = 112.0
-margin_right = 184.0
-margin_bottom = 152.0
+[node name="CleanerBtn" type="Button" parent="SelectGame/GameBtns"]
+margin_top = 224.0
+margin_right = 160.0
+margin_bottom = 264.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -5626,31 +4410,10 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectGame/Cleaner/CleanerBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Cleaner"
-
-[node name="Label" type="Label" parent="SelectGame/Cleaner/CleanerBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Clean the glass ..."
-autowrap = true
-
-[node name="CleanerDuelBtn" type="Button" parent="SelectGame/Cleaner"]
-margin_left = 24.0
-margin_top = 160.0
-margin_right = 184.0
-margin_bottom = 200.0
+[node name="CleanerDuelBtn" type="Button" parent="SelectGame/GameBtns"]
+margin_left = 192.0
+margin_right = 352.0
+margin_bottom = 40.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -5662,99 +4425,39 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectGame/Cleaner/CleanerDuelBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Duel"
-
-[node name="Label" type="Label" parent="SelectGame/Cleaner/CleanerDuelBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Collect as many points as you can"
-autowrap = true
-
-[node name="Eraser" type="Control" parent="SelectGame"]
-margin_left = 224.0
-margin_top = 160.0
-margin_right = 432.0
-margin_bottom = 440.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Panel" type="Panel" parent="SelectGame/Eraser"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_styles/panel = SubResource( 274 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Title2" type="Label" parent="SelectGame/Eraser"]
-margin_left = 25.0
-margin_top = 22.0
-margin_right = 113.0
-margin_bottom = 44.0
-text = "Eraser"
-
-[node name="Label2" type="Label" parent="SelectGame/Eraser"]
-margin_left = 25.0
+[node name="EraserSBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_top = 56.0
-margin_right = 184.0
-margin_bottom = 98.0
-custom_fonts/font = ExtResource( 14 )
-text = "Collect all colors in limited time"
-autowrap = true
-
-[node name="EraserSBtn" type="Button" parent="SelectGame/Eraser"]
-margin_left = 24.0
-margin_top = 120.0
-margin_right = 184.0
-margin_bottom = 160.0
+margin_right = 160.0
+margin_bottom = 96.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "Small"
+text = "Eraser S"
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectGame/Eraser/EraserSBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Cleaner"
+[node name="EraserMBtn" type="Button" parent="SelectGame/GameBtns"]
+margin_top = 112.0
+margin_right = 160.0
+margin_bottom = 152.0
+mouse_default_cursor_shape = 2
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "Eraser M"
+__meta__ = {
+"_editor_description_": ""
+}
 
-[node name="Label" type="Label" parent="SelectGame/Eraser/EraserSBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Clean the glass ..."
-autowrap = true
-
-[node name="EraserMBtn" type="Button" parent="SelectGame/Eraser"]
-margin_left = 24.0
+[node name="EraserLBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_top = 168.0
-margin_right = 184.0
+margin_right = 160.0
 margin_bottom = 208.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
@@ -5762,141 +4465,32 @@ custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "Medium"
+text = "Eraser L"
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectGame/Eraser/EraserMBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Cleaner"
-
-[node name="Label" type="Label" parent="SelectGame/Eraser/EraserMBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Clean the glass ..."
-autowrap = true
-
-[node name="EraserLBtn" type="Button" parent="SelectGame/Eraser"]
-margin_left = 24.0
-margin_top = 216.0
-margin_right = 184.0
-margin_bottom = 256.0
+[node name="RiddlerBtn" type="Button" parent="SelectGame/GameBtns"]
+margin_left = 192.0
+margin_top = 112.0
+margin_right = 352.0
+margin_bottom = 152.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "Large"
+disabled = true
+text = "Riddler S"
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectGame/Eraser/EraserLBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Cleaner"
-
-[node name="Label" type="Label" parent="SelectGame/Eraser/EraserLBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Clean the glass ..."
-autowrap = true
-
-[node name="Riddler" type="Control" parent="SelectGame"]
-margin_left = 440.0
-margin_top = 160.0
-margin_right = 648.0
-margin_bottom = 440.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Panel" type="Panel" parent="SelectGame/Riddler"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_styles/panel = SubResource( 274 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Title6" type="Label" parent="SelectGame/Riddler"]
-margin_left = 25.0
-margin_top = 22.0
-margin_right = 113.0
-margin_bottom = 44.0
-text = "Riddler"
-
-[node name="Label5" type="Label" parent="SelectGame/Riddler"]
-margin_left = 25.0
-margin_top = 56.0
-margin_right = 192.0
-margin_bottom = 98.0
-custom_fonts/font = ExtResource( 14 )
-text = "Collect all colors with a single burst"
-autowrap = true
-
-[node name="RiddlerBtn" type="Button" parent="SelectGame/Riddler"]
-margin_left = 24.0
-margin_top = 120.0
-margin_right = 184.0
-margin_bottom = 160.0
-mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
-text = "Small"
-__meta__ = {
-"_edit_group_": true,
-"_editor_description_": ""
-}
-
-[node name="Title" type="Label" parent="SelectGame/Riddler/RiddlerBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Runner"
-
-[node name="Label" type="Label" parent="SelectGame/Riddler/RiddlerBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Time"
-autowrap = true
-
-[node name="RiddlerBtn2" type="Button" parent="SelectGame/Riddler"]
-margin_left = 24.0
+[node name="RiddlerBtn2" type="Button" parent="SelectGame/GameBtns"]
+margin_left = 192.0
 margin_top = 168.0
-margin_right = 184.0
+margin_right = 352.0
 margin_bottom = 208.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
@@ -5904,179 +4498,51 @@ custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "Medium"
+disabled = true
+text = "Riddler M"
 __meta__ = {
-"_edit_group_": true,
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectGame/Riddler/RiddlerBtn2"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Runner"
-
-[node name="Label" type="Label" parent="SelectGame/Riddler/RiddlerBtn2"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Time"
-autowrap = true
-
-[node name="RiddlerBtn3" type="Button" parent="SelectGame/Riddler"]
-margin_left = 24.0
-margin_top = 216.0
-margin_right = 184.0
-margin_bottom = 256.0
+[node name="RiddlerBtn3" type="Button" parent="SelectGame/GameBtns"]
+margin_left = 192.0
+margin_top = 224.0
+margin_right = 352.0
+margin_bottom = 264.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "Large"
-__meta__ = {
-"_edit_group_": true,
-"_editor_description_": ""
-}
-
-[node name="Title" type="Label" parent="SelectGame/Riddler/RiddlerBtn3"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Runner"
-
-[node name="Label" type="Label" parent="SelectGame/Riddler/RiddlerBtn3"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Time"
-autowrap = true
-
-[node name="Runner" type="Control" parent="SelectGame"]
-margin_left = 432.0
-margin_top = 448.0
-margin_right = 648.0
-margin_bottom = 576.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Panel" type="Panel" parent="SelectGame/Runner"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_styles/panel = SubResource( 274 )
+disabled = true
+text = "Riddler L"
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title4" type="Label" parent="SelectGame/Runner"]
-visible = false
-margin_left = 25.0
-margin_top = 22.0
-margin_right = 117.0
-margin_bottom = 44.0
-text = "Runner"
-
-[node name="Label4" type="Label" parent="SelectGame/Runner"]
-visible = false
-margin_left = 114.0
-margin_top = 24.0
-margin_right = 192.0
-margin_bottom = 48.0
-custom_fonts/font = ExtResource( 14 )
-text = "The maze"
-autowrap = true
-
-[node name="RunnerBtn" type="Button" parent="SelectGame/Runner"]
-margin_left = 72.0
-margin_top = 64.0
-margin_right = 192.0
-margin_bottom = 104.0
+[node name="RunnerBtn" type="Button" parent="SelectGame/GameBtns"]
+margin_left = 384.0
+margin_top = 224.0
+margin_right = 544.0
+margin_bottom = 264.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
+disabled = true
 text = "Runner"
 __meta__ = {
-"_edit_group_": true,
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectGame/Runner/RunnerBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Riddler"
-
-[node name="Label" type="Label" parent="SelectGame/Runner/RunnerBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Solve"
-autowrap = true
-
-[node name="Scroller" type="Control" parent="SelectGame"]
-margin_left = 224.0
-margin_top = 448.0
-margin_right = 432.0
-margin_bottom = 576.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Panel" type="Panel" parent="SelectGame/Scroller"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_styles/panel = SubResource( 274 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Title4" type="Label" parent="SelectGame/Scroller"]
-margin_left = 25.0
-margin_top = 22.0
-margin_right = 117.0
-margin_bottom = 44.0
-text = "On the move"
-
-[node name="Label4" type="Label" parent="SelectGame/Scroller"]
-margin_left = 185.0
-margin_top = 24.0
-margin_right = 312.0
-margin_bottom = 42.0
-custom_fonts/font = ExtResource( 14 )
-text = "Colors in motion"
-autowrap = true
-
-[node name="ScrollerBtn" type="Button" parent="SelectGame/Scroller"]
-margin_left = 24.0
-margin_top = 64.0
-margin_right = 144.0
-margin_bottom = 104.0
+[node name="ScrollerBtn" type="Button" parent="SelectGame/GameBtns"]
+margin_left = 384.0
+margin_top = 112.0
+margin_right = 544.0
+margin_bottom = 152.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -6085,66 +4551,25 @@ custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "Scroller"
 __meta__ = {
-"_edit_group_": true,
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectGame/Scroller/ScrollerBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Riddler"
-
-[node name="Label" type="Label" parent="SelectGame/Scroller/ScrollerBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Solve"
-autowrap = true
-
-[node name="SliderBtn" type="Button" parent="SelectGame/Scroller"]
-margin_left = 152.0
-margin_top = 64.0
-margin_right = 272.0
-margin_bottom = 104.0
+[node name="SliderBtn" type="Button" parent="SelectGame/GameBtns"]
+margin_left = 384.0
+margin_top = 168.0
+margin_right = 544.0
+margin_bottom = 208.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
+disabled = true
 text = "Slider"
 __meta__ = {
-"_edit_group_": true,
 "_editor_description_": ""
 }
-
-[node name="Title" type="Label" parent="SelectGame/Scroller/SliderBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Runner"
-
-[node name="Label" type="Label" parent="SelectGame/Scroller/SliderBtn"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Time"
-autowrap = true
 
 [node name="Title" type="Label" parent="SelectGame"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
@@ -6165,6 +4590,16 @@ margin_top = 7.0
 margin_right = -4.0
 margin_bottom = 11.0
 
+[node name="Subtitle" type="Label" parent="SelectGame"]
+visible = false
+margin_left = 9.0
+margin_top = 128.0
+margin_right = 480.0
+margin_bottom = 146.0
+custom_fonts/font = ExtResource( 14 )
+text = "Collect all colors in one move."
+autowrap = true
+
 [node name="BackBtn" type="TextureButton" parent="SelectGame"]
 anchor_left = 1.0
 anchor_right = 1.0
@@ -6178,391 +4613,6 @@ texture_normal = SubResource( 195 )
 texture_hover = SubResource( 196 )
 texture_focused = SubResource( 196 )
 flip_h = true
-
-[node name="InfoPanelHor" type="Control" parent="SelectGame"]
-visible = false
-margin_left = 8.0
-margin_top = 400.0
-margin_right = 679.0
-margin_bottom = 592.0
-theme = SubResource( 194 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" type="Label" parent="SelectGame/InfoPanelHor"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-margin_top = 6.0
-margin_right = 671.0
-margin_bottom = 44.0
-rect_min_size = Vector2( 0, 38 )
-size_flags_horizontal = 3
-text = "Game controls and shortcuts"
-uppercase = true
-
-[node name="HSeparator" type="HSeparator" parent="SelectGame/InfoPanelHor/Title"]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 1.0
-margin_top = -7.0
-margin_right = -1.0
-margin_bottom = -3.0
-
-[node name="Shortcuts" type="Control" parent="SelectGame/InfoPanelHor"]
-margin_left = 376.0
-margin_top = 14.0
-margin_right = 672.0
-margin_bottom = 192.0
-
-[node name="Title" type="Label" parent="SelectGame/InfoPanelHor/Shortcuts"]
-visible = false
-margin_right = 296.0
-margin_bottom = 38.0
-rect_min_size = Vector2( 0, 38 )
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-text = "SHORTCUTS"
-
-[node name="HSeparator" type="HSeparator" parent="SelectGame/InfoPanelHor/Shortcuts/Title"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 1.0
-margin_top = -7.0
-margin_right = -1.0
-margin_bottom = -3.0
-
-[node name="Mute" type="HBoxContainer" parent="SelectGame/InfoPanelHor/Shortcuts"]
-margin_top = 48.0
-margin_right = 262.0
-margin_bottom = 70.0
-custom_constants/separation = 8
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="M" type="TextureRect" parent="SelectGame/InfoPanelHor/Shortcuts/Mute"]
-margin_right = 22.0
-margin_bottom = 22.0
-texture = SubResource( 170 )
-
-[node name="Label" type="Label" parent="SelectGame/InfoPanelHor/Shortcuts/Mute"]
-margin_left = 30.0
-margin_top = 2.0
-margin_right = 47.0
-margin_bottom = 20.0
-theme = SubResource( 194 )
-custom_fonts/font = ExtResource( 14 )
-text = "or"
-align = 1
-
-[node name="L1" type="TextureRect" parent="SelectGame/InfoPanelHor/Shortcuts/Mute"]
-margin_left = 55.0
-margin_right = 77.0
-margin_bottom = 22.0
-texture = SubResource( 188 )
-
-[node name="Label2" type="Label" parent="SelectGame/InfoPanelHor/Shortcuts/Mute"]
-margin_left = 85.0
-margin_top = 2.0
-margin_right = 243.0
-margin_bottom = 20.0
-theme = SubResource( 194 )
-custom_fonts/font = ExtResource( 14 )
-text = "to mute soundtrack"
-
-[node name="Skip" type="HBoxContainer" parent="SelectGame/InfoPanelHor/Shortcuts"]
-margin_top = 80.0
-margin_right = 262.0
-margin_bottom = 102.0
-custom_constants/separation = 8
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="N" type="TextureRect" parent="SelectGame/InfoPanelHor/Shortcuts/Skip"]
-margin_right = 22.0
-margin_bottom = 22.0
-texture = SubResource( 171 )
-
-[node name="Label" type="Label" parent="SelectGame/InfoPanelHor/Shortcuts/Skip"]
-margin_left = 30.0
-margin_top = 2.0
-margin_right = 47.0
-margin_bottom = 20.0
-theme = SubResource( 194 )
-custom_fonts/font = ExtResource( 14 )
-text = "or"
-align = 1
-
-[node name="R1" type="TextureRect" parent="SelectGame/InfoPanelHor/Shortcuts/Skip"]
-margin_left = 55.0
-margin_right = 77.0
-margin_bottom = 22.0
-texture = SubResource( 189 )
-
-[node name="Label2" type="Label" parent="SelectGame/InfoPanelHor/Shortcuts/Skip"]
-margin_left = 85.0
-margin_top = 2.0
-margin_right = 257.0
-margin_bottom = 20.0
-theme = SubResource( 194 )
-custom_fonts/font = ExtResource( 14 )
-text = "to skip current track"
-
-[node name="Pause" type="HBoxContainer" parent="SelectGame/InfoPanelHor/Shortcuts"]
-margin_top = 112.0
-margin_right = 296.0
-margin_bottom = 134.0
-custom_constants/separation = 8
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Esc" type="TextureRect" parent="SelectGame/InfoPanelHor/Shortcuts/Pause"]
-margin_right = 22.0
-margin_bottom = 22.0
-texture = SubResource( 172 )
-
-[node name="Label" type="Label" parent="SelectGame/InfoPanelHor/Shortcuts/Pause"]
-margin_left = 30.0
-margin_top = 2.0
-margin_right = 47.0
-margin_bottom = 20.0
-theme = SubResource( 194 )
-custom_fonts/font = ExtResource( 14 )
-text = "or"
-align = 1
-
-[node name="Select" type="TextureRect" parent="SelectGame/InfoPanelHor/Shortcuts/Pause"]
-margin_left = 55.0
-margin_right = 96.0
-margin_bottom = 22.0
-texture = SubResource( 190 )
-
-[node name="Label2" type="Label" parent="SelectGame/InfoPanelHor/Shortcuts/Pause"]
-margin_left = 104.0
-margin_top = 2.0
-margin_right = 296.0
-margin_bottom = 20.0
-theme = SubResource( 194 )
-custom_fonts/font = ExtResource( 14 )
-text = "to pause/unpause game"
-
-[node name="Enter" type="HBoxContainer" parent="SelectGame/InfoPanelHor/Shortcuts"]
-margin_top = 144.0
-margin_right = 268.0
-margin_bottom = 166.0
-custom_constants/separation = 8
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Enter" type="TextureRect" parent="SelectGame/InfoPanelHor/Shortcuts/Enter"]
-margin_right = 22.0
-margin_bottom = 22.0
-texture = SubResource( 191 )
-
-[node name="Label" type="Label" parent="SelectGame/InfoPanelHor/Shortcuts/Enter"]
-margin_left = 30.0
-margin_top = 2.0
-margin_right = 47.0
-margin_bottom = 20.0
-theme = SubResource( 194 )
-custom_fonts/font = ExtResource( 14 )
-text = "or"
-align = 1
-
-[node name="Start" type="TextureRect" parent="SelectGame/InfoPanelHor/Shortcuts/Enter"]
-margin_left = 55.0
-margin_right = 95.0
-margin_bottom = 22.0
-texture = SubResource( 192 )
-
-[node name="Label2" type="Label" parent="SelectGame/InfoPanelHor/Shortcuts/Enter"]
-margin_left = 103.0
-margin_top = 2.0
-margin_right = 262.0
-margin_bottom = 20.0
-theme = SubResource( 194 )
-custom_fonts/font = ExtResource( 14 )
-text = "to confirm selection"
-
-[node name="Controls" type="Control" parent="SelectGame/InfoPanelHor"]
-margin_top = 14.0
-margin_right = 321.0
-margin_bottom = 192.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" type="Label" parent="SelectGame/InfoPanelHor/Controls"]
-visible = false
-margin_right = 312.0
-margin_bottom = 38.0
-rect_min_size = Vector2( 0, 38 )
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-text = "CONTROLS"
-
-[node name="HSeparator" type="HSeparator" parent="SelectGame/InfoPanelHor/Controls/Title"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 1.0
-margin_top = -7.0
-margin_right = -1.0
-margin_bottom = -3.0
-
-[node name="Keys" type="Control" parent="SelectGame/InfoPanelHor/Controls"]
-margin_top = 47.0
-margin_right = 328.0
-margin_bottom = 178.0
-rect_pivot_offset = Vector2( 264, 104 )
-
-[node name="Keyboard1" type="TextureRect" parent="SelectGame/InfoPanelHor/Controls/Keys"]
-margin_left = 90.0
-margin_top = 37.0
-margin_right = 160.0
-margin_bottom = 83.0
-texture = SubResource( 206 )
-
-[node name="Keyboard2" type="TextureRect" parent="SelectGame/InfoPanelHor/Controls/Keys"]
-margin_top = 37.0
-margin_right = 70.0
-margin_bottom = 83.0
-texture = SubResource( 180 )
-
-[node name="Space" type="TextureRect" parent="SelectGame/InfoPanelHor/Controls/Keys"]
-margin_top = 99.0
-margin_right = 102.0
-margin_bottom = 121.0
-texture = SubResource( 186 )
-
-[node name="Alt" type="TextureRect" parent="SelectGame/InfoPanelHor/Controls/Keys"]
-margin_left = 109.0
-margin_top = 99.0
-margin_right = 131.0
-margin_bottom = 121.0
-texture = SubResource( 225 )
-
-[node name="Ctrl" type="TextureRect" parent="SelectGame/InfoPanelHor/Controls/Keys"]
-margin_left = 138.0
-margin_top = 99.0
-margin_right = 160.0
-margin_bottom = 121.0
-texture = SubResource( 244 )
-
-[node name="Joypad" type="Control" parent="SelectGame/InfoPanelHor/Controls/Keys"]
-margin_left = 192.0
-margin_top = 5.0
-margin_right = 312.0
-margin_bottom = 91.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="jp" type="TextureRect" parent="SelectGame/InfoPanelHor/Controls/Keys/Joypad"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-margin_right = 120.0
-margin_bottom = 86.0
-texture = SubResource( 182 )
-
-[node name="btns" type="TextureRect" parent="SelectGame/InfoPanelHor/Controls/Keys/Joypad"]
-margin_left = 10.0
-margin_top = 17.0
-margin_right = 32.0
-margin_bottom = 39.0
-texture = SubResource( 183 )
-
-[node name="stick" type="TextureRect" parent="SelectGame/InfoPanelHor/Controls/Keys/Joypad"]
-visible = false
-margin_left = 30.0
-margin_top = 40.0
-margin_right = 48.0
-margin_bottom = 58.0
-texture = SubResource( 184 )
-
-[node name="btn" type="TextureRect" parent="SelectGame/InfoPanelHor/Controls/Keys/Joypad"]
-margin_left = 96.0
-margin_top = 32.0
-margin_right = 106.0
-margin_bottom = 42.0
-texture = SubResource( 185 )
-
-[node name="Line2D4" type="Line2D" parent="SelectGame/InfoPanelHor/Controls/Keys"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-position = Vector2( -274, 184.156 )
-scale = Vector2( 1, 0.8125 )
-points = PoolVector2Array( 383, -157, 368, -196 )
-width = 0.5
-default_color = Color( 1, 1, 1, 1 )
-sharp_limit = 0.0
-antialiased = true
-
-[node name="Line2D6" type="Line2D" parent="SelectGame/InfoPanelHor/Controls/Keys"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-position = Vector2( -298, 184.156 )
-scale = Vector2( 1, 0.8125 )
-points = PoolVector2Array( 349, -157, 373, -196 )
-width = 0.5
-default_color = Color( 1, 1, 1, 1 )
-sharp_limit = 0.0
-antialiased = true
-
-[node name="Line2D5" type="Line2D" parent="SelectGame/InfoPanelHor/Controls/Keys"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-position = Vector2( -158.306, 109.32 )
-scale = Vector2( 0.757141, 0.48 )
-points = PoolVector2Array( 480, -172, 446, -196 )
-width = 0.5
-default_color = Color( 1, 1, 1, 1 )
-sharp_limit = 0.0
-antialiased = true
-
-[node name="DirKeys" type="Label" parent="SelectGame/InfoPanelHor/Controls/Keys"]
-margin_left = 65.0
-margin_top = 3.0
-margin_right = 176.0
-margin_bottom = 21.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 14 )
-text = "Direction keys"
-autowrap = true
-
-[node name="Line2D" type="Line2D" parent="SelectGame/InfoPanelHor/Controls/Keys"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-position = Vector2( -181.302, 186.142 )
-scale = Vector2( 0.913793, 1.00769 )
-points = PoolVector2Array( 496, -83, 517, -136 )
-width = 0.5
-default_color = Color( 1, 1, 1, 1 )
-sharp_limit = 0.0
-antialiased = true
-
-[node name="Line2D2" type="Line2D" parent="SelectGame/InfoPanelHor/Controls/Keys"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-position = Vector2( -345, 182 )
-scale = Vector2( 1.14474, 0.8125 )
-points = PoolVector2Array( 479.585, -88.6154, 445.516, -88.6154 )
-width = 0.5
-default_color = Color( 1, 1, 1, 1 )
-sharp_limit = 0.0
-antialiased = true
-
-[node name="BurstKey" type="Label" parent="SelectGame/InfoPanelHor/Controls/Keys"]
-margin_left = 209.0
-margin_top = 99.0
-margin_right = 286.0
-margin_bottom = 117.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 14 )
-text = "Burst keys"
 
 [node name="EscHint" type="HBoxContainer" parent="SelectGame"]
 margin_left = 8.0
@@ -6650,9 +4700,9 @@ margin_bottom = 11.0
 
 [node name="Subtitle" type="Label" parent="SelectLevel"]
 margin_left = 9.0
-margin_top = 128.0
+margin_top = 136.0
 margin_right = 480.0
-margin_bottom = 146.0
+margin_bottom = 154.0
 custom_fonts/font = ExtResource( 14 )
 text = "Collect all colors in one move."
 autowrap = true
@@ -6677,7 +4727,7 @@ columns = 3
 
 [node name="EnigmaBtn" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
 margin_right = 187.0
-margin_bottom = 107.0
+margin_bottom = 76.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -6714,7 +4764,7 @@ autowrap = true
 [node name="EnigmaBtn2" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
 margin_left = 203.0
 margin_right = 389.0
-margin_bottom = 107.0
+margin_bottom = 76.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -6751,7 +4801,7 @@ autowrap = true
 [node name="EnigmaBtn3" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
 margin_left = 405.0
 margin_right = 591.0
-margin_bottom = 107.0
+margin_bottom = 76.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -6786,9 +4836,9 @@ text = "Collect as many points as you can"
 autowrap = true
 
 [node name="EnigmaBtn4" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
-margin_top = 123.0
+margin_top = 92.0
 margin_right = 187.0
-margin_bottom = 230.0
+margin_bottom = 168.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -6824,9 +4874,9 @@ autowrap = true
 
 [node name="EnigmaBtn5" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
 margin_left = 203.0
-margin_top = 123.0
+margin_top = 92.0
 margin_right = 389.0
-margin_bottom = 230.0
+margin_bottom = 168.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -6862,9 +4912,9 @@ autowrap = true
 
 [node name="EnigmaBtn6" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
 margin_left = 405.0
-margin_top = 123.0
+margin_top = 92.0
 margin_right = 591.0
-margin_bottom = 230.0
+margin_bottom = 168.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -6899,9 +4949,9 @@ text = "Collect as many points as you can"
 autowrap = true
 
 [node name="EnigmaBtn7" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
-margin_top = 246.0
+margin_top = 184.0
 margin_right = 187.0
-margin_bottom = 352.0
+margin_bottom = 260.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -6937,9 +4987,9 @@ autowrap = true
 
 [node name="EnigmaBtn8" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
 margin_left = 203.0
-margin_top = 246.0
+margin_top = 184.0
 margin_right = 389.0
-margin_bottom = 352.0
+margin_bottom = 260.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -6975,9 +5025,9 @@ autowrap = true
 
 [node name="EnigmaBtn9" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
 margin_left = 405.0
-margin_top = 246.0
+margin_top = 184.0
 margin_right = 591.0
-margin_bottom = 352.0
+margin_bottom = 260.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -7001,6 +5051,119 @@ margin_bottom = 36.0
 text = "Duel"
 
 [node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn9"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 40.0
+margin_right = -24.0
+margin_bottom = 58.0
+custom_fonts/font = ExtResource( 14 )
+text = "Collect as many points as you can"
+autowrap = true
+
+[node name="EnigmaBtn10" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
+margin_top = 276.0
+margin_right = 187.0
+margin_bottom = 352.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/hover = SubResource( 278 )
+custom_styles/pressed = SubResource( 278 )
+custom_styles/focus = SubResource( 278 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "Riddler S"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn10"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 14.0
+margin_right = -24.0
+margin_bottom = 36.0
+text = "Duel"
+
+[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn10"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 40.0
+margin_right = -24.0
+margin_bottom = 58.0
+custom_fonts/font = ExtResource( 14 )
+text = "Collect as many points as you can"
+autowrap = true
+
+[node name="EnigmaBtn11" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
+margin_left = 203.0
+margin_top = 276.0
+margin_right = 389.0
+margin_bottom = 352.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/hover = SubResource( 278 )
+custom_styles/pressed = SubResource( 278 )
+custom_styles/focus = SubResource( 278 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "Riddler M"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn11"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 14.0
+margin_right = -24.0
+margin_bottom = 36.0
+text = "Duel"
+
+[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn11"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 40.0
+margin_right = -24.0
+margin_bottom = 58.0
+custom_fonts/font = ExtResource( 14 )
+text = "Collect as many points as you can"
+autowrap = true
+
+[node name="EnigmaBtn12" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
+margin_left = 405.0
+margin_top = 276.0
+margin_right = 591.0
+margin_bottom = 352.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/hover = SubResource( 278 )
+custom_styles/pressed = SubResource( 278 )
+custom_styles/focus = SubResource( 278 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "Riddler L"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn12"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 14.0
+margin_right = -24.0
+margin_bottom = 36.0
+text = "Duel"
+
+[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn12"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -7236,7 +5399,7 @@ expand = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 24, 24 )
-texture = ExtResource( 19 )
+texture = SubResource( 282 )
 expand = true
 
 [node name="ResetBtn" type="Button" parent="Settings/ColorSchemeOptions"]
@@ -7402,21 +5565,21 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="Highscores/BackBtn" to="Highscores" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="Highscores/EscHint/Esc/Button" to="Highscores" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="Highscores/EscHint/Select/Button" to="Highscores" method="_on_BackBtn_pressed"]
-[connection signal="pressed" from="SelectGame/Eternal/EternalBtn" to="SelectGame" method="_on_EternalBtn_pressed"]
-[connection signal="pressed" from="SelectGame/Eternal/EternalXLBtn" to="SelectGame" method="_on_EternalXLBtn_pressed"]
-[connection signal="pressed" from="SelectGame/Eternal/EnigmaBtn" to="SelectGame" method="_on_Enigma_Btn_pressed"]
-[connection signal="pressed" from="SelectGame/Cleaner/TutorialBtn" to="SelectGame" method="_on_TutorialBtn_pressed"]
-[connection signal="pressed" from="SelectGame/Cleaner/CleanerBtn" to="SelectGame" method="_on_CleanerBtn_pressed"]
-[connection signal="pressed" from="SelectGame/Cleaner/CleanerDuelBtn" to="SelectGame" method="_on_CleanerDuelBtn_pressed"]
-[connection signal="pressed" from="SelectGame/Eraser/EraserSBtn" to="SelectGame" method="_on_EraserSBtn_pressed"]
-[connection signal="pressed" from="SelectGame/Eraser/EraserMBtn" to="SelectGame" method="_on_EraserMBtn_pressed"]
-[connection signal="pressed" from="SelectGame/Eraser/EraserLBtn" to="SelectGame" method="_on_EraserLBtn_pressed"]
-[connection signal="pressed" from="SelectGame/Riddler/RiddlerBtn" to="SelectGame" method="_on_RiddlerBtn_pressed"]
-[connection signal="pressed" from="SelectGame/Riddler/RiddlerBtn2" to="SelectGame" method="_on_RiddlerBtn2_pressed"]
-[connection signal="pressed" from="SelectGame/Riddler/RiddlerBtn3" to="SelectGame" method="_on_RiddlerBtn3_pressed"]
-[connection signal="pressed" from="SelectGame/Runner/RunnerBtn" to="SelectGame" method="_on_RunnerBtn_pressed"]
-[connection signal="pressed" from="SelectGame/Scroller/ScrollerBtn" to="SelectGame" method="_on_ScrollerBtn_pressed"]
-[connection signal="pressed" from="SelectGame/Scroller/SliderBtn" to="SelectGame" method="_on_SliderBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GameBtns/EternalBtn" to="SelectGame" method="_on_EternalBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GameBtns/EternalXLBtn" to="SelectGame" method="_on_EternalXLBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GameBtns/EnigmaBtn" to="SelectGame" method="_on_Enigma_Btn_pressed"]
+[connection signal="pressed" from="SelectGame/GameBtns/TutorialBtn" to="SelectGame" method="_on_TutorialBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GameBtns/CleanerBtn" to="SelectGame" method="_on_CleanerBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GameBtns/CleanerDuelBtn" to="SelectGame" method="_on_CleanerDuelBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GameBtns/EraserSBtn" to="SelectGame" method="_on_EraserSBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GameBtns/EraserMBtn" to="SelectGame" method="_on_EraserMBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GameBtns/EraserLBtn" to="SelectGame" method="_on_EraserLBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GameBtns/RiddlerBtn" to="SelectGame" method="_on_RiddlerBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GameBtns/RiddlerBtn2" to="SelectGame" method="_on_RiddlerBtn2_pressed"]
+[connection signal="pressed" from="SelectGame/GameBtns/RiddlerBtn3" to="SelectGame" method="_on_RiddlerBtn3_pressed"]
+[connection signal="pressed" from="SelectGame/GameBtns/RunnerBtn" to="SelectGame" method="_on_RunnerBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GameBtns/ScrollerBtn" to="SelectGame" method="_on_ScrollerBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GameBtns/SliderBtn" to="SelectGame" method="_on_SliderBtn_pressed"]
 [connection signal="pressed" from="SelectGame/BackBtn" to="SelectGame" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectGame/EscHint/Esc/Button" to="SelectGame" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectGame/EscHint/Select/Button" to="SelectGame" method="_on_BackBtn_pressed"]
@@ -7429,6 +5592,9 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn7" to="SelectLevel" method="_on_EnigmaBtn7_pressed"]
 [connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn8" to="SelectLevel" method="_on_EnigmaBtn8_pressed"]
 [connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn9" to="SelectLevel" method="_on_EnigmaBtn9_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn10" to="SelectLevel" method="_on_EnigmaBtn7_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn11" to="SelectLevel" method="_on_EnigmaBtn8_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn12" to="SelectLevel" method="_on_EnigmaBtn9_pressed"]
 [connection signal="pressed" from="SelectLevel/BackBtn" to="SelectLevel" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectLevel/EscHint/Esc/Button" to="SelectLevel" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectLevel/EscHint/Select/Button" to="SelectLevel" method="_on_BackBtn_pressed"]

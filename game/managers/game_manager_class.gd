@@ -34,7 +34,9 @@ onready var start_strays_spawn_count: int = game_data["strays_start_count"] # š
 onready var spectrum_rect: TextureRect = $Spectrum
 onready var spectrum_gradient: TextureRect = $SpectrumGradient
 onready var StrayPixel: PackedScene = preload("res://game/pixel/stray_class.tscn")
-onready var PlayerPixel: PackedScene = preload("res://game/pixel/player_class.tscn")
+#onready var PlayerPixel: PackedScene = preload("res://game/pixel/player_class.tscn")
+#onready var StrayPixel: PackedScene = preload("res://game/pixel/stray_cleaning.tscn")
+onready var PlayerPixel: PackedScene = preload("res://game/pixel/player_cleaning.tscn")
 
 
 func _ready() -> void:
@@ -81,16 +83,20 @@ func set_game():
 	# set_players() # da je plejer viden že na fejdin
 
 	# player intro animacija
-	var signaling_player: KinematicBody2D
-	for player in get_tree().get_nodes_in_group(Global.group_players):
-		player.animation_player.play("lose_white_on_start")
-		signaling_player = player # da se zgodi na obeh plejerjih istočasno
-	
-	yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
+
 	
 	if game_data["game"] == Profiles.Games.TUTORIAL: 
 		yield(get_tree().create_timer(1), "timeout") # da se animacija plejerja konča	
+		# tutorial funkcijo prikaza plejerja izpelje v svoji kodi
 	else:
+		
+		var signaling_player: KinematicBody2D
+		for player in get_tree().get_nodes_in_group(Global.group_players):
+			player.animation_player.play("lose_white_on_start")
+			signaling_player = player # da se zgodi na obeh plejerjih istočasno
+		
+		yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
+		
 		set_strays()
 		yield(get_tree().create_timer(1), "timeout") # da si plejer ogleda	
 	
@@ -230,7 +236,10 @@ func set_players():
 		new_player_pixel = PlayerPixel.instance()
 		new_player_pixel.name = "p%s" % str(spawned_player_index)
 		new_player_pixel.global_position = player_position + Vector2(cell_size_x/2, cell_size_x/2) # ... ne rabim snepat ker se v pixlu na ready funkciji
-		new_player_pixel.modulate = Color.white
+		if game_data["game"] == Profiles.Games.TUTORIAL:
+			new_player_pixel.modulate = Global.color_almost_black
+		else: 
+			new_player_pixel.modulate = Color.white
 		new_player_pixel.z_index = 1 # nižje od straysa
 		Global.node_creation_parent.add_child(new_player_pixel)
 		
@@ -278,7 +287,10 @@ func spawn_strays(strays_to_spawn_count: int):
 	# colors
 	var all_colors_available: Array
 	if Profiles.use_custom_color_theme:
-		all_colors_available = Global.get_random_gradient_colors(strays_to_spawn_count)
+		var color_split_offset: float = 1.0 / strays_to_spawn_count
+		for stray_count in strays_to_spawn_count:
+			var color = Global.game_color_theme_gradient.interpolate(stray_count * color_split_offset) # barva na lokaciji v spektrumu
+			all_colors_available.append(color)	
 	else:
 		all_colors_available = Global.get_spectrum_colors(strays_to_spawn_count) # prvi level je original ... vsi naslednji imajo random gradient
 	all_stray_colors = [] # reset ... za color indikatorje

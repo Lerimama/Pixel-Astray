@@ -1,6 +1,5 @@
 extends GameManager
 
-
 var level_upgrade_in_progress: bool = false # ustavim klicanje naslednjih levelov
 var current_enigma_name: String = "Null"# ime levele ... lahko številka
 var universal_time: float = 0 # za merjenje trajanja raznih stvari ... debug
@@ -84,20 +83,17 @@ func _process(delta: float) -> void:
 func start_game():
 	# namen: turn to wall respawn štartrespawnanje straysov ... za eternal
 	
-	if game_data["game"] == Profiles.Games.TUTORIAL:
-		Global.tutorial_gui.open_tutorial()
-	else:
-		Global.hud.game_timer.start_timer()
-		Global.sound_manager.play_music("game_music")
-			
-		for player in get_tree().get_nodes_in_group(Global.group_players):
-			player.set_physics_process(true)
-			
-		game_on = true
+	Global.hud.game_timer.start_timer()
+	Global.sound_manager.play_music("game_music")
 		
-		# start respawning
-		if game_settings["eternal_mode"]:
-			respawn_timer.start(first_respawn_time)
+	for player in get_tree().get_nodes_in_group(Global.group_players):
+		player.set_physics_process(true)
+		
+	game_on = true
+	
+	# start respawning
+	if game_settings["eternal_mode"]:
+		respawn_timer.start(first_respawn_time)
 
 
 func set_tilemap():
@@ -144,13 +140,19 @@ func spawn_strays(strays_to_spawn_count: int):
 	
 	# colors
 	var all_colors_available: Array
-#	if Profiles.use_custom_color_theme:
-#		all_colors_available = Global.get_random_gradient_colors(strays_to_spawn_count)
-#	else:
-	if current_level <= 1 or game_data["game"] == Profiles.Games.ENIGMA: # kadar so druge igre od enigme ineterenal je current level 0
-		all_colors_available = Global.get_spectrum_colors(strays_to_spawn_count) # prvi level je original ... vsi naslednji imajo random gradient
-	else:
-		all_colors_available = Global.get_random_gradient_colors(strays_to_spawn_count)
+	if game_settings["eternal_mode"]: # ETERNAL, ETERNAL_XL, SCROLLER
+		if current_level <= 1:
+			all_colors_available = Global.get_spectrum_colors(strays_to_spawn_count) # prvi level je original ... vsi naslednji imajo random gradient
+		else:
+			all_colors_available = Global.get_random_gradient_colors(strays_to_spawn_count)
+	else: #	ERASER_S, ERASER_M, ERASER_L, CLEANER, CLEANER_DUEL, ENIGMA	
+		if Profiles.use_custom_color_theme:
+			var color_split_offset: float = 1.0 / strays_to_spawn_count
+			for stray_count in strays_to_spawn_count:
+				var color = Global.game_color_theme_gradient.interpolate(stray_count * color_split_offset) # barva na lokaciji v spektrumu
+				all_colors_available.append(color)	
+		else:
+			all_colors_available = Global.get_spectrum_colors(strays_to_spawn_count) # prvi level je original ... vsi naslednji imajo random gradient
 	all_stray_colors = [] # reset ... za color indikatorje
 	
 	# positions
@@ -349,9 +351,7 @@ func _change_strays_in_game_count(strays_count_change: int):
 	if strays_count_change < 0: # cleaned št. upošteva samo čiščenje (+)
 		strays_cleaned_count += abs(strays_count_change)
 	
-	if game_data["game"] == Profiles.Games.TUTORIAL:
-		return
-	elif game_settings["eternal_mode"]:
+	if game_settings["eternal_mode"]:
 		var wall_strays_count: int
 		for stray in get_tree().get_nodes_in_group(Global.group_strays):
 			if stray.current_state == stray.States.WALL:

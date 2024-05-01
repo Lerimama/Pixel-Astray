@@ -53,20 +53,18 @@ func _ready():
 			Global.player1_camera = self
 		else:
 			Global.player2_camera = self
-
+		
 		if Global.game_manager.game_settings["camera_fixed"]:
 			zoom = zoom_end
 		else:
-			if Global.game_manager.game_data["game"] == Profiles.Games.RUNNER:
-				zoom_start = Vector2.ONE * 6
-			elif Global.game_manager.game_settings["eternal_mode"]:
+			if Global.game_manager.game_settings["eternal_mode"]:
 				zoom_end = Vector2.ONE * 1.5
 				smoothing_speed = 5 # ni ok za XL
 			elif Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
 				pass # enigma zoom seta iz GMja ob setanju limitsov
 				
 			zoom = zoom_start
-#			zoom_end = zoom_start
+#			zoom_end = Vector2.ONE * 2
 
 
 	# testhud
@@ -113,7 +111,7 @@ func _physics_process(delta: float) -> void:
 	
 func zoom_in(hud_in_out_time: float, players_count: int): # kliče hud
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER or Global.game_manager.game_data["game"] == Profiles.Games.SLIDER:
+	if Global.game_manager.game_settings["camera_fixed"]:
 		emit_signal("zoomed_in")
 	else:
 		if players_count == 2:
@@ -128,7 +126,6 @@ func zoom_in(hud_in_out_time: float, players_count: int): # kliče hud
 func zoom_out(hud_in_out_time: float): # kliče hud
 	
 	if Global.game_manager.game_settings["camera_fixed"]:
-#	if Global.game_manager.game_data["game"] == Profiles.Games.SCROLLER or Global.game_manager.game_data["game"] == Profiles.Games.SLIDER:
 		yield(get_tree().create_timer(hud_in_out_time), "timeout")
 		camera_target = null
 		emit_signal("zoomed_out")

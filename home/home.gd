@@ -112,7 +112,7 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 				return
 			current_screen = Screens.SELECT_GAME
 			current_esc_hint = $SelectGame/EscHint
-			Global.grab_focus_no_sfx($SelectGame/Cleaner/CleanerBtn)
+			Global.grab_focus_no_sfx($SelectGame/GameBtns/TutorialBtn)
 		"about":
 			if animation_reversed("about"):
 				return
@@ -136,7 +136,7 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 		"select_enigma_level":
 			if animation_reversed("select_enigma_level"):
 				current_screen = Screens.SELECT_GAME
-				Global.grab_focus_no_sfx($SelectGame/Eternal/EnigmaBtn)
+				Global.grab_focus_no_sfx($SelectGame/GameBtns/EnigmaBtn)
 				print("iz enigme")
 				return
 			current_screen = Screens.SELECT_LEVEL

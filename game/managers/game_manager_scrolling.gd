@@ -118,20 +118,6 @@ func game_over(gameover_reason: int):
 	
 	Global.hud.game_timer.stop_timer()
 	
-	# ko je na koncu
-#	if gameover_reason == GameoverReason.TIME: 
-#		return
-#	if gameover_reason == GameoverReason.CLEANED:
-#		clean_strays_in_game()
-#		yield(self, "all_strays_died")
-#		print("GO cleared")
-#		var signaling_player: KinematicBody2D
-#		for player in get_tree().get_nodes_in_group(Global.group_players):
-#			player.all_cleaned()
-#			signaling_player = player # da se zgodi na obeh plejerjih istočasno
-#			clean_strays_in_game()
-#		yield(signaling_player, "rewarded_on_game_over") # počakam, da je nagrajen
-#		upgrade_level()
 	get_tree().call_group(Global.group_players, "set_physics_process", false)
 
 	yield(get_tree().create_timer(1), "timeout") # za dojet
@@ -239,10 +225,7 @@ func spawn_strays(strays_to_spawn_count: int):
 	var forbiden_positions: Array = []
 	for stray_on_top in current_strays_on_top:
 		var adapted_stray_position: Vector2 = stray_on_top.position - Vector2.ONE * cell_size_x / 2 # za središče
-		if game_data["game"] == Profiles.Games.SLIDER:
-			adapted_stray_position.x += 64 # za pozicijo zaznanega straya (zamik spawn lokacije glede na detektor)  
-		elif game_data["game"] == Profiles.Games.SCROLLER:
-			adapted_stray_position.y -= 32 # za pozicijo zaznanega straya (zamik spawn lokacije glede na detektor)
+		adapted_stray_position.y -= 32 # za pozicijo zaznanega straya (zamik spawn lokacije glede na detektor)
 		forbiden_positions.append(adapted_stray_position)
 	
 	for stray_index in strays_to_spawn_count:
@@ -275,16 +258,7 @@ func spawn_strays(strays_to_spawn_count: int):
 			new_stray_pixel.global_position = selected_position + Vector2(cell_size_x/2, cell_size_x/2) # dodana adaptacija zaradi središča pixla
 			new_stray_pixel.z_index = 2 # višje od plejerja
 			
-			# naj postane wall ali ne
-			if game_data["game"] == Profiles.Games.SLIDER:
-				# stray becomes wall
-				var random_wall_count: int = randi() % wall_spawn_random_range + 1
-				if random_wall_count == 1 or random_wall_count == 2:
-					new_stray_pixel.current_state = new_stray_pixel.States.WALL	
-				else:
-					new_stray_pixel.stray_color = random_selected_color
-			else:
-				new_stray_pixel.stray_color = random_selected_color
+			new_stray_pixel.stray_color = random_selected_color
 			
 			Global.node_creation_parent.add_child(new_stray_pixel)
 			
@@ -314,17 +288,7 @@ func stray_step():
 	if random_spawn_count > stray_to_spawn_round_range[1]: 
 		random_spawn_count -= random_spawn_count - stray_to_spawn_round_range[1] # odštejem kar je višje od maximuma, ker zamik zamakne tudi zgornjo mejo
 	
-	if game_data["game"] == Profiles.Games.SLIDER and not in_level_transition:
-#		upgrade_stage()
-		stepping_direction = Vector2.LEFT
-		for stray in get_tree().get_nodes_in_group(Global.group_strays):
-			stray.step(stepping_direction)
-		# Global.sound_manager.play_sfx("stray_step") # ulomek je za pitch zvoka
-		lines_scrolled_count += 1
-		if lines_scrolled_count % lines_scroll_per_spawn_round == 0: # tukaj, da ne spawna če  je konec
-			spawn_strays(random_spawn_count)
-		
-	elif game_data["game"] == Profiles.Games.SCROLLER and not in_level_transition: # and not strays_on_wall_edge_connected:
+	if not in_level_transition: # and not strays_on_wall_edge_connected:
 		stepping_direction = Vector2.DOWN
 		# kdo stepa, kličem step in preverim kolajderja 
 		for stray in get_tree().get_nodes_in_group(Global.group_strays):
@@ -412,7 +376,6 @@ func set_new_level():
 		scrolling_pause_time = game_data["scrolling_pause_time"]
 		stray_to_spawn_round_range = game_data["stray_to_spawn_round_range"]
 		round_spawn_possibility = game_data["round_spawn_possibility"]
-		game_data["level"] = current_level
 		
 	# vsak naslednji level updata nastavitve prejšnjega levela
 	elif current_level > 1:
@@ -421,7 +384,8 @@ func set_new_level():
 		stray_to_spawn_round_range[0] *= game_data["round_range_factor_1"]
 		stray_to_spawn_round_range[1] *= game_data["round_range_factor_2"]
 		round_spawn_possibility *= game_data["round_spawn_possibility_factor"]
-		game_data["level"] = current_level
+	
+	game_data["level"] = current_level
 
 
 func set_level_colors():
@@ -480,12 +444,7 @@ func check_top_for_gameover():
 	var wall_strays_on_top_count: int = 0
 	
 	 # GO na stolpec full
-	var spawn_line_cells_count: int
-	
-	if game_data["game"] == Profiles.Games.SCROLLER:
-		spawn_line_cells_count = 40
-	if game_data["game"] == Profiles.Games.SLIDER:
-		spawn_line_cells_count = 20
+	var spawn_line_cells_count: int = 20
 	
 	# GO na prvi stopec full	
 	if current_strays_on_top.size() < spawn_line_cells_count:

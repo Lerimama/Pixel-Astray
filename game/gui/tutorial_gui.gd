@@ -193,4 +193,13 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			current_tutorial_stage = TutorialStage.MISSION
 		"tutorial_start":
 			var show_player = get_tree().create_tween()
-			show_player.tween_callback(self, "start_tutorial")#.set_delay(1)
+			for player in get_tree().get_nodes_in_group(Global.group_players):
+				show_player.tween_property(player, "modulate", Color.white, 0.5)
+			
+			var signaling_player: KinematicBody2D
+			for player in get_tree().get_nodes_in_group(Global.group_players):
+				player.animation_player.play("lose_white_on_start")
+				signaling_player = player # da se zgodi na obeh plejerjih istočasno
+			yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
+			
+			start_tutorial()

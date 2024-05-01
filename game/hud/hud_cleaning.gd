@@ -86,10 +86,7 @@ func set_hud(players_count: int): # kliče main na game-in
 	
 	# glede na to kaj šteje ...
 	if current_gamed_hs_type == Profiles.HighscoreTypes.NO_HS:
-		if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
-			highscore_label.visible = true
-		else:
-			highscore_label.visible = false
+		highscore_label.visible = false
 	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_TIME_HIGH or Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW:
 		p1_points_holder.visible = false
 		p2_points_holder.visible = false

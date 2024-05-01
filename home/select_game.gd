@@ -56,6 +56,8 @@ func _on_RiddlerBtn3_pressed() -> void:
 func _on_ScrollerBtn_pressed() -> void:
 	play_selected_game(Profiles.Games.SCROLLER)
 func _on_SliderBtn_pressed() -> void:
-	play_selected_game(Profiles.Games.SLIDER)
+#	play_selected_game(Profiles.Games.SLIDER)
+	pass
 func _on_RunnerBtn_pressed() -> void:
-	play_selected_game(Profiles.Games.RUNNER)
+#	play_selected_game(Profiles.Games.RUNNER)
+	pass

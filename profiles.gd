@@ -1,5 +1,4 @@
 extends Node
-# game data
 
 
 var default_player_stats: Dictionary = {
@@ -12,6 +11,8 @@ var default_player_stats: Dictionary = {
 	"burst_count" : 0,
 	"cells_traveled" : 0,
 }
+
+
 var default_game_settings: Dictionary = {
 	# to so default CLEANING settings
 	# player on start
@@ -69,15 +70,12 @@ var default_game_settings: Dictionary = {
 
 
 enum Games {
+	TUTORIAL,
 	ERASER_S, ERASER_M, ERASER_L,
 	CLEANER, CLEANER_DUEL,
-	SCROLLER, SLIDER, SIDEWINDER,
-	AMAZE, 
-	RUNNER, 
-	RIDDLER_S, RIDDLER_M, RIDDLER_L
-	TUTORIAL,
 	ETERNAL, ETERNAL_XL,
 	ENIGMA,
+	SCROLLER,
 	}
 enum HighscoreTypes {
 	NO_HS, 
@@ -88,12 +86,21 @@ enum HighscoreTypes {
 	}
 
 
+var game_data_tutorial: Dictionary = { 
+	"game": Games.TUTORIAL,
+	"highscore_type": HighscoreTypes.NO_HS,
+	"game_name": "Tutorial",
+	"game_scene_path": "res://game/game_class.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_tutorial.tscn",
+	"game_time_limit": 0,
+	"strays_start_count": 10,
+}
 var game_data_eraser_S: Dictionary = { 
 	"game": Games.ERASER_S,
 	"highscore_type": HighscoreTypes.HS_TIME_LOW,
 	"game_name": "Eraser S",
 	"game_scene_path": "res://game/game_cleaning.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eraser.tscn",
+	"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_S.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 50,
 }
@@ -102,7 +109,7 @@ var game_data_eraser_M: Dictionary = {
 	"highscore_type": HighscoreTypes.HS_TIME_LOW,
 	"game_name": "Eraser M",
 	"game_scene_path": "res://game/game_cleaning.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eraser.tscn",
+	"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_M.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 140, 
 }
@@ -111,7 +118,7 @@ var game_data_eraser_L: Dictionary = {
 	"highscore_type": HighscoreTypes.HS_TIME_LOW,
 	"game_name": "Eraser L",
 	"game_scene_path": "res://game/game_cleaning.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eraser.tscn",
+	"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_L.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 320, 
 }
@@ -120,7 +127,7 @@ var game_data_cleaner: Dictionary = {
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Cleaner",
 	"game_scene_path": "res://game/game_cleaning.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_cleaner.tscn",
 	"game_time_limit": 300,
 	"strays_start_count": 320, 
 }
@@ -129,56 +136,20 @@ var game_data_cleaner_duel: Dictionary = {
 	"highscore_type": HighscoreTypes.NO_HS,
 	"game_name": "Cleaner Duel",
 	"game_scene_path": "res://game/game_cleaning.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_cleaner_duel.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_duel.tscn",
 	"game_time_limit": 60,
 	"strays_start_count": 1000, 
-}
-var game_data_runner: Dictionary = {
-	"game": Games.RUNNER,
-	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "Runner",
-	"game_scene_path": "res://game/game_patterns.tscn",
-	"tilemap_path": "res://game/tilemaps/patterns/tilemap_runner.tscn",
-	"game_time_limit": 0,
-	"strays_start_count": 320, # 468 jih je v stackih
-}
-var game_data_riddler_S: Dictionary = {
-	"game": Games.RIDDLER_S,
-	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "Riddler S",
-	"game_scene_path": "res://game/game_patterns.tscn",
-	"tilemap_path": "res://game/tilemaps/patterns/tilemap_riddler_S.tscn", # odvisna od sselected level
-	"game_time_limit": 0, # odvisna od selected level
-	"strays_start_count": 0, # 468 jih je v stackih
-}
-var game_data_riddler_M: Dictionary = {
-	"game": Games.RIDDLER_M,
-	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "Riddler M",
-	"game_scene_path": "res://game/game_patterns.tscn",
-	"tilemap_path": "res://game/tilemaps/patterns/tilemap_riddler_M.tscn", # odvisna od sselected level
-	"game_time_limit": 0, # odvisna od selected level
-	"strays_start_count": 0, # 468 jih je v stackih
-}
-var game_data_riddler_L: Dictionary = {
-	"game": Games.RIDDLER_L,
-	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "Riddler L",
-	"game_scene_path": "res://game/game_patterns.tscn",
-	"tilemap_path": "res://game/tilemaps/patterns/tilemap_riddler_L.tscn", # odvisna od sselected level
-	"game_time_limit": 0, # odvisna od selected level
-	"strays_start_count": 0, # 468 jih je v stackih
 }
 var game_data_scroller: Dictionary = { 
 	"game": Games.SCROLLER,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Scroller",
 	"game_scene_path": "res://game/game_scrolling.tscn",
-	"tilemap_path": "res://game/tilemaps/scrolling/tilemap_scrolling.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_scrolling.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 1, # samo spawn prve runde
 	# xtra
-	"level": 1, # zmeraj začne s prvim
+#	"level": 1, # level se nafila ob štartu
 	"stages_per_level": 4,
 	"stages_per_level_grow": 0,
 	"lines_scroll_per_spawn_round": 1,
@@ -193,50 +164,12 @@ var game_data_scroller: Dictionary = {
 	"round_spawn_possibility": 20, # procenti
 	"round_spawn_possibility_factor": 2, # množim procente
 }
-var game_data_slider: Dictionary = { 
-	"game": Games.SLIDER,
-	"highscore_type": HighscoreTypes.HS_POINTS,
-	"game_name": "Slider",
-	"game_scene_path": "res://game/game_scrolling.tscn",
-	"tilemap_path": "res://game/tilemaps/scrolling/tilemap_slider.tscn",
-	"game_time_limit": 0,
-	"strays_start_count": 50, # pravi se seta znotraj igre
-	# xtra
-	# neimplementirano
-	"level": 1, # zmeraj začne s prvim
-	"stages_per_level": 32,
-	"stages_per_level_grow": 0,
-	"lines_scroll_per_spawn_round": 14,
-	# pavza med stepanjem
-	"scrolling_pause_time": 0.7, # ne sem bit manjša od stray step hitrosti (0.2)
-	"scrolling_pause_time_factor": 0.9, # množim z vsakim levelom
-	# random spawn na rundo
-	"stray_to_spawn_round_range": [1, 13], # random spawn count, največ 20
-	"round_range_factor_1": 1, # množim spodnjo mejo
-	"round_range_factor_2": 1, # množim zgornjo mejo
-	# možnost spawna v rundi
-	"round_spawn_possibility": 20, # procenti
-	"round_spawn_possibility_factor": 2, # množim procente
-#	"color_scheme": game_color_schemes["default_color_scheme"],
-	# old
-	"strays_spawn_count": 14,
-	"wall_spawn_random_range": 5, # določim razpon random izbire, wall se spawna, če je izbrana 1 ali 2 ... manj je več možnosti 
-}
-var game_data_tutorial: Dictionary = { 
-	"game": Games.TUTORIAL,
-	"highscore_type": HighscoreTypes.NO_HS,
-	"game_name": "Tutorial",
-	"game_scene_path": "res://game/game_class.tscn",
-	"tilemap_path": "res://game/tilemaps/tutorial_tilemap.tscn",
-	"game_time_limit": 0,
-	"strays_start_count": 10,
-}
 var game_data_eternal: Dictionary = { 
 	"game": Games.ETERNAL,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Eternal",
 	"game_scene_path": "res://game/game_cleaning.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eternal.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_eternal.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 50,
 	# xtra
@@ -254,7 +187,7 @@ var game_data_eternal_xl: Dictionary = {
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Eternal XL",
 	"game_scene_path": "res://game/game_cleaning.tscn",
-	"tilemap_path": "res://game/tilemaps/cleaning/tilemap_eternal_xl.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_eternal_xl.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 320,
 	# xtra
@@ -280,52 +213,55 @@ var game_data_enigma: Dictionary = {
 }
 var enigma_level_setting: Dictionary = { 
 	1: { # ključ je tudi številka levela
-		"level_name": "ONE", # za prezentacijo (hud in GO
 		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_01.tscn",
 		"level_description": "Description ...", # pre-game instructions
 	},
 	2: {
-		"level_name": "TWO",
 		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_02.tscn",
 		"level_description": "Description ...",
 	},
 	3: {
-		"level_name": "THREE",
 		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_03.tscn",
 		"level_description": "Description ...",
 	},
 	4: {
-		"level_name": "FOUR",
 		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_04.tscn",
 		"level_description": "Description ...",
 	},
 	5: {
-		"level_name": "FIVE",
 		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_05.tscn",
 		"level_description": "Description ...",
 	},
 	6: {
-		"level_name": "SIX",
 		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_06.tscn",
 		"level_description": "Description ...",
 	},
 	7: {
-		"level_name": "SEVEN",
 		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_07.tscn",
 		"level_description": "Description ...",
 	},
 	8: {
-		"level_name": "EIGHT",
 		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_08.tscn",
 		"level_description": "Description ...",
 	},
 	9: {
-		"level_name": "NINE",
 		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_09.tscn",
 		"level_description": "Description ...",
 	},
+	
+	10: {
+		"tilemap_path": "res://game/tilemaps/enigma/tilemap_riddler_S.tscn",
+		"level_description": "Description ...",
+	},
+	11: {
+		"tilemap_path": "res://game/tilemaps/enigma/tilemap_riddler_M.tscn",
+		"level_description": "Description ...",
+	},
+	12: {
+		"tilemap_path": "res://game/tilemaps/enigma/tilemap_riddler_L.tscn",
+		"level_description": "Description ...",
+	},
 }
-
 
 # ON GAME START -----------------------------------------------------------------------------------
 
@@ -353,11 +289,9 @@ func _ready() -> void:
 #	var debug_game = Games.CLEANER
 #	var debug_game = Games.ERASER_S
 #	var debug_game = Games.CLEANER_DUEL
-	var debug_game = Games.SCROLLER
-#	var debug_game = Games.SLIDER
-#	var debug_game = Games.RUNNER
+#	var debug_game = Games.SCROLLER
 #	var debug_game = Games.RIDDLER_M
-#	var debug_game = Games.TUTORIAL
+	var debug_game = Games.TUTORIAL
 	set_game_data(debug_game)
 	
 	
@@ -380,7 +314,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["color_picked_points"] = 0
 			game_settings["reburst_reward_points"] = 0
 			# debug
-			current_game_data["level"] = 6
+			current_game_data["level"] = 1
 #			game_settings["camera_fixed"] = false
 			game_settings["player_start_color"] = Color.white
 			game_settings["start_countdown"] = false
@@ -457,50 +391,3 @@ func set_game_data(selected_game) -> void:
 			
 			game_settings["game_instructions_popup"] = false
 			current_game_data["level"] = 1
-		Games.SLIDER:
-			current_game_data = game_data_slider
-			game_settings["color_picked_energy"] = 2
-			game_settings["camera_fixed"] = true
-			game_settings["touching_stray_energy"] = -0.4
-			game_settings["timer_mode_countdown"] = false
-			game_settings["start_countdown"] = false
-			game_settings["position_indicators_mode"] = false 
-		Games.RUNNER: 
-			current_game_data = game_data_runner
-			game_settings["minimap_on"] = true
-			game_settings["step_time_fast"] = 0.07
-			game_settings["step_time_slow"] = 0.2
-			game_settings["timer_mode_countdown"] = false
-			game_settings["color_picked_points"] = 0
-			game_settings["all_cleaned_points"] = 0
-			game_settings["touching_stray_energy"] = -0.4
-			# debug kombo
-			game_settings["game_instructions_popup"] = false
-			game_settings["start_countdown"] = false
-		Games.RIDDLER_S:
-			current_game_data = game_data_riddler_S
-			game_settings["cell_traveled_energy"] = 0
-			game_settings["color_picked_points"] = 0
-			game_settings["all_cleaned_points"] = 0
-			game_settings["on_hit_energy_part"] = 1
-			game_settings["timer_mode_countdown"] = false
-			game_settings["camera_fixed"] = true
-			game_settings["position_indicators_mode"] = false 
-		Games.RIDDLER_M:
-			current_game_data = game_data_riddler_M
-			game_settings["cell_traveled_energy"] = 0
-			game_settings["color_picked_points"] = 0
-			game_settings["all_cleaned_points"] = 0
-			game_settings["on_hit_energy_part"] = 1
-			game_settings["timer_mode_countdown"] = false
-			game_settings["camera_fixed"] = true
-			game_settings["position_indicators_mode"] = false 
-		Games.RIDDLER_L:
-			current_game_data = game_data_riddler_L
-			game_settings["cell_traveled_energy"] = 0
-			game_settings["color_picked_points"] = 0
-			game_settings["all_cleaned_points"] = 0
-			game_settings["on_hit_energy_part"] = 1
-			game_settings["timer_mode_countdown"] = false
-			game_settings["camera_fixed"] = true
-			game_settings["position_indicators_mode"] = false 

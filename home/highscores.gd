@@ -7,12 +7,9 @@ onready var cleaner_table: VBoxContainer = $CleanerTable
 onready var eraser_s_table: VBoxContainer = $EraserSTable
 onready var eraser_m_table: VBoxContainer = $EraserMTable
 onready var eraser_l_table: VBoxContainer = $EraserLTable
-onready var runner_table: VBoxContainer = $RunnerTable
-onready var riddler_s_table: VBoxContainer = $RiddlerSTable
-onready var riddler_m_table: VBoxContainer = $RiddlerMTable
-onready var riddler_l_table: VBoxContainer = $RiddlerLTable
+onready var eternal_table: VBoxContainer = $EternalTable
+onready var eternal_xl_table: VBoxContainer = $EternalXLTable
 onready var scroller_table: VBoxContainer = $ScrollerTable
-onready var slider_table: VBoxContainer = $SliderTable
 
 
 func _ready() -> void:
@@ -23,19 +20,10 @@ func _ready() -> void:
 	eraser_s_table.get_highscore_table(Profiles.game_data_eraser_S, fake_player_ranking)
 	eraser_m_table.get_highscore_table(Profiles.game_data_eraser_M, fake_player_ranking)
 	eraser_l_table.get_highscore_table(Profiles.game_data_eraser_L, fake_player_ranking)
+	eternal_table.get_highscore_table(Profiles.game_data_eternal, fake_player_ranking)
+	eternal_xl_table.get_highscore_table(Profiles.game_data_eternal_xl, fake_player_ranking)
+	scroller_table.get_highscore_table(Profiles.game_data_scroller, fake_player_ranking)
 	
-	runner_table.get_highscore_table(Profiles.game_data_runner, fake_player_ranking)
-	riddler_s_table.get_highscore_table(Profiles.game_data_riddler_S, fake_player_ranking)
-	riddler_m_table.get_highscore_table(Profiles.game_data_riddler_M, fake_player_ranking)
-#	riddler_l_table.get_highscore_table(Profiles.game_data_riddler_L, fake_player_ranking)
-	
-#	scroller_table.get_highscore_table(Profiles.game_data_scroller, fake_player_ranking)
-#	slider_table.get_highscore_table(Profiles.game_data_slider, fake_player_ranking)
-
-	riddler_l_table.get_highscore_table(Profiles.game_data_eternal, fake_player_ranking)
-	slider_table.get_highscore_table(Profiles.game_data_enigma, fake_player_ranking)
-	scroller_table.get_highscore_table(Profiles.game_data_eternal_xl, fake_player_ranking)
-
 
 func _on_BackBtn_pressed() -> void:
 	
