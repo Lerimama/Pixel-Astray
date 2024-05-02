@@ -62,7 +62,7 @@ var default_game_settings: Dictionary = {
 	"spectrum_start_on": false, # a pobrane prižigam al ugašam
 	"turn_stray_to_wall": true, # eternal big screen
 	"full_power_mode": false, # hitrost je tudi max_cock_coiunt > vedno destroja ves bulk 
-#	"default_color_scheme": true
+	"solutions_mode": false # enigma reštve
 }
 
 
@@ -282,7 +282,7 @@ var use_custom_color_theme: bool = false
 func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
-#	var debug_game = Games.ENIGMA
+	var debug_game = Games.ENIGMA
 	
 #	var debug_game = Games.ETERNAL
 #	var debug_game = Games.ETERNAL_XL
@@ -291,7 +291,7 @@ func _ready() -> void:
 #	var debug_game = Games.CLEANER_DUEL
 #	var debug_game = Games.SCROLLER
 #	var debug_game = Games.RIDDLER_M
-	var debug_game = Games.TUTORIAL
+#	var debug_game = Games.TUTORIAL
 	set_game_data(debug_game)
 	
 	
@@ -313,8 +313,9 @@ func set_game_data(selected_game) -> void:
 			game_settings["all_cleaned_points"] = 1 # vsaj ena točka, če ne se sploh ne pokaže ... izpiše se "SUCCESS!"
 			game_settings["color_picked_points"] = 0
 			game_settings["reburst_reward_points"] = 0
+			game_settings["solutions_mode"] = false
 			# debug
-			current_game_data["level"] = 1
+			current_game_data["level"] = 9
 #			game_settings["camera_fixed"] = false
 			game_settings["player_start_color"] = Color.white
 			game_settings["start_countdown"] = false

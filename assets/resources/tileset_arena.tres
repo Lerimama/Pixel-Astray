@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=15 format=2]
+[gd_resource type="TileSet" load_steps=16 format=2]
 
 [ext_resource path="res://assets/tiles/tile_stray.png" type="Texture" id=1]
 [ext_resource path="res://assets/tiles/tile_floor.png" type="Texture" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://assets/tiles/tile_player_2.png" type="Texture" id=7]
 [ext_resource path="res://assets/tiles/tile_invisible_wall.png" type="Texture" id=8]
 [ext_resource path="res://assets/tiles/tile_wall_with_edge.png" type="Texture" id=9]
+[ext_resource path="res://assets/tiles/min_tile.png" type="Texture" id=10]
 
 [sub_resource type="OccluderPolygon2D" id=113]
 polygon = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
@@ -176,3 +177,17 @@ points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
 8/shape_one_way_margin = 0.0
 8/shapes = [  ]
 8/z_index = 0
+9/name = "min_tile.png 9"
+9/texture = ExtResource( 10 )
+9/tex_offset = Vector2( 0, 0 )
+9/modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
+9/region = Rect2( 0, 0, 8, 8 )
+9/tile_mode = 0
+9/occluder_offset = Vector2( 0, 0 )
+9/navigation_offset = Vector2( 0, 0 )
+9/shape_offset = Vector2( 0, 0 )
+9/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+9/shape_one_way = false
+9/shape_one_way_margin = 0.0
+9/shapes = [  ]
+9/z_index = 0

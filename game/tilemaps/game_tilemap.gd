@@ -32,6 +32,13 @@ func _ready() -> void:
 
 func get_tiles():
 	
+	if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
+		if Global.game_manager.game_settings["solutions_mode"]:
+#			$SolutionLine.modulate = Color("#0a0a0a")
+			$SolutionLine.modulate = Global.color_almost_black
+		else:
+			$SolutionLine.hide()
+	
 	# prečesi vse celice in določi globalne pozicije
 	for x in get_used_rect().size.x: # širina v celicah
 		for y in get_used_rect().size.y: # višina širina v celicah	 
