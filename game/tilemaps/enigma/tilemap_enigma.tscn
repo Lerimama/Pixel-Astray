@@ -210,6 +210,14 @@ align = 1
 valign = 1
 uppercase = true
 
+[node name="SolutionLine" type="Line2D" parent="."]
+modulate = Color( 1, 1, 1, 0.54902 )
+width = 8.0
+default_color = Color( 1, 1, 1, 1 )
+__meta__ = {
+"_editor_description_": ""
+}
+
 [node name="Edge" type="Node2D" parent="."]
 visible = false
 position = Vector2( -640, -416 )
@@ -346,11 +354,3 @@ text = "zoom 1"
 
 [node name="Polygon2D3" type="Polygon2D" parent="_zoom_razlaga/ena"]
 polygon = PoolVector2Array( 607, 288, 607, 320, 639, 320, 639, 288 )
-
-[node name="SolutionLine" type="Line2D" parent="."]
-modulate = Color( 1, 1, 1, 0.32549 )
-width = 8.0
-default_color = Color( 1, 1, 1, 1 )
-__meta__ = {
-"_editor_description_": ""
-}

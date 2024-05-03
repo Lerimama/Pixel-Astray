@@ -42,10 +42,10 @@ var color_red: Color = Color("#f35b7f")
 var color_yellow: Color = Color("#fef98b")
 var color_gray_dark: Color = Color("#232323") # tudi color_floor_scroller
 # level colors
-var color_wall_dark_theme: Color = Color("#141414")
-var color_edge_dark_theme: Color = Color.black
-var color_floor_dark_theme: Color = Color("#20ffffff")
-var color_background_dark_theme: Color = Color.black
+var color_wall: Color = Color("#141414")
+var color_edge: Color = Color.black
+var color_floor: Color = Color("#20ffffff")
+var color_background: Color = Color.black
 # gui colors
 var color_hud_text: Color = Color("#fafafa")
 var color_gui_gray: Color = Color("#838383") # siva v tekstih (naslovi) in ikonah

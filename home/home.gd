@@ -137,11 +137,10 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 			if animation_reversed("select_enigma_level"):
 				current_screen = Screens.SELECT_GAME
 				Global.grab_focus_no_sfx($SelectGame/GameBtns/EnigmaBtn)
-				print("iz enigme")
 				return
 			current_screen = Screens.SELECT_LEVEL
 			current_esc_hint = $SelectLevel/EscHint
-			Global.grab_focus_no_sfx($SelectLevel/LevelGrid/GridContainer/EnigmaBtn)
+			Global.grab_focus_no_sfx($"SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/01")
 		"play_enigma_level":
 			Global.main_node.home_out()
 	

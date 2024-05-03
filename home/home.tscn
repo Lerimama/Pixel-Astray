@@ -4693,32 +4693,38 @@ margin_right = 648.0
 margin_bottom = 600.0
 custom_styles/panel = SubResource( 274 )
 
-[node name="Subtitle" type="Label" parent="SelectLevel/LevelGrid"]
-margin_left = 25.0
+[node name="VBoxContainer" type="VBoxContainer" parent="SelectLevel/LevelGrid"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 24.0
 margin_top = 24.0
-margin_right = 608.0
-margin_bottom = 48.0
+margin_right = -24.0
+margin_bottom = -24.0
+custom_constants/separation = 20
+
+[node name="Subtitle" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer"]
+margin_right = 592.0
+margin_bottom = 18.0
 custom_fonts/font = ExtResource( 14 )
 text = "Get stray pixels in order and ollect all colors with a single burst move."
 autowrap = true
 
-[node name="GridContainer" type="GridContainer" parent="SelectLevel/LevelGrid"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 24.0
-margin_top = 64.0
-margin_right = -24.0
-margin_bottom = -24.0
-custom_constants/vseparation = 8
-custom_constants/hseparation = 8
-columns = 3
-
-[node name="EnigmaBtn" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
-margin_right = 192.0
-margin_bottom = 115.0
-mouse_default_cursor_shape = 2
+[node name="BtnsHolder" type="Control" parent="SelectLevel/LevelGrid/VBoxContainer"]
+margin_top = 38.0
+margin_right = 592.0
+margin_bottom = 400.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="01" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
+margin_top = 2.0
+margin_right = 160.0
+margin_bottom = 82.0
+rect_min_size = Vector2( 160, 80 )
+rect_clip_content = true
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 2
+size_flags_vertical = 2
 custom_fonts/font = ExtResource( 19 )
 custom_styles/hover = SubResource( 278 )
 custom_styles/pressed = SubResource( 278 )
@@ -4730,7 +4736,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn"]
+[node name="Title" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/01"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -4739,7 +4745,7 @@ margin_right = -24.0
 margin_bottom = 36.0
 text = "Duel"
 
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn"]
+[node name="Label" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/01"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -4750,10 +4756,12 @@ custom_fonts/font = ExtResource( 14 )
 text = "Collect as many points as you can"
 autowrap = true
 
-[node name="EnigmaBtn2" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
-margin_left = 200.0
-margin_right = 392.0
-margin_bottom = 115.0
+[node name="02" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
+margin_left = 176.0
+margin_top = 2.0
+margin_right = 336.0
+margin_bottom = 82.0
+rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -4768,7 +4776,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn2"]
+[node name="Title" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/02"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -4777,7 +4785,7 @@ margin_right = -24.0
 margin_bottom = 36.0
 text = "Duel"
 
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn2"]
+[node name="Label" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/02"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -4788,10 +4796,12 @@ custom_fonts/font = ExtResource( 14 )
 text = "Collect as many points as you can"
 autowrap = true
 
-[node name="EnigmaBtn3" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
-margin_left = 400.0
-margin_right = 592.0
-margin_bottom = 115.0
+[node name="03" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
+margin_left = 352.0
+margin_top = 2.0
+margin_right = 512.0
+margin_bottom = 82.0
+rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -4806,7 +4816,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn3"]
+[node name="Title" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/03"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -4815,7 +4825,7 @@ margin_right = -24.0
 margin_bottom = 36.0
 text = "Duel"
 
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn3"]
+[node name="Label" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/03"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -4826,10 +4836,11 @@ custom_fonts/font = ExtResource( 14 )
 text = "Collect as many points as you can"
 autowrap = true
 
-[node name="EnigmaBtn4" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
-margin_top = 123.0
-margin_right = 192.0
-margin_bottom = 238.0
+[node name="04" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
+margin_top = 106.0
+margin_right = 160.0
+margin_bottom = 186.0
+rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -4844,7 +4855,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn4"]
+[node name="Title" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/04"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -4853,7 +4864,7 @@ margin_right = -24.0
 margin_bottom = 36.0
 text = "Duel"
 
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn4"]
+[node name="Label" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/04"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -4864,11 +4875,12 @@ custom_fonts/font = ExtResource( 14 )
 text = "Collect as many points as you can"
 autowrap = true
 
-[node name="EnigmaBtn5" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
-margin_left = 200.0
-margin_top = 123.0
-margin_right = 392.0
-margin_bottom = 238.0
+[node name="05" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
+margin_left = 176.0
+margin_top = 106.0
+margin_right = 336.0
+margin_bottom = 186.0
+rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -4883,7 +4895,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn5"]
+[node name="Title" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/05"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -4892,7 +4904,7 @@ margin_right = -24.0
 margin_bottom = 36.0
 text = "Duel"
 
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn5"]
+[node name="Label" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/05"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -4903,11 +4915,12 @@ custom_fonts/font = ExtResource( 14 )
 text = "Collect as many points as you can"
 autowrap = true
 
-[node name="EnigmaBtn6" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
-margin_left = 400.0
-margin_top = 123.0
-margin_right = 592.0
-margin_bottom = 238.0
+[node name="06" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
+margin_left = 352.0
+margin_top = 106.0
+margin_right = 512.0
+margin_bottom = 186.0
+rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -4922,7 +4935,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn6"]
+[node name="Title" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/06"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -4931,7 +4944,7 @@ margin_right = -24.0
 margin_bottom = 36.0
 text = "Duel"
 
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn6"]
+[node name="Label" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/06"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -4942,10 +4955,11 @@ custom_fonts/font = ExtResource( 14 )
 text = "Collect as many points as you can"
 autowrap = true
 
-[node name="EnigmaBtn7" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
-margin_top = 246.0
-margin_right = 192.0
-margin_bottom = 360.0
+[node name="07" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
+margin_top = 202.0
+margin_right = 160.0
+margin_bottom = 282.0
+rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -4960,7 +4974,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn7"]
+[node name="Title" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/07"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -4969,7 +4983,7 @@ margin_right = -24.0
 margin_bottom = 36.0
 text = "Duel"
 
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn7"]
+[node name="Label" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/07"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -4980,11 +4994,12 @@ custom_fonts/font = ExtResource( 14 )
 text = "Collect as many points as you can"
 autowrap = true
 
-[node name="EnigmaBtn8" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
-margin_left = 200.0
-margin_top = 246.0
-margin_right = 392.0
-margin_bottom = 360.0
+[node name="08" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
+margin_left = 176.0
+margin_top = 202.0
+margin_right = 336.0
+margin_bottom = 282.0
+rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -4999,7 +5014,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn8"]
+[node name="Title" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/08"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -5008,7 +5023,7 @@ margin_right = -24.0
 margin_bottom = 36.0
 text = "Duel"
 
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn8"]
+[node name="Label" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/08"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -5019,11 +5034,12 @@ custom_fonts/font = ExtResource( 14 )
 text = "Collect as many points as you can"
 autowrap = true
 
-[node name="EnigmaBtn9" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
-margin_left = 400.0
-margin_top = 246.0
-margin_right = 592.0
-margin_bottom = 360.0
+[node name="09" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
+margin_left = 352.0
+margin_top = 202.0
+margin_right = 512.0
+margin_bottom = 282.0
+rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -5038,7 +5054,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn9"]
+[node name="Title" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/09"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -5047,124 +5063,7 @@ margin_right = -24.0
 margin_bottom = 36.0
 text = "Duel"
 
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn9"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Collect as many points as you can"
-autowrap = true
-
-[node name="EnigmaBtn10" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
-visible = false
-margin_top = 276.0
-margin_right = 192.0
-margin_bottom = 360.0
-mouse_default_cursor_shape = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 19 )
-custom_styles/hover = SubResource( 278 )
-custom_styles/pressed = SubResource( 278 )
-custom_styles/focus = SubResource( 278 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
-text = "10"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn10"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Duel"
-
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn10"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Collect as many points as you can"
-autowrap = true
-
-[node name="EnigmaBtn11" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
-visible = false
-margin_top = 276.0
-margin_right = 192.0
-margin_bottom = 360.0
-mouse_default_cursor_shape = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 19 )
-custom_styles/hover = SubResource( 278 )
-custom_styles/pressed = SubResource( 278 )
-custom_styles/focus = SubResource( 278 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
-text = "11"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn11"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Duel"
-
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn11"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Collect as many points as you can"
-autowrap = true
-
-[node name="EnigmaBtn12" type="Button" parent="SelectLevel/LevelGrid/GridContainer"]
-visible = false
-margin_top = 276.0
-margin_right = 192.0
-margin_bottom = 360.0
-mouse_default_cursor_shape = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 19 )
-custom_styles/hover = SubResource( 278 )
-custom_styles/pressed = SubResource( 278 )
-custom_styles/focus = SubResource( 278 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
-text = "12"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn12"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Duel"
-
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/GridContainer/EnigmaBtn12"]
+[node name="Label" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/09"]
 visible = false
 anchor_right = 1.0
 margin_left = 24.0
@@ -5579,18 +5478,15 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="SelectGame/BackBtn" to="SelectGame" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectGame/EscHint/Esc/Button" to="SelectGame" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectGame/EscHint/Select/Button" to="SelectGame" method="_on_BackBtn_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn" to="SelectLevel" method="_on_EnigmaBtn_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn2" to="SelectLevel" method="_on_EnigmaBtn2_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn3" to="SelectLevel" method="_on_EnigmaBtn3_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn4" to="SelectLevel" method="_on_EnigmaBtn4_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn5" to="SelectLevel" method="_on_EnigmaBtn5_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn6" to="SelectLevel" method="_on_EnigmaBtn6_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn7" to="SelectLevel" method="_on_EnigmaBtn7_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn8" to="SelectLevel" method="_on_EnigmaBtn8_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn9" to="SelectLevel" method="_on_EnigmaBtn9_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn10" to="SelectLevel" method="_on_EnigmaBtn7_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn11" to="SelectLevel" method="_on_EnigmaBtn8_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/GridContainer/EnigmaBtn12" to="SelectLevel" method="_on_EnigmaBtn9_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/01" to="SelectLevel" method="_on_EnigmaBtn_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/02" to="SelectLevel" method="_on_EnigmaBtn2_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/03" to="SelectLevel" method="_on_EnigmaBtn3_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/04" to="SelectLevel" method="_on_EnigmaBtn4_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/05" to="SelectLevel" method="_on_EnigmaBtn5_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/06" to="SelectLevel" method="_on_EnigmaBtn6_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/07" to="SelectLevel" method="_on_EnigmaBtn7_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/08" to="SelectLevel" method="_on_EnigmaBtn8_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/09" to="SelectLevel" method="_on_EnigmaBtn9_pressed"]
 [connection signal="pressed" from="SelectLevel/BackBtn" to="SelectLevel" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectLevel/EscHint/Esc/Button" to="SelectLevel" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectLevel/EscHint/Select/Button" to="SelectLevel" method="_on_BackBtn_pressed"]
