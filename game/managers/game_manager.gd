@@ -21,6 +21,7 @@ var strays_cleaned_count: int = 0 # za statistiko na hudu
 var all_strays_died_alowed: bool = false # za omejevanje signala iz FP ... kdaj lahko reagira na 0 straysov v igri
 var all_stray_colors: Array # barve na štartnem spawnu (site kot v spektrumu)
 var available_respawn_positions: Array # pozicije na voljo, ki se apdejtajo na vsak stray in player spawn ali usmrtitev 
+var dont_turn_to_wall_positions: Array # za zaščito, da wall stray ne postane wall (ob robu igre recimo)
 
 # tilemap data
 var cell_size_x: int # napolne se na koncu setanju tilemapa
@@ -51,7 +52,6 @@ func _process(delta: float) -> void:
 	if game_on:
 		if available_respawn_positions.empty():
 			game_over(GameoverReason.TIME)	
-				
 		available_respawn_positions = Global.current_tilemap.floor_global_positions.duplicate()
 		for stray in get_tree().get_nodes_in_group(Global.group_strays):
 			if available_respawn_positions.has(stray.global_position - Vector2(cell_size_x/2, cell_size_x/2)):
@@ -60,7 +60,7 @@ func _process(delta: float) -> void:
 			if available_respawn_positions.has(player.global_position - Vector2(cell_size_x/2, cell_size_x/2)):
 				available_respawn_positions.erase(player.global_position - Vector2(cell_size_x/2, cell_size_x/2) )
 		
-		if Global.strays_on_screen.size() <= game_settings["show_position_indicators_stray_count"] and game_settings["position_indicators_mode"]:
+		if Global.strays_on_screen.size() <= game_settings["show_position_indicators_stray_count"] and game_settings["position_indicators_on"]:
 			show_position_indicators = true
 		else:
 			show_position_indicators = false
@@ -322,23 +322,6 @@ func spawn_strays(strays_to_spawn_count: int):
 # UTILITI ----------------------------------------------------------------------------------
 
 
-#func update_available_respawn_positions(action: String, position_to_change: Vector2):
-#	return
-#	# prilagodim zamik centra pixla
-#	var snapped_position_to_change: Vector2 = Global.snap_to_nearest_grid(position_to_change)
-#	snapped_position_to_change -= Vector2(cell_size_x/2, cell_size_x/2) 
-#
-#	# pozicijo je na voljo
-#	if action == "add":
-#		available_respawn_positions.append(snapped_position_to_change)
-#	# pozicija ni na voljo
-#	elif action == "remove":
-#		available_respawn_positions.remove(available_respawn_positions.find(snapped_position_to_change))
-#		# če ni več noeben pozicije na voljo, je GO
-#		if available_respawn_positions.empty():
-#			game_over(GameoverReason.TIME)		
-				
-	
 func show_strays_on_start(show_strays_loop: int):
 
 	var spawn_shake_power: float = 0.30
@@ -430,3 +413,4 @@ func _on_tilemap_completed(random_spawn_floor_positions: Array, stray_cells_posi
 	
 	# grab respawn positions
 	available_respawn_positions = Global.current_tilemap.floor_global_positions.duplicate()
+	dont_turn_to_wall_positions = no_stray_cells_positions

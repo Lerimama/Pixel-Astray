@@ -3,10 +3,13 @@ extends GameHud
 
 
 onready var level_up_popup: Control = $Popups/LevelUp
+onready var level_limit_holder: HBoxContainer = $Footer/FooterLine/LevelLimitHolder
+onready var level_limit_label_1: Label = $Footer/FooterLine/LevelLimitHolder/Label
+onready var level_limit_label_2: Label = $Footer/FooterLine/LevelLimitHolder/Label2
 
 
 func _process(delta: float) -> void:
-	# namen: update level label
+	# namen: update level label, lmite levela
 	
 	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
 	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
@@ -16,6 +19,15 @@ func _process(delta: float) -> void:
 		if not level_label.visible:
 			level_label.visible = true	
 		level_label.text = "%02d" % Global.game_manager.game_data["level"]
+	
+	# kateri ima višji score
+	var current_biggest_score: int = 0
+	for player in get_tree().get_nodes_in_group(Global.group_players):
+		if player.player_stats["colors_collected"] > current_biggest_score:
+			current_biggest_score = player.player_stats["colors_collected"]
+	# razlika med limito in višjim skorom
+	level_limit_label_1.text = "%d" % (Global.game_manager.stages_per_level - current_biggest_score) 
+	level_limit_label_2.text = "COLORS TO LEVEL UP"
 	
 	
 func set_hud(players_count: int): # kliče main na game-in
@@ -44,6 +56,10 @@ func set_hud(players_count: int): # kliče main na game-in
 	if not Global.game_manager.game_data.has("level"):
 		level_label.visible = false
 
+	# eternal		
+	level_limit_holder.visible = true
+	strays_counters_holder.visible = false
+		
 	# glede na to kaj šteje ...
 	if current_gamed_hs_type == Profiles.HighscoreTypes.NO_HS:
 		highscore_label.visible = false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=120 format=2]
+[gd_scene load_steps=121 format=2]
 
 [ext_resource path="res://assets/theme/fonts/16bfZX.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=2]
@@ -548,6 +548,11 @@ region = Rect2( 16, 16, 16, 16 )
 [sub_resource type="AtlasTexture" id=127]
 atlas = ExtResource( 7 )
 region = Rect2( 16, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=444]
+atlas = ExtResource( 7 )
+region = Rect2( 40, 80, 12, 14 )
+margin = Rect2( 2, 0, 0, 0 )
 
 [sub_resource type="StyleBoxEmpty" id=251]
 
@@ -2291,7 +2296,7 @@ __meta__ = {
 
 [node name="SpectrumHolder" type="Control" parent="GUI/Hud/Footer/FooterLine"]
 margin_left = 142.0
-margin_right = 1038.0
+margin_right = 704.0
 margin_bottom = 22.0
 grow_horizontal = 2
 size_flags_horizontal = 3
@@ -2316,8 +2321,8 @@ grow_vertical = 2
 color = Color( 0.494118, 0.517647, 0.545098, 1 )
 
 [node name="StraysLine" type="HBoxContainer" parent="GUI/Hud/Footer/FooterLine"]
-margin_left = 1070.0
-margin_right = 1218.0
+margin_left = 736.0
+margin_right = 884.0
 margin_bottom = 22.0
 size_flags_horizontal = 9
 custom_constants/separation = 16
@@ -2371,6 +2376,43 @@ margin_right = 66.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 text = "000"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelLimitHolder" type="HBoxContainer" parent="GUI/Hud/Footer/FooterLine"]
+margin_left = 916.0
+margin_right = 1218.0
+margin_bottom = 22.0
+size_flags_vertical = 8
+custom_constants/separation = 8
+
+[node name="TextureRect3" type="TextureRect" parent="GUI/Hud/Footer/FooterLine/LevelLimitHolder"]
+visible = false
+margin_top = 4.0
+margin_right = 16.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 16, 18 )
+size_flags_vertical = 8
+texture = SubResource( 444 )
+
+[node name="Label" type="Label" parent="GUI/Hud/Footer/FooterLine/LevelLimitHolder"]
+margin_right = 42.0
+margin_bottom = 22.0
+size_flags_vertical = 8
+text = "000"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Label2" type="Label" parent="GUI/Hud/Footer/FooterLine/LevelLimitHolder"]
+margin_left = 50.0
+margin_right = 302.0
+margin_bottom = 22.0
+size_flags_vertical = 8
+text = "%POINTS TO LEVEL UP"
 valign = 2
 __meta__ = {
 "_editor_description_": ""

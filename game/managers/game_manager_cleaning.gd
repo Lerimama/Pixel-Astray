@@ -63,7 +63,7 @@ func _process(delta: float) -> void:
 	
 	# position indicators
 	if game_on:
-		if Global.strays_on_screen.size() <= game_settings["show_position_indicators_stray_count"] and game_settings["position_indicators_mode"]:
+		if Global.strays_on_screen.size() <= game_settings["show_position_indicators_stray_count"] and game_settings["position_indicators_on"]:
 			show_position_indicators = true
 		else:
 			show_position_indicators = false
@@ -255,8 +255,14 @@ func turn_random_strays_to_wall(): # za eternal
 	
 	var wall_strays_alive: Array 
 	for stray in get_tree().get_nodes_in_group(Global.group_strays):
-		if stray.current_state == stray.States.WALL:
+		var stray_to_tile_position: Vector2 = stray.global_position + Vector2(cell_size_x/2, cell_size_x/2)
+		if stray.current_state == stray.States.WALL and not dont_turn_to_wall_positions.has(stray_to_tile_position):
 			wall_strays_alive.append(stray)
+		else:
+			printt ("turn", stray.global_position)
+#		if dont_turn_to_wall_positions.has(stray_to_tile_position):
+#	printt ("kva", dont_turn_to_wall_positions)
+	printt ("kva", dont_turn_to_wall_positions.size(), wall_strays_alive.size())
 	
 	var strays_not_walls_count: int = get_tree().get_nodes_in_group(Global.group_strays).size() - wall_strays_alive.size()
 				
@@ -322,7 +328,8 @@ func set_new_level():
 	# samo za eternal
 	
 	if game_settings["eternal_mode"]:
-		level_points_limit += game_data["level_points_limit_grow"]
+		# kateri score je višji
+		level_points_limit += level_points_limit + game_data["level_points_limit_grow"]
 		respawn_wait_time *= game_data["respawn_wait_time_factor"]
 		respawn_strays_count = game_data["respawn_strays_count_grow"]
 		# število spawnanih straysov

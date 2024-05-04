@@ -54,18 +54,15 @@ func _ready():
 		else:
 			Global.player2_camera = self
 		
-		if Global.game_manager.game_settings["camera_fixed"]:
-			zoom = zoom_end
-		else:
+		if Global.game_manager.game_settings["zoom_animation"]:
 			if Global.game_manager.game_settings["eternal_mode"]:
 				zoom_end = Vector2.ONE * 1.5
 				smoothing_speed = 5 # ni ok za XL
 			elif Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
 				pass # enigma zoom seta iz GMja ob setanju limitsov
-				
 			zoom = zoom_start
-#			zoom_end = Vector2.ONE * 2
-
+		else:
+			zoom = zoom_end
 
 	# testhud
 	set_ui_focus()	
@@ -73,7 +70,6 @@ func _ready():
 	
 	
 func _process(delta: float):
-	
 	
 	time += delta
 	
@@ -105,15 +101,13 @@ func _process(delta: float):
 
 func _physics_process(delta: float) -> void:
 	
-	if camera_target and not Global.game_manager.game_settings["camera_fixed"]:
+	if camera_target:# and Global.game_manager.game_settings["zoom_animation"]:
 		position = camera_target.position + cell_align
 	
 	
 func zoom_in(hud_in_out_time: float, players_count: int): # kliče hud
 	
-	if Global.game_manager.game_settings["camera_fixed"]:
-		emit_signal("zoomed_in")
-	else:
+	if Global.game_manager.game_settings["zoom_animation"]:
 		if players_count == 2:
 			zoom_end *= 1.5
 		
@@ -121,15 +115,13 @@ func zoom_in(hud_in_out_time: float, players_count: int): # kliče hud
 		zoom_in_tween.tween_property(self, "zoom", zoom_end, hud_in_out_time)
 		zoom_in_tween.parallel().tween_property(self, "cell_align", cell_align_end, hud_in_out_time)
 		zoom_in_tween.tween_callback(self, "emit_signal", ["zoomed_in"]) # pošlje na hud, ki sproži countdown
+	else:
+		emit_signal("zoomed_in")
 
 	
 func zoom_out(hud_in_out_time: float): # kliče hud
 	
-	if Global.game_manager.game_settings["camera_fixed"]:
-		yield(get_tree().create_timer(hud_in_out_time), "timeout")
-		camera_target = null
-		emit_signal("zoomed_out")
-	else:
+	if Global.game_manager.game_settings["zoom_animation"]:
 		# unset limits
 		camera_target = null
 		position = get_camera_position() # pozicija postane ofsetana pozicija
@@ -146,6 +138,10 @@ func zoom_out(hud_in_out_time: float): # kliče hud
 		zoom_out_tween.tween_property(self, "zoom", zoom_start, hud_in_out_time)
 		zoom_out_tween.parallel().tween_property(self, "position", corrected_position, hud_in_out_time)
 		zoom_out_tween.parallel().tween_callback(self, "emit_signal", ["zoomed_out"]).set_delay(hud_in_out_time/3) # pošlje na GO, ki pokaže meni
+	else:
+		yield(get_tree().create_timer(hud_in_out_time), "timeout")
+		camera_target = null
+		emit_signal("zoomed_out")
 	
 
 func shake_camera(shake_power: float, shake_time: float, shake_decay: float): 

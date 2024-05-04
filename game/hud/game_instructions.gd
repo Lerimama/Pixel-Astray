@@ -50,7 +50,6 @@ func get_instructions_content(current_highscore, current_highscore_owner):
 #		record_label.text = "No highscore yet."
 	# poljubne alineje
 	for label in outline.get_children():
-		print(label.name)
 		if not label == record_label:
 			if current_game_data.has(str(label.name)): # če ima slovar igre to postavko ...
 				label.show()

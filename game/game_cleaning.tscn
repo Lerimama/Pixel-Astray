@@ -2352,7 +2352,7 @@ __meta__ = {
 
 [node name="LevelLimitHolder" type="HBoxContainer" parent="GUI/Hud/Footer/FooterLine"]
 visible = false
-margin_left = 932.0
+margin_left = 916.0
 margin_right = 1218.0
 margin_bottom = 22.0
 size_flags_vertical = 8
@@ -2379,7 +2379,7 @@ __meta__ = {
 
 [node name="Label2" type="Label" parent="GUI/Hud/Footer/FooterLine/LevelLimitHolder"]
 margin_left = 50.0
-margin_right = 286.0
+margin_right = 302.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 text = "%POINTS TO LEVEL UP"

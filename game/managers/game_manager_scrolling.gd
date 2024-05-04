@@ -19,7 +19,6 @@ var in_level_transition: bool = false
 var step_in_progress: bool = false
 var wall_spawn_random_range: int
 
-
 # nikoli ne restiram
 var wall_strays: Array = [] # vsi straysi,ki so celotna tla
 var first_wall_round: bool = true
@@ -379,7 +378,7 @@ func set_new_level():
 		
 	# vsak naslednji level updata nastavitve prejšnjega levela
 	elif current_level > 1:
-		stages_per_level += game_data["stages_per_level"]
+		stages_per_level += stages_per_level + game_data["stages_per_level_grow"]
 		scrolling_pause_time *= game_data["scrolling_pause_time_factor"]
 		stray_to_spawn_round_range[0] *= game_data["round_range_factor_1"]
 		stray_to_spawn_round_range[1] *= game_data["round_range_factor_2"]

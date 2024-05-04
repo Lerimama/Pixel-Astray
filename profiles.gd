@@ -18,19 +18,16 @@ var default_game_settings: Dictionary = {
 	# player on start
 	"player_start_life": 1, # 1 lajf skrije ikone v hudu in določi "lose_life_on_hit"
 	"player_start_energy": 192, # če je 0, je 0 ... instant GO
-	"player_start_color": Color("#ffffff"), # old #141414
-#	"player_start_color": Color("#232323"), # old #141414
+	"player_start_color": Color("#232323"), # old #141414
 	# player in game
 	"player_max_energy": 192, # max energija
 	"player_tired_energy": 20, # pokaže steps warning popup in hud oabrva rdeče
 	"step_time_fast": 0.09, # default hitrost
 	"step_time_slow": 0.15, # minimalna hitrost
 	"step_slowdown_rate": 18, # delež energije, manjši pada hitreje
-	"step_slowdown_mode": true,
-	"lose_life_on_hit": false, # zadetek od igralca ali v steno pomeni izgubo življenja, alternativa je izguba energije
 	# scoring
-	"all_cleaned_points": 100,
-	"color_picked_points": 2, 
+	"all_cleaned_points": 1000,
+	"color_picked_points": 10, 
 	"cell_traveled_points": 0,
 	"skill_used_points": 0,
 	"burst_released_points": 0,
@@ -44,19 +41,21 @@ var default_game_settings: Dictionary = {
 	"touching_stray_energy": 0,
 	# reburst
 	"reburst_count_limit": 0, # 0 je unlimited
-	"reburst_reward_limit": 5, # 0 je brez nagrade
+	"reburst_reward_limit": 0, # 0 je brez nagrade
 	"reburst_reward_points": 100, # kolk jih destroya ... 0 gre po original pravilih moči
-	"reburst_window_time": 0.3, # 0 je neomejen čas
+	"reburst_window_time": 0.2, # 0 je neomejen čas
 	"reburst_hit_power": 1, # kolk jih destroya ... 0 gre po original pravilih moči
 	# game
+	"step_slowdown_mode": true,
+	"lose_life_on_hit": false, # zadetek od igralca ali v steno pomeni izgubo življenja, alternativa je izguba energije
 	"game_instructions_popup": true,
-	"camera_fixed": false,
+	"zoom_animation": true,
 	"gameover_countdown_duration": 5,
 	"show_position_indicators_stray_count": 5,
-	"start_countdown": true,
+	"start_countdown": false,
 	"timer_mode_countdown" : true, # če prišteva in je "game_time_limit" = 0, nima omejitve navzgor
 #	"minimap_on": false,
-	"position_indicators_mode": true, # duel jih nima 
+	"position_indicators_on": true, # duel jih nima 
 	"manage_highscores": true, # obsoleten, ker je vključen v HS type
 	"eternal_mode": false,
 	"spectrum_start_on": false, # a pobrane prižigam al ugašam
@@ -174,8 +173,8 @@ var game_data_scroller: Dictionary = {
 	"Label5" : "Unlimited levels. Unlimited time. Game is unbeatable.",
 	# xtra
 	# "level": 1, # level se nafila ob štartu
-	"stages_per_level": 4,
-	"stages_per_level_grow": 0,
+	"stages_per_level": 50, # vsak level prištejem k trenutnemu limitu levela
+	"stages_per_level_grow": 10, # dodatno prištejem
 	"lines_scroll_per_spawn_round": 1,
 	# pavza med stepanjem
 	"scrolling_pause_time": 0.7, # ne sem bit manjša od stray step hitrosti (0.2)
@@ -186,7 +185,7 @@ var game_data_scroller: Dictionary = {
 	"round_range_factor_2": 1, # množim zgornjo mejo
 	# možnost spawna v rundi
 	"round_spawn_possibility": 20, # procenti
-	"round_spawn_possibility_factor": 2, # množim procente
+	"round_spawn_possibility_factor": 1.2, # množim procente
 }
 var game_data_eternal: Dictionary = { 
 	"game": Games.ETERNAL,
@@ -202,13 +201,13 @@ var game_data_eternal: Dictionary = {
 	"Label2" : "Unlimited levels. Unlimited time. Game is unbeatable.",
 	"Label3" : "Don't worry about energy.",
 	# xtra
-#	"level": 1, # zmerej se začne s prvim
+	# "level": 1, # se neafila kasneje
 	"respawn_wait_time": 1,
 	"respawn_wait_time_factor": 0.7, # množim z vsakim levelom
 	"respawn_strays_count": 1,
 	"respawn_strays_count_grow": 1, # prištejem z vsakim levelom
-	"level_points_limit": 320,
-	"level_points_limit_grow": 320, # prištejem z vsakim levelom
+	"level_points_limit": 320, # vsak level prištejem k trenutnemu limitu levela
+	"level_points_limit_grow": 10, # dodatno prištejem z vsakim levelom
 	"level_strays_spawn_count_grow": 5, # prištejem z vsakim levelom
 }
 var game_data_eternal_xl: Dictionary = { 
@@ -225,14 +224,14 @@ var game_data_eternal_xl: Dictionary = {
 	"Label2" : "Don't worry about energy.",
 	"Label3" : "Unlimited levels. Unlimited time. Game is unbeatable.",
 	# xtra
-#	"level": 1, # zmerej se začne s prvim
+	# "level": 1, # se neafila kasneje
 	"respawn_wait_time": 1,
 	"respawn_wait_time_factor": 0.7, # množim z vsakim levelom
 	"respawn_strays_count": 1,
 	"respawn_strays_count_grow": 1, # prištejem z vsakim levelom
-	"level_points_limit": 10,
-	"level_points_limit_grow": 320, # prištejem z vsakim levelom
-	"level_strays_spawn_count_grow": 50, # prištejem z vsakim levelom
+	"level_points_limit": 320, # vsak level prištejem k trenutnemu limitu levela
+	"level_points_limit_grow": 10, # dodatno prištejem z vsakim levelom
+	"level_strays_spawn_count_grow": 32, # prištejem z vsakim levelom
 }
 var game_data_enigma: Dictionary = {
 	"game": Games.ENIGMA,
@@ -315,9 +314,9 @@ func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.TUTORIAL
-	var debug_game = Games.ENIGMA
+#	var debug_game = Games.ENIGMA
 #	var debug_game = Games.ETERNAL
-#	var debug_game = Games.ETERNAL_XL
+	var debug_game = Games.ETERNAL_XL
 #	var debug_game = Games.CLEANER
 #	var debug_game = Games.CLEANER_DUEL
 #	var debug_game = Games.ERASER_S
@@ -337,90 +336,78 @@ func set_game_data(selected_game) -> void:
 			game_settings["player_start_life"] = 3
 			game_settings["game_instructions_popup"] = false
 			game_settings["timer_mode_countdown"] = false
-			game_settings["start_countdown"] = false
 		Games.ENIGMA: 
 			current_game_data = game_data_enigma
-			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
-			game_settings["lose_life_on_hit"] = true
-			game_settings["timer_mode_countdown"] = false
-			game_settings["spectrum_start_on"] = true
-			game_settings["position_indicators_mode"] = false
 			game_settings["color_picked_points"] = 0
 			game_settings["all_cleaned_points"] = 0
 			game_settings["reburst_window_time"] = 0 # 0 = neomejeno
 			game_settings["all_cleaned_points"] = 1 # vsaj ena točka, če ne se sploh ne pokaže ... izpiše se "SUCCESS!"
 			game_settings["color_picked_points"] = 0
-			game_settings["reburst_reward_points"] = 0
-			game_settings["solutions_mode"] = false
+			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
+			game_settings["lose_life_on_hit"] = true
+			game_settings["timer_mode_countdown"] = false
+			game_settings["spectrum_start_on"] = true
+			game_settings["position_indicators_on"] = false
+			game_settings["start_countdown"] = true
+			game_settings["player_start_color"] = Color.white
 			# debug
 			current_game_data["level"] = 1
-#			game_settings["camera_fixed"] = false
-			game_settings["player_start_color"] = Color.white
-			game_settings["start_countdown"] = false
-			game_settings["game_instructions_popup"] = true
+			game_settings["solutions_mode"] = false
 		Games.ETERNAL: 
 			current_game_data = game_data_eternal
-			game_settings["eternal_mode"] = true
-			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
-			game_settings["lose_life_on_hit"] = true
 			game_settings["player_start_life"] = 3
+			game_settings["all_cleaned_points"] = 100
+			game_settings["on_hit_points_part"] = 1
+			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
+			game_settings["eternal_mode"] = true
+			game_settings["lose_life_on_hit"] = true
 			game_settings["timer_mode_countdown"] = false
 			game_settings["spectrum_start_on"] = true
-			game_settings["position_indicators_mode"] = false
+			game_settings["position_indicators_on"] = false
 			game_settings["turn_stray_to_wall"] = false
-			game_settings["all_cleaned_points"] = 100 # debug
-			game_settings["color_picked_points"] = 10
-			game_settings["on_hit_points_part"] = 1
-			# debug
-			game_settings["start_countdown"] = false
-#			game_settings["game_instructions_popup"] = false
 		Games.ETERNAL_XL: 
 			current_game_data = game_data_eternal_xl
-			game_settings["eternal_mode"] = true
-			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
-			game_settings["lose_life_on_hit"] = true
 			game_settings["player_start_life"] = 3
+			game_settings["all_cleaned_points"] = 100
+			game_settings["on_hit_points_part"] = 1
+			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
+			game_settings["eternal_mode"] = true
+			game_settings["lose_life_on_hit"] = true
 			game_settings["timer_mode_countdown"] = false
 			game_settings["spectrum_start_on"] = true
-			game_settings["position_indicators_mode"] = true
 			game_settings["turn_stray_to_wall"] = true
-			game_settings["all_cleaned_points"] = 100 # debug
-			game_settings["color_picked_points"] = 10
-			game_settings["on_hit_points_part"] = 1
-			# debug
-			game_settings["start_countdown"] = false
-#			game_settings["game_instructions_popup"] = false
 		Games.CLEANER: 
 			current_game_data = game_data_cleaner
 		Games.ERASER_S: 
 			current_game_data = game_data_eraser_S
-			game_settings["timer_mode_countdown"] = false
-			game_settings["all_cleaned_points"] = 0
+			game_settings["all_cleaned_points"] = 1 # vsaj ena točka, če ne se sploh ne pokaže ... izpiše se "SUCCESS!"
 			game_settings["color_picked_points"] = 0
+			game_settings["timer_mode_countdown"] = false
+			game_settings["start_countdown"] = true
 		Games.ERASER_M: 
 			current_game_data = game_data_eraser_M
-			game_settings["timer_mode_countdown"] = false
-			game_settings["all_cleaned_points"] = 0
+			game_settings["all_cleaned_points"] = 1 # vsaj ena točka, če ne se sploh ne pokaže ... izpiše se "SUCCESS!"
 			game_settings["color_picked_points"] = 0
+			game_settings["timer_mode_countdown"] = false
+			game_settings["start_countdown"] = true
 		Games.ERASER_L: 
 			current_game_data = game_data_eraser_L
-			game_settings["timer_mode_countdown"] = false
-			game_settings["all_cleaned_points"] = 1000
+			game_settings["all_cleaned_points"] = 1 # vsaj ena točka, če ne se sploh ne pokaže ... izpiše se "SUCCESS!"
 			game_settings["color_picked_points"] = 0
+			game_settings["timer_mode_countdown"] = false
+			game_settings["start_countdown"] = true
 		Games.CLEANER_DUEL: 
 			current_game_data = game_data_cleaner_duel
 			game_settings["player_start_life"] = 3
 			game_settings["lose_life_on_hit"] = true
-			game_settings["position_indicators_mode"] = false 
-			game_settings["start_countdown"] = false
+			game_settings["position_indicators_on"] = false 
 		Games.SCROLLER:
 			current_game_data = game_data_scroller
 			game_settings["cell_traveled_energy"] = 0
 			game_settings["all_cleaned_points"] = 0
-			game_settings["camera_fixed"] = true
+			game_settings["zoom_animation"] = false
 			game_settings["timer_mode_countdown"] = false
-			game_settings["start_countdown"] = false
-			game_settings["position_indicators_mode"] = false 
-			
+			game_settings["position_indicators_on"] = false 
+			game_settings["player_start_color"] = Color.white
 #			game_settings["game_instructions_popup"] = false
-			current_game_data["level"] = 1
+#			current_game_data["level"] = 1
