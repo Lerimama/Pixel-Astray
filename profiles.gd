@@ -46,7 +46,7 @@ var default_game_settings: Dictionary = {
 	"reburst_count_limit": 0, # 0 je unlimited
 	"reburst_reward_limit": 5, # 0 je brez nagrade
 	"reburst_reward_points": 100, # kolk jih destroya ... 0 gre po original pravilih moči
-	"reburst_window_time": 0.5, # 0 je neomejen čas
+	"reburst_window_time": 0.3, # 0 je neomejen čas
 	"reburst_hit_power": 1, # kolk jih destroya ... 0 gre po original pravilih moči
 	# game
 	"game_instructions_popup": true,
@@ -202,7 +202,7 @@ var game_data_eternal: Dictionary = {
 	"Label2" : "Unlimited levels. Unlimited time. Game is unbeatable.",
 	"Label3" : "Don't worry about energy.",
 	# xtra
-	"level": 1, # zmerej se začne s prvim
+#	"level": 1, # zmerej se začne s prvim
 	"respawn_wait_time": 1,
 	"respawn_wait_time_factor": 0.7, # množim z vsakim levelom
 	"respawn_strays_count": 1,
@@ -225,7 +225,7 @@ var game_data_eternal_xl: Dictionary = {
 	"Label2" : "Don't worry about energy.",
 	"Label3" : "Unlimited levels. Unlimited time. Game is unbeatable.",
 	# xtra
-	"level": 1, # zmerej se začne s prvim
+#	"level": 1, # zmerej se začne s prvim
 	"respawn_wait_time": 1,
 	"respawn_wait_time_factor": 0.7, # množim z vsakim levelom
 	"respawn_strays_count": 1,
