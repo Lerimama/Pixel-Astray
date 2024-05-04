@@ -64,12 +64,6 @@ onready var PixelDizzyParticles: PackedScene = preload("res://game/pixel/pixel_d
 onready var FloatingTag: PackedScene = preload("res://game/hud/floating_tag.tscn")
 
 
-func _unhandled_input(event: InputEvent) -> void:
-
-	if Input.is_action_pressed("no1"):
-		change_stat("debug_player_energy", -10)
-
-
 func _ready() -> void:
 	
 	add_to_group(Global.group_players)
@@ -96,7 +90,6 @@ func _ready() -> void:
 	
 	
 func _physics_process(delta: float) -> void:
-	# print("PLAYER PF")
 	
 	color_poly.modulate = pixel_color # povezava med variablo in barvo mora obstajati non-stop
 	
@@ -1193,6 +1186,8 @@ func change_stat(stat_event: String, stat_value):
 			spawn_floating_tag(- points_to_lose) 
 		# LIFE LOOP ------------------------------------------------------------------------------------------------------------
 		"die": # izguba lajfa, če je energija 0
+			if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
+				return
 			if player_stats["player_energy"] == 0: # energija = 0 samo zaradi srčka ali hita, če je "lose_life_on_hit"
 				player_stats["player_life"] -= 1
 		"stop_heart": # energija je 0
@@ -1206,16 +1201,13 @@ func change_stat(stat_event: String, stat_value):
 			player_stats["player_points"] += game_settings["reburst_reward_points"]
 			yield(get_tree().create_timer(0.7), "timeout")
 			var reward_tag: Node = spawn_floating_tag(game_settings["reburst_reward_points"]) 
-#			reward_tag.modulate = Global.color_green
+			reward_tag.modulate = Global.color_green
 		"touching_stray": # če se dotikaš
 			player_stats["player_energy"] += game_settings["touching_stray_energy"]
 		"all_cleaned": # nagrada je določena v settingsih
 			player_stats["player_points"] += game_settings["all_cleaned_points"]
 			var reward_tag: Node = spawn_floating_tag(game_settings["all_cleaned_points"])
-#			reward_tag.modulate = Global.color_green
-		"debug_player_energy":
-			player_stats["player_energy"] += stat_value
-			player_stats["player_energy"] = clamp(player_stats["player_energy"], 5, game_settings["player_start_energy"])
+			reward_tag.modulate = Global.color_green
 	
 	# klempanje
 	player_stats["player_energy"] = round(player_stats["player_energy"])

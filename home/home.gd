@@ -14,20 +14,6 @@ onready var intro_viewport: Viewport = $IntroViewPortContainer/IntroViewport
 onready var color_spectrum: TextureRect = $Spectrum
 
 
-func _unhandled_input(event: InputEvent) -> void:
-
-#	if Input.is_action_pressed("no2"):
-#		get_tree().call_group(Global.group_strays, "die_to_wall")
-#	if Input.is_action_pressed("no1"):
-#		upgrade_level()
-#	if Input.is_action_pressed("ui_accept"):
-#		Global.data_manager.read_solved_status_from_file(game_data)
-#		print("read")
-	if Input.is_action_pressed("t"):
-		var colors: Array  = Global.get_random_gradient_colors(5)
-		printt (colors.size())
-		printt (colors)
-		
 func _input(event: InputEvent) -> void:
 	
 	if Input.is_action_just_pressed("ui_cancel"):

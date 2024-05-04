@@ -128,10 +128,8 @@ func show_game_summary():
 	if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
 		# focus btn
 		if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
-			print("SUCC")
 			focus_btn = enigma_game_summary.get_node("Menu/NextLevelBtn")
 		else:
-			print("false")
 			focus_btn = enigma_game_summary.get_node("Menu/RestartBtn")
 			
 		enigma_game_summary.get_node("DataContainer/Game").text %= str(Global.game_manager.game_data["game_name"])

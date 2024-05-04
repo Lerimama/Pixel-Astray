@@ -293,7 +293,6 @@ func detect_touch():
 	
 	# posledice dotilka
 	if not touching_objects.empty():
-#		print("touching_objects ", touching_objects.size())
 		for object in touching_objects:
 			if object.is_in_group(Global.group_strays):
 				if not object.current_state == object.States.DYING and not object.current_state == object.States.WALL:

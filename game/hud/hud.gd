@@ -29,7 +29,6 @@ onready var instructions_popup: Control = $Popups/Instructions
 
 # header
 onready var header: Control = $Header # kontrole iz kamere
-#onready var game_timer: HBoxContainer = $Header/GameTimer
 onready var game_timer: HBoxContainer = $Header/GameTimerHunds
 onready var highscore_label: Label = $Header/TopLineR/HighscoreLabel
 onready var music_player: Label = $Header/TopLineR/MusicPlayer
@@ -68,16 +67,6 @@ onready var picked_counter: Label = $Footer/FooterLine/StraysLine/PickedHolder/L
 onready var spectrum: HBoxContainer = $Footer/FooterLine/SpectrumHolder/ColorSpectrum
 onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
 onready var current_gamed_hs_type: int = Global.game_manager.game_data["highscore_type"]
-
-# instructions popup
-onready var title: Label = $Popups/Instructions/GameInstructions/Title
-onready var win_label: Label = $Popups/Instructions/GameInstructions/WinLabel
-onready var instructions_label: Label = $Popups/Instructions/GameInstructions/Outline/Label
-onready var instructions_label_2: Label = $Popups/Instructions/GameInstructions/Outline/Label2
-onready var instructions_label_3: Label = $Popups/Instructions/GameInstructions/Outline/Label3
-onready var instructions_label_4: Label = $Popups/Instructions/GameInstructions/Outline/Label4
-onready var instructions_label_5: Label = $Popups/Instructions/GameInstructions/Outline/Label5
-onready var instructions_label_6: Label = $Popups/Instructions/GameInstructions/Outline/Label6
 
 # debug
 onready var player_life: Label = $Life
@@ -336,14 +325,8 @@ func slide_out(): # kliče GM na game over
 	
 func fade_in_instructions_popup(in_time: float):
 
-	title.text %= "Game name"
-	instructions_label.text %= "power vs kill"
-	instructions_label_2.text %= "kontrole"
-	instructions_label_3.text %= "energija"
-	instructions_label_4.text %= "lajf"
-	instructions_label_5.text %= "kaj šteje"
-	instructions_label_6.text %= "GO pogoji"
-			
+	instructions_popup.get_instructions_content(current_highscore, current_highscore_owner)
+
 	var show_instructions_popup = get_tree().create_tween()
 	show_instructions_popup.tween_callback(instructions_popup, "show")
 	show_instructions_popup.tween_property(instructions_popup, "modulate:a", 1, in_time).from(0.0).set_ease(Tween.EASE_IN)

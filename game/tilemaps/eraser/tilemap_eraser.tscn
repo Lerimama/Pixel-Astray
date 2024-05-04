@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=1]
 [ext_resource path="res://assets/resources/tileset_arena.tres" type="TileSet" id=2]
@@ -6,6 +6,14 @@
 [ext_resource path="res://assets/resources/level_edge_panel.tres" type="StyleBox" id=4]
 [ext_resource path="res://assets/room_highres.png" type="Texture" id=5]
 [ext_resource path="res://assets/shaders/shaders/_zaloga/originali_uporabljanega/pixelate_texture.material" type="Material" id=6]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 32
+border_width_top = 32
+border_width_right = 32
+border_width_bottom = 32
+border_color = Color( 1, 1, 1, 1 )
 
 [node name="EraserTilemap" type="TileMap"]
 tile_set = ExtResource( 2 )
@@ -181,6 +189,16 @@ __meta__ = {
 "_edit_group_": true
 }
 
+[node name="Edge" type="Node2D" parent="."]
+visible = false
+
+[node name="LevelEdge" type="Panel" parent="Edge"]
+margin_left = 32.0
+margin_top = 32.0
+margin_right = 2592.0
+margin_bottom = 1472.0
+custom_styles/panel = ExtResource( 4 )
+
 [node name="_razlaga" type="Node2D" parent="."]
 visible = false
 modulate = Color( 1, 1, 1, 0.780392 )
@@ -238,12 +256,67 @@ text = "Zoomout notranje meja ekrana pred nalaganje prikazom huda"
 position = Vector2( 592, 456 )
 polygon = PoolVector2Array( -672, -352, -672, 1088, 1824, 1088, 1824, 1056, -640, 1056, -640, -320, 1856, -320, 1856, 1088, 1888, 1088, 1887, -352 )
 
-[node name="Edge" type="Node2D" parent="."]
+[node name="_zoom_razlaga" type="Node2D" parent="."]
 visible = false
+modulate = Color( 1, 1, 1, 0.780392 )
+__meta__ = {
+"_edit_group_": true
+}
 
-[node name="LevelEdge" type="Panel" parent="Edge"]
+[node name="dva" type="Panel" parent="_zoom_razlaga"]
+modulate = Color( 0.294118, 0.623529, 1, 1 )
 margin_left = 32.0
 margin_top = 32.0
 margin_right = 2592.0
-margin_bottom = 1472.0
-custom_styles/panel = ExtResource( 4 )
+margin_bottom = 1312.0
+custom_styles/panel = SubResource( 1 )
+
+[node name="label" type="Label" parent="_zoom_razlaga/dva"]
+margin_left = 352.0
+margin_top = 64.0
+margin_right = 452.0
+margin_bottom = 86.0
+theme = ExtResource( 1 )
+text = "zoom 1.5"
+
+[node name="Polygon2D" type="Polygon2D" parent="_zoom_razlaga/dva"]
+position = Vector2( 640, 320 )
+polygon = PoolVector2Array( 607, 288, 607, 320, 639, 320, 639, 288 )
+
+[node name="enacelapet" type="Panel" parent="_zoom_razlaga"]
+modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
+margin_left = 352.0
+margin_top = 192.0
+margin_right = 2272.0
+margin_bottom = 1152.0
+custom_styles/panel = SubResource( 1 )
+
+[node name="label" type="Label" parent="_zoom_razlaga/enacelapet"]
+margin_left = 208.0
+margin_top = 64.0
+margin_right = 308.0
+margin_bottom = 86.0
+theme = ExtResource( 1 )
+text = "zoom 1.5"
+
+[node name="Polygon2D2" type="Polygon2D" parent="_zoom_razlaga/enacelapet"]
+position = Vector2( 320, 160 )
+polygon = PoolVector2Array( 607, 288, 607, 320, 639, 320, 639, 288 )
+
+[node name="ena" type="Panel" parent="_zoom_razlaga"]
+margin_left = 672.0
+margin_top = 352.0
+margin_right = 1952.0
+margin_bottom = 992.0
+custom_styles/panel = SubResource( 1 )
+
+[node name="label" type="Label" parent="_zoom_razlaga/ena"]
+margin_left = 80.0
+margin_top = 64.0
+margin_right = 160.0
+margin_bottom = 86.0
+theme = ExtResource( 1 )
+text = "zoom 1"
+
+[node name="Polygon2D3" type="Polygon2D" parent="_zoom_razlaga/ena"]
+polygon = PoolVector2Array( 607, 288, 607, 320, 639, 320, 639, 288 )

@@ -24,8 +24,6 @@ func _ready() -> void:
 	add_to_group(Global.group_tilemap) # za scrolling in patterns
 	Global.current_tilemap = self
 
-	$SolutionLine.hide()
-
 	# set_color_theme
 	get_tileset().tile_set_modulate(wall_tile_id, Global.color_wall)
 	get_tileset().tile_set_modulate(edge_tile_id, Global.color_edge)

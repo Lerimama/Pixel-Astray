@@ -12,13 +12,9 @@ func _ready() -> void:
 	Global.main_node = self
 	
 #	home_in_intro()
-	home_in_no_intro()
-#	game_in()
+#	home_in_no_intro()
+	game_in()
 
-#func _process(delta: float) -> void:
-#	print("GUI INPUT ", get_viewport().gui_disable_input)
-#	print("FOCUS ALLOW ", Global.allow_focus_sfx)
-	
 	
 func home_in_intro():
 	

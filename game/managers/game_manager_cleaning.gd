@@ -2,7 +2,6 @@ extends GameManager
 
 var level_upgrade_in_progress: bool = false # ustavim klicanje naslednjih levelov
 var current_enigma_name: String = "Null"# ime levele ... lahko številka
-var universal_time: float = 0 # za merjenje trajanja raznih stvari ... debug
 
 var first_respawn_time: float = 5
 var respawn_wait_time: float
@@ -18,11 +17,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_tree().call_group(Global.group_strays, "die_to_wall")
 	if Input.is_action_pressed("no1"):
 		upgrade_level()
-	if Input.is_action_pressed("ui_accept"):
-		Global.data_manager.read_solved_status_from_file(game_data)
-		print("read")
-	if Input.is_action_pressed("t"):
-		var colors: Array  = Global.get_random_gradient_colors(5)
 	
 	
 func _ready() -> void:
@@ -42,10 +36,7 @@ func _ready() -> void:
 	
 	if game_data["game"] == Profiles.Games.ENIGMA:
 		var current_level_settings: Dictionary
-#		if Profiles.game_data_enigma.has("level"):
 		current_level_settings = Profiles.enigma_level_setting[game_data["level"]]
-#		else: # debug
-#			current_level_settings = Profiles.enigma_level_setting[Profiles.debug_game_data["level"]]
 		for setting in current_level_settings:
 			game_data[setting] = current_level_settings[setting]
 		
@@ -276,12 +267,14 @@ func turn_random_strays_to_wall(): # za eternal
 		random_stray.die_to_wall()
 		return random_stray.stray_color
 	else: # error
-		print("no color to turn to wall")
+		print("Error - no color to turn to wall")
 		return Color.white
 	
 	
 # LEVELS --------------------------------------------------------------------------------------------	
 
+
+var universal_time: float = 0 # za merjenje trajanja raznih stvari ... debug
 
 func upgrade_level(): # za eternal
 	
@@ -307,8 +300,8 @@ func upgrade_level(): # za eternal
 	all_strays_died_alowed = true
 	yield(self, "all_strays_died") # ko so vsi iz igre grem naprej
 	
-	var curr_time = universal_time
-	printt("upgrade start", curr_time)
+	#	var curr_time = universal_time
+	#	printt("upgrade start", curr_time)
 	
 	var signaling_player: KinematicBody2D
 	for player in get_tree().get_nodes_in_group(Global.group_players):
@@ -322,17 +315,13 @@ func upgrade_level(): # za eternal
 	set_strays() 
 	get_tree().call_group(Global.group_players, "set_physics_process", true)
 	respawn_timer.start(first_respawn_time)
-	
-	printt("upgrade time from cleaned", universal_time - curr_time)
+	#	printt("upgrade time from cleaned", universal_time - curr_time)
 	
 
 func set_new_level(): 
 	# samo za eternal
 	
 	if game_settings["eternal_mode"]:
-#		if current_level > 0:
-#		game_data["level"] += 1
-#		game_data["level"] = current_level
 		level_points_limit += game_data["level_points_limit_grow"]
 		respawn_wait_time *= game_data["respawn_wait_time_factor"]
 		respawn_strays_count = game_data["respawn_strays_count_grow"]

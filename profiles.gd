@@ -55,7 +55,7 @@ var default_game_settings: Dictionary = {
 	"show_position_indicators_stray_count": 5,
 	"start_countdown": true,
 	"timer_mode_countdown" : true, # če prišteva in je "game_time_limit" = 0, nima omejitve navzgor
-	"minimap_on": false,
+#	"minimap_on": false,
 	"position_indicators_mode": true, # duel jih nima 
 	"manage_highscores": true, # obsoleten, ker je vključen v HS type
 	"eternal_mode": false,
@@ -64,9 +64,6 @@ var default_game_settings: Dictionary = {
 	"full_power_mode": false, # hitrost je tudi max_cock_coiunt > vedno destroja ves bulk 
 	"solutions_mode": false # enigma reštve
 }
-
-
-# GAMES -----------------------------------------------------------------------------------
 
 
 enum Games {
@@ -90,7 +87,7 @@ var game_data_tutorial: Dictionary = {
 	"game": Games.TUTORIAL,
 	"highscore_type": HighscoreTypes.NO_HS,
 	"game_name": "Tutorial",
-	"game_scene_path": "res://game/game_class.tscn",
+	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_tutorial.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 10,
@@ -103,6 +100,10 @@ var game_data_eraser_S: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_S.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 50,
+	# instructions text
+	"description" : "Collect all available colors.",
+	"Label": "Game is over when you lose all energy.",
+	"Label2" : "Time is limited.",
 }
 var game_data_eraser_M: Dictionary = {
 	"game": Games.ERASER_M,
@@ -112,6 +113,10 @@ var game_data_eraser_M: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_M.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 140, 
+	# instructions text
+	"description" : "Collect all available colors.",
+	"Label": "Game is over when you lose all energy.",
+	"Label2" : "Time is limited.",
 }
 var game_data_eraser_L: Dictionary = {
 	"game": Games.ERASER_L,
@@ -121,6 +126,10 @@ var game_data_eraser_L: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_L.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 320, 
+	# instructions text
+	"description" : "Collect all available colors.",
+	"Label": "Game is over when you lose all energy.",
+	"Label2" : "Time is limited.",
 }
 var game_data_cleaner: Dictionary = {
 	"game": Games.CLEANER,
@@ -130,15 +139,23 @@ var game_data_cleaner: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner.tscn",
 	"game_time_limit": 300,
 	"strays_start_count": 320, 
+	# instructions text
+	"description" : "Collect colors to earn points.",
+	"Label": "Game is over when you lose all energy.",
+	"Label2" : "Time is limited.",
 }
 var game_data_cleaner_duel: Dictionary = {
 	"game": Games.CLEANER_DUEL,
 	"highscore_type": HighscoreTypes.NO_HS,
-	"game_name": "Cleaner Duel",
+	"game_name": "The Duel",
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_duel.tscn",
 	"game_time_limit": 60,
 	"strays_start_count": 1000, 
+	# instructions text
+	"description" : "Surviving player or player with higher score wins.",
+	"Label": "Game is over when one of the players loses all life.",
+	"Label2" : "Time is limited.",
 }
 var game_data_scroller: Dictionary = { 
 	"game": Games.SCROLLER,
@@ -148,8 +165,15 @@ var game_data_scroller: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/tilemap_scrolling.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 1, # samo spawn prve runde
+	# instructions text
+	"description" : "Collect colors to progress through levels.",
+	"Label": "Game is over when first wall column reaches the top or you have no room to move.",
+	"Label2" : "Don't worry about energy.",
+	"Label3" : "Skills are not available.",
+	"Label4" : "Burst always collects all colors in stack.",
+	"Label5" : "Unlimited levels. Unlimited time. Game is unbeatable.",
 	# xtra
-#	"level": 1, # level se nafila ob štartu
+	# "level": 1, # level se nafila ob štartu
 	"stages_per_level": 4,
 	"stages_per_level_grow": 0,
 	"lines_scroll_per_spawn_round": 1,
@@ -172,6 +196,11 @@ var game_data_eternal: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/tilemap_eternal.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 50,
+	# instructions text
+	"description" : "Collect points to progress through levels.",
+	"Label": "Game is over when you lose all life or the screen is full of colors.",
+	"Label2" : "Unlimited levels. Unlimited time. Game is unbeatable.",
+	"Label3" : "Don't worry about energy.",
 	# xtra
 	"level": 1, # zmerej se začne s prvim
 	"respawn_wait_time": 1,
@@ -190,6 +219,11 @@ var game_data_eternal_xl: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/tilemap_eternal_xl.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 320,
+	# instructions text
+	"description" : "Collect points to progress through levels.",
+	"Label": "Game is over when you lose all life or the screen is full of colors.",
+	"Label2" : "Don't worry about energy.",
+	"Label3" : "Unlimited levels. Unlimited time. Game is unbeatable.",
 	# xtra
 	"level": 1, # zmerej se začne s prvim
 	"respawn_wait_time": 1,
@@ -207,9 +241,14 @@ var game_data_enigma: Dictionary = {
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"game_time_limit": 0,
 	"strays_start_count": 100, 
+	# instructions text
+	"description" : "Collect all available colors with a single burst move.",
+	"Label": "Burst move includes initial burst and all rebursts that follow.",
+	"Label2" : "Don't worry about energy.",
+	"Label3" : "Burst always collects all colors in a stack. Reburst collects only one.",
 	# nafila iz level settingsov
-	#	"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_00.tscn", # samo za prvo stopnjo
-	#	"level": 2, # tudi ob kliku na gumb
+	# "tilemap_path": 
+	# "level": 
 }
 var enigma_level_setting: Dictionary = { 
 	1: { # ključ je tudi številka levela
@@ -263,35 +302,28 @@ var enigma_level_setting: Dictionary = {
 	},
 }
 
+
 # ON GAME START -----------------------------------------------------------------------------------
 
 
-var game_settings: Dictionary = {}
+var game_settings: Dictionary # = {}
 var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
-var custom_color_theme: Dictionary = {
-	1: Color.black,
-	2: Color.gray,
-	3: Color.white,
-}
 var use_custom_color_theme: bool = false
-
-#var default_color_scheme: Dictionary = game_color_schemes["default_color_scheme"]
-#var current_color_scheme: Dictionary = game_color_schemes["default_color_scheme"]
 
 
 func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
+#	var debug_game = Games.TUTORIAL
 	var debug_game = Games.ENIGMA
-	
 #	var debug_game = Games.ETERNAL
 #	var debug_game = Games.ETERNAL_XL
 #	var debug_game = Games.CLEANER
-#	var debug_game = Games.ERASER_S
 #	var debug_game = Games.CLEANER_DUEL
+#	var debug_game = Games.ERASER_S
+#	var debug_game = Games.ERASER_M
+#	var debug_game = Games.ERASER_L
 #	var debug_game = Games.SCROLLER
-#	var debug_game = Games.RIDDLER_M
-#	var debug_game = Games.TUTORIAL
 	set_game_data(debug_game)
 	
 	
@@ -300,6 +332,12 @@ func set_game_data(selected_game) -> void:
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
 	match selected_game:
+		Games.TUTORIAL: 
+			current_game_data = game_data_tutorial
+			game_settings["player_start_life"] = 3
+			game_settings["game_instructions_popup"] = false
+			game_settings["timer_mode_countdown"] = false
+			game_settings["start_countdown"] = false
 		Games.ENIGMA: 
 			current_game_data = game_data_enigma
 			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
@@ -315,11 +353,11 @@ func set_game_data(selected_game) -> void:
 			game_settings["reburst_reward_points"] = 0
 			game_settings["solutions_mode"] = false
 			# debug
-			current_game_data["level"] = 9
+			current_game_data["level"] = 1
 #			game_settings["camera_fixed"] = false
 			game_settings["player_start_color"] = Color.white
 			game_settings["start_countdown"] = false
-			game_settings["game_instructions_popup"] = false
+			game_settings["game_instructions_popup"] = true
 		Games.ETERNAL: 
 			current_game_data = game_data_eternal
 			game_settings["eternal_mode"] = true
@@ -335,7 +373,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["on_hit_points_part"] = 1
 			# debug
 			game_settings["start_countdown"] = false
-			game_settings["game_instructions_popup"] = false
+#			game_settings["game_instructions_popup"] = false
 		Games.ETERNAL_XL: 
 			current_game_data = game_data_eternal_xl
 			game_settings["eternal_mode"] = true
@@ -351,13 +389,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["on_hit_points_part"] = 1
 			# debug
 			game_settings["start_countdown"] = false
-			game_settings["game_instructions_popup"] = false
-		Games.TUTORIAL: 
-			current_game_data = game_data_tutorial
-			game_settings["player_start_life"] = 3
-			game_settings["game_instructions_popup"] = false
-			game_settings["timer_mode_countdown"] = false
-			game_settings["start_countdown"] = false
+#			game_settings["game_instructions_popup"] = false
 		Games.CLEANER: 
 			current_game_data = game_data_cleaner
 		Games.ERASER_S: 
@@ -390,5 +422,5 @@ func set_game_data(selected_game) -> void:
 			game_settings["start_countdown"] = false
 			game_settings["position_indicators_mode"] = false 
 			
-			game_settings["game_instructions_popup"] = false
+#			game_settings["game_instructions_popup"] = false
 			current_game_data["level"] = 1

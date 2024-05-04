@@ -1,4 +1,4 @@
-[gd_scene load_steps=125 format=2]
+[gd_scene load_steps=121 format=2]
 
 [ext_resource path="res://assets/theme/fonts/16bfZX.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=2]
@@ -12,12 +12,10 @@
 [ext_resource path="res://game/gui/pause_menu.gd" type="Script" id=10]
 [ext_resource path="res://assets/atlas_controls.png" type="Texture" id=11]
 [ext_resource path="res://game/hud/hud_color_indicator.tscn" type="PackedScene" id=12]
-[ext_resource path="res://game/hud/hud_game_timer.gd" type="Script" id=13]
-[ext_resource path="res://game/minimap_camera.gd" type="Script" id=14]
+[ext_resource path="res://game/hud/game_instructions.gd" type="Script" id=13]
 [ext_resource path="res://game/gui/highscore_table.gd" type="Script" id=15]
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=16]
 [ext_resource path="res://game/hud/music_player.gd" type="Script" id=17]
-[ext_resource path="res://assets/theme/color_theme_spectrum.png" type="Texture" id=18]
 [ext_resource path="res://game/gui/game_over_cleaning.gd" type="Script" id=19]
 [ext_resource path="res://game/managers/game_manager_cleaning.gd" type="Script" id=20]
 [ext_resource path="res://game/hud/hud_cleaning.gd" type="Script" id=21]
@@ -25,13 +23,6 @@
 [ext_resource path="res://game/arena.tscn" type="PackedScene" id=23]
 [ext_resource path="res://assets/theme/font_big.tres" type="DynamicFont" id=24]
 [ext_resource path="res://game/hud/hud_game_timer_hunds.tscn" type="PackedScene" id=25]
-
-[sub_resource type="Gradient" id=451]
-colors = PoolColorArray( 1, 1, 1, 1, 0.390625, 0.390625, 0.390625, 1 )
-
-[sub_resource type="GradientTexture" id=226]
-gradient = SubResource( 451 )
-width = 700
 
 [sub_resource type="StyleBoxLine" id=228]
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
@@ -540,6 +531,29 @@ region = Rect2( 64, 32, 16, 16 )
 atlas = ExtResource( 7 )
 region = Rect2( 64, 0, 16, 16 )
 
+[sub_resource type="AtlasTexture" id=148]
+atlas = ExtResource( 7 )
+region = Rect2( 2, 84, 14, 12 )
+margin = Rect2( 0, 3, 0, 0 )
+
+[sub_resource type="AtlasTexture" id=146]
+atlas = ExtResource( 7 )
+region = Rect2( 18, 84, 14, 12 )
+margin = Rect2( 0, 3, 0, 0 )
+
+[sub_resource type="AtlasTexture" id=128]
+atlas = ExtResource( 7 )
+region = Rect2( 16, 16, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=127]
+atlas = ExtResource( 7 )
+region = Rect2( 16, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=450]
+atlas = ExtResource( 7 )
+region = Rect2( 40, 80, 12, 14 )
+margin = Rect2( 2, 0, 0, 0 )
+
 [sub_resource type="StyleBoxEmpty" id=287]
 
 [sub_resource type="StreamTexture" id=175]
@@ -691,29 +705,6 @@ OptionButton/styles/pressed = SubResource( 301 )
 Panel/styles/panel = SubResource( 302 )
 VSeparator/styles/separator = SubResource( 303 )
 
-[sub_resource type="AtlasTexture" id=148]
-atlas = ExtResource( 7 )
-region = Rect2( 2, 84, 14, 12 )
-margin = Rect2( 0, 3, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=146]
-atlas = ExtResource( 7 )
-region = Rect2( 18, 84, 14, 12 )
-margin = Rect2( 0, 3, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=128]
-atlas = ExtResource( 7 )
-region = Rect2( 16, 16, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=127]
-atlas = ExtResource( 7 )
-region = Rect2( 16, 0, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=450]
-atlas = ExtResource( 7 )
-region = Rect2( 40, 80, 12, 14 )
-margin = Rect2( 2, 0, 0, 0 )
-
 [sub_resource type="AtlasTexture" id=192]
 atlas = ExtResource( 11 )
 region = Rect2( 0, 98, 70, 46 )
@@ -802,23 +793,6 @@ __meta__ = {
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource( 20 )
 
-[node name="Spectrum" type="TextureRect" parent="GameManager"]
-visible = false
-margin_top = -24.0
-margin_right = 512.0
-margin_bottom = -8.0
-texture = ExtResource( 18 )
-expand = true
-
-[node name="SpectrumGradient" type="TextureRect" parent="GameManager"]
-visible = false
-margin_top = -48.0
-margin_right = 512.0
-margin_bottom = -32.0
-size_flags_horizontal = 0
-texture = SubResource( 226 )
-expand = true
-
 [node name="GameView" type="VBoxContainer" parent="."]
 margin_right = 1280.0
 margin_bottom = 720.0
@@ -888,27 +862,6 @@ margin_right = 1280.0
 margin_bottom = 720.0
 grow_horizontal = 0
 rect_min_size = Vector2( 1280, 0 )
-
-[node name="Minimap" type="ViewportContainer" parent="."]
-visible = false
-modulate = Color( 1, 1, 1, 0.784314 )
-margin_left = 1088.0
-margin_top = 72.0
-margin_right = 1248.0
-margin_bottom = 172.0
-size_flags_horizontal = 3
-
-[node name="MinimapViewport" type="Viewport" parent="Minimap"]
-size = Vector2( 160, 94 )
-transparent_bg = true
-handle_input_locally = false
-render_target_update_mode = 0
-
-[node name="MinimapCam" type="Camera2D" parent="Minimap/MinimapViewport"]
-current = true
-zoom = Vector2( 12.2, 12.2 )
-limit_smoothed = true
-script = ExtResource( 14 )
 
 [node name="GUI" type="Control" parent="."]
 margin_right = 1280.0
@@ -1033,6 +986,7 @@ align = 1
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 13 )
 
 [node name="Background" type="ColorRect" parent="GUI/Hud/Popups/Instructions"]
 anchor_right = 1.0
@@ -1047,9 +1001,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -448.0
-margin_top = -240.0
+margin_top = -264.0
 margin_right = 448.0
-margin_bottom = 16.0
+margin_bottom = 72.0
 
 [node name="Title" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
@@ -1060,84 +1014,99 @@ margin_top = 6.0
 margin_right = 304.0
 margin_bottom = 38.0
 custom_fonts/font = ExtResource( 3 )
-text = "Game title"
+text = "%Game title"
 align = 1
+uppercase = true
 
-[node name="WinLabel" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions"]
+[node name="Description" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
 anchor_right = 1.0
-margin_top = 54.0
-margin_bottom = 76.0
-text = "Win"
+margin_top = 70.0
+margin_bottom = 92.0
+text = "%Win reasons"
 align = 1
 
 [node name="Outline" type="VBoxContainer" parent="GUI/Hud/Popups/Instructions/GameInstructions"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -448.0
-margin_top = 101.0
+margin_top = 104.0
 margin_right = 449.0
-margin_bottom = 288.0
+margin_bottom = 328.0
 grow_horizontal = 2
-grow_vertical = 2
-custom_constants/separation = 10
+custom_constants/separation = 14
 
 [node name="Label" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
 margin_right = 897.0
 margin_bottom = 18.0
 custom_fonts/font = ExtResource( 4 )
-text = "Game over conditions"
+text = "%Label"
 align = 1
 autowrap = true
 
 [node name="Label2" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 28.0
+margin_top = 32.0
 margin_right = 897.0
-margin_bottom = 46.0
+margin_bottom = 50.0
 custom_fonts/font = ExtResource( 4 )
-text = "Energy and speed"
+text = "%Label"
 align = 1
 autowrap = true
 
 [node name="Label3" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 56.0
+margin_top = 64.0
 margin_right = 897.0
-margin_bottom = 74.0
+margin_bottom = 82.0
 custom_fonts/font = ExtResource( 4 )
-text = "Burst"
+text = "%Label"
 align = 1
 autowrap = true
 
 [node name="Label4" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 84.0
+margin_top = 96.0
 margin_right = 897.0
-margin_bottom = 102.0
+margin_bottom = 114.0
 custom_fonts/font = ExtResource( 4 )
-text = "Skills"
+text = "%Label"
 align = 1
 autowrap = true
 
 [node name="Label5" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 112.0
+margin_top = 128.0
 margin_right = 897.0
-margin_bottom = 130.0
+margin_bottom = 146.0
 custom_fonts/font = ExtResource( 4 )
-text = "Time"
+text = "%Label"
 align = 1
 autowrap = true
 
-[node name="Label6" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
+[node name="RecordLabel" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 140.0
+margin_top = 160.0
 margin_right = 897.0
-margin_bottom = 158.0
+margin_bottom = 228.0
+rect_min_size = Vector2( 0, 68 )
+text = "% 000000"
+align = 1
+valign = 2
+
+[node name="RecordTitle" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline/RecordLabel"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -448.5
+margin_top = -44.0
+margin_right = 448.5
+margin_bottom = -26.0
 custom_fonts/font = ExtResource( 4 )
-text = "Highscore"
+text = "Current record"
 align = 1
 autowrap = true
 
@@ -1147,9 +1116,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -320.0
-margin_top = 64.0
+margin_top = 96.0
 margin_right = 320.0
-margin_bottom = 192.0
+margin_bottom = 224.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -1259,9 +1228,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -576.0
-margin_top = 56.0
+margin_top = 88.0
 margin_right = 576.0
-margin_bottom = 216.0
+margin_bottom = 248.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -1468,9 +1437,9 @@ default_color = Color( 1, 1, 1, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -73.0
-margin_top = 616.0
+margin_top = 640.0
 margin_right = 103.0
-margin_bottom = 638.0
+margin_bottom = 662.0
 custom_constants/separation = 8
 __meta__ = {
 "_edit_group_": true
@@ -1925,53 +1894,6 @@ margin_left = 588.0
 margin_top = -3.0
 margin_right = 692.0
 margin_bottom = 29.0
-
-[node name="GameTimer" type="HBoxContainer" parent="GUI/Hud/Header"]
-visible = false
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -38.0
-margin_top = 7.0
-margin_right = 40.0
-margin_bottom = 29.0
-grow_horizontal = 2
-theme = SubResource( 194 )
-script = ExtResource( 13 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Mins" type="Label" parent="GUI/Hud/Header/GameTimer"]
-margin_right = 32.0
-margin_bottom = 22.0
-grow_horizontal = 0
-rect_min_size = Vector2( 32, 0 )
-size_flags_horizontal = 3
-size_flags_vertical = 8
-text = "00"
-align = 2
-valign = 2
-
-[node name="Dots" type="Label" parent="GUI/Hud/Header/GameTimer"]
-margin_left = 36.0
-margin_right = 42.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 6, 0 )
-size_flags_vertical = 8
-text = ":"
-align = 1
-valign = 2
-
-[node name="Secs" type="Label" parent="GUI/Hud/Header/GameTimer"]
-margin_left = 46.0
-margin_right = 78.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 32, 0 )
-size_flags_vertical = 8
-text = "00"
-valign = 2
-
-[node name="Timer" type="Timer" parent="GUI/Hud/Header/GameTimer"]
 
 [node name="TopLineR" type="HBoxContainer" parent="GUI/Hud/Header"]
 anchor_left = 1.0
@@ -4449,8 +4371,6 @@ one_shot = true
 
 [connection signal="animation_finished" from="GUI/Hud/Popups/GameCountdown/AnimationPlayer" to="GUI/Hud/Popups/GameCountdown" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="gametime_is_up" from="GUI/Hud/Header/GameTimerHunds" to="GUI/Hud" method="_on_GameTimer_gametime_is_up"]
-[connection signal="gametime_is_up" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_gametime_is_up"]
-[connection signal="timeout" from="GUI/Hud/Header/GameTimer/Timer" to="GUI/Hud/Header/GameTimer" method="_on_Timer_timeout"]
 [connection signal="toggled" from="GUI/PauseMenu/Settings/GameMusicBtn" to="GUI/PauseMenu" method="_on_GameMusicBtn_toggled"]
 [connection signal="value_changed" from="GUI/PauseMenu/Settings/GameMusicSlider" to="GUI/PauseMenu" method="_on_GameMusicSlider_value_changed"]
 [connection signal="toggled" from="GUI/PauseMenu/Settings/GameSfxBtn" to="GUI/PauseMenu" method="_on_GameSfxBtn_toggled"]

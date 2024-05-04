@@ -265,7 +265,7 @@ func connect_to_button(button):
 
 
 func _on_button_pressed(button: BaseButton):
-#	print("PRESSED ", button)
+	#	print("PRESSED ", button)
 	if button.name == "BackBtn":
 		Global.sound_manager.play_gui_sfx("btn_confirm")
 	elif button.name == "QuitBtn" or button.name == "CancelBtn":

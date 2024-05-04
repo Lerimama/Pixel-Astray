@@ -9,7 +9,7 @@
 [ext_resource path="res://assets/tiles/tile_player_2.png" type="Texture" id=7]
 [ext_resource path="res://assets/tiles/tile_invisible_wall.png" type="Texture" id=8]
 [ext_resource path="res://assets/tiles/tile_wall_with_edge.png" type="Texture" id=9]
-[ext_resource path="res://assets/tiles/min_tile.png" type="Texture" id=10]
+[ext_resource path="res://assets/tiles/tile_mini_8x8.png" type="Texture" id=10]
 
 [sub_resource type="OccluderPolygon2D" id=113]
 polygon = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )

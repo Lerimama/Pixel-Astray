@@ -196,10 +196,6 @@ func read_highscores_from_file(read_game_data: Dictionary):
 
 
 func write_solved_status_to_file(write_game_data: Dictionary): # kadar je klican, pomeni, da je uganka rešena
-#	print(Profiles.Games.keys()[Profiles.Games.write_game_data["game"]])
-#	print(write_game_data["game"], Profiles.Games.keys()[write_game_data["game"]])
-#	var write_game: String = Profiles.Games.keys()[write_game_data["game"]]
-#	print(write_game)
 
 	# load highscore
 	var write_game_name: String = Profiles.Games.keys()[write_game_data["game"]]

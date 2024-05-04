@@ -448,25 +448,10 @@ func check_top_for_gameover():
 	
 	# GO na prvi stopec full	
 	if current_strays_on_top.size() < spawn_line_cells_count:
-	# if current_strays_on_top.size() < 40:
 		for stray_on_top in current_strays_on_top:
 			if wall_strays.has(stray_on_top):
-				print("GAME OVER - TOP")
 				game_over(GameoverReason.TIME)
 				return # da ne falsam game filled
-	
-	# GO na top full
-	# štejejo samo spremenjeni v wall
-	# for stray in current_strays_on_top:
-	# 	if wall_strays.has(stray):
-	# 		wall_strays_on_top_count += 1
-			
-	# if wall_strays_on_top_count >= spawn_line_cells_count:
-	# 	print("GAME OVER - FILLED ", wall_strays_on_top_count)
-	# 	game_over(GameoverReason.TIME)
-
-
-# DOTIK STENE --------------------------------------------------------------------------------------------------------------------
 
 
 func check_stray_wall_collisions(current_stray: KinematicBody2D, current_collider: Node): # preverjanje, ko ne iščeš polnosti tal
@@ -479,90 +464,3 @@ func check_stray_wall_collisions(current_stray: KinematicBody2D, current_collide
 	elif current_collider.is_in_group(Global.group_strays) and wall_strays.has(current_collider):
 		wall_strays.append(current_stray)
 		current_stray.turn_to_wall(1)
-	
-
-# POVEZANOST NA STENI --------------------------------------------------------------------------------------------------------------------
-
-
-func check_stray_all_wall_collisions(current_stray: KinematicBody2D, current_collider: Node): # preverjanje, ko iščeš polna tla
-	print("napačna funkcija: ", "check_stray_all_wall_collisions")
-	# VER ko preverjam filanje cele stene	
-	
-#	# prva runda ... kolajder tilemap (tla)
-#	if current_collider.is_in_group(Global.group_tilemap):
-#		# current_stray.color_poly.color = Color.red
-#		strays_on_wall_edge.append(current_stray)
-#		all_strays_on_wall.append(current_stray)
-#	# druge runde ... kolajder stray in je rob tal
-#	elif current_collider.is_in_group(Global.group_strays) and wall_edge_strays.has(current_collider):
-#		# current_stray.color_poly.color = Color.yellow
-#		strays_on_wall_edge.append(current_stray)
-#		all_strays_on_wall.append(current_stray)
-#	# druge runde ... kolajder stray je del bodočih tal ... stray postane bodoča tla ... se umiri
-#	elif current_collider.is_in_group(Global.group_strays) and all_strays_on_wall.has(current_collider):
-#		all_strays_on_wall.append(current_stray)
-
-
-func check_strays_on_wall_edge_connection():
-	print("napačna funkcija: ", "check_strays_on_wall_edge_connection")
-	
-#	# VER 2 ... glede na povezanost podna
-#
-#	if strays_on_wall_edge.size() == 40:
-#		if first_wall_round: # prva runda
-#			first_wall_round = false
-#			turn_all_on_wall_to_wall()
-#		else: # druge runde preverjam še za povezanost
-#			# preverim povezanost straysov na robu
-#			connected_strays_on_wall_edge.clear() # spucam, ker vedno znova pregledam vse na tleh
-#			for stray in strays_on_wall_edge:
-##				if not stray.current_state == stray.States.DYING: # eror varovalka
-#				if stray: # eror varovalka
-#					var stray_neighbors: Array = stray.get_all_neighbors_in_directions([Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]) # nepomembna smer
-#					if stray_neighbors.size() == 4: # sosedi so straysi ali tilemap
-#						# stray.color_poly.color = Color.green
-#						connected_strays_on_wall_edge.append(stray)
-#			if connected_strays_on_wall_edge.size() >= 40: # vse so povezane
-#				turn_all_on_wall_to_wall()
-	
-
-func turn_all_on_wall_to_wall():
-	print("napačna funkcija: ", "turn_all_on_wall_to_wall")
-	
-#	get_tree().call_group(Global.group_players, "set_physics_process", false)
-#
-#	strays_on_wall_edge_connected = true
-#
-#	Global.hud.game_timer.pause_timer()
-#	Global.sound_manager.play_sfx("thunder_strike")
-#
-#	# resetiram na začetku funkcije
-#	strays_on_wall_edge.clear()
-#	#resetiram stare na robu tal ... nove robne strayse razbiram iz bodočih talnih straysov
-#	wall_edge_strays.clear()
-#	# vse ki so trenutno na tleh preverjam, da ugotovim status v naslednji rundi
-#	for stray in all_strays_on_wall:
-#		# cela tla
-#		var stray_index = all_strays_on_wall.find(stray)
-#		wall_strays.append(stray)
-#		stray.turn_to_wall(stray_index)
-#		# rob tal
-#		var stray_neighbors: Array = stray.get_all_neighbors_in_directions([Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]) # nepomembna smer
-#		if stray_neighbors.size() < 4:
-#			wall_edge_strays.append(stray)
-#
-#
-#	var total_turning_time: float = 0.2 + all_strays_on_wall.size() * 0.03 # cirka
-#
-#	all_strays_on_wall.clear() # reset vrednosti, ki ji rabim do konca spremembe
-#
-#	# pavza za celotno spremembo v tla
-#	print ("total_turning_time " ,total_turning_time)
-#	yield(get_tree().create_timer(total_turning_time), "timeout")
-#
-#	Global.hud.game_timer.unpause_timer()
-#	strays_on_wall_edge_connected = false
-#	get_tree().call_group(Global.group_players, "set_physics_process", true)
-
-
-	

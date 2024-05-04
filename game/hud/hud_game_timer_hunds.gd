@@ -21,12 +21,7 @@ var gameover_countdown_duration: int
 func _ready() -> void:
 	
 	# večino setam ob štartu tajmerja
-		
-
 	modulate = Global.color_hud_text
-	# debug
-#	stopwatch_mode = true 
-#	game_time_limit = 10
 
 
 func _process(delta: float) -> void:

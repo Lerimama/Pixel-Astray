@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://_modular/minimap_camera.gd" type="Script" id=1]
+
+[node name="Minimap" type="ViewportContainer"]
+visible = false
+modulate = Color( 1, 1, 1, 0.784314 )
+margin_left = 1088.0
+margin_top = 72.0
+margin_right = 1248.0
+margin_bottom = 172.0
+size_flags_horizontal = 3
+
+[node name="MinimapViewport" type="Viewport" parent="."]
+size = Vector2( 160, 94 )
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 0
+
+[node name="MinimapCam" type="Camera2D" parent="MinimapViewport"]
+current = true
+zoom = Vector2( 12.2, 12.2 )
+limit_smoothed = true
+script = ExtResource( 1 )

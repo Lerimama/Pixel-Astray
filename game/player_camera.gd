@@ -189,8 +189,6 @@ func set_camera_limits():
 	if limit_left <= corner_TL and limit_right <= corner_TR and limit_top <= corner_BL and limit_bottom <= corner_BR: # če so meje manjše od kamere
 		return	
 
-	# printt("edge tile", corner_TL, corner_TR, corner_BL, corner_BR)
-	# printt("limit", limit_left, limit_right, limit_top, limit_bottom)
 	limit_left = corner_TL
 	limit_right = corner_TR
 	limit_top = corner_BL

@@ -11,3 +11,6 @@ margin_top = 417.0
 margin_right = 972.5
 margin_bottom = 476.0
 text = "burst is not reburst"
+
+[node name="SolutionLine" parent="." index="2"]
+points = PoolVector2Array( 1008, 336, 304, 336 )

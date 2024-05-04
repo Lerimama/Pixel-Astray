@@ -79,29 +79,6 @@ func level_up_popup_out():
 	popup_in.tween_callback(level_up_popup, "hide")
 				
 						
-func fade_in_instructions_popup(in_time: float):
-	# namen: prilagojena navodila
-	
-	$Popups/Instructions/Controls.show()
-	$Popups/Instructions/ControlsDuel.hide()
-	title.text = Global.game_manager.game_data["game_name"]
-	
-	if current_highscore > 0:
-		win_label.text = "Current record by " + str(current_highscore_owner) + " is " + str(current_highscore) + " seconds"
-	else:
-		win_label.text = "No record score yet."
-	instructions_label.text = "Game is over when first wall column reaches the top or you have no room to move."
-	instructions_label_2.text = "Energy and speed are constant."
-	instructions_label_3.text = "Bursting always collects all colors in stack."
-	instructions_label_4.text = "Skills are not available."
-	instructions_label_5.text = "Unlimited levels. Unlimited time. Game is unbeatable."
-	instructions_label_6.text = "Highscore is the highest points total."
-					
-	var show_instructions_popup = get_tree().create_tween()
-	show_instructions_popup.tween_callback(instructions_popup, "show")
-	show_instructions_popup.tween_property(instructions_popup, "modulate:a", 1, in_time).from(0.0).set_ease(Tween.EASE_IN)
-
-
 # SPECTRUM ---------------------------------------------------------------------------------------------------------------------------
 
 

@@ -42,7 +42,7 @@ func _process(delta: float) -> void:
 	if position_indicator.visible:
 		get_position_indicator_position(get_viewport().get_node("PlayerCamera"))
 	
-	1
+	
 func show_stray(): # kliče GM
 	
 	# žrebam animacijo

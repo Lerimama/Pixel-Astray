@@ -30,5 +30,5 @@ margin_right = 1202.0
 margin_bottom = 636.0
 text = "STICKY FINGERS"
 
-[node name="SolutionLine" parent="." index="5"]
+[node name="SolutionLine" parent="." index="2"]
 points = PoolVector2Array( 1008, 504, 1040, 504, 1040, 488, 496, 488, 496, 720, 512, 720, 512, 272 )

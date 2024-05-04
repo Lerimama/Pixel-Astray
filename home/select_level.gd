@@ -11,6 +11,8 @@ onready var color_spectrum: TextureRect = $"../Spectrum"
 func _ready() -> void:
 	
 	Profiles.game_data_enigma["level"] = 1 # ni nujno
+#	for btn in level_grid_btns:
+#		set_btn_tilemap(btn)
 	update_enigma_btns_color()
 
 
@@ -37,9 +39,6 @@ func update_enigma_btns_color():
 		if level_grid_btns.find(btn) + 1 in solved_levels:
 			btn.modulate = btn_colors[btn_index]
 			solved_enigma_btns.append(btn)
-	
-	for btn in level_grid_btns:
-		set_btn_tilemap(btn)
 		
 		
 func set_btn_tilemap(btn: Button):
@@ -97,8 +96,9 @@ func set_btn_tilemap(btn: Button):
 		new_btn_tilemap.background.color = Color(1,1,1,0)
 		new_btn_tilemap.get_tileset().tile_set_modulate(new_btn_tilemap.floor_tile_id, Color(1,1,1,0))
 		new_btn_tilemap.get_tileset().tile_set_modulate(new_btn_tilemap.spawn_stray_tile_id, Color.white) # prava barva se seta v select levels, v igri se jo itak zamenja s tlemi
-
-
+		
+		new_btn_tilemap.set_process_input(false)
+		
 			
 func _on_BackBtn_pressed() -> void:
 	
