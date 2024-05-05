@@ -12,17 +12,24 @@
 [ext_resource path="res://game/gui/pause_menu.gd" type="Script" id=10]
 [ext_resource path="res://assets/atlas_controls.png" type="Texture" id=11]
 [ext_resource path="res://game/hud/hud_color_indicator.tscn" type="PackedScene" id=12]
-[ext_resource path="res://game/hud/game_instructions.gd" type="Script" id=13]
+[ext_resource path="res://game/hud/hud_game_timer.gd" type="Script" id=13]
+[ext_resource path="res://game/minimap_camera.gd" type="Script" id=14]
 [ext_resource path="res://game/gui/highscore_table.gd" type="Script" id=15]
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=16]
 [ext_resource path="res://game/hud/music_player.gd" type="Script" id=17]
-[ext_resource path="res://game/gui/game_over_cleaning.gd" type="Script" id=19]
-[ext_resource path="res://game/managers/game_manager_cleaning.gd" type="Script" id=20]
-[ext_resource path="res://game/hud/hud_cleaning.gd" type="Script" id=21]
+[ext_resource path="res://assets/spectrum_bar.png" type="Texture" id=18]
+[ext_resource path="res://game/hud/hud_patterns.gd" type="Script" id=19]
+[ext_resource path="res://game/managers/game_manager_patterns.gd" type="Script" id=20]
+[ext_resource path="res://game/gui/game_over_patterns.gd" type="Script" id=21]
 [ext_resource path="res://game/player_camera.tscn" type="PackedScene" id=22]
 [ext_resource path="res://game/arena.tscn" type="PackedScene" id=23]
-[ext_resource path="res://assets/theme/font_big.tres" type="DynamicFont" id=24]
-[ext_resource path="res://game/hud/hud_game_timer_hunds.tscn" type="PackedScene" id=25]
+
+[sub_resource type="Gradient" id=225]
+colors = PoolColorArray( 1, 1, 1, 1, 0.390625, 0.390625, 0.390625, 1 )
+
+[sub_resource type="GradientTexture" id=226]
+gradient = SubResource( 225 )
+width = 700
 
 [sub_resource type="StyleBoxLine" id=228]
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
@@ -39,63 +46,63 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 0.952941, 0.356863, 0.498039, 1 )
 
-[sub_resource type="AtlasTexture" id=389]
+[sub_resource type="AtlasTexture" id=359]
 atlas = ExtResource( 11 )
 region = Rect2( 80, 98, 70, 46 )
 
-[sub_resource type="AtlasTexture" id=390]
+[sub_resource type="AtlasTexture" id=360]
 atlas = ExtResource( 11 )
 region = Rect2( 0, 98, 70, 46 )
 
-[sub_resource type="AtlasTexture" id=391]
+[sub_resource type="AtlasTexture" id=361]
 atlas = ExtResource( 11 )
 region = Rect2( 138, 154, 22, 22 )
 
-[sub_resource type="AtlasTexture" id=392]
+[sub_resource type="AtlasTexture" id=362]
 atlas = ExtResource( 11 )
 region = Rect2( 0, 154, 102, 22 )
 
-[sub_resource type="AtlasTexture" id=393]
+[sub_resource type="AtlasTexture" id=363]
 atlas = ExtResource( 11 )
 region = Rect2( 113.919, 154, 22, 22 )
 
-[sub_resource type="StreamTexture" id=394]
+[sub_resource type="StreamTexture" id=364]
 load_path = "res://.import/atlas_controls.png-75e6b40869d487066545840672dcb98d.stex"
 
-[sub_resource type="AtlasTexture" id=404]
-atlas = SubResource( 394 )
+[sub_resource type="AtlasTexture" id=392]
+atlas = SubResource( 364 )
 region = Rect2( 0, 0, 120, 86 )
 
-[sub_resource type="AtlasTexture" id=395]
-atlas = SubResource( 404 )
+[sub_resource type="AtlasTexture" id=366]
+atlas = SubResource( 392 )
 region = Rect2( 0, 0, 120, 86 )
 
-[sub_resource type="AtlasTexture" id=396]
+[sub_resource type="AtlasTexture" id=367]
 atlas = ExtResource( 11 )
 region = Rect2( 10, 17, 22, 22 )
 
-[sub_resource type="AtlasTexture" id=397]
+[sub_resource type="AtlasTexture" id=368]
 atlas = ExtResource( 11 )
 region = Rect2( 96, 32, 10, 10 )
 
-[sub_resource type="AtlasTexture" id=398]
+[sub_resource type="AtlasTexture" id=369]
 atlas = ExtResource( 11 )
 region = Rect2( 146, 6, 6, 10 )
 
-[sub_resource type="StyleBoxEmpty" id=427]
+[sub_resource type="StyleBoxEmpty" id=405]
 
-[sub_resource type="StreamTexture" id=444]
+[sub_resource type="StreamTexture" id=422]
 load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
 
-[sub_resource type="AtlasTexture" id=428]
-atlas = SubResource( 444 )
+[sub_resource type="AtlasTexture" id=406]
+atlas = SubResource( 422 )
 region = Rect2( 16, 16, 14, 16 )
 
-[sub_resource type="AtlasTexture" id=429]
-atlas = SubResource( 444 )
+[sub_resource type="AtlasTexture" id=407]
+atlas = SubResource( 422 )
 region = Rect2( 0, 16, 10, 16 )
 
-[sub_resource type="StyleBoxFlat" id=430]
+[sub_resource type="StyleBoxFlat" id=408]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -107,21 +114,21 @@ expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxEmpty" id=431]
+[sub_resource type="StyleBoxEmpty" id=409]
 
-[sub_resource type="StyleBoxEmpty" id=432]
+[sub_resource type="StyleBoxEmpty" id=410]
 
-[sub_resource type="StyleBoxLine" id=433]
+[sub_resource type="StyleBoxLine" id=411]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
 
-[sub_resource type="AtlasTexture" id=434]
-atlas = SubResource( 444 )
+[sub_resource type="AtlasTexture" id=412]
+atlas = SubResource( 422 )
 region = Rect2( 32, 0, 10, 10 )
 
-[sub_resource type="StyleBoxEmpty" id=435]
+[sub_resource type="StyleBoxEmpty" id=413]
 
-[sub_resource type="StyleBoxFlat" id=436]
+[sub_resource type="StyleBoxFlat" id=414]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -132,15 +139,15 @@ expand_margin_left = 6.0
 expand_margin_top = 6.0
 expand_margin_bottom = 6.0
 
-[sub_resource type="StreamTexture" id=437]
+[sub_resource type="StreamTexture" id=415]
 load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
 
-[sub_resource type="AtlasTexture" id=445]
-atlas = SubResource( 437 )
+[sub_resource type="AtlasTexture" id=423]
+atlas = SubResource( 415 )
 region = Rect2( 0, 4, 16, 8 )
 
-[sub_resource type="StyleBoxTexture" id=438]
-texture = SubResource( 445 )
+[sub_resource type="StyleBoxTexture" id=416]
+texture = SubResource( 423 )
 region_rect = Rect2( 0, 0, 16, 8 )
 margin_left = 3.34132
 margin_right = 4.0
@@ -148,7 +155,7 @@ margin_top = 4.0
 margin_bottom = 4.0
 modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 
-[sub_resource type="StyleBoxFlat" id=439]
+[sub_resource type="StyleBoxFlat" id=417]
 bg_color = Color( 0, 0, 0, 0 )
 border_width_left = 2
 border_width_top = 2
@@ -156,12 +163,12 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="AtlasTexture" id=440]
-atlas = SubResource( 444 )
+[sub_resource type="AtlasTexture" id=418]
+atlas = SubResource( 422 )
 region = Rect2( 16, 0, 16, 12 )
 margin = Rect2( 4, 0, 0, 0 )
 
-[sub_resource type="StyleBoxFlat" id=441]
+[sub_resource type="StyleBoxFlat" id=419]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 2
 border_width_top = 2
@@ -173,7 +180,7 @@ expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxFlat" id=442]
+[sub_resource type="StyleBoxFlat" id=420]
 bg_color = Color( 0, 0, 0, 0.862745 )
 border_width_left = 4
 border_width_top = 4
@@ -181,64 +188,64 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
 
-[sub_resource type="StyleBoxLine" id=443]
+[sub_resource type="StyleBoxLine" id=421]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
 vertical = true
 
-[sub_resource type="Theme" id=446]
+[sub_resource type="Theme" id=424]
 default_font = ExtResource( 16 )
 Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
 Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
 Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
-Button/styles/disabled = SubResource( 427 )
-Button/styles/focus = SubResource( 427 )
-Button/styles/hover = SubResource( 427 )
-Button/styles/normal = SubResource( 427 )
-Button/styles/pressed = SubResource( 427 )
+Button/styles/disabled = SubResource( 405 )
+Button/styles/focus = SubResource( 405 )
+Button/styles/hover = SubResource( 405 )
+Button/styles/normal = SubResource( 405 )
+Button/styles/pressed = SubResource( 405 )
 CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
 CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
 CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
 CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
 CheckBox/constants/hseparation = 4
-CheckBox/icons/checked = SubResource( 428 )
-CheckBox/icons/unchecked = SubResource( 429 )
-CheckBox/styles/focus = SubResource( 430 )
-CheckBox/styles/hover = SubResource( 430 )
-CheckBox/styles/hover_pressed = SubResource( 430 )
-CheckBox/styles/normal = SubResource( 431 )
-CheckBox/styles/pressed = SubResource( 432 )
-HSeparator/styles/separator = SubResource( 433 )
-HSlider/icons/grabber = SubResource( 434 )
+CheckBox/icons/checked = SubResource( 406 )
+CheckBox/icons/unchecked = SubResource( 407 )
+CheckBox/styles/focus = SubResource( 408 )
+CheckBox/styles/hover = SubResource( 408 )
+CheckBox/styles/hover_pressed = SubResource( 408 )
+CheckBox/styles/normal = SubResource( 409 )
+CheckBox/styles/pressed = SubResource( 410 )
+HSeparator/styles/separator = SubResource( 411 )
+HSlider/icons/grabber = SubResource( 412 )
 HSlider/icons/grabber_disabled = null
-HSlider/icons/grabber_highlight = SubResource( 434 )
+HSlider/icons/grabber_highlight = SubResource( 412 )
 HSlider/icons/tick = null
-HSlider/styles/grabber_area = SubResource( 435 )
-HSlider/styles/grabber_area_highlight = SubResource( 436 )
-HSlider/styles/slider = SubResource( 438 )
+HSlider/styles/grabber_area = SubResource( 413 )
+HSlider/styles/grabber_area_highlight = SubResource( 414 )
+HSlider/styles/slider = SubResource( 416 )
 Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
 Label/constants/line_spacing = 6
 LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
 LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
-LineEdit/styles/normal = SubResource( 439 )
+LineEdit/styles/normal = SubResource( 417 )
 OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
-OptionButton/icons/arrow = SubResource( 440 )
-OptionButton/styles/focus = SubResource( 441 )
-OptionButton/styles/hover = SubResource( 441 )
-OptionButton/styles/pressed = SubResource( 441 )
-Panel/styles/panel = SubResource( 442 )
-VSeparator/styles/separator = SubResource( 443 )
+OptionButton/icons/arrow = SubResource( 418 )
+OptionButton/styles/focus = SubResource( 419 )
+OptionButton/styles/hover = SubResource( 419 )
+OptionButton/styles/pressed = SubResource( 419 )
+Panel/styles/panel = SubResource( 420 )
+VSeparator/styles/separator = SubResource( 421 )
 
-[sub_resource type="AtlasTexture" id=447]
+[sub_resource type="AtlasTexture" id=425]
 atlas = ExtResource( 11 )
 region = Rect2( 72, 186, 22, 22 )
 margin = Rect2( 0, 2, 0, 0 )
 
-[sub_resource type="AtlasTexture" id=448]
+[sub_resource type="AtlasTexture" id=426]
 atlas = ExtResource( 11 )
 region = Rect2( 0, 218, 40, 22 )
 margin = Rect2( -2, 2, 0, 0 )
@@ -473,14 +480,6 @@ tracks/3/keys = {
 "values": [ 0.0, 1.0, 1.0, 0.0 ]
 }
 
-[sub_resource type="StyleBoxFlat" id=449]
-bg_color = Color( 0, 0, 0, 0.784314 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 0.368627, 1, 0.662745, 1 )
-
 [sub_resource type="AtlasTexture" id=147]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 0, 16, 16 )
@@ -511,6 +510,10 @@ region = Rect2( 32, 80, 48, 16 )
 
 [sub_resource type="StyleBoxEmpty" id=248]
 
+[sub_resource type="AtlasTexture" id=129]
+atlas = ExtResource( 7 )
+region = Rect2( 64, 0, 16, 16 )
+
 [sub_resource type="AtlasTexture" id=269]
 atlas = ExtResource( 7 )
 region = Rect2( 16, 0, 16, 16 )
@@ -527,9 +530,156 @@ region = Rect2( 64, 16, 16, 16 )
 atlas = ExtResource( 7 )
 region = Rect2( 64, 32, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=129]
-atlas = ExtResource( 7 )
-region = Rect2( 64, 0, 16, 16 )
+[sub_resource type="StyleBoxEmpty" id=275]
+
+[sub_resource type="StreamTexture" id=175]
+load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
+
+[sub_resource type="AtlasTexture" id=276]
+atlas = SubResource( 175 )
+region = Rect2( 16, 16, 14, 16 )
+
+[sub_resource type="AtlasTexture" id=349]
+atlas = SubResource( 175 )
+region = Rect2( 0, 16, 10, 16 )
+
+[sub_resource type="StyleBoxFlat" id=278]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+expand_margin_left = 6.0
+expand_margin_right = 6.0
+expand_margin_top = 2.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxEmpty" id=279]
+
+[sub_resource type="StyleBoxEmpty" id=280]
+
+[sub_resource type="StyleBoxLine" id=281]
+color = Color( 1, 1, 1, 1 )
+thickness = 2
+
+[sub_resource type="AtlasTexture" id=350]
+atlas = SubResource( 175 )
+region = Rect2( 32, 0, 10, 10 )
+
+[sub_resource type="StyleBoxEmpty" id=283]
+
+[sub_resource type="StyleBoxFlat" id=351]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+expand_margin_left = 6.0
+expand_margin_top = 6.0
+expand_margin_bottom = 6.0
+
+[sub_resource type="StreamTexture" id=352]
+load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
+
+[sub_resource type="AtlasTexture" id=152]
+atlas = SubResource( 352 )
+region = Rect2( 0, 4, 16, 8 )
+
+[sub_resource type="StyleBoxTexture" id=353]
+texture = SubResource( 152 )
+region_rect = Rect2( 0, 0, 16, 8 )
+margin_left = 3.34132
+margin_right = 4.0
+margin_top = 4.0
+margin_bottom = 4.0
+modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+
+[sub_resource type="StyleBoxFlat" id=354]
+bg_color = Color( 0, 0, 0, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="AtlasTexture" id=355]
+atlas = SubResource( 175 )
+region = Rect2( 16, 0, 16, 12 )
+margin = Rect2( 4, 0, 0, 0 )
+
+[sub_resource type="StyleBoxFlat" id=356]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 0.901961 )
+expand_margin_left = 6.0
+expand_margin_right = 6.0
+expand_margin_top = 2.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxFlat" id=357]
+bg_color = Color( 0, 0, 0, 0.862745 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
+
+[sub_resource type="StyleBoxLine" id=358]
+color = Color( 1, 1, 1, 1 )
+thickness = 2
+vertical = true
+
+[sub_resource type="Theme" id=194]
+default_font = ExtResource( 16 )
+Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
+Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
+Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
+Button/styles/disabled = SubResource( 275 )
+Button/styles/focus = SubResource( 275 )
+Button/styles/hover = SubResource( 275 )
+Button/styles/normal = SubResource( 275 )
+Button/styles/pressed = SubResource( 275 )
+CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
+CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
+CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
+CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
+CheckBox/constants/hseparation = 4
+CheckBox/icons/checked = SubResource( 276 )
+CheckBox/icons/unchecked = SubResource( 349 )
+CheckBox/styles/focus = SubResource( 278 )
+CheckBox/styles/hover = SubResource( 278 )
+CheckBox/styles/hover_pressed = SubResource( 278 )
+CheckBox/styles/normal = SubResource( 279 )
+CheckBox/styles/pressed = SubResource( 280 )
+HSeparator/styles/separator = SubResource( 281 )
+HSlider/icons/grabber = SubResource( 350 )
+HSlider/icons/grabber_disabled = null
+HSlider/icons/grabber_highlight = SubResource( 350 )
+HSlider/icons/tick = null
+HSlider/styles/grabber_area = SubResource( 283 )
+HSlider/styles/grabber_area_highlight = SubResource( 351 )
+HSlider/styles/slider = SubResource( 353 )
+Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
+Label/constants/line_spacing = 6
+LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
+LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
+LineEdit/styles/normal = SubResource( 354 )
+OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+OptionButton/icons/arrow = SubResource( 355 )
+OptionButton/styles/focus = SubResource( 356 )
+OptionButton/styles/hover = SubResource( 356 )
+OptionButton/styles/pressed = SubResource( 356 )
+Panel/styles/panel = SubResource( 357 )
+VSeparator/styles/separator = SubResource( 358 )
 
 [sub_resource type="AtlasTexture" id=148]
 atlas = ExtResource( 7 )
@@ -549,162 +699,6 @@ region = Rect2( 16, 16, 16, 16 )
 atlas = ExtResource( 7 )
 region = Rect2( 16, 0, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=450]
-atlas = ExtResource( 7 )
-region = Rect2( 40, 80, 12, 14 )
-margin = Rect2( 2, 0, 0, 0 )
-
-[sub_resource type="StyleBoxEmpty" id=287]
-
-[sub_resource type="StreamTexture" id=175]
-load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
-
-[sub_resource type="AtlasTexture" id=288]
-atlas = SubResource( 175 )
-region = Rect2( 16, 16, 14, 16 )
-
-[sub_resource type="AtlasTexture" id=289]
-atlas = SubResource( 175 )
-region = Rect2( 0, 16, 10, 16 )
-
-[sub_resource type="StyleBoxFlat" id=290]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-expand_margin_left = 6.0
-expand_margin_right = 6.0
-expand_margin_top = 2.0
-expand_margin_bottom = 3.0
-
-[sub_resource type="StyleBoxEmpty" id=291]
-
-[sub_resource type="StyleBoxEmpty" id=292]
-
-[sub_resource type="StyleBoxLine" id=293]
-color = Color( 1, 1, 1, 1 )
-thickness = 2
-
-[sub_resource type="AtlasTexture" id=294]
-atlas = SubResource( 175 )
-region = Rect2( 32, 0, 10, 10 )
-
-[sub_resource type="StyleBoxEmpty" id=295]
-
-[sub_resource type="StyleBoxFlat" id=296]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-expand_margin_left = 6.0
-expand_margin_top = 6.0
-expand_margin_bottom = 6.0
-
-[sub_resource type="StreamTexture" id=297]
-load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
-
-[sub_resource type="AtlasTexture" id=152]
-atlas = SubResource( 297 )
-region = Rect2( 0, 4, 16, 8 )
-
-[sub_resource type="StyleBoxTexture" id=298]
-texture = SubResource( 152 )
-region_rect = Rect2( 0, 0, 16, 8 )
-margin_left = 3.34132
-margin_right = 4.0
-margin_top = 4.0
-margin_bottom = 4.0
-modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-
-[sub_resource type="StyleBoxFlat" id=299]
-bg_color = Color( 0, 0, 0, 0 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 1, 1, 1, 1 )
-
-[sub_resource type="AtlasTexture" id=300]
-atlas = SubResource( 175 )
-region = Rect2( 16, 0, 16, 12 )
-margin = Rect2( 4, 0, 0, 0 )
-
-[sub_resource type="StyleBoxFlat" id=301]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 1, 1, 1, 0.901961 )
-expand_margin_left = 6.0
-expand_margin_right = 6.0
-expand_margin_top = 2.0
-expand_margin_bottom = 3.0
-
-[sub_resource type="StyleBoxFlat" id=302]
-bg_color = Color( 0, 0, 0, 0.862745 )
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
-
-[sub_resource type="StyleBoxLine" id=303]
-color = Color( 1, 1, 1, 1 )
-thickness = 2
-vertical = true
-
-[sub_resource type="Theme" id=194]
-default_font = ExtResource( 16 )
-Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
-Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
-Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
-Button/styles/disabled = SubResource( 287 )
-Button/styles/focus = SubResource( 287 )
-Button/styles/hover = SubResource( 287 )
-Button/styles/normal = SubResource( 287 )
-Button/styles/pressed = SubResource( 287 )
-CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
-CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
-CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
-CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
-CheckBox/constants/hseparation = 4
-CheckBox/icons/checked = SubResource( 288 )
-CheckBox/icons/unchecked = SubResource( 289 )
-CheckBox/styles/focus = SubResource( 290 )
-CheckBox/styles/hover = SubResource( 290 )
-CheckBox/styles/hover_pressed = SubResource( 290 )
-CheckBox/styles/normal = SubResource( 291 )
-CheckBox/styles/pressed = SubResource( 292 )
-HSeparator/styles/separator = SubResource( 293 )
-HSlider/icons/grabber = SubResource( 294 )
-HSlider/icons/grabber_disabled = null
-HSlider/icons/grabber_highlight = SubResource( 294 )
-HSlider/icons/tick = null
-HSlider/styles/grabber_area = SubResource( 295 )
-HSlider/styles/grabber_area_highlight = SubResource( 296 )
-HSlider/styles/slider = SubResource( 298 )
-Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
-Label/constants/line_spacing = 6
-LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
-LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
-LineEdit/styles/normal = SubResource( 299 )
-OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
-OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
-OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
-OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
-OptionButton/icons/arrow = SubResource( 300 )
-OptionButton/styles/focus = SubResource( 301 )
-OptionButton/styles/hover = SubResource( 301 )
-OptionButton/styles/pressed = SubResource( 301 )
-Panel/styles/panel = SubResource( 302 )
-VSeparator/styles/separator = SubResource( 303 )
-
 [sub_resource type="AtlasTexture" id=192]
 atlas = ExtResource( 11 )
 region = Rect2( 0, 98, 70, 46 )
@@ -713,11 +707,11 @@ region = Rect2( 0, 98, 70, 46 )
 atlas = ExtResource( 11 )
 region = Rect2( 80, 98, 70, 46 )
 
-[sub_resource type="StreamTexture" id=181]
+[sub_resource type="StreamTexture" id=325]
 load_path = "res://.import/atlas_controls.png-75e6b40869d487066545840672dcb98d.stex"
 
-[sub_resource type="AtlasTexture" id=304]
-atlas = SubResource( 181 )
+[sub_resource type="AtlasTexture" id=206]
+atlas = SubResource( 325 )
 region = Rect2( 0, 0, 120, 86 )
 
 [sub_resource type="AtlasTexture" id=195]
@@ -784,14 +778,31 @@ atlas = ExtResource( 11 )
 region = Rect2( 0, 218, 40, 22 )
 margin = Rect2( -2, 2, 0, 0 )
 
-[node name="CleaningGame" type="Node2D"]
+[node name="PatternsGame" type="Node2D"]
 __meta__ = {
-"_edit_horizontal_guides_": [ 1371.0, 1371.0, 224.0, 576.0, 208.0, 128.0, 408.0 ],
-"_edit_vertical_guides_": [ 320.0, 336.0, 640.0, 960.0 ]
+"_edit_horizontal_guides_": [ 1371.0, 1371.0, 208.0, 576.0, 224.0 ],
+"_edit_vertical_guides_": [ 320.0, 336.0 ]
 }
 
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource( 20 )
+
+[node name="Spectrum" type="TextureRect" parent="GameManager"]
+visible = false
+margin_top = -24.0
+margin_right = 512.0
+margin_bottom = -8.0
+texture = ExtResource( 18 )
+expand = true
+
+[node name="SpectrumGradient" type="TextureRect" parent="GameManager"]
+visible = false
+margin_top = -48.0
+margin_right = 512.0
+margin_bottom = -32.0
+size_flags_horizontal = 0
+texture = SubResource( 226 )
+expand = true
 
 [node name="GameView" type="VBoxContainer" parent="."]
 margin_right = 1280.0
@@ -863,6 +874,26 @@ margin_bottom = 720.0
 grow_horizontal = 0
 rect_min_size = Vector2( 1280, 0 )
 
+[node name="Minimap" type="ViewportContainer" parent="."]
+modulate = Color( 1, 1, 1, 0.784314 )
+margin_left = 992.0
+margin_top = 72.0
+margin_right = 1248.0
+margin_bottom = 216.0
+size_flags_horizontal = 3
+
+[node name="MinimapViewport" type="Viewport" parent="Minimap"]
+size = Vector2( 256, 144 )
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="MinimapCam" type="Camera2D" parent="Minimap/MinimapViewport"]
+current = true
+zoom = Vector2( 30, 30 )
+limit_smoothed = true
+script = ExtResource( 14 )
+
 [node name="GUI" type="Control" parent="."]
 margin_right = 1280.0
 margin_bottom = 720.0
@@ -875,7 +906,7 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 720 )
-script = ExtResource( 21 )
+script = ExtResource( 19 )
 
 [node name="Popups" type="Control" parent="GUI/Hud"]
 anchor_right = 1.0
@@ -986,7 +1017,6 @@ align = 1
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 13 )
 
 [node name="Background" type="ColorRect" parent="GUI/Hud/Popups/Instructions"]
 anchor_right = 1.0
@@ -1001,9 +1031,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -448.0
-margin_top = -264.0
+margin_top = -240.0
 margin_right = 448.0
-margin_bottom = 72.0
+margin_bottom = 16.0
 
 [node name="Title" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
@@ -1014,99 +1044,84 @@ margin_top = 6.0
 margin_right = 304.0
 margin_bottom = 38.0
 custom_fonts/font = ExtResource( 3 )
-text = "%Game title"
+text = "Game title"
 align = 1
-uppercase = true
 
-[node name="Description" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions"]
+[node name="WinLabel" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
 anchor_right = 1.0
-margin_top = 70.0
-margin_bottom = 92.0
-text = "%Win reasons"
+margin_top = 54.0
+margin_bottom = 76.0
+text = "Win"
 align = 1
 
 [node name="Outline" type="VBoxContainer" parent="GUI/Hud/Popups/Instructions/GameInstructions"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -448.0
-margin_top = 104.0
+margin_top = 101.0
 margin_right = 449.0
-margin_bottom = 328.0
+margin_bottom = 288.0
 grow_horizontal = 2
-custom_constants/separation = 14
+grow_vertical = 2
+custom_constants/separation = 10
 
 [node name="Label" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
 margin_right = 897.0
 margin_bottom = 18.0
 custom_fonts/font = ExtResource( 4 )
-text = "%Label"
+text = "Game over conditions"
 align = 1
 autowrap = true
 
 [node name="Label2" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 32.0
+margin_top = 28.0
 margin_right = 897.0
-margin_bottom = 50.0
+margin_bottom = 46.0
 custom_fonts/font = ExtResource( 4 )
-text = "%Label"
+text = "Energy and speed"
 align = 1
 autowrap = true
 
 [node name="Label3" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 64.0
+margin_top = 56.0
 margin_right = 897.0
-margin_bottom = 82.0
+margin_bottom = 74.0
 custom_fonts/font = ExtResource( 4 )
-text = "%Label"
+text = "Burst"
 align = 1
 autowrap = true
 
 [node name="Label4" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 96.0
+margin_top = 84.0
 margin_right = 897.0
-margin_bottom = 114.0
+margin_bottom = 102.0
 custom_fonts/font = ExtResource( 4 )
-text = "%Label"
+text = "Skills"
 align = 1
 autowrap = true
 
 [node name="Label5" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 128.0
+margin_top = 112.0
 margin_right = 897.0
-margin_bottom = 146.0
+margin_bottom = 130.0
 custom_fonts/font = ExtResource( 4 )
-text = "%Label"
+text = "Time"
 align = 1
 autowrap = true
 
-[node name="RecordLabel" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
+[node name="Label6" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 160.0
+margin_top = 140.0
 margin_right = 897.0
-margin_bottom = 228.0
-rect_min_size = Vector2( 0, 68 )
-text = "% 000000"
-align = 1
-valign = 2
-
-[node name="RecordTitle" type="Label" parent="GUI/Hud/Popups/Instructions/GameInstructions/Outline/RecordLabel"]
-modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -448.5
-margin_top = -44.0
-margin_right = 448.5
-margin_bottom = -26.0
+margin_bottom = 158.0
 custom_fonts/font = ExtResource( 4 )
-text = "Current record"
+text = "Highscore"
 align = 1
 autowrap = true
 
@@ -1116,9 +1131,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -320.0
-margin_top = 96.0
+margin_top = 64.0
 margin_right = 320.0
-margin_bottom = 224.0
+margin_bottom = 192.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -1142,7 +1157,7 @@ margin_left = -80.0
 margin_top = 1.0
 margin_right = -10.0
 margin_bottom = 47.0
-texture = SubResource( 389 )
+texture = SubResource( 359 )
 
 [node name="KeyboardR" type="TextureRect" parent="GUI/Hud/Popups/Instructions/Controls/Keys"]
 anchor_left = 0.5
@@ -1151,7 +1166,7 @@ margin_left = 10.0
 margin_top = 1.0
 margin_right = 80.0
 margin_bottom = 47.0
-texture = SubResource( 390 )
+texture = SubResource( 360 )
 
 [node name="Ctrl" type="TextureRect" parent="GUI/Hud/Popups/Instructions/Controls/Keys"]
 anchor_left = 0.5
@@ -1160,7 +1175,7 @@ margin_left = -88.0
 margin_top = 65.0
 margin_right = -66.0
 margin_bottom = 87.0
-texture = SubResource( 391 )
+texture = SubResource( 361 )
 
 [node name="Space" type="TextureRect" parent="GUI/Hud/Popups/Instructions/Controls/Keys"]
 anchor_left = 0.5
@@ -1169,7 +1184,7 @@ margin_left = -52.0
 margin_top = 65.0
 margin_right = 50.0
 margin_bottom = 87.0
-texture = SubResource( 392 )
+texture = SubResource( 362 )
 
 [node name="Alt" type="TextureRect" parent="GUI/Hud/Popups/Instructions/Controls/Keys"]
 anchor_left = 0.5
@@ -1178,7 +1193,7 @@ margin_left = 66.0
 margin_top = 65.0
 margin_right = 88.0
 margin_bottom = 87.0
-texture = SubResource( 393 )
+texture = SubResource( 363 )
 
 [node name="Joypad" type="Control" parent="GUI/Hud/Popups/Instructions/Controls"]
 anchor_left = 0.5
@@ -1197,21 +1212,21 @@ __meta__ = {
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_right = 120.0
 margin_bottom = 86.0
-texture = SubResource( 395 )
+texture = SubResource( 366 )
 
 [node name="btns" type="TextureRect" parent="GUI/Hud/Popups/Instructions/Controls/Joypad"]
 margin_left = 10.0
 margin_top = 17.0
 margin_right = 32.0
 margin_bottom = 39.0
-texture = SubResource( 396 )
+texture = SubResource( 367 )
 
 [node name="btn" type="TextureRect" parent="GUI/Hud/Popups/Instructions/Controls/Joypad"]
 margin_left = 96.0
 margin_top = 32.0
 margin_right = 106.0
 margin_bottom = 42.0
-texture = SubResource( 397 )
+texture = SubResource( 368 )
 
 [node name="C1" type="TextureRect" parent="GUI/Hud/Popups/Instructions/Controls/Joypad"]
 visible = false
@@ -1219,7 +1234,7 @@ margin_left = 57.0
 margin_top = 76.0
 margin_right = 63.0
 margin_bottom = 86.0
-texture = SubResource( 398 )
+texture = SubResource( 369 )
 
 [node name="ControlsDuel" type="Control" parent="GUI/Hud/Popups/Instructions"]
 visible = false
@@ -1228,9 +1243,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -576.0
-margin_top = 88.0
+margin_top = 56.0
 margin_right = 576.0
-margin_bottom = 248.0
+margin_bottom = 216.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -1268,7 +1283,7 @@ margin_left = -54.0
 margin_top = 1.0
 margin_right = 16.0
 margin_bottom = 47.0
-texture = SubResource( 389 )
+texture = SubResource( 359 )
 
 [node name="Ctrl" type="TextureRect" parent="GUI/Hud/Popups/Instructions/ControlsDuel/Keys"]
 anchor_left = 0.5
@@ -1277,7 +1292,7 @@ margin_left = -88.0
 margin_top = 65.0
 margin_right = -66.0
 margin_bottom = 87.0
-texture = SubResource( 391 )
+texture = SubResource( 361 )
 
 [node name="Space" type="TextureRect" parent="GUI/Hud/Popups/Instructions/ControlsDuel/Keys"]
 anchor_left = 0.5
@@ -1286,7 +1301,7 @@ margin_left = -52.0
 margin_top = 65.0
 margin_right = 50.0
 margin_bottom = 87.0
-texture = SubResource( 392 )
+texture = SubResource( 362 )
 
 [node name="Joypad" type="Control" parent="GUI/Hud/Popups/Instructions/ControlsDuel"]
 anchor_left = 0.5
@@ -1305,28 +1320,28 @@ __meta__ = {
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_right = 120.0
 margin_bottom = 86.0
-texture = SubResource( 395 )
+texture = SubResource( 366 )
 
 [node name="btns" type="TextureRect" parent="GUI/Hud/Popups/Instructions/ControlsDuel/Joypad"]
 margin_left = 10.0
 margin_top = 17.0
 margin_right = 32.0
 margin_bottom = 39.0
-texture = SubResource( 396 )
+texture = SubResource( 367 )
 
 [node name="btn" type="TextureRect" parent="GUI/Hud/Popups/Instructions/ControlsDuel/Joypad"]
 margin_left = 96.0
 margin_top = 32.0
 margin_right = 106.0
 margin_bottom = 42.0
-texture = SubResource( 397 )
+texture = SubResource( 368 )
 
 [node name="C1" type="TextureRect" parent="GUI/Hud/Popups/Instructions/ControlsDuel/Joypad"]
 margin_left = 57.0
 margin_top = 76.0
 margin_right = 63.0
 margin_bottom = 86.0
-texture = SubResource( 398 )
+texture = SubResource( 369 )
 
 [node name="Label2" type="Label" parent="GUI/Hud/Popups/Instructions/ControlsDuel"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
@@ -1360,7 +1375,7 @@ anchor_right = 0.5
 margin_left = -40.0
 margin_right = 30.0
 margin_bottom = 46.0
-texture = SubResource( 390 )
+texture = SubResource( 360 )
 
 [node name="Alt" type="TextureRect" parent="GUI/Hud/Popups/Instructions/ControlsDuel/Keys2"]
 anchor_left = 0.5
@@ -1369,7 +1384,7 @@ margin_left = -16.0
 margin_top = 64.0
 margin_right = 6.0
 margin_bottom = 86.0
-texture = SubResource( 393 )
+texture = SubResource( 363 )
 
 [node name="Joypad2" type="Control" parent="GUI/Hud/Popups/Instructions/ControlsDuel"]
 anchor_left = 0.5
@@ -1388,28 +1403,28 @@ __meta__ = {
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_right = 120.0
 margin_bottom = 86.0
-texture = SubResource( 395 )
+texture = SubResource( 366 )
 
 [node name="btns" type="TextureRect" parent="GUI/Hud/Popups/Instructions/ControlsDuel/Joypad2"]
 margin_left = 10.0
 margin_top = 17.0
 margin_right = 32.0
 margin_bottom = 39.0
-texture = SubResource( 396 )
+texture = SubResource( 367 )
 
 [node name="btn" type="TextureRect" parent="GUI/Hud/Popups/Instructions/ControlsDuel/Joypad2"]
 margin_left = 96.0
 margin_top = 32.0
 margin_right = 106.0
 margin_bottom = 42.0
-texture = SubResource( 397 )
+texture = SubResource( 368 )
 
 [node name="C1" type="TextureRect" parent="GUI/Hud/Popups/Instructions/ControlsDuel/Joypad2"]
 margin_left = 57.0
 margin_top = 76.0
 margin_right = 63.0
 margin_bottom = 86.0
-texture = SubResource( 398 )
+texture = SubResource( 369 )
 
 [node name="ScreenLine" type="Node2D" parent="GUI/Hud/Popups/Instructions/ControlsDuel"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
@@ -1422,14 +1437,14 @@ width = 1.0
 default_color = Color( 1, 1, 1, 1 )
 
 [node name="Line2D2" type="Line2D" parent="GUI/Hud/Popups/Instructions/ControlsDuel/ScreenLine"]
-position = Vector2( -576, 233 )
-points = PoolVector2Array( 576, -17, 576, -305 )
+position = Vector2( -576, 176 )
+points = PoolVector2Array( 576, 56, 576, -128 )
 width = 1.0
 default_color = Color( 1, 1, 1, 1 )
 
 [node name="Line2D3" type="Line2D" parent="GUI/Hud/Popups/Instructions/ControlsDuel/ScreenLine"]
 position = Vector2( -576, 176 )
-points = PoolVector2Array( 576, -584, 576, -496 )
+points = PoolVector2Array( 576, -536, 576, -432 )
 width = 1.0
 default_color = Color( 1, 1, 1, 1 )
 
@@ -1437,9 +1452,9 @@ default_color = Color( 1, 1, 1, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -73.0
-margin_top = 640.0
+margin_top = 616.0
 margin_right = 103.0
-margin_bottom = 662.0
+margin_bottom = 638.0
 custom_constants/separation = 8
 __meta__ = {
 "_edit_group_": true
@@ -1450,7 +1465,7 @@ visible = false
 margin_top = 2.0
 margin_right = 44.0
 margin_bottom = 20.0
-theme = SubResource( 446 )
+theme = SubResource( 424 )
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "Press"
@@ -1459,14 +1474,14 @@ align = 1
 [node name="Enter" type="TextureRect" parent="GUI/Hud/Popups/Instructions/StartHint"]
 margin_right = 22.0
 margin_bottom = 22.0
-texture = SubResource( 447 )
+texture = SubResource( 425 )
 
 [node name="Label3" type="Label" parent="GUI/Hud/Popups/Instructions/StartHint"]
 margin_left = 30.0
 margin_top = 2.0
 margin_right = 47.0
 margin_bottom = 20.0
-theme = SubResource( 446 )
+theme = SubResource( 424 )
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "or"
@@ -1476,7 +1491,7 @@ align = 1
 margin_left = 55.0
 margin_right = 95.0
 margin_bottom = 22.0
-texture = SubResource( 448 )
+texture = SubResource( 426 )
 
 [node name="Button" type="Button" parent="GUI/Hud/Popups/Instructions/StartHint/Start"]
 margin_left = -58.0
@@ -1489,7 +1504,7 @@ margin_left = 103.0
 margin_top = 2.0
 margin_right = 170.0
 margin_bottom = 20.0
-theme = SubResource( 446 )
+theme = SubResource( 424 )
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "to start"
@@ -1553,40 +1568,6 @@ anims/RESET = SubResource( 140 )
 anims/countdown_3 = SubResource( 143 )
 anims/countdown_5 = SubResource( 142 )
 anims/countdown_5_v1 = SubResource( 135 )
-
-[node name="LevelUp" type="Control" parent="GUI/Hud/Popups"]
-visible = false
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -232.0
-margin_top = 320.0
-margin_right = 232.0
-margin_bottom = 384.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Panel" type="Panel" parent="GUI/Hud/Popups/LevelUp"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_styles/panel = SubResource( 449 )
-
-[node name="Label" type="Label" parent="GUI/Hud/Popups/LevelUp"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -202.0
-margin_top = -27.0
-margin_right = 202.0
-margin_bottom = 27.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 24 )
-text = "LEVEL 2"
-align = 1
 
 [node name="Life" type="Label" parent="GUI/Hud"]
 visible = false
@@ -1744,9 +1725,36 @@ margin_bottom = 22.0
 custom_constants/separation = 0
 custom_styles/separator = SubResource( 248 )
 
-[node name="ColorHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineL"]
+[node name="PointsHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineL"]
 margin_left = 148.0
 margin_right = 186.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 0, 22 )
+size_flags_vertical = 8
+custom_constants/separation = 8
+
+[node name="TextureRect4" type="TextureRect" parent="GUI/Hud/Header/TopLineL/PointsHolder"]
+margin_top = 4.0
+margin_right = 16.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 16, 18 )
+size_flags_vertical = 8
+texture = SubResource( 129 )
+
+[node name="Points" type="Label" parent="GUI/Hud/Header/TopLineL/PointsHolder"]
+margin_left = 24.0
+margin_right = 38.0
+margin_bottom = 22.0
+size_flags_vertical = 8
+text = "0"
+valign = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="ColorHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineL"]
+margin_left = 202.0
+margin_right = 240.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
@@ -1851,54 +1859,56 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="PointsHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineL"]
-margin_left = 202.0
-margin_right = 294.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 0, 22 )
-size_flags_vertical = 8
-custom_constants/separation = 8
-
-[node name="TextureRect4" type="TextureRect" parent="GUI/Hud/Header/TopLineL/PointsHolder"]
-visible = false
-margin_top = 4.0
-margin_right = 16.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 16, 18 )
-size_flags_vertical = 8
-texture = SubResource( 129 )
-
-[node name="Label" type="Label" parent="GUI/Hud/Header/TopLineL/PointsHolder"]
-margin_right = 70.0
-margin_bottom = 22.0
-size_flags_vertical = 8
-text = "SCORE"
-valign = 1
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Points" type="Label" parent="GUI/Hud/Header/TopLineL/PointsHolder"]
-margin_left = 78.0
-margin_right = 92.0
-margin_bottom = 22.0
-size_flags_vertical = 8
-text = "0"
-valign = 1
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="GameTimerHunds" parent="GUI/Hud/Header" instance=ExtResource( 25 )]
-margin_left = 588.0
-margin_top = -3.0
-margin_right = 692.0
+[node name="GameTimer" type="HBoxContainer" parent="GUI/Hud/Header"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -38.0
+margin_top = 7.0
+margin_right = 40.0
 margin_bottom = 29.0
+grow_horizontal = 2
+theme = SubResource( 194 )
+script = ExtResource( 13 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Mins" type="Label" parent="GUI/Hud/Header/GameTimer"]
+margin_right = 32.0
+margin_bottom = 22.0
+grow_horizontal = 0
+rect_min_size = Vector2( 32, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "00"
+align = 2
+valign = 2
+
+[node name="Dots" type="Label" parent="GUI/Hud/Header/GameTimer"]
+margin_left = 36.0
+margin_right = 42.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 6, 0 )
+size_flags_vertical = 8
+text = ":"
+align = 1
+valign = 2
+
+[node name="Secs" type="Label" parent="GUI/Hud/Header/GameTimer"]
+margin_left = 46.0
+margin_right = 78.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 32, 0 )
+size_flags_vertical = 8
+text = "00"
+valign = 2
+
+[node name="Timer" type="Timer" parent="GUI/Hud/Header/GameTimer"]
 
 [node name="TopLineR" type="HBoxContainer" parent="GUI/Hud/Header"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -568.0
+margin_left = -586.0
 margin_top = 7.0
 margin_right = -30.0
 margin_bottom = 29.0
@@ -1929,8 +1939,8 @@ margin_bottom = 19.0
 texture = SubResource( 146 )
 
 [node name="HighscoreLabel" type="Label" parent="GUI/Hud/Header/TopLineR"]
-margin_left = 386.0
-margin_right = 538.0
+margin_left = 404.0
+margin_right = 556.0
 margin_bottom = 22.0
 grow_horizontal = 0
 size_flags_horizontal = 10
@@ -1939,8 +1949,8 @@ align = 2
 
 [node name="PlayerLineR" type="HBoxContainer" parent="GUI/Hud/Header/TopLineR"]
 visible = false
-margin_left = 206.0
-margin_right = 544.0
+margin_left = 256.0
+margin_right = 556.0
 margin_bottom = 22.0
 grow_horizontal = 0
 size_flags_horizontal = 11
@@ -1951,14 +1961,13 @@ __meta__ = {
 }
 
 [node name="PointsHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineR/PlayerLineR"]
-margin_right = 92.0
+margin_right = 38.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 22 )
 size_flags_vertical = 8
 custom_constants/separation = 8
 
 [node name="TextureRect4" type="TextureRect" parent="GUI/Hud/Header/TopLineR/PlayerLineR/PointsHolder"]
-visible = false
 margin_top = 4.0
 margin_right = 16.0
 margin_bottom = 22.0
@@ -1966,19 +1975,9 @@ rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
 texture = SubResource( 129 )
 
-[node name="Label" type="Label" parent="GUI/Hud/Header/TopLineR/PlayerLineR/PointsHolder"]
-margin_right = 70.0
-margin_bottom = 22.0
-size_flags_vertical = 8
-text = "SCORE"
-valign = 1
-__meta__ = {
-"_editor_description_": ""
-}
-
 [node name="Points" type="Label" parent="GUI/Hud/Header/TopLineR/PlayerLineR/PointsHolder"]
-margin_left = 78.0
-margin_right = 92.0
+margin_left = 24.0
+margin_right = 38.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 text = "0"
@@ -1988,8 +1987,8 @@ __meta__ = {
 }
 
 [node name="ColorHolder" type="HBoxContainer" parent="GUI/Hud/Header/TopLineR/PlayerLineR"]
-margin_left = 108.0
-margin_right = 146.0
+margin_left = 54.0
+margin_right = 92.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
@@ -2104,9 +2103,9 @@ custom_constants/separation = 0
 custom_styles/separator = SubResource( 248 )
 
 [node name="EnergyBar" type="HBoxContainer" parent="GUI/Hud/Header/TopLineR/PlayerLineR"]
-margin_left = 162.0
+margin_left = 124.0
 margin_top = 3.0
-margin_right = 226.0
+margin_right = 188.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 19 )
 size_flags_vertical = 8
@@ -2134,9 +2133,9 @@ texture_over = SubResource( 126 )
 texture_progress = SubResource( 132 )
 
 [node name="LifeIcons" type="HBoxContainer" parent="GUI/Hud/Header/TopLineR/PlayerLineR"]
-margin_left = 242.0
+margin_left = 204.0
 margin_top = 3.0
-margin_right = 294.0
+margin_right = 256.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 19 )
 size_flags_vertical = 8
@@ -2197,8 +2196,8 @@ margin_bottom = 16.0
 texture = SubResource( 123 )
 
 [node name="PlayerLabel" type="Label" parent="GUI/Hud/Header/TopLineR/PlayerLineR"]
-margin_left = 310.0
-margin_right = 338.0
+margin_left = 272.0
+margin_right = 300.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
@@ -2350,44 +2349,6 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="LevelLimitHolder" type="HBoxContainer" parent="GUI/Hud/Footer/FooterLine"]
-visible = false
-margin_left = 916.0
-margin_right = 1218.0
-margin_bottom = 22.0
-size_flags_vertical = 8
-custom_constants/separation = 8
-
-[node name="TextureRect3" type="TextureRect" parent="GUI/Hud/Footer/FooterLine/LevelLimitHolder"]
-visible = false
-margin_top = 4.0
-margin_right = 16.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 16, 18 )
-size_flags_vertical = 8
-texture = SubResource( 450 )
-
-[node name="Label" type="Label" parent="GUI/Hud/Footer/FooterLine/LevelLimitHolder"]
-margin_right = 42.0
-margin_bottom = 22.0
-size_flags_vertical = 8
-text = "000"
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Label2" type="Label" parent="GUI/Hud/Footer/FooterLine/LevelLimitHolder"]
-margin_left = 50.0
-margin_right = 302.0
-margin_bottom = 22.0
-size_flags_vertical = 8
-text = "%POINTS TO LEVEL UP"
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
 [node name="PauseMenu" type="Control" parent="GUI"]
 pause_mode = 2
 visible = false
@@ -2478,7 +2439,7 @@ __meta__ = {
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
 margin_right = 120.0
 margin_bottom = 86.0
-texture = SubResource( 304 )
+texture = SubResource( 206 )
 
 [node name="btns" type="TextureRect" parent="GUI/PauseMenu/Controls/Keys/Joypad"]
 margin_left = 10.0
@@ -2911,7 +2872,7 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 2 )
-script = ExtResource( 19 )
+script = ExtResource( 21 )
 
 [node name="Background" type="ColorRect" parent="GUI/GameOver"]
 anchor_right = 1.0
@@ -3020,6 +2981,7 @@ align = 1
 autowrap = true
 
 [node name="Menu" type="HBoxContainer" parent="GUI/GameOver/GameoverTitle/Duel"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -3300,7 +3262,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -195.0
 margin_top = 222.0
-margin_right = 109.0
+margin_right = 21.0
 margin_bottom = 244.0
 custom_constants/separation = 32
 __meta__ = {
@@ -3828,455 +3790,6 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 text = "PLAY AGAIN"
 
-[node name="EnigmaGameSummary" type="Control" parent="GUI/GameOver"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-
-[node name="Title" type="Label" parent="GUI/GameOver/EnigmaGameSummary"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -132.0
-margin_top = -226.5
-margin_right = 132.0
-margin_bottom = -194.5
-custom_colors/font_color = Color( 0.952941, 0.356863, 0.498039, 1 )
-custom_fonts/font = ExtResource( 3 )
-text = "GAME SUMMARY"
-
-[node name="DataContainer" type="VBoxContainer" parent="GUI/GameOver/EnigmaGameSummary"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -215.0
-margin_top = -152.0
-margin_right = 8.0
-margin_bottom = 122.0
-custom_constants/separation = 14
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Game" type="Label" parent="GUI/GameOver/EnigmaGameSummary/DataContainer"]
-margin_right = 223.0
-margin_bottom = 18.0
-custom_fonts/font = ExtResource( 4 )
-text = "Game: %s"
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Level" type="Label" parent="GUI/GameOver/EnigmaGameSummary/DataContainer"]
-margin_top = 32.0
-margin_right = 223.0
-margin_bottom = 50.0
-custom_fonts/font = ExtResource( 4 )
-text = "Level: %s"
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="AstrayPixels" type="Label" parent="GUI/GameOver/EnigmaGameSummary/DataContainer"]
-margin_top = 64.0
-margin_right = 223.0
-margin_bottom = 82.0
-custom_fonts/font = ExtResource( 4 )
-text = "Pixels left astray: %s"
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="HighscoreTable" type="VBoxContainer" parent="GUI/GameOver/EnigmaGameSummary"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 142.0
-margin_top = -154.0
-margin_right = 320.0
-margin_bottom = 124.0
-custom_constants/separation = 6
-script = ExtResource( 15 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable"]
-margin_right = 178.0
-margin_bottom = 26.0
-rect_min_size = Vector2( 28, 26 )
-size_flags_horizontal = 6
-size_flags_vertical = 0
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-text = "Top 9 cleaners"
-
-[node name="ScoreLine1" type="HBoxContainer" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable"]
-margin_top = 32.0
-margin_right = 178.0
-margin_bottom = 54.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine1"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine1"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 4 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine1"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine2" type="HBoxContainer" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable"]
-margin_top = 60.0
-margin_right = 178.0
-margin_bottom = 82.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine2"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine2"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 4 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine2"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine3" type="HBoxContainer" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable"]
-margin_top = 88.0
-margin_right = 178.0
-margin_bottom = 110.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine3"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine3"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 4 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine3"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine4" type="HBoxContainer" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable"]
-margin_top = 116.0
-margin_right = 178.0
-margin_bottom = 138.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine4"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine4"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 4 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine4"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine5" type="HBoxContainer" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable"]
-margin_top = 144.0
-margin_right = 178.0
-margin_bottom = 166.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine5"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine5"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 4 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine5"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine6" type="HBoxContainer" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable"]
-margin_top = 172.0
-margin_right = 178.0
-margin_bottom = 194.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine6"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine6"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 4 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine6"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine7" type="HBoxContainer" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable"]
-margin_top = 200.0
-margin_right = 178.0
-margin_bottom = 222.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine7"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine7"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 4 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine7"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine8" type="HBoxContainer" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable"]
-margin_top = 228.0
-margin_right = 178.0
-margin_bottom = 250.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine8"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine8"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 4 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine8"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="ScoreLine9" type="HBoxContainer" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable"]
-margin_top = 256.0
-margin_right = 178.0
-margin_bottom = 278.0
-rect_min_size = Vector2( 72, 0 )
-
-[node name="Position" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine9"]
-margin_right = 24.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 24, 0 )
-text = "2."
-
-[node name="Owner" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine9"]
-margin_left = 28.0
-margin_top = 2.0
-margin_right = 100.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 72, 0 )
-custom_fonts/font = ExtResource( 4 )
-text = "PLAYERRR"
-clip_text = true
-uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine9"]
-margin_left = 108.0
-margin_right = 178.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-text = "00000"
-align = 2
-
-[node name="Menu" type="HBoxContainer" parent="GUI/GameOver/EnigmaGameSummary"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -246.0
-margin_top = 222.0
-margin_right = 246.0
-margin_bottom = 244.0
-grow_horizontal = 2
-custom_constants/separation = 32
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="QuitBtn" type="Button" parent="GUI/GameOver/EnigmaGameSummary/Menu"]
-margin_right = 160.0
-margin_bottom = 22.0
-mouse_default_cursor_shape = 2
-size_flags_vertical = 8
-text = "QUIT TO MENU"
-
-[node name="RestartBtn" type="Button" parent="GUI/GameOver/EnigmaGameSummary/Menu"]
-margin_left = 192.0
-margin_right = 324.0
-margin_bottom = 22.0
-mouse_default_cursor_shape = 2
-size_flags_vertical = 8
-text = "PLAY AGAIN"
-
-[node name="NextLevelBtn" type="Button" parent="GUI/GameOver/EnigmaGameSummary/Menu"]
-margin_left = 356.0
-margin_right = 492.0
-margin_bottom = 22.0
-mouse_default_cursor_shape = 2
-size_flags_vertical = 8
-text = "NEXT LEVEL"
-
-[node name="ExitGameBtn" type="Button" parent="GUI/GameOver/EnigmaGameSummary/Menu"]
-visible = false
-margin_left = 524.0
-margin_right = 646.0
-margin_bottom = 22.0
-mouse_default_cursor_shape = 2
-size_flags_vertical = 8
-text = "EXIT GAME"
-
 [node name="NameInputPopup" type="Control" parent="GUI/GameOver"]
 visible = false
 anchor_left = 0.5
@@ -4365,12 +3878,10 @@ size_flags_vertical = 9
 text = "CONFIRM"
 align = 0
 
-[node name="RespawnTimer" type="Timer" parent="."]
-wait_time = 5.0
-one_shot = true
-
 [connection signal="animation_finished" from="GUI/Hud/Popups/GameCountdown/AnimationPlayer" to="GUI/Hud/Popups/GameCountdown" method="_on_AnimationPlayer_animation_finished"]
-[connection signal="gametime_is_up" from="GUI/Hud/Header/GameTimerHunds" to="GUI/Hud" method="_on_GameTimer_gametime_is_up"]
+[connection signal="gametime_is_up" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_gametime_is_up"]
+[connection signal="sudden_death_active" from="GUI/Hud/Header/GameTimer" to="GUI/Hud" method="_on_GameTimer_sudden_death_active"]
+[connection signal="timeout" from="GUI/Hud/Header/GameTimer/Timer" to="GUI/Hud/Header/GameTimer" method="_on_Timer_timeout"]
 [connection signal="toggled" from="GUI/PauseMenu/Settings/GameMusicBtn" to="GUI/PauseMenu" method="_on_GameMusicBtn_toggled"]
 [connection signal="value_changed" from="GUI/PauseMenu/Settings/GameMusicSlider" to="GUI/PauseMenu" method="_on_GameMusicSlider_value_changed"]
 [connection signal="toggled" from="GUI/PauseMenu/Settings/GameSfxBtn" to="GUI/PauseMenu" method="_on_GameSfxBtn_toggled"]
@@ -4384,12 +3895,7 @@ one_shot = true
 [connection signal="pressed" from="GUI/GameOver/GameSummary/NoHS/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/GameSummary/WithHS/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/GameSummary/WithHS/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
-[connection signal="pressed" from="GUI/GameOver/EnigmaGameSummary/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
-[connection signal="pressed" from="GUI/GameOver/EnigmaGameSummary/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
-[connection signal="pressed" from="GUI/GameOver/EnigmaGameSummary/Menu/NextLevelBtn" to="GUI/GameOver" method="_on_NextLevelBtn_pressed"]
-[connection signal="pressed" from="GUI/GameOver/EnigmaGameSummary/Menu/ExitGameBtn" to="GUI/GameOver" method="_on_ExitGameBtn_pressed"]
 [connection signal="text_changed" from="GUI/GameOver/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_NameEdit_text_changed"]
 [connection signal="text_entered" from="GUI/GameOver/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_PopupNameEdit_text_entered"]
 [connection signal="pressed" from="GUI/GameOver/NameInputPopup/HBoxContainer/CancelBtn" to="GUI/GameOver" method="_on_CancelBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/NameInputPopup/HBoxContainer/ConfirmBtn" to="GUI/GameOver" method="_on_ConfirmBtn_pressed"]
-[connection signal="timeout" from="RespawnTimer" to="GameManager" method="_on_RespawnTimer_timeout"]

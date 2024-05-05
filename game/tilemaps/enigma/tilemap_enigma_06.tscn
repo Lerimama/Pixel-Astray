@@ -27,6 +27,3 @@ text = "Move it, move it!"
 [node name="SolutionLine" parent="." index="2"]
 visible = false
 points = PoolVector2Array( 1008, 496, 1008, 144, 272, 144, 272, 880, 1712, 880, 1712, 176 )
-
-[node name="_zoom_razlaga" parent="." index="5"]
-visible = true

@@ -15,7 +15,11 @@ func get_instructions_content(current_highscore, current_highscore_owner):
 	var current_game_data: Dictionary = Global.game_manager.game_data
 	
 	# obvezne alineje
-	title.text = current_game_data["game_name"]
+	if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA: # samo enigam ima številko levela
+		title.text = current_game_data["game_name"] + " %02d" % current_game_data["level"]
+	else:
+		title.text = current_game_data["game_name"]
+		
 	description.text = current_game_data["description"]
 	
 	# hajskor glede na tip
@@ -47,7 +51,6 @@ func get_instructions_content(current_highscore, current_highscore_owner):
 				record_label.modulate = Global.color_green
 				record_label.text = str(current_highscore) + " seconds by " + str(current_highscore_owner)
 
-#		record_label.text = "No highscore yet."
 	# poljubne alineje
 	for label in outline.get_children():
 		if not label == record_label:

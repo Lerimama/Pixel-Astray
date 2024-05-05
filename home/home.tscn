@@ -4605,9 +4605,9 @@ autowrap = true
 
 [node name="Cleaner" type="Panel" parent="SelectGame"]
 margin_left = 224.0
-margin_top = 152.0
+margin_top = 432.0
 margin_right = 432.0
-margin_bottom = 384.0
+margin_bottom = 600.0
 custom_styles/panel = SubResource( 274 )
 
 [node name="Title" type="Label" parent="SelectGame/Cleaner"]
@@ -4627,11 +4627,36 @@ custom_fonts/font = ExtResource( 14 )
 text = "Got skills? Score as much as you can."
 autowrap = true
 
+[node name="TheDuel" type="Panel" parent="SelectGame"]
+margin_left = 440.0
+margin_top = 152.0
+margin_right = 648.0
+margin_bottom = 344.0
+custom_styles/panel = SubResource( 274 )
+
+[node name="Title" type="Label" parent="SelectGame/TheDuel"]
+visible = false
+margin_left = 24.0
+margin_top = 22.0
+margin_right = 112.0
+margin_bottom = 44.0
+text = "Cleaners"
+
+[node name="Label" type="Label" parent="SelectGame/TheDuel"]
+margin_left = 25.0
+margin_top = 24.0
+margin_right = 184.0
+margin_bottom = 96.0
+custom_fonts/font = ExtResource( 14 )
+text = "Couch coop. Only the best cleaner 
+is left shining."
+autowrap = true
+
 [node name="Enigma" type="Panel" parent="SelectGame"]
-margin_left = 224.0
-margin_top = 392.0
-margin_right = 432.0
-margin_bottom = 560.0
+margin_left = 440.0
+margin_top = 352.0
+margin_right = 648.0
+margin_bottom = 600.0
 custom_styles/panel = SubResource( 274 )
 
 [node name="Title" type="Label" parent="SelectGame/Enigma"]
@@ -4646,17 +4671,16 @@ text = "Riddler"
 margin_left = 25.0
 margin_top = 23.0
 margin_right = 192.0
-margin_bottom = 80.0
+margin_bottom = 152.0
 custom_fonts/font = ExtResource( 14 )
-text = "Collect all colors in
-a single burst move."
+text = "Skills and tactics. 9 enigmas to figure out and clean the screen in a single burst move."
 autowrap = true
 
 [node name="Panel8" type="Panel" parent="SelectGame"]
-margin_left = 440.0
+margin_left = 224.0
 margin_top = 152.0
-margin_right = 648.0
-margin_bottom = 472.0
+margin_right = 432.0
+margin_bottom = 424.0
 custom_styles/panel = SubResource( 274 )
 
 [node name="Title" type="Label" parent="SelectGame/Panel8"]
@@ -4670,10 +4694,10 @@ text = "Unbeatables"
 [node name="Label" type="Label" parent="SelectGame/Panel8"]
 margin_left = 25.0
 margin_top = 24.0
-margin_right = 184.0
-margin_bottom = 90.0
+margin_right = 192.0
+margin_bottom = 48.0
 custom_fonts/font = ExtResource( 14 )
-text = "Unbeatable games. But you can still try ..."
+text = "Unbeatable games"
 autowrap = true
 
 [node name="GameBtns" type="Control" parent="SelectGame"]
@@ -4683,10 +4707,10 @@ margin_right = 48.0
 margin_bottom = 272.0
 
 [node name="EternalBtn" type="Button" parent="SelectGame/GameBtns"]
-margin_left = 416.0
-margin_top = 56.0
-margin_right = 576.0
-margin_bottom = 112.0
+margin_left = 200.0
+margin_top = -56.0
+margin_right = 360.0
+focus_neighbour_top = NodePath("../../BackBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -4695,15 +4719,14 @@ custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "Eternal"
 __meta__ = {
-"_edit_use_anchors_": true,
 "_editor_description_": ""
 }
 
 [node name="EternalXLBtn" type="Button" parent="SelectGame/GameBtns"]
-margin_left = 416.0
-margin_top = 120.0
-margin_right = 576.0
-margin_bottom = 176.0
+margin_left = 200.0
+margin_top = 8.0
+margin_right = 360.0
+margin_bottom = 64.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -4716,10 +4739,12 @@ __meta__ = {
 }
 
 [node name="EnigmaBtn" type="Button" parent="SelectGame/GameBtns"]
-margin_left = 200.0
-margin_top = 208.0
-margin_right = 360.0
-margin_bottom = 264.0
+margin_left = 416.0
+margin_top = 248.0
+margin_right = 576.0
+margin_bottom = 304.0
+focus_neighbour_top = NodePath("../CleanerDuelBtn")
+focus_neighbour_bottom = NodePath("../CleanerDuelBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -4735,6 +4760,8 @@ __meta__ = {
 margin_left = -16.0
 margin_top = -56.0
 margin_right = 144.0
+focus_neighbour_top = NodePath("../../BackBtn")
+focus_neighbour_bottom = NodePath("../EraserSBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -4748,9 +4775,11 @@ __meta__ = {
 
 [node name="CleanerBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_left = 200.0
-margin_top = -32.0
+margin_top = 248.0
 margin_right = 360.0
-margin_bottom = 24.0
+margin_bottom = 304.0
+focus_neighbour_top = NodePath("../ScrollerBtn")
+focus_neighbour_bottom = NodePath("../EternalBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -4763,16 +4792,19 @@ __meta__ = {
 }
 
 [node name="CleanerDuelBtn" type="Button" parent="SelectGame/GameBtns"]
-margin_left = 200.0
-margin_top = 32.0
-margin_right = 360.0
-margin_bottom = 88.0
+margin_left = 416.0
+margin_top = -8.0
+margin_right = 576.0
+margin_bottom = 48.0
+focus_neighbour_top = NodePath("../../BackBtn")
+focus_neighbour_bottom = NodePath("../EnigmaBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
+disabled = true
 text = "The Duel"
 __meta__ = {
 "_editor_description_": ""
@@ -4783,6 +4815,7 @@ margin_left = -16.0
 margin_top = 120.0
 margin_right = 144.0
 margin_bottom = 176.0
+focus_neighbour_top = NodePath("../TutorialBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -4815,6 +4848,7 @@ margin_left = -16.0
 margin_top = 248.0
 margin_right = 144.0
 margin_bottom = 304.0
+focus_neighbour_bottom = NodePath("../TutorialBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -4827,10 +4861,11 @@ __meta__ = {
 }
 
 [node name="ScrollerBtn" type="Button" parent="SelectGame/GameBtns"]
-margin_left = 416.0
-margin_top = -8.0
-margin_right = 576.0
-margin_bottom = 48.0
+margin_left = 200.0
+margin_top = 72.0
+margin_right = 360.0
+margin_bottom = 128.0
+focus_neighbour_bottom = NodePath("../CleanerBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -4879,6 +4914,7 @@ margin_top = 76.0
 margin_right = -6.0
 margin_bottom = 98.0
 rect_min_size = Vector2( 16, 16 )
+focus_neighbour_top = NodePath("../GameBtns/EnigmaBtn")
 mouse_default_cursor_shape = 2
 texture_normal = SubResource( 195 )
 texture_hover = SubResource( 196 )
@@ -4972,7 +5008,7 @@ margin_bottom = 11.0
 [node name="LevelGrid" type="Panel" parent="SelectLevel"]
 margin_left = 8.0
 margin_top = 152.0
-margin_right = 648.0
+margin_right = 568.0
 margin_bottom = 600.0
 custom_styles/panel = SubResource( 274 )
 
@@ -4986,15 +5022,15 @@ margin_bottom = -24.0
 custom_constants/separation = 20
 
 [node name="Subtitle" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer"]
-margin_right = 592.0
+margin_right = 512.0
 margin_bottom = 18.0
 custom_fonts/font = ExtResource( 14 )
-text = "Get stray pixels in order and ollect all colors with a single burst move."
+text = "Figure out how to collect all colors with a single burst move."
 autowrap = true
 
 [node name="BtnsHolder" type="Control" parent="SelectLevel/LevelGrid/VBoxContainer"]
 margin_top = 38.0
-margin_right = 592.0
+margin_right = 512.0
 margin_bottom = 400.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -5120,9 +5156,9 @@ text = "Collect as many points as you can"
 autowrap = true
 
 [node name="04" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
-margin_top = 106.0
+margin_top = 98.0
 margin_right = 160.0
-margin_bottom = 186.0
+margin_bottom = 178.0
 rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
@@ -5160,9 +5196,9 @@ autowrap = true
 
 [node name="05" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
 margin_left = 176.0
-margin_top = 106.0
+margin_top = 98.0
 margin_right = 336.0
-margin_bottom = 186.0
+margin_bottom = 178.0
 rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
@@ -5200,9 +5236,9 @@ autowrap = true
 
 [node name="06" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
 margin_left = 352.0
-margin_top = 106.0
+margin_top = 98.0
 margin_right = 512.0
-margin_bottom = 186.0
+margin_bottom = 178.0
 rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
@@ -5239,9 +5275,9 @@ text = "Collect as many points as you can"
 autowrap = true
 
 [node name="07" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
-margin_top = 202.0
+margin_top = 194.0
 margin_right = 160.0
-margin_bottom = 282.0
+margin_bottom = 274.0
 rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
@@ -5279,9 +5315,9 @@ autowrap = true
 
 [node name="08" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
 margin_left = 176.0
-margin_top = 202.0
+margin_top = 194.0
 margin_right = 336.0
-margin_bottom = 282.0
+margin_bottom = 274.0
 rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
@@ -5319,9 +5355,9 @@ autowrap = true
 
 [node name="09" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
 margin_left = 352.0
-margin_top = 202.0
+margin_top = 194.0
 margin_right = 512.0
-margin_bottom = 282.0
+margin_bottom = 274.0
 rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3

@@ -13,13 +13,11 @@ var default_player_stats: Dictionary = {
 }
 
 
-var default_game_settings: Dictionary = {
-	# to so default CLEANING settings
-	# player on start
+var default_game_settings: Dictionary = { # to so default CLEANING settings
+	# player
 	"player_start_life": 1, # 1 lajf skrije ikone v hudu in določi "lose_life_on_hit"
 	"player_start_energy": 192, # če je 0, je 0 ... instant GO
 	"player_start_color": Color("#232323"), # old #141414
-	# player in game
 	"player_max_energy": 192, # max energija
 	"player_tired_energy": 20, # pokaže steps warning popup in hud oabrva rdeče
 	"step_time_fast": 0.09, # default hitrost
@@ -44,23 +42,23 @@ var default_game_settings: Dictionary = {
 	"reburst_reward_limit": 0, # 0 je brez nagrade
 	"reburst_reward_points": 100, # kolk jih destroya ... 0 gre po original pravilih moči
 	"reburst_window_time": 0.2, # 0 je neomejen čas
-	"reburst_hit_power": 1, # kolk jih destroya ... 0 gre po original pravilih moči
+	"reburst_hit_power": 1, # kolk jih destroya ... 0 gre po original pravilih moči, 5 je full power
 	# game
-	"step_slowdown_mode": true,
-	"lose_life_on_hit": false, # zadetek od igralca ali v steno pomeni izgubo življenja, alternativa je izguba energije
-	"game_instructions_popup": true,
-	"zoom_animation": true,
-	"gameover_countdown_duration": 5,
-	"show_position_indicators_stray_count": 5,
-	"start_countdown": false,
+	"reburst_mode": true,
 	"timer_mode_countdown" : true, # če prišteva in je "game_time_limit" = 0, nima omejitve navzgor
-#	"minimap_on": false,
-	"position_indicators_on": true, # duel jih nima 
-	"manage_highscores": true, # obsoleten, ker je vključen v HS type
+	"lose_life_on_hit": false, # zadetek od igralca ali v steno pomeni izgubo življenja, alternativa je izguba energije
+	"step_slowdown_mode": true,
 	"eternal_mode": false,
-	"spectrum_start_on": false, # a pobrane prižigam al ugašam
 	"turn_stray_to_wall": true, # eternal big screen
 	"full_power_mode": false, # hitrost je tudi max_cock_coiunt > vedno destroja ves bulk 
+	# gui
+	"gameover_countdown_duration": 5,
+	"show_position_indicators_stray_count": 5,
+	"position_indicators_on": true, # duel jih nima 
+	"spectrum_start_on": false, # a pobrane prižigam al ugašam
+	"zoom_animation": true,
+	"start_countdown": false,
+	"game_instructions_popup": true,
 	"solutions_mode": false # enigma reštve
 }
 
@@ -153,8 +151,9 @@ var game_data_cleaner_duel: Dictionary = {
 	"strays_start_count": 1000, 
 	# instructions text
 	"description" : "Surviving player or player with higher score wins.",
-	"Label": "Game is over when one of the players loses all life.",
-	"Label2" : "Time is limited.",
+	"Label": "", # presledek
+	"Label2": "Game is over when one of the players loses all life.",
+	"Label3" : "Time is limited.",
 }
 var game_data_scroller: Dictionary = { 
 	"game": Games.SCROLLER,
@@ -242,9 +241,12 @@ var game_data_enigma: Dictionary = {
 	"strays_start_count": 100, 
 	# instructions text
 	"description" : "Collect all available colors with a single burst move.",
-	"Label": "Burst move includes initial burst and all rebursts that follow.",
-	"Label2" : "Don't worry about energy.",
-	"Label3" : "Burst always collects all colors in a stack. Reburst collects only one.",
+	"Label" : "Burst move includes initial burst and all rebursts that follow.",
+	"Label2": "Burst move starts when you hit the first stray pixel.",
+#	"Label3" : "Burst always collect all colors in a stack. Reburst collects only one.",
+	"Label3" : "Burst and reburst always collect all colors in a stack.",
+	"Label4" : "Reburst time window is limitless.",
+	"Label5" : "Don't worry about energy.",
 	# nafila iz level settingsov
 	# "tilemap_path": 
 	# "level": 
@@ -314,9 +316,9 @@ func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.TUTORIAL
-#	var debug_game = Games.ENIGMA
+	var debug_game = Games.ENIGMA
 #	var debug_game = Games.ETERNAL
-	var debug_game = Games.ETERNAL_XL
+#	var debug_game = Games.ETERNAL_XL
 #	var debug_game = Games.CLEANER
 #	var debug_game = Games.CLEANER_DUEL
 #	var debug_game = Games.ERASER_S
@@ -350,8 +352,10 @@ func set_game_data(selected_game) -> void:
 			game_settings["position_indicators_on"] = false
 			game_settings["start_countdown"] = true
 			game_settings["player_start_color"] = Color.white
+			game_settings["reburst_hit_power"] = 2
+#			game_settings["reburst_mode"] = true
 			# debug
-			current_game_data["level"] = 1
+			current_game_data["level"] = 6
 			game_settings["solutions_mode"] = false
 		Games.ETERNAL: 
 			current_game_data = game_data_eternal

@@ -14,9 +14,6 @@ var reburst_max_cock_count: int = 1 # za kolk se nakoka (samo vizualni efekt)
 var reburst_reward__count: int = 1 # za kolk se nakoka (samo vizualni efekt)
 
 onready var rebursting_timer: Timer = $ReburstingTimer
-#onready var reburst_window_time: int = Global.game_manager.game_settings["reburst_window_time"] # cocking count
-#onready var reburst_count_limit: int = Global.game_manager.game_settings["reburst_count_limit"] # cocking count
-#onready var reburst_hit_power: int = Global.game_manager.game_settings["reburst_hit_power"] # kolk jih destroya ... če je 0 gre po original pravilih moči
 
 
 func _ready() -> void:
@@ -184,17 +181,18 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	end_move()
 	
 	# reburst
-	if reburst_count < Global.game_manager.game_settings["reburst_count_limit"] or Global.game_manager.game_settings["reburst_count_limit"] == 0:
-		can_reburst = true
-		burst_light_on()	
-		rebursting_timer.stop() # ... zazih
-		rebursting_timer.start(Global.game_manager.game_settings["reburst_window_time"])
-	else:
-		# vpliva samo kadar odigram vse reburste, drugi reset je v stepanju
-		close_reburst_window()
-		reburst_count = 0
-		if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:	
-			finish_enigma_move()
+	if Global.game_manager.game_settings["reburst_mode"]:
+		if reburst_count < Global.game_manager.game_settings["reburst_count_limit"] or Global.game_manager.game_settings["reburst_count_limit"] == 0:
+			can_reburst = true
+			burst_light_on()	
+			rebursting_timer.stop() # ... zazih
+			rebursting_timer.start(Global.game_manager.game_settings["reburst_window_time"])
+		else:
+			# vpliva samo kadar odigram vse reburste, drugi reset je v stepanju
+			close_reburst_window()
+			reburst_count = 0
+			if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:	
+				finish_enigma_move()
 
 
 func spawn_cock_ghost(cocking_direction: Vector2):
@@ -238,26 +236,18 @@ func rebursting_inputs():
 			close_reburst_window()
 			direction = Vector2.UP
 			cock_reburst()
-			#			can_reburst = false
-			#			direction = Vector2.DOWN
 	elif Input.is_action_just_pressed(key_down):
 			close_reburst_window()
 			direction = Vector2.DOWN
 			cock_reburst()
-			#			can_reburst = false
-			#			direction = Vector2.UP
 	elif Input.is_action_just_pressed(key_left):
 			close_reburst_window()
 			direction = Vector2.LEFT
 			cock_reburst()
-			#			can_reburst = false
-			#			direction = Vector2.RIGHT
 	elif Input.is_action_just_pressed(key_right):
 			close_reburst_window()
 			direction = Vector2.RIGHT
 			cock_reburst()
-			#			can_reburst = false
-			#			direction = Vector2.LEFT
 
 	
 func cock_reburst():
