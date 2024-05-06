@@ -205,7 +205,7 @@ func random_stray_step():
 	stray_step_timer.start(random_pause_time)
 	
 
-func respawn_strays():
+func respawn_title_strays():
 	
 	stray_step_timer.stop()
 	for stray in get_tree().get_nodes_in_group(Global.group_strays):

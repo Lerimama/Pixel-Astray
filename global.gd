@@ -40,7 +40,7 @@ var color_blue: Color = Color("#4b9fff")
 var color_green: Color = Color("#5effa9")
 var color_red: Color = Color("#f35b7f")
 var color_yellow: Color = Color("#fef98b")
-var color_gray_dark: Color = Color("#232323") # tudi color_floor_scroller
+#var color_gray_dark: Color = Color("#232323") # tudi color_floor_scroller
 # level colors
 var color_wall: Color = Color("#141414")
 var color_edge: Color = Color.black
@@ -52,7 +52,8 @@ var color_gui_gray: Color = Color("#838383") # siva v tekstih (naslovi) in ikona
 # samo za reference ... niso v kodi
 var color_almost_black: Color = Color("#141414") # start player, wall, floor
 var color_hud_background: Color = Color("#141414")
-var color_wall_gray: Color = Color("#141414")
+var color_wall_gray: Color = Color("#ffffff")
+#var color_wall_gray: Color = Color("#141414")
 
 
 # --------------------------------------------------------------------------------------------------------------

@@ -5,7 +5,6 @@ onready var enigma_btn: Button = $"LevelGrid/VBoxContainer/BtnsHolder/01"
 onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
 onready var btn_grid_container: Control = $LevelGrid/VBoxContainer/BtnsHolder
 onready var level_grid_btns: Array = btn_grid_container.get_children()
-onready var color_spectrum: TextureRect = $"../Spectrum"
 
 
 func _ready() -> void:
@@ -19,7 +18,6 @@ func _ready() -> void:
 func update_enigma_btns_color():
 	
 	var solved_levels: Array = Global.data_manager.read_solved_status_from_file(Profiles.game_data_enigma)
-	var level_grid_btns: Array = btn_grid_container.get_children()
 	
 	# naberem gumbe in barve za njih 
 	var btn_colors: Array

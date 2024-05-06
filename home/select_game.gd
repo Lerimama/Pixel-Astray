@@ -1,8 +1,8 @@
 extends Control
 
-onready var enigma_btn: Button = $Eternal/EnigmaBtn
+onready var enigma_btn: Button = $GameBtns/EnigmaBtn
 onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
-	 
+
 
 func _on_BackBtn_pressed() -> void:
 	
@@ -24,11 +24,6 @@ func play_selected_game(selected_game_enum: int):
 func _on_TutorialBtn_pressed() -> void:
 	play_selected_game(Profiles.Games.TUTORIAL)
 
-func _on_CleanerBtn_pressed() -> void:
-	play_selected_game(Profiles.Games.CLEANER)
-func _on_CleanerDuelBtn_pressed() -> void:
-	play_selected_game(Profiles.Games.CLEANER_DUEL)
-	
 	
 func _on_EraserSBtn_pressed() -> void:
 	play_selected_game(Profiles.Games.ERASER_S)
@@ -38,14 +33,20 @@ func _on_EraserLBtn_pressed() -> void:
 	play_selected_game(Profiles.Games.ERASER_L)
 
 
-func _on_EternalBtn_pressed() -> void:
-	play_selected_game(Profiles.Games.ETERNAL)
-func _on_EternalXLBtn_pressed() -> void:
-	play_selected_game(Profiles.Games.ETERNAL_XL)
+func _on_CleanerSBtn_pressed() -> void:
+	play_selected_game(Profiles.Games.CLEANER_S)
+func _on_CleanerMBtn_pressed() -> void:
+	play_selected_game(Profiles.Games.CLEANER_M)
+func _on_CleanerLBtn_pressed() -> void:
+	play_selected_game(Profiles.Games.CLEANER_L)
 	
 	
 func _on_ScrollerBtn_pressed() -> void:
 	play_selected_game(Profiles.Games.SCROLLER)
+
+
+func _on_TheDuelBtn_pressed() -> void:
+	play_selected_game(Profiles.Games.THE_DUEL)
 
 
 func _on_Enigma_Btn_pressed() -> void:

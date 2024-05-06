@@ -9,7 +9,7 @@ var game_time_seconds: int # čas v tajmerju v sekundah ... GLAVNI TIMER, po kat
 var absolute_game_time: float # ne glede na mode, vedno želiš vedet koliko sekund je porabljeno od začetka ... za statistiko
 var limitless_mode: bool # če je gejm tajm 0 in je count-up mode
 
-onready var game_time_limit: int = Global.game_manager.game_data["game_time_limit"]
+onready var game_time_limit: int = Global.game_manager.game_settings["game_time_limit"]
 onready var sudden_death_mode: int
 onready var sudden_death_limit: int
 onready var countdown_mode: bool = Global.game_manager.game_settings["timer_mode_countdown"]

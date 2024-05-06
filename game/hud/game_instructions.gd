@@ -61,7 +61,7 @@ func get_instructions_content(current_highscore, current_highscore_owner):
 				label.hide() # ali pa jo skrij
 	
 	# controls slikca			
-	if current_game_data["game"] == Profiles.Games.CLEANER_DUEL:
+	if current_game_data["game"] == Profiles.Games.THE_DUEL:
 		controls.hide()
 		controls_duel.show()
 	else:

@@ -31,7 +31,7 @@ var goal_stray_positions: Array
 
 onready var game_settings: Dictionary = Profiles.game_settings # ga med igro ne spreminjaš
 onready var game_data: Dictionary = Profiles.current_game_data # .duplicate() # duplikat default profila, ker ga me igro spreminjaš
-onready var start_strays_spawn_count: int = game_data["strays_start_count"] # število se lahko popravi iz tilempa signala
+onready var start_strays_spawn_count: int = game_settings["strays_start_count"] # število se lahko popravi iz tilempa signala
 onready var StrayPixel: PackedScene = preload("res://game/pixel/stray.tscn")
 onready var PlayerPixel: PackedScene = preload("res://game/pixel/player_cleaning.tscn")
 

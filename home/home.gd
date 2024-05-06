@@ -11,7 +11,6 @@ onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var menu: HBoxContainer = $Menu
 onready var intro: Node2D = $IntroViewPortContainer/IntroViewport/Intro
 onready var intro_viewport: Viewport = $IntroViewPortContainer/IntroViewport
-onready var color_spectrum: TextureRect = $Spectrum
 
 
 func _input(event: InputEvent) -> void:

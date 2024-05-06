@@ -7,7 +7,7 @@ func show_stray(): # kliče GM
 	
 	if current_state == States.WALL:
 		stray_color.s = 0.0
-		color_poly.modulate = Global.color_gray_dark
+		color_poly.modulate = Global.color_wall_gray
 
 
 func die(stray_in_stack_index: int, strays_in_stack: int):
@@ -114,7 +114,7 @@ func turn_to_wall(stray_in_stack_index: int):
 	
 	var color_tween: SceneTreeTween = get_tree().create_tween()
 	color_tween.tween_property(self, "color_poly:modulate", stray_color, 0.2) # barva straysa
-	color_tween.parallel().tween_property(self, "modulate", Global.color_gray_dark, 0.2) # siva stena
+	color_tween.parallel().tween_property(self, "modulate", Global.color_wall_gray, 0.2) # siva stena
 	
 	# povzroča error, ker hoče vrnit funkciji ki ne obstaja več ... nekaj takega
 	# color_tween.tween_callback(self, "return", [true])#.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)

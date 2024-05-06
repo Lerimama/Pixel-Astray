@@ -4,11 +4,14 @@ var level_upgrade_in_progress: bool = false # ustavim klicanje naslednjih levelo
 var current_enigma_name: String = "Null"# ime levele ... lahko številka
 
 var first_respawn_time: float = 5
-var respawn_wait_time: float
-var respawn_strays_count: int
 var level_points_limit: int
 
 onready var respawn_timer: Timer = $"../RespawnTimer"
+onready var respawn_wait_time: float = game_settings["respawn_wait_time"]
+onready var respawn_strays_count: int = game_settings["respawn_strays_count"]
+
+# debug
+var universal_time: float = 0 # za merjenje trajanja raznih stvari
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -30,8 +33,8 @@ func _ready() -> void:
 	# set_new_level on start
 	if game_settings["eternal_mode"]:
 		game_data["level"] = 1 # zmeraj začnem s prvim levelom
-		respawn_wait_time = game_data["respawn_wait_time"]
-		respawn_strays_count = game_data["respawn_strays_count"]
+		respawn_wait_time = game_settings["respawn_wait_time"]
+		respawn_strays_count = game_settings["respawn_strays_count"]
 		level_points_limit = game_data["level_points_limit"]
 	
 	if game_data["game"] == Profiles.Games.ENIGMA:
@@ -83,7 +86,8 @@ func start_game():
 	game_on = true
 	
 	# start respawning
-	if game_settings["eternal_mode"]:
+	if game_settings["respawn_mode"]:
+#	if game_settings["eternal_mode"]:
 		respawn_timer.start(first_respawn_time)
 
 
@@ -131,12 +135,12 @@ func spawn_strays(strays_to_spawn_count: int):
 	
 	# colors
 	var all_colors_available: Array
-	if game_settings["eternal_mode"]: # ETERNAL, ETERNAL_XL, SCROLLER
+	if game_settings["eternal_mode"]: # CLEANER_S, CLEANER_M, SCROLLER
 		if current_level <= 1:
 			all_colors_available = Global.get_spectrum_colors(strays_to_spawn_count) # prvi level je original ... vsi naslednji imajo random gradient
 		else:
 			all_colors_available = Global.get_random_gradient_colors(strays_to_spawn_count)
-	else: #	ERASER_S, ERASER_M, ERASER_L, CLEANER, CLEANER_DUEL, ENIGMA	
+	else: #	ERASER_S, ERASER_M, ERASER_L, CLEANER_L, THE_DUEL, ENIGMA	
 		if Profiles.use_custom_color_theme:
 			var color_split_offset: float = 1.0 / strays_to_spawn_count
 			for stray_count in strays_to_spawn_count:
@@ -280,8 +284,6 @@ func turn_random_strays_to_wall(): # za eternal
 # LEVELS --------------------------------------------------------------------------------------------	
 
 
-var universal_time: float = 0 # za merjenje trajanja raznih stvari ... debug
-
 func upgrade_level(): # za eternal
 	
 	if level_upgrade_in_progress:
@@ -320,8 +322,9 @@ func upgrade_level(): # za eternal
 	level_upgrade_in_progress = false
 	set_strays() 
 	get_tree().call_group(Global.group_players, "set_physics_process", true)
-	respawn_timer.start(first_respawn_time)
-	#	printt("upgrade time from cleaned", universal_time - curr_time)
+	
+	if game_settings["respawn_mode"]:
+		respawn_timer.start(first_respawn_time)
 	
 
 func set_new_level(): 
@@ -334,8 +337,8 @@ func set_new_level():
 		respawn_strays_count = game_data["respawn_strays_count_grow"]
 		# število spawnanih straysov
 		start_strays_spawn_count += game_data["level_strays_spawn_count_grow"]
-		if game_data["level"] == 2: # prvi level ko se štarta zares
-			start_strays_spawn_count = game_data["strays_start_count"]
+		if game_data["level"] == 2: # 2. level je prvi level ko se štarta zares
+			start_strays_spawn_count = game_settings["strays_start_count"]
 
 
 func _change_strays_in_game_count(strays_count_change: int):

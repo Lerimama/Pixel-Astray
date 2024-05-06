@@ -6,9 +6,7 @@ onready var reset_btn: Button = $ColorSchemeOptions/ResetBtn
 onready var gradient_icon: TextureRect = $ColorSchemeOptions/RandomizeBtn/GradientIcon
 onready var spectrum_icon: TextureRect = $ColorSchemeOptions/RandomizeBtn/SpectrumIcon
 
-onready var color_celector_label: Label = $ColorSchemeOptions/Label
 onready var intro: Node2D = $"%Intro"
-onready var colors_container: HBoxContainer = $ColorSchemeOptions/Colors
 onready var select_level_node: Control = $"../SelectLevel"
 
 
@@ -127,7 +125,7 @@ func _on_ResetBtn_pressed() -> void:
 	Profiles.use_custom_color_theme = false
 	randomize_btn.grab_focus()
 
-	intro.respawn_strays()
+	intro.respawn_title_strays()
 	select_level_node.update_enigma_btns_color()
 
 
@@ -142,5 +140,5 @@ func _on_RandomizeBtn_pressed() -> void:
 	var current_color_scheme_gradient: Gradient = Global.get_random_gradient_colors(0) # 0 je za pravilno izbiro rezultata funkcije
 	gradient_icon.texture.gradient = current_color_scheme_gradient
 	
-	intro.respawn_strays()
+	intro.respawn_title_strays()
 	select_level_node.update_enigma_btns_color()

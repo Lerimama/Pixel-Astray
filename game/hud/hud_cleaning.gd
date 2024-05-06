@@ -104,7 +104,7 @@ func fade_in_instructions_popup(in_time: float):
 
 	instructions_popup.get_instructions_content(current_highscore, current_highscore_owner)
 
-	if Global.game_manager.game_data["game"] == Profiles.Games.CLEANER_DUEL:
+	if Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
 		$Popups/Instructions/Controls.hide()
 		$Popups/Instructions/ControlsDuel.show()
 	else:

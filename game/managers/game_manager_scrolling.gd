@@ -380,6 +380,7 @@ func set_new_level():
 	elif current_level > 1:
 		stages_per_level += stages_per_level + game_data["stages_per_level_grow"]
 		scrolling_pause_time *= game_data["scrolling_pause_time_factor"]
+		scrolling_pause_time = clamp (scrolling_pause_time, 0.2, scrolling_pause_time) # ne sem bit manjša od stray step hitrosti (cca 0.2)
 		stray_to_spawn_round_range[0] *= game_data["round_range_factor_1"]
 		stray_to_spawn_round_range[1] *= game_data["round_range_factor_2"]
 		round_spawn_possibility *= game_data["round_spawn_possibility_factor"]
