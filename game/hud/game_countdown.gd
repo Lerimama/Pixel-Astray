@@ -18,6 +18,7 @@ func start_countdown():
 		modulate.a = 0
 		visible = true
 		animation_player.play("countdown_3")
+#		animation_player.play("just_go")
 	else:
 		yield(get_tree().create_timer(0.5), "timeout")
 		emit_signal("countdown_finished") # GM yielda za ta signal

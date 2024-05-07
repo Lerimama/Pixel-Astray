@@ -188,17 +188,17 @@ func set_game_view():
 	#		Global.player1_camera.position = player_start_positions[0] + cell_align_start
 
 
-	if start_players_count == 2:
-		viewport_container_2.visible = true
-		viewport_2.world_2d = viewport_1.world_2d
-	else:
-		viewport_container_2.visible = false
-		viewport_separator.visible = false
+#	if start_players_count == 2:
+#		viewport_container_2.visible = true
+#		viewport_2.world_2d = viewport_1.world_2d
+#	else:
+	viewport_container_2.visible = false
+	viewport_separator.visible = false
 	
 	# set player camera limits
 	var tilemap_edge = Global.current_tilemap.get_used_rect()
 	get_tree().call_group(Global.group_player_cameras, "set_camera_limits")
-	if game_data["game"] == Profiles.Games.ENIGMA:	
+	if game_data["game"] == Profiles.Games.ENIGMA or game_data["game"] == Profiles.Games.THE_DUEL:	
 		get_tree().call_group(Global.group_player_cameras, "set_zoom_to_level_size")
 			
 	# minimap

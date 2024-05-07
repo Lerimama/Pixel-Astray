@@ -31,7 +31,7 @@ var cocking_loop_pause: float = 1
 var cock_ghost_cocking_time: float = 0.06 # čas nastajanja ghosta in njegova animacija ... original 0.12
 var current_ghost_cocking_time: float = 0 # trenuten čas nastajanja ghosta ... tukaj, da ga ne nulira z vsakim frejmom
 var cocked_ghost_max_count: int = 5
-var cock_ghost_speed_addon: float = 8
+var cock_ghost_speed_addon: float = 10
 var cocked_ghosts: Array
 var burst_speed: float = 0 # trenutna hitrost
 var burst_velocity: Vector2
@@ -109,13 +109,16 @@ func state_machine():
 	
 	match current_state:
 		States.IDLE:
+			stop_sound("burst_cocking")
 			idle_inputs()
 		States.SKILLED:
+			stop_sound("burst_cocking")
 			if player_stats["player_energy"] > 1:
 				skill_inputs()
 		States.COCKING:
 			cocking_inputs()
 		States.BURSTING:
+			stop_sound("burst_cocking")
 			burst_velocity = direction * burst_speed
 			collision = move_and_collide(burst_velocity) 
 			if collision:
@@ -277,8 +280,6 @@ func bursting_inputs():
 		end_move()
 		Input.start_joy_vibration(0, 0.6, 0.2, 0.2)
 		play_sound("burst_stop")
-		stop_sound("burst_cocking")
-		stop_sound("burst_uncocking")	
 
 				
 # MOVEMENT ------------------------------------------------------------------------------------------
@@ -342,7 +343,6 @@ func cock_burst():
 	
 	# prostor za začetek napenjanja preverja pixel
 	if detect_collision_in_direction(cock_direction):
-		stop_sound("burst_cocking")
 		end_move()
 		return
 	
@@ -400,8 +400,6 @@ func burst():
 		var ghost = cocked_ghosts.pop_back()
 		ghost.queue_free()
 	
-	stop_sound("burst_cocking")
-	stop_sound("burst_uncocking")
 	play_sound("burst")
 	
 	# release ghost 
@@ -1039,7 +1037,8 @@ func stop_sound(stop_effect_for: String):
 			else: # zazih ob koncu igre
 				$Sounds/Skills/TeleportLoop.stop()
 		"burst_cocking":
-			$Sounds/Burst/BurstCocking.stop()
+			if $Sounds/Burst/BurstCocking.is_playing():
+				$Sounds/Burst/BurstCocking.stop()
 		"burst_uncocking":
 			$Sounds/Burst/BurstUncocking.stop()	
 		"heartbeat":

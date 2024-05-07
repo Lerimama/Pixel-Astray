@@ -49,7 +49,7 @@ func _process(delta: float) -> void:
 
 	universal_time += delta
 	
-	var wall_strays_count: int
+	var wall_strays_count: int = 0
 	for stray in get_tree().get_nodes_in_group(Global.group_strays):
 		if stray.current_state == stray.States.WALL:
 			wall_strays_count += 1
@@ -264,9 +264,6 @@ func turn_random_strays_to_wall(): # za eternal
 			wall_strays_alive.append(stray)
 		else:
 			printt ("turn", stray.global_position)
-#		if dont_turn_to_wall_positions.has(stray_to_tile_position):
-#	printt ("kva", dont_turn_to_wall_positions)
-	printt ("kva", dont_turn_to_wall_positions.size(), wall_strays_alive.size())
 	
 	var strays_not_walls_count: int = get_tree().get_nodes_in_group(Global.group_strays).size() - wall_strays_alive.size()
 				
@@ -351,7 +348,7 @@ func _change_strays_in_game_count(strays_count_change: int):
 		strays_cleaned_count += abs(strays_count_change)
 	
 	if game_settings["eternal_mode"]:
-		var wall_strays_count: int
+		var wall_strays_count: int = 0
 		for stray in get_tree().get_nodes_in_group(Global.group_strays):
 			if stray.current_state == stray.States.WALL:
 				wall_strays_count += 1

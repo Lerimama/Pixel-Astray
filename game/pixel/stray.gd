@@ -260,7 +260,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			current_state = States.WALL
 			# wall color
 			modulate.a = 1
-			color_poly.modulate = Global.color_wall
+			color_poly.modulate = Global.color_wall_pixel
 			# ugasni delovanje
 			set_physics_process(false)
 			collision_shape_ext.disabled = true	

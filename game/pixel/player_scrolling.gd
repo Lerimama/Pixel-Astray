@@ -114,7 +114,6 @@ func cock_burst():
 	var cock_direction = - burst_direction
 	
 	if detect_collision_in_direction(cock_direction):
-		stop_sound("burst_cocking")
 		end_move()
 		return
 		
@@ -193,8 +192,6 @@ func burst():
 		var ghost = cocked_ghosts.pop_back()
 		ghost.queue_free()
 	
-	stop_sound("burst_cocking")
-	stop_sound("burst_uncocking")
 	play_sound("burst")
 	
 	# release strech ghost 

@@ -47,7 +47,10 @@ func open_without_intro(): # debug ... kliče main.gd -> home_in_no_intro()
 
 
 func open_from_game(from_game: int): # select_game screen ... kliče main.gd -> home_in_from_game()
-	
+
+	# mute game efektov, da se ne sliši spawnanje naslovnih pixlov
+	AudioServer.set_bus_mute(3, true)
+		
 	if from_game == Profiles.Games.ENIGMA:
 		animation_player.play("select_enigma_level")
 		current_screen = Screens.SELECT_LEVEL
@@ -59,7 +62,11 @@ func open_from_game(from_game: int): # select_game screen ... kliče main.gd -> 
 	var animation_length: float = animation_player.get_current_animation_length()
 	animation_player.advance(animation_length)
 	intro.finish_intro()
-
+	
+	yield(get_tree().create_timer(1), "timeout") # počaka, da se vsi spawnajo
+	if not Global.sound_manager.game_sfx_set_to_off:
+		AudioServer.set_bus_mute(3, false)
+	
 	
 func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drugih ekranov
 	

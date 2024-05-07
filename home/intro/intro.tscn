@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://assets/resources/env_arena.tres" type="Environment" id=1]
 [ext_resource path="res://home/intro/intro.gd" type="Script" id=2]
@@ -306,7 +306,7 @@ tracks/9/keys = {
 
 [sub_resource type="Animation" id=139]
 resource_name = "intro_explode"
-length = 12.0
+length = 9.0
 step = 0.02
 tracks/0/type = "value"
 tracks/0/path = NodePath("Actor:modulate")
@@ -478,7 +478,7 @@ tracks/7/path = NodePath("Text/Story5:modulate")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
-tracks/7/enabled = true
+tracks/7/enabled = false
 tracks/7/keys = {
 "times": PoolRealArray( 0, 0.4, 2.3, 2.7 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
@@ -492,7 +492,7 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0, 5.9, 6.2, 10, 12 ),
+"times": PoolRealArray( 0, 5.1, 5.5, 7.52, 9 ),
 "transitions": PoolRealArray( 1, 1, 1, 2, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
@@ -529,6 +529,126 @@ tracks/10/keys = {
 
 [sub_resource type="Animation" id=138]
 resource_name = "intro_running"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Actor:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1.8, 2.1, 2.3, 2.9, 9.8, 10 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0, 1.0, 1.2, 1.2, 1.04957, 1.04957, 0.2 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ThunderCover/ThunderCover:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Actor:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 2.5, 3.1, 4, 5.2, 5.8, 6.9, 7.2, 7.7, 8.2, 8.9, 9, 9.3, 9.5, 9.8, 10 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1792, 1232 ), Vector2( 1792, 1232 ), Vector2( 3136, 1232 ), Vector2( 3136, 904 ), Vector2( 448, 904 ), Vector2( 464, 1648 ), Vector2( 3136, 1648 ), Vector2( 3144, 512 ), Vector2( 1808, 480 ), Vector2( 1808, 1232 ), Vector2( 1808, 1232 ), Vector2( 1536, 1232 ), Vector2( 1536, 1232 ), Vector2( 2048, 1232 ), Vector2( 2048, 1232 ), Vector2( 1808, 1232 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath(".:actor_in_motion")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 2.5, 3.1, 4, 5.2, 5.8, 6.9, 7.2, 8.2, 8.9, 9, 9.3, 9.5, 9.8, 10 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true, false, true, false, true, false, true, false, true, false, true, false ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 2.5, 4, 5.8, 7.2, 8.9, 9.3, 9.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_stepping_loop"
+}, {
+"args": [  ],
+"method": "play_stepping_loop"
+}, {
+"args": [  ],
+"method": "play_stepping_loop"
+}, {
+"args": [  ],
+"method": "play_stepping_loop"
+}, {
+"args": [  ],
+"method": "play_stepping_loop"
+}, {
+"args": [  ],
+"method": "play_stepping_loop"
+}, {
+"args": [  ],
+"method": "play_stepping_loop"
+} ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Text/Story3:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 4, 4.5, 7.5, 8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Text/Story4:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 9.5, 10, 11.5, 12 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Text/Story1:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.5, 1, 2.5, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=227]
+resource_name = "intro_running_long"
 length = 18.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Actor:modulate:a")
@@ -663,7 +783,7 @@ tracks/8/keys = {
 modulate = Color( 1, 1, 1, 1.0037 )
 script = ExtResource( 2 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 1984.0, 544.0, 1248.0, 1352.0, 1296.0, 1408.0, 1464.0 ],
+"_edit_horizontal_guides_": [ 1984.0, 544.0, 1248.0, 1344.0, 1296.0, 1408.0, 1464.0 ],
 "_edit_vertical_guides_": [ 3072.0, 128.0, 1792.0, 512.0 ]
 }
 actor_in_motion = false
@@ -755,17 +875,17 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -256.0
-margin_top = 298.0
+margin_top = 270.0
 margin_right = 256.0
-margin_bottom = 348.0
+margin_bottom = 292.0
 grow_horizontal = 2
 theme = SubResource( 194 )
-text = "A lone pixel glowed on the screen
-of an uninspired designer."
+text = "A lone pixel glowed on the screen."
 align = 1
 autowrap = true
 
 [node name="Story2" type="Label" parent="Text"]
+visible = false
 modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -778,7 +898,7 @@ margin_bottom = 352.0
 grow_horizontal = 2
 theme = SubResource( 194 )
 text = "It owned all the colors and was
-the brightest pixel on the screen."
+the brightest pixel on screen."
 align = 1
 autowrap = true
 
@@ -794,9 +914,8 @@ margin_right = 240.0
 margin_bottom = 320.0
 grow_horizontal = 2
 theme = SubResource( 194 )
-text = "Running around arrogantly,
-it believed that the shine and glory
-would last forever."
+text = "Owning all the colors, it believed 
+its shine and glory would last forever."
 align = 1
 autowrap = true
 
@@ -806,17 +925,18 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -135.0
-margin_top = 298.0
-margin_right = 135.0
-margin_bottom = 320.0
+margin_left = -176.0
+margin_top = 270.0
+margin_right = 176.0
+margin_bottom = 292.0
 grow_horizontal = 2
 theme = SubResource( 194 )
-text = "But then ..."
+text = "But nothing is forever ..."
 align = 1
 autowrap = true
 
 [node name="Story5" type="Label" parent="Text"]
+visible = false
 modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -828,7 +948,7 @@ margin_right = 260.0
 margin_bottom = 348.0
 grow_horizontal = 2
 theme = SubResource( 194 )
-text = "The designer had a brilliant idea!"
+text = "It all changed."
 align = 1
 autowrap = true
 
@@ -839,16 +959,17 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -268.0
-margin_top = 314.0
+margin_top = 294.0
 margin_right = 268.0
-margin_bottom = 392.0
+margin_bottom = 372.0
 grow_horizontal = 2
 theme = SubResource( 194 )
-text = "Now, former white pixel is on a mission to take back the colors and become the brightest on the screen again."
+text = "Take back the colors and once again become the brightest of them all!"
 align = 1
 autowrap = true
 
 [node name="SkipIntro" type="HBoxContainer" parent="Text"]
+visible = false
 margin_left = -607.0
 margin_top = 582.0
 margin_right = -405.0
@@ -911,6 +1032,7 @@ text = "to skip intro"
 anims/RESET = SubResource( 196 )
 anims/intro_explode = SubResource( 139 )
 anims/intro_running = SubResource( 138 )
+anims/intro_running_long = SubResource( 227 )
 
 [node name="ArenaEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 1 )

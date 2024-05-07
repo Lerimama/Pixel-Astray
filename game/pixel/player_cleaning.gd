@@ -262,13 +262,11 @@ func cock_reburst():
 	
 	# če je zraven pixla konča (potem postane skilled)
 	if detect_collision_in_direction(burst_direction):
-		stop_sound("burst_cocking")
 		end_move()
 		burst_light_off()
 		return
 	# če ni prostora, ne dela cockinga
 	if detect_collision_in_direction(cock_direction):
-		stop_sound("burst_cocking")
 		release_reburst()
 	else:
 	# če je prostor cocka
@@ -318,8 +316,6 @@ func reburst():
 		var ghost = cocked_ghosts.pop_back()
 		ghost.queue_free()
 	
-	stop_sound("burst_cocking")
-	stop_sound("burst_uncocking")
 	play_sound("burst")
 	
 	# release ghost 
@@ -345,7 +341,7 @@ func close_reburst_window():
 	burst_light_off()
 		
 		
-func _on_ReburstingTimer_timeout() -> void:
+func _on_ReburstingT_imer_timeout() -> void:
 	
 	# če je enigma je čas naskončen
 	if Global.game_manager.game_settings["reburst_window_time"] == 0:

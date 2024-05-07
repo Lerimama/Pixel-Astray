@@ -59,7 +59,9 @@ func _ready():
 				zoom_end = Vector2.ONE * 1.5
 				smoothing_speed = 5 # ni ok za XL
 			elif Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
-				pass # enigma zoom seta iz GMja ob setanju limitsov
+				pass # zoom seta iz GMja ob setanju limitsov
+			elif Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
+				pass # zoom seta iz GMja ob setanju limitsov
 			zoom = zoom_start
 		else:
 			zoom = zoom_end
@@ -101,16 +103,13 @@ func _process(delta: float):
 
 func _physics_process(delta: float) -> void:
 	
-	if camera_target:# and Global.game_manager.game_settings["zoom_animation"]:
+	if camera_target: # and Global.game_manager.game_settings["zoom_animation"]:
 		position = camera_target.position + cell_align
 	
 	
 func zoom_in(hud_in_out_time: float, players_count: int): # kliče hud
 	
 	if Global.game_manager.game_settings["zoom_animation"]:
-		if players_count == 2:
-			zoom_end *= 1.5
-		
 		var zoom_in_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 		zoom_in_tween.tween_property(self, "zoom", zoom_end, hud_in_out_time)
 		zoom_in_tween.parallel().tween_property(self, "cell_align", cell_align_end, hud_in_out_time)
