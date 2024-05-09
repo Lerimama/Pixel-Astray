@@ -73,7 +73,29 @@ func step(step_direction: Vector2):
 #	step_tween.tween_callback(Global, "snap_to_nearest_grid", [global_position + step_direction * cell_size_x])
 #	step_tween.tween_property(self, "current_state", States.IDLE, 0)
 
+
+
+func play_sound(effect_for: String):
+	# namen: ni soundow na spawn
 	
+	if Global.sound_manager.game_sfx_set_to_off:
+		return
+		
+	match effect_for:
+		"turning_color":
+			var random_blink_index = randi() % $Sounds/Blinking.get_child_count()
+			$Sounds/Blinking.get_child(random_blink_index).play() # nekateri so na mute, ker so drugače prepogosti soundi
+		"blinking":
+			var random_blink_index = randi() % $Sounds/Blinking.get_child_count()
+			$Sounds/Blinking.get_child(random_blink_index).play() # nekateri so na mute, ker so drugače prepogosti soundi
+			if current_state == States.DYING: # da se ne oglaša ob obračanju v steno
+				var random_static_index = randi() % $Sounds/BlinkingStatic.get_child_count()
+				$Sounds/BlinkingStatic.get_child(random_static_index).play()
+		"stepping":
+			var random_step_index = randi() % $Sounds/Stepping.get_child_count()
+			var selected_step_sound = $Sounds/Stepping.get_child(random_step_index).play()
+			
+				
 # ON FLOOR --------------------------------------------------------------------------------------------
 
 

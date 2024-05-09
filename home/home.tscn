@@ -4674,7 +4674,7 @@ margin_right = 192.0
 margin_bottom = 152.0
 custom_fonts/font = ExtResource( 14 )
 text = "Skills and tactics. 
-Riddles for you 
+%s riddles to 
 solve and clean 
 the screen in one burst move."
 autowrap = true
@@ -4697,10 +4697,10 @@ text = "Unbeatables"
 [node name="Label" type="Label" parent="SelectGame/Panel8"]
 margin_left = 25.0
 margin_top = 24.0
-margin_right = 192.0
+margin_right = 168.0
 margin_bottom = 48.0
 custom_fonts/font = ExtResource( 14 )
-text = "Colors in motion "
+text = "Colors incoming"
 autowrap = true
 
 [node name="GameBtns" type="Control" parent="SelectGame"]

@@ -27,28 +27,28 @@ func get_instructions_content(current_highscore, current_highscore_owner):
 		record_label.hide()
 	else:
 		if current_game_data["highscore_type"] == Profiles.HighscoreTypes.HS_POINTS:
-			record_title.text = "Current record points:"
+			record_title.text = "Current record:"
 			if current_highscore == 0:
-				record_label.modulate = Global.color_red
+				record_label.self_modulate = Global.color_gui_gray
 				record_label.text = "No record points set yet."
 			else:
-				record_label.modulate = Global.color_green
+#				record_label.modulate = Global.color_green
 				record_label.text = str(current_highscore) + " points by " + str(current_highscore_owner)
 		elif current_game_data["highscore_type"] == Profiles.HighscoreTypes.HS_COLORS:
-			record_title.text = "Current record colors count:"
+			record_title.text = "Current record:"
 			if current_highscore == 0:
-				record_label.modulate = Global.color_red
+				record_label.self_modulate = Global.color_gui_gray
 				record_label.text = "No record colors count set yet."
 			else:
-				record_label.modulate = Global.color_green
+#				record_label.modulate = Global.color_green
 				record_label.text = str(current_highscore) + " colors picked by " + str(current_highscore_owner)
 		else: # TIME HIGH and LOW
-			record_title.text = "Current record time:"
+			record_title.text = "Current record:"
 			if current_highscore == 0:
-				record_label.modulate = Global.color_red
+				record_label.self_modulate = Global.color_gui_gray
 				record_label.text = "No record time set yet."
 			else:
-				record_label.modulate = Global.color_green
+#				record_label.modulate = Global.color_green
 				record_label.text = str(current_highscore) + " seconds by " + str(current_highscore_owner)
 
 	# poljubne alineje

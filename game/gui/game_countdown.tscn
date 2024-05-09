@@ -79,7 +79,7 @@ tracks/4/path = NodePath(".")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
-tracks/4/enabled = false
+tracks/4/enabled = true
 tracks/4/keys = {
 "times": PoolRealArray( 0.4, 1.4, 2.4, 3.42 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),

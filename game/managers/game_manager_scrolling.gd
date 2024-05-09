@@ -184,7 +184,7 @@ func set_players():
 		new_player_pixel = PlayerPixel.instance()
 		new_player_pixel.name = "p%s" % str(spawned_player_index)
 		new_player_pixel.global_position = player_position + Vector2(cell_size_x/2, cell_size_x/2) # ... ne rabim snepat ker se v pixlu na ready funkciji
-		new_player_pixel.modulate = Color.white
+#		new_player_pixel.modulate = game_settings["player_start_color"]
 		new_player_pixel.z_index = 1 # nižje od straysa
 		Global.node_creation_parent.add_child(new_player_pixel)
 		
@@ -214,7 +214,7 @@ func set_players():
 
 func spawn_strays(strays_to_spawn_count: int):
 	# namen: no clampin, ker je lahko spawn 0
-
+	
 	var available_required_spawn_positions = required_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
 	var available_random_spawn_positions = random_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
 

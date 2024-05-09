@@ -1,10 +1,11 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
 [ext_resource path="res://game/hud/game_instructions.gd" type="Script" id=2]
 [ext_resource path="res://assets/atlas_controls.png" type="Texture" id=3]
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=4]
 [ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=5]
+[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=6]
 
 [sub_resource type="AtlasTexture" id=389]
 atlas = ExtResource( 3 )
@@ -211,9 +212,9 @@ region = Rect2( 0, 218, 40, 22 )
 margin = Rect2( -2, 2, 0, 0 )
 
 [node name="Instructions" type="Control"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 6 )
 script = ExtResource( 2 )
 
 [node name="Background" type="ColorRect" parent="."]
@@ -249,8 +250,8 @@ uppercase = true
 [node name="Description" type="Label" parent="GameInstructions"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
 anchor_right = 1.0
-margin_top = 70.0
-margin_bottom = 92.0
+margin_top = 54.0
+margin_bottom = 76.0
 text = "%Win reasons"
 align = 1
 
@@ -317,8 +318,8 @@ autowrap = true
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
 margin_top = 160.0
 margin_right = 897.0
-margin_bottom = 228.0
-rect_min_size = Vector2( 0, 68 )
+margin_bottom = 236.0
+rect_min_size = Vector2( 0, 76 )
 text = "% 000000"
 align = 1
 valign = 2
@@ -330,9 +331,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -448.5
-margin_top = -44.0
+margin_top = -52.0
 margin_right = 448.5
-margin_bottom = -26.0
+margin_bottom = -34.0
 custom_fonts/font = ExtResource( 1 )
 text = "Current record"
 align = 1

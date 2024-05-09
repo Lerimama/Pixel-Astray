@@ -1,12 +1,11 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=1]
 [ext_resource path="res://assets/resources/level_edge_panel.tres" type="StyleBox" id=2]
 [ext_resource path="res://game/tilemaps/game_tilemap.gd" type="Script" id=3]
 [ext_resource path="res://assets/resources/tileset_arena.tres" type="TileSet" id=4]
 [ext_resource path="res://assets/theme/font_big.tres" type="DynamicFont" id=5]
-[ext_resource path="res://assets/shaders/shaders/_zaloga/originali_uporabljanega/pixelate_texture.material" type="Material" id=7]
-[ext_resource path="res://assets/room_highres.png" type="Texture" id=8]
+[ext_resource path="res://game/tilemaps/tilemap_background.tscn" type="PackedScene" id=6]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
@@ -29,172 +28,8 @@ __meta__ = {
 "_edit_vertical_guides_": [ 2176.0, 2592.0, 256.0, 512.0, 768.0, 1024.0 ]
 }
 
-[node name="Background" type="Node2D" parent="."]
-position = Vector2( -672, -448 )
-z_index = -3
-
-[node name="BackgroundColor" type="ColorRect" parent="Background"]
-margin_left = -687.0
-margin_top = -440.0
-margin_right = 3297.0
-margin_bottom = 1920.0
-color = Color( 0, 0, 0, 1 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="_razlaga1" type="Control" parent="Background/BackgroundColor"]
-visible = false
-margin_right = 40.0
-margin_bottom = 40.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="zoomout notranji robnik zamik do plejerja2" type="Node2D" parent="Background/BackgroundColor/_razlaga1"]
-position = Vector2( 720, 56 )
-rotation = 3.14159
-scale = Vector2( 1, -1 )
-
-[node name="Polygon2D" type="Polygon2D" parent="Background/BackgroundColor/_razlaga1/zoomout notranji robnik zamik do plejerja2"]
-position = Vector2( 608, 0 )
-polygon = PoolVector2Array( -96, 0, -96, 32, 32, 32, 32, 0 )
-
-[node name="Polygon2D4" type="Polygon2D" parent="Background/BackgroundColor/_razlaga1/zoomout notranji robnik zamik do plejerja2"]
-position = Vector2( -32, 416 )
-polygon = PoolVector2Array( 0, 0, 0, 32, 32, 32, 32, 0 )
-
-[node name="Polygon2D3" type="Polygon2D" parent="Background/BackgroundColor/_razlaga1/zoomout notranji robnik zamik do plejerja2"]
-position = Vector2( 608, 32 )
-polygon = PoolVector2Array( -32, 32, -608, 384, 0, 64, 0, 32 )
-
-[node name="Polygon2D2" type="Polygon2D" parent="Background/BackgroundColor/_razlaga1/zoomout notranji robnik zamik do plejerja2"]
-position = Vector2( 640, 32 )
-polygon = PoolVector2Array( 0, 0, 0, 160, 16, 160, 16, 0 )
-
-[node name="_razlaga2" type="Control" parent="Background/BackgroundColor"]
-visible = false
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -40.0
-margin_bottom = 40.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="zoomout notranji robnik zamik do plejerja" type="Node2D" parent="Background/BackgroundColor/_razlaga2"]
-position = Vector2( -696, 56 )
-
-[node name="Polygon2D" type="Polygon2D" parent="Background/BackgroundColor/_razlaga2/zoomout notranji robnik zamik do plejerja"]
-position = Vector2( 608, 0 )
-polygon = PoolVector2Array( -96, 0, -96, 32, 32, 32, 32, 0 )
-
-[node name="Polygon2D4" type="Polygon2D" parent="Background/BackgroundColor/_razlaga2/zoomout notranji robnik zamik do plejerja"]
-position = Vector2( 0, 416 )
-polygon = PoolVector2Array( 0, 0, 0, 32, 32, 32, 32, 0 )
-
-[node name="Polygon2D3" type="Polygon2D" parent="Background/BackgroundColor/_razlaga2/zoomout notranji robnik zamik do plejerja"]
-position = Vector2( 608, 32 )
-polygon = PoolVector2Array( -32, 32, -576, 384, 0, 64, 0, 32 )
-
-[node name="Polygon2D2" type="Polygon2D" parent="Background/BackgroundColor/_razlaga2/zoomout notranji robnik zamik do plejerja"]
-position = Vector2( 640, 32 )
-polygon = PoolVector2Array( 0, 0, 0, 160, 16, 160, 16, 0 )
-
-[node name="_razlaga3" type="Control" parent="Background/BackgroundColor"]
-visible = false
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -40.0
-margin_right = 40.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="zoomout notranji robnik zamik do plejerja4" type="Node2D" parent="Background/BackgroundColor/_razlaga3"]
-position = Vector2( 720, -24 )
-rotation = 3.14159
-
-[node name="Polygon2D" type="Polygon2D" parent="Background/BackgroundColor/_razlaga3/zoomout notranji robnik zamik do plejerja4"]
-position = Vector2( 608, 0 )
-polygon = PoolVector2Array( -96, 0, -96, 32, 32, 32, 32, 0 )
-
-[node name="Polygon2D4" type="Polygon2D" parent="Background/BackgroundColor/_razlaga3/zoomout notranji robnik zamik do plejerja4"]
-position = Vector2( -32, 384 )
-polygon = PoolVector2Array( 0, 0, 0, 32, 32, 32, 32, 0 )
-
-[node name="Polygon2D3" type="Polygon2D" parent="Background/BackgroundColor/_razlaga3/zoomout notranji robnik zamik do plejerja4"]
-position = Vector2( 608, 32 )
-polygon = PoolVector2Array( -32, 32, -608, 352, 0, 64, 0, 32 )
-
-[node name="Polygon2D2" type="Polygon2D" parent="Background/BackgroundColor/_razlaga3/zoomout notranji robnik zamik do plejerja4"]
-position = Vector2( 640, 32 )
-polygon = PoolVector2Array( 0, 0, 0, 160, 16, 160, 16, 0 )
-
-[node name="_razlaga4" type="Control" parent="Background/BackgroundColor"]
-visible = false
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -40.0
-margin_top = -40.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="zoomout notranji robnik zamik do plejerja3" type="Node2D" parent="Background/BackgroundColor/_razlaga4"]
-position = Vector2( -696, -24 )
-scale = Vector2( 1, -1 )
-
-[node name="Polygon2D" type="Polygon2D" parent="Background/BackgroundColor/_razlaga4/zoomout notranji robnik zamik do plejerja3"]
-position = Vector2( 608, 0 )
-polygon = PoolVector2Array( -96, 0, -96, 32, 32, 32, 32, 0 )
-
-[node name="Polygon2D4" type="Polygon2D" parent="Background/BackgroundColor/_razlaga4/zoomout notranji robnik zamik do plejerja3"]
-position = Vector2( 0, 384 )
-polygon = PoolVector2Array( 0, 0, 0, 32, 32, 32, 32, 0 )
-
-[node name="Polygon2D3" type="Polygon2D" parent="Background/BackgroundColor/_razlaga4/zoomout notranji robnik zamik do plejerja3"]
-position = Vector2( 608, 32 )
-polygon = PoolVector2Array( -32, 32, -576, 352, 0, 64, 0, 32 )
-
-[node name="Polygon2D2" type="Polygon2D" parent="Background/BackgroundColor/_razlaga4/zoomout notranji robnik zamik do plejerja3"]
-position = Vector2( 640, 32 )
-polygon = PoolVector2Array( 0, 0, 0, 160, 16, 160, 16, 0 )
-
-[node name="Room" type="TextureRect" parent="Background"]
-modulate = Color( 0.37207, 0.37207, 0.37207, 1 )
-material = ExtResource( 7 )
-margin_left = 48.0
-margin_top = -80.0
-margin_right = 2806.0
-margin_bottom = 1993.0
-rect_min_size = Vector2( 1280, 720 )
-texture = ExtResource( 8 )
-expand = true
-
-[node name="Polygon2D" type="Polygon2D" parent="Background/Room"]
-visible = false
-position = Vector2( 1329, 208 )
-color = Color( 0.952941, 0.356863, 0.498039, 1 )
-polygon = PoolVector2Array( 607, 288, 607, 320, 639, 320, 639, 288 )
-
-[node name="Polygon2D2" type="Polygon2D" parent="Background/Room"]
-visible = false
-position = Vector2( 657, 560 )
-color = Color( 0.952941, 0.356863, 0.498039, 1 )
-polygon = PoolVector2Array( 607, 288, 607, 320, 639, 320, 639, 288 )
-
-[node name="Cover" type="ColorRect" parent="Background/Room"]
-margin_left = 624.0
-margin_top = 528.0
-margin_right = 1968.0
-margin_bottom = 1232.0
-color = Color( 0, 0, 0, 1 )
-__meta__ = {
-"_edit_group_": true
-}
+[node name="Background" parent="." instance=ExtResource( 6 )]
+position = Vector2( 0, -768 )
 
 [node name="LevelTrick" type="Label" parent="."]
 modulate = Color( 1, 1, 1, 0.0784314 )

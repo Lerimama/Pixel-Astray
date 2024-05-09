@@ -14,7 +14,7 @@ func get_highscore_table(current_game_data: Dictionary, current_player_ranking: 
 	if current_game_data.has("level"):
 		highscore_table_title.text = "Best of " + current_game_name + " " + str(current_game_data["level"])
 	else:
-		highscore_table_title.text = "Best of " + current_game_name# + "s"
+		highscore_table_title.text = "Best of " + current_game_name # + "s"
 	
 	# za vsako pozicijo vpišemo vrednost, ime in pozicijo
 	var score_lines: Array = get_children()

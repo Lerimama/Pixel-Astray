@@ -9,13 +9,12 @@ tile_data = PoolIntArray( 0, 1, 0, 1, 1, 0, 2, 1, 0, 3, 1, 0, 4, 1, 0, 5, 1, 0, 
 position = Vector2( -56, -120 )
 
 [node name="Room" parent="Background" index="1"]
-visible = false
 margin_left = 72.0
 margin_top = -88.0
 margin_right = 2830.0
 margin_bottom = 1985.0
 
-[node name="Cover" parent="Background/Room" index="2"]
+[node name="Cover" parent="Background/Room" index="4"]
 margin_left = -16.0
 margin_top = 208.0
 margin_right = 2608.0
@@ -32,5 +31,7 @@ margin_right = 1475.0
 margin_bottom = 797.0
 text = "Time is of essence"
 
-[node name="SolutionLine" parent="." index="5"]
+[node name="SolutionLine" parent="." index="2"]
 points = PoolVector2Array( 1296, 680, 1296, 784, 1312, 784, 1312, 528, 1280, 528, 1280, 1232, 144, 1232, 144, 144, 2480, 144, 2480, 688, 1360, 688 )
+
+[editable path="Background"]

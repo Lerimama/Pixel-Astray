@@ -16,6 +16,11 @@ var reburst_reward__count: int = 1 # za kolk se nakoka (samo vizualni efekt)
 onready var rebursting_timer: Timer = $ReburstingTimer
 
 
+# planned reburst dir
+var reburst_dir_set: bool = false
+onready var reburst_dir: Vector2
+
+
 func _ready() -> void:
 	
 	add_to_group(Global.group_players)
@@ -97,7 +102,32 @@ func idle_inputs():
 		if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:	
 			finish_enigma_move()		
 			
+
+func bursting_inputs():
+	# namen: dodam rebursting, če je "način" znotraj bursta
+	
+	# aktiviraj reburst
+	if Input.is_action_pressed(key_up):
+		reburst_dir = Vector2.UP
+		reburst_dir_set = true
+	elif Input.is_action_pressed(key_down):
+		reburst_dir = Vector2.DOWN
+		reburst_dir_set = true
+	elif Input.is_action_pressed(key_left):
+		reburst_dir = Vector2.LEFT
+		reburst_dir_set = true
+	elif Input.is_action_pressed(key_right):
+		reburst_dir = Vector2.RIGHT
+		reburst_dir_set = true
+	
+	# stop burst
+	if Input.is_action_just_pressed(key_burst):
+		end_move()
+		Input.start_joy_vibration(0, 0.6, 0.2, 0.2)
+		play_sound("burst_stop")
 		
+		
+				
 func end_move():
 	# namen: reburst reset, odstranim burst_light_off()
 	
@@ -181,6 +211,12 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	end_move()
 	
 	# reburst
+	if reburst_dir_set:
+		direction = reburst_dir
+		cock_reburst()
+		reburst_dir_set = false
+		print ("REBURST")
+		
 	if Global.game_manager.game_settings["reburst_mode"]:
 		if reburst_count < Global.game_manager.game_settings["reburst_count_limit"] or Global.game_manager.game_settings["reburst_count_limit"] == 0:
 			can_reburst = true
@@ -193,6 +229,13 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 			reburst_count = 0
 			if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:	
 				finish_enigma_move()
+	else:
+		# reburst
+		if reburst_dir_set:
+			direction = reburst_dir
+			cock_reburst()
+			reburst_dir_set = false
+			print ("REBURST")
 
 
 func spawn_cock_ghost(cocking_direction: Vector2):

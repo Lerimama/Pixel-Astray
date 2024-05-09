@@ -17,7 +17,8 @@ var default_game_settings: Dictionary = { # to so default CLEANING settings
 	# player
 	"player_start_life": 1, # 1 lajf skrije ikone v hudu in določi "lose_life_on_hit"
 	"player_start_energy": 192, # če je 0, je 0 ... instant GO
-	"player_start_color": Color("#ffffff"), # Color("#232323"), Color("#141414"), # old #141414
+#	"player_start_color": Color("#ffffff"), # Color("#232323"), Color("#141414"), # old #141414
+	"player_start_color": Color("#141414"), # Color("#232323"), Color("#141414"), # old #141414
 	"player_max_energy": 192, # max energija
 	"player_tired_energy": 20, # pokaže steps warning popup in hud oabrva rdeče
 	"step_time_fast": 0.09, # default hitrost
@@ -299,7 +300,6 @@ var enigma_level_setting: Dictionary = {
 		"level_description": "Description ...",
 	},
 }
-
 var game_data_testing: Dictionary = {
 	"game": Games.TESTING,
 	"highscore_type": HighscoreTypes.HS_POINTS,
@@ -331,7 +331,7 @@ func _ready() -> void:
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.TESTING
 #	var debug_game = Games.TUTORIAL
-	var debug_game = Games.ENIGMA
+#	var debug_game = Games.ENIGMA
 #	var debug_game = Games.CLEANER_S
 #	var debug_game = Games.CLEANER_M
 #	var debug_game = Games.CLEANER_L
@@ -339,7 +339,7 @@ func _ready() -> void:
 #	var debug_game = Games.ERASER_S
 #	var debug_game = Games.ERASER_M
 #	var debug_game = Games.ERASER_L
-#	var debug_game = Games.SCROLLER
+	var debug_game = Games.SCROLLER
 	set_game_data(debug_game)
 	
 	
@@ -347,12 +347,7 @@ func set_game_data(selected_game) -> void:
 	
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
-	# debug
-	game_settings["game_instructions_popup"] = false
-	game_settings["start_countdown"] = false
-#	game_settings["zoom_animation"] = false
-#	game_settings["reburst_mode"] = false
-#	game_settings["respawn_mode"] = false
+
 		
 	match selected_game:
 		Games.TESTING: 
@@ -389,7 +384,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["reburst_mode"] = true
 			# debug
 			game_settings["respawn_mode"] = false
-			current_game_data["level"] = 6
+			current_game_data["level"] = 2
 			game_settings["solutions_mode"] = false
 		Games.CLEANER_S: 
 			current_game_data = game_data_cleaner_s
@@ -473,8 +468,16 @@ func set_game_data(selected_game) -> void:
 			current_game_data = game_data_scroller
 			game_settings["cell_traveled_energy"] = 0
 			game_settings["all_cleaned_points"] = 0
-			game_settings["zoom_animation"] = false
+#			game_settings["zoom_animation"] = false
 			game_settings["timer_mode_countdown"] = false
 			game_settings["position_indicators_on"] = false 
-			game_settings["player_start_color"] = Color.white
+			game_settings["player_start_color"] = Color.red
 			game_settings["strays_start_count"] = 1 # 1 v prvi spawn rundi
+
+
+	# debug
+#	game_settings["game_instructions_popup"] = false
+	game_settings["start_countdown"] = false
+#	game_settings["zoom_animation"] = false
+	game_settings["reburst_mode"] = false
+#	game_settings["respawn_mode"] = false

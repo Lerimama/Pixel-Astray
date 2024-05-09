@@ -548,8 +548,10 @@ text = "NO ENERGY! Collect a color to revitalize."
 align = 1
 
 [node name="Instructions" parent="GUI/Hud/Popups" instance=ExtResource( 1 )]
+visible = false
 
 [node name="GameCountdown" parent="GUI/Hud/Popups" instance=ExtResource( 6 )]
+visible = false
 
 [node name="LevelUp" type="Control" parent="GUI/Hud/Popups"]
 visible = false

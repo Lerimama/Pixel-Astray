@@ -798,7 +798,7 @@ func spawn_floating_tag(value: int):
 	Global.node_creation_parent.add_child(new_floating_tag)
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
-		new_floating_tag.label.text = "SUCCESS!"
+		new_floating_tag.label.text = "YEAH!"
 	else:
 		if value < 0:
 			new_floating_tag.modulate = Global.color_red

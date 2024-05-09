@@ -17,7 +17,8 @@ var current_highscore_owner: String
 # in/out
 var hud_in_out_time: int = 2
 var screen_height:int = 720
-onready var header_height: int = $Header.rect_size.y
+onready var header: Control = $Header # kontrole iz kamere
+onready var header_height: int = header.rect_size.y
 onready var viewport_header: ColorRect = $"%ViewHeder"
 onready var viewport_footer: ColorRect = $"%ViewFuter"
 
@@ -28,7 +29,6 @@ onready var energy_warning_holder: Control = $Popups/EnergyWarning
 onready var instructions_popup: Control = $Popups/Instructions
 
 # header
-onready var header: Control = $Header # kontrole iz kamere
 onready var game_timer: HBoxContainer = $Header/GameTimerHunds
 onready var highscore_label: Label = $Header/TopLineR/HighscoreLabel
 onready var music_player: Label = $Header/TopLineR/MusicPlayer
@@ -85,8 +85,14 @@ func _ready() -> void:
 	Global.hud = self
 	
 	# pre-hud in pozicije
-	header.rect_position.y = - header_height
-	footer.rect_position.y = screen_height
+	if Global.game_manager.game_settings["zoom_animation"]: # yes slide in
+		header.rect_position.y = - header_height
+		footer.rect_position.y = screen_height
+	else: # no hud slide in
+		header.rect_position.y = 0
+		footer.rect_position.y = screen_height - header_height
+		viewport_header.rect_min_size.y = header_height
+		viewport_footer.rect_min_size.y = header_height
 		
 	game_label.text = Global.game_manager.game_data["game_name"]
 	if Global.game_manager.game_data.has("level"):
@@ -160,7 +166,7 @@ func set_hud(players_count: int): # kliče main na game-in
 		p2_points_holder.visible = true
 		highscore_label.visible = true
 		set_current_highscore()
-		
+			
 		
 func set_current_highscore():
 	
@@ -294,18 +300,15 @@ func slide_in(players_count: int): # kliče GM set_game()
 	
 	get_tree().call_group(Global.group_player_cameras, "zoom_in", hud_in_out_time, players_count)
 	
-	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
-	fade_in.tween_property(header, "rect_position:y", 0, hud_in_out_time)
-	fade_in.parallel().tween_property(footer, "rect_position:y", screen_height - header_height, hud_in_out_time)
-	fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", Global.hud.header_height, hud_in_out_time)
-	fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", Global.hud.header_height, hud_in_out_time)
-	
-	# yield(Global.player1_camera, "zoomed_in") ... namesto tega signaliziranje prevzame start countdown
-	
-	# spektrum
-#	if spectrum_start_on:
-#		pass
-#	else:
+	if Global.game_manager.game_settings["zoom_animation"]:
+		var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
+		fade_in.tween_property(header, "rect_position:y", 0, hud_in_out_time)
+		fade_in.parallel().tween_property(footer, "rect_position:y", screen_height - header_height, hud_in_out_time)
+		fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", header_height, hud_in_out_time)
+		fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", header_height, hud_in_out_time)
+	else:
+		pass # če ni slajdina pozicija se seta že na ready
+		
 	for indicator in active_color_indicators:
 		var indicator_fade_in = get_tree().create_tween()
 		indicator_fade_in.tween_property(indicator, "modulate:a", unpicked_indicator_alpha, 0.3).set_ease(Tween.EASE_IN)
