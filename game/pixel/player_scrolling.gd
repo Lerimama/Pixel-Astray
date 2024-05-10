@@ -310,15 +310,13 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	
 		
 func on_hit_wall():
-
+	# namen: drugačni efekti, nepošiljanje statistike in end_move()
+	
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.7)
 	play_sound("hit_wall")
 	# spawn_dizzy_particles()
 	spawn_collision_particles()
 	shake_player_camera(burst_speed)
-	
-	# yield(get_tree().create_timer(1), "timeout") # za dojet
-	change_stat("hit_wall", 1) # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
 	
 	end_move()
 

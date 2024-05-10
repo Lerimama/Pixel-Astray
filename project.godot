@@ -73,7 +73,7 @@ gdscript/warnings/integer_division=false
 window/size/width=1280
 window/size/height=720
 window/size/borderless=true
-window/size/fullscreen=true
+window/size/always_on_top=true
 window/size/test_width=640
 window/size/test_height=360
 window/dpi/allow_hidpi=true
@@ -290,6 +290,13 @@ t={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":84,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
+
+[layer_names]
+
+2d_physics/layer_2="top_edge"
+2d_physics/layer_3="bottom_edge"
+2d_physics/layer_4="left_edge"
+2d_physics/layer_5="right_edge"
 
 [physics]
 

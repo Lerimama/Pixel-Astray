@@ -398,8 +398,6 @@ func stray_step():
 
 	step_in_progress = true
 		
-	check_top_for_gameover() 
-	
 	var stepping_direction: Vector2
 	
 	if game_data["game"] == Profiles.Games.SLIDER and not in_level_transition:

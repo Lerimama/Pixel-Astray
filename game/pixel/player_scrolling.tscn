@@ -964,18 +964,18 @@ __meta__ = {
 position = Vector2( 0, -15.9 )
 enabled = true
 cast_to = Vector2( 32, 0 )
-collision_mask = 3
+collision_mask = 31
 
 [node name="VisionRay2" type="RayCast2D" parent="Vision"]
 enabled = true
 cast_to = Vector2( 47, 0 )
-collision_mask = 3
+collision_mask = 31
 
 [node name="VisionRay3" type="RayCast2D" parent="Vision"]
 position = Vector2( 0, 15.9 )
 enabled = true
 cast_to = Vector2( 32, 0 )
-collision_mask = 3
+collision_mask = 31
 
 [node name="ColorPoly" type="Polygon2D" parent="Vision"]
 visible = false

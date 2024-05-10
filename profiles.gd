@@ -225,7 +225,7 @@ var game_data_scroller: Dictionary = {
 	"scrolling_pause_time": 1.0, # ne sem bit manjša od stray step hitrosti (0.2)
 	"scrolling_pause_time_factor": 0.9, # množim z vsakim levelom
 	# random spawn na rundo
-	"stray_to_spawn_round_range": [15, 30], # random spawn count, največ 20
+	"stray_to_spawn_round_range": [1, 8], # random spawn count, največ 20
 	"round_range_factor_1": 1, # množim spodnjo mejo
 	"round_range_factor_2": 1, # množim zgornjo mejo
 	# možnost spawna v rundi
@@ -466,8 +466,8 @@ func set_game_data(selected_game) -> void:
 			game_settings["respawn_strays_count"] = 3
 		Games.SCROLLER:
 			current_game_data = game_data_scroller
-			game_settings["on_hit_energy_part"] = 1
-			game_settings["lose_life_on_hit"] = false
+#			game_settings["on_hit_energy_part"] = 1
+#			game_settings["lose_life_on_hit"] = false
 			game_settings["cell_traveled_energy"] = 0
 			game_settings["all_cleaned_points"] = 0
 #			game_settings["zoom_animation"] = false

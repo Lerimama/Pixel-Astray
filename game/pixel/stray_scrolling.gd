@@ -3,17 +3,10 @@ extends Stray
 # spawn strani
 enum Sides {TOP, BOTTOM, RIGHT, LEFT}
 var stray_spawn_side: int 
-var top_spawn_position_y: float = -368
-var bottom_spawn_position_y: float = 368
-var left_spawn_position_x: float = -656
-var right_spawn_position_x: float = 688
-
-var step_count: int = 0 # da vidim kdaj je prek meje
-var stray_crossed_wall_step_limit: int = 2
 
 
 func _ready() -> void:
-	 # namen: grupiranje glede na izvorno stran	
+	 # namen: grupiranje glede na izvorno stran in setanje collision maskov
 	
 	add_to_group(Global.group_strays)
 	randomize() # za random die animacije
@@ -24,19 +17,24 @@ func _ready() -> void:
 	count_label.text = name
 	position_indicator.visible = false
 
-#	printt ("SP", global_position)
-	
-	if global_position.y <= top_spawn_position_y:
+	# set props glede na spawn stran
+	var collision_bit_to_add: int
+	var player_spawn_position: Vector2 = Global.game_manager.player_start_positions[0]
+	if global_position.y <= player_spawn_position.y - Global.current_tilemap.top_spawn_position_from_center:
 		stray_spawn_side = Sides.TOP
-	elif global_position.y >= bottom_spawn_position_y:
+		collision_bit_to_add = 2
+	elif global_position.y >= player_spawn_position.y + Global.current_tilemap.bottom_spawn_position_from_center:
 		stray_spawn_side = Sides.BOTTOM
-	elif global_position.x >= right_spawn_position_x:
+		collision_bit_to_add = 1
+	elif global_position.x >= player_spawn_position.x + Global.current_tilemap.right_spawn_position_from_center:
 		stray_spawn_side = Sides.RIGHT
-	elif global_position.x <= left_spawn_position_x:
+		collision_bit_to_add = 3
+	elif global_position.x <= player_spawn_position.x - Global.current_tilemap.left_spawn_position_from_center:
 		stray_spawn_side = Sides.LEFT
-	else: 
-		printt("stray", global_position)
-	
+		collision_bit_to_add = 4
+	for ray in vision_rays:
+		ray.set_collision_mask_bit(collision_bit_to_add, true)
+		
 	
 func show_stray(): # kliče GM
 	# namen: neteatralen prikaz streja
@@ -86,7 +84,7 @@ func die(stray_in_stack_index: int, strays_in_stack: int):
 
 
 func step(step_direction: Vector2):
-	# namen: metanje ext collisiona za prepoznavanje stene
+	# namen: metanje ext collisiona za prepoznavanje stene in dodano zazih preverjanje pozicij
 	# namen: določanje smeri glede na tip straya
 	
 	match stray_spawn_side:
@@ -104,40 +102,8 @@ func step(step_direction: Vector2):
 		return
 	
 	var current_collider = detect_collision_in_direction(step_direction)
-	#	var current_collider# = first_collider		
-	#	# obrnem vision grupo v smeri...
-	#	vision.look_at(global_position + step_direction)
-	#	# vsi ray gledajo naravnost
-	#	for ray in vision_rays:
-	#		ray.cast_to = Vector2(45, 0) # en pixel manj kot 48, da ne seže preko celice
-	#	# grebanje kolajderja	
-	#	var first_collider: Node2D
-	#	for ray in vision_rays:
-	#		ray.add_exception(self)
-	#		ray.add_exception(Global.current_tilemap)
-	#		ray.force_raycast_update()
-	#		if not step_count > 2:
-	#			for n in get_tree().get_nodes_in_group(Global.group_tilemap):
-	#				print("JEJ")
-	#				ray.add_exception(n)
-	#		if ray.is_colliding():
-	#
-	#			first_collider = ray.get_collider()
-	##			if first_collider.is_in_group(Global.group_tilemap) and not step_count > 2:
-	##				pass
-	##			else:
-	#			current_collider = first_collider		
-	#			break # ko je kolajder neham čekirat
-			
-	# preverjam kolizije glede na število korakov, da vem kdaj je prek meje
-	step_count += 1
-	# če delam pravi korak, je pred mano stena
 	if current_collider:
-		if current_collider.is_in_group(Global.group_tilemap):
-			if step_count > stray_crossed_wall_step_limit:
-				return current_collider
-		else: # if current_collider.is_in_group(Global.group_strays):
-			return current_collider
+		return current_collider
 	
 	current_state = States.MOVING
 	
@@ -148,7 +114,7 @@ func step(step_direction: Vector2):
 	var planned_new_position: Vector2 = global_position + step_direction * cell_size_x
 	var tiles_taken: Array = Global.game_manager.available_respawn_positions
 	if tiles_taken.has(planned_new_position):
-		print ("position taken")
+		print("position taken")
 		return
 		
 	var step_time: float = 0.2
