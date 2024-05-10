@@ -180,7 +180,7 @@ var game_data_cleaner_l: Dictionary = {
 	# instructions text
 	"description" : "Collect colors to score points.",
 	"Label": "", # presledek
-	"Label2": "Game is over when you lose all energy.",
+	"Label2": "Game is over if you lose all energy.",
 	"Label3" : "One big level.",
 	"Label4" : "Time is limited.",
 }
@@ -210,16 +210,16 @@ var game_data_scroller: Dictionary = {
 	"Label3" : "Skills and rebursting are not available.",
 	"Label4" : "Don't worry about energy.",
 	# "level": 1, # level se nafila ob štartu
-	"stages_per_level": 50, # vsak level prištejem k trenutnemu limitu levela
-	"stages_per_level_grow": 10, # dodatno prištejem
+	"stages_per_level": 32, # vsak level prištejem k trenutnemu limitu levela
+	"stages_per_level_grow": 0, # dodatno prištejem
 	"lines_scroll_per_spawn_round": 1,
 	# pavza med stepanjem
-	"scrolling_pause_time": 1.0, # ne sem bit manjša od stray step hitrosti (0.2)
-	"scrolling_pause_time_factor": 0.9, # množim z vsakim levelom
+	"scrolling_pause_time": 1.5, # ne sem bit manjša od stray step hitrosti (0.2)
+	"scrolling_pause_time_factor": 0.8, # množim z vsakim levelom
 	# random spawn na rundo
-	"stray_to_spawn_round_range": [1, 8], # random spawn count, največ 120
+	"stray_to_spawn_round_range": [1, 14], # random spawn count, največ 120
 	"round_range_factor_1": 1, # množim spodnjo mejo
-	"round_range_factor_2": 1, # množim zgornjo mejo
+	"round_range_factor_2": 2, # množim zgornjo mejo
 	# možnost spawna v rundi
 	"round_spawn_possibility": 32, # procenti
 	"round_spawn_possibility_factor": 1.2, # množim procente
@@ -324,7 +324,7 @@ func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.TESTING
-	var debug_game = Games.TUTORIAL
+#	var debug_game = Games.TUTORIAL
 #	var debug_game = Games.ENIGMA
 #	var debug_game = Games.CLEANER_S
 #	var debug_game = Games.CLEANER_M
@@ -333,7 +333,7 @@ func _ready() -> void:
 #	var debug_game = Games.ERASER_S
 #	var debug_game = Games.ERASER_M
 #	var debug_game = Games.ERASER_L
-#	var debug_game = Games.SCROLLER
+	var debug_game = Games.SCROLLER
 	set_game_data(debug_game)
 	
 	
@@ -469,11 +469,11 @@ func set_game_data(selected_game) -> void:
 			game_settings["position_indicators_on"] = false 
 			game_settings["strays_start_count"] = 1 # 1 v prvi spawn rundi
 			# debug
-			game_settings["scrolling_pause_time"] = 0.3 # 1 v prvi spawn rundi
+#			game_settings["scrolling_pause_time"] = 0.3 # 1 v prvi spawn rundi
 #			game_settings["stray_to_spawn_round_range"] = [20, 30] # 1 v prvi spawn rundi
 
 	# debug
-#	game_settings["game_instructions_popup"] = false
+	game_settings["game_instructions_popup"] = false
 	game_settings["start_countdown"] = false
 #	game_settings["skip_zoom_animation"] = true
 #	game_settings["reburst_mode"] = false

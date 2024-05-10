@@ -284,10 +284,14 @@ func stray_step():
 					check_stray_wall_collisions(stray, current_collider) # brez povezanosti na robu
 		# Global.sound_manager.play_sfx("stray_step") # ulomek je za pitch zvoka
 		lines_scrolled_count += 1
-		if lines_scrolled_count % lines_scroll_per_spawn_round == 0: # tukaj, da ne spawna če  je konec
-			# spawnam, če je znotraj določenih procentov
-			if randi() % 100 <= round_spawn_possibility:
+		if lines_scrolled_count % lines_scroll_per_spawn_round == 0: # tukaj, da ne spawna če je konec
+			print(current_stray_spawning_round)
+			if current_stray_spawning_round == 1: 
 				spawn_strays(random_spawn_count)
+			else: #if lines_scrolled_count > 10:
+				# spawnam, če je znotraj določenih procentov
+				if randi() % 100 <= round_spawn_possibility:
+					spawn_strays(random_spawn_count)
 			
 	yield(get_tree().create_timer(scrolling_pause_time), "timeout")
 	
