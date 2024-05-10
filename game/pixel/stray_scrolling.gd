@@ -1,8 +1,46 @@
 extends Stray
 
+# spawn strani
+enum Sides {TOP, BOTTOM, RIGHT, LEFT}
+var stray_spawn_side: int 
+var top_spawn_position_y: float = -368
+var bottom_spawn_position_y: float = 368
+var left_spawn_position_x: float = -656
+var right_spawn_position_x: float = 688
 
-func show_stray(): # kliče GM
+var step_count: int = 0 # da vidim kdaj je prek meje
+var stray_crossed_wall_step_limit: int = 2
+
+
+func _ready() -> void:
+	 # namen: grupiranje glede na izvorno stran	
 	
+	add_to_group(Global.group_strays)
+	randomize() # za random die animacije
+	
+	color_poly.modulate = stray_color
+	modulate.a = 0
+	position_indicator.get_node("PositionPoly").color = stray_color
+	count_label.text = name
+	position_indicator.visible = false
+
+#	printt ("SP", global_position)
+	
+	if global_position.y <= top_spawn_position_y:
+		stray_spawn_side = Sides.TOP
+	elif global_position.y >= bottom_spawn_position_y:
+		stray_spawn_side = Sides.BOTTOM
+	elif global_position.x >= right_spawn_position_x:
+		stray_spawn_side = Sides.RIGHT
+	elif global_position.x <= left_spawn_position_x:
+		stray_spawn_side = Sides.LEFT
+	else: 
+		printt("stray", global_position)
+	
+	
+func show_stray(): # kliče GM
+	# namen: neteatralen prikaz streja
+
 	modulate.a = 1
 	
 	if current_state == States.WALL:
@@ -32,8 +70,8 @@ func die(stray_in_stack_index: int, strays_in_stack: int):
 		animation_player.play("die_stray")
 
 	position_indicator.modulate.a = 0	
-#	collision_shape.disabled = true
-#	collision_shape_ext.disabled = true
+	collision_shape.disabled = true
+	collision_shape_ext.disabled = true
 	
 	# color vanish
 	var vanish_time = animation_player.get_current_animation_length()
@@ -48,32 +86,77 @@ func die(stray_in_stack_index: int, strays_in_stack: int):
 
 
 func step(step_direction: Vector2):
-	# namen: nerandom smer, pošiljanje collisiona za prepoznavanje stene, wall se lahko premika
+	# namen: metanje ext collisiona za prepoznavanje stene
+	# namen: določanje smeri glede na tip straya
 	
-	if not current_state == States.WALL: # wall se lahko premika
-		if not current_state == States.IDLE:
-			return
-		
+	match stray_spawn_side:
+		Sides.TOP:
+			step_direction = Vector2.DOWN
+		Sides.BOTTOM:
+			step_direction = Vector2.UP
+		Sides.LEFT:
+			step_direction = Vector2.RIGHT
+		Sides.RIGHT:
+			step_direction = Vector2.LEFT	
+	
+	# preverjam state		
+	if not current_state == States.IDLE:
+		return
+	
 	var current_collider = detect_collision_in_direction(step_direction)
-	
+	#	var current_collider# = first_collider		
+	#	# obrnem vision grupo v smeri...
+	#	vision.look_at(global_position + step_direction)
+	#	# vsi ray gledajo naravnost
+	#	for ray in vision_rays:
+	#		ray.cast_to = Vector2(45, 0) # en pixel manj kot 48, da ne seže preko celice
+	#	# grebanje kolajderja	
+	#	var first_collider: Node2D
+	#	for ray in vision_rays:
+	#		ray.add_exception(self)
+	#		ray.add_exception(Global.current_tilemap)
+	#		ray.force_raycast_update()
+	#		if not step_count > 2:
+	#			for n in get_tree().get_nodes_in_group(Global.group_tilemap):
+	#				print("JEJ")
+	#				ray.add_exception(n)
+	#		if ray.is_colliding():
+	#
+	#			first_collider = ray.get_collider()
+	##			if first_collider.is_in_group(Global.group_tilemap) and not step_count > 2:
+	##				pass
+	##			else:
+	#			current_collider = first_collider		
+	#			break # ko je kolajder neham čekirat
+			
+	# preverjam kolizije glede na število korakov, da vem kdaj je prek meje
+	step_count += 1
+	# če delam pravi korak, je pred mano stena
 	if current_collider:
-		return current_collider
+		if current_collider.is_in_group(Global.group_tilemap):
+			if step_count > stray_crossed_wall_step_limit:
+				return current_collider
+		else: # if current_collider.is_in_group(Global.group_strays):
+			return current_collider
 	
-	if not current_state == States.WALL: # wall je vedno wall
-		current_state = States.MOVING
+	current_state = States.MOVING
 	
+	# vržem ext coll			
 	collision_shape_ext.position = step_direction * cell_size_x # vržem koližn v smer premika
-
-	var step_time: float = 0.2
+	
+	# preverim available positions ... zadnja varovalka, da se ne pokrijej ... redko pride do nje
+	var planned_new_position: Vector2 = global_position + step_direction * cell_size_x
+	var tiles_taken: Array = Global.game_manager.available_respawn_positions
+	if tiles_taken.has(planned_new_position):
+		print ("position taken")
+		return
 		
+	var step_time: float = 0.2
 	var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 	step_tween.tween_property(self, "position", global_position + step_direction * cell_size_x, step_time)
 	step_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, step_time)
 	step_tween.tween_callback(self, "end_move")
-#	step_tween.tween_callback(Global, "snap_to_nearest_grid", [global_position + step_direction * cell_size_x])
-#	step_tween.tween_property(self, "current_state", States.IDLE, 0)
-
-
+	
 
 func play_sound(effect_for: String):
 	# namen: ni soundow na spawn
@@ -123,7 +206,7 @@ func turn_to_wall(stray_in_stack_index: int):
 	
 	# efekti
 	# Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
-	# play_sound("turning_color")
+	play_sound("turning_color")
 	play_sound("blinking")
 	
 #	var shake_power: float = 0.2
@@ -140,3 +223,5 @@ func turn_to_wall(stray_in_stack_index: int):
 	
 	# povzroča error, ker hoče vrnit funkciji ki ne obstaja več ... nekaj takega
 	# color_tween.tween_callback(self, "return", [true])#.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
+
+	# preverim, če je pozicija na robu

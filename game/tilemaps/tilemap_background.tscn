@@ -147,12 +147,12 @@ expand = true
 
 [node name="Foot2" type="Polygon2D" parent="Room"]
 position = Vector2( 1201, 1104 )
-color = Color( 0.470588, 0.470588, 0.470588, 1 )
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 polygon = PoolVector2Array( -1, 288, -33, 288, -33, 320, -193, 320, -193, 352, -161, 352, -161, 384, 351, 384, 351, 352, 383, 352, 383, 320, 223, 320, 223, 288, 191, 288 )
 
 [node name="Foot" type="Polygon2D" parent="Room"]
 position = Vector2( 1201, 1136 )
-color = Color( 0.32549, 0.32549, 0.32549, 1 )
+color = Color( 0.219608, 0.219608, 0.219608, 1 )
 polygon = PoolVector2Array( -1, 0, -1, 288, 31, 288, 31, 320, 159, 320, 159, 288, 191, 288, 191, 0 )
 
 [node name="Cover" type="ColorRect" parent="Room"]

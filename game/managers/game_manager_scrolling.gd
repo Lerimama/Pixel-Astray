@@ -18,6 +18,7 @@ var all_level_colors_available: Array
 var in_level_transition: bool = false
 var step_in_progress: bool = false
 var wall_spawn_random_range: int
+var wall_strays_on_edge_count: int = 0 # ko, je ves edge zaseden, je konec
 
 # nikoli ne restiram
 var wall_strays: Array = [] # vsi straysi,ki so celotna tla
@@ -47,20 +48,53 @@ func _ready() -> void:
 	randomize()
 	
 	
+#func _process(delta: float) -> void:
+#	# namen: kličem stray step
+#
+#	if get_tree().get_nodes_in_group(Global.group_strays).empty() and all_strays_died_alowed:
+#		all_strays_died_alowed = false
+#		emit_signal("all_strays_died")
+#
+#	# position indicators off
+#	show_position_indicators = false			
+#
+#	if game_on and not step_in_progress:
+#		stray_step()
+
+
+var available_edge_side_positions: Array
+
 func _process(delta: float) -> void:
-	# namen: kličem stray step
+	# namen: kličem stray step, čekiram zasedenost roba za GO
 	
 	if get_tree().get_nodes_in_group(Global.group_strays).empty() and all_strays_died_alowed:
 		all_strays_died_alowed = false
 		emit_signal("all_strays_died")
 	
-	# position indicators off
-	show_position_indicators = false			
-	
-	if game_on and not step_in_progress:
-		stray_step()
+	if game_on:
+		# available respawn positions in pozicije ob robu
+		# vsakič znova zajamemo vse in ji potem odštejemo trenutno zasedene
+		available_respawn_positions = Global.current_tilemap.floor_global_positions.duplicate()
+		available_edge_side_positions = Global.current_tilemap.edge_cell_side_global_positions.duplicate()
+		for stray in get_tree().get_nodes_in_group(Global.group_strays):
+			var stray_grid_position: Vector2 = stray.global_position - Vector2(cell_size_x/2, cell_size_x/2)
+			if available_respawn_positions.has(stray_grid_position):
+				available_respawn_positions.erase(stray_grid_position)
+			if available_edge_side_positions.has(stray_grid_position):
+				available_edge_side_positions.erase(stray_grid_position)
+		for player in get_tree().get_nodes_in_group(Global.group_players):
+			var player_grid_position: Vector2 = player.global_position - Vector2(cell_size_x/2, cell_size_x/2)
+			if available_respawn_positions.has(player_grid_position):
+				available_respawn_positions.erase(player_grid_position)
+			if available_edge_side_positions.has(player_grid_position):
+				available_edge_side_positions.erase(player_grid_position)
+		
+		if available_edge_side_positions.empty(): # če je pogoj "polno" izpolnjen, je itak izpolnjen tudi ta pogoj
+			game_over(GameoverReason.TIME)	
+		elif not step_in_progress:
+			stray_step()
 
-
+		
 func set_game(): 
 	# namen: setam level indikatorje in strayse spawnam po štratu igre
 	
@@ -203,10 +237,9 @@ func set_players():
 		# players camera
 		if spawned_player_index == 1:
 			new_player_pixel.player_camera = Global.player1_camera
-			# new_player_pixel.player_camera.camera_target = new_player_pixel
+			Global.player1_camera.position = new_player_pixel.global_position + Vector2(cell_size_x/2, - cell_size_x/2)
 		elif spawned_player_index == 2:
 			new_player_pixel.player_camera = Global.player2_camera
-			# new_player_pixel.player_camera.camera_target = new_player_pixel
 		
 
 # STRAYS -----------------------------------------------------------------------------
@@ -214,18 +247,51 @@ func set_players():
 
 func spawn_strays(strays_to_spawn_count: int):
 	# namen: no clampin, ker je lahko spawn 0
+	# preverjanje spawn pozicij na voljo
 	
 	var available_required_spawn_positions = required_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
 	var available_random_spawn_positions = random_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
-
-	# preverim prepovedane pozicije ... zasedene in podobno
-	var realy_spawned_strays_count: int = 0 # za štetje zares spawnanih
-	var current_strays_on_top: Array = Global.current_tilemap.strays_in_top_area
-	var forbiden_positions: Array = []
-	for stray_on_top in current_strays_on_top:
-		var adapted_stray_position: Vector2 = stray_on_top.position - Vector2.ONE * cell_size_x / 2 # za središče
-		adapted_stray_position.y -= 32 # za pozicijo zaznanega straya (zamik spawn lokacije glede na detektor)
-		forbiden_positions.append(adapted_stray_position)
+	var scroller_spawn_positions: Array = available_edge_side_positions.duplicate()
+	
+		
+	# odstranim trneutno zasedene in ovirane
+	# preverjam zasedenost spawn pozicije (če je obrobje zasedeno)
+	# opredelim stran na kateri je pozicije in jim dodam dva tileta
+	var should_be_empty_tile_position: Vector2
+	var should_be_empty_tiles: Array
+	var top_spawn_position_y: float = -368 + cell_size_x/2
+	var bottom_spawn_position_y: float = 368 - cell_size_x/2
+	var left_spawn_position_x: float = - 656 + cell_size_x/2
+	var right_spawn_position_x: float = 688 - cell_size_x/2
+	var taken_spawn_positions: Array
+	for pos in scroller_spawn_positions:
+		if pos.y == top_spawn_position_y: # je gor
+			should_be_empty_tile_position = pos + Vector2(0, cell_size_x) * 2
+#				printt("g", selected_position, should_be_empty_tile_position)
+		elif pos.y == bottom_spawn_position_y: # je dol
+			should_be_empty_tile_position = pos - Vector2(0, cell_size_x) * 2
+#				printt("d", selected_position, should_be_empty_tile_position)
+		elif pos.x == left_spawn_position_x: # je na levi
+			should_be_empty_tile_position = pos + Vector2(cell_size_x, 0) * 2
+#				printt("l", selected_position, should_be_empty_tile_position)
+		elif pos.x == right_spawn_position_x: # je na desni
+			should_be_empty_tile_position = pos - Vector2(cell_size_x, 0) * 2
+#				printt("de", selected_position, should_be_empty_tile_position)
+		
+		# če spawn pozicija ni ovirana
+		for stray in get_tree().get_nodes_in_group(Global.group_strays):
+			if stray.global_position == should_be_empty_tile_position + Vector2(cell_size_x/2, cell_size_x/2):
+				taken_spawn_positions.append(pos)
+		for player in get_tree().get_nodes_in_group(Global.group_players):
+			if player.global_position == should_be_empty_tile_position + Vector2(cell_size_x/2, cell_size_x/2):
+				taken_spawn_positions.append(pos)
+#					printt("p", selected_position, should_be_empty_tile_position)		
+		
+		
+	for taken_pos in taken_spawn_positions:
+		if scroller_spawn_positions.has(taken_pos):
+			scroller_spawn_positions.erase(taken_pos)
+	
 	
 	for stray_index in strays_to_spawn_count:
 		
@@ -248,26 +314,21 @@ func spawn_strays(strays_to_spawn_count: int):
 		var random_range = current_spawn_positions.size()
 		var selected_cell_index: int = randi() % int(random_range)# + 1		
 		var selected_position = current_spawn_positions[selected_cell_index]
-
-		# primerjam spawn pozicijo s prepovedanimi
-		if not forbiden_positions.has(selected_position):
+		
+#		if not position_taken:
+		if available_respawn_positions.has(selected_position):
 			# spawn stray
 			var new_stray_pixel = StrayPixel.instance()
 			new_stray_pixel.name = "S%s" % str(stray_index)
 			new_stray_pixel.global_position = selected_position + Vector2(cell_size_x/2, cell_size_x/2) # dodana adaptacija zaradi središča pixla
 			new_stray_pixel.z_index = 2 # višje od plejerja
-			
 			new_stray_pixel.stray_color = random_selected_color
-			
 			Global.node_creation_parent.add_child(new_stray_pixel)
-			
 			new_stray_pixel.show_stray()
-			realy_spawned_strays_count += 1
+			# odstranim uporabljeno pozicijo ne glede na al je bila spawnana al ne
+			current_spawn_positions.remove(selected_cell_index)
+			self.strays_in_game_count = 1 # setget sprememba
 		
-		# odstranim uporabljeno pozicijo ne glede na al je bila spawnana al ne
-		current_spawn_positions.remove(selected_cell_index)
-
-	self.strays_in_game_count = realy_spawned_strays_count # setget sprememba
 	current_stray_spawning_round += 1
 
 
@@ -278,7 +339,7 @@ func stray_step():
 
 	step_in_progress = true
 		
-	check_top_for_gameover() 
+#	check_top_for_gameover() 
 	
 	var stepping_direction: Vector2
 	
@@ -437,29 +498,13 @@ func clean_strays_in_game():
 	return true
 	
 	
-func check_top_for_gameover():
-	# preverim stanje na vrhu
-			
-	var current_strays_on_top: Array = Global.current_tilemap.strays_in_top_area
-	var wall_strays_on_top_count: int = 0
-	
-	 # GO na stolpec full
-	var spawn_line_cells_count: int = 20
-	
-	# GO na prvi stopec full	
-	if current_strays_on_top.size() < spawn_line_cells_count:
-		for stray_on_top in current_strays_on_top:
-			if wall_strays.has(stray_on_top):
-				game_over(GameoverReason.TIME)
-				return # da ne falsam game filled
-
-
 func check_stray_wall_collisions(current_stray: KinematicBody2D, current_collider: Node): # preverjanje, ko ne iščeš polnosti tal
 	
 	# prva runda ... kolajder tilemap (tla)
 	if current_collider.is_in_group(Global.group_tilemap):
 		wall_strays.append(current_stray)
 		current_stray.turn_to_wall(1)
+		
 	# druge runde ... kolajder stray in je rob tal
 	elif current_collider.is_in_group(Global.group_strays) and wall_strays.has(current_collider):
 		wall_strays.append(current_stray)

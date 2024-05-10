@@ -1752,6 +1752,7 @@ web_link_text = "freesound.org/..."
 name_author_text = "sparkier remix#2 ... / Timbre"
 
 [node name="CreditsLine10" parent="About/Credits/Column" instance=ExtResource( 20 )]
+visible = false
 margin_top = 239.0
 margin_right = 261.0
 margin_bottom = 259.0
@@ -1760,6 +1761,7 @@ web_link_text = "filippogameaudio.itch.io"
 name_author_text = "285 Game Sound Effects Vol.1"
 
 [node name="CreditsLine11" parent="About/Credits/Column" instance=ExtResource( 20 )]
+visible = false
 margin_top = 263.0
 margin_right = 261.0
 margin_bottom = 283.0

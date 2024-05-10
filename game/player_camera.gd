@@ -63,6 +63,7 @@ func _ready():
 			elif Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
 				pass # zoom seta iz GMja ob setanju limitsov
 			zoom = zoom_start
+			zoom_end = zoom_start # no zoom debug
 		else:
 			zoom = zoom_end
 
@@ -105,7 +106,7 @@ func _physics_process(delta: float) -> void:
 	
 	if camera_target: # and Global.game_manager.game_settings["zoom_animation"]:
 		position = camera_target.position + cell_align
-	
+		
 	
 func zoom_in(hud_in_out_time: float, players_count: int): # kliče hud
 	

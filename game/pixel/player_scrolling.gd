@@ -3,10 +3,10 @@ extends Player
 
 
 func _physics_process(delta: float) -> void:
-	# namen: detect touch
-	
+	# namen: detect touch, no heartbeat
+
 	color_poly.modulate = pixel_color # povezava med variablo in barvo mora obstajati non-stop
-	
+
 	# glow light setup
 	if pixel_color == Global.game_manager.game_settings["player_start_color"]:
 		glow_light.color = Color.white
@@ -14,10 +14,10 @@ func _physics_process(delta: float) -> void:
 	else:
 		glow_light.color = pixel_color
 		glow_light.energy = 1.5 # če spremeniš, je treba spremenit tudi v animacijah
-	
+
 	detect_touch()	
 	state_machine()
-	manage_heartbeat()
+#	manage_heartbeat()
 	
 	
 # INPUTS ------------------------------------------------------------------------------------------
@@ -212,9 +212,57 @@ func burst():
 	change_stat("burst_released", 1)
 	
 	
+func play_sound(effect_for: String):
+	# namen: brez vrtoglavice hit wall
+	
+	if Global.sound_manager.game_sfx_set_to_off:
+		return	
+		
+	match effect_for:
+		"blinking":
+			var random_blink_index = randi() % $Sounds/Blinking.get_child_count()
+			$Sounds/Blinking.get_child(random_blink_index).play() # nekateri so na mute, ker so drugače prepogosti soundi
+			var random_static_index = randi() % $Sounds/BlinkingStatic.get_child_count()
+			$Sounds/BlinkingStatic.get_child(random_static_index).play()
+		"heartbeat":
+			$Sounds/Heartbeat.play()
+		# bursting
+		"hit_stray":
+			$Sounds/Burst/HitStray.play()
+		"hit_wall":
+			$Sounds/Burst/HitWall.play()
+#			$Sounds/Burst/HitDizzy.play()
+		"burst":
+			yield(get_tree().create_timer(0.1), "timeout")
+			$Sounds/Burst/Burst.play()
+			$Sounds/Burst/BurstLaser.play()
+		"burst_cocking":
+			if $Sounds/Burst/BurstCocking.is_playing():
+				return
+			$Sounds/Burst/BurstCocking.play()
+		"burst_uncocking":
+			if $Sounds/Burst/BurstUncocking.is_playing():
+				return
+			$Sounds/Burst/BurstUncocking.play()			
+		"burst_stop":
+			$Sounds/Burst/BurstStop.play()
+		# skills
+		"pushpull_start":
+			$Sounds/Skills/PushPull.play()
+		"pushpull_end":
+			$Sounds/Skills/PushedPulled.play()
+		"pulled":
+			$Sounds/Skills/StoneSlide.play()
+		"pushed":
+			$Sounds/Skills/Cling.play()
+			$Sounds/Skills/StoneSlide.play()
+		"teleport":
+			$Sounds/Skills/TeleportIn.play()
+	
+			
 # ON HIT ------------------------------------------------------------------------------------------
 
-
+			
 func on_hit_stray(hit_stray: KinematicBody2D):
 	# namen: always full stack, tudi sprožanje čekiranja levelov, preverjanje straysov na podnu, on wall hit preusmeritev
 	# možno: plejer ostane bel

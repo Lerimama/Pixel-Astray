@@ -48,10 +48,11 @@ func _process(delta: float) -> void:
 		all_strays_died_alowed = false
 		emit_signal("all_strays_died")
 	
-	# position indicators
 	if game_on:
+		# available respawn positions
 		if available_respawn_positions.empty():
-			game_over(GameoverReason.TIME)	
+			game_over(GameoverReason.TIME)
+		# vsakič znova zajamemo vse in ji potem odštejemo trenutno zasedene
 		available_respawn_positions = Global.current_tilemap.floor_global_positions.duplicate()
 		for stray in get_tree().get_nodes_in_group(Global.group_strays):
 			if available_respawn_positions.has(stray.global_position - Vector2(cell_size_x/2, cell_size_x/2)):
@@ -60,6 +61,7 @@ func _process(delta: float) -> void:
 			if available_respawn_positions.has(player.global_position - Vector2(cell_size_x/2, cell_size_x/2)):
 				available_respawn_positions.erase(player.global_position - Vector2(cell_size_x/2, cell_size_x/2) )
 		
+		# position indicators
 		if Global.strays_on_screen.size() <= game_settings["show_position_indicators_stray_count"] and game_settings["position_indicators_on"]:
 			show_position_indicators = true
 		else:
