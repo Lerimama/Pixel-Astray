@@ -17,8 +17,7 @@ var default_game_settings: Dictionary = { # to so default CLEANING settings
 	# player
 	"player_start_life": 1, # 1 lajf skrije ikone v hudu in določi "lose_life_on_hit"
 	"player_start_energy": 192, # če je 0, je 0 ... instant GO
-#	"player_start_color": Color("#ffffff"), # Color("#232323"), Color("#141414"), # old #141414
-	"player_start_color": Color("#141414"), # Color("#232323"), Color("#141414"), # old #141414
+	"player_start_color": Color("#323232"), # na začetku je bel, potem se animira v start color ... #232323, #141414
 	"player_max_energy": 192, # max energija
 	"player_tired_energy": 20, # pokaže steps warning popup in hud oabrva rdeče
 	"step_time_fast": 0.09, # default hitrost
@@ -30,7 +29,7 @@ var default_game_settings: Dictionary = { # to so default CLEANING settings
 	"cell_traveled_points": 0,
 	"skill_used_points": 0,
 	"burst_released_points": 0,
-	"on_hit_points_part": 2,
+	"on_hit_points_part": 0,
 	# energija
 	"color_picked_energy": 10,
 	"cell_traveled_energy": -1,
@@ -42,9 +41,11 @@ var default_game_settings: Dictionary = { # to so default CLEANING settings
 	"reburst_count_limit": 0, # 0 je unlimited
 	"reburst_reward_limit": 0, # 0 je brez nagrade
 	"reburst_reward_points": 100, # kolk jih destroya ... 0 gre po original pravilih moči
-	"reburst_window_time": 0.2, # 0 je neomejen čas
+	"reburst_window_time": 0.3, # 0 je neomejen čas
 	"reburst_hit_power": 1, # kolk jih destroya ... 0 gre po original pravilih moči, 5 je full power
 	# game
+	"game_time_limit": 0,
+	"strays_start_count": 0, # ponekod se spawna vsaj 1
 	"respawn_mode": true,
 	"respawn_wait_time": 1,
 	"respawn_strays_count": 1,
@@ -60,13 +61,10 @@ var default_game_settings: Dictionary = { # to so default CLEANING settings
 	"show_position_indicators_stray_count": 5,
 	"position_indicators_on": true, # duel jih nima 
 	"spectrum_start_on": false, # a pobrane prižigam al ugašam
-	"zoom_animation": true,
+	"skip_zoom_animation": false,
 	"start_countdown": false,
 	"game_instructions_popup": true,
 	"solutions_mode": false, # enigma reštve
-	# neu
-	"game_time_limit": 0,
-	"strays_start_count": 0, # ponekod se spawna vsaj 1
 }
 
 
@@ -104,11 +102,10 @@ var game_data_eraser_s: Dictionary = {
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_S.tscn",
 	# instructions text
-	"description" : "Collect all available colors.",
+	"description" : "Collect all colors in limited time.",
 	"Label": "", # presledek
-	"Label2": "Game is over when you lose all energy.",
-	"Label3" : "Time is limited.",
-	"Label4" : "Rebursting is not available.",
+	"Label2": "Game is over if you lose all life and energy.",
+	"Label3" : "Rebursting is not available.",
 }
 var game_data_eraser_m: Dictionary = {
 	"game": Games.ERASER_M,
@@ -117,11 +114,10 @@ var game_data_eraser_m: Dictionary = {
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_M.tscn",
 	# instructions text
-	"description" : "Collect all available colors.",
+	"description" : "Collect all colors in limited time.",
 	"Label": "", # presledek
-	"Label2": "Game is over when you lose all energy.",
-	"Label3" : "Time is limited.",
-	"Label4" : "Rebursting is not available.",
+	"Label2": "Game is over if you lose all life and energy.",
+	"Label3" : "Rebursting is not available.",
 }
 var game_data_eraser_l: Dictionary = {
 	"game": Games.ERASER_L,
@@ -130,11 +126,10 @@ var game_data_eraser_l: Dictionary = {
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_L.tscn",
 	# instructions text
-	"description" : "Collect all available colors.",
+	"description" : "Collect all colors in limited time.",
 	"Label": "", # presledek
-	"Label2": "Game is over when you lose all energy.",
-	"Label3" : "Time is limited.",
-	"Label4" : "Rebursting is not available.",
+	"Label2": "Game is over if you lose all life and energy.",
+	"Label3" : "Rebursting is not available.",
 }
 var game_data_cleaner_s: Dictionary = { 
 	"game": Games.CLEANER_S,
@@ -143,11 +138,10 @@ var game_data_cleaner_s: Dictionary = {
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_s.tscn",
 	# instructions text
-	"description" : "Collect points to progress through levels.",
-	"Label": "Game is over when you lose all life or the screen is full of colors.",
+	"description" : "Score points or clean the screen to reach next level.",
+	"Label": "Game is over if you lose all life or if screen is full of colors.",
 	"Label2" : "Unlimited levels. Unlimited time. Game is unbeatable.",
-	"Label3" : "Level progress on points scored or if screen is cleaned.",
-	"Label4" : "Don't worry about energy.",
+	"Label3" : "Don't worry about energy.",
 	# xtra
 	# "level": 1, # se neafila kasneje
 	"respawn_wait_time": 1,
@@ -165,11 +159,10 @@ var game_data_cleaner_m: Dictionary = {
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_m.tscn",
 	# instructions text
-	"description" : "Collect points to progress through levels.",
-	"Label": "Game is over when you lose all life or the screen is full of colors.",
+	"description" : "Score points or clean the screen to reach next level.",
+	"Label": "Game is over if you lose all life or if screen is full of colors.",
 	"Label2" : "Unlimited levels. Unlimited time. Game is unbeatable.",
-	"Label3" : "Level progress on points scored or if screen is cleaned.",
-	"Label4" : "Don't worry about energy.",
+	"Label3" : "Don't worry about energy.",
 	# xtra
 	# "level": 1, # se neafila kasneje
 	"respawn_wait_time_factor": 0.7, # množim z vsakim levelom
@@ -185,7 +178,7 @@ var game_data_cleaner_l: Dictionary = {
 	"game_scene_path": "res://game/game_cleaning.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_l.tscn",
 	# instructions text
-	"description" : "Collect colors to earn points.",
+	"description" : "Collect colors to score points.",
 	"Label": "", # presledek
 	"Label2": "Game is over when you lose all energy.",
 	"Label3" : "One big level.",
@@ -211,12 +204,11 @@ var game_data_scroller: Dictionary = {
 	"game_scene_path": "res://game/game_scrolling.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_scrolling.tscn",
 	# instructions text
-	"description" : "Collect colors to progress through levels.",
-	"Label": "Game is over when first wall column reaches the top or you have no room to move.",
+	"description" : "Prevent invading colors from flooding the screen.",
+	"Label": "Game is over when you are surrounded or when there is no room for colors to invade.",
 	"Label2" : "Burst always collects all colors in stack.",
-	"Label3" : "Level progress on colors collected count or if screen is cleaned.",
-	"Label4" : "Skills and rebursting are not available.",
-	"Label5" : "Don't worry about energy.",
+	"Label3" : "Skills and rebursting are not available.",
+	"Label4" : "Don't worry about energy.",
 	# "level": 1, # level se nafila ob štartu
 	"stages_per_level": 50, # vsak level prištejem k trenutnemu limitu levela
 	"stages_per_level_grow": 10, # dodatno prištejem
@@ -225,7 +217,7 @@ var game_data_scroller: Dictionary = {
 	"scrolling_pause_time": 1.0, # ne sem bit manjša od stray step hitrosti (0.2)
 	"scrolling_pause_time_factor": 0.9, # množim z vsakim levelom
 	# random spawn na rundo
-	"stray_to_spawn_round_range": [1, 8], # random spawn count, največ 20
+	"stray_to_spawn_round_range": [1, 8], # random spawn count, največ 120
 	"round_range_factor_1": 1, # množim spodnjo mejo
 	"round_range_factor_2": 1, # množim zgornjo mejo
 	# možnost spawna v rundi
@@ -241,10 +233,12 @@ var game_data_enigma: Dictionary = {
 	"description" : "Collect all available colors with a single burst move.",
 	"Label" : "Burst move includes initial burst and all rebursts that follow.",
 	"Label2": "Burst move starts when you hit the first stray pixel.",
-	"Label3" : "Burst always collect all colors in a stack. Reburst collects only one.",
-#	"Label3" : "Burst and reburst always collect all colors in a stack.",
-	"Label4" : "Reburst time window is limitless.",
+	"Label3" : "Level progress on colors collected count.",
+	"Label4" : "Unlimited levels. Unlimited time. Game is unbeatable.",
 	"Label5" : "Don't worry about energy.",
+	#	"Label4" : "Reburst time window is limitless.",
+	#	"Label3" : "Level progress on points scored or if screen is cleaned.",
+	#	"Label3" : "Burst always collect all colors in a stack. Reburst collects only one.",
 	# nafila iz level settingsov
 	# "tilemap_path": 
 	# "level": 
@@ -330,7 +324,7 @@ func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.TESTING
-#	var debug_game = Games.TUTORIAL
+	var debug_game = Games.TUTORIAL
 #	var debug_game = Games.ENIGMA
 #	var debug_game = Games.CLEANER_S
 #	var debug_game = Games.CLEANER_M
@@ -339,7 +333,7 @@ func _ready() -> void:
 #	var debug_game = Games.ERASER_S
 #	var debug_game = Games.ERASER_M
 #	var debug_game = Games.ERASER_L
-	var debug_game = Games.SCROLLER
+#	var debug_game = Games.SCROLLER
 	set_game_data(debug_game)
 	
 	
@@ -355,7 +349,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["respawn_mode"] = false
 			game_settings["reburst_mode"] = true
 			game_settings["player_start_color"] = Color.white
-			game_settings["zoom_animation"] = false
+			game_settings["skip_zoom_animation"] = true
 			game_settings["reburst_hit_power"] = 1
 			game_settings["reburst_mode"] = true			
 			game_settings["reburst_window_time"] = 0 # 0 = neomejeno
@@ -366,10 +360,11 @@ func set_game_data(selected_game) -> void:
 			game_settings["game_instructions_popup"] = false
 			game_settings["timer_mode_countdown"] = false
 			game_settings["respawn_mode"] = false
+			game_settings["reburst_mode"] = true
 		Games.ENIGMA: 
 			current_game_data = game_data_enigma
 			game_settings["color_picked_points"] = 0
-			game_settings["all_cleaned_points"] = 0
+#			game_settings["all_cleaned_points"] = 0
 			game_settings["all_cleaned_points"] = 1 # vsaj ena točka, če ne se sploh ne pokaže ... izpiše se "SUCCESS!"
 			game_settings["color_picked_points"] = 0
 			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
@@ -390,7 +385,7 @@ func set_game_data(selected_game) -> void:
 			current_game_data = game_data_cleaner_s
 			game_settings["player_start_life"] = 3
 			game_settings["all_cleaned_points"] = 100
-			game_settings["on_hit_points_part"] = 1
+			game_settings["on_hit_points_part"] = 0
 			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
 			game_settings["eternal_mode"] = true
 			game_settings["lose_life_on_hit"] = true
@@ -399,16 +394,17 @@ func set_game_data(selected_game) -> void:
 			game_settings["position_indicators_on"] = false
 			game_settings["turn_stray_to_wall"] = false
 			game_settings["full_power_mode"] = true
+			game_settings["reburst_mode"] = true
 			#
 			game_settings["strays_start_count"] = 50
-			game_settings["reburst_mode"] = true
+#			game_settings["reburst_mode"] = true
 #			game_settings["respawn_wait_time"] = 1
 #			game_settings["respawn_strays_count"] = 1
 		Games.CLEANER_M: 
 			current_game_data = game_data_cleaner_m
 			game_settings["player_start_life"] = 3
 			game_settings["all_cleaned_points"] = 100
-			game_settings["on_hit_points_part"] = 1
+			game_settings["on_hit_points_part"] = 0
 			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
 			game_settings["eternal_mode"] = true
 			game_settings["lose_life_on_hit"] = true
@@ -466,22 +462,19 @@ func set_game_data(selected_game) -> void:
 			game_settings["respawn_strays_count"] = 3
 		Games.SCROLLER:
 			current_game_data = game_data_scroller
-#			game_settings["on_hit_energy_part"] = 1
-#			game_settings["lose_life_on_hit"] = false
+			game_settings["on_hit_energy_part"] = 0
 			game_settings["cell_traveled_energy"] = 0
 			game_settings["all_cleaned_points"] = 0
-#			game_settings["zoom_animation"] = false
 			game_settings["timer_mode_countdown"] = false
 			game_settings["position_indicators_on"] = false 
-			game_settings["player_start_color"] = Color.red
 			game_settings["strays_start_count"] = 1 # 1 v prvi spawn rundi
 			# debug
 			game_settings["scrolling_pause_time"] = 0.3 # 1 v prvi spawn rundi
 #			game_settings["stray_to_spawn_round_range"] = [20, 30] # 1 v prvi spawn rundi
 
 	# debug
-	game_settings["game_instructions_popup"] = false
+#	game_settings["game_instructions_popup"] = false
 	game_settings["start_countdown"] = false
-#	game_settings["zoom_animation"] = false
-	game_settings["reburst_mode"] = false
+#	game_settings["skip_zoom_animation"] = true
+#	game_settings["reburst_mode"] = false
 #	game_settings["respawn_mode"] = false

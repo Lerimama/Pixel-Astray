@@ -2844,7 +2844,7 @@ margin_right = -58.0
 margin_bottom = 154.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 4 )
-text = "Travel around the block or move in all available directions to progress to the next stage."
+text = "Travel around and move in all available directions to progress to the next stage."
 autowrap = true
 
 [node name="LineLabel" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
@@ -3084,7 +3084,7 @@ margin_right = -58.0
 margin_bottom = 96.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 4 )
-text = "Use skills to push and pull a stray pixel, or teleport over any wall that is in your way."
+text = "Use skills to push and pull pixels around and build large stacks of colors."
 autowrap = true
 
 [node name="Instructions2" type="Label" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
@@ -3128,10 +3128,9 @@ text = "3. Move towards a neighbouring wall to teleport to the other side."
 autowrap = true
 
 [node name="LineLabel2" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
-visible = false
 anchor_right = 1.0
-margin_top = 288.0
-margin_bottom = 330.0
+margin_top = 336.0
+margin_bottom = 378.0
 custom_constants/separation = 8
 __meta__ = {
 "_edit_group_": true
@@ -3150,7 +3149,7 @@ margin_bottom = 42.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 4 )
-text = "You can't use skills without energy."
+text = "Skills don't work if white stray pixels."
 autowrap = true
 
 [node name="StackingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
@@ -3271,6 +3270,7 @@ autowrap = true
 [node name="WinLoseContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
 visible = false
 anchor_right = 1.0
+margin_bottom = 334.0
 rect_min_size = Vector2( 0, 298 )
 rect_clip_content = true
 
@@ -3309,14 +3309,24 @@ custom_fonts/font = ExtResource( 4 )
 text = "Depending on the game played the reason for losing a game can be: losing all life, losing all energy, time limit is reached, screen is filled with stray pixels."
 autowrap = true
 
-[node name="Instructions" type="Label" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
+[node name="Content3" type="Label" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
 anchor_right = 1.0
 margin_top = 201.0
-margin_right = -80.0
-margin_bottom = 249.0
+margin_right = -54.0
+margin_bottom = 273.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 4 )
-text = "Collect colors from pixels still astray to finish the tutorial."
+text = "Feel free to practice using skills, bursting, rebursting and stopping."
+autowrap = true
+
+[node name="Instructions" type="Label" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
+anchor_right = 1.0
+margin_top = 265.0
+margin_right = -68.0
+margin_bottom = 313.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 4 )
+text = "To finish this tutorial collect colors still on screen."
 autowrap = true
 
 [node name="Controls" type="Control" parent="GUI/Tutorial"]
@@ -3671,10 +3681,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 417.0
-margin_top = 320.0
-margin_right = 865.0
-margin_bottom = 608.0
+margin_left = -223.0
+margin_top = -40.0
+margin_right = 225.0
+margin_bottom = 248.0
 theme = SubResource( 346 )
 __meta__ = {
 "_edit_group_": true
@@ -4535,6 +4545,7 @@ text = "You are forever colorless!"
 align = 1
 
 [node name="Tutorial" type="Control" parent="GUI/GameOver/GameoverTitle"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -4576,7 +4587,7 @@ tile_set = ExtResource( 21 )
 cell_size = Vector2( 16, 16 )
 cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 format = 1
-tile_data = PoolIntArray( 8, 0, 0, 10, 0, 0, 12, 0, 0, 15, 0, 0, 16, 0, 0, 17, 0, 0, 18, 0, 0, 20, 0, 0, 22, 0, 0, 24, 0, 0, 26, 0, 0, 65544, 0, 0, 65546, 0, 0, 65548, 0, 0, 65550, 0, 0, 65554, 0, 0, 65556, 0, 0, 65558, 0, 0, 65560, 0, 0, 65562, 0, 0, 131080, 0, 0, 131082, 0, 0, 131084, 0, 0, 131086, 0, 0, 131090, 0, 0, 131092, 0, 0, 131094, 0, 0, 131096, 0, 0, 131098, 0, 0, 196616, 0, 0, 196618, 0, 0, 196620, 0, 0, 196622, 0, 0, 196626, 0, 0, 196628, 0, 0, 196630, 0, 0, 196632, 0, 0, 196634, 0, 0, 262152, 0, 0, 262154, 0, 0, 262156, 0, 0, 262158, 0, 0, 262162, 0, 0, 262164, 0, 0, 262166, 0, 0, 262168, 0, 0, 262170, 0, 0, 327688, 0, 0, 327690, 0, 0, 327692, 0, 0, 327694, 0, 0, 327698, 0, 0, 327700, 0, 0, 327702, 0, 0, 327704, 0, 0, 393224, 0, 0, 393225, 0, 0, 393227, 0, 0, 393228, 0, 0, 393230, 0, 0, 393231, 0, 0, 393232, 0, 0, 393233, 0, 0, 393234, 0, 0, 393236, 0, 0, 393237, -1610612736, 0, 393239, 0, 0, 393240, 0, 0, 393242, 0, 0, 1441821, 0, 0 )
+tile_data = PoolIntArray( 8, 0, 0, 10, 0, 0, 12, 0, 0, 15, 0, 0, 16, 0, 0, 17, 0, 0, 18, 0, 0, 20, 0, 0, 22, 0, 0, 24, 0, 0, 26, 0, 0, 65544, 0, 0, 65546, 0, 0, 65548, 0, 0, 65550, 0, 0, 65554, 0, 0, 65556, 0, 0, 65558, 0, 0, 65560, 0, 0, 65562, 0, 0, 131080, 0, 0, 131082, 0, 0, 131084, 0, 0, 131086, 0, 0, 131090, 0, 0, 131092, 0, 0, 131094, 0, 0, 131096, 0, 0, 131098, 0, 0, 196616, 0, 0, 196618, 0, 0, 196620, 0, 0, 196622, 0, 0, 196626, 0, 0, 196628, 0, 0, 196630, 0, 0, 196632, 0, 0, 196634, 0, 0, 262152, 0, 0, 262154, 0, 0, 262156, 0, 0, 262158, 0, 0, 262162, 0, 0, 262164, 0, 0, 262166, 0, 0, 262168, 0, 0, 262170, 0, 0, 327688, 0, 0, 327690, 0, 0, 327692, 0, 0, 327694, 0, 0, 327698, 0, 0, 327700, 0, 0, 327702, 0, 0, 327704, 0, 0, 393224, 0, 0, 393225, 0, 0, 393227, 0, 0, 393228, 0, 0, 393230, 0, 0, 393231, 0, 0, 393232, 0, 0, 393233, 0, 0, 393234, 0, 0, 393236, 0, 0, 393237, -1610612736, 0, 393239, 0, 0, 393240, 0, 0, 393242, 0, 0 )
 
 [node name="Label2" type="Label" parent="GUI/GameOver/GameoverTitle/Tutorial/NotFinished"]
 modulate = Color( 0.368627, 1, 0.662745, 1 )

@@ -66,6 +66,7 @@ onready var FloatingTag: PackedScene = preload("res://game/hud/floating_tag.tscn
 
 func _ready() -> void:
 	
+#	pixel_color = Global.game_manager.game_settings["player_start_color"]
 	add_to_group(Global.group_players)
 	randomize() # za random blink animacije
 	
@@ -1090,6 +1091,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			var player_fade_in = get_tree().create_tween()
 			player_fade_in.tween_property(self, "modulate:a", 1, 0.2)
 			player_fade_in.parallel().tween_property(glow_light, "energy", 1.5, 0.5)
+			emit_signal("player_pixel_set")
 		"heartbeat":
 			heartbeat_loop += 1
 			if heartbeat_loop <= 5:
@@ -1161,28 +1163,32 @@ func change_stat(stat_event: String, stat_value):
 		"hit_player": # točke glede na delež loserjevih točk, energija se resetira na 100%
 			var hit_player_current_points: int = stat_value
 			player_stats["player_energy"] = game_settings["player_max_energy"]
-			var points_to_gain: int = round(hit_player_current_points / game_settings["on_hit_points_part"])
-			player_stats["player_points"] += points_to_gain
-			spawn_floating_tag(points_to_gain)
+			if game_settings["on_hit_points_part"] > 0:
+				var points_to_gain: int = round(hit_player_current_points / game_settings["on_hit_points_part"])
+				player_stats["player_points"] += points_to_gain
+				spawn_floating_tag(points_to_gain)
 		"hit_wall": # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
 			if Global.game_manager.game_settings["lose_life_on_hit"]:
 				player_stats["player_energy"] = 0
 			else:
-				player_stats["player_energy"] -= round(player_stats["player_energy"] / game_settings["on_hit_energy_part"])
-			var points_to_lose = round(player_stats["player_points"] / game_settings["on_hit_points_part"])
-#			player_stats["player_points"] -= points_to_lose
-			player_stats["player_points"] /= game_settings["on_hit_points_part"]
-			spawn_floating_tag(- points_to_lose) 
+				if game_settings["on_hit_energy_part"] > 0:
+					player_stats["player_energy"] -= round(player_stats["player_energy"] / game_settings["on_hit_energy_part"])
+			if game_settings["on_hit_points_part"] > 0:
+				var points_to_lose = round(player_stats["player_points"] / game_settings["on_hit_points_part"])
+	#			player_stats["player_points"] -= points_to_lose
+				player_stats["player_points"] /= game_settings["on_hit_points_part"]
+				spawn_floating_tag(- points_to_lose) 
 		"get_hit": # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
-			
 			if Global.game_manager.game_settings["lose_life_on_hit"]:
 				player_stats["player_energy"] = 0
 			else:
-				player_stats["player_energy"] -= round(player_stats["player_energy"] / game_settings["on_hit_energy_part"])
-			var points_to_lose = round(player_stats["player_points"] / game_settings["on_hit_points_part"])
-#			player_stats["player_points"] -= points_to_lose
-			player_stats["player_points"] /= game_settings["on_hit_points_part"]
-			spawn_floating_tag(- points_to_lose) 
+				if game_settings["on_hit_energy_part"] > 0:
+					player_stats["player_energy"] -= round(player_stats["player_energy"] / game_settings["on_hit_energy_part"])
+			if game_settings["on_hit_points_part"] > 0:
+				var points_to_lose = round(player_stats["player_points"] / game_settings["on_hit_points_part"])
+	#			player_stats["player_points"] -= points_to_lose
+				player_stats["player_points"] /= game_settings["on_hit_points_part"]
+				spawn_floating_tag(- points_to_lose) 
 		# LIFE LOOP ------------------------------------------------------------------------------------------------------------
 		"die": # izguba lajfa, če je energija 0
 			if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
@@ -1200,13 +1206,13 @@ func change_stat(stat_event: String, stat_value):
 			player_stats["player_points"] += game_settings["reburst_reward_points"]
 			yield(get_tree().create_timer(0.7), "timeout")
 			var reward_tag: Node = spawn_floating_tag(game_settings["reburst_reward_points"]) 
-			reward_tag.modulate = Global.color_green
+#			reward_tag.modulate = Global.color_green
 		"touching_stray": # če se dotikaš
 			player_stats["player_energy"] += game_settings["touching_stray_energy"]
 		"all_cleaned": # nagrada je določena v settingsih
 			player_stats["player_points"] += game_settings["all_cleaned_points"]
 			var reward_tag: Node = spawn_floating_tag(game_settings["all_cleaned_points"])
-			reward_tag.modulate = Global.color_green
+#			reward_tag.modulate = Global.color_green
 	
 	# klempanje
 	player_stats["player_energy"] = round(player_stats["player_energy"])

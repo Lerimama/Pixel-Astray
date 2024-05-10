@@ -54,18 +54,18 @@ func _ready():
 		else:
 			Global.player2_camera = self
 		
-		if Global.game_manager.game_settings["zoom_animation"]:
-			if Global.game_manager.game_settings["eternal_mode"]:
-				zoom_end = Vector2.ONE * 1.5
-				smoothing_speed = 5 # ni ok za XL
-			elif Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
+		if Global.game_manager.game_settings["skip_zoom_animation"]:
+			zoom = zoom_end
+		else:
+			if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
 				pass # zoom seta iz GMja ob setanju limitsov
 			elif Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
 				pass # zoom seta iz GMja ob setanju limitsov
+			#			elif Global.game_manager.game_settings["eternal_mode"]:
+			#				zoom_end = Vector2.ONE * 1.5
+			#				smoothing_speed = 5 # ni ok za XL
 			zoom = zoom_start
-			zoom_end = zoom_start # no zoom debug
-		else:
-			zoom = zoom_end
+#			zoom_end = zoom_start # no zoom debug
 
 	# testhud
 	set_ui_focus()	
@@ -104,24 +104,28 @@ func _process(delta: float):
 
 func _physics_process(delta: float) -> void:
 	
-	if camera_target: # and Global.game_manager.game_settings["zoom_animation"]:
+	if camera_target: # and not Global.game_manager.game_settings["skip_zoom_animation"]:
 		position = camera_target.position + cell_align
 		
 	
 func zoom_in(hud_in_out_time: float, players_count: int): # kliče hud
 	
-	if Global.game_manager.game_settings["zoom_animation"]:
+	if Global.game_manager.game_settings["skip_zoom_animation"]:
+		emit_signal("zoomed_in")
+	else:
 		var zoom_in_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 		zoom_in_tween.tween_property(self, "zoom", zoom_end, hud_in_out_time)
 		zoom_in_tween.parallel().tween_property(self, "cell_align", cell_align_end, hud_in_out_time)
 		zoom_in_tween.tween_callback(self, "emit_signal", ["zoomed_in"]) # pošlje na hud, ki sproži countdown
-	else:
-		emit_signal("zoomed_in")
 
 	
 func zoom_out(hud_in_out_time: float): # kliče hud
 	
-	if Global.game_manager.game_settings["zoom_animation"]:
+	if Global.game_manager.game_settings["skip_zoom_animation"]:
+		yield(get_tree().create_timer(hud_in_out_time), "timeout")
+		camera_target = null
+		emit_signal("zoomed_out")
+	else:
 		# unset limits
 		camera_target = null
 		position = get_camera_position() # pozicija postane ofsetana pozicija
@@ -138,10 +142,6 @@ func zoom_out(hud_in_out_time: float): # kliče hud
 		zoom_out_tween.tween_property(self, "zoom", zoom_start, hud_in_out_time)
 		zoom_out_tween.parallel().tween_property(self, "position", corrected_position, hud_in_out_time)
 		zoom_out_tween.parallel().tween_callback(self, "emit_signal", ["zoomed_out"]).set_delay(hud_in_out_time/3) # pošlje na GO, ki pokaže meni
-	else:
-		yield(get_tree().create_timer(hud_in_out_time), "timeout")
-		camera_target = null
-		emit_signal("zoomed_out")
 	
 
 func shake_camera(shake_power: float, shake_time: float, shake_decay: float): 

@@ -567,7 +567,7 @@ tracks/4/path = NodePath(".")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
-tracks/4/enabled = true
+tracks/4/enabled = false
 tracks/4/keys = {
 "times": PoolRealArray( 1.84 ),
 "transitions": PoolRealArray( 1 ),
@@ -648,7 +648,7 @@ position = Vector2( 7.62939e-06, -9.53674e-06 )
 scale = Vector2( 0.75, 0.75 )
 z_index = -1
 texture = ExtResource( 26 )
-color = Color( 0.368627, 1, 0.662745, 1 )
+color = Color( 0.980392, 0.980392, 0.980392, 1 )
 energy = 1.5
 range_z_min = -2
 range_z_max = -1

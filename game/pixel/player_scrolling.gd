@@ -17,7 +17,6 @@ func _physics_process(delta: float) -> void:
 
 	detect_touch()	
 	state_machine()
-#	manage_heartbeat()
 	
 	
 # INPUTS ------------------------------------------------------------------------------------------
@@ -105,25 +104,25 @@ func cocking_inputs():
 # BURST ------------------------------------------------------------------------------------------
 
 
-func cock_burst():
-	# namen: brez ciklanja, moč je vedno polna, hitrejše cockanje, manjša dolžina
-	
-	cocked_ghost_max_count = 3
-	
-	var burst_direction = direction
-	var cock_direction = - burst_direction
-	
-	if detect_collision_in_direction(cock_direction):
-		end_move()
-		return
-		
-	if cocked_ghosts.size() < cocked_ghost_max_count and cocking_room: # prostor za napenjanje preverja ghost
-		current_ghost_cocking_time += 1 / 60.0 # čas držanja tipke (znotraj nastajanja ene cock celice) ... fejk delta
-		if current_ghost_cocking_time > cock_ghost_cocking_time: # ko je čas za eno celico mimo, jo spawnam
-			current_ghost_cocking_time = 0
-			var new_cock_ghost = spawn_cock_ghost(cock_direction)
-			cocked_ghosts.append(new_cock_ghost)	
-			play_sound("burst_cocking")
+#func cock_burst():
+#	# namen: brez ciklanja, moč je vedno polna, hitrejše cockanje, manjša dolžina
+#
+#	cocked_ghost_max_count = 3
+#
+#	var burst_direction = direction
+#	var cock_direction = - burst_direction
+#
+#	if detect_collision_in_direction(cock_direction):
+#		end_move()
+#		return
+#
+#	if cocked_ghosts.size() < cocked_ghost_max_count and cocking_room: # prostor za napenjanje preverja ghost
+#		current_ghost_cocking_time += 1 / 60.0 # čas držanja tipke (znotraj nastajanja ene cock celice) ... fejk delta
+#		if current_ghost_cocking_time > cock_ghost_cocking_time: # ko je čas za eno celico mimo, jo spawnam
+#			current_ghost_cocking_time = 0
+#			var new_cock_ghost = spawn_cock_ghost(cock_direction)
+#			cocked_ghosts.append(new_cock_ghost)	
+#			play_sound("burst_cocking")
 			
 
 func spawn_cock_ghost(cocking_direction: Vector2): 

@@ -9,7 +9,7 @@ onready var level_limit_label_2: Label = $Footer/FooterLine/LevelLimitHolder/Lab
 
 
 func _process(delta: float) -> void:
-	# namen: update level label, lmite levela
+	# namen: update level label, limite levela
 	
 	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
 	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count

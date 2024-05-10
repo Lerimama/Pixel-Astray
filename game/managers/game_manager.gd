@@ -81,8 +81,6 @@ func set_game():
 	# set_players() # da je plejer viden že na fejdin
 
 	# player intro animacija
-
-	
 	if game_data["game"] == Profiles.Games.TUTORIAL: 
 		yield(get_tree().create_timer(1), "timeout") # da se animacija plejerja konča	
 		# tutorial funkcijo prikaza plejerja izpelje v svoji kodi
@@ -91,6 +89,7 @@ func set_game():
 		var signaling_player: KinematicBody2D
 		for player in get_tree().get_nodes_in_group(Global.group_players):
 			player.animation_player.play("lose_white_on_start")
+#			player.animation_player.play_backwards("lose_white_on_start")
 			signaling_player = player # da se zgodi na obeh plejerjih istočasno
 		
 		yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
@@ -229,9 +228,6 @@ func set_players():
 		new_player_pixel.global_position = player_position + Vector2(cell_size_x/2, cell_size_x/2) # ... ne rabim snepat ker se v pixlu na ready funkciji
 		if game_data["game"] == Profiles.Games.TUTORIAL:
 			new_player_pixel.modulate = Global.color_almost_black # da se lažje bere text nad njim
-		else: 
-			new_player_pixel.modulate = game_settings["player_start_color"]
-#			new_player_pixel.modulate = Color.white
 		new_player_pixel.z_index = 1 # nižje od straysa
 		Global.node_creation_parent.add_child(new_player_pixel)
 		
@@ -384,7 +380,7 @@ func _change_strays_in_game_count(strays_count_change: int):
 	if game_data["game"] == Profiles.Games.TUTORIAL:
 		return
 	if strays_in_game_count == 0: # tutorial sam ve kdaj je gameover, klasika pa nima cleaned modela 
-		game_over(GameoverReason.CLEANED)		
+		game_over(GameoverReason.CLEANED)	
 
 
 # SIGNALI ----------------------------------------------------------------------------------

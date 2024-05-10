@@ -600,6 +600,7 @@ __meta__ = {
 }
 
 [node name="Energy" type="Label" parent="GUI/Hud"]
+visible = false
 margin_left = 136.0
 margin_top = 69.0
 margin_right = 180.0

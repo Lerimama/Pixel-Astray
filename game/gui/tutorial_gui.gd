@@ -8,7 +8,7 @@ var tutorial_finished: bool = false
 
 # za beleženje vmesnih rezultatov
 var traveling_directions: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
-var all_skills: Array = ["push", "pull", "teleport"]
+var all_skills: Array = ["push", "pull"] #, "teleport"]
 
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var hud_guide: Control = $HudGuide

@@ -22,7 +22,6 @@ var step_in_progress: bool = false
 var wall_spawn_random_range: int
 var wall_strays_on_edge_count: int = 0 # ko, je ves edge zaseden, je konec
 
-
 # nikoli ne restiram
 var wall_strays: Array = [] # vsi straysi,ki so celotna tla
 var first_wall_round: bool = true
@@ -42,8 +41,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if Input.is_action_just_pressed("l"):
 		upgrade_level()	
+#		step_in_progress = true
 	if Input.is_action_just_pressed("n"):
-		print("n")
+#		step_in_progress = false
 		stop_stray_spawning()
 
 			
@@ -57,11 +57,7 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	# namen: kličem stray step, čekiram zasedenost home spawn pozicij in kličem GO
-	# namen ni preverjanja avail respawn pozicij
-	
-	if get_tree().get_nodes_in_group(Global.group_strays).empty() and all_strays_died_alowed:
-		all_strays_died_alowed = false
-		emit_signal("all_strays_died")
+	# namen: ni preverjanja avail respawn pozicij in GO
 	
 	if game_on:
 		# vsakič znova zajamemo vse in ji potem odštejemo trenutno zasedene
@@ -72,7 +68,7 @@ func _process(delta: float) -> void:
 				available_home_spawn_positions.erase(stray_grid_position)
 		if available_home_spawn_positions.empty(): # če je pogoj "polno" izpolnjen, je itak izpolnjen tudi ta pogoj
 			game_over(GameoverReason.TIME)	
-		elif not step_in_progress:
+		if not step_in_progress:
 			stray_step()
 
 		
@@ -83,6 +79,7 @@ func set_game():
 	var signaling_player: KinematicBody2D
 	for player in get_tree().get_nodes_in_group(Global.group_players):
 		player.animation_player.play("lose_white_on_start")
+#		player.animation_player.play_backwards("lose_white_on_start")
 		signaling_player = player # da se zgodi na obeh plejerjih istočasno
 	yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
 	
@@ -113,19 +110,8 @@ func start_game():
 
 
 func game_over(gameover_reason: int):
-
-	if gameover_reason == GameoverReason.CLEANED:
-		clean_strays_in_game()
-		yield(self, "all_strays_died")
-		var signaling_player: KinematicBody2D
-		for player in get_tree().get_nodes_in_group(Global.group_players):
-			player.all_cleaned()
-			signaling_player = player # da se zgodi na obeh plejerjih istočasno
-			clean_strays_in_game()
-		yield(signaling_player, "rewarded_on_game_over") # počakam, da je nagrajen
-		upgrade_level()
-		return
-			
+	# namen: CLEANED ni GO, ampak upgrade
+	
 	if game_on == false: # preprečim double gameover
 		return
 	game_on = false
@@ -453,3 +439,13 @@ func check_stray_wall_collisions(current_stray: KinematicBody2D, current_collide
 func stop_stray_spawning():
 	random_spawn_positions.clear()
 
+
+func _change_strays_in_game_count(strays_count_change: int):
+	# namen: brez CLEANED GO
+	
+	strays_in_game_count += strays_count_change # in_game št. upošteva spawnanje in čiščenje (+ in -)
+	strays_in_game_count = clamp(0, strays_in_game_count, strays_in_game_count)
+	
+	if strays_count_change < 0: # cleaned št. upošteva samo čiščenje (+)
+		strays_cleaned_count += abs(strays_count_change)
+	
