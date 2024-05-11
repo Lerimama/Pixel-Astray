@@ -265,6 +265,7 @@ func play_sound(effect_for: String):
 func on_hit_stray(hit_stray: KinematicBody2D):
 	# namen: always full stack, tudi sprožanje čekiranja levelov, preverjanje straysov na podnu, on wall hit preusmeritev
 	# možno: plejer ostane bel
+	
 	if hit_stray.current_state == hit_stray.States.WALL:
 		on_hit_wall()
 		return
@@ -282,15 +283,15 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	tween_color_change(hit_stray.stray_color)
 	
 	# preverim sosede
-	var hit_stray_neighbors = check_strays_neighbors(hit_stray)
+	var hit_stray_neighbors: Array = check_strays_neighbors(hit_stray) 
 	
 	# naberem strayse za destrojat
 	var burst_speed_units_count = burst_speed / cock_ghost_speed_addon
 	var strays_to_destroy: Array = []
 	strays_to_destroy.append(hit_stray)
 	# na seznam za destroj
-	if not hit_stray_neighbors.empty():
-		for neighboring_stray in hit_stray_neighbors: # še sosedi glede na moč bursta
+	if not hit_stray_neighbors[0].empty():
+		for neighboring_stray in hit_stray_neighbors[0]: # še sosedi glede na moč bursta
 #			if strays_to_destroy.size() < burst_speed_units_count or burst_speed_units_count == cocked_ghost_max_count:
 #				strays_to_destroy.append(neighboring_stray)
 #			else: 
@@ -301,8 +302,11 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	for stray in strays_to_destroy:
 		var stray_index = strays_to_destroy.find(stray)
 		stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
-#		Global.hud.show_color_indicator(stray.stray_color) # če je scroller se returna na fuknciji
-		
+	
+	# wall ne da točk
+	var strays_not_walls_count: int = strays_to_destroy.size() - hit_stray_neighbors[1].size() # odštejem stene
+	change_stat("hit_stray", strays_not_walls_count) # štetje, točke in energija glede na število uničenih straysov
+			
 	end_move() # more bit za collision partikli zaradi smeri
 
 	change_stat("hit_stray", strays_to_destroy.size()) # štetje, točke in energija glede na število uničenih straysov
@@ -332,13 +336,3 @@ func detect_touch():
 		if ray.is_colliding():
 			collider = ray.get_collider()
 			touching_objects.append(collider)
-	
-	# posledice dotilka
-	if not touching_objects.empty():
-		for object in touching_objects:
-			if object.is_in_group(Global.group_strays):
-				if not object.current_state == object.States.DYING and not object.current_state == object.States.WALL:
-					change_stat("touching_stray", 1) # točke in energija kot je določeno v settingsih
-	
-	if player_stats["player_energy"] == 0:
-		die()

@@ -37,7 +37,7 @@ _global_script_classes=[ {
 "base": "KinematicBody2D",
 "class": "Stray",
 "language": "GDScript",
-"path": "res://game/pixel/stray_class.gd"
+"path": "res://game/pixel/stray.gd"
 } ]
 _global_script_class_icons={
 "GameHud": "",

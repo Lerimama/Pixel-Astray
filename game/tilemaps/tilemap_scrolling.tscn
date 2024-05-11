@@ -89,5 +89,6 @@ color = Color( 0.980392, 0.980392, 0.980392, 1 )
 polygon = PoolVector2Array( 16, -288, 16, 288, -16, 288, -16, -288 )
 
 [node name="_zoom_razlaga" parent="." instance=ExtResource( 1 )]
+visible = false
 
 [editable path="Background"]

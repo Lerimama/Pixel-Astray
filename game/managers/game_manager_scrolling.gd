@@ -42,9 +42,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if Input.is_action_just_pressed("l"):
 		upgrade_level()	
-#		step_in_progress = true
 	if Input.is_action_just_pressed("n"):
-#		step_in_progress = false
 		stop_stray_spawning()
 
 			
@@ -415,7 +413,8 @@ func clean_strays_in_game():
 		
 		# tiste, ki so že tla spremenim v static ... ne pa tudi umrlih od trenutnega hita
 		if wall_strays.has(stray):
-			stray.current_state = stray.States.STATIC
+			stray.current_state = stray.States.IDLE
+#			stray.current_state = stray.States.STATIC
 			wall_strays.erase(stray)
 		# cela tla
 		var stray_index: int = all_strays_alive.find(stray)
@@ -434,11 +433,13 @@ func check_stray_wall_collisions(current_stray: KinematicBody2D, current_collide
 	# prva runda ... kolajder tilemap (tla)
 	if current_collider.is_in_group(Global.group_tilemap):
 		wall_strays.append(current_stray)
-		current_stray.turn_to_wall(1)
+		current_stray.die_to_wall()
+#		current_stray.turn_to_wall(1)
 	# druge runde ... kolajder stray in je rob tal
 	elif current_collider.is_in_group(Global.group_strays) and wall_strays.has(current_collider):
 		wall_strays.append(current_stray)
-		current_stray.turn_to_wall(1)
+		current_stray.die_to_wall()
+#		current_stray.turn_to_wall(1)
 			
 			
 func stop_stray_spawning():

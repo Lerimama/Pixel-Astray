@@ -175,8 +175,8 @@ func idle_inputs():
 		# ko zazna kolizijo postane skilled ali pa end move 
 		# kontrole prevzame skilled_input
 			if current_collider.is_in_group(Global.group_strays):
-				if not current_collider.current_state == current_collider.States.WALL:
-					current_collider.current_state = current_collider.States.STATIC # ko ga premakneš postane MOVING
+#				if not current_collider.current_state == current_collider.States.WALL:
+#					current_collider.current_state = current_collider.States.STATIC # ko ga premakneš postane MOVING
 				current_state = States.SKILLED
 			elif current_collider.is_in_group(Global.group_tilemap):
 				if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
@@ -587,14 +587,14 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	tween_color_change(hit_stray.stray_color)
 
 	# preverim sosede
-	var hit_stray_neighbors = check_strays_neighbors(hit_stray)
+	var hit_stray_neighbors: Array = check_strays_neighbors(hit_stray)
 	
 	# naberem strayse za destrojat
 	var burst_speed_units_count = burst_speed / cock_ghost_speed_addon
 	var strays_to_destroy: Array = []
 	strays_to_destroy.append(hit_stray)
-	if not hit_stray_neighbors.empty():
-		for neighboring_stray in hit_stray_neighbors: # še sosedi glede na moč bursta
+	if not hit_stray_neighbors[0].empty():
+		for neighboring_stray in hit_stray_neighbors[0]: # še sosedi glede na moč bursta
 			if strays_to_destroy.size() < burst_speed_units_count or burst_speed_units_count == cocked_ghost_max_count:
 				strays_to_destroy.append(neighboring_stray)
 			else: break
@@ -868,7 +868,7 @@ func check_strays_neighbors(hit_stray: KinematicBody2D):
 
 		var all_neighboring_strays: Array = [] # vsi nabrani sosedi
 		var neighbors_checked: Array = [] # vsi sosedi, katerih sosede sem že preveril
-		
+		var wall_strays_in_stack: Array
 		var hit_direction = direction
 		
 		# prva runda ... sosede zadetega straya
@@ -878,21 +878,26 @@ func check_strays_neighbors(hit_stray: KinematicBody2D):
 				all_neighboring_strays.append(first_neighbor) # ... ga dodam med vse sosede
 		neighbors_checked.append(hit_stray) # zadeti stray gre med "že preverjene" 
 		
+		
 		# druga runda ... sosede vseh sosed
 		for neighbor in all_neighboring_strays:
+			
 			if not neighbors_checked.has(neighbor): # če še ni med "že preverjenimi" ...
 				var extra_neighbors: Array = neighbor.get_neighbor_strays_on_hit() # ... preverim še njegove sosede
-#				var extra_neighbors: Array = neighbor.check_for_neighbor_strays() # ... preverim še njegove sosede
 				for extra_neighbor in extra_neighbors:
 					if not all_neighboring_strays.has(extra_neighbor):  # če še ni dodan med vse sosede ...
-						all_neighboring_strays.append(extra_neighbor) # ... ga dodam med vse sosede
+						# izločim wall strayse, ker njihovih sosed ne čekiram
+						if neighbor.current_state == neighbor.States.WALL:
+							wall_strays_in_stack.append(neighbor)
+						else:
+							all_neighboring_strays.append(extra_neighbor) # ... ga dodam med vse sosede
 				neighbors_checked.append(neighbor) # po nabirki ga dodam med preverjene sosede
 		
 		# hit stray izbrišem iz sosed, ker bo uničen posebej
 		if all_neighboring_strays.has(hit_stray): 
 			all_neighboring_strays.erase(hit_stray)
 			
-		return all_neighboring_strays
+		return [all_neighboring_strays, wall_strays_in_stack]
 		
 
 func tween_color_change (new_color: Color):
@@ -1134,7 +1139,6 @@ func change_stat(stat_event: String, stat_value):
 			player_stats["player_energy"] += game_settings["cell_traveled_energy"]
 		"skill_used": # štetje, točke in energija kot je določeno v settingsih
 			player_stats["skill_count"] += 1
-			player_stats["player_energy"] += game_settings["skill_used_energy"]
 			# tutorial
 			if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
 				match stat_value:
@@ -1207,8 +1211,6 @@ func change_stat(stat_event: String, stat_value):
 			yield(get_tree().create_timer(0.7), "timeout")
 			var reward_tag: Node = spawn_floating_tag(game_settings["reburst_reward_points"]) 
 			#			reward_tag.modulate = Global.color_green
-		"touching_stray": # če se dotikaš
-			player_stats["player_energy"] += game_settings["touching_stray_energy"]
 		"all_cleaned": # nagrada je določena v settingsih
 			player_stats["player_points"] += game_settings["all_cleaned_points"]
 			var reward_tag: Node = spawn_floating_tag(game_settings["all_cleaned_points"])

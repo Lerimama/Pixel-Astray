@@ -16,7 +16,7 @@
 [ext_resource path="res://assets/sound/sfx/blinking/blink_static_2.wav" type="AudioStream" id=14]
 [ext_resource path="res://assets/sound/sfx/blinking/blink_1.wav" type="AudioStream" id=15]
 [ext_resource path="res://assets/sound/sfx/blinking/blink_static_6.wav" type="AudioStream" id=16]
-[ext_resource path="res://game/pixel/stray_class.gd" type="Script" id=17]
+[ext_resource path="res://game/pixel/stray.gd" type="Script" id=17]
 [ext_resource path="res://assets/sound/sfx/stepping/step_3.wav" type="AudioStream" id=18]
 [ext_resource path="res://assets/sound/sfx/stepping/step_4.wav" type="AudioStream" id=19]
 [ext_resource path="res://assets/sound/sfx/stepping/step_2.wav" type="AudioStream" id=20]
@@ -818,7 +818,7 @@ audio_stream = ExtResource( 7 )
 [sub_resource type="AudioStreamRandomPitch" id=152]
 audio_stream = ExtResource( 16 )
 
-[node name="Stray" type="KinematicBody2D"]
+[node name="TutorialStray" type="KinematicBody2D"]
 script = ExtResource( 17 )
 
 [node name="ColorPoly" type="Polygon2D" parent="."]

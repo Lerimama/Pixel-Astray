@@ -28,7 +28,6 @@ func _ready() -> void:
 	# set_color_theme
 	get_tileset().tile_set_modulate(wall_tile_id, Global.color_wall)
 	get_tileset().tile_set_modulate(edge_tile_id, Global.color_edge)
-#	background.color = Global.color_background
 	get_tileset().tile_set_modulate(floor_tile_id, Global.color_floor)
 
 	top_screen_limit.add_to_group(Global.group_tilemap)

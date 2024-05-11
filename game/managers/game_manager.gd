@@ -199,8 +199,8 @@ func stop_game_elements():
 	for player in get_tree().get_nodes_in_group(Global.group_players):
 		player.stop_sound("teleport")
 		player.stop_sound("heartbeat")
-	for stray in get_tree().get_nodes_in_group(Global.group_strays):
-		stray.current_state = stray.States.STATIC
+#	for stray in get_tree().get_nodes_in_group(Global.group_strays):
+#		stray.current_state = stray.States.STATIC
 
 
 # SETUP --------------------------------------------------------------------------------------
@@ -379,14 +379,21 @@ func spawn_strays(strays_to_spawn_count: int):
 		# spawn
 		var new_stray_pixel = StrayPixel.instance()
 		new_stray_pixel.name = "S%s" % str(stray_index)
-		new_stray_pixel.stray_color = current_color
+		# wal stray
+		var random_from_100: int = randi() % 100
+		if random_from_100 < game_settings["stray_wall_spawn_possibilty"]:
+			new_stray_pixel.current_state = new_stray_pixel.States.WALL
+			new_stray_pixel.stray_color = Global.color_wall_pixel
+		else:
+			new_stray_pixel.stray_color = current_color
 		new_stray_pixel.global_position = selected_position + Vector2(cell_size_x/2, cell_size_x/2) # dodana adaptacija zaradi središča pixla
 		new_stray_pixel.z_index = 2 # višje od plejerja
 		Global.node_creation_parent.add_child(new_stray_pixel)
 		
 		all_stray_colors.append(current_color)
 		current_spawn_positions.remove(selected_cell_index) # odstranim pozicijo iz nabora za start spawn
-		
+	
+			
 		new_stray_pixel.show_stray()
 			
 	Global.hud.spawn_color_indicators(all_stray_colors) # barve pokažem v hudu		
@@ -492,8 +499,8 @@ func turn_random_strays_to_wall(): # za eternal
 		if stray.current_state == stray.States.WALL and not dont_turn_to_wall_positions.has(stray_to_tile_position):
 			wall_strays_alive.append(stray)
 		else:
-			printt ("turn", stray.global_position)
-	
+#			printt ("turn", stray.global_position)
+			pass
 	var strays_not_walls_count: int = get_tree().get_nodes_in_group(Global.group_strays).size() - wall_strays_alive.size()
 				
 	var random_stray_index: int = randi() % int(strays_not_walls_count)

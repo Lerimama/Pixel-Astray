@@ -77,8 +77,8 @@ func idle_inputs():
 		# ko zazna kolizijo postane skilled ali pa end move 
 		# kontrole prevzame skilled_input
 			if current_collider.is_in_group(Global.group_strays):
-				if not current_collider.current_state == current_collider.States.WALL:
-					current_collider.current_state = current_collider.States.STATIC # ko ga premakneš postane MOVING
+#				if not current_collider.current_state == current_collider.States.WALL:
+#					current_collider.current_state = current_collider.States.STATIC # ko ga premakneš postane MOVING
 				current_state = States.SKILLED
 			elif current_collider.is_in_group(Global.group_tilemap):
 				if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
@@ -157,7 +157,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	tween_color_change(hit_stray.stray_color)
 
 	# preverim sosede
-	var hit_stray_neighbors = check_strays_neighbors(hit_stray)
+	var hit_stray_neighbors: Array = check_strays_neighbors(hit_stray)
 	
 	# naberem strayse za destrojat
 	var burst_speed_units_count = burst_speed / cock_ghost_speed_addon
@@ -167,8 +167,8 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 			burst_speed_units_count = Global.game_manager.game_settings["reburst_hit_power"]
 	var strays_to_destroy: Array = []
 	strays_to_destroy.append(hit_stray)
-	if not hit_stray_neighbors.empty():
-		for neighboring_stray in hit_stray_neighbors: # še sosedi glede na moč bursta
+	if not hit_stray_neighbors[0].empty():
+		for neighboring_stray in hit_stray_neighbors[0]: # še sosedi glede na moč bursta
 			if strays_to_destroy.size() < burst_speed_units_count or burst_speed_units_count == cocked_ghost_max_count:
 				strays_to_destroy.append(neighboring_stray)
 			else: break
@@ -180,9 +180,11 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 		# prišteje v enigma strayse
 		if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:	
 			enigma_cleaned_strays_count += 1
-
-	change_stat("hit_stray", strays_to_destroy.size()) # štetje, točke in energija glede na število uničenih straysov
-
+			
+	# wall ne da točk
+	var strays_not_walls_count: int = strays_to_destroy.size() - hit_stray_neighbors[1].size() # odštejem stene
+	change_stat("hit_stray", strays_not_walls_count) # štetje, točke in energija glede na število uničenih straysov
+	
 	end_move()
 	
 	if Global.game_manager.game_settings["reburst_mode"]:

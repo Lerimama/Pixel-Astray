@@ -818,7 +818,7 @@ audio_stream = ExtResource( 8 )
 [sub_resource type="AudioStreamRandomPitch" id=152]
 audio_stream = ExtResource( 18 )
 
-[node name="CleaningStray" type="KinematicBody2D"]
+[node name="Stray" type="KinematicBody2D"]
 script = ExtResource( 20 )
 
 [node name="ColorPoly" type="Polygon2D" parent="."]

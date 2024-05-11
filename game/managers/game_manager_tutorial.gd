@@ -4,7 +4,7 @@ extends GameManager
 func _ready() -> void:
 	
 	Global.game_manager = self
-	StrayPixel = preload("res://game/pixel/stray_tutorial.tscn")
+#	StrayPixel = preload("res://game/pixel/stray_tutorial.tscn")
 	randomize()
 	
 	

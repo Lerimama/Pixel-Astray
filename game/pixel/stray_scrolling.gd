@@ -35,6 +35,10 @@ func _ready() -> void:
 	for ray in vision_rays:
 		ray.set_collision_mask_bit(collision_bit_to_add, true)
 		
+	# xtra pucanje na prehodu v level ... ker včasih se kakšen kar spawn na novo prede bi se lahko
+#	if Global.game_manager.level_upgrade_in_progress: # puca tiste ekstra, ki ne vem zakaj ostanejo
+#		Global.game_manager.strays_in_game_count = - 1
+#		call_deferred("queue_free") #queue_free()
 	
 func show_stray(): # kliče GM
 	# namen: neteatralen prikaz streja
@@ -162,32 +166,32 @@ func get_all_neighbors_in_directions(directions_to_check: Array): # kliče playe
 	return current_cell_neighbors # uporaba v stalnem čekiranj sosedov
 
 
-func turn_to_wall(stray_in_stack_index: int):
-	
-	current_state = States.WALL # takoj je izločen iz igre. po pavzi pa efekt
-	
-	# čakalni čas
-	var wait_to_destroy_time: float = sqrt(0.07 * (stray_in_stack_index)) # -1 je, da hitan stray ne čaka
-	yield(get_tree().create_timer(wait_to_destroy_time), "timeout")
-	
-	# efekti
-	# Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
-	play_sound("turning_color")
-	play_sound("blinking")
-	
-#	var shake_power: float = 0.2
-#	var shake_time: float = 0.3
-#	var shake_decay: float = 0.7
-#	Global.player1_camera.shake_camera(shake_power, shake_time, shake_decay)	
-
-	# turn to color
-	stray_color.s = 0.0
-	
-	var color_tween: SceneTreeTween = get_tree().create_tween()
-	color_tween.tween_property(self, "color_poly:modulate", stray_color, 0.2) # barva straysa
-	color_tween.parallel().tween_property(self, "modulate", Global.color_wall_pixel, 0.2) # siva stena
-	
-	# povzroča error, ker hoče vrnit funkciji ki ne obstaja več ... nekaj takega
-	# color_tween.tween_callback(self, "return", [true])#.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
-
-	# preverim, če je pozicija na robu
+#func turn_to_wall(stray_in_stack_index: int):
+#
+#	current_state = States.WALL # takoj je izločen iz igre. po pavzi pa efekt
+#
+#	# čakalni čas
+##	var wait_to_destroy_time: float = sqrt(0.07 * (stray_in_stack_index)) # -1 je, da hitan stray ne čaka
+##	yield(get_tree().create_timer(wait_to_destroy_time), "timeout")
+#
+#	# efekti
+#	# Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
+##	play_sound("turning_color")
+##	play_sound("blinking")
+#
+##	var shake_power: float = 0.2
+##	var shake_time: float = 0.3
+##	var shake_decay: float = 0.7
+##	Global.player1_camera.shake_camera(shake_power, shake_time, shake_decay)	
+#
+#	# turn to color
+#	stray_color.s = 0.0
+#
+#	var color_tween: SceneTreeTween = get_tree().create_tween()
+#	color_tween.tween_property(self, "color_poly:modulate", stray_color, 0.2) # barva straysa
+#	color_tween.parallel().tween_property(self, "modulate", Global.color_wall_pixel, 0.2) # siva stena
+#
+#	# povzroča error, ker hoče vrnit funkciji ki ne obstaja več ... nekaj takega
+#	# color_tween.tween_callback(self, "return", [true])#.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
+#
+#	# preverim, če je pozicija na robu

@@ -15,19 +15,7 @@ var default_player_stats: Dictionary = {
 
 var default_game_settings: Dictionary = { # to so default CLEANING settings
 	# out
-#	"cell_traveled_points": 0,
-#	"skill_used_points": 0,
-#	"burst_released_points": 0,
-#	"burst_released_energy": 0,
-#	"step_time_slow": 0.15, # minimalna hitrost
-#	"step_slowdown_rate": 18, # delež energije, manjši pada hitreje
-#	"player_max_energy": 192, # max energija
-#	"player_tired_energy": 20, # pokaže steps warning popup in hud oabrva rdeče
-#	"gameover_countdown_duration": 5,
-#	"show_position_indicators_stray_count": 5,
 	# ?
-	"skill_used_energy": 0,
-	"touching_stray_energy": 0,
 	
 	# player
 	"player_start_life": 3, # 1 lajf skrije ikone v hudu
@@ -68,6 +56,9 @@ var default_game_settings: Dictionary = { # to so default CLEANING settings
 	"start_countdown": true,
 	"game_instructions_popup": true,
 	"solutions_mode": false, # enigma reštve
+	
+	# neu
+	"stray_wall_spawn_possibilty": 0,
 }
 
 
@@ -102,7 +93,7 @@ var game_data_eraser_s: Dictionary = {
 	"game": Games.CLASSIC_S,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Classic S",
-	"game_scene_path": "res://game/game_cleaning.tscn",
+	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_classic_s.tscn",
 	# instructions text
 	"description" : "Collect all colors in limited time.",
@@ -114,7 +105,7 @@ var game_data_eraser_m: Dictionary = {
 	"game": Games.CLASSIC_M,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Classic M",
-	"game_scene_path": "res://game/game_cleaning.tscn",
+	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_classic_m.tscn",
 	# instructions text
 	"description" : "Collect all colors in limited time.",
@@ -126,7 +117,7 @@ var game_data_eraser_l: Dictionary = {
 	"game": Games.CLASSIC_L,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Classic L",
-	"game_scene_path": "res://game/game_cleaning.tscn",
+	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_classic_l.tscn",
 	# instructions text
 	"description" : "Collect all colors in limited time.",
@@ -138,7 +129,7 @@ var game_data_cleaner_s: Dictionary = {
 	"game": Games.CLEANER_S,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Cleaner S",
-	"game_scene_path": "res://game/game_cleaning.tscn",
+	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_s.tscn",
 	# instructions text
 	"description" : "Score points or clean the screen to reach next level.",
@@ -159,7 +150,7 @@ var game_data_cleaner_m: Dictionary = {
 	"game": Games.CLEANER_M,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Cleaner M",
-	"game_scene_path": "res://game/game_cleaning.tscn",
+	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_m.tscn",
 	# instructions text
 	"description" : "Score points or clean the screen to reach next level.",
@@ -178,7 +169,7 @@ var game_data_cleaner_l: Dictionary = {
 	"game": Games.CLEANER_L,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Cleaner L",
-	"game_scene_path": "res://game/game_cleaning.tscn",
+	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_l.tscn",
 	# instructions text
 	"description" : "Collect colors to score points.",
@@ -191,7 +182,7 @@ var game_data_the_duel: Dictionary = {
 	"game": Games.THE_DUEL,
 	"highscore_type": HighscoreTypes.NO_HS,
 	"game_name": "The Duel",
-	"game_scene_path": "res://game/game_cleaning.tscn",
+	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_duel.tscn",
 	# instructions text
 	"description" : "Surviving player or player with higher score wins.",
@@ -213,7 +204,7 @@ var game_data_scroller: Dictionary = {
 	"Label3" : "Skills and rebursting are not available.",
 	"Label4" : "Don't worry about energy.",
 	# "level": 1, # level se nafila ob štartu
-	"stages_per_level": 32, # vsak level prištejem k trenutnemu limitu levela
+	"stages_per_level": 2, # vsak level prištejem k trenutnemu limitu levela
 	"stages_per_level_grow": 0, # dodatno prištejem
 	"lines_scroll_per_spawn_round": 1,
 	# pavza med stepanjem
@@ -231,7 +222,7 @@ var game_data_riddler: Dictionary = {
 	"game": Games.ENIGMA,
 	"highscore_type": HighscoreTypes.HS_TIME_LOW,
 	"game_name": "Riddler",
-	"game_scene_path": "res://game/game_cleaning.tscn",
+	"game_scene_path": "res://game/game.tscn",
 	# instructions text
 	"description" : "Collect all available colors with a single burst move.",
 	"Label" : "Burst move includes initial burst and all rebursts that follow.",
@@ -327,13 +318,13 @@ func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE
-	var debug_game = Games.TUTORIAL
+#	var debug_game = Games.TUTORIAL
 #	var debug_game = Games.ENIGMA
 #	var debug_game = Games.CLEANER_S
 #	var debug_game = Games.CLEANER_M
 #	var debug_game = Games.CLEANER_L
 #	var debug_game = Games.THE_DUEL
-#	var debug_game = Games.CLASSIC_S
+	var debug_game = Games.CLASSIC_S
 #	var debug_game = Games.CLASSIC_M
 #	var debug_game = Games.CLASSIC_L
 #	var debug_game = Games.SCROLLER
@@ -438,7 +429,7 @@ func set_game_data(selected_game) -> void:
 			current_game_data = game_data_eraser_s
 			game_settings["game_time_limit"] = 120
 			game_settings["timer_mode_countdown"] = true
-			game_settings["strays_start_count"] = 3
+			game_settings["strays_start_count"] = 100
 #			game_settings["respawn_mode"] = false
 			
 			game_settings["respawn_mode"] = true
@@ -486,6 +477,7 @@ func set_game_data(selected_game) -> void:
 	# debug
 	game_settings["game_instructions_popup"] = false
 	game_settings["start_countdown"] = false
+	game_settings["stray_wall_spawn_possibilty"] = 50
 #	game_settings["skip_zoom_animation"] = true
 #	game_settings["reburst_mode"] = false
 #	game_settings["respawn_mode"] = false
