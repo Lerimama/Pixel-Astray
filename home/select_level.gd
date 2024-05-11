@@ -9,7 +9,7 @@ onready var level_grid_btns: Array = btn_grid_container.get_children()
 
 func _ready() -> void:
 	
-	Profiles.game_data_enigma["level"] = 1 # ni nujno
+	Profiles.game_data_riddler["level"] = 1 # ni nujno
 #	for btn in level_grid_btns:
 #		set_btn_tilemap(btn)
 	update_enigma_btns_color()
@@ -17,7 +17,7 @@ func _ready() -> void:
 
 func update_enigma_btns_color():
 	
-	var solved_levels: Array = Global.data_manager.read_solved_status_from_file(Profiles.game_data_enigma)
+	var solved_levels: Array = Global.data_manager.read_solved_status_from_file(Profiles.game_data_riddler)
 	
 	# naberem gumbe in barve za njih 
 	var btn_colors: Array
@@ -110,7 +110,7 @@ func play_selected_level(selected_level: int):
 	# set enigma game data
 	Profiles.set_game_data(Profiles.Games.ENIGMA)
 	# spremeni game data level s tistim v level settings
-	Profiles.game_data_enigma["level"] = selected_level
+	Profiles.game_data_riddler["level"] = selected_level
 #	Profiles.current_game_data["level"] = selected_level
 	Global.sound_manager.play_gui_sfx("menu_fade")
 	animation_player.play("play_enigma_level")

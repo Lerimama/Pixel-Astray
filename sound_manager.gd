@@ -94,7 +94,7 @@ func select_random_sfx(sound_group: Node2D):
 		
 
 func play_music(music_for: String):
-	return	
+#	return	
 	
 	match music_for:
 		"menu_music":

@@ -1,3 +1,4 @@
+#extends GameManager # default game manager
 extends GameManager # default game manager
 
 var current_stray_spawning_round: int = 0 # prištevam na koncu spawna

@@ -17,6 +17,7 @@ var floor_tile_id: int = 0
 var spawn_stray_tile_id: int = 5 # za home btne
 
 onready var background: ColorRect = $Background/BackgroundColor
+onready var camera_position_node: Position2D = $CameraPosition
 
 
 func _ready() -> void:
@@ -27,7 +28,7 @@ func _ready() -> void:
 	# set_color_theme
 	get_tileset().tile_set_modulate(wall_tile_id, Global.color_wall)
 	get_tileset().tile_set_modulate(edge_tile_id, Global.color_edge)
-	background.color = Global.color_background
+#	background.color = Global.color_background
 	get_tileset().tile_set_modulate(floor_tile_id, Global.color_floor)
 
 

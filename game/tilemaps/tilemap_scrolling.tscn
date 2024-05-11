@@ -1,29 +1,15 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=1]
+[ext_resource path="res://_obs/_zoom_razlaga.tscn" type="PackedScene" id=1]
 [ext_resource path="res://game/tilemaps/tilemap_scrolling.gd" type="Script" id=2]
 [ext_resource path="res://assets/resources/tileset_arena.tres" type="TileSet" id=3]
-[ext_resource path="res://game/tilemaps/tilemap_background.tscn" type="PackedScene" id=4]
+[ext_resource path="res://game/tilemaps/monitor_background.tscn" type="PackedScene" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 640, 16 )
 
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 16, 320 )
-
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 640, 8 )
-
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 639.5, 32 )
-
-[sub_resource type="StyleBoxFlat" id=4]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 32
-border_width_top = 32
-border_width_right = 32
-border_width_bottom = 32
-border_color = Color( 1, 1, 1, 1 )
 
 [node name="ScrollingTilemap" type="TileMap"]
 position = Vector2( -1, 0 )
@@ -40,10 +26,6 @@ __meta__ = {
 
 [node name="Background" parent="." instance=ExtResource( 4 )]
 position = Vector2( 32, 64 )
-
-[node name="Cover" parent="Background/Room" index="2"]
-margin_top = 496.0
-margin_bottom = 1200.0
 
 [node name="TopScreenLimit" type="StaticBody2D" parent="."]
 modulate = Color( 0, 0, 0, 1 )
@@ -106,184 +88,6 @@ shape = SubResource( 5 )
 color = Color( 0.980392, 0.980392, 0.980392, 1 )
 polygon = PoolVector2Array( 16, -288, 16, 288, -16, 288, -16, -288 )
 
-[node name="FloorArea" type="Area2D" parent="."]
-visible = false
-position = Vector2( 672, 1464 )
-collision_mask = 0
-monitoring = false
-monitorable = false
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="FloorArea"]
-shape = SubResource( 2 )
-
-[node name="TopArea" type="Area2D" parent="."]
-visible = false
-position = Vector2( 672, 840 )
-collision_mask = 0
-monitorable = false
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TopArea"]
-position = Vector2( -0.5, -24 )
-shape = SubResource( 3 )
-
-[node name="Polygon2D" type="Polygon2D" parent="TopArea"]
-visible = false
-position = Vector2( 0, 8 )
-color = Color( 0.980392, 0.980392, 0.980392, 0.137255 )
-polygon = PoolVector2Array( -641, -64, 639, -64, 639, 0, -641, 0 )
-
-[node name="_razlaga" type="Node2D" parent="."]
-visible = false
-modulate = Color( 1, 1, 1, 0.780392 )
-position = Vector2( 32, 800 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Hint" type="Label" parent="_razlaga"]
-margin_left = -345.0
-margin_top = -44.0
-margin_right = -49.0
-margin_bottom = -22.0
-grow_horizontal = 0
-theme = ExtResource( 1 )
-text = "Screen top pre zoom -->"
-align = 2
-
-[node name="Hint2" type="Label" parent="_razlaga"]
-margin_left = -447.0
-margin_top = 23.0
-margin_right = -51.0
-margin_bottom = 45.0
-grow_horizontal = 0
-theme = ExtResource( 1 )
-text = "Screen top after zoom y=800 -->"
-align = 2
-
-[node name="player_poz" type="Label" parent="_razlaga"]
-margin_left = 648.0
-margin_top = 360.0
-margin_right = 1096.0
-margin_bottom = 382.0
-theme = ExtResource( 1 )
-text = "Pozicija playerja za perfekten zoomin"
-
-[node name="Polygon2D" type="Polygon2D" parent="_razlaga/player_poz"]
-position = Vector2( -648, -328 )
-polygon = PoolVector2Array( 608, 288, 608, 320, 640, 320, 640, 288 )
-
-[node name="zoomin_meja" type="Label" parent="_razlaga"]
-margin_left = 80.0
-margin_top = 96.0
-margin_right = 590.0
-margin_bottom = 118.0
-theme = ExtResource( 1 )
-text = "Zoomin notranja meja ekrana za (zoom = 1)"
-
-[node name="Polygon2D2" type="Polygon2D" parent="_razlaga/zoomin_meja"]
-position = Vector2( 624, 320 )
-polygon = PoolVector2Array( -704, -384, -704, 256, 512, 256, 512, 224, -672, 224, -672, -352, 544, -352, 544, 256, 576, 256, 576, -384 )
-
-[node name="zoomout_meja" type="Label" parent="_razlaga"]
-margin_left = -560.0
-margin_top = -256.0
-margin_right = -148.0
-margin_bottom = -234.0
-theme = ExtResource( 1 )
-text = "Zoomout notranje meja ekrana (zoom = 2)"
-
-[node name="Polygon2D2" type="Polygon2D" parent="_razlaga/zoomout_meja"]
-position = Vector2( 593, 288 )
-polygon = PoolVector2Array( -672, -352, -673, 928, 1823, 928, 1823, 896, -641, 896, -640, -320, 1856, -320, 1855, 928, 1887, 928, 1887, -352 )
-
-[node name="zoomout_meja no hud" type="Label" parent="_razlaga"]
-modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
-margin_left = -560.0
-margin_top = -488.0
-margin_right = 166.0
-margin_bottom = -466.0
-theme = ExtResource( 1 )
-text = "Zoomout notranje meja ekrana pred nalaganje prikazom huda"
-
-[node name="Polygon2D2" type="Polygon2D" parent="_razlaga/zoomout_meja no hud"]
-position = Vector2( 592, 456 )
-polygon = PoolVector2Array( -672, -352, -672, 1088, 1824, 1088, 1824, 1056, -640, 1056, -640, -320, 1856, -320, 1856, 1088, 1888, 1088, 1887, -352 )
-
-[node name="_zoom_razlaga" type="Node2D" parent="."]
-visible = false
-modulate = Color( 1, 1, 1, 0.243137 )
-position = Vector2( 32, 800 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="dva" type="Panel" parent="_zoom_razlaga"]
-modulate = Color( 0.294118, 0.623529, 1, 1 )
-margin_left = 32.0
-margin_top = 32.0
-margin_right = 2592.0
-margin_bottom = 1312.0
-custom_styles/panel = SubResource( 4 )
-
-[node name="label" type="Label" parent="_zoom_razlaga/dva"]
-margin_left = 352.0
-margin_top = 64.0
-margin_right = 452.0
-margin_bottom = 86.0
-theme = ExtResource( 1 )
-text = "zoom 1.5"
-
-[node name="Polygon2D" type="Polygon2D" parent="_zoom_razlaga/dva"]
-position = Vector2( 640, 320 )
-polygon = PoolVector2Array( 607, 288, 607, 320, 639, 320, 639, 288 )
-
-[node name="enacelapet" type="Panel" parent="_zoom_razlaga"]
-modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
-margin_left = 32.0
-margin_top = 32.0
-margin_right = 1952.0
-margin_bottom = 992.0
-custom_styles/panel = SubResource( 4 )
-
-[node name="label" type="Label" parent="_zoom_razlaga/enacelapet"]
-margin_left = 208.0
-margin_top = 64.0
-margin_right = 308.0
-margin_bottom = 86.0
-theme = ExtResource( 1 )
-text = "zoom 1.5"
-
-[node name="Polygon2D2" type="Polygon2D" parent="_zoom_razlaga/enacelapet"]
-position = Vector2( 320, 160 )
-polygon = PoolVector2Array( 607, 288, 607, 320, 639, 320, 639, 288 )
-
-[node name="ena" type="Panel" parent="_zoom_razlaga"]
-margin_left = 32.0
-margin_top = 32.0
-margin_right = 1312.0
-margin_bottom = 672.0
-custom_styles/panel = SubResource( 4 )
-
-[node name="label" type="Label" parent="_zoom_razlaga/ena"]
-margin_left = 80.0
-margin_top = 64.0
-margin_right = 160.0
-margin_bottom = 86.0
-theme = ExtResource( 1 )
-text = "zoom 1"
-
-[node name="Polygon2D3" type="Polygon2D" parent="_zoom_razlaga/ena"]
-polygon = PoolVector2Array( 607, 288, 607, 320, 639, 320, 639, 288 )
-
-[connection signal="body_entered" from="FloorArea" to="." method="_on_FloorArea_body_entered"]
-[connection signal="body_exited" from="FloorArea" to="." method="_on_FloorArea_body_exited"]
-[connection signal="body_entered" from="TopArea" to="." method="_on_TopArea_body_entered"]
-[connection signal="body_exited" from="TopArea" to="." method="_on_TopArea_body_exited"]
+[node name="_zoom_razlaga" parent="." instance=ExtResource( 1 )]
 
 [editable path="Background"]

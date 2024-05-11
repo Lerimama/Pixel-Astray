@@ -13,7 +13,7 @@ onready var game_time_limit: int = Global.game_manager.game_settings["game_time_
 onready var sudden_death_mode: int
 onready var sudden_death_limit: int
 onready var countdown_mode: bool = Global.game_manager.game_settings["timer_mode_countdown"]
-onready var gameover_countdown_duration: int = Global.game_manager.game_settings["gameover_countdown_duration"] # čas, ko je obarvan in se sliši bip bip
+onready var gameover_countdown_duration: int = 5 # čas, ko je obarvan in se sliši bip bip
 
 
 func _ready() -> void:

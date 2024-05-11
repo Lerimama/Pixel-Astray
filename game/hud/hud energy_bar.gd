@@ -4,7 +4,6 @@ extends HBoxContainer
 var energy: int setget _on_amount_change # energija je konveratana v razmerju velikosti bara
 var previous_energy: int # preverjam smer spremembe lajfa
 
-onready var tired_energy: int = Global.game_manager.game_settings["player_tired_energy"]
 onready var texture_progress: TextureProgress = $TextureProgress
 
 
@@ -26,7 +25,7 @@ func _on_amount_change(new_value: int):
 	# setam current energy
 	energy = new_value
 	
-	if energy <= tired_energy:
+	if energy <= Global.hud.tired_energy_limit:
 		modulate = Global.color_red
 	else:
 		if energy < previous_energy:

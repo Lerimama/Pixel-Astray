@@ -35,11 +35,11 @@ func _on_TutorialBtn_pressed() -> void:
 
 	
 func _on_EraserSBtn_pressed() -> void:
-	play_selected_game(Profiles.Games.ERASER_S)
+	play_selected_game(Profiles.Games.CLASSIC_S)
 func _on_EraserMBtn_pressed() -> void:
-	play_selected_game(Profiles.Games.ERASER_M)
+	play_selected_game(Profiles.Games.CLASSIC_M)
 func _on_EraserLBtn_pressed() -> void:
-	play_selected_game(Profiles.Games.ERASER_L)
+	play_selected_game(Profiles.Games.CLASSIC_L)
 
 
 func _on_CleanerSBtn_pressed() -> void:

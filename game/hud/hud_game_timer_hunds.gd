@@ -92,7 +92,7 @@ func start_timer():
 	
 	game_time_limit = Global.game_manager.game_settings["game_time_limit"]
 	stopwatch_mode = Global.game_manager.game_settings["timer_mode_countdown"]
-	gameover_countdown_duration = Global.game_manager.game_settings["gameover_countdown_duration"] # čas, ko je obarvan in se sliši bip bip	
+	gameover_countdown_duration = 5 # čas, ko je obarvan in se sliši bip bip	
 
 	if game_time_limit == 0:
 		limitless_mode = true

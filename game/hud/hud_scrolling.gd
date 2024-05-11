@@ -32,50 +32,29 @@ func _process(delta: float) -> void:
 	
 func set_hud(players_count: int): # kliče main na game-in
 	# namen: ikone v player statline, samo 1 player, ni lajfov, ni energije, level data je vis tudi če je prazen, energy counter
-
-	# players
+	# namen: skijem elemente brez preverjanja
+	
+	# hide
 	p1_label.visible = false
 	p2_statsline.visible = false
 	strays_counters_holder.visible = false
-	
 	p1_color_holder.visible = false	
+	p1_life_counter.visible = false
+	p1_energy_counter.visible = false
+	level_limit_holder.visible = true
+	strays_counters_holder.visible = false
 
 	# popups
 	p1_energy_warning_popup = $Popups/EnergyWarning/Solo	
-
-	# lajf counter
-	if Global.game_manager.game_settings["player_start_life"] == 1:
-		p1_life_counter.visible = false
-	else:
-		p1_life_counter.visible = true
-
-	# energy counter
-	p1_energy_counter.visible = false
 
 	# level label
 	if not Global.game_manager.game_data.has("level"):
 		level_label.visible = false
 
-	# eternal		
-	level_limit_holder.visible = true
-	strays_counters_holder.visible = false
-		
-	# glede na to kaj šteje ...
-	if current_gamed_hs_type == Profiles.HighscoreTypes.NO_HS:
-		highscore_label.visible = false
-	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_TIME_HIGH or Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW:
-		p1_points_holder.visible = false
-		highscore_label.visible = true
-		set_current_highscore()
-	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_POINTS:
-		p1_points_holder.visible = true
-		highscore_label.visible = true
-		set_current_highscore()
-	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_COLORS:
-		p1_points_holder.visible = false
-		p1_color_holder.visible = true
-		highscore_label.visible = true
-		set_current_highscore()
+	# highscore		
+	p1_points_holder.visible = true
+	highscore_label.visible = true
+	set_current_highscore()
 	
 	
 func level_up_popup_in(level_reached: int):
@@ -144,11 +123,11 @@ func check_for_warning(player_stats: Dictionary, warning_popup: Control):
 	if warning_popup:
 		var steps_remaining_label: Label
 		steps_remaining_label = warning_popup.get_node("StepsRemaining")
-		if player_stats["player_energy"] < Global.game_manager.game_settings["player_tired_energy"] and not player_stats["player_energy"] <= 0:
+		if player_stats["player_energy"] < tired_energy_limit and not player_stats["player_energy"] <= 0:
 			steps_remaining_label.text = "LOW ENERGY WARNING!"
 			if warning_popup.visible == false:
 				warning_in(warning_popup)
-		elif player_stats["player_energy"] > Global.game_manager.game_settings["player_tired_energy"]:
+		elif player_stats["player_energy"] > tired_energy_limit:
 			if warning_popup.visible == true:
 				warning_out(warning_popup)
 		elif player_stats["player_energy"] <= 0:

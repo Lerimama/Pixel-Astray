@@ -14,29 +14,34 @@ var default_player_stats: Dictionary = {
 
 
 var default_game_settings: Dictionary = { # to so default CLEANING settings
+	# out
+#	"cell_traveled_points": 0,
+#	"skill_used_points": 0,
+#	"burst_released_points": 0,
+#	"burst_released_energy": 0,
+#	"step_time_slow": 0.15, # minimalna hitrost
+#	"step_slowdown_rate": 18, # delež energije, manjši pada hitreje
+#	"player_max_energy": 192, # max energija
+#	"player_tired_energy": 20, # pokaže steps warning popup in hud oabrva rdeče
+#	"gameover_countdown_duration": 5,
+#	"show_position_indicators_stray_count": 5,
+	# ?
+	"skill_used_energy": 0,
+	"touching_stray_energy": 0,
+	
 	# player
-	"player_start_life": 1, # 1 lajf skrije ikone v hudu in določi "lose_life_on_hit"
-	"player_start_energy": 192, # če je 0, je 0 ... instant GO
+	"player_start_life": 3, # 1 lajf skrije ikone v hudu
 	"player_start_color": Color("#323232"), # na začetku je bel, potem se animira v start color ... #232323, #141414
-	"player_max_energy": 192, # max energija
-	"player_tired_energy": 20, # pokaže steps warning popup in hud oabrva rdeče
 	"step_time_fast": 0.09, # default hitrost
-	"step_time_slow": 0.15, # minimalna hitrost
-	"step_slowdown_rate": 18, # delež energije, manjši pada hitreje
+	"player_start_energy": 192, # če je 0, je 0 ... instant GO
 	# scoring
 	"all_cleaned_points": 1000,
 	"color_picked_points": 10, 
-	"cell_traveled_points": 0,
-	"skill_used_points": 0,
-	"burst_released_points": 0,
 	"on_hit_points_part": 0,
 	# energija
 	"color_picked_energy": 10,
 	"cell_traveled_energy": -1,
-	"skill_used_energy": 0,
-	"burst_released_energy": 0,
 	"on_hit_energy_part": 2, # delež porabe od trenutne energije
-	"touching_stray_energy": 0,
 	# reburst
 	"reburst_count_limit": 0, # 0 je unlimited
 	"reburst_reward_limit": 0, # 0 je brez nagrade
@@ -47,35 +52,33 @@ var default_game_settings: Dictionary = { # to so default CLEANING settings
 	"game_time_limit": 0,
 	"strays_start_count": 0, # ponekod se spawna vsaj 1
 	"respawn_mode": true,
-	"respawn_wait_time": 1,
+	"respawn_wait_time": 1, # če je 0, se respawn zgodi na cleaned
 	"respawn_strays_count": 1,
 	"reburst_mode": false,
-	"timer_mode_countdown" : true, # če prišteva in je "game_time_limit" = 0, nima omejitve navzgor
-	"lose_life_on_hit": false, # zadetek od igralca ali v steno pomeni izgubo življenja, alternativa je izguba energije
+	"timer_mode_countdown": true, # če prišteva in je "game_time_limit" = 0, nima omejitve navzgor
+	"lose_life_on_hit": true, # alternativa je izguba energije na hit in samo en lajf
 	"step_slowdown_mode": true,
 	"eternal_mode": false,
-	"turn_stray_to_wall": true, # eternal big screen
+	"turn_stray_to_wall": false, # eternal big screen
 	"full_power_mode": false, # hitrost je tudi max_cock_coiunt > vedno destroja ves bulk 
 	# gui
-	"gameover_countdown_duration": 5,
-	"show_position_indicators_stray_count": 5,
 	"position_indicators_on": true, # duel jih nima 
 	"spectrum_start_on": false, # a pobrane prižigam al ugašam
 	"skip_zoom_animation": false,
-	"start_countdown": false,
+	"start_countdown": true,
 	"game_instructions_popup": true,
 	"solutions_mode": false, # enigma reštve
 }
 
 
 enum Games {
-	TUTORIAL,
-	ERASER_S, ERASER_M, ERASER_L,
+	TUTORIAL, CLASSIC
+	CLASSIC_S, CLASSIC_M, CLASSIC_L,
 	CLEANER_S, CLEANER_M, CLEANER_L,
 	THE_DUEL,
 	ENIGMA,
 	SCROLLER,
-	TESTING,
+	SHOWCASE,
 	}
 	
 	
@@ -92,15 +95,15 @@ var game_data_tutorial: Dictionary = {
 	"game": Games.TUTORIAL,
 	"highscore_type": HighscoreTypes.NO_HS,
 	"game_name": "Tutorial",
-	"game_scene_path": "res://game/game.tscn",
+	"game_scene_path": "res://game/game_tutorial.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_tutorial.tscn",
 }
 var game_data_eraser_s: Dictionary = { 
-	"game": Games.ERASER_S,
-	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "Eraser S",
+	"game": Games.CLASSIC_S,
+	"highscore_type": HighscoreTypes.HS_POINTS,
+	"game_name": "Classic S",
 	"game_scene_path": "res://game/game_cleaning.tscn",
-	"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_S.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_classic_s.tscn",
 	# instructions text
 	"description" : "Collect all colors in limited time.",
 	"Label": "", # presledek
@@ -108,11 +111,11 @@ var game_data_eraser_s: Dictionary = {
 	"Label3" : "Rebursting is not available.",
 }
 var game_data_eraser_m: Dictionary = {
-	"game": Games.ERASER_M,
-	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "Eraser M",
+	"game": Games.CLASSIC_M,
+	"highscore_type": HighscoreTypes.HS_POINTS,
+	"game_name": "Classic M",
 	"game_scene_path": "res://game/game_cleaning.tscn",
-	"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_M.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_classic_m.tscn",
 	# instructions text
 	"description" : "Collect all colors in limited time.",
 	"Label": "", # presledek
@@ -120,11 +123,11 @@ var game_data_eraser_m: Dictionary = {
 	"Label3" : "Rebursting is not available.",
 }
 var game_data_eraser_l: Dictionary = {
-	"game": Games.ERASER_L,
-	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "Eraser L",
+	"game": Games.CLASSIC_L,
+	"highscore_type": HighscoreTypes.HS_POINTS,
+	"game_name": "Classic L",
 	"game_scene_path": "res://game/game_cleaning.tscn",
-	"tilemap_path": "res://game/tilemaps/eraser/tilemap_eraser_L.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_classic_l.tscn",
 	# instructions text
 	"description" : "Collect all colors in limited time.",
 	"Label": "", # presledek
@@ -224,7 +227,7 @@ var game_data_scroller: Dictionary = {
 	"round_spawn_possibility": 32, # procenti
 	"round_spawn_possibility_factor": 1.2, # množim procente
 }
-var game_data_enigma: Dictionary = {
+var game_data_riddler: Dictionary = {
 	"game": Games.ENIGMA,
 	"highscore_type": HighscoreTypes.HS_TIME_LOW,
 	"game_name": "Riddler",
@@ -245,60 +248,60 @@ var game_data_enigma: Dictionary = {
 }
 var enigma_level_setting: Dictionary = { 
 	1: { # ključ je tudi številka levela
-		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_01.tscn",
+		"tilemap_path": "res://game/tilemaps/riddler/tilemap_enigma_01.tscn",
 		"level_description": "Description ...", # pre-game instructions
 	},
 	2: {
-		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_02.tscn",
+		"tilemap_path": "res://game/tilemaps/riddler/tilemap_enigma_02.tscn",
 		"level_description": "Description ...",
 	},
 	3: {
-		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_03.tscn",
+		"tilemap_path": "res://game/tilemaps/riddler/tilemap_enigma_03.tscn",
 		"level_description": "Description ...",
 	},
 	4: {
-		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_04.tscn",
+		"tilemap_path": "res://game/tilemaps/riddler/tilemap_enigma_04.tscn",
 		"level_description": "Description ...",
 	},
 	5: {
-		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_05.tscn",
+		"tilemap_path": "res://game/tilemaps/riddler/tilemap_enigma_05.tscn",
 		"level_description": "Description ...",
 	},
 	6: {
-		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_06.tscn",
+		"tilemap_path": "res://game/tilemaps/riddler/tilemap_enigma_06.tscn",
 		"level_description": "Description ...",
 	},
 	7: {
-		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_07.tscn",
+		"tilemap_path": "res://game/tilemaps/riddler/tilemap_enigma_07.tscn",
 		"level_description": "Description ...",
 	},
 	8: {
-		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_08.tscn",
+		"tilemap_path": "res://game/tilemaps/riddler/tilemap_enigma_08.tscn",
 		"level_description": "Description ...",
 	},
 	9: {
-		"tilemap_path": "res://game/tilemaps/enigma/tilemap_enigma_09.tscn",
+		"tilemap_path": "res://game/tilemaps/riddler/tilemap_enigma_09.tscn",
 		"level_description": "Description ...",
 	},
 	
 	10: {
-		"tilemap_path": "res://game/tilemaps/enigma/tilemap_riddler_S.tscn",
+		"tilemap_path": "res://game/tilemaps/riddler/tilemap_riddler_S.tscn",
 		"level_description": "Description ...",
 	},
 	11: {
-		"tilemap_path": "res://game/tilemaps/enigma/tilemap_riddler_M.tscn",
+		"tilemap_path": "res://game/tilemaps/riddler/tilemap_riddler_M.tscn",
 		"level_description": "Description ...",
 	},
 	12: {
-		"tilemap_path": "res://game/tilemaps/enigma/tilemap_riddler_L.tscn",
+		"tilemap_path": "res://game/tilemaps/riddler/tilemap_riddler_L.tscn",
 		"level_description": "Description ...",
 	},
 }
-var game_data_testing: Dictionary = {
-	"game": Games.TESTING,
+var game_data_showcase: Dictionary = {
+	"game": Games.SHOWCASE,
 	"highscore_type": HighscoreTypes.HS_POINTS,
-	"game_name": "Testing ... link",
-	"game_scene_path": "res://game/game_testing.tscn",
+	"game_name": "Showcase",
+	"game_scene_path": "res://game/game_showcase.tscn",
 #	"tilemap_path": "res://game/tilemaps/testing/tilemap_testing.tscn",
 #	"tilemap_path": "res://game/tilemaps/testing/tilemap_testing_2.tscn",
 #	"tilemap_path": "res://game/tilemaps/testing/tilemap_testing_3.tscn",
@@ -323,17 +326,17 @@ var use_custom_color_theme: bool = false
 func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
-#	var debug_game = Games.TESTING
-#	var debug_game = Games.TUTORIAL
+#	var debug_game = Games.SHOWCASE
+	var debug_game = Games.TUTORIAL
 #	var debug_game = Games.ENIGMA
 #	var debug_game = Games.CLEANER_S
 #	var debug_game = Games.CLEANER_M
 #	var debug_game = Games.CLEANER_L
 #	var debug_game = Games.THE_DUEL
-#	var debug_game = Games.ERASER_S
-#	var debug_game = Games.ERASER_M
-#	var debug_game = Games.ERASER_L
-	var debug_game = Games.SCROLLER
+#	var debug_game = Games.CLASSIC_S
+#	var debug_game = Games.CLASSIC_M
+#	var debug_game = Games.CLASSIC_L
+#	var debug_game = Games.SCROLLER
 	set_game_data(debug_game)
 	
 	
@@ -341,11 +344,9 @@ func set_game_data(selected_game) -> void:
 	
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
-
-		
 	match selected_game:
-		Games.TESTING: 
-			current_game_data = game_data_testing
+		Games.SHOWCASE: 
+			current_game_data = game_data_showcase
 			game_settings["respawn_mode"] = false
 			game_settings["reburst_mode"] = true
 			game_settings["player_start_color"] = Color.white
@@ -356,23 +357,23 @@ func set_game_data(selected_game) -> void:
 			game_settings["strays_start_count"] = 50
 		Games.TUTORIAL: 
 			current_game_data = game_data_tutorial
-			game_settings["player_start_life"] = 3
 			game_settings["game_instructions_popup"] = false
 			game_settings["timer_mode_countdown"] = false
 			game_settings["respawn_mode"] = false
+			game_settings["lose_life_on_hit"] = false
 			game_settings["reburst_mode"] = true
 		Games.ENIGMA: 
-			current_game_data = game_data_enigma
+			current_game_data = game_data_riddler
 			game_settings["color_picked_points"] = 0
 #			game_settings["all_cleaned_points"] = 0
 			game_settings["all_cleaned_points"] = 1 # vsaj ena točka, če ne se sploh ne pokaže ... izpiše se "SUCCESS!"
 			game_settings["color_picked_points"] = 0
 			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
 			game_settings["lose_life_on_hit"] = true
+			game_settings["player_start_life"] = 1
 			game_settings["timer_mode_countdown"] = false
 			game_settings["spectrum_start_on"] = true
 			game_settings["position_indicators_on"] = false
-			game_settings["start_countdown"] = true
 			game_settings["player_start_color"] = Color.white
 			game_settings["reburst_window_time"] = 0 # 0 = neomejeno
 			game_settings["reburst_hit_power"] = 1
@@ -383,13 +384,13 @@ func set_game_data(selected_game) -> void:
 			game_settings["solutions_mode"] = false
 		Games.CLEANER_S: 
 			current_game_data = game_data_cleaner_s
-			game_settings["player_start_life"] = 3
 			game_settings["all_cleaned_points"] = 100
+			game_settings["start_countdown"] = false
 			game_settings["on_hit_points_part"] = 0
 			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
 			game_settings["eternal_mode"] = true
-			game_settings["lose_life_on_hit"] = true
 			game_settings["timer_mode_countdown"] = false
+			game_settings["lose_life_on_hit"] = false
 			game_settings["spectrum_start_on"] = true
 			game_settings["position_indicators_on"] = false
 			game_settings["turn_stray_to_wall"] = false
@@ -402,57 +403,66 @@ func set_game_data(selected_game) -> void:
 #			game_settings["respawn_strays_count"] = 1
 		Games.CLEANER_M: 
 			current_game_data = game_data_cleaner_m
-			game_settings["player_start_life"] = 3
 			game_settings["all_cleaned_points"] = 100
 			game_settings["on_hit_points_part"] = 0
 			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
 			game_settings["eternal_mode"] = true
-			game_settings["lose_life_on_hit"] = true
 			game_settings["timer_mode_countdown"] = false
 			game_settings["spectrum_start_on"] = true
+			game_settings["lose_life_on_hit"] = false
 			game_settings["turn_stray_to_wall"] = true
 			game_settings["full_power_mode"] = true
 			game_settings["strays_start_count"] = 320
+			game_settings["start_countdown"] = false
 			game_settings["reburst_mode"] = true
 			#
 #			game_settings["respawn_wait_time"] = 1
 #			game_settings["respawn_strays_count"] = 1
 		Games.CLEANER_L: 
 			current_game_data = game_data_cleaner_l
+			game_settings["lose_life_on_hit"] = false
 			game_settings["game_time_limit"] = 300
+			game_settings["start_countdown"] = false
 			game_settings["strays_start_count"] = 320
 #			game_settings["reburst_mode"] = true
 			#	
 			game_settings["respawn_wait_time"] = 5
 			game_settings["respawn_strays_count"] = 5
-		Games.ERASER_S: 
+			
+			
+			
+			
+			
+			
+		Games.CLASSIC_S: 
 			current_game_data = game_data_eraser_s
-			game_settings["all_cleaned_points"] = 1 # vsaj ena točka, če ne se sploh ne pokaže ... izpiše se "SUCCESS!"
-			game_settings["color_picked_points"] = 0
-			game_settings["timer_mode_countdown"] = false
-			game_settings["start_countdown"] = true
-			game_settings["strays_start_count"] = 50
-			game_settings["respawn_mode"] = false
-		Games.ERASER_M: 
+			game_settings["game_time_limit"] = 120
+			game_settings["timer_mode_countdown"] = true
+			game_settings["strays_start_count"] = 3
+#			game_settings["respawn_mode"] = false
+			
+			game_settings["respawn_mode"] = true
+			game_settings["respawn_wait_time"] = 0
+			game_settings["respawn_strays_count"] = 5
+		Games.CLASSIC_M: 
 			current_game_data = game_data_eraser_m
-			game_settings["all_cleaned_points"] = 1 # vsaj ena točka, če ne se sploh ne pokaže ... izpiše se "SUCCESS!"
-			game_settings["color_picked_points"] = 0
-			game_settings["timer_mode_countdown"] = false
-			game_settings["start_countdown"] = true
-			game_settings["strays_start_count"] = 50
+			game_settings["game_time_limit"] = 300
+			game_settings["timer_mode_countdown"] = true
+			game_settings["strays_start_count"] = 140
 			game_settings["respawn_mode"] = false
-		Games.ERASER_L: 
+		Games.CLASSIC_L: 
 			current_game_data = game_data_eraser_l
-			game_settings["all_cleaned_points"] = 1 # vsaj ena točka, če ne se sploh ne pokaže ... izpiše se "SUCCESS!"
-			game_settings["color_picked_points"] = 0
-			game_settings["timer_mode_countdown"] = false
-			game_settings["start_countdown"] = true
-			game_settings["strays_start_count"] = 50
+			game_settings["game_time_limit"] = 600
+			game_settings["timer_mode_countdown"] = true
+			game_settings["strays_start_count"] = 320
 			game_settings["respawn_mode"] = false
+			
+#			lajf 3
+#			energy and speed
+#			points 10
+			
 		Games.THE_DUEL: 
 			current_game_data = game_data_the_duel
-			game_settings["player_start_life"] = 3
-			game_settings["lose_life_on_hit"] = true
 			game_settings["position_indicators_on"] = false 
 			game_settings["respawn_strays_count"] = 20 
 			game_settings["game_time_limit"] = 60
@@ -462,6 +472,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["respawn_strays_count"] = 3
 		Games.SCROLLER:
 			current_game_data = game_data_scroller
+			game_settings["lose_life_on_hit"] = false
 			game_settings["on_hit_energy_part"] = 0
 			game_settings["cell_traveled_energy"] = 0
 			game_settings["all_cleaned_points"] = 0

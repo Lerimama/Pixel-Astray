@@ -98,10 +98,11 @@ func game_over(gameover_reason: int):
 		print("GO cleared")
 		var signaling_player: KinematicBody2D
 		for player in get_tree().get_nodes_in_group(Global.group_players):
-			player.all_cleaned()
+			player.animation_player.play("become_white")
+			player.set_physics_process(false) # malo kasneje se kliče tudi v GM
 			signaling_player = player # da se zgodi na obeh plejerjih istočasno
 			clean_strays_in_game()
-		yield(signaling_player, "rewarded_on_game_over") # počakam, da je nagrajen
+		yield(signaling_player, "rewarded_on_cleaned") # počakam, da je nagrajen
 	
 	get_tree().call_group(Global.group_players, "set_physics_process", false)
 	

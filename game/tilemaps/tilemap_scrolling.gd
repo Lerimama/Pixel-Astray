@@ -5,8 +5,6 @@ var floor_cells_count_x: int = 0
 var floor_cells_count_y: int
 
 var floor_cells_count: Vector2 = Vector2.ZERO
-var strays_in_top_area: Array = []
-var stray_in_floor_area: Array = []
 var edge_global_positions: Array # prepoznavanje GO
 var edge_cell_side_global_positions: Array # prepoznavanje GO
 
@@ -22,7 +20,7 @@ onready var right_screen_limit: StaticBody2D = $RightScreenLimit
 
 
 func _ready() -> void:
-	# namen: add static body walls
+	# namen: add static_body edge walls
 	
 	add_to_group(Global.group_tilemap) # za scrolling in patterns
 	Global.current_tilemap = self
@@ -30,31 +28,10 @@ func _ready() -> void:
 	# set_color_theme
 	get_tileset().tile_set_modulate(wall_tile_id, Global.color_wall)
 	get_tileset().tile_set_modulate(edge_tile_id, Global.color_edge)
-	background.color = Global.color_background
+#	background.color = Global.color_background
 	get_tileset().tile_set_modulate(floor_tile_id, Global.color_floor)
 
 	top_screen_limit.add_to_group(Global.group_tilemap)
 	bottom_screen_limit.add_to_group(Global.group_tilemap)
 	left_screen_limit.add_to_group(Global.group_tilemap)
 	right_screen_limit.add_to_group(Global.group_tilemap)
-
-	
-func _on_TopArea_body_entered(body: Node) -> void:
-	if body.is_in_group(Global.group_strays):
-		strays_in_top_area.append(body)
-
-
-func _on_TopArea_body_exited(body: Node) -> void:
-	if body.is_in_group(Global.group_strays):
-		strays_in_top_area.erase(body)
-	
-
-func _on_FloorArea_body_entered(body: Node) -> void:
-	if body.is_in_group(Global.group_strays):
-		stray_in_floor_area.append(body)
-
-		
-func _on_FloorArea_body_exited(body: Node) -> void:
-	if body.is_in_group(Global.group_strays):
-		stray_in_floor_area.erase(body)
-		body.queue_free()

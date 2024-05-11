@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "Control",
 "class": "GameHud",
 "language": "GDScript",
-"path": "res://game/hud/hud.gd"
+"path": "res://game/hud/hud_tutorial.gd"
 }, {
 "base": "Node",
 "class": "GameManager",
@@ -22,7 +22,7 @@ _global_script_classes=[ {
 "base": "Control",
 "class": "GameOver",
 "language": "GDScript",
-"path": "res://game/gui/game_over.gd"
+"path": "res://game/gui/game_over_tutorial.gd"
 }, {
 "base": "TileMap",
 "class": "GameTilemap",
@@ -32,12 +32,12 @@ _global_script_classes=[ {
 "base": "KinematicBody2D",
 "class": "Player",
 "language": "GDScript",
-"path": "res://game/pixel/player.gd"
+"path": "res://game/pixel/player_class.gd"
 }, {
 "base": "KinematicBody2D",
 "class": "Stray",
 "language": "GDScript",
-"path": "res://game/pixel/stray.gd"
+"path": "res://game/pixel/stray_class.gd"
 } ]
 _global_script_class_icons={
 "GameHud": "",
@@ -73,7 +73,7 @@ gdscript/warnings/integer_division=false
 window/size/width=1280
 window/size/height=720
 window/size/borderless=true
-window/size/always_on_top=true
+window/size/fullscreen=true
 window/size/test_width=640
 window/size/test_height=360
 window/dpi/allow_hidpi=true

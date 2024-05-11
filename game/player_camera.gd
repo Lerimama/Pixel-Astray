@@ -65,7 +65,7 @@ func _ready():
 			#				zoom_end = Vector2.ONE * 1.5
 			#				smoothing_speed = 5 # ni ok za XL
 			zoom = zoom_start
-			zoom_end = zoom_start # no zoom debug
+#			zoom_end = zoom_start # no zoom debug
 
 	# testhud
 	set_ui_focus()	
