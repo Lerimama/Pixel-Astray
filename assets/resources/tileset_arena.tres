@@ -163,7 +163,7 @@ points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 7/z_index = 0
-8/name = "tile_wall_with_edge.png 8"
+8/name = "tile_wall_stray"
 8/texture = ExtResource( 9 )
 8/tex_offset = Vector2( -2, -2 )
 8/modulate = Color( 0.952941, 0.356863, 0.498039, 1 )

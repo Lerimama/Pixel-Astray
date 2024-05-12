@@ -85,7 +85,7 @@ func open_gameover(gameover_reason: int):
 		set_game_gameover_title()
 		
 	Global.hud.slide_out()
-	yield(Global.player1_camera, "zoomed_out") # tukaj notri setam zamik
+	yield(Global.game_camera, "zoomed_out") # tukaj notri setam zamik
 	show_gameover_title()	
 
 

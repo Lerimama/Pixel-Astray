@@ -8,17 +8,18 @@ tile_data = PoolIntArray( 0, 1, 0, 1, 1, 0, 2, 1, 0, 3, 1, 0, 4, 1, 0, 5, 1, 0, 
 [node name="Background" parent="." index="0"]
 position = Vector2( -8, -112 )
 
-[node name="Room" parent="Background" index="1"]
+[node name="Room" parent="Background" index="0"]
+visible = false
 margin_left = 24.0
 margin_top = -96.0
 margin_right = 2782.0
 margin_bottom = 1977.0
 
-[node name="Cover" parent="Background/Room" index="4"]
-margin_left = -16.0
-margin_top = 208.0
-margin_right = 2608.0
-margin_bottom = 1552.0
+[node name="Cover" parent="Background" index="1"]
+margin_left = -288.0
+margin_top = -128.0
+margin_right = 2928.0
+margin_bottom = 1696.0
 
 [node name="LevelTrick" parent="." index="1"]
 margin_left = 1120.0
@@ -26,5 +27,8 @@ margin_top = 833.0
 margin_right = 1475.0
 margin_bottom = 892.0
 text = "Trapped"
+
+[node name="CameraPosition" parent="." index="3"]
+position = Vector2( 1280, 640 )
 
 [editable path="Background"]

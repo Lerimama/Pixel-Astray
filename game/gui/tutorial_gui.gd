@@ -88,6 +88,9 @@ func start_tutorial():
 	Global.hud.game_timer.start_timer()
 	Global.game_manager.game_on = true
 	
+	for player in get_tree().get_nodes_in_group(Global.group_players):
+		Global.game_camera.camera_target = player
+		
 	open_stage(traveling_content)
 	
 	var show_controls = get_tree().create_tween()

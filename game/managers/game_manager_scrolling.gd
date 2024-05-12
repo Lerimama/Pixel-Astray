@@ -1,4 +1,3 @@
-#extends GameManager # default game manager
 extends GameManager # default game manager
 
 var current_stray_spawning_round: int = 0 # prištevam na koncu spawna
@@ -14,27 +13,13 @@ var current_stage: int = 0 # na štartu se kliče stage up
 var stages_per_level: int
 var current_level: int = 0 # na štartu se kliče level up
 var levels_per_game: int = 1
+
 var all_stage_level_colors_available: Array
 var stray_spawn_colors_available: Array # samo za spawnanje, ne pa za spektrum
 var default_stray_spawn_colors_count: int = 500 # na začetkiu ... ob spawnu se odštevajo, ko jih ni več, se resetira na to vrednost
 
-var in_level_transition: bool = false
 var step_in_progress: bool = false
-var wall_spawn_random_range: int
-var wall_strays_on_edge_count: int = 0 # ko, je ves edge zaseden, je konec
-
-# nikoli ne restiram
-var wall_strays: Array = [] # vsi straysi,ki so celotna tla
-var first_wall_round: bool = true
-
-# resetiram na floor filled
-var wall_edge_strays: Array = [] # straysi ki predstavljajo rob tal
-var strays_on_wall_edge: Array = [] # strays, ki se dotikajo robnih tiletov tal ... se resetira na vsako polnitev
-var all_strays_on_wall: Array = [] # vsi strays, ki so ustavljeni ker so spodaj tla
-
-# resetira se na vsak korak
-var connected_strays_on_wall_edge: Array = [] # straysi na robu tal, ki so povezani
-var strays_on_wall_edge_connected: bool = false
+var wall_strays: Array = []
 var available_home_spawn_positions: Array
 
 
@@ -83,18 +68,18 @@ func set_game():
 	yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
 	
 	yield(get_tree().create_timer(1), "timeout") # da si plejer ogleda
-
 	Global.hud.slide_in(start_players_count)
 	yield(Global.start_countdown, "countdown_finished") # sproži ga hud po slide-inu
-
 	start_game()
+	yield(get_tree().create_timer(Global.hud.hud_in_out_time), "timeout") # da se res prizumira, če ni game start countdown
+	Global.current_tilemap.background_room.hide()
 	
 
 func start_game():
-
+	
 	Global.hud.game_timer.start_timer()
 	Global.sound_manager.play_music("game_music")
-
+	
 	for player in get_tree().get_nodes_in_group(Global.group_players):
 		player.set_physics_process(true)
 	
@@ -116,13 +101,10 @@ func game_over(gameover_reason: int):
 	game_on = false
 	
 	Global.hud.game_timer.stop_timer()
-	
 	get_tree().call_group(Global.group_players, "set_physics_process", false)
-
 	yield(get_tree().create_timer(1), "timeout") # za dojet
-
 	stop_game_elements()
-
+	Global.current_tilemap.background_room.show()
 	Global.gameover_menu.open_gameover(gameover_reason)
 		
 		
@@ -153,24 +135,11 @@ func set_tilemap():
 
 
 func set_game_view():
-	
 	#namen: ... tudi fiksirana kamera
 	
-	# viewports
-	var viewport_1: Viewport = $"%Viewport1"
-	var viewport_2: Viewport = $"%Viewport2"
-	var viewport_container_2: ViewportContainer = $"%ViewportContainer2"
-	var viewport_separator: VSeparator = $"%ViewportSeparator"
-
-	var cell_align_start: Vector2 = Vector2(cell_size_x, cell_size_x/2)
-	# Global.player1_camera.position = player_start_positions[0] + cell_align_start
-
-	viewport_container_2.visible = false
-	viewport_separator.visible = false
-
+	Global.game_camera.position = Global.current_tilemap.camera_position_node.global_position
 	# set player camera limits
 	var tilemap_edge = Global.current_tilemap.get_used_rect()
-	# Global.player1_camera.set_camera_limits()
 
 	
 func set_players():
@@ -184,7 +153,6 @@ func set_players():
 		new_player_pixel = PlayerPixel.instance()
 		new_player_pixel.name = "p%s" % str(spawned_player_index)
 		new_player_pixel.global_position = player_position + Vector2(cell_size_x/2, cell_size_x/2) # ... ne rabim snepat ker se v pixlu na ready funkciji
-#		new_player_pixel.modulate = game_settings["player_start_color"]
 		new_player_pixel.z_index = 1 # nižje od straysa
 		Global.node_creation_parent.add_child(new_player_pixel)
 		
@@ -199,14 +167,7 @@ func set_players():
 		
 		# pregame setup
 		new_player_pixel.set_physics_process(false)
-		
-		# players camera
-		if spawned_player_index == 1:
-			new_player_pixel.player_camera = Global.player1_camera
-			Global.player1_camera.position = new_player_pixel.global_position + Vector2(cell_size_x/2, - cell_size_x/2)
-		elif spawned_player_index == 2:
-			new_player_pixel.player_camera = Global.player2_camera
-		
+		new_player_pixel.player_camera = Global.game_camera	
 
 # STRAYS -----------------------------------------------------------------------------
 
@@ -261,9 +222,6 @@ func spawn_strays(strays_to_spawn_count: int):
 
 func stray_step():
 	
-	# if get_tree().paused:
-	#	return
-
 	step_in_progress = true
 		
 	var stepping_direction: Vector2
@@ -272,25 +230,22 @@ func stray_step():
 	var random_spawn_count: int = randi() % stray_to_spawn_round_range[1] + stray_to_spawn_round_range[0]
 	if random_spawn_count > stray_to_spawn_round_range[1]: 
 		random_spawn_count -= random_spawn_count - stray_to_spawn_round_range[1] # odštejem kar je višje od maximuma, ker zamik zamakne tudi zgornjo mejo
-	
-	if not in_level_transition: # and not strays_on_wall_edge_connected:
+
+	if not level_upgrade_in_progress:
 		stepping_direction = Vector2.DOWN
 		# kdo stepa, kličem step in preverim kolajderja 
 		for stray in get_tree().get_nodes_in_group(Global.group_strays):
-			if not wall_strays.has(stray) and not all_strays_on_wall.has(stray): # če stray ni del stene in ni naložen na steni
+			if not wall_strays.has(stray): # če stray ni del stene
 				var current_collider = stray.step(stepping_direction)
 				if current_collider:
 					check_stray_wall_collisions(stray, current_collider) # brez povezanosti na robu
 		# Global.sound_manager.play_sfx("stray_step") # ulomek je za pitch zvoka
 		lines_scrolled_count += 1
 		if lines_scrolled_count % lines_scroll_per_spawn_round == 0: # tukaj, da ne spawna če je konec
-			print(current_stray_spawning_round)
 			if current_stray_spawning_round == 1: 
 				spawn_strays(random_spawn_count)
-			else: #if lines_scrolled_count > 10:
-				# spawnam, če je znotraj določenih procentov
-				if randi() % 100 <= round_spawn_possibility:
-					spawn_strays(random_spawn_count)
+			elif randi() % 100 <= round_spawn_possibility: # spawnam, če je znotraj določenih procentov
+				spawn_strays(random_spawn_count)
 			
 	yield(get_tree().create_timer(scrolling_pause_time), "timeout")
 	
@@ -325,35 +280,34 @@ func upgrade_stage():
 
 func upgrade_level():
 	
-	current_level += 1 # številka novega levela 
+	if level_upgrade_in_progress:
+		return
+	level_upgrade_in_progress = true
 	
-	in_level_transition = true
-		
-	# pogoji novega levela
+	current_level += 1 # številka novega levela 
 	set_new_level() 
-	# spraznem in indkatorje
 	Global.hud.empty_color_indicators() # novi indkatorji
-	# naštimam nove barve
 	set_level_colors()
 	
-	# razen level 1
 	if not current_level == 1:
-		
 		current_stage = 1 # ker se šteje pobite strayse je na začetku 0
 		Global.hud.level_up_popup_in(current_level)
-		Global.hud.update_indicator_on_stage_up(current_stage) # obarvaj prvega
-		
+		# obarvaj color indikator
+		Global.hud.update_indicator_on_stage_up(current_stage) 
+		for player in get_tree().get_nodes_in_group(Global.group_players):
+			while not player.cocked_ghosts.empty():
+				var ghost = player.cocked_ghosts.pop_back()
+				ghost.queue_free()		
 		# pavza pri prehoud lavela .... za pedenanjem indikatorjev in pucanje ekrana
 		get_tree().call_group(Global.group_players, "set_physics_process", false)
 		clean_strays_in_game() #puca vse v igri
 		yield(self, "all_strays_died") # ko so vsi iz igre grem naprej
-		
 		Global.hud.level_up_popup_out()
 		get_tree().call_group(Global.group_players, "set_physics_process", true)
 	else:
 		current_stage = 0 # ker se šteje pobite strayse je na začetku 0
 	
-	in_level_transition = false		
+	level_upgrade_in_progress = false		
 
 
 func set_new_level():
@@ -402,31 +356,19 @@ func set_level_colors():
 
 
 func clean_strays_in_game():
+	# namen: dodan wall_strays ... lahko bi poenotil
 	
 	var all_strays_alive: Array = get_tree().get_nodes_in_group(Global.group_strays)
 	
-	# javim število, ki se bo pucalo ... to pomeni, da se tudi teli štejejo v spucane od plejjerja
-	# self.strays_in_game_count = all_strays_alive.size() # setget sprememba
-	
 	for stray in all_strays_alive:
-		# najprej setam STATIC ... tudi DYING postanejo static, da lahko kličem die()
-		
-		# tiste, ki so že tla spremenim v static ... ne pa tudi umrlih od trenutnega hita
 		if wall_strays.has(stray):
-			stray.current_state = stray.States.IDLE
-#			stray.current_state = stray.States.STATIC
 			wall_strays.erase(stray)
 		# cela tla
 		var stray_index: int = all_strays_alive.find(stray)
 		var all_strays_alive_count: int = all_strays_alive.size()
 		stray.die(stray_index, all_strays_alive_count)
 	
-	self.strays_in_game_count = all_strays_alive.size() # setget sprememba
-	
-	all_strays_died_alowed = true # javi signal, ko so vsi spucani 
-	
-	return true
-	
+	all_strays_died_alowed = true
 	
 func check_stray_wall_collisions(current_stray: KinematicBody2D, current_collider: Node): # preverjanje, ko ne iščeš polnosti tal
 	
@@ -442,10 +384,6 @@ func check_stray_wall_collisions(current_stray: KinematicBody2D, current_collide
 #		current_stray.turn_to_wall(1)
 			
 			
-func stop_stray_spawning():
-	random_spawn_positions.clear()
-
-
 func _change_strays_in_game_count(strays_count_change: int):
 	# namen: brez CLEANED GO
 	

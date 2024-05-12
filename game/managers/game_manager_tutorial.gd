@@ -1,13 +1,6 @@
 extends GameManager
 
 
-func _ready() -> void:
-	
-	Global.game_manager = self
-#	StrayPixel = preload("res://game/pixel/stray_tutorial.tscn")
-	randomize()
-	
-	
 func set_game(): 
 	
 	# kliče main.gd pred prikazom igre
@@ -15,21 +8,19 @@ func set_game():
 	# set_game_view()
 	# set_players() # da je plejer viden že na fejdin
 
-	# player intro animacija
-	yield(get_tree().create_timer(1), "timeout") # da se animacija plejerja konča	
 	# tutorial funkcijo prikaza plejerja izpelje v svoji kodi
 	
+	yield(get_tree().create_timer(1), "timeout") # da se animacija plejerja konča	
 	Global.hud.slide_in(start_players_count)
-	yield(Global.start_countdown, "countdown_finished") # sproži ga hud po slide-inu
-	
-	
 	start_game()
+	yield(get_tree().create_timer(Global.hud.hud_in_out_time), "timeout") # da se res prizumira, če ni game start countdown
+	Global.current_tilemap.background_room.hide()	
 	
 	
 func start_game():
-	
+
 	Global.tutorial_gui.open_tutorial()
-	
+
 	
 func set_players():
 	
@@ -56,14 +47,7 @@ func set_players():
 		
 		# pregame setup
 		new_player_pixel.set_physics_process(false)
-		
-		# players camera
-		if spawned_player_index == 1:
-			new_player_pixel.player_camera = Global.player1_camera
-			new_player_pixel.player_camera.camera_target = new_player_pixel
-		elif spawned_player_index == 2:
-			new_player_pixel.player_camera = Global.player2_camera
-			new_player_pixel.player_camera.camera_target = new_player_pixel
+		new_player_pixel.player_camera = Global.game_camera
 			
 	
 func _change_strays_in_game_count(strays_count_change: int):

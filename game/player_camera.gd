@@ -42,30 +42,13 @@ onready var cell_align_end: Vector2 = Vector2(cell_size_x/2, cell_size_x/2)
 
 func _ready():
 	
-	add_to_group(Global.group_player_cameras)
-	
-	# intro
-	if get_viewport().name == "IntroViewport":
+	if get_viewport().name == "IntroViewport": # intro
 		Global.intro_camera = self
-	# game
-	else:
-		if Global.player1_camera == null:
-			Global.player1_camera = self
-		else:
-			Global.player2_camera = self
-		
-		if Global.game_manager.game_settings["skip_zoom_animation"]:
-			zoom = zoom_end
-		else:
-			if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
-				pass # zoom seta iz GMja ob setanju limitsov
-			elif Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
-				pass # zoom seta iz GMja ob setanju limitsov
-			#			elif Global.game_manager.game_settings["eternal_mode"]:
-			#				zoom_end = Vector2.ONE * 1.5
-			#				smoothing_speed = 5 # ni ok za XL
-			zoom = zoom_start
-#			zoom_end = zoom_start # no zoom debug
+	else: # game
+		print("ewsdas")
+		Global.game_camera = self
+		zoom = zoom_start
+#		zoom_end = zoom_start # no zoom debug
 
 	# testhud
 	set_ui_focus()	
@@ -104,44 +87,36 @@ func _process(delta: float):
 
 func _physics_process(delta: float) -> void:
 	
-	if camera_target: # and not Global.game_manager.game_settings["skip_zoom_animation"]:
+	if camera_target:
 		position = camera_target.position + cell_align
 		
 	
 func zoom_in(hud_in_out_time: float, players_count: int): # kliče hud
 	
-	if Global.game_manager.game_settings["skip_zoom_animation"]:
-		emit_signal("zoomed_in")
-	else:
-		var zoom_in_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
-		zoom_in_tween.tween_property(self, "zoom", zoom_end, hud_in_out_time)
-		zoom_in_tween.parallel().tween_property(self, "cell_align", cell_align_end, hud_in_out_time)
-		zoom_in_tween.tween_callback(self, "emit_signal", ["zoomed_in"]) # pošlje na hud, ki sproži countdown
+	var zoom_in_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	zoom_in_tween.tween_property(self, "zoom", zoom_end, hud_in_out_time)
+	zoom_in_tween.parallel().tween_property(self, "cell_align", cell_align_end, hud_in_out_time)
+	zoom_in_tween.tween_callback(self, "emit_signal", ["zoomed_in"]) # pošlje na hud, ki sproži countdown
 
 	
 func zoom_out(hud_in_out_time: float): # kliče hud
 	
-	if Global.game_manager.game_settings["skip_zoom_animation"]:
-		yield(get_tree().create_timer(hud_in_out_time), "timeout")
-		camera_target = null
-		emit_signal("zoomed_out")
-	else:
-		# unset limits
-		camera_target = null
-		position = get_camera_position() # pozicija postane ofsetana pozicija
-		#limit_left = -10000000
-		#limit_right = 10000000
-		#limit_top = -10000000
-		#limit_bottom = 10000000
+	# unset limits
+	camera_target = null
+	position = get_camera_position() # pozicija postane ofsetana pozicija
+	#limit_left = -10000000
+	#limit_right = 10000000
+	#limit_top = -10000000
+	#limit_bottom = 10000000
 
-		# korekcija za poravnavo z gameover naslovi
-		var corrected_position = position - Vector2(0, cell_size_x/2)
+	# korekcija za poravnavo z gameover naslovi
+	var corrected_position = position - Vector2(0, cell_size_x/2)
 
-		# zoomout	
-		var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
-		zoom_out_tween.tween_property(self, "zoom", zoom_start, hud_in_out_time)
-		zoom_out_tween.parallel().tween_property(self, "position", corrected_position, hud_in_out_time)
-		zoom_out_tween.parallel().tween_callback(self, "emit_signal", ["zoomed_out"]).set_delay(hud_in_out_time/3) # pošlje na GO, ki pokaže meni
+	# zoomout	
+	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	zoom_out_tween.tween_property(self, "zoom", zoom_start, hud_in_out_time)
+	zoom_out_tween.parallel().tween_property(self, "position", corrected_position, hud_in_out_time)
+	zoom_out_tween.parallel().tween_callback(self, "emit_signal", ["zoomed_out"]).set_delay(hud_in_out_time/3) # pošlje na GO, ki pokaže meni
 	
 
 func shake_camera(shake_power: float, shake_time: float, shake_decay: float): 

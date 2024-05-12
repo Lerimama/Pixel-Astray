@@ -8,7 +8,7 @@ var floor_global_positions: Array # original tileti tal
 
 var stray_global_positions: Array
 var no_stray_global_positions: Array
-var goal_stray_global_positions: Array
+var wall_stray_global_positions: Array
 var player_global_positions: Array 
 
 var wall_tile_id: int = 3
@@ -16,8 +16,8 @@ var edge_tile_id: int = 1
 var floor_tile_id: int = 0
 var spawn_stray_tile_id: int = 5 # za home btne
 
-onready var background: ColorRect = $Background/BackgroundColor
 onready var camera_position_node: Position2D = $CameraPosition
+onready var background_room: TextureRect = $Background/Room
 
 
 func _ready() -> void:
@@ -28,7 +28,6 @@ func _ready() -> void:
 	# set_color_theme
 	get_tileset().tile_set_modulate(wall_tile_id, Global.color_wall)
 	get_tileset().tile_set_modulate(edge_tile_id, Global.color_edge)
-#	background.color = Global.color_background
 	get_tileset().tile_set_modulate(floor_tile_id, Global.color_floor)
 
 
@@ -72,9 +71,13 @@ func get_tiles():
 					player_global_positions.append(cell_global_position)
 					set_cellv(cell, 0)
 					floor_global_positions.append(cell_global_position)
+				8: # spawn wall stray
+					wall_stray_global_positions.append(cell_global_position)
+					set_cellv(cell, 0)
+					floor_global_positions.append(cell_global_position)
 	
 	# pošljem v GM
-	emit_signal("tilemap_completed", random_spawn_floor_positions, stray_global_positions, no_stray_global_positions, player_global_positions)
+	emit_signal("tilemap_completed", random_spawn_floor_positions, stray_global_positions, no_stray_global_positions, player_global_positions, wall_stray_global_positions)
 	
 	
 func get_collision_tile_id(collider: Node2D, direction: Vector2): # collider je node ki se zaleteva in ne collision object

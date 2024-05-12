@@ -8,19 +8,16 @@ tile_data = PoolIntArray( 0, 1, 0, 1, 1, 0, 2, 1, 0, 3, 1, 0, 4, 1, 0, 5, 1, 0, 
 [node name="Background" parent="." index="0"]
 position = Vector2( 640, -136 )
 
-[node name="Room" parent="Background" index="1"]
+[node name="Room" parent="Background" index="0"]
+visible = false
 margin_top = -72.0
 margin_bottom = 2001.0
 
-[node name="Cover" parent="Background/Room" index="4"]
-margin_left = -16.0
-margin_top = 208.0
-margin_right = 2608.0
-margin_bottom = 1552.0
-__meta__ = {
-"_edit_group_": true,
-"_editor_description_": ""
-}
+[node name="Cover" parent="Background" index="1"]
+margin_left = -888.0
+margin_top = -104.0
+margin_right = 2232.0
+margin_bottom = 1720.0
 
 [node name="LevelTrick" parent="." index="1"]
 margin_left = 1120.0
@@ -31,5 +28,8 @@ text = "Left or right?"
 
 [node name="SolutionLine" parent="." index="2"]
 points = PoolVector2Array( 1240, 656, 1200, 656, 1200, 144, 176, 144, 176, 1168, 1168, 1168, 1168, 160, 2448, 160, 2448, 1168, 1296, 1168, 1296, 720, 2424, 720, 2424, 736, 240, 736, 240, 432, 784, 432, 784, 880, 528, 880, 528, 688, 1112, 688 )
+
+[node name="CameraPosition" parent="." index="3"]
+position = Vector2( 1312, 672 )
 
 [editable path="Background"]

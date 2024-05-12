@@ -23,8 +23,7 @@ var tutorial_gui = null
 
 # camera
 var intro_camera = null
-var player1_camera = null
-var player2_camera = null
+var game_camera = null
 
 var strays_on_screen: Array = []
 
@@ -32,7 +31,6 @@ var strays_on_screen: Array = []
 var group_players = "Players"
 var group_strays = "Strays"
 var group_tilemap = "Tilemap" # scroller in patterns
-var group_player_cameras = "Player Cameras"
 var group_ghosts = "Ghosts"
 
 # pixel colors

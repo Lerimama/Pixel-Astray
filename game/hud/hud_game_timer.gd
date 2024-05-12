@@ -12,7 +12,7 @@ var limitless_mode: bool # če je gejm tajm 0 in je count-up mode
 onready var game_time_limit: int = Global.game_manager.game_settings["game_time_limit"]
 onready var sudden_death_mode: int
 onready var sudden_death_limit: int
-onready var countdown_mode: bool = Global.game_manager.game_settings["timer_mode_countdown"]
+onready var countdown_mode: bool = Global.game_manager.game_settings["timer_stopwatch_mode"]
 onready var gameover_countdown_duration: int = 5 # čas, ko je obarvan in se sliši bip bip
 
 

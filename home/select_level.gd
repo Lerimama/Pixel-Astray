@@ -10,8 +10,8 @@ onready var level_grid_btns: Array = btn_grid_container.get_children()
 func _ready() -> void:
 	
 	Profiles.game_data_riddler["level"] = 1 # ni nujno
-#	for btn in level_grid_btns:
-#		set_btn_tilemap(btn)
+	for btn in level_grid_btns:
+		set_btn_tilemap(btn)
 	update_enigma_btns_color()
 
 
@@ -45,31 +45,31 @@ func set_btn_tilemap(btn: Button):
 		var tilemap_position_adapt: float
 		match btn.name:
 			"01":
-				BtnTilemap =  preload("res://game/tilemaps/enigma/tilemap_enigma_01.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/riddler/tilemap_enigma_01.tscn")
 				tilemap_position_adapt = 0
 			"02":
-				BtnTilemap =  preload("res://game/tilemaps/enigma/tilemap_enigma_02.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/riddler/tilemap_enigma_02.tscn")
 				tilemap_position_adapt = 0
 			"03":
-				BtnTilemap =  preload("res://game/tilemaps/enigma/tilemap_enigma_03.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/riddler/tilemap_enigma_03.tscn")
 				tilemap_position_adapt = 0
 			"04":
-				BtnTilemap =  preload("res://game/tilemaps/enigma/tilemap_enigma_04.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/riddler/tilemap_enigma_04.tscn")
 				tilemap_position_adapt = 2
 			"05":
-				BtnTilemap =  preload("res://game/tilemaps/enigma/tilemap_enigma_05.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/riddler/tilemap_enigma_05.tscn")
 				tilemap_position_adapt = 2
 			"06":
-				BtnTilemap =  preload("res://game/tilemaps/enigma/tilemap_enigma_06.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/riddler/tilemap_enigma_06.tscn")
 				tilemap_position_adapt = 2
 			"07":
-				BtnTilemap =  preload("res://game/tilemaps/enigma/tilemap_enigma_07.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/riddler/tilemap_enigma_07.tscn")
 				tilemap_position_adapt = 2
 			"08":
-				BtnTilemap =  preload("res://game/tilemaps/enigma/tilemap_enigma_08.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/riddler/tilemap_enigma_08.tscn")
 				tilemap_position_adapt = 2
 			"09":
-				BtnTilemap =  preload("res://game/tilemaps/enigma/tilemap_enigma_09.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/riddler/tilemap_enigma_09.tscn")
 				tilemap_position_adapt = 2
 
 		var tilemap_scale_div: float = 8
@@ -91,7 +91,6 @@ func set_btn_tilemap(btn: Button):
 		# barvanje 
 		new_btn_tilemap.get_tileset().tile_set_modulate(new_btn_tilemap.edge_tile_id, Color(1,1,1,0))
 		new_btn_tilemap.get_tileset().tile_set_modulate(new_btn_tilemap.edge_tile_id, Color.red)
-		new_btn_tilemap.background.color = Color(1,1,1,0)
 		new_btn_tilemap.get_tileset().tile_set_modulate(new_btn_tilemap.floor_tile_id, Color(1,1,1,0))
 		new_btn_tilemap.get_tileset().tile_set_modulate(new_btn_tilemap.spawn_stray_tile_id, Color.white) # prava barva se seta v select levels, v igri se jo itak zamenja s tlemi
 		

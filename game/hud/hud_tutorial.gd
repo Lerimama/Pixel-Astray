@@ -86,15 +86,8 @@ func _ready() -> void:
 	
 	Global.hud = self
 	
-	# pre-hud in pozicije
-	if Global.game_manager.game_settings["skip_zoom_animation"]:
-		header.rect_position.y = 0
-		footer.rect_position.y = screen_height - header_height
-		viewport_header.rect_min_size.y = header_height
-		viewport_footer.rect_min_size.y = header_height
-	else:
-		header.rect_position.y = - header_height
-		footer.rect_position.y = screen_height
+	header.rect_position.y = - header_height
+	footer.rect_position.y = screen_height
 		
 	game_label.text = Global.game_manager.game_data["game_name"]
 	if Global.game_manager.game_data.has("level"):
@@ -300,16 +293,12 @@ func slide_in(players_count: int): # kliče GM set_game()
 	
 	Global.start_countdown.start_countdown() # GM yielda za njegov signal
 	
-	get_tree().call_group(Global.group_player_cameras, "zoom_in", hud_in_out_time, players_count)
-	
-	if Global.game_manager.game_settings["skip_zoom_animation"]:
-		pass # če ni slajdina pozicija se seta že na ready
-	else:
-		var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
-		fade_in.tween_property(header, "rect_position:y", 0, hud_in_out_time)
-		fade_in.parallel().tween_property(footer, "rect_position:y", screen_height - header_height, hud_in_out_time)
-		fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", header_height, hud_in_out_time)
-		fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", header_height, hud_in_out_time)
+	Global.game_camera.zoom_in(hud_in_out_time, players_count)
+	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
+	fade_in.tween_property(header, "rect_position:y", 0, hud_in_out_time)
+	fade_in.parallel().tween_property(footer, "rect_position:y", screen_height - header_height, hud_in_out_time)
+	fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", header_height, hud_in_out_time)
+	fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", header_height, hud_in_out_time)
 		
 	for indicator in active_color_indicators:
 		var indicator_fade_in = get_tree().create_tween()
@@ -318,7 +307,7 @@ func slide_in(players_count: int): # kliče GM set_game()
 
 func slide_out(): # kliče GM na game over
 	
-	get_tree().call_group(Global.group_player_cameras, "zoom_out", hud_in_out_time)
+	Global.game_camera.zoom_out(hud_in_out_time)
 	
 	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
 	fade_in.tween_property(header, "rect_position:y", 0 - header_height, hud_in_out_time)

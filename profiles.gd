@@ -37,13 +37,12 @@ var default_game_settings: Dictionary = { # to so default CLEANING settings
 	"reburst_window_time": 0.3, # 0 je neomejen čas
 	"reburst_hit_power": 1, # kolk jih destroya ... 0 gre po original pravilih moči, 5 je full power
 	# game
-	"game_time_limit": 0,
+	"game_time_limit": 0, # če je nič, ni omejeno, timer je stopwatch mode
 	"strays_start_count": 0, # ponekod se spawna vsaj 1
 	"respawn_mode": true,
 	"respawn_wait_time": 1, # če je 0, se respawn zgodi na cleaned
 	"respawn_strays_count": 1,
 	"reburst_mode": false,
-	"timer_mode_countdown": true, # če prišteva in je "game_time_limit" = 0, nima omejitve navzgor
 	"lose_life_on_hit": true, # alternativa je izguba energije na hit in samo en lajf
 	"step_slowdown_mode": true,
 	"eternal_mode": false,
@@ -52,13 +51,13 @@ var default_game_settings: Dictionary = { # to so default CLEANING settings
 	# gui
 	"position_indicators_on": true, # duel jih nima 
 	"spectrum_start_on": false, # a pobrane prižigam al ugašam
-	"skip_zoom_animation": false,
 	"start_countdown": true,
 	"game_instructions_popup": true,
 	"solutions_mode": false, # enigma reštve
 	
 	# neu
 	"stray_wall_spawn_possibilty": 0,
+	"zoom_to_level_size": false,
 }
 
 
@@ -320,11 +319,11 @@ func _ready() -> void:
 #	var debug_game = Games.SHOWCASE
 #	var debug_game = Games.TUTORIAL
 #	var debug_game = Games.ENIGMA
-#	var debug_game = Games.CLEANER_S
+	var debug_game = Games.CLEANER_S
 #	var debug_game = Games.CLEANER_M
 #	var debug_game = Games.CLEANER_L
 #	var debug_game = Games.THE_DUEL
-	var debug_game = Games.CLASSIC_S
+#	var debug_game = Games.CLASSIC_S
 #	var debug_game = Games.CLASSIC_M
 #	var debug_game = Games.CLASSIC_L
 #	var debug_game = Games.SCROLLER
@@ -341,7 +340,6 @@ func set_game_data(selected_game) -> void:
 			game_settings["respawn_mode"] = false
 			game_settings["reburst_mode"] = true
 			game_settings["player_start_color"] = Color.white
-			game_settings["skip_zoom_animation"] = true
 			game_settings["reburst_hit_power"] = 1
 			game_settings["reburst_mode"] = true			
 			game_settings["reburst_window_time"] = 0 # 0 = neomejeno
@@ -349,7 +347,7 @@ func set_game_data(selected_game) -> void:
 		Games.TUTORIAL: 
 			current_game_data = game_data_tutorial
 			game_settings["game_instructions_popup"] = false
-			game_settings["timer_mode_countdown"] = false
+			game_settings["game_time_limit"] = 600
 			game_settings["respawn_mode"] = false
 			game_settings["lose_life_on_hit"] = false
 			game_settings["reburst_mode"] = true
@@ -362,7 +360,6 @@ func set_game_data(selected_game) -> void:
 			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
 			game_settings["lose_life_on_hit"] = true
 			game_settings["player_start_life"] = 1
-			game_settings["timer_mode_countdown"] = false
 			game_settings["spectrum_start_on"] = true
 			game_settings["position_indicators_on"] = false
 			game_settings["player_start_color"] = Color.white
@@ -371,8 +368,9 @@ func set_game_data(selected_game) -> void:
 			game_settings["reburst_mode"] = true
 			# debug
 			game_settings["respawn_mode"] = false
-			current_game_data["level"] = 2
+			current_game_data["level"] = 7
 			game_settings["solutions_mode"] = false
+#			game_settings["zoom_to_level_size"] = true
 		Games.CLEANER_S: 
 			current_game_data = game_data_cleaner_s
 			game_settings["all_cleaned_points"] = 100
@@ -380,7 +378,6 @@ func set_game_data(selected_game) -> void:
 			game_settings["on_hit_points_part"] = 0
 			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
 			game_settings["eternal_mode"] = true
-			game_settings["timer_mode_countdown"] = false
 			game_settings["lose_life_on_hit"] = false
 			game_settings["spectrum_start_on"] = true
 			game_settings["position_indicators_on"] = false
@@ -388,6 +385,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["full_power_mode"] = true
 			game_settings["reburst_mode"] = true
 			#
+			game_settings["zoom_to_level_size"] = true
 			game_settings["strays_start_count"] = 50
 #			game_settings["reburst_mode"] = true
 #			game_settings["respawn_wait_time"] = 1
@@ -398,7 +396,6 @@ func set_game_data(selected_game) -> void:
 			game_settings["on_hit_points_part"] = 0
 			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
 			game_settings["eternal_mode"] = true
-			game_settings["timer_mode_countdown"] = false
 			game_settings["spectrum_start_on"] = true
 			game_settings["lose_life_on_hit"] = false
 			game_settings["turn_stray_to_wall"] = true
@@ -406,6 +403,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["strays_start_count"] = 320
 			game_settings["start_countdown"] = false
 			game_settings["reburst_mode"] = true
+			game_settings["zoom_to_level_size"] = true
 			#
 #			game_settings["respawn_wait_time"] = 1
 #			game_settings["respawn_strays_count"] = 1
@@ -428,7 +426,6 @@ func set_game_data(selected_game) -> void:
 		Games.CLASSIC_S: 
 			current_game_data = game_data_eraser_s
 			game_settings["game_time_limit"] = 120
-			game_settings["timer_mode_countdown"] = true
 			game_settings["strays_start_count"] = 100
 #			game_settings["respawn_mode"] = false
 			
@@ -438,13 +435,11 @@ func set_game_data(selected_game) -> void:
 		Games.CLASSIC_M: 
 			current_game_data = game_data_eraser_m
 			game_settings["game_time_limit"] = 300
-			game_settings["timer_mode_countdown"] = true
 			game_settings["strays_start_count"] = 140
 			game_settings["respawn_mode"] = false
 		Games.CLASSIC_L: 
 			current_game_data = game_data_eraser_l
 			game_settings["game_time_limit"] = 600
-			game_settings["timer_mode_countdown"] = true
 			game_settings["strays_start_count"] = 320
 			game_settings["respawn_mode"] = false
 			
@@ -461,15 +456,16 @@ func set_game_data(selected_game) -> void:
 			#	
 			game_settings["respawn_wait_time"] = 10
 			game_settings["respawn_strays_count"] = 3
+			game_settings["zoom_to_level_size"] = true
 		Games.SCROLLER:
 			current_game_data = game_data_scroller
 			game_settings["lose_life_on_hit"] = false
 			game_settings["on_hit_energy_part"] = 0
 			game_settings["cell_traveled_energy"] = 0
 			game_settings["all_cleaned_points"] = 0
-			game_settings["timer_mode_countdown"] = false
 			game_settings["position_indicators_on"] = false 
 			game_settings["strays_start_count"] = 1 # 1 v prvi spawn rundi
+			game_settings["zoom_to_level_size"] = true
 			# debug
 #			game_settings["scrolling_pause_time"] = 0.3 # 1 v prvi spawn rundi
 #			game_settings["stray_to_spawn_round_range"] = [20, 30] # 1 v prvi spawn rundi
@@ -478,6 +474,5 @@ func set_game_data(selected_game) -> void:
 	game_settings["game_instructions_popup"] = false
 	game_settings["start_countdown"] = false
 	game_settings["stray_wall_spawn_possibilty"] = 50
-#	game_settings["skip_zoom_animation"] = true
 #	game_settings["reburst_mode"] = false
 #	game_settings["respawn_mode"] = false

@@ -14,3 +14,5 @@ text = "redirect or skill"
 
 [node name="SolutionLine" parent="." index="2"]
 points = PoolVector2Array( 1136, 336, 176, 336 )
+
+[editable path="Background"]

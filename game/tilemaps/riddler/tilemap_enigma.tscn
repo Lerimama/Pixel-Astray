@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=1]
-[ext_resource path="res://assets/resources/level_edge_panel.tres" type="StyleBox" id=2]
 [ext_resource path="res://game/tilemaps/game_tilemap.gd" type="Script" id=3]
 [ext_resource path="res://assets/resources/tileset_arena.tres" type="TileSet" id=4]
 [ext_resource path="res://assets/theme/font_big.tres" type="DynamicFont" id=5]
@@ -29,7 +28,7 @@ __meta__ = {
 }
 
 [node name="Background" parent="." instance=ExtResource( 6 )]
-position = Vector2( 0, -768 )
+position = Vector2( 0, -736 )
 
 [node name="LevelTrick" type="Label" parent="."]
 modulate = Color( 1, 1, 1, 0.0784314 )
@@ -53,77 +52,12 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Edge" type="Node2D" parent="."]
-visible = false
-position = Vector2( -640, -416 )
+[node name="CameraPosition" type="Position2D" parent="."]
+position = Vector2( 672, 352 )
 
-[node name="LevelEdge" type="Panel" parent="Edge"]
-visible = false
-margin_left = 32.0
-margin_top = 32.0
-margin_right = 2592.0
-margin_bottom = 1472.0
-custom_styles/panel = ExtResource( 2 )
-
-[node name="_razlaga" type="Node2D" parent="."]
-visible = false
-modulate = Color( 1, 1, 1, 0.780392 )
-position = Vector2( 32, 0 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="player_poz" type="Label" parent="_razlaga"]
-margin_left = 648.0
-margin_top = 360.0
-margin_right = 1096.0
-margin_bottom = 382.0
-theme = ExtResource( 1 )
-text = "Pozicija playerja za perfekten zoomin"
-
-[node name="Polygon2D" type="Polygon2D" parent="_razlaga/player_poz"]
-position = Vector2( -648, -328 )
-polygon = PoolVector2Array( 608, 288, 608, 320, 640, 320, 640, 288 )
-
-[node name="zoomin_meja" type="Label" parent="_razlaga"]
-visible = false
-margin_left = 80.0
-margin_top = 96.0
-margin_right = 590.0
-margin_bottom = 118.0
-theme = ExtResource( 1 )
-text = "Zoomin notranja meja ekrana za (zoom = 1)"
-
-[node name="Polygon2D2" type="Polygon2D" parent="_razlaga/zoomin_meja"]
-position = Vector2( 624, 320 )
-polygon = PoolVector2Array( -704, -384, -704, 256, 512, 256, 512, 224, -672, 224, -672, -352, 544, -352, 544, 256, 576, 256, 576, -384 )
-
-[node name="zoomout_meja" type="Label" parent="_razlaga"]
-visible = false
-margin_left = -560.0
-margin_top = -256.0
-margin_right = -148.0
-margin_bottom = -234.0
-theme = ExtResource( 1 )
-text = "Zoomout notranje meja ekrana (zoom = 2)"
-
-[node name="Polygon2D2" type="Polygon2D" parent="_razlaga/zoomout_meja"]
-position = Vector2( 593, 288 )
-polygon = PoolVector2Array( -672, -352, -673, 928, 1823, 928, 1823, 896, -641, 896, -640, -320, 1856, -320, 1855, 928, 1887, 928, 1887, -352 )
-
-[node name="zoomout_meja no hud" type="Label" parent="_razlaga"]
-visible = false
-modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
-margin_left = -560.0
-margin_top = -488.0
-margin_right = 166.0
-margin_bottom = -466.0
-theme = ExtResource( 1 )
-text = "Zoomout notranje meja ekrana pred nalaganje prikazom huda"
-
-[node name="Polygon2D2" type="Polygon2D" parent="_razlaga/zoomout_meja no hud"]
-position = Vector2( 592, 456 )
-polygon = PoolVector2Array( -672, -352, -672, 1088, 1824, 1088, 1824, 1056, -640, 1056, -640, -320, 1856, -320, 1856, 1088, 1888, 1088, 1887, -352 )
+[node name="Polygon2D2" type="Polygon2D" parent="CameraPosition"]
+color = Color( 0.952941, 0.356863, 0.498039, 1 )
+polygon = PoolVector2Array( 0, 0, 0, 32, 32, 32, 32, 0 )
 
 [node name="_zoom_razlaga" type="Node2D" parent="."]
 visible = false
@@ -189,3 +123,5 @@ text = "zoom 1"
 
 [node name="Polygon2D3" type="Polygon2D" parent="_zoom_razlaga/ena"]
 polygon = PoolVector2Array( 607, 288, 607, 320, 639, 320, 639, 288 )
+
+[editable path="Background"]

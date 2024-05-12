@@ -88,8 +88,7 @@ func game_out(game_to_exit: int):
 	
 	get_viewport().set_disable_input(true) # anti dablklik
 	
-	Global.player1_camera = null
-	Global.player2_camera = null
+	Global.game_camera = null
 	
 	Global.sound_manager.play_gui_sfx("menu_fade")
 	
@@ -103,9 +102,7 @@ func reload_game(): # game out z drugačnim zaključkom
 	
 	get_viewport().set_disable_input(true) # anti dablklik
 	
-	Global.player1_camera = null
-	Global.player2_camera = null
-	
+	Global.game_camera = null
 	Global.sound_manager.play_gui_sfx("menu_fade")
 
 	var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
