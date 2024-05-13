@@ -7,7 +7,6 @@ signal all_strays_died # signal za sebe, počaka, da se vsi kvefrijajo
 enum GameoverReason {LIFE, TIME, CLEANED}
 
 var game_on: bool = false
-var show_position_indicators: bool = false # na začetku jih ne rabim gledat
 
 # players
 var spawned_player_index: int = 0
@@ -22,7 +21,8 @@ var all_strays_died_alowed: bool = false # za omejevanje signala iz FP ... kdaj 
 var all_stray_colors: Array # barve na štartnem spawnu (site kot v spektrumu)
 var available_respawn_positions: Array # pozicije na voljo, ki se apdejtajo na vsak stray in player spawn ali usmrtitev 
 var dont_turn_to_wall_positions: Array # za zaščito, da wall stray ne postane wall (ob robu igre recimo)
-var show_position_indicators_stray_count: int = 5
+var show_position_indicators_limit_reached: bool = false # na začetku jih ne rabim gledat
+var show_position_indicators_limit: int = 5
 
 # tilemap data
 var cell_size_x: int # napolne se na koncu setanju tilemapa
@@ -103,12 +103,12 @@ func _process(delta: float) -> void:
 	
 	# position indicators
 	if game_on:
-		if Global.strays_on_screen.size() <= show_position_indicators_stray_count and game_settings["position_indicators_on"]:
-			show_position_indicators = true
+		if Global.strays_on_screen.size() <= show_position_indicators_limit and game_settings["position_indicators_on"]:
+			show_position_indicators_limit_reached = true
 		else:
-			show_position_indicators = false
+			show_position_indicators_limit_reached = false
 	else:
-		show_position_indicators = false
+		show_position_indicators_limit_reached = false
 
 	# skos apdejtam pozicije na voljo
 	available_respawn_positions = Global.current_tilemap.floor_global_positions.duplicate() # vsa tla
@@ -388,13 +388,15 @@ func spawn_strays(strays_to_spawn_count: int):
 		
 		new_stray_pixel.global_position = selected_position + Vector2(cell_size_x/2, cell_size_x/2) # dodana adaptacija zaradi središča pixla
 		new_stray_pixel.z_index = 2 # višje od plejerja
-		Global.node_creation_parent.add_child(new_stray_pixel)
-		
+		#		Global.node_creation_parent.add_child(new_stray_pixel)
+		Global.node_creation_parent.call_deferred("add_child", new_stray_pixel)
+	
 		all_stray_colors.append(current_color)
 		current_spawn_positions.remove(selected_cell_index) # odstranim pozicijo iz nabora za start spawn
-	
 			
-		new_stray_pixel.show_stray()
+		#		new_stray_pixel.show_stray()
+		new_stray_pixel.call_deferred("show_stray")
+			
 			
 	Global.hud.spawn_color_indicators(all_stray_colors) # barve pokažem v hudu		
 	self.strays_in_game_count = strays_to_spawn_count # setget sprememba
@@ -470,10 +472,11 @@ func respawn_strays(): # za eternal
 		new_stray_pixel.stray_color = spawned_stray_color
 		new_stray_pixel.global_position = selected_position + Vector2(cell_size_x/2, cell_size_x/2) # dodana adaptacija zaradi središča pixla
 		new_stray_pixel.z_index = 2 # višje od plejerja
-		Global.node_creation_parent.add_child(new_stray_pixel)
+		#		Global.node_creation_parent.add_child(new_stray_pixel)
+		Global.node_creation_parent.call_deferred("add_child", new_stray_pixel)
+		#		new_stray_pixel.show_stray()
+		new_stray_pixel.call_deferred("show_stray")
 		
-		new_stray_pixel.show_stray()
-
 		self.strays_in_game_count = 1 # setget sprememba	
 	
 	

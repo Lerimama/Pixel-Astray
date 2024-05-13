@@ -210,7 +210,8 @@ var game_data_scroller: Dictionary = {
 	"scrolling_pause_time": 1.5, # ne sem bit manjša od stray step hitrosti (0.2)
 	"scrolling_pause_time_factor": 0.8, # množim z vsakim levelom
 	# random spawn na rundo
-	"stray_to_spawn_round_range": [1, 8], # random spawn count, največ 120 - 8
+	"stray_to_spawn_round_range": [1000, 1000], # random spawn count, največ 120 - 8
+#	"stray_to_spawn_round_range": [1, 8], # random spawn count, največ 120 - 8
 	"round_range_factor_1": 1, # množim spodnjo mejo
 	"round_range_factor_2": 2, # množim zgornjo mejo
 	# možnost spawna v rundi
@@ -319,14 +320,14 @@ func _ready() -> void:
 #	var debug_game = Games.SHOWCASE
 #	var debug_game = Games.TUTORIAL
 #	var debug_game = Games.ENIGMA
-	var debug_game = Games.CLEANER_S
+#	var debug_game = Games.CLEANER_S
 #	var debug_game = Games.CLEANER_M
 #	var debug_game = Games.CLEANER_L
 #	var debug_game = Games.THE_DUEL
 #	var debug_game = Games.CLASSIC_S
 #	var debug_game = Games.CLASSIC_M
 #	var debug_game = Games.CLASSIC_L
-#	var debug_game = Games.SCROLLER
+	var debug_game = Games.SCROLLER
 	set_game_data(debug_game)
 	
 	

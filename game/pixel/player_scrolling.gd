@@ -45,6 +45,7 @@ func idle_inputs():
 				direction = Vector2.RIGHT
 				step()
 		else:
+			detect_touch()
 			end_move()
 
 	if Input.is_action_just_pressed(key_burst): # brez "just" dela po stisku smeri ... ni ok
@@ -308,15 +309,12 @@ func detect_touch():
 					touching_sides_count += 1
 					break
 	
-	
 	# surrounded
 	if touching_sides_count == touch_areas.size():
-		printt ("surr", surrounded_player_strays)
-		printt ("curr", current_player_strays)
-		printt (".------")
 		# če je še vedno obkoljen, preverim pe istost sosedov > GO
 		if is_surrounded:
 			# če so sosedi isti je GO
+			printt ("surrounded 2", surrounded_player_strays.size())
 			if surrounded_player_strays == current_player_strays:
 				Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)
 			# če niso isti, restiram sosede in potem normalno naprej
@@ -326,6 +324,7 @@ func detect_touch():
 				touch_timer.start(detect_touch_pause_time)
 		# če je prvič obkoljen, ga označim za obkoljenega in zapišem sosede
 		else: 
+			printt ("surrounded 1", surrounded_player_strays.size())
 			is_surrounded = true
 			surrounded_player_strays = current_player_strays
 			touch_timer.start(recheck_touch_pause_time) # daljši čas

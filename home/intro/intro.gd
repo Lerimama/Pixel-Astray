@@ -99,7 +99,7 @@ func set_strays():
 func spawn_strays(strays_to_spawn_count: int = required_spawn_positions.size()):
 	
 	strays_to_spawn_count = clamp(strays_to_spawn_count, 1, strays_to_spawn_count) # za vsak slučaj klempam, da ne more biti nikoli 0 ...  ker je error			
-	
+	yield(get_tree().create_timer(0), "timeout") # da se ne spawna, ko še ni wall	
 	# colors
 	var all_colors_available: Array	
 	if Profiles.use_custom_color_theme:
@@ -136,7 +136,10 @@ func spawn_strays(strays_to_spawn_count: int = required_spawn_positions.size()):
 		new_stray_pixel.stray_color = current_color
 		new_stray_pixel.global_position = selected_position + Global.current_tilemap.cell_size/2 # dodana adaptacija zaradi središča pixla
 		new_stray_pixel.z_index = 2 # višje od plejerja
-		add_child(new_stray_pixel)
+		new_stray_pixel.z_index = 2 # višje od plejerja
+		#		add_child(new_stray_pixel)
+		call_deferred("add_child", new_stray_pixel)
+		
 		current_spawn_positions.remove(selected_cell_index)
 		
 	intro_strays_spawned = true	
@@ -209,10 +212,12 @@ func respawn_title_strays():
 	
 	stray_step_timer.stop()
 	for stray in get_tree().get_nodes_in_group(Global.group_strays):
-		stray.queue_free()
+		#		stray.queue_free()
+		stray.call_deferred("queue_free")
 	call_deferred("set_strays")
 	yield(get_tree().create_timer(1), "timeout")
-	random_stray_step()
+	#	random_stray_step()
+	call_deferred("random_stray_step")
 	
 		
 func play_stepping_loop():

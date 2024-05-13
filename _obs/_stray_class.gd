@@ -39,7 +39,7 @@ func _process(delta: float) -> void:
 		emit_signal("all_strays_died")
 	
 	# position indicators off
-	show_position_indicators = false			
+	show_position_indicators_limit_reached = false			
 	
 	if game_on and not step_in_progress:
 		stray_step()

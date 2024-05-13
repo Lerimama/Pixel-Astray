@@ -554,8 +554,10 @@ func teleport(): # skilled inputs opredeli vrsto skila glede na kolajderja
 	# kamera target
 	if player_camera:
 		player_camera.camera_target = new_teleport_ghost
-	collision_shape.disabled = true
-	collision_shape_ext.disabled = true
+	#	collision_shape.disabled = true
+	#	collision_shape_ext.disabled = true
+	collision_shape.set_deferred("disabled", true)
+	collision_shape_ext.set_deferred("disabled", true)
 
 	var ghost_max_speed: float = 10
 	var teleporting_start_delay: float = 0.3

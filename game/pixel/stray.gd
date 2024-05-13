@@ -31,15 +31,10 @@ func _ready() -> void:
 	count_label.text = name
 	position_indicator.visible = false
 
-	# xtra pucanje na prehodu v level ... ker včasih se kakšen kar spawn na novo prede bi se lahko
-#	if Global.game_manager.level_upgrade_in_progress: # puca tiste ekstra, ki ne vem zakaj ostanejo
-#		Global.game_manager.strays_in_game_count = - 1
-#		call_deferred("queue_free") #queue_free()
-
 
 func _process(delta: float) -> void:
 	
-	if Global.game_manager.show_position_indicators:
+	if Global.game_manager.show_position_indicators_limit_reached:
 		position_indicator.visible = true
 	else:
 		position_indicator.visible = false
@@ -74,8 +69,10 @@ func die(stray_in_stack_index: int, strays_in_stack_count: int):
 		animation_player.play("die_stray")
 
 	position_indicator.modulate.a = 0	
-	collision_shape.disabled = true
-	collision_shape_ext.disabled = true
+	#	collision_shape.disabled = true
+	#	collision_shape_ext.disabled = true
+	collision_shape.set_deferred("disabled", true)
+	collision_shape_ext.set_deferred("disabled", true)
 	
 	# color vanish
 	var vanish_time = animation_player.get_current_animation_length()
@@ -257,11 +254,14 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	
 	if die_animations.has(anim_name):
 		if current_state == States.DYING: # če mu je namen umreti
-			collision_shape.disabled = true
-			collision_shape_ext.disabled = true
+			#			collision_shape.disabled = true
+			#			collision_shape_ext.disabled = true
+			collision_shape.set_deferred("disabled", true)
+			collision_shape_ext.set_deferred("disabled", true)
 			Global.game_manager.strays_in_game_count = - 1
 			Global.hud.show_color_indicator(stray_color) # če je scroller se returna na fuknciji¨
-			queue_free()
+			#			queue_free()
+			call_deferred("queue_free")
 		else: # če bo samo stena
 			current_state = States.WALL
 			# wall color

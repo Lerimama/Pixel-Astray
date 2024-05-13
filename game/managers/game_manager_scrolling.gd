@@ -223,12 +223,13 @@ func spawn_strays(strays_to_spawn_count: int):
 			new_stray_pixel.global_position = selected_position + Vector2(cell_size_x/2, cell_size_x/2) # dodana adaptacija zaradi središča pixla
 			new_stray_pixel.z_index = 2 # višje od plejerja
 			new_stray_pixel.stray_color = random_selected_color
-			Global.node_creation_parent.add_child(new_stray_pixel)
-			new_stray_pixel.show_stray()
-			
+			#		Global.node_creation_parent.add_child(new_stray_pixel)
+			Global.node_creation_parent.call_deferred("add_child", new_stray_pixel)
 			# odstranim uporabljeno pozicije in barve dodam v števec
 			stray_spawn_colors_available.erase(random_selected_color)
 			available_home_spawn_positions.erase(selected_position)
+			#		new_stray_pixel.show_stray()
+			new_stray_pixel.call_deferred("show_stray")		
 			self.strays_in_game_count = 1 # setget sprememba
 			
 	current_stray_spawning_round += 1
@@ -252,11 +253,15 @@ func stray_step():
 		random_spawn_count = available_home_spawn_positions.size()
 		
 	if not level_upgrade_in_progress:
-		stepping_direction = Vector2.DOWN
+		stepping_direction = Vector2.DOWN # kasneje se seta glede na  izvorno stray straysa
 		# kdo stepa, kličem step in preverim kolajderja 
 		for stray in get_tree().get_nodes_in_group(Global.group_strays):
+			
+#			yield(get_tree().create_timer(0), "timeout")
+			
 			if not wall_strays.has(stray): # če stray ni del stene
-				var current_collider = stray.step(stepping_direction)
+#				var current_collider = stray.step(stepping_direction)
+				var current_collider = stray.call_deferred("step", stepping_direction)
 				if current_collider:
 					check_stray_wall_collisions(stray, current_collider) # brez povezanosti na robu
 		

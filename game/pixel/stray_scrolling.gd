@@ -68,8 +68,10 @@ func die(stray_in_stack_index: int, strays_in_stack: int):
 		animation_player.play("die_stray")
 
 	position_indicator.modulate.a = 0	
-	collision_shape.disabled = true
-	collision_shape_ext.disabled = true
+	#	collision_shape.disabled = true
+	#	collision_shape_ext.disabled = true
+	collision_shape.set_deferred("disabled", true)
+	collision_shape_ext.set_deferred("disabled", true)
 	
 	# color vanish
 	var vanish_time = animation_player.get_current_animation_length()
