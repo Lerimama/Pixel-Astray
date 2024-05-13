@@ -1,24 +1,13 @@
-extends Player
+extends PlayerOrig
 
 
+var detect_touch_pause_time: float = 1
+var recheck_touch_pause_time: float = 5 # ker merim, kdaj si obkoljen za vedno, je to tudi čas pavze do GO klica ... more bit večje od časa stepanja
+var is_surrounded: bool
+onready var touch_timer: Timer = $Touch/TouchTimer
+var surrounded_player_strays: Array # za preverjanje prek večih preverjanj
 
-func _physics_process(delta: float) -> void:
-	# namen: detect touch, no heartbeat
 
-	color_poly.modulate = pixel_color # povezava med variablo in barvo mora obstajati non-stop
-
-	# glow light setup
-	if pixel_color == Global.game_manager.game_settings["player_start_color"]:
-		glow_light.color = Color.white
-		glow_light.energy = 1.7
-	else:
-		glow_light.color = pixel_color
-		glow_light.energy = 1.5 # če spremeniš, je treba spremenit tudi v animacijah
-
-	detect_touch()	
-	state_machine()
-	
-	
 # INPUTS ------------------------------------------------------------------------------------------
 
 
@@ -102,27 +91,6 @@ func cocking_inputs():
 			
 				
 # BURST ------------------------------------------------------------------------------------------
-
-
-#func cock_burst():
-#	# namen: brez ciklanja, moč je vedno polna, hitrejše cockanje, manjša dolžina
-#
-#	cocked_ghost_max_count = 3
-#
-#	var burst_direction = direction
-#	var cock_direction = - burst_direction
-#
-#	if detect_collision_in_direction(cock_direction):
-#		end_move()
-#		return
-#
-#	if cocked_ghosts.size() < cocked_ghost_max_count and cocking_room: # prostor za napenjanje preverja ghost
-#		current_ghost_cocking_time += 1 / 60.0 # čas držanja tipke (znotraj nastajanja ene cock celice) ... fejk delta
-#		if current_ghost_cocking_time > cock_ghost_cocking_time: # ko je čas za eno celico mimo, jo spawnam
-#			current_ghost_cocking_time = 0
-#			var new_cock_ghost = spawn_cock_ghost(cock_direction)
-#			cocked_ghosts.append(new_cock_ghost)	
-#			play_sound("burst_cocking")
 			
 
 func spawn_cock_ghost(cocking_direction: Vector2): 
@@ -203,10 +171,10 @@ func burst():
 	yield(get_tree().create_timer(strech_ghost_shrink_time), "timeout") # čaka na zgornji tween
 		
 	current_state = States.BURSTING
-#	burst_speed = current_ghost_count * cock_ghost_speed_addon
-	# if current_ghost_count < cocked_ghost_max_count and not current_ghost_count == 0:
-	#	burst_speed = 2 * cock_ghost_speed_addon
-	# else:
+	#	burst_speed = current_ghost_count * cock_ghost_speed_addon
+	#	if current_ghost_count < cocked_ghost_max_count and not current_ghost_count == 0:
+	#		burst_speed = 2 * cock_ghost_speed_addon
+	#	else:
 	burst_speed = 3 * cock_ghost_speed_addon
 	change_stat("burst_released", 1)
 	
@@ -230,7 +198,7 @@ func play_sound(effect_for: String):
 			$Sounds/Burst/HitStray.play()
 		"hit_wall":
 			$Sounds/Burst/HitWall.play()
-#			$Sounds/Burst/HitDizzy.play()
+		#			$Sounds/Burst/HitDizzy.play()
 		"burst":
 			yield(get_tree().create_timer(0.1), "timeout")
 			$Sounds/Burst/Burst.play()
@@ -326,13 +294,48 @@ func on_hit_wall():
 
 func detect_touch():
 	
-	var touch_rays: Array = [$Touch/TouchRay1, $Touch/TouchRay2, $Touch/TouchRay3, $Touch/TouchRay4]	
-	var collider: Node
-	var touching_objects: Array
-	 
-	for ray in touch_rays:
-		ray.add_exception(self)
-		ray.force_raycast_update()
-		if ray.is_colliding():
-			collider = ray.get_collider()
-			touching_objects.append(collider)
+	var touch_areas: Array = [$Touch/TouchArea, $Touch/TouchArea2, $Touch/TouchArea3, $Touch/TouchArea4]
+	var current_player_strays: Array # sosedi v tem koraku
+		
+	# preverim vsako areo, če ima straysa
+	var touching_sides_count: int = 0
+	for area in touch_areas:
+		var bodies_touched: Array = area.get_overlapping_bodies()
+		if not bodies_touched.empty():
+			for body in bodies_touched:
+				if body.is_in_group(Global.group_strays):
+					current_player_strays.append_array(bodies_touched)
+					touching_sides_count += 1
+					break
+	
+	
+	# surrounded
+	if touching_sides_count == touch_areas.size():
+		printt ("surr", surrounded_player_strays)
+		printt ("curr", current_player_strays)
+		printt (".------")
+		# če je še vedno obkoljen, preverim pe istost sosedov > GO
+		if is_surrounded:
+			# če so sosedi isti je GO
+			if surrounded_player_strays == current_player_strays:
+				Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)
+			# če niso isti, restiram sosede in potem normalno naprej
+			else:
+				surrounded_player_strays = []
+				is_surrounded = false
+				touch_timer.start(detect_touch_pause_time)
+		# če je prvič obkoljen, ga označim za obkoljenega in zapišem sosede
+		else: 
+			is_surrounded = true
+			surrounded_player_strays = current_player_strays
+			touch_timer.start(recheck_touch_pause_time) # daljši čas
+	# not surrounded
+	else:
+		surrounded_player_strays = []
+		is_surrounded = false # resetiram
+		touch_timer.start(detect_touch_pause_time)
+
+
+func _on_TouchTimer_timeout() -> void:
+	
+	detect_touch() # za GO

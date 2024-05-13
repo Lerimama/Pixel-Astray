@@ -71,16 +71,23 @@ func _ready():
 	get_tree().connect("node_added", self, "_on_SceneTree_node_added")
 	
 
-func snap_to_nearest_grid(current_global_position: Vector2):
+func snap_to_nearest_grid(body_to_snap: Node2D):
+#func snap_to_nearest_grid(current_global_position: Vector2):
 	
 	if not is_instance_valid(current_tilemap):
 		print("ERROR! Snapanje na grid ... manjka Global.current_tilemap")
-		
+	
+	var current_global_position: Vector2 = body_to_snap.global_position
 	var floor_cells: Array = current_tilemap.floor_global_positions
 	var cell_size_x: float = current_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 	
 	# adaptacija zaradi središčne točke strejsa in playerja
 	var current_position: Vector2 = Vector2(current_global_position.x - cell_size_x/2, current_global_position.y - cell_size_x/2)
+	
+	#	# preverjam playerja, če je poz znotraj tilemapa
+	#	if body_to_snap.is_in_group(Global.group_players):
+	#		if not current_tilemap.inside_edge_level_rect.has_point(current_position):
+	#			return # player se premakne na random mesto
 	
 	# če ni že snepano
 	if not floor_cells.has(current_position): 

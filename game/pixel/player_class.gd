@@ -1,5 +1,5 @@
 extends KinematicBody2D
-class_name Player
+class_name PlayerOrig
 
 
 signal stat_changed # spremenjeno statistiko javi v hud
@@ -175,8 +175,6 @@ func idle_inputs():
 		# ko zazna kolizijo postane skilled ali pa end move 
 		# kontrole prevzame skilled_input
 			if current_collider.is_in_group(Global.group_strays):
-#				if not current_collider.current_state == current_collider.States.WALL:
-#					current_collider.current_state = current_collider.States.STATIC # ko ga premakneš postane MOVING
 				current_state = States.SKILLED
 			elif current_collider.is_in_group(Global.group_tilemap):
 				if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
@@ -336,8 +334,13 @@ func end_move():
 	collision_shape_ext.position = Vector2.ZERO
 	
 	# always
-	global_position = Global.snap_to_nearest_grid(global_position) 
-	current_state = States.IDLE # more bit na kocnu
+	if not Global.current_tilemap.inside_edge_level_rect.has_point(global_position):
+		hide()
+		set_physics_process(false)
+		move_out_of_bounds_player()
+	else:	
+		global_position = Global.snap_to_nearest_grid(self)
+		current_state = States.IDLE # more bit na kocnu
 	
 
 # BURST ------------------------------------------------------------------------------------------
@@ -812,6 +815,26 @@ func spawn_floating_tag(value: int):
 # UTIL --------------------------------------------------------------------------------------------
 
 
+func move_out_of_bounds_player():
+
+	var new_positions_available: Array = Global.game_manager.available_respawn_positions
+	var random_index: int = randi() % new_positions_available.size()
+	var new_random_position: Vector2 = new_positions_available[random_index]
+	yield(get_tree().create_timer(0.5), "timeout")
+
+	var current_color: Color = pixel_color
+	pixel_color = Color.white
+	global_position = new_random_position + Vector2(cell_size_x/2, cell_size_x/2)
+	modulate.a = 0 
+	show()
+	#	animation_player.play("revive")
+	var fade_in = get_tree().create_tween()
+	fade_in.tween_property(self, "modulate:a", 1, 0.5)
+	fade_in.tween_property(self, "pixel_color", current_color, 0.5).set_ease(Tween.EASE_IN).set_delay(0.5)
+	end_move()
+	set_physics_process(true)
+	
+	
 func detect_collision_in_direction(direction_to_check):
 
 	if direction_to_check == Vector2.ZERO:
@@ -1116,6 +1139,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 #			yield(get_tree().create_timer(0.2), "timeout") # za dojet
 #			change_stat("all_cleaned", 1) # nagrada je določena v settingsih
 #			emit_signal("rewarded_on_cleaned") # javi v GM
+
 
 func screen_cleaned(): # kliče GM
 	animation_player.play("become_white")

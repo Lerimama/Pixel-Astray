@@ -28,7 +28,7 @@ func _process(delta: float) -> void:
 			if player.player_stats["player_points"] > current_biggest_score:
 				current_biggest_score = player.player_stats["player_points"]
 		# razlika med limito in višjim skorom
-		level_limit_label_1.text = "%d" % (Global.game_manager.level_points_limit - current_biggest_score) 
+		level_limit_label_1.text = "%d" % (Global.game_manager.level_points_goal - current_biggest_score) 
 		level_limit_label_2.text = "POINTS TO LEVEL UP"
 	# zapis straysov na mizi
 	elif Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
@@ -175,5 +175,5 @@ func update_stats(stat_owner: Node, player_stats: Dictionary): # za eternal
 		check_for_hs(player_stats)
 	
 	if Global.game_manager.game_settings["eternal_mode"]:
-		if player_stats["player_points"] >= Global.game_manager.level_points_limit:
+		if player_stats["player_points"] >= Global.game_manager.level_points_goal:
 			Global.game_manager.upgrade_level()

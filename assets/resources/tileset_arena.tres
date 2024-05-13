@@ -7,7 +7,7 @@
 [ext_resource path="res://assets/tiles/tile_no_stray.png" type="Texture" id=5]
 [ext_resource path="res://assets/tiles/tile_player_1.png" type="Texture" id=6]
 [ext_resource path="res://assets/tiles/tile_player_2.png" type="Texture" id=7]
-[ext_resource path="res://assets/tiles/tile_invisible_wall.png" type="Texture" id=8]
+[ext_resource path="res://assets/tiles/tile_stray_wall.png" type="Texture" id=8]
 [ext_resource path="res://assets/tiles/tile_wall_with_edge.png" type="Texture" id=9]
 [ext_resource path="res://assets/tiles/tile_mini_8x8.png" type="Texture" id=10]
 
@@ -142,10 +142,10 @@ points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
 6/shape_one_way_margin = 0.0
 6/shapes = [  ]
 6/z_index = 0
-7/name = "goal_stray"
+7/name = "tile_stray_wall"
 7/texture = ExtResource( 8 )
 7/tex_offset = Vector2( 0, 0 )
-7/modulate = Color( 1, 1, 1, 1 )
+7/modulate = Color( 0.365809, 0.294118, 1, 0.54902 )
 7/region = Rect2( 0, 0, 32, 32 )
 7/tile_mode = 0
 7/occluder_offset = Vector2( 0, 0 )
@@ -163,7 +163,7 @@ points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 7/z_index = 0
-8/name = "tile_wall_stray"
+8/name = "tile_wall_with_edge"
 8/texture = ExtResource( 9 )
 8/tex_offset = Vector2( -2, -2 )
 8/modulate = Color( 0.952941, 0.356863, 0.498039, 1 )

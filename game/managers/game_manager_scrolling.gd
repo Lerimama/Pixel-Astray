@@ -22,6 +22,11 @@ var step_in_progress: bool = false
 var wall_strays: Array = []
 var available_home_spawn_positions: Array
 
+# neu
+var checking_for_engine_stalled: bool = false
+var engine_stalled_time_limit: float = 3 # več od časa koraka
+var engine_stalled_time: float = 0
+
 
 func _unhandled_input(event: InputEvent) -> void:
 
@@ -50,11 +55,20 @@ func _process(delta: float) -> void:
 			var stray_grid_position: Vector2 = stray.global_position - Vector2(cell_size_x/2, cell_size_x/2)
 			if available_home_spawn_positions.has(stray_grid_position):
 				available_home_spawn_positions.erase(stray_grid_position)
-		if available_home_spawn_positions.empty(): # če je pogoj "polno" izpolnjen, je itak izpolnjen tudi ta pogoj
-			game_over(GameoverReason.TIME)	
+		
+		
+		if available_home_spawn_positions.empty():
+			checking_for_engine_stalled = true
+			engine_stalled_time += delta
+			if engine_stalled_time > engine_stalled_time_limit:
+				game_over(GameoverReason.TIME)
+		else:
+			engine_stalled_time = 0
+			checking_for_engine_stalled = false
+		
 		if not step_in_progress:
 			stray_step()
-
+		
 		
 func set_game(): 
 	# namen: setam level indikatorje in strayse spawnam po štratu igre
@@ -89,8 +103,6 @@ func start_game():
 	upgrade_level()
 	
 	spawn_strays(start_strays_spawn_count)
-
-	# stray_step() # prvi step ... ne rabim, ker kliče že GM
 
 
 func game_over(gameover_reason: int):
@@ -176,7 +188,9 @@ func spawn_strays(strays_to_spawn_count: int):
 	# namen: no clampin, ker je lahko spawn 0
 	# namen: v žrebanje vključim samo home spawn pozicije na voljo
 	# namen: ni preverjanja vseh drugih mogočih pozicij
+	# namen: preverjam GO
 	
+
 	for stray_index in strays_to_spawn_count:
 		
 		# spawn barve na voljo
@@ -196,7 +210,7 @@ func spawn_strays(strays_to_spawn_count: int):
 		var random_selected_index: int = randi() % int(random_color_range) # + 1		
 		var random_selected_color: Color = stray_spawn_colors_available[random_selected_index]		
 		
-		if not available_home_spawn_positions.empty():
+		if not available_home_spawn_positions.empty(): 
 			# možne spawn pozicije
 			var current_spawn_positions: Array = available_home_spawn_positions
 			# random pozicija med možnimi
@@ -223,14 +237,20 @@ func spawn_strays(strays_to_spawn_count: int):
 func stray_step():
 	
 	step_in_progress = true
-		
+			
 	var stepping_direction: Vector2
 	
 	# random spawn count
-	var random_spawn_count: int = randi() % stray_to_spawn_round_range[1] + stray_to_spawn_round_range[0]
-	if random_spawn_count > stray_to_spawn_round_range[1]: 
-		random_spawn_count -= random_spawn_count - stray_to_spawn_round_range[1] # odštejem kar je višje od maximuma, ker zamik zamakne tudi zgornjo mejo
-
+	var stray_spawn_count_min: int = stray_to_spawn_round_range[0]
+	var stray_spawn_count_max: int = stray_to_spawn_round_range[1]
+	var random_spawn_count: int = randi() % stray_spawn_count_max + stray_spawn_count_min
+	# odštejem kar je višje od max range, ker zamik zamakne tudi zgornjo mejo
+	if random_spawn_count > stray_spawn_count_max: 
+		random_spawn_count -= random_spawn_count - stray_spawn_count_max
+	# če je spawn število večje od pozicij na voljo
+	if random_spawn_count > available_home_spawn_positions.size():# and not available_home_spawn_positions.empty():
+		random_spawn_count = available_home_spawn_positions.size()
+		
 	if not level_upgrade_in_progress:
 		stepping_direction = Vector2.DOWN
 		# kdo stepa, kličem step in preverim kolajderja 
@@ -239,6 +259,7 @@ func stray_step():
 				var current_collider = stray.step(stepping_direction)
 				if current_collider:
 					check_stray_wall_collisions(stray, current_collider) # brez povezanosti na robu
+		
 		# Global.sound_manager.play_sfx("stray_step") # ulomek je za pitch zvoka
 		lines_scrolled_count += 1
 		if lines_scrolled_count % lines_scroll_per_spawn_round == 0: # tukaj, da ne spawna če je konec
@@ -250,6 +271,7 @@ func stray_step():
 	yield(get_tree().create_timer(scrolling_pause_time), "timeout")
 	
 	step_in_progress = false
+	
 
 		
 func play_stepping_sound(current_player_energy_part: float):
@@ -370,18 +392,17 @@ func clean_strays_in_game():
 	
 	all_strays_died_alowed = true
 	
+	
 func check_stray_wall_collisions(current_stray: KinematicBody2D, current_collider: Node): # preverjanje, ko ne iščeš polnosti tal
 	
 	# prva runda ... kolajder tilemap (tla)
 	if current_collider.is_in_group(Global.group_tilemap):
 		wall_strays.append(current_stray)
 		current_stray.die_to_wall()
-#		current_stray.turn_to_wall(1)
 	# druge runde ... kolajder stray in je rob tal
 	elif current_collider.is_in_group(Global.group_strays) and wall_strays.has(current_collider):
 		wall_strays.append(current_stray)
 		current_stray.die_to_wall()
-#		current_stray.turn_to_wall(1)
 			
 			
 func _change_strays_in_game_count(strays_count_change: int):
@@ -392,4 +413,3 @@ func _change_strays_in_game_count(strays_count_change: int):
 	
 	if strays_count_change < 0: # cleaned št. upošteva samo čiščenje (+)
 		strays_cleaned_count += abs(strays_count_change)
-	

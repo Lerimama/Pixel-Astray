@@ -19,13 +19,28 @@ expand = true
 
 [node name="Foot2" type="Polygon2D" parent="Room"]
 position = Vector2( 1201, 1104 )
+color = Color( 0.172549, 0.172549, 0.172549, 1 )
+polygon = PoolVector2Array( -65, 384, -65, 416, 255, 416, 255, 384 )
+
+[node name="Foot5" type="Polygon2D" parent="Room"]
+position = Vector2( 1201, 1104 )
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
-polygon = PoolVector2Array( -1, 288, -33, 288, -33, 320, -193, 320, -193, 352, -161, 352, -161, 384, 351, 384, 351, 352, 383, 352, 383, 320, 223, 320, 223, 288, 191, 288 )
+polygon = PoolVector2Array( -1, 288, -1, 320, -33, 320, -193, 320, -193, 352, -161, 352, -161, 384, 351, 384, 351, 352, 383, 352, 383, 320, 223, 320, 191, 320, 191, 288 )
 
 [node name="Foot" type="Polygon2D" parent="Room"]
 position = Vector2( 1201, 1136 )
 color = Color( 0.219608, 0.219608, 0.219608, 1 )
 polygon = PoolVector2Array( -1, 0, -1, 288, 31, 288, 31, 320, 159, 320, 159, 288, 191, 288, 191, 0 )
+
+[node name="Foot3" type="Polygon2D" parent="Room"]
+position = Vector2( 1201, 1136 )
+color = Color( 0.101961, 0.101961, 0.101961, 1 )
+polygon = PoolVector2Array( -1, 0, -1, 96, 31, 96, 31, 256, 63, 256, 63, 288, 127, 288, 127, 256, 159, 256, 159, 96, 191, 96, 191, 0 )
+
+[node name="Foot4" type="Polygon2D" parent="Room"]
+position = Vector2( 1233, 1168 )
+color = Color( 0.219608, 0.219608, 0.219608, 1 )
+polygon = PoolVector2Array( 31, 0, 31, 192, 95, 192, 95, 0 )
 
 [node name="Cover" type="ColorRect" parent="."]
 margin_top = 736.0
@@ -47,3 +62,9 @@ visible = false
 position = Vector2( 33, 800 )
 color = Color( 0.952941, 0.356863, 0.498039, 1 )
 polygon = PoolVector2Array( 607, 288, 607, 320, 639, 320, 639, 288 )
+
+[node name="Light" type="Polygon2D" parent="."]
+position = Vector2( 1312, 1419 )
+z_index = 9
+color = Color( 0.6, 1.7, 1.1, 1 )
+polygon = PoolVector2Array( 0, 0, 0, 5, 8, 5, 8, 0 )

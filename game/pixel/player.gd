@@ -1,4 +1,5 @@
-extends Player
+extends PlayerOrig
+class_name Player
 
 # enigma
 var enigma_move_started: bool = false # ob cockanju se začne poteza (konča se v steni ali na koncu reburstanja, kadar resetam reburst_count)
@@ -18,6 +19,13 @@ onready var rebursting_timer: Timer = $ReburstingTimer
 # planned reburst dir
 var reburst_dir_set: bool = false
 onready var reburst_dir: Vector2
+
+# neu
+var detect_touch_pause_time: float = 1
+var recheck_touch_pause_time: float = 5 # ker merim, kdaj si obkoljen za vedno, je to tudi čas pavze do GO klica ... more bit večje od časa stepanja
+var is_surrounded: bool
+var surrounded_player_strays: Array # za preverjanje prek večih preverjanj
+onready var touch_timer: Timer = $Touch/TouchTimer
 
 
 func _ready() -> void:
@@ -77,8 +85,6 @@ func idle_inputs():
 		# ko zazna kolizijo postane skilled ali pa end move 
 		# kontrole prevzame skilled_input
 			if current_collider.is_in_group(Global.group_strays):
-#				if not current_collider.current_state == current_collider.States.WALL:
-#					current_collider.current_state = current_collider.States.STATIC # ko ga premakneš postane MOVING
 				current_state = States.SKILLED
 			elif current_collider.is_in_group(Global.group_tilemap):
 				if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
@@ -125,8 +131,13 @@ func end_move():
 	collision_shape_ext.position = Vector2.ZERO
 	
 	# always
-	global_position = Global.snap_to_nearest_grid(global_position) 
-	current_state = States.IDLE # more bit na kocnu
+	if not Global.current_tilemap.inside_edge_level_rect.has_point(global_position):
+		hide()
+		set_physics_process(false)
+		move_out_of_bounds_player()
+	else:	
+		global_position = Global.snap_to_nearest_grid(self)
+		current_state = States.IDLE # more bit na kocnu
 		
 
 func on_hit_stray(hit_stray: KinematicBody2D):
@@ -346,7 +357,65 @@ func close_reburst_window():
 	rebursting_timer.stop()
 	burst_light_off()
 		
+
+func finish_enigma_move(): # RIDDLER
+	
+	# ček for succes
+	if enigma_move_started:
+		enigma_move_started = false
+		# če je količina uničenih enaka količini na ekranu
+		if enigma_cleaned_strays_count < enigma_start_strays_count:
+			Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
+		else:
+			pass # to naredi GM po defaultu
+
+
+func detect_touch():
+	
+	var touch_areas: Array = [$Touch/TouchArea, $Touch/TouchArea2, $Touch/TouchArea3, $Touch/TouchArea4]
+	var current_player_strays: Array # sosedi v tem koraku
 		
+	# preverim vsako areo, če ima straysa
+	var touching_sides_count: int = 0
+	for area in touch_areas:
+		var bodies_touched: Array = area.get_overlapping_bodies()
+		if not bodies_touched.empty():
+			for body in bodies_touched:
+				if body.is_in_group(Global.group_strays):
+					current_player_strays.append_array(bodies_touched)
+					touching_sides_count += 1
+					break
+	
+	# surrounded
+	if touching_sides_count == touch_areas.size():
+		printt ("surr", surrounded_player_strays)
+		printt ("curr", current_player_strays)
+		printt (".------")
+		# če je še vedno obkoljen, preverim pe istost sosedov > GO
+		if is_surrounded:
+			# če so sosedi isti je GO
+			if surrounded_player_strays == current_player_strays:
+				Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)
+			# če niso isti, restiram sosede in potem normalno naprej
+			else:
+				surrounded_player_strays = []
+				is_surrounded = false
+				touch_timer.start(detect_touch_pause_time)
+		# če je prvič obkoljen, ga označim za obkoljenega in zapišem sosede
+		else: 
+			is_surrounded = true
+			surrounded_player_strays = current_player_strays
+			touch_timer.start(recheck_touch_pause_time) # daljši čas
+	# not surrounded
+	else:
+		surrounded_player_strays = []
+		is_surrounded = false # resetiram
+		touch_timer.start(detect_touch_pause_time)
+
+
+# SIGNALI ---------------------------------------------------------------------------------------------
+
+
 func _on_ReburstingTimer_timeout() -> void:
 	
 	# če je enigma je čas naskončen
@@ -361,16 +430,6 @@ func _on_ReburstingTimer_timeout() -> void:
 		finish_enigma_move()
 
 	
-# ENIGMA ------------------------------------------------------------------
-	
-	
-func finish_enigma_move():
-	
-	# ček for succes
-	if enigma_move_started:
-		enigma_move_started = false
-		# če je količina uničenih enaka količini na ekranu
-		if enigma_cleaned_strays_count < enigma_start_strays_count:
-			Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
-		else:
-			pass # to naredi GM po defaultu
+func _on_TouchTimer_timeout() -> void: # CLEANER 
+
+	detect_touch() # za GO

@@ -29,8 +29,13 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://game/tilemaps/game_tilemap.gd"
 }, {
-"base": "KinematicBody2D",
+"base": "PlayerOrig",
 "class": "Player",
+"language": "GDScript",
+"path": "res://game/pixel/player.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "PlayerOrig",
 "language": "GDScript",
 "path": "res://game/pixel/player_class.gd"
 }, {
@@ -45,6 +50,7 @@ _global_script_class_icons={
 "GameOver": "",
 "GameTilemap": "",
 "Player": "",
+"PlayerOrig": "",
 "Stray": ""
 }
 

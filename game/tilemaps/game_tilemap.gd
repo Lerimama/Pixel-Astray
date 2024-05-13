@@ -7,14 +7,15 @@ var random_spawn_floor_positions: Array # vsi še ne zasedeni tileti, kamor se l
 var floor_global_positions: Array # original tileti tal
 
 var stray_global_positions: Array
+var stray_wall_global_positions: Array # podvrsta stray positions
 var no_stray_global_positions: Array
-var wall_stray_global_positions: Array
 var player_global_positions: Array 
 
 var wall_tile_id: int = 3
 var edge_tile_id: int = 1
 var floor_tile_id: int = 0
-var spawn_stray_tile_id: int = 5 # za home btne
+var spawn_stray_tile_id: int = 5 # za home riddler btne
+var inside_edge_level_rect: Rect2 # velikost floor "igralne mize"
 
 onready var camera_position_node: Position2D = $CameraPosition
 onready var background_room: TextureRect = $Background/Room
@@ -35,10 +36,16 @@ func get_tiles():
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
 		if Global.game_manager.game_settings["solutions_mode"]:
-#			$SolutionLine.modulate = Color("#0a0a0a")
 			$SolutionLine.modulate = Global.color_almost_black
 		else:
 			$SolutionLine.hide()
+			
+	var inside_edge_level_tiles: Rect2 = get_used_rect()
+	var cell_size_x = cell_size.x
+	inside_edge_level_rect.position.x = inside_edge_level_tiles.position.x * cell_size_x + cell_size_x
+	inside_edge_level_rect.size.x = inside_edge_level_tiles.end.x * cell_size_x + cell_size_x
+	inside_edge_level_rect.position.y = inside_edge_level_tiles.position.y * cell_size_x + cell_size_x
+	inside_edge_level_rect.size.y = inside_edge_level_tiles.end.x * cell_size_x + cell_size_x
 	
 	# prečesi vse celice in določi globalne pozicije
 	for x in get_used_rect().size.x: # širina v celicah
@@ -71,13 +78,15 @@ func get_tiles():
 					player_global_positions.append(cell_global_position)
 					set_cellv(cell, 0)
 					floor_global_positions.append(cell_global_position)
-				8: # spawn wall stray
-					wall_stray_global_positions.append(cell_global_position)
+				7: # spawn wall stray
+					stray_wall_global_positions.append(cell_global_position)
+					stray_global_positions.append(cell_global_position) # stray wall je tudi stray pozicija
 					set_cellv(cell, 0)
 					floor_global_positions.append(cell_global_position)
+					
 	
 	# pošljem v GM
-	emit_signal("tilemap_completed", random_spawn_floor_positions, stray_global_positions, no_stray_global_positions, player_global_positions, wall_stray_global_positions)
+	emit_signal("tilemap_completed", random_spawn_floor_positions, stray_global_positions, stray_wall_global_positions, no_stray_global_positions, player_global_positions)
 	
 	
 func get_collision_tile_id(collider: Node2D, direction: Vector2): # collider je node ki se zaleteva in ne collision object

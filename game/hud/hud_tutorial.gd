@@ -367,9 +367,6 @@ func show_color_indicator(picked_color: Color):
 		# pobrana barva
 		if indicator.color == picked_color:
 			current_indicator_index = active_color_indicators.find(indicator)
-#			if spectrum_start_on:
-#				indicator.modulate.a = picked_indicator_alpha
-#
 			indicator.modulate.a = picked_indicator_alpha
 			break
 			

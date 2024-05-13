@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tile_invisible_wall.png-67cae9f3077f0a7675af35c89af31a39.stex"
+path="res://.import/tile_stray_wall.png-939241a0e437be91333b3af87291eb5e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tiles/tile_invisible_wall.png"
-dest_files=[ "res://.import/tile_invisible_wall.png-67cae9f3077f0a7675af35c89af31a39.stex" ]
+source_file="res://assets/tiles/tile_stray_wall.png"
+dest_files=[ "res://.import/tile_stray_wall.png-939241a0e437be91333b3af87291eb5e.stex" ]
 
 [params]
 

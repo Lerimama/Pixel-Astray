@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=2]
+[gd_scene load_steps=59 format=2]
 
 [ext_resource path="res://assets/sound/sfx/blinking/blink_3.wav" type="AudioStream" id=1]
 [ext_resource path="res://assets/sound/sfx/blinking/blink_static_3.wav" type="AudioStream" id=2]
@@ -39,6 +39,9 @@
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 15.95, 15.95 )
+
+[sub_resource type="RectangleShape2D" id=161]
+extents = Vector2( 1, 1 )
 
 [sub_resource type="Animation" id=142]
 length = 0.001
@@ -688,6 +691,52 @@ visible = false
 position = Vector2( -16, -16 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32, 16, 16 )
 
+[node name="Touch" type="Node2D" parent="."]
+
+[node name="TouchArea" type="Area2D" parent="Touch"]
+position = Vector2( -1, -18 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Touch/TouchArea"]
+position = Vector2( 1, 1 )
+shape = SubResource( 161 )
+
+[node name="TouchArea2" type="Area2D" parent="Touch"]
+position = Vector2( 16, -1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Touch/TouchArea2"]
+position = Vector2( 1, 1 )
+shape = SubResource( 161 )
+
+[node name="TouchArea3" type="Area2D" parent="Touch"]
+position = Vector2( -1, 16 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Touch/TouchArea3"]
+position = Vector2( 1, 1 )
+shape = SubResource( 161 )
+
+[node name="TouchArea4" type="Area2D" parent="Touch"]
+position = Vector2( -18, -1 )
+monitorable = false
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Touch/TouchArea4"]
+position = Vector2( 1, 1 )
+shape = SubResource( 161 )
+
+[node name="TouchTimer" type="Timer" parent="Touch"]
+autostart = true
+
 [node name="BurstLight" type="Light2D" parent="."]
 position = Vector2( 7.62939e-06, -9.53674e-06 )
 scale = Vector2( 0.25, 0.25 )
@@ -906,6 +955,7 @@ bus = "GameSfx"
 wait_time = 0.2
 one_shot = true
 
+[connection signal="timeout" from="Touch/TouchTimer" to="." method="_on_TouchTimer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="finished" from="Sounds/Skills/TeleportIn" to="." method="_on_TeleportIn_finished"]
 [connection signal="timeout" from="ReburstingTimer" to="." method="_on_ReburstingTimer_timeout"]

@@ -3,7 +3,7 @@ extends GameManager
 
 func set_game(): 
 	
-	# kliče main.gd pred prikazom igre
+	# kliče main.gd pred po igre
 	# set_tilemap()
 	# set_game_view()
 	# set_players() # da je plejer viden že na fejdin

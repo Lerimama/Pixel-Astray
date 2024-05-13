@@ -27,8 +27,9 @@ var show_position_indicators_stray_count: int = 5
 # tilemap data
 var cell_size_x: int # napolne se na koncu setanju tilemapa
 var random_spawn_positions: Array
-var required_spawn_positions: Array
-var wall_stray_positions: Array
+var required_spawn_positions: Array # vključuje tudi wall_spawn_positions
+var wall_spawn_positions: Array
+var forbidden_stray_positions: Array
 
 onready var game_settings: Dictionary = Profiles.game_settings # ga med igro ne spreminjaš
 onready var game_data: Dictionary = Profiles.current_game_data # .duplicate() # duplikat default profila, ker ga me igro spreminjaš
@@ -38,13 +39,14 @@ onready var PlayerPixel: PackedScene = preload("res://game/pixel/player.tscn")
 
 # neu
 var level_upgrade_in_progress: bool = false # ustavim klicanje naslednjih levelov
-var current_enigma_name: String = "Null"# ime levele ... lahko številka
+#var current_enigma_name: String = "Null" # ime levele ... lahko številka
+var level_points_goal: int
+# respawn
 var first_respawn_time: float = 5
-var level_points_limit: int
-
 onready var respawn_timer: Timer = $"../RespawnTimer"
 onready var respawn_wait_time: float = game_settings["respawn_wait_time"]
 onready var respawn_strays_count: int = game_settings["respawn_strays_count"]
+onready var stray_wall_spawn_possibilty: float = game_settings["stray_wall_spawn_possibilty"]
 
 # debug
 var universal_time: float = 0 # za merjenje trajanja raznih stvari
@@ -70,7 +72,7 @@ func _ready() -> void:
 	if game_settings["eternal_mode"]:
 		game_data["level"] = 1 # zmeraj začnem s prvim levelom
 		respawn_wait_time = game_settings["respawn_wait_time"]
-		level_points_limit = game_data["level_points_limit"]
+		level_points_goal = game_data["level_points_goal"]
 	
 	if game_data["game"] == Profiles.Games.ENIGMA:
 		var current_level_settings: Dictionary
@@ -108,10 +110,61 @@ func _process(delta: float) -> void:
 	else:
 		show_position_indicators = false
 
+	# skos apdejtam pozicije na voljo
+	available_respawn_positions = Global.current_tilemap.floor_global_positions.duplicate() # vsa tla
+	for stray in get_tree().get_nodes_in_group(Global.group_strays):
+		var stray_grid_position: Vector2 = stray.global_position - Vector2(cell_size_x/2, cell_size_x/2)
+		if available_respawn_positions.has(stray_grid_position):
+			available_respawn_positions.erase(stray_grid_position)
 
+
+
+# GAME SETUP --------------------------------------------------------------------------------------
+	
+	
+func set_tilemap():
+	# namen: load enigma level tilemap
+	
+	var tilemap_to_release: TileMap = Global.current_tilemap # trenutno naložen v areni
+	
+	var tilemap_to_load_path: String
+	if game_data["game"] == Profiles.Games.ENIGMA: # path vlečem iz level settings
+		tilemap_to_load_path = game_data["tilemap_path"]
+	else:
+		tilemap_to_load_path = game_data["tilemap_path"]
+		
+	# release default tilemap	
+	tilemap_to_release.set_physics_process(false)
+	tilemap_to_release.free()
+	
+	# spawn new tilemap
+	var GameTilemap = ResourceLoader.load(tilemap_to_load_path)
+	var new_tilemap = GameTilemap.instance()
+	Global.node_creation_parent.add_child(new_tilemap) # direct child of root
+	
+	# povežem s signalom	
+	Global.current_tilemap.connect("tilemap_completed", self, "_on_tilemap_completed")
+	
+	# grab tilemap tiles
+	Global.current_tilemap.get_tiles()
+	cell_size_x = Global.current_tilemap.cell_size.x 
+
+	
+func set_game_view():
+	
+	Global.game_camera.position = Global.current_tilemap.camera_position_node.global_position	
+	
+	# set player camera limits
+	var tilemap_edge = Global.current_tilemap.get_used_rect()
+	Global.game_camera.set_camera_limits()
+
+	if game_settings["zoom_to_level_size"]:
+		Global.game_camera.set_zoom_to_level_size()
+	
+	
 func set_game(): 
 	
-	# kliče main.gd pred prikazom igre
+	# kliče main.gd po prikazom igre
 	# set_tilemap()
 	# set_game_view()
 	# set_players() # da je plejer viden že na fejdin
@@ -131,8 +184,11 @@ func set_game():
 	start_game()
 	yield(get_tree().create_timer(Global.hud.hud_in_out_time), "timeout") # da se res prizumira, če ni game start countdown
 	Global.current_tilemap.background_room.hide()
-	
-	
+
+
+# GAME LOOP --------------------------------------------------------------------------------------
+
+
 func start_game():
 	# namen: turn to wall respawn štartrespawnanje straysov ... za eternal
 
@@ -200,52 +256,10 @@ func stop_game_elements():
 		#			ghost.queue_free()
 		player.stop_sound("teleport")
 		player.stop_sound("heartbeat")
-#	for stray in get_tree().get_nodes_in_group(Global.group_strays):
-#		stray.current_state = stray.States.STATIC
 
-
-# SETUP --------------------------------------------------------------------------------------
-
-
-func set_tilemap():
-	# namen: load enigma level tilemap
-	
-	var tilemap_to_release: TileMap = Global.current_tilemap # trenutno naložen v areni
-	
-	var tilemap_to_load_path: String
-	if game_data["game"] == Profiles.Games.ENIGMA: # path vlečem iz level settings
-		tilemap_to_load_path = game_data["tilemap_path"]
-	else:
-		tilemap_to_load_path = game_data["tilemap_path"]
-		
-	# release default tilemap	
-	tilemap_to_release.set_physics_process(false)
-	tilemap_to_release.free()
-	
-	# spawn new tilemap
-	var GameTilemap = ResourceLoader.load(tilemap_to_load_path)
-	var new_tilemap = GameTilemap.instance()
-	Global.node_creation_parent.add_child(new_tilemap) # direct child of root
-	
-	# povežem s signalom	
-	Global.current_tilemap.connect("tilemap_completed", self, "_on_tilemap_completed")
-	
-	# grab tilemap tiles
-	Global.current_tilemap.get_tiles()
-	cell_size_x = Global.current_tilemap.cell_size.x 
-
-	
-func set_game_view():
-	
-	Global.game_camera.position = Global.current_tilemap.camera_position_node.global_position	
-	
-	# set player camera limits
-	var tilemap_edge = Global.current_tilemap.get_used_rect()
-	Global.game_camera.set_camera_limits()
-
-	if game_settings["zoom_to_level_size"]:
-		Global.game_camera.set_zoom_to_level_size()
 			
+# PLAYERS --------------------------------------------------------------------------------------------	
+	
 		
 func set_players():
 	
@@ -273,8 +287,12 @@ func set_players():
 		new_player_pixel.set_physics_process(false)
 		
 		new_player_pixel.player_camera = Global.game_camera
-			
 		
+
+		
+# STRAYS --------------------------------------------------------------------------------------------	
+
+
 func set_strays():
 	
 	spawn_strays(start_strays_spawn_count)
@@ -288,9 +306,6 @@ func set_strays():
 		yield(get_tree().create_timer(0.1), "timeout")
 	
 	strays_shown.clear() # resetiram, da je mogoč in-game spawn
-
-
-# STRAYS --------------------------------------------------------------------------------------------	
 
 
 func spawn_strays(strays_to_spawn_count: int):
@@ -357,13 +372,20 @@ func spawn_strays(strays_to_spawn_count: int):
 		# spawn
 		var new_stray_pixel = StrayPixel.instance()
 		new_stray_pixel.name = "S%s" % str(stray_index)
-		# wal stray
-		var random_from_100: int = randi() % 100
-		if random_from_100 < game_settings["stray_wall_spawn_possibilty"]:
+		
+		# wall spawn pozicije
+		if wall_spawn_positions.has(selected_position):
 			new_stray_pixel.current_state = new_stray_pixel.States.WALL
-			new_stray_pixel.stray_color = Global.color_wall_pixel
+			new_stray_pixel.stray_color = Global.color_wall_pixel			
+		# normalne spawn pozicije (random wall/normal)
 		else:
-			new_stray_pixel.stray_color = current_color
+			var random_from_100: int = randi() % 100
+			if random_from_100 < stray_wall_spawn_possibilty:
+				new_stray_pixel.current_state = new_stray_pixel.States.WALL
+				new_stray_pixel.stray_color = Global.color_wall_pixel
+			else:
+				new_stray_pixel.stray_color = current_color
+		
 		new_stray_pixel.global_position = selected_position + Vector2(cell_size_x/2, cell_size_x/2) # dodana adaptacija zaradi središča pixla
 		new_stray_pixel.z_index = 2 # višje od plejerja
 		Global.node_creation_parent.add_child(new_stray_pixel)
@@ -555,15 +577,12 @@ func upgrade_level(): # za eternal
 	var signaling_player: KinematicBody2D
 	for player in get_tree().get_nodes_in_group(Global.group_players):
 		player.screen_cleaned()
-		#		player.set_physics_process(false)
-#		signaling_player = player # da se zgodi na obeh plejerjih istočasno
-#	yield(signaling_player, "rewarded_on_cleaned") # počakam, da je nagrajen	
 	
 	# start new level
 	Global.hud.level_up_popup_out()
 	level_upgrade_in_progress = false
 	set_strays() 
-#	get_tree().call_group(Global.group_players, "set_physics_process", true)
+	get_tree().call_group(Global.group_players, "set_physics_process", true)
 	
 	if game_settings["respawn_mode"]:
 		respawn_timer.start(first_respawn_time)
@@ -574,7 +593,8 @@ func set_new_level():
 	
 	if game_settings["eternal_mode"]:
 		# kateri score je višji
-		level_points_limit += level_points_limit + game_data["level_points_limit_grow"]
+		stray_wall_spawn_possibilty *= game_data["stray_wall_spawn_possibilty_factor"]
+		level_points_goal += level_points_goal + game_data["level_points_goal_grow"]
 		respawn_wait_time *= game_data["respawn_wait_time_factor"]
 		respawn_strays_count = game_data["respawn_strays_count_grow"]
 		# število spawnanih straysov
@@ -594,22 +614,26 @@ func _on_RespawnTimer_timeout() -> void: # za eternal
 	respawn_timer.start()
 
 
-func _on_tilemap_completed(random_spawn_floor_positions: Array, stray_cells_positions: Array, no_stray_cells_positions: Array, player_cells_positions: Array, wall_stray_global_positions: Array) -> void:
+func _on_tilemap_completed(stray_random_positions: Array, stray_positions: Array, stray_wall_positions: Array, no_stray_positions: Array, player_positions: Array) -> void:
 	
-	# opredelim tipe pozicij
-	player_start_positions = player_cells_positions
-	random_spawn_positions = random_spawn_floor_positions
-	required_spawn_positions = stray_cells_positions
-	wall_stray_global_positions = wall_stray_positions
-	
-	# start strays count setup
-	if not stray_cells_positions.empty() and no_stray_cells_positions.empty(): # št. straysov enako številu "required" tiletov
+	# stray spawn pozicije
+	random_spawn_positions = stray_random_positions # celice tal pred procesiranjem tilemapa
+	required_spawn_positions = stray_positions # ima tudi wall_spawn_positions
+	wall_spawn_positions = stray_wall_positions
+	forbidden_stray_positions = no_stray_positions
+	# strays spawn count 
+	# če so samo "required", je število straysov enako "required"
+	# če so "required" in "random", je število straysov kot je določeno v settingsih, najprej spawna "required", potem "random"
+	# najprej spawna "required", potem še random
+	if not required_spawn_positions.empty() and forbidden_stray_positions.empty():
 		start_strays_spawn_count = required_spawn_positions.size()
-	
 	# preventam preveč straysov (več kot je možnih pozicij)
 	if start_strays_spawn_count > random_spawn_positions.size() + required_spawn_positions.size():
 		start_strays_spawn_count = random_spawn_positions.size()/2 + required_spawn_positions.size()
-
+	
+	# player pozicije
+	player_start_positions = player_positions
+	start_players_count = player_start_positions.size() # tukaj določeno se uporabi za game view setup
 	# če ni pozicij, je en player ... random pozicija
 	if player_start_positions.empty():
 		var random_range = random_spawn_positions.size() 
@@ -617,8 +641,6 @@ func _on_tilemap_completed(random_spawn_floor_positions: Array, stray_cells_posi
 		player_start_positions.append(random_spawn_positions[p1_selected_cell_index])
 		random_spawn_positions.remove(p1_selected_cell_index)
 	
-	start_players_count = player_start_positions.size() # tukaj določeno se uporabi za game view setup
-	
-	# grab respawn positions
-	available_respawn_positions = Global.current_tilemap.floor_global_positions.duplicate()
-	dont_turn_to_wall_positions = no_stray_cells_positions
+	# all floor po procesiranju
+	available_respawn_positions = Global.current_tilemap.floor_global_positions.duplicate() # vsa tla
+	dont_turn_to_wall_positions = forbidden_stray_positions

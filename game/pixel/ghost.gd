@@ -48,7 +48,7 @@ func _on_PixelGhost_body_exited(body: Node) -> void:
 	if teleporting_bodies.empty():
 		target_reached = true
 		speed = 0
-		global_position = Global.snap_to_nearest_grid(global_position)
+		global_position = Global.snap_to_nearest_grid(self)
 		emit_signal("ghost_target_reached", self, global_position)
 			
 

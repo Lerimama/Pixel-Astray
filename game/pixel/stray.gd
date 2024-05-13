@@ -59,7 +59,7 @@ func show_stray(): # kliče GM
 func die(stray_in_stack_index: int, strays_in_stack_count: int):
 	
 	current_state = States.DYING
-	global_position = Global.snap_to_nearest_grid(global_position) 
+	global_position = Global.snap_to_nearest_grid(self) 
 	
 	# čakalni čas
 	var wait_to_destroy_time: float = sqrt(0.07 * (stray_in_stack_index)) # -1 je, da hitan stray ne čaka
@@ -101,7 +101,6 @@ func die_to_wall():
 func step(step_direction: Vector2):
 	
 	if not current_state == States.IDLE:
-	# if current_state.STATIC:
 		return
 		
 	var current_collider = detect_collision_in_direction(step_direction)
@@ -156,10 +155,10 @@ func pull_stray(pull_direction: Vector2, pull_cock_time: float, pull_time: float
 
 func end_move():
 	
-	if current_state == States.MOVING: # da se stanje resetira samo če ni STATIC al pa DYING al pa WALL
+	if current_state == States.MOVING: # da se stanje resetira samo če ni DYING al pa WALL
 		current_state = States.IDLE
 		# modulate = Color.red
-	global_position = Global.snap_to_nearest_grid(global_position) 
+	global_position = Global.snap_to_nearest_grid(self)
 	
 		
 # UTILITI ------------------------------------------------------------------------------------------------------

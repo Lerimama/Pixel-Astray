@@ -51,7 +51,7 @@ func show_stray(): # kliče GM
 func die(stray_in_stack_index: int, strays_in_stack: int):
 	
 	current_state = States.DYING
-	global_position = Global.snap_to_nearest_grid(global_position) 
+	global_position = Global.snap_to_nearest_grid(self)
 	
 	# čakalni čas
 	var wait_to_destroy_time: float = sqrt(0.07 * (stray_in_stack_index)) # -1 je, da hitan stray ne čaka
@@ -136,7 +136,7 @@ func end_move():
 	
 	if current_state == States.MOVING: # zakaj že rabim ta pogoj?
 		current_state = States.IDLE
-	global_position = Global.snap_to_nearest_grid(global_position) 
+	global_position = Global.snap_to_nearest_grid(self)
 	
 		
 # UTILITI ------------------------------------------------------------------------------------------------------

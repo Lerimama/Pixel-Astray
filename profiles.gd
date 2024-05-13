@@ -50,7 +50,7 @@ var default_game_settings: Dictionary = { # to so default CLEANING settings
 	"full_power_mode": false, # hitrost je tudi max_cock_coiunt > vedno destroja ves bulk 
 	# gui
 	"position_indicators_on": true, # duel jih nima 
-	"spectrum_start_on": false, # a pobrane prižigam al ugašam
+	"spectrum_start_on": true, # a pobrane prižigam al ugašam ... na scrollerja ne deluje
 	"start_countdown": true,
 	"game_instructions_popup": true,
 	"solutions_mode": false, # enigma reštve
@@ -137,13 +137,12 @@ var game_data_cleaner_s: Dictionary = {
 	"Label3" : "Don't worry about energy.",
 	# xtra
 	# "level": 1, # se neafila kasneje
-	"respawn_wait_time": 1,
 	"respawn_wait_time_factor": 0.7, # množim z vsakim levelom
-	"respawn_strays_count": 1,
 	"respawn_strays_count_grow": 1, # prištejem z vsakim levelom
-	"level_points_limit": 320, # vsak level prištejem k trenutnemu limitu levela
-	"level_points_limit_grow": 10, # dodatno prištejem z vsakim levelom
+	"level_points_goal": 320, # vsak level prištejem k trenutnemu limitu levela
+	"level_points_goal_grow": 10, # dodatno prištejem z vsakim levelom
 	"level_strays_spawn_count_grow": 5, # prištejem z vsakim levelom
+	"stray_wall_spawn_possibilty_factor": 1, # množim procente
 }
 var game_data_cleaner_m: Dictionary = { 
 	"game": Games.CLEANER_M,
@@ -160,9 +159,10 @@ var game_data_cleaner_m: Dictionary = {
 	# "level": 1, # se neafila kasneje
 	"respawn_wait_time_factor": 0.7, # množim z vsakim levelom
 	"respawn_strays_count_grow": 1, # prištejem z vsakim levelom
-	"level_points_limit": 320, # vsak level prištejem k trenutnemu limitu levela
-	"level_points_limit_grow": 10, # dodatno prištejem z vsakim levelom
+	"level_points_goal": 320, # vsak level prištejem k trenutnemu limitu levela
+	"level_points_goal_grow": 10, # dodatno prištejem z vsakim levelom
 	"level_strays_spawn_count_grow": 32, # prištejem z vsakim levelom
+	"stray_wall_spawn_possibilty_factor": 1, # množim procente
 }
 var game_data_cleaner_l: Dictionary = {
 	"game": Games.CLEANER_L,
@@ -210,7 +210,7 @@ var game_data_scroller: Dictionary = {
 	"scrolling_pause_time": 1.5, # ne sem bit manjša od stray step hitrosti (0.2)
 	"scrolling_pause_time_factor": 0.8, # množim z vsakim levelom
 	# random spawn na rundo
-	"stray_to_spawn_round_range": [1, 14], # random spawn count, največ 120
+	"stray_to_spawn_round_range": [1, 8], # random spawn count, največ 120 - 8
 	"round_range_factor_1": 1, # množim spodnjo mejo
 	"round_range_factor_2": 2, # množim zgornjo mejo
 	# možnost spawna v rundi
@@ -360,7 +360,6 @@ func set_game_data(selected_game) -> void:
 			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
 			game_settings["lose_life_on_hit"] = true
 			game_settings["player_start_life"] = 1
-			game_settings["spectrum_start_on"] = true
 			game_settings["position_indicators_on"] = false
 			game_settings["player_start_color"] = Color.white
 			game_settings["reburst_window_time"] = 0 # 0 = neomejeno
@@ -378,8 +377,6 @@ func set_game_data(selected_game) -> void:
 			game_settings["on_hit_points_part"] = 0
 			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
 			game_settings["eternal_mode"] = true
-			game_settings["lose_life_on_hit"] = false
-			game_settings["spectrum_start_on"] = true
 			game_settings["position_indicators_on"] = false
 			game_settings["turn_stray_to_wall"] = false
 			game_settings["full_power_mode"] = true
@@ -396,8 +393,6 @@ func set_game_data(selected_game) -> void:
 			game_settings["on_hit_points_part"] = 0
 			game_settings["cell_traveled_energy"] = 0 # energija ni pomembna
 			game_settings["eternal_mode"] = true
-			game_settings["spectrum_start_on"] = true
-			game_settings["lose_life_on_hit"] = false
 			game_settings["turn_stray_to_wall"] = true
 			game_settings["full_power_mode"] = true
 			game_settings["strays_start_count"] = 320
@@ -409,7 +404,7 @@ func set_game_data(selected_game) -> void:
 #			game_settings["respawn_strays_count"] = 1
 		Games.CLEANER_L: 
 			current_game_data = game_data_cleaner_l
-			game_settings["lose_life_on_hit"] = false
+#			game_settings["lose_life_on_hit"] = false
 			game_settings["game_time_limit"] = 300
 			game_settings["start_countdown"] = false
 			game_settings["strays_start_count"] = 320
@@ -473,6 +468,6 @@ func set_game_data(selected_game) -> void:
 	# debug
 	game_settings["game_instructions_popup"] = false
 	game_settings["start_countdown"] = false
-	game_settings["stray_wall_spawn_possibilty"] = 50
+#	game_settings["stray_wall_spawn_possibilty"] = 50
 #	game_settings["reburst_mode"] = false
 #	game_settings["respawn_mode"] = false

@@ -53,7 +53,7 @@ func die(stray_in_stack_index: int, strays_in_stack: int):
 		return
 		
 	current_state = States.DYING
-	global_position = Global.snap_to_nearest_grid(global_position) 
+	global_position = Global.snap_to_nearest_grid(self)
 	
 	# čakalni čas
 	var wait_to_destroy_time: float = sqrt(0.07 * (stray_in_stack_index)) # -1 je, da hitan stray ne čaka
@@ -109,7 +109,7 @@ func step(step_direction: Vector2):
 	# vržem ext coll			
 	collision_shape_ext.position = step_direction * cell_size_x # vržem koližn v smer premika
 	
-	# preverim available positions ... zadnja varovalka, da se ne pokrijej ... redko pride do nje
+	# preverim available positions ... zadnja varovalka, da se ne pokrije ... redko pride do nje
 	var planned_new_position: Vector2 = global_position + step_direction * cell_size_x
 	var tiles_taken: Array = Global.game_manager.available_respawn_positions
 	if tiles_taken.has(planned_new_position):
