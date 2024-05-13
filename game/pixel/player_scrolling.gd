@@ -132,14 +132,14 @@ func show_ghost(ghost):
 		cock_cell_tween.tween_property(ghost, "modulate:a", 1, cock_ghost_cocking_time)
 			
 
-func spawn_floating_tag(value: int):
-	# namen: floating tag off
-	
-	return
+#func spawn_floating_tag(value: int):
+#	# namen: floating tag off
+#
+#	return
 		
 
 func burst():
-	# namen: konstantna hitrost bursta (neodvisna od vrednosti cocka), bomba stil
+	# namen: konstantna hitrost bursta (neodvisna od vrednosti cocka)
 	
 	var burst_direction = direction
 	var backup_direction = - burst_direction
@@ -147,8 +147,10 @@ func burst():
 	
 	var new_stretch_ghost: Node
 	
-	new_stretch_ghost = spawn_ghost(global_position)
 	# spawn stretch ghost
+	new_stretch_ghost = spawn_ghost(global_position)
+	new_stretch_ghost.color_poly.hide()
+	new_stretch_ghost.color_poly_alt.show()
 	if burst_direction.y == 0: # če je smer hor
 		new_stretch_ghost.scale = Vector2(current_ghost_count, 1)
 	elif burst_direction.x == 0: # če je smer ver
@@ -163,14 +165,13 @@ func burst():
 	play_sound("burst")
 	
 	# release strech ghost 
-	var strech_ghost_shrink_time: float = 0.05 # original je bila 0.2
+	var strech_ghost_shrink_time: float = 0.1 # original je bila 0.2
 	var release_tween = get_tree().create_tween()
 	release_tween.tween_property(new_stretch_ghost, "scale", Vector2.ONE, strech_ghost_shrink_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	release_tween.parallel().tween_property(new_stretch_ghost, "position", global_position - burst_direction * cell_size_x, strech_ghost_shrink_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	release_tween.tween_callback(new_stretch_ghost, "queue_free")
+	yield(release_tween, "finished")		
 	# release pixel
-	yield(get_tree().create_timer(strech_ghost_shrink_time), "timeout") # čaka na zgornji tween
-		
 	current_state = States.BURSTING
 	#	burst_speed = current_ghost_count * cock_ghost_speed_addon
 	#	if current_ghost_count < cocked_ghost_max_count and not current_ghost_count == 0:
@@ -278,8 +279,6 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 			
 	end_move() # more bit za collision partikli zaradi smeri
 
-	change_stat("hit_stray", strays_to_destroy.size()) # štetje, točke in energija glede na število uničenih straysov
-	
 		
 func on_hit_wall():
 	# namen: drugačni efekti, nepošiljanje statistike in end_move()

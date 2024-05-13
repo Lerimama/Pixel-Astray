@@ -86,7 +86,7 @@ func set_strays():
 	
 	yield(get_tree().create_timer(0.01), "timeout") # da se vsi straysi spawnajo
 	
-	var show_strays_loop: int
+	var show_strays_loop: int = 0
 	while strays_shown != strays_in_game:
 		show_strays_loop += 1 # zazih
 		show_strays(show_strays_loop)
@@ -98,7 +98,6 @@ func set_strays():
 	
 func spawn_strays(strays_to_spawn_count: int = required_spawn_positions.size()):
 	
-	strays_to_spawn_count = clamp(strays_to_spawn_count, 1, strays_to_spawn_count) # za vsak slučaj klempam, da ne more biti nikoli 0 ...  ker je error			
 	yield(get_tree().create_timer(0), "timeout") # da se ne spawna, ko še ni wall	
 	# colors
 	var all_colors_available: Array	

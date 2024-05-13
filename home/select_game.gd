@@ -1,11 +1,11 @@
 extends Control
 
-onready var enigma_btn: Button = $GameBtns/EnigmaBtn
+onready var riddler_btn: Button = $GameBtns/RiddlerBtn
 onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
 
 onready var riddler_btns_holder: Control = $"../SelectLevel/LevelGrid/VBoxContainer/BtnsHolder" # za število ugank
 onready var riddle_count: int = riddler_btns_holder.get_child_count()
-onready var riddler_label: Label = $Enigma/Label
+onready var riddler_label: Label = $Riddler/Label
 
 
 func _ready() -> void:
@@ -60,5 +60,5 @@ func _on_TheDuelBtn_pressed() -> void:
 
 func _on_Enigma_Btn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
-	animation_player.play("select_enigma_level")
+	animation_player.play("select_riddler_level")
 	get_viewport().set_disable_input(true)

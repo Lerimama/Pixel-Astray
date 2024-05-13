@@ -1,10 +1,10 @@
 extends PlayerOrig
 class_name Player
 
-# enigma
-var enigma_move_started: bool = false # ob cockanju se začne poteza (konča se v steni ali na koncu reburstanja, kadar resetam reburst_count)
-var enigma_start_strays_count: int = 0 # število straysow pred movetom
-var enigma_cleaned_strays_count: int = 0 # beleži vse uničene v času enigma move, za preverjanje uspeha
+# riddler
+var riddler_move_started: bool = false # ob cockanju se začne poteza (konča se v steni ali na koncu reburstanja, kadar resetam reburst_count)
+var riddler_start_strays_count: int = 0 # število straysow pred movetom
+var riddler_cleaned_strays_count: int = 0 # beleži vse uničene v času riddler move, za preverjanje uspeha
 
 # reburst
 var is_rebursting: bool = false # za regulacijo moči on hit stray
@@ -55,7 +55,7 @@ func _ready() -> void:
 	
 func idle_inputs():
 	# namen: rebursting_inputs reburst_count reset ... za reburst
-	# namen: enigma finish (cocking key, direction key)
+	# namen: riddler finish (cocking key, direction key)
 	
 	if player_stats["player_energy"] > 1:
 		var current_collider: Node2D = detect_collision_in_direction(direction)
@@ -105,8 +105,8 @@ func idle_inputs():
 		burst_light_on()
 		reburst_count = 0
 		close_reburst_window()
-		if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:	
-			finish_enigma_move()		
+		if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:	
+			finish_riddler_move()		
 			
 		
 func end_move():
@@ -141,17 +141,17 @@ func end_move():
 		
 
 func on_hit_stray(hit_stray: KinematicBody2D):
-	# namen: activate reburst, start enigma move, enigma cleaned count ček
+	# namen: activate reburst, start riddler move, riddler cleaned count ček
 	
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
 	play_sound("hit_stray")	
 	spawn_collision_particles()
 	shake_player_camera(burst_speed)			
 
-	# start enigma move
-	if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA and not enigma_move_started:	
-		enigma_move_started = true	
-		enigma_start_strays_count = Global.game_manager.strays_in_game_count
+	# start riddler move
+	if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER and not riddler_move_started:	
+		riddler_move_started = true	
+		riddler_start_strays_count = Global.game_manager.strays_in_game_count
 		
 	# reburst nagrada
 	var reward_limit: int = Global.game_manager.game_settings["reburst_reward_limit"]
@@ -188,9 +188,9 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	for stray in strays_to_destroy:
 		var stray_index = strays_to_destroy.find(stray)
 		stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
-		# prišteje v enigma strayse
-		if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:	
-			enigma_cleaned_strays_count += 1
+		# prišteje v riddler strayse
+		if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:	
+			riddler_cleaned_strays_count += 1
 			
 	# wall ne da točk
 	var strays_not_walls_count: int = strays_to_destroy.size() - hit_stray_neighbors[1].size() # odštejem stene
@@ -208,8 +208,8 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 			# vpliva samo kadar odigram vse reburste, drugi reset je v stepanju
 			close_reburst_window()
 			reburst_count = 0
-			if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:	
-				finish_enigma_move()
+			if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:	
+				finish_riddler_move()
 
 
 func spawn_cock_ghost(cocking_direction: Vector2):
@@ -289,6 +289,7 @@ func cock_reburst():
 	# če je prostor cocka
 		for cock in reburst_max_cock_count:
 			var new_cock_ghost = spawn_cock_ghost(cock_direction)
+#			new_cock_ghost.modulate.a = 0.5
 			cocked_ghosts.append(new_cock_ghost)	
 			if not cocking_room:
 				break
@@ -296,22 +297,24 @@ func cock_reburst():
 
 
 func release_reburst():
+	# drugače glede na burst: cock ghost izgled
 	
 	current_state = States.RELEASING
 	play_sound("burst_cocked")
-	var cocked_ghost_fill_time: float = 0.01 # čas za napolnitev vseh spawnanih ghostov (tik pred burstom)
-	var cocked_pause_time: float = 0.03 # pavza pred strelom
+	var cocked_ghost_fill_time: float = 0.07 # čas za napolnitev vseh spawnanih ghostov (tik pred burstom)
 	# napeti ghosti animirajo do alfa 1
 	for ghost in cocked_ghosts:
 		var get_set_tween = get_tree().create_tween()
-		get_set_tween.tween_property(ghost, "modulate:a", 1, cocked_ghost_fill_time)
-		yield(get_tree().create_timer(cocked_ghost_fill_time),"timeout")
+		get_set_tween.tween_property(ghost, "modulate:a", 0.5, cocked_ghost_fill_time)
+		yield(get_set_tween,"finished")
+	var cocked_pause_time: float = 0.1 # pavza pred strelom
 	yield(get_tree().create_timer(cocked_pause_time), "timeout")
 	reburst()
 	
 	
 func reburst():
-
+	# drugače glede na burst: ni strech ghopsa
+	
 	is_rebursting = true
 
 	reburst_count += 1
@@ -320,14 +323,6 @@ func reburst():
 	var backup_direction = - burst_direction
 	var current_ghost_count = cocked_ghosts.size()
 	
-	# spawn stretch ghost
-	var new_stretch_ghost = spawn_ghost(global_position)
-	if burst_direction.y == 0: # če je smer hor
-		new_stretch_ghost.scale = Vector2(current_ghost_count, 1)
-	elif burst_direction.x == 0: # če je smer ver
-		new_stretch_ghost.scale = Vector2(1, current_ghost_count)
-	new_stretch_ghost.position = global_position - (burst_direction * cell_size_x * current_ghost_count)/2 - burst_direction * cell_size_x/2
-
 	# release cocked ghosts
 	while not cocked_ghosts.empty():
 		var ghost = cocked_ghosts.pop_back()
@@ -335,15 +330,7 @@ func reburst():
 	
 	play_sound("burst")
 	
-	# release ghost 
-	var strech_ghost_shrink_time: float = 0.2
-	var release_tween = get_tree().create_tween()
-	release_tween.tween_property(new_stretch_ghost, "scale", Vector2.ONE, strech_ghost_shrink_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
-	release_tween.parallel().tween_property(new_stretch_ghost, "position", global_position - burst_direction * cell_size_x, strech_ghost_shrink_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
-	release_tween.tween_callback(new_stretch_ghost, "queue_free")
-	
 	# release pixel
-	yield(get_tree().create_timer(strech_ghost_shrink_time), "timeout") # čaka na zgornji tween
 	current_state = States.BURSTING
 	
 	burst_speed = reburst_speed_units_count * cock_ghost_speed_addon
@@ -358,13 +345,13 @@ func close_reburst_window():
 	burst_light_off()
 		
 
-func finish_enigma_move(): # RIDDLER
+func finish_riddler_move(): # RIDDLER
 	
 	# ček for succes
-	if enigma_move_started:
-		enigma_move_started = false
+	if riddler_move_started:
+		riddler_move_started = false
 		# če je količina uničenih enaka količini na ekranu
-		if enigma_cleaned_strays_count < enigma_start_strays_count:
+		if riddler_cleaned_strays_count < riddler_start_strays_count:
 			Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
 		else:
 			pass # to naredi GM po defaultu
@@ -418,7 +405,7 @@ func detect_touch():
 
 func _on_ReburstingTimer_timeout() -> void:
 	
-	# če je enigma je čas naskončen
+	# če je riddler je čas naskončen
 	if Global.game_manager.game_settings["reburst_window_time"] == 0:
 		return
 	
@@ -426,8 +413,8 @@ func _on_ReburstingTimer_timeout() -> void:
 	# resetira vse
 	close_reburst_window()
 	reburst_count = 0
-	if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:	
-		finish_enigma_move()
+	if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:	
+		finish_riddler_move()
 
 	
 func _on_TouchTimer_timeout() -> void: # CLEANER 

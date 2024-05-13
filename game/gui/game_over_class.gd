@@ -5,7 +5,7 @@ signal name_input_finished
 
 var focus_btn: Button
 var current_gameover_reason: int # za prenašanje
-onready var background: ColorRect = $Background
+var score_is_ranking # včasih bool včasih object?!
 
 # players
 var players_in_game: Array
@@ -17,12 +17,13 @@ var selected_gameover_title: Control
 var selected_gameover_menu: Control
 var selected_gameover_jingle: String
 
+#onready var gameover_title_tutorial: Control = $GameoverTitle/Tutorial
 onready var gameover_title_holder: Control = $GameoverTitle
 onready var gameover_title_cleaned: Control = $GameoverTitle/ReasonCleaned
 onready var gameover_title_time: Control = $GameoverTitle/ReasonTime
 onready var gameover_title_life: Control = $GameoverTitle/ReasonLife
 onready var gameover_title_duel: Control = $GameoverTitle/Duel
-#onready var gameover_title_tutorial: Control = $GameoverTitle/Tutorial
+onready var background: ColorRect = $Background
 
 # game summary
 var selected_game_summary: Control
@@ -32,11 +33,11 @@ onready var game_summary_with_hs: Control = $GameSummary/WithHS
 onready var highscore_table: VBoxContainer = $GameSummary/WithHS/HighscoreTable
 
 # name input
-var input_invite_text: String = "..."
 var input_string: String # = "" # neki more bit, če plejer nč ne vtipka in potrdi predvsem, da zaznava vsako črko in jo lahko potrdiš na gumbu
 onready var name_input_popup: Control = $NameInputPopup
 onready var name_input: LineEdit = $NameInputPopup/NameInput
 onready var name_input_label: Label = $NameInputPopup/Label
+onready var input_label_dots: Label = $NameInputPopup/NameInput/Dots
 
 
 func _input(event: InputEvent) -> void:
@@ -63,7 +64,7 @@ func _ready() -> void:
 	game_summary_holder.visible = false
 	name_input_popup.visible = false
 	
-var score_is_ranking # včasih bool včasih object?!
+	
 func open_gameover(gameover_reason: int):
 
 	
@@ -277,9 +278,6 @@ func open_name_input():
 	var fade_in_tween = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_in_tween.tween_property(name_input_popup, "modulate:a", 1, 0.5)
 	
-	# setam input label
-	name_input.text = input_invite_text
-	
 	Global.grab_focus_no_sfx(name_input)
 	name_input.select_all()
 	
@@ -298,8 +296,10 @@ func close_name_input ():
 	
 
 func _on_NameEdit_text_changed(new_text: String) -> void:
-	
 	# signal, ki redno beleži vnešeni string
+	
+	if input_string.empty():
+		input_label_dots.hide()
 	input_string = new_text
 	Global.sound_manager.play_gui_sfx("typing")
 
@@ -316,7 +316,7 @@ func _on_ConfirmBtn_pressed() -> void:
 	
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	
-	if input_string == input_invite_text or input_string.empty():
+	if input_string.empty():
 		input_string = p1_final_stats["player_name"]
 		confirm_name_input()
 	else:

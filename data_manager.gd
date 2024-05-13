@@ -192,7 +192,7 @@ func read_highscores_from_file(read_game_data: Dictionary):
 	return current_game_highscores
 	
 		
-# enigma solved status ------------------------------------------------------------------------------------------------------------------------
+# riddle solved status ------------------------------------------------------------------------------------------------------------------------
 
 
 func write_solved_status_to_file(write_game_data: Dictionary): # kadar je klican, pomeni, da je uganka rešena

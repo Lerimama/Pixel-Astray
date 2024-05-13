@@ -15,6 +15,8 @@ func _ready() -> void:
 #	home_in_no_intro()
 	game_in()
 
+#func _process(delta: float) -> void:
+#	printt("main process",)
 
 func home_in_intro():
 	

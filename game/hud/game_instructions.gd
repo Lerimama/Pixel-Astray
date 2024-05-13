@@ -15,7 +15,7 @@ func get_instructions_content(current_highscore, current_highscore_owner):
 	var current_game_data: Dictionary = Global.game_manager.game_data
 	
 	# obvezne alineje
-	if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA: # samo enigam ima številko levela
+	if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER: # samo enigam ima številko levela
 		title.text = current_game_data["game_name"] + " %02d" % current_game_data["level"]
 	else:
 		title.text = current_game_data["game_name"]

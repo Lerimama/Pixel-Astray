@@ -20,13 +20,8 @@ func _process(delta: float) -> void:
 			level_label.visible = true	
 		level_label.text = "%02d" % Global.game_manager.game_data["level"]
 	
-	# kateri ima višji score
-	var current_biggest_score: int = 0
-	for player in get_tree().get_nodes_in_group(Global.group_players):
-		if player.player_stats["colors_collected"] > current_biggest_score:
-			current_biggest_score = player.player_stats["colors_collected"]
-	# razlika med limito in višjim skorom
-	level_limit_label_1.text = "%d" % (Global.game_manager.stages_per_level - current_biggest_score) 
+	# to level up
+	level_limit_label_1.text = "%d" % (Global.game_manager.stages_per_level - Global.game_manager.current_stage)
 	level_limit_label_2.text = "COLORS TO LEVEL UP"
 	
 	
@@ -79,6 +74,7 @@ func level_up_popup_out():
 
 func spawn_color_indicators(available_colors: Array): # kliče GM
 	# namen: moduliram
+	
 	var indicator_index = 0 # za fiksirano zaporedje
 	
 	for color in available_colors:
@@ -101,19 +97,15 @@ func empty_color_indicators():
 	
 	
 func update_indicator_on_stage_up(current_stage: int): 
-	
-	# current stage ni pomemben, ker zmeraj obarvam prvega v aktivnih
+
 	# obarvam indikator
 	if not active_color_indicators.empty(): # zazih
-		var current_indicator = active_color_indicators.front()
-		current_indicator.modulate.a = 1
-		# izbris iz aktivnih indikatorjev
-		active_color_indicators.pop_front()
+		var current_stage_indicator_index: int = current_stage - 1
+		active_color_indicators[current_stage_indicator_index].modulate.a = 1
 
 					
 func show_color_indicator(picked_color: Color):
-
-	return # player kliče, ampak v scrollerju se nič ne zgodi
+	return # stray kliče po animaciji, ampak v scrollerju se nič ne zgodi
 
 
 func check_for_warning(player_stats: Dictionary, warning_popup: Control):

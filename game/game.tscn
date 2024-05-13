@@ -1874,7 +1874,6 @@ text = "PLAY ON"
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 1 )
@@ -2795,11 +2794,11 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 text = "PLAY AGAIN"
 
-[node name="EnigmaGameSummary" type="Control" parent="GUI/GameOver"]
+[node name="RiddlerGameSummary" type="Control" parent="GUI/GameOver"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="Title" type="Label" parent="GUI/GameOver/EnigmaGameSummary"]
+[node name="Title" type="Label" parent="GUI/GameOver/RiddlerGameSummary"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -2812,7 +2811,7 @@ custom_colors/font_color = Color( 0.952941, 0.356863, 0.498039, 1 )
 custom_fonts/font = ExtResource( 14 )
 text = "GAME SUMMARY"
 
-[node name="DataContainer" type="VBoxContainer" parent="GUI/GameOver/EnigmaGameSummary"]
+[node name="DataContainer" type="VBoxContainer" parent="GUI/GameOver/RiddlerGameSummary"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -2826,7 +2825,7 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Game" type="Label" parent="GUI/GameOver/EnigmaGameSummary/DataContainer"]
+[node name="Game" type="Label" parent="GUI/GameOver/RiddlerGameSummary/DataContainer"]
 margin_right = 223.0
 margin_bottom = 18.0
 custom_fonts/font = ExtResource( 2 )
@@ -2836,7 +2835,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Level" type="Label" parent="GUI/GameOver/EnigmaGameSummary/DataContainer"]
+[node name="Level" type="Label" parent="GUI/GameOver/RiddlerGameSummary/DataContainer"]
 margin_top = 32.0
 margin_right = 223.0
 margin_bottom = 50.0
@@ -2847,7 +2846,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="AstrayPixels" type="Label" parent="GUI/GameOver/EnigmaGameSummary/DataContainer"]
+[node name="AstrayPixels" type="Label" parent="GUI/GameOver/RiddlerGameSummary/DataContainer"]
 margin_top = 64.0
 margin_right = 223.0
 margin_bottom = 82.0
@@ -2858,7 +2857,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="HighscoreTable" type="VBoxContainer" parent="GUI/GameOver/EnigmaGameSummary"]
+[node name="HighscoreTable" type="VBoxContainer" parent="GUI/GameOver/RiddlerGameSummary"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -2873,7 +2872,7 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Title" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable"]
+[node name="Title" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable"]
 margin_right = 178.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 28, 26 )
@@ -2882,19 +2881,19 @@ size_flags_vertical = 0
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 text = "Top 9 cleaners"
 
-[node name="ScoreLine1" type="HBoxContainer" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable"]
+[node name="ScoreLine1" type="HBoxContainer" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable"]
 margin_top = 32.0
 margin_right = 178.0
 margin_bottom = 54.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine1"]
+[node name="Position" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine1"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine1"]
+[node name="Owner" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine1"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -2908,7 +2907,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine1"]
+[node name="Score" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine1"]
 margin_left = 108.0
 margin_right = 178.0
 margin_bottom = 22.0
@@ -2917,19 +2916,19 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="ScoreLine2" type="HBoxContainer" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable"]
+[node name="ScoreLine2" type="HBoxContainer" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable"]
 margin_top = 60.0
 margin_right = 178.0
 margin_bottom = 82.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine2"]
+[node name="Position" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine2"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine2"]
+[node name="Owner" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine2"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -2943,7 +2942,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine2"]
+[node name="Score" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine2"]
 margin_left = 108.0
 margin_right = 178.0
 margin_bottom = 22.0
@@ -2952,19 +2951,19 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="ScoreLine3" type="HBoxContainer" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable"]
+[node name="ScoreLine3" type="HBoxContainer" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable"]
 margin_top = 88.0
 margin_right = 178.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine3"]
+[node name="Position" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine3"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine3"]
+[node name="Owner" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine3"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -2978,7 +2977,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine3"]
+[node name="Score" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine3"]
 margin_left = 108.0
 margin_right = 178.0
 margin_bottom = 22.0
@@ -2987,19 +2986,19 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="ScoreLine4" type="HBoxContainer" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable"]
+[node name="ScoreLine4" type="HBoxContainer" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable"]
 margin_top = 116.0
 margin_right = 178.0
 margin_bottom = 138.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine4"]
+[node name="Position" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine4"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine4"]
+[node name="Owner" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine4"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -3013,7 +3012,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine4"]
+[node name="Score" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine4"]
 margin_left = 108.0
 margin_right = 178.0
 margin_bottom = 22.0
@@ -3022,19 +3021,19 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="ScoreLine5" type="HBoxContainer" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable"]
+[node name="ScoreLine5" type="HBoxContainer" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable"]
 margin_top = 144.0
 margin_right = 178.0
 margin_bottom = 166.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine5"]
+[node name="Position" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine5"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine5"]
+[node name="Owner" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine5"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -3048,7 +3047,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine5"]
+[node name="Score" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine5"]
 margin_left = 108.0
 margin_right = 178.0
 margin_bottom = 22.0
@@ -3057,19 +3056,19 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="ScoreLine6" type="HBoxContainer" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable"]
+[node name="ScoreLine6" type="HBoxContainer" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable"]
 margin_top = 172.0
 margin_right = 178.0
 margin_bottom = 194.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine6"]
+[node name="Position" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine6"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine6"]
+[node name="Owner" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine6"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -3083,7 +3082,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine6"]
+[node name="Score" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine6"]
 margin_left = 108.0
 margin_right = 178.0
 margin_bottom = 22.0
@@ -3092,19 +3091,19 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="ScoreLine7" type="HBoxContainer" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable"]
+[node name="ScoreLine7" type="HBoxContainer" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable"]
 margin_top = 200.0
 margin_right = 178.0
 margin_bottom = 222.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine7"]
+[node name="Position" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine7"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine7"]
+[node name="Owner" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine7"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -3118,7 +3117,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine7"]
+[node name="Score" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine7"]
 margin_left = 108.0
 margin_right = 178.0
 margin_bottom = 22.0
@@ -3127,19 +3126,19 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="ScoreLine8" type="HBoxContainer" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable"]
+[node name="ScoreLine8" type="HBoxContainer" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable"]
 margin_top = 228.0
 margin_right = 178.0
 margin_bottom = 250.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine8"]
+[node name="Position" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine8"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine8"]
+[node name="Owner" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine8"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -3153,7 +3152,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine8"]
+[node name="Score" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine8"]
 margin_left = 108.0
 margin_right = 178.0
 margin_bottom = 22.0
@@ -3162,19 +3161,19 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="ScoreLine9" type="HBoxContainer" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable"]
+[node name="ScoreLine9" type="HBoxContainer" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable"]
 margin_top = 256.0
 margin_right = 178.0
 margin_bottom = 278.0
 rect_min_size = Vector2( 72, 0 )
 
-[node name="Position" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine9"]
+[node name="Position" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine9"]
 margin_right = 24.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 24, 0 )
 text = "2."
 
-[node name="Owner" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine9"]
+[node name="Owner" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine9"]
 margin_left = 28.0
 margin_top = 2.0
 margin_right = 100.0
@@ -3188,7 +3187,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="GUI/GameOver/EnigmaGameSummary/HighscoreTable/ScoreLine9"]
+[node name="Score" type="Label" parent="GUI/GameOver/RiddlerGameSummary/HighscoreTable/ScoreLine9"]
 margin_left = 108.0
 margin_right = 178.0
 margin_bottom = 22.0
@@ -3197,7 +3196,7 @@ size_flags_horizontal = 10
 text = "00000"
 align = 2
 
-[node name="Menu" type="HBoxContainer" parent="GUI/GameOver/EnigmaGameSummary"]
+[node name="Menu" type="HBoxContainer" parent="GUI/GameOver/RiddlerGameSummary"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -3212,14 +3211,14 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="QuitBtn" type="Button" parent="GUI/GameOver/EnigmaGameSummary/Menu"]
+[node name="QuitBtn" type="Button" parent="GUI/GameOver/RiddlerGameSummary/Menu"]
 margin_right = 160.0
 margin_bottom = 22.0
 mouse_default_cursor_shape = 2
 size_flags_vertical = 8
 text = "QUIT TO MENU"
 
-[node name="RestartBtn" type="Button" parent="GUI/GameOver/EnigmaGameSummary/Menu"]
+[node name="RestartBtn" type="Button" parent="GUI/GameOver/RiddlerGameSummary/Menu"]
 margin_left = 192.0
 margin_right = 324.0
 margin_bottom = 22.0
@@ -3227,7 +3226,7 @@ mouse_default_cursor_shape = 2
 size_flags_vertical = 8
 text = "PLAY AGAIN"
 
-[node name="NextLevelBtn" type="Button" parent="GUI/GameOver/EnigmaGameSummary/Menu"]
+[node name="NextLevelBtn" type="Button" parent="GUI/GameOver/RiddlerGameSummary/Menu"]
 margin_left = 356.0
 margin_right = 492.0
 margin_bottom = 22.0
@@ -3235,7 +3234,7 @@ mouse_default_cursor_shape = 2
 size_flags_vertical = 8
 text = "NEXT LEVEL"
 
-[node name="ExitGameBtn" type="Button" parent="GUI/GameOver/EnigmaGameSummary/Menu"]
+[node name="ExitGameBtn" type="Button" parent="GUI/GameOver/RiddlerGameSummary/Menu"]
 visible = false
 margin_left = 524.0
 margin_right = 646.0
@@ -3245,7 +3244,6 @@ size_flags_vertical = 8
 text = "EXIT GAME"
 
 [node name="NameInputPopup" type="Control" parent="GUI/GameOver"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -3294,9 +3292,21 @@ focus_neighbour_bottom = NodePath("../HBoxContainer/ConfirmBtn")
 focus_next = NodePath("../HBoxContainer/ConfirmBtn")
 size_flags_horizontal = 4
 size_flags_vertical = 6
-text = "00000000000"
 align = 1
 caret_blink = true
+
+[node name="Dots" type="Label" parent="GUI/GameOver/NameInputPopup/NameInput"]
+modulate = Color( 0.72549, 0.737255, 0.764706, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -11.0
+margin_right = 20.0
+margin_bottom = 11.0
+text = "..."
+align = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="GUI/GameOver/NameInputPopup"]
 anchor_left = 0.5
@@ -3350,10 +3360,10 @@ one_shot = true
 [connection signal="pressed" from="GUI/GameOver/GameSummary/NoHS/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/GameSummary/WithHS/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/GameSummary/WithHS/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
-[connection signal="pressed" from="GUI/GameOver/EnigmaGameSummary/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
-[connection signal="pressed" from="GUI/GameOver/EnigmaGameSummary/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
-[connection signal="pressed" from="GUI/GameOver/EnigmaGameSummary/Menu/NextLevelBtn" to="GUI/GameOver" method="_on_NextLevelBtn_pressed"]
-[connection signal="pressed" from="GUI/GameOver/EnigmaGameSummary/Menu/ExitGameBtn" to="GUI/GameOver" method="_on_ExitGameBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/RiddlerGameSummary/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/RiddlerGameSummary/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/RiddlerGameSummary/Menu/NextLevelBtn" to="GUI/GameOver" method="_on_NextLevelBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/RiddlerGameSummary/Menu/ExitGameBtn" to="GUI/GameOver" method="_on_ExitGameBtn_pressed"]
 [connection signal="text_changed" from="GUI/GameOver/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_NameEdit_text_changed"]
 [connection signal="text_entered" from="GUI/GameOver/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_PopupNameEdit_text_entered"]
 [connection signal="pressed" from="GUI/GameOver/NameInputPopup/HBoxContainer/CancelBtn" to="GUI/GameOver" method="_on_CancelBtn_pressed"]

@@ -2,10 +2,10 @@ extends GameOver
 
 
 onready var timeup_label: Label = $GameoverTitle/ReasonTime/TimeupLabel
-onready var enigma_game_summary: Control = $EnigmaGameSummary
-onready var enigma_highscore_table: VBoxContainer = $EnigmaGameSummary/HighscoreTable
+onready var riddler_game_summary: Control = $RiddlerGameSummary
+onready var riddler_highscore_table: VBoxContainer = $RiddlerGameSummary/HighscoreTable
 
-var enigma_solved: bool = false				
+var riddler_solved: bool = false				
 				
 func _ready() -> void:
 	# namen: dodan enigam game summary
@@ -16,20 +16,20 @@ func _ready() -> void:
 	gameover_title_holder.visible = false
 	game_summary_holder.visible = false
 	name_input_popup.visible = false
-	enigma_game_summary.visible = false
+	riddler_game_summary.visible = false
 	
 
 func set_game_gameover_title():
 	# namen: sprememba teksta v GO - TIME komentarju glede na to katera igra je
-	# namen: opredelim, če je bila enigma rešena
+	# namen: opredelim, če je bila riddler rešena
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
+	if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
 		match current_gameover_reason:
 			Global.game_manager.GameoverReason.CLEANED:
 				selected_gameover_title = gameover_title_cleaned
 				selected_gameover_jingle = "win_jingle"
 				name_input_label.text = "Great work!"
-				# write enigma to solved enigmas
+				# write riddler to solved riddlers
 				Global.data_manager.write_solved_status_to_file(Global.game_manager.game_data)
 			Global.game_manager.GameoverReason.LIFE:
 				selected_gameover_title = gameover_title_life
@@ -73,7 +73,7 @@ func set_game_gameover_title():
 
 
 func show_gameover_menu():
-	# namen: enigma HS table, izločim beleženje HS, če ENIGMA ni končana,
+	# namen: riddler HS table, izločim beleženje HS, če riddler ni končana,
 	
 	get_tree().set_pause(true) # setano čez celotno GO proceduro
 	
@@ -101,8 +101,8 @@ func show_gameover_menu():
 			# yield čaka na konec preverke ... tip ni opredeljen, ker je ranking, če ni skora kot objecta, če je ranking
 			var score_is_ranking = Global.data_manager.manage_gameover_highscores(current_score_points, current_score_time, Global.game_manager.game_data) 
 			
-			# če je enigma score štejem samo, če vse spuca
-			if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA and not current_gameover_reason == Global.game_manager.GameoverReason.CLEANED: 
+			# če je riddler score štejem samo, če vse spuca
+			if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER and not current_gameover_reason == Global.game_manager.GameoverReason.CLEANED: 
 				yield(get_tree().create_timer(1), "timeout")
 				current_player_ranking = 100 # zazih ni na lestvici
 			else:
@@ -112,8 +112,8 @@ func show_gameover_menu():
 					get_viewport().set_disable_input(false) # anti dablklik
 					current_player_ranking = Global.data_manager.current_player_ranking
 			
-			if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
-				enigma_highscore_table.get_highscore_table(Global.game_manager.game_data, current_player_ranking)
+			if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
+				riddler_highscore_table.get_highscore_table(Global.game_manager.game_data, current_player_ranking)
 			else:
 				highscore_table.get_highscore_table(Global.game_manager.game_data, current_player_ranking)
 			selected_game_summary = game_summary_with_hs
@@ -121,23 +121,23 @@ func show_gameover_menu():
 
 
 func show_game_summary():
-	# namen: izbira enigma game summary
+	# namen: izbira riddler game summary
 	
 	var game_summary_to_show: Control
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
+	if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
 		# focus btn
 		if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
-			focus_btn = enigma_game_summary.get_node("Menu/NextLevelBtn")
+			focus_btn = riddler_game_summary.get_node("Menu/NextLevelBtn")
 		else:
-			focus_btn = enigma_game_summary.get_node("Menu/RestartBtn")
+			focus_btn = riddler_game_summary.get_node("Menu/RestartBtn")
 			
-		enigma_game_summary.get_node("DataContainer/Game").text %= str(Global.game_manager.game_data["game_name"])
-		enigma_game_summary.get_node("DataContainer/Level").text %= "%02d" % Global.game_manager.game_data["level"]
-		enigma_game_summary.get_node("DataContainer/AstrayPixels").text %= str(Global.game_manager.strays_in_game_count)
-		enigma_game_summary.visible = true	
-		enigma_game_summary.modulate.a = 0	
-		game_summary_to_show = enigma_game_summary
+		riddler_game_summary.get_node("DataContainer/Game").text %= str(Global.game_manager.game_data["game_name"])
+		riddler_game_summary.get_node("DataContainer/Level").text %= "%02d" % Global.game_manager.game_data["level"]
+		riddler_game_summary.get_node("DataContainer/AstrayPixels").text %= str(Global.game_manager.strays_in_game_count)
+		riddler_game_summary.visible = true	
+		riddler_game_summary.modulate.a = 0	
+		game_summary_to_show = riddler_game_summary
 	else:
 		focus_btn = selected_game_summary.get_node("Menu/RestartBtn")
 		selected_game_summary.get_node("DataContainer/Game").text %= str(Global.game_manager.game_data["game_name"])

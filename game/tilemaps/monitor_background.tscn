@@ -51,6 +51,21 @@ __meta__ = {
 "_edit_group_": true
 }
 
+[node name="LightHolder" type="Control" parent="Cover"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -32.0
+margin_top = -21.0
+margin_right = -24.0
+margin_bottom = -16.0
+
+[node name="Light" type="Polygon2D" parent="Cover/LightHolder"]
+z_index = 10
+color = Color( 0.462745, 1.59608, 0.54902, 1 )
+polygon = PoolVector2Array( 0, 0, 0, 5, 8, 5, 8, 0 )
+
 [node name="Polygon2D" type="Polygon2D" parent="."]
 visible = false
 position = Vector2( 705, 448 )
@@ -62,9 +77,3 @@ visible = false
 position = Vector2( 33, 800 )
 color = Color( 0.952941, 0.356863, 0.498039, 1 )
 polygon = PoolVector2Array( 607, 288, 607, 320, 639, 320, 639, 288 )
-
-[node name="Light" type="Polygon2D" parent="."]
-position = Vector2( 1312, 1419 )
-z_index = 9
-color = Color( 0.6, 1.7, 1.1, 1 )
-polygon = PoolVector2Array( 0, 0, 0, 5, 8, 5, 8, 0 )

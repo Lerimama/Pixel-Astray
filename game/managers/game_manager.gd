@@ -18,7 +18,7 @@ var strays_shown: Array = []
 var strays_in_game_count: int setget _change_strays_in_game_count # spremlja spremembo količine aktivnih in uničenih straysov
 var strays_cleaned_count: int = 0 # za statistiko na hudu
 var all_strays_died_alowed: bool = false # za omejevanje signala iz FP ... kdaj lahko reagira na 0 straysov v igri
-var all_stray_colors: Array # barve na štartnem spawnu (site kot v spektrumu)
+var all_stray_colors: Array # barve na štartnem spawnu (iste kot v spektrumu)
 var available_respawn_positions: Array # pozicije na voljo, ki se apdejtajo na vsak stray in player spawn ali usmrtitev 
 var dont_turn_to_wall_positions: Array # za zaščito, da wall stray ne postane wall (ob robu igre recimo)
 var show_position_indicators_limit_reached: bool = false # na začetku jih ne rabim gledat
@@ -39,7 +39,6 @@ onready var PlayerPixel: PackedScene = preload("res://game/pixel/player.tscn")
 
 # neu
 var level_upgrade_in_progress: bool = false # ustavim klicanje naslednjih levelov
-#var current_enigma_name: String = "Null" # ime levele ... lahko številka
 var level_points_goal: int
 # respawn
 var first_respawn_time: float = 5
@@ -57,10 +56,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_pressed("no2"):
 		get_tree().call_group(Global.group_strays, "die_to_wall")
 	if Input.is_action_pressed("no1"):
-		upgrade_level()
+		upgrade_level("cleaned")
 	if Input.is_action_just_pressed("l"):
-		upgrade_level()	
-	
+		upgrade_level("regular")
+	if Input.is_action_just_pressed("h"):
+		if game_data["game"] == Profiles.Games.RIDDLER:
+			Global.current_tilemap.get_node("SolutionLine").visible = not Global.current_tilemap.get_node("SolutionLine").visible
+		
 	
 func _ready() -> void:
 
@@ -74,9 +76,9 @@ func _ready() -> void:
 		respawn_wait_time = game_settings["respawn_wait_time"]
 		level_points_goal = game_data["level_points_goal"]
 	
-	if game_data["game"] == Profiles.Games.ENIGMA:
+	if game_data["game"] == Profiles.Games.RIDDLER:
 		var current_level_settings: Dictionary
-		current_level_settings = Profiles.enigma_level_setting[game_data["level"]]
+		current_level_settings = Profiles.riddler_level_setting[game_data["level"]]
 		for setting in current_level_settings:
 			game_data[setting] = current_level_settings[setting]
 		
@@ -123,12 +125,12 @@ func _process(delta: float) -> void:
 	
 	
 func set_tilemap():
-	# namen: load enigma level tilemap
+	# namen: load riddler level tilemap
 	
 	var tilemap_to_release: TileMap = Global.current_tilemap # trenutno naložen v areni
 	
 	var tilemap_to_load_path: String
-	if game_data["game"] == Profiles.Games.ENIGMA: # path vlečem iz level settings
+	if game_data["game"] == Profiles.Games.RIDDLER: # path vlečem iz level settings
 		tilemap_to_load_path = game_data["tilemap_path"]
 	else:
 		tilemap_to_load_path = game_data["tilemap_path"]
@@ -190,7 +192,7 @@ func set_game():
 
 
 func start_game():
-	# namen: turn to wall respawn štartrespawnanje straysov ... za eternal
+	# namen: turn to wall respawn štart, respawnanje straysov ... za eternal
 
 	
 	Global.hud.game_timer.start_timer()
@@ -204,22 +206,22 @@ func start_game():
 	game_on = true
 	
 	# start respawning
-	if game_settings["respawn_mode"] and not game_settings["respawn_wait_time"] == 0:
+	if game_settings["respawn_strays_count"] > 0 and not game_settings["respawn_wait_time"] == 0:
 		respawn_timer.start(first_respawn_time)
 
 
 func game_over(gameover_reason: int):
-	
-	# respawn na cleaned namesto GO
-	if gameover_reason == GameoverReason.CLEANED:
-		if game_settings["respawn_mode"] and game_settings["respawn_wait_time"] == 0: # respawn on cleaned
+
+	# CLASSIC respawn na cleaned namesto GO 
+	if game_settings["respawn_strays_count"] > 0 and game_settings["respawn_wait_time"] == 0: # uniq kombinacija respawn on cleaned
+		if gameover_reason == GameoverReason.CLEANED:
 			all_strays_died_alowed = true
 			yield(self, "all_strays_died")
 			var signaling_player: KinematicBody2D
 			for player in get_tree().get_nodes_in_group(Global.group_players):
 				player.screen_cleaned()
 				player.set_physics_process(false)
-				signaling_player = player # da se zgodi na obeh plejerjih istočasno
+				signaling_player = player
 			respawn_strays()
 			get_tree().call_group(Global.group_players, "set_physics_process", true)
 			return
@@ -236,11 +238,11 @@ func game_over(gameover_reason: int):
 		var signaling_player: KinematicBody2D
 		for player in get_tree().get_nodes_in_group(Global.group_players):
 			player.screen_cleaned()
-			signaling_player = player # da se zgodi na obeh plejerjih istočasno
-		yield(signaling_player, "rewarded_on_cleaned") # počakam, da je nagrajen
+			signaling_player = player
+		yield(signaling_player, "rewarded_on_cleaned")
 	
 	get_tree().call_group(Global.group_players, "set_physics_process", false)
-	yield(get_tree().create_timer(1), "timeout") # za dojet
+	#yield(get_tree().create_timer(1), "timeout") # za dojet
 	stop_game_elements()
 	Global.current_tilemap.background_room.show()
 	Global.gameover_menu.open_gameover(gameover_reason)
@@ -311,8 +313,6 @@ func set_strays():
 func spawn_strays(strays_to_spawn_count: int):
 	# namen: gradient iz naključnih barv iz spektruma	
 	
-	strays_to_spawn_count = clamp(strays_to_spawn_count, 1, strays_to_spawn_count) # za vsak slučaj klempam, da ne more biti nikoli 0 ...  ker je error			
-	
 	var current_level: int
 	if game_data.has("level"): 
 		current_level = game_data["level"]
@@ -321,12 +321,12 @@ func spawn_strays(strays_to_spawn_count: int):
 	
 	# colors
 	var all_colors_available: Array
-	if game_settings["eternal_mode"]: # CLEANER_S, CLEANER_M, SCROLLER
+	if game_settings["eternal_mode"]: # CLEANER_S, CLEANER_M
 		if current_level <= 1:
 			all_colors_available = Global.get_spectrum_colors(strays_to_spawn_count) # prvi level je original ... vsi naslednji imajo random gradient
 		else:
 			all_colors_available = Global.get_random_gradient_colors(strays_to_spawn_count)
-	else: #	CLASSIC_S, CLASSIC_M, CLASSIC_L, CLEANER_L, THE_DUEL, ENIGMA	
+	else: #	CLASSIC_S, CLASSIC_M, CLASSIC_L, CLEANER_L, THE_DUEL, RIDDLER	
 		if Profiles.use_custom_color_theme:
 			var color_split_offset: float = 1.0 / strays_to_spawn_count
 			for stray_count in strays_to_spawn_count:
@@ -334,7 +334,8 @@ func spawn_strays(strays_to_spawn_count: int):
 				all_colors_available.append(color)	
 		else:
 			all_colors_available = Global.get_spectrum_colors(strays_to_spawn_count) # prvi level je original ... vsi naslednji imajo random gradient
-	all_stray_colors = [] # reset ... za color indikatorje
+	
+	all_stray_colors = [] # vsakič resetiramo ... za color indikatorje
 	
 	# positions
 	var available_required_spawn_positions = required_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
@@ -345,7 +346,7 @@ func spawn_strays(strays_to_spawn_count: int):
 		var current_color: Color = all_colors_available[stray_index] # barva na lokaciji v spektrumu
 		# available spawn positions
 		var current_spawn_positions: Array
-		if current_level <= 1 or game_data["game"] == Profiles.Games.ENIGMA: # vse igre razen enigme ineterenal imajo level 0
+		if current_level <= 1 or game_data["game"] == Profiles.Games.RIDDLER: # vse igre razen enigme ineterenal imajo level 0
 			if not available_required_spawn_positions.empty(): # najprej obvezne
 				current_spawn_positions = available_required_spawn_positions
 			elif available_required_spawn_positions.empty(): # potem random
@@ -438,7 +439,7 @@ func show_strays_on_start(show_strays_loop: int):
 			break
 	
 
-func respawn_strays(): # za eternal
+func respawn_strays():
 
 	for stray_index in respawn_strays_count:
 	
@@ -453,7 +454,7 @@ func respawn_strays(): # za eternal
 		# get color
 		var spawned_stray_color: Color
 		# stray to wall color
-		if game_settings["turn_stray_to_wall"] and not get_tree().get_nodes_in_group(Global.group_strays).empty():
+		if game_settings["random_stray_to_wall"] and not get_tree().get_nodes_in_group(Global.group_strays).empty():
 			spawned_stray_color = turn_random_strays_to_wall()
 			yield(get_tree().create_timer(1), "timeout") # da se ne spawna, ko še ni wall
 		# random color
@@ -480,7 +481,7 @@ func respawn_strays(): # za eternal
 		self.strays_in_game_count = 1 # setget sprememba	
 	
 	
-func clean_strays_in_game(): # za eternal
+func clean_strays_in_game():
 	
 	# vsi straysi, ki niso wall
 	var all_strays_alive: Array = get_tree().get_nodes_in_group(Global.group_strays)
@@ -495,7 +496,7 @@ func clean_strays_in_game(): # za eternal
 	all_strays_died_alowed = true
 
 
-func turn_random_strays_to_wall(): # za eternal
+func turn_random_strays_to_wall():
 	
 	var wall_strays_alive: Array 
 	for stray in get_tree().get_nodes_in_group(Global.group_strays):
@@ -532,7 +533,7 @@ func _change_strays_in_game_count(strays_count_change: int):
 			if stray.current_state == stray.States.WALL:
 				wall_strays_count += 1
 		if strays_in_game_count == wall_strays_count or strays_in_game_count == 0: 
-			upgrade_level()
+			upgrade_level("cleaned")
 	else:
 		if strays_in_game_count == 0: 
 			game_over(GameoverReason.CLEANED)	
@@ -545,71 +546,67 @@ func stop_stray_spawning():
 # LEVELS --------------------------------------------------------------------------------------------	
 
 
-func upgrade_level(): # za eternal
+func upgrade_level(level_upgrade_reason: String):
 	
 	if level_upgrade_in_progress:
 		return
 	
-	randomize()
-	
 	level_upgrade_in_progress = true	
-	
-	for player in get_tree().get_nodes_in_group(Global.group_players):
-		player.current_state = player.States.IDLE
-		while not player.cocked_ghosts.empty():
-			var ghost = player.cocked_ghosts.pop_back()
-			ghost.queue_free()
-			
+	randomize()
 	game_data["level"] += 1 # številka novega levela 
 	respawn_timer.stop()
-	
 	Global.hud.level_up_popup_in(game_data["level"])
+	#reset players
+	for player in get_tree().get_nodes_in_group(Global.group_players):
+		player.end_move()
+	#		player.current_state = player.States.IDLE
+	#		while not player.cocked_ghosts.empty():
+	#			var ghost = player.cocked_ghosts.pop_back()
+	#			ghost.queue_free()
 	
 	# set for new level
-	set_new_level() 
+	if level_upgrade_reason == "cleaned":
+#		get_tree().call_group(Global.group_players, "screen_cleaned")
+		for player in get_tree().get_nodes_in_group(Global.group_players):
+			player.screen_cleaned()
 	Global.hud.empty_color_indicators()
 	get_tree().call_group(Global.group_players, "set_physics_process", false)
 	clean_strays_in_game() # puca vse v igri
-	
-	# strays cleaned
 	yield(self, "all_strays_died") # ko so vsi iz igre grem naprej
-	
+	set_new_level() 
 	#	var curr_time = universal_time
 	#	printt("upgrade start", curr_time)
 	
-	var signaling_player: KinematicBody2D
-	for player in get_tree().get_nodes_in_group(Global.group_players):
-		player.screen_cleaned()
-	
 	# start new level
 	Global.hud.level_up_popup_out()
-	level_upgrade_in_progress = false
 	set_strays() 
 	get_tree().call_group(Global.group_players, "set_physics_process", true)
+	level_upgrade_in_progress = false
 	
-	if game_settings["respawn_mode"]:
+	if game_settings["respawn_strays_count"] > 0:
 		respawn_timer.start(first_respawn_time)
 	
 
 func set_new_level(): 
-	# samo za eternal
 	
-	if game_settings["eternal_mode"]:
-		# kateri score je višji
-		stray_wall_spawn_possibilty *= game_data["stray_wall_spawn_possibilty_factor"]
-		level_points_goal += level_points_goal + game_data["level_points_goal_grow"]
-		respawn_wait_time *= game_data["respawn_wait_time_factor"]
-		respawn_strays_count = game_data["respawn_strays_count_grow"]
-		# število spawnanih straysov
-		start_strays_spawn_count += game_data["level_strays_spawn_count_grow"]
-		if game_data["level"] == 2: # 2. level je prvi level ko se štarta zares
-			start_strays_spawn_count = game_settings["strays_start_count"]
+	respawn_wait_time *= game_data["respawn_wait_time_factor"]
+	respawn_strays_count = game_data["respawn_strays_count_grow"]
+	# kdo ma boljši score
+	var higher_player_score: int = 0
+	for player in get_tree().get_nodes_in_group(Global.group_players):
+		if player.player_stats["player_points"] > higher_player_score:
+			higher_player_score = player.player_stats["player_points"]
+	level_points_goal += higher_player_score + game_data["level_points_goal_grow"]
+	# število spawnanih straysov
+	start_strays_spawn_count += game_data["level_strays_spawn_count_grow"]
+	if game_data["level"] == 2: # 2. level je prvi level ko se štarta zares
+		start_strays_spawn_count = game_settings["strays_start_count"]
 
 	
 # SIGNALI --------------------------------------------------------------------------------------------	
 
 
-func _on_RespawnTimer_timeout() -> void: # za eternal
+func _on_RespawnTimer_timeout() -> void:
 	
 	respawn_strays()
 	respawn_timer.stop()

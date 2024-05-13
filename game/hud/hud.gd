@@ -1,7 +1,7 @@
 extends GameHud
 
 
-onready var level_up_popup: Control = $"Popups/LevelUp" # za eternal
+onready var level_up_popup: Control = $"Popups/LevelUp"
 onready var level_limit_holder: HBoxContainer = $Footer/FooterLine/LevelLimitHolder
 onready var level_limit_label_1: Label = $Footer/FooterLine/LevelLimitHolder/Label
 onready var level_limit_label_2: Label = $Footer/FooterLine/LevelLimitHolder/Label2
@@ -28,11 +28,12 @@ func _process(delta: float) -> void:
 			if player.player_stats["player_points"] > current_biggest_score:
 				current_biggest_score = player.player_stats["player_points"]
 		# razlika med limito in višjim skorom
-		level_limit_label_1.text = "%d" % (Global.game_manager.level_points_goal - current_biggest_score) 
+		var to_limit_count: int = Global.game_manager.level_points_goal - current_biggest_score
+		to_limit_count = clamp(to_limit_count, 0, to_limit_count)
+		level_limit_label_1.text = "%d" % to_limit_count 
 		level_limit_label_2.text = "POINTS TO LEVEL UP"
-	# zapis straysov na mizi
-	elif Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
-#		level_label.text = "%s" % Global.game_manager.game_data["level"] 
+	# to level up
+	elif Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
 		level_limit_label_1.text = "%d" % Global.game_manager.strays_in_game_count
 		level_limit_label_2.text = "COLORS TO PICK"
 
@@ -77,7 +78,7 @@ func set_hud(players_count: int): # kliče main na game-in
 		level_limit_holder.visible = true
 		strays_counters_holder.visible = false
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
+	if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
 		p1_energy_counter.visible = false
 		p1_points_counter.visible = false
 		highscore_label.visible = true
@@ -117,25 +118,23 @@ func fade_in_instructions_popup(in_time: float):
 
 	
 func level_up_popup_in(level_reached: int): 
-	# za eternal
 	
 	level_up_popup.modulate.a = 0
-	level_up_popup.get_node("Label").text = "LEVEL UP"
-	#	level_up_popup.get_node("Label").text = "LEVEL %s" % str(level_reached)
+	level_up_popup.get_node("Label").text = "LEVEL UP" # "LEVEL %s" % str(level_reached)
 	level_up_popup.show()
 	
 	var popup_in = get_tree().create_tween()
 	popup_in.tween_property(level_up_popup, "modulate:a", 1, 0.3)
 
 
-func level_up_popup_out(): # za eternal
+func level_up_popup_out():
 	
 	var popup_in = get_tree().create_tween()
 	popup_in.tween_property(level_up_popup, "modulate:a", 0, 0.3)
 	popup_in.tween_callback(level_up_popup, "hide")
 
 
-func empty_color_indicators(): # za eternal
+func empty_color_indicators():
 	
 	# zbrišem trenutne indikatorje
 	for child in spectrum.get_children():
@@ -143,7 +142,7 @@ func empty_color_indicators(): # za eternal
 	active_color_indicators.clear()
 
 
-func update_stats(stat_owner: Node, player_stats: Dictionary): # za eternal
+func update_stats(stat_owner: Node, player_stats: Dictionary):
 	# namen: preverjanje števila točk in klic next level v GM (na koncu)	
 	
 	# player stats
@@ -176,4 +175,4 @@ func update_stats(stat_owner: Node, player_stats: Dictionary): # za eternal
 	
 	if Global.game_manager.game_settings["eternal_mode"]:
 		if player_stats["player_points"] >= Global.game_manager.level_points_goal:
-			Global.game_manager.upgrade_level()
+			Global.game_manager.upgrade_level("regular")

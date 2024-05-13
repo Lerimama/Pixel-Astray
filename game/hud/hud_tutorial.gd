@@ -293,13 +293,22 @@ func slide_in(players_count: int): # kliče GM set_game()
 	
 	Global.start_countdown.start_countdown() # GM yielda za njegov signal
 	
+	var solution_line: Line2D
+	if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
+		solution_line = Global.current_tilemap.get_node("SolutionLine")
+		solution_line.hide()
+		solution_line.modulate.a = 0.1
+		
 	Global.game_camera.zoom_in(hud_in_out_time, players_count)
 	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
-	fade_in.tween_property(header, "rect_position:y", 0, hud_in_out_time)
+	if Global.game_manager.game_settings["show_solution_hint"]:
+		fade_in.tween_callback(solution_line, "show")
+		fade_in.tween_property(solution_line, "modulate:a", 0.1, hud_in_out_time).from(0.0)
+	fade_in.parallel().tween_property(header, "rect_position:y", 0, hud_in_out_time)
 	fade_in.parallel().tween_property(footer, "rect_position:y", screen_height - header_height, hud_in_out_time)
 	fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", header_height, hud_in_out_time)
 	fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", header_height, hud_in_out_time)
-		
+	
 	for indicator in active_color_indicators:
 		var indicator_fade_in = get_tree().create_tween()
 		indicator_fade_in.tween_property(indicator, "modulate:a", unpicked_indicator_alpha, 0.3).set_ease(Tween.EASE_IN)
@@ -314,6 +323,10 @@ func slide_out(): # kliče GM na game over
 	fade_in.parallel().tween_property(footer, "rect_position:y", screen_height, hud_in_out_time)
 	fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", 0, hud_in_out_time)
 	fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", 0, hud_in_out_time)
+	if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
+		var solution_line: Line2D = Global.current_tilemap.get_node("SolutionLine")
+		fade_in.parallel().tween_property(solution_line, "modulate:a", 0, hud_in_out_time)
+		fade_in.tween_callback(solution_line, "hide")
 	fade_in.tween_callback(self, "hide")
 	
 	
@@ -361,7 +374,15 @@ func spawn_color_indicators(available_colors: Array): # kliče GM
 					
 func show_color_indicator(picked_color: Color):
 	
-	
+	# preverim, če je to edina taka barva na igrišču
+	var same_color_stray_count: int = 0
+	for stray in get_tree().get_nodes_in_group(Global.group_strays):
+		if stray.stray_color == picked_color:
+			same_color_stray_count += 1
+			if same_color_stray_count > 1:
+				print("barva je še")
+				return
+		
 	var current_indicator_index: int
 	for indicator in active_color_indicators:
 		# pobrana barva

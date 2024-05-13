@@ -27,6 +27,11 @@ shadow_enabled = true
 position = Vector2( -16, -16 )
 polygon = PoolVector2Array( 2, 2, 2, 0, 30, 0, 30, 2, 32, 2, 32, 30, 30, 30, 30, 32, 2, 32, 2, 30, 0, 30, 0, 2 )
 
+[node name="ColorPolyAlt" type="Polygon2D" parent="."]
+visible = false
+position = Vector2( -16, -16 )
+polygon = PoolVector2Array( 0, 0, 2, 0, 30, 0, 32, 0, 32, 2, 32, 30, 32, 32, 30, 32, 2, 32, 0, 32, 0, 30, 0, 2 )
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 shape = SubResource( 116 )

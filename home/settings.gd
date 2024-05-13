@@ -126,7 +126,7 @@ func _on_ResetBtn_pressed() -> void:
 	randomize_btn.grab_focus()
 
 	intro.respawn_title_strays()
-	select_level_node.update_enigma_btns_color()
+	select_level_node.update_riddler_btns_color()
 
 
 func _on_RandomizeBtn_pressed() -> void:
@@ -141,4 +141,4 @@ func _on_RandomizeBtn_pressed() -> void:
 	gradient_icon.texture.gradient = current_color_scheme_gradient
 	
 	intro.respawn_title_strays()
-	select_level_node.update_enigma_btns_color()
+	select_level_node.update_riddler_btns_color()

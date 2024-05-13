@@ -16,6 +16,9 @@ onready var ghost_ray: RayCast2D = $RayCast2D
 onready var glow_light: Light2D = $GlowLight
 onready var cell_size_x: float = Global.current_tilemap.cell_size.x
 
+onready var color_poly: Polygon2D = $ColorPoly
+onready var color_poly_alt: Polygon2D = $ColorPolyAlt
+
 
 func _ready() -> void:
 

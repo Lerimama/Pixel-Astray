@@ -21,7 +21,7 @@
 [ext_resource path="res://assets/theme/color_theme_spectrum.png" type="Texture" id=20]
 [ext_resource path="res://assets/resources/tileset_titles.tres" type="TileSet" id=21]
 [ext_resource path="res://game/managers/game_manager_tutorial.gd" type="Script" id=22]
-[ext_resource path="res://game/gui/game_over_tutorial.gd" type="Script" id=23]
+[ext_resource path="res://game/gui/game_over_class.gd" type="Script" id=23]
 [ext_resource path="res://game/player_camera.tscn" type="PackedScene" id=24]
 [ext_resource path="res://game/hud/hud_tutorial.gd" type="Script" id=25]
 [ext_resource path="res://game/hud/hud_game_timer_hunds.tscn" type="PackedScene" id=26]
@@ -3649,10 +3649,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 417.0
-margin_top = 320.0
-margin_right = 865.0
-margin_bottom = 608.0
+margin_left = -223.0
+margin_top = -40.0
+margin_right = 225.0
+margin_bottom = 248.0
 theme = SubResource( 346 )
 __meta__ = {
 "_edit_group_": true
@@ -4272,6 +4272,7 @@ text = "PLAY ON"
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 2 )
@@ -4283,6 +4284,7 @@ anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0 )
 
 [node name="GameoverTitle" type="Control" parent="GUI/GameOver"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -5394,9 +5396,21 @@ focus_neighbour_bottom = NodePath("../HBoxContainer/ConfirmBtn")
 focus_next = NodePath("../HBoxContainer/ConfirmBtn")
 size_flags_horizontal = 4
 size_flags_vertical = 6
-text = "00000000000"
 align = 1
 caret_blink = true
+
+[node name="Dots" type="Label" parent="GUI/GameOver/NameInputPopup/NameInput"]
+modulate = Color( 0.72549, 0.737255, 0.764706, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -11.0
+margin_right = 20.0
+margin_bottom = 11.0
+text = "..."
+align = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="GUI/GameOver/NameInputPopup"]
 anchor_left = 0.5

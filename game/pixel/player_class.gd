@@ -377,28 +377,28 @@ func release_burst():
 	
 	play_sound("burst_cocked")
 
-	var cocked_ghost_fill_time: float = 0.015 # čas za napolnitev vseh spawnanih ghostov (tik pred burstom)
-	var cocked_pause_time: float = 0.03 # pavza pred strelom
-
 	# napeti ghosti animirajo do alfa 1
+	var cocked_ghost_fill_time: float = 0.015 # čas za napolnitev vseh spawnanih ghostov (tik pred burstom)
 	for ghost in cocked_ghosts:
 		var get_set_tween = get_tree().create_tween()
 		get_set_tween.tween_property(ghost, "modulate:a", 1, cocked_ghost_fill_time)
-		yield(get_tree().create_timer(cocked_ghost_fill_time),"timeout")
-
+		yield(get_set_tween,"finished")
+	var cocked_pause_time: float = 0.03 # pavza pred strelom
 	yield(get_tree().create_timer(cocked_pause_time), "timeout")
 	
 	burst()
 		
 
 func burst():
-	
+
 	var burst_direction = direction
 	var backup_direction = - burst_direction
 	var current_ghost_count = cocked_ghosts.size()
 	
 	# spawn stretch ghost
 	var new_stretch_ghost = spawn_ghost(global_position)
+	new_stretch_ghost.color_poly.hide()
+	new_stretch_ghost.color_poly_alt.show()
 	if burst_direction.y == 0: # če je smer hor
 		new_stretch_ghost.scale = Vector2(current_ghost_count, 1)
 	elif burst_direction.x == 0: # če je smer ver
@@ -413,18 +413,15 @@ func burst():
 	play_sound("burst")
 	
 	# release ghost 
-	var strech_ghost_shrink_time: float = 0.2
+	var strech_ghost_shrink_time: float = 0.1
 	var release_tween = get_tree().create_tween()
 	release_tween.tween_property(new_stretch_ghost, "scale", Vector2.ONE, strech_ghost_shrink_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	release_tween.parallel().tween_property(new_stretch_ghost, "position", global_position - burst_direction * cell_size_x, strech_ghost_shrink_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	release_tween.tween_callback(new_stretch_ghost, "queue_free")
-	
-	var preburst_position: Vector2 = global_position
-	
+#	var preburst_position: Vector2 = global_position
+	yield(release_tween, "finished")
 	# release pixel
-	yield(get_tree().create_timer(strech_ghost_shrink_time), "timeout") # čaka na zgornji tween
 	current_state = States.BURSTING
-	
 	if Global.game_manager.game_settings["full_power_mode"]:
 		burst_speed = cocked_ghost_max_count * cock_ghost_speed_addon # maximalna možna hitrost
 	else:
@@ -802,7 +799,7 @@ func spawn_floating_tag(value: int):
 	new_floating_tag.tag_owner = self
 	Global.node_creation_parent.add_child(new_floating_tag)
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
+	if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
 		new_floating_tag.label.text = "YEAH!"
 	else:
 		if value < 0:
@@ -1137,17 +1134,15 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			set_physics_process(true)
 			got_hit = false # reset ... da se heartbeat animacija lahko začne
 			change_stat("revive", 1) # če energija = 0 (izguba lajfa), resetira energijo
-#		"become_white_again":
-#			yield(get_tree().create_timer(0.2), "timeout") # za dojet
-#			change_stat("all_cleaned", 1) # nagrada je določena v settingsih
-#			emit_signal("rewarded_on_cleaned") # javi v GM
+		"become_white":
+			emit_signal("rewarded_on_cleaned") # javi v GM
 
 
 func screen_cleaned(): # kliče GM
+	
 	animation_player.play("become_white")
-	yield(get_tree().create_timer(0.2), "timeout") # za dojet
 	change_stat("all_cleaned", 1) # nagrada je določena v settingsih
-	emit_signal("rewarded_on_cleaned") # javi v GM
+	emit_signal("rewarded_on_cleaned") # javi v GM ... signal pošljem tudi na koncu animacije, za tiste igre, ki tega zgrešijo
 	
 	
 # STATS ----------------------------------------------------------------------------------------------
@@ -1185,8 +1180,6 @@ func change_stat(stat_event: String, stat_value):
 			player_stats["player_points"] += points_to_gain
 			player_stats["player_energy"] += energy_to_gain
 			spawn_floating_tag(points_to_gain)
-			
-#			Global.game_manager.strays_in_game_count = - stack_strays_cleaned_count # GM strays sum
 			if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL: # tutorial
 				Global.tutorial_gui.finish_bursting()
 				if stack_strays_cleaned_count >= 3:
@@ -1194,30 +1187,29 @@ func change_stat(stat_event: String, stat_value):
 		"hit_player": # točke glede na delež loserjevih točk, energija se resetira na 100%
 			var hit_player_current_points: int = stat_value
 			player_stats["player_energy"] = player_max_energy
-			if game_settings["on_hit_points_part"] > 0:
-				var points_to_gain: int = round(hit_player_current_points / game_settings["on_hit_points_part"])
+			if game_settings["on_hit_points_div"] > 0:
+				var points_to_gain: int = round(hit_player_current_points / game_settings["on_hit_points_div"])
 				player_stats["player_points"] += points_to_gain
 				spawn_floating_tag(points_to_gain)
 		"hit_wall": # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
 			if Global.game_manager.game_settings["lose_life_on_hit"]:
 				player_stats["player_energy"] = 0
 			else:
-				if game_settings["on_hit_energy_part"] > 0:
-					player_stats["player_energy"] -= round(player_stats["player_energy"] / game_settings["on_hit_energy_part"])
-			if game_settings["on_hit_points_part"] > 0:
-				var points_to_lose = round(player_stats["player_points"] / game_settings["on_hit_points_part"])
-				player_stats["player_points"] /= game_settings["on_hit_points_part"]
+				if game_settings["on_hit_energy_div"] > 0:
+					player_stats["player_energy"] -= round(player_stats["player_energy"] / game_settings["on_hit_energy_div"])
+			if game_settings["on_hit_points_div"] > 0:
+				var points_to_lose = round(player_stats["player_points"] / game_settings["on_hit_points_div"])
+				player_stats["player_points"] /= game_settings["on_hit_points_div"]
 				spawn_floating_tag(- points_to_lose) 
 		"get_hit": # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
 			if Global.game_manager.game_settings["lose_life_on_hit"]:
-				player_stats["player_life"]
 				player_stats["player_energy"] = 0
 			else: # lajf = 1 setan na ready, porablja se energija 
-				if game_settings["on_hit_energy_part"] > 0:
-					player_stats["player_energy"] -= round(player_stats["player_energy"] / game_settings["on_hit_energy_part"])
-			if game_settings["on_hit_points_part"] > 0:
-				var points_to_lose = round(player_stats["player_points"] / game_settings["on_hit_points_part"])
-				player_stats["player_points"] /= game_settings["on_hit_points_part"]
+				if game_settings["on_hit_energy_div"] > 0:
+					player_stats["player_energy"] -= round(player_stats["player_energy"] / game_settings["on_hit_energy_div"])
+			if game_settings["on_hit_points_div"] > 0:
+				var points_to_lose = round(player_stats["player_points"] / game_settings["on_hit_points_div"])
+				player_stats["player_points"] /= game_settings["on_hit_points_div"]
 				spawn_floating_tag(- points_to_lose) 
 		# LIFE LOOP ------------------------------------------------------------------------------------------------------------
 		"die": # izguba lajfa, če je energija 0
@@ -1238,8 +1230,8 @@ func change_stat(stat_event: String, stat_value):
 			var reward_tag: Node = spawn_floating_tag(game_settings["reburst_reward_points"]) 
 			#			reward_tag.modulate = Global.color_green
 		"all_cleaned": # nagrada je določena v settingsih
-			player_stats["player_points"] += game_settings["all_cleaned_points"]
-			var reward_tag: Node = spawn_floating_tag(game_settings["all_cleaned_points"])
+			player_stats["player_points"] += game_settings["cleaned_reward_points"]
+			var reward_tag: Node = spawn_floating_tag(game_settings["cleaned_reward_points"])
 			#			reward_tag.modulate = Global.color_green
 		"set_life_trivial":
 			player_stats["player_life"] = 1

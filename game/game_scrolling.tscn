@@ -2859,9 +2859,21 @@ focus_neighbour_bottom = NodePath("../HBoxContainer/ConfirmBtn")
 focus_next = NodePath("../HBoxContainer/ConfirmBtn")
 size_flags_horizontal = 4
 size_flags_vertical = 6
-text = "00000000000"
 align = 1
 caret_blink = true
+
+[node name="Dots" type="Label" parent="GUI/GameOver/NameInputPopup/NameInput"]
+modulate = Color( 0.72549, 0.737255, 0.764706, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -11.0
+margin_right = 20.0
+margin_bottom = 11.0
+text = "..."
+align = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="GUI/GameOver/NameInputPopup"]
 anchor_left = 0.5

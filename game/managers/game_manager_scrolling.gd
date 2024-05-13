@@ -14,10 +14,6 @@ var stages_per_level: int
 var current_level: int = 0 # na štartu se kliče level up
 var levels_per_game: int = 1
 
-var all_stage_level_colors_available: Array
-var stray_spawn_colors_available: Array # samo za spawnanje, ne pa za spektrum
-var default_stray_spawn_colors_count: int = 500 # na začetkiu ... ob spawnu se odštevajo, ko jih ni več, se resetira na to vrednost
-
 var step_in_progress: bool = false
 var wall_strays: Array = []
 var available_home_spawn_positions: Array
@@ -31,9 +27,9 @@ var engine_stalled_time: float = 0
 func _unhandled_input(event: InputEvent) -> void:
 
 	if Input.is_action_just_pressed("l"):
-		upgrade_level()	
-	if Input.is_action_just_pressed("n"):
-		stop_stray_spawning()
+		upgrade_level("regular")	
+#	if Input.is_action_just_pressed("n"):
+#		stop_stray_spawning()
 
 			
 func _ready() -> void:
@@ -100,7 +96,7 @@ func start_game():
 	yield(get_tree().create_timer(2), "timeout") # čaka na hudov slide in
 	game_on = true
 	
-	upgrade_level()
+	upgrade_level("regular")
 	
 	spawn_strays(start_strays_spawn_count)
 
@@ -193,22 +189,10 @@ func spawn_strays(strays_to_spawn_count: int):
 
 	for stray_index in strays_to_spawn_count:
 		
-		# spawn barve na voljo
-		if current_level <= 1: # na začetku je pisana tema
-			if stray_spawn_colors_available.empty(): # če je prazna se restira
-				stray_spawn_colors_available = Global.get_spectrum_colors(default_stray_spawn_colors_count)
-			else:
-				stray_spawn_colors_available = Global.get_spectrum_colors(stray_spawn_colors_available.size())
-		else:
-			if stray_spawn_colors_available.empty():
-				stray_spawn_colors_available = Global.get_random_gradient_colors(default_stray_spawn_colors_count)
-			else:
-				stray_spawn_colors_available = Global.get_random_gradient_colors(stray_spawn_colors_available.size())
-		
 		# žrebam barvo
-		var random_color_range = stray_spawn_colors_available.size()
+		var random_color_range = all_stray_colors.size()
 		var random_selected_index: int = randi() % int(random_color_range) # + 1		
-		var random_selected_color: Color = stray_spawn_colors_available[random_selected_index]		
+		var random_selected_color: Color = all_stray_colors[random_selected_index]		
 		
 		if not available_home_spawn_positions.empty(): 
 			# možne spawn pozicije
@@ -225,8 +209,9 @@ func spawn_strays(strays_to_spawn_count: int):
 			new_stray_pixel.stray_color = random_selected_color
 			#		Global.node_creation_parent.add_child(new_stray_pixel)
 			Global.node_creation_parent.call_deferred("add_child", new_stray_pixel)
+			
 			# odstranim uporabljeno pozicije in barve dodam v števec
-			stray_spawn_colors_available.erase(random_selected_color)
+#			stray_spawn_colors_available.erase(random_selected_color)
 			available_home_spawn_positions.erase(selected_position)
 			#		new_stray_pixel.show_stray()
 			new_stray_pixel.call_deferred("show_stray")		
@@ -267,16 +252,18 @@ func stray_step():
 		
 		# Global.sound_manager.play_sfx("stray_step") # ulomek je za pitch zvoka
 		lines_scrolled_count += 1
-		if lines_scrolled_count % lines_scroll_per_spawn_round == 0: # tukaj, da ne spawna če je konec
-			if current_stray_spawning_round == 1: 
-				spawn_strays(random_spawn_count)
-			elif randi() % 100 <= round_spawn_possibility: # spawnam, če je znotraj določenih procentov
+		if lines_scrolled_count == 1: # v prvi 100% spawnam
+			spawn_strays(random_spawn_count)
+		elif lines_scrolled_count % lines_scroll_per_spawn_round == 0: # tukaj, da ne spawna če je konec
+#			if current_stray_spawning_round == 1: 
+#				spawn_strays(random_spawn_count)
+#			el
+			if randi() % 100 <= round_spawn_possibility: # spawnam, če je znotraj določenih procentov
 				spawn_strays(random_spawn_count)
 			
 	yield(get_tree().create_timer(scrolling_pause_time), "timeout")
 	
 	step_in_progress = false
-	
 
 		
 func play_stepping_sound(current_player_energy_part: float):
@@ -301,38 +288,32 @@ func upgrade_stage():
 	Global.hud.update_indicator_on_stage_up(current_stage) # povdari indikator
 	
 	# če je dosežen level se izvede tudi upgrade levela (ima pavzo)
-	if current_stage > stages_per_level:
-		upgrade_level()
+	if current_stage == stages_per_level:
+		upgrade_level("regular")
 
 
-func upgrade_level():
+func upgrade_level(level_upgrade_reason: String):
 	
 	if level_upgrade_in_progress:
 		return
 	level_upgrade_in_progress = true
 	
 	current_level += 1 # številka novega levela 
+	current_stage = 0 # ker se šteje pobite strayse je na začetku 0
+	lines_scrolled_count = 0
 	set_new_level() 
 	Global.hud.empty_color_indicators() # novi indkatorji
 	set_level_colors()
 	
 	if not current_level == 1:
-		current_stage = 1 # ker se šteje pobite strayse je na začetku 0
 		Global.hud.level_up_popup_in(current_level)
-		# obarvaj color indikator
-		Global.hud.update_indicator_on_stage_up(current_stage) 
 		for player in get_tree().get_nodes_in_group(Global.group_players):
 			while not player.cocked_ghosts.empty():
 				var ghost = player.cocked_ghosts.pop_back()
 				ghost.queue_free()		
-		# pavza pri prehoud lavela .... za pedenanjem indikatorjev in pucanje ekrana
-		get_tree().call_group(Global.group_players, "set_physics_process", false)
-		clean_strays_in_game() #puca vse v igri
+		clean_strays_in_game() # puca vse v igri
 		yield(self, "all_strays_died") # ko so vsi iz igre grem naprej
 		Global.hud.level_up_popup_out()
-		get_tree().call_group(Global.group_players, "set_physics_process", true)
-	else:
-		current_stage = 0 # ker se šteje pobite strayse je na začetku 0
 	
 	level_upgrade_in_progress = false		
 
@@ -360,23 +341,28 @@ func set_new_level():
 
 
 func set_level_colors():
+	# barve pedenam ločeno od spawnanja straysov, ker pripadajo stagetu
+	# umetno setan nabor barv iz katerega se jemlje barve za spawnanje
+	# za stage indikatorje razdelim umetno setan nabor barv na delov kot je stagetov
 	
-	all_stage_level_colors_available = []
+	# naberi barve
+	var all_stray_colors_count: int = 100
+	all_stray_colors = [] # reset
 	if current_level <= 1: # na začetku je pisana tema
-		all_stage_level_colors_available = Global.get_spectrum_colors(stages_per_level)
+		all_stray_colors = Global.get_spectrum_colors(all_stray_colors_count)
 	else:
-		all_stage_level_colors_available = Global.get_random_gradient_colors(stages_per_level)
-		
-	var selected_color_position_x: float
-	var current_color: Color
+		all_stray_colors = Global.get_random_gradient_colors(all_stray_colors_count)
 	
-	for stage in stages_per_level:
-		if current_level <= 1: # na začetku je pisana tema
-			current_color = all_stage_level_colors_available[stage]
-		else:
-			current_color = all_stage_level_colors_available[stage]
+	# izbor barv za stage indikatorje
+	var stage_indicator_colors: Array
+	for stage_count in stages_per_level:
+		var color_offest_per_stage: float = all_stray_colors_count / stages_per_level
+		var stage_color_index: int = stage_count * color_offest_per_stage
+		if stage_color_index > all_stray_colors.size() - 1:
+			stage_color_index = all_stray_colors.size() - 1
+		stage_indicator_colors.append(all_stray_colors[stage_color_index])
 
-	Global.hud.spawn_color_indicators(all_stage_level_colors_available) # barve pokažem v hudu	
+	Global.hud.spawn_color_indicators(stage_indicator_colors) # barve pokažem v hudu	
 		
 
 # UTILITI -------------------------------------------------------------------------------------------------------------------------------

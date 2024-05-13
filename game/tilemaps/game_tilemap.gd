@@ -34,12 +34,6 @@ func _ready() -> void:
 
 func get_tiles():
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.ENIGMA:
-		if Global.game_manager.game_settings["solutions_mode"]:
-			$SolutionLine.modulate = Global.color_almost_black
-		else:
-			$SolutionLine.hide()
-			
 	var inside_edge_level_tiles: Rect2 = get_used_rect()
 	var cell_size_x = cell_size.x
 	inside_edge_level_rect.position.x = inside_edge_level_tiles.position.x * cell_size_x + cell_size_x
