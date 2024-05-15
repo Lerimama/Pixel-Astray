@@ -807,6 +807,7 @@ audio_stream = ExtResource( 12 )
 audio_stream = ExtResource( 16 )
 
 [node name="Stray" type="KinematicBody2D"]
+modulate = Color( 1, 1, 1, 0.333333 )
 script = ExtResource( 20 )
 
 [node name="ColorPoly" type="Polygon2D" parent="."]

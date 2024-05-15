@@ -152,3 +152,30 @@ func skip_track():
 			fade_out.tween_callback(music, "stop")
 			fade_out.tween_callback(music, "set_volume_db", [current_music_volume]) # reset glasnosti
 			fade_out.tween_callback(self, "play_music", ["game_music"])
+
+		
+func change_menu_music():
+	
+	var menu_music_tracks: Array = $Music/MenuMusic.get_children()
+	
+	# trenuten komad
+	var currently_playing_track_index: int = 0 
+	var current_music_volume: int = -80
+	for music in menu_music_tracks:
+		if music.is_playing():
+			currently_playing_track_index = menu_music_tracks.find(music)
+			current_music_volume = music.volume_db
+			var fade_out = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT)	
+			fade_out.tween_property(music, "volume_db", -80, 0.5)
+			fade_out.tween_callback(music, "stop")
+			yield(fade_out, "finished")
+			break
+	
+	# izberem naslednji komad
+	current_music_volume = -25 # debug
+	var new_track_index = currently_playing_track_index + 1
+	if new_track_index >= menu_music_tracks.size():
+		new_track_index = 0
+	var new_menu_track = menu_music_tracks[new_track_index]
+	new_menu_track.volume_db = current_music_volume
+	new_menu_track.play()

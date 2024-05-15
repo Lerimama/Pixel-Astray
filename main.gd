@@ -7,6 +7,7 @@ var camera_shake_on: bool =  true #_temp
 onready var home_scene_path: String = "res://home/home.tscn"
 onready var game_scene_path: String = Profiles.current_game_data["game_scene_path"]
 
+
 func _ready() -> void:
 	
 	Global.main_node = self
@@ -15,16 +16,23 @@ func _ready() -> void:
 #	home_in_no_intro()
 	game_in()
 
+
 #func _process(delta: float) -> void:
 #	printt("main process",)
+
 
 func home_in_intro():
 	
 	Global.spawn_new_scene(home_scene_path, self)
 	Global.current_scene.open_with_intro()
 	
+	AudioServer.set_bus_mute(1, true) # anti focus-on-load sound	
+	
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(Global.current_scene, "modulate", Color.white, fade_time)
+	yield(fade_in, "finished")
+
+	AudioServer.set_bus_mute(1, false) # anti focus-on-load sound
 	
 	
 func home_in_no_intro(): # debug
@@ -111,4 +119,4 @@ func reload_game(): # game out z drugačnim zaključkom
 	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
 	fade_out.tween_callback(Global, "release_scene", [Global.current_scene])
 	fade_out.tween_callback(self, "game_in").set_delay(1) # dober delay ker se relese zgodi šele v naslednjem frejmu
-	
+

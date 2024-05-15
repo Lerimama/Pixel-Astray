@@ -6,7 +6,6 @@ signal name_input_finished
 var focus_btn: Button
 var current_gameover_reason: int # za prenašanje
 var score_is_ranking # včasih bool včasih object?!
-
 # players
 var players_in_game: Array
 var p1_final_stats: Dictionary
@@ -37,7 +36,6 @@ var input_string: String # = "" # neki more bit, če plejer nč ne vtipka in pot
 onready var name_input_popup: Control = $NameInputPopup
 onready var name_input: LineEdit = $NameInputPopup/NameInput
 onready var name_input_label: Label = $NameInputPopup/Label
-onready var input_label_dots: Label = $NameInputPopup/NameInput/Dots
 
 
 func _input(event: InputEvent) -> void:
@@ -66,19 +64,23 @@ func _ready() -> void:
 	
 	
 func open_gameover(gameover_reason: int):
-
 	
 	current_gameover_reason = gameover_reason
 	players_in_game = get_tree().get_nodes_in_group(Global.group_players)
 	
 	p1_final_stats = players_in_game[0].player_stats
 	
-	# ranking preverim takoj, da lahko obarvam title
-	var current_score_points: int = p1_final_stats["player_points"]
-	var current_score_time: int = Global.hud.game_timer.absolute_game_time
+	# ranking preverim že tukaj, da lahko obarvam title
+	var current_score: float
+	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_POINTS:
+		current_score = p1_final_stats["player_points"]
+	elif Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_COLORS:
+		current_score = p1_final_stats["colors_collected"]
+	else: # time low and high
+		current_score = Global.hud.game_timer.absolute_game_time
+	score_is_ranking = Global.data_manager.manage_gameover_highscores(current_score, Global.game_manager.game_data) 
 	# yield čaka na konec preverke ... tip ni opredeljen, ker je ranking, če ni skora kot objecta, če je ranking
-	score_is_ranking = Global.data_manager.manage_gameover_highscores(current_score_points, current_score_time, Global.game_manager.game_data) 
-	
+				
 	if players_in_game.size() == 2:
 		p2_final_stats = players_in_game[1].player_stats
 		set_duel_gameover_title()
@@ -122,31 +124,17 @@ func show_gameover_menu():
 		fade_in.parallel().tween_callback(Global, "grab_focus_no_sfx", [focus_btn])		
 	else:	
 		
-		var current_highscore_type: int = Global.game_manager.game_data["highscore_type"]
 		var current_player_ranking: int
-		
-		if current_highscore_type == Profiles.HighscoreTypes.NO_HS:
+		if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NO_HS:
 			selected_game_summary = game_summary_no_hs
-			yield(get_tree().create_timer(1), "timeout") # podaljšam pavzo za branje
+#			yield(get_tree().create_timer(1), "timeout") # podaljšam pavzo za branje
 			show_game_summary()
 		else:
-#			var current_score_points: int = p1_final_stats["player_points"]
-#			var current_score_time: int = Global.hud.game_timer.absolute_game_time
-			
-			# yield čaka na konec preverke ... tip ni opredeljen, ker je ranking, če ni skora kot objecta, če je ranking
-#			var score_is_ranking = Global.data_manager.manage_gameover_highscores(current_score_points, current_score_time, Global.game_manager.game_data) 
-			
-			# score štejem samo če vse spuca
-			var eraser_games: Array = [Profiles.Games.CLASSIC_S, Profiles.Games.CLASSIC_M, Profiles.Games.CLASSIC_L]
-			if eraser_games.has(Global.game_manager.game_data["game"]) and not current_gameover_reason == Global.game_manager.GameoverReason.CLEANED: 
-				yield(get_tree().create_timer(1), "timeout")
-				current_player_ranking = 100 # zazih ni na lestvici
-			else:
-				if score_is_ranking: # manage_gameover_highscores počaka na signal iz name_input
-					open_name_input()
-					yield(Global.data_manager, "highscores_updated")
-					get_viewport().set_disable_input(false) # anti dablklik
-					current_player_ranking = Global.data_manager.current_player_ranking
+			if score_is_ranking: # manage_gameover_highscores počaka na signal iz name_input
+				open_name_input()
+				yield(Global.data_manager, "highscores_updated")
+				get_viewport().set_disable_input(false) # anti dablklik
+				current_player_ranking = Global.data_manager.current_player_ranking
 			
 			highscore_table.get_highscore_table(Global.game_manager.game_data, current_player_ranking)
 			selected_game_summary = game_summary_with_hs
@@ -272,6 +260,16 @@ func open_name_input():
 	
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	
+	# generiram random ime s 5 črkami in ga dam za placeholder text
+	randomize()
+	var ascii_letters_and_digits: String = "abcdefghijklmnopqrstuvwxyz"
+	var random_generated_name: String = ""
+	for i in 5:
+		var random_letter: String = ascii_letters_and_digits[randi() % ascii_letters_and_digits.length()]
+		random_generated_name += random_letter
+	random_generated_name = random_generated_name.capitalize()
+	name_input.placeholder_text = random_generated_name
+	
 	name_input_popup.visible = true
 	name_input_popup.modulate.a = 0
 
@@ -298,8 +296,6 @@ func close_name_input ():
 func _on_NameEdit_text_changed(new_text: String) -> void:
 	# signal, ki redno beleži vnešeni string
 	
-	if input_string.empty():
-		input_label_dots.hide()
 	input_string = new_text
 	Global.sound_manager.play_gui_sfx("typing")
 
@@ -317,12 +313,13 @@ func _on_ConfirmBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	
 	if input_string.empty():
-		input_string = p1_final_stats["player_name"]
+		input_string = name_input.placeholder_text
 		confirm_name_input()
 	else:
 		confirm_name_input()
 		
 
+		
 func _on_CancelBtn_pressed() -> void:
 	
 	Global.grab_focus_no_sfx($NameInputPopup/HBoxContainer/CancelBtn)

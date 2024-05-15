@@ -123,7 +123,7 @@ func _on_ResetBtn_pressed() -> void:
 	reset_btn.hide()
 	
 	Profiles.use_custom_color_theme = false
-	randomize_btn.grab_focus()
+	Global.grab_focus_no_sfx(randomize_btn)
 
 	intro.respawn_title_strays()
 	select_level_node.update_riddler_btns_color()

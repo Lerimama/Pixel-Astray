@@ -354,6 +354,10 @@ stream = ExtResource( 41 )
 volume_db = -5.0
 bus = "Gui"
 
+[node name="Track19_4" type="AudioStreamPlayer" parent="SoundManager/Music/MenuMusic"]
+stream = ExtResource( 68 )
+volume_db = -25.0
+
 [node name="GameMusic" type="Node2D" parent="SoundManager/Music"]
 
 [node name="Track8_5" type="AudioStreamPlayer" parent="SoundManager/Music/GameMusic"]
@@ -374,11 +378,6 @@ bus = "GameMusic"
 [node name="Track1_3" type="AudioStreamPlayer" parent="SoundManager/Music/GameMusic"]
 stream = ExtResource( 62 )
 volume_db = -7.0
-bus = "GameMusic"
-
-[node name="Track19_4" type="AudioStreamPlayer" parent="SoundManager/Music/GameMusic"]
-stream = ExtResource( 68 )
-volume_db = -5.0
 bus = "GameMusic"
 
 [node name="_rezerva" type="Node2D" parent="SoundManager"]
@@ -486,3 +485,5 @@ volume_db = -20.0
 bus = "GameSfx"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="SoundManager"]
+
+[connection signal="finished" from="SoundManager/GuiSfx/Inputs/BtnCancel" to="." method="_on_BtnCancel_finished"]

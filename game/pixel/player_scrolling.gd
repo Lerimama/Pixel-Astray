@@ -313,7 +313,6 @@ func detect_touch():
 		# če je še vedno obkoljen, preverim pe istost sosedov > GO
 		if is_surrounded:
 			# če so sosedi isti je GO
-			printt ("surrounded 2", surrounded_player_strays.size())
 			if surrounded_player_strays == current_player_strays:
 				Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)
 			# če niso isti, restiram sosede in potem normalno naprej
@@ -323,7 +322,6 @@ func detect_touch():
 				touch_timer.start(detect_touch_pause_time)
 		# če je prvič obkoljen, ga označim za obkoljenega in zapišem sosede
 		else: 
-			printt ("surrounded 1", surrounded_player_strays.size())
 			is_surrounded = true
 			surrounded_player_strays = current_player_strays
 			touch_timer.start(recheck_touch_pause_time) # daljši čas

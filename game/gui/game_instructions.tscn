@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
 [ext_resource path="res://game/hud/game_instructions.gd" type="Script" id=2]
@@ -6,6 +6,12 @@
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=4]
 [ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=5]
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=6]
+[ext_resource path="res://assets/theme/stylebox_panelwithborder.tres" type="StyleBox" id=7]
+[ext_resource path="res://assets/theme/bont_body_big.tres" type="DynamicFont" id=8]
+[ext_resource path="res://assets/theme/font_main_small.tres" type="DynamicFont" id=9]
+[ext_resource path="res://game/gui/ControlHint.tscn" type="PackedScene" id=10]
+
+[sub_resource type="StyleBoxEmpty" id=454]
 
 [sub_resource type="AtlasTexture" id=389]
 atlas = ExtResource( 3 )
@@ -50,20 +56,22 @@ region = Rect2( 96, 32, 10, 10 )
 atlas = ExtResource( 3 )
 region = Rect2( 146, 6, 6, 10 )
 
-[sub_resource type="StyleBoxEmpty" id=427]
+[sub_resource type="StyleBoxEmpty" id=455]
 
-[sub_resource type="StreamTexture" id=444]
+[sub_resource type="StyleBoxEmpty" id=305]
+
+[sub_resource type="StreamTexture" id=451]
 load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
 
-[sub_resource type="AtlasTexture" id=428]
-atlas = SubResource( 444 )
+[sub_resource type="AtlasTexture" id=306]
+atlas = SubResource( 451 )
 region = Rect2( 16, 16, 14, 16 )
 
-[sub_resource type="AtlasTexture" id=429]
-atlas = SubResource( 444 )
+[sub_resource type="AtlasTexture" id=307]
+atlas = SubResource( 451 )
 region = Rect2( 0, 16, 10, 16 )
 
-[sub_resource type="StyleBoxFlat" id=430]
+[sub_resource type="StyleBoxFlat" id=308]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -75,21 +83,21 @@ expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxEmpty" id=431]
+[sub_resource type="StyleBoxEmpty" id=309]
 
-[sub_resource type="StyleBoxEmpty" id=432]
+[sub_resource type="StyleBoxEmpty" id=310]
 
-[sub_resource type="StyleBoxLine" id=433]
+[sub_resource type="StyleBoxLine" id=311]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
 
-[sub_resource type="AtlasTexture" id=434]
-atlas = SubResource( 444 )
+[sub_resource type="AtlasTexture" id=312]
+atlas = SubResource( 451 )
 region = Rect2( 32, 0, 10, 10 )
 
-[sub_resource type="StyleBoxEmpty" id=435]
+[sub_resource type="StyleBoxEmpty" id=313]
 
-[sub_resource type="StyleBoxFlat" id=436]
+[sub_resource type="StyleBoxFlat" id=314]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -100,15 +108,15 @@ expand_margin_left = 6.0
 expand_margin_top = 6.0
 expand_margin_bottom = 6.0
 
-[sub_resource type="StreamTexture" id=437]
+[sub_resource type="StreamTexture" id=315]
 load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
 
-[sub_resource type="AtlasTexture" id=445]
-atlas = SubResource( 437 )
+[sub_resource type="AtlasTexture" id=452]
+atlas = SubResource( 315 )
 region = Rect2( 0, 4, 16, 8 )
 
-[sub_resource type="StyleBoxTexture" id=438]
-texture = SubResource( 445 )
+[sub_resource type="StyleBoxTexture" id=316]
+texture = SubResource( 452 )
 region_rect = Rect2( 0, 0, 16, 8 )
 margin_left = 3.34132
 margin_right = 4.0
@@ -116,7 +124,7 @@ margin_top = 4.0
 margin_bottom = 4.0
 modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 
-[sub_resource type="StyleBoxFlat" id=439]
+[sub_resource type="StyleBoxFlat" id=317]
 bg_color = Color( 0, 0, 0, 0 )
 border_width_left = 2
 border_width_top = 2
@@ -124,12 +132,12 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="AtlasTexture" id=440]
-atlas = SubResource( 444 )
+[sub_resource type="AtlasTexture" id=318]
+atlas = SubResource( 451 )
 region = Rect2( 16, 0, 16, 12 )
 margin = Rect2( 4, 0, 0, 0 )
 
-[sub_resource type="StyleBoxFlat" id=441]
+[sub_resource type="StyleBoxFlat" id=319]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 2
 border_width_top = 2
@@ -141,7 +149,7 @@ expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxFlat" id=442]
+[sub_resource type="StyleBoxFlat" id=320]
 bg_color = Color( 0, 0, 0, 0.862745 )
 border_width_left = 4
 border_width_top = 4
@@ -149,73 +157,73 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
 
-[sub_resource type="StyleBoxLine" id=443]
+[sub_resource type="StyleBoxLine" id=321]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
 vertical = true
 
-[sub_resource type="Theme" id=446]
+[sub_resource type="Theme" id=453]
 default_font = ExtResource( 4 )
 Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
 Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
 Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
-Button/styles/disabled = SubResource( 427 )
-Button/styles/focus = SubResource( 427 )
-Button/styles/hover = SubResource( 427 )
-Button/styles/normal = SubResource( 427 )
-Button/styles/pressed = SubResource( 427 )
+Button/styles/disabled = SubResource( 305 )
+Button/styles/focus = SubResource( 305 )
+Button/styles/hover = SubResource( 305 )
+Button/styles/normal = SubResource( 305 )
+Button/styles/pressed = SubResource( 305 )
 CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
 CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
 CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
 CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
 CheckBox/constants/hseparation = 4
-CheckBox/icons/checked = SubResource( 428 )
-CheckBox/icons/unchecked = SubResource( 429 )
-CheckBox/styles/focus = SubResource( 430 )
-CheckBox/styles/hover = SubResource( 430 )
-CheckBox/styles/hover_pressed = SubResource( 430 )
-CheckBox/styles/normal = SubResource( 431 )
-CheckBox/styles/pressed = SubResource( 432 )
-HSeparator/styles/separator = SubResource( 433 )
-HSlider/icons/grabber = SubResource( 434 )
+CheckBox/icons/checked = SubResource( 306 )
+CheckBox/icons/unchecked = SubResource( 307 )
+CheckBox/styles/focus = SubResource( 308 )
+CheckBox/styles/hover = SubResource( 308 )
+CheckBox/styles/hover_pressed = SubResource( 308 )
+CheckBox/styles/normal = SubResource( 309 )
+CheckBox/styles/pressed = SubResource( 310 )
+HSeparator/styles/separator = SubResource( 311 )
+HSlider/icons/grabber = SubResource( 312 )
 HSlider/icons/grabber_disabled = null
-HSlider/icons/grabber_highlight = SubResource( 434 )
+HSlider/icons/grabber_highlight = SubResource( 312 )
 HSlider/icons/tick = null
-HSlider/styles/grabber_area = SubResource( 435 )
-HSlider/styles/grabber_area_highlight = SubResource( 436 )
-HSlider/styles/slider = SubResource( 438 )
+HSlider/styles/grabber_area = SubResource( 313 )
+HSlider/styles/grabber_area_highlight = SubResource( 314 )
+HSlider/styles/slider = SubResource( 316 )
 Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
 Label/constants/line_spacing = 6
 LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
 LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
-LineEdit/styles/normal = SubResource( 439 )
+LineEdit/styles/normal = SubResource( 317 )
 OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
-OptionButton/icons/arrow = SubResource( 440 )
-OptionButton/styles/focus = SubResource( 441 )
-OptionButton/styles/hover = SubResource( 441 )
-OptionButton/styles/pressed = SubResource( 441 )
-Panel/styles/panel = SubResource( 442 )
-VSeparator/styles/separator = SubResource( 443 )
+OptionButton/icons/arrow = SubResource( 318 )
+OptionButton/styles/focus = SubResource( 319 )
+OptionButton/styles/hover = SubResource( 319 )
+OptionButton/styles/pressed = SubResource( 319 )
+Panel/styles/panel = SubResource( 320 )
+VSeparator/styles/separator = SubResource( 321 )
 
-[sub_resource type="AtlasTexture" id=447]
-atlas = ExtResource( 3 )
-region = Rect2( 72, 186, 22, 22 )
-margin = Rect2( 0, 2, 0, 0 )
+[sub_resource type="StyleBoxEmpty" id=456]
 
-[sub_resource type="AtlasTexture" id=448]
+[sub_resource type="AtlasTexture" id=449]
 atlas = ExtResource( 3 )
-region = Rect2( 0, 218, 40, 22 )
-margin = Rect2( -2, 2, 0, 0 )
+region = Rect2( 146, 30, 6, 10 )
 
 [node name="Instructions" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 6 )
 script = ExtResource( 2 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 104.0, 152.0 ],
+"_edit_vertical_guides_": [ 640.0 ]
+}
 
 [node name="Background" type="ColorRect" parent="."]
 anchor_right = 1.0
@@ -224,225 +232,388 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color( 0, 0, 0, 0.784314 )
 
-[node name="GameInstructions" type="Control" parent="."]
+[node name="_Skrin" type="ColorRect" parent="."]
+visible = false
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -448.0
-margin_top = -264.0
-margin_right = 448.0
-margin_bottom = 72.0
+margin_left = -336.0
+margin_top = 184.0
+margin_right = 336.0
+margin_bottom = 536.0
+color = Color( 0.615686, 0.615686, 0.615686, 0.152941 )
 
-[node name="Title" type="Label" parent="GameInstructions"]
+[node name="Title" type="Label" parent="."]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -304.0
-margin_top = 6.0
-margin_right = 304.0
-margin_bottom = 38.0
+anchor_right = 1.0
+margin_left = 312.0
+margin_top = 86.0
+margin_right = -312.0
+margin_bottom = 118.0
 custom_fonts/font = ExtResource( 5 )
 text = "%Game title"
 align = 1
 uppercase = true
 
-[node name="Description" type="Label" parent="GameInstructions"]
-modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-anchor_right = 1.0
-margin_top = 54.0
-margin_bottom = 76.0
-text = "%Win reasons"
-align = 1
-
-[node name="Outline" type="VBoxContainer" parent="GameInstructions"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -448.0
-margin_top = 104.0
-margin_right = 449.0
-margin_bottom = 328.0
-grow_horizontal = 2
-custom_constants/separation = 14
-
-[node name="Label" type="Label" parent="GameInstructions/Outline"]
-modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_right = 897.0
-margin_bottom = 18.0
-custom_fonts/font = ExtResource( 1 )
-text = "%Label"
-align = 1
-autowrap = true
-
-[node name="Label2" type="Label" parent="GameInstructions/Outline"]
-modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 32.0
-margin_right = 897.0
-margin_bottom = 50.0
-custom_fonts/font = ExtResource( 1 )
-text = "%Label"
-align = 1
-autowrap = true
-
-[node name="Label3" type="Label" parent="GameInstructions/Outline"]
-modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 64.0
-margin_right = 897.0
-margin_bottom = 82.0
-custom_fonts/font = ExtResource( 1 )
-text = "%Label"
-align = 1
-autowrap = true
-
-[node name="Label4" type="Label" parent="GameInstructions/Outline"]
-modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 96.0
-margin_right = 897.0
-margin_bottom = 114.0
-custom_fonts/font = ExtResource( 1 )
-text = "%Label"
-align = 1
-autowrap = true
-
-[node name="Label5" type="Label" parent="GameInstructions/Outline"]
-modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 128.0
-margin_right = 897.0
-margin_bottom = 146.0
-custom_fonts/font = ExtResource( 1 )
-text = "%Label"
-align = 1
-autowrap = true
-
-[node name="RecordLabel" type="Label" parent="GameInstructions/Outline"]
-modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 160.0
-margin_right = 897.0
-margin_bottom = 236.0
-rect_min_size = Vector2( 0, 76 )
-text = "% 000000"
-align = 1
-valign = 2
-
-[node name="RecordTitle" type="Label" parent="GameInstructions/Outline/RecordLabel"]
-modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -448.5
-margin_top = -52.0
-margin_right = 448.5
-margin_bottom = -34.0
-custom_fonts/font = ExtResource( 1 )
-text = "Current record"
-align = 1
-autowrap = true
-
-[node name="Controls" type="Control" parent="."]
+[node name="GameInstructions" type="Control" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -320.0
-margin_top = 96.0
+margin_top = -218.0
 margin_right = 320.0
-margin_bottom = 224.0
+margin_bottom = 118.0
+
+[node name="Description" type="Label" parent="GameInstructions"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+anchor_right = 1.0
+margin_left = 4.0
+margin_top = -8.0
+margin_right = -4.0
+margin_bottom = 14.0
+grow_horizontal = 2
+text = "%Description ... Lorem ipsum dolor sit amet.."
+align = 1
+
+[node name="Outline" type="HFlowContainer" parent="GameInstructions"]
+margin_left = 8.0
+margin_top = 66.0
+margin_right = 632.0
+margin_bottom = 363.0
+rect_min_size = Vector2( 0, 280 )
+size_flags_horizontal = 3
+custom_constants/vseparation = 16
+custom_constants/hseparation = 16
+
+[node name="Prop" type="Panel" parent="GameInstructions/Outline"]
+margin_right = 197.0
+margin_bottom = 144.0
+rect_min_size = Vector2( 197, 144 )
+size_flags_horizontal = 3
+custom_styles/panel = ExtResource( 7 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Keys" type="Control" parent="Controls"]
+[node name="PropLabel" type="RichTextLabel" parent="GameInstructions/Outline/Prop"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 21.0
+margin_top = 16.0
+margin_right = -21.0
+margin_bottom = -16.0
+grow_horizontal = 2
+rect_min_size = Vector2( 152, 111 )
+rect_clip_content = false
+size_flags_horizontal = 3
+bbcode_enabled = true
+bbcode_text = "[center][b]%LOREM IPS[/b]
+[ol] * ipsum[/ol]
+ dolor sit amet, consectetur [url]adipiscing[/url] elit."
+text = "%LOREM IPS
+ * ipsum
+ dolor sit amet, consectetur adipiscing elit."
+fit_content_height = true
+scroll_active = false
+
+[node name="Prop2" type="Panel" parent="GameInstructions/Outline"]
+margin_left = 213.0
+margin_right = 410.0
+margin_bottom = 144.0
+rect_min_size = Vector2( 197, 144 )
+size_flags_horizontal = 3
+custom_styles/panel = ExtResource( 7 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="PropLabel" type="RichTextLabel" parent="GameInstructions/Outline/Prop2"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 18.0
+margin_top = 16.0
+margin_right = -18.0
+margin_bottom = -16.0
+grow_horizontal = 2
+rect_min_size = Vector2( 152, 111 )
+rect_clip_content = false
+size_flags_horizontal = 3
+bbcode_enabled = true
+bbcode_text = "[center][b]%LOREM IPS[/b]
+[ol] * ipsum[/ol]
+ dolor sit amet, consectetur [url]adipiscing[/url] elit."
+text = "%LOREM IPS
+ * ipsum
+ dolor sit amet, consectetur adipiscing elit."
+fit_content_height = true
+scroll_active = false
+
+[node name="Prop3" type="Panel" parent="GameInstructions/Outline"]
+visible = false
+margin_left = 426.0
+margin_right = 623.0
+margin_bottom = 144.0
+rect_min_size = Vector2( 197, 144 )
+size_flags_horizontal = 3
+custom_styles/panel = ExtResource( 7 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="PropLabel" type="RichTextLabel" parent="GameInstructions/Outline/Prop3"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 22.0
+margin_top = 16.0
+margin_right = -22.0
+margin_bottom = -16.0
+grow_horizontal = 2
+rect_min_size = Vector2( 152, 111 )
+rect_clip_content = false
+size_flags_horizontal = 3
+bbcode_enabled = true
+bbcode_text = "[center][b]%LOREM IPS[/b]
+[ol] * ipsum[/ol]
+ dolor sit amet, consectetur [url]adipiscing[/url] elit."
+text = "%LOREM IPS
+ * ipsum
+ dolor sit amet, consectetur adipiscing elit."
+fit_content_height = true
+scroll_active = false
+
+[node name="Prop4" type="Panel" parent="GameInstructions/Outline"]
+visible = false
+margin_left = 426.0
+margin_right = 623.0
+margin_bottom = 144.0
+rect_min_size = Vector2( 197, 144 )
+size_flags_horizontal = 3
+custom_styles/panel = ExtResource( 7 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="PropLabel" type="RichTextLabel" parent="GameInstructions/Outline/Prop4"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 22.0
+margin_top = 16.0
+margin_right = -22.0
+margin_bottom = -16.0
+grow_horizontal = 2
+rect_min_size = Vector2( 152, 111 )
+rect_clip_content = false
+size_flags_horizontal = 3
+bbcode_enabled = true
+bbcode_text = "[center][b]%LOREM IPS[/b]
+[ol] * ipsum[/ol]
+ dolor sit amet, consectetur [url]adipiscing[/url] elit."
+text = "%LOREM IPS
+ * ipsum
+ dolor sit amet, consectetur adipiscing elit."
+fit_content_height = true
+scroll_active = false
+
+[node name="Prop5" type="Panel" parent="GameInstructions/Outline"]
+visible = false
+margin_left = 426.0
+margin_right = 623.0
+margin_bottom = 144.0
+rect_min_size = Vector2( 197, 144 )
+size_flags_horizontal = 3
+custom_styles/panel = ExtResource( 7 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="PropLabel" type="RichTextLabel" parent="GameInstructions/Outline/Prop5"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 22.0
+margin_top = 16.0
+margin_right = -22.0
+margin_bottom = -16.0
+grow_horizontal = 2
+rect_min_size = Vector2( 152, 111 )
+rect_clip_content = false
+size_flags_horizontal = 3
+bbcode_enabled = true
+bbcode_text = "[center][b]%LOREM IPS[/b]
+[ol] * ipsum[/ol]
+ dolor sit amet, consectetur [url]adipiscing[/url] elit."
+text = "%LOREM IPS
+ * ipsum
+ dolor sit amet, consectetur adipiscing elit."
+fit_content_height = true
+scroll_active = false
+
+[node name="Record" type="Panel" parent="GameInstructions/Outline"]
+margin_left = 426.0
+margin_right = 623.0
+margin_bottom = 144.0
+rect_min_size = Vector2( 197, 0 )
+size_flags_horizontal = 3
+custom_styles/panel = ExtResource( 7 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="RecordTitle" type="Label" parent="GameInstructions/Outline/Record"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = 21.0
+margin_top = -40.0
+margin_right = -21.0
+margin_bottom = -22.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 1 )
+text = "Current record:"
+align = 1
+valign = 2
+autowrap = true
+
+[node name="RecordLabel" type="Label" parent="GameInstructions/Outline/Record"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = 22.0
+margin_top = -10.0
+margin_right = -21.0
+margin_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+text = "%0000000"
+align = 1
+clip_text = true
+
+[node name="RecordOwner" type="Label" parent="GameInstructions/Outline/Record"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = 21.0
+margin_top = 16.0
+margin_right = -21.0
+margin_bottom = 34.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 1 )
+text = "%by owner"
+align = 1
+valign = 2
+autowrap = true
+
+[node name="Controls" type="Panel" parent="GameInstructions/Outline"]
+margin_top = 160.0
+margin_right = 326.0
+margin_bottom = 304.0
+rect_min_size = Vector2( 296, 144 )
+size_flags_horizontal = 3
+custom_styles/panel = SubResource( 454 )
+__meta__ = {
+"_edit_group_": true,
+"_editor_description_": ""
+}
+
+[node name="Keys" type="Control" parent="GameInstructions/Outline/Controls"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -192.0
-margin_top = -41.5
-margin_bottom = 47.5
+margin_left = -152.0
+margin_top = -39.5
+margin_right = 40.0
+margin_bottom = 49.5
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="KeyboardL" type="TextureRect" parent="Controls/Keys"]
+[node name="KeyboardL" type="TextureRect" parent="GameInstructions/Outline/Controls/Keys"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -80.0
+margin_left = -96.0
 margin_top = 1.0
-margin_right = -10.0
+margin_right = -26.0
 margin_bottom = 47.0
 texture = SubResource( 389 )
 
-[node name="KeyboardR" type="TextureRect" parent="Controls/Keys"]
+[node name="KeyboardR" type="TextureRect" parent="GameInstructions/Outline/Controls/Keys"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = 10.0
 margin_top = 1.0
-margin_right = 80.0
+margin_right = 70.0
 margin_bottom = 47.0
 texture = SubResource( 390 )
 
-[node name="Ctrl" type="TextureRect" parent="Controls/Keys"]
+[node name="Ctrl" type="TextureRect" parent="GameInstructions/Outline/Controls/Keys"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -88.0
-margin_top = 65.0
-margin_right = -66.0
-margin_bottom = 87.0
+margin_left = -96.0
+margin_top = 66.0
+margin_right = -74.0
+margin_bottom = 88.0
 texture = SubResource( 391 )
 
-[node name="Space" type="TextureRect" parent="Controls/Keys"]
+[node name="Space" type="TextureRect" parent="GameInstructions/Outline/Controls/Keys"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -52.0
-margin_top = 65.0
-margin_right = 50.0
-margin_bottom = 87.0
+margin_left = -64.0
+margin_top = 66.0
+margin_right = 38.0
+margin_bottom = 88.0
 texture = SubResource( 392 )
 
-[node name="Alt" type="TextureRect" parent="Controls/Keys"]
+[node name="Alt" type="TextureRect" parent="GameInstructions/Outline/Controls/Keys"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = 66.0
-margin_top = 65.0
-margin_right = 88.0
-margin_bottom = 87.0
+margin_left = 48.0
+margin_top = 66.0
+margin_right = 70.0
+margin_bottom = 88.0
 texture = SubResource( 393 )
 
-[node name="Joypad" type="Control" parent="Controls"]
+[node name="Joypad" type="Control" parent="GameInstructions/Outline/Controls"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 73.0
-margin_top = -40.0
-margin_right = 193.0
-margin_bottom = 46.0
+margin_left = 41.0
+margin_top = -39.0
+margin_right = 161.0
+margin_bottom = 47.0
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="jp" type="TextureRect" parent="Controls/Joypad"]
+[node name="jp" type="TextureRect" parent="GameInstructions/Outline/Controls/Joypad"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_right = 120.0
 margin_bottom = 86.0
 texture = SubResource( 395 )
 
-[node name="btns" type="TextureRect" parent="Controls/Joypad"]
+[node name="btns" type="TextureRect" parent="GameInstructions/Outline/Controls/Joypad"]
 margin_left = 10.0
 margin_top = 17.0
 margin_right = 32.0
 margin_bottom = 39.0
 texture = SubResource( 396 )
 
-[node name="btn" type="TextureRect" parent="Controls/Joypad"]
+[node name="btn" type="TextureRect" parent="GameInstructions/Outline/Controls/Joypad"]
 margin_left = 96.0
 margin_top = 32.0
 margin_right = 106.0
 margin_bottom = 42.0
 texture = SubResource( 397 )
 
-[node name="C1" type="TextureRect" parent="Controls/Joypad"]
+[node name="C1" type="TextureRect" parent="GameInstructions/Outline/Controls/Joypad"]
 visible = false
 margin_left = 57.0
 margin_top = 76.0
@@ -450,47 +621,309 @@ margin_right = 63.0
 margin_bottom = 86.0
 texture = SubResource( 398 )
 
-[node name="ControlsDuel" type="Control" parent="."]
-visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -576.0
-margin_top = 88.0
-margin_right = 576.0
-margin_bottom = 248.0
+[node name="Shortcuts" type="Panel" parent="GameInstructions/Outline"]
+margin_left = 342.0
+margin_top = 160.0
+margin_right = 624.0
+margin_bottom = 304.0
+rect_min_size = Vector2( 252, 0 )
+size_flags_horizontal = 3
+custom_styles/panel = SubResource( 455 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Label" type="Label" parent="ControlsDuel"]
+[node name="Shortcuts" type="VBoxContainer" parent="GameInstructions/Outline/Shortcuts"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 32.0
+margin_top = -40.0
+margin_right = 276.0
+margin_bottom = 48.0
+rect_clip_content = true
+size_flags_horizontal = 3
+
+[node name="Mute" type="HBoxContainer" parent="GameInstructions/Outline/Shortcuts/Shortcuts"]
+margin_right = 187.0
+margin_bottom = 19.0
+size_flags_horizontal = 2
+custom_constants/separation = 8
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="KEY" type="Label" parent="GameInstructions/Outline/Shortcuts/Shortcuts/Mute"]
+margin_right = 14.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 0, 19 )
+theme = SubResource( 453 )
+custom_fonts/font = ExtResource( 9 )
+text = "M"
+align = 1
+valign = 2
+
+[node name="Label" type="Label" parent="GameInstructions/Outline/Shortcuts/Shortcuts/Mute"]
+margin_left = 22.0
+margin_right = 39.0
+margin_bottom = 18.0
+theme = SubResource( 453 )
+custom_fonts/font = ExtResource( 1 )
+text = "or"
+align = 1
+
+[node name="JP" type="Label" parent="GameInstructions/Outline/Shortcuts/Shortcuts/Mute"]
+margin_left = 47.0
+margin_right = 66.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 0, 19 )
+theme = SubResource( 453 )
+custom_fonts/font = ExtResource( 9 )
+text = "L1"
+align = 1
+valign = 2
+
+[node name="Label2" type="Label" parent="GameInstructions/Outline/Shortcuts/Shortcuts/Mute"]
+margin_left = 74.0
+margin_right = 187.0
+margin_bottom = 18.0
+theme = SubResource( 453 )
+custom_fonts/font = ExtResource( 1 )
+text = "to mute music"
+
+[node name="Skip" type="HBoxContainer" parent="GameInstructions/Outline/Shortcuts/Shortcuts"]
+margin_top = 23.0
+margin_right = 243.0
+margin_bottom = 42.0
+size_flags_horizontal = 2
+custom_constants/separation = 8
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="KEY" type="Label" parent="GameInstructions/Outline/Shortcuts/Shortcuts/Skip"]
+margin_right = 11.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 0, 19 )
+theme = SubResource( 453 )
+custom_fonts/font = ExtResource( 9 )
+text = "N"
+align = 1
+valign = 2
+
+[node name="Label" type="Label" parent="GameInstructions/Outline/Shortcuts/Shortcuts/Skip"]
+margin_left = 19.0
+margin_right = 36.0
+margin_bottom = 18.0
+theme = SubResource( 453 )
+custom_fonts/font = ExtResource( 1 )
+text = "or"
+align = 1
+
+[node name="JP" type="Label" parent="GameInstructions/Outline/Shortcuts/Shortcuts/Skip"]
+margin_left = 44.0
+margin_right = 63.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 0, 19 )
+theme = SubResource( 453 )
+custom_fonts/font = ExtResource( 9 )
+text = "R1"
+align = 1
+valign = 2
+
+[node name="Label2" type="Label" parent="GameInstructions/Outline/Shortcuts/Shortcuts/Skip"]
+margin_left = 71.0
+margin_right = 243.0
+margin_bottom = 18.0
+theme = SubResource( 453 )
+custom_fonts/font = ExtResource( 1 )
+text = "to skip current track"
+
+[node name="Pause" type="HBoxContainer" parent="GameInstructions/Outline/Shortcuts/Shortcuts"]
+margin_top = 46.0
+margin_right = 210.0
+margin_bottom = 65.0
+size_flags_horizontal = 2
+custom_constants/separation = 8
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="KEY" type="Label" parent="GameInstructions/Outline/Shortcuts/Shortcuts/Pause"]
+margin_right = 33.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 0, 19 )
+theme = SubResource( 453 )
+custom_fonts/font = ExtResource( 9 )
+text = "ESC"
+align = 1
+valign = 2
+
+[node name="Label" type="Label" parent="GameInstructions/Outline/Shortcuts/Shortcuts/Pause"]
+margin_left = 41.0
+margin_right = 58.0
+margin_bottom = 18.0
+theme = SubResource( 453 )
+custom_fonts/font = ExtResource( 1 )
+text = "or"
+align = 1
+
+[node name="JP" type="Label" parent="GameInstructions/Outline/Shortcuts/Shortcuts/Pause"]
+margin_left = 66.0
+margin_right = 132.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 0, 19 )
+theme = SubResource( 453 )
+custom_fonts/font = ExtResource( 9 )
+text = "SELECT"
+align = 1
+valign = 2
+
+[node name="Label2" type="Label" parent="GameInstructions/Outline/Shortcuts/Shortcuts/Pause"]
+margin_left = 140.0
+margin_right = 210.0
+margin_bottom = 18.0
+theme = SubResource( 453 )
+custom_fonts/font = ExtResource( 1 )
+text = "to pause"
+
+[node name="Hint" type="HBoxContainer" parent="GameInstructions/Outline/Shortcuts/Shortcuts"]
+margin_top = 69.0
+margin_right = 224.0
+margin_bottom = 88.0
+size_flags_horizontal = 2
+custom_constants/separation = 8
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="KEY" type="Label" parent="GameInstructions/Outline/Shortcuts/Shortcuts/Hint"]
+margin_right = 11.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 0, 19 )
+theme = SubResource( 453 )
+custom_fonts/font = ExtResource( 9 )
+text = "H"
+align = 1
+valign = 2
+
+[node name="Label" type="Label" parent="GameInstructions/Outline/Shortcuts/Shortcuts/Hint"]
+margin_left = 19.0
+margin_right = 36.0
+margin_bottom = 18.0
+theme = SubResource( 453 )
+custom_fonts/font = ExtResource( 1 )
+text = "or"
+align = 1
+
+[node name="JP" type="Label" parent="GameInstructions/Outline/Shortcuts/Shortcuts/Hint"]
+margin_left = 44.0
+margin_right = 66.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 0, 19 )
+theme = SubResource( 453 )
+custom_fonts/font = ExtResource( 9 )
+text = "XX"
+align = 1
+valign = 2
+
+[node name="Label2" type="Label" parent="GameInstructions/Outline/Shortcuts/Shortcuts/Hint"]
+margin_left = 74.0
+margin_right = 224.0
+margin_bottom = 18.0
+theme = SubResource( 453 )
+custom_fonts/font = ExtResource( 1 )
+text = "to show riddle hint"
+
+[node name="Enter" type="HBoxContainer" parent="GameInstructions/Outline/Shortcuts/Shortcuts"]
+visible = false
+margin_top = 128.0
+margin_right = 359.0
+margin_bottom = 150.0
+custom_constants/separation = 8
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="KEY" type="Label" parent="GameInstructions/Outline/Shortcuts/Shortcuts/Enter"]
+margin_right = 70.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 0, 19 )
+theme = SubResource( 453 )
+custom_fonts/font = ExtResource( 9 )
+text = "ENTER"
+align = 1
+valign = 2
+
+[node name="Label" type="Label" parent="GameInstructions/Outline/Shortcuts/Shortcuts/Enter"]
+margin_left = 78.0
+margin_top = 2.0
+margin_right = 95.0
+margin_bottom = 20.0
+theme = SubResource( 453 )
+custom_fonts/font = ExtResource( 1 )
+text = "or"
+align = 1
+
+[node name="JP" type="Label" parent="GameInstructions/Outline/Shortcuts/Shortcuts/Enter"]
+margin_left = 103.0
+margin_right = 173.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 0, 19 )
+theme = SubResource( 453 )
+custom_fonts/font = ExtResource( 9 )
+text = "START"
+align = 1
+valign = 2
+
+[node name="Label2" type="Label" parent="GameInstructions/Outline/Shortcuts/Shortcuts/Enter"]
+margin_left = 181.0
+margin_top = 2.0
+margin_right = 340.0
+margin_bottom = 20.0
+theme = SubResource( 453 )
+custom_fonts/font = ExtResource( 1 )
+text = "to confirm selection"
+
+[node name="ControlsDuel" type="Panel" parent="GameInstructions/Outline"]
+visible = false
+margin_top = 320.0
+margin_right = 624.0
+margin_bottom = 464.0
+rect_min_size = Vector2( 592, 144 )
+size_flags_horizontal = 3
+custom_styles/panel = SubResource( 456 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Label" type="Label" parent="GameInstructions/Outline/ControlsDuel"]
+visible = false
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -373.0
-margin_top = -74.0
-margin_right = -268.0
-margin_bottom = -52.0
+margin_left = -189.0
+margin_top = -90.0
+margin_right = -84.0
+margin_bottom = -68.0
 text = "PLAYER 1"
 align = 1
 
-[node name="Keys" type="Control" parent="ControlsDuel"]
+[node name="Keys" type="Control" parent="GameInstructions/Outline/ControlsDuel"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -480.0
-margin_top = -25.5
-margin_right = -288.0
-margin_bottom = 63.5
+margin_left = -273.0
+margin_top = -41.5
+margin_right = -81.0
+margin_bottom = 47.5
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="KeyboardL" type="TextureRect" parent="ControlsDuel/Keys"]
+[node name="KeyboardL" type="TextureRect" parent="GameInstructions/Outline/ControlsDuel/Keys"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -54.0
@@ -499,91 +932,158 @@ margin_right = 16.0
 margin_bottom = 47.0
 texture = SubResource( 389 )
 
-[node name="Ctrl" type="TextureRect" parent="ControlsDuel/Keys"]
+[node name="Ctrl" type="TextureRect" parent="GameInstructions/Outline/ControlsDuel/Keys"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -88.0
+margin_left = -87.0
 margin_top = 65.0
-margin_right = -66.0
+margin_right = -65.0
 margin_bottom = 87.0
 texture = SubResource( 391 )
 
-[node name="Space" type="TextureRect" parent="ControlsDuel/Keys"]
+[node name="Space" type="TextureRect" parent="GameInstructions/Outline/ControlsDuel/Keys"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -52.0
+margin_left = -54.0
 margin_top = 65.0
-margin_right = 50.0
+margin_right = 48.0
 margin_bottom = 87.0
 texture = SubResource( 392 )
 
-[node name="Joypad" type="Control" parent="ControlsDuel"]
+[node name="Joypad" type="Control" parent="GameInstructions/Outline/ControlsDuel"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -288.0
-margin_top = -24.0
-margin_right = -168.0
-margin_bottom = 62.0
+margin_left = -120.0
+margin_top = -40.0
+margin_bottom = 46.0
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="jp" type="TextureRect" parent="ControlsDuel/Joypad"]
+[node name="jp" type="TextureRect" parent="GameInstructions/Outline/ControlsDuel/Joypad"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_right = 120.0
 margin_bottom = 86.0
 texture = SubResource( 395 )
 
-[node name="btns" type="TextureRect" parent="ControlsDuel/Joypad"]
+[node name="btns" type="TextureRect" parent="GameInstructions/Outline/ControlsDuel/Joypad"]
 margin_left = 10.0
 margin_top = 17.0
 margin_right = 32.0
 margin_bottom = 39.0
 texture = SubResource( 396 )
 
-[node name="btn" type="TextureRect" parent="ControlsDuel/Joypad"]
+[node name="btn" type="TextureRect" parent="GameInstructions/Outline/ControlsDuel/Joypad"]
 margin_left = 96.0
 margin_top = 32.0
 margin_right = 106.0
 margin_bottom = 42.0
 texture = SubResource( 397 )
 
-[node name="C1" type="TextureRect" parent="ControlsDuel/Joypad"]
+[node name="C1" type="TextureRect" parent="GameInstructions/Outline/ControlsDuel/Joypad"]
 margin_left = 57.0
 margin_top = 76.0
 margin_right = 63.0
 margin_bottom = 86.0
 texture = SubResource( 398 )
 
-[node name="Label2" type="Label" parent="ControlsDuel"]
+[node name="Label2" type="Label" parent="GameInstructions/Outline/ControlsDuel"]
+visible = false
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 268.0
-margin_top = -74.0
-margin_right = 376.0
-margin_bottom = -52.0
+margin_left = 108.0
+margin_top = -90.0
+margin_right = 216.0
+margin_bottom = -68.0
 text = "PLAYER 2"
 align = 1
 
-[node name="Keys2" type="Control" parent="ControlsDuel"]
+[node name="Joypad3" type="Control" parent="GameInstructions/Outline/ControlsDuel"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 216.0
-margin_top = -24.0
-margin_right = 296.0
-margin_bottom = 72.0
+margin_left = -60.0
+margin_top = -44.0
+margin_right = 60.0
+margin_bottom = 42.0
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="KeyboardR" type="TextureRect" parent="ControlsDuel/Keys2"]
+[node name="jp" type="TextureRect" parent="GameInstructions/Outline/ControlsDuel/Joypad3"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+margin_right = 120.0
+margin_bottom = 86.0
+texture = SubResource( 395 )
+
+[node name="btns" type="TextureRect" parent="GameInstructions/Outline/ControlsDuel/Joypad3"]
+margin_left = 10.0
+margin_top = 17.0
+margin_right = 32.0
+margin_bottom = 39.0
+texture = SubResource( 396 )
+
+[node name="btn" type="TextureRect" parent="GameInstructions/Outline/ControlsDuel/Joypad3"]
+margin_left = 96.0
+margin_top = 32.0
+margin_right = 106.0
+margin_bottom = 42.0
+texture = SubResource( 397 )
+
+[node name="Label2" type="Label" parent="GameInstructions/Outline/ControlsDuel/Joypad3"]
+margin_left = 10.0
+margin_top = 85.0
+margin_right = 108.0
+margin_bottom = 110.0
+text = "JP 1  2"
+align = 1
+
+[node name="C1" type="TextureRect" parent="GameInstructions/Outline/ControlsDuel/Joypad3"]
+visible = false
+margin_left = 59.0
+margin_top = 92.0
+margin_right = 65.0
+margin_bottom = 102.0
+texture = SubResource( 398 )
+
+[node name="Label" type="Label" parent="GameInstructions/Outline/ControlsDuel/Joypad3"]
+margin_left = 69.0
+margin_top = 82.0
+margin_right = 85.0
+margin_bottom = 107.0
+custom_fonts/font = ExtResource( 8 )
+text = "/"
+align = 1
+
+[node name="C2" type="TextureRect" parent="GameInstructions/Outline/ControlsDuel/Joypad3"]
+visible = false
+margin_left = 87.0
+margin_top = 92.0
+margin_right = 93.0
+margin_bottom = 102.0
+texture = SubResource( 449 )
+
+[node name="Keys2" type="Control" parent="GameInstructions/Outline/ControlsDuel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 153.0
+margin_top = -40.0
+margin_right = 233.0
+margin_bottom = 56.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="KeyboardR" type="TextureRect" parent="GameInstructions/Outline/ControlsDuel/Keys2"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -40.0
@@ -591,7 +1091,7 @@ margin_right = 30.0
 margin_bottom = 46.0
 texture = SubResource( 390 )
 
-[node name="Alt" type="TextureRect" parent="ControlsDuel/Keys2"]
+[node name="Alt" type="TextureRect" parent="GameInstructions/Outline/ControlsDuel/Keys2"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -16.0
@@ -600,125 +1100,70 @@ margin_right = 6.0
 margin_bottom = 86.0
 texture = SubResource( 393 )
 
-[node name="Joypad2" type="Control" parent="ControlsDuel"]
+[node name="Joypad2" type="Control" parent="GameInstructions/Outline/ControlsDuel"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 336.0
-margin_top = -24.0
-margin_right = 456.0
-margin_bottom = 62.0
+margin_left = 160.0
+margin_top = -40.0
+margin_right = 280.0
+margin_bottom = 46.0
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="jp" type="TextureRect" parent="ControlsDuel/Joypad2"]
+[node name="jp" type="TextureRect" parent="GameInstructions/Outline/ControlsDuel/Joypad2"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_right = 120.0
 margin_bottom = 86.0
 texture = SubResource( 395 )
 
-[node name="btns" type="TextureRect" parent="ControlsDuel/Joypad2"]
+[node name="btns" type="TextureRect" parent="GameInstructions/Outline/ControlsDuel/Joypad2"]
 margin_left = 10.0
 margin_top = 17.0
 margin_right = 32.0
 margin_bottom = 39.0
 texture = SubResource( 396 )
 
-[node name="btn" type="TextureRect" parent="ControlsDuel/Joypad2"]
+[node name="btn" type="TextureRect" parent="GameInstructions/Outline/ControlsDuel/Joypad2"]
 margin_left = 96.0
 margin_top = 32.0
 margin_right = 106.0
 margin_bottom = 42.0
 texture = SubResource( 397 )
 
-[node name="C1" type="TextureRect" parent="ControlsDuel/Joypad2"]
+[node name="C1" type="TextureRect" parent="GameInstructions/Outline/ControlsDuel/Joypad2"]
 margin_left = 57.0
 margin_top = 76.0
 margin_right = 63.0
 margin_bottom = 86.0
-texture = SubResource( 398 )
+texture = SubResource( 449 )
 
-[node name="ScreenLine" type="Node2D" parent="ControlsDuel"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-position = Vector2( 576, -56 )
+[node name="ControlHint" parent="." instance=ExtResource( 10 )]
+margin_left = -153.0
+margin_right = 154.0
 
-[node name="Line2D" type="Line2D" parent="ControlsDuel/ScreenLine"]
-position = Vector2( -576, 240 )
-points = PoolVector2Array( 576, 64, 576, 120 )
-width = 1.0
-default_color = Color( 1, 1, 1, 1 )
+[node name="Label" parent="ControlHint" index="0"]
+visible = true
 
-[node name="Line2D2" type="Line2D" parent="ControlsDuel/ScreenLine"]
-position = Vector2( -576, 233 )
-points = PoolVector2Array( 576, -17, 576, -305 )
-width = 1.0
-default_color = Color( 1, 1, 1, 1 )
+[node name="KEY" parent="ControlHint" index="1"]
+margin_left = 51.0
+margin_right = 117.0
+text = "RETURN"
 
-[node name="Line2D3" type="Line2D" parent="ControlsDuel/ScreenLine"]
-position = Vector2( -576, 176 )
-points = PoolVector2Array( 576, -584, 576, -496 )
-width = 1.0
-default_color = Color( 1, 1, 1, 1 )
+[node name="to" parent="ControlHint" index="2"]
+margin_left = 124.0
+margin_right = 141.0
 
-[node name="StartHint" type="HBoxContainer" parent="."]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -73.0
-margin_top = 640.0
-margin_right = 103.0
-margin_bottom = 662.0
-custom_constants/separation = 8
-__meta__ = {
-"_edit_group_": true
-}
+[node name="JP" parent="ControlHint" index="3"]
+margin_left = 148.0
+margin_right = 233.0
+text = "JP START"
 
-[node name="Label" type="Label" parent="StartHint"]
-visible = false
-margin_top = 2.0
-margin_right = 44.0
-margin_bottom = 20.0
-theme = SubResource( 446 )
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-custom_fonts/font = ExtResource( 1 )
-text = "Press"
-align = 1
+[node name="LabelBtn" parent="ControlHint" index="4"]
+margin_left = 240.0
+margin_right = 307.0
 
-[node name="Enter" type="TextureRect" parent="StartHint"]
-margin_right = 22.0
-margin_bottom = 22.0
-texture = SubResource( 447 )
-
-[node name="Label3" type="Label" parent="StartHint"]
-margin_left = 30.0
-margin_top = 2.0
-margin_right = 47.0
-margin_bottom = 20.0
-theme = SubResource( 446 )
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-custom_fonts/font = ExtResource( 1 )
-text = "or"
-align = 1
-
-[node name="Start" type="TextureRect" parent="StartHint"]
-margin_left = 55.0
-margin_right = 95.0
-margin_bottom = 22.0
-texture = SubResource( 448 )
-
-[node name="Button" type="Button" parent="StartHint/Start"]
-margin_left = -58.0
-margin_right = 122.0
-margin_bottom = 26.0
-mouse_default_cursor_shape = 2
-
-[node name="Label2" type="Label" parent="StartHint"]
-margin_left = 103.0
-margin_top = 2.0
-margin_right = 170.0
-margin_bottom = 20.0
-theme = SubResource( 446 )
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-custom_fonts/font = ExtResource( 1 )
-text = "to start"
+[editable path="ControlHint"]

@@ -84,13 +84,8 @@ func snap_to_nearest_grid(body_to_snap: Node2D):
 	# adaptacija zaradi središčne točke strejsa in playerja
 	var current_position: Vector2 = Vector2(current_global_position.x - cell_size_x/2, current_global_position.y - cell_size_x/2)
 	
-	#	# preverjam playerja, če je poz znotraj tilemapa
-	#	if body_to_snap.is_in_group(Global.group_players):
-	#		if not current_tilemap.inside_edge_level_rect.has_point(current_position):
-	#			return # player se premakne na random mesto
-	
-	# če ni že snepano
-	if not floor_cells.has(current_position): 
+	# preverjam playerja, če je poz znotraj tilemapa
+	if body_to_snap.is_in_group(Global.group_players) and not floor_cells.has(current_position): # če takole delaš straju je error
 		# določimo distanco znotraj katere preverjamo bližino točke
 		var distance_to_position: float = cell_size_x # začetna distanca je velikosti celice ... potem izbrana je itak bližja
 		var nearest_cell: Vector2
@@ -105,6 +100,17 @@ func snap_to_nearest_grid(body_to_snap: Node2D):
 		return current_global_position # vrneš isto pozicijo na katere že je 
 
 
+func get_clock_time(time_to_split: float): # sekunde float
+	
+	var minutes: int = floor(time_to_split / 60) # vse cele sekunde delim s 60
+	var seconds: int = floor(time_to_split) - minutes * 60 # vse sekunde minus sekunde v celih minutah
+	var hundreds: int = round((time_to_split - floor(time_to_split)) * 100) # decimalke množim x 100 in zaokrožim na celo
+
+	# return [minutes, seconds, hundreds]	
+	var time_on_clock: String = "%02d" % minutes + ":" + "%02d" % seconds + ":" + "%02d" % hundreds	
+	return time_on_clock
+	
+	
 # SCENE MANAGER (prehajanje med igro in menijem) --------------------------------------------------------------
 
 
@@ -252,7 +258,7 @@ func connect_buttons(root: Node): # recursively connect all buttons
 	for child in root.get_children():
 		if child is BaseButton or child is HSlider:
 			connect_to_button(child)
-		connect_buttons(child)
+#		connect_buttons(child)
 
 
 func connect_to_button(button):
@@ -280,7 +286,6 @@ func _on_button_pressed(button: BaseButton):
 
 	
 func _on_button_toggled(button_pressed: bool) -> void:
-	
 	if button_pressed:
 		Global.sound_manager.play_gui_sfx("btn_confirm")
 	else:
@@ -295,7 +300,6 @@ func _on_control_hovered(control: Control):
 		
 				
 func _on_control_focused(control: Control):
-	
 	Global.sound_manager.play_gui_sfx("btn_focus_change")
 	# check btn color fix
 	if control is CheckButton or control is HSlider or control.name == "RandomizeBtn" or control.name == "ResetBtn":

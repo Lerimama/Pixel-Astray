@@ -46,9 +46,7 @@ var default_game_settings: Dictionary = {
 	# game
 	"game_time_limit": 0, # če je nič, ni omejeno in timer je stopwatch mode
 	"start_countdown": true,
-	"eternal_mode": false,
 	"spectrum_start_on": true, # a pobrane prižigam al ugašam ... na scrollerja ne deluje
-	"position_indicators_on": true, # duel jih nima 
 	"game_instructions_popup": true,
 	"show_solution_hint": false, # riddler reštve
 	"zoom_to_level_size": false,
@@ -56,9 +54,9 @@ var default_game_settings: Dictionary = {
 
 
 enum Games {
-	TUTORIAL, CLASSIC
+	TUTORIAL,
 	CLASSIC_S, CLASSIC_M, CLASSIC_L,
-	CLEANER_S, CLEANER_M, CLEANER_L,
+	POPPER, CLEANER_M,
 	THE_DUEL,
 	RIDDLER,
 	SCROLLER,
@@ -73,7 +71,7 @@ enum HighscoreTypes {
 	HS_TIME_LOW, 
 	HS_TIME_HIGH
 	}
-	
+
 	
 var game_data_tutorial: Dictionary = { 
 	"game": Games.TUTORIAL,
@@ -82,50 +80,50 @@ var game_data_tutorial: Dictionary = {
 	"game_scene_path": "res://game/game_tutorial.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_tutorial.tscn",
 }
-var game_data_eraser_s: Dictionary = { 
+var game_data_classic_s: Dictionary = { 
 	"game": Games.CLASSIC_S,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Classic S",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_classic_s.tscn",
 	"description" : "Collect all colors in limited time.",
-	"Label": "",
-	"Label2": "Game is over if you lose all life and energy.",
-	"Label3" : "Rebursting is not available.",
+	"Label": "[center][b]Limitations[/b]\nIf you lose all life and energy.",
+	"Label2" : "[center][b]Skills[/b]\nRebursting is not available.",
+	"Label3" : "[center][b]Time[/b]\nLimited to 2 minutes",
 }
-var game_data_eraser_m: Dictionary = {
+var game_data_classic_m: Dictionary = {
 	"game": Games.CLASSIC_M,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Classic M",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_classic_m.tscn",
 	"description" : "Collect all colors in limited time.",
-	"Label": "",
-	"Label2": "Game is over if you lose all life and energy.",
-	"Label3" : "Rebursting is not available.",
+	"Label": "[center][b]Game Over[/b]\nIf you lose all life and energy.",
+	"Label2" : "[center][b]Skills[/b]\nRebursting is not available.",
+	"Label3" : "[center][b]Time[/b]\nLimited to 5 minutes",
 }
-var game_data_eraser_l: Dictionary = {
+var game_data_classic_l: Dictionary = {
 	"game": Games.CLASSIC_L,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Classic L",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_classic_l.tscn",
-	# instructions text
 	"description" : "Collect all colors in limited time.",
-	"Label": "", # presledek
-	"Label2": "Game is over if you lose all life and energy.",
-	"Label3" : "Rebursting is not available.",
+	"Label": "[center][b]Game Over[/b]\nIf you lose all life and energy.",
+	"Label2" : "[center][b]Skills[/b]\nRebursting is not available.",
+	"Label3" : "[center][b]Time[/b]\nLimited to 10 minutes",
 }
-var game_data_cleaner_s: Dictionary = { 
-	"game": Games.CLEANER_S,
+var game_data_popper: Dictionary = { 
+	"game": Games.POPPER,
 	"highscore_type": HighscoreTypes.HS_POINTS,
-	"game_name": "Cleaner S",
+	"game_name": "Poppers",
 	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_s.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_popper.tscn",
 	"description" : "Score points or clean the screen to reach next level.",
-	"Label": "Game is over if you lose all life or if screen is full of colors.",
-	"Label2" : "Unlimited levels. Unlimited time. Game is unbeatable.",
-	"Label3" : "Don't worry about energy.",
+	"Label": "[center][b]Game Over[/b]\nif you lose all life or if screen is full of colors.",
+	"Label2" : "[center][b]Skills[/b]\nRebursting is not available.",
+	"Label3" : "[center][b]Time[/b]\nUnlimited levels. Unlimited time. Game is unbeatable.",
+	"Label4" : "[center][b]Energy[/b]\nDon't worry about energy.",
 	#
 	"respawn_wait_time_factor": 0.7, # množim
 	"respawn_strays_count_grow": 1, # prištejem
@@ -140,27 +138,15 @@ var game_data_cleaner_m: Dictionary = {
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_m.tscn",
 	"description" : "Score points or clean the screen to reach next level.",
-	"Label": "Game is over if you lose all life or if screen is full of colors.",
-	"Label2" : "Unlimited levels. Unlimited time. Game is unbeatable.",
-	"Label3" : "Don't worry about energy.",
+	"Label2" : "[center][b]Skills[/b]\nRebursting is not available.",
+	"Label3" : "[center][b]Time[/b]\nUnlimited levels. Unlimited time. Game is unbeatable.",
+	"Label4" : "[center][b]Energy[/b]\nDon't worry about energy.",
 	#
 	"respawn_wait_time_factor": 0.7, # množim
 	"respawn_strays_count_grow": 1, # prištejem
 	"level_points_goal": 320, # prvi
 	"level_points_goal_grow": 320, # prištejem najvišjemu rezultatu
 	"level_strays_spawn_count_grow": 32, # prištejem
-}
-var game_data_cleaner_l: Dictionary = {
-	"game": Games.CLEANER_L,
-	"highscore_type": HighscoreTypes.HS_POINTS,
-	"game_name": "Cleaner L",
-	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_l.tscn",
-	"description" : "Collect colors to score points.",
-	"Label": "",
-	"Label2": "Game is over if you lose all energy.",
-	"Label3" : "One big level.",
-	"Label4" : "Time is limited.",
 }
 var game_data_the_duel: Dictionary = {
 	"game": Games.THE_DUEL,
@@ -169,10 +155,9 @@ var game_data_the_duel: Dictionary = {
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_duel.tscn",
 	"description" : "Surviving player or player with higher score wins.",
-	"Label": "",
-	"Label2": "Game is over when one of the players loses all life.",
-	"Label3" : "Time is limited.",
-	"Label4" : "Rebursting is not available.",
+	"Label": "[center][b]Game Over[/b]\nIf one of the players loses all life.",
+	"Label2" : "[center][b]Time[/b]\nLimited to 2 minutes",
+	"Label3" : "[center][b]Skills[/b]\nRebursting is not available.",
 }
 var game_data_scroller: Dictionary = { 
 	"game": Games.SCROLLER,
@@ -181,10 +166,10 @@ var game_data_scroller: Dictionary = {
 	"game_scene_path": "res://game/game_scrolling.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_scrolling.tscn",
 	"description" : "Prevent invading colors from flooding the screen.",
-	"Label": "Game is over when you are surrounded or when there is no room for colors to invade.",
-	"Label2" : "Burst always collects all colors in stack.",
-	"Label3" : "Skills and rebursting are not available.",
-	"Label4" : "Don't worry about energy.",
+	"Label": "[center][b]Game Over[/b]\nIf player is surrounded or when there is no room for colors to invade.",
+	"Label2" : "[center][b]Burst[/b] \nAlways collects all colors in stack.",
+	"Label3" : "[center][b]Skills[/b] \nSkills are not available.",
+	"Label4" : "[center][b]Energy[/b]\nDon't worry about energy.",
 	#
 	"stages_per_level": 2, # prvi level
 	"stages_per_level_grow": 0, # dodatno prištejem
@@ -204,12 +189,11 @@ var game_data_riddler: Dictionary = {
 	"game_scene_path": "res://game/game.tscn",
 	#
 	"description" : "Collect all available colors with a single burst move.",
-	"Label" : "Burst move includes initial burst and all rebursts that follow.",
-	"Label2": "Burst move starts when you hit the first stray pixel.",
-	"Label3" : "Level progress on colors collected count.",
-	"Label4" : "Unlimited levels. Unlimited time. Game is unbeatable.",
-	"Label5" : "Don't worry about energy.",
+	"Prop" : "[center][b]Burst move[/b]\nStarts on first color hit and continues through all following reburst.",
+	"Prop2" : "[center]Burst can collect all colors in stack. Reburst always collects only color.",
+	"Prop3" : "[center]Burst can collect all colors in stack. Reburst always collects only color.",
 }
+
 var riddler_level_setting: Dictionary = { 
 	1: { # ključ je tudi številka levela
 		"tilemap_path": "res://game/tilemaps/riddler/tilemap_riddler_01.tscn",
@@ -291,11 +275,10 @@ func _ready() -> void:
 #	var debug_game = Games.CLASSIC_M
 #	var debug_game = Games.CLASSIC_L
 #	var debug_game = Games.SCROLLER
-#	var debug_game = Games.CLEANER_S
+	var debug_game = Games.POPPER
 #	var debug_game = Games.CLEANER_M
-#	var debug_game = Games.CLEANER_L
 #	var debug_game = Games.THE_DUEL
-	var debug_game = Games.RIDDLER
+#	var debug_game = Games.RIDDLER
 	set_game_data(debug_game)
 	
 	
@@ -304,7 +287,7 @@ func set_game_data(selected_game) -> void:
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
 	# debug
-	game_settings["game_instructions_popup"] = false
+#	game_settings["game_instructions_popup"] = false
 	game_settings["start_countdown"] = false
 		
 	match selected_game:
@@ -328,24 +311,24 @@ func set_game_data(selected_game) -> void:
 			game_settings["reburst_mode"] = true
 		
 		Games.CLASSIC_S: 
-			current_game_data = game_data_eraser_s
+			current_game_data = game_data_classic_s
 			game_settings["game_time_limit"] = 120
 			game_settings["strays_start_count"] = 1
 			game_settings["respawn_wait_time"] = 0
 			game_settings["respawn_strays_count"] = 5
 		Games.CLASSIC_M: 
-			current_game_data = game_data_eraser_m
+			current_game_data = game_data_classic_m
 			game_settings["game_time_limit"] = 300
 			game_settings["strays_start_count"] = 140
 			game_settings["respawn_strays_count"] = 0
 		Games.CLASSIC_L: 
-			current_game_data = game_data_eraser_l
+			current_game_data = game_data_classic_l
 			game_settings["game_time_limit"] = 600
 			game_settings["strays_start_count"] = 320
 			game_settings["respawn_strays_count"] = 0
 		
-		Games.CLEANER_S: 
-			current_game_data = game_data_cleaner_s
+		Games.POPPER: 
+			current_game_data = game_data_popper
 			game_settings["on_hit_points_div"] = 0
 			game_settings["cell_traveled_energy"] = 0
 			#
@@ -353,7 +336,6 @@ func set_game_data(selected_game) -> void:
 			game_settings["full_power_mode"] = true
 			game_settings["position_indicators_on"] = false
 			game_settings["start_countdown"] = false
-			game_settings["eternal_mode"] = true
 			#
 			game_settings["zoom_to_level_size"] = true
 			game_settings["strays_start_count"] = 50
@@ -367,21 +349,12 @@ func set_game_data(selected_game) -> void:
 			game_settings["full_power_mode"] = true
 			game_settings["position_indicators_on"] = false
 			game_settings["start_countdown"] = false
-			game_settings["eternal_mode"] = true
 			#
 			game_settings["zoom_to_level_size"] = true
 			game_settings["strays_start_count"] = 320			
 			game_settings["random_stray_to_wall"] = true
 #			game_settings["stray_wall_spawn_possibilty"] = 10
-		Games.CLEANER_L: 
-			current_game_data = game_data_cleaner_l
-			game_settings["game_time_limit"] = 300
-			game_settings["start_countdown"] = false
-			game_settings["strays_start_count"] = 320
-			#	
-			game_settings["respawn_wait_time"] = 5
-			game_settings["respawn_strays_count"] = 5
-		
+
 		Games.SCROLLER:
 			current_game_data = game_data_scroller
 			game_settings["lose_life_on_hit"] = false
@@ -420,5 +393,5 @@ func set_game_data(selected_game) -> void:
 			game_settings["position_indicators_on"] = false
 			game_settings["zoom_to_level_size"] = true
 			# debug
-			current_game_data["level"] = 6
+			current_game_data["level"] = 1
 

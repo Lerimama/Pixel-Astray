@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "Control",
 "class": "GameHud",
 "language": "GDScript",
-"path": "res://game/hud/hud_tutorial.gd"
+"path": "res://game/hud/hud_class.gd"
 }, {
 "base": "Node",
 "class": "GameManager",
@@ -79,7 +79,7 @@ gdscript/warnings/integer_division=false
 window/size/width=1280
 window/size/height=720
 window/size/borderless=true
-window/size/fullscreen=true
+window/size/always_on_top=true
 window/size/test_width=640
 window/size/test_height=360
 window/dpi/allow_hidpi=true

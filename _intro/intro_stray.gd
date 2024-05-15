@@ -21,6 +21,7 @@ onready var cell_size_x: int = Global.current_tilemap.cell_size.x
 
 
 func _ready() -> void:
+	
 	add_to_group(Global.group_strays)
 
 	randomize() # za random die animacije
@@ -28,6 +29,7 @@ func _ready() -> void:
 	current_state = States.IDLE
 	
 	color_poly.modulate = stray_color
+	modulate.a = 0
 	position_indicator.get_node("PositionPoly").color = stray_color
 	count_label.text = name
 	position_indicator.visible = false
@@ -49,7 +51,7 @@ func show_stray(): # kliče GM
 func die(stray_in_stack_index: int, strays_in_stack: int):
 	
 	current_state = States.DYING
-	global_position = Global.snap_to_nearest_grid(self)
+	global_position = Global.snap_to_nearest_grid(global_position) 
 	
 	# čakalni čas
 	var wait_to_destroy_time: float = sqrt(0.07 * (stray_in_stack_index)) # -1 je, da hitan stray ne čaka
@@ -64,10 +66,8 @@ func die(stray_in_stack_index: int, strays_in_stack: int):
 		animation_player.play("die_stray")
 
 	position_indicator.modulate.a = 0	
-	#	collision_shape.disabled = true
-	#	collision_shape_ext.disabled = true
-	collision_shape.set_deferred("disabled", true)
-	collision_shape_ext.set_deferred("disabled", true)
+	collision_shape.disabled = true
+	collision_shape_ext.disabled = true
 	
 	# color vanish
 	var vanish_time = animation_player.get_current_animation_length()
@@ -136,7 +136,7 @@ func end_move():
 	
 	if current_state == States.MOVING: # zakaj že rabim ta pogoj?
 		current_state = States.IDLE
-	global_position = Global.snap_to_nearest_grid(self)
+	global_position = Global.snap_to_nearest_grid(global_position) 
 	
 		
 # UTILITI ------------------------------------------------------------------------------------------------------

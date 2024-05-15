@@ -31,7 +31,9 @@ func get_highscore_table(current_game_data: Dictionary, current_player_ranking: 
 			scoreline.get_node("Owner").text = str(current_position_dict_owners[0])
 			
 			if current_game_hs_type == Profiles.HighscoreTypes.HS_TIME_LOW or current_game_hs_type == Profiles.HighscoreTypes.HS_TIME_HIGH:
-				scoreline.get_node("Score").text = str(current_position_dict_values[0]) + "s"
+#				scoreline.get_node("Score").text = str(current_position_dict_values[0]) + "s"
+				scoreline.get_node("Score").text = Global.get_clock_time(float(current_position_dict_values[0]))
+				
 			elif current_game_hs_type == Profiles.HighscoreTypes.HS_POINTS:
 				scoreline.get_node("Score").text = str(current_position_dict_values[0])
 		

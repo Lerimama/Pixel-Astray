@@ -13,7 +13,7 @@ var neighbor_indicator_alpha: float = 0.4
 var active_color_indicators: Array = [] # indikatorji spawnani že ob spawnanju pixlov
 
 # hs
-var current_highscore: int
+var current_highscore: float
 var current_highscore_owner: String
 
 # in/out
@@ -93,12 +93,9 @@ func _ready() -> void:
 	if Global.game_manager.game_data.has("level"):
 		level_label.text = "%02d" % Global.game_manager.game_data["level"]
 	
-	if Global.game_manager.game_settings["spectrum_start_on"]:
-		picked_indicator_alpha = 0.2
-		unpicked_indicator_alpha = 1
-	else:
-		picked_indicator_alpha = 1
-		unpicked_indicator_alpha = 0.2
+	# setam transparenco barva indikatorja ... če želim obratno, samo tukaj obrnem
+	picked_indicator_alpha = 0.2
+	unpicked_indicator_alpha = 1
 	
 	
 func _process(delta: float) -> void:
@@ -333,7 +330,6 @@ func slide_out(): # kliče GM na game over
 func fade_in_instructions_popup(in_time: float):
 
 	instructions_popup.get_instructions_content(current_highscore, current_highscore_owner)
-
 	var show_instructions_popup = get_tree().create_tween()
 	show_instructions_popup.tween_callback(instructions_popup, "show")
 	show_instructions_popup.tween_property(instructions_popup, "modulate:a", 1, in_time).from(0.0).set_ease(Tween.EASE_IN)
@@ -356,22 +352,30 @@ func confirm_players_ready():
 # SPECTRUM ---------------------------------------------------------------------------------------------------------------------------
 
 	
-func spawn_color_indicators(available_colors: Array): # kliče GM
+func spawn_color_indicators(spawn_colors: Array): # kliče GM
 	
 	var indicator_index = 0 # za fiksirano zaporedje
+	var indicator_to_move_under_index: int
 	
-	for color in available_colors:
+	for spawn_color in spawn_colors:
 		indicator_index += 1 
 		# spawn indicator
 		var new_color_indicator = ColorIndicator.instance()
-		new_color_indicator.color = color
+		new_color_indicator.color = spawn_color
 		new_color_indicator.modulate.a = 1 # na fade-in se odfejda do unpicked_indicator_alpha
 		spectrum.add_child(new_color_indicator)
+		# preverim, če je ista barva že v spektrumu
+		for indicator in spectrum.get_children():
+			if indicator.color == spawn_color:
+				indicator_to_move_under_index = spectrum.get_children().find(indicator)
+				break
+		# premaknem ga pod obstoječo barvo				
+		if indicator_to_move_under_index:
+			spectrum.move_child(new_color_indicator, indicator_to_move_under_index)
+		# new_color_indicator.get_node("IndicatorCount").text = str(indicator_index) # debug ... zapis indexa
 		active_color_indicators.append(new_color_indicator)
 
-		# new_color_indicator.get_node("IndicatorCount").text = str(indicator_index) # debug ... zapis indexa
-					
-					
+
 func show_color_indicator(picked_color: Color):
 	
 	# preverim, če je to edina taka barva na igrišču
@@ -380,7 +384,6 @@ func show_color_indicator(picked_color: Color):
 		if stray.stray_color == picked_color:
 			same_color_stray_count += 1
 			if same_color_stray_count > 1:
-				print("barva je še")
 				return
 		
 	var current_indicator_index: int

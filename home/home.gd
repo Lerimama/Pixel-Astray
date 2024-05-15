@@ -28,10 +28,12 @@ func _input(event: InputEvent) -> void:
 			Screens.SELECT_LEVEL:
 				$SelectLevel._on_BackBtn_pressed()
 	
-					
+	if Input.is_action_just_pressed("n"): 
+		Global.sound_manager.change_menu_music()
+		
+			
 func _ready():
 	
-	menu.visible = false
 	$Settings/EscHint.modulate.a = 0
 	$SelectGame/EscHint.modulate.a = 0
 	$Highscores/EscHint.modulate.a = 0
@@ -148,7 +150,6 @@ func animation_reversed(from_screen: String):
 		if from_screen == "select_riddler_level":
 			pass
 		else: # odpre se main menu ekran
-			print("iz drugje")
 			menu_in()
 		
 		return true

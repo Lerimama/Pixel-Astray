@@ -106,7 +106,7 @@ func idle_inputs():
 		reburst_count = 0
 		close_reburst_window()
 		if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:	
-			finish_riddler_move()		
+			finish_burst_move()		
 			
 		
 func end_move():
@@ -209,7 +209,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 			close_reburst_window()
 			reburst_count = 0
 			if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:	
-				finish_riddler_move()
+				finish_burst_move()
 
 
 func spawn_cock_ghost(cocking_direction: Vector2):
@@ -345,7 +345,8 @@ func close_reburst_window():
 	burst_light_off()
 		
 
-func finish_riddler_move(): # RIDDLER
+func finish_burst_move():
+	# namen riddler
 	
 	# ček for succes
 	if riddler_move_started:
@@ -375,9 +376,6 @@ func detect_touch():
 	
 	# surrounded
 	if touching_sides_count == touch_areas.size():
-		printt ("surr", surrounded_player_strays)
-		printt ("curr", current_player_strays)
-		printt (".------")
 		# če je še vedno obkoljen, preverim pe istost sosedov > GO
 		if is_surrounded:
 			# če so sosedi isti je GO
@@ -414,9 +412,10 @@ func _on_ReburstingTimer_timeout() -> void:
 	close_reburst_window()
 	reburst_count = 0
 	if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:	
-		finish_riddler_move()
+		finish_burst_move()
 
 	
-func _on_TouchTimer_timeout() -> void: # CLEANER 
+func _on_TouchTimer_timeout() -> void: 
+	# POPPER
 
 	detect_touch() # za GO

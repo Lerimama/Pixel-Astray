@@ -23,53 +23,42 @@ func set_game_gameover_title():
 	# namen: sprememba teksta v GO - TIME komentarju glede na to katera igra je
 	# namen: opredelim, če je bila riddler rešena
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
-		match current_gameover_reason:
-			Global.game_manager.GameoverReason.CLEANED:
-				selected_gameover_title = gameover_title_cleaned
-				selected_gameover_jingle = "win_jingle"
-				name_input_label.text = "Great work!"
-				# write riddler to solved riddlers
-				Global.data_manager.write_solved_status_to_file(Global.game_manager.game_data)
-			Global.game_manager.GameoverReason.LIFE:
-				selected_gameover_title = gameover_title_life
-				selected_gameover_jingle = "lose_jingle"
-				name_input_label.text = "A bit clumsy, aren't yout?"
-			Global.game_manager.GameoverReason.TIME:
-				timeup_label.text = "That's not all folks!"
-				selected_gameover_title = gameover_title_time
-				selected_gameover_jingle = "lose_jingle"
-	elif Global.game_manager.game_settings["eternal_mode"]:
-		match current_gameover_reason:
-			#			Global.game_manager.GameoverReason.CLEANED:
-			#				selected_gameover_title = gameover_title_cleaned
-			#				selected_gameover_jingle = "win_jingle"
-			#				name_input_label.text = "Great work!"
-			Global.game_manager.GameoverReason.LIFE:
-				selected_gameover_title = gameover_title_life
-				selected_gameover_jingle = "lose_jingle"
-				name_input_label.text = "But still ... "
-			Global.game_manager.GameoverReason.TIME:
-				timeup_label.text = "Too colorful?"
-				selected_gameover_title = gameover_title_time
-				selected_gameover_jingle = "lose_jingle"
-				name_input_label.text = "But still ... "
-		if score_is_ranking:
-			selected_gameover_title.modulate = Global.color_green
-	else: # orig
-		match current_gameover_reason:
-			Global.game_manager.GameoverReason.CLEANED:
-				selected_gameover_title = gameover_title_cleaned
-				selected_gameover_jingle = "win_jingle"
-				name_input_label.text = "Great work!"
-			Global.game_manager.GameoverReason.LIFE:
-				selected_gameover_title = gameover_title_life
-				selected_gameover_jingle = "lose_jingle"
-				name_input_label.text = "But still ... "
-			Global.game_manager.GameoverReason.TIME:
-				selected_gameover_title = gameover_title_time
-				selected_gameover_jingle = "lose_jingle"
-				name_input_label.text = "But still ... "
+	# uganka in je bila rešena
+	if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER and current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
+		Global.data_manager.write_solved_status_to_file(Global.game_manager.game_data)
+#	elif Global.game_manager.game_data.has("level_points_goal"):
+#		match current_gameover_reason:
+#			#			Global.game_manager.GameoverReason.CLEANED:
+#			#				selected_gameover_title = gameover_title_cleaned
+#			#				selected_gameover_jingle = "win_jingle"
+#			#				name_input_label.text = "Great work!"
+#			Global.game_manager.GameoverReason.LIFE:
+#				selected_gameover_title = gameover_title_life
+#				selected_gameover_jingle = "lose_jingle"
+#				name_input_label.text = "But still ... "
+#			Global.game_manager.GameoverReason.TIME:
+#				timeup_label.text = "Too colorful?"
+#				selected_gameover_title = gameover_title_time
+#				selected_gameover_jingle = "lose_jingle"
+#				name_input_label.text = "But still ... "
+	match current_gameover_reason:
+		Global.game_manager.GameoverReason.CLEANED:
+			selected_gameover_title = gameover_title_cleaned
+			selected_gameover_jingle = "win_jingle"
+			name_input_label.text = "Great work!"
+		Global.game_manager.GameoverReason.LIFE:
+			selected_gameover_title = gameover_title_life
+			selected_gameover_jingle = "lose_jingle"
+			name_input_label.text = "But still ... "
+			if score_is_ranking:
+				selected_gameover_title.modulate = Global.color_green
+		Global.game_manager.GameoverReason.TIME:
+			selected_gameover_title = gameover_title_time
+			selected_gameover_jingle = "lose_jingle"
+			name_input_label.text = "But still ... "
+			if score_is_ranking:
+				selected_gameover_title.modulate = Global.color_green
+	
 
 
 func show_gameover_menu():
@@ -94,13 +83,6 @@ func show_gameover_menu():
 			yield(get_tree().create_timer(1), "timeout") # podaljšam pavzo za branje
 			show_game_summary()
 		else:
-			var current_score_points: int = p1_final_stats["player_points"]
-			
-			var current_score_time: float = Global.hud.game_timer.absolute_game_time
-			
-			# yield čaka na konec preverke ... tip ni opredeljen, ker je ranking, če ni skora kot objecta, če je ranking
-			var score_is_ranking = Global.data_manager.manage_gameover_highscores(current_score_points, current_score_time, Global.game_manager.game_data) 
-			
 			# če je riddler score štejem samo, če vse spuca
 			if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER and not current_gameover_reason == Global.game_manager.GameoverReason.CLEANED: 
 				yield(get_tree().create_timer(1), "timeout")

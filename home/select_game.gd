@@ -43,11 +43,10 @@ func _on_EraserLBtn_pressed() -> void:
 
 
 func _on_CleanerSBtn_pressed() -> void:
-	play_selected_game(Profiles.Games.CLEANER_S)
+	play_selected_game(Profiles.Games.POPPER)
+	
 func _on_CleanerMBtn_pressed() -> void:
 	play_selected_game(Profiles.Games.CLEANER_M)
-func _on_CleanerLBtn_pressed() -> void:
-	play_selected_game(Profiles.Games.CLEANER_L)
 	
 	
 func _on_ScrollerBtn_pressed() -> void:

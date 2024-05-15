@@ -1,7 +1,7 @@
 extends GameHud
 
 
-onready var level_up_popup: Control = $"Popups/LevelUp"
+onready var level_up_popup: Control = $Popups/LevelUp
 onready var level_limit_holder: HBoxContainer = $Footer/FooterLine/LevelLimitHolder
 onready var level_limit_label_1: Label = $Footer/FooterLine/LevelLimitHolder/Label
 onready var level_limit_label_2: Label = $Footer/FooterLine/LevelLimitHolder/Label2
@@ -20,7 +20,7 @@ func _process(delta: float) -> void:
 		level_label.visible = true	
 			
 	# zapis točk do rekorda
-	if Global.game_manager.game_settings["eternal_mode"]:
+	if Global.game_manager.game_data.has("level_points_goal"):
 		level_label.text = "%02d" % Global.game_manager.game_data["level"]
 		# kateri ima višji score
 		var current_biggest_score: int = 0
@@ -71,8 +71,9 @@ func set_hud(players_count: int): # kliče main na game-in
 	if not Global.game_manager.game_data.has("level"):
 		level_label.visible = false
 	
-	# eternal		
-	if Global.game_manager.game_settings["eternal_mode"]:
+	# eternal	
+	if Global.game_manager.game_data.has("level_points_goal"): # multilevel game popper, cleaner_m
+#	if Global.game_manager.level_points_goal > 0:
 		p1_energy_counter.visible = false
 		p2_energy_counter.visible = false	
 		level_limit_holder.visible = true
@@ -100,21 +101,13 @@ func set_hud(players_count: int): # kliče main na game-in
 		set_current_highscore()
 
 
-func fade_in_instructions_popup(in_time: float):
-	# namen: za to igro prilagojena navodila
-
-	instructions_popup.get_instructions_content(current_highscore, current_highscore_owner)
-
-	if Global.game_manager.start_players_count == 2:
-		$Popups/Instructions/Controls.hide()
-		$Popups/Instructions/ControlsDuel.show()
-	else:
-		$Popups/Instructions/Controls.show()
-		$Popups/Instructions/ControlsDuel.hide()
-
-	var show_instructions_popup = get_tree().create_tween()
-	show_instructions_popup.tween_callback(instructions_popup, "show")
-	show_instructions_popup.tween_property(instructions_popup, "modulate:a", 1, in_time).from(0.0).set_ease(Tween.EASE_IN)
+#func fade_in_instructions_popup(in_time: float):
+#
+#	instructions_popup.get_instructions_content(current_highscore, current_highscore_owner)
+#
+#	var show_instructions_popup = get_tree().create_tween()
+#	show_instructions_popup.tween_callback(instructions_popup, "show")
+#	show_instructions_popup.tween_property(instructions_popup, "modulate:a", 1, in_time).from(0.0).set_ease(Tween.EASE_IN)
 
 	
 func level_up_popup_in(level_reached: int): 
@@ -173,6 +166,5 @@ func update_stats(stat_owner: Node, player_stats: Dictionary):
 	if not Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NO_HS:
 		check_for_hs(player_stats)
 	
-	if Global.game_manager.game_settings["eternal_mode"]:
-		if player_stats["player_points"] >= Global.game_manager.level_points_goal:
-			Global.game_manager.upgrade_level("regular")
+	if Global.game_manager.game_data.has("level_points_goal") and player_stats["player_points"] >= Global.game_manager.level_points_goal:
+		Global.game_manager.upgrade_level("regular")

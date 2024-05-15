@@ -1,5 +1,7 @@
-[gd_resource type="Theme" load_steps=19 format=2]
+[gd_resource type="Theme" load_steps=23 format=2]
 
+[ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
+[ext_resource path="res://assets/theme/font_main_rich_bold.tres" type="DynamicFont" id=2]
 [ext_resource path="res://assets/theme/fonts/16bfZX.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=4]
 
@@ -54,13 +56,11 @@ expand_margin_top = 1.0
 expand_margin_bottom = 1.0
 modulate_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 
-[sub_resource type="StyleBoxFlat" id=12]
-bg_color = Color( 0, 0, 0, 0.705882 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+[sub_resource type="StyleBoxEmpty" id=184]
+
+[sub_resource type="StyleBoxEmpty" id=185]
+
+[sub_resource type="StyleBoxEmpty" id=186]
 
 [sub_resource type="StyleBoxLine" id=174]
 color = Color( 1, 1, 1, 1 )
@@ -97,6 +97,9 @@ Label/colors/font_color = Color( 1, 1, 1, 1 )
 Label/constants/line_spacing = 6
 LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
 LineEdit/colors/selection_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-LineEdit/styles/normal = SubResource( 12 )
-LineEdit/styles/read_only = SubResource( 12 )
+LineEdit/styles/focus = SubResource( 184 )
+LineEdit/styles/normal = SubResource( 185 )
+LineEdit/styles/read_only = SubResource( 186 )
+RichTextLabel/fonts/bold_font = ExtResource( 2 )
+RichTextLabel/fonts/normal_font = ExtResource( 1 )
 VSeparator/styles/separator = SubResource( 174 )

@@ -66,7 +66,7 @@ func get_top_highscore(current_game_data: Dictionary):
 	return [current_highscore, current_highscore_owner]
 
 
-func manage_gameover_highscores(current_score_points: int, current_score_time: float, current_game_data: Dictionary): # iz GM
+func manage_gameover_highscores(current_score: float, current_game_data: Dictionary): # iz GM
 	# med izvajanjem te kode GM čaka na RESUME 1
 
 	var all_ranking_scores: Array = []
@@ -80,30 +80,16 @@ func manage_gameover_highscores(current_score_points: int, current_score_time: f
 		all_ranking_scores += current_position_dict.values()
 		all_ranking_score_owners += current_position_dict.keys()
 	
-	var better_positions_count: int
-	var current_value_to_rank: float
-	var current_secondary_value: int
-	
 	# izračun uvrstitve na lestvico ... štejem pozicije pred mano 
 	# trenutno je setano, da se da uporabit sekundarno vrednost za dodatno ločevanje
-	better_positions_count = 0 # 0 je 1. mesto
+	var better_positions_count: int = 0
 	for ranking_score in all_ranking_scores:
-		match current_game_data["highscore_type"]:
-			Profiles.HighscoreTypes.HS_POINTS:
-				current_value_to_rank = current_score_points
-				current_secondary_value = current_score_time
-				if ranking_score >= current_value_to_rank:
-					better_positions_count += 1				
-			Profiles.HighscoreTypes.HS_TIME_LOW:
-				current_value_to_rank = current_score_time
-				current_secondary_value = current_score_points
-				if ranking_score <= current_value_to_rank and not ranking_score <= 0:
-					better_positions_count += 1				
-			Profiles.HighscoreTypes.HS_TIME_HIGH:
-				current_value_to_rank = current_score_time
-				current_secondary_value = current_score_points
-				if ranking_score >= current_value_to_rank:
-					better_positions_count += 1
+		if current_game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW: # edinkrat ko se šteje nižje število
+			if ranking_score <= current_score and not ranking_score <= 0:
+				better_positions_count += 1				
+		else:
+			if ranking_score >= current_score:
+				better_positions_count += 1				
 		
 	current_player_ranking = better_positions_count + 1 # za označitev linije na lestvici
 	
@@ -117,10 +103,11 @@ func manage_gameover_highscores(current_score_points: int, current_score_time: f
 		
 		# RESUME 2
 		# nova highscore lestvica		
-		var current_score_owner_name = Global.gameover_menu.p1_final_stats["player_name"]
-		
+		var current_score_owner_name: String = Global.gameover_menu.p1_final_stats["player_name"]
+		current_score_owner_name = current_score_owner_name.capitalize()
+
 		# dodam plejer score v array
-		all_ranking_scores.insert(better_positions_count, current_value_to_rank)
+		all_ranking_scores.insert(better_positions_count, current_score)
 		all_ranking_score_owners.insert(better_positions_count, current_score_owner_name)
 
 		# odstranim zadnjega ... najnižjega

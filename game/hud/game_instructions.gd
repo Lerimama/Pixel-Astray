@@ -1,69 +1,78 @@
 extends Control
 
 
-onready var title: Label = $GameInstructions/Title
+onready var title: Label = $Title
 onready var description: Label = $GameInstructions/Description
-onready var record_label: Label = $GameInstructions/Outline/RecordLabel
-onready var record_title: Label = $GameInstructions/Outline/RecordLabel/RecordTitle
-onready var outline: VBoxContainer = $GameInstructions/Outline
-onready var controls: Control = $Controls
-onready var controls_duel: Control = $ControlsDuel
+onready var record_label_holder: Panel = $GameInstructions/Outline/Record
+onready var record_owner: Label = $GameInstructions/Outline/Record/RecordOwner
+onready var record_label: Label = $GameInstructions/Outline/Record/RecordLabel
+onready var outline: FlowContainer = $GameInstructions/Outline
+onready var shortcuts: Panel = $GameInstructions/Outline/Shortcuts
+onready var controls: Control = $GameInstructions/Outline/Controls
+onready var controls_duel: Control = $GameInstructions/Outline/ControlsDuel
 
 
 func get_instructions_content(current_highscore, current_highscore_owner):
-		
+	
 	var current_game_data: Dictionary = Global.game_manager.game_data
 	
-	# obvezne alineje
+	# game title
 	if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER: # samo enigam ima številko levela
 		title.text = current_game_data["game_name"] + " %02d" % current_game_data["level"]
 	else:
 		title.text = current_game_data["game_name"]
-		
+	# description		
 	description.text = current_game_data["description"]
 	
-	# hajskor glede na tip
-	if current_game_data["highscore_type"] == Profiles.HighscoreTypes.NO_HS:
-		record_label.hide()
-	else:
-		if current_game_data["highscore_type"] == Profiles.HighscoreTypes.HS_POINTS:
-			record_title.text = "Current record:"
-			if current_highscore == 0:
-				record_label.self_modulate = Global.color_gui_gray
-				record_label.text = "No record points set yet."
-			else:
-#				record_label.modulate = Global.color_green
-				record_label.text = str(current_highscore) + " points by " + str(current_highscore_owner)
-		elif current_game_data["highscore_type"] == Profiles.HighscoreTypes.HS_COLORS:
-			record_title.text = "Current record:"
-			if current_highscore == 0:
-				record_label.self_modulate = Global.color_gui_gray
-				record_label.text = "No record colors count set yet."
-			else:
-#				record_label.modulate = Global.color_green
-				record_label.text = str(current_highscore) + " colors picked by " + str(current_highscore_owner)
-		else: # TIME HIGH and LOW
-			record_title.text = "Current record:"
-			if current_highscore == 0:
-				record_label.self_modulate = Global.color_gui_gray
-				record_label.text = "No record time set yet."
-			else:
-#				record_label.modulate = Global.color_green
-				record_label.text = str(current_highscore) + " seconds by " + str(current_highscore_owner)
+	# highscore
+	if current_game_data["highscore_type"] == Profiles.HighscoreTypes.NO_HS or current_highscore == 0:
+		record_label_holder.hide()
+	else:	
+		record_label_holder.show()
+		if current_game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_HIGH or current_game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW:
+			var clock_record: String = Global.get_clock_time(current_highscore)
+			record_label.text = clock_record#  + " seconds"
+			record_owner.text = "by " + str(current_highscore_owner)
+		else: # standard
+			record_label.text = str(current_highscore)
+			record_owner.text = "by " + str(current_highscore_owner)
 
-	# poljubne alineje
-	for label in outline.get_children():
-		if not label == record_label:
-			if current_game_data.has(str(label.name)): # če ima slovar igre to postavko ...
-				label.show()
-				label.text = current_game_data["%s" % label.name] # ... jo napolni z njeno vsebino
-			else:
-				label.hide() # ali pa jo skrij
-	
-	# controls slikca			
+	# player controls 			
 	if Global.game_manager.start_players_count == 2:
-		controls.hide()
-		controls_duel.show()
-	else:
 		controls.show()
 		controls_duel.hide()
+	else:
+		controls.hide()
+		controls_duel.show()
+		
+	# game props
+	var props_count: int
+	var props_count_limit: int = 4
+	if record_label_holder.visible: # znižam mejo, če je rekord prisoten
+		props_count_limit -= 1
+	if controls_duel.visible: # znižam mejo, če je rekord prisoten, če sta dva plejerja
+		props_count_limit -= 1
+	for prop in outline.get_children():
+		if prop.get_child(0).name == "PropLabel":
+			props_count += 1
+			var prop_label: RichTextLabel = prop.get_node("PropLabel")
+			if current_game_data.has(str(prop.name)) and props_count <= props_count_limit: # če ima slovar igre to postavko ...
+				prop.show()
+				prop_label.bbcode_text = current_game_data["%s" % prop.name] # ... jo napolni z njeno vsebino
+			else:
+				props_count -= 1
+				prop.hide()
+	
+	# shortcuts
+	if record_label_holder.visible and props_count > 2:
+		shortcuts.hide()
+	elif controls_duel.visible:
+		shortcuts.hide()
+	else:
+		if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
+			shortcuts.get_node("Shortcuts/Hint").show()
+		else:
+			shortcuts.get_node("Shortcuts/Hint").hide()
+		shortcuts.show()
+
+

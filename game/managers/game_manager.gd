@@ -39,7 +39,7 @@ onready var PlayerPixel: PackedScene = preload("res://game/pixel/player.tscn")
 
 # neu
 var level_upgrade_in_progress: bool = false # ustavim klicanje naslednjih levelov
-var level_points_goal: int
+var level_points_goal: int = 0 # v kodi preverjam, če je 0 nima večih levelov
 # respawn
 var first_respawn_time: float = 5
 onready var respawn_timer: Timer = $"../RespawnTimer"
@@ -71,7 +71,7 @@ func _ready() -> void:
 	randomize()
 	
 	# set_new_level on start
-	if game_settings["eternal_mode"]:
+	if game_data.has("level_points_goal"):
 		game_data["level"] = 1 # zmeraj začnem s prvim levelom
 		respawn_wait_time = game_settings["respawn_wait_time"]
 		level_points_goal = game_data["level_points_goal"]
@@ -321,12 +321,12 @@ func spawn_strays(strays_to_spawn_count: int):
 	
 	# colors
 	var all_colors_available: Array
-	if game_settings["eternal_mode"]: # CLEANER_S, CLEANER_M
+	if game_data.has("level_points_goal"): # multi level game
 		if current_level <= 1:
 			all_colors_available = Global.get_spectrum_colors(strays_to_spawn_count) # prvi level je original ... vsi naslednji imajo random gradient
 		else:
 			all_colors_available = Global.get_random_gradient_colors(strays_to_spawn_count)
-	else: #	CLASSIC_S, CLASSIC_M, CLASSIC_L, CLEANER_L, THE_DUEL, RIDDLER	
+	else:
 		if Profiles.use_custom_color_theme:
 			var color_split_offset: float = 1.0 / strays_to_spawn_count
 			for stray_count in strays_to_spawn_count:
@@ -389,13 +389,11 @@ func spawn_strays(strays_to_spawn_count: int):
 		
 		new_stray_pixel.global_position = selected_position + Vector2(cell_size_x/2, cell_size_x/2) # dodana adaptacija zaradi središča pixla
 		new_stray_pixel.z_index = 2 # višje od plejerja
-		#		Global.node_creation_parent.add_child(new_stray_pixel)
 		Global.node_creation_parent.call_deferred("add_child", new_stray_pixel)
 	
 		all_stray_colors.append(current_color)
 		current_spawn_positions.remove(selected_cell_index) # odstranim pozicijo iz nabora za start spawn
 			
-		#		new_stray_pixel.show_stray()
 		new_stray_pixel.call_deferred("show_stray")
 			
 			
@@ -453,7 +451,6 @@ func respawn_strays():
 				
 		# get color
 		var spawned_stray_color: Color
-		# stray to wall color
 		if game_settings["random_stray_to_wall"] and not get_tree().get_nodes_in_group(Global.group_strays).empty():
 			spawned_stray_color = turn_random_strays_to_wall()
 			yield(get_tree().create_timer(1), "timeout") # da se ne spawna, ko še ni wall
@@ -473,11 +470,10 @@ func respawn_strays():
 		new_stray_pixel.stray_color = spawned_stray_color
 		new_stray_pixel.global_position = selected_position + Vector2(cell_size_x/2, cell_size_x/2) # dodana adaptacija zaradi središča pixla
 		new_stray_pixel.z_index = 2 # višje od plejerja
-		#		Global.node_creation_parent.add_child(new_stray_pixel)
 		Global.node_creation_parent.call_deferred("add_child", new_stray_pixel)
-		#		new_stray_pixel.show_stray()
 		new_stray_pixel.call_deferred("show_stray")
 		
+		Global.hud.spawn_color_indicators([spawned_stray_color]) # barve pokažem v hudu		
 		self.strays_in_game_count = 1 # setget sprememba	
 	
 	
@@ -526,8 +522,7 @@ func _change_strays_in_game_count(strays_count_change: int):
 	
 	if strays_count_change < 0: # cleaned št. upošteva samo čiščenje (+)
 		strays_cleaned_count += abs(strays_count_change)
-	
-	if game_settings["eternal_mode"]:
+	if game_data.has("level_points_goal"): # multi level game
 		var wall_strays_count: int = 0
 		for stray in get_tree().get_nodes_in_group(Global.group_strays):
 			if stray.current_state == stray.States.WALL:
