@@ -53,7 +53,7 @@ func open_from_game(from_game: int): # select_game screen ... kliče main.gd -> 
 	# mute game efektov, da se ne sliši spawnanje naslovnih pixlov
 	AudioServer.set_bus_mute(3, true)
 		
-	if from_game == Profiles.Games.RIDDLER:
+	if from_game == Profiles.Games.SWEEPER:
 		animation_player.play("select_riddler_level")
 		current_screen = Screens.SELECT_LEVEL
 	else:

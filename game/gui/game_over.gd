@@ -24,23 +24,10 @@ func set_game_gameover_title():
 	# namen: opredelim, če je bila riddler rešena
 	
 	# uganka in je bila rešena
-	if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER and current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER and current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
 		Global.data_manager.write_solved_status_to_file(Global.game_manager.game_data)
-#	elif Global.game_manager.game_data.has("level_points_goal"):
-#		match current_gameover_reason:
-#			#			Global.game_manager.GameoverReason.CLEANED:
-#			#				selected_gameover_title = gameover_title_cleaned
-#			#				selected_gameover_jingle = "win_jingle"
-#			#				name_input_label.text = "Great work!"
-#			Global.game_manager.GameoverReason.LIFE:
-#				selected_gameover_title = gameover_title_life
-#				selected_gameover_jingle = "lose_jingle"
-#				name_input_label.text = "But still ... "
-#			Global.game_manager.GameoverReason.TIME:
-#				timeup_label.text = "Too colorful?"
-#				selected_gameover_title = gameover_title_time
-#				selected_gameover_jingle = "lose_jingle"
-#				name_input_label.text = "But still ... "
+	
+	# glede na GO razlog	
 	match current_gameover_reason:
 		Global.game_manager.GameoverReason.CLEANED:
 			selected_gameover_title = gameover_title_cleaned
@@ -50,15 +37,14 @@ func set_game_gameover_title():
 			selected_gameover_title = gameover_title_life
 			selected_gameover_jingle = "lose_jingle"
 			name_input_label.text = "But still ... "
-			if score_is_ranking:
-				selected_gameover_title.modulate = Global.color_green
+		#			if score_is_ranking:
+		#				selected_gameover_title.modulate = Global.color_green
 		Global.game_manager.GameoverReason.TIME:
 			selected_gameover_title = gameover_title_time
 			selected_gameover_jingle = "lose_jingle"
 			name_input_label.text = "But still ... "
-			if score_is_ranking:
-				selected_gameover_title.modulate = Global.color_green
-	
+		#			if score_is_ranking:
+		#				selected_gameover_title.modulate = Global.color_green
 
 
 func show_gameover_menu():
@@ -84,7 +70,7 @@ func show_gameover_menu():
 			show_game_summary()
 		else:
 			# če je riddler score štejem samo, če vse spuca
-			if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER and not current_gameover_reason == Global.game_manager.GameoverReason.CLEANED: 
+			if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER and not current_gameover_reason == Global.game_manager.GameoverReason.CLEANED: 
 				yield(get_tree().create_timer(1), "timeout")
 				current_player_ranking = 100 # zazih ni na lestvici
 			else:
@@ -94,7 +80,7 @@ func show_gameover_menu():
 					get_viewport().set_disable_input(false) # anti dablklik
 					current_player_ranking = Global.data_manager.current_player_ranking
 			
-			if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
+			if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 				riddler_highscore_table.get_highscore_table(Global.game_manager.game_data, current_player_ranking)
 			else:
 				highscore_table.get_highscore_table(Global.game_manager.game_data, current_player_ranking)
@@ -107,7 +93,7 @@ func show_game_summary():
 	
 	var game_summary_to_show: Control
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 		# focus btn
 		if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
 			focus_btn = riddler_game_summary.get_node("Menu/NextLevelBtn")

@@ -17,7 +17,7 @@ func get_instructions_content(current_highscore, current_highscore_owner):
 	var current_game_data: Dictionary = Global.game_manager.game_data
 	
 	# game title
-	if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER: # samo enigam ima številko levela
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER: # samo enigam ima številko levela
 		title.text = current_game_data["game_name"] + " %02d" % current_game_data["level"]
 	else:
 		title.text = current_game_data["game_name"]
@@ -69,7 +69,7 @@ func get_instructions_content(current_highscore, current_highscore_owner):
 	elif controls_duel.visible:
 		shortcuts.hide()
 	else:
-		if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
+		if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 			shortcuts.get_node("Shortcuts/Hint").show()
 		else:
 			shortcuts.get_node("Shortcuts/Hint").hide()

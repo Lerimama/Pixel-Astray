@@ -33,7 +33,7 @@ func _process(delta: float) -> void:
 		level_limit_label_1.text = "%d" % to_limit_count 
 		level_limit_label_2.text = "POINTS TO LEVEL UP"
 	# to level up
-	elif Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
+	elif Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 		level_limit_label_1.text = "%d" % Global.game_manager.strays_in_game_count
 		level_limit_label_2.text = "COLORS TO PICK"
 
@@ -79,7 +79,7 @@ func set_hud(players_count: int): # kliče main na game-in
 		level_limit_holder.visible = true
 		strays_counters_holder.visible = false
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 		p1_energy_counter.visible = false
 		p1_points_counter.visible = false
 		highscore_label.visible = true

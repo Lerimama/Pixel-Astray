@@ -106,7 +106,7 @@ func set_btn_tilemap(btn: Button):
 func play_selected_level(selected_level: int):
 	
 	# set riddler game data
-	Profiles.set_game_data(Profiles.Games.RIDDLER)
+	Profiles.set_game_data(Profiles.Games.SWEEPER)
 	# spremeni game data level s tistim v level settings
 	Profiles.game_data_riddler["level"] = selected_level
 #	Profiles.current_game_data["level"] = selected_level

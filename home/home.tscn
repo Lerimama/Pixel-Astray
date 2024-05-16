@@ -1348,7 +1348,7 @@ tracks/5/keys = {
 [node name="Home" type="Node2D"]
 script = ExtResource( 5 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 640.0, -448.0, 152.0, 576.0, -416.0, 192.0, 1128.0 ],
+"_edit_horizontal_guides_": [ 656.0, -496.0, 152.0, -432.0, 1128.0, 816.0, 752.0, 96.0, 592.0 ],
 "_edit_vertical_guides_": [ 64.0, 1280.0, 1216.0, 640.0, 1960.0, -320.0, 928.0, 352.0, 464.0 ]
 }
 
@@ -2478,27 +2478,6 @@ custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 14 )
 text = "to go back"
 
-[node name="Panel" type="Panel" parent="About"]
-visible = false
-margin_left = 64.0
-margin_top = 80.0
-margin_right = 440.0
-margin_bottom = 120.0
-
-[node name="Panel2" type="Panel" parent="About"]
-visible = false
-margin_left = 464.0
-margin_top = 80.0
-margin_right = 832.0
-margin_bottom = 120.0
-
-[node name="Panel3" type="Panel" parent="About"]
-visible = false
-margin_left = 848.0
-margin_top = 80.0
-margin_right = 1216.0
-margin_bottom = 120.0
-
 [node name="Highscores" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -2600,9 +2579,79 @@ custom_fonts/font = ExtResource( 14 )
 text = "to go back"
 
 [node name="HighscoreTable" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = 6.0
-margin_right = 256.0
+margin_left = -576.0
+margin_top = -155.0
+margin_right = -326.0
+margin_bottom = 123.0
 theme = null
+
+[node name="Title" parent="Highscores/HighscoreTable" index="0"]
+margin_left = 31.0
+margin_right = 219.0
+uppercase = true
+
+[node name="ScoreLine1" parent="Highscores/HighscoreTable" index="1"]
+margin_right = 250.0
+
+[node name="Score" parent="Highscores/HighscoreTable/ScoreLine1" index="2"]
+margin_left = 180.0
+margin_right = 250.0
+
+[node name="ScoreLine2" parent="Highscores/HighscoreTable" index="2"]
+margin_right = 250.0
+
+[node name="Score" parent="Highscores/HighscoreTable/ScoreLine2" index="2"]
+margin_left = 180.0
+margin_right = 250.0
+
+[node name="ScoreLine3" parent="Highscores/HighscoreTable" index="3"]
+margin_right = 250.0
+
+[node name="Score" parent="Highscores/HighscoreTable/ScoreLine3" index="2"]
+margin_left = 180.0
+margin_right = 250.0
+
+[node name="ScoreLine4" parent="Highscores/HighscoreTable" index="4"]
+margin_right = 250.0
+
+[node name="Score" parent="Highscores/HighscoreTable/ScoreLine4" index="2"]
+margin_left = 180.0
+margin_right = 250.0
+
+[node name="ScoreLine5" parent="Highscores/HighscoreTable" index="5"]
+margin_right = 250.0
+
+[node name="Score" parent="Highscores/HighscoreTable/ScoreLine5" index="2"]
+margin_left = 180.0
+margin_right = 250.0
+
+[node name="ScoreLine6" parent="Highscores/HighscoreTable" index="6"]
+margin_right = 250.0
+
+[node name="Score" parent="Highscores/HighscoreTable/ScoreLine6" index="2"]
+margin_left = 180.0
+margin_right = 250.0
+
+[node name="ScoreLine7" parent="Highscores/HighscoreTable" index="7"]
+margin_right = 250.0
+
+[node name="Score" parent="Highscores/HighscoreTable/ScoreLine7" index="2"]
+margin_left = 180.0
+margin_right = 250.0
+
+[node name="ScoreLine8" parent="Highscores/HighscoreTable" index="8"]
+margin_right = 250.0
+
+[node name="Score" parent="Highscores/HighscoreTable/ScoreLine8" index="2"]
+margin_left = 180.0
+margin_right = 250.0
+
+[node name="ScoreLine9" parent="Highscores/HighscoreTable" index="9"]
+margin_right = 250.0
+
+[node name="Score" parent="Highscores/HighscoreTable/ScoreLine9" index="2"]
+margin_left = 180.0
+margin_right = 250.0
 
 [node name="ClassicSTable" type="VBoxContainer" parent="Highscores"]
 margin_left = 672.0
@@ -4311,6 +4360,7 @@ text = "00000"
 align = 2
 
 [node name="PopperTable" type="VBoxContainer" parent="Highscores"]
+visible = false
 margin_left = 96.0
 margin_top = 158.0
 margin_right = 320.0
@@ -4992,41 +5042,48 @@ rect_min_size = Vector2( 0, 720 )
 theme = ExtResource( 15 )
 script = ExtResource( 13 )
 
-[node name="Panel" type="Panel" parent="SelectGame"]
+[node name="Title" type="Label" parent="SelectGame"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+margin_left = 7.0
+margin_top = 70.0
+margin_right = 223.0
+margin_bottom = 102.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 4 )
+text = "Select game"
+
+[node name="HSeparator" type="HSeparator" parent="SelectGame/Title"]
 visible = false
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = 152.0
-margin_right = -24.0
-margin_bottom = -144.0
-custom_styles/panel = SubResource( 274 )
-__meta__ = {
-"_editor_description_": ""
-}
+margin_left = 1.0
+margin_top = 7.0
+margin_right = -4.0
+margin_bottom = 11.0
 
 [node name="Tutorial" type="Panel" parent="SelectGame"]
 margin_left = 8.0
-margin_top = 152.0
+margin_top = 136.0
 margin_right = 216.0
-margin_bottom = 296.0
+margin_bottom = 280.0
 rect_pivot_offset = Vector2( 40, 8 )
 custom_styles/panel = SubResource( 274 )
 
 [node name="Label" type="Label" parent="SelectGame/Tutorial"]
 margin_left = 25.0
 margin_top = 24.0
-margin_right = 192.0
-margin_bottom = 48.0
+margin_right = 208.0
+margin_bottom = 66.0
 custom_fonts/font = ExtResource( 14 )
-text = "5 step masterclass"
+text = "Five steps to become a master beginner"
 autowrap = true
 
 [node name="Eraser" type="Panel" parent="SelectGame"]
 margin_left = 8.0
-margin_top = 304.0
+margin_top = 288.0
 margin_right = 216.0
-margin_bottom = 600.0
+margin_bottom = 592.0
 custom_styles/panel = SubResource( 274 )
 
 [node name="Title" type="Label" parent="SelectGame/Eraser"]
@@ -5043,14 +5100,15 @@ margin_top = 24.0
 margin_right = 192.0
 margin_bottom = 66.0
 custom_fonts/font = ExtResource( 14 )
-text = "Collect all colors in limited time."
+text = "Tick-tick-tock, 
+clean the block!"
 autowrap = true
 
 [node name="Cleaner" type="Panel" parent="SelectGame"]
 margin_left = 224.0
-margin_top = 152.0
+margin_top = 136.0
 margin_right = 432.0
-margin_bottom = 471.0
+margin_bottom = 303.0
 custom_styles/panel = SubResource( 274 )
 
 [node name="Title" type="Label" parent="SelectGame/Cleaner"]
@@ -5064,18 +5122,65 @@ text = "Cleaners"
 [node name="Label" type="Label" parent="SelectGame/Cleaner"]
 margin_left = 25.0
 margin_top = 24.0
+margin_right = 184.0
+margin_bottom = 71.0
+custom_fonts/font = ExtResource( 14 )
+text = "Everlasting color clash! "
+autowrap = true
+
+[node name="Cleaner2" type="Panel" parent="SelectGame"]
+margin_left = 224.0
+margin_top = 464.0
+margin_right = 432.0
+margin_bottom = 609.0
+custom_styles/panel = SubResource( 274 )
+
+[node name="Title" type="Label" parent="SelectGame/Cleaner2"]
+visible = false
+margin_left = 24.0
+margin_top = 22.0
+margin_right = 112.0
+margin_bottom = 44.0
+text = "Cleaners"
+
+[node name="Label" type="Label" parent="SelectGame/Cleaner2"]
+margin_left = 25.0
+margin_top = 24.0
 margin_right = 192.0
 margin_bottom = 71.0
 custom_fonts/font = ExtResource( 14 )
-text = "Colors incoming. 
-It's highscore hunting time!"
+text = "Prevent the flooding!"
+autowrap = true
+
+[node name="Cleaner3" type="Panel" parent="SelectGame"]
+margin_left = 224.0
+margin_top = 312.0
+margin_right = 432.0
+margin_bottom = 457.0
+custom_styles/panel = SubResource( 274 )
+
+[node name="Title" type="Label" parent="SelectGame/Cleaner3"]
+visible = false
+margin_left = 24.0
+margin_top = 22.0
+margin_right = 112.0
+margin_bottom = 44.0
+text = "Cleaners"
+
+[node name="Label" type="Label" parent="SelectGame/Cleaner3"]
+margin_left = 25.0
+margin_top = 24.0
+margin_right = 192.0
+margin_bottom = 71.0
+custom_fonts/font = ExtResource( 14 )
+text = "Neverending chroma crisis!"
 autowrap = true
 
 [node name="TheDuel" type="Panel" parent="SelectGame"]
 margin_left = 440.0
-margin_top = 152.0
+margin_top = 136.0
 margin_right = 648.0
-margin_bottom = 344.0
+margin_bottom = 328.0
 custom_styles/panel = SubResource( 274 )
 
 [node name="Title" type="Label" parent="SelectGame/TheDuel"]
@@ -5092,15 +5197,14 @@ margin_top = 24.0
 margin_right = 184.0
 margin_bottom = 96.0
 custom_fonts/font = ExtResource( 14 )
-text = "Couch coop. Only the best cleaner 
-is left shining."
+text = "Sofa showdown! Team up for a cleaning frenzy! "
 autowrap = true
 
 [node name="Riddler" type="Panel" parent="SelectGame"]
 margin_left = 440.0
-margin_top = 352.0
+margin_top = 336.0
 margin_right = 648.0
-margin_bottom = 600.0
+margin_bottom = 496.0
 custom_styles/panel = SubResource( 274 )
 
 [node name="Title" type="Label" parent="SelectGame/Riddler"]
@@ -5115,12 +5219,9 @@ text = "Riddler"
 margin_left = 25.0
 margin_top = 23.0
 margin_right = 192.0
-margin_bottom = 152.0
+margin_bottom = 65.0
 custom_fonts/font = ExtResource( 14 )
-text = "Skills and tactics. 
-%s riddles to 
-solve and clean 
-the screen in one burst move."
+text = "Chain reaction bonanza"
 autowrap = true
 
 [node name="Panel8" type="Panel" parent="SelectGame"]
@@ -5150,9 +5251,9 @@ autowrap = true
 
 [node name="GameBtns" type="Control" parent="SelectGame"]
 margin_left = 48.0
-margin_top = 272.0
+margin_top = 256.0
 margin_right = 48.0
-margin_bottom = 272.0
+margin_bottom = 256.0
 
 [node name="TutorialBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_left = -16.0
@@ -5183,7 +5284,7 @@ custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "CLASSIC S"
+text = "CLEANER S"
 __meta__ = {
 "_editor_description_": ""
 }
@@ -5199,7 +5300,7 @@ custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "CLASSIC M"
+text = "CLEANER M"
 __meta__ = {
 "_editor_description_": ""
 }
@@ -5216,16 +5317,16 @@ custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "CLASSIC L"
+text = "CLEANER L"
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="CleanerSBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_left = 200.0
-margin_top = -8.0
+margin_top = -32.0
 margin_right = 360.0
-margin_bottom = 48.0
+margin_bottom = 24.0
 focus_neighbour_top = NodePath("../../BackBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
@@ -5240,25 +5341,25 @@ __meta__ = {
 
 [node name="CleanerMBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_left = 200.0
-margin_top = 56.0
+margin_top = 128.0
 margin_right = 360.0
-margin_bottom = 112.0
+margin_bottom = 184.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "????"
+text = "HANDLER"
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="ScrollerBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_left = 200.0
-margin_top = 120.0
+margin_top = 272.0
 margin_right = 360.0
-margin_bottom = 176.0
+margin_bottom = 328.0
 focus_neighbour_bottom = NodePath("../CleanerSBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
@@ -5291,9 +5392,9 @@ __meta__ = {
 
 [node name="RiddlerBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_left = 416.0
-margin_top = 248.0
+margin_top = 160.0
 margin_right = 576.0
-margin_bottom = 304.0
+margin_bottom = 216.0
 focus_neighbour_top = NodePath("../TheDuelBtn")
 focus_neighbour_bottom = NodePath("../TheDuelBtn")
 mouse_default_cursor_shape = 2
@@ -5302,39 +5403,10 @@ custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "RIDDLER"
+text = "SWEEPER"
 __meta__ = {
 "_editor_description_": ""
 }
-
-[node name="Title" type="Label" parent="SelectGame"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-margin_left = 7.0
-margin_top = 70.0
-margin_right = 223.0
-margin_bottom = 102.0
-size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 4 )
-text = "Select game"
-
-[node name="HSeparator" type="HSeparator" parent="SelectGame/Title"]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 1.0
-margin_top = 7.0
-margin_right = -4.0
-margin_bottom = 11.0
-
-[node name="Subtitle" type="Label" parent="SelectGame"]
-visible = false
-margin_left = 9.0
-margin_top = 128.0
-margin_right = 480.0
-margin_bottom = 146.0
-custom_fonts/font = ExtResource( 14 )
-text = "Collect all colors in one move."
-autowrap = true
 
 [node name="BackBtn" type="TextureButton" parent="SelectGame"]
 anchor_left = 1.0
@@ -5427,6 +5499,7 @@ custom_fonts/font = ExtResource( 4 )
 text = "Riddler"
 
 [node name="HSeparator" type="HSeparator" parent="SelectLevel/Title"]
+visible = false
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -5437,9 +5510,9 @@ margin_bottom = 11.0
 
 [node name="LevelGrid" type="Panel" parent="SelectLevel"]
 margin_left = 8.0
-margin_top = 152.0
+margin_top = 136.0
 margin_right = 568.0
-margin_bottom = 600.0
+margin_bottom = 584.0
 custom_styles/panel = SubResource( 274 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SelectLevel/LevelGrid"]
@@ -5458,21 +5531,22 @@ custom_fonts/font = ExtResource( 14 )
 text = "Find a way to collect all colors in one move."
 autowrap = true
 
-[node name="BtnsHolder" type="Control" parent="SelectLevel/LevelGrid/VBoxContainer"]
+[node name="BtnsHolder" type="HFlowContainer" parent="SelectLevel/LevelGrid/VBoxContainer"]
 margin_top = 38.0
 margin_right = 512.0
-margin_bottom = 362.0
+margin_bottom = 369.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_constants/vseparation = 8
+custom_constants/hseparation = 8
 
 [node name="01" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
-margin_top = 2.0
-margin_right = 160.0
-margin_bottom = 82.0
-rect_min_size = Vector2( 160, 80 )
+margin_right = 165.0
+margin_bottom = 105.0
+rect_min_size = Vector2( 160, 105 )
 rect_clip_content = true
 mouse_default_cursor_shape = 2
-size_flags_horizontal = 2
+size_flags_horizontal = 3
 size_flags_vertical = 2
 custom_fonts/font = ExtResource( 19 )
 custom_styles/hover = SubResource( 278 )
@@ -5506,10 +5580,10 @@ text = "Collect as many points as you can"
 autowrap = true
 
 [node name="02" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
-margin_left = 176.0
-margin_top = 2.0
-margin_right = 336.0
-margin_bottom = 82.0
+margin_left = 173.0
+margin_right = 338.0
+margin_bottom = 105.0
+rect_min_size = Vector2( 160, 105 )
 rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
@@ -5546,10 +5620,10 @@ text = "Collect as many points as you can"
 autowrap = true
 
 [node name="03" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
-margin_left = 352.0
-margin_top = 2.0
-margin_right = 512.0
-margin_bottom = 82.0
+margin_left = 346.0
+margin_right = 511.0
+margin_bottom = 105.0
+rect_min_size = Vector2( 160, 105 )
 rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
@@ -5586,9 +5660,10 @@ text = "Collect as many points as you can"
 autowrap = true
 
 [node name="04" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
-margin_top = 98.0
-margin_right = 160.0
-margin_bottom = 178.0
+margin_top = 113.0
+margin_right = 165.0
+margin_bottom = 218.0
+rect_min_size = Vector2( 160, 105 )
 rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
@@ -5625,10 +5700,11 @@ text = "Collect as many points as you can"
 autowrap = true
 
 [node name="05" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
-margin_left = 176.0
-margin_top = 98.0
-margin_right = 336.0
-margin_bottom = 178.0
+margin_left = 173.0
+margin_top = 113.0
+margin_right = 338.0
+margin_bottom = 218.0
+rect_min_size = Vector2( 160, 105 )
 rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
@@ -5665,10 +5741,11 @@ text = "Collect as many points as you can"
 autowrap = true
 
 [node name="06" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
-margin_left = 352.0
-margin_top = 98.0
-margin_right = 512.0
-margin_bottom = 178.0
+margin_left = 346.0
+margin_top = 113.0
+margin_right = 511.0
+margin_bottom = 218.0
+rect_min_size = Vector2( 160, 105 )
 rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
@@ -5705,9 +5782,10 @@ text = "Collect as many points as you can"
 autowrap = true
 
 [node name="07" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
-margin_top = 194.0
-margin_right = 160.0
-margin_bottom = 274.0
+margin_top = 226.0
+margin_right = 165.0
+margin_bottom = 331.0
+rect_min_size = Vector2( 160, 105 )
 rect_clip_content = true
 focus_neighbour_bottom = NodePath("../../SolutionsBtn")
 mouse_default_cursor_shape = 2
@@ -5745,10 +5823,11 @@ text = "Collect as many points as you can"
 autowrap = true
 
 [node name="08" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
-margin_left = 176.0
-margin_top = 194.0
-margin_right = 336.0
-margin_bottom = 274.0
+margin_left = 173.0
+margin_top = 226.0
+margin_right = 338.0
+margin_bottom = 331.0
+rect_min_size = Vector2( 160, 105 )
 rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
@@ -5785,10 +5864,11 @@ text = "Collect as many points as you can"
 autowrap = true
 
 [node name="09" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
-margin_left = 352.0
-margin_top = 194.0
-margin_right = 512.0
-margin_bottom = 274.0
+margin_left = 346.0
+margin_top = 226.0
+margin_right = 511.0
+margin_bottom = 331.0
+rect_min_size = Vector2( 160, 105 )
 rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
@@ -5827,9 +5907,9 @@ autowrap = true
 [node name="SolutionsBtn" type="CheckButton" parent="SelectLevel/LevelGrid/VBoxContainer"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 366.0
-margin_top = 382.0
+margin_top = 389.0
 margin_right = 512.0
-margin_bottom = 400.0
+margin_bottom = 407.0
 rect_min_size = Vector2( 146, 0 )
 focus_neighbour_bottom = NodePath("../../../BackBtn")
 mouse_default_cursor_shape = 2
@@ -5934,11 +6014,13 @@ margin_left = 64.0
 margin_top = 70.0
 margin_right = 208.0
 margin_bottom = 102.0
+rect_pivot_offset = Vector2( -8, 90 )
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 4 )
 text = "Settings"
 
 [node name="HSeparator" type="HSeparator" parent="Settings/Title"]
+visible = false
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -5950,9 +6032,9 @@ margin_bottom = 11.0
 [node name="MenuMusicBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 64.0
-margin_top = 145.0
+margin_top = 129.0
 margin_right = 224.0
-margin_bottom = 177.0
+margin_bottom = 161.0
 focus_neighbour_top = NodePath("../InstructionsBtn")
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
@@ -5962,9 +6044,9 @@ text = "Menu music"
 [node name="GameMusicBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 64.0
-margin_top = 193.0
+margin_top = 177.0
 margin_right = 224.0
-margin_bottom = 225.0
+margin_bottom = 209.0
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
 pressed = true
@@ -5973,9 +6055,9 @@ text = "Game music"
 [node name="GameMusicSlider" type="HSlider" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 64.0
-margin_top = 276.0
+margin_top = 260.0
 margin_right = 314.0
-margin_bottom = 292.0
+margin_bottom = 276.0
 mouse_default_cursor_shape = 2
 size_flags_vertical = 8
 min_value = -30.0
@@ -6002,9 +6084,9 @@ text = "Game music volume"
 [node name="GameSfxBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 64.0
-margin_top = 305.0
+margin_top = 289.0
 margin_right = 200.0
-margin_bottom = 337.0
+margin_bottom = 321.0
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
 pressed = true
@@ -6013,9 +6095,9 @@ text = "Game SFX"
 [node name="CameraShakeBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 64.0
-margin_top = 353.0
+margin_top = 337.0
 margin_right = 252.0
-margin_bottom = 385.0
+margin_bottom = 369.0
 focus_neighbour_right = NodePath("../BackBtn")
 focus_neighbour_bottom = NodePath("../CameraZoomOptions/RandomizeBtn")
 mouse_default_cursor_shape = 2
@@ -6023,13 +6105,14 @@ pressed = true
 text = "Camera Shake"
 
 [node name="CameraZoomOptions" type="Control" parent="Settings"]
+visible = false
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 64.0
-margin_top = -320.0
+margin_top = -336.0
 margin_right = -14.0
-margin_bottom = -288.0
+margin_bottom = -304.0
 
 [node name="RandomizeBtn" type="Button" parent="Settings/CameraZoomOptions"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
@@ -6041,6 +6124,7 @@ rect_min_size = Vector2( 24, 24 )
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 279 )
 custom_styles/focus = SubResource( 279 )
+disabled = true
 __meta__ = {
 "_editor_description_": ""
 }
@@ -6067,9 +6151,9 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 64.0
-margin_top = -272.0
+margin_top = -336.0
 margin_right = -14.0
-margin_bottom = -240.0
+margin_bottom = -304.0
 
 [node name="RandomizeBtn" type="Button" parent="Settings/ColorSchemeOptions"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
@@ -6130,9 +6214,9 @@ texture = SubResource( 280 )
 [node name="InstructionsBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 64.0
-margin_top = 497.0
+margin_top = 433.0
 margin_right = 348.0
-margin_bottom = 529.0
+margin_bottom = 465.0
 focus_neighbour_top = NodePath("../CameraZoomOptions/RandomizeBtn")
 focus_neighbour_right = NodePath("../BackBtn")
 focus_neighbour_bottom = NodePath("../MenuMusicBtn")
@@ -6205,6 +6289,12 @@ margin_bottom = 20.0
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 14 )
 text = "to go back"
+
+[node name="Panel" type="Panel" parent="Settings"]
+margin_left = 901.0
+margin_top = -496.0
+margin_right = 1277.0
+margin_bottom = -432.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
@@ -6308,3 +6398,5 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="Settings/EscHint/Esc/Button" to="Settings" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="Settings/EscHint/Select/Button" to="Settings" method="_on_BackBtn_pressed"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+
+[editable path="Highscores/HighscoreTable"]

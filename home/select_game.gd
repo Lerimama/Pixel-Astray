@@ -8,9 +8,10 @@ onready var riddle_count: int = riddler_btns_holder.get_child_count()
 onready var riddler_label: Label = $Riddler/Label
 
 
-func _ready() -> void:
-	
-	riddler_label.text %= str(riddle_count)
+#func _ready() -> void:
+#
+#	riddler_label.text = str(riddle_count)
+#	riddler_label.text %= str(riddle_count)
 
 	
 func _on_BackBtn_pressed() -> void:
@@ -35,22 +36,22 @@ func _on_TutorialBtn_pressed() -> void:
 
 	
 func _on_EraserSBtn_pressed() -> void:
-	play_selected_game(Profiles.Games.CLASSIC_S)
+	play_selected_game(Profiles.Games.CLEANER_S)
 func _on_EraserMBtn_pressed() -> void:
-	play_selected_game(Profiles.Games.CLASSIC_M)
+	play_selected_game(Profiles.Games.CLEANER_M)
 func _on_EraserLBtn_pressed() -> void:
-	play_selected_game(Profiles.Games.CLASSIC_L)
+	play_selected_game(Profiles.Games.CLEANER_L)
 
 
 func _on_CleanerSBtn_pressed() -> void:
-	play_selected_game(Profiles.Games.POPPER)
+	play_selected_game(Profiles.Games.ERASER)
 	
 func _on_CleanerMBtn_pressed() -> void:
-	play_selected_game(Profiles.Games.CLEANER_M)
+	play_selected_game(Profiles.Games.HANDLER)
 	
 	
 func _on_ScrollerBtn_pressed() -> void:
-	play_selected_game(Profiles.Games.SCROLLER)
+	play_selected_game(Profiles.Games.DEFENDER)
 
 
 func _on_TheDuelBtn_pressed() -> void:

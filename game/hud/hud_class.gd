@@ -291,7 +291,7 @@ func slide_in(players_count: int): # kliče GM set_game()
 	Global.start_countdown.start_countdown() # GM yielda za njegov signal
 	
 	var solution_line: Line2D
-	if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 		solution_line = Global.current_tilemap.get_node("SolutionLine")
 		solution_line.hide()
 		solution_line.modulate.a = 0.1
@@ -320,7 +320,7 @@ func slide_out(): # kliče GM na game over
 	fade_in.parallel().tween_property(footer, "rect_position:y", screen_height, hud_in_out_time)
 	fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", 0, hud_in_out_time)
 	fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", 0, hud_in_out_time)
-	if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 		var solution_line: Line2D = Global.current_tilemap.get_node("SolutionLine")
 		fade_in.parallel().tween_property(solution_line, "modulate:a", 0, hud_in_out_time)
 		fade_in.tween_callback(solution_line, "hide")

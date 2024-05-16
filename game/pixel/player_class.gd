@@ -799,7 +799,7 @@ func spawn_floating_tag(value: int):
 	new_floating_tag.tag_owner = self
 	Global.node_creation_parent.add_child(new_floating_tag)
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 		new_floating_tag.label.text = "YEAH!"
 	else:
 		if value < 0:

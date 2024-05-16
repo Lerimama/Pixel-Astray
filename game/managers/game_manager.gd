@@ -60,7 +60,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("l"):
 		upgrade_level("regular")
 	if Input.is_action_just_pressed("h"):
-		if game_data["game"] == Profiles.Games.RIDDLER:
+		if game_data["game"] == Profiles.Games.SWEEPER:
 			Global.current_tilemap.get_node("SolutionLine").visible = not Global.current_tilemap.get_node("SolutionLine").visible
 		
 	
@@ -76,7 +76,7 @@ func _ready() -> void:
 		respawn_wait_time = game_settings["respawn_wait_time"]
 		level_points_goal = game_data["level_points_goal"]
 	
-	if game_data["game"] == Profiles.Games.RIDDLER:
+	if game_data["game"] == Profiles.Games.SWEEPER:
 		var current_level_settings: Dictionary
 		current_level_settings = Profiles.riddler_level_setting[game_data["level"]]
 		for setting in current_level_settings:
@@ -130,7 +130,7 @@ func set_tilemap():
 	var tilemap_to_release: TileMap = Global.current_tilemap # trenutno naložen v areni
 	
 	var tilemap_to_load_path: String
-	if game_data["game"] == Profiles.Games.RIDDLER: # path vlečem iz level settings
+	if game_data["game"] == Profiles.Games.SWEEPER: # path vlečem iz level settings
 		tilemap_to_load_path = game_data["tilemap_path"]
 	else:
 		tilemap_to_load_path = game_data["tilemap_path"]
@@ -212,7 +212,7 @@ func start_game():
 
 func game_over(gameover_reason: int):
 
-	# CLASSIC respawn na cleaned namesto GO 
+	# Cleaner respawn na cleaned namesto GO 
 	if game_settings["respawn_strays_count"] > 0 and game_settings["respawn_wait_time"] == 0: # uniq kombinacija respawn on cleaned
 		if gameover_reason == GameoverReason.CLEANED:
 			all_strays_died_alowed = true
@@ -346,7 +346,7 @@ func spawn_strays(strays_to_spawn_count: int):
 		var current_color: Color = all_colors_available[stray_index] # barva na lokaciji v spektrumu
 		# available spawn positions
 		var current_spawn_positions: Array
-		if current_level <= 1 or game_data["game"] == Profiles.Games.RIDDLER: # vse igre razen enigme ineterenal imajo level 0
+		if current_level <= 1 or game_data["game"] == Profiles.Games.SWEEPER: # vse igre razen enigme ineterenal imajo level 0
 			if not available_required_spawn_positions.empty(): # najprej obvezne
 				current_spawn_positions = available_required_spawn_positions
 			elif available_required_spawn_positions.empty(): # potem random

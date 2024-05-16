@@ -105,7 +105,7 @@ func idle_inputs():
 		burst_light_on()
 		reburst_count = 0
 		close_reburst_window()
-		if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:	
+		if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:	
 			finish_burst_move()		
 			
 		
@@ -149,7 +149,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	shake_player_camera(burst_speed)			
 
 	# start riddler move
-	if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER and not riddler_move_started:	
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER and not riddler_move_started:	
 		riddler_move_started = true	
 		riddler_start_strays_count = Global.game_manager.strays_in_game_count
 		
@@ -189,7 +189,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 		var stray_index = strays_to_destroy.find(stray)
 		stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
 		# prišteje v riddler strayse
-		if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:	
+		if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:	
 			riddler_cleaned_strays_count += 1
 			
 	# wall ne da točk
@@ -208,7 +208,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 			# vpliva samo kadar odigram vse reburste, drugi reset je v stepanju
 			close_reburst_window()
 			reburst_count = 0
-			if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:	
+			if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:	
 				finish_burst_move()
 
 
@@ -411,11 +411,11 @@ func _on_ReburstingTimer_timeout() -> void:
 	# resetira vse
 	close_reburst_window()
 	reburst_count = 0
-	if Global.game_manager.game_data["game"] == Profiles.Games.RIDDLER:	
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:	
 		finish_burst_move()
 
 	
 func _on_TouchTimer_timeout() -> void: 
-	# POPPER
+	# ERASER
 
 	detect_touch() # za GO
