@@ -1,7 +1,7 @@
 extends Control
 
 
-onready var riddler_btn: Button = $"LevelGrid/VBoxContainer/BtnsHolder/01"
+onready var sweeper_btn: Button = $"LevelGrid/VBoxContainer/BtnsHolder/01"
 onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
 onready var btn_grid_container: Control = $LevelGrid/VBoxContainer/BtnsHolder
 onready var level_grid_btns: Array = btn_grid_container.get_children()
@@ -10,10 +10,10 @@ onready var solutions_btn: CheckButton = $LevelGrid/VBoxContainer/SolutionsBtn
 
 func _ready() -> void:
 	
-	Profiles.game_data_riddler["level"] = 1 # ni nujno
+	Profiles.game_data_sweeper["level"] = 1 # ni nujno
 	for btn in level_grid_btns:
 		set_btn_tilemap(btn)
-	update_riddler_btns_color()
+	update_sweeper_btns_color()
 
 	if Profiles.default_game_settings["show_solution_hint"]:
 		solutions_btn.pressed = true
@@ -21,9 +21,9 @@ func _ready() -> void:
 		solutions_btn.pressed = false
 		
 		
-func update_riddler_btns_color():
+func update_sweeper_btns_color():
 	
-	var solved_levels: Array = Global.data_manager.read_solved_status_from_file(Profiles.game_data_riddler)
+	var solved_levels: Array = Global.data_manager.read_solved_status_from_file(Profiles.game_data_sweeper)
 	
 	# naberem gumbe in barve za njih 
 	var btn_colors: Array
@@ -35,14 +35,14 @@ func update_riddler_btns_color():
 	else:			
 		btn_colors = Global.get_spectrum_colors(level_grid_btns.size())
 	
-	var solved_riddler_btns: Array
+	var solved_sweeper_btns: Array
 	# obarvam solved gumbe 
 	for btn in level_grid_btns:
 		var btn_index: int = level_grid_btns.find(btn)
 		# za vsak gumb preverim če pripada rešenemu level
 		if level_grid_btns.find(btn) + 1 in solved_levels:
 			btn.modulate = btn_colors[btn_index]
-			solved_riddler_btns.append(btn)
+			solved_sweeper_btns.append(btn)
 		
 		
 func set_btn_tilemap(btn: Button):
@@ -51,31 +51,31 @@ func set_btn_tilemap(btn: Button):
 		var tilemap_position_adapt: float
 		match btn.name:
 			"01":
-				BtnTilemap =  preload("res://game/tilemaps/riddler/tilemap_riddler_01.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_riddler_01.tscn")
 				tilemap_position_adapt = 0
 			"02":
-				BtnTilemap =  preload("res://game/tilemaps/riddler/tilemap_riddler_02.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_riddler_02.tscn")
 				tilemap_position_adapt = 0
 			"03":
-				BtnTilemap =  preload("res://game/tilemaps/riddler/tilemap_riddler_03.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_riddler_03.tscn")
 				tilemap_position_adapt = 0
 			"04":
-				BtnTilemap =  preload("res://game/tilemaps/riddler/tilemap_riddler_04.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_riddler_04.tscn")
 				tilemap_position_adapt = 2
 			"05":
-				BtnTilemap =  preload("res://game/tilemaps/riddler/tilemap_riddler_05.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_riddler_05.tscn")
 				tilemap_position_adapt = 2
 			"06":
-				BtnTilemap =  preload("res://game/tilemaps/riddler/tilemap_riddler_06.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_riddler_06.tscn")
 				tilemap_position_adapt = 2
 			"07":
-				BtnTilemap =  preload("res://game/tilemaps/riddler/tilemap_riddler_07.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_riddler_07.tscn")
 				tilemap_position_adapt = 2
 			"08":
-				BtnTilemap =  preload("res://game/tilemaps/riddler/tilemap_riddler_08.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_riddler_08.tscn")
 				tilemap_position_adapt = 2
 			"09":
-				BtnTilemap =  preload("res://game/tilemaps/riddler/tilemap_riddler_09.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_riddler_09.tscn")
 				tilemap_position_adapt = 2
 
 		var tilemap_scale_div: float = 8
@@ -105,10 +105,10 @@ func set_btn_tilemap(btn: Button):
 
 func play_selected_level(selected_level: int):
 	
-	# set riddler game data
+	# set sweeper game data
 	Profiles.set_game_data(Profiles.Games.SWEEPER)
 	# spremeni game data level s tistim v level settings
-	Profiles.game_data_riddler["level"] = selected_level
+	Profiles.game_data_sweeper["level"] = selected_level
 #	Profiles.current_game_data["level"] = selected_level
 	Global.sound_manager.play_gui_sfx("menu_fade")
 	animation_player.play("play_riddler_level")

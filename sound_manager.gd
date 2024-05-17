@@ -21,7 +21,7 @@ func _ready() -> void:
 # SFX --------------------------------------------------------------------------------------------------------
 
 	
-func play_stepping_sfx(current_player_energy_part: float): # za intro in scrollerje
+func play_stepping_sfx(current_player_energy_part: float): # za intro in defenderje
 
 		if game_sfx_set_to_off:
 			return		

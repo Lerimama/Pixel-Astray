@@ -51,6 +51,7 @@ func set_players():
 			
 	
 func _change_strays_in_game_count(strays_count_change: int):
+	# namen: brez CLEANED GO
 	
 	strays_in_game_count += strays_count_change # in_game št. upošteva spawnanje in čiščenje (+ in -)
 	strays_in_game_count = clamp(0, strays_in_game_count, strays_in_game_count)

@@ -22,7 +22,7 @@ onready var right_screen_limit: StaticBody2D = $RightScreenLimit
 func _ready() -> void:
 	# namen: add static_body edge walls
 	
-	add_to_group(Global.group_tilemap) # za scrolling in patterns
+	add_to_group(Global.group_tilemap)
 	Global.current_tilemap = self
 
 	# set_color_theme

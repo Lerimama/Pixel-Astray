@@ -38,7 +38,7 @@ func get_instructions_content(current_highscore, current_highscore_owner):
 			record_owner.text = "by " + str(current_highscore_owner)
 
 	# player controls 			
-	if Global.game_manager.start_players_count == 2:
+	if Global.game_manager.start_players_count == 1:
 		controls.show()
 		controls_duel.hide()
 	else:

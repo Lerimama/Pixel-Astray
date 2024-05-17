@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
 [ext_resource path="res://game/hud/game_instructions.gd" type="Script" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://assets/theme/bont_body_big.tres" type="DynamicFont" id=8]
 [ext_resource path="res://assets/theme/font_main_small.tres" type="DynamicFont" id=9]
 [ext_resource path="res://game/gui/ControlHint.tscn" type="PackedScene" id=10]
+
+[sub_resource type="StyleBoxEmpty" id=457]
 
 [sub_resource type="StyleBoxEmpty" id=454]
 
@@ -230,7 +232,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-color = Color( 0, 0, 0, 0.784314 )
+color = Color( 0, 0, 0, 0.901961 )
 
 [node name="_Skrin" type="ColorRect" parent="."]
 visible = false
@@ -274,6 +276,7 @@ margin_bottom = 14.0
 grow_horizontal = 2
 text = "%Description ... Lorem ipsum dolor sit amet.."
 align = 1
+autowrap = true
 
 [node name="Outline" type="HFlowContainer" parent="GameInstructions"]
 margin_left = 8.0
@@ -457,8 +460,7 @@ margin_left = 426.0
 margin_right = 623.0
 margin_bottom = 144.0
 rect_min_size = Vector2( 197, 0 )
-size_flags_horizontal = 3
-custom_styles/panel = ExtResource( 7 )
+custom_styles/panel = SubResource( 457 )
 __meta__ = {
 "_edit_group_": true
 }

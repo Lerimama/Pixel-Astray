@@ -1,19 +1,13 @@
 extends Control
 
-onready var riddler_btn: Button = $GameBtns/RiddlerBtn
+onready var sweeper_btn: Button = $GameBtns/RiddlerBtn
 onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
 
-onready var riddler_btns_holder: Control = $"../SelectLevel/LevelGrid/VBoxContainer/BtnsHolder" # za število ugank
-onready var riddle_count: int = riddler_btns_holder.get_child_count()
-onready var riddler_label: Label = $Riddler/Label
+onready var sweeper_btns_holder: Control = $"../SelectLevel/LevelGrid/VBoxContainer/BtnsHolder" # za število ugank
+onready var riddle_count: int = sweeper_btns_holder.get_child_count()
+onready var sweeper_label: Label = $Riddler/Label
 
 
-#func _ready() -> void:
-#
-#	riddler_label.text = str(riddle_count)
-#	riddler_label.text %= str(riddle_count)
-
-	
 func _on_BackBtn_pressed() -> void:
 	
 	Global.sound_manager.play_gui_sfx("screen_slide")

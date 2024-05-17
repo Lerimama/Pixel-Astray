@@ -1,25 +1,25 @@
 [gd_scene load_steps=40 format=2]
 
-[ext_resource path="res://game/pixel/stray_scrolling.gd" type="Script" id=1]
-[ext_resource path="res://assets/resources/animation/stray_glitch_2.tres" type="Animation" id=2]
-[ext_resource path="res://assets/resources/animation/stray_glitch_1.tres" type="Animation" id=3]
-[ext_resource path="res://assets/resources/animation/stray_glitch_3.tres" type="Animation" id=4]
-[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=5]
-[ext_resource path="res://assets/sound/sfx/stepping/step_5.wav" type="AudioStream" id=6]
-[ext_resource path="res://assets/sound/sfx/blinking/blink_static_2.wav" type="AudioStream" id=7]
+[ext_resource path="res://assets/resources/animation/stray_glitch_2.tres" type="Animation" id=1]
+[ext_resource path="res://assets/resources/animation/stray_glitch_1.tres" type="Animation" id=2]
+[ext_resource path="res://assets/resources/animation/stray_glitch_3.tres" type="Animation" id=3]
+[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=4]
+[ext_resource path="res://assets/sound/sfx/blinking/blink_3.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/sound/sfx/blinking/blink_static_3.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/sound/sfx/blinking/blink_4.wav" type="AudioStream" id=7]
 [ext_resource path="res://assets/sound/sfx/blinking/blink_static_5.wav" type="AudioStream" id=8]
-[ext_resource path="res://assets/sound/sfx/blinking/blink_static_4.wav" type="AudioStream" id=9]
-[ext_resource path="res://assets/sound/sfx/stepping/step_1.wav" type="AudioStream" id=10]
-[ext_resource path="res://assets/sound/sfx/blinking/blink_2.wav" type="AudioStream" id=11]
-[ext_resource path="res://assets/sound/sfx/blinking/blink_3.wav" type="AudioStream" id=12]
+[ext_resource path="res://assets/sound/sfx/blinking/blink_static_1.wav" type="AudioStream" id=9]
+[ext_resource path="res://assets/sound/sfx/stepping/step_5.wav" type="AudioStream" id=10]
+[ext_resource path="res://assets/sound/sfx/stepping/step_2.wav" type="AudioStream" id=11]
+[ext_resource path="res://assets/sound/sfx/stepping/step_4.wav" type="AudioStream" id=12]
 [ext_resource path="res://assets/sound/sfx/stepping/step_3.wav" type="AudioStream" id=13]
-[ext_resource path="res://assets/sound/sfx/blinking/blink_static_1.wav" type="AudioStream" id=14]
-[ext_resource path="res://assets/sound/sfx/blinking/blink_static_3.wav" type="AudioStream" id=15]
-[ext_resource path="res://assets/sound/sfx/blinking/blink_4.wav" type="AudioStream" id=16]
-[ext_resource path="res://assets/sound/sfx/blinking/blink_1.wav" type="AudioStream" id=17]
-[ext_resource path="res://assets/sound/sfx/blinking/blink_static_6.wav" type="AudioStream" id=18]
-[ext_resource path="res://assets/sound/sfx/stepping/step_2.wav" type="AudioStream" id=19]
-[ext_resource path="res://assets/sound/sfx/stepping/step_4.wav" type="AudioStream" id=20]
+[ext_resource path="res://assets/sound/sfx/blinking/blink_1.wav" type="AudioStream" id=14]
+[ext_resource path="res://assets/sound/sfx/blinking/blink_static_2.wav" type="AudioStream" id=15]
+[ext_resource path="res://assets/sound/sfx/blinking/blink_static_4.wav" type="AudioStream" id=16]
+[ext_resource path="res://assets/sound/sfx/stepping/step_1.wav" type="AudioStream" id=17]
+[ext_resource path="res://assets/sound/sfx/blinking/blink_2.wav" type="AudioStream" id=18]
+[ext_resource path="res://assets/sound/sfx/blinking/blink_static_6.wav" type="AudioStream" id=19]
+[ext_resource path="res://game/pixel/stray_defender.gd" type="Script" id=20]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 15.95, 15.95 )
@@ -788,38 +788,38 @@ tracks/2/keys = {
 }
 
 [sub_resource type="AudioStreamRandomPitch" id=143]
-audio_stream = ExtResource( 17 )
+audio_stream = ExtResource( 14 )
 
 [sub_resource type="AudioStreamRandomPitch" id=144]
-audio_stream = ExtResource( 11 )
+audio_stream = ExtResource( 18 )
 random_pitch = 1.0
 
 [sub_resource type="AudioStreamRandomPitch" id=145]
-audio_stream = ExtResource( 12 )
+audio_stream = ExtResource( 5 )
 
 [sub_resource type="AudioStreamRandomPitch" id=146]
-audio_stream = ExtResource( 16 )
-
-[sub_resource type="AudioStreamRandomPitch" id=147]
-audio_stream = ExtResource( 14 )
-
-[sub_resource type="AudioStreamRandomPitch" id=148]
 audio_stream = ExtResource( 7 )
 
-[sub_resource type="AudioStreamRandomPitch" id=149]
+[sub_resource type="AudioStreamRandomPitch" id=147]
+audio_stream = ExtResource( 9 )
+
+[sub_resource type="AudioStreamRandomPitch" id=148]
 audio_stream = ExtResource( 15 )
 
+[sub_resource type="AudioStreamRandomPitch" id=149]
+audio_stream = ExtResource( 6 )
+
 [sub_resource type="AudioStreamRandomPitch" id=150]
-audio_stream = ExtResource( 9 )
+audio_stream = ExtResource( 16 )
 
 [sub_resource type="AudioStreamRandomPitch" id=151]
 audio_stream = ExtResource( 8 )
 
 [sub_resource type="AudioStreamRandomPitch" id=152]
-audio_stream = ExtResource( 18 )
+audio_stream = ExtResource( 19 )
 
 [node name="ScrollingStray" type="KinematicBody2D"]
-script = ExtResource( 1 )
+script = ExtResource( 20 )
 
 [node name="ColorPoly" type="Polygon2D" parent="."]
 position = Vector2( -16, -16 )
@@ -877,9 +877,9 @@ anims/die_stray_2 = SubResource( 134 )
 anims/die_stray_3 = SubResource( 135 )
 anims/die_stray_4 = SubResource( 136 )
 anims/die_stray_5 = SubResource( 137 )
-anims/glitch_1 = ExtResource( 3 )
-anims/glitch_2 = ExtResource( 2 )
-anims/glitch_3 = ExtResource( 4 )
+anims/glitch_1 = ExtResource( 2 )
+anims/glitch_2 = ExtResource( 1 )
+anims/glitch_3 = ExtResource( 3 )
 anims/glitch_intro = SubResource( 141 )
 
 [node name="Sounds" type="Node2D" parent="."]
@@ -887,25 +887,25 @@ anims/glitch_intro = SubResource( 141 )
 [node name="Stepping" type="Node2D" parent="Sounds"]
 
 [node name="Step1" type="AudioStreamPlayer" parent="Sounds/Stepping"]
-stream = ExtResource( 10 )
+stream = ExtResource( 17 )
 volume_db = -10.0
 pitch_scale = 1.1
 bus = "GameSfx"
 
 [node name="Step2" type="AudioStreamPlayer" parent="Sounds/Stepping"]
-stream = ExtResource( 19 )
+stream = ExtResource( 11 )
 volume_db = -10.0
 pitch_scale = 1.1
 bus = "GameSfx"
 
 [node name="Step4" type="AudioStreamPlayer" parent="Sounds/Stepping"]
-stream = ExtResource( 20 )
+stream = ExtResource( 12 )
 volume_db = -10.0
 pitch_scale = 1.1
 bus = "GameSfx"
 
 [node name="Step5" type="AudioStreamPlayer" parent="Sounds/Stepping"]
-stream = ExtResource( 6 )
+stream = ExtResource( 10 )
 volume_db = -10.0
 pitch_scale = 1.1
 bus = "GameSfx"
@@ -986,7 +986,7 @@ margin_left = -13.0
 margin_top = -12.0
 margin_right = 15.0
 margin_bottom = 12.0
-theme = ExtResource( 5 )
+theme = ExtResource( 4 )
 text = "00"
 align = 1
 

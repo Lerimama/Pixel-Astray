@@ -30,7 +30,7 @@ var strays_on_screen: Array = []
 # groups
 var group_players = "Players"
 var group_strays = "Strays"
-var group_tilemap = "Tilemap" # scroller in patterns
+var group_tilemap = "Tilemap" # defender in patterns
 var group_ghosts = "Ghosts"
 
 # pixel colors
@@ -38,7 +38,7 @@ var color_blue: Color = Color("#4b9fff")
 var color_green: Color = Color("#5effa9")
 var color_red: Color = Color("#f35b7f")
 var color_yellow: Color = Color("#fef98b")
-#var color_gray_dark: Color = Color("#232323") # tudi color_floor_scroller
+#var color_gray_dark: Color = Color("#232323") # tudi color_floor_defender
 # level colors
 var color_wall: Color = Color("#141414") # Color("#232323")
 var color_wall_pixel: Color = Color("#ffffff")

@@ -1,26 +1,26 @@
 [gd_scene load_steps=42 format=2]
 
-[ext_resource path="res://game/gui/game_countdown.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=2]
-[ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=3]
-[ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=4]
-[ext_resource path="res://assets/resources/tileset_titles.tres" type="TileSet" id=5]
-[ext_resource path="res://game/gui/game_instructions.tscn" type="PackedScene" id=6]
-[ext_resource path="res://assets/atlas_hud.png" type="Texture" id=7]
-[ext_resource path="res://game/hud/hud energy_bar.gd" type="Script" id=8]
+[ext_resource path="res://game/hud/music_player.gd" type="Script" id=1]
+[ext_resource path="res://game/player_camera.tscn" type="PackedScene" id=2]
+[ext_resource path="res://game/hud/hud_defender.gd" type="Script" id=3]
+[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=4]
+[ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=5]
+[ext_resource path="res://game/hud/hud_color_indicator.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/theme/font_big.tres" type="DynamicFont" id=7]
+[ext_resource path="res://assets/atlas_hud.png" type="Texture" id=8]
 [ext_resource path="res://game/hud/hud_life_icons.gd" type="Script" id=9]
-[ext_resource path="res://game/gui/pause_gui.tscn" type="PackedScene" id=10]
-[ext_resource path="res://game/hud/hud_color_indicator.tscn" type="PackedScene" id=12]
-[ext_resource path="res://game/gui/highscore_table.tscn" type="PackedScene" id=13]
-[ext_resource path="res://game/gui/game_over_scrolling.gd" type="Script" id=14]
-[ext_resource path="res://assets/theme/style_line_edit.tres" type="StyleBox" id=15]
-[ext_resource path="res://game/hud/music_player.gd" type="Script" id=17]
-[ext_resource path="res://assets/theme/font_big.tres" type="DynamicFont" id=19]
-[ext_resource path="res://game/managers/game_manager_scrolling.gd" type="Script" id=20]
-[ext_resource path="res://game/hud/hud_scrolling.gd" type="Script" id=21]
-[ext_resource path="res://game/player_camera.tscn" type="PackedScene" id=22]
-[ext_resource path="res://game/arena.tscn" type="PackedScene" id=23]
-[ext_resource path="res://game/hud/hud_game_timer_hunds.tscn" type="PackedScene" id=24]
+[ext_resource path="res://assets/resources/tileset_titles.tres" type="TileSet" id=10]
+[ext_resource path="res://game/gui/game_countdown.tscn" type="PackedScene" id=11]
+[ext_resource path="res://game/hud/hud_game_timer_hunds.tscn" type="PackedScene" id=12]
+[ext_resource path="res://game/arena.tscn" type="PackedScene" id=13]
+[ext_resource path="res://game/gui/game_instructions.tscn" type="PackedScene" id=14]
+[ext_resource path="res://game/gui/game_over_defender.gd" type="Script" id=15]
+[ext_resource path="res://game/hud/hud energy_bar.gd" type="Script" id=16]
+[ext_resource path="res://assets/theme/style_line_edit.tres" type="StyleBox" id=17]
+[ext_resource path="res://game/gui/highscore_table.tscn" type="PackedScene" id=18]
+[ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=19]
+[ext_resource path="res://game/gui/pause_gui.tscn" type="PackedScene" id=20]
+[ext_resource path="res://game/managers/game_manager_defender.gd" type="Script" id=21]
 
 [sub_resource type="StyleBoxFlat" id=239]
 bg_color = Color( 0, 0, 0, 0.784314 )
@@ -39,7 +39,7 @@ border_width_bottom = 2
 border_color = Color( 0.368627, 1, 0.662745, 1 )
 
 [sub_resource type="AtlasTexture" id=147]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 8 )
 region = Rect2( 0, 0, 16, 16 )
 
 [sub_resource type="StreamTexture" id=144]
@@ -50,64 +50,64 @@ atlas = SubResource( 144 )
 region = Rect2( 0, 16, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=122]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 8 )
 region = Rect2( 0, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=125]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 8 )
 region = Rect2( 18, 48, 10, 16 )
 margin = Rect2( -1, 0, 0, 0 )
 
 [sub_resource type="AtlasTexture" id=126]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 8 )
 region = Rect2( 32, 64, 48, 16 )
 
 [sub_resource type="AtlasTexture" id=132]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 8 )
 region = Rect2( 32, 80, 48, 16 )
 
 [sub_resource type="StyleBoxEmpty" id=248]
 
 [sub_resource type="AtlasTexture" id=269]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 8 )
 region = Rect2( 32, 32, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=268]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 8 )
 region = Rect2( 48, 16, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=130]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 8 )
 region = Rect2( 64, 16, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=131]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 8 )
 region = Rect2( 64, 32, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=129]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 8 )
 region = Rect2( 64, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=148]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 8 )
 region = Rect2( 2, 84, 14, 12 )
 margin = Rect2( 0, 3, 0, 0 )
 
 [sub_resource type="AtlasTexture" id=146]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 8 )
 region = Rect2( 18, 84, 14, 12 )
 margin = Rect2( 0, 3, 0, 0 )
 
 [sub_resource type="AtlasTexture" id=128]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 8 )
 region = Rect2( 16, 16, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=127]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 8 )
 region = Rect2( 16, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=444]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 8 )
 region = Rect2( 40, 80, 12, 14 )
 margin = Rect2( 2, 0, 0, 0 )
 
@@ -118,7 +118,7 @@ __meta__ = {
 }
 
 [node name="GameManager" type="Node" parent="."]
-script = ExtResource( 20 )
+script = ExtResource( 21 )
 
 [node name="GameView" type="VBoxContainer" parent="."]
 margin_right = 1280.0
@@ -150,12 +150,12 @@ size = Vector2( 1280, 720 )
 handle_input_locally = false
 render_target_update_mode = 3
 
-[node name="Arena" parent="GameView/Viewports/ViewportContainer1/Viewport1" instance=ExtResource( 23 )]
+[node name="Arena" parent="GameView/Viewports/ViewportContainer1/Viewport1" instance=ExtResource( 13 )]
 __meta__ = {
 "_edit_horizontal_guides_": [ 44.0, 32.0, 20.0, 64.0, 660.0, 688.0, 676.0, 648.0 ]
 }
 
-[node name="PlayerCamera" parent="GameView/Viewports/ViewportContainer1/Viewport1" instance=ExtResource( 22 )]
+[node name="PlayerCamera" parent="GameView/Viewports/ViewportContainer1/Viewport1" instance=ExtResource( 2 )]
 
 [node name="ViewFuter" type="ColorRect" parent="GameView"]
 unique_name_in_owner = true
@@ -168,7 +168,7 @@ rect_min_size = Vector2( 1280, 0 )
 [node name="GUI" type="Control" parent="."]
 margin_right = 1280.0
 margin_bottom = 720.0
-theme = ExtResource( 2 )
+theme = ExtResource( 4 )
 __meta__ = {
 "_editor_description_": ""
 }
@@ -177,7 +177,7 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 720 )
-script = ExtResource( 21 )
+script = ExtResource( 3 )
 
 [node name="Popups" type="Control" parent="GUI/Hud"]
 anchor_right = 1.0
@@ -314,14 +314,14 @@ margin_bottom = 27.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 19 )
+custom_fonts/font = ExtResource( 7 )
 text = "LEVEL 2"
 align = 1
 
-[node name="Instructions" parent="GUI/Hud/Popups" instance=ExtResource( 6 )]
+[node name="Instructions" parent="GUI/Hud/Popups" instance=ExtResource( 14 )]
 visible = false
 
-[node name="GameCountdown" parent="GUI/Hud/Popups" instance=ExtResource( 1 )]
+[node name="GameCountdown" parent="GUI/Hud/Popups" instance=ExtResource( 11 )]
 visible = false
 
 [node name="Life" type="Label" parent="GUI/Hud"]
@@ -450,7 +450,7 @@ margin_bottom = 22.0
 rect_min_size = Vector2( 0, 19 )
 size_flags_vertical = 8
 custom_constants/separation = 6
-script = ExtResource( 8 )
+script = ExtResource( 16 )
 
 [node name="TextureRect7" type="TextureRect" parent="GUI/Hud/Header/TopLineL/EnergyBar"]
 margin_top = 1.0
@@ -625,7 +625,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="GameTimerHunds" parent="GUI/Hud/Header" instance=ExtResource( 24 )]
+[node name="GameTimerHunds" parent="GUI/Hud/Header" instance=ExtResource( 12 )]
 margin_left = 588.0
 margin_top = -3.0
 margin_right = 692.0
@@ -647,7 +647,7 @@ margin_bottom = 22.0
 rect_min_size = Vector2( 46, 0 )
 text = "00"
 align = 2
-script = ExtResource( 17 )
+script = ExtResource( 1 )
 __meta__ = {
 "_editor_description_": ""
 }
@@ -847,7 +847,7 @@ margin_bottom = 22.0
 rect_min_size = Vector2( 0, 19 )
 size_flags_vertical = 8
 custom_constants/separation = 6
-script = ExtResource( 8 )
+script = ExtResource( 16 )
 
 [node name="TextureRect7" type="TextureRect" parent="GUI/Hud/Header/TopLineR/PlayerLineR/EnergyBar"]
 margin_top = 1.0
@@ -1018,7 +1018,7 @@ rect_min_size = Vector2( 0, 12 )
 custom_constants/separation = 0
 alignment = 1
 
-[node name="SpectrumColorIndicator3" parent="GUI/Hud/Footer/FooterLine/SpectrumHolder/ColorSpectrum" instance=ExtResource( 12 )]
+[node name="SpectrumColorIndicator3" parent="GUI/Hud/Footer/FooterLine/SpectrumHolder/ColorSpectrum" instance=ExtResource( 6 )]
 visible = false
 margin_right = 896.0
 grow_horizontal = 2
@@ -1123,7 +1123,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="PauseMenu" parent="GUI" instance=ExtResource( 10 )]
+[node name="PauseMenu" parent="GUI" instance=ExtResource( 20 )]
 visible = false
 
 [node name="GameOver" type="Control" parent="GUI"]
@@ -1131,8 +1131,8 @@ pause_mode = 2
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = ExtResource( 2 )
-script = ExtResource( 14 )
+theme = ExtResource( 4 )
+script = ExtResource( 15 )
 
 [node name="Background" type="ColorRect" parent="GUI/GameOver"]
 anchor_right = 1.0
@@ -1169,7 +1169,7 @@ margin_top = -2.0
 margin_right = 272.0
 margin_bottom = 30.0
 grow_horizontal = 2
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 19 )
 text = "player 1"
 align = 1
 autowrap = true
@@ -1177,7 +1177,7 @@ uppercase = true
 
 [node name="Win" type="TileMap" parent="GUI/GameOver/GameoverTitle/_Duel/Win"]
 position = Vector2( 120, 56 )
-tile_set = ExtResource( 5 )
+tile_set = ExtResource( 10 )
 cell_size = Vector2( 16, 16 )
 cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 format = 1
@@ -1215,14 +1215,14 @@ margin_top = -58.0
 margin_right = 272.0
 margin_bottom = -26.0
 grow_horizontal = 2
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 19 )
 text = "Nobody wins"
 align = 1
 autowrap = true
 
 [node name="Draw" type="TileMap" parent="GUI/GameOver/GameoverTitle/_Duel/Draw"]
 position = Vector2( 168, 0 )
-tile_set = ExtResource( 5 )
+tile_set = ExtResource( 10 )
 cell_size = Vector2( 16, 16 )
 cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 format = 1
@@ -1288,7 +1288,7 @@ margin_bottom = 72.0
 
 [node name="Congrats" type="TileMap" parent="GUI/GameOver/GameoverTitle/ReasonCleaned"]
 position = Vector2( 120, 0 )
-tile_set = ExtResource( 5 )
+tile_set = ExtResource( 10 )
 cell_size = Vector2( 16, 16 )
 cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 format = 1
@@ -1302,7 +1302,7 @@ margin_top = 142.0
 margin_right = 252.0
 margin_bottom = 174.0
 grow_horizontal = 2
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 19 )
 text = "You are full of colors again!"
 align = 1
 
@@ -1320,7 +1320,7 @@ margin_bottom = 72.0
 
 [node name="GameOver" type="TileMap" parent="GUI/GameOver/GameoverTitle/ReasonTime"]
 position = Vector2( 120, 0 )
-tile_set = ExtResource( 5 )
+tile_set = ExtResource( 10 )
 cell_size = Vector2( 16, 16 )
 cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 format = 1
@@ -1334,7 +1334,7 @@ margin_top = 142.0
 margin_right = 177.0
 margin_bottom = 174.0
 grow_horizontal = 2
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 19 )
 text = "The machine has stalled!"
 align = 1
 
@@ -1352,7 +1352,7 @@ margin_bottom = 72.0
 
 [node name="GameOver" type="TileMap" parent="GUI/GameOver/GameoverTitle/ReasonLife"]
 position = Vector2( 120, 0 )
-tile_set = ExtResource( 5 )
+tile_set = ExtResource( 10 )
 cell_size = Vector2( 16, 16 )
 cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 format = 1
@@ -1366,7 +1366,7 @@ margin_top = 142.0
 margin_right = 234.0
 margin_bottom = 174.0
 grow_horizontal = 2
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 19 )
 text = "You are forever colorless!"
 align = 1
 
@@ -1390,7 +1390,7 @@ margin_top = -226.5
 margin_right = 132.0
 margin_bottom = -194.5
 custom_colors/font_color = Color( 0.952941, 0.356863, 0.498039, 1 )
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 19 )
 text = "GAME SUMMARY"
 
 [node name="DataContainer" type="VBoxContainer" parent="GUI/GameOver/GameSummary/NoHS"]
@@ -1411,7 +1411,7 @@ __meta__ = {
 [node name="Game" type="Label" parent="GUI/GameOver/GameSummary/NoHS/DataContainer"]
 margin_right = 223.0
 margin_bottom = 18.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
 text = "Game: %s"
 align = 1
 valign = 2
@@ -1423,7 +1423,7 @@ __meta__ = {
 margin_top = 32.0
 margin_right = 223.0
 margin_bottom = 50.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
 text = "Level: %s"
 align = 1
 valign = 2
@@ -1435,7 +1435,7 @@ __meta__ = {
 margin_top = 64.0
 margin_right = 223.0
 margin_bottom = 82.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
 text = "Points total: %s"
 align = 1
 valign = 2
@@ -1447,7 +1447,7 @@ __meta__ = {
 margin_top = 96.0
 margin_right = 223.0
 margin_bottom = 114.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
 text = "Time used:  %s seconds"
 align = 1
 valign = 2
@@ -1459,7 +1459,7 @@ __meta__ = {
 margin_top = 128.0
 margin_right = 223.0
 margin_bottom = 146.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
 text = "Cells travelled: %s"
 align = 1
 valign = 2
@@ -1471,7 +1471,7 @@ __meta__ = {
 margin_top = 160.0
 margin_right = 223.0
 margin_bottom = 178.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
 text = "Burst count: %s"
 align = 1
 valign = 2
@@ -1483,7 +1483,7 @@ __meta__ = {
 margin_top = 192.0
 margin_right = 223.0
 margin_bottom = 210.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
 text = "Skill count: %s"
 align = 1
 valign = 2
@@ -1495,7 +1495,7 @@ __meta__ = {
 margin_top = 224.0
 margin_right = 223.0
 margin_bottom = 242.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
 text = "Colors collected: %s"
 align = 1
 valign = 2
@@ -1507,7 +1507,7 @@ __meta__ = {
 margin_top = 256.0
 margin_right = 223.0
 margin_bottom = 274.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
 text = "Pixels left astray: %s"
 align = 1
 valign = 2
@@ -1563,7 +1563,7 @@ margin_top = -226.5
 margin_right = 132.0
 margin_bottom = -194.5
 custom_colors/font_color = Color( 0.952941, 0.356863, 0.498039, 1 )
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 19 )
 text = "GAME OVER"
 align = 1
 
@@ -1595,7 +1595,7 @@ __meta__ = {
 [node name="Game" type="Label" parent="GUI/GameOver/GameSummary/WithHS/DataContainer"]
 margin_right = 223.0
 margin_bottom = 18.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
 text = "Game: %s"
 valign = 2
 __meta__ = {
@@ -1606,7 +1606,7 @@ __meta__ = {
 margin_top = 32.0
 margin_right = 223.0
 margin_bottom = 50.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
 text = "Level: %s"
 valign = 2
 __meta__ = {
@@ -1617,7 +1617,7 @@ __meta__ = {
 margin_top = 64.0
 margin_right = 223.0
 margin_bottom = 82.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
 text = "Points total: %s"
 valign = 2
 __meta__ = {
@@ -1628,7 +1628,7 @@ __meta__ = {
 margin_top = 96.0
 margin_right = 223.0
 margin_bottom = 114.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
 text = "Time used:  %s seconds"
 valign = 2
 __meta__ = {
@@ -1639,7 +1639,7 @@ __meta__ = {
 margin_top = 128.0
 margin_right = 223.0
 margin_bottom = 146.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
 text = "Cells travelled: %s"
 valign = 2
 __meta__ = {
@@ -1650,7 +1650,7 @@ __meta__ = {
 margin_top = 160.0
 margin_right = 223.0
 margin_bottom = 178.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
 text = "Bursts used: %s"
 valign = 2
 __meta__ = {
@@ -1662,7 +1662,7 @@ visible = false
 margin_top = 192.0
 margin_right = 223.0
 margin_bottom = 210.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
 text = "Skills used: %s"
 valign = 2
 __meta__ = {
@@ -1673,7 +1673,7 @@ __meta__ = {
 margin_top = 192.0
 margin_right = 223.0
 margin_bottom = 210.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
 text = "Colors collected: %s"
 valign = 2
 __meta__ = {
@@ -1685,14 +1685,14 @@ visible = false
 margin_top = 256.0
 margin_right = 223.0
 margin_bottom = 274.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
 text = "Pixels left astray: %s"
 valign = 2
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="HighscoreTable" parent="GUI/GameOver/GameSummary/WithHS" instance=ExtResource( 13 )]
+[node name="HighscoreTable" parent="GUI/GameOver/GameSummary/WithHS" instance=ExtResource( 18 )]
 margin_left = 6.0
 margin_right = 256.0
 
@@ -1787,7 +1787,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -18.0
 margin_right = 18.0
-custom_styles/panel = ExtResource( 15 )
+custom_styles/panel = ExtResource( 17 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="GUI/GameOver/NameInputPopup"]
 anchor_left = 0.5

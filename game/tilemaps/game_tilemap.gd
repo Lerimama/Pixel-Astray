@@ -14,7 +14,7 @@ var player_global_positions: Array
 var wall_tile_id: int = 3
 var edge_tile_id: int = 1
 var floor_tile_id: int = 0
-var spawn_stray_tile_id: int = 5 # za home riddler btne
+var spawn_stray_tile_id: int = 5 # za home sweeper btne
 var inside_edge_level_rect: Rect2 # velikost floor "igralne mize"
 
 onready var camera_position_node: Position2D = $CameraPosition
@@ -23,7 +23,7 @@ onready var background_room: TextureRect = $Background/Room
 
 func _ready() -> void:
 	
-	add_to_group(Global.group_tilemap) # za scrolling in patterns
+	add_to_group(Global.group_tilemap)
 	Global.current_tilemap = self
 
 	# set_color_theme

@@ -259,7 +259,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			collision_shape.set_deferred("disabled", true)
 			collision_shape_ext.set_deferred("disabled", true)
 			Global.game_manager.strays_in_game_count = - 1
-			Global.hud.show_color_indicator(stray_color) # če je scroller se returna na fuknciji¨
+			Global.hud.show_color_indicator(stray_color) # če je defender se returna na fuknciji¨
 			#			queue_free()
 			call_deferred("queue_free")
 		else: # če bo samo stena

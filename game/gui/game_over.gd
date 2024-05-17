@@ -2,10 +2,10 @@ extends GameOver
 
 
 onready var timeup_label: Label = $GameoverTitle/ReasonTime/TimeupLabel
-onready var riddler_game_summary: Control = $RiddlerGameSummary
-onready var riddler_highscore_table: VBoxContainer = $RiddlerGameSummary/HighscoreTable
+onready var sweeper_game_summary: Control = $RiddlerGameSummary
+onready var sweeper_highscore_table: VBoxContainer = $RiddlerGameSummary/HighscoreTable
 
-var riddler_solved: bool = false				
+var sweeper_solved: bool = false				
 				
 func _ready() -> void:
 	# namen: dodan enigam game summary
@@ -16,39 +16,42 @@ func _ready() -> void:
 	gameover_title_holder.visible = false
 	game_summary_holder.visible = false
 	name_input_popup.visible = false
-	riddler_game_summary.visible = false
+	sweeper_game_summary.visible = false
 	
 
 func set_game_gameover_title():
 	# namen: sprememba teksta v GO - TIME komentarju glede na to katera igra je
-	# namen: opredelim, če je bila riddler rešena
+	# namen: opredelim, če je bila sweeper rešena
 	
 	# uganka in je bila rešena
-	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER and current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
-		Global.data_manager.write_solved_status_to_file(Global.game_manager.game_data)
-	
-	# glede na GO razlog	
-	match current_gameover_reason:
-		Global.game_manager.GameoverReason.CLEANED:
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+		if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
+			Global.data_manager.write_solved_status_to_file(Global.game_manager.game_data)
 			selected_gameover_title = gameover_title_cleaned
 			selected_gameover_jingle = "win_jingle"
 			name_input_label.text = "Great work!"
-		Global.game_manager.GameoverReason.LIFE:
+		else: # GO skrin je na neuspeh vedno LIFE
 			selected_gameover_title = gameover_title_life
 			selected_gameover_jingle = "lose_jingle"
-			name_input_label.text = "But still ... "
-		#			if score_is_ranking:
-		#				selected_gameover_title.modulate = Global.color_green
-		Global.game_manager.GameoverReason.TIME:
-			selected_gameover_title = gameover_title_time
-			selected_gameover_jingle = "lose_jingle"
-			name_input_label.text = "But still ... "
-		#			if score_is_ranking:
-		#				selected_gameover_title.modulate = Global.color_green
+	else:
+		# glede na GO razlog	
+		match current_gameover_reason:
+			Global.game_manager.GameoverReason.CLEANED:
+				selected_gameover_title = gameover_title_cleaned
+				selected_gameover_jingle = "win_jingle"
+				name_input_label.text = "Great work!"
+			Global.game_manager.GameoverReason.LIFE:
+				selected_gameover_title = gameover_title_life
+				selected_gameover_jingle = "lose_jingle"
+				name_input_label.text = "But still ... "
+			Global.game_manager.GameoverReason.TIME:
+				selected_gameover_title = gameover_title_time
+				selected_gameover_jingle = "lose_jingle"
+				name_input_label.text = "But still ... "
 
 
 func show_gameover_menu():
-	# namen: riddler HS table, izločim beleženje HS, če riddler ni končana,
+	# namen: sweeper HS table, izločim beleženje HS, če sweeper ni končana,
 	
 	get_tree().set_pause(true) # setano čez celotno GO proceduro
 	
@@ -69,7 +72,7 @@ func show_gameover_menu():
 			yield(get_tree().create_timer(1), "timeout") # podaljšam pavzo za branje
 			show_game_summary()
 		else:
-			# če je riddler score štejem samo, če vse spuca
+			# če je sweeper score štejem samo, če vse spuca
 			if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER and not current_gameover_reason == Global.game_manager.GameoverReason.CLEANED: 
 				yield(get_tree().create_timer(1), "timeout")
 				current_player_ranking = 100 # zazih ni na lestvici
@@ -81,7 +84,7 @@ func show_gameover_menu():
 					current_player_ranking = Global.data_manager.current_player_ranking
 			
 			if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-				riddler_highscore_table.get_highscore_table(Global.game_manager.game_data, current_player_ranking)
+				sweeper_highscore_table.get_highscore_table(Global.game_manager.game_data, current_player_ranking)
 			else:
 				highscore_table.get_highscore_table(Global.game_manager.game_data, current_player_ranking)
 			selected_game_summary = game_summary_with_hs
@@ -89,23 +92,23 @@ func show_gameover_menu():
 
 
 func show_game_summary():
-	# namen: izbira riddler game summary
+	# namen: izbira sweeper game summary
 	
 	var game_summary_to_show: Control
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 		# focus btn
 		if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
-			focus_btn = riddler_game_summary.get_node("Menu/NextLevelBtn")
+			focus_btn = sweeper_game_summary.get_node("Menu/NextLevelBtn")
 		else:
-			focus_btn = riddler_game_summary.get_node("Menu/RestartBtn")
+			focus_btn = sweeper_game_summary.get_node("Menu/RestartBtn")
 			
-		riddler_game_summary.get_node("DataContainer/Game").text %= str(Global.game_manager.game_data["game_name"])
-		riddler_game_summary.get_node("DataContainer/Level").text %= "%02d" % Global.game_manager.game_data["level"]
-		riddler_game_summary.get_node("DataContainer/AstrayPixels").text %= str(Global.game_manager.strays_in_game_count)
-		riddler_game_summary.visible = true	
-		riddler_game_summary.modulate.a = 0	
-		game_summary_to_show = riddler_game_summary
+		sweeper_game_summary.get_node("DataContainer/Game").text %= str(Global.game_manager.game_data["game_name"])
+		sweeper_game_summary.get_node("DataContainer/Level").text %= "%02d" % Global.game_manager.game_data["level"]
+		sweeper_game_summary.get_node("DataContainer/AstrayPixels").text %= str(Global.game_manager.strays_in_game_count)
+		sweeper_game_summary.visible = true	
+		sweeper_game_summary.modulate.a = 0	
+		game_summary_to_show = sweeper_game_summary
 	else:
 		focus_btn = selected_game_summary.get_node("Menu/RestartBtn")
 		selected_game_summary.get_node("DataContainer/Game").text %= str(Global.game_manager.game_data["game_name"])
@@ -143,5 +146,5 @@ func _on_ExitGameBtn_pressed() -> void:
 func _on_NextLevelBtn_pressed() -> void:
 	
 	var next_level_number: int = Global.game_manager.game_data["level"] + 1
-	Profiles.game_data_riddler["level"] = next_level_number
+	Profiles.game_data_sweeper["level"] = next_level_number
 	Global.main_node.reload_game()

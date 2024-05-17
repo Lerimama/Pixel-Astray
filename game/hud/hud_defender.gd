@@ -105,7 +105,7 @@ func update_indicator_on_stage_up(current_stage: int):
 
 					
 func show_color_indicator(picked_color: Color):
-	return # stray kliče po animaciji, ampak v scrollerju se nič ne zgodi
+	return # stray kliče po animaciji, ampak v defenderju se nič ne zgodi
 
 
 func check_for_warning(player_stats: Dictionary, warning_popup: Control):

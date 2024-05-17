@@ -1,10 +1,10 @@
 extends PlayerOrig
 class_name Player
 
-# riddler
-var riddler_move_started: bool = false # ob cockanju se začne poteza (konča se v steni ali na koncu reburstanja, kadar resetam reburst_count)
-var riddler_start_strays_count: int = 0 # število straysow pred movetom
-var riddler_cleaned_strays_count: int = 0 # beleži vse uničene v času riddler move, za preverjanje uspeha
+# sweeper
+var sweeper_move_started: bool = false # ob cockanju se začne poteza (konča se v steni ali na koncu reburstanja, kadar resetam reburst_count)
+var sweeper_start_strays_count: int = 0 # število straysow pred movetom
+var sweeper_cleaned_strays_count: int = 0 # beleži vse uničene v času sweeper move, za preverjanje uspeha
 
 # reburst
 var is_rebursting: bool = false # za regulacijo moči on hit stray
@@ -55,7 +55,7 @@ func _ready() -> void:
 	
 func idle_inputs():
 	# namen: rebursting_inputs reburst_count reset ... za reburst
-	# namen: riddler finish (cocking key, direction key)
+	# namen: sweeper finish (cocking key, direction key)
 	
 	if player_stats["player_energy"] > 1:
 		var current_collider: Node2D = detect_collision_in_direction(direction)
@@ -141,17 +141,17 @@ func end_move():
 		
 
 func on_hit_stray(hit_stray: KinematicBody2D):
-	# namen: activate reburst, start riddler move, riddler cleaned count ček
+	# namen: activate reburst, start sweeper move, sweeper cleaned count ček
 	
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
 	play_sound("hit_stray")	
 	spawn_collision_particles()
 	shake_player_camera(burst_speed)			
 
-	# start riddler move
-	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER and not riddler_move_started:	
-		riddler_move_started = true	
-		riddler_start_strays_count = Global.game_manager.strays_in_game_count
+	# start sweeper move
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER and not sweeper_move_started:	
+		sweeper_move_started = true	
+		sweeper_start_strays_count = Global.game_manager.strays_in_game_count
 		
 	# reburst nagrada
 	var reward_limit: int = Global.game_manager.game_settings["reburst_reward_limit"]
@@ -188,9 +188,9 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	for stray in strays_to_destroy:
 		var stray_index = strays_to_destroy.find(stray)
 		stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
-		# prišteje v riddler strayse
+		# prišteje v sweeper strayse
 		if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:	
-			riddler_cleaned_strays_count += 1
+			sweeper_cleaned_strays_count += 1
 			
 	# wall ne da točk
 	var strays_not_walls_count: int = strays_to_destroy.size() - hit_stray_neighbors[1].size() # odštejem stene
@@ -346,13 +346,13 @@ func close_reburst_window():
 		
 
 func finish_burst_move():
-	# namen riddler
+	# namen sweeper
 	
 	# ček for succes
-	if riddler_move_started:
-		riddler_move_started = false
+	if sweeper_move_started:
+		sweeper_move_started = false
 		# če je količina uničenih enaka količini na ekranu
-		if riddler_cleaned_strays_count < riddler_start_strays_count:
+		if sweeper_cleaned_strays_count < sweeper_start_strays_count:
 			Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
 		else:
 			pass # to naredi GM po defaultu
@@ -403,7 +403,7 @@ func detect_touch():
 
 func _on_ReburstingTimer_timeout() -> void:
 	
-	# če je riddler je čas naskončen
+	# če je sweeper je čas naskončen
 	if Global.game_manager.game_settings["reburst_window_time"] == 0:
 		return
 	

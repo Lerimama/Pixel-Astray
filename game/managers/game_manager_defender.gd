@@ -4,9 +4,9 @@ var current_stray_spawning_round: int = 0 # prištevam na koncu spawna
 
 var lines_scrolled_count: int = 0 # prištevam v stray_step()
 var lines_scroll_per_spawn_round: int #  = 1 # se vleče game data
-var scrolling_pause_time: float # pavza med stepi
+var invading_pause_time: float # pavza med stepi
 var total_spawn_round_positions_count: int = 20 # določeno v tilemapu ... 20 x na linijo
-var round_spawn_possibility: float
+var round_spawn_chance: float
 var stray_to_spawn_round_range: Array
 
 var current_stage: int = 0 # na štartu se kliče stage up
@@ -15,7 +15,7 @@ var current_level: int = 0 # na štartu se kliče level up
 var levels_per_game: int = 1
 
 var step_in_progress: bool = false
-var wall_strays: Array = []
+var wall_strays: Array = [] # rabim, ker se straysi spreminjajo v stene na dotik stene
 var available_home_spawn_positions: Array
 
 # neu
@@ -35,8 +35,8 @@ func _unhandled_input(event: InputEvent) -> void:
 func _ready() -> void:
 
 	Global.game_manager = self
-	StrayPixel = preload("res://game/pixel/stray_scrolling.tscn")
-	PlayerPixel = preload("res://game/pixel/player_scrolling.tscn")
+	StrayPixel = preload("res://game/pixel/stray_defender.tscn")
+	PlayerPixel = preload("res://game/pixel/player_defender.tscn")
 	randomize()
 	
 	
@@ -255,13 +255,10 @@ func stray_step():
 		if lines_scrolled_count == 1: # v prvi 100% spawnam
 			spawn_strays(random_spawn_count)
 		elif lines_scrolled_count % lines_scroll_per_spawn_round == 0: # tukaj, da ne spawna če je konec
-#			if current_stray_spawning_round == 1: 
-#				spawn_strays(random_spawn_count)
-#			el
-			if randi() % 100 <= round_spawn_possibility: # spawnam, če je znotraj določenih procentov
+			if randi() % 100 <= round_spawn_chance * 100: # spawnam, če je znotraj določenih procentov
 				spawn_strays(random_spawn_count)
 			
-	yield(get_tree().create_timer(scrolling_pause_time), "timeout")
+	yield(get_tree().create_timer(invading_pause_time), "timeout")
 	
 	step_in_progress = false
 
@@ -324,18 +321,18 @@ func set_new_level():
 	if current_level == 1:
 		lines_scroll_per_spawn_round = game_data["lines_scroll_per_spawn_round"]
 		stages_per_level = game_data["stages_per_level"]
-		scrolling_pause_time = game_data["scrolling_pause_time"]
+		invading_pause_time = game_data["invading_pause_time"]
 		stray_to_spawn_round_range = game_data["stray_to_spawn_round_range"]
-		round_spawn_possibility = game_data["round_spawn_possibility"]
+		round_spawn_chance = game_data["round_spawn_chance"]
 		
 	# vsak naslednji level updata nastavitve prejšnjega levela
 	elif current_level > 1:
 		stages_per_level += stages_per_level + game_data["stages_per_level_grow"]
-		scrolling_pause_time *= game_data["scrolling_pause_time_factor"]
-		scrolling_pause_time = clamp (scrolling_pause_time, 0.2, scrolling_pause_time) # ne sem bit manjša od stray step hitrosti (cca 0.2)
+		invading_pause_time *= game_data["invading_pause_time_factor"]
+		invading_pause_time = clamp (invading_pause_time, 0.2, invading_pause_time) # ne sem bit manjša od stray step hitrosti (cca 0.2)
 		stray_to_spawn_round_range[0] *= game_data["round_range_factor_1"]
 		stray_to_spawn_round_range[1] *= game_data["round_range_factor_2"]
-		round_spawn_possibility *= game_data["round_spawn_possibility_factor"]
+		round_spawn_chance *= game_data["round_spawn_chance_factor"]
 	
 	game_data["level"] = current_level
 
@@ -369,17 +366,16 @@ func set_level_colors():
 
 
 func clean_strays_in_game():
-	# namen: dodan wall_strays ... lahko bi poenotil
+	# namen: dodan brisanje wall_strays arraya ... lahko bi poenotil
 	
 	var all_strays_alive: Array = get_tree().get_nodes_in_group(Global.group_strays)
 	
 	for stray in all_strays_alive:
 		if wall_strays.has(stray):
 			wall_strays.erase(stray)
-		# cela tla
+		
 		var stray_index: int = all_strays_alive.find(stray)
-		var all_strays_alive_count: int = all_strays_alive.size()
-		stray.die(stray_index, all_strays_alive_count)
+		stray.die(stray_index, all_strays_alive.size())
 	
 	all_strays_died_alowed = true
 	
