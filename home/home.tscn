@@ -1021,7 +1021,7 @@ tracks/4/keys = {
 }
 
 [sub_resource type="Animation" id=276]
-resource_name = "play_riddler_level"
+resource_name = "play_level"
 step = 0.02
 tracks/0/type = "value"
 tracks/0/path = NodePath("Menu:modulate:a")
@@ -1182,7 +1182,7 @@ tracks/8/keys = {
 }
 
 [sub_resource type="Animation" id=275]
-resource_name = "select_riddler_level"
+resource_name = "select_level"
 length = 1.3
 step = 0.01
 tracks/0/type = "value"
@@ -4860,14 +4860,14 @@ custom_fonts/font = ExtResource( 14 )
 text = "Sofa showdown! Team up for a cleaning frenzy! "
 autowrap = true
 
-[node name="Riddler" type="Panel" parent="SelectGame"]
+[node name="Sweeper" type="Panel" parent="SelectGame"]
 margin_left = 440.0
 margin_top = 336.0
 margin_right = 648.0
 margin_bottom = 496.0
 custom_styles/panel = SubResource( 274 )
 
-[node name="Title" type="Label" parent="SelectGame/Riddler"]
+[node name="Title" type="Label" parent="SelectGame/Sweeper"]
 visible = false
 margin_left = 24.0
 margin_top = 22.0
@@ -4875,7 +4875,7 @@ margin_right = 112.0
 margin_bottom = 44.0
 text = "Riddler"
 
-[node name="Label" type="Label" parent="SelectGame/Riddler"]
+[node name="Label" type="Label" parent="SelectGame/Sweeper"]
 margin_left = 25.0
 margin_top = 23.0
 margin_right = 192.0
@@ -4920,7 +4920,7 @@ margin_left = -16.0
 margin_top = -56.0
 margin_right = 144.0
 focus_neighbour_top = NodePath("../../BackBtn")
-focus_neighbour_bottom = NodePath("../EraserSBtn")
+focus_neighbour_bottom = NodePath("../CleanerSBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -4932,7 +4932,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="EraserSBtn" type="Button" parent="SelectGame/GameBtns"]
+[node name="CleanerSBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_left = -16.0
 margin_top = 120.0
 margin_right = 144.0
@@ -4949,7 +4949,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="EraserMBtn" type="Button" parent="SelectGame/GameBtns"]
+[node name="CleanerMBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_left = -16.0
 margin_top = 184.0
 margin_right = 144.0
@@ -4965,7 +4965,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="EraserLBtn" type="Button" parent="SelectGame/GameBtns"]
+[node name="CleanerLBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_left = -16.0
 margin_top = 248.0
 margin_right = 144.0
@@ -4982,7 +4982,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="CleanerSBtn" type="Button" parent="SelectGame/GameBtns"]
+[node name="EraserBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_left = 200.0
 margin_top = -32.0
 margin_right = 360.0
@@ -4994,12 +4994,12 @@ custom_styles/pressed = SubResource( 205 )
 custom_styles/focus = SubResource( 205 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "POPPER"
+text = "ERASER"
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="CleanerMBtn" type="Button" parent="SelectGame/GameBtns"]
+[node name="HandlerBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_left = 200.0
 margin_top = 128.0
 margin_right = 360.0
@@ -5015,12 +5015,12 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="ScrollerBtn" type="Button" parent="SelectGame/GameBtns"]
+[node name="DefenderBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_left = 200.0
 margin_top = 272.0
 margin_right = 360.0
 margin_bottom = 328.0
-focus_neighbour_bottom = NodePath("../CleanerSBtn")
+focus_neighbour_bottom = NodePath("../EraserBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -5038,7 +5038,7 @@ margin_top = -8.0
 margin_right = 576.0
 margin_bottom = 48.0
 focus_neighbour_top = NodePath("../../BackBtn")
-focus_neighbour_bottom = NodePath("../RiddlerBtn")
+focus_neighbour_bottom = NodePath("../SweeperBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -5050,7 +5050,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="RiddlerBtn" type="Button" parent="SelectGame/GameBtns"]
+[node name="SweeperBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_left = 416.0
 margin_top = 160.0
 margin_right = 576.0
@@ -5076,7 +5076,7 @@ margin_top = 76.0
 margin_right = -6.0
 margin_bottom = 98.0
 rect_min_size = Vector2( 16, 16 )
-focus_neighbour_top = NodePath("../GameBtns/RiddlerBtn")
+focus_neighbour_top = NodePath("../GameBtns/SweeperBtn")
 mouse_default_cursor_shape = 2
 texture_normal = SubResource( 195 )
 texture_hover = SubResource( 196 )
@@ -5962,9 +5962,9 @@ anims/RESET = SubResource( 155 )
 anims/about = SubResource( 137 )
 anims/highscores = SubResource( 141 )
 anims/play_game = SubResource( 138 )
-anims/play_riddler_level = SubResource( 276 )
+anims/play_level = SubResource( 276 )
 anims/select_game = SubResource( 142 )
-anims/select_riddler_level = SubResource( 275 )
+anims/select_level = SubResource( 275 )
 anims/settings = SubResource( 140 )
 
 [connection signal="finished_playing" from="IntroViewPortContainer/IntroViewport/Intro" to="." method="_on_Intro_finished_playing"]
@@ -6021,14 +6021,14 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="Highscores/EscHint/Esc/Button" to="Highscores" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="Highscores/EscHint/Select/Button" to="Highscores" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectGame/GameBtns/TutorialBtn" to="SelectGame" method="_on_TutorialBtn_pressed"]
-[connection signal="pressed" from="SelectGame/GameBtns/EraserSBtn" to="SelectGame" method="_on_EraserSBtn_pressed"]
-[connection signal="pressed" from="SelectGame/GameBtns/EraserMBtn" to="SelectGame" method="_on_EraserMBtn_pressed"]
-[connection signal="pressed" from="SelectGame/GameBtns/EraserLBtn" to="SelectGame" method="_on_EraserLBtn_pressed"]
 [connection signal="pressed" from="SelectGame/GameBtns/CleanerSBtn" to="SelectGame" method="_on_CleanerSBtn_pressed"]
 [connection signal="pressed" from="SelectGame/GameBtns/CleanerMBtn" to="SelectGame" method="_on_CleanerMBtn_pressed"]
-[connection signal="pressed" from="SelectGame/GameBtns/ScrollerBtn" to="SelectGame" method="_on_ScrollerBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GameBtns/CleanerLBtn" to="SelectGame" method="_on_CleanerLBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GameBtns/EraserBtn" to="SelectGame" method="_on_EraserBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GameBtns/HandlerBtn" to="SelectGame" method="_on_HandlerBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GameBtns/DefenderBtn" to="SelectGame" method="_on_DefenderBtn_pressed"]
 [connection signal="pressed" from="SelectGame/GameBtns/TheDuelBtn" to="SelectGame" method="_on_TheDuelBtn_pressed"]
-[connection signal="pressed" from="SelectGame/GameBtns/RiddlerBtn" to="SelectGame" method="_on_Enigma_Btn_pressed"]
+[connection signal="pressed" from="SelectGame/GameBtns/SweeperBtn" to="SelectGame" method="_on_SweeperBtn_pressed"]
 [connection signal="pressed" from="SelectGame/BackBtn" to="SelectGame" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectGame/EscHint/Esc/Button" to="SelectGame" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectGame/EscHint/Select/Button" to="SelectGame" method="_on_BackBtn_pressed"]

@@ -25,7 +25,7 @@ func _process(delta: float) -> void:
 		if Global.game_manager.game_data.has("level_goal_count"): # število točk ali barv
 			# kateri ima višji score
 			var current_biggest_score: int = 0
-			for player in get_tree().get_nodes_in_group(Global.group_players):
+			for player in Global.game_manager.current_players_in_game:
 				if player.player_stats["player_points"] > current_biggest_score:
 					current_biggest_score = player.player_stats["player_points"]
 			# razlika med limito in višjim skorom

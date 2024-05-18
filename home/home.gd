@@ -54,7 +54,7 @@ func open_from_game(from_game: int): # select_game screen ... kliče main.gd -> 
 	AudioServer.set_bus_mute(3, true)
 		
 	if from_game == Profiles.Games.SWEEPER:
-		animation_player.play("select_riddler_level")
+		animation_player.play("select_level")
 		current_screen = Screens.SELECT_LEVEL
 	else:
 		animation_player.play("select_game")
@@ -127,15 +127,15 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 			Global.grab_focus_no_sfx($Highscores/BackBtn)
 		"play_game":
 			Global.main_node.home_out()
-		"select_riddler_level":
-			if animation_reversed("select_riddler_level"):
+		"select_level":
+			if animation_reversed("select_level"):
 				current_screen = Screens.SELECT_GAME
-				Global.grab_focus_no_sfx($SelectGame/GameBtns/RiddlerBtn)
+				Global.grab_focus_no_sfx($SelectGame/GameBtns/SweeperBtn)
 				return
 			current_screen = Screens.SELECT_LEVEL
 			current_esc_hint = $SelectLevel/EscHint
 			Global.grab_focus_no_sfx($"SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/01")
-		"play_riddler_level":
+		"play_level":
 			Global.main_node.home_out()
 	
 	if current_esc_hint != null:
@@ -147,7 +147,7 @@ func animation_reversed(from_screen: String):
 	
 	if animation_player.current_animation_position == 0: # pomeni, da je animacija v rikverc končana
 		current_esc_hint.modulate.a = 0
-		if from_screen == "select_riddler_level":
+		if from_screen == "select_level":
 			pass
 		else: # odpre se main menu ekran
 			menu_in()

@@ -21,13 +21,13 @@ onready var cell_size_x: int = Global.current_tilemap.cell_size.x
 
 
 func _ready() -> void:
-	
+				
 	add_to_group(Global.group_strays)
 	randomize() # za random die animacije
 	
 	color_poly.modulate = stray_color
-	modulate.a = 0
 	position_indicator.get_node("PositionPoly").color = stray_color
+	modulate.a = 0
 	count_label.text = name
 	position_indicator.visible = false
 
@@ -44,11 +44,28 @@ func _process(delta: float) -> void:
 	
 	
 func show_stray(): # kliče GM
+
+	# zadnja varovalka, če se spawnajo en če druzga ... tukaj, ker more bit vseeno prikazan
+	for player in Global.game_manager.current_players_in_game:
+		if player.global_position == global_position:
+			print ("STUCK ON PLAYER ... KVEFING. ", global_position) 
+			yield(get_tree().create_timer(1), "timeout") # anti perma kamerašejk 
+			call_deferred("queue_free")
+			return
+	for stray in get_tree().get_nodes_in_group(Global.group_strays):
+		if stray.global_position == global_position and stray != self:
+			print ("STUCK ON STRAY ... KVEFING. ", global_position) 
+			call_deferred("queue_free")
+			return
 	
-	# žrebam animacijo
-	var random_animation_index = randi() % 3 + 1
-	var random_animation_name: String = "glitch_%s" % random_animation_index
-	animation_player.play(random_animation_name)
+	# če je pozicija res prazna						
+	if current_state == States.WALL:
+		die_to_wall()
+	else:
+		# žrebam animacijo
+		var random_animation_index = randi() % 3 + 1
+		var random_animation_name: String = "glitch_%s" % random_animation_index
+		animation_player.play(random_animation_name)
 	
 
 func die(stray_in_stack_index: int, strays_in_stack_count: int):
@@ -84,6 +101,8 @@ func die(stray_in_stack_index: int, strays_in_stack_count: int):
 
 
 func die_to_wall():
+	
+	current_state = States.WALL
 	
 	var random_animation_index = randi() % 5 + 1
 	var random_animation_name: String = "die_stray_%s" % random_animation_index
@@ -253,7 +272,16 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	var die_animations: Array = ["die_stray", "die_stray_1", "die_stray_2", "die_stray_3", "die_stray_4", "die_stray_5", ]
 	
 	if die_animations.has(anim_name):
-		if current_state == States.DYING: # če mu je namen umreti
+		if current_state == States.WALL: # če bo samo stena
+			# wall color
+			modulate.a = 1
+			color_poly.modulate = Global.color_wall_pixel
+			print ("color", color_poly.modulate, stray_color)
+			# ugasni delovanje
+			set_physics_process(false)
+			collision_shape_ext.disabled = true	
+			position_indicator.modulate.a = 0
+		else: # če mu je namen umreti
 			#			collision_shape.disabled = true
 			#			collision_shape_ext.disabled = true
 			collision_shape.set_deferred("disabled", true)
@@ -262,13 +290,3 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			Global.hud.show_color_indicator(stray_color) # če je defender se returna na fuknciji¨
 			#			queue_free()
 			call_deferred("queue_free")
-		else: # če bo samo stena
-			current_state = States.WALL
-			# wall color
-			modulate.a = 1
-			color_poly.modulate = Global.color_wall_pixel
-			# ugasni delovanje
-			set_physics_process(false)
-			collision_shape_ext.disabled = true	
-			position_indicator.modulate.a = 0
-			

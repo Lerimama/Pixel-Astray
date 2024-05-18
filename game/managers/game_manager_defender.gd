@@ -44,14 +44,15 @@ func _process(delta: float) -> void:
 	# namen: kličem stray step, čekiram zasedenost home spawn pozicij in kličem GO
 	# namen: ni preverjanja avail respawn pozicij in GO
 	
+	# all strays and players
+	current_players_in_game = get_tree().get_nodes_in_group(Global.group_players)
+		
 	if game_on:
 		# vsakič znova zajamemo vse in ji potem odštejemo trenutno zasedene
 		available_home_spawn_positions = random_spawn_positions.duplicate()
 		for stray in get_tree().get_nodes_in_group(Global.group_strays):
-			var stray_grid_position: Vector2 = stray.global_position - Vector2(cell_size_x/2, cell_size_x/2)
-			if available_home_spawn_positions.has(stray_grid_position):
-				available_home_spawn_positions.erase(stray_grid_position)
-		
+			if available_home_spawn_positions.has(stray.global_position - Vector2(cell_size_x/2, cell_size_x/2)):
+				available_home_spawn_positions.erase(stray.global_position - Vector2(cell_size_x/2, cell_size_x/2))
 		
 		if available_home_spawn_positions.empty():
 			checking_for_engine_stalled = true
@@ -71,7 +72,7 @@ func set_game():
 	
 	# player intro animacija
 	var signaling_player: KinematicBody2D
-	for player in get_tree().get_nodes_in_group(Global.group_players):
+	for player in current_players_in_game:
 		player.animation_player.play("lose_white_on_start")
 #		player.animation_player.play_backwards("lose_white_on_start")
 		signaling_player = player # da se zgodi na obeh plejerjih istočasno
@@ -90,7 +91,7 @@ func start_game():
 	Global.hud.game_timer.start_timer()
 	Global.sound_manager.play_music("game_music")
 	
-	for player in get_tree().get_nodes_in_group(Global.group_players):
+	for player in current_players_in_game:
 		player.set_physics_process(true)
 	
 	yield(get_tree().create_timer(2), "timeout") # čaka na hudov slide in
@@ -241,11 +242,8 @@ func stray_step():
 		stepping_direction = Vector2.DOWN # kasneje se seta glede na  izvorno stray straysa
 		# kdo stepa, kličem step in preverim kolajderja 
 		for stray in get_tree().get_nodes_in_group(Global.group_strays):
-			
 #			yield(get_tree().create_timer(0), "timeout")
-			
 			if not wall_strays.has(stray): # če stray ni del stene
-#				var current_collider = stray.step(stepping_direction)
 				var current_collider = stray.call_deferred("step", stepping_direction)
 				if current_collider:
 					check_stray_wall_collisions(stray, current_collider) # brez povezanosti na robu
@@ -290,28 +288,35 @@ func upgrade_stage():
 
 
 func upgrade_level(level_upgrade_reason: String):
+	# namen: zaporedje, respawn ven, set strays ven, ker jih spawna s stepanjem
 	
 	if level_upgrade_in_progress:
 		return
 	level_upgrade_in_progress = true
+	randomize()
 	
 	current_level += 1 # številka novega levela 
 	current_stage = 0 # ker se šteje pobite strayse je na začetku 0
 	lines_scrolled_count = 0
 	set_new_level() 
-	Global.hud.empty_color_indicators() # novi indkatorji
 	set_level_colors()
 	
 	if not current_level == 1:
+		#reset players
 		Global.hud.level_up_popup_in(current_level)
-		for player in get_tree().get_nodes_in_group(Global.group_players):
-			while not player.cocked_ghosts.empty():
-				var ghost = player.cocked_ghosts.pop_back()
-				ghost.queue_free()		
+		for player in current_players_in_game:
+			player.end_move()		
+			if level_upgrade_reason == "cleaned":
+				player.screen_cleaned()
+		Global.hud.empty_color_indicators() # novi indkatorji
+		get_tree().call_group(Global.group_players, "set_physics_process", false)
 		clean_strays_in_game() # puca vse v igri
 		yield(self, "all_strays_died") # ko so vsi iz igre grem naprej
+		
 		Global.hud.level_up_popup_out()
-	
+		set_strays() 
+		get_tree().call_group(Global.group_players, "set_physics_process", true)	
+
 	level_upgrade_in_progress = false		
 
 
@@ -368,14 +373,12 @@ func set_level_colors():
 func clean_strays_in_game():
 	# namen: dodan brisanje wall_strays arraya ... lahko bi poenotil
 	
-	var all_strays_alive: Array = get_tree().get_nodes_in_group(Global.group_strays)
-	
-	for stray in all_strays_alive:
+	for stray in get_tree().get_nodes_in_group(Global.group_strays):
 		if wall_strays.has(stray):
 			wall_strays.erase(stray)
 		
-		var stray_index: int = all_strays_alive.find(stray)
-		stray.die(stray_index, all_strays_alive.size())
+		var stray_index: int = get_tree().get_nodes_in_group(Global.group_strays).find(stray)
+		stray.die(stray_index, get_tree().get_nodes_in_group(Global.group_strays).size())
 	
 	all_strays_died_alowed = true
 	
@@ -390,13 +393,3 @@ func check_stray_wall_collisions(current_stray: KinematicBody2D, current_collide
 	elif current_collider.is_in_group(Global.group_strays) and wall_strays.has(current_collider):
 		wall_strays.append(current_stray)
 		current_stray.die_to_wall()
-			
-			
-func _change_strays_in_game_count(strays_count_change: int):
-	# namen: brez CLEANED GO
-	
-	strays_in_game_count += strays_count_change # in_game št. upošteva spawnanje in čiščenje (+ in -)
-	strays_in_game_count = clamp(0, strays_in_game_count, strays_in_game_count)
-	
-	if strays_count_change < 0: # cleaned št. upošteva samo čiščenje (+)
-		strays_cleaned_count += abs(strays_count_change)

@@ -2,8 +2,8 @@ extends GameOver
 
 
 onready var timeup_label: Label = $GameoverTitle/ReasonTime/TimeupLabel
-onready var sweeper_game_summary: Control = $RiddlerGameSummary
-onready var sweeper_highscore_table: VBoxContainer = $RiddlerGameSummary/HighscoreTable
+onready var sweeper_game_summary: Control = $SweeperGameSummary
+onready var sweeper_highscore_table: VBoxContainer = $SweeperGameSummary/HighscoreTable
 
 var sweeper_solved: bool = false				
 				

@@ -125,9 +125,10 @@ var game_data_eraser: Dictionary = {
 	"level_goal_count": 30, # prvi level
 	"level_goal_count_grow": 320, # prištejem najvišjemu rezultatu
 	"strays_start_count_grow": 5, # prištejem
-	#
 	"respawn_wait_time_factor": 0.7, # množim
 	"respawn_strays_count_grow": 1, # prištejem
+	# ne rabim pri tej igri
+	"spawn_white_stray_part_factor": 0, # množim
 }
 var game_data_handler: Dictionary = { 
 	"game": Games.HANDLER,
@@ -198,41 +199,41 @@ var game_data_sweeper: Dictionary = {
 }
 var sweeper_level_setting: Dictionary = { 
 	1: { # ključ je tudi številka levela
-		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_riddler_01.tscn",
+		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
 	},
 	2: {
-		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_riddler_02.tscn",
+		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_02.tscn",
 	},
 	3: {
-		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_riddler_03.tscn",
+		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_03.tscn",
 	},
 	4: {
-		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_riddler_04.tscn",
+		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_04.tscn",
 	},
 	5: {
-		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_riddler_05.tscn",
+		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_05.tscn",
 	},
 	6: {
-		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_riddler_06.tscn",
+		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_06.tscn",
 	},
 	7: {
-		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_riddler_07.tscn",
+		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_07.tscn",
 	},
 	8: {
-		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_riddler_08.tscn",
+		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_08.tscn",
 	},
 	9: {
-		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_riddler_09.tscn",
+		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_09.tscn",
 	},
 	
 	10: {
-		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_riddler_S.tscn",
+		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_S.tscn",
 	},
 	11: {
-		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_riddler_M.tscn",
+		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_M.tscn",
 	},
 	12: {
-		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_riddler_L.tscn",
+		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_L.tscn",
 	},
 }
 var game_data_showcase: Dictionary = {
@@ -260,12 +261,12 @@ func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE
-#	var debug_game = Games.TUTORIAL
+	var debug_game = Games.TUTORIAL
 #	var debug_game = Games.CLEANER_S
 #	var debug_game = Games.CLEANER_M
 #	var debug_game = Games.CLEANER_L
 #	var debug_game = Games.DEFENDER
-	var debug_game = Games.ERASER
+#	var debug_game = Games.ERASER
 #	var debug_game = Games.HANDLER
 #	var debug_game = Games.THE_DUEL
 #	var debug_game = Games.SWEEPER

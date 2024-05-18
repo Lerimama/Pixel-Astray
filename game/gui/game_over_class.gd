@@ -66,7 +66,7 @@ func _ready() -> void:
 func open_gameover(gameover_reason: int):
 	
 	current_gameover_reason = gameover_reason
-	players_in_game = get_tree().get_nodes_in_group(Global.group_players)
+	players_in_game = Global.game_manager.current_players_in_game
 	
 	p1_final_stats = players_in_game[0].player_stats
 	

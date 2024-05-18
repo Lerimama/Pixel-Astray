@@ -51,31 +51,31 @@ func set_btn_tilemap(btn: Button):
 		var tilemap_position_adapt: float
 		match btn.name:
 			"01":
-				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_riddler_01.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn")
 				tilemap_position_adapt = 0
 			"02":
-				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_riddler_02.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_02.tscn")
 				tilemap_position_adapt = 0
 			"03":
-				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_riddler_03.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_03.tscn")
 				tilemap_position_adapt = 0
 			"04":
-				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_riddler_04.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_04.tscn")
 				tilemap_position_adapt = 2
 			"05":
-				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_riddler_05.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_05.tscn")
 				tilemap_position_adapt = 2
 			"06":
-				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_riddler_06.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_06.tscn")
 				tilemap_position_adapt = 2
 			"07":
-				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_riddler_07.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_07.tscn")
 				tilemap_position_adapt = 2
 			"08":
-				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_riddler_08.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_08.tscn")
 				tilemap_position_adapt = 2
 			"09":
-				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_riddler_09.tscn")
+				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_09.tscn")
 				tilemap_position_adapt = 2
 
 		var tilemap_scale_div: float = 8
@@ -111,14 +111,14 @@ func play_selected_level(selected_level: int):
 	Profiles.game_data_sweeper["level"] = selected_level
 #	Profiles.current_game_data["level"] = selected_level
 	Global.sound_manager.play_gui_sfx("menu_fade")
-	animation_player.play("play_riddler_level")
+	animation_player.play("play_level")
 	get_viewport().set_disable_input(true)
 
 			
 func _on_BackBtn_pressed() -> void:
 	
 	Global.sound_manager.play_gui_sfx("screen_slide")
-	animation_player.play_backwards("select_riddler_level")
+	animation_player.play_backwards("select_level")
 	get_viewport().set_disable_input(true)
 
 

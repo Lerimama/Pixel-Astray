@@ -984,6 +984,7 @@ theme = ExtResource( 7 )
 text = "00"
 align = 1
 
+[connection signal="tree_exited" from="." to="." method="_on_Stray_tree_exited"]
 [connection signal="viewport_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_viewport_entered"]
 [connection signal="viewport_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_viewport_exited"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

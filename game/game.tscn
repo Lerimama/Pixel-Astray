@@ -1717,12 +1717,12 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 text = "PLAY AGAIN"
 
-[node name="RiddlerGameSummary" type="Control" parent="GUI/GameOver"]
+[node name="SweeperGameSummary" type="Control" parent="GUI/GameOver"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="Title" type="Label" parent="GUI/GameOver/RiddlerGameSummary"]
+[node name="Title" type="Label" parent="GUI/GameOver/SweeperGameSummary"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1735,7 +1735,7 @@ custom_colors/font_color = Color( 0.952941, 0.356863, 0.498039, 1 )
 custom_fonts/font = ExtResource( 14 )
 text = "GAME SUMMARY"
 
-[node name="DataContainer" type="VBoxContainer" parent="GUI/GameOver/RiddlerGameSummary"]
+[node name="DataContainer" type="VBoxContainer" parent="GUI/GameOver/SweeperGameSummary"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1749,7 +1749,7 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Game" type="Label" parent="GUI/GameOver/RiddlerGameSummary/DataContainer"]
+[node name="Game" type="Label" parent="GUI/GameOver/SweeperGameSummary/DataContainer"]
 margin_right = 223.0
 margin_bottom = 18.0
 custom_fonts/font = ExtResource( 2 )
@@ -1759,7 +1759,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Level" type="Label" parent="GUI/GameOver/RiddlerGameSummary/DataContainer"]
+[node name="Level" type="Label" parent="GUI/GameOver/SweeperGameSummary/DataContainer"]
 margin_top = 32.0
 margin_right = 223.0
 margin_bottom = 50.0
@@ -1770,7 +1770,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="AstrayPixels" type="Label" parent="GUI/GameOver/RiddlerGameSummary/DataContainer"]
+[node name="AstrayPixels" type="Label" parent="GUI/GameOver/SweeperGameSummary/DataContainer"]
 margin_top = 64.0
 margin_right = 223.0
 margin_bottom = 82.0
@@ -1781,9 +1781,9 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="HighscoreTable" parent="GUI/GameOver/RiddlerGameSummary" instance=ExtResource( 7 )]
+[node name="HighscoreTable" parent="GUI/GameOver/SweeperGameSummary" instance=ExtResource( 7 )]
 
-[node name="Menu" type="HBoxContainer" parent="GUI/GameOver/RiddlerGameSummary"]
+[node name="Menu" type="HBoxContainer" parent="GUI/GameOver/SweeperGameSummary"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1798,14 +1798,14 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="QuitBtn" type="Button" parent="GUI/GameOver/RiddlerGameSummary/Menu"]
+[node name="QuitBtn" type="Button" parent="GUI/GameOver/SweeperGameSummary/Menu"]
 margin_right = 160.0
 margin_bottom = 22.0
 mouse_default_cursor_shape = 2
 size_flags_vertical = 8
 text = "QUIT TO MENU"
 
-[node name="RestartBtn" type="Button" parent="GUI/GameOver/RiddlerGameSummary/Menu"]
+[node name="RestartBtn" type="Button" parent="GUI/GameOver/SweeperGameSummary/Menu"]
 margin_left = 192.0
 margin_right = 324.0
 margin_bottom = 22.0
@@ -1813,7 +1813,7 @@ mouse_default_cursor_shape = 2
 size_flags_vertical = 8
 text = "PLAY AGAIN"
 
-[node name="NextLevelBtn" type="Button" parent="GUI/GameOver/RiddlerGameSummary/Menu"]
+[node name="NextLevelBtn" type="Button" parent="GUI/GameOver/SweeperGameSummary/Menu"]
 margin_left = 356.0
 margin_right = 492.0
 margin_bottom = 22.0
@@ -1821,7 +1821,7 @@ mouse_default_cursor_shape = 2
 size_flags_vertical = 8
 text = "NEXT LEVEL"
 
-[node name="ExitGameBtn" type="Button" parent="GUI/GameOver/RiddlerGameSummary/Menu"]
+[node name="ExitGameBtn" type="Button" parent="GUI/GameOver/SweeperGameSummary/Menu"]
 visible = false
 margin_left = 524.0
 margin_right = 646.0
@@ -1935,10 +1935,10 @@ one_shot = true
 [connection signal="pressed" from="GUI/GameOver/GameSummary/NoHS/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/GameSummary/WithHS/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
 [connection signal="pressed" from="GUI/GameOver/GameSummary/WithHS/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
-[connection signal="pressed" from="GUI/GameOver/RiddlerGameSummary/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
-[connection signal="pressed" from="GUI/GameOver/RiddlerGameSummary/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
-[connection signal="pressed" from="GUI/GameOver/RiddlerGameSummary/Menu/NextLevelBtn" to="GUI/GameOver" method="_on_NextLevelBtn_pressed"]
-[connection signal="pressed" from="GUI/GameOver/RiddlerGameSummary/Menu/ExitGameBtn" to="GUI/GameOver" method="_on_ExitGameBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/SweeperGameSummary/Menu/QuitBtn" to="GUI/GameOver" method="_on_QuitBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/SweeperGameSummary/Menu/RestartBtn" to="GUI/GameOver" method="_on_RestartBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/SweeperGameSummary/Menu/NextLevelBtn" to="GUI/GameOver" method="_on_NextLevelBtn_pressed"]
+[connection signal="pressed" from="GUI/GameOver/SweeperGameSummary/Menu/ExitGameBtn" to="GUI/GameOver" method="_on_ExitGameBtn_pressed"]
 [connection signal="text_changed" from="GUI/GameOver/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_NameEdit_text_changed"]
 [connection signal="text_entered" from="GUI/GameOver/NameInputPopup/NameInput" to="GUI/GameOver" method="_on_PopupNameEdit_text_entered"]
 [connection signal="pressed" from="GUI/GameOver/NameInputPopup/HBoxContainer/CancelBtn" to="GUI/GameOver" method="_on_CancelBtn_pressed"]

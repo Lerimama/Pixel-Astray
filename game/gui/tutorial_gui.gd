@@ -88,10 +88,12 @@ func start_tutorial():
 	Global.hud.game_timer.start_timer()
 	Global.game_manager.game_on = true
 	
-	for player in get_tree().get_nodes_in_group(Global.group_players):
+	for player in Global.game_manager.current_players_in_game:
 		Global.game_camera.camera_target = player
 		
 	open_stage(traveling_content)
+
+#	Global.game_manager.set_strays()
 	
 	var show_controls = get_tree().create_tween()
 	show_controls.tween_callback(controls, "show")
@@ -196,11 +198,11 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			current_tutorial_stage = TutorialStage.MISSION
 		"tutorial_start":
 			var show_player = get_tree().create_tween()
-			for player in get_tree().get_nodes_in_group(Global.group_players):
+			for player in Global.game_manager.current_players_in_game:
 				show_player.tween_property(player, "modulate", Color.white, 0.5)
 			
 			var signaling_player: KinematicBody2D
-			for player in get_tree().get_nodes_in_group(Global.group_players):
+			for player in Global.game_manager.current_players_in_game:
 				player.animation_player.play("lose_white_on_start")
 				signaling_player = player # da se zgodi na obeh plejerjih istočasno
 			yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije

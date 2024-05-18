@@ -13,9 +13,10 @@ var level_upgrade_in_progress: bool = false # ustavim klicanje naslednjih levelo
 var spawned_player_index: int = 0
 var player_start_positions: Array
 var start_players_count: int
+var current_players_in_game: Array # nabira se v FP
 
 # strays
-var strays_shown: Array = []
+var strays_visible: Array = []
 var strays_in_game_count: int setget _change_strays_in_game_count # spremlja spremembo količine aktivnih in uničenih straysov
 var strays_cleaned_count: int = 0 # za statistiko na hudu
 var all_strays_died_alowed: bool = false # za omejevanje signala iz FP ... kdaj lahko reagira na 0 straysov v igri
@@ -71,7 +72,11 @@ func _ready() -> void:
 		
 
 func _process(delta: float) -> void:
+	
+	# all strays and players
+	current_players_in_game = get_tree().get_nodes_in_group(Global.group_players)
 
+	# pixel count
 	var wall_strays_count: int = 0
 	for stray in get_tree().get_nodes_in_group(Global.group_strays):
 		if stray.current_state == stray.States.WALL:
@@ -87,6 +92,15 @@ func _process(delta: float) -> void:
 			all_strays_died_alowed = false
 			emit_signal("all_strays_died")
 	
+	# skos apdejtam pozicije na voljo
+	available_respawn_positions = Global.current_tilemap.floor_global_positions.duplicate() # vsa tla
+	for stray in get_tree().get_nodes_in_group(Global.group_strays):
+		if available_respawn_positions.has(stray.global_position - Vector2(cell_size_x/2, cell_size_x/2)):
+			available_respawn_positions.erase(stray.global_position - Vector2(cell_size_x/2, cell_size_x/2))
+	for player in current_players_in_game:
+		if available_respawn_positions.has(player.global_position - Vector2(cell_size_x/2, cell_size_x/2)):
+			available_respawn_positions.erase(player.global_position - Vector2(cell_size_x/2, cell_size_x/2))
+
 	# position indicators
 	if game_on:
 		if Global.strays_on_screen.size() <= show_position_indicators_limit and game_settings["position_indicators_on"]:
@@ -96,13 +110,7 @@ func _process(delta: float) -> void:
 	else:
 		show_position_indicators_limit_reached = false
 
-	# skos apdejtam pozicije na voljo
-	available_respawn_positions = Global.current_tilemap.floor_global_positions.duplicate() # vsa tla
-	for stray in get_tree().get_nodes_in_group(Global.group_strays):
-		var stray_grid_position: Vector2 = stray.global_position - Vector2(cell_size_x/2, cell_size_x/2)
-		if available_respawn_positions.has(stray_grid_position):
-			available_respawn_positions.erase(stray_grid_position)
-
+	
 
 
 # GAME SETUP --------------------------------------------------------------------------------------
@@ -156,7 +164,7 @@ func set_game():
 
 	# player intro animacija
 	var signaling_player: KinematicBody2D
-	for player in get_tree().get_nodes_in_group(Global.group_players):
+	for player in current_players_in_game:
 		player.animation_player.play("lose_white_on_start")
 		signaling_player = player # da se zgodi na obeh plejerjih istočasno
 	yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
@@ -178,7 +186,7 @@ func start_game():
 	Global.hud.game_timer.start_timer()
 	Global.sound_manager.play_music("game_music")
 	
-	for player in get_tree().get_nodes_in_group(Global.group_players):
+	for player in current_players_in_game:
 		if not game_settings ["zoom_to_level_size"]:
 			Global.game_camera.camera_target = player
 		player.set_physics_process(true)
@@ -199,7 +207,7 @@ func game_over(gameover_reason: int):
 			all_strays_died_alowed = true
 			yield(self, "all_strays_died")
 			var signaling_player: KinematicBody2D
-			for player in get_tree().get_nodes_in_group(Global.group_players):
+			for player in current_players_in_game:
 				player.screen_cleaned()
 				player.set_physics_process(false)
 				signaling_player = player
@@ -217,7 +225,7 @@ func game_over(gameover_reason: int):
 		all_strays_died_alowed = true
 		yield(self, "all_strays_died")
 		var signaling_player: KinematicBody2D
-		for player in get_tree().get_nodes_in_group(Global.group_players):
+		for player in current_players_in_game:
 			player.screen_cleaned()
 			signaling_player = player
 		yield(signaling_player, "rewarded_on_cleaned")
@@ -233,10 +241,8 @@ func stop_game_elements():
 	# včasih nujno
 	
 	Global.hud.popups_out()
-	for player in get_tree().get_nodes_in_group(Global.group_players):
-		#		while not player.cocked_ghosts.empty():
-		#			var ghost = player.cocked_ghosts.pop_back()
-		#			ghost.queue_free()
+	for player in current_players_in_game:
+		player.end_move()
 		player.stop_sound("teleport")
 		player.stop_sound("heartbeat")
 
@@ -283,12 +289,12 @@ func set_strays():
 	yield(get_tree().create_timer(0.01), "timeout") # da se vsi straysi spawnajo
 	
 	var show_strays_loop: int = 0
-	while strays_shown.size() < start_strays_spawn_count:
+	while strays_visible.size() < start_strays_spawn_count:
 		show_strays_loop += 1 # zazih
 		show_strays_on_start(show_strays_loop)
 		yield(get_tree().create_timer(0.1), "timeout")
 	
-	strays_shown.clear() # resetiram, da je mogoč in-game spawn
+	strays_visible.clear() # resetiram, da je mogoč in-game spawn
 
 
 func spawn_strays(strays_to_spawn_count: int):
@@ -342,7 +348,7 @@ func spawn_strays(strays_to_spawn_count: int):
 				return
 		
 		# odstranim pozicije plejerjev ... zazih
-		for player in get_tree().get_nodes_in_group(Global.group_players):
+		for player in current_players_in_game:
 			if current_spawn_positions.has(player.global_position):
 				current_spawn_positions.erase(player.global_position)
 
@@ -354,34 +360,37 @@ func spawn_strays(strays_to_spawn_count: int):
 		# spawn
 		var new_stray_pixel = StrayPixel.instance()
 		new_stray_pixel.name = "S%s" % str(stray_index)
-		
-		# wall spawn pozicije
-		var spawn_white_start_limit: int = strays_to_spawn_count - round(strays_to_spawn_count * spawn_white_stray_part)
-		# obvezni beli
-		if wall_spawn_positions.has(selected_position):
-			new_stray_pixel.current_state = new_stray_pixel.States.WALL
-			new_stray_pixel.stray_color = Global.color_wall_pixel
-			# za vsakega belega na obveznem mestu, znižam delež random spawnanih belih za naprej
-			spawn_white_start_limit += 1 # dvignem mejo, ko začnem spawnat random bele
-			printt(stray_index, spawn_white_start_limit)
-		# normalne spawn pozicije (random wall/normal)
-		else:
-			if stray_index < spawn_white_start_limit:
-				# najprej spawnam barve
-				new_stray_pixel.stray_color = current_color
-			else:
-				new_stray_pixel.current_state = new_stray_pixel.States.WALL
-				new_stray_pixel.stray_color = Global.color_wall_pixel
-		
+		new_stray_pixel.stray_color = current_color
 		new_stray_pixel.global_position = selected_position + Vector2(cell_size_x/2, cell_size_x/2) # dodana adaptacija zaradi središča pixla
 		new_stray_pixel.z_index = 2 # višje od plejerja
 		Global.node_creation_parent.call_deferred("add_child", new_stray_pixel)
 	
+		# beli ali barvni?
+		if wall_spawn_positions.has(selected_position):
+			new_stray_pixel.current_state = new_stray_pixel.States.WALL
+		# normalne spawn pozicije (random wall/normal)
+		else:
+			var spawn_white_start_limit: int = strays_to_spawn_count - round(strays_to_spawn_count * spawn_white_stray_part)
+			if stray_index > spawn_white_start_limit:
+				new_stray_pixel.current_state = new_stray_pixel.States.WALL
+		
 		all_stray_colors.append(current_color)
 		current_spawn_positions.remove(selected_cell_index) # odstranim pozicijo iz nabora za start spawn
-			
 		new_stray_pixel.call_deferred("show_stray")
 			
+#
+#		if wall_spawn_positions.has(selected_position):
+#			new_stray_pixel.call_deferred("die_to_wall")
+#			# za vsakega belega na obveznem mestu, znižam delež random spawnanih belih za naprej
+#			spawn_white_start_limit += 1 # dvignem mejo, ko začnem spawnat random bele
+#		# normalne spawn pozicije (random wall/normal)
+#		else:
+#			if stray_index > spawn_white_start_limit:
+#				new_stray_pixel.call_deferred("die_to_wall")
+##				new_stray_pixel.current_state = new_stray_pixel.States.WALL
+##				new_stray_pixel.stray_color = Global.color_wall_pixel		
+#			else:
+#				new_stray_pixel.call_deferred("show_stray")
 			
 	Global.hud.spawn_color_indicators(all_stray_colors) # barve pokažem v hudu		
 	self.strays_in_game_count = strays_to_spawn_count # setget sprememba
@@ -409,15 +418,14 @@ func show_strays_on_start(show_strays_loop: int):
 			Global.sound_manager.play_sfx("thunder_strike")
 			strays_to_show_count = round(strays_in_game_count/2)
 		5: # še preostale
-			strays_to_show_count = strays_in_game_count - strays_shown.size()
+			strays_to_show_count = strays_in_game_count - strays_visible.size()
 	
 	# stray fade-in
-	var spawned_strays = get_tree().get_nodes_in_group(Global.group_strays)
 	var loop_count = 0
-	for stray in spawned_strays:
-		if not strays_shown.has(stray): # če stray še ni pokazan, ga pokažem in dodam med pokazane
+	for stray in get_tree().get_nodes_in_group(Global.group_strays): # nujno jih ponovno zajamem
+		if not strays_visible.has(stray): # če stray še ni pokazan, ga pokažem in dodam med pokazane
 			stray.show_stray()
-			strays_shown.append(stray)
+			strays_visible.append(stray)
 			loop_count += 1 # štejem tukaj, ker se šteje samo če se pixel pokaže
 		if loop_count >= strays_to_show_count:
 			break
@@ -432,7 +440,7 @@ func respawn_strays():
 			return
 			
 		# odstranim pozicije plejerjev ... zazih
-		for player in get_tree().get_nodes_in_group(Global.group_players):
+		for player in current_players_in_game:
 			if available_respawn_positions.has(player.global_position):
 				available_respawn_positions.erase(player.global_position)
 				
@@ -467,10 +475,9 @@ func respawn_strays():
 	
 func clean_strays_in_game():
 	
-	var all_strays_alive: Array = get_tree().get_nodes_in_group(Global.group_strays)
-	for stray in all_strays_alive:
-		var stray_index: int = all_strays_alive.find(stray)# + 1
-		stray.die(stray_index, all_strays_alive.size())
+	for stray in get_tree().get_nodes_in_group(Global.group_strays):
+		var stray_index: int = get_tree().get_nodes_in_group(Global.group_strays).find(stray)
+		stray.die(stray_index, get_tree().get_nodes_in_group(Global.group_strays).size())
 	
 	all_strays_died_alowed = true
 
@@ -485,12 +492,9 @@ func turn_random_strays_to_white():
 		var stray_to_tile_position: Vector2 = stray.global_position + Vector2(cell_size_x/2, cell_size_x/2)
 		if stray.current_state == stray.States.WALL and not dont_turn_to_wall_positions.has(stray_to_tile_position):
 			wall_strays_alive.append(stray)
-		else:
-			pass
 	var strays_not_walls_count: int = get_tree().get_nodes_in_group(Global.group_strays).size() - wall_strays_alive.size()
-				
-	var random_stray_index: int = randi() % int(strays_not_walls_count)
 	
+	var random_stray_index: int = randi() % int(strays_not_walls_count)
 	if get_tree().get_nodes_in_group(Global.group_strays).size() > random_stray_index: # error prevent
 		var random_stray: KinematicBody2D = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_index]
 		random_stray.die_to_wall()
@@ -510,7 +514,7 @@ func _change_strays_in_game_count(strays_count_change: int):
 	if game_data.has("level") and not game_data["game"] == Profiles.Games.SWEEPER: # multi level game
 		# naberem število sten
 		var wall_strays_count: int = 0
-		for stray in get_tree().get_nodes_in_group(Global.group_strays):
+		for stray in get_tree().get_nodes_in_group(Global.group_strays): # nujno jih ponovno zajamem
 			if stray.current_state == stray.States.WALL:
 				wall_strays_count += 1
 		# če ostajajo samo še stene ali pa ni straysa nobenega več
@@ -539,12 +543,10 @@ func upgrade_level(level_upgrade_reason: String):
 	game_data["level"] += 1 # številka novega levela 
 	respawn_timer.stop()
 	Global.hud.level_up_popup_in(game_data["level"])
-	#reset players
-	for player in get_tree().get_nodes_in_group(Global.group_players):
+	# reset players
+	for player in current_players_in_game:
 		player.end_move()
-	# set for new level
-	if level_upgrade_reason == "cleaned":
-		for player in get_tree().get_nodes_in_group(Global.group_players):
+		if level_upgrade_reason == "cleaned":
 			player.screen_cleaned()
 	Global.hud.empty_color_indicators()
 	get_tree().call_group(Global.group_players, "set_physics_process", false)
@@ -569,7 +571,7 @@ func set_new_level():
 	respawn_strays_count = game_data["respawn_strays_count_grow"]
 	# level goal count
 	var higher_player_score: int = 0
-	for player in get_tree().get_nodes_in_group(Global.group_players):
+	for player in current_players_in_game:
 		if player.player_stats["player_points"] > higher_player_score:
 			higher_player_score = player.player_stats["player_points"]
 	game_data["level_goal_count"] += higher_player_score + game_data["level_goal_count_grow"]
