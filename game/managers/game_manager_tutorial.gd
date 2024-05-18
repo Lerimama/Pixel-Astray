@@ -48,13 +48,59 @@ func set_players():
 		# pregame setup
 		new_player_pixel.set_physics_process(false)
 		new_player_pixel.player_camera = Global.game_camera
-			
+
+
+func upgrade_level(level_upgrade_reason: String):
+	# namen: level = tutorial stage
 	
+	print ("level_up")
+	if level_upgrade_in_progress:
+		return
+	level_upgrade_in_progress = true	
+	
+	if Global.tutorial_gui.current_tutorial_stage == Global.tutorial_gui.TutorialStage.COLLECT:
+		print ("burst end", Global.tutorial_gui.current_tutorial_stage)
+		Global.tutorial_gui.finish_collect()	
+		
+	elif Global.tutorial_gui.current_tutorial_stage == Global.tutorial_gui.TutorialStage.MULTICOLLECT:
+		print ("skill end", Global.tutorial_gui.current_tutorial_stage)
+		Global.tutorial_gui.finish_multicollect()
+		
+	# reset players
+	for player in Global.game_manager.current_players_in_game:
+		player.end_move()
+	Global.hud.empty_color_indicators()
+	get_tree().call_group(Global.group_players, "set_physics_process", false)
+	
+	# start new level
+	Global.game_manager.set_strays() 
+	get_tree().call_group(Global.group_players, "set_physics_process", true)
+	
+	level_upgrade_in_progress = false
+	
+var prev_stage_stray_count: int = 0 # kar ostane od prejšnje faze ... planirano
+
 func _change_strays_in_game_count(strays_count_change: int):
-	# namen: brez CLEANED GO
+	# namen: upgrade namest GO, upoštava tiste, ki ostane os prejšne faze
 	
 	strays_in_game_count += strays_count_change # in_game št. upošteva spawnanje in čiščenje (+ in -)
 	strays_in_game_count = clamp(0, strays_in_game_count, strays_in_game_count)
 	
 	if strays_count_change < 0: # cleaned št. upošteva samo čiščenje (+)
 		strays_cleaned_count += abs(strays_count_change)
+#	if game_data.has("level") and not game_data["game"] == Profiles.Games.SWEEPER: # multi level game
+#		# naberem število sten
+#		var wall_strays_count: int = 0
+#		for stray in get_tree().get_nodes_in_group(Global.group_strays): # nujno jih ponovno zajamem
+#			if stray.current_state == stray.States.WALL:
+#				wall_strays_count += 1
+#		# če ostajajo samo še stene ali pa ni straysa nobenega več
+#		if strays_in_game_count == 0: 
+#		#		if strays_in_game_count == wall_strays_count or strays_in_game_count == 0: 
+#			upgrade_level("cleaned")
+#	else:
+	if strays_in_game_count - prev_stage_stray_count == 0: 
+		if Global.tutorial_gui.current_tutorial_stage == Global.tutorial_gui.TutorialStage.WINLOSE:
+			game_over(GameoverReason.CLEANED)
+		else:
+			upgrade_level("cleaned")

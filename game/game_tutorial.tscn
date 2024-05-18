@@ -24,7 +24,7 @@
 [ext_resource path="res://game/managers/game_manager_tutorial.gd" type="Script" id=22]
 [ext_resource path="res://game/gui/game_over_class.gd" type="Script" id=23]
 [ext_resource path="res://game/player_camera.tscn" type="PackedScene" id=24]
-[ext_resource path="res://game/hud/hud_class.gd" type="Script" id=25]
+[ext_resource path="res://game/hud/hud_tutorial.gd" type="Script" id=25]
 [ext_resource path="res://game/hud/hud_game_timer_hunds.tscn" type="PackedScene" id=26]
 
 [sub_resource type="StyleBoxFlat" id=239]

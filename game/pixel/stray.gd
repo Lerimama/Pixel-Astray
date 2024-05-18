@@ -46,17 +46,18 @@ func _process(delta: float) -> void:
 func show_stray(): # kliče GM
 
 	# zadnja varovalka, če se spawnajo en če druzga ... tukaj, ker more bit vseeno prikazan
-	for player in Global.game_manager.current_players_in_game:
-		if player.global_position == global_position:
-			print ("STUCK ON PLAYER ... KVEFING. ", global_position) 
-			yield(get_tree().create_timer(1), "timeout") # anti perma kamerašejk 
-			call_deferred("queue_free")
-			return
-	for stray in get_tree().get_nodes_in_group(Global.group_strays):
-		if stray.global_position == global_position and stray != self:
-			print ("STUCK ON STRAY ... KVEFING. ", global_position) 
-			call_deferred("queue_free")
-			return
+#	for player in Global.game_manager.current_players_in_game:
+#		if player.global_position == global_position:
+#			print ("STUCK ON PLAYER ... KVEFING. ", global_position) 
+#			yield(get_tree().create_timer(2), "timeout") # anti perma kamerašejk 
+#			call_deferred("queue_free")
+#			break
+#	for stray in get_tree().get_nodes_in_group(Global.group_strays):
+#		if stray.global_position == global_position and stray != self:
+#			print ("STUCK ON STRAY ... KVEFING. ", global_position) 
+#			yield(get_tree().create_timer(2), "timeout") # anti perma kamerašejk 
+#			call_deferred("queue_free")
+#			break
 	
 	# če je pozicija res prazna						
 	if current_state == States.WALL:
@@ -276,7 +277,6 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			# wall color
 			modulate.a = 1
 			color_poly.modulate = Global.color_wall_pixel
-			print ("color", color_poly.modulate, stray_color)
 			# ugasni delovanje
 			set_physics_process(false)
 			collision_shape_ext.disabled = true	

@@ -1,11 +1,4 @@
-#extends Control
 extends GameHud
-
-
-onready var level_up_popup: Control = $Popups/LevelUp
-onready var level_limit_holder: HBoxContainer = $Footer/FooterLine/LevelLimitHolder
-onready var level_limit_label_1: Label = $Footer/FooterLine/LevelLimitHolder/Label
-onready var level_limit_label_2: Label = $Footer/FooterLine/LevelLimitHolder/Label2
 
 
 func _process(delta: float) -> void:

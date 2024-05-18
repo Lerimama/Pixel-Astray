@@ -294,7 +294,8 @@ func set_game_data(selected_game) -> void:
 		Games.TUTORIAL: 
 			current_game_data = game_data_tutorial
 			game_settings["game_instructions_popup"] = false
-			game_settings["game_time_limit"] = 600
+			game_settings["game_time_limit"] = 0
+			game_settings["strays_start_count"] = 1
 			game_settings["lose_life_on_hit"] = false
 			game_settings["reburst_mode"] = true
 			game_settings["zoom_to_level_size"] = false

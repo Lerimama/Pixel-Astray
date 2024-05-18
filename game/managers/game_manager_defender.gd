@@ -186,7 +186,6 @@ func spawn_strays(strays_to_spawn_count: int):
 	# namen: v žrebanje vključim samo home spawn pozicije na voljo
 	# namen: ni preverjanja vseh drugih mogočih pozicij
 	# namen: preverjam GO
-	
 
 	for stray_index in strays_to_spawn_count:
 		

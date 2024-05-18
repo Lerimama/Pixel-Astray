@@ -1160,12 +1160,6 @@ func change_stat(stat_event: String, stat_value):
 			player_stats["player_energy"] += game_settings["cell_traveled_energy"]
 		"skill_used": # štetje, točke in energija kot je določeno v settingsih
 			player_stats["skill_count"] += 1
-			# tutorial
-			if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
-				match stat_value:
-					1: Global.tutorial_gui.skill_done("push")
-					2: Global.tutorial_gui.skill_done("pull")
-					3: Global.tutorial_gui.skill_done("teleport")
 		"burst_released": # štetje, točke in energija kot je določeno v settingsih
 			player_stats["burst_count"] += 1
 		# HITS ------------------------------------------------------------------------------------------------------------------
@@ -1180,10 +1174,6 @@ func change_stat(stat_event: String, stat_value):
 			player_stats["player_points"] += points_to_gain
 			player_stats["player_energy"] += energy_to_gain
 			spawn_floating_tag(points_to_gain)
-			if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL: # tutorial
-				Global.tutorial_gui.finish_bursting()
-				if stack_strays_cleaned_count >= 3:
-					Global.tutorial_gui.finish_stacking()
 		"hit_player": # točke glede na delež loserjevih točk, energija se resetira na 100%
 			var hit_player_current_points: int = stat_value
 			player_stats["player_energy"] = player_max_energy
@@ -1228,7 +1218,6 @@ func change_stat(stat_event: String, stat_value):
 			var reward_tag: Node = spawn_floating_tag(game_settings["cleaned_reward_points"])
 		"set_life_trivial":
 			player_stats["player_life"] = 1
-	
 	
 	# klempanje
 	player_stats["player_energy"] = round(player_stats["player_energy"])

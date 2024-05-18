@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "Control",
 "class": "GameHud",
 "language": "GDScript",
-"path": "res://game/hud/hud_class.gd"
+"path": "res://game/hud/hud.gd"
 }, {
 "base": "Node",
 "class": "GameManager",

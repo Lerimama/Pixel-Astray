@@ -1,24 +1,23 @@
 extends Control
 
 
-enum TutorialStage {MISSION = 1, TRAVELING, BURSTING, SKILLING, STACKING, WINLOSE}
+enum TutorialStage {MISSION = 1, TRAVEL, COLLECT, MULTICOLLECT, SKILLS, WINLOSE}
 var current_tutorial_stage: int
 
 var tutorial_finished: bool = false
 
 # za beleženje vmesnih rezultatov
 var traveling_directions: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
-var all_skills: Array = ["push", "pull"] #, "teleport"]
 
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var hud_guide: Control = $HudGuide
 onready var mission_panel: Control = $MissionPanel
 onready var controls: Control = $Controls
 onready var checkpoints: Control = $Checkpoints
-onready var traveling_content: Control = $Checkpoints/TravelingContent
-onready var bursting_content: Control = $Checkpoints/BurstingContent
-onready var skilling_content: Control = $Checkpoints/SkillingContent
-onready var stacking_content: Control = $Checkpoints/StackingContent
+onready var travel_content: Control = $Checkpoints/TravelingContent
+onready var collect_content: Control = $Checkpoints/BurstingContent
+onready var multicollect_content: Control = $Checkpoints/SkillingContent
+onready var skills_content: Control = $Checkpoints/StackingContent
 onready var winlose_content: Control = $Checkpoints/WinLoseContent
 
 
@@ -33,7 +32,7 @@ func _input(event: InputEvent) -> void:
 			Global.sound_manager.play_music("game_music")
 			Global.sound_manager.skip_track() # skipa prvi komad in zapleja drugega
 			
-	elif current_tutorial_stage == TutorialStage.TRAVELING:
+	elif current_tutorial_stage == TutorialStage.TRAVEL:
 		if Input.is_action_pressed("ui_up"):
 			traveling_directions.erase(Vector2.UP)
 		elif Input.is_action_pressed("ui_down"):
@@ -44,7 +43,7 @@ func _input(event: InputEvent) -> void:
 			traveling_directions.erase(Vector2.RIGHT)
 		
 		if traveling_directions.empty():
-			finish_traveling()	
+			finish_travel()	
 			
 	
 func _ready() -> void:
@@ -56,23 +55,24 @@ func _ready() -> void:
 	hud_guide.visible = true
 	hud_guide.modulate.a = 0
 		
-	traveling_content.visible = false
-	bursting_content.visible = false
-	skilling_content.visible = false
-	stacking_content.visible = false
+	travel_content.visible = false
+	collect_content.visible = false
+	multicollect_content.visible = false
+	skills_content.visible = false
 	winlose_content.visible = false
 
 
 func _process(delta: float) -> void:
 	
-	if Global.game_manager.strays_in_game_count == 0 and not tutorial_finished:
-		if current_tutorial_stage > 3 and current_tutorial_stage < 6: # spucano v skilling or stacking 
-			tutorial_finished = true
-			finish_unfinished_tutorial()
-		elif current_tutorial_stage == 6: # spucano v winlose
-			tutorial_finished = true
-			finish_tutorial()
-
+	# preverjam prisotnost belega
+	if current_tutorial_stage == TutorialStage.SKILLS:
+		var wall_stray: KinematicBody2D
+		for stray in get_tree().get_nodes_in_group(Global.group_strays):
+			if stray.current_state == stray.States.WALL:
+				wall_stray = stray
+		if not wall_stray:
+			finish_skills()
+	
 
 func open_tutorial(): # kliče se z GM
 	
@@ -81,9 +81,23 @@ func open_tutorial(): # kliče se z GM
 	animation_player.play("mission_in")
 	
 
-func start_tutorial():
+func start_travel():
+	# spawn wall
 
-	current_tutorial_stage = TutorialStage.TRAVELING
+	var show_player = get_tree().create_tween()
+	for player in Global.game_manager.current_players_in_game:
+		show_player.tween_property(player, "modulate", Color.white, 0.5)
+	
+	# na začetku spawnam enega belega
+	Global.game_manager.set_strays()
+	
+	var signaling_player: KinematicBody2D
+	for player in Global.game_manager.current_players_in_game:
+		player.animation_player.play("lose_white_on_start")
+		signaling_player = player # da se zgodi na obeh plejerjih istočasno
+	yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
+	
+	current_tutorial_stage = TutorialStage.TRAVEL
 	
 	Global.hud.game_timer.start_timer()
 	Global.game_manager.game_on = true
@@ -91,10 +105,8 @@ func start_tutorial():
 	for player in Global.game_manager.current_players_in_game:
 		Global.game_camera.camera_target = player
 		
-	open_stage(traveling_content)
+	open_stage(travel_content)
 
-#	Global.game_manager.set_strays()
-	
 	var show_controls = get_tree().create_tween()
 	show_controls.tween_callback(controls, "show")
 	show_controls.tween_property(controls, "modulate:a", 1, 0.5).from(0.0).set_ease(Tween.EASE_IN)	
@@ -105,33 +117,57 @@ func start_tutorial():
 # STAGES ------------------------------------------------------------------------------------------------------------------	
 
 
-func finish_traveling():
-	if not current_tutorial_stage == TutorialStage.TRAVELING:
+func finish_travel(): 
+	# kliče _input()
+	# ko uporabi vse 4 smeri premikanja
+	# naslednji spawn je ena barva (na obvezno celico)
+	
+	if not current_tutorial_stage == TutorialStage.TRAVEL:
 		return	
-	change_stage(traveling_content, bursting_content, TutorialStage.BURSTING)
+	Global.game_manager.upgrade_level("cleaned")
+	# setam naslednjo fazo
+	Global.game_manager.start_strays_spawn_count = 1
+	Global.game_manager.prev_stage_stray_count = 1
+	change_stage(travel_content, collect_content, TutorialStage.COLLECT)
 	
-	yield(get_tree().create_timer(2), "timeout")
-	Global.game_manager.set_strays()
+		
+func finish_collect(): 
+	# kliče GM upgrade_level()
+	# ko pobere edino barvo, 
+	# 1 white ostaja
+	# naslednji spawn je stack barv (na obvezne celice)
 	
-	
-func finish_bursting():
-	if not current_tutorial_stage == TutorialStage.BURSTING:
+	if not current_tutorial_stage == TutorialStage.COLLECT:
 		return
-	change_stage(bursting_content, skilling_content, TutorialStage.SKILLING)		
-
-
-func finish_skilling():
+	# setam naslednjo fazo
+	Global.game_manager.prev_stage_stray_count = 1
+	Global.game_manager.start_strays_spawn_count = Global.game_manager.required_spawn_positions.size()
+	change_stage(collect_content, multicollect_content, TutorialStage.MULTICOLLECT)	
 	
-	if not current_tutorial_stage == TutorialStage.SKILLING:
+	
+func finish_multicollect(): # tole je zdaj "stacked colors"
+	# kliče GM upgrade_level()
+	# ko pobere cel stack barv
+	# 1 white staja
+	# naslednji spawn je obroč barv okrog belega (na random celice)
+	
+	if not current_tutorial_stage == TutorialStage.MULTICOLLECT:
 		return
-	change_stage(skilling_content, stacking_content, TutorialStage.STACKING)		
+	# setam naslednjo fazo
+	Global.game_manager.prev_stage_stray_count = 1
+	Global.game_manager.start_strays_spawn_count = Global.game_manager.random_spawn_positions.size()
+	change_stage(multicollect_content, skills_content, TutorialStage.SKILLS)		
 	
 	
-func finish_stacking():
+func finish_skills():
+	# ko spuca belega (preverja FP
+	# ni več spawna
 	
-	if not current_tutorial_stage == TutorialStage.STACKING:
+	if not current_tutorial_stage == TutorialStage.SKILLS:
 		return
-	change_stage(stacking_content, winlose_content, TutorialStage.WINLOSE)		
+	# setam naslednjo fazo
+	Global.game_manager.prev_stage_stray_count = 0 
+	change_stage(skills_content, winlose_content, TutorialStage.WINLOSE)		
 
 	
 func finish_tutorial():
@@ -145,14 +181,6 @@ func finish_tutorial():
 	close_final_stage.tween_callback(Global.game_manager, "game_over", [Global.game_manager.GameoverReason.CLEANED])
 	close_final_stage.tween_property(checkpoints, "modulate:a", 0, 1).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC).set_delay(fadeout_delay)
 	close_final_stage.parallel().tween_property(controls, "modulate:a", 0, 1).set_ease(Tween.EASE_IN).set_delay(fadeout_delay)	
-
-
-func finish_unfinished_tutorial():
-	
-	var close_final_stage = get_tree().create_tween()
-	close_final_stage.tween_property(checkpoints, "modulate:a", 0, 1).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)#.set_delay(fadeout_delay)
-	close_final_stage.parallel().tween_property(controls, "modulate:a", 0, 1).set_ease(Tween.EASE_IN)#.set_delay(fadeout_delay)
-	close_final_stage.tween_callback(Global.game_manager, "game_over", [Global.game_manager.GameoverReason.LIFE])
 
 
 # UTILITI ------------------------------------------------------------------------------------------------------------------	
@@ -177,16 +205,6 @@ func open_stage(stage_to_show: Control):
 	open_stage.tween_callback(stage_to_show, "show")
 	open_stage.tween_property(stage_to_show, "modulate:a", 1, 0.5).from(0.0).set_ease(Tween.EASE_IN)
 
-
-func skill_done(skill: String):
-	
-	if not current_tutorial_stage == TutorialStage.SKILLING:
-		return	
-	
-	all_skills.erase(skill)
-	if all_skills.empty():
-		finish_skilling()
-		
 		
 # SIGNALS ------------------------------------------------------------------------------------------------------------------	
 
@@ -197,14 +215,6 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 		"mission_in":
 			current_tutorial_stage = TutorialStage.MISSION
 		"tutorial_start":
-			var show_player = get_tree().create_tween()
-			for player in Global.game_manager.current_players_in_game:
-				show_player.tween_property(player, "modulate", Color.white, 0.5)
+			start_travel()
+
 			
-			var signaling_player: KinematicBody2D
-			for player in Global.game_manager.current_players_in_game:
-				player.animation_player.play("lose_white_on_start")
-				signaling_player = player # da se zgodi na obeh plejerjih istočasno
-			yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
-			
-			start_tutorial()

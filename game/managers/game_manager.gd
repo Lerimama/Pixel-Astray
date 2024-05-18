@@ -16,7 +16,7 @@ var start_players_count: int
 var current_players_in_game: Array # nabira se v FP
 
 # strays
-var strays_visible: Array = []
+var strays_shown_on_start: Array = []
 var strays_in_game_count: int setget _change_strays_in_game_count # spremlja spremembo količine aktivnih in uničenih straysov
 var strays_cleaned_count: int = 0 # za statistiko na hudu
 var all_strays_died_alowed: bool = false # za omejevanje signala iz FP ... kdaj lahko reagira na 0 straysov v igri
@@ -199,7 +199,7 @@ func start_game():
 
 
 func game_over(gameover_reason: int):
-
+	printt("GO",gameover_reason)
 	# cleaner in handler respawn na cleaned namesto GO 
 	if game_settings["respawn_strays_on_cleaned"]: # uniq kombinacija respawn on cleaned
 		print("ne tole")
@@ -283,23 +283,25 @@ func set_players():
 
 
 func set_strays():
+	printt("spawn", start_strays_spawn_count, game_settings["strays_start_count"])
 	
+	strays_shown_on_start.clear() # resetiram
 	spawn_strays(start_strays_spawn_count)
 	
 	yield(get_tree().create_timer(0.01), "timeout") # da se vsi straysi spawnajo
 	
 	var show_strays_loop: int = 0
-	while strays_visible.size() < start_strays_spawn_count:
+	while strays_shown_on_start.size() < start_strays_spawn_count:
 		show_strays_loop += 1 # zazih
-		show_strays_on_start(show_strays_loop)
+#		show_strays_on_start(show_strays_loop)
+		call_deferred("show_strays_on_start")
 		yield(get_tree().create_timer(0.1), "timeout")
-	
-	strays_visible.clear() # resetiram, da je mogoč in-game spawn
 
 
 func spawn_strays(strays_to_spawn_count: int):
 	# on start, cleaned in level upgrade
 	
+	printt("spawn", strays_to_spawn_count)
 	var current_level: int
 	if game_data.has("level"): 
 		current_level = game_data["level"]
@@ -325,72 +327,74 @@ func spawn_strays(strays_to_spawn_count: int):
 	all_stray_colors = [] # vsakič resetiramo ... za color indikatorje
 	
 	# positions
-	var available_required_spawn_positions = required_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
-	var available_random_spawn_positions = random_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
+	var available_required_spawn_positions = required_spawn_positions # .duplicate() # dupliciram, da ostanejo "shranjene"
+	var available_random_spawn_positions = random_spawn_positions # .duplicate() # dupliciram, da ostanejo "shranjene"
 	
 	# spawn
 	for stray_index in strays_to_spawn_count:
+		
 		var current_color: Color = all_colors_available[stray_index] # barva na lokaciji v spektrumu
-		# available spawn positions
+		
+		# spawn positions
 		var current_spawn_positions: Array
-		if current_level <= 1 or game_data["game"] == Profiles.Games.SWEEPER: # vse igre razen enigme ineterenal imajo level 0
-			if not available_required_spawn_positions.empty(): # najprej obvezne
-				current_spawn_positions = available_required_spawn_positions
-			elif available_required_spawn_positions.empty(): # potem random
+		if current_level <= 1 or game_data["game"] == Profiles.Games.SWEEPER:
+			 # najprej obvezne pozicije
+			if not available_required_spawn_positions.empty():
+				# najprej bele pixle
+				if not wall_spawn_positions.empty():
+					current_spawn_positions = wall_spawn_positions
+				else: # potem ostale 
+					current_spawn_positions = available_required_spawn_positions
+			# random pozicije, ko so obvezne spraznjene
+			elif not available_random_spawn_positions.empty():
 				current_spawn_positions = available_random_spawn_positions
+			# nehaj, ko ni več pozicij 
 			elif available_required_spawn_positions.empty() and available_random_spawn_positions.empty(): # STOP, če ni prostora, straysi pa so še na voljo
+				print ("No available spawn positions")
 				return
-		else: # spawnanje na vse available za respawn
+		else: # leveli večji od prvega ... random respawn
 			if not available_respawn_positions.empty():
 				current_spawn_positions = available_respawn_positions
 			else:
 				print ("No available spawn positions")
 				return
-		
-		# odstranim pozicije plejerjev ... zazih
-		for player in current_players_in_game:
-			if current_spawn_positions.has(player.global_position):
-				current_spawn_positions.erase(player.global_position)
-
 		# žrebanje random position
 		var random_range = current_spawn_positions.size()
 		var selected_cell_index: int = randi() % int(random_range)		
-		var selected_position: Vector2 = current_spawn_positions[selected_cell_index]
-		
+		var selected_cell_position: Vector2 = current_spawn_positions[selected_cell_index]
+		var selected_stray_position: Vector2 = selected_cell_position + Vector2(cell_size_x/2, cell_size_x/2)
+
+		for player in current_players_in_game:
+			if player.global_position == selected_stray_position:
+				print ("STUCK ON P")
+#				return
+				
 		# spawn
 		var new_stray_pixel = StrayPixel.instance()
 		new_stray_pixel.name = "S%s" % str(stray_index)
 		new_stray_pixel.stray_color = current_color
-		new_stray_pixel.global_position = selected_position + Vector2(cell_size_x/2, cell_size_x/2) # dodana adaptacija zaradi središča pixla
+		new_stray_pixel.global_position = selected_stray_position # dodana adaptacija zaradi središča pixla
 		new_stray_pixel.z_index = 2 # višje od plejerja
+		# če je plejer na isti poziciji ne spawnam ... zazih
+
 		Global.node_creation_parent.call_deferred("add_child", new_stray_pixel)
-	
-		# beli ali barvni?
-		if wall_spawn_positions.has(selected_position):
+		
+		# post spawn
+		all_stray_colors.append(current_color) # dodam barvo
+		if wall_spawn_positions.has(selected_cell_position): # beli
 			new_stray_pixel.current_state = new_stray_pixel.States.WALL
-		# normalne spawn pozicije (random wall/normal)
-		else:
+		else: # barvni
 			var spawn_white_start_limit: int = strays_to_spawn_count - round(strays_to_spawn_count * spawn_white_stray_part)
 			if stray_index > spawn_white_start_limit:
 				new_stray_pixel.current_state = new_stray_pixel.States.WALL
+		wall_spawn_positions.erase(selected_cell_position)
+		available_required_spawn_positions.erase(selected_cell_position)
+		available_random_spawn_positions.erase(selected_cell_position)
 		
-		all_stray_colors.append(current_color)
-		current_spawn_positions.remove(selected_cell_index) # odstranim pozicijo iz nabora za start spawn
-		new_stray_pixel.call_deferred("show_stray")
+		printt("AFTER", available_random_spawn_positions.size(), available_required_spawn_positions.size(), wall_spawn_positions.size())
+		printt("------")
 			
-#
-#		if wall_spawn_positions.has(selected_position):
-#			new_stray_pixel.call_deferred("die_to_wall")
-#			# za vsakega belega na obveznem mestu, znižam delež random spawnanih belih za naprej
-#			spawn_white_start_limit += 1 # dvignem mejo, ko začnem spawnat random bele
-#		# normalne spawn pozicije (random wall/normal)
-#		else:
-#			if stray_index > spawn_white_start_limit:
-#				new_stray_pixel.call_deferred("die_to_wall")
-##				new_stray_pixel.current_state = new_stray_pixel.States.WALL
-##				new_stray_pixel.stray_color = Global.color_wall_pixel		
-#			else:
-#				new_stray_pixel.call_deferred("show_stray")
+		new_stray_pixel.call_deferred("show_stray")
 			
 	Global.hud.spawn_color_indicators(all_stray_colors) # barve pokažem v hudu		
 	self.strays_in_game_count = strays_to_spawn_count # setget sprememba
@@ -402,7 +406,7 @@ func show_strays_on_start(show_strays_loop: int):
 	var spawn_shake_time: float = 0.7
 	var spawn_shake_decay: float = 0.2	
 	Global.game_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
-		
+	print("šejkam")	
 	var strays_to_show_count: int # količina strejsov se more ujemat s številom spawnanih
 	
 	match show_strays_loop:
@@ -418,17 +422,17 @@ func show_strays_on_start(show_strays_loop: int):
 			Global.sound_manager.play_sfx("thunder_strike")
 			strays_to_show_count = round(strays_in_game_count/2)
 		5: # še preostale
-			strays_to_show_count = strays_in_game_count - strays_visible.size()
+			strays_to_show_count = strays_in_game_count - strays_shown_on_start.size()
 	
 	# stray fade-in
 	var loop_count = 0
 	for stray in get_tree().get_nodes_in_group(Global.group_strays): # nujno jih ponovno zajamem
-		if not strays_visible.has(stray): # če stray še ni pokazan, ga pokažem in dodam med pokazane
-			stray.show_stray()
-			strays_visible.append(stray)
-			loop_count += 1 # štejem tukaj, ker se šteje samo če se pixel pokaže
-		if loop_count >= strays_to_show_count:
+		if strays_shown_on_start.has(stray): # če stray še ni pokazan, ga pokažem in dodam med pokazane
 			break
+		if loop_count >= strays_to_show_count:
+			stray.show_stray()
+			strays_shown_on_start.append(stray)
+			loop_count += 1 # štejem tukaj, ker se šteje samo če se pixel pokaže
 	
 
 func respawn_strays():
@@ -599,6 +603,7 @@ func _on_tilemap_completed(stray_random_positions: Array, stray_positions: Array
 	# stray spawn pozicije
 	random_spawn_positions = stray_random_positions # celice tal pred procesiranjem tilemapa
 	required_spawn_positions = stray_positions # ima tudi wall_spawn_positions
+#	required_spawn_positions.append_array(stray_wall_positions)
 	wall_spawn_positions = stray_wall_positions
 	forbidden_stray_positions = no_stray_positions
 	# strays spawn count 
