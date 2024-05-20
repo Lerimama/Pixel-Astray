@@ -6,6 +6,7 @@ onready var sweeper_game_summary: Control = $SweeperGameSummary
 onready var sweeper_highscore_table: VBoxContainer = $SweeperGameSummary/HighscoreTable
 
 var sweeper_solved: bool = false				
+		
 				
 func _ready() -> void:
 	# namen: dodan enigam game summary

@@ -174,7 +174,7 @@ var game_data_defender: Dictionary = {
 	"Prop3" : "Skills are not available.",
 	#
 	"level": 1, # pomeni, da je multilevel
-	
+		
 	"stages_per_level": 2, # prvi level
 	"stages_per_level_grow": 0, # dodatno prištejem
 	"lines_scroll_per_spawn_round": 1, # na koliko stepov se spawna nova runda
@@ -261,11 +261,11 @@ func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE
-	var debug_game = Games.TUTORIAL
+#	var debug_game = Games.TUTORIAL
 #	var debug_game = Games.CLEANER_S
 #	var debug_game = Games.CLEANER_M
 #	var debug_game = Games.CLEANER_L
-#	var debug_game = Games.DEFENDER
+	var debug_game = Games.DEFENDER
 #	var debug_game = Games.ERASER
 #	var debug_game = Games.HANDLER
 #	var debug_game = Games.THE_DUEL
@@ -297,7 +297,6 @@ func set_game_data(selected_game) -> void:
 			game_settings["game_time_limit"] = 0
 			game_settings["strays_start_count"] = 1
 			game_settings["lose_life_on_hit"] = false
-			game_settings["reburst_mode"] = true
 			game_settings["zoom_to_level_size"] = false
 			
 		Games.CLEANER_S: 
@@ -306,18 +305,21 @@ func set_game_data(selected_game) -> void:
 			game_settings["strays_start_count"] = 1
 			game_settings["respawn_on_cleaned"] = true
 			game_settings["zoom_to_level_size"] = false
+			game_settings["respawn_strays_on_cleaned"] = true
 		Games.CLEANER_M: 
 			current_game_data = game_data_cleaner_m
 			game_settings["game_time_limit"] = 300
 			game_settings["strays_start_count"] = 140
 			game_settings["respawn_on_cleaned"] = true
 			game_settings["zoom_to_level_size"] = false
+			game_settings["respawn_strays_on_cleaned"] = true
 		Games.CLEANER_L: 
 			current_game_data = game_data_cleaner_l
 			game_settings["game_time_limit"] = 600
 			game_settings["strays_start_count"] = 320
 			game_settings["respawn_on_cleaned"] = true
 			game_settings["zoom_to_level_size"] = false
+			game_settings["respawn_strays_on_cleaned"] = true
 		
 		Games.ERASER: 
 			current_game_data = game_data_eraser

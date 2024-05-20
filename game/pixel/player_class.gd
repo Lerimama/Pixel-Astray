@@ -290,7 +290,8 @@ func bursting_inputs():
 # MOVEMENT ------------------------------------------------------------------------------------------
 
 	
-func step(): # step koda se ob držanju tipke v smeri izvaja stalno
+func step(): 
+	# step koda se ob držanju tipke v smeri izvaja stalno
 	 
 	var step_direction = direction
 	

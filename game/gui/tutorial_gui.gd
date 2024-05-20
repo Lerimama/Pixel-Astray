@@ -1,13 +1,14 @@
 extends Control
 
 
-enum TutorialStage {MISSION = 1, TRAVEL, COLLECT, MULTICOLLECT, SKILLS, WINLOSE}
+enum TutorialStage {MISSION, TRAVEL, COLLECT, MULTICOLLECT, SKILLS, WINLOSE}
 var current_tutorial_stage: int
 
 var tutorial_finished: bool = false
 
 # za beleženje vmesnih rezultatov
 var traveling_directions: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
+var wall_stray: KinematicBody2D # zabeležim ga na začetku skill faze in potem preverjam njegov obstoj, da vidim, če je skills izpolnjen 
 
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var hud_guide: Control = $HudGuide
@@ -22,6 +23,9 @@ onready var winlose_content: Control = $Checkpoints/WinLoseContent
 
 
 func _input(event: InputEvent) -> void:
+	
+	if Input.is_action_just_pressed("l"):
+		printt ("current_stage", TutorialStage.keys()[current_tutorial_stage])
 	
 	if current_tutorial_stage == TutorialStage.MISSION: # namesto menija
 		if Input.is_action_just_pressed("ui_accept"):
@@ -45,6 +49,7 @@ func _input(event: InputEvent) -> void:
 		if traveling_directions.empty():
 			finish_travel()	
 			
+			
 	
 func _ready() -> void:
 	
@@ -65,14 +70,15 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	
 	# preverjam prisotnost belega
+	wall_stray = null
 	if current_tutorial_stage == TutorialStage.SKILLS:
-		var wall_stray: KinematicBody2D
 		for stray in get_tree().get_nodes_in_group(Global.group_strays):
 			if stray.current_state == stray.States.WALL:
 				wall_stray = stray
 		if not wall_stray:
+			yield(get_tree().create_timer(1.5), "timeout") # zamik, da lahko uredi še stvari za skills fazo
 			finish_skills()
-	
+
 
 func open_tutorial(): # kliče se z GM
 	
@@ -140,7 +146,7 @@ func finish_collect():
 	if not current_tutorial_stage == TutorialStage.COLLECT:
 		return
 	# setam naslednjo fazo
-	Global.game_manager.prev_stage_stray_count = 1
+	Global.game_manager.prev_stage_stray_count = 1 # če ostane beli se šteje za spucano
 	Global.game_manager.start_strays_spawn_count = Global.game_manager.required_spawn_positions.size()
 	change_stage(collect_content, multicollect_content, TutorialStage.MULTICOLLECT)	
 	
@@ -154,7 +160,7 @@ func finish_multicollect(): # tole je zdaj "stacked colors"
 	if not current_tutorial_stage == TutorialStage.MULTICOLLECT:
 		return
 	# setam naslednjo fazo
-	Global.game_manager.prev_stage_stray_count = 1
+	Global.game_manager.prev_stage_stray_count = 1 # če ostane beli se šteje za spucano
 	Global.game_manager.start_strays_spawn_count = Global.game_manager.random_spawn_positions.size()
 	change_stage(multicollect_content, skills_content, TutorialStage.SKILLS)		
 	
@@ -162,11 +168,12 @@ func finish_multicollect(): # tole je zdaj "stacked colors"
 func finish_skills():
 	# ko spuca belega (preverja FP
 	# ni več spawna
+	# če spuca vse razen belega, reagira v kodi ki zaznava "cleaned"
 	
 	if not current_tutorial_stage == TutorialStage.SKILLS:
 		return
 	# setam naslednjo fazo
-	Global.game_manager.prev_stage_stray_count = 0 
+	Global.game_manager.prev_stage_stray_count = 0
 	change_stage(skills_content, winlose_content, TutorialStage.WINLOSE)		
 
 	
@@ -197,6 +204,7 @@ func change_stage(stage_to_hide: Control, next_stage: Control, next_stage_enum: 
 	close_stage.tween_property(stage_to_hide, "modulate:a", 0, 0.5)#.set_delay(2)
 	close_stage.tween_callback(stage_to_hide, "hide")
 	close_stage.tween_callback(self, "open_stage", [next_stage])
+	
 	
 
 func open_stage(stage_to_show: Control):

@@ -34,9 +34,6 @@ func show_game_summary():
 	cross_fade.parallel().tween_property(game_summary_holder, "modulate:a", 1, 1)#.set_delay(1)
 	cross_fade.tween_callback(Global, "grab_focus_no_sfx", [focus_btn])
 
-
-# TITLES --------------------------------------------------------------	
-
 		
 func set_game_gameover_title():
 		

@@ -16,6 +16,7 @@ margin_right = 1984.0
 margin_bottom = 1760.0
 
 [node name="CameraPosition" parent="." index="1"]
+visible = false
 position = Vector2( 992, 512 )
 
 [editable path="Background"]

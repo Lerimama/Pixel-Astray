@@ -44,17 +44,8 @@ func _process(delta: float) -> void:
 	# namen: kličem stray step, čekiram zasedenost home spawn pozicij in kličem GO
 	# namen: ni preverjanja avail respawn pozicij in GO
 	
-	# all strays and players
-	current_players_in_game = get_tree().get_nodes_in_group(Global.group_players)
-		
 	if game_on:
-		# vsakič znova zajamemo vse in ji potem odštejemo trenutno zasedene
-		available_home_spawn_positions = random_spawn_positions.duplicate()
-		for stray in get_tree().get_nodes_in_group(Global.group_strays):
-			if available_home_spawn_positions.has(stray.global_position - Vector2(cell_size_x/2, cell_size_x/2)):
-				available_home_spawn_positions.erase(stray.global_position - Vector2(cell_size_x/2, cell_size_x/2))
-		
-		if available_home_spawn_positions.empty():
+		if available_home_spawn_positions.empty(): # preverja jih na vsak step()
 			checking_for_engine_stalled = true
 			engine_stalled_time += delta
 			if engine_stalled_time > engine_stalled_time_limit:
@@ -65,7 +56,7 @@ func _process(delta: float) -> void:
 		
 		if not step_in_progress:
 			stray_step()
-		
+
 		
 func set_game(): 
 	# namen: setam level indikatorje in strayse spawnam po štratu igre
@@ -211,7 +202,6 @@ func spawn_strays(strays_to_spawn_count: int):
 			Global.node_creation_parent.call_deferred("add_child", new_stray_pixel)
 			
 			# odstranim uporabljeno pozicije in barve dodam v števec
-#			stray_spawn_colors_available.erase(random_selected_color)
 			available_home_spawn_positions.erase(selected_position)
 			#		new_stray_pixel.show_stray()
 			new_stray_pixel.call_deferred("show_stray")		
@@ -221,7 +211,13 @@ func spawn_strays(strays_to_spawn_count: int):
 
 
 func stray_step():
-	
+
+	# vsakič znova zajamemo vse in ji potem odštejemo trenutno zasedene ... 
+	available_home_spawn_positions = random_spawn_positions.duplicate()
+	for stray in get_tree().get_nodes_in_group(Global.group_strays):
+		if available_home_spawn_positions.has(stray.global_position - Vector2(cell_size_x/2, cell_size_x/2)):
+			available_home_spawn_positions.erase(stray.global_position - Vector2(cell_size_x/2, cell_size_x/2))
+			
 	step_in_progress = true
 			
 	var stepping_direction: Vector2
@@ -297,10 +293,11 @@ func upgrade_level(level_upgrade_reason: String):
 	current_level += 1 # številka novega levela 
 	current_stage = 0 # ker se šteje pobite strayse je na začetku 0
 	lines_scrolled_count = 0
-	set_new_level() 
-	set_level_colors()
 	
-	if not current_level == 1:
+	if current_level <= 1:
+		set_new_level() 
+		set_level_colors()
+	else:
 		#reset players
 		Global.hud.level_up_popup_in(current_level)
 		for player in current_players_in_game:
@@ -309,9 +306,13 @@ func upgrade_level(level_upgrade_reason: String):
 				player.screen_cleaned()
 		Global.hud.empty_color_indicators() # novi indkatorji
 		get_tree().call_group(Global.group_players, "set_physics_process", false)
-		clean_strays_in_game() # puca vse v igri
-		yield(self, "all_strays_died") # ko so vsi iz igre grem naprej
+		set_new_level() 
+		set_level_colors() # more bit pred yieldom in tudi, če so že spucani
+		if not get_tree().get_nodes_in_group(Global.group_strays).empty():
+			clean_strays_in_game() # puca vse v igri
+			yield(self, "all_strays_died") # ko so vsi iz igre grem naprej
 		
+		# new level
 		Global.hud.level_up_popup_out()
 		set_strays() 
 		get_tree().call_group(Global.group_players, "set_physics_process", true)	

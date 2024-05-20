@@ -4,11 +4,8 @@ extends PlayerOrig
 var detect_touch_pause_time: float = 1
 var recheck_touch_pause_time: float = 5 # ker merim, kdaj si obkoljen za vedno, je to tudi čas pavze do GO klica ... more bit večje od časa stepanja
 var is_surrounded: bool
-onready var touch_timer: Timer = $Touch/TouchTimer
 var surrounded_player_strays: Array # za preverjanje prek večih preverjanj
-
-
-# INPUTS ------------------------------------------------------------------------------------------
+onready var touch_timer: Timer = $Touch/TouchTimer
 
 
 func idle_inputs():
@@ -90,9 +87,6 @@ func cocking_inputs():
 			release_burst()
 			burst_light_off()
 			
-				
-# BURST ------------------------------------------------------------------------------------------
-			
 
 func spawn_cock_ghost(cocking_direction: Vector2): 
 	# namen: vsi cock ghosti polni barve, zaznavanje cock_room z deffered klicom (da lahko bolje zazna cock room)
@@ -131,12 +125,6 @@ func show_ghost(ghost):
 		var cock_cell_tween = get_tree().create_tween()
 		cock_cell_tween.tween_property(ghost, "modulate:a", 1, cock_ghost_cocking_time)
 			
-
-#func spawn_floating_tag(value: int):
-#	# namen: floating tag off
-#
-#	return
-		
 
 func burst():
 	# namen: konstantna hitrost bursta (neodvisna od vrednosti cocka)
@@ -228,8 +216,6 @@ func play_sound(effect_for: String):
 		"teleport":
 			$Sounds/Skills/TeleportIn.play()
 	
-			
-# ON HIT ------------------------------------------------------------------------------------------
 
 			
 func on_hit_stray(hit_stray: KinematicBody2D):

@@ -289,7 +289,7 @@ func cock_reburst():
 	# če je prostor cocka
 		for cock in reburst_max_cock_count:
 			var new_cock_ghost = spawn_cock_ghost(cock_direction)
-#			new_cock_ghost.modulate.a = 0.5
+		#			new_cock_ghost.modulate.a = 0.5
 			cocked_ghosts.append(new_cock_ghost)	
 			if not cocking_room:
 				break

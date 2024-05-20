@@ -34,13 +34,14 @@ polygon = PoolVector2Array( -1, 0, -1, 288, 31, 288, 31, 320, 159, 320, 159, 288
 
 [node name="Foot3" type="Polygon2D" parent="Room"]
 position = Vector2( 1201, 1136 )
-color = Color( 0.101961, 0.101961, 0.101961, 1 )
-polygon = PoolVector2Array( -1, 0, -1, 96, 31, 96, 31, 256, 63, 256, 63, 288, 127, 288, 127, 256, 159, 256, 159, 96, 191, 96, 191, 0 )
+color = Color( 0.113725, 0.113725, 0.113725, 1 )
+polygon = PoolVector2Array( -1, 0, -1, 96, 31, 96, 31, 288, 31, 320, 63, 320, 127, 320, 159, 320, 159, 288, 159, 96, 191, 96, 191, 0 )
 
 [node name="Foot4" type="Polygon2D" parent="Room"]
-position = Vector2( 1233, 1168 )
-color = Color( 0.219608, 0.219608, 0.219608, 1 )
-polygon = PoolVector2Array( 31, 0, 31, 192, 95, 192, 95, 0 )
+position = Vector2( 1168.52, 1264 )
+scale = Vector2( 2.01562, 0.833333 )
+color = Color( 0.172549, 0.172549, 0.172549, 1 )
+polygon = PoolVector2Array( 31, 0, 31, 192, 62.4217, 192, 95, 192, 95, 95.4849, 95, 0 )
 
 [node name="Cover" type="ColorRect" parent="."]
 margin_top = 736.0

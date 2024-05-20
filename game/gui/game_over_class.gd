@@ -1,6 +1,7 @@
 extends Control
 class_name GameOver
 
+
 signal name_input_finished
 
 var focus_btn: Button
@@ -44,7 +45,10 @@ func _input(event: InputEvent) -> void:
 		if Input.is_action_just_pressed("ui_cancel"):
 			_on_CancelBtn_pressed()
 			accept_event()
-	
+		if Input.is_action_just_pressed("ui_accept"):
+			_on_ConfirmBtn_pressed()
+			accept_event()
+			
 	# change focus sounds
 	if (selected_gameover_menu != null and selected_gameover_menu.modulate.a == 1) or (selected_game_summary != null and selected_game_summary.visible and selected_game_summary.modulate.a == 1):
 		if Input.is_action_just_pressed("ui_left"):
@@ -127,7 +131,7 @@ func show_gameover_menu():
 		var current_player_ranking: int
 		if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NO_HS:
 			selected_game_summary = game_summary_no_hs
-#			yield(get_tree().create_timer(1), "timeout") # podaljšam pavzo za branje
+		#			yield(get_tree().create_timer(1), "timeout") # podaljšam pavzo za branje
 			show_game_summary()
 		else:
 			if score_is_ranking: # manage_gameover_highscores počaka na signal iz name_input

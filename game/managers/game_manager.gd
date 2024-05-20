@@ -51,8 +51,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_tree().call_group(Global.group_strays, "die_to_wall")
 	if Input.is_action_pressed("no1"):
 		upgrade_level("cleaned")
-	if Input.is_action_just_pressed("l"):
-		upgrade_level("regular")
+#	if Input.is_action_just_pressed("l"):
+#		upgrade_level("regular")
 	if Input.is_action_just_pressed("h"):
 		if game_data["game"] == Profiles.Games.SWEEPER:
 			Global.current_tilemap.get_node("SolutionLine").visible = not Global.current_tilemap.get_node("SolutionLine").visible
@@ -72,7 +72,6 @@ func _ready() -> void:
 		
 
 func _process(delta: float) -> void:
-	
 	# all strays and players
 	current_players_in_game = get_tree().get_nodes_in_group(Global.group_players)
 
@@ -109,8 +108,6 @@ func _process(delta: float) -> void:
 			show_position_indicators_limit_reached = false
 	else:
 		show_position_indicators_limit_reached = false
-
-	
 
 
 # GAME SETUP --------------------------------------------------------------------------------------
@@ -199,7 +196,7 @@ func start_game():
 
 
 func game_over(gameover_reason: int):
-	printt("GO",gameover_reason)
+	
 	# cleaner in handler respawn na cleaned namesto GO 
 	if game_settings["respawn_strays_on_cleaned"]: # uniq kombinacija respawn on cleaned
 		print("ne tole")
@@ -211,6 +208,7 @@ func game_over(gameover_reason: int):
 				player.screen_cleaned()
 				player.set_physics_process(false)
 				signaling_player = player
+			Global.hud.empty_color_indicators()
 			set_strays()
 			get_tree().call_group(Global.group_players, "set_physics_process", true)
 			return
@@ -277,31 +275,33 @@ func set_players():
 		
 		new_player_pixel.player_camera = Global.game_camera
 		
-
 		
 # STRAYS --------------------------------------------------------------------------------------------	
 
 
 func set_strays():
-	printt("spawn", start_strays_spawn_count, game_settings["strays_start_count"])
 	
+	if random_spawn_positions.empty() and required_spawn_positions.empty(): 
+		print("no positions on set_strays()")
+		return
+	if available_respawn_positions.empty():
+		print("no respawn positions on set_strays()")
+		return
+		
 	strays_shown_on_start.clear() # resetiram
-	spawn_strays(start_strays_spawn_count)
 	
+	spawn_strays(start_strays_spawn_count)
 	yield(get_tree().create_timer(0.01), "timeout") # da se vsi straysi spawnajo
 	
 	var show_strays_loop: int = 0
 	while strays_shown_on_start.size() < start_strays_spawn_count:
 		show_strays_loop += 1 # zazih
-#		show_strays_on_start(show_strays_loop)
-		call_deferred("show_strays_on_start")
-		yield(get_tree().create_timer(0.1), "timeout")
+		call_deferred("show_strays_on_start", show_strays_loop)
 
 
 func spawn_strays(strays_to_spawn_count: int):
 	# on start, cleaned in level upgrade
 	
-	printt("spawn", strays_to_spawn_count)
 	var current_level: int
 	if game_data.has("level"): 
 		current_level = game_data["level"]
@@ -348,16 +348,9 @@ func spawn_strays(strays_to_spawn_count: int):
 			# random pozicije, ko so obvezne spraznjene
 			elif not available_random_spawn_positions.empty():
 				current_spawn_positions = available_random_spawn_positions
-			# nehaj, ko ni več pozicij 
-			elif available_required_spawn_positions.empty() and available_random_spawn_positions.empty(): # STOP, če ni prostora, straysi pa so še na voljo
-				print ("No available spawn positions")
-				return
 		else: # leveli večji od prvega ... random respawn
-			if not available_respawn_positions.empty():
-				current_spawn_positions = available_respawn_positions
-			else:
-				print ("No available spawn positions")
-				return
+			current_spawn_positions = available_respawn_positions
+			
 		# žrebanje random position
 		var random_range = current_spawn_positions.size()
 		var selected_cell_index: int = randi() % int(random_range)		
@@ -391,9 +384,6 @@ func spawn_strays(strays_to_spawn_count: int):
 		available_required_spawn_positions.erase(selected_cell_position)
 		available_random_spawn_positions.erase(selected_cell_position)
 		
-		printt("AFTER", available_random_spawn_positions.size(), available_required_spawn_positions.size(), wall_spawn_positions.size())
-		printt("------")
-			
 		new_stray_pixel.call_deferred("show_stray")
 			
 	Global.hud.spawn_color_indicators(all_stray_colors) # barve pokažem v hudu		
@@ -406,7 +396,6 @@ func show_strays_on_start(show_strays_loop: int):
 	var spawn_shake_time: float = 0.7
 	var spawn_shake_decay: float = 0.2	
 	Global.game_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
-	print("šejkam")	
 	var strays_to_show_count: int # količina strejsov se more ujemat s številom spawnanih
 	
 	match show_strays_loop:
@@ -554,9 +543,10 @@ func upgrade_level(level_upgrade_reason: String):
 			player.screen_cleaned()
 	Global.hud.empty_color_indicators()
 	get_tree().call_group(Global.group_players, "set_physics_process", false)
-	clean_strays_in_game() # puca vse v igri
-	yield(self, "all_strays_died") # ko so vsi iz igre grem naprej
 	set_new_level() 
+	if not get_tree().get_nodes_in_group(Global.group_strays).empty():
+		clean_strays_in_game() # puca vse v igri
+		yield(self, "all_strays_died") # ko so vsi iz igre grem naprej
 	
 	# start new level
 	Global.hud.level_up_popup_out()
@@ -603,7 +593,6 @@ func _on_tilemap_completed(stray_random_positions: Array, stray_positions: Array
 	# stray spawn pozicije
 	random_spawn_positions = stray_random_positions # celice tal pred procesiranjem tilemapa
 	required_spawn_positions = stray_positions # ima tudi wall_spawn_positions
-#	required_spawn_positions.append_array(stray_wall_positions)
 	wall_spawn_positions = stray_wall_positions
 	forbidden_stray_positions = no_stray_positions
 	# strays spawn count 

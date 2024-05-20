@@ -11,8 +11,7 @@ onready var pixel_astray_holder: HBoxContainer = $Footer/FooterLine/StraysLine/A
 
 
 func _process(delta: float) -> void:
-	# namen: dodam čekiranje levela in limite level točk
-	
+#	print("tudi tole")
 	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
 	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
 
@@ -23,7 +22,8 @@ func _process(delta: float) -> void:
 	# zapis mankajočega do level up
 	if Global.game_manager.game_data.has("level"): # multilevel
 		level_label.text = "%02d" % Global.game_manager.game_data["level"]
-		if Global.game_manager.game_data.has("level_goal_count"): # število točk ali barv
+		# število točk ali barv
+		if Global.game_manager.game_data.has("level_goal_count"): 
 			# kateri ima višji score
 			var current_biggest_score: int = 0
 			for player in Global.game_manager.current_players_in_game:
@@ -34,8 +34,9 @@ func _process(delta: float) -> void:
 			to_limit_count = clamp(to_limit_count, 0, to_limit_count)
 			level_limit_label_1.text = "%d" % to_limit_count 
 			level_limit_label_2.text = "POINTS TO LEVEL UP"
-		else:
+		elif not Global.game_manager.game_data.has("stages_per_level"): # da se ne meša z defenderjem
 			level_limit_label_1.text = "%d" % Global.game_manager.strays_in_game_count
+			print("tole")
 			level_limit_label_2.text = "COLORS TO PICK"
 
 
@@ -159,6 +160,8 @@ func update_stats(stat_owner: Node, player_stats: Dictionary):
 	
 	if Global.game_manager.game_data.has("level_goal_count") and player_stats["player_points"] >= Global.game_manager.game_data["level_goal_count"]:
 		Global.game_manager.upgrade_level("regular")
+
+
 
 
 

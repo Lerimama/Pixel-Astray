@@ -46,18 +46,18 @@ func _process(delta: float) -> void:
 func show_stray(): # kliče GM
 
 	# zadnja varovalka, če se spawnajo en če druzga ... tukaj, ker more bit vseeno prikazan
-#	for player in Global.game_manager.current_players_in_game:
-#		if player.global_position == global_position:
-#			print ("STUCK ON PLAYER ... KVEFING. ", global_position) 
-#			yield(get_tree().create_timer(2), "timeout") # anti perma kamerašejk 
-#			call_deferred("queue_free")
-#			break
-#	for stray in get_tree().get_nodes_in_group(Global.group_strays):
-#		if stray.global_position == global_position and stray != self:
-#			print ("STUCK ON STRAY ... KVEFING. ", global_position) 
-#			yield(get_tree().create_timer(2), "timeout") # anti perma kamerašejk 
-#			call_deferred("queue_free")
-#			break
+	for player in Global.game_manager.current_players_in_game:
+		if player.global_position == global_position:
+			print ("STUCK ON PLAYER ... KVEFING. ", global_position) 
+			yield(get_tree().create_timer(2), "timeout") # anti perma kamerašejk 
+			call_deferred("queue_free")
+			break
+	for stray in get_tree().get_nodes_in_group(Global.group_strays):
+		if stray.global_position == global_position and stray != self:
+			print ("STUCK ON STRAY ... KVEFING. ", global_position) 
+			yield(get_tree().create_timer(2), "timeout") # anti perma kamerašejk 
+			call_deferred("queue_free")
+			break
 	
 	# če je pozicija res prazna						
 	if current_state == States.WALL:

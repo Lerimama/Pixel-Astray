@@ -2,10 +2,7 @@ extends GameHud
 
 
 func _process(delta: float) -> void:
-	# namen: update level label, limite levela
-	
-	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
-	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
+	# namen: update level label in limite levela, level number apdejt
 
 	# level label show on fill
 	if Global.game_manager.game_data.has("level"):
@@ -17,6 +14,7 @@ func _process(delta: float) -> void:
 	level_limit_label_1.text = "%d" % (Global.game_manager.stages_per_level - Global.game_manager.current_stage)
 	level_limit_label_2.text = "COLORS TO LEVEL UP"
 	
+
 	
 func set_hud(players_count: int): # kliče main na game-in
 	# namen: ikone v player statline, samo 1 player, ni lajfov, ni energije, level data je vis tudi če je prazen, energy counter
@@ -82,7 +80,8 @@ func spawn_color_indicators(available_colors: Array): # kliče GM
 
 
 func empty_color_indicators():
-	
+	print("pucaj")
+#	return
 	# zbrišem trenutne indikatorje
 	for child in spectrum.get_children():
 		child.queue_free()
@@ -98,7 +97,7 @@ func update_indicator_on_stage_up(current_stage: int):
 
 					
 func show_color_indicator(picked_color: Color):
-	return # stray kliče po animaciji, ampak v defenderju se nič ne zgodi
+	return # stray kliče po show animaciji, ampak v defenderju se nič ne zgodi
 
 
 func check_for_warning(player_stats: Dictionary, warning_popup: Control):
