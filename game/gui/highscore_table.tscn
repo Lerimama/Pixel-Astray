@@ -21,13 +21,14 @@ __meta__ = {
 }
 
 [node name="Title" type="Label" parent="."]
-margin_right = 178.0
+margin_left = 8.0
+margin_right = 170.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 28, 26 )
 size_flags_horizontal = 6
 size_flags_vertical = 0
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-text = "Top 9 cleaners"
+text = "%Best gamers"
 
 [node name="ScoreLine1" type="HBoxContainer" parent="."]
 margin_top = 32.0

@@ -51,8 +51,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_tree().call_group(Global.group_strays, "die_to_wall")
 	if Input.is_action_pressed("no1"):
 		upgrade_level("cleaned")
-#	if Input.is_action_just_pressed("l"):
-#		upgrade_level("regular")
+	if Input.is_action_just_pressed("l"):
+		for player in current_players_in_game:
+			printt ("ON KEY", player.global_position)
+#			if player.global_position == selected_stray_position:
+#				printt ("STUCK ON P", player.global_position, selected_stray_position)
+##				return
+				
 	if Input.is_action_just_pressed("h"):
 		if game_data["game"] == Profiles.Games.SWEEPER:
 			Global.current_tilemap.get_node("SolutionLine").visible = not Global.current_tilemap.get_node("SolutionLine").visible
@@ -76,20 +81,20 @@ func _process(delta: float) -> void:
 	current_players_in_game = get_tree().get_nodes_in_group(Global.group_players)
 
 	# pixel count
-	var wall_strays_count: int = 0
-	for stray in get_tree().get_nodes_in_group(Global.group_strays):
-		if stray.current_state == stray.States.WALL:
-			wall_strays_count += 1
+#	var wall_strays_count: int = 0
+#	for stray in get_tree().get_nodes_in_group(Global.group_strays):
+#		if stray.current_state == stray.States.WALL:
+#			wall_strays_count += 1
 	# če sem v fazi, ko lahko preverjam cleaned (po spawnu)
 	if all_strays_died_alowed:
 		# če ni nobene stene, me zanimajo samo prazni strajsi
 		if strays_in_game_count == 0:
 			all_strays_died_alowed = false
 			emit_signal("all_strays_died")
-		# če so v igri samo še straysi, ki so stene
-		elif strays_in_game_count == wall_strays_count:
-			all_strays_died_alowed = false
-			emit_signal("all_strays_died")
+#		# če so v igri samo še straysi, ki so stene
+#		elif strays_in_game_count == wall_strays_count:
+#			all_strays_died_alowed = false
+#			emit_signal("all_strays_died")
 	
 	# skos apdejtam pozicije na voljo
 	available_respawn_positions = Global.current_tilemap.floor_global_positions.duplicate() # vsa tla
@@ -199,7 +204,6 @@ func game_over(gameover_reason: int):
 	
 	# cleaner in handler respawn na cleaned namesto GO 
 	if game_settings["respawn_strays_on_cleaned"]: # uniq kombinacija respawn on cleaned
-		print("ne tole")
 		if gameover_reason == GameoverReason.CLEANED:
 			all_strays_died_alowed = true
 			yield(self, "all_strays_died")
@@ -296,7 +300,7 @@ func set_strays():
 	var show_strays_loop: int = 0
 	while strays_shown_on_start.size() < start_strays_spawn_count:
 		show_strays_loop += 1 # zazih
-		call_deferred("show_strays_on_start", show_strays_loop)
+		show_strays_on_start(show_strays_loop)
 
 
 func spawn_strays(strays_to_spawn_count: int):
@@ -356,35 +360,46 @@ func spawn_strays(strays_to_spawn_count: int):
 		var selected_cell_index: int = randi() % int(random_range)		
 		var selected_cell_position: Vector2 = current_spawn_positions[selected_cell_index]
 		var selected_stray_position: Vector2 = selected_cell_position + Vector2(cell_size_x/2, cell_size_x/2)
-
+		
+		# je pozicija zaseden
+		var selected_stray_position_is_free: bool = true
 		for player in current_players_in_game:
 			if player.global_position == selected_stray_position:
-				print ("STUCK ON P")
-#				return
-				
-		# spawn
-		var new_stray_pixel = StrayPixel.instance()
-		new_stray_pixel.name = "S%s" % str(stray_index)
-		new_stray_pixel.stray_color = current_color
-		new_stray_pixel.global_position = selected_stray_position # dodana adaptacija zaradi središča pixla
-		new_stray_pixel.z_index = 2 # višje od plejerja
-		# če je plejer na isti poziciji ne spawnam ... zazih
-
-		Global.node_creation_parent.call_deferred("add_child", new_stray_pixel)
+				# printt ("STUCK on player ... ", selected_stray_position, player.global_position)
+				selected_stray_position_is_free = false
+		for stray in get_tree().get_nodes_in_group(Global.group_strays):
+			if stray.global_position == selected_stray_position:
+				# print ("STUCK on stray ... ", selected_stray_position, stray.global_positiong) 
+				selected_stray_position_is_free = false
 		
-		# post spawn
-		all_stray_colors.append(current_color) # dodam barvo
-		if wall_spawn_positions.has(selected_cell_position): # beli
-			new_stray_pixel.current_state = new_stray_pixel.States.WALL
-		else: # barvni
-			var spawn_white_start_limit: int = strays_to_spawn_count - round(strays_to_spawn_count * spawn_white_stray_part)
-			if stray_index > spawn_white_start_limit:
+		if selected_stray_position_is_free:
+			# spawn
+			var new_stray_pixel = StrayPixel.instance()
+			new_stray_pixel.name = "S%s" % str(stray_index)
+			new_stray_pixel.stray_color = current_color
+			new_stray_pixel.global_position = selected_stray_position # dodana adaptacija zaradi središča pixla
+			new_stray_pixel.z_index = 2 # višje od plejerja
+			Global.node_creation_parent.call_deferred("add_child", new_stray_pixel)
+			
+			# post spawn
+			all_stray_colors.append(current_color) # dodam barvo
+			if wall_spawn_positions.has(selected_cell_position): 
 				new_stray_pixel.current_state = new_stray_pixel.States.WALL
-		wall_spawn_positions.erase(selected_cell_position)
-		available_required_spawn_positions.erase(selected_cell_position)
-		available_random_spawn_positions.erase(selected_cell_position)
+			else: # barvni
+				var spawn_white_start_limit: int = strays_to_spawn_count - round(strays_to_spawn_count * spawn_white_stray_part)
+				if stray_index > spawn_white_start_limit:
+					new_stray_pixel.current_state = new_stray_pixel.States.WALL
 		
-		new_stray_pixel.call_deferred("show_stray")
+			wall_spawn_positions.erase(selected_cell_position)
+			available_required_spawn_positions.erase(selected_cell_position)
+			available_random_spawn_positions.erase(selected_cell_position)
+		
+		else: # če je se ne spawna, ker je zasedeno, moram pozicijo vseno brisat, če ne se spawnajo vsi na to pozicijo
+			strays_to_spawn_count -= 1
+			wall_spawn_positions.erase(selected_cell_position)
+			available_required_spawn_positions.erase(selected_cell_position)
+			available_random_spawn_positions.erase(selected_cell_position)
+			
 			
 	Global.hud.spawn_color_indicators(all_stray_colors) # barve pokažem v hudu		
 	self.strays_in_game_count = strays_to_spawn_count # setget sprememba

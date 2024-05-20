@@ -34,7 +34,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	
-	if Global.game_manager.show_position_indicators_limit_reached:
+	if Global.game_manager.show_position_indicators_limit_reached and modulate.a == 1: # alpfa je, da se ga visi ob fjedinu straya
 		position_indicator.visible = true
 	else:
 		position_indicator.visible = false
@@ -44,20 +44,6 @@ func _process(delta: float) -> void:
 	
 	
 func show_stray(): # kliče GM
-
-	# zadnja varovalka, če se spawnajo en če druzga ... tukaj, ker more bit vseeno prikazan
-	for player in Global.game_manager.current_players_in_game:
-		if player.global_position == global_position:
-			print ("STUCK ON PLAYER ... KVEFING. ", global_position) 
-			yield(get_tree().create_timer(2), "timeout") # anti perma kamerašejk 
-			call_deferred("queue_free")
-			break
-	for stray in get_tree().get_nodes_in_group(Global.group_strays):
-		if stray.global_position == global_position and stray != self:
-			print ("STUCK ON STRAY ... KVEFING. ", global_position) 
-			yield(get_tree().create_timer(2), "timeout") # anti perma kamerašejk 
-			call_deferred("queue_free")
-			break
 	
 	# če je pozicija res prazna						
 	if current_state == States.WALL:
@@ -68,7 +54,7 @@ func show_stray(): # kliče GM
 		var random_animation_name: String = "glitch_%s" % random_animation_index
 		animation_player.play(random_animation_name)
 	
-
+	
 func die(stray_in_stack_index: int, strays_in_stack_count: int):
 	
 	current_state = States.DYING
@@ -288,5 +274,10 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			collision_shape_ext.set_deferred("disabled", true)
 			Global.game_manager.strays_in_game_count = - 1
 			Global.hud.show_color_indicator(stray_color) # če je defender se returna na fuknciji¨
-			#			queue_free()
 			call_deferred("queue_free")
+
+
+func _on_Stray_tree_exiting() -> void:
+	Global.hud.show_color_indicator(stray_color) # če je defender se returna na fuknciji¨
+	
+	pass # Replace with function body.

@@ -17,8 +17,8 @@ onready var controls: Control = $Controls
 onready var checkpoints: Control = $Checkpoints
 onready var travel_content: Control = $Checkpoints/TravelingContent
 onready var collect_content: Control = $Checkpoints/BurstingContent
-onready var multicollect_content: Control = $Checkpoints/SkillingContent
-onready var skills_content: Control = $Checkpoints/StackingContent
+onready var multicollect_content: Control = $Checkpoints/StackingContent
+onready var skills_content: Control = $Checkpoints/SkillingContent
 onready var winlose_content: Control = $Checkpoints/WinLoseContent
 
 
@@ -35,6 +35,9 @@ func _input(event: InputEvent) -> void:
 			current_tutorial_stage = 0 # anti dablklik
 			Global.sound_manager.play_music("game_music")
 			Global.sound_manager.skip_track() # skipa prvi komad in zapleja drugega
+#			yield(get_tree().create_timer(1), "timeout")
+#			start_travel()
+#			print("in")
 			
 	elif current_tutorial_stage == TutorialStage.TRAVEL:
 		if Input.is_action_pressed("ui_up"):
@@ -48,7 +51,6 @@ func _input(event: InputEvent) -> void:
 		
 		if traveling_directions.empty():
 			finish_travel()	
-			
 			
 	
 func _ready() -> void:
@@ -88,8 +90,8 @@ func open_tutorial(): # kliče se z GM
 	
 
 func start_travel():
+	
 	# spawn wall
-
 	var show_player = get_tree().create_tween()
 	for player in Global.game_manager.current_players_in_game:
 		show_player.tween_property(player, "modulate", Color.white, 0.5)
@@ -116,7 +118,6 @@ func start_travel():
 	var show_controls = get_tree().create_tween()
 	show_controls.tween_callback(controls, "show")
 	show_controls.tween_property(controls, "modulate:a", 1, 0.5).from(0.0).set_ease(Tween.EASE_IN)	
-	
 	get_tree().call_group(Global.group_players, "set_physics_process", true)
 	
 
@@ -197,8 +198,6 @@ func change_stage(stage_to_hide: Control, next_stage: Control, next_stage_enum: 
 	
 	Global.sound_manager.play_sfx("tutorial_stage_done")
 	current_tutorial_stage = next_stage_enum
-	
-	yield(get_tree().create_timer(1), "timeout")
 	
 	var close_stage = get_tree().create_tween()
 	close_stage.tween_property(stage_to_hide, "modulate:a", 0, 0.5)#.set_delay(2)

@@ -470,13 +470,13 @@ modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = 21.0
+margin_left = -4.0
 margin_top = -40.0
-margin_right = -21.0
+margin_right = 4.0
 margin_bottom = -22.0
 grow_horizontal = 2
 custom_fonts/font = ExtResource( 1 )
-text = "Current record:"
+text = "#Current record points:"
 align = 1
 valign = 2
 autowrap = true
@@ -493,9 +493,8 @@ margin_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
-text = "%0000000"
+text = "%record value"
 align = 1
-clip_text = true
 
 [node name="RecordOwner" type="Label" parent="GameInstructions/Outline/Record"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )

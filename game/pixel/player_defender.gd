@@ -8,6 +8,11 @@ var surrounded_player_strays: Array # za preverjanje prek večih preverjanj
 onready var touch_timer: Timer = $Touch/TouchTimer
 
 
+#func _physics_process(delta: float) -> void:
+#
+#	detect_touch()
+	
+	
 func idle_inputs():
 	# namen: odstranim SKILLED stanje, dodam surrounded setanje
 	
@@ -42,7 +47,6 @@ func idle_inputs():
 				direction = Vector2.RIGHT
 				step()
 		else:
-			detect_touch()
 			end_move()
 
 	if Input.is_action_just_pressed(key_burst): # brez "just" dela po stisku smeri ... ni ok

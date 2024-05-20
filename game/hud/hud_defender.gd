@@ -80,9 +80,7 @@ func spawn_color_indicators(available_colors: Array): # kliče GM
 
 
 func empty_color_indicators():
-	print("pucaj")
-#	return
-	# zbrišem trenutne indikatorje
+	
 	for child in spectrum.get_children():
 		child.queue_free()
 	active_color_indicators.clear()

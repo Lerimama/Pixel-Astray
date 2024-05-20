@@ -27,7 +27,7 @@ func set_game():
 func start_game():
 
 	Global.tutorial_gui.open_tutorial()
-
+	
 	
 func set_players():
 	# namen: drugačen prikaz in barva na začetku
@@ -67,7 +67,6 @@ func upgrade_level(level_upgrade_reason: String):
 	
 	if Global.tutorial_gui.current_tutorial_stage == Global.tutorial_gui.TutorialStage.COLLECT:
 		Global.tutorial_gui.finish_collect()	
-		
 	elif Global.tutorial_gui.current_tutorial_stage == Global.tutorial_gui.TutorialStage.MULTICOLLECT:
 		Global.tutorial_gui.finish_multicollect()
 		
@@ -75,11 +74,12 @@ func upgrade_level(level_upgrade_reason: String):
 	for player in Global.game_manager.current_players_in_game:
 		player.end_move()
 	Global.hud.empty_color_indicators()
-	get_tree().call_group(Global.group_players, "set_physics_process", false)
+	#	get_tree().call_group(Global.group_players, "set_physics_process", false)
 	
 	# start new level
+	yield(get_tree().create_timer(0.5), "timeout") # pavza, da zabeleži zaseden pozicije (plejer) 
 	Global.game_manager.set_strays() 
-	get_tree().call_group(Global.group_players, "set_physics_process", true)
+	#	get_tree().call_group(Global.group_players, "set_physics_process", true)
 	
 	level_upgrade_in_progress = false
 	
@@ -98,12 +98,7 @@ func _change_strays_in_game_count(strays_count_change: int):
 			game_over(GameoverReason.CLEANED)
 		if Global.tutorial_gui.current_tutorial_stage == Global.tutorial_gui.TutorialStage.SKILLS:
 			# če je spucano vse barvno, spawnam novo serijo, studi, če je beli spucan
-#			if Global.tutorial_gui.wall_stray:
-				print ("prezgodaj spucano")
-				random_spawn_positions = skill_stage_spawn_positions.duplicate()
-				
-				upgrade_level("cleaned")
-				
-			# če je š
+			random_spawn_positions = skill_stage_spawn_positions.duplicate()
+			upgrade_level("cleaned")
 		else:
 			upgrade_level("cleaned")

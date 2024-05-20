@@ -28,8 +28,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if Input.is_action_just_pressed("l"):
 		upgrade_level("regular")	
-#	if Input.is_action_just_pressed("n"):
-#		stop_stray_spawning()
 
 			
 func _ready() -> void:
@@ -45,6 +43,12 @@ func _process(delta: float) -> void:
 	# namen: ni preverjanja avail respawn pozicij in GO
 	
 	if game_on:
+		# če sem v fazi, ko lahko preverjam cleaned (po spawnu)
+#		if all_strays_died_alowed:
+#			# če ni nobene stene, me zanimajo samo prazni strajsi
+#			if strays_in_game_count == 0:
+#				all_strays_died_alowed = false
+#				emit_signal("all_strays_died")
 		if available_home_spawn_positions.empty(): # preverja jih na vsak step()
 			checking_for_engine_stalled = true
 			engine_stalled_time += delta
@@ -174,8 +178,8 @@ func set_players():
 
 func spawn_strays(strays_to_spawn_count: int):
 	# namen: no clampin, ker je lahko spawn 0
-	# namen: v žrebanje vključim samo home spawn pozicije na voljo
-	# namen: ni preverjanja vseh drugih mogočih pozicij
+	# namen: v žrebanje vključim samo home spawn pozicije na voljo ... ni preverjanja vseh drugih mogočih pozicij
+	# namen: vsak spawn vključuje tudi show_stray()
 	# namen: preverjam GO
 
 	for stray_index in strays_to_spawn_count:
@@ -284,20 +288,17 @@ func upgrade_stage():
 
 func upgrade_level(level_upgrade_reason: String):
 	# namen: zaporedje, respawn ven, set strays ven, ker jih spawna s stepanjem
-	
+
 	if level_upgrade_in_progress:
 		return
 	level_upgrade_in_progress = true
 	randomize()
-	
+
 	current_level += 1 # številka novega levela 
 	current_stage = 0 # ker se šteje pobite strayse je na začetku 0
 	lines_scrolled_count = 0
-	
-	if current_level <= 1:
-		set_new_level() 
-		set_level_colors()
-	else:
+
+	if current_level > 1:
 		#reset players
 		Global.hud.level_up_popup_in(current_level)
 		for player in current_players_in_game:
@@ -310,12 +311,14 @@ func upgrade_level(level_upgrade_reason: String):
 		set_level_colors() # more bit pred yieldom in tudi, če so že spucani
 		if not get_tree().get_nodes_in_group(Global.group_strays).empty():
 			clean_strays_in_game() # puca vse v igri
-			yield(self, "all_strays_died") # ko so vsi iz igre grem naprej
-		
+		yield(self, "all_strays_died") # ko so vsi iz igre grem naprej
+
 		# new level
 		Global.hud.level_up_popup_out()
-		set_strays() 
 		get_tree().call_group(Global.group_players, "set_physics_process", true)	
+	else:
+		set_new_level() 
+		set_level_colors()
 
 	level_upgrade_in_progress = false		
 

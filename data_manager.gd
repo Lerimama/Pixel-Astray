@@ -7,7 +7,7 @@ var data_file: = File.new()
 var current_player_ranking: int # da ob rendriranju HS, lahko označim aktualni rezultat ... v GM
 var all_games_key
 var default_highscores: Dictionary = { # slovar, ki se uporabi, če še ni nobenega v filetu
-	"1": {"Nobody": 0,},
+	"1": {"Mr.Nobody": 0,},
 	"2": {"Nobody": 0,},
 	"3": {"Nobody": 0,},
 	"4": {"Nobody": 0,},

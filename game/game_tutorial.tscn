@@ -290,7 +290,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"points": PoolRealArray( 48, -0.25, 0, 0.25, 0 ),
+"points": PoolRealArray( 32, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 0 )
 }
 tracks/5/type = "value"
@@ -413,6 +413,20 @@ tracks/3/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
+tracks/4/type = "method"
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = false
+tracks/4/keys = {
+"times": PoolRealArray( 2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "start_travel"
+} ]
+}
 
 [sub_resource type="Animation" id=367]
 resource_name = "tutorial_end"
@@ -502,8 +516,8 @@ tracks/4/keys = {
 
 [node name="TutorialGame" type="Node2D"]
 __meta__ = {
-"_edit_horizontal_guides_": [ 1371.0, 1371.0, 144.0, 576.0, 112.0 ],
-"_edit_vertical_guides_": [ -32.0, 470.0 ]
+"_edit_horizontal_guides_": [ 1371.0, 1371.0, 144.0, 576.0, 112.0, 504.0 ],
+"_edit_vertical_guides_": [ -32.0, 470.0, 32.0, 1248.0 ]
 }
 
 [node name="GameManager" type="Node" parent="."]
@@ -575,55 +589,19 @@ __meta__ = {
 }
 
 [node name="Checkpoints" type="Control" parent="GUI/Tutorial"]
-margin_left = 48.0
+margin_left = 32.0
 margin_top = 72.0
-margin_right = 528.0
-margin_bottom = 560.0
+margin_right = 416.0
+margin_bottom = 576.0
 grow_horizontal = 2
 
-[node name="TravelingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
+[node name="_c" type="Control" parent="GUI/Tutorial/Checkpoints"]
 visible = false
-anchor_right = 1.0
-rect_min_size = Vector2( 0, 232 )
-rect_clip_content = true
+margin_right = 40.0
+margin_bottom = 40.0
 
-[node name="Traveling" type="Label" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-margin_top = 6.0
-margin_right = 328.0
-margin_bottom = 28.0
-rect_min_size = Vector2( 0, 20 )
-theme_type_variation = "Lerimama_lite"
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_styles/normal = SubResource( 326 )
-text = "1/5 Traveling"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Instructions" type="Label" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
-anchor_right = 1.0
-margin_left = 1.0
-margin_top = 48.0
-margin_right = -58.0
-margin_bottom = 90.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 4 )
-text = "Moving is restricted to basic directions up, down, left, and right."
-autowrap = true
-
-[node name="Instructions2" type="Label" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
-anchor_right = 1.0
-margin_left = 1.0
-margin_top = 112.0
-margin_right = -58.0
-margin_bottom = 154.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 4 )
-text = "Travel around and move in all available directions to progress to the next stage."
-autowrap = true
-
-[node name="LineLabel" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
+[node name="LineLabel" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/_c"]
+visible = false
 anchor_right = 1.0
 margin_left = 1.0
 margin_top = 176.0
@@ -634,15 +612,15 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Dot" type="TextureRect" parent="GUI/Tutorial/Checkpoints/TravelingContent/LineLabel"]
+[node name="Dot" type="TextureRect" parent="GUI/Tutorial/Checkpoints/_c/LineLabel"]
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
 texture = ExtResource( 19 )
 
-[node name="Content" type="Label" parent="GUI/Tutorial/Checkpoints/TravelingContent/LineLabel"]
+[node name="Content" type="Label" parent="GUI/Tutorial/Checkpoints/_c/LineLabel"]
 margin_left = 14.0
-margin_right = 455.0
+margin_right = 295.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -650,7 +628,8 @@ custom_fonts/font = ExtResource( 4 )
 text = "More energy, more speed."
 autowrap = true
 
-[node name="LineLabel2" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
+[node name="LineLabel2" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/_c"]
+visible = false
 anchor_right = 1.0
 margin_left = 1.0
 margin_top = 200.0
@@ -661,15 +640,15 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Dot" type="TextureRect" parent="GUI/Tutorial/Checkpoints/TravelingContent/LineLabel2"]
+[node name="Dot" type="TextureRect" parent="GUI/Tutorial/Checkpoints/_c/LineLabel2"]
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
 texture = ExtResource( 19 )
 
-[node name="Content" type="Label" parent="GUI/Tutorial/Checkpoints/TravelingContent/LineLabel2"]
+[node name="Content" type="Label" parent="GUI/Tutorial/Checkpoints/_c/LineLabel2"]
 margin_left = 14.0
-margin_right = 455.0
+margin_right = 295.0
 margin_bottom = 18.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -677,81 +656,8 @@ custom_fonts/font = ExtResource( 4 )
 text = "No energy, no speed."
 autowrap = true
 
-[node name="BurstingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
+[node name="LineLabel3" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/_c"]
 visible = false
-anchor_right = 1.0
-rect_min_size = Vector2( 0, 392 )
-rect_clip_content = true
-
-[node name="Bursting" type="Label" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-margin_top = 6.0
-margin_right = 328.0
-margin_bottom = 28.0
-rect_min_size = Vector2( 0, 20 )
-theme_type_variation = "Lerimama_lite"
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_styles/normal = SubResource( 326 )
-text = "2/5 Collecting colors"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Instructions" type="Label" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
-anchor_right = 1.0
-margin_left = 1.0
-margin_top = 48.0
-margin_right = -100.0
-margin_bottom = 90.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 4 )
-text = "To collect color from a stray pixel you must hit it with a burst."
-autowrap = true
-
-[node name="Instructions2" type="Label" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
-anchor_right = 1.0
-margin_left = 1.0
-margin_top = 112.0
-margin_right = -32.0
-margin_bottom = 134.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 4 )
-text = "Pick any color to progress to the next stage."
-autowrap = true
-
-[node name="Content" type="Label" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
-anchor_right = 1.0
-margin_left = 1.0
-margin_top = 152.0
-margin_bottom = 170.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 4 )
-text = "1. Press and hold the BURST KEY"
-autowrap = true
-
-[node name="Content2" type="Label" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
-anchor_right = 1.0
-margin_left = 1.0
-margin_top = 176.0
-margin_right = -116.0
-margin_bottom = 218.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 4 )
-text = "2. Ad burst power by holding DIRECTION KEY in direction away from the target"
-autowrap = true
-
-[node name="Content3" type="Label" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
-anchor_right = 1.0
-margin_left = 1.0
-margin_top = 224.0
-margin_right = -39.0
-margin_bottom = 242.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 4 )
-text = "3. Release the BURST KEY"
-autowrap = true
-
-[node name="LineLabel2" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
 anchor_right = 1.0
 margin_left = 1.0
 margin_top = 264.0
@@ -762,13 +668,13 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Dot" type="TextureRect" parent="GUI/Tutorial/Checkpoints/BurstingContent/LineLabel2"]
+[node name="Dot" type="TextureRect" parent="GUI/Tutorial/Checkpoints/_c/LineLabel3"]
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
 texture = ExtResource( 19 )
 
-[node name="Content" type="Label" parent="GUI/Tutorial/Checkpoints/BurstingContent/LineLabel2"]
+[node name="Content" type="Label" parent="GUI/Tutorial/Checkpoints/_c/LineLabel3"]
 margin_left = 14.0
 margin_right = 487.0
 margin_bottom = 24.0
@@ -778,24 +684,25 @@ custom_fonts/font = ExtResource( 4 )
 text = "Stop while bursting by pressing the BURST KEY."
 autowrap = true
 
-[node name="LineLabel3" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+[node name="LineLabel4" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/_c"]
+visible = false
 anchor_right = 1.0
 margin_left = 1.0
 margin_top = 288.0
-margin_right = -131.0
+margin_right = -24.0
 margin_bottom = 344.0
 custom_constants/separation = 8
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Dot" type="TextureRect" parent="GUI/Tutorial/Checkpoints/BurstingContent/LineLabel3"]
+[node name="Dot" type="TextureRect" parent="GUI/Tutorial/Checkpoints/_c/LineLabel4"]
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
 texture = ExtResource( 19 )
 
-[node name="Content" type="Label" parent="GUI/Tutorial/Checkpoints/BurstingContent/LineLabel3"]
+[node name="Content" type="Label" parent="GUI/Tutorial/Checkpoints/_c/LineLabel4"]
 margin_left = 14.0
 margin_right = 348.0
 margin_bottom = 56.0
@@ -805,25 +712,25 @@ custom_fonts/font = ExtResource( 4 )
 text = "Reburst immediately after hitting a pixel by pressing DIRECTION KEY."
 autowrap = true
 
-[node name="LineLabel" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+[node name="LineLabel5" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/_c"]
 visible = false
 anchor_right = 1.0
 margin_left = 1.0
 margin_top = 328.0
-margin_right = -32.0
+margin_right = -24.0
 margin_bottom = 376.0
 custom_constants/separation = 8
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Dot" type="TextureRect" parent="GUI/Tutorial/Checkpoints/BurstingContent/LineLabel"]
+[node name="Dot" type="TextureRect" parent="GUI/Tutorial/Checkpoints/_c/LineLabel5"]
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
 texture = ExtResource( 19 )
 
-[node name="Content" type="Label" parent="GUI/Tutorial/Checkpoints/BurstingContent/LineLabel"]
+[node name="Content" type="Label" parent="GUI/Tutorial/Checkpoints/_c/LineLabel5"]
 margin_left = 14.0
 margin_right = 447.0
 margin_bottom = 48.0
@@ -833,77 +740,8 @@ custom_fonts/font = ExtResource( 4 )
 text = "Hitting a wall will cost you a life or a decent amount of energy (depending on the game)"
 autowrap = true
 
-[node name="SkillingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
+[node name="LineLabel6" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/_c"]
 visible = false
-anchor_right = 1.0
-rect_min_size = Vector2( 0, 392 )
-rect_clip_content = true
-
-[node name="Skilling" type="Label" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-margin_top = 6.0
-margin_right = 328.0
-margin_bottom = 28.0
-rect_min_size = Vector2( 0, 20 )
-theme_type_variation = "Lerimama_lite"
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_styles/normal = SubResource( 326 )
-text = "3/5 Using skills"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Instructions" type="Label" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
-anchor_right = 1.0
-margin_top = 48.0
-margin_right = -58.0
-margin_bottom = 96.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 4 )
-text = "Use skills to push and pull pixels around and build large stacks of colors."
-autowrap = true
-
-[node name="Instructions2" type="Label" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
-anchor_right = 1.0
-margin_top = 112.0
-margin_right = -64.0
-margin_bottom = 154.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 4 )
-text = "Push, pull and teleport at least once to progress to next stage."
-autowrap = true
-
-[node name="Content" type="Label" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
-anchor_right = 1.0
-margin_top = 176.0
-margin_right = -36.0
-margin_bottom = 224.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 4 )
-text = "1. Connect to a neighboring stray pixel or wall and press in the direction of the target"
-autowrap = true
-
-[node name="Content2" type="Label" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
-anchor_right = 1.0
-margin_top = 224.0
-margin_right = -56.0
-margin_bottom = 266.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 4 )
-text = "2. Move towards a stray pixel to push or away from it to pull. Any amount of pixels can be pushed."
-autowrap = true
-
-[node name="Content3" type="Label" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
-anchor_right = 1.0
-margin_top = 272.0
-margin_right = -72.0
-margin_bottom = 314.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 4 )
-text = "3. Move towards a neighbouring wall to teleport to the other side."
-autowrap = true
-
-[node name="LineLabel2" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
 anchor_right = 1.0
 margin_top = 336.0
 margin_bottom = 378.0
@@ -912,13 +750,13 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Dot" type="TextureRect" parent="GUI/Tutorial/Checkpoints/SkillingContent/LineLabel2"]
+[node name="Dot" type="TextureRect" parent="GUI/Tutorial/Checkpoints/_c/LineLabel6"]
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
 texture = ExtResource( 19 )
 
-[node name="Content" type="Label" parent="GUI/Tutorial/Checkpoints/SkillingContent/LineLabel2"]
+[node name="Content" type="Label" parent="GUI/Tutorial/Checkpoints/_c/LineLabel6"]
 margin_left = 14.0
 margin_right = 480.0
 margin_bottom = 42.0
@@ -928,60 +766,24 @@ custom_fonts/font = ExtResource( 4 )
 text = "Skills don't work if white stray pixels."
 autowrap = true
 
-[node name="StackingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
+[node name="LineLabel7" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/_c"]
 visible = false
 anchor_right = 1.0
-rect_min_size = Vector2( 0, 346 )
-rect_clip_content = true
-
-[node name="Stacking" type="Label" parent="GUI/Tutorial/Checkpoints/StackingContent"]
-modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-margin_top = 6.0
-margin_right = 328.0
-margin_bottom = 28.0
-rect_min_size = Vector2( 0, 20 )
-theme_type_variation = "Lerimama_lite"
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_styles/normal = SubResource( 326 )
-text = "4/5 Stacking stray pixels"
-
-[node name="Instructions" type="Label" parent="GUI/Tutorial/Checkpoints/StackingContent"]
-anchor_right = 1.0
-margin_top = 48.0
-margin_right = -83.0
-margin_bottom = 96.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 4 )
-text = "When pixels are stacked together, one powerfull burst will drain all their colors."
-autowrap = true
-
-[node name="Instructions2" type="Label" parent="GUI/Tutorial/Checkpoints/StackingContent"]
-anchor_right = 1.0
-margin_top = 112.0
-margin_right = -70.0
-margin_bottom = 160.0
-size_flags_vertical = 1
-custom_fonts/font = ExtResource( 4 )
-text = "Collect at least 3 colors in one burst to progress to the final stage of tutorial."
-autowrap = true
-
-[node name="LineLabel" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/StackingContent"]
-anchor_right = 1.0
 margin_top = 176.0
-margin_right = -64.0
+margin_right = -25.0
 margin_bottom = 242.0
 custom_constants/separation = 8
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Dot" type="TextureRect" parent="GUI/Tutorial/Checkpoints/StackingContent/LineLabel"]
+[node name="Dot" type="TextureRect" parent="GUI/Tutorial/Checkpoints/_c/LineLabel7"]
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
 texture = ExtResource( 19 )
 
-[node name="Content" type="Label" parent="GUI/Tutorial/Checkpoints/StackingContent/LineLabel"]
+[node name="Content" type="Label" parent="GUI/Tutorial/Checkpoints/_c/LineLabel7"]
 margin_left = 14.0
 margin_right = 416.0
 margin_bottom = 66.0
@@ -991,7 +793,8 @@ custom_fonts/font = ExtResource( 4 )
 text = "Amount of colors collected depends on the power of burst. Maximum power will always collect colors from all pixels in a stack."
 autowrap = true
 
-[node name="LineLabel2" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/StackingContent"]
+[node name="LineLabel8" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/_c"]
+visible = false
 anchor_right = 1.0
 margin_top = 296.0
 margin_right = 1.0
@@ -1001,13 +804,13 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Dot" type="TextureRect" parent="GUI/Tutorial/Checkpoints/StackingContent/LineLabel2"]
+[node name="Dot" type="TextureRect" parent="GUI/Tutorial/Checkpoints/_c/LineLabel8"]
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
 texture = ExtResource( 19 )
 
-[node name="Content" type="Label" parent="GUI/Tutorial/Checkpoints/StackingContent/LineLabel2"]
+[node name="Content" type="Label" parent="GUI/Tutorial/Checkpoints/_c/LineLabel8"]
 margin_left = 14.0
 margin_right = 481.0
 margin_bottom = 18.0
@@ -1017,23 +820,24 @@ custom_fonts/font = ExtResource( 4 )
 text = "Rebursting always collects just one color."
 autowrap = true
 
-[node name="LineLabel3" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/StackingContent"]
+[node name="LineLabel9" type="HBoxContainer" parent="GUI/Tutorial/Checkpoints/_c"]
+visible = false
 anchor_right = 1.0
 margin_top = 248.0
-margin_right = -66.0
+margin_right = -25.0
 margin_bottom = 296.0
 custom_constants/separation = 8
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Dot" type="TextureRect" parent="GUI/Tutorial/Checkpoints/StackingContent/LineLabel3"]
+[node name="Dot" type="TextureRect" parent="GUI/Tutorial/Checkpoints/_c/LineLabel9"]
 margin_right = 6.0
 margin_bottom = 18.0
 size_flags_vertical = 0
 texture = ExtResource( 19 )
 
-[node name="Content" type="Label" parent="GUI/Tutorial/Checkpoints/StackingContent/LineLabel3"]
+[node name="Content" type="Label" parent="GUI/Tutorial/Checkpoints/_c/LineLabel9"]
 margin_left = 14.0
 margin_right = 414.0
 margin_bottom = 48.0
@@ -1043,73 +847,373 @@ custom_fonts/font = ExtResource( 4 )
 text = "Hitting pixels in a stack will multiply earned points for every aditional color collected."
 autowrap = true
 
-[node name="WinLoseContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
+[node name="Content" type="Label" parent="GUI/Tutorial/Checkpoints/_c"]
 visible = false
 anchor_right = 1.0
-margin_bottom = 334.0
-rect_min_size = Vector2( 0, 298 )
-rect_clip_content = true
+margin_top = 254.0
+margin_right = -36.0
+margin_bottom = 320.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 4 )
+text = "1. Connect to a neighboring stray pixel or wall and press in the direction of the target"
+autowrap = true
 
-[node name="WinLose" type="Label" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
+[node name="Content2" type="Label" parent="GUI/Tutorial/Checkpoints/_c"]
+visible = false
+anchor_right = 1.0
+margin_top = 302.0
+margin_right = -39.0
+margin_bottom = 368.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 4 )
+text = "2. Move towards a stray pixel to push or away from it to pull. Any amount of pixels can be pushed."
+autowrap = true
+
+[node name="Content3" type="Label" parent="GUI/Tutorial/Checkpoints/_c"]
+visible = false
+anchor_right = 1.0
+margin_top = 350.0
+margin_right = -39.0
+margin_bottom = 392.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 4 )
+text = "3. Move towards a neighbouring wall to teleport to the other side."
+autowrap = true
+
+[node name="TravelingContent" type="VBoxContainer" parent="GUI/Tutorial/Checkpoints"]
+visible = false
+margin_right = 392.0
+margin_bottom = 292.0
+rect_min_size = Vector2( 0, 232 )
+rect_clip_content = true
+custom_constants/separation = 12
+
+[node name="Traveling" type="Label" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
 modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
-margin_top = 7.0
-margin_right = 328.0
-margin_bottom = 29.0
+margin_right = 392.0
+margin_bottom = 22.0
+theme_type_variation = "Lerimama_lite"
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_styles/normal = SubResource( 326 )
+text = "1/5 Traveling"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Instructions" type="Label" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
+margin_top = 34.0
+margin_right = 392.0
+margin_bottom = 76.0
+custom_fonts/font = ExtResource( 4 )
+text = "Moving is restricted to basic directions up, down, left, and right."
+autowrap = true
+
+[node name="Instructions2" type="Label" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
+margin_top = 88.0
+margin_right = 392.0
+margin_bottom = 130.0
+custom_fonts/font = ExtResource( 4 )
+text = "Traveling speed depends on your energy, 
+so keep an eye on your energy bar!"
+autowrap = true
+
+[node name="Instructions3" type="Label" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
+margin_top = 142.0
+margin_right = 392.0
+margin_bottom = 184.0
+custom_fonts/font = ExtResource( 4 )
+text = "Moving around costs energy and your speed depends it. So keep an eye on your energy bar!"
+autowrap = true
+
+[node name="Instructions4" type="Label" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
+margin_top = 196.0
+margin_right = 392.0
+margin_bottom = 238.0
+custom_fonts/font = ExtResource( 4 )
+text = "Use ARROW or WASD keys for keyboard control or DIRECTIONAL PAD on joypad to move."
+autowrap = true
+
+[node name="Instructions5" type="Label" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
+margin_top = 250.0
+margin_right = 392.0
+margin_bottom = 292.0
+custom_fonts/font = ExtResource( 4 )
+text = "Move around the White pixel or in all available directions to advance to the next stage."
+autowrap = true
+
+[node name="BurstingContent" type="VBoxContainer" parent="GUI/Tutorial/Checkpoints"]
+visible = false
+margin_right = 384.0
+margin_bottom = 358.0
+rect_min_size = Vector2( 0, 232 )
+rect_clip_content = true
+custom_constants/separation = 12
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Bursting" type="Label" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+margin_right = 384.0
+margin_bottom = 22.0
 rect_min_size = Vector2( 0, 20 )
 theme_type_variation = "Lerimama_lite"
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_styles/normal = SubResource( 326 )
-text = "5/5 Win or Lose"
+text = "2/5 Collecting colors"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Instructions" type="Label" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+margin_top = 34.0
+margin_right = 384.0
+margin_bottom = 76.0
+custom_fonts/font = ExtResource( 4 )
+text = "Capture colors from stray pixels by
+hitting them with a powerful burst."
+autowrap = true
+
+[node name="Instructions2" type="Label" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+margin_top = 88.0
+margin_right = 384.0
+margin_bottom = 106.0
+custom_fonts/font = ExtResource( 4 )
+text = "Every collected color rewards you with points."
+autowrap = true
+
+[node name="Instructions3" type="Label" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+margin_top = 118.0
+margin_right = 384.0
+margin_bottom = 136.0
+custom_fonts/font = ExtResource( 4 )
+text = "Brusting into the screen edge costs you life."
+autowrap = true
+
+[node name="Instructions4" type="Label" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+margin_top = 148.0
+margin_right = 384.0
+margin_bottom = 214.0
+custom_fonts/font = ExtResource( 4 )
+text = "White stray pixels act like screen edges and can only be destroyed by destroying a colored pixel it is touching."
+autowrap = true
+
+[node name="How" type="Label" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+margin_top = 226.0
+margin_right = 384.0
+margin_bottom = 244.0
+custom_fonts/font = ExtResource( 4 )
+text = "How to?"
+autowrap = true
+
+[node name="Content" type="Label" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+margin_top = 256.0
+margin_right = 384.0
+margin_bottom = 274.0
+custom_fonts/font = ExtResource( 4 )
+text = "1. Press and hold the BURST KEY"
+autowrap = true
+
+[node name="Content2" type="Label" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+margin_top = 286.0
+margin_right = 384.0
+margin_bottom = 328.0
+custom_fonts/font = ExtResource( 4 )
+text = "2. Ad burst power by holding DIRECTION KEY
+in direction away from the target"
+autowrap = true
+
+[node name="Content3" type="Label" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+margin_top = 340.0
+margin_right = 384.0
+margin_bottom = 358.0
+custom_fonts/font = ExtResource( 4 )
+text = "3. Release the BURST KEY"
+autowrap = true
+
+[node name="StackingContent" type="VBoxContainer" parent="GUI/Tutorial/Checkpoints"]
+visible = false
+margin_right = 384.0
+margin_bottom = 232.0
+rect_min_size = Vector2( 0, 232 )
+rect_clip_content = true
+custom_constants/separation = 12
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Skilling" type="Label" parent="GUI/Tutorial/Checkpoints/StackingContent"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+margin_right = 384.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 0, 20 )
+theme_type_variation = "Lerimama_lite"
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_styles/normal = SubResource( 326 )
+text = "3/5 Collecting stacks of color"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Instructions" type="Label" parent="GUI/Tutorial/Checkpoints/StackingContent"]
+margin_top = 34.0
+margin_right = 384.0
+margin_bottom = 124.0
+custom_fonts/font = ExtResource( 4 )
+text = "Collect multiple colors in a stack with one powerful hit. The amount collected depends 
+on the burst power. Burst with maximum power and collect the whole stack."
+autowrap = true
+
+[node name="Instructions2" type="Label" parent="GUI/Tutorial/Checkpoints/StackingContent"]
+margin_top = 136.0
+margin_right = 384.0
+margin_bottom = 178.0
+custom_fonts/font = ExtResource( 4 )
+text = "Collecting stacked colors multiplies earned points for every additional color in the stack."
+autowrap = true
+
+[node name="Instructions3" type="Label" parent="GUI/Tutorial/Checkpoints/StackingContent"]
+margin_top = 190.0
+margin_right = 384.0
+margin_bottom = 232.0
+custom_fonts/font = ExtResource( 4 )
+text = "Collect all stacked colors to advance 
+to the next stage."
+autowrap = true
+
+[node name="SkillingContent" type="VBoxContainer" parent="GUI/Tutorial/Checkpoints"]
+visible = false
+margin_right = 384.0
+margin_bottom = 370.0
+rect_min_size = Vector2( 0, 232 )
+rect_clip_content = true
+custom_constants/separation = 12
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Stacking" type="Label" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+margin_right = 384.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 0, 20 )
+theme_type_variation = "Lerimama_lite"
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_styles/normal = SubResource( 326 )
+text = "4/5 Using Skills"
+
+[node name="Instructions" type="Label" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
+margin_top = 34.0
+margin_right = 384.0
+margin_bottom = 76.0
+custom_fonts/font = ExtResource( 4 )
+text = "With skills you can move colored pixels around or teleport over the white ones."
+autowrap = true
+
+[node name="Instructions2" type="Label" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
+margin_top = 88.0
+margin_right = 384.0
+margin_bottom = 154.0
+custom_fonts/font = ExtResource( 4 )
+text = "Use your skills to build large stacks of colors
+or to eliminate white pixels without a colored neighbour."
+autowrap = true
+
+[node name="Instructions3" type="Label" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
+margin_top = 166.0
+margin_right = 384.0
+margin_bottom = 184.0
+custom_fonts/font = ExtResource( 4 )
+text = "Controls"
+autowrap = true
+
+[node name="Instructions4" type="Label" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
+margin_top = 196.0
+margin_right = 384.0
+margin_bottom = 262.0
+custom_fonts/font = ExtResource( 4 )
+text = "1. Press the DIRECTION KEY towards the pixel you want to handle, then move towards 
+or away from it."
+autowrap = true
+
+[node name="Instructions5" type="Label" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
+margin_top = 274.0
+margin_right = 384.0
+margin_bottom = 316.0
+custom_fonts/font = ExtResource( 4 )
+text = "2. Teleport over a white pixel the same way 
+as you would push the colored one."
+autowrap = true
+
+[node name="Instructions6" type="Label" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
+margin_top = 328.0
+margin_right = 384.0
+margin_bottom = 370.0
+custom_fonts/font = ExtResource( 4 )
+text = "Get rid of the white pixel to advance
+to the final stage."
+autowrap = true
+
+[node name="WinLoseContent" type="VBoxContainer" parent="GUI/Tutorial/Checkpoints"]
+visible = false
+margin_right = 344.0
+margin_bottom = 310.0
+rect_min_size = Vector2( 0, 232 )
+rect_clip_content = true
+custom_constants/separation = 12
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="WinLose" type="Label" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
+modulate = Color( 0.494118, 0.517647, 0.545098, 1 )
+margin_right = 344.0
+margin_bottom = 22.0
+theme_type_variation = "Lerimama_lite"
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_styles/normal = SubResource( 326 )
+text = "5/5 Game Over"
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="Content" type="Label" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
-anchor_right = 1.0
-margin_top = 49.0
-margin_right = -56.0
-margin_bottom = 115.0
-size_flags_vertical = 1
+margin_top = 34.0
+margin_right = 344.0
+margin_bottom = 100.0
 custom_fonts/font = ExtResource( 4 )
-text = "Game is won by cleaning the screen of all the
-stray pixels and regaining \"the one and only\" status."
+text = "Game is won if you clean the screen of all the stray pixels and reclaim your \"one and only\" status."
 autowrap = true
 
 [node name="Content2" type="Label" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
-anchor_right = 1.0
-margin_top = 113.0
-margin_right = -54.0
-margin_bottom = 185.0
-size_flags_vertical = 1
+margin_top = 112.0
+margin_right = 344.0
+margin_bottom = 178.0
 custom_fonts/font = ExtResource( 4 )
-text = "Depending on the game played the reason for losing a game can be: losing all life, losing all energy, time limit is reached, screen is filled with stray pixels."
+text = "Game is lost if you run out of life or get surrounded by colors and can't move anymore."
 autowrap = true
 
 [node name="Content3" type="Label" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
-anchor_right = 1.0
-margin_top = 201.0
-margin_right = -54.0
-margin_bottom = 273.0
-size_flags_vertical = 1
+margin_top = 190.0
+margin_right = 344.0
+margin_bottom = 232.0
 custom_fonts/font = ExtResource( 4 )
-text = "Feel free to practice using skills, bursting, rebursting and stopping."
+text = "To finish this tutorial clean all remaining stray pixels."
 autowrap = true
 
 [node name="Instructions" type="Label" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
-anchor_right = 1.0
-margin_top = 265.0
-margin_right = -68.0
-margin_bottom = 313.0
-size_flags_vertical = 1
+margin_top = 244.0
+margin_right = 344.0
+margin_bottom = 310.0
 custom_fonts/font = ExtResource( 4 )
-text = "To finish this tutorial collect colors still on screen."
+text = "Some rules may change depending on the game mode. If so the change is described on pre-game screen"
 autowrap = true
 
 [node name="Controls" type="Control" parent="GUI/Tutorial"]
 visible = false
-margin_left = 48.0
+margin_left = 33.0
 margin_top = 485.0
-margin_right = 376.0
+margin_right = 353.0
 margin_bottom = 632.0
 rect_pivot_offset = Vector2( 264, 104 )
 __meta__ = {
@@ -1247,6 +1351,7 @@ sharp_limit = 0.0
 antialiased = true
 
 [node name="HudGuide" type="Control" parent="GUI/Tutorial"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -1461,9 +1566,6 @@ margin_top = -40.0
 margin_right = 225.0
 margin_bottom = 248.0
 theme = SubResource( 346 )
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="Panel" type="Panel" parent="GUI/Tutorial/MissionPanel"]
 visible = false
@@ -1476,12 +1578,13 @@ custom_styles/panel = SubResource( 358 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -195.0
-margin_top = 64.0
+margin_top = 48.0
 margin_right = 194.0
-margin_bottom = 130.0
+margin_bottom = 114.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 4 )
-text = "This is a tutorial on basic game mechanics."
+text = "Learn the basics of the game! 
+Follow instructions and hints to smoothly navigate through all 5 stages. "
 align = 1
 autowrap = true
 
@@ -1489,12 +1592,12 @@ autowrap = true
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -177.0
-margin_top = 104.0
+margin_top = 136.0
 margin_right = 175.0
-margin_bottom = 170.0
+margin_bottom = 154.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 4 )
-text = "Follow instructions and hints to progress through all 5 stages."
+text = "Get ready to dive in and become a pro!"
 align = 1
 autowrap = true
 

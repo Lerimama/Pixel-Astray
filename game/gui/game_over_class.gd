@@ -22,7 +22,6 @@ onready var gameover_title_holder: Control = $GameoverTitle
 onready var gameover_title_cleaned: Control = $GameoverTitle/ReasonCleaned
 onready var gameover_title_time: Control = $GameoverTitle/ReasonTime
 onready var gameover_title_life: Control = $GameoverTitle/ReasonLife
-onready var gameover_title_duel: Control = $GameoverTitle/Duel
 onready var background: ColorRect = $Background
 
 # game summary
@@ -183,7 +182,7 @@ func show_game_summary():
 		
 func set_duel_gameover_title():
 	
-	selected_gameover_title = gameover_title_duel
+	selected_gameover_title = $GameoverTitle/Duel
 	selected_gameover_menu = selected_gameover_title.get_node("Menu")
 	focus_btn = selected_gameover_menu.get_node("RestartBtn")
 	selected_gameover_jingle = "win_jingle"

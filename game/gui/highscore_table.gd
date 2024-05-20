@@ -11,7 +11,8 @@ func get_highscore_table(current_game_data: Dictionary, current_player_ranking: 
 	
 	# naslov tabele
 	var current_game_name: String = current_game_data["game_name"]
-	if current_game_data.has("level"):
+	if current_game_data["game"] == Profiles.Games.SWEEPER:
+	#	if current_game_data.has("level"):
 		highscore_table_title.text = "Best of " + current_game_name + " " + str(current_game_data["level"])
 	else:
 		highscore_table_title.text = "Best of " + current_game_name # + "s"
