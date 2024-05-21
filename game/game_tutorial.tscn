@@ -1440,7 +1440,7 @@ margin_right = 194.0
 margin_bottom = 114.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 4 )
-text = "Learn the basics of the game! 
+text = "Learn the basics of the game.
 Follow instructions and hints to smoothly navigate through all 5 stages. "
 align = 1
 autowrap = true
@@ -1461,31 +1461,16 @@ autowrap = true
 [node name="ActionHint" parent="GUI/Tutorial/MissionPanel" instance=ExtResource( 7 )]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -124.0
+margin_left = -108.0
 margin_top = 190.0
-margin_right = 124.0
+margin_right = 107.0
 margin_bottom = 212.0
 
-[node name="Key" parent="GUI/Tutorial/MissionPanel/ActionHint" index="2"]
-margin_right = 118.0
-text = "RETURN"
-
-[node name="Label2" parent="GUI/Tutorial/MissionPanel/ActionHint" index="3"]
-margin_left = 126.0
-margin_right = 143.0
-
-[node name="Jp" parent="GUI/Tutorial/MissionPanel/ActionHint" index="4"]
-margin_left = 151.0
-margin_right = 173.0
+[node name="Jp" parent="GUI/Tutorial/MissionPanel/ActionHint" index="3"]
 texture = SubResource( 405 )
 
-[node name="Button" parent="GUI/Tutorial/MissionPanel/ActionHint/Jp" index="0"]
-margin_left = -155.0
-margin_right = 101.0
-
-[node name="Label3" parent="GUI/Tutorial/MissionPanel/ActionHint" index="5"]
-margin_left = 181.0
-margin_right = 248.0
+[node name="Label3" parent="GUI/Tutorial/MissionPanel/ActionHint" index="4"]
+margin_right = 215.0
 text = "to start"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/Tutorial"]

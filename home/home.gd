@@ -51,7 +51,7 @@ func open_without_intro(): # debug ... kliče main.gd -> home_in_no_intro()
 func open_from_game(from_game: int): # select_game screen ... kliče main.gd -> home_in_from_game()
 
 	# mute game efektov, da se ne sliši spawnanje naslovnih pixlov
-	AudioServer.set_bus_mute(3, true)
+	AudioServer.set_bus_mute(AudioServer.get_bus_index("GameSfx"), true)
 		
 	if from_game == Profiles.Games.SWEEPER:
 		animation_player.play("select_level")
@@ -67,7 +67,7 @@ func open_from_game(from_game: int): # select_game screen ... kliče main.gd -> 
 	
 	yield(get_tree().create_timer(1), "timeout") # počaka, da se vsi spawnajo
 	if not Global.sound_manager.game_sfx_set_to_off:
-		AudioServer.set_bus_mute(3, false)
+		AudioServer.set_bus_mute(AudioServer.get_bus_index("GameSfx"), false)
 	
 	
 func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drugih ekranov
@@ -140,7 +140,7 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 	
 	if current_esc_hint != null:
 		var hint_fade_in = get_tree().create_tween()
-		hint_fade_in.tween_property(current_esc_hint, "modulate:a", 1, 1)
+		hint_fade_in.tween_property(current_esc_hint, "modulate:a", 1, 0.32)
 		
 
 func animation_reversed(from_screen: String):

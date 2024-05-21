@@ -89,7 +89,6 @@ var game_data_cleaner_s: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_s.tscn",
 	"description" : "Rainbow rush! Clear the colors quickly before time slips away!",
 	"Prop" : "Time limited to 2 minutes",
-	"Prop2" : "Rebursting is not available.",
 }
 var game_data_cleaner_m: Dictionary = {
 	"game": Games.CLEANER_M,
@@ -99,7 +98,6 @@ var game_data_cleaner_m: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_m.tscn",
 	"description" : "Hue hysteria! Race the clock and clean up the color explosion!",
 	"Prop" : "Time limited to 5 minutes",
-	"Prop2" : "Rebursting is not available.",
 }
 var game_data_cleaner_l: Dictionary = {
 	"game": Games.CLEANER_L,
@@ -109,7 +107,6 @@ var game_data_cleaner_l: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_l.tscn",
 	"description" : "Color catastrophe! Clean up this vibrant mess before the clock runs out!",
 	"Prop" : "Time limited to 10 minutes",
-	"Prop2" : "Rebursting is not available.",
 }
 var game_data_eraser: Dictionary = { 
 	"game": Games.ERASER,
@@ -118,8 +115,8 @@ var game_data_eraser: Dictionary = {
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser.tscn",
 	"description" : "Keep those colors in check as they keep popping in!",
-	"Prop": "Score points and progress through unlimited difficulty levels.",
-	"Prop2" : "Rebursting is not available.",
+	"Prop": "Score points and progress through different difficulty levels.",
+#	"Prop2" : "Unlimited time. Unlimited levels.",
 	#
 	"level": 1, # pomeni, da je multilevel
 	"level_goal_count": 30, # prvi level
@@ -138,9 +135,9 @@ var game_data_handler: Dictionary = {
 #	"tilemap_path": "res://game/tilemaps/tilemap_handler.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_handler_s.tscn",
 	"description" : "Prevent those nasty white pixels from ruining your screen!",
-	"Prop" : "Clean up all colors and whites to progress through unlimited difficulty levels.",
-	"Prop2" : "Use skills. Whites can only be destroyed if they are stacked.",
-	"Prop3" : "Rebursting is not available.",
+	"Prop" : "Clean up all colors and whites to progress through levels.",
+#	"Prop2" : "Unlimited time. Unlimited levels.",
+#	"Prop3" : "Use skills. Whites can only be destroyed if they are stacked.",
 	#
 	"level": 1, # pomeni, da je multilevel
 	"spawn_white_stray_part_factor": 1, # množim
@@ -160,7 +157,6 @@ var game_data_the_duel: Dictionary = {
 	"description" : "Team up to tackle the colored messa and battle for the ultimate cleaning champ title!",
 	"Prop": "[center][b]Hook[/b]\nBurst into opposing player to deal damage and get his share of points.",
 	"Prop2" : "[center][b]Time[/b]\nLimited to 2 minutes",
-	"Prop3" : "[center][b]Skills[/b]\nRebursting is not available.",
 }
 var game_data_defender: Dictionary = { 
 	"game": Games.DEFENDER,
@@ -170,7 +166,7 @@ var game_data_defender: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/tilemap_defender.tscn",
 	"description" : "Hold the line against the endless wave of colors!",
 	"Prop": "Collect invading colors and progress through unlimited difficulty levels.",
-	"Prop2" : " Energy and life dont matter. Just burst away ...",
+	"Prop2" : "Energy and life dont matter. Just burst away ...",
 	"Prop3" : "Skills are not available.",
 	#
 	"level": 1, # pomeni, da je multilevel
@@ -191,11 +187,14 @@ var game_data_sweeper: Dictionary = {
 	"highscore_type": HighscoreTypes.HS_TIME_LOW,
 	"game_name": "Sweeper",
 	"game_scene_path": "res://game/game.tscn",
+	# 
+	"level": 1, # pomeni, da je multilevel
 	#
 	"description" : "Sweep the entire screen in one spectacular\nburst move!",
 	"Prop" : "Launch the burst move with the initial hit and keep the momentum going with rebursting!",
-	"Prop2" : "Burst can collect all colors in stack. Reburst always collects one color.",
-	"Prop3" : "Reburst time window is unlimited.",
+	"Prop2" : "Reburst after you hit the first stray pixel, by pressing the DIRECTION KEY in the next targets direction.",
+	"Prop3" : "Reburst always collects only one color.",
+#	"Prop3" : "Reburst time window is unlimited.",
 }
 var sweeper_level_setting: Dictionary = { 
 	1: { # ključ je tudi številka levela
@@ -226,15 +225,15 @@ var sweeper_level_setting: Dictionary = {
 		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_09.tscn",
 	},
 	
-	10: {
-		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_S.tscn",
-	},
-	11: {
-		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_M.tscn",
-	},
-	12: {
-		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_L.tscn",
-	},
+#	10: {
+#		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_S.tscn",
+#	},
+#	11: {
+#		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_M.tscn",
+#	},
+#	12: {
+#		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_L.tscn",
+#	},
 }
 var game_data_showcase: Dictionary = {
 	"game": Games.SHOWCASE,
@@ -303,7 +302,7 @@ func set_game_data(selected_game) -> void:
 		Games.CLEANER_S: 
 			current_game_data = game_data_cleaner_s
 			game_settings["game_time_limit"] = 120
-			game_settings["strays_start_count"] = 1
+			game_settings["strays_start_count"] = 50
 			game_settings["respawn_on_cleaned"] = true
 			game_settings["zoom_to_level_size"] = false
 			game_settings["respawn_strays_on_cleaned"] = true

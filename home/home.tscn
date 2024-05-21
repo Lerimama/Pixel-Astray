@@ -1,4 +1,4 @@
-[gd_scene load_steps=130 format=2]
+[gd_scene load_steps=109 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -22,6 +22,7 @@
 [ext_resource path="res://home/credits_line.tscn" type="PackedScene" id=20]
 [ext_resource path="res://game/gui/highscore_table.tscn" type="PackedScene" id=21]
 [ext_resource path="res://assets/theme/font_main_small.tres" type="DynamicFont" id=22]
+[ext_resource path="res://game/gui/shortcut_line.tscn" type="PackedScene" id=23]
 
 [sub_resource type="StyleBoxEmpty" id=208]
 
@@ -338,197 +339,6 @@ OptionButton/styles/pressed = SubResource( 240 )
 Panel/styles/panel = SubResource( 241 )
 VSeparator/styles/separator = SubResource( 242 )
 
-[sub_resource type="AtlasTexture" id=307]
-atlas = ExtResource( 12 )
-region = Rect2( 0, 186, 22, 22 )
-margin = Rect2( 0, 2, 0, 0 )
-
-[sub_resource type="StyleBoxEmpty" id=287]
-
-[sub_resource type="StreamTexture" id=304]
-load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
-
-[sub_resource type="AtlasTexture" id=288]
-atlas = SubResource( 304 )
-region = Rect2( 16, 16, 14, 16 )
-
-[sub_resource type="AtlasTexture" id=289]
-atlas = SubResource( 304 )
-region = Rect2( 0, 16, 10, 16 )
-
-[sub_resource type="StyleBoxFlat" id=290]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-expand_margin_left = 6.0
-expand_margin_right = 6.0
-expand_margin_top = 2.0
-expand_margin_bottom = 3.0
-
-[sub_resource type="StyleBoxEmpty" id=291]
-
-[sub_resource type="StyleBoxEmpty" id=292]
-
-[sub_resource type="StyleBoxLine" id=293]
-color = Color( 1, 1, 1, 1 )
-thickness = 2
-
-[sub_resource type="AtlasTexture" id=294]
-atlas = SubResource( 304 )
-region = Rect2( 32, 0, 10, 10 )
-
-[sub_resource type="StyleBoxEmpty" id=295]
-
-[sub_resource type="StyleBoxFlat" id=296]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-expand_margin_left = 6.0
-expand_margin_top = 6.0
-expand_margin_bottom = 6.0
-
-[sub_resource type="StreamTexture" id=297]
-load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
-
-[sub_resource type="AtlasTexture" id=305]
-atlas = SubResource( 297 )
-region = Rect2( 0, 4, 16, 8 )
-
-[sub_resource type="StyleBoxTexture" id=298]
-texture = SubResource( 305 )
-region_rect = Rect2( 0, 0, 16, 8 )
-margin_left = 3.34132
-margin_right = 4.0
-margin_top = 4.0
-margin_bottom = 4.0
-modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-
-[sub_resource type="StyleBoxFlat" id=299]
-bg_color = Color( 0, 0, 0, 0 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 1, 1, 1, 1 )
-
-[sub_resource type="AtlasTexture" id=300]
-atlas = SubResource( 304 )
-region = Rect2( 16, 0, 16, 12 )
-margin = Rect2( 4, 0, 0, 0 )
-
-[sub_resource type="StyleBoxFlat" id=301]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 1, 1, 1, 0.901961 )
-expand_margin_left = 6.0
-expand_margin_right = 6.0
-expand_margin_top = 2.0
-expand_margin_bottom = 3.0
-
-[sub_resource type="StyleBoxFlat" id=302]
-bg_color = Color( 0, 0, 0, 0.862745 )
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
-
-[sub_resource type="StyleBoxLine" id=303]
-color = Color( 1, 1, 1, 1 )
-thickness = 2
-vertical = true
-
-[sub_resource type="Theme" id=306]
-default_font = ExtResource( 1 )
-Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
-Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
-Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
-Button/styles/disabled = SubResource( 287 )
-Button/styles/focus = SubResource( 287 )
-Button/styles/hover = SubResource( 287 )
-Button/styles/normal = SubResource( 287 )
-Button/styles/pressed = SubResource( 287 )
-CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
-CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
-CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
-CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
-CheckBox/constants/hseparation = 4
-CheckBox/icons/checked = SubResource( 288 )
-CheckBox/icons/unchecked = SubResource( 289 )
-CheckBox/styles/focus = SubResource( 290 )
-CheckBox/styles/hover = SubResource( 290 )
-CheckBox/styles/hover_pressed = SubResource( 290 )
-CheckBox/styles/normal = SubResource( 291 )
-CheckBox/styles/pressed = SubResource( 292 )
-HSeparator/styles/separator = SubResource( 293 )
-HSlider/icons/grabber = SubResource( 294 )
-HSlider/icons/grabber_disabled = null
-HSlider/icons/grabber_highlight = SubResource( 294 )
-HSlider/icons/tick = null
-HSlider/styles/grabber_area = SubResource( 295 )
-HSlider/styles/grabber_area_highlight = SubResource( 296 )
-HSlider/styles/slider = SubResource( 298 )
-Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
-Label/constants/line_spacing = 6
-LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
-LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
-LineEdit/styles/normal = SubResource( 299 )
-OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
-OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
-OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
-OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
-OptionButton/icons/arrow = SubResource( 300 )
-OptionButton/styles/focus = SubResource( 301 )
-OptionButton/styles/hover = SubResource( 301 )
-OptionButton/styles/pressed = SubResource( 301 )
-Panel/styles/panel = SubResource( 302 )
-VSeparator/styles/separator = SubResource( 303 )
-
-[sub_resource type="AtlasTexture" id=308]
-atlas = ExtResource( 12 )
-region = Rect2( 85, 218, 22, 22 )
-margin = Rect2( -2, 2, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=309]
-atlas = ExtResource( 12 )
-region = Rect2( 24, 186, 22, 22 )
-margin = Rect2( 0, 2, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=310]
-atlas = ExtResource( 12 )
-region = Rect2( 109, 218, 22, 22 )
-margin = Rect2( -2, 2, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=311]
-atlas = ExtResource( 12 )
-region = Rect2( 48, 186, 22, 22 )
-margin = Rect2( 0, 2, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=312]
-atlas = ExtResource( 12 )
-region = Rect2( 42, 218, 41, 22 )
-margin = Rect2( -2, 2, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=313]
-atlas = ExtResource( 12 )
-region = Rect2( 72, 186, 22, 22 )
-margin = Rect2( 0, 2, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=314]
-atlas = ExtResource( 12 )
-region = Rect2( 0, 218, 40, 22 )
-margin = Rect2( -2, 2, 0, 0 )
-
 [sub_resource type="StyleBoxEmpty" id=315]
 
 [sub_resource type="StreamTexture" id=316]
@@ -679,6 +489,34 @@ OptionButton/styles/hover = SubResource( 331 )
 OptionButton/styles/pressed = SubResource( 331 )
 Panel/styles/panel = SubResource( 332 )
 VSeparator/styles/separator = SubResource( 333 )
+
+[sub_resource type="AtlasTexture" id=310]
+atlas = ExtResource( 12 )
+region = Rect2( 109, 218, 22, 22 )
+margin = Rect2( -2, 2, 0, 0 )
+
+[sub_resource type="AtlasTexture" id=476]
+atlas = ExtResource( 12 )
+region = Rect2( 138, 44, 22, 22 )
+margin = Rect2( -2, 2, 0, 0 )
+
+[sub_resource type="AtlasTexture" id=190]
+atlas = ExtResource( 12 )
+region = Rect2( 138, 66, 22, 22 )
+margin = Rect2( -2, 2, 0, 0 )
+
+[sub_resource type="AtlasTexture" id=475]
+atlas = ExtResource( 12 )
+region = Rect2( 138, 22, 22, 22 )
+margin = Rect2( -2, 2, 0, 0 )
+
+[sub_resource type="AtlasTexture" id=335]
+atlas = ExtResource( 2 )
+region = Rect2( 9, 22, 6, 10 )
+
+[sub_resource type="AtlasTexture" id=336]
+atlas = ExtResource( 2 )
+region = Rect2( 31, 22, 6, 10 )
 
 [sub_resource type="StyleBoxFlat" id=274]
 bg_color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
@@ -1007,7 +845,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"points": PoolRealArray( 720, 0, 0, 0.5, 0, 168, -0.5, 0, 0, 0 ),
+"points": PoolRealArray( 720, 0, 0, 0.5, 0, 160, -0.5, 0, 0.25, 0 ),
 "times": PoolRealArray( 0, 1.25 )
 }
 tracks/4/type = "bezier"
@@ -1490,7 +1328,7 @@ tracks/5/keys = {
 [node name="Home" type="Node2D"]
 script = ExtResource( 5 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 656.0, -496.0, 152.0, -432.0, 1128.0, 816.0, 752.0, 96.0, 592.0 ],
+"_edit_horizontal_guides_": [ 656.0, -496.0, 136.0, -432.0, 1128.0, 816.0, 752.0, 96.0, 592.0 ],
 "_edit_vertical_guides_": [ 64.0, 1280.0, 1216.0, 640.0, 1960.0, -320.0, 928.0, 352.0, 464.0 ]
 }
 
@@ -1931,9 +1769,6 @@ margin_left = 64.0
 margin_top = 80.0
 margin_right = 464.0
 margin_bottom = 392.0
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="Title1" type="Label" parent="About/Thanks"]
 anchor_right = 1.0
@@ -1957,9 +1792,9 @@ autowrap = true
 
 [node name="Title2" type="Label" parent="About/Thanks"]
 anchor_right = 1.0
-margin_top = 118.0
+margin_top = 126.0
 margin_right = -212.0
-margin_bottom = 140.0
+margin_bottom = 148.0
 size_flags_horizontal = 3
 theme = SubResource( 194 )
 text = "Special thanks"
@@ -1967,9 +1802,9 @@ uppercase = true
 
 [node name="Label2" type="Label" parent="About/Thanks"]
 anchor_right = 1.0
-margin_top = 160.0
+margin_top = 168.0
 margin_right = -16.0
-margin_bottom = 208.0
+margin_bottom = 216.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 14 )
@@ -1978,602 +1813,29 @@ autowrap = true
 
 [node name="Label3" type="Label" parent="About/Thanks"]
 anchor_right = 1.0
-margin_top = 224.0
+margin_top = 232.0
 margin_right = -8.0
-margin_bottom = 290.0
+margin_bottom = 298.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 14 )
-text = "Countless game developers, for sharing their knowledge and experiences on the internet."
-autowrap = true
-
-[node name="Credits" type="Control" parent="About"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -760.0
-margin_top = 80.0
-margin_right = -72.0
-margin_bottom = 352.0
-rect_clip_content = true
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" type="Label" parent="About/Credits"]
-margin_top = -2.0
-margin_right = 272.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-text = "Resources credits"
-uppercase = true
-
-[node name="Fx" type="VBoxContainer" parent="About/Credits"]
-margin_top = 40.0
-margin_right = 261.0
-margin_bottom = 324.0
-size_flags_horizontal = 3
-custom_constants/separation = 4
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" type="Label" parent="About/Credits/Fx"]
-visible = false
-margin_right = 261.0
-margin_bottom = 19.0
-rect_min_size = Vector2( 0, 19 )
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_fonts/font = ExtResource( 14 )
-text = "Sound Effects"
-uppercase = true
-
-[node name="CreditsLine" parent="About/Credits/Fx" instance=ExtResource( 20 )]
-margin_top = 0.0
-margin_right = 261.0
-margin_bottom = 20.0
-web_link = "https://opengameart.org/content/mushroom-%F0%9F%94%8A"
-web_link_text = "opengameart.org/..."
-name_author_text = "Mushroom / Modanung"
-
-[node name="CreditsLine2" parent="About/Credits/Fx" instance=ExtResource( 20 )]
-margin_top = 24.0
-margin_right = 261.0
-margin_bottom = 44.0
-web_link = "https://opengameart.org/content/game-over-0"
-web_link_text = "opengameart.org/..."
-name_author_text = "Game Over! / zuvizu"
-
-[node name="CreditsLine3" parent="About/Credits/Fx" instance=ExtResource( 20 )]
-margin_top = 48.0
-margin_right = 261.0
-margin_bottom = 68.0
-web_link = "https://opengameart.org/content/countdown"
-web_link_text = "opengameart.org/..."
-name_author_text = "Countdown / Destructavator"
-
-[node name="CreditsLine4" parent="About/Credits/Fx" instance=ExtResource( 20 )]
-margin_top = 72.0
-margin_right = 261.0
-margin_bottom = 92.0
-web_link = "https://freesound.org/people/potentjello/sounds/194081/"
-web_link_text = "freesound.org/..."
-name_author_text = "woosh-noise-1.wav / potentjello"
-
-[node name="CreditsLine5" parent="About/Credits/Fx" instance=ExtResource( 20 )]
-margin_top = 96.0
-margin_right = 261.0
-margin_bottom = 116.0
-web_link = "https://freesound.org/people/firecamel/sounds/169349/"
-web_link_text = "freesound.org/..."
-name_author_text = "Cartoon Blink / firecamel"
-
-[node name="CreditsLine6" parent="About/Credits/Fx" instance=ExtResource( 20 )]
-margin_top = 120.0
-margin_right = 261.0
-margin_bottom = 140.0
-web_link = "https://freesound.org/people/guillermochicasonido/sounds"
-web_link_text = "freesound.org/..."
-name_author_text = "Static / guillermochicasonido"
-
-[node name="CreditsLine7" parent="About/Credits/Fx" instance=ExtResource( 20 )]
-margin_top = 144.0
-margin_right = 261.0
-margin_bottom = 164.0
-web_link = "ttps://freesound.org/people/Jovica/sounds/7864/"
-web_link_text = "freesound.org/..."
-name_author_text = "Basic pulse wave 3 E1 / jovica"
-
-[node name="CreditsLine8" parent="About/Credits/Fx" instance=ExtResource( 20 )]
-margin_top = 168.0
-margin_right = 261.0
-margin_bottom = 188.0
-web_link = "https://freesound.org/people/natharra/sounds/71467/"
-web_link_text = "freesound.org/..."
-name_author_text = "blink 2 cling / natharra"
-
-[node name="CreditsLine9" parent="About/Credits/Fx" instance=ExtResource( 20 )]
-margin_top = 192.0
-margin_right = 261.0
-margin_bottom = 212.0
-web_link = "https://freesound.org/search/?q=421624"
-web_link_text = "freesound.org/..."
-name_author_text = "sparkier remix#2 ... / Timbre"
-
-[node name="CreditsLine10" parent="About/Credits/Fx" instance=ExtResource( 20 )]
-visible = false
-margin_top = 239.0
-margin_right = 261.0
-margin_bottom = 259.0
-web_link = "https://filippogameaudio.itch.io/game-sound-effects-01"
-web_link_text = "filippogameaudio.itch.io"
-name_author_text = "285 Game Sound Effects Vol.1"
-
-[node name="CreditsLine11" parent="About/Credits/Fx" instance=ExtResource( 20 )]
-visible = false
-margin_top = 263.0
-margin_right = 261.0
-margin_bottom = 283.0
-web_link = "https://filippogameaudio.itch.io/game-sound-effects-02"
-web_link_text = "filippogameaudio.itch.io"
-name_author_text = "285 Game Sound Effects Vol.2"
-
-[node name="Music" type="VBoxContainer" parent="About/Credits"]
-margin_left = 344.0
-margin_top = 39.0
-margin_right = 605.0
-margin_bottom = 226.0
-size_flags_horizontal = 3
-custom_constants/separation = 4
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" type="Label" parent="About/Credits/Music"]
-visible = false
-margin_right = 261.0
-margin_bottom = 19.0
-rect_min_size = Vector2( 0, 19 )
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_fonts/font = ExtResource( 14 )
-text = "Music loops"
-uppercase = true
-
-[node name="CreditsLine3" parent="About/Credits/Music" instance=ExtResource( 20 )]
-margin_top = 0.0
-margin_right = 261.0
-margin_bottom = 20.0
-web_link = "https://thmatc.co/?l=B6F7EDE0 "
-web_link_text = "thmatc.co"
-name_author_text = "Menu music / Bud"
-
-[node name="CreditsLine4" parent="About/Credits/Music" instance=ExtResource( 20 )]
-margin_top = 24.0
-margin_right = 261.0
-margin_bottom = 44.0
-web_link = "https://freesound.org/people/3M4/sounds/457363/"
-web_link_text = "freesound.org"
-name_author_text = "Trap / 3M4"
-
-[node name="CreditsLine5" parent="About/Credits/Music" instance=ExtResource( 20 )]
-margin_top = 48.0
-margin_right = 261.0
-margin_bottom = 68.0
-web_link = "http://abstractionmusic.bandcamp.com/"
-web_link_text = "bandcamp.com"
-name_author_text = "Reward / ..."
-
-[node name="CreditsLine6" parent="About/Credits/Music" instance=ExtResource( 20 )]
-margin_top = 72.0
-margin_right = 261.0
-margin_bottom = 92.0
-web_link = "http://abstractionmusic.bandcamp.com/"
-web_link_text = "bandcamp.com"
-name_author_text = "Dare / Ludum Dare 28"
-
-[node name="CreditsLine9" parent="About/Credits/Music" instance=ExtResource( 20 )]
-visible = false
-margin_top = 96.0
-margin_right = 261.0
-margin_bottom = 116.0
-web_link = "https://www.playonloop.com/2019-music-loops/the-foyer/"
-web_link_text = "playonloop.com"
-name_author_text = "the-foyer-short / PlayOnLoop"
-
-[node name="CreditsLine10" parent="About/Credits/Music" instance=ExtResource( 20 )]
-margin_top = 96.0
-margin_right = 261.0
-margin_bottom = 116.0
-web_link = "https://www.bensound.com/"
-web_link_text = "bensound.com"
-name_author_text = "Moose / FDAUMPO8UWUPXYFZ"
-
-[node name="Font" type="VBoxContainer" parent="About/Credits"]
-margin_left = 344.0
-margin_top = 208.0
-margin_right = 605.0
-margin_bottom = 276.0
-size_flags_horizontal = 3
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" type="Label" parent="About/Credits/Font"]
-visible = false
-margin_right = 261.0
-margin_bottom = 19.0
-rect_min_size = Vector2( 0, 19 )
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_fonts/font = ExtResource( 14 )
-text = "Fonts"
-uppercase = true
-
-[node name="CreditsLine" parent="About/Credits/Font" instance=ExtResource( 20 )]
-margin_top = 0.0
-margin_right = 261.0
-margin_bottom = 20.0
-web_link = "https://www.pentacom.jp/pentacom/bitfontmaker2/gallery/?id=357"
-web_link_text = "bitfontmaker2"
-name_author_text = "Habbo by Omny"
-
-[node name="CreditsLine2" parent="About/Credits/Font" instance=ExtResource( 20 )]
-margin_top = 24.0
-margin_right = 261.0
-margin_bottom = 44.0
-web_link = "https://www.pentacom.jp/pentacom/bitfontmaker2/gallery/?id=246"
-web_link_text = "bitfontmaker2"
-name_author_text = "16bfZX by petrnita"
-
-[node name="Shortcuts" type="Control" parent="About"]
-margin_left = 520.0
-margin_top = 358.0
-margin_right = 1000.0
-margin_bottom = 567.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" type="Label" parent="About/Shortcuts"]
-anchor_right = 1.0
-margin_top = 8.0
-margin_bottom = 30.0
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-text = "Shortcuts"
-uppercase = true
-
-[node name="Mute" type="HBoxContainer" parent="About/Shortcuts"]
-margin_top = 48.0
-margin_right = 262.0
-margin_bottom = 70.0
-custom_constants/separation = 8
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="M" type="TextureRect" parent="About/Shortcuts/Mute"]
-margin_right = 22.0
-margin_bottom = 22.0
-texture = SubResource( 307 )
-
-[node name="Label" type="Label" parent="About/Shortcuts/Mute"]
-margin_left = 30.0
-margin_top = 2.0
-margin_right = 47.0
-margin_bottom = 20.0
-theme = SubResource( 306 )
-custom_fonts/font = ExtResource( 14 )
-text = "or"
-align = 1
-
-[node name="L1" type="TextureRect" parent="About/Shortcuts/Mute"]
-margin_left = 55.0
-margin_right = 77.0
-margin_bottom = 22.0
-texture = SubResource( 308 )
-
-[node name="Label2" type="Label" parent="About/Shortcuts/Mute"]
-margin_left = 85.0
-margin_top = 2.0
-margin_right = 198.0
-margin_bottom = 20.0
-theme = SubResource( 306 )
-custom_fonts/font = ExtResource( 14 )
-text = "to mute music"
-
-[node name="Hint" type="HBoxContainer" parent="About/Shortcuts"]
-margin_top = 80.0
-margin_right = 262.0
-margin_bottom = 102.0
-custom_constants/separation = 8
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="N" type="TextureRect" parent="About/Shortcuts/Hint"]
-margin_right = 22.0
-margin_bottom = 22.0
-texture = SubResource( 309 )
-
-[node name="Label" type="Label" parent="About/Shortcuts/Hint"]
-margin_left = 30.0
-margin_top = 2.0
-margin_right = 47.0
-margin_bottom = 20.0
-theme = SubResource( 306 )
-custom_fonts/font = ExtResource( 14 )
-text = "or"
-align = 1
-
-[node name="R1" type="TextureRect" parent="About/Shortcuts/Hint"]
-margin_left = 55.0
-margin_right = 77.0
-margin_bottom = 22.0
-texture = SubResource( 310 )
-
-[node name="Label2" type="Label" parent="About/Shortcuts/Hint"]
-margin_left = 85.0
-margin_top = 2.0
-margin_right = 235.0
-margin_bottom = 20.0
-theme = SubResource( 306 )
-custom_fonts/font = ExtResource( 14 )
-text = "to show riddle hint"
-
-[node name="Skip" type="HBoxContainer" parent="About/Shortcuts"]
-margin_top = 112.0
-margin_right = 262.0
-margin_bottom = 134.0
-custom_constants/separation = 8
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="N" type="TextureRect" parent="About/Shortcuts/Skip"]
-margin_right = 22.0
-margin_bottom = 22.0
-texture = SubResource( 309 )
-
-[node name="Label" type="Label" parent="About/Shortcuts/Skip"]
-margin_left = 30.0
-margin_top = 2.0
-margin_right = 47.0
-margin_bottom = 20.0
-theme = SubResource( 306 )
-custom_fonts/font = ExtResource( 14 )
-text = "or"
-align = 1
-
-[node name="R1" type="TextureRect" parent="About/Shortcuts/Skip"]
-margin_left = 55.0
-margin_right = 77.0
-margin_bottom = 22.0
-texture = SubResource( 310 )
-
-[node name="Label2" type="Label" parent="About/Shortcuts/Skip"]
-margin_left = 85.0
-margin_top = 2.0
-margin_right = 257.0
-margin_bottom = 20.0
-theme = SubResource( 306 )
-custom_fonts/font = ExtResource( 14 )
-text = "to skip current track"
-
-[node name="Pause" type="HBoxContainer" parent="About/Shortcuts"]
-margin_left = 352.0
-margin_top = 48.0
-margin_right = 648.0
-margin_bottom = 70.0
-custom_constants/separation = 8
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Esc" type="TextureRect" parent="About/Shortcuts/Pause"]
-margin_right = 22.0
-margin_bottom = 22.0
-texture = SubResource( 311 )
-
-[node name="Label" type="Label" parent="About/Shortcuts/Pause"]
-margin_left = 30.0
-margin_top = 2.0
-margin_right = 47.0
-margin_bottom = 20.0
-theme = SubResource( 306 )
-custom_fonts/font = ExtResource( 14 )
-text = "or"
-align = 1
-
-[node name="Select" type="TextureRect" parent="About/Shortcuts/Pause"]
-margin_left = 55.0
-margin_right = 96.0
-margin_bottom = 22.0
-texture = SubResource( 312 )
-
-[node name="Label2" type="Label" parent="About/Shortcuts/Pause"]
-margin_left = 104.0
-margin_top = 2.0
-margin_right = 296.0
-margin_bottom = 20.0
-theme = SubResource( 306 )
-custom_fonts/font = ExtResource( 14 )
-text = "to pause/unpause game"
-
-[node name="Enter" type="HBoxContainer" parent="About/Shortcuts"]
-margin_left = 352.0
-margin_top = 80.0
-margin_right = 620.0
-margin_bottom = 102.0
-custom_constants/separation = 8
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Enter" type="TextureRect" parent="About/Shortcuts/Enter"]
-margin_right = 22.0
-margin_bottom = 22.0
-texture = SubResource( 313 )
-
-[node name="Label" type="Label" parent="About/Shortcuts/Enter"]
-margin_left = 30.0
-margin_top = 2.0
-margin_right = 47.0
-margin_bottom = 20.0
-theme = SubResource( 306 )
-custom_fonts/font = ExtResource( 14 )
-text = "or"
-align = 1
-
-[node name="Start" type="TextureRect" parent="About/Shortcuts/Enter"]
-margin_left = 55.0
-margin_right = 95.0
-margin_bottom = 22.0
-texture = SubResource( 314 )
-
-[node name="Label2" type="Label" parent="About/Shortcuts/Enter"]
-margin_left = 103.0
-margin_top = 2.0
-margin_right = 262.0
-margin_bottom = 20.0
-theme = SubResource( 306 )
-custom_fonts/font = ExtResource( 14 )
-text = "to confirm selection"
-
-[node name="RichTextLabel" type="RichTextLabel" parent="About/Shortcuts"]
-margin_top = 152.0
-margin_right = 288.0
-margin_bottom = 234.0
-custom_fonts/bold_font = ExtResource( 1 )
-custom_fonts/normal_font = ExtResource( 14 )
-bbcode_enabled = true
-bbcode_text = "[b]bold[/b] je to pa to"
-text = "bold je to pa to"
-
-[node name="2" type="VBoxContainer" parent="About"]
-visible = false
-margin_left = 1352.0
-margin_top = 512.0
-margin_right = 1864.0
-margin_bottom = 706.0
-size_flags_horizontal = 3
-custom_constants/separation = 20
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" type="Label" parent="About/2"]
-margin_right = 512.0
-margin_bottom = 22.0
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-text = "MAIN GAME LOOP"
-uppercase = true
-
-[node name="1" type="Label" parent="About/2"]
-margin_top = 42.0
-margin_right = 512.0
-margin_bottom = 60.0
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 14 )
-text = "Its a game that focuses arround pixels."
-autowrap = true
-
-[node name="2" type="Label" parent="About/2"]
-margin_top = 80.0
-margin_right = 512.0
-margin_bottom = 194.0
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 14 )
-text = "Pixels, short for picture elements are tiny squares or dots that combine to form the visual content on displays such as computer screens. Each pixel represents a specific color and intensity, and together they create the images we see. The resolution of an image refers to the numbe."
-autowrap = true
-
-[node name="3" type="HBoxContainer" parent="About"]
-visible = false
-margin_left = 384.0
-margin_top = 128.0
-margin_right = 1208.0
-margin_bottom = 482.0
-size_flags_horizontal = 3
-custom_constants/separation = 20
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="About/3"]
-margin_right = 402.0
-margin_bottom = 354.0
-size_flags_horizontal = 3
-
-[node name="1" type="Label" parent="About/3/VBoxContainer2"]
-margin_right = 402.0
-margin_bottom = 115.0
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 14 )
-text = "Music"
-autowrap = true
-
-[node name="2" type="Label" parent="About/3/VBoxContainer2"]
-margin_top = 119.0
-margin_right = 402.0
-margin_bottom = 234.0
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 14 )
-text = "Sound effects"
-autowrap = true
-
-[node name="3" type="Label" parent="About/3/VBoxContainer2"]
-margin_top = 238.0
-margin_right = 402.0
-margin_bottom = 354.0
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 14 )
-text = "Fonts"
-autowrap = true
-
-[node name="VBoxContainer3" type="VBoxContainer" parent="About/3"]
-margin_left = 422.0
-margin_right = 824.0
-margin_bottom = 354.0
-size_flags_horizontal = 3
-
-[node name="1" type="Label" parent="About/3/VBoxContainer3"]
-margin_right = 402.0
-margin_bottom = 115.0
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 14 )
-text = "Music"
-autowrap = true
-
-[node name="2" type="Label" parent="About/3/VBoxContainer3"]
-margin_top = 119.0
-margin_right = 402.0
-margin_bottom = 234.0
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 14 )
-text = "Sound effects"
-autowrap = true
-
-[node name="3" type="Label" parent="About/3/VBoxContainer3"]
-margin_top = 238.0
-margin_right = 402.0
-margin_bottom = 354.0
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 14 )
-text = "Fonts"
+text = "So many game developers for sharing their knowledge, experience and projects over 
+the internet."
 autowrap = true
 
 [node name="Shortcuts3" type="VBoxContainer" parent="About"]
+visible = false
 anchor_top = 0.5
 anchor_bottom = 0.5
-margin_left = 1248.0
-margin_top = -131.0
-margin_right = 1492.0
-margin_bottom = -43.0
+margin_left = 1280.0
+margin_top = 116.0
+margin_right = 1524.0
+margin_bottom = 204.0
 rect_clip_content = true
 size_flags_horizontal = 3
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Mute" type="HBoxContainer" parent="About/Shortcuts3"]
 margin_right = 187.0
@@ -2816,11 +2078,519 @@ theme = SubResource( 334 )
 custom_fonts/font = ExtResource( 14 )
 text = "to confirm selection"
 
-[node name="EscHint" parent="About" instance=ExtResource( 11 )]
+[node name="Credits" type="Control" parent="About"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -728.0
+margin_top = 80.0
+margin_right = -72.0
+margin_bottom = 360.0
+rect_clip_content = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" type="Label" parent="About/Credits"]
+margin_top = -2.0
+margin_right = 272.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+theme = SubResource( 194 )
+text = "Resources credits"
+uppercase = true
+
+[node name="1" type="VBoxContainer" parent="About/Credits"]
+margin_top = 34.0
+margin_right = 300.0
+margin_bottom = 262.0
+size_flags_horizontal = 3
+custom_constants/separation = 3
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" type="Label" parent="About/Credits/1"]
+visible = false
+margin_right = 280.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 0, 19 )
+size_flags_horizontal = 3
+theme = SubResource( 194 )
+custom_fonts/font = ExtResource( 14 )
+text = "Sound Effects"
+uppercase = true
+
+[node name="CreditsLine" type="RichTextLabel" parent="About/Credits/1"]
+margin_right = 300.0
+margin_bottom = 25.0
+bbcode_enabled = true
+bbcode_text = "[b],[/b] [url=https://opengameart.org/content/mushroom-%F0%9F%94%8A]Sfx Mushroom - Modanung[/url]"
+text = ", Sfx Mushroom - Modanung"
+fit_content_height = true
+
+[node name="CreditsLine2" type="RichTextLabel" parent="About/Credits/1"]
+margin_top = 28.0
+margin_right = 300.0
+margin_bottom = 53.0
+bbcode_enabled = true
+bbcode_text = "[b],[/b] [url=https://opengameart.org/content/game-over-0]Sfx Game Over! - zuvizu[/url]"
+text = ", Sfx Game Over! - zuvizu"
+fit_content_height = true
+
+[node name="CreditsLine3" type="RichTextLabel" parent="About/Credits/1"]
+margin_top = 56.0
+margin_right = 300.0
+margin_bottom = 81.0
+bbcode_enabled = true
+bbcode_text = "[b],[/b] [url=https://opengameart.org/content/countdown]Sfx Countdown - Destructavator[/url]"
+text = ", Sfx Countdown - Destructavator"
+fit_content_height = true
+
+[node name="CreditsLine4" type="RichTextLabel" parent="About/Credits/1"]
+margin_top = 84.0
+margin_right = 300.0
+margin_bottom = 109.0
+bbcode_enabled = true
+bbcode_text = "[b],[/b] [url=https://freesound.org/people/potentjello/sounds/194081]Sfx Woosh-noise-1.wav - potentjello[/url]"
+text = ", Sfx Woosh-noise-1.wav - potentjello"
+fit_content_height = true
+
+[node name="CreditsLine5" type="RichTextLabel" parent="About/Credits/1"]
+margin_top = 112.0
+margin_right = 300.0
+margin_bottom = 137.0
+bbcode_enabled = true
+bbcode_text = "[b],[/b] [url=https://freesound.org/people/firecamel/sounds/169349/]Sfx Cartoon Blink - firecamel[/url]"
+text = ", Sfx Cartoon Blink - firecamel"
+fit_content_height = true
+
+[node name="CreditsLine6" type="RichTextLabel" parent="About/Credits/1"]
+margin_top = 140.0
+margin_right = 300.0
+margin_bottom = 165.0
+bbcode_enabled = true
+bbcode_text = "[b],[/b] [url=https://freesound.org/people/guillermochicasonido/sounds]Sfx Static - guillermochicasonido[/url]"
+text = ", Sfx Static - guillermochicasonido"
+fit_content_height = true
+
+[node name="CreditsLine7" type="RichTextLabel" parent="About/Credits/1"]
+margin_top = 168.0
+margin_right = 300.0
+margin_bottom = 193.0
+bbcode_enabled = true
+bbcode_text = "[b],[/b] [url=ttps://freesound.org/people/Jovica/sounds/7864]Sfx Basic pulse wave 3 E1 - jovica[/url]"
+text = ", Sfx Basic pulse wave 3 E1 - jovica"
+fit_content_height = true
+
+[node name="CreditsLine8" type="RichTextLabel" parent="About/Credits/1"]
+margin_top = 196.0
+margin_right = 300.0
+margin_bottom = 221.0
+bbcode_enabled = true
+bbcode_text = "[b],[/b] [url=https://freesound.org/people/natharra/sounds/71467/]Sfx Blink 2 cling - natharra[/url]"
+text = ", Sfx Blink 2 cling - natharra"
+fit_content_height = true
+
+[node name="2" type="VBoxContainer" parent="About/Credits"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -302.0
+margin_top = 33.0
+margin_right = -2.0
+margin_bottom = 261.0
+size_flags_horizontal = 3
+custom_constants/separation = 4
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" type="Label" parent="About/Credits/2"]
+visible = false
+margin_right = 261.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 0, 19 )
+size_flags_horizontal = 3
+theme = SubResource( 194 )
+custom_fonts/font = ExtResource( 14 )
+text = "Music loops"
+uppercase = true
+
+[node name="CreditsLine18" type="RichTextLabel" parent="About/Credits/2"]
+margin_right = 300.0
+margin_bottom = 25.0
+bbcode_enabled = true
+bbcode_text = "[b],[/b] [url=https://freesound.org/search/?q=421624]Sfx Sparkier remix#2 ... - Timbre[/url]"
+text = ", Sfx Sparkier remix#2 ... - Timbre"
+fit_content_height = true
+
+[node name="CreditsLine11" type="RichTextLabel" parent="About/Credits/2"]
+margin_top = 29.0
+margin_right = 300.0
+margin_bottom = 54.0
+bbcode_enabled = true
+bbcode_text = "[b],[/b] [url=https://opengameart.org/content/mushroom-%F0%9F%94%8A]Mushroom - Modanung[/url]"
+text = ", Mushroom - Modanung"
+fit_content_height = true
+
+[node name="CreditsLine12" type="RichTextLabel" parent="About/Credits/2"]
+margin_top = 58.0
+margin_right = 300.0
+margin_bottom = 83.0
+bbcode_enabled = true
+bbcode_text = "[b],[/b] [url=https://opengameart.org/content/game-over-0]Game Over! - zuvizu[/url]"
+text = ", Game Over! - zuvizu"
+fit_content_height = true
+
+[node name="CreditsLine13" type="RichTextLabel" parent="About/Credits/2"]
+margin_top = 87.0
+margin_right = 300.0
+margin_bottom = 112.0
+bbcode_enabled = true
+bbcode_text = "[b],[/b] [url=https://opengameart.org/content/countdown]Countdown - Destructavator[/url]"
+text = ", Countdown - Destructavator"
+fit_content_height = true
+
+[node name="CreditsLine14" type="RichTextLabel" parent="About/Credits/2"]
+margin_top = 116.0
+margin_right = 300.0
+margin_bottom = 141.0
+bbcode_enabled = true
+bbcode_text = "[b],[/b] [url=https://freesound.org/people/potentjello/sounds/194081]woosh-noise-1.wav - potentjello[/url]"
+text = ", woosh-noise-1.wav - potentjello"
+fit_content_height = true
+
+[node name="CreditsLine15" type="RichTextLabel" parent="About/Credits/2"]
+margin_top = 145.0
+margin_right = 300.0
+margin_bottom = 170.0
+bbcode_enabled = true
+bbcode_text = "[b],[/b] [url=https://freesound.org/people/firecamel/sounds/169349/]Cartoon Blink - firecamel[/url]"
+text = ", Cartoon Blink - firecamel"
+fit_content_height = true
+
+[node name="CreditsLine3" parent="About/Credits/2" instance=ExtResource( 20 )]
+visible = false
+margin_top = 164.0
+margin_right = 261.0
+margin_bottom = 184.0
+web_link = "https://thmatc.co/?l=B6F7EDE0 "
+web_link_text = "thmatc.co"
+name_author_text = "Menu music / Bud"
+
+[node name="CreditsLine4" parent="About/Credits/2" instance=ExtResource( 20 )]
+visible = false
+margin_top = 164.0
+margin_right = 261.0
+margin_bottom = 184.0
+web_link = "https://freesound.org/people/3M4/sounds/457363/"
+web_link_text = "freesound.org"
+name_author_text = "Trap / 3M4"
+
+[node name="CreditsLine5" parent="About/Credits/2" instance=ExtResource( 20 )]
+visible = false
+margin_top = 164.0
+margin_right = 261.0
+margin_bottom = 184.0
+web_link = "http://abstractionmusic.bandcamp.com/"
+web_link_text = "bandcamp.com"
+name_author_text = "Reward / ..."
+
+[node name="CreditsLine6" parent="About/Credits/2" instance=ExtResource( 20 )]
+visible = false
+margin_top = 164.0
+margin_right = 261.0
+margin_bottom = 184.0
+web_link = "http://abstractionmusic.bandcamp.com/"
+web_link_text = "bandcamp.com"
+name_author_text = "Dare / Ludum Dare 28"
+
+[node name="CreditsLine9" parent="About/Credits/2" instance=ExtResource( 20 )]
+visible = false
+margin_top = 96.0
+margin_right = 261.0
+margin_bottom = 116.0
+web_link = "https://www.playonloop.com/2019-music-loops/the-foyer/"
+web_link_text = "playonloop.com"
+name_author_text = "the-foyer-short / PlayOnLoop"
+
+[node name="CreditsLine10" parent="About/Credits/2" instance=ExtResource( 20 )]
+visible = false
+margin_top = 164.0
+margin_right = 261.0
+margin_bottom = 184.0
+web_link = "https://www.bensound.com/"
+web_link_text = "bensound.com"
+name_author_text = "Moose / FDAUMPO8UWUPXYFZ"
+
+[node name="CreditsLine16" type="RichTextLabel" parent="About/Credits/2"]
+margin_top = 174.0
+margin_right = 300.0
+margin_bottom = 199.0
+bbcode_enabled = true
+bbcode_text = "[b],[/b] [url=https://www.pentacom.jp/pentacom/bitfontmaker2/gallery/?id=246]Font 16bfZX by petrnita[/url]"
+text = ", Font 16bfZX by petrnita"
+fit_content_height = true
+
+[node name="CreditsLine17" type="RichTextLabel" parent="About/Credits/2"]
+margin_top = 203.0
+margin_right = 300.0
+margin_bottom = 228.0
+bbcode_enabled = true
+bbcode_text = "[b],[/b] [url=https://www.pentacom.jp/pentacom/bitfontmaker2/gallery/?id=357]Font Habbo by Omny[/url]"
+text = ", Font Habbo by Omny"
+fit_content_height = true
+
+[node name="Shortcuts" type="Control" parent="About"]
+margin_left = 552.0
+margin_top = 367.0
+margin_right = 1216.0
+margin_bottom = 513.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" type="Label" parent="About/Shortcuts"]
+anchor_right = 1.0
+margin_top = 8.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+theme = SubResource( 194 )
+text = "Shortcuts"
+uppercase = true
+
+[node name="ShortcutLine" parent="About/Shortcuts" instance=ExtResource( 23 )]
+anchor_left = 0.0
+anchor_right = 0.0
+margin_left = 0.0
+margin_top = 48.0
+margin_right = 244.0
+margin_bottom = 70.0
+
+[node name="ShortcutLine2" parent="About/Shortcuts" instance=ExtResource( 23 )]
+anchor_left = 0.0
+anchor_right = 0.0
+margin_left = 0.0
+margin_top = 80.0
+margin_right = 244.0
+margin_bottom = 102.0
+
+[node name="KEY" parent="About/Shortcuts/ShortcutLine2" index="1"]
+margin_right = 11.0
+text = "N"
+
+[node name="or" parent="About/Shortcuts/ShortcutLine2" index="2"]
+margin_left = 18.0
+margin_right = 35.0
+
+[node name="L1" parent="About/Shortcuts/ShortcutLine2" index="3"]
+margin_left = 42.0
+margin_right = 64.0
+texture = SubResource( 310 )
+
+[node name="Label3" parent="About/Shortcuts/ShortcutLine2" index="4"]
+margin_left = 71.0
+margin_right = 243.0
+text = "to skip current track"
+
+[node name="ShortcutLine3" parent="About/Shortcuts" instance=ExtResource( 23 )]
+anchor_left = 0.0
+anchor_right = 0.0
+margin_left = 0.0
+margin_top = 112.0
+margin_right = 245.0
+margin_bottom = 134.0
+
+[node name="KEY" parent="About/Shortcuts/ShortcutLine3" index="1"]
+margin_right = 11.0
+text = "H"
+
+[node name="or" parent="About/Shortcuts/ShortcutLine3" index="2"]
+margin_left = 18.0
+margin_right = 35.0
+
+[node name="L1" parent="About/Shortcuts/ShortcutLine3" index="3"]
+margin_left = 42.0
+margin_right = 64.0
+texture = SubResource( 476 )
+
+[node name="Label3" parent="About/Shortcuts/ShortcutLine3" index="4"]
+margin_left = 71.0
+margin_right = 287.0
+text = "to show/hide Sweeper hint"
+
+[node name="ShortcutLine4" parent="About/Shortcuts" instance=ExtResource( 23 )]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -308.0
+margin_top = 49.0
+margin_right = -23.0
+margin_bottom = 71.0
+
+[node name="KEY" parent="About/Shortcuts/ShortcutLine4" index="1"]
+margin_right = 33.0
+text = "ESC"
+
+[node name="or" parent="About/Shortcuts/ShortcutLine4" index="2"]
+margin_left = 40.0
+margin_right = 57.0
+
+[node name="L1" parent="About/Shortcuts/ShortcutLine4" index="3"]
 margin_left = 64.0
-margin_top = 470.0
-margin_right = 248.0
-margin_bottom = 492.0
+margin_right = 86.0
+texture = SubResource( 190 )
+
+[node name="Label3" parent="About/Shortcuts/ShortcutLine4" index="4"]
+margin_left = 93.0
+margin_right = 285.0
+text = "to pause/unpause game"
+
+[node name="ShortcutLine5" parent="About/Shortcuts" instance=ExtResource( 23 )]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -308.0
+margin_top = 81.0
+margin_right = -23.0
+margin_bottom = 103.0
+
+[node name="KEY" parent="About/Shortcuts/ShortcutLine5" index="1"]
+margin_right = 66.0
+text = "RETURN"
+
+[node name="or" parent="About/Shortcuts/ShortcutLine5" index="2"]
+margin_left = 73.0
+margin_right = 90.0
+
+[node name="L1" parent="About/Shortcuts/ShortcutLine5" index="3"]
+margin_left = 97.0
+margin_right = 119.0
+texture = SubResource( 475 )
+
+[node name="Label3" parent="About/Shortcuts/ShortcutLine5" index="4"]
+margin_left = 126.0
+margin_right = 285.0
+text = "to confirm selection"
+
+[node name="2" type="VBoxContainer" parent="About"]
+visible = false
+margin_left = 1352.0
+margin_top = 512.0
+margin_right = 1864.0
+margin_bottom = 706.0
+size_flags_horizontal = 3
+custom_constants/separation = 20
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" type="Label" parent="About/2"]
+margin_right = 512.0
+margin_bottom = 22.0
+size_flags_horizontal = 3
+theme = SubResource( 194 )
+text = "MAIN GAME LOOP"
+uppercase = true
+
+[node name="1" type="Label" parent="About/2"]
+margin_top = 42.0
+margin_right = 512.0
+margin_bottom = 60.0
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 14 )
+text = "Its a game that focuses arround pixels."
+autowrap = true
+
+[node name="2" type="Label" parent="About/2"]
+margin_top = 80.0
+margin_right = 512.0
+margin_bottom = 194.0
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 14 )
+text = "Pixels, short for picture elements are tiny squares or dots that combine to form the visual content on displays such as computer screens. Each pixel represents a specific color and intensity, and together they create the images we see. The resolution of an image refers to the numbe."
+autowrap = true
+
+[node name="3" type="HBoxContainer" parent="About"]
+visible = false
+margin_left = 384.0
+margin_top = 128.0
+margin_right = 1208.0
+margin_bottom = 482.0
+size_flags_horizontal = 3
+custom_constants/separation = 20
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="About/3"]
+margin_right = 402.0
+margin_bottom = 354.0
+size_flags_horizontal = 3
+
+[node name="1" type="Label" parent="About/3/VBoxContainer2"]
+margin_right = 402.0
+margin_bottom = 115.0
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 14 )
+text = "Music"
+autowrap = true
+
+[node name="2" type="Label" parent="About/3/VBoxContainer2"]
+margin_top = 119.0
+margin_right = 402.0
+margin_bottom = 234.0
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 14 )
+text = "Sound effects"
+autowrap = true
+
+[node name="3" type="Label" parent="About/3/VBoxContainer2"]
+margin_top = 238.0
+margin_right = 402.0
+margin_bottom = 354.0
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 14 )
+text = "Fonts"
+autowrap = true
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="About/3"]
+margin_left = 422.0
+margin_right = 824.0
+margin_bottom = 354.0
+size_flags_horizontal = 3
+
+[node name="1" type="Label" parent="About/3/VBoxContainer3"]
+margin_right = 402.0
+margin_bottom = 115.0
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 14 )
+text = "Music"
+autowrap = true
+
+[node name="2" type="Label" parent="About/3/VBoxContainer3"]
+margin_top = 119.0
+margin_right = 402.0
+margin_bottom = 234.0
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 14 )
+text = "Sound effects"
+autowrap = true
+
+[node name="3" type="Label" parent="About/3/VBoxContainer3"]
+margin_top = 238.0
+margin_right = 402.0
+margin_bottom = 354.0
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 14 )
+text = "Fonts"
+autowrap = true
+
+[node name="EscHint" parent="About" instance=ExtResource( 11 )]
+margin_left = 65.0
+margin_top = 478.0
+margin_right = 299.0
+margin_bottom = 500.0
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Highscores" type="Control" parent="."]
 anchor_right = 1.0
@@ -2830,20 +2600,6 @@ margin_right = 1280.0
 rect_min_size = Vector2( 1280, 520 )
 theme = ExtResource( 15 )
 script = ExtResource( 8 )
-
-[node name="BackBtn" type="TextureButton" parent="Highscores"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -64.0
-margin_top = 76.0
-margin_right = -40.0
-margin_bottom = 98.0
-rect_min_size = Vector2( 16, 16 )
-rect_rotation = 89.9999
-mouse_default_cursor_shape = 2
-texture_normal = SubResource( 195 )
-texture_hover = SubResource( 196 )
-texture_focused = SubResource( 196 )
 
 [node name="Title" type="Label" parent="Highscores"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
@@ -2859,6 +2615,7 @@ text = "Highscores"
 align = 1
 
 [node name="HSeparator" type="HSeparator" parent="Highscores/Title"]
+visible = false
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -2867,68 +2624,22 @@ margin_top = 7.0
 margin_right = -4.0
 margin_bottom = 11.0
 
-[node name="EscHint" parent="Highscores" instance=ExtResource( 11 )]
-margin_left = 982.0
-margin_top = 550.0
-margin_right = 1216.0
-margin_bottom = 572.0
-
 [node name="CleanerSTable" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = -576.0
-margin_right = -326.0
-margin_bottom = -44.0
+margin_left = 64.0
+margin_top = 136.0
+margin_right = 320.0
+margin_bottom = 324.0
 theme = null
 
 [node name="Title" parent="Highscores/CleanerSTable" index="0"]
-margin_left = 40.0
-margin_right = 210.0
 uppercase = true
-
-[node name="ScoreLine1" parent="Highscores/CleanerSTable" index="1"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerSTable/ScoreLine1" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine2" parent="Highscores/CleanerSTable" index="2"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerSTable/ScoreLine2" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine3" parent="Highscores/CleanerSTable" index="3"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerSTable/ScoreLine3" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine4" parent="Highscores/CleanerSTable" index="4"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerSTable/ScoreLine4" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine5" parent="Highscores/CleanerSTable" index="5"]
-visible = false
-margin_top = 116.0
-margin_right = 250.0
-margin_bottom = 138.0
-
-[node name="Score" parent="Highscores/CleanerSTable/ScoreLine5" index="2"]
-margin_left = 180.0
-margin_right = 250.0
 
 [node name="ScoreLine6" parent="Highscores/CleanerSTable" index="6"]
 visible = false
 margin_right = 250.0
 
 [node name="Score" parent="Highscores/CleanerSTable/ScoreLine6" index="2"]
-margin_left = 180.0
+margin_left = 128.0
 margin_right = 250.0
 
 [node name="ScoreLine7" parent="Highscores/CleanerSTable" index="7"]
@@ -2936,7 +2647,7 @@ visible = false
 margin_right = 250.0
 
 [node name="Score" parent="Highscores/CleanerSTable/ScoreLine7" index="2"]
-margin_left = 180.0
+margin_left = 128.0
 margin_right = 250.0
 
 [node name="ScoreLine8" parent="Highscores/CleanerSTable" index="8"]
@@ -2944,7 +2655,7 @@ visible = false
 margin_right = 250.0
 
 [node name="Score" parent="Highscores/CleanerSTable/ScoreLine8" index="2"]
-margin_left = 180.0
+margin_left = 128.0
 margin_right = 250.0
 
 [node name="ScoreLine9" parent="Highscores/CleanerSTable" index="9"]
@@ -2952,57 +2663,26 @@ visible = false
 margin_right = 250.0
 
 [node name="Score" parent="Highscores/CleanerSTable/ScoreLine9" index="2"]
-margin_left = 180.0
+margin_left = 128.0
+margin_right = 250.0
+
+[node name="ScoreLine10" parent="Highscores/CleanerSTable" index="10"]
+visible = false
+margin_right = 250.0
+
+[node name="Score" parent="Highscores/CleanerSTable/ScoreLine10" index="2"]
+margin_left = 128.0
 margin_right = 250.0
 
 [node name="CleanerMTable" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = -576.0
-margin_top = -26.0
-margin_right = -326.0
-margin_bottom = 84.0
+margin_left = 368.0
+margin_top = 136.0
+margin_right = 624.0
+margin_bottom = 324.0
 theme = null
 
 [node name="Title" parent="Highscores/CleanerMTable" index="0"]
-margin_left = 40.0
-margin_right = 210.0
 uppercase = true
-
-[node name="ScoreLine1" parent="Highscores/CleanerMTable" index="1"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerMTable/ScoreLine1" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine2" parent="Highscores/CleanerMTable" index="2"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerMTable/ScoreLine2" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine3" parent="Highscores/CleanerMTable" index="3"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerMTable/ScoreLine3" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine4" parent="Highscores/CleanerMTable" index="4"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerMTable/ScoreLine4" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine5" parent="Highscores/CleanerMTable" index="5"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerMTable/ScoreLine5" index="2"]
-margin_left = 180.0
-margin_right = 250.0
 
 [node name="ScoreLine6" parent="Highscores/CleanerMTable" index="6"]
 visible = false
@@ -3036,54 +2716,25 @@ margin_right = 250.0
 margin_left = 180.0
 margin_right = 250.0
 
+[node name="ScoreLine10" parent="Highscores/CleanerMTable" index="10"]
+visible = false
+margin_top = 116.0
+margin_right = 250.0
+margin_bottom = 138.0
+
+[node name="Score" parent="Highscores/CleanerMTable/ScoreLine10" index="2"]
+margin_left = 128.0
+margin_right = 250.0
+
 [node name="CleanerLTable" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = -576.0
-margin_top = 102.0
-margin_right = -326.0
-margin_bottom = 212.0
+margin_left = 672.0
+margin_top = 136.0
+margin_right = 928.0
+margin_bottom = 324.0
 theme = null
 
 [node name="Title" parent="Highscores/CleanerLTable" index="0"]
-margin_left = 40.0
-margin_right = 210.0
 uppercase = true
-
-[node name="ScoreLine1" parent="Highscores/CleanerLTable" index="1"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerLTable/ScoreLine1" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine2" parent="Highscores/CleanerLTable" index="2"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerLTable/ScoreLine2" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine3" parent="Highscores/CleanerLTable" index="3"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerLTable/ScoreLine3" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine4" parent="Highscores/CleanerLTable" index="4"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerLTable/ScoreLine4" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine5" parent="Highscores/CleanerLTable" index="5"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerLTable/ScoreLine5" index="2"]
-margin_left = 180.0
-margin_right = 250.0
 
 [node name="ScoreLine6" parent="Highscores/CleanerLTable" index="6"]
 visible = false
@@ -3117,473 +2768,253 @@ margin_right = 250.0
 margin_left = 180.0
 margin_right = 250.0
 
-[node name="Sweeper01Table" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = -264.0
-margin_top = 158.0
-margin_right = -14.0
-margin_bottom = 212.0
-theme = null
-
-[node name="Title" parent="Highscores/Sweeper01Table" index="0"]
-margin_left = 40.0
-margin_right = 210.0
-uppercase = true
-
-[node name="ScoreLine1" parent="Highscores/Sweeper01Table" index="1"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table/ScoreLine1" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine2" parent="Highscores/Sweeper01Table" index="2"]
+[node name="ScoreLine10" parent="Highscores/CleanerLTable" index="10"]
 visible = false
+margin_top = 116.0
 margin_right = 250.0
+margin_bottom = 138.0
 
-[node name="Score" parent="Highscores/Sweeper01Table/ScoreLine2" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine3" parent="Highscores/Sweeper01Table" index="3"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table/ScoreLine3" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine4" parent="Highscores/Sweeper01Table" index="4"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table/ScoreLine4" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine5" parent="Highscores/Sweeper01Table" index="5"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table/ScoreLine5" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine6" parent="Highscores/Sweeper01Table" index="6"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table/ScoreLine6" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine7" parent="Highscores/Sweeper01Table" index="7"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table/ScoreLine7" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine8" parent="Highscores/Sweeper01Table" index="8"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table/ScoreLine8" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine9" parent="Highscores/Sweeper01Table" index="9"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table/ScoreLine9" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="Sweeper01Table2" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = 32.0
-margin_top = 158.0
-margin_right = 282.0
-margin_bottom = 212.0
-theme = null
-
-[node name="Title" parent="Highscores/Sweeper01Table2" index="0"]
-margin_left = 40.0
-margin_right = 210.0
-uppercase = true
-
-[node name="ScoreLine1" parent="Highscores/Sweeper01Table2" index="1"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table2/ScoreLine1" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine2" parent="Highscores/Sweeper01Table2" index="2"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table2/ScoreLine2" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine3" parent="Highscores/Sweeper01Table2" index="3"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table2/ScoreLine3" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine4" parent="Highscores/Sweeper01Table2" index="4"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table2/ScoreLine4" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine5" parent="Highscores/Sweeper01Table2" index="5"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table2/ScoreLine5" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine6" parent="Highscores/Sweeper01Table2" index="6"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table2/ScoreLine6" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine7" parent="Highscores/Sweeper01Table2" index="7"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table2/ScoreLine7" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine8" parent="Highscores/Sweeper01Table2" index="8"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table2/ScoreLine8" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine9" parent="Highscores/Sweeper01Table2" index="9"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table2/ScoreLine9" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="Sweeper01Table3" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = 335.0
-margin_top = 158.0
-margin_right = 585.0
-margin_bottom = 212.0
-theme = null
-
-[node name="Title" parent="Highscores/Sweeper01Table3" index="0"]
-margin_left = 40.0
-margin_right = 210.0
-uppercase = true
-
-[node name="ScoreLine1" parent="Highscores/Sweeper01Table3" index="1"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table3/ScoreLine1" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine2" parent="Highscores/Sweeper01Table3" index="2"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table3/ScoreLine2" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine3" parent="Highscores/Sweeper01Table3" index="3"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table3/ScoreLine3" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine4" parent="Highscores/Sweeper01Table3" index="4"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table3/ScoreLine4" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine5" parent="Highscores/Sweeper01Table3" index="5"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table3/ScoreLine5" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine6" parent="Highscores/Sweeper01Table3" index="6"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table3/ScoreLine6" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine7" parent="Highscores/Sweeper01Table3" index="7"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table3/ScoreLine7" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine8" parent="Highscores/Sweeper01Table3" index="8"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table3/ScoreLine8" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine9" parent="Highscores/Sweeper01Table3" index="9"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/Sweeper01Table3/ScoreLine9" index="2"]
-margin_left = 180.0
+[node name="Score" parent="Highscores/CleanerLTable/ScoreLine10" index="2"]
+margin_left = 128.0
 margin_right = 250.0
 
 [node name="HandlerTable" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = -264.0
-margin_right = -14.0
+margin_left = 64.0
+margin_top = 344.0
+margin_right = 320.0
+margin_bottom = 532.0
 theme = null
 
 [node name="Title" parent="Highscores/HandlerTable" index="0"]
-margin_left = 40.0
-margin_right = 210.0
 uppercase = true
 
-[node name="ScoreLine1" parent="Highscores/HandlerTable" index="1"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/HandlerTable/ScoreLine1" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine2" parent="Highscores/HandlerTable" index="2"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/HandlerTable/ScoreLine2" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine3" parent="Highscores/HandlerTable" index="3"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/HandlerTable/ScoreLine3" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine4" parent="Highscores/HandlerTable" index="4"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/HandlerTable/ScoreLine4" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine5" parent="Highscores/HandlerTable" index="5"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/HandlerTable/ScoreLine5" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
 [node name="ScoreLine6" parent="Highscores/HandlerTable" index="6"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/HandlerTable/ScoreLine6" index="2"]
-margin_left = 180.0
-margin_right = 250.0
+visible = false
 
 [node name="ScoreLine7" parent="Highscores/HandlerTable" index="7"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/HandlerTable/ScoreLine7" index="2"]
-margin_left = 180.0
-margin_right = 250.0
+visible = false
 
 [node name="ScoreLine8" parent="Highscores/HandlerTable" index="8"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/HandlerTable/ScoreLine8" index="2"]
-margin_left = 180.0
-margin_right = 250.0
+visible = false
 
 [node name="ScoreLine9" parent="Highscores/HandlerTable" index="9"]
-margin_right = 250.0
+visible = false
 
-[node name="Score" parent="Highscores/HandlerTable/ScoreLine9" index="2"]
-margin_left = 180.0
-margin_right = 250.0
+[node name="ScoreLine10" parent="Highscores/HandlerTable" index="10"]
+visible = false
 
 [node name="EraserTable" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = 32.0
-margin_right = 282.0
+margin_left = 368.0
+margin_top = 344.0
+margin_right = 624.0
+margin_bottom = 532.0
 theme = null
 
 [node name="Title" parent="Highscores/EraserTable" index="0"]
-margin_left = 40.0
-margin_right = 210.0
 uppercase = true
 
-[node name="ScoreLine1" parent="Highscores/EraserTable" index="1"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/EraserTable/ScoreLine1" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine2" parent="Highscores/EraserTable" index="2"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/EraserTable/ScoreLine2" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine3" parent="Highscores/EraserTable" index="3"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/EraserTable/ScoreLine3" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine4" parent="Highscores/EraserTable" index="4"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/EraserTable/ScoreLine4" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine5" parent="Highscores/EraserTable" index="5"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/EraserTable/ScoreLine5" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
 [node name="ScoreLine6" parent="Highscores/EraserTable" index="6"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/EraserTable/ScoreLine6" index="2"]
-margin_left = 180.0
-margin_right = 250.0
+visible = false
 
 [node name="ScoreLine7" parent="Highscores/EraserTable" index="7"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/EraserTable/ScoreLine7" index="2"]
-margin_left = 180.0
-margin_right = 250.0
+visible = false
 
 [node name="ScoreLine8" parent="Highscores/EraserTable" index="8"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/EraserTable/ScoreLine8" index="2"]
-margin_left = 180.0
-margin_right = 250.0
+visible = false
 
 [node name="ScoreLine9" parent="Highscores/EraserTable" index="9"]
-margin_right = 250.0
+visible = false
 
-[node name="Score" parent="Highscores/EraserTable/ScoreLine9" index="2"]
-margin_left = 180.0
-margin_right = 250.0
+[node name="ScoreLine10" parent="Highscores/EraserTable" index="10"]
+visible = false
 
 [node name="DefenderTable" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = 335.0
-margin_right = 585.0
+margin_left = 672.0
+margin_top = 344.0
+margin_right = 928.0
+margin_bottom = 532.0
 theme = null
 
 [node name="Title" parent="Highscores/DefenderTable" index="0"]
-margin_left = 40.0
-margin_right = 210.0
 uppercase = true
 
-[node name="ScoreLine1" parent="Highscores/DefenderTable" index="1"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/DefenderTable/ScoreLine1" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine2" parent="Highscores/DefenderTable" index="2"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/DefenderTable/ScoreLine2" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine3" parent="Highscores/DefenderTable" index="3"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/DefenderTable/ScoreLine3" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine4" parent="Highscores/DefenderTable" index="4"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/DefenderTable/ScoreLine4" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine5" parent="Highscores/DefenderTable" index="5"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/DefenderTable/ScoreLine5" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
 [node name="ScoreLine6" parent="Highscores/DefenderTable" index="6"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/DefenderTable/ScoreLine6" index="2"]
-margin_left = 180.0
-margin_right = 250.0
+visible = false
 
 [node name="ScoreLine7" parent="Highscores/DefenderTable" index="7"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/DefenderTable/ScoreLine7" index="2"]
-margin_left = 180.0
-margin_right = 250.0
+visible = false
 
 [node name="ScoreLine8" parent="Highscores/DefenderTable" index="8"]
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/DefenderTable/ScoreLine8" index="2"]
-margin_left = 180.0
-margin_right = 250.0
+visible = false
 
 [node name="ScoreLine9" parent="Highscores/DefenderTable" index="9"]
-margin_right = 250.0
+visible = false
 
-[node name="Score" parent="Highscores/DefenderTable/ScoreLine9" index="2"]
-margin_left = 180.0
-margin_right = 250.0
+[node name="ScoreLine10" parent="Highscores/DefenderTable" index="10"]
+visible = false
+
+[node name="SweeperTable" parent="Highscores" instance=ExtResource( 21 )]
+margin_left = 976.0
+margin_top = 136.0
+margin_right = 1216.0
+margin_bottom = 484.0
+theme = null
+
+[node name="Title" parent="Highscores/SweeperTable" index="0"]
+margin_right = 240.0
+uppercase = true
+
+[node name="ScoreLine1" parent="Highscores/SweeperTable" index="1"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/SweeperTable/ScoreLine1" index="2"]
+margin_left = 144.0
+margin_right = 240.0
+text = "00:00:00"
+
+[node name="ScoreLine2" parent="Highscores/SweeperTable" index="2"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/SweeperTable/ScoreLine2" index="2"]
+margin_left = 144.0
+margin_right = 240.0
+text = "00:00:00"
+
+[node name="ScoreLine3" parent="Highscores/SweeperTable" index="3"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/SweeperTable/ScoreLine3" index="2"]
+margin_left = 144.0
+margin_right = 240.0
+text = "00:00:00"
+
+[node name="ScoreLine4" parent="Highscores/SweeperTable" index="4"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/SweeperTable/ScoreLine4" index="2"]
+margin_left = 144.0
+margin_right = 240.0
+text = "00:00:00"
+
+[node name="ScoreLine5" parent="Highscores/SweeperTable" index="5"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/SweeperTable/ScoreLine5" index="2"]
+margin_left = 144.0
+margin_right = 240.0
+text = "00:00:00"
+
+[node name="ScoreLine6" parent="Highscores/SweeperTable" index="6"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/SweeperTable/ScoreLine6" index="2"]
+margin_left = 144.0
+margin_right = 240.0
+text = "00:00:00"
+
+[node name="ScoreLine7" parent="Highscores/SweeperTable" index="7"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/SweeperTable/ScoreLine7" index="2"]
+margin_left = 144.0
+margin_right = 240.0
+text = "00:00:00"
+
+[node name="ScoreLine8" parent="Highscores/SweeperTable" index="8"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/SweeperTable/ScoreLine8" index="2"]
+margin_left = 144.0
+margin_right = 240.0
+text = "00:00:00"
+
+[node name="ScoreLine9" parent="Highscores/SweeperTable" index="9"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/SweeperTable/ScoreLine9" index="2"]
+margin_left = 144.0
+margin_right = 240.0
+text = "00:00:00"
+
+[node name="ScoreLine10" parent="Highscores/SweeperTable" index="10"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/SweeperTable/ScoreLine10" index="2"]
+margin_left = 144.0
+margin_right = 240.0
+text = "00:00:00"
+
+[node name="SweeperArrows" type="Control" parent="Highscores"]
+margin_left = 976.0
+margin_top = 146.0
+margin_right = 1216.0
+margin_bottom = 160.0
+grow_horizontal = 2
+theme = ExtResource( 15 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="LeftBtn" type="TextureButton" parent="Highscores/SweeperArrows"]
+margin_left = -5.0
+margin_right = 11.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 16, 16 )
+focus_neighbour_left = NodePath("../RightBtn")
+focus_neighbour_top = NodePath("../../BackBtn")
+focus_neighbour_right = NodePath("../RightBtn")
+focus_neighbour_bottom = NodePath("../../BackBtn")
+mouse_default_cursor_shape = 2
+size_flags_vertical = 4
+texture_normal = SubResource( 335 )
+texture_hover = SubResource( 336 )
+texture_focused = SubResource( 336 )
+expand = true
+stretch_mode = 3
+flip_h = true
+
+[node name="RightBtn" type="TextureButton" parent="Highscores/SweeperArrows"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -11.0
+margin_right = 5.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 16, 16 )
+focus_neighbour_left = NodePath("../LeftBtn")
+focus_neighbour_top = NodePath("../../BackBtn")
+focus_neighbour_right = NodePath("../LeftBtn")
+focus_neighbour_bottom = NodePath("../../BackBtn")
+mouse_default_cursor_shape = 2
+size_flags_vertical = 4
+texture_normal = SubResource( 335 )
+texture_hover = SubResource( 336 )
+texture_focused = SubResource( 336 )
+expand = true
+stretch_mode = 3
+
+[node name="BackBtn" type="TextureButton" parent="Highscores"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -64.0
+margin_top = 76.0
+margin_right = -40.0
+margin_bottom = 98.0
+rect_min_size = Vector2( 16, 16 )
+rect_rotation = 89.9999
+focus_neighbour_top = NodePath("../SweeperArrows/RightBtn")
+mouse_default_cursor_shape = 2
+texture_normal = SubResource( 195 )
+texture_hover = SubResource( 196 )
+texture_focused = SubResource( 196 )
+
+[node name="EscHint" parent="Highscores" instance=ExtResource( 11 )]
+margin_left = 982.0
+margin_top = 558.0
+margin_right = 1216.0
+margin_bottom = 580.0
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="SelectGame" type="Control" parent="."]
 anchor_right = 1.0
@@ -3615,28 +3046,37 @@ margin_top = 7.0
 margin_right = -4.0
 margin_bottom = 11.0
 
+[node name="Subtitle" type="Label" parent="SelectGame"]
+margin_left = 9.0
+margin_top = 136.0
+margin_right = 521.0
+margin_bottom = 154.0
+custom_fonts/font = ExtResource( 14 )
+text = "Find a way to collect all colors in one move."
+autowrap = true
+
 [node name="Tutorial" type="Panel" parent="SelectGame"]
 margin_left = 8.0
-margin_top = 136.0
+margin_top = 152.0
 margin_right = 216.0
-margin_bottom = 280.0
+margin_bottom = 304.0
 rect_pivot_offset = Vector2( 40, 8 )
 custom_styles/panel = SubResource( 274 )
 
 [node name="Label" type="Label" parent="SelectGame/Tutorial"]
 margin_left = 25.0
-margin_top = 24.0
-margin_right = 208.0
-margin_bottom = 66.0
+margin_top = 16.0
+margin_right = 184.0
+margin_bottom = 58.0
 custom_fonts/font = ExtResource( 14 )
-text = "Five steps to become a master beginner"
+text = "5 steps to become a master beginner"
 autowrap = true
 
 [node name="Eraser" type="Panel" parent="SelectGame"]
 margin_left = 8.0
-margin_top = 288.0
+margin_top = 312.0
 margin_right = 216.0
-margin_bottom = 592.0
+margin_bottom = 600.0
 custom_styles/panel = SubResource( 274 )
 
 [node name="Title" type="Label" parent="SelectGame/Eraser"]
@@ -3649,9 +3089,9 @@ text = "Erasers"
 
 [node name="Label" type="Label" parent="SelectGame/Eraser"]
 margin_left = 25.0
-margin_top = 24.0
+margin_top = 16.0
 margin_right = 192.0
-margin_bottom = 66.0
+margin_bottom = 58.0
 custom_fonts/font = ExtResource( 14 )
 text = "Tick-tick-tock, 
 clean the block!"
@@ -3659,9 +3099,9 @@ autowrap = true
 
 [node name="Cleaner" type="Panel" parent="SelectGame"]
 margin_left = 224.0
-margin_top = 136.0
+margin_top = 152.0
 margin_right = 432.0
-margin_bottom = 303.0
+margin_bottom = 304.0
 custom_styles/panel = SubResource( 274 )
 
 [node name="Title" type="Label" parent="SelectGame/Cleaner"]
@@ -3674,18 +3114,18 @@ text = "Cleaners"
 
 [node name="Label" type="Label" parent="SelectGame/Cleaner"]
 margin_left = 25.0
-margin_top = 24.0
+margin_top = 16.0
 margin_right = 184.0
-margin_bottom = 71.0
+margin_bottom = 63.0
 custom_fonts/font = ExtResource( 14 )
 text = "Everlasting color clash! "
 autowrap = true
 
 [node name="Cleaner2" type="Panel" parent="SelectGame"]
 margin_left = 224.0
-margin_top = 464.0
+margin_top = 472.0
 margin_right = 432.0
-margin_bottom = 609.0
+margin_bottom = 600.0
 custom_styles/panel = SubResource( 274 )
 
 [node name="Title" type="Label" parent="SelectGame/Cleaner2"]
@@ -3698,18 +3138,18 @@ text = "Cleaners"
 
 [node name="Label" type="Label" parent="SelectGame/Cleaner2"]
 margin_left = 25.0
-margin_top = 24.0
+margin_top = 16.0
 margin_right = 192.0
-margin_bottom = 71.0
+margin_bottom = 34.0
 custom_fonts/font = ExtResource( 14 )
-text = "Prevent the flooding!"
+text = "Defend the attack!"
 autowrap = true
 
 [node name="Cleaner3" type="Panel" parent="SelectGame"]
 margin_left = 224.0
 margin_top = 312.0
 margin_right = 432.0
-margin_bottom = 457.0
+margin_bottom = 464.0
 custom_styles/panel = SubResource( 274 )
 
 [node name="Title" type="Label" parent="SelectGame/Cleaner3"]
@@ -3722,16 +3162,16 @@ text = "Cleaners"
 
 [node name="Label" type="Label" parent="SelectGame/Cleaner3"]
 margin_left = 25.0
-margin_top = 24.0
-margin_right = 192.0
-margin_bottom = 71.0
+margin_top = 16.0
+margin_right = 184.0
+margin_bottom = 63.0
 custom_fonts/font = ExtResource( 14 )
 text = "Neverending chroma crisis!"
 autowrap = true
 
 [node name="TheDuel" type="Panel" parent="SelectGame"]
 margin_left = 440.0
-margin_top = 136.0
+margin_top = 152.0
 margin_right = 648.0
 margin_bottom = 328.0
 custom_styles/panel = SubResource( 274 )
@@ -3746,9 +3186,9 @@ text = "Cleaners"
 
 [node name="Label" type="Label" parent="SelectGame/TheDuel"]
 margin_left = 25.0
-margin_top = 24.0
+margin_top = 16.0
 margin_right = 184.0
-margin_bottom = 96.0
+margin_bottom = 88.0
 custom_fonts/font = ExtResource( 14 )
 text = "Sofa showdown! Team up for a cleaning frenzy! "
 autowrap = true
@@ -3757,7 +3197,7 @@ autowrap = true
 margin_left = 440.0
 margin_top = 336.0
 margin_right = 648.0
-margin_bottom = 496.0
+margin_bottom = 488.0
 custom_styles/panel = SubResource( 274 )
 
 [node name="Title" type="Label" parent="SelectGame/Sweeper"]
@@ -3770,11 +3210,11 @@ text = "Riddler"
 
 [node name="Label" type="Label" parent="SelectGame/Sweeper"]
 margin_left = 25.0
-margin_top = 23.0
+margin_top = 15.0
 margin_right = 192.0
-margin_bottom = 65.0
+margin_bottom = 57.0
 custom_fonts/font = ExtResource( 14 )
-text = "Chain reaction bonanza"
+text = "Chain reaction bonanza!"
 autowrap = true
 
 [node name="Panel8" type="Panel" parent="SelectGame"]
@@ -3810,10 +3250,10 @@ margin_bottom = 256.0
 
 [node name="TutorialBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_left = -16.0
-margin_top = -56.0
+margin_top = -32.0
 margin_right = 144.0
+margin_bottom = 24.0
 focus_neighbour_top = NodePath("../../BackBtn")
-focus_neighbour_bottom = NodePath("../CleanerSBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -3827,9 +3267,9 @@ __meta__ = {
 
 [node name="CleanerSBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_left = -16.0
-margin_top = 120.0
+margin_top = 128.0
 margin_right = 144.0
-margin_bottom = 176.0
+margin_bottom = 184.0
 focus_neighbour_top = NodePath("../TutorialBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
@@ -3844,9 +3284,9 @@ __meta__ = {
 
 [node name="CleanerMBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_left = -16.0
-margin_top = 184.0
+margin_top = 192.0
 margin_right = 144.0
-margin_bottom = 240.0
+margin_bottom = 248.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -3860,9 +3300,9 @@ __meta__ = {
 
 [node name="CleanerLBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_left = -16.0
-margin_top = 248.0
+margin_top = 256.0
 margin_right = 144.0
-margin_bottom = 304.0
+margin_bottom = 312.0
 focus_neighbour_bottom = NodePath("../TutorialBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
@@ -3910,9 +3350,9 @@ __meta__ = {
 
 [node name="DefenderBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_left = 200.0
-margin_top = 272.0
+margin_top = 264.0
 margin_right = 360.0
-margin_bottom = 328.0
+margin_bottom = 320.0
 focus_neighbour_bottom = NodePath("../EraserBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
@@ -3945,9 +3385,9 @@ __meta__ = {
 
 [node name="SweeperBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_left = 416.0
-margin_top = 160.0
+margin_top = 152.0
 margin_right = 576.0
-margin_bottom = 216.0
+margin_bottom = 208.0
 focus_neighbour_top = NodePath("../TheDuelBtn")
 focus_neighbour_bottom = NodePath("../TheDuelBtn")
 mouse_default_cursor_shape = 2
@@ -3981,6 +3421,430 @@ margin_left = 8.0
 margin_top = 638.0
 margin_right = 192.0
 margin_bottom = 660.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Redesign" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1280.0
+margin_top = 720.0
+margin_right = 1936.0
+margin_bottom = 1440.0
+rect_min_size = Vector2( 0, 720 )
+theme = ExtResource( 15 )
+script = ExtResource( 13 )
+
+[node name="Title" type="Label" parent="Redesign"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+margin_left = 7.0
+margin_top = 70.0
+margin_right = 223.0
+margin_bottom = 102.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 4 )
+text = "Select game"
+
+[node name="HSeparator" type="HSeparator" parent="Redesign/Title"]
+visible = false
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = 7.0
+margin_right = -4.0
+margin_bottom = 11.0
+
+[node name="Subtitle" type="Label" parent="Redesign"]
+margin_left = 9.0
+margin_top = 136.0
+margin_right = 521.0
+margin_bottom = 154.0
+custom_fonts/font = ExtResource( 14 )
+text = "Find a way to collect all colors in one move."
+autowrap = true
+
+[node name="Tutorial" type="Panel" parent="Redesign"]
+margin_left = 8.0
+margin_top = 176.0
+margin_right = 480.0
+margin_bottom = 232.0
+rect_pivot_offset = Vector2( 40, 8 )
+custom_styles/panel = SubResource( 274 )
+
+[node name="Label" type="Label" parent="Redesign/Tutorial"]
+margin_left = 148.0
+margin_top = 19.0
+margin_right = 460.0
+margin_bottom = 43.0
+custom_fonts/font = ExtResource( 14 )
+text = "5 steps to become a master beginner"
+autowrap = true
+
+[node name="Label2" type="Label" parent="Redesign/Tutorial"]
+visible = false
+margin_left = 24.0
+margin_top = 16.0
+margin_right = 144.0
+margin_bottom = 40.0
+text = "Tutorial"
+autowrap = true
+uppercase = true
+
+[node name="Eraser" type="Panel" parent="Redesign"]
+margin_left = 8.0
+margin_top = 312.0
+margin_right = 216.0
+margin_bottom = 600.0
+custom_styles/panel = SubResource( 274 )
+
+[node name="Title" type="Label" parent="Redesign/Eraser"]
+visible = false
+margin_left = 24.0
+margin_top = 22.0
+margin_right = 112.0
+margin_bottom = 44.0
+text = "Erasers"
+
+[node name="Label" type="Label" parent="Redesign/Eraser"]
+margin_left = 25.0
+margin_top = 16.0
+margin_right = 192.0
+margin_bottom = 58.0
+custom_fonts/font = ExtResource( 14 )
+text = "Tick-tick-tock, 
+clean the block!"
+autowrap = true
+
+[node name="Cleaner" type="Panel" parent="Redesign"]
+margin_left = 224.0
+margin_top = 240.0
+margin_right = 432.0
+margin_bottom = 392.0
+custom_styles/panel = SubResource( 274 )
+
+[node name="Title" type="Label" parent="Redesign/Cleaner"]
+visible = false
+margin_left = 24.0
+margin_top = 22.0
+margin_right = 112.0
+margin_bottom = 44.0
+text = "Cleaners"
+
+[node name="Label" type="Label" parent="Redesign/Cleaner"]
+margin_left = 25.0
+margin_top = 16.0
+margin_right = 184.0
+margin_bottom = 63.0
+custom_fonts/font = ExtResource( 14 )
+text = "Everlasting color clash! "
+autowrap = true
+
+[node name="Cleaner2" type="Panel" parent="Redesign"]
+margin_left = 224.0
+margin_top = 560.0
+margin_right = 432.0
+margin_bottom = 688.0
+custom_styles/panel = SubResource( 274 )
+
+[node name="Title" type="Label" parent="Redesign/Cleaner2"]
+visible = false
+margin_left = 24.0
+margin_top = 22.0
+margin_right = 112.0
+margin_bottom = 44.0
+text = "Cleaners"
+
+[node name="Label" type="Label" parent="Redesign/Cleaner2"]
+margin_left = 25.0
+margin_top = 16.0
+margin_right = 192.0
+margin_bottom = 34.0
+custom_fonts/font = ExtResource( 14 )
+text = "Defend the attack!"
+autowrap = true
+
+[node name="Cleaner3" type="Panel" parent="Redesign"]
+margin_left = 224.0
+margin_top = 400.0
+margin_right = 432.0
+margin_bottom = 552.0
+custom_styles/panel = SubResource( 274 )
+
+[node name="Title" type="Label" parent="Redesign/Cleaner3"]
+visible = false
+margin_left = 24.0
+margin_top = 22.0
+margin_right = 112.0
+margin_bottom = 44.0
+text = "Cleaners"
+
+[node name="Label" type="Label" parent="Redesign/Cleaner3"]
+margin_left = 25.0
+margin_top = 16.0
+margin_right = 184.0
+margin_bottom = 63.0
+custom_fonts/font = ExtResource( 14 )
+text = "Neverending chroma crisis!"
+autowrap = true
+
+[node name="TheDuel" type="Panel" parent="Redesign"]
+margin_left = 440.0
+margin_top = 280.0
+margin_right = 648.0
+margin_bottom = 456.0
+custom_styles/panel = SubResource( 274 )
+
+[node name="Title" type="Label" parent="Redesign/TheDuel"]
+visible = false
+margin_left = 24.0
+margin_top = 22.0
+margin_right = 112.0
+margin_bottom = 44.0
+text = "Cleaners"
+
+[node name="Label" type="Label" parent="Redesign/TheDuel"]
+margin_left = 25.0
+margin_top = 16.0
+margin_right = 184.0
+margin_bottom = 88.0
+custom_fonts/font = ExtResource( 14 )
+text = "Sofa showdown! Team up for a cleaning frenzy! "
+autowrap = true
+
+[node name="Sweeper" type="Panel" parent="Redesign"]
+margin_left = 440.0
+margin_top = 464.0
+margin_right = 648.0
+margin_bottom = 616.0
+custom_styles/panel = SubResource( 274 )
+
+[node name="Title" type="Label" parent="Redesign/Sweeper"]
+visible = false
+margin_left = 24.0
+margin_top = 22.0
+margin_right = 112.0
+margin_bottom = 44.0
+text = "Riddler"
+
+[node name="Label" type="Label" parent="Redesign/Sweeper"]
+margin_left = 25.0
+margin_top = 15.0
+margin_right = 192.0
+margin_bottom = 57.0
+custom_fonts/font = ExtResource( 14 )
+text = "Chain reaction bonanza!"
+autowrap = true
+
+[node name="Panel8" type="Panel" parent="Redesign"]
+visible = false
+margin_left = 224.0
+margin_top = 456.0
+margin_right = 432.0
+margin_bottom = 600.0
+custom_styles/panel = SubResource( 274 )
+
+[node name="Title" type="Label" parent="Redesign/Panel8"]
+visible = false
+margin_left = 24.0
+margin_top = 22.0
+margin_right = 112.0
+margin_bottom = 44.0
+text = "Unbeatables"
+
+[node name="Label" type="Label" parent="Redesign/Panel8"]
+margin_left = 25.0
+margin_top = 24.0
+margin_right = 168.0
+margin_bottom = 48.0
+custom_fonts/font = ExtResource( 14 )
+text = "Invading colors"
+autowrap = true
+
+[node name="GameBtns" type="Control" parent="Redesign"]
+margin_left = 48.0
+margin_top = 256.0
+margin_right = 48.0
+margin_bottom = 256.0
+
+[node name="TutorialBtn" type="Button" parent="Redesign/GameBtns"]
+anchor_right = 30.0
+margin_left = -32.0
+margin_top = -72.0
+margin_right = 312.0
+margin_bottom = -32.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_neighbour_top = NodePath("../../BackBtn")
+focus_neighbour_bottom = NodePath("../CleanerSBtn")
+mouse_default_cursor_shape = 2
+text = " TUTORIAL"
+flat = true
+align = 0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="CleanerSBtn" type="Button" parent="Redesign/GameBtns"]
+margin_left = -16.0
+margin_top = 128.0
+margin_right = 144.0
+margin_bottom = 184.0
+focus_neighbour_top = NodePath("../TutorialBtn")
+mouse_default_cursor_shape = 2
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "CLEANER S"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="CleanerMBtn" type="Button" parent="Redesign/GameBtns"]
+margin_left = -16.0
+margin_top = 192.0
+margin_right = 144.0
+margin_bottom = 248.0
+mouse_default_cursor_shape = 2
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "CLEANER M"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="CleanerLBtn" type="Button" parent="Redesign/GameBtns"]
+margin_left = -16.0
+margin_top = 256.0
+margin_right = 144.0
+margin_bottom = 312.0
+focus_neighbour_bottom = NodePath("../TutorialBtn")
+mouse_default_cursor_shape = 2
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "CLEANER L"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="EraserBtn" type="Button" parent="Redesign/GameBtns"]
+margin_left = 200.0
+margin_top = 56.0
+margin_right = 360.0
+margin_bottom = 112.0
+focus_neighbour_top = NodePath("../../BackBtn")
+mouse_default_cursor_shape = 2
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "ERASER"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="HandlerBtn" type="Button" parent="Redesign/GameBtns"]
+margin_left = 200.0
+margin_top = 216.0
+margin_right = 360.0
+margin_bottom = 272.0
+mouse_default_cursor_shape = 2
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "HANDLER"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="DefenderBtn" type="Button" parent="Redesign/GameBtns"]
+margin_left = 200.0
+margin_top = 352.0
+margin_right = 360.0
+margin_bottom = 408.0
+focus_neighbour_bottom = NodePath("../EraserBtn")
+mouse_default_cursor_shape = 2
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "DEFENDER"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="TheDuelBtn" type="Button" parent="Redesign/GameBtns"]
+margin_left = 416.0
+margin_top = 120.0
+margin_right = 576.0
+margin_bottom = 176.0
+focus_neighbour_top = NodePath("../../BackBtn")
+focus_neighbour_bottom = NodePath("../SweeperBtn")
+mouse_default_cursor_shape = 2
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "THE DUEL"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SweeperBtn" type="Button" parent="Redesign/GameBtns"]
+margin_left = 416.0
+margin_top = 280.0
+margin_right = 576.0
+margin_bottom = 336.0
+focus_neighbour_top = NodePath("../TheDuelBtn")
+focus_neighbour_bottom = NodePath("../TheDuelBtn")
+mouse_default_cursor_shape = 2
+custom_styles/hover = SubResource( 205 )
+custom_styles/pressed = SubResource( 205 )
+custom_styles/focus = SubResource( 205 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "SWEEPER"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="BackBtn" type="TextureButton" parent="Redesign"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -28.0
+margin_top = 76.0
+margin_right = -6.0
+margin_bottom = 98.0
+rect_min_size = Vector2( 16, 16 )
+focus_neighbour_top = NodePath("../GameBtns/SweeperBtn")
+mouse_default_cursor_shape = 2
+texture_normal = SubResource( 195 )
+texture_hover = SubResource( 196 )
+texture_focused = SubResource( 196 )
+flip_h = true
+
+[node name="EscHint" parent="Redesign" instance=ExtResource( 11 )]
+margin_left = 8.0
+margin_top = 638.0
+margin_right = 192.0
+margin_bottom = 660.0
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="SelectLevel" type="Control" parent="."]
 anchor_right = 1.0
@@ -4016,7 +3880,7 @@ margin_bottom = 11.0
 margin_left = 8.0
 margin_top = 136.0
 margin_right = 568.0
-margin_bottom = 584.0
+margin_bottom = 608.0
 custom_styles/panel = SubResource( 274 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SelectLevel/LevelGrid"]
@@ -4038,7 +3902,7 @@ autowrap = true
 [node name="BtnsHolder" type="HFlowContainer" parent="SelectLevel/LevelGrid/VBoxContainer"]
 margin_top = 38.0
 margin_right = 512.0
-margin_bottom = 369.0
+margin_bottom = 386.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/vseparation = 8
@@ -4411,9 +4275,9 @@ autowrap = true
 [node name="SolutionsBtn" type="CheckButton" parent="SelectLevel/LevelGrid/VBoxContainer"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 366.0
-margin_top = 389.0
+margin_top = 406.0
 margin_right = 512.0
-margin_bottom = 407.0
+margin_bottom = 424.0
 rect_min_size = Vector2( 146, 0 )
 focus_neighbour_bottom = NodePath("../../../BackBtn")
 mouse_default_cursor_shape = 2
@@ -4442,6 +4306,9 @@ margin_left = 8.0
 margin_top = 638.0
 margin_right = 192.0
 margin_bottom = 660.0
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Settings" type="Control" parent="."]
 anchor_right = 1.0
@@ -4698,6 +4565,9 @@ margin_left = 64.0
 margin_top = 638.0
 margin_right = 248.0
 margin_bottom = 660.0
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
@@ -4758,6 +4628,24 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="Menu/AboutBtn" to="." method="_on_AboutBtn_pressed"]
 [connection signal="pressed" from="Menu/QuitGameBtn" to="." method="_on_QuitGameBtn_pressed"]
 [connection signal="pressed" from="About/BackBtn" to="About" method="_on_BackBtn_pressed"]
+[connection signal="meta_clicked" from="About/Credits/1/CreditsLine" to="About" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="About/Credits/1/CreditsLine2" to="About" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="About/Credits/1/CreditsLine3" to="About" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="About/Credits/1/CreditsLine4" to="About" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="About/Credits/1/CreditsLine5" to="About" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="About/Credits/1/CreditsLine6" to="About" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="About/Credits/1/CreditsLine7" to="About" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="About/Credits/1/CreditsLine8" to="About" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="About/Credits/2/CreditsLine18" to="About" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="About/Credits/2/CreditsLine11" to="About" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="About/Credits/2/CreditsLine12" to="About" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="About/Credits/2/CreditsLine13" to="About" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="About/Credits/2/CreditsLine14" to="About" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="About/Credits/2/CreditsLine15" to="About" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="About/Credits/2/CreditsLine16" to="About" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="About/Credits/2/CreditsLine17" to="About" method="_on_NameAuthor_meta_clicked"]
+[connection signal="pressed" from="Highscores/SweeperArrows/LeftBtn" to="Highscores" method="_on_Sweeper_LeftBtn_pressed"]
+[connection signal="pressed" from="Highscores/SweeperArrows/RightBtn" to="Highscores" method="_on_SweeperRightBtn_pressed"]
 [connection signal="pressed" from="Highscores/BackBtn" to="Highscores" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectGame/GameBtns/TutorialBtn" to="SelectGame" method="_on_TutorialBtn_pressed"]
 [connection signal="pressed" from="SelectGame/GameBtns/CleanerSBtn" to="SelectGame" method="_on_CleanerSBtn_pressed"]
@@ -4769,6 +4657,16 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="SelectGame/GameBtns/TheDuelBtn" to="SelectGame" method="_on_TheDuelBtn_pressed"]
 [connection signal="pressed" from="SelectGame/GameBtns/SweeperBtn" to="SelectGame" method="_on_SweeperBtn_pressed"]
 [connection signal="pressed" from="SelectGame/BackBtn" to="SelectGame" method="_on_BackBtn_pressed"]
+[connection signal="pressed" from="Redesign/GameBtns/TutorialBtn" to="Redesign" method="_on_TutorialBtn_pressed"]
+[connection signal="pressed" from="Redesign/GameBtns/CleanerSBtn" to="Redesign" method="_on_CleanerSBtn_pressed"]
+[connection signal="pressed" from="Redesign/GameBtns/CleanerMBtn" to="Redesign" method="_on_CleanerMBtn_pressed"]
+[connection signal="pressed" from="Redesign/GameBtns/CleanerLBtn" to="Redesign" method="_on_CleanerLBtn_pressed"]
+[connection signal="pressed" from="Redesign/GameBtns/EraserBtn" to="Redesign" method="_on_EraserBtn_pressed"]
+[connection signal="pressed" from="Redesign/GameBtns/HandlerBtn" to="Redesign" method="_on_HandlerBtn_pressed"]
+[connection signal="pressed" from="Redesign/GameBtns/DefenderBtn" to="Redesign" method="_on_DefenderBtn_pressed"]
+[connection signal="pressed" from="Redesign/GameBtns/TheDuelBtn" to="Redesign" method="_on_TheDuelBtn_pressed"]
+[connection signal="pressed" from="Redesign/GameBtns/SweeperBtn" to="Redesign" method="_on_SweeperBtn_pressed"]
+[connection signal="pressed" from="Redesign/BackBtn" to="Redesign" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/01" to="SelectLevel" method="_on_EnigmaBtn_pressed"]
 [connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/02" to="SelectLevel" method="_on_EnigmaBtn2_pressed"]
 [connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/03" to="SelectLevel" method="_on_EnigmaBtn3_pressed"]
@@ -4792,12 +4690,14 @@ anims/settings = SubResource( 140 )
 [connection signal="toggled" from="Settings/InstructionsBtn" to="Settings" method="_on_InstructionsBtn_toggled"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 
+[editable path="About/Shortcuts/ShortcutLine2"]
+[editable path="About/Shortcuts/ShortcutLine3"]
+[editable path="About/Shortcuts/ShortcutLine4"]
+[editable path="About/Shortcuts/ShortcutLine5"]
 [editable path="Highscores/CleanerSTable"]
 [editable path="Highscores/CleanerMTable"]
 [editable path="Highscores/CleanerLTable"]
-[editable path="Highscores/Sweeper01Table"]
-[editable path="Highscores/Sweeper01Table2"]
-[editable path="Highscores/Sweeper01Table3"]
 [editable path="Highscores/HandlerTable"]
 [editable path="Highscores/EraserTable"]
 [editable path="Highscores/DefenderTable"]
+[editable path="Highscores/SweeperTable"]

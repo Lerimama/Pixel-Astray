@@ -3,7 +3,6 @@ extends VBoxContainer
 
 onready var highscore_table_title: Label = $Title
 
-
 func get_highscore_table(current_game_data: Dictionary, current_player_ranking: int):
 	
 	var current_game_hs_type = current_game_data["highscore_type"]
@@ -11,17 +10,23 @@ func get_highscore_table(current_game_data: Dictionary, current_player_ranking: 
 	
 	# naslov tabele
 	var current_game_name: String = current_game_data["game_name"]
-	if current_game_data["game"] == Profiles.Games.SWEEPER:
-	#	if current_game_data.has("level"):
-		highscore_table_title.text = "Best of " + current_game_name + " " + str(current_game_data["level"])
+	if current_game_data["game"] == Profiles.Games.CLEANER_S:
+		highscore_table_title.text = "Top S CLEANERS"
+	elif current_game_data["game"] == Profiles.Games.CLEANER_M:
+		highscore_table_title.text = "Top M CLEANERS"
+	elif current_game_data["game"] == Profiles.Games.CLEANER_L:
+		highscore_table_title.text = "Top L CLEANERS"
+	elif current_game_data["game"] == Profiles.Games.SWEEPER:
+		highscore_table_title.text = "Top " + current_game_name + "s " + "%02d" % current_game_data["level"]
+
 	else:
-		highscore_table_title.text = "Best of " + current_game_name # + "s"
+		highscore_table_title.text = "Top " + current_game_name + "s"
 	
 	# za vsako pozicijo vpišemo vrednost, ime in pozicijo
 	var score_lines: Array = get_children()
 	for scoreline in score_lines:
 		var scoreline_index: int = score_lines.find(scoreline)
-		var scoreline_position_key: String = str(scoreline_index)
+		var scoreline_position_key: String = "%02d" % scoreline_index
 		
 		if scoreline_index != 0: # glava tabele
 			# izberem position slovar glede na pozicijo score lineta

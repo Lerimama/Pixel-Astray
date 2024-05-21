@@ -1161,45 +1161,20 @@ margin_left = 51.0
 margin_right = 117.0
 text = "RETURN"
 
-[node name="to" parent="ControlHint" index="2"]
-margin_left = 124.0
-margin_right = 141.0
-
-[node name="JP" parent="ControlHint" index="3"]
-margin_left = 148.0
-margin_right = 233.0
-text = "JP START"
-
-[node name="LabelBtn" parent="ControlHint" index="4"]
-margin_left = 240.0
-margin_right = 307.0
-
 [node name="ActionHint" parent="." instance=ExtResource( 11 )]
 margin_left = 516.0
 margin_top = 589.0
 margin_right = 764.0
 margin_bottom = 611.0
+__meta__ = {
+"_edit_group_": true
+}
 
-[node name="Key" parent="ActionHint" index="2"]
-margin_right = 118.0
-text = "RETURN"
-
-[node name="Label2" parent="ActionHint" index="3"]
-margin_left = 126.0
-margin_right = 143.0
-
-[node name="Jp" parent="ActionHint" index="4"]
-margin_left = 151.0
-margin_right = 173.0
+[node name="Jp" parent="ActionHint" index="3"]
 texture = SubResource( 475 )
 
-[node name="Button" parent="ActionHint/Jp" index="0"]
-margin_left = -155.0
-margin_right = 101.0
-
-[node name="Label3" parent="ActionHint" index="5"]
-margin_left = 181.0
-margin_right = 248.0
+[node name="Label3" parent="ActionHint" index="4"]
+margin_right = 215.0
 text = "to start"
 
 [editable path="ControlHint"]

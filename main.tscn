@@ -352,11 +352,12 @@ bus = "Gui"
 [node name="WarmUpShort" type="AudioStreamPlayer" parent="SoundManager/Music/MenuMusic"]
 stream = ExtResource( 41 )
 volume_db = -5.0
-bus = "Gui"
+bus = "MenuMusic"
 
 [node name="Track19_4" type="AudioStreamPlayer" parent="SoundManager/Music/MenuMusic"]
 stream = ExtResource( 68 )
 volume_db = -25.0
+bus = "MenuMusic"
 
 [node name="GameMusic" type="Node2D" parent="SoundManager/Music"]
 

@@ -7,21 +7,21 @@ var data_file: = File.new()
 var current_player_ranking: int # da ob rendriranju HS, lahko označim aktualni rezultat ... v GM
 var all_games_key
 var default_highscores: Dictionary = { # slovar, ki se uporabi, če še ni nobenega v filetu
-	"1": {"Mr.Nobody": 0,},
-	"2": {"Nobody": 0,},
-	"3": {"Nobody": 0,},
-	"4": {"Nobody": 0,},
-	"5": {"Nobody": 0,},
-	"6": {"Nobody": 0,},
-	"7": {"Nobody": 0,},
-	"8": {"Nobody": 0,},
-	"9": {"Nobody": 0,},
+	"01": {"Mr.Nobody": 0,},
+	"02": {"Mr.Nobody": 0,},
+	"03": {"Mr.Nobody": 0,},
+	"04": {"Mr.Nobody": 0,},
+	"05": {"Mr.Nobody": 0,},
+	"06": {"Mr.Nobody": 0,},
+	"07": {"Mr.Nobody": 0,},
+	"08": {"Mr.Nobody": 0,},
+	"09": {"Mr.Nobody": 0,},
+	"10": {"Mr.Nobody": 0,},
 }
 
-
 func _ready() -> void:
+	
 	Global.data_manager = self
-
 
 # highscores ------------------------------------------------------------------------------------------------------------------------
 
@@ -81,7 +81,6 @@ func manage_gameover_highscores(current_score: float, current_game_data: Diction
 		all_ranking_score_owners += current_position_dict.keys()
 	
 	# izračun uvrstitve na lestvico ... štejem pozicije pred mano 
-	# trenutno je setano, da se da uporabit sekundarno vrednost za dodatno ločevanje
 	var better_positions_count: int = 0
 	for ranking_score in all_ranking_scores:
 		if current_game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW: # edinkrat ko se šteje nižje število
@@ -118,16 +117,15 @@ func manage_gameover_highscores(current_score: float, current_game_data: Diction
 		var new_game_highscores: Dictionary
 		var highscore_index = 0
 		for ranking_score in all_ranking_scores:
-			var highscores_position_key: String = str(highscore_index + 1)
+			var highscores_position_key: String = "%02d" % (highscore_index + 1)
 			var highscores_value: float = ranking_score
 			var highscores_owner: String = all_ranking_score_owners[highscore_index]
 			var position_dict: Dictionary = {
 				highscores_owner: highscores_value,	
 			}
-
 			new_game_highscores[highscores_position_key] = position_dict
 			highscore_index += 1
-
+			
 		# sejvam hs slovar v filet
 		write_highscores_to_file(current_game_data, new_game_highscores)
 		
@@ -168,7 +166,6 @@ func read_highscores_from_file(read_game_data: Dictionary):
 		data_file.open("user://%s_highscores.save" % read_game_name, File.WRITE)
 		data_file.store_line(to_json(default_highscores))
 		data_file.close()
-	
 	# odprem filet za branje
 	data_file.open("user://%s_highscores.save" % read_game_name, File.READ)
 		

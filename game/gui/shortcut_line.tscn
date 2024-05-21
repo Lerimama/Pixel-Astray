@@ -1,8 +1,10 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=2]
 [ext_resource path="res://assets/theme/font_main_small.tres" type="DynamicFont" id=3]
+[ext_resource path="res://assets/atlas_controls.png" type="Texture" id=4]
+[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=5]
 
 [sub_resource type="StyleBoxEmpty" id=427]
 
@@ -155,168 +157,20 @@ OptionButton/styles/pressed = SubResource( 441 )
 Panel/styles/panel = SubResource( 442 )
 VSeparator/styles/separator = SubResource( 443 )
 
-[sub_resource type="StyleBoxEmpty" id=305]
+[sub_resource type="AtlasTexture" id=454]
+atlas = ExtResource( 4 )
+region = Rect2( 85, 218, 22, 22 )
+margin = Rect2( -2, 2, 0, 0 )
 
-[sub_resource type="StreamTexture" id=451]
-load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
-
-[sub_resource type="AtlasTexture" id=306]
-atlas = SubResource( 451 )
-region = Rect2( 16, 16, 14, 16 )
-
-[sub_resource type="AtlasTexture" id=307]
-atlas = SubResource( 451 )
-region = Rect2( 0, 16, 10, 16 )
-
-[sub_resource type="StyleBoxFlat" id=308]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-expand_margin_left = 6.0
-expand_margin_right = 6.0
-expand_margin_top = 2.0
-expand_margin_bottom = 3.0
-
-[sub_resource type="StyleBoxEmpty" id=309]
-
-[sub_resource type="StyleBoxEmpty" id=310]
-
-[sub_resource type="StyleBoxLine" id=311]
-color = Color( 1, 1, 1, 1 )
-thickness = 2
-
-[sub_resource type="AtlasTexture" id=312]
-atlas = SubResource( 451 )
-region = Rect2( 32, 0, 10, 10 )
-
-[sub_resource type="StyleBoxEmpty" id=313]
-
-[sub_resource type="StyleBoxFlat" id=314]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-expand_margin_left = 6.0
-expand_margin_top = 6.0
-expand_margin_bottom = 6.0
-
-[sub_resource type="StreamTexture" id=315]
-load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
-
-[sub_resource type="AtlasTexture" id=452]
-atlas = SubResource( 315 )
-region = Rect2( 0, 4, 16, 8 )
-
-[sub_resource type="StyleBoxTexture" id=316]
-texture = SubResource( 452 )
-region_rect = Rect2( 0, 0, 16, 8 )
-margin_left = 3.34132
-margin_right = 4.0
-margin_top = 4.0
-margin_bottom = 4.0
-modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-
-[sub_resource type="StyleBoxFlat" id=317]
-bg_color = Color( 0, 0, 0, 0 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 1, 1, 1, 1 )
-
-[sub_resource type="AtlasTexture" id=318]
-atlas = SubResource( 451 )
-region = Rect2( 16, 0, 16, 12 )
-margin = Rect2( 4, 0, 0, 0 )
-
-[sub_resource type="StyleBoxFlat" id=319]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 1, 1, 1, 0.901961 )
-expand_margin_left = 6.0
-expand_margin_right = 6.0
-expand_margin_top = 2.0
-expand_margin_bottom = 3.0
-
-[sub_resource type="StyleBoxFlat" id=320]
-bg_color = Color( 0, 0, 0, 0.862745 )
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
-
-[sub_resource type="StyleBoxLine" id=321]
-color = Color( 1, 1, 1, 1 )
-thickness = 2
-vertical = true
-
-[sub_resource type="Theme" id=453]
-default_font = ExtResource( 2 )
-Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
-Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
-Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
-Button/styles/disabled = SubResource( 305 )
-Button/styles/focus = SubResource( 305 )
-Button/styles/hover = SubResource( 305 )
-Button/styles/normal = SubResource( 305 )
-Button/styles/pressed = SubResource( 305 )
-CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
-CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
-CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
-CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
-CheckBox/constants/hseparation = 4
-CheckBox/icons/checked = SubResource( 306 )
-CheckBox/icons/unchecked = SubResource( 307 )
-CheckBox/styles/focus = SubResource( 308 )
-CheckBox/styles/hover = SubResource( 308 )
-CheckBox/styles/hover_pressed = SubResource( 308 )
-CheckBox/styles/normal = SubResource( 309 )
-CheckBox/styles/pressed = SubResource( 310 )
-HSeparator/styles/separator = SubResource( 311 )
-HSlider/icons/grabber = SubResource( 312 )
-HSlider/icons/grabber_disabled = null
-HSlider/icons/grabber_highlight = SubResource( 312 )
-HSlider/icons/tick = null
-HSlider/styles/grabber_area = SubResource( 313 )
-HSlider/styles/grabber_area_highlight = SubResource( 314 )
-HSlider/styles/slider = SubResource( 316 )
-Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
-Label/constants/line_spacing = 6
-LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
-LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
-LineEdit/styles/normal = SubResource( 317 )
-OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
-OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
-OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
-OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
-OptionButton/icons/arrow = SubResource( 318 )
-OptionButton/styles/focus = SubResource( 319 )
-OptionButton/styles/hover = SubResource( 319 )
-OptionButton/styles/pressed = SubResource( 319 )
-Panel/styles/panel = SubResource( 320 )
-VSeparator/styles/separator = SubResource( 321 )
-
-[node name="ControlHint" type="HBoxContainer"]
+[node name="ShortcutLine" type="HBoxContainer"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -81.0
 margin_top = 590.0
 margin_right = 95.0
 margin_bottom = 612.0
+theme = ExtResource( 5 )
 custom_constants/separation = 7
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="Label" type="Label" parent="."]
 visible = false
@@ -334,50 +188,30 @@ margin_top = 2.0
 margin_right = 14.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 0, 18 )
-theme = SubResource( 453 )
 custom_fonts/font = ExtResource( 3 )
 text = "M"
 align = 1
 valign = 2
 
-[node name="to" type="Label" parent="."]
+[node name="or" type="Label" parent="."]
 margin_left = 21.0
 margin_top = 2.0
 margin_right = 38.0
 margin_bottom = 20.0
-theme = SubResource( 446 )
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 1 )
 text = "or"
 align = 1
 
-[node name="JP" type="Label" parent="."]
+[node name="L1" type="TextureRect" parent="."]
 margin_left = 45.0
-margin_top = 2.0
-margin_right = 94.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 0, 18 )
-theme = SubResource( 453 )
-custom_fonts/font = ExtResource( 3 )
-text = "JP L1"
-align = 1
-valign = 2
+margin_right = 67.0
+margin_bottom = 22.0
+texture = SubResource( 454 )
 
-[node name="LabelBtn" type="Label" parent="."]
-margin_left = 101.0
+[node name="Label3" type="Label" parent="."]
+margin_left = 74.0
 margin_top = 2.0
-margin_right = 168.0
+margin_right = 187.0
 margin_bottom = 20.0
-theme = SubResource( 446 )
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 1 )
-text = "to start"
-
-[node name="Button" type="Button" parent="LabelBtn"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -215.0
-margin_top = -8.0
-margin_right = 17.0
-margin_bottom = 32.0
-mouse_default_cursor_shape = 2
+text = "to mute music"

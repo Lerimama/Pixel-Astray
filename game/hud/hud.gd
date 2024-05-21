@@ -36,7 +36,6 @@ func _process(delta: float) -> void:
 			level_limit_label_2.text = "POINTS TO LEVEL UP"
 		elif not Global.game_manager.game_data.has("stages_per_level"): # da se ne meša z defenderjem
 			level_limit_label_1.text = "%d" % Global.game_manager.strays_in_game_count
-			print("tole")
 			level_limit_label_2.text = "COLORS TO PICK"
 
 
