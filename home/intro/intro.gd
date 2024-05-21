@@ -27,7 +27,8 @@ onready var stray_step_timer: Timer = $StrayStepTimer
 onready var actor_pixel: KinematicBody2D = $Actor
 onready var text_node: Node2D = $Text
 onready var thunder_cover: ColorRect = $ThunderCover/ThunderCover
-onready var skip_intro: HBoxContainer = $Text/SkipIntro
+#onready var skip_intro: HBoxContainer = $Text/SkipIntro
+onready var skip_intro: HBoxContainer = $Text/ActionHint
 onready var StrayPixel = preload("res://home/intro/intro_stray.tscn")
 
 

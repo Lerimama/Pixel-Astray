@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=49 format=2]
 
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
 [ext_resource path="res://game/hud/game_instructions.gd" type="Script" id=2]
@@ -9,7 +9,8 @@
 [ext_resource path="res://assets/theme/stylebox_panelwithborder.tres" type="StyleBox" id=7]
 [ext_resource path="res://assets/theme/bont_body_big.tres" type="DynamicFont" id=8]
 [ext_resource path="res://assets/theme/font_main_small.tres" type="DynamicFont" id=9]
-[ext_resource path="res://game/gui/ControlHint.tscn" type="PackedScene" id=10]
+[ext_resource path="res://game/gui/shortcut_line.tscn" type="PackedScene" id=10]
+[ext_resource path="res://game/gui/action_hint.tscn" type="PackedScene" id=11]
 
 [sub_resource type="StyleBoxEmpty" id=457]
 
@@ -60,20 +61,20 @@ region = Rect2( 146, 6, 6, 10 )
 
 [sub_resource type="StyleBoxEmpty" id=455]
 
-[sub_resource type="StyleBoxEmpty" id=305]
+[sub_resource type="StyleBoxEmpty" id=458]
 
 [sub_resource type="StreamTexture" id=451]
 load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
 
-[sub_resource type="AtlasTexture" id=306]
+[sub_resource type="AtlasTexture" id=459]
 atlas = SubResource( 451 )
 region = Rect2( 16, 16, 14, 16 )
 
-[sub_resource type="AtlasTexture" id=307]
+[sub_resource type="AtlasTexture" id=460]
 atlas = SubResource( 451 )
 region = Rect2( 0, 16, 10, 16 )
 
-[sub_resource type="StyleBoxFlat" id=308]
+[sub_resource type="StyleBoxFlat" id=461]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -85,21 +86,21 @@ expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxEmpty" id=309]
+[sub_resource type="StyleBoxEmpty" id=462]
 
-[sub_resource type="StyleBoxEmpty" id=310]
+[sub_resource type="StyleBoxEmpty" id=463]
 
-[sub_resource type="StyleBoxLine" id=311]
+[sub_resource type="StyleBoxLine" id=464]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
 
-[sub_resource type="AtlasTexture" id=312]
+[sub_resource type="AtlasTexture" id=465]
 atlas = SubResource( 451 )
 region = Rect2( 32, 0, 10, 10 )
 
-[sub_resource type="StyleBoxEmpty" id=313]
+[sub_resource type="StyleBoxEmpty" id=466]
 
-[sub_resource type="StyleBoxFlat" id=314]
+[sub_resource type="StyleBoxFlat" id=467]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -110,14 +111,14 @@ expand_margin_left = 6.0
 expand_margin_top = 6.0
 expand_margin_bottom = 6.0
 
-[sub_resource type="StreamTexture" id=315]
+[sub_resource type="StreamTexture" id=468]
 load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
 
 [sub_resource type="AtlasTexture" id=452]
-atlas = SubResource( 315 )
+atlas = SubResource( 468 )
 region = Rect2( 0, 4, 16, 8 )
 
-[sub_resource type="StyleBoxTexture" id=316]
+[sub_resource type="StyleBoxTexture" id=469]
 texture = SubResource( 452 )
 region_rect = Rect2( 0, 0, 16, 8 )
 margin_left = 3.34132
@@ -126,7 +127,7 @@ margin_top = 4.0
 margin_bottom = 4.0
 modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 
-[sub_resource type="StyleBoxFlat" id=317]
+[sub_resource type="StyleBoxFlat" id=470]
 bg_color = Color( 0, 0, 0, 0 )
 border_width_left = 2
 border_width_top = 2
@@ -134,12 +135,12 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="AtlasTexture" id=318]
+[sub_resource type="AtlasTexture" id=471]
 atlas = SubResource( 451 )
 region = Rect2( 16, 0, 16, 12 )
 margin = Rect2( 4, 0, 0, 0 )
 
-[sub_resource type="StyleBoxFlat" id=319]
+[sub_resource type="StyleBoxFlat" id=472]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 2
 border_width_top = 2
@@ -151,7 +152,7 @@ expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxFlat" id=320]
+[sub_resource type="StyleBoxFlat" id=473]
 bg_color = Color( 0, 0, 0, 0.862745 )
 border_width_left = 4
 border_width_top = 4
@@ -159,7 +160,7 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
 
-[sub_resource type="StyleBoxLine" id=321]
+[sub_resource type="StyleBoxLine" id=474]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
 vertical = true
@@ -170,52 +171,57 @@ Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
 Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
 Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
-Button/styles/disabled = SubResource( 305 )
-Button/styles/focus = SubResource( 305 )
-Button/styles/hover = SubResource( 305 )
-Button/styles/normal = SubResource( 305 )
-Button/styles/pressed = SubResource( 305 )
+Button/styles/disabled = SubResource( 458 )
+Button/styles/focus = SubResource( 458 )
+Button/styles/hover = SubResource( 458 )
+Button/styles/normal = SubResource( 458 )
+Button/styles/pressed = SubResource( 458 )
 CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
 CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
 CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
 CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
 CheckBox/constants/hseparation = 4
-CheckBox/icons/checked = SubResource( 306 )
-CheckBox/icons/unchecked = SubResource( 307 )
-CheckBox/styles/focus = SubResource( 308 )
-CheckBox/styles/hover = SubResource( 308 )
-CheckBox/styles/hover_pressed = SubResource( 308 )
-CheckBox/styles/normal = SubResource( 309 )
-CheckBox/styles/pressed = SubResource( 310 )
-HSeparator/styles/separator = SubResource( 311 )
-HSlider/icons/grabber = SubResource( 312 )
+CheckBox/icons/checked = SubResource( 459 )
+CheckBox/icons/unchecked = SubResource( 460 )
+CheckBox/styles/focus = SubResource( 461 )
+CheckBox/styles/hover = SubResource( 461 )
+CheckBox/styles/hover_pressed = SubResource( 461 )
+CheckBox/styles/normal = SubResource( 462 )
+CheckBox/styles/pressed = SubResource( 463 )
+HSeparator/styles/separator = SubResource( 464 )
+HSlider/icons/grabber = SubResource( 465 )
 HSlider/icons/grabber_disabled = null
-HSlider/icons/grabber_highlight = SubResource( 312 )
+HSlider/icons/grabber_highlight = SubResource( 465 )
 HSlider/icons/tick = null
-HSlider/styles/grabber_area = SubResource( 313 )
-HSlider/styles/grabber_area_highlight = SubResource( 314 )
-HSlider/styles/slider = SubResource( 316 )
+HSlider/styles/grabber_area = SubResource( 466 )
+HSlider/styles/grabber_area_highlight = SubResource( 467 )
+HSlider/styles/slider = SubResource( 469 )
 Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
 Label/constants/line_spacing = 6
 LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
 LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
-LineEdit/styles/normal = SubResource( 317 )
+LineEdit/styles/normal = SubResource( 470 )
 OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
-OptionButton/icons/arrow = SubResource( 318 )
-OptionButton/styles/focus = SubResource( 319 )
-OptionButton/styles/hover = SubResource( 319 )
-OptionButton/styles/pressed = SubResource( 319 )
-Panel/styles/panel = SubResource( 320 )
-VSeparator/styles/separator = SubResource( 321 )
+OptionButton/icons/arrow = SubResource( 471 )
+OptionButton/styles/focus = SubResource( 472 )
+OptionButton/styles/hover = SubResource( 472 )
+OptionButton/styles/pressed = SubResource( 472 )
+Panel/styles/panel = SubResource( 473 )
+VSeparator/styles/separator = SubResource( 474 )
 
 [sub_resource type="StyleBoxEmpty" id=456]
 
 [sub_resource type="AtlasTexture" id=449]
 atlas = ExtResource( 3 )
 region = Rect2( 146, 30, 6, 10 )
+
+[sub_resource type="AtlasTexture" id=475]
+atlas = ExtResource( 3 )
+region = Rect2( 138, 22, 22, 22 )
+margin = Rect2( -2, 2, 0, 0 )
 
 [node name="Instructions" type="Control"]
 anchor_right = 1.0
@@ -1143,6 +1149,7 @@ margin_bottom = 86.0
 texture = SubResource( 449 )
 
 [node name="ControlHint" parent="." instance=ExtResource( 10 )]
+visible = false
 margin_left = -153.0
 margin_right = 154.0
 
@@ -1167,4 +1174,33 @@ text = "JP START"
 margin_left = 240.0
 margin_right = 307.0
 
+[node name="ActionHint" parent="." instance=ExtResource( 11 )]
+margin_left = 516.0
+margin_top = 589.0
+margin_right = 764.0
+margin_bottom = 611.0
+
+[node name="Key" parent="ActionHint" index="2"]
+margin_right = 118.0
+text = "RETURN"
+
+[node name="Label2" parent="ActionHint" index="3"]
+margin_left = 126.0
+margin_right = 143.0
+
+[node name="Jp" parent="ActionHint" index="4"]
+margin_left = 151.0
+margin_right = 173.0
+texture = SubResource( 475 )
+
+[node name="Button" parent="ActionHint/Jp" index="0"]
+margin_left = -155.0
+margin_right = 101.0
+
+[node name="Label3" parent="ActionHint" index="5"]
+margin_left = 181.0
+margin_right = 248.0
+text = "to start"
+
 [editable path="ControlHint"]
+[editable path="ActionHint"]

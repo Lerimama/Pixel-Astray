@@ -1,4 +1,4 @@
-[gd_scene load_steps=110 format=2]
+[gd_scene load_steps=130 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://home/highscores.gd" type="Script" id=8]
 [ext_resource path="res://assets/theme/stylebox_panelwithborder.tres" type="StyleBox" id=9]
 [ext_resource path="res://assets/resources/noise_gamecam.tres" type="OpenSimplexNoise" id=10]
+[ext_resource path="res://game/gui/action_hint.tscn" type="PackedScene" id=11]
 [ext_resource path="res://assets/atlas_controls.png" type="Texture" id=12]
 [ext_resource path="res://home/select_game.gd" type="Script" id=13]
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=14]
@@ -20,6 +21,7 @@
 [ext_resource path="res://assets/theme/font_big.tres" type="DynamicFont" id=19]
 [ext_resource path="res://home/credits_line.tscn" type="PackedScene" id=20]
 [ext_resource path="res://game/gui/highscore_table.tscn" type="PackedScene" id=21]
+[ext_resource path="res://assets/theme/font_main_small.tres" type="DynamicFont" id=22]
 
 [sub_resource type="StyleBoxEmpty" id=208]
 
@@ -527,15 +529,156 @@ atlas = ExtResource( 12 )
 region = Rect2( 0, 218, 40, 22 )
 margin = Rect2( -2, 2, 0, 0 )
 
-[sub_resource type="AtlasTexture" id=172]
-atlas = ExtResource( 12 )
-region = Rect2( 48, 186, 22, 22 )
-margin = Rect2( 0, 2, 0, 0 )
+[sub_resource type="StyleBoxEmpty" id=315]
 
-[sub_resource type="AtlasTexture" id=190]
-atlas = ExtResource( 12 )
-region = Rect2( 42, 218, 41, 22 )
-margin = Rect2( -2, 2, 0, 0 )
+[sub_resource type="StreamTexture" id=316]
+load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
+
+[sub_resource type="AtlasTexture" id=317]
+atlas = SubResource( 316 )
+region = Rect2( 16, 16, 14, 16 )
+
+[sub_resource type="AtlasTexture" id=318]
+atlas = SubResource( 316 )
+region = Rect2( 0, 16, 10, 16 )
+
+[sub_resource type="StyleBoxFlat" id=319]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+expand_margin_left = 6.0
+expand_margin_right = 6.0
+expand_margin_top = 2.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxEmpty" id=320]
+
+[sub_resource type="StyleBoxEmpty" id=321]
+
+[sub_resource type="StyleBoxLine" id=322]
+color = Color( 1, 1, 1, 1 )
+thickness = 2
+
+[sub_resource type="AtlasTexture" id=323]
+atlas = SubResource( 316 )
+region = Rect2( 32, 0, 10, 10 )
+
+[sub_resource type="StyleBoxEmpty" id=324]
+
+[sub_resource type="StyleBoxFlat" id=325]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+expand_margin_left = 6.0
+expand_margin_top = 6.0
+expand_margin_bottom = 6.0
+
+[sub_resource type="StreamTexture" id=326]
+load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
+
+[sub_resource type="AtlasTexture" id=327]
+atlas = SubResource( 326 )
+region = Rect2( 0, 4, 16, 8 )
+
+[sub_resource type="StyleBoxTexture" id=328]
+texture = SubResource( 327 )
+region_rect = Rect2( 0, 0, 16, 8 )
+margin_left = 3.34132
+margin_right = 4.0
+margin_top = 4.0
+margin_bottom = 4.0
+modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+
+[sub_resource type="StyleBoxFlat" id=329]
+bg_color = Color( 0, 0, 0, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="AtlasTexture" id=330]
+atlas = SubResource( 316 )
+region = Rect2( 16, 0, 16, 12 )
+margin = Rect2( 4, 0, 0, 0 )
+
+[sub_resource type="StyleBoxFlat" id=331]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 0.901961 )
+expand_margin_left = 6.0
+expand_margin_right = 6.0
+expand_margin_top = 2.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxFlat" id=332]
+bg_color = Color( 0, 0, 0, 0.862745 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
+
+[sub_resource type="StyleBoxLine" id=333]
+color = Color( 1, 1, 1, 1 )
+thickness = 2
+vertical = true
+
+[sub_resource type="Theme" id=334]
+default_font = ExtResource( 1 )
+Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
+Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
+Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
+Button/styles/disabled = SubResource( 315 )
+Button/styles/focus = SubResource( 315 )
+Button/styles/hover = SubResource( 315 )
+Button/styles/normal = SubResource( 315 )
+Button/styles/pressed = SubResource( 315 )
+CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
+CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
+CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
+CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
+CheckBox/constants/hseparation = 4
+CheckBox/icons/checked = SubResource( 317 )
+CheckBox/icons/unchecked = SubResource( 318 )
+CheckBox/styles/focus = SubResource( 319 )
+CheckBox/styles/hover = SubResource( 319 )
+CheckBox/styles/hover_pressed = SubResource( 319 )
+CheckBox/styles/normal = SubResource( 320 )
+CheckBox/styles/pressed = SubResource( 321 )
+HSeparator/styles/separator = SubResource( 322 )
+HSlider/icons/grabber = SubResource( 323 )
+HSlider/icons/grabber_disabled = null
+HSlider/icons/grabber_highlight = SubResource( 323 )
+HSlider/icons/tick = null
+HSlider/styles/grabber_area = SubResource( 324 )
+HSlider/styles/grabber_area_highlight = SubResource( 325 )
+HSlider/styles/slider = SubResource( 328 )
+Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
+Label/constants/line_spacing = 6
+LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
+LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
+LineEdit/styles/normal = SubResource( 329 )
+OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+OptionButton/icons/arrow = SubResource( 330 )
+OptionButton/styles/focus = SubResource( 331 )
+OptionButton/styles/hover = SubResource( 331 )
+OptionButton/styles/pressed = SubResource( 331 )
+Panel/styles/panel = SubResource( 332 )
+VSeparator/styles/separator = SubResource( 333 )
 
 [sub_resource type="StyleBoxFlat" id=274]
 bg_color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
@@ -2422,60 +2565,262 @@ custom_fonts/font = ExtResource( 14 )
 text = "Fonts"
 autowrap = true
 
-[node name="EscHint" type="HBoxContainer" parent="About"]
-margin_left = 64.0
-margin_top = 470.0
-margin_right = 254.0
-margin_bottom = 492.0
-theme = ExtResource( 15 )
+[node name="Shortcuts3" type="VBoxContainer" parent="About"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 1248.0
+margin_top = -131.0
+margin_right = 1492.0
+margin_bottom = -43.0
+rect_clip_content = true
+size_flags_horizontal = 3
+
+[node name="Mute" type="HBoxContainer" parent="About/Shortcuts3"]
+margin_right = 187.0
+margin_bottom = 19.0
+size_flags_horizontal = 2
 custom_constants/separation = 8
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Esc" type="TextureRect" parent="About/EscHint"]
-margin_right = 22.0
-margin_bottom = 22.0
-texture = SubResource( 172 )
+[node name="KEY" type="Label" parent="About/Shortcuts3/Mute"]
+margin_right = 14.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 0, 19 )
+theme = SubResource( 334 )
+custom_fonts/font = ExtResource( 22 )
+text = "M"
+align = 1
+valign = 2
 
-[node name="Button" type="Button" parent="About/EscHint/Esc"]
-margin_left = -8.0
-margin_right = 24.0
-margin_bottom = 26.0
-focus_mode = 0
-mouse_default_cursor_shape = 2
-
-[node name="Label" type="Label" parent="About/EscHint"]
-margin_left = 30.0
-margin_top = 2.0
-margin_right = 47.0
-margin_bottom = 20.0
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+[node name="Label" type="Label" parent="About/Shortcuts3/Mute"]
+margin_left = 22.0
+margin_right = 39.0
+margin_bottom = 18.0
+theme = SubResource( 334 )
 custom_fonts/font = ExtResource( 14 )
 text = "or"
 align = 1
 
-[node name="Select" type="TextureRect" parent="About/EscHint"]
-margin_left = 55.0
-margin_right = 96.0
-margin_bottom = 22.0
-texture = SubResource( 190 )
+[node name="JP" type="Label" parent="About/Shortcuts3/Mute"]
+margin_left = 47.0
+margin_right = 66.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 0, 19 )
+theme = SubResource( 334 )
+custom_fonts/font = ExtResource( 22 )
+text = "L1"
+align = 1
+valign = 2
 
-[node name="Button" type="Button" parent="About/EscHint/Select"]
-margin_left = -31.0
-margin_right = 142.0
-margin_bottom = 26.0
-focus_mode = 0
-mouse_default_cursor_shape = 2
-
-[node name="Label2" type="Label" parent="About/EscHint"]
-margin_left = 104.0
-margin_top = 2.0
-margin_right = 190.0
-margin_bottom = 20.0
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+[node name="Label2" type="Label" parent="About/Shortcuts3/Mute"]
+margin_left = 74.0
+margin_right = 187.0
+margin_bottom = 18.0
+theme = SubResource( 334 )
 custom_fonts/font = ExtResource( 14 )
-text = "to go back"
+text = "to mute music"
+
+[node name="Skip" type="HBoxContainer" parent="About/Shortcuts3"]
+margin_top = 23.0
+margin_right = 243.0
+margin_bottom = 42.0
+size_flags_horizontal = 2
+custom_constants/separation = 8
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="KEY" type="Label" parent="About/Shortcuts3/Skip"]
+margin_right = 11.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 0, 19 )
+theme = SubResource( 334 )
+custom_fonts/font = ExtResource( 22 )
+text = "N"
+align = 1
+valign = 2
+
+[node name="Label" type="Label" parent="About/Shortcuts3/Skip"]
+margin_left = 19.0
+margin_right = 36.0
+margin_bottom = 18.0
+theme = SubResource( 334 )
+custom_fonts/font = ExtResource( 14 )
+text = "or"
+align = 1
+
+[node name="JP" type="Label" parent="About/Shortcuts3/Skip"]
+margin_left = 44.0
+margin_right = 63.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 0, 19 )
+theme = SubResource( 334 )
+custom_fonts/font = ExtResource( 22 )
+text = "R1"
+align = 1
+valign = 2
+
+[node name="Label2" type="Label" parent="About/Shortcuts3/Skip"]
+margin_left = 71.0
+margin_right = 243.0
+margin_bottom = 18.0
+theme = SubResource( 334 )
+custom_fonts/font = ExtResource( 14 )
+text = "to skip current track"
+
+[node name="Pause" type="HBoxContainer" parent="About/Shortcuts3"]
+margin_top = 46.0
+margin_right = 210.0
+margin_bottom = 65.0
+size_flags_horizontal = 2
+custom_constants/separation = 8
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="KEY" type="Label" parent="About/Shortcuts3/Pause"]
+margin_right = 33.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 0, 19 )
+theme = SubResource( 334 )
+custom_fonts/font = ExtResource( 22 )
+text = "ESC"
+align = 1
+valign = 2
+
+[node name="Label" type="Label" parent="About/Shortcuts3/Pause"]
+margin_left = 41.0
+margin_right = 58.0
+margin_bottom = 18.0
+theme = SubResource( 334 )
+custom_fonts/font = ExtResource( 14 )
+text = "or"
+align = 1
+
+[node name="JP" type="Label" parent="About/Shortcuts3/Pause"]
+margin_left = 66.0
+margin_right = 132.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 0, 19 )
+theme = SubResource( 334 )
+custom_fonts/font = ExtResource( 22 )
+text = "SELECT"
+align = 1
+valign = 2
+
+[node name="Label2" type="Label" parent="About/Shortcuts3/Pause"]
+margin_left = 140.0
+margin_right = 210.0
+margin_bottom = 18.0
+theme = SubResource( 334 )
+custom_fonts/font = ExtResource( 14 )
+text = "to pause"
+
+[node name="Hint" type="HBoxContainer" parent="About/Shortcuts3"]
+margin_top = 69.0
+margin_right = 224.0
+margin_bottom = 88.0
+size_flags_horizontal = 2
+custom_constants/separation = 8
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="KEY" type="Label" parent="About/Shortcuts3/Hint"]
+margin_right = 11.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 0, 19 )
+theme = SubResource( 334 )
+custom_fonts/font = ExtResource( 22 )
+text = "H"
+align = 1
+valign = 2
+
+[node name="Label" type="Label" parent="About/Shortcuts3/Hint"]
+margin_left = 19.0
+margin_right = 36.0
+margin_bottom = 18.0
+theme = SubResource( 334 )
+custom_fonts/font = ExtResource( 14 )
+text = "or"
+align = 1
+
+[node name="JP" type="Label" parent="About/Shortcuts3/Hint"]
+margin_left = 44.0
+margin_right = 66.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 0, 19 )
+theme = SubResource( 334 )
+custom_fonts/font = ExtResource( 22 )
+text = "XX"
+align = 1
+valign = 2
+
+[node name="Label2" type="Label" parent="About/Shortcuts3/Hint"]
+margin_left = 74.0
+margin_right = 224.0
+margin_bottom = 18.0
+theme = SubResource( 334 )
+custom_fonts/font = ExtResource( 14 )
+text = "to show riddle hint"
+
+[node name="Enter" type="HBoxContainer" parent="About/Shortcuts3"]
+visible = false
+margin_top = 128.0
+margin_right = 359.0
+margin_bottom = 150.0
+custom_constants/separation = 8
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="KEY" type="Label" parent="About/Shortcuts3/Enter"]
+margin_right = 70.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 0, 19 )
+theme = SubResource( 334 )
+custom_fonts/font = ExtResource( 22 )
+text = "ENTER"
+align = 1
+valign = 2
+
+[node name="Label" type="Label" parent="About/Shortcuts3/Enter"]
+margin_left = 78.0
+margin_top = 2.0
+margin_right = 95.0
+margin_bottom = 20.0
+theme = SubResource( 334 )
+custom_fonts/font = ExtResource( 14 )
+text = "or"
+align = 1
+
+[node name="JP" type="Label" parent="About/Shortcuts3/Enter"]
+margin_left = 103.0
+margin_right = 173.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 0, 19 )
+theme = SubResource( 334 )
+custom_fonts/font = ExtResource( 22 )
+text = "START"
+align = 1
+valign = 2
+
+[node name="Label2" type="Label" parent="About/Shortcuts3/Enter"]
+margin_left = 181.0
+margin_top = 2.0
+margin_right = 340.0
+margin_bottom = 20.0
+theme = SubResource( 334 )
+custom_fonts/font = ExtResource( 14 )
+text = "to confirm selection"
+
+[node name="EscHint" parent="About" instance=ExtResource( 11 )]
+margin_left = 64.0
+margin_top = 470.0
+margin_right = 248.0
+margin_bottom = 492.0
 
 [node name="Highscores" type="Control" parent="."]
 anchor_right = 1.0
@@ -2522,60 +2867,11 @@ margin_top = 7.0
 margin_right = -4.0
 margin_bottom = 11.0
 
-[node name="EscHint" type="HBoxContainer" parent="Highscores"]
-margin_left = 1024.0
-margin_top = 566.0
-margin_right = 1214.0
-margin_bottom = 588.0
-theme = ExtResource( 15 )
-custom_constants/separation = 8
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Esc" type="TextureRect" parent="Highscores/EscHint"]
-margin_right = 22.0
-margin_bottom = 22.0
-texture = SubResource( 172 )
-
-[node name="Button" type="Button" parent="Highscores/EscHint/Esc"]
-margin_left = -8.0
-margin_right = 24.0
-margin_bottom = 26.0
-focus_mode = 0
-mouse_default_cursor_shape = 2
-
-[node name="Label" type="Label" parent="Highscores/EscHint"]
-margin_left = 30.0
-margin_top = 2.0
-margin_right = 47.0
-margin_bottom = 20.0
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-custom_fonts/font = ExtResource( 14 )
-text = "or"
-align = 1
-
-[node name="Select" type="TextureRect" parent="Highscores/EscHint"]
-margin_left = 55.0
-margin_right = 96.0
-margin_bottom = 22.0
-texture = SubResource( 190 )
-
-[node name="Button" type="Button" parent="Highscores/EscHint/Select"]
-margin_left = -31.0
-margin_right = 144.0
-margin_bottom = 26.0
-focus_mode = 0
-mouse_default_cursor_shape = 2
-
-[node name="Label2" type="Label" parent="Highscores/EscHint"]
-margin_left = 104.0
-margin_top = 2.0
-margin_right = 190.0
-margin_bottom = 20.0
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-custom_fonts/font = ExtResource( 14 )
-text = "to go back"
+[node name="EscHint" parent="Highscores" instance=ExtResource( 11 )]
+margin_left = 982.0
+margin_top = 550.0
+margin_right = 1216.0
+margin_bottom = 572.0
 
 [node name="CleanerSTable" parent="Highscores" instance=ExtResource( 21 )]
 margin_left = -576.0
@@ -3680,60 +3976,11 @@ texture_hover = SubResource( 196 )
 texture_focused = SubResource( 196 )
 flip_h = true
 
-[node name="EscHint" type="HBoxContainer" parent="SelectGame"]
+[node name="EscHint" parent="SelectGame" instance=ExtResource( 11 )]
 margin_left = 8.0
 margin_top = 638.0
-margin_right = 198.0
+margin_right = 192.0
 margin_bottom = 660.0
-theme = ExtResource( 15 )
-custom_constants/separation = 8
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Esc" type="TextureRect" parent="SelectGame/EscHint"]
-margin_right = 22.0
-margin_bottom = 22.0
-texture = SubResource( 172 )
-
-[node name="Button" type="Button" parent="SelectGame/EscHint/Esc"]
-margin_left = -8.0
-margin_right = 24.0
-margin_bottom = 26.0
-focus_mode = 0
-mouse_default_cursor_shape = 2
-
-[node name="Label" type="Label" parent="SelectGame/EscHint"]
-margin_left = 30.0
-margin_top = 2.0
-margin_right = 47.0
-margin_bottom = 20.0
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-custom_fonts/font = ExtResource( 14 )
-text = "or"
-align = 1
-
-[node name="Select" type="TextureRect" parent="SelectGame/EscHint"]
-margin_left = 55.0
-margin_right = 96.0
-margin_bottom = 22.0
-texture = SubResource( 190 )
-
-[node name="Button" type="Button" parent="SelectGame/EscHint/Select"]
-margin_left = -31.0
-margin_right = 140.0
-margin_bottom = 26.0
-focus_mode = 0
-mouse_default_cursor_shape = 2
-
-[node name="Label2" type="Label" parent="SelectGame/EscHint"]
-margin_left = 104.0
-margin_top = 2.0
-margin_right = 190.0
-margin_bottom = 20.0
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-custom_fonts/font = ExtResource( 14 )
-text = "to go back"
 
 [node name="SelectLevel" type="Control" parent="."]
 anchor_right = 1.0
@@ -4190,58 +4437,11 @@ texture_hover = SubResource( 196 )
 texture_focused = SubResource( 196 )
 flip_h = true
 
-[node name="EscHint" type="HBoxContainer" parent="SelectLevel"]
+[node name="EscHint" parent="SelectLevel" instance=ExtResource( 11 )]
 margin_left = 8.0
 margin_top = 638.0
-margin_right = 198.0
+margin_right = 192.0
 margin_bottom = 660.0
-theme = ExtResource( 15 )
-custom_constants/separation = 8
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Esc" type="TextureRect" parent="SelectLevel/EscHint"]
-margin_right = 22.0
-margin_bottom = 22.0
-texture = SubResource( 172 )
-
-[node name="Button" type="Button" parent="SelectLevel/EscHint/Esc"]
-margin_left = -8.0
-margin_right = 24.0
-margin_bottom = 26.0
-mouse_default_cursor_shape = 2
-
-[node name="Label" type="Label" parent="SelectLevel/EscHint"]
-margin_left = 30.0
-margin_top = 2.0
-margin_right = 47.0
-margin_bottom = 20.0
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-custom_fonts/font = ExtResource( 14 )
-text = "or"
-align = 1
-
-[node name="Select" type="TextureRect" parent="SelectLevel/EscHint"]
-margin_left = 55.0
-margin_right = 96.0
-margin_bottom = 22.0
-texture = SubResource( 190 )
-
-[node name="Button" type="Button" parent="SelectLevel/EscHint/Select"]
-margin_left = -31.0
-margin_right = 140.0
-margin_bottom = 26.0
-mouse_default_cursor_shape = 2
-
-[node name="Label2" type="Label" parent="SelectLevel/EscHint"]
-margin_left = 104.0
-margin_top = 2.0
-margin_right = 190.0
-margin_bottom = 20.0
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-custom_fonts/font = ExtResource( 14 )
-text = "to go back"
 
 [node name="Settings" type="Control" parent="."]
 anchor_right = 1.0
@@ -4359,7 +4559,7 @@ focus_neighbour_right = NodePath("../BackBtn")
 focus_neighbour_bottom = NodePath("../CameraZoomOptions/RandomizeBtn")
 mouse_default_cursor_shape = 2
 pressed = true
-text = "Camera Shake"
+text = "Camera shake"
 
 [node name="CameraZoomOptions" type="Control" parent="Settings"]
 visible = false
@@ -4483,69 +4683,21 @@ text = "Pre-game instructions"
 
 [node name="Shorts" type="Label" parent="Settings"]
 margin_left = 64.0
-margin_top = 552.0
-margin_right = 384.0
-margin_bottom = 600.0
+margin_top = 488.0
+margin_right = 352.0
+margin_bottom = 536.0
 size_flags_horizontal = 3
 theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
-text = "Game settings can also be set during game in pause menu."
+text = "Adjust game settings anytime in
+the game's pause menu."
 autowrap = true
 
-[node name="EscHint" type="HBoxContainer" parent="Settings"]
+[node name="EscHint" parent="Settings" instance=ExtResource( 11 )]
 margin_left = 64.0
 margin_top = 638.0
-margin_right = 254.0
+margin_right = 248.0
 margin_bottom = 660.0
-theme = ExtResource( 15 )
-custom_constants/separation = 8
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Esc" type="TextureRect" parent="Settings/EscHint"]
-margin_right = 22.0
-margin_bottom = 22.0
-texture = SubResource( 172 )
-
-[node name="Button" type="Button" parent="Settings/EscHint/Esc"]
-margin_left = -5.0
-margin_right = 24.0
-margin_bottom = 26.0
-focus_mode = 0
-mouse_default_cursor_shape = 2
-
-[node name="Label" type="Label" parent="Settings/EscHint"]
-margin_left = 30.0
-margin_top = 2.0
-margin_right = 47.0
-margin_bottom = 20.0
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-custom_fonts/font = ExtResource( 14 )
-text = "or"
-align = 1
-
-[node name="Select" type="TextureRect" parent="Settings/EscHint"]
-margin_left = 55.0
-margin_right = 96.0
-margin_bottom = 22.0
-texture = SubResource( 190 )
-
-[node name="Button" type="Button" parent="Settings/EscHint/Select"]
-margin_left = -31.0
-margin_right = 140.0
-margin_bottom = 26.0
-focus_mode = 0
-mouse_default_cursor_shape = 2
-
-[node name="Label2" type="Label" parent="Settings/EscHint"]
-margin_left = 104.0
-margin_top = 2.0
-margin_right = 190.0
-margin_bottom = 20.0
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-custom_fonts/font = ExtResource( 14 )
-text = "to go back"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
@@ -4606,11 +4758,7 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="Menu/AboutBtn" to="." method="_on_AboutBtn_pressed"]
 [connection signal="pressed" from="Menu/QuitGameBtn" to="." method="_on_QuitGameBtn_pressed"]
 [connection signal="pressed" from="About/BackBtn" to="About" method="_on_BackBtn_pressed"]
-[connection signal="pressed" from="About/EscHint/Esc/Button" to="About" method="_on_BackBtn_pressed"]
-[connection signal="pressed" from="About/EscHint/Select/Button" to="About" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="Highscores/BackBtn" to="Highscores" method="_on_BackBtn_pressed"]
-[connection signal="pressed" from="Highscores/EscHint/Esc/Button" to="Highscores" method="_on_BackBtn_pressed"]
-[connection signal="pressed" from="Highscores/EscHint/Select/Button" to="Highscores" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectGame/GameBtns/TutorialBtn" to="SelectGame" method="_on_TutorialBtn_pressed"]
 [connection signal="pressed" from="SelectGame/GameBtns/CleanerSBtn" to="SelectGame" method="_on_CleanerSBtn_pressed"]
 [connection signal="pressed" from="SelectGame/GameBtns/CleanerMBtn" to="SelectGame" method="_on_CleanerMBtn_pressed"]
@@ -4621,8 +4769,6 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="SelectGame/GameBtns/TheDuelBtn" to="SelectGame" method="_on_TheDuelBtn_pressed"]
 [connection signal="pressed" from="SelectGame/GameBtns/SweeperBtn" to="SelectGame" method="_on_SweeperBtn_pressed"]
 [connection signal="pressed" from="SelectGame/BackBtn" to="SelectGame" method="_on_BackBtn_pressed"]
-[connection signal="pressed" from="SelectGame/EscHint/Esc/Button" to="SelectGame" method="_on_BackBtn_pressed"]
-[connection signal="pressed" from="SelectGame/EscHint/Select/Button" to="SelectGame" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/01" to="SelectLevel" method="_on_EnigmaBtn_pressed"]
 [connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/02" to="SelectLevel" method="_on_EnigmaBtn2_pressed"]
 [connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/03" to="SelectLevel" method="_on_EnigmaBtn3_pressed"]
@@ -4634,8 +4780,6 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/09" to="SelectLevel" method="_on_EnigmaBtn9_pressed"]
 [connection signal="toggled" from="SelectLevel/LevelGrid/VBoxContainer/SolutionsBtn" to="SelectLevel" method="_on_SolutionsBtn_toggled"]
 [connection signal="pressed" from="SelectLevel/BackBtn" to="SelectLevel" method="_on_BackBtn_pressed"]
-[connection signal="pressed" from="SelectLevel/EscHint/Esc/Button" to="SelectLevel" method="_on_BackBtn_pressed"]
-[connection signal="pressed" from="SelectLevel/EscHint/Select/Button" to="SelectLevel" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="Settings/BackBtn" to="Settings" method="_on_BackBtn_pressed"]
 [connection signal="toggled" from="Settings/MenuMusicBtn" to="Settings" method="_on_MenuMusicBtn_toggled"]
 [connection signal="toggled" from="Settings/GameMusicBtn" to="Settings" method="_on_GameMusicBtn_toggled"]
@@ -4646,8 +4790,6 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="Settings/ColorSchemeOptions/RandomizeBtn" to="Settings" method="_on_RandomizeBtn_pressed"]
 [connection signal="pressed" from="Settings/ColorSchemeOptions/ResetBtn" to="Settings" method="_on_ResetBtn_pressed"]
 [connection signal="toggled" from="Settings/InstructionsBtn" to="Settings" method="_on_InstructionsBtn_toggled"]
-[connection signal="pressed" from="Settings/EscHint/Esc/Button" to="Settings" method="_on_BackBtn_pressed"]
-[connection signal="pressed" from="Settings/EscHint/Select/Button" to="Settings" method="_on_BackBtn_pressed"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 
 [editable path="Highscores/CleanerSTable"]
