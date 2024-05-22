@@ -366,7 +366,7 @@ func slide_in(players_count: int): # kliče GM set_game()
 	set_hud(players_count)
 	
 	# instructions popup
-	if Global.game_manager.game_settings["game_instructions_popup"]:
+	if Global.game_manager.game_settings["show_game_instructions"]:
 		var instructions_popup_time: float = 0.7
 		fade_in_instructions_popup(instructions_popup_time)
 		yield(self, "players_ready")

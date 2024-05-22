@@ -2122,70 +2122,70 @@ uppercase = true
 
 [node name="CreditsLine" type="RichTextLabel" parent="About/Credits/1"]
 margin_right = 300.0
-margin_bottom = 25.0
+margin_bottom = 30.0
 bbcode_enabled = true
 bbcode_text = "[b],[/b] [url=https://opengameart.org/content/mushroom-%F0%9F%94%8A]Sfx Mushroom - Modanung[/url]"
 text = ", Sfx Mushroom - Modanung"
 fit_content_height = true
 
 [node name="CreditsLine2" type="RichTextLabel" parent="About/Credits/1"]
-margin_top = 28.0
+margin_top = 33.0
 margin_right = 300.0
-margin_bottom = 53.0
+margin_bottom = 63.0
 bbcode_enabled = true
 bbcode_text = "[b],[/b] [url=https://opengameart.org/content/game-over-0]Sfx Game Over! - zuvizu[/url]"
 text = ", Sfx Game Over! - zuvizu"
 fit_content_height = true
 
 [node name="CreditsLine3" type="RichTextLabel" parent="About/Credits/1"]
-margin_top = 56.0
+margin_top = 66.0
 margin_right = 300.0
-margin_bottom = 81.0
+margin_bottom = 96.0
 bbcode_enabled = true
 bbcode_text = "[b],[/b] [url=https://opengameart.org/content/countdown]Sfx Countdown - Destructavator[/url]"
 text = ", Sfx Countdown - Destructavator"
 fit_content_height = true
 
 [node name="CreditsLine4" type="RichTextLabel" parent="About/Credits/1"]
-margin_top = 84.0
+margin_top = 99.0
 margin_right = 300.0
-margin_bottom = 109.0
+margin_bottom = 129.0
 bbcode_enabled = true
 bbcode_text = "[b],[/b] [url=https://freesound.org/people/potentjello/sounds/194081]Sfx Woosh-noise-1.wav - potentjello[/url]"
 text = ", Sfx Woosh-noise-1.wav - potentjello"
 fit_content_height = true
 
 [node name="CreditsLine5" type="RichTextLabel" parent="About/Credits/1"]
-margin_top = 112.0
+margin_top = 132.0
 margin_right = 300.0
-margin_bottom = 137.0
+margin_bottom = 162.0
 bbcode_enabled = true
 bbcode_text = "[b],[/b] [url=https://freesound.org/people/firecamel/sounds/169349/]Sfx Cartoon Blink - firecamel[/url]"
 text = ", Sfx Cartoon Blink - firecamel"
 fit_content_height = true
 
 [node name="CreditsLine6" type="RichTextLabel" parent="About/Credits/1"]
-margin_top = 140.0
+margin_top = 165.0
 margin_right = 300.0
-margin_bottom = 165.0
+margin_bottom = 195.0
 bbcode_enabled = true
 bbcode_text = "[b],[/b] [url=https://freesound.org/people/guillermochicasonido/sounds]Sfx Static - guillermochicasonido[/url]"
 text = ", Sfx Static - guillermochicasonido"
 fit_content_height = true
 
 [node name="CreditsLine7" type="RichTextLabel" parent="About/Credits/1"]
-margin_top = 168.0
+margin_top = 198.0
 margin_right = 300.0
-margin_bottom = 193.0
+margin_bottom = 228.0
 bbcode_enabled = true
 bbcode_text = "[b],[/b] [url=ttps://freesound.org/people/Jovica/sounds/7864]Sfx Basic pulse wave 3 E1 - jovica[/url]"
 text = ", Sfx Basic pulse wave 3 E1 - jovica"
 fit_content_height = true
 
 [node name="CreditsLine8" type="RichTextLabel" parent="About/Credits/1"]
-margin_top = 196.0
+margin_top = 231.0
 margin_right = 300.0
-margin_bottom = 221.0
+margin_bottom = 261.0
 bbcode_enabled = true
 bbcode_text = "[b],[/b] [url=https://freesound.org/people/natharra/sounds/71467/]Sfx Blink 2 cling - natharra[/url]"
 text = ", Sfx Blink 2 cling - natharra"
@@ -2217,52 +2217,52 @@ uppercase = true
 
 [node name="CreditsLine18" type="RichTextLabel" parent="About/Credits/2"]
 margin_right = 300.0
-margin_bottom = 25.0
+margin_bottom = 30.0
 bbcode_enabled = true
 bbcode_text = "[b],[/b] [url=https://freesound.org/search/?q=421624]Sfx Sparkier remix#2 ... - Timbre[/url]"
 text = ", Sfx Sparkier remix#2 ... - Timbre"
 fit_content_height = true
 
 [node name="CreditsLine11" type="RichTextLabel" parent="About/Credits/2"]
-margin_top = 29.0
+margin_top = 34.0
 margin_right = 300.0
-margin_bottom = 54.0
+margin_bottom = 64.0
 bbcode_enabled = true
 bbcode_text = "[b],[/b] [url=https://opengameart.org/content/mushroom-%F0%9F%94%8A]Mushroom - Modanung[/url]"
 text = ", Mushroom - Modanung"
 fit_content_height = true
 
 [node name="CreditsLine12" type="RichTextLabel" parent="About/Credits/2"]
-margin_top = 58.0
+margin_top = 68.0
 margin_right = 300.0
-margin_bottom = 83.0
+margin_bottom = 98.0
 bbcode_enabled = true
 bbcode_text = "[b],[/b] [url=https://opengameart.org/content/game-over-0]Game Over! - zuvizu[/url]"
 text = ", Game Over! - zuvizu"
 fit_content_height = true
 
 [node name="CreditsLine13" type="RichTextLabel" parent="About/Credits/2"]
-margin_top = 87.0
+margin_top = 102.0
 margin_right = 300.0
-margin_bottom = 112.0
+margin_bottom = 132.0
 bbcode_enabled = true
 bbcode_text = "[b],[/b] [url=https://opengameart.org/content/countdown]Countdown - Destructavator[/url]"
 text = ", Countdown - Destructavator"
 fit_content_height = true
 
 [node name="CreditsLine14" type="RichTextLabel" parent="About/Credits/2"]
-margin_top = 116.0
+margin_top = 136.0
 margin_right = 300.0
-margin_bottom = 141.0
+margin_bottom = 166.0
 bbcode_enabled = true
 bbcode_text = "[b],[/b] [url=https://freesound.org/people/potentjello/sounds/194081]woosh-noise-1.wav - potentjello[/url]"
 text = ", woosh-noise-1.wav - potentjello"
 fit_content_height = true
 
 [node name="CreditsLine15" type="RichTextLabel" parent="About/Credits/2"]
-margin_top = 145.0
+margin_top = 170.0
 margin_right = 300.0
-margin_bottom = 170.0
+margin_bottom = 200.0
 bbcode_enabled = true
 bbcode_text = "[b],[/b] [url=https://freesound.org/people/firecamel/sounds/169349/]Cartoon Blink - firecamel[/url]"
 text = ", Cartoon Blink - firecamel"
@@ -2323,18 +2323,18 @@ web_link_text = "bensound.com"
 name_author_text = "Moose / FDAUMPO8UWUPXYFZ"
 
 [node name="CreditsLine16" type="RichTextLabel" parent="About/Credits/2"]
-margin_top = 174.0
+margin_top = 204.0
 margin_right = 300.0
-margin_bottom = 199.0
+margin_bottom = 234.0
 bbcode_enabled = true
 bbcode_text = "[b],[/b] [url=https://www.pentacom.jp/pentacom/bitfontmaker2/gallery/?id=246]Font 16bfZX by petrnita[/url]"
 text = ", Font 16bfZX by petrnita"
 fit_content_height = true
 
 [node name="CreditsLine17" type="RichTextLabel" parent="About/Credits/2"]
-margin_top = 203.0
+margin_top = 238.0
 margin_right = 300.0
-margin_bottom = 228.0
+margin_bottom = 268.0
 bbcode_enabled = true
 bbcode_text = "[b],[/b] [url=https://www.pentacom.jp/pentacom/bitfontmaker2/gallery/?id=357]Font Habbo by Omny[/url]"
 text = ", Font Habbo by Omny"
@@ -2626,13 +2626,49 @@ margin_bottom = 11.0
 
 [node name="CleanerSTable" parent="Highscores" instance=ExtResource( 21 )]
 margin_left = 64.0
-margin_top = 136.0
-margin_right = 320.0
-margin_bottom = 324.0
+margin_top = 142.0
+margin_right = 304.0
+margin_bottom = 330.0
 theme = null
 
 [node name="Title" parent="Highscores/CleanerSTable" index="0"]
+margin_right = 240.0
 uppercase = true
+
+[node name="ScoreLine1" parent="Highscores/CleanerSTable" index="1"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/CleanerSTable/ScoreLine1" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine2" parent="Highscores/CleanerSTable" index="2"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/CleanerSTable/ScoreLine2" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine3" parent="Highscores/CleanerSTable" index="3"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/CleanerSTable/ScoreLine3" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine4" parent="Highscores/CleanerSTable" index="4"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/CleanerSTable/ScoreLine4" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine5" parent="Highscores/CleanerSTable" index="5"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/CleanerSTable/ScoreLine5" index="2"]
+margin_left = 154.0
+margin_right = 240.0
 
 [node name="ScoreLine6" parent="Highscores/CleanerSTable" index="6"]
 visible = false
@@ -2676,13 +2712,49 @@ margin_right = 250.0
 
 [node name="CleanerMTable" parent="Highscores" instance=ExtResource( 21 )]
 margin_left = 368.0
-margin_top = 136.0
-margin_right = 624.0
-margin_bottom = 324.0
+margin_top = 142.0
+margin_right = 608.0
+margin_bottom = 330.0
 theme = null
 
 [node name="Title" parent="Highscores/CleanerMTable" index="0"]
+margin_right = 240.0
 uppercase = true
+
+[node name="ScoreLine1" parent="Highscores/CleanerMTable" index="1"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/CleanerMTable/ScoreLine1" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine2" parent="Highscores/CleanerMTable" index="2"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/CleanerMTable/ScoreLine2" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine3" parent="Highscores/CleanerMTable" index="3"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/CleanerMTable/ScoreLine3" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine4" parent="Highscores/CleanerMTable" index="4"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/CleanerMTable/ScoreLine4" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine5" parent="Highscores/CleanerMTable" index="5"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/CleanerMTable/ScoreLine5" index="2"]
+margin_left = 154.0
+margin_right = 240.0
 
 [node name="ScoreLine6" parent="Highscores/CleanerMTable" index="6"]
 visible = false
@@ -2728,13 +2800,49 @@ margin_right = 250.0
 
 [node name="CleanerLTable" parent="Highscores" instance=ExtResource( 21 )]
 margin_left = 672.0
-margin_top = 136.0
-margin_right = 928.0
-margin_bottom = 324.0
+margin_top = 142.0
+margin_right = 912.0
+margin_bottom = 330.0
 theme = null
 
 [node name="Title" parent="Highscores/CleanerLTable" index="0"]
+margin_right = 240.0
 uppercase = true
+
+[node name="ScoreLine1" parent="Highscores/CleanerLTable" index="1"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/CleanerLTable/ScoreLine1" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine2" parent="Highscores/CleanerLTable" index="2"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/CleanerLTable/ScoreLine2" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine3" parent="Highscores/CleanerLTable" index="3"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/CleanerLTable/ScoreLine3" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine4" parent="Highscores/CleanerLTable" index="4"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/CleanerLTable/ScoreLine4" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine5" parent="Highscores/CleanerLTable" index="5"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/CleanerLTable/ScoreLine5" index="2"]
+margin_left = 154.0
+margin_right = 240.0
 
 [node name="ScoreLine6" parent="Highscores/CleanerLTable" index="6"]
 visible = false
@@ -2780,13 +2888,49 @@ margin_right = 250.0
 
 [node name="HandlerTable" parent="Highscores" instance=ExtResource( 21 )]
 margin_left = 64.0
-margin_top = 344.0
-margin_right = 320.0
-margin_bottom = 532.0
+margin_top = 338.0
+margin_right = 304.0
+margin_bottom = 526.0
 theme = null
 
 [node name="Title" parent="Highscores/HandlerTable" index="0"]
+margin_right = 240.0
 uppercase = true
+
+[node name="ScoreLine1" parent="Highscores/HandlerTable" index="1"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/HandlerTable/ScoreLine1" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine2" parent="Highscores/HandlerTable" index="2"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/HandlerTable/ScoreLine2" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine3" parent="Highscores/HandlerTable" index="3"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/HandlerTable/ScoreLine3" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine4" parent="Highscores/HandlerTable" index="4"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/HandlerTable/ScoreLine4" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine5" parent="Highscores/HandlerTable" index="5"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/HandlerTable/ScoreLine5" index="2"]
+margin_left = 154.0
+margin_right = 240.0
 
 [node name="ScoreLine6" parent="Highscores/HandlerTable" index="6"]
 visible = false
@@ -2805,13 +2949,49 @@ visible = false
 
 [node name="EraserTable" parent="Highscores" instance=ExtResource( 21 )]
 margin_left = 368.0
-margin_top = 344.0
-margin_right = 624.0
-margin_bottom = 532.0
+margin_top = 338.0
+margin_right = 608.0
+margin_bottom = 526.0
 theme = null
 
 [node name="Title" parent="Highscores/EraserTable" index="0"]
+margin_right = 240.0
 uppercase = true
+
+[node name="ScoreLine1" parent="Highscores/EraserTable" index="1"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/EraserTable/ScoreLine1" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine2" parent="Highscores/EraserTable" index="2"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/EraserTable/ScoreLine2" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine3" parent="Highscores/EraserTable" index="3"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/EraserTable/ScoreLine3" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine4" parent="Highscores/EraserTable" index="4"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/EraserTable/ScoreLine4" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine5" parent="Highscores/EraserTable" index="5"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/EraserTable/ScoreLine5" index="2"]
+margin_left = 154.0
+margin_right = 240.0
 
 [node name="ScoreLine6" parent="Highscores/EraserTable" index="6"]
 visible = false
@@ -2830,13 +3010,49 @@ visible = false
 
 [node name="DefenderTable" parent="Highscores" instance=ExtResource( 21 )]
 margin_left = 672.0
-margin_top = 344.0
-margin_right = 928.0
-margin_bottom = 532.0
+margin_top = 338.0
+margin_right = 912.0
+margin_bottom = 526.0
 theme = null
 
 [node name="Title" parent="Highscores/DefenderTable" index="0"]
+margin_right = 240.0
 uppercase = true
+
+[node name="ScoreLine1" parent="Highscores/DefenderTable" index="1"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/DefenderTable/ScoreLine1" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine2" parent="Highscores/DefenderTable" index="2"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/DefenderTable/ScoreLine2" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine3" parent="Highscores/DefenderTable" index="3"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/DefenderTable/ScoreLine3" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine4" parent="Highscores/DefenderTable" index="4"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/DefenderTable/ScoreLine4" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine5" parent="Highscores/DefenderTable" index="5"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/DefenderTable/ScoreLine5" index="2"]
+margin_left = 154.0
+margin_right = 240.0
 
 [node name="ScoreLine6" parent="Highscores/DefenderTable" index="6"]
 visible = false
@@ -2855,9 +3071,9 @@ visible = false
 
 [node name="SweeperTable" parent="Highscores" instance=ExtResource( 21 )]
 margin_left = 976.0
-margin_top = 136.0
+margin_top = 142.0
 margin_right = 1216.0
-margin_bottom = 484.0
+margin_bottom = 490.0
 theme = null
 
 [node name="Title" parent="Highscores/SweeperTable" index="0"]
@@ -2868,7 +3084,7 @@ uppercase = true
 margin_right = 240.0
 
 [node name="Score" parent="Highscores/SweeperTable/ScoreLine1" index="2"]
-margin_left = 144.0
+margin_left = 170.0
 margin_right = 240.0
 text = "00:00:00"
 
@@ -2876,7 +3092,7 @@ text = "00:00:00"
 margin_right = 240.0
 
 [node name="Score" parent="Highscores/SweeperTable/ScoreLine2" index="2"]
-margin_left = 144.0
+margin_left = 170.0
 margin_right = 240.0
 text = "00:00:00"
 
@@ -2884,7 +3100,7 @@ text = "00:00:00"
 margin_right = 240.0
 
 [node name="Score" parent="Highscores/SweeperTable/ScoreLine3" index="2"]
-margin_left = 144.0
+margin_left = 170.0
 margin_right = 240.0
 text = "00:00:00"
 
@@ -2892,7 +3108,7 @@ text = "00:00:00"
 margin_right = 240.0
 
 [node name="Score" parent="Highscores/SweeperTable/ScoreLine4" index="2"]
-margin_left = 144.0
+margin_left = 170.0
 margin_right = 240.0
 text = "00:00:00"
 
@@ -2900,7 +3116,7 @@ text = "00:00:00"
 margin_right = 240.0
 
 [node name="Score" parent="Highscores/SweeperTable/ScoreLine5" index="2"]
-margin_left = 144.0
+margin_left = 170.0
 margin_right = 240.0
 text = "00:00:00"
 
@@ -2908,7 +3124,7 @@ text = "00:00:00"
 margin_right = 240.0
 
 [node name="Score" parent="Highscores/SweeperTable/ScoreLine6" index="2"]
-margin_left = 144.0
+margin_left = 170.0
 margin_right = 240.0
 text = "00:00:00"
 
@@ -2916,7 +3132,7 @@ text = "00:00:00"
 margin_right = 240.0
 
 [node name="Score" parent="Highscores/SweeperTable/ScoreLine7" index="2"]
-margin_left = 144.0
+margin_left = 170.0
 margin_right = 240.0
 text = "00:00:00"
 
@@ -2924,7 +3140,7 @@ text = "00:00:00"
 margin_right = 240.0
 
 [node name="Score" parent="Highscores/SweeperTable/ScoreLine8" index="2"]
-margin_left = 144.0
+margin_left = 170.0
 margin_right = 240.0
 text = "00:00:00"
 
@@ -2932,7 +3148,7 @@ text = "00:00:00"
 margin_right = 240.0
 
 [node name="Score" parent="Highscores/SweeperTable/ScoreLine9" index="2"]
-margin_left = 144.0
+margin_left = 170.0
 margin_right = 240.0
 text = "00:00:00"
 
@@ -2940,7 +3156,7 @@ text = "00:00:00"
 margin_right = 240.0
 
 [node name="Score" parent="Highscores/SweeperTable/ScoreLine10" index="2"]
-margin_left = 144.0
+margin_left = 170.0
 margin_right = 240.0
 text = "00:00:00"
 
@@ -3057,9 +3273,9 @@ autowrap = true
 
 [node name="Tutorial" type="Panel" parent="SelectGame"]
 margin_left = 8.0
-margin_top = 152.0
+margin_top = 176.0
 margin_right = 216.0
-margin_bottom = 304.0
+margin_bottom = 328.0
 rect_pivot_offset = Vector2( 40, 8 )
 custom_styles/panel = SubResource( 274 )
 
@@ -3074,9 +3290,9 @@ autowrap = true
 
 [node name="Eraser" type="Panel" parent="SelectGame"]
 margin_left = 8.0
-margin_top = 312.0
+margin_top = 336.0
 margin_right = 216.0
-margin_bottom = 600.0
+margin_bottom = 616.0
 custom_styles/panel = SubResource( 274 )
 
 [node name="Title" type="Label" parent="SelectGame/Eraser"]
@@ -3099,9 +3315,9 @@ autowrap = true
 
 [node name="Cleaner" type="Panel" parent="SelectGame"]
 margin_left = 224.0
-margin_top = 152.0
+margin_top = 176.0
 margin_right = 432.0
-margin_bottom = 304.0
+margin_bottom = 480.0
 custom_styles/panel = SubResource( 274 )
 
 [node name="Title" type="Label" parent="SelectGame/Cleaner"]
@@ -3118,14 +3334,14 @@ margin_top = 16.0
 margin_right = 184.0
 margin_bottom = 63.0
 custom_fonts/font = ExtResource( 14 )
-text = "Everlasting color clash! "
+text = "Everlasting color clash! Neverending chroma crisis!"
 autowrap = true
 
 [node name="Cleaner2" type="Panel" parent="SelectGame"]
-margin_left = 224.0
-margin_top = 472.0
-margin_right = 432.0
-margin_bottom = 600.0
+margin_left = 696.0
+margin_top = 856.0
+margin_right = 904.0
+margin_bottom = 984.0
 custom_styles/panel = SubResource( 274 )
 
 [node name="Title" type="Label" parent="SelectGame/Cleaner2"]
@@ -3146,10 +3362,10 @@ text = "Defend the attack!"
 autowrap = true
 
 [node name="Cleaner3" type="Panel" parent="SelectGame"]
-margin_left = 224.0
-margin_top = 312.0
-margin_right = 432.0
-margin_bottom = 464.0
+margin_left = 696.0
+margin_top = 696.0
+margin_right = 904.0
+margin_bottom = 848.0
 custom_styles/panel = SubResource( 274 )
 
 [node name="Title" type="Label" parent="SelectGame/Cleaner3"]
@@ -3171,9 +3387,9 @@ autowrap = true
 
 [node name="TheDuel" type="Panel" parent="SelectGame"]
 margin_left = 440.0
-margin_top = 152.0
+margin_top = 176.0
 margin_right = 648.0
-margin_bottom = 328.0
+margin_bottom = 352.0
 custom_styles/panel = SubResource( 274 )
 
 [node name="Title" type="Label" parent="SelectGame/TheDuel"]
@@ -3195,9 +3411,9 @@ autowrap = true
 
 [node name="Sweeper" type="Panel" parent="SelectGame"]
 margin_left = 440.0
-margin_top = 336.0
+margin_top = 360.0
 margin_right = 648.0
-margin_bottom = 488.0
+margin_bottom = 560.0
 custom_styles/panel = SubResource( 274 )
 
 [node name="Title" type="Label" parent="SelectGame/Sweeper"]
@@ -3211,10 +3427,10 @@ text = "Riddler"
 [node name="Label" type="Label" parent="SelectGame/Sweeper"]
 margin_left = 25.0
 margin_top = 15.0
-margin_right = 192.0
-margin_bottom = 57.0
+margin_right = 200.0
+margin_bottom = 105.0
 custom_fonts/font = ExtResource( 14 )
-text = "Chain reaction bonanza!"
+text = "Chain reaction bonanza! Collect all colors in one chain reaction burst move."
 autowrap = true
 
 [node name="Panel8" type="Panel" parent="SelectGame"]
@@ -3244,9 +3460,9 @@ autowrap = true
 
 [node name="GameBtns" type="Control" parent="SelectGame"]
 margin_left = 48.0
-margin_top = 256.0
+margin_top = 280.0
 margin_right = 48.0
-margin_bottom = 256.0
+margin_bottom = 280.0
 
 [node name="TutorialBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_left = -16.0
@@ -3317,9 +3533,9 @@ __meta__ = {
 
 [node name="EraserBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_left = 200.0
-margin_top = -32.0
+margin_top = -8.0
 margin_right = 360.0
-margin_bottom = 24.0
+margin_bottom = 48.0
 focus_neighbour_top = NodePath("../../BackBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
@@ -3334,9 +3550,9 @@ __meta__ = {
 
 [node name="HandlerBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_left = 200.0
-margin_top = 128.0
+margin_top = 56.0
 margin_right = 360.0
-margin_bottom = 184.0
+margin_bottom = 112.0
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
 custom_styles/pressed = SubResource( 205 )
@@ -3350,9 +3566,9 @@ __meta__ = {
 
 [node name="DefenderBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_left = 200.0
-margin_top = 264.0
+margin_top = 120.0
 margin_right = 360.0
-margin_bottom = 320.0
+margin_bottom = 176.0
 focus_neighbour_bottom = NodePath("../EraserBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 205 )
@@ -3385,9 +3601,9 @@ __meta__ = {
 
 [node name="SweeperBtn" type="Button" parent="SelectGame/GameBtns"]
 margin_left = 416.0
-margin_top = 152.0
+margin_top = 200.0
 margin_right = 576.0
-margin_bottom = 208.0
+margin_bottom = 256.0
 focus_neighbour_top = NodePath("../TheDuelBtn")
 focus_neighbour_bottom = NodePath("../TheDuelBtn")
 mouse_default_cursor_shape = 2

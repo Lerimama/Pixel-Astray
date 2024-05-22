@@ -1,39 +1,39 @@
 [gd_scene load_steps=49 format=2]
 
-[ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
-[ext_resource path="res://game/hud/game_instructions.gd" type="Script" id=2]
-[ext_resource path="res://assets/atlas_controls.png" type="Texture" id=3]
-[ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=4]
-[ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=5]
-[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=6]
+[ext_resource path="res://game/hud/game_instructions.gd" type="Script" id=1]
+[ext_resource path="res://assets/theme/font_main_small.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=3]
+[ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=4]
+[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=5]
+[ext_resource path="res://assets/atlas_controls.png" type="Texture" id=6]
 [ext_resource path="res://assets/theme/stylebox_panelwithborder.tres" type="StyleBox" id=7]
-[ext_resource path="res://assets/theme/bont_body_big.tres" type="DynamicFont" id=8]
-[ext_resource path="res://assets/theme/font_main_small.tres" type="DynamicFont" id=9]
-[ext_resource path="res://game/gui/shortcut_line.tscn" type="PackedScene" id=10]
-[ext_resource path="res://game/gui/action_hint.tscn" type="PackedScene" id=11]
+[ext_resource path="res://game/gui/action_hint.tscn" type="PackedScene" id=8]
+[ext_resource path="res://assets/theme/bont_body_big.tres" type="DynamicFont" id=9]
+[ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=10]
+[ext_resource path="res://game/gui/shortcut_line.tscn" type="PackedScene" id=11]
 
 [sub_resource type="StyleBoxEmpty" id=457]
 
 [sub_resource type="StyleBoxEmpty" id=454]
 
 [sub_resource type="AtlasTexture" id=389]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 6 )
 region = Rect2( 80, 98, 70, 46 )
 
 [sub_resource type="AtlasTexture" id=390]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 6 )
 region = Rect2( 0, 98, 70, 46 )
 
 [sub_resource type="AtlasTexture" id=391]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 6 )
 region = Rect2( 138, 154, 22, 22 )
 
 [sub_resource type="AtlasTexture" id=392]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 6 )
 region = Rect2( 0, 154, 102, 22 )
 
 [sub_resource type="AtlasTexture" id=393]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 6 )
 region = Rect2( 113.919, 154, 22, 22 )
 
 [sub_resource type="StreamTexture" id=394]
@@ -48,15 +48,15 @@ atlas = SubResource( 404 )
 region = Rect2( 0, 0, 120, 86 )
 
 [sub_resource type="AtlasTexture" id=396]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 6 )
 region = Rect2( 10, 17, 22, 22 )
 
 [sub_resource type="AtlasTexture" id=397]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 6 )
 region = Rect2( 96, 32, 10, 10 )
 
 [sub_resource type="AtlasTexture" id=398]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 6 )
 region = Rect2( 146, 6, 6, 10 )
 
 [sub_resource type="StyleBoxEmpty" id=455]
@@ -166,7 +166,7 @@ thickness = 2
 vertical = true
 
 [sub_resource type="Theme" id=453]
-default_font = ExtResource( 4 )
+default_font = ExtResource( 10 )
 Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
 Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
@@ -215,19 +215,19 @@ VSeparator/styles/separator = SubResource( 474 )
 [sub_resource type="StyleBoxEmpty" id=456]
 
 [sub_resource type="AtlasTexture" id=449]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 6 )
 region = Rect2( 146, 30, 6, 10 )
 
 [sub_resource type="AtlasTexture" id=475]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 6 )
 region = Rect2( 138, 22, 22, 22 )
 margin = Rect2( -2, 2, 0, 0 )
 
 [node name="Instructions" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = ExtResource( 6 )
-script = ExtResource( 2 )
+theme = ExtResource( 5 )
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_horizontal_guides_": [ 104.0, 152.0 ],
 "_edit_vertical_guides_": [ 640.0 ]
@@ -251,13 +251,13 @@ margin_bottom = 536.0
 color = Color( 0.615686, 0.615686, 0.615686, 0.152941 )
 
 [node name="Title" type="Label" parent="."]
-modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+modulate = Color( 0.368627, 1, 0.662745, 1 )
 anchor_right = 1.0
 margin_left = 312.0
 margin_top = 86.0
 margin_right = -312.0
 margin_bottom = 118.0
-custom_fonts/font = ExtResource( 5 )
+custom_fonts/font = ExtResource( 4 )
 text = "%Game title"
 align = 1
 uppercase = true
@@ -481,7 +481,7 @@ margin_top = -40.0
 margin_right = 4.0
 margin_bottom = -22.0
 grow_horizontal = 2
-custom_fonts/font = ExtResource( 1 )
+custom_fonts/font = ExtResource( 3 )
 text = "#Current record points:"
 align = 1
 valign = 2
@@ -512,7 +512,7 @@ margin_top = 16.0
 margin_right = -21.0
 margin_bottom = 34.0
 grow_horizontal = 2
-custom_fonts/font = ExtResource( 1 )
+custom_fonts/font = ExtResource( 3 )
 text = "%by owner"
 align = 1
 valign = 2
@@ -664,7 +664,7 @@ margin_right = 14.0
 margin_bottom = 19.0
 rect_min_size = Vector2( 0, 19 )
 theme = SubResource( 453 )
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 2 )
 text = "M"
 align = 1
 valign = 2
@@ -674,7 +674,7 @@ margin_left = 22.0
 margin_right = 39.0
 margin_bottom = 18.0
 theme = SubResource( 453 )
-custom_fonts/font = ExtResource( 1 )
+custom_fonts/font = ExtResource( 3 )
 text = "or"
 align = 1
 
@@ -684,7 +684,7 @@ margin_right = 66.0
 margin_bottom = 19.0
 rect_min_size = Vector2( 0, 19 )
 theme = SubResource( 453 )
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 2 )
 text = "L1"
 align = 1
 valign = 2
@@ -694,7 +694,7 @@ margin_left = 74.0
 margin_right = 187.0
 margin_bottom = 18.0
 theme = SubResource( 453 )
-custom_fonts/font = ExtResource( 1 )
+custom_fonts/font = ExtResource( 3 )
 text = "to mute music"
 
 [node name="Skip" type="HBoxContainer" parent="GameInstructions/Outline/Shortcuts/Shortcuts"]
@@ -712,7 +712,7 @@ margin_right = 11.0
 margin_bottom = 19.0
 rect_min_size = Vector2( 0, 19 )
 theme = SubResource( 453 )
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 2 )
 text = "N"
 align = 1
 valign = 2
@@ -722,7 +722,7 @@ margin_left = 19.0
 margin_right = 36.0
 margin_bottom = 18.0
 theme = SubResource( 453 )
-custom_fonts/font = ExtResource( 1 )
+custom_fonts/font = ExtResource( 3 )
 text = "or"
 align = 1
 
@@ -732,7 +732,7 @@ margin_right = 63.0
 margin_bottom = 19.0
 rect_min_size = Vector2( 0, 19 )
 theme = SubResource( 453 )
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 2 )
 text = "R1"
 align = 1
 valign = 2
@@ -742,7 +742,7 @@ margin_left = 71.0
 margin_right = 243.0
 margin_bottom = 18.0
 theme = SubResource( 453 )
-custom_fonts/font = ExtResource( 1 )
+custom_fonts/font = ExtResource( 3 )
 text = "to skip current track"
 
 [node name="Pause" type="HBoxContainer" parent="GameInstructions/Outline/Shortcuts/Shortcuts"]
@@ -760,7 +760,7 @@ margin_right = 33.0
 margin_bottom = 19.0
 rect_min_size = Vector2( 0, 19 )
 theme = SubResource( 453 )
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 2 )
 text = "ESC"
 align = 1
 valign = 2
@@ -770,7 +770,7 @@ margin_left = 41.0
 margin_right = 58.0
 margin_bottom = 18.0
 theme = SubResource( 453 )
-custom_fonts/font = ExtResource( 1 )
+custom_fonts/font = ExtResource( 3 )
 text = "or"
 align = 1
 
@@ -780,7 +780,7 @@ margin_right = 132.0
 margin_bottom = 19.0
 rect_min_size = Vector2( 0, 19 )
 theme = SubResource( 453 )
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 2 )
 text = "SELECT"
 align = 1
 valign = 2
@@ -790,7 +790,7 @@ margin_left = 140.0
 margin_right = 210.0
 margin_bottom = 18.0
 theme = SubResource( 453 )
-custom_fonts/font = ExtResource( 1 )
+custom_fonts/font = ExtResource( 3 )
 text = "to pause"
 
 [node name="Hint" type="HBoxContainer" parent="GameInstructions/Outline/Shortcuts/Shortcuts"]
@@ -808,7 +808,7 @@ margin_right = 11.0
 margin_bottom = 19.0
 rect_min_size = Vector2( 0, 19 )
 theme = SubResource( 453 )
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 2 )
 text = "H"
 align = 1
 valign = 2
@@ -818,7 +818,7 @@ margin_left = 19.0
 margin_right = 36.0
 margin_bottom = 18.0
 theme = SubResource( 453 )
-custom_fonts/font = ExtResource( 1 )
+custom_fonts/font = ExtResource( 3 )
 text = "or"
 align = 1
 
@@ -828,7 +828,7 @@ margin_right = 66.0
 margin_bottom = 19.0
 rect_min_size = Vector2( 0, 19 )
 theme = SubResource( 453 )
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 2 )
 text = "XX"
 align = 1
 valign = 2
@@ -838,7 +838,7 @@ margin_left = 74.0
 margin_right = 224.0
 margin_bottom = 18.0
 theme = SubResource( 453 )
-custom_fonts/font = ExtResource( 1 )
+custom_fonts/font = ExtResource( 3 )
 text = "to show riddle hint"
 
 [node name="Enter" type="HBoxContainer" parent="GameInstructions/Outline/Shortcuts/Shortcuts"]
@@ -856,7 +856,7 @@ margin_right = 70.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 19 )
 theme = SubResource( 453 )
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 2 )
 text = "ENTER"
 align = 1
 valign = 2
@@ -867,7 +867,7 @@ margin_top = 2.0
 margin_right = 95.0
 margin_bottom = 20.0
 theme = SubResource( 453 )
-custom_fonts/font = ExtResource( 1 )
+custom_fonts/font = ExtResource( 3 )
 text = "or"
 align = 1
 
@@ -877,7 +877,7 @@ margin_right = 173.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 19 )
 theme = SubResource( 453 )
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 2 )
 text = "START"
 align = 1
 valign = 2
@@ -888,7 +888,7 @@ margin_top = 2.0
 margin_right = 340.0
 margin_bottom = 20.0
 theme = SubResource( 453 )
-custom_fonts/font = ExtResource( 1 )
+custom_fonts/font = ExtResource( 3 )
 text = "to confirm selection"
 
 [node name="ControlsDuel" type="Panel" parent="GameInstructions/Outline"]
@@ -1065,7 +1065,7 @@ margin_left = 69.0
 margin_top = 82.0
 margin_right = 85.0
 margin_bottom = 107.0
-custom_fonts/font = ExtResource( 8 )
+custom_fonts/font = ExtResource( 9 )
 text = "/"
 align = 1
 
@@ -1148,7 +1148,7 @@ margin_right = 63.0
 margin_bottom = 86.0
 texture = SubResource( 449 )
 
-[node name="ControlHint" parent="." instance=ExtResource( 10 )]
+[node name="ControlHint" parent="." instance=ExtResource( 11 )]
 visible = false
 margin_left = -153.0
 margin_right = 154.0
@@ -1161,7 +1161,7 @@ margin_left = 51.0
 margin_right = 117.0
 text = "RETURN"
 
-[node name="ActionHint" parent="." instance=ExtResource( 11 )]
+[node name="ActionHint" parent="." instance=ExtResource( 8 )]
 margin_left = 516.0
 margin_top = 589.0
 margin_right = 764.0

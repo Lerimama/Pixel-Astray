@@ -98,11 +98,11 @@ func manage_gameover_highscores(current_score: float, current_game_data: Diction
 	# JE na lestvici
 	else:
 		# YIELD 2 ... čaka na novo ime, ki bo prišlo iz GM, ki ga dobi od GO
-		yield(Global.gameover_menu, "name_input_finished")
+		yield(Global.gameover_gui, "name_input_finished")
 		
 		# RESUME 2
 		# nova highscore lestvica		
-		var current_score_owner_name: String = Global.gameover_menu.p1_final_stats["player_name"]
+		var current_score_owner_name: String = Global.gameover_gui.p1_final_stats["player_name"]
 		current_score_owner_name = current_score_owner_name.capitalize()
 
 		# dodam plejer score v array

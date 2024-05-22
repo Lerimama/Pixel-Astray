@@ -37,7 +37,7 @@ func load_new_sweeper_table(next_or_prev: int):
 		Profiles.game_data_sweeper["level"] = Profiles.sweeper_level_setting.size()
 	
 	# tranzicija
-	var fade_time: float = 0.4
+	var fade_time: float = 0.2
 	var fade_tween = get_tree().create_tween()
 	fade_tween.tween_property(sweeper_table.get_children()[1], "modulate:a", 0, fade_time).set_ease(Tween.EASE_IN)
 	# vse linije brez titla, na ročen način
@@ -52,7 +52,7 @@ func load_new_sweeper_table(next_or_prev: int):
 	fade_tween.parallel().tween_property(sweeper_table.get_children()[10], "modulate:a", 0, fade_time)
 	fade_tween.tween_callback(sweeper_table, "get_highscore_table", [Profiles.game_data_sweeper, fake_player_ranking])
 	# fejkam delay
-	fade_tween.tween_property(sweeper_table, "modulate:a", 1, 0.2) # delay
+	fade_tween.tween_property(sweeper_table, "modulate:a", 1, 0.1) # delay
 	# vse linije brez titla, na ročen način
 	fade_tween.tween_property(sweeper_table.get_children()[1], "modulate:a", 1, fade_time)
 	fade_tween.parallel().tween_property(sweeper_table.get_children()[2], "modulate:a", 1, fade_time)

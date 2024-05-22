@@ -48,7 +48,7 @@ var default_game_settings: Dictionary = {
 	"game_time_limit": 0, # če je nič, ni omejeno in timer je stopwatch mode
 	"start_countdown": true,
 	"position_indicators_on": true,
-	"game_instructions_popup": true,
+	"show_game_instructions": true,
 	"show_solution_hint": false, # sweeper reštve
 	"zoom_to_level_size": true,
 }
@@ -260,8 +260,8 @@ func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE
-	var debug_game = Games.TUTORIAL
-#	var debug_game = Games.CLEANER_S
+#	var debug_game = Games.TUTORIAL
+	var debug_game = Games.CLEANER_S
 
 #	var debug_game = Games.CLEANER_M
 #	var debug_game = Games.CLEANER_L
@@ -278,8 +278,10 @@ func set_game_data(selected_game) -> void:
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
 	# debug
-#	game_settings["game_instructions_popup"] = false
+#	game_settings["show_game_instructions"] = false
 	game_settings["start_countdown"] = false
+	game_settings["player_start_life"] = 1
+	game_settings["show_game_instructions"] = false
 		
 	match selected_game:
 		
@@ -293,7 +295,7 @@ func set_game_data(selected_game) -> void:
 		
 		Games.TUTORIAL: 
 			current_game_data = game_data_tutorial
-			game_settings["game_instructions_popup"] = false
+			game_settings["show_game_instructions"] = false
 			game_settings["game_time_limit"] = 0
 			game_settings["strays_start_count"] = 1
 			game_settings["lose_life_on_hit"] = false
@@ -306,6 +308,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["respawn_on_cleaned"] = true
 			game_settings["zoom_to_level_size"] = false
 			game_settings["respawn_strays_on_cleaned"] = true
+			# debug
 		Games.CLEANER_M: 
 			current_game_data = game_data_cleaner_m
 			game_settings["game_time_limit"] = 300

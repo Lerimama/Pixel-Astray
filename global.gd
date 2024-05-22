@@ -18,7 +18,7 @@ var game_manager = null # tudi za intro
 var current_tilemap = null
 var hud = null
 var start_countdown = null
-var gameover_menu = null
+var gameover_gui = null
 var tutorial_gui = null
 
 # camera

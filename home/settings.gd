@@ -38,7 +38,7 @@ func _ready() -> void:
 		$CameraShakeBtn.pressed = false
 
 	# pregame screen
-	if Profiles.default_game_settings["game_instructions_popup"] == true:
+	if Profiles.default_game_settings["show_game_instructions"] == true:
 		$InstructionsBtn.pressed = true
 	else:
 		$InstructionsBtn.pressed = false
@@ -108,9 +108,9 @@ func _on_InstructionsBtn_toggled(button_pressed: bool) -> void:
 	
 	if button_pressed:
 		Global.sound_manager.game_sfx_set_to_off = false
-		Profiles.default_game_settings["game_instructions_popup"] = true
+		Profiles.default_game_settings["show_game_instructions"] = true
 	else:
-		Profiles.default_game_settings["game_instructions_popup"] = false
+		Profiles.default_game_settings["show_game_instructions"] = false
 		
 		
 # COLOR SCHEMES ----------------------------------------------------------------------------------------------------------------

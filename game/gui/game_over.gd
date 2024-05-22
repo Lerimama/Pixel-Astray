@@ -1,28 +1,253 @@
-extends GameOver
+extends Control
+class_name GameOver
 
 
-onready var timeup_label: Label = $GameoverTitle/ReasonTime/TimeupLabel
-onready var sweeper_game_summary: Control = $SweeperGameSummary
-onready var sweeper_highscore_table: VBoxContainer = $SweeperGameSummary/HighscoreTable
+signal name_input_finished
 
+var p1_final_stats: Dictionary
+var p2_final_stats: Dictionary
+var current_gameover_reason: int
+var score_is_ranking # včasih bool včasih object?!
 var sweeper_solved: bool = false				
+
+# menu
+var focus_btn: Button
+onready var gameover_menu: HBoxContainer = $Menu
 		
+# gameover title
+var selected_gameover_title: Control
+var selected_gameover_jingle: String
+onready var gameover_title_holder: Control = $GameoverTitle
+onready var gameover_title_cleaned: Control = $GameoverTitle/ReasonCleaned
+onready var gameover_title_time: Control = $GameoverTitle/ReasonTime
+onready var timeup_label: Label = $GameoverTitle/ReasonTime/TimeupLabel
+onready var gameover_title_life: Control = $GameoverTitle/ReasonLife
+onready var background: ColorRect = $Background
+
+# game summary
+onready var game_summary: Control = $GameSummary
+onready var game_summary_tables: Control = $GameSummary/Tables
+onready var highscore_table: VBoxContainer = $GameSummary/Tables/HighscoreTable
+onready var gameover_stat_points: Label = game_summary_tables.get_node("DataContainer/Points")
+onready var gameover_stat_time: Label = game_summary_tables.get_node("DataContainer/Time")
+onready var gameover_stat_pixels_off: Label = game_summary_tables.get_node("DataContainer/PixelsOff")
+onready var gameover_stat_astray_pixels: Label = game_summary_tables.get_node("DataContainer/AstrayPixels")
+onready var gameover_stat_game: Label = game_summary_tables.get_node("DataContainer/Game")
+onready var gameover_stat_level: Label = game_summary_tables.get_node("DataContainer/Level")
+onready var gameover_stat_cells_traveled: Label = game_summary_tables.get_node("DataContainer/CellsTraveled")
+onready var gameover_stat_burst_count: Label = game_summary_tables.get_node("DataContainer/BurstCount")
+onready var gameover_stat_skills_used: Label = game_summary_tables.get_node("DataContainer/SkillsUsed")
+onready var gameover_stats_title: Label = game_summary_tables.get_node("DataContainer/Title")
+
+# name input
+var input_string: String
+onready var name_input_popup: Control = $NameInputPopup
+onready var name_input: LineEdit = $NameInputPopup/NameInput
+onready var name_input_label: Label = $NameInputPopup/Label
+
+
+func _input(event: InputEvent) -> void:
+
+	if name_input_popup.visible == true and name_input_popup.modulate.a == 1:
+		if Input.is_action_just_pressed("ui_cancel"):
+			_on_CancelBtn_pressed()
+			accept_event()
+		if Input.is_action_just_pressed("ui_accept"):
+			_on_ConfirmBtn_pressed()
+			accept_event()
+			
+	# change focus sounds
+	if (gameover_menu != null and gameover_menu.modulate.a == 1) or (game_summary.visible and game_summary.modulate.a == 1):
+		if Input.is_action_just_pressed("ui_left"):
+			Global.sound_manager.play_gui_sfx("btn_focus_change")
+		elif Input.is_action_just_pressed("ui_right"):
+			Global.sound_manager.play_gui_sfx("btn_focus_change")
+			
 				
 func _ready() -> void:
-	# namen: dodan enigam game summary
 	
-	Global.gameover_menu = self
+	Global.gameover_gui = self
 	
 	visible = false
 	gameover_title_holder.visible = false
-	game_summary_holder.visible = false
+	game_summary.visible = false
 	name_input_popup.visible = false
-	sweeper_game_summary.visible = false
+	gameover_menu.visible = false	
+	
+	
+func open_gameover(gameover_reason: int):
+	
+	current_gameover_reason = gameover_reason
+	
+	
+	# ranking preverim že tukaj, da lahko obarvam title
+	p1_final_stats = Global.game_manager.current_players_in_game[0].player_stats
+	var current_score: float
+	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_POINTS:
+		current_score = p1_final_stats["player_points"]
+	elif Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_COLORS:
+		current_score = p1_final_stats["colors_collected"]
+	else: # time low and high
+		current_score = Global.hud.game_timer.absolute_game_time
+	score_is_ranking = Global.data_manager.manage_gameover_highscores(current_score, Global.game_manager.game_data) 
+	# yield čaka na konec preverke ... tip ni opredeljen, ker je ranking, če ni skora kot objecta, če je ranking
+				
+	if Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
+		p2_final_stats = Global.game_manager.current_players_in_game[1].player_stats
+		set_duel_gameover_title()
+	else:
+		set_game_gameover_title()
+		
+	Global.hud.slide_out()
+	yield(Global.game_camera, "zoomed_out") # tukaj notri setam zamik
+	show_gameover_title()	
+
+
+func show_gameover_title():
+
+
+	visible = true
+	selected_gameover_title.visible = true
+	gameover_title_holder.modulate.a = 0
+	
+	var background_fadein_transparency: float = 0.85 # cca 217
+	
+	var fade_in = get_tree().create_tween()
+	fade_in.tween_callback(gameover_title_holder, "show")
+	fade_in.tween_property(gameover_title_holder, "modulate:a", 1, 1)
+	fade_in.parallel().tween_callback(Global.sound_manager, "stop_music", ["game_music_on_gameover"])
+	fade_in.parallel().tween_callback(Global.sound_manager, "play_sfx", [selected_gameover_jingle])
+	fade_in.parallel().tween_property(background, "color:a", background_fadein_transparency, 0.5).set_delay(0.5) # a = cca 140
+	fade_in.tween_callback(self, "set_gameover_summary").set_delay(2)
 	
 
+func set_gameover_summary():
+
+
+	# vidnost gumbov v meniju glede na igro
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+		gameover_menu.get_node("NextLevelBtn").show()
+	elif Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
+		gameover_menu.get_node("NextLevelBtn").hide()
+		gameover_menu.get_node("RestartBtn").hide()
+		gameover_menu.get_node("RematchBtn").show()
+	else:
+		gameover_menu.get_node("NextLevelBtn").hide()
+		gameover_menu.get_node("RestartBtn").show()
+		gameover_menu.get_node("RematchBtn").hide()
+		
+			
+	get_tree().set_pause(true) # setano čez celotno GO proceduro
+	
+	if Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
+		gameover_menu.visible = false
+		gameover_menu.modulate.a = 0
+		var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+		fade_in.tween_callback(gameover_menu, "show")#.set_delay(1)
+		fade_in.tween_property(gameover_menu, "modulate:a", 1, 1)
+		fade_in.parallel().tween_callback(Global, "grab_focus_no_sfx", [focus_btn])		
+	else:	
+		
+		var current_player_ranking: int
+		if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NO_HS:
+			yield(get_tree().create_timer(1), "timeout") # podaljšam pavzo za branje
+			show_game_summary()
+		else:
+			if score_is_ranking: # manage_gameover_highscores počaka na signal iz name_input
+				open_name_input()
+				yield(Global.data_manager, "highscores_updated")
+				get_viewport().set_disable_input(false) # anti dablklik
+				current_player_ranking = Global.data_manager.current_player_ranking
+			
+			highscore_table.get_highscore_table(Global.game_manager.game_data, current_player_ranking)
+			show_game_summary() # meni pokažem v tej funkciji
+
+
+func show_game_summary():
+	
+	# napolnim vsebine
+	gameover_stats_title.text = str(Global.game_manager.game_data["game_name"]) + " stats"
+	gameover_stat_game.text %= str(Global.game_manager.game_data["game_name"])
+	if not Global.game_manager.game_data.has("level"):
+		gameover_stat_level.hide()
+	else:
+		gameover_stat_level.text %= str(Global.game_manager.game_data["level"])
+	gameover_stat_points.text %= str(p1_final_stats["player_points"])
+	gameover_stat_time.text %= str(Global.hud.game_timer.absolute_game_time)
+	gameover_stat_cells_traveled.text %= str(p1_final_stats["cells_traveled"])
+	gameover_stat_burst_count.text %= str(p1_final_stats["burst_count"])
+	gameover_stat_pixels_off.text %= str(p1_final_stats["colors_collected"])
+	gameover_stat_skills_used.text %= str(p1_final_stats["skill_count"])
+	gameover_stat_astray_pixels.text %= str(Global.game_manager.strays_in_game_count)
+	
+	game_summary.modulate.a = 0	
+	game_summary.visible = true	
+	gameover_menu.modulate.a = 0
+	gameover_menu.visible = true
+	
+	focus_btn = gameover_menu.get_node("RestartBtn")
+
+	# hide title and name_popup > show game summary
+	var cross_fade = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+	cross_fade.tween_property(name_input_popup, "modulate:a", 0, 0.5)
+	cross_fade.parallel().tween_property(gameover_title_holder, "modulate:a", 0, 1)
+	cross_fade.parallel().tween_property(background, "color:a", 1, 1)
+	cross_fade.tween_callback(name_input_popup, "hide")
+	cross_fade.parallel().tween_callback(gameover_title_holder, "hide")
+	cross_fade.parallel().tween_property(game_summary, "modulate:a", 1, 1)#.set_delay(1)
+	cross_fade.parallel().tween_property(gameover_menu, "modulate:a", 1, 1)#.set_delay(1)
+	cross_fade.tween_callback(Global, "grab_focus_no_sfx", [focus_btn])
+
+
+# TITLES --------------------------------------------------------------	
+
+		
+func set_duel_gameover_title():
+	
+	selected_gameover_title = $GameoverTitle/Duel
+	gameover_menu = selected_gameover_title.get_node("Menu")
+	focus_btn = gameover_menu.get_node("RestartBtn")
+	selected_gameover_jingle = "win_jingle"
+
+	var winner_label: Label = selected_gameover_title.get_node("Win/PlayerLabel")
+	var winning_reason_label: Label = selected_gameover_title.get_node("Win/ReasonLabel")
+	var loser_name: String
+	var draw_label: Label = selected_gameover_title.get_node("Draw/DrawLabel")
+	
+	# če je kdo brez lajfa, zmaga preživeli
+	if p1_final_stats["player_life"] == 0 and p2_final_stats["player_life"] > 0: # P1 zmaga
+		selected_gameover_title.get_node("Win").visible = true
+		winner_label.text = "Player 1"
+		loser_name = "Player 2"
+		winning_reason_label.text = "Player 1 cleaned Player 2."
+		return
+	elif p2_final_stats["player_life"] == 0 and p1_final_stats["player_life"] > 0: # P2 zmaga
+		selected_gameover_title.get_node("Win").visible = true
+		winner_label.text = "Player 2"
+		loser_name = "Player 1"
+		winning_reason_label.text = "Player 2 cleaned Player 1."
+		return
+	 
+	# če sta oba preživela ali oba umrla
+	var points_difference: int = p1_final_stats["player_points"] - p2_final_stats["player_points"]
+	if points_difference == 0: # draw
+		selected_gameover_title.get_node("Draw").visible = true
+		draw_label.text = "You both collected the same amount of points."
+	else: # win
+		selected_gameover_title.get_node("Win").visible = true
+		if points_difference > 0: # P1 zmaga
+			winner_label.text = "Player 1"
+			loser_name = "Player 2"
+		elif points_difference < 0: # P2 zmaga
+			winner_label.text = "Player 2"
+			loser_name = "Player 1"
+		if abs(points_difference) == 1:
+			winning_reason_label.text = winner_label.text + " was better by only one point."
+		else: 
+			winning_reason_label.text =  winner_label.text + " was " + str(abs(points_difference)) + " points better than " + loser_name + "."
+		
+			
 func set_game_gameover_title():
-	# namen: sprememba teksta v GO - TIME komentarju glede na to katera igra je
-	# namen: opredelim, če je bila sweeper rešena
 	
 	# uganka in je bila rešena
 	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
@@ -49,95 +274,93 @@ func set_game_gameover_title():
 				selected_gameover_title = gameover_title_time
 				selected_gameover_jingle = "lose_jingle"
 				name_input_label.text = "But still ... "
+				
+					
+	
+# NAME INPUT --------------------------------------------------------------------	
 
 
-func show_gameover_menu():
-	# namen: sweeper HS table, izločim beleženje HS, če sweeper ni končana,
+func open_name_input():
 	
-	get_tree().set_pause(true) # setano čez celotno GO proceduro
+	Global.sound_manager.play_gui_sfx("screen_slide")
 	
-	if players_in_game.size() == 2:
-		selected_gameover_menu.visible = false
-		selected_gameover_menu.modulate.a = 0
-		var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-		fade_in.tween_callback(selected_gameover_menu, "show")#.set_delay(1)
-		fade_in.tween_property(selected_gameover_menu, "modulate:a", 1, 1)
-		fade_in.parallel().tween_callback(Global, "grab_focus_no_sfx", [focus_btn])		
-	else:	
-		
-		var current_highscore_type: int = Global.game_manager.game_data["highscore_type"]
-		var current_player_ranking: int
-		
-		if current_highscore_type == Profiles.HighscoreTypes.NO_HS:
-			selected_game_summary = game_summary_no_hs
-			yield(get_tree().create_timer(1), "timeout") # podaljšam pavzo za branje
-			show_game_summary()
-		else:
-			# če je sweeper score štejem samo, če vse spuca
-			if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER and not current_gameover_reason == Global.game_manager.GameoverReason.CLEANED: 
-				yield(get_tree().create_timer(1), "timeout")
-				current_player_ranking = 100 # zazih ni na lestvici
-			else:
-				if score_is_ranking: # manage_gameover_highscores počaka na signal iz name_input
-					open_name_input()
-					yield(Global.data_manager, "highscores_updated")
-					get_viewport().set_disable_input(false) # anti dablklik
-					current_player_ranking = Global.data_manager.current_player_ranking
-			
-			if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-				sweeper_highscore_table.get_highscore_table(Global.game_manager.game_data, current_player_ranking)
-			else:
-				highscore_table.get_highscore_table(Global.game_manager.game_data, current_player_ranking)
-			selected_game_summary = game_summary_with_hs
-			show_game_summary()
+	# generiram random ime s 5 črkami in ga dam za placeholder text
+	randomize()
+	var ascii_letters_and_digits: String = "abcdefghijklmnopqrstuvwxyz"
+	var random_generated_name: String = ""
+	for i in 5:
+		var random_letter: String = ascii_letters_and_digits[randi() % ascii_letters_and_digits.length()]
+		random_generated_name += random_letter
+	random_generated_name = random_generated_name.capitalize()
+	name_input.placeholder_text = random_generated_name
+	
+	name_input_popup.visible = true
+	name_input_popup.modulate.a = 0
 
+	var fade_in_tween = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+	fade_in_tween.tween_property(name_input_popup, "modulate:a", 1, 0.5)
+	
+	Global.grab_focus_no_sfx(name_input)
+	name_input.select_all()
+	
+	
+func confirm_name_input():
+	
+	# pogrebam string in zapišem ime v končno statistiko igralca
+	p1_final_stats["player_name"] = input_string
+	close_name_input()
 
-func show_game_summary():
-	# namen: izbira sweeper game summary
 	
-	var game_summary_to_show: Control
+func close_name_input ():
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-		# focus btn
-		if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
-			focus_btn = sweeper_game_summary.get_node("Menu/NextLevelBtn")
-		else:
-			focus_btn = sweeper_game_summary.get_node("Menu/RestartBtn")
-			
-		sweeper_game_summary.get_node("DataContainer/Game").text %= str(Global.game_manager.game_data["game_name"])
-		sweeper_game_summary.get_node("DataContainer/Level").text %= "%02d" % Global.game_manager.game_data["level"]
-		sweeper_game_summary.get_node("DataContainer/AstrayPixels").text %= str(Global.game_manager.strays_in_game_count)
-		sweeper_game_summary.visible = true	
-		sweeper_game_summary.modulate.a = 0	
-		game_summary_to_show = sweeper_game_summary
+	name_input.editable = false
+	emit_signal("name_input_finished") # sporočim DM, da sem končal (ime povleče iz GO stats) ... on kliče "highscores_updated"
+	
+
+func _on_NameEdit_text_changed(new_text: String) -> void:
+	# signal, ki redno beleži vnešeni string
+	
+	input_string = new_text
+	Global.sound_manager.play_gui_sfx("typing")
+
+	
+func _on_PopupNameEdit_text_entered(new_text: String) -> void: # ko stisneš return
+	
+	_on_ConfirmBtn_pressed()
+
+	
+func _on_ConfirmBtn_pressed() -> void:
+
+	Global.grab_focus_no_sfx($NameInputPopup/HBoxContainer/ConfirmBtn)
+	get_viewport().set_disable_input(true) # anti dablklik
+	
+	Global.sound_manager.play_gui_sfx("btn_confirm")
+	
+	if input_string.empty():
+		input_string = name_input.placeholder_text
+		confirm_name_input()
 	else:
-		focus_btn = selected_game_summary.get_node("Menu/RestartBtn")
-		selected_game_summary.get_node("DataContainer/Game").text %= str(Global.game_manager.game_data["game_name"])
-		if not Global.game_manager.game_data.has("level"):
-			selected_game_summary.get_node("DataContainer/Level").hide()
-		else:
-			selected_game_summary.get_node("DataContainer/Level").text %= str(Global.game_manager.game_data["level"])
-		selected_game_summary.get_node("DataContainer/Points").text %= str(p1_final_stats["player_points"])
-		selected_game_summary.get_node("DataContainer/Time").text %= str(Global.hud.game_timer.absolute_game_time)
-		selected_game_summary.get_node("DataContainer/CellsTraveled").text %= str(p1_final_stats["cells_traveled"])
-		selected_game_summary.get_node("DataContainer/BurstCount").text %= str(p1_final_stats["burst_count"])
-		selected_game_summary.get_node("DataContainer/SkillsUsed").text %= str(p1_final_stats["skill_count"])
-		selected_game_summary.get_node("DataContainer/PixelsOff").text %= str(p1_final_stats["colors_collected"])
-		selected_game_summary.get_node("DataContainer/AstrayPixels").text %= str(Global.game_manager.strays_in_game_count)
-		selected_game_summary.visible = true	
-		game_summary_holder.visible = true	
-		game_summary_holder.modulate.a = 0	
-		game_summary_to_show = game_summary_holder
+		confirm_name_input()
+		
+		
+func _on_CancelBtn_pressed() -> void:
+	
+	Global.grab_focus_no_sfx($NameInputPopup/HBoxContainer/CancelBtn)
+	get_viewport().set_disable_input(true) # anti dablklik
+	close_name_input()
 
-	# hide title and name_popup > show game summary
-	var cross_fade = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-	cross_fade.tween_property(name_input_popup, "modulate:a", 0, 0.5)
-	cross_fade.parallel().tween_property(gameover_title_holder, "modulate:a", 0, 1)
-	cross_fade.parallel().tween_property(background, "color:a", 1, 1)
-	cross_fade.tween_callback(name_input_popup, "hide")
-	cross_fade.parallel().tween_callback(gameover_title_holder, "hide")
-	cross_fade.parallel().tween_property(game_summary_to_show, "modulate:a", 1, 1)#.set_delay(1)
-	cross_fade.tween_callback(Global, "grab_focus_no_sfx", [focus_btn])
+
+# MENU ---------------------------------------------------------------------------------------------
+
+
+func _on_RestartBtn_pressed() -> void:
+
+	Global.main_node.reload_game()
+	
+	
+func _on_QuitBtn_pressed() -> void:
+
+	Global.main_node.game_out(Global.game_manager.game_data["game"])
 
 
 func _on_ExitGameBtn_pressed() -> void:
@@ -145,7 +368,12 @@ func _on_ExitGameBtn_pressed() -> void:
 
 
 func _on_NextLevelBtn_pressed() -> void:
-	
+
 	var next_level_number: int = Global.game_manager.game_data["level"] + 1
 	Profiles.game_data_sweeper["level"] = next_level_number
+	Global.main_node.reload_game()
+
+
+func _on_RematchBtn_pressed() -> void:
+	
 	Global.main_node.reload_game()

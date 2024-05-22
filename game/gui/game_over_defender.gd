@@ -4,25 +4,25 @@ extends GameOver
 func show_game_summary():
 	# namen: druga statistika game summarya
 	
-	focus_btn = selected_game_summary.get_node("Menu/RestartBtn")
+	focus_btn = gameover_menu.get_node("RestartBtn")
 
 	# get stats
-	selected_game_summary.get_node("DataContainer/Game").text %= str(Global.game_manager.game_data["game_name"])
+	gameover_stats_title.text = str(Global.game_manager.game_data["game_name"]) + " stats"
+	gameover_stat_game.text %= str(Global.game_manager.game_data["game_name"])
 	if not Global.game_manager.game_data.has("level"):
-		selected_game_summary.get_node("DataContainer/Level").hide()
+		gameover_stat_level.hide()
 	else:
-		selected_game_summary.get_node("DataContainer/Level").text %= str(Global.game_manager.game_data["level"])
-	selected_game_summary.get_node("DataContainer/Points").text %= str(p1_final_stats["player_points"])
-	selected_game_summary.get_node("DataContainer/Time").text %= str(Global.hud.game_timer.absolute_game_time)
-	selected_game_summary.get_node("DataContainer/CellsTraveled").text %= str(p1_final_stats["cells_traveled"])
-	selected_game_summary.get_node("DataContainer/BurstCount").text %= str(p1_final_stats["burst_count"])
-	selected_game_summary.get_node("DataContainer/PixelsOff").text %= str(p1_final_stats["colors_collected"])
-	#	selected_game_summary.get_node("DataContainer/SkillsUsed").text %= str(p1_final_stats["skill_count"])
-	#	selected_game_summary.get_node("DataContainer/AstrayPixels").text %= str(Global.game_manager.strays_in_game_count)
+		gameover_stat_level.text %= str(Global.game_manager.game_data["level"])
+	gameover_stat_points.text %= str(p1_final_stats["player_points"])
+	gameover_stat_time.text %= str(Global.hud.game_timer.absolute_game_time)
+	gameover_stat_cells_traveled.text %= str(p1_final_stats["cells_traveled"])
+	gameover_stat_burst_count.text %= str(p1_final_stats["burst_count"])
+	gameover_stat_pixels_off.text %= str(p1_final_stats["colors_collected"])
+	gameover_stat_skills_used.text %= str(p1_final_stats["skill_count"])
+	gameover_stat_astray_pixels.text %= str(Global.game_manager.strays_in_game_count)
 	
-	selected_game_summary.visible = true	
-	game_summary_holder.visible = true	
-	game_summary_holder.modulate.a = 0
+	game_summary.visible = true	
+	game_summary.modulate.a = 0
 
 	# hide title and name_popup > show game summary
 	var cross_fade = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
@@ -31,7 +31,7 @@ func show_game_summary():
 	cross_fade.parallel().tween_property(background, "color:a", 1, 1)
 	cross_fade.tween_callback(name_input_popup, "hide")
 	cross_fade.parallel().tween_callback(gameover_title_holder, "hide")
-	cross_fade.parallel().tween_property(game_summary_holder, "modulate:a", 1, 1)#.set_delay(1)
+	cross_fade.parallel().tween_property(game_summary, "modulate:a", 1, 1)#.set_delay(1)
 	cross_fade.tween_callback(Global, "grab_focus_no_sfx", [focus_btn])
 
 		

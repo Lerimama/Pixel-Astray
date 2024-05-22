@@ -5,8 +5,10 @@
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=3]
 
 [node name="HighscoreTable" type="VBoxContainer"]
-margin_right = 256.0
-margin_bottom = 278.0
+margin_top = -2.0
+margin_right = 224.0
+margin_bottom = 308.0
+rect_min_size = Vector2( 224, 0 )
 theme = ExtResource( 3 )
 custom_constants/separation = 10
 script = ExtResource( 1 )
@@ -15,33 +17,32 @@ __meta__ = {
 }
 
 [node name="Title" type="Label" parent="."]
-margin_right = 256.0
-margin_bottom = 28.0
-rect_min_size = Vector2( 28, 28 )
+margin_right = 224.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 28, 24 )
 size_flags_horizontal = 7
 size_flags_vertical = 0
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 text = "%Best gamers"
 align = 1
-valign = 2
 
 [node name="ScoreLine1" type="HBoxContainer" parent="."]
-margin_top = 38.0
-margin_right = 256.0
-margin_bottom = 60.0
+margin_top = 34.0
+margin_right = 224.0
+margin_bottom = 52.0
 rect_min_size = Vector2( 72, 0 )
 
 [node name="Position" type="Label" parent="ScoreLine1"]
-margin_right = 34.0
-margin_bottom = 22.0
+margin_right = 24.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 2 )
 text = "00."
 
 [node name="Owner" type="Label" parent="ScoreLine1"]
-margin_left = 38.0
-margin_top = 2.0
-margin_right = 128.0
-margin_bottom = 20.0
+margin_left = 28.0
+margin_right = 118.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 90, 0 )
 custom_fonts/font = ExtResource( 2 )
 text = "Characters"
@@ -51,31 +52,32 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="ScoreLine1"]
-margin_left = 134.0
-margin_right = 256.0
-margin_bottom = 22.0
+margin_left = 138.0
+margin_right = 224.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
-text = "100000000"
+custom_fonts/font = ExtResource( 2 )
+text = "1000000000"
 align = 2
 
 [node name="ScoreLine2" type="HBoxContainer" parent="."]
-margin_top = 70.0
-margin_right = 256.0
-margin_bottom = 92.0
+margin_top = 62.0
+margin_right = 224.0
+margin_bottom = 80.0
 rect_min_size = Vector2( 72, 0 )
 
 [node name="Position" type="Label" parent="ScoreLine2"]
-margin_right = 34.0
-margin_bottom = 22.0
+margin_right = 24.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 2 )
 text = "00."
 
 [node name="Owner" type="Label" parent="ScoreLine2"]
-margin_left = 38.0
-margin_top = 2.0
-margin_right = 128.0
-margin_bottom = 20.0
+margin_left = 28.0
+margin_right = 118.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 90, 0 )
 custom_fonts/font = ExtResource( 2 )
 text = "Characters"
@@ -85,31 +87,32 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="ScoreLine2"]
-margin_left = 134.0
-margin_right = 256.0
-margin_bottom = 22.0
+margin_left = 138.0
+margin_right = 224.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
-text = "100000000"
+custom_fonts/font = ExtResource( 2 )
+text = "1000000000"
 align = 2
 
 [node name="ScoreLine3" type="HBoxContainer" parent="."]
-margin_top = 102.0
-margin_right = 256.0
-margin_bottom = 124.0
+margin_top = 90.0
+margin_right = 224.0
+margin_bottom = 108.0
 rect_min_size = Vector2( 72, 0 )
 
 [node name="Position" type="Label" parent="ScoreLine3"]
-margin_right = 34.0
-margin_bottom = 22.0
+margin_right = 24.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 2 )
 text = "00."
 
 [node name="Owner" type="Label" parent="ScoreLine3"]
-margin_left = 38.0
-margin_top = 2.0
-margin_right = 128.0
-margin_bottom = 20.0
+margin_left = 28.0
+margin_right = 118.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 90, 0 )
 custom_fonts/font = ExtResource( 2 )
 text = "Characters"
@@ -119,31 +122,32 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="ScoreLine3"]
-margin_left = 134.0
-margin_right = 256.0
-margin_bottom = 22.0
+margin_left = 138.0
+margin_right = 224.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
-text = "100000000"
+custom_fonts/font = ExtResource( 2 )
+text = "1000000000"
 align = 2
 
 [node name="ScoreLine4" type="HBoxContainer" parent="."]
-margin_top = 134.0
-margin_right = 256.0
-margin_bottom = 156.0
+margin_top = 118.0
+margin_right = 224.0
+margin_bottom = 136.0
 rect_min_size = Vector2( 72, 0 )
 
 [node name="Position" type="Label" parent="ScoreLine4"]
-margin_right = 34.0
-margin_bottom = 22.0
+margin_right = 24.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 2 )
 text = "00."
 
 [node name="Owner" type="Label" parent="ScoreLine4"]
-margin_left = 38.0
-margin_top = 2.0
-margin_right = 128.0
-margin_bottom = 20.0
+margin_left = 28.0
+margin_right = 118.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 90, 0 )
 custom_fonts/font = ExtResource( 2 )
 text = "Characters"
@@ -153,31 +157,32 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="ScoreLine4"]
-margin_left = 134.0
-margin_right = 256.0
-margin_bottom = 22.0
+margin_left = 138.0
+margin_right = 224.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
-text = "100000000"
+custom_fonts/font = ExtResource( 2 )
+text = "1000000000"
 align = 2
 
 [node name="ScoreLine5" type="HBoxContainer" parent="."]
-margin_top = 166.0
-margin_right = 256.0
-margin_bottom = 188.0
+margin_top = 146.0
+margin_right = 224.0
+margin_bottom = 164.0
 rect_min_size = Vector2( 72, 0 )
 
 [node name="Position" type="Label" parent="ScoreLine5"]
-margin_right = 34.0
-margin_bottom = 22.0
+margin_right = 24.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 2 )
 text = "00."
 
 [node name="Owner" type="Label" parent="ScoreLine5"]
-margin_left = 38.0
-margin_top = 2.0
-margin_right = 128.0
-margin_bottom = 20.0
+margin_left = 28.0
+margin_right = 118.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 90, 0 )
 custom_fonts/font = ExtResource( 2 )
 text = "Characters"
@@ -187,31 +192,32 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="ScoreLine5"]
-margin_left = 134.0
-margin_right = 256.0
-margin_bottom = 22.0
+margin_left = 138.0
+margin_right = 224.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
-text = "100000000"
+custom_fonts/font = ExtResource( 2 )
+text = "1000000000"
 align = 2
 
 [node name="ScoreLine6" type="HBoxContainer" parent="."]
-margin_top = 198.0
-margin_right = 256.0
-margin_bottom = 220.0
+margin_top = 174.0
+margin_right = 224.0
+margin_bottom = 192.0
 rect_min_size = Vector2( 72, 0 )
 
 [node name="Position" type="Label" parent="ScoreLine6"]
-margin_right = 34.0
-margin_bottom = 22.0
+margin_right = 24.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 2 )
 text = "00."
 
 [node name="Owner" type="Label" parent="ScoreLine6"]
-margin_left = 38.0
-margin_top = 2.0
-margin_right = 128.0
-margin_bottom = 20.0
+margin_left = 28.0
+margin_right = 118.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 90, 0 )
 custom_fonts/font = ExtResource( 2 )
 text = "Characters"
@@ -221,31 +227,32 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="ScoreLine6"]
-margin_left = 134.0
-margin_right = 256.0
-margin_bottom = 22.0
+margin_left = 138.0
+margin_right = 224.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
-text = "100000000"
+custom_fonts/font = ExtResource( 2 )
+text = "1000000000"
 align = 2
 
 [node name="ScoreLine7" type="HBoxContainer" parent="."]
-margin_top = 230.0
-margin_right = 256.0
-margin_bottom = 252.0
+margin_top = 202.0
+margin_right = 224.0
+margin_bottom = 220.0
 rect_min_size = Vector2( 72, 0 )
 
 [node name="Position" type="Label" parent="ScoreLine7"]
-margin_right = 34.0
-margin_bottom = 22.0
+margin_right = 24.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 2 )
 text = "00."
 
 [node name="Owner" type="Label" parent="ScoreLine7"]
-margin_left = 38.0
-margin_top = 2.0
-margin_right = 128.0
-margin_bottom = 20.0
+margin_left = 28.0
+margin_right = 118.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 90, 0 )
 custom_fonts/font = ExtResource( 2 )
 text = "Characters"
@@ -255,31 +262,32 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="ScoreLine7"]
-margin_left = 134.0
-margin_right = 256.0
-margin_bottom = 22.0
+margin_left = 138.0
+margin_right = 224.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
-text = "100000000"
+custom_fonts/font = ExtResource( 2 )
+text = "1000000000"
 align = 2
 
 [node name="ScoreLine8" type="HBoxContainer" parent="."]
-margin_top = 262.0
-margin_right = 256.0
-margin_bottom = 284.0
+margin_top = 230.0
+margin_right = 224.0
+margin_bottom = 248.0
 rect_min_size = Vector2( 72, 0 )
 
 [node name="Position" type="Label" parent="ScoreLine8"]
-margin_right = 34.0
-margin_bottom = 22.0
+margin_right = 24.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 2 )
 text = "00."
 
 [node name="Owner" type="Label" parent="ScoreLine8"]
-margin_left = 38.0
-margin_top = 2.0
-margin_right = 128.0
-margin_bottom = 20.0
+margin_left = 28.0
+margin_right = 118.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 90, 0 )
 custom_fonts/font = ExtResource( 2 )
 text = "Characters"
@@ -289,31 +297,32 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="ScoreLine8"]
-margin_left = 134.0
-margin_right = 256.0
-margin_bottom = 22.0
+margin_left = 138.0
+margin_right = 224.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
-text = "100000000"
+custom_fonts/font = ExtResource( 2 )
+text = "1000000000"
 align = 2
 
 [node name="ScoreLine9" type="HBoxContainer" parent="."]
-margin_top = 294.0
-margin_right = 256.0
-margin_bottom = 316.0
+margin_top = 258.0
+margin_right = 224.0
+margin_bottom = 276.0
 rect_min_size = Vector2( 72, 0 )
 
 [node name="Position" type="Label" parent="ScoreLine9"]
-margin_right = 34.0
-margin_bottom = 22.0
+margin_right = 24.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 2 )
 text = "00."
 
 [node name="Owner" type="Label" parent="ScoreLine9"]
-margin_left = 38.0
-margin_top = 2.0
-margin_right = 128.0
-margin_bottom = 20.0
+margin_left = 28.0
+margin_right = 118.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 90, 0 )
 custom_fonts/font = ExtResource( 2 )
 text = "Characters"
@@ -323,31 +332,32 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="ScoreLine9"]
-margin_left = 134.0
-margin_right = 256.0
-margin_bottom = 22.0
+margin_left = 138.0
+margin_right = 224.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
-text = "100000000"
+custom_fonts/font = ExtResource( 2 )
+text = "1000000000"
 align = 2
 
 [node name="ScoreLine10" type="HBoxContainer" parent="."]
-margin_top = 326.0
-margin_right = 256.0
-margin_bottom = 348.0
+margin_top = 286.0
+margin_right = 224.0
+margin_bottom = 304.0
 rect_min_size = Vector2( 72, 0 )
 
 [node name="Position" type="Label" parent="ScoreLine10"]
-margin_right = 34.0
-margin_bottom = 22.0
+margin_right = 24.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 2 )
 text = "00."
 
 [node name="Owner" type="Label" parent="ScoreLine10"]
-margin_left = 38.0
-margin_top = 2.0
-margin_right = 128.0
-margin_bottom = 20.0
+margin_left = 28.0
+margin_right = 118.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 90, 0 )
 custom_fonts/font = ExtResource( 2 )
 text = "Characters"
@@ -357,10 +367,11 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="ScoreLine10"]
-margin_left = 134.0
-margin_right = 256.0
-margin_bottom = 22.0
+margin_left = 138.0
+margin_right = 224.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 70, 0 )
 size_flags_horizontal = 10
-text = "100000000"
+custom_fonts/font = ExtResource( 2 )
+text = "1000000000"
 align = 2

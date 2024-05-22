@@ -22,7 +22,7 @@ _global_script_classes=[ {
 "base": "Control",
 "class": "GameOver",
 "language": "GDScript",
-"path": "res://game/gui/game_over_class.gd"
+"path": "res://game/gui/game_over.gd"
 }, {
 "base": "TileMap",
 "class": "GameTilemap",
@@ -79,7 +79,7 @@ gdscript/warnings/integer_division=false
 window/size/width=1280
 window/size/height=720
 window/size/borderless=true
-window/size/fullscreen=true
+window/size/always_on_top=true
 window/size/test_width=640
 window/size/test_height=360
 window/dpi/allow_hidpi=true

@@ -101,6 +101,7 @@ LineEdit/styles/focus = SubResource( 184 )
 LineEdit/styles/normal = SubResource( 185 )
 LineEdit/styles/read_only = SubResource( 186 )
 RichTextLabel/colors/default_color = Color( 0.866667, 0.866667, 0.866667, 1 )
+RichTextLabel/constants/line_separation = 6
 RichTextLabel/fonts/bold_font = ExtResource( 2 )
 RichTextLabel/fonts/normal_font = ExtResource( 1 )
 VSeparator/styles/separator = SubResource( 174 )

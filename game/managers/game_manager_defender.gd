@@ -109,7 +109,7 @@ func game_over(gameover_reason: int):
 	yield(get_tree().create_timer(1), "timeout") # za dojet
 	stop_game_elements()
 	Global.current_tilemap.background_room.show()
-	Global.gameover_menu.open_gameover(gameover_reason)
+	Global.gameover_gui.open_gameover(gameover_reason)
 		
 		
 # SETUP --------------------------------------------------------------------------------------

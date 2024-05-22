@@ -124,7 +124,8 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 				return
 			current_screen = Screens.HIGHSCORES
 			current_esc_hint = $Highscores/EscHint
-			Global.grab_focus_no_sfx($Highscores/BackBtn)
+			Global.grab_focus_no_sfx($Highscores/SweeperArrows/RightBtn)
+		#			Global.grab_focus_no_sfx($Highscores/BackBtn)
 		"play_game":
 			Global.main_node.home_out()
 		"select_level":
