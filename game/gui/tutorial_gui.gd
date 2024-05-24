@@ -22,6 +22,7 @@ onready var skills_content: Control = $Checkpoints/SkillingContent
 onready var winlose_content: Control = $Checkpoints/WinLoseContent
 
 
+
 func _input(event: InputEvent) -> void:
 	
 	if Input.is_action_just_pressed("l"):
@@ -68,6 +69,15 @@ func _ready() -> void:
 	skills_content.visible = false
 	winlose_content.visible = false
 
+	# updateam dobljene točke točke
+	var color_collected_points: int = Profiles.default_game_settings["color_picked_points"]
+	var white_eliminated_points: int = Profiles.default_game_settings["white_eliminated_points"]
+	var bursting_points_line: RichTextLabel = $Checkpoints/BurstingContent/Line9
+	bursting_points_line.bbcode_text = "[b].[/b] You get " + str(color_collected_points) + " points for every colored, and " + str(white_eliminated_points) + " points \nfor every white pixel eliminated."
+	var cleaned_points: int = Profiles.default_game_settings["cleaned_reward_points"]
+	var cleaning_points_line: RichTextLabel = $Checkpoints/WinLoseContent/Line
+	cleaning_points_line.bbcode_text = "[b].[/b] You win the game if you clean the screen of \nall stray pixels and reclaim your \"one and only\" \nstatus. You will also be rewarded " + str(cleaned_points) + " bonus \npoints if you succeed."
+	
 
 func _process(delta: float) -> void:
 	
@@ -179,9 +189,9 @@ func finish_skills():
 
 	
 func finish_tutorial():
-	
-	if not current_tutorial_stage == TutorialStage.WINLOSE:
-		return
+	print ("fin")
+#	if not current_tutorial_stage == TutorialStage.WINLOSE:
+#		return
 	Global.sound_manager.play_sfx("tutorial_stage_done")
 	
 	var fadeout_delay: float = 3  # čaka končanje GO animacijo plejerja
@@ -205,7 +215,6 @@ func change_stage(stage_to_hide: Control, next_stage: Control, next_stage_enum: 
 	close_stage.tween_property(stage_to_hide, "modulate:a", 0, 0.5)#.set_delay(2)
 	close_stage.tween_callback(stage_to_hide, "hide")
 	close_stage.tween_callback(self, "open_stage", [next_stage])
-	
 	
 
 func open_stage(stage_to_show: Control):

@@ -16,7 +16,7 @@ var default_player_stats: Dictionary = {
 var default_game_settings: Dictionary = {
 	# player
 	"player_start_life": 3, # 1 lajf skrije ikone v hudu
-	"player_start_color": Color("#323232"), # na začetku je bel, potem se animira v start color ... #232323, #141414
+	"player_start_color": Global.color_dark_gray_pixel, # na začetku je bel, potem se animira v start color ... #232323, #141414
 	"step_time_fast": 0.09, # default hitrost
 	"player_start_energy": 192,
 	"step_slowdown_mode": true,
@@ -260,10 +260,10 @@ func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE
-#	var debug_game = Games.TUTORIAL
+	var debug_game = Games.TUTORIAL
 #	var debug_game = Games.CLEANER_S
 #	var debug_game = Games.CLEANER_M
-	var debug_game = Games.CLEANER_L
+#	var debug_game = Games.CLEANER_L
 #	var debug_game = Games.DEFENDER
 #	var debug_game = Games.ERASER
 #	var debug_game = Games.HANDLER
@@ -278,7 +278,7 @@ func set_game_data(selected_game) -> void:
 	
 	# debug
 	game_settings["start_countdown"] = false
-	game_settings["player_start_life"] = 1
+#	game_settings["player_start_life"] = 1
 	game_settings["show_game_instructions"] = false
 		
 	match selected_game:
@@ -361,7 +361,7 @@ func set_game_data(selected_game) -> void:
 			current_game_data = game_data_the_duel
 			game_settings["position_indicators_on"] = false 
 #			game_settings["strays_start_count"] = 1 
-			game_settings["game_time_limit"] = 180
+			game_settings["game_time_limit"] = 0#180
 			#	
 			game_settings["respawn_strays_count"] = 20 
 			game_settings["respawn_wait_time"] = 0
@@ -370,7 +370,7 @@ func set_game_data(selected_game) -> void:
 		Games.SWEEPER: 
 			current_game_data = game_data_sweeper
 			game_settings["player_start_life"] = 1
-			game_settings["player_start_color"] = Color.white
+#			game_settings["player_start_color"] = Color.white
 			game_settings["color_picked_points"] = 0
 			game_settings["cell_traveled_energy"] = 0
 			game_settings["cleaned_reward_points"] = 1 # ... izpiše se "SUCCESS!"

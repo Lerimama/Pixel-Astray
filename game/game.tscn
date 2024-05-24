@@ -84,9 +84,6 @@ __meta__ = {
 "_edit_vertical_guides_": [ 640.0 ]
 }
 
-[node name="GameoverTitle" parent="GUI/GameOver" index="2"]
-visible = true
-
 [node name="RespawnTimer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true

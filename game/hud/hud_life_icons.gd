@@ -10,6 +10,7 @@ onready var life_icons: Array = get_children()
 
 func _ready() -> void:
 	
+	modulate = Global.color_hud_text
 	set_icons_state() # preveri lajf na začetku in seta pravilno stanje ikon 
 
 
@@ -27,11 +28,11 @@ func _on_value_change(new_value: int): # ne rabim parametra
 	elif life_count < previous_life:
 		modulate = Global.color_red
 		yield(get_tree().create_timer(0.5), "timeout")
-		modulate = Color.white
+		modulate = Global.color_hud_text
 	elif life_count > previous_life:
-		# modulate = Global.color_green
+		modulate = Global.color_green
 		yield(get_tree().create_timer(0.5), "timeout")
-		modulate = Color.white
+		modulate = Global.color_hud_text
 	
 	set_icons_state()
 	

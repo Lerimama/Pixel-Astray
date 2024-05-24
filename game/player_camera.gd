@@ -103,18 +103,15 @@ func zoom_out(hud_in_out_time: float): # kliče hud
 	# unset limits
 	camera_target = null
 	position = get_camera_position() # pozicija postane ofsetana pozicija
-	#limit_left = -10000000
-	#limit_right = 10000000
-	#limit_top = -10000000
-	#limit_bottom = 10000000
+	limit_left = -10000000
+	limit_right = 10000000
+	limit_top = -10000000
+	limit_bottom = 10000000
+	var zoomout_position = Global.current_tilemap.camera_position_node.global_position	
 
-	# korekcija za poravnavo z gameover naslovi
-	var corrected_position = position - Vector2(0, cell_size_x/2)
-
-	# zoomout	
 	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	zoom_out_tween.tween_property(self, "zoom", zoom_start, hud_in_out_time)
-	zoom_out_tween.parallel().tween_property(self, "position", corrected_position, hud_in_out_time)
+	zoom_out_tween.parallel().tween_property(self, "position", zoomout_position, hud_in_out_time)
 	zoom_out_tween.parallel().tween_callback(self, "emit_signal", ["zoomed_out"]).set_delay(hud_in_out_time/3) # pošlje na GO, ki pokaže meni
 	
 

@@ -1,10 +1,7 @@
 extends Node2D
 
 
-# --------------------------------------------------------------------------------------------------------------
 # VARIABLE -----------------------------------------------------------------------------------------------------
-# --------------------------------------------------------------------------------------------------------------
-
 
 var main_node = null
 var node_creation_parent = null # arena
@@ -25,37 +22,37 @@ var tutorial_gui = null
 var intro_camera = null
 var game_camera = null
 
-var strays_on_screen: Array = []
-
 # groups
 var group_players = "Players"
 var group_strays = "Strays"
 var group_tilemap = "Tilemap" # defender in patterns
 var group_ghosts = "Ghosts"
 
-# pixel colors
+# colors
 var color_blue: Color = Color("#4b9fff")
 var color_green: Color = Color("#5effa9")
 var color_red: Color = Color("#f35b7f")
 var color_yellow: Color = Color("#fef98b")
-#var color_gray_dark: Color = Color("#232323") # tudi color_floor_defender
-# level colors
+# tilemap colors
 var color_wall: Color = Color("#141414") # Color("#232323")
-var color_wall_pixel: Color = Color("#ffffff")
 var color_edge: Color = Color.black
 var color_floor: Color = Color("#20ffffff")
 var color_background: Color = Color.black
+
 # gui colors
-var color_hud_text: Color = Color("#fafafa")
-var color_gui_gray: Color = Color("#838383") # siva v tekstih (naslovi) in ikonah
-# samo za reference ... niso v kodi
-var color_almost_black: Color = Color("#141414") # start player, wall, floor
-var color_hud_background: Color = Color("#141414")
+var color_almost_white_text: Color = Color("#f5f5f5") # če spremeniš tukaj, moraš tudi v temi
+var color_gui_gray: Color = Color("#78ffffff") # siv text s transparenco (ikone ...#838383) ... v kodi samo na btn defocus
+var color_hud_text: Color = color_almost_white_text # za vse, ki modulirajo barvo glede na + ali -
+
+# pixel colors
+var color_white_pixel: Color = Color("#ffffff")
+var color_almost_black_pixel: Color = Color("#141414") # start tutorial player (da se vidi tekst)
+var color_dark_gray_pixel: Color = Color("#323232") # start normal
+
+var strays_on_screen: Array = [] # za indikatorje
 
 
-# --------------------------------------------------------------------------------------------------------------
 # FUNKCIJE -----------------------------------------------------------------------------------------------------
-# --------------------------------------------------------------------------------------------------------------
 
 
 var current_scene = null # za scene switching
@@ -258,7 +255,7 @@ func connect_buttons(root: Node): # recursively connect all buttons
 	for child in root.get_children():
 		if child is BaseButton or child is HSlider:
 			connect_to_button(child)
-#		connect_buttons(child)
+		#		connect_buttons(child)
 
 
 func connect_to_button(button):

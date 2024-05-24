@@ -196,7 +196,6 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 			
 	# stats
 	var strays_not_walls_count: int = strays_to_destroy.size() - white_strays_in_stack.size()
-	printt("HS", strays_not_walls_count, white_strays_in_stack.size())
 	change_stat("hit_stray", [strays_not_walls_count, white_strays_in_stack.size()]) 
 	
 	end_move()

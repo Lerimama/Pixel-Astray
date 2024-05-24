@@ -262,7 +262,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 		if current_state == States.WALL: # če bo samo stena
 			# wall color
 			modulate.a = 1
-			color_poly.modulate = Global.color_wall_pixel
+			color_poly.modulate = Global.color_white_pixel
 			# ugasni delovanje
 			set_physics_process(false)
 			collision_shape_ext.disabled = true	

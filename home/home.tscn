@@ -1,4 +1,4 @@
-[gd_scene load_steps=109 format=2]
+[gd_scene load_steps=108 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -521,6 +521,8 @@ region = Rect2( 31, 22, 6, 10 )
 [sub_resource type="StyleBoxFlat" id=274]
 bg_color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
+[sub_resource type="StyleBoxEmpty" id=151]
+
 [sub_resource type="StyleBoxFlat" id=205]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 draw_center = false
@@ -529,17 +531,6 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-
-[sub_resource type="StyleBoxEmpty" id=151]
-
-[sub_resource type="StyleBoxFlat" id=278]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-draw_center = false
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 1, 1, 1, 1 )
 
 [sub_resource type="StyleBoxFlat" id=279]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
@@ -1328,7 +1319,7 @@ tracks/5/keys = {
 [node name="Home" type="Node2D"]
 script = ExtResource( 5 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 656.0, -496.0, 136.0, -432.0, 1128.0, 816.0, 752.0, 96.0, 592.0 ],
+"_edit_horizontal_guides_": [ 648.0, -496.0, 144.0, -448.0, 1128.0, 816.0, 752.0, 96.0, 592.0 ],
 "_edit_vertical_guides_": [ 64.0, 1280.0, 1216.0, 640.0, 1960.0, -320.0, 928.0, 352.0, 464.0 ]
 }
 
@@ -1742,7 +1733,6 @@ texture_focused = SubResource( 196 )
 flip_h = true
 
 [node name="Title" type="Label" parent="About"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -49.0
@@ -1750,6 +1740,7 @@ margin_top = 6.0
 margin_right = 50.0
 margin_bottom = 38.0
 size_flags_horizontal = 3
+custom_colors/font_color = Color( 0.294118, 0.623529, 1, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "About"
 align = 1
@@ -1777,6 +1768,7 @@ margin_right = -310.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 theme = SubResource( 194 )
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 text = "Made by"
 uppercase = true
 
@@ -1797,6 +1789,7 @@ margin_right = -212.0
 margin_bottom = 148.0
 size_flags_horizontal = 3
 theme = SubResource( 194 )
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 text = "Special thanks"
 uppercase = true
 
@@ -2096,6 +2089,7 @@ margin_right = 272.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 theme = SubResource( 194 )
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 text = "Resources credits"
 uppercase = true
 
@@ -2602,7 +2596,6 @@ theme = ExtResource( 15 )
 script = ExtResource( 8 )
 
 [node name="Title" type="Label" parent="Highscores"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -96.0
@@ -2610,6 +2603,7 @@ margin_top = 70.0
 margin_right = 96.0
 margin_bottom = 102.0
 size_flags_horizontal = 3
+custom_colors/font_color = Color( 0.996078, 0.976471, 0.545098, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "Highscores"
 align = 1
@@ -2711,9 +2705,9 @@ margin_right = 250.0
 
 [node name="CleanerMTable" parent="Highscores" instance=ExtResource( 21 )]
 margin_left = 368.0
-margin_top = 142.0
+margin_top = 134.0
 margin_right = 608.0
-margin_bottom = 330.0
+margin_bottom = 322.0
 theme = null
 
 [node name="Title" parent="Highscores/CleanerMTable" index="0"]
@@ -3236,12 +3230,12 @@ theme = ExtResource( 15 )
 script = ExtResource( 13 )
 
 [node name="Title" type="Label" parent="SelectGame"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 7.0
 margin_top = 70.0
 margin_right = 223.0
 margin_bottom = 102.0
 size_flags_horizontal = 3
+custom_colors/font_color = Color( 0.368627, 1, 0.662745, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "Select game"
 
@@ -3256,17 +3250,17 @@ margin_right = -4.0
 margin_bottom = 11.0
 
 [node name="Subtitle" type="Label" parent="SelectGame"]
-margin_left = 9.0
-margin_top = 136.0
-margin_right = 521.0
-margin_bottom = 154.0
+margin_left = 32.0
+margin_top = 168.0
+margin_right = 544.0
+margin_bottom = 186.0
 custom_fonts/font = ExtResource( 14 )
 text = "Find a way to collect all colors in one move."
 autowrap = true
 
 [node name="Tutorial" type="Panel" parent="SelectGame"]
 margin_left = 8.0
-margin_top = 176.0
+margin_top = 144.0
 margin_right = 216.0
 margin_bottom = 328.0
 rect_pivot_offset = Vector2( 40, 8 )
@@ -3278,7 +3272,7 @@ margin_top = 16.0
 margin_right = 184.0
 margin_bottom = 58.0
 custom_fonts/font = ExtResource( 14 )
-text = "5 steps to become a master beginner."
+text = "Become a master beginner in 5 steps"
 autowrap = true
 
 [node name="Eraser" type="Panel" parent="SelectGame"]
@@ -3308,7 +3302,7 @@ autowrap = true
 
 [node name="Cleaner" type="Panel" parent="SelectGame"]
 margin_left = 224.0
-margin_top = 176.0
+margin_top = 144.0
 margin_right = 432.0
 margin_bottom = 480.0
 custom_styles/panel = SubResource( 274 )
@@ -3380,7 +3374,7 @@ autowrap = true
 
 [node name="TheDuel" type="Panel" parent="SelectGame"]
 margin_left = 440.0
-margin_top = 176.0
+margin_top = 144.0
 margin_right = 648.0
 margin_bottom = 352.0
 custom_styles/panel = SubResource( 274 )
@@ -3464,9 +3458,9 @@ margin_right = 144.0
 margin_bottom = 24.0
 focus_neighbour_top = NodePath("../../BackBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
+custom_styles/hover = ExtResource( 9 )
+custom_styles/pressed = ExtResource( 9 )
+custom_styles/focus = ExtResource( 9 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "TUTORIAL"
@@ -3481,9 +3475,9 @@ margin_right = 144.0
 margin_bottom = 184.0
 focus_neighbour_top = NodePath("../TutorialBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
+custom_styles/hover = ExtResource( 9 )
+custom_styles/pressed = ExtResource( 9 )
+custom_styles/focus = ExtResource( 9 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "CLEANER S"
@@ -3497,9 +3491,9 @@ margin_top = 192.0
 margin_right = 144.0
 margin_bottom = 248.0
 mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
+custom_styles/hover = ExtResource( 9 )
+custom_styles/pressed = ExtResource( 9 )
+custom_styles/focus = ExtResource( 9 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "CLEANER M"
@@ -3514,9 +3508,9 @@ margin_right = 144.0
 margin_bottom = 312.0
 focus_neighbour_bottom = NodePath("../TutorialBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
+custom_styles/hover = ExtResource( 9 )
+custom_styles/pressed = ExtResource( 9 )
+custom_styles/focus = ExtResource( 9 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "CLEANER L"
@@ -3531,9 +3525,9 @@ margin_right = 360.0
 margin_bottom = 48.0
 focus_neighbour_top = NodePath("../../BackBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
+custom_styles/hover = ExtResource( 9 )
+custom_styles/pressed = ExtResource( 9 )
+custom_styles/focus = ExtResource( 9 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "ERASER"
@@ -3547,9 +3541,9 @@ margin_top = 56.0
 margin_right = 360.0
 margin_bottom = 112.0
 mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
+custom_styles/hover = ExtResource( 9 )
+custom_styles/pressed = ExtResource( 9 )
+custom_styles/focus = ExtResource( 9 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "HANDLER"
@@ -3564,9 +3558,9 @@ margin_right = 360.0
 margin_bottom = 176.0
 focus_neighbour_bottom = NodePath("../EraserBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
+custom_styles/hover = ExtResource( 9 )
+custom_styles/pressed = ExtResource( 9 )
+custom_styles/focus = ExtResource( 9 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "DEFENDER"
@@ -3582,9 +3576,9 @@ margin_bottom = 48.0
 focus_neighbour_top = NodePath("../../BackBtn")
 focus_neighbour_bottom = NodePath("../SweeperBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
+custom_styles/hover = ExtResource( 9 )
+custom_styles/pressed = ExtResource( 9 )
+custom_styles/focus = ExtResource( 9 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "THE DUEL"
@@ -3600,9 +3594,9 @@ margin_bottom = 256.0
 focus_neighbour_top = NodePath("../TheDuelBtn")
 focus_neighbour_bottom = NodePath("../TheDuelBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 205 )
-custom_styles/pressed = SubResource( 205 )
-custom_styles/focus = SubResource( 205 )
+custom_styles/hover = ExtResource( 9 )
+custom_styles/pressed = ExtResource( 9 )
+custom_styles/focus = ExtResource( 9 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "SWEEPER"
@@ -4066,14 +4060,14 @@ theme = ExtResource( 15 )
 script = ExtResource( 17 )
 
 [node name="Title" type="Label" parent="SelectLevel"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 7.0
 margin_top = 70.0
 margin_right = 127.0
 margin_bottom = 102.0
 size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 4 )
-text = "Riddler"
+text = "Sweeper"
 
 [node name="HSeparator" type="HSeparator" parent="SelectLevel/Title"]
 visible = false
@@ -4126,9 +4120,9 @@ mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 2
 custom_fonts/font = ExtResource( 19 )
-custom_styles/hover = SubResource( 278 )
-custom_styles/pressed = SubResource( 278 )
-custom_styles/focus = SubResource( 278 )
+custom_styles/hover = ExtResource( 9 )
+custom_styles/pressed = ExtResource( 9 )
+custom_styles/focus = ExtResource( 9 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "01"
@@ -4166,9 +4160,9 @@ mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-custom_styles/hover = SubResource( 278 )
-custom_styles/pressed = SubResource( 278 )
-custom_styles/focus = SubResource( 278 )
+custom_styles/hover = ExtResource( 9 )
+custom_styles/pressed = ExtResource( 9 )
+custom_styles/focus = ExtResource( 9 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "02"
@@ -4206,9 +4200,9 @@ mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-custom_styles/hover = SubResource( 278 )
-custom_styles/pressed = SubResource( 278 )
-custom_styles/focus = SubResource( 278 )
+custom_styles/hover = ExtResource( 9 )
+custom_styles/pressed = ExtResource( 9 )
+custom_styles/focus = ExtResource( 9 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "03"
@@ -4246,9 +4240,9 @@ mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-custom_styles/hover = SubResource( 278 )
-custom_styles/pressed = SubResource( 278 )
-custom_styles/focus = SubResource( 278 )
+custom_styles/hover = ExtResource( 9 )
+custom_styles/pressed = ExtResource( 9 )
+custom_styles/focus = ExtResource( 9 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "04"
@@ -4287,9 +4281,9 @@ mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-custom_styles/hover = SubResource( 278 )
-custom_styles/pressed = SubResource( 278 )
-custom_styles/focus = SubResource( 278 )
+custom_styles/hover = ExtResource( 9 )
+custom_styles/pressed = ExtResource( 9 )
+custom_styles/focus = ExtResource( 9 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "05"
@@ -4328,9 +4322,9 @@ mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-custom_styles/hover = SubResource( 278 )
-custom_styles/pressed = SubResource( 278 )
-custom_styles/focus = SubResource( 278 )
+custom_styles/hover = ExtResource( 9 )
+custom_styles/pressed = ExtResource( 9 )
+custom_styles/focus = ExtResource( 9 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "06"
@@ -4369,9 +4363,9 @@ mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-custom_styles/hover = SubResource( 278 )
-custom_styles/pressed = SubResource( 278 )
-custom_styles/focus = SubResource( 278 )
+custom_styles/hover = ExtResource( 9 )
+custom_styles/pressed = ExtResource( 9 )
+custom_styles/focus = ExtResource( 9 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "07"
@@ -4410,9 +4404,9 @@ mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-custom_styles/hover = SubResource( 278 )
-custom_styles/pressed = SubResource( 278 )
-custom_styles/focus = SubResource( 278 )
+custom_styles/hover = ExtResource( 9 )
+custom_styles/pressed = ExtResource( 9 )
+custom_styles/focus = ExtResource( 9 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "08"
@@ -4451,9 +4445,9 @@ mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-custom_styles/hover = SubResource( 278 )
-custom_styles/pressed = SubResource( 278 )
-custom_styles/focus = SubResource( 278 )
+custom_styles/hover = ExtResource( 9 )
+custom_styles/pressed = ExtResource( 9 )
+custom_styles/focus = ExtResource( 9 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "09"
@@ -4542,13 +4536,13 @@ texture_hover = SubResource( 196 )
 texture_focused = SubResource( 196 )
 
 [node name="Title" type="Label" parent="Settings"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 64.0
 margin_top = 70.0
 margin_right = 208.0
 margin_bottom = 102.0
 rect_pivot_offset = Vector2( -8, 90 )
 size_flags_horizontal = 3
+custom_colors/font_color = Color( 0.952941, 0.356863, 0.498039, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "Settings"
 
@@ -4562,12 +4556,18 @@ margin_top = 7.0
 margin_right = -4.0
 margin_bottom = 11.0
 
+[node name="Control" type="Control" parent="Settings/Title"]
+margin_left = 16.0
+margin_top = 26.0
+margin_right = 56.0
+margin_bottom = 66.0
+
 [node name="MenuMusicBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 64.0
-margin_top = 129.0
+margin_top = 137.0
 margin_right = 224.0
-margin_bottom = 161.0
+margin_bottom = 169.0
 focus_neighbour_top = NodePath("../InstructionsBtn")
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
@@ -4577,20 +4577,20 @@ text = "Menu music"
 [node name="GameMusicBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 64.0
-margin_top = 177.0
+margin_top = 185.0
 margin_right = 224.0
-margin_bottom = 209.0
+margin_bottom = 217.0
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
 pressed = true
 text = "Game music"
 
 [node name="GameMusicSlider" type="HSlider" parent="Settings"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+modulate = Color( 1, 1, 1, 0.470588 )
 margin_left = 64.0
-margin_top = 260.0
+margin_top = 268.0
 margin_right = 314.0
-margin_bottom = 276.0
+margin_bottom = 284.0
 mouse_default_cursor_shape = 2
 size_flags_vertical = 8
 min_value = -30.0
@@ -4617,9 +4617,9 @@ text = "Game music volume"
 [node name="GameSfxBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 64.0
-margin_top = 289.0
+margin_top = 297.0
 margin_right = 200.0
-margin_bottom = 321.0
+margin_bottom = 329.0
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
 pressed = true
@@ -4628,9 +4628,9 @@ text = "Game SFX"
 [node name="CameraShakeBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 64.0
-margin_top = 337.0
+margin_top = 345.0
 margin_right = 252.0
-margin_bottom = 369.0
+margin_bottom = 377.0
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
 pressed = true
@@ -4661,9 +4661,9 @@ __meta__ = {
 
 [node name="Label2" type="Label" parent="Settings/ColorSchemeOptions/RandomizeBtn"]
 margin_left = -173.0
-margin_top = 4.5
+margin_top = 12.5
 margin_right = -15.0
-margin_bottom = 26.5
+margin_bottom = 34.5
 text = "Color scheme"
 align = 2
 
@@ -4704,9 +4704,9 @@ texture = SubResource( 280 )
 [node name="InstructionsBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 64.0
-margin_top = 433.0
+margin_top = 441.0
 margin_right = 348.0
-margin_bottom = 465.0
+margin_bottom = 473.0
 focus_neighbour_right = NodePath("../BackBtn")
 focus_neighbour_bottom = NodePath("../MenuMusicBtn")
 mouse_default_cursor_shape = 2
@@ -4715,9 +4715,9 @@ text = "Pre-game instructions"
 
 [node name="Shorts" type="Label" parent="Settings"]
 margin_left = 64.0
-margin_top = 488.0
+margin_top = 496.0
 margin_right = 352.0
-margin_bottom = 536.0
+margin_bottom = 544.0
 size_flags_horizontal = 3
 theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )

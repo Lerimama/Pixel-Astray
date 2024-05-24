@@ -43,7 +43,7 @@ func show_stray(): # kliče GM
 	
 	if current_state == States.WALL:
 		stray_color.s = 0.0
-		color_poly.modulate = Global.color_wall_pixel
+		color_poly.modulate = Global.color_white_pixel
 
 
 func die(stray_in_stack_index: int, strays_in_stack: int):

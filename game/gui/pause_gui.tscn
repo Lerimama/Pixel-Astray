@@ -202,6 +202,7 @@ margin = Rect2( -2, 2, 0, 0 )
 
 [node name="PauseMenu" type="Control"]
 pause_mode = 2
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_pivot_offset = Vector2( 592, 224 )

@@ -2,6 +2,79 @@ extends Control
 class_name GameHud
 
 
+signal players_ready # za splitscreen popup
+
+var tired_energy_limit: float = 20
+
+# spectrum
+var picked_indicator_alpha: float = 1
+var unpicked_indicator_alpha: float = 0.2
+var neighbor_indicator_alpha: float = 0.4
+var active_color_indicators: Array = [] # indikatorji spawnani že ob spawnanju pixlov
+
+# hs
+var current_highscore: float
+var current_highscore_owner: String
+
+# in/out
+var hud_in_out_time: int = 2
+var screen_height:int = 720
+onready var header: Control = $Header # kontrole iz kamere
+onready var header_height: int = header.rect_size.y
+onready var viewport_header: ColorRect = $"%ViewHeder"
+onready var viewport_footer: ColorRect = $"%ViewFuter"
+
+# popups 
+var p1_energy_warning_popup: Control
+var p2_energy_warning_popup: Control
+onready var energy_warning_holder: Control = $Popups/EnergyWarning
+onready var instructions_popup: Control = $Popups/Instructions
+
+# header
+onready var game_timer: HBoxContainer = $Header/GameTimerHunds
+onready var highscore_label: Label = $Header/TopLineR/HighscoreLabel
+onready var music_player: Label = $Header/TopLineR/MusicPlayer
+# p1
+onready var p1_label: Label = $Header/TopLineL/PlayerLabel
+onready var p1_life_counter: HBoxContainer = $Header/TopLineL/LifeIcons
+onready var p1_energy_counter: HBoxContainer = $Header/TopLineL/EnergyBar
+onready var p1_points_holder: HBoxContainer = $Header/TopLineL/PointsHolder
+onready var p1_points_counter: Label = $Header/TopLineL/PointsHolder/Points
+onready var p1_color_holder: HBoxContainer = $Header/TopLineL/ColorHolder
+onready var p1_color_counter: Label = $Header/TopLineL/ColorHolder/Label
+onready var p1_skill_counter: Label = $Header/TopLineL/SkillHolder/Label
+onready var p1_burst_counter: Label = $Header/TopLineL/BurstHolder/Label
+onready var p1_steps_holder: HBoxContainer = $Header/TopLineL/StepsHolder
+onready var p1_steps_counter: Label = $Header/TopLineL/StepsHolder/Label
+# p2
+onready var p2_statsline: HBoxContainer = $Header/TopLineR/PlayerLineR
+onready var p2_life_counter: HBoxContainer = $Header/TopLineR/PlayerLineR/LifeIcons
+onready var p2_energy_counter: HBoxContainer = $Header/TopLineR/PlayerLineR/EnergyBar
+onready var p2_points_holder: HBoxContainer = $Header/TopLineR/PlayerLineR/PointsHolder
+onready var p2_points_counter: Label = $Header/TopLineR/PlayerLineR/PointsHolder/Points
+onready var p2_color_holder: HBoxContainer = $Header/TopLineR/PlayerLineR/ColorHolder
+onready var p2_color_counter: Label = $Header/TopLineR/PlayerLineR/ColorHolder/Label
+onready var p2_skill_counter: Label = $Header/TopLineR/PlayerLineR/SkillHolder/Label
+onready var p2_burst_counter: Label = $Header/TopLineR/PlayerLineR/BurstHolder/Label
+onready var p2_steps_holder: HBoxContainer = $Header/TopLineR/PlayerLineR/StepsHolder
+onready var p2_steps_counter: Label = $Header/TopLineR/PlayerLineR/StepsHolder/Label
+
+# futer
+onready var footer: Control = $Footer # kontrole iz kamere
+onready var game_label: Label = $Footer/FooterLine/GameLine/Game
+onready var level_label: Label = $Footer/FooterLine/GameLine/Level
+onready var strays_counters_holder: HBoxContainer = $Footer/FooterLine/StraysLine
+onready var astray_counter: Label = $Footer/FooterLine/StraysLine/AstrayHolder/Label
+onready var picked_counter: Label = $Footer/FooterLine/StraysLine/PickedHolder/Label
+onready var spectrum: HBoxContainer = $Footer/FooterLine/SpectrumHolder/ColorSpectrum
+onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
+onready var current_gamed_hs_type: int = Global.game_manager.game_data["highscore_type"]
+
+# debug
+onready var player_life: Label = $Life
+onready var player_energy: Label = $Energy
+
+# neu
 onready var level_up_popup: Control = $Popups/LevelUp
 onready var level_limit_holder: HBoxContainer = $Footer/FooterLine/LevelLimitHolder
 onready var level_limit_label_1: Label = $Footer/FooterLine/LevelLimitHolder/Label
@@ -9,34 +82,72 @@ onready var level_limit_label_2: Label = $Footer/FooterLine/LevelLimitHolder/Lab
 onready var pixel_picked_holder: HBoxContainer = $Footer/FooterLine/StraysLine/PickedHolder
 onready var pixel_astray_holder: HBoxContainer = $Footer/FooterLine/StraysLine/AstrayHolder
 
+	
+func _input(event: InputEvent) -> void:
+	
+	if instructions_popup.visible and Input.is_action_just_pressed("ui_accept"):
+		confirm_players_ready()
 
-func _process(delta: float) -> void:
-#	print("tudi tole")
-	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
-	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
-
-	# level label show on fill
-	if Global.game_manager.game_data.has("level") and not level_label.visible:
-		level_label.visible = true	
-			
-	# zapis mankajočega do level up
-	if Global.game_manager.game_data.has("level"): # multilevel
+	
+func _ready() -> void:
+	
+	Global.hud = self
+	
+	header.rect_position.y = - header_height
+	footer.rect_position.y = screen_height
+		
+	game_label.text = Global.game_manager.game_data["game_name"]
+	if Global.game_manager.game_data.has("level"):
 		level_label.text = "%02d" % Global.game_manager.game_data["level"]
-		# število točk ali barv
-		if Global.game_manager.game_data.has("level_goal_count"): 
-			# kateri ima višji score
-			var current_biggest_score: int = 0
-			for player in Global.game_manager.current_players_in_game:
-				if player.player_stats["player_points"] > current_biggest_score:
-					current_biggest_score = player.player_stats["player_points"]
-			# razlika med limito in višjim skorom
-			var to_limit_count: int = Global.game_manager.game_data["level_goal_count"] - current_biggest_score
-			to_limit_count = clamp(to_limit_count, 0, to_limit_count)
-			level_limit_label_1.text = "%d" % to_limit_count 
-			level_limit_label_2.text = "POINTS TO LEVEL UP"
-		elif not Global.game_manager.game_data.has("stages_per_level"): # da se ne meša z defenderjem
-			level_limit_label_1.text = "%d" % Global.game_manager.strays_in_game_count
-			level_limit_label_2.text = "COLORS TO PICK"
+	
+	# setam transparenco barva indikatorja ... če želim obratno, samo tukaj obrnem
+	picked_indicator_alpha = 0.2
+	unpicked_indicator_alpha = 1
+
+	
+	# hud barva vseh elementov, razen tisih, ki modulirajo sami sebe in P oznake
+	# p1 stats
+#	var nodes_to_modulate: Array = [$Header/TopLineL/ColorHolder, 
+#					$Header/TopLineL/StepsHolder, 
+#					$Header/TopLineL/SkillHolder, 
+#					$Header/TopLineL/BurstHolder, 
+#					$Header/TopLineL/PointsHolder]
+#	# p2 stats
+#	nodes_to_modulate.append_array([$Header/TopLineR/PlayerLineR/ColorHolder, 
+#					$Header/TopLineR/PlayerLineR/StepsHolder, 
+#					$Header/TopLineR/PlayerLineR/SkillHolder, 
+#					$Header/TopLineR/PlayerLineR/BurstHolder, 
+#					$Header/TopLineR/PlayerLineR/PointsHolder])
+#	# game stats
+#	nodes_to_modulate.append_array([$Header/TopLineR/MusicPlayer,
+#					$Header/TopLineR/HighscoreLabel,
+#					$Footer/FooterLine/GameLine,
+#					$Footer/FooterLine/StraysLine,
+#					$Footer/FooterLine/LevelLimitHolder])
+#	for node in nodes_to_modulate:
+#		node.modulate = Color.white
+	
+	# hud barva elementov, ki ne modulirajo sami sebe in niso label (v glavnem ikone)
+	# timer in hs sta label, moduliran med igro, zato imata na nodetu setano font color override na belo
+	# p1 stats
+	var nodes_to_modulate: Array = [$Header/TopLineL/ColorHolder/TextureRect5, 
+					$Header/TopLineL/StepsHolder/TextureRect5, 
+					$Header/TopLineL/SkillHolder/TextureRect5, 
+					$Header/TopLineL/BurstHolder/TextureRect6, 
+					$Header/TopLineL/PointsHolder/TextureRect4]
+	# p2 stats
+	nodes_to_modulate.append_array([$Header/TopLineR/PlayerLineR/PointsHolder/TextureRect4, 
+					$Header/TopLineR/PlayerLineR/ColorHolder/TextureRect5, 
+					$Header/TopLineR/PlayerLineR/StepsHolder/TextureRect5, 
+					$Header/TopLineR/PlayerLineR/SkillHolder/TextureRect5, 
+					$Header/TopLineR/PlayerLineR/BurstHolder/TextureRect6])
+	# game stats
+	nodes_to_modulate.append_array([$Header/TopLineR/MusicPlayer/OnIcon, 
+					$Header/TopLineR/MusicPlayer/OffIcon,
+					$Footer/FooterLine/StraysLine/AstrayHolder/TextureRect3, 
+					$Footer/FooterLine/StraysLine/PickedHolder/TextureRect2])
+	for node in nodes_to_modulate:
+		node.modulate = Global.color_hud_text	
 
 
 func set_hud(players_count: int): # kliče main na game-in
@@ -127,7 +238,6 @@ func empty_color_indicators():
 
 
 func update_stats(stat_owner: Node, player_stats: Dictionary):
-	# namen: preverjanje števila točk in klic next level v GM (na koncu)	
 	
 	# player stats
 	match stat_owner.name:
@@ -155,124 +265,11 @@ func update_stats(stat_owner: Node, player_stats: Dictionary):
 	player_energy.text = "E: %d" % player_stats["player_energy"]
 
 	if not Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NO_HS:
-		check_for_hs(player_stats)
+		check_for_highscore(player_stats)
 	
 	if Global.game_manager.game_data.has("level_goal_count") and player_stats["player_points"] >= Global.game_manager.game_data["level_goal_count"]:
 		Global.game_manager.upgrade_level("regular")
 
-
-
-
-
-# -------------------------------
-
-
-
-
-
-
-signal players_ready # za splitscreen popup
-
-var tired_energy_limit: float = 20
-
-# spectrum
-var picked_indicator_alpha: float = 1
-var unpicked_indicator_alpha: float = 0.2
-var neighbor_indicator_alpha: float = 0.4
-var active_color_indicators: Array = [] # indikatorji spawnani že ob spawnanju pixlov
-
-# hs
-var current_highscore: float
-var current_highscore_owner: String
-
-# in/out
-var hud_in_out_time: int = 2
-var screen_height:int = 720
-onready var header: Control = $Header # kontrole iz kamere
-onready var header_height: int = header.rect_size.y
-onready var viewport_header: ColorRect = $"%ViewHeder"
-onready var viewport_footer: ColorRect = $"%ViewFuter"
-
-# popups 
-var p1_energy_warning_popup: Control
-var p2_energy_warning_popup: Control
-onready var energy_warning_holder: Control = $Popups/EnergyWarning
-onready var instructions_popup: Control = $Popups/Instructions
-
-# header
-onready var game_timer: HBoxContainer = $Header/GameTimerHunds
-onready var highscore_label: Label = $Header/TopLineR/HighscoreLabel
-onready var music_player: Label = $Header/TopLineR/MusicPlayer
-# p1
-onready var p1_label: Label = $Header/TopLineL/PlayerLabel
-onready var p1_life_counter: HBoxContainer = $Header/TopLineL/LifeIcons
-onready var p1_energy_counter: HBoxContainer = $Header/TopLineL/EnergyBar
-onready var p1_points_holder: HBoxContainer = $Header/TopLineL/PointsHolder
-onready var p1_points_counter: Label = $Header/TopLineL/PointsHolder/Points
-onready var p1_color_holder: HBoxContainer = $Header/TopLineL/ColorHolder
-onready var p1_color_counter: Label = $Header/TopLineL/ColorHolder/Label
-onready var p1_skill_counter: Label = $Header/TopLineL/SkillHolder/Label
-onready var p1_burst_counter: Label = $Header/TopLineL/BurstHolder/Label
-onready var p1_steps_holder: HBoxContainer = $Header/TopLineL/StepsHolder
-onready var p1_steps_counter: Label = $Header/TopLineL/StepsHolder/Label
-# p2
-onready var p2_statsline: HBoxContainer = $Header/TopLineR/PlayerLineR
-onready var p2_life_counter: HBoxContainer = $Header/TopLineR/PlayerLineR/LifeIcons
-onready var p2_energy_counter: HBoxContainer = $Header/TopLineR/PlayerLineR/EnergyBar
-onready var p2_points_holder: HBoxContainer = $Header/TopLineR/PlayerLineR/PointsHolder
-onready var p2_points_counter: Label = $Header/TopLineR/PlayerLineR/PointsHolder/Points
-onready var p2_color_holder: HBoxContainer = $Header/TopLineR/PlayerLineR/ColorHolder
-onready var p2_color_counter: Label = $Header/TopLineR/PlayerLineR/ColorHolder/Label
-onready var p2_skill_counter: Label = $Header/TopLineR/PlayerLineR/SkillHolder/Label
-onready var p2_burst_counter: Label = $Header/TopLineR/PlayerLineR/BurstHolder/Label
-onready var p2_steps_holder: HBoxContainer = $Header/TopLineR/PlayerLineR/StepsHolder
-onready var p2_steps_counter: Label = $Header/TopLineR/PlayerLineR/StepsHolder/Label
-
-# futer
-onready var footer: Control = $Footer # kontrole iz kamere
-onready var game_label: Label = $Footer/FooterLine/GameLine/Game
-onready var level_label: Label = $Footer/FooterLine/GameLine/Level
-onready var strays_counters_holder: HBoxContainer = $Footer/FooterLine/StraysLine
-onready var astray_counter: Label = $Footer/FooterLine/StraysLine/AstrayHolder/Label
-onready var picked_counter: Label = $Footer/FooterLine/StraysLine/PickedHolder/Label
-onready var spectrum: HBoxContainer = $Footer/FooterLine/SpectrumHolder/ColorSpectrum
-onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
-onready var current_gamed_hs_type: int = Global.game_manager.game_data["highscore_type"]
-
-# debug
-onready var player_life: Label = $Life
-onready var player_energy: Label = $Energy
-	
-	
-func _input(event: InputEvent) -> void:
-	
-	# splitscreen popup
-	if instructions_popup.visible and Input.is_action_just_pressed("ui_accept"):
-		confirm_players_ready()
-
-	
-func _ready() -> void:
-	
-	Global.hud = self
-	
-	header.rect_position.y = - header_height
-	footer.rect_position.y = screen_height
-		
-	game_label.text = Global.game_manager.game_data["game_name"]
-	if Global.game_manager.game_data.has("level"):
-		level_label.text = "%02d" % Global.game_manager.game_data["level"]
-	
-	# setam transparenco barva indikatorja ... če želim obratno, samo tukaj obrnem
-	picked_indicator_alpha = 0.2
-	unpicked_indicator_alpha = 1
-	
-#
-#func _process(delta: float) -> void:
-#
-
-#
-#func set_hud(players_count: int): # kliče main na game-in
-#
 		
 func set_current_highscore():
 	
@@ -288,11 +285,8 @@ func set_current_highscore():
 	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_POINTS:
 		highscore_label.text = "HS " + str(current_highscore)
 
-#
-#func update_stats(stat_owner: Node, player_stats: Dictionary):	
-#
 
-func check_for_hs(player_stats: Dictionary):
+func check_for_highscore(player_stats: Dictionary):
 	
 	match current_gamed_hs_type:
 		Profiles.HighscoreTypes.HS_POINTS:
@@ -495,7 +489,3 @@ func _on_stat_changed(stat_owner: Node, current_player_stats: Dictionary):
 func _on_GameTimer_gametime_is_up() -> void: # signal iz tajmerja
 	
 	Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
-
-#
-#func empty_color_indicators():
-#

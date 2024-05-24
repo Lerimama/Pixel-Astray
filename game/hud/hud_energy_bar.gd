@@ -9,6 +9,7 @@ onready var texture_progress: TextureProgress = $TextureProgress
 
 func _ready() -> void:
 	
+	modulate = Global.color_hud_text
 	set_icons_state() # preveri energijo na začetku in seta pravilno stanje ikon 
 
 
@@ -29,9 +30,10 @@ func _on_amount_change(new_value: int):
 		modulate = Global.color_red
 	else:
 		if energy < previous_energy:
-			var blink_tween = get_tree().create_tween()
-			blink_tween.tween_property(self, "modulate", Global.color_red, 0.2)
-			blink_tween.tween_property(self, "modulate", Global.color_hud_text, 0.2)
+			#var blink_tween = get_tree().create_tween()
+			#blink_tween.tween_property(self, "modulate", Global.color_red, 0.2)
+			#blink_tween.tween_property(self, "modulate", Global.color_hud_text, 0.2)
+			pass # ne barvam, ker je pol skos rdeča
 		elif energy > previous_energy:
 			modulate = Global.color_green
 			var blink_tween = get_tree().create_tween()

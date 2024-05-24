@@ -13,4 +13,3 @@ func _on_BackBtn_pressed() -> void:
 func _on_NameAuthor_meta_clicked(meta) -> void:
 	print("meta", meta)
 	OS.shell_open(meta)
-	pass # Replace with function body.

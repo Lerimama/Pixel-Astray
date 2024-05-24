@@ -21,9 +21,11 @@ var gameover_countdown_duration: int
 func _ready() -> void:
 	
 	# večino setam ob štartu tajmerja
+	
 	modulate = Global.color_hud_text
-
-
+	# ker ga moduliram tukaj in je label ima na nodetusetano font color override
+	
+	
 func _process(delta: float) -> void:
 	
 	# če je ustavljen, se tukaj ustavim
@@ -81,17 +83,17 @@ func _process(delta: float) -> void:
 			emit_signal("sudden_death_activated") # pošlje se v hud, ki javi game managerju
 		else:
 			modulate = Global.color_hud_text
-	
+
 
 func reset_timer():
+	
 	absolute_game_time = 0
 	modulate = Global.color_hud_text
-
+	
 	
 func start_timer():
 	
 	game_time_limit = Global.game_manager.game_settings["game_time_limit"]
-#	stopwatch_mode = Global.game_manager.game_settings["timer_stopwatch_mode"]
 	gameover_countdown_duration = 5 # čas, ko je obarvan in se sliši bip bip	
 
 	if game_time_limit == 0:

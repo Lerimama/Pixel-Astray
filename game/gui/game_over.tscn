@@ -11,6 +11,7 @@
 
 [node name="GameOver" type="Control"]
 pause_mode = 2
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 3 )
@@ -240,6 +241,7 @@ text = "You are forever colorless!"
 align = 1
 
 [node name="GameSummary" type="Control" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -257,7 +259,7 @@ margin_top = 86.0
 margin_right = 252.0
 margin_bottom = 118.0
 grow_horizontal = 2
-custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color = Color( 0.294118, 0.623529, 1, 1 )
 custom_fonts/font = ExtResource( 2 )
 text = "Game summary"
 align = 1
@@ -295,7 +297,7 @@ margin_bottom = 24.0
 rect_min_size = Vector2( 28, 24 )
 size_flags_horizontal = 7
 size_flags_vertical = 0
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 text = "%Your stats"
 
 [node name="Points" type="Label" parent="GameSummary/Tables/DataContainer"]
@@ -409,6 +411,7 @@ margin_bottom = 304.0
 size_flags_horizontal = 9
 
 [node name="Menu" type="HBoxContainer" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5

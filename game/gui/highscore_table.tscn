@@ -22,7 +22,7 @@ margin_bottom = 24.0
 rect_min_size = Vector2( 28, 24 )
 size_flags_horizontal = 7
 size_flags_vertical = 0
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 text = "%Best gamers"
 align = 1
 

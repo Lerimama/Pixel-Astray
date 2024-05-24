@@ -11,7 +11,7 @@ func set_gameover_title():
 
 
 func show_gameover_title():
-	# namen: preskočim summary in menu takoj (kot duel)
+	# namen: preskočim summary in menu takoj (kot duel), odfejdam čekpojnte
 
 	visible = true
 	selected_gameover_title.visible = true

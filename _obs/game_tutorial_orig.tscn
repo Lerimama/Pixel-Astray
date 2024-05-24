@@ -16,7 +16,7 @@
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=14]
 [ext_resource path="res://game/arena.tscn" type="PackedScene" id=15]
 [ext_resource path="res://game/hud/game_countdown.gd" type="Script" id=16]
-[ext_resource path="res://game/hud/hud energy_bar.gd" type="Script" id=17]
+[ext_resource path="res://game/hud/hud_energy_bar.gd" type="Script" id=17]
 [ext_resource path="res://assets/atlas_hud.png" type="Texture" id=18]
 [ext_resource path="res://assets/resources/icon_label_dot.tres" type="Texture" id=19]
 [ext_resource path="res://assets/theme/color_theme_spectrum.png" type="Texture" id=20]
