@@ -1,0 +1,25 @@
+[gd_scene format=2]
+
+[node name="_help_gui_guide" type="ColorRect"]
+modulate = Color( 1, 1, 1, 0.278431 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -640.0
+margin_right = 32.0
+margin_bottom = 24.0
+
+[node name="skrin" type="ColorRect" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -336.0
+margin_top = 96.0
+margin_right = 336.0
+margin_bottom = 448.0
+
+[node name="menu" type="ColorRect" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -336.0
+margin_top = 507.0
+margin_right = 336.0
+margin_bottom = 529.0

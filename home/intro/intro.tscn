@@ -818,6 +818,7 @@ tile_data = PoolIntArray( -1835036, 0, 0, -1835035, 0, 0, -1835034, 0, 0, -18350
 script = ExtResource( 4 )
 
 [node name="TileMap" type="TileMap" parent="."]
+visible = false
 position = Vector2( 512, 544 )
 z_index = -1
 tile_set = ExtResource( 7 )
@@ -973,26 +974,11 @@ margin_top = 581.5
 margin_right = -360.0
 margin_bottom = 603.5
 
-[node name="Key" parent="Text/ActionHint" index="2"]
-margin_right = 118.0
-text = "RETURN"
-
-[node name="Label2" parent="Text/ActionHint" index="3"]
-margin_left = 126.0
-margin_right = 143.0
-
-[node name="Jp" parent="Text/ActionHint" index="4"]
-margin_left = 151.0
-margin_right = 173.0
+[node name="Jp" parent="Text/ActionHint" index="3"]
 texture = SubResource( 228 )
 
-[node name="Button" parent="Text/ActionHint/Jp" index="0"]
-margin_left = -159.0
-margin_right = 133.0
-
-[node name="Label3" parent="Text/ActionHint" index="5"]
-margin_left = 181.0
-margin_right = 280.0
+[node name="Label3" parent="Text/ActionHint" index="4"]
+margin_right = 247.0
 text = "to skip intro"
 
 [node name="StrayStepTimer" type="Timer" parent="."]

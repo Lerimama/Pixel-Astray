@@ -14,7 +14,7 @@ extends GameOver
 #	gameover_menu.visible = false	
 	
 #
-#func set_game_gameover_title():
+#func set_gameover_title():
 #	# namen: sprememba teksta v GO - TIME komentarju glede na to katera igra je
 #	# namen: opredelim, če je bila sweeper rešena
 #

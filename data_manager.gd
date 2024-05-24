@@ -4,7 +4,7 @@ extends Node
 signal highscores_updated # ko je vnešeno ime igralca
 
 var data_file: = File.new()
-var current_player_ranking: int # da ob rendriranju HS, lahko označim aktualni rezultat ... v GM
+var current_player_rank: int # da ob rendriranju HS, lahko označim aktualni rezultat ... v GM
 var all_games_key
 var default_highscores: Dictionary = { # slovar, ki se uporabi, če še ni nobenega v filetu
 	"01": {"Mr.Nobody": 0,},
@@ -90,7 +90,7 @@ func manage_gameover_highscores(current_score: float, current_game_data: Diction
 			if ranking_score >= current_score:
 				better_positions_count += 1				
 		
-	current_player_ranking = better_positions_count + 1 # za označitev linije na lestvici
+	current_player_rank = better_positions_count + 1 # za označitev linije na lestvici
 	
 	# NI na lestvici
 	if better_positions_count >= all_ranking_scores.size():

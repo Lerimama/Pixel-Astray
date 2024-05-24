@@ -22,6 +22,7 @@ func get_instructions_content(current_highscore, current_highscore_owner):
 		title.text = current_game_data["game_name"] + " %02d" % current_game_data["level"]
 	else:
 		title.text = current_game_data["game_name"]
+	
 	# description		
 	description.text = current_game_data["description"]
 	

@@ -59,25 +59,28 @@ func set_players():
 
 
 func upgrade_level(level_upgrade_reason: String):
-	# namen: level = tutorial stage
+	# namen: level = tutorial stag, zaporedje je pomembno
 	
 	if level_upgrade_in_progress:
 		return
 	level_upgrade_in_progress = true	
 	
+	# per stage 
 	if Global.tutorial_gui.current_tutorial_stage == Global.tutorial_gui.TutorialStage.COLLECT:
 		Global.tutorial_gui.finish_collect()	
 	elif Global.tutorial_gui.current_tutorial_stage == Global.tutorial_gui.TutorialStage.MULTICOLLECT:
 		Global.tutorial_gui.finish_multicollect()
 		
-	# reset players
+	# reset
 	for player in Global.game_manager.current_players_in_game:
 		player.end_move()
 	Global.hud.empty_color_indicators()
 	#	get_tree().call_group(Global.group_players, "set_physics_process", false)
 	
-	# start new level
 	yield(get_tree().create_timer(0.5), "timeout") # pavza, da zabeleži zaseden pozicije (plejer) 
+	# od tukaj je novi stage enum
+	
+	
 	Global.game_manager.set_strays() 
 	#	get_tree().call_group(Global.group_players, "set_physics_process", true)
 	

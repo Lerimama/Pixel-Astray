@@ -73,12 +73,24 @@ __meta__ = {
 [node name="Hud" parent="GUI" instance=ExtResource( 4 )]
 
 [node name="PauseMenu" parent="GUI" instance=ExtResource( 11 )]
-visible = false
+__meta__ = {
+"_edit_horizontal_guides_": [ 112.0 ],
+"_edit_vertical_guides_": [ 640.0, 304.0, 976.0 ]
+}
 
 [node name="GameOver" parent="GUI" instance=ExtResource( 2 )]
+__meta__ = {
+"_edit_horizontal_guides_": [ 192.0, 256.0, 616.0 ],
+"_edit_vertical_guides_": [ 640.0 ]
+}
+
+[node name="GameoverTitle" parent="GUI/GameOver" index="2"]
+visible = true
 
 [node name="RespawnTimer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
 
 [connection signal="timeout" from="RespawnTimer" to="GameManager" method="_on_RespawnTimer_timeout"]
+
+[editable path="GUI/GameOver"]

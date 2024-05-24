@@ -23,10 +23,11 @@ var default_game_settings: Dictionary = {
 	"lose_life_on_hit": true, # alternativa je izguba energije na hit in samo en lajf
 	"full_power_mode": false, # vedno destroja ves bulk, hitrost = max_cock_count
 	# points
-	"cleaned_reward_points": 1000,
-	"reburst_reward_points": 100,
 	"color_picked_points": 10, 
-	"on_hit_points_part": 0,
+	"white_eliminated_points": 100, 
+	"cleaned_reward_points": 1000,
+	"reburst_reward_points": 0,
+	"on_hit_points_part": 0, # delež izgubljenih ob zadetku stene
 	# energija
 	"color_picked_energy": 10,
 	"cell_traveled_energy": -1,
@@ -42,8 +43,8 @@ var default_game_settings: Dictionary = {
 	"respawn_strays_on_cleaned": false,
 	"respawn_wait_time": 1, # če je 0, respawn pa je aktiviran, je respawn na cleaned
 	"respawn_strays_count": 0, # če je > 0, je respawn aktiviran
-	"random_stray_to_white": false,
-	"spawn_white_stray_part": 0.0, # procenti, ni dobro da je če 50%
+	"random_stray_to_white": false, # na že spawnanih ... in game torej
+	"spawn_white_stray_part": 0.0, # procenti ... 0 v ne spawna nobenega
 	# game
 	"game_time_limit": 0, # če je nič, ni omejeno in timer je stopwatch mode
 	"start_countdown": true,
@@ -115,8 +116,8 @@ var game_data_eraser: Dictionary = {
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser.tscn",
 	"description" : "Keep those colors in check as they keep popping in!",
-	"Prop": "Score points and progress through different difficulty levels.",
-#	"Prop2" : "Unlimited time. Unlimited levels.",
+	"Prop": "[center]Score points and progress through different difficulty levels.",
+	#	"Prop2" : "Unlimited time. Unlimited levels.",
 	#
 	"level": 1, # pomeni, da je multilevel
 	"level_goal_count": 30, # prvi level
@@ -132,12 +133,12 @@ var game_data_handler: Dictionary = {
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Handler",
 	"game_scene_path": "res://game/game.tscn",
-#	"tilemap_path": "res://game/tilemaps/tilemap_handler.tscn",
+	#	"tilemap_path": "res://game/tilemaps/tilemap_handler.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_handler_s.tscn",
 	"description" : "Prevent those nasty white pixels from ruining your screen!",
-	"Prop" : "Clean up all colors and whites to progress through levels.",
-#	"Prop2" : "Unlimited time. Unlimited levels.",
-#	"Prop3" : "Use skills. Whites can only be destroyed if they are stacked.",
+	"Prop" : "[center]Clean up all colors and whites to progress through levels.",
+	#	"Prop2" : "Unlimited time. Unlimited levels.",
+	#	"Prop3" : "Use skills. Whites can only be destroyed if they are stacked.",
 	#
 	"level": 1, # pomeni, da je multilevel
 	"spawn_white_stray_part_factor": 1, # množim
@@ -154,9 +155,9 @@ var game_data_the_duel: Dictionary = {
 	"game_name": "The Duel",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_duel.tscn",
-	"description" : "Team up to tackle the colored messa and battle for the ultimate cleaning champ title!",
-	"Prop": "[center][b]Hook[/b]\nBurst into opposing player to deal damage and get his share of points.",
-	"Prop2" : "[center][b]Time[/b]\nLimited to 2 minutes",
+	"description" : "[center]Team up to tackle the colored messa and battle for the ultimate cleaning champ title!",
+	"Prop": "[center]Burst into opposing player to deal damage and get his share of points.",
+	"Prop2" : "[center]Time is Limited to 3 minutes",
 }
 var game_data_defender: Dictionary = { 
 	"game": Games.DEFENDER,
@@ -187,14 +188,13 @@ var game_data_sweeper: Dictionary = {
 	"highscore_type": HighscoreTypes.HS_TIME_LOW,
 	"game_name": "Sweeper",
 	"game_scene_path": "res://game/game.tscn",
-	# 
-	"level": 1, # pomeni, da je multilevel
-	#
 	"description" : "Sweep the entire screen in one spectacular\nburst move!",
 	"Prop" : "Launch the burst move with the initial hit and keep the momentum going with rebursting!",
 	"Prop2" : "Reburst after you hit the first stray pixel, by pressing the DIRECTION KEY in the next targets direction.",
 	"Prop3" : "Reburst always collects only one color.",
-#	"Prop3" : "Reburst time window is unlimited.",
+	"Prop4" : "Reburst time window is 5 seconds.",
+	#
+	"level": 1, # pomeni, da je multilevel
 }
 var sweeper_level_setting: Dictionary = { 
 	1: { # ključ je tudi številka levela
@@ -225,15 +225,15 @@ var sweeper_level_setting: Dictionary = {
 		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_09.tscn",
 	},
 	
-#	10: {
-#		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_S.tscn",
-#	},
-#	11: {
-#		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_M.tscn",
-#	},
-#	12: {
-#		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_L.tscn",
-#	},
+	#	10: {
+	#		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_S.tscn",
+	#	},
+	#	11: {
+	#		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_M.tscn",
+	#	},
+	#	12: {
+	#		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_L.tscn",
+	#	},
 }
 var game_data_showcase: Dictionary = {
 	"game": Games.SHOWCASE,
@@ -261,10 +261,9 @@ func _ready() -> void:
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE
 #	var debug_game = Games.TUTORIAL
-	var debug_game = Games.CLEANER_S
-
+#	var debug_game = Games.CLEANER_S
 #	var debug_game = Games.CLEANER_M
-#	var debug_game = Games.CLEANER_L
+	var debug_game = Games.CLEANER_L
 #	var debug_game = Games.DEFENDER
 #	var debug_game = Games.ERASER
 #	var debug_game = Games.HANDLER
@@ -278,7 +277,6 @@ func set_game_data(selected_game) -> void:
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
 	# debug
-#	game_settings["show_game_instructions"] = false
 	game_settings["start_countdown"] = false
 	game_settings["player_start_life"] = 1
 	game_settings["show_game_instructions"] = false
@@ -300,6 +298,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["strays_start_count"] = 1
 			game_settings["lose_life_on_hit"] = false
 			game_settings["zoom_to_level_size"] = false
+			game_settings["start_countdown"] = false
 			
 		Games.CLEANER_S: 
 			current_game_data = game_data_cleaner_s
@@ -308,6 +307,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["respawn_on_cleaned"] = true
 			game_settings["zoom_to_level_size"] = false
 			game_settings["respawn_strays_on_cleaned"] = true
+			game_settings["spawn_white_stray_part"] = 0.11 # 10 posto
 			# debug
 		Games.CLEANER_M: 
 			current_game_data = game_data_cleaner_m
@@ -316,6 +316,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["respawn_on_cleaned"] = true
 			game_settings["zoom_to_level_size"] = false
 			game_settings["respawn_strays_on_cleaned"] = true
+			game_settings["spawn_white_stray_part"] = 0.11
 		Games.CLEANER_L: 
 			current_game_data = game_data_cleaner_l
 			game_settings["game_time_limit"] = 600
@@ -323,6 +324,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["respawn_on_cleaned"] = true
 			game_settings["zoom_to_level_size"] = false
 			game_settings["respawn_strays_on_cleaned"] = true
+			game_settings["spawn_white_stray_part"] = 0.11
 		
 		Games.ERASER: 
 			current_game_data = game_data_eraser
@@ -358,10 +360,12 @@ func set_game_data(selected_game) -> void:
 		Games.THE_DUEL: 
 			current_game_data = game_data_the_duel
 			game_settings["position_indicators_on"] = false 
-			game_settings["respawn_strays_count"] = 20 
-			game_settings["strays_start_count"] = 100
+#			game_settings["strays_start_count"] = 1 
+			game_settings["game_time_limit"] = 180
 			#	
-			game_settings["respawn_wait_time"] = 10
+			game_settings["respawn_strays_count"] = 20 
+			game_settings["respawn_wait_time"] = 0
+			game_settings["respawn_strays_on_cleaned"] = true
 	
 		Games.SWEEPER: 
 			current_game_data = game_data_sweeper
@@ -377,5 +381,5 @@ func set_game_data(selected_game) -> void:
 			game_settings["respawn_strays_count"] = 0
 			game_settings["position_indicators_on"] = false
 			# debug
-			current_game_data["level"] = 1
+			current_game_data["level"] = 8
 

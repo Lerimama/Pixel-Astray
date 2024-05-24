@@ -11,7 +11,6 @@ var score_is_ranking # včasih bool včasih object?!
 var sweeper_solved: bool = false				
 
 # menu
-var focus_btn: Button
 onready var gameover_menu: HBoxContainer = $Menu
 		
 # gameover title
@@ -73,140 +72,67 @@ func _ready() -> void:
 	game_summary.visible = false
 	name_input_popup.visible = false
 	gameover_menu.visible = false	
-	
-	
+
+		
 func open_gameover(gameover_reason: int):
 	
 	current_gameover_reason = gameover_reason
 	
-	
-	# ranking preverim že tukaj, da lahko obarvam title
-	p1_final_stats = Global.game_manager.current_players_in_game[0].player_stats
-	var current_score: float
-	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_POINTS:
-		current_score = p1_final_stats["player_points"]
-	elif Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_COLORS:
-		current_score = p1_final_stats["colors_collected"]
-	else: # time low and high
-		current_score = Global.hud.game_timer.absolute_game_time
-	score_is_ranking = Global.data_manager.manage_gameover_highscores(current_score, Global.game_manager.game_data) 
-	# yield čaka na konec preverke ... tip ni opredeljen, ker je ranking, če ni skora kot objecta, če je ranking
 				
+	p1_final_stats = Global.game_manager.current_players_in_game[0].player_stats
+	
 	if Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
 		p2_final_stats = Global.game_manager.current_players_in_game[1].player_stats
 		set_duel_gameover_title()
+	elif Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+		if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
+			score_is_ranking = Global.data_manager.manage_gameover_highscores(get_current_score(), Global.game_manager.game_data) 
+			# yield čaka na konec preverke ... tip ni opredeljen, ker je ranking, če ni skora kot objecta, če je ranking
+		set_gameover_title()
 	else:
-		set_game_gameover_title()
+		score_is_ranking = Global.data_manager.manage_gameover_highscores(get_current_score(), Global.game_manager.game_data) 
+		# yield čaka na konec preverke ... tip ni opredeljen, ker je ranking, če ni skora kot objecta, če je ranking
+		set_gameover_title()
 		
 	Global.hud.slide_out()
 	yield(Global.game_camera, "zoomed_out") # tukaj notri setam zamik
 	show_gameover_title()	
-
-
-func show_gameover_title():
-
-
-	visible = true
-	selected_gameover_title.visible = true
-	gameover_title_holder.modulate.a = 0
+		
+			
+func set_gameover_title():
 	
-	var background_fadein_transparency: float = 0.85 # cca 217
-	
-	var fade_in = get_tree().create_tween()
-	fade_in.tween_callback(gameover_title_holder, "show")
-	fade_in.tween_property(gameover_title_holder, "modulate:a", 1, 1)
-	fade_in.parallel().tween_callback(Global.sound_manager, "stop_music", ["game_music_on_gameover"])
-	fade_in.parallel().tween_callback(Global.sound_manager, "play_sfx", [selected_gameover_jingle])
-	fade_in.parallel().tween_property(background, "color:a", background_fadein_transparency, 0.5).set_delay(0.5) # a = cca 140
-	fade_in.tween_callback(self, "set_gameover_summary").set_delay(2)
-	
-
-func set_gameover_summary():
-
-
-	# vidnost gumbov v meniju glede na igro
+	# uganka in je bila rešena
 	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-		gameover_menu.get_node("NextLevelBtn").show()
-	elif Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
-		gameover_menu.get_node("NextLevelBtn").hide()
-		gameover_menu.get_node("RestartBtn").hide()
-		gameover_menu.get_node("RematchBtn").show()
+		if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
+			Global.data_manager.write_solved_status_to_file(Global.game_manager.game_data)
+			selected_gameover_title = gameover_title_cleaned
+			selected_gameover_jingle = "win_jingle"
+			name_input_label.text = "Great work!"
+		else: # GO skrin je na neuspeh vedno LIFE
+			selected_gameover_title = gameover_title_life
+			selected_gameover_jingle = "lose_jingle"
 	else:
-		gameover_menu.get_node("NextLevelBtn").hide()
-		gameover_menu.get_node("RestartBtn").show()
-		gameover_menu.get_node("RematchBtn").hide()
-		
-			
-	get_tree().set_pause(true) # setano čez celotno GO proceduro
-	
-	if Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
-		gameover_menu.visible = false
-		gameover_menu.modulate.a = 0
-		var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-		fade_in.tween_callback(gameover_menu, "show")#.set_delay(1)
-		fade_in.tween_property(gameover_menu, "modulate:a", 1, 1)
-		fade_in.parallel().tween_callback(Global, "grab_focus_no_sfx", [focus_btn])		
-	else:	
-		
-		var current_player_ranking: int
-		if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NO_HS:
-			yield(get_tree().create_timer(1), "timeout") # podaljšam pavzo za branje
-			show_game_summary()
-		else:
-			if score_is_ranking: # manage_gameover_highscores počaka na signal iz name_input
-				open_name_input()
-				yield(Global.data_manager, "highscores_updated")
-				get_viewport().set_disable_input(false) # anti dablklik
-				current_player_ranking = Global.data_manager.current_player_ranking
-			
-			highscore_table.get_highscore_table(Global.game_manager.game_data, current_player_ranking)
-			show_game_summary() # meni pokažem v tej funkciji
-
-
-func show_game_summary():
-	
-	# napolnim vsebine
-	gameover_stats_title.text = str(Global.game_manager.game_data["game_name"]) + " stats"
-	gameover_stat_game.text %= str(Global.game_manager.game_data["game_name"])
-	if not Global.game_manager.game_data.has("level"):
-		gameover_stat_level.hide()
-	else:
-		gameover_stat_level.text %= str(Global.game_manager.game_data["level"])
-	gameover_stat_points.text %= str(p1_final_stats["player_points"])
-	gameover_stat_time.text %= str(Global.hud.game_timer.absolute_game_time)
-	gameover_stat_cells_traveled.text %= str(p1_final_stats["cells_traveled"])
-	gameover_stat_burst_count.text %= str(p1_final_stats["burst_count"])
-	gameover_stat_pixels_off.text %= str(p1_final_stats["colors_collected"])
-	gameover_stat_skills_used.text %= str(p1_final_stats["skill_count"])
-	gameover_stat_astray_pixels.text %= str(Global.game_manager.strays_in_game_count)
-	
-	game_summary.modulate.a = 0	
-	game_summary.visible = true	
-	gameover_menu.modulate.a = 0
-	gameover_menu.visible = true
-	
-	focus_btn = gameover_menu.get_node("RestartBtn")
-
-	# hide title and name_popup > show game summary
-	var cross_fade = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-	cross_fade.tween_property(name_input_popup, "modulate:a", 0, 0.5)
-	cross_fade.parallel().tween_property(gameover_title_holder, "modulate:a", 0, 1)
-	cross_fade.parallel().tween_property(background, "color:a", 1, 1)
-	cross_fade.tween_callback(name_input_popup, "hide")
-	cross_fade.parallel().tween_callback(gameover_title_holder, "hide")
-	cross_fade.parallel().tween_property(game_summary, "modulate:a", 1, 1)#.set_delay(1)
-	cross_fade.parallel().tween_property(gameover_menu, "modulate:a", 1, 1)#.set_delay(1)
-	cross_fade.tween_callback(Global, "grab_focus_no_sfx", [focus_btn])
-
-
-# TITLES --------------------------------------------------------------	
+		# glede na GO razlog	
+		match current_gameover_reason:
+			Global.game_manager.GameoverReason.CLEANED:
+				selected_gameover_title = gameover_title_cleaned
+				selected_gameover_jingle = "win_jingle"
+				name_input_label.text = "Great work!"
+			Global.game_manager.GameoverReason.LIFE:
+				selected_gameover_title = gameover_title_life
+				selected_gameover_jingle = "lose_jingle"
+				name_input_label.text = "But still ... "
+			Global.game_manager.GameoverReason.TIME:
+				selected_gameover_title = gameover_title_time
+				selected_gameover_jingle = "lose_jingle"
+				name_input_label.text = "But still ... "
+		if score_is_ranking:
+			selected_gameover_title.modulate = Global.color_green	
 
 		
 func set_duel_gameover_title():
 	
 	selected_gameover_title = $GameoverTitle/Duel
-	gameover_menu = selected_gameover_title.get_node("Menu")
-	focus_btn = gameover_menu.get_node("RestartBtn")
 	selected_gameover_jingle = "win_jingle"
 
 	var winner_label: Label = selected_gameover_title.get_node("Win/PlayerLabel")
@@ -245,38 +171,133 @@ func set_duel_gameover_title():
 			winning_reason_label.text = winner_label.text + " was better by only one point."
 		else: 
 			winning_reason_label.text =  winner_label.text + " was " + str(abs(points_difference)) + " points better than " + loser_name + "."
-		
 			
-func set_game_gameover_title():
+			
+func show_gameover_title():
+
+
+	visible = true
+	selected_gameover_title.visible = true
+	gameover_title_holder.modulate.a = 0
 	
-	# uganka in je bila rešena
-	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-		if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
-			Global.data_manager.write_solved_status_to_file(Global.game_manager.game_data)
-			selected_gameover_title = gameover_title_cleaned
-			selected_gameover_jingle = "win_jingle"
-			name_input_label.text = "Great work!"
-		else: # GO skrin je na neuspeh vedno LIFE
-			selected_gameover_title = gameover_title_life
-			selected_gameover_jingle = "lose_jingle"
+	var background_fadein_transparency: float = 0.85 # cca 217
+	
+	var fade_in = get_tree().create_tween()
+	fade_in.tween_callback(gameover_title_holder, "show")
+	fade_in.tween_property(gameover_title_holder, "modulate:a", 1, 1)
+	fade_in.parallel().tween_callback(Global.sound_manager, "stop_music", ["game_music_on_gameover"])
+	fade_in.parallel().tween_callback(Global.sound_manager, "play_sfx", [selected_gameover_jingle])
+	fade_in.parallel().tween_property(background, "color:a", background_fadein_transparency, 0.5).set_delay(0.5) # a = cca 140
+	if Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
+		fade_in.parallel().tween_callback(self, "show_menu")
 	else:
-		# glede na GO razlog	
-		match current_gameover_reason:
-			Global.game_manager.GameoverReason.CLEANED:
-				selected_gameover_title = gameover_title_cleaned
-				selected_gameover_jingle = "win_jingle"
-				name_input_label.text = "Great work!"
-			Global.game_manager.GameoverReason.LIFE:
-				selected_gameover_title = gameover_title_life
-				selected_gameover_jingle = "lose_jingle"
-				name_input_label.text = "But still ... "
-			Global.game_manager.GameoverReason.TIME:
-				selected_gameover_title = gameover_title_time
-				selected_gameover_jingle = "lose_jingle"
-				name_input_label.text = "But still ... "
-				
-					
+		fade_in.tween_callback(self, "set_game_summary").set_delay(1)
 	
+
+func set_game_summary():
+
+	get_tree().set_pause(true) # setano čez celotno GO proceduro
+
+	# setam naslov stats tabele
+	gameover_stats_title.text = "Your stats" # + str(Global.game_manager.game_data["game_name"]) + " stats"
+	
+	# game stats name
+	gameover_stat_game.text = "Game: " + str(Global.game_manager.game_data["game_name"])
+	gameover_stat_time.text = "Time used: " + str(Global.hud.game_timer.absolute_game_time)
+	if not Global.game_manager.game_data.has("level"):
+		gameover_stat_level.hide()
+	else:
+		gameover_stat_level.text = "Level: " + str(Global.game_manager.game_data["level"])
+
+	# player stats
+	if not Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+		gameover_stat_points.text = "Score total: " + str(p1_final_stats["player_points"])
+		gameover_stat_cells_traveled.text = "Cells traveled: " + str(p1_final_stats["cells_traveled"])
+		gameover_stat_burst_count.text = "Burst count: " + str(p1_final_stats["burst_count"])
+		gameover_stat_skills_used.text = "Skills used: " + str(p1_final_stats["skill_count"])
+		gameover_stat_pixels_off.text = "Colors collected: " + str(p1_final_stats["colors_collected"])
+		gameover_stat_astray_pixels.text = "Pixels left astray: " + str(Global.game_manager.strays_in_game_count)
+		
+	var current_player_rank: int
+	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NO_HS:
+	#		yield(get_tree().create_timer(1), "timeout") # podaljšam pavzo za branje
+		show_game_summary()
+	else:
+		if score_is_ranking: # manage_gameover_highscores počaka na signal iz name_input
+			open_name_input()
+			yield(Global.data_manager, "highscores_updated")
+			get_viewport().set_disable_input(false) # anti dablklik
+			current_player_rank = Global.data_manager.current_player_rank
+		
+		highscore_table.get_highscore_table(Global.game_manager.game_data, current_player_rank)
+		show_game_summary() # meni pokažem v tej funkciji
+
+
+func show_game_summary():
+	
+#	# setam naslov statistike statistiko
+#	gameover_stats_title.text = str(Global.game_manager.game_data["game_name"]) + " stats"
+#
+#	# napolnim statistiko
+#	gameover_stat_game.text %= str(Global.game_manager.game_data["game_name"])
+#	if not Global.game_manager.game_data.has("level"):
+#		gameover_stat_level.hide()
+#	else:
+#		gameover_stat_level.text %= str(Global.game_manager.game_data["level"])
+#	gameover_stat_points.text %= str(p1_final_stats["player_points"])
+#	gameover_stat_time.text %= str(Global.hud.game_timer.absolute_game_time)
+#	gameover_stat_cells_traveled.text %= str(p1_final_stats["cells_traveled"])
+#	gameover_stat_burst_count.text %= str(p1_final_stats["burst_count"])
+#	gameover_stat_pixels_off.text %= str(p1_final_stats["colors_collected"])
+#	gameover_stat_skills_used.text %= str(p1_final_stats["skill_count"])
+#	gameover_stat_astray_pixels.text %= str(Global.game_manager.strays_in_game_count)
+	
+	# hide title and name_popup > show game summary
+	game_summary.modulate.a = 0	
+	game_summary.visible = true	
+	var cross_fade = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+	cross_fade.tween_property(name_input_popup, "modulate:a", 0, 0.5)
+	cross_fade.parallel().tween_property(gameover_title_holder, "modulate:a", 0, 1)
+	cross_fade.parallel().tween_property(background, "color:a", 1, 1)
+	cross_fade.tween_callback(name_input_popup, "hide")
+	cross_fade.parallel().tween_callback(gameover_title_holder, "hide")
+	cross_fade.parallel().tween_property(game_summary, "modulate:a", 1, 1)#.set_delay(1)
+	cross_fade.parallel().tween_callback(self, "show_menu")
+
+
+func show_menu():
+	
+	# vidnost gumbov v meniju glede na igro
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+		if Global.game_manager.game_data["level"] < Profiles.sweeper_level_setting.size():
+			gameover_menu.get_node("NextLevelBtn").show()
+	elif Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
+		gameover_menu.get_node("RestartBtn").text = "REMATCH"
+	
+	var focus_btn: Button = gameover_menu.get_node("RestartBtn")
+	gameover_menu.modulate.a = 0
+	gameover_menu.visible = true
+		
+	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+	fade_in.tween_callback(gameover_menu, "show")
+	fade_in.tween_property(gameover_menu, "modulate:a", 1, 0.5).from(0.0)
+	fade_in.parallel().tween_callback(Global, "grab_focus_no_sfx", [focus_btn])		
+
+	
+func get_current_score():
+	
+	# ranking preverim že tukaj, da lahko obarvam title
+	var current_score: float
+	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_POINTS:
+		current_score = p1_final_stats["player_points"]
+	elif Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_COLORS:
+		current_score = p1_final_stats["colors_collected"]
+	else: # time low and high
+		current_score = Global.hud.game_timer.absolute_game_time
+	return current_score
+	
+	
+
 # NAME INPUT --------------------------------------------------------------------	
 
 

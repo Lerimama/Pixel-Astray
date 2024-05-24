@@ -11,8 +11,8 @@ onready var solutions_btn: CheckButton = $LevelGrid/VBoxContainer/SolutionsBtn
 func _ready() -> void:
 	
 	Profiles.game_data_sweeper["level"] = 1 # ni nujno
-	for btn in level_grid_btns:
-		set_btn_tilemap(btn)
+#	for btn in level_grid_btns:
+#		set_btn_tilemap(btn)
 	update_sweeper_btns_color()
 
 	if Profiles.default_game_settings["show_solution_hint"]:

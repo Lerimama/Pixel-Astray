@@ -53,10 +53,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		upgrade_level("cleaned")
 	if Input.is_action_just_pressed("l"):
 		for player in current_players_in_game:
-			printt ("ON KEY", player.global_position)
-#			if player.global_position == selected_stray_position:
-#				printt ("STUCK ON P", player.global_position, selected_stray_position)
-##				return
+			printt("player positions", player.global_position)
 				
 	if Input.is_action_just_pressed("h"):
 		if game_data["game"] == Profiles.Games.SWEEPER:
@@ -294,7 +291,7 @@ func set_strays():
 		
 	strays_shown_on_start.clear() # resetiram
 	
-	spawn_strays(start_strays_spawn_count)
+	spawn_strays(start_strays_spawn_count) # var je za tutorial
 	yield(get_tree().create_timer(0.01), "timeout") # da se vsi straysi spawnajo
 	
 	var show_strays_loop: int = 0
@@ -361,17 +358,15 @@ func spawn_strays(strays_to_spawn_count: int):
 		var selected_cell_position: Vector2 = current_spawn_positions[selected_cell_index]
 		var selected_stray_position: Vector2 = selected_cell_position + Vector2(cell_size_x/2, cell_size_x/2)
 		
-		# je pozicija zaseden
+		# je pozicija zasedena
 		var selected_stray_position_is_free: bool = true
 		for player in current_players_in_game:
 			if player.global_position == selected_stray_position:
-				# printt ("STUCK on player ... ", selected_stray_position, player.global_position)
 				selected_stray_position_is_free = false
 		for stray in get_tree().get_nodes_in_group(Global.group_strays):
 			if stray.global_position == selected_stray_position:
-				# print ("STUCK on stray ... ", selected_stray_position, stray.global_positiong) 
 				selected_stray_position_is_free = false
-		
+		# če je prazna
 		if selected_stray_position_is_free:
 			# spawn
 			var new_stray_pixel = StrayPixel.instance()
@@ -394,13 +389,18 @@ func spawn_strays(strays_to_spawn_count: int):
 			available_required_spawn_positions.erase(selected_cell_position)
 			available_random_spawn_positions.erase(selected_cell_position)
 		
-		else: # če je se ne spawna, ker je zasedeno, moram pozicijo vseno brisat, če ne se spawnajo vsi na to pozicijo
+		else: # če je zasedena se ne spawna, moram pozicijo vseeno brisat, če ne se spawnajo vsi na to pozicijo
 			strays_to_spawn_count -= 1
 			wall_spawn_positions.erase(selected_cell_position)
 			available_required_spawn_positions.erase(selected_cell_position)
 			available_random_spawn_positions.erase(selected_cell_position)
-			
-			
+	
+	# varovalka, če se noben ne spawna, grem še enkrat čez cel postopek ... možno samo ko naj se spawna 1
+	if strays_to_spawn_count == 0:
+		printt("Real spawn count = ", strays_to_spawn_count, ". Naredim še en krog spawnanja.")
+		set_strays()
+		return
+		
 	Global.hud.spawn_color_indicators(all_stray_colors) # barve pokažem v hudu		
 	self.strays_in_game_count = strays_to_spawn_count # setget sprememba
 
@@ -590,7 +590,7 @@ func set_new_level():
 		start_strays_spawn_count = game_settings["strays_start_count"]
 	# število spawnanih belih
 	spawn_white_stray_part += game_data["spawn_white_stray_part_factor"]
-	spawn_white_stray_part =  clamp(spawn_white_stray_part, 0, 0.5) # največ 50 posto, da jih možno
+	#	spawn_white_stray_part =  clamp(spawn_white_stray_part, 0, 0.5) # največ 50 posto, da jih možno
 
 	
 # SIGNALI --------------------------------------------------------------------------------------------	

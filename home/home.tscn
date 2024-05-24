@@ -2633,7 +2633,6 @@ theme = null
 
 [node name="Title" parent="Highscores/CleanerSTable" index="0"]
 margin_right = 240.0
-uppercase = true
 
 [node name="ScoreLine1" parent="Highscores/CleanerSTable" index="1"]
 margin_right = 240.0
@@ -2719,7 +2718,6 @@ theme = null
 
 [node name="Title" parent="Highscores/CleanerMTable" index="0"]
 margin_right = 240.0
-uppercase = true
 
 [node name="ScoreLine1" parent="Highscores/CleanerMTable" index="1"]
 margin_right = 240.0
@@ -2807,7 +2805,6 @@ theme = null
 
 [node name="Title" parent="Highscores/CleanerLTable" index="0"]
 margin_right = 240.0
-uppercase = true
 
 [node name="ScoreLine1" parent="Highscores/CleanerLTable" index="1"]
 margin_right = 240.0
@@ -2895,7 +2892,6 @@ theme = null
 
 [node name="Title" parent="Highscores/HandlerTable" index="0"]
 margin_right = 240.0
-uppercase = true
 
 [node name="ScoreLine1" parent="Highscores/HandlerTable" index="1"]
 margin_right = 240.0
@@ -2956,7 +2952,6 @@ theme = null
 
 [node name="Title" parent="Highscores/EraserTable" index="0"]
 margin_right = 240.0
-uppercase = true
 
 [node name="ScoreLine1" parent="Highscores/EraserTable" index="1"]
 margin_right = 240.0
@@ -3017,7 +3012,6 @@ theme = null
 
 [node name="Title" parent="Highscores/DefenderTable" index="0"]
 margin_right = 240.0
-uppercase = true
 
 [node name="ScoreLine1" parent="Highscores/DefenderTable" index="1"]
 margin_right = 240.0
@@ -3078,7 +3072,6 @@ theme = null
 
 [node name="Title" parent="Highscores/SweeperTable" index="0"]
 margin_right = 240.0
-uppercase = true
 
 [node name="ScoreLine1" parent="Highscores/SweeperTable" index="1"]
 margin_right = 240.0
@@ -3285,7 +3278,7 @@ margin_top = 16.0
 margin_right = 184.0
 margin_bottom = 58.0
 custom_fonts/font = ExtResource( 14 )
-text = "5 steps to become a master beginner"
+text = "5 steps to become a master beginner."
 autowrap = true
 
 [node name="Eraser" type="Panel" parent="SelectGame"]
@@ -4639,52 +4632,9 @@ margin_top = 337.0
 margin_right = 252.0
 margin_bottom = 369.0
 focus_neighbour_right = NodePath("../BackBtn")
-focus_neighbour_bottom = NodePath("../CameraZoomOptions/RandomizeBtn")
 mouse_default_cursor_shape = 2
 pressed = true
 text = "Camera shake"
-
-[node name="CameraZoomOptions" type="Control" parent="Settings"]
-visible = false
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 64.0
-margin_top = -336.0
-margin_right = -14.0
-margin_bottom = -304.0
-
-[node name="RandomizeBtn" type="Button" parent="Settings/CameraZoomOptions"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-margin_left = 169.0
-margin_top = 0.5
-margin_right = 193.0
-margin_bottom = 24.5
-rect_min_size = Vector2( 24, 24 )
-mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 279 )
-custom_styles/focus = SubResource( 279 )
-disabled = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Label2" type="Label" parent="Settings/CameraZoomOptions/RandomizeBtn"]
-margin_left = -173.0
-margin_top = 4.5
-margin_right = -15.0
-margin_bottom = 26.5
-text = "Camera zoom"
-align = 2
-
-[node name="SpectrumIcon" type="TextureRect" parent="Settings/CameraZoomOptions/RandomizeBtn"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -32.0
-margin_right = 32.0
-rect_min_size = Vector2( 24, 24 )
-texture = ExtResource( 18 )
-expand = true
 
 [node name="ColorSchemeOptions" type="Control" parent="Settings"]
 anchor_top = 1.0
@@ -4696,7 +4646,7 @@ margin_right = -14.0
 margin_bottom = -304.0
 
 [node name="RandomizeBtn" type="Button" parent="Settings/ColorSchemeOptions"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+modulate = Color( 0.592157, 0.592157, 0.592157, 1 )
 margin_left = 173.0
 margin_top = 0.5
 margin_right = 197.0
@@ -4757,7 +4707,6 @@ margin_left = 64.0
 margin_top = 433.0
 margin_right = 348.0
 margin_bottom = 465.0
-focus_neighbour_top = NodePath("../CameraZoomOptions/RandomizeBtn")
 focus_neighbour_right = NodePath("../BackBtn")
 focus_neighbour_bottom = NodePath("../MenuMusicBtn")
 mouse_default_cursor_shape = 2
@@ -4900,7 +4849,6 @@ anims/settings = SubResource( 140 )
 [connection signal="value_changed" from="Settings/GameMusicSlider" to="Settings" method="_on_MusicHSlider_value_changed"]
 [connection signal="toggled" from="Settings/GameSfxBtn" to="Settings" method="_on_GameSfxBtn_toggled"]
 [connection signal="toggled" from="Settings/CameraShakeBtn" to="Settings" method="_on_CameraShakeBtn_toggled"]
-[connection signal="pressed" from="Settings/CameraZoomOptions/RandomizeBtn" to="Settings" method="_on_RandomizeBtn_pressed"]
 [connection signal="pressed" from="Settings/ColorSchemeOptions/RandomizeBtn" to="Settings" method="_on_RandomizeBtn_pressed"]
 [connection signal="pressed" from="Settings/ColorSchemeOptions/ResetBtn" to="Settings" method="_on_ResetBtn_pressed"]
 [connection signal="toggled" from="Settings/InstructionsBtn" to="Settings" method="_on_InstructionsBtn_toggled"]

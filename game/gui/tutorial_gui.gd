@@ -186,9 +186,11 @@ func finish_tutorial():
 	
 	var fadeout_delay: float = 3  # čaka končanje GO animacijo plejerja
 	var close_final_stage = get_tree().create_tween()
+	close_final_stage.tween_property(checkpoints, "modulate:a", 0, 1).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
+	close_final_stage.parallel().tween_property(controls, "modulate:a", 0, 1).set_ease(Tween.EASE_IN)
 	close_final_stage.tween_callback(Global.game_manager, "game_over", [Global.game_manager.GameoverReason.CLEANED])
-	close_final_stage.tween_property(checkpoints, "modulate:a", 0, 1).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC).set_delay(fadeout_delay)
-	close_final_stage.parallel().tween_property(controls, "modulate:a", 0, 1).set_ease(Tween.EASE_IN).set_delay(fadeout_delay)	
+#	close_final_stage.tween_property(checkpoints, "modulate:a", 0, 1).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC).set_delay(fadeout_delay)
+#	close_final_stage.parallel().tween_property(controls, "modulate:a", 0, 1).set_ease(Tween.EASE_IN).set_delay(fadeout_delay)	
 
 
 # UTILITI ------------------------------------------------------------------------------------------------------------------	

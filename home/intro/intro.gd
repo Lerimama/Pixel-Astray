@@ -123,7 +123,7 @@ func spawn_strays(strays_to_spawn_count: int = required_spawn_positions.size()):
 		elif available_required_spawn_positions.empty(): # potem random
 			current_spawn_positions = available_random_spawn_positions
 		elif available_required_spawn_positions.empty() and available_random_spawn_positions.empty(): # STOP, če ni prostora, straysi pa so še na voljo
-			print ("No available spawn positions")
+			print("No available spawn positions")
 			return
 		# random pozicija med možnimi
 		var random_range = current_spawn_positions.size()

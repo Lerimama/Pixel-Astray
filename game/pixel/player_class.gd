@@ -576,41 +576,45 @@ func teleport(): # skilled inputs opredeli vrsto skila glede na kolajderja
 
 
 func on_hit_stray(hit_stray: KinematicBody2D):
+	return
+#	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
+#	play_sound("hit_stray")	
+#	spawn_collision_particles()
+#	shake_player_camera(burst_speed)			
+#
+#	if hit_stray.current_state == hit_stray.States.DYING or hit_stray.current_state == hit_stray.States.WALL: # če je že v umiranju, samo kolajdaš
+#	# if hit_stray.current_state == hit_stray.States.DYING: # če je že v umiranju, samo kolajdaš
+#		end_move()
+#		return
+#
+#	tween_color_change(hit_stray.stray_color)
+#
+#	# preverim sosede
+#	var hit_stray_neighbors: Array = check_strays_neighbors(hit_stray)
+#	var all_neighboring_strays: Array = hit_stray_neighbors[0]
+#	var white_strays_in_stack: Array = hit_stray_neighbors[1]
+#
+#	# naberem strayse za destrojat
+#	var burst_speed_units_count = burst_speed / cock_ghost_speed_addon
+#	var strays_to_destroy: Array = []
+#	strays_to_destroy.append(hit_stray)
+#	if not all_neighboring_strays.empty():
+#		for neighboring_stray in all_neighboring_strays: # še sosedi glede na moč bursta
+#			if strays_to_destroy.size() < burst_speed_units_count or burst_speed_units_count == cocked_ghost_max_count:
+#				strays_to_destroy.append(neighboring_stray)
+#			else: break
+#
+#	# jih destrojam
+#	for stray in strays_to_destroy:
+#		var stray_index = strays_to_destroy.find(stray)
+#		stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
+#
+#	# stats
+#	var strays_not_walls_count: int = strays_to_destroy.size() - white_strays_in_stack.size()
+#	change_stat("hit_stray", [strays_not_walls_count, white_strays_in_stack.size()]) 
+#
+#	end_move() # more bit za collision partikli zaradi smeri
 	
-	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
-	play_sound("hit_stray")	
-	spawn_collision_particles()
-	shake_player_camera(burst_speed)			
-	
-	if hit_stray.current_state == hit_stray.States.DYING or hit_stray.current_state == hit_stray.States.WALL: # če je že v umiranju, samo kolajdaš
-	# if hit_stray.current_state == hit_stray.States.DYING: # če je že v umiranju, samo kolajdaš
-		end_move()
-		return
-	
-	tween_color_change(hit_stray.stray_color)
-
-	# preverim sosede
-	var hit_stray_neighbors: Array = check_strays_neighbors(hit_stray)
-	
-	# naberem strayse za destrojat
-	var burst_speed_units_count = burst_speed / cock_ghost_speed_addon
-	var strays_to_destroy: Array = []
-	strays_to_destroy.append(hit_stray)
-	if not hit_stray_neighbors[0].empty():
-		for neighboring_stray in hit_stray_neighbors[0]: # še sosedi glede na moč bursta
-			if strays_to_destroy.size() < burst_speed_units_count or burst_speed_units_count == cocked_ghost_max_count:
-				strays_to_destroy.append(neighboring_stray)
-			else: break
-	
-	# jih destrojam
-	for stray in strays_to_destroy:
-		var stray_index = strays_to_destroy.find(stray)
-		stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
-		
-	end_move() # more bit za collision partikli zaradi smeri
-	
-	change_stat("hit_stray", strays_to_destroy.size()) # štetje, točke in energija glede na število uničenih straysov
-
 	
 func on_hit_player(hit_player: KinematicBody2D):
 	
@@ -891,36 +895,45 @@ func check_strays_neighbors(hit_stray: KinematicBody2D):
 
 		var all_neighboring_strays: Array = [] # vsi nabrani sosedi
 		var neighbors_checked: Array = [] # vsi sosedi, katerih sosede sem že preveril
-		var wall_strays_in_stack: Array
+		var white_neighbours: Array
 		var hit_direction = direction
 		
-		# prva runda ... sosede zadetega straya
+		# sosedi zadetega straya
 		var first_neighbors: Array = hit_stray.get_neighbor_strays_on_hit() # hit direction je zato da opredelim smer preverjanja sosedov
 		for first_neighbor in first_neighbors:
-			if not all_neighboring_strays.has(first_neighbor): # če še ni dodan med vse sosede
-				all_neighboring_strays.append(first_neighbor) # ... ga dodam med vse sosede
-		neighbors_checked.append(hit_stray) # zadeti stray gre med "že preverjene" 
+			# zaznam belega
+			if first_neighbor.current_state == first_neighbor.States.WALL:
+				if not white_neighbours.has(first_neighbor):
+					white_neighbours.append(first_neighbor)
+			# če še ni dodan med vse sosede ... ga dodam
+			if not all_neighboring_strays.has(first_neighbor):
+				all_neighboring_strays.append(first_neighbor) 
+		# zadeti stray je ravno preverjen
+		neighbors_checked.append(hit_stray)
 		
-		
-		# druga runda ... sosede vseh sosed
+		# sosedi vseh sosed (svi goli pa ko šta voli)
 		for neighbor in all_neighboring_strays:
-			
-			if not neighbors_checked.has(neighbor): # če še ni med "že preverjenimi" ...
-				var extra_neighbors: Array = neighbor.get_neighbor_strays_on_hit() # ... preverim še njegove sosede
+			# iz preverke izločim že preverjane in bele pixle
+			if not neighbors_checked.has(neighbor) and not white_neighbours.has(neighbor): 
+				# naberem sosede
+				var extra_neighbors: Array = neighbor.get_neighbor_strays_on_hit() 
+				# in jih preverim preverim še te sosede
 				for extra_neighbor in extra_neighbors:
-					if not all_neighboring_strays.has(extra_neighbor):  # če še ni dodan med vse sosede ...
-						# izločim wall strayse, ker njihovih sosed ne čekiram
-						if neighbor.current_state == neighbor.States.WALL:
-							wall_strays_in_stack.append(neighbor)
-						else:
-							all_neighboring_strays.append(extra_neighbor) # ... ga dodam med vse sosede
-				neighbors_checked.append(neighbor) # po nabirki ga dodam med preverjene sosede
+					# zaznam belega
+					if neighbor.current_state == neighbor.States.WALL:
+						if not white_neighbours.has(neighbor):
+							white_neighbours.append(neighbor)
+					# če še ni dodan med vse sosede ... ga dodam
+					if not all_neighboring_strays.has(extra_neighbor):
+						all_neighboring_strays.append(extra_neighbor)
+				# sosed je preverjen
+				neighbors_checked.append(neighbor)
 		
 		# hit stray izbrišem iz sosed, ker bo uničen posebej
 		if all_neighboring_strays.has(hit_stray): 
 			all_neighboring_strays.erase(hit_stray)
 			
-		return [all_neighboring_strays, wall_strays_in_stack]
+		return [all_neighboring_strays, white_neighbours]
 		
 
 func tween_color_change (new_color: Color):
@@ -1165,16 +1178,27 @@ func change_stat(stat_event: String, stat_value):
 			player_stats["burst_count"] += 1
 		# HITS ------------------------------------------------------------------------------------------------------------------
 		"hit_stray": # štetje, točke in energija glede na število uničenih straysov
-			var stack_strays_cleaned_count: int = stat_value
 			var points_to_gain: int = 0
 			var energy_to_gain: int = 0
+			# colored
+			var stack_strays_cleaned_count: int = stat_value[0]
 			for stray_in_row in stack_strays_cleaned_count:
 				points_to_gain += game_settings["color_picked_points"] * (stray_in_row + 1) # + 1 je da se izognem nuli
 				energy_to_gain += game_settings["color_picked_energy"] * (stray_in_row + 1)
 			player_stats["colors_collected"] += stack_strays_cleaned_count
-			player_stats["player_points"] += points_to_gain
 			player_stats["player_energy"] += energy_to_gain
+			# whites
+			var whites_eliminated_count: int = stat_value[1]
+			points_to_gain += whites_eliminated_count * game_settings["white_eliminated_points"]
+			player_stats["player_energy"] = player_max_energy
+			# vse skupaj
 			spawn_floating_tag(points_to_gain)
+		"white_eliminated":
+			player_stats["player_energy"] = player_max_energy
+			var points_to_gain: int = game_settings["white_eliminated_points"]
+			player_stats["player_points"] += points_to_gain
+			spawn_floating_tag(points_to_gain)
+
 		"hit_player": # točke glede na delež loserjevih točk, energija se resetira na 100%
 			var hit_player_current_points: int = stat_value
 			player_stats["player_energy"] = player_max_energy

@@ -81,6 +81,10 @@ script = ExtResource( 3 )
 
 [node name="PauseMenu" parent="GUI" instance=ExtResource( 20 )]
 visible = false
+__meta__ = {
+"_edit_horizontal_guides_": [ 112.0 ],
+"_edit_vertical_guides_": [ 640.0, 304.0, 976.0 ]
+}
 
 [node name="GameOver" type="Control" parent="GUI"]
 pause_mode = 2
