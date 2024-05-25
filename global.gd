@@ -298,15 +298,38 @@ func _on_control_hovered(control: Control):
 				
 func _on_control_focused(control: Control):
 	Global.sound_manager.play_gui_sfx("btn_focus_change")
+	
 	# check btn color fix
 	if control is CheckButton or control is HSlider or control.name == "RandomizeBtn" or control.name == "ResetBtn":
 		control.modulate = Color.white
-
+	
+	# barvanje select game gumbov
+	var select_game_btn_names: Array = ["TutorialBtn" ,"CleanerSBtn" ,"CleanerMBtn" ,"CleanerSBtn" ,"EraserBtn" ,"HandlerBtn" ,"DefenderBtn" ,"TheDuelBtn" ,"SweeperBtn"]
+	if select_game_btn_names.has(control.name):
+		var control_background_node: Control = control.get_parent().get_node("Background")
+		match control.name:
+			"TutorialBtn": pass
+			"CleanerSBtn": control_background_node.color = Global.color_blue
+			"CleanerMBtn": control_background_node.color = Global.color_blue
+			"CleanerLBtn": control_background_node.color = Global.color_blue
+			"EraserBtn": control_background_node.color = Global.color_green
+			"HandlerBtn": control_background_node.color = Global.color_green
+			"DefenderBtn": control_background_node.color = Global.color_green
+			"TheDuelBtn": control_background_node.color = Global.color_yellow
+			"SweeperBtn": control_background_node.color = Global.color_red
+				
+#		control.get_parent().modulate.a = 0
+		
 
 func _on_control_unfocused(control: Control):
 	
+	var select_game_btn_names: Array = ["TutorialBtn" ,"CleanerSBtn" ,"CleanerMBtn" ,"CleanerSBtn" ,"EraserBtn" ,"HandlerBtn" ,"DefenderBtn" ,"TheDuelBtn" ,"SweeprBtn"]
+	
 	if control is CheckButton or control is HSlider or control.name == "RandomizeBtn" or control.name == "ResetBtn":
 		control.modulate = color_gui_gray # Color.white
+	# barvanje select game gumbov
+	elif select_game_btn_names.has(control.name):
+		control.get_parent().get_node("Background").modulate = color_almost_black_pixel
 
 
 func grab_focus_no_sfx(control_to_focus: Control):

@@ -78,7 +78,6 @@ func open_gameover(gameover_reason: int):
 	
 	current_gameover_reason = gameover_reason
 	
-				
 	p1_final_stats = Global.game_manager.current_players_in_game[0].player_stats
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
@@ -127,8 +126,8 @@ func set_gameover_title():
 				selected_gameover_jingle = "lose_jingle"
 				name_input_label.text = "But still ... "
 		if score_is_ranking:
-			selected_gameover_title.modulate = Global.color_green	
-
+			selected_gameover_title.modulate = Global.color_green
+		
 		
 func set_duel_gameover_title():
 	
@@ -175,7 +174,6 @@ func set_duel_gameover_title():
 			
 func show_gameover_title():
 
-
 	visible = true
 	selected_gameover_title.visible = true
 	gameover_title_holder.modulate.a = 0
@@ -197,13 +195,20 @@ func show_gameover_title():
 func set_game_summary():
 
 	get_tree().set_pause(true) # setano čez celotno GO proceduro
-
-	# setam naslov stats tabele
+	
+	# main title obarvam glede na GO razlog ali ranking
+	var main_title: Label = $GameSummary/Title
+	if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED or score_is_ranking:
+		main_title.modulate = Global.color_green
+	else:
+		main_title.modulate = Global.color_red
+	
+	# title stats tabele
 	gameover_stats_title.text = "Your stats" # + str(Global.game_manager.game_data["game_name"]) + " stats"
 	
 	# game stats name
 	gameover_stat_game.text = "Game: " + str(Global.game_manager.game_data["game_name"])
-	gameover_stat_time.text = "Time used: " + str(Global.hud.game_timer.absolute_game_time)
+	gameover_stat_time.text = "Time used: " + Global.get_clock_time(Global.hud.game_timer.absolute_game_time)
 	if not Global.game_manager.game_data.has("level"):
 		gameover_stat_level.hide()
 	else:

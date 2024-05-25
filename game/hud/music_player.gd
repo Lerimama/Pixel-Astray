@@ -1,9 +1,10 @@
-extends Label
+extends HBoxContainer
 
 
-onready var on_icon: TextureRect = $OnIcon
-onready var off_icon: TextureRect = $OffIcon
 onready var game_music_bus_index: int = AudioServer.get_bus_index("GameMusic")
+onready var on_icon: TextureRect = $SpeakerIcon/OnIcon
+onready var off_icon: TextureRect = $SpeakerIcon/OffIcon
+onready var track_label: Label = $TrackLabel
 
 
 func _input(event: InputEvent) -> void:
@@ -18,8 +19,6 @@ func _input(event: InputEvent) -> void:
 	
 
 func _process(delta: float) -> void:
-	
-	text = "%02d" % Global.sound_manager.currently_playing_track_index
 	
 	if AudioServer.is_bus_mute(game_music_bus_index) or Global.sound_manager.game_music_set_to_off:
 		on_icon.visible = false

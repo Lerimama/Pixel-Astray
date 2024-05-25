@@ -2,7 +2,7 @@ extends Node
 
 
 enum Screens {MAIN_MENU, SELECT_GAME, ABOUT, SETTINGS, HIGHSCORES, SELECT_LEVEL}
-var current_screen # se določi z main animacije
+var current_screen = Screens.MAIN_MENU # se določi z main animacije
 
 var current_esc_hint: HBoxContainer
 var allow_ui_sfx: bool = false # za kontrolo defolt focus soundov
@@ -35,9 +35,10 @@ func _input(event: InputEvent) -> void:
 func _ready():
 	
 	$Settings/EscHint.modulate.a = 0
-	$SelectGame/EscHint.modulate.a = 0
 	$Highscores/EscHint.modulate.a = 0
 	$About/EscHint.modulate.a = 0
+	$SelectGame/EscHint.modulate.a = 0
+	$SelectLevel/EscHint.modulate.a = 0
 	
 	
 func open_with_intro(): # kliče main.gd -> home_in_intro()
@@ -75,7 +76,7 @@ func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drug
 	menu.visible = true
 	menu.modulate.a = 0
 	intro_viewport.gui_disable_input = true # dokler se predvaja mora biti, da skipanje deluje
-	
+
 	current_screen = Screens.MAIN_MENU
 	
 	Global.grab_focus_no_sfx($Menu/SelectGameBtn)
@@ -102,40 +103,48 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 	
 	match animation_name:
 		"select_game":
-			if animation_reversed("select_game"):
+			if animation_reversed(Screens.SELECT_GAME):
+#			if animation_reversed("select_game"):
+				Global.grab_focus_no_sfx($Menu/SelectGameBtn)
 				return
 			current_screen = Screens.SELECT_GAME
 			current_esc_hint = $SelectGame/EscHint
-			Global.grab_focus_no_sfx($SelectGame/GameBtns/TutorialBtn)
+			Global.grab_focus_no_sfx($SelectGame/GamesMenu/Tutorial/TutorialBtn)
 		"about":
-			if animation_reversed("about"):
+			if animation_reversed(Screens.ABOUT):
+#			if animation_reversed("about"):
+				Global.grab_focus_no_sfx($Menu/AboutBtn)
 				return
 			current_screen = Screens.ABOUT
 			current_esc_hint = $About/EscHint
 			Global.grab_focus_no_sfx($About/BackBtn)
 		"settings":
-			if animation_reversed("settings"):
+			if animation_reversed(Screens.SETTINGS):
+#			if animation_reversed("settings"):
+				Global.grab_focus_no_sfx($Menu/SettingsBtn)
 				return
 			current_screen = Screens.SETTINGS
 			current_esc_hint = $Settings/EscHint
 			Global.grab_focus_no_sfx($Settings/MenuMusicBtn)
 		"highscores":
-			if animation_reversed("highscores"):
+			if animation_reversed(Screens.HIGHSCORES):
+#			if animation_reversed("highscores"):
+				Global.grab_focus_no_sfx($Menu/HighscoresBtn)
 				return
 			current_screen = Screens.HIGHSCORES
 			current_esc_hint = $Highscores/EscHint
 			Global.grab_focus_no_sfx($Highscores/SweeperArrows/RightBtn)
-		#			Global.grab_focus_no_sfx($Highscores/BackBtn)
-		"play_game":
-			Global.main_node.home_out()
 		"select_level":
-			if animation_reversed("select_level"):
+			if animation_reversed(Screens.SELECT_LEVEL):
+#			if animation_reversed("select_level"):
 				current_screen = Screens.SELECT_GAME
 				Global.grab_focus_no_sfx($SelectGame/GameBtns/SweeperBtn)
 				return
 			current_screen = Screens.SELECT_LEVEL
 			current_esc_hint = $SelectLevel/EscHint
 			Global.grab_focus_no_sfx($"SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/01")
+		"play_game":
+			Global.main_node.home_out()
 		"play_level":
 			Global.main_node.home_out()
 	
@@ -144,16 +153,29 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 		hint_fade_in.tween_property(current_esc_hint, "modulate:a", 1, 0.32)
 		
 
-func animation_reversed(from_screen: String):
+func animation_reversed(from_screen: int):
 	
 	if animation_player.current_animation_position == 0: # pomeni, da je animacija v rikverc končana
 		current_esc_hint.modulate.a = 0
-		if from_screen == "select_level":
-			pass
-		else: # odpre se main menu ekran
-			menu_in()
-		
+			
+		# preverim s katerega ekrana je animirano še preden zamenjam na MAIN_MENU
+		match from_screen:
+			Screens.SELECT_GAME:
+				Global.grab_focus_no_sfx($Menu/SelectGameBtn)
+				menu_in()
+			Screens.ABOUT:
+				Global.grab_focus_no_sfx($Menu/AboutBtn)
+				menu_in()
+			Screens.SETTINGS:
+				Global.grab_focus_no_sfx($Menu/SettingsBtn)
+				menu_in()
+			Screens.HIGHSCORES:
+				Global.grab_focus_no_sfx($Menu/HighscoresBtn)
+				menu_in()
+			Screens.SELECT_LEVEL:
+				Global.grab_focus_no_sfx($SelectGame/GamesMenu/Sweeper/SweeperBtn)
 		return true
+			
 
 
 # MENU BTNZ ---------------------------------------------------------------------------------------------------

@@ -33,7 +33,7 @@ onready var instructions_popup: Control = $Popups/Instructions
 # header
 onready var game_timer: HBoxContainer = $Header/GameTimerHunds
 onready var highscore_label: Label = $Header/TopLineR/HighscoreLabel
-onready var music_player: Label = $Header/TopLineR/MusicPlayer
+onready var music_player: HBoxContainer = $Header/TopLineR/MusicPlayer
 # p1
 onready var p1_label: Label = $Header/TopLineL/PlayerLabel
 onready var p1_life_counter: HBoxContainer = $Header/TopLineL/LifeIcons
@@ -142,8 +142,7 @@ func _ready() -> void:
 					$Header/TopLineR/PlayerLineR/SkillHolder/TextureRect5, 
 					$Header/TopLineR/PlayerLineR/BurstHolder/TextureRect6])
 	# game stats
-	nodes_to_modulate.append_array([$Header/TopLineR/MusicPlayer/OnIcon, 
-					$Header/TopLineR/MusicPlayer/OffIcon,
+	nodes_to_modulate.append_array([$Header/TopLineR/MusicPlayer/SpeakerIcon,
 					$Footer/FooterLine/StraysLine/AstrayHolder/TextureRect3, 
 					$Footer/FooterLine/StraysLine/PickedHolder/TextureRect2])
 	for node in nodes_to_modulate:

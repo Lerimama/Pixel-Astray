@@ -1,11 +1,13 @@
 extends Control
 
-onready var sweeper_btn: Button = $GameBtns/SweeperBtn
+#onready var sweeper_btn: Button = $GameBtns/SweeperBtn
 onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
+onready var sweeper_btn: Button = $GamesMenu/Sweeper/SweeperBtn
 
 #onready var sweeper_level_count: int = sweeper_btns_holder.get_child_count()
 onready var sweeper_btns_holder: Control = $"../SelectLevel/LevelGrid/VBoxContainer/BtnsHolder" # za število ugank
-onready var sweeper_label: Label = $Sweeper/Label
+#onready var sweeper_label: Label = $Sweeper/Label
+onready var sweeper_label: Label = $GamesMenu/Sweeper/Label
 
 
 func _on_BackBtn_pressed() -> void:

@@ -15,9 +15,7 @@ var current_level: int = 0 # na štartu se kliče level up
 var levels_per_game: int = 1
 
 var step_in_progress: bool = false
-var wall_strays: Array = [] # rabim, ker se straysi spreminjajo v stene na dotik stene
 var available_home_spawn_positions: Array
-
 # neu
 var checking_for_engine_stalled: bool = false
 var engine_stalled_time_limit: float = 3 # več od časa koraka
@@ -84,6 +82,8 @@ func set_game():
 func start_game():
 	
 	Global.hud.game_timer.start_timer()
+	
+	Global.sound_manager.currently_playing_track_index = game_settings["game_track_index"]
 	Global.sound_manager.play_music("game_music")
 	
 	for player in current_players_in_game:
@@ -241,12 +241,7 @@ func stray_step():
 		stepping_direction = Vector2.DOWN # kasneje se seta glede na  izvorno stray straysa
 		# kdo stepa, kličem step in preverim kolajderja 
 		for stray in get_tree().get_nodes_in_group(Global.group_strays):
-#			yield(get_tree().create_timer(0), "timeout")
-			if not wall_strays.has(stray): # če stray ni del stene
-				var current_collider = stray.call_deferred("step", stepping_direction)
-				if current_collider:
-					check_stray_wall_collisions(stray, current_collider) # brez povezanosti na robu
-		
+			stray.call_deferred("step", stepping_direction)
 		# Global.sound_manager.play_sfx("stray_step") # ulomek je za pitch zvoka
 		lines_scrolled_count += 1
 		if lines_scrolled_count == 1: # v prvi 100% spawnam
@@ -369,30 +364,3 @@ func set_level_colors():
 
 	Global.hud.spawn_color_indicators(stage_indicator_colors) # barve pokažem v hudu	
 		
-
-# UTILITI -------------------------------------------------------------------------------------------------------------------------------
-
-
-func clean_strays_in_game():
-	# namen: dodan brisanje wall_strays arraya ... lahko bi poenotil
-	
-	for stray in get_tree().get_nodes_in_group(Global.group_strays):
-		if wall_strays.has(stray):
-			wall_strays.erase(stray)
-		
-		var stray_index: int = get_tree().get_nodes_in_group(Global.group_strays).find(stray)
-		stray.die(stray_index, get_tree().get_nodes_in_group(Global.group_strays).size())
-	
-	all_strays_died_alowed = true
-	
-	
-func check_stray_wall_collisions(current_stray: KinematicBody2D, current_collider: Node): # preverjanje, ko ne iščeš polnosti tal
-	
-	# prva runda ... kolajder tilemap (tla)
-	if current_collider.is_in_group(Global.group_tilemap):
-		wall_strays.append(current_stray)
-		current_stray.die_to_wall()
-	# druge runde ... kolajder stray in je rob tal
-	elif current_collider.is_in_group(Global.group_strays) and wall_strays.has(current_collider):
-		wall_strays.append(current_stray)
-		current_stray.die_to_wall()

@@ -84,6 +84,16 @@ func die(stray_in_stack_index: int, strays_in_stack: int):
 	# KVEFRI je v animaciji
 
 
+func check_collider_for_wall(collider_in_check: Node2D):
+	printt("čekiram", collider_in_check)
+	# prva runda ... kolajder tilemap (tla)
+	if collider_in_check.is_in_group(Global.group_tilemap):
+		die_to_wall()
+	# druge runde ... kolajder stray in je rob tal
+	elif collider_in_check.is_in_group(Global.group_strays) and collider_in_check != self:
+		if collider_in_check.current_state == collider_in_check.States.WALL:
+			die_to_wall()	
+	
 func step(step_direction: Vector2):
 	# namen: metanje ext collisiona za prepoznavanje stene in dodano zazih preverjanje pozicij
 	# namen: določanje smeri glede na tip straya
@@ -104,6 +114,7 @@ func step(step_direction: Vector2):
 	
 	var current_collider = detect_collision_in_direction(step_direction)
 	if current_collider:
+		check_collider_for_wall(current_collider)
 		return current_collider
 	
 	current_state = States.MOVING

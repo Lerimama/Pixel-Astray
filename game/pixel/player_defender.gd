@@ -1,18 +1,6 @@
-extends PlayerOrig
+extends Player
 
 
-var detect_touch_pause_time: float = 1
-var recheck_touch_pause_time: float = 5 # ker merim, kdaj si obkoljen za vedno, je to tudi čas pavze do GO klica ... more bit večje od časa stepanja
-var is_surrounded: bool
-var surrounded_player_strays: Array # za preverjanje prek večih preverjanj
-onready var touch_timer: Timer = $Touch/TouchTimer
-
-
-#func _physics_process(delta: float) -> void:
-#
-#	detect_touch()
-	
-	
 func idle_inputs():
 	# namen: odstranim SKILLED stanje, dodam surrounded setanje
 	
@@ -165,11 +153,11 @@ func burst():
 	yield(release_tween, "finished")		
 	# release pixel
 	current_state = States.BURSTING
-	#	burst_speed = current_ghost_count * cock_ghost_speed_addon
-	#	if current_ghost_count < cocked_ghost_max_count and not current_ghost_count == 0:
-	#		burst_speed = 2 * cock_ghost_speed_addon
-	#	else:
-	burst_speed = 3 * cock_ghost_speed_addon
+	if Global.game_manager.game_settings["full_power_mode"]:
+		#		burst_speed = 3 * cock_ghost_speed_addon
+		burst_speed = cocked_ghost_max_count * cock_ghost_speed_addon # maximalna možna hitrost
+	else:
+		burst_speed = current_ghost_count * cock_ghost_speed_addon
 	change_stat("burst_released", 1)
 	
 	
@@ -219,57 +207,6 @@ func play_sound(effect_for: String):
 			$Sounds/Skills/StoneSlide.play()
 		"teleport":
 			$Sounds/Skills/TeleportIn.play()
-	
-
-			
-func on_hit_stray(hit_stray: KinematicBody2D):
-	# namen: always full stack, tudi sprožanje čekiranja levelov, preverjanje straysov na podnu, on wall hit preusmeritev
-	# možno: plejer ostane bel
-	
-	if hit_stray.current_state == hit_stray.States.WALL:
-		on_hit_wall()
-		return
-		
-	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
-	play_sound("hit_stray")	
-	spawn_collision_particles()
-	shake_player_camera(burst_speed)			
-
-	if hit_stray.current_state == hit_stray.States.DYING or hit_stray.current_state == hit_stray.States.WALL: # če je že v umiranju, samo kolajdaš
-		end_move()
-		return
-	
-	# izklopim če začne bel
-	tween_color_change(hit_stray.stray_color)
-	
-	# preverim sosede
-	var hit_stray_neighbors: Array = check_strays_neighbors(hit_stray)
-	var all_neighboring_strays: Array = hit_stray_neighbors[0]
-	var white_strays_in_stack: Array = hit_stray_neighbors[1]
-	
-	# naberem strayse za destrojat
-	var burst_speed_units_count = burst_speed / cock_ghost_speed_addon
-	var strays_to_destroy: Array = []
-	strays_to_destroy.append(hit_stray)
-	# na seznam za destroj
-	if not all_neighboring_strays.empty():
-		for neighboring_stray in all_neighboring_strays: # še sosedi glede na moč bursta
-#			if strays_to_destroy.size() < burst_speed_units_count or burst_speed_units_count == cocked_ghost_max_count:
-#				strays_to_destroy.append(neighboring_stray)
-#			else: 
-#				break
-			strays_to_destroy.append(neighboring_stray)
-
-	# jih destrojam
-	for stray in strays_to_destroy:
-		var stray_index = strays_to_destroy.find(stray)
-		stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
-	
-	# stats
-	var strays_not_walls_count: int = strays_to_destroy.size() - white_strays_in_stack.size()
-	change_stat("hit_stray", [strays_not_walls_count, white_strays_in_stack.size()]) 
-				
-	end_move() # more bit za collision partikli zaradi smeri
 
 		
 func on_hit_wall():
@@ -323,7 +260,3 @@ func detect_touch():
 		is_surrounded = false # resetiram
 		touch_timer.start(detect_touch_pause_time)
 
-
-func _on_TouchTimer_timeout() -> void:
-	
-	detect_touch() # za GO

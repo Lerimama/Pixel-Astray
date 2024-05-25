@@ -34,11 +34,8 @@ func _input(event: InputEvent) -> void:
 			animation_player.play("tutorial_start")
 			
 			current_tutorial_stage = 0 # anti dablklik
+			Global.sound_manager.currently_playing_track_index = Global.game_manager.game_settings["game_track_index"]
 			Global.sound_manager.play_music("game_music")
-			Global.sound_manager.skip_track() # skipa prvi komad in zapleja drugega
-#			yield(get_tree().create_timer(1), "timeout")
-#			start_travel()
-#			print("in")
 			
 	elif current_tutorial_stage == TutorialStage.TRAVEL:
 		if Input.is_action_pressed("ui_up"):
@@ -62,7 +59,8 @@ func _ready() -> void:
 	mission_panel.visible = true
 	hud_guide.visible = true
 	hud_guide.modulate.a = 0
-		
+	
+	controls.visible = false	
 	travel_content.visible = false
 	collect_content.visible = false
 	multicollect_content.visible = false

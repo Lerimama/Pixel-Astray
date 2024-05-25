@@ -844,7 +844,6 @@ color = Color( 0.980392, 0.980392, 0.980392, 1 )
 polygon = PoolVector2Array( 8, 8, 16, 8, 16, 16, 8, 16 )
 
 [node name="Vision" type="Node2D" parent="."]
-visible = false
 
 [node name="VisionRay1" type="RayCast2D" parent="Vision"]
 position = Vector2( 0, -15.9 )

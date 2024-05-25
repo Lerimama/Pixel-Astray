@@ -52,6 +52,7 @@ var default_game_settings: Dictionary = {
 	"show_game_instructions": true,
 	"show_solution_hint": false, # sweeper reštve
 	"zoom_to_level_size": true,
+	"game_track_index": 0, # default muska
 }
 
 
@@ -260,11 +261,11 @@ func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE
-	var debug_game = Games.TUTORIAL
+#	var debug_game = Games.TUTORIAL
 #	var debug_game = Games.CLEANER_S
 #	var debug_game = Games.CLEANER_M
 #	var debug_game = Games.CLEANER_L
-#	var debug_game = Games.DEFENDER
+	var debug_game = Games.DEFENDER
 #	var debug_game = Games.ERASER
 #	var debug_game = Games.HANDLER
 #	var debug_game = Games.THE_DUEL
@@ -277,9 +278,9 @@ func set_game_data(selected_game) -> void:
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
 	# debug
-	game_settings["start_countdown"] = false
+#	game_settings["start_countdown"] = false
 #	game_settings["player_start_life"] = 1
-	game_settings["show_game_instructions"] = false
+#	game_settings["show_game_instructions"] = false
 		
 	match selected_game:
 		
@@ -353,9 +354,11 @@ func set_game_data(selected_game) -> void:
 			game_settings["cell_traveled_energy"] = 0
 			game_settings["position_indicators_on"] = false 
 			game_settings["strays_start_count"] = 1 # 1 v prvi spawn rundi
+			game_settings["full_power_mode"] = true
 			# debug
 #			game_settings["invading_pause_time"] = 0.3 # 1 v prvi spawn rundi
 #			game_settings["stray_to_spawn_round_range"] = [20, 30] # 1 v prvi spawn rundi
+			game_settings["game_track_index"] = 1
 		
 		Games.THE_DUEL: 
 			current_game_data = game_data_the_duel
@@ -374,6 +377,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["color_picked_points"] = 0
 			game_settings["cell_traveled_energy"] = 0
 			game_settings["cleaned_reward_points"] = 1 # ... izpiše se "SUCCESS!"
+			game_settings["game_track_index"] = 1
 			#
 			game_settings["lose_life_on_hit"] = true
 			game_settings["reburst_mode"] = true

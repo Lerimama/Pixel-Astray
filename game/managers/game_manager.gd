@@ -177,12 +177,33 @@ func set_game():
 	Global.current_tilemap.background_room.hide()
 
 
+func set_new_level(): 
+	
+	# in level spawn
+	respawn_wait_time *= game_data["respawn_wait_time_factor"]
+	respawn_strays_count = game_data["respawn_strays_count_grow"]
+	# level goal count
+	var higher_player_score: int = 0
+	for player in current_players_in_game:
+		if player.player_stats["player_points"] > higher_player_score:
+			higher_player_score = player.player_stats["player_points"]
+	game_data["level_goal_count"] += higher_player_score + game_data["level_goal_count_grow"]
+	# level start spawn
+	start_strays_spawn_count += game_data["strays_start_count_grow"]
+	if game_data["level"] == 2: # 2. level je prvi level ko se štarta zares
+		start_strays_spawn_count = game_settings["strays_start_count"]
+	# število spawnanih belih
+	spawn_white_stray_part += game_data["spawn_white_stray_part_factor"]
+	#	spawn_white_stray_part =  clamp(spawn_white_stray_part, 0, 0.5) # največ 50 posto, da jih možno
+
+
 # GAME LOOP --------------------------------------------------------------------------------------
 
 
 func start_game():
 	
 	Global.hud.game_timer.start_timer()
+	Global.sound_manager.currently_playing_track_index = game_settings["game_track_index"]
 	Global.sound_manager.play_music("game_music")
 	
 	for player in current_players_in_game:
@@ -510,28 +531,6 @@ func turn_random_strays_to_white():
 	else: # error
 		print("Error - no color to turn to wall")
 		return Color.white
-	
-
-func _change_strays_in_game_count(strays_count_change: int):
-	
-	strays_in_game_count += strays_count_change # in_game št. upošteva spawnanje in čiščenje (+ in -)
-	strays_in_game_count = clamp(0, strays_in_game_count, strays_in_game_count)
-	
-	if strays_count_change < 0: # cleaned št. upošteva samo čiščenje (+)
-		strays_cleaned_count += abs(strays_count_change)
-	if game_data.has("level") and not game_data["game"] == Profiles.Games.SWEEPER: # multi level game
-		# naberem število sten
-		var wall_strays_count: int = 0
-		for stray in get_tree().get_nodes_in_group(Global.group_strays): # nujno jih ponovno zajamem
-			if stray.current_state == stray.States.WALL:
-				wall_strays_count += 1
-		# če ostajajo samo še stene ali pa ni straysa nobenega več
-		if strays_in_game_count == 0: 
-		#		if strays_in_game_count == wall_strays_count or strays_in_game_count == 0: 
-			upgrade_level("cleaned")
-	else:
-		if strays_in_game_count == 0: 
-			game_over(GameoverReason.CLEANED)	
 
 	
 func stop_stray_spawning():
@@ -573,24 +572,26 @@ func upgrade_level(level_upgrade_reason: String):
 		respawn_timer.start(first_respawn_time)
 	
 	
-func set_new_level(): 
+func _change_strays_in_game_count(strays_count_change: int):
 	
-	# in level spawn
-	respawn_wait_time *= game_data["respawn_wait_time_factor"]
-	respawn_strays_count = game_data["respawn_strays_count_grow"]
-	# level goal count
-	var higher_player_score: int = 0
-	for player in current_players_in_game:
-		if player.player_stats["player_points"] > higher_player_score:
-			higher_player_score = player.player_stats["player_points"]
-	game_data["level_goal_count"] += higher_player_score + game_data["level_goal_count_grow"]
-	# level start spawn
-	start_strays_spawn_count += game_data["strays_start_count_grow"]
-	if game_data["level"] == 2: # 2. level je prvi level ko se štarta zares
-		start_strays_spawn_count = game_settings["strays_start_count"]
-	# število spawnanih belih
-	spawn_white_stray_part += game_data["spawn_white_stray_part_factor"]
-	#	spawn_white_stray_part =  clamp(spawn_white_stray_part, 0, 0.5) # največ 50 posto, da jih možno
+	strays_in_game_count += strays_count_change # in_game št. upošteva spawnanje in čiščenje (+ in -)
+	strays_in_game_count = clamp(0, strays_in_game_count, strays_in_game_count)
+	
+	if strays_count_change < 0: # cleaned št. upošteva samo čiščenje (+)
+		strays_cleaned_count += abs(strays_count_change)
+	if game_data.has("level") and not game_data["game"] == Profiles.Games.SWEEPER: # multi level game
+		# naberem število sten
+		var wall_strays_count: int = 0
+		for stray in get_tree().get_nodes_in_group(Global.group_strays): # nujno jih ponovno zajamem
+			if stray.current_state == stray.States.WALL:
+				wall_strays_count += 1
+		# če ostajajo samo še stene ali pa ni straysa nobenega več
+		if strays_in_game_count == 0: 
+		#		if strays_in_game_count == wall_strays_count or strays_in_game_count == 0: 
+			upgrade_level("cleaned")
+	else:
+		if strays_in_game_count == 0: 
+			game_over(GameoverReason.CLEANED)	
 
 	
 # SIGNALI --------------------------------------------------------------------------------------------	

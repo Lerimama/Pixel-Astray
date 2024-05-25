@@ -105,6 +105,9 @@ anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 720 )
 theme = ExtResource( 2 )
 script = ExtResource( 5 )
+__meta__ = {
+"_edit_vertical_guides_": [ 640.0, 1280.0, 1248.0, 32.0, 320.0, 960.0 ]
+}
 
 [node name="Popups" type="Control" parent="."]
 anchor_right = 1.0
@@ -295,6 +298,7 @@ margin_bottom = 29.0
 custom_constants/separation = 16
 
 [node name="PlayerLabel" type="Label" parent="Header/TopLineL"]
+visible = false
 margin_right = 24.0
 margin_bottom = 22.0
 size_flags_vertical = 8
@@ -307,9 +311,8 @@ __meta__ = {
 }
 
 [node name="LifeIcons" type="HBoxContainer" parent="Header/TopLineL"]
-margin_left = 40.0
 margin_top = 3.0
-margin_right = 92.0
+margin_right = 52.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 19 )
 size_flags_vertical = 8
@@ -370,9 +373,9 @@ margin_bottom = 16.0
 texture = SubResource( 123 )
 
 [node name="EnergyBar" type="HBoxContainer" parent="Header/TopLineL"]
-margin_left = 108.0
+margin_left = 68.0
 margin_top = 3.0
-margin_right = 172.0
+margin_right = 132.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 19 )
 size_flags_vertical = 8
@@ -400,8 +403,8 @@ texture_over = SubResource( 126 )
 texture_progress = SubResource( 132 )
 
 [node name="ColorHolder" type="HBoxContainer" parent="Header/TopLineL"]
-margin_left = 188.0
-margin_right = 226.0
+margin_left = 148.0
+margin_right = 186.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
@@ -507,8 +510,8 @@ __meta__ = {
 }
 
 [node name="PointsHolder" type="HBoxContainer" parent="Header/TopLineL"]
-margin_left = 242.0
-margin_right = 334.0
+margin_left = 202.0
+margin_right = 294.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 22 )
 size_flags_vertical = 8
@@ -545,47 +548,60 @@ __meta__ = {
 }
 
 [node name="GameTimerHunds" parent="Header" instance=ExtResource( 11 )]
-margin_left = 588.0
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -94.0
 margin_top = -3.0
-margin_right = 692.0
+margin_right = 10.0
 margin_bottom = 29.0
 
 [node name="TopLineR" type="HBoxContainer" parent="Header"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -568.0
+margin_left = -608.0
 margin_top = 7.0
 margin_right = -30.0
 margin_bottom = 29.0
 grow_horizontal = 0
 alignment = 2
 
-[node name="MusicPlayer" type="Label" parent="Header/TopLineR"]
-margin_right = 46.0
+[node name="MusicPlayer" type="HBoxContainer" parent="Header/TopLineR"]
+margin_right = 68.0
 margin_bottom = 22.0
-rect_min_size = Vector2( 46, 0 )
-text = "00"
-align = 2
+custom_constants/separation = 6
 script = ExtResource( 1 )
-__meta__ = {
-"_editor_description_": ""
-}
 
-[node name="OnIcon" type="TextureRect" parent="Header/TopLineR/MusicPlayer"]
+[node name="SpeakerIcon" type="Control" parent="Header/TopLineR/MusicPlayer"]
+margin_right = 16.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 16, 14 )
+
+[node name="OnIcon" type="TextureRect" parent="Header/TopLineR/MusicPlayer/SpeakerIcon"]
 margin_top = 3.0
 margin_right = 14.0
 margin_bottom = 19.0
 texture = SubResource( 148 )
 
-[node name="OffIcon" type="TextureRect" parent="Header/TopLineR/MusicPlayer"]
+[node name="OffIcon" type="TextureRect" parent="Header/TopLineR/MusicPlayer/SpeakerIcon"]
 margin_top = 3.0
 margin_right = 14.0
 margin_bottom = 19.0
 texture = SubResource( 146 )
 
+[node name="TrackLabel" type="Label" parent="Header/TopLineR/MusicPlayer"]
+margin_left = 22.0
+margin_right = 68.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 46, 0 )
+size_flags_horizontal = 3
+text = "Til"
+__meta__ = {
+"_editor_description_": ""
+}
+
 [node name="HighscoreLabel" type="Label" parent="Header/TopLineR"]
-margin_left = 58.0
-margin_right = 196.0
+margin_left = 98.0
+margin_right = 236.0
 margin_bottom = 22.0
 grow_horizontal = 0
 size_flags_horizontal = 10
@@ -597,8 +613,8 @@ __meta__ = {
 }
 
 [node name="PlayerLineR" type="HBoxContainer" parent="Header/TopLineR"]
-margin_left = 200.0
-margin_right = 538.0
+margin_left = 240.0
+margin_right = 578.0
 margin_bottom = 22.0
 grow_horizontal = 0
 size_flags_horizontal = 11

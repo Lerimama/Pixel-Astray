@@ -12,9 +12,9 @@ func _ready() -> void:
 	
 	Global.main_node = self
 	
-#	home_in_intro()
+	home_in_intro()
 #	home_in_no_intro()
-	game_in()
+#	game_in()
 
 
 #func _process(delta: float) -> void:

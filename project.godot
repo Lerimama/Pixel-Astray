@@ -29,7 +29,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://game/tilemaps/game_tilemap.gd"
 }, {
-"base": "PlayerOrig",
+"base": "KinematicBody2D",
 "class": "Player",
 "language": "GDScript",
 "path": "res://game/pixel/player.gd"
@@ -37,7 +37,7 @@ _global_script_classes=[ {
 "base": "KinematicBody2D",
 "class": "PlayerOrig",
 "language": "GDScript",
-"path": "res://game/pixel/player_class.gd"
+"path": "res://_obs/player_class.gd"
 }, {
 "base": "KinematicBody2D",
 "class": "Stray",
@@ -71,6 +71,7 @@ gdscript/warnings/unassigned_variable=false
 gdscript/warnings/unused_variable=false
 gdscript/warnings/unused_argument=false
 gdscript/warnings/narrowing_conversion=false
+gdscript/warnings/unused_signal=false
 gdscript/warnings/return_value_discarded=false
 gdscript/warnings/integer_division=false
 

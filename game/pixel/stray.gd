@@ -86,7 +86,6 @@ func die(stray_in_stack_index: int, strays_in_stack_count: int):
 	# na koncu animacije sledi KVEFRI in ostalo
 	
 
-
 func die_to_wall():
 	
 	current_state = States.WALL

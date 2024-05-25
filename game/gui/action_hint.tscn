@@ -179,10 +179,9 @@ align = 1
 
 [node name="KEY" type="Label" parent="."]
 margin_left = 52.0
-margin_top = 1.0
 margin_right = 85.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 0, 19 )
+margin_bottom = 21.0
+rect_min_size = Vector2( 0, 21 )
 theme = SubResource( 324 )
 custom_fonts/font = ExtResource( 5 )
 text = "ESC"
