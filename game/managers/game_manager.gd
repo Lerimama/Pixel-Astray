@@ -549,7 +549,8 @@ func upgrade_level(level_upgrade_reason: String):
 	randomize()
 	game_data["level"] += 1 # številka novega levela 
 	respawn_timer.stop()
-	Global.hud.level_up_popup_in(game_data["level"])
+	if game_settings["level_popup_on"]:
+		Global.hud.level_up_popup_in(game_data["level"])
 	# reset players
 	for player in current_players_in_game:
 		player.end_move()
@@ -562,8 +563,9 @@ func upgrade_level(level_upgrade_reason: String):
 		clean_strays_in_game() # puca vse v igri
 		yield(self, "all_strays_died") # ko so vsi iz igre grem naprej
 	
-	# start new level
-	Global.hud.level_up_popup_out()
+	# new level
+	if game_settings["level_popup_on"]:
+		Global.hud.level_up_popup_out()
 	set_strays() 
 	get_tree().call_group(Global.group_players, "set_physics_process", true)
 	level_upgrade_in_progress = false

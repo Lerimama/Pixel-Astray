@@ -295,7 +295,8 @@ func upgrade_level(level_upgrade_reason: String):
 
 	if current_level > 1:
 		#reset players
-		Global.hud.level_up_popup_in(current_level)
+		if game_settings["level_popup_on"]:
+			Global.hud.level_up_popup_in(current_level)
 		for player in current_players_in_game:
 			player.end_move()		
 			if level_upgrade_reason == "cleaned":
@@ -309,7 +310,8 @@ func upgrade_level(level_upgrade_reason: String):
 		yield(self, "all_strays_died") # ko so vsi iz igre grem naprej
 
 		# new level
-		Global.hud.level_up_popup_out()
+		if game_settings["level_popup_on"]:
+			Global.hud.level_up_popup_out()
 		get_tree().call_group(Global.group_players, "set_physics_process", true)	
 	else:
 		set_new_level() 

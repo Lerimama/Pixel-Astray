@@ -566,7 +566,7 @@ grow_horizontal = 0
 alignment = 2
 
 [node name="MusicPlayer" type="HBoxContainer" parent="Header/TopLineR"]
-margin_right = 68.0
+margin_right = 90.0
 margin_bottom = 22.0
 custom_constants/separation = 6
 script = ExtResource( 1 )
@@ -590,11 +590,11 @@ texture = SubResource( 146 )
 
 [node name="TrackLabel" type="Label" parent="Header/TopLineR/MusicPlayer"]
 margin_left = 22.0
-margin_right = 68.0
+margin_right = 90.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 46, 0 )
 size_flags_horizontal = 3
-text = "Til"
+text = "%Title"
 __meta__ = {
 "_editor_description_": ""
 }

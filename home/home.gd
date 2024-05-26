@@ -138,11 +138,11 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 			if animation_reversed(Screens.SELECT_LEVEL):
 #			if animation_reversed("select_level"):
 				current_screen = Screens.SELECT_GAME
-				Global.grab_focus_no_sfx($SelectGame/GameBtns/SweeperBtn)
+				Global.grab_focus_no_sfx($SelectGame/GamesMenu/Sweeper/SweeperBtn)
 				return
 			current_screen = Screens.SELECT_LEVEL
 			current_esc_hint = $SelectLevel/EscHint
-			Global.grab_focus_no_sfx($"SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/01")
+			Global.grab_focus_no_sfx($SelectLevel/LevelGrid/BtnsHolder/Btn01)
 		"play_game":
 			Global.main_node.home_out()
 		"play_level":

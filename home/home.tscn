@@ -19,10 +19,10 @@
 [ext_resource path="res://home/select_level.gd" type="Script" id=17]
 [ext_resource path="res://assets/theme/color_theme_spectrum.png" type="Texture" id=18]
 [ext_resource path="res://assets/theme/font_big.tres" type="DynamicFont" id=19]
-[ext_resource path="res://panel_menu.tres" type="StyleBox" id=20]
 [ext_resource path="res://game/gui/highscore_table.tscn" type="PackedScene" id=21]
 [ext_resource path="res://game/gui/controls_scheme.tscn" type="PackedScene" id=22]
 [ext_resource path="res://game/gui/shortcut_line.tscn" type="PackedScene" id=23]
+[ext_resource path="res://assets/theme/box_game_btn_focus.tres" type="StyleBox" id=24]
 
 [sub_resource type="StyleBoxEmpty" id=208]
 
@@ -367,12 +367,11 @@ region = Rect2( 9, 22, 6, 10 )
 atlas = ExtResource( 2 )
 region = Rect2( 31, 22, 6, 10 )
 
-[sub_resource type="StyleBoxEmpty" id=151]
-
 [sub_resource type="StyleBoxEmpty" id=478]
 
-[sub_resource type="StyleBoxFlat" id=274]
-bg_color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+[sub_resource type="StyleBoxEmpty" id=151]
+
+[sub_resource type="StyleBoxEmpty" id=479]
 
 [sub_resource type="StyleBoxFlat" id=279]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
@@ -2879,88 +2878,6 @@ custom_fonts/font = ExtResource( 14 )
 text = "Find a way to collect all colors in one move. Lorem find a way to collect all colors."
 autowrap = true
 
-[node name="CleanerAlt" type="Panel" parent="SelectGame"]
-visible = false
-margin_left = 247.0
-margin_top = 144.0
-margin_right = 647.0
-margin_bottom = 336.0
-rect_min_size = Vector2( 128, 128 )
-custom_styles/panel = ExtResource( 20 )
-
-[node name="Title" type="Label" parent="SelectGame/CleanerAlt"]
-anchor_right = 1.0
-margin_left = 32.0
-margin_top = 22.0
-margin_right = -31.0
-margin_bottom = 44.0
-text = "Welcome to the cleaners"
-
-[node name="Label" type="Label" parent="SelectGame/CleanerAlt"]
-anchor_right = 1.0
-margin_left = 33.0
-margin_top = 56.0
-margin_right = -199.0
-margin_bottom = 160.0
-custom_fonts/font = ExtResource( 14 )
-text = "Tick-tick-tock, clean the block! Choose the size that best fits you."
-autowrap = true
-
-[node name="CleanerSBtn" type="Button" parent="SelectGame/CleanerAlt"]
-margin_left = 241.0
-margin_top = 63.0
-margin_right = 368.0
-margin_bottom = 103.0
-focus_neighbour_top = NodePath("../../GamesMenu/Tutorial/TutorialBtn")
-mouse_default_cursor_shape = 2
-custom_styles/hover = ExtResource( 9 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 9 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
-disabled = true
-text = "SIZE S"
-flat = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="CleanerMBtn" type="Button" parent="SelectGame/CleanerAlt"]
-margin_left = 241.0
-margin_top = 61.0
-margin_right = 368.0
-margin_bottom = 171.0
-mouse_default_cursor_shape = 2
-custom_styles/hover = ExtResource( 9 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 9 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
-disabled = true
-text = "SIZE M"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="CleanerLBtn" type="Button" parent="SelectGame/CleanerAlt"]
-margin_left = 241.0
-margin_top = 128.0
-margin_right = 368.0
-margin_bottom = 168.0
-focus_neighbour_bottom = NodePath("../../GamesMenu/Tutorial/TutorialBtn")
-mouse_default_cursor_shape = 2
-custom_styles/hover = ExtResource( 9 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 9 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
-disabled = true
-text = "SIZE L"
-flat = true
-__meta__ = {
-"_editor_description_": ""
-}
-
 [node name="GamesMenu" type="Control" parent="SelectGame"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -2969,13 +2886,11 @@ margin_top = 144.0
 margin_right = -7.99988
 margin_bottom = -56.0
 theme = ExtResource( 15 )
-script = ExtResource( 13 )
 
-[node name="Tutorial" type="Panel" parent="SelectGame/GamesMenu"]
+[node name="Tutorial" type="Control" parent="SelectGame/GamesMenu"]
 margin_right = 232.0
 margin_bottom = 192.0
 rect_pivot_offset = Vector2( 40, 8 )
-custom_styles/panel = ExtResource( 20 )
 
 [node name="Background" type="ColorRect" parent="SelectGame/GamesMenu/Tutorial"]
 anchor_right = 1.0
@@ -3003,17 +2918,17 @@ autowrap = true
 [node name="TutorialBtn" type="Button" parent="SelectGame/GamesMenu/Tutorial"]
 margin_left = 32.0
 margin_top = 120.0
-margin_right = 184.0
+margin_right = 200.0
 margin_bottom = 160.0
 grow_horizontal = 0
 grow_vertical = 0
-focus_neighbour_left = NodePath("../../Cleaner/CleanerLBtn")
+focus_neighbour_left = NodePath("../../Cleaner/CleanerSBtn")
 focus_neighbour_top = NodePath("../../../BackBtn")
-focus_neighbour_bottom = NodePath("../../Neverending/EraserBtn")
+focus_neighbour_bottom = NodePath("../../Timeless/EraserBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = ExtResource( 9 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 9 )
+custom_styles/hover = ExtResource( 24 )
+custom_styles/pressed = ExtResource( 24 )
+custom_styles/focus = ExtResource( 24 )
 custom_styles/disabled = SubResource( 478 )
 custom_styles/normal = ExtResource( 9 )
 text = "LEARN ..."
@@ -3021,12 +2936,11 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Cleaner" type="Panel" parent="SelectGame/GamesMenu"]
+[node name="Cleaner" type="Control" parent="SelectGame/GamesMenu"]
 margin_left = 239.0
 margin_right = 639.0
 margin_bottom = 192.0
 rect_min_size = Vector2( 128, 128 )
-custom_styles/panel = ExtResource( 20 )
 
 [node name="Background" type="ColorRect" parent="SelectGame/GamesMenu/Cleaner"]
 anchor_right = 1.0
@@ -3059,9 +2973,9 @@ margin_bottom = 160.0
 focus_neighbour_top = NodePath("../../../BackBtn")
 focus_neighbour_bottom = NodePath("../../TheDuel/TheDuelBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = ExtResource( 9 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 9 )
+custom_styles/hover = ExtResource( 24 )
+custom_styles/pressed = ExtResource( 24 )
+custom_styles/focus = ExtResource( 24 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "SIZE S"
@@ -3077,9 +2991,9 @@ margin_bottom = 160.0
 focus_neighbour_top = NodePath("../../../BackBtn")
 focus_neighbour_bottom = NodePath("../../TheDuel/TheDuelBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = ExtResource( 9 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 9 )
+custom_styles/hover = ExtResource( 24 )
+custom_styles/pressed = ExtResource( 24 )
+custom_styles/focus = ExtResource( 24 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "SIZE M"
@@ -3096,9 +3010,9 @@ focus_neighbour_top = NodePath("../../../BackBtn")
 focus_neighbour_right = NodePath("../../Tutorial/TutorialBtn")
 focus_neighbour_bottom = NodePath("../../TheDuel/TheDuelBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = ExtResource( 9 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 9 )
+custom_styles/hover = ExtResource( 24 )
+custom_styles/pressed = ExtResource( 24 )
+custom_styles/focus = ExtResource( 24 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "SIZE L"
@@ -3106,19 +3020,18 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Neverending" type="Panel" parent="SelectGame/GamesMenu"]
+[node name="Timeless" type="Control" parent="SelectGame/GamesMenu"]
 margin_top = 200.0
 margin_right = 232.0
 margin_bottom = 464.0
 rect_min_size = Vector2( 128, 128 )
-custom_styles/panel = ExtResource( 20 )
 
-[node name="Background" type="ColorRect" parent="SelectGame/GamesMenu/Neverending"]
+[node name="Background" type="ColorRect" parent="SelectGame/GamesMenu/Timeless"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Title" type="Label" parent="SelectGame/GamesMenu/Neverending"]
+[node name="Title" type="Label" parent="SelectGame/GamesMenu/Timeless"]
 anchor_right = 1.0
 margin_left = 32.0
 margin_top = 22.0
@@ -3126,7 +3039,7 @@ margin_right = -32.0
 margin_bottom = 44.0
 text = "Chroma crisis!"
 
-[node name="Label" type="Label" parent="SelectGame/GamesMenu/Neverending"]
+[node name="Label" type="Label" parent="SelectGame/GamesMenu/Timeless"]
 anchor_right = 1.0
 margin_left = 32.0
 margin_top = 56.0
@@ -3136,17 +3049,18 @@ custom_fonts/font = ExtResource( 14 )
 text = "Everlasting color clash!"
 autowrap = true
 
-[node name="EraserBtn" type="Button" parent="SelectGame/GamesMenu/Neverending"]
+[node name="EraserBtn" type="Button" parent="SelectGame/GamesMenu/Timeless"]
 anchor_right = 1.0
 margin_left = 32.0
 margin_top = 96.0
 margin_right = -32.0
 margin_bottom = 136.0
 focus_neighbour_left = NodePath("../../TheDuel/TheDuelBtn")
+focus_neighbour_right = NodePath("../../TheDuel/TheDuelBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = ExtResource( 9 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 9 )
+custom_styles/hover = ExtResource( 24 )
+custom_styles/pressed = ExtResource( 24 )
+custom_styles/focus = ExtResource( 24 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "ERASER"
@@ -3154,16 +3068,17 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="HandlerBtn" type="Button" parent="SelectGame/GamesMenu/Neverending"]
+[node name="HandlerBtn" type="Button" parent="SelectGame/GamesMenu/Timeless"]
 anchor_right = 1.0
 margin_left = 32.0
 margin_top = 144.0
 margin_right = -32.0
 margin_bottom = 184.0
+focus_neighbour_right = NodePath("../../Sweeper/SweeperBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = ExtResource( 9 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 9 )
+custom_styles/hover = ExtResource( 24 )
+custom_styles/pressed = ExtResource( 24 )
+custom_styles/focus = ExtResource( 24 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "HANDLER"
@@ -3171,7 +3086,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="DefenderBtn" type="Button" parent="SelectGame/GamesMenu/Neverending"]
+[node name="DefenderBtn" type="Button" parent="SelectGame/GamesMenu/Timeless"]
 anchor_right = 1.0
 margin_left = 32.0
 margin_top = 192.0
@@ -3180,9 +3095,9 @@ margin_bottom = 232.0
 focus_neighbour_left = NodePath("../../Sweeper/SweeperBtn")
 focus_neighbour_bottom = NodePath("../../../BackBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = ExtResource( 9 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 9 )
+custom_styles/hover = ExtResource( 24 )
+custom_styles/pressed = ExtResource( 24 )
+custom_styles/focus = ExtResource( 24 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "DEFENDER"
@@ -3190,13 +3105,12 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="TheDuel" type="Panel" parent="SelectGame/GamesMenu"]
+[node name="TheDuel" type="Control" parent="SelectGame/GamesMenu"]
 margin_left = 240.0
 margin_top = 200.0
 margin_right = 640.0
 margin_bottom = 328.0
 rect_min_size = Vector2( 128, 128 )
-custom_styles/panel = ExtResource( 20 )
 
 [node name="Background" type="ColorRect" parent="SelectGame/GamesMenu/TheDuel"]
 anchor_right = 1.0
@@ -3228,13 +3142,14 @@ margin_left = -176.0
 margin_top = 56.0
 margin_right = -32.0
 margin_bottom = 96.0
-focus_neighbour_top = NodePath("../../Cleaner/CleanerLBtn")
-focus_neighbour_right = NodePath("../../Neverending/EraserBtn")
+focus_neighbour_left = NodePath("../../Timeless/EraserBtn")
+focus_neighbour_top = NodePath("../../Cleaner/CleanerSBtn")
+focus_neighbour_right = NodePath("../../Timeless/EraserBtn")
 focus_neighbour_bottom = NodePath("../../Sweeper/SweeperBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = ExtResource( 9 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 9 )
+custom_styles/hover = ExtResource( 24 )
+custom_styles/pressed = ExtResource( 24 )
+custom_styles/focus = ExtResource( 24 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "THE DUEL"
@@ -3242,13 +3157,12 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Sweeper" type="Panel" parent="SelectGame/GamesMenu"]
+[node name="Sweeper" type="Control" parent="SelectGame/GamesMenu"]
 margin_left = 240.0
 margin_top = 336.0
 margin_right = 640.0
 margin_bottom = 464.0
 rect_min_size = Vector2( 128, 128 )
-custom_styles/panel = ExtResource( 20 )
 
 [node name="Background" type="ColorRect" parent="SelectGame/GamesMenu/Sweeper"]
 anchor_right = 1.0
@@ -3278,12 +3192,13 @@ margin_left = 200.0
 margin_top = 56.0
 margin_right = -32.0
 margin_bottom = 96.0
-focus_neighbour_right = NodePath("../../Neverending/DefenderBtn")
+focus_neighbour_left = NodePath("../../Timeless/EraserBtn")
+focus_neighbour_right = NodePath("../../Timeless/EraserBtn")
 focus_neighbour_bottom = NodePath("../../../BackBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = ExtResource( 9 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 9 )
+custom_styles/hover = ExtResource( 24 )
+custom_styles/pressed = ExtResource( 24 )
+custom_styles/focus = ExtResource( 24 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
 text = "SWEEPER"
@@ -3301,7 +3216,7 @@ margin_bottom = 98.0
 rect_min_size = Vector2( 16, 16 )
 focus_neighbour_top = NodePath("../GamesMenu/Sweeper/SweeperBtn")
 focus_neighbour_right = NodePath("../GamesMenu/Tutorial/TutorialBtn")
-focus_neighbour_bottom = NodePath("../GamesMenu/Cleaner/CleanerLBtn")
+focus_neighbour_bottom = NodePath("../GamesMenu/Cleaner/CleanerSBtn")
 mouse_default_cursor_shape = 2
 texture_normal = SubResource( 195 )
 texture_hover = SubResource( 196 )
@@ -3352,405 +3267,295 @@ margin_left = 8.0
 margin_top = 136.0
 margin_right = 568.0
 margin_bottom = 608.0
-custom_styles/panel = SubResource( 274 )
+custom_styles/panel = SubResource( 479 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SelectLevel/LevelGrid"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 24.0
-margin_top = 24.0
-margin_right = -24.0
-margin_bottom = -24.0
-custom_constants/separation = 20
-
-[node name="Subtitle" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer"]
-margin_right = 512.0
-margin_bottom = 18.0
+[node name="Subtitle" type="Label" parent="SelectLevel/LevelGrid"]
+margin_top = 8.0
+margin_right = 632.0
+margin_bottom = 26.0
 custom_fonts/font = ExtResource( 14 )
 text = "Find a way to collect all colors in one move."
 autowrap = true
 
-[node name="BtnsHolder" type="HFlowContainer" parent="SelectLevel/LevelGrid/VBoxContainer"]
-margin_top = 38.0
-margin_right = 512.0
-margin_bottom = 386.0
+[node name="BtnsHolder" type="HFlowContainer" parent="SelectLevel/LevelGrid"]
+margin_top = 48.0
+margin_right = 616.0
+margin_bottom = 476.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/vseparation = 8
 custom_constants/hseparation = 8
 
-[node name="01" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
-margin_right = 165.0
-margin_bottom = 105.0
-rect_min_size = Vector2( 160, 105 )
+[node name="Btn01" type="Button" parent="SelectLevel/LevelGrid/BtnsHolder"]
+margin_right = 200.0
+margin_bottom = 96.0
+rect_min_size = Vector2( 160, 96 )
 rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
-size_flags_vertical = 2
+size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-custom_styles/hover = ExtResource( 9 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 9 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
 text = "01"
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/01"]
-visible = false
+[node name="Background" type="ColorRect" parent="SelectLevel/LevelGrid/BtnsHolder/Btn01"]
+show_behind_parent = true
 anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Duel"
+anchor_bottom = 1.0
+rect_min_size = Vector2( 0, 101 )
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/01"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Collect as many points as you can"
-autowrap = true
-
-[node name="02" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
-margin_left = 173.0
-margin_right = 338.0
-margin_bottom = 105.0
-rect_min_size = Vector2( 160, 105 )
+[node name="Btn02" type="Button" parent="SelectLevel/LevelGrid/BtnsHolder"]
+margin_left = 208.0
+margin_right = 408.0
+margin_bottom = 96.0
+rect_min_size = Vector2( 160, 96 )
 rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-custom_styles/hover = ExtResource( 9 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 9 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
 text = "02"
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/02"]
-visible = false
+[node name="Background" type="ColorRect" parent="SelectLevel/LevelGrid/BtnsHolder/Btn02"]
+show_behind_parent = true
 anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Duel"
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/02"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Collect as many points as you can"
-autowrap = true
-
-[node name="03" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
-margin_left = 346.0
-margin_right = 511.0
-margin_bottom = 105.0
-rect_min_size = Vector2( 160, 105 )
+[node name="Btn03" type="Button" parent="SelectLevel/LevelGrid/BtnsHolder"]
+margin_left = 416.0
+margin_right = 616.0
+margin_bottom = 96.0
+rect_min_size = Vector2( 160, 96 )
 rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-custom_styles/hover = ExtResource( 9 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 9 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
 text = "03"
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/03"]
-visible = false
+[node name="Background" type="ColorRect" parent="SelectLevel/LevelGrid/BtnsHolder/Btn03"]
+show_behind_parent = true
 anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Duel"
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/03"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Collect as many points as you can"
-autowrap = true
-
-[node name="04" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
-margin_top = 113.0
-margin_right = 165.0
-margin_bottom = 218.0
-rect_min_size = Vector2( 160, 105 )
+[node name="Btn04" type="Button" parent="SelectLevel/LevelGrid/BtnsHolder"]
+margin_top = 104.0
+margin_right = 200.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 160, 96 )
 rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-custom_styles/hover = ExtResource( 9 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 9 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
 text = "04"
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/04"]
-visible = false
+[node name="Background" type="ColorRect" parent="SelectLevel/LevelGrid/BtnsHolder/Btn04"]
+show_behind_parent = true
 anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Duel"
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/04"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Collect as many points as you can"
-autowrap = true
-
-[node name="05" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
-margin_left = 173.0
-margin_top = 113.0
-margin_right = 338.0
-margin_bottom = 218.0
-rect_min_size = Vector2( 160, 105 )
+[node name="Btn05" type="Button" parent="SelectLevel/LevelGrid/BtnsHolder"]
+margin_left = 208.0
+margin_top = 104.0
+margin_right = 408.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 160, 96 )
 rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-custom_styles/hover = ExtResource( 9 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 9 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
 text = "05"
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/05"]
-visible = false
+[node name="Background" type="ColorRect" parent="SelectLevel/LevelGrid/BtnsHolder/Btn05"]
+show_behind_parent = true
 anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Duel"
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/05"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Collect as many points as you can"
-autowrap = true
-
-[node name="06" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
-margin_left = 346.0
-margin_top = 113.0
-margin_right = 511.0
-margin_bottom = 218.0
-rect_min_size = Vector2( 160, 105 )
+[node name="Btn06" type="Button" parent="SelectLevel/LevelGrid/BtnsHolder"]
+margin_left = 416.0
+margin_top = 104.0
+margin_right = 616.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 160, 96 )
 rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-custom_styles/hover = ExtResource( 9 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 9 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
 text = "06"
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/06"]
-visible = false
+[node name="Background" type="ColorRect" parent="SelectLevel/LevelGrid/BtnsHolder/Btn06"]
+show_behind_parent = true
 anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Duel"
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/06"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Collect as many points as you can"
-autowrap = true
-
-[node name="07" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
-margin_top = 226.0
-margin_right = 165.0
-margin_bottom = 331.0
-rect_min_size = Vector2( 160, 105 )
+[node name="Btn07" type="Button" parent="SelectLevel/LevelGrid/BtnsHolder"]
+margin_top = 208.0
+margin_right = 200.0
+margin_bottom = 304.0
+rect_min_size = Vector2( 160, 96 )
 rect_clip_content = true
 focus_neighbour_bottom = NodePath("../../SolutionsBtn")
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-custom_styles/hover = ExtResource( 9 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 9 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
 text = "07"
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/07"]
-visible = false
+[node name="Background" type="ColorRect" parent="SelectLevel/LevelGrid/BtnsHolder/Btn07"]
+show_behind_parent = true
 anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Duel"
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/07"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Collect as many points as you can"
-autowrap = true
-
-[node name="08" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
-margin_left = 173.0
-margin_top = 226.0
-margin_right = 338.0
-margin_bottom = 331.0
-rect_min_size = Vector2( 160, 105 )
+[node name="Btn08" type="Button" parent="SelectLevel/LevelGrid/BtnsHolder"]
+margin_left = 208.0
+margin_top = 208.0
+margin_right = 408.0
+margin_bottom = 304.0
+rect_min_size = Vector2( 160, 96 )
 rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-custom_styles/hover = ExtResource( 9 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 9 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
 text = "08"
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/08"]
-visible = false
+[node name="Background" type="ColorRect" parent="SelectLevel/LevelGrid/BtnsHolder/Btn08"]
+show_behind_parent = true
 anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Duel"
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/08"]
-visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Collect as many points as you can"
-autowrap = true
-
-[node name="09" type="Button" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder"]
-margin_left = 346.0
-margin_top = 226.0
-margin_right = 511.0
-margin_bottom = 331.0
-rect_min_size = Vector2( 160, 105 )
+[node name="Btn09" type="Button" parent="SelectLevel/LevelGrid/BtnsHolder"]
+margin_left = 416.0
+margin_top = 208.0
+margin_right = 616.0
+margin_bottom = 304.0
+rect_min_size = Vector2( 160, 96 )
 rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-custom_styles/hover = ExtResource( 9 )
-custom_styles/pressed = ExtResource( 9 )
-custom_styles/focus = ExtResource( 9 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
 text = "09"
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/09"]
-visible = false
+[node name="Background" type="ColorRect" parent="SelectLevel/LevelGrid/BtnsHolder/Btn09"]
+show_behind_parent = true
 anchor_right = 1.0
-margin_left = 24.0
-margin_top = 14.0
-margin_right = -24.0
-margin_bottom = 36.0
-text = "Duel"
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Label" type="Label" parent="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/09"]
-visible = false
+[node name="Btn10" type="Button" parent="SelectLevel/LevelGrid/BtnsHolder"]
+margin_top = 312.0
+margin_right = 200.0
+margin_bottom = 408.0
+rect_min_size = Vector2( 160, 96 )
+rect_clip_content = true
+focus_neighbour_bottom = NodePath("../../SolutionsBtn")
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 19 )
+disabled = true
+text = "07"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Background" type="ColorRect" parent="SelectLevel/LevelGrid/BtnsHolder/Btn10"]
+show_behind_parent = true
 anchor_right = 1.0
-margin_left = 24.0
-margin_top = 40.0
-margin_right = -24.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 14 )
-text = "Collect as many points as you can"
-autowrap = true
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="SolutionsBtn" type="CheckButton" parent="SelectLevel/LevelGrid/VBoxContainer"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-margin_left = 366.0
-margin_top = 406.0
-margin_right = 512.0
-margin_bottom = 424.0
+[node name="Btn11" type="Button" parent="SelectLevel/LevelGrid/BtnsHolder"]
+margin_left = 208.0
+margin_top = 312.0
+margin_right = 408.0
+margin_bottom = 408.0
+rect_min_size = Vector2( 160, 96 )
+rect_clip_content = true
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 19 )
+disabled = true
+text = "08"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Background" type="ColorRect" parent="SelectLevel/LevelGrid/BtnsHolder/Btn11"]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="Btn12" type="Button" parent="SelectLevel/LevelGrid/BtnsHolder"]
+margin_left = 416.0
+margin_top = 312.0
+margin_right = 616.0
+margin_bottom = 408.0
+rect_min_size = Vector2( 160, 96 )
+rect_clip_content = true
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 19 )
+disabled = true
+text = "09"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Background" type="ColorRect" parent="SelectLevel/LevelGrid/BtnsHolder/Btn12"]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="SolutionsBtn" type="CheckButton" parent="SelectLevel/LevelGrid"]
+margin_left = 470.0
+margin_top = 8.0
+margin_right = 616.0
+margin_bottom = 26.0
 rect_min_size = Vector2( 146, 0 )
-focus_neighbour_bottom = NodePath("../../../BackBtn")
+focus_neighbour_bottom = NodePath("../../BackBtn")
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
@@ -3765,7 +3570,7 @@ margin_top = 76.0
 margin_right = -6.0
 margin_bottom = 98.0
 rect_min_size = Vector2( 16, 16 )
-focus_neighbour_top = NodePath("../LevelGrid/VBoxContainer/SolutionsBtn")
+focus_neighbour_top = NodePath("../LevelGrid/SolutionsBtn")
 mouse_default_cursor_shape = 2
 texture_normal = SubResource( 195 )
 texture_hover = SubResource( 196 )
@@ -3775,7 +3580,7 @@ flip_h = true
 [node name="EscHint" parent="SelectLevel" instance=ExtResource( 11 )]
 margin_left = 8.0
 margin_top = 638.0
-margin_right = 192.0
+margin_right = 242.0
 margin_bottom = 660.0
 __meta__ = {
 "_edit_group_": true
@@ -4088,29 +3893,29 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="Highscores/SweeperArrows/LeftBtn" to="Highscores" method="_on_Sweeper_LeftBtn_pressed"]
 [connection signal="pressed" from="Highscores/SweeperArrows/RightBtn" to="Highscores" method="_on_SweeperRightBtn_pressed"]
 [connection signal="pressed" from="Highscores/BackBtn" to="Highscores" method="_on_BackBtn_pressed"]
-[connection signal="pressed" from="SelectGame/CleanerAlt/CleanerSBtn" to="SelectGame/GamesMenu" method="_on_CleanerSBtn_pressed"]
-[connection signal="pressed" from="SelectGame/CleanerAlt/CleanerMBtn" to="SelectGame/GamesMenu" method="_on_CleanerMBtn_pressed"]
-[connection signal="pressed" from="SelectGame/CleanerAlt/CleanerLBtn" to="SelectGame/GamesMenu" method="_on_CleanerLBtn_pressed"]
-[connection signal="pressed" from="SelectGame/GamesMenu/Tutorial/TutorialBtn" to="SelectGame/GamesMenu" method="_on_TutorialBtn_pressed"]
-[connection signal="pressed" from="SelectGame/GamesMenu/Cleaner/CleanerSBtn" to="SelectGame/GamesMenu" method="_on_CleanerSBtn_pressed"]
-[connection signal="pressed" from="SelectGame/GamesMenu/Cleaner/CleanerMBtn" to="SelectGame/GamesMenu" method="_on_CleanerMBtn_pressed"]
-[connection signal="pressed" from="SelectGame/GamesMenu/Cleaner/CleanerLBtn" to="SelectGame/GamesMenu" method="_on_CleanerLBtn_pressed"]
-[connection signal="pressed" from="SelectGame/GamesMenu/Neverending/EraserBtn" to="SelectGame/GamesMenu" method="_on_EraserBtn_pressed"]
-[connection signal="pressed" from="SelectGame/GamesMenu/Neverending/HandlerBtn" to="SelectGame/GamesMenu" method="_on_HandlerBtn_pressed"]
-[connection signal="pressed" from="SelectGame/GamesMenu/Neverending/DefenderBtn" to="SelectGame/GamesMenu" method="_on_DefenderBtn_pressed"]
-[connection signal="pressed" from="SelectGame/GamesMenu/TheDuel/TheDuelBtn" to="SelectGame/GamesMenu" method="_on_TheDuelBtn_pressed"]
-[connection signal="pressed" from="SelectGame/GamesMenu/Sweeper/SweeperBtn" to="SelectGame/GamesMenu" method="_on_SweeperBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GamesMenu/Tutorial/TutorialBtn" to="SelectGame" method="_on_TutorialBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GamesMenu/Cleaner/CleanerSBtn" to="SelectGame" method="_on_CleanerSBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GamesMenu/Cleaner/CleanerMBtn" to="SelectGame" method="_on_CleanerMBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GamesMenu/Cleaner/CleanerLBtn" to="SelectGame" method="_on_CleanerLBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GamesMenu/Timeless/EraserBtn" to="SelectGame" method="_on_EraserBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GamesMenu/Timeless/HandlerBtn" to="SelectGame" method="_on_HandlerBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GamesMenu/Timeless/DefenderBtn" to="SelectGame" method="_on_DefenderBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GamesMenu/TheDuel/TheDuelBtn" to="SelectGame" method="_on_TheDuelBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GamesMenu/Sweeper/SweeperBtn" to="SelectGame" method="_on_SweeperBtn_pressed"]
 [connection signal="pressed" from="SelectGame/BackBtn" to="SelectGame" method="_on_BackBtn_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/01" to="SelectLevel" method="_on_EnigmaBtn_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/02" to="SelectLevel" method="_on_EnigmaBtn2_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/03" to="SelectLevel" method="_on_EnigmaBtn3_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/04" to="SelectLevel" method="_on_EnigmaBtn4_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/05" to="SelectLevel" method="_on_EnigmaBtn5_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/06" to="SelectLevel" method="_on_EnigmaBtn6_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/07" to="SelectLevel" method="_on_EnigmaBtn7_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/08" to="SelectLevel" method="_on_EnigmaBtn8_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/VBoxContainer/BtnsHolder/09" to="SelectLevel" method="_on_EnigmaBtn9_pressed"]
-[connection signal="toggled" from="SelectLevel/LevelGrid/VBoxContainer/SolutionsBtn" to="SelectLevel" method="_on_SolutionsBtn_toggled"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/BtnsHolder/Btn01" to="SelectLevel" method="_on_EnigmaBtn_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/BtnsHolder/Btn02" to="SelectLevel" method="_on_EnigmaBtn2_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/BtnsHolder/Btn03" to="SelectLevel" method="_on_EnigmaBtn3_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/BtnsHolder/Btn04" to="SelectLevel" method="_on_EnigmaBtn4_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/BtnsHolder/Btn05" to="SelectLevel" method="_on_EnigmaBtn5_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/BtnsHolder/Btn06" to="SelectLevel" method="_on_EnigmaBtn6_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/BtnsHolder/Btn07" to="SelectLevel" method="_on_EnigmaBtn7_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/BtnsHolder/Btn08" to="SelectLevel" method="_on_EnigmaBtn8_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/BtnsHolder/Btn09" to="SelectLevel" method="_on_EnigmaBtn9_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/BtnsHolder/Btn10" to="SelectLevel" method="_on_EnigmaBtn7_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/BtnsHolder/Btn11" to="SelectLevel" method="_on_EnigmaBtn8_pressed"]
+[connection signal="pressed" from="SelectLevel/LevelGrid/BtnsHolder/Btn12" to="SelectLevel" method="_on_EnigmaBtn9_pressed"]
+[connection signal="toggled" from="SelectLevel/LevelGrid/SolutionsBtn" to="SelectLevel" method="_on_SolutionsBtn_toggled"]
 [connection signal="pressed" from="SelectLevel/BackBtn" to="SelectLevel" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="Settings/BackBtn" to="Settings" method="_on_BackBtn_pressed"]
 [connection signal="toggled" from="Settings/MenuMusicBtn" to="Settings" method="_on_MenuMusicBtn_toggled"]

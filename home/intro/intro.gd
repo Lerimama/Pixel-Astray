@@ -15,6 +15,7 @@ var players_count: int
 var strays_in_game: Array = []
 var strays_shown: Array = []
 var strays_start_count: int =  500 # 149 v naslovu ... ne sme bit onready, ker povozi ukaz s tilemapa
+var all_colors_available: Array
 
 # tilemap data
 var random_spawn_positions: Array
@@ -99,8 +100,9 @@ func set_strays():
 	
 func spawn_strays(strays_to_spawn_count: int = required_spawn_positions.size()):
 	yield(get_tree().create_timer(0), "timeout") # da se ne spawna, ko še ni wall	
+	
 	# colors
-	var all_colors_available: Array	
+	all_colors_available = [] # zazih
 	if Profiles.use_custom_color_theme:
 		# naberem barve glede na število potrebnih barv
 		var color_split_offset: float = 1.0 / strays_to_spawn_count

@@ -33,6 +33,9 @@ var color_blue: Color = Color("#4b9fff")
 var color_green: Color = Color("#5effa9")
 var color_red: Color = Color("#f35b7f")
 var color_yellow: Color = Color("#fef98b")
+var color_orange: Color = Color("#f2a67d")
+var color_purple: Color = Color("#c563f6")
+#var color_dark_gray: Color = Color("#323232")
 # tilemap colors
 var color_wall: Color = Color("#141414") # Color("#232323")
 var color_edge: Color = Color.black
@@ -295,41 +298,22 @@ func _on_control_hovered(control: Control):
 		control.grab_focus()
 		Global.sound_manager.play_gui_sfx("btn_focus_change")
 		
-				
+
 func _on_control_focused(control: Control):
+	#	printt("Control focused", control)
+
 	Global.sound_manager.play_gui_sfx("btn_focus_change")
 	
 	# check btn color fix
 	if control is CheckButton or control is HSlider or control.name == "RandomizeBtn" or control.name == "ResetBtn":
 		control.modulate = Color.white
 	
-	# barvanje select game gumbov
-	var select_game_btn_names: Array = ["TutorialBtn" ,"CleanerSBtn" ,"CleanerMBtn" ,"CleanerSBtn" ,"EraserBtn" ,"HandlerBtn" ,"DefenderBtn" ,"TheDuelBtn" ,"SweeperBtn"]
-	if select_game_btn_names.has(control.name):
-		var control_background_node: Control = control.get_parent().get_node("Background")
-		match control.name:
-			"TutorialBtn": pass
-			"CleanerSBtn": control_background_node.color = Global.color_blue
-			"CleanerMBtn": control_background_node.color = Global.color_blue
-			"CleanerLBtn": control_background_node.color = Global.color_blue
-			"EraserBtn": control_background_node.color = Global.color_green
-			"HandlerBtn": control_background_node.color = Global.color_green
-			"DefenderBtn": control_background_node.color = Global.color_green
-			"TheDuelBtn": control_background_node.color = Global.color_yellow
-			"SweeperBtn": control_background_node.color = Global.color_red
-				
-#		control.get_parent().modulate.a = 0
-		
 
 func _on_control_unfocused(control: Control):
-	
-	var select_game_btn_names: Array = ["TutorialBtn" ,"CleanerSBtn" ,"CleanerMBtn" ,"CleanerSBtn" ,"EraserBtn" ,"HandlerBtn" ,"DefenderBtn" ,"TheDuelBtn" ,"SweeprBtn"]
+	#	printt("Control unfocused", control)
 	
 	if control is CheckButton or control is HSlider or control.name == "RandomizeBtn" or control.name == "ResetBtn":
 		control.modulate = color_gui_gray # Color.white
-	# barvanje select game gumbov
-	elif select_game_btn_names.has(control.name):
-		control.get_parent().get_node("Background").modulate = color_almost_black_pixel
 
 
 func grab_focus_no_sfx(control_to_focus: Control):

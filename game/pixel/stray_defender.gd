@@ -85,7 +85,7 @@ func die(stray_in_stack_index: int, strays_in_stack: int):
 
 
 func check_collider_for_wall(collider_in_check: Node2D):
-	printt("čekiram", collider_in_check)
+	
 	# prva runda ... kolajder tilemap (tla)
 	if collider_in_check.is_in_group(Global.group_tilemap):
 		die_to_wall()

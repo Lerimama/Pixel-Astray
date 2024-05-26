@@ -1,11 +1,11 @@
 extends Control
 
 
-onready var sweeper_btn: Button = $"LevelGrid/VBoxContainer/BtnsHolder/01"
+onready var sweeper_btn: Button = $LevelGrid/BtnsHolder/Btn01
 onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
-onready var btn_grid_container: Control = $LevelGrid/VBoxContainer/BtnsHolder
+onready var btn_grid_container: Control = $LevelGrid/BtnsHolder
 onready var level_grid_btns: Array = btn_grid_container.get_children()
-onready var solutions_btn: CheckButton = $LevelGrid/VBoxContainer/SolutionsBtn
+onready var solutions_btn: CheckButton = $LevelGrid/SolutionsBtn
 
 
 func _ready() -> void:
@@ -20,13 +20,40 @@ func _ready() -> void:
 	else:
 		solutions_btn.pressed = false
 		
+
+func _process(delta: float) -> void:
+	
+	if not get_parent().current_screen == get_parent().Screens.SELECT_LEVEL:
+		return
 		
+	# barvam ozadje gumbov na focus
+	var of_color = Global.color_almost_black_pixel
+	
+	for btn in level_grid_btns:
+		# fokusian
+		if btn.has_focus():
+			btn.get_node("Background").color = btn_colors[level_grid_btns.find(btn)]
+			btn.self_modulate = Color.white
+		# nefokusiran
+		else:
+			btn.get_node("Background").color = of_color
+			# rešena uganka
+			if solved_sweeper_btns.has(btn):
+				btn.set("custom_colors/font_color",  Color.white)
+				btn.self_modulate = btn_colors[level_grid_btns.find(btn)]
+			# nerešena uganka
+			else:			
+				btn.self_modulate = Color.white
+		
+				
+var btn_colors: Array
+var solved_sweeper_btns: Array
 func update_sweeper_btns_color():
 	
 	var solved_levels: Array = Global.data_manager.read_solved_status_from_file(Profiles.game_data_sweeper)
 	
 	# naberem gumbe in barve za njih 
-	var btn_colors: Array
+	btn_colors = []
 	if Profiles.use_custom_color_theme:
 		var color_split_offset: float = 1.0 / level_grid_btns.size()
 		for btn_count in level_grid_btns.size():
@@ -35,15 +62,16 @@ func update_sweeper_btns_color():
 	else:			
 		btn_colors = Global.get_spectrum_colors(level_grid_btns.size())
 	
-	var solved_sweeper_btns: Array
 	# obarvam solved gumbe 
+	solved_sweeper_btns = []
 	for btn in level_grid_btns:
 		var btn_index: int = level_grid_btns.find(btn)
 		# za vsak gumb preverim če pripada rešenemu level
 		if level_grid_btns.find(btn) + 1 in solved_levels:
-			btn.modulate = btn_colors[btn_index]
+			btn.set("custom_colors/font_color",  Color.white)
+			btn.self_modulate = btn_colors[btn_index]
 			solved_sweeper_btns.append(btn)
-		
+			
 		
 func set_btn_tilemap(btn: Button):
 				

@@ -103,29 +103,6 @@ func _ready() -> void:
 	# setam transparenco barva indikatorja ... če želim obratno, samo tukaj obrnem
 	picked_indicator_alpha = 0.2
 	unpicked_indicator_alpha = 1
-
-	
-	# hud barva vseh elementov, razen tisih, ki modulirajo sami sebe in P oznake
-	# p1 stats
-#	var nodes_to_modulate: Array = [$Header/TopLineL/ColorHolder, 
-#					$Header/TopLineL/StepsHolder, 
-#					$Header/TopLineL/SkillHolder, 
-#					$Header/TopLineL/BurstHolder, 
-#					$Header/TopLineL/PointsHolder]
-#	# p2 stats
-#	nodes_to_modulate.append_array([$Header/TopLineR/PlayerLineR/ColorHolder, 
-#					$Header/TopLineR/PlayerLineR/StepsHolder, 
-#					$Header/TopLineR/PlayerLineR/SkillHolder, 
-#					$Header/TopLineR/PlayerLineR/BurstHolder, 
-#					$Header/TopLineR/PlayerLineR/PointsHolder])
-#	# game stats
-#	nodes_to_modulate.append_array([$Header/TopLineR/MusicPlayer,
-#					$Header/TopLineR/HighscoreLabel,
-#					$Footer/FooterLine/GameLine,
-#					$Footer/FooterLine/StraysLine,
-#					$Footer/FooterLine/LevelLimitHolder])
-#	for node in nodes_to_modulate:
-#		node.modulate = Color.white
 	
 	# hud barva elementov, ki ne modulirajo sami sebe in niso label (v glavnem ikone)
 	# timer in hs sta label, moduliran med igro, zato imata na nodetu setano font color override na belo
@@ -150,7 +127,7 @@ func _ready() -> void:
 
 
 func set_hud(players_count: int): # kliče main na game-in
-	# namen: dodam level points limit counter za eternal in setam hud za enigmo 
+	# namen: dodam level points limit counter za timeless in setam hud za enigmo 
 	
 	if players_count == 1:
 		# players
@@ -182,7 +159,7 @@ func set_hud(players_count: int): # kliče main na game-in
 	if not Global.game_manager.game_data.has("level"):
 		level_label.visible = false
 	
-	# eternal	
+	# timeless	
 	if Global.game_manager.game_data.has("level"): # multilevel game
 		p1_energy_counter.visible = false
 		p2_energy_counter.visible = false	

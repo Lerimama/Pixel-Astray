@@ -183,6 +183,7 @@ margin_right = 85.0
 margin_bottom = 21.0
 rect_min_size = Vector2( 0, 21 )
 theme = SubResource( 324 )
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 custom_fonts/font = ExtResource( 5 )
 text = "ESC"
 align = 1
@@ -199,6 +200,7 @@ text = "or"
 align = 1
 
 [node name="Jp" type="TextureRect" parent="."]
+modulate = Color( 1, 1, 1, 0.470588 )
 margin_left = 118.0
 margin_right = 140.0
 margin_bottom = 22.0
