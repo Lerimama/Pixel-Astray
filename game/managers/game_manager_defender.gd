@@ -1,22 +1,24 @@
 extends GameManager # default game manager
 
-var current_stray_spawning_round: int = 0 # prištevam na koncu spawna
 
+# stepping
+var step_in_progress: bool = false
 var lines_scrolled_count: int = 0 # prištevam v stray_step()
 var lines_scroll_per_spawn_round: int #  = 1 # se vleče game data
-var invading_pause_time: float # pavza med stepi
-var total_spawn_round_positions_count: int = 20 # določeno v tilemapu ... 20 x na linijo
 var round_spawn_chance: float
-var stray_to_spawn_round_range: Array
 
+# stage and level
 var current_stage: int = 0 # na štartu se kliče stage up
 var stages_per_level: int
 var current_level: int = 0 # na štartu se kliče level up
 var levels_per_game: int = 1
 
-var step_in_progress: bool = false
+# spawn engine
+var current_stray_spawning_round: int = 0 # prištevam na koncu spawna
 var available_home_spawn_positions: Array
-# neu
+var stray_to_spawn_round_range: Array
+var total_spawn_round_positions_count: int = 20 # določeno v tilemapu ... 20 x na linijo
+var invading_pause_time: float # pavza med stepi
 var checking_for_engine_stalled: bool = false
 var engine_stalled_time_limit: float = 3 # več od časa koraka
 var engine_stalled_time: float = 0
@@ -41,12 +43,6 @@ func _process(delta: float) -> void:
 	# namen: ni preverjanja avail respawn pozicij in GO
 	
 	if game_on:
-		# če sem v fazi, ko lahko preverjam cleaned (po spawnu)
-#		if all_strays_died_alowed:
-#			# če ni nobene stene, me zanimajo samo prazni strajsi
-#			if strays_in_game_count == 0:
-#				all_strays_died_alowed = false
-#				emit_signal("all_strays_died")
 		if available_home_spawn_positions.empty(): # preverja jih na vsak step()
 			checking_for_engine_stalled = true
 			engine_stalled_time += delta

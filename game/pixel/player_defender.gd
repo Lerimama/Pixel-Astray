@@ -46,9 +46,7 @@ func idle_inputs():
 			
 					
 func cocking_inputs():
-
-	# cocking
-	# varianta na short cock
+	# namen: cocking, varianta na short cock
 	
 	if Input.is_action_pressed(key_up):
 		if cocked_ghosts.empty(): # če je smer setana, ni pa potrjena
@@ -110,13 +108,6 @@ func spawn_cock_ghost(cocking_direction: Vector2):
 	
 	return new_cock_ghost
 
-
-func show_ghost(ghost):
-	
-	if cocking_room:
-		var cock_cell_tween = get_tree().create_tween()
-		cock_cell_tween.tween_property(ghost, "modulate:a", 1, cock_ghost_cocking_time)
-			
 
 func burst():
 	# namen: konstantna hitrost bursta (neodvisna od vrednosti cocka)
@@ -221,42 +212,51 @@ func on_hit_wall():
 	end_move()
 
 
-func detect_touch():
-	
-	var touch_areas: Array = [$Touch/TouchArea, $Touch/TouchArea2, $Touch/TouchArea3, $Touch/TouchArea4]
-	var current_player_strays: Array # sosedi v tem koraku
-		
-	# preverim vsako areo, če ima straysa
-	var touching_sides_count: int = 0
-	for area in touch_areas:
-		var bodies_touched: Array = area.get_overlapping_bodies()
-		if not bodies_touched.empty():
-			for body in bodies_touched:
-				if body.is_in_group(Global.group_strays):
-					current_player_strays.append_array(bodies_touched)
-					touching_sides_count += 1
-					break
-	
-	# surrounded
-	if touching_sides_count == touch_areas.size():
-		# če je še vedno obkoljen, preverim pe istost sosedov > GO
-		if is_surrounded:
-			# če so sosedi isti je GO
-			if surrounded_player_strays == current_player_strays:
-				Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)
-			# če niso isti, restiram sosede in potem normalno naprej
-			else:
-				surrounded_player_strays = []
-				is_surrounded = false
-				touch_timer.start(detect_touch_pause_time)
-		# če je prvič obkoljen, ga označim za obkoljenega in zapišem sosede
-		else: 
-			is_surrounded = true
-			surrounded_player_strays = current_player_strays
-			touch_timer.start(recheck_touch_pause_time) # daljši čas
-	# not surrounded
-	else:
-		surrounded_player_strays = []
-		is_surrounded = false # resetiram
-		touch_timer.start(detect_touch_pause_time)
+#func show_ghost(ghost):
+#
+#	if cocking_room:
+#		var cock_cell_tween = get_tree().create_tween()
+#		cock_cell_tween.tween_property(ghost, "modulate:a", 1, cock_ghost_cocking_time)
+
+
+#func detect_touch():
+#
+#	var touch_areas: Array = [$Touch/TouchArea, $Touch/TouchArea2, $Touch/TouchArea3, $Touch/TouchArea4]
+#	var current_player_strays: Array # sosedi v tem koraku
+#
+#	# preverim vsako areo, če ima straysa
+#	var touching_sides_count: int = 0
+#	for area in touch_areas:
+#		var bodies_touched: Array = area.get_overlapping_bodies()
+#		if not bodies_touched.empty():
+#			for body in bodies_touched:
+#				if body.is_in_group(Global.group_strays):
+#					current_player_strays.append_array(bodies_touched)
+#					touching_sides_count += 1
+#					break
+#
+#	# surrounded
+#	if touching_sides_count == touch_areas.size():
+#		# če je še vedno obkoljen, preverim pe istost sosedov > GO
+#		if is_surrounded:
+#			# če so sosedi isti je GO
+#			if surrounded_player_strays == current_player_strays:
+#				Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)
+#			# če niso isti, restiram sosede in potem normalno naprej
+#			else:
+#				surrounded_player_strays = []
+#				is_surrounded = false
+#				touch_timer.start(detect_touch_pause_time)
+#		# če je prvič obkoljen, ga označim za obkoljenega in zapišem sosede
+#		else: 
+#			is_surrounded = true
+#			surrounded_player_strays = current_player_strays
+#			touch_timer.start(is_surrounded_time) # daljši čas
+#	# not surrounded
+#	else:
+#		surrounded_player_strays = []
+#		is_surrounded = false # resetiram
+#		touch_timer.start(detect_touch_pause_time)
+
+
 

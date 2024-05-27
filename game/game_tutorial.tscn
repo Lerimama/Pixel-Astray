@@ -960,9 +960,9 @@ scroll_active = false
 [node name="Controls" parent="GUI/Tutorial" instance=ExtResource( 5 )]
 visible = false
 margin_left = 33.0
-margin_top = 512.0
-margin_right = 33.0
-margin_bottom = 512.0
+margin_top = 520.0
+margin_right = 353.0
+margin_bottom = 640.0
 
 [node name="HudGuide" type="Control" parent="GUI/Tutorial"]
 visible = false
@@ -1175,10 +1175,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 417.0
-margin_top = 320.0
-margin_right = 865.0
-margin_bottom = 608.0
+margin_left = -223.0
+margin_top = -40.0
+margin_right = 225.0
+margin_bottom = 248.0
 theme = SubResource( 346 )
 
 [node name="Panel" type="Panel" parent="GUI/Tutorial/MissionPanel"]
@@ -1219,16 +1219,27 @@ autowrap = true
 [node name="ActionHint" parent="GUI/Tutorial/MissionPanel" instance=ExtResource( 7 )]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -108.0
+margin_left = -124.0
 margin_top = 190.0
-margin_right = 107.0
+margin_right = 124.0
 margin_bottom = 212.0
 
+[node name="KEY" parent="GUI/Tutorial/MissionPanel/ActionHint" index="1"]
+margin_right = 118.0
+text = "RETURN"
+
+[node name="Label2" parent="GUI/Tutorial/MissionPanel/ActionHint" index="2"]
+margin_left = 126.0
+margin_right = 143.0
+
 [node name="Jp" parent="GUI/Tutorial/MissionPanel/ActionHint" index="3"]
+margin_left = 151.0
+margin_right = 173.0
 texture = SubResource( 405 )
 
 [node name="Label3" parent="GUI/Tutorial/MissionPanel/ActionHint" index="4"]
-margin_right = 215.0
+margin_left = 181.0
+margin_right = 248.0
 text = "to start"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/Tutorial"]

@@ -21,6 +21,8 @@ onready var cell_size_x: int = Global.current_tilemap.cell_size.x
 
 
 func _ready() -> void:
+	# OPT straysi preveč porabijo, totalno jih poreži
+	
 	add_to_group(Global.group_strays)
 
 	randomize() # za random die animacije

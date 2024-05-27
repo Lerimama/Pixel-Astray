@@ -10,7 +10,8 @@ margin_left = -464.0
 margin_right = 2294.0
 
 [node name="Foot2" parent="Background/Room" index="0"]
-visible = false
+position = Vector2( 1367.5, 1136 )
+scale = Vector2( 1.1, 1 )
 
 [node name="Foot5" parent="Background/Room" index="1"]
 visible = false

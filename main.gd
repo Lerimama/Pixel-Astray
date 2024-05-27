@@ -1,7 +1,7 @@
 extends Node
 
 var fade_time = 0.7
-var camera_shake_on: bool =  true #_temp
+var camera_shake_on: bool = true #_temp
 
 
 onready var home_scene_path: String = "res://home/home.tscn"
@@ -12,9 +12,9 @@ func _ready() -> void:
 	
 	Global.main_node = self
 	
-	home_in_intro()
+#	home_in_intro()
 #	home_in_no_intro()
-#	game_in()
+	game_in()
 
 
 #func _process(delta: float) -> void:

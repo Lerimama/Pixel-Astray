@@ -48,8 +48,8 @@ region = Rect2( 138, 154, 22, 22 )
 
 [node name="Controls" type="Control"]
 margin_right = 320.0
-margin_bottom = 128.0
-rect_min_size = Vector2( 320, 128 )
+margin_bottom = 120.0
+rect_min_size = Vector2( 320, 120 )
 
 [node name="Content" type="Label" parent="."]
 margin_left = 32.0
@@ -62,15 +62,15 @@ autowrap = true
 
 [node name="Keyboard1" type="TextureRect" parent="."]
 margin_left = 90.0
-margin_top = 42.0
+margin_top = 34.0
 margin_right = 160.0
-margin_bottom = 88.0
+margin_bottom = 80.0
 texture = SubResource( 347 )
 
 [node name="Keyboard2" type="TextureRect" parent="."]
-margin_top = 42.0
+margin_top = 34.0
 margin_right = 70.0
-margin_bottom = 88.0
+margin_bottom = 80.0
 texture = SubResource( 348 )
 
 [node name="Joypad" type="Control" parent="."]
@@ -112,44 +112,44 @@ texture = SubResource( 354 )
 
 [node name="BurstKey" type="Label" parent="."]
 margin_left = 203.0
-margin_top = 112.0
+margin_top = 104.0
 margin_right = 289.0
-margin_bottom = 130.0
+margin_bottom = 122.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 1 )
 text = "Burst keys"
 
 [node name="Space2" type="TextureRect" parent="."]
-margin_top = 106.0
+margin_top = 98.0
 margin_right = 102.0
-margin_bottom = 128.0
+margin_bottom = 120.0
 texture = SubResource( 355 )
 
 [node name="Alt2" type="TextureRect" parent="."]
 margin_left = 109.0
-margin_top = 106.0
+margin_top = 98.0
 margin_right = 131.0
-margin_bottom = 128.0
+margin_bottom = 120.0
 texture = SubResource( 356 )
 
 [node name="Ctrl" type="TextureRect" parent="."]
 margin_left = 138.0
-margin_top = 106.0
+margin_top = 98.0
 margin_right = 160.0
-margin_bottom = 128.0
+margin_bottom = 120.0
 texture = SubResource( 357 )
 
 [node name="Line2D" type="Line2D" parent="."]
 position = Vector2( -173.302, 204.142 )
 scale = Vector2( 0.913793, 1.00769 )
-points = PoolVector2Array( 484.029, -87.4694, 515.765, -152.966 )
+points = PoolVector2Array( 487.312, -96.4007, 515.765, -152.966 )
 width = 0.5
 default_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 sharp_limit = 0.0
 antialiased = true
 
 [node name="Line2D2" type="Line2D" parent="."]
-position = Vector2( -275, 212 )
+position = Vector2( -275, 204 )
 points = PoolVector2Array( 473, -90, 440, -94 )
 width = 0.5
 default_color = Color( 0.513726, 0.513726, 0.513726, 1 )
@@ -158,7 +158,7 @@ antialiased = true
 
 [node name="Line2D4" type="Line2D" parent="."]
 position = Vector2( -274, 218 )
-points = PoolVector2Array( 383, -157, 360, -197 )
+points = PoolVector2Array( 382, -165, 360, -197 )
 width = 0.5
 default_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 sharp_limit = 0.0
@@ -166,7 +166,7 @@ antialiased = true
 
 [node name="Line2D6" type="Line2D" parent="."]
 position = Vector2( -298, 218 )
-points = PoolVector2Array( 350, -158, 372, -197 )
+points = PoolVector2Array( 350, -165, 372, -197 )
 width = 0.5
 default_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 sharp_limit = 0.0

@@ -12,7 +12,6 @@ var default_player_stats: Dictionary = {
 	"cells_traveled" : 0,
 }
 
-
 var default_game_settings: Dictionary = {
 	# player
 	"player_start_life": 3, # 1 lajf skrije ikone v hudu
@@ -90,8 +89,11 @@ var game_data_cleaner_s: Dictionary = {
 	"game_name": "Cleaner S",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_s.tscn",
-	"description" : "Rainbow rush! Clear the colors quickly before time slips away!",
-	"Prop" : "[center]Time limited to 2 minutes",
+	"description" : "Clear the colors before time slips away!",
+	"Prop" : "Clean quickly\nto reclaim your\n\"one and only\"\nstatus.",
+#	"Prop" : "Be quick\nand efficient\nto reclaim your\n\"one and only\"\nstatus.",
+	"Prop2" : "Cleaning time\nis limited to\n%s minutes." % str(2),
+	"Prop3": "Score points\nand beat the\ncurrent record!",
 }
 var game_data_cleaner_m: Dictionary = {
 	"game": Games.CLEANER_M,
@@ -99,8 +101,10 @@ var game_data_cleaner_m: Dictionary = {
 	"game_name": "Cleaner M",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_m.tscn",
-	"description" : "Hue hysteria! Race the clock and clean up the color explosion!",
-	"Prop" : "[center]Time limited to 5 minutes",
+	"description" : "Race the clock and clean up the color explosion!",
+	"Prop" : "Be quick and efficient to reclaim your \"one and only\" status.",
+	"Prop2" : "Cleaning time\nis limited to\n%s minutes." % str(5),
+	"Prop3" : "Score points and beat the current record!",
 }
 var game_data_cleaner_l: Dictionary = {
 	"game": Games.CLEANER_L,
@@ -108,18 +112,21 @@ var game_data_cleaner_l: Dictionary = {
 	"game_name": "Cleaner L",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_l.tscn",
-	"description" : "Color catastrophe! Clean up this vibrant mess before the clock runs out!",
-	"Prop" : "[center]Time limited to 10 minutes",
+	"description" : "Clean up this vibrant mess before the clock runs out!",
+	"Prop" : "Be quick and efficient to reclaim your \"one and only\" status.",
+	"Prop2" : "Cleaning time is limited to %s minutes." % str(10),
+	"Prop3" : "Score points and beat the current record!",
 }
+
 var game_data_eraser: Dictionary = { 
 	"game": Games.ERASER,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Eraser",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser.tscn",
-	"description" : "Keep those colors in check as they keep popping in!",
-	"Prop": "[center]Score points and progress through different difficulty levels.",
-	"Prop2" : "[center]Unlimited time. Unlimited levels.",
+	"description" : "Keep the colors in check as they keep popping in!",
+	"Prop": "Unlimited\ncleaning time.\nUnlimited\ndifficulty levels.",
+	"Prop2" : "Score points\nand beat the\ncurrent record!",
 	#
 	"level": 1, # pomeni, da je multilevel
 	"level_goal_count": 30, # prvi level
@@ -137,10 +144,10 @@ var game_data_handler: Dictionary = {
 	"game_scene_path": "res://game/game.tscn",
 	#	"tilemap_path": "res://game/tilemaps/tilemap_handler.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_handler_s.tscn",
-	"description" : "Prevent those nasty white pixels from ruining your screen!",
-	"Prop" : "[center]Clean up all colors and whites to progress through levels.",
-	"Prop2" : "[center]Unlimited time. Unlimited levels.",
-	"Prop3" : "[center]Use skills. Whites can only be destroyed if they are stacked.",
+	"description" : "Prevent those pesky pixels from ruining your screen!",
+	"Prop" : "Clean the screen to reach the next challenge.",
+	"Prop2" : "Unlimited\ncleaning time.\nUnlimited\nchallenges.",
+	"Prop3" : "Score points\nand beat the\ncurrent record!",
 	#
 	"level": 1, # pomeni, da je multilevel
 	"spawn_white_stray_part_factor": 1, # množim
@@ -151,29 +158,18 @@ var game_data_handler: Dictionary = {
 	"level_goal_count": 320, # prvi
 	"level_goal_count_grow": 320, # prištejem najvišjemu rezultatu
 }
-var game_data_the_duel: Dictionary = {
-	"game": Games.THE_DUEL,
-	"highscore_type": HighscoreTypes.NO_HS,
-	"game_name": "The Duel",
-	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_duel.tscn",
-	"description" : "Team up to tackle the colored messa and battle for the ultimate cleaning champ title!",
-	"Prop": "[center]Burst into opposing player to deal damage and get his share of points.",
-	"Prop2" : "[center]Time is Limited to 3 minutes",
-}
 var game_data_defender: Dictionary = { 
 	"game": Games.DEFENDER,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Defender",
 	"game_scene_path": "res://game/game_defender.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_defender.tscn",
-	"description" : "Hold the line against the endless wave of colors!",
-	"Prop": "[center]Collect invading colors and progress through unlimited difficulty levels.",
-	"Prop2" : "[center]Energy and life dont matter.\nJust burst away ...",
-	"Prop3" : "[center]Skills are not available.",
+	"description" : "Hold the line against the endless wave of invading pixels!",
+	"Prop": "Score points\nand beat the\ncurrent record!",
+	"Prop2" : "Player is always\nfull of energy\nand life, but\nhas no skills.",
+	"Prop3" : "Unlimited\ncleaning time.\nUnlimited\ndifficulty levels.",
 	#
 	"level": 1, # pomeni, da je multilevel
-		
 	"stages_per_level": 32, # prvi level
 	"stages_per_level_grow": 0, # dodatno prištejem
 	"lines_scroll_per_spawn_round": 1, # na koliko stepov se spawna nova runda
@@ -190,13 +186,23 @@ var game_data_sweeper: Dictionary = {
 	"highscore_type": HighscoreTypes.HS_TIME_LOW,
 	"game_name": "Sweeper",
 	"game_scene_path": "res://game/game.tscn",
-	"description" : "Sweep the entire screen in one spectacular\nburst move!",
-	"Prop" : "[center]Launch the burst move with the initial hit and keep the momentum going with rebursting!",
-	"Prop2" : "[center]Reburst after you hit the first stray pixel, by pressing the DIRECTION KEY in the next targets direction.",
-	"Prop3" : "[center]Reburst always collects only one color.",
-	"Prop4" : "[center]Reburst time window is 5 seconds.",
+	"description" : "Sweep the entire screen in one spectacular move!",
+	"Prop" : "Hit the first\nstray pixel and keep rebursting till there\nare none left.",
+	"Prop2" : "To reburst when hitting a pixel, press\nin the direction of\nthe next target.",
+	"Prop3" : "Showcase your\nmastery and beat\nthe record time!",
 	#
 	"level": 1, # pomeni, da je multilevel
+}
+var game_data_the_duel: Dictionary = {
+	"game": Games.THE_DUEL,
+	"highscore_type": HighscoreTypes.NO_HS,
+	"game_name": "The Duel",
+	"game_scene_path": "res://game/game.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_duel.tscn",
+	"description" : "Team up to tackle the colored mess and\nbattle for the ultimate cleaning champ title!",
+	"Prop": " The player with better score wins.",
+	"Prop2": "Hit the opposing player to take his life and get his share of points.",
+	"Prop3" : "Battle time is limited to %s minutes." % str(3),
 }
 var sweeper_level_setting: Dictionary = { 
 	1: { # ključ je tudi številka levela
@@ -241,19 +247,19 @@ var game_data_showcase: Dictionary = {
 	"game": Games.SHOWCASE,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Showcase",
-	"game_scene_path": "res://game/game_showcase.tscn",
+#	"game_scene_path": "res://game/game_showcase.tscn",
 #	"tilemap_path": "res://game/tilemaps/testing/tilemap_testing.tscn",
 #	"tilemap_path": "res://game/tilemaps/testing/tilemap_testing_2.tscn",
 #	"tilemap_path": "res://game/tilemaps/testing/tilemap_testing_3.tscn",
 #	"tilemap_path": "res://game/tilemaps/testing/tilemap_testing_4.tscn",
-	"tilemap_path": "res://game/tilemaps/testing/tilemap_testing_5.tscn",
+#	"tilemap_path": "res://game/tilemaps/testing/tilemap_testing_5.tscn",
 }
 
 
 # ON GAME START -----------------------------------------------------------------------------------
 
 
-var game_settings: Dictionary # = {}
+var game_settings: Dictionary# = default_game_settings # = {}
 var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
 var use_custom_color_theme: bool = false
 
@@ -269,11 +275,9 @@ func _ready() -> void:
 #	var debug_game = Games.DEFENDER
 #	var debug_game = Games.ERASER
 #	var debug_game = Games.HANDLER
-#	var debug_game = Games.THE_DUEL
-	var debug_game = Games.SWEEPER
+#	var debug_game = Games.SWEEPER
+	var debug_game = Games.THE_DUEL
 	set_game_data(debug_game)
-	
-	# NEXT pregame instructions design in vsebinsko
 	
 	
 func set_game_data(selected_game) -> void:
@@ -281,8 +285,8 @@ func set_game_data(selected_game) -> void:
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
 	# debug
-#	game_settings["start_countdown"] = false
-#	game_settings["player_start_life"] = 1
+	game_settings["start_countdown"] = false
+	game_settings["player_start_life"] = 1
 #	game_settings["show_game_instructions"] = false
 		
 	match selected_game:

@@ -35,11 +35,6 @@ _global_script_classes=[ {
 "path": "res://game/pixel/player.gd"
 }, {
 "base": "KinematicBody2D",
-"class": "PlayerOrig",
-"language": "GDScript",
-"path": "res://_obs/player_class.gd"
-}, {
-"base": "KinematicBody2D",
 "class": "Stray",
 "language": "GDScript",
 "path": "res://game/pixel/stray.gd"
@@ -50,7 +45,6 @@ _global_script_class_icons={
 "GameOver": "",
 "GameTilemap": "",
 "Player": "",
-"PlayerOrig": "",
 "Stray": ""
 }
 
@@ -80,7 +74,7 @@ gdscript/warnings/integer_division=false
 window/size/width=1280
 window/size/height=720
 window/size/borderless=true
-window/size/fullscreen=true
+window/size/always_on_top=true
 window/size/test_width=640
 window/size/test_height=360
 window/dpi/allow_hidpi=true

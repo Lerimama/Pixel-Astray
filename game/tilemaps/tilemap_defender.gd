@@ -20,7 +20,7 @@ onready var right_screen_limit: StaticBody2D = $RightScreenLimit
 
 
 func _ready() -> void:
-	# namen: add static_body edge walls
+	# namen: rob ekrana je static_body
 	
 	add_to_group(Global.group_tilemap)
 	Global.current_tilemap = self

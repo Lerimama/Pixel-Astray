@@ -160,58 +160,60 @@ VSeparator/styles/separator = SubResource( 443 )
 [sub_resource type="AtlasTexture" id=454]
 atlas = ExtResource( 4 )
 region = Rect2( 85, 218, 22, 22 )
-margin = Rect2( -2, 2, 0, 0 )
+margin = Rect2( -2, 3, 0, 0 )
 
 [node name="ShortcutLine" type="HBoxContainer"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -81.0
-margin_top = 590.0
-margin_right = 95.0
-margin_bottom = 612.0
+margin_left = -80.0
+margin_top = 587.0
+margin_right = 135.0
+margin_bottom = 615.0
 theme = ExtResource( 5 )
-custom_constants/separation = 7
+custom_constants/separation = 0
 
-[node name="Label" type="Label" parent="."]
-visible = false
-margin_top = 2.0
-margin_right = 44.0
-margin_bottom = 20.0
+[node name="dot" type="RichTextLabel" parent="."]
+margin_right = 14.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 14, 0 )
+size_flags_vertical = 3
 theme = SubResource( 446 )
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-custom_fonts/font = ExtResource( 1 )
-text = "Press"
-align = 1
+text = "."
+fit_content_height = true
 
 [node name="KEY" type="Label" parent="."]
-margin_top = 2.0
-margin_right = 14.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 0, 18 )
+margin_left = 14.0
+margin_top = 4.0
+margin_right = 28.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 0, 24 )
+size_flags_vertical = 8
 custom_fonts/font = ExtResource( 3 )
 text = "M"
 align = 1
-valign = 2
+valign = 1
 
-[node name="or" type="Label" parent="."]
-margin_left = 21.0
-margin_top = 2.0
-margin_right = 38.0
-margin_bottom = 20.0
+[node name="or2" type="Label" parent="."]
+margin_left = 28.0
+margin_top = 5.0
+margin_right = 61.0
+margin_bottom = 23.0
 custom_fonts/font = ExtResource( 1 )
-text = "or"
+text = " or "
 align = 1
+valign = 1
 
 [node name="L1" type="TextureRect" parent="."]
-margin_left = 45.0
-margin_right = 67.0
-margin_bottom = 22.0
+margin_left = 61.0
+margin_right = 83.0
+margin_bottom = 28.0
 texture = SubResource( 454 )
 
 [node name="Label3" type="Label" parent="."]
-margin_left = 74.0
-margin_top = 2.0
-margin_right = 187.0
-margin_bottom = 20.0
+margin_left = 83.0
+margin_top = 5.0
+margin_right = 204.0
+margin_bottom = 23.0
 custom_fonts/font = ExtResource( 1 )
-text = "to mute music"
+text = " to mute music"
+valign = 1

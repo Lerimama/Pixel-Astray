@@ -67,25 +67,22 @@ onready var PixelCollisionParticles: PackedScene = preload("res://game/pixel/pix
 onready var PixelDizzyParticles: PackedScene = preload("res://game/pixel/pixel_dizzy_particles.tscn")
 onready var FloatingTag: PackedScene = preload("res://game/hud/floating_tag.tscn")
 
-# neu ########################
 # sweeper
 var sweeper_move_started: bool = false # ob cockanju se začne poteza (konča se v steni ali na koncu reburstanja, kadar resetam reburst_count)
 var sweeper_start_strays_count: int = 0 # število straysow pred movetom
 var sweeper_cleaned_strays_count: int = 0 # beleži vse uničene v času sweeper move, za preverjanje uspeha
+
 # reburst
 var is_rebursting: bool = false # za regulacijo moči on hit stray
 var reburst_count: int = 0 # resetira se s tajmerjem
 var can_reburst: bool = false
 var reburst_speed_units_count: float = 0 # za prenos original hitrosti v naslednje rebursta
 var reburst_max_cock_count: int = 1 # za kolk se nakoka (samo vizualni efekt)
-var reburst_reward__count: int = 1 # za kolk se nakoka (samo vizualni efekt)
 onready var rebursting_timer: Timer = $ReburstingTimer
-# planned reburst dir
-var reburst_dir_set: bool = false
-onready var reburst_dir: Vector2
-# neu
+
+# touch
 var detect_touch_pause_time: float = 1
-var recheck_touch_pause_time: float = 5 # ker merim, kdaj si obkoljen za vedno, je to tudi čas pavze do GO klica ... more bit večje od časa stepanja
+var is_surrounded_time: float = 5 # ker merim, kdaj si obkoljen za vedno, je to tudi čas pavze do GO klica ... more bit večje od časa stepanja
 var is_surrounded: bool
 var surrounded_player_strays: Array # za preverjanje prek večih preverjanj
 onready var touch_timer: Timer = $Touch/TouchTimer
@@ -173,8 +170,6 @@ func on_collision():
 # --- 
 	
 func idle_inputs():
-	# namen: rebursting_inputs reburst_count reset ... za reburst
-	# namen: sweeper finish (cocking key, direction key)
 	
 	if player_stats["player_energy"] > 1:
 		var current_collider: Node2D = detect_collision_in_direction(direction)
@@ -356,7 +351,6 @@ func step():
 # --- 
 		
 func end_move():
-	# namen: reburst reset, odstranim burst_light_off()
 	
 	close_reburst_window()
 	is_rebursting = false 
@@ -621,7 +615,6 @@ func teleport(): # skilled inputs opredeli vrsto skila glede na kolajderja
 # ---
 
 func on_hit_stray(hit_stray: KinematicBody2D):
-	# namen: activate reburst, start sweeper move, sweeper cleaned count ček
 	
 	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
 	play_sound("hit_stray")	
@@ -825,7 +818,6 @@ func spawn_collision_particles():
 
 
 func spawn_cock_ghost(cocking_direction: Vector2):
-	# namen: cock ghost alpha
 	
 	var cocked_ghost_alpha: float = 1 # najnižji alfa za ghoste ... old 0.55
 	var cocked_ghost_alpha_divider: float = 5 # faktor nižanja po zaporedju (manjši je bolj oster) ... old 14
@@ -959,7 +951,6 @@ func close_reburst_window():
 		
 
 func finish_burst_move():
-	# namen sweeper
 	
 	# ček for succes
 	if sweeper_move_started:
@@ -1324,7 +1315,7 @@ func detect_touch():
 		else: 
 			is_surrounded = true
 			surrounded_player_strays = current_player_strays
-			touch_timer.start(recheck_touch_pause_time) # daljši čas
+			touch_timer.start(is_surrounded_time) # daljši čas
 	# not surrounded
 	else:
 		surrounded_player_strays = []

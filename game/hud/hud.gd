@@ -29,6 +29,7 @@ var p1_energy_warning_popup: Control
 var p2_energy_warning_popup: Control
 onready var energy_warning_holder: Control = $Popups/EnergyWarning
 onready var instructions_popup: Control = $Popups/Instructions
+onready var level_up_popup: Control = $Popups/LevelUp
 
 # header
 onready var game_timer: HBoxContainer = $Header/GameTimerHunds
@@ -64,23 +65,20 @@ onready var footer: Control = $Footer # kontrole iz kamere
 onready var game_label: Label = $Footer/FooterLine/GameLine/Game
 onready var level_label: Label = $Footer/FooterLine/GameLine/Level
 onready var strays_counters_holder: HBoxContainer = $Footer/FooterLine/StraysLine
+onready var pixel_picked_holder: HBoxContainer = $Footer/FooterLine/StraysLine/PickedHolder
+onready var pixel_astray_holder: HBoxContainer = $Footer/FooterLine/StraysLine/AstrayHolder
 onready var astray_counter: Label = $Footer/FooterLine/StraysLine/AstrayHolder/Label
 onready var picked_counter: Label = $Footer/FooterLine/StraysLine/PickedHolder/Label
 onready var spectrum: HBoxContainer = $Footer/FooterLine/SpectrumHolder/ColorSpectrum
 onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
 onready var current_gamed_hs_type: int = Global.game_manager.game_data["highscore_type"]
+onready var level_limit_holder: HBoxContainer = $Footer/FooterLine/LevelLimitHolder
+onready var level_limit_label_1: Label = $Footer/FooterLine/LevelLimitHolder/Label
+onready var level_limit_label_2: Label = $Footer/FooterLine/LevelLimitHolder/Label2
 
 # debug
 onready var player_life: Label = $Life
 onready var player_energy: Label = $Energy
-
-# neu
-onready var level_up_popup: Control = $Popups/LevelUp
-onready var level_limit_holder: HBoxContainer = $Footer/FooterLine/LevelLimitHolder
-onready var level_limit_label_1: Label = $Footer/FooterLine/LevelLimitHolder/Label
-onready var level_limit_label_2: Label = $Footer/FooterLine/LevelLimitHolder/Label2
-onready var pixel_picked_holder: HBoxContainer = $Footer/FooterLine/StraysLine/PickedHolder
-onready var pixel_astray_holder: HBoxContainer = $Footer/FooterLine/StraysLine/AstrayHolder
 
 	
 func _input(event: InputEvent) -> void:
@@ -127,7 +125,6 @@ func _ready() -> void:
 
 
 func set_hud(players_count: int): # kliče main na game-in
-	# namen: dodam level points limit counter za timeless in setam hud za enigmo 
 	
 	if players_count == 1:
 		# players
