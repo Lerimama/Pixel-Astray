@@ -583,6 +583,7 @@ margin_bottom = 19.0
 texture = SubResource( 148 )
 
 [node name="OffIcon" type="TextureRect" parent="Header/TopLineR/MusicPlayer/SpeakerIcon"]
+visible = false
 margin_top = 3.0
 margin_right = 14.0
 margin_bottom = 19.0

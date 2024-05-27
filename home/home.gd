@@ -148,9 +148,9 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 		"play_level":
 			Global.main_node.home_out()
 	
-	if current_esc_hint != null:
-		var hint_fade_in = get_tree().create_tween()
-		hint_fade_in.tween_property(current_esc_hint, "modulate:a", 1, 0.32)
+	#	if current_esc_hint != null:
+	#		var hint_fade_in = get_tree().create_tween()
+	#		hint_fade_in.tween_property(current_esc_hint, "modulate:a", 1, 0.32)
 		
 
 func animation_reversed(from_screen: int):

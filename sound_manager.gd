@@ -155,7 +155,7 @@ func skip_track():
 			fade_out.tween_callback(track, "stop")
 			fade_out.tween_callback(track, "set_volume_db", [current_track_volume]) # reset glasnosti
 			fade_out.tween_callback(self, "play_music", ["game_music"])
-
+		
 		
 func change_menu_music():
 	

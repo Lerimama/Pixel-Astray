@@ -13,7 +13,7 @@ func _ready() -> void:
 	Profiles.game_data_sweeper["level"] = 1 # ni nujno
 #	for btn in level_grid_btns:
 #		set_btn_tilemap(btn)
-	update_sweeper_btns_color()
+	update_sweeper_btns()
 
 	if Profiles.default_game_settings["show_solution_hint"]:
 		solutions_btn.pressed = true
@@ -48,7 +48,7 @@ func _process(delta: float) -> void:
 				
 var btn_colors: Array
 var solved_sweeper_btns: Array
-func update_sweeper_btns_color():
+func update_sweeper_btns():
 	
 	var solved_levels: Array = Global.data_manager.read_solved_status_from_file(Profiles.game_data_sweeper)
 	
@@ -62,10 +62,11 @@ func update_sweeper_btns_color():
 	else:			
 		btn_colors = Global.get_spectrum_colors(level_grid_btns.size())
 	
-	# obarvam solved gumbe 
+	# poimenujem in obarvam solved gumbe 
 	solved_sweeper_btns = []
 	for btn in level_grid_btns:
 		var btn_index: int = level_grid_btns.find(btn)
+		btn.text = "%02d" % (btn_index + 1)
 		# za vsak gumb preverim če pripada rešenemu level
 		if level_grid_btns.find(btn) + 1 in solved_levels:
 			btn.set("custom_colors/font_color",  Color.white)

@@ -36,7 +36,7 @@ var default_game_settings: Dictionary = {
 	"reburst_count_limit": 0, # 0 je unlimited
 	"reburst_reward_limit": 0, # 0 je brez nagrade
 	"reburst_window_time": 0.3, # 0 je neomejen čas
-	"reburst_hit_power": 1, # kolk jih destroya ... 0 gre po original pravilih moči, trenutno je 5 full power
+	"reburst_hit_power": 0, # kolk jih destroya ... 0 gre po original pravilih moči, trenutno je 5 full power
 	# strays
 	"strays_start_count": 0, # ponekod se spawna vsaj 1
 	"respawn_strays_on_cleaned": false,
@@ -275,8 +275,8 @@ func _ready() -> void:
 #	var debug_game = Games.DEFENDER
 #	var debug_game = Games.ERASER
 #	var debug_game = Games.HANDLER
-#	var debug_game = Games.SWEEPER
-	var debug_game = Games.THE_DUEL
+	var debug_game = Games.SWEEPER
+#	var debug_game = Games.THE_DUEL
 	set_game_data(debug_game)
 	
 	
@@ -287,7 +287,7 @@ func set_game_data(selected_game) -> void:
 	# debug
 	game_settings["start_countdown"] = false
 	game_settings["player_start_life"] = 1
-#	game_settings["show_game_instructions"] = false
+	game_settings["show_game_instructions"] = false
 		
 	match selected_game:
 		

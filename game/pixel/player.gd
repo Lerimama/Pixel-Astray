@@ -2,8 +2,6 @@ extends KinematicBody2D
 class_name Player
 
 
-
-
 signal stat_changed # spremenjeno statistiko javi v hud
 signal rewarded_on_cleaned # da je dobil nagrado ob cleaned javi v GM
 signal player_pixel_set # player je pripravljen
@@ -75,7 +73,7 @@ var sweeper_cleaned_strays_count: int = 0 # beleži vse uničene v času sweeper
 # reburst
 var is_rebursting: bool = false # za regulacijo moči on hit stray
 var reburst_count: int = 0 # resetira se s tajmerjem
-var can_reburst: bool = false
+var reburst_window_open: bool = false
 var reburst_speed_units_count: float = 0 # za prenos original hitrosti v naslednje rebursta
 var reburst_max_cock_count: int = 1 # za kolk se nakoka (samo vizualni efekt)
 onready var rebursting_timer: Timer = $ReburstingTimer
@@ -175,7 +173,7 @@ func idle_inputs():
 		var current_collider: Node2D = detect_collision_in_direction(direction)
 		
 		if not current_collider: # dokler ne zazna kolizije se premika zvezno ... is_action_pressed
-			if can_reburst:
+			if reburst_window_open:
 				rebursting_inputs()
 			else:
 				if Input.is_action_pressed(key_up):
@@ -198,17 +196,21 @@ func idle_inputs():
 		else:
 		# ko zazna kolizijo postane skilled ali pa end move 
 		# kontrole prevzame skilled_input
-			if current_collider.is_in_group(Global.group_strays):
-				current_state = States.SKILLED
-			elif current_collider.is_in_group(Global.group_tilemap):
-				if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
+			if reburst_window_open:
+				rebursting_inputs()
+			else:
+				print("tole")
+				if current_collider.is_in_group(Global.group_strays):
 					current_state = States.SKILLED
-				else: # druge stene
+				elif current_collider.is_in_group(Global.group_tilemap):
+					if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
+						current_state = States.SKILLED
+					else: # druge stene
+						end_move()
+				elif current_collider.is_in_group(Global.group_players):
 					end_move()
-			elif current_collider.is_in_group(Global.group_players):
-				end_move()
-			elif current_collider is StaticBody2D: # static body, 
-				end_move()
+				elif current_collider is StaticBody2D: # static body, 
+					end_move()
 	
 	
 	if Input.is_action_just_pressed(key_burst): # brez "just" dela po stisku smeri ... ni ok
@@ -247,6 +249,10 @@ func skill_inputs():
 		current_state = States.COCKING
 		skill_light_off()
 		burst_light_on()
+		reburst_count = 0
+		close_reburst_window()
+		if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:	
+			finish_burst_move()		
 		return	
 			
 	# izbor skila v novi smeri
@@ -308,7 +314,10 @@ func cocking_inputs():
 		else:
 			release_burst()
 			burst_light_off()
-			
+		reburst_count = 0
+		close_reburst_window()
+		if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:	
+			finish_burst_move()				
 
 func bursting_inputs():
 	
@@ -317,7 +326,10 @@ func bursting_inputs():
 		end_move()
 		Input.start_joy_vibration(0, 0.6, 0.2, 0.2)
 		play_sound("burst_stop")
-
+		reburst_count = 0
+		close_reburst_window()
+		if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:	
+			finish_burst_move()		
 				
 # MOVEMENT ------------------------------------------------------------------------------------------
 
@@ -457,7 +469,7 @@ func burst():
 	release_tween.tween_property(new_stretch_ghost, "scale", Vector2.ONE, strech_ghost_shrink_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	release_tween.parallel().tween_property(new_stretch_ghost, "position", global_position - burst_direction * cell_size_x, strech_ghost_shrink_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	release_tween.tween_callback(new_stretch_ghost, "queue_free")
-#	var preburst_position: Vector2 = global_position
+	#	var preburst_position: Vector2 = global_position
 	yield(release_tween, "finished")
 	# release pixel
 	current_state = States.BURSTING
@@ -678,7 +690,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	
 	if Global.game_manager.game_settings["reburst_mode"]:
 		if reburst_count < Global.game_manager.game_settings["reburst_count_limit"] or Global.game_manager.game_settings["reburst_count_limit"] == 0:
-			can_reburst = true
+			reburst_window_open = true
 			burst_light_on()	
 			rebursting_timer.stop() # ... zazih
 			rebursting_timer.start(Global.game_manager.game_settings["reburst_window_time"])
@@ -943,9 +955,10 @@ func reburst():
 
 
 func close_reburst_window():
+	# NEXT close_reburst_window preveri kje deluje
 	# se resetira na vsak reburst in drugo 
 	
-	can_reburst = false
+	reburst_window_open = false
 	rebursting_timer.stop()
 	burst_light_off()
 		
