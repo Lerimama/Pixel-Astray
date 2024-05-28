@@ -145,7 +145,7 @@ func set_hud(players_count: int): # kliče main na game-in
 		highscore_label.visible = false
 	
 	# lajf counter
-	if Global.game_manager.game_settings["lose_life_on_hit"] and Global.game_manager.game_settings["player_start_life"] > 1:
+	if Global.game_manager.game_settings["player_start_life"] > 1:
 		p1_life_counter.visible = true
 		p2_life_counter.visible = true
 	else:
@@ -184,7 +184,19 @@ func set_hud(players_count: int): # kliče main na game-in
 		highscore_label.visible = true
 		set_current_highscore()
 
+
+func level_up_popup_inout(level_reached: int): 
 	
+	level_up_popup.modulate.a = 0
+	level_up_popup.get_node("Label").text = "LEVEL UP" # "LEVEL %s" % str(level_reached)
+	level_up_popup.show()
+	
+	var popup_in = get_tree().create_tween()
+	popup_in.tween_property(level_up_popup, "rect_scale", Vector2.ONE * 1.2, 1.5).from(Vector2.ONE * 0.8).set_ease(Tween.EASE_IN_OUT)
+	popup_in.parallel().tween_property(level_up_popup, "modulate:a", 1, 0.5)
+	popup_in.parallel().tween_property(level_up_popup, "modulate:a", 0, 0.5).from(1.0).set_delay(0.6)
+	
+		
 func level_up_popup_in(level_reached: int): 
 	
 	level_up_popup.modulate.a = 0

@@ -14,23 +14,19 @@ var default_player_stats: Dictionary = {
 
 var default_game_settings: Dictionary = {
 	# player
-	"player_start_life": 3, # 1 lajf skrije ikone v hudu
+	"player_start_life": 3, # 1 lajf skrije ikone v hudu in šteje kot "lose_life_on_hit" off
 	"player_start_color": Global.color_dark_gray_pixel, # na začetku je bel, potem se animira v start color ... #232323, #141414
 	"step_time_fast": 0.09, # default hitrost
 	"player_start_energy": 192,
 	"step_slowdown_mode": true,
-	"lose_life_on_hit": true, # alternativa je izguba energije na hit in samo en lajf
 	"full_power_mode": false, # vedno destroja ves bulk, hitrost = max_cock_count
 	# points
 	"color_picked_points": 10, 
 	"white_eliminated_points": 100, 
 	"cleaned_reward_points": 1000,
-	"reburst_reward_points": 0,
-	"on_hit_points_part": 0, # delež izgubljenih ob zadetku stene
 	# energija
 	"color_picked_energy": 10,
 	"cell_traveled_energy": -1,
-	"on_hit_energy_part": 0.5,
 	# reburst
 	"reburst_mode": false,
 	"reburst_window_time": 0.3, # 0 je neomejen čas
@@ -45,11 +41,9 @@ var default_game_settings: Dictionary = {
 	# game
 	"game_time_limit": 0, # če je nič, ni omejeno in timer je stopwatch mode
 	"start_countdown": true,
-	"position_indicators_on": true,
 	"show_game_instructions": true,
 	"show_solution_hint": false, # sweeper reštve
 	"zoom_to_level_size": true,
-	"level_popup_on": false,
 	"game_track_index": 0, # default muska v igri
 }
 
@@ -127,8 +121,8 @@ var game_data_eraser: Dictionary = {
 	"Prop2" : "Score points\nand beat the\ncurrent record!",
 	#
 	"level": 1, # pomeni, da je multilevel
-	"level_goal_count": 30, # prvi level
-	"level_goal_count_grow": 320, # prištejem najvišjemu rezultatu
+	"level_goal_count": 30, # prvi level ... pot
+	"level_goal_count_grow": 320, # prištejem rezultatu ob prehodu
 	"strays_start_count_grow": 5, # prištejem
 	"respawn_wait_time_factor": 0.7, # množim
 	"respawn_strays_count_grow": 1, # prištejem
@@ -162,13 +156,13 @@ var game_data_defender: Dictionary = {
 	"game_name": "Defender",
 	"game_scene_path": "res://game/game_defender.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_defender.tscn",
-	"description" : "Hold the line against the endless wave of invading pixels!",
+	"description" : "Defend the screen against invading pixels!",
 	"Prop": "Score points\nand beat the\ncurrent record!",
-	"Prop2" : "Player is always\nfull of energy\nand life, but\nhas no skills.",
+	"Prop2" : "Player is always\nfull of energy,\nbut has no skills.",
 	"Prop3" : "Unlimited\ncleaning time.\nUnlimited\ndifficulty levels.",
 	#
 	"level": 1, # pomeni, da je multilevel
-	"stages_per_level": 32, # prvi level
+	"stages_per_level": 3, # prvi level
 	"stages_per_level_grow": 0, # dodatno prištejem
 	"lines_scroll_per_spawn_round": 1, # na koliko stepov se spawna nova runda
 	"invading_pause_time": 1.5, # ne sem bit manjša od stray step hitrosti (0.2)
@@ -271,9 +265,9 @@ func _ready() -> void:
 #	var debug_game = Games.CLEANER_M
 #	var debug_game = Games.CLEANER_L
 #	var debug_game = Games.DEFENDER
-#	var debug_game = Games.ERASER
+	var debug_game = Games.ERASER
 #	var debug_game = Games.HANDLER
-	var debug_game = Games.SWEEPER
+#	var debug_game = Games.SWEEPER
 #	var debug_game = Games.THE_DUEL
 	set_game_data(debug_game)
 	
@@ -284,7 +278,7 @@ func set_game_data(selected_game) -> void:
 	
 	# debug
 	game_settings["start_countdown"] = false
-	game_settings["player_start_life"] = 1
+#	game_settings["player_start_life"] = 1
 	game_settings["show_game_instructions"] = false
 		
 	match selected_game:
@@ -302,7 +296,6 @@ func set_game_data(selected_game) -> void:
 			game_settings["show_game_instructions"] = false
 			game_settings["game_time_limit"] = 0
 			game_settings["strays_start_count"] = 1
-			game_settings["lose_life_on_hit"] = false
 			game_settings["zoom_to_level_size"] = false
 			game_settings["start_countdown"] = false
 			
@@ -312,7 +305,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["strays_start_count"] = 50
 			game_settings["respawn_on_cleaned"] = true
 			game_settings["zoom_to_level_size"] = false
-			game_settings["respawn_strays_on_cleaned"] = true
+#			game_settings["respawn_strays_on_cleaned"] = true
 			game_settings["spawn_white_stray_part"] = 0.11 # 10 posto
 			# debug
 		Games.CLEANER_M: 
@@ -321,7 +314,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["strays_start_count"] = 140
 			game_settings["respawn_on_cleaned"] = true
 			game_settings["zoom_to_level_size"] = false
-			game_settings["respawn_strays_on_cleaned"] = true
+#			game_settings["respawn_strays_on_cleaned"] = true
 			game_settings["spawn_white_stray_part"] = 0.11
 		Games.CLEANER_L: 
 			current_game_data = game_data_cleaner_l
@@ -329,24 +322,20 @@ func set_game_data(selected_game) -> void:
 			game_settings["strays_start_count"] = 320
 			game_settings["respawn_on_cleaned"] = true
 			game_settings["zoom_to_level_size"] = false
-			game_settings["respawn_strays_on_cleaned"] = true
+#			game_settings["respawn_strays_on_cleaned"] = true
 			game_settings["spawn_white_stray_part"] = 0.11
 		
 		Games.ERASER: 
 			current_game_data = game_data_eraser
 			game_settings["cell_traveled_energy"] = 0
-			game_settings["full_power_mode"] = true
-			game_settings["position_indicators_on"] = false
 			game_settings["start_countdown"] = false
 			#
-			game_settings["strays_start_count"] = 50
+			game_settings["strays_start_count"] = 5
 			game_settings["respawn_strays_count"] = 1
 		
 		Games.HANDLER: 
 			current_game_data = game_data_handler
 			game_settings["cell_traveled_energy"] = 0
-			game_settings["full_power_mode"] = true
-			game_settings["position_indicators_on"] = false
 			game_settings["start_countdown"] = false
 			#
 			game_settings["strays_start_count"] = 3	
@@ -354,12 +343,10 @@ func set_game_data(selected_game) -> void:
 
 		Games.DEFENDER:
 			current_game_data = game_data_defender
-			game_settings["lose_life_on_hit"] = false
 			game_settings["on_hit_energy_part"] = 0
 			game_settings["cell_traveled_energy"] = 0
-			game_settings["position_indicators_on"] = false 
+			game_settings["full_power_mode"] = true # 1 v prvi spawn rundi
 			game_settings["strays_start_count"] = 1 # 1 v prvi spawn rundi
-			game_settings["full_power_mode"] = true
 			# debug
 #			game_settings["invading_pause_time"] = 0.3 # 1 v prvi spawn rundi
 #			game_settings["stray_to_spawn_round_range"] = [20, 30] # 1 v prvi spawn rundi
@@ -367,9 +354,7 @@ func set_game_data(selected_game) -> void:
 		
 		Games.THE_DUEL: 
 			current_game_data = game_data_the_duel
-			game_settings["position_indicators_on"] = false 
-#			game_settings["strays_start_count"] = 1 
-			game_settings["game_time_limit"] = 0#180
+			game_settings["game_time_limit"] = 0 #180
 			#	
 			game_settings["respawn_strays_count"] = 20 
 			game_settings["respawn_wait_time"] = 0
@@ -378,17 +363,14 @@ func set_game_data(selected_game) -> void:
 		Games.SWEEPER: 
 			current_game_data = game_data_sweeper
 			game_settings["player_start_life"] = 1
-#			game_settings["player_start_color"] = Color.white
 			game_settings["color_picked_points"] = 0
 			game_settings["cell_traveled_energy"] = 0
 			game_settings["cleaned_reward_points"] = 1 # ... izpiše se "SUCCESS!"
 			game_settings["game_track_index"] = 1
 			#
-			game_settings["lose_life_on_hit"] = true
 			game_settings["reburst_mode"] = true
 			game_settings["reburst_window_time"] = 0
 			game_settings["respawn_strays_count"] = 0
-			game_settings["position_indicators_on"] = false
 			# debug
 			current_game_data["level"] = 8
 

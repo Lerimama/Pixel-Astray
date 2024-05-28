@@ -33,7 +33,7 @@ var cocking_loop_pause: float = 1
 var cock_ghost_cocking_time: float = 0.06 # čas nastajanja ghosta in njegova animacija ... original 0.12
 var current_ghost_cocking_time: float = 0 # trenuten čas nastajanja ghosta ... tukaj, da ga ne nulira z vsakim frejmom
 var cocked_ghost_max_count: int = 5
-var cock_ghost_speed_addon: float = 10
+var cock_ghost_speed_addon: float = 14
 var cocked_ghosts: Array
 var burst_speed: float = 0 # trenutna hitrost
 var burst_velocity: Vector2
@@ -820,7 +820,7 @@ func on_hit_wall():
 	if player_stats["player_energy"] <= 1: # more bit pred statistiko
 		stop_heart()
 	
-	change_stat("hit_wall", 1) # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
+	change_stat("hit_wall", 1)
 	
 	die() # vedno sledi statistiki
 
@@ -839,7 +839,7 @@ func on_get_hit(hit_burst_speed: float):
 	if player_stats["player_energy"] <= 1: # more bit pred statistiko
 		stop_heart()
 	
-	change_stat("get_hit", 1) # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
+	change_stat("get_hit", 1)
 	
 	die() # vedno sledi statistiki
 	
@@ -1389,9 +1389,11 @@ func change_stat(stat_event: String, stat_value):
 	
 	if not Global.game_manager.game_on and not stat_event == "all_cleaned": # statistika se ne beleži več, razen "all_cleaned"
 		return
-		
+	
 	match stat_event:
+		
 		# SKILL & BURST ---------------------------------------------------------------------------------------------------------------
+		
 		"cells_traveled": # štetje, točke in energija kot je določeno v settingsih
 			player_stats["cells_traveled"] += 1
 			player_stats["player_energy"] += game_settings["cell_traveled_energy"]
@@ -1399,7 +1401,9 @@ func change_stat(stat_event: String, stat_value):
 			player_stats["skill_count"] += 1
 		"burst_released": # štetje, točke in energija kot je določeno v settingsih
 			player_stats["burst_count"] += 1
+		
 		# HITS ------------------------------------------------------------------------------------------------------------------
+	
 		"hit_stray": # štetje, točke in energija glede na število uničenih straysov
 			var points_to_gain: int = 0
 			var energy_to_gain: int = 0
@@ -1426,47 +1430,38 @@ func change_stat(stat_event: String, stat_value):
 		"hit_player": # točke glede na delež loserjevih točk, energija se resetira na 100%
 			var hit_player_current_points: int = stat_value
 			player_stats["player_energy"] = player_max_energy
-			var points_to_gain: int = round(hit_player_current_points * game_settings["on_hit_points_part"])
+			var on_get_hit_points_part: float = 0.5
+			var points_to_gain: int = round(hit_player_current_points * on_get_hit_points_part)
 			player_stats["player_points"] += points_to_gain
 			spawn_floating_tag(points_to_gain)
-		"hit_wall": # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
-			if Global.game_manager.game_settings["lose_life_on_hit"]:
+		"hit_wall":
+			if Global.game_manager.game_settings["player_start_life"] > 1:
 				player_stats["player_energy"] = 0
 			else:
-				player_stats["player_energy"] -= round(player_stats["player_energy"] * game_settings["on_hit_energy_part"])
-			var points_to_lose = round(player_stats["player_points"] * game_settings["on_hit_points_part"])
+				var on_hit_wall_energy_part: float = 0.5
+				player_stats["player_energy"] -= round(player_stats["player_energy"] * on_hit_wall_energy_part)
+		"get_hit": # izgubi vso energijo in lajf, ter pol točk
+			player_stats["player_energy"] = 0
+			var on_get_hit_points_part: float = 0.5
+			var points_to_lose = round(player_stats["player_points"] * on_get_hit_points_part)
 			player_stats["player_points"] -= points_to_lose
 			spawn_floating_tag(- points_to_lose) 
-		"get_hit": # točke in energija glede na delež v settingsih, energija na 0 in izguba lajfa, če je "lose_life_on_hit"
-			if Global.game_manager.game_settings["lose_life_on_hit"]:
-				player_stats["player_energy"] = 0
-			else: # lajf = 1 setan na ready, porablja se energija 
-				player_stats["player_energy"] -= round(player_stats["player_energy"] * game_settings["on_hit_energy_part"])
-			var points_to_lose = round(player_stats["player_points"] * game_settings["on_hit_points_part"])
-			player_stats["player_points"] -= points_to_lose
-			spawn_floating_tag(- points_to_lose) 
+		
 		# LIFE LOOP ------------------------------------------------------------------------------------------------------------
+	
 		"die": # izguba lajfa, če je energija 0
 			if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
 				return
-			if player_stats["player_energy"] == 0: # energija = 0 samo zaradi srčka ali hita, če je "lose_life_on_hit"
+			if player_stats["player_energy"] == 0:
 				player_stats["player_life"] -= 1
 		"stop_heart": # energija je 0
 			player_stats["player_energy"] = 0
 		"revive": # resetiranje energije, če je izgubil lajfa (energija = 0)
-			if player_stats["player_energy"] == 0: # energija = 0 samo zaradi srčka ali hita, če je "lose_life_on_hit"
+			if player_stats["player_energy"] == 0:
 				player_stats["player_energy"] = player_max_energy
-			
-		# XTRA ---------------------------------------------------------------------------------------------------------------
-		"reburst_reward": # če se dotikaš
-			player_stats["player_points"] += game_settings["reburst_reward_points"]
-			yield(get_tree().create_timer(0.7), "timeout")
-			var reward_tag: Node = spawn_floating_tag(game_settings["reburst_reward_points"]) 
 		"all_cleaned": # nagrada je določena v settingsih
 			player_stats["player_points"] += game_settings["cleaned_reward_points"]
 			var reward_tag: Node = spawn_floating_tag(game_settings["cleaned_reward_points"])
-		"set_life_trivial":
-			player_stats["player_life"] = 1
 	
 	# klempanje
 	player_stats["player_energy"] = round(player_stats["player_energy"])

@@ -16,31 +16,31 @@ func _process(delta: float) -> void:
 	
 
 	
-func set_hud(players_count: int): # kliče main na game-in
-	# namen: ikone v player statline, samo 1 player, ni lajfov, ni energije, level data je vis tudi če je prazen, energy counter
-	# namen: skijem elemente brez preverjanja
-	
-	# hide
-	p1_label.visible = false
-	p2_statsline.visible = false
-	strays_counters_holder.visible = false
-	p1_color_holder.visible = false	
-	p1_life_counter.visible = false
-	p1_energy_counter.visible = false
-	level_limit_holder.visible = true
-	strays_counters_holder.visible = false
-
-	# popups
-	p1_energy_warning_popup = $Popups/EnergyWarning/Solo	
-
-	# level label
-	if not Global.game_manager.game_data.has("level"):
-		level_label.visible = false
-
-	# highscore		
-	p1_points_holder.visible = true
-	highscore_label.visible = true
-	set_current_highscore()
+#func set_hud(players_count: int): # kliče main na game-in
+#	# namen: ikone v player statline, samo 1 player, ni lajfov, ni energije, level data je vis tudi če je prazen, energy counter
+#	# namen: skijem elemente brez preverjanja
+#
+#	# hide
+#	p1_label.visible = false
+#	p2_statsline.visible = false
+#	strays_counters_holder.visible = false
+#	p1_color_holder.visible = false	
+##	p1_life_counter.visible = false
+#	p1_energy_counter.visible = false
+#	level_limit_holder.visible = true
+#	strays_counters_holder.visible = false
+#
+#	# popups
+#	p1_energy_warning_popup = $Popups/EnergyWarning/Solo	
+#
+#	# level label
+#	if not Global.game_manager.game_data.has("level"):
+#		level_label.visible = false
+#
+#	# highscore		
+#	p1_points_holder.visible = true
+#	highscore_label.visible = true
+#	set_current_highscore()
 	
 	
 func level_up_popup_in(level_reached: int):

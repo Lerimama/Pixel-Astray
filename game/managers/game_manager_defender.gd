@@ -31,11 +31,15 @@ func _unhandled_input(event: InputEvent) -> void:
 
 			
 func _ready() -> void:
+	# namen: ugasnem stray pos indikatorje tako da dam limito na 0
 
 	Global.game_manager = self
 	StrayPixel = preload("res://game/pixel/stray_defender.tscn")
 	PlayerPixel = preload("res://game/pixel/player_defender.tscn")
+	
 	randomize()
+	
+	show_position_indicators_limit = 0		
 	
 	
 func _process(delta: float) -> void:
@@ -291,24 +295,23 @@ func upgrade_level(level_upgrade_reason: String):
 
 	if current_level > 1:
 		#reset players
-		if game_settings["level_popup_on"]:
-			Global.hud.level_up_popup_in(current_level)
+		Global.hud.level_up_popup_inout(current_level)
+#		Global.hud.level_up_popup_in(current_level)
 		for player in current_players_in_game:
 			player.end_move()		
 			if level_upgrade_reason == "cleaned":
 				player.on_screen_cleaned()
 		Global.hud.empty_color_indicators() # novi indkatorji
-		get_tree().call_group(Global.group_players, "set_physics_process", false)
+#		get_tree().call_group(Global.group_players, "set_physics_process", false)
 		set_new_level() 
 		set_level_colors() # more bit pred yieldom in tudi, če so že spucani
-		if not get_tree().get_nodes_in_group(Global.group_strays).empty():
-			clean_strays_in_game() # puca vse v igri
-		yield(self, "all_strays_died") # ko so vsi iz igre grem naprej
+#		if not get_tree().get_nodes_in_group(Global.group_strays).empty():
+#			clean_strays_in_game() # puca vse v igri
+#		yield(self, "all_strays_died") # ko so vsi iz igre grem naprej
 
 		# new level
-		if game_settings["level_popup_on"]:
-			Global.hud.level_up_popup_out()
-		get_tree().call_group(Global.group_players, "set_physics_process", true)	
+#		Global.hud.level_up_popup_out()
+#		get_tree().call_group(Global.group_players, "set_physics_process", true)	
 	else:
 		set_new_level() 
 		set_level_colors()

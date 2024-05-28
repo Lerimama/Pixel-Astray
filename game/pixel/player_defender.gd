@@ -198,65 +198,58 @@ func play_sound(effect_for: String):
 			$Sounds/Skills/StoneSlide.play()
 		"teleport":
 			$Sounds/Skills/TeleportIn.play()
-
+	
 		
-func on_hit_wall():
-	# namen: drugačni efekti, nepošiljanje statistike in end_move()
-	
-	Input.start_joy_vibration(0, 0.5, 0.6, 0.7)
-	play_sound("hit_wall")
-	# spawn_dizzy_particles()
-	spawn_collision_particles()
-	shake_player_camera(burst_speed)
-	
-	end_move()
-
-
-#func show_ghost(ghost):
+#func on_hit_wall():
+#	# namen: drugačni efekti, nepošiljanje statistike in end_move()
 #
-#	if cocking_room:
-#		var cock_cell_tween = get_tree().create_tween()
-#		cock_cell_tween.tween_property(ghost, "modulate:a", 1, cock_ghost_cocking_time)
-
-
-#func detect_touch():
+#	Input.start_joy_vibration(0, 0.5, 0.6, 0.7)
+#	play_sound("hit_wall")
+#	# spawn_dizzy_particles()
+#	spawn_collision_particles()
+#	shake_player_camera(burst_speed)
 #
-#	var touch_areas: Array = [$Touch/TouchArea, $Touch/TouchArea2, $Touch/TouchArea3, $Touch/TouchArea4]
-#	var current_player_strays: Array # sosedi v tem koraku
+#	end_move()
+
+
+
+#func on_hit_stray(hit_stray: KinematicBody2D):
+#	# namen: monokill + touching white, no reburst
 #
-#	# preverim vsako areo, če ima straysa
-#	var touching_sides_count: int = 0
-#	for area in touch_areas:
-#		var bodies_touched: Array = area.get_overlapping_bodies()
-#		if not bodies_touched.empty():
-#			for body in bodies_touched:
-#				if body.is_in_group(Global.group_strays):
-#					current_player_strays.append_array(bodies_touched)
-#					touching_sides_count += 1
-#					break
+#	Input.start_joy_vibration(0, 0.5, 0.6, 0.2)
+#	play_sound("hit_stray")	
+#	spawn_collision_particles()
+#	shake_player_camera(burst_speed)			
 #
-#	# surrounded
-#	if touching_sides_count == touch_areas.size():
-#		# če je še vedno obkoljen, preverim pe istost sosedov > GO
-#		if is_surrounded:
-#			# če so sosedi isti je GO
-#			if surrounded_player_strays == current_player_strays:
-#				Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)
-#			# če niso isti, restiram sosede in potem normalno naprej
-#			else:
-#				surrounded_player_strays = []
-#				is_surrounded = false
-#				touch_timer.start(detect_touch_pause_time)
-#		# če je prvič obkoljen, ga označim za obkoljenega in zapišem sosede
-#		else: 
-#			is_surrounded = true
-#			surrounded_player_strays = current_player_strays
-#			touch_timer.start(is_surrounded_time) # daljši čas
-#	# not surrounded
-#	else:
-#		surrounded_player_strays = []
-#		is_surrounded = false # resetiram
-#		touch_timer.start(detect_touch_pause_time)
-
-
-
+#	if hit_stray.current_state == hit_stray.States.DYING or hit_stray.current_state == hit_stray.States.WALL: # če je že v umiranju, samo kolajdaš
+#		end_move()
+#		return
+#
+#	# izklopim če začne bel
+#	tween_color_change(hit_stray.stray_color)
+#
+#	# reburst
+#	var burst_speed_units_count = burst_speed / cock_ghost_speed_addon
+#
+#	# preverim sosede
+#	var hit_stray_neighbors: Array = check_strays_neighbors(hit_stray)
+#	var all_neighboring_strays: Array = hit_stray_neighbors[0]
+#	var white_strays_in_stack: Array = hit_stray_neighbors[1]
+#
+#	# defender preverja samo sosede zadetega
+#	var strays_to_destroy: Array = []
+#	strays_to_destroy.append(hit_stray)
+#	if not white_strays_in_stack.empty():
+#		for white_stray in white_strays_in_stack:
+#			strays_to_destroy.append(white_stray)
+#
+#	# jih destrojam
+#	for stray in strays_to_destroy:
+#		var stray_index = strays_to_destroy.find(stray)
+#		stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
+#
+#	# stats
+#	var strays_not_walls_count: int = strays_to_destroy.size() - white_strays_in_stack.size()
+#	change_stat("hit_stray", [strays_not_walls_count, white_strays_in_stack.size()]) 
+#
+#	end_move()

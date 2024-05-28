@@ -2,8 +2,8 @@ extends Control
 
 
 onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
-onready var sweeper_btn: Button = $GamesMenu/Sweeper/SweeperBtn
-onready var sweeper_btns_holder: Control = $"../SelectLevel/LevelGrid/BtnsHolder" # za število ugank
+onready var sweeper_game_btn: Button = $GamesMenu/Sweeper/SweeperBtn
+onready var sweeper_btns_holder: Control = $"../SelectLevel/BtnsHolder" # za število ugank
 onready var sweeper_label: Label = $GamesMenu/Sweeper/Label
 onready var color_pool: Array = $"%Intro".all_colors_available
 
@@ -80,10 +80,9 @@ func _on_TheDuelBtn_pressed() -> void:
 func _on_SweeperBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("select_level")
-	get_focus_owner().release_focus()
 	get_viewport().set_disable_input(true)
 
-
+# ozadja
 func _on_TutorialBackground_mouse_entered() -> void:
 	
 	$GamesMenu/Tutorial/TutorialBtn.grab_focus()
@@ -99,7 +98,7 @@ func _on_TimelessBackground_mouse_entered() -> void:
 		$GamesMenu/Timeless/EraserBtn.grab_focus()
 func _on_SweeperBackground_mouse_entered() -> void:
 	
-	sweeper_btn.grab_focus()
+	sweeper_game_btn.grab_focus()
 func _on_DuelBackground_mouse_entered() -> void:
 	
 	$GamesMenu/TheDuel/TheDuelBtn.grab_focus()

@@ -23,8 +23,8 @@ var all_strays_died_alowed: bool = false # za omejevanje signala iz FP ... kdaj 
 var all_stray_colors: Array # barve na štartnem spawnu (iste kot v spektrumu)
 var available_respawn_positions: Array # pozicije na voljo, ki se apdejtajo na vsak stray in player spawn ali usmrtitev 
 var dont_turn_to_wall_positions: Array # za zaščito, da wall stray ne postane wall (ob robu igre recimo)
-var show_position_indicators_limit_reached: bool = false # na začetku jih ne rabim gledat
-var show_position_indicators_limit: int = 5
+var show_position_indicators: bool = false # na začetku jih ne rabim gledat
+var show_position_indicators_limit: int = 6
 var first_respawn_time: float = 5
 
 # tilemap data
@@ -77,21 +77,12 @@ func _process(delta: float) -> void:
 	# all strays and players
 	current_players_in_game = get_tree().get_nodes_in_group(Global.group_players)
 
-	# pixel count
-#	var wall_strays_count: int = 0
-#	for stray in get_tree().get_nodes_in_group(Global.group_strays):
-#		if stray.current_state == stray.States.WALL:
-#			wall_strays_count += 1
 	# če sem v fazi, ko lahko preverjam cleaned (po spawnu)
 	if all_strays_died_alowed:
 		# če ni nobene stene, me zanimajo samo prazni strajsi
 		if strays_in_game_count == 0:
 			all_strays_died_alowed = false
 			emit_signal("all_strays_died")
-#		# če so v igri samo še straysi, ki so stene
-#		elif strays_in_game_count == wall_strays_count:
-#			all_strays_died_alowed = false
-#			emit_signal("all_strays_died")
 	
 	# skos apdejtam pozicije na voljo
 	available_respawn_positions = Global.current_tilemap.floor_global_positions.duplicate() # vsa tla
@@ -104,12 +95,12 @@ func _process(delta: float) -> void:
 
 	# position indicators
 	if game_on:
-		if Global.strays_on_screen.size() <= show_position_indicators_limit and game_settings["position_indicators_on"]:
-			show_position_indicators_limit_reached = true
+		if Global.strays_on_screen.size() < show_position_indicators_limit:
+			show_position_indicators = true
 		else:
-			show_position_indicators_limit_reached = false
+			show_position_indicators = false
 	else:
-		show_position_indicators_limit_reached = false
+		show_position_indicators = false
 
 
 # GAME SETUP --------------------------------------------------------------------------------------
@@ -540,34 +531,35 @@ func stop_stray_spawning():
 # LEVELS --------------------------------------------------------------------------------------------	
 
 
-func upgrade_level(level_upgrade_reason: String):
+func upgrade_level(level_upgrade_reason: String): # cleaner
 	
 	if level_upgrade_in_progress:
 		return
-	
 	level_upgrade_in_progress = true	
 	randomize()
+	
 	game_data["level"] += 1 # številka novega levela 
 	respawn_timer.stop()
-	if game_settings["level_popup_on"]:
-		Global.hud.level_up_popup_in(game_data["level"])
-	# reset players
+	Global.hud.level_up_popup_inout(game_data["level"])
+#	Global.hud.level_up_popup_in(game_data["level"])
+	
 	for player in current_players_in_game:
 		player.end_move()
 		if level_upgrade_reason == "cleaned":
 			player.on_screen_cleaned()
+			
+#	get_tree().call_group(Global.group_players, "set_physics_process", false)
 	Global.hud.empty_color_indicators()
-	get_tree().call_group(Global.group_players, "set_physics_process", false)
 	set_new_level() 
-	if not get_tree().get_nodes_in_group(Global.group_strays).empty():
-		clean_strays_in_game() # puca vse v igri
-		yield(self, "all_strays_died") # ko so vsi iz igre grem naprej
+#	if not get_tree().get_nodes_in_group(Global.group_strays).empty():
+#		clean_strays_in_game() # puca vse v igri
+#		yield(self, "all_strays_died") # ko so vsi iz igre grem naprej
 	
 	# new level
-	if game_settings["level_popup_on"]:
-		Global.hud.level_up_popup_out()
+#	Global.hud.level_up_popup_out()
 	set_strays() 
-	get_tree().call_group(Global.group_players, "set_physics_process", true)
+#	get_tree().call_group(Global.group_players, "set_physics_process", true)
+	
 	level_upgrade_in_progress = false
 	
 	if game_settings["respawn_strays_count"] > 0 and not game_settings["respawn_wait_time"] == 0:

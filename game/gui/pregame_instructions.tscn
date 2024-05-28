@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://game/hud/game_instructions.gd" type="Script" id=1]
 [ext_resource path="res://assets/theme/font_main_small.tres" type="DynamicFont" id=2]
@@ -8,9 +8,8 @@
 [ext_resource path="res://assets/atlas_controls.png" type="Texture" id=6]
 [ext_resource path="res://game/gui/controls_scheme.tscn" type="PackedScene" id=7]
 [ext_resource path="res://game/gui/action_hint.tscn" type="PackedScene" id=8]
+[ext_resource path="res://assets/theme/box_colored_almost_black.tres" type="StyleBox" id=9]
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=10]
-[ext_resource path="res://game/gui/shortcut_line.tscn" type="PackedScene" id=11]
-[ext_resource path="res://assets/theme/box_colored.tres" type="StyleBox" id=12]
 
 [sub_resource type="AtlasTexture" id=389]
 atlas = ExtResource( 6 )
@@ -58,8 +57,6 @@ region = Rect2( 113.919, 154, 22, 22 )
 [sub_resource type="AtlasTexture" id=476]
 atlas = ExtResource( 6 )
 region = Rect2( 146, 224, 6, 10 )
-
-[sub_resource type="StyleBoxEmpty" id=455]
 
 [sub_resource type="StyleBoxEmpty" id=458]
 
@@ -218,6 +215,7 @@ region = Rect2( 138, 22, 22, 22 )
 margin = Rect2( -2, 0, 0, 0 )
 
 [node name="Instructions" type="Control"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 5 )
@@ -230,8 +228,6 @@ __meta__ = {
 [node name="Background" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 16.0
-margin_right = 16.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color( 0, 0, 0, 0.901961 )
@@ -288,7 +284,7 @@ margin_right = 208.0
 margin_bottom = 144.0
 rect_min_size = Vector2( 208, 144 )
 size_flags_horizontal = 3
-custom_styles/panel = ExtResource( 12 )
+custom_styles/panel = ExtResource( 9 )
 
 [node name="PropLabel" type="Label" parent="Outline/Prop"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
@@ -314,7 +310,7 @@ margin_right = 424.0
 margin_bottom = 144.0
 rect_min_size = Vector2( 208, 144 )
 size_flags_horizontal = 3
-custom_styles/panel = ExtResource( 12 )
+custom_styles/panel = ExtResource( 9 )
 
 [node name="PropLabel" type="Label" parent="Outline/Prop2"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
@@ -340,7 +336,7 @@ margin_right = 640.0
 margin_bottom = 144.0
 rect_min_size = Vector2( 208, 144 )
 size_flags_horizontal = 3
-custom_styles/panel = ExtResource( 12 )
+custom_styles/panel = ExtResource( 9 )
 
 [node name="PropLabel" type="Label" parent="Outline/Prop3"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
@@ -366,7 +362,7 @@ margin_right = 207.0
 margin_bottom = 304.0
 grow_horizontal = 2
 rect_min_size = Vector2( 207, 152 )
-custom_styles/panel = ExtResource( 12 )
+custom_styles/panel = ExtResource( 9 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -421,7 +417,7 @@ margin_right = 640.0
 margin_bottom = 312.0
 rect_min_size = Vector2( 240, 160 )
 size_flags_horizontal = 3
-custom_styles/panel = ExtResource( 12 )
+custom_styles/panel = ExtResource( 9 )
 __meta__ = {
 "_edit_group_": true,
 "_editor_description_": ""
@@ -490,7 +486,7 @@ margin_right = 640.0
 margin_bottom = 320.0
 rect_min_size = Vector2( 0, 160 )
 size_flags_horizontal = 3
-custom_styles/panel = ExtResource( 12 )
+custom_styles/panel = ExtResource( 9 )
 __meta__ = {
 "_edit_group_": true,
 "_editor_description_": ""
@@ -595,7 +591,7 @@ margin_right = 640.0
 margin_bottom = 320.0
 rect_min_size = Vector2( 0, 160 )
 size_flags_horizontal = 3
-custom_styles/panel = ExtResource( 12 )
+custom_styles/panel = ExtResource( 9 )
 __meta__ = {
 "_edit_group_": true,
 "_editor_description_": ""
@@ -693,7 +689,7 @@ margin_right = 639.0
 margin_bottom = 312.0
 rect_min_size = Vector2( 252, 0 )
 size_flags_horizontal = 3
-custom_styles/panel = SubResource( 455 )
+custom_styles/panel = ExtResource( 9 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -949,16 +945,6 @@ theme = SubResource( 453 )
 custom_fonts/font = ExtResource( 3 )
 text = "to confirm selection"
 
-[node name="ControlHint" parent="." instance=ExtResource( 11 )]
-visible = false
-margin_left = -153.0
-margin_right = 154.0
-
-[node name="KEY" parent="ControlHint" index="1"]
-margin_left = 51.0
-margin_right = 117.0
-text = "RETURN"
-
 [node name="ActionHint" parent="." instance=ExtResource( 8 )]
 anchor_left = 0.5
 anchor_top = 0.5
@@ -991,5 +977,4 @@ margin_right = 248.0
 text = "to start"
 
 [editable path="Outline/Controls/Controls2"]
-[editable path="ControlHint"]
 [editable path="ActionHint"]

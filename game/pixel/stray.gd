@@ -34,7 +34,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	
-	if Global.game_manager.show_position_indicators_limit_reached and modulate.a == 1: # alpfa je, da se ga visi ob fjedinu straya
+	if Global.game_manager.show_position_indicators and modulate.a == 1: # alpfa je, da se ga visi ob fjedinu straya
 		position_indicator.visible = true
 	else:
 		position_indicator.visible = false

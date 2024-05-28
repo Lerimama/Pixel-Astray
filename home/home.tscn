@@ -19,6 +19,7 @@
 [ext_resource path="res://home/select_level.gd" type="Script" id=17]
 [ext_resource path="res://assets/theme/color_theme_spectrum.png" type="Texture" id=18]
 [ext_resource path="res://assets/theme/font_big.tres" type="DynamicFont" id=19]
+[ext_resource path="res://assets/theme/box_colored_white.tres" type="StyleBox" id=20]
 [ext_resource path="res://game/gui/highscore_table.tscn" type="PackedScene" id=21]
 [ext_resource path="res://game/gui/controls_scheme.tscn" type="PackedScene" id=22]
 [ext_resource path="res://game/gui/shortcut_line.tscn" type="PackedScene" id=23]
@@ -371,10 +372,10 @@ region = Rect2( 31, 22, 6, 10 )
 
 [sub_resource type="StyleBoxEmpty" id=151]
 
-[sub_resource type="StyleBoxEmpty" id=479]
-
-[sub_resource type="StyleBoxFlat" id=480]
-bg_color = Color( 0.780392, 0.454902, 0.960784, 1 )
+[sub_resource type="AtlasTexture" id=480]
+atlas = ExtResource( 2 )
+region = Rect2( 16, 3, 14, 10 )
+filter_clip = true
 
 [sub_resource type="StyleBoxFlat" id=279]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
@@ -3138,311 +3139,698 @@ margin_top = 7.0
 margin_right = -4.0
 margin_bottom = 11.0
 
-[node name="LevelGrid" type="Panel" parent="SelectLevel"]
+[node name="Subtitle" type="Label" parent="SelectLevel"]
 margin_left = 8.0
-margin_top = 136.0
-margin_right = 568.0
-margin_bottom = 608.0
-custom_styles/panel = SubResource( 479 )
-
-[node name="Subtitle" type="Label" parent="SelectLevel/LevelGrid"]
-margin_top = 8.0
-margin_right = 632.0
-margin_bottom = 26.0
+margin_top = 144.0
+margin_right = 640.0
+margin_bottom = 162.0
 custom_fonts/font = ExtResource( 14 )
 text = "Find a way to collect all colors in one move."
 autowrap = true
 
-[node name="BtnsHolder" type="HFlowContainer" parent="SelectLevel/LevelGrid"]
-margin_top = 48.0
-margin_right = 616.0
-margin_bottom = 520.0
+[node name="BtnsHolder" type="GridContainer" parent="SelectLevel"]
+margin_left = 8.0
+margin_top = 184.0
+margin_right = 624.0
+margin_bottom = 624.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/vseparation = 8
 custom_constants/hseparation = 8
+columns = 3
 
-[node name="Btn01" type="Button" parent="SelectLevel/LevelGrid/BtnsHolder"]
+[node name="Btn01" type="Button" parent="SelectLevel/BtnsHolder"]
 margin_right = 200.0
 margin_bottom = 104.0
 rect_min_size = Vector2( 160, 104 )
-rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-custom_styles/hover = SubResource( 480 )
-text = "%00"
+custom_styles/hover = ExtResource( 20 )
+custom_styles/pressed = ExtResource( 20 )
+custom_styles/focus = ExtResource( 20 )
+custom_styles/normal = ExtResource( 20 )
 __meta__ = {
 "_edit_group_": true,
 "_editor_description_": ""
 }
 
-[node name="Background" type="ColorRect" parent="SelectLevel/LevelGrid/BtnsHolder/Btn01"]
+[node name="SolvedIcon" type="TextureRect" parent="SelectLevel/BtnsHolder/Btn01"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -26.0
+margin_top = 12.0
+margin_right = -12.0
+margin_bottom = 22.0
+focus_neighbour_top = NodePath("../LevelGrid/SolutionsBtn")
+mouse_default_cursor_shape = 2
+texture = SubResource( 480 )
+
+[node name="Solved" type="Label" parent="SelectLevel/BtnsHolder/Btn01"]
 visible = false
-show_behind_parent = true
+anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_min_size = Vector2( 0, 101 )
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+margin_left = -61.0
+margin_top = -24.0
+margin_right = -7.0
+margin_bottom = -6.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 14 )
+text = "Solved"
+align = 1
+valign = 1
+uppercase = true
 
-[node name="Btn02" type="Button" parent="SelectLevel/LevelGrid/BtnsHolder"]
+[node name="Label" type="Label" parent="SelectLevel/BtnsHolder/Btn01"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 19 )
+text = "%00"
+align = 1
+valign = 1
+
+[node name="Btn02" type="Button" parent="SelectLevel/BtnsHolder"]
 margin_left = 208.0
 margin_right = 408.0
 margin_bottom = 104.0
 rect_min_size = Vector2( 160, 104 )
-rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-text = "%00"
+custom_styles/hover = ExtResource( 20 )
+custom_styles/pressed = ExtResource( 20 )
+custom_styles/focus = ExtResource( 20 )
+custom_styles/normal = ExtResource( 20 )
 __meta__ = {
 "_edit_group_": true,
 "_editor_description_": ""
 }
 
-[node name="Background" type="ColorRect" parent="SelectLevel/LevelGrid/BtnsHolder/Btn02"]
-show_behind_parent = true
+[node name="SolvedIcon" type="TextureRect" parent="SelectLevel/BtnsHolder/Btn02"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -26.0
+margin_top = 12.0
+margin_right = -12.0
+margin_bottom = 22.0
+focus_neighbour_top = NodePath("../LevelGrid/SolutionsBtn")
+mouse_default_cursor_shape = 2
+texture = SubResource( 480 )
+
+[node name="Solved" type="Label" parent="SelectLevel/BtnsHolder/Btn02"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+margin_left = -61.0
+margin_top = -24.0
+margin_right = -7.0
+margin_bottom = -6.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 14 )
+text = "Solved"
+align = 1
+valign = 1
+uppercase = true
 
-[node name="Btn03" type="Button" parent="SelectLevel/LevelGrid/BtnsHolder"]
+[node name="Label" type="Label" parent="SelectLevel/BtnsHolder/Btn02"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 19 )
+text = "%00"
+align = 1
+valign = 1
+
+[node name="Btn03" type="Button" parent="SelectLevel/BtnsHolder"]
 margin_left = 416.0
 margin_right = 616.0
 margin_bottom = 104.0
 rect_min_size = Vector2( 160, 104 )
-rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-text = "%00"
+custom_styles/hover = ExtResource( 20 )
+custom_styles/pressed = ExtResource( 20 )
+custom_styles/focus = ExtResource( 20 )
+custom_styles/normal = ExtResource( 20 )
 __meta__ = {
 "_edit_group_": true,
 "_editor_description_": ""
 }
 
-[node name="Background" type="ColorRect" parent="SelectLevel/LevelGrid/BtnsHolder/Btn03"]
-show_behind_parent = true
+[node name="SolvedIcon" type="TextureRect" parent="SelectLevel/BtnsHolder/Btn03"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -26.0
+margin_top = 12.0
+margin_right = -12.0
+margin_bottom = 22.0
+focus_neighbour_top = NodePath("../LevelGrid/SolutionsBtn")
+mouse_default_cursor_shape = 2
+texture = SubResource( 480 )
+
+[node name="Solved" type="Label" parent="SelectLevel/BtnsHolder/Btn03"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+margin_left = -61.0
+margin_top = -24.0
+margin_right = -7.0
+margin_bottom = -6.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 14 )
+text = "Solved"
+align = 1
+valign = 1
+uppercase = true
 
-[node name="Btn04" type="Button" parent="SelectLevel/LevelGrid/BtnsHolder"]
+[node name="Label" type="Label" parent="SelectLevel/BtnsHolder/Btn03"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 19 )
+text = "%00"
+align = 1
+valign = 1
+
+[node name="Btn04" type="Button" parent="SelectLevel/BtnsHolder"]
 margin_top = 112.0
 margin_right = 200.0
 margin_bottom = 216.0
 rect_min_size = Vector2( 160, 104 )
-rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-text = "%00"
+custom_styles/hover = ExtResource( 20 )
+custom_styles/pressed = ExtResource( 20 )
+custom_styles/focus = ExtResource( 20 )
+custom_styles/normal = ExtResource( 20 )
 __meta__ = {
 "_edit_group_": true,
 "_editor_description_": ""
 }
 
-[node name="Background" type="ColorRect" parent="SelectLevel/LevelGrid/BtnsHolder/Btn04"]
-show_behind_parent = true
+[node name="SolvedIcon" type="TextureRect" parent="SelectLevel/BtnsHolder/Btn04"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -26.0
+margin_top = 12.0
+margin_right = -12.0
+margin_bottom = 22.0
+focus_neighbour_top = NodePath("../LevelGrid/SolutionsBtn")
+mouse_default_cursor_shape = 2
+texture = SubResource( 480 )
+
+[node name="Solved" type="Label" parent="SelectLevel/BtnsHolder/Btn04"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+margin_left = -61.0
+margin_top = -24.0
+margin_right = -7.0
+margin_bottom = -6.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 14 )
+text = "Solved"
+align = 1
+valign = 1
+uppercase = true
 
-[node name="Btn05" type="Button" parent="SelectLevel/LevelGrid/BtnsHolder"]
+[node name="Label" type="Label" parent="SelectLevel/BtnsHolder/Btn04"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 19 )
+text = "%00"
+align = 1
+valign = 1
+
+[node name="Btn05" type="Button" parent="SelectLevel/BtnsHolder"]
 margin_left = 208.0
 margin_top = 112.0
 margin_right = 408.0
 margin_bottom = 216.0
 rect_min_size = Vector2( 160, 104 )
-rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-text = "%00"
+custom_styles/hover = ExtResource( 20 )
+custom_styles/pressed = ExtResource( 20 )
+custom_styles/focus = ExtResource( 20 )
+custom_styles/normal = ExtResource( 20 )
 __meta__ = {
 "_edit_group_": true,
 "_editor_description_": ""
 }
 
-[node name="Background" type="ColorRect" parent="SelectLevel/LevelGrid/BtnsHolder/Btn05"]
-show_behind_parent = true
+[node name="SolvedIcon" type="TextureRect" parent="SelectLevel/BtnsHolder/Btn05"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -26.0
+margin_top = 12.0
+margin_right = -12.0
+margin_bottom = 22.0
+focus_neighbour_top = NodePath("../LevelGrid/SolutionsBtn")
+mouse_default_cursor_shape = 2
+texture = SubResource( 480 )
+
+[node name="Solved" type="Label" parent="SelectLevel/BtnsHolder/Btn05"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+margin_left = -61.0
+margin_top = -24.0
+margin_right = -7.0
+margin_bottom = -6.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 14 )
+text = "Solved"
+align = 1
+valign = 1
+uppercase = true
 
-[node name="Btn06" type="Button" parent="SelectLevel/LevelGrid/BtnsHolder"]
+[node name="Label" type="Label" parent="SelectLevel/BtnsHolder/Btn05"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 19 )
+text = "%00"
+align = 1
+valign = 1
+
+[node name="Btn06" type="Button" parent="SelectLevel/BtnsHolder"]
 margin_left = 416.0
 margin_top = 112.0
 margin_right = 616.0
 margin_bottom = 216.0
 rect_min_size = Vector2( 160, 104 )
-rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-text = "%00"
+custom_styles/hover = ExtResource( 20 )
+custom_styles/pressed = ExtResource( 20 )
+custom_styles/focus = ExtResource( 20 )
+custom_styles/normal = ExtResource( 20 )
 __meta__ = {
 "_edit_group_": true,
 "_editor_description_": ""
 }
 
-[node name="Background" type="ColorRect" parent="SelectLevel/LevelGrid/BtnsHolder/Btn06"]
-show_behind_parent = true
+[node name="SolvedIcon" type="TextureRect" parent="SelectLevel/BtnsHolder/Btn06"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -26.0
+margin_top = 12.0
+margin_right = -12.0
+margin_bottom = 22.0
+focus_neighbour_top = NodePath("../LevelGrid/SolutionsBtn")
+mouse_default_cursor_shape = 2
+texture = SubResource( 480 )
+
+[node name="Solved" type="Label" parent="SelectLevel/BtnsHolder/Btn06"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+margin_left = -61.0
+margin_top = -24.0
+margin_right = -7.0
+margin_bottom = -6.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 14 )
+text = "Solved"
+align = 1
+valign = 1
+uppercase = true
 
-[node name="Btn07" type="Button" parent="SelectLevel/LevelGrid/BtnsHolder"]
+[node name="Label" type="Label" parent="SelectLevel/BtnsHolder/Btn06"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 19 )
+text = "%00"
+align = 1
+valign = 1
+
+[node name="Btn07" type="Button" parent="SelectLevel/BtnsHolder"]
 margin_top = 224.0
 margin_right = 200.0
 margin_bottom = 328.0
 rect_min_size = Vector2( 160, 104 )
-rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-text = "%00"
+custom_styles/hover = ExtResource( 20 )
+custom_styles/pressed = ExtResource( 20 )
+custom_styles/focus = ExtResource( 20 )
+custom_styles/normal = ExtResource( 20 )
 __meta__ = {
 "_edit_group_": true,
 "_editor_description_": ""
 }
 
-[node name="Background" type="ColorRect" parent="SelectLevel/LevelGrid/BtnsHolder/Btn07"]
-show_behind_parent = true
+[node name="SolvedIcon" type="TextureRect" parent="SelectLevel/BtnsHolder/Btn07"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -26.0
+margin_top = 12.0
+margin_right = -12.0
+margin_bottom = 22.0
+focus_neighbour_top = NodePath("../LevelGrid/SolutionsBtn")
+mouse_default_cursor_shape = 2
+texture = SubResource( 480 )
+
+[node name="Solved" type="Label" parent="SelectLevel/BtnsHolder/Btn07"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+margin_left = -61.0
+margin_top = -24.0
+margin_right = -7.0
+margin_bottom = -6.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 14 )
+text = "Solved"
+align = 1
+valign = 1
+uppercase = true
 
-[node name="Btn08" type="Button" parent="SelectLevel/LevelGrid/BtnsHolder"]
+[node name="Label" type="Label" parent="SelectLevel/BtnsHolder/Btn07"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 19 )
+text = "%00"
+align = 1
+valign = 1
+
+[node name="Btn08" type="Button" parent="SelectLevel/BtnsHolder"]
 margin_left = 208.0
 margin_top = 224.0
 margin_right = 408.0
 margin_bottom = 328.0
 rect_min_size = Vector2( 160, 104 )
-rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-text = "%00"
+custom_styles/hover = ExtResource( 20 )
+custom_styles/pressed = ExtResource( 20 )
+custom_styles/focus = ExtResource( 20 )
+custom_styles/normal = ExtResource( 20 )
 __meta__ = {
 "_edit_group_": true,
 "_editor_description_": ""
 }
 
-[node name="Background" type="ColorRect" parent="SelectLevel/LevelGrid/BtnsHolder/Btn08"]
-show_behind_parent = true
+[node name="SolvedIcon" type="TextureRect" parent="SelectLevel/BtnsHolder/Btn08"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -26.0
+margin_top = 12.0
+margin_right = -12.0
+margin_bottom = 22.0
+focus_neighbour_top = NodePath("../LevelGrid/SolutionsBtn")
+mouse_default_cursor_shape = 2
+texture = SubResource( 480 )
+
+[node name="Solved" type="Label" parent="SelectLevel/BtnsHolder/Btn08"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+margin_left = -61.0
+margin_top = -24.0
+margin_right = -7.0
+margin_bottom = -6.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 14 )
+text = "Solved"
+align = 1
+valign = 1
+uppercase = true
 
-[node name="Btn09" type="Button" parent="SelectLevel/LevelGrid/BtnsHolder"]
+[node name="Label" type="Label" parent="SelectLevel/BtnsHolder/Btn08"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 19 )
+text = "%00"
+align = 1
+valign = 1
+
+[node name="Btn09" type="Button" parent="SelectLevel/BtnsHolder"]
 margin_left = 416.0
 margin_top = 224.0
 margin_right = 616.0
 margin_bottom = 328.0
 rect_min_size = Vector2( 160, 104 )
-rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-text = "%00"
+custom_styles/hover = ExtResource( 20 )
+custom_styles/pressed = ExtResource( 20 )
+custom_styles/focus = ExtResource( 20 )
+custom_styles/normal = ExtResource( 20 )
 __meta__ = {
 "_edit_group_": true,
 "_editor_description_": ""
 }
 
-[node name="Background" type="ColorRect" parent="SelectLevel/LevelGrid/BtnsHolder/Btn09"]
-show_behind_parent = true
+[node name="SolvedIcon" type="TextureRect" parent="SelectLevel/BtnsHolder/Btn09"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -26.0
+margin_top = 12.0
+margin_right = -12.0
+margin_bottom = 22.0
+focus_neighbour_top = NodePath("../LevelGrid/SolutionsBtn")
+mouse_default_cursor_shape = 2
+texture = SubResource( 480 )
+
+[node name="Solved" type="Label" parent="SelectLevel/BtnsHolder/Btn09"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+margin_left = -61.0
+margin_top = -24.0
+margin_right = -7.0
+margin_bottom = -6.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 14 )
+text = "Solved"
+align = 1
+valign = 1
+uppercase = true
 
-[node name="Btn10" type="Button" parent="SelectLevel/LevelGrid/BtnsHolder"]
+[node name="Label" type="Label" parent="SelectLevel/BtnsHolder/Btn09"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 19 )
+text = "%00"
+align = 1
+valign = 1
+
+[node name="Btn10" type="Button" parent="SelectLevel/BtnsHolder"]
 margin_top = 336.0
 margin_right = 200.0
 margin_bottom = 440.0
 rect_min_size = Vector2( 160, 104 )
-rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-disabled = true
-text = "%00"
+custom_styles/hover = ExtResource( 20 )
+custom_styles/pressed = ExtResource( 20 )
+custom_styles/focus = ExtResource( 20 )
+custom_styles/normal = ExtResource( 20 )
 __meta__ = {
 "_edit_group_": true,
 "_editor_description_": ""
 }
 
-[node name="Background" type="ColorRect" parent="SelectLevel/LevelGrid/BtnsHolder/Btn10"]
-show_behind_parent = true
+[node name="SolvedIcon" type="TextureRect" parent="SelectLevel/BtnsHolder/Btn10"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -26.0
+margin_top = 12.0
+margin_right = -12.0
+margin_bottom = 22.0
+focus_neighbour_top = NodePath("../LevelGrid/SolutionsBtn")
+mouse_default_cursor_shape = 2
+texture = SubResource( 480 )
+
+[node name="Solved" type="Label" parent="SelectLevel/BtnsHolder/Btn10"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+margin_left = -61.0
+margin_top = -24.0
+margin_right = -7.0
+margin_bottom = -6.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 14 )
+text = "Solved"
+align = 1
+valign = 1
+uppercase = true
 
-[node name="Btn11" type="Button" parent="SelectLevel/LevelGrid/BtnsHolder"]
+[node name="Label" type="Label" parent="SelectLevel/BtnsHolder/Btn10"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 19 )
+text = "%00"
+align = 1
+valign = 1
+
+[node name="Btn11" type="Button" parent="SelectLevel/BtnsHolder"]
 margin_left = 208.0
 margin_top = 336.0
 margin_right = 408.0
 margin_bottom = 440.0
 rect_min_size = Vector2( 160, 104 )
-rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-disabled = true
-text = "%00"
+custom_styles/hover = ExtResource( 20 )
+custom_styles/pressed = ExtResource( 20 )
+custom_styles/focus = ExtResource( 20 )
+custom_styles/normal = ExtResource( 20 )
 __meta__ = {
 "_edit_group_": true,
 "_editor_description_": ""
 }
 
-[node name="Background" type="ColorRect" parent="SelectLevel/LevelGrid/BtnsHolder/Btn11"]
-show_behind_parent = true
+[node name="SolvedIcon" type="TextureRect" parent="SelectLevel/BtnsHolder/Btn11"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -26.0
+margin_top = 12.0
+margin_right = -12.0
+margin_bottom = 22.0
+focus_neighbour_top = NodePath("../LevelGrid/SolutionsBtn")
+mouse_default_cursor_shape = 2
+texture = SubResource( 480 )
+
+[node name="Solved" type="Label" parent="SelectLevel/BtnsHolder/Btn11"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+margin_left = -61.0
+margin_top = -24.0
+margin_right = -7.0
+margin_bottom = -6.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 14 )
+text = "Solved"
+align = 1
+valign = 1
+uppercase = true
 
-[node name="Btn12" type="Button" parent="SelectLevel/LevelGrid/BtnsHolder"]
+[node name="Label" type="Label" parent="SelectLevel/BtnsHolder/Btn11"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 19 )
+text = "%00"
+align = 1
+valign = 1
+
+[node name="Btn12" type="Button" parent="SelectLevel/BtnsHolder"]
 margin_left = 416.0
 margin_top = 336.0
 margin_right = 616.0
 margin_bottom = 440.0
 rect_min_size = Vector2( 160, 104 )
-rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 19 )
-disabled = true
-text = "%00"
+custom_styles/hover = ExtResource( 20 )
+custom_styles/pressed = ExtResource( 20 )
+custom_styles/focus = ExtResource( 20 )
+custom_styles/normal = ExtResource( 20 )
 __meta__ = {
 "_edit_group_": true,
 "_editor_description_": ""
 }
 
-[node name="Background" type="ColorRect" parent="SelectLevel/LevelGrid/BtnsHolder/Btn12"]
-show_behind_parent = true
+[node name="SolvedIcon" type="TextureRect" parent="SelectLevel/BtnsHolder/Btn12"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -26.0
+margin_top = 12.0
+margin_right = -12.0
+margin_bottom = 22.0
+focus_neighbour_top = NodePath("../LevelGrid/SolutionsBtn")
+mouse_default_cursor_shape = 2
+texture = SubResource( 480 )
+
+[node name="Solved" type="Label" parent="SelectLevel/BtnsHolder/Btn12"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+margin_left = -61.0
+margin_top = -24.0
+margin_right = -7.0
+margin_bottom = -6.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 14 )
+text = "Solved"
+align = 1
+valign = 1
+uppercase = true
 
-[node name="SolutionsBtn" type="CheckButton" parent="SelectLevel/LevelGrid"]
-margin_top = 504.0
-margin_right = 146.0
-margin_bottom = 522.0
+[node name="Label" type="Label" parent="SelectLevel/BtnsHolder/Btn12"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 19 )
+text = "%00"
+align = 1
+valign = 1
+
+[node name="SolutionsBtn" type="CheckButton" parent="SelectLevel"]
+margin_left = 8.0
+margin_top = 640.0
+margin_right = 154.0
+margin_bottom = 658.0
 rect_min_size = Vector2( 146, 0 )
-focus_neighbour_bottom = NodePath("../../BackBtn")
+focus_neighbour_bottom = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
@@ -3457,7 +3845,7 @@ margin_top = 76.0
 margin_right = -6.0
 margin_bottom = 98.0
 rect_min_size = Vector2( 16, 16 )
-focus_neighbour_top = NodePath("../LevelGrid/SolutionsBtn")
+focus_neighbour_top = NodePath("../SolutionsBtn")
 mouse_default_cursor_shape = 2
 texture_normal = SubResource( 195 )
 texture_hover = SubResource( 196 )
@@ -3792,19 +4180,7 @@ anims/settings = SubResource( 140 )
 [connection signal="mouse_entered" from="SelectGame/GamesMenu/Sweeper/Background" to="SelectGame" method="_on_SweeperBackground_mouse_entered"]
 [connection signal="pressed" from="SelectGame/GamesMenu/Sweeper/SweeperBtn" to="SelectGame" method="_on_SweeperBtn_pressed"]
 [connection signal="pressed" from="SelectGame/BackBtn" to="SelectGame" method="_on_BackBtn_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/BtnsHolder/Btn01" to="SelectLevel" method="_on_EnigmaBtn_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/BtnsHolder/Btn02" to="SelectLevel" method="_on_EnigmaBtn2_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/BtnsHolder/Btn03" to="SelectLevel" method="_on_EnigmaBtn3_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/BtnsHolder/Btn04" to="SelectLevel" method="_on_EnigmaBtn4_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/BtnsHolder/Btn05" to="SelectLevel" method="_on_EnigmaBtn5_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/BtnsHolder/Btn06" to="SelectLevel" method="_on_EnigmaBtn6_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/BtnsHolder/Btn07" to="SelectLevel" method="_on_EnigmaBtn7_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/BtnsHolder/Btn08" to="SelectLevel" method="_on_EnigmaBtn8_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/BtnsHolder/Btn09" to="SelectLevel" method="_on_EnigmaBtn9_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/BtnsHolder/Btn10" to="SelectLevel" method="_on_EnigmaBtn7_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/BtnsHolder/Btn11" to="SelectLevel" method="_on_EnigmaBtn8_pressed"]
-[connection signal="pressed" from="SelectLevel/LevelGrid/BtnsHolder/Btn12" to="SelectLevel" method="_on_EnigmaBtn9_pressed"]
-[connection signal="toggled" from="SelectLevel/LevelGrid/SolutionsBtn" to="SelectLevel" method="_on_SolutionsBtn_toggled"]
+[connection signal="toggled" from="SelectLevel/SolutionsBtn" to="SelectLevel" method="_on_SolutionsBtn_toggled"]
 [connection signal="pressed" from="SelectLevel/BackBtn" to="SelectLevel" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="Settings/BackBtn" to="Settings" method="_on_BackBtn_pressed"]
 [connection signal="toggled" from="Settings/MenuMusicBtn" to="Settings" method="_on_MenuMusicBtn_toggled"]

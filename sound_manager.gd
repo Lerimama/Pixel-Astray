@@ -45,8 +45,6 @@ func play_sfx(effect_for: String):
 			select_random_sfx($GameSfx/BlinkingStatic).play()
 		"thunder_strike": # intro in GM na strays spawn
 			$GameSfx/Burst.play()
-		"reburst_reward":
-			$GameSfx/ReburstReward.play()
 		"start_countdown_a":
 			$GameSfx/StartCoundownA.play()
 		"start_countdown_b":
