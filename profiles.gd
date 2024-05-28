@@ -33,8 +33,6 @@ var default_game_settings: Dictionary = {
 	"on_hit_energy_part": 0.5,
 	# reburst
 	"reburst_mode": false,
-	"reburst_count_limit": 0, # 0 je unlimited
-	"reburst_reward_limit": 0, # 0 je brez nagrade
 	"reburst_window_time": 0.3, # 0 je neomejen čas
 	"reburst_hit_power": 0, # kolk jih destroya ... 0 gre po original pravilih moči, trenutno je 5 full power
 	# strays

@@ -11,8 +11,6 @@ onready var solutions_btn: CheckButton = $LevelGrid/SolutionsBtn
 func _ready() -> void:
 	
 	Profiles.game_data_sweeper["level"] = 1 # ni nujno
-#	for btn in level_grid_btns:
-#		set_btn_tilemap(btn)
 	update_sweeper_btns()
 
 	if Profiles.default_game_settings["show_solution_hint"]:
@@ -27,7 +25,7 @@ func _process(delta: float) -> void:
 		return
 		
 	# barvam ozadje gumbov na focus
-	var of_color = Global.color_almost_black_pixel
+	var unfocused_color = Global.color_almost_black_pixel
 	
 	for btn in level_grid_btns:
 		# fokusian
@@ -36,7 +34,7 @@ func _process(delta: float) -> void:
 			btn.self_modulate = Color.white
 		# nefokusiran
 		else:
-			btn.get_node("Background").color = of_color
+			btn.get_node("Background").color = unfocused_color
 			# rešena uganka
 			if solved_sweeper_btns.has(btn):
 				btn.set("custom_colors/font_color",  Color.white)

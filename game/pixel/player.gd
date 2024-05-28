@@ -7,7 +7,7 @@ signal rewarded_on_cleaned # da je dobil nagrado ob cleaned javi v GM
 signal player_pixel_set # player je pripravljen
 
 enum States {IDLE, STEPPING, SKILLED, SKILLING, COCKING, RELEASING, BURSTING}
-var current_state # = States.IDLE
+var current_state
 
 var direction = Vector2.ZERO # prenosna
 var player_camera: Node
@@ -38,6 +38,21 @@ var cocked_ghosts: Array
 var burst_speed: float = 0 # trenutna hitrost
 var burst_velocity: Vector2
 
+# reburst
+var burst_move_started: bool = false # ob cockanju se začne poteza (konča se v steni ali na koncu reburstanja, kadar resetam reburst_count)
+var burst_move_to_clean_strays_count: int = 0 # ker se original štetje med rebursti spreminja, določim tole na začetku burst moveta
+var burst_move_cleaned_strays_count: int = 0 # beleži vse uničene v času sweeper move, za preverjanje uspeha
+var reburst_window_open: bool = false
+var is_rebursting: bool = false # za regulacijo moči on hit stray
+var reburst_speed_units_count: float = 0 # za prenos original hitrosti v naslednje rebursta
+var reburst_max_cock_count: int = 1 # za kolk se nakoka (samo vizualni efekt)
+
+# touch
+var detect_touch_pause_time: float = 1
+var is_surrounded_time: float = 5 # ker merim, kdaj si obkoljen za vedno, je to tudi čas pavze do GO klica ... more bit večje od časa stepanja
+var is_surrounded: bool
+var surrounded_player_strays: Array # za preverjanje prek večih preverjanj
+
 # heartbeat
 var heartbeat_loop: int = 0
 var got_hit: bool # heartbeat animacija počaka die animacijo, ko je po karambolu energija = 1
@@ -49,6 +64,8 @@ var key_up: String
 var key_down: String
 var key_burst: String
 
+onready var rebursting_timer: Timer = $ReburstingTimer
+onready var touch_timer: Timer = $Touch/TouchTimer
 onready var collision_shape: CollisionShape2D = $CollisionShape2D
 onready var collision_shape_ext: CollisionShape2D = $CollisionShapeExt
 onready var vision_rays: Array = [$Vision/VisionRay1, $Vision/VisionRay2, $Vision/VisionRay3]
@@ -64,26 +81,6 @@ onready var Ghost: PackedScene = preload("res://game/pixel/ghost.tscn")
 onready var PixelCollisionParticles: PackedScene = preload("res://game/pixel/pixel_collision_particles.tscn")
 onready var PixelDizzyParticles: PackedScene = preload("res://game/pixel/pixel_dizzy_particles.tscn")
 onready var FloatingTag: PackedScene = preload("res://game/hud/floating_tag.tscn")
-
-# sweeper
-var sweeper_move_started: bool = false # ob cockanju se začne poteza (konča se v steni ali na koncu reburstanja, kadar resetam reburst_count)
-var sweeper_start_strays_count: int = 0 # število straysow pred movetom
-var sweeper_cleaned_strays_count: int = 0 # beleži vse uničene v času sweeper move, za preverjanje uspeha
-
-# reburst
-var is_rebursting: bool = false # za regulacijo moči on hit stray
-var reburst_count: int = 0 # resetira se s tajmerjem
-var reburst_window_open: bool = false
-var reburst_speed_units_count: float = 0 # za prenos original hitrosti v naslednje rebursta
-var reburst_max_cock_count: int = 1 # za kolk se nakoka (samo vizualni efekt)
-onready var rebursting_timer: Timer = $ReburstingTimer
-
-# touch
-var detect_touch_pause_time: float = 1
-var is_surrounded_time: float = 5 # ker merim, kdaj si obkoljen za vedno, je to tudi čas pavze do GO klica ... more bit večje od časa stepanja
-var is_surrounded: bool
-var surrounded_player_strays: Array # za preverjanje prek večih preverjanj
-onready var touch_timer: Timer = $Touch/TouchTimer
 
 
 func _ready() -> void:
@@ -110,7 +107,6 @@ func _ready() -> void:
 	
 	current_state = States.IDLE
 
-# --- class koda
 	
 func _physics_process(delta: float) -> void:
 	
@@ -165,7 +161,9 @@ func on_collision():
 	elif collision.collider.is_in_group(Global.group_players):
 		on_hit_player(collision.collider)
 
-# --- 
+
+# INPUTS ------------------------------------------------------------------------------------------
+
 	
 func idle_inputs():
 	
@@ -179,27 +177,23 @@ func idle_inputs():
 				if Input.is_action_pressed(key_up):
 					direction = Vector2.UP
 					step()
-					reburst_count = 0
 				elif Input.is_action_pressed(key_down):
 					direction = Vector2.DOWN
 					step()
-					reburst_count = 0
 				elif Input.is_action_pressed(key_left):
 					direction = Vector2.LEFT
 					step()
-					reburst_count = 0
 				elif Input.is_action_pressed(key_right):
 					direction = Vector2.RIGHT
 					step()
-					reburst_count = 0
-				
 		else:
 		# ko zazna kolizijo postane skilled ali pa end move 
 		# kontrole prevzame skilled_input
-			if reburst_window_open:
+			if burst_move_started:
+#			if reburst_window_open or is_rebursting:
 				rebursting_inputs()
 			else:
-				print("tole")
+				print("skill")
 				if current_collider.is_in_group(Global.group_strays):
 					current_state = States.SKILLED
 				elif current_collider.is_in_group(Global.group_tilemap):
@@ -219,14 +213,11 @@ func idle_inputs():
 			change_color_tween.kill()
 			pixel_color = change_to_color
 		burst_light_on()
-		reburst_count = 0
-		close_reburst_window()
-		if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:	
-			finish_burst_move()		
+		if Global.game_manager.game_settings["reburst_mode"]:
+			close_reburst_window()
+			if burst_move_started:
+				finish_burst_move()	
 			
-
-# --- class koda
-	
 
 func skill_inputs():
 	
@@ -249,10 +240,10 @@ func skill_inputs():
 		current_state = States.COCKING
 		skill_light_off()
 		burst_light_on()
-		reburst_count = 0
-		close_reburst_window()
-		if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:	
-			finish_burst_move()		
+		if Global.game_manager.game_settings["reburst_mode"]:
+			close_reburst_window()
+			if burst_move_started:
+				finish_burst_move()
 		return	
 			
 	# izbor skila v novi smeri
@@ -314,10 +305,11 @@ func cocking_inputs():
 		else:
 			release_burst()
 			burst_light_off()
-		reburst_count = 0
-		close_reburst_window()
-		if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:	
-			finish_burst_move()				
+		if Global.game_manager.game_settings["reburst_mode"]:
+			close_reburst_window()
+			if burst_move_started:
+				finish_burst_move()			
+
 
 func bursting_inputs():
 	
@@ -326,10 +318,11 @@ func bursting_inputs():
 		end_move()
 		Input.start_joy_vibration(0, 0.6, 0.2, 0.2)
 		play_sound("burst_stop")
-		reburst_count = 0
-		close_reburst_window()
-		if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:	
-			finish_burst_move()		
+		if Global.game_manager.game_settings["reburst_mode"]:
+			close_reburst_window()
+			if burst_move_started:
+				finish_burst_move()	
+	
 				
 # MOVEMENT ------------------------------------------------------------------------------------------
 
@@ -360,7 +353,6 @@ func step():
 		step_tween.tween_callback(self, "change_stat", ["cells_traveled", 1]) # točke in energija kot je določeno v settingsih
 		yield(step_tween, "finished")
 		
-# --- 
 		
 func end_move():
 	
@@ -386,14 +378,12 @@ func end_move():
 	if not Global.current_tilemap.inside_edge_level_rect.has_point(global_position):
 		hide()
 		set_physics_process(false)
-		move_out_of_bounds_player()
+		on_out_of_bounds()
 	else:	
 		global_position = Global.snap_to_nearest_grid(self)
 		current_state = States.IDLE # more bit na kocnu
+
 		
-
-# --- class koda
-
 # BURST ------------------------------------------------------------------------------------------
 
 
@@ -480,11 +470,117 @@ func burst():
 	
 	change_stat("burst_released", 1)
 	
+	
+# REBURST ------------------------------------------------------------------
+
+
+func rebursting_inputs():
+
+	# cocking
+	if Input.is_action_just_pressed(key_up):
+		direction = Vector2.UP
+		cock_reburst()
+	elif Input.is_action_just_pressed(key_down):
+		direction = Vector2.DOWN
+		cock_reburst()
+	elif Input.is_action_just_pressed(key_left):
+		direction = Vector2.LEFT
+		cock_reburst()
+	elif Input.is_action_just_pressed(key_right):
+		direction = Vector2.RIGHT
+		cock_reburst()
+
+	
+func cock_reburst():
+
+	close_reburst_window()
+
+	# prenos iz burst tipke ... ker tudi kao cocka
+	if change_color_tween and change_color_tween.is_running(): # če sprememba barve še poteka, jo spremenim takoj
+		change_color_tween.kill()
+		pixel_color = change_to_color
+	
+	var burst_direction = direction
+	var cock_direction = - burst_direction
+	
+	# če ni prostora, ne dela cockinga
+	if detect_collision_in_direction(cock_direction):
+		release_reburst()
+	else: # če je prostor cocka
+		for cock in reburst_max_cock_count:
+			var new_cock_ghost = spawn_cock_ghost(cock_direction)
+			#new_cock_ghost.modulate.a = 0.5
+			cocked_ghosts.append(new_cock_ghost)	
+			if not cocking_room:
+				break
+		release_reburst()
+
+
+func release_reburst():
+	# drugače glede na burst: cock ghost izgled
+	
+	current_state = States.RELEASING
+	play_sound("burst_cocked")
+	var cocked_ghost_fill_time: float = 0.07 # čas za napolnitev vseh spawnanih ghostov (tik pred burstom)
+	# napeti ghosti animirajo do alfa 1
+	for ghost in cocked_ghosts:
+		var get_set_tween = get_tree().create_tween()
+		get_set_tween.tween_property(ghost, "modulate:a", 0.5, cocked_ghost_fill_time)
+		yield(get_set_tween,"finished")
+	var cocked_pause_time: float = 0.1 # pavza pred strelom
+	yield(get_tree().create_timer(cocked_pause_time), "timeout")
+	reburst()
+	
+	
+func reburst():
+	# drugače glede na burst: ni strech ghopsa
+	
+	is_rebursting = true
+
+	var burst_direction = direction
+	var backup_direction = - burst_direction
+	var current_ghost_count = cocked_ghosts.size()
+	
+	# release cocked ghosts
+	while not cocked_ghosts.empty():
+		var ghost = cocked_ghosts.pop_back()
+		ghost.queue_free()
+	
+	play_sound("burst")
+	
+	# release pixel
+	current_state = States.BURSTING
+	
+	burst_speed = reburst_speed_units_count * cock_ghost_speed_addon
+	
+	change_stat("burst_released", 1)
+
+
+func close_reburst_window():
+	# se resetira na vsak reburst in drugo 
+	
+	reburst_window_open = false
+	rebursting_timer.stop()
+	burst_light_off()
+		
+
+func finish_burst_move():
+	
+	# ček for succes
+	burst_move_started = false
+	
+	# če je količina uničenih enaka količini na ekranu
+	if burst_move_cleaned_strays_count < burst_move_to_clean_strays_count:
+		yield(get_tree().create_timer(2), "timeout")
+		Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
+	else:
+		pass # to naredi GM po defaultu
+
 
 # SKILLS ------------------------------------------------------------------------------------------
 
 		
-func push(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila glede na kolajderja
+func push(stray_to_move: KinematicBody2D): 
 	
 	var push_direction = direction
 	var backup_direction = - push_direction
@@ -544,7 +640,7 @@ func push(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila
 	change_stat("skill_used", 1) # zazih ni v tweenu
 	
 
-func pull(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila glede na kolajderja
+func pull(stray_to_move: KinematicBody2D):
 	
 	var target_direction = direction 
 	var pull_direction = - target_direction
@@ -586,7 +682,7 @@ func pull(stray_to_move: KinematicBody2D): # skilled inputs opredeli vrsto skila
 	change_stat("skill_used", 2) # zazih ni v tweenu
 	
 			
-func teleport(): # skilled inputs opredeli vrsto skila glede na kolajderja
+func teleport():
 		
 	var teleport_direction = direction
 
@@ -624,7 +720,6 @@ func teleport(): # skilled inputs opredeli vrsto skila glede na kolajderja
 
 # ON HIT ------------------------------------------------------------------------------------------
 
-# ---
 
 func on_hit_stray(hit_stray: KinematicBody2D):
 	
@@ -634,19 +729,12 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	shake_player_camera(burst_speed)			
 
 	# start sweeper move
-	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER and not sweeper_move_started:	
-		sweeper_move_started = true	
-		sweeper_start_strays_count = Global.game_manager.strays_in_game_count
+	if Global.game_manager.game_settings["reburst_mode"] and not burst_move_started:	
+		burst_move_started = true	
+		burst_move_to_clean_strays_count = Global.game_manager.strays_in_game_count
 		
-	# reburst nagrada
-	var reward_limit: int = Global.game_manager.game_settings["reburst_reward_limit"]
-	if reward_limit > 0:
-		var count_till_reward: int = reburst_count % reward_limit
-		if count_till_reward <= 0 and not reburst_count == 0:
-			Global.sound_manager.play_sfx("reburst_reward")
-			change_stat("reburst_reward", 1)
-			
 	if hit_stray.current_state == hit_stray.States.DYING or hit_stray.current_state == hit_stray.States.WALL: # če je že v umiranju, samo kolajdaš
+		finish_burst_move()
 		end_move()
 		return
 		
@@ -679,8 +767,8 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 		var stray_index = strays_to_destroy.find(stray)
 		stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
 		# prišteje v sweeper strayse
-		if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:	
-			sweeper_cleaned_strays_count += 1
+		if burst_move_started:	
+			burst_move_cleaned_strays_count += 1
 			
 	# stats
 	var strays_not_walls_count: int = strays_to_destroy.size() - white_strays_in_stack.size()
@@ -689,19 +777,10 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	end_move()
 	
 	if Global.game_manager.game_settings["reburst_mode"]:
-		if reburst_count < Global.game_manager.game_settings["reburst_count_limit"] or Global.game_manager.game_settings["reburst_count_limit"] == 0:
-			reburst_window_open = true
-			burst_light_on()	
-			rebursting_timer.stop() # ... zazih
-			rebursting_timer.start(Global.game_manager.game_settings["reburst_window_time"])
-		else:
-			# vpliva samo kadar odigram vse reburste, drugi reset je v stepanju
-			close_reburst_window()
-			reburst_count = 0
-			if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:	
-				finish_burst_move()
-
-# --- class koda
+		reburst_window_open = true
+		burst_light_on()	
+		rebursting_timer.stop() # ... reset zazih
+		rebursting_timer.start(Global.game_manager.game_settings["reburst_window_time"])
 
 	
 func on_hit_player(hit_player: KinematicBody2D):
@@ -764,7 +843,6 @@ func on_get_hit(hit_burst_speed: float):
 	
 	die() # vedno sledi statistiki
 	
-	
 
 # LIFE LOOP ----------------------------------------------------------------------------------------
 
@@ -826,9 +904,6 @@ func spawn_collision_particles():
 	Global.node_creation_parent.add_child(new_collision_pixels)
 
 	
-# --- 
-
-
 func spawn_cock_ghost(cocking_direction: Vector2):
 	
 	var cocked_ghost_alpha: float = 1 # najnižji alfa za ghoste ... old 0.55
@@ -857,125 +932,6 @@ func spawn_cock_ghost(cocking_direction: Vector2):
 	new_cock_ghost.connect("ghost_detected_body", self, "_on_ghost_detected_body")
 	
 	return new_cock_ghost
-	
-	
-# REBURST ------------------------------------------------------------------
-
-
-func rebursting_inputs():
-
-	# cocking
-	if Input.is_action_just_pressed(key_up):
-			close_reburst_window()
-			direction = Vector2.UP
-			cock_reburst()
-	elif Input.is_action_just_pressed(key_down):
-			close_reburst_window()
-			direction = Vector2.DOWN
-			cock_reburst()
-	elif Input.is_action_just_pressed(key_left):
-			close_reburst_window()
-			direction = Vector2.LEFT
-			cock_reburst()
-	elif Input.is_action_just_pressed(key_right):
-			close_reburst_window()
-			direction = Vector2.RIGHT
-			cock_reburst()
-
-	
-func cock_reburst():
-
-	# prenos iz burst tipke ... ker tudi kao cocka
-	if change_color_tween and change_color_tween.is_running(): # če sprememba barve še poteka, jo spremenim takoj
-		change_color_tween.kill()
-		pixel_color = change_to_color
-	
-	var burst_direction = direction
-	var cock_direction = - burst_direction
-	
-	# če je zraven pixla konča (potem postane skilled)
-	if detect_collision_in_direction(burst_direction):
-		end_move()
-		burst_light_off()
-		return
-	# če ni prostora, ne dela cockinga
-	if detect_collision_in_direction(cock_direction):
-		release_reburst()
-	else:
-	# če je prostor cocka
-		for cock in reburst_max_cock_count:
-			var new_cock_ghost = spawn_cock_ghost(cock_direction)
-		#			new_cock_ghost.modulate.a = 0.5
-			cocked_ghosts.append(new_cock_ghost)	
-			if not cocking_room:
-				break
-		release_reburst()
-
-
-func release_reburst():
-	# drugače glede na burst: cock ghost izgled
-	
-	current_state = States.RELEASING
-	play_sound("burst_cocked")
-	var cocked_ghost_fill_time: float = 0.07 # čas za napolnitev vseh spawnanih ghostov (tik pred burstom)
-	# napeti ghosti animirajo do alfa 1
-	for ghost in cocked_ghosts:
-		var get_set_tween = get_tree().create_tween()
-		get_set_tween.tween_property(ghost, "modulate:a", 0.5, cocked_ghost_fill_time)
-		yield(get_set_tween,"finished")
-	var cocked_pause_time: float = 0.1 # pavza pred strelom
-	yield(get_tree().create_timer(cocked_pause_time), "timeout")
-	reburst()
-	
-	
-func reburst():
-	# drugače glede na burst: ni strech ghopsa
-	
-	is_rebursting = true
-
-	reburst_count += 1
-			
-	var burst_direction = direction
-	var backup_direction = - burst_direction
-	var current_ghost_count = cocked_ghosts.size()
-	
-	# release cocked ghosts
-	while not cocked_ghosts.empty():
-		var ghost = cocked_ghosts.pop_back()
-		ghost.queue_free()
-	
-	play_sound("burst")
-	
-	# release pixel
-	current_state = States.BURSTING
-	
-	burst_speed = reburst_speed_units_count * cock_ghost_speed_addon
-	
-	change_stat("burst_released", 1)
-
-
-func close_reburst_window():
-	# NEXT close_reburst_window preveri kje deluje
-	# se resetira na vsak reburst in drugo 
-	
-	reburst_window_open = false
-	rebursting_timer.stop()
-	burst_light_off()
-		
-
-func finish_burst_move():
-	
-	# ček for succes
-	if sweeper_move_started:
-		sweeper_move_started = false
-		# če je količina uničenih enaka količini na ekranu
-		if sweeper_cleaned_strays_count < sweeper_start_strays_count:
-			Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
-		else:
-			pass # to naredi GM po defaultu
-
-
-# --- preostala class koda
 
 	
 func spawn_trail_ghost():
@@ -1029,7 +985,7 @@ func spawn_floating_tag(value: int):
 # UTIL --------------------------------------------------------------------------------------------
 
 
-func move_out_of_bounds_player():
+func on_out_of_bounds():
 
 	var new_positions_available: Array = Global.game_manager.available_respawn_positions
 	var random_index: int = randi() % new_positions_available.size()
@@ -1074,6 +1030,48 @@ func detect_collision_in_direction(direction_to_check):
 			break # ko je kolajder neham čekirat
 	
 	return first_collider
+	
+
+func detect_touch():
+	
+	var touch_areas: Array = [$Touch/TouchArea, $Touch/TouchArea2, $Touch/TouchArea3, $Touch/TouchArea4]
+	var current_player_strays: Array # sosedi v tem koraku
+		
+	# preverim vsako areo, če ima straysa
+	var touching_sides_count: int = 0
+	for area in touch_areas:
+		var bodies_touched: Array = area.get_overlapping_bodies()
+		if not bodies_touched.empty():
+			for body in bodies_touched:
+				if body.is_in_group(Global.group_strays):
+					current_player_strays.append_array(bodies_touched)
+					touching_sides_count += 1
+					break
+	
+	# surrounded
+	if touching_sides_count == touch_areas.size():
+		# če je še vedno obkoljen, preverim pe istost sosedov > GO
+		if is_surrounded:
+			# če so sosedi isti je GO
+			if surrounded_player_strays == current_player_strays:
+				Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)
+			# če niso isti, restiram sosede in potem normalno naprej
+			else:
+				surrounded_player_strays = []
+				is_surrounded = false
+				touch_timer.start(detect_touch_pause_time)
+		# če je prvič obkoljen, ga označim za obkoljenega in zapišem sosede
+		else: 
+			is_surrounded = true
+			surrounded_player_strays = current_player_strays
+			touch_timer.start(is_surrounded_time) # daljši čas
+	# not surrounded
+	else:
+		surrounded_player_strays = []
+		is_surrounded = false # resetiram
+		touch_timer.start(detect_touch_pause_time)
+
+	return
 	
 	
 func get_step_time():
@@ -1215,7 +1213,14 @@ func manage_heartbeat():
 			# resetiram problematično
 			modulate.a = 1
 			burst_light.enabled = false
-			
+
+
+func on_screen_cleaned(): # kliče GM
+	
+	animation_player.play("become_white")
+	change_stat("all_cleaned", 1) # nagrada je določena v settingsih
+	emit_signal("rewarded_on_cleaned") # javi v GM ... signal pošljem tudi na koncu animacije, za tiste igre, ki tega zgrešijo
+	
 
 # SOUNDS ------------------------------------------------------------------------------------------
 
@@ -1295,63 +1300,16 @@ func stop_sound(stop_effect_for: String):
 		"heartbeat":
 			$Sounds/Heartbeat.stop()
 
-
-func detect_touch():
-	
-	var touch_areas: Array = [$Touch/TouchArea, $Touch/TouchArea2, $Touch/TouchArea3, $Touch/TouchArea4]
-	var current_player_strays: Array # sosedi v tem koraku
-		
-	# preverim vsako areo, če ima straysa
-	var touching_sides_count: int = 0
-	for area in touch_areas:
-		var bodies_touched: Array = area.get_overlapping_bodies()
-		if not bodies_touched.empty():
-			for body in bodies_touched:
-				if body.is_in_group(Global.group_strays):
-					current_player_strays.append_array(bodies_touched)
-					touching_sides_count += 1
-					break
-	
-	# surrounded
-	if touching_sides_count == touch_areas.size():
-		# če je še vedno obkoljen, preverim pe istost sosedov > GO
-		if is_surrounded:
-			# če so sosedi isti je GO
-			if surrounded_player_strays == current_player_strays:
-				Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)
-			# če niso isti, restiram sosede in potem normalno naprej
-			else:
-				surrounded_player_strays = []
-				is_surrounded = false
-				touch_timer.start(detect_touch_pause_time)
-		# če je prvič obkoljen, ga označim za obkoljenega in zapišem sosede
-		else: 
-			is_surrounded = true
-			surrounded_player_strays = current_player_strays
-			touch_timer.start(is_surrounded_time) # daljši čas
-	# not surrounded
-	else:
-		surrounded_player_strays = []
-		is_surrounded = false # resetiram
-		touch_timer.start(detect_touch_pause_time)
-
-	return
-
-
 # SIGNALI ---------------------------------------------------------------------------------------------
 
 
 func _on_ReburstingTimer_timeout() -> void:
 	
-	# če je sweeper je čas naskončen
-	if Global.game_manager.game_settings["reburst_window_time"] == 0:
+	if Global.game_manager.game_settings["reburst_window_time"] == 0: 
 		return
-	
 	# čas zamujen ... ne moreš več reburstat
-	# resetira vse
 	close_reburst_window()
-	reburst_count = 0
-	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:	
+	if burst_move_started:
 		finish_burst_move()
 
 	
@@ -1359,7 +1317,6 @@ func _on_TouchTimer_timeout() -> void:
 	# ERASER
 
 	detect_touch() # za GO
-
 	
 		
 func _on_ghost_target_reached(ghost_body: Area2D, ghost_position: Vector2):
@@ -1424,13 +1381,6 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 		"become_white":
 			emit_signal("rewarded_on_cleaned") # javi v GM
 
-
-func screen_cleaned(): # kliče GM
-	
-	animation_player.play("become_white")
-	change_stat("all_cleaned", 1) # nagrada je določena v settingsih
-	emit_signal("rewarded_on_cleaned") # javi v GM ... signal pošljem tudi na koncu animacije, za tiste igre, ki tega zgrešijo
-	
 	
 # STATS ----------------------------------------------------------------------------------------------
 

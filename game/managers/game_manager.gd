@@ -227,7 +227,7 @@ func game_over(gameover_reason: int):
 			yield(self, "all_strays_died")
 			var signaling_player: KinematicBody2D
 			for player in current_players_in_game:
-				player.screen_cleaned()
+				player.on_screen_cleaned()
 				player.set_physics_process(false)
 				signaling_player = player
 			Global.hud.empty_color_indicators()
@@ -246,7 +246,7 @@ func game_over(gameover_reason: int):
 		yield(self, "all_strays_died")
 		var signaling_player: KinematicBody2D
 		for player in current_players_in_game:
-			player.screen_cleaned()
+			player.on_screen_cleaned()
 			signaling_player = player
 		yield(signaling_player, "rewarded_on_cleaned")
 	
@@ -555,7 +555,7 @@ func upgrade_level(level_upgrade_reason: String):
 	for player in current_players_in_game:
 		player.end_move()
 		if level_upgrade_reason == "cleaned":
-			player.screen_cleaned()
+			player.on_screen_cleaned()
 	Global.hud.empty_color_indicators()
 	get_tree().call_group(Global.group_players, "set_physics_process", false)
 	set_new_level() 
