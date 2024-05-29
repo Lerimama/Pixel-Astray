@@ -49,7 +49,7 @@ var reburst_max_cock_count: int = 1 # za kolk se nakoka (samo vizualni efekt)
 
 # touch
 var detect_touch_pause_time: float = 1
-var is_surrounded_time: float = 5 # ker merim, kdaj si obkoljen za vedno, je to tudi čas pavze do GO klica ... more bit večje od časa stepanja
+var is_surrounded_time: float = 2 # ker merim, kdaj si obkoljen za vedno, je to tudi čas pavze do GO klica ... more bit večje od časa stepanja
 var is_surrounded: bool
 var surrounded_player_strays: Array # za preverjanje prek večih preverjanj
 
@@ -571,7 +571,6 @@ func finish_burst_move():
 	
 	# če je količina uničenih enaka količini na ekranu
 	if burst_move_cleaned_strays_count < burst_move_to_clean_strays_count:
-		yield(get_tree().create_timer(2), "timeout")
 		Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
 	else:
 		pass # to naredi GM po defaultu

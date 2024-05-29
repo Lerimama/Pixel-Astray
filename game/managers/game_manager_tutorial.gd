@@ -99,7 +99,6 @@ func _change_strays_in_game_count(strays_count_change: int):
 	if strays_in_game_count - prev_stage_stray_count == 0: 
 		if Global.tutorial_gui.current_tutorial_stage == Global.tutorial_gui.TutorialStage.WINLOSE:
 			Global.tutorial_gui.finish_tutorial()
-			#			game_over(GameoverReason.CLEANED)
 		if Global.tutorial_gui.current_tutorial_stage == Global.tutorial_gui.TutorialStage.SKILLS:
 			# če je spucano vse barvno, spawnam novo serijo, studi, če je beli spucan
 			random_spawn_positions = skill_stage_spawn_positions.duplicate()

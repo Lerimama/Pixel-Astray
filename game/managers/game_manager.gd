@@ -38,8 +38,8 @@ onready var game_settings: Dictionary = Profiles.game_settings # ga med igro ne 
 onready var game_data: Dictionary = Profiles.current_game_data # .duplicate() # duplikat default profila, ker ga me igro spreminjaš
 onready var start_strays_spawn_count: int = game_settings["strays_start_count"] # število se lahko popravi iz tilempa signala
 onready var spawn_white_stray_part: float = game_settings["spawn_white_stray_part"]
-onready var respawn_wait_time: float = game_settings["respawn_wait_time"]
-onready var respawn_strays_count: int = game_settings["respawn_strays_count"]
+onready var respawn_wait_time: float # = game_data["respawn_wait_time"] ... ker je pogoj, moram napolnit na ready
+onready var respawn_strays_count: int #  = game_data["respawn_strays_count"] ... ker je pogoj, moram napolnit na ready
 onready var StrayPixel: PackedScene = preload("res://game/pixel/stray.tscn")
 onready var PlayerPixel: PackedScene = preload("res://game/pixel/player.tscn")
 onready var respawn_timer: Timer = $"../RespawnTimer"
@@ -71,7 +71,11 @@ func _ready() -> void:
 		current_level_settings = Profiles.sweeper_level_setting[game_data["level"]]
 		for setting in current_level_settings:
 			game_data[setting] = current_level_settings[setting]
-		
+
+	if game_data.has("respawn_strays_count"):
+		respawn_wait_time = game_data["respawn_wait_time"]
+		respawn_strays_count = game_data["respawn_strays_count"]	
+
 
 func _process(delta: float) -> void:
 	# all strays and players
@@ -178,13 +182,15 @@ func set_new_level():
 	for player in current_players_in_game:
 		if player.player_stats["player_points"] > higher_player_score:
 			higher_player_score = player.player_stats["player_points"]
-	game_data["level_goal_count"] += higher_player_score + game_data["level_goal_count_grow"]
+	if game_data.has("level_goal_count_grow"):
+		game_data["level_goal_count"] += higher_player_score + game_data["level_goal_count_grow"]
 	# level start spawn
 	start_strays_spawn_count += game_data["strays_start_count_grow"]
 	if game_data["level"] == 2: # 2. level je prvi level ko se štarta zares
 		start_strays_spawn_count = game_settings["strays_start_count"]
 	# število spawnanih belih
-	spawn_white_stray_part += game_data["spawn_white_stray_part_factor"]
+	if game_data.has("spawn_white_stray_part_factor"):
+		spawn_white_stray_part += game_data["spawn_white_stray_part_factor"]
 	#	spawn_white_stray_part =  clamp(spawn_white_stray_part, 0, 0.5) # največ 50 posto, da jih možno
 
 
@@ -205,14 +211,19 @@ func start_game():
 	game_on = true
 	
 	# start respawning
-	if game_settings["respawn_strays_count"] > 0 and not game_settings["respawn_wait_time"] == 0:
-		respawn_timer.start(first_respawn_time)
+	if game_data.has("respawn_strays_count"):
+		if game_data["respawn_strays_count"] > 0 and not game_data["respawn_wait_time"] == 0:
+			respawn_timer.start(first_respawn_time)
 
 
 func game_over(gameover_reason: int):
 	
+	if game_on == false: # preprečim double gameover
+		return
+	game_on = false
+	
 	# cleaner in handler respawn na cleaned namesto GO 
-	if game_settings["respawn_strays_on_cleaned"]: # uniq kombinacija respawn on cleaned
+	if game_settings["new_strays_on_cleaned"]: # uniq kombinacija respawn on cleaned
 		if gameover_reason == GameoverReason.CLEANED:
 			all_strays_died_alowed = true
 			yield(self, "all_strays_died")
@@ -221,31 +232,28 @@ func game_over(gameover_reason: int):
 				player.on_screen_cleaned()
 				player.set_physics_process(false)
 				signaling_player = player
+			#yield(signaling_player, "rewarded_on_cleaned")
 			Global.hud.empty_color_indicators()
+			game_on = true
 			set_strays()
 			get_tree().call_group(Global.group_players, "set_physics_process", true)
-			return
+	else:
+		Global.hud.game_timer.stop_timer()
+		if gameover_reason == GameoverReason.CLEANED:
+			all_strays_died_alowed = true
+			yield(self, "all_strays_died")
+			var signaling_player: KinematicBody2D
+			for player in current_players_in_game:
+				player.on_screen_cleaned()
+				signaling_player = player
+			yield(signaling_player, "rewarded_on_cleaned")
+		else: # samo pavza
+			yield(get_tree().create_timer(Profiles.get_it_time), "timeout")
 			
-	if game_on == false: # preprečim double gameover
-		return
-	game_on = false
-	
-	Global.hud.game_timer.stop_timer()
-	
-	if gameover_reason == GameoverReason.CLEANED:
-		all_strays_died_alowed = true
-		yield(self, "all_strays_died")
-		var signaling_player: KinematicBody2D
-		for player in current_players_in_game:
-			player.on_screen_cleaned()
-			signaling_player = player
-		yield(signaling_player, "rewarded_on_cleaned")
-	
-	get_tree().call_group(Global.group_players, "set_physics_process", false)
-	#yield(get_tree().create_timer(1), "timeout") # za dojet
-	stop_game_elements()
-	Global.current_tilemap.background_room.show()
-	Global.gameover_gui.open_gameover(gameover_reason)
+		get_tree().call_group(Global.group_players, "set_physics_process", false)
+		stop_game_elements()
+		Global.current_tilemap.background_room.show()
+		Global.gameover_gui.open_gameover(gameover_reason)
 
 
 func stop_game_elements():
@@ -562,30 +570,36 @@ func upgrade_level(level_upgrade_reason: String): # cleaner
 	
 	level_upgrade_in_progress = false
 	
-	if game_settings["respawn_strays_count"] > 0 and not game_settings["respawn_wait_time"] == 0:
-		respawn_timer.start(first_respawn_time)
+	if game_data.has("respawn_strays_count"):
+		if game_data["respawn_strays_count"] > 0 and not game_data["respawn_wait_time"] == 0:
+			respawn_timer.start(first_respawn_time)
 	
 	
 func _change_strays_in_game_count(strays_count_change: int):
+	# šteje nove in uničene
 	
-	strays_in_game_count += strays_count_change # in_game št. upošteva spawnanje in čiščenje (+ in -)
+	strays_in_game_count += strays_count_change # strays_count_change je lahko - ali +
 	strays_in_game_count = clamp(0, strays_in_game_count, strays_in_game_count)
 	
-	if strays_count_change < 0: # cleaned št. upošteva samo čiščenje (+)
-		strays_cleaned_count += abs(strays_count_change)
-	if game_data.has("level") and not game_data["game"] == Profiles.Games.SWEEPER: # multi level game
-		# naberem število sten
+	# skupno število spucanih (za hud)
+	if strays_count_change < 0:
+		strays_cleaned_count += abs(strays_count_change) 
+	
+	# če je CLEANED
+	if strays_in_game_count == 0:
+		if game_data["game"] == Profiles.Games.ERASER or game_data["game"] == Profiles.Games.HANDLER or game_data["game"] == Profiles.Games.DEFENDER:
+			upgrade_level("cleaned")
+		else:
+			game_over(GameoverReason.CLEANED)						
+	# če ni CLEANED in je HANDLER
+	elif game_data["game"] == Profiles.Games.HANDLER:
+		# preverim, če so ostali samo beli ... game over
 		var wall_strays_count: int = 0
-		for stray in get_tree().get_nodes_in_group(Global.group_strays): # nujno jih ponovno zajamem
+		for stray in get_tree().get_nodes_in_group(Global.group_strays):
 			if stray.current_state == stray.States.WALL:
 				wall_strays_count += 1
-		# če ostajajo samo še stene ali pa ni straysa nobenega več
-		if strays_in_game_count == 0: 
-		#		if strays_in_game_count == wall_strays_count or strays_in_game_count == 0: 
-			upgrade_level("cleaned")
-	else:
-		if strays_in_game_count == 0: 
-			game_over(GameoverReason.CLEANED)	
+		if wall_strays_count == strays_in_game_count:
+			game_over(GameoverReason.TIME)		
 
 	
 # SIGNALI --------------------------------------------------------------------------------------------	

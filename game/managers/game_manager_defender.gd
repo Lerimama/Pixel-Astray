@@ -2,10 +2,10 @@ extends GameManager # default game manager
 
 
 # stepping
-var step_in_progress: bool = false
-var lines_scrolled_count: int = 0 # prištevam v stray_step()
-var lines_scroll_per_spawn_round: int #  = 1 # se vleče game data
-var round_spawn_chance: float
+var line_step_in_progress: bool = false
+var line_steps_count: int = 0 # prištevam v stray_step()
+var line_steps_per_spawn_round: int #  = 1 # se vleče game data
+var line_step_pause_time: float # = 0 # pavza med stepi
 
 # stage and level
 var current_stage: int = 0 # na štartu se kliče stage up
@@ -16,12 +16,12 @@ var levels_per_game: int = 1
 # spawn engine
 var current_stray_spawning_round: int = 0 # prištevam na koncu spawna
 var available_home_spawn_positions: Array
-var stray_to_spawn_round_range: Array
+var spawn_round_range: Array
 var total_spawn_round_positions_count: int = 20 # določeno v tilemapu ... 20 x na linijo
-var invading_pause_time: float # pavza med stepi
-var checking_for_engine_stalled: bool = false
-var engine_stalled_time_limit: float = 3 # več od časa koraka
-var engine_stalled_time: float = 0
+var engine_stalled_checking_time: float = 2 # dobro da je večji od stepa ali respawn pavze
+
+onready var engine_stalled_timer: Timer = $"../EngineStalledTimer"
+onready var line_step_pause_timer: Timer = $"../LineStepPauseTimer"
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -47,17 +47,8 @@ func _process(delta: float) -> void:
 	# namen: ni preverjanja avail respawn pozicij in GO
 	
 	if game_on:
-		if available_home_spawn_positions.empty(): # preverja jih na vsak step()
-			checking_for_engine_stalled = true
-			engine_stalled_time += delta
-			if engine_stalled_time > engine_stalled_time_limit:
-				game_over(GameoverReason.TIME)
-		else:
-			engine_stalled_time = 0
-			checking_for_engine_stalled = false
-		
-		if not step_in_progress:
-			stray_step()
+		if not line_step_in_progress:
+			new_line_step()
 
 		
 func set_game(): 
@@ -98,15 +89,15 @@ func start_game():
 
 
 func game_over(gameover_reason: int):
-	# namen: CLEANED ni GO, ampak upgrade
+	# namen: samo TIME in LIFE, CLEANED je level ampak upgrade
 	
 	if game_on == false: # preprečim double gameover
 		return
 	game_on = false
 	
 	Global.hud.game_timer.stop_timer()
+	yield(get_tree().create_timer(Profiles.get_it_time), "timeout")
 	get_tree().call_group(Global.group_players, "set_physics_process", false)
-	yield(get_tree().create_timer(1), "timeout") # za dojet
 	stop_game_elements()
 	Global.current_tilemap.background_room.show()
 	Global.gameover_gui.open_gameover(gameover_reason)
@@ -214,21 +205,28 @@ func spawn_strays(strays_to_spawn_count: int):
 	current_stray_spawning_round += 1
 
 
-func stray_step():
-
-	# vsakič znova zajamemo vse in ji potem odštejemo trenutno zasedene ... 
-	available_home_spawn_positions = random_spawn_positions.duplicate()
+func new_line_step():
+	
+	# preverjama available positions
+	available_home_spawn_positions = random_spawn_positions.duplicate() # vsakič znova zajamemo vse in ji potem odštejemo trenutno zasedene ... 
 	for stray in get_tree().get_nodes_in_group(Global.group_strays):
 		if available_home_spawn_positions.has(stray.global_position - Vector2(cell_size_x/2, cell_size_x/2)):
 			available_home_spawn_positions.erase(stray.global_position - Vector2(cell_size_x/2, cell_size_x/2))
+	# preverjam za GO engin stalled
+	if available_home_spawn_positions.empty():
+		print("prazne pozicije I")
+		# sprožim tajmer, ki na koncu pozicije preveri še enkrat
+		engine_stalled_timer.start(engine_stalled_checking_time)
+	else:
+		engine_stalled_timer.stop() # zazih
 			
-	step_in_progress = true
+	line_step_in_progress = true
 			
 	var stepping_direction: Vector2
 	
 	# random spawn count
-	var stray_spawn_count_min: int = stray_to_spawn_round_range[0]
-	var stray_spawn_count_max: int = stray_to_spawn_round_range[1]
+	var stray_spawn_count_min: int = spawn_round_range[0]
+	var stray_spawn_count_max: int = spawn_round_range[1]
 	var random_spawn_count: int = randi() % stray_spawn_count_max + stray_spawn_count_min
 	# odštejem kar je višje od max range, ker zamik zamakne tudi zgornjo mejo
 	if random_spawn_count > stray_spawn_count_max: 
@@ -243,16 +241,11 @@ func stray_step():
 		for stray in get_tree().get_nodes_in_group(Global.group_strays):
 			stray.call_deferred("step", stepping_direction)
 		# Global.sound_manager.play_sfx("stray_step") # ulomek je za pitch zvoka
-		lines_scrolled_count += 1
-		if lines_scrolled_count == 1: # v prvi 100% spawnam
+		if line_steps_count % line_steps_per_spawn_round == 0: # tukaj, da ne spawna če je konec
 			spawn_strays(random_spawn_count)
-		elif lines_scrolled_count % lines_scroll_per_spawn_round == 0: # tukaj, da ne spawna če je konec
-			if randi() % 100 <= round_spawn_chance * 100: # spawnam, če je znotraj določenih procentov
-				spawn_strays(random_spawn_count)
-			
-	yield(get_tree().create_timer(invading_pause_time), "timeout")
 	
-	step_in_progress = false
+	line_step_pause_timer.start(line_step_pause_time)
+	
 
 		
 func play_stepping_sound(current_player_energy_part: float):
@@ -291,7 +284,7 @@ func upgrade_level(level_upgrade_reason: String):
 
 	current_level += 1 # številka novega levela 
 	current_stage = 0 # ker se šteje pobite strayse je na začetku 0
-	lines_scrolled_count = 0
+	line_steps_count = 0
 
 	if current_level > 1:
 		#reset players
@@ -323,20 +316,18 @@ func set_new_level():
 	
 	# prvi level vzame že zapisane		
 	if current_level == 1:
-		lines_scroll_per_spawn_round = game_data["lines_scroll_per_spawn_round"]
+		line_steps_per_spawn_round = game_data["line_steps_per_spawn_round"]
 		stages_per_level = game_data["stages_per_level"]
-		invading_pause_time = game_data["invading_pause_time"]
-		stray_to_spawn_round_range = game_data["stray_to_spawn_round_range"]
-		round_spawn_chance = game_data["round_spawn_chance"]
+		line_step_pause_time = game_data["line_step_pause_time"]
+		spawn_round_range = game_data["spawn_round_range"]
 		
 	# vsak naslednji level updata nastavitve prejšnjega levela
 	elif current_level > 1:
 		stages_per_level += stages_per_level + game_data["stages_per_level_grow"]
-		invading_pause_time *= game_data["invading_pause_time_factor"]
-		invading_pause_time = clamp (invading_pause_time, 0.2, invading_pause_time) # ne sem bit manjša od stray step hitrosti (cca 0.2)
-		stray_to_spawn_round_range[0] *= game_data["round_range_factor_1"]
-		stray_to_spawn_round_range[1] *= game_data["round_range_factor_2"]
-		round_spawn_chance *= game_data["round_spawn_chance_factor"]
+		line_step_pause_time *= game_data["line_step_pause_time_factor"]
+		line_step_pause_time = clamp (line_step_pause_time, 0.2, line_step_pause_time) # ne sem bit manjša od stray step hitrosti (cca 0.2)
+		spawn_round_range[0] *= game_data["spawn_round_range_factor"][0]
+		spawn_round_range[1] *= game_data["spawn_round_range_factor"][1]
 	
 	game_data["level"] = current_level
 
@@ -365,3 +356,16 @@ func set_level_colors():
 
 	Global.hud.spawn_color_indicators(stage_indicator_colors) # barve pokažem v hudu	
 		
+
+
+func _on_LineStepPauseTimer_timeout() -> void:
+	line_step_in_progress = false
+
+
+func _on_EngineStalledTimer_timeout() -> void:
+	
+	# če so pozicije še zmeraj prazne je stalled
+	if available_home_spawn_positions.empty():
+		print("prazne pozicije II")
+		game_over(GameoverReason.TIME)
+

@@ -94,7 +94,8 @@ func open_gameover(gameover_reason: int):
 		set_gameover_title()
 		
 	Global.hud.slide_out()
-	yield(Global.game_camera, "zoomed_out") # tukaj notri setam zamik
+	yield(Global.game_camera, "zoomed_out")
+	
 	show_gameover_title()	
 		
 			
@@ -178,24 +179,38 @@ func show_gameover_title():
 	selected_gameover_title.visible = true
 	gameover_title_holder.modulate.a = 0
 	
-	var background_fadein_transparency: float = 0.85 # cca 217
+	var background_fadein_alpha: float = 0.85 # cca 217
 	
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_callback(gameover_title_holder, "show")
 	fade_in.tween_property(gameover_title_holder, "modulate:a", 1, 1)
 	fade_in.parallel().tween_callback(Global.sound_manager, "stop_music", ["game_music_on_gameover"])
 	fade_in.parallel().tween_callback(Global.sound_manager, "play_sfx", [selected_gameover_jingle])
-	fade_in.parallel().tween_property(background, "color:a", background_fadein_transparency, 0.5).set_delay(0.5) # a = cca 140
+	fade_in.parallel().tween_property(background, "color:a", background_fadein_alpha, 1).set_delay(1.3) # a = cca 140
 	if Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
 		fade_in.parallel().tween_callback(self, "show_menu")
+		yield(fade_in, "finished")
+		get_tree().set_pause(true) # setano čez celotno GO proceduro
 	else:
-		fade_in.tween_callback(self, "set_game_summary").set_delay(1)
-	
+		yield(fade_in, "finished")
+		get_tree().set_pause(true) # setano čez celotno GO proceduro
+		set_game_summary()
+		if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NO_HS:
+			show_game_summary()
+		else:
+			var current_player_rank: int
+			if score_is_ranking: # manage_gameover_highscores počaka na signal iz name_input
+				open_name_input()
+				yield(Global.data_manager, "highscores_updated")
+				get_viewport().set_disable_input(false) # anti dablklik
+				current_player_rank = Global.data_manager.current_player_rank
+
+			highscore_table.get_highscore_table(Global.game_manager.game_data, current_player_rank)
+			show_game_summary() # meni pokažem v tej funkciji	
+
 
 func set_game_summary():
 
-	get_tree().set_pause(true) # setano čez celotno GO proceduro
-	
 	# main title obarvam glede na GO razlog ali ranking
 	var main_title: Label = $GameSummary/Title
 	if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED or score_is_ranking:
@@ -222,40 +237,9 @@ func set_game_summary():
 		gameover_stat_skills_used.text = "Skills used: " + str(p1_final_stats["skill_count"])
 		gameover_stat_pixels_off.text = "Colors collected: " + str(p1_final_stats["colors_collected"])
 		gameover_stat_astray_pixels.text = "Pixels left astray: " + str(Global.game_manager.strays_in_game_count)
-		
-	var current_player_rank: int
-	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NO_HS:
-	#		yield(get_tree().create_timer(1), "timeout") # podaljšam pavzo za branje
-		show_game_summary()
-	else:
-		if score_is_ranking: # manage_gameover_highscores počaka na signal iz name_input
-			open_name_input()
-			yield(Global.data_manager, "highscores_updated")
-			get_viewport().set_disable_input(false) # anti dablklik
-			current_player_rank = Global.data_manager.current_player_rank
-		
-		highscore_table.get_highscore_table(Global.game_manager.game_data, current_player_rank)
-		show_game_summary() # meni pokažem v tej funkciji
 
 
 func show_game_summary():
-	
-#	# setam naslov statistike statistiko
-#	gameover_stats_title.text = str(Global.game_manager.game_data["game_name"]) + " stats"
-#
-#	# napolnim statistiko
-#	gameover_stat_game.text %= str(Global.game_manager.game_data["game_name"])
-#	if not Global.game_manager.game_data.has("level"):
-#		gameover_stat_level.hide()
-#	else:
-#		gameover_stat_level.text %= str(Global.game_manager.game_data["level"])
-#	gameover_stat_points.text %= str(p1_final_stats["player_points"])
-#	gameover_stat_time.text %= str(Global.hud.game_timer.absolute_game_time)
-#	gameover_stat_cells_traveled.text %= str(p1_final_stats["cells_traveled"])
-#	gameover_stat_burst_count.text %= str(p1_final_stats["burst_count"])
-#	gameover_stat_pixels_off.text %= str(p1_final_stats["colors_collected"])
-#	gameover_stat_skills_used.text %= str(p1_final_stats["skill_count"])
-#	gameover_stat_astray_pixels.text %= str(Global.game_manager.strays_in_game_count)
 	
 	# hide title and name_popup > show game summary
 	game_summary.modulate.a = 0	
@@ -307,8 +291,7 @@ func get_current_score():
 
 
 func open_name_input():
-	
-	Global.sound_manager.play_gui_sfx("screen_slide")
+	#Global.sound_manager.play_gui_sfx("screen_slide")
 	
 	# generiram random ime s 5 črkami in ga dam za placeholder text
 	randomize()

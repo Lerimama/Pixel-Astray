@@ -123,7 +123,36 @@ func _ready() -> void:
 	for node in nodes_to_modulate:
 		node.modulate = Global.color_hud_text	
 
+	
+func _process(delta: float) -> void:
+	# namen: ni kode glede levelov
+	
+	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
+	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
 
+	# level label show on fill
+	if Global.game_manager.game_data.has("level"):
+		if not level_label.visible:
+			level_label.visible = true	
+		level_label.text = "%02d" % Global.game_manager.game_data["level"]
+			
+	# zapis točk do level up
+	if Global.game_manager.game_data["game"] == Profiles.Games.ERASER:
+		level_label.text = "%02d" % Global.game_manager.game_data["level"]
+		# kateri ima višji score
+		var current_biggest_score: int = 0
+		for player in Global.game_manager.current_players_in_game:
+			if player.player_stats["player_points"] > current_biggest_score:
+				current_biggest_score = player.player_stats["player_points"]
+		# razlika med limito in višjim skorom
+		level_limit_label_1.text = "%d" % (Global.game_manager.game_data["level_goal_count"] - current_biggest_score) 
+		level_limit_label_2.text = "POINTS TO LEVEL UP"
+	# zapis straysov na mizi
+	elif Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+		level_limit_label_1.text = "%d" % Global.game_manager.strays_in_game_count
+		level_limit_label_2.text = "COLORS TO PICK"	
+		
+			
 func set_hud(players_count: int): # kliče main na game-in
 	
 	if players_count == 1:
@@ -144,27 +173,29 @@ func set_hud(players_count: int): # kliče main na game-in
 		# hs		
 		highscore_label.visible = false
 	
-	# lajf counter
+	# lajf
 	if Global.game_manager.game_settings["player_start_life"] > 1:
 		p1_life_counter.visible = true
 		p2_life_counter.visible = true
 	else:
 		p1_life_counter.visible = false
 		p2_life_counter.visible = false
-		
-	# level label
-	if not Global.game_manager.game_data.has("level"):
-		level_label.visible = false
 	
-	# timeless	
-	if Global.game_manager.game_data.has("level"): # multilevel game
+	# energy
+	if Global.game_manager.game_settings["cell_traveled_energy"] == 0:
 		p1_energy_counter.visible = false
 		p2_energy_counter.visible = false	
+	
+	# level label
+	if not Global.game_manager.game_data.has("level"): # multilevel game
+		level_label.visible = false
+	
+	# per game	
+	if Global.game_manager.game_data["game"] == Profiles.Games.ERASER:
 		level_limit_holder.visible = true
 		strays_counters_holder.visible = false
-	
-	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-		p1_energy_counter.visible = false
+		level_label.visible = true
+	elif Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 		p1_points_counter.visible = false
 		highscore_label.visible = true
 		strays_counters_holder.visible = false
@@ -173,15 +204,14 @@ func set_hud(players_count: int): # kliče main na game-in
 	# glede na to kaj šteje ...
 	if current_gamed_hs_type == Profiles.HighscoreTypes.NO_HS:
 		highscore_label.visible = false
-	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_TIME_HIGH or Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW:
-		p1_points_holder.visible = false
-		p2_points_holder.visible = false
+	else:
 		highscore_label.visible = true
-		set_current_highscore()
-	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_POINTS:
-		p1_points_holder.visible = true
-		p2_points_holder.visible = true
-		highscore_label.visible = true
+		if current_gamed_hs_type == Profiles.HighscoreTypes.HS_TIME_HIGH or Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW:
+			p1_points_holder.visible = false
+			p2_points_holder.visible = false
+		elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_POINTS:
+			p1_points_holder.visible = true
+			p2_points_holder.visible = true
 		set_current_highscore()
 
 
@@ -252,15 +282,13 @@ func update_stats(stat_owner: Node, player_stats: Dictionary):
 	if not Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NO_HS:
 		check_for_highscore(player_stats)
 	
-	if Global.game_manager.game_data.has("level_goal_count") and player_stats["player_points"] >= Global.game_manager.game_data["level_goal_count"]:
-		Global.game_manager.upgrade_level("regular")
+	if Global.game_manager.game_data.has("level_goal_count"):
+		if player_stats["player_points"] >= Global.game_manager.game_data["level_goal_count"]:
+			Global.game_manager.upgrade_level("regular")
 
 		
 func set_current_highscore():
 	
-#	var current_game_name = Global.game_manager.game_data["game_name"]
-#	var current_game_name = Profiles.Games.keys()[Global.game_manager.game_data["game"]]
-#	var current_game_level = Global.game_manager.game_data["level"]
 	var current_highscore_line: Array = Global.data_manager.get_top_highscore(Global.game_manager.game_data)
 	current_highscore = current_highscore_line[0]
 	current_highscore_owner = current_highscore_line[1]
