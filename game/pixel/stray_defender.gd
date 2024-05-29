@@ -6,13 +6,12 @@ var stray_spawn_side: int
 
 
 func _ready() -> void:
-	 # namen: grupiranje glede na izvorno stran in setanje collision maskov
+	# namen: grupiranje glede na izvorno stran in setanje collision maskov
 	
 	add_to_group(Global.group_strays)
 	randomize() # za random die animacije
-	
-	color_poly.modulate = stray_color
 	modulate.a = 0
+	color_poly.modulate = stray_color
 	position_indicator.get_node("PositionPoly").color = stray_color
 	count_label.text = name
 	position_indicator.visible = false
@@ -93,11 +92,15 @@ func check_collider_for_wall(collider_in_check: Node2D):
 	elif collider_in_check.is_in_group(Global.group_strays) and collider_in_check != self:
 		if collider_in_check.current_state == collider_in_check.States.WALL:
 			die_to_wall()	
+
 	
 func step(step_direction: Vector2):
 	# namen: metanje ext collisiona za prepoznavanje stene in dodano zazih preverjanje pozicij
 	# namen: določanje smeri glede na tip straya
 	
+	if modulate.a == 0:
+		modulate.a = 1
+		
 	match stray_spawn_side:
 		Sides.TOP:
 			step_direction = Vector2.DOWN
@@ -157,9 +160,6 @@ func play_sound(effect_for: String):
 			var selected_step_sound = $Sounds/Stepping.get_child(random_step_index).play()
 			
 				
-# ON FLOOR --------------------------------------------------------------------------------------------
-
-
 func get_all_neighbors_in_directions(directions_to_check: Array): # kliče player on hit
 	# namen: preverjanje vseh_sosedov, tudi tilemapa
 	

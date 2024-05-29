@@ -156,27 +156,36 @@ func set_game():
 	# set_game_view()
 	# set_players() # da je plejer viden že na fejdin
 
-	# player intro animacija
+	if game_settings["show_game_instructions"]:
+		yield(Global.hud, "players_ready")
+	
+	# animacije plejerja in straysov in zooma	
 	var signaling_player: KinematicBody2D
 	for player in current_players_in_game:
 		player.animation_player.play("lose_white_on_start")
 		signaling_player = player # da se zgodi na obeh plejerjih istočasno
 	yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
-	
+	yield(get_tree().create_timer(0.3), "timeout")
 	set_strays()
-	yield(get_tree().create_timer(1), "timeout") # da si plejer ogleda	
-	Global.hud.slide_in(start_players_count)
-	yield(Global.start_countdown, "countdown_finished") # sproži ga hud po slide-inu
+	yield(get_tree().create_timer(0.7), "timeout")
+	Global.hud.slide_in()
+	if game_settings["start_countdown"]:
+		yield(get_tree().create_timer(0.2), "timeout")
+		Global.start_countdown.start_countdown() # GM yielda za njegov signal
+		yield(Global.start_countdown, "countdown_finished") # sproži ga hud po slide-inu
+	else:
+		yield(get_tree().create_timer(Global.hud.hud_in_out_time), "timeout") # da se res prizumira, če ni game start countdown
+	
 	start_game()
-	yield(get_tree().create_timer(Global.hud.hud_in_out_time), "timeout") # da se res prizumira, če ni game start countdown
 	Global.current_tilemap.background_room.hide()
-
+	
 
 func set_new_level(): 
 	
 	# in level spawn
-	respawn_wait_time *= game_data["respawn_wait_time_factor"]
-	respawn_strays_count = game_data["respawn_strays_count_grow"]
+	if game_data.has("respawn_wait_time_factor"):
+		respawn_wait_time *= game_data["respawn_wait_time_factor"]
+		respawn_strays_count = game_data["respawn_strays_count_grow"]
 	# level goal count
 	var higher_player_score: int = 0
 	for player in current_players_in_game:
@@ -549,24 +558,24 @@ func upgrade_level(level_upgrade_reason: String): # cleaner
 	game_data["level"] += 1 # številka novega levela 
 	respawn_timer.stop()
 	Global.hud.level_up_popup_inout(game_data["level"])
-#	Global.hud.level_up_popup_in(game_data["level"])
+	#Global.hud.level_up_popup_in(game_data["level"])
 	
 	for player in current_players_in_game:
 		player.end_move()
 		if level_upgrade_reason == "cleaned":
 			player.on_screen_cleaned()
 			
-#	get_tree().call_group(Global.group_players, "set_physics_process", false)
+	#get_tree().call_group(Global.group_players, "set_physics_process", false)
 	Global.hud.empty_color_indicators()
 	set_new_level() 
-#	if not get_tree().get_nodes_in_group(Global.group_strays).empty():
-#		clean_strays_in_game() # puca vse v igri
-#		yield(self, "all_strays_died") # ko so vsi iz igre grem naprej
+	#if not get_tree().get_nodes_in_group(Global.group_strays).empty():
+	#	clean_strays_in_game() # puca vse v igri
+	#	yield(self, "all_strays_died") # ko so vsi iz igre grem naprej
 	
 	# new level
-#	Global.hud.level_up_popup_out()
+	#Global.hud.level_up_popup_out()
 	set_strays() 
-#	get_tree().call_group(Global.group_players, "set_physics_process", true)
+	#get_tree().call_group(Global.group_players, "set_physics_process", true)
 	
 	level_upgrade_in_progress = false
 	

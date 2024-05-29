@@ -39,11 +39,12 @@ func get_instructions_content(current_highscore, current_highscore_owner):
 		record_label_holder.hide()
 	else:	
 		record_label_holder.show()
-		record_title.text = "Current record:"
+		record_title.text = "Current record"
 		# no record
 		if current_highscore == 0:
 			record_owner.text = "No record yet ..."
 			record_label.hide()
+#			record_title.hide()
 		# time
 		elif current_game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_HIGH or current_game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW:
 			var clock_record: String = Global.get_clock_time(current_highscore)
@@ -56,6 +57,7 @@ func get_instructions_content(current_highscore, current_highscore_owner):
 
 
 	# player controls 			
+#	if Global.game_manager.start_players_count < 2:
 	if Global.game_manager.start_players_count == 1:
 		controls.show()
 		controls_duel.hide()

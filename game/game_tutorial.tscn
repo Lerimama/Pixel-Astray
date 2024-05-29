@@ -893,26 +893,28 @@ rect_min_size = Vector2( 0, 30 )
 theme_type_variation = "Lerimama_lite"
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 custom_styles/normal = SubResource( 326 )
-text = "05 Game Over"
+text = "05 WIN OR LOSE"
 uppercase = true
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="Line4" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
-margin_top = 34.0
+margin_top = 250.0
 margin_right = 480.0
-margin_bottom = 58.0
+margin_bottom = 274.0
 bbcode_enabled = true
-bbcode_text = "Clean all remaining stray pixels to finish the tutorial."
-text = "Clean all remaining stray pixels to finish the tutorial."
+bbcode_text = "Clean all remaining stray pixels 
+to finish the tutorial."
+text = "Clean all remaining stray pixels 
+to finish the tutorial."
 fit_content_height = true
 scroll_active = false
 
 [node name="Line" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
-margin_top = 68.0
+margin_top = 28.0
 margin_right = 480.0
-margin_bottom = 122.0
+margin_bottom = 130.0
 bbcode_enabled = true
 bbcode_text = "[b].[/b] You win the game if you clean the screen of 
 all stray pixels and reclaim your \"one and only\" 
@@ -926,22 +928,23 @@ fit_content_height = true
 scroll_active = false
 
 [node name="Line2" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
-margin_top = 172.0
+margin_top = 132.0
 margin_right = 480.0
-margin_bottom = 274.0
+margin_bottom = 234.0
 bbcode_enabled = true
 bbcode_text = "[b].[/b] You lose the game if you run out of life or 
 if you are eternally stuck among stray pixels. 
-Not reaching a goal when time is limited can also 
-be a reason to lose the game."
+Not reaching a goal when time is limited can 
+also be a reason to lose the game."
 text = ". You lose the game if you run out of life or 
 if you are eternally stuck among stray pixels. 
-Not reaching a goal when time is limited can also 
-be a reason to lose the game."
+Not reaching a goal when time is limited can 
+also be a reason to lose the game."
 fit_content_height = true
 scroll_active = false
 
 [node name="Line3" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
+visible = false
 margin_top = 276.0
 margin_right = 488.0
 margin_bottom = 378.0
@@ -1175,10 +1178,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -223.0
-margin_top = -40.0
-margin_right = 225.0
-margin_bottom = 248.0
+margin_left = 417.0
+margin_top = 320.0
+margin_right = 865.0
+margin_bottom = 608.0
 theme = SubResource( 346 )
 
 [node name="Panel" type="Panel" parent="GUI/Tutorial/MissionPanel"]

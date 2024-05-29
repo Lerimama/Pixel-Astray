@@ -16,6 +16,7 @@ var collision: KinematicCollision2D
 
 var player_max_energy: float = 192
 var teleporting_wall_tile_id: int = 3
+var first_skill_use = true # beležim, da lahko določen skill izvajam zvezno
 
 # colors
 var pixel_color: Color = Global.game_manager.game_settings["player_start_color"]
@@ -107,7 +108,7 @@ func _ready() -> void:
 	
 	current_state = States.IDLE
 
-	
+			
 func _physics_process(delta: float) -> void:
 	
 	color_poly.modulate = pixel_color # povezava med variablo in barvo mora obstajati non-stop
@@ -144,7 +145,17 @@ func state_machine():
 				on_collision()
 			bursting_inputs()
 
-	
+	if not first_skill_use: # resetiram first_skill_use ... samo tukaj dobro dela
+		if Input.is_action_just_released(key_up):
+			first_skill_use = true
+		elif Input.is_action_just_released(key_down):
+			first_skill_use = true
+		elif Input.is_action_just_released(key_left):
+			first_skill_use = true
+		elif Input.is_action_just_released(key_right):
+			first_skill_use = true	
+			
+				
 func on_collision(): 
 	
 	stop_sound("burst")
@@ -190,10 +201,8 @@ func idle_inputs():
 		# ko zazna kolizijo postane skilled ali pa end move 
 		# kontrole prevzame skilled_input
 			if burst_move_started:
-#			if reburst_window_open or is_rebursting:
 				rebursting_inputs()
 			else:
-				print("skill")
 				if current_collider.is_in_group(Global.group_strays):
 					current_state = States.SKILLED
 				elif current_collider.is_in_group(Global.group_tilemap):
@@ -224,17 +233,29 @@ func skill_inputs():
 	skill_light_on()
 	
 	var new_direction: Vector2 # nova smer, ker pritisnem še enkrat
+	if first_skill_use:	
+		if Input.is_action_just_pressed(key_up):
+			first_skill_use = false
+			new_direction = Vector2.UP
+		elif Input.is_action_just_pressed(key_down):
+			first_skill_use = false
+			new_direction = Vector2.DOWN
+		elif Input.is_action_just_pressed(key_left):
+			first_skill_use = false
+			new_direction = Vector2.LEFT
+		elif Input.is_action_just_pressed(key_right):
+			first_skill_use = false
+			new_direction = Vector2.RIGHT
+	else: # zvezni push in pull (pull ima na koncu spet preverjanje tipke)
+		if Input.is_action_pressed(key_up):
+			new_direction = Vector2.UP
+		elif Input.is_action_pressed(key_down):
+			new_direction = Vector2.DOWN
+		elif Input.is_action_pressed(key_left):
+			new_direction = Vector2.LEFT
+		elif Input.is_action_pressed(key_right):
+			new_direction = Vector2.RIGHT
 	
-	# s tem inputom prekinem "is_pressed" input
-	if Input.is_action_just_pressed(key_up):
-		new_direction = Vector2.UP
-	elif Input.is_action_just_pressed(key_down):
-		new_direction = Vector2.DOWN
-	elif Input.is_action_just_pressed(key_left):
-		new_direction = Vector2.LEFT
-	elif Input.is_action_just_pressed(key_right):
-		new_direction = Vector2.RIGHT
-		
 	# prehod v cocking stanje
 	if Input.is_action_just_pressed(key_burst): # brez "just" dela po stisku smeri ... ni ok
 		current_state = States.COCKING
@@ -368,7 +389,7 @@ func end_move():
 		
 	# ugasnem lučke
 	#	burst_light_off()
-	skill_light_off()
+#	skill_light_off()
 	
 	# reset ključnih vrednosti (če je v skill tweenu, se poštima)
 	direction = Vector2.ZERO 
@@ -632,9 +653,9 @@ func push(stray_to_move: KinematicBody2D):
 	if room_for_push:
 		push_tween.tween_callback(self, "play_sound", ["pushed"]).set_delay(sound_delay)
 	push_tween.tween_callback(new_push_ghost, "queue_free")
-	# reset
-	push_tween.tween_callback(self, "end_move")
 	yield(push_tween, "finished")
+	
+	end_move()
 	
 	change_stat("skill_used", 1) # zazih ni v tweenu
 	
@@ -644,7 +665,7 @@ func pull(stray_to_move: KinematicBody2D):
 	var target_direction = direction 
 	var pull_direction = - target_direction
 	
-	# prostor v smeri premika?
+	# je prostor v smeri premika?
 	if detect_collision_in_direction(pull_direction): 
 		end_move()
 		return	
@@ -671,13 +692,19 @@ func pull(stray_to_move: KinematicBody2D):
 	pull_tween.parallel().tween_property(new_pull_ghost, "position", new_pull_ghost.global_position + pull_direction * cell_size_x, pull_cock_time)
 	pull_tween.parallel().tween_callback(self, "play_sound", ["pulled"])
 	# pull stray
-	pull_tween.tween_callback(self, "skill_light_off") # lučko dam v proces ugašanja
+	#pull_tween.tween_callback(self, "skill_light_off") # lučko dam v proces ugašanja
 	pull_tween.tween_property(skill_light, "position", Vector2.ZERO, pull_time) # lučko zapeljem nazaj na začetno lokacijo	
-	# reset
-	pull_tween.tween_callback(self, "end_move")
 	pull_tween.tween_callback(new_pull_ghost, "queue_free").set_delay(pull_end_delay) # delay je zato, ker se pixel premakne kasneje
 	yield(pull_tween, "finished")
-	
+
+	# reset ali zvezno vlečenje
+	if not first_skill_use: # še drži tipko
+		skill_light_on()
+		pull(stray_to_move)
+	else:
+		skill_light_off()
+		end_move()
+		
 	change_stat("skill_used", 2) # zazih ni v tweenu
 	
 			
@@ -1042,7 +1069,7 @@ func detect_touch():
 		var bodies_touched: Array = area.get_overlapping_bodies()
 		if not bodies_touched.empty():
 			for body in bodies_touched:
-				if body.is_in_group(Global.group_strays):
+				if body.is_in_group(Global.group_strays) or body.is_in_group(Global.group_tilemap):
 					current_player_strays.append_array(bodies_touched)
 					touching_sides_count += 1
 					break
@@ -1053,7 +1080,7 @@ func detect_touch():
 		if is_surrounded:
 			# če so sosedi isti je GO
 			if surrounded_player_strays == current_player_strays:
-				Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)
+				Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
 			# če niso isti, restiram sosede in potem normalno naprej
 			else:
 				surrounded_player_strays = []

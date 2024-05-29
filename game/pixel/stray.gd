@@ -14,10 +14,12 @@ onready var vision_rays: Array = [$Vision/VisionRay1, $Vision/VisionRay2, $Visio
 onready var vision: Node2D = $Vision
 onready var color_poly: Polygon2D = $ColorPoly
 onready var animation_player: AnimationPlayer = $AnimationPlayer
-onready var count_label: Label = $CountLabel # debug
 onready var position_indicator: Node2D = $PositionIndicator
 onready var visibility_notifier_2d: VisibilityNotifier2D = $VisibilityNotifier2D
 onready var cell_size_x: int = Global.current_tilemap.cell_size.x
+
+# debug
+onready var count_label: Label = $CountLabel 
 
 
 func _ready() -> void:
@@ -34,10 +36,11 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	
-	if Global.game_manager.show_position_indicators and modulate.a == 1: # alpfa je, da se ga visi ob fjedinu straya
-		position_indicator.visible = true
-	else:
-		position_indicator.visible = false
+	if not Global.game_manager == null:
+		if Global.game_manager.show_position_indicators and modulate.a == 1: # alpfa je, da se ga visi ob fjedinu straya
+			position_indicator.visible = true
+		else:
+			position_indicator.visible = false
 	
 	if position_indicator.visible:
 		get_position_indicator_position(get_viewport().get_node("PlayerCamera"))
@@ -134,7 +137,7 @@ func push_stray(push_direction: Vector2, push_cock_time: float, push_time: float
 	var heavier_hit_delay: float = 0.05  # z delayom je porinek bolj pristen in "težak"
 	
 	var push_tween = get_tree().create_tween()
-	# napnem
+	# ko napnem plejerja
 	push_tween.tween_property(collision_shape_ext, "position", - push_direction * cell_size_x, push_cock_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT) # animiram simultano s premikom plejerja
 	# spustim
 	push_tween.tween_property(collision_shape_ext, "position", Vector2.ZERO, push_time).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN) # vrnem jo na 0 pozicijo
@@ -159,10 +162,9 @@ func end_move():
 	
 	if current_state == States.MOVING: # da se stanje resetira samo če ni DYING al pa WALL
 		current_state = States.IDLE
-		# modulate = Color.red
 	global_position = Global.snap_to_nearest_grid(self)
 	
-		
+	# OPT straysi preveč porabijo, totalno jih poreži		
 # UTILITI ------------------------------------------------------------------------------------------------------
 
 

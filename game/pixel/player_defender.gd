@@ -2,21 +2,7 @@ extends Player
 
 
 func idle_inputs():
-	# namen: odstranim SKILLED stanje, dodam surrounded setanje
-	
-	# preveri vse štiri smeri
-	var directions_to_check: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
-	var direction_with_collision: Array
-	for direction in directions_to_check:
-		var current_collider = detect_collision_in_direction(direction)
-		if current_collider:
-			direction_with_collision.append(direction)
-	
-	# če so vse štiri polne je gejm over
-	if direction_with_collision.size() == directions_to_check.size():
-		yield(get_tree().create_timer(1),"timeout")
-		player_stats["player_energy"] = 0
-	
+	# namen: odstranim SKILLED stanje
 	
 	if player_stats["player_energy"] > 1:
 		var current_collider: Node2D = detect_collision_in_direction(direction)

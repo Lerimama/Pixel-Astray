@@ -34,7 +34,7 @@ onready var level_up_popup: Control = $Popups/LevelUp
 # header
 onready var game_timer: HBoxContainer = $Header/GameTimerHunds
 onready var highscore_label: Label = $Header/TopLineR/HighscoreLabel
-onready var music_player: HBoxContainer = $Header/TopLineR/MusicPlayer
+onready var music_track_label: Label = $Header/TopLineR/MusicPlayer/TrackLabel # za pedeneanje imena iz SM in na ready
 # p1
 onready var p1_label: Label = $Header/TopLineL/PlayerLabel
 onready var p1_life_counter: HBoxContainer = $Header/TopLineL/LifeIcons
@@ -98,6 +98,17 @@ func _ready() -> void:
 	if Global.game_manager.game_data.has("level"):
 		level_label.text = "%02d" % Global.game_manager.game_data["level"]
 	
+	if Global.game_manager.game_settings["show_game_instructions"]:
+		instructions_popup.get_instructions_content(current_highscore, current_highscore_owner)
+		yield(get_tree().create_timer(0.2), "timeout")		
+		instructions_popup.show()
+	else:
+		instructions_popup.hide()
+		
+	# ime komada na vrsti
+	var game_track_index: int = Global.game_manager.game_settings["game_track_index"]
+	music_track_label.text = Global.sound_manager.game_music_node.get_children()[game_track_index].name
+	
 	# setam transparenco barva indikatorja ... če želim obratno, samo tukaj obrnem
 	picked_indicator_alpha = 0.2
 	unpicked_indicator_alpha = 1
@@ -153,15 +164,15 @@ func _process(delta: float) -> void:
 		level_limit_label_2.text = "COLORS TO PICK"	
 		
 			
-func set_hud(players_count: int): # kliče main na game-in
+func set_hud(): # kliče main na game-in
 	
-	if players_count == 1:
+	if Global.game_manager.start_players_count == 1:
 		# players
 		p1_label.visible = false
 		p2_statsline.visible = false
 		# popups
 		p1_energy_warning_popup = $Popups/EnergyWarning/Solo
-	elif players_count == 2:
+	elif Global.game_manager.start_players_count == 2:
 		# players
 		p1_label.visible = true
 		p1_color_holder.visible = false
@@ -368,19 +379,18 @@ func popups_out(): # kliče GM na gameover
 	popups_out.tween_callback($Popups, "hide")
 
 	
-func slide_in(players_count: int): # kliče GM set_game()
+func slide_in(): # kliče GM set_game()
 	
-	set_hud(players_count)
+	set_hud()
 	
 	# instructions popup
-	if Global.game_manager.game_settings["show_game_instructions"]:
-		var instructions_popup_time: float = 0.7
-		fade_in_instructions_popup(instructions_popup_time)
-		yield(self, "players_ready")
-		fade_out_instructions_popup(instructions_popup_time)
-		yield(get_tree().create_timer(instructions_popup_time), "timeout")
+#	if Global.game_manager.game_settings["show_game_instructions"]:
+#		fade_in_instructions_popup(instructions_popup_time)
+#		yield(self, "players_ready")
+#	fade_out_instructions_popup(instructions_popup_time)
+#	yield(get_tree().create_timer(instructions_popup_time + 0.2), "timeout")
 	
-	Global.start_countdown.start_countdown() # GM yielda za njegov signal
+#	Global.start_countdown.start_countdown() # GM yielda za njegov signal
 	
 	var solution_line: Line2D
 	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
@@ -388,7 +398,7 @@ func slide_in(players_count: int): # kliče GM set_game()
 		solution_line.hide()
 		solution_line.modulate.a = 0.1
 		
-	Global.game_camera.zoom_in(hud_in_out_time, players_count)
+	Global.game_camera.zoom_in(hud_in_out_time)
 	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
 	if Global.game_manager.game_settings["show_solution_hint"]:
 		fade_in.tween_callback(solution_line, "show")
@@ -419,25 +429,39 @@ func slide_out(): # kliče GM na game over
 	fade_in.tween_callback(self, "hide")
 	
 	
-func fade_in_instructions_popup(in_time: float):
-
+func fade_in_instructions_popup():
+	
+	var in_time: float = 0.7
 	instructions_popup.get_instructions_content(current_highscore, current_highscore_owner)
 	var show_instructions_popup = get_tree().create_tween()
 	show_instructions_popup.tween_callback(instructions_popup, "show")
 	show_instructions_popup.tween_property(instructions_popup, "modulate:a", 1, in_time).from(0.0).set_ease(Tween.EASE_IN)
 
 	
-func fade_out_instructions_popup(out_time: float):
+func fade_out_instructions_popup():
+	instructions_popup.get_instructions_content(current_highscore, current_highscore_owner)
 	
+	var out_time: float = 0.7
 	var hide_instructions_popup = get_tree().create_tween()
 	hide_instructions_popup.tween_property(instructions_popup, "modulate:a", 0, out_time).set_ease(Tween.EASE_IN)
 	hide_instructions_popup.tween_callback(instructions_popup, "hide")
 	hide_instructions_popup.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
+	yield(hide_instructions_popup, "finished")
+#	yield(get_tree().create_timer(0.2), "timeout")
+#	slide_in()
 
 
 func confirm_players_ready():
+	
 	get_viewport().set_disable_input(true) # anti dablklik
 	Global.sound_manager.play_gui_sfx("btn_confirm")
+	
+	var out_time: float = 0.7
+	var hide_instructions_popup = get_tree().create_tween()
+	hide_instructions_popup.tween_property(instructions_popup, "modulate:a", 0, out_time).set_ease(Tween.EASE_IN)
+	hide_instructions_popup.tween_callback(instructions_popup, "hide")
+	hide_instructions_popup.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
+	yield(hide_instructions_popup, "finished")
 	emit_signal("players_ready")
 	
 

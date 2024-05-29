@@ -26,7 +26,6 @@ onready var background: ColorRect = $Background
 # game summary
 onready var game_summary: Control = $GameSummary
 onready var game_summary_tables: Control = $GameSummary/Tables
-onready var highscore_table: VBoxContainer = $GameSummary/Tables/HighscoreTable
 onready var gameover_stat_points: Label = game_summary_tables.get_node("DataContainer/Points")
 onready var gameover_stat_time: Label = game_summary_tables.get_node("DataContainer/Time")
 onready var gameover_stat_pixels_off: Label = game_summary_tables.get_node("DataContainer/PixelsOff")
@@ -37,6 +36,7 @@ onready var gameover_stat_cells_traveled: Label = game_summary_tables.get_node("
 onready var gameover_stat_burst_count: Label = game_summary_tables.get_node("DataContainer/BurstCount")
 onready var gameover_stat_skills_used: Label = game_summary_tables.get_node("DataContainer/SkillsUsed")
 onready var gameover_stats_title: Label = game_summary_tables.get_node("DataContainer/Title")
+onready var highscore_table: VBoxContainer = $GameSummary/Tables/HighscoreTable
 
 # name input
 var input_string: String
@@ -101,33 +101,47 @@ func open_gameover(gameover_reason: int):
 			
 func set_gameover_title():
 	
-	# uganka in je bila rešena
-	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-		if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
-			Global.data_manager.write_solved_status_to_file(Global.game_manager.game_data)
+	var gameover_subtitle: Label # subtitle
+	# NEXT testiraj GO texte
+	# najprej standard text
+	match current_gameover_reason:
+		Global.game_manager.GameoverReason.CLEANED:
 			selected_gameover_title = gameover_title_cleaned
-			selected_gameover_jingle = "win_jingle"
+			gameover_subtitle = selected_gameover_title.get_child(1)
+			gameover_subtitle.text = "You are full of colors again!"
 			name_input_label.text = "Great work!"
-		else: # GO skrin je na neuspeh vedno LIFE
+			selected_gameover_jingle = "win_jingle"
+		Global.game_manager.GameoverReason.LIFE:
 			selected_gameover_title = gameover_title_life
+			gameover_subtitle = selected_gameover_title.get_child(1)
+			gameover_subtitle.text = "You are forever colorless!"
+			name_input_label.text = "But still ... "
 			selected_gameover_jingle = "lose_jingle"
-	else:
-		# glede na GO razlog	
+		Global.game_manager.GameoverReason.TIME:
+			selected_gameover_title = gameover_title_time
+			gameover_subtitle = selected_gameover_title.get_child(1)
+			gameover_subtitle.text = "Your cleaning time has expired."
+			name_input_label.text = "But still ... "
+			selected_gameover_jingle = "lose_jingle"
+	
+	# potem glede na igro		
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 		match current_gameover_reason:
-			Global.game_manager.GameoverReason.CLEANED:
-				selected_gameover_title = gameover_title_cleaned
-				selected_gameover_jingle = "win_jingle"
-				name_input_label.text = "Great work!"
+			Global.game_manager.GameoverReason.CLEANED: 
+				Global.data_manager.write_solved_status_to_file(Global.game_manager.game_data) # uganka je bila rešena
+			Global.game_manager.GameoverReason.TIME:
+				gameover_subtitle.text = "Your momentum is completely gone."
+	elif Global.game_manager.game_data["game"] == Profiles.Games.DEFENDER:
+		match current_gameover_reason:
 			Global.game_manager.GameoverReason.LIFE:
-				selected_gameover_title = gameover_title_life
-				selected_gameover_jingle = "lose_jingle"
-				name_input_label.text = "But still ... "
+				gameover_subtitle.text = "You are forever colorless!"
 			Global.game_manager.GameoverReason.TIME:
 				selected_gameover_title = gameover_title_time
-				selected_gameover_jingle = "lose_jingle"
-				name_input_label.text = "But still ... "
-		if score_is_ranking:
-			selected_gameover_title.modulate = Global.color_green
+				gameover_subtitle.text = "You are surrounded by colors."
+		
+	# obarvam, če rezultat na lestvici		
+	if score_is_ranking:
+		selected_gameover_title.modulate = Global.color_green
 		
 		
 func set_duel_gameover_title():
@@ -186,7 +200,7 @@ func show_gameover_title():
 	fade_in.tween_property(gameover_title_holder, "modulate:a", 1, 1)
 	fade_in.parallel().tween_callback(Global.sound_manager, "stop_music", ["game_music_on_gameover"])
 	fade_in.parallel().tween_callback(Global.sound_manager, "play_sfx", [selected_gameover_jingle])
-	fade_in.parallel().tween_property(background, "color:a", background_fadein_alpha, 1).set_delay(1.3) # a = cca 140
+	fade_in.parallel().tween_property(background, "color:a", background_fadein_alpha, 1.5).set_delay(0.5) # a = cca 140
 	if Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
 		fade_in.parallel().tween_callback(self, "show_menu")
 		yield(fade_in, "finished")
@@ -258,6 +272,10 @@ func show_menu():
 	
 	# vidnost gumbov v meniju glede na igro
 	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+		if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
+			gameover_menu.get_node("RestartBtn").text = "SWEEP AGAIN"
+		else:
+			gameover_menu.get_node("RestartBtn").text = "TRY AGAIN"
 		if Global.game_manager.game_data["level"] < Profiles.sweeper_level_setting.size():
 			gameover_menu.get_node("NextLevelBtn").show()
 	elif Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:

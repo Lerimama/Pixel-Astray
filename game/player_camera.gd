@@ -90,7 +90,7 @@ func _physics_process(delta: float) -> void:
 		position = camera_target.position + cell_align
 		
 	
-func zoom_in(hud_in_out_time: float, players_count: int): # kliče hud
+func zoom_in(hud_in_out_time: float): # kliče hud
 	
 	var zoom_in_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	zoom_in_tween.tween_property(self, "zoom", zoom_end, hud_in_out_time)

@@ -84,6 +84,18 @@ __meta__ = {
 "_edit_vertical_guides_": [ 640.0 ]
 }
 
+[node name="CleanedLabel" parent="GUI/GameOver/GameoverTitle/ReasonCleaned" index="1"]
+text = "%You are full of colors again!"
+
+[node name="TimeupLabel" parent="GUI/GameOver/GameoverTitle/ReasonTime" index="1"]
+text = "%Can't handle the colors?"
+
+[node name="DiedLabel" parent="GUI/GameOver/GameoverTitle/ReasonLife" index="1"]
+text = "%You are forever colorless!"
+
+[node name="NextLevelBtn" parent="GUI/GameOver/Menu" index="1"]
+text = "NEXT SCREEN"
+
 [node name="RespawnTimer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true

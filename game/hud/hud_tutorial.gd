@@ -14,7 +14,7 @@ func _process(delta: float) -> void:
 		level_label.text = "%02d" % Global.game_manager.game_data["level"]
 
 
-func set_hud(players_count: int): # kliče main na game-in
+func set_hud(): # kliče main na game-in
 	# namen: hs se pokaže, čeprav ga ne beleži, totalna redukcija
 	
 	# players

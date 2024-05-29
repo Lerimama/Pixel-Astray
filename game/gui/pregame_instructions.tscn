@@ -262,7 +262,7 @@ modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
 margin_left = 320.0
 margin_top = 136.0
 margin_right = 960.0
-margin_bottom = 214.0
+margin_bottom = 158.0
 grow_horizontal = 2
 text = "%Description consec etur si neberum dolores siteelit.
 a"
@@ -380,29 +380,30 @@ grow_vertical = 2
 [node name="RecordTitle" type="Label" parent="Outline/Record/VBoxContainer"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
 margin_right = 176.0
-margin_bottom = 18.0
+margin_bottom = 25.0
 grow_horizontal = 2
+rect_min_size = Vector2( 0, 25 )
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 custom_fonts/font = ExtResource( 3 )
-text = "%Current record:"
+text = "%Current record"
 align = 1
-valign = 2
 
 [node name="RecordLabel" type="Label" parent="Outline/Record/VBoxContainer"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 22.0
+margin_top = 29.0
 margin_right = 176.0
-margin_bottom = 44.0
+margin_bottom = 51.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
-text = "%record value"
+text = "%00000 points"
 align = 1
 
 [node name="RecordOwner" type="Label" parent="Outline/Record/VBoxContainer"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 48.0
+margin_top = 55.0
 margin_right = 176.0
-margin_bottom = 66.0
+margin_bottom = 73.0
 grow_horizontal = 2
 custom_fonts/font = ExtResource( 3 )
 text = "%by owner"

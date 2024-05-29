@@ -108,7 +108,7 @@ func play_music(music_for: String):
 			# set track
 			var current_track_playing: Node = game_music_node.get_child(currently_playing_track_index)
 			current_track_playing.play()
-			Global.hud.music_player.track_label.text = current_track_playing.name
+			Global.hud.music_track_label.text = current_track_playing.name
 			
 
 func stop_music(music_to_stop: String):

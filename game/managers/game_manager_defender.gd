@@ -52,24 +52,29 @@ func _process(delta: float) -> void:
 
 		
 func set_game(): 
-	# namen: setam level indikatorje in strayse spawnam po štratu igre
+	# namen: start brez pavze "za dojet, izločim set_strays korak, ker se "samo" spawnajo med igro
 	
-	# player intro animacija
+	if game_settings["show_game_instructions"]:
+		yield(Global.hud, "players_ready")
+	
+	# animacije plejerja in straysov in zooma	
 	var signaling_player: KinematicBody2D
 	for player in current_players_in_game:
 		player.animation_player.play("lose_white_on_start")
-#		player.animation_player.play_backwards("lose_white_on_start")
 		signaling_player = player # da se zgodi na obeh plejerjih istočasno
 	yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
+	Global.hud.slide_in()
+	if game_settings["start_countdown"]:
+		yield(get_tree().create_timer(0.2), "timeout")
+		Global.start_countdown.start_countdown() # GM yielda za njegov signal
+		yield(Global.start_countdown, "countdown_finished") # sproži ga hud po slide-inu
+	else:
+		yield(get_tree().create_timer(Global.hud.hud_in_out_time), "timeout") # da se res prizumira, če ni game start countdown
 	
-	yield(get_tree().create_timer(1), "timeout") # da si plejer ogleda
-	Global.hud.slide_in(start_players_count)
-	yield(Global.start_countdown, "countdown_finished") # sproži ga hud po slide-inu
 	start_game()
-	yield(get_tree().create_timer(Global.hud.hud_in_out_time), "timeout") # da se res prizumira, če ni game start countdown
 	Global.current_tilemap.background_room.hide()
-	
-
+		
+		
 func start_game():
 	
 	Global.hud.game_timer.start_timer()
@@ -80,7 +85,6 @@ func start_game():
 	for player in current_players_in_game:
 		player.set_physics_process(true)
 	
-	yield(get_tree().create_timer(2), "timeout") # čaka na hudov slide in
 	game_on = true
 	
 	upgrade_level("regular")
@@ -170,7 +174,7 @@ func set_players():
 func spawn_strays(strays_to_spawn_count: int):
 	# namen: no clampin, ker je lahko spawn 0
 	# namen: v žrebanje vključim samo home spawn pozicije na voljo ... ni preverjanja vseh drugih mogočih pozicij
-	# namen: vsak spawn vključuje tudi show_stray()
+	# namen: skrijem ga, ker se pokaže šele pred prvim korakom
 	# namen: preverjam GO
 
 	for stray_index in strays_to_spawn_count:
@@ -193,13 +197,10 @@ func spawn_strays(strays_to_spawn_count: int):
 			new_stray_pixel.global_position = selected_position + Vector2(cell_size_x/2, cell_size_x/2) # dodana adaptacija zaradi središča pixla
 			new_stray_pixel.z_index = 2 # višje od plejerja
 			new_stray_pixel.stray_color = random_selected_color
-			#		Global.node_creation_parent.add_child(new_stray_pixel)
 			Global.node_creation_parent.call_deferred("add_child", new_stray_pixel)
 			
 			# odstranim uporabljeno pozicije in barve dodam v števec
 			available_home_spawn_positions.erase(selected_position)
-			#		new_stray_pixel.show_stray()
-			new_stray_pixel.call_deferred("show_stray")		
 			self.strays_in_game_count = 1 # setget sprememba
 			
 	current_stray_spawning_round += 1

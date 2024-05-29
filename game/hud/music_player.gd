@@ -17,15 +17,31 @@ func _input(event: InputEvent) -> void:
 		
 		if Input.is_action_just_pressed("m") and visible == true:
 			AudioServer.set_bus_mute(game_music_bus_index, not AudioServer.is_bus_mute(game_music_bus_index))
-	
-
-func _process(delta: float) -> void:
+			if AudioServer.is_bus_mute(game_music_bus_index) or Global.sound_manager.game_music_set_to_off:
+				modulate.a = 0.6
+				#on_icon.visible = false
+				#off_icon.visible = true
+			else:
+				modulate.a = 1
+				#on_icon.visible = true
+				#off_icon.visible = false
+				
+				
+func _ready() -> void:
 	
 	if AudioServer.is_bus_mute(game_music_bus_index) or Global.sound_manager.game_music_set_to_off:
 		modulate.a = 0.6
-	#		on_icon.visible = false
-	#		off_icon.visible = true
 	else:
-		modulate.a = 1
-	#		on_icon.visible = true
-	#		off_icon.visible = false
+		modulate.a = 1	
+		
+		
+#func _process(delta: float) -> void:
+#
+#	if AudioServer.is_bus_mute(game_music_bus_index) or Global.sound_manager.game_music_set_to_off:
+#		modulate.a = 0.6
+#	#		on_icon.visible = false
+#	#		off_icon.visible = true
+#	else:
+#		modulate.a = 1
+#	#		on_icon.visible = true
+#	#		off_icon.visible = false

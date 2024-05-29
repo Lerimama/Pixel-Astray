@@ -16,7 +16,7 @@ var default_player_stats: Dictionary = {
 
 var default_game_settings: Dictionary = {
 	# player
-	"player_start_life": 3, # 1 lajf skrije ikone v hudu in šteje kot "lose_life_on_hit" off
+	"player_start_life": 3, # 1 lajf skrije ikone v hudu, on hit jemlje energijo ne lajfa
 	"player_start_color": Global.color_dark_gray_pixel, # na začetku je bel, potem se animira v start color ... #232323, #141414
 	"step_time_fast": 0.09, # default hitrost
 	"player_start_energy": 192,
@@ -82,9 +82,8 @@ var game_data_cleaner_s: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_s.tscn",
 	"description" : "Clear the colors before time slips away!",
 	"Prop" : "Clean quickly\nto reclaim your\n\"one and only\"\nstatus.",
-#	"Prop" : "Be quick\nand efficient\nto reclaim your\n\"one and only\"\nstatus.",
 	"Prop2" : "Cleaning time\nis limited to\n%s minutes." % str(2),
-	"Prop3": "Score points\nand beat the\ncurrent record!",
+	"Prop3" : "Score points\nto beat current\nrecord!",
 }
 var game_data_cleaner_m: Dictionary = {
 	"game": Games.CLEANER_M,
@@ -95,7 +94,7 @@ var game_data_cleaner_m: Dictionary = {
 	"description" : "Race the clock and clean up the color explosion!",
 	"Prop" : "Be quick and efficient to reclaim your \"one and only\" status.",
 	"Prop2" : "Cleaning time\nis limited to\n%s minutes." % str(5),
-	"Prop3" : "Score points and beat the current record!",
+	"Prop3" : "Score points\nto beat current\nrecord!",
 }
 var game_data_cleaner_l: Dictionary = {
 	"game": Games.CLEANER_L,
@@ -106,7 +105,7 @@ var game_data_cleaner_l: Dictionary = {
 	"description" : "Clean up this vibrant mess before the clock runs out!",
 	"Prop" : "Be quick and efficient to reclaim your \"one and only\" status.",
 	"Prop2" : "Cleaning time is limited to %s minutes." % str(10),
-	"Prop3" : "Score points and beat the current record!",
+	"Prop3" : "Score points\nto beat current\nrecord!",
 }
 var game_data_eraser: Dictionary = { 
 	"game": Games.ERASER,
@@ -116,14 +115,17 @@ var game_data_eraser: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser.tscn",
 	"description" : "Keep the colors in check as they keep popping in!",
 	"Prop": "Unlimited\ncleaning time.\nUnlimited\ndifficulty levels.",
-	"Prop2" : "Score points\nand beat the\ncurrent record!",
+	"Prop2" : "No stubborn\nwhites on this\nscreen.",
+	"Prop3" : "Score points\nto beat current\nrecord!",
 	# štart
 	"level": 1,
 	# "strays_start_count": 0, # ponekod se spawna vsaj 1
+	"level_goal_count": 320,
 	"respawn_wait_time": 1, # če je 0 ni respawna
 	"respawn_strays_count": 0, # če je > 0, je respawn aktiviran
 	# level up
-	"strays_start_count_grow": 5, # prištejem
+	"strays_start_count_grow": 0, # prištejem
+	"level_goal_count_grow": 320,
 	"respawn_wait_time_factor": 0.7, # množim
 	"respawn_strays_count_grow": 1, # prištejem
 }
@@ -135,9 +137,9 @@ var game_data_handler: Dictionary = {
 	#	"tilemap_path": "res://game/tilemaps/tilemap_handler.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_handler_s.tscn",
 	"description" : "Prevent those pesky pixels from ruining your screen!",
-	"Prop" : "Clean the screen to reach the next challenge.",
+	"Prop" : "Clean the screen\nto reach next\nchallenge.",
 	"Prop2" : "Unlimited\ncleaning time.\nUnlimited\nchallenges.",
-	"Prop3" : "Score points\nand beat the\ncurrent record!",
+	"Prop3" : "Score points\nto beat current\nrecord!",
 	# štart
 	"level": 1,
 	# "strays_start_count": 0, # ponekod se spawna vsaj 1
@@ -152,10 +154,10 @@ var game_data_defender: Dictionary = {
 	"game_name": "Defender",
 	"game_scene_path": "res://game/game_defender.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_defender.tscn",
-	"description" : "Defend the screen against invading pixels!",
-	"Prop": "Score points\nand beat the\ncurrent record!",
-	"Prop2" : "Player is always\nfull of energy,\nbut has no skills.",
-	"Prop3" : "Unlimited\ncleaning time.\nUnlimited\ndifficulty levels.",
+	"description" : "Defend your screen against invading colors!",
+	"Prop" : "Player is always\nfull of energy,\nbut has no skills.",
+	"Prop2" : "Unlimited\ncleaning time.\nUnlimited\ndifficulty levels.",
+	"Prop3" : "Score points\nto beat current\nrecord!",
 	# štart
 	"level": 1,
 	"stages_per_level": 3, # prvi level
@@ -258,8 +260,8 @@ func _ready() -> void:
 #	var debug_game = Games.CLEANER_S
 #	var debug_game = Games.CLEANER_M
 #	var debug_game = Games.CLEANER_L
-	var debug_game = Games.DEFENDER
-#	var debug_game = Games.ERASER
+#	var debug_game = Games.DEFENDER
+	var debug_game = Games.ERASER
 #	var debug_game = Games.HANDLER
 #	var debug_game = Games.SWEEPER
 #	var debug_game = Games.THE_DUEL
@@ -272,13 +274,13 @@ func set_game_data(selected_game) -> void:
 	
 	# debug
 	game_settings["start_countdown"] = false
-#	game_settings["player_start_life"] = 1
-	game_settings["show_game_instructions"] = false
+	game_settings["player_start_life"] = 2
+#	game_settings["show_game_instructions"] = false
 		
 	match selected_game:
 		
 		Games.SHOWCASE: 
-			current_game_data = game_data_showcase
+			current_game_data = game_data_showcase.duplicate()
 			game_settings["player_start_color"] = Color.white
 			game_settings["reburst_hit_power"] = 1
 			game_settings["reburst_mode"] = true			
@@ -286,7 +288,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["strays_start_count"] = 50
 		
 		Games.TUTORIAL: 
-			current_game_data = game_data_tutorial
+			current_game_data = game_data_tutorial.duplicate()
 			game_settings["show_game_instructions"] = false
 			game_settings["game_time_limit"] = 0
 			game_settings["strays_start_count"] = 1
@@ -294,7 +296,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["start_countdown"] = false
 			
 		Games.CLEANER_S: 
-			current_game_data = game_data_cleaner_s
+			current_game_data = game_data_cleaner_s.duplicate()
 			game_settings["game_time_limit"] = 120
 			game_settings["strays_start_count"] = 50
 			game_settings["respawn_on_cleaned"] = true
@@ -303,7 +305,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["spawn_white_stray_part"] = 0.11 # 10 posto
 			# debug
 		Games.CLEANER_M: 
-			current_game_data = game_data_cleaner_m
+			current_game_data = game_data_cleaner_m.duplicate()
 			game_settings["game_time_limit"] = 300
 			game_settings["strays_start_count"] = 140
 			game_settings["respawn_on_cleaned"] = true
@@ -311,7 +313,7 @@ func set_game_data(selected_game) -> void:
 #			game_settings["new_strays_on_cleaned"] = true
 			game_settings["spawn_white_stray_part"] = 0.11
 		Games.CLEANER_L: 
-			current_game_data = game_data_cleaner_l
+			current_game_data = game_data_cleaner_l.duplicate()
 			game_settings["game_time_limit"] = 600
 			game_settings["strays_start_count"] = 320
 			game_settings["respawn_on_cleaned"] = true
@@ -320,13 +322,13 @@ func set_game_data(selected_game) -> void:
 			game_settings["spawn_white_stray_part"] = 0.11
 		
 		Games.ERASER: 
-			current_game_data = game_data_eraser
+			current_game_data = game_data_eraser.duplicate()
 #			game_settings["cell_traveled_energy"] = 0
 			game_settings["start_countdown"] = false
 			game_settings["strays_start_count"] = 5
 		
 		Games.HANDLER: 
-			current_game_data = game_data_handler
+			current_game_data = game_data_handler.duplicate()
 #			game_settings["cell_traveled_energy"] = 0
 			game_settings["start_countdown"] = false
 			#
@@ -334,24 +336,24 @@ func set_game_data(selected_game) -> void:
 			game_settings["respawn_on_cleaned"] = true
 
 		Games.DEFENDER:
-			current_game_data = game_data_defender
-			game_settings["on_hit_energy_part"] = 0
+			current_game_data = game_data_defender.duplicate()
 			game_settings["cell_traveled_energy"] = 0
 			game_settings["full_power_mode"] = true # 1 v prvi spawn rundi
 			game_settings["strays_start_count"] = 1 # 1 v prvi spawn rundi
 			# debug
+			game_settings["start_countdown"] = false # 1 v prvi spawn rundi
 #			game_settings["line_step_pause_time"] = 0.3 # 1 v prvi spawn rundi
 #			game_settings["spawn_round_range"] = [20, 30] # 1 v prvi spawn rundi
 			game_settings["game_track_index"] = 1
 		
 		Games.THE_DUEL: 
-			current_game_data = game_data_the_duel
+			current_game_data = game_data_the_duel.duplicate()
 			game_settings["game_time_limit"] = 0 #180
 			#	
 			game_settings["new_strays_on_cleaned"] = true
 	
 		Games.SWEEPER: 
-			current_game_data = game_data_sweeper
+			current_game_data = game_data_sweeper.duplicate()
 			game_settings["player_start_life"] = 1
 			game_settings["color_picked_points"] = 0
 			game_settings["cell_traveled_energy"] = 0

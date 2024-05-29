@@ -14,12 +14,14 @@ func set_game():
 	# set_players() # da je plejer viden že na fejdin
 	# pavza
 	# set game
-	
+
 	skill_stage_spawn_positions = random_spawn_positions.duplicate()
 	
 	yield(get_tree().create_timer(1), "timeout") # da se animacija plejerja konča	
-	Global.hud.slide_in(start_players_count)
+	Global.hud.slide_in()
 	start_game()
+	
+	# ugasnem ozadje
 	yield(get_tree().create_timer(Global.hud.hud_in_out_time), "timeout") # da se res prizumira, če ni game start countdown
 	Global.current_tilemap.background_room.hide()	
 	
