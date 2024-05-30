@@ -232,20 +232,19 @@ func game_over(gameover_reason: int):
 	game_on = false
 	
 	# cleaner in handler respawn na cleaned namesto GO 
-	if game_settings["new_strays_on_cleaned"]: # uniq kombinacija respawn on cleaned
-		if gameover_reason == GameoverReason.CLEANED:
-			all_strays_died_alowed = true
-			yield(self, "all_strays_died")
-			var signaling_player: KinematicBody2D
-			for player in current_players_in_game:
-				player.on_screen_cleaned()
-				player.set_physics_process(false)
-				signaling_player = player
-			#yield(signaling_player, "rewarded_on_cleaned")
-			Global.hud.empty_color_indicators()
-			game_on = true
-			set_strays()
-			get_tree().call_group(Global.group_players, "set_physics_process", true)
+	if game_settings["new_strays_on_cleaned"] and gameover_reason == GameoverReason.CLEANED: # uniq kombinacija respawn on cleaned
+		all_strays_died_alowed = true
+		yield(self, "all_strays_died")
+		#var signaling_player: KinematicBody2D
+		for player in current_players_in_game:
+			player.on_screen_cleaned()
+			player.set_physics_process(false)
+			#signaling_player = player
+		#yield(signaling_player, "rewarded_on_cleaned")
+		Global.hud.empty_color_indicators()
+		game_on = true
+		set_strays()
+		get_tree().call_group(Global.group_players, "set_physics_process", true)
 	else:
 		Global.hud.game_timer.stop_timer()
 		if gameover_reason == GameoverReason.CLEANED:

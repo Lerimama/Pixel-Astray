@@ -1,19 +1,14 @@
 extends GameHud
 
 
-func _process(delta: float) -> void:
-	# namen: update level label in limite levela, level number apdejt
-
-	# level label show on fill
-	if Global.game_manager.game_data.has("level"):
-		if not level_label.visible:
-			level_label.visible = true	
-		level_label.text = "%02d" % Global.game_manager.game_data["level"]
-	
-	# to level up
-	level_limit_label_1.text = "%d" % (Global.game_manager.stages_per_level - Global.game_manager.current_stage)
-	level_limit_label_2.text = "COLORS TO LEVEL UP"
-	
+#func _process(delta: float) -> void:
+#	# namen: astray counter drugače
+#
+#	# to level up
+##	astray_counter.text = "%d" % Global.strays_on_screen.size()
+##	astray_label.text = "COLORS TO LEVEL UP"
+#
+#	printt (Global.strays_on_screen.size(), astray_counter.text)
 
 	
 #func set_hud(players_count: int): # kliče main na game-in

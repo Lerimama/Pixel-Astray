@@ -53,6 +53,7 @@ func set_level_btns():
 			btn.get_node("Solved").hide()
 			btn.get_node("SolvedIcon").show()
 		else:
+			btn.get_node("Label").modulate = Global.color_gui_gray
 			btn.get_node("SolvedIcon").hide()
 
 
@@ -64,7 +65,8 @@ func connect_level_btns():
 	for btn in btn_grid_container.get_children():
 		btn.connect("mouse_entered", self, "_on_btn_hovered_or_focused", [btn])
 		btn.connect("focus_entered", self, "_on_btn_hovered_or_focused", [btn])
-		btn.connect("focus_exited", self, "_on_btn_unfocused", [btn])
+		btn.connect("mouse_exited", self, "_on_btn_unhovered_or_unfocused", [btn])
+		btn.connect("focus_exited", self, "_on_btn_unhovered_or_unfocused", [btn])
 		btn.connect("pressed", self, "_on_btn_pressed", [btn])
 		
 		
@@ -76,13 +78,15 @@ func _on_btn_hovered_or_focused(btn):
 	btn.get_node("SolvedIcon").modulate = Color.white
 	
 	
-func _on_btn_unfocused(btn):
+func _on_btn_unhovered_or_unfocused(btn):
 	
 	btn.self_modulate = Global.color_almost_black_pixel
 	if solved_sweeper_btns.has(btn):
 		btn.get_node("Label").modulate = btn_colors[all_level_btns.find(btn)]
 		btn.get_node("Solved").modulate = btn_colors[all_level_btns.find(btn)]
 		btn.get_node("SolvedIcon").modulate = btn_colors[all_level_btns.find(btn)]
+	else:
+		btn.get_node("Label").modulate = Global.color_gui_gray
 	
 	
 func _on_btn_pressed(btn):
@@ -115,9 +119,6 @@ func _on_SolutionsBtn_toggled(button_pressed: bool) -> void:
 	else:
 		 Profiles.default_game_settings["show_solution_hint"] = false
 		
-
-
-
 
 # btn background tilemaps
 	

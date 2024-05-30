@@ -179,7 +179,7 @@ var game_data_sweeper: Dictionary = {
 	"Prop2" : "To reburst when hitting a pixel, press\nin the direction of\nthe next target.",
 	"Prop3" : "Showcase your\nmastery and beat\nthe record time!",
 	#
-	"level": 1, # provizorij
+	"level": 5, # provizorij
 }
 var sweeper_level_setting: Dictionary = { 
 	1: { # ključ je tudi številka levela
@@ -260,8 +260,8 @@ func _ready() -> void:
 #	var debug_game = Games.CLEANER_S
 #	var debug_game = Games.CLEANER_M
 #	var debug_game = Games.CLEANER_L
-#	var debug_game = Games.DEFENDER
-	var debug_game = Games.ERASER
+	var debug_game = Games.DEFENDER
+#	var debug_game = Games.ERASER
 #	var debug_game = Games.HANDLER
 #	var debug_game = Games.SWEEPER
 #	var debug_game = Games.THE_DUEL
@@ -272,10 +272,10 @@ func set_game_data(selected_game) -> void:
 	
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
-	# debug
+#	# debug
 	game_settings["start_countdown"] = false
 	game_settings["player_start_life"] = 2
-#	game_settings["show_game_instructions"] = false
+	game_settings["show_game_instructions"] = false
 		
 	match selected_game:
 		
@@ -362,6 +362,4 @@ func set_game_data(selected_game) -> void:
 			#
 			game_settings["reburst_mode"] = true
 			game_settings["reburst_window_time"] = 0
-			# debug
-			current_game_data["level"] = 8
 

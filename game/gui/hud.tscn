@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://game/hud/music_player.gd" type="Script" id=1]
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=2]
@@ -85,11 +85,6 @@ region = Rect2( 16, 16, 16, 16 )
 [sub_resource type="AtlasTexture" id=127]
 atlas = ExtResource( 8 )
 region = Rect2( 16, 0, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=450]
-atlas = ExtResource( 8 )
-region = Rect2( 40, 80, 12, 14 )
-margin = Rect2( 2, 0, 0, 0 )
 
 [node name="Hud" type="Control"]
 anchor_right = 1.0
@@ -591,8 +586,8 @@ __meta__ = {
 }
 
 [node name="HighscoreLabel" type="Label" parent="Header/TopLineR"]
-margin_left = 98.0
-margin_right = 236.0
+margin_left = 440.0
+margin_right = 578.0
 margin_bottom = 22.0
 grow_horizontal = 0
 size_flags_horizontal = 10
@@ -604,6 +599,7 @@ __meta__ = {
 }
 
 [node name="PlayerLineR" type="HBoxContainer" parent="Header/TopLineR"]
+visible = false
 margin_left = 240.0
 margin_right = 578.0
 margin_bottom = 22.0
@@ -921,7 +917,7 @@ __meta__ = {
 
 [node name="SpectrumHolder" type="Control" parent="Footer/FooterLine"]
 margin_left = 128.0
-margin_right = 1038.0
+margin_right = 946.0
 margin_bottom = 22.0
 grow_horizontal = 2
 size_flags_horizontal = 3
@@ -946,7 +942,7 @@ grow_vertical = 2
 color = Color( 0.494118, 0.517647, 0.545098, 1 )
 
 [node name="StraysLine" type="HBoxContainer" parent="Footer/FooterLine"]
-margin_left = 1070.0
+margin_left = 978.0
 margin_right = 1218.0
 margin_bottom = 22.0
 size_flags_horizontal = 9
@@ -956,12 +952,13 @@ __meta__ = {
 }
 
 [node name="AstrayHolder" type="HBoxContainer" parent="Footer/FooterLine/StraysLine"]
-margin_right = 66.0
+margin_right = 240.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
 
 [node name="TextureRect3" type="TextureRect" parent="Footer/FooterLine/StraysLine/AstrayHolder"]
+visible = false
 margin_top = 4.0
 margin_right = 16.0
 margin_bottom = 22.0
@@ -969,9 +966,8 @@ rect_min_size = Vector2( 16, 18 )
 size_flags_vertical = 8
 texture = SubResource( 128 )
 
-[node name="Label" type="Label" parent="Footer/FooterLine/StraysLine/AstrayHolder"]
-margin_left = 24.0
-margin_right = 66.0
+[node name="Count" type="Label" parent="Footer/FooterLine/StraysLine/AstrayHolder"]
+margin_right = 42.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 text = "000"
@@ -980,9 +976,21 @@ __meta__ = {
 "_editor_description_": ""
 }
 
+[node name="Label" type="Label" parent="Footer/FooterLine/StraysLine/AstrayHolder"]
+margin_left = 50.0
+margin_right = 240.0
+margin_bottom = 22.0
+size_flags_vertical = 8
+text = "%PIXELS ASTRAY"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
 [node name="PickedHolder" type="HBoxContainer" parent="Footer/FooterLine/StraysLine"]
-margin_left = 82.0
-margin_right = 148.0
+visible = false
+margin_left = 342.0
+margin_right = 408.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
@@ -1001,44 +1009,6 @@ margin_right = 66.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 text = "000"
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="LevelLimitHolder" type="HBoxContainer" parent="Footer/FooterLine"]
-visible = false
-margin_left = 916.0
-margin_right = 1218.0
-margin_bottom = 22.0
-size_flags_vertical = 8
-custom_constants/separation = 8
-
-[node name="TextureRect3" type="TextureRect" parent="Footer/FooterLine/LevelLimitHolder"]
-visible = false
-margin_top = 4.0
-margin_right = 16.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 16, 18 )
-size_flags_vertical = 8
-texture = SubResource( 450 )
-
-[node name="Label" type="Label" parent="Footer/FooterLine/LevelLimitHolder"]
-margin_right = 42.0
-margin_bottom = 22.0
-size_flags_vertical = 8
-text = "000"
-valign = 2
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Label2" type="Label" parent="Footer/FooterLine/LevelLimitHolder"]
-margin_left = 50.0
-margin_right = 302.0
-margin_bottom = 22.0
-size_flags_vertical = 8
-text = "%POINTS TO LEVEL UP"
 valign = 2
 __meta__ = {
 "_editor_description_": ""

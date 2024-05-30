@@ -1,7 +1,8 @@
-[gd_scene load_steps=76 format=2]
+[gd_scene load_steps=78 format=2]
 
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=1]
 [ext_resource path="res://assets/sound/sfx/skills/skilled_frcer.wav" type="AudioStream" id=2]
+[ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=3]
 [ext_resource path="res://assets/sound/sfx/gui/tutorial_stage_a_NFF-glocken-bad.wav" type="AudioStream" id=4]
 [ext_resource path="res://assets/sound/sfx/skill_success_b_NFF-glocken-good.wav" type="AudioStream" id=5]
 [ext_resource path="res://assets/sound/sfx/blinking/blink_static_1.wav" type="AudioStream" id=6]
@@ -13,6 +14,7 @@
 [ext_resource path="res://assets/sound/sfx/burst/burst_cocking.wav" type="AudioStream" id=12]
 [ext_resource path="res://assets/sound/sfx/blinking/blink_static_4.wav" type="AudioStream" id=13]
 [ext_resource path="res://assets/sound/sfx/blinking/blink_static_5.wav" type="AudioStream" id=14]
+[ext_resource path="res://performance_stats.gd" type="Script" id=15]
 [ext_resource path="res://assets/sound/sfx/blinking/blink_static_3.wav" type="AudioStream" id=16]
 [ext_resource path="res://assets/sound/sfx/gui/key_5.wav" type="AudioStream" id=17]
 [ext_resource path="res://assets/sound/sfx/skills/teleport_out_v2.wav" type="AudioStream" id=18]
@@ -488,12 +490,66 @@ bus = "GameSfx"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="SoundManager"]
 
-[node name="FrameRate" type="Node2D" parent="."]
+[node name="PerformanceStats" type="Node2D" parent="."]
+position = Vector2( 16, 16 )
+z_index = 20
+script = ExtResource( 15 )
+__meta__ = {
+"_edit_group_": true
+}
 
-[node name="Label" type="Label" parent="FrameRate"]
-margin_right = 152.0
-margin_bottom = 48.0
+[node name="VBoxContainer" type="VBoxContainer" parent="PerformanceStats"]
+modulate = Color( 1, 1, 1, 0.784314 )
+margin_right = 40.0
+margin_bottom = 40.0
+custom_constants/separation = 8
+
+[node name="PerfStat" type="Label" parent="PerformanceStats/VBoxContainer"]
+margin_right = 52.0
+margin_bottom = 18.0
 theme = ExtResource( 1 )
+custom_fonts/font = ExtResource( 3 )
+text = "FR: %d"
+
+[node name="PerfStat2" type="Label" parent="PerformanceStats/VBoxContainer"]
+margin_top = 26.0
+margin_right = 52.0
+margin_bottom = 44.0
+theme = ExtResource( 1 )
+custom_fonts/font = ExtResource( 3 )
+text = "FR: %d"
+
+[node name="PerfStat3" type="Label" parent="PerformanceStats/VBoxContainer"]
+margin_top = 52.0
+margin_right = 52.0
+margin_bottom = 70.0
+theme = ExtResource( 1 )
+custom_fonts/font = ExtResource( 3 )
+text = "FR: %d"
+
+[node name="PerfStat4" type="Label" parent="PerformanceStats/VBoxContainer"]
+margin_top = 78.0
+margin_right = 52.0
+margin_bottom = 96.0
+theme = ExtResource( 1 )
+custom_fonts/font = ExtResource( 3 )
+text = "FR: %d"
+
+[node name="PerfStat5" type="Label" parent="PerformanceStats/VBoxContainer"]
+margin_top = 104.0
+margin_right = 52.0
+margin_bottom = 122.0
+theme = ExtResource( 1 )
+custom_fonts/font = ExtResource( 3 )
+text = "FR: %d"
+
+[node name="PerfStat6" type="Label" parent="PerformanceStats/VBoxContainer"]
+visible = false
+margin_top = 110.0
+margin_right = 52.0
+margin_bottom = 128.0
+theme = ExtResource( 1 )
+custom_fonts/font = ExtResource( 3 )
 text = "FR: %d"
 
 [connection signal="finished" from="SoundManager/GuiSfx/Inputs/BtnCancel" to="." method="_on_BtnCancel_finished"]

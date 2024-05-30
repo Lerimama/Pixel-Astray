@@ -468,7 +468,7 @@ tracks/4/keys = {
 
 [node name="TutorialGame" type="Node2D"]
 __meta__ = {
-"_edit_horizontal_guides_": [ 1371.0, 1371.0, 576.0, 120.0, 88.0 ],
+"_edit_horizontal_guides_": [ 1371.0, 1371.0, 576.0 ],
 "_edit_vertical_guides_": [ -32.0, 32.0, 1248.0, 448.0 ]
 }
 
@@ -968,7 +968,6 @@ margin_right = 353.0
 margin_bottom = 640.0
 
 [node name="HudGuide" type="Control" parent="GUI/Tutorial"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -980,7 +979,7 @@ margin_top = 58.0
 margin_right = 130.0
 margin_bottom = 76.0
 custom_fonts/font = ExtResource( 4 )
-text = "Your stats - Life, energy, picked colors count, ..."
+text = "Life, energy, Collected colors and Score"
 uppercase = true
 __meta__ = {
 "_edit_group_": true
@@ -1023,9 +1022,9 @@ antialiased = true
 
 [node name="TimeLabel" type="Label" parent="GUI/Tutorial/HudGuide"]
 self_modulate = Color( 0.368627, 1, 0.662745, 1 )
-margin_left = 599.0
+margin_left = 556.0
 margin_top = 58.0
-margin_right = 680.0
+margin_right = 637.0
 margin_bottom = 76.0
 custom_fonts/font = ExtResource( 4 )
 text = "Game time"
@@ -1044,13 +1043,12 @@ antialiased = true
 
 [node name="MusicLabel" type="Label" parent="GUI/Tutorial/HudGuide"]
 self_modulate = Color( 0.368627, 1, 0.662745, 1 )
-margin_left = 705.0
+margin_left = 667.0
 margin_top = 58.0
-margin_right = 811.0
+margin_right = 835.0
 margin_bottom = 76.0
-grow_horizontal = 0
 custom_fonts/font = ExtResource( 4 )
-text = "Music player"
+text = "Current music track"
 uppercase = true
 __meta__ = {
 "_edit_group_": true
@@ -1058,7 +1056,7 @@ __meta__ = {
 
 [node name="Line2D2" type="Line2D" parent="GUI/Tutorial/HudGuide/MusicLabel"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-position = Vector2( -58, 4 )
+position = Vector2( -34, 4 )
 points = PoolVector2Array( 83, -30, 83, -6 )
 width = 0.5
 default_color = Color( 1, 1, 1, 1 )
@@ -1136,7 +1134,7 @@ margin_right = 1249.0
 margin_bottom = 658.0
 grow_horizontal = 0
 custom_fonts/font = ExtResource( 4 )
-text = "Pixels still astray and cleaned"
+text = "Pixels still astray"
 align = 2
 uppercase = true
 __meta__ = {
@@ -1144,6 +1142,7 @@ __meta__ = {
 }
 
 [node name="Line2D" type="Line2D" parent="GUI/Tutorial/HudGuide/AstrayLabel"]
+visible = false
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 position = Vector2( 27, 58 )
 points = PoolVector2Array( 104, -10, 104, -34 )

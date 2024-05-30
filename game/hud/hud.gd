@@ -64,17 +64,21 @@ onready var p2_steps_counter: Label = $Header/TopLineR/PlayerLineR/StepsHolder/L
 onready var footer: Control = $Footer # kontrole iz kamere
 onready var game_label: Label = $Footer/FooterLine/GameLine/Game
 onready var level_label: Label = $Footer/FooterLine/GameLine/Level
-onready var strays_counters_holder: HBoxContainer = $Footer/FooterLine/StraysLine
-onready var pixel_picked_holder: HBoxContainer = $Footer/FooterLine/StraysLine/PickedHolder
+
 onready var pixel_astray_holder: HBoxContainer = $Footer/FooterLine/StraysLine/AstrayHolder
-onready var astray_counter: Label = $Footer/FooterLine/StraysLine/AstrayHolder/Label
-onready var picked_counter: Label = $Footer/FooterLine/StraysLine/PickedHolder/Label
+onready var astray_counter: Label = $Footer/FooterLine/StraysLine/AstrayHolder/Count
+onready var pixel_picked_holder: HBoxContainer = $Footer/FooterLine/StraysLine/PickedHolder # trenutno ne rabim
+onready var picked_counter: Label = $Footer/FooterLine/StraysLine/PickedHolder/Label # trenutno ne rabim
+onready var astray_label: Label = $Footer/FooterLine/StraysLine/AstrayHolder/Label
 onready var spectrum: HBoxContainer = $Footer/FooterLine/SpectrumHolder/ColorSpectrum
 onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
 onready var current_gamed_hs_type: int = Global.game_manager.game_data["highscore_type"]
-onready var level_limit_holder: HBoxContainer = $Footer/FooterLine/LevelLimitHolder
-onready var level_limit_label_1: Label = $Footer/FooterLine/LevelLimitHolder/Label
-onready var level_limit_label_2: Label = $Footer/FooterLine/LevelLimitHolder/Label2
+
+# VEN
+#onready var strays_counters_holder: HBoxContainer = $Footer/FooterLine/StraysLine
+#onready var level_limit_holder: HBoxContainer = $Footer/FooterLine/LevelLimitHolder
+#onready var level_limit_label_1: Label = $Footer/FooterLine/LevelLimitHolder/Label
+#onready var level_limit_label_2: Label = $Footer/FooterLine/LevelLimitHolder/Label2
 
 # debug
 onready var player_life: Label = $Life
@@ -97,6 +101,9 @@ func _ready() -> void:
 	game_label.text = Global.game_manager.game_data["game_name"]
 	if Global.game_manager.game_data.has("level"):
 		level_label.text = "%02d" % Global.game_manager.game_data["level"]
+	
+	if not current_gamed_hs_type == Profiles.HighscoreTypes.NO_HS:
+		set_current_highscore()
 	
 	if Global.game_manager.game_settings["show_game_instructions"]:
 		instructions_popup.get_instructions_content(current_highscore, current_highscore_owner)
@@ -138,8 +145,9 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	# namen: ni kode glede levelov
 	
-	astray_counter.text = "%03d" % Global.game_manager.strays_in_game_count
-	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
+	astray_counter.text = "%0d" % Global.game_manager.strays_in_game_count
+	# VEN
+#	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
 
 	# level label show on fill
 	if Global.game_manager.game_data.has("level"):
@@ -148,20 +156,19 @@ func _process(delta: float) -> void:
 		level_label.text = "%02d" % Global.game_manager.game_data["level"]
 			
 	# zapis točk do level up
-	if Global.game_manager.game_data["game"] == Profiles.Games.ERASER:
-		level_label.text = "%02d" % Global.game_manager.game_data["level"]
-		# kateri ima višji score
-		var current_biggest_score: int = 0
-		for player in Global.game_manager.current_players_in_game:
-			if player.player_stats["player_points"] > current_biggest_score:
-				current_biggest_score = player.player_stats["player_points"]
-		# razlika med limito in višjim skorom
-		level_limit_label_1.text = "%d" % (Global.game_manager.game_data["level_goal_count"] - current_biggest_score) 
-		level_limit_label_2.text = "POINTS TO LEVEL UP"
+#	if Global.game_manager.game_data["game"] == Profiles.Games.ERASER:
+#		level_label.text = "%02d" % Global.game_manager.game_data["level"]
+#		# kateri ima višji score
+#		var current_biggest_score: int = 0
+#		for player in Global.game_manager.current_players_in_game:
+#			if player.player_stats["player_points"] > current_biggest_score:
+#				current_biggest_score = player.player_stats["player_points"]
+#		# razlika med limito in višjim skorom
+#		level_limit_label_1.text = "%d" % (Global.game_manager.game_data["level_goal_count"] - current_biggest_score) 
+
 	# zapis straysov na mizi
-	elif Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-		level_limit_label_1.text = "%d" % Global.game_manager.strays_in_game_count
-		level_limit_label_2.text = "COLORS TO PICK"	
+#	elif Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+#		level_limit_label_1.text = "%d" % Global.game_manager.strays_in_game_count
 		
 			
 func set_hud(): # kliče main na game-in
@@ -201,29 +208,21 @@ func set_hud(): # kliče main na game-in
 	if not Global.game_manager.game_data.has("level"): # multilevel game
 		level_label.visible = false
 	
-	# per game	
+	# strays counter text
 	if Global.game_manager.game_data["game"] == Profiles.Games.ERASER:
-		level_limit_holder.visible = true
-		strays_counters_holder.visible = false
-		level_label.visible = true
+		#astray_label.text = "POINTS TO LEVEL UP"
+		#level_label.visible = true
+		pass
 	elif Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+		#astray_label.text = "COLORS TO CLEAN"
 		p1_points_counter.visible = false
-		highscore_label.visible = true
-		strays_counters_holder.visible = false
-		level_limit_holder.visible = true
-	
+	astray_label.text = "PIXELS ASTRAY"
+				
 	# glede na to kaj šteje ...
 	if current_gamed_hs_type == Profiles.HighscoreTypes.NO_HS:
 		highscore_label.visible = false
 	else:
 		highscore_label.visible = true
-		if current_gamed_hs_type == Profiles.HighscoreTypes.HS_TIME_HIGH or Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW:
-			p1_points_holder.visible = false
-			p2_points_holder.visible = false
-		elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_POINTS:
-			p1_points_holder.visible = true
-			p2_points_holder.visible = true
-		set_current_highscore()
 
 
 func level_up_popup_inout(level_reached: int): 
@@ -299,7 +298,6 @@ func update_stats(stat_owner: Node, player_stats: Dictionary):
 
 		
 func set_current_highscore():
-	
 	var current_highscore_line: Array = Global.data_manager.get_top_highscore(Global.game_manager.game_data)
 	current_highscore = current_highscore_line[0]
 	current_highscore_owner = current_highscore_line[1]
@@ -308,6 +306,7 @@ func set_current_highscore():
 		highscore_label.text = "HS " + str(current_highscore) + "s"
 	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_POINTS:
 		highscore_label.text = "HS " + str(current_highscore)
+	printt("CURR", current_highscore)
 
 
 func check_for_highscore(player_stats: Dictionary):

@@ -901,18 +901,18 @@ __meta__ = {
 }
 
 [node name="QuitBtn" type="Button" parent="Menu"]
-margin_right = 52.0
+margin_right = 160.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../PlayBtn")
 focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
 focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 0
-text = "QUIT"
+text = "QUIT TO MENU"
 
 [node name="RestartBtn" type="Button" parent="Menu"]
-margin_left = 84.0
-margin_right = 182.0
+margin_left = 192.0
+margin_right = 290.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../QuitBtn")
 focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
@@ -923,8 +923,8 @@ size_flags_vertical = 0
 text = "RESTART"
 
 [node name="PlayBtn" type="Button" parent="Menu"]
-margin_left = 214.0
-margin_right = 322.0
+margin_left = 322.0
+margin_right = 430.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../RestartBtn")
 focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")

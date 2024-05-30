@@ -11,7 +11,6 @@
 
 [node name="GameOver" type="Control"]
 pause_mode = 2
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 3 )
@@ -416,9 +415,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -195.0
+margin_left = -162.0
 margin_top = -122.0
-margin_right = 195.0
+margin_right = 162.0
 margin_bottom = -100.0
 grow_horizontal = 2
 custom_constants/separation = 32
@@ -446,13 +445,13 @@ text = "NEXT LEVEL"
 
 [node name="QuitBtn" type="Button" parent="Menu"]
 margin_left = 164.0
-margin_right = 390.0
+margin_right = 324.0
 margin_bottom = 22.0
 focus_neighbour_right = NodePath("../RestartBtn")
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 2
 size_flags_vertical = 8
-text = "QUIT TO MAIN MENU"
+text = "QUIT TO MENU"
 
 [node name="ExitGameBtn" type="Button" parent="Menu"]
 visible = false

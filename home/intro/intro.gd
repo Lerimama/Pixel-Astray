@@ -56,7 +56,8 @@ func _process(delta: float) -> void:
 func play_intro():
 	
 	yield(get_tree().create_timer(1), "timeout")
-	animation_player.play("intro_running")
+#	animation_player.play("intro_running")
+	animation_player.play("intro_explode")
 	
 	
 func finish_intro(): # ob skipanju in regularnem koncu intra
@@ -92,7 +93,7 @@ func set_strays():
 	while strays_shown != strays_in_game:
 		show_strays_loop += 1 # zazih
 		show_strays(show_strays_loop)
-		yield(get_tree().create_timer(0.1), "timeout")
+		yield(get_tree().create_timer(0.3), "timeout")
 	
 	# resetiram, da je mogoče in-game spawn
 	strays_shown.clear()

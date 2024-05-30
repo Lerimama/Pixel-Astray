@@ -6,9 +6,15 @@ var camera_shake_on: bool = true #_temp
 
 onready var home_scene_path: String = "res://home/home.tscn"
 onready var game_scene_path: String = Profiles.current_game_data["game_scene_path"]
-onready var fr_label: Label = $FrameRate/Label
 
 
+func _input(event: InputEvent) -> void:
+
+	if Input.is_action_pressed("reset"):
+		reset_current_scene()
+
+	
+			
 func _ready() -> void:
 	
 	Global.main_node = self
@@ -16,18 +22,6 @@ func _ready() -> void:
 #	home_in_intro()
 #	home_in_no_intro()
 	game_in()
-
-
-func _process(delta: float) -> void:
-	
-	pass
-#	print("Performance ----------------") # Prints the FPS to the console
-#	print(" TIME_FPS -> ",Performance.get_monitor(Performance.TIME_FPS)) # Prints the FPS to the console
-#	print(" RENDER_TEXTURE_MEM_USED -> ",Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED)) # Prints the FPS to the console
-#	print(" RENDER_VIDEO_MEM_USED -> ",Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED)) # Prints the FPS to the console
-#	print(" RENDER_VERTICES_IN_FRAME -> ",Performance.get_monitor(13)) # Prints the FPS to the console
-#	print(" OBJECT_COUNT -> ",Performance.get_monitor(Performance.OBJECT_COUNT)) # Prints the FPS to the console
-#	print(" OBJECT_RESOURCE_COUNT -> ",Performance.get_monitor(Performance.OBJECT_RESOURCE_COUNT)) # Prints the FPS to the console
 
 
 func home_in_intro():
@@ -131,3 +125,27 @@ func reload_game(): # game out z drugačnim zaključkom
 	fade_out.tween_callback(Global, "release_scene", [Global.current_scene])
 	fade_out.tween_callback(Profiles, "set_game_data", [current_game_enum] ).set_delay(1) # dober delay ker se relese zgodi šele v naslednjem frejmu
 	fade_out.tween_callback(self, "game_in").set_delay(1) # dober delay ker se relese zgodi šele v naslednjem frejmu
+
+		
+func reset_current_scene():
+		get_viewport().set_disable_input(true) # anti dablklik
+		
+		Global.game_camera = null
+		Global.sound_manager.play_gui_sfx("menu_fade")
+		if Global.current_scene.name == "Home":
+			Global.sound_manager.stop_music("menu_music")
+		else:
+			Global.sound_manager.stop_music("game_music")
+			call_deferred("game_in")
+		var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+		fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
+		fade_out.tween_callback(Global, "release_scene", [Global.current_scene])
+		yield(fade_out, "finished")
+		if Global.current_scene.name == "Home":
+			call_deferred("home_in_no_intro")
+		else:
+			Global.sound_manager.stop_music("game_music")
+			call_deferred("game_in")
+			
+		get_viewport().set_disable_input(false) # anti dablklik
+	
