@@ -60,7 +60,10 @@ func show_stray(): # kliče GM
 	
 func die(stray_in_stack_index: int, strays_in_stack_count: int):
 	
+	if current_state == States.DYING:
+		return
 	current_state = States.DYING
+	
 	global_position = Global.snap_to_nearest_grid(self) 
 	
 	# čakalni čas
@@ -164,7 +167,6 @@ func end_move():
 		current_state = States.IDLE
 	global_position = Global.snap_to_nearest_grid(self)
 	
-	# OPT straysi preveč porabijo, totalno jih poreži		
 # UTILITI ------------------------------------------------------------------------------------------------------
 
 
@@ -260,7 +262,8 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	var die_animations: Array = ["die_stray", "die_stray_1", "die_stray_2", "die_stray_3", "die_stray_4", "die_stray_5", ]
 	
 	if die_animations.has(anim_name):
-		if current_state == States.WALL: # če bo samo stena
+		# če postane stena
+		if current_state == States.WALL: 
 			# wall color
 			modulate.a = 1
 			color_poly.modulate = Global.color_white_pixel
@@ -268,17 +271,11 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			set_physics_process(false)
 			collision_shape_ext.disabled = true	
 			position_indicator.modulate.a = 0
-		else: # če mu je namen umreti
-			#			collision_shape.disabled = true
-			#			collision_shape_ext.disabled = true
+		# če umrje
+		else: 
 			collision_shape.set_deferred("disabled", true)
 			collision_shape_ext.set_deferred("disabled", true)
 			Global.game_manager.strays_in_game_count = - 1
-			Global.hud.show_color_indicator(stray_color) # če je defender se returna na fuknciji¨
+			# odstrani barve iz huda in igre
+			Global.game_manager.on_stray_died(self)
 			call_deferred("queue_free")
-
-
-func _on_Stray_tree_exiting() -> void:
-	Global.hud.show_color_indicator(stray_color) # če je defender se returna na fuknciji¨
-	
-	pass # Replace with function body.

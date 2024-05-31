@@ -101,8 +101,8 @@ func open_gameover(gameover_reason: int):
 			
 func set_gameover_title():
 	
-	var gameover_subtitle: Label # subtitle
-	# NEXT testiraj GO texte
+	var gameover_subtitle: Label
+	
 	# najprej standard text
 	match current_gameover_reason:
 		Global.game_manager.GameoverReason.CLEANED:
@@ -124,7 +124,7 @@ func set_gameover_title():
 			name_input_label.text = "But still ... "
 			selected_gameover_jingle = "lose_jingle"
 	
-	# potem glede na igro		
+	# potem glede na igro	
 	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 		match current_gameover_reason:
 			Global.game_manager.GameoverReason.CLEANED: 
@@ -276,7 +276,7 @@ func show_menu():
 			gameover_menu.get_node("RestartBtn").text = "SWEEP AGAIN"
 		else:
 			gameover_menu.get_node("RestartBtn").text = "TRY AGAIN"
-		if Global.game_manager.game_data["level"] < Profiles.sweeper_level_setting.size():
+		if Global.game_manager.game_data["level"] < Profiles.sweeper_level_settings.size():
 			gameover_menu.get_node("NextLevelBtn").show()
 	elif Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
 		gameover_menu.get_node("RestartBtn").text = "REMATCH"

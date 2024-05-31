@@ -26,17 +26,18 @@ func _ready() -> void:
 	sweeper_table.get_highscore_table(Profiles.game_data_sweeper, fake_player_ranking)
 	
 
-func load_new_sweeper_table(next_or_prev: int):
+func load_new_sweeper_table(next_or_prev_level: int):
 	# ime save fileta SWEEPER_1_highscores.save
 	
+	# setam level v tabeli
+	Profiles.game_data_sweeper["level"] += next_or_prev_level
 	# ciklanje levelov
-	Profiles.game_data_sweeper["level"] += next_or_prev
-	if Profiles.game_data_sweeper["level"] > Profiles.sweeper_level_setting.size():
+	if Profiles.game_data_sweeper["level"] > Profiles.sweeper_level_settings.size():
 		Profiles.game_data_sweeper["level"] = 1
 	elif Profiles.game_data_sweeper["level"] < 1:
-		Profiles.game_data_sweeper["level"] = Profiles.sweeper_level_setting.size()
+		Profiles.game_data_sweeper["level"] = Profiles.sweeper_level_settings.size()
 	
-	# tranzicija
+	# fade out
 	var fade_time: float = 0.2
 	var fade_tween = get_tree().create_tween()
 	fade_tween.tween_property(sweeper_table.get_children()[1], "modulate:a", 0, fade_time).set_ease(Tween.EASE_IN)
@@ -50,7 +51,17 @@ func load_new_sweeper_table(next_or_prev: int):
 	fade_tween.parallel().tween_property(sweeper_table.get_children()[8], "modulate:a", 0, fade_time)
 	fade_tween.parallel().tween_property(sweeper_table.get_children()[9], "modulate:a", 0, fade_time)
 	fade_tween.parallel().tween_property(sweeper_table.get_children()[10], "modulate:a", 0, fade_time)
-	fade_tween.tween_callback(sweeper_table, "get_highscore_table", [Profiles.game_data_sweeper, fake_player_ranking])
+	yield(fade_tween, "finished")
+	
+	# naložim novo tabelo
+	sweeper_table.get_highscore_table(Profiles.game_data_sweeper, fake_player_ranking)
+	call_deferred("fade_in_sweeper_table")
+
+
+func fade_in_sweeper_table():
+	
+	var fade_time: float = 0.2
+	var fade_tween = get_tree().create_tween()
 	# fejkam delay
 	fade_tween.tween_property(sweeper_table, "modulate:a", 1, 0.1) # delay
 	# vse linije brez titla, na ročen način
@@ -64,7 +75,7 @@ func load_new_sweeper_table(next_or_prev: int):
 	fade_tween.parallel().tween_property(sweeper_table.get_children()[8], "modulate:a", 1, fade_time)
 	fade_tween.parallel().tween_property(sweeper_table.get_children()[9], "modulate:a", 1, fade_time)
 	fade_tween.parallel().tween_property(sweeper_table.get_children()[10], "modulate:a", 1, fade_time)
-	
+		
 	
 func _on_SweeperRightBtn_pressed() -> void:
 

@@ -1,100 +1,8 @@
 extends GameHud
 
 
-#func _process(delta: float) -> void:
-#	# namen: astray counter drugače
-#
-#	# to level up
-##	astray_counter.text = "%d" % Global.strays_on_screen.size()
-##	astray_label.text = "COLORS TO LEVEL UP"
-#
-#	printt (Global.strays_on_screen.size(), astray_counter.text)
-
-	
-#func set_hud(players_count: int): # kliče main na game-in
-#	# namen: ikone v player statline, samo 1 player, ni lajfov, ni energije, level data je vis tudi če je prazen, energy counter
-#	# namen: skijem elemente brez preverjanja
-#
-#	# hide
-#	p1_label.visible = false
-#	p2_statsline.visible = false
-#	strays_counters_holder.visible = false
-#	p1_color_holder.visible = false	
-##	p1_life_counter.visible = false
-#	p1_energy_counter.visible = false
-#	level_limit_holder.visible = true
-#	strays_counters_holder.visible = false
-#
-#	# popups
-#	p1_energy_warning_popup = $Popups/EnergyWarning/Solo	
-#
-#	# level label
-#	if not Global.game_manager.game_data.has("level"):
-#		level_label.visible = false
-#
-#	# highscore		
-#	p1_points_holder.visible = true
-#	highscore_label.visible = true
-#	set_current_highscore()
-	
-	
-func level_up_popup_in(level_reached: int):
-	
-	level_up_popup.get_node("Label").text = "LEVEL %s" % str(level_reached)
-	level_up_popup.show()
-	level_up_popup.modulate.a = 0
-	
-	var popup_in = get_tree().create_tween()
-	popup_in.tween_property(level_up_popup, "modulate:a", 1, 0.3)
-
-
-func level_up_popup_out():
-	
-	var popup_in = get_tree().create_tween()
-	popup_in.tween_property(level_up_popup, "modulate:a", 0, 0.3)
-	popup_in.tween_callback(level_up_popup, "hide")
-				
-						
-# SPECTRUM ---------------------------------------------------------------------------------------------------------------------------
-
-
-func spawn_color_indicators(available_colors: Array): # kliče GM
-	# namen: moduliram
-	
-	var indicator_index = 0 # za fiksirano zaporedje
-	
-	for color in available_colors:
-		indicator_index += 1 
-		# spawn indicator
-		var new_color_indicator = ColorIndicator.instance()
-		new_color_indicator.color = color
-		
-		new_color_indicator.modulate.a = 0.3
-		spectrum.add_child(new_color_indicator)
-		active_color_indicators.append(new_color_indicator)
-
-
-func empty_color_indicators():
-	
-	for child in spectrum.get_children():
-		child.queue_free()
-	active_color_indicators.clear()
-	
-	
-func update_indicator_on_stage_up(current_stage: int): 
-
-	# obarvam indikator
-	if not active_color_indicators.empty(): # zazih
-		var current_stage_indicator_index: int = current_stage - 1
-		active_color_indicators[current_stage_indicator_index].modulate.a = 1
-
-					
-func show_color_indicator(picked_color: Color):
-	return # stray kliče po show animaciji, ampak v defenderju se nič ne zgodi
-
-
 func check_for_warning(player_stats: Dictionary, warning_popup: Control):
-	# namen drugače prikaže in čekira
+	# namen: out ... drugače prikaže in čekira
 	return
 	
 	if warning_popup:
@@ -110,7 +18,3 @@ func check_for_warning(player_stats: Dictionary, warning_popup: Control):
 		elif player_stats["player_energy"] <= 0:
 			if warning_popup.visible == true:
 				warning_out(warning_popup)		
-
-
-func _on_StartButton_pressed() -> void:
-	pass # Replace with function body.

@@ -117,7 +117,7 @@ func zoom_out(hud_in_out_time: float): # kliče hud
 
 func shake_camera(shake_power: float, shake_time: float, shake_decay: float): 
 	
-	if not Global.main_node.camera_shake_on:
+	if not Profiles.camera_shake_on:
 		return
 	
 	# fixed

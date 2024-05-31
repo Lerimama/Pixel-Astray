@@ -49,12 +49,12 @@ func open_without_intro(): # debug ... kliče main.gd -> home_in_no_intro()
 	intro.finish_intro() # intro signal na koncu kliče menu_in()
 
 
-func open_from_game(from_game: int): # select_game screen ... kliče main.gd -> home_in_from_game()
+func open_from_game(finished_game: int): # select_game screen ... kliče main.gd -> home_in_from_game()
 
 	# mute game efektov, da se ne sliši spawnanje naslovnih pixlov
 	AudioServer.set_bus_mute(AudioServer.get_bus_index("GameSfx"), true)
 		
-	if from_game == Profiles.Games.SWEEPER:
+	if finished_game == Profiles.Games.SWEEPER:
 		animation_player.play("select_level")
 		current_screen = Screens.SELECT_LEVEL
 	else:
@@ -64,6 +64,7 @@ func open_from_game(from_game: int): # select_game screen ... kliče main.gd -> 
 	# premik animacije na konec
 	var animation_length: float = animation_player.get_current_animation_length()
 	animation_player.advance(animation_length)
+	
 	intro.finish_intro()
 	
 	yield(get_tree().create_timer(1), "timeout") # počaka, da se vsi spawnajo
@@ -74,15 +75,13 @@ func open_from_game(from_game: int): # select_game screen ... kliče main.gd -> 
 func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drugih ekranov
 	
 	menu.visible = true
-	menu.modulate.a = 0
-	intro_viewport.gui_disable_input = true # dokler se predvaja mora biti, da skipanje deluje
 
 	current_screen = Screens.MAIN_MENU
 	
 	Global.grab_focus_no_sfx($Menu/SelectGameBtn)
 		
 	var fade_in = get_tree().create_tween()
-	fade_in.tween_property(menu, "modulate:a", 1, 1)
+	fade_in.tween_property(menu, "modulate:a", 1, 1).from(0.0)
 
 
 # SIGNALI ---------------------------------------------------------------------------------------------------
@@ -90,9 +89,11 @@ func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drug
 
 func _on_Intro_finished_playing() -> void:
 	
+	intro_viewport.set_disable_input(true) # dokler se predvaja mora biti, da skipanje deluje
+	
 	if not current_screen == Screens.SELECT_GAME and not current_screen == Screens.SELECT_LEVEL : # v primeru ko se vrnem iz igre
 		menu_in()
-	
+		
 	if not Global.sound_manager.menu_music_set_to_off: # tale pogoj je možen samo ob vračanju iz igre
 		Global.sound_manager.play_music("menu_music")
 

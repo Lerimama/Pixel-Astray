@@ -32,7 +32,7 @@ func _ready() -> void:
 		$GameSfxBtn.pressed = true
 	
 	# cam shake state
-	if Global.main_node.camera_shake_on:
+	if Profiles.camera_shake_on:
 		$CameraShakeBtn.pressed = true
 	else:
 		$CameraShakeBtn.pressed = false
@@ -44,15 +44,15 @@ func _ready() -> void:
 		$InstructionsBtn.pressed = false
 		
 	# color scheme selector state
-	if Profiles.use_custom_color_theme:
+	if Profiles.use_default_color_theme:
+		spectrum_icon.show()
+		gradient_icon.hide()
+		reset_btn.hide()
+	else:
 		spectrum_icon.hide()
 		gradient_icon.show()
 		reset_btn.show()
 		gradient_icon.texture.gradient = Global.game_color_theme_gradient
-	else:
-		spectrum_icon.show()
-		gradient_icon.hide()
-		reset_btn.hide()
 		
 	
 func _on_BackBtn_pressed() -> void:
@@ -99,9 +99,9 @@ func _on_CameraShakeBtn_toggled(button_pressed: bool) -> void:
 	
 	# ker igra še ni naloudana samo setam željeno stanje ob nalaganju
 	if button_pressed:
-		Global.main_node.camera_shake_on = true
+		Profiles.camera_shake_on = true
 	else:
-		Global.main_node.camera_shake_on = false
+		Profiles.camera_shake_on = false
 
 
 func _on_InstructionsBtn_toggled(button_pressed: bool) -> void:
@@ -122,7 +122,7 @@ func _on_ResetBtn_pressed() -> void:
 	gradient_icon.hide()
 	reset_btn.hide()
 	
-	Profiles.use_custom_color_theme = false
+	Profiles.use_default_color_theme = true
 	Global.grab_focus_no_sfx(randomize_btn)
 
 	intro.respawn_title_strays()
@@ -135,7 +135,7 @@ func _on_RandomizeBtn_pressed() -> void:
 	gradient_icon.show()
 	reset_btn.show()
 	
-	Profiles.use_custom_color_theme = true
+	Profiles.use_default_color_theme = false
 	
 	var current_color_scheme_gradient: Gradient = Global.get_random_gradient_colors(0) # 0 je za pravilno izbiro rezultata funkcije
 	gradient_icon.texture.gradient = current_color_scheme_gradient

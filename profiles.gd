@@ -1,7 +1,9 @@
 extends Node
 
 
-var get_it_time: float = 1 #  # tajming za dojet določene faze igre
+var get_it_time: float = 1 # tajming za dojet določene faze igre
+var camera_shake_on: bool = true
+
 
 var default_player_stats: Dictionary = {
 	"player_name" : "Somebody", # to ime se piše v HS procesu, če igralec pusti prazno
@@ -30,21 +32,24 @@ var default_game_settings: Dictionary = {
 	"color_picked_energy": 10,
 	"cell_traveled_energy": -1,
 	# reburst
-	"reburst_mode": false,
+	"reburst_enabled": false,
 	"reburst_window_time": 0.3, # 0 je neomejen čas
 	"reburst_hit_power": 0, # kolk jih destroya ... 0 gre po original pravilih moči, trenutno je 5 full power
-	# strays
+	# strays start spawn
 	"strays_start_count": 0, # ponekod se spawna vsaj 1
-	"new_strays_on_cleaned": false,
-	"random_stray_to_white": false, # na že spawnanih ... in game torej
-	"spawn_white_stray_part": 0.0, # procenti ... 0 ne spawna nobenega belega
+	"spawn_white_stray_part": 0, # procenti spawnanih ... 0 ne spawna nobenega belega
+	# strays in-game respawn
+	"respawn_strays_count": 0, # če je > 0, je respawn aktiviran
+	"respawn_pause_time": 1, # če je 0 lahko pride do errorja (se mi zdi, da n 0, se timer sam disejbla)
+	"respawn_on_turn_white": false, # na respawn se naključni spremeni v belega
 	# game
 	"game_time_limit": 0, # če je nič, ni omejeno in timer je stopwatch mode
+	"game_track_index": 0, # default muska v igri
+	"spawn_strays_on_cleaned": false,
 	"start_countdown": true,
+	"zoom_to_level_size": true,
 	"show_game_instructions": true,
 	"show_solution_hint": false, # sweeper reštve
-	"zoom_to_level_size": true,
-	"game_track_index": 0, # default muska v igri
 }
 
 enum Games {
@@ -119,22 +124,26 @@ var game_data_eraser: Dictionary = {
 	"Prop3" : "Score points\nto beat current\nrecord!",
 	# štart
 	"level": 1,
-	# "strays_start_count": 0, # ponekod se spawna vsaj 1
-	"level_goal_count": 320,
-	"respawn_wait_time": 1, # če je 0 ni respawna
-	"respawn_strays_count": 0, # če je > 0, je respawn aktiviran
+	"level_goal_count": 13,
+	# "strays_start_count": 0, # določi tilemap
+	# "respawn_strays_count": 5,
+	# "respawn_pause_time": 1,
 	# level up
-	"strays_start_count_grow": 0, # prištejem
-	"level_goal_count_grow": 320,
-	"respawn_wait_time_factor": 0.7, # množim
-	"respawn_strays_count_grow": 1, # prištejem
+	"level_goal_count_grow": 3,
+	"strays_start_count_grow": 0,
+	"respawn_strays_count_grow": 1,
+	"respawn_pause_time_factor": 0.7,
+	# ne rabim v tej igri
+	"spawn_white_stray_part_factor": 1,
+	
+	
 }
 var game_data_handler: Dictionary = { 
 	"game": Games.HANDLER,
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Handler",
 	"game_scene_path": "res://game/game.tscn",
-	#	"tilemap_path": "res://game/tilemaps/tilemap_handler.tscn",
+	# "tilemap_path": "res://game/tilemaps/tilemap_handler.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_handler_s.tscn",
 	"description" : "Prevent those pesky pixels from ruining your screen!",
 	"Prop" : "Clean the screen\nto reach next\nchallenge.",
@@ -142,11 +151,16 @@ var game_data_handler: Dictionary = {
 	"Prop3" : "Score points\nto beat current\nrecord!",
 	# štart
 	"level": 1,
-	# "strays_start_count": 0, # ponekod se spawna vsaj 1
-	# "spawn_white_stray_part": 0.0, # procenti ... 0 v ne spawna nobenega
+	# "strays_start_count": 3, # določi settings
+	# "spawn_white_stray_part": 0.0, # določi settings
 	# level up
 	"strays_start_count_grow": 32, # prištejem
 	"spawn_white_stray_part_factor": 1, # množim
+	# ne rabim v tej igri
+#	"level_goal_count": 320,
+#	"level_goal_count_grow": 320,
+	"respawn_strays_count_grow": 0,
+	"respawn_pause_time_factor": 1,
 }
 var game_data_defender: Dictionary = { 
 	"game": Games.DEFENDER,
@@ -160,14 +174,15 @@ var game_data_defender: Dictionary = {
 	"Prop3" : "Score points\nto beat current\nrecord!",
 	# štart
 	"level": 1,
-	"stages_per_level": 3, # prvi level
+	"level_goal_count": 3, # prvi level
 	"line_step_pause_time": 1.5, # ne sem bit manjša od stray step hitrosti (0.2), je clampana ob apliciranju
 	"spawn_round_range": [1, 8], # random spawn count, največ 120 - 8
 	"line_steps_per_spawn_round": 1, # na koliko stepov se spawna nova runda
 	# level up
-	"stages_per_level_grow": 0, # dodatno prištejem
+	"level_goal_count_grow": 320, # dodatno prištejem
 	"line_step_pause_time_factor": 0.8, # množim z vsakim levelom
-	"spawn_round_range_factor": [1,2], # množim [spodnjo, zgornjo] mejo
+	"spawn_round_range_factor": [1, 1], # množim [spodnjo, zgornjo] mejo
+	"line_steps_per_spawn_round_factor": 1, # na koliko stepov se spawna nova runda
 }
 var game_data_sweeper: Dictionary = {
 	"game": Games.SWEEPER,
@@ -181,7 +196,7 @@ var game_data_sweeper: Dictionary = {
 	#
 	"level": 5, # provizorij
 }
-var sweeper_level_setting: Dictionary = { 
+var sweeper_level_settings: Dictionary = { 
 	1: { # ključ je tudi številka levela
 		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
 	},
@@ -249,18 +264,18 @@ var game_data_showcase: Dictionary = {
 
 var game_settings: Dictionary# = default_game_settings # = {}
 var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
-var use_custom_color_theme: bool = false
+var use_default_color_theme: bool = true
 
 
 func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE
-#	var debug_game = Games.TUTORIAL
+	var debug_game = Games.TUTORIAL
 #	var debug_game = Games.CLEANER_S
 #	var debug_game = Games.CLEANER_M
 #	var debug_game = Games.CLEANER_L
-	var debug_game = Games.DEFENDER
+#	var debug_game = Games.DEFENDER
 #	var debug_game = Games.ERASER
 #	var debug_game = Games.HANDLER
 #	var debug_game = Games.SWEEPER
@@ -283,7 +298,7 @@ func set_game_data(selected_game) -> void:
 			current_game_data = game_data_showcase.duplicate()
 			game_settings["player_start_color"] = Color.white
 			game_settings["reburst_hit_power"] = 1
-			game_settings["reburst_mode"] = true			
+			game_settings["reburst_enabled"] = true			
 			game_settings["reburst_window_time"] = 0
 			game_settings["strays_start_count"] = 50
 		
@@ -301,7 +316,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["strays_start_count"] = 50
 			game_settings["respawn_on_cleaned"] = true
 			game_settings["zoom_to_level_size"] = false
-#			game_settings["new_strays_on_cleaned"] = true
+#			game_settings["spawn_strays_on_cleaned"] = true
 			game_settings["spawn_white_stray_part"] = 0.11 # 10 posto
 			# debug
 		Games.CLEANER_M: 
@@ -310,7 +325,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["strays_start_count"] = 140
 			game_settings["respawn_on_cleaned"] = true
 			game_settings["zoom_to_level_size"] = false
-#			game_settings["new_strays_on_cleaned"] = true
+#			game_settings["spawn_strays_on_cleaned"] = true
 			game_settings["spawn_white_stray_part"] = 0.11
 		Games.CLEANER_L: 
 			current_game_data = game_data_cleaner_l.duplicate()
@@ -318,7 +333,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["strays_start_count"] = 320
 			game_settings["respawn_on_cleaned"] = true
 			game_settings["zoom_to_level_size"] = false
-#			game_settings["new_strays_on_cleaned"] = true
+#			game_settings["spawn_strays_on_cleaned"] = true
 			game_settings["spawn_white_stray_part"] = 0.11
 		
 		Games.ERASER: 
@@ -326,7 +341,9 @@ func set_game_data(selected_game) -> void:
 #			game_settings["cell_traveled_energy"] = 0
 			game_settings["start_countdown"] = false
 			game_settings["strays_start_count"] = 5
-		
+			game_settings["strays_start_count"] = 5
+			game_settings["respawn_strays_count"] = 1
+			game_settings["respawn_pause_time"] = 1
 		Games.HANDLER: 
 			current_game_data = game_data_handler.duplicate()
 #			game_settings["cell_traveled_energy"] = 0
@@ -350,7 +367,7 @@ func set_game_data(selected_game) -> void:
 			current_game_data = game_data_the_duel.duplicate()
 			game_settings["game_time_limit"] = 0 #180
 			#	
-			game_settings["new_strays_on_cleaned"] = true
+			game_settings["spawn_strays_on_cleaned"] = true
 	
 		Games.SWEEPER: 
 			current_game_data = game_data_sweeper.duplicate()
@@ -360,6 +377,6 @@ func set_game_data(selected_game) -> void:
 			game_settings["cleaned_reward_points"] = 1 # ... izpiše se "SUCCESS!"
 			game_settings["game_track_index"] = 1
 			#
-			game_settings["reburst_mode"] = true
+			game_settings["reburst_enabled"] = true
 			game_settings["reburst_window_time"] = 0
 

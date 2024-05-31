@@ -1,8 +1,7 @@
 extends Node
 
-var fade_time = 0.7
-var camera_shake_on: bool = true #_temp
 
+var fade_time = 0.7
 
 onready var home_scene_path: String = "res://home/home.tscn"
 onready var game_scene_path: String = Profiles.current_game_data["game_scene_path"]
@@ -50,13 +49,13 @@ func home_in_no_intro(): # debug
 	fade_in.tween_property(Global.current_scene, "modulate", Color.white, fade_time)
 
 
-func home_in_from_game(from_game: int):
+func home_in_from_game(finished_game: int):
 	
 	get_tree().set_pause(false)
 	
 	Global.spawn_new_scene(home_scene_path, self)
 	
-	Global.current_scene.open_from_game(from_game) # select game screen
+	Global.current_scene.open_from_game(finished_game) # select game screen
 	
 	yield(get_tree().create_timer(0.7), "timeout") # da se title naštima
 	
@@ -88,7 +87,7 @@ func game_in():
 	# tukaj se seta GM glede na izbiro igre
 	Global.game_manager.set_tilemap()
 	Global.game_manager.set_game_view()
-	Global.game_manager.set_players()
+	Global.game_manager.create_players()
 	
 	yield(get_tree().create_timer(0.5), "timeout") # da se kamera centrira (na restart)
 	

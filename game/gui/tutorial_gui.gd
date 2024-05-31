@@ -25,9 +25,6 @@ onready var winlose_content: Control = $Checkpoints/WinLoseContent
 
 func _input(event: InputEvent) -> void:
 	
-	if Input.is_action_just_pressed("l"):
-		printt ("current_stage", TutorialStage.keys()[current_tutorial_stage])
-	
 	if current_tutorial_stage == TutorialStage.MISSION: # namesto menija
 		if Input.is_action_just_pressed("ui_accept"):
 			Global.sound_manager.play_gui_sfx("btn_confirm")
@@ -98,6 +95,7 @@ func open_tutorial(): # kliče se z GM
 	
 
 func start_travel():
+	# NEXT tutorial spawn ne dela
 	
 	# spawn wall
 	var show_player = get_tree().create_tween()
@@ -105,7 +103,8 @@ func start_travel():
 		show_player.tween_property(player, "modulate", Color.white, 0.5)
 	
 	# na začetku spawnam enega belega
-	Global.game_manager.set_strays()
+#	Global.game_manager.set_strays()
+	Global.game_manager.create_strays(1)
 	
 	var signaling_player: KinematicBody2D
 	for player in Global.game_manager.current_players_in_game:

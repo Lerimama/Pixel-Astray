@@ -7,13 +7,6 @@ var skill_stage_spawn_positions: Array # shranim pozicije, da lahko respawnam, �
 
 func set_game(): 
 	# namen: prikažem intro panel v tutorial gui in sejvam skills spawn pozicije
-	
-	# kliče main.gd
-	# set_tilemap()
-	# set_game_view()
-	# set_players() # da je plejer viden že na fejdin
-	# pavza
-	# set game
 
 	skill_stage_spawn_positions = random_spawn_positions.duplicate()
 	
@@ -31,7 +24,7 @@ func start_game():
 	Global.tutorial_gui.open_tutorial()
 	
 	
-func set_players():
+func create_players():
 	# namen: drugačen prikaz in barva na začetku
 	
 	for player_position in player_start_positions: # glavni parameter, ki opredeli število igralcev
@@ -76,15 +69,12 @@ func upgrade_level(level_upgrade_reason: String):
 	# reset
 	for player in Global.game_manager.current_players_in_game:
 		player.end_move()
-	Global.hud.empty_color_indicators()
-	#	get_tree().call_group(Global.group_players, "set_physics_process", false)
-	
+	# get_tree().call_group(Global.group_players, "set_physics_process", false)
 	yield(get_tree().create_timer(0.5), "timeout") # pavza, da zabeleži zaseden pozicije (plejer) 
+	
 	# od tukaj je novi stage enum
-	
-	
-	Global.game_manager.set_strays() 
-	#	get_tree().call_group(Global.group_players, "set_physics_process", true)
+	Global.game_manager.create_strays(start_strays_spawn_count)
+	# get_tree().call_group(Global.group_players, "set_physics_process", true)
 	
 	level_upgrade_in_progress = false
 	

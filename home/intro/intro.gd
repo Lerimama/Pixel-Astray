@@ -91,7 +91,7 @@ func set_strays():
 	
 	var show_strays_loop: int = 0
 	while strays_shown != strays_in_game:
-		show_strays_loop += 1 # zazih
+		show_strays_loop += 1
 		show_strays(show_strays_loop)
 		yield(get_tree().create_timer(0.3), "timeout")
 	
@@ -103,15 +103,15 @@ func spawn_strays(strays_to_spawn_count: int = required_spawn_positions.size()):
 	yield(get_tree().create_timer(0), "timeout") # da se ne spawna, ko še ni wall	
 	
 	# colors
-	all_colors_available = [] # zazih
-	if Profiles.use_custom_color_theme:
+	all_colors_available = []
+	if Profiles.use_default_color_theme:
+		all_colors_available = Global.get_spectrum_colors(strays_to_spawn_count) # prvi level je original ... vsi naslednji imajo random gradient
+	else:
 		# naberem barve glede na število potrebnih barv
 		var color_split_offset: float = 1.0 / strays_to_spawn_count
 		for stray_count in strays_to_spawn_count:
 			var color = Global.game_color_theme_gradient.interpolate(stray_count * color_split_offset) # barva na lokaciji v spektrumu
 			all_colors_available.append(color)	
-	else:
-		all_colors_available = Global.get_spectrum_colors(strays_to_spawn_count) # prvi level je original ... vsi naslednji imajo random gradient
 	
 	var available_required_spawn_positions = required_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
 	var available_random_spawn_positions = random_spawn_positions.duplicate() # dupliciram, da ostanejo "shranjene"
@@ -212,9 +212,8 @@ func random_stray_step():
 func respawn_title_strays():
 	
 	stray_step_timer.stop()
-	for stray in get_tree().get_nodes_in_group(Global.group_strays):
-		#		stray.queue_free()
-		stray.call_deferred("queue_free")
+	get_tree().call_group(Global.group_strays, "queue_free")
+	yield(get_tree().create_timer(0.1), "timeout") # ... da je časovni razmak
 	call_deferred("set_strays")
 	yield(get_tree().create_timer(1), "timeout")
 	#	random_stray_step()

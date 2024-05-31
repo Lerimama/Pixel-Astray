@@ -18,4 +18,3 @@ func set_hud(): # kliče main na game-in
 	# level label
 	level_label.visible = true
 	highscore_label.visible = true
-			

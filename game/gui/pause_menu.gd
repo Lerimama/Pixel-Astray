@@ -38,7 +38,7 @@ func _process(delta: float) -> void:
 	else:
 		$Settings/GameSfxBtn.pressed = true
 	
-	if Global.main_node.camera_shake_on:
+	if Profiles.camera_shake_on:
 		$Settings/CameraShakeBtn.pressed = true
 	else:
 		$Settings/CameraShakeBtn.pressed = false
@@ -134,8 +134,8 @@ func _on_CameraShakeBtn_toggled(button_pressed: bool) -> void:
 	
 	if button_pressed:
 		Global.sound_manager.play_gui_sfx("btn_confirm")
-		Global.main_node.camera_shake_on = true
+		Profiles.camera_shake_on = true
 	else:
 		Global.sound_manager.play_gui_sfx("btn_cancel")
-		Global.main_node.camera_shake_on = false
+		Profiles.camera_shake_on = false
 

@@ -222,7 +222,7 @@ func idle_inputs():
 			change_color_tween.kill()
 			pixel_color = change_to_color
 		burst_light_on()
-		if Global.game_manager.game_settings["reburst_mode"]:
+		if Global.game_manager.game_settings["reburst_enabled"]:
 			close_reburst_window()
 			if burst_move_started:
 				finish_burst_move()	
@@ -261,7 +261,7 @@ func skill_inputs():
 		current_state = States.COCKING
 		skill_light_off()
 		burst_light_on()
-		if Global.game_manager.game_settings["reburst_mode"]:
+		if Global.game_manager.game_settings["reburst_enabled"]:
 			close_reburst_window()
 			if burst_move_started:
 				finish_burst_move()
@@ -326,7 +326,7 @@ func cocking_inputs():
 		else:
 			release_burst()
 			burst_light_off()
-		if Global.game_manager.game_settings["reburst_mode"]:
+		if Global.game_manager.game_settings["reburst_enabled"]:
 			close_reburst_window()
 			if burst_move_started:
 				finish_burst_move()			
@@ -339,7 +339,7 @@ func bursting_inputs():
 		end_move()
 		Input.start_joy_vibration(0, 0.6, 0.2, 0.2)
 		play_sound("burst_stop")
-		if Global.game_manager.game_settings["reburst_mode"]:
+		if Global.game_manager.game_settings["reburst_enabled"]:
 			close_reburst_window()
 			if burst_move_started:
 				finish_burst_move()	
@@ -657,7 +657,7 @@ func push(stray_to_move: KinematicBody2D):
 	
 	end_move()
 	
-	change_stat("skill_used", 1) # zazih ni v tweenu
+	change_stat("skill_used", 1)
 	
 
 func pull(stray_to_move: KinematicBody2D):
@@ -705,7 +705,7 @@ func pull(stray_to_move: KinematicBody2D):
 		skill_light_off()
 		end_move()
 		
-	change_stat("skill_used", 2) # zazih ni v tweenu
+	change_stat("skill_used", 2)
 	
 			
 func teleport():
@@ -755,7 +755,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	shake_player_camera(burst_speed)			
 
 	# start sweeper move
-	if Global.game_manager.game_settings["reburst_mode"] and not burst_move_started:	
+	if Global.game_manager.game_settings["reburst_enabled"] and not burst_move_started:	
 		burst_move_started = true	
 		burst_move_to_clean_strays_count = Global.game_manager.strays_in_game_count
 		
@@ -802,7 +802,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	
 	end_move()
 	
-	if Global.game_manager.game_settings["reburst_mode"]:
+	if Global.game_manager.game_settings["reburst_enabled"]:
 		reburst_window_open = true
 		burst_light_on()	
 		rebursting_timer.stop() # ... reset zazih
@@ -1013,7 +1013,7 @@ func spawn_floating_tag(value: int):
 
 func on_out_of_bounds():
 
-	var new_positions_available: Array = Global.game_manager.available_respawn_positions
+	var new_positions_available: Array = Global.game_manager.get_free_positions()
 	var random_index: int = randi() % new_positions_available.size()
 	var new_random_position: Vector2 = new_positions_available[random_index]
 	yield(get_tree().create_timer(0.5), "timeout")
@@ -1364,7 +1364,7 @@ func _on_ghost_target_reached(ghost_body: Area2D, ghost_position: Vector2):
 	ghost_body.queue_free()
 	end_move()
 	
-	change_stat("skill_used", 3) # zazih ni v tweenu	
+	change_stat("skill_used", 3)
 		
 
 func _on_ghost_detected_body(body: Node2D):

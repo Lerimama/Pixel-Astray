@@ -26,13 +26,13 @@ func _ready() -> void:
 func set_level_btns():
 	
 	# naberem gumbe in barve
-	if Profiles.use_custom_color_theme:
+	if Profiles.use_default_color_theme:
+		btn_colors = Global.get_spectrum_colors(all_level_btns.size())
+	else:			
 		var color_split_offset: float = 1.0 / all_level_btns.size()
 		for btn_count in all_level_btns.size():
 			var color = Global.game_color_theme_gradient.interpolate(btn_count * color_split_offset) # barva na lokaciji v spektrumu
 			btn_colors.append(color)	
-	else:			
-		btn_colors = Global.get_spectrum_colors(all_level_btns.size())
 	
 	# poimenujem gumbe in obarvam solved 
 	var solved_levels: Array = Global.data_manager.read_solved_status_from_file(Profiles.game_data_sweeper)

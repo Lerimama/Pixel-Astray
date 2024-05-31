@@ -4,6 +4,8 @@ extends Stray
 enum Sides {TOP, BOTTOM, RIGHT, LEFT}
 var stray_spawn_side: int 
 
+onready var step_pause_timer: Timer = $StepPauseTimer
+
 
 func _ready() -> void:
 	# namen: grupiranje glede na izvorno stran in setanje collision maskov
@@ -44,45 +46,7 @@ func show_stray(): # kliče GM
 		stray_color.s = 0.0
 		color_poly.modulate = Global.color_white_pixel
 
-
-func die(stray_in_stack_index: int, strays_in_stack: int):
-	# namen: stage upgrade in die, camera shake in vibra off, collisions enabled, die off, če je DYING (walled)
 	
-	if current_state == States.DYING:
-		return
-		
-	current_state = States.DYING
-	global_position = Global.snap_to_nearest_grid(self)
-	
-	# čakalni čas
-	var wait_to_destroy_time: float = sqrt(0.07 * (stray_in_stack_index)) # -1 je, da hitan stray ne čaka
-	yield(get_tree().create_timer(wait_to_destroy_time), "timeout")
-	
-	# animacije
-	if strays_in_stack <= 3: # žrebam
-		var random_animation_index = randi() % 5 + 1
-		var random_animation_name: String = "die_stray_%s" % random_animation_index
-		animation_player.play(random_animation_name) 
-	else: # ne žrebam
-		animation_player.play("die_stray")
-
-	position_indicator.modulate.a = 0	
-	#	collision_shape.disabled = true
-	#	collision_shape_ext.disabled = true
-	collision_shape.set_deferred("disabled", true)
-	collision_shape_ext.set_deferred("disabled", true)
-	
-	# color vanish
-	var vanish_time = animation_player.get_current_animation_length()
-	var vanish: SceneTreeTween = get_tree().create_tween()
-	vanish.tween_property(self, "color_poly:modulate:a", 0, vanish_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
-
-	if not Global.game_manager.level_upgrade_in_progress:
-		Global.game_manager.upgrade_stage()	
-		
-	# KVEFRI je v animaciji
-
-
 func check_collider_for_wall(collider_in_check: Node2D):
 	
 	# prva runda ... kolajder tilemap (tla)
@@ -94,7 +58,7 @@ func check_collider_for_wall(collider_in_check: Node2D):
 			die_to_wall()	
 
 	
-func step(step_direction: Vector2):
+func step(step_direction: Vector2 = Vector2.DOWN):
 	# namen: metanje ext collisiona za prepoznavanje stene in dodano zazih preverjanje pozicij
 	# namen: določanje smeri glede na tip straya
 	
@@ -125,9 +89,9 @@ func step(step_direction: Vector2):
 	# vržem ext coll			
 	collision_shape_ext.position = step_direction * cell_size_x # vržem koližn v smer premika
 	
-	# preverim available positions ... zadnja varovalka, da se ne pokrije ... redko pride do nje
+	# varovalka overspawn IV ... preverim available positions ... zadnja varovalka, da se ne pokrije ... redko pride do nje
 	var planned_new_position: Vector2 = global_position + step_direction * cell_size_x
-	var tiles_taken: Array = Global.game_manager.available_respawn_positions
+	var tiles_taken: Array = Global.game_manager.get_free_positions()
 	if tiles_taken.has(planned_new_position):
 		print("position taken")
 		return
@@ -137,8 +101,11 @@ func step(step_direction: Vector2):
 	step_tween.tween_property(self, "position", global_position + step_direction * cell_size_x, step_time)
 	step_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, step_time)
 	step_tween.tween_callback(self, "end_move")
+	yield(step_tween, "finished")
 	
-
+	#	step_pause_timer.start()
+	
+	
 func play_sound(effect_for: String):
 	# namen: ni soundow na spawn
 	
@@ -172,3 +139,7 @@ func get_all_neighbors_in_directions(directions_to_check: Array): # kliče playe
 			current_cell_neighbors.append(neighbor)
 		
 	return current_cell_neighbors # uporaba v stalnem čekiranj sosedov
+
+
+func _on_StepPauseTimer_timeout() -> void:
+	step()

@@ -7,10 +7,9 @@ signal players_ready # za splitscreen popup
 var tired_energy_limit: float = 20
 
 # spectrum
-var picked_indicator_alpha: float = 1
-var unpicked_indicator_alpha: float = 0.2
-var neighbor_indicator_alpha: float = 0.4
-var active_color_indicators: Array = [] # indikatorji spawnani že ob spawnanju pixlov
+var stray_in_indicator_alpha: float = 1 # alfa obračam, če ima igra goal
+var stray_out_indicator_alpha: float = 0.2
+var all_color_indicators: Array = [] # indikatorji spawnani že ob spawnanju pixlov ... nima veze, če je ugasnjen ali prižgan
 
 # hs
 var current_highscore: float
@@ -74,12 +73,6 @@ onready var spectrum: HBoxContainer = $Footer/FooterLine/SpectrumHolder/ColorSpe
 onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
 onready var current_gamed_hs_type: int = Global.game_manager.game_data["highscore_type"]
 
-# VEN
-#onready var strays_counters_holder: HBoxContainer = $Footer/FooterLine/StraysLine
-#onready var level_limit_holder: HBoxContainer = $Footer/FooterLine/LevelLimitHolder
-#onready var level_limit_label_1: Label = $Footer/FooterLine/LevelLimitHolder/Label
-#onready var level_limit_label_2: Label = $Footer/FooterLine/LevelLimitHolder/Label2
-
 # debug
 onready var player_life: Label = $Life
 onready var player_energy: Label = $Energy
@@ -93,11 +86,16 @@ func _input(event: InputEvent) -> void:
 	
 func _ready() -> void:
 	
+	
 	Global.hud = self
 	
 	header.rect_position.y = - header_height
 	footer.rect_position.y = screen_height
-		
+#
+#	if Global.game_manager.game_data.has("level_goal_count"): # NEST reverese spectrum
+#		stray_in_indicator_alpha = stray_out_indicator_alpha
+#		stray_out_indicator_alpha = 1
+
 	game_label.text = Global.game_manager.game_data["game_name"]
 	if Global.game_manager.game_data.has("level"):
 		level_label.text = "%02d" % Global.game_manager.game_data["level"]
@@ -115,10 +113,6 @@ func _ready() -> void:
 	# ime komada na vrsti
 	var game_track_index: int = Global.game_manager.game_settings["game_track_index"]
 	music_track_label.text = Global.sound_manager.game_music_node.get_children()[game_track_index].name
-	
-	# setam transparenco barva indikatorja ... če želim obratno, samo tukaj obrnem
-	picked_indicator_alpha = 0.2
-	unpicked_indicator_alpha = 1
 	
 	# hud barva elementov, ki ne modulirajo sami sebe in niso label (v glavnem ikone)
 	# timer in hs sta label, moduliran med igro, zato imata na nodetu setano font color override na belo
@@ -143,11 +137,8 @@ func _ready() -> void:
 
 	
 func _process(delta: float) -> void:
-	# namen: ni kode glede levelov
 	
 	astray_counter.text = "%0d" % Global.game_manager.strays_in_game_count
-	# VEN
-#	picked_counter.text = "%03d" % Global.game_manager.strays_cleaned_count
 
 	# level label show on fill
 	if Global.game_manager.game_data.has("level"):
@@ -155,21 +146,6 @@ func _process(delta: float) -> void:
 			level_label.visible = true	
 		level_label.text = "%02d" % Global.game_manager.game_data["level"]
 			
-	# zapis točk do level up
-#	if Global.game_manager.game_data["game"] == Profiles.Games.ERASER:
-#		level_label.text = "%02d" % Global.game_manager.game_data["level"]
-#		# kateri ima višji score
-#		var current_biggest_score: int = 0
-#		for player in Global.game_manager.current_players_in_game:
-#			if player.player_stats["player_points"] > current_biggest_score:
-#				current_biggest_score = player.player_stats["player_points"]
-#		# razlika med limito in višjim skorom
-#		level_limit_label_1.text = "%d" % (Global.game_manager.game_data["level_goal_count"] - current_biggest_score) 
-
-	# zapis straysov na mizi
-#	elif Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-#		level_limit_label_1.text = "%d" % Global.game_manager.strays_in_game_count
-		
 			
 func set_hud(): # kliče main na game-in
 	
@@ -225,79 +201,8 @@ func set_hud(): # kliče main na game-in
 		highscore_label.visible = true
 
 
-func level_up_popup_inout(level_reached: int): 
-	
-	level_up_popup.modulate.a = 0
-	level_up_popup.get_node("Label").text = "LEVEL UP" # "LEVEL %s" % str(level_reached)
-	level_up_popup.show()
-	
-	var popup_in = get_tree().create_tween()
-	popup_in.tween_property(level_up_popup, "rect_scale", Vector2.ONE * 1.2, 1.5).from(Vector2.ONE * 0.8).set_ease(Tween.EASE_IN_OUT)
-	popup_in.parallel().tween_property(level_up_popup, "modulate:a", 1, 0.5)
-	popup_in.parallel().tween_property(level_up_popup, "modulate:a", 0, 0.5).from(1.0).set_delay(0.6)
-	
-		
-func level_up_popup_in(level_reached: int): 
-	
-	level_up_popup.modulate.a = 0
-	level_up_popup.get_node("Label").text = "LEVEL UP" # "LEVEL %s" % str(level_reached)
-	level_up_popup.show()
-	
-	var popup_in = get_tree().create_tween()
-	popup_in.tween_property(level_up_popup, "modulate:a", 1, 0.3)
-
-
-func level_up_popup_out():
-	
-	var popup_in = get_tree().create_tween()
-	popup_in.tween_property(level_up_popup, "modulate:a", 0, 0.3)
-	popup_in.tween_callback(level_up_popup, "hide")
-
-
-func empty_color_indicators():
-	
-	# zbrišem trenutne indikatorje
-	for child in spectrum.get_children():
-		child.queue_free()
-	active_color_indicators.clear()
-
-
-func update_stats(stat_owner: Node, player_stats: Dictionary):
-	
-	# player stats
-	match stat_owner.name:
-		"p1":
-			p1_life_counter.life_count = player_stats["player_life"]
-			p1_energy_counter.energy = player_stats["player_energy"]
-			p1_points_counter.text = "%d" % player_stats["player_points"]
-			p1_color_counter.text = "%d" % player_stats["colors_collected"]
-			p1_burst_counter.text = "%d" % player_stats["burst_count"]
-			p1_skill_counter.text = "%d" % player_stats["skill_count"]
-			p1_steps_counter.text = "%d" % player_stats["cells_traveled"]
-			check_for_warning(player_stats, p1_energy_warning_popup)
-		"p2":
-			p2_life_counter.life_count = player_stats["player_life"]
-			p2_energy_counter.energy = player_stats["player_energy"]
-			p2_points_counter.text = "%d" % player_stats["player_points"]
-			p2_color_counter.text = "%d" % player_stats["colors_collected"]
-			p2_burst_counter.text = "%d" % player_stats["burst_count"]
-			p2_skill_counter.text = "%d" % player_stats["skill_count"]
-			p2_steps_counter.text = "%d" % player_stats["cells_traveled"]
-			check_for_warning(player_stats, p2_energy_warning_popup)
-
-	# debug
-	player_life.text = "LIFE: %d" % player_stats["player_life"]
-	player_energy.text = "E: %d" % player_stats["player_energy"]
-
-	if not Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NO_HS:
-		check_for_highscore(player_stats)
-	
-	if Global.game_manager.game_data.has("level_goal_count"):
-		if player_stats["player_points"] >= Global.game_manager.game_data["level_goal_count"]:
-			Global.game_manager.upgrade_level("regular")
-
-		
 func set_current_highscore():
+	
 	var current_highscore_line: Array = Global.data_manager.get_top_highscore(Global.game_manager.game_data)
 	current_highscore = current_highscore_line[0]
 	current_highscore_owner = current_highscore_line[1]
@@ -309,27 +214,132 @@ func set_current_highscore():
 	printt("CURR", current_highscore)
 
 
-func check_for_highscore(player_stats: Dictionary):
+func slide_in(): # kliče GM set_game()
 	
-	match current_gamed_hs_type:
-		Profiles.HighscoreTypes.HS_POINTS:
-			if player_stats["player_points"] > current_highscore:
-				highscore_label.text = "New HS " + str(player_stats["player_points"])
-				highscore_label.modulate = Global.color_green
-			else:				
-				highscore_label.text = "HS " + str(current_highscore)
-				highscore_label.modulate = Global.color_hud_text
-		Profiles.HighscoreTypes.HS_TIME_LOW: # logika je tu malo drugačna kot pri drugih dveh
-			highscore_label.text = "HS " + str(current_highscore) + "s"
-			highscore_label.modulate = Global.color_hud_text
-		Profiles.HighscoreTypes.HS_TIME_HIGH:
-			if game_timer.absolute_game_time > current_highscore:
-				highscore_label.text = "HS " +  str(game_timer.absolute_game_time) + "s"
-				highscore_label.modulate = Global.color_green
-			else:				
-				highscore_label.text = "HS " +  str(current_highscore) + "s"
-				highscore_label.modulate = Global.color_hud_text
+	set_hud()
+	
+	var solution_line: Line2D
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+		solution_line = Global.current_tilemap.get_node("SolutionLine")
+		solution_line.hide()
+		solution_line.modulate.a = 0.1
 		
+	Global.game_camera.zoom_in(hud_in_out_time)
+	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
+	if Global.game_manager.game_settings["show_solution_hint"]:
+		fade_in.tween_callback(solution_line, "show")
+		fade_in.tween_property(solution_line, "modulate:a", 0.1, hud_in_out_time).from(0.0)
+	fade_in.parallel().tween_property(header, "rect_position:y", 0, hud_in_out_time)
+	fade_in.parallel().tween_property(footer, "rect_position:y", screen_height - header_height, hud_in_out_time)
+	fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", header_height, hud_in_out_time)
+	fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", header_height, hud_in_out_time)
+	
+	if not Global.game_manager.game_data.has("level_goal_count"):
+		for indicator in all_color_indicators:
+			var indicator_fade_in = get_tree().create_tween()
+			indicator_fade_in.tween_property(indicator, "modulate:a", stray_in_indicator_alpha, 0.3).set_ease(Tween.EASE_IN)
+	
+
+func slide_out(): # kliče GM na game over
+	
+	Global.game_camera.zoom_out(hud_in_out_time)
+	
+	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
+	fade_in.tween_property(header, "rect_position:y", 0 - header_height, hud_in_out_time)
+	fade_in.parallel().tween_property(footer, "rect_position:y", screen_height, hud_in_out_time)
+	fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", 0, hud_in_out_time)
+	fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", 0, hud_in_out_time)
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+		var solution_line: Line2D = Global.current_tilemap.get_node("SolutionLine")
+		fade_in.parallel().tween_property(solution_line, "modulate:a", 0, hud_in_out_time)
+		fade_in.tween_callback(solution_line, "hide")
+	fade_in.tween_callback(self, "hide")
+	
+	
+func confirm_players_ready():
+	
+	get_viewport().set_disable_input(true) # anti dablklik
+	Global.sound_manager.play_gui_sfx("btn_confirm")
+	
+	var out_time: float = 0.7
+	var hide_instructions_popup = get_tree().create_tween()
+	hide_instructions_popup.tween_property(instructions_popup, "modulate:a", 0, out_time).set_ease(Tween.EASE_IN)
+	hide_instructions_popup.tween_callback(instructions_popup, "hide")
+	hide_instructions_popup.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
+	yield(hide_instructions_popup, "finished")
+	emit_signal("players_ready")
+	
+
+# COLOR INDICATORS ---------------------------------------------------------------------------------------------------------------------------
+
+	
+func spawn_color_indicators(spawn_colors: Array): # kliče GM
+	
+	empty_color_indicators()
+
+	var indicator_index = 0 # za fiksirano zaporedje
+	var indicator_to_move_under_index: int
+	
+	for spawn_color in spawn_colors:
+		
+		indicator_index += 1 
+		
+		# spawn indicator
+		var new_color_indicator = ColorIndicator.instance()
+		new_color_indicator.color = spawn_color
+		new_color_indicator.modulate.a = stray_out_indicator_alpha # prikažem jih na slide in
+		spectrum.add_child(new_color_indicator)
+	
+		# preverim, če je ista barva že v spektrumu
+		for indicator in spectrum.get_children():
+			if indicator.color == spawn_color:
+				indicator_to_move_under_index = spectrum.get_children().find(indicator)
+				break
+		
+		# premaknem ga pod obstoječo barvo				
+		if indicator_to_move_under_index:
+			spectrum.move_child(new_color_indicator, indicator_to_move_under_index)
+	
+		# new_color_indicator.get_node("IndicatorCount").text = str(indicator_index) # debug ... zapis indexa
+		all_color_indicators.append(new_color_indicator)
+
+
+func indicate_color_collected(collected_color: Color):
+	
+	var current_indicator_index: int
+	for indicator in all_color_indicators:
+		# pobrana barva
+		if indicator.color == collected_color:
+			current_indicator_index = all_color_indicators.find(indicator)
+			if Global.game_manager.game_data.has("level_goal_count"):
+				indicator.modulate.a = stray_in_indicator_alpha
+			else: 	
+				indicator.modulate.a = stray_out_indicator_alpha
+			break
+
+
+func empty_color_indicators():
+	
+	# zbrišem trenutne indikatorje
+	for child in spectrum.get_children():
+		child.queue_free()
+	all_color_indicators.clear()
+
+
+# POPUPS ----------------------------------------------------------------------------------------------------------------------------
+
+
+func level_up_popup_inout(level_reached: int): 
+	
+	level_up_popup.modulate.a = 0
+	level_up_popup.get_node("Label").text = "LEVEL UP" # "LEVEL %s" % str(level_reached)
+	level_up_popup.show()
+	
+	var popup_in = get_tree().create_tween()
+	popup_in.tween_property(level_up_popup, "rect_scale", Vector2.ONE * 1.2, 1.5).from(Vector2.ONE * 0.8).set_ease(Tween.EASE_IN_OUT)
+	popup_in.parallel().tween_property(level_up_popup, "modulate:a", 1, 0.5)
+	popup_in.parallel().tween_property(level_up_popup, "modulate:a", 0, 0.5).from(1.0).set_delay(0.6)
+
 		
 func check_for_warning(player_stats: Dictionary, warning_popup: Control):
 	
@@ -378,149 +388,62 @@ func popups_out(): # kliče GM na gameover
 	popups_out.tween_callback($Popups, "hide")
 
 	
-func slide_in(): # kliče GM set_game()
-	
-	set_hud()
-	
-	# instructions popup
-#	if Global.game_manager.game_settings["show_game_instructions"]:
-#		fade_in_instructions_popup(instructions_popup_time)
-#		yield(self, "players_ready")
-#	fade_out_instructions_popup(instructions_popup_time)
-#	yield(get_tree().create_timer(instructions_popup_time + 0.2), "timeout")
-	
-#	Global.start_countdown.start_countdown() # GM yielda za njegov signal
-	
-	var solution_line: Line2D
-	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-		solution_line = Global.current_tilemap.get_node("SolutionLine")
-		solution_line.hide()
-		solution_line.modulate.a = 0.1
-		
-	Global.game_camera.zoom_in(hud_in_out_time)
-	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
-	if Global.game_manager.game_settings["show_solution_hint"]:
-		fade_in.tween_callback(solution_line, "show")
-		fade_in.tween_property(solution_line, "modulate:a", 0.1, hud_in_out_time).from(0.0)
-	fade_in.parallel().tween_property(header, "rect_position:y", 0, hud_in_out_time)
-	fade_in.parallel().tween_property(footer, "rect_position:y", screen_height - header_height, hud_in_out_time)
-	fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", header_height, hud_in_out_time)
-	fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", header_height, hud_in_out_time)
-	
-	for indicator in active_color_indicators:
-		var indicator_fade_in = get_tree().create_tween()
-		indicator_fade_in.tween_property(indicator, "modulate:a", unpicked_indicator_alpha, 0.3).set_ease(Tween.EASE_IN)
-	
-
-func slide_out(): # kliče GM na game over
-	
-	Global.game_camera.zoom_out(hud_in_out_time)
-	
-	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
-	fade_in.tween_property(header, "rect_position:y", 0 - header_height, hud_in_out_time)
-	fade_in.parallel().tween_property(footer, "rect_position:y", screen_height, hud_in_out_time)
-	fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", 0, hud_in_out_time)
-	fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", 0, hud_in_out_time)
-	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-		var solution_line: Line2D = Global.current_tilemap.get_node("SolutionLine")
-		fade_in.parallel().tween_property(solution_line, "modulate:a", 0, hud_in_out_time)
-		fade_in.tween_callback(solution_line, "hide")
-	fade_in.tween_callback(self, "hide")
-	
-	
-func fade_in_instructions_popup():
-	
-	var in_time: float = 0.7
-	instructions_popup.get_instructions_content(current_highscore, current_highscore_owner)
-	var show_instructions_popup = get_tree().create_tween()
-	show_instructions_popup.tween_callback(instructions_popup, "show")
-	show_instructions_popup.tween_property(instructions_popup, "modulate:a", 1, in_time).from(0.0).set_ease(Tween.EASE_IN)
-
-	
-func fade_out_instructions_popup():
-	instructions_popup.get_instructions_content(current_highscore, current_highscore_owner)
-	
-	var out_time: float = 0.7
-	var hide_instructions_popup = get_tree().create_tween()
-	hide_instructions_popup.tween_property(instructions_popup, "modulate:a", 0, out_time).set_ease(Tween.EASE_IN)
-	hide_instructions_popup.tween_callback(instructions_popup, "hide")
-	hide_instructions_popup.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
-	yield(hide_instructions_popup, "finished")
-#	yield(get_tree().create_timer(0.2), "timeout")
-#	slide_in()
+# INTERNAL ---------------------------------------------------------------------------------------------------------------------------
 
 
-func confirm_players_ready():
+func _check_for_highscore(player_stats: Dictionary):
 	
-	get_viewport().set_disable_input(true) # anti dablklik
-	Global.sound_manager.play_gui_sfx("btn_confirm")
-	
-	var out_time: float = 0.7
-	var hide_instructions_popup = get_tree().create_tween()
-	hide_instructions_popup.tween_property(instructions_popup, "modulate:a", 0, out_time).set_ease(Tween.EASE_IN)
-	hide_instructions_popup.tween_callback(instructions_popup, "hide")
-	hide_instructions_popup.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
-	yield(hide_instructions_popup, "finished")
-	emit_signal("players_ready")
-	
-
-# SPECTRUM ---------------------------------------------------------------------------------------------------------------------------
-
-	
-func spawn_color_indicators(spawn_colors: Array): # kliče GM
-	
-	var indicator_index = 0 # za fiksirano zaporedje
-	var indicator_to_move_under_index: int
-	
-	for spawn_color in spawn_colors:
-		indicator_index += 1 
-		# spawn indicator
-		var new_color_indicator = ColorIndicator.instance()
-		new_color_indicator.color = spawn_color
-		new_color_indicator.modulate.a = 1 # na fade-in se odfejda do unpicked_indicator_alpha
-		spectrum.add_child(new_color_indicator)
-		# preverim, če je ista barva že v spektrumu
-		for indicator in spectrum.get_children():
-			if indicator.color == spawn_color:
-				indicator_to_move_under_index = spectrum.get_children().find(indicator)
-				break
-		# premaknem ga pod obstoječo barvo				
-		if indicator_to_move_under_index:
-			spectrum.move_child(new_color_indicator, indicator_to_move_under_index)
-		# new_color_indicator.get_node("IndicatorCount").text = str(indicator_index) # debug ... zapis indexa
-		active_color_indicators.append(new_color_indicator)
+	match current_gamed_hs_type:
+		Profiles.HighscoreTypes.HS_POINTS:
+			if player_stats["player_points"] > current_highscore:
+				highscore_label.text = "New HS " + str(player_stats["player_points"])
+				highscore_label.modulate = Global.color_green
+			else:				
+				highscore_label.text = "HS " + str(current_highscore)
+				highscore_label.modulate = Global.color_hud_text
+		Profiles.HighscoreTypes.HS_TIME_LOW: # logika je tu malo drugačna kot pri drugih dveh
+			highscore_label.text = "HS " + str(current_highscore) + "s"
+			highscore_label.modulate = Global.color_hud_text
+		Profiles.HighscoreTypes.HS_TIME_HIGH:
+			if game_timer.absolute_game_time > current_highscore:
+				highscore_label.text = "HS " +  str(game_timer.absolute_game_time) + "s"
+				highscore_label.modulate = Global.color_green
+			else:				
+				highscore_label.text = "HS " +  str(current_highscore) + "s"
+				highscore_label.modulate = Global.color_hud_text
 
 
-func show_color_indicator(picked_color: Color):
+func _on_stat_changed(stat_owner: Node, player_stats: Dictionary):
+	# update_stats(stat_owner, current_player_stats)
+
+	# player stats
+	match stat_owner.name:
+		"p1":
+			p1_life_counter.life_count = player_stats["player_life"]
+			p1_energy_counter.energy = player_stats["player_energy"]
+			p1_points_counter.text = "%d" % player_stats["player_points"]
+			p1_color_counter.text = "%d" % player_stats["colors_collected"]
+			p1_burst_counter.text = "%d" % player_stats["burst_count"]
+			p1_skill_counter.text = "%d" % player_stats["skill_count"]
+			p1_steps_counter.text = "%d" % player_stats["cells_traveled"]
+			# check_for_warning(player_stats, p1_energy_warning_popup)
+		"p2":
+			p2_life_counter.life_count = player_stats["player_life"]
+			p2_energy_counter.energy = player_stats["player_energy"]
+			p2_points_counter.text = "%d" % player_stats["player_points"]
+			p2_color_counter.text = "%d" % player_stats["colors_collected"]
+			p2_burst_counter.text = "%d" % player_stats["burst_count"]
+			p2_skill_counter.text = "%d" % player_stats["skill_count"]
+			p2_steps_counter.text = "%d" % player_stats["cells_traveled"]
+			# check_for_warning(player_stats, p2_energy_warning_popup)
+
+	# debug
+	player_life.text = "LIFE: %d" % player_stats["player_life"]
+	player_energy.text = "E: %d" % player_stats["player_energy"]
+
+	if not Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NO_HS:
+		_check_for_highscore(player_stats)
 	
-	# preverim, če je to edina taka barva na igrišču
-	var same_color_stray_count: int = 0
-	for stray in get_tree().get_nodes_in_group(Global.group_strays):
-		if stray.stray_color == picked_color:
-			same_color_stray_count += 1
-			if same_color_stray_count > 1:
-				return
-		
-	var current_indicator_index: int
-	for indicator in active_color_indicators:
-		# pobrana barva
-		if indicator.color == picked_color:
-			current_indicator_index = active_color_indicators.find(indicator)
-			indicator.modulate.a = picked_indicator_alpha
-			break
-			
-	# izbris iz aktivnih indikatorjev
-	if not active_color_indicators.empty():
-		active_color_indicators.erase(active_color_indicators[current_indicator_index])
-
-
-func _on_stat_changed(stat_owner: Node, current_player_stats: Dictionary):
-	
-	update_stats(stat_owner, current_player_stats)
-	
-
-# SIGNALS ---------------------------------------------------------------------------------------------------------------------------
-
 
 func _on_GameTimer_gametime_is_up() -> void: # signal iz tajmerja
 	

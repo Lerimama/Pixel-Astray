@@ -50,19 +50,21 @@ func get_highscore_table(current_game_data: Dictionary, current_player_rank: int
 				if current_position_seconds > 0:
 					scoreline.get_node("Score").text = Global.get_clock_time(current_position_seconds)
 					scorelines_with_score.append(scoreline)
+					scoreline.show()
 				# skrijem 0 rezultat
-				else:
+				elif current_position_seconds == 0:
 					scorelines_with_score.erase(scoreline)
 					scoreline.hide()
 			elif current_game_hs_type == Profiles.HighscoreTypes.HS_POINTS:
 				var current_position_points: int = current_position_dict_values[0]
-				if current_position_points > 0:
+				if current_position_points > 0: # bug =
 					scorelines_with_score.append(scoreline)
 					scoreline.get_node("Score").text = str(current_position_dict_values[0])
 				# skrijem 0 rezultat
 				else:
 					scorelines_with_score.erase(scoreline)
 					scoreline.hide()
+					
 		# povdarim trenuten rezultat
 		if scoreline_index == current_player_rank and not scoreline_index == 0: # 0 je da izločim naslov
 			scoreline.modulate = Global.color_green
