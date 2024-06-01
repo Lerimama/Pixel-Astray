@@ -33,11 +33,11 @@ func _ready() -> void:
 func set_game(): 
 	# namen: namesto create_strays() je samo set_level_colors
 	
-	if game_settings["show_game_instructions"]:
-		yield(Global.hud, "players_ready")
-	
 	# colors
 	set_color_pool()
+
+	if game_settings["show_game_instructions"]:
+		yield(Global.hud, "players_ready")
 	
 	# animacije plejerja in straysov in zooma	
 	current_players_in_game = get_tree().get_nodes_in_group(Global.group_players)
@@ -68,7 +68,7 @@ func start_game():
 	
 	Global.hud.game_timer.start_timer()
 	
-	Global.sound_manager.currently_playing_track_index = game_settings["game_track_index"]
+	Global.sound_manager.current_music_track_index = game_settings["game_music_track_index"]
 	Global.sound_manager.play_music("game_music")
 	
 	for player in current_players_in_game:
@@ -233,7 +233,6 @@ func line_step():
 			call_deferred("create_strays", random_spawn_count)
 			line_steps_since_spawn_round = 0
 			line_steps_since_spawn_round += 1 # runda se šteje samo, če spawnam
-		
 	
 	line_step_in_progress = false
 	line_step_pause_timer.start(line_step_pause_time)

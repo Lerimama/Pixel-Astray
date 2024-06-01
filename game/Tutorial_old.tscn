@@ -1,23 +1,11 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=34 format=2]
 
-[ext_resource path="res://game/gui/hud.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=2]
-[ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=3]
-[ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=4]
-[ext_resource path="res://game/gui/controls_scheme.tscn" type="PackedScene" id=5]
-[ext_resource path="res://game/gui/tutorial_gui.gd" type="Script" id=6]
-[ext_resource path="res://game/gui/action_hint.tscn" type="PackedScene" id=7]
-[ext_resource path="res://assets/atlas_controls.png" type="Texture" id=9]
-[ext_resource path="res://game/gui/game_over.tscn" type="PackedScene" id=10]
-[ext_resource path="res://game/gui/game_over_tutorial.gd" type="Script" id=11]
-[ext_resource path="res://game/gui/pause_gui.tscn" type="PackedScene" id=12]
-[ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=14]
-[ext_resource path="res://game/arena.tscn" type="PackedScene" id=15]
-[ext_resource path="res://assets/theme/color_theme_spectrum.png" type="Texture" id=20]
-[ext_resource path="res://assets/resources/tileset_titles.tres" type="TileSet" id=21]
-[ext_resource path="res://game/managers/game_manager_tutorial.gd" type="Script" id=22]
-[ext_resource path="res://game/player_camera.tscn" type="PackedScene" id=24]
-[ext_resource path="res://game/hud/hud_tutorial.gd" type="Script" id=25]
+[ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
+[ext_resource path="res://assets/theme/color_theme_spectrum.png" type="Texture" id=2]
+[ext_resource path="res://game/gui/tutorial_gui.gd" type="Script" id=4]
+[ext_resource path="res://game/gui/action_hint.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=6]
+[ext_resource path="res://game/gui/controls_scheme.tscn" type="PackedScene" id=7]
 
 [sub_resource type="StyleBoxEmpty" id=326]
 
@@ -126,7 +114,7 @@ thickness = 2
 vertical = true
 
 [sub_resource type="Theme" id=346]
-default_font = ExtResource( 14 )
+default_font = ExtResource( 6 )
 Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
 Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
@@ -184,12 +172,7 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 
-[sub_resource type="AtlasTexture" id=405]
-atlas = ExtResource( 9 )
-region = Rect2( 138, 22, 22, 22 )
-margin = Rect2( -2, 2, 0, 0 )
-
-[sub_resource type="Animation" id=404]
+[sub_resource type="Animation" id=406]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("MissionPanel:modulate")
@@ -270,7 +253,7 @@ tracks/6/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=369]
+[sub_resource type="Animation" id=407]
 resource_name = "_mission_in from bottom"
 length = 1.2
 tracks/0/type = "value"
@@ -318,7 +301,7 @@ tracks/3/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=366]
+[sub_resource type="Animation" id=408]
 resource_name = "mission_in"
 length = 2.0
 tracks/0/type = "value"
@@ -380,7 +363,7 @@ tracks/4/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=367]
+[sub_resource type="Animation" id=409]
 resource_name = "tutorial_end"
 length = 1.2
 tracks/0/type = "bezier"
@@ -406,7 +389,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=368]
+[sub_resource type="Animation" id=410]
 resource_name = "tutorial_start"
 length = 1.5
 tracks/0/type = "value"
@@ -466,95 +449,30 @@ tracks/4/keys = {
 "values": [ false ]
 }
 
-[node name="TutorialGame" type="Node2D"]
-__meta__ = {
-"_edit_horizontal_guides_": [ 1371.0, 1371.0, 576.0 ],
-"_edit_vertical_guides_": [ -32.0, 32.0, 1248.0, 448.0 ]
-}
-
-[node name="GameManager" type="Node" parent="."]
-script = ExtResource( 22 )
-
-[node name="GameView" type="VBoxContainer" parent="."]
-margin_right = 1280.0
-margin_bottom = 720.0
-custom_constants/separation = 0
-
-[node name="ViewHeder" type="ColorRect" parent="GameView"]
-unique_name_in_owner = true
-margin_right = 1280.0
-rect_min_size = Vector2( 1280, 0 )
-
-[node name="Viewports" type="HBoxContainer" parent="GameView"]
-margin_right = 1280.0
-margin_bottom = 720.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_constants/separation = 0
-
-[node name="ViewportContainer1" type="ViewportContainer" parent="GameView/Viewports"]
-margin_right = 1280.0
-margin_bottom = 720.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-stretch = true
-
-[node name="Viewport1" type="Viewport" parent="GameView/Viewports/ViewportContainer1"]
-unique_name_in_owner = true
-size = Vector2( 1280, 720 )
-handle_input_locally = false
-render_target_update_mode = 3
-
-[node name="Arena" parent="GameView/Viewports/ViewportContainer1/Viewport1" instance=ExtResource( 15 )]
-__meta__ = {
-"_edit_horizontal_guides_": [ 44.0, 32.0, 20.0, 64.0, 660.0, 688.0, 676.0, 648.0 ]
-}
-
-[node name="PlayerCamera" parent="GameView/Viewports/ViewportContainer1/Viewport1" instance=ExtResource( 24 )]
-
-[node name="ViewFuter" type="ColorRect" parent="GameView"]
-unique_name_in_owner = true
-margin_top = 720.0
-margin_right = 1280.0
-margin_bottom = 720.0
-grow_horizontal = 0
-rect_min_size = Vector2( 1280, 0 )
-
-[node name="GUI" type="Control" parent="."]
-margin_right = 1280.0
-margin_bottom = 720.0
-theme = ExtResource( 2 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Hud" parent="GUI" instance=ExtResource( 1 )]
-script = ExtResource( 25 )
-
-[node name="Tutorial" type="Control" parent="GUI"]
+[node name="Tutorial_old" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 720 )
-script = ExtResource( 6 )
+script = ExtResource( 4 )
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Checkpoints" type="Control" parent="GUI/Tutorial"]
+[node name="Checkpoints" type="Control" parent="."]
 margin_left = 32.0
 margin_top = 70.0
 margin_right = 512.0
 margin_bottom = 448.0
 grow_horizontal = 2
 
-[node name="TravelingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
+[node name="TravelingContent" type="Control" parent="Checkpoints"]
 visible = false
 margin_right = 432.0
 margin_bottom = 356.0
 rect_min_size = Vector2( 0, 232 )
 rect_clip_content = true
 
-[node name="Title" type="Label" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
+[node name="Title" type="Label" parent="Checkpoints/TravelingContent"]
 margin_right = 432.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 0, 30 )
@@ -567,23 +485,23 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Line" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
+[node name="Line" type="RichTextLabel" parent="Checkpoints/TravelingContent"]
 margin_top = 34.0
 margin_right = 448.0
 margin_bottom = 130.0
 bbcode_enabled = true
 bbcode_text = "Moving is restricted to directions up, down, left,
-and right. Circle around the white pixelor move
+and right. Circle around the white pixel or move
 in all available directions to advance to 
 the next stage."
 text = "Moving is restricted to directions up, down, left,
-and right. Circle around the white pixelor move
+and right. Circle around the white pixel or move
 in all available directions to advance to 
 the next stage."
 fit_content_height = true
 scroll_active = false
 
-[node name="Line4" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
+[node name="Line4" type="RichTextLabel" parent="Checkpoints/TravelingContent"]
 margin_top = 146.0
 margin_right = 432.0
 margin_bottom = 200.0
@@ -595,7 +513,7 @@ or DIRECTIONAL PAD on joypad to move."
 fit_content_height = true
 scroll_active = false
 
-[node name="Line2" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
+[node name="Line2" type="RichTextLabel" parent="Checkpoints/TravelingContent"]
 margin_top = 196.0
 margin_right = 432.0
 margin_bottom = 274.0
@@ -609,14 +527,13 @@ speed depends on it. "
 fit_content_height = true
 scroll_active = false
 
-[node name="BurstingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
-visible = false
+[node name="BurstingContent" type="Control" parent="Checkpoints"]
 margin_right = 480.0
 margin_bottom = 443.0
 rect_min_size = Vector2( 0, 232 )
 rect_clip_content = true
 
-[node name="Title" type="Label" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+[node name="Title" type="Label" parent="Checkpoints/BurstingContent"]
 margin_right = 480.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 0, 30 )
@@ -629,7 +546,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Line" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+[node name="Line" type="RichTextLabel" parent="Checkpoints/BurstingContent"]
 margin_top = 34.0
 margin_right = 480.0
 margin_bottom = 106.0
@@ -643,7 +560,7 @@ the next stage."
 fit_content_height = true
 scroll_active = false
 
-[node name="Line5" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+[node name="Line5" type="RichTextLabel" parent="Checkpoints/BurstingContent"]
 margin_top = 116.0
 margin_right = 480.0
 margin_bottom = 146.0
@@ -653,7 +570,7 @@ text = "> Press and hold the BURST KEY."
 fit_content_height = true
 scroll_active = false
 
-[node name="Line6" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+[node name="Line6" type="RichTextLabel" parent="Checkpoints/BurstingContent"]
 margin_top = 154.0
 margin_right = 480.0
 margin_bottom = 208.0
@@ -665,7 +582,7 @@ away from the target direction."
 fit_content_height = true
 scroll_active = false
 
-[node name="Line7" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+[node name="Line7" type="RichTextLabel" parent="Checkpoints/BurstingContent"]
 margin_top = 210.0
 margin_right = 480.0
 margin_bottom = 240.0
@@ -675,7 +592,7 @@ text = "> Release the BURST KEY to unleash the burst!"
 fit_content_height = true
 scroll_active = false
 
-[node name="Line8" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+[node name="Line8" type="RichTextLabel" parent="Checkpoints/BurstingContent"]
 margin_top = 242.0
 margin_right = 480.0
 margin_bottom = 272.0
@@ -685,7 +602,7 @@ text = "> To stop mid-burst press the BURST KEY again."
 fit_content_height = true
 scroll_active = false
 
-[node name="Line3" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+[node name="Line3" type="RichTextLabel" parent="Checkpoints/BurstingContent"]
 margin_top = 268.0
 margin_right = 480.0
 margin_bottom = 298.0
@@ -695,7 +612,7 @@ text = ". You lose life if you burst into the screen edge."
 fit_content_height = true
 scroll_active = false
 
-[node name="Line4" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+[node name="Line4" type="RichTextLabel" parent="Checkpoints/BurstingContent"]
 margin_top = 300.0
 margin_right = 480.0
 margin_bottom = 354.0
@@ -707,7 +624,7 @@ them by destroying a colored pixel it is touching."
 fit_content_height = true
 scroll_active = false
 
-[node name="Line9" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+[node name="Line9" type="RichTextLabel" parent="Checkpoints/BurstingContent"]
 margin_top = 356.0
 margin_right = 480.0
 margin_bottom = 418.0
@@ -719,14 +636,14 @@ text = ". You get %s points for every colored, and %s points
 fit_content_height = true
 scroll_active = false
 
-[node name="StackingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
+[node name="StackingContent" type="Control" parent="Checkpoints"]
 visible = false
 margin_right = 480.0
 margin_bottom = 434.0
 rect_min_size = Vector2( 0, 232 )
 rect_clip_content = true
 
-[node name="Title" type="Label" parent="GUI/Tutorial/Checkpoints/StackingContent"]
+[node name="Title" type="Label" parent="Checkpoints/StackingContent"]
 margin_right = 480.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 0, 30 )
@@ -739,7 +656,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Line" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/StackingContent"]
+[node name="Line" type="RichTextLabel" parent="Checkpoints/StackingContent"]
 margin_top = 34.0
 margin_right = 480.0
 margin_bottom = 82.0
@@ -755,7 +672,7 @@ to advance to the next stage."
 fit_content_height = true
 scroll_active = false
 
-[node name="Line2" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/StackingContent"]
+[node name="Line2" type="RichTextLabel" parent="Checkpoints/StackingContent"]
 margin_top = 140.0
 margin_right = 480.0
 margin_bottom = 194.0
@@ -767,7 +684,7 @@ on the power of burst. "
 fit_content_height = true
 scroll_active = false
 
-[node name="Line3" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/StackingContent"]
+[node name="Line3" type="RichTextLabel" parent="Checkpoints/StackingContent"]
 margin_top = 196.0
 margin_right = 480.0
 margin_bottom = 250.0
@@ -781,7 +698,7 @@ collect all colors in stack.
 fit_content_height = true
 scroll_active = false
 
-[node name="Line4" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/StackingContent"]
+[node name="Line4" type="RichTextLabel" parent="Checkpoints/StackingContent"]
 margin_top = 252.0
 margin_right = 480.0
 margin_bottom = 306.0
@@ -795,14 +712,14 @@ color collected with a single burst hit.
 fit_content_height = true
 scroll_active = false
 
-[node name="SkillingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
+[node name="SkillingContent" type="Control" parent="Checkpoints"]
 visible = false
 margin_right = 480.0
 margin_bottom = 346.0
 rect_min_size = Vector2( 0, 232 )
 rect_clip_content = true
 
-[node name="Title" type="Label" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
+[node name="Title" type="Label" parent="Checkpoints/SkillingContent"]
 margin_right = 480.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 0, 30 )
@@ -815,7 +732,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Line" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
+[node name="Line" type="RichTextLabel" parent="Checkpoints/SkillingContent"]
 margin_top = 34.0
 margin_right = 480.0
 margin_bottom = 112.0
@@ -829,7 +746,7 @@ white pixel to advance to final stage."
 fit_content_height = true
 scroll_active = false
 
-[node name="Line3" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
+[node name="Line3" type="RichTextLabel" parent="Checkpoints/SkillingContent"]
 margin_top = 122.0
 margin_right = 480.0
 margin_bottom = 176.0
@@ -841,7 +758,7 @@ you are touching to connect to it."
 fit_content_height = true
 scroll_active = false
 
-[node name="Line4" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
+[node name="Line4" type="RichTextLabel" parent="Checkpoints/SkillingContent"]
 margin_top = 178.0
 margin_right = 480.0
 margin_bottom = 232.0
@@ -854,7 +771,7 @@ to push or away from it to pull."
 fit_content_height = true
 scroll_active = false
 
-[node name="Line5" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
+[node name="Line5" type="RichTextLabel" parent="Checkpoints/SkillingContent"]
 margin_top = 234.0
 margin_right = 480.0
 margin_bottom = 288.0
@@ -867,7 +784,7 @@ as you would push the colored one."
 fit_content_height = true
 scroll_active = false
 
-[node name="Line2" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
+[node name="Line2" type="RichTextLabel" parent="Checkpoints/SkillingContent"]
 margin_top = 285.0
 margin_right = 480.0
 margin_bottom = 339.0
@@ -879,14 +796,14 @@ or to eliminate singled-out white pixels."
 fit_content_height = true
 scroll_active = false
 
-[node name="WinLoseContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
+[node name="WinLoseContent" type="Control" parent="Checkpoints"]
 visible = false
 margin_right = 480.0
 margin_bottom = 443.0
 rect_min_size = Vector2( 0, 232 )
 rect_clip_content = true
 
-[node name="Title" type="Label" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
+[node name="Title" type="Label" parent="Checkpoints/WinLoseContent"]
 margin_right = 480.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 0, 30 )
@@ -899,7 +816,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Line4" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
+[node name="Line4" type="RichTextLabel" parent="Checkpoints/WinLoseContent"]
 margin_top = 250.0
 margin_right = 480.0
 margin_bottom = 274.0
@@ -911,7 +828,7 @@ to finish the tutorial."
 fit_content_height = true
 scroll_active = false
 
-[node name="Line" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
+[node name="Line" type="RichTextLabel" parent="Checkpoints/WinLoseContent"]
 margin_top = 28.0
 margin_right = 480.0
 margin_bottom = 130.0
@@ -927,7 +844,7 @@ points if you succeed."
 fit_content_height = true
 scroll_active = false
 
-[node name="Line2" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
+[node name="Line2" type="RichTextLabel" parent="Checkpoints/WinLoseContent"]
 margin_top = 132.0
 margin_right = 480.0
 margin_bottom = 234.0
@@ -943,7 +860,7 @@ also be a reason to lose the game."
 fit_content_height = true
 scroll_active = false
 
-[node name="Line3" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
+[node name="Line3" type="RichTextLabel" parent="Checkpoints/WinLoseContent"]
 visible = false
 margin_top = 276.0
 margin_right = 488.0
@@ -960,32 +877,33 @@ described on the pre-game screen."
 fit_content_height = true
 scroll_active = false
 
-[node name="Controls" parent="GUI/Tutorial" instance=ExtResource( 5 )]
+[node name="Controls" parent="." instance=ExtResource( 7 )]
 visible = false
 margin_left = 33.0
 margin_top = 520.0
 margin_right = 353.0
 margin_bottom = 640.0
 
-[node name="HudGuide" type="Control" parent="GUI/Tutorial"]
+[node name="HudGuide" type="Control" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="PlayerLabel" type="Label" parent="GUI/Tutorial/HudGuide"]
+[node name="PlayerLabel" type="Label" parent="HudGuide"]
 self_modulate = Color( 0.368627, 1, 0.662745, 1 )
 margin_left = 32.0
 margin_top = 58.0
 margin_right = 130.0
 margin_bottom = 76.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 1 )
 text = "Life, energy, Collected colors and Score"
 uppercase = true
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Line2D" type="Line2D" parent="GUI/Tutorial/HudGuide/PlayerLabel"]
+[node name="Line2D" type="Line2D" parent="HudGuide/PlayerLabel"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 position = Vector2( -14, 6 )
 points = PoolVector2Array( 40, -32, 40, -8 )
@@ -993,7 +911,7 @@ width = 0.5
 default_color = Color( 1, 1, 1, 1 )
 antialiased = true
 
-[node name="Line2D2" type="Line2D" parent="GUI/Tutorial/HudGuide/PlayerLabel"]
+[node name="Line2D2" type="Line2D" parent="HudGuide/PlayerLabel"]
 visible = false
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 position = Vector2( 33, 6 )
@@ -1002,7 +920,7 @@ width = 0.5
 default_color = Color( 1, 1, 1, 1 )
 antialiased = true
 
-[node name="Line2D4" type="Line2D" parent="GUI/Tutorial/HudGuide/PlayerLabel"]
+[node name="Line2D4" type="Line2D" parent="HudGuide/PlayerLabel"]
 visible = false
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 position = Vector2( 116, 6 )
@@ -1011,7 +929,7 @@ width = 0.5
 default_color = Color( 1, 1, 1, 1 )
 antialiased = true
 
-[node name="Line2D5" type="Line2D" parent="GUI/Tutorial/HudGuide/PlayerLabel"]
+[node name="Line2D5" type="Line2D" parent="HudGuide/PlayerLabel"]
 visible = false
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 position = Vector2( 170, 6 )
@@ -1020,20 +938,20 @@ width = 0.5
 default_color = Color( 1, 1, 1, 1 )
 antialiased = true
 
-[node name="TimeLabel" type="Label" parent="GUI/Tutorial/HudGuide"]
+[node name="TimeLabel" type="Label" parent="HudGuide"]
 self_modulate = Color( 0.368627, 1, 0.662745, 1 )
 margin_left = 556.0
 margin_top = 58.0
 margin_right = 637.0
 margin_bottom = 76.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 1 )
 text = "Game time"
 uppercase = true
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Line2D3" type="Line2D" parent="GUI/Tutorial/HudGuide/TimeLabel"]
+[node name="Line2D3" type="Line2D" parent="HudGuide/TimeLabel"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 position = Vector2( -39, 6 )
 points = PoolVector2Array( 80, -32, 80, -8 )
@@ -1041,20 +959,20 @@ width = 0.5
 default_color = Color( 1, 1, 1, 1 )
 antialiased = true
 
-[node name="MusicLabel" type="Label" parent="GUI/Tutorial/HudGuide"]
+[node name="MusicLabel" type="Label" parent="HudGuide"]
 self_modulate = Color( 0.368627, 1, 0.662745, 1 )
 margin_left = 667.0
 margin_top = 58.0
 margin_right = 835.0
 margin_bottom = 76.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 1 )
 text = "Current music track"
 uppercase = true
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Line2D2" type="Line2D" parent="GUI/Tutorial/HudGuide/MusicLabel"]
+[node name="Line2D2" type="Line2D" parent="HudGuide/MusicLabel"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 position = Vector2( -34, 4 )
 points = PoolVector2Array( 83, -30, 83, -6 )
@@ -1062,14 +980,14 @@ width = 0.5
 default_color = Color( 1, 1, 1, 1 )
 antialiased = true
 
-[node name="HighscoreLabel" type="Label" parent="GUI/Tutorial/HudGuide"]
+[node name="HighscoreLabel" type="Label" parent="HudGuide"]
 self_modulate = Color( 0.368627, 1, 0.662745, 1 )
 margin_left = 1101.0
 margin_top = 58.0
 margin_right = 1250.0
 margin_bottom = 76.0
 grow_horizontal = 0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 1 )
 text = "Current game highscore"
 align = 2
 uppercase = true
@@ -1077,7 +995,7 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Line2D" type="Line2D" parent="GUI/Tutorial/HudGuide/HighscoreLabel"]
+[node name="Line2D" type="Line2D" parent="HudGuide/HighscoreLabel"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 position = Vector2( 38, -4 )
 points = PoolVector2Array( 105, -22, 105, 2 )
@@ -1085,20 +1003,20 @@ width = 0.5
 default_color = Color( 1, 1, 1, 1 )
 antialiased = true
 
-[node name="GameLabel" type="Label" parent="GUI/Tutorial/HudGuide"]
+[node name="GameLabel" type="Label" parent="HudGuide"]
 self_modulate = Color( 0.368627, 1, 0.662745, 1 )
 margin_left = 31.0
 margin_top = 640.0
 margin_right = 157.0
 margin_bottom = 658.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 1 )
 text = "Game and level"
 uppercase = true
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Line2D2" type="Line2D" parent="GUI/Tutorial/HudGuide/GameLabel"]
+[node name="Line2D2" type="Line2D" parent="HudGuide/GameLabel"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 position = Vector2( 0, 56 )
 points = PoolVector2Array( 57, -8, 57, -32 )
@@ -1106,19 +1024,19 @@ width = 0.5
 default_color = Color( 1, 1, 1, 1 )
 antialiased = true
 
-[node name="SpectrumLabel" type="Label" parent="GUI/Tutorial/HudGuide"]
+[node name="SpectrumLabel" type="Label" parent="HudGuide"]
 self_modulate = Color( 0.368627, 1, 0.662745, 1 )
 margin_left = 427.5
 margin_top = 640.0
 margin_right = 852.5
 margin_bottom = 658.0
 grow_horizontal = 2
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 1 )
 text = "Indicator of picked and available colors"
 align = 1
 uppercase = true
 
-[node name="Line2D" type="Line2D" parent="GUI/Tutorial/HudGuide/SpectrumLabel"]
+[node name="Line2D" type="Line2D" parent="HudGuide/SpectrumLabel"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 position = Vector2( 136, 59 )
 points = PoolVector2Array( 76.5, -35, 76.5, -11 )
@@ -1126,14 +1044,14 @@ width = 0.5
 default_color = Color( 1, 1, 1, 1 )
 antialiased = true
 
-[node name="AstrayLabel" type="Label" parent="GUI/Tutorial/HudGuide"]
+[node name="AstrayLabel" type="Label" parent="HudGuide"]
 self_modulate = Color( 0.368627, 1, 0.662745, 1 )
 margin_left = 1012.0
 margin_top = 640.0
 margin_right = 1249.0
 margin_bottom = 658.0
 grow_horizontal = 0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 1 )
 text = "Pixels still astray"
 align = 2
 uppercase = true
@@ -1141,7 +1059,7 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Line2D" type="Line2D" parent="GUI/Tutorial/HudGuide/AstrayLabel"]
+[node name="Line2D" type="Line2D" parent="HudGuide/AstrayLabel"]
 visible = false
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 position = Vector2( 27, 58 )
@@ -1150,7 +1068,7 @@ width = 0.5
 default_color = Color( 1, 1, 1, 1 )
 antialiased = true
 
-[node name="Line2D2" type="Line2D" parent="GUI/Tutorial/HudGuide/AstrayLabel"]
+[node name="Line2D2" type="Line2D" parent="HudGuide/AstrayLabel"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 position = Vector2( 109, 58 )
 points = PoolVector2Array( 104, -10, 104, -34 )
@@ -1158,7 +1076,7 @@ width = 0.5
 default_color = Color( 1, 1, 1, 1 )
 antialiased = true
 
-[node name="Spectrum" type="TextureRect" parent="GUI/Tutorial/HudGuide"]
+[node name="Spectrum" type="TextureRect" parent="HudGuide"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -1168,10 +1086,10 @@ margin_top = -25.0
 margin_right = 430.0
 margin_bottom = -13.0
 rect_min_size = Vector2( 0, 12 )
-texture = ExtResource( 20 )
+texture = ExtResource( 2 )
 expand = true
 
-[node name="MissionPanel" type="Control" parent="GUI/Tutorial"]
+[node name="MissionPanel" type="Control" parent="."]
 modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -1183,14 +1101,14 @@ margin_right = 865.0
 margin_bottom = 608.0
 theme = SubResource( 346 )
 
-[node name="Panel" type="Panel" parent="GUI/Tutorial/MissionPanel"]
+[node name="Panel" type="Panel" parent="MissionPanel"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 custom_styles/panel = SubResource( 358 )
 
-[node name="Content" type="Label" parent="GUI/Tutorial/MissionPanel"]
+[node name="Content" type="Label" parent="MissionPanel"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -195.0
@@ -1198,14 +1116,14 @@ margin_top = 48.0
 margin_right = 194.0
 margin_bottom = 114.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 1 )
 text = "Learn the basics of the game.
 Follow instructions and hints to smoothly
 navigate through all five stages. "
 align = 1
 autowrap = true
 
-[node name="Content2" type="Label" parent="GUI/Tutorial/MissionPanel"]
+[node name="Content2" type="Label" parent="MissionPanel"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -177.0
@@ -1213,12 +1131,12 @@ margin_top = 136.0
 margin_right = 175.0
 margin_bottom = 154.0
 size_flags_vertical = 1
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 1 )
 text = "Get ready to dive in and become a pro!"
 align = 1
 autowrap = true
 
-[node name="ActionHint" parent="GUI/Tutorial/MissionPanel" instance=ExtResource( 7 )]
+[node name="ActionHint" parent="MissionPanel" instance=ExtResource( 5 )]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -124.0
@@ -1226,111 +1144,11 @@ margin_top = 190.0
 margin_right = 124.0
 margin_bottom = 212.0
 
-[node name="KEY" parent="GUI/Tutorial/MissionPanel/ActionHint" index="1"]
-margin_right = 118.0
-text = "RETURN"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 406 )
+"anims/_mission_in from bottom" = SubResource( 407 )
+anims/mission_in = SubResource( 408 )
+anims/tutorial_end = SubResource( 409 )
+anims/tutorial_start = SubResource( 410 )
 
-[node name="Label2" parent="GUI/Tutorial/MissionPanel/ActionHint" index="2"]
-margin_left = 126.0
-margin_right = 143.0
-
-[node name="Jp" parent="GUI/Tutorial/MissionPanel/ActionHint" index="3"]
-margin_left = 151.0
-margin_right = 173.0
-texture = SubResource( 405 )
-
-[node name="Label3" parent="GUI/Tutorial/MissionPanel/ActionHint" index="4"]
-margin_left = 181.0
-margin_right = 248.0
-text = "to start"
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/Tutorial"]
-anims/RESET = SubResource( 404 )
-"anims/_mission_in from bottom" = SubResource( 369 )
-anims/mission_in = SubResource( 366 )
-anims/tutorial_end = SubResource( 367 )
-anims/tutorial_start = SubResource( 368 )
-
-[node name="PauseMenu" parent="GUI" instance=ExtResource( 12 )]
-__meta__ = {
-"_edit_horizontal_guides_": [ 112.0 ],
-"_edit_vertical_guides_": [ 640.0, 304.0, 976.0 ]
-}
-
-[node name="GameOver" parent="GUI" instance=ExtResource( 10 )]
-script = ExtResource( 11 )
-
-[node name="Tutorial" type="Control" parent="GUI/GameOver/GameoverTitle" index="4"]
-visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -512.0
-margin_top = -120.0
-margin_right = 512.0
-margin_bottom = 88.0
-
-[node name="Label" type="Label" parent="GUI/GameOver/GameoverTitle/Tutorial"]
-modulate = Color( 0.368627, 1, 0.662745, 1 )
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -304.0
-margin_top = -74.0
-margin_right = 304.0
-margin_bottom = -42.0
-grow_horizontal = 2
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_fonts/font = ExtResource( 3 )
-text = "You've learned the basics."
-align = 1
-
-[node name="WellDone" type="TileMap" parent="GUI/GameOver/GameoverTitle/Tutorial"]
-modulate = Color( 0.368627, 1, 0.662745, 1 )
-position = Vector2( 184, 0 )
-tile_set = ExtResource( 21 )
-cell_size = Vector2( 16, 16 )
-cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
-format = 1
-tile_data = PoolIntArray( 0, 0, 0, 2, 0, 0, 4, 0, 0, 6, -1610612736, 0, 7, 0, 0, 8, 0, 0, 11, 0, 0, 15, 0, 0, 20, 0, 0, 21, 0, 0, 22, 0, 0, 26, 0, 0, 27, 0, 0, 28, 0, 0, 30, 0, 0, 33, 0, 0, 35, 0, 0, 36, 0, 0, 37, 0, 0, 40, 0, 0, 65536, 0, 0, 65538, 0, 0, 65540, 0, 0, 65542, -1610612736, 0, 65547, 0, 0, 65551, 0, 0, 65556, 0, 0, 65559, 0, 0, 65561, 0, 0, 65564, 0, 0, 65566, 0, 0, 65567, 0, 0, 65569, 0, 0, 65571, 0, 0, 65576, 0, 0, 131072, 0, 0, 131074, 0, 0, 131076, 0, 0, 131078, -1610612736, 0, 131079, 0, 0, 131080, 0, 0, 131083, 0, 0, 131087, 0, 0, 131092, 0, 0, 131095, 0, 0, 131097, 0, 0, 131100, 0, 0, 131102, 0, 0, 131104, 0, 0, 131105, 0, 0, 131107, 0, 0, 131108, 0, 0, 131109, 0, 0, 131112, 0, 0, 196608, -1610612736, 0, 196610, 0, 0, 196612, 0, 0, 196614, -1610612736, 0, 196619, 0, 0, 196623, 0, 0, 196628, 0, 0, 196631, 0, 0, 196633, 0, 0, 196636, 0, 0, 196638, 0, 0, 196641, 0, 0, 196643, 0, 0, 262144, 0, 0, 262145, 0, 0, 262146, 0, 0, 262147, 0, 0, 262150, 0, 0, 262151, 0, 0, 262152, 0, 0, 262153, 0, 0, 262155, 0, 0, 262156, 0, 0, 262157, 0, 0, 262159, 0, 0, 262160, 0, 0, 262161, 0, 0, 262164, 0, 0, 262165, 0, 0, 262166, 0, 0, 262169, 0, 0, 262170, 0, 0, 262171, 0, 0, 262172, 0, 0, 262174, 0, 0, 262177, 0, 0, 262179, 0, 0, 262180, 0, 0, 262181, 0, 0, 262182, 0, 0, 262184, 0, 0 )
-
-[node name="Label2" type="Label" parent="GUI/GameOver/GameoverTitle/Tutorial"]
-modulate = Color( 0.368627, 1, 0.662745, 1 )
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -213.0
-margin_top = 126.0
-margin_right = 213.0
-margin_bottom = 176.0
-grow_horizontal = 2
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "Now, dive in, master your moves, and enjoy the game."
-align = 1
-autowrap = true
-
-[node name="Menu" parent="GUI/GameOver" index="4"]
-margin_left = -211.0
-margin_right = 211.0
-
-[node name="RestartBtn" parent="GUI/GameOver/Menu" index="0"]
-visible = false
-
-[node name="NextLevelBtn" parent="GUI/GameOver/Menu" index="1"]
-margin_left = 178.0
-margin_right = 314.0
-
-[node name="QuitBtn" parent="GUI/GameOver/Menu" index="2"]
-visible = false
-
-[node name="ExitGameBtn" parent="GUI/GameOver/Menu" index="3"]
-margin_left = 178.0
-margin_right = 300.0
-
-[node name="RespawnTimer" type="Timer" parent="."]
-wait_time = 5.0
-one_shot = true
-
-[connection signal="animation_finished" from="GUI/Tutorial/AnimationPlayer" to="GUI/Tutorial" method="_on_AnimationPlayer_animation_finished"]
-
-[editable path="GUI/Tutorial/MissionPanel/ActionHint"]
-[editable path="GUI/GameOver"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

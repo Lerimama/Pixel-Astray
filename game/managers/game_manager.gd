@@ -139,14 +139,13 @@ func set_game_view():
 	
 	
 func set_game(): 
-
 	# kliče main.gd po prikazom igre  ... set_tilemap(), set_game_view(), create_players() # da je plejer viden že na fejdin
 
-	if game_settings["show_game_instructions"]:
-		yield(Global.hud, "players_ready")
-	
 	# colors 
 	set_color_pool()
+	
+	if game_settings["show_game_instructions"]:
+		yield(Global.hud, "players_ready")
 	
 	# player	
 	current_players_in_game = get_tree().get_nodes_in_group(Global.group_players)
@@ -158,14 +157,7 @@ func set_game():
 	yield(get_tree().create_timer(0.3), "timeout")
 	
 	# strays
-	create_strays(start_strays_spawn_count) # var je za tutorial
-		
-	yield(get_tree().create_timer(0.01), "timeout") # da se vsi straysi spawnajo
-	var show_strays_loop: int = 0
-	strays_shown_on_start.clear()
-	while strays_shown_on_start.size() < start_strays_spawn_count:
-		show_strays_loop += 1
-		show_strays_on_start(show_strays_loop)
+	create_strays(start_strays_spawn_count)
 	
 	# gui		
 	yield(get_tree().create_timer(0.7), "timeout")
@@ -186,10 +178,15 @@ func set_game():
 
 func start_game():
 	
-	Global.hud.game_timer.start_timer()
-	Global.sound_manager.currently_playing_track_index = game_settings["game_track_index"]
+	# select music
+	if Global.tutorial_gui.tutorial_on:
+		Global.tutorial_gui.open_tutorial()
+		Global.sound_manager.current_music_track_index = Profiles.tutorial_music_track_index
+	else:
+		Global.sound_manager.current_music_track_index = game_settings["game_music_track_index"]
 	Global.sound_manager.play_music("game_music")
-	
+			
+	Global.hud.game_timer.start_timer()
 	for player in current_players_in_game:
 		if not game_settings ["zoom_to_level_size"]:
 			Global.game_camera.camera_target = player
@@ -197,7 +194,6 @@ func start_game():
 		
 	game_on = true
 	
-	# start respawning
 	if game_settings["respawn_strays_count"] > 0:
 		respawn_timer.start(first_respawn_time)
 
@@ -220,6 +216,7 @@ func game_over(gameover_reason: int):
 		get_tree().call_group(Global.group_players, "set_physics_process", true)
 	else:
 		Global.hud.game_timer.stop_timer()
+		
 		if gameover_reason == GameoverReason.CLEANED:
 			check_for_all_cleaned = true
 			yield(self, "all_strays_died")
@@ -228,11 +225,13 @@ func game_over(gameover_reason: int):
 				player.on_screen_cleaned()
 				signaling_player = player
 			yield(signaling_player, "rewarded_on_cleaned")
-		else: # samo pavza
+		else:
+			if Global.tutorial_gui.tutorial_on:
+				Global.tutorial_gui.finish_tutorial()
 			yield(get_tree().create_timer(Profiles.get_it_time), "timeout")
 			
-		get_tree().call_group(Global.group_players, "set_physics_process", false)
 		stop_game_elements()
+		get_tree().call_group(Global.group_players, "set_physics_process", false)
 		Global.current_tilemap.background_room.show()
 		Global.gameover_gui.open_gameover(gameover_reason)
 
@@ -240,6 +239,8 @@ func game_over(gameover_reason: int):
 func stop_game_elements():
 	# včasih nujno
 	
+	if Global.tutorial_gui.tutorial_on:
+		Global.tutorial_gui.finish_tutorial()
 	Global.hud.popups_out()
 	for player in current_players_in_game:
 		player.end_move()
@@ -419,8 +420,16 @@ func create_strays(strays_to_spawn_count: int):
 	else:	
 		Global.hud.spawn_color_indicators(all_stray_colors) # barve pokažem v hudu		
 
+	yield(get_tree().create_timer(0.01), "timeout") # da se vsi straysi spawnajo
 
-func show_strays_on_start(show_strays_loop: int):
+	var show_strays_loop: int = 0
+	strays_shown_on_start.clear()
+	while strays_shown_on_start.size() < start_strays_spawn_count:
+		show_strays_loop += 1
+		show_strays_in_loop(show_strays_loop)
+
+
+func show_strays_in_loop(show_strays_loop: int):
 
 	var spawn_shake_power: float = 0.30
 	var spawn_shake_time: float = 0.7

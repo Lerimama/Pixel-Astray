@@ -4,6 +4,8 @@ extends Control
 var fake_player_ranking: int = 100 # številka je ranking izven lestvice, da ni označenega plejerja
 
 onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
+
+onready var classic_table: VBoxContainer = $ClassicTable
 onready var cleaner_s_table: VBoxContainer = $CleanerSTable
 onready var cleaner_m_table: VBoxContainer = $CleanerMTable
 onready var cleaner_l_table: VBoxContainer = $CleanerLTable
@@ -16,6 +18,7 @@ onready var sweeper_table: VBoxContainer = $SweeperTable
 func _ready() -> void:
 	
 	
+	classic_table.get_highscore_table(Profiles.game_data_classic, fake_player_ranking)
 	cleaner_s_table.get_highscore_table(Profiles.game_data_cleaner_s, fake_player_ranking)
 	cleaner_m_table.get_highscore_table(Profiles.game_data_cleaner_m, fake_player_ranking)
 	cleaner_l_table.get_highscore_table(Profiles.game_data_cleaner_l, fake_player_ranking)

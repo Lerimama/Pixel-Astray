@@ -5,7 +5,7 @@ var game_sfx_set_to_off: bool = false
 var menu_music_set_to_off: bool = false
 var game_music_set_to_off: bool = false
 
-var currently_playing_track_index: int = 0 # ga ne resetiraš, da ostane v spominu skozi celo igro
+var current_music_track_index: int = 0 # ga ne resetiraš, da ostane v spominu skozi celo igro
 
 onready var game_music_node: Node2D = $Music/GameMusic
 onready var menu_music: AudioStreamPlayer = $Music/MenuMusic/WarmUpShort
@@ -45,25 +45,26 @@ func play_sfx(effect_for: String):
 			select_random_sfx($GameSfx/BlinkingStatic).play()
 		"thunder_strike": # intro in GM na strays spawn
 			$GameSfx/Burst.play()
-		"start_countdown_a":
-			$GameSfx/StartCoundownA.play()
-		"start_countdown_b":
-			$GameSfx/StartCoundownB.play()
-		"game_countdown_a":
-			$GameSfx/GameCoundownA.play()
-		"game_countdown_b":
-			$GameSfx/GameCoundownB.play()
-		"win_jingle":
-			$GameSfx/Win.play()
-		"lose_jingle":
-			$GameSfx/Loose.play()
-		"tutorial_stage_done":
-			$GameSfx/TutorialStageDone.play()
 	
 			
 func play_gui_sfx(effect_for: String):
 	
 	match effect_for:
+		# game
+		"start_countdown_a":
+			$GuiSfx/StartCoundownA.play()
+		"start_countdown_b":
+			$GuiSfx/StartCoundownB.play()
+		"game_countdown_a":
+			$GuiSfx/GameCoundownA.play()
+		"game_countdown_b":
+			$GuiSfx/GameCoundownB.play()
+		"win_jingle":
+			$GuiSfx/Win.play()
+		"lose_jingle":
+			$GuiSfx/Loose.play()
+		"tutorial_stage_done":
+			$GuiSfx/TutorialStageDone.play()
 		# input
 		"typing":
 			select_random_sfx($GuiSfx/Inputs/Typing).play()
@@ -106,7 +107,7 @@ func play_music(music_for: String):
 			if game_music_set_to_off:
 				return
 			# set track
-			var current_track_playing: Node = game_music_node.get_child(currently_playing_track_index)
+			var current_track_playing: Node = game_music_node.get_child(current_music_track_index)
 			current_track_playing.play()
 			Global.hud.music_track_label.text = current_track_playing.name
 			
@@ -140,10 +141,10 @@ func set_game_music_volume(value_on_slider: float): # kliče se iz settingsov
 		
 func skip_track():
 	
-	currently_playing_track_index += 1
+	current_music_track_index += 1
 	
-	if currently_playing_track_index >= game_music_node.get_child_count():
-		currently_playing_track_index = 0
+	if current_music_track_index >= game_music_node.get_child_count():
+		current_music_track_index = 0
 	
 	for track in game_music_node.get_children():
 		if track.is_playing():

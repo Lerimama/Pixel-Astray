@@ -241,50 +241,6 @@ volume_db = -25.0
 pitch_scale = 0.8
 bus = "GameSfx"
 
-[node name="Win" type="AudioStreamPlayer" parent="SoundManager/GameSfx"]
-stream = ExtResource( 38 )
-volume_db = -15.0
-bus = "GameMusic"
-
-[node name="Loose" type="AudioStreamPlayer" parent="SoundManager/GameSfx"]
-stream = ExtResource( 57 )
-volume_db = -5.0
-bus = "GameMusic"
-
-[node name="StartCoundownA" type="AudioStreamPlayer" parent="SoundManager/GameSfx"]
-stream = ExtResource( 22 )
-volume_db = -25.0
-bus = "GameSfx"
-
-[node name="StartCoundownB" type="AudioStreamPlayer" parent="SoundManager/GameSfx"]
-stream = ExtResource( 59 )
-volume_db = -15.0
-bus = "GameSfx"
-
-[node name="TutorialStageDone" type="AudioStreamPlayer" parent="SoundManager/GameSfx"]
-stream = ExtResource( 4 )
-volume_db = -13.0
-pitch_scale = 1.1
-bus = "GameSfx"
-
-[node name="GameCoundownA" type="AudioStreamPlayer" parent="SoundManager/GameSfx"]
-stream = ExtResource( 22 )
-volume_db = -25.0
-pitch_scale = 0.8
-bus = "GameSfx"
-
-[node name="GameCoundownB" type="AudioStreamPlayer" parent="SoundManager/GameSfx"]
-stream = ExtResource( 59 )
-volume_db = -15.0
-pitch_scale = 0.7
-bus = "GameSfx"
-
-[node name="ReburstReward" type="AudioStreamPlayer" parent="SoundManager/GameSfx"]
-stream = ExtResource( 4 )
-volume_db = -20.0
-pitch_scale = 1.2
-bus = "GameSfx"
-
 [node name="GuiSfx" type="Node2D" parent="SoundManager"]
 
 [node name="Inputs" type="Node2D" parent="SoundManager/GuiSfx"]
@@ -347,6 +303,50 @@ bus = "Gui"
 stream = ExtResource( 28 )
 pitch_scale = 0.9
 bus = "Gui"
+
+[node name="StartCoundownA" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
+stream = ExtResource( 22 )
+volume_db = -25.0
+bus = "Gui"
+
+[node name="StartCoundownB" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
+stream = ExtResource( 59 )
+volume_db = -15.0
+bus = "Gui"
+
+[node name="TutorialStageDone" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
+stream = ExtResource( 4 )
+volume_db = -13.0
+pitch_scale = 1.1
+bus = "Gui"
+
+[node name="GameCoundownA" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
+stream = ExtResource( 22 )
+volume_db = -25.0
+pitch_scale = 0.8
+bus = "Gui"
+
+[node name="GameCoundownB" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
+stream = ExtResource( 59 )
+volume_db = -15.0
+pitch_scale = 0.7
+bus = "Gui"
+
+[node name="ReburstReward" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
+stream = ExtResource( 4 )
+volume_db = -20.0
+pitch_scale = 1.2
+bus = "Gui"
+
+[node name="Win" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
+stream = ExtResource( 38 )
+volume_db = -15.0
+bus = "GameMusic"
+
+[node name="Loose" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
+stream = ExtResource( 57 )
+volume_db = -5.0
+bus = "GameMusic"
 
 [node name="Music" type="Node2D" parent="SoundManager"]
 
@@ -491,6 +491,7 @@ bus = "GameSfx"
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="SoundManager"]
 
 [node name="PerformanceStats" type="Node2D" parent="."]
+visible = false
 position = Vector2( 16, 16 )
 z_index = 20
 script = ExtResource( 15 )

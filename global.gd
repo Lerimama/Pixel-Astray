@@ -49,7 +49,7 @@ var color_hud_text: Color = color_almost_white_text # za vse, ki modulirajo barv
 
 # pixel colors
 var color_white_pixel: Color = Color("#ffffff")
-var color_almost_black_pixel: Color = Color("#141414") # start tutorial player (da se vidi tekst)
+var color_almost_black_pixel: Color = Color("#141414") 
 var color_dark_gray_pixel: Color = Color("#323232") # start normal
 
 var strays_on_screen: Array = [] # za indikatorje

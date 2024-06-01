@@ -109,7 +109,7 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 				return
 			current_screen = Screens.SELECT_GAME
 			current_esc_hint = $SelectGame/EscHint
-			Global.grab_focus_no_sfx($SelectGame/GamesMenu/Tutorial/TutorialBtn)
+			Global.grab_focus_no_sfx($SelectGame/GamesMenu/Classic/ClassicBtn)
 		"about":
 			if animation_reversed(Screens.ABOUT):
 				Global.grab_focus_no_sfx($Menu/AboutBtn)

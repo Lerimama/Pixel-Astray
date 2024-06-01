@@ -1,17 +1,331 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=1]
 [ext_resource path="res://game/gui/game_over.tscn" type="PackedScene" id=2]
 [ext_resource path="res://game/arena.tscn" type="PackedScene" id=3]
 [ext_resource path="res://game/gui/hud.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=5]
+[ext_resource path="res://assets/theme/color_theme_spectrum.png" type="Texture" id=6]
+[ext_resource path="res://game/gui/tutorial_gui.gd" type="Script" id=7]
+[ext_resource path="res://assets/atlas_controls.png" type="Texture" id=8]
+[ext_resource path="res://game/gui/action_hint.tscn" type="PackedScene" id=9]
+[ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=10]
 [ext_resource path="res://game/gui/pause_gui.tscn" type="PackedScene" id=11]
+[ext_resource path="res://game/gui/controls_scheme.tscn" type="PackedScene" id=12]
 [ext_resource path="res://game/player_camera.tscn" type="PackedScene" id=18]
 [ext_resource path="res://game/managers/game_manager.gd" type="Script" id=19]
 
+[sub_resource type="StyleBoxEmpty" id=346]
+
+[sub_resource type="AtlasTexture" id=351]
+atlas = ExtResource( 8 )
+region = Rect2( 138, 22, 22, 22 )
+margin = Rect2( -2, 2, 0, 0 )
+
+[sub_resource type="Animation" id=352]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Checkpoints:rect_position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( -416, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Checkpoints:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("../../GameView/ViewportContainer:rect_position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 0, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("../../GameView/ViewportContainer:rect_size:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 1280, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0 )
+}
+
+[sub_resource type="Animation" id=355]
+resource_name = "tutorial_end_with_sidebar"
+length = 1.7
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("../../GameView/ViewportContainer:rect_size:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 888, 0, 0, 0.5, 0, 888, -0.5, 0, 0.7, 0, 1280, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 0.3, 1.7 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("../../GameView/ViewportContainer:rect_position:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 392, 0, 0, 0.5, 0, 392, -0.5, 0, 0.7, 0, 0, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 0.3, 1.7 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Checkpoints:rect_position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 32, 0, 0, 0.5, 0, 32, 0, 0, 0.7, 0, -416, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 0.3, 1.7 )
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Checkpoints:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=356]
+resource_name = "tutorial_start_with_sidebar"
+length = 1.5
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("../../GameView/ViewportContainer:rect_size:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 1280, 0, 0, 0.6, 0, 888, -1, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1.5 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("../../GameView/ViewportContainer:rect_position:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 0, 0, 0, 0.6, 0, 392, -1, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1.5 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Checkpoints:rect_position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( -416, 0, 0, 0.6, 0, 32, -1, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1.5 )
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Checkpoints:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.1, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="StyleBoxEmpty" id=327]
+
+[sub_resource type="StreamTexture" id=347]
+load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
+
+[sub_resource type="AtlasTexture" id=329]
+atlas = SubResource( 347 )
+region = Rect2( 16, 16, 14, 16 )
+
+[sub_resource type="AtlasTexture" id=330]
+atlas = SubResource( 347 )
+region = Rect2( 0, 16, 10, 16 )
+
+[sub_resource type="StyleBoxFlat" id=331]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+expand_margin_left = 6.0
+expand_margin_right = 6.0
+expand_margin_top = 2.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxEmpty" id=332]
+
+[sub_resource type="StyleBoxEmpty" id=333]
+
+[sub_resource type="StyleBoxLine" id=334]
+color = Color( 1, 1, 1, 1 )
+thickness = 2
+
+[sub_resource type="AtlasTexture" id=335]
+atlas = SubResource( 347 )
+region = Rect2( 32, 0, 10, 10 )
+
+[sub_resource type="StyleBoxEmpty" id=336]
+
+[sub_resource type="StyleBoxFlat" id=337]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+expand_margin_left = 6.0
+expand_margin_top = 6.0
+expand_margin_bottom = 6.0
+
+[sub_resource type="StreamTexture" id=338]
+load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
+
+[sub_resource type="AtlasTexture" id=348]
+atlas = SubResource( 338 )
+region = Rect2( 0, 4, 16, 8 )
+
+[sub_resource type="StyleBoxTexture" id=340]
+texture = SubResource( 348 )
+region_rect = Rect2( 0, 0, 16, 8 )
+margin_left = 3.34132
+margin_right = 4.0
+margin_top = 4.0
+margin_bottom = 4.0
+modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+
+[sub_resource type="StyleBoxFlat" id=341]
+bg_color = Color( 0, 0, 0, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="AtlasTexture" id=342]
+atlas = SubResource( 347 )
+region = Rect2( 16, 0, 16, 12 )
+margin = Rect2( 4, 0, 0, 0 )
+
+[sub_resource type="StyleBoxFlat" id=343]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 0.901961 )
+expand_margin_left = 6.0
+expand_margin_right = 6.0
+expand_margin_top = 2.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxFlat" id=344]
+bg_color = Color( 0, 0, 0, 0.862745 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
+
+[sub_resource type="StyleBoxLine" id=345]
+color = Color( 1, 1, 1, 1 )
+thickness = 2
+vertical = true
+
+[sub_resource type="Theme" id=349]
+default_font = ExtResource( 10 )
+Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
+Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
+Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
+Button/styles/disabled = SubResource( 327 )
+Button/styles/focus = SubResource( 327 )
+Button/styles/hover = SubResource( 327 )
+Button/styles/normal = SubResource( 327 )
+Button/styles/pressed = SubResource( 327 )
+CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
+CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
+CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
+CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
+CheckBox/constants/hseparation = 4
+CheckBox/icons/checked = SubResource( 329 )
+CheckBox/icons/unchecked = SubResource( 330 )
+CheckBox/styles/focus = SubResource( 331 )
+CheckBox/styles/hover = SubResource( 331 )
+CheckBox/styles/hover_pressed = SubResource( 331 )
+CheckBox/styles/normal = SubResource( 332 )
+CheckBox/styles/pressed = SubResource( 333 )
+HSeparator/styles/separator = SubResource( 334 )
+HSlider/icons/grabber = SubResource( 335 )
+HSlider/icons/grabber_disabled = null
+HSlider/icons/grabber_highlight = SubResource( 335 )
+HSlider/icons/tick = null
+HSlider/styles/grabber_area = SubResource( 336 )
+HSlider/styles/grabber_area_highlight = SubResource( 337 )
+HSlider/styles/slider = SubResource( 340 )
+Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
+Label/constants/line_spacing = 6
+LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
+LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
+LineEdit/styles/normal = SubResource( 341 )
+OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+OptionButton/icons/arrow = SubResource( 342 )
+OptionButton/styles/focus = SubResource( 343 )
+OptionButton/styles/hover = SubResource( 343 )
+OptionButton/styles/pressed = SubResource( 343 )
+Panel/styles/panel = SubResource( 344 )
+VSeparator/styles/separator = SubResource( 345 )
+
+[sub_resource type="StyleBoxFlat" id=350]
+content_margin_left = 21.0
+content_margin_right = 19.0
+content_margin_top = 13.0
+content_margin_bottom = 17.0
+bg_color = Color( 0, 0, 0, 0.823529 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+
 [node name="Game" type="Node2D"]
 __meta__ = {
-"_edit_horizontal_guides_": [ 1371.0, 1371.0, 320.0, 576.0, 208.0, 128.0, 384.0, 25.0, 707.0 ],
-"_edit_vertical_guides_": [ 320.0, 640.0, 960.0, 32.0, 1248.0 ]
+"_edit_horizontal_guides_": [ 1371.0, 1371.0, 320.0, 576.0, 208.0, 128.0, 384.0, 88.0, 707.0 ],
+"_edit_vertical_guides_": [ 360.0, 640.0, 960.0, 32.0, 1248.0, 408.0 ]
 }
 
 [node name="GameManager" type="Node" parent="."]
@@ -27,32 +341,25 @@ unique_name_in_owner = true
 margin_right = 1280.0
 rect_min_size = Vector2( 1280, 0 )
 
-[node name="Viewports" type="HBoxContainer" parent="GameView"]
-margin_right = 1280.0
-margin_bottom = 720.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_constants/separation = 0
-
-[node name="ViewportContainer1" type="ViewportContainer" parent="GameView/Viewports"]
+[node name="ViewportContainer" type="ViewportContainer" parent="GameView"]
 margin_right = 1280.0
 margin_bottom = 720.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch = true
 
-[node name="Viewport1" type="Viewport" parent="GameView/Viewports/ViewportContainer1"]
+[node name="Viewport" type="Viewport" parent="GameView/ViewportContainer"]
 unique_name_in_owner = true
 size = Vector2( 1280, 720 )
 handle_input_locally = false
 render_target_update_mode = 3
 
-[node name="Arena" parent="GameView/Viewports/ViewportContainer1/Viewport1" instance=ExtResource( 3 )]
+[node name="Arena" parent="GameView/ViewportContainer/Viewport" instance=ExtResource( 3 )]
 __meta__ = {
 "_edit_horizontal_guides_": [ 44.0, 32.0, 20.0, 64.0, 660.0, 688.0, 676.0, 648.0 ]
 }
 
-[node name="PlayerCamera" parent="GameView/Viewports/ViewportContainer1/Viewport1" instance=ExtResource( 18 )]
+[node name="PlayerCamera" parent="GameView/ViewportContainer/Viewport" instance=ExtResource( 18 )]
 
 [node name="ViewFuter" type="ColorRect" parent="GameView"]
 unique_name_in_owner = true
@@ -71,6 +378,807 @@ __meta__ = {
 }
 
 [node name="Hud" parent="GUI" instance=ExtResource( 4 )]
+
+[node name="Tutorial" type="Control" parent="GUI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 1280, 720 )
+script = ExtResource( 7 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Checkpoints" type="Control" parent="GUI/Tutorial"]
+margin_left = -416.0
+margin_top = 70.0
+margin_right = -64.0
+margin_bottom = 608.0
+grow_horizontal = 2
+
+[node name="Background" type="ColorRect" parent="GUI/Tutorial/Checkpoints"]
+margin_left = -32.0
+margin_top = -30.0
+margin_right = 360.0
+margin_bottom = 610.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 0.470588 )
+
+[node name="TravelingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -8.0
+rect_min_size = Vector2( 0, 232 )
+
+[node name="Title" type="Label" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
+margin_right = 156.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 0, 30 )
+theme_type_variation = "Lerimama_lite"
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+custom_styles/normal = SubResource( 346 )
+text = "01 Traveling"
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Line4" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
+margin_top = 42.0
+margin_right = 432.0
+margin_bottom = 96.0
+bbcode_enabled = true
+bbcode_text = "Use ARROW or WASD keys for keyboard
+control or DIRECTIONAL PAD on joypad
+to travel around."
+text = "Use ARROW or WASD keys for keyboard
+control or DIRECTIONAL PAD on joypad
+to travel around."
+fit_content_height = true
+scroll_active = false
+
+[node name="Tips" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
+margin_top = 130.0
+margin_right = 360.0
+margin_bottom = 154.0
+custom_colors/default_color = Color( 1, 1, 1, 0.470588 )
+bbcode_enabled = true
+bbcode_text = "HINTS"
+text = "HINTS"
+fit_content_height = true
+scroll_active = false
+
+[node name="Line2" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
+margin_top = 162.0
+margin_right = 352.0
+margin_bottom = 240.0
+bbcode_enabled = true
+bbcode_text = "Traveling around costs energy, and your stepping speed depends on it. So, keep 
+an eye on your energy bar. "
+text = "Traveling around costs energy, and your stepping speed depends on it. So, keep 
+an eye on your energy bar. "
+fit_content_height = true
+scroll_active = false
+
+[node name="BurstingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 0, 232 )
+
+[node name="Title" type="Label" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+margin_right = 480.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 0, 30 )
+theme_type_variation = "Lerimama_lite"
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+custom_styles/normal = SubResource( 346 )
+text = "Collecting colors"
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Line" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+margin_top = 42.0
+margin_right = 360.0
+margin_bottom = 90.0
+bbcode_enabled = true
+bbcode_text = "Collect colors from stray pixels by hitting
+them with a burst."
+text = "Collect colors from stray pixels by hitting
+them with a burst."
+fit_content_height = true
+scroll_active = false
+
+[node name="Line5" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+margin_top = 98.0
+margin_right = 336.0
+margin_bottom = 194.0
+bbcode_enabled = true
+bbcode_text = "Press and hold BURST KEY to initiate
+the burst and build power by pressing 
+DIRECTION KEY in the direction away
+from the target."
+text = "Press and hold BURST KEY to initiate
+the burst and build power by pressing 
+DIRECTION KEY in the direction away
+from the target."
+fit_content_height = true
+scroll_active = false
+
+[node name="Line7" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+margin_top = 202.0
+margin_right = 336.0
+margin_bottom = 226.0
+bbcode_enabled = true
+bbcode_text = "Release BURST KEY to unleash the burst!"
+text = "Release BURST KEY to unleash the burst!"
+fit_content_height = true
+scroll_active = false
+
+[node name="Line8" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+margin_top = 233.0
+margin_right = 440.0
+margin_bottom = 257.0
+bbcode_enabled = true
+bbcode_text = "To stop mid-burst press BURST KEY again."
+text = "To stop mid-burst press BURST KEY again."
+fit_content_height = true
+scroll_active = false
+
+[node name="Tips" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+margin_top = 274.0
+margin_right = 360.0
+margin_bottom = 298.0
+custom_colors/default_color = Color( 1, 1, 1, 0.470588 )
+bbcode_enabled = true
+bbcode_text = "HINTS"
+text = "HINTS"
+fit_content_height = true
+scroll_active = false
+
+[node name="Line3" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+margin_top = 305.0
+margin_right = 392.0
+margin_bottom = 353.0
+bbcode_enabled = true
+bbcode_text = "You lose life if you hit the screen edge 
+with burst"
+text = "You lose life if you hit the screen edge 
+with burst"
+fit_content_height = true
+scroll_active = false
+
+[node name="Line4" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+margin_top = 362.0
+margin_right = 320.0
+margin_bottom = 446.0
+bbcode_enabled = true
+bbcode_text = "White pixels act like screen edge. You eliminate them by destroying colored pixel beside them."
+text = "White pixels act like screen edge. You eliminate them by destroying colored pixel beside them."
+fit_content_height = true
+scroll_active = false
+
+[node name="Line9" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
+visible = false
+margin_top = 374.0
+margin_right = 400.0
+margin_bottom = 446.0
+bbcode_enabled = true
+bbcode_text = "You get %1 points for every color you collect, and %01 points for every white pixel eliminated."
+text = "You get %1 points for every color you collect, and %01 points for every white pixel eliminated."
+fit_content_height = true
+scroll_active = false
+
+[node name="SkillingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 0, 232 )
+
+[node name="Title" type="Label" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
+margin_right = 480.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 0, 30 )
+theme_type_variation = "Lerimama_lite"
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+custom_styles/normal = SubResource( 346 )
+text = "Using Skills"
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Line" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
+margin_top = 42.0
+margin_right = 328.0
+margin_bottom = 90.0
+bbcode_enabled = true
+bbcode_text = "Use skills and handle with colored pixels
+or teleport over the white ones."
+text = "Use skills and handle with colored pixels
+or teleport over the white ones."
+fit_content_height = true
+scroll_active = false
+
+[node name="Line3" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
+margin_top = 98.0
+margin_right = 336.0
+margin_bottom = 218.0
+bbcode_enabled = true
+bbcode_text = "Press DIRECTION KEY in the direction 
+towards a pixel, you are touching 
+to connect to it. Then move into the
+direction towards the pixel to push 
+or away from it to pull."
+text = "Press DIRECTION KEY in the direction 
+towards a pixel, you are touching 
+to connect to it. Then move into the
+direction towards the pixel to push 
+or away from it to pull."
+fit_content_height = true
+scroll_active = false
+
+[node name="Line5" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
+margin_top = 226.0
+margin_right = 384.0
+margin_bottom = 280.0
+size_flags_vertical = 3
+bbcode_enabled = true
+bbcode_text = "Teleport over a white pixel the same
+way you would push the colored one."
+text = "Teleport over a white pixel the same
+way you would push the colored one."
+fit_content_height = true
+scroll_active = false
+
+[node name="Line2" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
+margin_top = 325.0
+margin_right = 336.0
+margin_bottom = 421.0
+bbcode_enabled = true
+bbcode_text = "Use skills to arange coros intro large stacks or to eliminate singled-out 
+white pixels."
+text = "Use skills to arange coros intro large stacks or to eliminate singled-out 
+white pixels."
+fit_content_height = true
+scroll_active = false
+
+[node name="Tips" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
+margin_top = 290.0
+margin_right = 360.0
+margin_bottom = 314.0
+custom_colors/default_color = Color( 1, 1, 1, 0.470588 )
+bbcode_enabled = true
+bbcode_text = "HINT"
+text = "HINT"
+fit_content_height = true
+scroll_active = false
+
+[node name="StackingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 0, 232 )
+
+[node name="Title" type="Label" parent="GUI/Tutorial/Checkpoints/StackingContent"]
+margin_right = 480.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 0, 30 )
+theme_type_variation = "Lerimama_lite"
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+custom_styles/normal = SubResource( 346 )
+text = "Stacks of color"
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Line" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/StackingContent"]
+margin_top = 42.0
+margin_right = 312.0
+margin_bottom = 90.0
+bbcode_enabled = true
+bbcode_text = "Find a stack of colors and collect
+multiple colors with a powerful burst. "
+text = "Find a stack of colors and collect
+multiple colors with a powerful burst. "
+fit_content_height = true
+scroll_active = false
+
+[node name="Tips" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/StackingContent"]
+margin_top = 162.0
+margin_right = 360.0
+margin_bottom = 186.0
+custom_colors/default_color = Color( 1, 1, 1, 0.470588 )
+bbcode_enabled = true
+bbcode_text = "HINTS"
+text = "HINTS"
+fit_content_height = true
+scroll_active = false
+
+[node name="Line2" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/StackingContent"]
+margin_top = 98.0
+margin_right = 360.0
+margin_bottom = 152.0
+bbcode_enabled = true
+bbcode_text = "The amount of colors collected depends
+on the power of burst. "
+text = "The amount of colors collected depends
+on the power of burst. "
+fit_content_height = true
+scroll_active = false
+
+[node name="Line3" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/StackingContent"]
+margin_top = 194.0
+margin_right = 360.0
+margin_bottom = 248.0
+bbcode_enabled = true
+bbcode_text = "Bursting with maximum power will always
+collect all colors in stack."
+text = "Bursting with maximum power will always
+collect all colors in stack."
+fit_content_height = true
+scroll_active = false
+
+[node name="Line4" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/StackingContent"]
+margin_top = 250.0
+margin_right = 368.0
+margin_bottom = 322.0
+bbcode_enabled = true
+bbcode_text = "Collecting multiple colors with a single
+burst will multiply earned points for 
+every additional color collected."
+text = "Collecting multiple colors with a single
+burst will multiply earned points for 
+every additional color collected."
+fit_content_height = true
+scroll_active = false
+
+[node name="Line5" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/StackingContent"]
+margin_top = 250.0
+margin_right = 368.0
+margin_bottom = 322.0
+bbcode_enabled = true
+bbcode_text = "You get %s points for every colored, and %s points
+ for every white pixel destroyed."
+text = "You get %s points for every colored, and %s points
+ for every white pixel destroyed."
+fit_content_height = true
+scroll_active = false
+
+[node name="Line10" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/StackingContent"]
+margin_left = -456.0
+margin_top = 314.0
+margin_right = 24.0
+margin_bottom = 338.0
+bbcode_text = "Release the BURST KEY to unleash the burst!"
+text = "Release the BURST KEY to unleash the burst!"
+fit_content_height = true
+scroll_active = false
+
+[node name="Content2" type="Label" parent="GUI/Tutorial/Checkpoints/StackingContent"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -672.0
+margin_top = 362.0
+margin_right = -320.0
+margin_bottom = 380.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 5 )
+text = "Get ready to dive in and become a pro!"
+align = 1
+autowrap = true
+
+[node name="WinLoseContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
+visible = false
+margin_right = 480.0
+margin_bottom = 443.0
+rect_min_size = Vector2( 0, 232 )
+rect_clip_content = true
+
+[node name="Title" type="Label" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
+margin_right = 480.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 0, 30 )
+theme_type_variation = "Lerimama_lite"
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+custom_styles/normal = SubResource( 346 )
+text = "05 WIN OR LOSE"
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Line4" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
+margin_top = 250.0
+margin_right = 480.0
+margin_bottom = 274.0
+bbcode_enabled = true
+bbcode_text = "Clean all remaining stray pixels 
+to finish the tutorial."
+text = "Clean all remaining stray pixels 
+to finish the tutorial."
+fit_content_height = true
+scroll_active = false
+
+[node name="Line" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
+margin_top = 28.0
+margin_right = 480.0
+margin_bottom = 130.0
+bbcode_enabled = true
+bbcode_text = "[b].[/b] You win the game if you clean the screen of 
+all stray pixels and reclaim your \"one and only\" 
+status. You will also be rewarded %s bonus 
+points if you succeed."
+text = ". You win the game if you clean the screen of 
+all stray pixels and reclaim your \"one and only\" 
+status. You will also be rewarded %s bonus 
+points if you succeed."
+fit_content_height = true
+scroll_active = false
+
+[node name="Line2" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
+margin_top = 132.0
+margin_right = 480.0
+margin_bottom = 234.0
+bbcode_enabled = true
+bbcode_text = "[b].[/b] You lose the game if you run out of life or 
+if you are eternally stuck among stray pixels. 
+Not reaching a goal when time is limited can 
+also be a reason to lose the game."
+text = ". You lose the game if you run out of life or 
+if you are eternally stuck among stray pixels. 
+Not reaching a goal when time is limited can 
+also be a reason to lose the game."
+fit_content_height = true
+scroll_active = false
+
+[node name="Line3" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
+visible = false
+margin_top = 276.0
+margin_right = 488.0
+margin_bottom = 378.0
+bbcode_enabled = true
+bbcode_text = "[b].[/b] Some rules on life, energy, and the difference 
+between winning and losing may change depending
+on the game you are playing. Changes are
+described on the pre-game screen."
+text = ". Some rules on life, energy, and the difference 
+between winning and losing may change depending
+on the game you are playing. Changes are
+described on the pre-game screen."
+fit_content_height = true
+scroll_active = false
+
+[node name="Controls" parent="GUI/Tutorial/Checkpoints" instance=ExtResource( 12 )]
+margin_left = 1.0
+margin_top = 458.0
+margin_right = 321.0
+margin_bottom = 578.0
+
+[node name="ActionHint" parent="GUI/Tutorial" instance=ExtResource( 9 )]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -215.0
+margin_top = 630.0
+margin_right = 39.0
+margin_bottom = 652.0
+
+[node name="Label" parent="GUI/Tutorial/ActionHint" index="0"]
+margin_right = 254.0
+text = "Use pause menu to skip tutorial"
+
+[node name="KEY" parent="GUI/Tutorial/ActionHint" index="1"]
+visible = false
+margin_left = 262.0
+margin_right = 295.0
+
+[node name="Label2" parent="GUI/Tutorial/ActionHint" index="2"]
+visible = false
+margin_left = 262.0
+margin_right = 279.0
+
+[node name="Jp" parent="GUI/Tutorial/ActionHint" index="3"]
+visible = false
+margin_left = 262.0
+margin_right = 284.0
+texture = SubResource( 351 )
+
+[node name="Label3" parent="GUI/Tutorial/ActionHint" index="4"]
+visible = false
+margin_left = 262.0
+margin_right = 329.0
+text = "to start"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/Tutorial"]
+anims/RESET = SubResource( 352 )
+anims/tutorial_end_with_sidebar = SubResource( 355 )
+anims/tutorial_start_with_sidebar = SubResource( 356 )
+
+[node name="HudGuide" type="Control" parent="GUI/Tutorial"]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="PlayerLabel" type="Label" parent="GUI/Tutorial/HudGuide"]
+self_modulate = Color( 0.368627, 1, 0.662745, 1 )
+margin_left = 32.0
+margin_top = 58.0
+margin_right = 130.0
+margin_bottom = 76.0
+custom_fonts/font = ExtResource( 5 )
+text = "Life, energy, Collected colors and Score"
+uppercase = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Line2D" type="Line2D" parent="GUI/Tutorial/HudGuide/PlayerLabel"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+position = Vector2( -14, 6 )
+points = PoolVector2Array( 40, -32, 40, -8 )
+width = 0.5
+default_color = Color( 1, 1, 1, 1 )
+antialiased = true
+
+[node name="Line2D2" type="Line2D" parent="GUI/Tutorial/HudGuide/PlayerLabel"]
+visible = false
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+position = Vector2( 33, 6 )
+points = PoolVector2Array( 40, -32, 40, -8 )
+width = 0.5
+default_color = Color( 1, 1, 1, 1 )
+antialiased = true
+
+[node name="Line2D4" type="Line2D" parent="GUI/Tutorial/HudGuide/PlayerLabel"]
+visible = false
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+position = Vector2( 116, 6 )
+points = PoolVector2Array( 40, -32, 40, -8 )
+width = 0.5
+default_color = Color( 1, 1, 1, 1 )
+antialiased = true
+
+[node name="Line2D5" type="Line2D" parent="GUI/Tutorial/HudGuide/PlayerLabel"]
+visible = false
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+position = Vector2( 170, 6 )
+points = PoolVector2Array( 40, -32, 40, -8 )
+width = 0.5
+default_color = Color( 1, 1, 1, 1 )
+antialiased = true
+
+[node name="TimeLabel" type="Label" parent="GUI/Tutorial/HudGuide"]
+self_modulate = Color( 0.368627, 1, 0.662745, 1 )
+margin_left = 556.0
+margin_top = 58.0
+margin_right = 637.0
+margin_bottom = 76.0
+custom_fonts/font = ExtResource( 5 )
+text = "Game time"
+uppercase = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Line2D3" type="Line2D" parent="GUI/Tutorial/HudGuide/TimeLabel"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+position = Vector2( -39, 6 )
+points = PoolVector2Array( 80, -32, 80, -8 )
+width = 0.5
+default_color = Color( 1, 1, 1, 1 )
+antialiased = true
+
+[node name="MusicLabel" type="Label" parent="GUI/Tutorial/HudGuide"]
+self_modulate = Color( 0.368627, 1, 0.662745, 1 )
+margin_left = 667.0
+margin_top = 58.0
+margin_right = 835.0
+margin_bottom = 76.0
+custom_fonts/font = ExtResource( 5 )
+text = "Current music track"
+uppercase = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Line2D2" type="Line2D" parent="GUI/Tutorial/HudGuide/MusicLabel"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+position = Vector2( -34, 4 )
+points = PoolVector2Array( 83, -30, 83, -6 )
+width = 0.5
+default_color = Color( 1, 1, 1, 1 )
+antialiased = true
+
+[node name="HighscoreLabel" type="Label" parent="GUI/Tutorial/HudGuide"]
+self_modulate = Color( 0.368627, 1, 0.662745, 1 )
+margin_left = 1101.0
+margin_top = 58.0
+margin_right = 1250.0
+margin_bottom = 76.0
+grow_horizontal = 0
+custom_fonts/font = ExtResource( 5 )
+text = "Current game highscore"
+align = 2
+uppercase = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Line2D" type="Line2D" parent="GUI/Tutorial/HudGuide/HighscoreLabel"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+position = Vector2( 38, -4 )
+points = PoolVector2Array( 105, -22, 105, 2 )
+width = 0.5
+default_color = Color( 1, 1, 1, 1 )
+antialiased = true
+
+[node name="GameLabel" type="Label" parent="GUI/Tutorial/HudGuide"]
+self_modulate = Color( 0.368627, 1, 0.662745, 1 )
+margin_left = 31.0
+margin_top = 640.0
+margin_right = 157.0
+margin_bottom = 658.0
+custom_fonts/font = ExtResource( 5 )
+text = "Game and level"
+uppercase = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Line2D2" type="Line2D" parent="GUI/Tutorial/HudGuide/GameLabel"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+position = Vector2( 0, 56 )
+points = PoolVector2Array( 57, -8, 57, -32 )
+width = 0.5
+default_color = Color( 1, 1, 1, 1 )
+antialiased = true
+
+[node name="SpectrumLabel" type="Label" parent="GUI/Tutorial/HudGuide"]
+self_modulate = Color( 0.368627, 1, 0.662745, 1 )
+margin_left = 427.5
+margin_top = 640.0
+margin_right = 852.5
+margin_bottom = 658.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 5 )
+text = "Indicator of picked and available colors"
+align = 1
+uppercase = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Line2D" type="Line2D" parent="GUI/Tutorial/HudGuide/SpectrumLabel"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+position = Vector2( 136, 59 )
+points = PoolVector2Array( 76.5, -35, 76.5, -11 )
+width = 0.5
+default_color = Color( 1, 1, 1, 1 )
+antialiased = true
+
+[node name="AstrayLabel" type="Label" parent="GUI/Tutorial/HudGuide"]
+self_modulate = Color( 0.368627, 1, 0.662745, 1 )
+margin_left = 1012.0
+margin_top = 640.0
+margin_right = 1249.0
+margin_bottom = 658.0
+grow_horizontal = 0
+custom_fonts/font = ExtResource( 5 )
+text = "Pixels still astray"
+align = 2
+uppercase = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Line2D" type="Line2D" parent="GUI/Tutorial/HudGuide/AstrayLabel"]
+visible = false
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+position = Vector2( 27, 58 )
+points = PoolVector2Array( 104, -10, 104, -34 )
+width = 0.5
+default_color = Color( 1, 1, 1, 1 )
+antialiased = true
+
+[node name="Line2D2" type="Line2D" parent="GUI/Tutorial/HudGuide/AstrayLabel"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+position = Vector2( 109, 58 )
+points = PoolVector2Array( 104, -10, 104, -34 )
+width = 0.5
+default_color = Color( 1, 1, 1, 1 )
+antialiased = true
+
+[node name="Spectrum" type="TextureRect" parent="GUI/Tutorial/HudGuide"]
+visible = false
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -440.0
+margin_top = -25.0
+margin_right = 430.0
+margin_bottom = -13.0
+rect_min_size = Vector2( 0, 12 )
+texture = ExtResource( 6 )
+expand = true
+
+[node name="MissionPanel" type="Control" parent="GUI/Tutorial"]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -232.0
+margin_top = -40.0
+margin_right = 216.0
+margin_bottom = 248.0
+theme = SubResource( 349 )
+
+[node name="Panel" type="Panel" parent="GUI/Tutorial/MissionPanel"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+custom_styles/panel = SubResource( 350 )
+
+[node name="Content" type="Label" parent="GUI/Tutorial/MissionPanel"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -195.0
+margin_top = 48.0
+margin_right = 194.0
+margin_bottom = 114.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 5 )
+text = "Learn the basics of the game.
+Follow instructions and hints to smoothly
+navigate through all five stages. "
+align = 1
+autowrap = true
+
+[node name="Content2" type="Label" parent="GUI/Tutorial/MissionPanel"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -177.0
+margin_top = 136.0
+margin_right = 175.0
+margin_bottom = 154.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 5 )
+text = "Get ready to dive in and become a pro!"
+align = 1
+autowrap = true
+
+[node name="ActionHint" parent="GUI/Tutorial/MissionPanel" instance=ExtResource( 9 )]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -124.0
+margin_top = 190.0
+margin_right = 124.0
+margin_bottom = 212.0
+
+[node name="KEY" parent="GUI/Tutorial/MissionPanel/ActionHint" index="1"]
+margin_right = 118.0
+text = "RETURN"
+
+[node name="Label2" parent="GUI/Tutorial/MissionPanel/ActionHint" index="2"]
+margin_left = 126.0
+margin_right = 143.0
+
+[node name="Jp" parent="GUI/Tutorial/MissionPanel/ActionHint" index="3"]
+margin_left = 151.0
+margin_right = 173.0
+texture = SubResource( 351 )
+
+[node name="Label3" parent="GUI/Tutorial/MissionPanel/ActionHint" index="4"]
+margin_left = 181.0
+margin_right = 248.0
+text = "to start"
 
 [node name="PauseMenu" parent="GUI" instance=ExtResource( 11 )]
 __meta__ = {
@@ -100,6 +1208,9 @@ text = "NEXT SCREEN"
 wait_time = 5.0
 one_shot = true
 
+[connection signal="animation_finished" from="GUI/Tutorial/AnimationPlayer" to="GUI/Tutorial" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="RespawnTimer" to="GameManager" method="_on_RespawnTimer_timeout"]
 
+[editable path="GUI/Tutorial/ActionHint"]
+[editable path="GUI/Tutorial/MissionPanel/ActionHint"]
 [editable path="GUI/GameOver"]

@@ -1,6 +1,8 @@
 extends Control
 
+
 onready var title: Label = $Title
+
 
 func _input(event: InputEvent) -> void:
 	
@@ -52,6 +54,13 @@ func pause_game():
 	
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	
+	# pokažem skip tutorial gumb
+	var skip_tut_btn: Button = $Menu/SkipTutBtn
+	if Global.tutorial_gui.tutorial_on:
+		skip_tut_btn.show()
+	else:
+		skip_tut_btn.hide()
+
 	Global.grab_focus_no_sfx($Menu/PlayBtn)
 	
 	var pause_in_time: float = 0.5
@@ -74,6 +83,22 @@ func play_on():
 	fade_out_tween.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
 
 
+func play_without_tutorial():
+	
+	get_viewport().set_disable_input(true) # anti dablklik
+	
+	Global.sound_manager.play_gui_sfx("screen_slide")
+	
+	var pause_out_time: float = 0.5
+	var fade_out_tween = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+	fade_out_tween.tween_property(self, "modulate:a", 0, pause_out_time)
+	fade_out_tween.tween_callback(self, "hide")
+	fade_out_tween.tween_callback(get_tree(), "set_pause", [false])
+	fade_out_tween.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
+	fade_out_tween.tween_callback(Global.tutorial_gui, "finish_tutorial")
+#	Global.tutorial_gui.finish_tutorial()
+
+
 # MENU ---------------------------------------------------------------------------------------------
 	
 
@@ -90,7 +115,13 @@ func _on_RestartBtn_pressed() -> void:
 	Global.sound_manager.stop_music("game_music_on_gameover")
 	# get_tree().paused = false ... tween za izhod pavzo drevesa ignorira
 	Global.main_node.reload_game()
+
+
+func _on_SkipTutBtn_pressed() -> void:
 	
+	# Profiles.default_game_settings["tutorial_mode"] = false
+	play_without_tutorial()
+
 	
 func _on_QuitBtn_pressed() -> void:
 
@@ -138,4 +169,3 @@ func _on_CameraShakeBtn_toggled(button_pressed: bool) -> void:
 	else:
 		Global.sound_manager.play_gui_sfx("btn_cancel")
 		Profiles.camera_shake_on = false
-

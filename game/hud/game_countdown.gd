@@ -26,12 +26,12 @@ func start_countdown():
 	
 func play_countdown_a_sound():
 	
-	Global.sound_manager.play_sfx("start_countdown_a")
+	Global.sound_manager.play_gui_sfx("start_countdown_a")
 
 
 func play_countdown_b_sound():
 	
-	Global.sound_manager.play_sfx("start_countdown_b")
+	Global.sound_manager.play_gui_sfx("start_countdown_b")
 
 	
 func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:

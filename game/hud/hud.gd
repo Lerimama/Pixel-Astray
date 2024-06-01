@@ -111,8 +111,8 @@ func _ready() -> void:
 		instructions_popup.hide()
 		
 	# ime komada na vrsti
-	var game_track_index: int = Global.game_manager.game_settings["game_track_index"]
-	music_track_label.text = Global.sound_manager.game_music_node.get_children()[game_track_index].name
+	var game_music_track_index: int = Global.game_manager.game_settings["game_music_track_index"]
+	music_track_label.text = Global.sound_manager.game_music_node.get_children()[game_music_track_index].name
 	
 	# hud barva elementov, ki ne modulirajo sami sebe in niso label (v glavnem ikone)
 	# timer in hs sta label, moduliran med igro, zato imata na nodetu setano font color override na belo

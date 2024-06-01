@@ -2078,11 +2078,96 @@ margin_top = 7.0
 margin_right = -4.0
 margin_bottom = 11.0
 
-[node name="CleanerSTable" parent="Highscores" instance=ExtResource( 21 )]
+[node name="ClassicTable" parent="Highscores" instance=ExtResource( 21 )]
 margin_left = 64.0
 margin_top = 142.0
 margin_right = 304.0
-margin_bottom = 330.0
+margin_bottom = 306.0
+theme = null
+
+[node name="Title" parent="Highscores/ClassicTable" index="0"]
+margin_right = 240.0
+
+[node name="ScoreLine1" parent="Highscores/ClassicTable" index="1"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/ClassicTable/ScoreLine1" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine2" parent="Highscores/ClassicTable" index="2"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/ClassicTable/ScoreLine2" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine3" parent="Highscores/ClassicTable" index="3"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/ClassicTable/ScoreLine3" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine4" parent="Highscores/ClassicTable" index="4"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/ClassicTable/ScoreLine4" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine5" parent="Highscores/ClassicTable" index="5"]
+margin_right = 240.0
+
+[node name="Score" parent="Highscores/ClassicTable/ScoreLine5" index="2"]
+margin_left = 154.0
+margin_right = 240.0
+
+[node name="ScoreLine6" parent="Highscores/ClassicTable" index="6"]
+visible = false
+margin_right = 250.0
+
+[node name="Score" parent="Highscores/ClassicTable/ScoreLine6" index="2"]
+margin_left = 128.0
+margin_right = 250.0
+
+[node name="ScoreLine7" parent="Highscores/ClassicTable" index="7"]
+visible = false
+margin_right = 250.0
+
+[node name="Score" parent="Highscores/ClassicTable/ScoreLine7" index="2"]
+margin_left = 128.0
+margin_right = 250.0
+
+[node name="ScoreLine8" parent="Highscores/ClassicTable" index="8"]
+visible = false
+margin_right = 250.0
+
+[node name="Score" parent="Highscores/ClassicTable/ScoreLine8" index="2"]
+margin_left = 128.0
+margin_right = 250.0
+
+[node name="ScoreLine9" parent="Highscores/ClassicTable" index="9"]
+visible = false
+margin_right = 250.0
+
+[node name="Score" parent="Highscores/ClassicTable/ScoreLine9" index="2"]
+margin_left = 128.0
+margin_right = 250.0
+
+[node name="ScoreLine10" parent="Highscores/ClassicTable" index="10"]
+visible = false
+margin_right = 250.0
+
+[node name="Score" parent="Highscores/ClassicTable/ScoreLine10" index="2"]
+margin_left = 128.0
+margin_right = 250.0
+
+[node name="CleanerSTable" parent="Highscores" instance=ExtResource( 21 )]
+margin_left = 368.0
+margin_top = 142.0
+margin_right = 608.0
+margin_bottom = 306.0
 theme = null
 
 [node name="Title" parent="Highscores/CleanerSTable" index="0"]
@@ -2164,10 +2249,10 @@ margin_left = 128.0
 margin_right = 250.0
 
 [node name="CleanerMTable" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = 368.0
+margin_left = 672.0
 margin_top = 142.0
-margin_right = 608.0
-margin_bottom = 330.0
+margin_right = 912.0
+margin_bottom = 306.0
 theme = null
 
 [node name="Title" parent="Highscores/CleanerMTable" index="0"]
@@ -2251,10 +2336,10 @@ margin_left = 128.0
 margin_right = 250.0
 
 [node name="CleanerLTable" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = 672.0
+margin_left = 976.0
 margin_top = 142.0
-margin_right = 912.0
-margin_bottom = 330.0
+margin_right = 1216.0
+margin_bottom = 306.0
 theme = null
 
 [node name="Title" parent="Highscores/CleanerLTable" index="0"]
@@ -2339,9 +2424,9 @@ margin_right = 250.0
 
 [node name="HandlerTable" parent="Highscores" instance=ExtResource( 21 )]
 margin_left = 64.0
-margin_top = 338.0
+margin_top = 342.0
 margin_right = 304.0
-margin_bottom = 526.0
+margin_bottom = 506.0
 theme = null
 
 [node name="Title" parent="Highscores/HandlerTable" index="0"]
@@ -2399,9 +2484,9 @@ visible = false
 
 [node name="EraserTable" parent="Highscores" instance=ExtResource( 21 )]
 margin_left = 368.0
-margin_top = 338.0
+margin_top = 342.0
 margin_right = 608.0
-margin_bottom = 526.0
+margin_bottom = 506.0
 theme = null
 
 [node name="Title" parent="Highscores/EraserTable" index="0"]
@@ -2459,9 +2544,9 @@ visible = false
 
 [node name="DefenderTable" parent="Highscores" instance=ExtResource( 21 )]
 margin_left = 672.0
-margin_top = 338.0
+margin_top = 342.0
 margin_right = 912.0
-margin_bottom = 526.0
+margin_bottom = 506.0
 theme = null
 
 [node name="Title" parent="Highscores/DefenderTable" index="0"]
@@ -2519,9 +2604,9 @@ visible = false
 
 [node name="SweeperTable" parent="Highscores" instance=ExtResource( 21 )]
 margin_left = 976.0
-margin_top = 142.0
+margin_top = 342.0
 margin_right = 1216.0
-margin_bottom = 490.0
+margin_bottom = 506.0
 theme = null
 
 [node name="Title" parent="Highscores/SweeperTable" index="0"]
@@ -2568,6 +2653,7 @@ margin_right = 240.0
 text = "00:00:00"
 
 [node name="ScoreLine6" parent="Highscores/SweeperTable" index="6"]
+visible = false
 margin_right = 240.0
 
 [node name="Score" parent="Highscores/SweeperTable/ScoreLine6" index="2"]
@@ -2576,6 +2662,7 @@ margin_right = 240.0
 text = "00:00:00"
 
 [node name="ScoreLine7" parent="Highscores/SweeperTable" index="7"]
+visible = false
 margin_right = 240.0
 
 [node name="Score" parent="Highscores/SweeperTable/ScoreLine7" index="2"]
@@ -2584,6 +2671,7 @@ margin_right = 240.0
 text = "00:00:00"
 
 [node name="ScoreLine8" parent="Highscores/SweeperTable" index="8"]
+visible = false
 margin_right = 240.0
 
 [node name="Score" parent="Highscores/SweeperTable/ScoreLine8" index="2"]
@@ -2592,6 +2680,7 @@ margin_right = 240.0
 text = "00:00:00"
 
 [node name="ScoreLine9" parent="Highscores/SweeperTable" index="9"]
+visible = false
 margin_right = 240.0
 
 [node name="Score" parent="Highscores/SweeperTable/ScoreLine9" index="2"]
@@ -2600,6 +2689,7 @@ margin_right = 240.0
 text = "00:00:00"
 
 [node name="ScoreLine10" parent="Highscores/SweeperTable" index="10"]
+visible = false
 margin_right = 240.0
 
 [node name="Score" parent="Highscores/SweeperTable/ScoreLine10" index="2"]
@@ -2609,9 +2699,9 @@ text = "00:00:00"
 
 [node name="SweeperArrows" type="Control" parent="Highscores"]
 margin_left = 976.0
-margin_top = 146.0
+margin_top = 346.0
 margin_right = 1216.0
-margin_bottom = 160.0
+margin_bottom = 360.0
 grow_horizontal = 2
 theme = ExtResource( 15 )
 __meta__ = {
@@ -2687,6 +2777,7 @@ margin_left = 1280.0
 margin_right = 1936.0
 margin_bottom = 720.0
 rect_min_size = Vector2( 0, 720 )
+rect_pivot_offset = Vector2( 440, 704 )
 theme = ExtResource( 15 )
 script = ExtResource( 13 )
 
@@ -2733,17 +2824,17 @@ margin_right = -7.99988
 margin_bottom = -56.0
 theme = ExtResource( 15 )
 
-[node name="Tutorial" type="Control" parent="SelectGame/GamesMenu"]
+[node name="Classic" type="Control" parent="SelectGame/GamesMenu"]
 margin_right = 232.0
-margin_bottom = 192.0
+margin_bottom = 224.0
 rect_pivot_offset = Vector2( 40, 8 )
 
-[node name="Background" type="ColorRect" parent="SelectGame/GamesMenu/Tutorial"]
+[node name="Background" type="ColorRect" parent="SelectGame/GamesMenu/Classic"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Title" type="Label" parent="SelectGame/GamesMenu/Tutorial"]
+[node name="Title" type="Label" parent="SelectGame/GamesMenu/Classic"]
 visible = false
 margin_left = 24.0
 margin_top = 23.0
@@ -2752,7 +2843,7 @@ margin_bottom = 47.0
 text = "Back to school!"
 autowrap = true
 
-[node name="Label" type="Label" parent="SelectGame/GamesMenu/Tutorial"]
+[node name="Label" type="Label" parent="SelectGame/GamesMenu/Classic"]
 margin_left = 40.0
 margin_top = 32.0
 margin_right = 200.0
@@ -2762,7 +2853,7 @@ text = "Become a master
 beginner in 5 steps."
 autowrap = true
 
-[node name="TutorialBtn" type="Button" parent="SelectGame/GamesMenu/Tutorial"]
+[node name="ClassicBtn" type="Button" parent="SelectGame/GamesMenu/Classic"]
 margin_left = 40.0
 margin_top = 96.0
 margin_right = 192.0
@@ -2771,17 +2862,31 @@ grow_horizontal = 0
 grow_vertical = 0
 focus_neighbour_left = NodePath("../../Cleaner/CleanerSBtn")
 focus_neighbour_top = NodePath("../../../BackBtn")
-focus_neighbour_bottom = NodePath("../../Timeless/EraserBtn")
+focus_neighbour_bottom = NodePath("../TutorialModeBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = ExtResource( 24 )
 custom_styles/pressed = ExtResource( 24 )
 custom_styles/focus = ExtResource( 24 )
 custom_styles/disabled = SubResource( 478 )
 custom_styles/normal = ExtResource( 9 )
-text = "TUTORIAL"
+text = "CLASSIC"
 __meta__ = {
 "_editor_description_": ""
 }
+
+[node name="TutorialModeBtn" type="CheckButton" parent="SelectGame/GamesMenu/Classic"]
+margin_left = 48.0
+margin_top = 175.0
+margin_right = 184.0
+margin_bottom = 193.0
+grow_horizontal = 2
+focus_neighbour_bottom = NodePath("../../Timeless/EraserBtn")
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 0.960784, 0.960784, 0.960784, 1 )
+custom_fonts/font = ExtResource( 14 )
+pressed = true
+text = "Learning mode"
 
 [node name="Cleaner" type="Control" parent="SelectGame/GamesMenu"]
 margin_left = 239.0
@@ -2842,6 +2947,7 @@ margin_left = 41.0
 margin_top = 120.0
 margin_right = 143.0
 margin_bottom = 184.0
+focus_neighbour_left = NodePath("../../Classic/ClassicBtn")
 focus_neighbour_top = NodePath("../../../BackBtn")
 focus_neighbour_bottom = NodePath("../../TheDuel/TheDuelBtn")
 mouse_default_cursor_shape = 2
@@ -2879,7 +2985,6 @@ margin_top = 120.0
 margin_right = 361.0
 margin_bottom = 184.0
 focus_neighbour_top = NodePath("../../../BackBtn")
-focus_neighbour_right = NodePath("../../Tutorial/TutorialBtn")
 focus_neighbour_bottom = NodePath("../../TheDuel/TheDuelBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = ExtResource( 24 )
@@ -2893,9 +2998,9 @@ __meta__ = {
 }
 
 [node name="Timeless" type="Control" parent="SelectGame/GamesMenu"]
-margin_top = 200.0
+margin_top = 232.0
 margin_right = 232.0
-margin_bottom = 512.0
+margin_bottom = 544.0
 rect_min_size = Vector2( 128, 128 )
 
 [node name="Background" type="ColorRect" parent="SelectGame/GamesMenu/Timeless"]
@@ -3091,7 +3196,6 @@ margin_right = -6.0
 margin_bottom = 98.0
 rect_min_size = Vector2( 16, 16 )
 focus_neighbour_top = NodePath("../GamesMenu/Sweeper/SweeperBtn")
-focus_neighbour_right = NodePath("../GamesMenu/Tutorial/TutorialBtn")
 focus_neighbour_bottom = NodePath("../GamesMenu/Cleaner/CleanerSBtn")
 mouse_default_cursor_shape = 2
 texture_normal = SubResource( 195 )
@@ -3843,6 +3947,7 @@ rect_min_size = Vector2( 146, 0 )
 focus_neighbour_bottom = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 10
+custom_colors/font_color = Color( 0.960784, 0.960784, 0.960784, 1 )
 custom_fonts/font = ExtResource( 14 )
 pressed = true
 text = "Show riddle hint"
@@ -4175,8 +4280,9 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="Highscores/SweeperArrows/LeftBtn" to="Highscores" method="_on_Sweeper_LeftBtn_pressed"]
 [connection signal="pressed" from="Highscores/SweeperArrows/RightBtn" to="Highscores" method="_on_SweeperRightBtn_pressed"]
 [connection signal="pressed" from="Highscores/BackBtn" to="Highscores" method="_on_BackBtn_pressed"]
-[connection signal="mouse_entered" from="SelectGame/GamesMenu/Tutorial/Background" to="SelectGame" method="_on_TutorialBackground_mouse_entered"]
-[connection signal="pressed" from="SelectGame/GamesMenu/Tutorial/TutorialBtn" to="SelectGame" method="_on_TutorialBtn_pressed"]
+[connection signal="mouse_entered" from="SelectGame/GamesMenu/Classic/Background" to="SelectGame" method="_on_ClassicBackground_mouse_entered"]
+[connection signal="pressed" from="SelectGame/GamesMenu/Classic/ClassicBtn" to="SelectGame" method="_on_ClassicBtn_pressed"]
+[connection signal="toggled" from="SelectGame/GamesMenu/Classic/TutorialModeBtn" to="SelectGame" method="_on_TutorialModeBtn_toggled"]
 [connection signal="mouse_entered" from="SelectGame/GamesMenu/Cleaner/Background" to="SelectGame" method="_on_CleanerBackground_mouse_entered"]
 [connection signal="pressed" from="SelectGame/GamesMenu/Cleaner/CleanerSBtn" to="SelectGame" method="_on_CleanerSBtn_pressed"]
 [connection signal="pressed" from="SelectGame/GamesMenu/Cleaner/CleanerMBtn" to="SelectGame" method="_on_CleanerMBtn_pressed"]
@@ -4208,6 +4314,7 @@ anims/settings = SubResource( 140 )
 [editable path="About/Content/ControlsShorts/ShortcutLine6"]
 [editable path="About/Content/ControlsShorts/ShortcutLine2"]
 [editable path="About/Content/ControlsShorts/ShortcutLine3"]
+[editable path="Highscores/ClassicTable"]
 [editable path="Highscores/CleanerSTable"]
 [editable path="Highscores/CleanerMTable"]
 [editable path="Highscores/CleanerLTable"]

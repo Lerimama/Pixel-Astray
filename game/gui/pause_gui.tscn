@@ -900,21 +900,30 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="QuitBtn" type="Button" parent="Menu"]
-margin_right = 160.0
+[node name="PlayBtn" type="Button" parent="Menu"]
+margin_right = 94.0
 margin_bottom = 22.0
-focus_neighbour_left = NodePath("../PlayBtn")
+focus_neighbour_left = NodePath("../QuitBtn")
 focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
 focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 0
-text = "QUIT TO MENU"
+text = "PLAY ON"
+
+[node name="SkipTutBtn" type="Button" parent="Menu"]
+margin_left = 126.0
+margin_right = 296.0
+margin_bottom = 22.0
+focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
+focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
+mouse_default_cursor_shape = 2
+size_flags_vertical = 0
+text = "SKIP TUTORIAL"
 
 [node name="RestartBtn" type="Button" parent="Menu"]
-margin_left = 192.0
-margin_right = 290.0
+margin_left = 328.0
+margin_right = 426.0
 margin_bottom = 22.0
-focus_neighbour_left = NodePath("../QuitBtn")
 focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
 focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
 mouse_default_cursor_shape = 2
@@ -922,25 +931,25 @@ size_flags_horizontal = 6
 size_flags_vertical = 0
 text = "RESTART"
 
-[node name="PlayBtn" type="Button" parent="Menu"]
-margin_left = 322.0
-margin_right = 430.0
+[node name="QuitBtn" type="Button" parent="Menu"]
+margin_left = 458.0
+margin_right = 618.0
 margin_bottom = 22.0
-focus_neighbour_left = NodePath("../RestartBtn")
 focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
-focus_neighbour_right = NodePath("../QuitBtn")
+focus_neighbour_right = NodePath("../PlayBtn")
 focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 0
-text = "CONTINUE"
+text = "QUIT TO MENU"
 
 [connection signal="toggled" from="Settings/GameMusicBtn" to="." method="_on_GameMusicBtn_toggled"]
 [connection signal="value_changed" from="Settings/GameMusicSlider" to="." method="_on_GameMusicSlider_value_changed"]
 [connection signal="toggled" from="Settings/GameSfxBtn" to="." method="_on_GameSfxBtn_toggled"]
 [connection signal="toggled" from="Settings/CameraShakeBtn" to="." method="_on_CameraShakeBtn_toggled"]
-[connection signal="pressed" from="Menu/QuitBtn" to="." method="_on_QuitBtn_pressed"]
-[connection signal="pressed" from="Menu/RestartBtn" to="." method="_on_RestartBtn_pressed"]
 [connection signal="pressed" from="Menu/PlayBtn" to="." method="_on_PlayBtn_pressed"]
+[connection signal="pressed" from="Menu/SkipTutBtn" to="." method="_on_SkipTutBtn_pressed"]
+[connection signal="pressed" from="Menu/RestartBtn" to="." method="_on_RestartBtn_pressed"]
+[connection signal="pressed" from="Menu/QuitBtn" to="." method="_on_QuitBtn_pressed"]
 
 [editable path="ControlsShorts/ShortcutLine6"]
 [editable path="ControlsShorts/ShortcutLine2"]

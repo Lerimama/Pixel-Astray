@@ -1425,6 +1425,9 @@ func change_stat(stat_event: String, stat_value):
 			player_stats["player_energy"] += game_settings["cell_traveled_energy"]
 		"skill_used": # štetje, točke in energija kot je določeno v settingsih
 			player_stats["skill_count"] += 1
+			# za tutorial
+			if Global.tutorial_gui.tutorial_on:
+				Global.tutorial_gui.on_skill_used(stat_value)
 		"burst_released": # štetje, točke in energija kot je določeno v settingsih
 			player_stats["burst_count"] += 1
 		
@@ -1448,6 +1451,9 @@ func change_stat(stat_event: String, stat_value):
 			# vse skupaj
 			player_stats["player_points"] += points_to_gain 
 			spawn_floating_tag(points_to_gain)
+			# za tutorial
+			if Global.tutorial_gui.tutorial_on:
+				Global.tutorial_gui.on_color_collected(stack_strays_cleaned_count)
 		"white_eliminated":
 			player_stats["player_energy"] = player_max_energy
 			var points_to_gain: int = game_settings["white_eliminated_points"]
@@ -1476,8 +1482,6 @@ func change_stat(stat_event: String, stat_value):
 		# LIFE LOOP ------------------------------------------------------------------------------------------------------------
 	
 		"die": # izguba lajfa, če je energija 0
-			if Global.game_manager.game_data["game"] == Profiles.Games.TUTORIAL:
-				return
 			if player_stats["player_energy"] == 0:
 				player_stats["player_life"] -= 1
 		"stop_heart": # energija je 0

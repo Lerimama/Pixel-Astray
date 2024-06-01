@@ -3,7 +3,7 @@ extends Node
 
 var get_it_time: float = 1 # tajming za dojet določene faze igre
 var camera_shake_on: bool = true
-
+var tutorial_music_track_index: int = 1
 
 var default_player_stats: Dictionary = {
 	"player_name" : "Somebody", # to ime se piše v HS procesu, če igralec pusti prazno
@@ -44,16 +44,17 @@ var default_game_settings: Dictionary = {
 	"respawn_on_turn_white": false, # na respawn se naključni spremeni v belega
 	# game
 	"game_time_limit": 0, # če je nič, ni omejeno in timer je stopwatch mode
-	"game_track_index": 0, # default muska v igri
+	"game_music_track_index": 0, # default muska v igri
 	"spawn_strays_on_cleaned": false,
 	"start_countdown": true,
 	"zoom_to_level_size": true,
 	"show_game_instructions": true,
 	"show_solution_hint": false, # sweeper reštve
+	"tutorial_mode": true, # klasika
 }
 
 enum Games {
-	TUTORIAL,
+	TUTORIAL, CLASSIC,
 	CLEANER_S, CLEANER_M, CLEANER_L,
 	ERASER, HANDLER,
 	THE_DUEL,
@@ -72,45 +73,49 @@ enum HighscoreTypes {
 	}
 
 	
-var game_data_tutorial: Dictionary = { 
-	"game": Games.TUTORIAL,
-	"highscore_type": HighscoreTypes.NO_HS,
-	"game_name": "Tutorial",
-	"game_scene_path": "res://game/game_tutorial.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_tutorial.tscn",
+var game_data_classic: Dictionary = { 
+	"game": Games.CLASSIC,
+	"highscore_type": HighscoreTypes.HS_POINTS,
+	"game_name": "Classic",
+	"game_scene_path": "res://game/game.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_classic.tscn",
+	"description" : "Opis standardne avanture pucanja",
+	"Prop" : "Klasika ...\nreclaim your\n\"one and only\"\nstatus.",
+	"Prop2" : "Klasika ...",
+	"Prop3" : "Score points\nto beat current\nrecord!",
 }
 var game_data_cleaner_s: Dictionary = { 
 	"game": Games.CLEANER_S,
-	"highscore_type": HighscoreTypes.HS_POINTS,
+	"highscore_type": HighscoreTypes.HS_TIME_LOW,
 	"game_name": "Cleaner S",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_s.tscn",
 	"description" : "Clear the colors before time slips away!",
 	"Prop" : "Clean quickly\nto reclaim your\n\"one and only\"\nstatus.",
 	"Prop2" : "Cleaning time\nis limited to\n%s minutes." % str(2),
-	"Prop3" : "Score points\nto beat current\nrecord!",
+	"Prop3" : "Can you beat\nthe record time!",
 }
 var game_data_cleaner_m: Dictionary = {
 	"game": Games.CLEANER_M,
-	"highscore_type": HighscoreTypes.HS_POINTS,
+	"highscore_type": HighscoreTypes.HS_TIME_LOW,
 	"game_name": "Cleaner M",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_m.tscn",
 	"description" : "Race the clock and clean up the color explosion!",
 	"Prop" : "Be quick and efficient to reclaim your \"one and only\" status.",
 	"Prop2" : "Cleaning time\nis limited to\n%s minutes." % str(5),
-	"Prop3" : "Score points\nto beat current\nrecord!",
+	"Prop3" : "Can you beat\nthe record time!",
 }
 var game_data_cleaner_l: Dictionary = {
 	"game": Games.CLEANER_L,
-	"highscore_type": HighscoreTypes.HS_POINTS,
+	"highscore_type": HighscoreTypes.HS_TIME_LOW,
 	"game_name": "Cleaner L",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_l.tscn",
 	"description" : "Clean up this vibrant mess before the clock runs out!",
 	"Prop" : "Be quick and efficient to reclaim your \"one and only\" status.",
 	"Prop2" : "Cleaning time is limited to %s minutes." % str(10),
-	"Prop3" : "Score points\nto beat current\nrecord!",
+	"Prop3" : "Can you beat\nthe record time!",
 }
 var game_data_eraser: Dictionary = { 
 	"game": Games.ERASER,
@@ -135,8 +140,6 @@ var game_data_eraser: Dictionary = {
 	"respawn_pause_time_factor": 0.7,
 	# ne rabim v tej igri
 	"spawn_white_stray_part_factor": 1,
-	
-	
 }
 var game_data_handler: Dictionary = { 
 	"game": Games.HANDLER,
@@ -271,7 +274,7 @@ func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE
-	var debug_game = Games.TUTORIAL
+	var debug_game = Games.CLASSIC
 #	var debug_game = Games.CLEANER_S
 #	var debug_game = Games.CLEANER_M
 #	var debug_game = Games.CLEANER_L
@@ -302,11 +305,12 @@ func set_game_data(selected_game) -> void:
 			game_settings["reburst_window_time"] = 0
 			game_settings["strays_start_count"] = 50
 		
-		Games.TUTORIAL: 
-			current_game_data = game_data_tutorial.duplicate()
+		Games.CLASSIC: 
+			current_game_data = game_data_classic.duplicate()
 			game_settings["show_game_instructions"] = false
 			game_settings["game_time_limit"] = 0
-			game_settings["strays_start_count"] = 1
+			game_settings["strays_start_count"] = 5
+			
 			game_settings["zoom_to_level_size"] = false
 			game_settings["start_countdown"] = false
 			
@@ -361,7 +365,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["start_countdown"] = false # 1 v prvi spawn rundi
 #			game_settings["line_step_pause_time"] = 0.3 # 1 v prvi spawn rundi
 #			game_settings["spawn_round_range"] = [20, 30] # 1 v prvi spawn rundi
-			game_settings["game_track_index"] = 1
+			game_settings["game_music_track_index"] = 1
 		
 		Games.THE_DUEL: 
 			current_game_data = game_data_the_duel.duplicate()
@@ -375,7 +379,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["color_picked_points"] = 0
 			game_settings["cell_traveled_energy"] = 0
 			game_settings["cleaned_reward_points"] = 1 # ... izpiše se "SUCCESS!"
-			game_settings["game_track_index"] = 1
+			game_settings["game_music_track_index"] = 1
 			#
 			game_settings["reburst_enabled"] = true
 			game_settings["reburst_window_time"] = 0
