@@ -24,9 +24,7 @@ onready var viewport_header: ColorRect = $"%ViewHeder"
 onready var viewport_footer: ColorRect = $"%ViewFuter"
 
 # popups 
-var p1_energy_warning_popup: Control
-var p2_energy_warning_popup: Control
-onready var energy_warning_holder: Control = $Popups/EnergyWarning
+onready var energy_warning_popup: Control = $Popups/EnergyWarning
 onready var instructions_popup: Control = $Popups/Instructions
 onready var level_up_popup: Control = $Popups/LevelUp
 
@@ -91,10 +89,6 @@ func _ready() -> void:
 	
 	header.rect_position.y = - header_height
 	footer.rect_position.y = screen_height
-#
-#	if Global.game_manager.game_data.has("level_goal_count"): # NEST reverese spectrum
-#		stray_in_indicator_alpha = stray_out_indicator_alpha
-#		stray_out_indicator_alpha = 1
 
 	game_label.text = Global.game_manager.game_data["game_name"]
 	if Global.game_manager.game_data.has("level"):
@@ -149,24 +143,16 @@ func _process(delta: float) -> void:
 			
 func set_hud(): # kliče main na game-in
 	
+	energy_warning_popup.hide()
+	astray_label.text = "PIXELS ASTRAY"
+	
 	if Global.game_manager.start_players_count == 1:
-		# players
 		p1_label.visible = false
 		p2_statsline.visible = false
-		# popups
-		p1_energy_warning_popup = $Popups/EnergyWarning/Solo
 	elif Global.game_manager.start_players_count == 2:
-		# players
 		p1_label.visible = true
-		p1_color_holder.visible = false
 		p2_statsline.visible = true
-		p2_color_holder.visible = false
-		# popups
-		p1_energy_warning_popup = $Popups/EnergyWarning/DuelP1
-		p2_energy_warning_popup = $Popups/EnergyWarning/DuelP2
-		# hs		
-		highscore_label.visible = false
-	
+		
 	# lajf
 	if Global.game_manager.game_settings["player_start_life"] > 1:
 		p1_life_counter.visible = true
@@ -184,16 +170,6 @@ func set_hud(): # kliče main na game-in
 	if not Global.game_manager.game_data.has("level"): # multilevel game
 		level_label.visible = false
 	
-	# strays counter text
-	if Global.game_manager.game_data["game"] == Profiles.Games.ERASER:
-		#astray_label.text = "POINTS TO LEVEL UP"
-		#level_label.visible = true
-		pass
-	elif Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-		#astray_label.text = "COLORS TO CLEAN"
-		p1_points_counter.visible = false
-	astray_label.text = "PIXELS ASTRAY"
-				
 	# glede na to kaj šteje ...
 	if current_gamed_hs_type == Profiles.HighscoreTypes.NO_HS:
 		highscore_label.visible = false
@@ -341,44 +317,41 @@ func level_up_popup_inout(level_reached: int):
 	popup_in.parallel().tween_property(level_up_popup, "modulate:a", 0, 0.5).from(1.0).set_delay(0.6)
 
 		
-func check_for_warning(player_stats: Dictionary, warning_popup: Control):
+func check_for_warning(player_stats: Dictionary):
 	
-	if warning_popup:
-		var steps_remaining_label: Label
-		steps_remaining_label = warning_popup.get_node("StepsRemaining")
-	
-		if player_stats["player_energy"] <= 0:
-			if warning_popup.visible == true:
-				warning_out(warning_popup)		
-		elif player_stats["player_energy"] == 1:
-			steps_remaining_label.text = "NO ENERGY! Collect a color to revitalize."
-		elif player_stats["player_energy"] == 2: # pomeni samo še en korak in rabim ednino
-			steps_remaining_label.text = "ENERGY WARNING! Only 1 step remaining."
-			if warning_popup.visible == false:
-				warning_in(warning_popup)
-		elif player_stats["player_energy"] <= tired_energy_limit:
-			steps_remaining_label.text = "ENERGY WARNING! Only %s steps remaining." % str(player_stats["player_energy"] - 1)
-			if warning_popup.visible == false:
-				warning_in(warning_popup)
-		elif player_stats["player_energy"] > tired_energy_limit:
-			if warning_popup.visible == true:
-				warning_out(warning_popup)
+	var steps_remaining_label: Label
+	steps_remaining_label = energy_warning_popup.get_node("StepsRemaining")
+
+	if player_stats["player_energy"] <= 0:
+		if energy_warning_popup.visible == true:
+			warning_out()		
+	elif player_stats["player_energy"] == 1:
+		steps_remaining_label.text = "NO ENERGY! Collect a color to revitalize."
+	elif player_stats["player_energy"] == 2: # pomeni samo še en korak in rabim ednino
+		steps_remaining_label.text = "ENERGY WARNING! Only 1 step remaining."
+		if energy_warning_popup.visible == false:
+			warning_in()
+	elif player_stats["player_energy"] <= tired_energy_limit:
+		steps_remaining_label.text = "ENERGY WARNING! Only %s steps remaining." % str(player_stats["player_energy"] - 1)
+		if energy_warning_popup.visible == false:
+			warning_in()
+	elif player_stats["player_energy"] > tired_energy_limit:
+		if energy_warning_popup.visible == true:
+			warning_out()
 
 
-func warning_in(warning_popup: Control):
+func warning_in():
 	
 	var warning_in = get_tree().create_tween()
-	warning_in.tween_callback(energy_warning_holder, "show")
-	warning_in.tween_callback(warning_popup, "show")
-	warning_in.tween_property(warning_popup, "modulate:a", 1, 0.3) #.from(0.0)
+	warning_in.tween_callback(energy_warning_popup, "show")
+	warning_in.tween_property(energy_warning_popup, "modulate:a", 1, 0.3)#.from(0.0)
 
 
-func warning_out(warning_popup: Control):
+func warning_out():
 	
 	var warning_out = get_tree().create_tween()
-	warning_out.tween_property(warning_popup, "modulate:a", 0, 0.5)
-	warning_out.tween_callback(warning_popup, "hide")
-	warning_out.tween_callback(energy_warning_holder, "hide")
+	warning_out.tween_property(energy_warning_popup, "modulate:a", 0, 0.5)
+	warning_out.tween_callback(energy_warning_popup, "hide")
 
 
 func popups_out(): # kliče GM na gameover
@@ -426,7 +399,6 @@ func _on_stat_changed(stat_owner: Node, player_stats: Dictionary):
 			p1_burst_counter.text = "%d" % player_stats["burst_count"]
 			p1_skill_counter.text = "%d" % player_stats["skill_count"]
 			p1_steps_counter.text = "%d" % player_stats["cells_traveled"]
-			# check_for_warning(player_stats, p1_energy_warning_popup)
 		"p2":
 			p2_life_counter.life_count = player_stats["player_life"]
 			p2_energy_counter.energy = player_stats["player_energy"]
@@ -435,7 +407,6 @@ func _on_stat_changed(stat_owner: Node, player_stats: Dictionary):
 			p2_burst_counter.text = "%d" % player_stats["burst_count"]
 			p2_skill_counter.text = "%d" % player_stats["skill_count"]
 			p2_steps_counter.text = "%d" % player_stats["cells_traveled"]
-			# check_for_warning(player_stats, p2_energy_warning_popup)
 
 	# debug
 	player_life.text = "LIFE: %d" % player_stats["player_life"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://assets/resources/animation/stray_glitch_3.tres" type="Animation" id=1]
 [ext_resource path="res://assets/resources/animation/stray_glitch_1.tres" type="Animation" id=2]
@@ -818,11 +818,14 @@ audio_stream = ExtResource( 8 )
 [sub_resource type="AudioStreamRandomPitch" id=152]
 audio_stream = ExtResource( 18 )
 
+[sub_resource type="RectangleShape2D" id=153]
+
 [node name="Stray" type="KinematicBody2D"]
 script = ExtResource( 20 )
 
 [node name="ColorPoly" type="Polygon2D" parent="."]
 position = Vector2( -16, -16 )
+color = Color( 1, 1, 1, 0.203922 )
 polygon = PoolVector2Array( 1, 1, 1, 0, 31.0008, 0, 31, 1, 32, 1, 32, 31, 31, 31, 31, 32, 1, 32, 1, 31, 0, 31, 0, 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -839,6 +842,11 @@ color = Color( 1, 1, 1, 0 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
 [node name="PositionPoly" type="Polygon2D" parent="PositionIndicator"]
+position = Vector2( -12, -12 )
+polygon = PoolVector2Array( 10, 10, 14, 10, 14, 14, 10, 14 )
+
+[node name="PositionPolyBig" type="Polygon2D" parent="PositionIndicator"]
+visible = false
 position = Vector2( -12, -12 )
 color = Color( 0.980392, 0.980392, 0.980392, 1 )
 polygon = PoolVector2Array( 8, 8, 16, 8, 16, 16, 8, 16 )
@@ -983,6 +991,16 @@ theme = ExtResource( 7 )
 text = "00"
 align = 1
 
+[node name="OverspawnDetect" type="Area2D" parent="."]
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OverspawnDetect"]
+shape = SubResource( 153 )
+
+[connection signal="child_entered_tree" from="." to="." method="_on_Stray_child_entered_tree"]
+[connection signal="tree_exiting" from="." to="." method="_on_Stray_tree_exiting"]
 [connection signal="viewport_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_viewport_entered"]
 [connection signal="viewport_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_viewport_exited"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+[connection signal="body_entered" from="OverspawnDetect" to="." method="_on_OverspawnDetect_body_entered"]

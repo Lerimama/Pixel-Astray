@@ -222,7 +222,7 @@ func line_step():
 		if random_spawn_count > stray_spawn_count_max: 
 			random_spawn_count -= random_spawn_count - stray_spawn_count_max
 		# če je spawn število večje od pozicij na voljo
-		if random_spawn_count > free_home_positions.size():# varovalka, spawna jih največ tolikoo koliko jih lahko
+		if random_spawn_count > free_home_positions.size():# spawna jih največ toliko kolikor jih lahko
 			random_spawn_count = free_home_positions.size()
 		
 		# kličem step in tam preverim kolajderja 

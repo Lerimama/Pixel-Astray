@@ -103,92 +103,22 @@ rect_pivot_offset = Vector2( 632, 352 )
 
 [node name="EnergyWarning" type="Control" parent="Popups"]
 visible = false
-anchor_right = 1.0
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -288.0
 margin_top = 72.0
+margin_right = 288.0
 margin_bottom = 136.0
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Solo" type="Control" parent="Popups/EnergyWarning"]
-visible = false
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -288.0
-margin_right = 288.0
-margin_bottom = 64.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Panel" type="Panel" parent="Popups/EnergyWarning/Solo"]
+[node name="Panel" type="Panel" parent="Popups/EnergyWarning"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_styles/panel = SubResource( 239 )
 
-[node name="StepsRemaining" type="Label" parent="Popups/EnergyWarning/Solo"]
-modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-margin_left = 21.0
-margin_top = -11.0
-margin_right = -21.0
-margin_bottom = 11.0
-grow_horizontal = 2
-size_flags_horizontal = 3
-text = "NO ENERGY! Collect a color to revitalize."
-align = 1
-
-[node name="DuelP1" type="Control" parent="Popups/EnergyWarning"]
-visible = false
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -598.0
-margin_top = 11.0
-margin_right = -43.0
-margin_bottom = 53.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Panel" type="Panel" parent="Popups/EnergyWarning/DuelP1"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_styles/panel = SubResource( 239 )
-
-[node name="StepsRemaining" type="Label" parent="Popups/EnergyWarning/DuelP1"]
-modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-margin_left = 21.0
-margin_top = -11.0
-margin_right = -21.0
-margin_bottom = 11.0
-grow_horizontal = 2
-size_flags_horizontal = 3
-text = "NO ENERGY! Collect a color to revitalize."
-align = 1
-
-[node name="DuelP2" type="Control" parent="Popups/EnergyWarning"]
-visible = false
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = 43.0
-margin_top = 11.0
-margin_right = 598.0
-margin_bottom = 53.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Panel" type="Panel" parent="Popups/EnergyWarning/DuelP2"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_styles/panel = SubResource( 239 )
-
-[node name="StepsRemaining" type="Label" parent="Popups/EnergyWarning/DuelP2"]
+[node name="StepsRemaining" type="Label" parent="Popups/EnergyWarning"]
 modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
 anchor_top = 0.5
 anchor_right = 1.0

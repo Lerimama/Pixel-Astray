@@ -17,7 +17,7 @@
 [ext_resource path="res://assets/resources/tileset_titles.tres" type="TileSet" id=21]
 [ext_resource path="res://_obs/game_manager_tutorial.gd" type="Script" id=22]
 [ext_resource path="res://game/player_camera.tscn" type="PackedScene" id=24]
-[ext_resource path="res://game/hud/hud_tutorial.gd" type="Script" id=25]
+[ext_resource path="res://_obs/hud_tutorial.gd" type="Script" id=25]
 
 [sub_resource type="StyleBoxEmpty" id=326]
 
@@ -1211,10 +1211,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -223.0
-margin_top = -40.0
-margin_right = 225.0
-margin_bottom = 248.0
+margin_left = 417.0
+margin_top = 320.0
+margin_right = 865.0
+margin_bottom = 608.0
 theme = SubResource( 346 )
 
 [node name="Panel" type="Panel" parent="GUI/Tutorial/MissionPanel"]
@@ -1318,10 +1318,13 @@ __meta__ = {
 }
 
 [node name="GameOver" parent="GUI" instance=ExtResource( 10 )]
+visible = true
 script = ExtResource( 11 )
 
+[node name="GameoverTitle" parent="GUI/GameOver" index="2"]
+visible = true
+
 [node name="Tutorial" type="Control" parent="GUI/GameOver/GameoverTitle" index="4"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

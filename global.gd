@@ -115,6 +115,9 @@ func get_clock_time(time_to_split: float): # sekunde float
 
 
 func release_scene(scene_node): # release scene
+	
+	scene_node.propagate_call("queue_free", []) # kvefrijam vse node v njem
+	
 	scene_node.set_physics_process(false)
 	call_deferred("_free_scene", scene_node)	
 

@@ -185,7 +185,7 @@ func finish_skills():
 	change_stage(skills_content, winlose_content, TutorialStage.WINLOSE)		
 
 	
-func finish_tutorial():
+func close_tutorial():
 	print ("fin")
 #	if not current_tutorial_stage == TutorialStage.WINLOSE:
 #		return

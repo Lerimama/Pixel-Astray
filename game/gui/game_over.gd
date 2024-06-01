@@ -83,14 +83,14 @@ func open_gameover(gameover_reason: int):
 	if Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
 		p2_final_stats = Global.game_manager.current_players_in_game[1].player_stats
 		set_duel_gameover_title()
-	elif Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-		if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
+	else:
+		if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW: # kadar se meri čas, obstaja cilj, da rankiraš
+			if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
+				score_is_ranking = Global.data_manager.manage_gameover_highscores(get_current_score(), Global.game_manager.game_data) 
+				# yield čaka na konec preverke ... tip ni opredeljen, ker je ranking, če ni skora kot objecta, če je ranking
+		else:
 			score_is_ranking = Global.data_manager.manage_gameover_highscores(get_current_score(), Global.game_manager.game_data) 
 			# yield čaka na konec preverke ... tip ni opredeljen, ker je ranking, če ni skora kot objecta, če je ranking
-		set_gameover_title()
-	else:
-		score_is_ranking = Global.data_manager.manage_gameover_highscores(get_current_score(), Global.game_manager.game_data) 
-		# yield čaka na konec preverke ... tip ni opredeljen, ker je ranking, če ni skora kot objecta, če je ranking
 		set_gameover_title()
 		
 	Global.hud.slide_out()
@@ -302,7 +302,6 @@ func get_current_score():
 	else: # time low and high
 		current_score = Global.hud.game_timer.absolute_game_time
 	return current_score
-	
 	
 
 # NAME INPUT --------------------------------------------------------------------	

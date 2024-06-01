@@ -10,8 +10,7 @@ onready var game_scene_path: String = Profiles.current_game_data["game_scene_pat
 func _input(event: InputEvent) -> void:
 
 	if Input.is_action_pressed("reset"):
-		reset_current_scene()
-
+		hard_reset()
 	
 			
 func _ready() -> void:
@@ -125,26 +124,26 @@ func reload_game(): # game out z drugačnim zaključkom
 	fade_out.tween_callback(Profiles, "set_game_data", [current_game_enum] ).set_delay(1) # dober delay ker se relese zgodi šele v naslednjem frejmu
 	fade_out.tween_callback(self, "game_in").set_delay(1) # dober delay ker se relese zgodi šele v naslednjem frejmu
 
-		
-func reset_current_scene():
-		get_viewport().set_disable_input(true) # anti dablklik
-		
-		Global.game_camera = null
-		Global.sound_manager.play_gui_sfx("menu_fade")
-		if Global.current_scene.name == "Home":
-			Global.sound_manager.stop_music("menu_music")
-		else:
-			Global.sound_manager.stop_music("game_music")
-			call_deferred("game_in")
-		var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-		fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
-		fade_out.tween_callback(Global, "release_scene", [Global.current_scene])
-		yield(fade_out, "finished")
-		if Global.current_scene.name == "Home":
-			call_deferred("home_in_no_intro")
-		else:
-			Global.sound_manager.stop_music("game_music")
-			call_deferred("game_in")
-			
-		get_viewport().set_disable_input(false) # anti dablklik
+
+func hard_reset():
+	# v bistvu je to reload home ali game scene
 	
+	get_viewport().set_disable_input(true) # anti dablklik
+	
+	# stop elements
+	if Global.current_scene.name == "Home":
+		Global.sound_manager.stop_music("menu_music")
+	else:
+		Global.game_manager.stop_game_elements()
+		Global.sound_manager.stop_music("game_music_on_gameover")
+
+	var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
+	fade_out.tween_callback(Global, "release_scene", [Global.current_scene])
+	if Global.current_scene.name == "Home":
+		fade_out.tween_callback(self, "home_in_no_intro").set_delay(1) # dober delay ker se relese zgodi šele v naslednjem frejmu
+	else:
+		fade_out.tween_callback(Profiles, "set_game_data", [Global.game_manager.game_data["game"]] ).set_delay(1) # dober delay ker se relese zgodi šele v naslednjem frejmu
+		fade_out.tween_callback(self, "game_in").set_delay(1) # dober delay ker se relese zgodi šele v naslednjem frejmu		
+
+	get_viewport().set_disable_input(false) # anti dablklik

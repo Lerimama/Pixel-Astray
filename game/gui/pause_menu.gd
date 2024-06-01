@@ -95,8 +95,8 @@ func play_without_tutorial():
 	fade_out_tween.tween_callback(self, "hide")
 	fade_out_tween.tween_callback(get_tree(), "set_pause", [false])
 	fade_out_tween.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
-	fade_out_tween.tween_callback(Global.tutorial_gui, "finish_tutorial")
-#	Global.tutorial_gui.finish_tutorial()
+	fade_out_tween.tween_callback(Global.tutorial_gui, "close_tutorial")
+#	Global.tutorial_gui.close_tutorial()
 
 
 # MENU ---------------------------------------------------------------------------------------------

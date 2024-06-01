@@ -1,4 +1,4 @@
-[gd_scene load_steps=89 format=2]
+[gd_scene load_steps=90 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -349,6 +349,11 @@ margin = Rect2( -2, 3, 0, 0 )
 atlas = ExtResource( 12 )
 region = Rect2( 138, 22, 22, 22 )
 margin = Rect2( -2, 3, 0, 0 )
+
+[sub_resource type="AtlasTexture" id=498]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 216, 40, 24 )
+margin = Rect2( 0, 3, 0, 0 )
 
 [sub_resource type="AtlasTexture" id=310]
 atlas = ExtResource( 12 )
@@ -1563,9 +1568,6 @@ margin_bottom = 1320.0
 rect_min_size = Vector2( 1280, 500 )
 theme = ExtResource( 15 )
 script = ExtResource( 16 )
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="BackBtn" type="TextureButton" parent="About"]
 anchor_left = 1.0
@@ -1702,8 +1704,9 @@ uppercase = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="About/Content/Credits"]
 anchor_right = 1.0
+margin_left = 1.0
 margin_top = 34.0
-margin_right = -4.0
+margin_right = -3.0
 margin_bottom = 424.0
 size_flags_horizontal = 3
 custom_constants/separation = -6
@@ -1865,15 +1868,15 @@ margin_bottom = 20.0
 size_flags_horizontal = 3
 theme = SubResource( 194 )
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-text = "GUI shortcuts"
+text = "GUI"
 uppercase = true
 
 [node name="ShortcutLine4" parent="About/Content/ControlsShorts" instance=ExtResource( 23 )]
 anchor_left = 0.0
 anchor_right = 0.0
-margin_left = -1.0
+margin_left = 1.0
 margin_top = 35.0
-margin_right = 301.0
+margin_right = 356.0
 margin_bottom = 63.0
 
 [node name="KEY" parent="About/Content/ControlsShorts/ShortcutLine4" index="1"]
@@ -1897,9 +1900,9 @@ text = " to go back to previous screen"
 [node name="ShortcutLine5" parent="About/Content/ControlsShorts" instance=ExtResource( 23 )]
 anchor_left = 0.0
 anchor_right = 0.0
-margin_left = -1.0
+margin_left = 1.0
 margin_top = 67.0
-margin_right = 301.0
+margin_right = 303.0
 margin_bottom = 95.0
 __meta__ = {
 "_edit_group_": true
@@ -1923,23 +1926,52 @@ margin_left = 135.0
 margin_right = 302.0
 text = " to confirm selection"
 
+[node name="ShortcutLine7" parent="About/Content/ControlsShorts" instance=ExtResource( 23 )]
+anchor_left = 0.0
+anchor_right = 0.0
+margin_left = 1.0
+margin_top = 99.0
+margin_right = 387.0
+margin_bottom = 127.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="KEY" parent="About/Content/ControlsShorts/ShortcutLine7" index="1"]
+margin_right = 25.0
+text = "R"
+
+[node name="or2" parent="About/Content/ControlsShorts/ShortcutLine7" index="2"]
+margin_left = 25.0
+margin_right = 58.0
+
+[node name="L1" parent="About/Content/ControlsShorts/ShortcutLine7" index="3"]
+margin_left = 58.0
+margin_right = 98.0
+texture = SubResource( 498 )
+
+[node name="Label3" parent="About/Content/ControlsShorts/ShortcutLine7" index="4"]
+margin_left = 98.0
+margin_right = 349.0
+text = " to hard reset for Justin Case"
+
 [node name="Title3" type="Label" parent="About/Content/ControlsShorts"]
 anchor_right = 1.0
-margin_top = 126.0
-margin_bottom = 148.0
+margin_top = 142.0
+margin_bottom = 164.0
 size_flags_horizontal = 3
 theme = SubResource( 194 )
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-text = "Game shortcuts and controls"
+text = "Game"
 uppercase = true
 
 [node name="ShortcutLine6" parent="About/Content/ControlsShorts" instance=ExtResource( 23 )]
 anchor_left = 0.0
 anchor_right = 0.0
-margin_left = -1.0
-margin_top = 163.0
-margin_right = 301.0
-margin_bottom = 191.0
+margin_left = 1.0
+margin_top = 179.0
+margin_right = 303.0
+margin_bottom = 207.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -1965,10 +1997,10 @@ text = " to pause/unpause game"
 [node name="ShortcutLine" parent="About/Content/ControlsShorts" instance=ExtResource( 23 )]
 anchor_left = 0.0
 anchor_right = 0.0
-margin_left = -1.0
-margin_top = 195.0
-margin_right = 243.0
-margin_bottom = 223.0
+margin_left = 1.0
+margin_top = 211.0
+margin_right = 245.0
+margin_bottom = 239.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -1976,10 +2008,10 @@ __meta__ = {
 [node name="ShortcutLine2" parent="About/Content/ControlsShorts" instance=ExtResource( 23 )]
 anchor_left = 0.0
 anchor_right = 0.0
-margin_left = -1.0
-margin_top = 227.0
-margin_right = 259.0
-margin_bottom = 255.0
+margin_left = 1.0
+margin_top = 243.0
+margin_right = 261.0
+margin_bottom = 271.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -2033,8 +2065,8 @@ margin_right = 304.0
 text = " to show/hide Sweeper hint"
 
 [node name="Controls" parent="About/Content/ControlsShorts" instance=ExtResource( 22 )]
-margin_top = 280.0
-margin_bottom = 408.0
+margin_top = 296.0
+margin_bottom = 424.0
 
 [node name="EscHint" parent="About" instance=ExtResource( 11 )]
 visible = false
@@ -4172,13 +4204,13 @@ texture = SubResource( 280 )
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 64.0
 margin_top = 441.0
-margin_right = 348.0
+margin_right = 290.0
 margin_bottom = 473.0
 focus_neighbour_right = NodePath("../BackBtn")
 focus_neighbour_bottom = NodePath("../MenuMusicBtn")
 mouse_default_cursor_shape = 2
 pressed = true
-text = "Pre-game instructions"
+text = "Pre-game screen"
 
 [node name="Shorts" type="Label" parent="Settings"]
 margin_left = 64.0
@@ -4311,6 +4343,7 @@ anims/settings = SubResource( 140 )
 
 [editable path="About/Content/ControlsShorts/ShortcutLine4"]
 [editable path="About/Content/ControlsShorts/ShortcutLine5"]
+[editable path="About/Content/ControlsShorts/ShortcutLine7"]
 [editable path="About/Content/ControlsShorts/ShortcutLine6"]
 [editable path="About/Content/ControlsShorts/ShortcutLine2"]
 [editable path="About/Content/ControlsShorts/ShortcutLine3"]

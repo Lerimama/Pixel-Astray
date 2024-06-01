@@ -14,8 +14,9 @@ func _ready() -> void:
 	randomize() # za random die animacije
 	modulate.a = 0
 	color_poly.modulate = stray_color
-	position_indicator.get_node("PositionPoly").color = stray_color
 	count_label.text = name
+	position_indicator_poly.color = stray_color
+	position_indicator.set_as_toplevel(true) # strayse skrijem ko so offscreen
 	position_indicator.visible = false
 
 	# set props glede na spawn stran
@@ -89,12 +90,12 @@ func step(step_direction: Vector2 = Vector2.DOWN):
 	# vržem ext coll			
 	collision_shape_ext.position = step_direction * cell_size_x # vržem koližn v smer premika
 	
-	# varovalka overspawn IV ... preverim available positions ... zadnja varovalka, da se ne pokrije ... redko pride do nje
-	var planned_new_position: Vector2 = global_position + step_direction * cell_size_x
-	var tiles_taken: Array = Global.game_manager.get_free_positions()
-	if tiles_taken.has(planned_new_position):
-		print("position taken")
-		return
+	# VEN varovalka overspawn IV ... preverim available positions ... zadnja varovalka, da se ne pokrije ... redko pride do nje
+	#	var planned_new_position: Vector2 = global_position + step_direction * cell_size_x
+	#	var tiles_taken: Array = Global.game_manager.get_free_positions()
+	#	if tiles_taken.has(planned_new_position):
+	#		print("position taken")
+	#		return
 		
 	var step_time: float = 0.2
 	var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	

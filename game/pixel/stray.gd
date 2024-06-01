@@ -15,6 +15,7 @@ onready var vision: Node2D = $Vision
 onready var color_poly: Polygon2D = $ColorPoly
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var position_indicator: Node2D = $PositionIndicator
+onready var position_indicator_poly: Polygon2D = $PositionIndicator/PositionPoly
 onready var visibility_notifier_2d: VisibilityNotifier2D = $VisibilityNotifier2D
 onready var cell_size_x: int = Global.current_tilemap.cell_size.x
 
@@ -23,24 +24,28 @@ onready var count_label: Label = $CountLabel
 
 
 func _ready() -> void:
-				
+	
 	add_to_group(Global.group_strays)
 	randomize() # za random die animacije
 	
 	color_poly.modulate = stray_color
-	position_indicator.get_node("PositionPoly").color = stray_color
 	modulate.a = 0
 	count_label.text = name
+	position_indicator_poly.color = stray_color
+	position_indicator.set_as_toplevel(true) # strayse skrijem ko so offscreen
 	position_indicator.visible = false
+
+	end_move() # _temp če dela težave
 
 
 func _process(delta: float) -> void:
 	
-	if not Global.game_manager == null:
-		if Global.game_manager.show_position_indicators and modulate.a == 1: # alpfa je, da se ga visi ob fjedinu straya
-			position_indicator.visible = true
-		else:
-			position_indicator.visible = false
+	if Global.game_manager.show_position_indicators:
+		if not position_indicator.visible:
+			fade_position_indicator(true)
+	else:
+		if position_indicator.visible:
+			fade_position_indicator(false)
 	
 	if position_indicator.visible:
 		get_position_indicator_position(get_viewport().get_node("PlayerCamera"))
@@ -167,6 +172,7 @@ func end_move():
 		current_state = States.IDLE
 	global_position = Global.snap_to_nearest_grid(self)
 	
+	
 # UTILITI ------------------------------------------------------------------------------------------------------
 
 
@@ -242,6 +248,18 @@ func detect_collision_in_direction(direction_to_check):
 	return first_collider
 
 
+func fade_position_indicator(fade_in: bool):
+	
+	var fade_time: float = 0.2
+	var fade_tween = get_tree().create_tween()
+	if fade_in:
+		fade_tween.tween_callback(position_indicator, "show")
+		fade_tween.tween_property(position_indicator_poly, "modulate:a", 1, 0.5).from(0.0)
+	else:
+		fade_tween.tween_property(position_indicator_poly, "modulate:a", 0, 0.5)
+		fade_tween.tween_callback(position_indicator, "hide")
+		
+
 # SIGNALI ------------------------------------------------------------------------------------------------------
 
 
@@ -249,12 +267,14 @@ func _on_VisibilityNotifier2D_viewport_entered(viewport: Viewport) -> void:
 	
 	Global.strays_on_screen.append(self)
 	visible_on_screen = true
-
-
+	show()
+		
+		
 func _on_VisibilityNotifier2D_viewport_exited(viewport: Viewport) -> void:
 	
 	Global.strays_on_screen.erase(self)
 	visible_on_screen = false
+	hide()
 
 
 func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
@@ -275,7 +295,34 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 		else: 
 			collision_shape.set_deferred("disabled", true)
 			collision_shape_ext.set_deferred("disabled", true)
-			Global.game_manager.strays_in_game_count = - 1
 			# odstrani barve iz huda in igre
 			Global.game_manager.on_stray_died(self)
 			call_deferred("queue_free")
+
+
+func _on_Stray_child_entered_tree(node: Node) -> void: # varovalka overspawn II ... glede na "isto pozicijo"
+	
+	for stray in get_tree().get_nodes_in_group(Global.group_strays):
+		if stray.global_position == global_position:
+			printt ("overspawn II", self) 
+			call_deferred("queue_free")
+			
+	for player in get_tree().get_nodes_in_group(Global.group_players):
+		if player.global_position == global_position:
+			printt ("overspawn II on player", self) 
+			call_deferred("queue_free")
+
+
+func _on_OverspawnDetect_body_entered(body: Node) -> void: # varovalka overspawn III ... če detect area zazna kolizijo
+	
+	if body.is_in_group(Global.group_strays) and not body == self:
+		printt ("overspawn III", self)
+		call_deferred("queue_free")
+	if body.is_in_group(Global.group_players):
+		printt ("overspawn III on player", self)
+		call_deferred("queue_free")
+
+
+func _on_Stray_tree_exiting() -> void:
+	
+	Global.game_manager.strays_in_game_count = - 1

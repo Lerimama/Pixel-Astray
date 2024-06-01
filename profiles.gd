@@ -23,7 +23,7 @@ var default_game_settings: Dictionary = {
 	"step_time_fast": 0.09, # default hitrost
 	"player_start_energy": 192,
 	"step_slowdown_mode": true,
-	"full_power_mode": false, # vedno destroja ves bulk, hitrost = max_cock_count
+	"full_power_mode": false, # vedno destroja ves stack, hitrost = max_cock_count
 	# points
 	"color_picked_points": 10, 
 	"white_eliminated_points": 100, 
@@ -48,9 +48,10 @@ var default_game_settings: Dictionary = {
 	"spawn_strays_on_cleaned": false,
 	"start_countdown": true,
 	"zoom_to_level_size": true,
-	"show_game_instructions": true,
 	"show_solution_hint": false, # sweeper reštve
 	"tutorial_mode": true, # klasika
+	"show_game_instructions": true,
+	"position_indicators_show_limit": 5, # 1000 pomeni, da je prižgano skos, 0, da ni nikoli
 }
 
 enum Games {
@@ -274,12 +275,12 @@ func _ready() -> void:
 	
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE
-	var debug_game = Games.CLASSIC
+#	var debug_game = Games.CLASSIC
 #	var debug_game = Games.CLEANER_S
 #	var debug_game = Games.CLEANER_M
 #	var debug_game = Games.CLEANER_L
 #	var debug_game = Games.DEFENDER
-#	var debug_game = Games.ERASER
+	var debug_game = Games.ERASER
 #	var debug_game = Games.HANDLER
 #	var debug_game = Games.SWEEPER
 #	var debug_game = Games.THE_DUEL
@@ -309,7 +310,7 @@ func set_game_data(selected_game) -> void:
 			current_game_data = game_data_classic.duplicate()
 			game_settings["show_game_instructions"] = false
 			game_settings["game_time_limit"] = 0
-			game_settings["strays_start_count"] = 5
+			game_settings["strays_start_count"] = 500
 			
 			game_settings["zoom_to_level_size"] = false
 			game_settings["start_countdown"] = false
@@ -339,7 +340,6 @@ func set_game_data(selected_game) -> void:
 			game_settings["zoom_to_level_size"] = false
 #			game_settings["spawn_strays_on_cleaned"] = true
 			game_settings["spawn_white_stray_part"] = 0.11
-		
 		Games.ERASER: 
 			current_game_data = game_data_eraser.duplicate()
 #			game_settings["cell_traveled_energy"] = 0
@@ -361,6 +361,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["cell_traveled_energy"] = 0
 			game_settings["full_power_mode"] = true # 1 v prvi spawn rundi
 			game_settings["strays_start_count"] = 1 # 1 v prvi spawn rundi
+			game_settings["position_indicators_show_limit"] = 0
 			# debug
 			game_settings["start_countdown"] = false # 1 v prvi spawn rundi
 #			game_settings["line_step_pause_time"] = 0.3 # 1 v prvi spawn rundi
@@ -381,6 +382,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["cleaned_reward_points"] = 1 # ... izpiše se "SUCCESS!"
 			game_settings["game_music_track_index"] = 1
 			#
+			game_settings["position_indicators_show_limit"] = 0
 			game_settings["reburst_enabled"] = true
 			game_settings["reburst_window_time"] = 0
 

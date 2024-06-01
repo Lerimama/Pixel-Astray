@@ -1453,7 +1453,7 @@ func change_stat(stat_event: String, stat_value):
 			spawn_floating_tag(points_to_gain)
 			# za tutorial
 			if Global.tutorial_gui.tutorial_on:
-				Global.tutorial_gui.on_color_collected(stack_strays_cleaned_count)
+				Global.tutorial_gui.on_hit_stray(stack_strays_cleaned_count)
 		"white_eliminated":
 			player_stats["player_energy"] = player_max_energy
 			var points_to_gain: int = game_settings["white_eliminated_points"]
