@@ -1,0 +1,64 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
+[ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
+[ext_resource path="res://assets/theme/box_colored_white.tres" type="StyleBox" id=3]
+[ext_resource path="res://assets/theme/font_big.tres" type="DynamicFont" id=4]
+
+[sub_resource type="AtlasTexture" id=480]
+atlas = ExtResource( 2 )
+region = Rect2( 16, 3, 14, 10 )
+filter_clip = true
+
+[node name="LevelBtn" type="Button"]
+margin_right = 200.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 160, 104 )
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 4 )
+custom_styles/hover = ExtResource( 3 )
+custom_styles/pressed = ExtResource( 3 )
+custom_styles/focus = ExtResource( 3 )
+custom_styles/normal = ExtResource( 3 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SolvedIcon" type="TextureRect" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -62.0
+margin_top = 40.0
+margin_right = -48.0
+margin_bottom = 50.0
+focus_neighbour_top = NodePath("../LevelGrid/SolutionsBtn")
+mouse_default_cursor_shape = 2
+texture = SubResource( 480 )
+
+[node name="Solved" type="Label" parent="."]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -61.0
+margin_top = -24.0
+margin_right = -7.0
+margin_bottom = -6.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 1 )
+text = "Solved"
+align = 1
+valign = 1
+uppercase = true
+
+[node name="Label" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 4 )
+text = "%00"
+align = 1
+valign = 1

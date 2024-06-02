@@ -27,8 +27,6 @@ func _ready() -> void:
 	
 	randomize()
 	
-	show_position_indicators_limit = 0		
-	
 			
 func set_game(): 
 	# namen: namesto create_strays() je samo set_level_colors
@@ -186,8 +184,8 @@ func set_new_level():
 	line_steps_per_spawn_round *= game_data["line_steps_per_spawn_round_factor"]
 	line_step_pause_time *= game_data["line_step_pause_time_factor"]
 	line_step_pause_time = clamp (line_step_pause_time, 0.2, line_step_pause_time) # ne sem bit manjša od stray step hitrosti (cca 0.2)
-	spawn_round_range[0] *= game_data["spawn_round_range_factor"][0]
-	spawn_round_range[1] *= game_data["spawn_round_range_factor"][1]
+	spawn_round_range[0] += game_data["spawn_round_range_grow"][0]
+	spawn_round_range[1] += game_data["spawn_round_range_grow"][1]
 	
 	game_data["level"] = current_level
 		

@@ -324,3 +324,56 @@ func grab_focus_no_sfx(control_to_focus: Control):
 	allow_focus_sfx = false
 	control_to_focus.grab_focus()
 	allow_focus_sfx = true
+
+
+# poišče filete in folderje
+
+func get_folder_contents(rootPath: String, files_only: bool = true) -> Array:
+	
+	var files = []
+	var folders = []
+	var dir = Directory.new()
+
+	if dir.open(rootPath) == OK:
+		dir.list_dir_begin(true, true)
+		_add_folder_contents(dir, files, folders, files_only)
+	else:
+		push_error("An error occurred when trying to access the path.")
+
+	if files_only:
+		return files
+	else:
+		return [files, folders]
+	
+	
+func _add_folder_contents(dir: Directory, files: Array, folders: Array, files_only: bool):
+	
+	var file_name = dir.get_next() # zaradi pogoja je setan že tukaj, potem pa se aplcira pravo ime ... zato se na koncu doda en prazen element
+
+	# dokler ne naletim na "prazen" filet, beležim filete
+	while (file_name != ""):
+		# za obe varianti ponovim celo kodo, da lahko uporabim tudi ločeno
+		
+		# var path = dir.get_current_dir() + "/" + file_name
+		var path = dir.get_current_dir() + file_name
+	
+		# folder
+		if dir.current_is_dir() and not files_only:
+			# print("Found directory: %s" % path)
+			var subDir = Directory.new()
+			subDir.open(path)
+			subDir.list_dir_begin(true, false)
+			folders.append(path)
+			_add_folder_contents(subDir, files, folders, true)
+			file_name = dir.get_next()
+			
+		# filet
+		else:
+			# print("Found file: %s" % path)
+			files.append(path)
+			file_name = dir.get_next()
+			
+	if files_only: # v tem primeru se mi doda en prazen element, pa ga vržem ven
+		files.pop_back()	
+	
+	dir.list_dir_end()

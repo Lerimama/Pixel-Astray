@@ -7,7 +7,7 @@ signal gametime_is_up # pošlje se v hud, ki javi game managerju
 var current_second: int # trenutna sekunda znotraj minutnega kroga ... ia izpis na uri
 var game_time_seconds: int # čas v tajmerju v sekundah ... GLAVNI TIMER, po katerem se vse umerja
 var absolute_game_time: float # ne glede na mode, vedno želiš vedet koliko sekund je porabljeno od začetka ... za statistiko
-var limitless_mode: bool # če je gejm tajm 0 in je count-up mode
+var unlimited_mode: bool # če je gejm tajm 0 in je count-up mode
 
 onready var game_time_limit: int = Global.game_manager.game_settings["game_time_limit"]
 onready var sudden_death_mode: int
@@ -25,7 +25,7 @@ func _ready() -> void:
 		$Mins.text = "%02d" % (game_time_limit / 60)
 		$Secs.text = "%02d" % (game_time_limit % 60)
 	elif game_time_limit == 0:
-		limitless_mode = true
+		unlimited_mode = true
 			
 	absolute_game_time = 0
 
@@ -56,7 +56,7 @@ func _process(delta: float) -> void:
 				elif game_time_seconds < sudden_death_limit:
 					modulate = Global.color_red
 		else:
-			if game_time_seconds >= game_time_limit and not limitless_mode: # ker uravnavam s časom, ki je PRETEKEL
+			if game_time_seconds >= game_time_limit and not unlimited_mode: # ker uravnavam s časom, ki je PRETEKEL
 				stop_timer()
 				emit_signal("gametime_is_up")	
 			if sudden_death_mode:
@@ -122,7 +122,7 @@ func _on_Timer_timeout() -> void:
 	else:
 		game_time_seconds += 1
 		# game over countdown
-		if not limitless_mode:
+		if not unlimited_mode:
 			if game_time_seconds > game_time_limit - 1:
 				Global.sound_manager.play_sfx("countdown_b")
 				modulate = Global.color_red

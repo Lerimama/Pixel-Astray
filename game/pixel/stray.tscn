@@ -825,7 +825,6 @@ script = ExtResource( 20 )
 
 [node name="ColorPoly" type="Polygon2D" parent="."]
 position = Vector2( -16, -16 )
-color = Color( 1, 1, 1, 0.203922 )
 polygon = PoolVector2Array( 1, 1, 1, 0, 31.0008, 0, 31, 1, 32, 1, 32, 31, 31, 31, 31, 32, 1, 32, 1, 31, 0, 31, 0, 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

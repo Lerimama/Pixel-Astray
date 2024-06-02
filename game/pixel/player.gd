@@ -389,7 +389,7 @@ func end_move():
 		
 	# ugasnem lučke
 	#	burst_light_off()
-#	skill_light_off()
+	skill_light_off()
 	
 	# reset ključnih vrednosti (če je v skill tweenu, se poštima)
 	direction = Vector2.ZERO 
@@ -868,6 +868,9 @@ func on_get_hit(hit_burst_speed: float):
 	change_stat("get_hit", 1)
 	
 	die() # vedno sledi statistiki
+	
+	collision_shape.set_deferred("disabled", true)
+	collision_shape_ext.set_deferred("disabled", true)
 	
 
 # LIFE LOOP ----------------------------------------------------------------------------------------

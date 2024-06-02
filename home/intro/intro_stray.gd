@@ -32,13 +32,9 @@ func _ready() -> void:
 	count_label.text = name
 	position_indicator.visible = false
 	
-	
-#func show_stray(): # kliče GM
-#
-#	# žrebam animacijo
-#	var random_animation_index = randi() % 3 + 1
-#	var random_animation_name: String = "glitch_%s" % random_animation_index
-#	animation_player.play(random_animation_name)
+	yield(get_tree().create_timer(0.5), "timeout") # da ima čas registrirat	
+	$OverspawnDetect.monitoring = false
+	$OverspawnDetect.monitorable = false
 
 	
 func step(step_direction: Vector2):
@@ -131,3 +127,52 @@ func detect_collision_in_direction(direction_to_check):
 			break # ko je kolajder neham čekirat
 	
 	return first_collider
+
+
+# SIGNALI ------------------------------------------------------------------------------------------------------
+
+
+func _on_VisibilityNotifier2D_viewport_entered(viewport: Viewport) -> void:
+	# namen: ne rabm
+	pass
+		
+		
+func _on_VisibilityNotifier2D_viewport_exited(viewport: Viewport) -> void:
+	# namen: ne rabm
+	pass
+
+
+func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
+	# name: samo normalen die
+	
+	var die_animations: Array = ["die_stray", "die_stray_1", "die_stray_2", "die_stray_3", "die_stray_4", "die_stray_5", ]
+	
+	if die_animations.has(anim_name):
+		collision_shape.set_deferred("disabled", true)
+		collision_shape_ext.set_deferred("disabled", true)
+		# odstrani barve iz huda in igre
+		Global.game_manager.on_stray_died(self)
+		call_deferred("queue_free")
+
+
+func _on_Stray_child_entered_tree(node: Node) -> void: # varovalka overspawn II ... glede na "isto pozicijo"
+	# namen: ne preverjam plejerja
+	
+	for stray in get_tree().get_nodes_in_group(Global.group_strays):
+		if stray.global_position == global_position:
+			# printt ("overspawn II", self) 
+			call_deferred("queue_free")
+
+
+func _on_OverspawnDetect_body_entered(body: Node) -> void: # varovalka overspawn III ... če detect area zazna kolizijo
+	# namen: ne preverjam plejerja
+	
+	# samo na štartu ... ob prikazu jo izklopim
+	if body.is_in_group(Global.group_strays) and not body == self:
+		# printt ("overspawn III", self)
+		call_deferred("queue_free")
+
+
+func _on_Stray_tree_exiting() -> void:
+	# namen: ne rabm
+	pass

@@ -277,6 +277,7 @@ func show_menu():
 		else:
 			gameover_menu.get_node("RestartBtn").text = "TRY AGAIN"
 		if Global.game_manager.game_data["level"] < Profiles.sweeper_level_settings.size():
+#		if Global.game_manager.game_data["level"] < Profiles.sweeper_level_tilemap_paths.size():
 			gameover_menu.get_node("NextLevelBtn").show()
 	elif Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
 		gameover_menu.get_node("RestartBtn").text = "REMATCH"

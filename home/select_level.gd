@@ -7,13 +7,15 @@ var solved_sweeper_btns: Array
 
 onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
 onready var btn_grid_container: Control = $BtnsHolder
-onready var all_level_btns: Array = btn_grid_container.get_children()
 onready var solutions_btn: CheckButton = $SolutionsBtn
+
+onready var LevelBtn: PackedScene = preload("res://home/level_btn.tscn")
 
 
 func _ready() -> void:
 	
 	Profiles.game_data_sweeper["level"] = 1 # ni nujno
+
 	set_level_btns()
 	connect_level_btns()	
 
@@ -21,10 +23,21 @@ func _ready() -> void:
 		solutions_btn.pressed = true
 	else:
 		solutions_btn.pressed = false
-
-
+	
+onready var all_level_btns: Array = btn_grid_container.get_children()
 func set_level_btns():
 	
+	# zbrišem vzorčne gumbe v holderju
+	for btn in all_level_btns:
+		btn.free()
+	all_level_btns.clear()
+	
+	# ustvarim nove gumbe za vsak tilemap
+	for tilemap in Profiles.sweeper_level_tilemap_paths:
+		var new_level_btn: Button = LevelBtn.instance()
+		btn_grid_container.add_child(new_level_btn)
+		all_level_btns.append(new_level_btn)
+			
 	# naberem gumbe in barve
 	if Profiles.use_default_color_theme:
 		btn_colors = Global.get_spectrum_colors(all_level_btns.size())
@@ -56,7 +69,8 @@ func set_level_btns():
 			btn.get_node("Label").modulate = Global.color_gui_gray
 			btn.get_node("SolvedIcon").hide()
 
-
+	
+	printt("btns", btn_grid_container.get_child_count())
 # btns ---------------------------------------------------------------------------------------------
 
 
@@ -122,60 +136,60 @@ func _on_SolutionsBtn_toggled(button_pressed: bool) -> void:
 
 # btn background tilemaps
 	
-func set_btn_tilemap(btn: Button):
-				
-		var BtnTilemap: PackedScene
-		var tilemap_position_adapt: float
-		match btn.name:
-			"01":
-				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn")
-				tilemap_position_adapt = 0
-			"02":
-				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_02.tscn")
-				tilemap_position_adapt = 0
-			"03":
-				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_03.tscn")
-				tilemap_position_adapt = 0
-			"04":
-				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_04.tscn")
-				tilemap_position_adapt = 2
-			"05":
-				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_05.tscn")
-				tilemap_position_adapt = 2
-			"06":
-				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_06.tscn")
-				tilemap_position_adapt = 2
-			"07":
-				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_07.tscn")
-				tilemap_position_adapt = 2
-			"08":
-				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_08.tscn")
-				tilemap_position_adapt = 2
-			"09":
-				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_09.tscn")
-				tilemap_position_adapt = 2
-
-		var tilemap_scale_div: float = 8
-		var cell_size_x: float = 32
-
-		var new_btn_tilemap = BtnTilemap.instance()
-		new_btn_tilemap.scale /=  tilemap_scale_div
-		new_btn_tilemap.show_behind_parent = true
-#		new_btn_tilemap.z_index = -1
-		btn.add_child(new_btn_tilemap)
-
-		var tilemap_reduced_size: Vector2 = new_btn_tilemap.get_used_rect().size * cell_size_x/2 / tilemap_scale_div
-		# sredinska pozicija
-		new_btn_tilemap.position.x = btn.rect_size.x/2 - tilemap_reduced_size.x# - btn.rect_size.x
-		new_btn_tilemap.position.y = btn.rect_size.y/2 - tilemap_reduced_size.y
-		# daptacija zamika pixilov
-		new_btn_tilemap.position.x += tilemap_position_adapt
-		new_btn_tilemap.position.y += tilemap_position_adapt
-		# barvanje 
-		new_btn_tilemap.get_tileset().tile_set_modulate(new_btn_tilemap.edge_tile_id, Color(1,1,1,0))
-		new_btn_tilemap.get_tileset().tile_set_modulate(new_btn_tilemap.edge_tile_id, Color.red)
-		new_btn_tilemap.get_tileset().tile_set_modulate(new_btn_tilemap.floor_tile_id, Color(1,1,1,0))
-		new_btn_tilemap.get_tileset().tile_set_modulate(new_btn_tilemap.spawn_stray_tile_id, Color.white) # prava barva se seta v select levels, v igri se jo itak zamenja s tlemi
-		
-		new_btn_tilemap.set_process_input(false)
+#func set_btn_tilemap(btn: Button):
+#
+#		var BtnTilemap: PackedScene
+#		var tilemap_position_adapt: float
+#		match btn.name:
+#			"01":
+#				BtnTilemap =  
+#				tilemap_position_adapt = 0
+#			"02":
+#				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_02.tscn")
+#				tilemap_position_adapt = 0
+#			"03":
+#				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_03.tscn")
+#				tilemap_position_adapt = 0
+#			"04":
+#				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_04.tscn")
+#				tilemap_position_adapt = 2
+#			"05":
+#				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_05.tscn")
+#				tilemap_position_adapt = 2
+#			"06":
+#				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_06.tscn")
+#				tilemap_position_adapt = 2
+#			"07":
+#				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_07.tscn")
+#				tilemap_position_adapt = 2
+#			"08":
+#				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_08.tscn")
+#				tilemap_position_adapt = 2
+#			"09":
+#				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_09.tscn")
+#				tilemap_position_adapt = 2
+#
+#		var tilemap_scale_div: float = 8
+#		var cell_size_x: float = 32
+#
+#		var new_btn_tilemap = BtnTilemap.instance()
+#		new_btn_tilemap.scale /=  tilemap_scale_div
+#		new_btn_tilemap.show_behind_parent = true
+##		new_btn_tilemap.z_index = -1
+#		btn.add_child(new_btn_tilemap)
+#
+#		var tilemap_reduced_size: Vector2 = new_btn_tilemap.get_used_rect().size * cell_size_x/2 / tilemap_scale_div
+#		# sredinska pozicija
+#		new_btn_tilemap.position.x = btn.rect_size.x/2 - tilemap_reduced_size.x# - btn.rect_size.x
+#		new_btn_tilemap.position.y = btn.rect_size.y/2 - tilemap_reduced_size.y
+#		# daptacija zamika pixilov
+#		new_btn_tilemap.position.x += tilemap_position_adapt
+#		new_btn_tilemap.position.y += tilemap_position_adapt
+#		# barvanje 
+#		new_btn_tilemap.get_tileset().tile_set_modulate(new_btn_tilemap.edge_tile_id, Color(1,1,1,0))
+#		new_btn_tilemap.get_tileset().tile_set_modulate(new_btn_tilemap.edge_tile_id, Color.red)
+#		new_btn_tilemap.get_tileset().tile_set_modulate(new_btn_tilemap.floor_tile_id, Color(1,1,1,0))
+#		new_btn_tilemap.get_tileset().tile_set_modulate(new_btn_tilemap.spawn_stray_tile_id, Color.white) # prava barva se seta v select levels, v igri se jo itak zamenja s tlemi
+#
+#		new_btn_tilemap.set_process_input(false)
 		

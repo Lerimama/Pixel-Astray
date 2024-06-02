@@ -7,7 +7,7 @@ signal gametime_is_up # pošlje se v hud, ki javi game managerju
 enum TimerStates {COUNTING, STOPPED, PAUSED}
 var current_timer_state: int = TimerStates.STOPPED
 
-var limitless_mode: bool # če je gejm tajm 0 in je count-up mode
+var unlimited_mode: bool # če je gejm tajm 0 in je count-up mode
 var absolute_game_time: float # pozitiven čas igre v sekundah (na 2 decimalki)
 var coundown_second: int # za uravnavanje GO odštevanja ... opredeli s v ready
 
@@ -63,7 +63,7 @@ func _process(delta: float) -> void:
 		$Hunds.text = "%02d" % floor((game_time_left - floor(game_time_left)) * 100)	
 	
 	# time limits ... višja limita je prva, nižje sledijo 
-	if not limitless_mode:
+	if not unlimited_mode:
 		# game time is up
 		if absolute_game_time >= game_time_limit: 
 			modulate = Global.color_red
@@ -97,7 +97,7 @@ func start_timer():
 	gameover_countdown_duration = 5 # čas, ko je obarvan in se sliši bip bip	
 
 	if game_time_limit == 0:
-		limitless_mode = true
+		unlimited_mode = true
 		stopwatch_mode = true # avtomatično pač ...
 	coundown_second = gameover_countdown_duration	
 		

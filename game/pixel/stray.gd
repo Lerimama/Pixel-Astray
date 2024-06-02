@@ -53,6 +53,9 @@ func _process(delta: float) -> void:
 	
 func show_stray(): # kliče GM
 	
+	$OverspawnDetect.monitoring = false
+	$OverspawnDetect.monitorable = false
+	
 	# če je pozicija res prazna						
 	if current_state == States.WALL:
 		die_to_wall()
@@ -84,8 +87,6 @@ func die(stray_in_stack_index: int, strays_in_stack_count: int):
 		animation_player.play("die_stray")
 
 	position_indicator.modulate.a = 0	
-	#	collision_shape.disabled = true
-	#	collision_shape_ext.disabled = true
 	collision_shape.set_deferred("disabled", true)
 	collision_shape_ext.set_deferred("disabled", true)
 	
@@ -304,22 +305,22 @@ func _on_Stray_child_entered_tree(node: Node) -> void: # varovalka overspawn II 
 	
 	for stray in get_tree().get_nodes_in_group(Global.group_strays):
 		if stray.global_position == global_position:
-			printt ("overspawn II", self) 
+			# printt ("overspawn II", self) 
 			call_deferred("queue_free")
 			
 	for player in get_tree().get_nodes_in_group(Global.group_players):
 		if player.global_position == global_position:
-			printt ("overspawn II on player", self) 
+			# printt ("overspawn II on player", self) 
 			call_deferred("queue_free")
 
 
 func _on_OverspawnDetect_body_entered(body: Node) -> void: # varovalka overspawn III ... če detect area zazna kolizijo
-	
+	# samo na štartu ... ob prikazu jo izklopim
 	if body.is_in_group(Global.group_strays) and not body == self:
-		printt ("overspawn III", self)
+		# printt ("overspawn III", self)
 		call_deferred("queue_free")
 	if body.is_in_group(Global.group_players):
-		printt ("overspawn III on player", self)
+		# printt ("overspawn III on player", self)
 		call_deferred("queue_free")
 
 

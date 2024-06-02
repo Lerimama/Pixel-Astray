@@ -71,7 +71,7 @@ func _ready() -> void:
 	bursting_points_line.bbcode_text = "[b].[/b] You get " + str(color_collected_points) + " points for every colored, and " + str(white_eliminated_points) + " points \nfor every white pixel eliminated."
 	var cleaned_points: int = Profiles.default_game_settings["cleaned_reward_points"]
 	var cleaning_points_line: RichTextLabel = $Checkpoints/WinLoseContent/Line
-	cleaning_points_line.bbcode_text = "[b].[/b] You win the game if you clean the screen of \nall stray pixels and reclaim your \"one and only\" \nstatus. You will also be rewarded " + str(cleaned_points) + " bonus \npoints if you succeed."
+	cleaning_points_line.bbcode_text = "[b].[/b] You win the game if you clean the screen of \nall stray pixels and reclaim your one-and-only\nstatus. You will also be rewarded " + str(cleaned_points) + " bonus \npoints if you succeed."
 	
 
 func _process(delta: float) -> void:

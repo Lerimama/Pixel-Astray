@@ -36,9 +36,11 @@ func load_new_sweeper_table(next_or_prev_level: int):
 	Profiles.game_data_sweeper["level"] += next_or_prev_level
 	# ciklanje levelov
 	if Profiles.game_data_sweeper["level"] > Profiles.sweeper_level_settings.size():
+#	if Profiles.game_data_sweeper["level"] > Profiles.sweeper_level_tilemap_paths.size():
 		Profiles.game_data_sweeper["level"] = 1
 	elif Profiles.game_data_sweeper["level"] < 1:
 		Profiles.game_data_sweeper["level"] = Profiles.sweeper_level_settings.size()
+#		Profiles.game_data_sweeper["level"] = Profiles.sweeper_level_tilemap_paths.size()
 	
 	# fade out
 	var fade_time: float = 0.2

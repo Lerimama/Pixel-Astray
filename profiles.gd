@@ -39,7 +39,7 @@ var default_game_settings: Dictionary = {
 	"strays_start_count": 0, # ponekod se spawna vsaj 1
 	"spawn_white_stray_part": 0, # procenti spawnanih ... 0 ne spawna nobenega belega
 	# strays in-game respawn
-	"respawn_strays_count": 0, # če je > 0, je respawn aktiviran
+	"respawn_strays_count_range": [0,0], # če je > 0, je respawn aktiviran
 	"respawn_pause_time": 1, # če je 0 lahko pride do errorja (se mi zdi, da n 0, se timer sam disejbla)
 	"respawn_on_turn_white": false, # na respawn se naključni spremeni v belega
 	# game
@@ -81,8 +81,8 @@ var game_data_classic: Dictionary = {
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_classic.tscn",
 	"description" : "Opis standardne avanture pucanja",
-	"Prop" : "Klasika ...\nreclaim your\n\"one and only\"\nstatus.",
-	"Prop2" : "Klasika ...",
+	"Prop" : "Klasika ...\nreclaim your\none-and-only\nstatus.",
+	"Prop2" : "Unlimited\ncleaning time.",
 	"Prop3" : "Score points\nto beat current\nrecord!",
 }
 var game_data_cleaner_s: Dictionary = { 
@@ -92,9 +92,9 @@ var game_data_cleaner_s: Dictionary = {
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_s.tscn",
 	"description" : "Clear the colors before time slips away!",
-	"Prop" : "Clean quickly\nto reclaim your\n\"one and only\"\nstatus.",
-	"Prop2" : "Cleaning time\nis limited to\n%s minutes." % str(2),
-	"Prop3" : "Can you beat\nthe record time!",
+	"Prop" : "...", # Clean quickly\nto reclaim your\none-and-only\nstatus.",
+	"Prop2" : "Your cleaning\ntime is limited\nto %s minutes." % str(2), # CONN ročno povezano z drugo nsatavitvijo
+	"Prop3" : "Be quick and\nefficient to beat\nthe current\nrecord time!",
 }
 var game_data_cleaner_m: Dictionary = {
 	"game": Games.CLEANER_M,
@@ -103,9 +103,9 @@ var game_data_cleaner_m: Dictionary = {
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_m.tscn",
 	"description" : "Race the clock and clean up the color explosion!",
-	"Prop" : "Be quick and efficient to reclaim your \"one and only\" status.",
-	"Prop2" : "Cleaning time\nis limited to\n%s minutes." % str(5),
-	"Prop3" : "Can you beat\nthe record time!",
+	"Prop" : "...", # Clean quickly\nto reclaim your\none-and-only\nstatus.",
+	"Prop2" : "Your cleaning\ntime is limited\nto %s minutes." % str(5), # CONN ročno povezano z drugo nsatavitvijo
+	"Prop3" : "Be quick and\nefficient to beat\nthe current\nrecord time!",
 }
 var game_data_cleaner_l: Dictionary = {
 	"game": Games.CLEANER_L,
@@ -114,9 +114,9 @@ var game_data_cleaner_l: Dictionary = {
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_l.tscn",
 	"description" : "Clean up this vibrant mess before the clock runs out!",
-	"Prop" : "Be quick and efficient to reclaim your \"one and only\" status.",
-	"Prop2" : "Cleaning time is limited to %s minutes." % str(10),
-	"Prop3" : "Can you beat\nthe record time!",
+	"Prop" : "...", # Clean quickly\nto reclaim your\none-and-only\nstatus.",
+	"Prop2" : "Your cleaning\ntime is limited\nto %s minutes." % str(10), # CONN ročno povezano z drugo nsatavitvijo
+	"Prop3" : "Be quick and\nefficient to beat\nthe current\nrecord time!",
 }
 var game_data_eraser: Dictionary = { 
 	"game": Games.ERASER,
@@ -125,19 +125,19 @@ var game_data_eraser: Dictionary = {
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser.tscn",
 	"description" : "Keep the colors in check as they keep popping in!",
-	"Prop": "Unlimited\ncleaning time.\nUnlimited\ndifficulty levels.",
-	"Prop2" : "No stubborn\nwhites on this\nscreen.",
-	"Prop3" : "Score points\nto beat current\nrecord!",
+	"Prop" : "Don't worry\nabout the nasty\nwhite pixels on\nthis screen.",
+	"Prop2": "Unlimited time and\ndifficulty levels.\nLevel up every %s collected colors." % str(200),
+	"Prop3" : "Give it your\nbest shot to\nbeat the current\nrecord score!",
 	# štart
 	"level": 1,
 	"level_goal_count": 13,
 	# "strays_start_count": 0, # določi tilemap
-	# "respawn_strays_count": 5,
+	# "respawn_strays_count_range": [1,1],
 	# "respawn_pause_time": 1,
 	# level up
 	"level_goal_count_grow": 3,
 	"strays_start_count_grow": 0,
-	"respawn_strays_count_grow": 1,
+	"respawn_strays_count_range_grow": [1,1],
 	"respawn_pause_time_factor": 0.7,
 	# ne rabim v tej igri
 	"spawn_white_stray_part_factor": 1,
@@ -147,12 +147,11 @@ var game_data_handler: Dictionary = {
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Handler",
 	"game_scene_path": "res://game/game.tscn",
-	# "tilemap_path": "res://game/tilemaps/tilemap_handler.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_handler_s.tscn",
-	"description" : "Prevent those pesky pixels from ruining your screen!",
-	"Prop" : "Clean the screen\nto reach next\nchallenge.",
-	"Prop2" : "Unlimited\ncleaning time.\nUnlimited\nchallenges.",
-	"Prop3" : "Score points\nto beat current\nrecord!",
+	"tilemap_path": "res://game/tilemaps/tilemap_handler_s.tscn", # tilemap_handler.tscn
+	"description" : "Prevent those sneaky white pixels from prevailing!",
+	"Prop" : "Showcase your\nexpertise as new\nchallenges keep\nappearing.",
+	"Prop2": "Unlimited time and\nchallenges. Reach\nnext challenge on\ncleaned screen.",
+	"Prop3" : "Give it your\nbest shot to\nbeat the current\nrecord score!",
 	# štart
 	"level": 1,
 	# "strays_start_count": 3, # določi settings
@@ -173,9 +172,9 @@ var game_data_defender: Dictionary = {
 	"game_scene_path": "res://game/game_defender.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_defender.tscn",
 	"description" : "Defend your screen against invading colors!",
-	"Prop" : "Player is always\nfull of energy,\nbut has no skills.",
-	"Prop2" : "Unlimited\ncleaning time.\nUnlimited\ndifficulty levels.",
-	"Prop3" : "Score points\nto beat current\nrecord!",
+	"Prop": "Unlimited time and\ndifficulty levels.\nLevel up evety %s collected colors." % str(200),
+	"Prop2" : "Player is always\nfull of energy,\nbut has no skills.",
+	"Prop3" : "Give it your\nbest shot to\nbeat the current\nrecord score!",
 	# štart
 	"level": 1,
 	"level_goal_count": 3, # prvi level
@@ -185,21 +184,21 @@ var game_data_defender: Dictionary = {
 	# level up
 	"level_goal_count_grow": 320, # dodatno prištejem
 	"line_step_pause_time_factor": 0.8, # množim z vsakim levelom
-	"spawn_round_range_factor": [1, 1], # množim [spodnjo, zgornjo] mejo
+	"spawn_round_range_grow": [1, 1], # množim [spodnjo, zgornjo] mejo
 	"line_steps_per_spawn_round_factor": 1, # na koliko stepov se spawna nova runda
 }
-var game_data_sweeper: Dictionary = {
-	"game": Games.SWEEPER,
-	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "Sweeper",
-	"game_scene_path": "res://game/game.tscn",
-	"description" : "Sweep the entire screen in one spectacular move!",
-	"Prop" : "Hit the first\nstray pixel and keep rebursting till there\nare none left.",
-	"Prop2" : "To reburst when hitting a pixel, press\nin the direction of\nthe next target.",
-	"Prop3" : "Showcase your\nmastery and beat\nthe record time!",
-	#
-	"level": 5, # provizorij
-}
+#var game_data_sweeper: Dictionary = {
+#	"game": Games.SWEEPER,
+#	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+#	"game_name": "Sweeper",
+#	"game_scene_path": "res://game/game.tscn",
+#	"description" : "Sweep the entire screen in one spectacular move!",
+#	"Prop" : "Hit the first\nstray pixel and keep rebursting till there\nare none left.",
+#	"Prop2" : "To reburst when hitting a pixel, press\nin the direction of\nthe next target.",
+#	"Prop3" : "Showcase your\nmastery and beat\nthe record time!",
+#	#
+#	"level": 1, # provizorij
+#}
 var sweeper_level_settings: Dictionary = { 
 	1: { # ključ je tudi številka levela
 		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
@@ -265,13 +264,31 @@ var game_data_showcase: Dictionary = {
 
 # ON GAME START -----------------------------------------------------------------------------------
 
-
+var sweeper_tilemaps_folder: String = "res://game/tilemaps/sweeper/"
+var sweeper_level_tilemap_paths: Array
 var game_settings: Dictionary# = default_game_settings # = {}
 var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
 var use_default_color_theme: bool = true
 
+var game_data_sweeper: Dictionary = {
+	"game": Games.SWEEPER,
+	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"game_name": "Sweeper",
+	"game_scene_path": "res://game/game.tscn",
+	"description" : "Sweep the entire screen in one spectacular move!",
+	"Prop" : "Hit the first\nstray pixel and keep rebursting till there\nare none left.",
+	"Prop2" : "To reburst when hitting a pixel, press\nin a direction of\nthe next target.",
+	"Prop3" : "Showcase your\nmastery and beat\nthe record time!",
+	#
+	"level": 1, # provizorij
+}
+
 
 func _ready() -> void:
+	
+	sweeper_level_tilemap_paths = Global.get_folder_contents(sweeper_tilemaps_folder)
+#	printt("sweeper_level_tilemap_paths",sweeper_level_tilemap_paths.size())
+#	printt (sweeper_level_tilemap_paths)
 	
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE
@@ -280,8 +297,8 @@ func _ready() -> void:
 #	var debug_game = Games.CLEANER_M
 #	var debug_game = Games.CLEANER_L
 #	var debug_game = Games.DEFENDER
-	var debug_game = Games.ERASER
-#	var debug_game = Games.HANDLER
+#	var debug_game = Games.ERASER
+	var debug_game = Games.HANDLER
 #	var debug_game = Games.SWEEPER
 #	var debug_game = Games.THE_DUEL
 	set_game_data(debug_game)
@@ -294,7 +311,7 @@ func set_game_data(selected_game) -> void:
 #	# debug
 	game_settings["start_countdown"] = false
 	game_settings["player_start_life"] = 2
-	game_settings["show_game_instructions"] = false
+#	game_settings["show_game_instructions"] = false
 		
 	match selected_game:
 		
@@ -346,7 +363,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["start_countdown"] = false
 			game_settings["strays_start_count"] = 5
 			game_settings["strays_start_count"] = 5
-			game_settings["respawn_strays_count"] = 1
+			game_settings["respawn_strays_count_range"] = [1, 1]
 			game_settings["respawn_pause_time"] = 1
 		Games.HANDLER: 
 			current_game_data = game_data_handler.duplicate()
