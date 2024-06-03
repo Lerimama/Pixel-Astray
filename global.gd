@@ -50,7 +50,11 @@ var color_hud_text: Color = color_almost_white_text # za vse, ki modulirajo barv
 # pixel colors
 var color_white_pixel: Color = Color("#ffffff")
 var color_almost_black_pixel: Color = Color("#141414") 
-var color_dark_gray_pixel: Color = Color("#323232") # start normal
+var color_dark_gray_pixel: Color = Color("#232323")#Color("#323232") # start normal
+
+# popularne transparence ozadij ... referenca
+# A = 140 (pavza
+# A = 200 (Pregame, GO title .. 0.8a = 204A)
 
 var strays_on_screen: Array = [] # za indikatorje
 
@@ -341,6 +345,7 @@ func get_folder_contents(rootPath: String, files_only: bool = true) -> Array:
 		push_error("An error occurred when trying to access the path.")
 
 	if files_only:
+		print("FL",files)
 		return files
 	else:
 		return [files, folders]
@@ -373,7 +378,7 @@ func _add_folder_contents(dir: Directory, files: Array, folders: Array, files_on
 			files.append(path)
 			file_name = dir.get_next()
 			
-	if files_only: # v tem primeru se mi doda en prazen element, pa ga vržem ven
-		files.pop_back()	
+#	if files_only: # v tem primeru se mi doda en prazen element, pa ga vržem ven
+#		files.pop_back()	
 	
 	dir.list_dir_end()

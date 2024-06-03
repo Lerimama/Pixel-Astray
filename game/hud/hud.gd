@@ -202,7 +202,7 @@ func slide_in(): # kliče GM set_game()
 		
 	Global.game_camera.zoom_in(hud_in_out_time)
 	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
-	if Global.game_manager.game_settings["show_solution_hint"]:
+	if Profiles.solution_hint_on:
 		fade_in.tween_callback(solution_line, "show")
 		fade_in.tween_property(solution_line, "modulate:a", 0.1, hud_in_out_time).from(0.0)
 	fade_in.parallel().tween_property(header, "rect_position:y", 0, hud_in_out_time)

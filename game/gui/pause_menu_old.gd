@@ -2,7 +2,6 @@ extends Control
 
 
 onready var title: Label = $Title
-onready var instructions: Control = $Instructions
 
 
 func _input(event: InputEvent) -> void:
@@ -24,28 +23,8 @@ func _ready() -> void:
 	# naslov
 	title.text = str(Global.game_manager.game_data["game_name"]) + " on pause"
 	
-	# update settings btns	
-	if Global.sound_manager.game_music_set_to_off:
-		$Settings/GameMusicBtn.pressed = false
-	else:
-		$Settings/GameMusicBtn.pressed = true
-	$Settings/GameMusicSlider.value = AudioServer.get_bus_volume_db(AudioServer.get_bus_index("GameMusic")) # da je slajder v settingsih in pavzi poenoten
-	if Global.sound_manager.game_sfx_set_to_off:
-		$Settings/GameSfxBtn.pressed = false
-	else:
-		$Settings/GameSfxBtn.pressed = true
-	if Profiles.camera_shake_on:
-		$Settings/CameraShakeBtn.pressed = true
-	else:
-		$Settings/CameraShakeBtn.pressed = false
-
-	# instructions setup
-	instructions.get_instructions_content(Global.hud.current_highscore, Global.hud.current_highscore_owner)
-	instructions.controls_duel_p1.hide()
-	instructions.controls_duel_p2.hide()
-	instructions.record_label_holder.hide()
-	instructions.title.modulate = Global.color_red
-	instructions.title.text += " ... on pause"
+	# apdejt glasnosti na slajderju
+	$Settings/GameMusicSlider.value = AudioServer.get_bus_volume_db(AudioServer.get_bus_index("GameMusic"))
 
 
 func _process(delta: float) -> void:
@@ -68,7 +47,6 @@ func _process(delta: float) -> void:
 		
 			
 func pause_game():
-#	instructions.get_instructions_content(Global.hud.current_highscore, Global.hud.current_highscore_owner)
 	
 	get_viewport().set_disable_input(true) # anti dablklik
 	
@@ -90,7 +68,6 @@ func pause_game():
 	fade_in_tween.tween_property(self, "modulate:a", 1, pause_in_time)
 	fade_in_tween.tween_callback(get_tree(), "set_pause", [true])
 	fade_in_tween.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
-
 
 func play_on():
 	

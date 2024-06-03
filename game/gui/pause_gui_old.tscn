@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=2]
+[gd_scene load_steps=61 format=2]
 
 [ext_resource path="res://assets/atlas_controls.png" type="Texture" id=1]
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=2]
@@ -363,29 +363,25 @@ atlas = ExtResource( 1 )
 region = Rect2( 109, 218, 22, 22 )
 margin = Rect2( -2, 3, 0, 0 )
 
-[sub_resource type="StyleBoxFlat" id=327]
-bg_color = Color( 0.137255, 0.137255, 0.137255, 1 )
-border_color = Color( 1, 1, 1, 0.443137 )
-
 [node name="PauseMenu" type="Control"]
 pause_mode = 2
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_pivot_offset = Vector2( 592, 224 )
 theme = ExtResource( 6 )
 script = ExtResource( 3 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 112.0, 208.0, 680.0, 40.0 ],
-"_edit_vertical_guides_": [ 640.0, 304.0, 976.0, 964.0 ]
+"_edit_horizontal_guides_": [ 112.0, 208.0 ],
+"_edit_vertical_guides_": [ 640.0, 304.0, 976.0 ]
 }
 
 [node name="Background" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 40.0
-margin_bottom = -40.0
-color = Color( 0, 0, 0, 0.784314 )
+color = Color( 0, 0, 0, 0.862745 )
+
+[node name="Instructions" parent="." instance=ExtResource( 10 )]
+script = null
 
 [node name="_help_gui_guide" parent="." instance=ExtResource( 8 )]
 visible = false
@@ -397,7 +393,6 @@ margin_right = 336.0
 margin_bottom = -248.0
 
 [node name="Title" type="Label" parent="."]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -645,6 +640,107 @@ theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 2 )
 text = "to confirm selection"
 
+[node name="Settings" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 512.0
+margin_top = 142.0
+margin_right = -512.0
+margin_bottom = -376.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" type="Label" parent="Settings"]
+visible = false
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -89.0
+margin_top = -8.0
+margin_right = 89.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 0, 38 )
+size_flags_horizontal = 3
+theme = SubResource( 194 )
+text = "Game settings"
+align = 1
+uppercase = true
+
+[node name="GameMusicBtn" type="CheckButton" parent="Settings"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+margin_left = 47.0
+margin_top = 27.0
+margin_right = 207.0
+margin_bottom = 59.0
+rect_min_size = Vector2( 0, 32 )
+focus_neighbour_top = NodePath("../../Menu/PlayBtn")
+mouse_default_cursor_shape = 2
+pressed = true
+text = "Game music"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="GameMusicSlider" type="HSlider" parent="Settings"]
+modulate = Color( 1, 1, 1, 0.470588 )
+anchor_right = 1.0
+margin_top = 91.0
+margin_bottom = 123.0
+rect_min_size = Vector2( 0, 32 )
+focus_neighbour_bottom = NodePath("../GameSfxBtn")
+mouse_default_cursor_shape = 2
+size_flags_vertical = 8
+min_value = -30.0
+max_value = 10.0
+step = 5.0
+value = -20.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Tick" type="Polygon2D" parent="Settings/GameMusicSlider"]
+show_behind_parent = true
+position = Vector2( 127, 13 )
+color = Color( 0.513726, 0.513726, 0.513726, 1 )
+polygon = PoolVector2Array( 0, 7, 0, -1, 2, -1, 2, 7 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="GameMusicVol" type="Label" parent="Settings/GameMusicSlider"]
+margin_left = 49.0
+margin_top = -19.0
+margin_right = 207.0
+margin_bottom = 3.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Music volume"
+
+[node name="GameSfxBtn" type="CheckButton" parent="Settings"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+margin_left = 59.0
+margin_top = 121.0
+margin_right = 195.0
+margin_bottom = 153.0
+rect_min_size = Vector2( 0, 32 )
+focus_neighbour_top = NodePath("../GameMusicSlider")
+mouse_default_cursor_shape = 2
+pressed = true
+text = "Game SFX"
+
+[node name="CameraShakeBtn" type="CheckButton" parent="Settings"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+margin_left = 36.0
+margin_top = 161.0
+margin_right = 219.0
+margin_bottom = 193.0
+rect_min_size = Vector2( 0, 32 )
+focus_neighbour_bottom = NodePath("../../Menu/PlayBtn")
+mouse_default_cursor_shape = 2
+pressed = true
+text = "Camera shake"
+
 [node name="Title2" type="Label" parent="."]
 visible = false
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
@@ -660,7 +756,6 @@ align = 1
 uppercase = true
 
 [node name="Controls" parent="." instance=ExtResource( 7 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -792,157 +887,14 @@ margin_left = 80.0
 margin_right = 260.0
 text = " to skip current track"
 
-[node name="Instructions" parent="." instance=ExtResource( 10 )]
-
-[node name="Background" parent="Instructions" index="0"]
-visible = false
-
-[node name="Description" parent="Instructions" index="2"]
-visible = false
-margin_bottom = 186.0
-
-[node name="Outline" parent="Instructions" index="3"]
-margin_left = -432.0
-margin_top = 192.0
-margin_right = 208.0
-margin_bottom = 504.0
-
-[node name="Record" parent="Instructions/Outline" index="3"]
-visible = false
-
-[node name="Shortcuts" parent="Instructions/Outline" index="4"]
-visible = true
-
-[node name="Controls" parent="Instructions/Outline" index="5"]
-margin_left = 280.0
-
-[node name="ActionHint" parent="Instructions" index="4"]
-visible = false
-
-[node name="Settings" type="Panel" parent="."]
-margin_left = 856.0
-margin_top = 192.0
-margin_right = 1072.0
-margin_bottom = 504.0
-grow_horizontal = 2
-rect_min_size = Vector2( 207, 152 )
-custom_styles/panel = SubResource( 327 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Title" type="Label" parent="Settings"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -89.0
-margin_top = 22.0
-margin_right = 89.0
-margin_bottom = 60.0
-rect_min_size = Vector2( 0, 38 )
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-text = "Settings"
-align = 1
-uppercase = true
-
-[node name="GameMusicBtn" type="CheckButton" parent="Settings"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-anchor_right = 1.0
-margin_left = 52.0
-margin_top = 57.0
-margin_right = -52.0
-margin_bottom = 89.0
-rect_min_size = Vector2( 0, 32 )
-focus_neighbour_top = NodePath("../CameraShakeBtn")
-mouse_default_cursor_shape = 2
-custom_fonts/font = ExtResource( 2 )
-pressed = true
-text = "GAME MUSIC"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="GameMusicSlider" type="HSlider" parent="Settings"]
-modulate = Color( 1, 1, 1, 0.470588 )
-anchor_right = 1.0
-margin_left = 32.0
-margin_top = 115.0
-margin_right = -32.0
-margin_bottom = 147.0
-rect_min_size = Vector2( 0, 32 )
-focus_neighbour_bottom = NodePath("../GameSfxBtn")
-mouse_default_cursor_shape = 2
-size_flags_vertical = 8
-min_value = -30.0
-max_value = 10.0
-step = 5.0
-value = -20.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Tick" type="Polygon2D" parent="Settings/GameMusicSlider"]
-visible = false
-show_behind_parent = true
-position = Vector2( 83, 13 )
-color = Color( 0.513726, 0.513726, 0.513726, 1 )
-polygon = PoolVector2Array( 0, 7, 0, -1, 2, -1, 2, 7 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="GameMusicVol" type="Label" parent="Settings/GameMusicSlider"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -79.0
-margin_top = -35.0
-margin_right = 79.0
-margin_bottom = -13.0
-size_flags_horizontal = 3
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_fonts/font = ExtResource( 2 )
-text = "GAME MUSIC VOLUME"
-align = 1
-
-[node name="GameSfxBtn" type="CheckButton" parent="Settings"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-anchor_right = 1.0
-margin_left = 60.0
-margin_top = 145.0
-margin_right = -60.0
-margin_bottom = 177.0
-rect_min_size = Vector2( 0, 32 )
-focus_neighbour_top = NodePath("../GameMusicSlider")
-mouse_default_cursor_shape = 2
-custom_fonts/font = ExtResource( 2 )
-pressed = true
-text = "GAME SFX"
-
-[node name="CameraShakeBtn" type="CheckButton" parent="Settings"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-anchor_right = 1.0
-margin_left = 46.0
-margin_top = 182.0
-margin_right = -38.0
-margin_bottom = 214.0
-rect_min_size = Vector2( 0, 32 )
-focus_neighbour_bottom = NodePath("../../Menu/PlayBtn")
-mouse_default_cursor_shape = 2
-custom_fonts/font = ExtResource( 2 )
-pressed = true
-text = "CAMERA SHAKE"
-
 [node name="Menu" type="HBoxContainer" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -154.0
+margin_left = -161.0
 margin_top = 238.0
-margin_right = 154.0
+margin_right = 161.0
 margin_bottom = 260.0
 grow_horizontal = 2
 theme = ExtResource( 6 )
@@ -956,40 +908,42 @@ margin_right = 94.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../QuitBtn")
 focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
+focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 0
 text = "PLAY ON"
 
 [node name="SkipTutBtn" type="Button" parent="Menu"]
-visible = false
 margin_left = 126.0
 margin_right = 296.0
 margin_bottom = 22.0
 focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
+focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 0
 text = "SKIP TUTORIAL"
 
 [node name="RestartBtn" type="Button" parent="Menu"]
-margin_left = 126.0
-margin_right = 224.0
+margin_left = 328.0
+margin_right = 426.0
 margin_bottom = 22.0
 focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
+focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 6
 size_flags_vertical = 0
 text = "RESTART"
 
 [node name="QuitBtn" type="Button" parent="Menu"]
-margin_left = 256.0
-margin_right = 308.0
+margin_left = 458.0
+margin_right = 618.0
 margin_bottom = 22.0
 focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
 focus_neighbour_right = NodePath("../PlayBtn")
 focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 0
-text = "QUIT"
+text = "QUIT TO MENU"
 
 [connection signal="toggled" from="Settings/GameMusicBtn" to="." method="_on_GameMusicBtn_toggled"]
 [connection signal="value_changed" from="Settings/GameMusicSlider" to="." method="_on_GameMusicSlider_value_changed"]
@@ -1002,10 +956,3 @@ text = "QUIT"
 
 [editable path="ControlsShorts/ShortcutLine6"]
 [editable path="ControlsShorts/ShortcutLine2"]
-[editable path="Instructions"]
-[editable path="Instructions/Outline/Shortcuts/Shortcuts/ShortcutLine6"]
-[editable path="Instructions/Outline/Shortcuts/Shortcuts/ShortcutLine"]
-[editable path="Instructions/Outline/Shortcuts/Shortcuts/ShortcutLine2"]
-[editable path="Instructions/Outline/Shortcuts/Shortcuts/ShortcutLine8"]
-[editable path="Instructions/Outline/Controls/Controls_tight"]
-[editable path="Instructions/ActionHint"]

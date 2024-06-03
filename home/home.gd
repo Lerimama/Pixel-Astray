@@ -105,41 +105,34 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 	match animation_name:
 		"select_game":
 			if animation_reversed(Screens.SELECT_GAME):
-				Global.grab_focus_no_sfx($Menu/SelectGameBtn)
 				return
 			current_screen = Screens.SELECT_GAME
 			current_esc_hint = $SelectGame/EscHint
 			Global.grab_focus_no_sfx($SelectGame/GamesMenu/Classic/ClassicBtn)
 		"about":
 			if animation_reversed(Screens.ABOUT):
-				Global.grab_focus_no_sfx($Menu/AboutBtn)
 				return
 			current_screen = Screens.ABOUT
 			current_esc_hint = $About/EscHint
 			Global.grab_focus_no_sfx($About/BackBtn)
 		"settings":
 			if animation_reversed(Screens.SETTINGS):
-				Global.grab_focus_no_sfx($Menu/SettingsBtn)
 				return
 			current_screen = Screens.SETTINGS
 			current_esc_hint = $Settings/EscHint
 			Global.grab_focus_no_sfx($Settings/MenuMusicBtn)
 		"highscores":
 			if animation_reversed(Screens.HIGHSCORES):
-#			if animation_reversed("highscores"):
-				Global.grab_focus_no_sfx($Menu/HighscoresBtn)
 				return
 			current_screen = Screens.HIGHSCORES
 			current_esc_hint = $Highscores/EscHint
 			Global.grab_focus_no_sfx($Highscores/SweeperArrows/RightBtn)
 		"select_level":
 			if animation_reversed(Screens.SELECT_LEVEL):
-				current_screen = Screens.SELECT_GAME
-				Global.grab_focus_no_sfx($SelectGame/GamesMenu/Sweeper/SweeperBtn)
 				return
 			current_screen = Screens.SELECT_LEVEL
 			current_esc_hint = $SelectLevel/EscHint
-			Global.grab_focus_no_sfx($SelectLevel/BtnsHolder.get_child(0))
+			Global.grab_focus_no_sfx($SelectLevel.all_level_btns[0])
 		"play_game":
 			Global.main_node.home_out()
 		"play_level":
@@ -170,6 +163,7 @@ func animation_reversed(from_screen: int):
 				Global.grab_focus_no_sfx($Menu/HighscoresBtn)
 				menu_in()
 			Screens.SELECT_LEVEL:
+				current_screen = Screens.SELECT_GAME
 				Global.grab_focus_no_sfx($SelectGame/GamesMenu/Sweeper/SweeperBtn)
 		return true
 			

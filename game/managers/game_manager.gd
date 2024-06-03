@@ -44,7 +44,6 @@ onready var start_strays_spawn_count: int = game_settings["strays_start_count"] 
 onready var spawn_white_stray_part: float = game_settings["spawn_white_stray_part"]
 onready var respawn_pause_time: float = game_settings["respawn_pause_time"]
 onready var respawn_strays_count_range: Array = game_settings["respawn_strays_count_range"]
-
 onready var StrayPixel: PackedScene = preload("res://game/pixel/stray.tscn")
 onready var PlayerPixel: PackedScene = preload("res://game/pixel/player.tscn")
 onready var respawn_timer: Timer = $"../RespawnTimer"
@@ -68,16 +67,6 @@ func _ready() -> void:
 
 	Global.game_manager = self
 	randomize()
-	
-#	game_data["level"] = 1
-	# sweeper level settings
-	if game_data["game"] == Profiles.Games.SWEEPER:
-		var current_level_settings: Dictionary
-#		current_level_settings["tilemap_path"] = Profiles.sweeper_level_tilemap_paths[game_data["level"]]
-#		current_level_settings = Profiles.sweeper_level_tilemap_paths[game_data["level"])]
-		current_level_settings = Profiles.sweeper_level_settings[game_data["level"]]
-		for setting in current_level_settings:
-			game_data[setting] = current_level_settings[setting]
 	
 	if game_data.has("level_goal_count"):
 		level_goal_count = game_data["level_goal_count"]
@@ -106,16 +95,20 @@ func set_tilemap():
 	
 	var tilemap_to_release: TileMap = Global.current_tilemap # trenutno naložen v areni
 	
-	var tilemap_to_load_path: String
-	if game_data["game"] == Profiles.Games.SWEEPER: # path vlečem iz level settings
-		# najprej pridobim listo vseh tilemapov v sweepr mapi
-		tilemap_to_load_path = game_data["tilemap_path"]
-	else:
-		tilemap_to_load_path = game_data["tilemap_path"]
-
-	printt ("path", tilemap_to_load_path)
-	printt ("path", "res://game/tilemaps/sweeper/tilemap_sweeper_02.tscn")
-
+	if game_data["game"] == Profiles.Games.SWEEPER:
+		# v listi vseh tilemapov poišče tisto, ki ima v imenu številko levela
+		if game_data["level"] > Profiles.sweeper_level_tilemap_paths.size(): # varovalka
+			game_data["level"] = Profiles.sweeper_level_tilemap_paths.size()
+		var level_number_as_string: String = "%02d" % game_data["level"]
+		var selected_level_path: String
+		for level_path in Profiles.sweeper_level_tilemap_paths:
+			if level_path.rfind(level_number_as_string) >= 0:
+				game_data["tilemap_path"] = level_path
+				break # če ne pride do brejka, se naloži 01 sweeper tilemap 
+	
+	var tilemap_to_load_path: String = game_data["tilemap_path"]
+	printt("path", tilemap_to_load_path, game_data["level"])
+	
 	# release default tilemap	
 	tilemap_to_release.set_physics_process(false)
 	tilemap_to_release.free()
@@ -282,7 +275,7 @@ func set_new_level():
 
 func upgrade_level(level_upgrade_reason: String): # cleaner
 	
-	if level_upgrade_in_progress:
+	if level_upgrade_in_progress or not game_on: # zazih game_on pogoj 
 		return
 	level_upgrade_in_progress = true	
 	randomize()
@@ -292,18 +285,19 @@ func upgrade_level(level_upgrade_reason: String): # cleaner
 	Global.hud.level_up_popup_inout(current_level)
 	
 	for player in current_players_in_game:
-		player.end_move()
+#		player.end_move()
 		if level_upgrade_reason == "cleaned":
 			player.on_screen_cleaned()
 	
 	set_color_pool()
 	set_new_level() 
-	create_strays(start_strays_spawn_count) 
+	Global.hud.spawn_color_indicators(get_level_colors())
+#	create_strays(start_strays_spawn_count) 
+	level_upgrade_in_progress = false
 	
 	if game_settings["respawn_strays_count_range"][1] > 0:
-		respawn_timer.start(first_respawn_time)
+		respawn_timer.start(respawn_pause_time)
 	
-	level_upgrade_in_progress = false
 
 	
 func get_level_colors():
@@ -474,7 +468,9 @@ func respawn_strays(spawn_in_stack: bool = true):
 	
 	for stray_index in respawn_strays_count:
 		
-		if get_free_positions().empty():
+		# ugotovim katere pozicije so prazne
+		var current_free_cell_positions: Array = get_free_positions()
+		if current_free_cell_positions.empty():
 			return
 		
 		# select color
@@ -488,8 +484,6 @@ func respawn_strays(spawn_in_stack: bool = true):
 			var random_color_index: int = randi() % int(color_pool_colors.size())		
 			spawned_stray_color = color_pool_colors[random_color_index]
 		
-		# ugotovim katere pozicije so prazne
-		var free_cell_positions: Array = get_free_positions()
 		
 		# izbrišem stack pozicije, če niso med praznimi (v prvem koraku so sosednje poz prazne
 		for stack_cell_position in available_stack_cell_positions:
@@ -500,8 +494,8 @@ func respawn_strays(spawn_in_stack: bool = true):
 		var selected_cell_position: Vector2
 		# random pozicija
 		if available_stack_cell_positions.empty() or not spawn_in_stack:
-			var random_position_index: int = randi() % int(free_cell_positions.size())		
-			selected_cell_position = free_cell_positions[random_position_index]
+			var random_position_index: int = randi() % int(current_free_cell_positions.size())		
+			selected_cell_position = current_free_cell_positions[random_position_index]
 			selected_stray_position = selected_cell_position + Vector2(cell_size_x/2, cell_size_x/2)
 		# stack random pozicija
 		else:
@@ -515,9 +509,9 @@ func respawn_strays(spawn_in_stack: bool = true):
 		for y in 3:
 			for x in 3:
 				cell_in_check = current_cell_position + Vector2(x - 1, y - 1) * cell_size_x
-				# če ni izvorna pozicija, jo dodam me sosednje pozicije
-				if not cell_in_check == current_cell_position:
-					if not available_stack_cell_positions.has(cell_in_check):
+				# če ni izvorna celica in je del (praznih) tal , jo dodam me sosednje pozicije
+				if not cell_in_check == current_cell_position and current_free_cell_positions.has(cell_in_check):
+					if not available_stack_cell_positions.has(cell_in_check): # da se ne podvaja
 						available_stack_cell_positions.append(cell_in_check)	
 		
 		# spawn
@@ -640,6 +634,9 @@ func get_free_positions():
 
 func _change_strays_in_game_count(strays_count_change: int):
 	# šteje nove in uničene
+	
+	if not game_on: # samo ko je igra
+		return
 	
 	strays_in_game_count += strays_count_change # strays_count_change je lahko - ali +
 	strays_in_game_count = clamp(0, strays_in_game_count, strays_in_game_count)

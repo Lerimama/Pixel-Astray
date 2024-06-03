@@ -133,6 +133,7 @@ text = "NO ENERGY! Collect a color to revitalize."
 align = 1
 
 [node name="Instructions" parent="Popups" instance=ExtResource( 12 )]
+visible = false
 __meta__ = {
 "_edit_horizontal_guides_": [ 120.0, 160.0 ]
 }

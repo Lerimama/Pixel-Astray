@@ -167,8 +167,9 @@ anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -80.0
 margin_top = 587.0
-margin_right = 135.0
+margin_right = 124.0
 margin_bottom = 615.0
+rect_min_size = Vector2( 0, 28 )
 theme = ExtResource( 5 )
 custom_constants/separation = 0
 

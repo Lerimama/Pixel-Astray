@@ -10,11 +10,11 @@ onready var record_owner: Label = $Outline/Record/VBoxContainer/RecordOwner
 onready var outline: = $Outline
 onready var shortcuts: Panel = $Outline/Shortcuts
 onready var controls: Control = $Outline/Controls
-onready var controls_duel: Control = $Outline/ControlsDuel
-onready var controls_duel2: Control = $Outline/ControlsDuel2
+onready var controls_duel_p1: Control = $Outline/ControlsDuelP1
+onready var controls_duel_p2: Control = $Outline/ControlsDuelP2
 
 
-func get_instructions_content(current_highscore, current_highscore_owner):
+func get_instructions_content(current_highscore: int = 0, current_highscore_owner: String = "Nobody"):
 	
 	var current_game_data: Dictionary = Global.game_manager.game_data
 	
@@ -50,12 +50,12 @@ func get_instructions_content(current_highscore, current_highscore_owner):
 	# player controls 			
 	if Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
 		controls.hide()
-		controls_duel.show()
-		controls_duel2.show()
+		controls_duel_p1.show()
+		controls_duel_p2.show()
 	else:
 		controls.show()
-		controls_duel.hide()
-		controls_duel2.hide()
+		controls_duel_p1.hide()
+		controls_duel_p2.hide()
 		
 	# game props
 	for prop in outline.get_children():
@@ -66,17 +66,3 @@ func get_instructions_content(current_highscore, current_highscore_owner):
 				prop_label.text = current_game_data["%s" % prop.name] # ... jo napolni z njeno vsebino
 			else:
 				prop.hide()
-	
-	# shortcuts
-	#	if record_label_holder.visible and props_count > 2:
-	#		shortcuts.hide()
-	#	elif controls_duel.visible:
-	#		shortcuts.hide()
-	#	else:
-	#		if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-	#			shortcuts.get_node("Shortcuts/Hint").show()
-	#		else:
-	#			shortcuts.get_node("Shortcuts/Hint").hide()
-	#		shortcuts.show()
-
-

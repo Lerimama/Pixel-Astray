@@ -46,7 +46,7 @@ func _ready() -> void:
 	Global.tutorial_gui = self # za skillse iz plejerja
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.CLASSIC:
-		if Profiles.default_game_settings["tutorial_mode"]:
+		if Profiles.tutorial_mode:
 			tutorial_on = true
 	
 	visible = false

@@ -193,7 +193,7 @@ func show_gameover_title():
 	selected_gameover_title.visible = true
 	gameover_title_holder.modulate.a = 0
 	
-	var background_fadein_alpha: float = 0.85 # cca 217
+	var background_fadein_alpha: float = 0.80 # 204A
 	
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_callback(gameover_title_holder, "show")

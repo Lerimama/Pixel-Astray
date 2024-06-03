@@ -126,6 +126,20 @@ func create_strays(strays_to_spawn_count: int):
 	# namen: v žrebanje vključim samo home spawn pozicije na voljo ... ni preverjanja vseh drugih mogočih pozicij
 	# namen: skrijem ga, ker se pokaže šele pred prvim korakom
 	
+	# preverjama free home positions
+	free_home_positions = random_spawn_positions.duplicate() # vsakič znova zajamemo vse in ji potem odštejemo trenutno zasedene ... 
+	for stray in get_tree().get_nodes_in_group(Global.group_strays):
+		if free_home_positions.has(stray.global_position - Vector2(cell_size_x/2, cell_size_x/2)):
+			free_home_positions.erase(stray.global_position - Vector2(cell_size_x/2, cell_size_x/2))
+	# preverjam za GO engine stalled
+	if free_home_positions.empty():
+		print("prazne pozicije I")
+		# sprožim tajmer, ki na koncu pozicije preveri še enkrat
+		engine_stalled_timer.start(engine_stalled_checking_time)
+	else:
+		engine_stalled_timer.stop() # zazih
+		
+			
 	for stray_index in strays_to_spawn_count:
 		
 		# žrebam barvo
@@ -142,15 +156,12 @@ func create_strays(strays_to_spawn_count: int):
 			
 			var spawned_stray = spawn_stray(stray_index, new_stray_color, selected_stray_position, false)
 			strays_in_spawn_round.append(spawned_stray)
-					
+			
+			# post spawn
 			all_stray_colors.append(new_stray_color)
-			# odstranim uporabljeno pozicije
 			free_home_positions.erase(selected_stray_position)
 			
 	stray_spawning_round += 1
-	#	for new_stray in strays_in_spawn_round:
-	#		new_stray.call_deferred("step")
-	#		print("step")
 	
 		
 func upgrade_level(level_upgrade_reason: String):
@@ -196,19 +207,6 @@ func set_new_level():
 func line_step():
 	
 	if not level_upgrade_in_progress:
-		
-		# preverjama available positions
-		free_home_positions = random_spawn_positions.duplicate() # vsakič znova zajamemo vse in ji potem odštejemo trenutno zasedene ... 
-		for stray in get_tree().get_nodes_in_group(Global.group_strays):
-			if free_home_positions.has(stray.global_position - Vector2(cell_size_x/2, cell_size_x/2)):
-				free_home_positions.erase(stray.global_position - Vector2(cell_size_x/2, cell_size_x/2))
-		# preverjam za GO engine stalled
-		if free_home_positions.empty():
-			print("prazne pozicije I")
-			# sprožim tajmer, ki na koncu pozicije preveri še enkrat
-			engine_stalled_timer.start(engine_stalled_checking_time)
-		else:
-			engine_stalled_timer.stop() # zazih
 				
 		line_step_in_progress = true
 				
@@ -230,9 +228,11 @@ func line_step():
 		if line_steps_since_spawn_round == line_steps_per_spawn_round: # tukaj, da ne spawna če je konec
 			call_deferred("create_strays", random_spawn_count)
 			line_steps_since_spawn_round = 0
-			line_steps_since_spawn_round += 1 # runda se šteje samo, če spawnam
+		
+		line_steps_since_spawn_round += 1 # runda se šteje samo, če spawnam
 	
-	line_step_in_progress = false
+		line_step_in_progress = false
+	
 	line_step_pause_timer.start(line_step_pause_time)
 
 		

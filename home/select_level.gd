@@ -9,6 +9,7 @@ onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
 onready var btn_grid_container: Control = $BtnsHolder
 onready var solutions_btn: CheckButton = $SolutionsBtn
 
+onready var all_level_btns: Array# = btn_grid_container.get_children()
 onready var LevelBtn: PackedScene = preload("res://home/level_btn.tscn")
 
 
@@ -19,25 +20,28 @@ func _ready() -> void:
 	set_level_btns()
 	connect_level_btns()	
 
-	if Profiles.default_game_settings["show_solution_hint"]:
+	if Profiles.solution_hint_on:
 		solutions_btn.pressed = true
 	else:
 		solutions_btn.pressed = false
 	
-onready var all_level_btns: Array = btn_grid_container.get_children()
+		
 func set_level_btns():
 	
 	# zbrišem vzorčne gumbe v holderju
-	for btn in all_level_btns:
-		btn.free()
-	all_level_btns.clear()
+	for btn in btn_grid_container.get_children():
+		btn.queue_free()
 	
-	# ustvarim nove gumbe za vsak tilemap
-	for tilemap in Profiles.sweeper_level_tilemap_paths:
-		var new_level_btn: Button = LevelBtn.instance()
-		btn_grid_container.add_child(new_level_btn)
-		all_level_btns.append(new_level_btn)
-			
+	# ustvarim nove gumbe za vsak tilemap_path (vmes preverjam zaporedje glede na ime fileta)
+	for n in Profiles.sweeper_level_tilemap_paths.size():
+		var level_number_as_string: String = "%02d" % (n + 1)
+		for tilemap_path in Profiles.sweeper_level_tilemap_paths:
+			if tilemap_path.rfind(level_number_as_string) >= 0:
+				var new_level_btn: Button = LevelBtn.instance()
+				btn_grid_container.add_child(new_level_btn)
+				all_level_btns.append(new_level_btn)
+				break
+	
 	# naberem gumbe in barve
 	if Profiles.use_default_color_theme:
 		btn_colors = Global.get_spectrum_colors(all_level_btns.size())
@@ -70,7 +74,6 @@ func set_level_btns():
 			btn.get_node("SolvedIcon").hide()
 
 	
-	printt("btns", btn_grid_container.get_child_count())
 # btns ---------------------------------------------------------------------------------------------
 
 
@@ -110,10 +113,10 @@ func _on_btn_pressed(btn):
 
 func play_selected_level(selected_level: int):
 	
+	# set sweeper level
+	Profiles.game_data_sweeper["level"] = selected_level
 	# set sweeper game data
 	Profiles.set_game_data(Profiles.Games.SWEEPER)
-	# spremeni game data level s tistim v level settings
-	Profiles.game_data_sweeper["level"] = selected_level
 	Global.sound_manager.play_gui_sfx("menu_fade")
 	animation_player.play("play_level")
 	get_viewport().set_disable_input(true)
@@ -129,9 +132,9 @@ func _on_BackBtn_pressed() -> void:
 func _on_SolutionsBtn_toggled(button_pressed: bool) -> void:
 	
 	if button_pressed:
-		 Profiles.default_game_settings["show_solution_hint"] = true
+		 Profiles.solution_hint_on = true
 	else:
-		 Profiles.default_game_settings["show_solution_hint"] = false
+		 Profiles.solution_hint_on = false
 		
 
 # btn background tilemaps
@@ -142,7 +145,7 @@ func _on_SolutionsBtn_toggled(button_pressed: bool) -> void:
 #		var tilemap_position_adapt: float
 #		match btn.name:
 #			"01":
-#				BtnTilemap =  
+#				BtnTilemap = preload("res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn")
 #				tilemap_position_adapt = 0
 #			"02":
 #				BtnTilemap =  preload("res://game/tilemaps/sweeper/tilemap_sweeper_02.tscn")
@@ -192,4 +195,4 @@ func _on_SolutionsBtn_toggled(button_pressed: bool) -> void:
 #		new_btn_tilemap.get_tileset().tile_set_modulate(new_btn_tilemap.spawn_stray_tile_id, Color.white) # prava barva se seta v select levels, v igri se jo itak zamenja s tlemi
 #
 #		new_btn_tilemap.set_process_input(false)
-		
+#

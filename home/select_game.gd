@@ -3,21 +3,20 @@ extends Control
 
 onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
 onready var sweeper_game_btn: Button = $GamesMenu/Sweeper/SweeperBtn
-onready var sweeper_btns_holder: Control = $"../SelectLevel/BtnsHolder" # za število ugank
+onready var sweeper_btns_count: int = $"../SelectLevel/BtnsHolder".get_child_count() # za število ugank
 onready var sweeper_label: Label = $GamesMenu/Sweeper/Label
 onready var color_pool: Array = $"%Intro".all_colors_available
 onready var tutorial_mode_btn: CheckButton = $GamesMenu/Classic/TutorialModeBtn
 
 
-
-
 func _ready() -> void:
 	
-	
-	if Profiles.default_game_settings["tutorial_mode"]:
+	if Profiles.tutorial_mode:
 		tutorial_mode_btn.pressed = true
 	else:
 		tutorial_mode_btn.pressed = false
+	
+	sweeper_label.text %= sweeper_btns_count
 
 
 func _process(delta: float) -> void:
@@ -27,14 +26,22 @@ func _process(delta: float) -> void:
 		# barvam ozadje gumbov na focus
 		var unfocused_color = Global.color_almost_black_pixel
 		var focused_btn: BaseButton = get_focus_owner()
-		if focused_btn.name == "ClassicBtn":
-			$GamesMenu/Classic/Background.color = Global.color_dark_gray_pixel
+		if focused_btn.name == "ClassicBtn": # bug ... razdeljen v dva ifa barvanje tutorial gumba
+			$GamesMenu/Classic/Background.color = Global.color_almost_white_text
+			$GamesMenu/Classic/Label2.modulate = Global.color_dark_gray_pixel
+			$GamesMenu/Classic/ClassicBtn.modulate = Global.color_dark_gray_pixel
+			$GamesMenu/Classic/TutorialModeBtn.set("custom_colors/font_color_pressed", Global.color_dark_gray_pixel)
+			#			$GamesMenu/Classic/TutorialModeBtn.call_deferred("release_focus")
+		elif focused_btn.name == "TutorialModeBtn":
+			$GamesMenu/Classic/Background.color = Global.color_almost_white_text
+			$GamesMenu/Classic/Label2.modulate = Global.color_dark_gray_pixel
+			$GamesMenu/Classic/ClassicBtn.modulate = Global.color_dark_gray_pixel			
+			$GamesMenu/Classic/TutorialModeBtn.set("custom_colors/font_color_pressed", Global.color_dark_gray_pixel)
 		else:
 			$GamesMenu/Classic/Background.color = unfocused_color
-		if focused_btn.name == "TutorialModeBtn":
-			$GamesMenu/Classic/Background.color = Global.color_dark_gray_pixel
-		else:
-			$GamesMenu/Classic/Background.color = unfocused_color
+			$GamesMenu/Classic/Label2.modulate = Color.white
+			$GamesMenu/Classic/ClassicBtn.modulate = Color.white
+			$GamesMenu/Classic/TutorialModeBtn.set("custom_colors/font_color_pressed", Color.white)
 		if focused_btn.name == "CleanerSBtn" or focused_btn.name == "CleanerMBtn" or focused_btn.name == "CleanerLBtn":
 			$GamesMenu/Cleaner/Background.color = Global.color_blue
 			$GamesMenu/Cleaner/Background.modulate.a = 0.95 # da ne žari premočno
@@ -81,10 +88,11 @@ func _on_ClassicBtn_pressed() -> void:
 	play_selected_game(Profiles.Games.CLASSIC)
 	
 func _on_TutorialModeBtn_toggled(button_pressed: bool) -> void:
+	
 	if button_pressed:
-		 Profiles.default_game_settings["tutorial_mode"] = true
+		Profiles.tutorial_mode = true
 	else:
-		 Profiles.default_game_settings["tutorial_mode"] = false
+		Profiles.tutorial_mode = false
 		
 func _on_CleanerSBtn_pressed() -> void:
 	
@@ -129,7 +137,10 @@ func _on_SweeperBtn_pressed() -> void:
 
 
 func _on_ClassicBackground_mouse_entered() -> void:
-	$GamesMenu/Classic/ClassicBtn.grab_focus()
+	
+	# če še ni izbran kateri v trenutnem boxu
+	if not $GamesMenu/Classic/ClassicBtn.has_focus() and not tutorial_mode_btn.has_focus():
+		$GamesMenu/Classic/ClassicBtn.grab_focus()
 	
 	
 func _on_CleanerBackground_mouse_entered() -> void:

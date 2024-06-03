@@ -383,6 +383,7 @@ __meta__ = {
 [node name="Hud" parent="GUI" instance=ExtResource( 4 )]
 
 [node name="Tutorial" type="Control" parent="GUI"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 720 )
@@ -1130,13 +1131,13 @@ margin_right = 248.0
 text = "to start"
 
 [node name="PauseMenu" parent="GUI" instance=ExtResource( 11 )]
+visible = false
 __meta__ = {
 "_edit_horizontal_guides_": [ 112.0 ],
 "_edit_vertical_guides_": [ 640.0, 304.0, 976.0 ]
 }
 
 [node name="GameOver" parent="GUI" instance=ExtResource( 2 )]
-visible = true
 __meta__ = {
 "_edit_horizontal_guides_": [ 192.0, 256.0, 616.0 ],
 "_edit_vertical_guides_": [ 640.0 ]

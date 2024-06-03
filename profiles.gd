@@ -1,10 +1,6 @@
 extends Node
 
 
-var get_it_time: float = 1 # tajming za dojet določene faze igre
-var camera_shake_on: bool = true
-var tutorial_music_track_index: int = 1
-
 var default_player_stats: Dictionary = {
 	"player_name" : "Somebody", # to ime se piše v HS procesu, če igralec pusti prazno
 	"player_life" : 0, # se opredeli iz game_settings
@@ -48,8 +44,6 @@ var default_game_settings: Dictionary = {
 	"spawn_strays_on_cleaned": false,
 	"start_countdown": true,
 	"zoom_to_level_size": true,
-	"show_solution_hint": false, # sweeper reštve
-	"tutorial_mode": true, # klasika
 	"show_game_instructions": true,
 	"position_indicators_show_limit": 5, # 1000 pomeni, da je prižgano skos, 0, da ni nikoli
 }
@@ -270,11 +264,21 @@ var game_settings: Dictionary# = default_game_settings # = {}
 var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
 var use_default_color_theme: bool = true
 
+var get_it_time: float = 1 # tajming za dojet določene faze igre
+
+# nastavitve, ki se setajo tudi v home
+var solution_hint_on: bool = false
+var camera_shake_on: bool = true
+var tutorial_music_track_index: int = 1
+var tutorial_mode
+
+
 var game_data_sweeper: Dictionary = {
 	"game": Games.SWEEPER,
 	"highscore_type": HighscoreTypes.HS_TIME_LOW,
 	"game_name": "Sweeper",
 	"game_scene_path": "res://game/game.tscn",
+	"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
 	"description" : "Sweep the entire screen in one spectacular move!",
 	"Prop" : "Hit the first\nstray pixel and keep rebursting till there\nare none left.",
 	"Prop2" : "To reburst when hitting a pixel, press\nin a direction of\nthe next target.",
@@ -287,9 +291,7 @@ var game_data_sweeper: Dictionary = {
 func _ready() -> void:
 	
 	sweeper_level_tilemap_paths = Global.get_folder_contents(sweeper_tilemaps_folder)
-#	printt("sweeper_level_tilemap_paths",sweeper_level_tilemap_paths.size())
-#	printt (sweeper_level_tilemap_paths)
-	
+
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE
 #	var debug_game = Games.CLASSIC
@@ -298,8 +300,8 @@ func _ready() -> void:
 #	var debug_game = Games.CLEANER_L
 #	var debug_game = Games.DEFENDER
 #	var debug_game = Games.ERASER
-	var debug_game = Games.HANDLER
-#	var debug_game = Games.SWEEPER
+#	var debug_game = Games.HANDLER
+	var debug_game = Games.SWEEPER
 #	var debug_game = Games.THE_DUEL
 	set_game_data(debug_game)
 	
@@ -311,9 +313,23 @@ func set_game_data(selected_game) -> void:
 #	# debug
 	game_settings["start_countdown"] = false
 	game_settings["player_start_life"] = 2
-#	game_settings["show_game_instructions"] = false
+	game_settings["show_game_instructions"] = false
 		
 	match selected_game:
+
+		Games.SWEEPER: 
+			current_game_data = game_data_sweeper.duplicate()
+			game_settings["player_start_life"] = 1
+			game_settings["color_picked_points"] = 0
+			game_settings["cell_traveled_energy"] = 0
+			game_settings["cleaned_reward_points"] = 1 # ... izpiše se "SUCCESS!"
+			game_settings["game_music_track_index"] = 1
+			#
+			game_settings["position_indicators_show_limit"] = 0
+			game_settings["reburst_enabled"] = true
+			game_settings["reburst_window_time"] = 0
+
+
 		
 		Games.SHOWCASE: 
 			current_game_data = game_data_showcase.duplicate()
@@ -391,15 +407,15 @@ func set_game_data(selected_game) -> void:
 			#	
 			game_settings["spawn_strays_on_cleaned"] = true
 	
-		Games.SWEEPER: 
-			current_game_data = game_data_sweeper.duplicate()
-			game_settings["player_start_life"] = 1
-			game_settings["color_picked_points"] = 0
-			game_settings["cell_traveled_energy"] = 0
-			game_settings["cleaned_reward_points"] = 1 # ... izpiše se "SUCCESS!"
-			game_settings["game_music_track_index"] = 1
-			#
-			game_settings["position_indicators_show_limit"] = 0
-			game_settings["reburst_enabled"] = true
-			game_settings["reburst_window_time"] = 0
+#		Games.SWEEPER: 
+#			current_game_data = game_data_sweeper.duplicate()
+#			game_settings["player_start_life"] = 1
+#			game_settings["color_picked_points"] = 0
+#			game_settings["cell_traveled_energy"] = 0
+#			game_settings["cleaned_reward_points"] = 1 # ... izpiše se "SUCCESS!"
+#			game_settings["game_music_track_index"] = 1
+#			#
+#			game_settings["position_indicators_show_limit"] = 0
+#			game_settings["reburst_enabled"] = true
+#			game_settings["reburst_window_time"] = 0
 
