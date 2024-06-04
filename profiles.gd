@@ -220,11 +220,11 @@ func _ready() -> void:
 
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE
-#	var debug_game = Games.CLASSIC
+	var debug_game = Games.CLASSIC
 #	var debug_game = Games.CLEANER_S
 #	var debug_game = Games.CLEANER_M
 #	var debug_game = Games.CLEANER_L
-	var debug_game = Games.DEFENDER
+#	var debug_game = Games.DEFENDER
 #	var debug_game = Games.ERASER
 #	var debug_game = Games.SWEEPER
 #	var debug_game = Games.THE_DUEL
