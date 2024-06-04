@@ -619,7 +619,7 @@ tracks/18/loop_wrap = true
 tracks/18/imported = false
 tracks/18/enabled = true
 tracks/18/keys = {
-"points": PoolRealArray( 2176, -0.25, 0, 0.25, 0 ),
+"points": PoolRealArray( 1280, 0, 0, 0, 0 ),
 "times": PoolRealArray( 0 )
 }
 tracks/19/type = "bezier"
@@ -831,7 +831,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"points": PoolRealArray( 568, 0, 0, 0.5, 0, -320, -0.5, 0, 0, 0 ),
+"points": PoolRealArray( 448, 0, 0, 0.5, 0, -320, 0, 0, 0, 0 ),
 "times": PoolRealArray( 0, 1 )
 }
 tracks/4/type = "bezier"
@@ -841,7 +841,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"points": PoolRealArray( 1984, 0, 0, 0.5, 0, 4480, -0.5, 0, 0, 0 ),
+"points": PoolRealArray( 2272, 0, 0, 0.5, 0, 4100, 0, 0, 0, 0 ),
 "times": PoolRealArray( 0, 1 )
 }
 
@@ -877,7 +877,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"points": PoolRealArray( 1984, 0, 0, 0.5, 0, 4480, -0.5, 0, 0, 0 ),
+"points": PoolRealArray( 2272, 0, 0, 0.5, 0, 4100, 0, 0, 0, 0 ),
 "times": PoolRealArray( 0, 1 )
 }
 tracks/3/type = "value"
@@ -899,13 +899,13 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"points": PoolRealArray( 568, 0, 0, 0.5, 0, -320, -0.5, 0, 0, 0 ),
+"points": PoolRealArray( 448, 0, 0, 0.5, 0, -320, 0, 0, 0, 0 ),
 "times": PoolRealArray( 0, 1 )
 }
 
 [sub_resource type="Animation" id=142]
 resource_name = "select_game"
-length = 1.35
+length = 1.4
 step = 0.01
 tracks/0/type = "value"
 tracks/0/path = NodePath("Menu:modulate:a")
@@ -926,7 +926,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.04, 0.45, 1.24 ),
+"times": PoolRealArray( 0, 0.04, 0.5, 1.2 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 1.0, 0.0, 0.0, 1.0 ]
@@ -938,77 +938,45 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"points": PoolRealArray( 1280, 0, 0, 0.5, 0, 568, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0.1, 1.24 )
+"points": PoolRealArray( 1280, 0, 0, 0, 0, 448, -0.5, 0, 0.5, 0 ),
+"times": PoolRealArray( 0.5, 1.4 )
 }
 tracks/3/type = "bezier"
-tracks/3/path = NodePath("Menu:rect_position:x")
+tracks/3/path = NodePath("IntroViewPortContainer/IntroViewport/IntroCamera:position:x")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
-tracks/3/enabled = false
+tracks/3/enabled = true
 tracks/3/keys = {
-"points": PoolRealArray( 280, 0, 0, 0.5, 0, -552, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0, 0.99 )
+"points": PoolRealArray( 512, 0, 0, 0.5, 0, 2272, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0, 1.1 )
 }
-tracks/4/type = "bezier"
-tracks/4/path = NodePath("IntroViewPortContainer/IntroViewport/IntroCamera:position:x")
+tracks/4/type = "value"
+tracks/4/path = NodePath("Menu:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"points": PoolRealArray( 512, 0, 0, 0.5, 0, 1984, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0, 1.13 )
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("Menu:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
 "times": PoolRealArray( 0.3 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ false ]
 }
-tracks/6/type = "bezier"
-tracks/6/path = NodePath("SelectLevel:rect_position:x")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"points": PoolRealArray( 2176, -0.25, 0, 0.25, 0, 1280, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 1.24 )
-}
-tracks/7/type = "bezier"
-tracks/7/path = NodePath("SelectGame:rect_position:y")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"points": PoolRealArray( 0, 0, 0, 0.5, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/8/type = "value"
-tracks/8/path = NodePath("SelectLevel:modulate:a")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 1.0 ]
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("SelectGame:rect_position:y")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( 0, 0, 0, 0, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1.4 )
 }
 
 [sub_resource type="Animation" id=275]
 resource_name = "select_level"
-length = 1.3
+length = 1.4
 step = 0.01
 tracks/0/type = "value"
 tracks/0/path = NodePath("SelectGame:modulate:a")
@@ -1029,7 +997,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"points": PoolRealArray( 568, -0.5, 0, 0, 0 ),
+"points": PoolRealArray( 448, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 0 )
 }
 tracks/2/type = "value"
@@ -1051,8 +1019,8 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"points": PoolRealArray( 1280, 0, 0, 0.5, 0, 568, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0.2, 1.3 )
+"points": PoolRealArray( 1280, 0, 0, 0, 0, 448, -0.5, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.61, 1.4 )
 }
 tracks/4/type = "bezier"
 tracks/4/path = NodePath("SelectGame:rect_position:y")
@@ -1061,8 +1029,8 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"points": PoolRealArray( 0, 0, 0, 0.5, 0, -784, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0, 1 )
+"points": PoolRealArray( 0, 0, 0, 0.5, 0, -784, 0, 0, 0, 0 ),
+"times": PoolRealArray( 0, 0.71 )
 }
 tracks/5/type = "value"
 tracks/5/path = NodePath("Menu:modulate:a")
@@ -1083,7 +1051,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"points": PoolRealArray( 1984, -0.5, 0, 0, 0 ),
+"points": PoolRealArray( 2272, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0 )
 }
 tracks/7/type = "value"
@@ -1173,7 +1141,7 @@ tracks/5/keys = {
 [node name="Home" type="Node2D"]
 script = ExtResource( 5 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 656.0, -496.0, 144.0, -448.0, 1128.0, 816.0, 752.0, 96.0, 592.0 ],
+"_edit_horizontal_guides_": [ 656.0, -496.0, 144.0, -448.0, 1128.0, 816.0, 752.0, 96.0, 160.0 ],
 "_edit_vertical_guides_": [ 64.0, 1280.0, 1216.0, 640.0, 1928.0, -320.0, 1024.0, 256.0, 448.0, 832.0 ]
 }
 
@@ -2458,66 +2426,6 @@ margin_bottom = 138.0
 margin_left = 128.0
 margin_right = 250.0
 
-[node name="HandlerTable" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = 64.0
-margin_top = 342.0
-margin_right = 304.0
-margin_bottom = 506.0
-theme = null
-
-[node name="Title" parent="Highscores/HandlerTable" index="0"]
-margin_right = 240.0
-
-[node name="ScoreLine1" parent="Highscores/HandlerTable" index="1"]
-margin_right = 240.0
-
-[node name="Score" parent="Highscores/HandlerTable/ScoreLine1" index="2"]
-margin_left = 154.0
-margin_right = 240.0
-
-[node name="ScoreLine2" parent="Highscores/HandlerTable" index="2"]
-margin_right = 240.0
-
-[node name="Score" parent="Highscores/HandlerTable/ScoreLine2" index="2"]
-margin_left = 154.0
-margin_right = 240.0
-
-[node name="ScoreLine3" parent="Highscores/HandlerTable" index="3"]
-margin_right = 240.0
-
-[node name="Score" parent="Highscores/HandlerTable/ScoreLine3" index="2"]
-margin_left = 154.0
-margin_right = 240.0
-
-[node name="ScoreLine4" parent="Highscores/HandlerTable" index="4"]
-margin_right = 240.0
-
-[node name="Score" parent="Highscores/HandlerTable/ScoreLine4" index="2"]
-margin_left = 154.0
-margin_right = 240.0
-
-[node name="ScoreLine5" parent="Highscores/HandlerTable" index="5"]
-margin_right = 240.0
-
-[node name="Score" parent="Highscores/HandlerTable/ScoreLine5" index="2"]
-margin_left = 154.0
-margin_right = 240.0
-
-[node name="ScoreLine6" parent="Highscores/HandlerTable" index="6"]
-visible = false
-
-[node name="ScoreLine7" parent="Highscores/HandlerTable" index="7"]
-visible = false
-
-[node name="ScoreLine8" parent="Highscores/HandlerTable" index="8"]
-visible = false
-
-[node name="ScoreLine9" parent="Highscores/HandlerTable" index="9"]
-visible = false
-
-[node name="ScoreLine10" parent="Highscores/HandlerTable" index="10"]
-visible = false
-
 [node name="EraserTable" parent="Highscores" instance=ExtResource( 21 )]
 margin_left = 368.0
 margin_top = 342.0
@@ -2812,7 +2720,7 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 1280.0
-margin_right = 1936.0
+margin_right = 2048.0
 margin_bottom = 720.0
 rect_min_size = Vector2( 0, 720 )
 rect_pivot_offset = Vector2( 440, 704 )
@@ -2863,7 +2771,7 @@ margin_bottom = -56.0
 theme = ExtResource( 15 )
 
 [node name="Classic" type="Control" parent="SelectGame/GamesMenu"]
-margin_right = 232.0
+margin_right = 264.0
 margin_bottom = 224.0
 rect_pivot_offset = Vector2( 40, 8 )
 
@@ -2884,16 +2792,16 @@ autowrap = true
 [node name="Label2" type="Label" parent="SelectGame/GamesMenu/Classic"]
 margin_left = 40.0
 margin_top = 32.0
-margin_right = 200.0
+margin_right = 232.0
 margin_bottom = 80.0
 custom_fonts/font = ExtResource( 14 )
-text = "Restore order to this vibrant mess."
+text = "Restore perfect order to this vibrant mess."
 autowrap = true
 
 [node name="ClassicBtn" type="Button" parent="SelectGame/GamesMenu/Classic"]
 margin_left = 40.0
 margin_top = 96.0
-margin_right = 192.0
+margin_right = 232.0
 margin_bottom = 152.0
 grow_horizontal = 0
 grow_vertical = 0
@@ -2927,8 +2835,8 @@ pressed = true
 text = "Tutorial mode"
 
 [node name="Cleaner" type="Control" parent="SelectGame/GamesMenu"]
-margin_left = 239.0
-margin_right = 639.0
+margin_left = 272.0
+margin_right = 752.0
 margin_bottom = 224.0
 rect_min_size = Vector2( 128, 128 )
 
@@ -2951,13 +2859,12 @@ text = "At the cleaners"
 [node name="Label" type="Label" parent="SelectGame/GamesMenu/Cleaner"]
 anchor_right = 1.0
 margin_left = 41.0
-margin_top = 32.0
-margin_right = -15.0
-margin_bottom = 98.0
+margin_top = 40.0
+margin_right = -24.0
+margin_bottom = 106.0
 custom_fonts/font = ExtResource( 14 )
-text = "Tick-tick-tock, clean the block! Choose
-the screen size that fits you and
-collect all colors in a limited time."
+text = "Tick-tick-tock, around the block! Choose a screen size that fits you and collect all colors before
+the time slips away."
 autowrap = true
 
 [node name="Label2" type="Label" parent="SelectGame/GamesMenu/Cleaner"]
@@ -2984,8 +2891,8 @@ autowrap = true
 
 [node name="CleanerSBtn" type="Button" parent="SelectGame/GamesMenu/Cleaner"]
 margin_left = 41.0
-margin_top = 120.0
-margin_right = 143.0
+margin_top = 128.0
+margin_right = 168.0
 margin_bottom = 184.0
 focus_neighbour_left = NodePath("../../Classic/ClassicBtn")
 focus_neighbour_top = NodePath("../../../BackBtn")
@@ -2996,15 +2903,15 @@ custom_styles/pressed = ExtResource( 24 )
 custom_styles/focus = ExtResource( 24 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "S"
+text = "SIZE S"
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="CleanerMBtn" type="Button" parent="SelectGame/GamesMenu/Cleaner"]
-margin_left = 151.0
-margin_top = 120.0
-margin_right = 251.0
+margin_left = 177.0
+margin_top = 128.0
+margin_right = 304.0
 margin_bottom = 184.0
 focus_neighbour_top = NodePath("../../../BackBtn")
 focus_neighbour_bottom = NodePath("../../Sweeper/SweeperBtn")
@@ -3014,15 +2921,15 @@ custom_styles/pressed = ExtResource( 24 )
 custom_styles/focus = ExtResource( 24 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "M"
+text = "SIZE M"
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="CleanerLBtn" type="Button" parent="SelectGame/GamesMenu/Cleaner"]
-margin_left = 259.0
-margin_top = 120.0
-margin_right = 361.0
+margin_left = 312.0
+margin_top = 128.0
+margin_right = 440.0
 margin_bottom = 184.0
 focus_neighbour_top = NodePath("../../../BackBtn")
 focus_neighbour_right = NodePath("../../Classic/ClassicBtn")
@@ -3033,14 +2940,14 @@ custom_styles/pressed = ExtResource( 24 )
 custom_styles/focus = ExtResource( 24 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "L"
+text = "SIZE L"
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="Timeless" type="Control" parent="SelectGame/GamesMenu"]
 margin_top = 232.0
-margin_right = 232.0
+margin_right = 264.0
 margin_bottom = 512.0
 rect_min_size = Vector2( 128, 128 )
 
@@ -3064,15 +2971,15 @@ margin_left = 40.0
 margin_top = 24.0
 margin_bottom = 44.0
 custom_fonts/font = ExtResource( 14 )
-text = "Infinite color chaos!"
+text = "Everlasting color clash!"
 autowrap = true
 
 [node name="EraserBtn" type="Button" parent="SelectGame/GamesMenu/Timeless"]
 anchor_right = 1.0
 margin_left = 40.0
-margin_top = 64.0
+margin_top = 128.0
 margin_right = -40.0
-margin_bottom = 120.0
+margin_bottom = 184.0
 focus_neighbour_left = NodePath("../../Sweeper/SweeperBtn")
 focus_neighbour_top = NodePath("../../Classic/ClassicBtn")
 focus_neighbour_right = NodePath("../../Sweeper/SweeperBtn")
@@ -3082,26 +2989,7 @@ custom_styles/pressed = ExtResource( 24 )
 custom_styles/focus = ExtResource( 24 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "ERASER"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="HandlerBtn" type="Button" parent="SelectGame/GamesMenu/Timeless"]
-anchor_right = 1.0
-margin_left = 40.0
-margin_top = 128.0
-margin_right = -40.0
-margin_bottom = 184.0
-focus_neighbour_left = NodePath("../../TheDuel/TheDuelBtn")
-focus_neighbour_right = NodePath("../../TheDuel/TheDuelBtn")
-mouse_default_cursor_shape = 2
-custom_styles/hover = ExtResource( 24 )
-custom_styles/pressed = ExtResource( 24 )
-custom_styles/focus = ExtResource( 24 )
-custom_styles/disabled = SubResource( 151 )
-custom_styles/normal = ExtResource( 9 )
-text = "HANDLER"
+text = "HUNTER"
 __meta__ = {
 "_editor_description_": ""
 }
@@ -3127,9 +3015,9 @@ __meta__ = {
 }
 
 [node name="TheDuel" type="Control" parent="SelectGame/GamesMenu"]
-margin_left = 240.0
+margin_left = 272.0
 margin_top = 376.0
-margin_right = 640.0
+margin_right = 752.0
 margin_bottom = 512.0
 rect_min_size = Vector2( 128, 128 )
 
@@ -3148,17 +3036,397 @@ text = "Sofa showdown!"
 
 [node name="Label" type="Label" parent="SelectGame/GamesMenu/TheDuel"]
 anchor_right = 1.02
-margin_left = 41.0
+margin_left = 40.0
 margin_top = 32.0
-margin_right = -200.0
+margin_right = -281.6
 margin_bottom = 98.0
 custom_fonts/font = ExtResource( 14 )
 text = "Sofa showdown ...
-Battle and become
-the one-and-only!"
+Team up to tackle the spectrum chaos!"
 autowrap = true
 
 [node name="TheDuelBtn" type="Button" parent="SelectGame/GamesMenu/TheDuel"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -248.0
+margin_top = 40.0
+margin_right = -40.0
+margin_bottom = 96.0
+focus_neighbour_left = NodePath("../../Timeless/DefenderBtn")
+focus_neighbour_top = NodePath("../../Sweeper/SweeperBtn")
+focus_neighbour_right = NodePath("../../Timeless/DefenderBtn")
+focus_neighbour_bottom = NodePath("../../Cleaner/CleanerSBtn")
+mouse_default_cursor_shape = 2
+custom_styles/hover = ExtResource( 24 )
+custom_styles/pressed = ExtResource( 24 )
+custom_styles/focus = ExtResource( 24 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "THE DUEL"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Sweeper" type="Control" parent="SelectGame/GamesMenu"]
+margin_left = 272.0
+margin_top = 232.0
+margin_right = 752.0
+margin_bottom = 368.0
+rect_min_size = Vector2( 128, 128 )
+
+[node name="Background" type="ColorRect" parent="SelectGame/GamesMenu/Sweeper"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="Title" type="Label" parent="SelectGame/GamesMenu/Sweeper"]
+visible = false
+margin_left = 32.0
+margin_top = 22.0
+margin_right = 234.0
+margin_bottom = 44.0
+text = "Chain reaction bonanza!"
+
+[node name="Label" type="Label" parent="SelectGame/GamesMenu/Sweeper"]
+anchor_right = 1.0
+margin_left = 39.0
+margin_top = 31.0
+margin_right = -240.0
+margin_bottom = 97.0
+custom_fonts/font = ExtResource( 14 )
+text = "%s colorful designs, 
+waiting for a quick 
+cleaning service."
+autowrap = true
+
+[node name="SweeperBtn" type="Button" parent="SelectGame/GamesMenu/Sweeper"]
+anchor_right = 1.0
+margin_left = 232.0
+margin_top = 40.0
+margin_right = -40.0
+margin_bottom = 96.0
+focus_neighbour_left = NodePath("../../Timeless/EraserBtn")
+focus_neighbour_top = NodePath("../../Cleaner/CleanerSBtn")
+focus_neighbour_right = NodePath("../../Timeless/EraserBtn")
+focus_neighbour_bottom = NodePath("../../TheDuel/TheDuelBtn")
+mouse_default_cursor_shape = 2
+custom_styles/hover = ExtResource( 24 )
+custom_styles/pressed = ExtResource( 24 )
+custom_styles/focus = ExtResource( 24 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "SWEEPER"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="GamesMenu2" type="Control" parent="SelectGame"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 144.0
+margin_right = -7.99988
+margin_bottom = -56.0
+theme = ExtResource( 15 )
+
+[node name="Classic" type="Control" parent="SelectGame/GamesMenu2"]
+margin_right = 232.0
+margin_bottom = 224.0
+rect_pivot_offset = Vector2( 40, 8 )
+
+[node name="Background" type="ColorRect" parent="SelectGame/GamesMenu2/Classic"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="Title" type="Label" parent="SelectGame/GamesMenu2/Classic"]
+visible = false
+margin_left = 24.0
+margin_top = 23.0
+margin_right = 216.0
+margin_bottom = 47.0
+text = "Back to school!"
+autowrap = true
+
+[node name="Label2" type="Label" parent="SelectGame/GamesMenu2/Classic"]
+margin_left = 40.0
+margin_top = 32.0
+margin_right = 200.0
+margin_bottom = 80.0
+custom_fonts/font = ExtResource( 14 )
+text = "Restore order to this vibrant mess."
+autowrap = true
+
+[node name="ClassicBtn" type="Button" parent="SelectGame/GamesMenu2/Classic"]
+margin_left = 40.0
+margin_top = 96.0
+margin_right = 192.0
+margin_bottom = 152.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_neighbour_left = NodePath("../../Cleaner/CleanerLBtn")
+focus_neighbour_top = NodePath("../../../BackBtn")
+focus_neighbour_bottom = NodePath("../TutorialModeBtn")
+mouse_default_cursor_shape = 2
+custom_styles/hover = ExtResource( 24 )
+custom_styles/pressed = ExtResource( 24 )
+custom_styles/focus = ExtResource( 24 )
+custom_styles/disabled = SubResource( 478 )
+custom_styles/normal = ExtResource( 9 )
+text = "CLEANER"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="TutorialModeBtn" type="CheckButton" parent="SelectGame/GamesMenu2/Classic"]
+margin_left = 40.0
+margin_top = 168.0
+margin_right = 167.0
+margin_bottom = 186.0
+grow_horizontal = 2
+focus_neighbour_bottom = NodePath("../../Timeless/EraserBtn")
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 14 )
+custom_icons/off = SubResource( 499 )
+custom_icons/on = SubResource( 500 )
+pressed = true
+text = "Tutorial mode"
+
+[node name="Cleaner" type="Control" parent="SelectGame/GamesMenu2"]
+margin_left = 239.0
+margin_right = 639.0
+margin_bottom = 224.0
+rect_min_size = Vector2( 128, 128 )
+
+[node name="Background" type="ColorRect" parent="SelectGame/GamesMenu2/Cleaner"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_right = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="Title" type="Label" parent="SelectGame/GamesMenu2/Cleaner"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 22.0
+margin_right = -23.0
+margin_bottom = 44.0
+text = "At the cleaners"
+
+[node name="Label" type="Label" parent="SelectGame/GamesMenu2/Cleaner"]
+anchor_right = 1.0
+margin_left = 41.0
+margin_top = 32.0
+margin_right = -15.0
+margin_bottom = 98.0
+custom_fonts/font = ExtResource( 14 )
+text = "Tick-tick-tock, clean the block! Choose
+the screen size that fits you and
+collect all colors in a limited time."
+autowrap = true
+
+[node name="Label2" type="Label" parent="SelectGame/GamesMenu2/Cleaner"]
+visible = false
+anchor_right = 1.0
+margin_left = 41.0
+margin_top = 32.0
+margin_right = -39.0
+margin_bottom = 98.0
+custom_fonts/font = ExtResource( 14 )
+text = "Tick-tick-tock, clean the block! Collect all colors in a limited time."
+autowrap = true
+
+[node name="Label3" type="Label" parent="SelectGame/GamesMenu2/Cleaner"]
+visible = false
+anchor_right = 1.0
+margin_left = 41.0
+margin_top = 96.0
+margin_right = -15.0
+margin_bottom = 162.0
+custom_fonts/font = ExtResource( 14 )
+text = "Choose the screen size that fits you best ..."
+autowrap = true
+
+[node name="CleanerSBtn" type="Button" parent="SelectGame/GamesMenu2/Cleaner"]
+margin_left = 41.0
+margin_top = 120.0
+margin_right = 143.0
+margin_bottom = 184.0
+focus_neighbour_left = NodePath("../../Classic/ClassicBtn")
+focus_neighbour_top = NodePath("../../../BackBtn")
+focus_neighbour_bottom = NodePath("../../Sweeper/SweeperBtn")
+mouse_default_cursor_shape = 2
+custom_styles/hover = ExtResource( 24 )
+custom_styles/pressed = ExtResource( 24 )
+custom_styles/focus = ExtResource( 24 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "S"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="CleanerMBtn" type="Button" parent="SelectGame/GamesMenu2/Cleaner"]
+margin_left = 151.0
+margin_top = 120.0
+margin_right = 251.0
+margin_bottom = 184.0
+focus_neighbour_top = NodePath("../../../BackBtn")
+focus_neighbour_bottom = NodePath("../../Sweeper/SweeperBtn")
+mouse_default_cursor_shape = 2
+custom_styles/hover = ExtResource( 24 )
+custom_styles/pressed = ExtResource( 24 )
+custom_styles/focus = ExtResource( 24 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "M"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="CleanerLBtn" type="Button" parent="SelectGame/GamesMenu2/Cleaner"]
+margin_left = 259.0
+margin_top = 120.0
+margin_right = 361.0
+margin_bottom = 184.0
+focus_neighbour_top = NodePath("../../../BackBtn")
+focus_neighbour_right = NodePath("../../Classic/ClassicBtn")
+focus_neighbour_bottom = NodePath("../../Sweeper/SweeperBtn")
+mouse_default_cursor_shape = 2
+custom_styles/hover = ExtResource( 24 )
+custom_styles/pressed = ExtResource( 24 )
+custom_styles/focus = ExtResource( 24 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "L"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Timeless" type="Control" parent="SelectGame/GamesMenu2"]
+margin_top = 232.0
+margin_right = 232.0
+margin_bottom = 512.0
+rect_min_size = Vector2( 128, 128 )
+
+[node name="Background" type="ColorRect" parent="SelectGame/GamesMenu2/Timeless"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="Title" type="Label" parent="SelectGame/GamesMenu2/Timeless"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 30.0
+margin_right = -40.0
+margin_bottom = 52.0
+text = "Chroma crisis!"
+
+[node name="Label" type="Label" parent="SelectGame/GamesMenu2/Timeless"]
+anchor_right = 1.0
+margin_left = 40.0
+margin_top = 24.0
+margin_bottom = 44.0
+custom_fonts/font = ExtResource( 14 )
+text = "Infinite color chaos!"
+autowrap = true
+
+[node name="EraserBtn" type="Button" parent="SelectGame/GamesMenu2/Timeless"]
+anchor_right = 1.0
+margin_left = 40.0
+margin_top = 64.0
+margin_right = -40.0
+margin_bottom = 120.0
+focus_neighbour_left = NodePath("../../Sweeper/SweeperBtn")
+focus_neighbour_top = NodePath("../../Classic/ClassicBtn")
+focus_neighbour_right = NodePath("../../Sweeper/SweeperBtn")
+mouse_default_cursor_shape = 2
+custom_styles/hover = ExtResource( 24 )
+custom_styles/pressed = ExtResource( 24 )
+custom_styles/focus = ExtResource( 24 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "ERASER"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="HandlerBtn" type="Button" parent="SelectGame/GamesMenu2/Timeless"]
+anchor_right = 1.0
+margin_left = 40.0
+margin_top = 128.0
+margin_right = -40.0
+margin_bottom = 184.0
+focus_neighbour_left = NodePath("../../TheDuel/TheDuelBtn")
+focus_neighbour_right = NodePath("../../TheDuel/TheDuelBtn")
+mouse_default_cursor_shape = 2
+custom_styles/hover = ExtResource( 24 )
+custom_styles/pressed = ExtResource( 24 )
+custom_styles/focus = ExtResource( 24 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "HANDLER"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="DefenderBtn" type="Button" parent="SelectGame/GamesMenu2/Timeless"]
+anchor_right = 1.0
+margin_left = 40.0
+margin_top = 192.0
+margin_right = -40.0
+margin_bottom = 248.0
+focus_neighbour_left = NodePath("../../TheDuel/TheDuelBtn")
+focus_neighbour_right = NodePath("../../TheDuel/TheDuelBtn")
+focus_neighbour_bottom = NodePath("../../Classic/ClassicBtn")
+mouse_default_cursor_shape = 2
+custom_styles/hover = ExtResource( 24 )
+custom_styles/pressed = ExtResource( 24 )
+custom_styles/focus = ExtResource( 24 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "DEFENDER"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="TheDuel" type="Control" parent="SelectGame/GamesMenu2"]
+margin_left = 240.0
+margin_top = 376.0
+margin_right = 640.0
+margin_bottom = 512.0
+rect_min_size = Vector2( 128, 128 )
+
+[node name="Background" type="ColorRect" parent="SelectGame/GamesMenu2/TheDuel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="Title" type="Label" parent="SelectGame/GamesMenu2/TheDuel"]
+visible = false
+margin_left = 32.0
+margin_top = 22.0
+margin_right = 220.0
+margin_bottom = 44.0
+text = "Sofa showdown!"
+
+[node name="Label" type="Label" parent="SelectGame/GamesMenu2/TheDuel"]
+anchor_right = 1.02
+margin_left = 41.0
+margin_top = 32.0
+margin_right = -216.0
+margin_bottom = 98.0
+custom_fonts/font = ExtResource( 14 )
+text = "Sofa showdown ...
+Team up for 
+a cleaning frenzy! "
+autowrap = true
+
+[node name="TheDuelBtn" type="Button" parent="SelectGame/GamesMenu2/TheDuel"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -192.0
@@ -3180,19 +3448,19 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Sweeper" type="Control" parent="SelectGame/GamesMenu"]
+[node name="Sweeper" type="Control" parent="SelectGame/GamesMenu2"]
 margin_left = 240.0
 margin_top = 232.0
 margin_right = 640.0
 margin_bottom = 368.0
 rect_min_size = Vector2( 128, 128 )
 
-[node name="Background" type="ColorRect" parent="SelectGame/GamesMenu/Sweeper"]
+[node name="Background" type="ColorRect" parent="SelectGame/GamesMenu2/Sweeper"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Title" type="Label" parent="SelectGame/GamesMenu/Sweeper"]
+[node name="Title" type="Label" parent="SelectGame/GamesMenu2/Sweeper"]
 visible = false
 margin_left = 32.0
 margin_top = 22.0
@@ -3200,7 +3468,7 @@ margin_right = 234.0
 margin_bottom = 44.0
 text = "Chain reaction bonanza!"
 
-[node name="Label" type="Label" parent="SelectGame/GamesMenu/Sweeper"]
+[node name="Label" type="Label" parent="SelectGame/GamesMenu2/Sweeper"]
 anchor_right = 1.0
 margin_left = 39.0
 margin_top = 31.0
@@ -3212,7 +3480,7 @@ waiting for a quick
 cleaning service."
 autowrap = true
 
-[node name="SweeperBtn" type="Button" parent="SelectGame/GamesMenu/Sweeper"]
+[node name="SweeperBtn" type="Button" parent="SelectGame/GamesMenu2/Sweeper"]
 anchor_right = 1.0
 margin_left = 208.0
 margin_top = 40.0
@@ -3236,9 +3504,8 @@ __meta__ = {
 [node name="BackBtn" type="TextureButton" parent="SelectGame"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -28.0
+margin_left = -22.0
 margin_top = 76.0
-margin_right = -6.0
 margin_bottom = 98.0
 rect_min_size = Vector2( 16, 16 )
 focus_neighbour_top = NodePath("../GamesMenu/TheDuel/TheDuelBtn")
@@ -3260,10 +3527,11 @@ __meta__ = {
 }
 
 [node name="SelectLevel" type="Control" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 2176.0
-margin_right = 2832.0
+margin_left = 1280.0
+margin_right = 2047.99
 margin_bottom = 720.0
 rect_min_size = Vector2( 0, 720 )
 theme = ExtResource( 15 )
@@ -3290,6 +3558,7 @@ margin_right = -4.0
 margin_bottom = 11.0
 
 [node name="Subtitle" type="Label" parent="SelectLevel"]
+visible = false
 margin_left = 8.0
 margin_top = 144.0
 margin_right = 640.0
@@ -3299,10 +3568,11 @@ text = "A lot of screens are dirty to clean chroma crisi situaation"
 autowrap = true
 
 [node name="Subtitle3" type="Label" parent="SelectLevel"]
-margin_left = 272.0
-margin_top = 192.0
-margin_right = 904.0
-margin_bottom = 210.0
+visible = false
+margin_left = 702.0
+margin_top = 144.0
+margin_right = 1334.0
+margin_bottom = 426.0
 custom_fonts/font = ExtResource( 14 )
 text = "**Collect all available colors with a single burst move.**
 - One move, all the colors! Burst your way to a full spectrum collection!
@@ -3320,28 +3590,187 @@ autowrap = true
 
 [node name="Subtitle2" type="Label" parent="SelectLevel"]
 margin_left = 8.0
-margin_top = 120.0
-margin_right = 728.0
-margin_bottom = 138.0
+margin_top = 144.0
+margin_right = 624.0
+margin_bottom = 170.0
 custom_fonts/font = ExtResource( 14 )
-text = "Color catastrophe! Can you tidy up this vibrant mess before the clock runs out?"
+text = "The ultimate skill test. Sweep all colors with one spectacular move!"
 autowrap = true
 
 [node name="BtnsHolder" type="GridContainer" parent="SelectLevel"]
 margin_left = 8.0
 margin_top = 184.0
-margin_right = 624.0
+margin_right = 760.0
 margin_bottom = 624.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/vseparation = 8
 custom_constants/hseparation = 8
-columns = 3
+columns = 4
 
 [node name="LevelBtn" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-visible = false
-margin_right = 206.0
+margin_right = 182.0
+margin_bottom = 56.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="LevelBtn2" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_left = 190.0
+margin_right = 372.0
+margin_bottom = 56.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="LevelBtn3" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_left = 380.0
+margin_right = 562.0
+margin_bottom = 56.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="LevelBtn4" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_left = 570.0
+margin_right = 752.0
+margin_bottom = 56.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="LevelBtn5" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_top = 64.0
+margin_right = 182.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="LevelBtn6" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_left = 190.0
+margin_top = 64.0
+margin_right = 372.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="LevelBtn7" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_left = 380.0
+margin_top = 64.0
+margin_right = 562.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="LevelBtn8" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_left = 570.0
+margin_top = 64.0
+margin_right = 752.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="LevelBtn9" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_top = 128.0
+margin_right = 182.0
+margin_bottom = 184.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="LevelBtn10" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_left = 190.0
+margin_top = 128.0
+margin_right = 372.0
+margin_bottom = 184.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="LevelBtn11" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_left = 380.0
+margin_top = 128.0
+margin_right = 562.0
+margin_bottom = 184.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="LevelBtn12" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_left = 570.0
+margin_top = 128.0
+margin_right = 752.0
+margin_bottom = 184.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="LevelBtn13" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_top = 192.0
+margin_right = 182.0
+margin_bottom = 248.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="LevelBtn14" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_left = 190.0
+margin_top = 192.0
+margin_right = 372.0
+margin_bottom = 248.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="LevelBtn15" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_left = 380.0
+margin_top = 192.0
+margin_right = 562.0
+margin_bottom = 248.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="LevelBtn16" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_left = 570.0
+margin_top = 192.0
+margin_right = 752.0
+margin_bottom = 248.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="LevelBtn17" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_top = 256.0
+margin_right = 182.0
+margin_bottom = 312.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="LevelBtn18" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_left = 190.0
+margin_top = 256.0
+margin_right = 372.0
+margin_bottom = 312.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="LevelBtn19" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_left = 380.0
+margin_top = 256.0
+margin_right = 562.0
+margin_bottom = 312.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="LevelBtn20" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_left = 570.0
+margin_top = 256.0
+margin_right = 752.0
+margin_bottom = 312.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="LevelBtn21" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_top = 320.0
+margin_right = 182.0
+margin_bottom = 376.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="LevelBtn22" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_left = 190.0
+margin_top = 320.0
+margin_right = 372.0
+margin_bottom = 376.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="LevelBtn23" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_left = 380.0
+margin_top = 320.0
+margin_right = 562.0
+margin_bottom = 376.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="LevelBtn24" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_left = 570.0
+margin_top = 320.0
+margin_right = 752.0
+margin_bottom = 376.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="LevelBtn25" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_top = 384.0
+margin_right = 182.0
 margin_bottom = 440.0
+rect_min_size = Vector2( 0, 0 )
 
 [node name="SolutionsBtn" type="CheckButton" parent="SelectLevel"]
 margin_left = 8.0
@@ -3360,9 +3789,8 @@ text = "Show riddle hint"
 [node name="BackBtn" type="TextureButton" parent="SelectLevel"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -28.0
+margin_left = -22.0
 margin_top = 76.0
-margin_right = -6.0
 margin_bottom = 98.0
 rect_min_size = Vector2( 16, 16 )
 focus_neighbour_top = NodePath("../SolutionsBtn")
@@ -3696,12 +4124,26 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="SelectGame/GamesMenu/Cleaner/CleanerLBtn" to="SelectGame" method="_on_CleanerLBtn_pressed"]
 [connection signal="mouse_entered" from="SelectGame/GamesMenu/Timeless/Background" to="SelectGame" method="_on_TimelessBackground_mouse_entered"]
 [connection signal="pressed" from="SelectGame/GamesMenu/Timeless/EraserBtn" to="SelectGame" method="_on_EraserBtn_pressed"]
-[connection signal="pressed" from="SelectGame/GamesMenu/Timeless/HandlerBtn" to="SelectGame" method="_on_HandlerBtn_pressed"]
 [connection signal="pressed" from="SelectGame/GamesMenu/Timeless/DefenderBtn" to="SelectGame" method="_on_DefenderBtn_pressed"]
 [connection signal="mouse_entered" from="SelectGame/GamesMenu/TheDuel/Background" to="SelectGame" method="_on_DuelBackground_mouse_entered"]
 [connection signal="pressed" from="SelectGame/GamesMenu/TheDuel/TheDuelBtn" to="SelectGame" method="_on_TheDuelBtn_pressed"]
 [connection signal="mouse_entered" from="SelectGame/GamesMenu/Sweeper/Background" to="SelectGame" method="_on_SweeperBackground_mouse_entered"]
 [connection signal="pressed" from="SelectGame/GamesMenu/Sweeper/SweeperBtn" to="SelectGame" method="_on_SweeperBtn_pressed"]
+[connection signal="mouse_entered" from="SelectGame/GamesMenu2/Classic/Background" to="SelectGame" method="_on_ClassicBackground_mouse_entered"]
+[connection signal="pressed" from="SelectGame/GamesMenu2/Classic/ClassicBtn" to="SelectGame" method="_on_ClassicBtn_pressed"]
+[connection signal="toggled" from="SelectGame/GamesMenu2/Classic/TutorialModeBtn" to="SelectGame" method="_on_TutorialModeBtn_toggled"]
+[connection signal="mouse_entered" from="SelectGame/GamesMenu2/Cleaner/Background" to="SelectGame" method="_on_CleanerBackground_mouse_entered"]
+[connection signal="pressed" from="SelectGame/GamesMenu2/Cleaner/CleanerSBtn" to="SelectGame" method="_on_CleanerSBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GamesMenu2/Cleaner/CleanerMBtn" to="SelectGame" method="_on_CleanerMBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GamesMenu2/Cleaner/CleanerLBtn" to="SelectGame" method="_on_CleanerLBtn_pressed"]
+[connection signal="mouse_entered" from="SelectGame/GamesMenu2/Timeless/Background" to="SelectGame" method="_on_TimelessBackground_mouse_entered"]
+[connection signal="pressed" from="SelectGame/GamesMenu2/Timeless/EraserBtn" to="SelectGame" method="_on_EraserBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GamesMenu2/Timeless/HandlerBtn" to="SelectGame" method="_on_HandlerBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GamesMenu2/Timeless/DefenderBtn" to="SelectGame" method="_on_DefenderBtn_pressed"]
+[connection signal="mouse_entered" from="SelectGame/GamesMenu2/TheDuel/Background" to="SelectGame" method="_on_DuelBackground_mouse_entered"]
+[connection signal="pressed" from="SelectGame/GamesMenu2/TheDuel/TheDuelBtn" to="SelectGame" method="_on_TheDuelBtn_pressed"]
+[connection signal="mouse_entered" from="SelectGame/GamesMenu2/Sweeper/Background" to="SelectGame" method="_on_SweeperBackground_mouse_entered"]
+[connection signal="pressed" from="SelectGame/GamesMenu2/Sweeper/SweeperBtn" to="SelectGame" method="_on_SweeperBtn_pressed"]
 [connection signal="pressed" from="SelectGame/BackBtn" to="SelectGame" method="_on_BackBtn_pressed"]
 [connection signal="toggled" from="SelectLevel/SolutionsBtn" to="SelectLevel" method="_on_SolutionsBtn_toggled"]
 [connection signal="pressed" from="SelectLevel/BackBtn" to="SelectLevel" method="_on_BackBtn_pressed"]
@@ -3726,7 +4168,6 @@ anims/settings = SubResource( 140 )
 [editable path="Highscores/CleanerSTable"]
 [editable path="Highscores/CleanerMTable"]
 [editable path="Highscores/CleanerLTable"]
-[editable path="Highscores/HandlerTable"]
 [editable path="Highscores/EraserTable"]
 [editable path="Highscores/DefenderTable"]
 [editable path="Highscores/SweeperTable"]

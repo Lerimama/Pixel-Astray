@@ -74,7 +74,7 @@ func start_game():
 	
 	game_on = true
 	
-	create_strays(start_strays_spawn_count)
+	create_strays(create_strays_count)
 	line_step()
 
 
@@ -172,7 +172,6 @@ func upgrade_level(level_upgrade_reason: String):
 	level_upgrade_in_progress = true
 	randomize()
 
-	current_level += 1 # številka novega levela 
 
 	#reset players
 	Global.hud.level_up_popup_inout(current_level)
@@ -181,6 +180,7 @@ func upgrade_level(level_upgrade_reason: String):
 		if level_upgrade_reason == "cleaned":
 			player.on_screen_cleaned()
 
+	current_level += 1 # številka novega levela 
 	set_color_pool() # more bit pred yieldom in tudi, če so že spucani
 	set_new_level() 
 	Global.hud.spawn_color_indicators(get_level_colors())

@@ -345,7 +345,6 @@ func get_folder_contents(rootPath: String, files_only: bool = true) -> Array:
 		push_error("An error occurred when trying to access the path.")
 
 	if files_only:
-		print("FL",files)
 		return files
 	else:
 		return [files, folders]

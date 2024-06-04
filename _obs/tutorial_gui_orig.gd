@@ -140,7 +140,7 @@ func finish_travel():
 		return	
 	Global.game_manager.upgrade_level("cleaned")
 	# setam naslednjo fazo
-	Global.game_manager.start_strays_spawn_count = 1
+	Global.game_manager.create_strays_count = 1
 	Global.game_manager.prev_stage_stray_count = 1
 	change_stage(travel_content, collect_content, TutorialStage.COLLECT)
 	
@@ -155,7 +155,7 @@ func finish_collect():
 		return
 	# setam naslednjo fazo
 	Global.game_manager.prev_stage_stray_count = 1 # če ostane beli se šteje za spucano
-	Global.game_manager.start_strays_spawn_count = Global.game_manager.required_spawn_positions.size()
+	Global.game_manager.create_strays_count = Global.game_manager.required_spawn_positions.size()
 	change_stage(collect_content, multicollect_content, TutorialStage.MULTICOLLECT)	
 	
 	
@@ -169,7 +169,7 @@ func finish_multicollect(): # tole je zdaj "stacked colors"
 		return
 	# setam naslednjo fazo
 	Global.game_manager.prev_stage_stray_count = 1 # če ostane beli se šteje za spucano
-	Global.game_manager.start_strays_spawn_count = Global.game_manager.random_spawn_positions.size()
+	Global.game_manager.create_strays_count = Global.game_manager.random_spawn_positions.size()
 	change_stage(multicollect_content, skills_content, TutorialStage.SKILLS)		
 	
 	

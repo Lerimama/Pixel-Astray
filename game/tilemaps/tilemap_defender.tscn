@@ -98,6 +98,7 @@ color = Color( 0.980392, 0.980392, 0.980392, 1 )
 polygon = PoolVector2Array( 17, -320, 17, 320, -15, 320, -15, -320 )
 
 [node name="CameraPosition" type="Position2D" parent="."]
+visible = false
 position = Vector2( 704, 1152 )
 
 [node name="Polygon2D2" type="Polygon2D" parent="CameraPosition"]

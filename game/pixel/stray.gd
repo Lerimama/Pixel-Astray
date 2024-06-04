@@ -297,22 +297,26 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			collision_shape.set_deferred("disabled", true)
 			collision_shape_ext.set_deferred("disabled", true)
 			# odstrani barve iz huda in igre
-			Global.game_manager.on_stray_died(self)
+			Global.game_manager.on_stray_die(self)
 			call_deferred("queue_free")
 
 
 func _on_Stray_child_entered_tree(node: Node) -> void: # varovalka overspawn II ... glede na "isto pozicijo"
 	
+#	Global.game_manager.strays_in_game_count = 1
 	for stray in get_tree().get_nodes_in_group(Global.group_strays):
 		if stray.global_position == global_position:
 			# printt ("overspawn II", self) 
 			call_deferred("queue_free")
+			return
 			
 	for player in get_tree().get_nodes_in_group(Global.group_players):
 		if player.global_position == global_position:
 			# printt ("overspawn II on player", self) 
 			call_deferred("queue_free")
-
+			return
+	
+	
 
 func _on_OverspawnDetect_body_entered(body: Node) -> void: # varovalka overspawn III ... če detect area zazna kolizijo
 	# samo na štartu ... ob prikazu jo izklopim
@@ -327,3 +331,20 @@ func _on_OverspawnDetect_body_entered(body: Node) -> void: # varovalka overspawn
 func _on_Stray_tree_exiting() -> void:
 	
 	Global.game_manager.strays_in_game_count = - 1
+
+
+func _on_Stray_tree_entered() -> void:
+	
+	Global.game_manager.strays_in_game_count = 1
+	
+	for stray in get_tree().get_nodes_in_group(Global.group_strays):
+		if stray.global_position == global_position:
+			# printt ("overspawn II", self) 
+			call_deferred("queue_free")
+			return
+			
+	for player in get_tree().get_nodes_in_group(Global.group_players):
+		if player.global_position == global_position:
+			# printt ("overspawn II on player", self) 
+			call_deferred("queue_free")
+			return

@@ -78,7 +78,7 @@ func pause_game():
 	
 	# pokažem skip tutorial gumb
 	var skip_tut_btn: Button = $Menu/SkipTutBtn
-	if Global.tutorial_gui.tutorial_on:
+	if Global.tutorial_gui != null and Global.tutorial_gui.tutorial_on:
 		skip_tut_btn.show()
 	else:
 		skip_tut_btn.hide()
@@ -132,6 +132,8 @@ func _on_PlayBtn_pressed() -> void:
 
 func _on_RestartBtn_pressed() -> void:
 
+	Global.game_manager.game_on = false
+	
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	
 	Global.game_manager.stop_game_elements()
@@ -146,6 +148,8 @@ func _on_SkipTutBtn_pressed() -> void:
 
 	
 func _on_QuitBtn_pressed() -> void:
+
+	Global.game_manager.game_on = false
 
 	Global.game_manager.stop_game_elements()
 	Global.sound_manager.stop_music("game_music_on_gameover")

@@ -31,13 +31,12 @@ var default_game_settings: Dictionary = {
 	"reburst_enabled": false,
 	"reburst_window_time": 0.3, # 0 je neomejen čas
 	"reburst_hit_power": 0, # kolk jih destroya ... 0 gre po original pravilih moči, trenutno je 5 full power
-	# strays start spawn
-	"strays_start_count": 0, # ponekod se spawna vsaj 1
+	# strays
+	"create_strays_count": 0, # ponekod se spawna vsaj 1
 	"spawn_white_stray_part": 0, # procenti spawnanih ... 0 ne spawna nobenega belega
-	# strays in-game respawn
+	"spawn_white_stray_part_limit": 0.5, # klempam, da ni "brezveznih" situacij
 	"respawn_strays_count_range": [0,0], # če je > 0, je respawn aktiviran
 	"respawn_pause_time": 1, # če je 0 lahko pride do errorja (se mi zdi, da n 0, se timer sam disejbla)
-	"respawn_on_turn_white": false, # na respawn se naključni spremeni v belega
 	# game
 	"game_time_limit": 0, # če je nič, ni omejeno in timer je stopwatch mode
 	"game_music_track_index": 0, # default muska v igri
@@ -51,7 +50,7 @@ var default_game_settings: Dictionary = {
 enum Games {
 	TUTORIAL, CLASSIC,
 	CLEANER_S, CLEANER_M, CLEANER_L,
-	ERASER, HANDLER,
+	ERASER,
 	THE_DUEL,
 	SWEEPER,
 	DEFENDER,
@@ -74,9 +73,11 @@ var game_data_classic: Dictionary = {
 	"game_name": "Classic",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_classic.tscn",
-	"description" : "Opis standardne avanture pucanja",
-	"Prop" : "Klasika ...\nreclaim your\none-and-only\nstatus.",
-	"Prop2" : "Unlimited\ncleaning time.",
+	"description" : "Team up for a cleaning frenzy!",
+#	"Prop" : "Klasika ...\nreclaim your\none-and-only\nstatus.",
+	"Prop" : "Win the game by cleaning all stray pixelsa and\nreclaim your\none-and-only\nstatus.",
+	
+	"Prop2" : "Unlimited cleaning time. Unlimited bursting fun",
 	"Prop3" : "Score points\nto beat current\nrecord!",
 }
 var game_data_cleaner_s: Dictionary = { 
@@ -107,7 +108,7 @@ var game_data_cleaner_l: Dictionary = {
 	"game_name": "Cleaner L",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_l.tscn",
-	"description" : "Clean up this vibrant mess before the clock runs out!",
+	"description" : "Clean up this colored mess before the clock runs out!",
 	"Prop" : "...", # Clean quickly\nto reclaim your\none-and-only\nstatus.",
 	"Prop2" : "Your cleaning\ntime is limited\nto %s minutes." % str(10), # CONN ročno povezano z drugo nsatavitvijo
 	"Prop3" : "Be quick and\nefficient to beat\nthe current\nrecord time!",
@@ -124,40 +125,16 @@ var game_data_eraser: Dictionary = {
 	"Prop3" : "Give it your\nbest shot to\nbeat the current\nrecord score!",
 	# štart
 	"level": 1,
-	"level_goal_count": 13,
-	# "strays_start_count": 0, # določi tilemap
-	# "respawn_strays_count_range": [1,1],
-	# "respawn_pause_time": 1,
-	# level up
+	"level_goal_count": 5, # level_goal_mode ... # prvi level eraserja ima za cilj število spawnanih
 	"level_goal_count_grow": 3,
-	"strays_start_count_grow": 0,
+	# "create_strays_count": 0, # določi tilemap
+	"create_strays_count_grow": 0,
+	# "respawn_strays_count_range": [1,1],
 	"respawn_strays_count_range_grow": [1,1],
+	# "respawn_pause_time": 1,
 	"respawn_pause_time_factor": 0.7,
-	# ne rabim v tej igri
-	"spawn_white_stray_part_factor": 1,
-}
-var game_data_handler: Dictionary = { 
-	"game": Games.HANDLER,
-	"highscore_type": HighscoreTypes.HS_POINTS,
-	"game_name": "Handler",
-	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_handler_s.tscn", # tilemap_handler.tscn
-	"description" : "Prevent those sneaky white pixels from prevailing!",
-	"Prop" : "Showcase your\nexpertise as new\nchallenges keep\nappearing.",
-	"Prop2": "Unlimited time and\nchallenges. Reach\nnext challenge on\ncleaned screen.",
-	"Prop3" : "Give it your\nbest shot to\nbeat the current\nrecord score!",
-	# štart
-	"level": 1,
-	# "strays_start_count": 3, # določi settings
-	# "spawn_white_stray_part": 0.0, # določi settings
-	# level up
-	"strays_start_count_grow": 32, # prištejem
-	"spawn_white_stray_part_factor": 1, # množim
-	# ne rabim v tej igri
-#	"level_goal_count": 320,
-#	"level_goal_count_grow": 320,
-	"respawn_strays_count_grow": 0,
-	"respawn_pause_time_factor": 1,
+	# "spawn_white_stray_part": 0.5,
+	"spawn_white_stray_part_grow": 0.32, # omejena na 2. level na set_new_level
 }
 var game_data_defender: Dictionary = { 
 	"game": Games.DEFENDER,
@@ -166,12 +143,12 @@ var game_data_defender: Dictionary = {
 	"game_scene_path": "res://game/game_defender.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_defender.tscn",
 	"description" : "Defend your screen against invading colors!",
-	"Prop": "Unlimited time and\ndifficulty levels.\nLevel up evety %s collected colors." % str(200),
+	"Prop": "Unlimited time and\ndifficulty levels.\nLevel up every %s collected colors." % str(200),
 	"Prop2" : "Player is always\nfull of energy,\nbut has no skills.",
 	"Prop3" : "Give it your\nbest shot to\nbeat the current\nrecord score!",
 	# štart
 	"level": 1,
-	"level_goal_count": 3, # prvi level
+	"level_goal_count": 3, # level_goal_mode
 	"line_step_pause_time": 1.5, # ne sem bit manjša od stray step hitrosti (0.2), je clampana ob apliciranju
 	"spawn_round_range": [1, 8], # random spawn count, največ 120 - 8
 	"line_steps_per_spawn_round": 1, # na koliko stepov se spawna nova runda
@@ -181,64 +158,27 @@ var game_data_defender: Dictionary = {
 	"spawn_round_range_grow": [1, 1], # množim [spodnjo, zgornjo] mejo
 	"line_steps_per_spawn_round_factor": 1, # na koliko stepov se spawna nova runda
 }
-#var game_data_sweeper: Dictionary = {
-#	"game": Games.SWEEPER,
-#	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-#	"game_name": "Sweeper",
-#	"game_scene_path": "res://game/game.tscn",
-#	"description" : "Sweep the entire screen in one spectacular move!",
-#	"Prop" : "Hit the first\nstray pixel and keep rebursting till there\nare none left.",
-#	"Prop2" : "To reburst when hitting a pixel, press\nin the direction of\nthe next target.",
-#	"Prop3" : "Showcase your\nmastery and beat\nthe record time!",
-#	#
-#	"level": 1, # provizorij
-#}
-var sweeper_level_settings: Dictionary = { 
-	1: { # ključ je tudi številka levela
-		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
-	},
-	2: {
-		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_02.tscn",
-	},
-	3: {
-		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_03.tscn",
-	},
-	4: {
-		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_04.tscn",
-	},
-	5: {
-		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_05.tscn",
-	},
-	6: {
-		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_06.tscn",
-	},
-	7: {
-		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_07.tscn",
-	},
-	8: {
-		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_08.tscn",
-	},
-	9: {
-		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_09.tscn",
-	},
-	
-	#	10: {
-	#		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_S.tscn",
-	#	},
-	#	11: {
-	#		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_M.tscn",
-	#	},
-	#	12: {
-	#		"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_L.tscn",
-	#	},
+var game_data_sweeper: Dictionary = {
+	"game": Games.SWEEPER,
+	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"game_name": "Sweeper",
+	"game_scene_path": "res://game/game.tscn",
+	"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
+	"description" : "Sweep the entire screen in one spectacular move!",
+	"Prop" : "Hit the first\nstray pixel and keep rebursting till there\nare none left.",
+	"Prop2" : "To reburst when hitting a pixel, press\nin a direction of\nthe next target.",
+	"Prop3" : "Showcase your\nmastery and beat\nthe record time!",
+	#
+	"level": 1, # provizorij
 }
 var game_data_the_duel: Dictionary = {
 	"game": Games.THE_DUEL,
 	"highscore_type": HighscoreTypes.NO_HS,
 	"game_name": "The Duel",
 	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_duel.tscn",
-	"description" : "Team up to tackle the colored mess and\nbattle for the ultimate cleaning champ title!",
+#	"tilemap_path": "res://game/tilemaps/tilemap_duel.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_duel_lite.tscn",
+	"description" : "Only the best cleaner will shine in this epic battle!",
 	"Prop": " The player with better score wins.",
 	"Prop2": "Hit the opposing player to take his life and get his share of points.",
 	"Prop3" : "Battle time is limited to %s minutes." % str(3),
@@ -273,20 +213,6 @@ var tutorial_music_track_index: int = 1
 var tutorial_mode
 
 
-var game_data_sweeper: Dictionary = {
-	"game": Games.SWEEPER,
-	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "Sweeper",
-	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
-	"description" : "Sweep the entire screen in one spectacular move!",
-	"Prop" : "Hit the first\nstray pixel and keep rebursting till there\nare none left.",
-	"Prop2" : "To reburst when hitting a pixel, press\nin a direction of\nthe next target.",
-	"Prop3" : "Showcase your\nmastery and beat\nthe record time!",
-	#
-	"level": 1, # provizorij
-}
-
 
 func _ready() -> void:
 	
@@ -298,10 +224,9 @@ func _ready() -> void:
 #	var debug_game = Games.CLEANER_S
 #	var debug_game = Games.CLEANER_M
 #	var debug_game = Games.CLEANER_L
-#	var debug_game = Games.DEFENDER
+	var debug_game = Games.DEFENDER
 #	var debug_game = Games.ERASER
-#	var debug_game = Games.HANDLER
-	var debug_game = Games.SWEEPER
+#	var debug_game = Games.SWEEPER
 #	var debug_game = Games.THE_DUEL
 	set_game_data(debug_game)
 	
@@ -337,13 +262,13 @@ func set_game_data(selected_game) -> void:
 			game_settings["reburst_hit_power"] = 1
 			game_settings["reburst_enabled"] = true			
 			game_settings["reburst_window_time"] = 0
-			game_settings["strays_start_count"] = 50
+			game_settings["create_strays_count"] = 50
 		
 		Games.CLASSIC: 
 			current_game_data = game_data_classic.duplicate()
 			game_settings["show_game_instructions"] = false
 			game_settings["game_time_limit"] = 0
-			game_settings["strays_start_count"] = 500
+			game_settings["create_strays_count"] = 500
 			
 			game_settings["zoom_to_level_size"] = false
 			game_settings["start_countdown"] = false
@@ -351,7 +276,7 @@ func set_game_data(selected_game) -> void:
 		Games.CLEANER_S: 
 			current_game_data = game_data_cleaner_s.duplicate()
 			game_settings["game_time_limit"] = 120
-			game_settings["strays_start_count"] = 50
+			game_settings["create_strays_count"] = 3#50
 			game_settings["respawn_on_cleaned"] = true
 			game_settings["zoom_to_level_size"] = false
 #			game_settings["spawn_strays_on_cleaned"] = true
@@ -360,7 +285,7 @@ func set_game_data(selected_game) -> void:
 		Games.CLEANER_M: 
 			current_game_data = game_data_cleaner_m.duplicate()
 			game_settings["game_time_limit"] = 300
-			game_settings["strays_start_count"] = 140
+			game_settings["create_strays_count"] = 140
 			game_settings["respawn_on_cleaned"] = true
 			game_settings["zoom_to_level_size"] = false
 #			game_settings["spawn_strays_on_cleaned"] = true
@@ -368,7 +293,7 @@ func set_game_data(selected_game) -> void:
 		Games.CLEANER_L: 
 			current_game_data = game_data_cleaner_l.duplicate()
 			game_settings["game_time_limit"] = 600
-			game_settings["strays_start_count"] = 320
+			game_settings["create_strays_count"] = 320
 			game_settings["respawn_on_cleaned"] = true
 			game_settings["zoom_to_level_size"] = false
 #			game_settings["spawn_strays_on_cleaned"] = true
@@ -377,33 +302,26 @@ func set_game_data(selected_game) -> void:
 			current_game_data = game_data_eraser.duplicate()
 #			game_settings["cell_traveled_energy"] = 0
 			game_settings["start_countdown"] = false
-			game_settings["strays_start_count"] = 5
-			game_settings["strays_start_count"] = 5
-			game_settings["respawn_strays_count_range"] = [1, 1]
+			game_settings["create_strays_count"] = 5
+			game_settings["respawn_strays_count_range"] = [2, 6]
 			game_settings["respawn_pause_time"] = 1
-		Games.HANDLER: 
-			current_game_data = game_data_handler.duplicate()
-#			game_settings["cell_traveled_energy"] = 0
-			game_settings["start_countdown"] = false
-			#
-			game_settings["strays_start_count"] = 3	
-			game_settings["respawn_on_cleaned"] = true
-
+#			game_settings["spawn_white_stray_part"] = 0.5
 		Games.DEFENDER:
 			current_game_data = game_data_defender.duplicate()
 			game_settings["cell_traveled_energy"] = 0
-			game_settings["full_power_mode"] = true # 1 v prvi spawn rundi
-			game_settings["strays_start_count"] = 1 # 1 v prvi spawn rundi
+			game_settings["full_power_mode"] = true
+			game_settings["create_strays_count"] = 1 # 1 v prvi spawn rundi
 			game_settings["position_indicators_show_limit"] = 0
 			# debug
 			game_settings["start_countdown"] = false # 1 v prvi spawn rundi
 #			game_settings["line_step_pause_time"] = 0.3 # 1 v prvi spawn rundi
 #			game_settings["spawn_round_range"] = [20, 30] # 1 v prvi spawn rundi
 			game_settings["game_music_track_index"] = 1
+			game_settings["zoom_to_level_size"] = false
 		
 		Games.THE_DUEL: 
 			current_game_data = game_data_the_duel.duplicate()
-			game_settings["game_time_limit"] = 0 #180
+			game_settings["game_time_limit"] = 180 # tilemap set
 			#	
 			game_settings["spawn_strays_on_cleaned"] = true
 	

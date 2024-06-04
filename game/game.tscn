@@ -1131,7 +1131,6 @@ margin_right = 248.0
 text = "to start"
 
 [node name="PauseMenu" parent="GUI" instance=ExtResource( 11 )]
-visible = false
 __meta__ = {
 "_edit_horizontal_guides_": [ 112.0 ],
 "_edit_vertical_guides_": [ 640.0, 304.0, 976.0 ]

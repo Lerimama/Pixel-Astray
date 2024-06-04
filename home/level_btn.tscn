@@ -26,39 +26,42 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="SolvedIcon" type="TextureRect" parent="."]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -62.0
-margin_top = 40.0
-margin_right = -48.0
-margin_bottom = 50.0
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -100.0
+margin_top = -32.0
+margin_right = 100.0
+margin_bottom = 22.0
+grow_vertical = 2
+custom_constants/separation = -2
+
+[node name="SolvedIcon" type="TextureRect" parent="VBoxContainer"]
+visible = false
+margin_right = 200.0
+margin_bottom = 10.0
 focus_neighbour_top = NodePath("../LevelGrid/SolutionsBtn")
 mouse_default_cursor_shape = 2
 texture = SubResource( 480 )
 
-[node name="Solved" type="Label" parent="."]
-visible = false
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -61.0
-margin_top = -24.0
-margin_right = -7.0
-margin_bottom = -6.0
+[node name="Label" type="Label" parent="VBoxContainer"]
+margin_right = 200.0
+margin_bottom = 54.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 4 )
+text = "%00"
+align = 1
+valign = 1
+
+[node name="Solved" type="Label" parent="VBoxContainer"]
+margin_top = 52.0
+margin_right = 200.0
+margin_bottom = 70.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 1 )
 text = "Solved"
 align = 1
 valign = 1
 uppercase = true
-
-[node name="Label" type="Label" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_fonts/font = ExtResource( 4 )
-text = "%00"
-align = 1
-valign = 1

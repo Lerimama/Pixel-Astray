@@ -151,7 +151,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 		collision_shape.set_deferred("disabled", true)
 		collision_shape_ext.set_deferred("disabled", true)
 		# odstrani barve iz huda in igre
-		Global.game_manager.on_stray_died(self)
+		#		Global.game_manager.on_stray_die(self)
 		call_deferred("queue_free")
 
 

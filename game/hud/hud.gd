@@ -91,8 +91,12 @@ func _ready() -> void:
 	footer.rect_position.y = screen_height
 
 	game_label.text = Global.game_manager.game_data["game_name"]
+	
 	if Global.game_manager.game_data.has("level"):
 		level_label.text = "%02d" % Global.game_manager.game_data["level"]
+		level_label.show()
+	else:
+		level_label.hide()
 	
 	if not current_gamed_hs_type == Profiles.HighscoreTypes.NO_HS:
 		set_current_highscore()
@@ -134,10 +138,7 @@ func _process(delta: float) -> void:
 	
 	astray_counter.text = "%0d" % Global.game_manager.strays_in_game_count
 
-	# level label show on fill
-	if Global.game_manager.game_data.has("level"):
-		if not level_label.visible:
-			level_label.visible = true	
+	if level_label.visible: # Global.game_manager.game_data.has("level"):
 		level_label.text = "%02d" % Global.game_manager.game_data["level"]
 			
 			
@@ -166,10 +167,6 @@ func set_hud(): # kliče main na game-in
 		p1_energy_counter.visible = false
 		p2_energy_counter.visible = false	
 	
-	# level label
-	if not Global.game_manager.game_data.has("level"): # multilevel game
-		level_label.visible = false
-	
 	# glede na to kaj šteje ...
 	if current_gamed_hs_type == Profiles.HighscoreTypes.NO_HS:
 		highscore_label.visible = false
@@ -187,7 +184,6 @@ func set_current_highscore():
 		highscore_label.text = "HS " + str(current_highscore) + "s"
 	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_POINTS:
 		highscore_label.text = "HS " + str(current_highscore)
-	printt("CURR", current_highscore)
 
 
 func slide_in(): # kliče GM set_game()
@@ -210,7 +206,7 @@ func slide_in(): # kliče GM set_game()
 	fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", header_height, hud_in_out_time)
 	fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", header_height, hud_in_out_time)
 	
-	if not Global.game_manager.game_data.has("level_goal_count"):
+	if not Global.game_manager.level_goal_mode:
 		for indicator in all_color_indicators:
 			var indicator_fade_in = get_tree().create_tween()
 			indicator_fade_in.tween_property(indicator, "modulate:a", stray_in_indicator_alpha, 0.3).set_ease(Tween.EASE_IN)
@@ -287,7 +283,7 @@ func indicate_color_collected(collected_color: Color):
 		# pobrana barva
 		if indicator.color == collected_color:
 			current_indicator_index = all_color_indicators.find(indicator)
-			if Global.game_manager.game_data.has("level_goal_count"):
+			if Global.game_manager.level_goal_mode:
 				indicator.modulate.a = stray_in_indicator_alpha
 			else: 	
 				indicator.modulate.a = stray_out_indicator_alpha
@@ -305,7 +301,7 @@ func empty_color_indicators():
 # POPUPS ----------------------------------------------------------------------------------------------------------------------------
 
 
-func level_up_popup_inout(level_reached: int): 
+func level_up_popup_inout(level_reached: int): # OPT
 	
 	level_up_popup.modulate.a = 0
 	level_up_popup.get_node("Label").text = "LEVEL UP" # "LEVEL %s" % str(level_reached)

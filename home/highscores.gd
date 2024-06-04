@@ -10,7 +10,6 @@ onready var cleaner_s_table: VBoxContainer = $CleanerSTable
 onready var cleaner_m_table: VBoxContainer = $CleanerMTable
 onready var cleaner_l_table: VBoxContainer = $CleanerLTable
 onready var eraser_table: VBoxContainer = $EraserTable
-onready var handler_table: VBoxContainer = $HandlerTable
 onready var defender_table: VBoxContainer = $DefenderTable
 onready var sweeper_table: VBoxContainer = $SweeperTable
 
@@ -23,7 +22,6 @@ func _ready() -> void:
 	cleaner_m_table.get_highscore_table(Profiles.game_data_cleaner_m, fake_player_ranking)
 	cleaner_l_table.get_highscore_table(Profiles.game_data_cleaner_l, fake_player_ranking)
 	eraser_table.get_highscore_table(Profiles.game_data_eraser, fake_player_ranking)
-	handler_table.get_highscore_table(Profiles.game_data_handler, fake_player_ranking)
 	defender_table.get_highscore_table(Profiles.game_data_defender, fake_player_ranking)
 	Profiles.game_data_sweeper["level"] = 1
 	sweeper_table.get_highscore_table(Profiles.game_data_sweeper, fake_player_ranking)
@@ -35,12 +33,12 @@ func load_new_sweeper_table(next_or_prev_level: int):
 	# setam level v tabeli
 	Profiles.game_data_sweeper["level"] += next_or_prev_level
 	# ciklanje levelov
-	if Profiles.game_data_sweeper["level"] > Profiles.sweeper_level_settings.size():
-#	if Profiles.game_data_sweeper["level"] > Profiles.sweeper_level_tilemap_paths.size():
+	if Profiles.game_data_sweeper["level"] > Profiles.sweeper_level_tilemap_paths.size():
+#	if Profiles.game_data_sweeper["level"] > Profiles.sweeper_level_settings.size():
 		Profiles.game_data_sweeper["level"] = 1
 	elif Profiles.game_data_sweeper["level"] < 1:
-		Profiles.game_data_sweeper["level"] = Profiles.sweeper_level_settings.size()
-#		Profiles.game_data_sweeper["level"] = Profiles.sweeper_level_tilemap_paths.size()
+#		Profiles.game_data_sweeper["level"] = Profiles.sweeper_level_settings.size() # VEN
+		Profiles.game_data_sweeper["level"] = Profiles.sweeper_level_tilemap_paths.size()
 	
 	# fade out
 	var fade_time: float = 0.2

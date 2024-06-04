@@ -14,7 +14,7 @@ var players_count: int
 # strays
 var strays_in_game: Array = []
 var strays_shown: Array = []
-var strays_start_count: int =  500 # 149 v naslovu ... ne sme bit onready, ker povozi ukaz s tilemapa
+var create_strays_count: int =  500 # 149 v naslovu ... ne sme bit onready, ker povozi ukaz s tilemapa
 var all_colors_available: Array
 
 # tilemap data
@@ -85,7 +85,7 @@ func finish_intro(): # ob skipanju in regularnem koncu intra
 		
 func set_strays():
 	
-	spawn_strays(strays_start_count)
+	spawn_strays(create_strays_count)
 	
 	yield(get_tree().create_timer(0.01), "timeout") # da se vsi straysi spawnajo
 	
@@ -260,11 +260,11 @@ func _on_TileMap_completed(random_spawn_floor_positions: Array, stray_cells_posi
 	
 	# start strays count setup
 	if not stray_cells_positions.empty() and no_stray_cells_positions.empty(): # št. straysov enako številu "required" tiletov
-		strays_start_count = required_spawn_positions.size()
+		create_strays_count = required_spawn_positions.size()
 	
 	# preventam preveč straysov (več kot je možnih pozicij)
-	if strays_start_count > random_spawn_positions.size() + required_spawn_positions.size():
-		strays_start_count = random_spawn_positions.size()/2 + required_spawn_positions.size()
+	if create_strays_count > random_spawn_positions.size() + required_spawn_positions.size():
+		create_strays_count = random_spawn_positions.size()/2 + required_spawn_positions.size()
 
 	# če ni pozicij, je en player ... random pozicija
 	if player_start_positions.empty():

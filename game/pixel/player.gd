@@ -998,6 +998,7 @@ func spawn_floating_tag(value: int):
 	new_floating_tag.global_position = global_position
 	new_floating_tag.tag_owner = self
 	Global.node_creation_parent.add_child(new_floating_tag)
+#	Global.node_creation_parent.call_deferred("add_child", new_floating_tag)
 	
 	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 		new_floating_tag.label.text = "YEAH!"
@@ -1429,7 +1430,7 @@ func change_stat(stat_event: String, stat_value):
 		"skill_used": # štetje, točke in energija kot je določeno v settingsih
 			player_stats["skill_count"] += 1
 			# za tutorial
-			if Global.tutorial_gui.tutorial_on:
+			if Global.tutorial_gui != null and Global.tutorial_gui.tutorial_on:
 				Global.tutorial_gui.on_skill_used(stat_value)
 		"burst_released": # štetje, točke in energija kot je določeno v settingsih
 			player_stats["burst_count"] += 1
@@ -1455,7 +1456,7 @@ func change_stat(stat_event: String, stat_value):
 			player_stats["player_points"] += points_to_gain 
 			spawn_floating_tag(points_to_gain)
 			# za tutorial
-			if Global.tutorial_gui.tutorial_on:
+			if Global.tutorial_gui != null and Global.tutorial_gui.tutorial_on:
 				Global.tutorial_gui.on_hit_stray(stack_strays_cleaned_count)
 		"white_eliminated":
 			player_stats["player_energy"] = player_max_energy

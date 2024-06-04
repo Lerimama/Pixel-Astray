@@ -997,7 +997,7 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="OverspawnDetect"]
 shape = SubResource( 153 )
 
-[connection signal="child_entered_tree" from="." to="." method="_on_Stray_child_entered_tree"]
+[connection signal="tree_entered" from="." to="." method="_on_Stray_tree_entered"]
 [connection signal="tree_exiting" from="." to="." method="_on_Stray_tree_exiting"]
 [connection signal="viewport_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_viewport_entered"]
 [connection signal="viewport_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_viewport_exited"]

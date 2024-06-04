@@ -48,7 +48,7 @@ func _process(delta: float) -> void:
 		else:
 			$GamesMenu/Cleaner/Background.color = unfocused_color
 			$GamesMenu/Cleaner/Background.modulate.a = 1
-		if focused_btn.name == "EraserBtn" or focused_btn.name == "HandlerBtn" or focused_btn.name == "DefenderBtn":
+		if focused_btn.name == "EraserBtn" or focused_btn.name == "DefenderBtn":
 			$GamesMenu/Timeless/Background.color = Global.color_green
 			$GamesMenu/Timeless/Background.modulate.a = 0.83 # da ne žari premočno
 		else:
@@ -114,11 +114,6 @@ func _on_EraserBtn_pressed() -> void:
 	play_selected_game(Profiles.Games.ERASER)
 	
 	
-func _on_HandlerBtn_pressed() -> void:
-	
-	play_selected_game(Profiles.Games.HANDLER)
-	
-	
 func _on_DefenderBtn_pressed() -> void:
 	
 	play_selected_game(Profiles.Games.DEFENDER)
@@ -153,7 +148,7 @@ func _on_CleanerBackground_mouse_entered() -> void:
 func _on_TimelessBackground_mouse_entered() -> void:
 	
 	# če še ni izbran kateri v trenutnem boxu
-	if not $GamesMenu/Timeless/DefenderBtn.has_focus() and not $GamesMenu/Timeless/HandlerBtn.has_focus():
+	if not $GamesMenu/Timeless/DefenderBtn.has_focus():
 		$GamesMenu/Timeless/EraserBtn.grab_focus()
 		
 		

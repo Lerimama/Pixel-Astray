@@ -42,6 +42,9 @@ func set_level_btns():
 				all_level_btns.append(new_level_btn)
 				break
 	
+	var column_number: int = round(sqrt(Profiles.sweeper_level_tilemap_paths.size()))
+	btn_grid_container.columns = column_number
+	
 	# naberem gumbe in barve
 	if Profiles.use_default_color_theme:
 		btn_colors = Global.get_spectrum_colors(all_level_btns.size())
@@ -58,20 +61,18 @@ func set_level_btns():
 		var btn_index: int = all_level_btns.find(btn)
 		var btn_level_number: int = btn_index + 1
 		# level name
-		btn.get_node("Label").text = "%02d" % btn_level_number
+		btn.get_node("VBoxContainer/Label").text = "%02d" % btn_level_number
 		# osnovna barva ozadja
 		btn.self_modulate = unfocused_color
 		# preverim če je rešen
 		if btn_level_number in solved_levels:
 			solved_sweeper_btns.append(btn)
-			btn.get_node("Label").modulate = btn_colors[btn_index]
-			btn.get_node("Solved").modulate = btn_colors[btn_index]
-			btn.get_node("SolvedIcon").modulate = btn_colors[btn_index]
-			btn.get_node("Solved").hide()
-			btn.get_node("SolvedIcon").show()
+			btn.get_node("VBoxContainer/Label").modulate = btn_colors[btn_index]
+			btn.get_node("VBoxContainer/Solved").modulate = btn_colors[btn_index]
+			btn.get_node("VBoxContainer/Solved").show()
 		else:
-			btn.get_node("Label").modulate = Global.color_gui_gray
-			btn.get_node("SolvedIcon").hide()
+			btn.get_node("VBoxContainer/Label").modulate = Global.color_gui_gray
+			btn.get_node("VBoxContainer/Solved").hide()
 
 	
 # btns ---------------------------------------------------------------------------------------------
@@ -82,28 +83,26 @@ func connect_level_btns():
 	for btn in btn_grid_container.get_children():
 		btn.connect("mouse_entered", self, "_on_btn_hovered_or_focused", [btn])
 		btn.connect("focus_entered", self, "_on_btn_hovered_or_focused", [btn])
-		btn.connect("mouse_exited", self, "_on_btn_unhovered_or_unfocused", [btn])
 		btn.connect("focus_exited", self, "_on_btn_unhovered_or_unfocused", [btn])
+		# btn.connect("mouse_exited", self, "_on_btn_unhovered_or_unfocused", [btn])
 		btn.connect("pressed", self, "_on_btn_pressed", [btn])
 		
 		
 func _on_btn_hovered_or_focused(btn):
 	
 	btn.self_modulate = btn_colors[all_level_btns.find(btn)]
-	btn.get_node("Label").modulate = Color.white
-	btn.get_node("Solved").modulate = Color.white
-	btn.get_node("SolvedIcon").modulate = Color.white
+	btn.get_node("VBoxContainer/Label").modulate = Color.white
+	btn.get_node("VBoxContainer/Solved").modulate = Color.white
 	
 	
 func _on_btn_unhovered_or_unfocused(btn):
 	
 	btn.self_modulate = Global.color_almost_black_pixel
 	if solved_sweeper_btns.has(btn):
-		btn.get_node("Label").modulate = btn_colors[all_level_btns.find(btn)]
-		btn.get_node("Solved").modulate = btn_colors[all_level_btns.find(btn)]
-		btn.get_node("SolvedIcon").modulate = btn_colors[all_level_btns.find(btn)]
+		btn.get_node("VBoxContainer/Label").modulate = btn_colors[all_level_btns.find(btn)]
+		btn.get_node("VBoxContainer/Solved").modulate = btn_colors[all_level_btns.find(btn)]
 	else:
-		btn.get_node("Label").modulate = Global.color_gui_gray
+		btn.get_node("VBoxContainer/Label").modulate = Global.color_gui_gray
 	
 	
 func _on_btn_pressed(btn):

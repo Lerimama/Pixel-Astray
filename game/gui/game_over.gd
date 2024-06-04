@@ -159,13 +159,13 @@ func set_duel_gameover_title():
 		selected_gameover_title.get_node("Win").visible = true
 		winner_label.text = "Player 1"
 		loser_name = "Player 2"
-		winning_reason_label.text = "Player 1 cleaned Player 2."
+		winning_reason_label.text = "Player 2 just couldn't handle it."
 		return
 	elif p2_final_stats["player_life"] == 0 and p1_final_stats["player_life"] > 0: # P2 zmaga
 		selected_gameover_title.get_node("Win").visible = true
 		winner_label.text = "Player 2"
 		loser_name = "Player 1"
-		winning_reason_label.text = "Player 2 cleaned Player 1."
+		winning_reason_label.text = "Player 1 just couldn't handle it."
 		return
 	 
 	# če sta oba preživela ali oba umrla
@@ -238,10 +238,14 @@ func set_game_summary():
 	# game stats name
 	gameover_stat_game.text = "Game: " + str(Global.game_manager.game_data["game_name"])
 	gameover_stat_time.text = "Time used: " + Global.get_clock_time(Global.hud.game_timer.absolute_game_time)
-	if not Global.game_manager.game_data.has("level"):
-		gameover_stat_level.hide()
+	
+	if Global.game_manager.game_data.has("level"):
+		if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+			gameover_stat_level.text = "Screen: " + str(Global.game_manager.game_data["level"])
+		else:
+			gameover_stat_level.text = "Level: " + str(Global.game_manager.game_data["level"])
 	else:
-		gameover_stat_level.text = "Level: " + str(Global.game_manager.game_data["level"])
+		gameover_stat_level.hide()
 
 	# player stats
 	if not Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
@@ -276,8 +280,8 @@ func show_menu():
 			gameover_menu.get_node("RestartBtn").text = "SWEEP AGAIN"
 		else:
 			gameover_menu.get_node("RestartBtn").text = "TRY AGAIN"
-		if Global.game_manager.game_data["level"] < Profiles.sweeper_level_settings.size():
-#		if Global.game_manager.game_data["level"] < Profiles.sweeper_level_tilemap_paths.size():
+#		if Global.game_manager.game_data["level"] < Profiles.sweeper_level_settings.size(): # VEN
+		if Global.game_manager.game_data["level"] < Profiles.sweeper_level_tilemap_paths.size():
 			gameover_menu.get_node("NextLevelBtn").show()
 	elif Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
 		gameover_menu.get_node("RestartBtn").text = "REMATCH"
