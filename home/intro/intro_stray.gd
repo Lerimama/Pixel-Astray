@@ -155,15 +155,6 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 		call_deferred("queue_free")
 
 
-func _on_Stray_child_entered_tree(node: Node) -> void: # varovalka overspawn II ... glede na "isto pozicijo"
-	# namen: ne preverjam plejerja
-	
-	for stray in get_tree().get_nodes_in_group(Global.group_strays):
-		if stray.global_position == global_position:
-			# printt ("overspawn II", self) 
-			call_deferred("queue_free")
-
-
 func _on_OverspawnDetect_body_entered(body: Node) -> void: # varovalka overspawn III ... če detect area zazna kolizijo
 	# namen: ne preverjam plejerja
 	
@@ -176,3 +167,12 @@ func _on_OverspawnDetect_body_entered(body: Node) -> void: # varovalka overspawn
 func _on_Stray_tree_exiting() -> void:
 	# namen: ne rabm
 	pass
+
+
+func _on_Stray_tree_entered() -> void:
+	# namen: ne preverjam plejerja
+	
+	for stray in get_tree().get_nodes_in_group(Global.group_strays):
+		if stray.global_position == global_position:
+			# printt ("overspawn II", self) 
+			call_deferred("queue_free")

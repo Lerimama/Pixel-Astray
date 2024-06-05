@@ -48,12 +48,12 @@ var default_game_settings: Dictionary = {
 }
 
 enum Games {
-	TUTORIAL, CLASSIC,
+	CLASSIC,
 	CLEANER_S, CLEANER_M, CLEANER_L,
 	ERASER,
-	THE_DUEL,
-	SWEEPER,
 	DEFENDER,
+	SWEEPER,
+	THE_DUEL,
 	SHOWCASE,
 	}
 	
@@ -74,11 +74,8 @@ var game_data_classic: Dictionary = {
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_classic.tscn",
 	"description" : "Team up for a cleaning frenzy!",
-#	"Prop" : "Klasika ...\nreclaim your\none-and-only\nstatus.",
-	"Prop" : "Win the game by cleaning all stray pixelsa and\nreclaim your\none-and-only\nstatus.",
-	
-	"Prop2" : "Unlimited cleaning time. Unlimited bursting fun",
-	"Prop3" : "Score points\nto beat current\nrecord!",
+	"Prop" : "Clear all stray pixels\nto reclaim your\none-and-only status.",
+	"Prop2" : "Give it your best shot\nto beat the current\nrecord score!",
 }
 var game_data_cleaner_s: Dictionary = { 
 	"game": Games.CLEANER_S,
@@ -87,9 +84,8 @@ var game_data_cleaner_s: Dictionary = {
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_s.tscn",
 	"description" : "Clear the colors before time slips away!",
-	"Prop" : "...", # Clean quickly\nto reclaim your\none-and-only\nstatus.",
-	"Prop2" : "Your cleaning\ntime is limited\nto %s minutes." % str(2), # CONN ročno povezano z drugo nsatavitvijo
-	"Prop3" : "Be quick and\nefficient to beat\nthe current\nrecord time!",
+	"Prop" : "You have %s minutes\nbefore your screen becomes\npermanently saturated." % str(2), # CONN ročno povezano z drugo nsatavitvijo,
+	"Prop2" : "Be quick and efficient\nto beat the current\nrecord time!",
 }
 var game_data_cleaner_m: Dictionary = {
 	"game": Games.CLEANER_M,
@@ -98,9 +94,8 @@ var game_data_cleaner_m: Dictionary = {
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_m.tscn",
 	"description" : "Race the clock and clean up the color explosion!",
-	"Prop" : "...", # Clean quickly\nto reclaim your\none-and-only\nstatus.",
-	"Prop2" : "Your cleaning\ntime is limited\nto %s minutes." % str(5), # CONN ročno povezano z drugo nsatavitvijo
-	"Prop3" : "Be quick and\nefficient to beat\nthe current\nrecord time!",
+	"Prop" : "You have %s minutes\nbefore your screen becomes\npermanently saturated." % str(5), # CONN ročno povezano z drugo nsatavitvijo,
+	"Prop2" : "Be quick and efficient\nto beat the current\nrecord time!",
 }
 var game_data_cleaner_l: Dictionary = {
 	"game": Games.CLEANER_L,
@@ -109,9 +104,8 @@ var game_data_cleaner_l: Dictionary = {
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_l.tscn",
 	"description" : "Clean up this colored mess before the clock runs out!",
-	"Prop" : "...", # Clean quickly\nto reclaim your\none-and-only\nstatus.",
-	"Prop2" : "Your cleaning\ntime is limited\nto %s minutes." % str(10), # CONN ročno povezano z drugo nsatavitvijo
-	"Prop3" : "Be quick and\nefficient to beat\nthe current\nrecord time!",
+	"Prop" : "You have %s minutes\nbefore your screen becomes\npermanently saturated." % str(10), # CONN ročno povezano z drugo nsatavitvijo,
+	"Prop2" : "Be quick and efficient\nto beat the current\nrecord time!",
 }
 var game_data_eraser: Dictionary = { 
 	"game": Games.ERASER,
@@ -120,9 +114,8 @@ var game_data_eraser: Dictionary = {
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser.tscn",
 	"description" : "Keep the colors in check as they keep popping in!",
-	"Prop" : "Don't worry\nabout the nasty\nwhite pixels on\nthis screen.",
-	"Prop2": "Unlimited time and\ndifficulty levels.\nLevel up every %s collected colors." % str(200),
-	"Prop3" : "Give it your\nbest shot to\nbeat the current\nrecord score!",
+	"Prop": "Difficulty level will increase\nwhen your spectrum\nindicator gets filled.",
+	"Prop2" : "Give it your best shot\nto beat the current\nrecord score!",
 	# štart
 	"level": 1,
 	"level_goal_count": 5, # level_goal_mode ... # prvi level eraserja ima za cilj število spawnanih
@@ -143,8 +136,8 @@ var game_data_defender: Dictionary = {
 	"game_scene_path": "res://game/game_defender.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_defender.tscn",
 	"description" : "Defend your screen against invading colors!",
-	"Prop": "Unlimited time and\ndifficulty levels.\nLevel up every %s collected colors." % str(200),
-	"Prop2" : "Player is always\nfull of energy,\nbut has no skills.",
+	"Prop" : "Player is always\nfull of energy,\nbut has no skills.",
+	"Prop2": "Difficulty level will\nincrease when your\nspectrum indicator\ngets filled.",
 	"Prop3" : "Give it your\nbest shot to\nbeat the current\nrecord score!",
 	# štart
 	"level": 1,
@@ -179,9 +172,9 @@ var game_data_the_duel: Dictionary = {
 #	"tilemap_path": "res://game/tilemaps/tilemap_duel.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_duel_lite.tscn",
 	"description" : "Only the best cleaner will shine in this epic battle!",
-	"Prop": " The player with better score wins.",
-	"Prop2": "Hit the opposing player to take his life and get his share of points.",
-	"Prop3" : "Battle time is limited to %s minutes." % str(3),
+	"Prop": "Player with better\nfinal score will be named\nthe Ultimate cleaning champ!",
+	"Prop2": "Hit the opposing player\nto take his life and\nhalf of his points.",
+#	"Prop3" : "Battle time is limited to %s minutes." % str(3),
 }
 var game_data_showcase: Dictionary = {
 	"game": Games.SHOWCASE,
@@ -238,7 +231,7 @@ func set_game_data(selected_game) -> void:
 #	# debug
 	game_settings["start_countdown"] = false
 	game_settings["player_start_life"] = 2
-	game_settings["show_game_instructions"] = false
+#	game_settings["show_game_instructions"] = false
 		
 	match selected_game:
 
@@ -266,7 +259,6 @@ func set_game_data(selected_game) -> void:
 		
 		Games.CLASSIC: 
 			current_game_data = game_data_classic.duplicate()
-			game_settings["show_game_instructions"] = false
 			game_settings["game_time_limit"] = 0
 			game_settings["create_strays_count"] = 500
 			

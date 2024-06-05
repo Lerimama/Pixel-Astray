@@ -126,14 +126,10 @@ func _physics_process(delta: float) -> void:
 	# na SKILLED timer štartam, drugače ga ustavim
 	if current_state == States.SKILLED:
 		if skilling_start_timer.is_stopped() and first_skill_use:
-			print("start")
 			skilling_start_timer.start() # wait time je določen na nodetu
 	else:
 		if not skilling_start_timer.is_stopped():
-			print("stop")
 			skilling_start_timer.stop()
-			
-			
 			
 	state_machine()
 	manage_heartbeat()

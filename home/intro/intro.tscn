@@ -969,10 +969,13 @@ align = 1
 autowrap = true
 
 [node name="ActionHint" parent="Text" instance=ExtResource( 10 )]
-margin_left = -608.0
-margin_top = 581.5
-margin_right = -360.0
-margin_bottom = 603.5
+margin_left = -138.0
+margin_top = 565.5
+margin_right = 142.0
+margin_bottom = 587.5
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="KEY" parent="Text/ActionHint" index="1"]
 margin_right = 118.0

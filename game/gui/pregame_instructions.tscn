@@ -89,6 +89,7 @@ __meta__ = {
 }
 
 [node name="Background" type="ColorRect" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
@@ -112,13 +113,12 @@ uppercase = true
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -320.0
-margin_top = 136.0
-margin_right = 320.0
-margin_bottom = 158.0
+margin_left = -328.0
+margin_top = 134.0
+margin_right = 328.0
+margin_bottom = 156.0
 grow_horizontal = 2
-text = "%Description consec etur si neberum dolores siteelit.
-a"
+text = "Take back the colors to become the brightest again."
 align = 1
 autowrap = true
 
@@ -153,8 +153,9 @@ grow_horizontal = 2
 rect_min_size = Vector2( 152, 0 )
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 3 )
-text = "%Testno besedilo
-Lorem ipsum dolor sit amet, consec etur si dolores."
+text = "Stay on your
+toes as new colors
+keep popping in!"
 align = 1
 valign = 1
 autowrap = true
@@ -510,7 +511,7 @@ visible = false
 margin_top = 152.0
 margin_right = 316.0
 margin_bottom = 312.0
-rect_min_size = Vector2( 0, 160 )
+rect_min_size = Vector2( 240, 160 )
 size_flags_horizontal = 3
 custom_styles/panel = ExtResource( 9 )
 __meta__ = {
@@ -614,7 +615,7 @@ visible = false
 margin_top = 152.0
 margin_right = 640.0
 margin_bottom = 312.0
-rect_min_size = Vector2( 0, 160 )
+rect_min_size = Vector2( 240, 160 )
 size_flags_horizontal = 3
 custom_styles/panel = ExtResource( 9 )
 __meta__ = {

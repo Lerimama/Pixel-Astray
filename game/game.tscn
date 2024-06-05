@@ -566,7 +566,6 @@ fit_content_height = true
 scroll_active = false
 
 [node name="SkillingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 0, 232 )
@@ -596,21 +595,21 @@ or teleport over the white ones."
 fit_content_height = true
 scroll_active = false
 
-[node name="Line3" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
+[node name="Line4" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
 margin_top = 98.0
 margin_right = 336.0
 margin_bottom = 218.0
 bbcode_enabled = true
-bbcode_text = "Press a DIRECTION KEY in a direction
-towards a pixel, you are touching 
-to connect to it. Then move into 
-a direction towards the pixel to push 
-or away from it to pull."
-text = "Press a DIRECTION KEY in a direction
-towards a pixel, you are touching 
-to connect to it. Then move into 
-a direction towards the pixel to push 
-or away from it to pull."
+bbcode_text = "To connect to a pixel you are touching
+press in a direction toward it. Then 
+hold the same direction to push, 
+or press the opposite direction to 
+pull the pixel."
+text = "To connect to a pixel you are touching
+press in a direction toward it. Then 
+hold the same direction to push, 
+or press the opposite direction to 
+pull the pixel."
 fit_content_height = true
 scroll_active = false
 

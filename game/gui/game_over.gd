@@ -159,13 +159,13 @@ func set_duel_gameover_title():
 		selected_gameover_title.get_node("Win").visible = true
 		winner_label.text = "Player 1"
 		loser_name = "Player 2"
-		winning_reason_label.text = "Player 2 just couldn't handle it."
+		winning_reason_label.text = "Player 2 couldn't handle all the saturation."
 		return
 	elif p2_final_stats["player_life"] == 0 and p1_final_stats["player_life"] > 0: # P2 zmaga
 		selected_gameover_title.get_node("Win").visible = true
 		winner_label.text = "Player 2"
 		loser_name = "Player 1"
-		winning_reason_label.text = "Player 1 just couldn't handle it."
+		winning_reason_label.text = "Player 1 couldn't handle all the saturation."
 		return
 	 
 	# če sta oba preživela ali oba umrla
@@ -241,7 +241,7 @@ func set_game_summary():
 	
 	if Global.game_manager.game_data.has("level"):
 		if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-			gameover_stat_level.text = "Screen: " + str(Global.game_manager.game_data["level"])
+			gameover_stat_level.text = "Screen no.: " + str(Global.game_manager.game_data["level"])
 		else:
 			gameover_stat_level.text = "Level: " + str(Global.game_manager.game_data["level"])
 	else:

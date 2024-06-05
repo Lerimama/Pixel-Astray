@@ -25,6 +25,8 @@ func _ready() -> void:
 	else:
 		solutions_btn.pressed = false
 	
+	solutions_btn.modulate = Global.color_gui_gray # rešitev, ker gumb se na začetku obarva kot fokusiran	
+		
 		
 func set_level_btns():
 	

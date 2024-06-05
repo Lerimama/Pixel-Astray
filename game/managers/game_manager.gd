@@ -620,8 +620,6 @@ func get_free_positions():
 	for player in current_players_in_game:
 		all_free_positions.erase(player.global_position - Vector2(cell_size_x/2, cell_size_x/2))
 					
-#	return all_free_positions.duplicate()
-	printt("free pos", all_free_positions.size())
 	return all_free_positions
 
 

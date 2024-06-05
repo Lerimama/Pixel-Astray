@@ -56,8 +56,7 @@ func _process(delta: float) -> void:
 func play_intro():
 	
 	yield(get_tree().create_timer(1), "timeout")
-#	animation_player.play("intro_running")
-	animation_player.play("intro_explode")
+	animation_player.play("intro_running")
 	
 	
 func finish_intro(): # ob skipanju in regularnem koncu intra
