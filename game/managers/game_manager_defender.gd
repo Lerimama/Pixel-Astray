@@ -137,7 +137,7 @@ func create_strays(strays_to_spawn_count: int):
 		# sprožim tajmer, ki na koncu pozicije preveri še enkrat
 		engine_stalled_timer.start(engine_stalled_checking_time)
 	else:
-		engine_stalled_timer.stop() # zazih
+		engine_stalled_timer.stop()
 		
 			
 	for stray_index in strays_to_spawn_count:
@@ -163,26 +163,25 @@ func create_strays(strays_to_spawn_count: int):
 			
 	stray_spawning_round += 1
 	
-		
-func upgrade_level(level_upgrade_reason: String):
-	# namen: zaporedje, respawn ven, set strays ven, ker jih spawna s stepanjem
+	
+func upgrade_level(upgrade_on_cleaned: bool =  false): # cleaner
+	# namen: ni respawna
 
 	if level_upgrade_in_progress:
 		return
 	level_upgrade_in_progress = true
+	
 	randomize()
 
-
-	#reset players
-	Global.hud.level_up_popup_inout(current_level)
-	for player in current_players_in_game:
-		player.end_move()		
-		if level_upgrade_reason == "cleaned":
+	if upgrade_on_cleaned:
+		for player in current_players_in_game:
+			player.end_move()		
 			player.on_screen_cleaned()
 
 	current_level += 1 # številka novega levela 
 	set_color_pool() # more bit pred yieldom in tudi, če so že spucani
 	set_new_level() 
+	Global.hud.level_popup_fade(current_level)
 	Global.hud.spawn_color_indicators(get_level_colors())
 
 	level_upgrade_in_progress = false		
@@ -206,6 +205,7 @@ func set_new_level():
 
 func line_step():
 	
+	# če je upgrade in progres ne stepa, timer pa se reštarta in nadaljuje stepanje
 	if not level_upgrade_in_progress:
 				
 		line_step_in_progress = true

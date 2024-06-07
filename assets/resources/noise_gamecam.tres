@@ -2,7 +2,7 @@
 
 [resource]
 seed = 8
-octaves = 1
-period = 5.0
+octaves = 5
+period = 3.0
 persistence = 0.0
 lacunarity = 3.2

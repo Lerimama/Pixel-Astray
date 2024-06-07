@@ -17,6 +17,7 @@ onready var top_screen_limit: StaticBody2D = $TopScreenLimit
 onready var bottom_screen_limit: StaticBody2D = $BottomScreenLimit
 onready var left_screen_limit: StaticBody2D = $LeftScreenLimit
 onready var right_screen_limit: StaticBody2D = $RightScreenLimit
+onready var edge_cover: Node2D = $EdgeCover
 
 
 func _ready() -> void:

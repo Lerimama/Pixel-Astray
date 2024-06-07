@@ -89,12 +89,11 @@ __meta__ = {
 }
 
 [node name="Background" type="ColorRect" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-color = Color( 0, 0, 0, 0.784314 )
+color = Color( 0, 0, 0, 0.862745 )
 
 [node name="Title" type="Label" parent="."]
 modulate = Color( 0.368627, 1, 0.662745, 1 )
@@ -113,12 +112,12 @@ uppercase = true
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -328.0
+margin_left = -320.0
 margin_top = 134.0
-margin_right = 328.0
-margin_bottom = 156.0
+margin_right = 320.0
+margin_bottom = 184.0
 grow_horizontal = 2
-text = "Take back the colors to become the brightest again."
+text = "%ake back the colors to become the brightest again."
 align = 1
 autowrap = true
 
@@ -507,10 +506,9 @@ points = PoolVector2Array( 487.312, -96.4007, 514.67, -151.973 )
 points = PoolVector2Array( 481, -191, 420, -206 )
 
 [node name="ControlsDuelP1" type="Panel" parent="Outline"]
-visible = false
-margin_top = 152.0
+margin_top = 320.0
 margin_right = 316.0
-margin_bottom = 312.0
+margin_bottom = 480.0
 rect_min_size = Vector2( 240, 160 )
 size_flags_horizontal = 3
 custom_styles/panel = ExtResource( 9 )
@@ -611,10 +609,10 @@ margin_bottom = -2.0
 texture = SubResource( 449 )
 
 [node name="ControlsDuelP2" type="Panel" parent="Outline"]
-visible = false
-margin_top = 152.0
+margin_left = 324.0
+margin_top = 320.0
 margin_right = 640.0
-margin_bottom = 312.0
+margin_bottom = 480.0
 rect_min_size = Vector2( 240, 160 )
 size_flags_horizontal = 3
 custom_styles/panel = ExtResource( 9 )
@@ -713,9 +711,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -124.0
-margin_top = 278.0
+margin_top = 294.0
 margin_right = 124.0
-margin_bottom = 300.0
+margin_bottom = 316.0
 __meta__ = {
 "_edit_group_": true
 }

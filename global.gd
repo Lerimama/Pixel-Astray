@@ -27,6 +27,8 @@ var group_players = "Players"
 var group_strays = "Strays"
 var group_tilemap = "Tilemap" # defender in patterns
 var group_ghosts = "Ghosts"
+var group_menu_confirm_btns = "Menu confirm btns"
+var group_menu_cancel_btns = "Menu cancel btns"
 
 # colors
 var color_blue: Color = Color("#4b9fff")
@@ -35,7 +37,7 @@ var color_red: Color = Color("#f35b7f")
 var color_yellow: Color = Color("#fef98b")
 var color_orange: Color = Color("#ff9990")
 var color_purple: Color = Color("#c774f5")
-#var color_dark_gray: Color = Color("#323232")
+
 # tilemap colors
 var color_wall: Color = Color("#141414") # Color("#232323")
 var color_edge: Color = Color.black
@@ -48,9 +50,10 @@ var color_gui_gray: Color = Color("#78ffffff") # siv text s transparenco (ikone 
 var color_hud_text: Color = color_almost_white_text # za vse, ki modulirajo barvo glede na + ali -
 
 # pixel colors
-var color_white_pixel: Color = Color("#ffffff")
 var color_almost_black_pixel: Color = Color("#141414") 
 var color_dark_gray_pixel: Color = Color("#232323")#Color("#323232") # start normal
+#var color_white_pixel: Color = Color(260,260,260,100)
+var color_white_pixel: Color = Color("#ffffff")
 
 # popularne transparence ozadij ... referenca
 # A = 140 (pavza
@@ -60,10 +63,6 @@ var strays_on_screen: Array = [] # za indikatorje
 
 
 # FUNKCIJE -----------------------------------------------------------------------------------------------------
-
-
-var current_scene = null # za scene switching
-var allow_focus_sfx: bool = false # focus sounds
 
 
 func _ready(): 
@@ -118,6 +117,9 @@ func get_clock_time(time_to_split: float): # sekunde float
 # SCENE MANAGER (prehajanje med igro in menijem) --------------------------------------------------------------
 
 
+var current_scene = null # za scene switching
+
+
 func release_scene(scene_node): # release scene
 	
 	scene_node.propagate_call("queue_free", []) # kvefrijam vse node v njem
@@ -146,7 +148,7 @@ func spawn_new_scene(scene_path, parent_node): # spawn scene
 	return current_scene
 
 
-# split colors ------------------------------------------------------------------------------------------------
+# COLORS ------------------------------------------------------------------------------------------------
 
 
 var spectrum_rect: TextureRect
@@ -244,93 +246,10 @@ func get_spectrum_colors(color_count: int):
 		split_colors.append(color)
 	
 	return	split_colors
-	
-	
-# BUTTONS --------------------------------------------------------------------------------------------------
-
-# vsak hover, postane focus
-# dodam sounde na focus
-# dodam sounde na confirm, cancel, quit
-# dodam modulate na Checkbutton focus
 
 
-func _on_SceneTree_node_added(node: Control):
-	
-	if node is BaseButton or node is HSlider:
-		connect_to_button(node)
+# FILETI in FOLDERJI -----------------------------------------------------------------------------------------
 
-
-func connect_buttons(root: Node): # recursively connect all buttons
-	
-	for child in root.get_children():
-		if child is BaseButton or child is HSlider:
-			connect_to_button(child)
-		#		connect_buttons(child)
-
-
-func connect_to_button(button):
-	
-	# pressing btnz
-	if button is CheckButton:
-		button.connect("toggled", self, "_on_button_toggled")
-	elif not button is HSlider:
-		button.connect("pressed", self, "_on_button_pressed", [button])
-	
-	# hover and focus
-	button.connect("mouse_entered", self, "_on_control_hovered", [button])
-	button.connect("focus_entered", self, "_on_control_focused", [button])
-	button.connect("focus_exited", self, "_on_control_unfocused", [button])
-
-
-func _on_button_pressed(button: BaseButton):
-	#	print("PRESSED ", button)
-	if button.name == "BackBtn":
-		Global.sound_manager.play_gui_sfx("btn_confirm")
-	elif button.name == "QuitBtn" or button.name == "CancelBtn":
-		Global.sound_manager.play_gui_sfx("btn_cancel")
-	else:
-		Global.sound_manager.play_gui_sfx("btn_confirm")
-
-	
-func _on_button_toggled(button_pressed: bool) -> void:
-	if button_pressed:
-		Global.sound_manager.play_gui_sfx("btn_confirm")
-	else:
-		Global.sound_manager.play_gui_sfx("btn_cancel")
-
-
-func _on_control_hovered(control: Control):
-	
-	if not control.has_focus():		
-		control.grab_focus()
-		Global.sound_manager.play_gui_sfx("btn_focus_change")
-		
-
-func _on_control_focused(control: Control):
-	#	printt("Control focused", control)
-
-	Global.sound_manager.play_gui_sfx("btn_focus_change")
-	
-	# check btn color fix
-	if control is CheckButton or control is HSlider or control.name == "RandomizeBtn" or control.name == "ResetBtn":
-		control.modulate = Color.white
-	
-
-func _on_control_unfocused(control: Control):
-	#	printt("Control unfocused", control)
-	
-	if control is CheckButton or control is HSlider or control.name == "RandomizeBtn" or control.name == "ResetBtn":
-		control.modulate = color_gui_gray # Color.white
-
-
-func grab_focus_no_sfx(control_to_focus: Control):
-	
-	allow_focus_sfx = false
-	control_to_focus.grab_focus()
-	allow_focus_sfx = true
-
-
-# poišče filete in folderje
 
 func get_folder_contents(rootPath: String, files_only: bool = true) -> Array:
 	
@@ -381,3 +300,109 @@ func _add_folder_contents(dir: Directory, files: Array, folders: Array, files_on
 #		files.pop_back()	
 	
 	dir.list_dir_end()
+
+
+# BUTTONS --------------------------------------------------------------------------------------------------
+
+# vsak hover, postane focus
+# dodam sounde na focus
+# dodam sounde na confirm, cancel, quit
+# dodam modulate na Checkbutton focus
+
+
+var allow_focus_sfx: bool = false # focus sounds
+
+
+# naberi gumbe in jih poveži
+func _on_SceneTree_node_added(node: Control):
+
+	if node is BaseButton or node is HSlider:
+		connect_to_button(node)
+
+
+# naberi gumbe v globino gumbe in jih poveži
+func connect_buttons(root: Node):
+
+	for child in root.get_children():
+		if child is BaseButton or child is HSlider:
+			connect_to_button(child)
+
+
+#  poveži gumb
+func connect_to_button(button):
+
+	# klik akcija
+	# čekbox
+	if button is CheckButton:
+		button.connect("toggled", self, "_on_button_toggled")
+	# vsak button, ki ni slider
+	elif not button is HSlider:
+		button.connect("pressed", self, "_on_button_pressed", [button])
+
+	# hover in fokus
+	button.connect("mouse_entered", self, "_on_control_hovered", [button])
+	button.connect("focus_entered", self, "_on_control_focused", [button])
+	button.connect("focus_exited", self, "_on_control_unfocused", [button])
+
+
+# on confirm and cancel 
+func _on_button_pressed(button: BaseButton):
+
+	# ker ti gumbi peljejo na nov ekran, po njihovem kliku
+	if button.is_in_group(Global.group_menu_confirm_btns):
+		Global.sound_manager.play_gui_sfx("btn_confirm")
+		set_deferred("allow_focus_sfx", false)
+		get_viewport().set_disable_input(true) # anti dablklik
+	elif button.is_in_group(Global.group_menu_cancel_btns):
+		Global.sound_manager.play_gui_sfx("btn_cancel")
+		set_deferred("allow_focus_sfx", false)
+		get_viewport().set_disable_input(true) # anti dablklik
+
+
+# on toggle	
+func _on_button_toggled(button_pressed: bool) -> void:
+
+	if button_pressed:
+		Global.sound_manager.play_gui_sfx("btn_confirm")
+	else:
+		Global.sound_manager.play_gui_sfx("btn_cancel")
+
+# on hover
+func _on_control_hovered(control: Control):
+
+
+	# izločim sounde za select game ozadja
+	if control is ColorRect:
+		return
+		
+	if not control.has_focus():		
+		control.grab_focus()
+
+# on focus
+func _on_control_focused(control: Control):
+	# printt("Control focused", control)
+
+	Global.sound_manager.play_gui_sfx("btn_focus_change")
+
+	if not allow_focus_sfx:
+		set_deferred("allow_focus_sfx", true)
+
+	# check btn color fix
+	if control is CheckButton or control is HSlider or control.name == "RandomizeBtn" or control.name == "ResetBtn":
+		control.modulate = Color.white
+
+# on defocus - barvanje settings gumbi
+func _on_control_unfocused(control: Control):
+	# printt("Control unfocused", control)
+
+	if control is CheckButton or control is HSlider or control.name == "RandomizeBtn" or control.name == "ResetBtn":
+		control.modulate = color_gui_gray # Color.white
+
+
+func focus_without_sfx(control_to_focus: Control):
+	# printt("No sfx focus", control_to_focus, allow_focus_sfx)
+
+	# reseta na fokus
+	allow_focus_sfx = false
+	control_to_focus.grab_focus()
+

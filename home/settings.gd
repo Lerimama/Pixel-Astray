@@ -12,6 +12,9 @@ onready var select_level_node: Control = $"../SelectLevel"
 
 func _ready() -> void:
 
+	# menu btn group
+	$BackBtn.add_to_group(Global.group_menu_cancel_btns)
+	
 	# menu music state
 	if Global.sound_manager.menu_music_set_to_off:
 		$MenuMusicBtn.pressed = false
@@ -59,7 +62,6 @@ func _on_BackBtn_pressed() -> void:
 	
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	$"%AnimationPlayer".play_backwards("settings")
-	get_viewport().set_disable_input(true)
 	
 		
 func _on_MenuMusicBtn_toggled(button_pressed: bool) -> void:
@@ -123,7 +125,8 @@ func _on_ResetBtn_pressed() -> void:
 	reset_btn.hide()
 	
 	Profiles.use_default_color_theme = true
-	Global.grab_focus_no_sfx(randomize_btn)
+	randomize_btn.grab_focus()
+#	Global.grab_focus_no_sfx(randomize_btn) # VN
 
 	intro.respawn_title_strays()
 	select_level_node.set_level_btns()

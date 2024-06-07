@@ -26,7 +26,7 @@ onready var viewport_footer: ColorRect = $"%ViewFuter"
 # popups 
 onready var energy_warning_popup: Control = $Popups/EnergyWarning
 onready var instructions_popup: Control = $Popups/Instructions
-onready var level_up_popup: Control = $Popups/LevelUp
+onready var level_popup: Control = $Popups/LevelUp
 
 # header
 onready var game_timer: HBoxContainer = $Header/GameTimerHunds
@@ -301,16 +301,16 @@ func empty_color_indicators():
 # POPUPS ----------------------------------------------------------------------------------------------------------------------------
 
 
-func level_up_popup_inout(level_reached: int): # OPT
+func level_popup_fade(level_reached: int):
 	
-	level_up_popup.modulate.a = 0
-	level_up_popup.get_node("Label").text = "LEVEL UP" # "LEVEL %s" % str(level_reached)
-	level_up_popup.show()
+	level_popup.modulate.a = 0
+	level_popup.get_node("Label").text = "LEVEL UP" # "LEVEL %s" % str(level_reached)
+	level_popup.show()
 	
 	var popup_in = get_tree().create_tween()
-	popup_in.tween_property(level_up_popup, "rect_scale", Vector2.ONE * 1.2, 1.5).from(Vector2.ONE * 0.8).set_ease(Tween.EASE_IN_OUT)
-	popup_in.parallel().tween_property(level_up_popup, "modulate:a", 1, 0.5)
-	popup_in.parallel().tween_property(level_up_popup, "modulate:a", 0, 0.5).from(1.0).set_delay(0.6)
+	popup_in.tween_property(level_popup, "rect_scale", Vector2.ONE * 1.2, 1.5).from(Vector2.ONE * 0.8).set_ease(Tween.EASE_IN_OUT)
+	popup_in.parallel().tween_property(level_popup, "modulate:a", 1, 0.5)
+	popup_in.parallel().tween_property(level_popup, "modulate:a", 0, 0.5).from(1.0).set_delay(0.6)
 
 		
 func check_for_warning(player_stats: Dictionary):

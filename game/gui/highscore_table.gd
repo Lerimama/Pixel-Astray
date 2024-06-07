@@ -3,7 +3,7 @@ extends VBoxContainer
 
 onready var highscore_table_title: Label = $Title
 
-func get_highscore_table(current_game_data: Dictionary, current_player_rank: int):
+func get_highscore_table(current_game_data: Dictionary, current_player_rank: int, lines_to_show: int = 10):
 	
 	var current_game_hs_type = current_game_data["highscore_type"]
 	var current_game_highscores = Global.data_manager.read_highscores_from_file(current_game_data)
@@ -47,7 +47,7 @@ func get_highscore_table(current_game_data: Dictionary, current_player_rank: int
 			
 			if current_game_hs_type == Profiles.HighscoreTypes.HS_TIME_LOW or current_game_hs_type == Profiles.HighscoreTypes.HS_TIME_HIGH:
 				var current_position_seconds: float = current_position_dict_values[0]
-				if current_position_seconds > 0:
+				if current_position_seconds > 0 and not scoreline_index >= lines_to_show:
 					scoreline.get_node("Score").text = Global.get_clock_time(current_position_seconds)
 					scorelines_with_score.append(scoreline)
 					scoreline.show()
@@ -57,7 +57,7 @@ func get_highscore_table(current_game_data: Dictionary, current_player_rank: int
 					scoreline.hide()
 			elif current_game_hs_type == Profiles.HighscoreTypes.HS_POINTS:
 				var current_position_points: int = current_position_dict_values[0]
-				if current_position_points > 0: # bug =
+				if current_position_points > 0 and not scoreline_index >= lines_to_show: # bug =
 					scorelines_with_score.append(scoreline)
 					scoreline.get_node("Score").text = str(current_position_dict_values[0])
 				# skrijem 0 rezultat

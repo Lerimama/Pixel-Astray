@@ -20,20 +20,14 @@ var pixel_color: Color = Global.game_manager.game_settings["player_start_color"]
 var change_color_tween: SceneTreeTween # če cockam pred končanjem tweena, vzamem to barvo
 var change_to_color: Color
 
-# steping
-var step_time_fast: float = Global.game_manager.game_settings["step_time_fast"]
-var step_time_slow: float = 0.15
-var step_slowdown_rate: float = 18
-
-# skills
+# skills and steps
+var step_time: float = Global.game_manager.game_settings["step_time"]
 var teleporting_wall_tile_id: int = 3
 var first_skill_use = true # beležim, da lahko določen skill izvajam zvezno
 
 # bursting
 var cocking_room: bool = true
 var cocking_loop_pause: float = 1
-var cock_ghost_cocking_time: float = 0.06 # čas nastajanja ghosta in njegova animacija ... original 0.12
-var current_ghost_cocking_time: float = 0 # trenuten čas nastajanja ghosta ... tukaj, da ga ne nulira z vsakim frejmom
 var cocked_ghost_max_count: int = 5
 var cock_ghost_speed_addon: float = 14
 var cocked_ghosts: Array
@@ -50,8 +44,6 @@ var reburst_speed_units_count: float = 0 # za prenos original hitrosti v nasledn
 var reburst_max_cock_count: int = 1 # za kolk se nakoka (samo vizualni efekt)
 
 # touch
-var detect_touch_pause_time: float = 1
-var is_surrounded_time: float = 2 # ker merim, kdaj si obkoljen za vedno, je to tudi čas pavze do GO klica ... more bit večje od časa stepanja
 var is_surrounded: bool
 var surrounded_player_strays: Array # za preverjanje prek večih preverjanj
 
@@ -65,6 +57,14 @@ var key_right: String
 var key_up: String
 var key_down: String
 var key_burst: String
+
+# times
+var step_time_slow: float = 0.15
+var step_slowdown_rate: float = 18
+var detect_touch_pause_time: float = 1
+var is_surrounded_time: float = 2 # ker merim, kdaj si obkoljen za vedno, je to tudi čas pavze do GO klica ... more bit večje od časa stepanja
+var cock_ghost_cocking_time: float = 0.06 # čas nastajanja ghosta in njegova animacija ... original 0.12
+var current_ghost_cocking_time: float = 0 # trenuten čas nastajanja ghosta ... tukaj, da ga ne nulira z vsakim frejmom
 
 onready var skilling_start_timer: Timer = $SkillingStartTimer
 onready var rebursting_timer: Timer = $ReburstingTimer
@@ -158,12 +158,16 @@ func state_machine():
 	if not first_skill_use: # resetiram first_skill_use ... samo tukaj dobro dela
 		if Input.is_action_just_released(key_up):
 			first_skill_use = true
+			skill_light_off()
 		elif Input.is_action_just_released(key_down):
 			first_skill_use = true
+			skill_light_off()
 		elif Input.is_action_just_released(key_left):
 			first_skill_use = true
+			skill_light_off()
 		elif Input.is_action_just_released(key_right):
 			first_skill_use = true	
+			skill_light_off()
 			
 				
 func on_collision(): 
@@ -185,14 +189,7 @@ func on_collision():
 
 # INPUTS ------------------------------------------------------------------------------------------
 
-
-func _on_SkilledTimer_timeout() -> void:
-#	new_direction = direction
-
-	first_skill_use = false
-	print("timer", current_state)
-
-		
+	
 func idle_inputs():
 	
 	if player_stats["player_energy"] > 1:
@@ -384,13 +381,12 @@ func step():
 		
 		var prestep_position: Vector2 = global_position		
 		
-		var step_time = get_step_time()
+		var current_step_time = get_step_time()
 		var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
-		step_tween.tween_property(self, "position", global_position + direction * cell_size_x, step_time)
-		step_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, step_time)
+		step_tween.tween_property(self, "position", global_position + direction * cell_size_x, current_step_time)
+		step_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, current_step_time)
 		step_tween.tween_callback(self, "end_move")
 		step_tween.tween_callback(self, "change_stat", ["cells_traveled", 1]) # točke in energija kot je določeno v settingsih
-		yield(step_tween, "finished")
 		
 		
 func end_move():
@@ -406,8 +402,9 @@ func end_move():
 		ghost.queue_free()
 		
 	# ugasnem lučke
+	if first_skill_use: # ugasne samo, če je bil ni bilo zveznega porivanja
+		skill_light_off()
 	#	burst_light_off()
-	skill_light_off()
 	
 	# reset ključnih vrednosti (če je v skill tweenu, se poštima)
 	direction = Vector2.ZERO 
@@ -665,7 +662,7 @@ func push(stray_to_move: KinematicBody2D):
 	push_tween.parallel().tween_property(skill_light, "position", skill_light.position - backup_direction * cell_size_x, push_cock_time).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 	# release
 	push_tween.tween_callback(self, "play_sound", ["pushpull_end"])
-#	push_tween.tween_callback(self, "skill_light_off") # lučko dam v proces ugašanja
+	push_tween.tween_callback(self, "skill_light_off") # lučko dam v proces ugašanja
 	push_tween.tween_property(self, "position", global_position, push_time).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
 	push_tween.parallel().tween_property(skill_light, "position", Vector2.ZERO, push_time).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN) # lučko zapeljem nazaj na začetno lokacijo
 	if room_for_push:
@@ -1007,24 +1004,29 @@ func spawn_ghost(ghost_spawn_position: Vector2):
 	
 func spawn_floating_tag(value: int):
 	
+	var text_to_show: String = ""
+	var text_color: Color = Color.white
 	if value == 0:
-		return
-	
+		if Global.game_manager.game_data["game"] == Profiles.Games.DEFENDER: # 1 točka ni nikoli
+			text_to_show = "KUKU!"
+		else:
+			return
+	elif Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER and value == 1:
+		text_to_show = "YEAH!"
+	elif value < 0:
+		text_color = Global.color_red
+		text_to_show = str(value)
+	elif value > 0:
+		text_to_show = "+" + str(value)
+
 	var new_floating_tag = FloatingTag.instance()
 	new_floating_tag.z_index = 4 # višje od straysa in playerja
 	new_floating_tag.global_position = global_position
 	new_floating_tag.tag_owner = self
+	new_floating_tag.modulate = text_color
 	Global.node_creation_parent.add_child(new_floating_tag)
-#	Global.node_creation_parent.call_deferred("add_child", new_floating_tag)
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-		new_floating_tag.label.text = "YEAH!"
-	else:
-		if value < 0:
-			new_floating_tag.modulate = Global.color_red
-			new_floating_tag.label.text = str(value)
-		elif value > 0:
-			new_floating_tag.label.text = "+" + str(value)
+	new_floating_tag.label.text = text_to_show
 		
 	return new_floating_tag
 	
@@ -1035,6 +1037,7 @@ func spawn_floating_tag(value: int):
 func on_out_of_bounds():
 
 	var new_positions_available: Array = Global.game_manager.get_free_positions()
+	
 	var random_index: int = randi() % new_positions_available.size()
 	var new_random_position: Vector2 = new_positions_available[random_index]
 	yield(get_tree().create_timer(0.5), "timeout")
@@ -1048,9 +1051,10 @@ func on_out_of_bounds():
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(self, "modulate:a", 1, 0.5)
 	fade_in.tween_property(self, "pixel_color", current_color, 0.5).set_ease(Tween.EASE_IN).set_delay(0.5)
+	fade_in.tween_callback(self, "burst_light_on")
 	end_move()
 	set_physics_process(true)
-	
+	spawn_floating_tag(0)
 	
 func detect_collision_in_direction(direction_to_check):
 
@@ -1127,9 +1131,9 @@ func get_step_time():
 		var slow_trim_size: float = step_time_slow * player_max_energy
 		var energy_factor: float = (player_max_energy - slow_trim_size) / player_stats["player_energy"]
 		var energy_step_time = energy_factor / step_slowdown_rate # variabla, da FP ne kliče na vsak frejm
-		return clamp(energy_step_time, step_time_fast, step_time_slow) # omejim najbolj počasno korakanje
+		return clamp(energy_step_time, step_time, step_time_slow) # omejim najbolj počasno korakanje
 	else:
-		return step_time_fast	
+		return step_time	
 		
 
 func shake_player_camera(current_burst_speed: float):
@@ -1137,9 +1141,15 @@ func shake_player_camera(current_burst_speed: float):
 	var shake_multiplier: float = current_burst_speed / cock_ghost_speed_addon
 	var shake_multiplier_factor: float = 0.03
 	
-	var shake_power: float = 0.2
+#	var shake_power: float = 0.2
+#	var shake_power_multiplied: float = shake_power + shake_multiplier_factor * shake_multiplier
+#	var shake_time: float = 0.3
+#	var shake_time_multiplied: float = shake_time + shake_multiplier_factor * shake_multiplier
+#	var shake_decay: float = 0.7
+	
+	var shake_power: float = 0.15
 	var shake_power_multiplied: float = shake_power + shake_multiplier_factor * shake_multiplier
-	var shake_time: float = 0.3
+	var shake_time: float = 0.2
 	var shake_time_multiplied: float = shake_time + shake_multiplier_factor * shake_multiplier
 	var shake_decay: float = 0.7
 		
@@ -1240,9 +1250,10 @@ func skill_light_on():
 	
 	
 func skill_light_off():
-
+	
 	if not skill_light.enabled:
 		return	
+		
 	var light_fade_out = get_tree().create_tween()
 	light_fade_out.tween_property(skill_light, "energy", 0, 0.3).set_ease(Tween.EASE_IN)
 	light_fade_out.tween_callback(skill_light, "set_enabled", [false])
@@ -1348,6 +1359,11 @@ func stop_sound(stop_effect_for: String):
 			$Sounds/Heartbeat.stop()
 
 # SIGNALI ---------------------------------------------------------------------------------------------
+
+
+func _on_SkilledTimer_timeout() -> void:
+	
+	first_skill_use = false # idle input postane "on_pressed", kar povzroči, da player postan SKILLED
 
 
 func _on_ReburstingTimer_timeout() -> void:
@@ -1491,8 +1507,8 @@ func change_stat(stat_event: String, stat_value):
 			if Global.game_manager.game_settings["player_start_life"] > 1:
 				player_stats["player_energy"] = 0
 			else:
-				var on_hit_wall_energy_part: float = 0.5
-				player_stats["player_energy"] -= round(player_stats["player_energy"] * on_hit_wall_energy_part)
+#				var on_hit_wall_energy_part: float = 0.5
+				player_stats["player_energy"] -= round(player_stats["player_energy"] * game_settings["on_hit_wall_energy_part"])
 		"get_hit": # izgubi vso energijo in lajf, ter pol točk
 			player_stats["player_energy"] = 0
 			var on_get_hit_points_part: float = 0.5

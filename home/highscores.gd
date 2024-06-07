@@ -16,16 +16,19 @@ onready var sweeper_table: VBoxContainer = $SweeperTable
 
 func _ready() -> void:
 	
-	
-	classic_table.get_highscore_table(Profiles.game_data_classic, fake_player_ranking)
-	cleaner_s_table.get_highscore_table(Profiles.game_data_cleaner_s, fake_player_ranking)
-	cleaner_m_table.get_highscore_table(Profiles.game_data_cleaner_m, fake_player_ranking)
-	cleaner_l_table.get_highscore_table(Profiles.game_data_cleaner_l, fake_player_ranking)
-	eraser_table.get_highscore_table(Profiles.game_data_eraser, fake_player_ranking)
-	defender_table.get_highscore_table(Profiles.game_data_defender, fake_player_ranking)
+	var show_lines_count: int = 5
+	classic_table.get_highscore_table(Profiles.game_data_classic, fake_player_ranking, show_lines_count)
+	cleaner_s_table.get_highscore_table(Profiles.game_data_cleaner_s, fake_player_ranking, show_lines_count)
+	cleaner_m_table.get_highscore_table(Profiles.game_data_cleaner_m, fake_player_ranking, show_lines_count)
+	cleaner_l_table.get_highscore_table(Profiles.game_data_cleaner_l, fake_player_ranking, show_lines_count)
+	eraser_table.get_highscore_table(Profiles.game_data_eraser, fake_player_ranking, show_lines_count)
+	defender_table.get_highscore_table(Profiles.game_data_defender, fake_player_ranking, show_lines_count)
 	Profiles.game_data_sweeper["level"] = 1
-	sweeper_table.get_highscore_table(Profiles.game_data_sweeper, fake_player_ranking)
-	
+	sweeper_table.get_highscore_table(Profiles.game_data_sweeper, fake_player_ranking) # rabim 10 linij, ki so defaultne
+
+	# menu btn group
+	$BackBtn.add_to_group(Global.group_menu_cancel_btns)
+		
 
 func load_new_sweeper_table(next_or_prev_level: int):
 	# ime save fileta SWEEPER_1_highscores.save
@@ -34,10 +37,8 @@ func load_new_sweeper_table(next_or_prev_level: int):
 	Profiles.game_data_sweeper["level"] += next_or_prev_level
 	# ciklanje levelov
 	if Profiles.game_data_sweeper["level"] > Profiles.sweeper_level_tilemap_paths.size():
-#	if Profiles.game_data_sweeper["level"] > Profiles.sweeper_level_settings.size():
 		Profiles.game_data_sweeper["level"] = 1
 	elif Profiles.game_data_sweeper["level"] < 1:
-#		Profiles.game_data_sweeper["level"] = Profiles.sweeper_level_settings.size() # VEN
 		Profiles.game_data_sweeper["level"] = Profiles.sweeper_level_tilemap_paths.size()
 	
 	# fade out
@@ -94,6 +95,5 @@ func _on_BackBtn_pressed() -> void:
 	
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play_backwards("highscores")
-	get_viewport().set_disable_input(true)
 
 

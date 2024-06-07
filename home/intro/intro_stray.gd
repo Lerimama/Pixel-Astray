@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends KinematicBody2D # OPT ... naj intro stray extenda Stray kodo
 # optimizirana stray koda
 
 enum States {IDLE, MOVING, STATIC, DYING}
@@ -37,8 +37,9 @@ func _ready() -> void:
 	$OverspawnDetect.monitorable = false
 
 	
-func step(step_direction: Vector2):
-
+func step(step_direction: Vector2 = Vector2.DOWN):
+	# namen: random direction, repeat, če kolajda
+	
 	# preverjam state		
 	if not current_state == States.IDLE:
 		return

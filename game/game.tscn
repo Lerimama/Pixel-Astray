@@ -1160,6 +1160,7 @@ one_shot = true
 [connection signal="animation_finished" from="GUI/Tutorial/AnimationPlayer" to="GUI/Tutorial" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="RespawnTimer" to="GameManager" method="_on_RespawnTimer_timeout"]
 
+[editable path="GUI/Hud"]
 [editable path="GUI/Tutorial/ActionHint"]
 [editable path="GUI/Tutorial/MissionPanel/ActionHint"]
 [editable path="GUI/GameOver"]

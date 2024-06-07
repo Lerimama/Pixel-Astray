@@ -22,4 +22,7 @@ margin_bottom = 1760.0
 [node name="CameraPosition" parent="." index="1"]
 position = Vector2( 992, 512 )
 
+[node name="EdgeCover" parent="." index="3"]
+visible = false
+
 [editable path="Background"]

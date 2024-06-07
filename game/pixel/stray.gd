@@ -35,7 +35,7 @@ func _ready() -> void:
 	position_indicator.set_as_toplevel(true) # strayse skrijem ko so offscreen
 	position_indicator.visible = false
 
-	end_move() # _temp če dela težave
+	end_move()
 
 
 func _process(delta: float) -> void:
@@ -112,7 +112,7 @@ func die_to_wall():
 # MOVEMENT ------------------------------------------------------------------------------------------------------
 	
 	
-func step(step_direction: Vector2):
+func step(step_direction: Vector2 = Vector2.DOWN):
 	
 	if not current_state == States.IDLE:
 		return
@@ -301,30 +301,13 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			call_deferred("queue_free")
 
 
-func _on_Stray_child_entered_tree(node: Node) -> void: # varovalka overspawn II ... glede na "isto pozicijo"
-	
-#	Global.game_manager.strays_in_game_count = 1
-	for stray in get_tree().get_nodes_in_group(Global.group_strays):
-		if stray.global_position == global_position:
-			# printt ("overspawn II", self) 
-			call_deferred("queue_free")
-			return
-			
-	for player in get_tree().get_nodes_in_group(Global.group_players):
-		if player.global_position == global_position:
-			# printt ("overspawn II on player", self) 
-			call_deferred("queue_free")
-			return
-	
-	
-
 func _on_OverspawnDetect_body_entered(body: Node) -> void: # varovalka overspawn III ... če detect area zazna kolizijo
 	# samo na štartu ... ob prikazu jo izklopim
 	if body.is_in_group(Global.group_strays) and not body == self:
-		# printt ("overspawn III", self)
+		printt ("overspawn III on stray - stray area", self)
 		call_deferred("queue_free")
 	if body.is_in_group(Global.group_players):
-		# printt ("overspawn III on player", self)
+		printt ("overspawn III on player - stray area", self)
 		call_deferred("queue_free")
 
 
@@ -339,12 +322,12 @@ func _on_Stray_tree_entered() -> void:
 	
 	for stray in get_tree().get_nodes_in_group(Global.group_strays):
 		if stray.global_position == global_position:
-			# printt ("overspawn II", self) 
+			printt ("overspawn II on stray - stray tree entered", self) 
 			call_deferred("queue_free")
 			return
 			
 	for player in get_tree().get_nodes_in_group(Global.group_players):
 		if player.global_position == global_position:
-			# printt ("overspawn II on player", self) 
+			printt ("overspawn II on player - stray tree entered", self) 
 			call_deferred("queue_free")
 			return

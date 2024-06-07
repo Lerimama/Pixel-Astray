@@ -26,6 +26,9 @@ func _ready() -> void:
 		solutions_btn.pressed = false
 	
 	solutions_btn.modulate = Global.color_gui_gray # rešitev, ker gumb se na začetku obarva kot fokusiran	
+
+	# menu btn group
+	$BackBtn.add_to_group(Global.group_menu_cancel_btns)
 		
 		
 func set_level_btns():
@@ -34,13 +37,14 @@ func set_level_btns():
 	for btn in btn_grid_container.get_children():
 		btn.queue_free()
 	
-	# ustvarim nove gumbe za vsak tilemap_path (vmes preverjam zaporedje glede na ime fileta)
+	# spawnam nove gumbe za vsak tilemap_path (vmes preverjam zaporedje glede na ime fileta)
 	for n in Profiles.sweeper_level_tilemap_paths.size():
 		var level_number_as_string: String = "%02d" % (n + 1)
 		for tilemap_path in Profiles.sweeper_level_tilemap_paths:
 			if tilemap_path.rfind(level_number_as_string) >= 0:
 				var new_level_btn: Button = LevelBtn.instance()
 				btn_grid_container.add_child(new_level_btn)
+				new_level_btn.add_to_group(Global.group_menu_confirm_btns)
 				all_level_btns.append(new_level_btn)
 				break
 	
@@ -120,14 +124,12 @@ func play_selected_level(selected_level: int):
 	Profiles.set_game_data(Profiles.Games.SWEEPER)
 	Global.sound_manager.play_gui_sfx("menu_fade")
 	animation_player.play("play_level")
-	get_viewport().set_disable_input(true)
 	
 			
 func _on_BackBtn_pressed() -> void:
 	
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play_backwards("select_level")
-	get_viewport().set_disable_input(true)
 
 
 func _on_SolutionsBtn_toggled(button_pressed: bool) -> void:

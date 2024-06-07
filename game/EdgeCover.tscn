@@ -1,0 +1,29 @@
+[gd_scene format=2]
+
+[node name="EdgeCover" type="Node2D"]
+modulate = Color( 0, 0, 0, 1 )
+z_index = 10
+
+[node name="Up" type="ColorRect" parent="."]
+margin_left = -672.0
+margin_top = -352.0
+margin_right = 672.0
+margin_bottom = -320.0
+
+[node name="Down" type="ColorRect" parent="."]
+margin_left = -672.0
+margin_top = 320.0
+margin_right = 672.0
+margin_bottom = 352.0
+
+[node name="Left" type="ColorRect" parent="."]
+margin_left = -672.0
+margin_top = -352.0
+margin_right = -640.0
+margin_bottom = 352.0
+
+[node name="Right" type="ColorRect" parent="."]
+margin_left = 640.0
+margin_top = -352.0
+margin_right = 672.0
+margin_bottom = 352.0

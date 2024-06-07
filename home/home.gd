@@ -18,27 +18,44 @@ func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
 		match current_screen:
 			Screens.SELECT_GAME:
-				$SelectGame._on_BackBtn_pressed()
+				$SelectGame/BackBtn.grab_focus()
+#				$SelectGame._on_BackBtn_pressed()
+				$SelectGame.call_deferred("_on_BackBtn_pressed")
 			Screens.ABOUT:
-				$About._on_BackBtn_pressed()
+				$About/BackBtn.grab_focus()
+#				$About._on_BackBtn_pressed()
+				$About.call_deferred("_on_BackBtn_pressed")
 			Screens.SETTINGS:
-				$Settings._on_BackBtn_pressed()
+				$Settings/BackBtn.grab_focus()
+#				$Settings._on_BackBtn_pressed()
+				$Settings.call_deferred("_on_BackBtn_pressed")
 			Screens.HIGHSCORES:
-				$Highscores._on_BackBtn_pressed()
+				$Highscores/BackBtn.grab_focus()
+#				$Highscores._on_BackBtn_pressed()
+				$Highscores.call_deferred("_on_BackBtn_pressed")
 			Screens.SELECT_LEVEL:
-				$SelectLevel._on_BackBtn_pressed()
+				$SelectLevel/BackBtn.grab_focus()
+#				$SelectLevel._on_BackBtn_pressed()
+				$SelectLevel.call_deferred("_on_BackBtn_pressed")
 	
 	if Input.is_action_just_pressed("n"): 
 		Global.sound_manager.change_menu_music()
 		
 			
 func _ready():
-	
+
 	$Settings/EscHint.modulate.a = 0
 	$Highscores/EscHint.modulate.a = 0
 	$About/EscHint.modulate.a = 0
 	$SelectGame/EscHint.modulate.a = 0
 	$SelectLevel/EscHint.modulate.a = 0
+	
+	# menu btn group
+	$Menu/SelectGameBtn.add_to_group(Global.group_menu_confirm_btns)
+	$Menu/SettingsBtn.add_to_group(Global.group_menu_confirm_btns)
+	$Menu/HighscoresBtn.add_to_group(Global.group_menu_confirm_btns)
+	$Menu/AboutBtn.add_to_group(Global.group_menu_confirm_btns)
+	$Menu/QuitGameBtn.add_to_group(Global.group_menu_cancel_btns)
 	
 	
 func open_with_intro(): # kliče main.gd -> home_in_intro()
@@ -52,12 +69,15 @@ func open_without_intro(): # debug ... kliče main.gd -> home_in_no_intro()
 func open_from_game(finished_game: int): # select_game screen ... kliče main.gd -> home_in_from_game()
 
 	# mute game efektov, da se ne sliši spawnanje naslovnih pixlov
-	AudioServer.set_bus_mute(AudioServer.get_bus_index("GameSfx"), true)
+#	AudioServer.set_bus_mute(AudioServer.get_bus_index("GameSfx"), true)
 		
 	if finished_game == Profiles.Games.SWEEPER:
+		Global.focus_without_sfx($SelectLevel.all_level_btns[0])
+		
 		animation_player.play("select_level")
 		current_screen = Screens.SELECT_LEVEL
 	else:
+		Global.focus_without_sfx($SelectGame/GamesMenu/Classic/ClassicBtn)
 		animation_player.play("select_game")
 		current_screen = Screens.SELECT_GAME
 	
@@ -68,8 +88,8 @@ func open_from_game(finished_game: int): # select_game screen ... kliče main.gd
 	intro.finish_intro()
 	
 	yield(get_tree().create_timer(1), "timeout") # počaka, da se vsi spawnajo
-	if not Global.sound_manager.game_sfx_set_to_off:
-		AudioServer.set_bus_mute(AudioServer.get_bus_index("GameSfx"), false)
+#	if not Global.sound_manager.game_sfx_set_to_off:
+#		AudioServer.set_bus_mute(AudioServer.get_bus_index("GameSfx"), false)
 	
 	
 func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drugih ekranov
@@ -78,7 +98,7 @@ func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drug
 
 	current_screen = Screens.MAIN_MENU
 	
-	Global.grab_focus_no_sfx($Menu/SelectGameBtn)
+	Global.focus_without_sfx($Menu/SelectGameBtn)
 		
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(menu, "modulate:a", 1, 1).from(0.0)
@@ -108,31 +128,31 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 				return
 			current_screen = Screens.SELECT_GAME
 			current_esc_hint = $SelectGame/EscHint
-			Global.grab_focus_no_sfx($SelectGame/GamesMenu/Classic/ClassicBtn)
+#			Global.focus_without_sfx($SelectGame/GamesMenu/Classic/ClassicBtn)
 		"about":
 			if animation_reversed(Screens.ABOUT):
 				return
 			current_screen = Screens.ABOUT
 			current_esc_hint = $About/EscHint
-			Global.grab_focus_no_sfx($About/BackBtn)
+			Global.focus_without_sfx($About/BackBtn)
 		"settings":
 			if animation_reversed(Screens.SETTINGS):
 				return
 			current_screen = Screens.SETTINGS
 			current_esc_hint = $Settings/EscHint
-			Global.grab_focus_no_sfx($Settings/MenuMusicBtn)
+			Global.focus_without_sfx($Settings/MenuMusicBtn)
 		"highscores":
 			if animation_reversed(Screens.HIGHSCORES):
 				return
 			current_screen = Screens.HIGHSCORES
 			current_esc_hint = $Highscores/EscHint
-			Global.grab_focus_no_sfx($Highscores/SweeperArrows/RightBtn)
+			Global.focus_without_sfx($Highscores/SweeperArrows/RightBtn)
 		"select_level":
 			if animation_reversed(Screens.SELECT_LEVEL):
 				return
 			current_screen = Screens.SELECT_LEVEL
 			current_esc_hint = $SelectLevel/EscHint
-			Global.grab_focus_no_sfx($SelectLevel.all_level_btns[0])
+#			Global.focus_without_sfx($SelectLevel.all_level_btns[0])
 		"play_game":
 			Global.main_node.home_out()
 		"play_level":
@@ -151,23 +171,23 @@ func animation_reversed(from_screen: int):
 		# preverim s katerega ekrana je animirano še preden zamenjam na MAIN_MENU
 		match from_screen:
 			Screens.SELECT_GAME:
-				Global.grab_focus_no_sfx($Menu/SelectGameBtn)
+				Global.focus_without_sfx($Menu/SelectGameBtn)
 				menu_in()
 			Screens.ABOUT:
-				Global.grab_focus_no_sfx($Menu/AboutBtn)
+				Global.focus_without_sfx($Menu/AboutBtn)
 				menu_in()
 			Screens.SETTINGS:
-				Global.grab_focus_no_sfx($Menu/SettingsBtn)
+				Global.focus_without_sfx($Menu/SettingsBtn)
 				menu_in()
 			Screens.HIGHSCORES:
-				Global.grab_focus_no_sfx($Menu/HighscoresBtn)
+				Global.focus_without_sfx($Menu/HighscoresBtn)
 				menu_in()
 			Screens.SELECT_LEVEL:
 				current_screen = Screens.SELECT_GAME
-				Global.grab_focus_no_sfx($SelectGame/GamesMenu/Sweeper/SweeperBtn)
+				Global.focus_without_sfx($SelectGame/GamesMenu/Sweeper/SweeperBtn)
+				
 		return true
 			
-
 
 # MENU BTNZ ---------------------------------------------------------------------------------------------------
 
@@ -175,25 +195,23 @@ func animation_reversed(from_screen: int):
 func _on_SelectGameBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("select_game")
-	get_viewport().set_disable_input(true)
+
+	Global.focus_without_sfx($SelectGame/GamesMenu/Classic/ClassicBtn)
 
 
 func _on_AboutBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("about")
-	get_viewport().set_disable_input(true)
 
 
 func _on_SettingsBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("settings")
-	get_viewport().set_disable_input(true)
 	
 
 func _on_HighscoresBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("highscores")
-	get_viewport().set_disable_input(true)
 
 
 func _on_QuitGameBtn_pressed() -> void:

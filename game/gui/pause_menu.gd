@@ -14,15 +14,17 @@ func _input(event: InputEvent) -> void:
 				pause_game()
 			else:
 				_on_PlayBtn_pressed()
-	
 
 func _ready() -> void:
 	
 	visible = false
 	modulate.a = 0
 	
-	# naslov
-	title.text = str(Global.game_manager.game_data["game_name"]) + " on pause"
+	# menu btn group
+	$Menu/PlayBtn.add_to_group(Global.group_menu_confirm_btns)
+	$Menu/SkipTutBtn.add_to_group(Global.group_menu_confirm_btns)
+	$Menu/RestartBtn.add_to_group(Global.group_menu_confirm_btns)
+	$Menu/QuitBtn.add_to_group(Global.group_menu_cancel_btns)
 	
 	# update settings btns	
 	if Global.sound_manager.game_music_set_to_off:
@@ -41,9 +43,7 @@ func _ready() -> void:
 
 	# instructions setup
 	instructions.get_instructions_content(Global.hud.current_highscore, Global.hud.current_highscore_owner)
-	instructions.controls_duel_p1.hide()
-	instructions.controls_duel_p2.hide()
-	instructions.record_label_holder.hide()
+	instructions.shortcuts.hide()
 	instructions.title.modulate = Global.color_red
 	instructions.title.text += " ... on pause"
 
@@ -70,8 +70,6 @@ func _process(delta: float) -> void:
 func pause_game():
 #	instructions.get_instructions_content(Global.hud.current_highscore, Global.hud.current_highscore_owner)
 	
-	get_viewport().set_disable_input(true) # anti dablklik
-	
 	visible = true
 	
 	Global.sound_manager.play_gui_sfx("screen_slide")
@@ -83,7 +81,7 @@ func pause_game():
 	else:
 		skip_tut_btn.hide()
 
-	Global.grab_focus_no_sfx($Menu/PlayBtn)
+	Global.focus_without_sfx($Menu/PlayBtn)
 	
 	var pause_in_time: float = 0.5
 	var fade_in_tween = get_tree().create_tween()
@@ -94,7 +92,7 @@ func pause_game():
 
 func play_on():
 	
-	get_viewport().set_disable_input(true) # anti dablklik
+	Global.allow_focus_sfx = false
 	
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	
@@ -107,8 +105,6 @@ func play_on():
 
 
 func play_without_tutorial():
-	
-	get_viewport().set_disable_input(true) # anti dablklik
 	
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	

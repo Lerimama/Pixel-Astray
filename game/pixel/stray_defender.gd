@@ -4,8 +4,6 @@ extends Stray
 enum Sides {TOP, BOTTOM, RIGHT, LEFT}
 var stray_spawn_side: int 
 
-onready var step_pause_timer: Timer = $StepPauseTimer
-
 
 func _ready() -> void:
 	# namen: grupiranje glede na izvorno stran in setanje collision maskov
@@ -89,22 +87,12 @@ func step(step_direction: Vector2 = Vector2.DOWN):
 	
 	# vržem ext coll			
 	collision_shape_ext.position = step_direction * cell_size_x # vržem koližn v smer premika
-	
-	# VEN varovalka overspawn IV ... preverim available positions ... zadnja varovalka, da se ne pokrije ... redko pride do nje
-	#	var planned_new_position: Vector2 = global_position + step_direction * cell_size_x
-	#	var tiles_taken: Array = Global.game_manager.get_free_positions()
-	#	if tiles_taken.has(planned_new_position):
-	#		print("position taken")
-	#		return
 		
 	var step_time: float = 0.2
 	var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
 	step_tween.tween_property(self, "position", global_position + step_direction * cell_size_x, step_time)
 	step_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, step_time)
 	step_tween.tween_callback(self, "end_move")
-	yield(step_tween, "finished")
-	
-	#	step_pause_timer.start()
 	
 	
 func play_sound(effect_for: String):
@@ -143,4 +131,5 @@ func get_all_neighbors_in_directions(directions_to_check: Array): # kliče playe
 
 
 func _on_StepPauseTimer_timeout() -> void:
-	step()
+#	step()
+	pass

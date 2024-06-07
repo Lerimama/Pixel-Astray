@@ -6,8 +6,6 @@
 [node name="DefenderStray" instance=ExtResource( 1 )]
 script = ExtResource( 20 )
 
-[node name="StepPauseTimer" type="Timer" parent="." index="9"]
+[node name="_StepPauseTimer" type="Timer" parent="." index="9"]
 wait_time = 2.0
 one_shot = true
-
-[connection signal="timeout" from="StepPauseTimer" to="." method="_on_StepPauseTimer_timeout"]

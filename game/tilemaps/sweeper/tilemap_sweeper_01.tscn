@@ -22,7 +22,7 @@ border_width_right = 32
 border_width_bottom = 32
 border_color = Color( 1, 1, 1, 1 )
 
-[node name="RiddlerTilemap" type="TileMap"]
+[node name="SweeperTilemap" type="TileMap"]
 tile_set = ExtResource( 3 )
 cell_size = Vector2( 32, 32 )
 cell_quadrant_size = 8

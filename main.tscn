@@ -311,7 +311,7 @@ bus = "Gui"
 
 [node name="StartCoundownB" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
 stream = ExtResource( 59 )
-volume_db = -15.0
+volume_db = -25.0
 bus = "Gui"
 
 [node name="TutorialStageDone" type="AudioStreamPlayer" parent="SoundManager/GuiSfx"]
@@ -552,5 +552,3 @@ margin_bottom = 128.0
 theme = ExtResource( 1 )
 custom_fonts/font = ExtResource( 3 )
 text = "FR: %d"
-
-[connection signal="finished" from="SoundManager/GuiSfx/Inputs/BtnCancel" to="." method="_on_BtnCancel_finished"]

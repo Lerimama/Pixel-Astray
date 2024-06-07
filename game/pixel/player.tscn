@@ -785,7 +785,6 @@ audio_stream = ExtResource( 18 )
 random_pitch = 1.2
 
 [node name="Player" type="KinematicBody2D"]
-collision_mask = 3
 script = ExtResource( 17 )
 
 [node name="GlowLight" type="Light2D" parent="."]
@@ -816,18 +815,15 @@ shape = SubResource( 4 )
 position = Vector2( 0, -15.9 )
 enabled = true
 cast_to = Vector2( 32, 0 )
-collision_mask = 3
 
 [node name="VisionRay2" type="RayCast2D" parent="Vision"]
 enabled = true
 cast_to = Vector2( 47, 0 )
-collision_mask = 3
 
 [node name="VisionRay3" type="RayCast2D" parent="Vision"]
 position = Vector2( 0, 15.9 )
 enabled = true
 cast_to = Vector2( 32, 0 )
-collision_mask = 3
 
 [node name="ColorPoly" type="Polygon2D" parent="Vision"]
 visible = false
@@ -1100,7 +1096,7 @@ wait_time = 0.2
 one_shot = true
 
 [node name="SkillingStartTimer" type="Timer" parent="."]
-wait_time = 0.32
+wait_time = 0.5
 one_shot = true
 
 [connection signal="timeout" from="Touch/TouchTimer" to="." method="_on_TouchTimer_timeout"]
