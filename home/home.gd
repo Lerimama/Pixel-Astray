@@ -19,31 +19,28 @@ func _input(event: InputEvent) -> void:
 		match current_screen:
 			Screens.SELECT_GAME:
 				$SelectGame/BackBtn.grab_focus()
-#				$SelectGame._on_BackBtn_pressed()
 				$SelectGame.call_deferred("_on_BackBtn_pressed")
 			Screens.ABOUT:
 				$About/BackBtn.grab_focus()
-#				$About._on_BackBtn_pressed()
 				$About.call_deferred("_on_BackBtn_pressed")
 			Screens.SETTINGS:
 				$Settings/BackBtn.grab_focus()
-#				$Settings._on_BackBtn_pressed()
 				$Settings.call_deferred("_on_BackBtn_pressed")
 			Screens.HIGHSCORES:
 				$Highscores/BackBtn.grab_focus()
-#				$Highscores._on_BackBtn_pressed()
 				$Highscores.call_deferred("_on_BackBtn_pressed")
 			Screens.SELECT_LEVEL:
 				$SelectLevel/BackBtn.grab_focus()
-#				$SelectLevel._on_BackBtn_pressed()
 				$SelectLevel.call_deferred("_on_BackBtn_pressed")
 	
-	if Input.is_action_just_pressed("n"): 
-		Global.sound_manager.change_menu_music()
+	#	if Input.is_action_just_pressed("next"): 
+	#		Global.sound_manager.change_menu_music()
 		
 			
 func _ready():
 
+	menu.hide()
+	
 	$Settings/EscHint.modulate.a = 0
 	$Highscores/EscHint.modulate.a = 0
 	$About/EscHint.modulate.a = 0

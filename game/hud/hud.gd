@@ -172,7 +172,12 @@ func set_hud(): # kliče main na game-in
 		highscore_label.visible = false
 	else:
 		highscore_label.visible = true
-
+	
+	# stotinke na timerju
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+		game_timer.get_node("Dots2").show()
+		game_timer.get_node("Hunds").show()
+		
 
 func set_current_highscore():
 	

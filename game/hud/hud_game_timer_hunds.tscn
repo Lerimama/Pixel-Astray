@@ -11,15 +11,16 @@ margin_bottom = 26.0
 grow_horizontal = 2
 theme = ExtResource( 2 )
 custom_constants/separation = 2
-alignment = 1
+alignment = 2
 script = ExtResource( 1 )
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="Mins" type="Label" parent="."]
+margin_left = 34.0
 margin_top = 4.0
-margin_right = 28.0
+margin_right = 62.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 28, 0 )
 size_flags_vertical = 8
@@ -30,9 +31,9 @@ align = 2
 valign = 2
 
 [node name="Dots" type="Label" parent="."]
-margin_left = 30.0
+margin_left = 64.0
 margin_top = 4.0
-margin_right = 36.0
+margin_right = 70.0
 margin_bottom = 26.0
 size_flags_horizontal = 4
 size_flags_vertical = 8
@@ -43,9 +44,9 @@ align = 1
 valign = 2
 
 [node name="Secs" type="Label" parent="."]
-margin_left = 38.0
+margin_left = 72.0
 margin_top = 4.0
-margin_right = 66.0
+margin_right = 100.0
 margin_bottom = 26.0
 grow_horizontal = 2
 rect_min_size = Vector2( 28, 0 )
@@ -57,11 +58,12 @@ align = 1
 valign = 2
 
 [node name="Dots2" type="Label" parent="."]
-margin_left = 68.0
+visible = false
+margin_left = 94.0
 margin_top = 4.0
-margin_right = 74.0
+margin_right = 100.0
 margin_bottom = 26.0
-size_flags_horizontal = 4
+size_flags_horizontal = 12
 size_flags_vertical = 8
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 3 )
@@ -70,9 +72,10 @@ align = 1
 valign = 2
 
 [node name="Hunds" type="Label" parent="."]
-margin_left = 76.0
+visible = false
+margin_left = 72.0
 margin_top = 4.0
-margin_right = 104.0
+margin_right = 100.0
 margin_bottom = 26.0
 grow_horizontal = 0
 rect_min_size = Vector2( 28, 0 )
@@ -81,3 +84,7 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 3 )
 text = "00"
 valign = 2
+
+[node name="CorrectionTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="CorrectionTimer" to="." method="_on_CorrectionTimer_timeout"]

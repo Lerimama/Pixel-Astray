@@ -49,14 +49,14 @@ onready var respawn_timer: Timer = $"../RespawnTimer"
 
 func _unhandled_input(event: InputEvent) -> void:
 
-	if Input.is_action_pressed("no2"):
-		get_tree().call_group(Global.group_strays, "die_to_wall")
-	if Input.is_action_pressed("no1"):
-		upgrade_level(true)
-	if Input.is_action_just_pressed("l"):
-		upgrade_level()	
+#	if Input.is_action_pressed("no2"):
+#		get_tree().call_group(Global.group_strays, "die_to_wall")
+#	if Input.is_action_pressed("no1"):
+#		upgrade_level(true)
+#	if Input.is_action_just_pressed("l"):
+#		upgrade_level()	
 	
-	if Input.is_action_just_pressed("h"):
+	if Input.is_action_just_pressed("hint"):
 		if game_data["game"] == Profiles.Games.SWEEPER:
 			Global.current_tilemap.get_node("SolutionLine").visible = not Global.current_tilemap.get_node("SolutionLine").visible
 		

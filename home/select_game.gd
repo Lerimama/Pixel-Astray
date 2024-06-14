@@ -38,72 +38,74 @@ func _process(delta: float) -> void:
 		
 		# barvam ozadje gumbov na focus
 		var unfocused_color = Global.color_almost_black_pixel
-		var focused_btn: BaseButton = get_focus_owner()
-		if focused_btn.name == "ClassicBtn" or focused_btn.name == "TutorialModeBtn":
-			$GamesMenu/Classic/Background.color = Color("#323232") # Global.color_gui_gray # color_dark_gray_pixel
-			
-		else:
-			$GamesMenu/Classic/Background.color = unfocused_color
-		if focused_btn.name == "CleanerSBtn" or focused_btn.name == "CleanerMBtn" or focused_btn.name == "CleanerLBtn":
-			$GamesMenu/Cleaner/Background.color = Global.color_blue
-			$GamesMenu/Cleaner/Background.modulate.a = 0.95 # da ne žari premočno
-		else:
-			$GamesMenu/Cleaner/Background.color = unfocused_color
-			$GamesMenu/Cleaner/Background.modulate.a = 1
-		#		if focused_btn.name == "EraserBtn" or focused_btn.name == "DefenderBtn":
-		#			$GamesMenu/Timeless/Background.color = Global.color_green
-		##			$GamesMenu/Timeless/Background.modulate.a = 0.83 # da ne žari premočno
-		#		else:
-		#			$GamesMenu/Timeless/Background.color = unfocused_color
-		#			$GamesMenu/Timeless/Background.modulate.a = 1
-		if focused_btn.name == "TheDuelBtn":
-			$GamesMenu/TheDuel/Background.color = Global.color_red
-#			$GamesMenu/TheDuel/Background.modulate.a = 0.88 # da ne žari premočno
-		else:
-			$GamesMenu/TheDuel/Background.color = unfocused_color
-			$GamesMenu/TheDuel/Background.modulate.a = 1
-		#		if focused_btn.name == "SweeperBtn":
-		#			$GamesMenu/Sweeper/Background.color = Global.color_purple
-		#			$GamesMenu/Sweeper/Background.modulate.a = 0.85 # da ne žari premočno
-		#		else:
-		#			$GamesMenu/Sweeper/Background.color = unfocused_color
-		#			$GamesMenu/Sweeper/Background.modulate.a = 1
 		
-		# bright verzija
-		#		if focused_btn.name == "ClassicBtn": # bug ... razdeljen v dva ifa barvanje tutorial gumba
-		#			$GamesMenu/Classic/Background.color = Global.color_almost_white_text
-		#			$GamesMenu/Classic/Label.modulate = Global.color_dark_gray_pixel
-		#			$GamesMenu/Classic/ClassicBtn.modulate = Global.color_dark_gray_pixel
-		#			$GamesMenu/Classic/TutorialModeBtn.set("custom_colors/font_color_pressed", Global.color_dark_gray_pixel)
-		#			#			$GamesMenu/Classic/TutorialModeBtn.call_deferred("release_focus")
-		#		elif focused_btn.name == "TutorialModeBtn":
-		#			$GamesMenu/Classic/Background.color = Global.color_almost_white_text
-		#			$GamesMenu/Classic/Label.modulate = Global.color_dark_gray_pixel
-		#			$GamesMenu/Classic/ClassicBtn.modulate = Global.color_dark_gray_pixel			
-		#			$GamesMenu/Classic/TutorialModeBtn.set("custom_colors/font_color_pressed", Global.color_dark_gray_pixel)
-		#		else:
-		#			$GamesMenu/Classic/Background.color = unfocused_color
-		#			$GamesMenu/Classic/Label.modulate = Color.white
-		#			$GamesMenu/Classic/ClassicBtn.modulate = Color.white
-		#			$GamesMenu/Classic/TutorialModeBtn.set("custom_colors/font_color_pressed", Color.white)
-		if focused_btn.name == "SweeperBtn":
-			$GamesMenu/Sweeper/Label.modulate = unfocused_color
-			$GamesMenu/Sweeper/SweeperBtn.modulate = unfocused_color
-			$GamesMenu/Sweeper/Background.color = Global.color_yellow
-		else:
-			$GamesMenu/Sweeper/Label.modulate = Color.white
-			$GamesMenu/Sweeper/SweeperBtn.modulate = Color.white
-			$GamesMenu/Sweeper/Background.color = unfocused_color
-		if focused_btn.name == "EraserBtn" or focused_btn.name == "DefenderBtn":
-			$GamesMenu/Timeless/Label.modulate = unfocused_color
-			$GamesMenu/Timeless/EraserBtn.modulate = unfocused_color
-			$GamesMenu/Timeless/DefenderBtn.modulate = unfocused_color
-			$GamesMenu/Timeless/Background.color = Global.color_green
-		else:
-			$GamesMenu/Timeless/Label.modulate = Color.white
-			$GamesMenu/Timeless/EraserBtn.modulate = Color.white
-			$GamesMenu/Timeless/DefenderBtn.modulate = Color.white
-			$GamesMenu/Timeless/Background.color = unfocused_color
+		var focused_btn: BaseButton = get_focus_owner()
+		if focused_btn:
+			if focused_btn.name == "ClassicBtn" or focused_btn.name == "TutorialModeBtn":
+				$GamesMenu/Classic/Background.color = Color("#323232") # Global.color_gui_gray # color_dark_gray_pixel
+				
+			else:
+				$GamesMenu/Classic/Background.color = unfocused_color
+			if focused_btn.name == "CleanerSBtn" or focused_btn.name == "CleanerMBtn" or focused_btn.name == "CleanerLBtn":
+				$GamesMenu/Cleaner/Background.color = Global.color_blue
+				$GamesMenu/Cleaner/Background.modulate.a = 0.95 # da ne žari premočno
+			else:
+				$GamesMenu/Cleaner/Background.color = unfocused_color
+				$GamesMenu/Cleaner/Background.modulate.a = 1
+			#		if focused_btn.name == "EraserBtn" or focused_btn.name == "DefenderBtn":
+			#			$GamesMenu/Timeless/Background.color = Global.color_green
+			##			$GamesMenu/Timeless/Background.modulate.a = 0.83 # da ne žari premočno
+			#		else:
+			#			$GamesMenu/Timeless/Background.color = unfocused_color
+			#			$GamesMenu/Timeless/Background.modulate.a = 1
+			if focused_btn.name == "TheDuelBtn":
+				$GamesMenu/TheDuel/Background.color = Global.color_red
+	#			$GamesMenu/TheDuel/Background.modulate.a = 0.88 # da ne žari premočno
+			else:
+				$GamesMenu/TheDuel/Background.color = unfocused_color
+				$GamesMenu/TheDuel/Background.modulate.a = 1
+			#		if focused_btn.name == "SweeperBtn":
+			#			$GamesMenu/Sweeper/Background.color = Global.color_purple
+			#			$GamesMenu/Sweeper/Background.modulate.a = 0.85 # da ne žari premočno
+			#		else:
+			#			$GamesMenu/Sweeper/Background.color = unfocused_color
+			#			$GamesMenu/Sweeper/Background.modulate.a = 1
+			
+			# bright verzija
+			#		if focused_btn.name == "ClassicBtn": # bug ... razdeljen v dva ifa barvanje tutorial gumba
+			#			$GamesMenu/Classic/Background.color = Global.color_almost_white_text
+			#			$GamesMenu/Classic/Label.modulate = Global.color_dark_gray_pixel
+			#			$GamesMenu/Classic/ClassicBtn.modulate = Global.color_dark_gray_pixel
+			#			$GamesMenu/Classic/TutorialModeBtn.set("custom_colors/font_color_pressed", Global.color_dark_gray_pixel)
+			#			#			$GamesMenu/Classic/TutorialModeBtn.call_deferred("release_focus")
+			#		elif focused_btn.name == "TutorialModeBtn":
+			#			$GamesMenu/Classic/Background.color = Global.color_almost_white_text
+			#			$GamesMenu/Classic/Label.modulate = Global.color_dark_gray_pixel
+			#			$GamesMenu/Classic/ClassicBtn.modulate = Global.color_dark_gray_pixel			
+			#			$GamesMenu/Classic/TutorialModeBtn.set("custom_colors/font_color_pressed", Global.color_dark_gray_pixel)
+			#		else:
+			#			$GamesMenu/Classic/Background.color = unfocused_color
+			#			$GamesMenu/Classic/Label.modulate = Color.white
+			#			$GamesMenu/Classic/ClassicBtn.modulate = Color.white
+			#			$GamesMenu/Classic/TutorialModeBtn.set("custom_colors/font_color_pressed", Color.white)
+			if focused_btn.name == "SweeperBtn":
+				$GamesMenu/Sweeper/Label.modulate = unfocused_color
+				$GamesMenu/Sweeper/SweeperBtn.modulate = unfocused_color
+				$GamesMenu/Sweeper/Background.color = Global.color_yellow
+			else:
+				$GamesMenu/Sweeper/Label.modulate = Color.white
+				$GamesMenu/Sweeper/SweeperBtn.modulate = Color.white
+				$GamesMenu/Sweeper/Background.color = unfocused_color
+			if focused_btn.name == "EraserBtn" or focused_btn.name == "DefenderBtn":
+				$GamesMenu/Timeless/Label.modulate = unfocused_color
+				$GamesMenu/Timeless/EraserBtn.modulate = unfocused_color
+				$GamesMenu/Timeless/DefenderBtn.modulate = unfocused_color
+				$GamesMenu/Timeless/Background.color = Global.color_green
+			else:
+				$GamesMenu/Timeless/Label.modulate = Color.white
+				$GamesMenu/Timeless/EraserBtn.modulate = Color.white
+				$GamesMenu/Timeless/DefenderBtn.modulate = Color.white
+				$GamesMenu/Timeless/Background.color = unfocused_color
 		#		if focused_btn.name == "TheDuelBtn":
 		#			$GamesMenu/TheDuel/Label.modulate = unfocused_color
 		#			$GamesMenu/TheDuel/TheDuelBtn.modulate = unfocused_color

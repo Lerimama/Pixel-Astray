@@ -466,15 +466,44 @@ __meta__ = {
 [node name="GameTimerHunds" parent="Header" instance=ExtResource( 11 )]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -94.0
+margin_left = -102.0
 margin_top = -3.0
-margin_right = 10.0
+margin_right = 2.0
 margin_bottom = 29.0
+
+[node name="Mins" parent="Header/GameTimerHunds" index="0"]
+margin_left = 38.0
+margin_top = 10.0
+margin_right = 66.0
+margin_bottom = 32.0
+size_flags_horizontal = 4
+
+[node name="Dots" parent="Header/GameTimerHunds" index="1"]
+margin_left = 68.0
+margin_top = 10.0
+margin_right = 74.0
+margin_bottom = 32.0
+
+[node name="Secs" parent="Header/GameTimerHunds" index="2"]
+margin_left = 76.0
+margin_top = 10.0
+margin_right = 104.0
+margin_bottom = 32.0
+size_flags_horizontal = 4
+
+[node name="Dots2" parent="Header/GameTimerHunds" index="3"]
+margin_top = 10.0
+margin_bottom = 32.0
+
+[node name="Hunds" parent="Header/GameTimerHunds" index="4"]
+margin_top = 10.0
+margin_bottom = 32.0
+size_flags_horizontal = 4
 
 [node name="TopLineR" type="HBoxContainer" parent="Header"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -608.0
+margin_left = -616.0
 margin_top = 7.0
 margin_right = -30.0
 margin_bottom = 29.0
@@ -517,8 +546,8 @@ __meta__ = {
 }
 
 [node name="HighscoreLabel" type="Label" parent="Header/TopLineR"]
-margin_left = 440.0
-margin_right = 578.0
+margin_left = 448.0
+margin_right = 586.0
 margin_bottom = 22.0
 grow_horizontal = 0
 size_flags_horizontal = 10
@@ -946,3 +975,5 @@ __meta__ = {
 }
 
 [connection signal="gametime_is_up" from="Header/GameTimerHunds" to="." method="_on_GameTimer_gametime_is_up"]
+
+[editable path="Header/GameTimerHunds"]

@@ -214,7 +214,7 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Text/Story2:modulate")
+tracks/3/path = NodePath("Text/_Story2:modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -292,6 +292,18 @@ tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Text/ActionHint:modulate")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
@@ -474,7 +486,7 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0.02, 1.4, 1.7, 3.02, 3.42 ),
+"times": PoolRealArray( 0.02, 1.4, 1.7, 3.76, 4.18 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
@@ -486,7 +498,7 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0, 5.1, 5.5, 7.52, 9 ),
+"times": PoolRealArray( 0, 5.1, 5.5, 8.02, 9 ),
 "transitions": PoolRealArray( 1, 1, 1, 2, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
@@ -498,7 +510,7 @@ tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 0, 0.8, 1.1 ),
+"times": PoolRealArray( 0, 3.76, 4.18 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
@@ -519,6 +531,18 @@ tracks/10/keys = {
 "args": [  ],
 "method": "shake_camera_on_show_strays"
 } ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("Text/ActionHint:modulate")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0, 7.52, 9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
 [sub_resource type="Animation" id=138]
@@ -635,10 +659,22 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0, 0.5, 1, 2.5, 3 ),
+"times": PoolRealArray( 0, 0.3, 1, 2.5, 3 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Text/ActionHint:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=227]
@@ -761,7 +797,7 @@ tracks/7/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("Text/Story2:modulate")
+tracks/8/path = NodePath("Text/_Story2:modulate")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -777,9 +813,10 @@ tracks/8/keys = {
 modulate = Color( 1, 1, 1, 1.0037 )
 script = ExtResource( 2 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 1984.0, 544.0, 1248.0, 1344.0, 1296.0, 1408.0, 1464.0 ],
+"_edit_horizontal_guides_": [ 1984.0, 544.0, 1248.0, 1336.0, 1296.0, 1392.0, 1440.0 ],
 "_edit_vertical_guides_": [ 3072.0, 128.0, 1792.0, 512.0 ]
 }
+actor_in_motion = false
 
 [node name="Spectrum" type="TextureRect" parent="."]
 margin_top = -40.0
@@ -881,25 +918,26 @@ margin_right = 256.0
 margin_bottom = 312.0
 grow_horizontal = 2
 theme = SubResource( 194 )
-text = "A lone pixel glowed on the screen."
+text = "A lone white pixel glowed
+on a dark screen."
 align = 1
 autowrap = true
 
-[node name="Story2" type="Label" parent="Text"]
+[node name="_Story2" type="Label" parent="Text"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -288.0
+margin_left = -320.0
 margin_top = 298.0
-margin_right = 288.0
+margin_right = 320.0
 margin_bottom = 352.0
 grow_horizontal = 2
 theme = SubResource( 194 )
-text = "It owned all the colors and was
-the brightest pixel on screen."
+text = "He owned all the spectrum colors and
+was proud to be the brightest of them all."
 align = 1
 autowrap = true
 
@@ -909,14 +947,14 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -268.0
+margin_left = -324.0
 margin_top = 262.0
-margin_right = 268.0
+margin_right = 324.0
 margin_bottom = 340.0
 grow_horizontal = 2
 theme = SubResource( 194 )
-text = "Owning all the colors, it believed 
-that its shine and glory would last forever."
+text = "He owned all the spectrum colors and believed
+his shine and glory would last forever."
 align = 1
 autowrap = true
 
@@ -943,12 +981,12 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -260.0
-margin_top = 290.0
+margin_top = 318.0
 margin_right = 260.0
-margin_bottom = 312.0
+margin_bottom = 340.0
 grow_horizontal = 2
 theme = SubResource( 194 )
-text = "Nothing is forever."
+text = "The designer had other ideas."
 align = 1
 autowrap = true
 
@@ -958,17 +996,19 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -268.0
-margin_top = 314.0
-margin_right = 268.0
-margin_bottom = 392.0
+margin_left = -336.0
+margin_top = 290.0
+margin_right = 336.0
+margin_bottom = 368.0
 grow_horizontal = 2
 theme = SubResource( 194 )
-text = "Take back the colors and once again become the brightest of them all!"
+text = "Now, the pixel is on a mission to take back the colors
+and again become the brightest of them all!"
 align = 1
 autowrap = true
 
 [node name="ActionHint" parent="Text" instance=ExtResource( 10 )]
+modulate = Color( 1, 1, 1, 0 )
 margin_left = -138.0
 margin_top = 565.5
 margin_right = 142.0

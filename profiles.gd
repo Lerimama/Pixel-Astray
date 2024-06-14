@@ -29,7 +29,7 @@ var default_game_settings: Dictionary = {
 	# reburst
 	"reburst_enabled": false,
 	"reburst_window_time": 0.3, # 0 je neomejen čas
-	"reburst_hit_power": 0, # 0 gre po original pravilih moči, trenutno je 5 full power
+	"reburst_hit_power": 1, # 0 gre po original pravilih moči, trenutno je 5 full power
 	# strays
 	"create_strays_count": 0,
 	"spawn_white_stray_part": 0, # procenti spawnanih ... 0 ne spawna nobenega belega
@@ -174,9 +174,12 @@ var game_data_sweeper: Dictionary = {
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
 	"description" : "Sweep the entire screen in one spectacular move!",
-	"Prop" : "Hit the first\nstray pixel and keep rebursting till there\nare none left.",
-	"Prop2" : "To reburst when hitting a pixel, press\nin a direction of\nthe next target.",
-	"Prop3" : "Showcase your\nmastery and beat\nthe record time!",
+	"Prop" : "Reburst when you\nhit a stray pixel by\npressing in the next\ntarget's direction.",
+#	"Prop" : "Hit the first\nstray pixel and keep rebursting till there\nare none left.",
+#	"Prop2" : "To reburst when hitting a pixel, press\nin a direction of\nthe next target.",
+	"Prop2" : "Initial burst can\ncollect all stacked\ncolors. Reburst always collects only one.",
+#	"Prop3" : "One burst\nto rule them all\nin a record time!",
+	"Prop3" : "You have only\none chance to\nrule them all and\nset the record!",
 	"level": 3,
 }
 var game_data_showcase: Dictionary = {
@@ -206,7 +209,7 @@ var get_it_time: float = 1 # tajming za dojet določene faze igre
 var solution_hint_on: bool = false
 var camera_shake_on: bool = true
 var tutorial_music_track_index: int = 1
-var tutorial_mode
+var tutorial_mode: bool = true
 
 
 
@@ -233,7 +236,7 @@ func set_game_data(selected_game) -> void:
 	
 #	# debug
 	game_settings["start_countdown"] = false
-#	game_settings["player_start_life"] = 2
+	game_settings["player_start_life"] = 2
 #	game_settings["show_game_instructions"] = false
 		
 	match selected_game:
@@ -252,6 +255,7 @@ func set_game_data(selected_game) -> void:
 			game_settings["game_time_limit"] = 0
 			game_settings["start_countdown"] = false
 			game_settings["game_music_track_index"] = 1
+			game_settings["start_countdown"] = false
 			
 		Games.CLEANER_S: 
 			current_game_data = game_data_cleaner_s.duplicate()
@@ -294,10 +298,13 @@ func set_game_data(selected_game) -> void:
 			game_settings["spawn_strays_on_cleaned"] = true
 			game_settings["zoom_to_level_size"] = true
 			game_settings["position_indicators_show_limit"] = 0
+			game_settings["respawn_strays_count_range"] = [1, 14]
+			game_settings["spawn_white_stray_part"] = 0.21
 		
 		Games.SWEEPER: 
 			current_game_data = game_data_sweeper.duplicate()
 			game_settings["player_start_life"] = 1
+			game_settings["player_start_color"] = Color.white
 			game_settings["on_hit_wall_energy_part"] = 1
 			game_settings["color_picked_points"] = 0
 			game_settings["cell_traveled_energy"] = 0

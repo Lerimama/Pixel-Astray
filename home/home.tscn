@@ -1122,7 +1122,7 @@ tracks/5/keys = {
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_horizontal_guides_": [ 656.0, -496.0, 144.0, -448.0, 1128.0, 816.0, 752.0, 96.0, 160.0 ],
-"_edit_vertical_guides_": [ 64.0, 1280.0, 1216.0, 640.0, 2048.0, -320.0, 1024.0, 256.0, 448.0, 832.0 ]
+"_edit_vertical_guides_": [ 64.0, 1280.0, 1216.0, 640.0, 2048.0, -320.0, 1024.0, 256.0, 432.0, 848.0 ]
 }
 
 [node name="Undi" type="ColorRect" parent="."]
@@ -1435,7 +1435,6 @@ custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
 text = "tresi"
 
 [node name="Menu" type="HBoxContainer" parent="."]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1449,9 +1448,9 @@ custom_constants/separation = 32
 alignment = 1
 
 [node name="SelectGameBtn" type="Button" parent="Menu"]
-margin_left = 85.0
+margin_left = 50.0
 margin_top = 3.0
-margin_right = 141.0
+margin_right = 106.0
 margin_bottom = 25.0
 focus_neighbour_right = NodePath("../SettingsBtn")
 focus_mode = 1
@@ -1461,9 +1460,9 @@ enabled_focus_mode = 1
 text = "PLAY"
 
 [node name="SettingsBtn" type="Button" parent="Menu"]
-margin_left = 173.0
+margin_left = 138.0
 margin_top = 3.0
-margin_right = 281.0
+margin_right = 246.0
 margin_bottom = 25.0
 focus_neighbour_left = NodePath("../SelectGameBtn")
 focus_neighbour_right = NodePath("../HighscoresBtn")
@@ -1474,9 +1473,9 @@ enabled_focus_mode = 1
 text = "SETTINGS"
 
 [node name="HighscoresBtn" type="Button" parent="Menu"]
-margin_left = 313.0
+margin_left = 278.0
 margin_top = 3.0
-margin_right = 449.0
+margin_right = 414.0
 margin_bottom = 25.0
 focus_neighbour_left = NodePath("../SettingsBtn")
 focus_neighbour_right = NodePath("../AboutBtn")
@@ -1487,9 +1486,9 @@ enabled_focus_mode = 1
 text = "HIGHSCORES"
 
 [node name="AboutBtn" type="Button" parent="Menu"]
-margin_left = 481.0
+margin_left = 446.0
 margin_top = 3.0
-margin_right = 551.0
+margin_right = 516.0
 margin_bottom = 25.0
 focus_neighbour_left = NodePath("../HighscoresBtn")
 focus_neighbour_right = NodePath("../QuitGameBtn")
@@ -1500,16 +1499,16 @@ enabled_focus_mode = 1
 text = "ABOUT"
 
 [node name="QuitGameBtn" type="Button" parent="Menu"]
-margin_left = 583.0
+margin_left = 548.0
 margin_top = 3.0
-margin_right = 635.0
+margin_right = 670.0
 margin_bottom = 25.0
 focus_neighbour_left = NodePath("../AboutBtn")
 focus_mode = 1
 mouse_default_cursor_shape = 2
 size_flags_vertical = 8
 enabled_focus_mode = 1
-text = "QUIT"
+text = "QUIT GAME"
 
 [node name="About" type="Control" parent="."]
 anchor_right = 1.0
@@ -1559,238 +1558,63 @@ margin_top = 7.0
 margin_right = -4.0
 margin_bottom = 11.0
 
-[node name="Background2" type="ColorRect" parent="About"]
-visible = false
-margin_left = 32.0
-margin_top = 224.0
-margin_right = 400.0
-margin_bottom = 528.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
-
-[node name="Background5" type="ColorRect" parent="About"]
-visible = false
-margin_left = 32.0
-margin_top = 56.0
-margin_right = 400.0
-margin_bottom = 216.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
-
-[node name="Background3" type="ColorRect" parent="About"]
-visible = false
-margin_left = 408.0
-margin_top = 56.0
-margin_right = 792.0
-margin_bottom = 528.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
-
-[node name="Background4" type="ColorRect" parent="About"]
-visible = false
-margin_left = 800.0
-margin_top = 56.0
-margin_right = 1216.0
-margin_bottom = 528.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
-
-[node name="Credits" type="Control" parent="About"]
-margin_left = 448.0
-margin_top = 80.0
-margin_right = 832.0
-margin_bottom = 496.0
-rect_min_size = Vector2( 320, 0 )
-rect_clip_content = true
-size_flags_horizontal = 3
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" type="Label" parent="About/Credits"]
-margin_top = -2.0
-margin_right = 272.0
-margin_bottom = 20.0
+[node name="Thanks" type="Label" parent="About"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -576.0
+margin_top = 78.0
+margin_right = -224.0
+margin_bottom = 104.0
 size_flags_horizontal = 3
 theme = SubResource( 194 )
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-text = "Resources credits"
+text = "PIXEL ASTRAY"
 uppercase = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="About/Credits"]
+[node name="Label2" type="Label" parent="About/Thanks"]
 anchor_right = 1.0
+margin_top = 42.0
+margin_bottom = 90.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 14 )
+text = "Prototype V0.9
+Published on Jun 14th, 2024"
+autowrap = true
+
+[node name="LinkLabel" type="RichTextLabel" parent="About/Thanks"]
 margin_left = 1.0
-margin_top = 34.0
-margin_right = -3.0
-margin_bottom = 424.0
-size_flags_horizontal = 3
-custom_constants/separation = -6
-
-[node name="CreditsLine" type="RichTextLabel" parent="About/Credits/VBoxContainer"]
-margin_right = 380.0
-margin_bottom = 30.0
+margin_top = 98.0
+margin_right = 381.0
+margin_bottom = 170.0
+custom_fonts/normal_font = ExtResource( 14 )
 bbcode_enabled = true
-bbcode_text = "[b].[/b] Sfx [url=https://opengameart.org/content/mushroom-%F0%9F%94%8A]Mushroom by Modanung[/url]"
-text = ". Sfx Mushroom by Modanung"
+bbcode_text = "Story, copywriting, design, graphics,
+sound editing and game development
+by [url=https://lehrman.itch.io/pixel-astray]Andrej Lehrman[/url]."
+text = "Story, copywriting, design, graphics,
+sound editing and game development
+by Andrej Lehrman."
 fit_content_height = true
 
-[node name="CreditsLine2" type="RichTextLabel" parent="About/Credits/VBoxContainer"]
-margin_top = 24.0
-margin_right = 380.0
-margin_bottom = 54.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Sfx [url=https://opengameart.org/content/game-over-0]Game Over! by Zuvizu[/url]"
-text = ". Sfx Game Over! by Zuvizu"
-fit_content_height = true
-
-[node name="CreditsLine3" type="RichTextLabel" parent="About/Credits/VBoxContainer"]
-margin_top = 48.0
-margin_right = 380.0
-margin_bottom = 78.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Sfx [url=https://opengameart.org/content/countdown]Countdown by Destructavator[/url]"
-text = ". Sfx Countdown by Destructavator"
-fit_content_height = true
-
-[node name="CreditsLine4" type="RichTextLabel" parent="About/Credits/VBoxContainer"]
-margin_top = 72.0
-margin_right = 380.0
-margin_bottom = 102.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Sfx [url=https://freesound.org/people/potentjello/sounds/194081]Woosh noise by Potentjello[/url]"
-text = ". Sfx Woosh noise by Potentjello"
-fit_content_height = true
-
-[node name="CreditsLine5" type="RichTextLabel" parent="About/Credits/VBoxContainer"]
-margin_top = 96.0
-margin_right = 380.0
-margin_bottom = 126.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Sfx [url=https://freesound.org/people/firecamel/sounds/169349/]Cartoon Blink by Firecamel[/url]"
-text = ". Sfx Cartoon Blink by Firecamel"
-fit_content_height = true
-
-[node name="CreditsLine6" type="RichTextLabel" parent="About/Credits/VBoxContainer"]
-margin_top = 120.0
-margin_right = 380.0
-margin_bottom = 150.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Sfx [url=https://freesound.org/people/guillermochicasonido/sounds]Static by Guillermochicasonido[/url]"
-text = ". Sfx Static by Guillermochicasonido"
-fit_content_height = true
-
-[node name="CreditsLine7" type="RichTextLabel" parent="About/Credits/VBoxContainer"]
-margin_top = 144.0
-margin_right = 380.0
-margin_bottom = 174.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Sfx [url=ttps://freesound.org/people/Jovica/sounds/7864]Basic pulse wave 3 E1 by Jovica[/url]"
-text = ". Sfx Basic pulse wave 3 E1 by Jovica"
-fit_content_height = true
-
-[node name="CreditsLine8" type="RichTextLabel" parent="About/Credits/VBoxContainer"]
-margin_top = 168.0
-margin_right = 380.0
-margin_bottom = 198.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Sfx [url=https://freesound.org/people/natharra/sounds/71467/]Blink 2 cling by Natharra[/url]"
-text = ". Sfx Blink 2 cling by Natharra"
-fit_content_height = true
-
-[node name="CreditsLine18" type="RichTextLabel" parent="About/Credits/VBoxContainer"]
-margin_top = 192.0
-margin_right = 380.0
-margin_bottom = 222.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Sfx [url=https://freesound.org/search/?q=421624]Sparkier remix#2 by Timbre[/url]"
-text = ". Sfx Sparkier remix#2 by Timbre"
-fit_content_height = true
-
-[node name="CreditsLine11" type="RichTextLabel" parent="About/Credits/VBoxContainer"]
-margin_top = 216.0
-margin_right = 380.0
-margin_bottom = 246.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Game track Dream - [url=https://freesound.org/people/3M4/sounds/457363]Trap beat 2[/url]"
-text = ". Game track Dream - Trap beat 2"
-fit_content_height = true
-
-[node name="CreditsLine12" type="RichTextLabel" parent="About/Credits/VBoxContainer"]
-margin_top = 240.0
-margin_right = 380.0
-margin_bottom = 270.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Game track Loose - [url=http://abstractionmusic.bandcamp.com]Goal Reward Loop[/url]"
-text = ". Game track Loose - Goal Reward Loop"
-fit_content_height = true
-
-[node name="CreditsLine13" type="RichTextLabel" parent="About/Credits/VBoxContainer"]
-margin_top = 264.0
-margin_right = 380.0
-margin_bottom = 294.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Game track Tilt - [url=http://abstractionmusic.bandcamp.com]Ludum Dare 28[/url]"
-text = ". Game track Tilt - Ludum Dare 28"
-fit_content_height = true
-
-[node name="CreditsLine14" type="RichTextLabel" parent="About/Credits/VBoxContainer"]
-margin_top = 288.0
-margin_right = 380.0
-margin_bottom = 318.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Game track Beats - [url=https://www.bensound.com/royalty-free-music/track/moose]Moose[/url]"
-text = ". Game track Beats - Moose"
-fit_content_height = true
-
-[node name="CreditsLine15" type="RichTextLabel" parent="About/Credits/VBoxContainer"]
-margin_top = 312.0
-margin_right = 380.0
-margin_bottom = 342.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Menu track [url=https://thmatc.co/?l=B6F7EDE0]9 Minute Warm up[/url]"
-text = ". Menu track 9 Minute Warm up"
-fit_content_height = true
-
-[node name="CreditsLine16" type="RichTextLabel" parent="About/Credits/VBoxContainer"]
-margin_top = 336.0
-margin_right = 380.0
-margin_bottom = 366.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Font [url=https://www.pentacom.jp/pentacom/bitfontmaker2/gallery/?id=246]16bfZX by Petrnita[/url]"
-text = ". Font 16bfZX by Petrnita"
-fit_content_height = true
-
-[node name="CreditsLine17" type="RichTextLabel" parent="About/Credits/VBoxContainer"]
-margin_top = 360.0
-margin_right = 380.0
-margin_bottom = 390.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Font [url=https://www.pentacom.jp/pentacom/bitfontmaker2/gallery/?id=357]Habbo by Omny[/url]"
-text = ". Font Habbo by Omny"
-fit_content_height = true
-
-[node name="Thanks" type="Control" parent="About"]
-margin_left = 64.0
-margin_top = 80.0
-margin_right = 448.0
-margin_bottom = 496.0
-rect_min_size = Vector2( 384, 0 )
-size_flags_horizontal = 3
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title1" type="Label" parent="About/Thanks"]
-anchor_right = 1.0
-margin_top = -2.0
-margin_bottom = 20.0
+[node name="Controls" type="Label" parent="About"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 248.0
+margin_top = 302.0
+margin_right = 576.0
+margin_bottom = 328.0
 size_flags_horizontal = 3
 theme = SubResource( 194 )
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-text = "Made by"
+text = "Controls"
 uppercase = true
 
-[node name="Label1" type="Label" parent="About/Thanks"]
+[node name="Label" type="Label" parent="About/Controls"]
+visible = false
 anchor_right = 1.0
-margin_top = 40.0
-margin_right = -64.0
-margin_bottom = 106.0
+margin_top = 42.0
+margin_bottom = 108.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 14 )
@@ -1799,21 +1623,27 @@ sound editing and game development
 by Andrej Lehrman."
 autowrap = true
 
-[node name="Title2" type="Label" parent="About/Thanks"]
-anchor_right = 1.0
-margin_top = 142.0
-margin_bottom = 164.0
+[node name="Controls" parent="About/Controls" instance=ExtResource( 22 )]
+margin_top = 42.0
+margin_bottom = 170.0
+
+[node name="SpecThanks" type="Label" parent="About"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -168.0
+margin_top = 77.0
+margin_right = 176.0
+margin_bottom = 103.0
 size_flags_horizontal = 3
 theme = SubResource( 194 )
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 text = "Special thanks"
 uppercase = true
 
-[node name="Label2" type="Label" parent="About/Thanks"]
+[node name="Label" type="Label" parent="About/SpecThanks"]
 anchor_right = 1.0
-margin_top = 184.0
-margin_right = -32.0
-margin_bottom = 250.0
+margin_top = 42.0
+margin_bottom = 108.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 14 )
@@ -1822,236 +1652,263 @@ and support throughout the whole
 development process."
 autowrap = true
 
-[node name="Label3" type="Label" parent="About/Thanks"]
+[node name="Label2" type="Label" parent="About/SpecThanks"]
 anchor_right = 1.0
-margin_top = 272.0
-margin_right = -24.0
-margin_bottom = 362.0
+margin_top = 122.0
+margin_right = 32.0
+margin_bottom = 179.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 14 )
-text = "So many game developers for 
-sharing their knowledge, experience
-and projects over the internet."
+text = "And to countless developers for sharing knowledge and experience on the internet."
 autowrap = true
 
-[node name="ControlsShorts" type="Control" parent="About"]
-margin_left = 856.0
-margin_top = 80.0
-margin_right = 1248.0
-margin_bottom = 496.0
-rect_min_size = Vector2( 320, 0 )
+[node name="Resources" type="Label" parent="About"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 248.0
+margin_top = 78.0
+margin_right = 576.0
+margin_bottom = 104.0
 size_flags_horizontal = 3
-__meta__ = {
-"_edit_group_": true
-}
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+text = "Resources"
+uppercase = true
 
-[node name="Title" type="Label" parent="About/ControlsShorts"]
+[node name="Label" type="Label" parent="About/Resources"]
 anchor_right = 1.0
-margin_top = -2.0
-margin_bottom = 20.0
+margin_top = 42.0
+margin_right = 24.0
+margin_bottom = 114.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 14 )
+text = "The soundtrack and sound effects are
+made by remixing sounds and loops
+downloaded from various websites."
+autowrap = true
+
+[node name="LinkLabel" type="RichTextLabel" parent="About/Resources"]
+margin_left = 1.0
+margin_top = 122.0
+margin_right = 381.0
+margin_bottom = 152.0
+custom_fonts/normal_font = ExtResource( 14 )
+bbcode_enabled = true
+bbcode_text = "All links to used sounds and fonts exist 
+at [url=https://lehrman.itch.io/pixel-astray]lehrman.itch.io/pixel-astray[/url]."
+text = "All links to used sounds and fonts exist 
+at lehrman.itch.io/pixel-astray."
+fit_content_height = true
+
+[node name="Shorts" type="Label" parent="About"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -576.0
+margin_top = 302.0
+margin_right = -224.0
+margin_bottom = 324.0
 size_flags_horizontal = 3
 theme = SubResource( 194 )
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 text = "GUI SHORTCUTS"
 uppercase = true
 
-[node name="ShortcutLine4" parent="About/ControlsShorts" instance=ExtResource( 23 )]
+[node name="ShortcutLine4" parent="About/Shorts" instance=ExtResource( 23 )]
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 1.0
-margin_top = 35.0
+margin_top = 37.0
 margin_right = 356.0
-margin_bottom = 63.0
+margin_bottom = 65.0
 
-[node name="KEY" parent="About/ControlsShorts/ShortcutLine4" index="1"]
+[node name="KEY" parent="About/Shorts/ShortcutLine4" index="1"]
 margin_right = 47.0
 text = "ESC"
 
-[node name="or2" parent="About/ControlsShorts/ShortcutLine4" index="2"]
+[node name="or2" parent="About/Shorts/ShortcutLine4" index="2"]
 margin_left = 47.0
 margin_right = 80.0
 
-[node name="L1" parent="About/ControlsShorts/ShortcutLine4" index="3"]
+[node name="L1" parent="About/Shorts/ShortcutLine4" index="3"]
 margin_left = 80.0
 margin_right = 102.0
 texture = SubResource( 190 )
 
-[node name="Label3" parent="About/ControlsShorts/ShortcutLine4" index="4"]
+[node name="Label3" parent="About/Shorts/ShortcutLine4" index="4"]
 margin_left = 102.0
 margin_right = 355.0
 text = " to go back to previous screen"
 
-[node name="ShortcutLine5" parent="About/ControlsShorts" instance=ExtResource( 23 )]
+[node name="ShortcutLine5" parent="About/Shorts" instance=ExtResource( 23 )]
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 1.0
-margin_top = 67.0
+margin_top = 69.0
 margin_right = 303.0
-margin_bottom = 95.0
+margin_bottom = 97.0
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="KEY" parent="About/ControlsShorts/ShortcutLine5" index="1"]
+[node name="KEY" parent="About/Shorts/ShortcutLine5" index="1"]
 margin_right = 80.0
 text = "RETURN"
 
-[node name="or2" parent="About/ControlsShorts/ShortcutLine5" index="2"]
+[node name="or2" parent="About/Shorts/ShortcutLine5" index="2"]
 margin_left = 80.0
 margin_right = 113.0
 
-[node name="L1" parent="About/ControlsShorts/ShortcutLine5" index="3"]
+[node name="L1" parent="About/Shorts/ShortcutLine5" index="3"]
 margin_left = 113.0
 margin_right = 135.0
 texture = SubResource( 475 )
 
-[node name="Label3" parent="About/ControlsShorts/ShortcutLine5" index="4"]
+[node name="Label3" parent="About/Shorts/ShortcutLine5" index="4"]
 margin_left = 135.0
 margin_right = 302.0
 text = " to confirm selection"
 
-[node name="ShortcutLine7" parent="About/ControlsShorts" instance=ExtResource( 23 )]
+[node name="ShortcutLine7" parent="About/Shorts" instance=ExtResource( 23 )]
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 1.0
-margin_top = 99.0
+margin_top = 101.0
 margin_right = 387.0
-margin_bottom = 127.0
+margin_bottom = 129.0
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="KEY" parent="About/ControlsShorts/ShortcutLine7" index="1"]
+[node name="KEY" parent="About/Shorts/ShortcutLine7" index="1"]
 margin_right = 25.0
 text = "R"
 
-[node name="or2" parent="About/ControlsShorts/ShortcutLine7" index="2"]
+[node name="or2" parent="About/Shorts/ShortcutLine7" index="2"]
 margin_left = 25.0
 margin_right = 58.0
 
-[node name="L1" parent="About/ControlsShorts/ShortcutLine7" index="3"]
+[node name="L1" parent="About/Shorts/ShortcutLine7" index="3"]
 margin_left = 58.0
 margin_right = 98.0
 texture = SubResource( 498 )
 
-[node name="Label3" parent="About/ControlsShorts/ShortcutLine7" index="4"]
+[node name="Label3" parent="About/Shorts/ShortcutLine7" index="4"]
 margin_left = 98.0
 margin_right = 349.0
 text = " to hard reset for Justin Case"
 
-[node name="Title3" type="Label" parent="About/ControlsShorts"]
-anchor_right = 1.0
-margin_top = 166.0
-margin_bottom = 188.0
+[node name="Shorts2" type="Label" parent="About"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -168.0
+margin_top = 302.0
+margin_right = 192.0
+margin_bottom = 324.0
 size_flags_horizontal = 3
 theme = SubResource( 194 )
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 text = "Game SHORTCUTS"
 uppercase = true
 
-[node name="ShortcutLine6" parent="About/ControlsShorts" instance=ExtResource( 23 )]
+[node name="ShortcutLine6" parent="About/Shorts2" instance=ExtResource( 23 )]
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 1.0
-margin_top = 203.0
+margin_top = 37.0
 margin_right = 303.0
-margin_bottom = 231.0
+margin_bottom = 65.0
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="KEY" parent="About/ControlsShorts/ShortcutLine6" index="1"]
+[node name="KEY" parent="About/Shorts2/ShortcutLine6" index="1"]
 margin_right = 47.0
 text = "ESC"
 
-[node name="or2" parent="About/ControlsShorts/ShortcutLine6" index="2"]
+[node name="or2" parent="About/Shorts2/ShortcutLine6" index="2"]
 margin_left = 47.0
 margin_right = 80.0
 
-[node name="L1" parent="About/ControlsShorts/ShortcutLine6" index="3"]
+[node name="L1" parent="About/Shorts2/ShortcutLine6" index="3"]
 margin_left = 80.0
 margin_right = 102.0
 texture = SubResource( 190 )
 
-[node name="Label3" parent="About/ControlsShorts/ShortcutLine6" index="4"]
+[node name="Label3" parent="About/Shorts2/ShortcutLine6" index="4"]
 margin_left = 102.0
 margin_right = 302.0
 text = " to pause/unpause game"
 
-[node name="ShortcutLine" parent="About/ControlsShorts" instance=ExtResource( 23 )]
+[node name="ShortcutLine" parent="About/Shorts2" instance=ExtResource( 23 )]
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 1.0
-margin_top = 235.0
+margin_top = 69.0
 margin_right = 245.0
-margin_bottom = 263.0
+margin_bottom = 97.0
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="ShortcutLine2" parent="About/ControlsShorts" instance=ExtResource( 23 )]
+[node name="ShortcutLine2" parent="About/Shorts2" instance=ExtResource( 23 )]
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 1.0
-margin_top = 267.0
+margin_top = 101.0
 margin_right = 261.0
-margin_bottom = 295.0
+margin_bottom = 129.0
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="KEY" parent="About/ControlsShorts/ShortcutLine2" index="1"]
+[node name="KEY" parent="About/Shorts2/ShortcutLine2" index="1"]
 margin_right = 25.0
 text = "N"
 
-[node name="or2" parent="About/ControlsShorts/ShortcutLine2" index="2"]
+[node name="or2" parent="About/Shorts2/ShortcutLine2" index="2"]
 margin_left = 25.0
 margin_right = 58.0
 
-[node name="L1" parent="About/ControlsShorts/ShortcutLine2" index="3"]
+[node name="L1" parent="About/Shorts2/ShortcutLine2" index="3"]
 margin_left = 58.0
 margin_right = 80.0
 texture = SubResource( 310 )
 
-[node name="Label3" parent="About/ControlsShorts/ShortcutLine2" index="4"]
+[node name="Label3" parent="About/Shorts2/ShortcutLine2" index="4"]
 margin_left = 80.0
 margin_right = 260.0
 text = " to skip current track"
 
-[node name="ShortcutLine3" parent="About/ControlsShorts" instance=ExtResource( 23 )]
+[node name="ShortcutLine3" parent="About/Shorts2" instance=ExtResource( 23 )]
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 1.0
-margin_top = 299.0
+margin_top = 133.0
 margin_right = 352.0
-margin_bottom = 327.0
+margin_bottom = 161.0
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="KEY" parent="About/ControlsShorts/ShortcutLine3" index="1"]
+[node name="KEY" parent="About/Shorts2/ShortcutLine3" index="1"]
 margin_right = 25.0
 text = "H"
 
-[node name="or2" parent="About/ControlsShorts/ShortcutLine3" index="2"]
+[node name="or2" parent="About/Shorts2/ShortcutLine3" index="2"]
 margin_left = 25.0
 margin_right = 58.0
 
-[node name="L1" parent="About/ControlsShorts/ShortcutLine3" index="3"]
+[node name="L1" parent="About/Shorts2/ShortcutLine3" index="3"]
 margin_left = 58.0
 margin_right = 80.0
 texture = SubResource( 476 )
 
-[node name="Label3" parent="About/ControlsShorts/ShortcutLine3" index="4"]
+[node name="Label3" parent="About/Shorts2/ShortcutLine3" index="4"]
 margin_left = 80.0
-margin_right = 351.0
-text = " to show/hide Sweeper game hint"
-
-[node name="Controls" parent="About/ControlsShorts" instance=ExtResource( 22 )]
-visible = false
-margin_top = 296.0
-margin_bottom = 424.0
+margin_right = 304.0
+text = " to show/hide Sweeper hint"
 
 [node name="Content" type="HBoxContainer" parent="About"]
 visible = false
@@ -2064,6 +1921,561 @@ margin_bottom = 496.0
 custom_constants/separation = 0
 
 [node name="EscHint" parent="About" instance=ExtResource( 11 )]
+visible = false
+margin_left = 984.0
+margin_top = 502.0
+margin_right = 1218.0
+margin_bottom = 524.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ColorRect" type="ColorRect" parent="About"]
+visible = false
+margin_left = 64.0
+margin_top = 40.0
+margin_right = 392.0
+margin_bottom = 80.0
+
+[node name="ColorRect2" type="ColorRect" parent="About"]
+visible = false
+margin_left = 472.0
+margin_top = 40.0
+margin_right = 800.0
+margin_bottom = 80.0
+
+[node name="ColorRect3" type="ColorRect" parent="About"]
+visible = false
+margin_left = 888.0
+margin_top = 40.0
+margin_right = 1216.0
+margin_bottom = 80.0
+
+[node name="_About_orig" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 720.0
+margin_right = 1280.0
+margin_bottom = 1320.0
+rect_min_size = Vector2( 1280, 500 )
+theme = ExtResource( 15 )
+script = ExtResource( 16 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="BackBtn" type="TextureButton" parent="_About_orig"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -64.0
+margin_top = 13.0
+margin_right = -40.0
+margin_bottom = 35.0
+rect_min_size = Vector2( 16, 16 )
+rect_rotation = 89.9999
+mouse_default_cursor_shape = 2
+texture_normal = SubResource( 195 )
+texture_hover = SubResource( 196 )
+texture_focused = SubResource( 196 )
+flip_h = true
+
+[node name="Title" type="Label" parent="_About_orig"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -49.0
+margin_top = 6.0
+margin_right = 50.0
+margin_bottom = 38.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 0.294118, 0.623529, 1, 1 )
+custom_fonts/font = ExtResource( 4 )
+text = "About"
+align = 1
+
+[node name="HSeparator" type="HSeparator" parent="_About_orig/Title"]
+visible = false
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = 7.0
+margin_right = -4.0
+margin_bottom = 11.0
+
+[node name="Credits" type="Control" parent="_About_orig"]
+margin_left = 448.0
+margin_top = 80.0
+margin_right = 832.0
+margin_bottom = 496.0
+rect_min_size = Vector2( 320, 0 )
+rect_clip_content = true
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" type="Label" parent="_About_orig/Credits"]
+margin_top = -2.0
+margin_right = 272.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+text = "Resources credits"
+uppercase = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="_About_orig/Credits"]
+anchor_right = 1.0
+margin_left = 1.0
+margin_top = 34.0
+margin_right = -3.0
+margin_bottom = 424.0
+size_flags_horizontal = 3
+custom_constants/separation = -6
+
+[node name="CreditsLine" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
+margin_right = 380.0
+margin_bottom = 30.0
+bbcode_enabled = true
+bbcode_text = "[b].[/b] Sfx [url=https://opengameart.org/content/mushroom-%F0%9F%94%8A]Mushroom by Modanung[/url]"
+text = ". Sfx Mushroom by Modanung"
+fit_content_height = true
+
+[node name="CreditsLine2" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
+margin_top = 24.0
+margin_right = 380.0
+margin_bottom = 54.0
+bbcode_enabled = true
+bbcode_text = "[b].[/b] Sfx [url=https://opengameart.org/content/game-over-0]Game Over! by Zuvizu[/url]"
+text = ". Sfx Game Over! by Zuvizu"
+fit_content_height = true
+
+[node name="CreditsLine3" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
+margin_top = 48.0
+margin_right = 380.0
+margin_bottom = 78.0
+bbcode_enabled = true
+bbcode_text = "[b].[/b] Sfx [url=https://opengameart.org/content/countdown]Countdown by Destructavator[/url]"
+text = ". Sfx Countdown by Destructavator"
+fit_content_height = true
+
+[node name="CreditsLine4" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
+margin_top = 72.0
+margin_right = 380.0
+margin_bottom = 102.0
+bbcode_enabled = true
+bbcode_text = "[b].[/b] Sfx [url=https://freesound.org/people/potentjello/sounds/194081]Woosh noise by Potentjello[/url]"
+text = ". Sfx Woosh noise by Potentjello"
+fit_content_height = true
+
+[node name="CreditsLine5" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
+margin_top = 96.0
+margin_right = 380.0
+margin_bottom = 126.0
+bbcode_enabled = true
+bbcode_text = "[b].[/b] Sfx [url=https://freesound.org/people/firecamel/sounds/169349/]Cartoon Blink by Firecamel[/url]"
+text = ". Sfx Cartoon Blink by Firecamel"
+fit_content_height = true
+
+[node name="CreditsLine6" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
+margin_top = 120.0
+margin_right = 380.0
+margin_bottom = 150.0
+bbcode_enabled = true
+bbcode_text = "[b].[/b] Sfx [url=https://freesound.org/people/guillermochicasonido/sounds]Static by Guillermochicasonido[/url]"
+text = ". Sfx Static by Guillermochicasonido"
+fit_content_height = true
+
+[node name="CreditsLine7" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
+margin_top = 144.0
+margin_right = 380.0
+margin_bottom = 174.0
+bbcode_enabled = true
+bbcode_text = "[b].[/b] Sfx [url=ttps://freesound.org/people/Jovica/sounds/7864]Basic pulse wave 3 E1 by Jovica[/url]"
+text = ". Sfx Basic pulse wave 3 E1 by Jovica"
+fit_content_height = true
+
+[node name="CreditsLine8" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
+margin_top = 168.0
+margin_right = 380.0
+margin_bottom = 198.0
+bbcode_enabled = true
+bbcode_text = "[b].[/b] Sfx [url=https://freesound.org/people/natharra/sounds/71467/]Blink 2 cling by Natharra[/url]"
+text = ". Sfx Blink 2 cling by Natharra"
+fit_content_height = true
+
+[node name="CreditsLine18" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
+margin_top = 192.0
+margin_right = 380.0
+margin_bottom = 222.0
+bbcode_enabled = true
+bbcode_text = "[b].[/b] Sfx [url=https://freesound.org/search/?q=421624]Sparkier remix#2 by Timbre[/url]"
+text = ". Sfx Sparkier remix#2 by Timbre"
+fit_content_height = true
+
+[node name="CreditsLine11" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
+margin_top = 216.0
+margin_right = 380.0
+margin_bottom = 246.0
+bbcode_enabled = true
+bbcode_text = "[b].[/b] Game track Dream - [url=https://freesound.org/people/3M4/sounds/457363]Trap beat 2[/url]"
+text = ". Game track Dream - Trap beat 2"
+fit_content_height = true
+
+[node name="CreditsLine12" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
+margin_top = 240.0
+margin_right = 380.0
+margin_bottom = 270.0
+bbcode_enabled = true
+bbcode_text = "[b].[/b] Game track Loose - [url=http://abstractionmusic.bandcamp.com]Goal Reward Loop[/url]"
+text = ". Game track Loose - Goal Reward Loop"
+fit_content_height = true
+
+[node name="CreditsLine13" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
+margin_top = 264.0
+margin_right = 380.0
+margin_bottom = 294.0
+bbcode_enabled = true
+bbcode_text = "[b].[/b] Game track Tilt - [url=http://abstractionmusic.bandcamp.com]Ludum Dare 28[/url]"
+text = ". Game track Tilt - Ludum Dare 28"
+fit_content_height = true
+
+[node name="CreditsLine14" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
+margin_top = 288.0
+margin_right = 380.0
+margin_bottom = 318.0
+bbcode_enabled = true
+bbcode_text = "[b].[/b] Game track Beats - [url=https://www.bensound.com/royalty-free-music/track/moose]Moose[/url]"
+text = ". Game track Beats - Moose"
+fit_content_height = true
+
+[node name="CreditsLine15" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
+margin_top = 312.0
+margin_right = 380.0
+margin_bottom = 342.0
+bbcode_enabled = true
+bbcode_text = "[b].[/b] Menu track [url=https://thmatc.co/?l=B6F7EDE0]9 Minute Warm up[/url]"
+text = ". Menu track 9 Minute Warm up"
+fit_content_height = true
+
+[node name="CreditsLine16" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
+margin_top = 336.0
+margin_right = 380.0
+margin_bottom = 366.0
+bbcode_enabled = true
+bbcode_text = "[b].[/b] Font [url=https://www.pentacom.jp/pentacom/bitfontmaker2/gallery/?id=246]16bfZX by Petrnita[/url]"
+text = ". Font 16bfZX by Petrnita"
+fit_content_height = true
+
+[node name="CreditsLine17" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
+margin_top = 360.0
+margin_right = 380.0
+margin_bottom = 390.0
+bbcode_enabled = true
+bbcode_text = "[b].[/b] Font [url=https://www.pentacom.jp/pentacom/bitfontmaker2/gallery/?id=357]Habbo by Omny[/url]"
+text = ". Font Habbo by Omny"
+fit_content_height = true
+
+[node name="Thanks" type="Control" parent="_About_orig"]
+margin_left = 64.0
+margin_top = 80.0
+margin_right = 448.0
+margin_bottom = 496.0
+rect_min_size = Vector2( 384, 0 )
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title1" type="Label" parent="_About_orig/Thanks"]
+anchor_right = 1.0
+margin_top = -2.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+text = "Made by"
+uppercase = true
+
+[node name="Label1" type="Label" parent="_About_orig/Thanks"]
+anchor_right = 1.0
+margin_top = 40.0
+margin_right = -64.0
+margin_bottom = 106.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 14 )
+text = "Story, copywriting, design, graphics,
+sound editing and game development
+by Andrej Lehrman."
+autowrap = true
+
+[node name="Title2" type="Label" parent="_About_orig/Thanks"]
+anchor_right = 1.0
+margin_top = 142.0
+margin_bottom = 164.0
+size_flags_horizontal = 3
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+text = "Special thanks"
+uppercase = true
+
+[node name="Label2" type="Label" parent="_About_orig/Thanks"]
+anchor_right = 1.0
+margin_top = 184.0
+margin_right = -32.0
+margin_bottom = 250.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 14 )
+text = "To my family for their encouragement
+and support throughout the whole
+development process."
+autowrap = true
+
+[node name="Label3" type="Label" parent="_About_orig/Thanks"]
+anchor_right = 1.0
+margin_top = 272.0
+margin_right = -24.0
+margin_bottom = 362.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 14 )
+text = "So many game developers for 
+sharing their knowledge, experience
+and projects over the internet."
+autowrap = true
+
+[node name="ControlsShorts" type="Control" parent="_About_orig"]
+margin_left = 856.0
+margin_top = 80.0
+margin_right = 1248.0
+margin_bottom = 496.0
+rect_min_size = Vector2( 320, 0 )
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" type="Label" parent="_About_orig/ControlsShorts"]
+anchor_right = 1.0
+margin_top = -2.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+text = "GUI SHORTCUTS"
+uppercase = true
+
+[node name="ShortcutLine4" parent="_About_orig/ControlsShorts" instance=ExtResource( 23 )]
+anchor_left = 0.0
+anchor_right = 0.0
+margin_left = 1.0
+margin_top = 35.0
+margin_right = 356.0
+margin_bottom = 63.0
+
+[node name="KEY" parent="_About_orig/ControlsShorts/ShortcutLine4" index="1"]
+margin_right = 47.0
+text = "ESC"
+
+[node name="or2" parent="_About_orig/ControlsShorts/ShortcutLine4" index="2"]
+margin_left = 47.0
+margin_right = 80.0
+
+[node name="L1" parent="_About_orig/ControlsShorts/ShortcutLine4" index="3"]
+margin_left = 80.0
+margin_right = 102.0
+texture = SubResource( 190 )
+
+[node name="Label3" parent="_About_orig/ControlsShorts/ShortcutLine4" index="4"]
+margin_left = 102.0
+margin_right = 355.0
+text = " to go back to previous screen"
+
+[node name="ShortcutLine5" parent="_About_orig/ControlsShorts" instance=ExtResource( 23 )]
+anchor_left = 0.0
+anchor_right = 0.0
+margin_left = 1.0
+margin_top = 67.0
+margin_right = 303.0
+margin_bottom = 95.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="KEY" parent="_About_orig/ControlsShorts/ShortcutLine5" index="1"]
+margin_right = 80.0
+text = "RETURN"
+
+[node name="or2" parent="_About_orig/ControlsShorts/ShortcutLine5" index="2"]
+margin_left = 80.0
+margin_right = 113.0
+
+[node name="L1" parent="_About_orig/ControlsShorts/ShortcutLine5" index="3"]
+margin_left = 113.0
+margin_right = 135.0
+texture = SubResource( 475 )
+
+[node name="Label3" parent="_About_orig/ControlsShorts/ShortcutLine5" index="4"]
+margin_left = 135.0
+margin_right = 302.0
+text = " to confirm selection"
+
+[node name="ShortcutLine7" parent="_About_orig/ControlsShorts" instance=ExtResource( 23 )]
+anchor_left = 0.0
+anchor_right = 0.0
+margin_left = 1.0
+margin_top = 99.0
+margin_right = 387.0
+margin_bottom = 127.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="KEY" parent="_About_orig/ControlsShorts/ShortcutLine7" index="1"]
+margin_right = 25.0
+text = "R"
+
+[node name="or2" parent="_About_orig/ControlsShorts/ShortcutLine7" index="2"]
+margin_left = 25.0
+margin_right = 58.0
+
+[node name="L1" parent="_About_orig/ControlsShorts/ShortcutLine7" index="3"]
+margin_left = 58.0
+margin_right = 98.0
+texture = SubResource( 498 )
+
+[node name="Label3" parent="_About_orig/ControlsShorts/ShortcutLine7" index="4"]
+margin_left = 98.0
+margin_right = 349.0
+text = " to hard reset for Justin Case"
+
+[node name="Title3" type="Label" parent="_About_orig/ControlsShorts"]
+anchor_right = 1.0
+margin_top = 166.0
+margin_bottom = 188.0
+size_flags_horizontal = 3
+theme = SubResource( 194 )
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+text = "Game SHORTCUTS"
+uppercase = true
+
+[node name="ShortcutLine6" parent="_About_orig/ControlsShorts" instance=ExtResource( 23 )]
+anchor_left = 0.0
+anchor_right = 0.0
+margin_left = 1.0
+margin_top = 203.0
+margin_right = 303.0
+margin_bottom = 231.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="KEY" parent="_About_orig/ControlsShorts/ShortcutLine6" index="1"]
+margin_right = 47.0
+text = "ESC"
+
+[node name="or2" parent="_About_orig/ControlsShorts/ShortcutLine6" index="2"]
+margin_left = 47.0
+margin_right = 80.0
+
+[node name="L1" parent="_About_orig/ControlsShorts/ShortcutLine6" index="3"]
+margin_left = 80.0
+margin_right = 102.0
+texture = SubResource( 190 )
+
+[node name="Label3" parent="_About_orig/ControlsShorts/ShortcutLine6" index="4"]
+margin_left = 102.0
+margin_right = 302.0
+text = " to pause/unpause game"
+
+[node name="ShortcutLine" parent="_About_orig/ControlsShorts" instance=ExtResource( 23 )]
+anchor_left = 0.0
+anchor_right = 0.0
+margin_left = 1.0
+margin_top = 235.0
+margin_right = 245.0
+margin_bottom = 263.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ShortcutLine2" parent="_About_orig/ControlsShorts" instance=ExtResource( 23 )]
+anchor_left = 0.0
+anchor_right = 0.0
+margin_left = 1.0
+margin_top = 267.0
+margin_right = 261.0
+margin_bottom = 295.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="KEY" parent="_About_orig/ControlsShorts/ShortcutLine2" index="1"]
+margin_right = 25.0
+text = "N"
+
+[node name="or2" parent="_About_orig/ControlsShorts/ShortcutLine2" index="2"]
+margin_left = 25.0
+margin_right = 58.0
+
+[node name="L1" parent="_About_orig/ControlsShorts/ShortcutLine2" index="3"]
+margin_left = 58.0
+margin_right = 80.0
+texture = SubResource( 310 )
+
+[node name="Label3" parent="_About_orig/ControlsShorts/ShortcutLine2" index="4"]
+margin_left = 80.0
+margin_right = 260.0
+text = " to skip current track"
+
+[node name="ShortcutLine3" parent="_About_orig/ControlsShorts" instance=ExtResource( 23 )]
+anchor_left = 0.0
+anchor_right = 0.0
+margin_left = 1.0
+margin_top = 299.0
+margin_right = 352.0
+margin_bottom = 327.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="KEY" parent="_About_orig/ControlsShorts/ShortcutLine3" index="1"]
+margin_right = 25.0
+text = "H"
+
+[node name="or2" parent="_About_orig/ControlsShorts/ShortcutLine3" index="2"]
+margin_left = 25.0
+margin_right = 58.0
+
+[node name="L1" parent="_About_orig/ControlsShorts/ShortcutLine3" index="3"]
+margin_left = 58.0
+margin_right = 80.0
+texture = SubResource( 476 )
+
+[node name="Label3" parent="_About_orig/ControlsShorts/ShortcutLine3" index="4"]
+margin_left = 80.0
+margin_right = 351.0
+text = " to show/hide Sweeper game hint"
+
+[node name="Controls" parent="_About_orig/ControlsShorts" instance=ExtResource( 22 )]
+visible = false
+margin_top = 296.0
+margin_bottom = 424.0
+
+[node name="Content" type="HBoxContainer" parent="_About_orig"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -576.0
+margin_top = 80.0
+margin_right = 576.0
+margin_bottom = 496.0
+custom_constants/separation = 0
+
+[node name="EscHint" parent="_About_orig" instance=ExtResource( 11 )]
 visible = false
 margin_left = 984.0
 margin_top = 502.0
@@ -2853,7 +3265,8 @@ margin_right = 256.0
 margin_bottom = 104.0
 custom_fonts/font = ExtResource( 14 )
 text = "The cleaning classic ...
-Restore perfect order to this vibrant mess!"
+Restore perfect order 
+to this vibrant mess!"
 autowrap = true
 
 [node name="ClassicBtn" type="Button" parent="SelectGame/GamesMenu/Classic"]
@@ -3147,6 +3560,7 @@ __meta__ = {
 }
 
 [node name="SelectLevel" type="Control" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 1280.0
@@ -3810,22 +4224,25 @@ text = "Settings dolzina animacije okna"
 [connection signal="pressed" from="Menu/AboutBtn" to="." method="_on_AboutBtn_pressed"]
 [connection signal="pressed" from="Menu/QuitGameBtn" to="." method="_on_QuitGameBtn_pressed"]
 [connection signal="pressed" from="About/BackBtn" to="About" method="_on_BackBtn_pressed"]
-[connection signal="meta_clicked" from="About/Credits/VBoxContainer/CreditsLine" to="About" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="About/Credits/VBoxContainer/CreditsLine2" to="About" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="About/Credits/VBoxContainer/CreditsLine3" to="About" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="About/Credits/VBoxContainer/CreditsLine4" to="About" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="About/Credits/VBoxContainer/CreditsLine5" to="About" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="About/Credits/VBoxContainer/CreditsLine6" to="About" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="About/Credits/VBoxContainer/CreditsLine7" to="About" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="About/Credits/VBoxContainer/CreditsLine8" to="About" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="About/Credits/VBoxContainer/CreditsLine18" to="About" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="About/Credits/VBoxContainer/CreditsLine11" to="About" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="About/Credits/VBoxContainer/CreditsLine12" to="About" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="About/Credits/VBoxContainer/CreditsLine13" to="About" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="About/Credits/VBoxContainer/CreditsLine14" to="About" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="About/Credits/VBoxContainer/CreditsLine15" to="About" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="About/Credits/VBoxContainer/CreditsLine16" to="About" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="About/Credits/VBoxContainer/CreditsLine17" to="About" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="About/Thanks/LinkLabel" to="About" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="About/Resources/LinkLabel" to="About" method="_on_NameAuthor_meta_clicked"]
+[connection signal="pressed" from="_About_orig/BackBtn" to="_About_orig" method="_on_BackBtn_pressed"]
+[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine2" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine3" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine4" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine5" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine6" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine7" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine8" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine18" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine11" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine12" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine13" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine14" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine15" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine16" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine17" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
 [connection signal="pressed" from="Highscores/SweeperArrows/LeftBtn" to="Highscores" method="_on_Sweeper_LeftBtn_pressed"]
 [connection signal="pressed" from="Highscores/SweeperArrows/RightBtn" to="Highscores" method="_on_SweeperRightBtn_pressed"]
 [connection signal="pressed" from="Highscores/BackBtn" to="Highscores" method="_on_BackBtn_pressed"]
@@ -3857,12 +4274,18 @@ text = "Settings dolzina animacije okna"
 [connection signal="toggled" from="Settings/InstructionsBtn" to="Settings" method="_on_InstructionsBtn_toggled"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 
-[editable path="About/ControlsShorts/ShortcutLine4"]
-[editable path="About/ControlsShorts/ShortcutLine5"]
-[editable path="About/ControlsShorts/ShortcutLine7"]
-[editable path="About/ControlsShorts/ShortcutLine6"]
-[editable path="About/ControlsShorts/ShortcutLine2"]
-[editable path="About/ControlsShorts/ShortcutLine3"]
+[editable path="About/Shorts/ShortcutLine4"]
+[editable path="About/Shorts/ShortcutLine5"]
+[editable path="About/Shorts/ShortcutLine7"]
+[editable path="About/Shorts2/ShortcutLine6"]
+[editable path="About/Shorts2/ShortcutLine2"]
+[editable path="About/Shorts2/ShortcutLine3"]
+[editable path="_About_orig/ControlsShorts/ShortcutLine4"]
+[editable path="_About_orig/ControlsShorts/ShortcutLine5"]
+[editable path="_About_orig/ControlsShorts/ShortcutLine7"]
+[editable path="_About_orig/ControlsShorts/ShortcutLine6"]
+[editable path="_About_orig/ControlsShorts/ShortcutLine2"]
+[editable path="_About_orig/ControlsShorts/ShortcutLine3"]
 [editable path="Highscores/ClassicTable"]
 [editable path="Highscores/CleanerSTable"]
 [editable path="Highscores/CleanerMTable"]

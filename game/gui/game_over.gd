@@ -235,6 +235,7 @@ func set_game_summary():
 
 	# main title obarvam glede na GO razlog ali ranking
 	var main_title: Label = $GameSummary/Title
+	main_title.text = "%s summary" % Global.game_manager.game_data["game_name"]
 	if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED or score_is_ranking:
 		main_title.modulate = Global.color_green
 	else:
@@ -245,25 +246,32 @@ func set_game_summary():
 	
 	# game stats name
 	gameover_stat_game.text = "Game: " + str(Global.game_manager.game_data["game_name"])
+	gameover_stat_game.hide()
 	gameover_stat_time.text = "Time used: " + Global.get_clock_time(Global.hud.game_timer.absolute_game_time)
 	
 	if Global.game_manager.game_data.has("level"):
 		if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-			gameover_stat_level.text = "Screen no.: " + str(Global.game_manager.game_data["level"])
+			gameover_stat_level.text = "Screen no. %02d" % Global.game_manager.game_data["level"]
 		else:
-			gameover_stat_level.text = "Level: " + str(Global.game_manager.game_data["level"])
+			gameover_stat_level.text = "Level reached: " + str(Global.game_manager.game_data["level"])
 	else:
 		gameover_stat_level.hide()
 
 	# player stats
-	if not Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+		gameover_stat_points.hide()
+		gameover_stat_cells_traveled.text = "Cells traveled: " + str(p1_final_stats["cells_traveled"])
+		gameover_stat_burst_count.text = "Burst count: " + str(p1_final_stats["burst_count"])
+		gameover_stat_skills_used.text = "Skills used: " + str(p1_final_stats["skill_count"])
+		gameover_stat_pixels_off.text = "Colors collected: " + str(p1_final_stats["colors_collected"])
+		gameover_stat_astray_pixels.text = "Pixels left astray: " + str(Global.game_manager.strays_in_game_count)
+	else:
 		gameover_stat_points.text = "Score total: " + str(p1_final_stats["player_points"])
 		gameover_stat_cells_traveled.text = "Cells traveled: " + str(p1_final_stats["cells_traveled"])
 		gameover_stat_burst_count.text = "Burst count: " + str(p1_final_stats["burst_count"])
 		gameover_stat_skills_used.text = "Skills used: " + str(p1_final_stats["skill_count"])
 		gameover_stat_pixels_off.text = "Colors collected: " + str(p1_final_stats["colors_collected"])
 		gameover_stat_astray_pixels.text = "Pixels left astray: " + str(Global.game_manager.strays_in_game_count)
-
 
 func show_game_summary():
 	# hide title and name_popup > show game summary

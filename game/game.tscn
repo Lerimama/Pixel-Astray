@@ -426,45 +426,53 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Line4" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
+[node name="Line" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
 margin_top = 42.0
 margin_right = 336.0
-margin_bottom = 114.0
+margin_bottom = 90.0
 bbcode_enabled = true
-bbcode_text = "Use ARROW or WASD keys for keyboard
-control or DIRECTIONAL PAD on joypad
-to travel around."
-text = "Use ARROW or WASD keys for keyboard
-control or DIRECTIONAL PAD on joypad
-to travel around."
+bbcode_text = "Movement is limited to directions up, down, left and right."
+text = "Movement is limited to directions up, down, left and right."
 fit_content_height = true
 scroll_active = false
 
-[node name="Tips" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
-margin_top = 130.0
-margin_right = 240.0
-margin_bottom = 154.0
-custom_colors/default_color = Color( 1, 1, 1, 0.470588 )
+[node name="Line4" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
+margin_top = 106.0
+margin_right = 336.0
+margin_bottom = 178.0
 bbcode_enabled = true
-bbcode_text = "HINT"
-text = "HINT"
+bbcode_text = "> Use ARROW or WASD keys for keyboard
+control or DIRECTIONAL PAD on joypad
+to travel around."
+text = "> Use ARROW or WASD keys for keyboard
+control or DIRECTIONAL PAD on joypad
+to travel around."
 fit_content_height = true
 scroll_active = false
 
 [node name="Line2" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
-margin_top = 162.0
+margin_top = 194.0
 margin_right = 352.0
-margin_bottom = 240.0
+margin_bottom = 242.0
 bbcode_enabled = true
-bbcode_text = "Traveling around costs energy, and your stepping speed depends on it. So, keep 
-an eye on your energy bar. "
-text = "Traveling around costs energy, and your stepping speed depends on it. So, keep 
-an eye on your energy bar. "
+bbcode_text = "! Traveling around costs energy, and 
+your speed depends on it."
+text = "! Traveling around costs energy, and 
+your speed depends on it."
+fit_content_height = true
+scroll_active = false
+
+[node name="Line3" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/TravelingContent"]
+margin_top = 250.0
+margin_right = 352.0
+margin_bottom = 274.0
+bbcode_enabled = true
+bbcode_text = "! Collect colors to regain energy."
+text = "! Collect colors to regain energy."
 fit_content_height = true
 scroll_active = false
 
 [node name="BurstingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 0, 232 )
@@ -488,84 +496,70 @@ margin_right = 360.0
 margin_bottom = 90.0
 bbcode_enabled = true
 bbcode_text = "Collect colors from stray pixels by hitting
-them with a powerfull burst."
+them with a powerful burst."
 text = "Collect colors from stray pixels by hitting
-them with a powerfull burst."
+them with a powerful burst."
 fit_content_height = true
 scroll_active = false
 
 [node name="Line5" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
-margin_top = 98.0
+margin_top = 106.0
 margin_right = 336.0
-margin_bottom = 194.0
+margin_bottom = 202.0
 bbcode_enabled = true
-bbcode_text = "Press and hold the BURST KEY to initiate
-the burst and build power by pressing 
-a DIRECTION KEY in a direction away
-from the target."
-text = "Press and hold the BURST KEY to initiate
-the burst and build power by pressing 
-a DIRECTION KEY in a direction away
-from the target."
+bbcode_text = "> Press and hold the BURST KEY to 
+initiate the burst and build power by pressing a DIRECTION KEY in a direction away from the target."
+text = "> Press and hold the BURST KEY to 
+initiate the burst and build power by pressing a DIRECTION KEY in a direction away from the target."
 fit_content_height = true
 scroll_active = false
 
 [node name="Line7" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
-margin_top = 202.0
+margin_top = 210.0
 margin_right = 336.0
-margin_bottom = 226.0
+margin_bottom = 234.0
 bbcode_enabled = true
-bbcode_text = "Release the BURST KEY to burst away."
-text = "Release the BURST KEY to burst away."
+bbcode_text = "> Release the BURST KEY to burst away."
+text = "> Release the BURST KEY to burst away."
 fit_content_height = true
 scroll_active = false
 
 [node name="Line8" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
-margin_top = 233.0
+margin_top = 241.0
 margin_right = 344.0
-margin_bottom = 257.0
+margin_bottom = 265.0
 bbcode_enabled = true
-bbcode_text = "Stop by pressing the BURST KEY again."
-text = "Stop by pressing the BURST KEY again."
-fit_content_height = true
-scroll_active = false
-
-[node name="Tips" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
-margin_top = 274.0
-margin_right = 360.0
-margin_bottom = 298.0
-custom_colors/default_color = Color( 1, 1, 1, 0.470588 )
-bbcode_enabled = true
-bbcode_text = "HINTS"
-text = "HINTS"
+bbcode_text = "> Stop by pressing the BURST KEY again."
+text = "> Stop by pressing the BURST KEY again."
 fit_content_height = true
 scroll_active = false
 
 [node name="Line3" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
-margin_top = 305.0
+margin_top = 281.0
 margin_right = 328.0
-margin_bottom = 353.0
+margin_bottom = 329.0
 bbcode_enabled = true
-bbcode_text = "You will lose your life if you burst into 
+bbcode_text = "! You will lose life if you burst into
 a screen edge or any white pixel."
-text = "You will lose your life if you burst into 
+text = "! You will lose life if you burst into
 a screen edge or any white pixel."
 fit_content_height = true
 scroll_active = false
 
 [node name="Line4" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
-margin_top = 362.0
+margin_top = 338.0
 margin_right = 320.0
-margin_bottom = 410.0
+margin_bottom = 386.0
 bbcode_enabled = true
-bbcode_text = "White pixels can be eliminated only by
-destroying a colored pixel beside them."
-text = "White pixels can be eliminated only by
-destroying a colored pixel beside them."
+bbcode_text = "! White pixel can onyl be eliminated by
+destroying a colored pixel beside it."
+text = "! White pixel can onyl be eliminated by
+destroying a colored pixel beside it."
 fit_content_height = true
 scroll_active = false
 
 [node name="SkillingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 0, 232 )
@@ -596,55 +590,42 @@ fit_content_height = true
 scroll_active = false
 
 [node name="Line4" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
-margin_top = 98.0
-margin_right = 336.0
-margin_bottom = 218.0
+margin_top = 106.0
+margin_right = 344.0
+margin_bottom = 202.0
 bbcode_enabled = true
-bbcode_text = "To connect to a pixel you are touching
-press in a direction toward it. Then 
-hold the same direction to push, 
-or press the opposite direction to 
-pull the pixel."
-text = "To connect to a pixel you are touching
-press in a direction toward it. Then 
-hold the same direction to push, 
-or press the opposite direction to 
-pull the pixel."
+bbcode_text = "> To connect to a pixel you are touching,
+press in a direction toward it. Then hold
+in the same direction to push, or press
+the opposite direction to pull."
+text = "> To connect to a pixel you are touching,
+press in a direction toward it. Then hold
+in the same direction to push, or press
+the opposite direction to pull."
 fit_content_height = true
 scroll_active = false
 
 [node name="Line5" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
-margin_top = 226.0
+margin_top = 210.0
 margin_right = 328.0
-margin_bottom = 280.0
+margin_bottom = 264.0
 size_flags_vertical = 3
 bbcode_enabled = true
-bbcode_text = "Teleport over a white pixel the same
+bbcode_text = "> Teleport over a white pixel the same
 way you would push a colored one."
-text = "Teleport over a white pixel the same
+text = "> Teleport over a white pixel the same
 way you would push a colored one."
-fit_content_height = true
-scroll_active = false
-
-[node name="Tips" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
-margin_top = 290.0
-margin_right = 360.0
-margin_bottom = 314.0
-custom_colors/default_color = Color( 1, 1, 1, 0.470588 )
-bbcode_enabled = true
-bbcode_text = "HINT"
-text = "HINT"
 fit_content_height = true
 scroll_active = false
 
 [node name="Line2" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
-margin_top = 322.0
+margin_top = 274.0
 margin_right = 336.0
-margin_bottom = 394.0
+margin_bottom = 346.0
 bbcode_enabled = true
-bbcode_text = "Use skills to arrange pixels into large stacks or to eliminate singled-out 
+bbcode_text = "! Use skills to arrange pixels into large stacks or to eliminate singled-out 
 white pixels."
-text = "Use skills to arrange pixels into large stacks or to eliminate singled-out 
+text = "! Use skills to arrange pixels into large stacks or to eliminate singled-out 
 white pixels."
 fit_content_height = true
 scroll_active = false
@@ -679,6 +660,7 @@ fit_content_height = true
 scroll_active = false
 
 [node name="Tips" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/StackingContent"]
+visible = false
 margin_top = 218.0
 margin_right = 320.0
 margin_bottom = 242.0
@@ -694,16 +676,14 @@ margin_top = 98.0
 margin_right = 328.0
 margin_bottom = 152.0
 bbcode_enabled = true
-bbcode_text = "The number of colors you collect in 
-this way depends on the burst power."
-text = "The number of colors you collect in 
-this way depends on the burst power."
+bbcode_text = "The number of stacked colors you collect depends on the burst power."
+text = "The number of stacked colors you collect depends on the burst power."
 fit_content_height = true
 scroll_active = false
 
 [node name="Line3" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/StackingContent"]
 margin_top = 154.0
-margin_right = 320.0
+margin_right = 328.0
 margin_bottom = 202.0
 bbcode_enabled = true
 bbcode_text = "Burst with maximum power and collect 
@@ -714,37 +694,37 @@ fit_content_height = true
 scroll_active = false
 
 [node name="Line4" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/StackingContent"]
-margin_top = 306.0
+margin_top = 274.0
 margin_right = 336.0
-margin_bottom = 354.0
+margin_bottom = 322.0
 bbcode_enabled = true
-bbcode_text = "Points per color will multiply for every additional color collected in one burst."
-text = "Points per color will multiply for every additional color collected in one burst."
+bbcode_text = "! Points per color will multiply for every additional color collected in one burst."
+text = "! Points per color will multiply for every additional color collected in one burst."
 fit_content_height = true
 scroll_active = false
 
 [node name="PointsLabel" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/StackingContent"]
 unique_name_in_owner = true
-margin_top = 250.0
-margin_right = 320.0
-margin_bottom = 298.0
+margin_top = 218.0
+margin_right = 336.0
+margin_bottom = 266.0
 bbcode_enabled = true
-bbcode_text = "You get %1 points per color collected, 
+bbcode_text = "! You get %1 points per color collected, 
 and %00 points per white eliminated."
-text = "You get %1 points per color collected, 
+text = "! You get %1 points per color collected, 
 and %00 points per white eliminated."
 fit_content_height = true
 scroll_active = false
 
 [node name="PointsCleanedLabel" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/StackingContent"]
 unique_name_in_owner = true
-margin_top = 362.0
+margin_top = 330.0
 margin_right = 336.0
-margin_bottom = 410.0
+margin_bottom = 378.0
 bbcode_enabled = true
-bbcode_text = "You get rewarded %001 bonus points
+bbcode_text = "! You get rewarded %001 bonus points
 if you manage to clean the screen."
-text = "You get rewarded %001 bonus points
+text = "! You get rewarded %001 bonus points
 if you manage to clean the screen."
 fit_content_height = true
 scroll_active = false
@@ -753,6 +733,7 @@ scroll_active = false
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_bottom = -272.0
 rect_min_size = Vector2( 0, 232 )
 
 [node name="Title" type="Label" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
@@ -799,6 +780,21 @@ bbcode_text = "Enjoy the game!"
 text = "Enjoy the game!"
 fit_content_height = true
 scroll_active = false
+
+[node name="SelfdestructLabel" type="Label" parent="GUI/Tutorial/Checkpoints/WinLoseContent"]
+margin_top = 210.0
+margin_right = 328.0
+margin_bottom = 258.0
+rect_min_size = Vector2( 0, 30 )
+theme_type_variation = "Lerimama_lite"
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+custom_fonts/font = ExtResource( 5 )
+custom_styles/normal = SubResource( 357 )
+text = "This tutorial panel will self-destruct after 3 successful bursts. "
+autowrap = true
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="Controls" parent="GUI/Tutorial/Checkpoints" instance=ExtResource( 12 )]
 margin_left = 1.0
@@ -1161,6 +1157,7 @@ one_shot = true
 [connection signal="timeout" from="RespawnTimer" to="GameManager" method="_on_RespawnTimer_timeout"]
 
 [editable path="GUI/Hud"]
+[editable path="GUI/Hud/Header/GameTimerHunds"]
 [editable path="GUI/Tutorial/ActionHint"]
 [editable path="GUI/Tutorial/MissionPanel/ActionHint"]
 [editable path="GUI/GameOver"]

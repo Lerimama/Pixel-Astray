@@ -11,7 +11,7 @@ var traveling_directions: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vecto
 var skill_types: Array = ["push", "pull", "teleport"]
 var winlose_stage_time: float = 14
 var winlose_burst_count: int = 0 # raste z vsak on_hit_stray
-var winlose_burst_count_limit: int = 3
+var winlose_burst_count_limit: int = 2
 
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var winlose_content: Control = $Checkpoints/WinLoseContent
@@ -129,8 +129,7 @@ func close_tutorial():
 	# če se igra nadaljuje
 	if Global.game_manager.game_on:
 		Global.sound_manager.stop_music("game_music_on_gameover")
-		yield(get_tree().create_timer(1), "timeout")
-		Global.sound_manager.current_music_track_index = Global.game_manager.game_settings["game_music_track_index"]
+		Global.sound_manager.current_music_track_index = 0 # index komada classic igre ... Global.game_manager.game_settings["game_music_track_index"]
 		Global.sound_manager.play_music("game_music")
 		
 	

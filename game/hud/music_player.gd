@@ -11,11 +11,11 @@ onready var speaker_icon: Control = $SpeakerIcon
 func _input(event: InputEvent) -> void:
 	
 	if Global.game_manager.game_on and visible == true: # visible je, da deluje samo na enem plejerju
-		if Input.is_action_just_pressed("n") and visible == true: 
+		if Input.is_action_just_pressed("next") and visible == true: 
 			if not AudioServer.is_bus_mute(game_music_bus_index):
 				Global.sound_manager.skip_track()
 		
-		if Input.is_action_just_pressed("m") and visible == true:
+		if Input.is_action_just_pressed("mute") and visible == true:
 			AudioServer.set_bus_mute(game_music_bus_index, not AudioServer.is_bus_mute(game_music_bus_index))
 			if AudioServer.is_bus_mute(game_music_bus_index) or Global.sound_manager.game_music_set_to_off:
 				modulate.a = 0.6
