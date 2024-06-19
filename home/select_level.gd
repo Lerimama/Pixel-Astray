@@ -11,6 +11,7 @@ onready var solutions_btn: CheckButton = $SolutionsBtn
 
 onready var all_level_btns: Array# = btn_grid_container.get_children()
 onready var LevelBtn: PackedScene = preload("res://home/level_btn.tscn")
+onready var pixel_astray_level_btn: Button = $BtnsHolder/PixelAstrayLevelBtn
 
 
 func _ready() -> void:
@@ -19,7 +20,8 @@ func _ready() -> void:
 
 	set_level_btns()
 	connect_level_btns()	
-
+	
+	
 	if Profiles.solution_hint_on:
 		solutions_btn.pressed = true
 	else:
@@ -29,24 +31,40 @@ func _ready() -> void:
 
 	# menu btn group
 	$BackBtn.add_to_group(Global.group_menu_cancel_btns)
-		
+	
 		
 func set_level_btns():
 	
 	# zbrišem vzorčne gumbe v holderju
 	for btn in btn_grid_container.get_children():
-		btn.queue_free()
+		if not btn == pixel_astray_level_btn:
+			btn.queue_free()
 	
 	# spawnam nove gumbe za vsak tilemap_path (vmes preverjam zaporedje glede na ime fileta)
 	for n in Profiles.sweeper_level_tilemap_paths.size():
-		var level_number_as_string: String = "%02d" % (n + 1)
+		
+		# opredelim index levela in poiščem tilemap, ki ga ima v imenu
+		var level_number: int = n + 1
+		var level_number_as_string: String = "%02d" % (level_number)
+		
+		# za tilemap levela dodam nov gumb, če ni zadnji med all_levels_btns (pixel_astray) 
 		for tilemap_path in Profiles.sweeper_level_tilemap_paths:
-			if tilemap_path.rfind(level_number_as_string) >= 0:
-				var new_level_btn: Button = LevelBtn.instance()
-				btn_grid_container.add_child(new_level_btn)
-				new_level_btn.add_to_group(Global.group_menu_confirm_btns)
-				all_level_btns.append(new_level_btn)
-				break
+			var level_tilemap_no_position: int = tilemap_path.find_last(level_number_as_string) # index pozicije v stringu, -1 pomeni, da ga ne najde
+			var tilemap_index_in_folder: int = Profiles.sweeper_level_tilemap_paths.find(tilemap_path) #-1 poemni, da ga ne najde
+			# ko najde pravilno poimenovan tilemap, doda gumb gle na njegovo ime
+			if level_tilemap_no_position > -1:
+#				printt(level_number_as_string,tilemap_index_in_folder)
+				# spawnaj gumb za vsak tilemap, ki ni zadnji, če je zadnji pa obstoječi gumb samo poštimaj
+				if level_number < Profiles.sweeper_level_tilemap_paths.size():
+					var new_level_btn: Button = LevelBtn.instance()
+					btn_grid_container.add_child(new_level_btn)
+					new_level_btn.add_to_group(Global.group_menu_confirm_btns)
+					all_level_btns.append(new_level_btn)
+					break
+				elif level_number == Profiles.sweeper_level_tilemap_paths.size():
+					pixel_astray_level_btn.add_to_group(Global.group_menu_confirm_btns)
+					all_level_btns.append(pixel_astray_level_btn)
+					break
 	
 	var column_number: int = round(sqrt(Profiles.sweeper_level_tilemap_paths.size()))
 	btn_grid_container.columns = column_number
@@ -65,22 +83,36 @@ func set_level_btns():
 	solved_sweeper_btns = []
 	for btn in all_level_btns:
 		var btn_index: int = all_level_btns.find(btn)
-		var btn_level_number: int = btn_index + 1
+		
+		var btn_level_number: int = btn_index + 1 # ... + 1 ne rabim ker je gumb 0 premaknjen na konec drevesa 
+		
 		# level name
-		btn.get_node("VBoxContainer/Label").text = "%02d" % btn_level_number
+		if btn == pixel_astray_level_btn:
+			pass # ročno zapisano v nodetu
+		else:
+			btn.get_node("VBoxContainer/Label").text = "%02d" % btn_level_number
+		
 		# osnovna barva ozadja
 		btn.self_modulate = unfocused_color
+		
 		# preverim če je rešen
 		if btn_level_number in solved_levels:
 			solved_sweeper_btns.append(btn)
 			btn.get_node("VBoxContainer/Label").modulate = btn_colors[btn_index]
 			btn.get_node("VBoxContainer/Solved").modulate = btn_colors[btn_index]
 			btn.get_node("VBoxContainer/Solved").show()
+			if btn == pixel_astray_level_btn:
+				btn.get_node("VBoxContainer/Label2").modulate = Global.color_gui_gray
 		else:
 			btn.get_node("VBoxContainer/Label").modulate = Global.color_gui_gray
 			btn.get_node("VBoxContainer/Solved").hide()
+			if btn == pixel_astray_level_btn:
+				btn.get_node("VBoxContainer/Label2").modulate = Global.color_gui_gray
+		
+		pixel_astray_level_btn.raise() # move the Blood node to just above the Floor in the tr
 
-	
+
+
 # btns ---------------------------------------------------------------------------------------------
 
 
@@ -99,6 +131,8 @@ func _on_btn_hovered_or_focused(btn):
 	btn.self_modulate = btn_colors[all_level_btns.find(btn)]
 	btn.get_node("VBoxContainer/Label").modulate = Color.white
 	btn.get_node("VBoxContainer/Solved").modulate = Color.white
+	if btn == pixel_astray_level_btn:
+		btn.get_node("VBoxContainer/Label2").modulate = Color.white	
 	
 	
 func _on_btn_unhovered_or_unfocused(btn):
@@ -107,8 +141,12 @@ func _on_btn_unhovered_or_unfocused(btn):
 	if solved_sweeper_btns.has(btn):
 		btn.get_node("VBoxContainer/Label").modulate = btn_colors[all_level_btns.find(btn)]
 		btn.get_node("VBoxContainer/Solved").modulate = btn_colors[all_level_btns.find(btn)]
+		if btn == pixel_astray_level_btn:
+			btn.get_node("VBoxContainer/Label2").modulate = btn_colors[all_level_btns.find(btn)]
 	else:
 		btn.get_node("VBoxContainer/Label").modulate = Global.color_gui_gray
+		if btn == pixel_astray_level_btn:
+			btn.get_node("VBoxContainer/Label2").modulate = Global.color_gui_gray	
 	
 	
 func _on_btn_pressed(btn):
@@ -120,8 +158,15 @@ func play_selected_level(selected_level: int):
 	
 	# set sweeper level
 	Profiles.game_data_sweeper["level"] = selected_level
+	
 	# set sweeper game data
-	Profiles.set_game_data(Profiles.Games.SWEEPER)
+	var sweeper_settings = Profiles.set_game_data(Profiles.Games.SWEEPER)
+	# zmeraj gre na next level iz GO menija, se navoidla ugasnejo (so ugasnjena po defoltu)
+	if Profiles.default_game_settings["show_game_instructions"] == true: # igra ima navodila, če so navodila vklopljena 
+		printt("SW sett", sweeper_settings)
+		sweeper_settings["show_game_instructions"] = true
+		printt("SW sett", sweeper_settings)
+#	Global.game_manager.game_settings["show_game_instructions"]= false
 	Global.sound_manager.play_gui_sfx("menu_fade")
 	animation_player.play("play_level")
 	
@@ -132,7 +177,7 @@ func _on_BackBtn_pressed() -> void:
 	animation_player.play_backwards("select_level")
 
 
-func _on_SolutionsBtn_toggled(button_pressed: bool) -> void:
+func _on_SolutionsBtn_toggled(button_pressed: bool) -> void: # trenutno skirt in defokusiran
 	
 	if button_pressed:
 		 Profiles.solution_hint_on = true

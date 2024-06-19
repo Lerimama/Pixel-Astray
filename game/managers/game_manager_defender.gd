@@ -59,7 +59,8 @@ func set_game():
 
 
 	start_game()
-	Global.current_tilemap.background_room.hide()
+	#	Global.current_tilemap.background_room.hide()
+	Global.current_tilemap.tilemap_background.hide()
 		
 		
 func start_game():
@@ -89,7 +90,8 @@ func game_over(gameover_reason: int):
 	yield(get_tree().create_timer(Profiles.get_it_time), "timeout")
 	get_tree().call_group(Global.group_players, "set_physics_process", false)
 	stop_game_elements()
-	Global.current_tilemap.background_room.show()
+	Global.current_tilemap.tilemap_background.show()
+	#	Global.current_tilemap.background_room.show()
 	Global.gameover_gui.open_gameover(gameover_reason)
 
 

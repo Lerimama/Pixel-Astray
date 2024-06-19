@@ -1,7 +1,6 @@
 extends Control
 
 
-onready var title: Label = $Title
 onready var instructions: Control = $Instructions
 
 

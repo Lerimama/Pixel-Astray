@@ -7,7 +7,6 @@ signal gametime_is_up # pošlje se v hud, ki javi game managerju
 enum TimerStates {COUNTING, STOPPED, PAUSED}
 var current_timer_state: int = TimerStates.STOPPED
 
-var unlimited_mode: bool # če je gejm tajm 0 in je count-up mode
 var absolute_game_time: float # pozitiven čas igre v sekundah (na 2 decimalki)
 var countdown_second: int # za uravnavanje GO odštevanja ... opredeli s v ready
 
@@ -27,9 +26,10 @@ func _ready() -> void:
 	# večino setam ob štartu tajmerja
 	
 	modulate = Global.color_hud_text
-	# ker ga moduliram tukaj in je label ima na nodetusetano font color override
+	# ker ga moduliram tukaj in je label ima na node tu setano font color override
+	game_time_limit = Global.game_manager.game_settings["game_time_limit"]
 
-
+	
 func _process(delta: float) -> void:
 	
 	# če je ustavljen, se tukaj ustavim
@@ -44,6 +44,11 @@ func _process(delta: float) -> void:
 				$Mins.text = "00"
 				$Secs.text = "00"
 				$Hunds.text = "00"
+		
+		if absolute_game_time >= game_time_limit and stopwatch_mode:
+			$Mins.text = "00"
+			$Secs.text = "00"
+			$Hunds.text = "00"
 		return
 		
 	# game time
@@ -68,12 +73,14 @@ func _process(delta: float) -> void:
 		$Hunds.text = "%02d" % floor((game_time_left - floor(game_time_left)) * 100)	
 	
 	# time limits ... višja limita je prva, nižje sledijo 
-	if not unlimited_mode:
+	if not stopwatch_mode:
 		# game time is up
 		if absolute_game_time >= game_time_limit: 
-			modulate = Global.color_red
 			Global.sound_manager.play_gui_sfx("game_countdown_b")
 			stop_timer()
+			$Mins.text = "00"
+			$Secs.text = "00"
+			$Hunds.text = "00"
 			emit_signal("gametime_is_up") # pošlje se v hud, ki javi GM	
 		# GO countdown
 		elif absolute_game_time > (game_time_limit - gameover_countdown_duration):
@@ -98,11 +105,10 @@ func reset_timer():
 	
 func start_timer():
 	
-	game_time_limit = Global.game_manager.game_settings["game_time_limit"]
+	# je na ready game_time_limit = Global.game_manager.game_settings["game_time_limit"]
 	gameover_countdown_duration = 5 # čas, ko je obarvan in se sliši bip bip	
 
 	if game_time_limit == 0:
-		unlimited_mode = true
 		stopwatch_mode = true # avtomatično pač ...
 	countdown_second = gameover_countdown_duration	
 		
@@ -131,6 +137,7 @@ func stop_timer():
 	#	correction_timer.stop()	
 	current_timer_state = TimerStates.STOPPED
 	modulate = Global.color_red
+
 
 
 func _on_CorrectionTimer_timeout() -> void:

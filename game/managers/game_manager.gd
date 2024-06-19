@@ -56,9 +56,13 @@ func _unhandled_input(event: InputEvent) -> void:
 #	if Input.is_action_just_pressed("l"):
 #		upgrade_level()	
 	
-	if Input.is_action_just_pressed("hint"):
-		if game_data["game"] == Profiles.Games.SWEEPER:
-			Global.current_tilemap.get_node("SolutionLine").visible = not Global.current_tilemap.get_node("SolutionLine").visible
+	if Input.is_action_just_pressed("hint") and game_data["game"] == Profiles.Games.SWEEPER:
+		var solution_line: Line2D = Global.current_tilemap.get_node("SolutionLine")
+		var nosolution_hint: Node2D = Global.current_tilemap.get_node("NoHint")
+		if solution_line.points.empty():
+			nosolution_hint.visible = not nosolution_hint.visible
+		else:
+			solution_line.visible = not solution_line.visible
 		
 	
 func _ready() -> void:
@@ -174,8 +178,16 @@ func set_game():
 	else:
 		yield(get_tree().create_timer(Global.hud.hud_in_out_time), "timeout") # da se res prizumira, če ni game start countdown
 	
+	# mehkejše za manjše ekrane
+	if game_data["game"] == Profiles.Games.CLEANER_XS or game_data["game"] == Profiles.Games.CLEANER_S:
+		Global.game_camera.smoothing_speed = 5
+	
 	start_game()
-	Global.current_tilemap.background_room.hide()
+	
+	# ko je edge size manjši od kamere, ozadja ne skrijem
+	#	if not game_data["game"] == Profiles.Games.CLEANER_XS and not game_data["game"] == Profiles.Games.CLEANER_XS:
+	# Global.current_tilemap.background_room.hide()
+	Global.current_tilemap.tilemap_background.hide()
 
 
 # GAME LOOP --------------------------------------------------------------------------------------
@@ -223,7 +235,8 @@ func game_over(gameover_reason: int):
 		
 	stop_game_elements()
 	get_tree().call_group(Global.group_players, "set_physics_process", false)
-	Global.current_tilemap.background_room.show()
+	Global.current_tilemap.tilemap_background.show()
+	#	Global.current_tilemap.background_room.show()
 	Global.gameover_gui.open_gameover(gameover_reason)
 
 
@@ -264,6 +277,7 @@ func set_new_level():
 		game_data["level_goal_count"] += game_data["level_goal_count_grow"]
 	
 	game_data["level"] = current_level
+
 
 func upgrade_level(upgrade_on_cleaned: bool =  false): # cleaner
 	
@@ -382,9 +396,11 @@ func create_strays(strays_to_spawn_count: int):
 		
 		# je white? ... če pozicija bela in, če je index večji od planiranega deleža belih
 		var turn_to_white: bool = false
-		var spawn_white_spawn_limit: int = strays_to_spawn_count - round(strays_to_spawn_count * spawn_white_stray_part)
-		if wall_spawn_positions.has(selected_cell_position) or stray_index > spawn_white_spawn_limit: 
-			turn_to_white = true
+		
+		if not game_data["game"] == Profiles.Games.THE_DUEL and not game_data["game"] == Profiles.Games.ERASER:
+			var spawn_white_spawn_limit: int = strays_to_spawn_count - round(strays_to_spawn_count * spawn_white_stray_part)
+			if wall_spawn_positions.has(selected_cell_position) or stray_index > spawn_white_spawn_limit: 
+				turn_to_white = true
 
 		# setam zasedenost pozicije
 		var selected_stray_position_is_free: bool = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=88 format=2]
+[gd_scene load_steps=112 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -18,11 +18,14 @@
 [ext_resource path="res://home/about.gd" type="Script" id=16]
 [ext_resource path="res://home/select_level.gd" type="Script" id=17]
 [ext_resource path="res://assets/theme/color_theme_spectrum.png" type="Texture" id=18]
+[ext_resource path="res://assets/theme/font_big.tres" type="DynamicFont" id=19]
+[ext_resource path="res://assets/theme/box_colored_white.tres" type="StyleBox" id=20]
 [ext_resource path="res://game/gui/highscore_table.tscn" type="PackedScene" id=21]
 [ext_resource path="res://game/gui/controls_scheme.tscn" type="PackedScene" id=22]
 [ext_resource path="res://game/gui/shortcut_line.tscn" type="PackedScene" id=23]
 [ext_resource path="res://assets/theme/box_game_btn_focus.tres" type="StyleBox" id=24]
 [ext_resource path="res://home/level_btn.tscn" type="PackedScene" id=25]
+[ext_resource path="res://assets/theme/font_main_small.tres" type="DynamicFont" id=26]
 
 [sub_resource type="StyleBoxEmpty" id=208]
 
@@ -375,6 +378,162 @@ region = Rect2( 2, 67, 6, 10 )
 [sub_resource type="StyleBoxEmpty" id=478]
 
 [sub_resource type="StyleBoxEmpty" id=151]
+
+[sub_resource type="AtlasTexture" id=480]
+atlas = ExtResource( 2 )
+region = Rect2( 16, 3, 14, 10 )
+filter_clip = true
+
+[sub_resource type="StyleBoxEmpty" id=427]
+
+[sub_resource type="StreamTexture" id=444]
+load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
+
+[sub_resource type="AtlasTexture" id=428]
+atlas = SubResource( 444 )
+region = Rect2( 16, 16, 14, 16 )
+
+[sub_resource type="AtlasTexture" id=429]
+atlas = SubResource( 444 )
+region = Rect2( 0, 16, 10, 16 )
+
+[sub_resource type="StyleBoxFlat" id=430]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+expand_margin_left = 6.0
+expand_margin_right = 6.0
+expand_margin_top = 2.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxEmpty" id=431]
+
+[sub_resource type="StyleBoxEmpty" id=432]
+
+[sub_resource type="StyleBoxLine" id=433]
+color = Color( 1, 1, 1, 1 )
+thickness = 2
+
+[sub_resource type="AtlasTexture" id=434]
+atlas = SubResource( 444 )
+region = Rect2( 32, 0, 10, 10 )
+
+[sub_resource type="StyleBoxEmpty" id=435]
+
+[sub_resource type="StyleBoxFlat" id=436]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+expand_margin_left = 6.0
+expand_margin_top = 6.0
+expand_margin_bottom = 6.0
+
+[sub_resource type="StreamTexture" id=437]
+load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
+
+[sub_resource type="AtlasTexture" id=445]
+atlas = SubResource( 437 )
+region = Rect2( 0, 4, 16, 8 )
+
+[sub_resource type="StyleBoxTexture" id=438]
+texture = SubResource( 445 )
+region_rect = Rect2( 0, 0, 16, 8 )
+margin_left = 3.34132
+margin_right = 4.0
+margin_top = 4.0
+margin_bottom = 4.0
+modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+
+[sub_resource type="StyleBoxFlat" id=439]
+bg_color = Color( 0, 0, 0, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="AtlasTexture" id=440]
+atlas = SubResource( 444 )
+region = Rect2( 16, 0, 16, 12 )
+margin = Rect2( 4, 0, 0, 0 )
+
+[sub_resource type="StyleBoxFlat" id=441]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 0.901961 )
+expand_margin_left = 6.0
+expand_margin_right = 6.0
+expand_margin_top = 2.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxFlat" id=442]
+bg_color = Color( 0, 0, 0, 0.862745 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
+
+[sub_resource type="StyleBoxLine" id=443]
+color = Color( 1, 1, 1, 1 )
+thickness = 2
+vertical = true
+
+[sub_resource type="Theme" id=446]
+default_font = ExtResource( 1 )
+Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
+Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
+Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
+Button/styles/disabled = SubResource( 427 )
+Button/styles/focus = SubResource( 427 )
+Button/styles/hover = SubResource( 427 )
+Button/styles/normal = SubResource( 427 )
+Button/styles/pressed = SubResource( 427 )
+CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
+CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
+CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
+CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
+CheckBox/constants/hseparation = 4
+CheckBox/icons/checked = SubResource( 428 )
+CheckBox/icons/unchecked = SubResource( 429 )
+CheckBox/styles/focus = SubResource( 430 )
+CheckBox/styles/hover = SubResource( 430 )
+CheckBox/styles/hover_pressed = SubResource( 430 )
+CheckBox/styles/normal = SubResource( 431 )
+CheckBox/styles/pressed = SubResource( 432 )
+HSeparator/styles/separator = SubResource( 433 )
+HSlider/icons/grabber = SubResource( 434 )
+HSlider/icons/grabber_disabled = null
+HSlider/icons/grabber_highlight = SubResource( 434 )
+HSlider/icons/tick = null
+HSlider/styles/grabber_area = SubResource( 435 )
+HSlider/styles/grabber_area_highlight = SubResource( 436 )
+HSlider/styles/slider = SubResource( 438 )
+Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
+Label/constants/line_spacing = 6
+LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
+LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
+LineEdit/styles/normal = SubResource( 439 )
+OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+OptionButton/icons/arrow = SubResource( 440 )
+OptionButton/styles/focus = SubResource( 441 )
+OptionButton/styles/hover = SubResource( 441 )
+OptionButton/styles/pressed = SubResource( 441 )
+Panel/styles/panel = SubResource( 442 )
+VSeparator/styles/separator = SubResource( 443 )
 
 [sub_resource type="StyleBoxFlat" id=279]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
@@ -1134,7 +1293,8 @@ rect_min_size = Vector2( 1280, 720 )
 color = Color( 0, 0, 0, 1 )
 
 [node name="IntroViewPortContainer" type="ViewportContainer" parent="."]
-margin_right = 2560.0
+margin_left = 6.0
+margin_right = 2566.0
 margin_bottom = 1440.0
 rect_scale = Vector2( 0.5, 0.5 )
 
@@ -1448,9 +1608,9 @@ custom_constants/separation = 32
 alignment = 1
 
 [node name="SelectGameBtn" type="Button" parent="Menu"]
-margin_left = 50.0
+margin_left = 127.0
 margin_top = 3.0
-margin_right = 106.0
+margin_right = 183.0
 margin_bottom = 25.0
 focus_neighbour_right = NodePath("../SettingsBtn")
 focus_mode = 1
@@ -1460,9 +1620,9 @@ enabled_focus_mode = 1
 text = "PLAY"
 
 [node name="SettingsBtn" type="Button" parent="Menu"]
-margin_left = 138.0
+margin_left = 215.0
 margin_top = 3.0
-margin_right = 246.0
+margin_right = 323.0
 margin_bottom = 25.0
 focus_neighbour_left = NodePath("../SelectGameBtn")
 focus_neighbour_right = NodePath("../HighscoresBtn")
@@ -1473,9 +1633,9 @@ enabled_focus_mode = 1
 text = "SETTINGS"
 
 [node name="HighscoresBtn" type="Button" parent="Menu"]
-margin_left = 278.0
+margin_left = 355.0
 margin_top = 3.0
-margin_right = 414.0
+margin_right = 491.0
 margin_bottom = 25.0
 focus_neighbour_left = NodePath("../SettingsBtn")
 focus_neighbour_right = NodePath("../AboutBtn")
@@ -1486,9 +1646,9 @@ enabled_focus_mode = 1
 text = "HIGHSCORES"
 
 [node name="AboutBtn" type="Button" parent="Menu"]
-margin_left = 446.0
+margin_left = 523.0
 margin_top = 3.0
-margin_right = 516.0
+margin_right = 593.0
 margin_bottom = 25.0
 focus_neighbour_left = NodePath("../HighscoresBtn")
 focus_neighbour_right = NodePath("../QuitGameBtn")
@@ -1499,6 +1659,7 @@ enabled_focus_mode = 1
 text = "ABOUT"
 
 [node name="QuitGameBtn" type="Button" parent="Menu"]
+visible = false
 margin_left = 548.0
 margin_top = 3.0
 margin_right = 670.0
@@ -1524,9 +1685,9 @@ script = ExtResource( 16 )
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -64.0
-margin_top = 13.0
+margin_top = 10.0
 margin_right = -40.0
-margin_bottom = 35.0
+margin_bottom = 32.0
 rect_min_size = Vector2( 16, 16 )
 rect_rotation = 89.9999
 mouse_default_cursor_shape = 2
@@ -1624,8 +1785,8 @@ by Andrej Lehrman."
 autowrap = true
 
 [node name="Controls" parent="About/Controls" instance=ExtResource( 22 )]
-margin_top = 42.0
-margin_bottom = 170.0
+margin_top = 34.0
+margin_bottom = 162.0
 
 [node name="SpecThanks" type="Label" parent="About"]
 anchor_left = 0.5
@@ -1930,561 +2091,6 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="ColorRect" type="ColorRect" parent="About"]
-visible = false
-margin_left = 64.0
-margin_top = 40.0
-margin_right = 392.0
-margin_bottom = 80.0
-
-[node name="ColorRect2" type="ColorRect" parent="About"]
-visible = false
-margin_left = 472.0
-margin_top = 40.0
-margin_right = 800.0
-margin_bottom = 80.0
-
-[node name="ColorRect3" type="ColorRect" parent="About"]
-visible = false
-margin_left = 888.0
-margin_top = 40.0
-margin_right = 1216.0
-margin_bottom = 80.0
-
-[node name="_About_orig" type="Control" parent="."]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = 720.0
-margin_right = 1280.0
-margin_bottom = 1320.0
-rect_min_size = Vector2( 1280, 500 )
-theme = ExtResource( 15 )
-script = ExtResource( 16 )
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="BackBtn" type="TextureButton" parent="_About_orig"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -64.0
-margin_top = 13.0
-margin_right = -40.0
-margin_bottom = 35.0
-rect_min_size = Vector2( 16, 16 )
-rect_rotation = 89.9999
-mouse_default_cursor_shape = 2
-texture_normal = SubResource( 195 )
-texture_hover = SubResource( 196 )
-texture_focused = SubResource( 196 )
-flip_h = true
-
-[node name="Title" type="Label" parent="_About_orig"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -49.0
-margin_top = 6.0
-margin_right = 50.0
-margin_bottom = 38.0
-size_flags_horizontal = 3
-custom_colors/font_color = Color( 0.294118, 0.623529, 1, 1 )
-custom_fonts/font = ExtResource( 4 )
-text = "About"
-align = 1
-
-[node name="HSeparator" type="HSeparator" parent="_About_orig/Title"]
-visible = false
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 1.0
-margin_top = 7.0
-margin_right = -4.0
-margin_bottom = 11.0
-
-[node name="Credits" type="Control" parent="_About_orig"]
-margin_left = 448.0
-margin_top = 80.0
-margin_right = 832.0
-margin_bottom = 496.0
-rect_min_size = Vector2( 320, 0 )
-rect_clip_content = true
-size_flags_horizontal = 3
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" type="Label" parent="_About_orig/Credits"]
-margin_top = -2.0
-margin_right = 272.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-text = "Resources credits"
-uppercase = true
-
-[node name="VBoxContainer" type="VBoxContainer" parent="_About_orig/Credits"]
-anchor_right = 1.0
-margin_left = 1.0
-margin_top = 34.0
-margin_right = -3.0
-margin_bottom = 424.0
-size_flags_horizontal = 3
-custom_constants/separation = -6
-
-[node name="CreditsLine" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
-margin_right = 380.0
-margin_bottom = 30.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Sfx [url=https://opengameart.org/content/mushroom-%F0%9F%94%8A]Mushroom by Modanung[/url]"
-text = ". Sfx Mushroom by Modanung"
-fit_content_height = true
-
-[node name="CreditsLine2" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
-margin_top = 24.0
-margin_right = 380.0
-margin_bottom = 54.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Sfx [url=https://opengameart.org/content/game-over-0]Game Over! by Zuvizu[/url]"
-text = ". Sfx Game Over! by Zuvizu"
-fit_content_height = true
-
-[node name="CreditsLine3" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
-margin_top = 48.0
-margin_right = 380.0
-margin_bottom = 78.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Sfx [url=https://opengameart.org/content/countdown]Countdown by Destructavator[/url]"
-text = ". Sfx Countdown by Destructavator"
-fit_content_height = true
-
-[node name="CreditsLine4" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
-margin_top = 72.0
-margin_right = 380.0
-margin_bottom = 102.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Sfx [url=https://freesound.org/people/potentjello/sounds/194081]Woosh noise by Potentjello[/url]"
-text = ". Sfx Woosh noise by Potentjello"
-fit_content_height = true
-
-[node name="CreditsLine5" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
-margin_top = 96.0
-margin_right = 380.0
-margin_bottom = 126.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Sfx [url=https://freesound.org/people/firecamel/sounds/169349/]Cartoon Blink by Firecamel[/url]"
-text = ". Sfx Cartoon Blink by Firecamel"
-fit_content_height = true
-
-[node name="CreditsLine6" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
-margin_top = 120.0
-margin_right = 380.0
-margin_bottom = 150.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Sfx [url=https://freesound.org/people/guillermochicasonido/sounds]Static by Guillermochicasonido[/url]"
-text = ". Sfx Static by Guillermochicasonido"
-fit_content_height = true
-
-[node name="CreditsLine7" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
-margin_top = 144.0
-margin_right = 380.0
-margin_bottom = 174.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Sfx [url=ttps://freesound.org/people/Jovica/sounds/7864]Basic pulse wave 3 E1 by Jovica[/url]"
-text = ". Sfx Basic pulse wave 3 E1 by Jovica"
-fit_content_height = true
-
-[node name="CreditsLine8" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
-margin_top = 168.0
-margin_right = 380.0
-margin_bottom = 198.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Sfx [url=https://freesound.org/people/natharra/sounds/71467/]Blink 2 cling by Natharra[/url]"
-text = ". Sfx Blink 2 cling by Natharra"
-fit_content_height = true
-
-[node name="CreditsLine18" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
-margin_top = 192.0
-margin_right = 380.0
-margin_bottom = 222.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Sfx [url=https://freesound.org/search/?q=421624]Sparkier remix#2 by Timbre[/url]"
-text = ". Sfx Sparkier remix#2 by Timbre"
-fit_content_height = true
-
-[node name="CreditsLine11" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
-margin_top = 216.0
-margin_right = 380.0
-margin_bottom = 246.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Game track Dream - [url=https://freesound.org/people/3M4/sounds/457363]Trap beat 2[/url]"
-text = ". Game track Dream - Trap beat 2"
-fit_content_height = true
-
-[node name="CreditsLine12" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
-margin_top = 240.0
-margin_right = 380.0
-margin_bottom = 270.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Game track Loose - [url=http://abstractionmusic.bandcamp.com]Goal Reward Loop[/url]"
-text = ". Game track Loose - Goal Reward Loop"
-fit_content_height = true
-
-[node name="CreditsLine13" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
-margin_top = 264.0
-margin_right = 380.0
-margin_bottom = 294.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Game track Tilt - [url=http://abstractionmusic.bandcamp.com]Ludum Dare 28[/url]"
-text = ". Game track Tilt - Ludum Dare 28"
-fit_content_height = true
-
-[node name="CreditsLine14" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
-margin_top = 288.0
-margin_right = 380.0
-margin_bottom = 318.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Game track Beats - [url=https://www.bensound.com/royalty-free-music/track/moose]Moose[/url]"
-text = ". Game track Beats - Moose"
-fit_content_height = true
-
-[node name="CreditsLine15" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
-margin_top = 312.0
-margin_right = 380.0
-margin_bottom = 342.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Menu track [url=https://thmatc.co/?l=B6F7EDE0]9 Minute Warm up[/url]"
-text = ". Menu track 9 Minute Warm up"
-fit_content_height = true
-
-[node name="CreditsLine16" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
-margin_top = 336.0
-margin_right = 380.0
-margin_bottom = 366.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Font [url=https://www.pentacom.jp/pentacom/bitfontmaker2/gallery/?id=246]16bfZX by Petrnita[/url]"
-text = ". Font 16bfZX by Petrnita"
-fit_content_height = true
-
-[node name="CreditsLine17" type="RichTextLabel" parent="_About_orig/Credits/VBoxContainer"]
-margin_top = 360.0
-margin_right = 380.0
-margin_bottom = 390.0
-bbcode_enabled = true
-bbcode_text = "[b].[/b] Font [url=https://www.pentacom.jp/pentacom/bitfontmaker2/gallery/?id=357]Habbo by Omny[/url]"
-text = ". Font Habbo by Omny"
-fit_content_height = true
-
-[node name="Thanks" type="Control" parent="_About_orig"]
-margin_left = 64.0
-margin_top = 80.0
-margin_right = 448.0
-margin_bottom = 496.0
-rect_min_size = Vector2( 384, 0 )
-size_flags_horizontal = 3
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title1" type="Label" parent="_About_orig/Thanks"]
-anchor_right = 1.0
-margin_top = -2.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-text = "Made by"
-uppercase = true
-
-[node name="Label1" type="Label" parent="_About_orig/Thanks"]
-anchor_right = 1.0
-margin_top = 40.0
-margin_right = -64.0
-margin_bottom = 106.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 14 )
-text = "Story, copywriting, design, graphics,
-sound editing and game development
-by Andrej Lehrman."
-autowrap = true
-
-[node name="Title2" type="Label" parent="_About_orig/Thanks"]
-anchor_right = 1.0
-margin_top = 142.0
-margin_bottom = 164.0
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-text = "Special thanks"
-uppercase = true
-
-[node name="Label2" type="Label" parent="_About_orig/Thanks"]
-anchor_right = 1.0
-margin_top = 184.0
-margin_right = -32.0
-margin_bottom = 250.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 14 )
-text = "To my family for their encouragement
-and support throughout the whole
-development process."
-autowrap = true
-
-[node name="Label3" type="Label" parent="_About_orig/Thanks"]
-anchor_right = 1.0
-margin_top = 272.0
-margin_right = -24.0
-margin_bottom = 362.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 14 )
-text = "So many game developers for 
-sharing their knowledge, experience
-and projects over the internet."
-autowrap = true
-
-[node name="ControlsShorts" type="Control" parent="_About_orig"]
-margin_left = 856.0
-margin_top = 80.0
-margin_right = 1248.0
-margin_bottom = 496.0
-rect_min_size = Vector2( 320, 0 )
-size_flags_horizontal = 3
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" type="Label" parent="_About_orig/ControlsShorts"]
-anchor_right = 1.0
-margin_top = -2.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-text = "GUI SHORTCUTS"
-uppercase = true
-
-[node name="ShortcutLine4" parent="_About_orig/ControlsShorts" instance=ExtResource( 23 )]
-anchor_left = 0.0
-anchor_right = 0.0
-margin_left = 1.0
-margin_top = 35.0
-margin_right = 356.0
-margin_bottom = 63.0
-
-[node name="KEY" parent="_About_orig/ControlsShorts/ShortcutLine4" index="1"]
-margin_right = 47.0
-text = "ESC"
-
-[node name="or2" parent="_About_orig/ControlsShorts/ShortcutLine4" index="2"]
-margin_left = 47.0
-margin_right = 80.0
-
-[node name="L1" parent="_About_orig/ControlsShorts/ShortcutLine4" index="3"]
-margin_left = 80.0
-margin_right = 102.0
-texture = SubResource( 190 )
-
-[node name="Label3" parent="_About_orig/ControlsShorts/ShortcutLine4" index="4"]
-margin_left = 102.0
-margin_right = 355.0
-text = " to go back to previous screen"
-
-[node name="ShortcutLine5" parent="_About_orig/ControlsShorts" instance=ExtResource( 23 )]
-anchor_left = 0.0
-anchor_right = 0.0
-margin_left = 1.0
-margin_top = 67.0
-margin_right = 303.0
-margin_bottom = 95.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="KEY" parent="_About_orig/ControlsShorts/ShortcutLine5" index="1"]
-margin_right = 80.0
-text = "RETURN"
-
-[node name="or2" parent="_About_orig/ControlsShorts/ShortcutLine5" index="2"]
-margin_left = 80.0
-margin_right = 113.0
-
-[node name="L1" parent="_About_orig/ControlsShorts/ShortcutLine5" index="3"]
-margin_left = 113.0
-margin_right = 135.0
-texture = SubResource( 475 )
-
-[node name="Label3" parent="_About_orig/ControlsShorts/ShortcutLine5" index="4"]
-margin_left = 135.0
-margin_right = 302.0
-text = " to confirm selection"
-
-[node name="ShortcutLine7" parent="_About_orig/ControlsShorts" instance=ExtResource( 23 )]
-anchor_left = 0.0
-anchor_right = 0.0
-margin_left = 1.0
-margin_top = 99.0
-margin_right = 387.0
-margin_bottom = 127.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="KEY" parent="_About_orig/ControlsShorts/ShortcutLine7" index="1"]
-margin_right = 25.0
-text = "R"
-
-[node name="or2" parent="_About_orig/ControlsShorts/ShortcutLine7" index="2"]
-margin_left = 25.0
-margin_right = 58.0
-
-[node name="L1" parent="_About_orig/ControlsShorts/ShortcutLine7" index="3"]
-margin_left = 58.0
-margin_right = 98.0
-texture = SubResource( 498 )
-
-[node name="Label3" parent="_About_orig/ControlsShorts/ShortcutLine7" index="4"]
-margin_left = 98.0
-margin_right = 349.0
-text = " to hard reset for Justin Case"
-
-[node name="Title3" type="Label" parent="_About_orig/ControlsShorts"]
-anchor_right = 1.0
-margin_top = 166.0
-margin_bottom = 188.0
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-text = "Game SHORTCUTS"
-uppercase = true
-
-[node name="ShortcutLine6" parent="_About_orig/ControlsShorts" instance=ExtResource( 23 )]
-anchor_left = 0.0
-anchor_right = 0.0
-margin_left = 1.0
-margin_top = 203.0
-margin_right = 303.0
-margin_bottom = 231.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="KEY" parent="_About_orig/ControlsShorts/ShortcutLine6" index="1"]
-margin_right = 47.0
-text = "ESC"
-
-[node name="or2" parent="_About_orig/ControlsShorts/ShortcutLine6" index="2"]
-margin_left = 47.0
-margin_right = 80.0
-
-[node name="L1" parent="_About_orig/ControlsShorts/ShortcutLine6" index="3"]
-margin_left = 80.0
-margin_right = 102.0
-texture = SubResource( 190 )
-
-[node name="Label3" parent="_About_orig/ControlsShorts/ShortcutLine6" index="4"]
-margin_left = 102.0
-margin_right = 302.0
-text = " to pause/unpause game"
-
-[node name="ShortcutLine" parent="_About_orig/ControlsShorts" instance=ExtResource( 23 )]
-anchor_left = 0.0
-anchor_right = 0.0
-margin_left = 1.0
-margin_top = 235.0
-margin_right = 245.0
-margin_bottom = 263.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="ShortcutLine2" parent="_About_orig/ControlsShorts" instance=ExtResource( 23 )]
-anchor_left = 0.0
-anchor_right = 0.0
-margin_left = 1.0
-margin_top = 267.0
-margin_right = 261.0
-margin_bottom = 295.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="KEY" parent="_About_orig/ControlsShorts/ShortcutLine2" index="1"]
-margin_right = 25.0
-text = "N"
-
-[node name="or2" parent="_About_orig/ControlsShorts/ShortcutLine2" index="2"]
-margin_left = 25.0
-margin_right = 58.0
-
-[node name="L1" parent="_About_orig/ControlsShorts/ShortcutLine2" index="3"]
-margin_left = 58.0
-margin_right = 80.0
-texture = SubResource( 310 )
-
-[node name="Label3" parent="_About_orig/ControlsShorts/ShortcutLine2" index="4"]
-margin_left = 80.0
-margin_right = 260.0
-text = " to skip current track"
-
-[node name="ShortcutLine3" parent="_About_orig/ControlsShorts" instance=ExtResource( 23 )]
-anchor_left = 0.0
-anchor_right = 0.0
-margin_left = 1.0
-margin_top = 299.0
-margin_right = 352.0
-margin_bottom = 327.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="KEY" parent="_About_orig/ControlsShorts/ShortcutLine3" index="1"]
-margin_right = 25.0
-text = "H"
-
-[node name="or2" parent="_About_orig/ControlsShorts/ShortcutLine3" index="2"]
-margin_left = 25.0
-margin_right = 58.0
-
-[node name="L1" parent="_About_orig/ControlsShorts/ShortcutLine3" index="3"]
-margin_left = 58.0
-margin_right = 80.0
-texture = SubResource( 476 )
-
-[node name="Label3" parent="_About_orig/ControlsShorts/ShortcutLine3" index="4"]
-margin_left = 80.0
-margin_right = 351.0
-text = " to show/hide Sweeper game hint"
-
-[node name="Controls" parent="_About_orig/ControlsShorts" instance=ExtResource( 22 )]
-visible = false
-margin_top = 296.0
-margin_bottom = 424.0
-
-[node name="Content" type="HBoxContainer" parent="_About_orig"]
-visible = false
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -576.0
-margin_top = 80.0
-margin_right = 576.0
-margin_bottom = 496.0
-custom_constants/separation = 0
-
-[node name="EscHint" parent="_About_orig" instance=ExtResource( 11 )]
-visible = false
-margin_left = 984.0
-margin_top = 502.0
-margin_right = 1218.0
-margin_bottom = 524.0
-__meta__ = {
-"_edit_group_": true
-}
-
 [node name="Highscores" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -2541,32 +2147,31 @@ margin_right = 224.0
 margin_left = 147.0
 margin_right = 224.0
 
+[node name="NoScoreLine" parent="Highscores/ClassicTable/ScoreLine1" index="3"]
+margin_right = 224.0
+
 [node name="ScoreLine2" parent="Highscores/ClassicTable" index="2"]
 margin_right = 224.0
 
-[node name="Score" parent="Highscores/ClassicTable/ScoreLine2" index="2"]
-margin_left = 147.0
+[node name="NoScoreLine" parent="Highscores/ClassicTable/ScoreLine2" index="3"]
 margin_right = 224.0
 
 [node name="ScoreLine3" parent="Highscores/ClassicTable" index="3"]
 margin_right = 224.0
 
-[node name="Score" parent="Highscores/ClassicTable/ScoreLine3" index="2"]
-margin_left = 147.0
+[node name="NoScoreLine" parent="Highscores/ClassicTable/ScoreLine3" index="3"]
 margin_right = 224.0
 
 [node name="ScoreLine4" parent="Highscores/ClassicTable" index="4"]
 margin_right = 224.0
 
-[node name="Score" parent="Highscores/ClassicTable/ScoreLine4" index="2"]
-margin_left = 147.0
+[node name="NoScoreLine" parent="Highscores/ClassicTable/ScoreLine4" index="3"]
 margin_right = 224.0
 
 [node name="ScoreLine5" parent="Highscores/ClassicTable" index="5"]
 margin_right = 224.0
 
-[node name="Score" parent="Highscores/ClassicTable/ScoreLine5" index="2"]
-margin_left = 147.0
+[node name="NoScoreLine" parent="Highscores/ClassicTable/ScoreLine5" index="3"]
 margin_right = 224.0
 
 [node name="ScoreLine6" parent="Highscores/ClassicTable" index="6"]
@@ -2633,32 +2238,31 @@ margin_right = 224.0
 margin_left = 147.0
 margin_right = 224.0
 
+[node name="NoScoreLine" parent="Highscores/CleanerSTable/ScoreLine1" index="3"]
+margin_right = 224.0
+
 [node name="ScoreLine2" parent="Highscores/CleanerSTable" index="2"]
 margin_right = 224.0
 
-[node name="Score" parent="Highscores/CleanerSTable/ScoreLine2" index="2"]
-margin_left = 147.0
+[node name="NoScoreLine" parent="Highscores/CleanerSTable/ScoreLine2" index="3"]
 margin_right = 224.0
 
 [node name="ScoreLine3" parent="Highscores/CleanerSTable" index="3"]
 margin_right = 224.0
 
-[node name="Score" parent="Highscores/CleanerSTable/ScoreLine3" index="2"]
-margin_left = 147.0
+[node name="NoScoreLine" parent="Highscores/CleanerSTable/ScoreLine3" index="3"]
 margin_right = 224.0
 
 [node name="ScoreLine4" parent="Highscores/CleanerSTable" index="4"]
 margin_right = 224.0
 
-[node name="Score" parent="Highscores/CleanerSTable/ScoreLine4" index="2"]
-margin_left = 147.0
+[node name="NoScoreLine" parent="Highscores/CleanerSTable/ScoreLine4" index="3"]
 margin_right = 224.0
 
 [node name="ScoreLine5" parent="Highscores/CleanerSTable" index="5"]
 margin_right = 224.0
 
-[node name="Score" parent="Highscores/CleanerSTable/ScoreLine5" index="2"]
-margin_left = 147.0
+[node name="NoScoreLine" parent="Highscores/CleanerSTable/ScoreLine5" index="3"]
 margin_right = 224.0
 
 [node name="ScoreLine6" parent="Highscores/CleanerSTable" index="6"]
@@ -2725,32 +2329,31 @@ margin_right = 224.0
 margin_left = 147.0
 margin_right = 224.0
 
+[node name="NoScoreLine" parent="Highscores/CleanerMTable/ScoreLine1" index="3"]
+margin_right = 224.0
+
 [node name="ScoreLine2" parent="Highscores/CleanerMTable" index="2"]
 margin_right = 224.0
 
-[node name="Score" parent="Highscores/CleanerMTable/ScoreLine2" index="2"]
-margin_left = 147.0
+[node name="NoScoreLine" parent="Highscores/CleanerMTable/ScoreLine2" index="3"]
 margin_right = 224.0
 
 [node name="ScoreLine3" parent="Highscores/CleanerMTable" index="3"]
 margin_right = 224.0
 
-[node name="Score" parent="Highscores/CleanerMTable/ScoreLine3" index="2"]
-margin_left = 147.0
+[node name="NoScoreLine" parent="Highscores/CleanerMTable/ScoreLine3" index="3"]
 margin_right = 224.0
 
 [node name="ScoreLine4" parent="Highscores/CleanerMTable" index="4"]
 margin_right = 224.0
 
-[node name="Score" parent="Highscores/CleanerMTable/ScoreLine4" index="2"]
-margin_left = 147.0
+[node name="NoScoreLine" parent="Highscores/CleanerMTable/ScoreLine4" index="3"]
 margin_right = 224.0
 
 [node name="ScoreLine5" parent="Highscores/CleanerMTable" index="5"]
 margin_right = 224.0
 
-[node name="Score" parent="Highscores/CleanerMTable/ScoreLine5" index="2"]
-margin_left = 147.0
+[node name="NoScoreLine" parent="Highscores/CleanerMTable/ScoreLine5" index="3"]
 margin_right = 224.0
 
 [node name="ScoreLine6" parent="Highscores/CleanerMTable" index="6"]
@@ -2819,32 +2422,31 @@ margin_right = 224.0
 margin_left = 147.0
 margin_right = 224.0
 
+[node name="NoScoreLine" parent="Highscores/CleanerLTable/ScoreLine1" index="3"]
+margin_right = 224.0
+
 [node name="ScoreLine2" parent="Highscores/CleanerLTable" index="2"]
 margin_right = 224.0
 
-[node name="Score" parent="Highscores/CleanerLTable/ScoreLine2" index="2"]
-margin_left = 147.0
+[node name="NoScoreLine" parent="Highscores/CleanerLTable/ScoreLine2" index="3"]
 margin_right = 224.0
 
 [node name="ScoreLine3" parent="Highscores/CleanerLTable" index="3"]
 margin_right = 224.0
 
-[node name="Score" parent="Highscores/CleanerLTable/ScoreLine3" index="2"]
-margin_left = 147.0
+[node name="NoScoreLine" parent="Highscores/CleanerLTable/ScoreLine3" index="3"]
 margin_right = 224.0
 
 [node name="ScoreLine4" parent="Highscores/CleanerLTable" index="4"]
 margin_right = 224.0
 
-[node name="Score" parent="Highscores/CleanerLTable/ScoreLine4" index="2"]
-margin_left = 147.0
+[node name="NoScoreLine" parent="Highscores/CleanerLTable/ScoreLine4" index="3"]
 margin_right = 224.0
 
 [node name="ScoreLine5" parent="Highscores/CleanerLTable" index="5"]
 margin_right = 224.0
 
-[node name="Score" parent="Highscores/CleanerLTable/ScoreLine5" index="2"]
-margin_left = 147.0
+[node name="NoScoreLine" parent="Highscores/CleanerLTable/ScoreLine5" index="3"]
 margin_right = 224.0
 
 [node name="ScoreLine6" parent="Highscores/CleanerLTable" index="6"]
@@ -2913,32 +2515,31 @@ margin_right = 224.0
 margin_left = 147.0
 margin_right = 224.0
 
+[node name="NoScoreLine" parent="Highscores/EraserTable/ScoreLine1" index="3"]
+margin_right = 224.0
+
 [node name="ScoreLine2" parent="Highscores/EraserTable" index="2"]
 margin_right = 224.0
 
-[node name="Score" parent="Highscores/EraserTable/ScoreLine2" index="2"]
-margin_left = 147.0
+[node name="NoScoreLine" parent="Highscores/EraserTable/ScoreLine2" index="3"]
 margin_right = 224.0
 
 [node name="ScoreLine3" parent="Highscores/EraserTable" index="3"]
 margin_right = 224.0
 
-[node name="Score" parent="Highscores/EraserTable/ScoreLine3" index="2"]
-margin_left = 147.0
+[node name="NoScoreLine" parent="Highscores/EraserTable/ScoreLine3" index="3"]
 margin_right = 224.0
 
 [node name="ScoreLine4" parent="Highscores/EraserTable" index="4"]
 margin_right = 224.0
 
-[node name="Score" parent="Highscores/EraserTable/ScoreLine4" index="2"]
-margin_left = 147.0
+[node name="NoScoreLine" parent="Highscores/EraserTable/ScoreLine4" index="3"]
 margin_right = 224.0
 
 [node name="ScoreLine5" parent="Highscores/EraserTable" index="5"]
 margin_right = 224.0
 
-[node name="Score" parent="Highscores/EraserTable/ScoreLine5" index="2"]
-margin_left = 147.0
+[node name="NoScoreLine" parent="Highscores/EraserTable/ScoreLine5" index="3"]
 margin_right = 224.0
 
 [node name="ScoreLine6" parent="Highscores/EraserTable" index="6"]
@@ -2980,32 +2581,31 @@ margin_right = 224.0
 margin_left = 147.0
 margin_right = 224.0
 
+[node name="NoScoreLine" parent="Highscores/DefenderTable/ScoreLine1" index="3"]
+margin_right = 224.0
+
 [node name="ScoreLine2" parent="Highscores/DefenderTable" index="2"]
 margin_right = 224.0
 
-[node name="Score" parent="Highscores/DefenderTable/ScoreLine2" index="2"]
-margin_left = 147.0
+[node name="NoScoreLine" parent="Highscores/DefenderTable/ScoreLine2" index="3"]
 margin_right = 224.0
 
 [node name="ScoreLine3" parent="Highscores/DefenderTable" index="3"]
 margin_right = 224.0
 
-[node name="Score" parent="Highscores/DefenderTable/ScoreLine3" index="2"]
-margin_left = 147.0
+[node name="NoScoreLine" parent="Highscores/DefenderTable/ScoreLine3" index="3"]
 margin_right = 224.0
 
 [node name="ScoreLine4" parent="Highscores/DefenderTable" index="4"]
 margin_right = 224.0
 
-[node name="Score" parent="Highscores/DefenderTable/ScoreLine4" index="2"]
-margin_left = 147.0
+[node name="NoScoreLine" parent="Highscores/DefenderTable/ScoreLine4" index="3"]
 margin_right = 224.0
 
 [node name="ScoreLine5" parent="Highscores/DefenderTable" index="5"]
 margin_right = 224.0
 
-[node name="Score" parent="Highscores/DefenderTable/ScoreLine5" index="2"]
-margin_left = 147.0
+[node name="NoScoreLine" parent="Highscores/DefenderTable/ScoreLine5" index="3"]
 margin_right = 224.0
 
 [node name="ScoreLine6" parent="Highscores/DefenderTable" index="6"]
@@ -3047,80 +2647,110 @@ margin_left = 194.0
 margin_right = 264.0
 text = "00:00:00"
 
+[node name="NoScoreLine" parent="Highscores/SweeperTable/ScoreLine1" index="3"]
+margin_right = 264.0
+
 [node name="ScoreLine2" parent="Highscores/SweeperTable" index="2"]
 margin_right = 264.0
 
 [node name="Score" parent="Highscores/SweeperTable/ScoreLine2" index="2"]
-margin_left = 194.0
-margin_right = 264.0
+margin_right = 192.0
 text = "00:00:00"
+
+[node name="NoScoreLine" parent="Highscores/SweeperTable/ScoreLine2" index="3"]
+margin_left = 196.0
+margin_right = 264.0
 
 [node name="ScoreLine3" parent="Highscores/SweeperTable" index="3"]
 margin_right = 264.0
 
 [node name="Score" parent="Highscores/SweeperTable/ScoreLine3" index="2"]
-margin_left = 194.0
-margin_right = 264.0
+margin_right = 192.0
 text = "00:00:00"
+
+[node name="NoScoreLine" parent="Highscores/SweeperTable/ScoreLine3" index="3"]
+margin_left = 196.0
+margin_right = 264.0
 
 [node name="ScoreLine4" parent="Highscores/SweeperTable" index="4"]
 margin_right = 264.0
 
 [node name="Score" parent="Highscores/SweeperTable/ScoreLine4" index="2"]
-margin_left = 194.0
-margin_right = 264.0
+margin_right = 192.0
 text = "00:00:00"
+
+[node name="NoScoreLine" parent="Highscores/SweeperTable/ScoreLine4" index="3"]
+margin_left = 196.0
+margin_right = 264.0
 
 [node name="ScoreLine5" parent="Highscores/SweeperTable" index="5"]
 margin_right = 264.0
 
 [node name="Score" parent="Highscores/SweeperTable/ScoreLine5" index="2"]
-margin_left = 194.0
-margin_right = 264.0
+margin_right = 192.0
 text = "00:00:00"
+
+[node name="NoScoreLine" parent="Highscores/SweeperTable/ScoreLine5" index="3"]
+margin_left = 196.0
+margin_right = 264.0
 
 [node name="ScoreLine6" parent="Highscores/SweeperTable" index="6"]
 margin_right = 264.0
 
 [node name="Score" parent="Highscores/SweeperTable/ScoreLine6" index="2"]
-margin_left = 194.0
-margin_right = 264.0
+margin_right = 192.0
 text = "00:00:00"
+
+[node name="NoScoreLine" parent="Highscores/SweeperTable/ScoreLine6" index="3"]
+margin_left = 196.0
+margin_right = 264.0
 
 [node name="ScoreLine7" parent="Highscores/SweeperTable" index="7"]
 margin_right = 264.0
 
 [node name="Score" parent="Highscores/SweeperTable/ScoreLine7" index="2"]
-margin_left = 194.0
-margin_right = 264.0
+margin_right = 192.0
 text = "00:00:00"
+
+[node name="NoScoreLine" parent="Highscores/SweeperTable/ScoreLine7" index="3"]
+margin_left = 196.0
+margin_right = 264.0
 
 [node name="ScoreLine8" parent="Highscores/SweeperTable" index="8"]
 margin_right = 264.0
 
 [node name="Score" parent="Highscores/SweeperTable/ScoreLine8" index="2"]
-margin_left = 194.0
-margin_right = 264.0
+margin_right = 192.0
 text = "00:00:00"
+
+[node name="NoScoreLine" parent="Highscores/SweeperTable/ScoreLine8" index="3"]
+margin_left = 196.0
+margin_right = 264.0
 
 [node name="ScoreLine9" parent="Highscores/SweeperTable" index="9"]
 margin_right = 264.0
 
 [node name="Score" parent="Highscores/SweeperTable/ScoreLine9" index="2"]
-margin_left = 194.0
-margin_right = 264.0
+margin_right = 192.0
 text = "00:00:00"
+
+[node name="NoScoreLine" parent="Highscores/SweeperTable/ScoreLine9" index="3"]
+margin_left = 196.0
+margin_right = 264.0
 
 [node name="ScoreLine10" parent="Highscores/SweeperTable" index="10"]
 margin_right = 264.0
 
 [node name="Score" parent="Highscores/SweeperTable/ScoreLine10" index="2"]
-margin_left = 194.0
-margin_right = 264.0
+margin_right = 192.0
 text = "00:00:00"
 
+[node name="NoScoreLine" parent="Highscores/SweeperTable/ScoreLine10" index="3"]
+margin_left = 196.0
+margin_right = 264.0
+
 [node name="SweeperArrows" type="Control" parent="Highscores"]
-margin_left = 968.0
+margin_left = 952.0
 margin_top = 146.0
 margin_right = 1216.0
 margin_bottom = 160.0
@@ -3173,9 +2803,9 @@ stretch_mode = 3
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -64.0
-margin_top = 76.0
+margin_top = 74.0
 margin_right = -40.0
-margin_bottom = 98.0
+margin_bottom = 96.0
 rect_min_size = Vector2( 16, 16 )
 rect_rotation = 89.9999
 focus_neighbour_top = NodePath("../SweeperArrows/RightBtn")
@@ -3313,8 +2943,6 @@ rect_min_size = Vector2( 128, 128 )
 [node name="Background" type="ColorRect" parent="SelectGame/GamesMenu/Cleaner"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 1.0
-margin_right = 1.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
 [node name="Label" type="Label" parent="SelectGame/GamesMenu/Cleaner"]
@@ -3328,9 +2956,9 @@ text = "Tick-tack-tock, clean the block! Choose a game size that fits you and be
 autowrap = true
 
 [node name="CleanerSBtn" type="Button" parent="SelectGame/GamesMenu/Cleaner"]
-margin_left = 41.0
+margin_left = 40.0
 margin_top = 120.0
-margin_right = 128.0
+margin_right = 88.0
 margin_bottom = 176.0
 focus_neighbour_left = NodePath("../../Classic/ClassicBtn")
 focus_neighbour_top = NodePath("../../../BackBtn")
@@ -3341,15 +2969,15 @@ custom_styles/pressed = ExtResource( 24 )
 custom_styles/focus = ExtResource( 24 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "TICK"
+text = "S"
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="CleanerMBtn" type="Button" parent="SelectGame/GamesMenu/Cleaner"]
-margin_left = 136.0
+margin_left = 96.0
 margin_top = 120.0
-margin_right = 256.0
+margin_right = 160.0
 margin_bottom = 176.0
 focus_neighbour_top = NodePath("../../../BackBtn")
 focus_neighbour_bottom = NodePath("../../Sweeper/SweeperBtn")
@@ -3359,16 +2987,54 @@ custom_styles/pressed = ExtResource( 24 )
 custom_styles/focus = ExtResource( 24 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "TACK"
+text = "M"
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="CleanerLBtn" type="Button" parent="SelectGame/GamesMenu/Cleaner"]
-margin_left = 264.0
+margin_left = 168.0
+margin_top = 120.0
+margin_right = 240.0
+margin_bottom = 176.0
+focus_neighbour_top = NodePath("../../../BackBtn")
+focus_neighbour_bottom = NodePath("../../Sweeper/SweeperBtn")
+mouse_default_cursor_shape = 2
+custom_styles/hover = ExtResource( 24 )
+custom_styles/pressed = ExtResource( 24 )
+custom_styles/focus = ExtResource( 24 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "L"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="CleanerXLBtn" type="Button" parent="SelectGame/GamesMenu/Cleaner"]
+margin_left = 248.0
+margin_top = 120.0
+margin_right = 328.0
+margin_bottom = 176.0
+focus_neighbour_left = NodePath("../../Classic/ClassicBtn")
+focus_neighbour_top = NodePath("../../../BackBtn")
+focus_neighbour_bottom = NodePath("../../Sweeper/SweeperBtn")
+mouse_default_cursor_shape = 2
+custom_styles/hover = ExtResource( 24 )
+custom_styles/pressed = ExtResource( 24 )
+custom_styles/focus = ExtResource( 24 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 9 )
+text = "XL"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="CleanerXXLBtn" type="Button" parent="SelectGame/GamesMenu/Cleaner"]
+margin_left = 336.0
 margin_top = 120.0
 margin_right = 440.0
 margin_bottom = 176.0
+focus_neighbour_left = NodePath("../../Classic/ClassicBtn")
 focus_neighbour_top = NodePath("../../../BackBtn")
 focus_neighbour_right = NodePath("../../Classic/ClassicBtn")
 focus_neighbour_bottom = NodePath("../../Sweeper/SweeperBtn")
@@ -3378,10 +3044,71 @@ custom_styles/pressed = ExtResource( 24 )
 custom_styles/focus = ExtResource( 24 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "TOCK"
+text = "XXL"
 __meta__ = {
 "_editor_description_": ""
 }
+
+[node name="Minutes" type="Control" parent="SelectGame/GamesMenu/Cleaner"]
+modulate = Color( 1, 1, 1, 0.470588 )
+anchor_right = 1.0
+margin_top = 176.0
+margin_bottom = 216.0
+
+[node name="Label2" type="Label" parent="SelectGame/GamesMenu/Cleaner/Minutes"]
+anchor_right = 1.0
+margin_left = 41.0
+margin_top = 8.0
+margin_right = -392.0
+margin_bottom = 26.0
+custom_fonts/font = ExtResource( 14 )
+text = "2 min"
+align = 1
+autowrap = true
+
+[node name="Label3" type="Label" parent="SelectGame/GamesMenu/Cleaner/Minutes"]
+anchor_right = 1.0
+margin_left = 96.0
+margin_top = 8.0
+margin_right = -321.0
+margin_bottom = 26.0
+custom_fonts/font = ExtResource( 14 )
+text = "5 min"
+align = 1
+autowrap = true
+
+[node name="Label4" type="Label" parent="SelectGame/GamesMenu/Cleaner/Minutes"]
+anchor_right = 1.0
+margin_left = 168.0
+margin_top = 8.0
+margin_right = -240.0
+margin_bottom = 26.0
+custom_fonts/font = ExtResource( 14 )
+text = "7 min"
+align = 1
+autowrap = true
+
+[node name="Label5" type="Label" parent="SelectGame/GamesMenu/Cleaner/Minutes"]
+anchor_right = 1.0
+margin_left = 248.0
+margin_top = 8.0
+margin_right = -153.0
+margin_bottom = 26.0
+custom_fonts/font = ExtResource( 14 )
+text = "10 min"
+align = 1
+autowrap = true
+
+[node name="Label6" type="Label" parent="SelectGame/GamesMenu/Cleaner/Minutes"]
+anchor_right = 1.0
+margin_left = 336.0
+margin_top = 8.0
+margin_right = -40.0
+margin_bottom = 26.0
+custom_fonts/font = ExtResource( 14 )
+text = "15 min"
+align = 1
+autowrap = true
 
 [node name="Timeless" type="Control" parent="SelectGame/GamesMenu"]
 margin_top = 256.0
@@ -3462,9 +3189,9 @@ margin_top = 31.0
 margin_right = 264.0
 margin_bottom = 97.0
 custom_fonts/font = ExtResource( 14 )
-text = "%s colorful crisis 
-situations, waiting for
-a quick cleaning service."
+text = "%s colorful situations,
+waiting for a quick
+cleaning service."
 autowrap = true
 
 [node name="SweeperBtn" type="Button" parent="SelectGame/GamesMenu/Sweeper"]
@@ -3538,8 +3265,8 @@ __meta__ = {
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -22.0
-margin_top = 76.0
-margin_bottom = 98.0
+margin_top = 74.0
+margin_bottom = 96.0
 rect_min_size = Vector2( 16, 16 )
 focus_neighbour_top = NodePath("../GamesMenu/TheDuel/TheDuelBtn")
 focus_neighbour_bottom = NodePath("../GamesMenu/Cleaner/CleanerSBtn")
@@ -3591,54 +3318,12 @@ margin_right = -4.0
 margin_bottom = 11.0
 
 [node name="Subtitle" type="Label" parent="SelectLevel"]
-visible = false
-margin_left = 8.0
-margin_top = 144.0
-margin_right = 640.0
-margin_bottom = 162.0
-custom_fonts/font = ExtResource( 14 )
-text = "A lot of screens are dirty to clean chroma crisi situaation"
-autowrap = true
-
-[node name="Subtitle3" type="Label" parent="SelectLevel"]
-visible = false
-margin_left = 702.0
-margin_top = 144.0
-margin_right = 1334.0
-margin_bottom = 426.0
-custom_fonts/font = ExtResource( 14 )
-text = "**Collect all available colors with a single burst move.**
-- One move, all the colors! Burst your way to a full spectrum collection!
-- Burst and collect! Gather every shade in one spectacular move!
-- Rainbow explosion! Collect every color in a single, epic burst!
-- Epic color catch! Use one burst to collect the entire palette!
-- Spectral sweep! Collect all available colors with one mighty burst!
-- ---
-- Color zap! Snag all the hues with one powerful move!
-- Single burst brilliance! Capture all the colors in one go!
-- One-shot wonder! Grab all the colors with a single, dazzling move!
-- Boom! Collect every color with just one burst of brilliance!
-- Color blast! Scoop up all the hues in one explosive move!"
-autowrap = true
-
-[node name="Subtitle2" type="Label" parent="SelectLevel"]
 margin_left = 8.0
 margin_top = 144.0
 margin_right = 624.0
 margin_bottom = 170.0
 custom_fonts/font = ExtResource( 14 )
 text = "The ultimate skill test. Sweep all colors with one spectacular move!"
-autowrap = true
-
-[node name="Subtitle4" type="Label" parent="SelectLevel"]
-margin_left = 568.0
-margin_top = 640.0
-margin_right = 760.0
-margin_bottom = 666.0
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
-custom_fonts/font = ExtResource( 14 )
-text = "More comming soon ..."
-align = 2
 autowrap = true
 
 [node name="BtnsHolder" type="GridContainer" parent="SelectLevel"]
@@ -3652,197 +3337,181 @@ custom_constants/vseparation = 8
 custom_constants/hseparation = 8
 columns = 4
 
-[node name="LevelBtn" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+[node name="PixelAstrayLevelBtn" type="Button" parent="SelectLevel/BtnsHolder"]
 margin_right = 182.0
-margin_bottom = 56.0
+margin_bottom = 142.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 19 )
+custom_styles/hover = ExtResource( 20 )
+custom_styles/pressed = ExtResource( 20 )
+custom_styles/focus = ExtResource( 20 )
+custom_styles/normal = ExtResource( 20 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SelectLevel/BtnsHolder/PixelAstrayLevelBtn"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -79.0
+margin_top = -31.0
+margin_right = 75.0
+margin_bottom = 27.0
+grow_vertical = 2
+custom_constants/separation = -2
+alignment = 1
+
+[node name="SolvedIcon" type="TextureRect" parent="SelectLevel/BtnsHolder/PixelAstrayLevelBtn/VBoxContainer"]
+visible = false
+margin_right = 200.0
+margin_bottom = 10.0
+focus_neighbour_top = NodePath("../LevelGrid/SolutionsBtn")
+mouse_default_cursor_shape = 2
+texture = SubResource( 480 )
+
+[node name="Label" type="Label" parent="SelectLevel/BtnsHolder/PixelAstrayLevelBtn/VBoxContainer"]
+margin_top = 8.0
+margin_right = 154.0
+margin_bottom = 30.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "   PIXEL"
+valign = 1
+
+[node name="Label2" type="Label" parent="SelectLevel/BtnsHolder/PixelAstrayLevelBtn/VBoxContainer"]
+margin_top = 28.0
+margin_right = 154.0
+margin_bottom = 50.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "     ASTRAY"
+valign = 1
+
+[node name="Solved" type="Label" parent="SelectLevel/BtnsHolder/PixelAstrayLevelBtn/VBoxContainer"]
+visible = false
+margin_top = 40.0
+margin_right = 154.0
+margin_bottom = 58.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 14 )
+text = "Solved"
+align = 1
+valign = 1
+uppercase = true
+
+[node name="LevelBtn" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_left = 190.0
+margin_right = 372.0
+margin_bottom = 142.0
 rect_min_size = Vector2( 0, 0 )
+flat = true
 
 [node name="LevelBtn2" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 190.0
-margin_right = 372.0
-margin_bottom = 56.0
+margin_left = 380.0
+margin_right = 562.0
+margin_bottom = 142.0
 rect_min_size = Vector2( 0, 0 )
+flat = true
 
 [node name="LevelBtn3" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 380.0
-margin_right = 562.0
-margin_bottom = 56.0
+margin_left = 570.0
+margin_right = 752.0
+margin_bottom = 142.0
 rect_min_size = Vector2( 0, 0 )
+flat = true
 
 [node name="LevelBtn4" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 570.0
-margin_right = 752.0
-margin_bottom = 56.0
+margin_top = 150.0
+margin_right = 182.0
+margin_bottom = 291.0
 rect_min_size = Vector2( 0, 0 )
+flat = true
 
 [node name="LevelBtn5" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_top = 64.0
-margin_right = 182.0
-margin_bottom = 120.0
+margin_left = 190.0
+margin_top = 150.0
+margin_right = 372.0
+margin_bottom = 291.0
 rect_min_size = Vector2( 0, 0 )
+flat = true
 
 [node name="LevelBtn6" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 190.0
-margin_top = 64.0
-margin_right = 372.0
-margin_bottom = 120.0
+margin_left = 380.0
+margin_top = 150.0
+margin_right = 562.0
+margin_bottom = 291.0
 rect_min_size = Vector2( 0, 0 )
+flat = true
 
 [node name="LevelBtn7" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 380.0
-margin_top = 64.0
-margin_right = 562.0
-margin_bottom = 120.0
+margin_left = 570.0
+margin_top = 150.0
+margin_right = 752.0
+margin_bottom = 291.0
 rect_min_size = Vector2( 0, 0 )
+flat = true
 
 [node name="LevelBtn8" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 570.0
-margin_top = 64.0
-margin_right = 752.0
-margin_bottom = 120.0
-rect_min_size = Vector2( 0, 0 )
-
-[node name="LevelBtn9" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_top = 128.0
-margin_right = 182.0
-margin_bottom = 184.0
-rect_min_size = Vector2( 0, 0 )
-
-[node name="LevelBtn10" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 190.0
-margin_top = 128.0
-margin_right = 372.0
-margin_bottom = 184.0
-rect_min_size = Vector2( 0, 0 )
-
-[node name="LevelBtn11" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 380.0
-margin_top = 128.0
-margin_right = 562.0
-margin_bottom = 184.0
-rect_min_size = Vector2( 0, 0 )
-
-[node name="LevelBtn12" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 570.0
-margin_top = 128.0
-margin_right = 752.0
-margin_bottom = 184.0
-rect_min_size = Vector2( 0, 0 )
-
-[node name="LevelBtn13" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_top = 192.0
-margin_right = 182.0
-margin_bottom = 248.0
-rect_min_size = Vector2( 0, 0 )
-
-[node name="LevelBtn14" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 190.0
-margin_top = 192.0
-margin_right = 372.0
-margin_bottom = 248.0
-rect_min_size = Vector2( 0, 0 )
-
-[node name="LevelBtn15" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 380.0
-margin_top = 192.0
-margin_right = 562.0
-margin_bottom = 248.0
-rect_min_size = Vector2( 0, 0 )
-
-[node name="LevelBtn16" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 570.0
-margin_top = 192.0
-margin_right = 752.0
-margin_bottom = 248.0
-rect_min_size = Vector2( 0, 0 )
-
-[node name="LevelBtn17" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_top = 256.0
-margin_right = 182.0
-margin_bottom = 312.0
-rect_min_size = Vector2( 0, 0 )
-
-[node name="LevelBtn18" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 190.0
-margin_top = 256.0
-margin_right = 372.0
-margin_bottom = 312.0
-rect_min_size = Vector2( 0, 0 )
-
-[node name="LevelBtn19" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 380.0
-margin_top = 256.0
-margin_right = 562.0
-margin_bottom = 312.0
-rect_min_size = Vector2( 0, 0 )
-
-[node name="LevelBtn20" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 570.0
-margin_top = 256.0
-margin_right = 752.0
-margin_bottom = 312.0
-rect_min_size = Vector2( 0, 0 )
-
-[node name="LevelBtn21" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_top = 320.0
-margin_right = 182.0
-margin_bottom = 376.0
-rect_min_size = Vector2( 0, 0 )
-
-[node name="LevelBtn22" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 190.0
-margin_top = 320.0
-margin_right = 372.0
-margin_bottom = 376.0
-rect_min_size = Vector2( 0, 0 )
-
-[node name="LevelBtn23" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 380.0
-margin_top = 320.0
-margin_right = 562.0
-margin_bottom = 376.0
-rect_min_size = Vector2( 0, 0 )
-
-[node name="LevelBtn24" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 570.0
-margin_top = 320.0
-margin_right = 752.0
-margin_bottom = 376.0
-rect_min_size = Vector2( 0, 0 )
-
-[node name="LevelBtn25" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_top = 384.0
+margin_top = 299.0
 margin_right = 182.0
 margin_bottom = 440.0
 rect_min_size = Vector2( 0, 0 )
+flat = true
+
+[node name="LevelBtn9" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_left = 190.0
+margin_top = 299.0
+margin_right = 372.0
+margin_bottom = 440.0
+rect_min_size = Vector2( 0, 0 )
+flat = true
+
+[node name="LevelBtn10" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_left = 380.0
+margin_top = 299.0
+margin_right = 562.0
+margin_bottom = 440.0
+rect_min_size = Vector2( 0, 0 )
+flat = true
+
+[node name="LevelBtn11" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
+margin_left = 570.0
+margin_top = 299.0
+margin_right = 752.0
+margin_bottom = 440.0
+rect_min_size = Vector2( 0, 0 )
+flat = true
 
 [node name="SolutionsBtn" type="CheckButton" parent="SelectLevel"]
+visible = false
 margin_left = 8.0
 margin_top = 640.0
 margin_right = 154.0
 margin_bottom = 658.0
 rect_min_size = Vector2( 146, 0 )
 focus_neighbour_bottom = NodePath("../BackBtn")
+focus_mode = 0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 10
 custom_colors/font_color = Color( 0.960784, 0.960784, 0.960784, 1 )
 custom_fonts/font = ExtResource( 14 )
+disabled = true
 pressed = true
 text = "Show riddle hint"
 
-[node name="BackBtn" type="TextureButton" parent="SelectLevel"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -22.0
-margin_top = 76.0
-margin_bottom = 98.0
-rect_min_size = Vector2( 16, 16 )
-focus_neighbour_top = NodePath("../SolutionsBtn")
-mouse_default_cursor_shape = 2
-texture_normal = SubResource( 195 )
-texture_hover = SubResource( 196 )
-texture_focused = SubResource( 196 )
-flip_h = true
+[node name="More" type="Label" parent="SelectLevel"]
+visible = false
+margin_left = 519.0
+margin_top = 639.0
+margin_right = 760.0
+margin_bottom = 657.0
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+custom_fonts/font = ExtResource( 14 )
+text = "More comming soon ..."
+align = 2
+autowrap = true
 
 [node name="EscHint" parent="SelectLevel" instance=ExtResource( 11 )]
 visible = false
@@ -3853,6 +3522,106 @@ margin_bottom = 660.0
 __meta__ = {
 "_edit_group_": true
 }
+
+[node name="BackBtn" type="TextureButton" parent="SelectLevel"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -22.0
+margin_top = 74.0
+margin_bottom = 96.0
+rect_min_size = Vector2( 16, 16 )
+focus_neighbour_top = NodePath("../BtnsHolder/PixelAstrayLevelBtn")
+mouse_default_cursor_shape = 2
+texture_normal = SubResource( 195 )
+texture_hover = SubResource( 196 )
+texture_focused = SubResource( 196 )
+flip_h = true
+
+[node name="HintShortcut" type="HBoxContainer" parent="SelectLevel"]
+margin_left = 9.0
+margin_top = 635.0
+margin_right = 360.0
+margin_bottom = 663.0
+rect_min_size = Vector2( 0, 28 )
+theme = ExtResource( 15 )
+custom_constants/separation = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="dot" type="RichTextLabel" parent="SelectLevel/HintShortcut"]
+visible = false
+margin_right = 14.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 14, 0 )
+size_flags_vertical = 3
+theme = SubResource( 446 )
+text = "."
+fit_content_height = true
+
+[node name="VScrollBar2" type="VScrollBar" parent="SelectLevel/HintShortcut/dot"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+max_value = 28.0
+step = 1.0
+page = 28.0
+
+[node name="VScrollBar3" type="VScrollBar" parent="SelectLevel/HintShortcut/dot"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+step = 1.0
+
+[node name="or3" type="Label" parent="SelectLevel/HintShortcut"]
+margin_top = 5.0
+margin_right = 52.0
+margin_bottom = 23.0
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+custom_fonts/font = ExtResource( 14 )
+text = "Press "
+align = 1
+valign = 1
+
+[node name="KEY" type="Label" parent="SelectLevel/HintShortcut"]
+margin_left = 52.0
+margin_top = 4.0
+margin_right = 63.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 0, 24 )
+size_flags_vertical = 8
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+custom_fonts/font = ExtResource( 26 )
+text = "H"
+align = 1
+valign = 1
+
+[node name="or2" type="Label" parent="SelectLevel/HintShortcut"]
+margin_left = 63.0
+margin_top = 5.0
+margin_right = 96.0
+margin_bottom = 23.0
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+custom_fonts/font = ExtResource( 14 )
+text = " or "
+align = 1
+valign = 1
+
+[node name="L1" type="TextureRect" parent="SelectLevel/HintShortcut"]
+margin_left = 96.0
+margin_right = 118.0
+margin_bottom = 28.0
+texture = SubResource( 476 )
+
+[node name="Label3" type="Label" parent="SelectLevel/HintShortcut"]
+margin_left = 118.0
+margin_top = 5.0
+margin_right = 205.0
+margin_bottom = 23.0
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+custom_fonts/font = ExtResource( 14 )
+text = " for a hint"
+valign = 1
 
 [node name="Settings" type="Control" parent="."]
 anchor_right = 1.0
@@ -3867,9 +3636,9 @@ script = ExtResource( 3 )
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -32.0
-margin_top = 76.0
+margin_top = 74.0
 margin_right = -8.0
-margin_bottom = 98.0
+margin_bottom = 96.0
 rect_min_size = Vector2( 16, 16 )
 mouse_default_cursor_shape = 2
 texture_normal = SubResource( 195 )
@@ -3984,7 +3753,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 64.0
 margin_top = -336.0
-margin_right = -14.0
+margin_right = -112.0
 margin_bottom = -304.0
 __meta__ = {
 "_edit_group_": true
@@ -4010,7 +3779,6 @@ margin_top = 4.5
 margin_right = -15.0
 margin_bottom = 26.5
 text = "Color scheme"
-align = 2
 
 [node name="SpectrumIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/RandomizeBtn"]
 anchor_right = 1.0
@@ -4060,9 +3828,9 @@ text = "Game rules screen"
 
 [node name="Shorts" type="Label" parent="Settings"]
 margin_left = 64.0
-margin_top = 616.0
+margin_top = 592.0
 margin_right = 416.0
-margin_bottom = 664.0
+margin_bottom = 658.0
 size_flags_horizontal = 3
 theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
@@ -4091,90 +3859,6 @@ anims/play_level = SubResource( 276 )
 anims/select_game = SubResource( 142 )
 anims/select_level = SubResource( 275 )
 anims/settings = SubResource( 140 )
-
-[node name="_razmak_meni_vs_title" type="ColorRect" parent="."]
-visible = false
-modulate = Color( 1, 1, 1, 0.776471 )
-margin_left = 1344.0
-margin_top = 1024.0
-margin_right = 1576.0
-margin_bottom = 1144.0
-
-[node name="_distanc_animacije_select_game" type="ColorRect" parent="."]
-visible = false
-modulate = Color( 1, 1, 1, 0.776471 )
-margin_left = 1344.0
-margin_top = 755.0
-margin_right = 2184.0
-margin_bottom = 787.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Label" type="Label" parent="_distanc_animacije_select_game"]
-modulate = Color( 0, 0, 0, 1 )
-margin_left = 16.0
-margin_top = 8.0
-margin_right = 264.0
-margin_bottom = 24.0
-text = "Select Game dolzina animacije okna"
-
-[node name="_distanc_animacije_select_game2" type="ColorRect" parent="."]
-visible = false
-modulate = Color( 1, 1, 1, 0.776471 )
-margin_left = 1344.0
-margin_top = 811.0
-margin_right = 1844.0
-margin_bottom = 843.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Label" type="Label" parent="_distanc_animacije_select_game2"]
-modulate = Color( 0, 0, 0, 1 )
-margin_left = 16.0
-margin_top = 8.0
-margin_right = 264.0
-margin_bottom = 24.0
-text = "About dolzina animacije okna"
-
-[node name="_distanc_animacije_select_game3" type="ColorRect" parent="."]
-visible = false
-modulate = Color( 1, 1, 1, 0.776471 )
-margin_left = 1344.0
-margin_top = 875.0
-margin_right = 1937.0
-margin_bottom = 907.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Label" type="Label" parent="_distanc_animacije_select_game3"]
-modulate = Color( 0, 0, 0, 1 )
-margin_left = 16.0
-margin_top = 8.0
-margin_right = 264.0
-margin_bottom = 24.0
-text = "Higscores dolzina animacije okna"
-
-[node name="_distanc_animacije_select_game4" type="ColorRect" parent="."]
-visible = false
-modulate = Color( 1, 1, 1, 0.776471 )
-margin_left = 1344.0
-margin_top = 931.0
-margin_right = 1793.0
-margin_bottom = 963.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Label" type="Label" parent="_distanc_animacije_select_game4"]
-modulate = Color( 0, 0, 0, 1 )
-margin_left = 16.0
-margin_top = 8.0
-margin_right = 264.0
-margin_bottom = 24.0
-text = "Settings dolzina animacije okna"
 
 [connection signal="finished_playing" from="IntroViewPortContainer/IntroViewport/Intro" to="." method="_on_Intro_finished_playing"]
 [connection signal="mouse_entered" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestToggle" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_CheckBox_mouse_entered"]
@@ -4226,23 +3910,6 @@ text = "Settings dolzina animacije okna"
 [connection signal="pressed" from="About/BackBtn" to="About" method="_on_BackBtn_pressed"]
 [connection signal="meta_clicked" from="About/Thanks/LinkLabel" to="About" method="_on_NameAuthor_meta_clicked"]
 [connection signal="meta_clicked" from="About/Resources/LinkLabel" to="About" method="_on_NameAuthor_meta_clicked"]
-[connection signal="pressed" from="_About_orig/BackBtn" to="_About_orig" method="_on_BackBtn_pressed"]
-[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine2" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine3" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine4" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine5" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine6" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine7" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine8" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine18" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine11" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine12" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine13" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine14" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine15" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine16" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
-[connection signal="meta_clicked" from="_About_orig/Credits/VBoxContainer/CreditsLine17" to="_About_orig" method="_on_NameAuthor_meta_clicked"]
 [connection signal="pressed" from="Highscores/SweeperArrows/LeftBtn" to="Highscores" method="_on_Sweeper_LeftBtn_pressed"]
 [connection signal="pressed" from="Highscores/SweeperArrows/RightBtn" to="Highscores" method="_on_SweeperRightBtn_pressed"]
 [connection signal="pressed" from="Highscores/BackBtn" to="Highscores" method="_on_BackBtn_pressed"]
@@ -4253,6 +3920,8 @@ text = "Settings dolzina animacije okna"
 [connection signal="pressed" from="SelectGame/GamesMenu/Cleaner/CleanerSBtn" to="SelectGame" method="_on_CleanerSBtn_pressed"]
 [connection signal="pressed" from="SelectGame/GamesMenu/Cleaner/CleanerMBtn" to="SelectGame" method="_on_CleanerMBtn_pressed"]
 [connection signal="pressed" from="SelectGame/GamesMenu/Cleaner/CleanerLBtn" to="SelectGame" method="_on_CleanerLBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GamesMenu/Cleaner/CleanerXLBtn" to="SelectGame" method="_on_CleanerXLBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GamesMenu/Cleaner/CleanerXXLBtn" to="SelectGame" method="_on_CleanerXXLBtn_pressed"]
 [connection signal="mouse_entered" from="SelectGame/GamesMenu/Timeless/Background" to="SelectGame" method="_on_TimelessBackground_mouse_entered"]
 [connection signal="pressed" from="SelectGame/GamesMenu/Timeless/EraserBtn" to="SelectGame" method="_on_EraserBtn_pressed"]
 [connection signal="pressed" from="SelectGame/GamesMenu/Timeless/DefenderBtn" to="SelectGame" method="_on_DefenderBtn_pressed"]
@@ -4280,12 +3949,6 @@ text = "Settings dolzina animacije okna"
 [editable path="About/Shorts2/ShortcutLine6"]
 [editable path="About/Shorts2/ShortcutLine2"]
 [editable path="About/Shorts2/ShortcutLine3"]
-[editable path="_About_orig/ControlsShorts/ShortcutLine4"]
-[editable path="_About_orig/ControlsShorts/ShortcutLine5"]
-[editable path="_About_orig/ControlsShorts/ShortcutLine7"]
-[editable path="_About_orig/ControlsShorts/ShortcutLine6"]
-[editable path="_About_orig/ControlsShorts/ShortcutLine2"]
-[editable path="_About_orig/ControlsShorts/ShortcutLine3"]
 [editable path="Highscores/ClassicTable"]
 [editable path="Highscores/CleanerSTable"]
 [editable path="Highscores/CleanerMTable"]

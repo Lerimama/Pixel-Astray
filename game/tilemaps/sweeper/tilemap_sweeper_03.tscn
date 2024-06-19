@@ -13,6 +13,7 @@ margin_bottom = 476.0
 text = "redirect or skill"
 
 [node name="SolutionLine" parent="." index="2"]
-points = PoolVector2Array( 1136, 336, 176, 336 )
+visible = false
+points = PoolVector2Array( 1136, 328, 1048, 328, 1048, 344, 1032, 344, 1032, 336, 168, 336 )
 
 [editable path="Background"]

@@ -125,7 +125,7 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 				return
 			current_screen = Screens.SELECT_GAME
 			current_esc_hint = $SelectGame/EscHint
-#			Global.focus_without_sfx($SelectGame/GamesMenu/Classic/ClassicBtn)
+			Global.focus_without_sfx($SelectGame/GamesMenu/Classic/ClassicBtn)
 		"about":
 			if animation_reversed(Screens.ABOUT):
 				return
@@ -149,7 +149,7 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 				return
 			current_screen = Screens.SELECT_LEVEL
 			current_esc_hint = $SelectLevel/EscHint
-#			Global.focus_without_sfx($SelectLevel.all_level_btns[0])
+			Global.focus_without_sfx($SelectLevel.all_level_btns[0])
 		"play_game":
 			Global.main_node.home_out()
 		"play_level":
@@ -190,9 +190,9 @@ func animation_reversed(from_screen: int):
 
 
 func _on_SelectGameBtn_pressed() -> void:
+	
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("select_game")
-
 	Global.focus_without_sfx($SelectGame/GamesMenu/Classic/ClassicBtn)
 
 

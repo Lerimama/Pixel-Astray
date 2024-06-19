@@ -135,7 +135,7 @@ func set_gameover_title():
 			Global.game_manager.GameoverReason.CLEANED: 
 				Global.data_manager.write_solved_status_to_file(Global.game_manager.game_data) # uganka je bila rešena
 			Global.game_manager.GameoverReason.TIME:
-				gameover_subtitle.text = "Your momentum is completely gone."
+				gameover_subtitle.text = "All your momentum is gone."
 	elif Global.game_manager.game_data["game"] == Profiles.Games.DEFENDER:
 		match current_gameover_reason:
 			Global.game_manager.GameoverReason.LIFE:
@@ -251,7 +251,7 @@ func set_game_summary():
 	
 	if Global.game_manager.game_data.has("level"):
 		if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-			gameover_stat_level.text = "Screen no. %02d" % Global.game_manager.game_data["level"]
+			gameover_stat_level.text = "Situation no. %02d" % Global.game_manager.game_data["level"]
 		else:
 			gameover_stat_level.text = "Level reached: " + str(Global.game_manager.game_data["level"])
 	else:
@@ -272,6 +272,7 @@ func set_game_summary():
 		gameover_stat_skills_used.text = "Skills used: " + str(p1_final_stats["skill_count"])
 		gameover_stat_pixels_off.text = "Colors collected: " + str(p1_final_stats["colors_collected"])
 		gameover_stat_astray_pixels.text = "Pixels left astray: " + str(Global.game_manager.strays_in_game_count)
+
 
 func show_game_summary():
 	# hide title and name_popup > show game summary
@@ -297,6 +298,7 @@ func show_menu():
 			gameover_menu.get_node("RestartBtn").text = "TRY AGAIN"
 		if Global.game_manager.game_data["level"] < Profiles.sweeper_level_tilemap_paths.size():
 			gameover_menu.get_node("NextLevelBtn").show()
+			gameover_menu.get_node("NextLevelBtn").text = "NEXT SITUATION"
 	elif Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
 		gameover_menu.get_node("RestartBtn").text = "REMATCH"
 	

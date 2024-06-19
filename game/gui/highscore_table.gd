@@ -10,12 +10,16 @@ func get_highscore_table(current_game_data: Dictionary, current_player_rank: int
 	
 	# naslov tabele
 	var current_game_name: String = current_game_data["game_name"]
-	if current_game_data["game"] == Profiles.Games.CLEANER_S:
+	if current_game_data["game"] == Profiles.Games.CLEANER_XS:
+		highscore_table_title.text = "Top XS cleaners"
+	elif current_game_data["game"] == Profiles.Games.CLEANER_S:
 		highscore_table_title.text = "Top S cleaners"
 	elif current_game_data["game"] == Profiles.Games.CLEANER_M:
 		highscore_table_title.text = "Top M cleaners"
 	elif current_game_data["game"] == Profiles.Games.CLEANER_L:
 		highscore_table_title.text = "Top L cleaners"
+	elif current_game_data["game"] == Profiles.Games.CLEANER_XL:
+		highscore_table_title.text = "Top XL cleaners"
 	elif current_game_data["game"] == Profiles.Games.SWEEPER:
 		highscore_table_title.text = "Top %02d " % current_game_data["level"] + current_game_name.to_lower() + "s"
 	else:
@@ -38,6 +42,11 @@ func get_highscore_table(current_game_data: Dictionary, current_player_rank: int
 		var scoreline_position_key: String = "%02d" % scoreline_index
 		
 		if scoreline_index != 0: # glava tabele
+#			if not scoreline_index > lines_to_show:
+#				show()
+#			else:
+#				hide()
+#				break
 			# izberem position slovar glede na pozicijo score lineta
 			var current_position_dict: Dictionary = current_game_highscores[scoreline_position_key]
 			var current_position_dict_values: Array = current_position_dict.values()
@@ -47,34 +56,54 @@ func get_highscore_table(current_game_data: Dictionary, current_player_rank: int
 			
 			if current_game_hs_type == Profiles.HighscoreTypes.HS_TIME_LOW or current_game_hs_type == Profiles.HighscoreTypes.HS_TIME_HIGH:
 				var current_position_seconds: float = current_position_dict_values[0]
-				if current_position_seconds > 0 and not scoreline_index >= lines_to_show:
+				# skorlinije, ki niso skrite v hometu, se prikažejo
+				if current_position_seconds > 0:# and not scoreline_index >= lines_to_show: # and scoreline_index > lines_to_show:
+					scoreline.get_node("NoScoreLine").hide()
 					scoreline.get_node("Score").text = Global.get_clock_time(current_position_seconds)
 					scorelines_with_score.append(scoreline)
-					scoreline.show()
 				# skrijem 0 rezultat
 				elif current_position_seconds == 0:
 					scorelines_with_score.erase(scoreline)
-					scoreline.hide()
+					scoreline.get_node("Position").hide()
+					scoreline.get_node("Owner").hide()
+					scoreline.get_node("Score").hide()
+					scoreline.get_node("NoScoreLine").show()
+					
 			elif current_game_hs_type == Profiles.HighscoreTypes.HS_POINTS:
 				var current_position_points: int = current_position_dict_values[0]
-				if current_position_points > 0 and not scoreline_index >= lines_to_show: # bug =
-					scorelines_with_score.append(scoreline)
+#				if current_position_points > 0 and not scoreline_index >= lines_to_show: # bug =
+				if current_position_points > 0:
+					scoreline.get_node("NoScoreLine").hide()
 					scoreline.get_node("Score").text = str(current_position_dict_values[0])
+					scorelines_with_score.append(scoreline)
 				# skrijem 0 rezultat
 				else:
 					scorelines_with_score.erase(scoreline)
-					scoreline.hide()
+					scoreline.get_node("Position").hide()
+					scoreline.get_node("Owner").hide()
+					scoreline.get_node("Score").hide()
+					scoreline.get_node("NoScoreLine").show()
+					# scoreline.hide()
 					
+			if not scoreline_index > lines_to_show:
+
+				scoreline.show()
+			else:
+				scoreline.hide()
+				
 		# povdarim trenuten rezultat
 		if scoreline_index == current_player_rank and not scoreline_index == 0: # 0 je da izločim naslov
 			scoreline.modulate = Global.color_green
 	
 	# če v lestvici ni rezultata
 	if scorelines_with_score.empty():
-		scorelines[1].get_node("Position").hide()
+		scorelines[1].show() # 0 je title
 		scorelines[1].get_node("Owner").clip_text = false
 		scorelines[1].get_node("Owner").text = "Still no score ..."
 		scorelines[1].get_node("Owner").align = Label.ALIGN_CENTER
+		scorelines[1].get_node("Owner").modulate = Global.color_almost_white_text
+		scorelines[1].get_node("Owner").show()
+		scorelines[1].get_node("Position").hide()
 		scorelines[1].get_node("Score").hide()
-		scorelines[1].show()
+		scorelines[1].get_node("NoScoreLine").hide()
 			

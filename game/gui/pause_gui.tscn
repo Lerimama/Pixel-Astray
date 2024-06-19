@@ -332,9 +332,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -154.0
+margin_left = -86.0
 margin_top = 238.0
-margin_right = 154.0
+margin_right = 86.0
 margin_bottom = 260.0
 grow_horizontal = 2
 theme = ExtResource( 6 )
@@ -344,18 +344,18 @@ __meta__ = {
 }
 
 [node name="PlayBtn" type="Button" parent="Menu"]
-margin_right = 94.0
+margin_right = 88.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../QuitBtn")
 focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 0
-text = "PLAY ON"
+text = "RESUME"
 
 [node name="SkipTutBtn" type="Button" parent="Menu"]
 visible = false
-margin_left = 126.0
-margin_right = 296.0
+margin_left = 120.0
+margin_right = 290.0
 margin_bottom = 22.0
 focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
 mouse_default_cursor_shape = 2
@@ -363,8 +363,8 @@ size_flags_vertical = 0
 text = "SKIP TUTORIAL"
 
 [node name="RestartBtn" type="Button" parent="Menu"]
-margin_left = 126.0
-margin_right = 224.0
+margin_left = 120.0
+margin_right = 218.0
 margin_bottom = 22.0
 focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
 mouse_default_cursor_shape = 2
@@ -373,8 +373,8 @@ size_flags_vertical = 0
 text = "RESTART"
 
 [node name="QuitBtn" type="Button" parent="Menu"]
-margin_left = 256.0
-margin_right = 308.0
+margin_left = 250.0
+margin_right = 302.0
 margin_bottom = 22.0
 focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
 focus_neighbour_right = NodePath("../PlayBtn")

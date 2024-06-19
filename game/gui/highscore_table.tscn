@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://game/gui/highscore_table.gd" type="Script" id=1]
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=2]
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=3]
+[ext_resource path="res://assets/resources/highscore_table_noscore_line.tres" type="StyleBox" id=4]
 
 [node name="HighscoreTable" type="VBoxContainer"]
 margin_top = -2.0
@@ -69,6 +70,15 @@ custom_fonts/font = ExtResource( 2 )
 text = "100000000"
 align = 2
 
+[node name="NoScoreLine" type="HSeparator" parent="ScoreLine1"]
+visible = false
+margin_left = 203.0
+margin_right = 216.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 0, 18 )
+size_flags_horizontal = 3
+custom_styles/separator = ExtResource( 4 )
+
 [node name="ScoreLine2" type="HBoxContainer" parent="."]
 margin_top = 62.0
 margin_right = 216.0
@@ -103,6 +113,15 @@ size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 2 )
 text = "100000000"
 align = 2
+
+[node name="NoScoreLine" type="HSeparator" parent="ScoreLine2"]
+visible = false
+margin_left = 203.0
+margin_right = 216.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 0, 18 )
+size_flags_horizontal = 3
+custom_styles/separator = ExtResource( 4 )
 
 [node name="ScoreLine3" type="HBoxContainer" parent="."]
 margin_top = 90.0
@@ -139,6 +158,15 @@ custom_fonts/font = ExtResource( 2 )
 text = "100000000"
 align = 2
 
+[node name="NoScoreLine" type="HSeparator" parent="ScoreLine3"]
+visible = false
+margin_left = 203.0
+margin_right = 216.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 0, 18 )
+size_flags_horizontal = 3
+custom_styles/separator = ExtResource( 4 )
+
 [node name="ScoreLine4" type="HBoxContainer" parent="."]
 margin_top = 118.0
 margin_right = 216.0
@@ -173,6 +201,15 @@ size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 2 )
 text = "100000000"
 align = 2
+
+[node name="NoScoreLine" type="HSeparator" parent="ScoreLine4"]
+visible = false
+margin_left = 203.0
+margin_right = 216.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 0, 18 )
+size_flags_horizontal = 3
+custom_styles/separator = ExtResource( 4 )
 
 [node name="ScoreLine5" type="HBoxContainer" parent="."]
 margin_top = 146.0
@@ -209,6 +246,15 @@ custom_fonts/font = ExtResource( 2 )
 text = "100000000"
 align = 2
 
+[node name="NoScoreLine" type="HSeparator" parent="ScoreLine5"]
+visible = false
+margin_left = 203.0
+margin_right = 216.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 0, 18 )
+size_flags_horizontal = 3
+custom_styles/separator = ExtResource( 4 )
+
 [node name="ScoreLine6" type="HBoxContainer" parent="."]
 margin_top = 174.0
 margin_right = 216.0
@@ -243,6 +289,15 @@ size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 2 )
 text = "100000000"
 align = 2
+
+[node name="NoScoreLine" type="HSeparator" parent="ScoreLine6"]
+visible = false
+margin_left = 203.0
+margin_right = 216.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 0, 18 )
+size_flags_horizontal = 3
+custom_styles/separator = ExtResource( 4 )
 
 [node name="ScoreLine7" type="HBoxContainer" parent="."]
 margin_top = 202.0
@@ -279,6 +334,15 @@ custom_fonts/font = ExtResource( 2 )
 text = "100000000"
 align = 2
 
+[node name="NoScoreLine" type="HSeparator" parent="ScoreLine7"]
+visible = false
+margin_left = 203.0
+margin_right = 216.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 0, 18 )
+size_flags_horizontal = 3
+custom_styles/separator = ExtResource( 4 )
+
 [node name="ScoreLine8" type="HBoxContainer" parent="."]
 margin_top = 230.0
 margin_right = 216.0
@@ -313,6 +377,15 @@ size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 2 )
 text = "100000000"
 align = 2
+
+[node name="NoScoreLine" type="HSeparator" parent="ScoreLine8"]
+visible = false
+margin_left = 203.0
+margin_right = 216.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 0, 18 )
+size_flags_horizontal = 3
+custom_styles/separator = ExtResource( 4 )
 
 [node name="ScoreLine9" type="HBoxContainer" parent="."]
 margin_top = 258.0
@@ -349,6 +422,15 @@ custom_fonts/font = ExtResource( 2 )
 text = "100000000"
 align = 2
 
+[node name="NoScoreLine" type="HSeparator" parent="ScoreLine9"]
+visible = false
+margin_left = 203.0
+margin_right = 216.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 0, 18 )
+size_flags_horizontal = 3
+custom_styles/separator = ExtResource( 4 )
+
 [node name="ScoreLine10" type="HBoxContainer" parent="."]
 margin_top = 286.0
 margin_right = 216.0
@@ -383,3 +465,12 @@ size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 2 )
 text = "100000000"
 align = 2
+
+[node name="NoScoreLine" type="HSeparator" parent="ScoreLine10"]
+visible = false
+margin_left = 203.0
+margin_right = 216.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 0, 18 )
+size_flags_horizontal = 3
+custom_styles/separator = ExtResource( 4 )

@@ -108,7 +108,12 @@ func get_clock_time(time_to_split: float): # sekunde float
 	var minutes: int = floor(time_to_split / 60) # vse cele sekunde delim s 60
 	var seconds: int = floor(time_to_split) - minutes * 60 # vse sekunde minus sekunde v celih minutah
 	var hundreds: int = round((time_to_split - floor(time_to_split)) * 100) # decimalke množim x 100 in zaokrožim na celo
-
+	
+	# če je točno 100 stotink doda 1 sekundo da stotinke na 0
+	if hundreds == 100:
+		seconds += 1
+		hundreds = 0	
+		
 	# return [minutes, seconds, hundreds]	
 	var time_on_clock: String = "%02d" % minutes + ":" + "%02d" % seconds + ":" + "%02d" % hundreds	
 	return time_on_clock

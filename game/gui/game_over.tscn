@@ -301,9 +301,9 @@ __meta__ = {
 }
 
 [node name="Level" type="Label" parent="GameSummary/DataContainer"]
-margin_top = 32.0
-margin_right = 223.0
-margin_bottom = 50.0
+margin_top = 34.0
+margin_right = 175.0
+margin_bottom = 52.0
 custom_fonts/font = ExtResource( 1 )
 text = "%Level: 00"
 valign = 2
@@ -312,9 +312,9 @@ __meta__ = {
 }
 
 [node name="Points" type="Label" parent="GameSummary/DataContainer"]
-margin_top = 34.0
+margin_top = 62.0
 margin_right = 175.0
-margin_bottom = 52.0
+margin_bottom = 80.0
 custom_fonts/font = ExtResource( 1 )
 text = "%Score: 0000000"
 valign = 2
@@ -323,9 +323,9 @@ __meta__ = {
 }
 
 [node name="Time" type="Label" parent="GameSummary/DataContainer"]
-margin_top = 62.0
+margin_top = 90.0
 margin_right = 175.0
-margin_bottom = 80.0
+margin_bottom = 108.0
 custom_fonts/font = ExtResource( 1 )
 text = "%Time: 00:00:00"
 valign = 2
@@ -334,9 +334,9 @@ __meta__ = {
 }
 
 [node name="PixelsOff" type="Label" parent="GameSummary/DataContainer"]
-margin_top = 90.0
+margin_top = 118.0
 margin_right = 175.0
-margin_bottom = 108.0
+margin_bottom = 136.0
 custom_fonts/font = ExtResource( 1 )
 text = "%Colors collected: 000"
 valign = 2
@@ -345,9 +345,9 @@ __meta__ = {
 }
 
 [node name="AstrayPixels" type="Label" parent="GameSummary/DataContainer"]
-margin_top = 118.0
+margin_top = 146.0
 margin_right = 175.0
-margin_bottom = 136.0
+margin_bottom = 164.0
 custom_fonts/font = ExtResource( 1 )
 text = "%Left strays: 0000"
 valign = 2
@@ -356,9 +356,9 @@ __meta__ = {
 }
 
 [node name="CellsTraveled" type="Label" parent="GameSummary/DataContainer"]
-margin_top = 128.0
-margin_right = 223.0
-margin_bottom = 146.0
+margin_top = 174.0
+margin_right = 175.0
+margin_bottom = 192.0
 custom_fonts/font = ExtResource( 1 )
 text = "%Cells travelled: 0000"
 valign = 2
@@ -367,9 +367,9 @@ __meta__ = {
 }
 
 [node name="BurstCount" type="Label" parent="GameSummary/DataContainer"]
-margin_top = 160.0
-margin_right = 223.0
-margin_bottom = 178.0
+margin_top = 202.0
+margin_right = 175.0
+margin_bottom = 220.0
 custom_fonts/font = ExtResource( 1 )
 text = "%Bursts: 00"
 valign = 2
@@ -378,9 +378,9 @@ __meta__ = {
 }
 
 [node name="SkillsUsed" type="Label" parent="GameSummary/DataContainer"]
-margin_top = 192.0
-margin_right = 223.0
-margin_bottom = 210.0
+margin_top = 230.0
+margin_right = 175.0
+margin_bottom = 248.0
 custom_fonts/font = ExtResource( 1 )
 text = "%Skills used: 00"
 valign = 2
@@ -403,7 +403,6 @@ margin_bottom = 510.0
 size_flags_horizontal = 9
 
 [node name="Menu" type="HBoxContainer" parent="."]
-visible = false
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -428,17 +427,16 @@ size_flags_vertical = 8
 text = "PLAY AGAIN"
 
 [node name="NextLevelBtn" type="Button" parent="Menu"]
-visible = false
 margin_left = 164.0
-margin_right = 398.0
+margin_right = 348.0
 margin_bottom = 22.0
 mouse_default_cursor_shape = 2
 size_flags_vertical = 8
-text = "SWEEP NEXT SCREEN"
+text = "%NXT SITUATION"
 
 [node name="QuitBtn" type="Button" parent="Menu"]
-margin_left = 164.0
-margin_right = 216.0
+margin_left = 380.0
+margin_right = 432.0
 margin_bottom = 22.0
 focus_neighbour_right = NodePath("../RestartBtn")
 mouse_default_cursor_shape = 2

@@ -36,7 +36,6 @@ func _input(event: InputEvent) -> void:
 	
 	if Input.is_action_just_pressed("ui_accept") and skip_intro.visible:
 		_on_StartButton_pressed()
-		finish_intro()
 		
 		
 func _ready() -> void:

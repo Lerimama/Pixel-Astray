@@ -19,6 +19,7 @@ var inside_edge_level_rect: Rect2 # velikost floor "igralne mize"
 
 onready var camera_position_node: Position2D = $CameraPosition
 onready var background_room: TextureRect = $Background/Room
+onready var tilemap_background: Node2D = $Background
 
 
 func _ready() -> void:
@@ -28,8 +29,12 @@ func _ready() -> void:
 
 	# set_color_theme
 	get_tileset().tile_set_modulate(wall_tile_id, Global.color_wall)
-	get_tileset().tile_set_modulate(edge_tile_id, Global.color_edge)
 	get_tileset().tile_set_modulate(floor_tile_id, Global.color_floor)
+	# ko je edge size manjši od kamere, ga obarvam drugače
+	if Global.game_manager.game_data["game"] == Profiles.Games.CLEANER_XS or Global.game_manager.game_data["game"] == Profiles.Games.CLEANER_S:
+		get_tileset().tile_set_modulate(edge_tile_id, Global.color_almost_black_pixel)
+	else:
+		get_tileset().tile_set_modulate(edge_tile_id, Global.color_edge)
 
 
 func get_tiles():

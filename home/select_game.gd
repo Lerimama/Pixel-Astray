@@ -25,6 +25,8 @@ func _ready() -> void:
 	$GamesMenu/Cleaner/CleanerSBtn.add_to_group(Global.group_menu_confirm_btns)
 	$GamesMenu/Cleaner/CleanerMBtn.add_to_group(Global.group_menu_confirm_btns)
 	$GamesMenu/Cleaner/CleanerLBtn.add_to_group(Global.group_menu_confirm_btns)
+	$GamesMenu/Cleaner/CleanerXLBtn.add_to_group(Global.group_menu_confirm_btns)
+	$GamesMenu/Cleaner/CleanerXXLBtn.add_to_group(Global.group_menu_confirm_btns)
 	$GamesMenu/Timeless/EraserBtn.add_to_group(Global.group_menu_confirm_btns)
 	$GamesMenu/Timeless/DefenderBtn.add_to_group(Global.group_menu_confirm_btns)
 	$GamesMenu/TheDuel/TheDuelBtn.add_to_group(Global.group_menu_confirm_btns)
@@ -46,7 +48,7 @@ func _process(delta: float) -> void:
 				
 			else:
 				$GamesMenu/Classic/Background.color = unfocused_color
-			if focused_btn.name == "CleanerSBtn" or focused_btn.name == "CleanerMBtn" or focused_btn.name == "CleanerLBtn":
+			if focused_btn.name == "CleanerSBtn" or focused_btn.name == "CleanerMBtn" or focused_btn.name == "CleanerLBtn" or focused_btn.name == "CleanerXLBtn" or focused_btn.name == "CleanerXXLBtn":
 				$GamesMenu/Cleaner/Background.color = Global.color_blue
 				$GamesMenu/Cleaner/Background.modulate.a = 0.95 # da ne žari premočno
 			else:
@@ -144,17 +146,27 @@ func _on_TutorialModeBtn_toggled(button_pressed: bool) -> void:
 		
 func _on_CleanerSBtn_pressed() -> void:
 	
-	play_selected_game(Profiles.Games.CLEANER_S)
+	play_selected_game(Profiles.Games.CLEANER_XS)
 	
 	
 func _on_CleanerMBtn_pressed() -> void:
 	
-	play_selected_game(Profiles.Games.CLEANER_M)
+	play_selected_game(Profiles.Games.CLEANER_S)
 	
 	
 func _on_CleanerLBtn_pressed() -> void:
 	
+	play_selected_game(Profiles.Games.CLEANER_M)
+
+
+func _on_CleanerXLBtn_pressed() -> void:
+	
 	play_selected_game(Profiles.Games.CLEANER_L)
+
+
+func _on_CleanerXXLBtn_pressed() -> void:
+	
+	play_selected_game(Profiles.Games.CLEANER_XL)
 	
 	
 func _on_EraserBtn_pressed() -> void:
@@ -190,7 +202,7 @@ func _on_ClassicBackground_mouse_entered() -> void:
 func _on_CleanerBackground_mouse_entered() -> void:
 	
 	# če še ni izbran kateri v trenutnem boxu
-	if not $GamesMenu/Cleaner/CleanerMBtn.has_focus() and not $GamesMenu/Cleaner/CleanerLBtn.has_focus():
+	if not $GamesMenu/Cleaner/CleanerMBtn.has_focus() and not $GamesMenu/Cleaner/CleanerLBtn.has_focus() and not $GamesMenu/Cleaner/CleanerXLBtn.has_focus() and not $GamesMenu/Cleaner/CleanerXXLBtn.has_focus():
 		$GamesMenu/Cleaner/CleanerSBtn.grab_focus()
 		
 		
