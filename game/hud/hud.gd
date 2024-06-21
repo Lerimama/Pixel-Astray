@@ -179,7 +179,7 @@ func set_hud(): # kliče main na game-in
 		game_timer.get_node("Dots2").show()
 		game_timer.get_node("Hunds").show()
 		
-
+		
 func set_current_highscore():
 	
 	var current_highscore_line: Array = Global.data_manager.get_top_highscore(Global.game_manager.game_data)
@@ -191,6 +191,8 @@ func set_current_highscore():
 		highscore_label.text = "HS " + current_highscore_clock
 	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_POINTS:
 		highscore_label.text = "HS " + str(current_highscore)
+		
+
 
 
 func slide_in(): # kliče GM set_game()

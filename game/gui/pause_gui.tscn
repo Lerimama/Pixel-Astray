@@ -177,6 +177,7 @@ __meta__ = {
 
 [node name="_help_gui_guide" parent="." instance=ExtResource( 8 )]
 visible = false
+modulate = Color( 1, 1, 1, 1 )
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = -336.0
@@ -196,15 +197,14 @@ margin_top = 192.0
 margin_right = 208.0
 margin_bottom = 504.0
 
+[node name="Record" parent="Instructions/Outline" index="3"]
+margin_bottom = 304.0
+
 [node name="ControlsDuelP1" parent="Instructions/Outline" index="6"]
 visible = false
 margin_left = 324.0
-margin_top = 152.0
-margin_right = 640.0
-margin_bottom = 312.0
 
 [node name="ControlsDuelP2" parent="Instructions/Outline" index="7"]
-visible = false
 margin_top = 152.0
 margin_bottom = 312.0
 
@@ -259,10 +259,11 @@ __meta__ = {
 modulate = Color( 1, 1, 1, 0.470588 )
 anchor_right = 1.0
 margin_left = 32.0
-margin_top = 115.0
+margin_top = 123.0
 margin_right = -32.0
-margin_bottom = 147.0
+margin_bottom = 155.0
 rect_min_size = Vector2( 0, 32 )
+rect_pivot_offset = Vector2( -48, 45 )
 focus_neighbour_bottom = NodePath("../GameSfxBtn")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 8
@@ -303,10 +304,11 @@ align = 1
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 anchor_right = 1.0
 margin_left = 60.0
-margin_top = 145.0
+margin_top = 161.0
 margin_right = -60.0
-margin_bottom = 177.0
+margin_bottom = 193.0
 rect_min_size = Vector2( 0, 32 )
+rect_pivot_offset = Vector2( 20, 16 )
 focus_neighbour_top = NodePath("../GameMusicSlider")
 mouse_default_cursor_shape = 2
 custom_fonts/font = ExtResource( 2 )
@@ -317,10 +319,11 @@ text = "GAME SFX"
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 anchor_right = 1.0
 margin_left = 46.0
-margin_top = 182.0
+margin_top = 206.0
 margin_right = -38.0
-margin_bottom = 214.0
+margin_bottom = 238.0
 rect_min_size = Vector2( 0, 32 )
+rect_pivot_offset = Vector2( -62, -22 )
 focus_neighbour_bottom = NodePath("../../Menu/PlayBtn")
 mouse_default_cursor_shape = 2
 custom_fonts/font = ExtResource( 2 )

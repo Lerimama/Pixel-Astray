@@ -74,11 +74,12 @@ func pause_game():
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	
 	# pokažem skip tutorial gumb
-	var skip_tut_btn: Button = $Menu/SkipTutBtn
-	if Global.tutorial_gui != null and Global.tutorial_gui.tutorial_on:
-		skip_tut_btn.show()
-	else:
-		skip_tut_btn.hide()
+	if not Global.game_manager.game_data["game"] == Profiles.Games.DEFENDER: # defender nima tutorial nodeta
+		var skip_tut_btn: Button = $Menu/SkipTutBtn
+		if Global.tutorial_gui.tutorial_on:
+			skip_tut_btn.show()
+		else:
+			skip_tut_btn.hide()
 
 	Global.focus_without_sfx($Menu/PlayBtn)
 	

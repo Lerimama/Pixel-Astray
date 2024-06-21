@@ -85,8 +85,8 @@ func open_from_game(finished_game: int): # select_game screen ... kliče main.gd
 	intro.finish_intro()
 	
 	yield(get_tree().create_timer(1), "timeout") # počaka, da se vsi spawnajo
-#	if not Global.sound_manager.game_sfx_set_to_off:
-#		AudioServer.set_bus_mute(AudioServer.get_bus_index("GameSfx"), false)
+	#	if not Global.sound_manager.game_sfx_set_to_off:
+	#		AudioServer.set_bus_mute(AudioServer.get_bus_index("GameSfx"), false)
 	
 	
 func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drugih ekranov
@@ -98,7 +98,7 @@ func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drug
 	Global.focus_without_sfx($Menu/SelectGameBtn)
 		
 	var fade_in = get_tree().create_tween()
-	fade_in.tween_property(menu, "modulate:a", 1, 1).from(0.0)
+	fade_in.tween_property(menu, "modulate:a", 1, 0.32).from(0.0)
 
 
 # SIGNALI ---------------------------------------------------------------------------------------------------

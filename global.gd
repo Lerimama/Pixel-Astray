@@ -52,8 +52,7 @@ var color_hud_text: Color = color_almost_white_text # za vse, ki modulirajo barv
 # pixel colors
 var color_almost_black_pixel: Color = Color("#141414") 
 var color_dark_gray_pixel: Color = Color("#232323")#Color("#323232") # start normal
-#var color_white_pixel: Color = Color(260,260,260,100)
-var color_white_pixel: Color = Color("#ffffff")
+var color_white_pixel: Color = Color(1, 1, 1, 1.22)
 
 # popularne transparence ozadij ... referenca
 # A = 140 (pavza
@@ -255,7 +254,7 @@ func get_spectrum_colors(color_count: int):
 
 # FILETI in FOLDERJI -----------------------------------------------------------------------------------------
 
-
+# trenutno ni v rabi
 func get_folder_contents(rootPath: String, files_only: bool = true) -> Array:
 	
 	var files = []

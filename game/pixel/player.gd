@@ -1377,7 +1377,7 @@ func _on_ReburstingTimer_timeout() -> void:
 
 	
 func _on_TouchTimer_timeout() -> void: 
-	# ERASER
+	# CHASER
 
 	detect_touch() # za GO
 	
@@ -1463,7 +1463,7 @@ func change_stat(stat_event: String, stat_value):
 		"skill_used": # štetje, točke in energija kot je določeno v settingsih
 			player_stats["skill_count"] += 1
 			# za tutorial
-			if Global.tutorial_gui != null and Global.tutorial_gui.tutorial_on:
+			if Global.game_manager.game_data["game"] == Profiles.Games.CLASSIC and Global.tutorial_gui.tutorial_on:
 				Global.tutorial_gui.on_skill_used(stat_value)
 		"burst_released": # štetje, točke in energija kot je določeno v settingsih
 			player_stats["burst_count"] += 1
@@ -1489,8 +1489,9 @@ func change_stat(stat_event: String, stat_value):
 			player_stats["player_points"] += points_to_gain 
 			spawn_floating_tag(points_to_gain)
 			# za tutorial
-			if Global.tutorial_gui != null and Global.tutorial_gui.tutorial_on:
+			if Global.game_manager.game_data["game"] == Profiles.Games.CLASSIC and Global.tutorial_gui.tutorial_on:
 				Global.tutorial_gui.on_hit_stray(stack_strays_cleaned_count)
+					
 		"white_eliminated":
 			player_stats["player_energy"] = player_max_energy
 			var points_to_gain: int = game_settings["white_eliminated_points"]

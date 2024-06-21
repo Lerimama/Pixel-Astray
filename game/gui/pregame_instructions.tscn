@@ -472,6 +472,7 @@ margin_right = 203.0
 text = " to hard reset"
 
 [node name="Controls" type="Panel" parent="Outline"]
+visible = false
 margin_left = 248.0
 margin_top = 152.0
 margin_right = 640.0
@@ -506,9 +507,10 @@ points = PoolVector2Array( 487.312, -96.4007, 514.67, -151.973 )
 points = PoolVector2Array( 481, -191, 420, -206 )
 
 [node name="ControlsDuelP1" type="Panel" parent="Outline"]
-margin_top = 320.0
-margin_right = 316.0
-margin_bottom = 480.0
+margin_left = 248.0
+margin_top = 152.0
+margin_right = 640.0
+margin_bottom = 312.0
 rect_min_size = Vector2( 240, 160 )
 size_flags_horizontal = 3
 custom_styles/panel = ExtResource( 9 )
@@ -609,6 +611,7 @@ margin_bottom = -2.0
 texture = SubResource( 449 )
 
 [node name="ControlsDuelP2" type="Panel" parent="Outline"]
+visible = false
 margin_left = 324.0
 margin_top = 320.0
 margin_right = 640.0

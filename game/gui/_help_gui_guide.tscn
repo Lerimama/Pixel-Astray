@@ -9,12 +9,21 @@ margin_right = 32.0
 margin_bottom = 24.0
 
 [node name="skrin" type="ColorRect" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -336.0
 margin_top = 96.0
 margin_right = 336.0
 margin_bottom = 448.0
+
+[node name="sredina" type="ColorRect" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -336.0
+margin_top = 88.0
+margin_right = 336.0
+margin_bottom = 440.0
 
 [node name="menu" type="ColorRect" parent="."]
 anchor_left = 0.5

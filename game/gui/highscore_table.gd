@@ -21,7 +21,7 @@ func get_highscore_table(current_game_data: Dictionary, current_player_rank: int
 	elif current_game_data["game"] == Profiles.Games.CLEANER_XL:
 		highscore_table_title.text = "Top XL cleaners"
 	elif current_game_data["game"] == Profiles.Games.SWEEPER:
-		highscore_table_title.text = "Top %02d " % current_game_data["level"] + current_game_name.to_lower() + "s"
+		highscore_table_title.text = "Top " + current_game_name.to_lower() + "s %02d" % current_game_data["level"]
 	else:
 		highscore_table_title.text = "Top " + current_game_name.to_lower() + "s"
 	

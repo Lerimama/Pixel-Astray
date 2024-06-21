@@ -126,10 +126,10 @@ func _on_ResetBtn_pressed() -> void:
 	
 	Profiles.use_default_color_theme = true
 	randomize_btn.grab_focus()
-#	Global.grab_focus_no_sfx(randomize_btn) # VN
+	#	Global.grab_focus_no_sfx(randomize_btn) # VN
 
 	intro.respawn_title_strays()
-	select_level_node.set_level_btns()
+	select_level_node.recolor_level_btns()
 
 
 func _on_RandomizeBtn_pressed() -> void:
@@ -144,4 +144,4 @@ func _on_RandomizeBtn_pressed() -> void:
 	gradient_icon.texture.gradient = current_color_scheme_gradient
 	
 	intro.respawn_title_strays()
-	select_level_node.set_level_btns()
+	select_level_node.recolor_level_btns()

@@ -76,6 +76,7 @@ func start_game():
 	game_on = true
 	
 	create_strays(create_strays_count)
+	
 	line_step()
 
 

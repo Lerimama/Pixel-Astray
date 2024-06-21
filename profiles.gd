@@ -55,7 +55,7 @@ var default_game_settings: Dictionary = {
 enum Games {
 	CLASSIC,
 	CLEANER_XS, CLEANER_S, CLEANER_M, CLEANER_L, CLEANER_XL,
-	ERASER,
+	CHASER,
 	DEFENDER,
 	SWEEPER,
 	THE_DUEL,
@@ -77,7 +77,8 @@ var game_data_classic: Dictionary = {
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Classic",
 	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_classic.tscn",
+	# "tilemap_path": "res://game/tilemaps/tilemap_classic_xl.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_classic_l.tscn",
 	"description" : "Team up for a cleaning frenzy!",
 	"Prop" : "Clear all stray pixels\nto reclaim your\none-and-only status.",
 	"Prop2" : "Give it your best shot\nto beat the current\nrecord score!",
@@ -137,10 +138,10 @@ var game_data_cleaner_xl: Dictionary = {
 	"Prop2" : "Be quick and efficient\nto beat the current\nrecord time!",
 	# 15min / 300 straysov
 }
-var game_data_eraser: Dictionary = { 
-	"game": Games.ERASER,
+var game_data_chaser: Dictionary = { 
+	"game": Games.CHASER,
 	"highscore_type": HighscoreTypes.HS_POINTS,
-	"game_name": "Hunter",
+	"game_name": "Chaser",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser.tscn",
 	"description" : "Keep the colors in check as they keep popping in!",
@@ -208,6 +209,24 @@ var game_data_sweeper: Dictionary = {
 	#	"Prop3" : "One burst\nto rule them all\nin a record time!",
 	"level": 1,
 }
+var sweeper_level_tilemap_paths: Array = [ # zaporedje je ključno za level name
+	"res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_02.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_03.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_04.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_05.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_06.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_07.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_08.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_09.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_10.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_11.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_12.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_13.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_14.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_15.tscn",
+	"res://game/tilemaps/sweeper/tilemap_sweeper_pixel_astray.tscn"
+	]
 var game_data_showcase: Dictionary = {
 	"game": Games.SHOWCASE,
 	"highscore_type": HighscoreTypes.NO_HS,
@@ -229,11 +248,9 @@ var game_data_showcase: Dictionary = {
 # ON GAME START -----------------------------------------------------------------------------------
 
 var sweeper_tilemaps_folder: String = "res://game/tilemaps/sweeper/"
-var sweeper_level_tilemap_paths: Array
 var game_settings: Dictionary# = default_game_settings # = {}
 var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
 var use_default_color_theme: bool = true
-
 var get_it_time: float = 1 # tajming za dojet določene faze igre
 
 # nastavitve, ki se setajo tudi v home
@@ -243,20 +260,19 @@ var tutorial_music_track_index: int = 1
 var tutorial_mode: bool = true
 
 
-
 func _ready() -> void:
 	
-	sweeper_level_tilemap_paths = Global.get_folder_contents(sweeper_tilemaps_folder)
+	# sweeper_level_tilemap_paths = Global.get_folder_contents(sweeper_tilemaps_folder)
 
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE # fix camera
-#	var debug_game = Games.CLASSIC
+	var debug_game = Games.CLASSIC
 #	var debug_game = Games.CLEANER_XS
 #	var debug_game = Games.CLEANER_S
-	var debug_game = Games.CLEANER_M
+#	var debug_game = Games.CLEANER_M
 #	var debug_game = Games.CLEANER_L
 #	var debug_game = Games.CLEANER_XL
-#	var debug_game = Games.ERASER
+#	var debug_game = Games.CHASER
 #	var debug_game = Games.DEFENDER
 #	var debug_game = Games.SWEEPER
 #	var debug_game = Games.THE_DUEL
@@ -268,8 +284,8 @@ func set_game_data(selected_game):
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
 	# debug
-	game_settings["start_countdown"] = false
-	game_settings["player_start_life"] = 2
+#	game_settings["start_countdown"] = false
+#	game_settings["player_start_life"] = 2
 #	game_settings["show_game_instructions"] = false
 	
 	match selected_game:
@@ -285,17 +301,16 @@ func set_game_data(selected_game):
 			game_settings["zoom_to_level_size"] = true
 			game_settings["cell_traveled_energy"] = 0		
 			game_settings["player_start_life"] = 5
-			
 			# variacije	
 			# random stray step on start_game()
 			game_settings["player_start_color"] = Color.white
-			#			camera_shake_on = false
-			#			game_settings["reburst_enabled"] = true			
-			#			game_settings["reburst_window_time"] = 0
+			# camera_shake_on = false
+			# game_settings["reburst_enabled"] = true			
+			# game_settings["reburst_window_time"] = 0
 
 		Games.CLASSIC: 
 			current_game_data = game_data_classic.duplicate()
-			game_settings["create_strays_count"] = 320
+			game_settings["create_strays_count"] = 230
 			game_settings["game_time_limit"] = 0
 			game_settings["start_countdown"] = false
 			game_settings["game_music_track_index"] = 1
@@ -313,7 +328,7 @@ func set_game_data(selected_game):
 			game_settings["spawn_white_stray_part"] = 0.11
 		Games.CLEANER_M: 
 			current_game_data = game_data_cleaner_m.duplicate()
-			game_settings["game_time_limit"] = 420
+			game_settings["game_time_limit"] = 470
 			game_settings["create_strays_count"] = 100
 			game_settings["spawn_white_stray_part"] = 0.11
 			
@@ -324,12 +339,12 @@ func set_game_data(selected_game):
 			game_settings["spawn_white_stray_part"] = 0.11
 		Games.CLEANER_XL: 
 			current_game_data = game_data_cleaner_xl.duplicate()
-			game_settings["game_time_limit"] = 5
+			game_settings["game_time_limit"] = 900
 			game_settings["create_strays_count"] = 300
 			game_settings["spawn_white_stray_part"] = 0.11
 		
-		Games.ERASER: 
-			current_game_data = game_data_eraser.duplicate()
+		Games.CHASER: 
+			current_game_data = game_data_chaser.duplicate()
 			game_settings["start_countdown"] = false
 			game_settings["position_indicators_show_limit"] = 0
 			#
@@ -343,7 +358,7 @@ func set_game_data(selected_game):
 			game_settings["position_indicators_show_limit"] = 0
 			game_settings["full_power_mode"] = true
 			game_settings["start_countdown"] = false
-			game_settings["game_music_track_index"] = 1
+			# game_settings["game_music_track_index"] = 1
 			#
 			game_settings["create_strays_count"] = 1 # število spawnanih v prvi rundi
 		
@@ -369,6 +384,6 @@ func set_game_data(selected_game):
 			game_settings["reburst_enabled"] = true
 			game_settings["reburst_window_time"] = 5
 			game_settings["game_music_track_index"] = 1
-#			game_settings["show_game_instructions"] = false
+			game_settings["show_game_instructions"] = false
 			return game_settings # da lahko vklopim game instructions za prehod iz home menija
 	

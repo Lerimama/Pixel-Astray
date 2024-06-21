@@ -7,9 +7,12 @@ onready var perf_stat_3: Label = $VBoxContainer/PerfStat3
 onready var perf_stat_4: Label = $VBoxContainer/PerfStat4
 onready var perf_stat_5: Label = $VBoxContainer/PerfStat5
 onready var perf_stat_6: Label = $VBoxContainer/PerfStat6
+onready var perf_stat_7: Label = $VBoxContainer/PerfStat7
 
+var frame_count: int = 0
 
 func _process(delta: float) -> void:
+	
 	
 	#	print("Performance ----------------") # Prints the FPS to the console
 	#	print(" TIME_FPS -> ",Performance.get_monitor(Performance.TIME_FPS)) # Prints the FPS to the console
@@ -18,7 +21,8 @@ func _process(delta: float) -> void:
 	#	print(" RENDER_VERTICES_IN_FRAME -> ",Performance.get_monitor(13)) # Prints the FPS to the console
 	#	print(" OBJECT_COUNT -> ",Performance.get_monitor(Performance.OBJECT_COUNT)) # Prints the FPS to the console
 	#	print(" OBJECT_RESOURCE_COUNT -> ",Performance.get_monitor(Performance.OBJECT_RESOURCE_COUNT)) # Prints the FPS to the console
-
+#	print (frame_count)
+	
 	if visible:
 		perf_stat.text = "FPS: %d" % Performance.get_monitor(Performance.TIME_FPS)
 		perf_stat_2.text = "Texture memory: %d" % Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED)

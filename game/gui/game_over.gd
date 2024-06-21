@@ -215,7 +215,7 @@ func show_gameover_title():
 		get_tree().set_pause(true) # setano čez celotno GO proceduro
 		set_game_summary()
 		if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NO_HS:
-			pass # show_game_summary()ni nastavljen za NO_HS situacijo
+				pass # show_game_summary()ni nastavljen za NO_HS situacijo
 		else:
 			var current_player_rank: int
 			if score_is_ranking: # manage_gameover_highscores počaka na signal iz name_input

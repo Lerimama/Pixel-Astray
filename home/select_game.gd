@@ -171,7 +171,7 @@ func _on_CleanerXXLBtn_pressed() -> void:
 	
 func _on_EraserBtn_pressed() -> void:
 	
-	play_selected_game(Profiles.Games.ERASER)
+	play_selected_game(Profiles.Games.CHASER)
 	
 	
 func _on_DefenderBtn_pressed() -> void:
@@ -185,6 +185,7 @@ func _on_TheDuelBtn_pressed() -> void:
 	
 	
 func _on_SweeperBtn_pressed() -> void:
+#	play_selected_game(Profiles.Games.SWEEPER)
 	
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("select_level")

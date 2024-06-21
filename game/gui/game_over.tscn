@@ -11,13 +11,12 @@
 
 [node name="GameOver" type="Control"]
 pause_mode = 2
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 3 )
 script = ExtResource( 4 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 264.0, 616.0 ],
+"_edit_horizontal_guides_": [ 320.0, 616.0, 384.0, 264.0 ],
 "_edit_vertical_guides_": [ 640.0 ]
 }
 
@@ -42,8 +41,14 @@ anchor_bottom = 1.0
 
 [node name="Duel" type="Control" parent="GameoverTitle"]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -416.0
+margin_top = -176.0
+margin_right = 416.0
+margin_bottom = 176.0
 
 [node name="Win" type="Control" parent="GameoverTitle/Duel"]
 visible = false
@@ -53,9 +58,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -512.0
-margin_top = -232.0
+margin_top = -176.0
 margin_right = 512.0
-margin_bottom = 56.0
+margin_bottom = 112.0
 
 [node name="PlayerLabel" type="Label" parent="GameoverTitle/Duel/Win"]
 anchor_left = 0.5
@@ -102,9 +107,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -512.0
-margin_top = -176.0
+margin_top = -120.0
 margin_right = 512.0
-margin_bottom = 88.0
+margin_bottom = 144.0
 
 [node name="PlayerLabel" type="Label" parent="GameoverTitle/Duel/Draw"]
 anchor_left = 0.5
@@ -149,8 +154,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -512.0
-margin_top = -176.0
+margin_top = -120.0
 margin_right = 512.0
+margin_bottom = 56.0
 
 [node name="Congrats" type="TileMap" parent="GameoverTitle/ReasonCleaned"]
 position = Vector2( 192, 0 )
@@ -181,8 +187,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -512.0
-margin_top = -176.0
+margin_top = -120.0
 margin_right = 512.0
+margin_bottom = 56.0
 
 [node name="GameOver" type="TileMap" parent="GameoverTitle/ReasonTime"]
 position = Vector2( 176, 0 )
@@ -213,8 +220,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -512.0
-margin_top = -176.0
+margin_top = -120.0
 margin_right = 512.0
+margin_bottom = 56.0
 
 [node name="GameOver" type="TileMap" parent="GameoverTitle/ReasonLife"]
 position = Vector2( 176, 0 )
@@ -238,6 +246,7 @@ text = "You are forever colorless!"
 align = 1
 
 [node name="GameSummary" type="Control" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -263,16 +272,23 @@ uppercase = true
 
 [node name="Background" type="ColorRect" parent="GameSummary"]
 margin_left = 368.0
-margin_top = 184.0
+margin_top = 176.0
 margin_right = 608.0
-margin_bottom = 538.0
+margin_bottom = 528.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="Background2" type="ColorRect" parent="GameSummary"]
+margin_left = 616.0
+margin_top = 176.0
+margin_right = 912.0
+margin_bottom = 528.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
 [node name="DataContainer" type="VBoxContainer" parent="GameSummary"]
 margin_left = 400.0
-margin_top = 206.0
+margin_top = 198.0
 margin_right = 575.0
-margin_bottom = 510.0
+margin_bottom = 502.0
 theme = ExtResource( 3 )
 custom_constants/separation = 10
 __meta__ = {
@@ -388,18 +404,11 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Background2" type="ColorRect" parent="GameSummary"]
-margin_left = 616.0
-margin_top = 184.0
-margin_right = 912.0
-margin_bottom = 538.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
-
 [node name="HighscoreTable" parent="GameSummary" instance=ExtResource( 6 )]
 margin_left = 648.0
-margin_top = 206.0
+margin_top = 198.0
 margin_right = 880.0
-margin_bottom = 510.0
+margin_bottom = 502.0
 size_flags_horizontal = 9
 
 [node name="Menu" type="HBoxContainer" parent="."]
@@ -428,15 +437,15 @@ text = "PLAY AGAIN"
 
 [node name="NextLevelBtn" type="Button" parent="Menu"]
 margin_left = 164.0
-margin_right = 348.0
+margin_right = 350.0
 margin_bottom = 22.0
 mouse_default_cursor_shape = 2
 size_flags_vertical = 8
 text = "%NXT SITUATION"
 
 [node name="QuitBtn" type="Button" parent="Menu"]
-margin_left = 380.0
-margin_right = 432.0
+margin_left = 382.0
+margin_right = 434.0
 margin_bottom = 22.0
 focus_neighbour_right = NodePath("../RestartBtn")
 mouse_default_cursor_shape = 2

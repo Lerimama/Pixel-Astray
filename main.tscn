@@ -506,7 +506,7 @@ margin_bottom = 40.0
 custom_constants/separation = 8
 
 [node name="PerfStat" type="Label" parent="PerformanceStats/VBoxContainer"]
-margin_right = 52.0
+margin_right = 132.0
 margin_bottom = 18.0
 theme = ExtResource( 1 )
 custom_fonts/font = ExtResource( 3 )
@@ -514,7 +514,7 @@ text = "FR: %d"
 
 [node name="PerfStat2" type="Label" parent="PerformanceStats/VBoxContainer"]
 margin_top = 26.0
-margin_right = 52.0
+margin_right = 132.0
 margin_bottom = 44.0
 theme = ExtResource( 1 )
 custom_fonts/font = ExtResource( 3 )
@@ -522,7 +522,7 @@ text = "FR: %d"
 
 [node name="PerfStat3" type="Label" parent="PerformanceStats/VBoxContainer"]
 margin_top = 52.0
-margin_right = 52.0
+margin_right = 132.0
 margin_bottom = 70.0
 theme = ExtResource( 1 )
 custom_fonts/font = ExtResource( 3 )
@@ -530,7 +530,7 @@ text = "FR: %d"
 
 [node name="PerfStat4" type="Label" parent="PerformanceStats/VBoxContainer"]
 margin_top = 78.0
-margin_right = 52.0
+margin_right = 132.0
 margin_bottom = 96.0
 theme = ExtResource( 1 )
 custom_fonts/font = ExtResource( 3 )
@@ -538,7 +538,7 @@ text = "FR: %d"
 
 [node name="PerfStat5" type="Label" parent="PerformanceStats/VBoxContainer"]
 margin_top = 104.0
-margin_right = 52.0
+margin_right = 132.0
 margin_bottom = 122.0
 theme = ExtResource( 1 )
 custom_fonts/font = ExtResource( 3 )
@@ -552,3 +552,11 @@ margin_bottom = 128.0
 theme = ExtResource( 1 )
 custom_fonts/font = ExtResource( 3 )
 text = "FR: %d"
+
+[node name="PerfStat7" type="Label" parent="PerformanceStats/VBoxContainer"]
+margin_top = 130.0
+margin_right = 132.0
+margin_bottom = 148.0
+theme = ExtResource( 1 )
+custom_fonts/font = ExtResource( 3 )
+text = "DELTA COUNT: %d"
