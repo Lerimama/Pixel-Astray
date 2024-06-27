@@ -77,8 +77,8 @@ var game_data_classic: Dictionary = {
 	"highscore_type": HighscoreTypes.HS_POINTS,
 	"game_name": "Classic",
 	"game_scene_path": "res://game/game.tscn",
-	# "tilemap_path": "res://game/tilemaps/tilemap_classic_xl.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_classic_l.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_classic_xl.tscn",
+#	"tilemap_path": "res://game/tilemaps/tilemap_classic_l.tscn",
 	"description" : "Team up for a cleaning frenzy!",
 	"Prop" : "Clear all stray pixels\nto reclaim your\none-and-only status.",
 	"Prop2" : "Give it your best shot\nto beat the current\nrecord score!",
@@ -266,10 +266,10 @@ func _ready() -> void:
 
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE # fix camera
-	var debug_game = Games.CLASSIC
+#	var debug_game = Games.CLASSIC
 #	var debug_game = Games.CLEANER_XS
 #	var debug_game = Games.CLEANER_S
-#	var debug_game = Games.CLEANER_M
+	var debug_game = Games.CLEANER_M
 #	var debug_game = Games.CLEANER_L
 #	var debug_game = Games.CLEANER_XL
 #	var debug_game = Games.CHASER
@@ -284,10 +284,10 @@ func set_game_data(selected_game):
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
 	# debug
-#	game_settings["start_countdown"] = false
-#	game_settings["player_start_life"] = 2
-#	game_settings["show_game_instructions"] = false
-	
+	game_settings["start_countdown"] = false
+	game_settings["player_start_life"] = 2
+	game_settings["show_game_instructions"] = false
+
 	match selected_game:
 
 		Games.SHOWCASE: 
@@ -310,17 +310,22 @@ func set_game_data(selected_game):
 
 		Games.CLASSIC: 
 			current_game_data = game_data_classic.duplicate()
-			game_settings["create_strays_count"] = 230
+#			game_settings["create_strays_count"] = 230
 			game_settings["game_time_limit"] = 0
 			game_settings["start_countdown"] = false
 			game_settings["game_music_track_index"] = 1
 			game_settings["start_countdown"] = false
+			#
+#			game_settings["create_strays_count"] = 999
+			game_settings["create_strays_count"] = 200
 			
 		Games.CLEANER_XS: 
 			current_game_data = game_data_cleaner_xs.duplicate()
 			game_settings["game_time_limit"] = 120 
-			game_settings["create_strays_count"] = 32
+#			game_settings["create_strays_count"] = 32
 			game_settings["spawn_white_stray_part"] = 0.11 # 10 posto
+#			
+			game_settings["create_strays_count"] = 1
 		Games.CLEANER_S: 
 			current_game_data = game_data_cleaner_s.duplicate()
 			game_settings["game_time_limit"] = 300

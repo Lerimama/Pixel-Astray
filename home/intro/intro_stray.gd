@@ -33,8 +33,6 @@ func _ready() -> void:
 	position_indicator.visible = false
 	
 	yield(get_tree().create_timer(0.5), "timeout") # da ima čas registrirat	
-	$OverspawnDetect.monitoring = false
-	$OverspawnDetect.monitorable = false
 
 	
 func step(step_direction: Vector2 = Vector2.DOWN):
@@ -153,15 +151,6 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 		collision_shape_ext.set_deferred("disabled", true)
 		# odstrani barve iz huda in igre
 		#		Global.game_manager.on_stray_die(self)
-		call_deferred("queue_free")
-
-
-func _on_OverspawnDetect_body_entered(body: Node) -> void: # varovalka overspawn III ... če detect area zazna kolizijo
-	# namen: ne preverjam plejerja
-	
-	# samo na štartu ... ob prikazu jo izklopim
-	if body.is_in_group(Global.group_strays) and not body == self:
-		# printt ("overspawn III", self)
 		call_deferred("queue_free")
 
 

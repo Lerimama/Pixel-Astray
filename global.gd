@@ -73,14 +73,51 @@ func _ready():
 	get_tree().connect("node_added", self, "_on_SceneTree_node_added")
 	
 
+func snap_position(position_to_snap: Vector2):
+	# poslano pozicijo snapam na grid
+	# preverim, če je pozicija med tistimi na voljo in jo zbrišem
+	
+	
+	pass
+
 func snap_to_nearest_grid(body_to_snap: Node2D):
+	if not is_instance_valid(current_tilemap):
+		print("ERROR! Snapanje na grid ... manjka Global.current_tilemap")
+	
+	# floor pozicije na voljo
+	var floor_cells: Array = current_tilemap.all_floor_tiles_global_positions
+	
+	var current_global_position: Vector2 = body_to_snap.global_position
+	var cell_size_x: float = current_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
+	
+	# adaptacija zaradi središčne točke strejsa in playerja
+	var current_position: Vector2 = Vector2(current_global_position.x - cell_size_x/2, current_global_position.y - cell_size_x/2)
+
+
+	# preverjam playerja, če je poz znotraj tilemapa
+	if body_to_snap.is_in_group(Global.group_players) and not floor_cells.has(current_position): # če takole delaš straju je error
+		# določimo distanco znotraj katere preverjamo bližino točke
+		var distance_to_position: float = cell_size_x # začetna distanca je velikosti celice ... potem izbrana je itak bližja
+		var nearest_cell: Vector2
+		for cell in floor_cells:
+			if cell.distance_to(current_position) < distance_to_position:
+				distance_to_position = cell.distance_to(current_position)
+				nearest_cell = cell
+		# snap position
+		var snap_to_position: Vector2 = Vector2(nearest_cell.x + cell_size_x/2, nearest_cell.y + cell_size_x/2)
+		return snap_to_position
+	else: 
+		return current_global_position # vrneš isto pozicijo na katere že je 
+
+
+func snap_to_nearest_grid_old(body_to_snap: Node2D):
 #func snap_to_nearest_grid(current_global_position: Vector2):
 	
 	if not is_instance_valid(current_tilemap):
 		print("ERROR! Snapanje na grid ... manjka Global.current_tilemap")
 	
 	var current_global_position: Vector2 = body_to_snap.global_position
-	var floor_cells: Array = current_tilemap.floor_global_positions
+	var floor_cells: Array = current_tilemap.all_floor_tiles_global_positions
 	var cell_size_x: float = current_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 	
 	# adaptacija zaradi središčne točke strejsa in playerja

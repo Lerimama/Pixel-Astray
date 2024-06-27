@@ -128,13 +128,17 @@ func burst():
 	release_tween.parallel().tween_property(new_stretch_ghost, "position", global_position - burst_direction * cell_size_x, strech_ghost_shrink_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	release_tween.tween_callback(new_stretch_ghost, "queue_free")
 	yield(release_tween, "finished")		
+	
 	# release pixel
 	current_state = States.BURSTING
+	previous_position = global_position
+	
 	if Global.game_manager.game_settings["full_power_mode"]:
 		#		burst_speed = 3 * cock_ghost_speed_addon
 		burst_speed = cocked_ghost_max_count * cock_ghost_speed_addon # maximalna možna hitrost
 	else:
 		burst_speed = current_ghost_count * cock_ghost_speed_addon
+
 	change_stat("burst_released", 1)
 	
 	

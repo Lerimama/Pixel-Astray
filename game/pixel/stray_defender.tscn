@@ -5,7 +5,3 @@
 
 [node name="DefenderStray" instance=ExtResource( 1 )]
 script = ExtResource( 20 )
-
-[node name="_StepPauseTimer" type="Timer" parent="." index="9"]
-wait_time = 2.0
-one_shot = true

@@ -4,7 +4,7 @@ class_name GameTilemap
 signal tilemap_completed
 
 var random_spawn_floor_positions: Array # vsi še ne zasedeni tileti, kamor se lahko potem random spawna (floor - stray - no-stray - player)
-var floor_global_positions: Array # original tileti tal
+var all_floor_tiles_global_positions: Array # original tileti tal (samo tisto, kar je del uradnega igrišča)
 
 var stray_global_positions: Array
 var stray_wall_global_positions: Array # podvrsta stray positions
@@ -59,29 +59,29 @@ func get_tiles():
 			var cell_index = get_cellv(cell)
 			match cell_index:
 				0: # floor
-					floor_global_positions.append(cell_global_position)
+					all_floor_tiles_global_positions.append(cell_global_position)
 					random_spawn_floor_positions.append(cell_global_position)
 				5: # stray spawn positions
 					stray_global_positions.append(cell_global_position)
 					set_cellv(cell, 0) # menjam za celico tal
-					floor_global_positions.append(cell_global_position)
+					all_floor_tiles_global_positions.append(cell_global_position)
 				2: # no stray
 					no_stray_global_positions.append(cell_global_position)
 					set_cellv(cell, 0)
-					floor_global_positions.append(cell_global_position)
+					all_floor_tiles_global_positions.append(cell_global_position)
 				4: # player 1 spawn position
 					player_global_positions.append(cell_global_position)
 					set_cellv(cell, 0)
-					floor_global_positions.append(cell_global_position)
+					all_floor_tiles_global_positions.append(cell_global_position)
 				6: # player 2 spawn position
 					player_global_positions.append(cell_global_position)
 					set_cellv(cell, 0)
-					floor_global_positions.append(cell_global_position)
+					all_floor_tiles_global_positions.append(cell_global_position)
 				7: # spawn wall stray
 					stray_wall_global_positions.append(cell_global_position)
 					stray_global_positions.append(cell_global_position) # stray wall je tudi stray pozicija
 					set_cellv(cell, 0)
-					floor_global_positions.append(cell_global_position)
+					all_floor_tiles_global_positions.append(cell_global_position)
 					
 	
 	# pošljem v GM

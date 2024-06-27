@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 1, 1, 1, 0 )
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.294118, 0.623529, 1, 1 )
+
+[node name="Color" type="ColorRect"]
+margin_right = 32.0
+margin_bottom = 32.0
+color = Color( 1, 1, 1, 0.415686 )
+
+[node name="Panel" type="Panel" parent="."]
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 31.0
+margin_bottom = 31.0
+custom_styles/panel = SubResource( 1 )

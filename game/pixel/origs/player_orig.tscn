@@ -16,7 +16,7 @@
 [ext_resource path="res://assets/sound/sfx/stepping/step_3.wav" type="AudioStream" id=14]
 [ext_resource path="res://assets/sound/sfx/stepping/step_4.wav" type="AudioStream" id=15]
 [ext_resource path="res://assets/sound/sfx/stepping/step_2.wav" type="AudioStream" id=16]
-[ext_resource path="res://game/pixel/player.gd" type="Script" id=17]
+[ext_resource path="res://game/pixel/origs/player_orig.gd" type="Script" id=17]
 [ext_resource path="res://assets/sound/sfx/skills/pull.wav" type="AudioStream" id=18]
 [ext_resource path="res://assets/sound/sfx/skills/teleport_out_v2.wav" type="AudioStream" id=19]
 [ext_resource path="res://assets/sound/sfx/skills/skilled_frcer.wav" type="AudioStream" id=20]
@@ -92,6 +92,18 @@ tracks/3/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ 1.5 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("CollisionShapeExt:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
 }
 
 [sub_resource type="Animation" id=145]
@@ -295,13 +307,25 @@ tracks/4/keys = {
 "update": 0,
 "values": [ 1.5, 0.3, 1.5, 0.3, 1.5, 1.5, 0.8, 1.5, 0.3, 0.7, 1.5, 0.3, 0.3, 1.5, 0.7, 0.8, 0.3, 0.8, 0.0, 0.7, 0.3, 0.0 ]
 }
-tracks/5/type = "method"
-tracks/5/path = NodePath(".")
+tracks/5/type = "value"
+tracks/5/path = NodePath("CollisionShapeExt:disabled")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
-tracks/5/enabled = true
+tracks/5/enabled = false
 tracks/5/keys = {
+"times": PoolRealArray( 0.06 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/6/type = "method"
+tracks/6/path = NodePath(".")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
 "times": PoolRealArray( 0.12, 0.46, 0.7, 0.81, 0.9, 0.92, 1.18, 1.24, 1.48, 1.52, 1.84 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "values": [ {
@@ -760,11 +784,10 @@ audio_stream = ExtResource( 35 )
 audio_stream = ExtResource( 18 )
 random_pitch = 1.2
 
-[node name="Player" type="KinematicBody2D"]
+[node name="Player_orig" type="KinematicBody2D"]
 script = ExtResource( 17 )
 
 [node name="GlowLight" type="Light2D" parent="."]
-visible = false
 show_behind_parent = true
 position = Vector2( 7.62939e-06, -9.53674e-06 )
 scale = Vector2( 0.75, 0.75 )
@@ -783,11 +806,29 @@ polygon = PoolVector2Array( 1, 1, 1, 0, 31.0008, 0, 31, 1, 32, 1, 32, 31, 31, 31
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 4 )
 
-[node name="VisionRay" type="RayCast2D" parent="."]
-position = Vector2( 0, 0.1 )
+[node name="CollisionShapeExt" type="CollisionShape2D" parent="."]
+shape = SubResource( 4 )
+
+[node name="Vision" type="Node2D" parent="."]
+
+[node name="VisionRay1" type="RayCast2D" parent="Vision"]
+position = Vector2( 0, -15.9 )
 enabled = true
 cast_to = Vector2( 32, 0 )
-collision_mask = 31
+
+[node name="VisionRay2" type="RayCast2D" parent="Vision"]
+enabled = true
+cast_to = Vector2( 47, 0 )
+
+[node name="VisionRay3" type="RayCast2D" parent="Vision"]
+position = Vector2( 0, 15.9 )
+enabled = true
+cast_to = Vector2( 32, 0 )
+
+[node name="ColorPoly" type="Polygon2D" parent="Vision"]
+visible = false
+position = Vector2( -16, -16 )
+polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32, 16, 16 )
 
 [node name="Touch" type="Node2D" parent="."]
 
@@ -844,7 +885,6 @@ energy = 0.0
 range_z_min = 0
 
 [node name="SkillLight" type="Light2D" parent="."]
-visible = false
 position = Vector2( 1.97093e-06, 0 )
 scale = Vector2( 0.266667, 0.266667 )
 texture = ExtResource( 8 )
@@ -1059,8 +1099,6 @@ one_shot = true
 wait_time = 0.5
 one_shot = true
 
-[connection signal="tree_entered" from="." to="." method="_on_Player_tree_entered"]
-[connection signal="tree_exited" from="." to="." method="_on_Player_tree_exited"]
 [connection signal="timeout" from="Touch/TouchTimer" to="." method="_on_TouchTimer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="finished" from="Sounds/Skills/TeleportIn" to="." method="_on_TeleportIn_finished"]

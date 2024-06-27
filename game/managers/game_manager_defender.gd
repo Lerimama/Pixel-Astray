@@ -8,7 +8,6 @@ var line_steps_since_spawn_round: int = 0 # prištevam v stray_step()
 # spawn engine
 var stray_spawning_round: int = 0 # prištevam na koncu spawna
 var engine_stalled_checking_time: float = 2 # dobro da je večji od stepa ali respawn pavze
-var free_home_positions: Array
 var strays_in_spawn_round: Array # da jim porinem začetek stepanja
 
 onready var engine_stalled_timer: Timer = $"../EngineStalledTimer"
@@ -16,6 +15,11 @@ onready var line_step_pause_timer: Timer = $"../LineStepPauseTimer"
 onready var line_steps_per_spawn_round: int = game_data["line_steps_per_spawn_round"]
 onready var line_step_pause_time: float = game_data["line_step_pause_time"]
 onready var spawn_round_range: Array = game_data["spawn_round_range"]
+
+# neu
+var home_positions: Array # behind-edge spawn positions
+var free_home_positions: Array # free home positions
+#var available_floor_positions: Array # random spawn positions
 
 
 func _ready() -> void:
@@ -30,7 +34,20 @@ func _ready() -> void:
 			
 func set_game(): 
 	# namen: namesto create_strays() je samo set_level_colors
+	# namen: setam home pozicije
+
+	# na koncu napolnim vse floor pozicije ... to se zgodi pred spawnam zato so vse proste ... ob spawnanju se apdejta
+	free_floor_positions = Global.current_tilemap.all_floor_tiles_global_positions.duplicate()
+	home_positions = random_spawn_positions.duplicate()
 	
+	# debug ... spawnam rectangle
+	for pos in free_floor_positions: # vsa tla v tilemaps:
+		var new_pos_indi = pos_indi.instance()
+		new_pos_indi.rect_global_position = pos
+		Global.node_creation_parent.get_node("ArenaTop").add_child(new_pos_indi)
+		pos_indis.append(new_pos_indi)
+	printt("on tilemap",free_floor_positions.size())
+		
 	# colors
 	set_color_pool()
 
@@ -131,6 +148,7 @@ func create_strays(strays_to_spawn_count: int):
 	
 	# preverjama free home positions
 	free_home_positions = random_spawn_positions.duplicate() # vsakič znova zajamemo vse in ji potem odštejemo trenutno zasedene ... 
+	
 	for stray in get_tree().get_nodes_in_group(Global.group_strays):
 		if free_home_positions.has(stray.global_position - Vector2(cell_size_x/2, cell_size_x/2)):
 			free_home_positions.erase(stray.global_position - Vector2(cell_size_x/2, cell_size_x/2))
@@ -201,8 +219,62 @@ func set_new_level():
 	spawn_round_range[1] += game_data["spawn_round_range_grow"][1]
 	
 	game_data["level"] = current_level
-		
+
+
+#func _on_tilemap_completed(stray_random_positions: Array, stray_positions: Array, stray_wall_positions: Array, no_stray_positions: Array, player_positions: Array) -> void:
+#
+#	# stray spawn pozicije
+#	random_spawn_positions = stray_random_positions # celice tal pred procesiranjem tilemapa
+#	required_spawn_positions = stray_positions # ima tudi wall_spawn_positions
+#	wall_spawn_positions = stray_wall_positions
+#
+#	# strays spawn count ... najprej spawna "required", potem "random"
+#	# če samo "required", je stray_count = "required", če tudi "random", stray_count kot je v settingsih
+#	if not required_spawn_positions.empty() and no_stray_positions.empty(): 
+#		create_strays_count = required_spawn_positions.size()
+#	# preventam preveč straysov (več kot je možnih pozicij)
+#	if create_strays_count > random_spawn_positions.size() + required_spawn_positions.size():
+#		create_strays_count = random_spawn_positions.size()/2 + required_spawn_positions.size()
+#
+#	# player pozicije
+#	player_start_positions = player_positions
+#	start_players_count = player_start_positions.size() # tukaj določeno se uporabi za game view setup
+#	# če ni pozicij, je en player ... random pozicija
+#	if player_start_positions.empty():
+#		var random_range = random_spawn_positions.size() 
+#		var p1_selected_cell_index: int = randi() % int(random_range) + 1
+#		player_start_positions.append(random_spawn_positions[p1_selected_cell_index])
+#		random_spawn_positions.remove(p1_selected_cell_index)
+#
+#	# na koncu napolnim vse floor pozicije ... to se zgodi pred spawnam zato so vse proste ... ob spawnanju se apdejta
+#	free_floor_positions = Global.current_tilemap.all_floor_tiles_global_positions.duplicate()
+#
+#
+#	# debug ... spawnam rectangle
+#	for pos in free_floor_positions: # vsa tla v tilemaps:
+#		var new_pos_indi = pos_indi.instance()
+#		new_pos_indi.rect_global_position = pos
+#		Global.node_creation_parent.get_node("ArenaTop").add_child(new_pos_indi)
+#		pos_indis.append(new_pos_indi)
+#	printt("on tilemap",free_floor_positions.size())
 	
+	
+		
+#func add_to_free_floor_positions(pixel_position: Vector2):
+#	# namen: dodas samo, če ni home pozicija
+#
+#	var snapped_position = pixel_position - Vector2(cell_size_x/2, cell_size_x/2)
+#
+#	if home_positions.has(snapped_position):
+#		return
+#	elif not free_floor_positions.has(snapped_position):
+#		var new_pos_indi = pos_indi.instance()
+#		new_pos_indi.rect_global_position = snapped_position
+#		Global.node_creation_parent.get_node("ArenaTop").add_child(new_pos_indi)
+#		free_floor_positions.append(snapped_position)
+#		pos_indis.append(new_pos_indi)			
+
+
 # EKSKLUZIVNO -----------------------------------------------------------------------------------------------------
 
 

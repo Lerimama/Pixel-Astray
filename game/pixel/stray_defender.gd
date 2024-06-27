@@ -1,18 +1,17 @@
 extends Stray
 
 # spawn strani
-enum Sides {TOP, BOTTOM, RIGHT, LEFT}
+enum SpawnSides {TOP, BOTTOM, RIGHT, LEFT}
 var stray_spawn_side: int 
 
 
 func _ready() -> void:
-	# namen: grupiranje glede na izvorno stran in setanje collision maskov
+	# namen: grupiranje glede na izvorno stran, setanje collision bitov na ray
 	
 	add_to_group(Global.group_strays)
 	randomize() # za random die animacije
 	modulate.a = 0
 	color_poly.modulate = stray_color
-	count_label.text = name
 	position_indicator_poly.color = stray_color
 	position_indicator.set_as_toplevel(true) # strayse skrijem ko so offscreen
 	position_indicator.visible = false
@@ -20,24 +19,24 @@ func _ready() -> void:
 	# set props glede na spawn stran
 	var collision_bit_to_add: int
 	var player_spawn_position: Vector2 = Global.game_manager.player_start_positions[0]
-	if global_position.y <= player_spawn_position.y - Global.current_tilemap.top_spawn_position_from_center:
-		stray_spawn_side = Sides.TOP
+	if global_position.y < Global.current_tilemap.top_screen_limit.global_position.y:
+		stray_spawn_side = SpawnSides.TOP
 		collision_bit_to_add = 2
-	elif global_position.y >= player_spawn_position.y + Global.current_tilemap.bottom_spawn_position_from_center:
-		stray_spawn_side = Sides.BOTTOM
+	elif global_position.y > Global.current_tilemap.bottom_screen_limit.global_position.y:
+		stray_spawn_side = SpawnSides.BOTTOM
 		collision_bit_to_add = 1
-	elif global_position.x >= player_spawn_position.x + Global.current_tilemap.right_spawn_position_from_center:
-		stray_spawn_side = Sides.RIGHT
+	elif global_position.x > Global.current_tilemap.right_screen_limit.global_position.x:
+		stray_spawn_side = SpawnSides.RIGHT
 		collision_bit_to_add = 3
-	elif global_position.x <= player_spawn_position.x - Global.current_tilemap.left_spawn_position_from_center:
-		stray_spawn_side = Sides.LEFT
+	elif global_position.x < Global.current_tilemap.left_screen_limit.global_position.x:
+		stray_spawn_side = SpawnSides.LEFT
 		collision_bit_to_add = 4
-	for ray in vision_rays:
-		ray.set_collision_mask_bit(collision_bit_to_add, true)
+	
+	vision_ray.set_collision_mask_bit(collision_bit_to_add, true)
 		
 	
 func show_stray(): # kliče GM
-	# namen: neteatralen prikaz streja
+	# namen: simple prikaz streja
 
 	modulate.a = 1
 	
@@ -58,41 +57,43 @@ func check_collider_for_wall(collider_in_check: Node2D):
 
 	
 func step(step_direction: Vector2 = Vector2.DOWN):
-	# namen: metanje ext collisiona za prepoznavanje stene in dodano zazih preverjanje pozicij
-	# namen: določanje smeri glede na tip straya
+	# namen: določanje smeri glede na tip straya in časovni zamik premika glede na smer
+	# namen: ni večih poskusov, je preverjanje kolajderja
 	
-	if modulate.a == 0:
-		modulate.a = 1
-		
-	match stray_spawn_side:
-		Sides.TOP:
-			step_direction = Vector2.DOWN
-		Sides.BOTTOM:
-			step_direction = Vector2.UP
-		Sides.LEFT:
-			step_direction = Vector2.RIGHT
-		Sides.RIGHT:
-			step_direction = Vector2.LEFT	
-	
-	# preverjam state		
 	if not current_state == States.IDLE:
 		return
-	
-	var current_collider = detect_collision_in_direction(step_direction)
-	if current_collider:
-		check_collider_for_wall(current_collider)
-		return current_collider
-	
-	current_state = States.MOVING
-	
-	# vržem ext coll			
-	collision_shape_ext.position = step_direction * cell_size_x # vržem koližn v smer premika
 		
-	var step_time: float = 0.2
-	var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
-	step_tween.tween_property(self, "position", global_position + step_direction * cell_size_x, step_time)
-	step_tween.parallel().tween_property(collision_shape_ext, "position", Vector2.ZERO, step_time)
-	step_tween.tween_callback(self, "end_move")
+	if modulate.a == 0:
+		modulate.a = 1
+
+	match stray_spawn_side:
+		SpawnSides.TOP:
+			step_direction = Vector2.DOWN
+		SpawnSides.BOTTOM:
+			step_direction = Vector2.UP
+		SpawnSides.LEFT:
+			step_direction = Vector2.RIGHT
+		SpawnSides.RIGHT:
+			step_direction = Vector2.LEFT	
+	
+	# če je pozicija prosta korakam, če ni pa preverjam kolajderja in ga returnam
+	var intended_position: Vector2 = global_position + step_direction * cell_size_x
+	if Global.game_manager.is_floor_position_free(intended_position):
+		
+		current_state = States.MOVING
+		previous_position = global_position
+		Global.game_manager.remove_from_free_floor_positions(intended_position)	
+		
+		var step_time: float = 0.2
+		var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+		step_tween.tween_property(self, "position", intended_position, step_time)
+		step_tween.tween_callback(self, "end_move")	
+	else:
+		# če je kolajder ga returnam, drugače pa ne naredim nič
+		var current_collider = detect_collision_in_direction(step_direction)
+		if current_collider:
+			check_collider_for_wall(current_collider)
+			return current_collider
 	
 	
 func play_sound(effect_for: String):
@@ -128,8 +129,3 @@ func get_all_neighbors_in_directions(directions_to_check: Array): # kliče playe
 			current_cell_neighbors.append(neighbor)
 		
 	return current_cell_neighbors # uporaba v stalnem čekiranj sosedov
-
-
-func _on_StepPauseTimer_timeout() -> void:
-#	step()
-	pass
