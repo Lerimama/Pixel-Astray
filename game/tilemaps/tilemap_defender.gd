@@ -1,19 +1,9 @@
 extends GameTilemap
 
-
-var floor_cells_count_x: int = 0
-var floor_cells_count_y: int
-
-var floor_cells_count: Vector2 = Vector2.ZERO
-var edge_global_positions: Array # prepoznavanje GO
-var edge_cell_side_global_positions: Array # prepoznavanje GO
-
 onready var top_screen_limit: StaticBody2D = $TopScreenLimit
 onready var bottom_screen_limit: StaticBody2D = $BottomScreenLimit
 onready var left_screen_limit: StaticBody2D = $LeftScreenLimit
 onready var right_screen_limit: StaticBody2D = $RightScreenLimit
-onready var edge_cover: Node2D = $EdgeCover
-
 
 func _ready() -> void:
 	# namen: rob ekrana je static_body
@@ -32,16 +22,10 @@ func _ready() -> void:
 	right_screen_limit.add_to_group(Global.group_tilemap)
 
 
-
 func get_tiles():
 	# namen: drugače nabere froor tile (samo no_strays in players
 	
-	var inside_edge_level_tiles: Rect2 = get_used_rect()
-	var cell_size_x = cell_size.x
-	inside_edge_level_rect.position.x = inside_edge_level_tiles.position.x * cell_size_x + cell_size_x
-	inside_edge_level_rect.size.x = inside_edge_level_tiles.end.x * cell_size_x + cell_size_x
-	inside_edge_level_rect.position.y = inside_edge_level_tiles.position.y * cell_size_x + cell_size_x
-	inside_edge_level_rect.size.y = inside_edge_level_tiles.end.x * cell_size_x + cell_size_x
+	get_tilemap_edge_rect()	
 	
 	# prečesi vse celice in določi globalne pozicije
 	for x in get_used_rect().size.x: # širina v celicah
@@ -56,8 +40,8 @@ func get_tiles():
 			var cell_index = get_cellv(cell)
 			match cell_index:
 				0: # floor
-#					all_floor_tiles_global_positions.append(cell_global_position)
 					random_spawn_floor_positions.append(cell_global_position)
+#					all_floor_tiles_global_positions.append(cell_global_position)
 				5: # stray spawn positions
 					stray_global_positions.append(cell_global_position)
 					set_cellv(cell, 0) # menjam za celico tal
@@ -83,3 +67,20 @@ func get_tiles():
 	
 	# pošljem v GM
 	emit_signal("tilemap_completed", random_spawn_floor_positions, stray_global_positions, stray_wall_global_positions, no_stray_global_positions, player_global_positions)
+
+
+func get_tilemap_edge_rect():
+	# namen: upoštevam, da edge tiles niso najbolj zunanje
+	
+	var inside_edge_level_tiles: Rect2 = get_used_rect()
+	var cell_size_x = cell_size.x
+	
+	tilemap_edge_rectangle.position.x = inside_edge_level_tiles.position.x * cell_size_x + 1 * cell_size_x
+	tilemap_edge_rectangle.position.y = inside_edge_level_tiles.position.y * cell_size_x + 1 * cell_size_x
+	tilemap_edge_rectangle.size.x = inside_edge_level_tiles.end.x * cell_size_x - 2 * cell_size_x
+	tilemap_edge_rectangle.size.y = inside_edge_level_tiles.end.y * cell_size_x - 2 * cell_size_x # 2 * ker se pozicija zamakne
+	
+	edge_cover.rect_position.x = tilemap_edge_rectangle.position.x
+	edge_cover.rect_position.y = tilemap_edge_rectangle.position.y
+	edge_cover.rect_size.x = tilemap_edge_rectangle.size.x
+	edge_cover.rect_size.y = tilemap_edge_rectangle.size.y

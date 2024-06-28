@@ -156,7 +156,7 @@ func state_machine():
 			
 			# med burstanjem pucam available pozicije za dve poziciji naprej
 			# ampak samo, če so še available (da ne puca greba unih, kjer je hitan stray)
-			var current_position_snapped = Global.snap_to_nearest_grid(self)
+			var current_position_snapped = Global.snap_to_nearest_grid(global_position)
 			var front_current_position_snapped = current_position_snapped + direction * cell_size_x
 			var front_current_position_snapped_2 = current_position_snapped + direction * cell_size_x * 2
 			# vse pozicije, ki so na poti in so na-voljo, odstranim iz na-voljo
@@ -187,16 +187,6 @@ func state_machine():
 func on_collision(): 
 	
 	stop_sound("burst")
-	
-	# snepam takoj ... end_move so zamaknjene glede na tip hita
-#	global_position = Global.snap_to_nearest_grid(self)
-	
-#	# v burstu odstranjene floor_pozicije so spet na-voljo
-#	for floor_position in burst_removed_positions:
-#		Global.game_manager.add_to_free_floor_positions(floor_position)
-	
-	# trenutno pozicija ni na-voljo
-#	Global.game_manager.remove_from_free_floor_positions(global_position) 
 	
 	# reakcija na vrsto hita
 	if collision.collider.is_in_group(Global.group_tilemap):
@@ -396,8 +386,8 @@ func step():
 	
 	if not Global.game_manager.is_floor_position_free(intended_position):
 		return
-	#	if detect_collision_in_direction(step_direction): # zazih ... če free positions slučajno ne deluje optimalno
-	#		return
+	if detect_collision_in_direction(step_direction): # zazih in za defender tip roba
+		return
 
 	current_state = States.STEPPING
 	previous_position = global_position
@@ -434,14 +424,11 @@ func end_move():
 	direction = Vector2.ZERO 
 	
 	# če je "out of bounds" gre po drugi poti in tam faše end_move()
-	if not Global.current_tilemap.inside_edge_level_rect.has_point(global_position):
-		hide()
-		set_physics_process(false)
-		on_out_of_bounds()
+	if not Global.current_tilemap.tilemap_edge_rectangle.has_point(global_position):
+		on_out_of_bounds() # ga premakne znotraj igrišča in potem sproži end_move()
 		return
 	
-	global_position = Global.snap_to_nearest_grid(self)
-	
+	global_position = Global.snap_to_nearest_grid(global_position)
 	# after snaping 
 	current_state = States.IDLE # more bit za snapanjem ... ne vem zakaj
 	
@@ -455,7 +442,6 @@ func end_move():
 	
 	# na koncu trenutna pozicija ni več free
 	if Global.game_manager.is_floor_position_free(global_position):
-		print("player pos free on endmove")
 		Global.game_manager.remove_from_free_floor_positions(global_position) 
 		
 		
@@ -705,7 +691,7 @@ func push(stray_to_move: KinematicBody2D):
 		push_tween.parallel().tween_property(skill_light, "position", skill_light.position - backup_direction * cell_size_x, push_cocktime).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 		# release
 		push_tween.tween_callback(self, "play_sound", ["pushpull_end"])
-		push_tween.tween_callback(self, "skill_light_off") # lučko dam v proces ugašanja
+#		push_tween.tween_callback(self, "skill_light_off") # lučko dam v proces ugašanja
 		push_tween.tween_property(self, "position", global_position + push_direction * cell_size_x, push_time).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
 		push_tween.parallel().tween_property(skill_light, "position", Vector2.ZERO, push_time).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN) # lučko zapeljem nazaj na začetno lokacijo
 		# porinem vse strayse v vrsti
@@ -760,7 +746,6 @@ func pull(stray_to_move: KinematicBody2D):
 	var pull_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	pull_tween.tween_property(self, "position", intended_position, pull_cocktime)
 	pull_tween.parallel().tween_callback(stray_to_move, "pull_stray", [pull_direction, pull_time]) # kličem tukaj, da animiram njegov collision_ext
-	pull_tween.parallel().tween_property(skill_light, "position", skill_light.position - pull_direction * cell_size_x, pull_cocktime) # lučko zapeljem na začetek ghosta (ostane ob strayu)
 	pull_tween.parallel().tween_callback(self, "play_sound", ["pulled"])
 	pull_tween.tween_property(skill_light, "position", Vector2.ZERO, pull_time) # lučko zapeljem nazaj na začetno lokacijo	
 	yield(pull_tween, "finished")
@@ -1086,26 +1071,34 @@ func spawn_floating_tag(value: int):
 
 
 func on_out_of_bounds():
-
-	var new_positions_available: Array = Global.game_manager.free_floor_positions
 	
-	var random_index: int = randi() % new_positions_available.size()
-	var new_random_position: Vector2 = new_positions_available[random_index]
-	yield(get_tree().create_timer(0.5), "timeout")
-
+	# ugasnem plejerja
+	hide()
+	set_physics_process(false)
+	
+	# izžrebam novo pozicijo
+	var random_index: int = randi() % Global.game_manager.free_floor_positions.size()
+	var new_random_position: Vector2 = Global.game_manager.free_floor_positions[random_index]
+	yield(get_tree().create_timer(0.1), "timeout")
+	
+	# premaknem plejerja
+	global_position = new_random_position + Vector2(cell_size_x/2, cell_size_x/2)
+	
+	# ga prikažem (od bele do pixel barve)
 	var current_color: Color = pixel_color
 	pixel_color = Color.white
-	global_position = new_random_position + Vector2(cell_size_x/2, cell_size_x/2)
-	modulate.a = 0 
+	modulate.a = 0
 	show()
-	#	animation_player.play("revive")
+	
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(self, "modulate:a", 1, 0.5)
 	fade_in.tween_property(self, "pixel_color", current_color, 0.5).set_ease(Tween.EASE_IN).set_delay(0.5)
-	fade_in.tween_callback(self, "burst_light_on")
-	end_move()
+	fade_in.parallel().tween_callback(self, "burst_light_on")
+	fade_in.tween_callback(self, "burst_light_off")#.set_delay(0.2)
+	
+	# spawn_floating_tag(0) # KUKU! ... neki ne dela
 	set_physics_process(true)
-	spawn_floating_tag(0)
+	end_move()
 
 	
 func detect_collision_in_direction(direction_to_check):

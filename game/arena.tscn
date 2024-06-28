@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://game/arena.gd" type="Script" id=1]
 [ext_resource path="res://game/tilemaps/game_tilemap.gd" type="Script" id=2]
 [ext_resource path="res://assets/resources/tileset_arena.tres" type="TileSet" id=3]
 [ext_resource path="res://game/tilemaps/monitor_background.tscn" type="PackedScene" id=4]
+[ext_resource path="res://game/EdgeCover.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/resources/env_arena.tres" type="Environment" id=8]
 
 [node name="Arena" type="Node2D"]
@@ -13,22 +14,22 @@ __meta__ = {
 "_edit_vertical_guides_": [ 1279.0 ]
 }
 
-[node name="GameBackground" type="Node2D" parent="."]
+[node name="_GameBackground" type="Node2D" parent="."]
 visible = false
 z_index = -3
 
-[node name="Background" type="ColorRect" parent="GameBackground"]
+[node name="Background" type="ColorRect" parent="_GameBackground"]
 margin_left = -1000.0
 margin_top = -824.0
 margin_right = 4040.0
 margin_bottom = 2648.0
 color = Color( 0, 0, 0, 1 )
 
-[node name="TilemapBackground" type="Node2D" parent="."]
+[node name="_TilemapBackground" type="Node2D" parent="."]
 visible = false
 z_index = -3
 
-[node name="FloorBackground" type="ColorRect" parent="TilemapBackground"]
+[node name="FloorBackground" type="ColorRect" parent="_TilemapBackground"]
 margin_right = 2752.0
 margin_bottom = 1636.0
 color = Color( 0, 0, 0, 1 )
@@ -47,9 +48,6 @@ script = ExtResource( 2 )
 visible = false
 position = Vector2( 0, -736 )
 
-[node name="Room" parent="Tilemap/Background" index="0"]
-visible = false
-
 [node name="Cover" parent="Tilemap/Background" index="1"]
 margin_left = -408.0
 margin_top = 408.0
@@ -64,7 +62,10 @@ position = Vector2( 1280, 736 )
 color = Color( 0.952941, 0.356863, 0.498039, 1 )
 polygon = PoolVector2Array( 0, 0, 0, 32, 32, 32, 32, 0 )
 
-[node name="ArenaTop" type="Node2D" parent="."]
+[node name="EdgeCover" parent="Tilemap" instance=ExtResource( 5 )]
+visible = false
+
+[node name="FreePositions" type="Node2D" parent="."]
 z_index = 10
 
 [node name="ArenaEnvironment" type="WorldEnvironment" parent="."]

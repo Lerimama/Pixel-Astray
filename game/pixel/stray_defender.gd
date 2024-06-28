@@ -3,7 +3,7 @@ extends Stray
 # spawn strani
 enum SpawnSides {TOP, BOTTOM, RIGHT, LEFT}
 var stray_spawn_side: int 
-
+var step_count: int = 0 # da ignoriram edge tilemap v prvih par korakih
 
 func _ready() -> void:
 	# namen: grupiranje glede na izvorno stran, setanje collision bitov na ray
@@ -78,12 +78,13 @@ func step(step_direction: Vector2 = Vector2.DOWN):
 	
 	# če je pozicija prosta korakam, če ni pa preverjam kolajderja in ga returnam
 	var intended_position: Vector2 = global_position + step_direction * cell_size_x
-	if Global.game_manager.is_floor_position_free(intended_position):
+	if Global.game_manager.is_floor_position_free(intended_position) or step_count < 1:
 		
 		current_state = States.MOVING
 		previous_position = global_position
 		Global.game_manager.remove_from_free_floor_positions(intended_position)	
 		
+		step_count += 1
 		var step_time: float = 0.2
 		var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 		step_tween.tween_property(self, "position", intended_position, step_time)

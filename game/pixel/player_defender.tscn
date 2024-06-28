@@ -5,12 +5,3 @@
 
 [node name="PlayerDefender" instance=ExtResource( 1 )]
 script = ExtResource( 36 )
-
-[node name="VisionRay1" parent="Vision" index="0"]
-collision_mask = 31
-
-[node name="VisionRay2" parent="Vision" index="1"]
-collision_mask = 31
-
-[node name="VisionRay3" parent="Vision" index="2"]
-collision_mask = 31

@@ -5,7 +5,8 @@ onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
 onready var sweeper_game_btn: Button = $GamesMenu/Sweeper/SweeperBtn
 onready var sweeper_btns_count: int = 9 #$"../SelectLevel/BtnsHolder".get_child_count() # za število ugank
 onready var sweeper_label: Label = $GamesMenu/Sweeper/Label
-onready var color_pool: Array = $"%Intro".all_colors_available
+#onready var color_pool: Array = $"%Intro".all_colors_available
+onready var color_pool: Array = $"%Intro".color_pool_colors
 onready var tutorial_mode_btn: CheckButton = $GamesMenu/Classic/TutorialModeBtn
 
 

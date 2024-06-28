@@ -411,12 +411,12 @@ func end_move():
 	collision_shape_ext.position = Vector2.ZERO
 	
 	# always
-	if not Global.current_tilemap.inside_edge_level_rect.has_point(global_position):
+	if not Global.current_tilemap.tilemap_edge_rectangle.has_point(global_position):
 		hide()
 		set_physics_process(false)
 		on_out_of_bounds()
 	else:	
-		global_position = Global.snap_to_nearest_grid(self)
+		global_position = Global.snap_to_nearest_grid(global_position)
 		current_state = States.IDLE # more bit na kocnu
 
 		

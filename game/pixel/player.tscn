@@ -844,7 +844,6 @@ energy = 0.0
 range_z_min = 0
 
 [node name="SkillLight" type="Light2D" parent="."]
-visible = false
 position = Vector2( 1.97093e-06, 0 )
 scale = Vector2( 0.266667, 0.266667 )
 texture = ExtResource( 8 )

@@ -1,13 +1,14 @@
+#extends GameTilemap
 extends TileMap
-
 
 signal tilemap_completed
 
-var all_floor_tiles_global_positions: Array # tla so prazne + stray + no-stray + player
-var random_spawn_floor_positions: Array # ostanejo prazne in so prostor za random spawn
-var stray_global_positions: Array
-var no_stray_global_positions: Array
+var all_floor_tiles_global_positions: Array # original tileti tal (samo tisto, kar je del uradnega igrišča)
 var player_global_positions: Array 
+var stray_global_positions: Array
+var stray_wall_global_positions: Array # podvrsta stray positions
+var no_stray_global_positions: Array
+var random_spawn_floor_positions: Array # vsi še ne zasedeni tileti, kamor se lahko potem random spawna (floor - stray - no-stray - player)
 
 
 func _ready() -> void:
@@ -51,8 +52,8 @@ func get_tiles():
 					all_floor_tiles_global_positions.append(cell_global_position)
 	
 	# pošljem v intro
-	emit_signal("tilemap_completed", random_spawn_floor_positions, stray_global_positions, no_stray_global_positions, player_global_positions)
-	
+#	emit_signal("tilemap_completed", random_spawn_floor_positions, stray_global_positions, no_stray_global_positions, player_global_positions)
+	emit_signal("tilemap_completed", random_spawn_floor_positions, stray_global_positions, stray_wall_global_positions, no_stray_global_positions, player_global_positions)	
 	
 func get_collision_tile_id(collider: Node2D, direction: Vector2): # collider je node ki se zaleteva in ne collision object
 	

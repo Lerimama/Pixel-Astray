@@ -3,23 +3,27 @@ class_name GameTilemap
 
 signal tilemap_completed
 
-var random_spawn_floor_positions: Array # vsi še ne zasedeni tileti, kamor se lahko potem random spawna (floor - stray - no-stray - player)
-var all_floor_tiles_global_positions: Array # original tileti tal (samo tisto, kar je del uradnega igrišča)
 
+var all_floor_tiles_global_positions: Array # original tileti tal (samo tisto, kar je del uradnega igrišča)
+var player_global_positions: Array 
 var stray_global_positions: Array
 var stray_wall_global_positions: Array # podvrsta stray positions
 var no_stray_global_positions: Array
-var player_global_positions: Array 
+var random_spawn_floor_positions: Array # vsi še ne zasedeni tileti, kamor se lahko potem random spawna (floor - stray - no-stray - player)
 
 var wall_tile_id: int = 3
 var edge_tile_id: int = 1
 var floor_tile_id: int = 0
 var spawn_stray_tile_id: int = 5 # za home sweeper btne
-var inside_edge_level_rect: Rect2 # velikost floor "igralne mize"
+var tilemap_edge_rectangle: Rect2 # velikost floor "igralne mize"
 
 onready var camera_position_node: Position2D = $CameraPosition
 onready var background_room: TextureRect = $Background/Room
 onready var tilemap_background: Node2D = $Background
+
+# neu
+#onready var edge_cover: Node2D = $EdgeCover
+onready var edge_cover: Control = $EdgeCover/Edge
 
 
 func _ready() -> void:
@@ -36,15 +40,10 @@ func _ready() -> void:
 	else:
 		get_tileset().tile_set_modulate(edge_tile_id, Global.color_edge)
 
-
+	
 func get_tiles():
 	
-	var inside_edge_level_tiles: Rect2 = get_used_rect()
-	var cell_size_x = cell_size.x
-	inside_edge_level_rect.position.x = inside_edge_level_tiles.position.x * cell_size_x + cell_size_x
-	inside_edge_level_rect.size.x = inside_edge_level_tiles.end.x * cell_size_x + cell_size_x
-	inside_edge_level_rect.position.y = inside_edge_level_tiles.position.y * cell_size_x + cell_size_x
-	inside_edge_level_rect.size.y = inside_edge_level_tiles.end.x * cell_size_x + cell_size_x
+	get_tilemap_edge_rect()
 	
 	# prečesi vse celice in določi globalne pozicije
 	for x in get_used_rect().size.x: # širina v celicah
@@ -86,7 +85,23 @@ func get_tiles():
 	
 	# pošljem v GM
 	emit_signal("tilemap_completed", random_spawn_floor_positions, stray_global_positions, stray_wall_global_positions, no_stray_global_positions, player_global_positions)
+
+
+func get_tilemap_edge_rect():
+
+	var inside_edge_level_tiles: Rect2 = get_used_rect()
+	var cell_size_x = cell_size.x
 	
+	tilemap_edge_rectangle.position.x = inside_edge_level_tiles.position.x * cell_size_x# + cell_size_x
+	tilemap_edge_rectangle.position.y = inside_edge_level_tiles.position.y * cell_size_x# + cell_size_x
+	tilemap_edge_rectangle.size.x = inside_edge_level_tiles.end.x * cell_size_x# - 2 * cell_size_x
+	tilemap_edge_rectangle.size.y = inside_edge_level_tiles.end.y * cell_size_x# - 2 * cell_size_x # 2 * ker se pozicija zamakne
+	
+	edge_cover.rect_position.x = tilemap_edge_rectangle.position.x
+	edge_cover.rect_position.y = tilemap_edge_rectangle.position.y
+	edge_cover.rect_size.x = tilemap_edge_rectangle.size.x
+	edge_cover.rect_size.y = tilemap_edge_rectangle.size.y
+
 	
 func get_collision_tile_id(collider: Node2D, direction: Vector2): # collider je node ki se zaleteva in ne collision object
 	

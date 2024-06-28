@@ -267,9 +267,9 @@ func _ready() -> void:
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE # fix camera
 #	var debug_game = Games.CLASSIC
-#	var debug_game = Games.CLEANER_XS
+	var debug_game = Games.CLEANER_XS
 #	var debug_game = Games.CLEANER_S
-	var debug_game = Games.CLEANER_M
+#	var debug_game = Games.CLEANER_M
 #	var debug_game = Games.CLEANER_L
 #	var debug_game = Games.CLEANER_XL
 #	var debug_game = Games.CHASER
@@ -285,7 +285,7 @@ func set_game_data(selected_game):
 	
 	# debug
 	game_settings["start_countdown"] = false
-	game_settings["player_start_life"] = 2
+	game_settings["player_start_life"] = 5
 	game_settings["show_game_instructions"] = false
 
 	match selected_game:
@@ -316,8 +316,8 @@ func set_game_data(selected_game):
 			game_settings["game_music_track_index"] = 1
 			game_settings["start_countdown"] = false
 			#
-#			game_settings["create_strays_count"] = 999
-			game_settings["create_strays_count"] = 200
+			game_settings["create_strays_count"] = 999
+#			game_settings["create_strays_count"] = 200
 			
 		Games.CLEANER_XS: 
 			current_game_data = game_data_cleaner_xs.duplicate()

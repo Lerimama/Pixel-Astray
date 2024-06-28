@@ -35,17 +35,17 @@ func _ready() -> void:
 	end_move()
 
 
-func _process(delta: float) -> void:
-	
-	if Global.game_manager.show_position_indicators:
-		if not position_indicator.visible:
-			fade_position_indicator(true)
-	else:
-		if position_indicator.visible:
-			fade_position_indicator(false)
-	
-	if position_indicator.visible:
-		get_position_indicator_position(get_viewport().get_node("PlayerCamera"))
+#func _process(delta: float) -> void:
+#
+#	if Global.game_manager.show_position_indicators:
+#		if not position_indicator.visible:
+#			fade_position_indicator(true)
+#	else:
+#		if position_indicator.visible:
+#			fade_position_indicator(false)
+#
+#	if position_indicator.visible:
+#		get_position_indicator_position(get_viewport().get_node("PlayerCamera"))
 	
 	
 func show_stray(): # kliče GM
@@ -66,9 +66,8 @@ func die(stray_in_stack_index: int, strays_in_stack_count: int):
 		return
 	current_state = States.DYING
 	
-	global_position = Global.snap_to_nearest_grid(self) 
+	global_position = Global.snap_to_nearest_grid(global_position) 
 	Global.game_manager.remove_from_free_floor_positions(global_position)	
-	
 	
 	# čakalni čas
 	var wait_to_destroy_time: float = sqrt(0.07 * (stray_in_stack_index)) # -1 je, da hitan stray ne čaka
@@ -169,7 +168,7 @@ func end_move():
 	if current_state == States.MOVING: # da se stanje resetira samo če ni DYING al pa WALL
 		current_state = States.IDLE
 	
-	global_position = Global.snap_to_nearest_grid(self)
+	global_position = Global.snap_to_nearest_grid(global_position)
 	
 	if not previous_position == Vector2.ZERO:
 		Global.game_manager.add_to_free_floor_positions(previous_position)	

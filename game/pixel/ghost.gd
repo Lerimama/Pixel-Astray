@@ -51,7 +51,7 @@ func _on_PixelGhost_body_exited(body: Node) -> void:
 	if teleporting_bodies.empty():
 		target_reached = true
 		speed = 0
-		global_position = Global.snap_to_nearest_grid(self)
+		global_position = Global.snap_to_nearest_grid(global_position)
 		emit_signal("ghost_target_reached", self, global_position)
 			
 
@@ -68,11 +68,11 @@ func _on_PixelGhost_body_entered(body: Node) -> void:
 
 
 func _on_Ghost_tree_entered() -> void:
-#	Global.game_manager.remove_from_free_floor_positions(Global.snap_to_nearest_grid(self))	
+#	Global.game_manager.remove_from_free_floor_positions(Global.snap_to_nearest_grid(global_position))	
 	pass # Replace with function body.
 
 
 func _on_Ghost_tree_exited() -> void:
-#	Global.game_manager.add_to_free_floor_positions(Global.snap_to_nearest_grid(self))	
+#	Global.game_manager.add_to_free_floor_positions(Global.snap_to_nearest_grid(global_position))	
 	pass # Replace with function body.
 	

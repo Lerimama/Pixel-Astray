@@ -72,7 +72,7 @@ func die(stray_in_stack_index: int, strays_in_stack_count: int):
 		return
 	current_state = States.DYING
 	
-	global_position = Global.snap_to_nearest_grid(self) 
+	global_position = Global.snap_to_nearest_grid(global_position) 
 	
 	# čakalni čas
 	var wait_to_destroy_time: float = sqrt(0.07 * (stray_in_stack_index)) # -1 je, da hitan stray ne čaka
@@ -171,7 +171,7 @@ func end_move():
 	
 	if current_state == States.MOVING: # da se stanje resetira samo če ni DYING al pa WALL
 		current_state = States.IDLE
-	global_position = Global.snap_to_nearest_grid(self)
+	global_position = Global.snap_to_nearest_grid(global_position)
 	
 	
 # UTILITI ------------------------------------------------------------------------------------------------------
@@ -322,12 +322,12 @@ func _on_Stray_tree_entered() -> void:
 	
 	for stray in get_tree().get_nodes_in_group(Global.group_strays):
 		if stray.global_position == global_position:
-			printt ("overspawn II on stray - stray tree entered", self) 
+			printt ("overspawn stray - stray tree entered", self) 
 			call_deferred("queue_free")
 			return
 			
 	for player in get_tree().get_nodes_in_group(Global.group_players):
 		if player.global_position == global_position:
-			printt ("overspawn II on player - stray tree entered", self) 
+			printt ("overspawn player - stray tree entered", self) 
 			call_deferred("queue_free")
 			return

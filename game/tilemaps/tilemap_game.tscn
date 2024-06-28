@@ -108,6 +108,5 @@ text = "zoom 1"
 polygon = PoolVector2Array( 607, 288, 607, 320, 639, 320, 639, 288 )
 
 [node name="EdgeCover" parent="." instance=ExtResource( 2 )]
-visible = false
 
 [editable path="Background"]
