@@ -101,6 +101,15 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 rect_pivot_offset = Vector2( 632, 352 )
 
+[node name="StartCountdown" parent="Popups" instance=ExtResource( 10 )]
+visible = false
+
+[node name="Instructions" parent="Popups" instance=ExtResource( 12 )]
+visible = false
+__meta__ = {
+"_edit_horizontal_guides_": [ 120.0, 160.0 ]
+}
+
 [node name="EnergyWarning" type="Control" parent="Popups"]
 visible = false
 anchor_left = 0.5
@@ -131,15 +140,6 @@ grow_horizontal = 2
 size_flags_horizontal = 3
 text = "NO ENERGY! Collect a color to revitalize."
 align = 1
-
-[node name="Instructions" parent="Popups" instance=ExtResource( 12 )]
-visible = false
-__meta__ = {
-"_edit_horizontal_guides_": [ 120.0, 160.0 ]
-}
-
-[node name="GameCountdown" parent="Popups" instance=ExtResource( 10 )]
-visible = false
 
 [node name="LevelUp" type="Control" parent="Popups"]
 visible = false

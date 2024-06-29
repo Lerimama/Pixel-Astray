@@ -92,11 +92,19 @@ func manage_gameover_highscores(current_score: float, current_game_data: Diction
 		
 	current_player_rank = better_positions_count + 1 # za označitev linije na lestvici
 	
+	var better_positions_to_be_ranking: int
+	if current_game_data["game"] == Profiles.Games.SWEEPER:
+		better_positions_to_be_ranking = 1 # noben
+	else:
+		better_positions_to_be_ranking = all_ranking_scores.size()
+	
 	# NI na lestvici
-	if better_positions_count >= all_ranking_scores.size():
+	if better_positions_count >= better_positions_to_be_ranking:
 		return false
 	# JE na lestvici
 	else:
+		# return true # 22
+		
 		# YIELD 2 ... čaka na novo ime, ki bo prišlo iz GM, ki ga dobi od GO
 		yield(Global.gameover_gui, "name_input_finished")
 		

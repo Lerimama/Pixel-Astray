@@ -1,0 +1,247 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://assets/theme/box_colored_white.tres" type="StyleBox" id=1]
+[ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/theme/font_big.tres" type="DynamicFont" id=3]
+[ext_resource path="res://assets/atlas_gui.png" type="Texture" id=4]
+[ext_resource path="res://home/level_btn.tscn" type="PackedScene" id=5]
+[ext_resource path="res://home/select_level_btns_holder.gd" type="Script" id=6]
+
+[sub_resource type="AtlasTexture" id=499]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 120, 16, 20 )
+filter_clip = true
+
+[node name="SelectLevelBtnsHolder" type="GridContainer"]
+margin_left = 8.0
+margin_top = 184.0
+margin_right = 760.0
+margin_bottom = 624.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/vseparation = 8
+custom_constants/hseparation = 8
+columns = 4
+script = ExtResource( 6 )
+
+[node name="PixelAstrayLevelBtn" type="Button" parent="."]
+margin_right = 182.0
+margin_bottom = 104.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 3 )
+custom_styles/hover = ExtResource( 1 )
+custom_styles/pressed = ExtResource( 1 )
+custom_styles/focus = ExtResource( 1 )
+custom_styles/normal = ExtResource( 1 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PixelAstrayLevelBtn"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -75.0
+margin_top = -45.0
+margin_right = 77.0
+margin_bottom = 41.0
+grow_vertical = 2
+custom_constants/separation = -2
+alignment = 1
+
+[node name="Label" type="Label" parent="PixelAstrayLevelBtn/VBoxContainer"]
+visible = false
+margin_top = 21.0
+margin_right = 152.0
+margin_bottom = 65.0
+rect_min_size = Vector2( 0, 44 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "PIXEL"
+align = 1
+
+[node name="Label2" type="Label" parent="PixelAstrayLevelBtn/VBoxContainer/Label"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -24.0
+margin_bottom = -2.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "ASTRAY"
+align = 1
+valign = 1
+
+[node name="LabelLocked" type="Label" parent="PixelAstrayLevelBtn/VBoxContainer"]
+margin_top = 21.0
+margin_right = 152.0
+margin_bottom = 65.0
+rect_min_size = Vector2( 0, 44 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "  PIXEL"
+
+[node name="Label2" type="Label" parent="PixelAstrayLevelBtn/VBoxContainer/LabelLocked"]
+margin_left = 19.0
+margin_top = 20.0
+margin_right = 103.0
+margin_bottom = 42.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "ASTRAY"
+valign = 1
+
+[node name="LockedIcon" type="TextureRect" parent="PixelAstrayLevelBtn/VBoxContainer/LabelLocked"]
+margin_left = 116.0
+margin_top = 6.0
+margin_right = 132.0
+margin_bottom = 26.0
+grow_horizontal = 0
+mouse_default_cursor_shape = 2
+texture = SubResource( 499 )
+
+[node name="Record" type="Label" parent="PixelAstrayLevelBtn/VBoxContainer"]
+visible = false
+margin_top = 55.0
+margin_right = 152.0
+margin_bottom = 73.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "00:00:00"
+align = 1
+
+[node name="Owner" type="Label" parent="PixelAstrayLevelBtn/VBoxContainer"]
+visible = false
+margin_top = 63.0
+margin_right = 152.0
+margin_bottom = 81.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "%by Somebody"
+align = 1
+valign = 1
+
+[node name="LevelBtn" parent="." instance=ExtResource( 5 )]
+margin_left = 190.0
+margin_right = 372.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn2" parent="." instance=ExtResource( 5 )]
+margin_left = 380.0
+margin_right = 562.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn3" parent="." instance=ExtResource( 5 )]
+margin_left = 570.0
+margin_right = 752.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn4" parent="." instance=ExtResource( 5 )]
+margin_top = 112.0
+margin_right = 182.0
+margin_bottom = 216.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn5" parent="." instance=ExtResource( 5 )]
+margin_left = 190.0
+margin_top = 112.0
+margin_right = 372.0
+margin_bottom = 216.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn6" parent="." instance=ExtResource( 5 )]
+margin_left = 380.0
+margin_top = 112.0
+margin_right = 562.0
+margin_bottom = 216.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn7" parent="." instance=ExtResource( 5 )]
+margin_left = 570.0
+margin_top = 112.0
+margin_right = 752.0
+margin_bottom = 216.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn8" parent="." instance=ExtResource( 5 )]
+margin_top = 224.0
+margin_right = 182.0
+margin_bottom = 328.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn9" parent="." instance=ExtResource( 5 )]
+margin_left = 190.0
+margin_top = 224.0
+margin_right = 372.0
+margin_bottom = 328.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn10" parent="." instance=ExtResource( 5 )]
+margin_left = 380.0
+margin_top = 224.0
+margin_right = 562.0
+margin_bottom = 328.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn11" parent="." instance=ExtResource( 5 )]
+margin_left = 570.0
+margin_top = 224.0
+margin_right = 752.0
+margin_bottom = 328.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn12" parent="." instance=ExtResource( 5 )]
+margin_top = 336.0
+margin_right = 182.0
+margin_bottom = 440.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn13" parent="." instance=ExtResource( 5 )]
+margin_left = 190.0
+margin_top = 336.0
+margin_right = 372.0
+margin_bottom = 440.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn14" parent="." instance=ExtResource( 5 )]
+margin_left = 380.0
+margin_top = 336.0
+margin_right = 562.0
+margin_bottom = 440.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="LevelBtn15" parent="." instance=ExtResource( 5 )]
+margin_left = 570.0
+margin_top = 336.0
+margin_right = 752.0
+margin_bottom = 440.0
+__meta__ = {
+"_editor_description_": ""
+}

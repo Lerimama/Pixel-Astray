@@ -1,9 +1,6 @@
 extends Camera2D
 
 
-signal zoomed_in
-signal zoomed_out
-
 export (OpenSimplexNoise) var noise # tekstura za vizualizacijo ma kopijo tega noisa
 
 var camera_target: Node2D
@@ -47,7 +44,6 @@ func _ready():
 	else: # game
 		Global.game_camera = self
 		zoom = zoom_start
-#		zoom_end = zoom_start # no zoom debug
 
 	# testhud
 	set_ui_focus()	
@@ -95,24 +91,27 @@ func zoom_in(hud_in_out_time: float): # kliče hud
 	var zoom_in_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	zoom_in_tween.tween_property(self, "zoom", zoom_end, hud_in_out_time)
 	zoom_in_tween.parallel().tween_property(self, "cell_align", cell_align_end, hud_in_out_time)
-	zoom_in_tween.tween_callback(self, "emit_signal", ["zoomed_in"]) # pošlje na hud, ki sproži countdown
+	yield(zoom_in_tween, "finished")
+	
+	Global.current_tilemap.tilemap_background.hide()
 
 	
 func zoom_out(hud_in_out_time: float): # kliče hud
-	
-	# unset limits
+
 	camera_target = null
 	position = get_camera_position() # pozicija postane ofsetana pozicija
+	
+	Global.current_tilemap.tilemap_background.show()
+	
+	# unset limits
 	limit_left = -10000000
 	limit_right = 10000000
 	limit_top = -10000000
 	limit_bottom = 10000000
 	var zoomout_position = Global.current_tilemap.camera_position_node.global_position	
-
 	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	zoom_out_tween.tween_property(self, "zoom", zoom_start, hud_in_out_time)
 	zoom_out_tween.parallel().tween_property(self, "position", zoomout_position, hud_in_out_time)
-	zoom_out_tween.parallel().tween_callback(self, "emit_signal", ["zoomed_out"]).set_delay(hud_in_out_time/3) # pošlje na GO, ki pokaže meni
 	
 
 func shake_camera(shake_power: float, shake_time: float, shake_decay: float): 

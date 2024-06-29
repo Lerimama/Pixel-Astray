@@ -4,11 +4,10 @@ extends Node
 signal finished_playing
 
 export var actor_in_motion: bool = true # exportano za animacijo
-var intro_strays_spawned: bool = false
-var step_time: float = 0.08
 
-# players ... v intru zaenkrat ne rabim
-var start_players_count: int
+var intro_strays_spawned: bool = false
+var camera_is_shaking: bool = false # da se šejk ne podvaja
+var step_time: float = 0.08
 
 # strays
 var strays_in_game: Array = []
@@ -16,7 +15,8 @@ var strays_shown_on_start: Array = []
 var create_strays_count: int =  500 # 149 v naslovu ... ne sme bit onready, ker povozi ukaz s tilemapa
 var color_pool_colors: Array
 
-# tilemap positions
+# tilemap data
+var start_players_count: int
 var cell_size_x: int # napolne se na koncu setanju tilemapa
 var player_start_positions: Array
 var random_spawn_positions: Array
@@ -35,8 +35,8 @@ onready var skip_intro: HBoxContainer = $Text/ActionHint
 onready var StrayPixel: PackedScene = preload("res://home/intro/intro_stray.tscn")
 
 # debug
-var pos_indi = preload("res://game/pixel/free_position_indicator.tscn")		
-var pos_indis: Array
+var FreePositionIndicator: PackedScene = preload("res://game/pixel/free_position_indicator.tscn")		
+var free_position_indicators: Array
 
 
 func _input(event: InputEvent) -> void:
@@ -93,11 +93,11 @@ func set_strays(): # kliče animacija
 	free_floor_positions = Global.current_tilemap.all_floor_tiles_global_positions.duplicate()
 	# debug ... spawnam rectangle
 	#	for pos in free_floor_positions: # vsa tla v tilemaps:
-	#		var new_pos_indi = pos_indi.instance()
+	#		var new_pos_indi = FreePositionIndicator.instance()
 	#		new_pos_indi.rect_global_position = pos
 	#		add_child(new_pos_indi)
-	#		pos_indis.append(new_pos_indi)
-	printt("on tilemap",free_floor_positions.size())
+	#		free_position_indicators.append(new_pos_indi)
+	#	printt("on tilemap",free_floor_positions.size())
 		
 	# colors 
 	set_color_pool()	
@@ -276,10 +276,10 @@ func remove_from_free_floor_positions(position_to_remove: Vector2):
 		free_floor_positions.erase(position_to_remove_on_grid)
 	
 	# izbrišem rect na poziciji
-	for indi in pos_indis:
-		if indi.rect_position == position_to_remove_on_grid:
-			indi.queue_free()	
-			pos_indis.erase(indi)
+	#	for indi in free_position_indicators:
+	#		if indi.rect_position == position_to_remove_on_grid:
+	#			indi.queue_free()	
+	#			free_position_indicators.erase(indi)
 	
 	
 func add_to_free_floor_positions(position_to_add: Vector2):
@@ -288,10 +288,10 @@ func add_to_free_floor_positions(position_to_add: Vector2):
 	
 	# preverim, da je med original floor pozicijami in, da ni slučajno že med free
 	if Global.current_tilemap.all_floor_tiles_global_positions.has(position_to_add_on_grid) and not free_floor_positions.has(position_to_add_on_grid):
-		#		var new_pos_indi = pos_indi.instance()
+		#		var new_pos_indi = FreePositionIndicator.instance()
 		#		new_pos_indi.rect_global_position = position_to_add_on_grid
 		#		Global.node_creation_parent.get_node("ArenaTop").add_child(new_pos_indi)
-		#		pos_indis.append(new_pos_indi)	
+		#		free_position_indicators.append(new_pos_indi)	
 		free_floor_positions.append(position_to_add_on_grid)
 
 
@@ -312,6 +312,9 @@ func set_color_pool():
 
 func shake_camera_on_show_strays():
 	
+	if camera_is_shaking:
+		return
+	camera_is_shaking = true
 	# shake
 	var spawn_shake_power: float = 0.35
 	var spawn_shake_time: float = 1
@@ -368,6 +371,7 @@ func _on_TileMap_completed(stray_random_positions: Array, stray_positions: Array
 	# player pozicije
 	player_start_positions = player_positions
 	start_players_count = player_start_positions.size() # tukaj določeno se uporabi za game view setup
+	
 	# če ni pozicij, je en player ... random pozicija
 	if player_start_positions.empty():
 		var random_range = random_spawn_positions.size() 

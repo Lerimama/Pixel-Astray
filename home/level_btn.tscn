@@ -1,13 +1,14 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
 [ext_resource path="res://assets/theme/box_colored_white.tres" type="StyleBox" id=3]
 [ext_resource path="res://assets/theme/font_big.tres" type="DynamicFont" id=4]
+[ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=5]
 
-[sub_resource type="AtlasTexture" id=480]
+[sub_resource type="AtlasTexture" id=482]
 atlas = ExtResource( 2 )
-region = Rect2( 16, 3, 14, 10 )
+region = Rect2( 0, 120, 16, 20 )
 filter_clip = true
 
 [node name="LevelBtn" type="Button"]
@@ -34,45 +35,77 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -100.0
-margin_top = -53.0
+margin_top = -52.0
 margin_right = 100.0
-margin_bottom = 43.0
+margin_bottom = 44.0
 grow_vertical = 2
 custom_constants/separation = -2
 alignment = 1
+__meta__ = {
+"_edit_group_": true
+}
 
-[node name="SolvedIcon" type="TextureRect" parent="VBoxContainer"]
+[node name="LabelLocked" type="Label" parent="VBoxContainer"]
 visible = false
-margin_right = 200.0
-margin_bottom = 10.0
-focus_neighbour_top = NodePath("../LevelGrid/SolutionsBtn")
-mouse_default_cursor_shape = 2
-texture = SubResource( 480 )
+margin_right = 128.0
+margin_bottom = 54.0
+rect_min_size = Vector2( 128, 0 )
+size_flags_horizontal = 0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 4 )
+text = "00"
+align = 2
+valign = 1
 
-[node name="Label" type="Label" parent="VBoxContainer"]
-margin_top = 5.0
-margin_right = 200.0
-margin_bottom = 59.0
+[node name="LockedIcon" type="TextureRect" parent="VBoxContainer/LabelLocked"]
+margin_left = 131.0
+margin_top = 14.0
+margin_right = 147.0
+margin_bottom = 34.0
+grow_horizontal = 0
+mouse_default_cursor_shape = 2
+texture = SubResource( 482 )
+
+[node name="Label_old" type="Label" parent="VBoxContainer"]
+visible = false
+margin_left = 45.0
+margin_right = 155.0
+margin_bottom = 54.0
+size_flags_horizontal = 4
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "%00"
 align = 1
 valign = 1
 
-[node name="Solved" type="Label" parent="VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer"]
+margin_left = 67.0
+margin_top = 9.0
+margin_right = 133.0
+margin_bottom = 49.0
+rect_min_size = Vector2( 0, 40 )
+size_flags_horizontal = 4
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 5 )
+text = "%00"
+align = 1
+valign = 1
+
+[node name="Record" type="Label" parent="VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.470588 )
-margin_top = 57.0
+margin_top = 47.0
 margin_right = 200.0
-margin_bottom = 75.0
+margin_bottom = 65.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 1 )
-text = "%0:00:00"
+text = "00:00:00"
 align = 1
 
 [node name="Owner" type="Label" parent="VBoxContainer"]
-margin_top = 73.0
+margin_top = 63.0
 margin_right = 200.0
-margin_bottom = 91.0
+margin_bottom = 87.0
+rect_min_size = Vector2( 0, 24 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 1 )
 text = "%by Somebody"

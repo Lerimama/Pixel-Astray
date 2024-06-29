@@ -47,9 +47,10 @@ var default_game_settings: Dictionary = {
 	"show_game_instructions": true,
 	"position_indicators_show_limit": 6, # en manj je število vidnih
 	"start_countdown": true,
-	"zoom_to_level_size": false,
 	# neu
 	"respawn_pause_time_limit": 1, # klempam na tole
+	"zoom_to_level_size": false, # SHOWCASE
+	"always_zoomed_in": false, # SWEEPER
 }
 
 enum Games {
@@ -257,7 +258,7 @@ var get_it_time: float = 1 # tajming za dojet določene faze igre
 var solution_hint_on: bool = false
 var camera_shake_on: bool = true
 var tutorial_music_track_index: int = 1
-var tutorial_mode: bool = true
+var tutorial_mode: bool = false # debug
 
 
 func _ready() -> void:
@@ -267,14 +268,14 @@ func _ready() -> void:
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE # fix camera
 #	var debug_game = Games.CLASSIC
-	var debug_game = Games.CLEANER_XS
+#	var debug_game = Games.CLEANER_XS
 #	var debug_game = Games.CLEANER_S
 #	var debug_game = Games.CLEANER_M
 #	var debug_game = Games.CLEANER_L
 #	var debug_game = Games.CLEANER_XL
 #	var debug_game = Games.CHASER
 #	var debug_game = Games.DEFENDER
-#	var debug_game = Games.SWEEPER
+	var debug_game = Games.SWEEPER
 #	var debug_game = Games.THE_DUEL
 	set_game_data(debug_game)
 	
@@ -285,7 +286,7 @@ func set_game_data(selected_game):
 	
 	# debug
 	game_settings["start_countdown"] = false
-	game_settings["player_start_life"] = 5
+#	game_settings["player_start_life"] = 2
 	game_settings["show_game_instructions"] = false
 
 	match selected_game:
@@ -312,20 +313,17 @@ func set_game_data(selected_game):
 			current_game_data = game_data_classic.duplicate()
 #			game_settings["create_strays_count"] = 230
 			game_settings["game_time_limit"] = 0
-			game_settings["start_countdown"] = false
+#			game_settings["start_countdown"] = false
 			game_settings["game_music_track_index"] = 1
-			game_settings["start_countdown"] = false
 			#
-			game_settings["create_strays_count"] = 999
-#			game_settings["create_strays_count"] = 200
+#			game_settings["create_strays_count"] = 999
+			game_settings["create_strays_count"] = 320
 			
 		Games.CLEANER_XS: 
 			current_game_data = game_data_cleaner_xs.duplicate()
 			game_settings["game_time_limit"] = 120 
-#			game_settings["create_strays_count"] = 32
+			game_settings["create_strays_count"] = 32
 			game_settings["spawn_white_stray_part"] = 0.11 # 10 posto
-#			
-			game_settings["create_strays_count"] = 1
 		Games.CLEANER_S: 
 			current_game_data = game_data_cleaner_s.duplicate()
 			game_settings["game_time_limit"] = 300
@@ -336,7 +334,6 @@ func set_game_data(selected_game):
 			game_settings["game_time_limit"] = 470
 			game_settings["create_strays_count"] = 100
 			game_settings["spawn_white_stray_part"] = 0.11
-			
 		Games.CLEANER_L: 
 			current_game_data = game_data_cleaner_l.duplicate()
 			game_settings["game_time_limit"] = 600
@@ -371,7 +368,8 @@ func set_game_data(selected_game):
 			current_game_data = game_data_the_duel.duplicate()
 			game_settings["game_time_limit"] = 180 # tilemap set
 			game_settings["spawn_strays_on_cleaned"] = true
-			game_settings["zoom_to_level_size"] = true
+#			game_settings["zoom_to_level_size"] = true ... če je večja mapa
+			
 			game_settings["position_indicators_show_limit"] = 0
 			game_settings["respawn_strays_count_range"] = [1, 14]
 			game_settings["spawn_white_stray_part"] = 0.21
@@ -385,10 +383,11 @@ func set_game_data(selected_game):
 			game_settings["cell_traveled_energy"] = 0
 			game_settings["cleaned_reward_points"] = 1 # ... izpiše se "SUCCESS!" # TEST
 			game_settings["position_indicators_show_limit"] = 0
-			game_settings["zoom_to_level_size"] = true
+#			game_settings["zoom_to_level_size"] = true # ker so samo M velikosti
 			game_settings["reburst_enabled"] = true
 			game_settings["reburst_window_time"] = 5
 			game_settings["game_music_track_index"] = 1
-			game_settings["show_game_instructions"] = false
+#			game_settings["always_zoomed_in"] = true # prižge se med prvo igro iz menija, tako ostane za zmerom zoomiran
+#			game_settings["show_game_instructions"] = false # prižge se samo za prvi gejm iz menija
 			return game_settings # da lahko vklopim game instructions za prehod iz home menija
 	

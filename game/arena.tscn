@@ -66,6 +66,7 @@ polygon = PoolVector2Array( 0, 0, 0, 32, 32, 32, 32, 0 )
 visible = false
 
 [node name="FreePositions" type="Node2D" parent="."]
+visible = false
 z_index = 10
 
 [node name="ArenaEnvironment" type="WorldEnvironment" parent="."]

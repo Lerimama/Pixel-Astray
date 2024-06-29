@@ -1,4 +1,4 @@
-[gd_scene load_steps=111 format=2]
+[gd_scene load_steps=109 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -18,13 +18,11 @@
 [ext_resource path="res://home/about.gd" type="Script" id=16]
 [ext_resource path="res://home/select_level.gd" type="Script" id=17]
 [ext_resource path="res://assets/theme/color_theme_spectrum.png" type="Texture" id=18]
-[ext_resource path="res://assets/theme/font_big.tres" type="DynamicFont" id=19]
-[ext_resource path="res://assets/theme/box_colored_white.tres" type="StyleBox" id=20]
+[ext_resource path="res://home/select_level_btns_holder.tscn" type="PackedScene" id=19]
 [ext_resource path="res://game/gui/highscore_table.tscn" type="PackedScene" id=21]
 [ext_resource path="res://game/gui/controls_scheme.tscn" type="PackedScene" id=22]
 [ext_resource path="res://game/gui/shortcut_line.tscn" type="PackedScene" id=23]
 [ext_resource path="res://assets/theme/box_game_btn_focus.tres" type="StyleBox" id=24]
-[ext_resource path="res://home/level_btn.tscn" type="PackedScene" id=25]
 [ext_resource path="res://assets/theme/font_main_small.tres" type="DynamicFont" id=26]
 
 [sub_resource type="StyleBoxEmpty" id=208]
@@ -195,20 +193,20 @@ region = Rect2( 0, 16, 22, 22 )
 atlas = ExtResource( 2 )
 region = Rect2( 22, 16, 22, 22 )
 
-[sub_resource type="StyleBoxEmpty" id=427]
+[sub_resource type="StyleBoxEmpty" id=500]
 
 [sub_resource type="StreamTexture" id=444]
 load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
 
-[sub_resource type="AtlasTexture" id=428]
+[sub_resource type="AtlasTexture" id=501]
 atlas = SubResource( 444 )
 region = Rect2( 16, 16, 14, 16 )
 
-[sub_resource type="AtlasTexture" id=429]
+[sub_resource type="AtlasTexture" id=502]
 atlas = SubResource( 444 )
 region = Rect2( 0, 16, 10, 16 )
 
-[sub_resource type="StyleBoxFlat" id=430]
+[sub_resource type="StyleBoxFlat" id=503]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -220,21 +218,21 @@ expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxEmpty" id=431]
+[sub_resource type="StyleBoxEmpty" id=504]
 
-[sub_resource type="StyleBoxEmpty" id=432]
+[sub_resource type="StyleBoxEmpty" id=505]
 
-[sub_resource type="StyleBoxLine" id=433]
+[sub_resource type="StyleBoxLine" id=506]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
 
-[sub_resource type="AtlasTexture" id=434]
+[sub_resource type="AtlasTexture" id=507]
 atlas = SubResource( 444 )
 region = Rect2( 32, 0, 10, 10 )
 
-[sub_resource type="StyleBoxEmpty" id=435]
+[sub_resource type="StyleBoxEmpty" id=508]
 
-[sub_resource type="StyleBoxFlat" id=436]
+[sub_resource type="StyleBoxFlat" id=509]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -245,14 +243,14 @@ expand_margin_left = 6.0
 expand_margin_top = 6.0
 expand_margin_bottom = 6.0
 
-[sub_resource type="StreamTexture" id=437]
+[sub_resource type="StreamTexture" id=510]
 load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
 
 [sub_resource type="AtlasTexture" id=445]
-atlas = SubResource( 437 )
+atlas = SubResource( 510 )
 region = Rect2( 0, 4, 16, 8 )
 
-[sub_resource type="StyleBoxTexture" id=438]
+[sub_resource type="StyleBoxTexture" id=511]
 texture = SubResource( 445 )
 region_rect = Rect2( 0, 0, 16, 8 )
 margin_left = 3.34132
@@ -261,7 +259,7 @@ margin_top = 4.0
 margin_bottom = 4.0
 modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 
-[sub_resource type="StyleBoxFlat" id=439]
+[sub_resource type="StyleBoxFlat" id=512]
 bg_color = Color( 0, 0, 0, 0 )
 border_width_left = 2
 border_width_top = 2
@@ -269,12 +267,12 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="AtlasTexture" id=440]
+[sub_resource type="AtlasTexture" id=513]
 atlas = SubResource( 444 )
 region = Rect2( 16, 0, 16, 12 )
 margin = Rect2( 4, 0, 0, 0 )
 
-[sub_resource type="StyleBoxFlat" id=441]
+[sub_resource type="StyleBoxFlat" id=514]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 2
 border_width_top = 2
@@ -286,7 +284,7 @@ expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxFlat" id=442]
+[sub_resource type="StyleBoxFlat" id=515]
 bg_color = Color( 0, 0, 0, 0.862745 )
 border_width_left = 4
 border_width_top = 4
@@ -294,7 +292,7 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
 
-[sub_resource type="StyleBoxLine" id=443]
+[sub_resource type="StyleBoxLine" id=516]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
 vertical = true
@@ -305,46 +303,46 @@ Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
 Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
 Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
-Button/styles/disabled = SubResource( 427 )
-Button/styles/focus = SubResource( 427 )
-Button/styles/hover = SubResource( 427 )
-Button/styles/normal = SubResource( 427 )
-Button/styles/pressed = SubResource( 427 )
+Button/styles/disabled = SubResource( 500 )
+Button/styles/focus = SubResource( 500 )
+Button/styles/hover = SubResource( 500 )
+Button/styles/normal = SubResource( 500 )
+Button/styles/pressed = SubResource( 500 )
 CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
 CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
 CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
 CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
 CheckBox/constants/hseparation = 4
-CheckBox/icons/checked = SubResource( 428 )
-CheckBox/icons/unchecked = SubResource( 429 )
-CheckBox/styles/focus = SubResource( 430 )
-CheckBox/styles/hover = SubResource( 430 )
-CheckBox/styles/hover_pressed = SubResource( 430 )
-CheckBox/styles/normal = SubResource( 431 )
-CheckBox/styles/pressed = SubResource( 432 )
-HSeparator/styles/separator = SubResource( 433 )
-HSlider/icons/grabber = SubResource( 434 )
+CheckBox/icons/checked = SubResource( 501 )
+CheckBox/icons/unchecked = SubResource( 502 )
+CheckBox/styles/focus = SubResource( 503 )
+CheckBox/styles/hover = SubResource( 503 )
+CheckBox/styles/hover_pressed = SubResource( 503 )
+CheckBox/styles/normal = SubResource( 504 )
+CheckBox/styles/pressed = SubResource( 505 )
+HSeparator/styles/separator = SubResource( 506 )
+HSlider/icons/grabber = SubResource( 507 )
 HSlider/icons/grabber_disabled = null
-HSlider/icons/grabber_highlight = SubResource( 434 )
+HSlider/icons/grabber_highlight = SubResource( 507 )
 HSlider/icons/tick = null
-HSlider/styles/grabber_area = SubResource( 435 )
-HSlider/styles/grabber_area_highlight = SubResource( 436 )
-HSlider/styles/slider = SubResource( 438 )
+HSlider/styles/grabber_area = SubResource( 508 )
+HSlider/styles/grabber_area_highlight = SubResource( 509 )
+HSlider/styles/slider = SubResource( 511 )
 Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
 Label/constants/line_spacing = 6
 LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
 LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
-LineEdit/styles/normal = SubResource( 439 )
+LineEdit/styles/normal = SubResource( 512 )
 OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
-OptionButton/icons/arrow = SubResource( 440 )
-OptionButton/styles/focus = SubResource( 441 )
-OptionButton/styles/hover = SubResource( 441 )
-OptionButton/styles/pressed = SubResource( 441 )
-Panel/styles/panel = SubResource( 442 )
-VSeparator/styles/separator = SubResource( 443 )
+OptionButton/icons/arrow = SubResource( 513 )
+OptionButton/styles/focus = SubResource( 514 )
+OptionButton/styles/hover = SubResource( 514 )
+OptionButton/styles/pressed = SubResource( 514 )
+Panel/styles/panel = SubResource( 515 )
+VSeparator/styles/separator = SubResource( 516 )
 
 [sub_resource type="AtlasTexture" id=476]
 atlas = ExtResource( 12 )
@@ -2126,7 +2124,6 @@ __meta__ = {
 }
 
 [node name="SelectLevel" type="Control" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 1280.0
@@ -2165,186 +2162,7 @@ custom_fonts/font = ExtResource( 14 )
 text = "The ultimate skill test. Sweep all colors with one spectacular move!"
 autowrap = true
 
-[node name="BtnsHolder" type="GridContainer" parent="SelectLevel"]
-margin_left = 8.0
-margin_top = 184.0
-margin_right = 760.0
-margin_bottom = 624.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_constants/vseparation = 8
-custom_constants/hseparation = 8
-columns = 4
-
-[node name="PixelAstrayLevelBtn" type="Button" parent="SelectLevel/BtnsHolder"]
-margin_right = 182.0
-margin_bottom = 142.0
-mouse_default_cursor_shape = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 19 )
-custom_styles/hover = ExtResource( 20 )
-custom_styles/pressed = ExtResource( 20 )
-custom_styles/focus = ExtResource( 20 )
-custom_styles/normal = ExtResource( 20 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="SelectLevel/BtnsHolder/PixelAstrayLevelBtn"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -75.0
-margin_top = -46.0
-margin_right = 77.0
-margin_bottom = 40.0
-grow_vertical = 2
-custom_constants/separation = -2
-alignment = 1
-
-[node name="Label" type="Label" parent="SelectLevel/BtnsHolder/PixelAstrayLevelBtn/VBoxContainer"]
-margin_top = 13.0
-margin_right = 152.0
-margin_bottom = 57.0
-rect_min_size = Vector2( 0, 44 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "  PIXEL"
-
-[node name="Label2" type="Label" parent="SelectLevel/BtnsHolder/PixelAstrayLevelBtn/VBoxContainer/Label"]
-margin_left = 44.0
-margin_top = 20.0
-margin_right = 128.0
-margin_bottom = 42.0
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "ASTRAY"
-valign = 1
-
-[node name="Solved" type="Label" parent="SelectLevel/BtnsHolder/PixelAstrayLevelBtn/VBoxContainer"]
-margin_top = 55.0
-margin_right = 152.0
-margin_bottom = 73.0
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_fonts/font = ExtResource( 14 )
-text = "SOLVED"
-align = 1
-
-[node name="Owner" type="Label" parent="SelectLevel/BtnsHolder/PixelAstrayLevelBtn/VBoxContainer"]
-visible = false
-margin_top = 63.0
-margin_right = 152.0
-margin_bottom = 81.0
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_fonts/font = ExtResource( 14 )
-text = "%by Somebody"
-align = 1
-valign = 1
-
-[node name="LevelBtn" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 190.0
-margin_right = 372.0
-margin_bottom = 142.0
-rect_min_size = Vector2( 0, 0 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="LevelBtn2" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 380.0
-margin_right = 562.0
-margin_bottom = 142.0
-rect_min_size = Vector2( 0, 0 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="LevelBtn3" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 570.0
-margin_right = 752.0
-margin_bottom = 142.0
-rect_min_size = Vector2( 0, 0 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="LevelBtn4" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_top = 150.0
-margin_right = 182.0
-margin_bottom = 291.0
-rect_min_size = Vector2( 0, 0 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="LevelBtn5" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 190.0
-margin_top = 150.0
-margin_right = 372.0
-margin_bottom = 291.0
-rect_min_size = Vector2( 0, 0 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="LevelBtn6" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 380.0
-margin_top = 150.0
-margin_right = 562.0
-margin_bottom = 291.0
-rect_min_size = Vector2( 0, 0 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="LevelBtn7" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 570.0
-margin_top = 150.0
-margin_right = 752.0
-margin_bottom = 291.0
-rect_min_size = Vector2( 0, 0 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="LevelBtn8" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_top = 299.0
-margin_right = 182.0
-margin_bottom = 440.0
-rect_min_size = Vector2( 0, 0 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="LevelBtn9" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 190.0
-margin_top = 299.0
-margin_right = 372.0
-margin_bottom = 440.0
-rect_min_size = Vector2( 0, 0 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="LevelBtn10" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 380.0
-margin_top = 299.0
-margin_right = 562.0
-margin_bottom = 440.0
-rect_min_size = Vector2( 0, 0 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="LevelBtn11" parent="SelectLevel/BtnsHolder" instance=ExtResource( 25 )]
-margin_left = 570.0
-margin_top = 299.0
-margin_right = 752.0
-margin_bottom = 440.0
-rect_min_size = Vector2( 0, 0 )
-__meta__ = {
-"_editor_description_": ""
-}
+[node name="SelectLevelBtnsHolder" parent="SelectLevel" instance=ExtResource( 19 )]
 
 [node name="SolutionsBtn" type="CheckButton" parent="SelectLevel"]
 visible = false
@@ -2392,7 +2210,7 @@ margin_left = -22.0
 margin_top = 74.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 16, 16 )
-focus_neighbour_top = NodePath("../BtnsHolder/PixelAstrayLevelBtn")
+focus_neighbour_top = NodePath("../SelectLevelBtnsHolder/PixelAstrayLevelBtn")
 mouse_default_cursor_shape = 2
 texture_normal = SubResource( 195 )
 texture_hover = SubResource( 196 )
@@ -2616,7 +2434,7 @@ margin_top = 393.0
 margin_right = 308.0
 margin_bottom = 425.0
 focus_neighbour_right = NodePath("../BackBtn")
-focus_neighbour_bottom = NodePath("../MenuMusicBtn")
+focus_neighbour_bottom = NodePath("../ColorSchemeOptions/RandomizeBtn")
 mouse_default_cursor_shape = 2
 pressed = true
 text = "Game rules screen"
@@ -2640,7 +2458,7 @@ margin_top = 8.5
 margin_right = 197.0
 margin_bottom = 32.5
 rect_min_size = Vector2( 24, 24 )
-focus_mode = 0
+focus_neighbour_bottom = NodePath("../../MenuMusicBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 279 )
 custom_styles/focus = SubResource( 279 )
@@ -2677,7 +2495,7 @@ margin_right = 226.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 16, 16 )
 focus_neighbour_right = NodePath("../../BackBtn")
-focus_mode = 0
+focus_neighbour_bottom = NodePath("../../MenuMusicBtn")
 mouse_default_cursor_shape = 2
 expand_icon = true
 __meta__ = {

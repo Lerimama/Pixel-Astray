@@ -28,6 +28,7 @@ onready var viewport_footer: ColorRect = $"%ViewFuter"
 onready var energy_warning_popup: Control = $Popups/EnergyWarning
 onready var instructions_popup: Control = $Popups/Instructions
 onready var level_popup: Control = $Popups/LevelUp
+onready var start_countdown: Control = $Popups/StartCountdown
 
 # header
 onready var game_timer: HBoxContainer = $Header/GameTimerHunds
@@ -133,6 +134,8 @@ func _ready() -> void:
 					$Footer/FooterLine/StraysLine/PickedHolder/TextureRect2])
 	for node in nodes_to_modulate:
 		node.modulate = Global.color_hud_text	
+	
+	set_hud()
 
 	
 func _process(delta: float) -> void:
@@ -144,9 +147,10 @@ func _process(delta: float) -> void:
 			
 			
 func set_hud(): # kliče main na game-in
-	
+
 	energy_warning_popup.hide()
 	astray_label.text = "PIXELS ASTRAY"
+	start_countdown.hide()
 	
 	if Global.game_manager.start_players_count == 1:
 		p1_label.visible = false
@@ -179,7 +183,13 @@ func set_hud(): # kliče main na game-in
 		game_timer.get_node("Dots2").show()
 		game_timer.get_node("Hunds").show()
 		
-		
+	if Global.game_manager.game_settings["always_zoomed_in"]:
+		header.rect_position.y = 0
+		footer.rect_position.y = screen_height - header_height
+		viewport_header.rect_min_size.y = header_height
+		viewport_footer.rect_min_size.y = header_height
+					
+				
 func set_current_highscore():
 	
 	var current_highscore_line: Array = Global.data_manager.get_top_highscore(Global.game_manager.game_data)
@@ -191,29 +201,38 @@ func set_current_highscore():
 		highscore_label.text = "HS " + current_highscore_clock
 	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_POINTS:
 		highscore_label.text = "HS " + str(current_highscore)
-		
-
 
 
 func slide_in(): # kliče GM set_game()
 	
-	set_hud()
-	
+	# solution line
 	var solution_line: Line2D
 	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 		solution_line = Global.current_tilemap.get_node("SolutionLine")
 		solution_line.hide()
 		solution_line.modulate.a = 0.1
+	
+	# solution line
+	if Global.game_manager.game_settings["start_countdown"]:
+		start_countdown.modulate.a = 0
+		start_countdown.show()
+		var fade_in_tween = get_tree().create_tween()
+		fade_in_tween.tween_property(start_countdown, "modulate:a", 1, 0.3).set_ease(Tween.EASE_IN)
+				
+	
+	if Global.game_manager.game_settings["always_zoomed_in"]:
+		yield(get_tree().create_timer(Profiles.get_it_time), "timeout")
+	else:
+		Global.game_camera.zoom_in(hud_in_out_time)
 		
-	Global.game_camera.zoom_in(hud_in_out_time)
-	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
-	if Profiles.solution_hint_on:
-		fade_in.tween_callback(solution_line, "show")
-		fade_in.tween_property(solution_line, "modulate:a", 0.1, hud_in_out_time).from(0.0)
-	fade_in.parallel().tween_property(header, "rect_position:y", 0, hud_in_out_time)
-	fade_in.parallel().tween_property(footer, "rect_position:y", screen_height - header_height, hud_in_out_time)
-	fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", header_height, hud_in_out_time)
-	fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", header_height, hud_in_out_time)
+		var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
+		if Profiles.solution_hint_on:
+			fade_in.tween_callback(solution_line, "show")
+			fade_in.tween_property(solution_line, "modulate:a", 0.1, hud_in_out_time).from(0.0)
+		fade_in.parallel().tween_property(header, "rect_position:y", 0, hud_in_out_time)
+		fade_in.parallel().tween_property(footer, "rect_position:y", screen_height - header_height, hud_in_out_time)
+		fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", header_height, hud_in_out_time)
+		fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", header_height, hud_in_out_time)
 	
 	if not Global.game_manager.level_goal_mode:
 		for indicator in all_color_indicators:
@@ -223,18 +242,21 @@ func slide_in(): # kliče GM set_game()
 
 func slide_out(): # kliče GM na game over
 	
-	Global.game_camera.zoom_out(hud_in_out_time)
-	
-	var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
-	fade_in.tween_property(header, "rect_position:y", 0 - header_height, hud_in_out_time)
-	fade_in.parallel().tween_property(footer, "rect_position:y", screen_height, hud_in_out_time)
-	fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", 0, hud_in_out_time)
-	fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", 0, hud_in_out_time)
-	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-		var solution_line: Line2D = Global.current_tilemap.get_node("SolutionLine")
-		fade_in.parallel().tween_property(solution_line, "modulate:a", 0, hud_in_out_time)
-		fade_in.tween_callback(solution_line, "hide")
-	fade_in.tween_callback(self, "hide")
+	if Global.game_manager.game_settings["always_zoomed_in"]:
+		yield(get_tree().create_timer(Profiles.get_it_time), "timeout")
+	else:
+		Global.game_camera.zoom_out(hud_in_out_time)
+		
+		var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
+		fade_in.tween_property(header, "rect_position:y", 0 - header_height, hud_in_out_time)
+		fade_in.parallel().tween_property(footer, "rect_position:y", screen_height, hud_in_out_time)
+		fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", 0, hud_in_out_time)
+		fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", 0, hud_in_out_time)
+		if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+			var solution_line: Line2D = Global.current_tilemap.get_node("SolutionLine")
+			fade_in.parallel().tween_property(solution_line, "modulate:a", 0, hud_in_out_time)
+			fade_in.tween_callback(solution_line, "hide")
+		fade_in.tween_callback(self, "hide")
 	
 	
 func confirm_players_ready():
@@ -249,7 +271,7 @@ func confirm_players_ready():
 	hide_instructions_popup.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
 	yield(hide_instructions_popup, "finished")
 	emit_signal("players_ready")
-	
+
 
 # COLOR INDICATORS ---------------------------------------------------------------------------------------------------------------------------
 
@@ -364,6 +386,10 @@ func popups_out(): # kliče GM na gameover
 	var popups_out = get_tree().create_tween()
 	popups_out.tween_property($Popups, "modulate:a", 0, 0.5)
 	popups_out.tween_callback($Popups, "hide")
+	
+	for popup in $Popups.get_children():
+		popup.hide()
+	
 
 	
 # INTERNAL ---------------------------------------------------------------------------------------------------------------------------

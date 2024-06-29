@@ -53,6 +53,7 @@ var color_hud_text: Color = color_almost_white_text # za vse, ki modulirajo barv
 var color_almost_black_pixel: Color = Color("#141414") 
 var color_dark_gray_pixel: Color = Color("#232323")#Color("#323232") # start normal
 var color_white_pixel: Color = Color(1, 1, 1, 1.22)
+var color_thumb_hover: Color = Color("#323232")
 
 # popularne transparence ozadij ... referenca
 # A = 140 (pavza
@@ -86,34 +87,6 @@ func snap_to_nearest_grid(global_position_to_snap: Vector2):
 	var snapped_pixel_global_position: Vector2 = Vector2(snapped_grid_position.x + cell_size_x/2, snapped_grid_position.y + cell_size_x/2)
 	
 	return snapped_pixel_global_position
-
-
-func snap_to_nearest_grid_old(body_to_snap: Node2D):
-	
-	if not is_instance_valid(current_tilemap):
-		print("ERROR! Snapanje na grid ... manjka Global.current_tilemap")
-	
-	var current_global_position: Vector2 = body_to_snap.global_position
-	var floor_cells: Array = current_tilemap.all_floor_tiles_global_positions
-	var cell_size_x: float = current_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
-	
-	# adaptacija zaradi središčne točke strejsa in playerja
-	var current_position: Vector2 = Vector2(current_global_position.x - cell_size_x/2, current_global_position.y - cell_size_x/2)
-	
-	# preverjam playerja, če je poz znotraj tilemapa
-	if body_to_snap.is_in_group(Global.group_players) and not floor_cells.has(current_position): # če takole delaš straju je error
-		# določimo distanco znotraj katere preverjamo bližino točke
-		var distance_to_position: float = cell_size_x # začetna distanca je velikosti celice ... potem izbrana je itak bližja
-		var nearest_cell: Vector2
-		for cell in floor_cells:
-			if cell.distance_to(current_position) < distance_to_position:
-				distance_to_position = cell.distance_to(current_position)
-				nearest_cell = cell
-		# snap position
-		var snap_to_position: Vector2 = Vector2(nearest_cell.x + cell_size_x/2, nearest_cell.y + cell_size_x/2)
-		return snap_to_position
-	else: 
-		return current_global_position # vrneš isto pozicijo na katere že je 
 
 
 func get_clock_time(time_to_split: float): # sekunde float

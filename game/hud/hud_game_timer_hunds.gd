@@ -32,8 +32,8 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	
-	# če je ustavljen, se tukaj ustavim
 	if not current_timer_state == TimerStates.COUNTING:
+		# če je čas na nuli zapiše drugače glede na mode
 		if absolute_game_time == 0:
 			if not stopwatch_mode:
 				$Mins.text = "%02d" % (game_time_limit / 60)
@@ -44,22 +44,10 @@ func _process(delta: float) -> void:
 				$Mins.text = "00"
 				$Secs.text = "00"
 				$Hunds.text = "00"
-		
-		if absolute_game_time >= game_time_limit and stopwatch_mode:
-			$Mins.text = "00"
-			$Secs.text = "00"
-			$Hunds.text = "00"
 		return
 		
 	# game time
 	absolute_game_time += delta # stotinke ... absouletnega uporabljam za izračune v vseh modetih
-	
-	# zaokrožim na dve decimalki
-	#	var absolute_game_time_decimals: float = absolute_game_time - floor(absolute_game_time)
-	#	var absolute_game_time_hundreds: float = round(absolute_game_time_decimals * 100)
-	#	# score je sekunde + stotinke kot decimalke
-	# ta vrstica špvzroči zamik časa ... absolute_game_time = floor(absolute_game_time) + absolute_game_time_hundreds / 100
-	#	printt("ABS", absolute_game_time, correction_timer_seconds, absolute_game_time_decimals, absolute_game_time_hundreds)
 	
 	# display
 	if stopwatch_mode:	
@@ -72,8 +60,8 @@ func _process(delta: float) -> void:
 		$Secs.text = "%02d" % (floor(game_time_left) - floor(game_time_left/60) * 60)
 		$Hunds.text = "%02d" % floor((game_time_left - floor(game_time_left)) * 100)	
 	
-	# time limits ... višja limita je prva, nižje sledijo 
-	if not stopwatch_mode:
+		# time limits ... višja limita je prva, nižje sledijo 
+#	if not stopwatch_mode:
 		# game time is up
 		if absolute_game_time >= game_time_limit: 
 			Global.sound_manager.play_gui_sfx("game_countdown_b")
@@ -123,7 +111,7 @@ func pause_timer():
 	
 	#	correction_timer.set_paused(true)
 	current_timer_state = TimerStates.PAUSED
-	modulate = Global.color_blue
+#	modulate = Global.color_blue
 	
 
 func unpause_timer():
@@ -136,8 +124,7 @@ func stop_timer():
 	
 	#	correction_timer.stop()	
 	current_timer_state = TimerStates.STOPPED
-	modulate = Global.color_red
-
+#	modulate = Global.color_red
 
 
 func _on_CorrectionTimer_timeout() -> void:

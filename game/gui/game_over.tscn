@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://game/gui/game_over.gd" type="Script" id=4]
 [ext_resource path="res://game/gui/_help_gui_guide.tscn" type="PackedScene" id=5]
 [ext_resource path="res://game/gui/highscore_table.tscn" type="PackedScene" id=6]
+[ext_resource path="res://home/select_level_btns_holder.tscn" type="PackedScene" id=7]
 [ext_resource path="res://assets/theme/style_line_edit.tres" type="StyleBox" id=8]
 [ext_resource path="res://assets/resources/tileset_titles.tres" type="TileSet" id=9]
 
@@ -16,7 +17,7 @@ anchor_bottom = 1.0
 theme = ExtResource( 3 )
 script = ExtResource( 4 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 320.0, 616.0, 384.0, 264.0 ],
+"_edit_horizontal_guides_": [ 320.0, 720.0, 384.0, 264.0 ],
 "_edit_vertical_guides_": [ 640.0 ]
 }
 
@@ -30,9 +31,9 @@ visible = false
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = -336.0
-margin_top = -272.0
+margin_top = -304.0
 margin_right = 336.0
-margin_bottom = -248.0
+margin_bottom = -272.0
 
 [node name="GameoverTitle" type="Control" parent="."]
 visible = false
@@ -246,6 +247,617 @@ text = "You are forever colorless!"
 align = 1
 
 [node name="GameSummary" type="Control" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -640.0
+margin_top = -360.0
+margin_right = 640.0
+margin_bottom = 360.0
+
+[node name="Data" type="Control" parent="GameSummary"]
+visible = false
+margin_left = 368.0
+margin_top = 184.0
+margin_right = 608.0
+margin_bottom = 536.0
+
+[node name="Background" type="ColorRect" parent="GameSummary/Data"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="DataContainer" type="VBoxContainer" parent="GameSummary/Data"]
+margin_left = 32.0
+margin_top = 22.0
+margin_right = 207.0
+margin_bottom = 326.0
+theme = ExtResource( 3 )
+custom_constants/separation = 10
+__meta__ = {
+"_edit_group_": true,
+"_editor_description_": ""
+}
+
+[node name="Title" type="Label" parent="GameSummary/Data/DataContainer"]
+margin_right = 175.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 28, 24 )
+size_flags_horizontal = 7
+size_flags_vertical = 0
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+text = "%Your stats"
+
+[node name="Game" type="Label" parent="GameSummary/Data/DataContainer"]
+visible = false
+margin_right = 223.0
+margin_bottom = 18.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Game: Cleaner"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Level" type="Label" parent="GameSummary/Data/DataContainer"]
+margin_top = 34.0
+margin_right = 175.0
+margin_bottom = 52.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Level: 00"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Points" type="Label" parent="GameSummary/Data/DataContainer"]
+margin_top = 62.0
+margin_right = 175.0
+margin_bottom = 80.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Score: 0000000"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Time" type="Label" parent="GameSummary/Data/DataContainer"]
+margin_top = 90.0
+margin_right = 175.0
+margin_bottom = 108.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Time: 00:00:00"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="PixelsOff" type="Label" parent="GameSummary/Data/DataContainer"]
+margin_top = 118.0
+margin_right = 175.0
+margin_bottom = 136.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Colors collected: 000"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="AstrayPixels" type="Label" parent="GameSummary/Data/DataContainer"]
+margin_top = 146.0
+margin_right = 175.0
+margin_bottom = 164.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Left strays: 0000"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="CellsTraveled" type="Label" parent="GameSummary/Data/DataContainer"]
+margin_top = 174.0
+margin_right = 175.0
+margin_bottom = 192.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Cells travelled: 0000"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="BurstCount" type="Label" parent="GameSummary/Data/DataContainer"]
+margin_top = 202.0
+margin_right = 175.0
+margin_bottom = 220.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Bursts: 00"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SkillsUsed" type="Label" parent="GameSummary/Data/DataContainer"]
+margin_top = 230.0
+margin_right = 175.0
+margin_bottom = 248.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Skills used: 00"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Hs" type="Control" parent="GameSummary"]
+visible = false
+margin_left = 616.0
+margin_top = 184.0
+margin_right = 912.0
+margin_bottom = 536.0
+
+[node name="Background" type="ColorRect" parent="GameSummary/Hs"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="HighscoreTable" parent="GameSummary/Hs" instance=ExtResource( 6 )]
+margin_left = 32.0
+margin_top = 22.0
+margin_right = 264.0
+margin_bottom = 326.0
+size_flags_horizontal = 9
+
+[node name="SelectLevelBtnsHolder" parent="GameSummary" instance=ExtResource( 7 )]
+visible = false
+margin_left = 264.0
+margin_top = 128.0
+margin_right = 1016.0
+margin_bottom = 568.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="ContentSweeper" type="Control" parent="GameSummary"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -520.0
+margin_top = -304.0
+margin_right = 520.0
+margin_bottom = 208.0
+
+[node name="Title" type="Label" parent="GameSummary/ContentSweeper"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -253.0
+margin_top = -2.0
+margin_right = 251.0
+margin_bottom = 30.0
+grow_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "Game summary"
+align = 1
+uppercase = true
+
+[node name="Data" type="Control" parent="GameSummary/ContentSweeper"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -328.0
+margin_right = 280.0
+size_flags_vertical = 2
+
+[node name="Background" type="ColorRect" parent="GameSummary/ContentSweeper/Data"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="DataContainer" type="VBoxContainer" parent="GameSummary/ContentSweeper/Data"]
+margin_left = 32.0
+margin_top = 22.0
+margin_right = 207.0
+margin_bottom = 326.0
+theme = ExtResource( 3 )
+custom_constants/separation = 10
+__meta__ = {
+"_edit_group_": true,
+"_editor_description_": ""
+}
+
+[node name="Title" type="Label" parent="GameSummary/ContentSweeper/Data/DataContainer"]
+margin_right = 175.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 28, 24 )
+size_flags_horizontal = 7
+size_flags_vertical = 0
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+text = "%Your stats"
+
+[node name="Game" type="Label" parent="GameSummary/ContentSweeper/Data/DataContainer"]
+visible = false
+margin_right = 223.0
+margin_bottom = 18.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Game: Cleaner"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Level" type="Label" parent="GameSummary/ContentSweeper/Data/DataContainer"]
+margin_top = 34.0
+margin_right = 175.0
+margin_bottom = 52.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Level: 00"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Points" type="Label" parent="GameSummary/ContentSweeper/Data/DataContainer"]
+margin_top = 62.0
+margin_right = 175.0
+margin_bottom = 80.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Score: 0000000"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Time" type="Label" parent="GameSummary/ContentSweeper/Data/DataContainer"]
+margin_top = 90.0
+margin_right = 175.0
+margin_bottom = 108.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Time: 00:00:00"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="PixelsOff" type="Label" parent="GameSummary/ContentSweeper/Data/DataContainer"]
+margin_top = 118.0
+margin_right = 175.0
+margin_bottom = 136.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Colors collected: 000"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="AstrayPixels" type="Label" parent="GameSummary/ContentSweeper/Data/DataContainer"]
+margin_top = 146.0
+margin_right = 175.0
+margin_bottom = 164.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Left strays: 0000"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="CellsTraveled" type="Label" parent="GameSummary/ContentSweeper/Data/DataContainer"]
+margin_top = 174.0
+margin_right = 175.0
+margin_bottom = 192.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Cells travelled: 0000"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="BurstCount" type="Label" parent="GameSummary/ContentSweeper/Data/DataContainer"]
+margin_top = 202.0
+margin_right = 175.0
+margin_bottom = 220.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Bursts: 00"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SkillsUsed" type="Label" parent="GameSummary/ContentSweeper/Data/DataContainer"]
+margin_top = 230.0
+margin_right = 175.0
+margin_bottom = 248.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Skills used: 00"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Hs" type="Control" parent="GameSummary/ContentSweeper"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -440.0
+margin_right = 280.0
+margin_bottom = -336.0
+size_flags_horizontal = 3
+
+[node name="Background" type="ColorRect" parent="GameSummary/ContentSweeper/Hs"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="HighscoreTable" parent="GameSummary/ContentSweeper/Hs" instance=ExtResource( 6 )]
+margin_left = 32.0
+margin_top = 22.0
+margin_right = 248.0
+margin_bottom = 74.0
+size_flags_horizontal = 9
+
+[node name="ScoreLine2" parent="GameSummary/ContentSweeper/Hs/HighscoreTable" index="2"]
+visible = false
+margin_right = 232.0
+
+[node name="Score" parent="GameSummary/ContentSweeper/Hs/HighscoreTable/ScoreLine2" index="2"]
+margin_left = 155.0
+margin_right = 232.0
+
+[node name="ScoreLine3" parent="GameSummary/ContentSweeper/Hs/HighscoreTable" index="3"]
+visible = false
+margin_right = 232.0
+
+[node name="Score" parent="GameSummary/ContentSweeper/Hs/HighscoreTable/ScoreLine3" index="2"]
+margin_left = 155.0
+margin_right = 232.0
+
+[node name="ScoreLine4" parent="GameSummary/ContentSweeper/Hs/HighscoreTable" index="4"]
+visible = false
+margin_right = 232.0
+
+[node name="Score" parent="GameSummary/ContentSweeper/Hs/HighscoreTable/ScoreLine4" index="2"]
+margin_left = 155.0
+margin_right = 232.0
+
+[node name="ScoreLine5" parent="GameSummary/ContentSweeper/Hs/HighscoreTable" index="5"]
+visible = false
+margin_right = 232.0
+
+[node name="Score" parent="GameSummary/ContentSweeper/Hs/HighscoreTable/ScoreLine5" index="2"]
+margin_left = 155.0
+margin_right = 232.0
+
+[node name="ScoreLine6" parent="GameSummary/ContentSweeper/Hs/HighscoreTable" index="6"]
+visible = false
+margin_right = 232.0
+
+[node name="Score" parent="GameSummary/ContentSweeper/Hs/HighscoreTable/ScoreLine6" index="2"]
+margin_left = 155.0
+margin_right = 232.0
+
+[node name="ScoreLine7" parent="GameSummary/ContentSweeper/Hs/HighscoreTable" index="7"]
+visible = false
+margin_right = 232.0
+
+[node name="Score" parent="GameSummary/ContentSweeper/Hs/HighscoreTable/ScoreLine7" index="2"]
+margin_left = 155.0
+margin_right = 232.0
+
+[node name="ScoreLine8" parent="GameSummary/ContentSweeper/Hs/HighscoreTable" index="8"]
+visible = false
+margin_right = 232.0
+
+[node name="Score" parent="GameSummary/ContentSweeper/Hs/HighscoreTable/ScoreLine8" index="2"]
+margin_left = 155.0
+margin_right = 232.0
+
+[node name="ScoreLine9" parent="GameSummary/ContentSweeper/Hs/HighscoreTable" index="9"]
+visible = false
+margin_right = 232.0
+
+[node name="Score" parent="GameSummary/ContentSweeper/Hs/HighscoreTable/ScoreLine9" index="2"]
+margin_left = 155.0
+margin_right = 232.0
+
+[node name="ScoreLine10" parent="GameSummary/ContentSweeper/Hs/HighscoreTable" index="10"]
+visible = false
+margin_right = 232.0
+
+[node name="Score" parent="GameSummary/ContentSweeper/Hs/HighscoreTable/ScoreLine10" index="2"]
+margin_left = 155.0
+margin_right = 232.0
+
+[node name="SelectLevelBtnsHolder" parent="GameSummary/ContentSweeper" instance=ExtResource( 7 )]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -752.0
+margin_top = -440.0
+margin_right = 0.0
+margin_bottom = 0.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Content" type="Control" parent="GameSummary"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -284.0
+margin_top = -272.0
+margin_right = 284.0
+margin_bottom = 176.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" type="Label" parent="GameSummary/Content"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -252.0
+margin_top = -34.0
+margin_right = 252.0
+margin_bottom = -2.0
+grow_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "Game summary"
+align = 1
+uppercase = true
+
+[node name="Data" type="Control" parent="GameSummary/Content"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -352.0
+margin_right = 280.0
+size_flags_horizontal = 3
+
+[node name="Background" type="ColorRect" parent="GameSummary/Content/Data"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="DataContainer" type="VBoxContainer" parent="GameSummary/Content/Data"]
+margin_left = 32.0
+margin_top = 22.0
+margin_right = 207.0
+margin_bottom = 326.0
+theme = ExtResource( 3 )
+custom_constants/separation = 10
+__meta__ = {
+"_edit_group_": true,
+"_editor_description_": ""
+}
+
+[node name="Title" type="Label" parent="GameSummary/Content/Data/DataContainer"]
+margin_right = 175.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 28, 24 )
+size_flags_horizontal = 7
+size_flags_vertical = 0
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+text = "%Your stats"
+
+[node name="Game" type="Label" parent="GameSummary/Content/Data/DataContainer"]
+visible = false
+margin_right = 223.0
+margin_bottom = 18.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Game: Cleaner"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Level" type="Label" parent="GameSummary/Content/Data/DataContainer"]
+margin_top = 34.0
+margin_right = 175.0
+margin_bottom = 52.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Level: 00"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Points" type="Label" parent="GameSummary/Content/Data/DataContainer"]
+margin_top = 62.0
+margin_right = 175.0
+margin_bottom = 80.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Score: 0000000"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Time" type="Label" parent="GameSummary/Content/Data/DataContainer"]
+margin_top = 90.0
+margin_right = 175.0
+margin_bottom = 108.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Time: 00:00:00"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="PixelsOff" type="Label" parent="GameSummary/Content/Data/DataContainer"]
+margin_top = 118.0
+margin_right = 175.0
+margin_bottom = 136.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Colors collected: 000"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="AstrayPixels" type="Label" parent="GameSummary/Content/Data/DataContainer"]
+margin_top = 146.0
+margin_right = 175.0
+margin_bottom = 164.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Left strays: 0000"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="CellsTraveled" type="Label" parent="GameSummary/Content/Data/DataContainer"]
+margin_top = 174.0
+margin_right = 175.0
+margin_bottom = 192.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Cells travelled: 0000"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="BurstCount" type="Label" parent="GameSummary/Content/Data/DataContainer"]
+margin_top = 202.0
+margin_right = 175.0
+margin_bottom = 220.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Bursts: 00"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SkillsUsed" type="Label" parent="GameSummary/Content/Data/DataContainer"]
+margin_top = 230.0
+margin_right = 175.0
+margin_bottom = 248.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Skills used: 00"
+valign = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Hs" type="Control" parent="GameSummary/Content"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -280.0
+margin_top = -352.0
+size_flags_horizontal = 3
+
+[node name="Background" type="ColorRect" parent="GameSummary/Content/Hs"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="HighscoreTable" parent="GameSummary/Content/Hs" instance=ExtResource( 6 )]
+margin_left = 32.0
+margin_top = 22.0
+margin_right = 248.0
+margin_bottom = 326.0
+size_flags_horizontal = 9
+
+[node name="GameSummary2" type="Control" parent="."]
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
@@ -256,7 +868,8 @@ margin_top = -360.0
 margin_right = 640.0
 margin_bottom = 360.0
 
-[node name="Title" type="Label" parent="GameSummary"]
+[node name="Title" type="Label" parent="GameSummary2"]
+visible = false
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -252.0
@@ -270,25 +883,28 @@ text = "Game summary"
 align = 1
 uppercase = true
 
-[node name="Background" type="ColorRect" parent="GameSummary"]
+[node name="Background" type="ColorRect" parent="GameSummary2"]
+visible = false
 margin_left = 368.0
-margin_top = 176.0
+margin_top = 184.0
 margin_right = 608.0
-margin_bottom = 528.0
+margin_bottom = 536.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Background2" type="ColorRect" parent="GameSummary"]
+[node name="Background2" type="ColorRect" parent="GameSummary2"]
+visible = false
 margin_left = 616.0
-margin_top = 176.0
+margin_top = 184.0
 margin_right = 912.0
-margin_bottom = 528.0
+margin_bottom = 536.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="DataContainer" type="VBoxContainer" parent="GameSummary"]
+[node name="DataContainer" type="VBoxContainer" parent="GameSummary2"]
+visible = false
 margin_left = 400.0
-margin_top = 198.0
+margin_top = 206.0
 margin_right = 575.0
-margin_bottom = 502.0
+margin_bottom = 510.0
 theme = ExtResource( 3 )
 custom_constants/separation = 10
 __meta__ = {
@@ -296,7 +912,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="GameSummary/DataContainer"]
+[node name="Title" type="Label" parent="GameSummary2/DataContainer"]
 margin_right = 175.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 28, 24 )
@@ -305,7 +921,7 @@ size_flags_vertical = 0
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 text = "%Your stats"
 
-[node name="Game" type="Label" parent="GameSummary/DataContainer"]
+[node name="Game" type="Label" parent="GameSummary2/DataContainer"]
 visible = false
 margin_right = 223.0
 margin_bottom = 18.0
@@ -316,7 +932,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Level" type="Label" parent="GameSummary/DataContainer"]
+[node name="Level" type="Label" parent="GameSummary2/DataContainer"]
 margin_top = 34.0
 margin_right = 175.0
 margin_bottom = 52.0
@@ -327,7 +943,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Points" type="Label" parent="GameSummary/DataContainer"]
+[node name="Points" type="Label" parent="GameSummary2/DataContainer"]
 margin_top = 62.0
 margin_right = 175.0
 margin_bottom = 80.0
@@ -338,7 +954,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Time" type="Label" parent="GameSummary/DataContainer"]
+[node name="Time" type="Label" parent="GameSummary2/DataContainer"]
 margin_top = 90.0
 margin_right = 175.0
 margin_bottom = 108.0
@@ -349,7 +965,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="PixelsOff" type="Label" parent="GameSummary/DataContainer"]
+[node name="PixelsOff" type="Label" parent="GameSummary2/DataContainer"]
 margin_top = 118.0
 margin_right = 175.0
 margin_bottom = 136.0
@@ -360,7 +976,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="AstrayPixels" type="Label" parent="GameSummary/DataContainer"]
+[node name="AstrayPixels" type="Label" parent="GameSummary2/DataContainer"]
 margin_top = 146.0
 margin_right = 175.0
 margin_bottom = 164.0
@@ -371,7 +987,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="CellsTraveled" type="Label" parent="GameSummary/DataContainer"]
+[node name="CellsTraveled" type="Label" parent="GameSummary2/DataContainer"]
 margin_top = 174.0
 margin_right = 175.0
 margin_bottom = 192.0
@@ -382,7 +998,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="BurstCount" type="Label" parent="GameSummary/DataContainer"]
+[node name="BurstCount" type="Label" parent="GameSummary2/DataContainer"]
 margin_top = 202.0
 margin_right = 175.0
 margin_bottom = 220.0
@@ -393,7 +1009,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="SkillsUsed" type="Label" parent="GameSummary/DataContainer"]
+[node name="SkillsUsed" type="Label" parent="GameSummary2/DataContainer"]
 margin_top = 230.0
 margin_right = 175.0
 margin_bottom = 248.0
@@ -404,22 +1020,43 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="HighscoreTable" parent="GameSummary" instance=ExtResource( 6 )]
+[node name="HighscoreTable" parent="GameSummary2" instance=ExtResource( 6 )]
+visible = false
 margin_left = 648.0
-margin_top = 198.0
+margin_top = 206.0
 margin_right = 880.0
-margin_bottom = 502.0
+margin_bottom = 510.0
 size_flags_horizontal = 9
+
+[node name="TitleSweeper" type="Label" parent="GameSummary2"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -252.0
+margin_top = 54.0
+margin_right = 252.0
+margin_bottom = 86.0
+grow_horizontal = 2
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "Game summary"
+align = 1
+uppercase = true
+
+[node name="SelectLevelBtnsHolder" parent="GameSummary2" instance=ExtResource( 7 )]
+margin_left = 264.0
+margin_top = 128.0
+margin_right = 1016.0
+margin_bottom = 568.0
 
 [node name="Menu" type="HBoxContainer" parent="."]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -108.0
-margin_top = -122.0
-margin_right = 108.0
-margin_bottom = -100.0
+margin_left = -113.0
+margin_top = -90.0
+margin_right = 113.0
+margin_bottom = -68.0
 grow_horizontal = 2
 custom_constants/separation = 32
 __meta__ = {
@@ -427,6 +1064,7 @@ __meta__ = {
 }
 
 [node name="RestartBtn" type="Button" parent="Menu"]
+visible = false
 margin_right = 132.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../QuitBtn")
@@ -436,6 +1074,7 @@ size_flags_vertical = 8
 text = "PLAY AGAIN"
 
 [node name="NextLevelBtn" type="Button" parent="Menu"]
+visible = false
 margin_left = 164.0
 margin_right = 350.0
 margin_bottom = 22.0
@@ -444,14 +1083,13 @@ size_flags_vertical = 8
 text = "%NXT SITUATION"
 
 [node name="QuitBtn" type="Button" parent="Menu"]
-margin_left = 382.0
-margin_right = 434.0
+margin_right = 226.0
 margin_bottom = 22.0
 focus_neighbour_right = NodePath("../RestartBtn")
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 2
 size_flags_vertical = 8
-text = "QUIT"
+text = "QUIT TO MAIN MENU"
 
 [node name="ExitGameBtn" type="Button" parent="Menu"]
 visible = false
@@ -564,3 +1202,5 @@ align = 0
 [connection signal="text_entered" from="NameInputPopup/NameInput" to="." method="_on_PopupNameEdit_text_entered"]
 [connection signal="pressed" from="NameInputPopup/HBoxContainer/CancelBtn" to="." method="_on_CancelBtn_pressed"]
 [connection signal="pressed" from="NameInputPopup/HBoxContainer/ConfirmBtn" to="." method="_on_ConfirmBtn_pressed"]
+
+[editable path="GameSummary/ContentSweeper/Hs/HighscoreTable"]

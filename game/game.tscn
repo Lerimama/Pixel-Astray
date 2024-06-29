@@ -1150,10 +1150,6 @@ text = "%You are forever colorless!"
 margin_right = 314.0
 text = "NEXT SCREEN"
 
-[node name="QuitBtn" parent="GUI/GameOver/Menu" index="2"]
-margin_left = 346.0
-margin_right = 398.0
-
 [node name="RespawnTimer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
@@ -1166,3 +1162,4 @@ one_shot = true
 [editable path="GUI/Tutorial/ActionHint"]
 [editable path="GUI/Tutorial/MissionPanel/ActionHint"]
 [editable path="GUI/GameOver"]
+[editable path="GUI/GameOver/GameSummary/ContentSweeper/Hs/HighscoreTable"]

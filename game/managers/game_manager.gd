@@ -138,9 +138,14 @@ func set_game_view():
 	var tilemap_edge = Global.current_tilemap.get_used_rect()
 	Global.game_camera.set_camera_limits()
 
+	# camera modes
 	if game_settings["zoom_to_level_size"]:
 		Global.game_camera.set_zoom_to_level_size()
-	
+	if game_settings["always_zoomed_in"]:
+		Global.game_camera.zoom = Global.game_camera.zoom_end
+	if game_data["game"] == Profiles.Games.CLEANER_XS or game_data["game"] == Profiles.Games.CLEANER_S:
+		# mehkejše kamera za manjše ekrane
+		Global.game_camera.smoothing_speed = 5		
 		
 func set_game(): # kliče main.gd po prikaz igre  ... set_tilemap(), set_game_view(), create_players() # da je plejer viden že na fejdin
 
@@ -148,49 +153,37 @@ func set_game(): # kliče main.gd po prikaz igre  ... set_tilemap(), set_game_vi
 	free_floor_positions = Global.current_tilemap.all_floor_tiles_global_positions.duplicate()
 	for free_pos in free_floor_positions:
 		spawn_free_position_indicator(free_pos)
-	
 	# colors 
 	set_color_pool()
 	
+	# players ready?
 	if game_settings["show_game_instructions"]:
 		yield(Global.hud, "players_ready")
 	
-	# player	
+	Global.hud.slide_in() # pokaže countdown
+	
+	# animacija player
 	current_players_in_game = get_tree().get_nodes_in_group(Global.group_players)
 	var signaling_player: KinematicBody2D
 	for player in current_players_in_game:
 		player.animation_player.play("lose_white_on_start")
 		signaling_player = player # da se zgodi na obeh plejerjih istočasno
 	yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
-	yield(get_tree().create_timer(0.3), "timeout")
-	
-	# debug
-	# strays
-	#	if create_strays_count > 200:
-	#		create_strays_runde(create_strays_count) # OPT ... ročno določanje stila štartnega spawnanja 
-	#	else:
+	# animacija strays
 	create_strays(create_strays_count)
 	
-	# gui		
-	yield(get_tree().create_timer(0.7), "timeout")
-	Global.hud.slide_in()
+	# countdown
 	if game_settings["start_countdown"]:
-		yield(get_tree().create_timer(0.2), "timeout")
-		Global.start_countdown.start_countdown() # GM yielda za njegov signal
-		yield(Global.start_countdown, "countdown_finished") # sproži ga hud po slide-inu
+		Global.hud.start_countdown.start_countdown() # GM yielda za njegov signal
+		yield(Global.hud.start_countdown, "countdown_finished") # sproži ga hud po slide-inu
 	else:
 		yield(get_tree().create_timer(Global.hud.hud_in_out_time), "timeout") # da se res prizumira, če ni game start countdown
 	
-	# mehkejše za manjše ekrane
-	if game_data["game"] == Profiles.Games.CLEANER_XS or game_data["game"] == Profiles.Games.CLEANER_S:
-		Global.game_camera.smoothing_speed = 5
-	
 	start_game()
 	
-	# ko je edge size manjši od kamere, ozadja ne skrijem
-	#	if not game_data["game"] == Profiles.Games.CLEANER_XS and not game_data["game"] == Profiles.Games.CLEANER_XS:
-	# Global.current_tilemap.background_room.hide()
-	Global.current_tilemap.tilemap_background.hide()
+	if game_data["game"] == Profiles.Games.SWEEPER: # če je prejse povozi
+		# setam zoom trenutni igri, da ni zooma na koncu
+		game_settings["always_zoomed_in"] = true
 
 
 # GAME LOOP --------------------------------------------------------------------------------------
@@ -240,8 +233,7 @@ func game_over(gameover_reason: int):
 		
 	stop_game_elements()
 	get_tree().call_group(Global.group_players, "set_physics_process", false)
-	Global.current_tilemap.tilemap_background.show()
-	#	Global.current_tilemap.background_room.show()
+	
 	Global.gameover_gui.open_gameover(gameover_reason)
 
 
@@ -821,7 +813,7 @@ func on_stray_die(stray_out: KinematicBody2D):
 	all_stray_colors.erase(stray_out_color)
 	
 	# če je dosežen cilj levela apgrejdam level, če prikažem stage indikator in ga zbrišem iz barv
-	if Global.game_manager.level_goal_mode:
+	if level_goal_mode:
 		Global.hud.all_color_indicators.pop_front().modulate.a = 1 # remove zato, dani errorja
 		if Global.hud.all_color_indicators.empty():
 			upgrade_level()

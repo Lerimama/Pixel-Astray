@@ -3,9 +3,8 @@ extends Control
 
 onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
 onready var sweeper_game_btn: Button = $GamesMenu/Sweeper/SweeperBtn
-onready var sweeper_btns_count: int = 9 #$"../SelectLevel/BtnsHolder".get_child_count() # za število ugank
+onready var sweeper_btns_count: int = Profiles.sweeper_level_tilemap_paths.size() # za število ugank
 onready var sweeper_label: Label = $GamesMenu/Sweeper/Label
-#onready var color_pool: Array = $"%Intro".all_colors_available
 onready var color_pool: Array = $"%Intro".color_pool_colors
 onready var tutorial_mode_btn: CheckButton = $GamesMenu/Classic/TutorialModeBtn
 
@@ -45,8 +44,7 @@ func _process(delta: float) -> void:
 		var focused_btn: BaseButton = get_focus_owner()
 		if focused_btn:
 			if focused_btn.name == "ClassicBtn" or focused_btn.name == "TutorialModeBtn":
-				$GamesMenu/Classic/Background.color = Color("#323232") # Global.color_gui_gray # color_dark_gray_pixel
-				
+				$GamesMenu/Classic/Background.color = Global.color_thumb_hover
 			else:
 				$GamesMenu/Classic/Background.color = unfocused_color
 			if focused_btn.name == "CleanerSBtn" or focused_btn.name == "CleanerMBtn" or focused_btn.name == "CleanerLBtn" or focused_btn.name == "CleanerXLBtn" or focused_btn.name == "CleanerXXLBtn":
@@ -55,42 +53,11 @@ func _process(delta: float) -> void:
 			else:
 				$GamesMenu/Cleaner/Background.color = unfocused_color
 				$GamesMenu/Cleaner/Background.modulate.a = 1
-			#		if focused_btn.name == "EraserBtn" or focused_btn.name == "DefenderBtn":
-			#			$GamesMenu/Timeless/Background.color = Global.color_green
-			##			$GamesMenu/Timeless/Background.modulate.a = 0.83 # da ne žari premočno
-			#		else:
-			#			$GamesMenu/Timeless/Background.color = unfocused_color
-			#			$GamesMenu/Timeless/Background.modulate.a = 1
 			if focused_btn.name == "TheDuelBtn":
 				$GamesMenu/TheDuel/Background.color = Global.color_red
-	#			$GamesMenu/TheDuel/Background.modulate.a = 0.88 # da ne žari premočno
 			else:
 				$GamesMenu/TheDuel/Background.color = unfocused_color
 				$GamesMenu/TheDuel/Background.modulate.a = 1
-			#		if focused_btn.name == "SweeperBtn":
-			#			$GamesMenu/Sweeper/Background.color = Global.color_purple
-			#			$GamesMenu/Sweeper/Background.modulate.a = 0.85 # da ne žari premočno
-			#		else:
-			#			$GamesMenu/Sweeper/Background.color = unfocused_color
-			#			$GamesMenu/Sweeper/Background.modulate.a = 1
-			
-			# bright verzija
-			#		if focused_btn.name == "ClassicBtn": # bug ... razdeljen v dva ifa barvanje tutorial gumba
-			#			$GamesMenu/Classic/Background.color = Global.color_almost_white_text
-			#			$GamesMenu/Classic/Label.modulate = Global.color_dark_gray_pixel
-			#			$GamesMenu/Classic/ClassicBtn.modulate = Global.color_dark_gray_pixel
-			#			$GamesMenu/Classic/TutorialModeBtn.set("custom_colors/font_color_pressed", Global.color_dark_gray_pixel)
-			#			#			$GamesMenu/Classic/TutorialModeBtn.call_deferred("release_focus")
-			#		elif focused_btn.name == "TutorialModeBtn":
-			#			$GamesMenu/Classic/Background.color = Global.color_almost_white_text
-			#			$GamesMenu/Classic/Label.modulate = Global.color_dark_gray_pixel
-			#			$GamesMenu/Classic/ClassicBtn.modulate = Global.color_dark_gray_pixel			
-			#			$GamesMenu/Classic/TutorialModeBtn.set("custom_colors/font_color_pressed", Global.color_dark_gray_pixel)
-			#		else:
-			#			$GamesMenu/Classic/Background.color = unfocused_color
-			#			$GamesMenu/Classic/Label.modulate = Color.white
-			#			$GamesMenu/Classic/ClassicBtn.modulate = Color.white
-			#			$GamesMenu/Classic/TutorialModeBtn.set("custom_colors/font_color_pressed", Color.white)
 			if focused_btn.name == "SweeperBtn":
 				$GamesMenu/Sweeper/Label.modulate = unfocused_color
 				$GamesMenu/Sweeper/SweeperBtn.modulate = unfocused_color
@@ -109,14 +76,6 @@ func _process(delta: float) -> void:
 				$GamesMenu/Timeless/EraserBtn.modulate = Color.white
 				$GamesMenu/Timeless/DefenderBtn.modulate = Color.white
 				$GamesMenu/Timeless/Background.color = unfocused_color
-		#		if focused_btn.name == "TheDuelBtn":
-		#			$GamesMenu/TheDuel/Label.modulate = unfocused_color
-		#			$GamesMenu/TheDuel/TheDuelBtn.modulate = unfocused_color
-		#			$GamesMenu/TheDuel/Background.color = Global.color_red
-		#		else:
-		#			$GamesMenu/TheDuel/Label.modulate = Color.white
-		#			$GamesMenu/TheDuel/TheDuelBtn.modulate = Color.white
-		#			$GamesMenu/TheDuel/Background.color = unfocused_color
 		
 			
 func play_selected_game(selected_game_enum: int):
@@ -191,7 +150,7 @@ func _on_SweeperBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("select_level")
 	get_viewport().set_disable_input(true)
-	Global.focus_without_sfx($"../SelectLevel".all_level_btns[0])
+	Global.focus_without_sfx($"../SelectLevel".select_level_btns_holder.all_level_btns[0])
 	
 	
 func _on_ClassicBackground_mouse_entered() -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://game/hud/game_instructions.gd" type="Script" id=1]
 [ext_resource path="res://assets/theme/font_main_small.tres" type="DynamicFont" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://game/gui/controls_scheme.tscn" type="PackedScene" id=7]
 [ext_resource path="res://game/gui/action_hint.tscn" type="PackedScene" id=8]
 [ext_resource path="res://assets/theme/box_colored_almost_black.tres" type="StyleBox" id=9]
+[ext_resource path="res://game/gui/_help_gui_guide.tscn" type="PackedScene" id=10]
 [ext_resource path="res://game/gui/shortcut_line.tscn" type="PackedScene" id=11]
 
 [sub_resource type="AtlasTexture" id=478]
@@ -95,6 +96,17 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color( 0, 0, 0, 0.862745 )
 
+[node name="_help_gui_guide" parent="." instance=ExtResource( 10 )]
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 0.0
+margin_bottom = 0.0
+
 [node name="Title" type="Label" parent="."]
 modulate = Color( 0.368627, 1, 0.662745, 1 )
 anchor_left = 0.5
@@ -135,8 +147,8 @@ custom_constants/hseparation = 8
 
 [node name="Prop" type="Panel" parent="Outline"]
 margin_right = 208.0
-margin_bottom = 144.0
-rect_min_size = Vector2( 208, 144 )
+margin_bottom = 152.0
+rect_min_size = Vector2( 208, 152 )
 size_flags_horizontal = 3
 custom_styles/panel = ExtResource( 9 )
 
@@ -162,8 +174,8 @@ autowrap = true
 [node name="Prop2" type="Panel" parent="Outline"]
 margin_left = 216.0
 margin_right = 424.0
-margin_bottom = 144.0
-rect_min_size = Vector2( 208, 144 )
+margin_bottom = 152.0
+rect_min_size = Vector2( 208, 152 )
 size_flags_horizontal = 3
 custom_styles/panel = ExtResource( 9 )
 
@@ -188,8 +200,8 @@ autowrap = true
 [node name="Prop3" type="Panel" parent="Outline"]
 margin_left = 432.0
 margin_right = 640.0
-margin_bottom = 144.0
-rect_min_size = Vector2( 208, 144 )
+margin_bottom = 152.0
+rect_min_size = Vector2( 208, 152 )
 size_flags_horizontal = 3
 custom_styles/panel = ExtResource( 9 )
 
@@ -212,9 +224,9 @@ valign = 1
 autowrap = true
 
 [node name="Record" type="Panel" parent="Outline"]
-margin_top = 152.0
+margin_top = 160.0
 margin_right = 240.0
-margin_bottom = 312.0
+margin_bottom = 320.0
 grow_horizontal = 2
 rect_min_size = Vector2( 240, 152 )
 custom_styles/panel = ExtResource( 9 )
@@ -508,9 +520,9 @@ points = PoolVector2Array( 481, -191, 420, -206 )
 
 [node name="ControlsDuelP1" type="Panel" parent="Outline"]
 margin_left = 248.0
-margin_top = 152.0
+margin_top = 160.0
 margin_right = 640.0
-margin_bottom = 312.0
+margin_bottom = 320.0
 rect_min_size = Vector2( 240, 160 )
 size_flags_horizontal = 3
 custom_styles/panel = ExtResource( 9 )

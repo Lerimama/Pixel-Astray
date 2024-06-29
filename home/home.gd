@@ -65,36 +65,26 @@ func open_without_intro(): # debug ... kliče main.gd -> home_in_no_intro()
 
 func open_from_game(finished_game: int): # select_game screen ... kliče main.gd -> home_in_from_game()
 
-	# mute game efektov, da se ne sliši spawnanje naslovnih pixlov
-#	AudioServer.set_bus_mute(AudioServer.get_bus_index("GameSfx"), true)
-		
-	if finished_game == Profiles.Games.SWEEPER:
-		Global.focus_without_sfx($SelectLevel.all_level_btns[0])
-		
-		animation_player.play("select_level")
-		current_screen = Screens.SELECT_LEVEL
-	else:
-		Global.focus_without_sfx($SelectGame/GamesMenu/Classic/ClassicBtn)
-		animation_player.play("select_game")
-		current_screen = Screens.SELECT_GAME
+	animation_player.play("select_game")
+	current_screen = Screens.SELECT_GAME
 	
 	# premik animacije na konec
 	var animation_length: float = animation_player.get_current_animation_length()
 	animation_player.advance(animation_length)
 	
-	intro.finish_intro()
+	if finished_game == Profiles.Games.SWEEPER:
+		Global.focus_without_sfx($SelectGame/GamesMenu/Sweeper/SweeperBtn)
+	else:
+		Global.focus_without_sfx($SelectGame/GamesMenu/Classic/ClassicBtn)
 	
+	intro.finish_intro()
 	yield(get_tree().create_timer(1), "timeout") # počaka, da se vsi spawnajo
-	#	if not Global.sound_manager.game_sfx_set_to_off:
-	#		AudioServer.set_bus_mute(AudioServer.get_bus_index("GameSfx"), false)
 	
 	
 func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drugih ekranov
 	
 	menu.visible = true
-
 	current_screen = Screens.MAIN_MENU
-	
 	Global.focus_without_sfx($Menu/SelectGameBtn)
 		
 	var fade_in = get_tree().create_tween()
@@ -149,7 +139,7 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 				return
 			current_screen = Screens.SELECT_LEVEL
 			current_esc_hint = $SelectLevel/EscHint
-			Global.focus_without_sfx($SelectLevel.all_level_btns[0])
+			Global.focus_without_sfx($SelectLevel.select_level_btns_holder.all_level_btns[0])
 		"play_game":
 			Global.main_node.home_out()
 		"play_level":
