@@ -5,6 +5,7 @@ onready var bottom_screen_limit: StaticBody2D = $BottomScreenLimit
 onready var left_screen_limit: StaticBody2D = $LeftScreenLimit
 onready var right_screen_limit: StaticBody2D = $RightScreenLimit
 
+
 func _ready() -> void:
 	# namen: rob ekrana je static_body
 	
@@ -41,11 +42,11 @@ func get_tiles():
 			match cell_index:
 				0: # floor
 					random_spawn_floor_positions.append(cell_global_position)
-#					all_floor_tiles_global_positions.append(cell_global_position)
+					# all_floor_tiles_global_positions.append(cell_global_position)
 				5: # stray spawn positions
 					stray_global_positions.append(cell_global_position)
 					set_cellv(cell, 0) # menjam za celico tal
-#					all_floor_tiles_global_positions.append(cell_global_position)
+					# all_floor_tiles_global_positions.append(cell_global_position)
 				2: # no stray
 					no_stray_global_positions.append(cell_global_position)
 					set_cellv(cell, 0)
@@ -62,8 +63,7 @@ func get_tiles():
 					stray_wall_global_positions.append(cell_global_position)
 					stray_global_positions.append(cell_global_position) # stray wall je tudi stray pozicija
 					set_cellv(cell, 0)
-#					all_floor_tiles_global_positions.append(cell_global_position)
-					
+					# all_floor_tiles_global_positions.append(cell_global_position)
 	
 	# pošljem v GM
 	emit_signal("tilemap_completed", random_spawn_floor_positions, stray_global_positions, stray_wall_global_positions, no_stray_global_positions, player_global_positions)

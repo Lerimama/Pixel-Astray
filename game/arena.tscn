@@ -4,7 +4,7 @@
 [ext_resource path="res://game/tilemaps/game_tilemap.gd" type="Script" id=2]
 [ext_resource path="res://assets/resources/tileset_arena.tres" type="TileSet" id=3]
 [ext_resource path="res://game/tilemaps/monitor_background.tscn" type="PackedScene" id=4]
-[ext_resource path="res://game/EdgeCover.tscn" type="PackedScene" id=5]
+[ext_resource path="res://game/edge_cover.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/resources/env_arena.tres" type="Environment" id=8]
 
 [node name="Arena" type="Node2D"]

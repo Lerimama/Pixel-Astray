@@ -1,5 +1,7 @@
-extends GameManager # default game manager
+extends GameManager
 
+
+var free_home_positions: Array # free home positions
 
 # stepping
 var line_step_in_progress: bool = false
@@ -16,9 +18,6 @@ onready var line_steps_per_spawn_round: int = game_data["line_steps_per_spawn_ro
 onready var line_step_pause_time: float = game_data["line_step_pause_time"]
 onready var spawn_round_range: Array = game_data["spawn_round_range"]
 
-# neu
-#var home_positions: Array # behind-edge spawn positions
-var free_home_positions: Array # free home positions
 
 func _ready() -> void:
 	# namen: ugasnem stray pos indikatorje tako da dam limito na 0

@@ -12,7 +12,6 @@ onready var color_poly: Polygon2D = $ColorPoly
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var position_indicator: Node2D = $PositionIndicator
 onready var position_indicator_poly: Polygon2D = $PositionIndicator/PositionPoly
-onready var visibility_notifier_2d: VisibilityNotifier2D = $VisibilityNotifier2D
 onready var cell_size_x: int = Global.current_tilemap.cell_size.x
 
 # neu
@@ -29,23 +28,10 @@ func _ready() -> void:
 	color_poly.modulate = stray_color
 	modulate.a = 0
 	position_indicator_poly.color = stray_color
-	position_indicator.set_as_toplevel(true) # strayse skrijem ko so offscreen
+	#	position_indicator.set_as_toplevel(true) # strayse skrijem ko so offscreen
 	position_indicator.visible = false
 
 	end_move()
-
-
-#func _process(delta: float) -> void:
-#
-#	if Global.game_manager.show_position_indicators:
-#		if not position_indicator.visible:
-#			fade_position_indicator(true)
-#	else:
-#		if position_indicator.visible:
-#			fade_position_indicator(false)
-#
-#	if position_indicator.visible:
-#		get_position_indicator_position(get_viewport().get_node("PlayerCamera"))
 	
 	
 func show_stray(): # kliče GM
@@ -81,7 +67,7 @@ func die(stray_in_stack_index: int, strays_in_stack_count: int):
 	else: # ne žrebam
 		animation_player.play("die_stray")
 
-	position_indicator.modulate.a = 0	
+	#	position_indicator.modulate.a = 0	
 	collision_shape.set_deferred("disabled", true)
 	
 	# color vanish
@@ -177,22 +163,6 @@ func end_move():
 # UTILITI ------------------------------------------------------------------------------------------------------
 
 
-func get_position_indicator_position(current_camera: Camera2D):
-	
-	var viewport_position = get_viewport_rect().position
-	var viewport_size = get_viewport_rect().end
-	var current_camera_position = current_camera.get_camera_screen_center()
-	
-	var camera_edge_clamp_down_x = current_camera_position.x - viewport_size.x/2 + cell_size_x/2 # polovička vp-ja na vsako stran centra kamere
-	var camera_edge_clamp_up_x = current_camera_position.x + viewport_size.x/2 - cell_size_x/2
-	var camera_edge_clamp_down_y = current_camera_position.y - viewport_size.y/2 + cell_size_x/2 # polovička vp-ja na vsako stran centra kamere
-	var camera_edge_clamp_up_y = current_camera_position.y + viewport_size.y/2 - cell_size_x/2
-		
-	position_indicator.global_position = global_position
-	position_indicator.global_position.x = clamp(position_indicator.global_position.x, camera_edge_clamp_down_x, camera_edge_clamp_up_x)
-	position_indicator.global_position.y = clamp(position_indicator.global_position.y, camera_edge_clamp_down_y, camera_edge_clamp_up_y)
-	
-
 func play_sound(effect_for: String):
 	
 	if Global.sound_manager.game_sfx_set_to_off:
@@ -236,33 +206,7 @@ func detect_collision_in_direction(direction_to_check):
 	return vision_ray.get_collider()
 
 
-func fade_position_indicator(fade_in: bool):
-	
-	var fade_time: float = 0.2
-	var fade_tween = get_tree().create_tween()
-	if fade_in:
-		fade_tween.tween_callback(position_indicator, "show")
-		fade_tween.tween_property(position_indicator_poly, "modulate:a", 1, 0.5).from(0.0)
-	else:
-		fade_tween.tween_property(position_indicator_poly, "modulate:a", 0, 0.5)
-		fade_tween.tween_callback(position_indicator, "hide")
-		
-
 # SIGNALI ------------------------------------------------------------------------------------------------------
-
-
-func _on_VisibilityNotifier2D_viewport_entered(viewport: Viewport) -> void:
-	
-	Global.strays_on_screen.append(self)
-	visible_on_screen = true
-	show()
-		
-		
-func _on_VisibilityNotifier2D_viewport_exited(viewport: Viewport) -> void:
-	
-	Global.strays_on_screen.erase(self)
-	visible_on_screen = false
-	hide()
 
 
 func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
@@ -308,3 +252,58 @@ func _on_Stray_tree_entered() -> void:
 			printt ("overspawn II on player - stray tree entered", self) 
 			call_deferred("queue_free")
 			return
+
+
+# OPT koda za delovanje outside position indikatorjev
+#
+#func _on_VisibilityNotifier2D_viewport_entered(viewport: Viewport) -> void: 
+#
+#	Global.strays_on_screen.append(self)
+#	visible_on_screen = true
+#	show()
+#
+#
+#func _on_VisibilityNotifier2D_viewport_exited(viewport: Viewport) -> void:
+#
+#	Global.strays_on_screen.erase(self)
+#	visible_on_screen = false
+#	hide()
+#
+#
+#func _process(delta: float) -> void:
+#
+#	if Global.game_manager.show_position_indicators:
+#		if not position_indicator.visible:
+#			fade_position_indicator(true)
+#	else:
+#		if position_indicator.visible:
+#			fade_position_indicator(false)
+#
+#	if position_indicator.visible:
+#		get_position_indicator_position(get_viewport().get_node("PlayerCamera"))
+
+#func get_position_indicator_position(current_camera: Camera2D):
+#
+#	var viewport_position = get_viewport_rect().position
+#	var viewport_size = get_viewport_rect().end
+#	var current_camera_position = current_camera.get_camera_screen_center()
+#
+#	var camera_edge_clamp_down_x = current_camera_position.x - viewport_size.x/2 + cell_size_x/2 # polovička vp-ja na vsako stran centra kamere
+#	var camera_edge_clamp_up_x = current_camera_position.x + viewport_size.x/2 - cell_size_x/2
+#	var camera_edge_clamp_down_y = current_camera_position.y - viewport_size.y/2 + cell_size_x/2 # polovička vp-ja na vsako stran centra kamere
+#	var camera_edge_clamp_up_y = current_camera_position.y + viewport_size.y/2 - cell_size_x/2
+#
+#	position_indicator.global_position = global_position
+#	position_indicator.global_position.x = clamp(position_indicator.global_position.x, camera_edge_clamp_down_x, camera_edge_clamp_up_x)
+#	position_indicator.global_position.y = clamp(position_indicator.global_position.y, camera_edge_clamp_down_y, camera_edge_clamp_up_y)
+#
+#func fade_position_indicator(fade_in: bool):
+#
+#	var fade_time: float = 0.2
+#	var fade_tween = get_tree().create_tween()
+#	if fade_in:
+#		fade_tween.tween_callback(position_indicator, "show")
+#		fade_tween.tween_property(position_indicator_poly, "modulate:a", 1, 0.5).from(0.0)
+#	else:
+#		fade_tween.tween_property(position_indicator_poly, "modulate:a", 0, 0.5)
+#		fade_tween.tween_callback(position_indicator, "hide")	

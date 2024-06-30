@@ -2,11 +2,12 @@ extends Control
 
 
 onready var instructions: Control = $Instructions
+onready var title: Label = $Title
 
 
 func _input(event: InputEvent) -> void:
-	
-			
+
+
 	if Global.game_manager.game_on:
 		if Input.is_action_just_pressed("pause"):
 			if not visible:
@@ -16,15 +17,18 @@ func _input(event: InputEvent) -> void:
 
 func _ready() -> void:
 	
+	title.modulate = Global.color_red
+	title.text = "%s ... on pause" % Global.game_manager.game_data["game_name"]
+
 	visible = false
 	modulate.a = 0
-	
+
 	# menu btn group
 	$Menu/PlayBtn.add_to_group(Global.group_menu_confirm_btns)
 	$Menu/SkipTutBtn.add_to_group(Global.group_menu_confirm_btns)
 	$Menu/RestartBtn.add_to_group(Global.group_menu_confirm_btns)
 	$Menu/QuitBtn.add_to_group(Global.group_menu_cancel_btns)
-	
+
 	# update settings btns	
 	if Global.sound_manager.game_music_set_to_off:
 		$Settings/GameMusicBtn.pressed = false
@@ -43,23 +47,21 @@ func _ready() -> void:
 	# instructions setup
 	instructions.get_instructions_content(Global.hud.current_highscore, Global.hud.current_highscore_owner)
 	instructions.shortcuts.hide()
-	instructions.title.modulate = Global.color_red
-	instructions.title.text += " ... on pause"
 
 
 func _process(delta: float) -> void:
-	
+
 	# pravilno stanje settingsov
 	if Global.sound_manager.game_music_set_to_off:
 		$Settings/GameMusicBtn.pressed = false
 	else:
 		$Settings/GameMusicBtn.pressed = true
-	
+
 	if Global.sound_manager.game_sfx_set_to_off:
 		$Settings/GameSfxBtn.pressed = false
 	else:
 		$Settings/GameSfxBtn.pressed = true
-	
+
 	if Profiles.camera_shake_on:
 		$Settings/CameraShakeBtn.pressed = true
 	else:
@@ -67,7 +69,6 @@ func _process(delta: float) -> void:
 		
 			
 func pause_game():
-#	instructions.get_instructions_content(Global.hud.current_highscore, Global.hud.current_highscore_owner)
 	
 	visible = true
 	

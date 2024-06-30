@@ -736,7 +736,7 @@ func teleport():
 	new_teleport_ghost.connect("ghost_target_reached", self, "_on_ghost_target_reached")
 
 	# kamera target
-	if player_camera:
+	if player_camera and not Global.game_manager.game_settings ["zoom_to_level_size"]:
 		player_camera.camera_target = new_teleport_ghost
 	#	collision_shape.disabled = true
 	#	collision_shape_ext.disabled = true
@@ -1393,7 +1393,7 @@ func _on_ghost_target_reached(ghost_body: Area2D, ghost_position: Vector2):
 	global_position = ghost_position
 	var preteleport_position: Vector2 = global_position		
 	modulate.a = 1
-	if player_camera:
+	if player_camera and not Global.game_manager.game_settings ["zoom_to_level_size"]:
 		player_camera.camera_target = self
 	glow_light.enabled = true
 	collision_shape.set_deferred("disabled", false)

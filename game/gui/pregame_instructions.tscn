@@ -42,12 +42,12 @@ region = Rect2( 0, 154, 102, 22 )
 [sub_resource type="StreamTexture" id=394]
 load_path = "res://.import/atlas_controls.png-75e6b40869d487066545840672dcb98d.stex"
 
-[sub_resource type="AtlasTexture" id=404]
+[sub_resource type="AtlasTexture" id=481]
 atlas = SubResource( 394 )
 region = Rect2( 0, 0, 120, 86 )
 
 [sub_resource type="AtlasTexture" id=395]
-atlas = SubResource( 404 )
+atlas = SubResource( 481 )
 region = Rect2( 0, 0, 120, 86 )
 
 [sub_resource type="AtlasTexture" id=396]
@@ -90,11 +90,12 @@ __meta__ = {
 }
 
 [node name="Background" type="ColorRect" parent="."]
+modulate = Color( 1, 1, 1, 0.901961 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-color = Color( 0, 0, 0, 0.862745 )
+color = Color( 0, 0, 0, 1 )
 
 [node name="_help_gui_guide" parent="." instance=ExtResource( 10 )]
 visible = false
@@ -107,14 +108,19 @@ margin_top = 0.0
 margin_right = 0.0
 margin_bottom = 0.0
 
+[node name="shapes" parent="_help_gui_guide" index="1"]
+__meta__ = {
+"_edit_group_": true
+}
+
 [node name="Title" type="Label" parent="."]
 modulate = Color( 0.368627, 1, 0.662745, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -328.0
-margin_top = 86.0
+margin_top = 62.0
 margin_right = 328.0
-margin_bottom = 118.0
+margin_bottom = 94.0
 custom_fonts/font = ExtResource( 4 )
 text = "%Game title"
 align = 1
@@ -124,12 +130,12 @@ uppercase = true
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -320.0
-margin_top = 134.0
-margin_right = 320.0
-margin_bottom = 184.0
+margin_left = -288.0
+margin_top = 110.0
+margin_right = 288.0
+margin_bottom = 160.0
 grow_horizontal = 2
-text = "%ake back the colors to become the brightest again."
+text = "%ake back the colors to become the brightest again. Druga vrstica gre pa takole."
 align = 1
 autowrap = true
 
@@ -140,7 +146,7 @@ margin_left = -320.0
 margin_top = 200.0
 margin_right = 320.0
 margin_bottom = 512.0
-rect_min_size = Vector2( 0, 280 )
+rect_min_size = Vector2( 0, 320 )
 size_flags_horizontal = 3
 custom_constants/vseparation = 8
 custom_constants/hseparation = 8
@@ -228,7 +234,7 @@ margin_top = 160.0
 margin_right = 240.0
 margin_bottom = 320.0
 grow_horizontal = 2
-rect_min_size = Vector2( 240, 152 )
+rect_min_size = Vector2( 240, 160 )
 custom_styles/panel = ExtResource( 9 )
 __meta__ = {
 "_edit_group_": true
@@ -726,9 +732,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -124.0
-margin_top = 294.0
+margin_top = 278.0
 margin_right = 124.0
-margin_bottom = 316.0
+margin_bottom = 300.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -751,6 +757,8 @@ margin_left = 181.0
 margin_right = 248.0
 text = "to start"
 
+[editable path="_help_gui_guide"]
+[editable path="_help_gui_guide/ActionHint"]
 [editable path="Outline/Shortcuts/Shortcuts/ShortcutLine6"]
 [editable path="Outline/Shortcuts/Shortcuts/ShortcutLine"]
 [editable path="Outline/Shortcuts/Shortcuts/ShortcutLine2"]

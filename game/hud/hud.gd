@@ -25,7 +25,6 @@ onready var viewport_header: ColorRect = $"%ViewHeder"
 onready var viewport_footer: ColorRect = $"%ViewFuter"
 
 # popups 
-onready var energy_warning_popup: Control = $Popups/EnergyWarning
 onready var instructions_popup: Control = $Popups/Instructions
 onready var level_popup: Control = $Popups/LevelUp
 onready var start_countdown: Control = $Popups/StartCountdown
@@ -91,7 +90,11 @@ func _ready() -> void:
 	
 	header.rect_position.y = - header_height
 	footer.rect_position.y = screen_height
-
+	
+	start_countdown.hide()
+	instructions_popup.hide()
+	level_popup.hide()
+	
 	game_label.text = Global.game_manager.game_data["game_name"]
 	
 	if Global.game_manager.game_data.has("level"):
@@ -135,7 +138,7 @@ func _ready() -> void:
 	for node in nodes_to_modulate:
 		node.modulate = Global.color_hud_text	
 	
-	set_hud()
+	set_hud() # vse kar se lahko razlikuje "per game"
 
 	
 func _process(delta: float) -> void:
@@ -148,9 +151,7 @@ func _process(delta: float) -> void:
 			
 func set_hud(): # kliče main na game-in
 
-	energy_warning_popup.hide()
 	astray_label.text = "PIXELS ASTRAY"
-	start_countdown.hide()
 	
 	if Global.game_manager.start_players_count == 1:
 		p1_label.visible = false
@@ -205,30 +206,19 @@ func set_current_highscore():
 
 func slide_in(): # kliče GM set_game()
 	
-	# solution line
-	var solution_line: Line2D
-	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-		solution_line = Global.current_tilemap.get_node("SolutionLine")
-		solution_line.hide()
-		solution_line.modulate.a = 0.1
 	
-	# solution line
 	if Global.game_manager.game_settings["start_countdown"]:
 		start_countdown.modulate.a = 0
 		start_countdown.show()
 		var fade_in_tween = get_tree().create_tween()
 		fade_in_tween.tween_property(start_countdown, "modulate:a", 1, 0.3).set_ease(Tween.EASE_IN)
 				
-	
 	if Global.game_manager.game_settings["always_zoomed_in"]:
 		yield(get_tree().create_timer(Profiles.get_it_time), "timeout")
 	else:
 		Global.game_camera.zoom_in(hud_in_out_time)
 		
 		var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
-		if Profiles.solution_hint_on:
-			fade_in.tween_callback(solution_line, "show")
-			fade_in.tween_property(solution_line, "modulate:a", 0.1, hud_in_out_time).from(0.0)
 		fade_in.parallel().tween_property(header, "rect_position:y", 0, hud_in_out_time)
 		fade_in.parallel().tween_property(footer, "rect_position:y", screen_height - header_height, hud_in_out_time)
 		fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", header_height, hud_in_out_time)
@@ -252,10 +242,6 @@ func slide_out(): # kliče GM na game over
 		fade_in.parallel().tween_property(footer, "rect_position:y", screen_height, hud_in_out_time)
 		fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", 0, hud_in_out_time)
 		fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", 0, hud_in_out_time)
-		if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-			var solution_line: Line2D = Global.current_tilemap.get_node("SolutionLine")
-			fade_in.parallel().tween_property(solution_line, "modulate:a", 0, hud_in_out_time)
-			fade_in.tween_callback(solution_line, "hide")
 		fade_in.tween_callback(self, "hide")
 	
 	
@@ -342,43 +328,6 @@ func level_popup_fade(level_reached: int):
 	popup_in.tween_property(level_popup, "rect_scale", Vector2.ONE * 1.2, 1.5).from(Vector2.ONE * 0.8).set_ease(Tween.EASE_IN_OUT)
 	popup_in.parallel().tween_property(level_popup, "modulate:a", 1, 0.5)
 	popup_in.parallel().tween_property(level_popup, "modulate:a", 0, 0.5).from(1.0).set_delay(0.6)
-
-		
-func check_for_warning(player_stats: Dictionary):
-	
-	var steps_remaining_label: Label
-	steps_remaining_label = energy_warning_popup.get_node("StepsRemaining")
-
-	if player_stats["player_energy"] <= 0:
-		if energy_warning_popup.visible == true:
-			warning_out()		
-	elif player_stats["player_energy"] == 1:
-		steps_remaining_label.text = "NO ENERGY! Collect a color to revitalize."
-	elif player_stats["player_energy"] == 2: # pomeni samo še en korak in rabim ednino
-		steps_remaining_label.text = "ENERGY WARNING! Only 1 step remaining."
-		if energy_warning_popup.visible == false:
-			warning_in()
-	elif player_stats["player_energy"] <= tired_energy_limit:
-		steps_remaining_label.text = "ENERGY WARNING! Only %s steps remaining." % str(player_stats["player_energy"] - 1)
-		if energy_warning_popup.visible == false:
-			warning_in()
-	elif player_stats["player_energy"] > tired_energy_limit:
-		if energy_warning_popup.visible == true:
-			warning_out()
-
-
-func warning_in():
-	
-	var warning_in = get_tree().create_tween()
-	warning_in.tween_callback(energy_warning_popup, "show")
-	warning_in.tween_property(energy_warning_popup, "modulate:a", 1, 0.3)#.from(0.0)
-
-
-func warning_out():
-	
-	var warning_out = get_tree().create_tween()
-	warning_out.tween_property(energy_warning_popup, "modulate:a", 0, 0.5)
-	warning_out.tween_callback(energy_warning_popup, "hide")
 
 
 func popups_out(): # kliče GM na gameover

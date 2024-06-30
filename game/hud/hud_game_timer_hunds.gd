@@ -32,6 +32,7 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	
+	# če ne štopam, poskrbim, da je ura prava
 	if not current_timer_state == TimerStates.COUNTING:
 		# če je čas na nuli zapiše drugače glede na mode
 		if absolute_game_time == 0:
@@ -47,7 +48,7 @@ func _process(delta: float) -> void:
 		return
 		
 	# game time
-	absolute_game_time += delta # stotinke ... absouletnega uporabljam za izračune v vseh modetih
+	absolute_game_time += delta # sekunde z decimalkami ... absouletnega uporabljam za izračune v vseh modetih
 	
 	# display
 	if stopwatch_mode:	
@@ -59,9 +60,6 @@ func _process(delta: float) -> void:
 		$Mins.text = "%02d" % (floor(game_time_left/60))
 		$Secs.text = "%02d" % (floor(game_time_left) - floor(game_time_left/60) * 60)
 		$Hunds.text = "%02d" % floor((game_time_left - floor(game_time_left)) * 100)	
-	
-		# time limits ... višja limita je prva, nižje sledijo 
-#	if not stopwatch_mode:
 		# game time is up
 		if absolute_game_time >= game_time_limit: 
 			Global.sound_manager.play_gui_sfx("game_countdown_b")

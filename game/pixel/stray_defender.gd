@@ -5,6 +5,7 @@ enum SpawnSides {TOP, BOTTOM, RIGHT, LEFT}
 var stray_spawn_side: int 
 var step_count: int = 0 # da ignoriram edge tilemap v prvih par korakih
 
+
 func _ready() -> void:
 	# namen: grupiranje glede na izvorno stran, setanje collision bitov na ray
 	
@@ -13,7 +14,7 @@ func _ready() -> void:
 	modulate.a = 0
 	color_poly.modulate = stray_color
 	position_indicator_poly.color = stray_color
-	position_indicator.set_as_toplevel(true) # strayse skrijem ko so offscreen
+	#	position_indicator.set_as_toplevel(true) # strayse skrijem ko so offscreen
 	position_indicator.visible = false
 
 	# set props glede na spawn stran

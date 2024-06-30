@@ -72,10 +72,19 @@ func open_from_game(finished_game: int): # select_game screen ... kliče main.gd
 	var animation_length: float = animation_player.get_current_animation_length()
 	animation_player.advance(animation_length)
 	
-	if finished_game == Profiles.Games.SWEEPER:
-		Global.focus_without_sfx($SelectGame/GamesMenu/Sweeper/SweeperBtn)
-	else:
+	# fokus glede na končano igro
+	if finished_game == Profiles.Games.CLASSIC:
 		Global.focus_without_sfx($SelectGame/GamesMenu/Classic/ClassicBtn)
+	elif finished_game == Profiles.Games.CHASER:
+		Global.focus_without_sfx($SelectGame/GamesMenu/Timeless/EraserBtn)
+	elif finished_game == Profiles.Games.DEFENDER:
+		Global.focus_without_sfx($SelectGame/GamesMenu/Timeless/DefenderBtn)
+	elif finished_game == Profiles.Games.SWEEPER:
+		Global.focus_without_sfx($SelectGame/GamesMenu/Sweeper/SweeperBtn)
+	elif finished_game == Profiles.Games.THE_DUEL:
+		Global.focus_without_sfx($SelectGame/GamesMenu/TheDuel/TheDuelBtn)
+	else: # CLEANER_XS, CLEANER_S, CLEANER_M, CLEANER_L, CLEANER_XL,
+		Global.focus_without_sfx($SelectGame/GamesMenu/Cleaner/CleanerSBtn)
 	
 	intro.finish_intro()
 	yield(get_tree().create_timer(1), "timeout") # počaka, da se vsi spawnajo

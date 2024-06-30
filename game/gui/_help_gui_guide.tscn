@@ -1,4 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://assets/atlas_controls.png" type="Texture" id=1]
+[ext_resource path="res://game/gui/action_hint.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=3]
+[ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=4]
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0, 0, 0, 1 )
@@ -18,6 +23,11 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color( 1, 1, 1, 1 )
 
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 1 )
+region = Rect2( 138, 22, 22, 22 )
+margin = Rect2( -2, 0, 0, 0 )
+
 [node name="_help_gui_guide" type="Panel"]
 anchor_left = 0.5
 anchor_top = 0.5
@@ -27,16 +37,8 @@ margin_left = -640.0
 margin_top = -360.0
 margin_right = 640.0
 margin_bottom = 360.0
+rect_pivot_offset = Vector2( 744, 560 )
 custom_styles/panel = SubResource( 2 )
-
-[node name="M ekran zoomed out" type="ColorRect" parent="."]
-modulate = Color( 1, 1, 1, 0.247059 )
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -336.0
-margin_top = 184.0
-margin_right = 336.0
-margin_bottom = 536.0
 
 [node name="M inside edge" type="Panel" parent="."]
 margin_left = 320.0
@@ -45,62 +47,107 @@ margin_right = 960.0
 margin_bottom = 520.0
 custom_styles/panel = SubResource( 1 )
 
-[node name="menu" type="ColorRect" parent="."]
-modulate = Color( 1, 1, 1, 0.247059 )
+[node name="shapes" type="Control" parent="."]
+modulate = Color( 1, 1, 1, 0.203922 )
+margin_right = 1280.0
+margin_bottom = 720.0
+
+[node name="M ekran zoomed out" type="ColorRect" parent="shapes"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -336.0
-margin_top = 624.0
+margin_top = 184.0
 margin_right = 336.0
+margin_bottom = 536.0
+
+[node name="menu6" type="ColorRect" parent="shapes"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -384.0
+margin_top = 536.0
+margin_right = -320.0
+margin_bottom = 600.0
+
+[node name="menu21" type="ColorRect" parent="shapes"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 320.0
+margin_top = 536.0
+margin_right = 384.0
+margin_bottom = 600.0
+
+[node name="menu22" type="ColorRect" parent="shapes"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 320.0
+margin_top = 120.0
+margin_right = 384.0
+margin_bottom = 184.0
+
+[node name="menu" type="ColorRect" parent="shapes"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -320.0
+margin_top = 624.0
+margin_right = 320.0
 margin_bottom = 656.0
 
-[node name="menu4" type="ColorRect" parent="."]
-modulate = Color( 1, 1, 1, 0.247059 )
+[node name="menu4" type="ColorRect" parent="shapes"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -336.0
-margin_top = 64.0
-margin_right = 336.0
-margin_bottom = 96.0
+margin_left = -320.0
+margin_top = 56.0
+margin_right = 320.0
+margin_bottom = 88.0
 
-[node name="menu5" type="ColorRect" parent="."]
-modulate = Color( 1, 1, 1, 0.247059 )
+[node name="menu18" type="ColorRect" parent="shapes"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -400.0
-margin_top = 128.0
-margin_right = -336.0
-margin_bottom = 192.0
+margin_left = -320.0
+margin_top = 120.0
+margin_right = 320.0
+margin_bottom = 152.0
 
-[node name="menu9" type="ColorRect" parent="."]
-modulate = Color( 1, 1, 1, 0.247059 )
+[node name="menu11" type="ColorRect" parent="shapes"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -448.0
-margin_top = 192.0
-margin_right = -384.0
-margin_bottom = 256.0
-
-[node name="menu10" type="ColorRect" parent="."]
-modulate = Color( 1, 1, 1, 0.247059 )
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -512.0
+margin_left = -640.0
 margin_top = 256.0
-margin_right = -448.0
+margin_right = -576.0
 margin_bottom = 320.0
 
-[node name="menu11" type="ColorRect" parent="."]
-modulate = Color( 1, 1, 1, 0.247059 )
+[node name="menu19" type="ColorRect" parent="shapes"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -576.0
-margin_top = 320.0
-margin_right = -512.0
-margin_bottom = 384.0
+margin_left = -640.0
+margin_top = 128.0
+margin_right = -576.0
+margin_bottom = 192.0
 
-[node name="menu12" type="ColorRect" parent="."]
-modulate = Color( 1, 1, 1, 0.247059 )
+[node name="menu20" type="ColorRect" parent="shapes"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -640.0
+margin_right = -576.0
+margin_bottom = 64.0
+
+[node name="menu23" type="ColorRect" parent="shapes"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -640.0
+margin_top = 512.0
+margin_right = -576.0
+margin_bottom = 576.0
+
+[node name="menu24" type="ColorRect" parent="shapes"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -640.0
+margin_top = 640.0
+margin_right = -576.0
+margin_bottom = 704.0
+
+[node name="menu12" type="ColorRect" parent="shapes"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -640.0
@@ -108,93 +155,172 @@ margin_top = 384.0
 margin_right = -576.0
 margin_bottom = 448.0
 
-[node name="menu13" type="ColorRect" parent="."]
-modulate = Color( 1, 1, 1, 0.247059 )
+[node name="menu17" type="ColorRect" parent="shapes"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = 336.0
-margin_top = 128.0
-margin_right = 400.0
-margin_bottom = 192.0
-
-[node name="menu14" type="ColorRect" parent="."]
-modulate = Color( 1, 1, 1, 0.247059 )
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = 384.0
-margin_top = 192.0
-margin_right = 448.0
-margin_bottom = 256.0
-
-[node name="menu15" type="ColorRect" parent="."]
-modulate = Color( 1, 1, 1, 0.247059 )
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = 448.0
-margin_top = 256.0
-margin_right = 512.0
-margin_bottom = 320.0
-
-[node name="menu16" type="ColorRect" parent="."]
-modulate = Color( 1, 1, 1, 0.247059 )
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = 512.0
-margin_top = 320.0
-margin_right = 576.0
-margin_bottom = 384.0
-
-[node name="menu17" type="ColorRect" parent="."]
-modulate = Color( 1, 1, 1, 0.247059 )
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = 576.0
-margin_top = 384.0
+margin_left = -640.0
+margin_top = 352.0
 margin_right = 640.0
-margin_bottom = 448.0
+margin_bottom = 368.0
 
-[node name="menu7" type="ColorRect" parent="."]
-modulate = Color( 1, 1, 1, 0.247059 )
+[node name="menu8" type="ColorRect" parent="shapes"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -400.0
-margin_right = -336.0
-margin_bottom = 64.0
-
-[node name="menu8" type="ColorRect" parent="."]
-modulate = Color( 1, 1, 1, 0.247059 )
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -400.0
+margin_left = -384.0
 margin_top = 656.0
-margin_right = -336.0
+margin_right = -320.0
 margin_bottom = 720.0
 
-[node name="menu6" type="ColorRect" parent="."]
-modulate = Color( 1, 1, 1, 0.247059 )
+[node name="menu13" type="ColorRect" parent="shapes"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -400.0
-margin_top = 536.0
-margin_right = -336.0
-margin_bottom = 600.0
+margin_left = 320.0
+margin_top = 656.0
+margin_right = 384.0
+margin_bottom = 720.0
 
-[node name="menu2" type="ColorRect" parent="."]
-modulate = Color( 1, 1, 1, 0.247059 )
+[node name="menu2" type="ColorRect" parent="shapes"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -336.0
+margin_left = -320.0
 margin_top = 592.0
-margin_right = 336.0
+margin_right = 320.0
 margin_bottom = 624.0
 color = Color( 0.368627, 1, 0.662745, 1 )
 
-[node name="menu3" type="ColorRect" parent="."]
-modulate = Color( 1, 1, 1, 0.247059 )
+[node name="menu3" type="ColorRect" parent="shapes"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -336.0
-margin_top = 96.0
-margin_right = 336.0
-margin_bottom = 128.0
+margin_left = -320.0
+margin_top = 88.0
+margin_right = 320.0
+margin_bottom = 120.0
 color = Color( 0.368627, 1, 0.662745, 1 )
+
+[node name="ActionHint" parent="." instance=ExtResource( 2 )]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -124.0
+margin_top = 278.0
+margin_right = 124.0
+margin_bottom = 300.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="KEY" parent="ActionHint" index="1"]
+margin_right = 118.0
+text = "RETURN"
+
+[node name="Label2" parent="ActionHint" index="2"]
+margin_left = 126.0
+margin_right = 143.0
+
+[node name="Jp" parent="ActionHint" index="3"]
+margin_left = 151.0
+margin_right = 173.0
+texture = SubResource( 3 )
+
+[node name="Label3" parent="ActionHint" index="4"]
+margin_left = 181.0
+margin_right = 248.0
+text = "to start"
+
+[node name="Title" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -192.0
+margin_top = 62.0
+margin_right = 192.0
+margin_bottom = 94.0
+custom_fonts/font = ExtResource( 4 )
+text = "Gui title"
+align = 1
+uppercase = true
+
+[node name="Title2" type="Label" parent="."]
+modulate = Color( 0.368627, 1, 0.662745, 1 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -192.0
+margin_top = 94.0
+margin_right = 192.0
+margin_bottom = 126.0
+custom_fonts/font = ExtResource( 4 )
+text = "TITLE w MENU"
+align = 1
+uppercase = true
+
+[node name="Description" type="Label" parent="."]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -320.0
+margin_top = 110.0
+margin_right = -112.0
+margin_bottom = 160.0
+grow_horizontal = 2
+theme = ExtResource( 3 )
+text = "Gui Subtitle ..."
+autowrap = true
+
+[node name="Menu" type="HBoxContainer" parent="."]
+modulate = Color( 0.368627, 1, 0.662745, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -151.0
+margin_top = 246.0
+margin_right = 151.0
+margin_bottom = 268.0
+grow_horizontal = 2
+theme = ExtResource( 3 )
+custom_constants/separation = 32
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="PlayBtn" type="Label" parent="Menu"]
+margin_right = 88.0
+margin_bottom = 22.0
+focus_neighbour_left = NodePath("../QuitBtn")
+focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
+mouse_default_cursor_shape = 2
+size_flags_vertical = 0
+text = "RESUME"
+
+[node name="SkipTutBtn" type="Label" parent="Menu"]
+visible = false
+margin_left = 120.0
+margin_right = 290.0
+margin_bottom = 22.0
+focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
+mouse_default_cursor_shape = 2
+size_flags_vertical = 0
+text = "SKIP TUTORIAL"
+
+[node name="RestartBtn" type="Label" parent="Menu"]
+margin_left = 120.0
+margin_right = 218.0
+margin_bottom = 22.0
+focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 6
+size_flags_vertical = 0
+text = "RESTART"
+
+[node name="QuitBtn" type="Label" parent="Menu"]
+margin_left = 250.0
+margin_right = 302.0
+margin_bottom = 22.0
+focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
+focus_neighbour_right = NodePath("../PlayBtn")
+focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
+mouse_default_cursor_shape = 2
+size_flags_vertical = 0
+text = "QUIT"
+
+[editable path="ActionHint"]

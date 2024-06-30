@@ -11,9 +11,9 @@ func start_countdown():
 	
 	
 func play_countdown_a_sound():
-	return
-	Global.sound_manager.play_gui_sfx("start_countdown_a")
-
+	
+	# Global.sound_manager.play_gui_sfx("start_countdown_a")
+	pass
 
 func play_countdown_b_sound():
 	

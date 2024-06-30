@@ -255,10 +255,9 @@ var use_default_color_theme: bool = true
 var get_it_time: float = 1 # tajming za dojet določene faze igre
 
 # nastavitve, ki se setajo tudi v home
-var solution_hint_on: bool = false
 var camera_shake_on: bool = true
 var tutorial_music_track_index: int = 1
-var tutorial_mode: bool = false # debug
+var tutorial_mode: bool = true
 
 
 func _ready() -> void:
@@ -286,7 +285,7 @@ func set_game_data(selected_game):
 	
 	# debug
 	game_settings["start_countdown"] = false
-#	game_settings["player_start_life"] = 2
+	game_settings["player_start_life"] = 2
 	game_settings["show_game_instructions"] = false
 
 	match selected_game:
@@ -347,7 +346,7 @@ func set_game_data(selected_game):
 		
 		Games.CHASER: 
 			current_game_data = game_data_chaser.duplicate()
-			game_settings["start_countdown"] = false
+#			game_settings["start_countdown"] = false
 			game_settings["position_indicators_show_limit"] = 0
 			#
 			game_settings["respawn_strays_count_range"] = [2, 8]
@@ -359,7 +358,7 @@ func set_game_data(selected_game):
 			game_settings["cell_traveled_energy"] = 0
 			game_settings["position_indicators_show_limit"] = 0
 			game_settings["full_power_mode"] = true
-			game_settings["start_countdown"] = false
+#			game_settings["start_countdown"] = false
 			# game_settings["game_music_track_index"] = 1
 			#
 			game_settings["create_strays_count"] = 1 # število spawnanih v prvi rundi
@@ -383,11 +382,11 @@ func set_game_data(selected_game):
 			game_settings["cell_traveled_energy"] = 0
 			game_settings["cleaned_reward_points"] = 1 # ... izpiše se "SUCCESS!" # TEST
 			game_settings["position_indicators_show_limit"] = 0
-#			game_settings["zoom_to_level_size"] = true # ker so samo M velikosti
 			game_settings["reburst_enabled"] = true
 			game_settings["reburst_window_time"] = 5
 			game_settings["game_music_track_index"] = 1
-#			game_settings["always_zoomed_in"] = true # prižge se med prvo igro iz menija, tako ostane za zmerom zoomiran
-#			game_settings["show_game_instructions"] = false # prižge se samo za prvi gejm iz menija
+			game_settings["always_zoomed_in"] = true # prižge se med prvo igro iz menija, tako ostane za zmerom zoomiran
+			game_settings["show_game_instructions"] = false # prižge se samo za prvi gejm iz menija
+#			game_settings["zoom_to_level_size"] = true # ker so samo M velikosti
 			return game_settings # da lahko vklopim game instructions za prehod iz home menija
 	

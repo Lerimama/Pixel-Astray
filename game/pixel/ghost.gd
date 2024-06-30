@@ -64,15 +64,3 @@ func _on_PixelGhost_body_entered(body: Node) -> void:
 		teleporting_bodies.append(body)
 	elif body.is_in_group(Global.group_tilemap):
 		teleporting_bodies.append(body)
-	
-
-
-func _on_Ghost_tree_entered() -> void:
-#	Global.game_manager.remove_from_free_floor_positions(Global.snap_to_nearest_grid(global_position))	
-	pass # Replace with function body.
-
-
-func _on_Ghost_tree_exited() -> void:
-#	Global.game_manager.add_to_free_floor_positions(Global.snap_to_nearest_grid(global_position))	
-	pass # Replace with function body.
-	

@@ -54,18 +54,6 @@ func play_sound(effect_for: String):
 # SIGNALI ------------------------------------------------------------------------------------------------------
 
 
-func _on_VisibilityNotifier2D_viewport_entered(viewport: Viewport) -> void:
-	# namen: ne rabm
-	
-	pass
-		
-		
-func _on_VisibilityNotifier2D_viewport_exited(viewport: Viewport) -> void:
-	# namen: ne rabm
-	
-	pass
-
-
 func _on_Stray_tree_exiting() -> void:
 	# namen: ven štetje strajsov v igri
 	

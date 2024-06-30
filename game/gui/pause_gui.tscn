@@ -1,5 +1,6 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
+[ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=2]
 [ext_resource path="res://game/gui/pause_menu.gd" type="Script" id=3]
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=4]
@@ -170,17 +171,36 @@ rect_pivot_offset = Vector2( 592, 224 )
 theme = ExtResource( 6 )
 script = ExtResource( 3 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 112.0, 208.0, 680.0, 40.0 ],
-"_edit_vertical_guides_": [ 640.0, 304.0, 976.0, 964.0 ]
+"_edit_horizontal_guides_": [ 360.0, 96.0, 624.0 ],
+"_edit_vertical_guides_": [ 640.0 ]
 }
 
+[node name="Background" type="ColorRect" parent="."]
+modulate = Color( 1, 1, 1, 0.901961 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0, 0, 0, 1 )
+
 [node name="_help_gui_guide" parent="." instance=ExtResource( 8 )]
-margin_left = -336.0
-margin_top = -272.0
-margin_right = 336.0
-margin_bottom = -248.0
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 0.0
+margin_bottom = 0.0
 
 [node name="Instructions" parent="." instance=ExtResource( 10 )]
+
+[node name="Background" parent="Instructions" index="0"]
+visible = false
+
+[node name="Title" parent="Instructions" index="2"]
+visible = false
 
 [node name="Description" parent="Instructions" index="3"]
 visible = false
@@ -188,12 +208,13 @@ margin_bottom = 186.0
 
 [node name="Outline" parent="Instructions" index="4"]
 margin_left = -432.0
-margin_top = 192.0
 margin_right = 208.0
-margin_bottom = 504.0
+margin_bottom = 520.0
 
-[node name="Record" parent="Instructions/Outline" index="3"]
-margin_bottom = 312.0
+[node name="Controls" parent="Instructions/Outline" index="5"]
+visible = true
+margin_top = 160.0
+margin_bottom = 320.0
 
 [node name="ControlsDuelP1" parent="Instructions/Outline" index="6"]
 visible = false
@@ -206,11 +227,24 @@ margin_bottom = 312.0
 [node name="ActionHint" parent="Instructions" index="5"]
 visible = false
 
+[node name="Title" type="Label" parent="."]
+modulate = Color( 0.368627, 1, 0.662745, 1 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -328.0
+margin_top = 94.0
+margin_right = 328.0
+margin_bottom = 126.0
+custom_fonts/font = ExtResource( 1 )
+text = "%Game title"
+align = 1
+uppercase = true
+
 [node name="Settings" type="Panel" parent="."]
 margin_left = 856.0
-margin_top = 192.0
+margin_top = 200.0
 margin_right = 1072.0
-margin_bottom = 504.0
+margin_bottom = 520.0
 grow_horizontal = 2
 rect_min_size = Vector2( 207, 152 )
 custom_styles/panel = SubResource( 327 )
@@ -241,7 +275,8 @@ margin_top = 57.0
 margin_right = -52.0
 margin_bottom = 89.0
 rect_min_size = Vector2( 0, 32 )
-focus_neighbour_top = NodePath("../CameraShakeBtn")
+focus_neighbour_left = NodePath(".")
+focus_neighbour_top = NodePath("../../Menu/PlayBtn")
 mouse_default_cursor_shape = 2
 custom_fonts/font = ExtResource( 2 )
 pressed = true
@@ -304,6 +339,7 @@ margin_right = -60.0
 margin_bottom = 193.0
 rect_min_size = Vector2( 0, 32 )
 rect_pivot_offset = Vector2( 20, 16 )
+focus_neighbour_left = NodePath("../GameSfxBtn")
 focus_neighbour_top = NodePath("../GameMusicSlider")
 mouse_default_cursor_shape = 2
 custom_fonts/font = ExtResource( 2 )
@@ -319,6 +355,7 @@ margin_right = -38.0
 margin_bottom = 238.0
 rect_min_size = Vector2( 0, 32 )
 rect_pivot_offset = Vector2( -62, -22 )
+focus_neighbour_left = NodePath(".")
 focus_neighbour_bottom = NodePath("../../Menu/PlayBtn")
 mouse_default_cursor_shape = 2
 custom_fonts/font = ExtResource( 2 )
@@ -330,10 +367,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -86.0
-margin_top = 238.0
-margin_right = 86.0
-margin_bottom = 260.0
+margin_left = -129.0
+margin_top = 246.0
+margin_right = 129.0
+margin_bottom = 268.0
 grow_horizontal = 2
 theme = ExtResource( 6 )
 custom_constants/separation = 32
@@ -341,56 +378,60 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="PlayBtn" type="Button" parent="Menu"]
-margin_right = 88.0
-margin_bottom = 22.0
-focus_neighbour_left = NodePath("../QuitBtn")
-focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
-mouse_default_cursor_shape = 2
-size_flags_vertical = 0
-text = "RESUME"
-
-[node name="SkipTutBtn" type="Button" parent="Menu"]
-visible = false
-margin_left = 120.0
-margin_right = 290.0
-margin_bottom = 22.0
-focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
-mouse_default_cursor_shape = 2
-size_flags_vertical = 0
-text = "SKIP TUTORIAL"
-
-[node name="RestartBtn" type="Button" parent="Menu"]
-margin_left = 120.0
-margin_right = 218.0
-margin_bottom = 22.0
-focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
-mouse_default_cursor_shape = 2
-size_flags_horizontal = 6
-size_flags_vertical = 0
-text = "RESTART"
-
 [node name="QuitBtn" type="Button" parent="Menu"]
-margin_left = 250.0
-margin_right = 302.0
+margin_right = 52.0
 margin_bottom = 22.0
+focus_neighbour_left = NodePath("../RestartBtn")
 focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
-focus_neighbour_right = NodePath("../PlayBtn")
 focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 0
 text = "QUIT"
 
+[node name="PlayBtn" type="Button" parent="Menu"]
+margin_left = 84.0
+margin_right = 172.0
+margin_bottom = 22.0
+focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
+focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
+mouse_default_cursor_shape = 2
+size_flags_vertical = 0
+text = "RESUME"
+
+[node name="SkipTutBtn" type="Button" parent="Menu"]
+margin_left = 204.0
+margin_right = 392.0
+margin_bottom = 22.0
+focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
+focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
+mouse_default_cursor_shape = 2
+size_flags_vertical = 0
+text = "CLOSE TUTORIAL"
+
+[node name="RestartBtn" type="Button" parent="Menu"]
+margin_left = 424.0
+margin_right = 522.0
+margin_bottom = 22.0
+focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
+focus_neighbour_right = NodePath("../QuitBtn")
+focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 6
+size_flags_vertical = 0
+text = "RESTART"
+
 [connection signal="toggled" from="Settings/GameMusicBtn" to="." method="_on_GameMusicBtn_toggled"]
 [connection signal="value_changed" from="Settings/GameMusicSlider" to="." method="_on_GameMusicSlider_value_changed"]
 [connection signal="toggled" from="Settings/GameSfxBtn" to="." method="_on_GameSfxBtn_toggled"]
 [connection signal="toggled" from="Settings/CameraShakeBtn" to="." method="_on_CameraShakeBtn_toggled"]
+[connection signal="pressed" from="Menu/QuitBtn" to="." method="_on_QuitBtn_pressed"]
 [connection signal="pressed" from="Menu/PlayBtn" to="." method="_on_PlayBtn_pressed"]
 [connection signal="pressed" from="Menu/SkipTutBtn" to="." method="_on_SkipTutBtn_pressed"]
 [connection signal="pressed" from="Menu/RestartBtn" to="." method="_on_RestartBtn_pressed"]
-[connection signal="pressed" from="Menu/QuitBtn" to="." method="_on_QuitBtn_pressed"]
 
 [editable path="Instructions"]
+[editable path="Instructions/_help_gui_guide"]
+[editable path="Instructions/_help_gui_guide/ActionHint"]
 [editable path="Instructions/Outline/Shortcuts/Shortcuts/ShortcutLine6"]
 [editable path="Instructions/Outline/Shortcuts/Shortcuts/ShortcutLine"]
 [editable path="Instructions/Outline/Shortcuts/Shortcuts/ShortcutLine2"]

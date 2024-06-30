@@ -2,22 +2,17 @@ extends GridContainer
 
 var unfocused_color: Color = Global.color_almost_black_pixel
 var btn_colors: Array
-var solved_sweeper_btns: Array
+var solved_level_btns: Array
+var all_level_btns: Array
+var select_level_btns_holder_parent # določim od zunaj
 
 var unlocked_label_path: String = "VBoxContainer/Label"
 var locked_label_path: String = "VBoxContainer/LabelLocked"
 var record_label_path: String = "VBoxContainer/Record"
 var owner_label_path: String = "VBoxContainer/Owner"
 
-var all_level_btns: Array
-
-#onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
-#onready var solutions_btn: CheckButton = $SolutionsBtn
-#onready var btn_grid_container: Control = $SelectLevelBtnsHolder
 onready var pixel_astray_level_btn: Button = $PixelAstrayLevelBtn
 onready var LevelBtn: PackedScene = preload("res://home/level_btn.tscn")
-
-var select_level_btns_holder_parent # določim od zunaj
 
 		
 func spawn_level_btns():
@@ -48,18 +43,11 @@ func spawn_level_btns():
 	
 func set_level_btns():
 	
-	# naberem gumbe in barve
-	if Profiles.use_default_color_theme:
-		btn_colors = Global.get_spectrum_colors(all_level_btns.size())
-	else:			
-		var color_split_offset: float = 1.0 / all_level_btns.size()
-		for btn_count in all_level_btns.size():
-			var color = Global.game_color_theme_gradient.interpolate(btn_count * color_split_offset) # barva na lokaciji v spektrumu
-			btn_colors.append(color)	
+	color_level_btns()
 	
 	# poimenujem gumbe in obarvam solved 
 	var solved_levels: Array = Global.data_manager.read_solved_status_from_file(Profiles.game_data_sweeper)
-	solved_sweeper_btns = []
+	solved_level_btns = []
 	
 	for btn in all_level_btns:
 		var btn_index: int = all_level_btns.find(btn)
@@ -73,7 +61,7 @@ func set_level_btns():
 			btn.get_node(unlocked_label_path).text = "%02d" % btn_level_number
 		# če je rešen prikažem druge labele, če ni, je samo locked label
 		if btn_level_number in solved_levels:
-			solved_sweeper_btns.append(btn)
+			solved_level_btns.append(btn)
 			# skrijem
 			btn.get_node(locked_label_path).hide()
 			# zapišem
@@ -92,7 +80,6 @@ func set_level_btns():
 			btn.get_node(record_label_path).hide()
 			btn.get_node(owner_label_path).hide()
 			btn.get_node(locked_label_path).modulate = btn_colors[btn_index]
-			# btn.get_node(locked_label_path).modulate = Global.color_gui_gray
 			btn.get_node(locked_label_path).show()
 		
 	pixel_astray_level_btn.raise() # move the Blood node to just above the Floor in the tr
@@ -111,7 +98,8 @@ func get_btn_highscore(btn_level_number: int):
 	return [current_highscore_clock, current_highscore_owner]
 
 
-func recolor_level_btns(): 
+func color_level_btns(): 
+	
 	btn_colors.clear()
 	# naberem gumbe in barve
 	if Profiles.use_default_color_theme:
@@ -132,7 +120,6 @@ func connect_level_btns():
 		btn.connect("mouse_entered", self, "_on_btn_hovered_or_focused", [btn])
 		btn.connect("focus_entered", self, "_on_btn_hovered_or_focused", [btn])
 		btn.connect("focus_exited", self, "_on_btn_unhovered_or_unfocused", [btn])
-		# btn.connect("mouse_exited", self, "_on_btn_unhovered_or_unfocused", [btn])
 		btn.connect("pressed", self, "_on_btn_pressed", [btn])
 		
 		
@@ -144,13 +131,6 @@ func _on_btn_hovered_or_focused(btn):
 	btn.get_node(record_label_path).modulate = Color.white
 	btn.get_node(owner_label_path).modulate = Color.white
 	
-	# v1 barvanje na hover
-	#	btn.self_modulate = btn_colors[all_level_btns.find(btn)]
-	#	btn.get_node(unlocked_label_path).modulate = Color.white
-	#	btn.get_node(locked_label_path).modulate = Color.white
-	#	btn.get_node(record_label_path).modulate = Color.white
-	#	btn.get_node(owner_label_path).modulate = Color.white
-	
 	
 func _on_btn_unhovered_or_unfocused(btn):
 	
@@ -159,23 +139,11 @@ func _on_btn_unhovered_or_unfocused(btn):
 	btn.get_node(record_label_path).modulate = btn_colors[all_level_btns.find(btn)]
 	btn.get_node(owner_label_path).modulate = btn_colors[all_level_btns.find(btn)]
 	btn.get_node(locked_label_path).modulate = btn_colors[all_level_btns.find(btn)]
-#		btn.get_node(record_label_path).modulate = Global.color_gui_gray
 
-	# v1 barvanje
-	#	btn.self_modulate = Global.color_almost_black_pixel
-	#	if solved_sweeper_btns.has(btn):
-	#		btn.get_node(unlocked_label_path).modulate = btn_colors[all_level_btns.find(btn)]
-	#		btn.get_node(record_label_path).modulate = btn_colors[all_level_btns.find(btn)]
-	#		btn.get_node(owner_label_path).modulate = btn_colors[all_level_btns.find(btn)]
-	#	else:
-	#		btn.get_node(locked_label_path).modulate = Global.color_gui_gray
-	#		btn.get_node(record_label_path).modulate = Global.color_gui_gray
-	
 	
 func _on_btn_pressed(btn):
 	var pressed_btn_index: int = get_children().find(btn)
 	select_level_btns_holder_parent.play_selected_level(pressed_btn_index + 1)
-		
 		
 		
 

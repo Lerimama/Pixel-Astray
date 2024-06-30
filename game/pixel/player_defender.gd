@@ -184,7 +184,7 @@ func play_sound(effect_for: String):
 		"pulled":
 			$Sounds/Skills/StoneSlide.play()
 		"pushed":
-			$Sounds/Skills/Cling.play()
+#			$Sounds/Skills/Cling.play()
 			$Sounds/Skills/StoneSlide.play()
 		"teleport":
 			$Sounds/Skills/TeleportIn.play()

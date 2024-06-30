@@ -67,7 +67,8 @@ func get_top_highscore(current_game_data: Dictionary):
 
 
 func manage_gameover_highscores(current_score: float, current_game_data: Dictionary): # iz GM
-	# med izvajanjem te kode GM čaka na RESUME 1
+	# med izvajanjem te kode GM čaka na RESUME 1 
+	# ima napako, da na pozitiven odgovor ne vrne nič
 
 	var all_ranking_scores: Array = []
 	var all_ranking_score_owners: Array = []

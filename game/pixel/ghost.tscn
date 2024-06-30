@@ -43,5 +43,3 @@ collision_mask = 3
 
 [connection signal="body_entered" from="." to="." method="_on_PixelGhost_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_PixelGhost_body_exited"]
-[connection signal="tree_entered" from="." to="." method="_on_Ghost_tree_entered"]
-[connection signal="tree_exited" from="." to="." method="_on_Ghost_tree_exited"]

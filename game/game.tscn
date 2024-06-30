@@ -1126,6 +1126,7 @@ margin_right = 248.0
 text = "to start"
 
 [node name="PauseMenu" parent="GUI" instance=ExtResource( 11 )]
+visible = false
 __meta__ = {
 "_edit_horizontal_guides_": [ 112.0 ],
 "_edit_vertical_guides_": [ 640.0, 304.0, 976.0 ]
@@ -1146,9 +1147,11 @@ text = "%Can't handle the colors?"
 [node name="DiedLabel" parent="GUI/GameOver/GameoverTitle/ReasonLife" index="1"]
 text = "%You are forever colorless!"
 
-[node name="NextLevelBtn" parent="GUI/GameOver/Menu" index="1"]
-margin_right = 314.0
-text = "NEXT SCREEN"
+[node name="GameSummary" parent="GUI/GameOver" index="3"]
+visible = false
+
+[node name="Menu" parent="GUI/GameOver" index="4"]
+visible = false
 
 [node name="RespawnTimer" type="Timer" parent="."]
 wait_time = 5.0

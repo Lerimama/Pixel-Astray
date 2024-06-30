@@ -33,7 +33,6 @@ var cock_ghost_speed_addon: float = 14
 var cocked_ghosts: Array
 var burst_speed: float = 0 # trenutna hitrost
 var burst_velocity: Vector2
-
 # sweeping
 var sweep_move_started: bool = false # ob cockanju se začne poteza (konča se v steni ali na koncu reburstanja, kadar resetam reburst_count)
 var sweep_move_to_clean_strays_count: int = 0 # ker se original štetje med rebursti spreminja, določim tole na začetku burst moveta
@@ -58,7 +57,7 @@ var key_up: String
 var key_down: String
 var key_burst: String
 
-# times
+# time
 var step_time_slow: float = 0.15
 var step_slowdown_rate: float = 18
 var detect_touch_pause_time: float = 1
@@ -66,6 +65,14 @@ var is_surrounded_time: float = 2 # ker merim, kdaj si obkoljen za vedno, je to 
 var cock_ghost_cocking_time: float = 0.06 # čas nastajanja ghosta in njegova animacija ... original 0.12
 var current_ghost_cocking_time: float = 0 # trenuten čas nastajanja ghosta ... tukaj, da ga ne nulira z vsakim frejmom
 
+# free position management
+var burst_removed_free_positions: Array = [] # free pozicije, ki se zasedejo me brustom				
+var previous_position: Vector2 = Vector2.ZERO # pozicija pred zadnjo akcijo ... za vračanje med na-voljo
+
+onready var game_settings: Dictionary = Global.game_manager.game_settings 
+onready var cell_size_x: int = Global.current_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
+
+onready var vision_ray: RayCast2D = $VisionRay
 onready var skilling_start_timer: Timer = $SkillingStartTimer
 onready var rebursting_timer: Timer = $ReburstingTimer
 onready var touch_timer: Timer = $Touch/TouchTimer
@@ -75,17 +82,13 @@ onready var burst_light: Light2D = $BurstLight
 onready var skill_light: Light2D = $SkillLight
 onready var glow_light: Light2D = $GlowLight
 onready var animation_player: AnimationPlayer = $AnimationPlayer
-onready var game_settings: Dictionary = Global.game_manager.game_settings 
-onready var cell_size_x: int = Global.current_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
+
 onready var Ghost: PackedScene = preload("res://game/pixel/ghost.tscn")
 onready var PixelCollisionParticles: PackedScene = preload("res://game/pixel/pixel_collision_particles.tscn")
 onready var PixelDizzyParticles: PackedScene = preload("res://game/pixel/pixel_dizzy_particles.tscn")
 onready var FloatingTag: PackedScene = preload("res://game/hud/floating_tag.tscn")
 
-# neu
-var burst_removed_positions: Array = []						
-var previous_position: Vector2 = Vector2.ZERO # za vračanje med na-voljo
-onready var vision_ray: RayCast2D = $VisionRay
+
 
 
 func _ready() -> void:
@@ -161,8 +164,8 @@ func state_machine():
 			var front_current_position_snapped_2 = current_position_snapped + direction * cell_size_x * 2
 			# vse pozicije, ki so na poti in so na-voljo, odstranim iz na-voljo
 			for pos in [current_position_snapped, front_current_position_snapped, front_current_position_snapped_2]:
-				if Global.game_manager.is_floor_position_free(pos) and not burst_removed_positions.has(pos): # da se ne podvajajo:
-					burst_removed_positions.append(pos)
+				if Global.game_manager.is_floor_position_free(pos) and not burst_removed_free_positions.has(pos): # da se ne podvajajo:
+					burst_removed_free_positions.append(pos)
 					Global.game_manager.remove_from_free_floor_positions(pos)	
 			
 			if collision:
@@ -436,9 +439,9 @@ func end_move():
 	if not previous_position == Vector2.ZERO:
 		Global.game_manager.add_to_free_floor_positions(previous_position)	
 	# v burstu odstranjene floor_pozicije so spet free
-	for floor_position in burst_removed_positions:
+	for floor_position in burst_removed_free_positions:
 		Global.game_manager.add_to_free_floor_positions(floor_position)
-	burst_removed_positions.clear()
+	burst_removed_free_positions.clear()
 	
 	# na koncu trenutna pozicija ni več free
 	if Global.game_manager.is_floor_position_free(global_position):
@@ -776,7 +779,7 @@ func teleport():
 	new_teleport_ghost.connect("ghost_target_reached", self, "_on_ghost_target_reached")
 
 	# kamera target
-	if player_camera:
+	if player_camera and not Global.game_manager.game_settings ["zoom_to_level_size"]:
 		player_camera.camera_target = new_teleport_ghost
 	collision_shape.set_deferred("disabled", true)
 
@@ -1361,7 +1364,7 @@ func play_sound(effect_for: String):
 		"pulled":
 			$Sounds/Skills/StoneSlide.play()
 		"pushed":
-			$Sounds/Skills/Cling.play()
+#			$Sounds/Skills/Cling.play()
 			$Sounds/Skills/StoneSlide.play()
 		"teleport":
 			$Sounds/Skills/TeleportIn.play()
@@ -1422,7 +1425,7 @@ func _on_ghost_target_reached(ghost_body: Area2D, ghost_position: Vector2):
 	
 	# after premik
 	modulate.a = 1
-	if player_camera:
+	if player_camera and not Global.game_manager.game_settings ["zoom_to_level_size"]:
 		player_camera.camera_target = self
 	glow_light.enabled = true
 	collision_shape.set_deferred("disabled", false)

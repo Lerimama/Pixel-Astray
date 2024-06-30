@@ -20,9 +20,6 @@ var tilemap_edge_rectangle: Rect2 # velikost floor "igralne mize"
 onready var camera_position_node: Position2D = $CameraPosition
 onready var background_room: TextureRect = $Background/Room
 onready var tilemap_background: Node2D = $Background
-
-# neu
-#onready var edge_cover: Node2D = $EdgeCover
 onready var edge_cover: Control = $EdgeCover/Edge
 
 
