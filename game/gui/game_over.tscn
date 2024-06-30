@@ -442,7 +442,7 @@ __meta__ = {
 }
 
 [node name="RecordTitle" type="Label" parent="GameSummary/ContentSweeper/Record"]
-modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+modulate = Color( 1, 1, 1, 0.470588 )
 anchor_right = 1.0
 margin_left = 32.0
 margin_top = 24.0
@@ -450,7 +450,6 @@ margin_right = -40.0
 margin_bottom = 49.0
 grow_horizontal = 2
 rect_min_size = Vector2( 0, 25 )
-custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 custom_fonts/font = ExtResource( 1 )
 text = "Current record time:"
 
@@ -462,6 +461,19 @@ margin_right = -32.0
 margin_bottom = 76.0
 grow_vertical = 2
 custom_constants/separation = 8
+
+[node name="RecordMissed" type="Label" parent="GameSummary/ContentSweeper/Record/HBoxContainer"]
+visible = false
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+margin_top = 2.0
+margin_right = 44.0
+margin_bottom = 20.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 1 )
+text = "%by ownerowner"
+valign = 2
+clip_text = true
 
 [node name="RecordLabel" type="Label" parent="GameSummary/ContentSweeper/Record/HBoxContainer"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
@@ -485,6 +497,7 @@ valign = 2
 clip_text = true
 
 [node name="Hs" type="Control" parent="GameSummary/ContentSweeper"]
+visible = false
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0

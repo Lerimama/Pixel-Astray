@@ -248,7 +248,7 @@ var game_data_showcase: Dictionary = {
 
 # ON GAME START -----------------------------------------------------------------------------------
 
-var sweeper_tilemaps_folder: String = "res://game/tilemaps/sweeper/"
+#var sweeper_tilemaps_folder: String = "res://game/tilemaps/sweeper/"
 var game_settings: Dictionary# = default_game_settings # = {}
 var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
 var use_default_color_theme: bool = true

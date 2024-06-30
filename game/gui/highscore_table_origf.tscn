@@ -1,0 +1,472 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://game/gui/highscore_table.gd" type="Script" id=1]
+[ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=3]
+[ext_resource path="res://assets/resources/highscore_table_noscore_line.tres" type="StyleBox" id=4]
+
+[node name="HighscoreTable" type="VBoxContainer"]
+margin_top = -2.0
+margin_right = 216.0
+margin_bottom = 308.0
+rect_min_size = Vector2( 216, 0 )
+theme = ExtResource( 3 )
+custom_constants/separation = 10
+script = ExtResource( 1 )
+
+[node name="Title" type="Label" parent="."]
+margin_right = 216.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 28, 24 )
+size_flags_horizontal = 7
+size_flags_vertical = 0
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+text = "%Best gamers"
+align = 1
+
+[node name="Background2" type="ColorRect" parent="Title"]
+visible = false
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -32.0
+margin_top = -22.0
+margin_right = 32.0
+margin_bottom = 308.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="ScoreLine1" type="HBoxContainer" parent="."]
+margin_top = 34.0
+margin_right = 216.0
+margin_bottom = 52.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="ScoreLine1"]
+margin_right = 24.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "00."
+
+[node name="Owner" type="Label" parent="ScoreLine1"]
+visible = false
+margin_left = 28.0
+margin_right = 118.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "Characters"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="ScoreLine1"]
+visible = false
+margin_left = 122.0
+margin_right = 199.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 2 )
+text = "100000000"
+align = 2
+
+[node name="NoScoreLine" type="Label" parent="ScoreLine1"]
+margin_left = 28.0
+margin_right = 216.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 11
+custom_fonts/font = ExtResource( 2 )
+align = 2
+
+[node name="NoScoreLine" type="HSeparator" parent="ScoreLine1/NoScoreLine"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -4.0
+custom_styles/separator = ExtResource( 4 )
+
+[node name="ScoreLine2" type="HBoxContainer" parent="."]
+margin_top = 62.0
+margin_right = 216.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="ScoreLine2"]
+margin_right = 24.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "00."
+
+[node name="Owner" type="Label" parent="ScoreLine2"]
+margin_left = 28.0
+margin_right = 118.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "Characters"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="ScoreLine2"]
+margin_left = 139.0
+margin_right = 216.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 2 )
+text = "100000000"
+align = 2
+
+[node name="NoScoreLine" type="Label" parent="ScoreLine2"]
+visible = false
+margin_left = 203.0
+margin_right = 273.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 11
+custom_fonts/font = ExtResource( 2 )
+align = 2
+
+[node name="NoScoreLine" type="HSeparator" parent="ScoreLine2/NoScoreLine"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -4.0
+custom_styles/separator = ExtResource( 4 )
+
+[node name="ScoreLine3" type="HBoxContainer" parent="."]
+margin_top = 90.0
+margin_right = 216.0
+margin_bottom = 108.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="ScoreLine3"]
+margin_right = 24.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "00."
+
+[node name="Owner" type="Label" parent="ScoreLine3"]
+margin_left = 28.0
+margin_right = 118.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "Characters"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="ScoreLine3"]
+margin_left = 139.0
+margin_right = 216.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 2 )
+text = "100000000"
+align = 2
+
+[node name="NoScoreLine" type="Label" parent="ScoreLine3"]
+visible = false
+margin_left = 203.0
+margin_right = 273.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 11
+custom_fonts/font = ExtResource( 2 )
+align = 2
+
+[node name="NoScoreLine" type="HSeparator" parent="ScoreLine3/NoScoreLine"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -4.0
+custom_styles/separator = ExtResource( 4 )
+
+[node name="ScoreLine4" type="HBoxContainer" parent="."]
+margin_top = 118.0
+margin_right = 216.0
+margin_bottom = 136.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="ScoreLine4"]
+margin_right = 24.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "00."
+
+[node name="Owner" type="Label" parent="ScoreLine4"]
+margin_left = 28.0
+margin_right = 118.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "Characters"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="ScoreLine4"]
+margin_left = 139.0
+margin_right = 216.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 2 )
+text = "100000000"
+align = 2
+
+[node name="NoScoreLine" type="Label" parent="ScoreLine4"]
+visible = false
+margin_left = 203.0
+margin_right = 273.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 11
+custom_fonts/font = ExtResource( 2 )
+align = 2
+
+[node name="NoScoreLine" type="HSeparator" parent="ScoreLine4/NoScoreLine"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -4.0
+custom_styles/separator = ExtResource( 4 )
+
+[node name="ScoreLine5" type="HBoxContainer" parent="."]
+margin_top = 146.0
+margin_right = 216.0
+margin_bottom = 164.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="ScoreLine5"]
+margin_right = 24.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "00."
+
+[node name="Owner" type="Label" parent="ScoreLine5"]
+margin_left = 28.0
+margin_right = 118.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "Characters"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="ScoreLine5"]
+margin_left = 139.0
+margin_right = 216.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 2 )
+text = "100000000"
+align = 2
+
+[node name="NoScoreLine" type="Label" parent="ScoreLine5"]
+visible = false
+margin_left = 203.0
+margin_right = 273.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 11
+custom_fonts/font = ExtResource( 2 )
+align = 2
+
+[node name="NoScoreLine" type="HSeparator" parent="ScoreLine5/NoScoreLine"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -4.0
+custom_styles/separator = ExtResource( 4 )
+
+[node name="ScoreLine6" type="HBoxContainer" parent="."]
+margin_top = 174.0
+margin_right = 216.0
+margin_bottom = 192.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="ScoreLine6"]
+margin_right = 24.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "00."
+
+[node name="Owner" type="Label" parent="ScoreLine6"]
+margin_left = 28.0
+margin_right = 118.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "Characters"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="ScoreLine6"]
+margin_left = 139.0
+margin_right = 216.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 2 )
+text = "100000000"
+align = 2
+
+[node name="ScoreLine7" type="HBoxContainer" parent="."]
+margin_top = 202.0
+margin_right = 216.0
+margin_bottom = 220.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="ScoreLine7"]
+margin_right = 24.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "00."
+
+[node name="Owner" type="Label" parent="ScoreLine7"]
+margin_left = 28.0
+margin_right = 118.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "Characters"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="ScoreLine7"]
+margin_left = 139.0
+margin_right = 216.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 2 )
+text = "100000000"
+align = 2
+
+[node name="ScoreLine8" type="HBoxContainer" parent="."]
+margin_top = 230.0
+margin_right = 216.0
+margin_bottom = 248.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="ScoreLine8"]
+margin_right = 24.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "00."
+
+[node name="Owner" type="Label" parent="ScoreLine8"]
+margin_left = 28.0
+margin_right = 118.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "Characters"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="ScoreLine8"]
+margin_left = 139.0
+margin_right = 216.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 2 )
+text = "100000000"
+align = 2
+
+[node name="ScoreLine9" type="HBoxContainer" parent="."]
+margin_top = 258.0
+margin_right = 216.0
+margin_bottom = 276.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="ScoreLine9"]
+margin_right = 24.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "00."
+
+[node name="Owner" type="Label" parent="ScoreLine9"]
+margin_left = 28.0
+margin_right = 118.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "Characters"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="ScoreLine9"]
+margin_left = 139.0
+margin_right = 216.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 2 )
+text = "100000000"
+align = 2
+
+[node name="ScoreLine10" type="HBoxContainer" parent="."]
+margin_top = 286.0
+margin_right = 216.0
+margin_bottom = 304.0
+rect_min_size = Vector2( 72, 0 )
+
+[node name="Position" type="Label" parent="ScoreLine10"]
+margin_right = 24.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "00."
+
+[node name="Owner" type="Label" parent="ScoreLine10"]
+margin_left = 28.0
+margin_right = 118.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "Characters"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="ScoreLine10"]
+margin_left = 139.0
+margin_right = 216.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 2 )
+text = "100000000"
+align = 2

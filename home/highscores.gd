@@ -6,9 +6,11 @@ var fake_player_ranking: int = 100 # številka je ranking izven lestvice, da ni 
 onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
 
 onready var classic_table: VBoxContainer = $ClassicTable
+onready var cleaner_xs_table: VBoxContainer = $CleanerXSTable
 onready var cleaner_s_table: VBoxContainer = $CleanerSTable
 onready var cleaner_m_table: VBoxContainer = $CleanerMTable
 onready var cleaner_l_table: VBoxContainer = $CleanerLTable
+onready var cleaner_xl_table: VBoxContainer = $CleanerXLTable
 onready var chaser_table: VBoxContainer = $EraserTable
 onready var defender_table: VBoxContainer = $DefenderTable
 onready var sweeper_table: VBoxContainer = $SweeperTable
@@ -18,30 +20,20 @@ func _ready() -> void:
 	
 	var show_lines_count: int = 5
 	classic_table.get_highscore_table(Profiles.game_data_classic, fake_player_ranking, show_lines_count)
+	cleaner_xs_table.get_highscore_table(Profiles.game_data_cleaner_xs, fake_player_ranking, show_lines_count)
 	cleaner_s_table.get_highscore_table(Profiles.game_data_cleaner_s, fake_player_ranking, show_lines_count)
 	cleaner_m_table.get_highscore_table(Profiles.game_data_cleaner_m, fake_player_ranking, show_lines_count)
 	cleaner_l_table.get_highscore_table(Profiles.game_data_cleaner_l, fake_player_ranking, show_lines_count)
+	cleaner_xl_table.get_highscore_table(Profiles.game_data_cleaner_xl, fake_player_ranking, show_lines_count)
 	chaser_table.get_highscore_table(Profiles.game_data_chaser, fake_player_ranking, show_lines_count)
 	defender_table.get_highscore_table(Profiles.game_data_defender, fake_player_ranking, show_lines_count)
-	Profiles.game_data_sweeper["level"] = 1
-	sweeper_table.get_highscore_table(Profiles.game_data_sweeper, fake_player_ranking) # rabim 10 linij, ki so defaultne
+	sweeper_table.get_sweeper_highscore_table(Profiles.game_data_sweeper) # rabim 10 linij, ki so defaultne
 
 	# menu btn group
 	$BackBtn.add_to_group(Global.group_menu_cancel_btns)
 
-func _on_BackBtn_pressed() -> void:
-	
-	Global.sound_manager.play_gui_sfx("screen_slide")
-	animation_player.play_backwards("highscores")
-	
 			
-# sweeper table 
-
-func load_sweeper_top_scores_table(): # NXT
-	pass
-	
-	 
-func load_new_sweeper_table(next_or_prev_level: int):
+func load_new_sweeper_table_old(next_or_prev_level: int):
 	# ime save fileta SWEEPER_1_highscores.save
 	
 	# setam level v tabeli
@@ -93,15 +85,17 @@ func fade_in_sweeper_table():
 		
 	
 func _on_SweeperRightBtn_pressed() -> void:
-
-	load_new_sweeper_table(1)
+	
+	sweeper_table.load_sweeper_table_page(1)
 
 
 func _on_Sweeper_LeftBtn_pressed() -> void:
 	
-	load_new_sweeper_table(-1)
+	sweeper_table.load_sweeper_table_page(-1)
 	
 	
-
-
-
+func _on_BackBtn_pressed() -> void:
+	
+	Global.sound_manager.play_gui_sfx("screen_slide")
+	animation_player.play_backwards("highscores")
+	

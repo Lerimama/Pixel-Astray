@@ -4,6 +4,7 @@ class_name GameOver
 
 signal name_input_finished
 
+var p1_current_score: float
 var p1_final_stats: Dictionary
 var p2_final_stats: Dictionary
 var current_gameover_reason: int
@@ -79,12 +80,13 @@ func open_gameover(gameover_reason: int):
 		p2_final_stats = Global.game_manager.current_players_in_game[1].player_stats
 		set_duel_gameover_title()
 	else:
+		get_current_score()
 		if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW: # kadar se meri čas, obstaja cilj, da rankiraš
 			if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
-				score_is_ranking = Global.data_manager.manage_gameover_highscores(get_current_score(), Global.game_manager.game_data) 
+				score_is_ranking = Global.data_manager.manage_gameover_highscores(p1_current_score, Global.game_manager.game_data)
 				# yield čaka na konec preverke ... tip ni opredeljen, ker je ranking, če ni skora kot objecta, če je ranking
 		else:
-			score_is_ranking = Global.data_manager.manage_gameover_highscores(get_current_score(), Global.game_manager.game_data) 
+			score_is_ranking = Global.data_manager.manage_gameover_highscores(p1_current_score, Global.game_manager.game_data) 
 			# yield čaka na konec preverke ... tip ni opredeljen, ker je ranking, če ni skora kot objecta, če je ranking
 		
 		set_gameover_title()
@@ -225,7 +227,8 @@ func show_gameover_title():
 		# hs table ... pravi content se seta v set summary
 		if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 			highscore_table = $GameSummary/ContentSweeper/Hs/HighscoreTable
-			highscore_table.get_highscore_table(Global.game_manager.game_data, current_player_rank, 1)
+			highscore_table.get_highscore_table(Global.game_manager.game_data, current_player_rank, 1)  
+			# lahko bi klical get_sweeper_highscore_table, pa bi bilo treba veliko predelat
 		else:
 			highscore_table = $GameSummary/Content/Hs/HighscoreTable
 			highscore_table.get_highscore_table(Global.game_manager.game_data, current_player_rank)
@@ -243,7 +246,6 @@ func set_game_summary():
 	else: 
 		selected_content = $GameSummary/Content
 	
-#	highscore_table = selected_content.get_node("Hs/HighscoreTable")
 	var summary_title: Label = selected_content.get_node("Title")
 	
 	# stats v zaporedju prikaza
@@ -277,24 +279,31 @@ func set_game_summary():
 		var record_title: Label = selected_content.get_node("Record/RecordTitle")
 		var record_label: Label = selected_content.get_node("Record/HBoxContainer/RecordLabel")
 		var record_owner: Label = selected_content.get_node("Record/HBoxContainer/RecordOwner")
+		var record_missed: Label = selected_content.get_node("Record/HBoxContainer/RecordMissed")
 		
-		# če nisi uspel je zapisen rekordje samo cleaned je star rekord in za kol si zgrešil
+		# če nisi uspel je zapisen rekord je samo cleaned je star rekord in za kol si zgrešil
 		if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
 			# če je ranking so čestitke za rekord
 			if score_is_ranking:
-				record_title.text = "New SWEEPER %02d record time" % Global.game_manager.game_data["level"]
-				record_label.text = highscore_table.get_node("ScoreLine1/Owner").text
-				record_owner.text = "by you"
+				record_title.text = "New record time:"
+				record_title.modulate = Global.color_green
+				record_label.text = highscore_table.get_node("ScoreLine/Score").text
+				record_owner.text = "by You"
 			# če je samo cleaned je star rekord in za kol si zgrešil
 			else:
-				record_title.text = "Just missed the record ... %s" % Global.game_manager.game_data["level"]
+				record_title.text = "You missed the record ..." 
+				record_title.modulate = Global.color_red
+				# koliko časa je zmanjkalo?
 				var missed_record_by_time: float = Global.hud.game_timer.absolute_game_time - Global.hud.current_highscore
-				record_label.text = Global.get_clock_time(missed_record_by_time)
-				record_owner.text = "longer than current record" % Global.get_clock_time(Global.hud.current_highscore)
+				var missed_record_by_time_seconds: int = floor(missed_record_by_time)
+				var missed_record_by_hunds: float = floor((missed_record_by_time - missed_record_by_time_seconds) * 100)
+				missed_record_by_time = missed_record_by_time_seconds + missed_record_by_hunds / 100
+				record_label.text = str(missed_record_by_time)
+				record_owner.text = "seconds to slow"
 		else:	
-			record_title.text = "Record time:" % Global.game_manager.game_data["level"]
-			record_label.text = highscore_table.get_node("ScoreLine1/Score").text
-			record_owner.text = "by %s" % highscore_table.get_node("ScoreLine1/Owner").text
+			record_title.text = "Best Sweeper %02d time:" % Global.game_manager.game_data["level"]
+			record_label.text = highscore_table.get_node("ScoreLine/Score").text
+			record_owner.text = "by %s" % highscore_table.get_node("ScoreLine/Owner").text
 
 		# select level btns
 		select_level_btns_holder.select_level_btns_holder_parent = self	
@@ -387,14 +396,12 @@ func show_menu():
 func get_current_score():
 	
 	# ranking preverim že tukaj, da lahko obarvam title
-	var current_score: float
 	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_POINTS:
-		current_score = p1_final_stats["player_points"]
+		p1_current_score = p1_final_stats["player_points"]
 	elif Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_COLORS:
-		current_score = p1_final_stats["colors_collected"]
+		p1_current_score = p1_final_stats["colors_collected"]
 	else: # time low and high
-		current_score = Global.hud.game_timer.absolute_game_time
-	return current_score
+		p1_current_score = Global.hud.game_timer.absolute_game_time
 	
 	
 func play_selected_level(selected_level: int):

@@ -1675,6 +1675,7 @@ theme = ExtResource( 15 )
 script = ExtResource( 13 )
 
 [node name="Title" type="Label" parent="SelectGame"]
+modulate = Color( 1, 1, 1, 0.470588 )
 margin_left = 7.0
 margin_top = 70.0
 margin_right = 223.0
@@ -2550,604 +2551,54 @@ margin_bottom = 11.0
 [node name="ClassicTable" parent="Highscores" instance=ExtResource( 21 )]
 margin_left = 64.0
 margin_top = 142.0
-margin_right = 288.0
+margin_right = 320.0
 margin_bottom = 306.0
-rect_min_size = Vector2( 224, 0 )
 theme = null
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Title" parent="Highscores/ClassicTable" index="0"]
-margin_right = 224.0
+margin_right = 256.0
 
 [node name="Background2" parent="Highscores/ClassicTable/Title" index="0"]
 margin_bottom = 170.0
 
-[node name="ScoreLine1" parent="Highscores/ClassicTable" index="1"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/ClassicTable/ScoreLine1" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/ClassicTable/ScoreLine1" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine2" parent="Highscores/ClassicTable" index="2"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/ClassicTable/ScoreLine2" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/ClassicTable/ScoreLine2" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine3" parent="Highscores/ClassicTable" index="3"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/ClassicTable/ScoreLine3" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/ClassicTable/ScoreLine3" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine4" parent="Highscores/ClassicTable" index="4"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/ClassicTable/ScoreLine4" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/ClassicTable/ScoreLine4" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine5" parent="Highscores/ClassicTable" index="5"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/ClassicTable/ScoreLine5" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/ClassicTable/ScoreLine5" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine6" parent="Highscores/ClassicTable" index="6"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/ClassicTable/ScoreLine6" index="2"]
-margin_left = 128.0
-margin_right = 250.0
-
-[node name="ScoreLine7" parent="Highscores/ClassicTable" index="7"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/ClassicTable/ScoreLine7" index="2"]
-margin_left = 128.0
-margin_right = 250.0
-
-[node name="ScoreLine8" parent="Highscores/ClassicTable" index="8"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/ClassicTable/ScoreLine8" index="2"]
-margin_left = 128.0
-margin_right = 250.0
-
-[node name="ScoreLine9" parent="Highscores/ClassicTable" index="9"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/ClassicTable/ScoreLine9" index="2"]
-margin_left = 128.0
-margin_right = 250.0
-
-[node name="ScoreLine10" parent="Highscores/ClassicTable" index="10"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/ClassicTable/ScoreLine10" index="2"]
-margin_left = 128.0
-margin_right = 250.0
-
-[node name="CleanerSTable" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = 64.0
-margin_top = 342.0
-margin_right = 288.0
-margin_bottom = 506.0
-rect_min_size = Vector2( 224, 0 )
-theme = null
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" parent="Highscores/CleanerSTable" index="0"]
-margin_right = 224.0
-
-[node name="Background2" parent="Highscores/CleanerSTable/Title" index="0"]
-margin_bottom = 170.0
-
-[node name="ScoreLine1" parent="Highscores/CleanerSTable" index="1"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/CleanerSTable/ScoreLine1" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/CleanerSTable/ScoreLine1" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine2" parent="Highscores/CleanerSTable" index="2"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/CleanerSTable/ScoreLine2" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/CleanerSTable/ScoreLine2" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine3" parent="Highscores/CleanerSTable" index="3"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/CleanerSTable/ScoreLine3" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/CleanerSTable/ScoreLine3" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine4" parent="Highscores/CleanerSTable" index="4"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/CleanerSTable/ScoreLine4" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/CleanerSTable/ScoreLine4" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine5" parent="Highscores/CleanerSTable" index="5"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/CleanerSTable/ScoreLine5" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/CleanerSTable/ScoreLine5" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine6" parent="Highscores/CleanerSTable" index="6"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerSTable/ScoreLine6" index="2"]
-margin_left = 128.0
-margin_right = 250.0
-
-[node name="ScoreLine7" parent="Highscores/CleanerSTable" index="7"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerSTable/ScoreLine7" index="2"]
-margin_left = 128.0
-margin_right = 250.0
-
-[node name="ScoreLine8" parent="Highscores/CleanerSTable" index="8"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerSTable/ScoreLine8" index="2"]
-margin_left = 128.0
-margin_right = 250.0
-
-[node name="ScoreLine9" parent="Highscores/CleanerSTable" index="9"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerSTable/ScoreLine9" index="2"]
-margin_left = 128.0
-margin_right = 250.0
-
-[node name="ScoreLine10" parent="Highscores/CleanerSTable" index="10"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerSTable/ScoreLine10" index="2"]
-margin_left = 128.0
-margin_right = 250.0
-
-[node name="CleanerMTable" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = 360.0
-margin_top = 342.0
-margin_right = 584.0
-margin_bottom = 506.0
-rect_min_size = Vector2( 224, 0 )
-theme = null
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" parent="Highscores/CleanerMTable" index="0"]
-margin_right = 224.0
-
-[node name="Background2" parent="Highscores/CleanerMTable/Title" index="0"]
-margin_bottom = 170.0
-
-[node name="ScoreLine1" parent="Highscores/CleanerMTable" index="1"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/CleanerMTable/ScoreLine1" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/CleanerMTable/ScoreLine1" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine2" parent="Highscores/CleanerMTable" index="2"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/CleanerMTable/ScoreLine2" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/CleanerMTable/ScoreLine2" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine3" parent="Highscores/CleanerMTable" index="3"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/CleanerMTable/ScoreLine3" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/CleanerMTable/ScoreLine3" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine4" parent="Highscores/CleanerMTable" index="4"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/CleanerMTable/ScoreLine4" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/CleanerMTable/ScoreLine4" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine5" parent="Highscores/CleanerMTable" index="5"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/CleanerMTable/ScoreLine5" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/CleanerMTable/ScoreLine5" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine6" parent="Highscores/CleanerMTable" index="6"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerMTable/ScoreLine6" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine7" parent="Highscores/CleanerMTable" index="7"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerMTable/ScoreLine7" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine8" parent="Highscores/CleanerMTable" index="8"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerMTable/ScoreLine8" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine9" parent="Highscores/CleanerMTable" index="9"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerMTable/ScoreLine9" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine10" parent="Highscores/CleanerMTable" index="10"]
-visible = false
-margin_top = 116.0
-margin_right = 250.0
-margin_bottom = 138.0
-
-[node name="Score" parent="Highscores/CleanerMTable/ScoreLine10" index="2"]
-margin_left = 128.0
-margin_right = 250.0
-
-[node name="CleanerLTable" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = 656.0
-margin_top = 342.0
-margin_right = 880.0
-margin_bottom = 506.0
-rect_min_size = Vector2( 224, 0 )
-theme = null
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" parent="Highscores/CleanerLTable" index="0"]
-margin_right = 224.0
-
-[node name="Background2" parent="Highscores/CleanerLTable/Title" index="0"]
-margin_bottom = 170.0
-
-[node name="ScoreLine1" parent="Highscores/CleanerLTable" index="1"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/CleanerLTable/ScoreLine1" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/CleanerLTable/ScoreLine1" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine2" parent="Highscores/CleanerLTable" index="2"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/CleanerLTable/ScoreLine2" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/CleanerLTable/ScoreLine2" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine3" parent="Highscores/CleanerLTable" index="3"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/CleanerLTable/ScoreLine3" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/CleanerLTable/ScoreLine3" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine4" parent="Highscores/CleanerLTable" index="4"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/CleanerLTable/ScoreLine4" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/CleanerLTable/ScoreLine4" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine5" parent="Highscores/CleanerLTable" index="5"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/CleanerLTable/ScoreLine5" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/CleanerLTable/ScoreLine5" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine6" parent="Highscores/CleanerLTable" index="6"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerLTable/ScoreLine6" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine7" parent="Highscores/CleanerLTable" index="7"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerLTable/ScoreLine7" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine8" parent="Highscores/CleanerLTable" index="8"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerLTable/ScoreLine8" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine9" parent="Highscores/CleanerLTable" index="9"]
-visible = false
-margin_right = 250.0
-
-[node name="Score" parent="Highscores/CleanerLTable/ScoreLine9" index="2"]
-margin_left = 180.0
-margin_right = 250.0
-
-[node name="ScoreLine10" parent="Highscores/CleanerLTable" index="10"]
-visible = false
-margin_top = 116.0
-margin_right = 250.0
-margin_bottom = 138.0
-
-[node name="Score" parent="Highscores/CleanerLTable/ScoreLine10" index="2"]
-margin_left = 128.0
-margin_right = 250.0
-
-[node name="EraserTable" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = 360.0
-margin_top = 142.0
-margin_right = 584.0
-margin_bottom = 306.0
-rect_min_size = Vector2( 224, 0 )
-theme = null
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" parent="Highscores/EraserTable" index="0"]
-margin_right = 224.0
-
-[node name="Background2" parent="Highscores/EraserTable/Title" index="0"]
-margin_bottom = 170.0
-
-[node name="ScoreLine1" parent="Highscores/EraserTable" index="1"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/EraserTable/ScoreLine1" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/EraserTable/ScoreLine1" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine2" parent="Highscores/EraserTable" index="2"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/EraserTable/ScoreLine2" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/EraserTable/ScoreLine2" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine3" parent="Highscores/EraserTable" index="3"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/EraserTable/ScoreLine3" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/EraserTable/ScoreLine3" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine4" parent="Highscores/EraserTable" index="4"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/EraserTable/ScoreLine4" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/EraserTable/ScoreLine4" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine5" parent="Highscores/EraserTable" index="5"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/EraserTable/ScoreLine5" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/EraserTable/ScoreLine5" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine6" parent="Highscores/EraserTable" index="6"]
-visible = false
-
-[node name="ScoreLine7" parent="Highscores/EraserTable" index="7"]
-visible = false
-
-[node name="ScoreLine8" parent="Highscores/EraserTable" index="8"]
-visible = false
-
-[node name="ScoreLine9" parent="Highscores/EraserTable" index="9"]
-visible = false
-
-[node name="ScoreLine10" parent="Highscores/EraserTable" index="10"]
-visible = false
+[node name="ScoreLine" parent="Highscores/ClassicTable" index="1"]
+margin_right = 256.0
+
+[node name="Score" parent="Highscores/ClassicTable/ScoreLine" index="2"]
+margin_left = 179.0
+margin_right = 256.0
 
 [node name="DefenderTable" parent="Highscores" instance=ExtResource( 21 )]
 margin_left = 656.0
 margin_top = 142.0
-margin_right = 880.0
+margin_right = 912.0
 margin_bottom = 306.0
-rect_min_size = Vector2( 224, 0 )
 theme = null
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Title" parent="Highscores/DefenderTable" index="0"]
-margin_right = 224.0
+margin_right = 256.0
 
 [node name="Background2" parent="Highscores/DefenderTable/Title" index="0"]
 margin_bottom = 170.0
 
-[node name="ScoreLine1" parent="Highscores/DefenderTable" index="1"]
-margin_right = 224.0
+[node name="ScoreLine" parent="Highscores/DefenderTable" index="1"]
+margin_right = 256.0
 
-[node name="Score" parent="Highscores/DefenderTable/ScoreLine1" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/DefenderTable/ScoreLine1" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine2" parent="Highscores/DefenderTable" index="2"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/DefenderTable/ScoreLine2" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/DefenderTable/ScoreLine2" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine3" parent="Highscores/DefenderTable" index="3"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/DefenderTable/ScoreLine3" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/DefenderTable/ScoreLine3" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine4" parent="Highscores/DefenderTable" index="4"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/DefenderTable/ScoreLine4" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/DefenderTable/ScoreLine4" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine5" parent="Highscores/DefenderTable" index="5"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores/DefenderTable/ScoreLine5" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="NoScoreLine" parent="Highscores/DefenderTable/ScoreLine5" index="3"]
-margin_right = 224.0
-
-[node name="ScoreLine6" parent="Highscores/DefenderTable" index="6"]
-visible = false
-
-[node name="ScoreLine7" parent="Highscores/DefenderTable" index="7"]
-visible = false
-
-[node name="ScoreLine8" parent="Highscores/DefenderTable" index="8"]
-visible = false
-
-[node name="ScoreLine9" parent="Highscores/DefenderTable" index="9"]
-visible = false
-
-[node name="ScoreLine10" parent="Highscores/DefenderTable" index="10"]
-visible = false
+[node name="Score" parent="Highscores/DefenderTable/ScoreLine" index="2"]
+margin_left = 179.0
+margin_right = 256.0
 
 [node name="SweeperTable" parent="Highscores" instance=ExtResource( 21 )]
 margin_left = 952.0
 margin_top = 142.0
 margin_right = 1216.0
-margin_bottom = 446.0
+margin_bottom = 640.0
 theme = null
 __meta__ = {
 "_edit_group_": true
@@ -3159,130 +2610,156 @@ margin_right = 264.0
 [node name="Background2" parent="Highscores/SweeperTable/Title" index="0"]
 margin_bottom = 394.0
 
-[node name="ScoreLine1" parent="Highscores/SweeperTable" index="1"]
+[node name="ScoreLine" parent="Highscores/SweeperTable" index="1"]
 margin_right = 264.0
 
-[node name="Score" parent="Highscores/SweeperTable/ScoreLine1" index="2"]
-margin_left = 194.0
-margin_right = 264.0
-text = "00:00:00"
-
-[node name="NoScoreLine" parent="Highscores/SweeperTable/ScoreLine1" index="3"]
+[node name="Score" parent="Highscores/SweeperTable/ScoreLine" index="2"]
+margin_left = 187.0
 margin_right = 264.0
 
-[node name="ScoreLine2" parent="Highscores/SweeperTable" index="2"]
+[node name="CleanerXSTable" parent="Highscores" instance=ExtResource( 21 )]
+margin_left = 64.0
+margin_top = 358.0
 margin_right = 264.0
+margin_bottom = 522.0
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
 
-[node name="Score" parent="Highscores/SweeperTable/ScoreLine2" index="2"]
-margin_left = 194.0
-margin_right = 264.0
-text = "00:00:00"
+[node name="Title" parent="Highscores/CleanerXSTable" index="0"]
+margin_right = 200.0
 
-[node name="NoScoreLine" parent="Highscores/SweeperTable/ScoreLine2" index="3"]
-margin_left = 196.0
-margin_right = 264.0
+[node name="Background2" parent="Highscores/CleanerXSTable/Title" index="0"]
+margin_bottom = 170.0
 
-[node name="ScoreLine3" parent="Highscores/SweeperTable" index="3"]
-margin_right = 264.0
+[node name="ScoreLine" parent="Highscores/CleanerXSTable" index="1"]
+margin_right = 200.0
 
-[node name="Score" parent="Highscores/SweeperTable/ScoreLine3" index="2"]
-margin_left = 194.0
-margin_right = 264.0
-text = "00:00:00"
+[node name="Score" parent="Highscores/CleanerXSTable/ScoreLine" index="2"]
+margin_left = 123.0
+margin_right = 200.0
 
-[node name="NoScoreLine" parent="Highscores/SweeperTable/ScoreLine3" index="3"]
-margin_left = 196.0
-margin_right = 264.0
+[node name="CleanerSTable" parent="Highscores" instance=ExtResource( 21 )]
+margin_left = 302.0
+margin_top = 358.0
+margin_right = 502.0
+margin_bottom = 522.0
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
 
-[node name="ScoreLine4" parent="Highscores/SweeperTable" index="4"]
-margin_right = 264.0
+[node name="Title" parent="Highscores/CleanerSTable" index="0"]
+margin_right = 200.0
 
-[node name="Score" parent="Highscores/SweeperTable/ScoreLine4" index="2"]
-margin_left = 194.0
-margin_right = 264.0
-text = "00:00:00"
+[node name="Background2" parent="Highscores/CleanerSTable/Title" index="0"]
+margin_bottom = 170.0
 
-[node name="NoScoreLine" parent="Highscores/SweeperTable/ScoreLine4" index="3"]
-margin_left = 196.0
-margin_right = 264.0
+[node name="ScoreLine" parent="Highscores/CleanerSTable" index="1"]
+margin_right = 200.0
 
-[node name="ScoreLine5" parent="Highscores/SweeperTable" index="5"]
-margin_right = 264.0
+[node name="Score" parent="Highscores/CleanerSTable/ScoreLine" index="2"]
+margin_left = 123.0
+margin_right = 200.0
 
-[node name="Score" parent="Highscores/SweeperTable/ScoreLine5" index="2"]
-margin_left = 194.0
-margin_right = 264.0
-text = "00:00:00"
+[node name="CleanerMTable" parent="Highscores" instance=ExtResource( 21 )]
+margin_left = 540.0
+margin_top = 358.0
+margin_right = 739.0
+margin_bottom = 522.0
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
 
-[node name="NoScoreLine" parent="Highscores/SweeperTable/ScoreLine5" index="3"]
-margin_left = 196.0
-margin_right = 264.0
+[node name="Title" parent="Highscores/CleanerMTable" index="0"]
+margin_right = 199.0
 
-[node name="ScoreLine6" parent="Highscores/SweeperTable" index="6"]
-margin_right = 264.0
+[node name="Background2" parent="Highscores/CleanerMTable/Title" index="0"]
+margin_bottom = 170.0
 
-[node name="Score" parent="Highscores/SweeperTable/ScoreLine6" index="2"]
-margin_left = 194.0
-margin_right = 264.0
-text = "00:00:00"
+[node name="ScoreLine" parent="Highscores/CleanerMTable" index="1"]
+margin_right = 199.0
 
-[node name="NoScoreLine" parent="Highscores/SweeperTable/ScoreLine6" index="3"]
-margin_left = 196.0
-margin_right = 264.0
+[node name="Score" parent="Highscores/CleanerMTable/ScoreLine" index="2"]
+margin_left = 122.0
+margin_right = 199.0
 
-[node name="ScoreLine7" parent="Highscores/SweeperTable" index="7"]
-margin_right = 264.0
+[node name="CleanerLTable" parent="Highscores" instance=ExtResource( 21 )]
+margin_left = 778.0
+margin_top = 358.0
+margin_right = 978.0
+margin_bottom = 522.0
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
 
-[node name="Score" parent="Highscores/SweeperTable/ScoreLine7" index="2"]
-margin_left = 194.0
-margin_right = 264.0
-text = "00:00:00"
+[node name="Title" parent="Highscores/CleanerLTable" index="0"]
+margin_right = 200.0
 
-[node name="NoScoreLine" parent="Highscores/SweeperTable/ScoreLine7" index="3"]
-margin_left = 196.0
-margin_right = 264.0
+[node name="Background2" parent="Highscores/CleanerLTable/Title" index="0"]
+margin_bottom = 170.0
 
-[node name="ScoreLine8" parent="Highscores/SweeperTable" index="8"]
-margin_right = 264.0
+[node name="ScoreLine" parent="Highscores/CleanerLTable" index="1"]
+margin_right = 200.0
 
-[node name="Score" parent="Highscores/SweeperTable/ScoreLine8" index="2"]
-margin_left = 194.0
-margin_right = 264.0
-text = "00:00:00"
+[node name="Score" parent="Highscores/CleanerLTable/ScoreLine" index="2"]
+margin_left = 123.0
+margin_right = 200.0
 
-[node name="NoScoreLine" parent="Highscores/SweeperTable/ScoreLine8" index="3"]
-margin_left = 196.0
-margin_right = 264.0
+[node name="CleanerXLTable" parent="Highscores" instance=ExtResource( 21 )]
+margin_left = 1017.0
+margin_top = 358.0
+margin_right = 1216.0
+margin_bottom = 522.0
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
 
-[node name="ScoreLine9" parent="Highscores/SweeperTable" index="9"]
-margin_right = 264.0
+[node name="Title" parent="Highscores/CleanerXLTable" index="0"]
+margin_right = 199.0
 
-[node name="Score" parent="Highscores/SweeperTable/ScoreLine9" index="2"]
-margin_left = 194.0
-margin_right = 264.0
-text = "00:00:00"
+[node name="Background2" parent="Highscores/CleanerXLTable/Title" index="0"]
+margin_bottom = 170.0
 
-[node name="NoScoreLine" parent="Highscores/SweeperTable/ScoreLine9" index="3"]
-margin_left = 196.0
-margin_right = 264.0
+[node name="ScoreLine" parent="Highscores/CleanerXLTable" index="1"]
+margin_right = 199.0
 
-[node name="ScoreLine10" parent="Highscores/SweeperTable" index="10"]
-margin_right = 264.0
+[node name="Score" parent="Highscores/CleanerXLTable/ScoreLine" index="2"]
+margin_left = 122.0
+margin_right = 199.0
 
-[node name="Score" parent="Highscores/SweeperTable/ScoreLine10" index="2"]
-margin_left = 194.0
-margin_right = 264.0
-text = "00:00:00"
+[node name="EraserTable" parent="Highscores" instance=ExtResource( 21 )]
+margin_left = 360.0
+margin_top = 142.0
+margin_right = 616.0
+margin_bottom = 306.0
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
 
-[node name="NoScoreLine" parent="Highscores/SweeperTable/ScoreLine10" index="3"]
-margin_left = 196.0
-margin_right = 264.0
+[node name="Title" parent="Highscores/EraserTable" index="0"]
+margin_right = 256.0
+
+[node name="Background2" parent="Highscores/EraserTable/Title" index="0"]
+margin_bottom = 170.0
+
+[node name="ScoreLine" parent="Highscores/EraserTable" index="1"]
+margin_right = 256.0
+
+[node name="Score" parent="Highscores/EraserTable/ScoreLine" index="2"]
+margin_left = 179.0
+margin_right = 256.0
 
 [node name="SweeperArrows" type="Control" parent="Highscores"]
-margin_left = 952.0
-margin_top = 146.0
+margin_left = 1192.0
+margin_top = 145.0
 margin_right = 1216.0
-margin_bottom = 160.0
+margin_bottom = 159.0
 grow_horizontal = 2
 theme = ExtResource( 15 )
 __meta__ = {
@@ -3352,6 +2829,359 @@ margin_bottom = 580.0
 __meta__ = {
 "_edit_group_": true
 }
+
+[node name="Highscores2" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -592.0
+margin_right = 1280.0
+rect_min_size = Vector2( 1280, 520 )
+theme = ExtResource( 15 )
+script = ExtResource( 8 )
+
+[node name="Title" type="Label" parent="Highscores2"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -96.0
+margin_top = 70.0
+margin_right = 96.0
+margin_bottom = 102.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 0.996078, 0.976471, 0.545098, 1 )
+custom_fonts/font = ExtResource( 4 )
+text = "Highscores"
+align = 1
+
+[node name="HSeparator" type="HSeparator" parent="Highscores2/Title"]
+visible = false
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = 7.0
+margin_right = -4.0
+margin_bottom = 11.0
+
+[node name="ClassicTable" parent="Highscores2" instance=ExtResource( 21 )]
+margin_left = 64.0
+margin_top = 142.0
+margin_right = 288.0
+margin_bottom = 306.0
+rect_min_size = Vector2( 224, 0 )
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" parent="Highscores2/ClassicTable" index="0"]
+margin_right = 224.0
+
+[node name="Background2" parent="Highscores2/ClassicTable/Title" index="0"]
+margin_bottom = 170.0
+
+[node name="ScoreLine" parent="Highscores2/ClassicTable" index="1"]
+margin_right = 224.0
+
+[node name="Score" parent="Highscores2/ClassicTable/ScoreLine" index="2"]
+margin_left = 147.0
+margin_right = 224.0
+
+[node name="EraserTable" parent="Highscores2" instance=ExtResource( 21 )]
+margin_left = 320.0
+margin_top = 142.0
+margin_right = 544.0
+margin_bottom = 306.0
+rect_min_size = Vector2( 224, 0 )
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" parent="Highscores2/EraserTable" index="0"]
+margin_right = 224.0
+
+[node name="Background2" parent="Highscores2/EraserTable/Title" index="0"]
+margin_bottom = 170.0
+
+[node name="ScoreLine" parent="Highscores2/EraserTable" index="1"]
+margin_right = 224.0
+
+[node name="Score" parent="Highscores2/EraserTable/ScoreLine" index="2"]
+margin_left = 147.0
+margin_right = 224.0
+
+[node name="DefenderTable" parent="Highscores2" instance=ExtResource( 21 )]
+margin_left = 576.0
+margin_top = 142.0
+margin_right = 800.0
+margin_bottom = 306.0
+rect_min_size = Vector2( 224, 0 )
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" parent="Highscores2/DefenderTable" index="0"]
+margin_right = 224.0
+
+[node name="Background2" parent="Highscores2/DefenderTable/Title" index="0"]
+margin_bottom = 170.0
+
+[node name="ScoreLine" parent="Highscores2/DefenderTable" index="1"]
+margin_right = 224.0
+
+[node name="Score" parent="Highscores2/DefenderTable/ScoreLine" index="2"]
+margin_left = 147.0
+margin_right = 224.0
+
+[node name="CleanerXSTable" parent="Highscores2" instance=ExtResource( 21 )]
+margin_left = 64.0
+margin_top = 342.0
+margin_right = 288.0
+margin_bottom = 506.0
+rect_min_size = Vector2( 224, 0 )
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" parent="Highscores2/CleanerXSTable" index="0"]
+margin_right = 224.0
+
+[node name="Background2" parent="Highscores2/CleanerXSTable/Title" index="0"]
+margin_bottom = 170.0
+
+[node name="ScoreLine" parent="Highscores2/CleanerXSTable" index="1"]
+margin_right = 224.0
+
+[node name="Score" parent="Highscores2/CleanerXSTable/ScoreLine" index="2"]
+margin_left = 147.0
+margin_right = 224.0
+
+[node name="CleanerSTable" parent="Highscores2" instance=ExtResource( 21 )]
+margin_left = 64.0
+margin_top = 342.0
+margin_right = 288.0
+margin_bottom = 506.0
+rect_min_size = Vector2( 224, 0 )
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" parent="Highscores2/CleanerSTable" index="0"]
+margin_right = 224.0
+
+[node name="Background2" parent="Highscores2/CleanerSTable/Title" index="0"]
+margin_bottom = 170.0
+
+[node name="ScoreLine" parent="Highscores2/CleanerSTable" index="1"]
+margin_right = 224.0
+
+[node name="Score" parent="Highscores2/CleanerSTable/ScoreLine" index="2"]
+margin_left = 147.0
+margin_right = 224.0
+
+[node name="CleanerMTable" parent="Highscores2" instance=ExtResource( 21 )]
+margin_left = 360.0
+margin_top = 342.0
+margin_right = 584.0
+margin_bottom = 506.0
+rect_min_size = Vector2( 224, 0 )
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" parent="Highscores2/CleanerMTable" index="0"]
+margin_right = 224.0
+
+[node name="Background2" parent="Highscores2/CleanerMTable/Title" index="0"]
+margin_bottom = 170.0
+
+[node name="ScoreLine" parent="Highscores2/CleanerMTable" index="1"]
+margin_right = 224.0
+
+[node name="Score" parent="Highscores2/CleanerMTable/ScoreLine" index="2"]
+margin_left = 147.0
+margin_right = 224.0
+
+[node name="CleanerLTable" parent="Highscores2" instance=ExtResource( 21 )]
+margin_left = 656.0
+margin_top = 342.0
+margin_right = 880.0
+margin_bottom = 506.0
+rect_min_size = Vector2( 224, 0 )
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" parent="Highscores2/CleanerLTable" index="0"]
+margin_right = 224.0
+
+[node name="Background2" parent="Highscores2/CleanerLTable/Title" index="0"]
+margin_bottom = 170.0
+
+[node name="ScoreLine" parent="Highscores2/CleanerLTable" index="1"]
+margin_right = 224.0
+
+[node name="Score" parent="Highscores2/CleanerLTable/ScoreLine" index="2"]
+margin_left = 147.0
+margin_right = 224.0
+
+[node name="CleanerXLTable" parent="Highscores2" instance=ExtResource( 21 )]
+margin_left = 656.0
+margin_top = 342.0
+margin_right = 880.0
+margin_bottom = 506.0
+rect_min_size = Vector2( 224, 0 )
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" parent="Highscores2/CleanerXLTable" index="0"]
+margin_right = 224.0
+
+[node name="Background2" parent="Highscores2/CleanerXLTable/Title" index="0"]
+margin_bottom = 170.0
+
+[node name="ScoreLine" parent="Highscores2/CleanerXLTable" index="1"]
+margin_right = 224.0
+
+[node name="Score" parent="Highscores2/CleanerXLTable/ScoreLine" index="2"]
+margin_left = 147.0
+margin_right = 224.0
+
+[node name="SweeperTable" parent="Highscores2" instance=ExtResource( 21 )]
+margin_left = 952.0
+margin_top = 142.0
+margin_right = 1216.0
+margin_bottom = 640.0
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" parent="Highscores2/SweeperTable" index="0"]
+margin_right = 264.0
+
+[node name="Background2" parent="Highscores2/SweeperTable/Title" index="0"]
+margin_bottom = 394.0
+
+[node name="ScoreLine" parent="Highscores2/SweeperTable" index="1"]
+margin_right = 264.0
+
+[node name="Score" parent="Highscores2/SweeperTable/ScoreLine" index="2"]
+margin_left = 187.0
+margin_right = 264.0
+
+[node name="SweeperArrows" type="Control" parent="Highscores2"]
+margin_left = 1192.0
+margin_top = 146.0
+margin_right = 1216.0
+margin_bottom = 160.0
+grow_horizontal = 2
+theme = ExtResource( 15 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="LeftBtn" type="TextureButton" parent="Highscores2/SweeperArrows"]
+margin_left = -5.0
+margin_top = 1.0
+margin_right = 11.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 16, 16 )
+focus_neighbour_left = NodePath("../RightBtn")
+focus_neighbour_top = NodePath("../../BackBtn")
+focus_neighbour_right = NodePath("../RightBtn")
+focus_neighbour_bottom = NodePath("../../BackBtn")
+mouse_default_cursor_shape = 2
+size_flags_vertical = 4
+texture_normal = SubResource( 335 )
+texture_hover = SubResource( 336 )
+texture_focused = SubResource( 336 )
+expand = true
+stretch_mode = 3
+flip_h = true
+
+[node name="RightBtn" type="TextureButton" parent="Highscores2/SweeperArrows"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -11.0
+margin_top = 1.0
+margin_right = 5.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 16, 16 )
+focus_neighbour_left = NodePath("../LeftBtn")
+focus_neighbour_top = NodePath("../../BackBtn")
+focus_neighbour_right = NodePath("../LeftBtn")
+focus_neighbour_bottom = NodePath("../../BackBtn")
+mouse_default_cursor_shape = 2
+size_flags_vertical = 4
+texture_normal = SubResource( 335 )
+texture_hover = SubResource( 336 )
+texture_focused = SubResource( 336 )
+expand = true
+stretch_mode = 3
+
+[node name="BackBtn" type="TextureButton" parent="Highscores2"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -64.0
+margin_top = 74.0
+margin_right = -40.0
+margin_bottom = 96.0
+rect_min_size = Vector2( 16, 16 )
+rect_rotation = 89.9999
+focus_neighbour_top = NodePath("../SweeperArrows/RightBtn")
+mouse_default_cursor_shape = 2
+texture_normal = SubResource( 195 )
+texture_hover = SubResource( 196 )
+texture_focused = SubResource( 196 )
+
+[node name="EscHint" parent="Highscores2" instance=ExtResource( 11 )]
+visible = false
+margin_left = 982.0
+margin_top = 558.0
+margin_right = 1216.0
+margin_bottom = 580.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ColorRect" type="ColorRect" parent="Highscores2"]
+margin_left = 64.0
+margin_top = 216.0
+margin_right = 288.0
+margin_bottom = 256.0
+
+[node name="ColorRect2" type="ColorRect" parent="Highscores2"]
+margin_left = 320.0
+margin_top = 216.0
+margin_right = 544.0
+margin_bottom = 256.0
+
+[node name="ColorRect5" type="ColorRect" parent="Highscores2"]
+margin_left = 576.0
+margin_top = 216.0
+margin_right = 800.0
+margin_bottom = 256.0
+
+[node name="ColorRect3" type="ColorRect" parent="Highscores2"]
+margin_left = 832.0
+margin_top = 216.0
+margin_right = 1056.0
+margin_bottom = 256.0
+
+[node name="ColorRect4" type="ColorRect" parent="Highscores2"]
+margin_left = 992.0
+margin_top = 216.0
+margin_right = 1216.0
+margin_bottom = 256.0
 
 [node name="About" type="Control" parent="."]
 anchor_right = 1.0
@@ -3861,18 +3691,32 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="Highscores/SweeperArrows/LeftBtn" to="Highscores" method="_on_Sweeper_LeftBtn_pressed"]
 [connection signal="pressed" from="Highscores/SweeperArrows/RightBtn" to="Highscores" method="_on_SweeperRightBtn_pressed"]
 [connection signal="pressed" from="Highscores/BackBtn" to="Highscores" method="_on_BackBtn_pressed"]
+[connection signal="pressed" from="Highscores2/SweeperArrows/LeftBtn" to="Highscores2" method="_on_Sweeper_LeftBtn_pressed"]
+[connection signal="pressed" from="Highscores2/SweeperArrows/RightBtn" to="Highscores2" method="_on_SweeperRightBtn_pressed"]
+[connection signal="pressed" from="Highscores2/BackBtn" to="Highscores2" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="About/BackBtn" to="About" method="_on_BackBtn_pressed"]
 [connection signal="meta_clicked" from="About/Thanks/LinkLabel" to="About" method="_on_NameAuthor_meta_clicked"]
 [connection signal="meta_clicked" from="About/Resources/LinkLabel" to="About" method="_on_NameAuthor_meta_clicked"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 
 [editable path="Highscores/ClassicTable"]
+[editable path="Highscores/DefenderTable"]
+[editable path="Highscores/SweeperTable"]
+[editable path="Highscores/CleanerXSTable"]
 [editable path="Highscores/CleanerSTable"]
 [editable path="Highscores/CleanerMTable"]
 [editable path="Highscores/CleanerLTable"]
+[editable path="Highscores/CleanerXLTable"]
 [editable path="Highscores/EraserTable"]
-[editable path="Highscores/DefenderTable"]
-[editable path="Highscores/SweeperTable"]
+[editable path="Highscores2/ClassicTable"]
+[editable path="Highscores2/EraserTable"]
+[editable path="Highscores2/DefenderTable"]
+[editable path="Highscores2/CleanerXSTable"]
+[editable path="Highscores2/CleanerSTable"]
+[editable path="Highscores2/CleanerMTable"]
+[editable path="Highscores2/CleanerLTable"]
+[editable path="Highscores2/CleanerXLTable"]
+[editable path="Highscores2/SweeperTable"]
 [editable path="About/Shorts/ShortcutLine4"]
 [editable path="About/Shorts/ShortcutLine5"]
 [editable path="About/Shorts/ShortcutLine7"]
