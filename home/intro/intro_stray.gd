@@ -10,7 +10,7 @@ func step(step_direction: Vector2 = Vector2.DOWN):
 	var intended_position: Vector2 = global_position + step_direction * cell_size_x
 
 	#	if get_parent().is_floor_position_free(intended_position):
-	var current_collider = detect_collision_in_direction(step_direction)
+	var current_collider: Object = Global.detect_collision_in_direction(step_direction, vision_ray)
 	if not current_collider:
 		step_attempt = 1 # reset na 1
 

@@ -73,7 +73,20 @@ func _ready():
 	connect_buttons(get_tree().root)
 	get_tree().connect("node_added", self, "_on_SceneTree_node_added")
 
+
+func detect_collision_in_direction(direction_to_check: Vector2, raycast_node: RayCast2D, raycast_length: float = 45):
 	
+	if direction_to_check == Vector2.ZERO:
+		raycast_node.cast_to = Vector2.ZERO
+		return
+	else:
+		raycast_node.cast_to = raycast_length * direction_to_check
+	
+	raycast_node.force_raycast_update()
+	
+	return raycast_node.get_collider()
+	
+		
 func snap_to_nearest_grid(global_position_to_snap: Vector2):
 	
 	var floor_cells: Array = current_tilemap.all_floor_tiles_global_positions
@@ -89,6 +102,15 @@ func snap_to_nearest_grid(global_position_to_snap: Vector2):
 	return snapped_pixel_global_position
 
 
+func get_seconds_and_hunds(seconds_to_round: float): # sekunde float
+	
+	var time_seconds: int = floor(seconds_to_round)
+	var time_hunds: float = floor((seconds_to_round - time_seconds) * 100)
+	var seconds_hunds_time: float = time_seconds + time_hunds / 100
+	
+	return seconds_hunds_time
+	
+	
 func get_clock_time(time_to_split: float): # sekunde float
 	
 	var minutes: int = floor(time_to_split / 60) # vse cele sekunde delim s 60

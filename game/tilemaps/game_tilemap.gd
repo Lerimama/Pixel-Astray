@@ -10,6 +10,7 @@ var stray_global_positions: Array
 var stray_wall_global_positions: Array # podvrsta stray positions
 var no_stray_global_positions: Array
 var random_spawn_floor_positions: Array # vsi še ne zasedeni tileti, kamor se lahko potem random spawna (floor - stray - no-stray - player)
+var solution_line: Line2D # opredelim popreverjanj, če je prisotna
 
 var wall_tile_id: int = 3
 var edge_tile_id: int = 1
@@ -37,6 +38,12 @@ func _ready() -> void:
 	else:
 		get_tileset().tile_set_modulate(edge_tile_id, Global.color_edge)
 
+	if has_node("SolutionLine"):
+		solution_line = $SolutionLine
+		if solution_line.points.empty():
+			solution_line.get_child(0).show()
+		else:
+			solution_line.get_child(0).hide()
 	
 func get_tiles():
 	

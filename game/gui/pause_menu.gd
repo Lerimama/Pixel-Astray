@@ -15,6 +15,7 @@ func _input(event: InputEvent) -> void:
 			else:
 				_on_PlayBtn_pressed()
 
+
 func _ready() -> void:
 	
 	title.modulate = Global.color_red
@@ -28,22 +29,7 @@ func _ready() -> void:
 	$Menu/SkipTutBtn.add_to_group(Global.group_menu_confirm_btns)
 	$Menu/RestartBtn.add_to_group(Global.group_menu_confirm_btns)
 	$Menu/QuitBtn.add_to_group(Global.group_menu_cancel_btns)
-
-	# update settings btns	
-	if Global.sound_manager.game_music_set_to_off:
-		$Settings/GameMusicBtn.pressed = false
-	else:
-		$Settings/GameMusicBtn.pressed = true
-	$Settings/GameMusicSlider.value = AudioServer.get_bus_volume_db(AudioServer.get_bus_index("GameMusic")) # da je slajder v settingsih in pavzi poenoten
-	if Global.sound_manager.game_sfx_set_to_off:
-		$Settings/GameSfxBtn.pressed = false
-	else:
-		$Settings/GameSfxBtn.pressed = true
-	if Profiles.camera_shake_on:
-		$Settings/CameraShakeBtn.pressed = true
-	else:
-		$Settings/CameraShakeBtn.pressed = false
-
+	
 	# instructions setup
 	instructions.get_instructions_content(Global.hud.current_highscore, Global.hud.current_highscore_owner)
 	instructions.shortcuts.hide()
@@ -69,6 +55,8 @@ func _process(delta: float) -> void:
 		
 			
 func pause_game():
+	
+	update_settings_btns()
 	
 	visible = true
 	
@@ -156,6 +144,35 @@ func _on_QuitBtn_pressed() -> void:
 
 # SETTINGS BTNZ ---------------------------------------------------------------------------------------------
 
+
+func update_settings_btns():
+
+	if Global.sound_manager.game_music_set_to_off:
+		$Settings/GameMusicBtn.pressed = false
+	else:
+		$Settings/GameMusicBtn.pressed = true
+	
+	$Settings/GameMusicSlider.value = AudioServer.get_bus_volume_db(AudioServer.get_bus_index("GameMusic")) # da je slajder v settingsih in pavzi poenoten
+	
+	if Global.sound_manager.game_sfx_set_to_off:
+		$Settings/GameSfxBtn.pressed = false
+	else:
+		$Settings/GameSfxBtn.pressed = true
+	
+	if Profiles.camera_shake_on:
+		$Settings/CameraShakeBtn.pressed = true
+	else:
+		$Settings/CameraShakeBtn.pressed = false
+			
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+		if Global.current_tilemap.solution_line.visible:
+			$Settings/ShowHintBtn.pressed = true
+		else:
+			$Settings/ShowHintBtn.pressed = false
+		$Settings/ShowHintBtn.show()
+	else:
+		$Settings/ShowHintBtn.hide()
+
 	
 func _on_GameMusicBtn_toggled(button_pressed: bool) -> void:
 
@@ -192,3 +209,15 @@ func _on_CameraShakeBtn_toggled(button_pressed: bool) -> void:
 	else:
 		Global.sound_manager.play_gui_sfx("btn_cancel")
 		Profiles.camera_shake_on = false
+
+
+func _on_ShowHintBtn_toggled(button_pressed: bool) -> void:
+	
+	var solution_line: Line2D = Global.current_tilemap.solution_line
+	
+	if button_pressed:
+		Global.sound_manager.play_gui_sfx("btn_confirm")
+		Global.current_tilemap.solution_line.show()
+	else:
+		Global.sound_manager.play_gui_sfx("btn_cancel")
+		Global.current_tilemap.solution_line.hide()

@@ -39,7 +39,6 @@ func _ready() -> void:
 	for btn in all_game_btns:
 		btn.add_to_group(Global.group_menu_confirm_btns)
 	$BackBtn.add_to_group(Global.group_menu_cancel_btns)
-	$GamesMenu/Classic/TutorialModeBtn.add_to_group(Global.group_menu_confirm_btns)
 	
 	color_game_btns()
 
@@ -111,12 +110,12 @@ func _process(delta: float) -> void:
 				$GamesMenu/Cleaner/Label.modulate = Color.white
 				$GamesMenu/Cleaner/Background.color = Global.color_thumb_hover
 			else:
-				$GamesMenu/Cleaner/CleanerSBtn.modulate = btn_colors[1]
-				$GamesMenu/Cleaner/CleanerMBtn.modulate = btn_colors[2]
-				$GamesMenu/Cleaner/CleanerLBtn.modulate = btn_colors[3]
-				$GamesMenu/Cleaner/CleanerXLBtn.modulate = btn_colors[4]
-				$GamesMenu/Cleaner/CleanerXXLBtn.modulate = btn_colors[5]
-				$GamesMenu/Cleaner/Label.modulate = btn_colors[2]
+				$GamesMenu/Cleaner/CleanerSBtn.modulate = btn_colors[5]
+				$GamesMenu/Cleaner/CleanerMBtn.modulate = btn_colors[6]
+				$GamesMenu/Cleaner/CleanerLBtn.modulate = btn_colors[7]
+				$GamesMenu/Cleaner/CleanerXLBtn.modulate = btn_colors[8]
+				$GamesMenu/Cleaner/CleanerXXLBtn.modulate = btn_colors[9]
+				$GamesMenu/Cleaner/Label.modulate = btn_colors[6]
 				$GamesMenu/Cleaner/Background.color = unfocused_color
 			# eternals
 			if focused_btn.name == "EraserBtn":
@@ -140,8 +139,8 @@ func _process(delta: float) -> void:
 				$GamesMenu/Sweeper/SweeperBtn.modulate = Color.white
 				$GamesMenu/Sweeper/Background.color = Global.color_thumb_hover
 			else:
-				$GamesMenu/Sweeper/Label.modulate = btn_colors[8]
-				$GamesMenu/Sweeper/SweeperBtn.modulate = btn_colors[8]
+				$GamesMenu/Sweeper/Label.modulate = btn_colors[3]
+				$GamesMenu/Sweeper/SweeperBtn.modulate = btn_colors[3]
 				$GamesMenu/Sweeper/Background.color = unfocused_color
 			if focused_btn.name == "TheDuelBtn":
 				$GamesMenu/TheDuel/TheDuelBtn.modulate = Color.white
@@ -172,15 +171,15 @@ func color_game_btns():
 	$GamesMenu/Classic/TutorialModeBtn.modulate = Global.color_gui_gray # rešitev, ker gumb se na začetku obarva kot fokusiran
 	$GamesMenu/Classic/Label.modulate = btn_colors[0]
 	
-	$GamesMenu/Cleaner/Label.modulate = btn_colors[2]
-	$GamesMenu/Cleaner/CleanerSBtn.modulate = btn_colors[1]
-	$GamesMenu/Cleaner/CleanerMBtn.modulate = btn_colors[2]
-	$GamesMenu/Cleaner/CleanerLBtn.modulate = btn_colors[3]
-	$GamesMenu/Cleaner/CleanerXLBtn.modulate = btn_colors[4]
-	$GamesMenu/Cleaner/CleanerXXLBtn.modulate = btn_colors[5]
+	$GamesMenu/Sweeper/Label.modulate = btn_colors[3]
+	$GamesMenu/Sweeper/SweeperBtn.modulate = btn_colors[3]
 	
-	$GamesMenu/Sweeper/Label.modulate = btn_colors[8]
-	$GamesMenu/Sweeper/SweeperBtn.modulate = btn_colors[8]
+	$GamesMenu/Cleaner/Label.modulate = btn_colors[6]
+	$GamesMenu/Cleaner/CleanerSBtn.modulate = btn_colors[5]
+	$GamesMenu/Cleaner/CleanerMBtn.modulate = btn_colors[6]
+	$GamesMenu/Cleaner/CleanerLBtn.modulate = btn_colors[7]
+	$GamesMenu/Cleaner/CleanerXLBtn.modulate = btn_colors[8]
+	$GamesMenu/Cleaner/CleanerXXLBtn.modulate = btn_colors[9]
 	
 	$GamesMenu/TheDuel/Label.modulate = btn_colors[11]	
 	$GamesMenu/TheDuel/TheDuelBtn.modulate = btn_colors[11]

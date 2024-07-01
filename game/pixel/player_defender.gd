@@ -5,7 +5,7 @@ func idle_inputs():
 	# namen: odstranim SKILLED stanje
 	
 	if player_stats["player_energy"] > 1:
-		var current_collider: Node2D = detect_collision_in_direction(direction)
+		var current_collider: Object = Global.detect_collision_in_direction(direction, vision_ray)
 		if not current_collider:
 		# dokler ne zazna kolizije se premika zvezno ... is_action_pressed
 			if Input.is_action_pressed(key_up):
@@ -139,7 +139,7 @@ func burst():
 	else:
 		burst_speed = current_ghost_count * cock_ghost_speed_addon
 
-	change_stat("burst_released", 1)
+	change_stat("burst_count", 1)
 	
 	
 func play_sound(effect_for: String):

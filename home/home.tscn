@@ -1588,6 +1588,7 @@ custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
 text = "tresi"
 
 [node name="Menu" type="HBoxContainer" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1602,8 +1603,9 @@ custom_constants/separation = 32
 alignment = 1
 
 [node name="SelectGameBtn" type="Button" parent="Menu"]
+margin_left = 50.0
 margin_top = 3.0
-margin_right = 56.0
+margin_right = 106.0
 margin_bottom = 25.0
 focus_neighbour_right = NodePath("../SettingsBtn")
 focus_mode = 1
@@ -1613,9 +1615,9 @@ enabled_focus_mode = 1
 text = "PLAY"
 
 [node name="SettingsBtn" type="Button" parent="Menu"]
-margin_left = 88.0
+margin_left = 138.0
 margin_top = 3.0
-margin_right = 196.0
+margin_right = 246.0
 margin_bottom = 25.0
 focus_neighbour_left = NodePath("../SelectGameBtn")
 focus_neighbour_right = NodePath("../HighscoresBtn")
@@ -1626,9 +1628,9 @@ enabled_focus_mode = 1
 text = "SETTINGS"
 
 [node name="HighscoresBtn" type="Button" parent="Menu"]
-margin_left = 228.0
+margin_left = 278.0
 margin_top = 3.0
-margin_right = 364.0
+margin_right = 414.0
 margin_bottom = 25.0
 focus_neighbour_left = NodePath("../SettingsBtn")
 focus_neighbour_right = NodePath("../AboutBtn")
@@ -1639,9 +1641,9 @@ enabled_focus_mode = 1
 text = "HIGHSCORES"
 
 [node name="AboutBtn" type="Button" parent="Menu"]
-margin_left = 396.0
+margin_left = 446.0
 margin_top = 3.0
-margin_right = 466.0
+margin_right = 516.0
 margin_bottom = 25.0
 focus_neighbour_left = NodePath("../HighscoresBtn")
 focus_neighbour_right = NodePath("../QuitGameBtn")
@@ -1652,9 +1654,9 @@ enabled_focus_mode = 1
 text = "ABOUT"
 
 [node name="QuitGameBtn" type="Button" parent="Menu"]
-margin_left = 498.0
+margin_left = 548.0
 margin_top = 3.0
-margin_right = 620.0
+margin_right = 670.0
 margin_bottom = 25.0
 focus_neighbour_left = NodePath("../AboutBtn")
 focus_mode = 1
@@ -1683,16 +1685,6 @@ margin_bottom = 102.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 4 )
 text = "Select game"
-
-[node name="HSeparator" type="HSeparator" parent="SelectGame/Title"]
-visible = false
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 1.0
-margin_top = 7.0
-margin_right = -4.0
-margin_bottom = 11.0
 
 [node name="Subtitle" type="Label" parent="SelectGame"]
 visible = false
@@ -1745,8 +1737,9 @@ margin_right = 232.0
 margin_bottom = 176.0
 grow_horizontal = 0
 grow_vertical = 0
-focus_neighbour_left = NodePath("../../Cleaner/CleanerLBtn")
+focus_neighbour_left = NodePath("../../Sweeper/SweeperBtn")
 focus_neighbour_top = NodePath("../../../BackBtn")
+focus_neighbour_right = NodePath("../../Sweeper/SweeperBtn")
 focus_neighbour_bottom = NodePath("../TutorialModeBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = ExtResource( 24 )
@@ -1775,9 +1768,13 @@ text = "Tutorial mode"
 
 [node name="Cleaner" type="Control" parent="SelectGame/GamesMenu"]
 margin_left = 280.0
+margin_top = 144.0
 margin_right = 760.0
-margin_bottom = 224.0
+margin_bottom = 368.0
 rect_min_size = Vector2( 128, 128 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Background" type="ColorRect" parent="SelectGame/GamesMenu/Cleaner"]
 anchor_right = 1.0
@@ -1791,8 +1788,9 @@ margin_top = 32.0
 margin_right = -32.0
 margin_bottom = 98.0
 custom_fonts/font = ExtResource( 14 )
-text = "Tick-tack-tock, clean the block! 
-Choose a game size that fits you and collect all colors screen before time runs out."
+text = "Tick-tick-tock, clean the block! Choose a screen
+size that fits you, and eliminate all stray pixels
+before time time slips away."
 autowrap = true
 
 [node name="CleanerSBtn" type="Button" parent="SelectGame/GamesMenu/Cleaner"]
@@ -1800,9 +1798,9 @@ margin_left = 40.0
 margin_top = 120.0
 margin_right = 96.0
 margin_bottom = 176.0
-focus_neighbour_left = NodePath("../../Classic/ClassicBtn")
-focus_neighbour_top = NodePath("../../../BackBtn")
-focus_neighbour_bottom = NodePath("../../Sweeper/SweeperBtn")
+focus_neighbour_left = NodePath("../../Timeless/EraserBtn")
+focus_neighbour_top = NodePath("../../Sweeper/SweeperBtn")
+focus_neighbour_bottom = NodePath("../../TheDuel/TheDuelBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = ExtResource( 24 )
 custom_styles/pressed = ExtResource( 24 )
@@ -1819,8 +1817,8 @@ margin_left = 104.0
 margin_top = 120.0
 margin_right = 168.0
 margin_bottom = 176.0
-focus_neighbour_top = NodePath("../../../BackBtn")
-focus_neighbour_bottom = NodePath("../../Sweeper/SweeperBtn")
+focus_neighbour_top = NodePath("../../Sweeper/SweeperBtn")
+focus_neighbour_bottom = NodePath("../../TheDuel/TheDuelBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = ExtResource( 24 )
 custom_styles/pressed = ExtResource( 24 )
@@ -1837,8 +1835,8 @@ margin_left = 176.0
 margin_top = 120.0
 margin_right = 248.0
 margin_bottom = 176.0
-focus_neighbour_top = NodePath("../../../BackBtn")
-focus_neighbour_bottom = NodePath("../../Sweeper/SweeperBtn")
+focus_neighbour_top = NodePath("../../Sweeper/SweeperBtn")
+focus_neighbour_bottom = NodePath("../../TheDuel/TheDuelBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = ExtResource( 24 )
 custom_styles/pressed = ExtResource( 24 )
@@ -1855,8 +1853,8 @@ margin_left = 256.0
 margin_top = 120.0
 margin_right = 336.0
 margin_bottom = 176.0
-focus_neighbour_top = NodePath("../../../BackBtn")
-focus_neighbour_bottom = NodePath("../../Sweeper/SweeperBtn")
+focus_neighbour_top = NodePath("../../Sweeper/SweeperBtn")
+focus_neighbour_bottom = NodePath("../../TheDuel/TheDuelBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = ExtResource( 24 )
 custom_styles/pressed = ExtResource( 24 )
@@ -1873,9 +1871,9 @@ margin_left = 344.0
 margin_top = 120.0
 margin_right = 440.0
 margin_bottom = 176.0
-focus_neighbour_top = NodePath("../../../BackBtn")
-focus_neighbour_right = NodePath("../../Classic/ClassicBtn")
-focus_neighbour_bottom = NodePath("../../Sweeper/SweeperBtn")
+focus_neighbour_top = NodePath("../../Sweeper/SweeperBtn")
+focus_neighbour_right = NodePath("../../Timeless/EraserBtn")
+focus_neighbour_bottom = NodePath("../../TheDuel/TheDuelBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = ExtResource( 24 )
 custom_styles/pressed = ExtResource( 24 )
@@ -1975,9 +1973,9 @@ margin_left = 40.0
 margin_top = 96.0
 margin_right = -40.0
 margin_bottom = 152.0
-focus_neighbour_left = NodePath("../../Sweeper/SweeperBtn")
+focus_neighbour_left = NodePath("../../Cleaner/CleanerXXLBtn")
 focus_neighbour_top = NodePath("../../Classic/ClassicBtn")
-focus_neighbour_right = NodePath("../../Sweeper/SweeperBtn")
+focus_neighbour_right = NodePath("../../Cleaner/CleanerSBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = ExtResource( 24 )
 custom_styles/pressed = ExtResource( 24 )
@@ -2011,9 +2009,8 @@ __meta__ = {
 
 [node name="Sweeper" type="Control" parent="SelectGame/GamesMenu"]
 margin_left = 280.0
-margin_top = 232.0
 margin_right = 760.0
-margin_bottom = 368.0
+margin_bottom = 136.0
 rect_min_size = Vector2( 128, 128 )
 
 [node name="Background" type="ColorRect" parent="SelectGame/GamesMenu/Sweeper"]
@@ -2027,9 +2024,9 @@ margin_top = 31.0
 margin_right = 264.0
 margin_bottom = 97.0
 custom_fonts/font = ExtResource( 14 )
-text = "Take care of %s messy 
-overly saturated screens.
-Swiftly and with style."
+text = "Take care of %s strangely
+saturated screens. 
+Swiftly and with style!"
 autowrap = true
 
 [node name="SweeperBtn" type="Button" parent="SelectGame/GamesMenu/Sweeper"]
@@ -2039,10 +2036,10 @@ margin_left = -216.0
 margin_top = 40.0
 margin_right = -40.0
 margin_bottom = 96.0
-focus_neighbour_left = NodePath("../../Timeless/EraserBtn")
-focus_neighbour_top = NodePath("../../Cleaner/CleanerSBtn")
-focus_neighbour_right = NodePath("../../Timeless/EraserBtn")
-focus_neighbour_bottom = NodePath("../../TheDuel/TheDuelBtn")
+focus_neighbour_left = NodePath("../../Classic/ClassicBtn")
+focus_neighbour_top = NodePath("../../../BackBtn")
+focus_neighbour_right = NodePath("../../Classic/ClassicBtn")
+focus_neighbour_bottom = NodePath("../../Cleaner/CleanerSBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = ExtResource( 24 )
 custom_styles/pressed = ExtResource( 24 )
@@ -2084,10 +2081,10 @@ margin_left = -216.0
 margin_top = 40.0
 margin_right = -40.0
 margin_bottom = 96.0
-focus_neighbour_left = NodePath("../../Timeless/EraserBtn")
-focus_neighbour_top = NodePath("../../Sweeper/SweeperBtn")
-focus_neighbour_right = NodePath("../../Timeless/EraserBtn")
-focus_neighbour_bottom = NodePath("../../Cleaner/CleanerSBtn")
+focus_neighbour_left = NodePath("../../Timeless/DefenderBtn")
+focus_neighbour_top = NodePath("../../Cleaner/CleanerXXLBtn")
+focus_neighbour_right = NodePath("../../Timeless/DefenderBtn")
+focus_neighbour_bottom = NodePath("../../Sweeper/SweeperBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = ExtResource( 24 )
 custom_styles/pressed = ExtResource( 24 )
@@ -2107,7 +2104,7 @@ margin_top = 74.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 16, 16 )
 focus_neighbour_top = NodePath("../GamesMenu/TheDuel/TheDuelBtn")
-focus_neighbour_bottom = NodePath("../GamesMenu/Cleaner/CleanerSBtn")
+focus_neighbour_bottom = NodePath("../GamesMenu/Sweeper/SweeperBtn")
 mouse_default_cursor_shape = 2
 texture_normal = SubResource( 195 )
 texture_hover = SubResource( 196 )
@@ -2136,32 +2133,22 @@ theme = ExtResource( 15 )
 script = ExtResource( 17 )
 
 [node name="Title" type="Label" parent="SelectLevel"]
+modulate = Color( 1, 1, 1, 0.470588 )
 margin_left = 7.0
 margin_top = 70.0
 margin_right = 127.0
 margin_bottom = 102.0
 size_flags_horizontal = 3
-custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "Sweeper"
-
-[node name="HSeparator" type="HSeparator" parent="SelectLevel/Title"]
-visible = false
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 1.0
-margin_top = 7.0
-margin_right = -4.0
-margin_bottom = 11.0
 
 [node name="Subtitle" type="Label" parent="SelectLevel"]
 margin_left = 8.0
 margin_top = 144.0
-margin_right = 624.0
+margin_right = 680.0
 margin_bottom = 170.0
 custom_fonts/font = ExtResource( 14 )
-text = "The ultimate skill test. Sweep all colors with one spectacular move!"
+text = "The ultimate test of tactics and skills. Sweep all colors with one spectacular move!"
 autowrap = true
 
 [node name="SelectLevelBtnsHolder" parent="SelectLevel" instance=ExtResource( 19 )]
@@ -2320,22 +2307,6 @@ size_flags_horizontal = 3
 custom_colors/font_color = Color( 0.952941, 0.356863, 0.498039, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "Settings"
-
-[node name="HSeparator" type="HSeparator" parent="Settings/Title"]
-visible = false
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 1.0
-margin_top = 7.0
-margin_right = -4.0
-margin_bottom = 11.0
-
-[node name="Control" type="Control" parent="Settings/Title"]
-margin_left = 16.0
-margin_top = 26.0
-margin_right = 56.0
-margin_bottom = 66.0
 
 [node name="MenuMusicBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
@@ -2537,16 +2508,6 @@ custom_colors/font_color = Color( 0.996078, 0.976471, 0.545098, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "Highscores"
 align = 1
-
-[node name="HSeparator" type="HSeparator" parent="Highscores/Title"]
-visible = false
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 1.0
-margin_top = 7.0
-margin_right = -4.0
-margin_bottom = 11.0
 
 [node name="ClassicTable" parent="Highscores" instance=ExtResource( 21 )]
 margin_left = 64.0
@@ -2830,359 +2791,6 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Highscores2" type="Control" parent="."]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -592.0
-margin_right = 1280.0
-rect_min_size = Vector2( 1280, 520 )
-theme = ExtResource( 15 )
-script = ExtResource( 8 )
-
-[node name="Title" type="Label" parent="Highscores2"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -96.0
-margin_top = 70.0
-margin_right = 96.0
-margin_bottom = 102.0
-size_flags_horizontal = 3
-custom_colors/font_color = Color( 0.996078, 0.976471, 0.545098, 1 )
-custom_fonts/font = ExtResource( 4 )
-text = "Highscores"
-align = 1
-
-[node name="HSeparator" type="HSeparator" parent="Highscores2/Title"]
-visible = false
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 1.0
-margin_top = 7.0
-margin_right = -4.0
-margin_bottom = 11.0
-
-[node name="ClassicTable" parent="Highscores2" instance=ExtResource( 21 )]
-margin_left = 64.0
-margin_top = 142.0
-margin_right = 288.0
-margin_bottom = 306.0
-rect_min_size = Vector2( 224, 0 )
-theme = null
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" parent="Highscores2/ClassicTable" index="0"]
-margin_right = 224.0
-
-[node name="Background2" parent="Highscores2/ClassicTable/Title" index="0"]
-margin_bottom = 170.0
-
-[node name="ScoreLine" parent="Highscores2/ClassicTable" index="1"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores2/ClassicTable/ScoreLine" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="EraserTable" parent="Highscores2" instance=ExtResource( 21 )]
-margin_left = 320.0
-margin_top = 142.0
-margin_right = 544.0
-margin_bottom = 306.0
-rect_min_size = Vector2( 224, 0 )
-theme = null
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" parent="Highscores2/EraserTable" index="0"]
-margin_right = 224.0
-
-[node name="Background2" parent="Highscores2/EraserTable/Title" index="0"]
-margin_bottom = 170.0
-
-[node name="ScoreLine" parent="Highscores2/EraserTable" index="1"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores2/EraserTable/ScoreLine" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="DefenderTable" parent="Highscores2" instance=ExtResource( 21 )]
-margin_left = 576.0
-margin_top = 142.0
-margin_right = 800.0
-margin_bottom = 306.0
-rect_min_size = Vector2( 224, 0 )
-theme = null
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" parent="Highscores2/DefenderTable" index="0"]
-margin_right = 224.0
-
-[node name="Background2" parent="Highscores2/DefenderTable/Title" index="0"]
-margin_bottom = 170.0
-
-[node name="ScoreLine" parent="Highscores2/DefenderTable" index="1"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores2/DefenderTable/ScoreLine" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="CleanerXSTable" parent="Highscores2" instance=ExtResource( 21 )]
-margin_left = 64.0
-margin_top = 342.0
-margin_right = 288.0
-margin_bottom = 506.0
-rect_min_size = Vector2( 224, 0 )
-theme = null
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" parent="Highscores2/CleanerXSTable" index="0"]
-margin_right = 224.0
-
-[node name="Background2" parent="Highscores2/CleanerXSTable/Title" index="0"]
-margin_bottom = 170.0
-
-[node name="ScoreLine" parent="Highscores2/CleanerXSTable" index="1"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores2/CleanerXSTable/ScoreLine" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="CleanerSTable" parent="Highscores2" instance=ExtResource( 21 )]
-margin_left = 64.0
-margin_top = 342.0
-margin_right = 288.0
-margin_bottom = 506.0
-rect_min_size = Vector2( 224, 0 )
-theme = null
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" parent="Highscores2/CleanerSTable" index="0"]
-margin_right = 224.0
-
-[node name="Background2" parent="Highscores2/CleanerSTable/Title" index="0"]
-margin_bottom = 170.0
-
-[node name="ScoreLine" parent="Highscores2/CleanerSTable" index="1"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores2/CleanerSTable/ScoreLine" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="CleanerMTable" parent="Highscores2" instance=ExtResource( 21 )]
-margin_left = 360.0
-margin_top = 342.0
-margin_right = 584.0
-margin_bottom = 506.0
-rect_min_size = Vector2( 224, 0 )
-theme = null
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" parent="Highscores2/CleanerMTable" index="0"]
-margin_right = 224.0
-
-[node name="Background2" parent="Highscores2/CleanerMTable/Title" index="0"]
-margin_bottom = 170.0
-
-[node name="ScoreLine" parent="Highscores2/CleanerMTable" index="1"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores2/CleanerMTable/ScoreLine" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="CleanerLTable" parent="Highscores2" instance=ExtResource( 21 )]
-margin_left = 656.0
-margin_top = 342.0
-margin_right = 880.0
-margin_bottom = 506.0
-rect_min_size = Vector2( 224, 0 )
-theme = null
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" parent="Highscores2/CleanerLTable" index="0"]
-margin_right = 224.0
-
-[node name="Background2" parent="Highscores2/CleanerLTable/Title" index="0"]
-margin_bottom = 170.0
-
-[node name="ScoreLine" parent="Highscores2/CleanerLTable" index="1"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores2/CleanerLTable/ScoreLine" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="CleanerXLTable" parent="Highscores2" instance=ExtResource( 21 )]
-margin_left = 656.0
-margin_top = 342.0
-margin_right = 880.0
-margin_bottom = 506.0
-rect_min_size = Vector2( 224, 0 )
-theme = null
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" parent="Highscores2/CleanerXLTable" index="0"]
-margin_right = 224.0
-
-[node name="Background2" parent="Highscores2/CleanerXLTable/Title" index="0"]
-margin_bottom = 170.0
-
-[node name="ScoreLine" parent="Highscores2/CleanerXLTable" index="1"]
-margin_right = 224.0
-
-[node name="Score" parent="Highscores2/CleanerXLTable/ScoreLine" index="2"]
-margin_left = 147.0
-margin_right = 224.0
-
-[node name="SweeperTable" parent="Highscores2" instance=ExtResource( 21 )]
-margin_left = 952.0
-margin_top = 142.0
-margin_right = 1216.0
-margin_bottom = 640.0
-theme = null
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" parent="Highscores2/SweeperTable" index="0"]
-margin_right = 264.0
-
-[node name="Background2" parent="Highscores2/SweeperTable/Title" index="0"]
-margin_bottom = 394.0
-
-[node name="ScoreLine" parent="Highscores2/SweeperTable" index="1"]
-margin_right = 264.0
-
-[node name="Score" parent="Highscores2/SweeperTable/ScoreLine" index="2"]
-margin_left = 187.0
-margin_right = 264.0
-
-[node name="SweeperArrows" type="Control" parent="Highscores2"]
-margin_left = 1192.0
-margin_top = 146.0
-margin_right = 1216.0
-margin_bottom = 160.0
-grow_horizontal = 2
-theme = ExtResource( 15 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="LeftBtn" type="TextureButton" parent="Highscores2/SweeperArrows"]
-margin_left = -5.0
-margin_top = 1.0
-margin_right = 11.0
-margin_bottom = 17.0
-rect_min_size = Vector2( 16, 16 )
-focus_neighbour_left = NodePath("../RightBtn")
-focus_neighbour_top = NodePath("../../BackBtn")
-focus_neighbour_right = NodePath("../RightBtn")
-focus_neighbour_bottom = NodePath("../../BackBtn")
-mouse_default_cursor_shape = 2
-size_flags_vertical = 4
-texture_normal = SubResource( 335 )
-texture_hover = SubResource( 336 )
-texture_focused = SubResource( 336 )
-expand = true
-stretch_mode = 3
-flip_h = true
-
-[node name="RightBtn" type="TextureButton" parent="Highscores2/SweeperArrows"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -11.0
-margin_top = 1.0
-margin_right = 5.0
-margin_bottom = 17.0
-rect_min_size = Vector2( 16, 16 )
-focus_neighbour_left = NodePath("../LeftBtn")
-focus_neighbour_top = NodePath("../../BackBtn")
-focus_neighbour_right = NodePath("../LeftBtn")
-focus_neighbour_bottom = NodePath("../../BackBtn")
-mouse_default_cursor_shape = 2
-size_flags_vertical = 4
-texture_normal = SubResource( 335 )
-texture_hover = SubResource( 336 )
-texture_focused = SubResource( 336 )
-expand = true
-stretch_mode = 3
-
-[node name="BackBtn" type="TextureButton" parent="Highscores2"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -64.0
-margin_top = 74.0
-margin_right = -40.0
-margin_bottom = 96.0
-rect_min_size = Vector2( 16, 16 )
-rect_rotation = 89.9999
-focus_neighbour_top = NodePath("../SweeperArrows/RightBtn")
-mouse_default_cursor_shape = 2
-texture_normal = SubResource( 195 )
-texture_hover = SubResource( 196 )
-texture_focused = SubResource( 196 )
-
-[node name="EscHint" parent="Highscores2" instance=ExtResource( 11 )]
-visible = false
-margin_left = 982.0
-margin_top = 558.0
-margin_right = 1216.0
-margin_bottom = 580.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="ColorRect" type="ColorRect" parent="Highscores2"]
-margin_left = 64.0
-margin_top = 216.0
-margin_right = 288.0
-margin_bottom = 256.0
-
-[node name="ColorRect2" type="ColorRect" parent="Highscores2"]
-margin_left = 320.0
-margin_top = 216.0
-margin_right = 544.0
-margin_bottom = 256.0
-
-[node name="ColorRect5" type="ColorRect" parent="Highscores2"]
-margin_left = 576.0
-margin_top = 216.0
-margin_right = 800.0
-margin_bottom = 256.0
-
-[node name="ColorRect3" type="ColorRect" parent="Highscores2"]
-margin_left = 832.0
-margin_top = 216.0
-margin_right = 1056.0
-margin_bottom = 256.0
-
-[node name="ColorRect4" type="ColorRect" parent="Highscores2"]
-margin_left = 992.0
-margin_top = 216.0
-margin_right = 1216.0
-margin_bottom = 256.0
-
 [node name="About" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -3444,6 +3052,7 @@ margin_right = 302.0
 text = " to confirm selection"
 
 [node name="ShortcutLine7" parent="About/Shorts" instance=ExtResource( 23 )]
+visible = false
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 1.0
@@ -3691,9 +3300,6 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="Highscores/SweeperArrows/LeftBtn" to="Highscores" method="_on_Sweeper_LeftBtn_pressed"]
 [connection signal="pressed" from="Highscores/SweeperArrows/RightBtn" to="Highscores" method="_on_SweeperRightBtn_pressed"]
 [connection signal="pressed" from="Highscores/BackBtn" to="Highscores" method="_on_BackBtn_pressed"]
-[connection signal="pressed" from="Highscores2/SweeperArrows/LeftBtn" to="Highscores2" method="_on_Sweeper_LeftBtn_pressed"]
-[connection signal="pressed" from="Highscores2/SweeperArrows/RightBtn" to="Highscores2" method="_on_SweeperRightBtn_pressed"]
-[connection signal="pressed" from="Highscores2/BackBtn" to="Highscores2" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="About/BackBtn" to="About" method="_on_BackBtn_pressed"]
 [connection signal="meta_clicked" from="About/Thanks/LinkLabel" to="About" method="_on_NameAuthor_meta_clicked"]
 [connection signal="meta_clicked" from="About/Resources/LinkLabel" to="About" method="_on_NameAuthor_meta_clicked"]
@@ -3708,15 +3314,6 @@ anims/settings = SubResource( 140 )
 [editable path="Highscores/CleanerLTable"]
 [editable path="Highscores/CleanerXLTable"]
 [editable path="Highscores/EraserTable"]
-[editable path="Highscores2/ClassicTable"]
-[editable path="Highscores2/EraserTable"]
-[editable path="Highscores2/DefenderTable"]
-[editable path="Highscores2/CleanerXSTable"]
-[editable path="Highscores2/CleanerSTable"]
-[editable path="Highscores2/CleanerMTable"]
-[editable path="Highscores2/CleanerLTable"]
-[editable path="Highscores2/CleanerXLTable"]
-[editable path="Highscores2/SweeperTable"]
 [editable path="About/Shorts/ShortcutLine4"]
 [editable path="About/Shorts/ShortcutLine5"]
 [editable path="About/Shorts/ShortcutLine7"]

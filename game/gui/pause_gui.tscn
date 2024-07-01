@@ -271,9 +271,9 @@ uppercase = true
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 anchor_right = 1.0
 margin_left = 52.0
-margin_top = 57.0
+margin_top = 65.0
 margin_right = -52.0
-margin_bottom = 89.0
+margin_bottom = 97.0
 rect_min_size = Vector2( 0, 32 )
 focus_neighbour_left = NodePath(".")
 focus_neighbour_top = NodePath("../../Menu/PlayBtn")
@@ -289,9 +289,9 @@ __meta__ = {
 modulate = Color( 1, 1, 1, 0.470588 )
 anchor_right = 1.0
 margin_left = 32.0
-margin_top = 123.0
+margin_top = 131.0
 margin_right = -32.0
-margin_bottom = 155.0
+margin_bottom = 163.0
 rect_min_size = Vector2( 0, 32 )
 rect_pivot_offset = Vector2( -48, 45 )
 focus_neighbour_bottom = NodePath("../GameSfxBtn")
@@ -334,9 +334,9 @@ align = 1
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 anchor_right = 1.0
 margin_left = 60.0
-margin_top = 161.0
+margin_top = 169.0
 margin_right = -60.0
-margin_bottom = 193.0
+margin_bottom = 201.0
 rect_min_size = Vector2( 0, 32 )
 rect_pivot_offset = Vector2( 20, 16 )
 focus_neighbour_left = NodePath("../GameSfxBtn")
@@ -350,17 +350,30 @@ text = "GAME SFX"
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 anchor_right = 1.0
 margin_left = 46.0
-margin_top = 206.0
+margin_top = 209.0
 margin_right = -38.0
-margin_bottom = 238.0
+margin_bottom = 241.0
 rect_min_size = Vector2( 0, 32 )
 rect_pivot_offset = Vector2( -62, -22 )
 focus_neighbour_left = NodePath(".")
-focus_neighbour_bottom = NodePath("../../Menu/PlayBtn")
 mouse_default_cursor_shape = 2
 custom_fonts/font = ExtResource( 2 )
 pressed = true
 text = "CAMERA SHAKE"
+
+[node name="ShowHintBtn" type="CheckButton" parent="Settings"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+anchor_right = 1.0
+margin_left = 62.0
+margin_top = 249.0
+margin_right = -54.0
+margin_bottom = 281.0
+rect_min_size = Vector2( 0, 32 )
+rect_pivot_offset = Vector2( -62, -22 )
+focus_neighbour_left = NodePath(".")
+mouse_default_cursor_shape = 2
+custom_fonts/font = ExtResource( 2 )
+text = "SHOW HINT"
 
 [node name="Menu" type="HBoxContainer" parent="."]
 anchor_left = 0.5
@@ -382,7 +395,6 @@ __meta__ = {
 margin_right = 52.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../RestartBtn")
-focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
 focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 0
@@ -392,7 +404,6 @@ text = "QUIT"
 margin_left = 84.0
 margin_right = 172.0
 margin_bottom = 22.0
-focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
 focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 0
@@ -402,7 +413,6 @@ text = "RESUME"
 margin_left = 204.0
 margin_right = 392.0
 margin_bottom = 22.0
-focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
 focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 0
@@ -412,7 +422,6 @@ text = "CLOSE TUTORIAL"
 margin_left = 424.0
 margin_right = 522.0
 margin_bottom = 22.0
-focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
 focus_neighbour_right = NodePath("../QuitBtn")
 focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
 mouse_default_cursor_shape = 2
@@ -424,6 +433,7 @@ text = "RESTART"
 [connection signal="value_changed" from="Settings/GameMusicSlider" to="." method="_on_GameMusicSlider_value_changed"]
 [connection signal="toggled" from="Settings/GameSfxBtn" to="." method="_on_GameSfxBtn_toggled"]
 [connection signal="toggled" from="Settings/CameraShakeBtn" to="." method="_on_CameraShakeBtn_toggled"]
+[connection signal="toggled" from="Settings/ShowHintBtn" to="." method="_on_ShowHintBtn_toggled"]
 [connection signal="pressed" from="Menu/QuitBtn" to="." method="_on_QuitBtn_pressed"]
 [connection signal="pressed" from="Menu/PlayBtn" to="." method="_on_PlayBtn_pressed"]
 [connection signal="pressed" from="Menu/SkipTutBtn" to="." method="_on_SkipTutBtn_pressed"]

@@ -857,7 +857,7 @@ polygon = PoolVector2Array( 8, 8, 16, 8, 16, 16, 8, 16 )
 
 [node name="VisionRay" type="RayCast2D" parent="."]
 enabled = true
-cast_to = Vector2( 47, 0 )
+cast_to = Vector2( 45, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/die_stray = SubResource( 140 )

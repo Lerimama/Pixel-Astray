@@ -92,7 +92,7 @@ func step(step_direction: Vector2 = Vector2.DOWN):
 		step_tween.tween_callback(self, "end_move")	
 	else:
 		# če je kolajder ga returnam, drugače pa ne naredim nič
-		var current_collider = detect_collision_in_direction(step_direction)
+		var current_collider: Object = Global.detect_collision_in_direction(step_direction, vision_ray)
 		if current_collider:
 			check_collider_for_wall(current_collider)
 			return current_collider
@@ -124,7 +124,7 @@ func get_all_neighbors_in_directions(directions_to_check: Array): # kliče playe
 	
 	var current_cell_neighbors: Array
 	for direction in directions_to_check:
-		var neighbor = detect_collision_in_direction(direction)
+		var neighbor: Object = Global.detect_collision_in_direction(direction, vision_ray)
 		if neighbor and neighbor.is_in_group(Global.group_strays) and not neighbor == self: # če je kolajder, je stray in ni self
 			current_cell_neighbors.append(neighbor)
 		if neighbor and neighbor.is_in_group(Global.group_tilemap): # če je kolajder, je tilemap

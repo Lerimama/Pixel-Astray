@@ -61,14 +61,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		game_over(GameoverReason.CLEANED)
 #	if Input.is_action_just_pressed("l"):
 #		upgrade_level()	
-	
+
 	if Input.is_action_just_pressed("hint") and game_data["game"] == Profiles.Games.SWEEPER:
-		var solution_line: Line2D = Global.current_tilemap.get_node("SolutionLine")
-		var nosolution_hint: Node2D = Global.current_tilemap.get_node("NoHint")
-		if solution_line.points.empty():
-			nosolution_hint.visible = not nosolution_hint.visible
-		else:
-			solution_line.visible = not solution_line.visible
+		Global.current_tilemap.solution_line.visible = not Global.current_tilemap.solution_line.visible
 		
 	
 func _ready() -> void:
@@ -130,7 +125,10 @@ func set_tilemap(): # kliče MAIN pred fade-in scene 01.
 	# grab tilemap tiles
 	Global.current_tilemap.get_tiles()
 	cell_size_x = Global.current_tilemap.cell_size.x 
-
+			
+	if game_data["game"] == Profiles.Games.SWEEPER:
+		Global.current_tilemap.get_node("SolutionLine").hide()
+		
 	
 func set_game_view(): # kliče MAIN pred fade-in scene 02.
 	

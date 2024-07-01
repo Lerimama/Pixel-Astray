@@ -1138,19 +1138,7 @@ __meta__ = {
 "_edit_vertical_guides_": [ 640.0 ]
 }
 
-[node name="CleanedLabel" parent="GUI/GameOver/GameoverTitle/ReasonCleaned" index="1"]
-text = "%You are full of colors again!"
-
-[node name="TimeupLabel" parent="GUI/GameOver/GameoverTitle/ReasonTime" index="1"]
-text = "%Can't handle the colors?"
-
-[node name="DiedLabel" parent="GUI/GameOver/GameoverTitle/ReasonLife" index="1"]
-text = "%You are forever colorless!"
-
-[node name="GameSummary" parent="GUI/GameOver" index="3"]
-visible = false
-
-[node name="Menu" parent="GUI/GameOver" index="4"]
+[node name="Menu" parent="GUI/GameOver" index="5"]
 visible = false
 
 [node name="RespawnTimer" type="Timer" parent="."]
@@ -1165,4 +1153,5 @@ one_shot = true
 [editable path="GUI/Tutorial/ActionHint"]
 [editable path="GUI/Tutorial/MissionPanel/ActionHint"]
 [editable path="GUI/GameOver"]
-[editable path="GUI/GameOver/GameSummary/ContentSweeper/Hs/HighscoreTable"]
+[editable path="GUI/GameOver/GameSummary/ContentSweeper/Hs/HighscoreTableDummy"]
+[editable path="GUI/GameOver/GameSummary/Content/Hs/HighscoreTable"]

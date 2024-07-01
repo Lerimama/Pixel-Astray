@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=1]
 [ext_resource path="res://assets/theme/font_big.tres" type="DynamicFont" id=2]
@@ -6,14 +6,6 @@
 [ext_resource path="res://game/tilemaps/game_tilemap.gd" type="Script" id=4]
 [ext_resource path="res://game/tilemaps/monitor_background.tscn" type="PackedScene" id=5]
 [ext_resource path="res://game/edge_cover.tscn" type="PackedScene" id=6]
-
-[sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color( 1, 1, 1, 1 )
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
@@ -40,42 +32,34 @@ __meta__ = {
 position = Vector2( 0, -736 )
 
 [node name="SolutionLine" type="Line2D" parent="."]
-visible = false
-modulate = Color( 1, 1, 1, 0.54902 )
-z_index = -3
-points = PoolVector2Array( 624, 344, 304, 344, 304, 328, 1048, 328 )
+self_modulate = Color( 1, 1, 1, 0.784314 )
+z_index = 10
+points = PoolVector2Array( 624, 344, 304, 344, 304, 328, 1008, 328 )
 width = 8.0
-default_color = Color( 1, 1, 1, 1 )
+default_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="ColorRect" type="Panel" parent="SolutionLine"]
-margin_right = 8.0
-margin_bottom = 8.0
-theme = ExtResource( 1 )
-custom_styles/panel = SubResource( 2 )
-
-[node name="NoHint" type="Node2D" parent="."]
+[node name="NoSolutionHint" type="Label" parent="SolutionLine"]
 visible = false
-position = Vector2( 640, 336 )
-z_index = 10
-
-[node name="NoSolutionHint" type="Label" parent="NoHint"]
-margin_left = -270.0
-margin_top = -31.0
-margin_right = 305.0
-margin_bottom = 28.0
+margin_left = 370.0
+margin_top = 305.0
+margin_right = 945.0
+margin_bottom = 364.0
 grow_horizontal = 2
 theme = ExtResource( 1 )
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 custom_fonts/font = ExtResource( 2 )
-text = "Do it your own way!"
+text = "Do it your own way"
 align = 1
 valign = 1
 uppercase = true
 
-[node name="ColorRect" type="ColorRect" parent="NoHint/NoSolutionHint"]
+[node name="ColorRect" type="ColorRect" parent="SolutionLine/NoSolutionHint"]
 show_behind_parent = true
 anchor_left = 0.5
 anchor_top = 0.5
@@ -161,5 +145,6 @@ text = "zoom 1"
 polygon = PoolVector2Array( 607, 288, 607, 320, 639, 320, 639, 288 )
 
 [node name="EdgeCover" parent="." instance=ExtResource( 6 )]
+visible = false
 
 [editable path="Background"]

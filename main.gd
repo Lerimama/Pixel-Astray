@@ -9,8 +9,10 @@ onready var game_scene_path: String = Profiles.current_game_data["game_scene_pat
 
 func _input(event: InputEvent) -> void:
 
-	if Input.is_action_pressed("reset"):
-		hard_reset()
+	#	if Input.is_action_pressed("reset"):
+	#		hard_reset()
+	
+	pass
 	
 			
 func _ready() -> void:
@@ -18,20 +20,14 @@ func _ready() -> void:
 	Global.main_node = self
 	
 #	home_in_intro()
-	home_in_no_intro()
-#	game_in()
+#	home_in_no_intro()
+	game_in()
 
-
-func _process(delta: float) -> void:
-	
-#	print(Global.hud.get_focus_owner())
-	pass
 
 func home_in_intro():
 	
 	Global.spawn_new_scene(home_scene_path, self)
 	Global.current_scene.open_with_intro()
-	
 	
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(Global.current_scene, "modulate", Color.white, fade_time)
@@ -60,6 +56,7 @@ func home_in_from_game(finished_game: int):
 	yield(get_tree().create_timer(0.7), "timeout") # da se title naštima
 	
 	Global.current_scene.modulate = Color.black
+	
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(Global.current_scene, "modulate", Color.white, fade_time)
 
@@ -71,8 +68,10 @@ func home_out():
 	
 	var fade_out = get_tree().create_tween()
 	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
-	fade_out.tween_callback(Global, "release_scene", [Global.current_scene])
-	fade_out.tween_callback(self, "game_in")#.set_delay(1)
+	yield(fade_out, "finished")
+	
+	Global.release_scene(Global.current_scene)
+	call_deferred("game_in")
 
 
 func game_in():	
@@ -93,7 +92,9 @@ func game_in():
 	
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(Global.current_scene, "modulate", Color.white, fade_time).from(Color.black)
-	fade_in.tween_callback(Global.game_manager, "set_game")
+	yield(fade_in, "finished")
+	
+	Global.game_manager.set_game()
 	
 
 func game_out(game_to_exit: int):
@@ -104,8 +105,10 @@ func game_out(game_to_exit: int):
 	
 	var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
-	fade_out.tween_callback(Global, "release_scene", [Global.current_scene])
-	fade_out.tween_callback(self, "home_in_from_game", [game_to_exit]).set_delay(1) # fajn delay ker se release zgodi šele v naslednjem frejmu
+	yield(fade_out, "finished")
+	
+	Global.release_scene(Global.current_scene)
+	call_deferred("home_in_from_game", game_to_exit) # nujno deferred, ker se tudi relese scene zgodi deferred
 
 
 func reload_game(): # game out z drugačnim zaključkom
@@ -117,9 +120,11 @@ func reload_game(): # game out z drugačnim zaključkom
 	
 	var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
-	fade_out.tween_callback(Global, "release_scene", [Global.current_scene])
-	fade_out.tween_callback(Profiles, "set_game_data", [current_game_enum] ).set_delay(1) # dober delay ker se relese zgodi šele v naslednjem frejmu
-	fade_out.tween_callback(self, "game_in").set_delay(1) # dober delay ker se relese zgodi šele v naslednjem frejmu
+	yield(fade_out, "finished")
+	
+	Global.release_scene(Global.current_scene)
+	Profiles.call_deferred("set_game_data", current_game_enum) # nujno deferred, ker se tudi relese scene zgodi deferred
+	call_deferred("game_in") # nujno deferred, ker se tudi relese scene zgodi deferred
 
 
 func hard_reset():

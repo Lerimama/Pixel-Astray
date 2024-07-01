@@ -28,8 +28,9 @@ var default_game_settings: Dictionary = {
 	"on_hit_wall_energy_part": 0.5,
 	# reburst
 	"reburst_enabled": false,
-	"reburst_window_time": 0.3, # 0 je neomejen čas
 	"reburst_hit_power": 1, # 0 gre po original pravilih moči, trenutno je 5 full power
+	"reburst_window_time": 0.3, # 0 je neomejen čas
+	"reburst_window_energy_drain": -2, # uporabljam namesto časa
 	# strays
 	"create_strays_count": 0,
 	"spawn_white_stray_part": 0, # procenti spawnanih ... 0 ne spawna nobenega belega
@@ -48,6 +49,7 @@ var default_game_settings: Dictionary = {
 	"position_indicators_show_limit": 6, # en manj je število vidnih
 	"start_countdown": true,
 	# neu
+	"burst_count_limit": 0, # če je nič, ni omejeno
 	"respawn_pause_time_limit": 1, # klempam na tole
 	"zoom_to_level_size": false, # SHOWCASE
 	"always_zoomed_in": false, # SWEEPER
@@ -79,10 +81,9 @@ var game_data_classic: Dictionary = {
 	"game_name": "Classic",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_classic_xl.tscn",
-#	"tilemap_path": "res://game/tilemaps/tilemap_classic_l.tscn",
-	"description" : "Team up for a cleaning frenzy!",
-	"Prop" : "Clear all stray pixels\nto reclaim your\none-and-only status.",
-	"Prop2" : "Give it your best shot\nto beat the current\nrecord score!",
+	"description": "Team up for a cleaning frenzy!",
+	"Prop": "Clear all stray pixels\nto reclaim your\none-and-only status.",
+	"Prop2": "Give it your best shot\nto beat the current\nrecord score!",
 }
 var game_data_cleaner_xs: Dictionary = { 
 	"game": Games.CLEANER_XS,
@@ -188,9 +189,7 @@ var game_data_the_duel: Dictionary = {
 	"highscore_type": HighscoreTypes.NO_HS,
 	"game_name": "The Duel",
 	"game_scene_path": "res://game/game.tscn",
-	#	"tilemap_path": "res://game/tilemaps/tilemap_duel.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_duel_s.tscn",
-	#	"tilemap_path": "res://game/tilemaps/tilemap_duel_lite.tscn",
 	"description" : "Only the best cleaner will shine in this epic battle!",
 	"Prop": "Player with better\nfinal score will be named\nthe Ultimate cleaning champ!",
 	"Prop2": "Hit the opposing player\nto take his life and\nhalf of his points.",
@@ -201,14 +200,11 @@ var game_data_sweeper: Dictionary = {
 	"game_name": "Sweeper",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
-	"description" : "Sweep the entire screen in one spectacular move!",
-	"Prop" : "To reburst, press\nin the next target's direction upon hitting\na stray pixel.",
-	"Prop2" : "Initial burst can\ncollect all stacked\ncolors. Reburst always collects only one.",
-	"Prop3" : "You have only\none chance to\nrule them all and\nset the record!",
-	#	"Prop" : "Hit the first\nstray pixel and keep rebursting till there\nare none left.",
-	#	"Prop2" : "To reburst when hitting a pixel, press\nin a direction of\nthe next target.",
-	#	"Prop3" : "One burst\nto rule them all\nin a record time!",
-	"level": 1,
+	"description" : "Handle the colors to sweep the entire screen\nwith one spectacular cascading move!",
+	"Prop": "To REBURST, press\nin the next target's\ndirection upon hitting\na stray pixel.",
+	"Prop2": "You have\nonly a couple of\nseconds to keep\nyour momentum.",
+	"Prop3": "Initial burst can\ncollect all stacked\ncolors. Reburst always\ncollects only one.",
+	"level": 3,
 }
 var sweeper_level_tilemap_paths: Array = [ # zaporedje je ključno za level name
 	"res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
@@ -248,7 +244,6 @@ var game_data_showcase: Dictionary = {
 
 # ON GAME START -----------------------------------------------------------------------------------
 
-#var sweeper_tilemaps_folder: String = "res://game/tilemaps/sweeper/"
 var game_settings: Dictionary# = default_game_settings # = {}
 var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
 var use_default_color_theme: bool = true
@@ -312,7 +307,6 @@ func set_game_data(selected_game):
 			current_game_data = game_data_classic.duplicate()
 #			game_settings["create_strays_count"] = 230
 			game_settings["game_time_limit"] = 0
-#			game_settings["start_countdown"] = false
 			game_settings["game_music_track_index"] = 1
 			#
 #			game_settings["create_strays_count"] = 999
@@ -346,7 +340,6 @@ func set_game_data(selected_game):
 		
 		Games.CHASER: 
 			current_game_data = game_data_chaser.duplicate()
-#			game_settings["start_countdown"] = false
 			game_settings["position_indicators_show_limit"] = 0
 			#
 			game_settings["respawn_strays_count_range"] = [2, 8]
@@ -358,7 +351,6 @@ func set_game_data(selected_game):
 			game_settings["cell_traveled_energy"] = 0
 			game_settings["position_indicators_show_limit"] = 0
 			game_settings["full_power_mode"] = true
-#			game_settings["start_countdown"] = false
 			# game_settings["game_music_track_index"] = 1
 			#
 			game_settings["create_strays_count"] = 1 # število spawnanih v prvi rundi
@@ -367,8 +359,6 @@ func set_game_data(selected_game):
 			current_game_data = game_data_the_duel.duplicate()
 			game_settings["game_time_limit"] = 180 # tilemap set
 			game_settings["spawn_strays_on_cleaned"] = true
-#			game_settings["zoom_to_level_size"] = true ... če je večja mapa
-			
 			game_settings["position_indicators_show_limit"] = 0
 			game_settings["respawn_strays_count_range"] = [1, 14]
 			game_settings["spawn_white_stray_part"] = 0.21
@@ -379,14 +369,15 @@ func set_game_data(selected_game):
 			game_settings["player_start_color"] = Color.white
 			game_settings["on_hit_wall_energy_part"] = 1
 			game_settings["color_picked_points"] = 0
-			game_settings["cell_traveled_energy"] = 0
+			game_settings["cell_traveled_energy"] = -2
 			game_settings["cleaned_reward_points"] = 1 # ... izpiše se "SUCCESS!" # TEST
 			game_settings["position_indicators_show_limit"] = 0
 			game_settings["reburst_enabled"] = true
-			game_settings["reburst_window_time"] = 5
+			game_settings["reburst_window_time"] = 13
 			game_settings["game_music_track_index"] = 1
+			game_settings["burst_count_limit"] = 1
+			#
 			game_settings["always_zoomed_in"] = true # prižge se med prvo igro iz menija, tako ostane za zmerom zoomiran
 			game_settings["show_game_instructions"] = false # prižge se samo za prvi gejm iz menija
-#			game_settings["zoom_to_level_size"] = true # ker so samo M velikosti
-			return game_settings # da lahko vklopim game instructions za prehod iz home menija
+			return game_settings # da lahko vklopim "instructions" in "zoomed in" za prehod iz home menija
 	

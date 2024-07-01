@@ -10,6 +10,6 @@ __meta__ = {
 }
 
 [node name="SolutionLine" parent="." index="1"]
-points = PoolVector2Array( 720, 376, 760, 376, 760, 360, 720, 360, 720, 336, 656, 336, 656, 392, 584, 392, 584, 408, 688, 408, 688, 304, 664, 304 )
+points = PoolVector2Array(  )
 
 [editable path="Background"]

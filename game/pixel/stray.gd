@@ -187,9 +187,8 @@ func get_neighbor_strays_on_hit(): # kliče player on hit
 	
 	var directions_to_check: Array = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
 	var current_cell_neighbors: Array
-	
 	for direction in directions_to_check:
-		var neighbor = detect_collision_in_direction(direction)
+		var neighbor = Global.detect_collision_in_direction(direction, vision_ray)
 		if neighbor and neighbor.is_in_group(Global.group_strays) and not neighbor == self: # če je kolajder, je stray in ni self
 			if not neighbor.current_state == neighbor.States.DYING:# # če je vstanju umiranja se ne šteje za soseda
 				current_cell_neighbors.append(neighbor)
@@ -197,15 +196,6 @@ func get_neighbor_strays_on_hit(): # kliče player on hit
 	return current_cell_neighbors # uporaba v stalnem čekiranj sosedov
 
 	
-func detect_collision_in_direction(direction_to_check):
-
-	vision_ray.look_at(global_position + direction_to_check)
-	vision_ray.cast_to = Vector2(45, 0)
-	vision_ray.force_raycast_update()
-	
-	return vision_ray.get_collider()
-
-
 # SIGNALI ------------------------------------------------------------------------------------------------------
 
 
@@ -252,58 +242,3 @@ func _on_Stray_tree_entered() -> void:
 			printt ("overspawn II on player - stray tree entered", self) 
 			call_deferred("queue_free")
 			return
-
-
-# OPT koda za delovanje outside position indikatorjev
-#
-#func _on_VisibilityNotifier2D_viewport_entered(viewport: Viewport) -> void: 
-#
-#	Global.strays_on_screen.append(self)
-#	visible_on_screen = true
-#	show()
-#
-#
-#func _on_VisibilityNotifier2D_viewport_exited(viewport: Viewport) -> void:
-#
-#	Global.strays_on_screen.erase(self)
-#	visible_on_screen = false
-#	hide()
-#
-#
-#func _process(delta: float) -> void:
-#
-#	if Global.game_manager.show_position_indicators:
-#		if not position_indicator.visible:
-#			fade_position_indicator(true)
-#	else:
-#		if position_indicator.visible:
-#			fade_position_indicator(false)
-#
-#	if position_indicator.visible:
-#		get_position_indicator_position(get_viewport().get_node("PlayerCamera"))
-
-#func get_position_indicator_position(current_camera: Camera2D):
-#
-#	var viewport_position = get_viewport_rect().position
-#	var viewport_size = get_viewport_rect().end
-#	var current_camera_position = current_camera.get_camera_screen_center()
-#
-#	var camera_edge_clamp_down_x = current_camera_position.x - viewport_size.x/2 + cell_size_x/2 # polovička vp-ja na vsako stran centra kamere
-#	var camera_edge_clamp_up_x = current_camera_position.x + viewport_size.x/2 - cell_size_x/2
-#	var camera_edge_clamp_down_y = current_camera_position.y - viewport_size.y/2 + cell_size_x/2 # polovička vp-ja na vsako stran centra kamere
-#	var camera_edge_clamp_up_y = current_camera_position.y + viewport_size.y/2 - cell_size_x/2
-#
-#	position_indicator.global_position = global_position
-#	position_indicator.global_position.x = clamp(position_indicator.global_position.x, camera_edge_clamp_down_x, camera_edge_clamp_up_x)
-#	position_indicator.global_position.y = clamp(position_indicator.global_position.y, camera_edge_clamp_down_y, camera_edge_clamp_up_y)
-#
-#func fade_position_indicator(fade_in: bool):
-#
-#	var fade_time: float = 0.2
-#	var fade_tween = get_tree().create_tween()
-#	if fade_in:
-#		fade_tween.tween_callback(position_indicator, "show")
-#		fade_tween.tween_property(position_indicator_poly, "modulate:a", 1, 0.5).from(0.0)
-#	else:
-#		fade_tween.tween_property(position_indicator_poly, "modulate:a", 0, 0.5)
-#		fade_tween.tween_callback(position_indicator, "hide")	

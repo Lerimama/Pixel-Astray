@@ -49,7 +49,7 @@ var surrounded_player_strays: Array # za preverjanje prek večih preverjanj
 # heartbeat
 var heartbeat_loop: int = 0
 var got_hit: bool # heartbeat animacija počaka die animacijo, ko je po karambolu energija = 1
-
+var heartbeat_loops_limit: int = 3
 # controls
 var key_left: String
 var key_right: String
@@ -70,6 +70,7 @@ var burst_removed_free_positions: Array = [] # free pozicije, ki se zasedejo me 
 var previous_position: Vector2 = Vector2.ZERO # pozicija pred zadnjo akcijo ... za vračanje med na-voljo
 
 onready var game_settings: Dictionary = Global.game_manager.game_settings 
+onready var game_data: Dictionary = Global.game_manager.game_data 
 onready var cell_size_x: int = Global.current_tilemap.cell_size.x  # pogreba od GMja, ki jo dobi od tilemapa
 
 onready var vision_ray: RayCast2D = $VisionRay
@@ -87,8 +88,6 @@ onready var Ghost: PackedScene = preload("res://game/pixel/ghost.tscn")
 onready var PixelCollisionParticles: PackedScene = preload("res://game/pixel/pixel_collision_particles.tscn")
 onready var PixelDizzyParticles: PackedScene = preload("res://game/pixel/pixel_dizzy_particles.tscn")
 onready var FloatingTag: PackedScene = preload("res://game/hud/floating_tag.tscn")
-
-
 
 
 func _ready() -> void:
@@ -135,7 +134,10 @@ func _physics_process(delta: float) -> void:
 	else:
 		if not skilling_start_timer.is_stopped():
 			skilling_start_timer.stop()
-			
+	
+	if reburst_window_open:
+		change_stat("rebursting_momentum", 1)
+		
 	state_machine()
 	manage_heartbeat()
 	
@@ -210,56 +212,62 @@ func on_collision():
 	
 func idle_inputs():
 	
-	if player_stats["player_energy"] > 1:
-		var current_collider: Node2D = detect_collision_in_direction(direction)
-		
-		# dokler ne zazna kolizije se premika zvezno ... is_action_pressed, potem pa se ustavi ali postane SKILLED
-		if not current_collider: 
-			if reburst_window_open:
-				rebursting_inputs()
-			else:
-				if Input.is_action_pressed(key_up):
-					direction = Vector2.UP
-					step()
-				elif Input.is_action_pressed(key_down):
-					direction = Vector2.DOWN
-					step()
-				elif Input.is_action_pressed(key_left):
-					direction = Vector2.LEFT
-					step()
-				elif Input.is_action_pressed(key_right):
-					direction = Vector2.RIGHT
-					step()
-		else:
-			# reburst ali navaden pritisk smeri
-			if sweep_move_started:
-				rebursting_inputs()
-			else:
-				# če je SKILLED, kontrole prevzame skilled_input, če ne end move()
-				if current_collider.is_in_group(Global.group_strays):
+	#	if player_stats["player_energy"] > 1:
+	var current_collider: Node2D = Global.detect_collision_in_direction(direction, vision_ray)
+	
+	# dokler ne zazna kolizije se premika zvezno ... is_action_pressed, potem pa se ustavi ali postane SKILLED
+	if not current_collider: 
+		if reburst_window_open:
+			rebursting_inputs()
+		elif player_stats["player_energy"] > 1:
+			if Input.is_action_pressed(key_up):
+				direction = Vector2.UP
+				step()
+			elif Input.is_action_pressed(key_down):
+				direction = Vector2.DOWN
+				step()
+			elif Input.is_action_pressed(key_left):
+				direction = Vector2.LEFT
+				step()
+			elif Input.is_action_pressed(key_right):
+				direction = Vector2.RIGHT
+				step()
+	else:
+		# reburst ali navaden pritisk smeri
+		if sweep_move_started:
+			rebursting_inputs()
+		elif player_stats["player_energy"] > 1:
+			# če je SKILLED, kontrole prevzame skilled_input, če ne end move()
+			if current_collider.is_in_group(Global.group_strays):
+				current_state = States.SKILLED
+			elif current_collider.is_in_group(Global.group_tilemap):
+				if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
 					current_state = States.SKILLED
-				elif current_collider.is_in_group(Global.group_tilemap):
-					if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
-						current_state = States.SKILLED
-					else:
-						end_move()
-				elif current_collider.is_in_group(Global.group_players):
+				else:
 					end_move()
-				elif current_collider is StaticBody2D: # static body, 
-					end_move()
+			elif current_collider.is_in_group(Global.group_players):
+				end_move()
+			elif current_collider is StaticBody2D: # static body, 
+				end_move()
 	
 	
 	if Input.is_action_just_pressed(key_burst): # brez "just" dela po stisku smeri ... ni ok
-		current_state = States.COCKING
-		if change_color_tween and change_color_tween.is_running(): # če sprememba barve še poteka, jo spremenim takoj
-			change_color_tween.kill()
-			pixel_color = change_to_color
-		burst_light_on()
+		
+		# če je burstanje omejeno in je velje od limite ne sprožim kokanja
+		if not Global.game_manager.game_settings["burst_count_limit"] == 0 and player_stats["burst_count"] >= Global.game_manager.game_settings["burst_count_limit"]:
+			pass
+		else:
+			current_state = States.COCKING
+			if change_color_tween and change_color_tween.is_running(): # če sprememba barve še poteka, jo spremenim takoj
+				change_color_tween.kill()
+				pixel_color = change_to_color
+			burst_light_on()
+		
 		if Global.game_manager.game_settings["reburst_enabled"]:
 			close_reburst_window()
 			if sweep_move_started:
 				finish_sweep_move()	
-			
+
 
 func skill_inputs():
 	
@@ -291,6 +299,11 @@ func skill_inputs():
 	
 	# prehod v cocking stanje
 	if Input.is_action_just_pressed(key_burst): # brez "just" dela po stisku smeri ... ni ok
+		# sweeper ima samo en možen burst
+		#		print ("count",player_stats["burst_count"])
+		#		if not Global.game_manager.game_settings["burst_count_limit"] == 0:
+		#			if player_stats["burst_count"] >= Global.game_manager.game_settings["burst_count_limit"]:
+		#				return
 		current_state = States.COCKING
 		skill_light_off()
 		burst_light_on()
@@ -298,10 +311,11 @@ func skill_inputs():
 			close_reburst_window()
 			if sweep_move_started:
 				finish_sweep_move()
-		return	
+			return	
+			
 			
 	# izbor skila v novi smeri
-	var current_collider: Object = detect_collision_in_direction(direction)
+	var current_collider: Object = Global.detect_collision_in_direction(direction, vision_ray)
 	if current_collider: # zaščita, če se povežeš in ti potem pobegne
 		if new_direction:
 			if new_direction == direction: # naprej
@@ -372,11 +386,14 @@ func bursting_inputs():
 		end_move()
 		Input.start_joy_vibration(0, 0.6, 0.2, 0.2)
 		play_sound("burst_stop")
+		
 		if Global.game_manager.game_settings["reburst_enabled"]:
 			close_reburst_window()
 			if sweep_move_started:
 				finish_sweep_move()	
 	
+		change_stat("burst_count", -1)
+		
 				
 # MOVEMENT ------------------------------------------------------------------------------------------
 
@@ -389,7 +406,7 @@ func step():
 	
 	if not Global.game_manager.is_floor_position_free(intended_position):
 		return
-	if detect_collision_in_direction(step_direction): # zazih in za defender tip roba
+	if Global.detect_collision_in_direction(step_direction, vision_ray): # zazih in za defender tip roba
 		return
 
 	current_state = States.STEPPING
@@ -457,7 +474,7 @@ func cock_burst():
 	var cock_direction = - burst_direction
 	
 	# prostor za začetek napenjanja preverja pixel
-	if detect_collision_in_direction(cock_direction):
+	if Global.detect_collision_in_direction(cock_direction, vision_ray):
 		end_move()
 		return
 	
@@ -535,7 +552,7 @@ func burst():
 	else:
 		burst_speed = current_ghost_count * cock_ghost_speed_addon
 	
-	change_stat("burst_released", 1)
+	change_stat("burst_count", 1)
 	
 	
 # REBURST ------------------------------------------------------------------
@@ -571,7 +588,7 @@ func cock_reburst():
 	var cock_direction = - burst_direction
 	
 	# če ni prostora, ne dela cockinga
-	if detect_collision_in_direction(cock_direction):
+	if Global.detect_collision_in_direction(cock_direction, vision_ray):
 		release_reburst()
 	else: # če je prostor cocka
 		for cock in reburst_max_cock_count:
@@ -617,11 +634,8 @@ func reburst():
 	
 	# release pixel
 	current_state = States.BURSTING
-	
 	burst_speed = reburst_speed_units_count * cock_ghost_speed_addon
 	
-	change_stat("burst_released", 1)
-
 
 func close_reburst_window():
 	# se resetira na vsak reburst in drugo 
@@ -652,7 +666,7 @@ func push(stray_to_move: KinematicBody2D):
 	var backup_direction: Vector2 = - push_direction
 	
 	# prostor za zalet?
-	if detect_collision_in_direction(backup_direction):
+	if Global.detect_collision_in_direction(backup_direction, vision_ray):
 		end_move()
 		return
 	
@@ -669,7 +683,7 @@ func push(stray_to_move: KinematicBody2D):
 	var room_for_push: bool = true
 	var strays_to_move: Array = [stray_to_move]
 	for stray in strays_to_move:
-		var stray_neighbor = stray.detect_collision_in_direction(push_direction)
+		var stray_neighbor = Global.detect_collision_in_direction(push_direction, stray.vision_ray)
 		if stray_neighbor:
 			if stray_neighbor.is_in_group(Global.group_strays):
 				if stray_neighbor.current_state == stray_neighbor.States.WALL:
@@ -694,9 +708,10 @@ func push(stray_to_move: KinematicBody2D):
 		push_tween.parallel().tween_property(skill_light, "position", skill_light.position - backup_direction * cell_size_x, push_cocktime).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)	
 		# release
 		push_tween.tween_callback(self, "play_sound", ["pushpull_end"])
-#		push_tween.tween_callback(self, "skill_light_off") # lučko dam v proces ugašanja
+		push_tween.tween_callback(self, "skill_light_off") # lučko dam v proces ugašanja
 		push_tween.tween_property(self, "position", global_position + push_direction * cell_size_x, push_time).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
 		push_tween.parallel().tween_property(skill_light, "position", Vector2.ZERO, push_time).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN) # lučko zapeljem nazaj na začetno lokacijo
+		push_tween.tween_callback(new_push_ghost, "hide") # skrijem ga ko ga pixel pokrije
 		# porinem vse strayse v vrsti
 		for stray_to_move in strays_to_move:
 			push_tween.tween_callback(stray_to_move, "push_stray", [push_direction, push_time])
@@ -731,7 +746,7 @@ func pull(stray_to_move: KinematicBody2D):
 	var intended_position: Vector2 = global_position + pull_direction * cell_size_x
 	
 	# je prostor v smeri premika?
-	if detect_collision_in_direction(pull_direction): 
+	if Global.detect_collision_in_direction(pull_direction, vision_ray):
 		end_move()
 		return	
 	
@@ -1046,11 +1061,11 @@ func spawn_floating_tag(value: int):
 	var text_to_show: String = ""
 	var text_color: Color = Color.white
 	if value == 0:
-		if Global.game_manager.game_data["game"] == Profiles.Games.DEFENDER: # 1 točka ni nikoli
+		if game_data["game"] == Profiles.Games.DEFENDER: # 1 točka ni nikoli
 			text_to_show = "KUKU!"
 		else:
 			return
-	elif Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER and value == 1:
+	elif game_data["game"] == Profiles.Games.SWEEPER and value == 1:
 		text_to_show = "YEAH!"
 	elif value < 0:
 		text_color = Global.color_red
@@ -1104,20 +1119,6 @@ func on_out_of_bounds():
 	end_move()
 
 	
-func detect_collision_in_direction(direction_to_check):
-
-	if direction_to_check == Vector2.ZERO:
-		vision_ray.cast_to = Vector2.ZERO
-		return
-	else:
-		vision_ray.cast_to = Vector2(47.5, 0)
-		
-	vision_ray.look_at(global_position + direction_to_check)
-	vision_ray.force_raycast_update()
-	
-	return vision_ray.get_collider()
-	
-
 func detect_touch():
 	
 	var touch_areas: Array = [$Touch/TouchArea, $Touch/TouchArea2, $Touch/TouchArea3, $Touch/TouchArea4]
@@ -1458,7 +1459,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			emit_signal("player_pixel_set")
 		"heartbeat":
 			heartbeat_loop += 1
-			if heartbeat_loop <= 5:
+			if heartbeat_loop < heartbeat_loops_limit:
 				animation_player.play("heartbeat")
 			else:
 				stop_heart()
@@ -1504,11 +1505,15 @@ func change_stat(stat_event: String, stat_value):
 		"skill_used": # štetje, točke in energija kot je določeno v settingsih
 			player_stats["skill_count"] += 1
 			# za tutorial
-			if Global.game_manager.game_data["game"] == Profiles.Games.CLASSIC and Global.tutorial_gui.tutorial_on:
+			if game_data["game"] == Profiles.Games.CLASSIC and Global.tutorial_gui.tutorial_on:
 				Global.tutorial_gui.on_skill_used(stat_value)
-		"burst_released": # štetje, točke in energija kot je določeno v settingsih
-			player_stats["burst_count"] += 1
-		
+		"burst_count": # štetje, točke in energija kot je določeno v settingsih
+			player_stats["burst_count"] += stat_value
+		"rebursting_momentum":
+			player_stats["player_energy"] += game_settings["reburst_window_energy_drain"]
+			player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, player_max_energy)
+			
+			
 		# HITS ------------------------------------------------------------------------------------------------------------------
 	
 		"hit_stray": # štetje, točke in energija glede na število uničenih straysov
@@ -1530,7 +1535,9 @@ func change_stat(stat_event: String, stat_value):
 			player_stats["player_points"] += points_to_gain 
 			spawn_floating_tag(points_to_gain)
 			# za tutorial
-			if Global.game_manager.game_data["game"] == Profiles.Games.CLASSIC and Global.tutorial_gui.tutorial_on:
+			if game_data["game"] == Profiles.Games.SWEEPER and is_rebursting:
+				player_stats["player_energy"] = player_max_energy
+			elif game_data["game"] == Profiles.Games.CLASSIC and Global.tutorial_gui.tutorial_on:
 				Global.tutorial_gui.on_hit_stray(stack_strays_cleaned_count)
 					
 		"white_eliminated":
@@ -1558,7 +1565,7 @@ func change_stat(stat_event: String, stat_value):
 			spawn_floating_tag(- points_to_lose) 
 		
 		# LIFE LOOP ------------------------------------------------------------------------------------------------------------
-	
+		
 		"die": # izguba lajfa, če je energija 0
 			if player_stats["player_energy"] == 0:
 				player_stats["player_life"] -= 1
