@@ -37,7 +37,9 @@ var default_game_settings: Dictionary = {
 	"spawn_white_stray_part_limit": 0.5, # klempam, da ni "brezveznih" situacij
 	"respawn_strays_count_range": [0,0], # če je > 0, je respawn aktiviran
 	"respawn_pause_time": 1, # če je 0 lahko pride do errorja (se mi zdi, da n 0, se timer sam disejbla)
+	"respawn_pause_time_low": 1, # klempam navzdol na tole
 	# game
+	"burst_count_limit": 0, # če je nič, ni omejeno
 	"game_time_limit": 0, # če je nič, ni omejeno in timer je stopwatch mode
 	"game_music_track_index": 0, # default muska v igri
 	"color_pool_colors_count": 500,
@@ -48,9 +50,6 @@ var default_game_settings: Dictionary = {
 	"show_game_instructions": true,
 	"position_indicators_show_limit": 6, # en manj je število vidnih
 	"start_countdown": true,
-	# neu
-	"burst_count_limit": 0, # če je nič, ni omejeno
-	"respawn_pause_time_limit": 1, # klempam na tole
 	"zoom_to_level_size": false, # SHOWCASE
 	"always_zoomed_in": false, # SWEEPER
 }
@@ -253,15 +252,16 @@ var get_it_time: float = 1 # tajming za dojet določene faze igre
 var camera_shake_on: bool = true
 var tutorial_music_track_index: int = 1
 var tutorial_mode: bool = true
-
-
+var html5_mode: bool = false # skrije ExitGameBtn v home, GO in pavzi
+	
+	
 func _ready() -> void:
 	
 	# sweeper_level_tilemap_paths = Global.get_folder_contents(sweeper_tilemaps_folder)
 
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE # fix camera
-#	var debug_game = Games.CLASSIC
+	var debug_game = Games.CLASSIC
 #	var debug_game = Games.CLEANER_XS
 #	var debug_game = Games.CLEANER_S
 #	var debug_game = Games.CLEANER_M
@@ -269,7 +269,7 @@ func _ready() -> void:
 #	var debug_game = Games.CLEANER_XL
 #	var debug_game = Games.CHASER
 #	var debug_game = Games.DEFENDER
-	var debug_game = Games.SWEEPER
+#	var debug_game = Games.SWEEPER
 #	var debug_game = Games.THE_DUEL
 	set_game_data(debug_game)
 	
@@ -279,9 +279,9 @@ func set_game_data(selected_game):
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
 	# debug
-	game_settings["start_countdown"] = false
-	game_settings["player_start_life"] = 2
-	game_settings["show_game_instructions"] = false
+#	game_settings["start_countdown"] = false
+#	game_settings["player_start_life"] = 2
+#	game_settings["show_game_instructions"] = false
 
 	match selected_game:
 
@@ -305,12 +305,12 @@ func set_game_data(selected_game):
 
 		Games.CLASSIC: 
 			current_game_data = game_data_classic.duplicate()
-#			game_settings["create_strays_count"] = 230
+			game_settings["create_strays_count"] = 230
 			game_settings["game_time_limit"] = 0
 			game_settings["game_music_track_index"] = 1
 			#
 #			game_settings["create_strays_count"] = 999
-			game_settings["create_strays_count"] = 320
+#			game_settings["create_strays_count"] = 320
 			
 		Games.CLEANER_XS: 
 			current_game_data = game_data_cleaner_xs.duplicate()

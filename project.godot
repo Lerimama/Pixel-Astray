@@ -52,10 +52,10 @@ _global_script_class_icons={
 
 config/name="Stray Pixels"
 run/main_scene="res://main.tscn"
-boot_splash/image="res://assets/app/boot_splash.png"
+boot_splash/image="res://assets/app/ratatata_boot_splash.png"
 boot_splash/use_filter=false
 boot_splash/bg_color=Color( 0, 0, 0, 1 )
-config/icon="res://assets/app/godot_icon.png"
+config/icon="res://assets/app/ratatata_gd_icon.png"
 
 [autoload]
 

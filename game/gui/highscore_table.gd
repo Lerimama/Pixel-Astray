@@ -30,7 +30,7 @@ func get_highscore_table(current_game_data: Dictionary, current_player_rank: int
 	
 	# napolnem lestvico
 	var scorelines: Array = get_children()
-	scorelines.pop_front() # neu
+	scorelines.pop_front()
 	var scorelines_with_score: Array
 
 

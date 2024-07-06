@@ -15,6 +15,9 @@ onready var intro_viewport: Viewport = $IntroViewPortContainer/IntroViewport
 
 func _input(event: InputEvent) -> void:
 	
+	#	if Input.is_action_just_pressed("next"): 
+	#		Global.sound_manager.change_menu_music()
+	
 	if Input.is_action_just_pressed("ui_cancel"):
 		match current_screen:
 			Screens.SELECT_GAME:
@@ -33,8 +36,6 @@ func _input(event: InputEvent) -> void:
 				$SelectLevel/BackBtn.grab_focus()
 				$SelectLevel.call_deferred("_on_BackBtn_pressed")
 	
-	#	if Input.is_action_just_pressed("next"): 
-	#		Global.sound_manager.change_menu_music()
 		
 			
 func _ready():
@@ -52,7 +53,13 @@ func _ready():
 	$Menu/SettingsBtn.add_to_group(Global.group_menu_confirm_btns)
 	$Menu/HighscoresBtn.add_to_group(Global.group_menu_confirm_btns)
 	$Menu/AboutBtn.add_to_group(Global.group_menu_confirm_btns)
-	$Menu/QuitGameBtn.add_to_group(Global.group_menu_cancel_btns)
+	$Menu/ExitGameBtn.add_to_group(Global.group_menu_cancel_btns)
+
+	if Profiles.html5_mode:
+		$Menu/ExitGameBtn.hide()
+		# dela brez spodnjega ... čudno ...
+		#		$Menu/QuitBtn.focus_neighbour_left = "../RestartBtn"
+		#		$Menu/RestartBtn.focus_neighbour_right = "../QuitBtn"		
 	
 	
 func open_with_intro(): # kliče main.gd -> home_in_intro()
@@ -91,7 +98,7 @@ func open_from_game(finished_game: int): # select_game screen ... kliče main.gd
 	
 	
 func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drugih ekranov
-	
+
 	menu.visible = true
 	current_screen = Screens.MAIN_MENU
 	Global.focus_without_sfx($Menu/SelectGameBtn)

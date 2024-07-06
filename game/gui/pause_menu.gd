@@ -29,10 +29,16 @@ func _ready() -> void:
 	$Menu/SkipTutBtn.add_to_group(Global.group_menu_confirm_btns)
 	$Menu/RestartBtn.add_to_group(Global.group_menu_confirm_btns)
 	$Menu/QuitBtn.add_to_group(Global.group_menu_cancel_btns)
+	$Menu/ExitGameBtn.add_to_group(Global.group_menu_cancel_btns)
 	
 	# instructions setup
 	instructions.get_instructions_content(Global.hud.current_highscore, Global.hud.current_highscore_owner)
 	instructions.shortcuts.hide()
+
+	if Profiles.html5_mode:
+		$Menu/ExitGameBtn.hide()	
+		$Menu/QuitBtn.focus_neighbour_left = "../RestartBtn"
+		$Menu/RestartBtn.focus_neighbour_right = "../QuitBtn"
 
 
 func _process(delta: float) -> void:
@@ -104,7 +110,6 @@ func play_without_tutorial():
 	fade_out_tween.tween_callback(get_tree(), "set_pause", [false])
 	fade_out_tween.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
 	fade_out_tween.tween_callback(Global.tutorial_gui, "close_tutorial")
-#	Global.tutorial_gui.close_tutorial()
 
 
 # MENU ---------------------------------------------------------------------------------------------
@@ -140,6 +145,11 @@ func _on_QuitBtn_pressed() -> void:
 	Global.sound_manager.stop_music("game_music_on_gameover")
 	# get_tree().paused = false ... tween za izhod pavzo drevesa ignorira
 	Global.main_node.game_out(Global.game_manager.game_data["game"])
+
+
+func _on_ExitGameBtn_pressed() -> void:
+	
+	get_tree().quit()
 
 
 # SETTINGS BTNZ ---------------------------------------------------------------------------------------------

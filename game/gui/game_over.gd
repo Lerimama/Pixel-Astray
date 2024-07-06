@@ -68,7 +68,13 @@ func _ready() -> void:
 	# menu btn group
 	$Menu/RestartBtn.add_to_group(Global.group_menu_confirm_btns)
 	$Menu/QuitBtn.add_to_group(Global.group_menu_cancel_btns)
-	
+	$Menu/ExitGameBtn.add_to_group(Global.group_menu_cancel_btns)
+
+	if Profiles.html5_mode:
+		$Menu/ExitGameBtn.hide()	
+		$Menu/QuitBtn.focus_neighbour_left = "../RestartBtn"
+		$Menu/RestartBtn.focus_neighbour_right = "../QuitBtn"
+		
 		
 func open_gameover(gameover_reason: int):
 	
@@ -310,7 +316,7 @@ func set_game_summary():
 		else:	
 			record_title.text = "Best Sweeper %02d time:" % Global.game_manager.game_data["level"]
 			# če rekorda še ni zapišem "still no records"
-#			highscore_table.get_node("ScoreLine/Score").text
+			#			highscore_table.get_node("ScoreLine/Score").text
 			var current_record: float = Global.hud.current_highscore
 			if current_record == 0:
 				record_label.hide()
@@ -527,7 +533,3 @@ func _on_NextLevelBtn_pressed() -> void:
 	Profiles.game_data_sweeper["level"] = next_level_number
 	Global.main_node.reload_game()
 
-
-func _on_RematchBtn_pressed() -> void:
-	
-	Global.main_node.reload_game()

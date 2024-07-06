@@ -260,7 +260,7 @@ func set_new_level():
 	# in level spawn
 	if game_settings["respawn_strays_count_range"][1] > 0:
 		respawn_pause_time *= game_data["respawn_pause_time_factor"]
-		respawn_pause_time = clamp(respawn_pause_time, game_settings["respawn_pause_time_limit"], respawn_pause_time)
+		respawn_pause_time = clamp(respawn_pause_time, game_settings["respawn_pause_time_low"], respawn_pause_time)
 		respawn_strays_count_range[0] += game_data["respawn_strays_count_range_grow"][0]
 		respawn_strays_count_range[1] += game_data["respawn_strays_count_range_grow"][1]
 	# level start spawn

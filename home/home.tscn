@@ -1588,7 +1588,6 @@ custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
 text = "tresi"
 
 [node name="Menu" type="HBoxContainer" parent="."]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1607,6 +1606,7 @@ margin_left = 50.0
 margin_top = 3.0
 margin_right = 106.0
 margin_bottom = 25.0
+focus_neighbour_left = NodePath("../ExitGameBtn")
 focus_neighbour_right = NodePath("../SettingsBtn")
 focus_mode = 1
 mouse_default_cursor_shape = 2
@@ -1646,19 +1646,20 @@ margin_top = 3.0
 margin_right = 516.0
 margin_bottom = 25.0
 focus_neighbour_left = NodePath("../HighscoresBtn")
-focus_neighbour_right = NodePath("../QuitGameBtn")
+focus_neighbour_right = NodePath("../ExitGameBtn")
 focus_mode = 1
 mouse_default_cursor_shape = 2
 size_flags_vertical = 8
 enabled_focus_mode = 1
 text = "ABOUT"
 
-[node name="QuitGameBtn" type="Button" parent="Menu"]
+[node name="ExitGameBtn" type="Button" parent="Menu"]
 margin_left = 548.0
 margin_top = 3.0
 margin_right = 670.0
 margin_bottom = 25.0
 focus_neighbour_left = NodePath("../AboutBtn")
+focus_neighbour_right = NodePath("../SelectGameBtn")
 focus_mode = 1
 mouse_default_cursor_shape = 2
 size_flags_vertical = 8
@@ -3269,7 +3270,7 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="Menu/SettingsBtn" to="." method="_on_SettingsBtn_pressed"]
 [connection signal="pressed" from="Menu/HighscoresBtn" to="." method="_on_HighscoresBtn_pressed"]
 [connection signal="pressed" from="Menu/AboutBtn" to="." method="_on_AboutBtn_pressed"]
-[connection signal="pressed" from="Menu/QuitGameBtn" to="." method="_on_QuitGameBtn_pressed"]
+[connection signal="pressed" from="Menu/ExitGameBtn" to="." method="_on_QuitGameBtn_pressed"]
 [connection signal="mouse_entered" from="SelectGame/GamesMenu/Classic/Background" to="SelectGame" method="_on_ClassicBackground_mouse_entered"]
 [connection signal="pressed" from="SelectGame/GamesMenu/Classic/ClassicBtn" to="SelectGame" method="_on_ClassicBtn_pressed"]
 [connection signal="toggled" from="SelectGame/GamesMenu/Classic/TutorialModeBtn" to="SelectGame" method="_on_TutorialModeBtn_toggled"]

@@ -6,18 +6,16 @@ var current_state = States.IDLE # ni vready, da lahko setam že ob spawnu
 
 var stray_color: Color
 var visible_on_screen: bool = false
+var previous_position: Vector2 = Vector2.ZERO
+var step_attempt: int = 1 # začne z ena, ker preverja preostale 3 smeri (prva je že zasedena)
 
+onready var vision_ray: RayCast2D = $VisionRay
 onready var collision_shape: CollisionShape2D = $CollisionShape2D
 onready var color_poly: Polygon2D = $ColorPoly
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var position_indicator: Node2D = $PositionIndicator
 onready var position_indicator_poly: Polygon2D = $PositionIndicator/PositionPoly
 onready var cell_size_x: int = Global.current_tilemap.cell_size.x
-
-# neu
-var previous_position: Vector2 = Vector2.ZERO
-onready var vision_ray: RayCast2D = $VisionRay
-var step_attempt: int = 1 # začne z ena, ker preverja preostale 3 smeri (prva je že zasedena)
 
 
 func _ready() -> void:

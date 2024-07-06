@@ -13,6 +13,7 @@
 
 [node name="GameOver" type="Control"]
 pause_mode = 2
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 3 )
@@ -734,6 +735,7 @@ margin_bottom = 326.0
 size_flags_horizontal = 9
 
 [node name="Menu" type="HBoxContainer" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -748,8 +750,18 @@ __meta__ = {
 "_edit_group_": true
 }
 
+[node name="ExitGameBtn" type="Button" parent="Menu"]
+margin_right = 122.0
+margin_bottom = 22.0
+focus_neighbour_left = NodePath("../RestartBtn")
+mouse_default_cursor_shape = 2
+size_flags_vertical = 8
+text = "EXIT GAME"
+align = 0
+
 [node name="QuitBtn" type="Button" parent="Menu"]
-margin_right = 52.0
+margin_left = 154.0
+margin_right = 206.0
 margin_bottom = 22.0
 focus_neighbour_right = NodePath("../RestartBtn")
 mouse_default_cursor_shape = 2
@@ -758,17 +770,16 @@ text = "QUIT"
 align = 2
 
 [node name="RestartBtn" type="Button" parent="Menu"]
-margin_left = 84.0
-margin_right = 216.0
+margin_left = 238.0
+margin_right = 370.0
 margin_bottom = 22.0
-focus_neighbour_left = NodePath("../QuitBtn")
+focus_neighbour_right = NodePath("../ExitGameBtn")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 8
 text = "PLAY AGAIN"
 align = 0
 
 [node name="NameInputPopup" type="Control" parent="."]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -861,6 +872,7 @@ size_flags_vertical = 9
 text = "CONFIRM"
 align = 0
 
+[connection signal="pressed" from="Menu/ExitGameBtn" to="." method="_on_ExitGameBtn_pressed"]
 [connection signal="pressed" from="Menu/QuitBtn" to="." method="_on_QuitBtn_pressed"]
 [connection signal="pressed" from="Menu/RestartBtn" to="." method="_on_RestartBtn_pressed"]
 [connection signal="text_changed" from="NameInputPopup/NameInput" to="." method="_on_NameEdit_text_changed"]
