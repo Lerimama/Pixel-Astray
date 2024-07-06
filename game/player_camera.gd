@@ -116,16 +116,13 @@ func zoom_out(hud_in_out_time: float): # kliče hud
 
 func shake_camera(shake_power: float, shake_time: float, shake_decay: float): 
 	
-	if not Profiles.camera_shake_on:
-		return
-	
-	# fixed
-	trauma_strength = shake_power
-	trauma_time = shake_time
-	decay_speed = shake_decay
-	
-	# apply shake
-	trauma_strength = clamp(trauma_strength, 0, 1)
+	if Profiles.camera_shake_on:
+		# fixed
+		trauma_strength = shake_power
+		trauma_time = shake_time
+		decay_speed = shake_decay
+		# apply shake
+		trauma_strength = clamp(trauma_strength, 0, 1)
 
 
 func set_zoom_to_level_size():
@@ -153,12 +150,12 @@ func set_camera_limits():
 	corner_BR = tilemap_edge.end.y * cell_size_x - cell_size_x
 	
 	if limit_left <= corner_TL and limit_right <= corner_TR and limit_top <= corner_BL and limit_bottom <= corner_BR: # če so meje manjše od kamere
-		return	
-
-	limit_left = corner_TL
-	limit_right = corner_TR
-	limit_top = corner_BL
-	limit_bottom = corner_BR
+		pass	
+	else:
+		limit_left = corner_TL
+		limit_right = corner_TR
+		limit_top = corner_BL
+		limit_bottom = corner_BR
 	
 	
 # TESTHUD ------------------------------------------------------------------------------------------------------------------------

@@ -45,42 +45,41 @@ func _process(delta: float) -> void:
 				$Mins.text = "00"
 				$Secs.text = "00"
 				$Hunds.text = "00"
-		return
+	else:	
+		# game time
+		absolute_game_time += delta # sekunde z decimalkami ... absouletnega uporabljam za izračune v vseh modetih
 		
-	# game time
-	absolute_game_time += delta # sekunde z decimalkami ... absouletnega uporabljam za izračune v vseh modetih
-	
-	# display
-	if stopwatch_mode:	
-		$Mins.text = "%02d" % floor(absolute_game_time/60)
-		$Secs.text = "%02d" % (floor(absolute_game_time) - floor(absolute_game_time/60) * 60)
-		$Hunds.text = "%02d" % floor((absolute_game_time - floor(absolute_game_time)) * 100)
-	else:
-		var game_time_left = game_time_limit - absolute_game_time # stotinke
-		$Mins.text = "%02d" % (floor(game_time_left/60))
-		$Secs.text = "%02d" % (floor(game_time_left) - floor(game_time_left/60) * 60)
-		$Hunds.text = "%02d" % floor((game_time_left - floor(game_time_left)) * 100)	
-		# game time is up
-		if absolute_game_time >= game_time_limit: 
-			Global.sound_manager.play_gui_sfx("game_countdown_b")
-			stop_timer()
-			$Mins.text = "00"
-			$Secs.text = "00"
-			$Hunds.text = "00"
-			emit_signal("gametime_is_up") # pošlje se v hud, ki javi GM	
-		# GO countdown
-		elif absolute_game_time > (game_time_limit - gameover_countdown_duration):
-			# za vsakič, ko mine sekunda 
-			if absolute_game_time == round(absolute_game_time): 
-				countdown_second -= 1
-				modulate = Global.color_yellow
-				Global.sound_manager.play_gui_sfx("game_countdown_a")
-		# sudden death 
-		elif absolute_game_time > (game_time_limit - sudden_death_limit) and sudden_death_mode: 
-			modulate = Global.color_green
-			emit_signal("sudden_death_activated") # pošlje se v hud, ki javi game managerju
+		# display
+		if stopwatch_mode:	
+			$Mins.text = "%02d" % floor(absolute_game_time/60)
+			$Secs.text = "%02d" % (floor(absolute_game_time) - floor(absolute_game_time/60) * 60)
+			$Hunds.text = "%02d" % floor((absolute_game_time - floor(absolute_game_time)) * 100)
 		else:
-			modulate = Global.color_hud_text
+			var game_time_left = game_time_limit - absolute_game_time # stotinke
+			$Mins.text = "%02d" % (floor(game_time_left/60))
+			$Secs.text = "%02d" % (floor(game_time_left) - floor(game_time_left/60) * 60)
+			$Hunds.text = "%02d" % floor((game_time_left - floor(game_time_left)) * 100)	
+			# game time is up
+			if absolute_game_time >= game_time_limit: 
+				Global.sound_manager.play_gui_sfx("game_countdown_b")
+				stop_timer()
+				$Mins.text = "00"
+				$Secs.text = "00"
+				$Hunds.text = "00"
+				emit_signal("gametime_is_up") # pošlje se v hud, ki javi GM	
+			# GO countdown
+			elif absolute_game_time > (game_time_limit - gameover_countdown_duration):
+				# za vsakič, ko mine sekunda 
+				if absolute_game_time == round(absolute_game_time): 
+					countdown_second -= 1
+					modulate = Global.color_yellow
+					Global.sound_manager.play_gui_sfx("game_countdown_a")
+			# sudden death 
+			elif absolute_game_time > (game_time_limit - sudden_death_limit) and sudden_death_mode: 
+				modulate = Global.color_green
+				emit_signal("sudden_death_activated") # pošlje se v hud, ki javi game managerju
+			else:
+				modulate = Global.color_hud_text
 
 
 func reset_timer():

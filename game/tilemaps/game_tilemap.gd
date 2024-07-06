@@ -35,6 +35,7 @@ func _ready() -> void:
 	# ko je edge size manjši od kamere, ga obarvam drugače
 	if Global.game_manager.game_data["game"] == Profiles.Games.CLEANER_XS or Global.game_manager.game_data["game"] == Profiles.Games.CLEANER_S:
 		get_tileset().tile_set_modulate(edge_tile_id, Global.color_almost_black_pixel)
+		edge_cover.hide()
 	else:
 		get_tileset().tile_set_modulate(edge_tile_id, Global.color_edge)
 

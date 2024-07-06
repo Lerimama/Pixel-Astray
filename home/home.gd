@@ -120,35 +120,40 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 	
 	match animation_name:
 		"select_game":
-			if animation_reversed(Screens.SELECT_GAME):
-				return
-			current_screen = Screens.SELECT_GAME
-			current_esc_hint = $SelectGame/EscHint
-			Global.focus_without_sfx($SelectGame/GamesMenu/Classic/ClassicBtn)
+			#			if animation_reversed(Screens.SELECT_GAME):
+			#				return
+			if not animation_reversed(Screens.SELECT_GAME):
+				current_screen = Screens.SELECT_GAME
+				current_esc_hint = $SelectGame/EscHint
+				Global.focus_without_sfx($SelectGame/GamesMenu/Classic/ClassicBtn)
 		"about":
-			if animation_reversed(Screens.ABOUT):
-				return
-			current_screen = Screens.ABOUT
-			current_esc_hint = $About/EscHint
-			Global.focus_without_sfx($About/BackBtn)
+			#			if animation_reversed(Screens.ABOUT):
+			#				return
+			if not animation_reversed(Screens.ABOUT):
+				current_screen = Screens.ABOUT
+				current_esc_hint = $About/EscHint
+				Global.focus_without_sfx($About/BackBtn)
 		"settings":
-			if animation_reversed(Screens.SETTINGS):
-				return
-			current_screen = Screens.SETTINGS
-			current_esc_hint = $Settings/EscHint
-			Global.focus_without_sfx($Settings/MenuMusicBtn)
+			#			if animation_reversed(Screens.SETTINGS):
+			#				return
+			if not animation_reversed(Screens.SETTINGS):
+				current_screen = Screens.SETTINGS
+				current_esc_hint = $Settings/EscHint
+				Global.focus_without_sfx($Settings/MenuMusicBtn)
 		"highscores":
-			if animation_reversed(Screens.HIGHSCORES):
-				return
-			current_screen = Screens.HIGHSCORES
-			current_esc_hint = $Highscores/EscHint
-			Global.focus_without_sfx($Highscores/SweeperArrows/RightBtn)
+			#			if animation_reversed(Screens.HIGHSCORES):
+			#				return
+			if not animation_reversed(Screens.HIGHSCORES):
+				current_screen = Screens.HIGHSCORES
+				current_esc_hint = $Highscores/EscHint
+				Global.focus_without_sfx($Highscores/SweeperArrows/RightBtn)
 		"select_level":
-			if animation_reversed(Screens.SELECT_LEVEL):
-				return
-			current_screen = Screens.SELECT_LEVEL
-			current_esc_hint = $SelectLevel/EscHint
-			Global.focus_without_sfx($SelectLevel.select_level_btns_holder.all_level_btns[0])
+			#			if animation_reversed(Screens.SELECT_LEVEL):
+			#				return
+			if not animation_reversed(Screens.SELECT_LEVEL):
+				current_screen = Screens.SELECT_LEVEL
+				current_esc_hint = $SelectLevel/EscHint
+				Global.focus_without_sfx($SelectLevel.select_level_btns_holder.all_level_btns[0])
 		"play_game":
 			Global.main_node.home_out()
 		"play_level":

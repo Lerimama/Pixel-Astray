@@ -23,18 +23,17 @@ func _on_value_change(new_value: int): # ne rabim parametra
 	# setam current life
 	life_count = new_value
 	
-	if previous_life == life_count:
-		return
-	elif life_count < previous_life:
-		modulate = Global.color_red
-		yield(get_tree().create_timer(0.5), "timeout")
-		modulate = Global.color_hud_text
-	elif life_count > previous_life:
-		modulate = Global.color_green
-		yield(get_tree().create_timer(0.5), "timeout")
-		modulate = Global.color_hud_text
-	
-	set_icons_state()
+	if not previous_life == life_count:
+		
+		if life_count < previous_life:
+			modulate = Global.color_red
+			yield(get_tree().create_timer(0.5), "timeout")
+			modulate = Global.color_hud_text
+		elif life_count > previous_life:
+			modulate = Global.color_green
+			yield(get_tree().create_timer(0.5), "timeout")
+			modulate = Global.color_hud_text
+		set_icons_state()
 	
 
 func set_icons_state():

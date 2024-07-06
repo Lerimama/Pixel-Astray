@@ -1018,21 +1018,21 @@ __meta__ = {
 }
 
 [node name="KEY" parent="Text/ActionHint" index="1"]
-margin_right = 118.0
-text = "RETURN"
+margin_right = 107.0
+text = "ENTER"
 
 [node name="Label2" parent="Text/ActionHint" index="2"]
-margin_left = 126.0
-margin_right = 143.0
+margin_left = 115.0
+margin_right = 132.0
 
 [node name="Jp" parent="Text/ActionHint" index="3"]
-margin_left = 151.0
-margin_right = 173.0
+margin_left = 140.0
+margin_right = 162.0
 texture = SubResource( 228 )
 
 [node name="Label3" parent="Text/ActionHint" index="4"]
-margin_left = 181.0
-margin_right = 280.0
+margin_left = 170.0
+margin_right = 269.0
 text = "to skip intro"
 
 [node name="StrayStepTimer" type="Timer" parent="."]

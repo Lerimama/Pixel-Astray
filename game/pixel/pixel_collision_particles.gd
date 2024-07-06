@@ -11,9 +11,8 @@ func _ready() -> void:
 	yield(get_tree().create_timer(0.5), "timeout") # tole je precej amaterski način
 	queue_free()
 
-func _on_Particles2D2_tree_exited() -> void:
-	queue_free()
-
 
 func _on_Particles2D_tree_exited() -> void:
+	# ko gresta particle node ven, se kvefirja
+	
 	queue_free()

@@ -9,5 +9,7 @@ func _ready() -> void:
 
 
 func _on_Particles_tree_exited() -> void:
+	# ko gresta particle node ven, se kvefirja
+	
 	queue_free()
 

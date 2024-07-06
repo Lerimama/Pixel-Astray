@@ -88,16 +88,15 @@ func start_game():
 func game_over(gameover_reason: int):
 	# namen: samo TIME in LIFE, CLEANED je level ampak upgrade
 	
-	if game_on == false: # preprečim double gameover
-		return
-	game_on = false
-	
-	Global.hud.game_timer.stop_timer()
-	yield(get_tree().create_timer(Profiles.get_it_time), "timeout")
-	get_tree().call_group(Global.group_players, "set_physics_process", false)
-	stop_game_elements()
-	
-	Global.gameover_gui.open_gameover(gameover_reason)
+	if game_on: # preprečim double gameover
+		game_on = false
+		
+		Global.hud.game_timer.stop_timer()
+		yield(get_tree().create_timer(Profiles.get_it_time), "timeout")
+		get_tree().call_group(Global.group_players, "set_physics_process", false)
+		stop_game_elements()
+		
+		Global.gameover_gui.open_gameover(gameover_reason)
 
 
 func create_players():
@@ -175,24 +174,26 @@ func create_strays(strays_to_spawn_count: int):
 func upgrade_level(upgrade_on_cleaned: bool =  false): # cleaner
 	# namen: ni respawna
 
-	if level_upgrade_in_progress:
-		return
-	level_upgrade_in_progress = true
+#	if level_upgrade_in_progress:
+#		return
+	if not level_upgrade_in_progress and game_on:
+		
+		level_upgrade_in_progress = true
 	
-	randomize()
+		randomize()
 
-	if upgrade_on_cleaned:
-		for player in current_players_in_game:
-			player.end_move()		
-			player.on_screen_cleaned()
+		if upgrade_on_cleaned:
+			for player in current_players_in_game:
+				player.end_move()		
+				player.on_screen_cleaned()
 
-	current_level += 1 # številka novega levela 
-	set_color_pool() # more bit pred yieldom in tudi, če so že spucani
-	set_new_level() 
-	Global.hud.level_popup_fade(current_level)
-	Global.hud.spawn_color_indicators(get_level_colors())
+		current_level += 1 # številka novega levela 
+		set_color_pool() # more bit pred yieldom in tudi, če so že spucani
+		set_new_level() 
+		Global.hud.level_popup_fade(current_level)
+		Global.hud.spawn_color_indicators(get_level_colors())
 
-	level_upgrade_in_progress = false		
+		level_upgrade_in_progress = false		
 
 
 func set_new_level():
@@ -246,13 +247,11 @@ func line_step():
 		
 func play_stepping_sound(current_player_energy_part: float):
 
-	if Global.sound_manager.game_sfx_set_to_off:
-		return		
-
-	var random_step_index = randi() % $Sounds/Stepping.get_child_count()
-	var selected_step_sound = $Sounds/Stepping.get_child(random_step_index)
-	selected_step_sound.pitch_scale = clamp(current_player_energy_part, 0.6, 1)
-	selected_step_sound.play()
+	if not Global.sound_manager.game_sfx_set_to_off:
+		var random_step_index = randi() % $Sounds/Stepping.get_child_count()
+		var selected_step_sound = $Sounds/Stepping.get_child(random_step_index)
+		selected_step_sound.pitch_scale = clamp(current_player_energy_part, 0.6, 1)
+		selected_step_sound.play()
 
 
 func _on_LineStepPauseTimer_timeout() -> void:

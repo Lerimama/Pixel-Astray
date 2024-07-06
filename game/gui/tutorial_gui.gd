@@ -80,33 +80,26 @@ func open_tutorial(): # kliče se z GM
 
 func finish_travel(): 
 	
-	if not current_tutorial_stage == TutorialStage.TRAVEL:
-		return	
-	# change_stage(travel_content, winlose_content, TutorialStage.WINLOSE) # debug
-	change_stage(travel_content, collect_content, TutorialStage.COLLECT)
+	if current_tutorial_stage == TutorialStage.TRAVEL:
+		change_stage(travel_content, collect_content, TutorialStage.COLLECT)
 	
 		
 func finish_collect(): 
 	
-	if not current_tutorial_stage == TutorialStage.COLLECT:
-		return
-	change_stage(collect_content, skills_content, TutorialStage.SKILLS)	
+	if current_tutorial_stage == TutorialStage.COLLECT:
+		change_stage(collect_content, skills_content, TutorialStage.SKILLS)	
 	
 
 func finish_skills():
 	
-	if not current_tutorial_stage == TutorialStage.SKILLS:
-		return
-	
-	# setam naslednjo fazo
-	change_stage(skills_content, multicollect_content, TutorialStage.MULTICOLLECT)		
+	if current_tutorial_stage == TutorialStage.SKILLS:
+		change_stage(skills_content, multicollect_content, TutorialStage.MULTICOLLECT)		
 	
 
 func finish_multicollect(): # tole je zdaj "stacked colors"
 	
-	if not current_tutorial_stage == TutorialStage.MULTICOLLECT:
-		return
-	change_stage(multicollect_content, winlose_content, TutorialStage.WINLOSE)		
+	if current_tutorial_stage == TutorialStage.MULTICOLLECT:
+		change_stage(multicollect_content, winlose_content, TutorialStage.WINLOSE)		
 	
 	# tutorial se ugasne, ko spucaš določeno število straysov
 	# yield(get_tree().create_timer(winlose_stage_time), "timeout") # pavza za branje
@@ -114,23 +107,22 @@ func finish_multicollect(): # tole je zdaj "stacked colors"
 	
 func close_tutorial():
 	
-	if not tutorial_on:
-		return
-	tutorial_on = false
-	current_tutorial_stage = TutorialStage.IDLE # disejblan gui
+	if tutorial_on:
+		tutorial_on = false
+		current_tutorial_stage = TutorialStage.IDLE # disejblan gui
 
-	# animiram hint
-	var hint_fade = get_tree().create_tween()
-	hint_fade.tween_property(finish_hint, "modulate:a",0, 0.5).from(0.0).set_ease(Tween.EASE_IN)
-	hint_fade.tween_callback(finish_hint, "hide")	
-	
-	animation_player.play("tutorial_end_with_sidebar")
+		# animiram hint
+		var hint_fade = get_tree().create_tween()
+		hint_fade.tween_property(finish_hint, "modulate:a",0, 0.5).from(0.0).set_ease(Tween.EASE_IN)
+		hint_fade.tween_callback(finish_hint, "hide")	
 		
-	# če se igra nadaljuje
-	if Global.game_manager.game_on:
-		Global.sound_manager.stop_music("game_music_on_gameover")
-		Global.sound_manager.current_music_track_index = 0 # index komada classic igre ... Global.game_manager.game_settings["game_music_track_index"]
-		Global.sound_manager.play_music("game_music")
+		animation_player.play("tutorial_end_with_sidebar")
+			
+		# če se igra nadaljuje
+		if Global.game_manager.game_on:
+			Global.sound_manager.stop_music("game_music_on_gameover")
+			Global.sound_manager.current_music_track_index = 0 # index komada classic igre ... Global.game_manager.game_settings["game_music_track_index"]
+			Global.sound_manager.play_music("game_music")
 		
 	
 # UTILITI ------------------------------------------------------------------------------------------------------------------	
@@ -156,19 +148,16 @@ func open_stage(stage_to_show: Control):
 
 func on_skill_used(skill_number: int):
 
-	if not current_tutorial_stage == TutorialStage.SKILLS: # ker plejer kliče dokler traja tutorial
-		return
-	
-	match skill_number:
-		1:
-			skill_types.erase("push")
-		2:
-			skill_types.erase("pull")
-		3:
-			skill_types.erase("teleport")
-				
-	if skill_types.empty():
-		finish_skills()
+	if current_tutorial_stage == TutorialStage.SKILLS: # ker plejer kliče dokler traja tutorial
+		match skill_number:
+			1:
+				skill_types.erase("push")
+			2:
+				skill_types.erase("pull")
+			3:
+				skill_types.erase("teleport")
+		if skill_types.empty():
+			finish_skills()
 		
 
 func on_hit_stray(colors_collected_count: int):

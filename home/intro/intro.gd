@@ -312,14 +312,13 @@ func set_color_pool():
 
 func shake_camera_on_show_strays():
 	
-	if camera_is_shaking:
-		return
-	camera_is_shaking = true
-	# shake
-	var spawn_shake_power: float = 0.35
-	var spawn_shake_time: float = 1
-	var spawn_shake_decay: float = 0.2
-	Global.intro_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
+	if not camera_is_shaking:
+		camera_is_shaking = true
+		# shake
+		var spawn_shake_power: float = 0.35
+		var spawn_shake_time: float = 1
+		var spawn_shake_decay: float = 0.2
+		Global.intro_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
 	
 
 func play_actor_stepping_sound(): # kliče animacija

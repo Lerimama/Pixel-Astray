@@ -1059,7 +1059,7 @@ wait_time = 0.5
 one_shot = true
 
 [connection signal="tree_entered" from="." to="." method="_on_Player_tree_entered"]
-[connection signal="tree_exited" from="." to="." method="_on_Player_tree_exited"]
+[connection signal="tree_exiting" from="." to="." method="_on_Player_tree_exiting"]
 [connection signal="timeout" from="Touch/TouchTimer" to="." method="_on_TouchTimer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="finished" from="Sounds/Skills/TeleportIn" to="." method="_on_TeleportIn_finished"]

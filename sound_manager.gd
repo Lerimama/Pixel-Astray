@@ -25,9 +25,7 @@ func _ready() -> void:
 	
 func play_stepping_sfx(current_player_energy_part: float): # za intro in defenderje
 
-		if game_sfx_set_to_off:
-			return		
-
+	if not game_sfx_set_to_off:
 		var selected_tap = select_random_sfx($GameSfx/Stepping)
 		selected_tap.pitch_scale = clamp(current_player_energy_part, 0.6, 1)
 		selected_tap.play()
@@ -35,17 +33,15 @@ func play_stepping_sfx(current_player_energy_part: float): # za intro in defende
 	
 func play_sfx(effect_for: String):
 	
-	if game_sfx_set_to_off:
-		return	
-		
-	match effect_for:
-		"stray_step":
-			$GameSfx/StraySlide.play()
-		"blinking": # GM na strays spawn, ker se bolje sliši
-			select_random_sfx($GameSfx/Blinking).play() # nekateri so na mute, ker so drugače prepogosti soundi
-			select_random_sfx($GameSfx/BlinkingStatic).play()
-		"thunder_strike": # intro in GM na strays spawn
-			$GameSfx/Burst.play()
+	if not game_sfx_set_to_off:
+		match effect_for:
+			"stray_step":
+				$GameSfx/StraySlide.play()
+			"blinking": # GM na strays spawn, ker se bolje sliši
+				select_random_sfx($GameSfx/Blinking).play() # nekateri so na mute, ker so drugače prepogosti soundi
+				select_random_sfx($GameSfx/BlinkingStatic).play()
+			"thunder_strike": # intro in GM na strays spawn
+				$GameSfx/Burst.play()
 	
 			
 func play_gui_sfx(effect_for: String):
@@ -95,22 +91,19 @@ func select_random_sfx(sound_group: Node2D):
 		
 
 func play_music(music_for: String):
-#	return	
 	
 	match music_for:
 		"menu_music":
-			if menu_music_set_to_off:
-				return
-			menu_music.play()
+			if not menu_music_set_to_off:
+				menu_music.play()
 
 		"game_music":
 			
-			if game_music_set_to_off:
-				return
-			# set track
-			var current_track_playing: Node = game_music_node.get_child(current_music_track_index)
-			current_track_playing.play()
-			Global.hud.music_track_label.text = current_track_playing.name
+			if not game_music_set_to_off:
+				# set track
+				var current_track_playing: Node = game_music_node.get_child(current_music_track_index)
+				current_track_playing.play()
+				Global.hud.music_track_label.text = current_track_playing.name
 			
 
 func stop_music(music_to_stop: String):

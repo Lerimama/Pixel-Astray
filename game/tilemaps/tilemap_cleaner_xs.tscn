@@ -12,7 +12,8 @@ __meta__ = {
 [node name="Background" parent="." index="0"]
 position = Vector2( -352, -864 )
 
-[node name="CameraPosition" parent="." index="1"]
+[node name="CameraPosition" parent="." index="2"]
 position = Vector2( 320, 224 )
 
 [editable path="Background"]
+[editable path="EdgeCover"]

@@ -104,7 +104,7 @@ func manage_gameover_highscores(current_score: float, current_game_data: Diction
 		return false
 	# JE na lestvici
 	else:
-		# return true # 22
+		# return true # keč 22
 		
 		# YIELD 2 ... čaka na novo ime, ki bo prišlo iz GM, ki ga dobi od GO
 		yield(Global.gameover_gui, "name_input_finished")

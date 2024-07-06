@@ -204,7 +204,7 @@ var game_data_sweeper: Dictionary = {
 	"Prop": "To REBURST, press\nin the next target's\ndirection upon hitting\na stray pixel.",
 	"Prop2": "You have\nonly a couple of\nseconds to keep\nyour momentum.",
 	"Prop3": "Initial burst can\ncollect all stacked\ncolors. Reburst always\ncollects only one.",
-	"level": 3,
+	"level": 1,
 }
 var sweeper_level_tilemap_paths: Array = [ # zaporedje je ključno za level name
 	"res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",

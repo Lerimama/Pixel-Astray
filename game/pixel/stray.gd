@@ -48,34 +48,34 @@ func show_stray(): # kliče GM
 	
 func die(stray_in_stack_index: int, strays_in_stack_count: int):
 	
-	if current_state == States.DYING:
-		return
-	current_state = States.DYING
-	
-	global_position = Global.snap_to_nearest_grid(global_position) 
-	Global.game_manager.remove_from_free_floor_positions(global_position)	
-	
-	# čakalni čas
-	var wait_to_destroy_time: float = sqrt(0.07 * (stray_in_stack_index)) # -1 je, da hitan stray ne čaka
-	yield(get_tree().create_timer(wait_to_destroy_time), "timeout")
-	
-	# animacije
-	if strays_in_stack_count <= 3: # žrebam
-		var random_animation_index = randi() % 5 + 1
-		var random_animation_name: String = "die_stray_%s" % random_animation_index
-		animation_player.play(random_animation_name) 
-	else: # ne žrebam
-		animation_player.play("die_stray")
+	if not current_state == States.DYING:
+		
+		current_state = States.DYING
+		
+		global_position = Global.snap_to_nearest_grid(global_position) 
+		Global.game_manager.remove_from_free_floor_positions(global_position)	
+		
+		# čakalni čas
+		var wait_to_destroy_time: float = sqrt(0.07 * (stray_in_stack_index)) # -1 je, da hitan stray ne čaka
+		yield(get_tree().create_timer(wait_to_destroy_time), "timeout")
+		
+		# animacije
+		if strays_in_stack_count <= 3: # žrebam
+			var random_animation_index = randi() % 5 + 1
+			var random_animation_name: String = "die_stray_%s" % random_animation_index
+			animation_player.play(random_animation_name) 
+		else: # ne žrebam
+			animation_player.play("die_stray")
 
-	#	position_indicator.modulate.a = 0	
-	collision_shape.set_deferred("disabled", true)
-	
-	# color vanish
-	var vanish_time = animation_player.get_current_animation_length()
-	var vanish_tween = get_tree().create_tween()
-	vanish_tween.tween_property(self, "color_poly:modulate:a", 0, vanish_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
-	
-	# na koncu animacije sledi KVEFRI in ostalo
+		#	position_indicator.modulate.a = 0	
+		collision_shape.set_deferred("disabled", true)
+		
+		# color vanish
+		var vanish_time = animation_player.get_current_animation_length()
+		var vanish_tween = get_tree().create_tween()
+		vanish_tween.tween_property(self, "color_poly:modulate:a", 0, vanish_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
+		
+		# na koncu animacije sledi KVEFRI in ostalo
 	
 
 func die_to_wall():
@@ -94,34 +94,32 @@ func die_to_wall():
 	
 func step(step_direction: Vector2 = Vector2.DOWN):
 	
-	if not current_state == States.IDLE:
-		return
+	if current_state == States.IDLE:
 	
-	# če je pozicija prosta korakam (in restiram poiskuse, če ni pa probam v drugo smer
-	var intended_position: Vector2 = global_position + step_direction * cell_size_x
-	
-	if Global.game_manager.is_floor_position_free(intended_position):
+		# če je pozicija prosta korakam (in restiram poiskuse, če ni pa probam v drugo smer
+		var intended_position: Vector2 = global_position + step_direction * cell_size_x
 		
-		step_attempt = 1 # reset na 1
-		
-		current_state = States.MOVING
-		previous_position = global_position
-		Global.game_manager.remove_from_free_floor_positions(global_position + step_direction * cell_size_x)	
-		
-		var step_time: float = 0.2
-		var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
-		step_tween.tween_property(self, "position", intended_position, step_time)
-		step_tween.tween_callback(self, "end_move")
-	
-	else:
-		# začne z ena, ker preverja preostale 3 smeri (prva je že zasedena)
-		step_attempt += 1
-		if step_attempt <= 4:
-			var new_direction = step_direction.rotated(deg2rad(90))
-			step(new_direction)
-		else:
+		if Global.game_manager.is_floor_position_free(intended_position):
+			
 			step_attempt = 1 # reset na 1
-			return
+			
+			current_state = States.MOVING
+			previous_position = global_position
+			Global.game_manager.remove_from_free_floor_positions(global_position + step_direction * cell_size_x)	
+			
+			var step_time: float = 0.2
+			var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
+			step_tween.tween_property(self, "position", intended_position, step_time)
+			step_tween.tween_callback(self, "end_move")
+		
+		else:
+			# začne z ena, ker preverja preostale 3 smeri (prva je že zasedena)
+			step_attempt += 1
+			if step_attempt <= 4:
+				var new_direction = step_direction.rotated(deg2rad(90))
+				step(new_direction)
+			else:
+				step_attempt = 1 # reset na 1
 	
 
 func push_stray(push_direction: Vector2, push_time: float):
@@ -165,22 +163,20 @@ func end_move():
 
 func play_sound(effect_for: String):
 	
-	if Global.sound_manager.game_sfx_set_to_off:
-		return
-		
-	match effect_for:
-		"turning_color":
-			var random_blink_index = randi() % $Sounds/Blinking.get_child_count()
-			$Sounds/Blinking.get_child(random_blink_index).play() # nekateri so na mute, ker so drugače prepogosti soundi
-		"blinking":
-			var random_blink_index = randi() % $Sounds/Blinking.get_child_count()
-			$Sounds/Blinking.get_child(random_blink_index).play() # nekateri so na mute, ker so drugače prepogosti soundi
-			if current_state == States.DYING: # da se ne oglaša ob obračanju v steno
-				var random_static_index = randi() % $Sounds/BlinkingStatic.get_child_count()
-				$Sounds/BlinkingStatic.get_child(random_static_index).play()
-		"stepping":
-			var random_step_index = randi() % $Sounds/Stepping.get_child_count()
-			var selected_step_sound = $Sounds/Stepping.get_child(random_step_index).play()
+	if not Global.sound_manager.game_sfx_set_to_off:
+		match effect_for:
+			"turning_color":
+				var random_blink_index = randi() % $Sounds/Blinking.get_child_count()
+				$Sounds/Blinking.get_child(random_blink_index).play() # nekateri so na mute, ker so drugače prepogosti soundi
+			"blinking":
+				var random_blink_index = randi() % $Sounds/Blinking.get_child_count()
+				$Sounds/Blinking.get_child(random_blink_index).play() # nekateri so na mute, ker so drugače prepogosti soundi
+				if current_state == States.DYING: # da se ne oglaša ob obračanju v steno
+					var random_static_index = randi() % $Sounds/BlinkingStatic.get_child_count()
+					$Sounds/BlinkingStatic.get_child(random_static_index).play()
+			"stepping":
+				var random_step_index = randi() % $Sounds/Stepping.get_child_count()
+				var selected_step_sound = $Sounds/Stepping.get_child(random_step_index).play()
 
 
 func get_neighbor_strays_on_hit(): # kliče player on hit
@@ -235,10 +231,8 @@ func _on_Stray_tree_entered() -> void:
 		if stray.global_position == global_position:
 			printt ("overspawn II on stray - stray tree entered", self) 
 			call_deferred("queue_free")
-			return
 			
 	for player in get_tree().get_nodes_in_group(Global.group_players):
 		if player.global_position == global_position:
 			printt ("overspawn II on player - stray tree entered", self) 
 			call_deferred("queue_free")
-			return

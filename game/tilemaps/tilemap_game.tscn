@@ -30,6 +30,12 @@ __meta__ = {
 [node name="Background" parent="." instance=ExtResource( 5 )]
 position = Vector2( 0, -736 )
 
+[node name="EdgeCover" parent="." instance=ExtResource( 2 )]
+
+[node name="Edge" parent="EdgeCover" index="0"]
+margin_right = 1344.0
+margin_bottom = 704.0
+
 [node name="CameraPosition" type="Position2D" parent="."]
 visible = false
 position = Vector2( 640, 320 )
@@ -107,6 +113,5 @@ text = "zoom 1"
 [node name="Polygon2D3" type="Polygon2D" parent="_zoom_razlaga/ena"]
 polygon = PoolVector2Array( 607, 288, 607, 320, 639, 320, 639, 288 )
 
-[node name="EdgeCover" parent="." instance=ExtResource( 2 )]
-
 [editable path="Background"]
+[editable path="EdgeCover"]

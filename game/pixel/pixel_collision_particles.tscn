@@ -63,4 +63,3 @@ color = Color( 1, 1, 1, 0.54902 )
 polygon = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
 [connection signal="tree_exited" from="TopParticles" to="." method="_on_Particles2D_tree_exited"]
-[connection signal="tree_exited" from="BtmParticles" to="." method="_on_Particles2D2_tree_exited"]

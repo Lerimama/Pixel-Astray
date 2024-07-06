@@ -215,29 +215,29 @@ func start_game():
 
 func game_over(gameover_reason: int):
 	
-	if game_on == false: # preprečim double gameover
-		return
-	game_on = false
-	
-	Global.hud.game_timer.stop_timer()
-	
-	if gameover_reason == GameoverReason.CLEANED:
-		check_for_all_cleaned = true
-		#		yield(self, "all_strays_died")
-		var signaling_player: KinematicBody2D
-		for player in current_players_in_game:
-			player.on_screen_cleaned()
-			signaling_player = player
-		yield(signaling_player, "rewarded_on_cleaned")
-	else:
-		if game_data["game"] == Profiles.Games.CLASSIC and Global.tutorial_gui.tutorial_on:
-			Global.tutorial_gui.close_tutorial()
-		yield(get_tree().create_timer(Profiles.get_it_time), "timeout")
+	if game_on: # preprečim double gameover
 		
-	stop_game_elements()
-	get_tree().call_group(Global.group_players, "set_physics_process", false)
-	
-	Global.gameover_gui.open_gameover(gameover_reason)
+		game_on = false
+		
+		Global.hud.game_timer.stop_timer()
+		
+		if gameover_reason == GameoverReason.CLEANED:
+			check_for_all_cleaned = true
+			#		yield(self, "all_strays_died")
+			var signaling_player: KinematicBody2D
+			for player in current_players_in_game:
+				player.on_screen_cleaned()
+				signaling_player = player
+			yield(signaling_player, "rewarded_on_cleaned")
+		else:
+			if game_data["game"] == Profiles.Games.CLASSIC and Global.tutorial_gui.tutorial_on:
+				Global.tutorial_gui.close_tutorial()
+			yield(get_tree().create_timer(Profiles.get_it_time), "timeout")
+			
+		stop_game_elements()
+		get_tree().call_group(Global.group_players, "set_physics_process", false)
+		
+		Global.gameover_gui.open_gameover(gameover_reason)
 
 
 func stop_game_elements():
@@ -281,30 +281,32 @@ func set_new_level():
 
 func upgrade_level(upgrade_on_cleaned: bool =  false): # cleaner
 	
-	if level_upgrade_in_progress or not game_on: # zazih game_on pogoj 
-		return
-	level_upgrade_in_progress = true	
+#	if level_upgrade_in_progress or not game_on: # zazih game_on pogoj 
+#		return
+	if not level_upgrade_in_progress and game_on: # zazih game_on pogoj 
 	
-	randomize()
+		level_upgrade_in_progress = true	
 	
-	respawn_timer.stop()
-	
-	# če je spucano, dobi player nagrado
-	if upgrade_on_cleaned:
-		for player in current_players_in_game:
-			player.end_move()
-			player.on_screen_cleaned()
-	
-	current_level += 1 # številka novega levela 
-	set_color_pool()
-	set_new_level() 
-	Global.hud.level_popup_fade(current_level)
-	Global.hud.spawn_color_indicators(get_level_colors())
-	
-	level_upgrade_in_progress = false
-	
-	if game_settings["respawn_strays_count_range"][1] > 0:
-		respawn_timer.start(respawn_pause_time)
+		randomize()
+		
+		respawn_timer.stop()
+		
+		# če je spucano, dobi player nagrado
+		if upgrade_on_cleaned:
+			for player in current_players_in_game:
+				player.end_move()
+				player.on_screen_cleaned()
+		
+		current_level += 1 # številka novega levela 
+		set_color_pool()
+		set_new_level() 
+		Global.hud.level_popup_fade(current_level)
+		Global.hud.spawn_color_indicators(get_level_colors())
+		
+		level_upgrade_in_progress = false
+		
+		if game_settings["respawn_strays_count_range"][1] > 0:
+			respawn_timer.start(respawn_pause_time)
 	
 	
 func get_level_colors():
@@ -363,90 +365,89 @@ func create_strays(strays_to_spawn_count: int):
 	
 	if strays_to_spawn_count == 0:
 		print ("Create strays spawn count is 0")
-		return
+	else:
+		var color_pool_split_size: int = floor(color_pool_colors.size() / strays_to_spawn_count)
 		
-	var color_pool_split_size: int = floor(color_pool_colors.size() / strays_to_spawn_count)
-	
-	# positions
-	var available_required_spawn_positions = required_spawn_positions # .duplicate() # dupliciram, da ostanejo "shranjene"
-	var available_random_spawn_positions = random_spawn_positions # .duplicate() # dupliciram, da ostanejo "shranjene"
-	
-	var strays_set_to_spawn: Array = [] # naložim setingse za vsakega straysa, da jijh lahko spawnam z zamikom ... (stray_index, new_stray_color, selected_stray_position, turn_to_white)
-	
-	# set strays to spawn
-	for stray_index in strays_to_spawn_count: 
+		# positions
+		var available_required_spawn_positions = required_spawn_positions # .duplicate() # dupliciram, da ostanejo "shranjene"
+		var available_random_spawn_positions = random_spawn_positions # .duplicate() # dupliciram, da ostanejo "shranjene"
 		
-		var new_stray_color_pool_index: int = stray_index * color_pool_split_size
-		var new_stray_color: Color = color_pool_colors[new_stray_color_pool_index] # barva na lokaciji v spektrumu
+		var strays_set_to_spawn: Array = [] # naložim setingse za vsakega straysa, da jijh lahko spawnam z zamikom ... (stray_index, new_stray_color, selected_stray_position, turn_to_white)
 		
-		# spawn positions
-		var current_spawn_positions: Array
-		# če je level game in je level večji od 1, so na voljo vsa prazna tla ... če ne pozicije regulira tilemap
-		if current_level > 1 and not game_data["game"] == Profiles.Games.SWEEPER: # leveli večji od prvega ... random respawn
-			current_spawn_positions = free_floor_positions.duplicate()
-		else:
-			# najprej obvezne pozicije, potem random pozicije, ko so obvezne spraznjene
-			if not available_required_spawn_positions.empty():
-				# najprej bele pixle, potem barvne
-				if not wall_spawn_positions.empty():
-					current_spawn_positions = wall_spawn_positions
-				else: 
-					current_spawn_positions = available_required_spawn_positions
-			elif not available_random_spawn_positions.empty():
-				current_spawn_positions = available_random_spawn_positions
+		# set strays to spawn
+		for stray_index in strays_to_spawn_count: 
 			
-		# žrebanje random pozicije določenih spawn pozicij
-		var random_range = current_spawn_positions.size()
-		var selected_cell_index: int = randi() % int(random_range)		
-		var selected_cell_position: Vector2 = current_spawn_positions[selected_cell_index]
-		var selected_stray_position: Vector2 = selected_cell_position + Vector2(cell_size_x/2, cell_size_x/2)
-		
-		# je white? ... če pozicija bela in, če je index večji od planiranega deleža belih
-		var turn_to_white: bool = false
-		if not game_data["game"] == Profiles.Games.THE_DUEL and not game_data["game"] == Profiles.Games.CHASER:
-			var spawn_white_spawn_limit: int = strays_to_spawn_count - round(strays_to_spawn_count * spawn_white_stray_part)
-			if wall_spawn_positions.has(selected_cell_position) or stray_index > spawn_white_spawn_limit: 
-				turn_to_white = true
-		
-		# če je prazna spawnam, drugače preskočim spawn in odštejem število potrebnih za spavnanje (na koncu preverjam, da ni število spawnanih 0)
-		if free_floor_positions.has(selected_cell_position):
-			strays_set_to_spawn.append([stray_index, new_stray_color, selected_stray_position, turn_to_white])
-			all_stray_colors.append(new_stray_color)
-		else: # varovalka overspawn ... če je zasedena se ne spawna in takega streya ne spawnam več
-			printt ("overspawn - on GM create") 
-			strays_to_spawn_count -= 1
+			var new_stray_color_pool_index: int = stray_index * color_pool_split_size
+			var new_stray_color: Color = color_pool_colors[new_stray_color_pool_index] # barva na lokaciji v spektrumu
+			
+			# spawn positions
+			var current_spawn_positions: Array
+			# če je level game in je level večji od 1, so na voljo vsa prazna tla ... če ne pozicije regulira tilemap
+			if current_level > 1 and not game_data["game"] == Profiles.Games.SWEEPER: # leveli večji od prvega ... random respawn
+				current_spawn_positions = free_floor_positions.duplicate()
+			else:
+				# najprej obvezne pozicije, potem random pozicije, ko so obvezne spraznjene
+				if not available_required_spawn_positions.empty():
+					# najprej bele pixle, potem barvne
+					if not wall_spawn_positions.empty():
+						current_spawn_positions = wall_spawn_positions
+					else: 
+						current_spawn_positions = available_required_spawn_positions
+				elif not available_random_spawn_positions.empty():
+					current_spawn_positions = available_random_spawn_positions
+				
+			# žrebanje random pozicije določenih spawn pozicij
+			var random_range = current_spawn_positions.size()
+			var selected_cell_index: int = randi() % int(random_range)		
+			var selected_cell_position: Vector2 = current_spawn_positions[selected_cell_index]
+			var selected_stray_position: Vector2 = selected_cell_position + Vector2(cell_size_x/2, cell_size_x/2)
+			
+			# je white? ... če pozicija bela in, če je index večji od planiranega deleža belih
+			var turn_to_white: bool = false
+			if not game_data["game"] == Profiles.Games.THE_DUEL and not game_data["game"] == Profiles.Games.CHASER:
+				var spawn_white_spawn_limit: int = strays_to_spawn_count - round(strays_to_spawn_count * spawn_white_stray_part)
+				if wall_spawn_positions.has(selected_cell_position) or stray_index > spawn_white_spawn_limit: 
+					turn_to_white = true
+			
+			# če je prazna spawnam, drugače preskočim spawn in odštejem število potrebnih za spavnanje (na koncu preverjam, da ni število spawnanih 0)
+			if free_floor_positions.has(selected_cell_position):
+				strays_set_to_spawn.append([stray_index, new_stray_color, selected_stray_position, turn_to_white])
+				all_stray_colors.append(new_stray_color)
+			else: # varovalka overspawn ... če je zasedena se ne spawna in takega streya ne spawnam več
+				printt ("overspawn - on GM create") 
+				strays_to_spawn_count -= 1
 
-		# apdejtam tilemap pozicije ... če se ne spawna, moram pozicijo vseeno brisat, če ne se spawnajo vsi na to pozicijo
-		wall_spawn_positions.erase(selected_cell_position)
-		available_required_spawn_positions.erase(selected_cell_position)
-		available_random_spawn_positions.erase(selected_cell_position)
-	
-	# spawn
-	for set_stray in strays_set_to_spawn:
-		var stray_index = set_stray[0]
-		var new_stray_color = set_stray[1]
-		var selected_stray_position = set_stray[2]
-		var turn_to_white = set_stray[3]
-		spawn_stray(stray_index, new_stray_color, selected_stray_position, turn_to_white)
+			# apdejtam tilemap pozicije ... če se ne spawna, moram pozicijo vseeno brisat, če ne se spawnajo vsi na to pozicijo
+			wall_spawn_positions.erase(selected_cell_position)
+			available_required_spawn_positions.erase(selected_cell_position)
+			available_random_spawn_positions.erase(selected_cell_position)
 		
-		
-	# ko so vsi spawnani
-	if strays_to_spawn_count == 0: # varovalka, če se ne ne spawna nobeden, takoj probaj še enkrat
-		print("Error! 0 spawnanih, na respawn")
-		# create_strays(strays_to_spawn_count)
-	if level_goal_mode:
-		Global.hud.spawn_color_indicators(get_level_colors())
-	else:	
-		Global.hud.spawn_color_indicators(all_stray_colors) # barve pokažem v hudu		
+		# spawn
+		for set_stray in strays_set_to_spawn:
+			var stray_index = set_stray[0]
+			var new_stray_color = set_stray[1]
+			var selected_stray_position = set_stray[2]
+			var turn_to_white = set_stray[3]
+			spawn_stray(stray_index, new_stray_color, selected_stray_position, turn_to_white)
+			
+			
+		# ko so vsi spawnani
+		if strays_to_spawn_count == 0: # varovalka, če se ne ne spawna nobeden, takoj probaj še enkrat
+			print("Error! 0 spawnanih, na respawn")
+			# create_strays(strays_to_spawn_count)
+		if level_goal_mode:
+			Global.hud.spawn_color_indicators(get_level_colors())
+		else:	
+			Global.hud.spawn_color_indicators(all_stray_colors) # barve pokažem v hudu		
 
-	yield(get_tree().create_timer(0.05), "timeout") # da se vsi straysi spawnajo
+		yield(get_tree().create_timer(0.05), "timeout") # da se vsi straysi spawnajo
 
-	var show_strays_loop: int = 0
-	strays_shown_on_start.clear()
-	while strays_shown_on_start.size() < create_strays_count:
-		show_strays_loop += 1
-		show_strays_in_loop(show_strays_loop)
-		yield(get_tree().create_timer(0.1), "timeout") # da se vsi straysi spawnajo
+		var show_strays_loop: int = 0
+		strays_shown_on_start.clear()
+		while strays_shown_on_start.size() < create_strays_count:
+			show_strays_loop += 1
+			show_strays_in_loop(show_strays_loop)
+			yield(get_tree().create_timer(0.1), "timeout") # da se vsi straysi spawnajo
 
 
 func show_strays_in_loop(show_strays_loop: int): # spawn naenkrat
@@ -497,52 +498,52 @@ func respawn_strays(spawn_in_stack: bool = true):
 
 		# če ni praznih pozicij ne spawnam ... zazih
 		if free_floor_positions.empty():
-			return
-		
-		# select color
-		var random_color_index: int = randi() % int(color_pool_colors.size())		
-		var spawned_stray_color: Color = color_pool_colors[random_color_index]
-		
-		# izbrišem stack pozicije, če niso med praznimi (v prvem koraku so sosednje poz prazne
-		for stack_cell_position in available_stack_cell_positions:
-			if not available_stack_cell_positions.has(stack_cell_position):
-				available_stack_cell_positions.erase(stack_cell_position)
-		# pozicije
-		var selected_stray_position: Vector2
-		var selected_cell_position: Vector2
-		# prva random pozicija
-		if available_stack_cell_positions.empty() or not spawn_in_stack:
-			var random_position_index: int = randi() % int(free_floor_positions.size())		
-			selected_cell_position = free_floor_positions[random_position_index]
-			selected_stray_position = selected_cell_position + Vector2(cell_size_x/2, cell_size_x/2)
-		# stacked random pozicija
+			pass
 		else:
-			var random_stack_position_index: int = randi() % int(available_stack_cell_positions.size())		
-			selected_cell_position = available_stack_cell_positions[random_stack_position_index]
-			selected_stray_position = selected_cell_position + Vector2(cell_size_x/2, cell_size_x/2)
-		
-		# pridobim sosednje pozicije trenutne pozicije
-		var current_cell_position: Vector2 = selected_cell_position
-		var cell_in_check: Vector2
-		for y in 3:
-			for x in 3:
-				cell_in_check = current_cell_position + Vector2(x - 1, y - 1) * cell_size_x
-				# če ni izvorna celica in je del (praznih) tal, jo dodam me sosednje pozicije
-				if not cell_in_check == current_cell_position and free_floor_positions.has(cell_in_check):
-					if not available_stack_cell_positions.has(cell_in_check): # da se ne podvaja
-						available_stack_cell_positions.append(cell_in_check)	
-		# to white?	
-		var turn_to_white: bool = false
-		var spawn_white_spawn_limit: int = respawn_strays_count - round(respawn_strays_count * spawn_white_stray_part)
-		if stray_index > spawn_white_spawn_limit: 
-			turn_to_white = true
-		
-		if free_floor_positions.has(selected_cell_position):
-			# spawn
-			var spawned_stray = spawn_stray(stray_index, spawned_stray_color, selected_stray_position, turn_to_white)
-			current_spawned_strays_count += 1
-			spawned_stray.call_deferred("show_stray")
-			yield(get_tree().create_timer(0.1), "timeout")	
+			# select color
+			var random_color_index: int = randi() % int(color_pool_colors.size())		
+			var spawned_stray_color: Color = color_pool_colors[random_color_index]
+			
+			# izbrišem stack pozicije, če niso med praznimi (v prvem koraku so sosednje poz prazne
+			for stack_cell_position in available_stack_cell_positions:
+				if not available_stack_cell_positions.has(stack_cell_position):
+					available_stack_cell_positions.erase(stack_cell_position)
+			# pozicije
+			var selected_stray_position: Vector2
+			var selected_cell_position: Vector2
+			# prva random pozicija
+			if available_stack_cell_positions.empty() or not spawn_in_stack:
+				var random_position_index: int = randi() % int(free_floor_positions.size())		
+				selected_cell_position = free_floor_positions[random_position_index]
+				selected_stray_position = selected_cell_position + Vector2(cell_size_x/2, cell_size_x/2)
+			# stacked random pozicija
+			else:
+				var random_stack_position_index: int = randi() % int(available_stack_cell_positions.size())		
+				selected_cell_position = available_stack_cell_positions[random_stack_position_index]
+				selected_stray_position = selected_cell_position + Vector2(cell_size_x/2, cell_size_x/2)
+			
+			# pridobim sosednje pozicije trenutne pozicije
+			var current_cell_position: Vector2 = selected_cell_position
+			var cell_in_check: Vector2
+			for y in 3:
+				for x in 3:
+					cell_in_check = current_cell_position + Vector2(x - 1, y - 1) * cell_size_x
+					# če ni izvorna celica in je del (praznih) tal, jo dodam me sosednje pozicije
+					if not cell_in_check == current_cell_position and free_floor_positions.has(cell_in_check):
+						if not available_stack_cell_positions.has(cell_in_check): # da se ne podvaja
+							available_stack_cell_positions.append(cell_in_check)	
+			# to white?	
+			var turn_to_white: bool = false
+			var spawn_white_spawn_limit: int = respawn_strays_count - round(respawn_strays_count * spawn_white_stray_part)
+			if stray_index > spawn_white_spawn_limit: 
+				turn_to_white = true
+			
+			if free_floor_positions.has(selected_cell_position):
+				# spawn
+				var spawned_stray = spawn_stray(stray_index, spawned_stray_color, selected_stray_position, turn_to_white)
+				current_spawned_strays_count += 1
+				spawned_stray.call_deferred("show_stray")
+				yield(get_tree().create_timer(0.1), "timeout")	
 
 	# če se ne ne spawna nobeden, takoj probaj še enkrat
 	if current_spawned_strays_count == 0:

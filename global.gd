@@ -78,13 +78,11 @@ func detect_collision_in_direction(direction_to_check: Vector2, raycast_node: Ra
 	
 	if direction_to_check == Vector2.ZERO:
 		raycast_node.cast_to = Vector2.ZERO
-		return
 	else:
 		raycast_node.cast_to = raycast_length * direction_to_check
-	
-	raycast_node.force_raycast_update()
-	
-	return raycast_node.get_collider()
+		raycast_node.force_raycast_update()
+		
+		return raycast_node.get_collider()
 	
 		
 func snap_to_nearest_grid(global_position_to_snap: Vector2):
@@ -385,10 +383,10 @@ func _on_control_hovered(control: Control):
 
 
 	# izločim sounde za select game ozadja
-	if control is ColorRect:
-		return
+	#	if control is ColorRect:
+	#		return
 		
-	if not control.has_focus():		
+	if not control.has_focus() and not control is ColorRect:		
 		control.grab_focus()
 
 # on focus

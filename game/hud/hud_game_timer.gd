@@ -33,39 +33,38 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	
 	# če ne štopam se tukaj ustavim
-	if $Timer.is_stopped():
-		return
-	
-	# display ko štopa
-	current_second = int(game_time_seconds) % 60
-	$Mins.text = "%02d" % (game_time_seconds / 60)
-	$Secs.text = "%02d" % current_second
-	
-	if not $Timer.is_stopped():	
-		if countdown_mode:
-			if game_time_seconds <= 0: # time is up
-				stop_timer()
-				current_second = 0
-				modulate = Global.color_red
-				emit_signal("gametime_is_up") # pošlje se v hud, ki javi game managerju		
-			if sudden_death_mode:
-				if game_time_seconds > sudden_death_limit:
-					modulate = Global.color_hud_text
-				elif game_time_seconds == sudden_death_limit:
-					emit_signal("sudden_death_active") # pošlje se v hud, ki javi game managerju		
-				elif game_time_seconds < sudden_death_limit:
+	if not $Timer.is_stopped():
+		
+		# display ko štopa
+		current_second = int(game_time_seconds) % 60
+		$Mins.text = "%02d" % (game_time_seconds / 60)
+		$Secs.text = "%02d" % current_second
+		
+		if not $Timer.is_stopped():	
+			if countdown_mode:
+				if game_time_seconds <= 0: # time is up
+					stop_timer()
+					current_second = 0
 					modulate = Global.color_red
-		else:
-			if game_time_seconds >= game_time_limit and not unlimited_mode: # ker uravnavam s časom, ki je PRETEKEL
-				stop_timer()
-				emit_signal("gametime_is_up")	
-			if sudden_death_mode:
-				if game_time_seconds < game_time_limit - sudden_death_limit:
-					modulate = Global.color_hud_text
-				elif game_time_seconds == game_time_limit - sudden_death_limit:
-					emit_signal("sudden_death_active") # pošlje se v hud, ki javi game managerju		
-				elif game_time_seconds > game_time_limit - sudden_death_limit:
-					modulate = Global.color_red
+					emit_signal("gametime_is_up") # pošlje se v hud, ki javi game managerju		
+				if sudden_death_mode:
+					if game_time_seconds > sudden_death_limit:
+						modulate = Global.color_hud_text
+					elif game_time_seconds == sudden_death_limit:
+						emit_signal("sudden_death_active") # pošlje se v hud, ki javi game managerju		
+					elif game_time_seconds < sudden_death_limit:
+						modulate = Global.color_red
+			else:
+				if game_time_seconds >= game_time_limit and not unlimited_mode: # ker uravnavam s časom, ki je PRETEKEL
+					stop_timer()
+					emit_signal("gametime_is_up")	
+				if sudden_death_mode:
+					if game_time_seconds < game_time_limit - sudden_death_limit:
+						modulate = Global.color_hud_text
+					elif game_time_seconds == game_time_limit - sudden_death_limit:
+						emit_signal("sudden_death_active") # pošlje se v hud, ki javi game managerju		
+					elif game_time_seconds > game_time_limit - sudden_death_limit:
+						modulate = Global.color_red
 	
 	
 func start_timer():

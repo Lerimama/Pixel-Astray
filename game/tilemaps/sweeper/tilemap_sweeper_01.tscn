@@ -31,6 +31,8 @@ __meta__ = {
 [node name="Background" parent="." instance=ExtResource( 5 )]
 position = Vector2( 0, -736 )
 
+[node name="EdgeCover" parent="." instance=ExtResource( 6 )]
+
 [node name="SolutionLine" type="Line2D" parent="."]
 self_modulate = Color( 1, 1, 1, 0.784314 )
 z_index = 10
@@ -143,8 +145,5 @@ text = "zoom 1"
 
 [node name="Polygon2D3" type="Polygon2D" parent="_zoom_razlaga/ena"]
 polygon = PoolVector2Array( 607, 288, 607, 320, 639, 320, 639, 288 )
-
-[node name="EdgeCover" parent="." instance=ExtResource( 6 )]
-visible = false
 
 [editable path="Background"]
