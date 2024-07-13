@@ -38,8 +38,8 @@ onready var StrayPixel: PackedScene = preload("res://home/intro/intro_stray.tscn
 var FreePositionIndicator: PackedScene = preload("res://game/pixel/free_position_indicator.tscn")		
 var free_position_indicators: Array
 
-
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
+#func _input(event: InputEvent) -> void: # neu
 	
 	if Input.is_action_just_pressed("ui_accept") and skip_intro.visible:
 		finish_intro()

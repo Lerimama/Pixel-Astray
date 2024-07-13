@@ -5,10 +5,10 @@ var sweeper_scorelines: Array
 var current_sweeper_table_page: int = 1
 
 onready var highscore_table_title: Label = $Title
-
+	
 
 func get_highscore_table(current_game_data: Dictionary, current_player_rank: int, lines_to_show_count: int = 10):
-	printt("HS", current_game_data, current_player_rank,lines_to_show_count)
+	
 	var current_game_hs_type = current_game_data["highscore_type"]
 	var current_game_highscores = Global.data_manager.read_highscores_from_file(current_game_data)
 	
@@ -93,7 +93,7 @@ func get_highscore_table(current_game_data: Dictionary, current_player_rank: int
 			scoreline.hide()
 				
 		# povdarim trenuten rezultat
-		if scoreline_index == (current_player_rank - 1): # 0 je da izločim naslov
+		if scoreline_index == current_player_rank and not scoreline_index == 0: # 0 je da izločim naslov
 			scoreline.modulate = Global.color_green
 	
 	# če v lestvici ni rezultata, priredim prvo vrstico, če ne jo vrnem v planiran položaj
@@ -181,6 +181,7 @@ func load_sweeper_table_page(next_or_prev_page: int): # +1 ali -1
 			current_sweeper_table_page = pages_count
 		
 		var first_scoreline_to_show_index = per_page_count * (current_sweeper_table_page - 1)
+#		var first_scoreline_to_show_index = 1 + per_page_count * (current_sweeper_table_page - 1)
 		var level_to_show_range: Array = [first_scoreline_to_show_index , first_scoreline_to_show_index + per_page_count]
 		
 		for scoreline in sweeper_scorelines:
@@ -189,3 +190,43 @@ func load_sweeper_table_page(next_or_prev_page: int): # +1 ali -1
 				scoreline.show()
 			else:
 				scoreline.hide()
+				
+#		printt ("TS", current_game_data["level"], get_child_count())
+		
+#		var current_position_seconds: float = current_position_dict_values[0]
+#		# skorlinije, ki niso skrite v hometu, se prikažejo
+#		if current_position_seconds > 0:# and not scoreline_index >= lines_to_show_count: # and scoreline_index > lines_to_show_count:
+#			scoreline.get_node("NoScoreLine").hide()
+#			scoreline.get_node("Score").text = Global.get_clock_time(current_position_seconds)
+#			scorelines_with_score.append(scoreline)
+#		# skrijem 0 rezultat
+#		elif current_position_seconds == 0:
+#			scorelines_with_score.erase(scoreline)
+#			scoreline.get_node("Position").hide()
+#			scoreline.get_node("Owner").hide()
+#			scoreline.get_node("Score").hide()
+#			scoreline.get_node("NoScoreLine").show()
+#
+#
+#		scoreline.show()
+#		if not scoreline_index > lines_to_show_count:
+#			scoreline.show()
+#		else:
+#			scoreline.hide()
+#
+#		# povdarim trenuten rezultat
+#		if scoreline_index == current_player_rank and not scoreline_index == 0: # 0 je da izločim naslov
+#			scoreline.modulate = Global.color_green
+#
+#	# če v lestvici ni rezultata
+#	if scorelines_with_score.empty():
+#		scorelines[1].show() # 0 je title
+#		scorelines[1].get_node("Owner").clip_text = false
+#		scorelines[1].get_node("Owner").text = "Still no score ..."
+#		scorelines[1].get_node("Owner").align = Label.ALIGN_CENTER
+#		scorelines[1].get_node("Owner").modulate = Global.color_almost_white_text
+#		scorelines[1].get_node("Owner").show()
+#		scorelines[1].get_node("Position").hide()
+#		scorelines[1].get_node("Score").hide()
+#		scorelines[1].get_node("NoScoreLine").hide()
+			

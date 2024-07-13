@@ -8,7 +8,8 @@ onready var track_label: Label = $TrackLabel
 onready var speaker_icon: Control = $SpeakerIcon
 
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void: # neu
+#func _input(event: InputEvent) -> void:
 	
 	if Global.game_manager.game_on and visible == true: # visible je, da deluje samo na enem plejerju
 		if Input.is_action_just_pressed("next") and visible == true: 

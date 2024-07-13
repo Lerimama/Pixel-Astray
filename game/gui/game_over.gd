@@ -1,7 +1,6 @@
 extends Control
 class_name GameOver
 
-
 signal name_input_finished
 
 var p1_current_score: float
@@ -36,16 +35,16 @@ onready var name_input_popup: Control = $NameInputPopup
 onready var name_input: LineEdit = $NameInputPopup/NameInput
 onready var name_input_label: Label = $NameInputPopup/Label
 
-
+	
 func _input(event: InputEvent) -> void:
 
 	if name_input_popup.visible == true and name_input_popup.modulate.a == 1:
 		if Input.is_action_just_pressed("ui_cancel"):
 			_on_CancelBtn_pressed()
 			accept_event()
-		if Input.is_action_just_pressed("ui_accept"):
-			_on_ConfirmBtn_pressed()
-			accept_event()
+		#		if Input.is_action_just_pressed("ui_accept"):
+		#			_on_ConfirmBtn_pressed()
+		#			accept_event()
 			
 	# OPT change-focus sounds
 	if (gameover_menu != null and gameover_menu.modulate.a == 1) or (game_summary.visible and game_summary.modulate.a == 1):
@@ -74,7 +73,7 @@ func _ready() -> void:
 		$Menu/ExitGameBtn.hide()	
 		$Menu/QuitBtn.focus_neighbour_left = "../RestartBtn"
 		$Menu/RestartBtn.focus_neighbour_right = "../QuitBtn"
-		
+	
 		
 func open_gameover(gameover_reason: int):
 	
@@ -231,7 +230,7 @@ func show_gameover_title():
 		# name input
 		var current_player_rank: int
 		if not score_is_ranking: # manage_gameover_highscores počaka na signal iz name_input ... more bit NOT, ker true se ne vrne
-#			yield(get_tree().create_timer(Profiles.get_it_time/2), "timeout") # malo podaljšam GO title, ker ni name inputa
+			#			yield(get_tree().create_timer(Profiles.get_it_time/2), "timeout") # malo podaljšam GO title, ker ni name inputa
 			pass
 		else:
 			open_name_input()
@@ -370,21 +369,24 @@ func set_game_summary():
 	
 	show_game_summary() # meni pokažem v tej funkciji	
 
-	
+
 func show_game_summary():
-	
+		
 	# hide title and name_popup > show game summary
 	game_summary.modulate.a = 0	
 	game_summary.visible = true	
 	
-	var cross_fade = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-	cross_fade.tween_property(name_input_popup, "modulate:a", 0, 0.5)
-	cross_fade.parallel().tween_property(gameover_title_holder, "modulate:a", 0, 0.5)
-	cross_fade.tween_callback(name_input_popup, "hide")
-	cross_fade.parallel().tween_callback(gameover_title_holder, "hide")
-	cross_fade.parallel().tween_property(game_summary, "modulate:a", 1, 0.5).set_delay(0.1)
-	cross_fade.parallel().tween_callback(self, "show_menu")
-
+	var title_fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+	title_fade_out.tween_property(name_input_popup, "modulate:a", 0, 0.5)
+	title_fade_out.parallel().tween_property(gameover_title_holder, "modulate:a", 0, 0.5)
+	title_fade_out.tween_callback(name_input_popup, "hide")
+	title_fade_out.parallel().tween_callback(gameover_title_holder, "hide")
+	yield(title_fade_out, "finished")
+	
+	var summary_fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+	summary_fade_in.parallel().tween_property(game_summary, "modulate:a", 1, 0.5).set_delay(0.1)
+	summary_fade_in.parallel().tween_callback(self, "show_menu")
+	
 
 func show_menu():
 	
@@ -436,6 +438,7 @@ func play_selected_level(selected_level: int):
 #		sweeper_settings["always_zoomed_in"] = true
 	
 	Global.main_node.reload_game()
+
 
 
 # NAME INPUT --------------------------------------------------------------------	
@@ -506,6 +509,27 @@ func _on_CancelBtn_pressed() -> void:
 	
 	Global.focus_without_sfx($NameInputPopup/HBoxContainer/CancelBtn) # cancel s tipko
 	close_name_input()
+
+
+func _on_PublishBtn_pressed() -> void:
+	# združeni confirm_btn, confirm_name_input in close_input
+	
+	Global.focus_without_sfx($NameInputPopup/HBoxContainer/ConfirmBtn) # potrditev s tipko
+	Global.sound_manager.play_gui_sfx("btn_confirm")
+	
+	
+	if input_string.empty():
+		input_string = name_input.placeholder_text
+	p1_final_stats["player_name"] = input_string
+	name_input.editable = false
+	
+	#func publish_score_to_global_leaderboards():
+	get_tree().set_pause(false)
+	ConnectCover.open_and_connect(p1_final_stats)
+	yield(ConnectCover, "connection_closed")
+	get_tree().set_pause(true) # setano čez celotno GO proceduro	
+
+	emit_signal("name_input_finished") # sporočim DM, da sem končal (ime povleče iz GO stats) ... on kliče "highscores_updated"
 
 
 # MENU ---------------------------------------------------------------------------------------------

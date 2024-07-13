@@ -25,7 +25,8 @@ onready var viewport_container: ViewportContainer = $"../../GameView/ViewportCon
 onready var finish_hint: HBoxContainer = $ActionHint
 
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void: # neu
+#func _input(event: InputEvent) -> void:
 	
 	if current_tutorial_stage == TutorialStage.TRAVEL:
 		if Input.is_action_pressed("ui_up"):

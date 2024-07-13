@@ -13,7 +13,8 @@ onready var intro: Node2D = $IntroViewPortContainer/IntroViewport/Intro
 onready var intro_viewport: Viewport = $IntroViewPortContainer/IntroViewport
 
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void: # neu
+#func _input(event: InputEvent) -> void:
 	
 	#	if Input.is_action_just_pressed("next"): 
 	#		Global.sound_manager.change_menu_music()

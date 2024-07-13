@@ -13,6 +13,7 @@
 
 [node name="GameOver" type="Control"]
 pause_mode = 2
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 3 )
@@ -298,6 +299,7 @@ text = "Can't handle the colors?"
 align = 1
 
 [node name="GameSummary" type="Control" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -308,7 +310,6 @@ margin_right = 640.0
 margin_bottom = 360.0
 
 [node name="ContentSweeper" type="Control" parent="GameSummary"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -553,6 +554,7 @@ margin_bottom = 326.0
 size_flags_horizontal = 9
 
 [node name="Content" type="Control" parent="GameSummary"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -605,7 +607,7 @@ __meta__ = {
 
 [node name="Title" type="Label" parent="GameSummary/Content/Data/DataContainer"]
 margin_right = 175.0
-margin_bottom = 32.0
+margin_bottom = 24.0
 rect_min_size = Vector2( 28, 32 )
 size_flags_horizontal = 7
 size_flags_vertical = 0
@@ -624,9 +626,9 @@ __meta__ = {
 }
 
 [node name="Level" type="Label" parent="GameSummary/Content/Data/DataContainer"]
-margin_top = 42.0
+margin_top = 34.0
 margin_right = 175.0
-margin_bottom = 60.0
+margin_bottom = 52.0
 custom_fonts/font = ExtResource( 1 )
 text = "%Level: 00"
 valign = 2
@@ -635,9 +637,9 @@ __meta__ = {
 }
 
 [node name="Points" type="Label" parent="GameSummary/Content/Data/DataContainer"]
-margin_top = 70.0
+margin_top = 62.0
 margin_right = 175.0
-margin_bottom = 88.0
+margin_bottom = 80.0
 custom_fonts/font = ExtResource( 1 )
 text = "%Score: 0000000"
 valign = 2
@@ -646,9 +648,9 @@ __meta__ = {
 }
 
 [node name="Time" type="Label" parent="GameSummary/Content/Data/DataContainer"]
-margin_top = 98.0
+margin_top = 90.0
 margin_right = 175.0
-margin_bottom = 116.0
+margin_bottom = 108.0
 custom_fonts/font = ExtResource( 1 )
 text = "%Time: 00:00:00"
 valign = 2
@@ -657,9 +659,9 @@ __meta__ = {
 }
 
 [node name="PixelsOff" type="Label" parent="GameSummary/Content/Data/DataContainer"]
-margin_top = 126.0
+margin_top = 118.0
 margin_right = 175.0
-margin_bottom = 144.0
+margin_bottom = 136.0
 custom_fonts/font = ExtResource( 1 )
 text = "%Colors collected: 000"
 valign = 2
@@ -668,9 +670,9 @@ __meta__ = {
 }
 
 [node name="AstrayPixels" type="Label" parent="GameSummary/Content/Data/DataContainer"]
-margin_top = 154.0
+margin_top = 146.0
 margin_right = 175.0
-margin_bottom = 172.0
+margin_bottom = 164.0
 custom_fonts/font = ExtResource( 1 )
 text = "%Left strays: 0000"
 valign = 2
@@ -679,9 +681,9 @@ __meta__ = {
 }
 
 [node name="CellsTraveled" type="Label" parent="GameSummary/Content/Data/DataContainer"]
-margin_top = 182.0
+margin_top = 174.0
 margin_right = 175.0
-margin_bottom = 200.0
+margin_bottom = 192.0
 custom_fonts/font = ExtResource( 1 )
 text = "%Cells travelled: 0000"
 valign = 2
@@ -690,9 +692,9 @@ __meta__ = {
 }
 
 [node name="BurstCount" type="Label" parent="GameSummary/Content/Data/DataContainer"]
-margin_top = 210.0
+margin_top = 202.0
 margin_right = 175.0
-margin_bottom = 228.0
+margin_bottom = 220.0
 custom_fonts/font = ExtResource( 1 )
 text = "%Bursts: 00"
 valign = 2
@@ -701,9 +703,9 @@ __meta__ = {
 }
 
 [node name="SkillsUsed" type="Label" parent="GameSummary/Content/Data/DataContainer"]
-margin_top = 238.0
+margin_top = 230.0
 margin_right = 175.0
-margin_bottom = 256.0
+margin_bottom = 248.0
 custom_fonts/font = ExtResource( 1 )
 text = "%Skills used: 00"
 valign = 2
@@ -733,6 +735,7 @@ margin_bottom = 326.0
 size_flags_horizontal = 9
 
 [node name="Menu" type="HBoxContainer" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -784,7 +787,7 @@ anchor_bottom = 0.5
 margin_left = -256.0
 margin_top = 72.0
 margin_right = 256.0
-margin_bottom = 304.0
+margin_bottom = 296.0
 
 [node name="Label" type="Label" parent="NameInputPopup"]
 anchor_right = 1.0
@@ -838,14 +841,12 @@ custom_styles/panel = ExtResource( 8 )
 [node name="HBoxContainer" type="HBoxContainer" parent="NameInputPopup"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -199.0
-margin_top = 174.0
-margin_right = 199.0
-margin_bottom = 196.0
-grow_horizontal = 2
+margin_left = -88.0
+margin_top = 166.0
+margin_right = 88.0
+margin_bottom = 188.0
 size_flags_horizontal = 4
 size_flags_vertical = 11
-custom_constants/separation = 32
 
 [node name="CancelBtn" type="Button" parent="NameInputPopup/HBoxContainer"]
 margin_right = 52.0
@@ -859,8 +860,8 @@ text = "SKIP"
 align = 0
 
 [node name="ConfirmBtn" type="Button" parent="NameInputPopup/HBoxContainer"]
-margin_left = 84.0
-margin_right = 182.0
+margin_left = 78.0
+margin_right = 176.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../CancelBtn")
 focus_neighbour_top = NodePath("../../NameInput")
@@ -871,17 +872,6 @@ size_flags_vertical = 9
 text = "CONFIRM"
 align = 0
 
-[node name="PublishBtn" type="Button" parent="NameInputPopup/HBoxContainer"]
-margin_left = 214.0
-margin_right = 398.0
-margin_bottom = 22.0
-mouse_default_cursor_shape = 2
-size_flags_horizontal = 9
-size_flags_vertical = 9
-theme = ExtResource( 3 )
-text = "PUBLISH ONLINE"
-align = 0
-
 [connection signal="pressed" from="Menu/ExitGameBtn" to="." method="_on_ExitGameBtn_pressed"]
 [connection signal="pressed" from="Menu/QuitBtn" to="." method="_on_QuitBtn_pressed"]
 [connection signal="pressed" from="Menu/RestartBtn" to="." method="_on_RestartBtn_pressed"]
@@ -889,7 +879,6 @@ align = 0
 [connection signal="text_entered" from="NameInputPopup/NameInput" to="." method="_on_PopupNameEdit_text_entered"]
 [connection signal="pressed" from="NameInputPopup/HBoxContainer/CancelBtn" to="." method="_on_CancelBtn_pressed"]
 [connection signal="pressed" from="NameInputPopup/HBoxContainer/ConfirmBtn" to="." method="_on_ConfirmBtn_pressed"]
-[connection signal="pressed" from="NameInputPopup/HBoxContainer/PublishBtn" to="." method="_on_PublishBtn_pressed"]
 
 [editable path="GameSummary/ContentSweeper/Hs/HighscoreTableDummy"]
 [editable path="GameSummary/Content/Hs/HighscoreTable"]

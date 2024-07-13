@@ -50,17 +50,23 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Stray Pixels"
+config/name="Pixel Astray"
 run/main_scene="res://main.tscn"
 boot_splash/image="res://assets/app/ratatata_boot_splash.png"
 boot_splash/use_filter=false
 boot_splash/bg_color=Color( 0, 0, 0, 1 )
-config/icon="res://assets/app/ratatata_gd_icon.png"
+config/icon="res://assets/app/project_icon.png"
+
+[audio]
+
+default_bus_layout="res://_obs/default_bus_layout.tres"
 
 [autoload]
 
 Global="*res://global.gd"
 Profiles="*res://profiles.gd"
+ConnectCover="*res://lootlocker/LootlockerConnect.tscn"
+LootLocker="*res://lootlocker/LootLocker.gd"
 
 [debug]
 
@@ -348,4 +354,4 @@ quality/intended_usage/framebuffer_allocation=0
 quality/intended_usage/framebuffer_allocation.mobile=0
 2d/snapping/use_gpu_pixel_snap=true
 environment/default_clear_color=Color( 0, 0, 0, 1 )
-environment/default_environment="res://default_env.tres"
+environment/default_environment="res://_obs/default_env.tres"

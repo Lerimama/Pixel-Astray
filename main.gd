@@ -16,14 +16,15 @@ func _input(event: InputEvent) -> void:
 	
 			
 func _ready() -> void:
-	
+
 	Global.main_node = self
+#	LootLocker.authenticate_player()
 	
-	home_in_intro()
+#	home_in_intro()
 #	home_in_no_intro()
-#	game_in()
+	game_in()
 
-
+			
 func home_in_intro():
 	
 	Global.spawn_new_scene(home_scene_path, self)
