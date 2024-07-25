@@ -1,7 +1,7 @@
 extends Control
 
 
-var fake_player_ranking: int = 100 # številka je ranking izven lestvice, da ni označenega plejerja
+var fake_player_ranking: int = 0 # številka je ranking izven lestvice, da ni označenega plejerja
 
 onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
 

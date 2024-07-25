@@ -1,11 +1,10 @@
 extends Node
 
 
-signal highscores_updated # ko je vnešeno ime igralca
+signal scores_saved # ko je vnešeno ime igralca
 
 var data_file: = File.new()
-var current_player_rank: int # da ob rendriranju HS, lahko označim aktualni rezultat ... v GM
-var all_games_key
+var current_player_rank: int
 var default_highscores: Dictionary = { # slovar, ki se uporabi, če še ni nobenega v filetu
 	"01": {"Mr.Nobody": 0,},
 	"02": {"Mr.Nobody": 0,},
@@ -19,11 +18,13 @@ var default_highscores: Dictionary = { # slovar, ki se uporabi, če še ni noben
 	"10": {"Mr.Nobody": 0,},
 }
 
+
 func _ready() -> void:
 	
 	Global.data_manager = self
 
-# highscores ------------------------------------------------------------------------------------------------------------------------
+
+# HS ------------------------------------------------------------------------------------------------------------------------
 
 	
 func get_top_highscore(current_game_data: Dictionary):
@@ -66,10 +67,11 @@ func get_top_highscore(current_game_data: Dictionary):
 	return [current_highscore, current_highscore_owner]
 
 
-func manage_gameover_highscores(current_score: float, current_game_data: Dictionary): # iz GM
-	# med izvajanjem te kode GM čaka na RESUME 1 
-	# ima napako, da na pozitiven odgovor ne vrne nič
+func check_player_ranking(current_score: float, current_game_data: Dictionary):
 
+	# vsakič, ko preverjam, resetiram
+	current_player_rank = 0
+	
 	var all_ranking_scores: Array = []
 	var all_ranking_score_owners: Array = []
 	var current_game_highscores: Dictionary = read_highscores_from_file(current_game_data) # ... v odprtem filetu se potem naloži highscore
@@ -90,55 +92,60 @@ func manage_gameover_highscores(current_score: float, current_game_data: Diction
 		else:
 			if ranking_score >= current_score:
 				better_positions_count += 1				
-		
+	
 	current_player_rank = better_positions_count + 1 # za označitev linije na lestvici
 	
-	var better_positions_to_be_ranking: int
+	# če rezultat ni na lestvici, postane 0
 	if current_game_data["game"] == Profiles.Games.SWEEPER:
-		better_positions_to_be_ranking = 1 # noben
-	else:
-		better_positions_to_be_ranking = all_ranking_scores.size()
+		if better_positions_count >= 1:
+			current_player_rank = 0
+	elif better_positions_count >= all_ranking_scores.size():
+		current_player_rank = 0
 	
-	# NI na lestvici
-	if better_positions_count >= better_positions_to_be_ranking:
-		return false
-	# JE na lestvici
-	else:
-		# return true # keč 22
-		
-		# YIELD 2 ... čaka na novo ime, ki bo prišlo iz GM, ki ga dobi od GO
-		yield(Global.gameover_gui, "name_input_finished")
-		
-		# RESUME 2
-		# nova highscore lestvica		
-		var current_score_owner_name: String = Global.gameover_gui.p1_final_stats["player_name"]
-		current_score_owner_name = current_score_owner_name.capitalize()
+	# printt("rank:", current_player_rank, better_positions_count + 1)	
+	return current_player_rank
 
-		# dodam plejer score v array
-		all_ranking_scores.insert(better_positions_count, current_score)
-		all_ranking_score_owners.insert(better_positions_count, current_score_owner_name)
 
-		# odstranim zadnjega ... najnižjega
-		all_ranking_scores.pop_back()
-		all_ranking_score_owners.pop_back()
+func save_player_score(current_score: float, current_game_data: Dictionary):
+	# med izvajanjem te kode GM čaka
+	# poberem trenutno lestvico (potem generiram novo z dodanim trenutnim skorom)
+	
+	var all_ranking_scores: Array = []
+	var all_ranking_score_owners: Array = []
+	var current_game_highscores: Dictionary = read_highscores_from_file(current_game_data) # ... v odprtem filetu se potem naloži highscore
+	for hs_position_key in current_game_highscores:
+		var current_position_dict = current_game_highscores[hs_position_key]
+		all_ranking_scores += current_position_dict.values()
+		all_ranking_score_owners += current_position_dict.keys()
+	
+	# ime plejerja
+	var current_score_owner_name: String = Global.gameover_gui.p1_final_stats["player_name"]
+	current_score_owner_name = current_score_owner_name.capitalize()
+
+	# zgradim novo lestvico z dodanim plejerjem in scorom
+	all_ranking_scores.insert(current_player_rank - 1, current_score)
+	all_ranking_score_owners.insert(current_player_rank - 1, current_score_owner_name)
+	# odstranim zadnjega ... najnižjega
+	all_ranking_scores.pop_back()
+	all_ranking_score_owners.pop_back()
+	
+	# sestavim nov slovar za lestvico
+	var new_game_highscores: Dictionary
+	var highscore_index = 0
+	for ranking_score in all_ranking_scores:
+		var highscores_position_key: String = "%02d" % (highscore_index + 1)
+		var highscores_value: float = ranking_score
+		var highscores_owner: String = all_ranking_score_owners[highscore_index]
+		var position_dict: Dictionary = {
+			highscores_owner: highscores_value,	
+		}
+		new_game_highscores[highscores_position_key] = position_dict
+		highscore_index += 1
 		
-		# sestavim nov hs slovar
-		var new_game_highscores: Dictionary
-		var highscore_index = 0
-		for ranking_score in all_ranking_scores:
-			var highscores_position_key: String = "%02d" % (highscore_index + 1)
-			var highscores_value: float = ranking_score
-			var highscores_owner: String = all_ranking_score_owners[highscore_index]
-			var position_dict: Dictionary = {
-				highscores_owner: highscores_value,	
-			}
-			new_game_highscores[highscores_position_key] = position_dict
-			highscore_index += 1
-			
-		# sejvam hs slovar v filet
-		write_highscores_to_file(current_game_data, new_game_highscores)
-		
-		emit_signal("highscores_updated")
+	# sejvam hs slovar v filet
+	write_highscores_to_file(current_game_data, new_game_highscores)
+	
+	emit_signal("scores_saved") # OPT trenutno se ne uporablja, čeprav bi bilo dobra praksa
 
 
 func write_highscores_to_file(write_game_data: Dictionary, new_game_highscores: Dictionary):

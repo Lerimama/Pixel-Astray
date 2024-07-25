@@ -8,7 +8,8 @@ onready var highscore_table_title: Label = $Title
 
 
 func get_highscore_table(current_game_data: Dictionary, current_player_rank: int, lines_to_show_count: int = 10):
-	printt("HS", current_game_data, current_player_rank,lines_to_show_count)
+	# printt("HS", current_game_data, current_player_rank,lines_to_show_count)
+	
 	var current_game_hs_type = current_game_data["highscore_type"]
 	var current_game_highscores = Global.data_manager.read_highscores_from_file(current_game_data)
 	
@@ -93,7 +94,7 @@ func get_highscore_table(current_game_data: Dictionary, current_player_rank: int
 			scoreline.hide()
 				
 		# povdarim trenuten rezultat
-		if scoreline_index == (current_player_rank - 1): # 0 je da izločim naslov
+		if current_player_rank > 0 and scoreline_index == (current_player_rank - 1): # 0 je da izločim naslov
 			scoreline.modulate = Global.color_green
 	
 	# če v lestvici ni rezultata, priredim prvo vrstico, če ne jo vrnem v planiran položaj

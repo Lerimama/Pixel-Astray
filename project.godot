@@ -65,8 +65,8 @@ default_bus_layout="res://_obs/default_bus_layout.tres"
 
 Global="*res://global.gd"
 Profiles="*res://profiles.gd"
-ConnectCover="*res://lootlocker/LootlockerConnect.tscn"
-LootLocker="*res://lootlocker/LootLocker.gd"
+ConnectCover="*res://lootlocker/lootlocker_connect_cover.tscn"
+LootLocker="*res://lootlocker/lootlocker.gd"
 
 [debug]
 
@@ -83,7 +83,7 @@ gdscript/warnings/integer_division=false
 window/size/width=1280
 window/size/height=720
 window/size/borderless=true
-window/size/fullscreen=true
+window/size/always_on_top=true
 window/size/test_width=640
 window/size/test_height=360
 window/dpi/allow_hidpi=true
