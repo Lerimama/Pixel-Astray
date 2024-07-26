@@ -128,7 +128,7 @@ func set_gameover_title():
 				gameover_subtitle = selected_gameover_title.get_node("Label")
 				gameover_subtitle.text = "You lost all of your momentum!"
 			else:
-				gameover_subtitle.text = "You are full of colors again!"
+				gameover_subtitle.text = "You can't handle the colors."
 		Global.game_manager.GameoverReason.TIME:
 			name_input_label.text = "But still ... "
 			selected_gameover_jingle = "lose_jingle"
@@ -260,7 +260,7 @@ func set_game_summary():
 	
 		
 	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-		summary_title.text = "Sweeper %02d overview" % Global.game_manager.game_data["level"]
+		summary_title.text = "Sweeper %02d Summary" % Global.game_manager.game_data["level"]
 		stats_title.text = "Game stats"
 		stat_level_reached.hide()
 		# stats
@@ -315,7 +315,7 @@ func set_game_summary():
 		$GameSummary/ContentSweeper.show()
 		$GameSummary/Content.hide()
 	else:
-		summary_title.text = "%s overview" % Global.game_manager.game_data["game_name"]
+		summary_title.text = "%s Summary" % Global.game_manager.game_data["game_name"]
 		stats_title.text = "Game stats"
 		# level reached, če je level game
 		if Global.game_manager.game_data.has("level"):
@@ -478,7 +478,6 @@ func confirm_name_input():
 	# publish
 	publish_popup.open_popup()
 	yield(publish_popup, "score_published")
-	
 	publish_popup.close_popup()
 	
 	var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)

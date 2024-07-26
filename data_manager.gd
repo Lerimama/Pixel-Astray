@@ -18,6 +18,20 @@ var default_highscores: Dictionary = { # slovar, ki se uporabi, če še ni noben
 	"10": {"Mr.Nobody": 0,},
 }
 
+## nov slovar za hs je array slovarjev, ki se ob vsakem prikazu rebilda glede na zaporedje (je pomembno)
+#var new_highscores: Dictionary = { # slovar, ki se uporabi, če še ni nobenega v filetu
+#	"01": {"Mr.Nobody": 0,},
+#	"02": {"Mr.Nobody": 0,},
+#	"03": {"Mr.Nobody": 0,},
+#	"04": {"Mr.Nobody": 0,},
+#	"05": {"Mr.Nobody": 0,},
+#	"06": {"Mr.Nobody": 0,},
+#	"07": {"Mr.Nobody": 0,},
+#	"08": {"Mr.Nobody": 0,},
+#	"09": {"Mr.Nobody": 0,},
+#	"10": {"Mr.Nobody": 0,},
+#}
+
 
 func _ready() -> void:
 	

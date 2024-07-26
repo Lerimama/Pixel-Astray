@@ -26,37 +26,26 @@ func close_popup():
 	var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_out.tween_property(self, "modulate:a", 0, 0.5)	
 	fade_out.tween_callback(self, "hide")	
-#	yield(fade_out,"finished")
-#	emit_signal("score_published")
-	
-	
-#func hide_popup():
-#
-#	var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-#	fade_out.tween_property(self, "modulate:a", 0, 0.3)	
-#	fade_out.tween_callback(self, "hide")	
-#	yield(fade_out,"finished")
-#	emit_signal("score_published")
 	
 	
 func _on_PublishBtn_pressed() -> void:
 	
 	Global.sound_manager.play_gui_sfx("btn_confirm")
-	get_tree().set_pause(false) # da lahko procedura steče
-	ConnectCover.open_and_connect(Global.gameover_gui.p1_final_stats)
-	# skrijem popup z zamikom
+	
 	skip_btn.disabled = true
 	publish_btn.disabled = true
-	yield(ConnectCover, "connection_closed")
+	
+	get_tree().set_pause(false) # da lahko procedura steče
+	LootLocker.submit_score_to_lootlocker(Global.gameover_gui.p1_final_stats)
+	yield(LootLocker, "connection_closed")
+	
 	get_tree().set_pause(true) # spet setano čez celotno GO proceduro
-#	close_popup()
 	emit_signal("score_published")
 
 
 func _on_SkipBtn_pressed() -> void:
 	
 	Global.sound_manager.play_gui_sfx("btn_cancel")
-#	close_popup()
 	emit_signal("score_published")
 	
 

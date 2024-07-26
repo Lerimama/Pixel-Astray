@@ -165,7 +165,6 @@ VSeparator/styles/separator = SubResource( 321 )
 
 [node name="PauseMenu" type="Control"]
 pause_mode = 2
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_pivot_offset = Vector2( 592, 224 )
@@ -393,6 +392,7 @@ __meta__ = {
 }
 
 [node name="ExitGameBtn" type="Button" parent="Menu"]
+visible = false
 margin_right = 122.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../RestartBtn")
@@ -403,8 +403,7 @@ text = "EXIT GAME"
 align = 0
 
 [node name="QuitBtn" type="Button" parent="Menu"]
-margin_left = 154.0
-margin_right = 206.0
+margin_right = 52.0
 margin_bottom = 22.0
 focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
 mouse_default_cursor_shape = 2
@@ -412,8 +411,8 @@ size_flags_vertical = 0
 text = "QUIT"
 
 [node name="PlayBtn" type="Button" parent="Menu"]
-margin_left = 238.0
-margin_right = 326.0
+margin_left = 84.0
+margin_right = 172.0
 margin_bottom = 22.0
 focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
 mouse_default_cursor_shape = 2
@@ -421,8 +420,9 @@ size_flags_vertical = 0
 text = "RESUME"
 
 [node name="SkipTutBtn" type="Button" parent="Menu"]
-margin_left = 358.0
-margin_right = 546.0
+visible = false
+margin_left = 204.0
+margin_right = 392.0
 margin_bottom = 22.0
 focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
 mouse_default_cursor_shape = 2
@@ -430,8 +430,8 @@ size_flags_vertical = 0
 text = "CLOSE TUTORIAL"
 
 [node name="RestartBtn" type="Button" parent="Menu"]
-margin_left = 578.0
-margin_right = 676.0
+margin_left = 204.0
+margin_right = 302.0
 margin_bottom = 22.0
 focus_neighbour_right = NodePath("../ExitGameBtn")
 focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")

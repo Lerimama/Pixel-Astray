@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=2]
@@ -11,7 +11,6 @@
 [ext_resource path="res://assets/resources/tileset_titles.tres" type="TileSet" id=9]
 [ext_resource path="res://assets/theme/box_colored_almost_black.tres" type="StyleBox" id=10]
 [ext_resource path="res://lootlocker/publish_popup.gd" type="Script" id=11]
-[ext_resource path="res://assets/resources/highscore_table_noscore_line.tres" type="StyleBox" id=12]
 
 [node name="GameOver" type="Control"]
 pause_mode = 2
@@ -68,6 +67,7 @@ margin_right = -2.0
 margin_bottom = 2.0
 
 [node name="GameoverTitle" type="Control" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -746,476 +746,7 @@ margin_right = 248.0
 margin_bottom = 334.0
 size_flags_horizontal = 9
 
-[node name="ScoreLine2" type="HBoxContainer" parent="GameSummary/Content/Hs/HighscoreTable"]
-margin_top = 60.0
-margin_right = 216.0
-margin_bottom = 78.0
-rect_min_size = Vector2( 72, 0 )
-size_flags_horizontal = 3
-
-[node name="Position" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine2"]
-margin_right = 24.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 24, 0 )
-custom_fonts/font = ExtResource( 1 )
-text = "00."
-
-[node name="Owner" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine2"]
-margin_left = 28.0
-margin_right = 118.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 90, 0 )
-custom_fonts/font = ExtResource( 1 )
-text = "Characters"
-clip_text = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine2"]
-margin_left = 139.0
-margin_right = 216.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-custom_fonts/font = ExtResource( 1 )
-text = "100000000"
-align = 2
-
-[node name="NoScoreLine" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine2"]
-visible = false
-margin_left = 28.0
-margin_right = 216.0
-margin_bottom = 18.0
-size_flags_horizontal = 11
-custom_fonts/font = ExtResource( 1 )
-align = 2
-
-[node name="NoScoreLine" type="HSeparator" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine2/NoScoreLine"]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -4.0
-custom_styles/separator = ExtResource( 12 )
-
-[node name="ScoreLine3" type="HBoxContainer" parent="GameSummary/Content/Hs/HighscoreTable"]
-margin_top = 86.0
-margin_right = 216.0
-margin_bottom = 104.0
-rect_min_size = Vector2( 72, 0 )
-size_flags_horizontal = 3
-
-[node name="Position" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine3"]
-margin_right = 24.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 24, 0 )
-custom_fonts/font = ExtResource( 1 )
-text = "00."
-
-[node name="Owner" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine3"]
-margin_left = 28.0
-margin_right = 118.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 90, 0 )
-custom_fonts/font = ExtResource( 1 )
-text = "Characters"
-clip_text = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine3"]
-margin_left = 139.0
-margin_right = 216.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-custom_fonts/font = ExtResource( 1 )
-text = "100000000"
-align = 2
-
-[node name="NoScoreLine" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine3"]
-visible = false
-margin_left = 28.0
-margin_right = 216.0
-margin_bottom = 18.0
-size_flags_horizontal = 11
-custom_fonts/font = ExtResource( 1 )
-align = 2
-
-[node name="NoScoreLine" type="HSeparator" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine3/NoScoreLine"]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -4.0
-custom_styles/separator = ExtResource( 12 )
-
-[node name="ScoreLine4" type="HBoxContainer" parent="GameSummary/Content/Hs/HighscoreTable"]
-margin_top = 112.0
-margin_right = 216.0
-margin_bottom = 130.0
-rect_min_size = Vector2( 72, 0 )
-size_flags_horizontal = 3
-
-[node name="Position" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine4"]
-margin_right = 24.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 24, 0 )
-custom_fonts/font = ExtResource( 1 )
-text = "00."
-
-[node name="Owner" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine4"]
-margin_left = 28.0
-margin_right = 118.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 90, 0 )
-custom_fonts/font = ExtResource( 1 )
-text = "Characters"
-clip_text = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine4"]
-margin_left = 139.0
-margin_right = 216.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-custom_fonts/font = ExtResource( 1 )
-text = "100000000"
-align = 2
-
-[node name="NoScoreLine" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine4"]
-visible = false
-margin_left = 28.0
-margin_right = 216.0
-margin_bottom = 18.0
-size_flags_horizontal = 11
-custom_fonts/font = ExtResource( 1 )
-align = 2
-
-[node name="NoScoreLine" type="HSeparator" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine4/NoScoreLine"]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -4.0
-custom_styles/separator = ExtResource( 12 )
-
-[node name="ScoreLine5" type="HBoxContainer" parent="GameSummary/Content/Hs/HighscoreTable"]
-margin_top = 138.0
-margin_right = 216.0
-margin_bottom = 156.0
-rect_min_size = Vector2( 72, 0 )
-size_flags_horizontal = 3
-
-[node name="Position" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine5"]
-margin_right = 24.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 24, 0 )
-custom_fonts/font = ExtResource( 1 )
-text = "00."
-
-[node name="Owner" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine5"]
-margin_left = 28.0
-margin_right = 118.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 90, 0 )
-custom_fonts/font = ExtResource( 1 )
-text = "Characters"
-clip_text = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine5"]
-margin_left = 139.0
-margin_right = 216.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-custom_fonts/font = ExtResource( 1 )
-text = "100000000"
-align = 2
-
-[node name="NoScoreLine" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine5"]
-visible = false
-margin_left = 28.0
-margin_right = 216.0
-margin_bottom = 18.0
-size_flags_horizontal = 11
-custom_fonts/font = ExtResource( 1 )
-align = 2
-
-[node name="NoScoreLine" type="HSeparator" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine5/NoScoreLine"]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -4.0
-custom_styles/separator = ExtResource( 12 )
-
-[node name="ScoreLine6" type="HBoxContainer" parent="GameSummary/Content/Hs/HighscoreTable"]
-margin_top = 164.0
-margin_right = 216.0
-margin_bottom = 182.0
-rect_min_size = Vector2( 72, 0 )
-size_flags_horizontal = 3
-
-[node name="Position" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine6"]
-margin_right = 24.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 24, 0 )
-custom_fonts/font = ExtResource( 1 )
-text = "00."
-
-[node name="Owner" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine6"]
-margin_left = 28.0
-margin_right = 118.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 90, 0 )
-custom_fonts/font = ExtResource( 1 )
-text = "Characters"
-clip_text = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine6"]
-margin_left = 139.0
-margin_right = 216.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-custom_fonts/font = ExtResource( 1 )
-text = "100000000"
-align = 2
-
-[node name="NoScoreLine" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine6"]
-visible = false
-margin_left = 28.0
-margin_right = 216.0
-margin_bottom = 18.0
-size_flags_horizontal = 11
-custom_fonts/font = ExtResource( 1 )
-align = 2
-
-[node name="NoScoreLine" type="HSeparator" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine6/NoScoreLine"]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -4.0
-custom_styles/separator = ExtResource( 12 )
-
-[node name="ScoreLine7" type="HBoxContainer" parent="GameSummary/Content/Hs/HighscoreTable"]
-margin_top = 190.0
-margin_right = 216.0
-margin_bottom = 208.0
-rect_min_size = Vector2( 72, 0 )
-size_flags_horizontal = 3
-
-[node name="Position" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine7"]
-margin_right = 24.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 24, 0 )
-custom_fonts/font = ExtResource( 1 )
-text = "00."
-
-[node name="Owner" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine7"]
-margin_left = 28.0
-margin_right = 118.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 90, 0 )
-custom_fonts/font = ExtResource( 1 )
-text = "Characters"
-clip_text = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine7"]
-margin_left = 139.0
-margin_right = 216.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-custom_fonts/font = ExtResource( 1 )
-text = "100000000"
-align = 2
-
-[node name="NoScoreLine" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine7"]
-visible = false
-margin_left = 28.0
-margin_right = 216.0
-margin_bottom = 18.0
-size_flags_horizontal = 11
-custom_fonts/font = ExtResource( 1 )
-align = 2
-
-[node name="NoScoreLine" type="HSeparator" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine7/NoScoreLine"]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -4.0
-custom_styles/separator = ExtResource( 12 )
-
-[node name="ScoreLine8" type="HBoxContainer" parent="GameSummary/Content/Hs/HighscoreTable"]
-margin_top = 216.0
-margin_right = 216.0
-margin_bottom = 234.0
-rect_min_size = Vector2( 72, 0 )
-size_flags_horizontal = 3
-
-[node name="Position" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine8"]
-margin_right = 24.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 24, 0 )
-custom_fonts/font = ExtResource( 1 )
-text = "00."
-
-[node name="Owner" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine8"]
-margin_left = 28.0
-margin_right = 118.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 90, 0 )
-custom_fonts/font = ExtResource( 1 )
-text = "Characters"
-clip_text = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine8"]
-margin_left = 139.0
-margin_right = 216.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-custom_fonts/font = ExtResource( 1 )
-text = "100000000"
-align = 2
-
-[node name="NoScoreLine" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine8"]
-visible = false
-margin_left = 28.0
-margin_right = 216.0
-margin_bottom = 18.0
-size_flags_horizontal = 11
-custom_fonts/font = ExtResource( 1 )
-align = 2
-
-[node name="NoScoreLine" type="HSeparator" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine8/NoScoreLine"]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -4.0
-custom_styles/separator = ExtResource( 12 )
-
-[node name="ScoreLine9" type="HBoxContainer" parent="GameSummary/Content/Hs/HighscoreTable"]
-margin_top = 242.0
-margin_right = 216.0
-margin_bottom = 260.0
-rect_min_size = Vector2( 72, 0 )
-size_flags_horizontal = 3
-
-[node name="Position" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine9"]
-margin_right = 24.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 24, 0 )
-custom_fonts/font = ExtResource( 1 )
-text = "00."
-
-[node name="Owner" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine9"]
-margin_left = 28.0
-margin_right = 118.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 90, 0 )
-custom_fonts/font = ExtResource( 1 )
-text = "Characters"
-clip_text = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine9"]
-margin_left = 139.0
-margin_right = 216.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-custom_fonts/font = ExtResource( 1 )
-text = "100000000"
-align = 2
-
-[node name="NoScoreLine" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine9"]
-visible = false
-margin_left = 28.0
-margin_right = 216.0
-margin_bottom = 18.0
-size_flags_horizontal = 11
-custom_fonts/font = ExtResource( 1 )
-align = 2
-
-[node name="NoScoreLine" type="HSeparator" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine9/NoScoreLine"]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -4.0
-custom_styles/separator = ExtResource( 12 )
-
-[node name="ScoreLine10" type="HBoxContainer" parent="GameSummary/Content/Hs/HighscoreTable"]
-margin_top = 268.0
-margin_right = 216.0
-margin_bottom = 286.0
-rect_min_size = Vector2( 72, 0 )
-size_flags_horizontal = 3
-
-[node name="Position" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine10"]
-margin_right = 24.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 24, 0 )
-custom_fonts/font = ExtResource( 1 )
-text = "00."
-
-[node name="Owner" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine10"]
-margin_left = 28.0
-margin_right = 118.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 90, 0 )
-custom_fonts/font = ExtResource( 1 )
-text = "Characters"
-clip_text = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine10"]
-margin_left = 139.0
-margin_right = 216.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 70, 0 )
-size_flags_horizontal = 10
-custom_fonts/font = ExtResource( 1 )
-text = "100000000"
-align = 2
-
-[node name="NoScoreLine" type="Label" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine10"]
-visible = false
-margin_left = 28.0
-margin_right = 216.0
-margin_bottom = 18.0
-size_flags_horizontal = 11
-custom_fonts/font = ExtResource( 1 )
-align = 2
-
-[node name="NoScoreLine" type="HSeparator" parent="GameSummary/Content/Hs/HighscoreTable/ScoreLine10/NoScoreLine"]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -4.0
-custom_styles/separator = ExtResource( 12 )
-
 [node name="Menu" type="HBoxContainer" parent="."]
-visible = false
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -1231,6 +762,7 @@ __meta__ = {
 }
 
 [node name="ExitGameBtn" type="Button" parent="Menu"]
+visible = false
 margin_right = 122.0
 margin_bottom = 22.0
 focus_neighbour_left = NodePath("../RestartBtn")
@@ -1240,8 +772,7 @@ text = "EXIT GAME"
 align = 0
 
 [node name="QuitBtn" type="Button" parent="Menu"]
-margin_left = 154.0
-margin_right = 206.0
+margin_right = 52.0
 margin_bottom = 22.0
 focus_neighbour_right = NodePath("../RestartBtn")
 mouse_default_cursor_shape = 2
@@ -1250,8 +781,8 @@ text = "QUIT"
 align = 2
 
 [node name="RestartBtn" type="Button" parent="Menu"]
-margin_left = 238.0
-margin_right = 370.0
+margin_left = 84.0
+margin_right = 216.0
 margin_bottom = 22.0
 focus_neighbour_right = NodePath("../ExitGameBtn")
 mouse_default_cursor_shape = 2
@@ -1260,6 +791,7 @@ text = "PLAY AGAIN"
 align = 0
 
 [node name="NameInputPopup" type="Control" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1355,6 +887,7 @@ text = "CONFIRM"
 align = 0
 
 [node name="PublishPopup" type="Control" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 384.0
@@ -1362,12 +895,6 @@ margin_top = 432.0
 margin_right = -384.0
 margin_bottom = -56.0
 script = ExtResource( 11 )
-
-[node name="Background" type="ColorRect" parent="PublishPopup"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color( 0.321569, 0.0392157, 0.0392157, 1 )
 
 [node name="Confirm" type="Label" parent="PublishPopup"]
 anchor_left = 0.5

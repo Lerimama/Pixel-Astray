@@ -391,7 +391,7 @@ func _on_control_hovered(control: Control):
 
 # on focus
 func _on_control_focused(control: Control):
-	printt("Control focused", control)
+	# printt("Control focused", control)
 
 	Global.sound_manager.play_gui_sfx("btn_focus_change")
 
