@@ -31,40 +31,13 @@ func _ready() -> void:
 
 	# menu btn group
 	$BackBtn.add_to_group(Global.group_menu_cancel_btns)
+	yield(get_tree().create_timer(1), "timeout") # _temp
+	var game_data_global = Profiles.game_data_classic.duplicate()
+	game_data_global["level"] = "Global"
+	classic_table.get_local_to_global_ranks(Profiles.game_data_classic, game_data_global) # _temp
+	classic_table_glo.get_highscore_table(game_data_global, fake_player_ranking, 15) # _temp
 
-			
-#func load_new_sweeper_table_old(next_or_prev_level: int):
-#	# ime save fileta SWEEPER_1_highscores.save
-#
-#	# setam level v tabeli
-#	Profiles.game_data_sweeper["level"] += next_or_prev_level
-#	# ciklanje levelov
-#	if Profiles.game_data_sweeper["level"] > Profiles.sweeper_level_tilemap_paths.size():
-#		Profiles.game_data_sweeper["level"] = 1
-#	elif Profiles.game_data_sweeper["level"] < 1:
-#		Profiles.game_data_sweeper["level"] = Profiles.sweeper_level_tilemap_paths.size()
-#
-#	# fade out
-#	var fade_time: float = 0.2
-#	var fade_tween = get_tree().create_tween()
-#	fade_tween.tween_property(sweeper_table.get_children()[1], "modulate:a", 0, fade_time).set_ease(Tween.EASE_IN)
-#	# vse linije brez titla, na ročen način
-#	fade_tween.parallel().tween_property(sweeper_table.get_children()[2], "modulate:a", 0, fade_time)
-#	fade_tween.parallel().tween_property(sweeper_table.get_children()[3], "modulate:a", 0, fade_time)
-#	fade_tween.parallel().tween_property(sweeper_table.get_children()[4], "modulate:a", 0, fade_time)
-#	fade_tween.parallel().tween_property(sweeper_table.get_children()[5], "modulate:a", 0, fade_time)
-#	fade_tween.parallel().tween_property(sweeper_table.get_children()[6], "modulate:a", 0, fade_time)
-#	fade_tween.parallel().tween_property(sweeper_table.get_children()[7], "modulate:a", 0, fade_time)
-#	fade_tween.parallel().tween_property(sweeper_table.get_children()[8], "modulate:a", 0, fade_time)
-#	fade_tween.parallel().tween_property(sweeper_table.get_children()[9], "modulate:a", 0, fade_time)
-#	fade_tween.parallel().tween_property(sweeper_table.get_children()[10], "modulate:a", 0, fade_time)
-#	yield(fade_tween, "finished")
-#
-#	# naložim novo tabelo
-#	sweeper_table.get_highscore_table(Profiles.game_data_sweeper, fake_player_ranking)
-#	call_deferred("fade_in_sweeper_table")
-
-
+	
 func fade_in_sweeper_table():
 	
 	var fade_time: float = 0.2
@@ -83,21 +56,53 @@ func fade_in_sweeper_table():
 	fade_tween.parallel().tween_property(sweeper_table.get_children()[9], "modulate:a", 1, fade_time)
 	fade_tween.parallel().tween_property(sweeper_table.get_children()[10], "modulate:a", 1, fade_time)
 		
-	
-func _on_UpdateScoresBtn_pressed() -> void:
-	
-	classic_table.update_global_highscores()
-#	cleaner_xs_table.show_global_ranking()
-#	cleaner_s_table.show_global_ranking()
-#	cleaner_m_table.show_global_ranking()
-#	cleaner_l_table.show_global_ranking()
-#	cleaner_xl_table.show_global_ranking()
-#	chaser_table.show_global_ranking()
-#	defender_table.show_global_ranking()
-#	sweeper_table.get_sweeper_highscore_table(Profiles.game_data_sweeper) # rabim 10 linij, ki so defaultne
+onready var classic_table_glo: VBoxContainer = $ClassicTableGlo
 
-#	cleaner_xl_table.get_highscore_table(Profiles.game_data_cleaner_xl, fake_player_ranking, show_lines_count)
+
+func _on_UpdateScoresBtn_pressed() -> void:
+#	update_and_save_global_highscores(Profiles.game_data_classic)
+	LootLocker.update_and_save_global_highscores_to_local(Profiles.game_data_classic)
+	yield(LootLocker, "global_saved_to_local")
+	var current_game_data_global = Profiles.game_data_classic.duplicate()
+	current_game_data_global["level"] = "Global"
+	classic_table.get_local_to_global_ranks(Profiles.game_data_classic, current_game_data_global) # _temp
+	classic_table_glo.get_highscore_table(current_game_data_global, fake_player_ranking, 15) # _tem
 	
+	
+func update_and_save_global_highscores(current_game_data: Dictionary):
+	pass
+#	# pogrebam board s spleta
+#	# spremenim board v slovar kot so lokalne HS
+#	# shranim v filet igre (dodam level Global)
+#
+#	# pogrebam leaderboard z neta
+#	LootLocker.get_lootlocker_leaderboard() # Dictionary ali object
+#	yield(LootLocker, "connection_closed")
+#	var board = LootLocker.board # Dictionary ali object	
+#
+#	# spremenim board v HS slovar 
+#	var global_game_highscores: Dictionary = {} 
+#	for item in board:
+#		var item_dictionary: Dictionary = item
+#		var item_player_name: String = item_dictionary["member_id"]
+#		var item_player_score = item_dictionary["score"]
+#		var item_player_rank = "%02d" % item_dictionary["rank"]
+#
+#		var highscores_player_name: String = str(item_player_name)
+#		var highscores_player_line: Dictionary 
+#		highscores_player_line[highscores_player_name] = item_player_score
+#
+#		# add player dict to higscores dict
+#		global_game_highscores[item_player_rank] = highscores_player_line
+#
+#	# dodam level name za ime save fileta in sejvam
+#	var current_game_data_global = current_game_data.duplicate()
+#	current_game_data_global["level"] = "Global"
+#	Global.data_manager.write_highscores_to_file(current_game_data_global, global_game_highscores)
+	
+#	classic_table.get_local_to_global_ranks(current_game_data, current_game_data_global) # _temp
+#	classic_table_glo.get_highscore_table(current_game_data_global, fake_player_ranking, 15) # _temp
+
 	
 func _on_SweeperRightBtn_pressed() -> void:
 	

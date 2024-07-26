@@ -18,21 +18,6 @@ var default_highscores: Dictionary = { # slovar, ki se uporabi, če še ni noben
 	"10": {"Mr.Nobody": 0,},
 }
 
-## nov slovar za hs je array slovarjev, ki se ob vsakem prikazu rebilda glede na zaporedje (je pomembno)
-#var new_highscores: Dictionary = { # slovar, ki se uporabi, če še ni nobenega v filetu
-#	"01": {"Mr.Nobody": 0,},
-#	"02": {"Mr.Nobody": 0,},
-#	"03": {"Mr.Nobody": 0,},
-#	"04": {"Mr.Nobody": 0,},
-#	"05": {"Mr.Nobody": 0,},
-#	"06": {"Mr.Nobody": 0,},
-#	"07": {"Mr.Nobody": 0,},
-#	"08": {"Mr.Nobody": 0,},
-#	"09": {"Mr.Nobody": 0,},
-#	"10": {"Mr.Nobody": 0,},
-#}
-
-
 func _ready() -> void:
 	
 	Global.data_manager = self
@@ -134,7 +119,8 @@ func save_player_score(current_score: float, current_game_data: Dictionary):
 	
 	# ime plejerja
 	var current_score_owner_name: String = Global.gameover_gui.p1_final_stats["player_name"]
-	current_score_owner_name = current_score_owner_name.capitalize()
+	current_score_owner_name = current_score_owner_name
+#	current_score_owner_name = current_score_owner_name.capitalize()
 
 	# zgradim novo lestvico z dodanim plejerjem in scorom
 	all_ranking_scores.insert(current_player_rank - 1, current_score)

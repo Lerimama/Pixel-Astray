@@ -38,7 +38,6 @@ func _on_PublishBtn_pressed() -> void:
 	get_tree().set_pause(false) # da lahko procedura steče
 	LootLocker.submit_score_to_lootlocker(Global.gameover_gui.p1_final_stats)
 	yield(LootLocker, "connection_closed")
-	
 	get_tree().set_pause(true) # spet setano čez celotno GO proceduro
 	emit_signal("score_published")
 

@@ -33,12 +33,6 @@ margin_right = 32.0
 margin_bottom = 308.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Button" type="Button" parent="Title"]
-margin_left = 184.0
-margin_right = 224.0
-margin_bottom = 22.0
-text = "GLO"
-
 [node name="ScoreLine" type="HBoxContainer" parent="."]
 margin_top = 34.0
 margin_right = 227.0
@@ -98,5 +92,3 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -4.0
 custom_styles/separator = ExtResource( 4 )
-
-[connection signal="pressed" from="Title/Button" to="." method="_on_Button_pressed"]

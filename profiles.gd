@@ -87,7 +87,7 @@ var game_data_classic: Dictionary = {
 var game_data_cleaner_xs: Dictionary = { 
 	"game": Games.CLEANER_XS,
 	"highscore_type": HighscoreTypes.HS_TIME_LOW,
-	"game_name": "Cleaner S",
+	"game_name": "Cleaner XS",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_xs.tscn",
 	"description" : "Clear the colors before time slips away!",

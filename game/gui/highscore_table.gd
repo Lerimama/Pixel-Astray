@@ -200,48 +200,11 @@ func load_sweeper_table_page(next_or_prev_page: int): # +1 ali -1
 				scoreline.hide()
 
 
-func update_global_highscores():
-	
-	LootLocker.get_lootlocker_leaderboard() # Dictionary ali object
-	yield(LootLocker, "connection_closed")
-	
-#	var global_game_highscores = LootLocker.global_highscore_table # Dictionary ali object
-	var global_game_leaderboard = LootLocker.board # Dictionary ali object
-
-#	yield(get_tree().create_timer(2), "timeout")
-#	printt("new HS", global_game_highscores)
-	# za vsak rezultat v globalni lestvici, preverim, če ima ime in score  isti kot kateri izmed lokalnih rezultatov
-	
-	var scorelines_to_check = scorelines_with_score.duplicate() # da lahko odstranim, že ugotovljene	
-	
-	for item in global_game_leaderboard:
-		var item_dictionary = item
-		var item_player_name: String = item_dictionary["member_id"]
-		var item_player_score: String = str(item_dictionary["score"])
-		var item_player_rank = "%02d" % item_dictionary["rank"]
-		
-		for scoreline in scorelines_to_check:
-			var scoreline_name: String = scoreline.get_node("Owner").text
-			var scoreline_score: String = scoreline.get_node("Score").text
-			# preverim enakost
-			if item_player_name == scoreline_name:
-				if item_player_score == scoreline_score:
-					scoreline.get_node("GlobalRank").text = str(item_player_rank)
-					printt("rank", item_player_rank, item_player_score, item_player_name)
-					scorelines_to_check.erase(scoreline)	
-					break
-			else:
-				scoreline.get_node("GlobalRank").text = "..."
-
-	
-
-
-
 func show_global_ranking(): # for local scores
 				
 	for scoreline in scorelines_with_score:
 		scoreline.get_node("GlobalRank").show()
-		scoreline.get_node("Rank").hide()
+#		scoreline.get_node("Rank").hide()
 	
 	
 func hide_global_ranking():
@@ -249,172 +212,31 @@ func hide_global_ranking():
 	for scoreline in scorelines_with_score:
 		scoreline.get_node("GlobalRank").hide()
 		scoreline.get_node("Rank").show()
+	
 
-
-
-#func _on_Button_toggled(button_pressed: bool) -> void:
-#
-#	if button_pressed:
-#		show_global_ranking()
-#	else:
-#		hide_global_ranking()
-
-
-func _on_Button_pressed() -> void:
-	build_global_game_leaderboard()
+func get_local_to_global_ranks(local_game_data: Dictionary, global_game_data: Dictionary):
 	
+	var global_game_highscores: Dictionary = Global.data_manager.read_highscores_from_file(global_game_data)
+	var scorelines_with_global_rank: Array = [] # za označit ne povezane
 	
-var global_highscore_table: Dictionary = {}
-var game_highscores: Dictionary = {} 
-	
-func build_global_game_leaderboard():
-	
-	LootLocker.get_lootlocker_leaderboard() # Dictionary ali object
-	yield(LootLocker, "connection_closed")
-	
-#	var global_game_highscores = LootLocker.global_highscore_table # Dictionary ali object
-	var board = LootLocker.board # Dictionary ali object	
-	var game_highscores: Dictionary = {} 
-	
-	for item in board:
-		var player_dictionary = item
-		var player_name: String = player_dictionary["member_id"]
-		var player_score = player_dictionary["score"]
-		var player_rank = "%02d" % player_dictionary["rank"]
+	# za vsak global skor, preverim vse lokalne scoreline
+	for global_highscore_line in global_game_highscores:
 		
-		var player_line: Dictionary 
-		player_line[str(player_name)] = player_score
+		var global_highscore_player_name: String = global_game_highscores[global_highscore_line].keys()[0]
+		var global_highscore_player_score: float = global_game_highscores[global_highscore_line][global_highscore_player_name]
+		var global_highscore_player_rank = global_highscore_line
 		
-		# add player key
-		game_highscores[player_rank] = player_line
+		# dodam rank k tistim, ki ga imajo	
+		for scoreline in scorelines_with_score:
+			var scoreline_name: String = scoreline.get_node("Owner").text
+			var scoreline_score: String = scoreline.get_node("Score").text
+			# preverim enakost imena in skora
+			if global_highscore_player_name == scoreline_name and str(global_highscore_player_score) == scoreline_score:
+				scoreline.get_node("GlobalRank").text = str(global_highscore_player_rank) + "."
+				scorelines_with_global_rank.append(scoreline)
+				break
 	
-#	global_highscore_table = game_highscores
-	printt ("HS",game_highscores)
-	
-	get_online_highscore_table(game_highscores)
-#
-#var default_highscores: Dictionary = { # slovar, ki se uporabi, če še ni nobenega v filetu
-#	"01": {"Mr.Nobody": 0,},
-#	"02": {"Mr.Nobody": 0,},
-#	"03": {"Mr.Nobody": 0,},
-#	"04": {"Mr.Nobody": 0,},
-#	"05": {"Mr.Nobody": 0,},
-#	"06": {"Mr.Nobody": 0,},
-#	"07": {"Mr.Nobody": 0,},
-#	"08": {"Mr.Nobody": 0,},
-#	"09": {"Mr.Nobody": 0,},
-#	"10": {"Mr.Nobody": 0,},
-#}
-
-	
-func get_online_highscore_table(game_hs: Dictionary, lines_to_show_count: int = 15):
-	# printt("HS", current_game_data, current_player_rank,lines_to_show_count)
-	
-	var current_game_hs_type = Profiles.HighscoreTypes.HS_POINTS
-##	var current_game_highscores = Global.data_manager.read_highscores_from_file(current_game_data)
-#
-#	# naslov tabele
-#	var current_game_name: String = current_game_data["game_name"]
-#	if current_game_data["game"] == Profiles.Games.CLEANER_XS:
-#		highscore_table_title.text = "Best XS cleaners"
-#	elif current_game_data["game"] == Profiles.Games.CLEANER_S:
-#		highscore_table_title.text = "Best S cleaners"
-#	elif current_game_data["game"] == Profiles.Games.CLEANER_M:
-#		highscore_table_title.text = "Best M cleaners"
-#	elif current_game_data["game"] == Profiles.Games.CLEANER_L:
-#		highscore_table_title.text = "Best L cleaners"
-#	elif current_game_data["game"] == Profiles.Games.CLEANER_XL:
-#		highscore_table_title.text = "Best XL cleaners"
-#	else:
-#		highscore_table_title.text = "Best " + current_game_name.to_lower() + "s"
-
-	
-	# napolnem lestvico
-#	var scorelines: Array = get_children()
-	scorelines = get_children()
-	scorelines.pop_front()
-#	scorelines.pop_front() # _temp
-
-	# podupliciram osnovno linijo 
-	if scorelines.size() < lines_to_show_count:
-		var missing_lines_count: int = lines_to_show_count - scorelines.size()
-		var scoreline_to_duplicate: Control = scorelines[scorelines.size() - 1] # zadnji def scorline
-		for n in missing_lines_count:
-			var new_scoreline = scoreline_to_duplicate.duplicate()
-			add_child(new_scoreline)
-			scorelines.append(new_scoreline)	
-
-	
-	# za vsako pozicijo vpišemo vrednost, ime in pozicijo
-	for scoreline in scorelines:
-		var scoreline_index: int = scorelines.find(scoreline)
-		var scoreline_position_key: String = "%02d" % (scoreline_index + 1)
-		
-		# izberem position slovar glede na pozicijo score lineta
-		var current_position_dict: Dictionary = game_hs[scoreline_position_key]
-		var current_position_dict_values: Array = current_position_dict.values()
-		var current_position_dict_owners: Array = current_position_dict.keys()
-		scoreline.get_node("Rank").text = str(scoreline_index + 1) + "."
-		scoreline.get_node("Owner").text = str(current_position_dict_owners[0])
-		
-		if current_game_hs_type == Profiles.HighscoreTypes.HS_TIME_LOW or current_game_hs_type == Profiles.HighscoreTypes.HS_TIME_HIGH:
-			var current_position_seconds: float = current_position_dict_values[0]
-			# skorlinije, ki niso skrite v hometu, se prikažejo
-			if current_position_seconds > 0:# and not scoreline_index >= lines_to_show_count: # and scoreline_index > lines_to_show_count:
-				scoreline.get_node("NoScoreLine").hide()
-				scoreline.get_node("Score").text = Global.get_clock_time(current_position_seconds)
-				scorelines_with_score.append(scoreline)
-			# skrijem 0 rezultat
-			elif current_position_seconds == 0:
-				scorelines_with_score.erase(scoreline)
-				scoreline.get_node("Rank").hide()
-				scoreline.get_node("Owner").hide()
-				scoreline.get_node("Score").hide()
-				scoreline.get_node("NoScoreLine").show()
-				
-		elif current_game_hs_type == Profiles.HighscoreTypes.HS_POINTS:
-			var current_position_points: int = current_position_dict_values[0]
-#				if current_position_points > 0 and not scoreline_index >= lines_to_show_count: # bug =
-			if current_position_points > 0:
-				scoreline.get_node("NoScoreLine").hide()
-				scoreline.get_node("Score").text = str(current_position_dict_values[0])
-				scorelines_with_score.append(scoreline)
-			# skrijem 0 rezultat
-			else:
-				scorelines_with_score.erase(scoreline)
-				scoreline.get_node("Rank").hide()
-				scoreline.get_node("Owner").hide()
-				scoreline.get_node("Score").hide()
-				scoreline.get_node("NoScoreLine").show()
-				# scoreline.hide()
-		
-		# pokažem samo lines_to_show_count 		
-		if not scoreline_index > lines_to_show_count:
-			scoreline.show()
-		else:
-			scoreline.hide()
-				
-		# povdarim trenuten rezultat
-#		if current_player_rank > 0 and scoreline_index == (current_player_rank - 1): # 0 je da izločim naslov
-#			scoreline.modulate = Global.color_green
-	
-	# če v lestvici ni rezultata, priredim prvo vrstico, če ne jo vrnem v planiran položaj
-	if scorelines_with_score.empty():
-		scorelines[0].show() # 0 je title
-		scorelines[0].get_node("Owner").clip_text = false
-		scorelines[0].get_node("Owner").text = "Still no score ..."
-		scorelines[0].get_node("Owner").align = Label.ALIGN_CENTER
-		scorelines[0].get_node("Owner").modulate = Global.color_almost_white_text
-		scorelines[0].get_node("Owner").show()
-		scorelines[0].get_node("Rank").hide()
-		scorelines[0].get_node("Score").hide()
-		scorelines[0].get_node("NoScoreLine").hide()
-	else: # zazih
-		scorelines[0].get_node("Owner").clip_text = true
-		scorelines[0].get_node("Owner").align = Label.ALIGN_LEFT
-		scorelines[0].get_node("Rank").show()
-		scorelines[0].get_node("Score").show()
-
-
-
-
+	# označim tiste brez ranka
+	for scoreline in scorelines_with_score:
+		if not scorelines_with_global_rank.has(scoreline):
+			scoreline.get_node("GlobalRank").text = "..."					
