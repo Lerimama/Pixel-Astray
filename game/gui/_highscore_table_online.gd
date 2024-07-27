@@ -199,8 +199,8 @@ func load_sweeper_table_page(next_or_prev_page: int): # +1 ali -1
 #
 #func get_lootlocker_table():
 #
-#	var current_leaderboard = highscores_http_request.get_lootlocker_leaderboard()
-#	yield(highscores_http_request.get_lootlocker_leaderboard(), "completed")
+#	var current_leaderboard = highscores_http_request.update_lootlocker_leaderboard()
+#	yield(highscores_http_request.update_lootlocker_leaderboard(), "completed")
 #
 #
 ##	for i in highscores_http_request.board:

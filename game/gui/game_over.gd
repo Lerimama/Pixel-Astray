@@ -232,39 +232,6 @@ func show_gameover_title():
 		set_game_summary() 
 		
 
-#func save_new_global_highscores(current_game_data: Dictionary):
-#	# pogrebam board s spleta
-#	# spremenim board v slovar kot so lokalne HS
-#	# shranim v filet igre (dodam level Global)
-#
-#	# pogrebam leaderboard z neta
-##	LootLocker.get_lootlocker_leaderboard() # Dictionary ali object
-##	yield(LootLocker, "connection_closed")
-#	var board = LootLocker.board # Dictionary ali object	
-#
-#	# spremenim board v HS slovar 
-#	var global_game_highscores: Dictionary = {} 
-#	for item in board:
-#		var item_dictionary: Dictionary = item
-#		var item_player_name: String = item_dictionary["member_id"]
-#		var item_player_score = item_dictionary["score"]
-#		var item_player_rank = "%02d" % item_dictionary["rank"]
-#
-#		var highscores_player_name: String = str(item_player_name)
-#		var highscores_player_line: Dictionary 
-#		highscores_player_line[highscores_player_name] = item_player_score
-#
-#		# add player dict to higscores dict
-#		global_game_highscores[item_player_rank] = highscores_player_line
-#
-#	# dodam level name za ime save fileta in sejvam
-#	var current_game_data_global = current_game_data.duplicate()
-#	current_game_data_global["level"] = "Global"
-#	Global.data_manager.write_highscores_to_file(current_game_data_global, global_game_highscores)
-##	classic_table.get_local_to_global_ranks(current_game_data, current_game_data_global) # _temp
-##	classic_table_glo.get_highscore_table(current_game_data_global, fake_player_ranking, 15) # _temp
-	
-	
 func set_game_summary():
 
 	# set content node
@@ -272,11 +239,11 @@ func set_game_summary():
 	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 		selected_content = $GameSummary/ContentSweeper
 		highscore_table = $GameSummary/ContentSweeper/Hs/HighscoreTableDummy # je ne pokažem, rabim samo za podatke
-		highscore_table.get_highscore_table(Global.game_manager.game_data, current_player_ranking, 1)
+		highscore_table.load_highscore_table(Global.game_manager.game_data, current_player_ranking, 1)
 	else: 
 		selected_content = $GameSummary/Content
 		highscore_table = $GameSummary/Content/Hs/HighscoreTable
-		highscore_table.get_highscore_table(Global.game_manager.game_data, current_player_ranking)	
+		highscore_table.load_highscore_table(Global.game_manager.game_data, current_player_ranking)	
 	
 	var summary_title: Label = selected_content.get_node("Title")
 	
@@ -389,15 +356,11 @@ func show_game_summary():
 	summary_fade_in.tween_property(game_summary, "modulate:a", 1, 0.5)
 	summary_fade_in.parallel().tween_callback(self, "show_menu")
 
-	yield(get_tree().create_timer(2.5), "timeout")
-#	LootLocker.get_lootlocker_leaderboard()
-#
-	highscore_table.show_global_ranking()
-#	LootLocker.update_and_save_global_highscores_to_local(Global.game_manager.game_data)
-#	yield(LootLocker, "global_saved_to_local")
+	yield(get_tree().create_timer(2.5), "timeout") 
+	# OPT drugje
 	var current_game_data_global = Global.game_manager.game_data.duplicate()
 	current_game_data_global["level"] = "Global"	
-	highscore_table.get_local_to_global_ranks(Global.game_manager.game_data, current_game_data_global) # _temp
+	highscore_table.load_local_to_global_ranks(Global.game_manager.game_data, current_game_data_global)
 		
 
 func show_menu():
@@ -515,21 +478,9 @@ func confirm_name_input():
 	input_fade_out.tween_callback(name_input_popup, "hide")
 	yield(input_fade_out, "finished")
 	
-	# čakam da shrani
-	# Global.data_manager.save_player_score(p1_current_score, Global.game_manager.game_data) 
-	#	yield(Global.data_manager, "scores_saved") ... # _temp # OPT tukaj se zatakne ...
-	
 	# publish
 	publish_popup.open_popup()
 	yield(publish_popup, "score_published")
-	
-	
-	
-
-	
-	
-	
-	
 	publish_popup.close_popup()
 	
 	var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)

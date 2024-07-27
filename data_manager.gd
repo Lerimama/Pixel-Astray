@@ -6,16 +6,16 @@ signal scores_saved # ko je vnešeno ime igralca
 var data_file: = File.new()
 var current_player_rank: int
 var default_highscores: Dictionary = { # slovar, ki se uporabi, če še ni nobenega v filetu
-	"01": {"Mr.Nobody": 0,},
-	"02": {"Mr.Nobody": 0,},
-	"03": {"Mr.Nobody": 0,},
-	"04": {"Mr.Nobody": 0,},
-	"05": {"Mr.Nobody": 0,},
-	"06": {"Mr.Nobody": 0,},
-	"07": {"Mr.Nobody": 0,},
-	"08": {"Mr.Nobody": 0,},
-	"09": {"Mr.Nobody": 0,},
-	"10": {"Mr.Nobody": 0,},
+	"01": {"Default name": 0,},
+	"02": {"Default name": 0,},
+	"03": {"Default name": 0,},
+	"04": {"Default name": 0,},
+	"05": {"Default name": 0,},
+	"06": {"Default name": 0,},
+	"07": {"Default name": 0,},
+	"08": {"Default name": 0,},
+	"09": {"Default name": 0,},
+	"10": {"Default name": 0,},
 }
 
 func _ready() -> void:
@@ -120,7 +120,6 @@ func save_player_score(current_score: float, current_game_data: Dictionary):
 	# ime plejerja
 	var current_score_owner_name: String = Global.gameover_gui.p1_final_stats["player_name"]
 	current_score_owner_name = current_score_owner_name
-#	current_score_owner_name = current_score_owner_name.capitalize()
 
 	# zgradim novo lestvico z dodanim plejerjem in scorom
 	all_ranking_scores.insert(current_player_rank - 1, current_score)

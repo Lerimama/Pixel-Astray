@@ -39,7 +39,7 @@ var FreePositionIndicator: PackedScene = preload("res://game/pixel/free_position
 var free_position_indicators: Array
 
 func _unhandled_input(event: InputEvent) -> void:
-#func _input(event: InputEvent) -> void: # neu
+	#func _input(event: InputEvent) -> void:
 	
 	if Input.is_action_just_pressed("ui_accept") and skip_intro.visible:
 		finish_intro()

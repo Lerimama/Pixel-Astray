@@ -77,8 +77,8 @@ onready var player_life: Label = $Life
 onready var player_energy: Label = $Energy
 
 
-func _unhandled_input(event: InputEvent) -> void: # neu
-#func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
+	#func _input(event: InputEvent) -> void:
 	
 	if instructions_popup.visible and Input.is_action_just_pressed("ui_accept"):
 		confirm_players_ready()

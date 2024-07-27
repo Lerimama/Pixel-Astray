@@ -1,227 +1,88 @@
 extends HTTPRequest
 
 signal guest_authenticated
-signal connection_closed
-signal global_saved_to_local
 
+var player_id: String # setam pred avtentikacijo
+var session_token: String # dobim ob avtentikaciji
+var lootlocker_leaderboard: Array
 
-var token: String
-var player_id: String
-var player_name: String = "" # debug
-var global_board_updated: bool = false # false vsakič, ko vpišem nov hs
-#var guest_authenticated: bool = true
+var global_results_count: int = 99 # če bi blo več, ne paše na %02d 
+var guest_is_authenticated: bool = false
+var anonymous_guest_name: String = "anonymous" # ko čekiraš HS v home
+
 
 func _ready() -> void:
 	
 	timeout = 5.0 # ker je autoload mu ne moram settat settingsih	
 	
-#func _process(delta: float) -> void:
-#	print("global_scores_updated", global_board_updated)
-func authenticate_guest_session(player_stats: Dictionary = {}): # kliče LL_cover na open_and_connect
 
-	ConnectCover.open_cover()
-	yield(get_tree().create_timer(0.5), "timeout") # _temp
+func publish_score_to_lootlocker(new_player_stats: Dictionary): # ko objaviš nov skor z novim imenom, se je potrebno pononvno povezat
 	
-	# get player name
-	if player_stats.empty():
-		player_id = OS.get_unique_id()
-	else:
-		player_name = player_stats["player_name"]	
-		player_id = player_name
-
-	# authenticate guest session
-	var url: String = "https://api.lootlocker.io/game/v2/session/guest"
-	var header: Array = ["Content-Type: application/json"]
-	var method = HTTPClient.METHOD_POST
-	var request_body: Dictionary = {
-		"game_key": "dev_5a1cab01df0641c0a5f76450761ce292", # lootlocker key
-		"game_version": "0.92", # verzija igre (za vedenje kaj je kje)
-		"player_identifier": player_id,  # če je prazen je OS id
-		"development_mode": true,
-	}
-	
-	request(url, header, false, method, to_json(request_body)) 
-
-	# čakam na odgovor od lootlockerja ... zato dam yield
-	# request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray)
-	var response = yield(self, "request_completed")[3] 
-	response = JSON.parse(response.get_string_from_utf8()).result # dobimo session token key
-	
-	# ni povezave
-	if response == null or not "session_token" in response:
-		# printt("No internet connection ...", response)
-		ConnectCover.cover_label_text = "Connection failed."
-		yield(get_tree().create_timer(2), "timeout") # _temp
-		ConnectCover.close_cover()
-		emit_signal("connection_closed") # tukaj zato, da se zapre tudi popup
-	
-	else: # je povezava ... if "session_token" in response:
-		# printt("Player token connected", token)
-		token = response["session_token"]
-		ConnectCover.cover_label_text = "Connected."
-		yield(get_tree().create_timer(0.5), "timeout") # _temp
-		emit_signal("guest_authenticated")
-
-
-func submit_score_to_lootlocker(new_player_stats: Dictionary):
-#
-	
-	authenticate_guest_session(new_player_stats)
-	yield(self, "guest_authenticated")	
-	global_board_updated = false
-	ConnectCover.cover_label_text = "Publishing_score"
+	guest_is_authenticated = false
 	
 	var player_name: String = new_player_stats["player_name"]
 	var player_score = new_player_stats["player_points"] # OPT go static
+
+	authenticate_guest_session(player_name)
+	yield(self, "guest_authenticated")	
+	
+	ConnectCover.cover_label_text = "Publishing_score"
 	
 	var url: String = "https://api.lootlocker.io/game/leaderboards/PAclassic/submit" # naslov do LL tabele ... samo ključ tabele se spreminja
-	var header: Array = ["Content-Type: application/json", "x-session-token: %s" % LootLocker.token]
+	var header: Array = ["Content-Type: application/json", "x-session-token: %s" % session_token]
 	var method = HTTPClient.METHOD_POST
 	var request_data: Dictionary = {
 		"score": player_score,
-		"member_id": LootLocker.player_id, # player ID je ime
+		"member_id": player_id, # player ID je ime opredeljeno pred avtentikacijo
 	}
 	
 	request(url, header,false, method, to_json(request_data)) 
+	
 	# čakam na odgovor od lootlockerja ... zato dam yield
-	yield(self, "request_completed") # to_json(request_body
-	yield(get_tree().create_timer(0.8), "timeout") # _temp
+	yield(self, "request_completed")
+	yield(get_tree().create_timer(0.8), "timeout") # _temp ... cover timer
 	
-	get_submited_scores_global_board_and_save(player_name, player_score)
-	
-	
-#	ConnectCover.close_cover()
-#	emit_signal("connection_closed") # tukaj zato, da se zapre tudi popup
-
-	
-func get_submited_scores_global_board_and_save(new_name: String, new_score: float):
-	
-	ConnectCover.cover_label_text = "Geting global rank"
-	yield(get_tree().create_timer(0.8), "timeout") # _temp
-
-	
-##	if not global_board_updated:
-#	authenticate_guest_session()
-#	yield(self, "guest_authenticated")
-
-#	ConnectCover.cover_label_text = "Getting global scores ..."
-
-	var url: String = "https://api.lootlocker.io/game/leaderboards/PAclassic/list?count=%s" % str(grab_results_count) # koliko mest rabimo
-	var header: Array = ["Content-Type: application/json", "x-session-token: %s" % token]
-	var method = HTTPClient.METHOD_GET
-
-#		printt("REQ", url, header, false, method) 
-	request(url, header, false, method) 
-	
-	# grab method
-	var response = yield(self, "request_completed")[3] 
-	# body to string
-	response = JSON.parse(response.get_string_from_utf8()).result # dobimo session token key
-#		printt("RESPONSE", response)
-
-	if "items" in response: # "items" je ime LL slovarja, ki ima podatke o plejerju
-		board = response["items"]
-		
-#	print("BOARD", board)
-	global_board_updated = true
-	
-	update_and_save_global_highscores_to_local(Profiles.game_data_classic)
-	printt(self, "global_saved_to_local")
-#	yield(self, "global_saved_to_local")
-#	yield(LootLocker, "global_saved_to_local")
-	printt("no")
-#
-	var global_rank: int = 99
-#
-	for item in board:
-		if item["member_id"] == new_name and item["score"] == new_score:
-			global_rank = item["rank"]
-			break
-#
-#		# dodam level name za ime save fileta in sejvam
-#	var current_game_data_global = current_game_data.duplicate()
-#	current_game_data_global["level"] = "Global"
-#	Global.data_manager.write_highscores_to_file(current_game_data_global, global_game_highscores)
-#	print ("emit_signal global_saved_to_local")
-#	emit_signal("global_saved_to_local")
-	
-	
-	
-	ConnectCover.cover_label_text = "Published. Global rank %s" %str(global_rank)
-	yield(get_tree().create_timer(2), "timeout")
-	ConnectCover.close_cover()
-#		global_highscore_table = build_global_game_leaderboard(board)
-	emit_signal("connection_closed")
-
-	
-var board
-var grab_results_count: int = 99 # če bi blo več, ne paše na %02d 
+	update_lootlocker_leaderboard(Profiles.game_data_classic) # OPT Profiles.game_data_classic odstrani
 
 
-func get_lootlocker_leaderboard():
+func update_lootlocker_leaderboard(current_game_data: Dictionary): 
+	# update = get and save
+	# pogrebam leaderboard z neta
+	# sejvam leaderboard v obliki lokalnih HS
 	
-#	authenticate_guest_session()
-#	yield(self, "guest_authenticated")
+	if not guest_is_authenticated:
+		authenticate_guest_session(anonymous_guest_name)
+		print("tuki")
+		yield(self, "guest_authenticated")
 
 	ConnectCover.cover_label_text = "Getting global scores ..."
 
-	var url: String = "https://api.lootlocker.io/game/leaderboards/PAclassic/list?count=%s" % str(grab_results_count) # koliko mest rabimo
-	var header: Array = ["Content-Type: application/json", "x-session-token: %s" % token]
+	var url: String = "https://api.lootlocker.io/game/leaderboards/PAclassic/list?count=%s" % str(global_results_count) # koliko mest rabimo
+	var header: Array = ["Content-Type: application/json", "x-session-token: %s" % session_token]
 	var method = HTTPClient.METHOD_GET
 
-#		printt("REQ", url, header, false, method) 
 	request(url, header, false, method) 
 	
-	# grab method
+	# čakam ... get method ... convert body to string
 	var response = yield(self, "request_completed")[3] 
-	# body to string
 	response = JSON.parse(response.get_string_from_utf8()).result # dobimo session token key
-#		printt("RESPONSE", response)
 
 	if "items" in response: # "items" je ime LL slovarja, ki ima podatke o plejerju
-		board = response["items"]
-#		print("BOARD", board)
+		lootlocker_leaderboard = response["items"]
 		
-	global_board_updated = true
-	yield(get_tree().create_timer(2), "timeout")
-	ConnectCover.close_cover()
-#		global_highscore_table = build_global_game_leaderboard(board)
-	emit_signal("connection_closed")
-#	else:
-			
-	print("LL bord", board.size())
-#	emit_signal("connection_closed") # tukaj zato, da se zapre tudi popup
+	save_global_highscores_to_local(current_game_data)
+	
+	yield(get_tree().create_timer(0.1), "timeout")
+	ConnectCover.close_cover() # odda signal, ko se zapre	
+		
 
-		
-#	printt("BOARD", board)
-#	return global_highscore_table
-#	return board
-
-	
-	
-func update_and_save_global_highscores_to_local(current_game_data: Dictionary):
-	
-	if not global_board_updated:
-		authenticate_guest_session()
-		yield(self, "guest_authenticated")
-	# pogrebam board s spleta
-	# spremenim board v slovar kot so lokalne HS
-	# shranim v filet igre (dodam level Global)
-	
-	# če je že apdejtan, samo shrani trenutni board v obliko slovarja
-#	if not global_board_updated:
-	
-		# pogrebam leaderboard z neta
-		get_lootlocker_leaderboard() # Dictionary ali object
-		
-		print ("authenticating non updated")
-		yield(self, "connection_closed")
+func save_global_highscores_to_local(current_game_data: Dictionary):
 	
 	# spremenim board v HS slovar 
-	var new_board = board # Dictionary ali object	
-	printt ("board size", new_board.size())
+	var new_leaderboard: Array = lootlocker_leaderboard # Dictionary ali object	
+	
 	var global_game_highscores: Dictionary = {} 
-	for item in new_board:
+	for item in new_leaderboard:
 		var item_dictionary: Dictionary = item
 		var item_player_name: String = item_dictionary["member_id"]
 		var item_player_score = item_dictionary["score"]
@@ -238,8 +99,43 @@ func update_and_save_global_highscores_to_local(current_game_data: Dictionary):
 	var current_game_data_global = current_game_data.duplicate()
 	current_game_data_global["level"] = "Global"
 	Global.data_manager.write_highscores_to_file(current_game_data_global, global_game_highscores)
-	emit_signal("global_saved_to_local")
-	print ("emit_signal global_saved_to_local")
 	
-#	classic_table.get_local_to_global_ranks(current_game_data, current_game_data_global) # _temp
-#	classic_table_glo.get_highscore_table(current_game_data_global, fake_player_ranking, 15) # _temp
+	print ("LL leaderboard updated (get > saved)")
+
+
+func authenticate_guest_session(player_name: String):
+
+	ConnectCover.open_cover()
+	yield(get_tree().create_timer(0.5), "timeout") # _temp ... cover timer
+	
+	player_id = player_name
+	
+	# authenticate guest session
+	var url: String = "https://api.lootlocker.io/game/v2/session/guest"
+	var header: Array = ["Content-Type: application/json"]
+	var method = HTTPClient.METHOD_POST
+	var request_body: Dictionary = {
+		"game_key": "dev_5a1cab01df0641c0a5f76450761ce292", # lootlocker key
+		"game_version": "0.92", # verzija igre (za vedenje kaj je kje)
+		"player_identifier": player_id,  # če je prazen je OS id
+		"development_mode": true,
+	}
+	request(url, header, false, method, to_json(request_body)) 
+
+	# čakam na odgovor od lootlockerja ... zato dam yield
+	var response = yield(self, "request_completed")[3] 
+	response = JSON.parse(response.get_string_from_utf8()).result # dobimo session token key
+	
+	# CONNECTION FAILED
+	if response == null or not "session_token" in response:
+		ConnectCover.cover_label_text = "Connection failed."
+		yield(get_tree().create_timer(2), "timeout") # _temp ... cover timer
+		ConnectCover.close_cover() # odda signal, ko se zapre
+	# CONNECTED
+	else:
+		session_token = response["session_token"]
+		ConnectCover.cover_label_text = "Connected."
+		
+		yield(get_tree().create_timer(0.5), "timeout") # _temp ... cover timer
+		guest_is_authenticated = true
+		emit_signal("guest_authenticated")

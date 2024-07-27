@@ -65,7 +65,7 @@ default_bus_layout="res://_obs/default_bus_layout.tres"
 
 Global="*res://global.gd"
 Profiles="*res://profiles.gd"
-ConnectCover="*res://lootlocker/lootlocker_connect_cover.tscn"
+ConnectCover="*res://lootlocker/connect_cover.tscn"
 LootLocker="*res://lootlocker/lootlocker.gd"
 
 [debug]

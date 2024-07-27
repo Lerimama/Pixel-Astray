@@ -3,7 +3,6 @@ extends VBoxContainer
 
 var sweeper_scorelines: Array
 var current_sweeper_table_page: int = 1
-
 var scorelines: Array = []
 var scorelines_with_score: Array
 
@@ -11,10 +10,10 @@ onready var highscore_table_title: Label = $Title
 
 func _ready() -> void:
 	
-	get_node("ScoreLine/GlobalRank").show() # _temp
+	get_node("ScoreLine/GlobalRank").show() # OPT prikaz global rankov uredi drugače
 	
 	
-func get_highscore_table(current_game_data: Dictionary, current_player_rank: int, lines_to_show_count: int = 10):
+func load_highscore_table(current_game_data: Dictionary, current_player_rank: int, lines_to_show_count: int = 10):
 	# printt("HS", current_game_data, current_player_rank,lines_to_show_count)
 	
 	var current_game_hs_type = current_game_data["highscore_type"]
@@ -35,12 +34,9 @@ func get_highscore_table(current_game_data: Dictionary, current_player_rank: int
 	else:
 		highscore_table_title.text = "Best " + current_game_name.to_lower() + "s"
 
-	
 	# napolnem lestvico
-#	var scorelines: Array = get_children()
 	scorelines = get_children()
 	scorelines.pop_front()
-#	scorelines.pop_front() # _temp
 
 	# podupliciram osnovno linijo 
 	if scorelines.size() < lines_to_show_count:
@@ -123,14 +119,14 @@ func get_highscore_table(current_game_data: Dictionary, current_player_rank: int
 		scorelines[0].get_node("Score").show()
 		
 			
-func get_sweeper_highscore_table(current_game_data: Dictionary, scoreline_level_to_get: int = 0):
+func load_sweeper_highscore_table(current_game_data: Dictionary, scoreline_level_to_get: int = 0):
 	# poberem top score od tabele vsakega sweeper levela
 	
 	# naslov tabele
 	highscore_table_title.text = "Best sweepers"
 	
 	# scorelines
-	var scorelines: Array = get_children()
+	scorelines = get_children()
 	scorelines.pop_front() # ven gre title
 	
 	# če je linij premalo, dodam nove
@@ -179,42 +175,28 @@ func get_sweeper_highscore_table(current_game_data: Dictionary, scoreline_level_
 
 func load_sweeper_table_page(next_or_prev_page: int): # +1 ali -1
 		
-		var per_page_count: float = 5
-		var scorelines_count: int = sweeper_scorelines.size()
+	var per_page_count: float = 5
+	var scorelines_count: int = sweeper_scorelines.size()
+
+	var pages_count: float = ceil(scorelines_count / per_page_count)
+	current_sweeper_table_page += next_or_prev_page
+	if current_sweeper_table_page > pages_count:
+		current_sweeper_table_page = 1
+	elif current_sweeper_table_page < 1:
+		current_sweeper_table_page = pages_count
 	
-		var pages_count: float = ceil(scorelines_count / per_page_count)
-		current_sweeper_table_page += next_or_prev_page
-		if current_sweeper_table_page > pages_count:
-			current_sweeper_table_page = 1
-		elif current_sweeper_table_page < 1:
-			current_sweeper_table_page = pages_count
-		
-		var first_scoreline_to_show_index = per_page_count * (current_sweeper_table_page - 1)
-		var level_to_show_range: Array = [first_scoreline_to_show_index , first_scoreline_to_show_index + per_page_count]
-		
-		for scoreline in sweeper_scorelines:
-			var scoreline_index = sweeper_scorelines.find(scoreline)
-			if scoreline_index >= level_to_show_range[0] and scoreline_index < level_to_show_range[1]:
-				scoreline.show()
-			else:
-				scoreline.hide()
+	var first_scoreline_to_show_index = per_page_count * (current_sweeper_table_page - 1)
+	var level_to_show_range: Array = [first_scoreline_to_show_index , first_scoreline_to_show_index + per_page_count]
+	
+	for scoreline in sweeper_scorelines:
+		var scoreline_index = sweeper_scorelines.find(scoreline)
+		if scoreline_index >= level_to_show_range[0] and scoreline_index < level_to_show_range[1]:
+			scoreline.show()
+		else:
+			scoreline.hide()
 
 
-func show_global_ranking(): # for local scores
-				
-	for scoreline in scorelines_with_score:
-		scoreline.get_node("GlobalRank").show()
-#		scoreline.get_node("Rank").hide()
-	
-	
-func hide_global_ranking():
-	
-	for scoreline in scorelines_with_score:
-		scoreline.get_node("GlobalRank").hide()
-		scoreline.get_node("Rank").show()
-	
-
-func get_local_to_global_ranks(local_game_data: Dictionary, global_game_data: Dictionary):
+func load_local_to_global_ranks(local_game_data: Dictionary, global_game_data: Dictionary):
 	
 	var global_game_highscores: Dictionary = Global.data_manager.read_highscores_from_file(global_game_data)
 	var scorelines_with_global_rank: Array = [] # za označit ne povezane
