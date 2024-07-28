@@ -1,4 +1,4 @@
-[gd_scene load_steps=109 format=2]
+[gd_scene load_steps=117 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -19,11 +19,17 @@
 [ext_resource path="res://home/select_level.gd" type="Script" id=17]
 [ext_resource path="res://assets/theme/color_theme_spectrum.png" type="Texture" id=18]
 [ext_resource path="res://home/select_level_btns_holder.tscn" type="PackedScene" id=19]
+[ext_resource path="res://assets/resources/highscore_table_noscore_line.tres" type="StyleBox" id=20]
 [ext_resource path="res://game/gui/highscore_table.tscn" type="PackedScene" id=21]
 [ext_resource path="res://game/gui/controls_scheme.tscn" type="PackedScene" id=22]
 [ext_resource path="res://game/gui/shortcut_line.tscn" type="PackedScene" id=23]
 [ext_resource path="res://assets/theme/box_game_btn_focus.tres" type="StyleBox" id=24]
+[ext_resource path="res://assets/theme/_box_hall_edge.tres" type="StyleBox" id=25]
 [ext_resource path="res://assets/theme/font_main_small.tres" type="DynamicFont" id=26]
+[ext_resource path="res://assets/theme/box_hall_tab_edge.tres" type="StyleBox" id=27]
+[ext_resource path="res://assets/theme/box_colored_almost_black.tres" type="StyleBox" id=28]
+[ext_resource path="res://assets/theme/box_colored_almost_black_wth_edge.tres" type="StyleBox" id=29]
+[ext_resource path="res://assets/theme/box_hall_tab_transparent.tres" type="StyleBox" id=30]
 
 [sub_resource type="StyleBoxEmpty" id=208]
 
@@ -523,6 +529,10 @@ OptionButton/styles/hover = SubResource( 495 )
 OptionButton/styles/pressed = SubResource( 495 )
 Panel/styles/panel = SubResource( 496 )
 VSeparator/styles/separator = SubResource( 497 )
+
+[sub_resource type="StyleBoxEmpty" id=518]
+
+[sub_resource type="StyleBoxEmpty" id=521]
 
 [sub_resource type="AtlasTexture" id=335]
 atlas = ExtResource( 2 )
@@ -1273,8 +1283,8 @@ tracks/5/keys = {
 [node name="Home" type="Node2D"]
 script = ExtResource( 5 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 656.0, -496.0, 144.0, -448.0, 1128.0, 816.0, 752.0, 96.0, 160.0, 200.0, 312.0 ],
-"_edit_vertical_guides_": [ 64.0, 1280.0, 1216.0, 640.0, 2048.0, -320.0, 1024.0, 256.0, 432.0, 848.0, 1304.0, 1456.0 ]
+"_edit_horizontal_guides_": [ 656.0, -496.0, 144.0, -448.0, 1128.0, 816.0, 752.0, 96.0, 160.0, 200.0, 312.0, -344.0, -80.0 ],
+"_edit_vertical_guides_": [ 64.0, 1280.0, 1216.0, 640.0, 2048.0, -320.0, 1024.0, 848.0, 1304.0, 1456.0 ]
 }
 
 [node name="Undi" type="ColorRect" parent="."]
@@ -1602,9 +1612,9 @@ custom_constants/separation = 32
 alignment = 1
 
 [node name="SelectGameBtn" type="Button" parent="Menu"]
-margin_left = 50.0
+margin_left = 15.0
 margin_top = 3.0
-margin_right = 106.0
+margin_right = 71.0
 margin_bottom = 25.0
 focus_neighbour_left = NodePath("../ExitGameBtn")
 focus_neighbour_right = NodePath("../SettingsBtn")
@@ -1615,9 +1625,9 @@ enabled_focus_mode = 1
 text = "PLAY"
 
 [node name="SettingsBtn" type="Button" parent="Menu"]
-margin_left = 138.0
+margin_left = 103.0
 margin_top = 3.0
-margin_right = 246.0
+margin_right = 211.0
 margin_bottom = 25.0
 focus_neighbour_left = NodePath("../SelectGameBtn")
 focus_neighbour_right = NodePath("../HighscoresBtn")
@@ -1628,9 +1638,9 @@ enabled_focus_mode = 1
 text = "SETTINGS"
 
 [node name="HighscoresBtn" type="Button" parent="Menu"]
-margin_left = 278.0
+margin_left = 243.0
 margin_top = 3.0
-margin_right = 414.0
+margin_right = 449.0
 margin_bottom = 25.0
 focus_neighbour_left = NodePath("../SettingsBtn")
 focus_neighbour_right = NodePath("../AboutBtn")
@@ -1638,12 +1648,12 @@ focus_mode = 1
 mouse_default_cursor_shape = 2
 size_flags_vertical = 8
 enabled_focus_mode = 1
-text = "HIGHSCORES"
+text = "SCREENS OF FAME"
 
 [node name="AboutBtn" type="Button" parent="Menu"]
-margin_left = 446.0
+margin_left = 481.0
 margin_top = 3.0
-margin_right = 516.0
+margin_right = 551.0
 margin_bottom = 25.0
 focus_neighbour_left = NodePath("../HighscoresBtn")
 focus_neighbour_right = NodePath("../ExitGameBtn")
@@ -1654,9 +1664,9 @@ enabled_focus_mode = 1
 text = "ABOUT"
 
 [node name="ExitGameBtn" type="Button" parent="Menu"]
-margin_left = 548.0
+margin_left = 583.0
 margin_top = 3.0
-margin_right = 670.0
+margin_right = 705.0
 margin_bottom = 25.0
 focus_neighbour_left = NodePath("../AboutBtn")
 focus_neighbour_right = NodePath("../SelectGameBtn")
@@ -2488,6 +2498,14 @@ __meta__ = {
 "_edit_group_": true
 }
 
+[node name="Undi2" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -720.0
+margin_right = 1280.0
+rect_min_size = Vector2( 1280, 720 )
+color = Color( 0, 0, 0, 1 )
+
 [node name="Highscores" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -2504,222 +2522,1022 @@ margin_left = -96.0
 margin_top = 70.0
 margin_right = 96.0
 margin_bottom = 102.0
+grow_horizontal = 2
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0.996078, 0.976471, 0.545098, 1 )
 custom_fonts/font = ExtResource( 4 )
-text = "Highscores"
+text = "Screens Of Fame"
 align = 1
 
 [node name="UpdateScoresBtn" type="Button" parent="Highscores"]
-margin_left = 760.0
-margin_top = 72.0
-margin_right = 882.0
-margin_bottom = 102.0
+margin_left = 64.0
+margin_top = 73.0
+margin_right = 336.0
+margin_bottom = 103.0
 mouse_default_cursor_shape = 2
 toggle_mode = true
-text = "UPDATE >"
+text = "UPDATE GLOBAL SCORES"
 
-[node name="ClassicTable" parent="Highscores" instance=ExtResource( 21 )]
+[node name="_10Table" type="VBoxContainer" parent="Highscores"]
+visible = false
+modulate = Color( 1, 1, 1, 0.631373 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -192.0
+margin_top = 230.0
+margin_right = -1224.0
+margin_bottom = -64.0
+rect_min_size = Vector2( 208, 0 )
+custom_constants/separation = 8
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" type="Label" parent="Highscores/_10Table"]
+margin_right = 248.0
+margin_bottom = 26.0
+rect_min_size = Vector2( 28, 26 )
+size_flags_horizontal = 7
+size_flags_vertical = 0
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+text = "%Best gamers"
+
+[node name="Background2" type="ColorRect" parent="Highscores/_10Table/Title"]
+visible = false
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -32.0
+margin_top = -22.0
+margin_right = 32.0
+margin_bottom = 170.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="ScoreLine" type="HBoxContainer" parent="Highscores/_10Table"]
+margin_top = 34.0
+margin_right = 248.0
+margin_bottom = 52.0
+rect_min_size = Vector2( 72, 0 )
+size_flags_horizontal = 3
+custom_constants/separation = 8
+
+[node name="Rank" type="Label" parent="Highscores/_10Table/ScoreLine"]
+margin_right = 24.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "00."
+
+[node name="GlobalRank" type="Label" parent="Highscores/_10Table/ScoreLine"]
+margin_left = 32.0
+margin_right = 64.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 32, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "000."
+
+[node name="Owner" type="Label" parent="Highscores/_10Table/ScoreLine"]
+margin_left = 72.0
+margin_right = 162.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "%ten_chars"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/_10Table/ScoreLine"]
+margin_left = 170.0
+margin_right = 248.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 78, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 14 )
+text = "100000000"
+align = 2
+
+[node name="NoScoreLine" type="Label" parent="Highscores/_10Table/ScoreLine"]
+visible = false
+margin_left = 256.0
+margin_right = 256.0
+margin_bottom = 18.0
+size_flags_horizontal = 11
+custom_fonts/font = ExtResource( 14 )
+align = 2
+
+[node name="NoScoreLine" type="HSeparator" parent="Highscores/_10Table/ScoreLine/NoScoreLine"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -4.0
+custom_styles/separator = ExtResource( 20 )
+
+[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/_10Table"]
+margin_top = 60.0
+margin_right = 248.0
+margin_bottom = 78.0
+rect_min_size = Vector2( 72, 0 )
+size_flags_horizontal = 3
+custom_constants/separation = 8
+
+[node name="Rank" type="Label" parent="Highscores/_10Table/ScoreLine2"]
+margin_right = 24.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "00."
+
+[node name="GlobalRank" type="Label" parent="Highscores/_10Table/ScoreLine2"]
+margin_left = 32.0
+margin_right = 64.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 32, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "000."
+
+[node name="Owner" type="Label" parent="Highscores/_10Table/ScoreLine2"]
+margin_left = 72.0
+margin_right = 162.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "%ten_chars"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/_10Table/ScoreLine2"]
+margin_left = 170.0
+margin_right = 248.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 78, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 14 )
+text = "100000000"
+align = 2
+
+[node name="NoScoreLine" type="Label" parent="Highscores/_10Table/ScoreLine2"]
+visible = false
+margin_left = 256.0
+margin_right = 256.0
+margin_bottom = 18.0
+size_flags_horizontal = 11
+custom_fonts/font = ExtResource( 14 )
+align = 2
+
+[node name="NoScoreLine" type="HSeparator" parent="Highscores/_10Table/ScoreLine2/NoScoreLine"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -4.0
+custom_styles/separator = ExtResource( 20 )
+
+[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/_10Table"]
+margin_top = 86.0
+margin_right = 248.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 72, 0 )
+size_flags_horizontal = 3
+custom_constants/separation = 8
+
+[node name="Rank" type="Label" parent="Highscores/_10Table/ScoreLine3"]
+margin_right = 24.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "00."
+
+[node name="GlobalRank" type="Label" parent="Highscores/_10Table/ScoreLine3"]
+margin_left = 32.0
+margin_right = 64.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 32, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "000."
+
+[node name="Owner" type="Label" parent="Highscores/_10Table/ScoreLine3"]
+margin_left = 72.0
+margin_right = 162.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "%ten_chars"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/_10Table/ScoreLine3"]
+margin_left = 170.0
+margin_right = 248.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 78, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 14 )
+text = "100000000"
+align = 2
+
+[node name="NoScoreLine" type="Label" parent="Highscores/_10Table/ScoreLine3"]
+visible = false
+margin_left = 256.0
+margin_right = 256.0
+margin_bottom = 18.0
+size_flags_horizontal = 11
+custom_fonts/font = ExtResource( 14 )
+align = 2
+
+[node name="NoScoreLine" type="HSeparator" parent="Highscores/_10Table/ScoreLine3/NoScoreLine"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -4.0
+custom_styles/separator = ExtResource( 20 )
+
+[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/_10Table"]
+margin_top = 112.0
+margin_right = 248.0
+margin_bottom = 130.0
+rect_min_size = Vector2( 72, 0 )
+size_flags_horizontal = 3
+custom_constants/separation = 8
+
+[node name="Rank" type="Label" parent="Highscores/_10Table/ScoreLine4"]
+margin_right = 24.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "00."
+
+[node name="GlobalRank" type="Label" parent="Highscores/_10Table/ScoreLine4"]
+margin_left = 32.0
+margin_right = 64.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 32, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "000."
+
+[node name="Owner" type="Label" parent="Highscores/_10Table/ScoreLine4"]
+margin_left = 72.0
+margin_right = 162.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "%ten_chars"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/_10Table/ScoreLine4"]
+margin_left = 170.0
+margin_right = 248.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 78, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 14 )
+text = "100000000"
+align = 2
+
+[node name="NoScoreLine" type="Label" parent="Highscores/_10Table/ScoreLine4"]
+visible = false
+margin_left = 256.0
+margin_right = 256.0
+margin_bottom = 18.0
+size_flags_horizontal = 11
+custom_fonts/font = ExtResource( 14 )
+align = 2
+
+[node name="NoScoreLine" type="HSeparator" parent="Highscores/_10Table/ScoreLine4/NoScoreLine"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -4.0
+custom_styles/separator = ExtResource( 20 )
+
+[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/_10Table"]
+margin_top = 138.0
+margin_right = 248.0
+margin_bottom = 156.0
+rect_min_size = Vector2( 72, 0 )
+size_flags_horizontal = 3
+custom_constants/separation = 8
+
+[node name="Rank" type="Label" parent="Highscores/_10Table/ScoreLine5"]
+margin_right = 24.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "00."
+
+[node name="GlobalRank" type="Label" parent="Highscores/_10Table/ScoreLine5"]
+margin_left = 32.0
+margin_right = 64.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 32, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "000."
+
+[node name="Owner" type="Label" parent="Highscores/_10Table/ScoreLine5"]
+margin_left = 72.0
+margin_right = 162.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "%ten_chars"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/_10Table/ScoreLine5"]
+margin_left = 170.0
+margin_right = 248.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 78, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 14 )
+text = "100000000"
+align = 2
+
+[node name="NoScoreLine" type="Label" parent="Highscores/_10Table/ScoreLine5"]
+visible = false
+margin_left = 256.0
+margin_right = 256.0
+margin_bottom = 18.0
+size_flags_horizontal = 11
+custom_fonts/font = ExtResource( 14 )
+align = 2
+
+[node name="NoScoreLine" type="HSeparator" parent="Highscores/_10Table/ScoreLine5/NoScoreLine"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -4.0
+custom_styles/separator = ExtResource( 20 )
+
+[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/_10Table"]
+margin_top = 164.0
+margin_right = 248.0
+margin_bottom = 182.0
+rect_min_size = Vector2( 72, 0 )
+size_flags_horizontal = 3
+custom_constants/separation = 8
+
+[node name="Rank" type="Label" parent="Highscores/_10Table/ScoreLine6"]
+margin_right = 24.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "00."
+
+[node name="GlobalRank" type="Label" parent="Highscores/_10Table/ScoreLine6"]
+margin_left = 32.0
+margin_right = 64.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 32, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "000."
+
+[node name="Owner" type="Label" parent="Highscores/_10Table/ScoreLine6"]
+margin_left = 72.0
+margin_right = 162.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "%ten_chars"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/_10Table/ScoreLine6"]
+margin_left = 170.0
+margin_right = 248.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 78, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 14 )
+text = "100000000"
+align = 2
+
+[node name="NoScoreLine" type="Label" parent="Highscores/_10Table/ScoreLine6"]
+visible = false
+margin_left = 256.0
+margin_right = 256.0
+margin_bottom = 18.0
+size_flags_horizontal = 11
+custom_fonts/font = ExtResource( 14 )
+align = 2
+
+[node name="NoScoreLine" type="HSeparator" parent="Highscores/_10Table/ScoreLine6/NoScoreLine"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -4.0
+custom_styles/separator = ExtResource( 20 )
+
+[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/_10Table"]
+margin_top = 190.0
+margin_right = 248.0
+margin_bottom = 208.0
+rect_min_size = Vector2( 72, 0 )
+size_flags_horizontal = 3
+custom_constants/separation = 8
+
+[node name="Rank" type="Label" parent="Highscores/_10Table/ScoreLine7"]
+margin_right = 24.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "00."
+
+[node name="GlobalRank" type="Label" parent="Highscores/_10Table/ScoreLine7"]
+margin_left = 32.0
+margin_right = 64.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 32, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "000."
+
+[node name="Owner" type="Label" parent="Highscores/_10Table/ScoreLine7"]
+margin_left = 72.0
+margin_right = 162.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "%ten_chars"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/_10Table/ScoreLine7"]
+margin_left = 170.0
+margin_right = 248.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 78, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 14 )
+text = "100000000"
+align = 2
+
+[node name="NoScoreLine" type="Label" parent="Highscores/_10Table/ScoreLine7"]
+visible = false
+margin_left = 256.0
+margin_right = 256.0
+margin_bottom = 18.0
+size_flags_horizontal = 11
+custom_fonts/font = ExtResource( 14 )
+align = 2
+
+[node name="NoScoreLine" type="HSeparator" parent="Highscores/_10Table/ScoreLine7/NoScoreLine"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -4.0
+custom_styles/separator = ExtResource( 20 )
+
+[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/_10Table"]
+margin_top = 216.0
+margin_right = 248.0
+margin_bottom = 234.0
+rect_min_size = Vector2( 72, 0 )
+size_flags_horizontal = 3
+custom_constants/separation = 8
+
+[node name="Rank" type="Label" parent="Highscores/_10Table/ScoreLine8"]
+margin_right = 24.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "00."
+
+[node name="GlobalRank" type="Label" parent="Highscores/_10Table/ScoreLine8"]
+margin_left = 32.0
+margin_right = 64.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 32, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "000."
+
+[node name="Owner" type="Label" parent="Highscores/_10Table/ScoreLine8"]
+margin_left = 72.0
+margin_right = 162.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "%ten_chars"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/_10Table/ScoreLine8"]
+margin_left = 170.0
+margin_right = 248.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 78, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 14 )
+text = "100000000"
+align = 2
+
+[node name="NoScoreLine" type="Label" parent="Highscores/_10Table/ScoreLine8"]
+visible = false
+margin_left = 256.0
+margin_right = 256.0
+margin_bottom = 18.0
+size_flags_horizontal = 11
+custom_fonts/font = ExtResource( 14 )
+align = 2
+
+[node name="NoScoreLine" type="HSeparator" parent="Highscores/_10Table/ScoreLine8/NoScoreLine"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -4.0
+custom_styles/separator = ExtResource( 20 )
+
+[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/_10Table"]
+margin_top = 242.0
+margin_right = 248.0
+margin_bottom = 260.0
+rect_min_size = Vector2( 72, 0 )
+size_flags_horizontal = 3
+custom_constants/separation = 8
+
+[node name="Rank" type="Label" parent="Highscores/_10Table/ScoreLine9"]
+margin_right = 24.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "00."
+
+[node name="GlobalRank" type="Label" parent="Highscores/_10Table/ScoreLine9"]
+margin_left = 32.0
+margin_right = 64.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 32, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "000."
+
+[node name="Owner" type="Label" parent="Highscores/_10Table/ScoreLine9"]
+margin_left = 72.0
+margin_right = 162.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "%ten_chars"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/_10Table/ScoreLine9"]
+margin_left = 170.0
+margin_right = 248.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 78, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 14 )
+text = "100000000"
+align = 2
+
+[node name="NoScoreLine" type="Label" parent="Highscores/_10Table/ScoreLine9"]
+visible = false
+margin_left = 256.0
+margin_right = 256.0
+margin_bottom = 18.0
+size_flags_horizontal = 11
+custom_fonts/font = ExtResource( 14 )
+align = 2
+
+[node name="NoScoreLine" type="HSeparator" parent="Highscores/_10Table/ScoreLine9/NoScoreLine"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -4.0
+custom_styles/separator = ExtResource( 20 )
+
+[node name="ScoreLine10" type="HBoxContainer" parent="Highscores/_10Table"]
+margin_top = 268.0
+margin_right = 248.0
+margin_bottom = 286.0
+rect_min_size = Vector2( 72, 0 )
+size_flags_horizontal = 3
+custom_constants/separation = 8
+
+[node name="Rank" type="Label" parent="Highscores/_10Table/ScoreLine10"]
+margin_right = 24.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 24, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "00."
+
+[node name="GlobalRank" type="Label" parent="Highscores/_10Table/ScoreLine10"]
+margin_left = 32.0
+margin_right = 64.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 32, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "000."
+
+[node name="Owner" type="Label" parent="Highscores/_10Table/ScoreLine10"]
+margin_left = 72.0
+margin_right = 162.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 14 )
+text = "%ten_chars"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="Highscores/_10Table/ScoreLine10"]
+margin_left = 170.0
+margin_right = 248.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 78, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 14 )
+text = "100000000"
+align = 2
+
+[node name="NoScoreLine" type="Label" parent="Highscores/_10Table/ScoreLine10"]
+visible = false
+margin_left = 256.0
+margin_right = 256.0
+margin_bottom = 18.0
+size_flags_horizontal = 11
+custom_fonts/font = ExtResource( 14 )
+align = 2
+
+[node name="NoScoreLine" type="HSeparator" parent="Highscores/_10Table/ScoreLine10/NoScoreLine"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -4.0
+custom_styles/separator = ExtResource( 20 )
+
+[node name="Tabs" type="HBoxContainer" parent="Highscores"]
 margin_left = 64.0
-margin_top = 142.0
-margin_right = 320.0
-margin_bottom = 560.0
+margin_top = 128.0
+margin_right = 1216.0
+margin_bottom = 176.0
+rect_pivot_offset = Vector2( -144, 24 )
+custom_constants/separation = 8
+
+[node name="ClassicTab" type="Button" parent="Highscores/Tabs"]
+margin_right = 282.0
+margin_bottom = 48.0
+focus_neighbour_top = NodePath("../../UpdateScoresBtn")
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+custom_styles/hover = ExtResource( 29 )
+custom_styles/pressed = ExtResource( 29 )
+custom_styles/focus = ExtResource( 29 )
+custom_styles/disabled = SubResource( 518 )
+custom_styles/normal = ExtResource( 28 )
+text = "CLASSIC"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Edge" type="Panel" parent="Highscores/Tabs/ClassicTab"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = ExtResource( 27 )
+
+[node name="UnbeatableTab" type="Button" parent="Highscores/Tabs"]
+margin_left = 290.0
+margin_right = 572.0
+margin_bottom = 48.0
+focus_neighbour_top = NodePath("../../UpdateScoresBtn")
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+custom_styles/hover = ExtResource( 29 )
+custom_styles/pressed = ExtResource( 29 )
+custom_styles/focus = ExtResource( 29 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 28 )
+text = "UNBEATABLE"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Edge" type="Panel" parent="Highscores/Tabs/UnbeatableTab"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = ExtResource( 27 )
+
+[node name="SweeperTab" type="Button" parent="Highscores/Tabs"]
+margin_left = 580.0
+margin_right = 862.0
+margin_bottom = 48.0
+focus_neighbour_top = NodePath("../../BackBtn")
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+custom_styles/hover = ExtResource( 29 )
+custom_styles/pressed = ExtResource( 29 )
+custom_styles/focus = ExtResource( 29 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 28 )
+text = "SWEPPER"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Edge" type="Panel" parent="Highscores/Tabs/SweeperTab"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = ExtResource( 27 )
+
+[node name="CleanerTab" type="Button" parent="Highscores/Tabs"]
+margin_left = 870.0
+margin_right = 1152.0
+margin_bottom = 48.0
+focus_neighbour_top = NodePath("../../BackBtn")
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+custom_styles/hover = ExtResource( 29 )
+custom_styles/pressed = ExtResource( 29 )
+custom_styles/focus = ExtResource( 29 )
+custom_styles/disabled = SubResource( 151 )
+custom_styles/normal = ExtResource( 28 )
+text = "CLEANERS"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Edge" type="Panel" parent="Highscores/Tabs/CleanerTab"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = ExtResource( 27 )
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Highscores"]
+margin_left = 64.0
+margin_top = 184.0
+margin_right = 1216.0
+margin_bottom = 600.0
+scroll_vertical_enabled = false
+
+[node name="ScrollContent" type="HBoxContainer" parent="Highscores/ScrollContainer"]
+margin_right = 2776.0
+margin_bottom = 392.0
+custom_constants/separation = 8
+
+[node name="ClassicHall" type="Control" parent="Highscores/ScrollContainer/ScrollContent"]
+margin_right = 656.0
+margin_bottom = 392.0
+rect_min_size = Vector2( 656, 392 )
+
+[node name="Undi" type="ColorRect" parent="Highscores/ScrollContainer/ScrollContent/ClassicHall"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="Edge" type="Panel" parent="Highscores/ScrollContainer/ScrollContent/ClassicHall/Undi"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = -8.0
+custom_styles/panel = ExtResource( 25 )
+
+[node name="ClassicTable" parent="Highscores/ScrollContainer/ScrollContent/ClassicHall" instance=ExtResource( 21 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 64.0
+margin_top = 46.0
+margin_right = -432.0
+margin_bottom = -68.0
 theme = null
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Title" parent="Highscores/ClassicTable" index="0"]
-margin_right = 256.0
+[node name="Title" parent="Highscores/ScrollContainer/ScrollContent/ClassicHall/ClassicTable" index="0"]
+margin_right = 208.0
 
-[node name="Background2" parent="Highscores/ClassicTable/Title" index="0"]
+[node name="Background2" parent="Highscores/ScrollContainer/ScrollContent/ClassicHall/ClassicTable/Title" index="0"]
 margin_bottom = 170.0
 
-[node name="ScoreLine" parent="Highscores/ClassicTable" index="1"]
-margin_right = 256.0
+[node name="TableScroller" parent="Highscores/ScrollContainer/ScrollContent/ClassicHall/ClassicTable" index="1"]
+margin_right = 208.0
 
-[node name="Score" parent="Highscores/ClassicTable/ScoreLine" index="3"]
-margin_left = 179.0
-margin_right = 256.0
-
-[node name="ClassicTableGlo" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = 384.0
-margin_top = 142.0
-margin_right = 640.0
-margin_bottom = 560.0
+[node name="ClassicTableGlobal" parent="Highscores/ScrollContainer/ScrollContent/ClassicHall" instance=ExtResource( 21 )]
+margin_left = 344.0
+margin_top = 46.0
+margin_right = 552.0
+margin_bottom = 342.0
 theme = null
-__meta__ = {
-"_edit_group_": true
-}
 
-[node name="Title" parent="Highscores/ClassicTableGlo" index="0"]
-margin_right = 256.0
+[node name="Title" parent="Highscores/ScrollContainer/ScrollContent/ClassicHall/ClassicTableGlobal" index="0"]
+margin_right = 208.0
+text = "%Best gamers Glo"
 
-[node name="Background2" parent="Highscores/ClassicTableGlo/Title" index="0"]
+[node name="Background2" parent="Highscores/ScrollContainer/ScrollContent/ClassicHall/ClassicTableGlobal/Title" index="0"]
 margin_bottom = 170.0
 
-[node name="ScoreLine" parent="Highscores/ClassicTableGlo" index="1"]
-margin_right = 256.0
+[node name="TableScroller" parent="Highscores/ScrollContainer/ScrollContent/ClassicHall/ClassicTableGlobal" index="1"]
+margin_right = 208.0
 
-[node name="Score" parent="Highscores/ClassicTableGlo/ScoreLine" index="3"]
-margin_left = 179.0
-margin_right = 256.0
+[node name="UnbeatableHall" type="Control" parent="Highscores/ScrollContainer/ScrollContent"]
+margin_left = 664.0
+margin_right = 1320.0
+margin_bottom = 392.0
+rect_min_size = Vector2( 656, 392 )
 
-[node name="DefenderTable" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = 976.0
-margin_top = 142.0
-margin_right = 1232.0
-margin_bottom = 306.0
+[node name="Undi" type="ColorRect" parent="Highscores/ScrollContainer/ScrollContent/UnbeatableHall"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="Edge" type="Panel" parent="Highscores/ScrollContainer/ScrollContent/UnbeatableHall/Undi"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = -8.0
+custom_styles/panel = ExtResource( 25 )
+
+[node name="TabContainer" type="TabContainer" parent="Highscores/ScrollContainer/ScrollContent/UnbeatableHall"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+mouse_default_cursor_shape = 2
+custom_colors/font_color_bg = Color( 1, 1, 1, 0.470588 )
+custom_colors/font_color_fg = Color( 0.996078, 0.976471, 0.545098, 1 )
+custom_styles/tab_fg = ExtResource( 30 )
+custom_styles/tab_bg = ExtResource( 30 )
+custom_styles/panel = SubResource( 521 )
+
+[node name="Defender" type="Control" parent="Highscores/ScrollContainer/ScrollContent/UnbeatableHall/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 44.0
+
+[node name="DefenderTable" parent="Highscores/ScrollContainer/ScrollContent/UnbeatableHall/TabContainer/Defender" instance=ExtResource( 21 )]
+margin_left = 123.0
+margin_top = 30.0
+margin_right = 371.0
+margin_bottom = 304.0
 theme = null
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Title" parent="Highscores/DefenderTable" index="0"]
-margin_right = 256.0
+[node name="Title" parent="Highscores/ScrollContainer/ScrollContent/UnbeatableHall/TabContainer/Defender/DefenderTable" index="0"]
+margin_right = 248.0
 
-[node name="Background2" parent="Highscores/DefenderTable/Title" index="0"]
+[node name="Background2" parent="Highscores/ScrollContainer/ScrollContent/UnbeatableHall/TabContainer/Defender/DefenderTable/Title" index="0"]
 margin_bottom = 170.0
 
-[node name="ScoreLine" parent="Highscores/DefenderTable" index="1"]
-margin_right = 256.0
+[node name="TableScroller" parent="Highscores/ScrollContainer/ScrollContent/UnbeatableHall/TabContainer/Defender/DefenderTable" index="1"]
+margin_right = 248.0
 
-[node name="Score" parent="Highscores/DefenderTable/ScoreLine" index="3"]
-margin_left = 179.0
-margin_right = 256.0
-
-[node name="SweeperTable" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = 1272.0
-margin_top = 142.0
-margin_right = 1536.0
-margin_bottom = 640.0
+[node name="DefenderTableGlobal" parent="Highscores/ScrollContainer/ScrollContent/UnbeatableHall/TabContainer/Defender" instance=ExtResource( 21 )]
+margin_left = 435.0
+margin_top = 30.0
+margin_right = 651.0
+margin_bottom = 304.0
 theme = null
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Title" parent="Highscores/SweeperTable" index="0"]
-margin_right = 264.0
+[node name="Title" parent="Highscores/ScrollContainer/ScrollContent/UnbeatableHall/TabContainer/Defender/DefenderTableGlobal" index="0"]
+margin_right = 216.0
+text = "%Best gamers Glo"
 
-[node name="Background2" parent="Highscores/SweeperTable/Title" index="0"]
+[node name="Background2" parent="Highscores/ScrollContainer/ScrollContent/UnbeatableHall/TabContainer/Defender/DefenderTableGlobal/Title" index="0"]
+margin_bottom = 170.0
+
+[node name="TableScroller" parent="Highscores/ScrollContainer/ScrollContent/UnbeatableHall/TabContainer/Defender/DefenderTableGlobal" index="1"]
+margin_right = 216.0
+
+[node name="Eraser" type="Control" parent="Highscores/ScrollContainer/ScrollContent/UnbeatableHall/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 32.0
+
+[node name="EraserTable" parent="Highscores/ScrollContainer/ScrollContent/UnbeatableHall/TabContainer/Eraser" instance=ExtResource( 21 )]
+margin_left = 123.0
+margin_top = 30.0
+margin_right = 371.0
+margin_bottom = 304.0
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Background2" parent="Highscores/ScrollContainer/ScrollContent/UnbeatableHall/TabContainer/Eraser/EraserTable/Title" index="0"]
+margin_bottom = 170.0
+
+[node name="EraserTableGlobal" parent="Highscores/ScrollContainer/ScrollContent/UnbeatableHall/TabContainer/Eraser" instance=ExtResource( 21 )]
+margin_left = 435.0
+margin_top = 30.0
+margin_right = 651.0
+margin_bottom = 304.0
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" parent="Highscores/ScrollContainer/ScrollContent/UnbeatableHall/TabContainer/Eraser/EraserTableGlobal" index="0"]
+margin_right = 216.0
+text = "%Best gamers Glo"
+
+[node name="Background2" parent="Highscores/ScrollContainer/ScrollContent/UnbeatableHall/TabContainer/Eraser/EraserTableGlobal/Title" index="0"]
+margin_bottom = 170.0
+
+[node name="SweeperHall" type="Control" parent="Highscores/ScrollContainer/ScrollContent"]
+margin_left = 1328.0
+margin_right = 1984.0
+margin_bottom = 392.0
+rect_min_size = Vector2( 656, 392 )
+
+[node name="Undi" type="ColorRect" parent="Highscores/ScrollContainer/ScrollContent/SweeperHall"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="Edge" type="Panel" parent="Highscores/ScrollContainer/ScrollContent/SweeperHall/Undi"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = -8.0
+custom_styles/panel = ExtResource( 25 )
+
+[node name="SweeperTable" parent="Highscores/ScrollContainer/ScrollContent/SweeperHall" instance=ExtResource( 21 )]
+margin_left = 64.0
+margin_top = 46.0
+margin_right = 312.0
+margin_bottom = 328.0
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" parent="Highscores/ScrollContainer/ScrollContent/SweeperHall/SweeperTable" index="0"]
+margin_right = 248.0
+
+[node name="Background2" parent="Highscores/ScrollContainer/ScrollContent/SweeperHall/SweeperTable/Title" index="0"]
 margin_bottom = 394.0
 
-[node name="ScoreLine" parent="Highscores/SweeperTable" index="1"]
-margin_right = 264.0
+[node name="TableScroller" parent="Highscores/ScrollContainer/ScrollContent/SweeperHall/SweeperTable" index="1"]
+margin_right = 248.0
 
-[node name="Score" parent="Highscores/SweeperTable/ScoreLine" index="3"]
-margin_left = 187.0
-margin_right = 264.0
-
-[node name="CleanerXSTable" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = 680.0
-margin_top = 358.0
-margin_right = 907.0
-margin_bottom = 522.0
+[node name="SweeperTableGlobal" parent="Highscores/ScrollContainer/ScrollContent/SweeperHall" instance=ExtResource( 21 )]
+margin_left = 376.0
+margin_top = 46.0
+margin_right = 592.0
+margin_bottom = 328.0
 theme = null
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Background2" parent="Highscores/CleanerXSTable/Title" index="0"]
-margin_bottom = 170.0
+[node name="Title" parent="Highscores/ScrollContainer/ScrollContent/SweeperHall/SweeperTableGlobal" index="0"]
+margin_right = 216.0
 
-[node name="CleanerSTable" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = 918.0
-margin_top = 358.0
-margin_right = 1145.0
-margin_bottom = 522.0
-theme = null
-__meta__ = {
-"_edit_group_": true
-}
+[node name="Background2" parent="Highscores/ScrollContainer/ScrollContent/SweeperHall/SweeperTableGlobal/Title" index="0"]
+margin_bottom = 394.0
 
-[node name="Background2" parent="Highscores/CleanerSTable/Title" index="0"]
-margin_bottom = 170.0
+[node name="TableScroller" parent="Highscores/ScrollContainer/ScrollContent/SweeperHall/SweeperTableGlobal" index="1"]
+margin_right = 216.0
 
-[node name="CleanerMTable" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = 1156.0
-margin_top = 358.0
-margin_right = 1383.0
-margin_bottom = 522.0
-theme = null
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Background2" parent="Highscores/CleanerMTable/Title" index="0"]
-margin_bottom = 170.0
-
-[node name="CleanerLTable" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = 1394.0
-margin_top = 358.0
-margin_right = 1621.0
-margin_bottom = 522.0
-theme = null
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Background2" parent="Highscores/CleanerLTable/Title" index="0"]
-margin_bottom = 170.0
-
-[node name="CleanerXLTable" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = 1633.0
-margin_top = 358.0
-margin_right = 1860.0
-margin_bottom = 522.0
-theme = null
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Background2" parent="Highscores/CleanerXLTable/Title" index="0"]
-margin_bottom = 170.0
-
-[node name="EraserTable" parent="Highscores" instance=ExtResource( 21 )]
-margin_left = 680.0
-margin_top = 142.0
-margin_right = 936.0
-margin_bottom = 306.0
-theme = null
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Title" parent="Highscores/EraserTable" index="0"]
-margin_right = 256.0
-
-[node name="Background2" parent="Highscores/EraserTable/Title" index="0"]
-margin_bottom = 170.0
-
-[node name="ScoreLine" parent="Highscores/EraserTable" index="1"]
-margin_right = 256.0
-
-[node name="Score" parent="Highscores/EraserTable/ScoreLine" index="3"]
-margin_left = 179.0
-margin_right = 256.0
-
-[node name="SweeperArrows" type="Control" parent="Highscores"]
-margin_left = 1192.0
-margin_top = 145.0
-margin_right = 1216.0
-margin_bottom = 159.0
+[node name="SweeperArrows" type="Control" parent="Highscores/ScrollContainer/ScrollContent/SweeperHall"]
+visible = false
+margin_left = 1124.0
+margin_top = -39.0
+margin_right = 1148.0
+margin_bottom = -25.0
 grow_horizontal = 2
 theme = ExtResource( 15 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="LeftBtn" type="TextureButton" parent="Highscores/SweeperArrows"]
+[node name="LeftBtn" type="TextureButton" parent="Highscores/ScrollContainer/ScrollContent/SweeperHall/SweeperArrows"]
 margin_left = -5.0
 margin_top = 1.0
 margin_right = 11.0
 margin_bottom = 17.0
 rect_min_size = Vector2( 16, 16 )
 focus_neighbour_left = NodePath("../RightBtn")
-focus_neighbour_top = NodePath("../../BackBtn")
+focus_neighbour_top = NodePath("../../../../../BackBtn")
 focus_neighbour_right = NodePath("../RightBtn")
-focus_neighbour_bottom = NodePath("../../BackBtn")
+focus_neighbour_bottom = NodePath("../../../../../BackBtn")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 4
 texture_normal = SubResource( 335 )
@@ -2729,7 +3547,7 @@ expand = true
 stretch_mode = 3
 flip_h = true
 
-[node name="RightBtn" type="TextureButton" parent="Highscores/SweeperArrows"]
+[node name="RightBtn" type="TextureButton" parent="Highscores/ScrollContainer/ScrollContent/SweeperHall/SweeperArrows"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -11.0
@@ -2738,9 +3556,9 @@ margin_right = 5.0
 margin_bottom = 17.0
 rect_min_size = Vector2( 16, 16 )
 focus_neighbour_left = NodePath("../LeftBtn")
-focus_neighbour_top = NodePath("../../BackBtn")
+focus_neighbour_top = NodePath("../../../../../BackBtn")
 focus_neighbour_right = NodePath("../LeftBtn")
-focus_neighbour_bottom = NodePath("../../BackBtn")
+focus_neighbour_bottom = NodePath("../../../../../BackBtn")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 4
 texture_normal = SubResource( 335 )
@@ -2748,6 +3566,284 @@ texture_hover = SubResource( 336 )
 texture_focused = SubResource( 336 )
 expand = true
 stretch_mode = 3
+
+[node name="CleanersHall" type="Control" parent="Highscores/ScrollContainer/ScrollContent"]
+margin_left = 1992.0
+margin_right = 2776.0
+margin_bottom = 392.0
+rect_min_size = Vector2( 784, 392 )
+
+[node name="Undi" type="ColorRect" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="Edge" type="Panel" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/Undi"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = -8.0
+custom_styles/panel = ExtResource( 25 )
+
+[node name="TabContainer" type="TabContainer" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -128.0
+grow_horizontal = 2
+mouse_default_cursor_shape = 2
+custom_colors/font_color_bg = Color( 1, 1, 1, 0.470588 )
+custom_colors/font_color_fg = Color( 0.996078, 0.976471, 0.545098, 1 )
+custom_styles/tab_fg = ExtResource( 30 )
+custom_styles/tab_bg = ExtResource( 30 )
+custom_styles/panel = SubResource( 521 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="CleanerXS" type="Control" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 44.0
+
+[node name="CleanerXSTable" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerXS" instance=ExtResource( 21 )]
+margin_left = 123.0
+margin_top = 30.0
+margin_right = 371.0
+margin_bottom = 304.0
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerXS/CleanerXSTable" index="0"]
+margin_right = 248.0
+
+[node name="Background2" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerXS/CleanerXSTable/Title" index="0"]
+margin_bottom = 170.0
+
+[node name="TableScroller" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerXS/CleanerXSTable" index="1"]
+margin_right = 248.0
+
+[node name="CleanerXSTableGlobal" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerXS" instance=ExtResource( 21 )]
+margin_left = 435.0
+margin_top = 30.0
+margin_right = 651.0
+margin_bottom = 304.0
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerXS/CleanerXSTableGlobal" index="0"]
+margin_right = 216.0
+text = "%Best gamers Glo"
+
+[node name="Background2" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerXS/CleanerXSTableGlobal/Title" index="0"]
+margin_bottom = 170.0
+
+[node name="TableScroller" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerXS/CleanerXSTableGlobal" index="1"]
+margin_right = 216.0
+
+[node name="CleanerS" type="Control" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 32.0
+
+[node name="CleanerSTable" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerS" instance=ExtResource( 21 )]
+margin_left = 123.0
+margin_top = 30.0
+margin_right = 371.0
+margin_bottom = 304.0
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Background2" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerS/CleanerSTable/Title" index="0"]
+margin_bottom = 170.0
+
+[node name="CleanerSTableGlobal" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerS" instance=ExtResource( 21 )]
+margin_left = 435.0
+margin_top = 30.0
+margin_right = 651.0
+margin_bottom = 304.0
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerS/CleanerSTableGlobal" index="0"]
+margin_right = 216.0
+text = "%Best gamers Glo"
+
+[node name="Background2" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerS/CleanerSTableGlobal/Title" index="0"]
+margin_bottom = 170.0
+
+[node name="CleanerM" type="Control" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 40.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="CleanerMTable" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerM" instance=ExtResource( 21 )]
+margin_left = 123.0
+margin_top = 30.0
+margin_right = 371.0
+margin_bottom = 304.0
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Background2" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerM/CleanerMTable/Title" index="0"]
+margin_bottom = 170.0
+
+[node name="CleanerMTableGlobal" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerM" instance=ExtResource( 21 )]
+margin_left = 435.0
+margin_top = 30.0
+margin_right = 651.0
+margin_bottom = 304.0
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerM/CleanerMTableGlobal" index="0"]
+margin_right = 216.0
+text = "%Best gamers Glo"
+
+[node name="Background2" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerM/CleanerMTableGlobal/Title" index="0"]
+margin_bottom = 170.0
+
+[node name="CleanerL" type="Control" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 40.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="CleanerLTable" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerL" instance=ExtResource( 21 )]
+margin_left = 123.0
+margin_top = 30.0
+margin_right = 371.0
+margin_bottom = 304.0
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Background2" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerL/CleanerLTable/Title" index="0"]
+margin_bottom = 170.0
+
+[node name="CleanerLTableGlobal" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerL" instance=ExtResource( 21 )]
+margin_left = 435.0
+margin_top = 30.0
+margin_right = 651.0
+margin_bottom = 304.0
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerL/CleanerLTableGlobal" index="0"]
+margin_right = 216.0
+text = "%Best gamers Glo"
+
+[node name="Background2" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerL/CleanerLTableGlobal/Title" index="0"]
+margin_bottom = 170.0
+
+[node name="CleanerXL" type="Control" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 40.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="CleanerXLTable" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerXL" instance=ExtResource( 21 )]
+margin_left = 123.0
+margin_top = 30.0
+margin_right = 371.0
+margin_bottom = 304.0
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Background2" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerXL/CleanerXLTable/Title" index="0"]
+margin_bottom = 170.0
+
+[node name="CleanerXLTableGlobal" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerXL" instance=ExtResource( 21 )]
+margin_left = 435.0
+margin_top = 30.0
+margin_right = 651.0
+margin_bottom = 304.0
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerXL/CleanerXLTableGlobal" index="0"]
+margin_right = 216.0
+text = "%Best gamers Glo"
+
+[node name="Background2" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerXL/CleanerXLTableGlobal/Title" index="0"]
+margin_bottom = 170.0
+
+[node name="_cover" type="ColorRect" parent="Highscores"]
+visible = false
+self_modulate = Color( 1, 1, 1, 0.411765 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 64.0
+margin_top = 184.0
+margin_right = -592.0
+margin_bottom = -16.0
+color = Color( 0.666667, 0.588235, 0.588235, 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ColorRect2" type="ColorRect" parent="Highscores/_cover"]
+modulate = Color( 1, 1, 1, 0.235294 )
+margin_right = 64.0
+margin_bottom = 64.0
+
+[node name="ColorRect3" type="ColorRect" parent="Highscores/_cover"]
+modulate = Color( 1, 1, 1, 0.235294 )
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -64.0
+margin_right = 64.0
+
+[node name="ColorRect4" type="ColorRect" parent="Highscores/_cover"]
+modulate = Color( 1, 1, 1, 0.235294 )
+margin_left = 312.0
+margin_right = 344.0
+margin_bottom = 64.0
+
+[node name="ColorRect5" type="ColorRect" parent="Highscores/_cover"]
+modulate = Color( 1, 1, 1, 0.235294 )
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -64.0
+margin_bottom = 64.0
+
+[node name="ColorRect" type="ColorRect" parent="Highscores"]
+visible = false
+margin_left = -32.0
+margin_top = 96.0
+margin_right = 32.0
+margin_bottom = 160.0
 
 [node name="BackBtn" type="TextureButton" parent="Highscores"]
 anchor_left = 1.0
@@ -2758,7 +3854,6 @@ margin_right = -40.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 16, 16 )
 rect_rotation = 89.9999
-focus_neighbour_top = NodePath("../SweeperArrows/RightBtn")
 mouse_default_cursor_shape = 2
 texture_normal = SubResource( 195 )
 texture_hover = SubResource( 196 )
@@ -3281,24 +4376,36 @@ anims/settings = SubResource( 140 )
 [connection signal="pressed" from="Settings/ColorSchemeOptions/RandomizeBtn" to="Settings" method="_on_RandomizeBtn_pressed"]
 [connection signal="pressed" from="Settings/ColorSchemeOptions/ResetBtn" to="Settings" method="_on_ResetBtn_pressed"]
 [connection signal="pressed" from="Highscores/UpdateScoresBtn" to="Highscores" method="_on_UpdateScoresBtn_pressed"]
-[connection signal="pressed" from="Highscores/SweeperArrows/LeftBtn" to="Highscores" method="_on_Sweeper_LeftBtn_pressed"]
-[connection signal="pressed" from="Highscores/SweeperArrows/RightBtn" to="Highscores" method="_on_SweeperRightBtn_pressed"]
+[connection signal="pressed" from="Highscores/Tabs/ClassicTab" to="Highscores" method="_on_ClassicTab_pressed"]
+[connection signal="pressed" from="Highscores/Tabs/UnbeatableTab" to="Highscores" method="_on_UnbeatableTab_pressed"]
+[connection signal="pressed" from="Highscores/Tabs/SweeperTab" to="Highscores" method="_on_SweeperTab_pressed"]
+[connection signal="pressed" from="Highscores/Tabs/CleanerTab" to="Highscores" method="_on_CleanerTab_pressed"]
+[connection signal="pressed" from="Highscores/ScrollContainer/ScrollContent/SweeperHall/SweeperArrows/LeftBtn" to="Highscores" method="_on_Sweeper_LeftBtn_pressed"]
+[connection signal="pressed" from="Highscores/ScrollContainer/ScrollContent/SweeperHall/SweeperArrows/RightBtn" to="Highscores" method="_on_SweeperRightBtn_pressed"]
 [connection signal="pressed" from="Highscores/BackBtn" to="Highscores" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="About/BackBtn" to="About" method="_on_BackBtn_pressed"]
 [connection signal="meta_clicked" from="About/Thanks/LinkLabel" to="About" method="_on_NameAuthor_meta_clicked"]
 [connection signal="meta_clicked" from="About/Resources/LinkLabel" to="About" method="_on_NameAuthor_meta_clicked"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 
-[editable path="Highscores/ClassicTable"]
-[editable path="Highscores/ClassicTableGlo"]
-[editable path="Highscores/DefenderTable"]
-[editable path="Highscores/SweeperTable"]
-[editable path="Highscores/CleanerXSTable"]
-[editable path="Highscores/CleanerSTable"]
-[editable path="Highscores/CleanerMTable"]
-[editable path="Highscores/CleanerLTable"]
-[editable path="Highscores/CleanerXLTable"]
-[editable path="Highscores/EraserTable"]
+[editable path="Highscores/ScrollContainer/ScrollContent/ClassicHall/ClassicTable"]
+[editable path="Highscores/ScrollContainer/ScrollContent/ClassicHall/ClassicTableGlobal"]
+[editable path="Highscores/ScrollContainer/ScrollContent/UnbeatableHall/TabContainer/Defender/DefenderTable"]
+[editable path="Highscores/ScrollContainer/ScrollContent/UnbeatableHall/TabContainer/Defender/DefenderTableGlobal"]
+[editable path="Highscores/ScrollContainer/ScrollContent/UnbeatableHall/TabContainer/Eraser/EraserTable"]
+[editable path="Highscores/ScrollContainer/ScrollContent/UnbeatableHall/TabContainer/Eraser/EraserTableGlobal"]
+[editable path="Highscores/ScrollContainer/ScrollContent/SweeperHall/SweeperTable"]
+[editable path="Highscores/ScrollContainer/ScrollContent/SweeperHall/SweeperTableGlobal"]
+[editable path="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerXS/CleanerXSTable"]
+[editable path="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerXS/CleanerXSTableGlobal"]
+[editable path="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerS/CleanerSTable"]
+[editable path="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerS/CleanerSTableGlobal"]
+[editable path="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerM/CleanerMTable"]
+[editable path="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerM/CleanerMTableGlobal"]
+[editable path="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerL/CleanerLTable"]
+[editable path="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerL/CleanerLTableGlobal"]
+[editable path="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerXL/CleanerXLTable"]
+[editable path="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerXL/CleanerXLTableGlobal"]
 [editable path="About/Shorts/ShortcutLine4"]
 [editable path="About/Shorts/ShortcutLine5"]
 [editable path="About/Shorts/ShortcutLine7"]

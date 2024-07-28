@@ -26,7 +26,7 @@ func publish_score_to_lootlocker(new_player_stats: Dictionary): # ko objaviš no
 	authenticate_guest_session(player_name)
 	yield(self, "guest_authenticated")	
 	
-	ConnectCover.cover_label_text = "Publishing_score"
+	ConnectCover.cover_label_text = "Publishing your score"
 	
 	var url: String = "https://api.lootlocker.io/game/leaderboards/PAclassic/submit" # naslov do LL tabele ... samo ključ tabele se spreminja
 	var header: Array = ["Content-Type: application/json", "x-session-token: %s" % session_token]
@@ -55,7 +55,7 @@ func update_lootlocker_leaderboard(current_game_data: Dictionary):
 		print("tuki")
 		yield(self, "guest_authenticated")
 
-	ConnectCover.cover_label_text = "Getting global scores ..."
+	ConnectCover.cover_label_text = "Updating global leaderboards"
 
 	var url: String = "https://api.lootlocker.io/game/leaderboards/PAclassic/list?count=%s" % str(global_results_count) # koliko mest rabimo
 	var header: Array = ["Content-Type: application/json", "x-session-token: %s" % session_token]
@@ -72,7 +72,8 @@ func update_lootlocker_leaderboard(current_game_data: Dictionary):
 		
 	save_global_highscores_to_local(current_game_data)
 	
-	yield(get_tree().create_timer(0.1), "timeout")
+	ConnectCover.cover_label_text = "Updated"
+	yield(get_tree().create_timer(0.5), "timeout") #_temo LL timer
 	ConnectCover.close_cover() # odda signal, ko se zapre	
 		
 
@@ -100,11 +101,12 @@ func save_global_highscores_to_local(current_game_data: Dictionary):
 	current_game_data_global["level"] = "Global"
 	Global.data_manager.write_highscores_to_file(current_game_data_global, global_game_highscores)
 	
-	print ("LL leaderboard updated (get > saved)")
+	print ("LL leaderboard updated ... get&save")
 
 
 func authenticate_guest_session(player_name: String):
 
+	ConnectCover.cover_label_text = "Connecting to server"
 	ConnectCover.open_cover()
 	yield(get_tree().create_timer(0.5), "timeout") # _temp ... cover timer
 	
@@ -128,13 +130,13 @@ func authenticate_guest_session(player_name: String):
 	
 	# CONNECTION FAILED
 	if response == null or not "session_token" in response:
-		ConnectCover.cover_label_text = "Connection failed."
-		yield(get_tree().create_timer(2), "timeout") # _temp ... cover timer
+		ConnectCover.cover_label_text = "Connection failed"
+		yield(get_tree().create_timer(1), "timeout") # _temp ... cover timer
 		ConnectCover.close_cover() # odda signal, ko se zapre
 	# CONNECTED
 	else:
 		session_token = response["session_token"]
-		ConnectCover.cover_label_text = "Connected."
+		ConnectCover.cover_label_text = "Connected"
 		
 		yield(get_tree().create_timer(0.5), "timeout") # _temp ... cover timer
 		guest_is_authenticated = true

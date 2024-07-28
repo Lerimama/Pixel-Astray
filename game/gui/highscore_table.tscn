@@ -6,15 +6,19 @@
 [ext_resource path="res://assets/resources/highscore_table_noscore_line.tres" type="StyleBox" id=4]
 
 [node name="HighscoreTable" type="VBoxContainer"]
-margin_top = -2.0
-margin_right = 216.0
-margin_bottom = 308.0
+margin_right = 220.0
+margin_bottom = 296.0
+rect_min_size = Vector2( 208, 0 )
 theme = ExtResource( 3 )
 custom_constants/separation = 8
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 296.0 ],
+"_edit_vertical_guides_": [ -128.0 ]
+}
 
 [node name="Title" type="Label" parent="."]
-margin_right = 227.0
+margin_right = 220.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 28, 26 )
 size_flags_horizontal = 7
@@ -33,60 +37,74 @@ margin_right = 32.0
 margin_bottom = 308.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="ScoreLine" type="HBoxContainer" parent="."]
+[node name="TableScroller" type="ScrollContainer" parent="."]
 margin_top = 34.0
-margin_right = 227.0
-margin_bottom = 52.0
+margin_right = 220.0
+margin_bottom = 296.0
+rect_min_size = Vector2( 0, 262 )
+size_flags_horizontal = 5
+scroll_horizontal_enabled = false
+
+[node name="Table" type="VBoxContainer" parent="TableScroller"]
+margin_right = 208.0
+margin_bottom = 18.0
+size_flags_horizontal = 5
+
+[node name="ScoreLine" type="HBoxContainer" parent="TableScroller/Table"]
+margin_right = 208.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 72, 0 )
 size_flags_horizontal = 3
+custom_constants/separation = 8
 
-[node name="Rank" type="Label" parent="ScoreLine"]
+[node name="Rank" type="Label" parent="TableScroller/Table/ScoreLine"]
 margin_right = 24.0
 margin_bottom = 18.0
 rect_min_size = Vector2( 24, 0 )
 custom_fonts/font = ExtResource( 2 )
 text = "00."
 
-[node name="GlobalRank" type="Label" parent="ScoreLine"]
-margin_left = 28.0
-margin_right = 52.0
+[node name="GlobalRank" type="Label" parent="TableScroller/Table/ScoreLine"]
+visible = false
+margin_left = 32.0
+margin_right = 64.0
 margin_bottom = 18.0
-rect_min_size = Vector2( 24, 0 )
+rect_min_size = Vector2( 32, 0 )
 custom_fonts/font = ExtResource( 2 )
-text = "00."
+text = "000."
 
-[node name="Owner" type="Label" parent="ScoreLine"]
-margin_left = 56.0
-margin_right = 146.0
+[node name="Owner" type="Label" parent="TableScroller/Table/ScoreLine"]
+margin_left = 32.0
+margin_right = 122.0
 margin_bottom = 18.0
 rect_min_size = Vector2( 90, 0 )
 custom_fonts/font = ExtResource( 2 )
-text = "Characters"
+text = "%ten_chars"
 clip_text = true
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="ScoreLine"]
-margin_left = 150.0
-margin_right = 227.0
+[node name="Score" type="Label" parent="TableScroller/Table/ScoreLine"]
+margin_left = 130.0
+margin_right = 208.0
 margin_bottom = 18.0
-rect_min_size = Vector2( 70, 0 )
+rect_min_size = Vector2( 78, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 2 )
 text = "100000000"
 align = 2
 
-[node name="NoScoreLine" type="Label" parent="ScoreLine"]
+[node name="NoScoreLine" type="Label" parent="TableScroller/Table/ScoreLine"]
 visible = false
-margin_left = 28.0
-margin_right = 216.0
+margin_left = 256.0
+margin_right = 256.0
 margin_bottom = 18.0
 size_flags_horizontal = 11
 custom_fonts/font = ExtResource( 2 )
 align = 2
 
-[node name="NoScoreLine" type="HSeparator" parent="ScoreLine/NoScoreLine"]
+[node name="NoScoreLine" type="HSeparator" parent="TableScroller/Table/ScoreLine/NoScoreLine"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0

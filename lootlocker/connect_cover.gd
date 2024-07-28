@@ -4,7 +4,7 @@ extends CanvasLayer
 signal connect_cover_closed
 
 
-var cover_label_text: String = "Connecting to server" setget _update_label_text
+var cover_label_text: String = "" setget _update_label_text
 
 
 func _input(event: InputEvent) -> void:

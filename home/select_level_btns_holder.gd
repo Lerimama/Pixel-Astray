@@ -20,7 +20,7 @@ func spawn_level_btns():
 	# zbrišem vzorčne gumbe v holderju
 	for btn in get_children():
 		if not btn == pixel_astray_level_btn:
-			btn.queue_free()
+			btn.queue_free()                
 	
 	# spawnam nove gumbe za vsak tilemap_path
 	for tilemap_path in Profiles.sweeper_level_tilemap_paths:

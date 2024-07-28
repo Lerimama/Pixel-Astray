@@ -561,7 +561,6 @@ color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 [node name="HighscoreTableDummy" parent="GameSummary/ContentSweeper/Hs" instance=ExtResource( 6 )]
 margin_left = 32.0
 margin_top = 22.0
-margin_right = 248.0
 margin_bottom = 326.0
 size_flags_horizontal = 9
 
@@ -742,7 +741,6 @@ color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 [node name="HighscoreTable" parent="GameSummary/Content/Hs" instance=ExtResource( 6 )]
 margin_left = 32.0
 margin_top = 30.0
-margin_right = 248.0
 margin_bottom = 334.0
 size_flags_horizontal = 9
 

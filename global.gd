@@ -358,6 +358,7 @@ func connect_to_button(button):
 
 # on confirm and cancel 
 func _on_button_pressed(button: BaseButton):
+	printt("Btn pressed", button)
 
 	# ker ti gumbi peljejo na nov ekran, po njihovem kliku
 	if button.is_in_group(Global.group_menu_confirm_btns):
@@ -391,7 +392,7 @@ func _on_control_hovered(control: Control):
 
 # on focus
 func _on_control_focused(control: Control):
-	# printt("Control focused", control)
+	printt("Control focused", control)
 
 	Global.sound_manager.play_gui_sfx("btn_focus_change")
 

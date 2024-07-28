@@ -10,10 +10,20 @@ onready var highscore_table_title: Label = $Title
 
 func _ready() -> void:
 	
-	get_node("ScoreLine/GlobalRank").show() # OPT prikaz global rankov uredi drugače
-	
+	pass
 	
 func load_highscore_table(current_game_data: Dictionary, current_player_rank: int, lines_to_show_count: int = 10):
+	
+	if lines_to_show_count > 10:
+#		print("GLOBAL")
+		$TableScroller.scroll_vertical_enabled = true
+		$TableScroller/Table/ScoreLine/GlobalRank.show() # OPT prikaz global rankov uredi drugače
+		$TableScroller/Table/ScoreLine/Rank.hide() # OPT prikaz global rankov uredi drugače
+	else:
+		$TableScroller.scroll_vertical_enabled = false
+		$TableScroller/Table/ScoreLine/GlobalRank.show() # OPT prikaz global rankov uredi drugače
+		$TableScroller/Table/ScoreLine/Rank.show() # OPT prikaz global rankov uredi drugače
+		
 	# printt("HS", current_game_data, current_player_rank,lines_to_show_count)
 	
 	var current_game_hs_type = current_game_data["highscore_type"]
@@ -35,8 +45,8 @@ func load_highscore_table(current_game_data: Dictionary, current_player_rank: in
 		highscore_table_title.text = "Best " + current_game_name.to_lower() + "s"
 
 	# napolnem lestvico
-	scorelines = get_children()
-	scorelines.pop_front()
+	scorelines = $TableScroller/Table.get_children()
+#	scorelines.pop_front()
 
 	# podupliciram osnovno linijo 
 	if scorelines.size() < lines_to_show_count:
@@ -44,7 +54,7 @@ func load_highscore_table(current_game_data: Dictionary, current_player_rank: in
 		var scoreline_to_duplicate: Control = scorelines[scorelines.size() - 1] # zadnji def scorline
 		for n in missing_lines_count:
 			var new_scoreline = scoreline_to_duplicate.duplicate()
-			add_child(new_scoreline)
+			$TableScroller/Table.add_child(new_scoreline)
 			scorelines.append(new_scoreline)	
 
 	
@@ -126,8 +136,9 @@ func load_sweeper_highscore_table(current_game_data: Dictionary, scoreline_level
 	highscore_table_title.text = "Best sweepers"
 	
 	# scorelines
-	scorelines = get_children()
-	scorelines.pop_front() # ven gre title
+#	scorelines = get_children()
+	scorelines = $TableScroller/Table.get_children()
+#	scorelines.pop_front() # ven gre title
 	
 	# če je linij premalo, dodam nove
 	if scorelines.size() < Profiles.sweeper_level_tilemap_paths.size():
@@ -135,7 +146,7 @@ func load_sweeper_highscore_table(current_game_data: Dictionary, scoreline_level
 		var scoreline_to_duplicate: Control = scorelines[scorelines.size() - 1] # zadnji def scorline
 		for n in missing_lines_count:
 			var new_scoreline = scoreline_to_duplicate.duplicate()
-			add_child(new_scoreline)
+			$TableScroller/Table.add_child(new_scoreline)
 			scorelines.append(new_scoreline)
 	
 	# napolnem lestvico ... za linijo najdem top skor pripadajočega levela
