@@ -1,29 +1,15 @@
 extends Node
 
 
-signal scores_saved # ko je vnešeno ime igralca
+signal scores_saved
 
 var data_file: = File.new()
 var current_player_rank: int
-var default_highscores: Dictionary = { # slovar, ki se uporabi, če še ni nobenega v filetu
-	"01": {"Default name": 0,},
-	"02": {"Default name": 0,},
-	"03": {"Default name": 0,},
-	"04": {"Default name": 0,},
-	"05": {"Default name": 0,},
-	"06": {"Default name": 0,},
-	"07": {"Default name": 0,},
-	"08": {"Default name": 0,},
-	"09": {"Default name": 0,},
-	"10": {"Default name": 0,},
-}
+
 
 func _ready() -> void:
 	
 	Global.data_manager = self
-
-
-# HS ------------------------------------------------------------------------------------------------------------------------
 
 	
 func get_top_highscore(current_game_data: Dictionary):
@@ -44,9 +30,9 @@ func get_top_highscore(current_game_data: Dictionary):
 	# setam top score glede na tip HSja
 	var current_highscore: float
 	match current_game_data["highscore_type"]:
-		Profiles.HighscoreTypes.HS_POINTS:
+		Profiles.HighscoreTypes.POINTS:
 			current_highscore = all_scores.max()
-		Profiles.HighscoreTypes.HS_TIME_LOW:
+		Profiles.HighscoreTypes.TIME:
 			var valid_scores: Array # vsi, ki niso 0
 			for score in all_scores:
 				if score > 0:
@@ -55,8 +41,8 @@ func get_top_highscore(current_game_data: Dictionary):
 				current_highscore = 0
 			else:
 				current_highscore = valid_scores.min()
-		Profiles.HighscoreTypes.HS_TIME_HIGH:
-			current_highscore = all_scores.max()
+#		Profiles.HighscoreTypes.HS_TIME_HIGH:
+#			current_highscore = all_scores.max()
 
 
 	var current_highscore_index: int = all_scores.find(current_highscore)
@@ -85,7 +71,7 @@ func check_player_ranking(current_score: float, current_game_data: Dictionary):
 	# izračun uvrstitve na lestvico ... štejem pozicije pred mano 
 	var better_positions_count: int = 0
 	for ranking_score in all_ranking_scores:
-		if current_game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW: # edinkrat ko se šteje nižje število
+		if current_game_data["highscore_type"] == Profiles.HighscoreTypes.TIME: # edinkrat ko se šteje nižje število
 			if ranking_score <= current_score and not ranking_score <= 0:
 				better_positions_count += 1				
 		else:
@@ -147,14 +133,37 @@ func save_player_score(current_score: float, current_game_data: Dictionary):
 	emit_signal("scores_saved") # OPT trenutno se ne uporablja, čeprav bi bilo dobra praksa
 
 
-func write_highscores_to_file(write_game_data: Dictionary, new_game_highscores: Dictionary):
+func build_default_highscores(build_global_highscores):
+	
+	var lines_to_build_count: int
+	if build_global_highscores:
+		lines_to_build_count = Profiles.global_highscores_count
+	else:
+		lines_to_build_count = Profiles.local_highscores_count
+	
+	var new_highscores: Dictionary
+	for n in lines_to_build_count:
+		var highscore_line_key_as_rank: String = "%02d" % (n + 1)	
+		new_highscores[highscore_line_key_as_rank] = {Profiles.default_highscore_line_name: 0}
+	
+	return new_highscores
 
-	# load highscore
+	
+# READ & WRITE ------------------------------------------------------------------------------------------------------------------------ 	
+
+
+func write_highscores_to_file(write_game_data: Dictionary, new_game_highscores: Dictionary, global_highscores: bool = false):
+
+	# get hs name
 	var write_game_name: String
-	if write_game_data.has("level"):
+	if write_game_data["game"] == Profiles.Games.SWEEPER:
 		write_game_name = Profiles.Games.keys()[write_game_data["game"]] + "_" + str(write_game_data["level"])
 	else:
 		write_game_name = Profiles.Games.keys()[write_game_data["game"]]
+	
+	# če je global HS
+	if global_highscores:
+		write_game_name += "_Global"
 	
 	# podam novi HS v json obliko
 	var json_string = JSON.print(new_game_highscores)
@@ -166,19 +175,24 @@ func write_highscores_to_file(write_game_data: Dictionary, new_game_highscores: 
 	data_file.store_line(to_json(new_game_highscores))
 	data_file.close()
 
-
-func read_highscores_from_file(read_game_data: Dictionary):
+		
+func read_highscores_from_file(read_game_data: Dictionary, global_highscores: bool = false):
 
 	var read_game_name: String
-	if read_game_data.has("level"):
+	if read_game_data["game"] == Profiles.Games.SWEEPER:
 		read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_" + str(read_game_data["level"])
 	else:
 		read_game_name = Profiles.Games.keys()[read_game_data["game"]]
-	
+
+	# če je global HS
+	if global_highscores:
+		read_game_name += "_Global"
+		
 	# preverjam obstoj fileta ... ob prvem nalaganju igre
 	var error = data_file.open("user://%s_highscores.save" % read_game_name, File.READ)
 	if error != OK: # če fileta ni, ga ustvarim in zapišem default HS dict
 		data_file.open("user://%s_highscores.save" % read_game_name, File.WRITE)
+		var default_highscores: Dictionary = build_default_highscores(global_highscores)
 		data_file.store_line(to_json(default_highscores))
 		data_file.close()
 	# odprem filet za branje
@@ -189,9 +203,6 @@ func read_highscores_from_file(read_game_data: Dictionary):
 	data_file.close()
 	
 	return current_game_highscores
-	
-		
-# sweeper solved status ------------------------------------------------------------------------------------------------------------------------
 
 
 func write_solved_status_to_file(write_game_data: Dictionary): # kadar je klican, pomeni, da je uganka rešena

@@ -18,15 +18,15 @@ __meta__ = {
 }
 
 [node name="Title" type="Label" parent="."]
-margin_right = 220.0
+margin_right = 228.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 28, 26 )
-size_flags_horizontal = 7
+size_flags_horizontal = 0
 size_flags_vertical = 0
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-text = "%Best gamers"
+text = "%Cleaner XL Top 10"
 
-[node name="Background2" type="ColorRect" parent="Title"]
+[node name="Background" type="ColorRect" parent="Title"]
 visible = false
 show_behind_parent = true
 anchor_right = 1.0
@@ -39,19 +39,19 @@ color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
 [node name="TableScroller" type="ScrollContainer" parent="."]
 margin_top = 34.0
-margin_right = 220.0
+margin_right = 248.0
 margin_bottom = 296.0
 rect_min_size = Vector2( 0, 262 )
-size_flags_horizontal = 5
+size_flags_horizontal = 0
 scroll_horizontal_enabled = false
 
 [node name="Table" type="VBoxContainer" parent="TableScroller"]
-margin_right = 208.0
+margin_right = 248.0
 margin_bottom = 18.0
-size_flags_horizontal = 5
+size_flags_horizontal = 3
 
 [node name="ScoreLine" type="HBoxContainer" parent="TableScroller/Table"]
-margin_right = 208.0
+margin_right = 248.0
 margin_bottom = 18.0
 rect_min_size = Vector2( 72, 0 )
 size_flags_horizontal = 3
@@ -62,37 +62,36 @@ margin_right = 24.0
 margin_bottom = 18.0
 rect_min_size = Vector2( 24, 0 )
 custom_fonts/font = ExtResource( 2 )
-text = "00."
+text = "R"
 
 [node name="GlobalRank" type="Label" parent="TableScroller/Table/ScoreLine"]
-visible = false
 margin_left = 32.0
 margin_right = 64.0
 margin_bottom = 18.0
 rect_min_size = Vector2( 32, 0 )
 custom_fonts/font = ExtResource( 2 )
-text = "000."
+text = "GR"
 
 [node name="Owner" type="Label" parent="TableScroller/Table/ScoreLine"]
-margin_left = 32.0
-margin_right = 122.0
+margin_left = 72.0
+margin_right = 162.0
 margin_bottom = 18.0
 rect_min_size = Vector2( 90, 0 )
 custom_fonts/font = ExtResource( 2 )
-text = "%ten_chars"
+text = "Player"
 clip_text = true
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="Score" type="Label" parent="TableScroller/Table/ScoreLine"]
-margin_left = 130.0
-margin_right = 208.0
+margin_left = 170.0
+margin_right = 248.0
 margin_bottom = 18.0
 rect_min_size = Vector2( 78, 0 )
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 2 )
-text = "100000000"
+text = "Score"
 align = 2
 
 [node name="NoScoreLine" type="Label" parent="TableScroller/Table/ScoreLine"]

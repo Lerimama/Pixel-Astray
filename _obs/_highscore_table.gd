@@ -30,7 +30,6 @@ func get_highscore_table(current_game_data: Dictionary, current_player_rank: int
 	
 	# napolnem lestvico
 	var scorelines: Array = get_children()
-	scorelines.pop_front()
 	var scorelines_with_score: Array
 
 
@@ -55,7 +54,7 @@ func get_highscore_table(current_game_data: Dictionary, current_player_rank: int
 		scoreline.get_node("Position").text = str(scoreline_index + 1) + "."
 		scoreline.get_node("Owner").text = str(current_position_dict_owners[0])
 		
-		if current_game_hs_type == Profiles.HighscoreTypes.HS_TIME_LOW or current_game_hs_type == Profiles.HighscoreTypes.HS_TIME_HIGH:
+		if current_game_hs_type == Profiles.HighscoreTypes.TIME:# or current_game_hs_type == Profiles.HighscoreTypes.HS_TIME_HIGH:
 			var current_position_seconds: float = current_position_dict_values[0]
 			# skorlinije, ki niso skrite v hometu, se prikažejo
 			if current_position_seconds > 0:# and not scoreline_index >= lines_to_show_count: # and scoreline_index > lines_to_show_count:
@@ -70,7 +69,7 @@ func get_highscore_table(current_game_data: Dictionary, current_player_rank: int
 				scoreline.get_node("Score").hide()
 				scoreline.get_node("NoScoreLine").show()
 				
-		elif current_game_hs_type == Profiles.HighscoreTypes.HS_POINTS:
+		elif current_game_hs_type == Profiles.HighscoreTypes.POINTS:
 			var current_position_points: int = current_position_dict_values[0]
 #				if current_position_points > 0 and not scoreline_index >= lines_to_show_count: # bug =
 			if current_position_points > 0:
@@ -122,7 +121,6 @@ func get_sweeper_highscore_table(current_game_data: Dictionary, scoreline_level_
 	
 	# scorelines
 	var scorelines: Array = get_children()
-	scorelines.pop_front() # ven gre title
 	
 	# če je linij premalo, dodam nove
 	if scorelines.size() < Profiles.sweeper_level_tilemap_paths.size():

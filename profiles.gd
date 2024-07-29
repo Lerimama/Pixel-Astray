@@ -12,6 +12,11 @@ var default_player_stats: Dictionary = {
 	"cells_traveled" : 0,
 }
 
+var default_highscore_line: Dictionary = { # slovar, ki se uporabi, če še ni nobenega v filetu
+	"00": {"10 Characters": 0},
+}
+var default_highscore_line_name: String = "10Characters"
+
 var default_game_settings: Dictionary = {
 	# player
 	"player_start_life": 3, # 1 lajf skrije ikone v hudu, on hit jemlje energijo ne lajfa
@@ -64,92 +69,97 @@ enum Games {
 	SHOWCASE,
 	}
 	
-	
 enum HighscoreTypes {
-	NO_HS, 
-	HS_POINTS, 
-	HS_COLORS, 
-	HS_TIME_LOW, 
-	HS_TIME_HIGH
+	NONE, 
+	POINTS, 
+	TIME, 
 	}
-
 	
 var game_data_classic: Dictionary = { 
-	"game": Games.CLASSIC,
-	"highscore_type": HighscoreTypes.HS_POINTS,
+	"game": Games.CLASSIC, # key igre je key lootlocker tabele
+	"highscore_type": HighscoreTypes.POINTS,
 	"game_name": "Classic",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_classic_xl.tscn",
+	"global_leaderboard_key": "PAclassic", # poenoteno z lootlocker tabelo
+	# pre-game instructons
 	"description": "Team up for a cleaning frenzy!",
 	"Prop": "Clear all stray pixels\nto reclaim your\none-and-only status.",
 	"Prop2": "Give it your best shot\nto beat the current\nrecord score!",
 }
 var game_data_cleaner_xs: Dictionary = { 
-	"game": Games.CLEANER_XS,
-	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"game": Games.CLEANER_XS, # key igre je key lootlocker tabele
+	"highscore_type": HighscoreTypes.TIME,
 	"game_name": "Cleaner XS",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_xs.tscn",
+	"global_leaderboard_key": "PAclassic",
+	# pre-game instructons
 	"description" : "Clear the colors before time slips away!",
 	"Prop" : "You have %s minute\nbefore your screen becomes\npermanently saturated." % str(2), # CON ročno povezano z game time
 	"Prop2" : "Be quick and efficient\nto beat the current\nrecord time!",
 	# 2min / 32 straysov
 }
 var game_data_cleaner_s: Dictionary = { 
-	"game": Games.CLEANER_S,
-	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"game": Games.CLEANER_S, # key igre je key lootlocker tabele
+	"highscore_type": HighscoreTypes.TIME,
 	"game_name": "Cleaner S",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_s.tscn",
+	# pre-game instructons
 	"description" : "Clear the colors before time slips away!",
 	"Prop" : "You have %s minute\nbefore your screen becomes\npermanently saturated." % str(3), # CON ročno povezano z game time
 	"Prop2" : "Be quick and efficient\nto beat the current\nrecord time!",
 	# 5min / 50 straysov
 }
 var game_data_cleaner_m: Dictionary = { 
-	"game": Games.CLEANER_M,
-	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"game": Games.CLEANER_M, # key igre je key lootlocker tabele
+	"highscore_type": HighscoreTypes.TIME,
 	"game_name": "Cleaner M",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_m.tscn",
+	# pre-game instructons
 	"description" : "Clear the colors before time slips away!",
 	"Prop" : "You have %s minutes\nbefore your screen becomes\npermanently saturated." % str(7), # CON ročno povezano z game time
 	"Prop2" : "Be quick and efficient\nto beat the current\nrecord time!",
 	# 7min / 100 straysov
 }
 var game_data_cleaner_l: Dictionary = {
-	"game": Games.CLEANER_L,
-	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"game": Games.CLEANER_L, # key igre je key lootlocker tabele
+	"highscore_type": HighscoreTypes.TIME,
 	"game_name": "Cleaner L",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_l.tscn",
+	# pre-game instructons
 	"description" : "Race the clock and clean up the color explosion!",
 	"Prop" : "You have %s minutes\nbefore your screen becomes\npermanently saturated." % str(10), # CON ročno povezano z game time
 	"Prop2" : "Be quick and efficient\nto beat the current\nrecord time!",
 	# 10min / 200 straysov
 }
 var game_data_cleaner_xl: Dictionary = {
-	"game": Games.CLEANER_XL,
-	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"game": Games.CLEANER_XL, # key igre je key lootlocker tabele
+	"highscore_type": HighscoreTypes.TIME,
 	"game_name": "Cleaner XL",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_xl.tscn",
+	# pre-game instructons
 	"description" : "Clean up this colored mess before the clock runs out!",
 	"Prop" : "You have %s minutes\nbefore your screen becomes\npermanently saturated." % str(15), # CON ročno povezano z game time
 	"Prop2" : "Be quick and efficient\nto beat the current\nrecord time!",
 	# 15min / 300 straysov
 }
 var game_data_chaser: Dictionary = { 
-	"game": Games.CHASER,
-	"highscore_type": HighscoreTypes.HS_POINTS,
+	"game": Games.CHASER, # key igre je key lootlocker tabele
+	"highscore_type": HighscoreTypes.POINTS,
 	"game_name": "Chaser",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser.tscn",
+	# pre-game instructons
 	"description" : "Keep the colors in check as they keep popping in!",
 	"Prop": "Difficulty level will increase\nwhen your spectrum\nindicator gets filled.",
 	"Prop2" : "Give it your best shot\nto beat the current\nrecord score!",
 	# štart
-	"level": 1,
+	"level": 1, # debug ... če je noter na začetku, potem ga upošteva v HS name
 	"level_goal_count": 10, # # CON level_goal_mode ... ročno povezano s številom spawnanih na tilemapu
 	"level_goal_count_grow": 3,
 	# "create_strays_count": 0, # določi tilemap
@@ -162,17 +172,18 @@ var game_data_chaser: Dictionary = {
 	"spawn_white_stray_part_grow": 0, # omejena na 2. level na set_new_level
 }
 var game_data_defender: Dictionary = { 
-	"game": Games.DEFENDER,
-	"highscore_type": HighscoreTypes.HS_POINTS,
+	"game": Games.DEFENDER, # key igre je key lootlocker tabele
+	"highscore_type": HighscoreTypes.POINTS,
 	"game_name": "Defender",
 	"game_scene_path": "res://game/game_defender.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_defender.tscn",
+	# pre-game instructons
 	"description" : "Defend your screen against invading colors!",
 	"Prop" : "Player is always\nfull of energy,\nbut has no skills.",
 	"Prop2": "Difficulty level will\nincrease when your\nspectrum indicator\ngets filled.",
 	"Prop3" : "Give it your\nbest shot to\nbeat the current\nrecord score!",
 	# štart
-	"level": 1,
+	"level": 1, # debug ... če je noter na začetku, potem ga upošteva v HS name
 	"level_goal_count": 10, # CON kolikor jih spawnanih v prvi rundi
 	"line_step_pause_time": 1.5, # ne sme bit manjša od stray step hitrosti (0.2), je clampana ob apliciranju
 	"spawn_round_range": [1, 1], # random spawn count, največ 120 - 8
@@ -184,22 +195,24 @@ var game_data_defender: Dictionary = {
 	"line_steps_per_spawn_round_factor": 3, # na koliko stepov se spawna nova runda
 }
 var game_data_the_duel: Dictionary = {
-	"game": Games.THE_DUEL,
-	"highscore_type": HighscoreTypes.NO_HS,
+	"game": Games.THE_DUEL, # key igre je key lootlocker tabele
+	"highscore_type": HighscoreTypes.NONE,
 	"game_name": "The Duel",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_duel_s.tscn",
+	# pre-game instructons
 	"description" : "Only the best cleaner will shine in this epic battle!",
 	"Prop": "Player with better\nfinal score will be named\nthe Ultimate cleaning champ!",
 	"Prop2": "Hit the opposing player\nto take his life and\nhalf of his points.",
 }
 var game_data_sweeper: Dictionary = {
-	"game": Games.SWEEPER,
-	"highscore_type": HighscoreTypes.HS_TIME_LOW,
+	"game": Games.SWEEPER, # key igre je key lootlocker tabele
+	"highscore_type": HighscoreTypes.TIME,
 	"game_name": "Sweeper",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
 	"description" : "Handle the colors to sweep the entire screen\nwith one spectacular cascading move!",
+	# pre-game instructons
 	"Prop": "To REBURST, press\nin the next target's\ndirection upon hitting\na stray pixel.",
 	"Prop2": "You have\nonly a couple of\nseconds to keep\nyour momentum.",
 	"Prop3": "Initial burst can\ncollect all stacked\ncolors. Reburst always\ncollects only one.",
@@ -225,7 +238,7 @@ var sweeper_level_tilemap_paths: Array = [ # zaporedje je ključno za level name
 	]
 var game_data_showcase: Dictionary = {
 	"game": Games.SHOWCASE,
-	"highscore_type": HighscoreTypes.NO_HS,
+	"highscore_type": HighscoreTypes.NONE,
 	"game_name": "Showcase",
 	#	"game_scene_path": "res://showcase/game_showcase.tscn",
 	#	"tilemap_path": "res://showcase/tilemap/tilemap_showcase_title.tscn",
@@ -253,7 +266,13 @@ var camera_shake_on: bool = true
 var tutorial_music_track_index: int = 1
 var tutorial_mode: bool = false
 var html5_mode: bool = false # skrije ExitGameBtn v home, GO in pavzi
-	
+
+# lootlocker
+var lootlocker_game_key: String = "dev_5a1cab01df0641c0a5f76450761ce292"
+var lootlocker_game_version: String = "0.92"
+var lootlocker_development_mode: bool = true
+var global_highscores_count: int = 99 # če bi blo več, ne paše na %02d 	
+var local_highscores_count: int = 10 # če bi blo več, ne paše na %02d 	
 	
 func _ready() -> void:
 	

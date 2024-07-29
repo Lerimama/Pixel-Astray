@@ -28,7 +28,7 @@ func get_instructions_content(current_highscore: int = 0, current_highscore_owne
 	description.text = current_game_data["description"]
 	
 	# highscore
-	if current_game_data["highscore_type"] == Profiles.HighscoreTypes.NO_HS:# or current_highscore == 0:
+	if current_game_data["highscore_type"] == Profiles.HighscoreTypes.NONE:# or current_highscore == 0:
 		record_label_holder.hide()
 	else:	
 		record_label_holder.show()
@@ -38,7 +38,7 @@ func get_instructions_content(current_highscore: int = 0, current_highscore_owne
 			record_owner.text = "No record yet ..."
 			record_label.hide()
 		# time
-		elif current_game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_HIGH or current_game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW:
+		elif current_game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
 			var clock_record: String = Global.get_clock_time(current_highscore)
 			record_label.text = clock_record
 			record_owner.text = "by " + str(current_highscore_owner)

@@ -104,7 +104,7 @@ func _ready() -> void:
 	else:
 		level_label.hide()
 	
-	if not current_gamed_hs_type == Profiles.HighscoreTypes.NO_HS:
+	if not current_gamed_hs_type == Profiles.HighscoreTypes.NONE:
 		set_current_highscore()
 	
 	if Global.game_manager.game_settings["show_game_instructions"]:
@@ -175,7 +175,7 @@ func set_hud(): # kliče main na game-in
 		p2_energy_counter.visible = false	
 	
 	# glede na to kaj šteje ...
-	if current_gamed_hs_type == Profiles.HighscoreTypes.NO_HS:
+	if current_gamed_hs_type == Profiles.HighscoreTypes.NONE:
 		highscore_label.visible = false
 	else:
 		highscore_label.visible = true
@@ -199,9 +199,9 @@ func set_current_highscore():
 	current_highscore_clock = Global.get_clock_time(current_highscore)
 	current_highscore_owner = current_highscore_line[1]
 	
-	if current_gamed_hs_type == Profiles.HighscoreTypes.HS_TIME_HIGH or Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW:
+	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
 		highscore_label.text = "HS " + current_highscore_clock
-	elif current_gamed_hs_type == Profiles.HighscoreTypes.HS_POINTS:
+	elif current_gamed_hs_type == Profiles.HighscoreTypes.POINTS:
 		highscore_label.text = "HS " + str(current_highscore)
 
 
@@ -348,23 +348,23 @@ func popups_out(): # kliče GM na gameover
 func _check_for_highscore(player_stats: Dictionary):
 	
 	match current_gamed_hs_type:
-		Profiles.HighscoreTypes.HS_POINTS:
+		Profiles.HighscoreTypes.POINTS:
 			if player_stats["player_points"] > current_highscore:
 				highscore_label.text = "New HS " + str(player_stats["player_points"])
 				highscore_label.modulate = Global.color_green
 			else:				
 				highscore_label.text = "HS " + str(current_highscore)
 				highscore_label.modulate = Global.color_hud_text
-		Profiles.HighscoreTypes.HS_TIME_LOW: # logika je tu malo drugačna kot pri drugih dveh
+		Profiles.HighscoreTypes.TIME: # logika je tu malo drugačna kot pri drugih dveh
 			highscore_label.text = "HS " + current_highscore_clock
 			highscore_label.modulate = Global.color_hud_text
-		Profiles.HighscoreTypes.HS_TIME_HIGH:
-			if game_timer.absolute_game_time > current_highscore:
-				highscore_label.text = "HS " +  str(game_timer.absolute_game_time) + "s"
-				highscore_label.modulate = Global.color_green
-			else:				
-				highscore_label.text = "HS " +  str(current_highscore) + "s"
-				highscore_label.modulate = Global.color_hud_text
+#		Profiles.HighscoreTypes.HS_TIME_HIGH:
+#			if game_timer.absolute_game_time > current_highscore:
+#				highscore_label.text = "HS " +  str(game_timer.absolute_game_time) + "s"
+#				highscore_label.modulate = Global.color_green
+#			else:				
+#				highscore_label.text = "HS " +  str(current_highscore) + "s"
+#				highscore_label.modulate = Global.color_hud_text
 
 
 func _on_stat_changed(stat_owner: Node, player_stats: Dictionary):
@@ -393,7 +393,7 @@ func _on_stat_changed(stat_owner: Node, player_stats: Dictionary):
 	player_life.text = "LIFE: %d" % player_stats["player_life"]
 	player_energy.text = "E: %d" % player_stats["player_energy"]
 
-	if not Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NO_HS:
+	if not Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NONE:
 		_check_for_highscore(player_stats)
 	
 

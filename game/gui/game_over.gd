@@ -89,7 +89,7 @@ func open_gameover(gameover_reason: int):
 		set_duel_gameover_title()
 	else:
 		get_current_score()
-		if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_TIME_LOW: # kadar se meri čas, obstaja cilj, da rankiraš
+		if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME: # kadar se meri čas, obstaja cilj, da rankiraš
 			if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
 				if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 					Global.data_manager.write_solved_status_to_file(Global.game_manager.game_data) # uganka je bila rešena
@@ -216,7 +216,7 @@ func show_gameover_title():
 	get_tree().set_pause(true) # setano čez celotno GO proceduro
 	
 	# summary or menu
-	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NO_HS:
+	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NONE:
 		show_menu()
 	else:
 		# če je ranking odprem name_input, če ne skirjem GO title
@@ -243,7 +243,7 @@ func set_game_summary():
 	else: 
 		selected_content = $GameSummary/Content
 		highscore_table = $GameSummary/Content/Hs/HighscoreTable
-		highscore_table.load_highscore_table(Global.game_manager.game_data, current_player_ranking)	
+		highscore_table.load_highscore_table(Global.game_manager.game_data, current_player_ranking, Profiles.local_highscores_count)	
 	
 	var summary_title: Label = selected_content.get_node("Title")
 	
@@ -257,7 +257,6 @@ func set_game_summary():
 	var stat_pixels_traveled: Label = selected_content.get_node("Data/DataContainer/CellsTraveled")
 	var stat_bursts_count: Label = selected_content.get_node("Data/DataContainer/BurstCount")
 	var stat_skills_used: Label = selected_content.get_node("Data/DataContainer/SkillsUsed")
-	
 		
 	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 		summary_title.text = "Sweeper %02d Summary" % Global.game_manager.game_data["level"]
@@ -296,16 +295,17 @@ func set_game_summary():
 				record_owner.text = "seconds to slow"
 		else:	
 			record_title.text = "Best Sweeper %02d time:" % Global.game_manager.game_data["level"]
-			# če rekorda še ni zapišem "still no records"
-			#			highscore_table.get_node("ScoreLine/Score").text
 			var current_record: float = Global.hud.current_highscore
+			var current_highscore_owner: String = Global.hud.current_highscore_owner
 			if current_record == 0:
 				record_label.hide()
-				record_owner.text = highscore_table.get_node("ScoreLine/Owner").text
+				record_owner.text = current_highscore_owner
 			else:
 				var record_time: float = Global.get_seconds_and_hunds(Global.hud.game_timer.absolute_game_time)
 				record_label.text = str(record_time)
-				record_owner.text = "s by %s" % highscore_table.get_node("ScoreLine/Owner").text
+				record_owner.text = "s by %s" % current_highscore_owner
+			# če rekorda še ni zapišem "still no records"
+				
 		# select level btns
 		select_level_btns_holder.select_level_btns_holder_parent = self	
 		select_level_btns_holder.spawn_level_btns()
@@ -358,9 +358,7 @@ func show_game_summary():
 
 	yield(get_tree().create_timer(2.5), "timeout") 
 	# OPT drugje
-	var current_game_data_global = Global.game_manager.game_data.duplicate()
-	current_game_data_global["level"] = "Global"	
-	highscore_table.load_local_to_global_ranks(Global.game_manager.game_data, current_game_data_global)
+	highscore_table.load_local_to_global_ranks(Global.game_manager.game_data)
 		
 
 func show_menu():
@@ -393,10 +391,8 @@ func show_menu():
 func get_current_score():
 	
 	# ranking preverim že tukaj, da lahko obarvam title
-	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_POINTS:
+	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.POINTS:
 		p1_current_score = p1_final_stats["player_points"]
-	elif Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.HS_COLORS:
-		p1_current_score = p1_final_stats["colors_collected"]
 	else: # time low and high
 		p1_current_score = Global.hud.game_timer.absolute_game_time
 	
