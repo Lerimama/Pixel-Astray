@@ -46,7 +46,7 @@ onready var StrayPixel: PackedScene = preload("res://game/pixel/stray.tscn")
 onready var PlayerPixel: PackedScene = preload("res://game/pixel/player.tscn")
 onready var respawn_timer: Timer = $"../RespawnTimer"
 
-# debug
+# bugfixing
 var FreePositionIndicator: PackedScene = preload("res://game/pixel/free_position_indicator.tscn")		
 var free_position_indicators: Array
 
@@ -210,7 +210,7 @@ func start_game():
 		
 	game_on = true
 	
-	printt("on start",free_floor_positions.size())
+	#	printt("on start",free_floor_positions.size())
 	
 
 func game_over(gameover_reason: int):
@@ -619,7 +619,7 @@ func remove_from_free_floor_positions(position_to_remove: Vector2):
 	if free_floor_positions.has(position_to_remove_on_grid):
 		free_floor_positions.erase(position_to_remove_on_grid)
 	
-	 # debug ... izbrišem indikator na poziciji, če je freepos prižgan
+	 # bugfixing ... izbrišem indikator na poziciji, če je freepos prižgan
 	if Global.node_creation_parent.get_node("FreePositions").visible:
 		for indicator in free_position_indicators:
 			if indicator.rect_position == position_to_remove_on_grid:
@@ -634,8 +634,8 @@ func add_to_free_floor_positions(position_to_add: Vector2):
 	# dodam med free, če je pozicija med original tlemi in, še ni dodana med free
 	if Global.current_tilemap.all_floor_tiles_global_positions.has(position_to_add_on_grid) and not free_floor_positions.has(position_to_add_on_grid):
 		free_floor_positions.append(position_to_add_on_grid)
-		 # debug ... dodam indikator na poziciji, če je freepos prižgan
-		if Global.node_creation_parent.get_node("FreePositions").visible: # debug	
+		 # bugfixing ... dodam indikator na poziciji, če je freepos prižgan
+		if Global.node_creation_parent.get_node("FreePositions").visible: # bugfixing	
 			spawn_free_position_indicator(position_to_add_on_grid)
 
 
@@ -701,7 +701,7 @@ func _change_strays_in_game_count(strays_count_change: int):
 	
 	strays_in_game_count += strays_count_change # strays_count_change je lahko - ali +
 	strays_in_game_count = clamp(0, strays_in_game_count, strays_in_game_count)
-	# printt("_change_strays_in_game_count", strays_in_game_count)
+	#	printt("_change_strays_in_game_count", strays_in_game_count)
 	
 	# skupno število spucanih (za hud)
 	if strays_count_change < 0:

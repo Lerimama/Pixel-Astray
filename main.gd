@@ -8,17 +8,19 @@ onready var game_scene_path: String = Profiles.current_game_data["game_scene_pat
 
 
 func _input(event: InputEvent) -> void:
-
-	#	if Input.is_action_pressed("reset"):
-	#		hard_reset()
 	
-	pass
+	if Input.is_action_just_pressed("r"):
+		var all_nodes = Global.get_all_nodes_in_node(self)
+		for node in all_nodes:
+			if node.name[0] == "_" and node.name[1] == "_":
+				print(node.name)
+		
+		print("All nodes in MAIN scene",  all_nodes.size())
 	
 			
 func _ready() -> void:
 
 	Global.main_node = self
-#	LootLocker.authenticate_player()
 	
 #	home_in_intro()
 	home_in_no_intro()
@@ -34,7 +36,7 @@ func home_in_intro():
 	fade_in.tween_property(Global.current_scene, "modulate", Color.white, fade_time)
 
 	
-func home_in_no_intro(): # debug
+func home_in_no_intro(): # bugfixing
 	
 	get_tree().set_pause(false)
 	

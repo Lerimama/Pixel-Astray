@@ -37,19 +37,18 @@ func _unhandled_input(event: InputEvent) -> void:
 				$SelectLevel/BackBtn.grab_focus()
 				$SelectLevel.call_deferred("_on_BackBtn_pressed")
 	
-		
 			
 func _ready():
-
-	menu.hide()
 	
+	#visibility
+	menu.hide()
 	$Settings/EscHint.modulate.a = 0
 	$Highscores/EscHint.modulate.a = 0
 	$About/EscHint.modulate.a = 0
 	$SelectGame/EscHint.modulate.a = 0
 	$SelectLevel/EscHint.modulate.a = 0
 	
-	# menu btn group
+	# btn groups
 	$Menu/SelectGameBtn.add_to_group(Global.group_menu_confirm_btns)
 	$Menu/SettingsBtn.add_to_group(Global.group_menu_confirm_btns)
 	$Menu/HighscoresBtn.add_to_group(Global.group_menu_confirm_btns)
@@ -67,7 +66,7 @@ func open_with_intro(): # kliče main.gd -> home_in_intro()
 	intro.play_intro() # intro signal na koncu kliče menu_in()
 	
 	
-func open_without_intro(): # debug ... kliče main.gd -> home_in_no_intro()
+func open_without_intro(): # bugfixing ... kliče main.gd -> home_in_no_intro()
 	intro.finish_intro() # intro signal na koncu kliče menu_in()
 
 

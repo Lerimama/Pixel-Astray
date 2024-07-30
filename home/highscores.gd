@@ -22,7 +22,6 @@ onready var all_local_tables: Array = [
 	$ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerXL/CleanerXLTable,
 	$ScrollContainer/ScrollContent/UnbeatableHall/TabContainer/Defender/DefenderTable, 
 	$ScrollContainer/ScrollContent/UnbeatableHall/TabContainer/Eraser/EraserTable, 
-	$ScrollContainer/ScrollContent/SweeperHall/SweeperTable 
 	]
 onready var all_global_tables: Array = [
 	$ScrollContainer/ScrollContent/ClassicHall/ClassicTableGlobal, 
@@ -33,7 +32,6 @@ onready var all_global_tables: Array = [
 	$ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerXL/CleanerXLTableGlobal,
 	$ScrollContainer/ScrollContent/UnbeatableHall/TabContainer/Defender/DefenderTableGlobal, 
 	$ScrollContainer/ScrollContent/UnbeatableHall/TabContainer/Eraser/EraserTableGlobal, 
-	$ScrollContainer/ScrollContent/SweeperHall/SweeperTableGlobal
 	]
 onready var all_tables_game_data: Array = [
 	Profiles.game_data_classic,
@@ -44,7 +42,14 @@ onready var all_tables_game_data: Array = [
 	Profiles.game_data_cleaner_xl,
 	Profiles.game_data_chaser,
 	Profiles.game_data_defender,
-	Profiles.game_data_sweeper
+	]
+onready var all_sweeper_global_tables: Array = [
+	$ScrollContainer/ScrollContent/SweeperHall/SweeperTableGlobal,
+	$ScrollContainer/ScrollContent/SweeperHall/SweeperTableGlobal2
+	]
+onready var all_sweeper_local_tables: Array = [
+	$ScrollContainer/ScrollContent/SweeperHall/SweeperTable,
+	$ScrollContainer/ScrollContent/SweeperHall/SweeperTable2 
 	]
 
 # tabs
@@ -104,25 +109,33 @@ func _input(event):
 
 func _ready() -> void:
 	
-	var show_lines_count: int = 10
+	# btn groups
+	$BackBtn.add_to_group(Global.group_menu_cancel_btns)	
 	
-	# napolnem lokalne lestvice
+	print ("filam HS z diska")
+	# napolnem lestvice s podatki iz diska
 	for table in all_local_tables:
 		var table_index: int = all_local_tables.find(table)
 		var game_data_local: Dictionary = all_tables_game_data[table_index]
-		table.load_highscore_table(game_data_local, fake_player_ranking, show_lines_count)
+		table.load_highscore_table(game_data_local, fake_player_ranking, Profiles.local_highscores_count)
 		table.load_local_to_global_ranks(game_data_local)
-		
-	# napolnem globalne lestvice
 	for table in all_global_tables:
 		var table_index: int = all_global_tables.find(table)
-#		var game_data_local: Dictionary = all_tables_game_data[table_index]
-		var game_data_local: Dictionary = Profiles.game_data_classic.duplicate()
-		table.load_highscore_table(game_data_local, fake_player_ranking, Profiles.global_highscores_count, true) # debug, če je več kot je global rezultatov
+		var game_data_local: Dictionary = all_tables_game_data[table_index]
+		table.load_highscore_table(game_data_local, fake_player_ranking, Profiles.global_highscores_count, true)
+	# napolnem sweeper lestvice s podatki iz diska
+	for table in all_sweeper_local_tables:
+		var game_data_local: Dictionary = Profiles.game_data_sweeper
+		game_data_local["level"] = all_sweeper_local_tables.find(table) + 1
+		table.load_highscore_table(game_data_local, fake_player_ranking, Profiles.local_highscores_count)
+		table.load_local_to_global_ranks(game_data_local)
+	for table in all_sweeper_global_tables:
+		var game_data_local: Dictionary = Profiles.game_data_sweeper
+		game_data_local["level"] = all_sweeper_global_tables.find(table) + 1
+		table.load_highscore_table(game_data_local, fake_player_ranking, Profiles.global_highscores_count, true)
+	print ("nafilani HS z diska")
 	
-	# menu btn group
-	$BackBtn.add_to_group(Global.group_menu_cancel_btns)
-
+	# classic selected
 	selected_tab = classic_tab
 	selected_hall = classic_hall
 	highlight_hall_on_select()
@@ -159,10 +172,10 @@ func _process(delta: float) -> void:
 		highlight_hall_on_select()
 		
 			
-func focus_hall_content(selected_hall: Control):
+func focus_hall_content(content_to_focus: Control):
 	
 	# fokus na hall
-	match selected_hall:
+	match content_to_focus:
 		unbeatable_hall:
 			focused_hall_content = unbeatable_hall_content
 		cleaner_hall:
@@ -249,16 +262,36 @@ func fade_in_sweeper_table():
 # BUTTONS --------------------------------------------------------------------------------------------------------------
 
 
+
 func _on_UpdateScoresBtn_pressed() -> void:
 	
 	update_scores_btn.disabled = true
+	# updejtam globalne rezultate na vseh lestvicah
 	
-	LootLocker.update_lootlocker_leaderboard(Profiles.game_data_classic)
-	yield(ConnectCover, "connect_cover_closed")
-	
-	classic_table.load_local_to_global_ranks(Profiles.game_data_classic)
-	yield(get_tree().create_timer(1), "timeout")
-	classic_table_global.load_highscore_table(Profiles.game_data_classic, fake_player_ranking, Profiles.global_highscores_count, true)
+	print ("apdejt iger")
+	for table in all_global_tables:
+		var table_index: int = all_global_tables.find(table)
+		var game_data_local: Dictionary = all_tables_game_data[table_index]
+		LootLocker.update_lootlocker_leaderboard(game_data_local)
+		yield(ConnectCover, "connect_cover_closed")
+	for table in all_local_tables:
+		var table_index: int = all_local_tables.find(table)
+		var game_data_local: Dictionary = all_tables_game_data[table_index]
+		table.load_local_to_global_ranks(game_data_local)
+		table.load_highscore_table(game_data_local, fake_player_ranking, Profiles.local_highscores_count)
+	print ("še sweepr")
+	for table in all_sweeper_global_tables:
+		var game_data_local: Dictionary = Profiles.game_data_sweeper
+		game_data_local["level"] = all_sweeper_global_tables.find(table) + 1
+		LootLocker.update_lootlocker_leaderboard(game_data_local)
+		yield(ConnectCover, "connect_cover_closed")
+	for table in all_sweeper_local_tables:
+		var game_data_local: Dictionary = Profiles.game_data_sweeper
+		game_data_local["level"] = all_sweeper_local_tables.find(table) + 1
+		table.load_highscore_table(game_data_local, fake_player_ranking, Profiles.local_highscores_count)
+#		yield(get_tree().create_timer(0.1), "timeout") #_ temp
+		table.load_local_to_global_ranks(game_data_local)
+	print ("apdejtano")
 
 	
 func _on_ClassicTab_pressed() -> void:

@@ -168,7 +168,7 @@ func change_menu_music():
 			break
 	
 	# izberem naslednji komad
-	current_music_volume = -25 # debug
+	current_music_volume = -25
 	var new_track_index = current_track_index + 1
 	if new_track_index >= menu_music_tracks.size():
 		new_track_index = 0

@@ -124,7 +124,19 @@ func get_clock_time(time_to_split: float): # sekunde float
 	var time_on_clock: String = "%02d" % minutes + ":" + "%02d" % seconds + ":" + "%02d" % hundreds	
 	return time_on_clock
 	
+
+var all_nodes_of_nodes: Array = []
+func get_all_nodes_in_node(node_to_check: Node = get_tree().root):
 	
+	all_nodes_of_nodes.push_back(node_to_check)
+	
+	for node in node_to_check.get_children():
+		all_nodes_of_nodes = get_all_nodes_in_node(node)
+	
+	print("Nodes in node",  all_nodes_of_nodes.size())
+	return all_nodes_of_nodes		
+		
+			
 # SCENE MANAGER (prehajanje med igro in menijem) --------------------------------------------------------------
 
 
@@ -293,7 +305,7 @@ func _add_folder_contents(dir: Directory, files: Array, folders: Array, files_on
 	
 		# folder
 		if dir.current_is_dir() and not files_only:
-			# print("Found directory: %s" % path)
+			#			print("Found directory: %s" % path)
 			var subDir = Directory.new()
 			subDir.open(path)
 			subDir.list_dir_begin(true, false)
@@ -303,12 +315,12 @@ func _add_folder_contents(dir: Directory, files: Array, folders: Array, files_on
 			
 		# filet
 		else:
-			# print("Found file: %s" % path)
+			#			print("Found file: %s" % path)
 			files.append(path)
 			file_name = dir.get_next()
 			
-#	if files_only: # v tem primeru se mi doda en prazen element, pa ga vržem ven
-#		files.pop_back()	
+		#	if files_only: # v tem primeru se mi doda en prazen element, pa ga vržem ven
+		#		files.pop_back()	
 	
 	dir.list_dir_end()
 
@@ -405,14 +417,14 @@ func _on_control_focused(control: Control):
 
 # on defocus - barvanje settings gumbi
 func _on_control_unfocused(control: Control):
-	# printt("Control unfocused", control)
+	#	printt("Control unfocused", control)
 
 	if control is CheckButton or control is HSlider or control.name == "RandomizeBtn" or control.name == "ResetBtn":
 		control.modulate = color_gui_gray # Color.white
 
 
 func focus_without_sfx(control_to_focus: Control):
-	# printt("No sfx focus", control_to_focus, allow_focus_sfx)
+	#	printt("No sfx focus", control_to_focus, allow_focus_sfx)
 
 	# reseta na fokus
 	allow_focus_sfx = false

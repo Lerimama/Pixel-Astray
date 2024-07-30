@@ -91,8 +91,6 @@ func open_gameover(gameover_reason: int):
 		get_current_score()
 		if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME: # kadar se meri čas, obstaja cilj, da rankiraš
 			if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
-				if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-					Global.data_manager.write_solved_status_to_file(Global.game_manager.game_data) # uganka je bila rešena
 				current_player_ranking = Global.data_manager.check_player_ranking(p1_current_score, Global.game_manager.game_data)
 		else:
 			current_player_ranking = Global.data_manager.check_player_ranking(p1_current_score, Global.game_manager.game_data) 
@@ -239,7 +237,10 @@ func set_game_summary():
 	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 		selected_content = $GameSummary/ContentSweeper
 		highscore_table = $GameSummary/ContentSweeper/Hs/HighscoreTableDummy # je ne pokažem, rabim samo za podatke
-		highscore_table.load_highscore_table(Global.game_manager.game_data, current_player_ranking, 1)
+#		highscore_table.load_highscore_table(Global.game_manager.game_data, current_player_ranking, 1)
+#		highscore_table.load_highscore_table(Global.game_manager.game_data, current_player_ranking, Profiles.sweeper_level_tilemap_paths.size())
+		highscore_table.load_highscore_table(Global.game_manager.game_data, current_player_ranking, Profiles.local_highscores_count)
+		
 	else: 
 		selected_content = $GameSummary/Content
 		highscore_table = $GameSummary/Content/Hs/HighscoreTable
@@ -293,7 +294,7 @@ func set_game_summary():
 				var missed_record_time: float = Global.get_seconds_and_hunds(time_difference)
 				record_label.text = str(missed_record_time)
 				record_owner.text = "seconds to slow"
-		else:	
+		else:		
 			record_title.text = "Best Sweeper %02d time:" % Global.game_manager.game_data["level"]
 			var current_record: float = Global.hud.current_highscore
 			var current_highscore_owner: String = Global.hud.current_highscore_owner
@@ -357,8 +358,8 @@ func show_game_summary():
 	summary_fade_in.parallel().tween_callback(self, "show_menu")
 
 	yield(get_tree().create_timer(2.5), "timeout") 
-	# OPT drugje
-	highscore_table.load_local_to_global_ranks(Global.game_manager.game_data)
+	
+	highscore_table.load_local_to_global_ranks(Global.game_manager.game_data) # OPT drugje
 		
 
 func show_menu():
@@ -467,7 +468,6 @@ func confirm_name_input():
 	# pogrebam string in zapišem ime v končno statistiko igralca
 	p1_final_stats["player_name"] = input_string
 	Global.data_manager.save_player_score(p1_current_score, Global.game_manager.game_data) 
-	
 	# skrijem samo input (GO title se skrije s popupom)
 	var input_fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	input_fade_out.tween_property(name_input_popup, "modulate:a", 0, 0.5)
@@ -475,7 +475,7 @@ func confirm_name_input():
 	yield(input_fade_out, "finished")
 	
 	# publish
-	publish_popup.open_popup()
+	publish_popup.open_popup(Global.game_manager.game_data)
 	yield(publish_popup, "score_published")
 	publish_popup.close_popup()
 	

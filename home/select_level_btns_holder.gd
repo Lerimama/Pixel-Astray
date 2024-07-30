@@ -46,7 +46,21 @@ func set_level_btns():
 	color_level_btns()
 	
 	# poimenujem gumbe in obarvam solved 
-	var solved_levels: Array = Global.data_manager.read_solved_status_from_file(Profiles.game_data_sweeper)
+	var solved_levels: Array
+	
+	# preverim, če je v filetu prvi skor > 0 # debug solved btn soff
+#	for count in Profiles.sweeper_level_tilemap_paths.size(): 
+#		var sweeper_game_data: Dictionary = Profiles.game_data_sweeper.duplicate()
+#		sweeper_game_data["level"] = count + 1
+#		var level_highscores: Dictionary = Global.data_manager.read_highscores_from_file(sweeper_game_data)
+#		# pridobim skor linijie
+#		var scoreline_player_name_as_key: String = level_highscores["01"].keys()[0]
+#		var scoreline_score: float = level_highscores["01"][scoreline_player_name_as_key]
+#		if scoreline_score > 0:
+#			printt("score", scoreline_player_name_as_key, scoreline_score)
+#			solved_levels.append(count)
+
+
 	solved_level_btns = []
 	
 	for btn in all_level_btns:

@@ -2549,7 +2549,7 @@ mouse_default_cursor_shape = 2
 toggle_mode = true
 text = "UPDATE GLOBAL SCORES"
 
-[node name="_10Table" type="VBoxContainer" parent="Highscores"]
+[node name="__10Table" type="VBoxContainer" parent="Highscores"]
 visible = false
 modulate = Color( 1, 1, 1, 0.631373 )
 anchor_right = 1.0
@@ -2564,7 +2564,7 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Title" type="Label" parent="Highscores/_10Table"]
+[node name="Title" type="Label" parent="Highscores/__10Table"]
 margin_right = 248.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 28, 26 )
@@ -2573,7 +2573,7 @@ size_flags_vertical = 0
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 text = "%Best gamers"
 
-[node name="Background2" type="ColorRect" parent="Highscores/_10Table/Title"]
+[node name="Background2" type="ColorRect" parent="Highscores/__10Table/Title"]
 visible = false
 show_behind_parent = true
 anchor_right = 1.0
@@ -2584,7 +2584,7 @@ margin_right = 32.0
 margin_bottom = 170.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="ScoreLine" type="HBoxContainer" parent="Highscores/_10Table"]
+[node name="ScoreLine" type="HBoxContainer" parent="Highscores/__10Table"]
 margin_top = 34.0
 margin_right = 248.0
 margin_bottom = 52.0
@@ -2592,14 +2592,14 @@ rect_min_size = Vector2( 72, 0 )
 size_flags_horizontal = 3
 custom_constants/separation = 8
 
-[node name="Rank" type="Label" parent="Highscores/_10Table/ScoreLine"]
+[node name="Rank" type="Label" parent="Highscores/__10Table/ScoreLine"]
 margin_right = 24.0
 margin_bottom = 18.0
 rect_min_size = Vector2( 24, 0 )
 custom_fonts/font = ExtResource( 14 )
 text = "00."
 
-[node name="GlobalRank" type="Label" parent="Highscores/_10Table/ScoreLine"]
+[node name="GlobalRank" type="Label" parent="Highscores/__10Table/ScoreLine"]
 margin_left = 32.0
 margin_right = 64.0
 margin_bottom = 18.0
@@ -2607,7 +2607,7 @@ rect_min_size = Vector2( 32, 0 )
 custom_fonts/font = ExtResource( 14 )
 text = "000."
 
-[node name="Owner" type="Label" parent="Highscores/_10Table/ScoreLine"]
+[node name="Owner" type="Label" parent="Highscores/__10Table/ScoreLine"]
 margin_left = 72.0
 margin_right = 162.0
 margin_bottom = 18.0
@@ -2619,7 +2619,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/_10Table/ScoreLine"]
+[node name="Score" type="Label" parent="Highscores/__10Table/ScoreLine"]
 margin_left = 170.0
 margin_right = 248.0
 margin_bottom = 18.0
@@ -2629,7 +2629,7 @@ custom_fonts/font = ExtResource( 14 )
 text = "100000000"
 align = 2
 
-[node name="NoScoreLine" type="Label" parent="Highscores/_10Table/ScoreLine"]
+[node name="NoScoreLine" type="Label" parent="Highscores/__10Table/ScoreLine"]
 visible = false
 margin_left = 256.0
 margin_right = 256.0
@@ -2638,14 +2638,14 @@ size_flags_horizontal = 11
 custom_fonts/font = ExtResource( 14 )
 align = 2
 
-[node name="NoScoreLine" type="HSeparator" parent="Highscores/_10Table/ScoreLine/NoScoreLine"]
+[node name="NoScoreLine" type="HSeparator" parent="Highscores/__10Table/ScoreLine/NoScoreLine"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -4.0
 custom_styles/separator = ExtResource( 20 )
 
-[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/_10Table"]
+[node name="ScoreLine2" type="HBoxContainer" parent="Highscores/__10Table"]
 margin_top = 60.0
 margin_right = 248.0
 margin_bottom = 78.0
@@ -2653,14 +2653,14 @@ rect_min_size = Vector2( 72, 0 )
 size_flags_horizontal = 3
 custom_constants/separation = 8
 
-[node name="Rank" type="Label" parent="Highscores/_10Table/ScoreLine2"]
+[node name="Rank" type="Label" parent="Highscores/__10Table/ScoreLine2"]
 margin_right = 24.0
 margin_bottom = 18.0
 rect_min_size = Vector2( 24, 0 )
 custom_fonts/font = ExtResource( 14 )
 text = "00."
 
-[node name="GlobalRank" type="Label" parent="Highscores/_10Table/ScoreLine2"]
+[node name="GlobalRank" type="Label" parent="Highscores/__10Table/ScoreLine2"]
 margin_left = 32.0
 margin_right = 64.0
 margin_bottom = 18.0
@@ -2668,7 +2668,7 @@ rect_min_size = Vector2( 32, 0 )
 custom_fonts/font = ExtResource( 14 )
 text = "000."
 
-[node name="Owner" type="Label" parent="Highscores/_10Table/ScoreLine2"]
+[node name="Owner" type="Label" parent="Highscores/__10Table/ScoreLine2"]
 margin_left = 72.0
 margin_right = 162.0
 margin_bottom = 18.0
@@ -2680,7 +2680,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/_10Table/ScoreLine2"]
+[node name="Score" type="Label" parent="Highscores/__10Table/ScoreLine2"]
 margin_left = 170.0
 margin_right = 248.0
 margin_bottom = 18.0
@@ -2690,7 +2690,7 @@ custom_fonts/font = ExtResource( 14 )
 text = "100000000"
 align = 2
 
-[node name="NoScoreLine" type="Label" parent="Highscores/_10Table/ScoreLine2"]
+[node name="NoScoreLine" type="Label" parent="Highscores/__10Table/ScoreLine2"]
 visible = false
 margin_left = 256.0
 margin_right = 256.0
@@ -2699,14 +2699,14 @@ size_flags_horizontal = 11
 custom_fonts/font = ExtResource( 14 )
 align = 2
 
-[node name="NoScoreLine" type="HSeparator" parent="Highscores/_10Table/ScoreLine2/NoScoreLine"]
+[node name="NoScoreLine" type="HSeparator" parent="Highscores/__10Table/ScoreLine2/NoScoreLine"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -4.0
 custom_styles/separator = ExtResource( 20 )
 
-[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/_10Table"]
+[node name="ScoreLine3" type="HBoxContainer" parent="Highscores/__10Table"]
 margin_top = 86.0
 margin_right = 248.0
 margin_bottom = 104.0
@@ -2714,14 +2714,14 @@ rect_min_size = Vector2( 72, 0 )
 size_flags_horizontal = 3
 custom_constants/separation = 8
 
-[node name="Rank" type="Label" parent="Highscores/_10Table/ScoreLine3"]
+[node name="Rank" type="Label" parent="Highscores/__10Table/ScoreLine3"]
 margin_right = 24.0
 margin_bottom = 18.0
 rect_min_size = Vector2( 24, 0 )
 custom_fonts/font = ExtResource( 14 )
 text = "00."
 
-[node name="GlobalRank" type="Label" parent="Highscores/_10Table/ScoreLine3"]
+[node name="GlobalRank" type="Label" parent="Highscores/__10Table/ScoreLine3"]
 margin_left = 32.0
 margin_right = 64.0
 margin_bottom = 18.0
@@ -2729,7 +2729,7 @@ rect_min_size = Vector2( 32, 0 )
 custom_fonts/font = ExtResource( 14 )
 text = "000."
 
-[node name="Owner" type="Label" parent="Highscores/_10Table/ScoreLine3"]
+[node name="Owner" type="Label" parent="Highscores/__10Table/ScoreLine3"]
 margin_left = 72.0
 margin_right = 162.0
 margin_bottom = 18.0
@@ -2741,7 +2741,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/_10Table/ScoreLine3"]
+[node name="Score" type="Label" parent="Highscores/__10Table/ScoreLine3"]
 margin_left = 170.0
 margin_right = 248.0
 margin_bottom = 18.0
@@ -2751,7 +2751,7 @@ custom_fonts/font = ExtResource( 14 )
 text = "100000000"
 align = 2
 
-[node name="NoScoreLine" type="Label" parent="Highscores/_10Table/ScoreLine3"]
+[node name="NoScoreLine" type="Label" parent="Highscores/__10Table/ScoreLine3"]
 visible = false
 margin_left = 256.0
 margin_right = 256.0
@@ -2760,14 +2760,14 @@ size_flags_horizontal = 11
 custom_fonts/font = ExtResource( 14 )
 align = 2
 
-[node name="NoScoreLine" type="HSeparator" parent="Highscores/_10Table/ScoreLine3/NoScoreLine"]
+[node name="NoScoreLine" type="HSeparator" parent="Highscores/__10Table/ScoreLine3/NoScoreLine"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -4.0
 custom_styles/separator = ExtResource( 20 )
 
-[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/_10Table"]
+[node name="ScoreLine4" type="HBoxContainer" parent="Highscores/__10Table"]
 margin_top = 112.0
 margin_right = 248.0
 margin_bottom = 130.0
@@ -2775,14 +2775,14 @@ rect_min_size = Vector2( 72, 0 )
 size_flags_horizontal = 3
 custom_constants/separation = 8
 
-[node name="Rank" type="Label" parent="Highscores/_10Table/ScoreLine4"]
+[node name="Rank" type="Label" parent="Highscores/__10Table/ScoreLine4"]
 margin_right = 24.0
 margin_bottom = 18.0
 rect_min_size = Vector2( 24, 0 )
 custom_fonts/font = ExtResource( 14 )
 text = "00."
 
-[node name="GlobalRank" type="Label" parent="Highscores/_10Table/ScoreLine4"]
+[node name="GlobalRank" type="Label" parent="Highscores/__10Table/ScoreLine4"]
 margin_left = 32.0
 margin_right = 64.0
 margin_bottom = 18.0
@@ -2790,7 +2790,7 @@ rect_min_size = Vector2( 32, 0 )
 custom_fonts/font = ExtResource( 14 )
 text = "000."
 
-[node name="Owner" type="Label" parent="Highscores/_10Table/ScoreLine4"]
+[node name="Owner" type="Label" parent="Highscores/__10Table/ScoreLine4"]
 margin_left = 72.0
 margin_right = 162.0
 margin_bottom = 18.0
@@ -2802,7 +2802,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/_10Table/ScoreLine4"]
+[node name="Score" type="Label" parent="Highscores/__10Table/ScoreLine4"]
 margin_left = 170.0
 margin_right = 248.0
 margin_bottom = 18.0
@@ -2812,7 +2812,7 @@ custom_fonts/font = ExtResource( 14 )
 text = "100000000"
 align = 2
 
-[node name="NoScoreLine" type="Label" parent="Highscores/_10Table/ScoreLine4"]
+[node name="NoScoreLine" type="Label" parent="Highscores/__10Table/ScoreLine4"]
 visible = false
 margin_left = 256.0
 margin_right = 256.0
@@ -2821,14 +2821,14 @@ size_flags_horizontal = 11
 custom_fonts/font = ExtResource( 14 )
 align = 2
 
-[node name="NoScoreLine" type="HSeparator" parent="Highscores/_10Table/ScoreLine4/NoScoreLine"]
+[node name="NoScoreLine" type="HSeparator" parent="Highscores/__10Table/ScoreLine4/NoScoreLine"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -4.0
 custom_styles/separator = ExtResource( 20 )
 
-[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/_10Table"]
+[node name="ScoreLine5" type="HBoxContainer" parent="Highscores/__10Table"]
 margin_top = 138.0
 margin_right = 248.0
 margin_bottom = 156.0
@@ -2836,14 +2836,14 @@ rect_min_size = Vector2( 72, 0 )
 size_flags_horizontal = 3
 custom_constants/separation = 8
 
-[node name="Rank" type="Label" parent="Highscores/_10Table/ScoreLine5"]
+[node name="Rank" type="Label" parent="Highscores/__10Table/ScoreLine5"]
 margin_right = 24.0
 margin_bottom = 18.0
 rect_min_size = Vector2( 24, 0 )
 custom_fonts/font = ExtResource( 14 )
 text = "00."
 
-[node name="GlobalRank" type="Label" parent="Highscores/_10Table/ScoreLine5"]
+[node name="GlobalRank" type="Label" parent="Highscores/__10Table/ScoreLine5"]
 margin_left = 32.0
 margin_right = 64.0
 margin_bottom = 18.0
@@ -2851,7 +2851,7 @@ rect_min_size = Vector2( 32, 0 )
 custom_fonts/font = ExtResource( 14 )
 text = "000."
 
-[node name="Owner" type="Label" parent="Highscores/_10Table/ScoreLine5"]
+[node name="Owner" type="Label" parent="Highscores/__10Table/ScoreLine5"]
 margin_left = 72.0
 margin_right = 162.0
 margin_bottom = 18.0
@@ -2863,7 +2863,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/_10Table/ScoreLine5"]
+[node name="Score" type="Label" parent="Highscores/__10Table/ScoreLine5"]
 margin_left = 170.0
 margin_right = 248.0
 margin_bottom = 18.0
@@ -2873,7 +2873,7 @@ custom_fonts/font = ExtResource( 14 )
 text = "100000000"
 align = 2
 
-[node name="NoScoreLine" type="Label" parent="Highscores/_10Table/ScoreLine5"]
+[node name="NoScoreLine" type="Label" parent="Highscores/__10Table/ScoreLine5"]
 visible = false
 margin_left = 256.0
 margin_right = 256.0
@@ -2882,14 +2882,14 @@ size_flags_horizontal = 11
 custom_fonts/font = ExtResource( 14 )
 align = 2
 
-[node name="NoScoreLine" type="HSeparator" parent="Highscores/_10Table/ScoreLine5/NoScoreLine"]
+[node name="NoScoreLine" type="HSeparator" parent="Highscores/__10Table/ScoreLine5/NoScoreLine"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -4.0
 custom_styles/separator = ExtResource( 20 )
 
-[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/_10Table"]
+[node name="ScoreLine6" type="HBoxContainer" parent="Highscores/__10Table"]
 margin_top = 164.0
 margin_right = 248.0
 margin_bottom = 182.0
@@ -2897,14 +2897,14 @@ rect_min_size = Vector2( 72, 0 )
 size_flags_horizontal = 3
 custom_constants/separation = 8
 
-[node name="Rank" type="Label" parent="Highscores/_10Table/ScoreLine6"]
+[node name="Rank" type="Label" parent="Highscores/__10Table/ScoreLine6"]
 margin_right = 24.0
 margin_bottom = 18.0
 rect_min_size = Vector2( 24, 0 )
 custom_fonts/font = ExtResource( 14 )
 text = "00."
 
-[node name="GlobalRank" type="Label" parent="Highscores/_10Table/ScoreLine6"]
+[node name="GlobalRank" type="Label" parent="Highscores/__10Table/ScoreLine6"]
 margin_left = 32.0
 margin_right = 64.0
 margin_bottom = 18.0
@@ -2912,7 +2912,7 @@ rect_min_size = Vector2( 32, 0 )
 custom_fonts/font = ExtResource( 14 )
 text = "000."
 
-[node name="Owner" type="Label" parent="Highscores/_10Table/ScoreLine6"]
+[node name="Owner" type="Label" parent="Highscores/__10Table/ScoreLine6"]
 margin_left = 72.0
 margin_right = 162.0
 margin_bottom = 18.0
@@ -2924,7 +2924,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/_10Table/ScoreLine6"]
+[node name="Score" type="Label" parent="Highscores/__10Table/ScoreLine6"]
 margin_left = 170.0
 margin_right = 248.0
 margin_bottom = 18.0
@@ -2934,7 +2934,7 @@ custom_fonts/font = ExtResource( 14 )
 text = "100000000"
 align = 2
 
-[node name="NoScoreLine" type="Label" parent="Highscores/_10Table/ScoreLine6"]
+[node name="NoScoreLine" type="Label" parent="Highscores/__10Table/ScoreLine6"]
 visible = false
 margin_left = 256.0
 margin_right = 256.0
@@ -2943,14 +2943,14 @@ size_flags_horizontal = 11
 custom_fonts/font = ExtResource( 14 )
 align = 2
 
-[node name="NoScoreLine" type="HSeparator" parent="Highscores/_10Table/ScoreLine6/NoScoreLine"]
+[node name="NoScoreLine" type="HSeparator" parent="Highscores/__10Table/ScoreLine6/NoScoreLine"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -4.0
 custom_styles/separator = ExtResource( 20 )
 
-[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/_10Table"]
+[node name="ScoreLine7" type="HBoxContainer" parent="Highscores/__10Table"]
 margin_top = 190.0
 margin_right = 248.0
 margin_bottom = 208.0
@@ -2958,14 +2958,14 @@ rect_min_size = Vector2( 72, 0 )
 size_flags_horizontal = 3
 custom_constants/separation = 8
 
-[node name="Rank" type="Label" parent="Highscores/_10Table/ScoreLine7"]
+[node name="Rank" type="Label" parent="Highscores/__10Table/ScoreLine7"]
 margin_right = 24.0
 margin_bottom = 18.0
 rect_min_size = Vector2( 24, 0 )
 custom_fonts/font = ExtResource( 14 )
 text = "00."
 
-[node name="GlobalRank" type="Label" parent="Highscores/_10Table/ScoreLine7"]
+[node name="GlobalRank" type="Label" parent="Highscores/__10Table/ScoreLine7"]
 margin_left = 32.0
 margin_right = 64.0
 margin_bottom = 18.0
@@ -2973,7 +2973,7 @@ rect_min_size = Vector2( 32, 0 )
 custom_fonts/font = ExtResource( 14 )
 text = "000."
 
-[node name="Owner" type="Label" parent="Highscores/_10Table/ScoreLine7"]
+[node name="Owner" type="Label" parent="Highscores/__10Table/ScoreLine7"]
 margin_left = 72.0
 margin_right = 162.0
 margin_bottom = 18.0
@@ -2985,7 +2985,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/_10Table/ScoreLine7"]
+[node name="Score" type="Label" parent="Highscores/__10Table/ScoreLine7"]
 margin_left = 170.0
 margin_right = 248.0
 margin_bottom = 18.0
@@ -2995,7 +2995,7 @@ custom_fonts/font = ExtResource( 14 )
 text = "100000000"
 align = 2
 
-[node name="NoScoreLine" type="Label" parent="Highscores/_10Table/ScoreLine7"]
+[node name="NoScoreLine" type="Label" parent="Highscores/__10Table/ScoreLine7"]
 visible = false
 margin_left = 256.0
 margin_right = 256.0
@@ -3004,14 +3004,14 @@ size_flags_horizontal = 11
 custom_fonts/font = ExtResource( 14 )
 align = 2
 
-[node name="NoScoreLine" type="HSeparator" parent="Highscores/_10Table/ScoreLine7/NoScoreLine"]
+[node name="NoScoreLine" type="HSeparator" parent="Highscores/__10Table/ScoreLine7/NoScoreLine"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -4.0
 custom_styles/separator = ExtResource( 20 )
 
-[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/_10Table"]
+[node name="ScoreLine8" type="HBoxContainer" parent="Highscores/__10Table"]
 margin_top = 216.0
 margin_right = 248.0
 margin_bottom = 234.0
@@ -3019,14 +3019,14 @@ rect_min_size = Vector2( 72, 0 )
 size_flags_horizontal = 3
 custom_constants/separation = 8
 
-[node name="Rank" type="Label" parent="Highscores/_10Table/ScoreLine8"]
+[node name="Rank" type="Label" parent="Highscores/__10Table/ScoreLine8"]
 margin_right = 24.0
 margin_bottom = 18.0
 rect_min_size = Vector2( 24, 0 )
 custom_fonts/font = ExtResource( 14 )
 text = "00."
 
-[node name="GlobalRank" type="Label" parent="Highscores/_10Table/ScoreLine8"]
+[node name="GlobalRank" type="Label" parent="Highscores/__10Table/ScoreLine8"]
 margin_left = 32.0
 margin_right = 64.0
 margin_bottom = 18.0
@@ -3034,7 +3034,7 @@ rect_min_size = Vector2( 32, 0 )
 custom_fonts/font = ExtResource( 14 )
 text = "000."
 
-[node name="Owner" type="Label" parent="Highscores/_10Table/ScoreLine8"]
+[node name="Owner" type="Label" parent="Highscores/__10Table/ScoreLine8"]
 margin_left = 72.0
 margin_right = 162.0
 margin_bottom = 18.0
@@ -3046,7 +3046,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/_10Table/ScoreLine8"]
+[node name="Score" type="Label" parent="Highscores/__10Table/ScoreLine8"]
 margin_left = 170.0
 margin_right = 248.0
 margin_bottom = 18.0
@@ -3056,7 +3056,7 @@ custom_fonts/font = ExtResource( 14 )
 text = "100000000"
 align = 2
 
-[node name="NoScoreLine" type="Label" parent="Highscores/_10Table/ScoreLine8"]
+[node name="NoScoreLine" type="Label" parent="Highscores/__10Table/ScoreLine8"]
 visible = false
 margin_left = 256.0
 margin_right = 256.0
@@ -3065,14 +3065,14 @@ size_flags_horizontal = 11
 custom_fonts/font = ExtResource( 14 )
 align = 2
 
-[node name="NoScoreLine" type="HSeparator" parent="Highscores/_10Table/ScoreLine8/NoScoreLine"]
+[node name="NoScoreLine" type="HSeparator" parent="Highscores/__10Table/ScoreLine8/NoScoreLine"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -4.0
 custom_styles/separator = ExtResource( 20 )
 
-[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/_10Table"]
+[node name="ScoreLine9" type="HBoxContainer" parent="Highscores/__10Table"]
 margin_top = 242.0
 margin_right = 248.0
 margin_bottom = 260.0
@@ -3080,14 +3080,14 @@ rect_min_size = Vector2( 72, 0 )
 size_flags_horizontal = 3
 custom_constants/separation = 8
 
-[node name="Rank" type="Label" parent="Highscores/_10Table/ScoreLine9"]
+[node name="Rank" type="Label" parent="Highscores/__10Table/ScoreLine9"]
 margin_right = 24.0
 margin_bottom = 18.0
 rect_min_size = Vector2( 24, 0 )
 custom_fonts/font = ExtResource( 14 )
 text = "00."
 
-[node name="GlobalRank" type="Label" parent="Highscores/_10Table/ScoreLine9"]
+[node name="GlobalRank" type="Label" parent="Highscores/__10Table/ScoreLine9"]
 margin_left = 32.0
 margin_right = 64.0
 margin_bottom = 18.0
@@ -3095,7 +3095,7 @@ rect_min_size = Vector2( 32, 0 )
 custom_fonts/font = ExtResource( 14 )
 text = "000."
 
-[node name="Owner" type="Label" parent="Highscores/_10Table/ScoreLine9"]
+[node name="Owner" type="Label" parent="Highscores/__10Table/ScoreLine9"]
 margin_left = 72.0
 margin_right = 162.0
 margin_bottom = 18.0
@@ -3107,7 +3107,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/_10Table/ScoreLine9"]
+[node name="Score" type="Label" parent="Highscores/__10Table/ScoreLine9"]
 margin_left = 170.0
 margin_right = 248.0
 margin_bottom = 18.0
@@ -3117,7 +3117,7 @@ custom_fonts/font = ExtResource( 14 )
 text = "100000000"
 align = 2
 
-[node name="NoScoreLine" type="Label" parent="Highscores/_10Table/ScoreLine9"]
+[node name="NoScoreLine" type="Label" parent="Highscores/__10Table/ScoreLine9"]
 visible = false
 margin_left = 256.0
 margin_right = 256.0
@@ -3126,14 +3126,14 @@ size_flags_horizontal = 11
 custom_fonts/font = ExtResource( 14 )
 align = 2
 
-[node name="NoScoreLine" type="HSeparator" parent="Highscores/_10Table/ScoreLine9/NoScoreLine"]
+[node name="NoScoreLine" type="HSeparator" parent="Highscores/__10Table/ScoreLine9/NoScoreLine"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -4.0
 custom_styles/separator = ExtResource( 20 )
 
-[node name="ScoreLine10" type="HBoxContainer" parent="Highscores/_10Table"]
+[node name="ScoreLine10" type="HBoxContainer" parent="Highscores/__10Table"]
 margin_top = 268.0
 margin_right = 248.0
 margin_bottom = 286.0
@@ -3141,14 +3141,14 @@ rect_min_size = Vector2( 72, 0 )
 size_flags_horizontal = 3
 custom_constants/separation = 8
 
-[node name="Rank" type="Label" parent="Highscores/_10Table/ScoreLine10"]
+[node name="Rank" type="Label" parent="Highscores/__10Table/ScoreLine10"]
 margin_right = 24.0
 margin_bottom = 18.0
 rect_min_size = Vector2( 24, 0 )
 custom_fonts/font = ExtResource( 14 )
 text = "00."
 
-[node name="GlobalRank" type="Label" parent="Highscores/_10Table/ScoreLine10"]
+[node name="GlobalRank" type="Label" parent="Highscores/__10Table/ScoreLine10"]
 margin_left = 32.0
 margin_right = 64.0
 margin_bottom = 18.0
@@ -3156,7 +3156,7 @@ rect_min_size = Vector2( 32, 0 )
 custom_fonts/font = ExtResource( 14 )
 text = "000."
 
-[node name="Owner" type="Label" parent="Highscores/_10Table/ScoreLine10"]
+[node name="Owner" type="Label" parent="Highscores/__10Table/ScoreLine10"]
 margin_left = 72.0
 margin_right = 162.0
 margin_bottom = 18.0
@@ -3168,7 +3168,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Score" type="Label" parent="Highscores/_10Table/ScoreLine10"]
+[node name="Score" type="Label" parent="Highscores/__10Table/ScoreLine10"]
 margin_left = 170.0
 margin_right = 248.0
 margin_bottom = 18.0
@@ -3178,7 +3178,7 @@ custom_fonts/font = ExtResource( 14 )
 text = "100000000"
 align = 2
 
-[node name="NoScoreLine" type="Label" parent="Highscores/_10Table/ScoreLine10"]
+[node name="NoScoreLine" type="Label" parent="Highscores/__10Table/ScoreLine10"]
 visible = false
 margin_left = 256.0
 margin_right = 256.0
@@ -3187,12 +3187,47 @@ size_flags_horizontal = 11
 custom_fonts/font = ExtResource( 14 )
 align = 2
 
-[node name="NoScoreLine" type="HSeparator" parent="Highscores/_10Table/ScoreLine10/NoScoreLine"]
+[node name="NoScoreLine" type="HSeparator" parent="Highscores/__10Table/ScoreLine10/NoScoreLine"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -4.0
 custom_styles/separator = ExtResource( 20 )
+
+[node name="__cover" type="ColorRect" parent="Highscores"]
+visible = false
+self_modulate = Color( 1, 1, 1, 0.411765 )
+margin_right = 1280.0
+margin_bottom = 592.0
+color = Color( 0.666667, 0.588235, 0.588235, 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ColorRect2" type="ColorRect" parent="Highscores/__cover"]
+modulate = Color( 1, 1, 1, 0.235294 )
+margin_right = 64.0
+margin_bottom = 64.0
+
+[node name="ColorRect3" type="ColorRect" parent="Highscores/__cover"]
+modulate = Color( 1, 1, 1, 0.235294 )
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -64.0
+margin_right = 64.0
+
+[node name="ColorRect4" type="ColorRect" parent="Highscores/__cover"]
+modulate = Color( 1, 1, 1, 0.235294 )
+margin_left = 312.0
+margin_right = 344.0
+margin_bottom = 64.0
+
+[node name="ColorRect5" type="ColorRect" parent="Highscores/__cover"]
+modulate = Color( 1, 1, 1, 0.235294 )
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -64.0
+margin_bottom = 64.0
 
 [node name="Tabs" type="HBoxContainer" parent="Highscores"]
 margin_left = 64.0
@@ -3511,17 +3546,37 @@ custom_styles/panel = SubResource( 522 )
 margin_left = 64.0
 margin_top = 46.0
 margin_right = 312.0
-margin_bottom = 328.0
+margin_bottom = 342.0
 theme = null
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="SweeperTableGlobal" parent="Highscores/ScrollContainer/ScrollContent/SweeperHall" instance=ExtResource( 21 )]
-margin_left = 376.0
+margin_left = 384.0
 margin_top = 46.0
-margin_right = 592.0
-margin_bottom = 328.0
+margin_right = 632.0
+margin_bottom = 342.0
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="SweeperTable2" parent="Highscores/ScrollContainer/ScrollContent/SweeperHall" instance=ExtResource( 21 )]
+margin_left = 64.0
+margin_top = 184.0
+margin_right = 312.0
+margin_bottom = 480.0
+theme = null
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="SweeperTableGlobal2" parent="Highscores/ScrollContainer/ScrollContent/SweeperHall" instance=ExtResource( 21 )]
+margin_left = 384.0
+margin_top = 184.0
+margin_right = 632.0
+margin_bottom = 480.0
 theme = null
 __meta__ = {
 "_edit_group_": true
@@ -3768,45 +3823,6 @@ __meta__ = {
 [node name="Title" parent="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerXL/CleanerXLTableGlobal" index="0"]
 margin_right = 216.0
 text = "%Best gamers Glo"
-
-[node name="_cover" type="ColorRect" parent="Highscores"]
-visible = false
-self_modulate = Color( 1, 1, 1, 0.411765 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 64.0
-margin_top = 184.0
-margin_right = -592.0
-margin_bottom = -16.0
-color = Color( 0.666667, 0.588235, 0.588235, 1 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="ColorRect2" type="ColorRect" parent="Highscores/_cover"]
-modulate = Color( 1, 1, 1, 0.235294 )
-margin_right = 64.0
-margin_bottom = 64.0
-
-[node name="ColorRect3" type="ColorRect" parent="Highscores/_cover"]
-modulate = Color( 1, 1, 1, 0.235294 )
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -64.0
-margin_right = 64.0
-
-[node name="ColorRect4" type="ColorRect" parent="Highscores/_cover"]
-modulate = Color( 1, 1, 1, 0.235294 )
-margin_left = 312.0
-margin_right = 344.0
-margin_bottom = 64.0
-
-[node name="ColorRect5" type="ColorRect" parent="Highscores/_cover"]
-modulate = Color( 1, 1, 1, 0.235294 )
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -64.0
-margin_bottom = 64.0
 
 [node name="ColorRect" type="ColorRect" parent="Highscores"]
 visible = false
@@ -4368,6 +4384,8 @@ anims/settings = SubResource( 140 )
 [editable path="Highscores/ScrollContainer/ScrollContent/UnbeatableHall/TabContainer/Eraser/EraserTableGlobal"]
 [editable path="Highscores/ScrollContainer/ScrollContent/SweeperHall/SweeperTable"]
 [editable path="Highscores/ScrollContainer/ScrollContent/SweeperHall/SweeperTableGlobal"]
+[editable path="Highscores/ScrollContainer/ScrollContent/SweeperHall/SweeperTable2"]
+[editable path="Highscores/ScrollContainer/ScrollContent/SweeperHall/SweeperTableGlobal2"]
 [editable path="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerXS/CleanerXSTable"]
 [editable path="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerXS/CleanerXSTableGlobal"]
 [editable path="Highscores/ScrollContainer/ScrollContent/CleanersHall/TabContainer/CleanerS/CleanerSTable"]

@@ -72,7 +72,7 @@ onready var spectrum: HBoxContainer = $Footer/FooterLine/SpectrumHolder/ColorSpe
 onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
 onready var current_gamed_hs_type: int = Global.game_manager.game_data["highscore_type"]
 
-# debug
+# bugfixing
 onready var player_life: Label = $Life
 onready var player_energy: Label = $Energy
 
@@ -195,6 +195,7 @@ func set_hud(): # kliče main na game-in
 func set_current_highscore():
 	
 	var current_highscore_line: Array = Global.data_manager.get_top_highscore(Global.game_manager.game_data)
+	
 	current_highscore = current_highscore_line[0]
 	current_highscore_clock = Global.get_clock_time(current_highscore)
 	current_highscore_owner = current_highscore_line[1]
@@ -290,7 +291,7 @@ func spawn_color_indicators(spawn_colors: Array): # kliče GM
 		if indicator_to_move_under_index:
 			spectrum.move_child(new_color_indicator, indicator_to_move_under_index)
 	
-		# new_color_indicator.get_node("IndicatorCount").text = str(indicator_index) # debug ... zapis indexa
+		# new_color_indicator.get_node("IndicatorCount").text = str(indicator_index) # bugfixing ... zapis indexa
 		all_color_indicators.append(new_color_indicator)
 
 
@@ -389,7 +390,7 @@ func _on_stat_changed(stat_owner: Node, player_stats: Dictionary):
 			p2_skill_counter.text = "%d" % player_stats["skill_count"]
 			p2_steps_counter.text = "%d" % player_stats["cells_traveled"]
 
-	# debug
+	# bugfixing
 	player_life.text = "LIFE: %d" % player_stats["player_life"]
 	player_energy.text = "E: %d" % player_stats["player_energy"]
 

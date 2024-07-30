@@ -81,7 +81,6 @@ var game_data_classic: Dictionary = {
 	"game_name": "Classic",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_classic_xl.tscn",
-	"global_leaderboard_key": "PAclassic", # poenoteno z lootlocker tabelo
 	# pre-game instructons
 	"description": "Team up for a cleaning frenzy!",
 	"Prop": "Clear all stray pixels\nto reclaim your\none-and-only status.",
@@ -93,7 +92,6 @@ var game_data_cleaner_xs: Dictionary = {
 	"game_name": "Cleaner XS",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_xs.tscn",
-	"global_leaderboard_key": "PAclassic",
 	# pre-game instructons
 	"description" : "Clear the colors before time slips away!",
 	"Prop" : "You have %s minute\nbefore your screen becomes\npermanently saturated." % str(2), # CON ročno povezano z game time
@@ -159,7 +157,7 @@ var game_data_chaser: Dictionary = {
 	"Prop": "Difficulty level will increase\nwhen your spectrum\nindicator gets filled.",
 	"Prop2" : "Give it your best shot\nto beat the current\nrecord score!",
 	# štart
-	"level": 1, # debug ... če je noter na začetku, potem ga upošteva v HS name
+	"level": 1,
 	"level_goal_count": 10, # # CON level_goal_mode ... ročno povezano s številom spawnanih na tilemapu
 	"level_goal_count_grow": 3,
 	# "create_strays_count": 0, # določi tilemap
@@ -183,7 +181,7 @@ var game_data_defender: Dictionary = {
 	"Prop2": "Difficulty level will\nincrease when your\nspectrum indicator\ngets filled.",
 	"Prop3" : "Give it your\nbest shot to\nbeat the current\nrecord score!",
 	# štart
-	"level": 1, # debug ... če je noter na začetku, potem ga upošteva v HS name
+	"level": 1,
 	"level_goal_count": 10, # CON kolikor jih spawnanih v prvi rundi
 	"line_step_pause_time": 1.5, # ne sme bit manjša od stray step hitrosti (0.2), je clampana ob apliciranju
 	"spawn_round_range": [1, 1], # random spawn count, največ 120 - 8
@@ -297,7 +295,7 @@ func set_game_data(selected_game):
 	
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
-	# debug
+	# bugfixing
 	game_settings["start_countdown"] = false
 	game_settings["player_start_life"] = 2
 	game_settings["show_game_instructions"] = false

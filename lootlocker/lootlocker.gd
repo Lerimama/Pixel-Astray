@@ -5,7 +5,6 @@ signal guest_authenticated
 var player_id: String # setam pred avtentikacijo
 var session_token: String # dobim ob avtentikaciji
 var lootlocker_leaderboard: Array
-
 var guest_is_authenticated: bool = false
 var anonymous_guest_name: String = "anonymous" # ko čekiraš HS v home
 
@@ -15,19 +14,24 @@ func _ready() -> void:
 	timeout = 5.0 # ker je autoload mu ne moram settat settingsih	
 	
 
-func publish_score_to_lootlocker(new_player_stats: Dictionary): # ko objaviš nov skor z novim imenom, se je potrebno pononvno povezat
+func publish_score_to_lootlocker(new_player_stats: Dictionary, game_data: Dictionary): # ko objaviš nov skor z novim imenom, se je potrebno pononvno povezat
 	
 	guest_is_authenticated = false
 	
+	var game_leaderboard_key = Profiles.Games.keys()[game_data["game"]]
+	if game_data["game"] == Profiles.Games.SWEEPER: # OPT iskanja brez sweeperja
+		game_leaderboard_key = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"])
+	printt("LL publish key:", game_leaderboard_key)
+	
 	var player_name: String = new_player_stats["player_name"]
-	var player_score = new_player_stats["player_points"] # OPT go static
+	var player_score: float = new_player_stats["player_points"]
 
 	authenticate_guest_session(player_name)
 	yield(self, "guest_authenticated")	
 	
 	ConnectCover.cover_label_text = "Publishing your score"
 	
-	var url: String = "https://api.lootlocker.io/game/leaderboards/PAclassic/submit" # naslov do LL tabele ... samo ključ tabele se spreminja
+	var url: String = "https://api.lootlocker.io/game/leaderboards/%s/submit" % game_leaderboard_key
 	var header: Array = ["Content-Type: application/json", "x-session-token: %s" % session_token]
 	var method = HTTPClient.METHOD_POST
 	var request_data: Dictionary = {
@@ -40,13 +44,10 @@ func publish_score_to_lootlocker(new_player_stats: Dictionary): # ko objaviš no
 	yield(self, "request_completed")
 	yield(get_tree().create_timer(0.8), "timeout") # _temp ... cover timer
 	
-	update_lootlocker_leaderboard(Profiles.game_data_classic) # OPT Profiles.game_data_classic odstrani
+	update_lootlocker_leaderboard(game_data)
 
 
-func update_lootlocker_leaderboard(current_game_data: Dictionary): 
-	# update = get and save
-	# pogrebam leaderboard z neta
-	# sejvam leaderboard v obliki lokalnih HS
+func update_lootlocker_leaderboard(game_data: Dictionary): 
 	
 	if not guest_is_authenticated:
 		authenticate_guest_session(anonymous_guest_name)
@@ -54,7 +55,13 @@ func update_lootlocker_leaderboard(current_game_data: Dictionary):
 
 	ConnectCover.cover_label_text = "Updating global leaderboards"
 
-	var url: String = "https://api.lootlocker.io/game/leaderboards/PAclassic/list?count=%s" % str(Profiles.global_highscores_count) # koliko mest rabimo
+	var game_leaderboard_key = Profiles.Games.keys()[game_data["game"]]
+	if game_data["game"] == Profiles.Games.SWEEPER: # OPT iskanja brez sweeperja
+		game_leaderboard_key = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"])
+	printt("LL update key:", game_leaderboard_key)
+	
+	var url_without_count: String = "https://api.lootlocker.io/game/leaderboards/%s/list?count=" % game_leaderboard_key
+	var url: String = url_without_count + str(Profiles.global_highscores_count)
 	var header: Array = ["Content-Type: application/json", "x-session-token: %s" % session_token]
 	var method = HTTPClient.METHOD_GET
 
@@ -80,14 +87,14 @@ func update_lootlocker_leaderboard(current_game_data: Dictionary):
 			} 
 			lootlocker_leaderboard.append(new_item)
 	
-	save_lootlocker_leadebroard_to_local_highscore(current_game_data)
+	save_lootlocker_leadebroard_to_local_highscore(game_data)
 	
 	ConnectCover.cover_label_text = "Updated"
 	yield(get_tree().create_timer(0.5), "timeout") #_temo LL timer
 	ConnectCover.close_cover() # odda signal, ko se zapre	
 		
 
-func save_lootlocker_leadebroard_to_local_highscore(current_game_data: Dictionary):
+func save_lootlocker_leadebroard_to_local_highscore(game_data: Dictionary):
 	
 	# spremenim board v HS slovar 
 	var global_game_highscores: Dictionary = {} 
@@ -107,8 +114,8 @@ func save_lootlocker_leadebroard_to_local_highscore(current_game_data: Dictionar
 		global_game_highscores[item_player_rank] = highscores_player_line
 	
 	# dodam level name za ime save fileta in sejvam
-	Global.data_manager.write_highscores_to_file(current_game_data, global_game_highscores, true)
-	#	print ("LL leaderboard updated ... get&save")
+	Global.data_manager.write_highscores_to_file(game_data, global_game_highscores, true)
+	print ("LL leaderboard updated ... get&save")
 	
 
 func authenticate_guest_session(player_name: String):
