@@ -75,7 +75,7 @@ func check_player_ranking(current_score: float, current_game_data: Dictionary):
 				better_positions_count += 1				
 		else:
 			if ranking_score >= current_score:
-				better_positions_count += 1				
+				better_positions_count += 1
 	
 	current_player_rank = better_positions_count + 1 # za označitev linije na lestvici
 	
@@ -137,15 +137,12 @@ func read_highscores_from_file(read_game_data: Dictionary, global_highscores: bo
 		else:
 			read_game_name = Profiles.Games.keys()[read_game_data["game"]]
 			lines_to_read_count = Profiles.local_highscores_count
-	
 		
 	# preverjam obstoj fileta ... ob prvem nalaganju igre
 	var error = data_file.open("user://%s_highscores.save" % read_game_name, File.READ)
 	if error != OK: # če fileta ni, ga ustvarim in zapišem default HS dict
 		data_file.open("user://%s_highscores.save" % read_game_name, File.WRITE)
-
 		var default_highscores: Dictionary = build_default_highscores(lines_to_read_count)
-#		var default_highscores: Dictionary = build_default_highscores(global_highscores, read_game_data)
 		data_file.store_line(to_json(default_highscores))
 		data_file.close()
 	# odprem filet za branje
@@ -161,8 +158,6 @@ func read_highscores_from_file(read_game_data: Dictionary, global_highscores: bo
 func save_player_score(current_score: float, current_game_data: Dictionary):
 	# med izvajanjem te kode GM čaka
 	# poberem trenutno lestvico (potem generiram novo z dodanim trenutnim skorom)
-	printt("SAVE SCORE", current_score, current_game_data["game"])	
-	
 	
 	var all_ranking_scores: Array = []
 	var all_ranking_score_owners: Array = []

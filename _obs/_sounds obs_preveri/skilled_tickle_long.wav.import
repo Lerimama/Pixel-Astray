@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/skilled_tickle_long.wav-77d8a94f2171068c3c34a01d4ceb1860.sample"
+path="res://.import/skilled_tickle_long.wav-ec8fd4173fef9ca0aaa46c830be2e4ff.sample"
 
 [deps]
 
-source_file="res://assets/sound/_obs_preveri/skilled_tickle_long.wav"
-dest_files=[ "res://.import/skilled_tickle_long.wav-77d8a94f2171068c3c34a01d4ceb1860.sample" ]
+source_file="res://_obs/_sounds obs_preveri/skilled_tickle_long.wav"
+dest_files=[ "res://.import/skilled_tickle_long.wav-ec8fd4173fef9ca0aaa46c830be2e4ff.sample" ]
 
 [params]
 

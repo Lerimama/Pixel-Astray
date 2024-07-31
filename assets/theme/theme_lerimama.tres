@@ -26,13 +26,7 @@ atlas = ExtResource( 4 )
 region = Rect2( 16, 3, 14, 10 )
 margin = Rect2( 0, 2, 0, 0 )
 
-[sub_resource type="StyleBoxFlat" id=189]
-bg_color = Color( 0.996078, 0.976471, 0.545098, 1 )
-
-[sub_resource type="StyleBoxFlat" id=188]
-bg_color = Color( 1, 1, 1, 1 )
-
-[sub_resource type="StyleBoxEmpty" id=190]
+[sub_resource type="StyleBoxEmpty" id=192]
 
 [sub_resource type="StyleBoxLine" id=5]
 color = Color( 1, 1, 1, 1 )
@@ -73,6 +67,21 @@ modulate_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 
 [sub_resource type="StyleBoxEmpty" id=191]
 
+[sub_resource type="StyleBoxFlat" id=189]
+bg_color = Color( 0.839216, 0.839216, 0.839216, 1 )
+border_width_left = 6
+border_width_top = 6
+border_width_bottom = 4
+border_color = Color( 0, 0, 0, 1 )
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id=188]
+bg_color = Color( 1, 1, 1, 1 )
+border_width_left = 6
+border_width_top = 6
+border_width_bottom = 4
+border_color = Color( 0, 0, 0, 1 )
+
 [sub_resource type="StyleBoxLine" id=174]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
@@ -108,10 +117,7 @@ CheckButton/styles/hover = null
 CheckButton/styles/hover_pressed = null
 CheckButton/styles/normal = null
 CheckButton/styles/pressed = null
-HScrollBar/styles/grabber = SubResource( 189 )
-HScrollBar/styles/grabber_highlight = SubResource( 188 )
-HScrollBar/styles/grabber_pressed = SubResource( 188 )
-HScrollBar/styles/scroll = SubResource( 190 )
+HScrollBar/styles/scroll = SubResource( 192 )
 HSeparator/styles/separator = SubResource( 5 )
 HSlider/icons/grabber = SubResource( 150 )
 HSlider/icons/grabber_disabled = null
@@ -141,4 +147,7 @@ TabContainer/styles/panel = SubResource( 191 )
 TabContainer/styles/tab_bg = ExtResource( 5 )
 TabContainer/styles/tab_disabled = ExtResource( 5 )
 TabContainer/styles/tab_fg = ExtResource( 5 )
+VScrollBar/styles/grabber = SubResource( 189 )
+VScrollBar/styles/grabber_highlight = SubResource( 188 )
+VScrollBar/styles/grabber_pressed = SubResource( 188 )
 VSeparator/styles/separator = SubResource( 174 )

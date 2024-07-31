@@ -9,7 +9,7 @@
 [ext_resource path="res://game/gui/controls_scheme.tscn" type="PackedScene" id=7]
 [ext_resource path="res://game/gui/action_hint.tscn" type="PackedScene" id=8]
 [ext_resource path="res://assets/theme/box_colored_almost_black.tres" type="StyleBox" id=9]
-[ext_resource path="res://game/gui/_help_gui_guide.tscn" type="PackedScene" id=10]
+[ext_resource path="res://_helpers/_help_gui_guide.tscn" type="PackedScene" id=10]
 [ext_resource path="res://game/gui/shortcut_line.tscn" type="PackedScene" id=11]
 
 [sub_resource type="AtlasTexture" id=478]

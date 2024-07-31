@@ -359,13 +359,6 @@ func _check_for_highscore(player_stats: Dictionary):
 		Profiles.HighscoreTypes.TIME: # logika je tu malo drugačna kot pri drugih dveh
 			highscore_label.text = "HS " + current_highscore_clock
 			highscore_label.modulate = Global.color_hud_text
-#		Profiles.HighscoreTypes.HS_TIME_HIGH:
-#			if game_timer.absolute_game_time > current_highscore:
-#				highscore_label.text = "HS " +  str(game_timer.absolute_game_time) + "s"
-#				highscore_label.modulate = Global.color_green
-#			else:				
-#				highscore_label.text = "HS " +  str(current_highscore) + "s"
-#				highscore_label.modulate = Global.color_hud_text
 
 
 func _on_stat_changed(stat_owner: Node, player_stats: Dictionary):

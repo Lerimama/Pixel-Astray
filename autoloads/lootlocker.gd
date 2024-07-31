@@ -14,7 +14,7 @@ func _ready() -> void:
 	timeout = 5.0 # ker je autoload mu ne moram settat settingsih	
 	
 
-func publish_score_to_lootlocker(new_player_stats: Dictionary, game_data: Dictionary): # ko objaviš nov skor z novim imenom, se je potrebno pononvno povezat
+func publish_score_to_lootlocker(player_name: String, player_score: float, game_data: Dictionary): # ko objaviš nov skor z novim imenom, se je potrebno pononvno povezat
 	
 	guest_is_authenticated = false
 	
@@ -23,9 +23,6 @@ func publish_score_to_lootlocker(new_player_stats: Dictionary, game_data: Dictio
 		game_leaderboard_key = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"])
 	printt("LL publish key:", game_leaderboard_key)
 	
-	var player_name: String = new_player_stats["player_name"]
-	var player_score: float = new_player_stats["player_points"]
-
 	authenticate_guest_session(player_name)
 	yield(self, "guest_authenticated")	
 	

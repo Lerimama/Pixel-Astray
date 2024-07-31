@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://home/level_btns_holder.gd" type="Script" id=1]
+[ext_resource path="res://home/select_level_btns.tscn" type="PackedScene" id=2]
+
+[node name="LevelBtnsHolder" type="ScrollContainer"]
+margin_left = 320.0
+margin_top = 80.0
+margin_right = 332.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 664, 440 )
+
+[node name="SelectLevelBtnsHolder" type="GridContainer" parent="." instance=ExtResource( 2 )]
+margin_right = 664.0
+margin_bottom = 440.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_constants/vseparation = 8
+custom_constants/hseparation = 8
+columns = 4
+script = ExtResource( 1 )

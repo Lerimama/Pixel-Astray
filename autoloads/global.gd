@@ -54,13 +54,9 @@ var color_almost_black_pixel: Color = Color("#141414")
 var color_dark_gray_pixel: Color = Color("#232323")#Color("#323232") # start normal
 var color_white_pixel: Color = Color(1, 1, 1, 1.22)
 var color_thumb_hover: Color = Color("#232323")
+var strays_on_screen: Array = [] # za stray position indikatorje
 
-# popularne transparence ozadij ... referenca
-# A = 140 (pavza
-# A = 200 (Pregame, GO title .. 0.8a = 204A)
-
-var strays_on_screen: Array = [] # za indikatorje
-
+var allow_focus_sfx: bool = false # focus sounds
 
 # FUNKCIJE -----------------------------------------------------------------------------------------------------
 
@@ -74,6 +70,17 @@ func _ready():
 	get_tree().connect("node_added", self, "_on_SceneTree_node_added")
 
 
+func get_all_nodes_in_node(node_to_check: Node = get_tree().root, all_nodes_of_nodes: Array = []):
+	
+	all_nodes_of_nodes.push_back(node_to_check)
+	
+	for node in node_to_check.get_children():
+		all_nodes_of_nodes = get_all_nodes_in_node(node)
+	
+	print("Nodes in node",  all_nodes_of_nodes.size())
+	return all_nodes_of_nodes		
+		
+		
 func detect_collision_in_direction(direction_to_check: Vector2, raycast_node: RayCast2D, raycast_length: float = 45):
 	
 	if direction_to_check == Vector2.ZERO:
@@ -99,21 +106,16 @@ func snap_to_nearest_grid(global_position_to_snap: Vector2):
 	
 	return snapped_pixel_global_position
 
-
-func get_seconds_and_hunds(seconds_to_round: float): # sekunde float
 	
-	var time_seconds: int = floor(seconds_to_round)
-	var time_hunds: float = floor((seconds_to_round - time_seconds) * 100)
-	var seconds_hunds_time: float = time_seconds + time_hunds / 100
+func get_clock_time(hundreds_to_split: float): # neu stotinke ... sekunde float #
 	
-	return seconds_hunds_time
+	# če so podane stotinke, pretvorim v sekunde z decimalko
+	var seconds_to_split: float = hundreds_to_split / 100
 	
-	
-func get_clock_time(time_to_split: float): # sekunde float
-	
-	var minutes: int = floor(time_to_split / 60) # vse cele sekunde delim s 60
-	var seconds: int = floor(time_to_split) - minutes * 60 # vse sekunde minus sekunde v celih minutah
-	var hundreds: int = round((time_to_split - floor(time_to_split)) * 100) # decimalke množim x 100 in zaokrožim na celo
+	# če so podane sekunde
+	var minutes: int = floor(seconds_to_split / 60) # vse cele sekunde delim s 60
+	var seconds: int = floor(seconds_to_split) - minutes * 60 # vse sekunde minus sekunde v celih minutah
+	var hundreds: int = round((seconds_to_split - floor(seconds_to_split)) * 100) # decimalke množim x 100 in zaokrožim na celo
 	
 	# če je točno 100 stotink doda 1 sekundo da stotinke na 0
 	if hundreds == 100:
@@ -124,18 +126,6 @@ func get_clock_time(time_to_split: float): # sekunde float
 	var time_on_clock: String = "%02d" % minutes + ":" + "%02d" % seconds + ":" + "%02d" % hundreds	
 	return time_on_clock
 	
-
-var all_nodes_of_nodes: Array = []
-func get_all_nodes_in_node(node_to_check: Node = get_tree().root):
-	
-	all_nodes_of_nodes.push_back(node_to_check)
-	
-	for node in node_to_check.get_children():
-		all_nodes_of_nodes = get_all_nodes_in_node(node)
-	
-	print("Nodes in node",  all_nodes_of_nodes.size())
-	return all_nodes_of_nodes		
-		
 			
 # SCENE MANAGER (prehajanje med igro in menijem) --------------------------------------------------------------
 
@@ -244,7 +234,7 @@ func get_random_gradient_colors(color_count: int):
 			split_colors.append(color)	
 		
 		return	split_colors # level rabi že izbrane barve
-	
+
 	
 func get_spectrum_colors(color_count: int):
 	randomize()
@@ -331,10 +321,6 @@ func _add_folder_contents(dir: Directory, files: Array, folders: Array, files_on
 # dodam sounde na focus
 # dodam sounde na confirm, cancel, quit
 # dodam modulate na Checkbutton focus
-
-
-var allow_focus_sfx: bool = false # focus sounds
-
 
 # naberi gumbe in jih poveži
 func _on_SceneTree_node_added(node: Control):

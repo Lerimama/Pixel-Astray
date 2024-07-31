@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/skilled_pulse_one.wav-d61d23d455c69400ae4be652d8070420.sample"
+path="res://.import/skilled_pulse_one.wav-96b97bcbc8bbf04d6de38e1d21b23fa1.sample"
 
 [deps]
 
-source_file="res://assets/sound/_obs_preveri/skilled_pulse_one.wav"
-dest_files=[ "res://.import/skilled_pulse_one.wav-d61d23d455c69400ae4be652d8070420.sample" ]
+source_file="res://_obs/_sounds obs_preveri/skilled_pulse_one.wav"
+dest_files=[ "res://.import/skilled_pulse_one.wav-96b97bcbc8bbf04d6de38e1d21b23fa1.sample" ]
 
 [params]
 

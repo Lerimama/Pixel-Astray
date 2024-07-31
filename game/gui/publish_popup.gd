@@ -38,7 +38,11 @@ func _on_PublishBtn_pressed() -> void:
 	publish_btn.disabled = true
 	
 	get_tree().set_pause(false) # da lahko procedura steče
-	LootLocker.publish_score_to_lootlocker(Global.gameover_gui.p1_final_stats, Global.game_manager.game_data)
+	get_focus_owner().release_focus() # neu
+	var publish_name: String = Global.gameover_gui.p1_final_stats["player_name"]
+	var publish_score: float = Global.gameover_gui.player_final_score
+	var publish_game_data: Dictionary = Global.game_manager.game_data
+	LootLocker.publish_score_to_lootlocker(publish_name, publish_score, publish_game_data)
 	yield(ConnectCover, "connect_cover_closed")
 	
 	get_tree().set_pause(true) # spet setano čez celotno GO proceduro

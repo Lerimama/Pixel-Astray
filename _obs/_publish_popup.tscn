@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=1]
-[ext_resource path="res://lootlocker/publish_popup.gd" type="Script" id=2]
+[ext_resource path="res://game/gui/publish_popup.gd" type="Script" id=2]
 
 [node name="PublishPopup" type="Control"]
 anchor_right = 1.0

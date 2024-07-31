@@ -8,8 +8,10 @@ var scorelines_with_score: Array
 
 onready var highscore_table: VBoxContainer = $TableScroller/Table
 onready var table_title_label: Label = $Title
-onready var local_rank_node_name: String = "Rank"
-onready var global_rank_node_name: String = "GlobalRank"
+onready var rank_node_name: String = "Rank"
+#onready var local_rank_node_name: String = "Rank"
+onready var alt_rank_node_name: String = "AltRank"
+#onready var global_rank_node_name: String = "GlobalRank"
 onready var owner_node_name: String = "Owner"
 onready var score_node_name: String = "Score"
 onready var scoreline_empty_line_name: String = "NoScoreLine"
@@ -25,22 +27,28 @@ func _ready() -> void:
 func load_highscore_table(current_game_data: Dictionary, current_player_rank: int, lines_to_load_count, global_highscores: bool = false):
 	
 	# reset table
-	for scoreline in scorelines:
-		if not scoreline == scorelines[0]:
-			highscore_table.remove_child(scoreline)
-	scorelines.clear()
-	scorelines_with_score.clear()
+	var highscore_table_children: Array = highscore_table.get_children()
+	if highscore_table_children.size() > 1: # pomeni, da ni resetirana, ali pa ima debug linije
+		for child in highscore_table_children:
+			if not child == highscore_table_children[0]:
+				highscore_table.remove_child(child)
+		scorelines.clear()
+		scorelines_with_score.clear()
 	
 	if global_highscores: # home globale tabel
 		table_title_label.text = current_game_data["game_name"] + " Global Top %s" % lines_to_load_count
+		if current_game_data["game"] == Profiles.Games.SWEEPER:
+			table_title_label.text = current_game_data["game_name"] + " " + str(current_game_data["level"]) + " Global Top %s" % lines_to_load_count
 	else:
 		table_title_label.text = current_game_data["game_name"] + " Top 10"
-		
-		
-	if lines_to_load_count > 10:
-		$TableScroller.scroll_vertical_enabled = true
-	else:
-		$TableScroller.scroll_vertical_enabled = false
+		if current_game_data["game"] == Profiles.Games.SWEEPER:
+			table_title_label.text = current_game_data["game_name"] + " " + str(current_game_data["level"]) + " Top 10"
+	
+
+#	if lines_to_load_count > 10:
+#		$TableScroller.scroll_vertical_enabled = true
+#	else:
+#		$TableScroller.scroll_vertical_enabled = false
 	
 	var current_game_highscores = Global.data_manager.read_highscores_from_file(current_game_data, global_highscores)
 	
@@ -48,19 +56,22 @@ func load_highscore_table(current_game_data: Dictionary, current_player_rank: in
 	for unfilled_scoreline in scorelines: # scrolline so postavljene in ne nafilane
 		fill_scoreline(unfilled_scoreline, current_game_data, lines_to_load_count, current_game_highscores)
 
-	set_first_scoreline()
-	
 	for table_line in highscore_table.get_children(): # zajamem tudi HS titles linijo
 		if global_highscores:
-			table_line.get_node(global_rank_node_name).show()
-			table_line.get_node(local_rank_node_name).hide()
+			table_line.get_node(alt_rank_node_name).show()
+			table_line.get_node(rank_node_name).hide()
 		else:
-			table_line.get_node(global_rank_node_name).show()
-			table_line.get_node(local_rank_node_name).show()
+			table_line.get_node(rank_node_name).show()
+			table_line.get_node(alt_rank_node_name).show()
 	
 	if current_player_rank > 0 and current_player_rank <= lines_to_load_count:
 		var players_scoreline: Control = scorelines[current_player_rank - 1]
 		players_scoreline.modulate = Global.color_green
+	
+	# scrollbar spacing od tabele (če je naslov večji od tabele poravnava se s širino parenta)
+	$TableScroller.rect_min_size.x = highscore_table.rect_size.x + 32
+	$TableScroller.get_v_scrollbar().self_modulate.a = 0.25
+	# printt("HStbale",$TableScroller.get_v_scrollbar().get_children())	
 	
 	
 func build_table(lines_count: int):
@@ -93,67 +104,33 @@ func fill_scoreline(scoreline: Control, game_data: Dictionary, lines_count: int,
 	var current_position_dict_values: Array = current_position_dict.values()
 	var current_position_dict_owners: Array = current_position_dict.keys()
 	var current_owner: String = current_position_dict_owners[0]
-	
-	scoreline.get_node(local_rank_node_name).text = str(scoreline_index + 1) + "."
-	scoreline.get_node(global_rank_node_name).text = str(scoreline_index + 1) + "."
+	scoreline.get_node(rank_node_name).text = str(scoreline_index + 1)
+	scoreline.get_node(alt_rank_node_name).text = str(scoreline_index + 1)
 	scoreline.get_node(owner_node_name).text = current_owner
 	
 	var current_game_hs_type = game_data["highscore_type"]
-	if current_game_hs_type == Profiles.HighscoreTypes.TIME:
-		var current_position_seconds: float = current_position_dict_values[0]
-		# skorlinije, ki niso skrite v hometu, se prikažejo
-		if current_position_seconds > 0:# and not scoreline_index >= lines_to_load_count: # and scoreline_index > lines_to_load_count:
-			scoreline.get_node(scoreline_empty_line_name).hide()
+	var current_position_score: float = current_position_dict_values[0]
+	if current_position_score > 0:
+		if current_game_hs_type == Profiles.HighscoreTypes.TIME:
+			var current_position_seconds: float = current_position_score# / 100 # neu
 			scoreline.get_node(score_node_name).text = Global.get_clock_time(current_position_seconds)
-			scorelines_with_score.append(scoreline)
-		# skrijem 0 rezultat
-		elif current_position_seconds == 0:
-			scorelines_with_score.erase(scoreline)
-			scoreline.get_node(local_rank_node_name).hide()
-			scoreline.get_node(owner_node_name).hide()
-			scoreline.get_node(score_node_name).hide()
-			scoreline.get_node(scoreline_empty_line_name).show()
-			
-	elif current_game_hs_type == Profiles.HighscoreTypes.POINTS:
-		var current_position_points: int = current_position_dict_values[0]
-		if current_position_points > 0:
-			scoreline.get_node(scoreline_empty_line_name).hide()
+		elif current_game_hs_type == Profiles.HighscoreTypes.POINTS:
+			var current_position_points: int = current_position_score
 			scoreline.get_node(score_node_name).text = str(current_position_points)
-			scorelines_with_score.append(scoreline)
-		# skrijem 0 rezultat
-		else:
-			scorelines_with_score.erase(scoreline)
-			scoreline.get_node(local_rank_node_name).hide()
-			scoreline.get_node(owner_node_name).hide()
-			scoreline.get_node(score_node_name).hide()
-			scoreline.get_node(scoreline_empty_line_name).show()
+		scorelines_with_score.append(scoreline)
+		scoreline.modulate = Global.color_almost_white_text
+	else:
+		scorelines_with_score.erase(scoreline)
+		scoreline.get_node(alt_rank_node_name).text = "__"
+		scoreline.get_node(owner_node_name).text = "__________"
+		scoreline.get_node(score_node_name).text = "_________"
+		scoreline.modulate = Global.color_gui_gray	
 	
 	# pokažem samo lines_to_load_count 		
-	scoreline.modulate = Global.color_almost_white_text
 	if not scoreline_index > lines_count:
 		scoreline.show()
 	else:
 		scoreline.hide()
-			
-
-func set_first_scoreline():
-
-	# če v lestvici ni rezultata, priredim prvo vrstico, če ne jo vrnem v planiran položaj
-	if scorelines_with_score.empty():
-		scorelines[0].show() # 0 je title
-		scorelines[0].get_node(owner_node_name).clip_text = false
-		scorelines[0].get_node(owner_node_name).text = "Still no score ..."
-		scorelines[0].get_node(owner_node_name).align = Label.ALIGN_CENTER
-		scorelines[0].get_node(owner_node_name).modulate = Global.color_almost_white_text
-		scorelines[0].get_node(owner_node_name).show()
-		scorelines[0].get_node(local_rank_node_name).hide()
-		scorelines[0].get_node(score_node_name).hide()
-		scorelines[0].get_node(scoreline_empty_line_name).hide()
-	else: # zazih
-		scorelines[0].get_node(owner_node_name).clip_text = true
-		scorelines[0].get_node(owner_node_name).align = Label.ALIGN_LEFT
-		scorelines[0].get_node(local_rank_node_name).show()
-		scorelines[0].get_node(score_node_name).show()
 		
 
 func load_local_to_global_ranks(local_game_data: Dictionary):#, global_game_data: Dictionary):
@@ -174,11 +151,11 @@ func load_local_to_global_ranks(local_game_data: Dictionary):#, global_game_data
 			var scoreline_score: String = scoreline.get_node(score_node_name).text
 			# preverim enakost imena in skora
 			if global_highscore_player_name == scoreline_name and str(global_highscore_player_score) == scoreline_score:
-				scoreline.get_node(global_rank_node_name).text = str(global_highscore_player_rank) + "."
+				scoreline.get_node(alt_rank_node_name).text = str(global_highscore_player_rank)
 				scorelines_with_global_rank.append(scoreline)
 				break
 	
 	# označim tiste brez ranka
 	for scoreline in scorelines_with_score:
 		if not scorelines_with_global_rank.has(scoreline):
-			scoreline.get_node(global_rank_node_name).text = "..."					
+			scoreline.get_node(alt_rank_node_name).text = "..."					

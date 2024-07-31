@@ -4,13 +4,13 @@
 [ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=2]
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=3]
 [ext_resource path="res://game/gui/game_over.gd" type="Script" id=4]
-[ext_resource path="res://game/gui/_help_gui_guide.tscn" type="PackedScene" id=5]
+[ext_resource path="res://_helpers/_help_gui_guide.tscn" type="PackedScene" id=5]
 [ext_resource path="res://game/gui/highscore_table.tscn" type="PackedScene" id=6]
-[ext_resource path="res://home/select_level_btns_holder.tscn" type="PackedScene" id=7]
+[ext_resource path="res://home/level_btns_holder.tscn" type="PackedScene" id=7]
 [ext_resource path="res://assets/theme/style_line_edit.tres" type="StyleBox" id=8]
 [ext_resource path="res://assets/resources/tileset_titles.tres" type="TileSet" id=9]
 [ext_resource path="res://assets/theme/box_colored_almost_black.tres" type="StyleBox" id=10]
-[ext_resource path="res://lootlocker/publish_popup.gd" type="Script" id=11]
+[ext_resource path="res://game/gui/publish_popup.gd" type="Script" id=11]
 
 [node name="GameOver" type="Control"]
 pause_mode = 2
@@ -54,17 +54,6 @@ margin_left = 0.0
 margin_top = 0.0
 margin_right = 0.0
 margin_bottom = 0.0
-
-[node name="_help_gui_guide TRUE" parent="." instance=ExtResource( 5 )]
-visible = false
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -2.0
-margin_top = 2.0
-margin_right = -2.0
-margin_bottom = 2.0
 
 [node name="GameoverTitle" type="Control" parent="."]
 visible = false
@@ -310,7 +299,6 @@ text = "Can't handle the colors?"
 align = 1
 
 [node name="GameSummary" type="Control" parent="."]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -321,15 +309,14 @@ margin_right = 640.0
 margin_bottom = 360.0
 
 [node name="ContentSweeper" type="Control" parent="GameSummary"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -512.0
+margin_left = -488.0
 margin_top = -304.0
-margin_right = 512.0
-margin_bottom = 208.0
+margin_right = 488.0
+margin_bottom = 216.0
 
 [node name="Title" type="Label" parent="GameSummary/ContentSweeper"]
 anchor_left = 0.5
@@ -346,44 +333,45 @@ align = 1
 uppercase = true
 
 [node name="Data" type="Control" parent="GameSummary/ContentSweeper"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -320.0
-margin_right = 280.0
-margin_bottom = 8.0
+margin_top = 80.0
+margin_right = 304.0
+margin_bottom = 176.0
+rect_clip_content = true
 size_flags_vertical = 2
 
 [node name="Background" type="ColorRect" parent="GameSummary/ContentSweeper/Data"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -16.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
 [node name="DataContainer" type="VBoxContainer" parent="GameSummary/ContentSweeper/Data"]
 margin_left = 32.0
-margin_top = 22.0
+margin_top = 18.0
 margin_right = 232.0
-margin_bottom = 326.0
+margin_bottom = 72.0
 theme = ExtResource( 3 )
-custom_constants/separation = 10
+custom_constants/separation = 4
 __meta__ = {
 "_edit_group_": true,
 "_editor_description_": ""
 }
 
 [node name="Title" type="Label" parent="GameSummary/ContentSweeper/Data/DataContainer"]
+visible = false
 margin_right = 200.0
-margin_bottom = 32.0
-rect_min_size = Vector2( 28, 32 )
+margin_bottom = 26.0
+rect_min_size = Vector2( 28, 24 )
 size_flags_horizontal = 7
 size_flags_vertical = 0
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 text = "%Your stats"
 
 [node name="Level" type="Label" parent="GameSummary/ContentSweeper/Data/DataContainer"]
-margin_top = 42.0
+visible = false
+margin_top = 34.0
 margin_right = 200.0
-margin_bottom = 60.0
+margin_bottom = 52.0
+rect_min_size = Vector2( 0, 24 )
 custom_fonts/font = ExtResource( 1 )
 text = "%Level: 00"
 valign = 2
@@ -392,9 +380,11 @@ __meta__ = {
 }
 
 [node name="Points" type="Label" parent="GameSummary/ContentSweeper/Data/DataContainer"]
-margin_top = 70.0
+visible = false
+margin_top = 34.0
 margin_right = 200.0
-margin_bottom = 88.0
+margin_bottom = 52.0
+rect_min_size = Vector2( 0, 24 )
 custom_fonts/font = ExtResource( 1 )
 text = "%Score: 0000000"
 valign = 2
@@ -403,9 +393,9 @@ __meta__ = {
 }
 
 [node name="Time" type="Label" parent="GameSummary/ContentSweeper/Data/DataContainer"]
-margin_top = 98.0
 margin_right = 200.0
-margin_bottom = 116.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 0, 24 )
 custom_fonts/font = ExtResource( 1 )
 text = "%Time: 00:00:00"
 valign = 2
@@ -414,9 +404,11 @@ __meta__ = {
 }
 
 [node name="PixelsOff" type="Label" parent="GameSummary/ContentSweeper/Data/DataContainer"]
-margin_top = 126.0
+visible = false
+margin_top = 60.0
 margin_right = 200.0
-margin_bottom = 144.0
+margin_bottom = 78.0
+rect_min_size = Vector2( 0, 24 )
 custom_fonts/font = ExtResource( 1 )
 text = "%Colors collected: 000"
 valign = 2
@@ -425,9 +417,10 @@ __meta__ = {
 }
 
 [node name="AstrayPixels" type="Label" parent="GameSummary/ContentSweeper/Data/DataContainer"]
-margin_top = 154.0
+margin_top = 28.0
 margin_right = 200.0
-margin_bottom = 172.0
+margin_bottom = 52.0
+rect_min_size = Vector2( 0, 24 )
 custom_fonts/font = ExtResource( 1 )
 text = "%Left strays: 0000"
 valign = 2
@@ -436,9 +429,11 @@ __meta__ = {
 }
 
 [node name="CellsTraveled" type="Label" parent="GameSummary/ContentSweeper/Data/DataContainer"]
-margin_top = 182.0
+visible = false
+margin_top = 86.0
 margin_right = 200.0
-margin_bottom = 200.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 0, 24 )
 custom_fonts/font = ExtResource( 1 )
 text = "%Cells travelled: 0000"
 valign = 2
@@ -447,9 +442,11 @@ __meta__ = {
 }
 
 [node name="BurstCount" type="Label" parent="GameSummary/ContentSweeper/Data/DataContainer"]
-margin_top = 210.0
+visible = false
+margin_top = 86.0
 margin_right = 200.0
-margin_bottom = 228.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 0, 24 )
 custom_fonts/font = ExtResource( 1 )
 text = "%Bursts: 00"
 valign = 2
@@ -458,9 +455,11 @@ __meta__ = {
 }
 
 [node name="SkillsUsed" type="Label" parent="GameSummary/ContentSweeper/Data/DataContainer"]
-margin_top = 238.0
+visible = false
+margin_top = 48.0
 margin_right = 200.0
-margin_bottom = 256.0
+margin_bottom = 72.0
+rect_min_size = Vector2( 0, 24 )
 custom_fonts/font = ExtResource( 1 )
 text = "%Skills used: 00"
 valign = 2
@@ -468,17 +467,44 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="SelectLevelBtnsHolder" parent="GameSummary/ContentSweeper" instance=ExtResource( 7 )]
-anchor_left = 1.0
+[node name="Hs" type="Control" parent="GameSummary/ContentSweeper"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -336.0
+margin_right = 304.0
+rect_clip_content = true
+size_flags_horizontal = 3
+
+[node name="Background" type="ColorRect" parent="GameSummary/ContentSweeper/Hs"]
 anchor_right = 1.0
-margin_left = -752.0
-margin_top = 80.0
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="HighscoreTable" parent="GameSummary/ContentSweeper/Hs" instance=ExtResource( 6 )]
+margin_left = 32.0
+margin_top = 22.0
+margin_right = 269.0
+margin_bottom = 320.0
+size_flags_horizontal = 9
+__meta__ = {
+"_edit_horizontal_guides_": [ 296.0 ],
+"_edit_vertical_guides_": [ -128.0 ]
+}
+
+[node name="LevelBtnsHolder" parent="GameSummary/ContentSweeper" instance=ExtResource( 7 )]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -664.0
+margin_top = -440.0
 margin_right = 0.0
-margin_bottom = 520.0
-size_flags_horizontal = 0
-size_flags_vertical = 0
+margin_bottom = 0.0
+rect_min_size = Vector2( 664, 400 )
+scroll_horizontal_enabled = false
 
 [node name="Record" type="Panel" parent="GameSummary/ContentSweeper"]
+visible = false
 margin_top = 80.0
 margin_right = 264.0
 margin_bottom = 184.0
@@ -543,27 +569,6 @@ text = "%by ownerowner"
 valign = 2
 clip_text = true
 
-[node name="Hs" type="Control" parent="GameSummary/ContentSweeper"]
-visible = false
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -284.0
-margin_top = -352.0
-size_flags_horizontal = 3
-
-[node name="Background" type="ColorRect" parent="GameSummary/ContentSweeper/Hs"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
-
-[node name="HighscoreTableDummy" parent="GameSummary/ContentSweeper/Hs" instance=ExtResource( 6 )]
-margin_left = 32.0
-margin_top = 22.0
-margin_bottom = 326.0
-size_flags_horizontal = 9
-
 [node name="Content" type="Control" parent="GameSummary"]
 visible = false
 anchor_left = 0.5
@@ -573,10 +578,7 @@ anchor_bottom = 0.5
 margin_left = -288.0
 margin_top = -272.0
 margin_right = 288.0
-margin_bottom = 176.0
-__meta__ = {
-"_edit_group_": true
-}
+margin_bottom = 168.0
 
 [node name="Title" type="Label" parent="GameSummary/Content"]
 anchor_left = 0.5
@@ -595,8 +597,8 @@ uppercase = true
 [node name="Data" type="Control" parent="GameSummary/Content"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -352.0
-margin_right = 284.0
+margin_top = -336.0
+margin_right = 264.0
 size_flags_horizontal = 3
 
 [node name="Background" type="ColorRect" parent="GameSummary/Content/Data"]
@@ -606,17 +608,18 @@ color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
 [node name="DataContainer" type="VBoxContainer" parent="GameSummary/Content/Data"]
 margin_left = 32.0
-margin_top = 30.0
-margin_right = 207.0
-margin_bottom = 334.0
+margin_top = 18.0
+margin_right = 232.0
+margin_bottom = 322.0
 theme = ExtResource( 3 )
-custom_constants/separation = 10
+custom_constants/separation = 4
 __meta__ = {
 "_edit_group_": true,
 "_editor_description_": ""
 }
 
 [node name="Title" type="Label" parent="GameSummary/Content/Data/DataContainer"]
+visible = false
 margin_right = 175.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 28, 24 )
@@ -629,6 +632,7 @@ text = "%Game stats"
 visible = false
 margin_right = 223.0
 margin_bottom = 18.0
+rect_min_size = Vector2( 0, 24 )
 custom_fonts/font = ExtResource( 1 )
 text = "%Game: Cleaner"
 valign = 2
@@ -637,9 +641,9 @@ __meta__ = {
 }
 
 [node name="Level" type="Label" parent="GameSummary/Content/Data/DataContainer"]
-margin_top = 34.0
-margin_right = 175.0
-margin_bottom = 52.0
+margin_right = 200.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 0, 24 )
 custom_fonts/font = ExtResource( 1 )
 text = "%Level: 00"
 valign = 2
@@ -648,9 +652,10 @@ __meta__ = {
 }
 
 [node name="Points" type="Label" parent="GameSummary/Content/Data/DataContainer"]
-margin_top = 62.0
-margin_right = 175.0
-margin_bottom = 80.0
+margin_top = 28.0
+margin_right = 200.0
+margin_bottom = 52.0
+rect_min_size = Vector2( 0, 24 )
 custom_fonts/font = ExtResource( 1 )
 text = "%Score: 0000000"
 valign = 2
@@ -659,9 +664,10 @@ __meta__ = {
 }
 
 [node name="Time" type="Label" parent="GameSummary/Content/Data/DataContainer"]
-margin_top = 90.0
-margin_right = 175.0
-margin_bottom = 108.0
+margin_top = 56.0
+margin_right = 200.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 0, 24 )
 custom_fonts/font = ExtResource( 1 )
 text = "%Time: 00:00:00"
 valign = 2
@@ -670,9 +676,10 @@ __meta__ = {
 }
 
 [node name="PixelsOff" type="Label" parent="GameSummary/Content/Data/DataContainer"]
-margin_top = 118.0
-margin_right = 175.0
-margin_bottom = 136.0
+margin_top = 84.0
+margin_right = 200.0
+margin_bottom = 108.0
+rect_min_size = Vector2( 0, 24 )
 custom_fonts/font = ExtResource( 1 )
 text = "%Colors collected: 000"
 valign = 2
@@ -681,9 +688,10 @@ __meta__ = {
 }
 
 [node name="AstrayPixels" type="Label" parent="GameSummary/Content/Data/DataContainer"]
-margin_top = 146.0
-margin_right = 175.0
-margin_bottom = 164.0
+margin_top = 112.0
+margin_right = 200.0
+margin_bottom = 136.0
+rect_min_size = Vector2( 0, 24 )
 custom_fonts/font = ExtResource( 1 )
 text = "%Left strays: 0000"
 valign = 2
@@ -692,9 +700,10 @@ __meta__ = {
 }
 
 [node name="CellsTraveled" type="Label" parent="GameSummary/Content/Data/DataContainer"]
-margin_top = 174.0
-margin_right = 175.0
-margin_bottom = 192.0
+margin_top = 140.0
+margin_right = 200.0
+margin_bottom = 164.0
+rect_min_size = Vector2( 0, 24 )
 custom_fonts/font = ExtResource( 1 )
 text = "%Cells travelled: 0000"
 valign = 2
@@ -703,9 +712,10 @@ __meta__ = {
 }
 
 [node name="BurstCount" type="Label" parent="GameSummary/Content/Data/DataContainer"]
-margin_top = 202.0
-margin_right = 175.0
-margin_bottom = 220.0
+margin_top = 168.0
+margin_right = 200.0
+margin_bottom = 192.0
+rect_min_size = Vector2( 0, 24 )
 custom_fonts/font = ExtResource( 1 )
 text = "%Bursts: 00"
 valign = 2
@@ -714,9 +724,10 @@ __meta__ = {
 }
 
 [node name="SkillsUsed" type="Label" parent="GameSummary/Content/Data/DataContainer"]
-margin_top = 230.0
-margin_right = 175.0
-margin_bottom = 248.0
+margin_top = 196.0
+margin_right = 200.0
+margin_bottom = 220.0
+rect_min_size = Vector2( 0, 24 )
 custom_fonts/font = ExtResource( 1 )
 text = "%Skills used: 00"
 valign = 2
@@ -729,8 +740,8 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -284.0
-margin_top = -352.0
+margin_left = -304.0
+margin_top = -336.0
 size_flags_horizontal = 3
 
 [node name="Background" type="ColorRect" parent="GameSummary/Content/Hs"]
@@ -740,9 +751,14 @@ color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
 [node name="HighscoreTable" parent="GameSummary/Content/Hs" instance=ExtResource( 6 )]
 margin_left = 32.0
-margin_top = 30.0
-margin_bottom = 334.0
+margin_top = 22.0
+margin_right = 269.0
+margin_bottom = 320.0
 size_flags_horizontal = 9
+__meta__ = {
+"_edit_horizontal_guides_": [ 296.0 ],
+"_edit_vertical_guides_": [ -128.0 ]
+}
 
 [node name="Menu" type="HBoxContainer" parent="."]
 anchor_left = 0.5
@@ -952,5 +968,5 @@ align = 0
 [connection signal="pressed" from="PublishPopup/HBoxContainer/SkipBtn" to="PublishPopup" method="_on_SkipBtn_pressed"]
 [connection signal="pressed" from="PublishPopup/HBoxContainer/PublishBtn" to="PublishPopup" method="_on_PublishBtn_pressed"]
 
-[editable path="GameSummary/ContentSweeper/Hs/HighscoreTableDummy"]
+[editable path="GameSummary/ContentSweeper/Hs/HighscoreTable"]
 [editable path="GameSummary/Content/Hs/HighscoreTable"]

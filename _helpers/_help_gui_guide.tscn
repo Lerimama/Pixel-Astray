@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://assets/atlas_controls.png" type="Texture" id=1]
-[ext_resource path="res://game/gui/action_hint.tscn" type="PackedScene" id=2]
-[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=3]
-[ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=4]
+[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=1]
+[ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=2]
+[ext_resource path="res://game/gui/action_hint.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/atlas_controls.png" type="Texture" id=4]
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0, 0, 0, 1 )
@@ -24,7 +24,7 @@ border_width_bottom = 4
 border_color = Color( 1, 1, 1, 1 )
 
 [sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 4 )
 region = Rect2( 138, 22, 22, 22 )
 margin = Rect2( -2, 0, 0, 0 )
 
@@ -197,7 +197,7 @@ margin_right = 320.0
 margin_bottom = 120.0
 color = Color( 0.368627, 1, 0.662745, 1 )
 
-[node name="ActionHint" parent="." instance=ExtResource( 2 )]
+[node name="ActionHint" parent="." instance=ExtResource( 3 )]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -235,7 +235,7 @@ margin_left = -192.0
 margin_top = 62.0
 margin_right = 192.0
 margin_bottom = 94.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 2 )
 text = "Gui title"
 align = 1
 uppercase = true
@@ -248,7 +248,7 @@ margin_left = -192.0
 margin_top = 94.0
 margin_right = 192.0
 margin_bottom = 126.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 2 )
 text = "TITLE w MENU"
 align = 1
 uppercase = true
@@ -262,7 +262,7 @@ margin_top = 110.0
 margin_right = -112.0
 margin_bottom = 160.0
 grow_horizontal = 2
-theme = ExtResource( 3 )
+theme = ExtResource( 1 )
 text = "Gui Subtitle ..."
 autowrap = true
 
@@ -277,7 +277,7 @@ margin_top = 246.0
 margin_right = 151.0
 margin_bottom = 268.0
 grow_horizontal = 2
-theme = ExtResource( 3 )
+theme = ExtResource( 1 )
 custom_constants/separation = 32
 __meta__ = {
 "_edit_group_": true

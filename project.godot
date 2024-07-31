@@ -17,7 +17,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "GameManager",
 "language": "GDScript",
-"path": "res://game/managers/game_manager.gd"
+"path": "res://game/game_manager.gd"
 }, {
 "base": "Control",
 "class": "GameOver",
@@ -63,10 +63,10 @@ default_bus_layout="res://_obs/default_bus_layout.tres"
 
 [autoload]
 
-Global="*res://global.gd"
-Profiles="*res://profiles.gd"
-ConnectCover="*res://lootlocker/connect_cover.tscn"
-LootLocker="*res://lootlocker/lootlocker.gd"
+Global="*res://autoloads/global.gd"
+Profiles="*res://autoloads/profiles.gd"
+ConnectCover="*res://autoloads/connect_cover.tscn"
+LootLocker="*res://autoloads/lootlocker.gd"
 
 [debug]
 

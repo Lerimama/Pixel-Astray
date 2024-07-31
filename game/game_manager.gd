@@ -635,7 +635,7 @@ func add_to_free_floor_positions(position_to_add: Vector2):
 	if Global.current_tilemap.all_floor_tiles_global_positions.has(position_to_add_on_grid) and not free_floor_positions.has(position_to_add_on_grid):
 		free_floor_positions.append(position_to_add_on_grid)
 		 # bugfixing ... dodam indikator na poziciji, če je freepos prižgan
-		if Global.node_creation_parent.get_node("FreePositions").visible: # bugfixing	
+		if Global.node_creation_parent.get_node("FreePositions").visible: # bugfixing
 			spawn_free_position_indicator(position_to_add_on_grid)
 
 
