@@ -34,20 +34,22 @@ func _on_PublishBtn_pressed() -> void:
 	
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	
-	skip_btn.disabled = true
-	publish_btn.disabled = true
+	skip_btn.disabled = true # zazih
+	publish_btn.disabled = true # zazih
+	$Label.modulate.a = 0.32 # disabled theme color
 	
 	get_tree().set_pause(false) # da lahko procedura steče
-	get_focus_owner().release_focus() # neu
+	get_focus_owner().release_focus()
 	var publish_name: String = Global.gameover_gui.p1_final_stats["player_name"]
 	var publish_score: float = Global.gameover_gui.player_final_score
 	var publish_game_data: Dictionary = Global.game_manager.game_data
 	LootLocker.publish_score_to_lootlocker(publish_name, publish_score, publish_game_data)
-	yield(ConnectCover, "connect_cover_closed")
-	
-	get_tree().set_pause(true) # spet setano čez celotno GO proceduro
+	yield(LootLocker, "connection_closed")
+	ConnectCover.cover_label_text = "Finished"
+	yield(get_tree().create_timer(LootLocker.final_panel_open_time), "timeout")
+	ConnectCover.close_cover() # odda signal, ko se zapre	
 	emit_signal("score_published")
-
+	get_tree().set_pause(true) # spet setano čez celotno GO proceduro
 
 func _on_SkipBtn_pressed() -> void:
 	

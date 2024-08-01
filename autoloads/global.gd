@@ -107,7 +107,7 @@ func snap_to_nearest_grid(global_position_to_snap: Vector2):
 	return snapped_pixel_global_position
 
 	
-func get_clock_time(hundreds_to_split: float): # neu stotinke ... sekunde float #
+func get_clock_time(hundreds_to_split: float): # cele stotinke ali ne cele sekunde
 	
 	# če so podane stotinke, pretvorim v sekunde z decimalko
 	var seconds_to_split: float = hundreds_to_split / 100
@@ -124,6 +124,7 @@ func get_clock_time(hundreds_to_split: float): # neu stotinke ... sekunde float 
 		
 	# return [minutes, seconds, hundreds]	
 	var time_on_clock: String = "%02d" % minutes + ":" + "%02d" % seconds + ":" + "%02d" % hundreds	
+	
 	return time_on_clock
 	
 			

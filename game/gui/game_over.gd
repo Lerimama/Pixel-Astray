@@ -305,6 +305,8 @@ func set_game_summary():
 	
 func show_game_summary():
 	
+	highscore_table.load_local_to_global_ranks(Global.game_manager.game_data) # OPT drugje
+	
 	yield(get_tree().create_timer(0.5), "timeout")
 	# hide title and name_popup > show game summary
 	game_summary.modulate.a = 0	
@@ -313,10 +315,6 @@ func show_game_summary():
 	summary_fade_in.tween_property(game_summary, "modulate:a", 1, 0.5)
 	summary_fade_in.parallel().tween_callback(self, "show_menu")
 
-	yield(get_tree().create_timer(2.5), "timeout") 
-	
-	highscore_table.load_local_to_global_ranks(Global.game_manager.game_data) # OPT drugje
-		
 
 func show_menu():
 	
@@ -351,7 +349,7 @@ func play_selected_level(selected_level: int):
 	Profiles.game_data_sweeper["level"] = selected_level
 
 	# zmeraj gre na next level iz GO menija, se navoidla ugasnejo (so ugasnjena po defoltu)
-#	var sweeper_settings = Profiles.set_game_data(Profiles.Games.SWEEPER)
+#	var sweeper_settings = Profiles.set_game_data(Profiles.Games.SWEEPER) # OPT ven? sweepr instructions
 #	if Profiles.default_game_settings["show_game_instructions"] == true: # igra ima navodila, če so navodila vklopljena 
 #		sweeper_settings["show_game_instructions"] = true
 #		sweeper_settings["always_zoomed_in"] = true
@@ -373,7 +371,6 @@ func open_name_input():
 		random_generated_name += random_letter
 	random_generated_name = random_generated_name
 	name_input.placeholder_text = random_generated_name
-	
 	name_input_popup.visible = true
 	name_input_popup.modulate.a = 0
 	var fade_in_tween = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
@@ -381,6 +378,7 @@ func open_name_input():
 	yield(fade_in_tween, "finished")
 	Global.focus_without_sfx(name_input)
 	name_input.select_all()
+	
 
 	
 func _on_NameEdit_text_changed(new_text: String) -> void:
@@ -468,11 +466,3 @@ func _on_QuitBtn_pressed() -> void:
 
 func _on_ExitGameBtn_pressed() -> void:
 	get_tree().quit()
-
-
-func _on_NextLevelBtn_pressed() -> void:
-
-	var next_level_number: int = Global.game_manager.game_data["level"] + 1
-	Profiles.game_data_sweeper["level"] = next_level_number
-	Global.main_node.reload_game()
-

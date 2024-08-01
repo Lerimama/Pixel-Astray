@@ -3,8 +3,8 @@ extends CanvasLayer
 
 signal connect_cover_closed
 
-
-var cover_label_text: String = "" setget _update_label_text
+var cover_label_text: String = "" setget _update_label_text # teksti se v celoti sporočajo iz funkcije, ki kliče fazo
+var cover_label_text_change_count: int = 0
 
 onready var cover_label: Label = $Label
 
@@ -23,12 +23,12 @@ func _ready() -> void:
 	
 func open_cover(opening_from: Control = null):
 	
-	$Label.text = cover_label_text
-	
+#	$Label.text = cover_label_text
+	cover_label_text_change_count = 0
+		
 	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_in.tween_callback(self, "show")
 	fade_in.tween_property(cover_label, "modulate:a", 1, 0.2)
-	
 	
 	
 func close_cover():
@@ -36,11 +36,11 @@ func close_cover():
 	var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_out.tween_property(cover_label, "modulate:a", 0, 0.2)
 	fade_out.tween_callback(self, "hide")
-	emit_signal("connect_cover_closed")
+#	emit_signal("connect_cover_closed")
 	
 
 func _update_label_text(new_text: String):
 	
 	cover_label_text = new_text
 	$Label.text = cover_label_text
-
+	cover_label_text_change_count += 1

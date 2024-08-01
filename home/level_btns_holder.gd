@@ -2,7 +2,6 @@ extends GridContainer
 
 var unfocused_color: Color = Global.color_almost_black_pixel
 var btn_colors: Array
-var solved_level_btns: Array
 var all_level_btns: Array
 var select_level_btns_holder_parent # določim od zunaj
 
@@ -11,7 +10,7 @@ var locked_label_path: String = "VBoxContainer/LabelLocked"
 var record_label_path: String = "VBoxContainer/Record"
 var owner_label_path: String = "VBoxContainer/Owner"
 
-onready var pixel_astray_level_btn: Button = $PixelAstrayLevelBtn
+onready var the_pixel_astray_level_btn: Button = $PixelAstrayLevelBtn
 onready var LevelBtn: PackedScene = preload("res://home/level_btn.tscn")
 
 		
@@ -19,7 +18,7 @@ func spawn_level_btns():
 
 	# zbrišem vzorčne gumbe v holderju
 	for btn in get_children():
-		if not btn == pixel_astray_level_btn:
+		if not btn == the_pixel_astray_level_btn:
 			btn.queue_free()                
 	
 	# spawnam nove gumbe za vsak tilemap_path
@@ -34,8 +33,8 @@ func spawn_level_btns():
 			new_level_btn.add_to_group(Global.group_menu_confirm_btns)
 			all_level_btns.append(new_level_btn)
 		elif tilemap_path_level_number == Profiles.sweeper_level_tilemap_paths.size():
-			pixel_astray_level_btn.add_to_group(Global.group_menu_confirm_btns)
-			all_level_btns.append(pixel_astray_level_btn)
+			the_pixel_astray_level_btn.add_to_group(Global.group_menu_confirm_btns)
+			all_level_btns.append(the_pixel_astray_level_btn)
 		
 	var column_number: int = round(sqrt(Profiles.sweeper_level_tilemap_paths.size()))
 	columns = column_number
@@ -45,24 +44,21 @@ func set_level_btns():
 	
 	color_level_btns()
 	
-	# poimenujem gumbe in obarvam solved 
-	var solved_levels: Array
+	# opredelim solved gumbe 
+	var solved_levels: Array = []
 	
-	# preverim, če je v filetu prvi skor > 0 # debug solved btn soff
-#	for count in Profiles.sweeper_level_tilemap_paths.size(): 
-#		var sweeper_game_data: Dictionary = Profiles.game_data_sweeper.duplicate()
-#		sweeper_game_data["level"] = count + 1
-#		var level_highscores: Dictionary = Global.data_manager.read_highscores_from_file(sweeper_game_data)
-#		# pridobim skor linijie
-#		var scoreline_player_name_as_key: String = level_highscores["01"].keys()[0]
-#		var scoreline_score: float = level_highscores["01"][scoreline_player_name_as_key]
-#		if scoreline_score > 0:
-#			printt("score", scoreline_player_name_as_key, scoreline_score)
-#			solved_levels.append(count)
-
-
-	solved_level_btns = []
+	# za vsak level btn preverim , če je v filetu prvi skor > 0
+	for count in Profiles.sweeper_level_tilemap_paths.size(): 
+		var sweeper_game_data: Dictionary = Profiles.game_data_sweeper.duplicate()
+		sweeper_game_data["level"] = count + 1
+		var level_highscores: Dictionary = Global.data_manager.read_highscores_from_file(sweeper_game_data)
+		# pridobim skor linijie
+		var scoreline_player_name_as_key: String = level_highscores["01"].keys()[0]
+		var scoreline_score: float = level_highscores["01"][scoreline_player_name_as_key]
+		if scoreline_score > 0:
+			solved_levels.append(sweeper_game_data["level"])
 	
+	# napolnem in obarvam gumbe
 	for btn in all_level_btns:
 		var btn_index: int = all_level_btns.find(btn)
 		var btn_level_number: int = btn_index + 1
@@ -70,12 +66,11 @@ func set_level_btns():
 		btn.self_modulate = unfocused_color
 		# level name
 		# če level ni pixel astray, ima številko (ločeno zaradi pixel astray napisa
-		if not btn == pixel_astray_level_btn: 
+		if not btn == the_pixel_astray_level_btn: 
 			btn.get_node(locked_label_path).text = "%02d" % btn_level_number
 			btn.get_node(unlocked_label_path).text = "%02d" % btn_level_number
 		# če je rešen prikažem druge labele, če ni, je samo locked label
 		if btn_level_number in solved_levels:
-			solved_level_btns.append(btn)
 			# skrijem
 			btn.get_node(locked_label_path).hide()
 			# zapišem
@@ -96,7 +91,7 @@ func set_level_btns():
 			btn.get_node(locked_label_path).modulate = btn_colors[btn_index]
 			btn.get_node(locked_label_path).show()
 		
-	pixel_astray_level_btn.raise() # move the Blood node to just above the Floor in the tr
+	the_pixel_astray_level_btn.raise() # move to "top layer" ... to bottom of node tree
 
 
 func get_btn_highscore(btn_level_number: int):

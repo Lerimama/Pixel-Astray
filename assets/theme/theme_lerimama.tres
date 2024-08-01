@@ -1,8 +1,8 @@
-[gd_resource type="Theme" load_steps=28 format=2]
+[gd_resource type="Theme" load_steps=27 format=2]
 
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/theme/font_main_rich_bold.tres" type="DynamicFont" id=2]
-[ext_resource path="res://assets/theme/fonts/16bfZX.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=3]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=4]
 [ext_resource path="res://assets/theme/box_hall_tab_transparent.tres" type="StyleBox" id=5]
 
@@ -87,12 +87,8 @@ color = Color( 1, 1, 1, 1 )
 thickness = 2
 vertical = true
 
-[sub_resource type="DynamicFont" id=180]
-size = 32
-font_data = ExtResource( 3 )
-
 [resource]
-default_font = SubResource( 180 )
+default_font = ExtResource( 3 )
 Button/colors/font_color = Color( 1, 1, 1, 0.470588 )
 Button/colors/font_color_disabled = Color( 1, 1, 1, 0.196078 )
 Button/colors/font_color_focus = Color( 1, 1, 1, 1 )

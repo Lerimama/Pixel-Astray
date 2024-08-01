@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=2]
@@ -9,7 +9,6 @@
 [ext_resource path="res://home/level_btns_holder.tscn" type="PackedScene" id=7]
 [ext_resource path="res://assets/theme/style_line_edit.tres" type="StyleBox" id=8]
 [ext_resource path="res://assets/resources/tileset_titles.tres" type="TileSet" id=9]
-[ext_resource path="res://assets/theme/box_colored_almost_black.tres" type="StyleBox" id=10]
 [ext_resource path="res://game/gui/publish_popup.gd" type="Script" id=11]
 
 [node name="GameOver" type="Control"]
@@ -299,6 +298,7 @@ text = "Can't handle the colors?"
 align = 1
 
 [node name="GameSummary" type="Control" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -309,6 +309,7 @@ margin_right = 640.0
 margin_bottom = 360.0
 
 [node name="ContentSweeper" type="Control" parent="GameSummary"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -491,6 +492,9 @@ __meta__ = {
 "_edit_vertical_guides_": [ -128.0 ]
 }
 
+[node name="Title" parent="GameSummary/ContentSweeper/Hs/HighscoreTable" index="0"]
+margin_right = 237.0
+
 [node name="LevelBtnsHolder" parent="GameSummary/ContentSweeper" instance=ExtResource( 7 )]
 anchor_left = 1.0
 anchor_top = 1.0
@@ -502,72 +506,6 @@ margin_right = 0.0
 margin_bottom = 0.0
 rect_min_size = Vector2( 664, 400 )
 scroll_horizontal_enabled = false
-
-[node name="Record" type="Panel" parent="GameSummary/ContentSweeper"]
-visible = false
-margin_top = 80.0
-margin_right = 264.0
-margin_bottom = 184.0
-grow_horizontal = 2
-custom_styles/panel = ExtResource( 10 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="RecordTitle" type="Label" parent="GameSummary/ContentSweeper/Record"]
-modulate = Color( 1, 1, 1, 0.470588 )
-anchor_right = 1.0
-margin_left = 32.0
-margin_top = 24.0
-margin_right = -40.0
-margin_bottom = 49.0
-grow_horizontal = 2
-rect_min_size = Vector2( 0, 25 )
-custom_fonts/font = ExtResource( 1 )
-text = "Current record time:"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="GameSummary/ContentSweeper/Record"]
-anchor_right = 1.0
-margin_left = 32.0
-margin_top = 54.0
-margin_right = -32.0
-margin_bottom = 76.0
-grow_vertical = 2
-custom_constants/separation = 8
-
-[node name="RecordMissed" type="Label" parent="GameSummary/ContentSweeper/Record/HBoxContainer"]
-visible = false
-modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_top = 2.0
-margin_right = 44.0
-margin_bottom = 20.0
-grow_horizontal = 2
-size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 1 )
-text = "%by ownerowner"
-valign = 2
-clip_text = true
-
-[node name="RecordLabel" type="Label" parent="GameSummary/ContentSweeper/Record/HBoxContainer"]
-modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_right = 96.0
-margin_bottom = 22.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "00:00:00"
-
-[node name="RecordOwner" type="Label" parent="GameSummary/ContentSweeper/Record/HBoxContainer"]
-modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_left = 104.0
-margin_top = 2.0
-margin_right = 200.0
-margin_bottom = 20.0
-grow_horizontal = 2
-size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 1 )
-text = "%by ownerowner"
-valign = 2
-clip_text = true
 
 [node name="Content" type="Control" parent="GameSummary"]
 visible = false
@@ -796,7 +734,7 @@ align = 2
 
 [node name="RestartBtn" type="Button" parent="Menu"]
 margin_left = 84.0
-margin_right = 216.0
+margin_right = 213.0
 margin_bottom = 22.0
 focus_neighbour_right = NodePath("../ExitGameBtn")
 mouse_default_cursor_shape = 2
@@ -848,6 +786,7 @@ grow_horizontal = 2
 rect_min_size = Vector2( 140, 40 )
 focus_neighbour_bottom = NodePath("../HBoxContainer/ConfirmBtn")
 focus_next = NodePath("../HBoxContainer/ConfirmBtn")
+mouse_default_cursor_shape = 3
 size_flags_horizontal = 4
 size_flags_vertical = 6
 max_length = 10
@@ -855,6 +794,7 @@ middle_mouse_paste_enabled = false
 deselect_on_focus_loss_enabled = false
 placeholder_alpha = 0.4
 caret_blink = true
+caret_blink_speed = 0.3
 
 [node name="Undi" type="Panel" parent="NameInputPopup/NameInput"]
 show_behind_parent = true
@@ -910,7 +850,7 @@ margin_right = -384.0
 margin_bottom = -56.0
 script = ExtResource( 11 )
 
-[node name="Confirm" type="Label" parent="PublishPopup"]
+[node name="Label" type="Label" parent="PublishPopup"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

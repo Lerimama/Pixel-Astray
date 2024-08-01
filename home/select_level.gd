@@ -11,6 +11,7 @@ func _ready() -> void:
 	Profiles.game_data_sweeper["level"] = 1 # ni nujno
 
 	select_level_btns_holder.select_level_btns_holder_parent = self
+	yield(get_tree().create_timer(0.1), "timeout") # da se zgodi po štartnem branju HS-jev
 	select_level_btns_holder.spawn_level_btns()
 	select_level_btns_holder.set_level_btns()
 	select_level_btns_holder.connect_level_btns()	
@@ -25,7 +26,7 @@ func _ready() -> void:
 	# menu btn group
 	$BackBtn.add_to_group(Global.group_menu_cancel_btns)
 	
-	if not visible: # varovalka
+	if not visible: # zazih
 		show()
 	
 

@@ -1,12 +1,15 @@
 extends HTTPRequest
 
-signal guest_authenticated
+signal guest_authenticated # zase
+signal leaderboard_updated # pove kdaj je konec celotnega procesa "apdejtanja"
+signal connection_closed # pove kdaj je konec celotnega procesa "apdejtanja"
 
 var player_id: String # setam pred avtentikacijo
 var session_token: String # dobim ob avtentikaciji
 var lootlocker_leaderboard: Array
 var guest_is_authenticated: bool = false
 var anonymous_guest_name: String = "anonymous" # ko čekiraš HS v home
+var final_panel_open_time: float = 1 
 
 
 func _ready() -> void:
@@ -21,12 +24,11 @@ func publish_score_to_lootlocker(player_name: String, player_score: float, game_
 	var game_leaderboard_key = Profiles.Games.keys()[game_data["game"]]
 	if game_data["game"] == Profiles.Games.SWEEPER: # OPT iskanja brez sweeperja
 		game_leaderboard_key = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"])
-	printt("LL publish key:", game_leaderboard_key)
-	
-	authenticate_guest_session(player_name)
+	#	printt("LL publish key:", game_leaderboard_key)
+	authenticate_guest_session(player_name, true)
 	yield(self, "guest_authenticated")	
 	
-	ConnectCover.cover_label_text = "Publishing your score"
+	ConnectCover.cover_label_text = "Publishing ..."
 	
 	var url: String = "https://api.lootlocker.io/game/leaderboards/%s/submit" % game_leaderboard_key
 	var header: Array = ["Content-Type: application/json", "x-session-token: %s" % session_token]
@@ -39,23 +41,24 @@ func publish_score_to_lootlocker(player_name: String, player_score: float, game_
 	request(url, header,false, method, to_json(request_data)) 
 	# čakam na odgovor od lootlockerja ... zato dam yield
 	yield(self, "request_completed")
-	yield(get_tree().create_timer(0.8), "timeout") # _temp ... cover timer
 	
 	update_lootlocker_leaderboard(game_data)
 
 
-func update_lootlocker_leaderboard(game_data: Dictionary): 
+func update_lootlocker_leaderboard(game_data: Dictionary, last_update_in_row: bool = true): 
 	
 	if not guest_is_authenticated:
-		authenticate_guest_session(anonymous_guest_name)
+		authenticate_guest_session(anonymous_guest_name, last_update_in_row)
 		yield(self, "guest_authenticated")
-
-	ConnectCover.cover_label_text = "Updating global leaderboards"
+	else:	
+		ConnectCover.open_cover()
+		
+	ConnectCover.cover_label_text = "Updating ..."
 
 	var game_leaderboard_key = Profiles.Games.keys()[game_data["game"]]
 	if game_data["game"] == Profiles.Games.SWEEPER: # OPT iskanja brez sweeperja
 		game_leaderboard_key = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"])
-	printt("LL update key:", game_leaderboard_key)
+	#	printt("LL update key:", game_leaderboard_key)
 	
 	var url_without_count: String = "https://api.lootlocker.io/game/leaderboards/%s/list?count=" % game_leaderboard_key
 	var url: String = url_without_count + str(Profiles.global_highscores_count)
@@ -67,28 +70,37 @@ func update_lootlocker_leaderboard(game_data: Dictionary):
 	# čakam ... get method ... convert body to string
 	var response = yield(self, "request_completed")[3] 
 	response = JSON.parse(response.get_string_from_utf8()).result # dobimo session token key
-
-	if "items" in response: # "items" je ime LL slovarja, ki ima podatke o plejerju
-		lootlocker_leaderboard = response["items"]
 	
-	# dodam items brez rezultata, da jih bo toliko kot jih potegnem dol
-	var missing_results_count: int = Profiles.global_highscores_count - lootlocker_leaderboard.size()
-	if missing_results_count > 0:
-		for n in missing_results_count:
-			var empty_line_rank = lootlocker_leaderboard.size() + 1
-			var empty_line_name: String = Profiles.default_highscore_line_name
-			var new_item: Dictionary = {
-				"member_id": empty_line_name,
-				"rank": empty_line_rank,
-				"score": 0,
-			} 
-			lootlocker_leaderboard.append(new_item)
-	
-	save_lootlocker_leadebroard_to_local_highscore(game_data)
-	
-	ConnectCover.cover_label_text = "Updated"
-	yield(get_tree().create_timer(0.5), "timeout") #_temo LL timer
-	ConnectCover.close_cover() # odda signal, ko se zapre	
+	if response == null:
+		if last_update_in_row:	
+			on_connection_failed(last_update_in_row)
+	else:	
+		if "items" in response:
+			if response["items"] == null: # če v tabeli ni items arraya, generiram enega fejk 
+				var item: Dictionary = {"member_id": "No score", "rank": 1,"score": 0,}
+				response["items"] = [item]
+			lootlocker_leaderboard = response["items"]
+		# dodam items brez rezultata, da jih bo toliko kot jih potegnem dol
+		var missing_results_count: int = Profiles.global_highscores_count - lootlocker_leaderboard.size()
+		if missing_results_count > 0:
+			for n in missing_results_count:
+				var empty_line_rank = lootlocker_leaderboard.size() + 1
+				var empty_line_name: String = Profiles.default_highscore_line_name
+				var new_item: Dictionary = {
+					"member_id": empty_line_name,
+					"rank": empty_line_rank,
+					"score": 0,
+				} 
+				lootlocker_leaderboard.append(new_item)
+		
+		save_lootlocker_leadebroard_to_local_highscore(game_data)
+		
+		printt ("Leaderboard updated (get,save)", game_leaderboard_key)
+		
+		if last_update_in_row:	
+			emit_signal("connection_closed")
+		else:
+			emit_signal("leaderboard_updated")
 		
 
 func save_lootlocker_leadebroard_to_local_highscore(game_data: Dictionary):
@@ -112,14 +124,12 @@ func save_lootlocker_leadebroard_to_local_highscore(game_data: Dictionary):
 	
 	# dodam level name za ime save fileta in sejvam
 	Global.data_manager.write_highscores_to_file(game_data, global_game_highscores, true)
-	print ("LL leaderboard updated ... get&save")
 	
 
-func authenticate_guest_session(player_name: String):
+func authenticate_guest_session(player_name: String, last_attempt_in_row: bool):
 
-	ConnectCover.cover_label_text = "Connecting to server"
+	ConnectCover.cover_label_text = "Connecting ..."
 	ConnectCover.open_cover()
-	yield(get_tree().create_timer(0.5), "timeout") # _temp ... cover timer
 	
 	player_id = player_name
 	
@@ -133,7 +143,7 @@ func authenticate_guest_session(player_name: String):
 		"player_identifier": player_id,  # če je prazen je OS id
 		"development_mode": Profiles.lootlocker_development_mode,
 	}
-	request(url, header, false, method, to_json(request_body)) 
+	request(url, header, false, method, to_json(request_body))
 
 	# čakam na odgovor od lootlockerja ... zato dam yield
 	var response = yield(self, "request_completed")[3] 
@@ -141,14 +151,22 @@ func authenticate_guest_session(player_name: String):
 	
 	# CONNECTION FAILED
 	if response == null or not "session_token" in response:
-		ConnectCover.cover_label_text = "Connection failed"
-		yield(get_tree().create_timer(1), "timeout") # _temp ... cover timer
-		ConnectCover.close_cover() # odda signal, ko se zapre
+		on_connection_failed(last_attempt_in_row)
 	# CONNECTED
 	else:
 		session_token = response["session_token"]
-		ConnectCover.cover_label_text = "Connected"
-		
-		yield(get_tree().create_timer(0.5), "timeout") # _temp ... cover timer
+		ConnectCover.cover_label_text = "Connected to server"
+		yield(get_tree().create_timer(final_panel_open_time), "timeout")
 		guest_is_authenticated = true
 		emit_signal("guest_authenticated")
+
+
+func on_connection_failed(last_attempt_in_row: bool):
+		
+		printt("Connection failed:", last_attempt_in_row)
+		if last_attempt_in_row:
+			ConnectCover.cover_label_text = "Connecting failed" # tukaj zato, da prepiše tekst pozitivne reštve 
+			yield(get_tree().create_timer(final_panel_open_time), "timeout")
+			emit_signal("connection_closed")
+		else:
+			emit_signal("leaderboard_updated")

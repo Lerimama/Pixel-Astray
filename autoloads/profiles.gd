@@ -192,17 +192,6 @@ var game_data_defender: Dictionary = {
 	"spawn_round_range_grow": [1, 1], # množim [spodnjo, zgornjo] mejo
 	"line_steps_per_spawn_round_factor": 3, # na koliko stepov se spawna nova runda
 }
-var game_data_the_duel: Dictionary = {
-	"game": Games.THE_DUEL, # key igre je key lootlocker tabele
-	"highscore_type": HighscoreTypes.NONE,
-	"game_name": "The Duel",
-	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_duel_s.tscn",
-	# pre-game instructons
-	"description" : "Only the best cleaner will shine in this epic battle!",
-	"Prop": "Player with better\nfinal score will be named\nthe Ultimate cleaning champ!",
-	"Prop2": "Hit the opposing player\nto take his life and\nhalf of his points.",
-}
 var game_data_sweeper: Dictionary = {
 	"game": Games.SWEEPER, # key igre je key lootlocker tabele
 	"highscore_type": HighscoreTypes.TIME,
@@ -216,6 +205,35 @@ var game_data_sweeper: Dictionary = {
 	"Prop3": "Initial burst can\ncollect all stacked\ncolors. Reburst always\ncollects only one.",
 	"level": 1,
 }
+var game_data_the_duel: Dictionary = {
+	"game": Games.THE_DUEL, # key igre je key lootlocker tabele
+	"highscore_type": HighscoreTypes.NONE,
+	"game_name": "The Duel",
+	"game_scene_path": "res://game/game.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_duel_s.tscn",
+	# pre-game instructons
+	"description" : "Only the best cleaner will shine in this epic battle!",
+	"Prop": "Player with better\nfinal score will be named\nthe Ultimate cleaning champ!",
+	"Prop2": "Hit the opposing player\nto take his life and\nhalf of his points.",
+}
+var game_data_showcase: Dictionary = {
+	"game": Games.SHOWCASE,
+	"highscore_type": HighscoreTypes.NONE,
+	"game_name": "Showcase",
+	#	"game_scene_path": "res://showcase/game_showcase.tscn",
+	#	"tilemap_path": "res://showcase/tilemap/tilemap_showcase_title.tscn",
+	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase.tscn", # klasika
+	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_sweeper.tscn", # reburts on, white start in belega
+	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_skills.tscn",
+	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_multicollect.tscn",
+	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_step.tscn",
+	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_waiting.tscn", # camera shake on, white start
+	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_capsule.tscn", # transparenca belih,  camera shake on, white start, stray spawn count
+	"description" : "Clean them all",
+	"Prop" : "Or not",
+	"Prop2" : "Or yes!",
+}
+
 var sweeper_level_tilemap_paths: Array = [ # zaporedje je ključno za level name
 	"res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
 	"res://game/tilemaps/sweeper/tilemap_sweeper_02.tscn",
@@ -234,23 +252,7 @@ var sweeper_level_tilemap_paths: Array = [ # zaporedje je ključno za level name
 	"res://game/tilemaps/sweeper/tilemap_sweeper_15.tscn",
 	"res://game/tilemaps/sweeper/tilemap_sweeper_pixel_astray.tscn"
 	]
-var game_data_showcase: Dictionary = {
-	"game": Games.SHOWCASE,
-	"highscore_type": HighscoreTypes.NONE,
-	"game_name": "Showcase",
-	#	"game_scene_path": "res://showcase/game_showcase.tscn",
-	#	"tilemap_path": "res://showcase/tilemap/tilemap_showcase_title.tscn",
-	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase.tscn", # klasika
-	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_sweeper.tscn", # reburts on, white start in belega
-	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_skills.tscn",
-	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_multicollect.tscn",
-	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_step.tscn",
-	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_waiting.tscn", # camera shake on, white start
-	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_capsule.tscn", # transparenca belih,  camera shake on, white start, stray spawn count
-	"description" : "Clean them all",
-	"Prop" : "Or not",
-	"Prop2" : "Or yes!",
-}
+
 
 # ON GAME START -----------------------------------------------------------------------------------
 

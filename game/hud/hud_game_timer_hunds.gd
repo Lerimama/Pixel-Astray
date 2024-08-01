@@ -49,7 +49,7 @@ func _process(delta: float) -> void:
 	else:	
 		# game time
 		game_time += delta # sekunde z decimalkami ... absouletnega uporabljam za izračune v vseh modetih
-		game_time_hunds = game_time * 100
+		game_time_hunds = round(game_time * 100)
 		
 		# display
 		if stopwatch_mode:	
