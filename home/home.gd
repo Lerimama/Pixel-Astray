@@ -154,7 +154,7 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 				current_screen = Screens.HIGHSCORES
 				current_esc_hint = $Highscores/EscHint
 #				Global.focus_without_sfx($Highscores/Tabs/ClassicTab)
-				Global.focus_without_sfx($Highscores.selected_tab)
+				Global.focus_without_sfx($Highscores.selected_tab_btn)
 		"select_level":
 			#			if animation_reversed(Screens.SELECT_LEVEL):
 			#				return

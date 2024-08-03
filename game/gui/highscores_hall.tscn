@@ -31,7 +31,6 @@ margin_bottom = 12.0
 custom_styles/panel = SubResource( 524 )
 
 [node name="EdgeSelected" type="Panel" parent="Undi"]
-visible = false
 anchor_right = 1.0
 margin_top = 12.0
 margin_bottom = 12.0

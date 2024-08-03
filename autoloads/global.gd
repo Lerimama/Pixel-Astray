@@ -29,7 +29,7 @@ var group_tilemap = "Tilemap" # defender in patterns
 var group_ghosts = "Ghosts"
 var group_menu_confirm_btns = "Menu confirm btns"
 var group_menu_cancel_btns = "Menu cancel btns"
-
+const SAVING = "saving"
 # colors
 var color_blue: Color = Color("#4b9fff")
 var color_green: Color = Color("#5effa9")
@@ -381,11 +381,11 @@ func _on_button_toggled(button_pressed: bool) -> void:
 # on hover
 func _on_control_hovered(control: Control):
 
-
 	# izločim sounde za select game ozadja
 	#	if control is ColorRect:
 	#		return
 		
+#	if not control.has_focus() and control is Button:		
 	if not control.has_focus() and not control is ColorRect:		
 		control.grab_focus()
 

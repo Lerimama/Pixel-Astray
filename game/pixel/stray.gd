@@ -66,6 +66,7 @@ func die(stray_in_stack_index: int, strays_in_stack_count: int):
 			animation_player.play("die_stray")
 
 		#	position_indicator.modulate.a = 0	
+		printt("COL", collision_shape.disabled)
 		collision_shape.set_deferred("disabled", true)
 		
 		# color vanish

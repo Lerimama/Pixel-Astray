@@ -6,7 +6,7 @@ var current_sweeper_table_page: int = 1
 var scorelines: Array = []
 var scorelines_with_score: Array
 
-onready var highscore_table: VBoxContainer = $TableScroller/Table
+onready var hs_table: VBoxContainer = $TableScroller/Table
 onready var table_title_label: Label = $Title
 onready var rank_node_name: String = "Rank"
 #onready var local_rank_node_name: String = "Rank"
@@ -28,11 +28,11 @@ func load_highscore_table(current_game_data: Dictionary, current_player_rank: in
 	
 #	printt("Loading HS:", current_game_data.keys()[0])
 	# reset table
-	var highscore_table_children: Array = highscore_table.get_children()
+	var highscore_table_children: Array = hs_table.get_children()
 	if highscore_table_children.size() > 1: # pomeni, da ni resetirana, ali pa ima debug linije
 		for child in highscore_table_children:
 			if not child == highscore_table_children[0]:
-				highscore_table.remove_child(child)
+				hs_table.remove_child(child)
 	scorelines.clear()
 	scorelines_with_score.clear()
 	
@@ -57,7 +57,7 @@ func load_highscore_table(current_game_data: Dictionary, current_player_rank: in
 	for unfilled_scoreline in scorelines: # scrolline so postavljene in ne nafilane
 		fill_scoreline(unfilled_scoreline, current_game_data, lines_to_load_count, current_game_highscores)
 
-	for table_line in highscore_table.get_children(): # zajamem tudi HS titles linijo
+	for table_line in hs_table.get_children(): # zajamem tudi HS titles linijo
 		if global_highscores:
 			table_line.get_node(alt_rank_node_name).show()
 			table_line.get_node(rank_node_name).hide()
@@ -70,7 +70,7 @@ func load_highscore_table(current_game_data: Dictionary, current_player_rank: in
 		players_scoreline.modulate = Global.color_green
 	
 	# scrollbar spacing od tabele (če je naslov večji od tabele poravnava se s širino parenta)
-	$TableScroller.rect_min_size.x = highscore_table.rect_size.x + 32
+	$TableScroller.rect_min_size.x = hs_table.rect_size.x + 32
 	$TableScroller.get_v_scrollbar().self_modulate.a = 0.25
 	# printt("HStbale",$TableScroller.get_v_scrollbar().get_children())	
 	
@@ -78,7 +78,7 @@ func load_highscore_table(current_game_data: Dictionary, current_player_rank: in
 	
 func build_table(lines_count: int):
 	
-	scorelines = highscore_table.get_children()
+	scorelines = hs_table.get_children()
 	
 	var scoreline_titles_line: Control
 	if show_scoreline_titles: # odstranim scoreline titles line
@@ -88,10 +88,10 @@ func build_table(lines_count: int):
 	# podupliciram osnovno linijo 
 	if scorelines.size() < lines_count:
 		var missing_lines_count: int = lines_count - scorelines.size()
-		var scoreline_to_duplicate: Control = highscore_table.get_child(0)
+		var scoreline_to_duplicate: Control = hs_table.get_child(0)
 		for n in missing_lines_count:
 			var new_scoreline = scoreline_to_duplicate.duplicate()
-			highscore_table.add_child(new_scoreline)
+			hs_table.add_child(new_scoreline)
 			scorelines.append(new_scoreline)	
 
 				
