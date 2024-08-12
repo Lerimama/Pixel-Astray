@@ -1,4 +1,4 @@
-[gd_scene load_steps=116 format=2]
+[gd_scene load_steps=113 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -22,11 +22,9 @@
 [ext_resource path="res://game/gui/controls_scheme.tscn" type="PackedScene" id=22]
 [ext_resource path="res://game/gui/shortcut_line.tscn" type="PackedScene" id=23]
 [ext_resource path="res://assets/theme/box_game_btn_focus.tres" type="StyleBox" id=24]
-[ext_resource path="res://assets/theme/_box_hall_edge.tres" type="StyleBox" id=25]
 [ext_resource path="res://assets/theme/font_main_small.tres" type="DynamicFont" id=26]
 [ext_resource path="res://assets/theme/box_colored_almost_black.tres" type="StyleBox" id=28]
 [ext_resource path="res://assets/theme/box_colored_almost_black_wth_edge.tres" type="StyleBox" id=29]
-[ext_resource path="res://assets/theme/box_hall_tab_transparent.tres" type="StyleBox" id=30]
 [ext_resource path="res://game/gui/highscores_hall.tscn" type="PackedScene" id=31]
 
 [sub_resource type="StyleBoxEmpty" id=208]
@@ -547,8 +545,6 @@ region = Rect2( 8, 67, 6, 10 )
 [sub_resource type="AtlasTexture" id=336]
 atlas = ExtResource( 2 )
 region = Rect2( 2, 67, 6, 10 )
-
-[sub_resource type="StyleBoxEmpty" id=525]
 
 [sub_resource type="AtlasTexture" id=190]
 atlas = ExtResource( 12 )
@@ -2917,9 +2913,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 mouse_default_cursor_shape = 2
-custom_styles/tab_fg = ExtResource( 30 )
-custom_styles/tab_bg = ExtResource( 30 )
-custom_styles/panel = SubResource( 525 )
 
 [node name="ChaserHall" parent="Highscores/ScrollContainer/ScrollContent/Unbeatables/TabContainer" instance=ExtResource( 31 )]
 anchor_right = 1.0
@@ -2935,27 +2928,6 @@ anchor_bottom = 1.0
 margin_top = 44.0
 margin_right = 0.0
 margin_bottom = 0.0
-
-[node name="TabsCover" type="ColorRect" parent="Highscores/ScrollContainer/ScrollContent/Unbeatables"]
-visible = false
-modulate = Color( 1, 1, 1, 0.807843 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 208.0
-margin_top = 16.0
-margin_right = -208.0
-margin_bottom = -328.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
-
-[node name="Edge" type="Panel" parent="Highscores/ScrollContainer/ScrollContent/Unbeatables/TabsCover"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = 8.0
-margin_right = -8.0
-margin_bottom = -8.0
-custom_styles/panel = ExtResource( 25 )
 
 [node name="Cleaners" type="Control" parent="Highscores/ScrollContainer/ScrollContent"]
 margin_left = 1992.0

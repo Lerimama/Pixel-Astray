@@ -89,40 +89,30 @@ func _input(event):
 		var content_to_focus: Control
 		if selected_hall == unbeatables_hall and get_focus_owner() == unbeatable_tab_btn:
 			if Input.is_action_just_pressed("ui_down"):
-#			if event.is_action_pressed("ui_down"):
 				focus_hall_content(unbeatables_hall)
-#				get_tree().set_input_as_handled()
 		elif selected_hall == sweepers_hall and get_focus_owner() == sweeper_tab_btn:
 			if Input.is_action_just_pressed("ui_down"):
-#			if event.is_action_pressed("ui_down"):
 				focus_hall_content(sweepers_hall)
-#				get_tree().set_input_as_handled()
 					
 		elif selected_hall == cleaners_hall and get_focus_owner() == cleaner_tab_btn:
 			if Input.is_action_just_pressed("ui_down"):
-#			if event.is_action_pressed("ui_down"):
 				focus_hall_content(cleaners_hall)
-#				get_tree().set_input_as_handled()
 		else:
 			return			
 	# če hall je fokusiran se premikam po tabih
 	else:
 		var tab = focused_content.current_tab
 		if Input.is_action_just_pressed("ui_left"):
-#		if event.is_action_pressed("ui_left"):
 			tab -= 1
 		elif Input.is_action_just_pressed("ui_right"):
-#		elif event.is_action_pressed("ui_right"):
 			tab += 1
 		elif Input.is_action_just_pressed("ui_up"):
-#		elif event.is_action_pressed("ui_up"):
 			get_focus_owner().release_focus()
 			defocus_hall_content()
 			get_tree().set_input_as_handled()
 			return
 		focused_content.current_tab = clamp(tab, 0, get_child_count())
 		focused_content.set_current_tab(tab)
-#	print (focused_content)
 
 
 func _ready() -> void:
@@ -151,8 +141,12 @@ func _ready() -> void:
 		sweeper_hall.name = str(all_sweeper_halls.find(sweeper_hall) + 1)
 		all_sweeper_global_tables.append(hall_table_global)
 		all_sweeper_local_tables.append(hall_table_local)
-		
-		
+
+	
+	# dodam sweeper tabele med vse lokalne
+	all_local_tables.append_array(all_sweeper_local_tables)
+	all_global_tables.append_array(all_sweeper_global_tables)
+	
 	# update centriranih pozicij hall holderjev
 	var scroll_container_width: float = scroll_container.rect_size.x/2 
 	unbeatables_position -= scroll_container_width - unbeatables.rect_size.x/2
@@ -181,18 +175,30 @@ func _process(delta: float) -> void:
 func load_all_highscore_tables(update_tables: bool = false):
 	
 	print("Updating tables")
+	
 	# apdejtam lokalne tabele
 	for table in all_local_tables:
-		var table_index: int = all_local_tables.find(table)
-		var game_data_local: Dictionary = all_tables_game_data[table_index]
-		#		if game_data_local["game"] == Profiles.Games.SWEEPER: # OPT sweeper tabele združi z drugimi 
-		#			game_data_local["level"] = all_sweeper_local_tables.find(table) + 1
+		var game_data_local: Dictionary
+		if all_sweeper_local_tables.has(table):
+			game_data_local = Profiles.game_data_sweeper
+			game_data_local["level"] = all_sweeper_local_tables.find(table) + 1
+		else:	
+			var table_index: int = all_local_tables.find(table)
+			game_data_local = all_tables_game_data[table_index]
 		table.load_highscore_table(game_data_local, fake_player_ranking, Profiles.local_highscores_count)
 		table.load_local_to_global_ranks(game_data_local)
+	
+	
 	# apdejtam globalne tabele
 	for table in all_global_tables:
-		var table_index: int = all_global_tables.find(table)
-		var game_data_local: Dictionary = all_tables_game_data[table_index]
+		var game_data_local: Dictionary
+		if all_sweeper_global_tables.has(table):
+			game_data_local = Profiles.game_data_sweeper
+			game_data_local["level"] = all_sweeper_global_tables.find(table) + 1
+		else:
+					
+			var table_index: int = all_global_tables.find(table)
+			game_data_local = all_tables_game_data[table_index]
 		if update_tables:
 			var last_table_in_row: Control = all_global_tables[all_global_tables.size() - 1]
 			if table == last_table_in_row:
@@ -205,28 +211,7 @@ func load_all_highscore_tables(update_tables: bool = false):
 				LootLocker.update_lootlocker_leaderboard(game_data_local, false)
 				yield(LootLocker, "leaderboard_updated")
 		table.load_highscore_table(game_data_local, fake_player_ranking, Profiles.global_highscores_count, true)
-	# apdejtam sweeper lokalne tabele
-	for table in all_sweeper_local_tables:
-		var game_data_local: Dictionary = Profiles.game_data_sweeper
-		game_data_local["level"] = all_sweeper_local_tables.find(table) + 1
-		table.load_highscore_table(game_data_local, fake_player_ranking, Profiles.local_highscores_count)
-		table.load_local_to_global_ranks(game_data_local)
-	# apdejtam sweeper globalne tabele
-	for table in all_sweeper_global_tables:
-		var game_data_local: Dictionary = Profiles.game_data_sweeper
-		game_data_local["level"] = all_sweeper_global_tables.find(table) + 1
-		if update_tables:
-			var last_table_in_row: Control = all_sweeper_global_tables[all_sweeper_global_tables.size() - 1]
-			if table == last_table_in_row:
-				LootLocker.update_lootlocker_leaderboard(game_data_local)
-				yield(LootLocker, "connection_closed")
-				ConnectCover.cover_label_text = "Finished"
-				yield(get_tree().create_timer(LootLocker.final_panel_open_time), "timeout")
-				ConnectCover.close_cover() # odda signal, ko se zapre	
-			else:
-				LootLocker.update_lootlocker_leaderboard(game_data_local, false)
-				yield(LootLocker, "leaderboard_updated")
-		table.load_highscore_table(game_data_local, fake_player_ranking, Profiles.global_highscores_count, true)
+	
 	print ("All tables updated")
 
 
@@ -234,17 +219,21 @@ func load_all_highscore_tables(update_tables: bool = false):
 
 
 func select_hall(new_scroll_position: float, focus_content_also: bool = false):
-#	defocus_hall_content()
-#	defocus_hall_content()	
 	
+	if focused_content:
+		defocus_hall_content()
+	
+	# naberem izbrano pred premikom
 	var content_to_deheighlight: Control
 	var tab_btn_to_deheighlight: Button
+	# če je tab btn izbran
 	if not selected_tab_btn == null:
 		tab_btn_to_deheighlight = selected_tab_btn
 		tab_btn_to_deheighlight.self_modulate = Color.white
 		tab_btn_to_deheighlight.get_node("EdgeSelected").hide()
 		content_to_deheighlight = get_visible_hall_content(selected_hall)
-			
+	
+	# setam novo izbrano vsebino
 	match new_scroll_position:
 		classic_position:
 			selected_tab_btn = classic_tab_btn 
@@ -258,21 +247,23 @@ func select_hall(new_scroll_position: float, focus_content_also: bool = false):
 		cleaners_position:
 			selected_tab_btn = cleaner_tab_btn
 			selected_hall = cleaners_hall	
-					
-	selected_tab_btn.get_node("EdgeSelected").show()
 	
+	# printt("S HALL", content_to_deheighlight, selected_hall)
+	
+	# ugasnem staro vsebino in prižgem novo
+	selected_tab_btn.get_node("EdgeSelected").show()
 	var scroll_tween = get_tree().create_tween()
 	scroll_tween.tween_property(scroll_container, "scroll_horizontal", new_scroll_position, scroll_tween_time).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	selected_tab_btn.self_modulate = Global.color_yellow
 	yield(scroll_tween, "finished")	
 	
-	if focus_content_also:
-		defocus_hall_content()
-
-		focus_hall_content(selected_hall)	
-
 	if not content_to_deheighlight == null:
 		content_to_deheighlight.get_node("Undi/EdgeSelected").hide()
+	
+	# fokusiram hall
+	if focus_content_also:
+#		defocus_hall_content()
+		focus_hall_content(selected_hall)	
 			
 	var content_to_highlight = get_visible_hall_content(selected_hall)
 	content_to_highlight.get_node("Undi/EdgeSelected").show()
@@ -291,15 +282,6 @@ func get_visible_hall_content(hall: Control):
 					
 func focus_hall_content(content_to_focus: Control):
 	
-#	get_focus_owner().release_focus()
-	
-	# fokus na hall
-#	match content_to_focus:
-#		unbeatables:
-#			focused_content = unbeatables_hall
-#		sweepers:
-#			focused_content = sweepers_hall
-#		cleaners:
 	focused_content = content_to_focus
 	focused_content.self_modulate = Color.white
 	
@@ -376,14 +358,9 @@ func _on_CleanerBtn_pressed() -> void:
 	select_hall(cleaners_position)
 	
 
-func _on_Unbeatable_tab_selected() -> void:
 
-	if selected_hall == unbeatables_hall:
-		get_focus_owner().release_focus()
-		focus_hall_content(unbeatables_hall)
-	else:
-#		select_hall(unbeatables_position, true)	
-		pass
+
+# notranji tabi
 
 func _on_Sweepers_tab_selected(tab: int) -> void:
 	
@@ -391,18 +368,26 @@ func _on_Sweepers_tab_selected(tab: int) -> void:
 		get_focus_owner().release_focus()
 		focus_hall_content(sweepers_hall)
 	else:
-#		select_hall(sweepers_position, true)
+		select_hall(sweepers_position, true)
 		pass
 	
 	
-func _on_Cleaner_tab_selected() -> void:
+func _on_Unbeatable_tab_selected(tab: int) -> void:
+
+	if selected_hall == unbeatables_hall:
+		get_focus_owner().release_focus()
+		focus_hall_content(unbeatables_hall)
+	else:
+		select_hall(unbeatables_position, true)	
+	
+	
+func _on_Cleaner_tab_selected(tab: int) -> void:
 
 	if selected_hall == cleaners_hall:
 		get_focus_owner().release_focus()
 		focus_hall_content(cleaners_hall)
 	else:
-#		select_hall(cleaners_position, true)
-		pass
+		select_hall(cleaners_position, true)
 	
 	
 func _on_BackBtn_pressed() -> void:
