@@ -75,7 +75,7 @@ func _authentication_request():
 	auth_http.request("https://api.lootlocker.io/game/v2/session/guest", headers, true, HTTPClient.METHOD_POST, to_json(data))
 	
 	# Print what we're sending, for debugging purposes:
-	print(data)
+	print("sending data",data)
 
 
 func _on_authentication_request_completed(result, response_code, headers, body):

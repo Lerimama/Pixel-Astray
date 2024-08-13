@@ -143,7 +143,7 @@ func set_game_view(): # kliče MAIN pred fade-in scene 02.
 		Global.game_camera.set_zoom_to_level_size()
 	if game_settings["always_zoomed_in"]:
 		Global.game_camera.zoom = Global.game_camera.zoom_end
-	if game_data["game"] == Profiles.Games.CLEANER_XS or game_data["game"] == Profiles.Games.CLEANER_S:
+	if game_data["game"] == Profiles.Games.ERASER_XS or game_data["game"] == Profiles.Games.ERASER_S:
 		# mehkejše kamera za manjše ekrane
 		Global.game_camera.smoothing_speed = 5		
 	
@@ -193,7 +193,7 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 func start_game():
 	
 	# select music
-	if game_data["game"] == Profiles.Games.CLASSIC and Global.tutorial_gui.tutorial_on:
+	if game_data["game"] == Profiles.Games.CLEANER and Global.tutorial_gui.tutorial_on:
 		Global.tutorial_gui.open_tutorial()
 		Global.sound_manager.current_music_track_index = Profiles.tutorial_music_track_index
 	else:
@@ -230,7 +230,7 @@ func game_over(gameover_reason: int):
 				signaling_player = player
 			yield(signaling_player, "rewarded_on_cleaned")
 		else:
-			if game_data["game"] == Profiles.Games.CLASSIC and Global.tutorial_gui.tutorial_on:
+			if game_data["game"] == Profiles.Games.CLEANER and Global.tutorial_gui.tutorial_on:
 				Global.tutorial_gui.close_tutorial()
 			yield(get_tree().create_timer(Profiles.get_it_time), "timeout")
 			
@@ -243,7 +243,7 @@ func game_over(gameover_reason: int):
 func stop_game_elements():
 	# včasih nujno
 	
-	if game_data["game"] == Profiles.Games.CLASSIC and Global.tutorial_gui.tutorial_on:
+	if game_data["game"] == Profiles.Games.CLEANER and Global.tutorial_gui.tutorial_on:
 		Global.tutorial_gui.close_tutorial()
 	Global.hud.popups_out()
 	for player in current_players_in_game:
@@ -279,7 +279,7 @@ func set_new_level():
 	game_data["level"] = current_level
 
 
-func upgrade_level(upgrade_on_cleaned: bool =  false): # cleaner
+func upgrade_level(upgrade_on_cleaned: bool =  false):
 	
 #	if level_upgrade_in_progress or not game_on: # zazih game_on pogoj 
 #		return
@@ -404,7 +404,7 @@ func create_strays(strays_to_spawn_count: int):
 			
 			# je white? ... če pozicija bela in, če je index večji od planiranega deleža belih
 			var turn_to_white: bool = false
-			if not game_data["game"] == Profiles.Games.THE_DUEL and not game_data["game"] == Profiles.Games.CHASER:
+			if not game_data["game"] == Profiles.Games.THE_DUEL and not game_data["game"] == Profiles.Games.HUNTER:
 				var spawn_white_spawn_limit: int = strays_to_spawn_count - round(strays_to_spawn_count * spawn_white_stray_part)
 				if wall_spawn_positions.has(selected_cell_position) or stray_index > spawn_white_spawn_limit: 
 					turn_to_white = true
@@ -550,7 +550,6 @@ func respawn_strays(spawn_in_stack: bool = true):
 		print("Error! 0 spawnanih, na respawn. Probam takoj še enkrat ...")
 		respawn_strays(spawn_in_stack)
 
-
 func spawn_stray(stray_index: int, stray_color: Color, stray_position: Vector2, is_white: bool):
 	
 	# spawn
@@ -560,6 +559,7 @@ func spawn_stray(stray_index: int, stray_color: Color, stray_position: Vector2, 
 	new_stray_pixel.global_position = stray_position # dodana adaptacija zaradi središča pixla
 	new_stray_pixel.z_index = 2 # višje od plejerja
 	Global.node_creation_parent.call_deferred("add_child", new_stray_pixel)
+	#	Global.node_creation_parent.add_child(new_stray_pixel)
 	
 	if is_white: 
 		new_stray_pixel.current_state = new_stray_pixel.States.WALL

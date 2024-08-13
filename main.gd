@@ -11,9 +11,10 @@ func _input(event: InputEvent) -> void:
 	
 	if Input.is_action_just_pressed("r"):
 		var all_nodes = Global.get_all_nodes_in_node(self)
+		
 		for node in all_nodes:
 			if node.name[0] == "_" and node.name[1] == "_":
-				print(node.name)
+				printt("_NODE",node.name)
 		
 		print("All nodes in MAIN scene",  all_nodes.size())
 	
@@ -23,8 +24,8 @@ func _ready() -> void:
 	Global.main_node = self
 	
 #	home_in_intro()
-	home_in_no_intro()
-#	game_in()
+#	home_in_no_intro()
+	game_in()
 
 			
 func home_in_intro():

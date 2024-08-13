@@ -1,4 +1,4 @@
-[gd_scene load_steps=113 format=2]
+[gd_scene load_steps=117 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -538,13 +538,15 @@ grow_begin = 0.0
 grow_end = 0.0
 thickness = 2
 
-[sub_resource type="AtlasTexture" id=335]
+[sub_resource type="AtlasTexture" id=528]
 atlas = ExtResource( 2 )
-region = Rect2( 8, 67, 6, 10 )
+region = Rect2( 2, 120, 20, 24 )
+filter_clip = true
 
-[sub_resource type="AtlasTexture" id=336]
+[sub_resource type="AtlasTexture" id=527]
 atlas = ExtResource( 2 )
-region = Rect2( 2, 67, 6, 10 )
+region = Rect2( 26, 120, 20, 24 )
+filter_clip = true
 
 [sub_resource type="AtlasTexture" id=190]
 atlas = ExtResource( 12 )
@@ -569,7 +571,7 @@ margin = Rect2( -2, 3, 0, 0 )
 [sub_resource type="Animation" id=155]
 length = 0.001
 tracks/0/type = "bezier"
-tracks/0/path = NodePath("Menu:rect_position:y")
+tracks/0/path = NodePath("HomeScreen/Menu:rect_position:y")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -579,7 +581,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Menu:modulate:a")
+tracks/1/path = NodePath("HomeScreen/Menu:modulate:a")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -715,7 +717,7 @@ tracks/12/keys = {
 "values": [ Vector2( 0, 720 ) ]
 }
 tracks/13/type = "bezier"
-tracks/13/path = NodePath("Menu:rect_position:x")
+tracks/13/path = NodePath("HomeScreen/Menu:rect_position:x")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
@@ -725,7 +727,7 @@ tracks/13/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("Menu:rect_size")
+tracks/14/path = NodePath("HomeScreen/Menu:rect_size")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
@@ -737,7 +739,7 @@ tracks/14/keys = {
 "values": [ Vector2( 720, 25 ) ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("Menu:rect_position")
+tracks/15/path = NodePath("HomeScreen/Menu:rect_position")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
@@ -749,7 +751,7 @@ tracks/15/keys = {
 "values": [ Vector2( 280, 518 ) ]
 }
 tracks/16/type = "bezier"
-tracks/16/path = NodePath("IntroViewPortContainer/IntroViewport/IntroCamera:position:y")
+tracks/16/path = NodePath("HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera:position:y")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
@@ -759,7 +761,7 @@ tracks/16/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/17/type = "bezier"
-tracks/17/path = NodePath("IntroViewPortContainer/IntroViewport/IntroCamera:position:x")
+tracks/17/path = NodePath("HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera:position:x")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
@@ -800,13 +802,123 @@ tracks/20/keys = {
 "update": 0,
 "values": [ 1.0 ]
 }
+tracks/21/type = "bezier"
+tracks/21/path = NodePath("HomeScreen/IntroViewPortContainer:rect_position:x")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/22/type = "bezier"
+tracks/22/path = NodePath("HomeScreen/IntroViewPortContainer:rect_position:y")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/23/type = "bezier"
+tracks/23/path = NodePath("HomeScreen:rect_position:x")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/24/type = "bezier"
+tracks/24/path = NodePath("HomeScreen:rect_position:y")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
 
 [sub_resource type="Animation" id=137]
 resource_name = "about"
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("HomeScreen/Menu:modulate:a")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("About:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.04, 0.1, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 0.0, 1.0 ]
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("About:rect_position:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 720, 0, 0, 0.5, 0, 160, -0.5, 0, 0.5, 0 ),
+"times": PoolRealArray( 0.04, 1 )
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("HomeScreen/Menu:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.3 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("HomeScreen:rect_position:x")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 0, 0, 0, 0.5, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("HomeScreen:rect_position:y")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( 0, 0, 0, 0.5, 0, -268, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0.04, 1 )
+}
+
+[sub_resource type="Animation" id=531]
+resource_name = "about (copy)"
 length = 1.2
 step = 0.01
 tracks/0/type = "value"
-tracks/0/path = NodePath("Menu:modulate:a")
+tracks/0/path = NodePath("HomeScreen/Menu:modulate:a")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -840,7 +952,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0.4, 1.2 )
 }
 tracks/3/type = "bezier"
-tracks/3/path = NodePath("IntroViewPortContainer/IntroViewport/IntroCamera:position:y")
+tracks/3/path = NodePath("HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera:position:y")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -850,7 +962,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0, 1 )
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Menu:visible")
+tracks/4/path = NodePath("HomeScreen/Menu:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -864,10 +976,80 @@ tracks/4/keys = {
 
 [sub_resource type="Animation" id=141]
 resource_name = "highscores"
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("HomeScreen/Menu:modulate:a")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Highscores:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.04, 0.1, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 0.0, 1.0 ]
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Highscores:rect_position:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( -592, 0, 0, 0.5, 0, 0, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0.04, 1 )
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("HomeScreen/Menu:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.3 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("HomeScreen:rect_position:x")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 0, 0, 0, 0.5, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("HomeScreen:rect_position:y")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( 0, 0, 0, 0.5, 0, 464, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0.04, 1 )
+}
+
+[sub_resource type="Animation" id=532]
+resource_name = "highscores (copy)"
 length = 1.25
 step = 0.01
 tracks/0/type = "value"
-tracks/0/path = NodePath("Menu:modulate:a")
+tracks/0/path = NodePath("HomeScreen/Menu:modulate:a")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -891,7 +1073,7 @@ tracks/1/keys = {
 "values": [ 1.0, 0.0, 0.0, 1.0 ]
 }
 tracks/2/type = "bezier"
-tracks/2/path = NodePath("Menu:rect_position:y")
+tracks/2/path = NodePath("HomeScreen/Menu:rect_position:y")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -911,7 +1093,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0.4, 1.25 )
 }
 tracks/4/type = "bezier"
-tracks/4/path = NodePath("IntroViewPortContainer/IntroViewport/IntroCamera:position:y")
+tracks/4/path = NodePath("HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera:position:y")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -921,7 +1103,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0, 1.05 )
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Menu:visible")
+tracks/5/path = NodePath("HomeScreen/Menu:visible")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -937,7 +1119,7 @@ tracks/5/keys = {
 resource_name = "play_game"
 step = 0.02
 tracks/0/type = "value"
-tracks/0/path = NodePath("Menu:modulate:a")
+tracks/0/path = NodePath("HomeScreen/Menu:modulate:a")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -961,7 +1143,7 @@ tracks/1/keys = {
 "values": [ 1.0, 0.0 ]
 }
 tracks/2/type = "bezier"
-tracks/2/path = NodePath("Menu:rect_position:x")
+tracks/2/path = NodePath("HomeScreen/Menu:rect_position:x")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -981,7 +1163,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0, 1 )
 }
 tracks/4/type = "bezier"
-tracks/4/path = NodePath("IntroViewPortContainer/IntroViewport/IntroCamera:position:x")
+tracks/4/path = NodePath("HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera:position:x")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -995,7 +1177,7 @@ tracks/4/keys = {
 resource_name = "play_level"
 step = 0.02
 tracks/0/type = "value"
-tracks/0/path = NodePath("Menu:modulate:a")
+tracks/0/path = NodePath("HomeScreen/Menu:modulate:a")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -1007,7 +1189,7 @@ tracks/0/keys = {
 "values": [ 0.0, 0.0 ]
 }
 tracks/1/type = "bezier"
-tracks/1/path = NodePath("Menu:rect_position:x")
+tracks/1/path = NodePath("HomeScreen/Menu:rect_position:x")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -1017,7 +1199,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 1 )
 }
 tracks/2/type = "bezier"
-tracks/2/path = NodePath("IntroViewPortContainer/IntroViewport/IntroCamera:position:x")
+tracks/2/path = NodePath("HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera:position:x")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -1051,10 +1233,90 @@ tracks/4/keys = {
 
 [sub_resource type="Animation" id=142]
 resource_name = "select_game"
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("HomeScreen/Menu:modulate:a")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SelectGame:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.04, 0.1, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 0.0, 1.0 ]
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("SelectGame:rect_position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 1280, 0, 0, 0.5, 0, 448, -0.5, 0, 0.5, 0 ),
+"times": PoolRealArray( 0.04, 1 )
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("HomeScreen/Menu:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.3 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("SelectGame:rect_position:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 0, 0, 0, 0, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("HomeScreen:rect_position:x")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( 0, 0, 0, 0.5, 0, -832, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0.04, 1 )
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("HomeScreen:rect_position:y")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+
+[sub_resource type="Animation" id=529]
+resource_name = "select_game _orig"
 length = 1.4
 step = 0.01
 tracks/0/type = "value"
-tracks/0/path = NodePath("Menu:modulate:a")
+tracks/0/path = NodePath("HomeScreen/Menu:modulate:a")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -1088,7 +1350,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0.5, 1.4 )
 }
 tracks/3/type = "bezier"
-tracks/3/path = NodePath("IntroViewPortContainer/IntroViewport/IntroCamera:position:x")
+tracks/3/path = NodePath("HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera:position:x")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -1098,7 +1360,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0, 1.17 )
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Menu:visible")
+tracks/4/path = NodePath("HomeScreen/Menu:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -1118,6 +1380,16 @@ tracks/5/enabled = true
 tracks/5/keys = {
 "points": PoolRealArray( 0, 0, 0, 0, 0, 0, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 0, 1.4 )
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("HomeScreen/IntroViewPortContainer:rect_position:x")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
 }
 
 [sub_resource type="Animation" id=275]
@@ -1179,7 +1451,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0, 0.71 )
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Menu:modulate:a")
+tracks/5/path = NodePath("HomeScreen/Menu:modulate:a")
 tracks/5/interp = 2
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -1191,7 +1463,7 @@ tracks/5/keys = {
 "values": [ 0.0 ]
 }
 tracks/6/type = "bezier"
-tracks/6/path = NodePath("IntroViewPortContainer/IntroViewport/IntroCamera:position:x")
+tracks/6/path = NodePath("HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera:position:x")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -1201,7 +1473,7 @@ tracks/6/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("Menu:visible")
+tracks/7/path = NodePath("HomeScreen/Menu:visible")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -1213,12 +1485,83 @@ tracks/7/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=140]
+[sub_resource type="Animation" id=530]
 resource_name = "settings"
+length = 0.9
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("HomeScreen/Menu:modulate:a")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Settings:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.04, 0.09, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 0.0, 1.0 ]
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Settings:rect_position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( -448, 0, 0, 0.5, 0, 0, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0.04, 0.9 )
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("HomeScreen/Menu:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.3 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("HomeScreen:rect_position:x")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 0, 0, 0, 0.5, 0, 448, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0.04, 0.9 )
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("HomeScreen:rect_position:y")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+
+[sub_resource type="Animation" id=140]
+resource_name = "settings _orig"
 length = 1.15
 step = 0.01
 tracks/0/type = "value"
-tracks/0/path = NodePath("Menu:modulate:a")
+tracks/0/path = NodePath("HomeScreen/Menu:modulate:a")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -1242,7 +1585,7 @@ tracks/1/keys = {
 "values": [ 1.0, 0.0, 0.0, 1.0 ]
 }
 tracks/2/type = "bezier"
-tracks/2/path = NodePath("Menu:rect_position:x")
+tracks/2/path = NodePath("HomeScreen/Menu:rect_position:x")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -1262,7 +1605,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0.1, 1.15 )
 }
 tracks/4/type = "bezier"
-tracks/4/path = NodePath("IntroViewPortContainer/IntroViewport/IntroCamera:position:x")
+tracks/4/path = NodePath("HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera:position:x")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -1272,7 +1615,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0, 1 )
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Menu:visible")
+tracks/5/path = NodePath("HomeScreen/Menu:visible")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -1299,26 +1642,29 @@ margin_bottom = 720.0
 rect_min_size = Vector2( 1280, 720 )
 color = Color( 0, 0, 0, 1 )
 
-[node name="IntroViewPortContainer" type="ViewportContainer" parent="."]
-margin_left = 6.0
-margin_right = 2566.0
+[node name="HomeScreen" type="Control" parent="."]
+margin_right = 1280.0
+margin_bottom = 720.0
+
+[node name="IntroViewPortContainer" type="ViewportContainer" parent="HomeScreen"]
+margin_right = 2560.0
 margin_bottom = 1440.0
 rect_scale = Vector2( 0.5, 0.5 )
 
-[node name="IntroViewport" type="Viewport" parent="IntroViewPortContainer"]
+[node name="IntroViewport" type="Viewport" parent="HomeScreen/IntroViewPortContainer"]
 size = Vector2( 2560, 1440 )
 transparent_bg = true
 handle_input_locally = false
 render_target_update_mode = 3
 
-[node name="Intro" parent="IntroViewPortContainer/IntroViewport" instance=ExtResource( 6 )]
+[node name="Intro" parent="HomeScreen/IntroViewPortContainer/IntroViewport" instance=ExtResource( 6 )]
 unique_name_in_owner = true
 __meta__ = {
 "_edit_horizontal_guides_": [ 1984.0, 544.0, 1248.0, 1352.0, 1296.0, 1408.0, 1464.0 ],
 "_edit_vertical_guides_": [ 3080.0, 128.0, 1792.0, 512.0 ]
 }
 
-[node name="IntroCamera" type="Camera2D" parent="IntroViewPortContainer/IntroViewport"]
+[node name="IntroCamera" type="Camera2D" parent="HomeScreen/IntroViewPortContainer/IntroViewport"]
 position = Vector2( 512, 544 )
 rotation = 3.14159
 anchor_mode = 0
@@ -1331,11 +1677,11 @@ editor_draw_limits = true
 script = ExtResource( 7 )
 noise = ExtResource( 10 )
 
-[node name="UILayer" type="CanvasLayer" parent="IntroViewPortContainer/IntroViewport/IntroCamera"]
+[node name="UILayer" type="CanvasLayer" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera"]
 layer = 3
 visible = false
 
-[node name="TestToggle" type="CheckBox" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer"]
+[node name="TestToggle" type="CheckBox" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer"]
 margin_left = 32.0
 margin_top = 10.0
 margin_right = 96.0
@@ -1343,7 +1689,7 @@ margin_bottom = 36.0
 theme = SubResource( 248 )
 text = "test"
 
-[node name="TestHud" type="Control" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer"]
+[node name="TestHud" type="Control" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer"]
 margin_left = 32.0
 margin_top = 32.0
 margin_right = 1248.0
@@ -1352,7 +1698,7 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 theme = SubResource( 248 )
 
-[node name="ZoomLabel" type="Label" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud"]
+[node name="ZoomLabel" type="Label" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -1364,7 +1710,7 @@ margin_bottom = -120.0
 text = "Zoom level: 100%"
 align = 2
 
-[node name="ResetViewBtn" type="Button" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud"]
+[node name="ResetViewBtn" type="Button" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 992.0
@@ -1374,7 +1720,7 @@ margin_bottom = -78.0
 theme = SubResource( 248 )
 text = "resetiraj pogled"
 
-[node name="ShakeBar" type="ProgressBar" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud"]
+[node name="ShakeBar" type="ProgressBar" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud"]
 modulate = Color( 1, 0, 0, 1 )
 anchor_left = 0.5
 anchor_top = 1.0
@@ -1389,7 +1735,7 @@ size_flags_horizontal = 3
 theme = SubResource( 248 )
 max_value = 1.0
 
-[node name="TraumaBar" type="ProgressBar" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud"]
+[node name="TraumaBar" type="ProgressBar" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud"]
 modulate = Color( 0.12549, 1, 0, 1 )
 anchor_left = 0.5
 anchor_top = 1.0
@@ -1407,7 +1753,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ZoomSlider" type="VSlider" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud"]
+[node name="ZoomSlider" type="VSlider" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud"]
 visible = false
 anchor_left = 1.0
 anchor_top = 0.5
@@ -1422,7 +1768,7 @@ max_value = 1.0
 step = 0.1
 value = 1.0
 
-[node name="TimeSlider" type="VSlider" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud"]
+[node name="TimeSlider" type="VSlider" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud"]
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
@@ -1436,7 +1782,7 @@ max_value = 2.0
 step = 0.1
 value = 1.0
 
-[node name="NoiseControl" type="Control" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud"]
+[node name="NoiseControl" type="Control" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -516.0
@@ -1444,25 +1790,25 @@ margin_right = 248.0
 margin_bottom = -151.0
 theme = SubResource( 248 )
 
-[node name="NoiseVisual" type="TextureRect" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl"]
+[node name="NoiseVisual" type="TextureRect" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl"]
 margin_right = 246.0
 margin_bottom = 246.0
 texture = SubResource( 249 )
 
-[node name="Seed" type="HSlider" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl"]
+[node name="Seed" type="HSlider" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl"]
 margin_left = 60.0
 margin_top = 260.0
 margin_right = 246.0
 margin_bottom = 276.0
 hint_tooltip = "Seed"
 
-[node name="Label" type="Label" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl"]
+[node name="Label" type="Label" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl"]
 margin_top = 252.0
 margin_right = 48.0
 margin_bottom = 278.0
 text = "Seed"
 
-[node name="Octaves" type="HSlider" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl"]
+[node name="Octaves" type="HSlider" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl"]
 margin_left = 88.0
 margin_top = 281.0
 margin_right = 246.0
@@ -1472,13 +1818,13 @@ min_value = 1.0
 max_value = 9.0
 value = 3.0
 
-[node name="Label2" type="Label" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl"]
+[node name="Label2" type="Label" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl"]
 margin_top = 272.0
 margin_right = 82.0
 margin_bottom = 298.0
 text = "Octaves"
 
-[node name="Period" type="HSlider" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl"]
+[node name="Period" type="HSlider" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl"]
 margin_left = 76.0
 margin_top = 300.0
 margin_right = 246.0
@@ -1489,13 +1835,13 @@ max_value = 256.0
 step = 0.1
 value = 64.0
 
-[node name="Label3" type="Label" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl"]
+[node name="Label3" type="Label" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl"]
 margin_top = 292.0
 margin_right = 66.0
 margin_bottom = 318.0
 text = "Period"
 
-[node name="Persistence" type="HSlider" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl"]
+[node name="Persistence" type="HSlider" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl"]
 margin_left = 88.0
 margin_top = 321.0
 margin_right = 246.0
@@ -1506,13 +1852,13 @@ max_value = 1.0
 step = 0.001
 value = 0.5
 
-[node name="Label4" type="Label" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl"]
+[node name="Label4" type="Label" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl"]
 margin_top = 312.0
 margin_right = 124.0
 margin_bottom = 338.0
 text = "Persist"
 
-[node name="Lacunarity" type="HSlider" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl"]
+[node name="Lacunarity" type="HSlider" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl"]
 margin_left = 84.0
 margin_top = 341.0
 margin_right = 246.0
@@ -1523,18 +1869,18 @@ max_value = 4.0
 step = 0.01
 value = 2.0
 
-[node name="Label5" type="Label" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl"]
+[node name="Label5" type="Label" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl"]
 margin_top = 332.0
 margin_right = 124.0
 margin_bottom = 358.0
 text = "Lacuna"
 
-[node name="TraumaControl" type="Control" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud"]
+[node name="TraumaControl" type="Control" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud"]
 margin_top = 432.0
 margin_right = 248.0
 margin_bottom = 501.0
 
-[node name="TraumaTime" type="HSlider" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl"]
+[node name="TraumaTime" type="HSlider" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -184.0
@@ -1544,12 +1890,12 @@ hint_tooltip = "Seed"
 max_value = 10.0
 step = 0.1
 
-[node name="Label" type="Label" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl"]
+[node name="Label" type="Label" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl"]
 margin_right = 74.0
 margin_bottom = 26.0
 text = "Time"
 
-[node name="TraumaStrength" type="HSlider" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl"]
+[node name="TraumaStrength" type="HSlider" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -144.0
@@ -1559,13 +1905,13 @@ hint_tooltip = "Seed"
 max_value = 1.0
 step = 0.01
 
-[node name="Label2" type="Label" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl"]
+[node name="Label2" type="Label" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl"]
 margin_top = 20.0
 margin_right = 92.0
 margin_bottom = 46.0
 text = "Strenght"
 
-[node name="ShakeDecay" type="HSlider" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl"]
+[node name="ShakeDecay" type="HSlider" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -176.0
@@ -1575,19 +1921,19 @@ hint_tooltip = "Seed"
 max_value = 1.0
 step = 0.01
 
-[node name="Label3" type="Label" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl"]
+[node name="Label3" type="Label" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl"]
 margin_top = 40.0
 margin_right = 60.0
 margin_bottom = 66.0
 text = "Decay"
 
-[node name="Panel" type="Panel" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud"]
+[node name="Panel" type="Panel" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud"]
 margin_left = 73.0
 margin_top = 163.0
 margin_right = 173.0
 margin_bottom = 212.0
 
-[node name="AddTraumaBtn" type="Button" parent="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud"]
+[node name="AddTraumaBtn" type="Button" parent="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 73.0
@@ -1601,21 +1947,21 @@ custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
 custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
 text = "tresi"
 
-[node name="Menu" type="HBoxContainer" parent="."]
+[node name="Menu" type="HBoxContainer" parent="HomeScreen"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 280.0
-margin_top = 518.0
-margin_right = 1000.0
-margin_bottom = 543.0
+margin_left = -360.0
+margin_top = 158.0
+margin_right = 360.0
+margin_bottom = 183.0
 grow_horizontal = 2
 theme = ExtResource( 15 )
 custom_constants/separation = 32
 alignment = 1
 
-[node name="SelectGameBtn" type="Button" parent="Menu"]
+[node name="SelectGameBtn" type="Button" parent="HomeScreen/Menu"]
 margin_left = 5.0
 margin_top = 3.0
 margin_right = 156.0
@@ -1628,7 +1974,7 @@ size_flags_vertical = 8
 enabled_focus_mode = 1
 text = "SELECT GAME"
 
-[node name="HighscoresBtn" type="Button" parent="Menu"]
+[node name="HighscoresBtn" type="Button" parent="HomeScreen/Menu"]
 margin_left = 188.0
 margin_top = 3.0
 margin_right = 388.0
@@ -1641,7 +1987,7 @@ size_flags_vertical = 8
 enabled_focus_mode = 1
 text = "SCREENS OF FAME"
 
-[node name="SettingsBtn" type="Button" parent="Menu"]
+[node name="SettingsBtn" type="Button" parent="HomeScreen/Menu"]
 margin_left = 420.0
 margin_top = 3.0
 margin_right = 528.0
@@ -1654,7 +2000,7 @@ size_flags_vertical = 8
 enabled_focus_mode = 1
 text = "SETTINGS"
 
-[node name="AboutBtn" type="Button" parent="Menu"]
+[node name="AboutBtn" type="Button" parent="HomeScreen/Menu"]
 margin_left = 560.0
 margin_top = 3.0
 margin_right = 630.0
@@ -1667,7 +2013,7 @@ size_flags_vertical = 8
 enabled_focus_mode = 1
 text = "ABOUT"
 
-[node name="ExitGameBtn" type="Button" parent="Menu"]
+[node name="ExitGameBtn" type="Button" parent="HomeScreen/Menu"]
 margin_left = 662.0
 margin_top = 3.0
 margin_right = 714.0
@@ -1724,17 +2070,17 @@ margin_right = -7.99988
 margin_bottom = -56.0
 theme = ExtResource( 15 )
 
-[node name="Classic" type="Control" parent="SelectGame/GamesMenu"]
+[node name="Cleaner" type="Control" parent="SelectGame/GamesMenu"]
 margin_right = 272.0
 margin_bottom = 248.0
 rect_pivot_offset = Vector2( 40, 8 )
 
-[node name="Background" type="ColorRect" parent="SelectGame/GamesMenu/Classic"]
+[node name="Background" type="ColorRect" parent="SelectGame/GamesMenu/Cleaner"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Label" type="Label" parent="SelectGame/GamesMenu/Classic"]
+[node name="Label" type="Label" parent="SelectGame/GamesMenu/Cleaner"]
 margin_left = 40.0
 margin_top = 32.0
 margin_right = 256.0
@@ -1745,7 +2091,7 @@ Restore perfect order
 to this vibrant mess!"
 autowrap = true
 
-[node name="ClassicBtn" type="Button" parent="SelectGame/GamesMenu/Classic"]
+[node name="CleanerBtn" type="Button" parent="SelectGame/GamesMenu/Cleaner"]
 margin_left = 40.0
 margin_top = 120.0
 margin_right = 232.0
@@ -1762,18 +2108,18 @@ custom_styles/pressed = ExtResource( 24 )
 custom_styles/focus = ExtResource( 24 )
 custom_styles/disabled = SubResource( 478 )
 custom_styles/normal = ExtResource( 9 )
-text = "CLEAN"
+text = "CLEANER"
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="TutorialModeBtn" type="CheckButton" parent="SelectGame/GamesMenu/Classic"]
+[node name="TutorialModeBtn" type="CheckButton" parent="SelectGame/GamesMenu/Cleaner"]
 margin_left = 40.0
 margin_top = 192.0
 margin_right = 167.0
 margin_bottom = 210.0
 grow_horizontal = 2
-focus_neighbour_bottom = NodePath("../../Timeless/EraserBtn")
+focus_neighbour_bottom = NodePath("../../Unbeatables/HunterBtn")
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 10
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -1781,39 +2127,36 @@ custom_fonts/font = ExtResource( 14 )
 pressed = true
 text = "Tutorial mode"
 
-[node name="Cleaner" type="Control" parent="SelectGame/GamesMenu"]
+[node name="Eraser" type="Control" parent="SelectGame/GamesMenu"]
 margin_left = 280.0
 margin_top = 144.0
 margin_right = 760.0
 margin_bottom = 368.0
 rect_min_size = Vector2( 128, 128 )
-__meta__ = {
-"_edit_group_": true
-}
 
-[node name="Background" type="ColorRect" parent="SelectGame/GamesMenu/Cleaner"]
+[node name="Background" type="ColorRect" parent="SelectGame/GamesMenu/Eraser"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Label" type="Label" parent="SelectGame/GamesMenu/Cleaner"]
+[node name="Label" type="Label" parent="SelectGame/GamesMenu/Eraser"]
 anchor_right = 1.0
 margin_left = 41.0
 margin_top = 32.0
-margin_right = -32.0
-margin_bottom = 98.0
+margin_right = -40.0
+margin_bottom = 104.0
 custom_fonts/font = ExtResource( 14 )
-text = "Tick-tick-tock, clean the block! Choose a screen
-size that fits you, and eliminate all stray pixels
-before time time slips away."
+text = "Erase all colors before time slips away! 
+Pick a screen size that fits you and eliminate
+all stray pixels for your effort to count."
 autowrap = true
 
-[node name="CleanerSBtn" type="Button" parent="SelectGame/GamesMenu/Cleaner"]
+[node name="SBtn" type="Button" parent="SelectGame/GamesMenu/Eraser"]
 margin_left = 40.0
 margin_top = 120.0
 margin_right = 96.0
 margin_bottom = 176.0
-focus_neighbour_left = NodePath("../../Timeless/EraserBtn")
+focus_neighbour_left = NodePath("../../Unbeatables/HunterBtn")
 focus_neighbour_top = NodePath("../../Sweeper/SweeperBtn")
 focus_neighbour_bottom = NodePath("../../TheDuel/TheDuelBtn")
 mouse_default_cursor_shape = 2
@@ -1827,7 +2170,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="CleanerMBtn" type="Button" parent="SelectGame/GamesMenu/Cleaner"]
+[node name="MBtn" type="Button" parent="SelectGame/GamesMenu/Eraser"]
 margin_left = 104.0
 margin_top = 120.0
 margin_right = 168.0
@@ -1845,7 +2188,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="CleanerLBtn" type="Button" parent="SelectGame/GamesMenu/Cleaner"]
+[node name="LBtn" type="Button" parent="SelectGame/GamesMenu/Eraser"]
 margin_left = 176.0
 margin_top = 120.0
 margin_right = 248.0
@@ -1863,7 +2206,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="CleanerXLBtn" type="Button" parent="SelectGame/GamesMenu/Cleaner"]
+[node name="XLBtn" type="Button" parent="SelectGame/GamesMenu/Eraser"]
 margin_left = 256.0
 margin_top = 120.0
 margin_right = 336.0
@@ -1881,13 +2224,13 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="CleanerXXLBtn" type="Button" parent="SelectGame/GamesMenu/Cleaner"]
+[node name="XXLBtn" type="Button" parent="SelectGame/GamesMenu/Eraser"]
 margin_left = 344.0
 margin_top = 120.0
 margin_right = 440.0
 margin_bottom = 176.0
 focus_neighbour_top = NodePath("../../Sweeper/SweeperBtn")
-focus_neighbour_right = NodePath("../../Timeless/EraserBtn")
+focus_neighbour_right = NodePath("../../Unbeatables/HunterBtn")
 focus_neighbour_bottom = NodePath("../../TheDuel/TheDuelBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = ExtResource( 24 )
@@ -1900,7 +2243,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Minutes" type="Control" parent="SelectGame/GamesMenu/Cleaner"]
+[node name="Minutes" type="Control" parent="SelectGame/GamesMenu/Eraser"]
 modulate = Color( 1, 1, 1, 0.313726 )
 anchor_right = 1.0
 margin_left = 40.0
@@ -1911,7 +2254,7 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Label2" type="Label" parent="SelectGame/GamesMenu/Cleaner/Minutes"]
+[node name="Label2" type="Label" parent="SelectGame/GamesMenu/Eraser/Minutes"]
 margin_left = 1.0
 margin_top = -1.0
 margin_right = 56.0
@@ -1921,7 +2264,7 @@ text = "2 min"
 align = 1
 autowrap = true
 
-[node name="Label3" type="Label" parent="SelectGame/GamesMenu/Cleaner/Minutes"]
+[node name="Label3" type="Label" parent="SelectGame/GamesMenu/Eraser/Minutes"]
 margin_left = 64.0
 margin_top = -1.0
 margin_right = 127.0
@@ -1931,7 +2274,7 @@ text = "5 min"
 align = 1
 autowrap = true
 
-[node name="Label4" type="Label" parent="SelectGame/GamesMenu/Cleaner/Minutes"]
+[node name="Label4" type="Label" parent="SelectGame/GamesMenu/Eraser/Minutes"]
 margin_left = 136.0
 margin_top = -1.0
 margin_right = 208.0
@@ -1941,7 +2284,7 @@ text = "7 min"
 align = 1
 autowrap = true
 
-[node name="Label5" type="Label" parent="SelectGame/GamesMenu/Cleaner/Minutes"]
+[node name="Label5" type="Label" parent="SelectGame/GamesMenu/Eraser/Minutes"]
 margin_left = 216.0
 margin_top = -1.0
 margin_right = 295.0
@@ -1951,7 +2294,7 @@ text = "10 min"
 align = 1
 autowrap = true
 
-[node name="Label6" type="Label" parent="SelectGame/GamesMenu/Cleaner/Minutes"]
+[node name="Label6" type="Label" parent="SelectGame/GamesMenu/Eraser/Minutes"]
 margin_left = 304.0
 margin_top = -1.0
 margin_right = 400.0
@@ -1961,48 +2304,46 @@ text = "15 min"
 align = 1
 autowrap = true
 
-[node name="Timeless" type="Control" parent="SelectGame/GamesMenu"]
+[node name="Unbeatables" type="Control" parent="SelectGame/GamesMenu"]
 margin_top = 256.0
 margin_right = 272.0
 margin_bottom = 512.0
 rect_min_size = Vector2( 128, 128 )
 
-[node name="Background" type="ColorRect" parent="SelectGame/GamesMenu/Timeless"]
+[node name="Background" type="ColorRect" parent="SelectGame/GamesMenu/Unbeatables"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Label" type="Label" parent="SelectGame/GamesMenu/Timeless"]
+[node name="Label" type="Label" parent="SelectGame/GamesMenu/Unbeatables"]
 anchor_right = 1.0
 margin_left = 40.0
 margin_top = 32.0
 margin_right = -24.0
 margin_bottom = 74.0
 custom_fonts/font = ExtResource( 14 )
-text = "Stop unlimited invading colors from taking over!"
+text = "Stop unbeatable invading colors from taking over!"
 autowrap = true
 
-[node name="EraserBtn" type="Button" parent="SelectGame/GamesMenu/Timeless"]
+[node name="HunterBtn" type="Button" parent="SelectGame/GamesMenu/Unbeatables"]
 anchor_right = 1.0
 margin_left = 40.0
 margin_top = 96.0
 margin_right = -40.0
 margin_bottom = 152.0
-focus_neighbour_left = NodePath("../../Cleaner/CleanerXXLBtn")
-focus_neighbour_top = NodePath("../../Classic/ClassicBtn")
-focus_neighbour_right = NodePath("../../Cleaner/CleanerSBtn")
+focus_neighbour_top = NodePath("../../Cleaner/CleanerBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = ExtResource( 24 )
 custom_styles/pressed = ExtResource( 24 )
 custom_styles/focus = ExtResource( 24 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "CHASE"
+text = "HUNTER"
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="DefenderBtn" type="Button" parent="SelectGame/GamesMenu/Timeless"]
+[node name="DefenderBtn" type="Button" parent="SelectGame/GamesMenu/Unbeatables"]
 anchor_right = 1.0
 margin_left = 40.0
 margin_top = 160.0
@@ -2010,14 +2351,14 @@ margin_right = -40.0
 margin_bottom = 216.0
 focus_neighbour_left = NodePath("../../TheDuel/TheDuelBtn")
 focus_neighbour_right = NodePath("../../TheDuel/TheDuelBtn")
-focus_neighbour_bottom = NodePath("../../Classic/ClassicBtn")
+focus_neighbour_bottom = NodePath("../../Cleaner/CleanerBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = ExtResource( 24 )
 custom_styles/pressed = ExtResource( 24 )
 custom_styles/focus = ExtResource( 24 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "DEFEND"
+text = "DEFENDER"
 __meta__ = {
 "_editor_description_": ""
 }
@@ -2027,6 +2368,7 @@ margin_left = 280.0
 margin_right = 760.0
 margin_bottom = 136.0
 rect_min_size = Vector2( 128, 128 )
+rect_pivot_offset = Vector2( 376, 440 )
 
 [node name="Background" type="ColorRect" parent="SelectGame/GamesMenu/Sweeper"]
 anchor_right = 1.0
@@ -2035,33 +2377,32 @@ color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
 [node name="Label" type="Label" parent="SelectGame/GamesMenu/Sweeper"]
 margin_left = 39.0
-margin_top = 31.0
-margin_right = 264.0
-margin_bottom = 97.0
+margin_top = 32.0
+margin_right = 280.0
+margin_bottom = 98.0
 custom_fonts/font = ExtResource( 14 )
-text = "Take care of %s strangely
-saturated screens. 
-Swiftly and with style!"
+text = "Sweep them all in one move!
+%s saturated screens need
+a quick cleaning service. "
 autowrap = true
 
 [node name="SweeperBtn" type="Button" parent="SelectGame/GamesMenu/Sweeper"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -216.0
+margin_left = -200.0
 margin_top = 40.0
 margin_right = -40.0
 margin_bottom = 96.0
-focus_neighbour_left = NodePath("../../Classic/ClassicBtn")
+focus_neighbour_left = NodePath("../../Cleaner/CleanerBtn")
 focus_neighbour_top = NodePath("../../../BackBtn")
-focus_neighbour_right = NodePath("../../Classic/ClassicBtn")
-focus_neighbour_bottom = NodePath("../../Cleaner/CleanerSBtn")
+focus_neighbour_right = NodePath("../../Cleaner/CleanerBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = ExtResource( 24 )
 custom_styles/pressed = ExtResource( 24 )
 custom_styles/focus = ExtResource( 24 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "SWEEP"
+text = "SWEEPER"
 __meta__ = {
 "_editor_description_": ""
 }
@@ -2084,7 +2425,7 @@ margin_top = 32.0
 margin_right = 264.0
 margin_bottom = 98.0
 custom_fonts/font = ExtResource( 14 )
-text = "Sofa showdown ...
+text = "Sofa showdown!
 Battle for the ultimate 
 cleaning champ title!"
 autowrap = true
@@ -2092,13 +2433,12 @@ autowrap = true
 [node name="TheDuelBtn" type="Button" parent="SelectGame/GamesMenu/TheDuel"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -216.0
+margin_left = -200.0
 margin_top = 40.0
 margin_right = -40.0
 margin_bottom = 96.0
-focus_neighbour_left = NodePath("../../Timeless/DefenderBtn")
-focus_neighbour_top = NodePath("../../Cleaner/CleanerXXLBtn")
-focus_neighbour_right = NodePath("../../Timeless/DefenderBtn")
+focus_neighbour_left = NodePath("../../Unbeatables/DefenderBtn")
+focus_neighbour_right = NodePath("../../Unbeatables/DefenderBtn")
 focus_neighbour_bottom = NodePath("../../Sweeper/SweeperBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = ExtResource( 24 )
@@ -2106,7 +2446,7 @@ custom_styles/pressed = ExtResource( 24 )
 custom_styles/focus = ExtResource( 24 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 9 )
-text = "FIGHT"
+text = "THE DUEL"
 __meta__ = {
 "_editor_description_": ""
 }
@@ -2307,6 +2647,7 @@ margin_top = 74.0
 margin_right = -8.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 16, 16 )
+focus_neighbour_top = NodePath("../ColorSchemeOptions/RandomizeBtn")
 mouse_default_cursor_shape = 2
 texture_normal = SubResource( 195 )
 texture_hover = SubResource( 196 )
@@ -2329,7 +2670,7 @@ margin_left = 64.0
 margin_top = 137.0
 margin_right = 224.0
 margin_bottom = 169.0
-focus_neighbour_top = NodePath("../InstructionsBtn")
+focus_neighbour_top = NodePath("../BackBtn")
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
 pressed = true
@@ -2429,7 +2770,7 @@ margin_top = 8.5
 margin_right = 197.0
 margin_bottom = 32.5
 rect_min_size = Vector2( 24, 24 )
-focus_neighbour_bottom = NodePath("../../MenuMusicBtn")
+focus_neighbour_bottom = NodePath("../../BackBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = SubResource( 279 )
 custom_styles/focus = SubResource( 279 )
@@ -2466,7 +2807,7 @@ margin_right = 226.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 16, 16 )
 focus_neighbour_right = NodePath("../../BackBtn")
-focus_neighbour_bottom = NodePath("../../MenuMusicBtn")
+focus_neighbour_bottom = NodePath("../../BackBtn")
 mouse_default_cursor_shape = 2
 expand_icon = true
 __meta__ = {
@@ -2525,50 +2866,6 @@ custom_fonts/font = ExtResource( 4 )
 text = "Screens Of Fame"
 align = 1
 
-[node name="UpdateScoresBtn" type="Button" parent="Highscores"]
-margin_left = 64.0
-margin_top = 73.0
-margin_right = 336.0
-margin_bottom = 103.0
-mouse_default_cursor_shape = 2
-toggle_mode = true
-text = "UPDATE GLOBAL SCORES"
-
-[node name="__cover" type="ColorRect" parent="Highscores"]
-visible = false
-self_modulate = Color( 1, 1, 1, 0.411765 )
-margin_right = 1280.0
-margin_bottom = 592.0
-color = Color( 0.666667, 0.588235, 0.588235, 1 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="ColorRect2" type="ColorRect" parent="Highscores/__cover"]
-modulate = Color( 1, 1, 1, 0.235294 )
-margin_right = 64.0
-margin_bottom = 64.0
-
-[node name="ColorRect3" type="ColorRect" parent="Highscores/__cover"]
-modulate = Color( 1, 1, 1, 0.235294 )
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -64.0
-margin_right = 64.0
-
-[node name="ColorRect4" type="ColorRect" parent="Highscores/__cover"]
-modulate = Color( 1, 1, 1, 0.235294 )
-margin_left = 312.0
-margin_right = 344.0
-margin_bottom = 64.0
-
-[node name="ColorRect5" type="ColorRect" parent="Highscores/__cover"]
-modulate = Color( 1, 1, 1, 0.235294 )
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -64.0
-margin_bottom = 64.0
-
 [node name="TabBtns" type="HBoxContainer" parent="Highscores"]
 margin_left = 64.0
 margin_top = 128.0
@@ -2577,26 +2874,26 @@ margin_bottom = 176.0
 rect_pivot_offset = Vector2( -144, 24 )
 custom_constants/separation = 8
 
-[node name="ClassicTab" type="Button" parent="Highscores/TabBtns"]
+[node name="CleanerTab" type="Button" parent="Highscores/TabBtns"]
 margin_right = 282.0
 margin_bottom = 48.0
-focus_neighbour_left = NodePath("../CleanerTab")
+focus_neighbour_left = NodePath("../EraserTab")
 focus_neighbour_top = NodePath("../../UpdateScoresBtn")
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
-text = "CLASSIC"
+text = "CLEANER"
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Undi" type="ColorRect" parent="Highscores/TabBtns/ClassicTab"]
+[node name="Undi" type="ColorRect" parent="Highscores/TabBtns/CleanerTab"]
 show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Edge" type="Panel" parent="Highscores/TabBtns/ClassicTab"]
+[node name="Edge" type="Panel" parent="Highscores/TabBtns/CleanerTab"]
 visible = false
 anchor_top = 1.0
 anchor_right = 1.0
@@ -2604,7 +2901,7 @@ anchor_bottom = 1.0
 mouse_filter = 2
 custom_styles/panel = SubResource( 524 )
 
-[node name="EdgeSelected" type="Panel" parent="Highscores/TabBtns/ClassicTab"]
+[node name="EdgeSelected" type="Panel" parent="Highscores/TabBtns/CleanerTab"]
 visible = false
 modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
 anchor_top = 1.0
@@ -2695,12 +2992,12 @@ anchor_bottom = 1.0
 mouse_filter = 2
 custom_styles/panel = SubResource( 522 )
 
-[node name="CleanerTab" type="Button" parent="Highscores/TabBtns"]
+[node name="EraserTab" type="Button" parent="Highscores/TabBtns"]
 margin_left = 870.0
 margin_right = 1152.0
 margin_bottom = 48.0
 focus_neighbour_top = NodePath("../../BackBtn")
-focus_neighbour_right = NodePath("../ClassicTab")
+focus_neighbour_right = NodePath("../CleanerTab")
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 custom_styles/hover = ExtResource( 29 )
@@ -2708,82 +3005,32 @@ custom_styles/pressed = ExtResource( 29 )
 custom_styles/focus = ExtResource( 29 )
 custom_styles/disabled = SubResource( 151 )
 custom_styles/normal = ExtResource( 28 )
-text = "CLEANERS"
+text = "ERASERS"
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Undi" type="ColorRect" parent="Highscores/TabBtns/CleanerTab"]
+[node name="Undi" type="ColorRect" parent="Highscores/TabBtns/EraserTab"]
 show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Edge" type="Panel" parent="Highscores/TabBtns/CleanerTab"]
+[node name="Edge" type="Panel" parent="Highscores/TabBtns/EraserTab"]
 visible = false
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_styles/panel = SubResource( 524 )
 
-[node name="EdgeSelected" type="Panel" parent="Highscores/TabBtns/CleanerTab"]
+[node name="EdgeSelected" type="Panel" parent="Highscores/TabBtns/EraserTab"]
 visible = false
 modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_styles/panel = SubResource( 522 )
-
-[node name="SweeperArrows" type="Control" parent="Highscores"]
-margin_left = 2516.0
-margin_top = 145.0
-margin_right = 2540.0
-margin_bottom = 159.0
-grow_horizontal = 2
-theme = ExtResource( 15 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="LeftBtn" type="TextureButton" parent="Highscores/SweeperArrows"]
-margin_left = -5.0
-margin_top = 1.0
-margin_right = 11.0
-margin_bottom = 17.0
-rect_min_size = Vector2( 16, 16 )
-focus_neighbour_left = NodePath("../RightBtn")
-focus_neighbour_top = NodePath("../../BackBtn")
-focus_neighbour_right = NodePath("../RightBtn")
-focus_neighbour_bottom = NodePath("../../BackBtn")
-mouse_default_cursor_shape = 2
-size_flags_vertical = 4
-texture_normal = SubResource( 335 )
-texture_hover = SubResource( 336 )
-texture_focused = SubResource( 336 )
-expand = true
-stretch_mode = 3
-flip_h = true
-
-[node name="RightBtn" type="TextureButton" parent="Highscores/SweeperArrows"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -11.0
-margin_top = 1.0
-margin_right = 5.0
-margin_bottom = 17.0
-rect_min_size = Vector2( 16, 16 )
-focus_neighbour_left = NodePath("../LeftBtn")
-focus_neighbour_top = NodePath("../../BackBtn")
-focus_neighbour_right = NodePath("../LeftBtn")
-focus_neighbour_bottom = NodePath("../../BackBtn")
-mouse_default_cursor_shape = 2
-size_flags_vertical = 4
-texture_normal = SubResource( 335 )
-texture_hover = SubResource( 336 )
-texture_focused = SubResource( 336 )
-expand = true
-stretch_mode = 3
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Highscores"]
 margin_left = 64.0
@@ -2798,37 +3045,35 @@ margin_right = 2648.0
 margin_bottom = 412.0
 custom_constants/separation = 8
 
-[node name="Classic" type="VBoxContainer" parent="Highscores/ScrollContainer/ScrollContent"]
+[node name="Cleaner" type="VBoxContainer" parent="Highscores/ScrollContainer/ScrollContent"]
 margin_right = 656.0
 margin_bottom = 412.0
 rect_min_size = Vector2( 656, 392 )
 custom_constants/separation = 0
 
-[node name="HallTitle" type="Control" parent="Highscores/ScrollContainer/ScrollContent/Classic"]
+[node name="HallTitle" type="Control" parent="Highscores/ScrollContainer/ScrollContent/Cleaner"]
 margin_right = 656.0
 margin_bottom = 44.0
 rect_min_size = Vector2( 0, 44 )
 
-[node name="Undi" type="ColorRect" parent="Highscores/ScrollContainer/ScrollContent/Classic/HallTitle"]
+[node name="Undi" type="ColorRect" parent="Highscores/ScrollContainer/ScrollContent/Cleaner/HallTitle"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Title" type="Label" parent="Highscores/ScrollContainer/ScrollContent/Classic/HallTitle"]
+[node name="Title" type="Label" parent="Highscores/ScrollContainer/ScrollContent/Cleaner/HallTitle"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -72.0
-margin_top = -30.0
+margin_top = -22.0
 margin_right = 72.0
-margin_bottom = -8.0
-custom_colors/font_color = Color( 0.996078, 0.976471, 0.545098, 1 )
-text = "CLASSIC"
+text = "Cleaner"
 align = 1
 valign = 1
 
-[node name="ClassicHall" parent="Highscores/ScrollContainer/ScrollContent/Classic" instance=ExtResource( 31 )]
+[node name="CleanerHall" parent="Highscores/ScrollContainer/ScrollContent/Cleaner" instance=ExtResource( 31 )]
 margin_top = 44.0
 margin_bottom = 412.0
 
@@ -2838,8 +3083,12 @@ margin_right = 1320.0
 margin_bottom = 412.0
 rect_min_size = Vector2( 656, 392 )
 
+[node name="Undi" type="ColorRect" parent="Highscores/ScrollContainer/ScrollContent/Sweepers"]
+anchor_right = 1.0
+margin_bottom = 56.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
 [node name="TabContainer" type="TabContainer" parent="Highscores/ScrollContainer/ScrollContent/Sweepers"]
-self_modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -2907,14 +3156,18 @@ margin_bottom = 412.0
 rect_min_size = Vector2( 656, 392 )
 size_flags_horizontal = 3
 
+[node name="Undi" type="ColorRect" parent="Highscores/ScrollContainer/ScrollContent/Unbeatables"]
+anchor_right = 1.0
+margin_bottom = 56.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
 [node name="TabContainer" type="TabContainer" parent="Highscores/ScrollContainer/ScrollContent/Unbeatables"]
-self_modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 mouse_default_cursor_shape = 2
 
-[node name="ChaserHall" parent="Highscores/ScrollContainer/ScrollContent/Unbeatables/TabContainer" instance=ExtResource( 31 )]
+[node name="HunterHall" parent="Highscores/ScrollContainer/ScrollContent/Unbeatables/TabContainer" instance=ExtResource( 31 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 44.0
@@ -2929,14 +3182,18 @@ margin_top = 44.0
 margin_right = 0.0
 margin_bottom = 0.0
 
-[node name="Cleaners" type="Control" parent="Highscores/ScrollContainer/ScrollContent"]
+[node name="Erasers" type="Control" parent="Highscores/ScrollContainer/ScrollContent"]
 margin_left = 1992.0
 margin_right = 2648.0
 margin_bottom = 412.0
 rect_min_size = Vector2( 656, 392 )
 
-[node name="TabContainer" type="TabContainer" parent="Highscores/ScrollContainer/ScrollContent/Cleaners"]
-self_modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
+[node name="Undi" type="ColorRect" parent="Highscores/ScrollContainer/ScrollContent/Erasers"]
+anchor_right = 1.0
+margin_bottom = 56.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="TabContainer" type="TabContainer" parent="Highscores/ScrollContainer/ScrollContent/Erasers"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -2945,31 +3202,46 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="XSHall" parent="Highscores/ScrollContainer/ScrollContent/Cleaners/TabContainer" instance=ExtResource( 31 )]
+[node name="XSHall" parent="Highscores/ScrollContainer/ScrollContent/Erasers/TabContainer" instance=ExtResource( 31 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 44.0
 margin_right = 0.0
 margin_bottom = 0.0
 
-[node name="SHall" parent="Highscores/ScrollContainer/ScrollContent/Cleaners/TabContainer" instance=ExtResource( 31 )]
+[node name="SHall" parent="Highscores/ScrollContainer/ScrollContent/Erasers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 
-[node name="MHall" parent="Highscores/ScrollContainer/ScrollContent/Cleaners/TabContainer" instance=ExtResource( 31 )]
+[node name="MHall" parent="Highscores/ScrollContainer/ScrollContent/Erasers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 
-[node name="LHall" parent="Highscores/ScrollContainer/ScrollContent/Cleaners/TabContainer" instance=ExtResource( 31 )]
+[node name="LHall" parent="Highscores/ScrollContainer/ScrollContent/Erasers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 
-[node name="XLHall" parent="Highscores/ScrollContainer/ScrollContent/Cleaners/TabContainer" instance=ExtResource( 31 )]
+[node name="XLHall" parent="Highscores/ScrollContainer/ScrollContent/Erasers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 
-[node name="ColorRect" type="ColorRect" parent="Highscores"]
-visible = false
-margin_left = -32.0
-margin_top = 96.0
-margin_right = 32.0
-margin_bottom = 160.0
+[node name="UpdateScoresBtn" type="TextureButton" parent="Highscores"]
+margin_left = 64.0
+margin_top = 78.0
+margin_right = 344.0
+margin_bottom = 102.0
+mouse_default_cursor_shape = 2
+texture_normal = SubResource( 528 )
+texture_pressed = SubResource( 527 )
+texture_hover = SubResource( 527 )
+texture_disabled = SubResource( 528 )
+texture_focused = SubResource( 527 )
+
+[node name="BtnTip" type="Label" parent="Highscores/UpdateScoresBtn"]
+modulate = Color( 1, 1, 1, 0.470588 )
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 32.0
+margin_top = -12.0
+margin_right = 278.0
+margin_bottom = 12.0
+text = "Update global scores"
 
 [node name="BackBtn" type="TextureButton" parent="Highscores"]
 anchor_left = 1.0
@@ -2980,6 +3252,7 @@ margin_right = -40.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 16, 16 )
 rect_rotation = 89.9999
+focus_neighbour_right = NodePath("../UpdateScoresBtn")
 mouse_default_cursor_shape = 2
 texture_normal = SubResource( 195 )
 texture_hover = SubResource( 196 )
@@ -3420,72 +3693,76 @@ __meta__ = {
 unique_name_in_owner = true
 anims/RESET = SubResource( 155 )
 anims/about = SubResource( 137 )
+"anims/about (copy)" = SubResource( 531 )
 anims/highscores = SubResource( 141 )
+"anims/highscores (copy)" = SubResource( 532 )
 anims/play_game = SubResource( 138 )
 anims/play_level = SubResource( 276 )
 anims/select_game = SubResource( 142 )
+"anims/select_game _orig" = SubResource( 529 )
 anims/select_level = SubResource( 275 )
-anims/settings = SubResource( 140 )
+anims/settings = SubResource( 530 )
+"anims/settings _orig" = SubResource( 140 )
 
-[connection signal="finished_playing" from="IntroViewPortContainer/IntroViewport/Intro" to="." method="_on_Intro_finished_playing"]
-[connection signal="mouse_entered" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestToggle" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_CheckBox_mouse_entered"]
-[connection signal="mouse_exited" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestToggle" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_CheckBox_mouse_exited"]
-[connection signal="toggled" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestToggle" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_CheckBox_toggled"]
-[connection signal="mouse_entered" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/ResetViewBtn" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_ResetView_mouse_entered"]
-[connection signal="mouse_exited" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/ResetViewBtn" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_ResetView_mouse_exited"]
-[connection signal="pressed" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/ResetViewBtn" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_ResetView_pressed"]
-[connection signal="mouse_entered" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/ZoomSlider" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_ZoomSlider_mouse_entered"]
-[connection signal="mouse_exited" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/ZoomSlider" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_ZoomSlider_mouse_exited"]
-[connection signal="value_changed" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/ZoomSlider" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_ZoomSlider_value_changed"]
-[connection signal="mouse_entered" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TimeSlider" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_TimeSlider_mouse_entered"]
-[connection signal="mouse_exited" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TimeSlider" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_TimeSlider_mouse_exited"]
-[connection signal="value_changed" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TimeSlider" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_TimeSlider_value_changed"]
-[connection signal="mouse_entered" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Control_mouse_entered"]
-[connection signal="mouse_exited" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Control_mouse_exited"]
-[connection signal="mouse_entered" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Seed" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_SeedSlider_mouse_entered"]
-[connection signal="mouse_exited" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Seed" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_SeedSlider_mouse_exited"]
-[connection signal="value_changed" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Seed" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Seed_value_changed"]
-[connection signal="mouse_entered" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Octaves" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Octaves_mouse_entered"]
-[connection signal="mouse_exited" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Octaves" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Octaves_mouse_exited"]
-[connection signal="value_changed" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Octaves" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Octaves_value_changed"]
-[connection signal="mouse_entered" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Period" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Period_mouse_entered"]
-[connection signal="mouse_exited" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Period" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Period_mouse_exited"]
-[connection signal="value_changed" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Period" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Period_value_changed"]
-[connection signal="mouse_entered" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Persistence" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Persistance_mouse_entered"]
-[connection signal="mouse_exited" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Persistence" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Persistance_mouse_exited"]
-[connection signal="value_changed" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Persistence" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Persistence_value_changed"]
-[connection signal="mouse_entered" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Lacunarity" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Lacunarity_mouse_entered"]
-[connection signal="mouse_exited" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Lacunarity" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Lacunarity_mouse_exited"]
-[connection signal="value_changed" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Lacunarity" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Lacunarity_value_changed"]
-[connection signal="mouse_entered" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl/TraumaTime" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_TraumaTime_mouse_entered"]
-[connection signal="mouse_exited" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl/TraumaTime" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_TraumaTime_mouse_exited"]
-[connection signal="value_changed" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl/TraumaTime" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_TraumaTime_value_changed"]
-[connection signal="mouse_entered" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl/TraumaStrength" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_TraumaStrength_mouse_entered"]
-[connection signal="mouse_exited" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl/TraumaStrength" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_TraumaStrength_mouse_exited"]
-[connection signal="value_changed" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl/TraumaStrength" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_TraumaStrength_value_changed"]
-[connection signal="mouse_entered" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl/ShakeDecay" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_ShakeDecay_mouse_entered"]
-[connection signal="mouse_exited" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl/ShakeDecay" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_ShakeDecay_mouse_exited"]
-[connection signal="value_changed" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl/ShakeDecay" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_ShakeDecay_value_changed"]
-[connection signal="mouse_entered" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/AddTraumaBtn" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_AddTraumaBtn_mouse_entered"]
-[connection signal="mouse_exited" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/AddTraumaBtn" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_AddTraumaBtn_mouse_exited"]
-[connection signal="pressed" from="IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/AddTraumaBtn" to="IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_AddTraumaBtn_pressed"]
-[connection signal="pressed" from="Menu/SelectGameBtn" to="." method="_on_SelectGameBtn_pressed"]
-[connection signal="pressed" from="Menu/HighscoresBtn" to="." method="_on_HighscoresBtn_pressed"]
-[connection signal="pressed" from="Menu/SettingsBtn" to="." method="_on_SettingsBtn_pressed"]
-[connection signal="pressed" from="Menu/AboutBtn" to="." method="_on_AboutBtn_pressed"]
-[connection signal="pressed" from="Menu/ExitGameBtn" to="." method="_on_QuitGameBtn_pressed"]
-[connection signal="mouse_entered" from="SelectGame/GamesMenu/Classic/Background" to="SelectGame" method="_on_ClassicBackground_mouse_entered"]
-[connection signal="pressed" from="SelectGame/GamesMenu/Classic/ClassicBtn" to="SelectGame" method="_on_ClassicBtn_pressed"]
-[connection signal="toggled" from="SelectGame/GamesMenu/Classic/TutorialModeBtn" to="SelectGame" method="_on_TutorialModeBtn_toggled"]
+[connection signal="finished_playing" from="HomeScreen/IntroViewPortContainer/IntroViewport/Intro" to="." method="_on_Intro_finished_playing"]
+[connection signal="mouse_entered" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestToggle" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_CheckBox_mouse_entered"]
+[connection signal="mouse_exited" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestToggle" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_CheckBox_mouse_exited"]
+[connection signal="toggled" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestToggle" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_CheckBox_toggled"]
+[connection signal="mouse_entered" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/ResetViewBtn" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_ResetView_mouse_entered"]
+[connection signal="mouse_exited" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/ResetViewBtn" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_ResetView_mouse_exited"]
+[connection signal="pressed" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/ResetViewBtn" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_ResetView_pressed"]
+[connection signal="mouse_entered" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/ZoomSlider" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_ZoomSlider_mouse_entered"]
+[connection signal="mouse_exited" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/ZoomSlider" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_ZoomSlider_mouse_exited"]
+[connection signal="value_changed" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/ZoomSlider" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_ZoomSlider_value_changed"]
+[connection signal="mouse_entered" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TimeSlider" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_TimeSlider_mouse_entered"]
+[connection signal="mouse_exited" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TimeSlider" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_TimeSlider_mouse_exited"]
+[connection signal="value_changed" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TimeSlider" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_TimeSlider_value_changed"]
+[connection signal="mouse_entered" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Control_mouse_entered"]
+[connection signal="mouse_exited" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Control_mouse_exited"]
+[connection signal="mouse_entered" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Seed" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_SeedSlider_mouse_entered"]
+[connection signal="mouse_exited" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Seed" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_SeedSlider_mouse_exited"]
+[connection signal="value_changed" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Seed" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Seed_value_changed"]
+[connection signal="mouse_entered" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Octaves" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Octaves_mouse_entered"]
+[connection signal="mouse_exited" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Octaves" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Octaves_mouse_exited"]
+[connection signal="value_changed" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Octaves" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Octaves_value_changed"]
+[connection signal="mouse_entered" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Period" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Period_mouse_entered"]
+[connection signal="mouse_exited" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Period" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Period_mouse_exited"]
+[connection signal="value_changed" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Period" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Period_value_changed"]
+[connection signal="mouse_entered" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Persistence" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Persistance_mouse_entered"]
+[connection signal="mouse_exited" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Persistence" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Persistance_mouse_exited"]
+[connection signal="value_changed" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Persistence" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Persistence_value_changed"]
+[connection signal="mouse_entered" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Lacunarity" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Lacunarity_mouse_entered"]
+[connection signal="mouse_exited" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Lacunarity" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Lacunarity_mouse_exited"]
+[connection signal="value_changed" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/NoiseControl/Lacunarity" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_Lacunarity_value_changed"]
+[connection signal="mouse_entered" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl/TraumaTime" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_TraumaTime_mouse_entered"]
+[connection signal="mouse_exited" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl/TraumaTime" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_TraumaTime_mouse_exited"]
+[connection signal="value_changed" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl/TraumaTime" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_TraumaTime_value_changed"]
+[connection signal="mouse_entered" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl/TraumaStrength" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_TraumaStrength_mouse_entered"]
+[connection signal="mouse_exited" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl/TraumaStrength" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_TraumaStrength_mouse_exited"]
+[connection signal="value_changed" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl/TraumaStrength" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_TraumaStrength_value_changed"]
+[connection signal="mouse_entered" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl/ShakeDecay" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_ShakeDecay_mouse_entered"]
+[connection signal="mouse_exited" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl/ShakeDecay" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_ShakeDecay_mouse_exited"]
+[connection signal="value_changed" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/TraumaControl/ShakeDecay" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_ShakeDecay_value_changed"]
+[connection signal="mouse_entered" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/AddTraumaBtn" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_AddTraumaBtn_mouse_entered"]
+[connection signal="mouse_exited" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/AddTraumaBtn" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_AddTraumaBtn_mouse_exited"]
+[connection signal="pressed" from="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera/UILayer/TestHud/AddTraumaBtn" to="HomeScreen/IntroViewPortContainer/IntroViewport/IntroCamera" method="_on_AddTraumaBtn_pressed"]
+[connection signal="pressed" from="HomeScreen/Menu/SelectGameBtn" to="." method="_on_SelectGameBtn_pressed"]
+[connection signal="pressed" from="HomeScreen/Menu/HighscoresBtn" to="." method="_on_HighscoresBtn_pressed"]
+[connection signal="pressed" from="HomeScreen/Menu/SettingsBtn" to="." method="_on_SettingsBtn_pressed"]
+[connection signal="pressed" from="HomeScreen/Menu/AboutBtn" to="." method="_on_AboutBtn_pressed"]
+[connection signal="pressed" from="HomeScreen/Menu/ExitGameBtn" to="." method="_on_QuitGameBtn_pressed"]
 [connection signal="mouse_entered" from="SelectGame/GamesMenu/Cleaner/Background" to="SelectGame" method="_on_CleanerBackground_mouse_entered"]
-[connection signal="pressed" from="SelectGame/GamesMenu/Cleaner/CleanerSBtn" to="SelectGame" method="_on_CleanerSBtn_pressed"]
-[connection signal="pressed" from="SelectGame/GamesMenu/Cleaner/CleanerMBtn" to="SelectGame" method="_on_CleanerMBtn_pressed"]
-[connection signal="pressed" from="SelectGame/GamesMenu/Cleaner/CleanerLBtn" to="SelectGame" method="_on_CleanerLBtn_pressed"]
-[connection signal="pressed" from="SelectGame/GamesMenu/Cleaner/CleanerXLBtn" to="SelectGame" method="_on_CleanerXLBtn_pressed"]
-[connection signal="pressed" from="SelectGame/GamesMenu/Cleaner/CleanerXXLBtn" to="SelectGame" method="_on_CleanerXXLBtn_pressed"]
-[connection signal="mouse_entered" from="SelectGame/GamesMenu/Timeless/Background" to="SelectGame" method="_on_TimelessBackground_mouse_entered"]
-[connection signal="pressed" from="SelectGame/GamesMenu/Timeless/EraserBtn" to="SelectGame" method="_on_EraserBtn_pressed"]
-[connection signal="pressed" from="SelectGame/GamesMenu/Timeless/DefenderBtn" to="SelectGame" method="_on_DefenderBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GamesMenu/Cleaner/CleanerBtn" to="SelectGame" method="_on_CleanerBtn_pressed"]
+[connection signal="toggled" from="SelectGame/GamesMenu/Cleaner/TutorialModeBtn" to="SelectGame" method="_on_TutorialModeBtn_toggled"]
+[connection signal="mouse_entered" from="SelectGame/GamesMenu/Eraser/Background" to="SelectGame" method="_on_EraserBackground_mouse_entered"]
+[connection signal="pressed" from="SelectGame/GamesMenu/Eraser/SBtn" to="SelectGame" method="_on_SBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GamesMenu/Eraser/MBtn" to="SelectGame" method="_on_MBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GamesMenu/Eraser/LBtn" to="SelectGame" method="_on_LBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GamesMenu/Eraser/XLBtn" to="SelectGame" method="_on_XLBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GamesMenu/Eraser/XXLBtn" to="SelectGame" method="_on_XXLBtn_pressed"]
+[connection signal="mouse_entered" from="SelectGame/GamesMenu/Unbeatables/Background" to="SelectGame" method="_on_UnbeatablesBackground_mouse_entered"]
+[connection signal="pressed" from="SelectGame/GamesMenu/Unbeatables/HunterBtn" to="SelectGame" method="_on_HunterBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GamesMenu/Unbeatables/DefenderBtn" to="SelectGame" method="_on_DefenderBtn_pressed"]
 [connection signal="mouse_entered" from="SelectGame/GamesMenu/Sweeper/Background" to="SelectGame" method="_on_SweeperBackground_mouse_entered"]
 [connection signal="pressed" from="SelectGame/GamesMenu/Sweeper/SweeperBtn" to="SelectGame" method="_on_SweeperBtn_pressed"]
 [connection signal="mouse_entered" from="SelectGame/GamesMenu/TheDuel/Background" to="SelectGame" method="_on_DuelBackground_mouse_entered"]
@@ -3501,14 +3778,16 @@ anims/settings = SubResource( 140 )
 [connection signal="toggled" from="Settings/InstructionsBtn" to="Settings" method="_on_InstructionsBtn_toggled"]
 [connection signal="pressed" from="Settings/ColorSchemeOptions/RandomizeBtn" to="Settings" method="_on_RandomizeBtn_pressed"]
 [connection signal="pressed" from="Settings/ColorSchemeOptions/ResetBtn" to="Settings" method="_on_ResetBtn_pressed"]
-[connection signal="pressed" from="Highscores/UpdateScoresBtn" to="Highscores" method="_on_UpdateScoresBtn_pressed"]
-[connection signal="pressed" from="Highscores/TabBtns/ClassicTab" to="Highscores" method="_on_ClassicBtn_pressed"]
+[connection signal="pressed" from="Highscores/TabBtns/CleanerTab" to="Highscores" method="_on_CleanerBtn_pressed"]
 [connection signal="pressed" from="Highscores/TabBtns/SweeperTab" to="Highscores" method="_on_SweeperBtn_pressed"]
 [connection signal="pressed" from="Highscores/TabBtns/UnbeatableTab" to="Highscores" method="_on_UnbeatableBtn_pressed"]
-[connection signal="pressed" from="Highscores/TabBtns/CleanerTab" to="Highscores" method="_on_CleanerBtn_pressed"]
+[connection signal="pressed" from="Highscores/TabBtns/EraserTab" to="Highscores" method="_on_EraserBtn_pressed"]
 [connection signal="tab_selected" from="Highscores/ScrollContainer/ScrollContent/Sweepers/TabContainer" to="Highscores" method="_on_Sweepers_tab_selected"]
 [connection signal="tab_selected" from="Highscores/ScrollContainer/ScrollContent/Unbeatables/TabContainer" to="Highscores" method="_on_Unbeatable_tab_selected"]
-[connection signal="tab_selected" from="Highscores/ScrollContainer/ScrollContent/Cleaners/TabContainer" to="Highscores" method="_on_Cleaner_tab_selected"]
+[connection signal="tab_selected" from="Highscores/ScrollContainer/ScrollContent/Erasers/TabContainer" to="Highscores" method="_on_Eraser_tab_selected"]
+[connection signal="focus_entered" from="Highscores/UpdateScoresBtn" to="Highscores" method="_on_UpdateScoresBtn_focus_entered"]
+[connection signal="focus_exited" from="Highscores/UpdateScoresBtn" to="Highscores" method="_on_UpdateScoresBtn_focus_exited"]
+[connection signal="pressed" from="Highscores/UpdateScoresBtn" to="Highscores" method="_on_UpdateScoresBtn_pressed"]
 [connection signal="pressed" from="Highscores/BackBtn" to="Highscores" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="About/BackBtn" to="About" method="_on_BackBtn_pressed"]
 [connection signal="meta_clicked" from="About/Thanks/LinkLabel" to="About" method="_on_NameAuthor_meta_clicked"]

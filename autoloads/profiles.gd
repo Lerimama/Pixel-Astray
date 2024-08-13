@@ -60,9 +60,9 @@ var default_game_settings: Dictionary = {
 }
 
 enum Games {
-	CLASSIC,
-	CLEANER_XS, CLEANER_S, CLEANER_M, CLEANER_L, CLEANER_XL,
-	CHASER,
+	CLEANER,
+	ERASER_XS, ERASER_S, ERASER_M, ERASER_L, ERASER_XL,
+	HUNTER,
 	DEFENDER,
 	SWEEPER,
 	THE_DUEL,
@@ -75,81 +75,81 @@ enum HighscoreTypes {
 	TIME, 
 	}
 	
-var game_data_classic: Dictionary = { 
-	"game": Games.CLASSIC, # key igre je key lootlocker tabele
+var game_data_cleaner: Dictionary = { 
+	"game": Games.CLEANER, # key igre je key lootlocker tabele
 	"highscore_type": HighscoreTypes.POINTS,
-	"game_name": "Classic",
+	"game_name": "Cleaner",
 	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_classic_xl.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_xl.tscn",
 	# pre-game instructons
-	"description": "Team up for a cleaning frenzy!",
+	"description": "Take back the colors and become the brightest again.",
 	"Prop": "Clear all stray pixels\nto reclaim your\none-and-only status.",
 	"Prop2": "Give it your best shot\nto beat the current\nrecord score!",
 }
-var game_data_cleaner_xs: Dictionary = { 
-	"game": Games.CLEANER_XS, # key igre je key lootlocker tabele
+var game_data_eraser_xs: Dictionary = { 
+	"game": Games.ERASER_XS, # key igre je key lootlocker tabele
 	"highscore_type": HighscoreTypes.TIME,
-	"game_name": "Cleaner XS",
+	"game_name": "Eraser XS",
 	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_xs.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_eraser_xs.tscn",
 	# pre-game instructons
 	"description" : "Clear the colors before time slips away!",
 	"Prop" : "You have %s minute\nbefore your screen becomes\npermanently saturated." % str(2), # CON ročno povezano z game time
 	"Prop2" : "Be quick and efficient\nto beat the current\nrecord time!",
 	# 2min / 32 straysov
 }
-var game_data_cleaner_s: Dictionary = { 
-	"game": Games.CLEANER_S, # key igre je key lootlocker tabele
+var game_data_eraser_s: Dictionary = { 
+	"game": Games.ERASER_S, # key igre je key lootlocker tabele
 	"highscore_type": HighscoreTypes.TIME,
-	"game_name": "Cleaner S",
+	"game_name": "Eraser S",
 	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_s.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_eraser_s.tscn",
 	# pre-game instructons
 	"description" : "Clear the colors before time slips away!",
 	"Prop" : "You have %s minute\nbefore your screen becomes\npermanently saturated." % str(3), # CON ročno povezano z game time
 	"Prop2" : "Be quick and efficient\nto beat the current\nrecord time!",
 	# 5min / 50 straysov
 }
-var game_data_cleaner_m: Dictionary = { 
-	"game": Games.CLEANER_M, # key igre je key lootlocker tabele
+var game_data_eraser_m: Dictionary = { 
+	"game": Games.ERASER_M, # key igre je key lootlocker tabele
 	"highscore_type": HighscoreTypes.TIME,
-	"game_name": "Cleaner M",
+	"game_name": "Eraser M",
 	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_m.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_eraser_m.tscn",
 	# pre-game instructons
 	"description" : "Clear the colors before time slips away!",
 	"Prop" : "You have %s minutes\nbefore your screen becomes\npermanently saturated." % str(7), # CON ročno povezano z game time
 	"Prop2" : "Be quick and efficient\nto beat the current\nrecord time!",
 	# 7min / 100 straysov
 }
-var game_data_cleaner_l: Dictionary = {
-	"game": Games.CLEANER_L, # key igre je key lootlocker tabele
+var game_data_eraser_l: Dictionary = {
+	"game": Games.ERASER_L, # key igre je key lootlocker tabele
 	"highscore_type": HighscoreTypes.TIME,
-	"game_name": "Cleaner L",
+	"game_name": "Eraser L",
 	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_l.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_eraser_l.tscn",
 	# pre-game instructons
-	"description" : "Race the clock and clean up the color explosion!",
+	"description" : "Clear the colors before time slips away!",
 	"Prop" : "You have %s minutes\nbefore your screen becomes\npermanently saturated." % str(10), # CON ročno povezano z game time
 	"Prop2" : "Be quick and efficient\nto beat the current\nrecord time!",
 	# 10min / 200 straysov
 }
-var game_data_cleaner_xl: Dictionary = {
-	"game": Games.CLEANER_XL, # key igre je key lootlocker tabele
+var game_data_eraser_xl: Dictionary = {
+	"game": Games.ERASER_XL, # key igre je key lootlocker tabele
 	"highscore_type": HighscoreTypes.TIME,
-	"game_name": "Cleaner XL",
+	"game_name": "Eraser XL",
 	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_xl.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_eraser_xl.tscn",
 	# pre-game instructons
-	"description" : "Clean up this colored mess before the clock runs out!",
+	"description" : "Clear the colors before time slips away!",
 	"Prop" : "You have %s minutes\nbefore your screen becomes\npermanently saturated." % str(15), # CON ročno povezano z game time
 	"Prop2" : "Be quick and efficient\nto beat the current\nrecord time!",
 	# 15min / 300 straysov
 }
-var game_data_chaser: Dictionary = { 
-	"game": Games.CHASER, # key igre je key lootlocker tabele
+var game_data_hunter: Dictionary = { 
+	"game": Games.HUNTER, # key igre je key lootlocker tabele
 	"highscore_type": HighscoreTypes.POINTS,
-	"game_name": "Chaser",
+	"game_name": "Hunter",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser.tscn",
 	# pre-game instructons
@@ -280,13 +280,13 @@ func _ready() -> void:
 
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE # fix camera
-	var debug_game = Games.CLASSIC
-#	var debug_game = Games.CLEANER_XS
-#	var debug_game = Games.CLEANER_S
-#	var debug_game = Games.CLEANER_M
-#	var debug_game = Games.CLEANER_L
-#	var debug_game = Games.CLEANER_XL
-#	var debug_game = Games.CHASER
+	var debug_game = Games.CLEANER
+#	var debug_game = Games.ERASER_XS
+#	var debug_game = Games.ERASER_S
+#	var debug_game = Games.ERASER_M
+#	var debug_game = Games.ERASER_L
+#	var debug_game = Games.ERASER_XL
+#	var debug_game = Games.HUNTER
 #	var debug_game = Games.DEFENDER
 #	var debug_game = Games.SWEEPER
 #	var debug_game = Games.THE_DUEL
@@ -300,7 +300,7 @@ func set_game_data(selected_game):
 	# bugfixing
 	game_settings["start_countdown"] = false
 	game_settings["player_start_life"] = 2
-	game_settings["show_game_instructions"] = false
+#	game_settings["show_game_instructions"] = false
 
 	match selected_game:
 
@@ -322,43 +322,43 @@ func set_game_data(selected_game):
 			# game_settings["reburst_enabled"] = true			
 			# game_settings["reburst_window_time"] = 0
 
-		Games.CLASSIC: 
-			current_game_data = game_data_classic.duplicate()
+		Games.CLEANER: 
+			current_game_data = game_data_cleaner.duplicate()
 			game_settings["create_strays_count"] = 230
 			game_settings["game_time_limit"] = 0
-			game_settings["game_music_track_index"] = 1
+#			game_settings["game_music_track_index"] = 1
 			#
 #			game_settings["create_strays_count"] = 999
 #			game_settings["create_strays_count"] = 120
 			
-		Games.CLEANER_XS: 
-			current_game_data = game_data_cleaner_xs.duplicate()
+		Games.ERASER_XS: 
+			current_game_data = game_data_eraser_xs.duplicate()
 			game_settings["game_time_limit"] = 120 
 			game_settings["create_strays_count"] = 32
 			game_settings["spawn_white_stray_part"] = 0.11 # 10 posto
-		Games.CLEANER_S: 
-			current_game_data = game_data_cleaner_s.duplicate()
+		Games.ERASER_S: 
+			current_game_data = game_data_eraser_s.duplicate()
 			game_settings["game_time_limit"] = 300
 			game_settings["create_strays_count"] = 50
 			game_settings["spawn_white_stray_part"] = 0.11
-		Games.CLEANER_M: 
-			current_game_data = game_data_cleaner_m.duplicate()
+		Games.ERASER_M: 
+			current_game_data = game_data_eraser_m.duplicate()
 			game_settings["game_time_limit"] = 470
 			game_settings["create_strays_count"] = 100
 			game_settings["spawn_white_stray_part"] = 0.11
-		Games.CLEANER_L: 
-			current_game_data = game_data_cleaner_l.duplicate()
+		Games.ERASER_L: 
+			current_game_data = game_data_eraser_l.duplicate()
 			game_settings["game_time_limit"] = 600
 			game_settings["create_strays_count"] = 200
 			game_settings["spawn_white_stray_part"] = 0.11
-		Games.CLEANER_XL: 
-			current_game_data = game_data_cleaner_xl.duplicate()
+		Games.ERASER_XL: 
+			current_game_data = game_data_eraser_xl.duplicate()
 			game_settings["game_time_limit"] = 900
 			game_settings["create_strays_count"] = 300
 			game_settings["spawn_white_stray_part"] = 0.11
 		
-		Games.CHASER: 
-			current_game_data = game_data_chaser.duplicate()
+		Games.HUNTER: 
+			current_game_data = game_data_hunter.duplicate()
 			game_settings["position_indicators_show_limit"] = 0
 			#
 			game_settings["respawn_strays_count_range"] = [2, 8]

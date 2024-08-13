@@ -382,6 +382,21 @@ __meta__ = {
 
 [node name="Hud" parent="GUI" instance=ExtResource( 4 )]
 
+[node name="HighscoreLabel" parent="GUI/Hud/Header/TopLineR" index="1"]
+margin_left = 451.0
+
+[node name="SpectrumHolder" parent="GUI/Hud/Footer/FooterLine" index="1"]
+margin_right = 949.0
+
+[node name="StraysLine" parent="GUI/Hud/Footer/FooterLine" index="2"]
+margin_left = 981.0
+
+[node name="AstrayHolder" parent="GUI/Hud/Footer/FooterLine/StraysLine" index="0"]
+margin_right = 237.0
+
+[node name="Label" parent="GUI/Hud/Footer/FooterLine/StraysLine/AstrayHolder" index="2"]
+margin_right = 237.0
+
 [node name="Tutorial" type="Control" parent="GUI"]
 visible = false
 anchor_right = 1.0
@@ -1153,5 +1168,5 @@ one_shot = true
 [editable path="GUI/Tutorial/ActionHint"]
 [editable path="GUI/Tutorial/MissionPanel/ActionHint"]
 [editable path="GUI/GameOver"]
-[editable path="GUI/GameOver/GameSummary/ContentSweeper/Hs/HighscoreTableDummy"]
+[editable path="GUI/GameOver/GameSummary/ContentSweeper/Hs/HighscoreTable"]
 [editable path="GUI/GameOver/GameSummary/Content/Hs/HighscoreTable"]

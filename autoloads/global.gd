@@ -126,8 +126,8 @@ func get_clock_time(hundreds_to_split: float): # cele stotinke ali ne cele sekun
 	var time_on_clock: String = "%02d" % minutes + ":" + "%02d" % seconds + ":" + "%02d" % hundreds	
 	
 	return time_on_clock
+
 	
-			
 # SCENE MANAGER (prehajanje med igro in menijem) --------------------------------------------------------------
 
 
@@ -264,7 +264,7 @@ func get_spectrum_colors(color_count: int):
 
 # FILETI in FOLDERJI -----------------------------------------------------------------------------------------
 
-# trenutno ni v rabi
+
 func get_folder_contents(rootPath: String, files_only: bool = true) -> Array:
 	
 	var files = []
@@ -380,7 +380,6 @@ func _on_button_toggled(button_pressed: bool) -> void:
 
 # on hover
 func _on_control_hovered(control: Control):
-
 	# izločim sounde za select game ozadja
 	#	if control is ColorRect:
 	#		return
@@ -417,3 +416,81 @@ func focus_without_sfx(control_to_focus: Control):
 	allow_focus_sfx = false
 	control_to_focus.grab_focus()
 
+	
+# CALL THROTLED --------------------------------------------------------------
+
+
+var _to_call: Array = []
+var _mutex: Mutex = Mutex.new()
+
+var _frame_budget_msec: = 0
+var _frame_budget_threshold_msec: = 0
+var _is_setup: bool = false
+
+# youtube video https://www.youtube.com/watch?v=WLDM0tQ-XqE
+# project settings / general / run > SceneTree spremeniš v CustomSceneTree
+func _run_callables() -> void:
+	
+	if not _is_setup:
+		push_error("Please run THROTTLER.start before calling")
+		return
+		
+	var frame_budget_remaining_msec: = _frame_budget_msec	
+	var frame_budget_used_msec: = 0
+	var is_working: = true
+	var call_count: = 0
+	
+	while is_working:
+		var before: = Time.get_ticks_msec()	
+		
+		_mutex.lock()
+		var entry = _to_call.pop_front()
+		_mutex.unlock()
+		
+		var did_call: = false
+		
+		if entry:
+			var callable = entry["callable"]
+			var args = entry["args"]
+			if callable != null and callable.is_valid():
+#				if args != null and typeof(args) == TYPE_ARRAY and not args.is_empty():
+				if args != null and typeof(args) == TYPE_ARRAY and not args.empty():
+					callable.callv(args)
+					pass
+				else:
+					callable.call()
+				did_call = true
+				call_count = +1
+		
+		var after: = Time.get_ticks_msec()
+		var used: = after - before
+		frame_budget_remaining_msec -= used
+		frame_budget_used_msec += used	
+		
+		# stop running callables if none are left, or we are over budget
+		if not did_call or frame_budget_remaining_msec < _frame_budget_threshold_msec:
+			is_working = false
+		
+		if call_count > 0:
+			print("THROTTLE BUDGET", _frame_budget_msec, frame_budget_used_msec, frame_budget_remaining_msec)
+
+		
+func start(frame_budget_mesec: int, frame_budget_threshold_msec: int) -> void:
+	
+	_frame_budget_msec = frame_budget_mesec
+	_frame_budget_threshold_msec = frame_budget_threshold_msec
+	_is_setup = true
+		
+		
+func call_throttled(method, args: Array = []) -> void:
+	
+	printt ("CALABLE", method, args)
+	var entry: Dictionary = {
+		"callable" : method,
+		"args": args,
+	}
+
+	_mutex.lock()
+	_to_call.push_back(entry)
+	_mutex.unlock()
+	

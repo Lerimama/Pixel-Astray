@@ -33,7 +33,7 @@ func _ready() -> void:
 	get_tileset().tile_set_modulate(wall_tile_id, Global.color_wall)
 	get_tileset().tile_set_modulate(floor_tile_id, Global.color_floor)
 	# ko je edge size manjši od kamere, ga obarvam drugače
-	if Global.game_manager.game_data["game"] == Profiles.Games.CLEANER_XS or Global.game_manager.game_data["game"] == Profiles.Games.CLEANER_S:
+	if Global.game_manager.game_data["game"] == Profiles.Games.ERASER_XS or Global.game_manager.game_data["game"] == Profiles.Games.ERASER_S:
 		get_tileset().tile_set_modulate(edge_tile_id, Global.color_almost_black_pixel)
 		edge_cover.hide()
 	else:
@@ -41,10 +41,14 @@ func _ready() -> void:
 
 	if has_node("SolutionLine"):
 		solution_line = $SolutionLine
+		# če je hintline prazen, se pokaže tekst 
 		if solution_line.points.empty():
-			solution_line.get_child(0).show()
+			solution_line.get_node("NoSolutionHint").show()
+			solution_line.get_node("Dots").hide()
 		else:
-			solution_line.get_child(0).hide()
+			solution_line.get_node("NoSolutionHint").hide()
+			solution_line.get_node("Dots").show()
+
 	
 func get_tiles():
 	

@@ -34,9 +34,10 @@ position = Vector2( 0, -736 )
 [node name="EdgeCover" parent="." instance=ExtResource( 6 )]
 
 [node name="SolutionLine" type="Line2D" parent="."]
+visible = false
 self_modulate = Color( 1, 1, 1, 0.784314 )
 z_index = 10
-points = PoolVector2Array( 624, 344, 304, 344, 304, 328, 1008, 328 )
+points = PoolVector2Array( 632, 344, 304, 344, 304, 328, 888, 328 )
 width = 8.0
 default_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 joint_mode = 2
@@ -47,31 +48,79 @@ __meta__ = {
 }
 
 [node name="NoSolutionHint" type="Label" parent="SolutionLine"]
-visible = false
-margin_left = 370.0
-margin_top = 305.0
-margin_right = 945.0
-margin_bottom = 364.0
+margin_left = 320.0
+margin_top = 320.0
+margin_right = 960.0
+margin_bottom = 384.0
 grow_horizontal = 2
 theme = ExtResource( 1 )
-custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 custom_fonts/font = ExtResource( 2 )
-text = "Do it your own way"
+text = "Invent your own way"
 align = 1
 valign = 1
 uppercase = true
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="ColorRect" type="ColorRect" parent="SolutionLine/NoSolutionHint"]
 show_behind_parent = true
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -337.5
-margin_top = -46.5
-margin_right = 334.5
-margin_bottom = 49.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -64.0
+margin_top = -32.0
+margin_right = 64.0
+margin_bottom = 32.0
 color = Color( 0, 0, 0, 1 )
+
+[node name="Dots" type="Node2D" parent="SolutionLine"]
+modulate = Color( 1, 1, 1, 0.784314 )
+position = Vector2( 888, 320 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Dot" type="Line2D" parent="SolutionLine/Dots"]
+modulate = Color( 1, 1, 1, 0.784314 )
+position = Vector2( -600, -336 )
+z_index = 10
+points = PoolVector2Array( 616, 344, 632, 344 )
+width = 8.0
+default_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Dot2" type="Line2D" parent="SolutionLine/Dots"]
+modulate = Color( 1, 1, 1, 0.588235 )
+position = Vector2( -568, -336 )
+z_index = 10
+points = PoolVector2Array( 616, 344, 624, 344 )
+width = 8.0
+default_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Dot3" type="Line2D" parent="SolutionLine/Dots"]
+modulate = Color( 1, 1, 1, 0.470588 )
+position = Vector2( -544, -336 )
+z_index = 10
+points = PoolVector2Array( 616, 344, 618, 344 )
+width = 8.0
+default_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="CameraPosition" type="Position2D" parent="."]
 visible = false

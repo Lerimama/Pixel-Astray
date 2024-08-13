@@ -9,7 +9,17 @@ __meta__ = {
 "_edit_vertical_guides_": [ 2176.0, 2592.0, 256.0, 512.0, 800.0, 1024.0 ]
 }
 
-[node name="SolutionLine" parent="." index="1"]
-points = PoolVector2Array( 720, 376, 760, 376, 760, 360, 720, 360, 720, 336, 656, 336, 656, 392, 584, 392, 584, 408, 688, 408, 688, 304, 664, 304 )
+[node name="SolutionLine" parent="." index="2"]
+points = PoolVector2Array( 712, 376, 760, 376, 760, 360, 720, 360, 720, 336, 656, 336, 656, 392, 584, 392, 584, 408, 688, 408, 688, 352 )
+
+[node name="Dots" parent="SolutionLine" index="1"]
+position = Vector2( 680, 352 )
+rotation = -1.5708
+
+[node name="Dot2" parent="SolutionLine/Dots" index="1"]
+points = PoolVector2Array( 616, 344, 616, 336 )
+
+[node name="Dot3" parent="SolutionLine/Dots" index="2"]
+points = PoolVector2Array( 592, 320, 592, 321 )
 
 [editable path="Background"]

@@ -5,28 +5,20 @@ var sweeper_scorelines: Array
 var current_sweeper_table_page: int = 1
 var scorelines: Array = []
 var scorelines_with_score: Array
+var show_scoreline_titles: bool = true # naslovi stolpcev ... če se premislim
+var scoreline_titles_line: Control
 
 onready var hs_table: VBoxContainer = $TableScroller/Table
 onready var table_title_label: Label = $Title
 onready var rank_node_name: String = "Rank"
-#onready var local_rank_node_name: String = "Rank"
 onready var alt_rank_node_name: String = "AltRank"
-#onready var global_rank_node_name: String = "GlobalRank"
 onready var owner_node_name: String = "Owner"
 onready var score_node_name: String = "Score"
 onready var scoreline_empty_line_name: String = "NoScoreLine"
 
-var show_scoreline_titles: bool = true
 
-
-func _ready() -> void:
-	
-	pass
-
-	
 func load_highscore_table(current_game_data: Dictionary, current_player_rank: int, lines_to_load_count, global_highscores: bool = false):
 	
-#	printt("Loading HS:", current_game_data.keys()[0])
 	# reset table
 	var highscore_table_children: Array = hs_table.get_children()
 	if highscore_table_children.size() > 1: # pomeni, da ni resetirana, ali pa ima debug linije
@@ -36,24 +28,23 @@ func load_highscore_table(current_game_data: Dictionary, current_player_rank: in
 	scorelines.clear()
 	scorelines_with_score.clear()
 	
-	if global_highscores: # home globale tabel
-		table_title_label.text = current_game_data["game_name"] + " Global Top %s" % lines_to_load_count
-		if current_game_data["game"] == Profiles.Games.SWEEPER:
-			table_title_label.text = current_game_data["game_name"] + " " + str(current_game_data["level"]) + " Global Top %s" % lines_to_load_count
+	# table title
+	if global_highscores: 
+		table_title_label.text = "Global leaders"
 	else:
 		table_title_label.text = current_game_data["game_name"] + " Top 10"
 		if current_game_data["game"] == Profiles.Games.SWEEPER:
-			table_title_label.text = current_game_data["game_name"] + " " + str(current_game_data["level"]) + " Top 10"
-	
+			table_title_label.text = "Sweeper " + str(current_game_data["level"]) + " Top 10"
 
-#	if lines_to_load_count > 10:
-#		$TableScroller.scroll_vertical_enabled = true
-#	else:
-#		$TableScroller.scroll_vertical_enabled = false
-	
 	var current_game_highscores = Global.data_manager.read_highscores_from_file(current_game_data, global_highscores)
 	
 	build_table(lines_to_load_count)
+		
+	# imena kolumn
+	if current_game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
+		scoreline_titles_line.get_node("Score").text = "Time"
+	scoreline_titles_line.get_node("Rank").text = "R"
+		
 	for unfilled_scoreline in scorelines: # scrolline so postavljene in ne nafilane
 		fill_scoreline(unfilled_scoreline, current_game_data, lines_to_load_count, current_game_highscores)
 
@@ -72,15 +63,12 @@ func load_highscore_table(current_game_data: Dictionary, current_player_rank: in
 	# scrollbar spacing od tabele (če je naslov večji od tabele poravnava se s širino parenta)
 	$TableScroller.rect_min_size.x = hs_table.rect_size.x + 32
 	$TableScroller.get_v_scrollbar().self_modulate.a = 0.25
-	# printt("HStbale",$TableScroller.get_v_scrollbar().get_children())	
 	
-#	printt("Loaded", global_highscores)
 	
 func build_table(lines_count: int):
 	
 	scorelines = hs_table.get_children()
 	
-	var scoreline_titles_line: Control
 	if show_scoreline_titles: # odstranim scoreline titles line
 		scoreline_titles_line = scorelines.pop_front()
 		scoreline_titles_line.modulate = Global.color_gui_gray
@@ -110,13 +98,12 @@ func fill_scoreline(scoreline: Control, game_data: Dictionary, lines_count: int,
 	scoreline.get_node(alt_rank_node_name).text = str(scoreline_index + 1)
 	scoreline.get_node(owner_node_name).text = current_owner
 	
-	var current_game_hs_type = game_data["highscore_type"]
 	var current_position_score: float = current_position_dict_values[0]
 	if current_position_score > 0:
-		if current_game_hs_type == Profiles.HighscoreTypes.TIME:
+		if game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
 			var current_position_seconds: float = current_position_score
 			scoreline.get_node(score_node_name).text = Global.get_clock_time(current_position_seconds)
-		elif current_game_hs_type == Profiles.HighscoreTypes.POINTS:
+		elif game_data["highscore_type"] == Profiles.HighscoreTypes.POINTS:
 			var current_position_points: int = current_position_score
 			scoreline.get_node(score_node_name).text = str(current_position_points)
 		scorelines_with_score.append(scoreline)

@@ -46,7 +46,7 @@ func _ready() -> void:
 	
 	Global.tutorial_gui = self # za skillse iz plejerja
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.CLASSIC:
+	if Global.game_manager.game_data["game"] == Profiles.Games.CLEANER:
 		if Profiles.tutorial_mode:
 			tutorial_on = true
 	
@@ -122,7 +122,7 @@ func close_tutorial():
 		# če se igra nadaljuje
 		if Global.game_manager.game_on:
 			Global.sound_manager.stop_music("game_music_on_gameover")
-			Global.sound_manager.current_music_track_index = 0 # index komada classic igre ... Global.game_manager.game_settings["game_music_track_index"]
+			Global.sound_manager.current_music_track_index = 0 # index komada cleaner igre ... Global.game_manager.game_settings["game_music_track_index"]
 			Global.sound_manager.play_music("game_music")
 		
 	

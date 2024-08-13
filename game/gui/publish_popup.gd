@@ -29,6 +29,8 @@ func close_popup():
 	fade_out.tween_property(self, "modulate:a", 0, 0.5)	
 	fade_out.tween_callback(self, "hide")	
 	
+	ConnectCover.close_cover() # ... animiram ga v nivoju višje višje
+	
 	
 func _on_PublishBtn_pressed() -> void:
 	
@@ -47,7 +49,8 @@ func _on_PublishBtn_pressed() -> void:
 	yield(LootLocker, "connection_closed")
 	ConnectCover.cover_label_text = "Finished"
 	yield(get_tree().create_timer(LootLocker.final_panel_open_time), "timeout")
-	ConnectCover.close_cover() # odda signal, ko se zapre	
+#	ConnectCover.close_cover() # ... animiram ga v nivoju višje višje
+	
 	emit_signal("score_published")
 	get_tree().set_pause(true) # spet setano čez celotno GO proceduro
 

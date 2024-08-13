@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=27 format=2]
+[gd_resource type="Theme" load_steps=31 format=2]
 
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/theme/font_main_rich_bold.tres" type="DynamicFont" id=2]
@@ -64,6 +64,26 @@ modulate_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 [sub_resource type="StyleBoxEmpty" id=185]
 
 [sub_resource type="StyleBoxEmpty" id=186]
+
+[sub_resource type="AtlasTexture" id=337]
+atlas = ExtResource( 4 )
+region = Rect2( 34, 147, 6, 10 )
+margin = Rect2( -6, -4, 0, 0 )
+
+[sub_resource type="AtlasTexture" id=338]
+atlas = ExtResource( 4 )
+region = Rect2( 40, 147, 6, 10 )
+margin = Rect2( -6, -4, 0, 0 )
+
+[sub_resource type="AtlasTexture" id=335]
+atlas = ExtResource( 4 )
+region = Rect2( 8, 67, 6, 10 )
+margin = Rect2( 0, -4, 6, 0 )
+
+[sub_resource type="AtlasTexture" id=336]
+atlas = ExtResource( 4 )
+region = Rect2( 2, 67, 6, 10 )
+margin = Rect2( 0, -4, 0, 0 )
 
 [sub_resource type="StyleBoxEmpty" id=191]
 
@@ -138,6 +158,10 @@ RichTextLabel/fonts/bold_font = ExtResource( 2 )
 RichTextLabel/fonts/normal_font = ExtResource( 1 )
 TabContainer/colors/font_color_bg = Color( 1, 1, 1, 0.470588 )
 TabContainer/colors/font_color_fg = Color( 1, 1, 1, 1 )
+TabContainer/icons/decrement = SubResource( 337 )
+TabContainer/icons/decrement_highlight = SubResource( 338 )
+TabContainer/icons/increment = SubResource( 335 )
+TabContainer/icons/increment_highlight = SubResource( 336 )
 TabContainer/styles/panel = SubResource( 191 )
 TabContainer/styles/tab_bg = ExtResource( 5 )
 TabContainer/styles/tab_disabled = ExtResource( 5 )

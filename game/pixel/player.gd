@@ -1256,7 +1256,17 @@ func skill_light_on():
 	
 	if not skill_light.enabled:
 		
-		skill_light.rotation = vision_ray.rotation
+		# setam smer glede na smer vision raya
+		var light_rotation_degrees: float
+		if vision_ray.cast_to.x > 0 and vision_ray.cast_to.y == 0:
+			light_rotation_degrees = 0
+		elif vision_ray.cast_to.x < 0 and vision_ray.cast_to.y == 0:
+			light_rotation_degrees = 180
+		elif vision_ray.cast_to.y > 0 and vision_ray.cast_to.x == 0:
+			light_rotation_degrees = 90
+		elif vision_ray.cast_to.y < 0 and vision_ray.cast_to.x == 0:
+			light_rotation_degrees = -90
+		skill_light.rotation_degrees = light_rotation_degrees
 		
 		var skilled_light_base_energy: float = 0.7
 		var skilled_light_energy: float = skilled_light_base_energy / pixel_color.v
@@ -1388,7 +1398,7 @@ func _on_ReburstingTimer_timeout() -> void:
 
 	
 func _on_TouchTimer_timeout() -> void: 
-	# CHASER
+	# HUNTER
 
 	detect_touch() # za GO
 	
@@ -1486,7 +1496,7 @@ func change_stat(stat_event: String, stat_value):
 			"skill_used": # štetje, točke in energija kot je določeno v settingsih
 				player_stats["skill_count"] += 1
 				# za tutorial
-				if game_data["game"] == Profiles.Games.CLASSIC and Global.tutorial_gui.tutorial_on:
+				if game_data["game"] == Profiles.Games.CLEANER and Global.tutorial_gui.tutorial_on:
 					Global.tutorial_gui.on_skill_used(stat_value)
 			"burst_count": # štetje, točke in energija kot je določeno v settingsih
 				player_stats["burst_count"] += stat_value
@@ -1518,7 +1528,7 @@ func change_stat(stat_event: String, stat_value):
 				# za tutorial
 				if game_data["game"] == Profiles.Games.SWEEPER and is_rebursting:
 					player_stats["player_energy"] = player_max_energy
-				elif game_data["game"] == Profiles.Games.CLASSIC and Global.tutorial_gui.tutorial_on:
+				elif game_data["game"] == Profiles.Games.CLEANER and Global.tutorial_gui.tutorial_on:
 					Global.tutorial_gui.on_hit_stray(stack_strays_cleaned_count)
 						
 			"white_eliminated":

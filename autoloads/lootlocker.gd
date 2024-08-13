@@ -45,7 +45,7 @@ func publish_score_to_lootlocker(player_name: String, player_score: float, game_
 	update_lootlocker_leaderboard(game_data)
 
 
-func update_lootlocker_leaderboard(game_data: Dictionary, last_update_in_row: bool = true): 
+func update_lootlocker_leaderboard(game_data: Dictionary, last_update_in_row: bool = true, update_string: String = ""): 
 	
 	if not guest_is_authenticated:
 		authenticate_guest_session(anonymous_guest_name, last_update_in_row)
@@ -53,7 +53,8 @@ func update_lootlocker_leaderboard(game_data: Dictionary, last_update_in_row: bo
 	else:	
 		ConnectCover.open_cover()
 		
-	ConnectCover.cover_label_text = "Updating ..."
+	ConnectCover.cover_label_text = "Updating " + update_string
+#	ConnectCover.cover_label_text = "Updating ..."
 
 	var game_leaderboard_key = Profiles.Games.keys()[game_data["game"]]
 	if game_data["game"] == Profiles.Games.SWEEPER: # OPT iskanja brez sweeperja

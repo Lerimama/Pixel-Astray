@@ -66,8 +66,7 @@ func die(stray_in_stack_index: int, strays_in_stack_count: int):
 			animation_player.play("die_stray")
 
 		#	position_indicator.modulate.a = 0	
-		printt("COL", collision_shape.disabled)
-		collision_shape.set_deferred("disabled", true)
+		collision_shape.set_deferred("disabled", true) # OPT ... se podvaja
 		
 		# color vanish
 		var vanish_time = animation_player.get_current_animation_length()
@@ -209,7 +208,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			position_indicator.modulate.a = 0
 		# če umrje
 		else: 
-			collision_shape.set_deferred("disabled", true)
+			collision_shape.set_deferred("disabled", true) # OPT ... se podvaja
 			# odstrani barve iz huda in igre
 			Global.game_manager.on_stray_die(self)
 			call_deferred("queue_free")

@@ -8,7 +8,7 @@
 
 [sub_resource type="AtlasTexture" id=482]
 atlas = ExtResource( 2 )
-region = Rect2( 0, 120, 16, 20 )
+region = Rect2( 0, 156, 16, 20 )
 filter_clip = true
 
 [node name="LevelBtn" type="Button"]
@@ -46,43 +46,35 @@ __meta__ = {
 }
 
 [node name="LabelLocked" type="Label" parent="VBoxContainer"]
-visible = false
-margin_right = 128.0
-margin_bottom = 54.0
+margin_left = 36.0
+margin_top = 2.0
+margin_right = 164.0
+margin_bottom = 56.0
+grow_horizontal = 2
 rect_min_size = Vector2( 128, 0 )
-size_flags_horizontal = 0
+size_flags_horizontal = 4
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "00"
-align = 2
+align = 1
 valign = 1
 
 [node name="LockedIcon" type="TextureRect" parent="VBoxContainer/LabelLocked"]
-margin_left = 131.0
+visible = false
+margin_left = 99.0
 margin_top = 14.0
-margin_right = 147.0
+margin_right = 115.0
 margin_bottom = 34.0
 grow_horizontal = 0
 mouse_default_cursor_shape = 2
 texture = SubResource( 482 )
 
-[node name="Label_old" type="Label" parent="VBoxContainer"]
-visible = false
-margin_left = 45.0
-margin_right = 155.0
-margin_bottom = 54.0
-size_flags_horizontal = 4
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_fonts/font = ExtResource( 4 )
-text = "%00"
-align = 1
-valign = 1
-
 [node name="Label" type="Label" parent="VBoxContainer"]
+visible = false
 margin_left = 67.0
-margin_top = 9.0
+margin_top = 52.0
 margin_right = 133.0
-margin_bottom = 49.0
+margin_bottom = 92.0
 rect_min_size = Vector2( 0, 40 )
 size_flags_horizontal = 4
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -93,18 +85,18 @@ valign = 1
 
 [node name="Record" type="Label" parent="VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.470588 )
-margin_top = 47.0
+margin_top = 54.0
 margin_right = 200.0
-margin_bottom = 65.0
+margin_bottom = 72.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 1 )
 text = "00:00:00"
 align = 1
 
 [node name="Owner" type="Label" parent="VBoxContainer"]
-margin_top = 63.0
+margin_top = 70.0
 margin_right = 200.0
-margin_bottom = 87.0
+margin_bottom = 94.0
 rect_min_size = Vector2( 0, 24 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 1 )

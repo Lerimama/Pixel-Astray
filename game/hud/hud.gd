@@ -278,7 +278,11 @@ func spawn_color_indicators(spawn_colors: Array): # kliče GM
 		# spawn indicator
 		var new_color_indicator = ColorIndicator.instance()
 		new_color_indicator.color = spawn_color
-		new_color_indicator.modulate.a = stray_out_indicator_alpha # prikažem jih na slide in
+		if Global.game_manager.level_goal_mode:
+			new_color_indicator.modulate.a = stray_out_indicator_alpha # prikažem jih na slide in
+		else: 	
+			new_color_indicator.modulate.a = stray_in_indicator_alpha # prikažem jih na slide in
+			
 		spectrum.add_child(new_color_indicator)
 	
 		# preverim, če je ista barva že v spektrumu

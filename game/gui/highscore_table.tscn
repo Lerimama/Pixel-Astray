@@ -23,6 +23,7 @@ rect_min_size = Vector2( 28, 27 )
 size_flags_vertical = 0
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 text = "%Game XL Top 10"
+align = 1
 
 [node name="TableScroller" type="ScrollContainer" parent="."]
 margin_top = 31.0

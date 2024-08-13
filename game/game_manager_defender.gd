@@ -171,7 +171,7 @@ func create_strays(strays_to_spawn_count: int):
 	stray_spawning_round += 1
 	
 	
-func upgrade_level(upgrade_on_cleaned: bool =  false): # cleaner
+func upgrade_level(upgrade_on_cleaned: bool =  false):
 	# namen: ni respawna
 
 #	if level_upgrade_in_progress:
