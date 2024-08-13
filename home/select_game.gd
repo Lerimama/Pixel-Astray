@@ -193,8 +193,8 @@ func play_selected_game(selected_game_enum: int):
 	
 	Profiles.set_game_data(selected_game_enum)
 	Global.sound_manager.play_gui_sfx("menu_fade")
-	animation_player.play("play_game")
-	
+	#	animation_player.play("play_game")
+	Global.main_node.home_out()
 				
 func _on_BackBtn_pressed() -> void:
 	

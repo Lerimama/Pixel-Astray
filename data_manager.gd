@@ -79,12 +79,6 @@ func check_player_ranking(current_score: float, current_game_data: Dictionary):
 	
 	current_player_rank = better_positions_count + 1 # za označitev linije na lestvici
 	
-	# če rezultat ni na lestvici, postane 0 # _temp ... ven? spreminjanje skora v 0
-	#	if current_game_data["game"] == Profiles.Games.SWEEPER:
-	#		if better_positions_count >= 1:
-	#			current_player_rank = 0
-	#	elif better_positions_count >= all_ranking_scores.size():
-	#		current_player_rank = 0	
 	if better_positions_count >= all_ranking_scores.size():
 		current_player_rank = 0
 	

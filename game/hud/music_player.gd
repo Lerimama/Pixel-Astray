@@ -29,11 +29,11 @@ func _unhandled_input(event: InputEvent) -> void:
 				
 				
 func _ready() -> void:
-	
-	if AudioServer.is_bus_mute(game_music_bus_index) or Global.sound_manager.game_music_set_to_off:
-		modulate.a = 0.6
-	else:
-		modulate.a = 1	
+	printt("AS", AudioServer.device, AudioServer.bus_count)
+#	if AudioServer.is_bus_mute(game_music_bus_index) or Global.sound_manager.game_music_set_to_off:
+#		modulate.a = 0.6
+#	else:
+#		modulate.a = 1	
 		
 		
 #func _process(delta: float) -> void:

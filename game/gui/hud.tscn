@@ -8,7 +8,7 @@
 [ext_resource path="res://assets/atlas_hud.png" type="Texture" id=8]
 [ext_resource path="res://game/hud/hud_life_icons.gd" type="Script" id=9]
 [ext_resource path="res://game/gui/start_countdown.tscn" type="PackedScene" id=10]
-[ext_resource path="res://game/hud/hud_game_timer_hunds.tscn" type="PackedScene" id=11]
+[ext_resource path="res://game/hud/hud_game_timer.tscn" type="PackedScene" id=11]
 [ext_resource path="res://game/gui/pregame_instructions.tscn" type="PackedScene" id=12]
 [ext_resource path="res://game/hud/hud_energy_bar.gd" type="Script" id=13]
 
@@ -507,7 +507,7 @@ __meta__ = {
 }
 
 [node name="HighscoreLabel" type="Label" parent="Header/TopLineR"]
-margin_left = 448.0
+margin_left = 451.0
 margin_right = 586.0
 margin_bottom = 22.0
 grow_horizontal = 0
@@ -838,7 +838,7 @@ __meta__ = {
 
 [node name="SpectrumHolder" type="Control" parent="Footer/FooterLine"]
 margin_left = 128.0
-margin_right = 946.0
+margin_right = 949.0
 margin_bottom = 22.0
 grow_horizontal = 2
 size_flags_horizontal = 3
@@ -863,7 +863,7 @@ grow_vertical = 2
 color = Color( 0.494118, 0.517647, 0.545098, 1 )
 
 [node name="StraysLine" type="HBoxContainer" parent="Footer/FooterLine"]
-margin_left = 978.0
+margin_left = 981.0
 margin_right = 1218.0
 margin_bottom = 22.0
 size_flags_horizontal = 9
@@ -873,7 +873,7 @@ __meta__ = {
 }
 
 [node name="AstrayHolder" type="HBoxContainer" parent="Footer/FooterLine/StraysLine"]
-margin_right = 240.0
+margin_right = 237.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 custom_constants/separation = 8
@@ -899,7 +899,7 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="Footer/FooterLine/StraysLine/AstrayHolder"]
 margin_left = 50.0
-margin_right = 240.0
+margin_right = 237.0
 margin_bottom = 22.0
 size_flags_vertical = 8
 text = "%PIXELS ASTRAY"

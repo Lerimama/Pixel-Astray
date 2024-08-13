@@ -42,26 +42,25 @@ func play_sfx(effect_for: String):
 				select_random_sfx($GameSfx/BlinkingStatic).play()
 			"thunder_strike": # intro in GM na strays spawn
 				$GameSfx/Burst.play()
-	
+			"start_countdown_a":
+				$GameSfx/Events/StartCoundownA.play()
+			"start_countdown_b":
+				$GameSfx/Events/StartCoundownB.play()
+			"game_countdown_a":
+				$GameSfx/Events/GameCoundownA.play()
+			"game_countdown_b":
+				$GameSfx/Events/GameCoundownB.play()
+			"tutorial_stage_done":
+				$GameSfx/Events/TutorialStageDone.play()	
 			
 func play_gui_sfx(effect_for: String):
 	
 	match effect_for:
-		# game
-		"start_countdown_a":
-			$GuiSfx/StartCoundownA.play()
-		"start_countdown_b":
-			$GuiSfx/StartCoundownB.play()
-		"game_countdown_a":
-			$GuiSfx/GameCoundownA.play()
-		"game_countdown_b":
-			$GuiSfx/GameCoundownB.play()
+		# GO
 		"win_jingle":
 			$GuiSfx/Win.play()
 		"lose_jingle":
 			$GuiSfx/Loose.play()
-		"tutorial_stage_done":
-			$GuiSfx/TutorialStageDone.play()
 		# input
 		"typing":
 			select_random_sfx($GuiSfx/Inputs/Typing).play()

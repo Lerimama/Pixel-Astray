@@ -131,7 +131,7 @@ func close_tutorial():
 
 func change_stage(stage_to_hide: Control, next_stage: Control, next_stage_enum: int):
 	
-	Global.sound_manager.play_gui_sfx("tutorial_stage_done")
+	Global.sound_manager.play_sfx("tutorial_stage_done")
 	current_tutorial_stage = next_stage_enum
 	
 	var close_stage = get_tree().create_tween()

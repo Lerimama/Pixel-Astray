@@ -63,10 +63,6 @@ boot_splash/use_filter=false
 boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://assets/app/project_icon.png"
 
-[audio]
-
-default_bus_layout="res://_obs/default_bus_layout.tres"
-
 [autoload]
 
 Global="*res://autoloads/global.gd"
@@ -89,6 +85,7 @@ gdscript/warnings/integer_division=false
 window/size/width=1280
 window/size/height=720
 window/size/borderless=true
+window/size/fullscreen=true
 window/size/always_on_top=true
 window/size/test_width=640
 window/size/test_height=360
@@ -360,4 +357,3 @@ quality/intended_usage/framebuffer_allocation=0
 quality/intended_usage/framebuffer_allocation.mobile=0
 2d/snapping/use_gpu_pixel_snap=true
 environment/default_clear_color=Color( 0, 0, 0, 1 )
-environment/default_environment="res://_obs/default_env.tres"

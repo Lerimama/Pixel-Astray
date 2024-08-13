@@ -127,7 +127,6 @@ func _on_ResetBtn_pressed() -> void:
 	
 	Profiles.use_default_color_theme = true
 	randomize_btn.grab_focus()
-	#	Global.grab_focus_no_sfx(randomize_btn) # _temp ven?
 
 	intro.respawn_title_strays()
 	select_level_node.select_level_btns_holder.color_level_btns()

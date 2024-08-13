@@ -8,7 +8,6 @@ var current_esc_hint: HBoxContainer
 var allow_ui_sfx: bool = false # za kontrolo defolt focus soundov
 
 onready var animation_player: AnimationPlayer = $AnimationPlayer
-#onready var menu: HBoxContainer = $Menu
 onready var menu: HBoxContainer = $HomeScreen/Menu
 onready var intro: Node2D = $HomeScreen/IntroViewPortContainer/IntroViewport/Intro
 onready var intro_viewport: Viewport = $HomeScreen/IntroViewPortContainer/IntroViewport
@@ -128,44 +127,30 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 	
 	match animation_name:
 		"select_game":
-			#			if animation_reversed(Screens.SELECT_GAME):
-			#				return
 			if not animation_reversed(Screens.SELECT_GAME):
 				current_screen = Screens.SELECT_GAME
 				current_esc_hint = $SelectGame/EscHint
 				Global.focus_without_sfx($SelectGame/GamesMenu/Cleaner/CleanerBtn)
 		"about":
-			#			if animation_reversed(Screens.ABOUT):
-			#				return
 			if not animation_reversed(Screens.ABOUT):
 				current_screen = Screens.ABOUT
 				current_esc_hint = $About/EscHint
 				Global.focus_without_sfx($About/BackBtn)
 		"settings":
-			#			if animation_reversed(Screens.SETTINGS):
-			#				return
 			if not animation_reversed(Screens.SETTINGS):
 				current_screen = Screens.SETTINGS
 				current_esc_hint = $Settings/EscHint
 				Global.focus_without_sfx($Settings/MenuMusicBtn)
 		"highscores":
-			#			if animation_reversed(Screens.HIGHSCORES):
-			#				return
 			if not animation_reversed(Screens.HIGHSCORES):
 				current_screen = Screens.HIGHSCORES
 				current_esc_hint = $Highscores/EscHint
 				Global.focus_without_sfx($Highscores.selected_tab_btn)
 		"select_level":
-			#			if animation_reversed(Screens.SELECT_LEVEL):
-			#				return
 			if not animation_reversed(Screens.SELECT_LEVEL):
 				current_screen = Screens.SELECT_LEVEL
 				current_esc_hint = $SelectLevel/EscHint
 				Global.focus_without_sfx($SelectLevel.select_level_btns_holder.all_level_btns[0])
-		"play_game":
-			Global.main_node.home_out()
-		"play_level":
-			Global.main_node.home_out()
 	
 	#	if current_esc_hint != null:
 	#		var hint_fade_in = get_tree().create_tween()

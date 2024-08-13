@@ -43,8 +43,8 @@ func play_selected_level(selected_level: int):
 		sweeper_settings["show_game_instructions"] = true
 	sweeper_settings["always_zoomed_in"] = false
 	Global.sound_manager.play_gui_sfx("menu_fade")
-	animation_player.play("play_level")
-
+	#	animation_player.play("play_level")
+	Global.main_node.home_out()
 			
 func _on_BackBtn_pressed() -> void:
 	

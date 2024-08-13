@@ -17,7 +17,7 @@ thickness = 2
 [node name="HighscoresHall" type="Control"]
 margin_right = 656.0
 margin_bottom = 368.0
-rect_min_size = Vector2( 656, 368 )
+rect_min_size = Vector2( 656, 364 )
 
 [node name="Undi" type="ColorRect" parent="."]
 anchor_right = 1.0

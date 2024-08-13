@@ -23,9 +23,9 @@ func _ready() -> void:
 
 	Global.main_node = self
 	
-#	home_in_intro()
+	home_in_intro()
 #	home_in_no_intro()
-	game_in()
+#	game_in()
 
 			
 func home_in_intro():
@@ -37,7 +37,7 @@ func home_in_intro():
 	fade_in.tween_property(Global.current_scene, "modulate", Color.white, fade_time)
 
 	
-func home_in_no_intro(): # bugfixing
+func home_in_no_intro():
 	
 	get_tree().set_pause(false)
 	

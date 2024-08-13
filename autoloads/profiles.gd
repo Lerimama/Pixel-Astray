@@ -1,6 +1,9 @@
 extends Node
 
 
+enum Games {CLEANER, ERASER_XS, ERASER_S, ERASER_M, ERASER_L, ERASER_XL, HUNTER,DEFENDER, SWEEPER, THE_DUEL, SHOWCASE}
+enum HighscoreTypes {NONE, POINTS, TIME}
+
 var default_player_stats: Dictionary = {
 	"player_name" : "Somebody", # to ime se piše v HS procesu, če igralec pusti prazno
 	"player_life" : 0, # se opredeli iz game_settings
@@ -11,11 +14,6 @@ var default_player_stats: Dictionary = {
 	"burst_count" : 0,
 	"cells_traveled" : 0,
 }
-
-var default_highscore_line: Dictionary = { # slovar, ki se uporabi, če še ni nobenega v filetu
-	"00": {"10 Characters": 0},
-}
-var default_highscore_line_name: String = "10Characters"
 
 var default_game_settings: Dictionary = {
 	# player
@@ -59,28 +57,16 @@ var default_game_settings: Dictionary = {
 	"always_zoomed_in": false, # SWEEPER
 }
 
-enum Games {
-	CLEANER,
-	ERASER_XS, ERASER_S, ERASER_M, ERASER_L, ERASER_XL,
-	HUNTER,
-	DEFENDER,
-	SWEEPER,
-	THE_DUEL,
-	SHOWCASE,
-	}
-	
-enum HighscoreTypes {
-	NONE, 
-	POINTS, 
-	TIME, 
-	}
+
+# GAME DATA -----------------------------------------------------------------------------------
+
 	
 var game_data_cleaner: Dictionary = { 
 	"game": Games.CLEANER, # key igre je key lootlocker tabele
 	"highscore_type": HighscoreTypes.POINTS,
 	"game_name": "Cleaner",
 	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_xl.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_cleaner.tscn",
 	# pre-game instructons
 	"description": "Take back the colors and become the brightest again.",
 	"Prop": "Clear all stray pixels\nto reclaim your\none-and-only status.",
@@ -216,25 +202,9 @@ var game_data_the_duel: Dictionary = {
 	"Prop": "Player with better\nfinal score will be named\nthe Ultimate cleaning champ!",
 	"Prop2": "Hit the opposing player\nto take his life and\nhalf of his points.",
 }
-var game_data_showcase: Dictionary = {
-	"game": Games.SHOWCASE,
-	"highscore_type": HighscoreTypes.NONE,
-	"game_name": "Showcase",
-	#	"game_scene_path": "res://showcase/game_showcase.tscn",
-	#	"tilemap_path": "res://showcase/tilemap/tilemap_showcase_title.tscn",
-	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase.tscn", # klasika
-	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_sweeper.tscn", # reburts on, white start in belega
-	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_skills.tscn",
-	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_multicollect.tscn",
-	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_step.tscn",
-	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_waiting.tscn", # camera shake on, white start
-	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_capsule.tscn", # transparenca belih,  camera shake on, white start, stray spawn count
-	"description" : "Clean them all",
-	"Prop" : "Or not",
-	"Prop2" : "Or yes!",
-}
 
-var sweeper_level_tilemap_paths: Array = [ # zaporedje je ključno za level name
+var sweeper_level_tilemap_paths: Array = [ 
+	# zaporedje je ključno za level name
 	"res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
 	"res://game/tilemaps/sweeper/tilemap_sweeper_02.tscn",
 	"res://game/tilemaps/sweeper/tilemap_sweeper_03.tscn",
@@ -254,17 +224,19 @@ var sweeper_level_tilemap_paths: Array = [ # zaporedje je ključno za level name
 	]
 
 
-# ON GAME START -----------------------------------------------------------------------------------
+# VARZ -----------------------------------------------------------------------------------
 
-var game_settings: Dictionary# = default_game_settings # = {}
+
+var game_settings: Dictionary
 var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
 var use_default_color_theme: bool = true
 var get_it_time: float = 1 # tajming za dojet določene faze igre
+var default_highscore_line_name: String = "10Characters" # se uporabi, če še ni nobenega v filetu
 
 # nastavitve, ki se setajo tudi v home
 var camera_shake_on: bool = true
 var tutorial_music_track_index: int = 1
-var tutorial_mode: bool = false
+var tutorial_mode: bool = true
 var html5_mode: bool = false # skrije ExitGameBtn v home, GO in pavzi
 
 # lootlocker
@@ -272,12 +244,11 @@ var lootlocker_game_key: String = "dev_5a1cab01df0641c0a5f76450761ce292"
 var lootlocker_game_version: String = "0.92"
 var lootlocker_development_mode: bool = true
 var global_highscores_count: int = 99 # če bi blo več, ne paše na %02d 	
-var local_highscores_count: int = 10 # če bi blo več, ne paše na %02d 	
+var local_highscores_count: int = 10
+
 	
 func _ready() -> void:
 	
-	# sweeper_level_tilemap_paths = Global.get_folder_contents(sweeper_tilemaps_folder)
-
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE # fix camera
 	var debug_game = Games.CLEANER
@@ -298,35 +269,15 @@ func set_game_data(selected_game):
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
 	# bugfixing
-	game_settings["start_countdown"] = false
-	game_settings["player_start_life"] = 2
+#	game_settings["start_countdown"] = false
+#	game_settings["player_start_life"] = 2
 #	game_settings["show_game_instructions"] = false
 
 	match selected_game:
 
-		Games.SHOWCASE: 
-			current_game_data = game_data_showcase.duplicate()
-			game_settings["create_strays_count"] = 180 # samo klasika in kapsula
-			game_settings["color_picked_points"] = 0
-			game_settings["cleaned_reward_points"] = 0
-			game_settings["white_eliminated_points"] = 0
-			game_settings["start_countdown"] = false
-			game_settings["show_game_instructions"] = false
-			game_settings["zoom_to_level_size"] = true
-			game_settings["cell_traveled_energy"] = 0		
-			game_settings["player_start_life"] = 5
-			# variacije	
-			# random stray step on start_game()
-			game_settings["player_start_color"] = Color.white
-			# camera_shake_on = false
-			# game_settings["reburst_enabled"] = true			
-			# game_settings["reburst_window_time"] = 0
-
 		Games.CLEANER: 
 			current_game_data = game_data_cleaner.duplicate()
 			game_settings["create_strays_count"] = 230
-			game_settings["game_time_limit"] = 0
-#			game_settings["game_music_track_index"] = 1
 			#
 #			game_settings["create_strays_count"] = 999
 #			game_settings["create_strays_count"] = 120
@@ -364,23 +315,13 @@ func set_game_data(selected_game):
 			game_settings["respawn_strays_count_range"] = [2, 8]
 			game_settings["respawn_pause_time"] = 3
 			game_settings["spawn_white_stray_part"] = 0.32
-		
 		Games.DEFENDER:
 			current_game_data = game_data_defender.duplicate()
 			game_settings["cell_traveled_energy"] = 0
 			game_settings["position_indicators_show_limit"] = 0
 			game_settings["full_power_mode"] = true
-			# game_settings["game_music_track_index"] = 1
 			#
 			game_settings["create_strays_count"] = 1 # število spawnanih v prvi rundi
-		
-		Games.THE_DUEL: 
-			current_game_data = game_data_the_duel.duplicate()
-			game_settings["game_time_limit"] = 180 # tilemap set
-			game_settings["spawn_strays_on_cleaned"] = true
-			game_settings["position_indicators_show_limit"] = 0
-			game_settings["respawn_strays_count_range"] = [1, 14]
-			game_settings["spawn_white_stray_part"] = 0.21
 		
 		Games.SWEEPER: 
 			current_game_data = game_data_sweeper.duplicate()
@@ -393,10 +334,55 @@ func set_game_data(selected_game):
 			game_settings["position_indicators_show_limit"] = 0
 			game_settings["reburst_enabled"] = true
 			game_settings["reburst_window_time"] = 13
-			game_settings["game_music_track_index"] = 1
 			game_settings["burst_count_limit"] = 1
 			#
+			game_settings["game_music_track_index"] = 1
 			game_settings["always_zoomed_in"] = true # prižge se med prvo igro iz menija, tako ostane za zmerom zoomiran
 			game_settings["show_game_instructions"] = false # prižge se samo za prvi gejm iz menija
 			return game_settings # da lahko vklopim "instructions" in "zoomed in" za prehod iz home menija
+				
+		Games.THE_DUEL: 
+			current_game_data = game_data_the_duel.duplicate()
+			game_settings["game_time_limit"] = 180 # tilemap set
+			game_settings["spawn_strays_on_cleaned"] = true
+			game_settings["position_indicators_show_limit"] = 0
+			game_settings["respawn_strays_count_range"] = [1, 14]
+			game_settings["spawn_white_stray_part"] = 0.21
+
 	
+#		Games.SHOWCASE: 
+#			current_game_data = game_data_showcase.duplicate()
+#			game_settings["create_strays_count"] = 180 # samo klasika in kapsula
+#			game_settings["color_picked_points"] = 0
+#			game_settings["cleaned_reward_points"] = 0
+#			game_settings["white_eliminated_points"] = 0
+#			game_settings["start_countdown"] = false
+#			game_settings["show_game_instructions"] = false
+#			game_settings["zoom_to_level_size"] = true
+#			game_settings["cell_traveled_energy"] = 0		
+#			game_settings["player_start_life"] = 5
+#			# variacije	
+#			# random stray step on start_game()
+#			game_settings["player_start_color"] = Color.white
+#			# camera_shake_on = false
+#			# game_settings["reburst_enabled"] = true			
+#			# game_settings["reburst_window_time"] = 0
+#
+#
+#var game_data_showcase: Dictionary = {
+#	"game": Games.SHOWCASE,
+#	"highscore_type": HighscoreTypes.NONE,
+#	"game_name": "Showcase",
+#	#	"game_scene_path": "res://showcase/game_showcase.tscn",
+#	#	"tilemap_path": "res://showcase/tilemap/tilemap_showcase_title.tscn",
+#	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase.tscn", # klasika
+#	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_sweeper.tscn", # reburts on, white start in belega
+#	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_skills.tscn",
+#	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_multicollect.tscn",
+#	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_step.tscn",
+#	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_waiting.tscn", # camera shake on, white start
+#	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_capsule.tscn", # transparenca belih,  camera shake on, white start, stray spawn count
+#	"description" : "Clean them all",
+#	"Prop" : "Or not",
+#	"Prop2" : "Or yes!",
+#}

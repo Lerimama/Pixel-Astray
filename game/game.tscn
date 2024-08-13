@@ -422,7 +422,6 @@ margin_bottom = 610.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 0.470588 )
 
 [node name="TravelingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -8.0
@@ -488,6 +487,7 @@ fit_content_height = true
 scroll_active = false
 
 [node name="BurstingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 0, 232 )
@@ -522,10 +522,14 @@ margin_top = 106.0
 margin_right = 336.0
 margin_bottom = 202.0
 bbcode_enabled = true
-bbcode_text = "> Press and hold the BURST KEY to 
-initiate the burst and build power by pressing a DIRECTION KEY in a direction away from the target."
-text = "> Press and hold the BURST KEY to 
-initiate the burst and build power by pressing a DIRECTION KEY in a direction away from the target."
+bbcode_text = "Press and hold the BURST KEY to initiate 
+the burst. While holding it, add power 
+by pressing in the direction away 
+from the target."
+text = "Press and hold the BURST KEY to initiate 
+the burst. While holding it, add power 
+by pressing in the direction away 
+from the target."
 fit_content_height = true
 scroll_active = false
 
@@ -609,14 +613,10 @@ margin_top = 106.0
 margin_right = 344.0
 margin_bottom = 202.0
 bbcode_enabled = true
-bbcode_text = "> To connect to a pixel you are touching,
-press in a direction toward it. Then hold
-in the same direction to push, or press
-the opposite direction to pull."
-text = "> To connect to a pixel you are touching,
-press in a direction toward it. Then hold
-in the same direction to push, or press
-the opposite direction to pull."
+bbcode_text = "> Connect to a pixel you are touching by pressing in a direction towards it. 
+Then hold the same direction to push, or press in the opposite direction to pull."
+text = "> Connect to a pixel you are touching by pressing in a direction towards it. 
+Then hold the same direction to push, or press in the opposite direction to pull."
 fit_content_height = true
 scroll_active = false
 
@@ -1148,6 +1148,7 @@ __meta__ = {
 }
 
 [node name="GameOver" parent="GUI" instance=ExtResource( 2 )]
+visible = false
 __meta__ = {
 "_edit_horizontal_guides_": [ 192.0, 256.0, 616.0 ],
 "_edit_vertical_guides_": [ 640.0 ]
