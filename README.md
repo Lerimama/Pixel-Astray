@@ -1,2 +1,2 @@
 # Pixel Astray
- A Lo-Fi Action Strategy Game
+ A Lo-Fi Cozy Strategy Game
