@@ -1,7 +1,7 @@
 extends Node
 
 
-enum Games {CLEANER, ERASER_XS, ERASER_S, ERASER_M, ERASER_L, ERASER_XL, HUNTER,DEFENDER, SWEEPER, THE_DUEL, SHOWCASE}
+enum Games {CLEANER, ERASER_XS, ERASER_S, ERASER_M, ERASER_L, ERASER_XL, HUNTER, DEFENDER, SWEEPER, THE_DUEL, SHOWCASE}
 enum HighscoreTypes {NONE, POINTS, TIME}
 
 var default_player_stats: Dictionary = {
@@ -19,7 +19,7 @@ var default_game_settings: Dictionary = {
 	# player
 	"player_start_life": 3, # 1 lajf skrije ikone v hudu, on hit jemlje energijo ne lajfa
 	"player_start_color": Global.color_dark_gray_pixel, # na začetku je bel, potem se animira v start color ... #232323, #141414
-	"step_time": 0.09, # default hitrost
+	"player_step_time": 0.09, # default hitrost
 	"player_start_energy": 192,
 	# points
 	"color_picked_points": 10, 
@@ -41,6 +41,7 @@ var default_game_settings: Dictionary = {
 	"respawn_strays_count_range": [0,0], # če je > 0, je respawn aktiviran
 	"respawn_pause_time": 1, # če je 0 lahko pride do errorja (se mi zdi, da n 0, se timer sam disejbla)
 	"respawn_pause_time_low": 1, # klempam navzdol na tole
+	"stray_step_time": 0.09, # ne manjši od 0.2
 	# game
 	"burst_count_limit": 0, # če je nič, ni omejeno
 	"game_time_limit": 0, # če je nič, ni omejeno in timer je stopwatch mode
@@ -66,7 +67,8 @@ var game_data_cleaner: Dictionary = {
 	"highscore_type": HighscoreTypes.POINTS,
 	"game_name": "Cleaner",
 	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_cleaner.tscn",
+#	"tilemap_path": "res://game/tilemaps/tilemap_cleaner.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_orig.tscn",
 	# pre-game instructons
 	"description": "Take back the colors and become the brightest again.",
 	"Prop": "Clear all stray pixels\nto reclaim your\none-and-only status.",
@@ -144,7 +146,7 @@ var game_data_hunter: Dictionary = {
 	"Prop2" : "Give it your best shot\nto beat the current\nrecord score!",
 	# štart
 	"level": 1,
-	"level_goal_count": 10, # # CON level_goal_mode ... ročno povezano s številom spawnanih na tilemapu
+	"level_goal_count": 1, # # CON level_goal_mode ... ročno povezano s številom spawnanih na tilemapu
 	"level_goal_count_grow": 3,
 	# "create_strays_count": 0, # določi tilemap
 	"create_strays_count_grow": 0,
@@ -173,7 +175,7 @@ var game_data_defender: Dictionary = {
 	"spawn_round_range": [1, 1], # random spawn count, največ 120 - 8
 	"line_steps_per_spawn_round": 1, # na koliko stepov se spawna nova runda
 	# level up
-	"level_goal_count_grow": 320, # dodatno prištejem
+	"level_goal_count_grow": 100, # dodatno prištejem
 	"line_step_pause_time_factor": 0.8, # množim z vsakim levelom
 	"spawn_round_range_grow": [1, 1], # množim [spodnjo, zgornjo] mejo
 	"line_steps_per_spawn_round_factor": 3, # na koliko stepov se spawna nova runda
@@ -189,7 +191,7 @@ var game_data_sweeper: Dictionary = {
 	"Prop": "To REBURST, press\nin the next target's\ndirection upon hitting\na stray pixel.",
 	"Prop2": "You have\nonly a couple of\nseconds to keep\nyour momentum.",
 	"Prop3": "Initial burst can\ncollect all stacked\ncolors. Reburst always\ncollects only one.",
-	"level": 1,
+	"level": 10,
 }
 var game_data_the_duel: Dictionary = {
 	"game": Games.THE_DUEL, # key igre je key lootlocker tabele
@@ -269,16 +271,15 @@ func set_game_data(selected_game):
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
 	# bugfixing
-#	game_settings["start_countdown"] = false
-#	game_settings["player_start_life"] = 2
-#	game_settings["show_game_instructions"] = false
+	game_settings["start_countdown"] = false
+	game_settings["player_start_life"] = 2
+	game_settings["show_game_instructions"] = false
 
 	match selected_game:
 
 		Games.CLEANER: 
 			current_game_data = game_data_cleaner.duplicate()
-			game_settings["create_strays_count"] = 230
-			#
+			game_settings["create_strays_count"] = 5000
 #			game_settings["create_strays_count"] = 999
 #			game_settings["create_strays_count"] = 120
 			

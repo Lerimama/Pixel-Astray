@@ -363,14 +363,15 @@ func play_selected_level(selected_level: int):
 func open_name_input():
 	
 	# generiram random ime s 5 črkami in ga dam za placeholder text
-	randomize()
-	var ascii_letters_and_digits: String = "abcdefghijklmnopqrstuvwxyz"
-	var random_generated_name: String = ""
-	for i in 5:
-		var random_letter: String = ascii_letters_and_digits[randi() % ascii_letters_and_digits.length()]
-		random_generated_name += random_letter
-	random_generated_name = random_generated_name
-	name_input.placeholder_text = random_generated_name
+#	randomize()
+#	var ascii_letters_and_digits: String = "abcdefghijklmnopqrstuvwxyz"
+#	var random_generated_name: String = ""
+#	for i in 5:
+#		var random_letter: String = ascii_letters_and_digits[randi() % ascii_letters_and_digits.length()]
+#		random_generated_name += random_letter
+#	random_generated_name = random_generated_name
+#	name_input.placeholder_text = random_generated_name
+	name_input.placeholder_text = ""
 	name_input_popup.visible = true
 	name_input_popup.modulate.a = 0
 	var fade_in_tween = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
@@ -378,7 +379,6 @@ func open_name_input():
 	yield(fade_in_tween, "finished")
 	Global.focus_without_sfx(name_input)
 	name_input.select_all()
-	
 
 	
 func _on_NameEdit_text_changed(new_text: String) -> void:
@@ -398,9 +398,12 @@ func _on_ConfirmBtn_pressed() -> void:
 	Global.focus_without_sfx($NameInputPopup/HBoxContainer/ConfirmBtn) # potrditev s tipko
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	
-	if input_string.empty():
-		input_string = name_input.placeholder_text
-		confirm_name_input()
+	
+	if input_string.empty(): # če je prazen, je kot bi kenslal
+		_on_CancelBtn_pressed()
+		# neu
+#		input_string = name_input.placeholder_text
+#		confirm_name_input()
 	else:
 		confirm_name_input()
 

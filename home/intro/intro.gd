@@ -38,6 +38,10 @@ onready var StrayPixel: PackedScene = preload("res://home/intro/intro_stray.tscn
 var FreePositionIndicator: PackedScene = preload("res://game/pixel/free_position_indicator.tscn")		
 var free_position_indicators: Array
 
+# neu
+var throttler_msec_threshold: int = 5 # koliko msec je še na voljo v frejmu, ko raje premaknem na naslednji frame
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	#func _input(event: InputEvent) -> void:
 	
@@ -152,16 +156,31 @@ func create_strays(strays_to_spawn_count: int = required_spawn_positions.size())
 		available_required_spawn_positions.erase(selected_cell_position)
 		available_random_spawn_positions.erase(selected_cell_position)
 	
-	# spawn
+	# spawn ... trotlam
+	var throttler_start_msec = Time.get_ticks_msec()
+	var spawned_strays_true_count: int = 0
 	for set_stray in strays_set_to_spawn:
 		var stray_index = set_stray[0]
 		var new_stray_color = set_stray[1]
 		var selected_stray_position = set_stray[2]
 		var turn_to_white = set_stray[3]
-		spawn_stray(stray_index, new_stray_color, selected_stray_position, turn_to_white)
-
-	yield(get_tree().create_timer(0.05), "timeout") # da se vsi straysi spawnajo
-
+		var msec_taken = Time.get_ticks_msec() - throttler_start_msec
+		if msec_taken < (round(1000 / Engine.get_frames_per_second()) - throttler_msec_threshold): # msec_per_frame - ...			
+			spawned_strays_true_count += 1
+			spawn_stray(stray_index, new_stray_color, selected_stray_position, turn_to_white)
+		else:
+			var msec_to_next_frame: float = throttler_msec_threshold + 1
+			var sec_to_next_frame: float = msec_to_next_frame / 1000.0
+			yield(get_tree().create_timer(sec_to_next_frame), "timeout") # da se vsi straysi spawnajo
+			throttler_start_msec = Time.get_ticks_msec()
+			printt("over frame_time on: %s" % "intro create_strays", (strays_set_to_spawn.size() - stray_index), msec_taken, round(1000 / Engine.get_frames_per_second()))
+		
+	# ko trotlam preskakuje spawne, zato ponovim
+	if spawned_strays_true_count < strays_to_spawn_count and not spawned_strays_true_count == 0:
+		create_strays(strays_to_spawn_count - spawned_strays_true_count)
+		print("razlika %s" % (strays_to_spawn_count - spawned_strays_true_count))
+		return
+			
 	var show_strays_loop: int = 0
 	strays_shown_on_start.clear()
 	while strays_shown_on_start.size() < create_strays_count:

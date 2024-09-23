@@ -18,9 +18,11 @@ func step(step_direction: Vector2 = Vector2.DOWN):
 			get_parent().remove_from_free_floor_positions(global_position + step_direction * cell_size_x)	
 
 			var step_time: float = 0.2
-			var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
-			step_tween.tween_property(self, "position", intended_position, step_time)
-			step_tween.tween_callback(self, "end_move")
+			step_tween.interpolate_property(self ,"position", position, intended_position, step_time, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+			step_tween.start()
+#			var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
+#			step_tween.tween_property(self, "position", intended_position, step_time)
+#			step_tween.tween_callback(self, "end_move")
 
 		else:
 			# začne z ena, ker preverja preostale 3 smeri (prva je že zasedena)

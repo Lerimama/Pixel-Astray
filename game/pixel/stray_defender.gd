@@ -84,10 +84,12 @@ func step(step_direction: Vector2 = Vector2.DOWN):
 			Global.game_manager.remove_from_free_floor_positions(intended_position)	
 			
 			step_count += 1
-			var step_time: float = 0.2
-			var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
-			step_tween.tween_property(self, "position", intended_position, step_time)
-			step_tween.tween_callback(self, "end_move")	
+			var step_time: float = Global.game_manager.game_settings["stray_step_time"]
+			step_tween.interpolate_property(self ,"position", position, intended_position, step_time, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+			step_tween.start()
+#			var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+#			step_tween.tween_property(self, "position", intended_position, step_time)
+#			step_tween.tween_callback(self, "end_move")	
 		else:
 			# če je kolajder ga returnam, drugače pa ne naredim nič
 			var current_collider: Object = Global.detect_collision_in_direction(step_direction, vision_ray)

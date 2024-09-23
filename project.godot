@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "SceneTree",
 "class": "CustomSceneTree",
 "language": "GDScript",
-"path": "res://custom_scene_tree.gd"
+"path": "res://autoloads/custom_scene_tree.gd"
 }, {
 "base": "Control",
 "class": "GameHud",
@@ -69,6 +69,7 @@ Global="*res://autoloads/global.gd"
 Profiles="*res://autoloads/profiles.gd"
 ConnectCover="*res://autoloads/connect_cover.tscn"
 LootLocker="*res://autoloads/lootlocker.gd"
+Throttler="*res://autoloads/throttler.gd"
 
 [debug]
 
@@ -77,15 +78,12 @@ gdscript/warnings/unused_variable=false
 gdscript/warnings/unused_argument=false
 gdscript/warnings/narrowing_conversion=false
 gdscript/warnings/unused_signal=false
-gdscript/warnings/return_value_discarded=false
 gdscript/warnings/integer_division=false
 
 [display]
 
 window/size/width=1280
 window/size/height=720
-window/size/borderless=true
-window/size/fullscreen=true
 window/size/always_on_top=true
 window/size/test_width=640
 window/size/test_height=360
@@ -229,7 +227,7 @@ no3={
 }
 left_click={
 "deadzone": 0.5,
-"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"canceled":false,"pressed":false,"doubleclick":false,"script":null)
  ]
 }
 "# UI"={

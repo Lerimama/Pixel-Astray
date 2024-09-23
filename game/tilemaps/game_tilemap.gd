@@ -3,7 +3,6 @@ class_name GameTilemap
 
 signal tilemap_completed
 
-
 var all_floor_tiles_global_positions: Array # original tileti tal (samo tisto, kar je del uradnega igrišča)
 var player_global_positions: Array 
 var stray_global_positions: Array

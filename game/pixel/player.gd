@@ -21,7 +21,7 @@ var change_color_tween: SceneTreeTween # če cockam pred končanjem tweena, vzam
 var change_to_color: Color
 
 # skills and steps
-var step_time: float = Global.game_manager.game_settings["step_time"]
+var step_time: float = Global.game_manager.game_settings["player_step_time"]
 var teleporting_wall_tile_id: int = 3
 var first_skill_use = true # beležim, da lahko določen skill izvajam zvezno
 
@@ -852,13 +852,29 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 				else: break
 		
 		# jih destrojam
+		# trotlam
+		var throttler_start_msec = Time.get_ticks_msec()
 		for stray in strays_to_destroy:
-			var stray_index = strays_to_destroy.find(stray)
-			stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
-			# prišteje v sweeper strayse
-			if sweep_move_started:	
-				sweep_move_cleaned_strays_count += 1
-				
+			# netrotlano
+			#			var stray_index = strays_to_destroy.find(stray)
+			#			stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
+			#			# prišteje v sweeper strayse
+			#			if sweep_move_started:	
+			#				sweep_move_cleaned_strays_count += 1
+			var msec_taken = Time.get_ticks_msec() - throttler_start_msec
+			if msec_taken < (round(1000 / Engine.get_frames_per_second()) - Global.game_manager.throttler_msec_threshold): # msec_per_frame - ...
+				var stray_index = strays_to_destroy.find(stray)
+				stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
+				# prišteje v sweeper strayse
+				if sweep_move_started:	
+					sweep_move_cleaned_strays_count += 1
+			else:
+				var msec_to_next_frame: float = Global.game_manager.throttler_msec_threshold + 1
+				var sec_to_next_frame: float = msec_to_next_frame / 1000.0
+				yield(get_tree().create_timer(sec_to_next_frame), "timeout") # da se vsi straysi spawnajo
+				throttler_start_msec = Time.get_ticks_msec()
+				printt("over frame_time on: %s" % "strays_to_destroy")			
+
 		# stats
 		var strays_not_walls_count: int = strays_to_destroy.size() - white_strays_in_stack.size()
 		change_stat("hit_stray", [strays_not_walls_count, white_strays_in_stack.size()]) 

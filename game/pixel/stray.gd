@@ -89,6 +89,7 @@ func die_to_wall():
 	
 # MOVEMENT ------------------------------------------------------------------------------------------------------
 
+onready var step_tween: Tween = $StepTween
 	
 func step(step_direction: Vector2 = Vector2.DOWN):
 	
@@ -104,11 +105,15 @@ func step(step_direction: Vector2 = Vector2.DOWN):
 			current_state = States.MOVING
 			previous_position = global_position
 			Global.game_manager.remove_from_free_floor_positions(global_position + step_direction * cell_size_x)	
-			
-			var step_time: float = 0.2
-			var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
-			step_tween.tween_property(self, "position", intended_position, step_time)
-			step_tween.tween_callback(self, "end_move")
+	
+		
+					
+			var step_time: float = Global.game_manager.game_settings["stray_step_time"]
+			step_tween.interpolate_property(self ,"position", position, intended_position, step_time, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+			step_tween.start()
+#			var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)	
+#			step_tween.tween_property(self, "position", intended_position, step_time)
+#			step_tween.tween_callback(self, "end_move")
 		
 		else:
 			# začne z ena, ker preverja preostale 3 smeri (prva je že zasedena)
@@ -234,3 +239,8 @@ func _on_Stray_tree_entered() -> void:
 		if player.global_position == global_position:
 			printt ("overspawn II on player - stray tree entered", self) 
 			call_deferred("queue_free")
+
+
+func _on_StepTween_tween_all_completed() -> void:
+	
+	end_move()

@@ -50,8 +50,9 @@ func set_game():
 	var signaling_player: KinematicBody2D
 	for player in current_players_in_game:
 		player.animation_player.play("lose_white_on_start")
-		signaling_player = player # da se zgodi na obeh plejerjih istočasno
-	yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
+		player.set_physics_process(true)
+#		signaling_player = player # da se zgodi na obeh plejerjih istočasno
+#	yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
 	
 	# strays
 	Global.hud.spawn_color_indicators(get_level_colors())	
@@ -152,22 +153,44 @@ func create_strays(strays_to_spawn_count: int):
 		# žrebam barvo
 		var random_selected_index: int = randi() % int(color_pool_colors.size())	
 		var new_stray_color: Color = color_pool_colors[random_selected_index]		
-		
+
 		# če so pozicije na voljo spawnam	
+		# spawn ... trotlam
+		var throttler_start_msec = Time.get_ticks_msec()	
+		var spawned_strays_true_count: int = 0	
 		if not free_home_positions.empty(): 
 			# random pozicija med možnimi
 			var current_spawn_positions: Array = free_home_positions
 			var selected_cell_index: int = randi() % int(current_spawn_positions.size())	
 			var selected_cell_position = current_spawn_positions[selected_cell_index]
 			var selected_stray_position = selected_cell_position + Vector2(cell_size_x/2, cell_size_x/2) # dodana adaptacija zaradi središča pixla
-			
-			var spawned_stray = spawn_stray(stray_index, new_stray_color, selected_stray_position, false)
-			strays_in_spawn_round.append(spawned_stray)
-			
-			# post spawn
-			all_stray_colors.append(new_stray_color)
-			free_home_positions.erase(selected_stray_position)
-			
+			# netrotlano
+			#			var spawned_stray = spawn_stray(stray_index, new_stray_color, selected_stray_position, false)
+			#			# post spawn
+			#			strays_in_spawn_round.append(spawned_stray)
+			#			all_stray_colors.append(new_stray_color)
+			#			free_home_positions.erase(selected_stray_position)
+			var msec_taken = Time.get_ticks_msec() - throttler_start_msec
+			if msec_taken < (round(1000 / Engine.get_frames_per_second()) - throttler_msec_threshold): # msec_per_frame - ...			
+#			if msec_taken < (msec_per_frame - throttler_msec_threshold):	
+				spawned_strays_true_count += 1
+				var spawned_stray = spawn_stray(stray_index, new_stray_color, selected_stray_position, false)
+				strays_in_spawn_round.append(spawned_stray)
+				all_stray_colors.append(new_stray_color)
+				free_home_positions.erase(selected_stray_position)
+			else:
+				var msec_to_next_frame: float = throttler_msec_threshold + 1
+				var sec_to_next_frame: float = msec_to_next_frame / 1000.0
+				yield(get_tree().create_timer(sec_to_next_frame), "timeout") # da se vsi straysi spawnajo
+				throttler_start_msec = Time.get_ticks_msec()
+				printt("over frame_time on: %s" % "stray line spawn")
+		
+		# ko trotlam preskakuje spawne, zato ponovim
+		if spawned_strays_true_count < strays_to_spawn_count and not spawned_strays_true_count == 0:
+			create_strays(strays_to_spawn_count - spawned_strays_true_count)
+			print("razlika %s" % (strays_to_spawn_count - spawned_strays_true_count))
+			return
+						
 	stray_spawning_round += 1
 	
 	
@@ -231,7 +254,20 @@ func line_step():
 			random_spawn_count = free_home_positions.size()
 		
 		# kličem step in tam preverim kolajderja 
-		get_tree().call_group(Global.group_strays, "step")
+		#		get_tree().call_group(Global.group_strays, "step")
+		# step ... trotlam
+		var throttler_start_msec = Time.get_ticks_msec()
+		for stray in get_tree().get_nodes_in_group(Global.group_strays):
+			var msec_taken = Time.get_ticks_msec() - throttler_start_msec
+			if msec_taken < (round(1000 / Engine.get_frames_per_second()) - throttler_msec_threshold): # msec_per_frame - ...			
+#			if msec_taken < (msec_per_frame - throttler_msec_threshold):			
+				stray.step()
+			else:
+				var msec_to_next_frame: float = throttler_msec_threshold + 1
+				var sec_to_next_frame: float = msec_to_next_frame / 1000.0
+				yield(get_tree().create_timer(sec_to_next_frame), "timeout") # da se vsi straysi spawnajo
+				throttler_start_msec = Time.get_ticks_msec()
+				printt("over frame_time on: %s" % "stray line step")
 		
 		# spawnam noveo rundo, če je izpolnjen pogoj
 		if line_steps_since_spawn_round == line_steps_per_spawn_round: # tukaj, da ne spawna če je konec

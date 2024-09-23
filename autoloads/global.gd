@@ -416,81 +416,46 @@ func focus_without_sfx(control_to_focus: Control):
 	allow_focus_sfx = false
 	control_to_focus.grab_focus()
 
+#
+#var call_throttled_start_msec
+#
+#func call_throttled(object: Node, method_string: String, args: Array = []): # funkcija se kliče, dokler dela
+#
+#	var avg_msec_per_frame = round(1000 / Engine.get_frames_per_second()) # 1 sec / fps
+#	var msec_left_threshold: int = 5
+##	call_throttled_start_msec = Time.get_ticks_msec()
+#
+#	# v1
+#	var msec_taken = Time.get_ticks_msec() - call_throttled_start_msec
+#	if msec_taken < (avg_msec_per_frame - msec_left_threshold):
+#		object.call_deferred(method_string, args)
+##		spawn_stray(stray_index, new_stray_color, selected_stray_position, turn_to_white)
+#
+#	else:
+#		yield(get_tree().create_timer(0.02), "timeout") # pseudo next frame
+#		call_throttled_start_msec = Time.get_ticks_msec()
+#		print( "too much time taken")
 	
-# CALL THROTLED --------------------------------------------------------------
-
-
-var _to_call: Array = []
-var _mutex: Mutex = Mutex.new()
-
-var _frame_budget_msec: = 0
-var _frame_budget_threshold_msec: = 0
-var _is_setup: bool = false
-
-# youtube video https://www.youtube.com/watch?v=WLDM0tQ-XqE
-# project settings / general / run > SceneTree spremeniš v CustomSceneTree
-func _run_callables() -> void:
+	# v2
+#	var throtler_is_working: = true
+#	var calls_count: int = 0
+#	while throtler_is_working:
+#		object.call_deferred(method_string, args)
+#		calls_count += 1
+#		# ko vzame preveč časa ustavi in pošlje nazaj število spawnanih
+#		var msec_taken = Time.get_ticks_msec() - call_throttled_start_msec
+#		if msec_taken > avg_msec_per_frame - msec_left_threshold:
+#			throtler_is_working = false
 	
-	if not _is_setup:
-		push_error("Please run THROTTLER.start before calling")
-		return
-		
-	var frame_budget_remaining_msec: = _frame_budget_msec	
-	var frame_budget_used_msec: = 0
-	var is_working: = true
-	var call_count: = 0
-	
-	while is_working:
-		var before: = Time.get_ticks_msec()	
-		
-		_mutex.lock()
-		var entry = _to_call.pop_front()
-		_mutex.unlock()
-		
-		var did_call: = false
-		
-		if entry:
-			var callable = entry["callable"]
-			var args = entry["args"]
-			if callable != null and callable.is_valid():
-#				if args != null and typeof(args) == TYPE_ARRAY and not args.is_empty():
-				if args != null and typeof(args) == TYPE_ARRAY and not args.empty():
-					callable.callv(args)
-					pass
-				else:
-					callable.call()
-				did_call = true
-				call_count = +1
-		
-		var after: = Time.get_ticks_msec()
-		var used: = after - before
-		frame_budget_remaining_msec -= used
-		frame_budget_used_msec += used	
-		
-		# stop running callables if none are left, or we are over budget
-		if not did_call or frame_budget_remaining_msec < _frame_budget_threshold_msec:
-			is_working = false
-		
-		if call_count > 0:
-			print("THROTTLE BUDGET", _frame_budget_msec, frame_budget_used_msec, frame_budget_remaining_msec)
-
-		
-func start(frame_budget_mesec: int, frame_budget_threshold_msec: int) -> void:
-	
-	_frame_budget_msec = frame_budget_mesec
-	_frame_budget_threshold_msec = frame_budget_threshold_msec
-	_is_setup = true
-		
-		
-func call_throttled(method, args: Array = []) -> void:
-	
-	printt ("CALABLE", method, args)
-	var entry: Dictionary = {
-		"callable" : method,
-		"args": args,
-	}
-
-	_mutex.lock()
-	_to_call.push_back(entry)
-	_mutex.unlock()
-	
+#	return calls_count # klicatelj funkcije preveri, če je bila klicana dovoljkrat in kliče še enkrat
+			
+#
+#	printt (stray_index, (Time.get_ticks_msec() - start_msec) / 1000, get_tree().get_frame())
+#	var msecs_taken = Time.get_ticks_msec() - start_msec
+##			spawn_stray(stray_index, new_stray_color, selected_stray_position, turn_to_white)
+#	if msecs_taken < 16:
+#		spawn_stray(stray_index, new_stray_color, selected_stray_position, turn_to_white)
+#	else:
+#		yield(get_tree().create_timer(0.02), "timeout") # da se vsi straysi spawnajo
+#		start_msec = Time.get_ticks_msec()
+#		print( "too much time, %s left" % (strays_set_to_spawn.size() - stray_index))

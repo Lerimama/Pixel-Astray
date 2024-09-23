@@ -2,6 +2,7 @@ extends Node
 class_name GameManager
 
 
+signal all_strays_spawned
 signal all_strays_died # signal za sebe, počaka, da se vsi kvefrijajo
 
 enum GameoverReason {LIFE, TIME, CLEANED}
@@ -50,12 +51,15 @@ onready var respawn_timer: Timer = $"../RespawnTimer"
 var FreePositionIndicator: PackedScene = preload("res://game/pixel/free_position_indicator.tscn")		
 var free_position_indicators: Array
 
+# neu
+var throttler_msec_threshold: int = 5 # koliko msec je še na voljo v frejmu, ko raje premaknem na naslednji frame
+
 
 func _unhandled_input(event: InputEvent) -> void:
 
 	# bugfixing
-	#	if Input.is_action_just_pressed("no1"):
-	#		game_over(GameoverReason.LIFE)
+	if Input.is_action_just_pressed("no1"):
+		game_over(GameoverReason.LIFE)
 	#	if Input.is_action_just_pressed("no2"):
 	#		game_over(GameoverReason.TIME)
 	#	if Input.is_action_just_pressed("no3"):
@@ -69,10 +73,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 func _ready() -> void:
 
-
 	Global.game_manager = self
-	randomize()
 	
+	randomize()
 	if game_data.has("level_goal_count"):
 		# prvi level eraserja ima za cilj število spawnanih
 		#		if game_data["game"] == Profiles.Games.SWEEPER:
@@ -165,15 +168,17 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 	
 	Global.hud.slide_in() # pokaže countdown
 	
-	# animacija player
+	# player
 	current_players_in_game = get_tree().get_nodes_in_group(Global.group_players)
 	var signaling_player: KinematicBody2D
 	for player in current_players_in_game:
 		player.animation_player.play("lose_white_on_start")
-		signaling_player = player # da se zgodi na obeh plejerjih istočasno
-	yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
-	# animacija strays
+#		signaling_player = player # da se zgodi na obeh plejerjih istočasno
+#	yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
+	
+	# strays
 	create_strays(create_strays_count)
+	yield(self, "all_strays_spawned")
 	
 	# countdown
 	if game_settings["start_countdown"]:
@@ -200,14 +205,14 @@ func start_game():
 	else:
 		Global.sound_manager.current_music_track_index = game_settings["game_music_track_index"]
 	
-	Global.sound_manager.play_music("game_music")
-			
-	Global.hud.game_timer.start_timer()
-	
 	for player in current_players_in_game:
 		if not game_settings ["zoom_to_level_size"]:
 			Global.game_camera.camera_target = player
 		player.set_physics_process(true)
+
+	Global.sound_manager.play_music("game_music")
+	Global.hud.game_timer.start_timer()
+	
 		
 	game_on = true
 	
@@ -418,45 +423,70 @@ func create_strays(strays_to_spawn_count: int):
 				printt ("overspawn - on GM create") 
 				strays_to_spawn_count -= 1
 
+			#			if strays_to_spawn_count == 0: # varovalka, če se ne ne spawna nobeden, takoj probaj še enkrat
+			#				print("Error! 0 spawnanih, na respawn")
+			#				create_strays(strays_to_spawn_count)
+			#				return
+				
 			# apdejtam tilemap pozicije ... če se ne spawna, moram pozicijo vseeno brisat, če ne se spawnajo vsi na to pozicijo
 			wall_spawn_positions.erase(selected_cell_position)
 			available_required_spawn_positions.erase(selected_cell_position)
 			available_random_spawn_positions.erase(selected_cell_position)
 		
-		# spawn
+		# spawn ... trotlam
+		var throttler_start_msec = Time.get_ticks_msec()
+		var spawned_strays_true_count: int = 0
 		for set_stray in strays_set_to_spawn:
 			var stray_index = set_stray[0]
 			var new_stray_color = set_stray[1]
 			var selected_stray_position = set_stray[2]
 			var turn_to_white = set_stray[3]
-			spawn_stray(stray_index, new_stray_color, selected_stray_position, turn_to_white)
+			if game_data["game"] == Profiles.Games.SWEEPER: # neu preuredi	
+				spawned_strays_true_count += 1
+				spawn_stray(stray_index, new_stray_color, selected_stray_position, turn_to_white)
+			else:
+				var msec_taken = Time.get_ticks_msec() - throttler_start_msec
+				if msec_taken < (round(1000 / Engine.get_frames_per_second()) - throttler_msec_threshold): # msec_per_frame - ...			
+					spawned_strays_true_count += 1
+					spawn_stray(stray_index, new_stray_color, selected_stray_position, turn_to_white)
+				else:
+					var msec_to_next_frame: float = throttler_msec_threshold + 1
+					var sec_to_next_frame: float = msec_to_next_frame / 1000.0
+					yield(get_tree().create_timer(sec_to_next_frame), "timeout") # da se vsi straysi spawnajo
+					throttler_start_msec = Time.get_ticks_msec()
+					printt("over frame_time on: %s" % "create_strays", (strays_set_to_spawn.size() - stray_index), msec_taken, round(1000 / Engine.get_frames_per_second()))
+		
+		# ko trotlam preskakuje spawne, zato ponovim
+		if spawned_strays_true_count < strays_to_spawn_count and not spawned_strays_true_count == 0:
+			create_strays(strays_to_spawn_count - spawned_strays_true_count)
+			print("razlika %s" % (strays_to_spawn_count - spawned_strays_true_count))
+			return
+				
+#		if not game_data["game"] == Profiles.Games.THE_DUEL and not game_data["game"] == Profiles.Games.HUNTER: # neu preuredi	
+#			emit_signal("all_strays_spawned")
 			
-			
-		# ko so vsi spawnani
-		if strays_to_spawn_count == 0: # varovalka, če se ne ne spawna nobeden, takoj probaj še enkrat
-			print("Error! 0 spawnanih, na respawn")
-			# create_strays(strays_to_spawn_count)
 		if level_goal_mode:
 			Global.hud.spawn_color_indicators(get_level_colors())
 		else:	
 			Global.hud.spawn_color_indicators(all_stray_colors) # barve pokažem v hudu		
-
-		yield(get_tree().create_timer(0.05), "timeout") # da se vsi straysi spawnajo
 
 		var show_strays_loop: int = 0
 		strays_shown_on_start.clear()
 		while strays_shown_on_start.size() < create_strays_count:
 			show_strays_loop += 1
 			show_strays_in_loop(show_strays_loop)
-			yield(get_tree().create_timer(0.1), "timeout") # da se vsi straysi spawnajo
+			yield(get_tree().create_timer(0.1), "timeout") # nujen zamik
+		
+#		if game_data["game"] == Profiles.Games.THE_DUEL or game_data["game"] == Profiles.Games.HUNTER or game_data["game"] == Profiles.Games.SWEEPER: # neu preuredi
+		emit_signal("all_strays_spawned")
 
 
 func show_strays_in_loop(show_strays_loop: int): # spawn naenkrat
 
-	var spawn_shake_power: float = 0.30
-	var spawn_shake_time: float = 0.7
-	var spawn_shake_decay: float = 0.2	
-	Global.game_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
+#	var spawn_shake_power: float = 0.30
+#	var spawn_shake_time: float = 0.7
+#	var spawn_shake_decay: float = 0.2	
+#	Global.game_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
 	var strays_to_show_count: int # količina strejsov se more ujemat s številom spawnanih
 	
 	match show_strays_loop:
@@ -495,72 +525,86 @@ func respawn_strays(spawn_in_stack: bool = true):
 	var available_stack_cell_positions: Array = [] # pozicije sosednje pravkar spawnanim straysom
 	
 	var current_spawned_strays_count: int = 0 # varovalk za preverjanje uspešnosti
-	for stray_index in respawn_strays_count:
+	
+			
 
-		# če ni praznih pozicij ne spawnam ... zazih
-		if free_floor_positions.empty():
-			pass
-		else:
-			# select color
-			var random_color_index: int = randi() % int(color_pool_colors.size())		
-			var spawned_stray_color: Color = color_pool_colors[random_color_index]
-			
-			# izbrišem stack pozicije, če niso med praznimi (v prvem koraku so sosednje poz prazne
-			for stack_cell_position in available_stack_cell_positions:
-				if not available_stack_cell_positions.has(stack_cell_position):
-					available_stack_cell_positions.erase(stack_cell_position)
-			# pozicije
-			var selected_stray_position: Vector2
-			var selected_cell_position: Vector2
-			# prva random pozicija
-			if available_stack_cell_positions.empty() or not spawn_in_stack:
-				var random_position_index: int = randi() % int(free_floor_positions.size())		
-				selected_cell_position = free_floor_positions[random_position_index]
-				selected_stray_position = selected_cell_position + Vector2(cell_size_x/2, cell_size_x/2)
-			# stacked random pozicija
+	# spawn ... trotlam
+	var throttler_start_msec = Time.get_ticks_msec()
+	for stray_index in respawn_strays_count:
+		var msec_taken = Time.get_ticks_msec() - throttler_start_msec
+		if msec_taken < (round(1000 / Engine.get_frames_per_second()) - throttler_msec_threshold): # msec_per_frame - ...			
+#		if msec_taken < (msec_per_frame - throttler_msec_threshold):			
+
+			# če ni praznih pozicij ne spawnam ... zazih
+			if free_floor_positions.empty():
+				pass
 			else:
-				var random_stack_position_index: int = randi() % int(available_stack_cell_positions.size())		
-				selected_cell_position = available_stack_cell_positions[random_stack_position_index]
-				selected_stray_position = selected_cell_position + Vector2(cell_size_x/2, cell_size_x/2)
-			
-			# pridobim sosednje pozicije trenutne pozicije
-			var current_cell_position: Vector2 = selected_cell_position
-			var cell_in_check: Vector2
-			for y in 3:
-				for x in 3:
-					cell_in_check = current_cell_position + Vector2(x - 1, y - 1) * cell_size_x
-					# če ni izvorna celica in je del (praznih) tal, jo dodam me sosednje pozicije
-					if not cell_in_check == current_cell_position and free_floor_positions.has(cell_in_check):
-						if not available_stack_cell_positions.has(cell_in_check): # da se ne podvaja
-							available_stack_cell_positions.append(cell_in_check)	
-			# to white?	
-			var turn_to_white: bool = false
-			var spawn_white_spawn_limit: int = respawn_strays_count - round(respawn_strays_count * spawn_white_stray_part)
-			if stray_index > spawn_white_spawn_limit: 
-				turn_to_white = true
-			
-			if free_floor_positions.has(selected_cell_position):
-				# spawn
-				var spawned_stray = spawn_stray(stray_index, spawned_stray_color, selected_stray_position, turn_to_white)
-				current_spawned_strays_count += 1
-				spawned_stray.call_deferred("show_stray")
-				yield(get_tree().create_timer(0.1), "timeout")	
+				# select color
+				var random_color_index: int = randi() % int(color_pool_colors.size())		
+				var spawned_stray_color: Color = color_pool_colors[random_color_index]
+				
+				# izbrišem stack pozicije, če niso med praznimi (v prvem koraku so sosednje poz prazne
+				for stack_cell_position in available_stack_cell_positions:
+					if not available_stack_cell_positions.has(stack_cell_position):
+						available_stack_cell_positions.erase(stack_cell_position)
+				# pozicije
+				var selected_stray_position: Vector2
+
+				var selected_cell_position: Vector2
+				# prva random pozicija
+				if available_stack_cell_positions.empty() or not spawn_in_stack:
+					var random_position_index: int = randi() % int(free_floor_positions.size())		
+					selected_cell_position = free_floor_positions[random_position_index]
+					selected_stray_position = selected_cell_position + Vector2(cell_size_x/2, cell_size_x/2)
+				# stacked random pozicija
+				else:
+					var random_stack_position_index: int = randi() % int(available_stack_cell_positions.size())		
+					selected_cell_position = available_stack_cell_positions[random_stack_position_index]
+					selected_stray_position = selected_cell_position + Vector2(cell_size_x/2, cell_size_x/2)
+				
+				# pridobim sosednje pozicije trenutne pozicije
+				var current_cell_position: Vector2 = selected_cell_position
+				var cell_in_check: Vector2
+				for y in 3:
+					for x in 3:
+						cell_in_check = current_cell_position + Vector2(x - 1, y - 1) * cell_size_x
+						# če ni izvorna celica in je del (praznih) tal, jo dodam me sosednje pozicije
+						if not cell_in_check == current_cell_position and free_floor_positions.has(cell_in_check):
+							if not available_stack_cell_positions.has(cell_in_check): # da se ne podvaja
+								available_stack_cell_positions.append(cell_in_check)	
+				# to white?	
+				var turn_to_white: bool = false
+				var spawn_white_spawn_limit: int = respawn_strays_count - round(respawn_strays_count * spawn_white_stray_part)
+				if stray_index > spawn_white_spawn_limit: 
+					turn_to_white = true
+				
+				if free_floor_positions.has(selected_cell_position):
+					# spawn
+					var spawned_stray = spawn_stray(stray_index, spawned_stray_color, selected_stray_position, turn_to_white)
+					current_spawned_strays_count += 1
+					spawned_stray.call_deferred("show_stray")
+					yield(get_tree().create_timer(0.1), "timeout")	
+		else:
+			var msec_to_next_frame: float = throttler_msec_threshold + 1
+			var sec_to_next_frame: float = msec_to_next_frame / 1000.0
+			throttler_start_msec = Time.get_ticks_msec()
+			printt("over frame_time on: %s" % "respawn_strays")
 
 	# če se ne ne spawna nobeden, takoj probaj še enkrat
 	if current_spawned_strays_count == 0:
 		print("Error! 0 spawnanih, na respawn. Probam takoj še enkrat ...")
 		respawn_strays(spawn_in_stack)
 
+
 func spawn_stray(stray_index: int, stray_color: Color, stray_position: Vector2, is_white: bool):
 	
-	# spawn
 	var new_stray_pixel = StrayPixel.instance()
 	new_stray_pixel.name = "S%s" % str(stray_index)
 	new_stray_pixel.stray_color = stray_color
 	new_stray_pixel.global_position = stray_position # dodana adaptacija zaradi središča pixla
 	new_stray_pixel.z_index = 2 # višje od plejerja
-	Global.node_creation_parent.call_deferred("add_child", new_stray_pixel)
-	#	Global.node_creation_parent.add_child(new_stray_pixel)
+	#	Global.node_creation_parent.call_deferred("add_child", new_stray_pixel)
+	Global.node_creation_parent.add_child(new_stray_pixel)
 	
 	if is_white: 
 		new_stray_pixel.current_state = new_stray_pixel.States.WALL

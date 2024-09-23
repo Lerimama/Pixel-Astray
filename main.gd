@@ -23,9 +23,9 @@ func _ready() -> void:
 
 	Global.main_node = self
 	
-	home_in_intro()
+#	home_in_intro()
 #	home_in_no_intro()
-#	game_in()
+	game_in()
 
 			
 func home_in_intro():
@@ -91,7 +91,8 @@ func game_in():
 	Global.game_manager.set_tilemap()
 	Global.game_manager.set_game_view()
 	Global.game_manager.create_players()
-	
+#	Global.game_manager.create_strays(Profiles.game_settings["create_strays_count"])
+#	yield(Global.game_manager, "all_strays_spawned")
 	yield(get_tree().create_timer(0.5), "timeout") # da se kamera centrira (na restart)
 	
 	var fade_in = get_tree().create_tween()
