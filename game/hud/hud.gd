@@ -154,12 +154,16 @@ func set_hud(): # kliče main na game-in
 
 	astray_label.text = "PIXELS ASTRAY"
 	
-	if Global.game_manager.start_players_count == 1:
-		p1_label.visible = false
-		p2_statsline.visible = false
-	elif Global.game_manager.start_players_count == 2:
+	# player statlines
+	if Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
+#	if Global.game_manager.start_players_count == 1:
 		p1_label.visible = true
 		p2_statsline.visible = true
+	else:
+		p1_label.visible = false
+		p2_statsline.visible = false
+		
+#	elif Global.game_manager.start_players_count == 2:
 		
 	# lajf
 	if Global.game_manager.game_settings["player_start_life"] > 1:
@@ -181,7 +185,8 @@ func set_hud(): # kliče main na game-in
 		highscore_label.visible = true
 	
 	# stotinke na timerju
-	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+#	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
 		game_timer.get_node("Dots2").show()
 		game_timer.get_node("Hunds").show()
 		

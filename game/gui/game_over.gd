@@ -282,7 +282,11 @@ func set_game_summary():
 			stat_level_reached.hide()
 		# stats
 		stat_score.text = "Score total: " + str(p1_final_stats["player_points"])
-		stat_time.text = "Time: " + Global.get_clock_time(player_final_score)
+		if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME: # kadar se meri čas, obstaja cilj, da rankiraš
+			stat_time.show()
+			stat_time.text = "Time: " + Global.get_clock_time(player_final_score)
+		else:
+			stat_time.hide()
 		stat_colors_collected.text = "Colors collected: " + str(p1_final_stats["colors_collected"])
 		stat_pixels_astray.text = "Pixels left astray: " + str(Global.game_manager.strays_in_game_count)
 		stat_pixels_traveled.text = "Pixels traveled: " + str(p1_final_stats["cells_traveled"])
@@ -401,9 +405,6 @@ func _on_ConfirmBtn_pressed() -> void:
 	
 	if input_string.empty(): # če je prazen, je kot bi kenslal
 		_on_CancelBtn_pressed()
-		# neu
-#		input_string = name_input.placeholder_text
-#		confirm_name_input()
 	else:
 		confirm_name_input()
 

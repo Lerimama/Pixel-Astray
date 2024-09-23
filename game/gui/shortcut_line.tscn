@@ -159,8 +159,8 @@ VSeparator/styles/separator = SubResource( 443 )
 
 [sub_resource type="AtlasTexture" id=454]
 atlas = ExtResource( 4 )
-region = Rect2( 85, 218, 22, 22 )
-margin = Rect2( -2, 3, 0, 0 )
+region = Rect2( 85, 218, 22, 25 )
+margin = Rect2( 0, 3, 0, 0 )
 
 [node name="ShortcutLine" type="HBoxContainer"]
 anchor_left = 0.5

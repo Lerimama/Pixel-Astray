@@ -11,6 +11,7 @@ var game_on: bool = false
 var level_upgrade_in_progress: bool = false # ustavim klicanje naslednjih levelov
 var current_level: int = 1 # napolne ga game_data["level"]
 var level_goal_mode: bool = false
+var throttler_msec_threshold: int = 5 # koliko msec je še na voljo v frejmu, ko raje premaknem na naslednji frame
 
 # players
 var spawned_player_index: int = 0
@@ -50,9 +51,6 @@ onready var respawn_timer: Timer = $"../RespawnTimer"
 # bugfixing
 var FreePositionIndicator: PackedScene = preload("res://game/pixel/free_position_indicator.tscn")		
 var free_position_indicators: Array
-
-# neu
-var throttler_msec_threshold: int = 5 # koliko msec je še na voljo v frejmu, ko raje premaknem na naslednji frame
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -423,17 +421,12 @@ func create_strays(strays_to_spawn_count: int):
 				printt ("overspawn - on GM create") 
 				strays_to_spawn_count -= 1
 
-			#			if strays_to_spawn_count == 0: # varovalka, če se ne ne spawna nobeden, takoj probaj še enkrat
-			#				print("Error! 0 spawnanih, na respawn")
-			#				create_strays(strays_to_spawn_count)
-			#				return
-				
 			# apdejtam tilemap pozicije ... če se ne spawna, moram pozicijo vseeno brisat, če ne se spawnajo vsi na to pozicijo
 			wall_spawn_positions.erase(selected_cell_position)
 			available_required_spawn_positions.erase(selected_cell_position)
 			available_random_spawn_positions.erase(selected_cell_position)
 		
-		# spawn ... trotlam
+		# spawn
 		var throttler_start_msec = Time.get_ticks_msec()
 		var spawned_strays_true_count: int = 0
 		for set_stray in strays_set_to_spawn:
@@ -441,30 +434,30 @@ func create_strays(strays_to_spawn_count: int):
 			var new_stray_color = set_stray[1]
 			var selected_stray_position = set_stray[2]
 			var turn_to_white = set_stray[3]
-			if game_data["game"] == Profiles.Games.SWEEPER: # neu preuredi	
-				spawned_strays_true_count += 1
-				spawn_stray(stray_index, new_stray_color, selected_stray_position, turn_to_white)
-			else:
+			# trotlam?
+			if game_settings["throttled_stray_spawn"]:	
+				# merim čas od štarta funkcije
 				var msec_taken = Time.get_ticks_msec() - throttler_start_msec
 				if msec_taken < (round(1000 / Engine.get_frames_per_second()) - throttler_msec_threshold): # msec_per_frame - ...			
 					spawned_strays_true_count += 1
 					spawn_stray(stray_index, new_stray_color, selected_stray_position, turn_to_white)
+				# ko je čas večji od dovoljenega, pavziram do naslednjega frejma in resetiram štartni čas
 				else:
 					var msec_to_next_frame: float = throttler_msec_threshold + 1
 					var sec_to_next_frame: float = msec_to_next_frame / 1000.0
 					yield(get_tree().create_timer(sec_to_next_frame), "timeout") # da se vsi straysi spawnajo
 					throttler_start_msec = Time.get_ticks_msec()
-					printt("over frame_time on: %s" % "create_strays", (strays_set_to_spawn.size() - stray_index), msec_taken, round(1000 / Engine.get_frames_per_second()))
+					# printt("over frame_time on: %s" % "create_strays", (strays_set_to_spawn.size() - stray_index), msec_taken, round(1000 / Engine.get_frames_per_second()))
+			else:
+				spawned_strays_true_count += 1
+				spawn_stray(stray_index, new_stray_color, selected_stray_position, turn_to_white)
 		
 		# ko trotlam preskakuje spawne, zato ponovim
 		if spawned_strays_true_count < strays_to_spawn_count and not spawned_strays_true_count == 0:
 			create_strays(strays_to_spawn_count - spawned_strays_true_count)
-			print("razlika %s" % (strays_to_spawn_count - spawned_strays_true_count))
+			# print("razlika %s" % (strays_to_spawn_count - spawned_strays_true_count))
 			return
 				
-#		if not game_data["game"] == Profiles.Games.THE_DUEL and not game_data["game"] == Profiles.Games.HUNTER: # neu preuredi	
-#			emit_signal("all_strays_spawned")
-			
 		if level_goal_mode:
 			Global.hud.spawn_color_indicators(get_level_colors())
 		else:	
@@ -477,16 +470,15 @@ func create_strays(strays_to_spawn_count: int):
 			show_strays_in_loop(show_strays_loop)
 			yield(get_tree().create_timer(0.1), "timeout") # nujen zamik
 		
-#		if game_data["game"] == Profiles.Games.THE_DUEL or game_data["game"] == Profiles.Games.HUNTER or game_data["game"] == Profiles.Games.SWEEPER: # neu preuredi
 		emit_signal("all_strays_spawned")
 
 
 func show_strays_in_loop(show_strays_loop: int): # spawn naenkrat
 
-#	var spawn_shake_power: float = 0.30
-#	var spawn_shake_time: float = 0.7
-#	var spawn_shake_decay: float = 0.2	
-#	Global.game_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
+	var spawn_shake_power: float = 0.30
+	var spawn_shake_time: float = 0.7
+	var spawn_shake_decay: float = 0.2	
+	Global.game_camera.shake_camera(spawn_shake_power, spawn_shake_time, spawn_shake_decay)
 	var strays_to_show_count: int # količina strejsov se more ujemat s številom spawnanih
 	
 	match show_strays_loop:
@@ -518,7 +510,6 @@ func show_strays_in_loop(show_strays_loop: int): # spawn naenkrat
 func respawn_strays(spawn_in_stack: bool = true):
 	
 	# določim število spawnanih
-	#	respawn_strays_count_range = [2,6]
 	var respawn_strays_count: int = randi() % respawn_strays_count_range[1] - respawn_strays_count_range[1] # razlika med spodnjo in zgornjo mejo
 	respawn_strays_count += respawn_strays_count_range[1] # izbrano število dvignem za višino spodnje meje
 	
@@ -526,15 +517,11 @@ func respawn_strays(spawn_in_stack: bool = true):
 	
 	var current_spawned_strays_count: int = 0 # varovalk za preverjanje uspešnosti
 	
-			
-
 	# spawn ... trotlam
 	var throttler_start_msec = Time.get_ticks_msec()
 	for stray_index in respawn_strays_count:
 		var msec_taken = Time.get_ticks_msec() - throttler_start_msec
 		if msec_taken < (round(1000 / Engine.get_frames_per_second()) - throttler_msec_threshold): # msec_per_frame - ...			
-#		if msec_taken < (msec_per_frame - throttler_msec_threshold):			
-
 			# če ni praznih pozicij ne spawnam ... zazih
 			if free_floor_positions.empty():
 				pass
@@ -588,7 +575,7 @@ func respawn_strays(spawn_in_stack: bool = true):
 			var msec_to_next_frame: float = throttler_msec_threshold + 1
 			var sec_to_next_frame: float = msec_to_next_frame / 1000.0
 			throttler_start_msec = Time.get_ticks_msec()
-			printt("over frame_time on: %s" % "respawn_strays")
+			# printt("over frame_time on: %s" % "respawn_strays")
 
 	# če se ne ne spawna nobeden, takoj probaj še enkrat
 	if current_spawned_strays_count == 0:

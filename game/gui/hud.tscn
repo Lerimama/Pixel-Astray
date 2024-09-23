@@ -62,12 +62,12 @@ region = Rect2( 64, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=148]
 atlas = ExtResource( 8 )
-region = Rect2( 2, 84, 14, 12 )
+region = Rect2( 2, 82, 14, 15 )
 margin = Rect2( 0, 3, 0, 0 )
 
 [sub_resource type="AtlasTexture" id=146]
 atlas = ExtResource( 8 )
-region = Rect2( 18, 84, 14, 12 )
+region = Rect2( 18, 82, 14, 15 )
 margin = Rect2( 0, 3, 0, 0 )
 
 [sub_resource type="AtlasTexture" id=128]
@@ -507,8 +507,8 @@ __meta__ = {
 }
 
 [node name="HighscoreLabel" type="Label" parent="Header/TopLineR"]
-margin_left = 451.0
-margin_right = 586.0
+margin_left = 109.0
+margin_right = 244.0
 margin_bottom = 22.0
 grow_horizontal = 0
 size_flags_horizontal = 10
@@ -520,9 +520,8 @@ __meta__ = {
 }
 
 [node name="PlayerLineR" type="HBoxContainer" parent="Header/TopLineR"]
-visible = false
-margin_left = 240.0
-margin_right = 578.0
+margin_left = 248.0
+margin_right = 586.0
 margin_bottom = 22.0
 grow_horizontal = 0
 size_flags_horizontal = 11

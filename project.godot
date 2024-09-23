@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "SceneTree",
 "class": "CustomSceneTree",
 "language": "GDScript",
-"path": "res://autoloads/custom_scene_tree.gd"
+"path": "res://custom_scene_tree.gd"
 }, {
 "base": "Control",
 "class": "GameHud",
@@ -69,7 +69,6 @@ Global="*res://autoloads/global.gd"
 Profiles="*res://autoloads/profiles.gd"
 ConnectCover="*res://autoloads/connect_cover.tscn"
 LootLocker="*res://autoloads/lootlocker.gd"
-Throttler="*res://autoloads/throttler.gd"
 
 [debug]
 

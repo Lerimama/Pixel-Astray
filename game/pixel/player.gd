@@ -96,7 +96,8 @@ func _ready() -> void:
 	randomize() # za random blink animacije
 	
 	# controler setup
-	if Global.game_manager.start_players_count == 2:
+#	if Global.game_manager.start_players_count == 2:
+	if Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
 		key_left = "%s_left" % name
 		key_right = "%s_right" % name
 		key_up = "%s_up" % name
@@ -873,7 +874,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 				var sec_to_next_frame: float = msec_to_next_frame / 1000.0
 				yield(get_tree().create_timer(sec_to_next_frame), "timeout") # da se vsi straysi spawnajo
 				throttler_start_msec = Time.get_ticks_msec()
-				printt("over frame_time on: %s" % "strays_to_destroy")			
+				# printt("over frame_time on: %s" % "strays_to_destroy")			
 
 		# stats
 		var strays_not_walls_count: int = strays_to_destroy.size() - white_strays_in_stack.size()
@@ -1072,7 +1073,7 @@ func spawn_floating_tag(value: int):
 	var text_color: Color = Color.white
 	if value == 0:
 		if game_data["game"] == Profiles.Games.DEFENDER: # 1 točka ni nikoli
-			text_to_show = "KUKU!"
+			text_to_show = "HERE I AM"
 		else:
 			return
 	elif game_data["game"] == Profiles.Games.SWEEPER and value == 1:

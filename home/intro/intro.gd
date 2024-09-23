@@ -8,6 +8,7 @@ export var actor_in_motion: bool = true # exportano za animacijo
 var intro_strays_spawned: bool = false
 var camera_is_shaking: bool = false # da se šejk ne podvaja
 var step_time: float = 0.08
+var throttler_msec_threshold: int = 5 # koliko msec je še na voljo v frejmu, ko raje premaknem na naslednji frame
 
 # strays
 var strays_in_game: Array = []
@@ -37,9 +38,6 @@ onready var StrayPixel: PackedScene = preload("res://home/intro/intro_stray.tscn
 # bugfixing
 var FreePositionIndicator: PackedScene = preload("res://game/pixel/free_position_indicator.tscn")		
 var free_position_indicators: Array
-
-# neu
-var throttler_msec_threshold: int = 5 # koliko msec je še na voljo v frejmu, ko raje premaknem na naslednji frame
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -173,12 +171,12 @@ func create_strays(strays_to_spawn_count: int = required_spawn_positions.size())
 			var sec_to_next_frame: float = msec_to_next_frame / 1000.0
 			yield(get_tree().create_timer(sec_to_next_frame), "timeout") # da se vsi straysi spawnajo
 			throttler_start_msec = Time.get_ticks_msec()
-			printt("over frame_time on: %s" % "intro create_strays", (strays_set_to_spawn.size() - stray_index), msec_taken, round(1000 / Engine.get_frames_per_second()))
+			# printt("over frame_time on: %s" % "intro create_strays", (strays_set_to_spawn.size() - stray_index), msec_taken, round(1000 / Engine.get_frames_per_second()))
 		
 	# ko trotlam preskakuje spawne, zato ponovim
 	if spawned_strays_true_count < strays_to_spawn_count and not spawned_strays_true_count == 0:
 		create_strays(strays_to_spawn_count - spawned_strays_true_count)
-		print("razlika %s" % (strays_to_spawn_count - spawned_strays_true_count))
+		# print("razlika %s" % (strays_to_spawn_count - spawned_strays_true_count))
 		return
 			
 	var show_strays_loop: int = 0

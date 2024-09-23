@@ -42,6 +42,7 @@ var default_game_settings: Dictionary = {
 	"respawn_pause_time": 1, # če je 0 lahko pride do errorja (se mi zdi, da n 0, se timer sam disejbla)
 	"respawn_pause_time_low": 1, # klempam navzdol na tole
 	"stray_step_time": 0.09, # ne manjši od 0.2
+	"throttled_stray_spawn": true,
 	# game
 	"burst_count_limit": 0, # če je nič, ni omejeno
 	"game_time_limit": 0, # če je nič, ni omejeno in timer je stopwatch mode
@@ -52,7 +53,7 @@ var default_game_settings: Dictionary = {
 	"spawn_strays_on_cleaned": false,
 	# gui
 	"show_game_instructions": true,
-	"position_indicators_show_limit": 6, # en manj je število vidnih
+	"position_indicators_show_limit": 10, # en manj je število vidnih
 	"start_countdown": true,
 	"zoom_to_level_size": false, # SHOWCASE
 	"always_zoomed_in": false, # SWEEPER
@@ -67,11 +68,10 @@ var game_data_cleaner: Dictionary = {
 	"highscore_type": HighscoreTypes.POINTS,
 	"game_name": "Cleaner",
 	"game_scene_path": "res://game/game.tscn",
-#	"tilemap_path": "res://game/tilemaps/tilemap_cleaner.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_cleaner_orig.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_cleaner.tscn",
 	# pre-game instructons
 	"description": "Take back the colors and become the brightest again.",
-	"Prop": "Clear all stray pixels\nto reclaim your\none-and-only status.",
+	"Prop": "Clear all %s strays\nto reclaim your\none-and-only status." % str(999), # CON ročno povezano z game time
 	"Prop2": "Give it your best shot\nto beat the current\nrecord score!",
 }
 var game_data_eraser_xs: Dictionary = { 
@@ -106,7 +106,7 @@ var game_data_eraser_m: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser_m.tscn",
 	# pre-game instructons
 	"description" : "Clear the colors before time slips away!",
-	"Prop" : "You have %s minutes\nbefore your screen becomes\npermanently saturated." % str(7), # CON ročno povezano z game time
+	"Prop" : "You have %s minutes\nbefore your screen becomes\npermanently saturated." % str(10), # CON ročno povezano z game time
 	"Prop2" : "Be quick and efficient\nto beat the current\nrecord time!",
 	# 7min / 100 straysov
 }
@@ -118,7 +118,7 @@ var game_data_eraser_l: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser_l.tscn",
 	# pre-game instructons
 	"description" : "Clear the colors before time slips away!",
-	"Prop" : "You have %s minutes\nbefore your screen becomes\npermanently saturated." % str(10), # CON ročno povezano z game time
+	"Prop" : "You have %s minutes\nbefore your screen becomes\npermanently saturated." % str(15), # CON ročno povezano z game time
 	"Prop2" : "Be quick and efficient\nto beat the current\nrecord time!",
 	# 10min / 200 straysov
 }
@@ -130,7 +130,7 @@ var game_data_eraser_xl: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser_xl.tscn",
 	# pre-game instructons
 	"description" : "Clear the colors before time slips away!",
-	"Prop" : "You have %s minutes\nbefore your screen becomes\npermanently saturated." % str(15), # CON ročno povezano z game time
+	"Prop" : "You have %s minutes\nbefore your screen becomes\npermanently saturated." % str(20), # CON ročno povezano z game time
 	"Prop2" : "Be quick and efficient\nto beat the current\nrecord time!",
 	# 15min / 300 straysov
 }
@@ -191,7 +191,7 @@ var game_data_sweeper: Dictionary = {
 	"Prop": "To REBURST, press\nin the next target's\ndirection upon hitting\na stray pixel.",
 	"Prop2": "You have\nonly a couple of\nseconds to keep\nyour momentum.",
 	"Prop3": "Initial burst can\ncollect all stacked\ncolors. Reburst always\ncollects only one.",
-	"level": 10,
+	"level": 1,
 }
 var game_data_the_duel: Dictionary = {
 	"game": Games.THE_DUEL, # key igre je key lootlocker tabele
@@ -204,7 +204,6 @@ var game_data_the_duel: Dictionary = {
 	"Prop": "Player with better\nfinal score will be named\nthe Ultimate cleaning champ!",
 	"Prop2": "Hit the opposing player\nto take his life and\nhalf of his points.",
 }
-
 var sweeper_level_tilemap_paths: Array = [ 
 	# zaporedje je ključno za level name
 	"res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
@@ -240,6 +239,7 @@ var camera_shake_on: bool = true
 var tutorial_music_track_index: int = 1
 var tutorial_mode: bool = true
 var html5_mode: bool = false # skrije ExitGameBtn v home, GO in pavzi
+var throttler_msec_threshold: int = 5 # koliko msec je še na voljo v frejmu, ko raje premaknem na naslednji frame
 
 # lootlocker
 var lootlocker_game_key: String = "dev_5a1cab01df0641c0a5f76450761ce292"
@@ -273,16 +273,13 @@ func set_game_data(selected_game):
 	# bugfixing
 	game_settings["start_countdown"] = false
 	game_settings["player_start_life"] = 2
-	game_settings["show_game_instructions"] = false
+#	game_settings["show_game_instructions"] = false
 
 	match selected_game:
 
 		Games.CLEANER: 
 			current_game_data = game_data_cleaner.duplicate()
-			game_settings["create_strays_count"] = 5000
-#			game_settings["create_strays_count"] = 999
-#			game_settings["create_strays_count"] = 120
-			
+			game_settings["create_strays_count"] = 700 # spawna jih cca 1200 (tilemap setup)
 		Games.ERASER_XS: 
 			current_game_data = game_data_eraser_xs.duplicate()
 			game_settings["game_time_limit"] = 120 
@@ -295,20 +292,19 @@ func set_game_data(selected_game):
 			game_settings["spawn_white_stray_part"] = 0.11
 		Games.ERASER_M: 
 			current_game_data = game_data_eraser_m.duplicate()
-			game_settings["game_time_limit"] = 470
-			game_settings["create_strays_count"] = 100
+			game_settings["game_time_limit"] = 600
+			game_settings["create_strays_count"] = 150
 			game_settings["spawn_white_stray_part"] = 0.11
 		Games.ERASER_L: 
 			current_game_data = game_data_eraser_l.duplicate()
-			game_settings["game_time_limit"] = 600
-			game_settings["create_strays_count"] = 200
-			game_settings["spawn_white_stray_part"] = 0.11
-		Games.ERASER_XL: 
-			current_game_data = game_data_eraser_xl.duplicate()
 			game_settings["game_time_limit"] = 900
 			game_settings["create_strays_count"] = 300
 			game_settings["spawn_white_stray_part"] = 0.11
-		
+		Games.ERASER_XL: 
+			current_game_data = game_data_eraser_xl.duplicate()
+			game_settings["game_time_limit"] = 1200
+			game_settings["create_strays_count"] = 400
+			game_settings["spawn_white_stray_part"] = 0.11
 		Games.HUNTER: 
 			current_game_data = game_data_hunter.duplicate()
 			game_settings["position_indicators_show_limit"] = 0
@@ -323,7 +319,6 @@ func set_game_data(selected_game):
 			game_settings["full_power_mode"] = true
 			#
 			game_settings["create_strays_count"] = 1 # število spawnanih v prvi rundi
-		
 		Games.SWEEPER: 
 			current_game_data = game_data_sweeper.duplicate()
 			game_settings["player_start_life"] = 1
@@ -337,11 +332,11 @@ func set_game_data(selected_game):
 			game_settings["reburst_window_time"] = 13
 			game_settings["burst_count_limit"] = 1
 			#
+			game_settings["throttled_stray_spawn"] = false
 			game_settings["game_music_track_index"] = 1
 			game_settings["always_zoomed_in"] = true # prižge se med prvo igro iz menija, tako ostane za zmerom zoomiran
 			game_settings["show_game_instructions"] = false # prižge se samo za prvi gejm iz menija
 			return game_settings # da lahko vklopim "instructions" in "zoomed in" za prehod iz home menija
-				
 		Games.THE_DUEL: 
 			current_game_data = game_data_the_duel.duplicate()
 			game_settings["game_time_limit"] = 180 # tilemap set
@@ -349,8 +344,6 @@ func set_game_data(selected_game):
 			game_settings["position_indicators_show_limit"] = 0
 			game_settings["respawn_strays_count_range"] = [1, 14]
 			game_settings["spawn_white_stray_part"] = 0.21
-
-	
 #		Games.SHOWCASE: 
 #			current_game_data = game_data_showcase.duplicate()
 #			game_settings["create_strays_count"] = 180 # samo klasika in kapsula
@@ -368,7 +361,6 @@ func set_game_data(selected_game):
 #			# camera_shake_on = false
 #			# game_settings["reburst_enabled"] = true			
 #			# game_settings["reburst_window_time"] = 0
-#
 #
 #var game_data_showcase: Dictionary = {
 #	"game": Games.SHOWCASE,
