@@ -1,7 +1,7 @@
 extends Node
 
 
-enum Games {CLEANER, ERASER_XS, ERASER_S, ERASER_M, ERASER_L, ERASER_XL, HUNTER, DEFENDER, SWEEPER, THE_DUEL, SHOWCASE}
+enum Games {CLEANER, ERASER_XS, ERASER_S, ERASER_M, ERASER_L, ERASER_XL, STALKER, DEFENDER, SWEEPER, THE_DUEL, SHOWCASE}
 enum HighscoreTypes {NONE, POINTS, TIME}
 
 var default_player_stats: Dictionary = {
@@ -41,7 +41,7 @@ var default_game_settings: Dictionary = {
 	"respawn_strays_count_range": [0,0], # če je > 0, je respawn aktiviran
 	"respawn_pause_time": 1, # če je 0 lahko pride do errorja (se mi zdi, da n 0, se timer sam disejbla)
 	"respawn_pause_time_low": 1, # klempam navzdol na tole
-	"stray_step_time": 0.09, # ne manjši od 0.2
+	"stray_step_time": 0.5, # ne manjši od 0.2
 	"throttled_stray_spawn": true,
 	# game
 	"burst_count_limit": 0, # če je nič, ni omejeno
@@ -71,7 +71,7 @@ var game_data_cleaner: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner.tscn",
 	# pre-game instructons
 	"description": "Take back the colors and become the brightest again.",
-	"Prop": "Clear all %s strays\nto reclaim your\none-and-only status." % str(999), # CON ročno povezano z game time
+	"Prop": "Clear all %s strays\nto reclaim your\none-and-only status." % str(500), # CON ročno povezano z game time
 	"Prop2": "Give it your best shot\nto beat the current\nrecord score!",
 }
 var game_data_eraser_xs: Dictionary = { 
@@ -134,12 +134,12 @@ var game_data_eraser_xl: Dictionary = {
 	"Prop2" : "Be quick and efficient\nto beat the current\nrecord time!",
 	# 15min / 300 straysov
 }
-var game_data_hunter: Dictionary = { 
-	"game": Games.HUNTER, # key igre je key lootlocker tabele
+var game_data_stalker: Dictionary = { 
+	"game": Games.STALKER, # key igre je key lootlocker tabele
 	"highscore_type": HighscoreTypes.POINTS,
-	"game_name": "Hunter",
+	"game_name": "Stalker",
 	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_eraser.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_stalker.tscn",
 	# pre-game instructons
 	"description" : "Keep the colors in check as they keep popping in!",
 	"Prop": "Difficulty level will increase\nwhen your spectrum\nindicator gets filled.",
@@ -171,7 +171,7 @@ var game_data_defender: Dictionary = {
 	# štart
 	"level": 1,
 	"level_goal_count": 10, # CON kolikor jih spawnanih v prvi rundi
-	"line_step_pause_time": 1.5, # ne sme bit manjša od stray step hitrosti (0.2), je clampana ob apliciranju
+	"line_step_pause_time": 1.4, # ne sme bit manjša od stray step hitrosti (0.2), je clampana ob apliciranju
 	"spawn_round_range": [1, 1], # random spawn count, največ 120 - 8
 	"line_steps_per_spawn_round": 1, # na koliko stepov se spawna nova runda
 	# level up
@@ -198,7 +198,7 @@ var game_data_the_duel: Dictionary = {
 	"highscore_type": HighscoreTypes.NONE,
 	"game_name": "The Duel",
 	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_duel_s.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_duel.tscn",
 	# pre-game instructons
 	"description" : "Only the best cleaner will shine in this epic battle!",
 	"Prop": "Player with better\nfinal score will be named\nthe Ultimate cleaning champ!",
@@ -259,7 +259,7 @@ func _ready() -> void:
 #	var debug_game = Games.ERASER_M
 #	var debug_game = Games.ERASER_L
 #	var debug_game = Games.ERASER_XL
-#	var debug_game = Games.HUNTER
+#	var debug_game = Games.STALKER
 #	var debug_game = Games.DEFENDER
 #	var debug_game = Games.SWEEPER
 #	var debug_game = Games.THE_DUEL
@@ -271,15 +271,15 @@ func set_game_data(selected_game):
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
 	# bugfixing
-	game_settings["start_countdown"] = false
-	game_settings["player_start_life"] = 2
+#	game_settings["start_countdown"] = false
+#	game_settings["player_start_life"] = 2
 #	game_settings["show_game_instructions"] = false
 
 	match selected_game:
 
 		Games.CLEANER: 
 			current_game_data = game_data_cleaner.duplicate()
-			game_settings["create_strays_count"] = 700 # spawna jih cca 1200 (tilemap setup)
+			game_settings["create_strays_count"] = 500 # spawna jih cca 1200 (tilemap setup)
 		Games.ERASER_XS: 
 			current_game_data = game_data_eraser_xs.duplicate()
 			game_settings["game_time_limit"] = 120 
@@ -305,8 +305,8 @@ func set_game_data(selected_game):
 			game_settings["game_time_limit"] = 1200
 			game_settings["create_strays_count"] = 400
 			game_settings["spawn_white_stray_part"] = 0.11
-		Games.HUNTER: 
-			current_game_data = game_data_hunter.duplicate()
+		Games.STALKER: 
+			current_game_data = game_data_stalker.duplicate()
 			game_settings["position_indicators_show_limit"] = 0
 			#
 			game_settings["respawn_strays_count_range"] = [2, 8]
@@ -344,6 +344,11 @@ func set_game_data(selected_game):
 			game_settings["position_indicators_show_limit"] = 0
 			game_settings["respawn_strays_count_range"] = [1, 14]
 			game_settings["spawn_white_stray_part"] = 0.21
+			
+			
+# SHOWCASE ----------------------------------------------------------------------------------------------------------------
+
+
 #		Games.SHOWCASE: 
 #			current_game_data = game_data_showcase.duplicate()
 #			game_settings["create_strays_count"] = 180 # samo klasika in kapsula

@@ -85,7 +85,7 @@ func step(step_direction: Vector2 = Vector2.DOWN):
 			
 			step_count += 1
 			var step_time: float = Global.game_manager.game_settings["stray_step_time"]
-			step_tween.interpolate_property(self ,"position", position, intended_position, step_time, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+			step_tween.interpolate_property(self ,"position", position, intended_position, step_time, Tween.TRANS_QUINT, Tween.EASE_IN_OUT)
 			step_tween.start()
 			
 		else:

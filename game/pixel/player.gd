@@ -993,7 +993,7 @@ func spawn_dizzy_particles():
 		new_dizzy_pixels.modulate = Color.white
 	else:
 		new_dizzy_pixels.modulate = pixel_color
-	Global.node_creation_parent.add_child(new_dizzy_pixels)
+	Global.game_arena.add_child(new_dizzy_pixels)
 	
 
 func spawn_collision_particles():
@@ -1009,7 +1009,7 @@ func spawn_collision_particles():
 		Vector2.DOWN: new_collision_pixels.rotate(deg2rad(90))
 		Vector2.LEFT: new_collision_pixels.rotate(deg2rad(180))
 		Vector2.RIGHT:new_collision_pixels.rotate(deg2rad(0))
-	Global.node_creation_parent.add_child(new_collision_pixels)
+	Global.game_arena.add_child(new_collision_pixels)
 
 	
 func spawn_cock_ghost(cocking_direction: Vector2):
@@ -1062,7 +1062,7 @@ func spawn_ghost(ghost_spawn_position: Vector2):
 	new_pixel_ghost.global_position = ghost_spawn_position
 	new_pixel_ghost.modulate = pixel_color
 	new_pixel_ghost.ghost_owner = self # da "sebe" ne čekira
-	Global.node_creation_parent.add_child(new_pixel_ghost)
+	Global.game_arena.add_child(new_pixel_ghost)
 
 	return new_pixel_ghost
 
@@ -1089,7 +1089,7 @@ func spawn_floating_tag(value: int):
 	new_floating_tag.global_position = global_position
 	new_floating_tag.tag_owner = self
 	new_floating_tag.modulate = text_color
-	Global.node_creation_parent.add_child(new_floating_tag)
+	Global.game_arena.add_child(new_floating_tag)
 	
 	new_floating_tag.label.text = text_to_show
 		
@@ -1415,8 +1415,8 @@ func _on_ReburstingTimer_timeout() -> void:
 
 	
 func _on_TouchTimer_timeout() -> void: 
-	# HUNTER
 
+	# STALKER
 	detect_touch() # za GO
 	
 		

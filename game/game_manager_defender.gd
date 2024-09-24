@@ -51,8 +51,8 @@ func set_game():
 	for player in current_players_in_game:
 		player.animation_player.play("lose_white_on_start")
 		player.set_physics_process(true)
-#		signaling_player = player # da se zgodi na obeh plejerjih istočasno
-#	yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
+	#		signaling_player = player # da se zgodi na obeh plejerjih istočasno
+	#	yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
 	
 	# strays
 	Global.hud.spawn_color_indicators(get_level_colors())	
@@ -112,7 +112,7 @@ func create_players():
 		new_player_pixel.name = "p%s" % str(spawned_player_index)
 		new_player_pixel.global_position = player_position + Vector2(cell_size_x/2, cell_size_x/2) # ... ne rabim snepat ker se v pixlu na ready funkciji
 		new_player_pixel.z_index = 1 # nižje od straysa
-		Global.node_creation_parent.add_child(new_player_pixel)
+		Global.game_arena.add_child(new_player_pixel)
 		
 		# stats
 		new_player_pixel.player_stats = Profiles.default_player_stats.duplicate() # tukaj se postavijo prazne vrednosti, ki se nafilajo kasneje
@@ -200,8 +200,6 @@ func create_strays(strays_to_spawn_count: int):
 func upgrade_level(upgrade_on_cleaned: bool =  false):
 	# namen: ni respawna
 
-#	if level_upgrade_in_progress:
-#		return
 	if not level_upgrade_in_progress and game_on:
 		
 		level_upgrade_in_progress = true

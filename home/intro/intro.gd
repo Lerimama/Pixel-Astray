@@ -7,7 +7,7 @@ export var actor_in_motion: bool = true # exportano za animacijo
 
 var intro_strays_spawned: bool = false
 var camera_is_shaking: bool = false # da se šejk ne podvaja
-var step_time: float = 0.08
+var actor_step_time: float = 0.08
 var throttler_msec_threshold: int = 5 # koliko msec je še na voljo v frejmu, ko raje premaknem na naslednji frame
 
 # strays
@@ -82,7 +82,7 @@ func finish_intro(): # ob skipanju in regularnem koncu intra
 	yield(get_tree().create_timer(1), "timeout")
 	emit_signal("finished_playing") # menu_in on main
 	
-	yield(get_tree().create_timer(1), "timeout")
+	yield(get_tree().create_timer(3), "timeout")
 	random_stray_step()		
 
 	
@@ -267,7 +267,7 @@ func random_stray_step():
 	
 	# next step random time
 	var random_pause_time_divider: float = randi() % int(5) + 1 # višji offset da manjši razpon v random času
-	var random_pause_time = 0.2 / random_pause_time_divider
+	var random_pause_time = 1 / random_pause_time_divider
 	stray_step_timer.start(random_pause_time)
 	
 
@@ -307,7 +307,7 @@ func add_to_free_floor_positions(position_to_add: Vector2):
 	if Global.current_tilemap.all_floor_tiles_global_positions.has(position_to_add_on_grid) and not free_floor_positions.has(position_to_add_on_grid):
 		#		var new_pos_indi = FreePositionIndicator.instance()
 		#		new_pos_indi.rect_global_position = position_to_add_on_grid
-		#		Global.node_creation_parent.get_node("ArenaTop").add_child(new_pos_indi)
+		#		Global.game_arena.get_node("ArenaTop").add_child(new_pos_indi)
 		#		free_position_indicators.append(new_pos_indi)	
 		free_floor_positions.append(position_to_add_on_grid)
 
@@ -342,7 +342,7 @@ func play_actor_stepping_sound(): # kliče animacija
 	
 	if actor_in_motion:
 		Global.sound_manager.play_stepping_sfx(1)
-		yield(get_tree().create_timer(step_time), "timeout")
+		yield(get_tree().create_timer(actor_step_time), "timeout")
 		play_actor_stepping_sound()
 
 

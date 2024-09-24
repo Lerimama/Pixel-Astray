@@ -4,7 +4,7 @@ extends Node2D
 # VARIABLE -----------------------------------------------------------------------------------------------------
 
 var main_node = null
-var node_creation_parent = null # arena
+var game_arena = null # arena
 
 # managers
 var sound_manager = null

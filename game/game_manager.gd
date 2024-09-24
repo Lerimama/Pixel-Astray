@@ -56,8 +56,8 @@ var free_position_indicators: Array
 func _unhandled_input(event: InputEvent) -> void:
 
 	# bugfixing
-	if Input.is_action_just_pressed("no1"):
-		game_over(GameoverReason.LIFE)
+	#	if Input.is_action_just_pressed("no1"):
+	#		game_over(GameoverReason.LIFE)
 	#	if Input.is_action_just_pressed("no2"):
 	#		game_over(GameoverReason.TIME)
 	#	if Input.is_action_just_pressed("no3"):
@@ -119,7 +119,7 @@ func set_tilemap(): # kliče MAIN pred fade-in scene 01.
 	# spawn new tilemap
 	var GameTilemap = ResourceLoader.load(tilemap_to_load_path)
 	var new_tilemap = GameTilemap.instance()
-	Global.node_creation_parent.add_child(new_tilemap) # direct child of root
+	Global.game_arena.add_child(new_tilemap) # direct child of root
 	
 	# povežem s signalom	
 	Global.current_tilemap.connect("tilemap_completed", self, "_on_tilemap_completed")
@@ -171,8 +171,8 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 	var signaling_player: KinematicBody2D
 	for player in current_players_in_game:
 		player.animation_player.play("lose_white_on_start")
-#		signaling_player = player # da se zgodi na obeh plejerjih istočasno
-#	yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
+	#		signaling_player = player # da se zgodi na obeh plejerjih istočasno
+	#	yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
 	
 	# strays
 	create_strays(create_strays_count)
@@ -347,7 +347,7 @@ func create_players(): # kliče MAIN pred fade-in scene 04.
 		new_player_pixel.name = "p%s" % str(spawned_player_index)
 		new_player_pixel.global_position = player_position + Vector2(cell_size_x/2, cell_size_x/2) # ... ne rabim snepat ker se v pixlu na ready funkciji
 		new_player_pixel.z_index = 1 # nižje od straysa
-		Global.node_creation_parent.add_child(new_player_pixel)
+		Global.game_arena.add_child(new_player_pixel)
 		
 		# stats
 		new_player_pixel.player_stats = Profiles.default_player_stats.duplicate() # tukaj se postavijo prazne vrednosti, ki se nafilajo kasneje
@@ -408,7 +408,7 @@ func create_strays(strays_to_spawn_count: int):
 			
 			# je white? ... če pozicija bela in, če je index večji od planiranega deleža belih
 			var turn_to_white: bool = false
-			if not game_data["game"] == Profiles.Games.THE_DUEL and not game_data["game"] == Profiles.Games.HUNTER:
+			if not game_data["game"] == Profiles.Games.THE_DUEL and not game_data["game"] == Profiles.Games.STALKER:
 				var spawn_white_spawn_limit: int = strays_to_spawn_count - round(strays_to_spawn_count * spawn_white_stray_part)
 				if wall_spawn_positions.has(selected_cell_position) or stray_index > spawn_white_spawn_limit: 
 					turn_to_white = true
@@ -590,8 +590,8 @@ func spawn_stray(stray_index: int, stray_color: Color, stray_position: Vector2, 
 	new_stray_pixel.stray_color = stray_color
 	new_stray_pixel.global_position = stray_position # dodana adaptacija zaradi središča pixla
 	new_stray_pixel.z_index = 2 # višje od plejerja
-	#	Global.node_creation_parent.call_deferred("add_child", new_stray_pixel)
-	Global.node_creation_parent.add_child(new_stray_pixel)
+	#	Global.game_arena.call_deferred("add_child", new_stray_pixel)
+	Global.game_arena.add_child(new_stray_pixel)
 	
 	if is_white: 
 		new_stray_pixel.current_state = new_stray_pixel.States.WALL
@@ -652,7 +652,7 @@ func remove_from_free_floor_positions(position_to_remove: Vector2):
 		free_floor_positions.erase(position_to_remove_on_grid)
 	
 	 # bugfixing ... izbrišem indikator na poziciji, če je freepos prižgan
-	if Global.node_creation_parent.get_node("FreePositions").visible:
+	if Global.game_arena.free_positions_grid.visible:
 		for indicator in free_position_indicators:
 			if indicator.rect_position == position_to_remove_on_grid:
 				indicator.queue_free()	
@@ -667,7 +667,7 @@ func add_to_free_floor_positions(position_to_add: Vector2):
 	if Global.current_tilemap.all_floor_tiles_global_positions.has(position_to_add_on_grid) and not free_floor_positions.has(position_to_add_on_grid):
 		free_floor_positions.append(position_to_add_on_grid)
 		# bugfixing ... dodam indikator na poziciji, če je freepos prižgan
-		if Global.node_creation_parent.get_node("FreePositions").visible: # bugfixing
+		if Global.game_arena.free_positions_grid.visible: # bugfixing
 			spawn_free_position_indicator(position_to_add_on_grid)
 
 
@@ -675,7 +675,7 @@ func spawn_free_position_indicator(spawn_position: Vector2):
 	
 	var new_free_position_indicator = FreePositionIndicator.instance()
 	new_free_position_indicator.rect_global_position = spawn_position
-	Global.node_creation_parent.get_node("FreePositions").add_child(new_free_position_indicator)
+	Global.game_arena.free_positions_grid.add_child(new_free_position_indicator)
 	free_position_indicators.append(new_free_position_indicator)
 
 

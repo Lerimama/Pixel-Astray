@@ -1663,7 +1663,7 @@ margin_top = 192.0
 margin_right = 167.0
 margin_bottom = 210.0
 grow_horizontal = 2
-focus_neighbour_bottom = NodePath("../../Unbeatables/HunterBtn")
+focus_neighbour_bottom = NodePath("../../Unbeatables/StalkerBtn")
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 10
 custom_colors/font_color = Color( 1, 1, 1, 1 )
@@ -1700,7 +1700,7 @@ margin_left = 40.0
 margin_top = 120.0
 margin_right = 96.0
 margin_bottom = 176.0
-focus_neighbour_left = NodePath("../../Unbeatables/HunterBtn")
+focus_neighbour_left = NodePath("../../Unbeatables/StalkerBtn")
 focus_neighbour_top = NodePath("../../Sweeper/SweeperBtn")
 focus_neighbour_bottom = NodePath("../../TheDuel/TheDuelBtn")
 mouse_default_cursor_shape = 2
@@ -1774,7 +1774,7 @@ margin_top = 120.0
 margin_right = 440.0
 margin_bottom = 176.0
 focus_neighbour_top = NodePath("../../Sweeper/SweeperBtn")
-focus_neighbour_right = NodePath("../../Unbeatables/HunterBtn")
+focus_neighbour_right = NodePath("../../Unbeatables/StalkerBtn")
 focus_neighbour_bottom = NodePath("../../TheDuel/TheDuelBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = ExtResource( 24 )
@@ -1869,7 +1869,7 @@ custom_fonts/font = ExtResource( 14 )
 text = "Stop unbeatable invading colors from taking over!"
 autowrap = true
 
-[node name="HunterBtn" type="Button" parent="SelectGame/GamesMenu/Unbeatables"]
+[node name="StalkerBtn" type="Button" parent="SelectGame/GamesMenu/Unbeatables"]
 anchor_right = 1.0
 margin_left = 40.0
 margin_top = 96.0
@@ -2704,7 +2704,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 mouse_default_cursor_shape = 2
 
-[node name="HunterHall" parent="Highscores/ScrollContainer/ScrollContent/Unbeatables/TabContainer" instance=ExtResource( 31 )]
+[node name="StalkerHall" parent="Highscores/ScrollContainer/ScrollContent/Unbeatables/TabContainer" instance=ExtResource( 31 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 44.0
@@ -3292,7 +3292,7 @@ anims/settings = SubResource( 530 )
 [connection signal="pressed" from="SelectGame/GamesMenu/Eraser/XLBtn" to="SelectGame" method="_on_XLBtn_pressed"]
 [connection signal="pressed" from="SelectGame/GamesMenu/Eraser/XXLBtn" to="SelectGame" method="_on_XXLBtn_pressed"]
 [connection signal="mouse_entered" from="SelectGame/GamesMenu/Unbeatables/Background" to="SelectGame" method="_on_UnbeatablesBackground_mouse_entered"]
-[connection signal="pressed" from="SelectGame/GamesMenu/Unbeatables/HunterBtn" to="SelectGame" method="_on_HunterBtn_pressed"]
+[connection signal="pressed" from="SelectGame/GamesMenu/Unbeatables/StalkerBtn" to="SelectGame" method="_on_StalkerBtn_pressed"]
 [connection signal="pressed" from="SelectGame/GamesMenu/Unbeatables/DefenderBtn" to="SelectGame" method="_on_DefenderBtn_pressed"]
 [connection signal="mouse_entered" from="SelectGame/GamesMenu/Sweeper/Background" to="SelectGame" method="_on_SweeperBackground_mouse_entered"]
 [connection signal="pressed" from="SelectGame/GamesMenu/Sweeper/SweeperBtn" to="SelectGame" method="_on_SweeperBtn_pressed"]

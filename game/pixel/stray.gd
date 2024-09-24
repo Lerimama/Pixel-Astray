@@ -16,6 +16,7 @@ onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var position_indicator: Node2D = $PositionIndicator
 onready var position_indicator_poly: Polygon2D = $PositionIndicator/PositionPoly
 onready var cell_size_x: int = Global.current_tilemap.cell_size.x
+onready var step_tween: Tween = $StepTween
 
 
 func _ready() -> void:
@@ -63,15 +64,21 @@ func die(stray_in_stack_index: int, strays_in_stack_count: int):
 			var random_animation_name: String = "die_stray_%s" % random_animation_index
 			animation_player.play(random_animation_name) 
 		else: # ne žrebam
+			print("DIE")
 			animation_player.play("die_stray")
 
 		#	position_indicator.modulate.a = 0	
-		collision_shape.set_deferred("disabled", true) # OPT ... se podvaja
 		
 		# color vanish
 		var vanish_time = animation_player.get_current_animation_length()
 		var vanish_tween = get_tree().create_tween()
 		vanish_tween.tween_property(self, "color_poly:modulate:a", 0, vanish_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
+		
+		# run over stray
+		var run_over_stray_pause: float = 0.2
+		yield(get_tree().create_timer(run_over_stray_pause), "timeout")
+		collision_shape.set_deferred("disabled", true)
+		Global.game_manager.add_to_free_floor_positions(global_position)
 		
 		# na koncu animacije sledi KVEFRI in ostalo
 	
@@ -89,7 +96,6 @@ func die_to_wall():
 	
 # MOVEMENT ------------------------------------------------------------------------------------------------------
 
-onready var step_tween: Tween = $StepTween
 	
 func step(step_direction: Vector2 = Vector2.DOWN):
 	
@@ -107,7 +113,7 @@ func step(step_direction: Vector2 = Vector2.DOWN):
 			Global.game_manager.remove_from_free_floor_positions(global_position + step_direction * cell_size_x)	
 					
 			var step_time: float = Global.game_manager.game_settings["stray_step_time"]
-			step_tween.interpolate_property(self ,"position", position, intended_position, step_time, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+			step_tween.interpolate_property(self ,"position", position, intended_position, step_time, Tween.TRANS_QUINT, Tween.EASE_IN_OUT)
 			step_tween.start()
 			
 		else:
@@ -153,7 +159,7 @@ func end_move():
 	global_position = Global.snap_to_nearest_grid(global_position)
 	
 	if not previous_position == Vector2.ZERO:
-		Global.game_manager.add_to_free_floor_positions(previous_position)	
+		Global.game_manager.add_to_free_floor_positions(previous_position)
 	
 	
 # UTILITI ------------------------------------------------------------------------------------------------------
@@ -208,7 +214,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			position_indicator.modulate.a = 0
 		# če umrje
 		else: 
-			collision_shape.set_deferred("disabled", true) # OPT ... se podvaja
+#			collision_shape.set_deferred("disabled", true)
 			# odstrani barve iz huda in igre
 			Global.game_manager.on_stray_die(self)
 			call_deferred("queue_free")
@@ -217,7 +223,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 func _on_Stray_tree_exiting() -> void:
 	
 	Global.game_manager.strays_in_game_count = - 1
-	Global.game_manager.add_to_free_floor_positions(global_position)	
+	Global.game_manager.add_to_free_floor_positions(global_position)
 
 
 func _on_Stray_tree_entered() -> void:

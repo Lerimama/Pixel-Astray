@@ -82,8 +82,8 @@ func open_from_game(finished_game: int): # select_game screen ... kliče main.gd
 	# fokus glede na končano igro
 	if finished_game == Profiles.Games.CLEANER:
 		Global.focus_without_sfx($SelectGame/GamesMenu/Cleaner/CleanerBtn)
-	elif finished_game == Profiles.Games.HUNTER:
-		Global.focus_without_sfx($SelectGame/GamesMenu/Unbeatables/HunterBtn)
+	elif finished_game == Profiles.Games.STALKER:
+		Global.focus_without_sfx($SelectGame/GamesMenu/Unbeatables/StalkerBtn)
 	elif finished_game == Profiles.Games.DEFENDER:
 		Global.focus_without_sfx($SelectGame/GamesMenu/Unbeatables/DefenderBtn)
 	elif finished_game == Profiles.Games.SWEEPER:

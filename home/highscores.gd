@@ -25,7 +25,7 @@ onready var halls: Array = [
 	$ScrollContainer/ScrollContent/Erasers/TabContainer/MHall, 
 	$ScrollContainer/ScrollContent/Erasers/TabContainer/LHall, 
 	$ScrollContainer/ScrollContent/Erasers/TabContainer/XLHall,
-	$ScrollContainer/ScrollContent/Unbeatables/TabContainer/HunterHall, 
+	$ScrollContainer/ScrollContent/Unbeatables/TabContainer/StalkerHall, 
 	$ScrollContainer/ScrollContent/Unbeatables/TabContainer/DefenderHall, 
 	]
 onready var all_sweeper_halls: Array = [ # na ready jih dodam med vse halls
@@ -53,7 +53,7 @@ onready var all_tables_game_data: Array = [
 	Profiles.game_data_eraser_m,
 	Profiles.game_data_eraser_l,
 	Profiles.game_data_eraser_xl,
-	Profiles.game_data_hunter,
+	Profiles.game_data_stalker,
 	Profiles.game_data_defender,
 	]
 		
@@ -126,7 +126,9 @@ func _ready() -> void:
 	#	update_scores_btn.add_to_group(Global.group_menu_confirm_btns)
 	
 	# naberem tabele in setam unselected stanje
+	
 	for hall in halls:
+		printt("hall", hall)
 		var hall_table_local: Control = hall.get_node("TablePair/HighscoreTable")
 		var hall_table_global: Control = hall.get_node("TablePair/HighscoreTableGlobal")
 		# novo hall ime, ker se vidi v tabih

@@ -17,8 +17,8 @@ func step(step_direction: Vector2 = Vector2.DOWN):
 			previous_position = global_position
 			get_parent().remove_from_free_floor_positions(global_position + step_direction * cell_size_x)	
 
-			var step_time: float = 0.2
-			step_tween.interpolate_property(self ,"position", position, intended_position, step_time, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+			var step_time: float = Profiles.game_settings["stray_step_time"]
+			step_tween.interpolate_property(self ,"position", position, intended_position, step_time, Tween.TRANS_QUINT, Tween.EASE_IN_OUT)
 			step_tween.start()
 
 		else:
