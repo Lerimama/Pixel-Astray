@@ -77,7 +77,6 @@ region = Rect2( 146, 224, 6, 10 )
 [sub_resource type="AtlasTexture" id=475]
 atlas = ExtResource( 6 )
 region = Rect2( 138, 22, 22, 22 )
-margin = Rect2( -2, 0, 0, 0 )
 
 [node name="Instructions" type="Control"]
 anchor_right = 1.0
@@ -752,10 +751,20 @@ margin_left = 140.0
 margin_right = 162.0
 texture = SubResource( 475 )
 
+[node name="EnterButton" type="Button" parent="ActionHint/Jp" index="0"]
+margin_left = -144.0
+margin_right = 104.0
+margin_bottom = 26.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+enabled_focus_mode = 0
+
 [node name="Label3" parent="ActionHint" index="4"]
 margin_left = 170.0
 margin_right = 237.0
 text = "to start"
+
+[connection signal="pressed" from="ActionHint/Jp/EnterButton" to="." method="_on_EnterButton_pressed"]
 
 [editable path="_help_gui_guide"]
 [editable path="_help_gui_guide/ActionHint"]

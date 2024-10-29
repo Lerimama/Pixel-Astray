@@ -394,3 +394,10 @@ func _on_TileMap_completed(stray_random_positions: Array, stray_positions: Array
 		var p1_selected_cell_index: int = randi() % int(random_range) + 1
 		player_start_positions.append(random_spawn_positions[p1_selected_cell_index])
 		random_spawn_positions.remove(p1_selected_cell_index)
+
+
+
+func _on_EscButton_pressed() -> void:
+	
+	if skip_intro.visible and skip_intro.modulate.a == 1: #_temp
+		finish_intro()

@@ -1029,6 +1029,15 @@ margin_left = 140.0
 margin_right = 162.0
 texture = SubResource( 228 )
 
+[node name="EscButton" type="Button" parent="Text/ActionHint/Jp" index="0"]
+margin_left = -154.0
+margin_top = -1.0
+margin_right = 149.0
+margin_bottom = 28.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+enabled_focus_mode = 0
+
 [node name="Label3" parent="Text/ActionHint" index="4"]
 margin_left = 170.0
 margin_right = 269.0
@@ -1046,6 +1055,7 @@ anims/intro_running_long = SubResource( 227 )
 environment = ExtResource( 1 )
 
 [connection signal="tilemap_completed" from="IntroTileMap" to="." method="_on_TileMap_completed"]
+[connection signal="pressed" from="Text/ActionHint/Jp/EscButton" to="." method="_on_EscButton_pressed"]
 [connection signal="timeout" from="StrayStepTimer" to="." method="_on_StrayStepTimer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 

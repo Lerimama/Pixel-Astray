@@ -238,7 +238,7 @@ var default_highscore_line_name: String = "10Characters" # se uporabi, če še n
 var camera_shake_on: bool = true
 var tutorial_music_track_index: int = 1
 var tutorial_mode: bool = true
-var html5_mode: bool = false # skrije ExitGameBtn v home, GO in pavzi
+var html5_mode: bool = true # skrije ExitGameBtn v home, GO in pavzi
 var throttler_msec_threshold: int = 5 # koliko msec je še na voljo v frejmu, ko raje premaknem na naslednji frame
 
 # lootlocker

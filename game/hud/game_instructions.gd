@@ -66,3 +66,9 @@ func get_instructions_content(current_highscore: int = 0, current_highscore_owne
 				prop_label.text = current_game_data["%s" % prop.name] # ... jo napolni z njeno vsebino
 			else:
 				prop.hide()
+
+
+func _on_EnterButton_pressed() -> void:
+	print("JES")
+	Global.hud.confirm_players_ready() #_temp
+	

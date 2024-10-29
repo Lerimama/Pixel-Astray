@@ -160,13 +160,15 @@ VSeparator/styles/separator = SubResource( 321 )
 [sub_resource type="AtlasTexture" id=190]
 atlas = ExtResource( 3 )
 region = Rect2( 138, 66, 22, 22 )
-margin = Rect2( -2, 0, 0, 0 )
 
 [node name="EscHint" type="HBoxContainer"]
 margin_right = 234.0
 margin_bottom = 22.0
 theme = ExtResource( 2 )
 custom_constants/separation = 8
+__meta__ = {
+"_edit_vertical_guides_": [ -160.0 ]
+}
 
 [node name="Label" type="Label" parent="."]
 margin_top = 2.0
