@@ -140,7 +140,7 @@ func set_gameover_title():
 			#			if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 			#				selected_gameover_title = gameover_title_fail
 			#				gameover_subtitle.text = "You lost all of your momentum!"
-			if Global.game_manager.game_data["game"] == Profiles.Games.STALKER:
+			if Global.game_manager.game_data["game"] == Profiles.Games.HUNTER:
 				gameover_subtitle.text = "Your screen is drowning in colors!"
 			elif Global.game_manager.game_data["game"] == Profiles.Games.DEFENDER:
 				gameover_subtitle.text = "You were overpowered!"

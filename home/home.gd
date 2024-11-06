@@ -68,6 +68,7 @@ func open_with_intro(): # kliče main.gd -> home_in_intro()
 	
 func open_without_intro(): # bugfixing ... kliče main.gd -> home_in_no_intro()
 	intro.finish_intro() # intro signal na koncu kliče menu_in()
+	yield(get_tree().create_timer(1), "timeout") # počaka, da se vsi spawnajo
 
 
 func open_from_game(finished_game: int): # select_game screen ... kliče main.gd -> home_in_from_game()
@@ -82,7 +83,7 @@ func open_from_game(finished_game: int): # select_game screen ... kliče main.gd
 	# fokus glede na končano igro
 	if finished_game == Profiles.Games.CLEANER:
 		Global.focus_without_sfx($SelectGame/GamesMenu/Cleaner/CleanerBtn)
-	elif finished_game == Profiles.Games.STALKER:
+	elif finished_game == Profiles.Games.HUNTER:
 		Global.focus_without_sfx($SelectGame/GamesMenu/Unbeatables/StalkerBtn)
 	elif finished_game == Profiles.Games.DEFENDER:
 		Global.focus_without_sfx($SelectGame/GamesMenu/Unbeatables/DefenderBtn)
@@ -145,7 +146,7 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 			if not animation_reversed(Screens.HIGHSCORES):
 				current_screen = Screens.HIGHSCORES
 				current_esc_hint = $Highscores/EscHint
-				Global.focus_without_sfx($Highscores.selected_tab_btn)
+				Global.focus_without_sfx($Highscores.update_scores_btn)
 		"select_level":
 			if not animation_reversed(Screens.SELECT_LEVEL):
 				current_screen = Screens.SELECT_LEVEL

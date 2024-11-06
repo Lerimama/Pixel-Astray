@@ -1,0 +1,16 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+
+[deps]
+
+files=[ "res://jsontest.item.translation", "res://jsontest.item.translation" ]
+
+source_file="res://jsontest.csv"
+dest_files=[ "res://jsontest.item.translation", "res://jsontest.item.translation" ]
+
+[params]
+
+compress=true
+delimiter=0

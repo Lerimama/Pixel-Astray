@@ -1416,7 +1416,7 @@ func _on_ReburstingTimer_timeout() -> void:
 	
 func _on_TouchTimer_timeout() -> void: 
 
-	# STALKER
+	# HUNTER
 	detect_touch() # za GO
 	
 		

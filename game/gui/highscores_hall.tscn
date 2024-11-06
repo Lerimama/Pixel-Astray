@@ -15,48 +15,38 @@ grow_end = 0.0
 thickness = 2
 
 [node name="HighscoresHall" type="Control"]
-margin_right = 656.0
-margin_bottom = 368.0
-rect_min_size = Vector2( 656, 364 )
+margin_right = 280.0
+margin_bottom = 376.0
+rect_min_size = Vector2( 280, 320 )
 
 [node name="Undi" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Edge" type="Panel" parent="Undi"]
+[node name="EdgeSelected" type="Panel" parent="Undi"]
 anchor_right = 1.0
 margin_top = 12.0
 margin_bottom = 12.0
 custom_styles/panel = SubResource( 524 )
 
-[node name="EdgeSelected" type="Panel" parent="Undi"]
+[node name="Edge" type="Panel" parent="Undi"]
+visible = false
 anchor_right = 1.0
 margin_top = 12.0
 margin_bottom = 12.0
 custom_styles/panel = SubResource( 522 )
 
-[node name="TablePair" type="HBoxContainer" parent="."]
-margin_left = 64.0
-margin_top = 34.0
-margin_right = 576.0
-margin_bottom = 332.0
+[node name="HighscoreTableGlobal" parent="." instance=ExtResource( 1 )]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -114.0
+margin_top = 22.0
+margin_right = 114.0
+margin_bottom = -32.0
 grow_horizontal = 2
-custom_constants/separation = 48
-
-[node name="HighscoreTable" parent="TablePair" instance=ExtResource( 1 )]
-margin_top = 0.0
-margin_right = 208.0
-margin_bottom = 298.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="HighscoreTableGlobal" parent="TablePair" instance=ExtResource( 1 )]
-margin_left = 256.0
-margin_top = 0.0
-margin_right = 464.0
-margin_bottom = 298.0
+rect_min_size = Vector2( 0, 0 )
 __meta__ = {
 "_edit_horizontal_guides_": [ 296.0 ],
 "_edit_vertical_guides_": [ -128.0 ]

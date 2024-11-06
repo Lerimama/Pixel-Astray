@@ -9,22 +9,23 @@ onready var game_scene_path: String = Profiles.current_game_data["game_scene_pat
 
 func _input(event: InputEvent) -> void:
 	
-	if Input.is_action_just_pressed("r"):
-		var all_nodes = Global.get_all_nodes_in_node(self)
-		
-		for node in all_nodes:
-			if node.name[0] == "_" and node.name[1] == "_":
-				printt("_NODE",node.name)
-		
-		print("All nodes in MAIN scene",  all_nodes.size())
+	if OS.is_debug_build():  # debug mode
+		if Input.is_action_just_pressed("r"):
+			var all_nodes = Global.get_all_nodes_in_node(self)
+			
+			for node in all_nodes:
+				if node.name[0] == "_" and node.name[1] == "_":
+					printt("_NODE",node.name)
+			
+			print("All nodes in MAIN scene",  all_nodes.size())
 	
 			
 func _ready() -> void:
 
 	Global.main_node = self
 	
-	home_in_intro()
-#	home_in_no_intro()
+#	home_in_intro()
+	home_in_no_intro()
 #	game_in()
 
 			
@@ -44,7 +45,10 @@ func home_in_no_intro():
 	Global.spawn_new_scene(home_scene_path, self)
 	Global.current_scene.open_without_intro()
 	
+#	yield(get_tree().create_timer(0.7), "timeout") # da se title naštima
+	
 	Global.current_scene.modulate = Color.black
+	
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(Global.current_scene, "modulate", Color.white, fade_time)
 

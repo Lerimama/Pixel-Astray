@@ -242,7 +242,7 @@ func _on_XXLBtn_pressed() -> void:
 	
 func _on_StalkerBtn_pressed() -> void:
 	
-	play_selected_game(Profiles.Games.STALKER)
+	play_selected_game(Profiles.Games.HUNTER)
 	
 	
 func _on_DefenderBtn_pressed() -> void:

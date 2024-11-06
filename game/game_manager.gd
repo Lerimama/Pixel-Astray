@@ -48,22 +48,23 @@ onready var StrayPixel: PackedScene = preload("res://game/pixel/stray.tscn")
 onready var PlayerPixel: PackedScene = preload("res://game/pixel/player.tscn")
 onready var respawn_timer: Timer = $"../RespawnTimer"
 
-# bugfixing
+# debug
 var FreePositionIndicator: PackedScene = preload("res://game/pixel/free_position_indicator.tscn")		
 var free_position_indicators: Array
 
 
 func _unhandled_input(event: InputEvent) -> void:
-
-	# bugfixing
-	#	if Input.is_action_just_pressed("no1"):
-	#		game_over(GameoverReason.LIFE)
-	#	if Input.is_action_just_pressed("no2"):
-	#		game_over(GameoverReason.TIME)
-	#	if Input.is_action_just_pressed("no3"):
-	#		game_over(GameoverReason.CLEANED)
-	#	if Input.is_action_just_pressed("l"):
-	#		upgrade_level()	
+	
+	
+	if OS.is_debug_build():  # debug mode
+		if Input.is_action_just_pressed("no1"):
+			game_over(GameoverReason.LIFE)
+		if Input.is_action_just_pressed("no2"):
+			game_over(GameoverReason.TIME)
+		if Input.is_action_just_pressed("no3"):
+			game_over(GameoverReason.CLEANED)
+		if Input.is_action_just_pressed("l"):
+			upgrade_level()	
 
 	if Input.is_action_just_pressed("hint") and game_data["game"] == Profiles.Games.SWEEPER:
 		Global.current_tilemap.solution_line.visible = not Global.current_tilemap.solution_line.visible
@@ -408,7 +409,7 @@ func create_strays(strays_to_spawn_count: int):
 			
 			# je white? ... če pozicija bela in, če je index večji od planiranega deleža belih
 			var turn_to_white: bool = false
-			if not game_data["game"] == Profiles.Games.THE_DUEL and not game_data["game"] == Profiles.Games.STALKER:
+			if not game_data["game"] == Profiles.Games.THE_DUEL and not game_data["game"] == Profiles.Games.HUNTER:
 				var spawn_white_spawn_limit: int = strays_to_spawn_count - round(strays_to_spawn_count * spawn_white_stray_part)
 				if wall_spawn_positions.has(selected_cell_position) or stray_index > spawn_white_spawn_limit: 
 					turn_to_white = true
@@ -666,6 +667,7 @@ func add_to_free_floor_positions(position_to_add: Vector2):
 	# dodam med free, če je pozicija med original tlemi in, še ni dodana med free
 	if Global.current_tilemap.all_floor_tiles_global_positions.has(position_to_add_on_grid) and not free_floor_positions.has(position_to_add_on_grid):
 		free_floor_positions.append(position_to_add_on_grid)
+		
 		# bugfixing ... dodam indikator na poziciji, če je freepos prižgan
 		if Global.game_arena.free_positions_grid.visible: # bugfixing
 			spawn_free_position_indicator(position_to_add_on_grid)

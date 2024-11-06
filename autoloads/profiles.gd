@@ -1,7 +1,7 @@
 extends Node
 
 
-enum Games {CLEANER, ERASER_XS, ERASER_S, ERASER_M, ERASER_L, ERASER_XL, STALKER, DEFENDER, SWEEPER, THE_DUEL, SHOWCASE}
+enum Games {CLEANER, ERASER_XS, ERASER_S, ERASER_M, ERASER_L, ERASER_XL, HUNTER, DEFENDER, SWEEPER, THE_DUEL, SHOWCASE}
 enum HighscoreTypes {NONE, POINTS, TIME}
 
 var default_player_stats: Dictionary = {
@@ -134,10 +134,10 @@ var game_data_eraser_xl: Dictionary = {
 	"Prop2" : "Be quick and efficient\nto beat the current\nrecord time!",
 	# 15min / 300 straysov
 }
-var game_data_stalker: Dictionary = { 
-	"game": Games.STALKER, # key igre je key lootlocker tabele
+var game_data_hunter: Dictionary = { 
+	"game": Games.HUNTER, # key igre je key lootlocker tabele
 	"highscore_type": HighscoreTypes.POINTS,
-	"game_name": "Stalker",
+	"game_name": "Hunter",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_stalker.tscn",
 	# pre-game instructons
@@ -238,14 +238,14 @@ var default_highscore_line_name: String = "10Characters" # se uporabi, če še n
 var camera_shake_on: bool = true
 var tutorial_music_track_index: int = 1
 var tutorial_mode: bool = true
-var html5_mode: bool = true # skrije ExitGameBtn v home, GO in pavzi
 var throttler_msec_threshold: int = 5 # koliko msec je še na voljo v frejmu, ko raje premaknem na naslednji frame
+var html5_mode: bool = false # skrije ExitGameBtn v home, GO in pavzi
 
 # lootlocker
 var lootlocker_game_key: String = "dev_5a1cab01df0641c0a5f76450761ce292"
 var lootlocker_game_version: String = "0.92"
-var lootlocker_development_mode: bool = true
-var global_highscores_count: int = 99 # če bi blo več, ne paše na %02d 	
+var lootlocker_development_mode: bool = false
+var global_highscores_count: int = 99 # če bi blo več, ne paše na %02d 	 b 
 var local_highscores_count: int = 10
 
 	
@@ -259,7 +259,7 @@ func _ready() -> void:
 #	var debug_game = Games.ERASER_M
 #	var debug_game = Games.ERASER_L
 #	var debug_game = Games.ERASER_XL
-#	var debug_game = Games.STALKER
+#	var debug_game = Games.HUNTER
 #	var debug_game = Games.DEFENDER
 #	var debug_game = Games.SWEEPER
 #	var debug_game = Games.THE_DUEL
@@ -305,8 +305,8 @@ func set_game_data(selected_game):
 			game_settings["game_time_limit"] = 1200
 			game_settings["create_strays_count"] = 400
 			game_settings["spawn_white_stray_part"] = 0.11
-		Games.STALKER: 
-			current_game_data = game_data_stalker.duplicate()
+		Games.HUNTER: 
+			current_game_data = game_data_hunter.duplicate()
 			game_settings["position_indicators_show_limit"] = 0
 			#
 			game_settings["respawn_strays_count_range"] = [2, 8]

@@ -524,14 +524,14 @@ OptionButton/styles/pressed = SubResource( 495 )
 Panel/styles/panel = SubResource( 496 )
 VSeparator/styles/separator = SubResource( 497 )
 
-[sub_resource type="StyleBoxLine" id=524]
-color = Color( 0.196078, 0.196078, 0.196078, 1 )
+[sub_resource type="StyleBoxLine" id=531]
+color = Color( 0.996078, 0.976471, 0.545098, 1 )
 grow_begin = 0.0
 grow_end = 0.0
 thickness = 2
 
-[sub_resource type="StyleBoxLine" id=522]
-color = Color( 1, 1, 1, 1 )
+[sub_resource type="StyleBoxLine" id=532]
+color = Color( 0.196078, 0.196078, 0.196078, 1 )
 grow_begin = 0.0
 grow_end = 0.0
 thickness = 2
@@ -1173,7 +1173,7 @@ tracks/5/keys = {
 [node name="Home" type="Node2D"]
 script = ExtResource( 5 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 656.0, -496.0, 144.0, -448.0, 1128.0, 816.0, 752.0, 96.0, 160.0, 200.0, 312.0, -344.0, -80.0 ],
+"_edit_horizontal_guides_": [ 656.0, -496.0, 144.0, -420.0, 1128.0, 816.0, 752.0, 96.0, 160.0, 200.0, 312.0, -344.0, -32.0 ],
 "_edit_vertical_guides_": [ 64.0, 1280.0, 1216.0, 640.0, 2048.0, -320.0, 1024.0, 848.0, 1304.0, 1456.0 ]
 }
 
@@ -1491,7 +1491,6 @@ custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
 text = "tresi"
 
 [node name="Menu" type="HBoxContainer" parent="HomeScreen"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1504,6 +1503,9 @@ grow_horizontal = 2
 theme = ExtResource( 15 )
 custom_constants/separation = 32
 alignment = 1
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="SelectGameBtn" type="Button" parent="HomeScreen/Menu"]
 margin_left = 5.0
@@ -2410,353 +2412,272 @@ custom_fonts/font = ExtResource( 4 )
 text = "Screens Of Fame"
 align = 1
 
-[node name="TabBtns" type="HBoxContainer" parent="Highscores"]
+[node name="ScrollContent" type="HBoxContainer" parent="Highscores"]
 margin_left = 64.0
-margin_top = 128.0
+margin_top = 144.0
 margin_right = 1216.0
-margin_bottom = 176.0
-rect_pivot_offset = Vector2( -144, 24 )
+margin_bottom = 576.0
 custom_constants/separation = 8
 
-[node name="CleanerTab" type="Button" parent="Highscores/TabBtns"]
+[node name="Cleaner" type="Control" parent="Highscores/ScrollContent"]
+margin_right = 280.0
+margin_bottom = 432.0
+rect_min_size = Vector2( 280, 392 )
+size_flags_vertical = 3
+
+[node name="Undi" type="ColorRect" parent="Highscores/ScrollContent/Cleaner"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="Edge" type="Panel" parent="Highscores/ScrollContent/Cleaner/Undi"]
+anchor_right = 1.0
+custom_styles/panel = SubResource( 531 )
+
+[node name="CleanerHall" parent="Highscores/ScrollContent/Cleaner" instance=ExtResource( 31 )]
+margin_top = 50.0
+margin_bottom = 432.0
+
+[node name="HighscoreTableGlobal" parent="Highscores/ScrollContent/Cleaner/CleanerHall" index="1"]
+margin_bottom = -8.0
+
+[node name="EdgeMid" type="Panel" parent="Highscores/ScrollContent/Cleaner"]
+margin_top = 56.0
 margin_right = 282.0
-margin_bottom = 48.0
-focus_neighbour_left = NodePath("../EraserTab")
-focus_neighbour_top = NodePath("../../UpdateScoresBtn")
-mouse_default_cursor_shape = 2
+margin_bottom = 56.0
+rect_min_size = Vector2( 282, 0 )
 size_flags_horizontal = 3
-text = "CLEANER"
-__meta__ = {
-"_editor_description_": ""
-}
+custom_styles/panel = SubResource( 532 )
 
-[node name="Undi" type="ColorRect" parent="Highscores/TabBtns/CleanerTab"]
-show_behind_parent = true
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
-
-[node name="Edge" type="Panel" parent="Highscores/TabBtns/CleanerTab"]
-visible = false
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-custom_styles/panel = SubResource( 524 )
-
-[node name="EdgeSelected" type="Panel" parent="Highscores/TabBtns/CleanerTab"]
-visible = false
-modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -2.0
-margin_bottom = -2.0
-mouse_filter = 2
-custom_styles/panel = SubResource( 522 )
-
-[node name="SweeperTab" type="Button" parent="Highscores/TabBtns"]
-margin_left = 290.0
-margin_right = 572.0
-margin_bottom = 48.0
-focus_neighbour_top = NodePath("../../BackBtn")
-mouse_default_cursor_shape = 2
-size_flags_horizontal = 3
-text = "SWEPPERS"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Undi" type="ColorRect" parent="Highscores/TabBtns/SweeperTab"]
-show_behind_parent = true
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
-
-[node name="Edge" type="Panel" parent="Highscores/TabBtns/SweeperTab"]
-visible = false
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-custom_styles/panel = SubResource( 524 )
-
-[node name="EdgeSelected" type="Panel" parent="Highscores/TabBtns/SweeperTab"]
-visible = false
-modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -2.0
-margin_bottom = -2.0
-mouse_filter = 2
-custom_styles/panel = SubResource( 522 )
-
-[node name="UnbeatableTab" type="Button" parent="Highscores/TabBtns"]
-margin_left = 580.0
-margin_right = 862.0
-margin_bottom = 48.0
-focus_neighbour_top = NodePath("../../UpdateScoresBtn")
-mouse_default_cursor_shape = 2
-size_flags_horizontal = 3
-text = "UNBEATABLES"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Undi" type="ColorRect" parent="Highscores/TabBtns/UnbeatableTab"]
-show_behind_parent = true
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
-
-[node name="Edge" type="Panel" parent="Highscores/TabBtns/UnbeatableTab"]
-visible = false
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-custom_styles/panel = SubResource( 524 )
-
-[node name="EdgeSelected" type="Panel" parent="Highscores/TabBtns/UnbeatableTab"]
-visible = false
-modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -2.0
-margin_bottom = -2.0
-mouse_filter = 2
-custom_styles/panel = SubResource( 522 )
-
-[node name="EraserTab" type="Button" parent="Highscores/TabBtns"]
-margin_left = 870.0
-margin_right = 1152.0
-margin_bottom = 48.0
-focus_neighbour_top = NodePath("../../BackBtn")
-focus_neighbour_right = NodePath("../CleanerTab")
-mouse_default_cursor_shape = 2
-size_flags_horizontal = 3
-text = "ERASERS"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Undi" type="ColorRect" parent="Highscores/TabBtns/EraserTab"]
-show_behind_parent = true
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
-
-[node name="Edge" type="Panel" parent="Highscores/TabBtns/EraserTab"]
-visible = false
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_styles/panel = SubResource( 524 )
-
-[node name="EdgeSelected" type="Panel" parent="Highscores/TabBtns/EraserTab"]
-visible = false
-modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -2.0
-margin_bottom = -2.0
-custom_styles/panel = SubResource( 522 )
-
-[node name="ScrollContainer" type="ScrollContainer" parent="Highscores"]
-margin_left = 64.0
-margin_top = 184.0
-margin_right = 1216.0
-margin_bottom = 600.0
-mouse_filter = 2
-scroll_vertical_enabled = false
-
-[node name="ScrollContent" type="HBoxContainer" parent="Highscores/ScrollContainer"]
-margin_right = 2648.0
-margin_bottom = 408.0
-custom_constants/separation = 8
-
-[node name="Cleaner" type="VBoxContainer" parent="Highscores/ScrollContainer/ScrollContent"]
-margin_right = 656.0
-margin_bottom = 408.0
-rect_min_size = Vector2( 656, 392 )
-custom_constants/separation = 0
-
-[node name="HallTitle" type="Control" parent="Highscores/ScrollContainer/ScrollContent/Cleaner"]
-margin_right = 656.0
-margin_bottom = 44.0
-rect_min_size = Vector2( 0, 44 )
-
-[node name="Undi" type="ColorRect" parent="Highscores/ScrollContainer/ScrollContent/Cleaner/HallTitle"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
-
-[node name="Title" type="Label" parent="Highscores/ScrollContainer/ScrollContent/Cleaner/HallTitle"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -72.0
-margin_top = -22.0
-margin_right = 72.0
-text = "Cleaner"
+[node name="Title" type="Label" parent="Highscores/ScrollContent/Cleaner"]
+margin_left = 32.0
+margin_top = 22.0
+margin_right = 260.0
+margin_bottom = 49.0
+rect_min_size = Vector2( 28, 27 )
+size_flags_vertical = 0
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+text = "Top Cleaners"
 align = 1
-valign = 1
 
-[node name="CleanerHall" parent="Highscores/ScrollContainer/ScrollContent/Cleaner" instance=ExtResource( 31 )]
-margin_top = 44.0
-margin_bottom = 408.0
+[node name="Sweepers" type="Control" parent="Highscores/ScrollContent"]
+margin_left = 288.0
+margin_right = 568.0
+margin_bottom = 432.0
+rect_min_size = Vector2( 280, 392 )
+size_flags_vertical = 3
 
-[node name="Sweepers" type="Control" parent="Highscores/ScrollContainer/ScrollContent"]
-margin_left = 664.0
-margin_right = 1320.0
-margin_bottom = 408.0
-rect_min_size = Vector2( 656, 392 )
-
-[node name="Undi" type="ColorRect" parent="Highscores/ScrollContainer/ScrollContent/Sweepers"]
+[node name="Undi" type="ColorRect" parent="Highscores/ScrollContent/Sweepers"]
 anchor_right = 1.0
-margin_bottom = 56.0
+anchor_bottom = 1.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="TabContainer" type="TabContainer" parent="Highscores/ScrollContainer/ScrollContent/Sweepers"]
+[node name="Edge" type="Panel" parent="Highscores/ScrollContent/Sweepers/Undi"]
 anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-mouse_default_cursor_shape = 2
-__meta__ = {
-"_editor_description_": ""
-}
+custom_styles/panel = SubResource( 531 )
 
-[node name="Sweeper1Hall" parent="Highscores/ScrollContainer/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = 44.0
-margin_right = 0.0
-margin_bottom = 0.0
-
-[node name="Sweeper2Hall" parent="Highscores/ScrollContainer/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
-visible = false
-
-[node name="Sweeper3Hall" parent="Highscores/ScrollContainer/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
-visible = false
-
-[node name="Sweeper4Hall" parent="Highscores/ScrollContainer/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
-visible = false
-
-[node name="Sweeper5Hall" parent="Highscores/ScrollContainer/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
-visible = false
-
-[node name="Sweeper6Hall" parent="Highscores/ScrollContainer/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
-visible = false
-
-[node name="Sweeper7Hall" parent="Highscores/ScrollContainer/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
-visible = false
-
-[node name="Sweeper8Hall" parent="Highscores/ScrollContainer/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
-visible = false
-
-[node name="Sweeper9Hall" parent="Highscores/ScrollContainer/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
-visible = false
-
-[node name="Sweeper10Hall" parent="Highscores/ScrollContainer/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
-visible = false
-
-[node name="Sweeper11Hall" parent="Highscores/ScrollContainer/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
-visible = false
-
-[node name="Sweeper12Hall" parent="Highscores/ScrollContainer/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
-visible = false
-
-[node name="Sweeper13Hall" parent="Highscores/ScrollContainer/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
-visible = false
-
-[node name="Sweeper14Hall" parent="Highscores/ScrollContainer/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
-visible = false
-
-[node name="Sweeper15Hall" parent="Highscores/ScrollContainer/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
-visible = false
-
-[node name="Sweeper16Hall" parent="Highscores/ScrollContainer/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
-visible = false
-
-[node name="Unbeatables" type="Control" parent="Highscores/ScrollContainer/ScrollContent"]
-margin_left = 1328.0
-margin_right = 1984.0
-margin_bottom = 408.0
-rect_min_size = Vector2( 656, 392 )
+[node name="Edge2" type="Panel" parent="Highscores/ScrollContent/Sweepers/Undi"]
+margin_top = 56.0
+margin_right = 282.0
+margin_bottom = 56.0
+rect_min_size = Vector2( 282, 0 )
 size_flags_horizontal = 3
+custom_styles/panel = SubResource( 532 )
 
-[node name="Undi" type="ColorRect" parent="Highscores/ScrollContainer/ScrollContent/Unbeatables"]
-anchor_right = 1.0
-margin_bottom = 56.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
-
-[node name="TabContainer" type="TabContainer" parent="Highscores/ScrollContainer/ScrollContent/Unbeatables"]
+[node name="TabContainer" type="TabContainer" parent="Highscores/ScrollContent/Sweepers"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-mouse_default_cursor_shape = 2
-
-[node name="StalkerHall" parent="Highscores/ScrollContainer/ScrollContent/Unbeatables/TabContainer" instance=ExtResource( 31 )]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = 44.0
-margin_right = 0.0
-margin_bottom = 0.0
-
-[node name="DefenderHall" parent="Highscores/ScrollContainer/ScrollContent/Unbeatables/TabContainer" instance=ExtResource( 31 )]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = 44.0
-margin_right = 0.0
-margin_bottom = 0.0
-
-[node name="Erasers" type="Control" parent="Highscores/ScrollContainer/ScrollContent"]
-margin_left = 1992.0
-margin_right = 2648.0
-margin_bottom = 408.0
-rect_min_size = Vector2( 656, 392 )
-
-[node name="Undi" type="ColorRect" parent="Highscores/ScrollContainer/ScrollContent/Erasers"]
-anchor_right = 1.0
-margin_bottom = 56.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
-
-[node name="TabContainer" type="TabContainer" parent="Highscores/ScrollContainer/ScrollContent/Erasers"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+margin_top = 48.0
 grow_horizontal = 2
 mouse_default_cursor_shape = 2
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="XSHall" parent="Highscores/ScrollContainer/ScrollContent/Erasers/TabContainer" instance=ExtResource( 31 )]
+[node name="Sweeper1Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 44.0
 margin_right = 0.0
 margin_bottom = 0.0
 
-[node name="SHall" parent="Highscores/ScrollContainer/ScrollContent/Erasers/TabContainer" instance=ExtResource( 31 )]
+[node name="Sweeper2Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 
-[node name="MHall" parent="Highscores/ScrollContainer/ScrollContent/Erasers/TabContainer" instance=ExtResource( 31 )]
+[node name="Sweeper3Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 
-[node name="LHall" parent="Highscores/ScrollContainer/ScrollContent/Erasers/TabContainer" instance=ExtResource( 31 )]
+[node name="Sweeper4Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 
-[node name="XLHall" parent="Highscores/ScrollContainer/ScrollContent/Erasers/TabContainer" instance=ExtResource( 31 )]
+[node name="Sweeper5Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
 visible = false
+
+[node name="Sweeper6Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+visible = false
+
+[node name="Sweeper7Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+visible = false
+
+[node name="Sweeper8Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+visible = false
+
+[node name="Sweeper9Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+visible = false
+
+[node name="Sweeper10Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+visible = false
+
+[node name="Sweeper11Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+visible = false
+
+[node name="Sweeper12Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+visible = false
+
+[node name="Sweeper13Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+visible = false
+
+[node name="Sweeper14Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+visible = false
+
+[node name="Sweeper15Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+visible = false
+
+[node name="Sweeper16Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+visible = false
+
+[node name="Title" type="Label" parent="Highscores/ScrollContent/Sweepers"]
+margin_left = 32.0
+margin_top = 22.0
+margin_right = 260.0
+margin_bottom = 49.0
+rect_min_size = Vector2( 28, 27 )
+size_flags_vertical = 0
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+text = "Top Sweepers"
+align = 1
+
+[node name="Unbeatables" type="Control" parent="Highscores/ScrollContent"]
+margin_left = 576.0
+margin_right = 864.0
+margin_bottom = 432.0
+rect_min_size = Vector2( 280, 392 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Undi" type="ColorRect" parent="Highscores/ScrollContent/Unbeatables"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="Edge" type="Panel" parent="Highscores/ScrollContent/Unbeatables/Undi"]
+anchor_right = 1.0
+custom_styles/panel = SubResource( 531 )
+
+[node name="Edge2" type="Panel" parent="Highscores/ScrollContent/Unbeatables/Undi"]
+margin_top = 56.0
+margin_right = 282.0
+margin_bottom = 56.0
+rect_min_size = Vector2( 282, 0 )
+size_flags_horizontal = 3
+custom_styles/panel = SubResource( 532 )
+
+[node name="TabContainer" type="TabContainer" parent="Highscores/ScrollContent/Unbeatables"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 48.0
+grow_horizontal = 2
+mouse_default_cursor_shape = 2
+
+[node name="StalkerHall" parent="Highscores/ScrollContent/Unbeatables/TabContainer" instance=ExtResource( 31 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 44.0
+margin_right = 0.0
+margin_bottom = 0.0
+
+[node name="DefenderHall" parent="Highscores/ScrollContent/Unbeatables/TabContainer" instance=ExtResource( 31 )]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 44.0
+margin_right = 0.0
+margin_bottom = 0.0
+
+[node name="Title" type="Label" parent="Highscores/ScrollContent/Unbeatables"]
+margin_left = 32.0
+margin_top = 22.0
+margin_right = 260.0
+margin_bottom = 49.0
+rect_min_size = Vector2( 28, 27 )
+size_flags_vertical = 0
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+text = "Top Sweepers"
+align = 1
+
+[node name="Erasers" type="Control" parent="Highscores/ScrollContent"]
+margin_left = 872.0
+margin_right = 1152.0
+margin_bottom = 432.0
+rect_min_size = Vector2( 280, 392 )
+size_flags_vertical = 3
+
+[node name="Undi" type="ColorRect" parent="Highscores/ScrollContent/Erasers"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+
+[node name="Edge" type="Panel" parent="Highscores/ScrollContent/Erasers/Undi"]
+anchor_right = 1.0
+custom_styles/panel = SubResource( 531 )
+
+[node name="Edge2" type="Panel" parent="Highscores/ScrollContent/Erasers/Undi"]
+margin_top = 56.0
+margin_right = 282.0
+margin_bottom = 56.0
+rect_min_size = Vector2( 282, 0 )
+size_flags_horizontal = 3
+custom_styles/panel = SubResource( 532 )
+
+[node name="TabContainer" type="TabContainer" parent="Highscores/ScrollContent/Erasers"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 48.0
+grow_horizontal = 2
+mouse_default_cursor_shape = 2
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="XSHall" parent="Highscores/ScrollContent/Erasers/TabContainer" instance=ExtResource( 31 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 44.0
+margin_right = 0.0
+margin_bottom = 0.0
+
+[node name="SHall" parent="Highscores/ScrollContent/Erasers/TabContainer" instance=ExtResource( 31 )]
+visible = false
+
+[node name="MHall" parent="Highscores/ScrollContent/Erasers/TabContainer" instance=ExtResource( 31 )]
+visible = false
+
+[node name="LHall" parent="Highscores/ScrollContent/Erasers/TabContainer" instance=ExtResource( 31 )]
+visible = false
+
+[node name="XLHall" parent="Highscores/ScrollContent/Erasers/TabContainer" instance=ExtResource( 31 )]
+visible = false
+
+[node name="Title" type="Label" parent="Highscores/ScrollContent/Erasers"]
+margin_left = 32.0
+margin_top = 22.0
+margin_right = 260.0
+margin_bottom = 49.0
+rect_min_size = Vector2( 28, 27 )
+size_flags_vertical = 0
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+text = "Top Sweepers"
+align = 1
 
 [node name="UpdateScoresBtn" type="TextureButton" parent="Highscores"]
 margin_left = 64.0
@@ -3309,13 +3230,9 @@ anims/settings = SubResource( 530 )
 [connection signal="toggled" from="Settings/InstructionsBtn" to="Settings" method="_on_InstructionsBtn_toggled"]
 [connection signal="pressed" from="Settings/ColorSchemeOptions/RandomizeBtn" to="Settings" method="_on_RandomizeBtn_pressed"]
 [connection signal="pressed" from="Settings/ColorSchemeOptions/ResetBtn" to="Settings" method="_on_ResetBtn_pressed"]
-[connection signal="pressed" from="Highscores/TabBtns/CleanerTab" to="Highscores" method="_on_CleanerBtn_pressed"]
-[connection signal="pressed" from="Highscores/TabBtns/SweeperTab" to="Highscores" method="_on_SweeperBtn_pressed"]
-[connection signal="pressed" from="Highscores/TabBtns/UnbeatableTab" to="Highscores" method="_on_UnbeatableBtn_pressed"]
-[connection signal="pressed" from="Highscores/TabBtns/EraserTab" to="Highscores" method="_on_EraserBtn_pressed"]
-[connection signal="tab_selected" from="Highscores/ScrollContainer/ScrollContent/Sweepers/TabContainer" to="Highscores" method="_on_Sweepers_tab_selected"]
-[connection signal="tab_selected" from="Highscores/ScrollContainer/ScrollContent/Unbeatables/TabContainer" to="Highscores" method="_on_Unbeatable_tab_selected"]
-[connection signal="tab_selected" from="Highscores/ScrollContainer/ScrollContent/Erasers/TabContainer" to="Highscores" method="_on_Eraser_tab_selected"]
+[connection signal="tab_selected" from="Highscores/ScrollContent/Sweepers/TabContainer" to="Highscores" method="_on_Sweepers_tab_selected"]
+[connection signal="tab_selected" from="Highscores/ScrollContent/Unbeatables/TabContainer" to="Highscores" method="_on_Unbeatable_tab_selected"]
+[connection signal="tab_selected" from="Highscores/ScrollContent/Erasers/TabContainer" to="Highscores" method="_on_Eraser_tab_selected"]
 [connection signal="focus_entered" from="Highscores/UpdateScoresBtn" to="Highscores" method="_on_UpdateScoresBtn_focus_entered"]
 [connection signal="focus_exited" from="Highscores/UpdateScoresBtn" to="Highscores" method="_on_UpdateScoresBtn_focus_exited"]
 [connection signal="pressed" from="Highscores/UpdateScoresBtn" to="Highscores" method="_on_UpdateScoresBtn_pressed"]
@@ -3325,6 +3242,7 @@ anims/settings = SubResource( 530 )
 [connection signal="meta_clicked" from="About/Resources/LinkLabel" to="About" method="_on_NameAuthor_meta_clicked"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 
+[editable path="Highscores/ScrollContent/Cleaner/CleanerHall"]
 [editable path="About/Shorts/ShortcutLine4"]
 [editable path="About/Shorts/ShortcutLine5"]
 [editable path="About/Shorts/ShortcutLine7"]
