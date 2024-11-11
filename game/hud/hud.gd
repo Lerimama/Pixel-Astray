@@ -72,7 +72,7 @@ onready var spectrum: HBoxContainer = $Footer/FooterLine/SpectrumHolder/ColorSpe
 onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
 onready var current_gamed_hs_type: int = Global.game_manager.game_data["highscore_type"]
 
-# bugfixing
+# debug
 onready var player_life: Label = $Life
 onready var player_energy: Label = $Energy
 
@@ -206,9 +206,9 @@ func set_current_highscore():
 	current_highscore_owner = current_highscore_line[1]
 	
 	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
-		highscore_label.text = "HS " + current_highscore_clock
+		highscore_label.text = "HS: " + current_highscore_clock + " by %s" % current_highscore_owner
 	elif current_gamed_hs_type == Profiles.HighscoreTypes.POINTS:
-		highscore_label.text = "HS " + str(current_highscore)
+		highscore_label.text = "HS: " + str(current_highscore) + " by %s" % current_highscore_owner
 
 
 func slide_in(): # kliče GM set_game()
@@ -300,7 +300,7 @@ func spawn_color_indicators(spawn_colors: Array): # kliče GM
 		if indicator_to_move_under_index:
 			spectrum.move_child(new_color_indicator, indicator_to_move_under_index)
 	
-		# new_color_indicator.get_node("IndicatorCount").text = str(indicator_index) # bugfixing ... zapis indexa
+		# new_color_indicator.get_node("IndicatorCount").text = str(indicator_index) # debug ... zapis indexa
 		all_color_indicators.append(new_color_indicator)
 
 
@@ -360,13 +360,13 @@ func _check_for_highscore(player_stats: Dictionary):
 	match current_gamed_hs_type:
 		Profiles.HighscoreTypes.POINTS:
 			if player_stats["player_points"] > current_highscore:
-				highscore_label.text = "New HS " + str(player_stats["player_points"])
+				highscore_label.text = "New HS: " + str(player_stats["player_points"]) + " by You"
 				highscore_label.modulate = Global.color_green
-			else:				
-				highscore_label.text = "HS " + str(current_highscore)
+			else:					
+				highscore_label.text = "HS: " + str(current_highscore) + " by %s" % current_highscore_owner
 				highscore_label.modulate = Global.color_hud_text
 		Profiles.HighscoreTypes.TIME: # logika je tu malo drugačna kot pri drugih dveh
-			highscore_label.text = "HS " + current_highscore_clock
+			highscore_label.text = "HS: " + current_highscore_clock + " by %s" % current_highscore_owner
 			highscore_label.modulate = Global.color_hud_text
 
 
@@ -392,7 +392,7 @@ func _on_stat_changed(stat_owner: Node, player_stats: Dictionary):
 			p2_skill_counter.text = "%d" % player_stats["skill_count"]
 			p2_steps_counter.text = "%d" % player_stats["cells_traveled"]
 
-	# bugfixing
+	# debug
 	player_life.text = "LIFE: %d" % player_stats["player_life"]
 	player_energy.text = "E: %d" % player_stats["player_energy"]
 

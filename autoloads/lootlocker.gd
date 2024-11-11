@@ -43,18 +43,55 @@ func publish_score_to_lootlocker(player_name: String, player_score: float, game_
 	yield(self, "request_completed")
 	
 	update_lootlocker_leaderboard(game_data)
+	
+	
+func publish_multiple_scores_to_lootlocker(unpublished_scorelines: Array, game_data: Dictionary, multiple: bool = true): # ko objaviš nov skor z novim imenom, se je potrebno pononvno povezat
+	
+	guest_is_authenticated = false
+		       
+	var game_leaderboard_key = Profiles.Games.keys()[game_data["game"]]
+	if game_data["game"] == Profiles.Games.SWEEPER: # OPT iskanja brez sweeperja
+		game_leaderboard_key = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"])
+	#	printt("LL publish key:", game_leaderboard_key)
+	
+	ConnectCover.cover_label_text = "Publishing ..."
+	
+#	var player_name = 
+	var player_score
+	
+	for scoreline in unpublished_scorelines:
+		
+		var scoreline_owner: String
+		var scoreline_score: String
+		
+		authenticate_guest_session(scoreline_owner, true)
+		yield(self, "guest_authenticated")	
+		
+		var url: String = "https://api.lootlocker.io/game/leaderboards/%s/submit" % game_leaderboard_key
+		var header: Array = ["Content-Type: application/json", "x-session-token: %s" % session_token]
+		var method = HTTPClient.METHOD_POST
+		var request_data: Dictionary = {
+			"score": player_score,
+			"member_id": player_id, # player ID je ime opredeljeno pred avtentikacijo
+		}
+		
+		request(url, header, false, method, to_json(request_data)) 
+		# čakam na odgovor od lootlockerja ... zato dam yield
+		yield(self, "request_completed")
+	
+	update_lootlocker_leaderboard(game_data)
 
 
-func update_lootlocker_leaderboard(game_data: Dictionary, last_update_in_row: bool = true, update_string: String = ""): 
+func update_lootlocker_leaderboard(game_data: Dictionary, last_update_in_row: bool = true, update_string: String = "", update_in_background: bool = false): 
 	
 	if not guest_is_authenticated:
-		authenticate_guest_session(anonymous_guest_name, last_update_in_row)
+		authenticate_guest_session(anonymous_guest_name, last_update_in_row, update_in_background)
 		yield(self, "guest_authenticated")
 	else:	
-		ConnectCover.open_cover()
+		ConnectCover.open_cover(update_in_background)
+		
 		
 	ConnectCover.cover_label_text = "Updating " + update_string
-#	ConnectCover.cover_label_text = "Updating ..."
 
 	var game_leaderboard_key = Profiles.Games.keys()[game_data["game"]]
 	if game_data["game"] == Profiles.Games.SWEEPER: # OPT iskanja brez sweeperja
@@ -124,13 +161,13 @@ func save_lootlocker_leadebroard_to_local_highscore(game_data: Dictionary):
 		global_game_highscores[item_player_rank] = highscores_player_line
 	
 	# dodam level name za ime save fileta in sejvam
-	Global.data_manager.write_highscores_to_file(game_data, global_game_highscores, true)
+	Global.data_manager.write_highscores_to_file(game_data, global_game_highscores)
 	
 
-func authenticate_guest_session(player_name: String, last_attempt_in_row: bool):
+func authenticate_guest_session(player_name: String, last_attempt_in_row: bool, update_in_background: bool = false):
 
 	ConnectCover.cover_label_text = "Connecting ..."
-	ConnectCover.open_cover()
+	ConnectCover.open_cover(update_in_background)
 	
 	player_id = player_name
 	

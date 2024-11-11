@@ -63,8 +63,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			game_over(GameoverReason.TIME)
 		if Input.is_action_just_pressed("no3"):
 			game_over(GameoverReason.CLEANED)
-		if Input.is_action_just_pressed("l"):
-			upgrade_level()	
 
 	if Input.is_action_just_pressed("hint") and game_data["game"] == Profiles.Games.SWEEPER:
 		Global.current_tilemap.solution_line.visible = not Global.current_tilemap.solution_line.visible
@@ -652,7 +650,7 @@ func remove_from_free_floor_positions(position_to_remove: Vector2):
 	if free_floor_positions.has(position_to_remove_on_grid):
 		free_floor_positions.erase(position_to_remove_on_grid)
 	
-	 # bugfixing ... izbrišem indikator na poziciji, če je freepos prižgan
+	 # debug ... izbrišem indikator na poziciji, če je freepos prižgan
 	if Global.game_arena.free_positions_grid.visible:
 		for indicator in free_position_indicators:
 			if indicator.rect_position == position_to_remove_on_grid:
@@ -668,8 +666,8 @@ func add_to_free_floor_positions(position_to_add: Vector2):
 	if Global.current_tilemap.all_floor_tiles_global_positions.has(position_to_add_on_grid) and not free_floor_positions.has(position_to_add_on_grid):
 		free_floor_positions.append(position_to_add_on_grid)
 		
-		# bugfixing ... dodam indikator na poziciji, če je freepos prižgan
-		if Global.game_arena.free_positions_grid.visible: # bugfixing
+		# debug ... dodam indikator na poziciji, če je freepos prižgan
+		if Global.game_arena.free_positions_grid.visible: # debug
 			spawn_free_position_indicator(position_to_add_on_grid)
 
 

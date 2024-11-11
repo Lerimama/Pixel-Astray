@@ -4,7 +4,6 @@ extends Node
 enum Screens {MAIN_MENU, SELECT_GAME, ABOUT, SETTINGS, HIGHSCORES, SELECT_LEVEL}
 var current_screen = Screens.MAIN_MENU # se določi z main animacije
 
-var current_esc_hint: HBoxContainer
 var allow_ui_sfx: bool = false # za kontrolo defolt focus soundov
 
 onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -42,8 +41,9 @@ func _ready():
 	
 	#visibility
 	menu.hide()
+	# _temp ...esc hint off
 	$Settings/EscHint.modulate.a = 0
-	$Highscores/EscHint.modulate.a = 0
+#	$Highscores/EscHint.modulate.a = 0
 	$About/EscHint.modulate.a = 0
 	$SelectGame/EscHint.modulate.a = 0
 	$SelectLevel/EscHint.modulate.a = 0
@@ -66,7 +66,7 @@ func open_with_intro(): # kliče main.gd -> home_in_intro()
 	intro.play_intro() # intro signal na koncu kliče menu_in()
 	
 	
-func open_without_intro(): # bugfixing ... kliče main.gd -> home_in_no_intro()
+func open_without_intro(): # debug ... kliče main.gd -> home_in_no_intro()
 	intro.finish_intro() # intro signal na koncu kliče menu_in()
 	yield(get_tree().create_timer(1), "timeout") # počaka, da se vsi spawnajo
 
@@ -84,7 +84,7 @@ func open_from_game(finished_game: int): # select_game screen ... kliče main.gd
 	if finished_game == Profiles.Games.CLEANER:
 		Global.focus_without_sfx($SelectGame/GamesMenu/Cleaner/CleanerBtn)
 	elif finished_game == Profiles.Games.HUNTER:
-		Global.focus_without_sfx($SelectGame/GamesMenu/Unbeatables/StalkerBtn)
+		Global.focus_without_sfx($SelectGame/GamesMenu/Unbeatables/HunterBtn)
 	elif finished_game == Profiles.Games.DEFENDER:
 		Global.focus_without_sfx($SelectGame/GamesMenu/Unbeatables/DefenderBtn)
 	elif finished_game == Profiles.Games.SWEEPER:
@@ -130,38 +130,35 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 		"select_game":
 			if not animation_reversed(Screens.SELECT_GAME):
 				current_screen = Screens.SELECT_GAME
-				current_esc_hint = $SelectGame/EscHint
-				Global.focus_without_sfx($SelectGame/GamesMenu/Cleaner/CleanerBtn)
+#				Global.focus_without_sfx($SelectGame/GamesMenu/Cleaner/CleanerBtn)
+				Global.focus_without_sfx($SelectGame.default_focus_node)
 		"about":
 			if not animation_reversed(Screens.ABOUT):
 				current_screen = Screens.ABOUT
-				current_esc_hint = $About/EscHint
-				Global.focus_without_sfx($About/BackBtn)
+#				Global.focus_without_sfx($About/BackBtn)
+				Global.focus_without_sfx($About.de)
 		"settings":
 			if not animation_reversed(Screens.SETTINGS):
 				current_screen = Screens.SETTINGS
-				current_esc_hint = $Settings/EscHint
-				Global.focus_without_sfx($Settings/MenuMusicBtn)
+				Global.focus_without_sfx($Settings.default_focus_node)
+#				Global.focus_without_sfx($Settings/MenuMusicBtn)
 		"highscores":
 			if not animation_reversed(Screens.HIGHSCORES):
 				current_screen = Screens.HIGHSCORES
-				current_esc_hint = $Highscores/EscHint
-				Global.focus_without_sfx($Highscores.update_scores_btn)
+				if $Highscores.default_focus_node.disabled:
+					ConnectCover.open_cover(false)
+				else:
+					Global.focus_without_sfx($Highscores.default_focus_node)
 		"select_level":
 			if not animation_reversed(Screens.SELECT_LEVEL):
 				current_screen = Screens.SELECT_LEVEL
-				current_esc_hint = $SelectLevel/EscHint
-				Global.focus_without_sfx($SelectLevel.select_level_btns_holder.all_level_btns[0])
+				Global.focus_without_sfx($SelectLevel.default_focus_node)
+#				Global.focus_without_sfx($SelectLevel.select_level_btns_holder.all_level_btns[0])
 	
-	#	if current_esc_hint != null:
-	#		var hint_fade_in = get_tree().create_tween()
-	#		hint_fade_in.tween_property(current_esc_hint, "modulate:a", 1, 0.32)
-		
 
 func animation_reversed(from_screen: int):
 	
 	if animation_player.current_animation_position == 0: # pomeni, da je animacija v rikverc končana
-		current_esc_hint.modulate.a = 0
 			
 		# preverim s katerega ekrana je animirano še preden zamenjam na MAIN_MENU
 		match from_screen:

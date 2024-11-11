@@ -17,7 +17,7 @@ var sudden_death_limit: int
 var stopwatch_mode: bool
 var gameover_countdown_duration: int
 
-# bugfixing
+# debug
 var correction_timer_seconds: float = 0
 onready var correction_timer: Timer = $CorrectionTimer
 

@@ -686,18 +686,14 @@ anchor_bottom = 1.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
 [node name="HighscoreTable" parent="GameSummary/Content/Hs" instance=ExtResource( 6 )]
-margin_left = 32.0
-margin_top = 22.0
-margin_right = 269.0
-margin_bottom = 320.0
+margin_top = 16.0
+margin_right = 304.0
+margin_bottom = 314.0
 size_flags_horizontal = 9
 __meta__ = {
 "_edit_horizontal_guides_": [ 296.0 ],
 "_edit_vertical_guides_": [ -128.0 ]
 }
-
-[node name="TableScroller" parent="GameSummary/Content/Hs/HighscoreTable" index="2"]
-margin_bottom = 303.0
 
 [node name="Menu" type="HBoxContainer" parent="."]
 anchor_left = 0.5
@@ -910,4 +906,3 @@ align = 0
 [connection signal="pressed" from="PublishPopup/HBoxContainer/PublishBtn" to="PublishPopup" method="_on_PublishBtn_pressed"]
 
 [editable path="GameSummary/ContentSweeper/Hs/HighscoreTable"]
-[editable path="GameSummary/Content/Hs/HighscoreTable"]

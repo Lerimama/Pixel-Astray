@@ -28,7 +28,7 @@ margin_top = -104.0
 margin_right = 185.0
 margin_bottom = 104.0
 theme = ExtResource( 1 )
-color = Color( 0, 0, 0, 0.313726 )
+color = Color( 0, 0, 0, 0.470588 )
 
 [node name="Label" type="Label" parent="."]
 margin_left = 560.0

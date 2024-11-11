@@ -48,6 +48,10 @@ var color_background: Color = Color.black
 var color_almost_white_text: Color = Color("#f5f5f5") # če spremeniš tukaj, moraš tudi v temi
 var color_gui_gray: Color = Color("#78ffffff") # siv text s transparenco (ikone ...#838383) ... v kodi samo na btn defocus
 var color_hud_text: Color = color_almost_white_text # za vse, ki modulirajo barvo glede na + ali -
+var color_btn_disabled: Color = Color("#32ffffff")
+var color_btn_enabled: Color = Color("#78ffffff")
+var color_btn_hover: Color = Color("#f0f0f0")
+var color_btn_focus: Color = Color("#ffffff")
 
 # pixel colors
 var color_almost_black_pixel: Color = Color("#141414") 

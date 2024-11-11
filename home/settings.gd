@@ -9,6 +9,7 @@ onready var spectrum_icon: TextureRect = $ColorSchemeOptions/RandomizeBtn/Spectr
 onready var intro: Node2D = $"%Intro"
 onready var select_level_node: Control = $"../SelectLevel"
 onready var select_game_node: Control = $"../SelectGame"
+onready var default_focus_node: Control = $GameMusicBtn
 
 
 func _ready() -> void:

@@ -2,11 +2,12 @@ extends Control
 
 
 onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
-#onready var solutions_btn: CheckButton = $SolutionsBtn
 onready var select_level_btns_holder: Control = $SelectLevelBtnsHolder
+onready var default_focus_node: Control# = select_level_btns_holder.all_level_btns[0]
 
 
 func _ready() -> void:
+	
 	
 	Profiles.game_data_sweeper["level"] = 1 # ni nujno
 
@@ -25,11 +26,11 @@ func _ready() -> void:
 
 	# menu btn group
 	$BackBtn.add_to_group(Global.group_menu_cancel_btns)
+	default_focus_node = select_level_btns_holder.all_level_btns[0]
 	
 	if not visible: # zazih
 		show()
 	
-
 
 func play_selected_level(selected_level: int):
 
@@ -45,6 +46,7 @@ func play_selected_level(selected_level: int):
 	Global.sound_manager.play_gui_sfx("menu_fade")
 	#	animation_player.play("play_level")
 	Global.main_node.home_out()
+
 			
 func _on_BackBtn_pressed() -> void:
 	

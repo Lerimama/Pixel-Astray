@@ -35,7 +35,7 @@ onready var thunder_cover: ColorRect = $ThunderCover/ThunderCover
 onready var skip_intro: HBoxContainer = $Text/ActionHint
 onready var StrayPixel: PackedScene = preload("res://home/intro/intro_stray.tscn")
 
-# bugfixing
+# debug
 var FreePositionIndicator: PackedScene = preload("res://game/pixel/free_position_indicator.tscn")		
 var free_position_indicators: Array
 
@@ -93,7 +93,7 @@ func set_strays(): # kliče animacija
 	
 	# positions
 	free_floor_positions = Global.current_tilemap.all_floor_tiles_global_positions.duplicate()
-	# bugfixing ... spawnam rectangle
+	# debug ... spawnam rectangle
 	#	for pos in free_floor_positions: # vsa tla v tilemaps:
 	#		var new_pos_indi = FreePositionIndicator.instance()
 	#		new_pos_indi.rect_global_position = pos

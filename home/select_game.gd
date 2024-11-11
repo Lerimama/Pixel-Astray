@@ -10,6 +10,7 @@ onready var sweeper_btns_count: int = Profiles.sweeper_level_tilemap_paths.size(
 onready var sweeper_label: Label = $GamesMenu/Sweeper/Label
 onready var color_pool: Array = $"%Intro".color_pool_colors
 onready var tutorial_mode_btn: CheckButton = $GamesMenu/Cleaner/TutorialModeBtn
+onready var default_focus_node: Control = $GamesMenu/Cleaner/CleanerBtn
 
 
 func _ready() -> void:
@@ -29,7 +30,7 @@ func _ready() -> void:
 			$GamesMenu/Eraser/LBtn,
 			$GamesMenu/Eraser/XLBtn,
 			$GamesMenu/Eraser/XXLBtn,
-			$GamesMenu/Unbeatables/StalkerBtn,
+			$GamesMenu/Unbeatables/HunterBtn,
 			$GamesMenu/Unbeatables/DefenderBtn,
 			$GamesMenu/TheDuel/TheDuelBtn,
 			$GamesMenu/Sweeper/SweeperBtn,
@@ -118,18 +119,18 @@ func _process(delta: float) -> void:
 				$GamesMenu/Eraser/Label.modulate = btn_colors[6]
 				$GamesMenu/Eraser/Background.color = unfocused_color
 			# eternals
-			if focused_btn.name == "StalkerBtn":
-				$GamesMenu/Unbeatables/StalkerBtn.modulate = Color.white
+			if focused_btn.name == "HunterBtn":
+				$GamesMenu/Unbeatables/HunterBtn.modulate = Color.white
 				$GamesMenu/Unbeatables/DefenderBtn.modulate = Global.color_gui_gray
 				$GamesMenu/Unbeatables/Label.modulate = Color.white
 				$GamesMenu/Unbeatables/Background.color = Global.color_thumb_hover
 			elif focused_btn.name == "DefenderBtn":
-				$GamesMenu/Unbeatables/StalkerBtn.modulate = Global.color_gui_gray
+				$GamesMenu/Unbeatables/HunterBtn.modulate = Global.color_gui_gray
 				$GamesMenu/Unbeatables/DefenderBtn.modulate = Color.white
 				$GamesMenu/Unbeatables/Label.modulate = Color.white
 				$GamesMenu/Unbeatables/Background.color = Global.color_thumb_hover
 			else:
-				$GamesMenu/Unbeatables/StalkerBtn.modulate = btn_colors[13]
+				$GamesMenu/Unbeatables/HunterBtn.modulate = btn_colors[13]
 				$GamesMenu/Unbeatables/DefenderBtn.modulate = btn_colors[14]
 				$GamesMenu/Unbeatables/Label.modulate = btn_colors[13]
 				$GamesMenu/Unbeatables/Background.color = unfocused_color
@@ -185,7 +186,7 @@ func color_game_btns():
 	$GamesMenu/TheDuel/TheDuelBtn.modulate = btn_colors[11]
 	
 	$GamesMenu/Unbeatables/Label.modulate = btn_colors[13]
-	$GamesMenu/Unbeatables/StalkerBtn.modulate = btn_colors[13]
+	$GamesMenu/Unbeatables/HunterBtn.modulate = btn_colors[13]
 	$GamesMenu/Unbeatables/DefenderBtn.modulate = btn_colors[14]
 	
 				
@@ -240,7 +241,7 @@ func _on_XXLBtn_pressed() -> void:
 	play_selected_game(Profiles.Games.ERASER_XL)
 	
 	
-func _on_StalkerBtn_pressed() -> void:
+func _on_HunterBtn_pressed() -> void:
 	
 	play_selected_game(Profiles.Games.HUNTER)
 	
@@ -283,7 +284,7 @@ func _on_UnbeatablesBackground_mouse_entered() -> void:
 		
 	# če še ni izbran kateri v trenutnem boxu
 	if not $GamesMenu/Unbeatables/DefenderBtn.has_focus():
-		$GamesMenu/Unbeatables/StalkerBtn.grab_focus()
+		$GamesMenu/Unbeatables/HunterBtn.grab_focus()
 		
 		
 func _on_SweeperBackground_mouse_entered() -> void:
@@ -294,3 +295,4 @@ func _on_SweeperBackground_mouse_entered() -> void:
 func _on_DuelBackground_mouse_entered() -> void:
 	
 	$GamesMenu/TheDuel/TheDuelBtn.grab_focus()
+

@@ -139,7 +139,7 @@ var game_data_hunter: Dictionary = {
 	"highscore_type": HighscoreTypes.POINTS,
 	"game_name": "Hunter",
 	"game_scene_path": "res://game/game.tscn",
-	"tilemap_path": "res://game/tilemaps/tilemap_stalker.tscn",
+	"tilemap_path": "res://game/tilemaps/tilemap_hunter.tscn",
 	# pre-game instructons
 	"description" : "Keep the colors in check as they keep popping in!",
 	"Prop": "Difficulty level will increase\nwhen your spectrum\nindicator gets filled.",
@@ -232,7 +232,10 @@ var game_settings: Dictionary
 var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
 var use_default_color_theme: bool = true
 var get_it_time: float = 1 # tajming za dojet določene faze igre
-var default_highscore_line_name: String = "10Characters" # se uporabi, če še ni nobenega v filetu
+var default_highscore_line_name: String = "Empty score line" # se uporabi, če še ni nobenega v filetu
+# new
+var default_scores_line_count: int = 99
+var green_rank_limit: int = 10
 
 # nastavitve, ki se setajo tudi v home
 var camera_shake_on: bool = true
@@ -270,7 +273,7 @@ func set_game_data(selected_game):
 	
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
-	# bugfixing
+	# debug
 #	game_settings["start_countdown"] = false
 #	game_settings["player_start_life"] = 2
 #	game_settings["show_game_instructions"] = false

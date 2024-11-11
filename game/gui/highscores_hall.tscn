@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://game/gui/highscore_table.tscn" type="PackedScene" id=1]
 
@@ -8,11 +8,16 @@ grow_begin = 0.0
 grow_end = 0.0
 thickness = 2
 
-[sub_resource type="StyleBoxLine" id=522]
-color = Color( 0.996078, 0.976471, 0.545098, 1 )
-grow_begin = 0.0
-grow_end = 0.0
-thickness = 2
+[sub_resource type="Gradient" id=525]
+offsets = PoolRealArray( 0.102662, 1 )
+colors = PoolColorArray( 0.0784314, 0.0784314, 0.0784314, 1, 0.0784314, 0.0784314, 0.0784314, 0 )
+
+[sub_resource type="GradientTexture" id=526]
+gradient = SubResource( 525 )
+
+[sub_resource type="StyleBoxTexture" id=527]
+texture = SubResource( 526 )
+region_rect = Rect2( 0, 0, 2048, 1 )
 
 [node name="HighscoresHall" type="Control"]
 margin_right = 280.0
@@ -24,26 +29,18 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="EdgeSelected" type="Panel" parent="Undi"]
+[node name="Edge" type="Panel" parent="Undi"]
 anchor_right = 1.0
 margin_top = 12.0
 margin_bottom = 12.0
 custom_styles/panel = SubResource( 524 )
 
-[node name="Edge" type="Panel" parent="Undi"]
-visible = false
+[node name="HighscoreTable" parent="." instance=ExtResource( 1 )]
 anchor_right = 1.0
-margin_top = 12.0
-margin_bottom = 12.0
-custom_styles/panel = SubResource( 522 )
-
-[node name="HighscoreTableGlobal" parent="." instance=ExtResource( 1 )]
-anchor_left = 0.5
-anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -114.0
+margin_left = 26.0
 margin_top = 22.0
-margin_right = 114.0
+margin_right = -26.0
 margin_bottom = -32.0
 grow_horizontal = 2
 rect_min_size = Vector2( 0, 0 )
@@ -51,3 +48,14 @@ __meta__ = {
 "_edit_horizontal_guides_": [ 296.0 ],
 "_edit_vertical_guides_": [ -128.0 ]
 }
+
+[node name="Grad" type="Panel" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = -29.0
+margin_right = -221.0
+margin_bottom = 219.0
+rect_rotation = -89.9999
+custom_styles/panel = SubResource( 527 )

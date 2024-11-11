@@ -64,10 +64,7 @@ func die(stray_in_stack_index: int, strays_in_stack_count: int):
 			var random_animation_name: String = "die_stray_%s" % random_animation_index
 			animation_player.play(random_animation_name) 
 		else: # ne žrebam
-			print("DIE")
 			animation_player.play("die_stray")
-
-		#	position_indicator.modulate.a = 0	
 		
 		# color vanish
 		var vanish_time = animation_player.get_current_animation_length()

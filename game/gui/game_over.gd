@@ -10,7 +10,7 @@ var p1_final_stats: Dictionary
 var p2_final_stats: Dictionary
 
 var current_gameover_reason: int
-var current_player_ranking: int = 0 # 0 = not ranking
+var current_player_local_rank: int = 0 # 0 = not ranking
 
 var sweeper_solved: bool = false				
 var background_fadein_alpha: float = 0.9 # cca 230
@@ -31,7 +31,7 @@ onready var gameover_title_life: Control = $GameoverTitle/ReasonLife
 onready var gameover_title_fail: Control = $GameoverTitle/Fail
 
 # game summary
-var highscore_table: VBoxContainer
+var highscore_table: Control
 onready var game_summary: Control = $GameSummary
 
 # name input
@@ -95,10 +95,10 @@ func open_gameover(gameover_reason: int):
 		if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME: # kadar se meri čas, obstaja cilj, da rankiraš
 			player_final_score = game_final_time
 			if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
-				current_player_ranking = Global.data_manager.check_player_ranking(player_final_score, Global.game_manager.game_data)
+				current_player_local_rank = Global.data_manager.check_player_ranking(player_final_score, Global.game_manager.game_data) # 
 		else:
 			player_final_score = p1_final_stats["player_points"]
-			current_player_ranking = Global.data_manager.check_player_ranking(player_final_score, Global.game_manager.game_data) 
+			current_player_local_rank = Global.data_manager.check_player_ranking(player_final_score, Global.game_manager.game_data)
 		
 		set_gameover_title()
 		
@@ -147,10 +147,10 @@ func set_gameover_title():
 			else:			
 				gameover_subtitle.text = "You can't handle the colors."
 	
-	# barva naslova
+	# GO text color
 	if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
 		selected_gameover_title.modulate = Global.color_green
-	elif current_player_ranking == 0: # more bit NOT, ker true se ne vrne
+	elif current_player_local_rank > Profiles.green_rank_limit: # more bit preverjanje "če ni topX", ker true se ne vrne
 		selected_gameover_title.modulate = Global.color_red
 	else:
 		selected_gameover_title.modulate = Global.color_green
@@ -223,15 +223,19 @@ func show_gameover_title():
 		show_menu()
 	else:
 		# če je ranking odprem name_input, če ne skirjem GO title
-		if current_player_ranking > 0: # manage_gameover_highscores počaka na signal iz name_input ... more bit NOT, ker true se ne vrne
-			open_name_input()
-			yield(self, "name_input_finished")
-			get_viewport().set_disable_input(false) # anti dablklik ... disejblan je blo v igri
-		else:
-			var title_fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-			title_fade_out.tween_property(gameover_title_holder, "modulate:a", 0, 0.5)
-			title_fade_out.tween_callback(gameover_title_holder, "hide")
-			yield(title_fade_out, "finished")	
+		open_name_input()
+		yield(self, "name_input_finished")
+		get_viewport().set_disable_input(false) # anti dablklik ... disejblan je blo v igri
+#		# če je ranking odprem name_input, če ne skirjem GO title
+#		if current_player_local_rank > 0: # manage_gameover_highscores počaka na signal iz name_input ... more bit NOT, ker true se ne vrne
+#			open_name_input()
+#			yield(self, "name_input_finished")
+#			get_viewport().set_disable_input(false) # anti dablklik ... disejblan je blo v igri
+#		else:
+#			var title_fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+#			title_fade_out.tween_property(gameover_title_holder, "modulate:a", 0, 0.5)
+#			title_fade_out.tween_callback(gameover_title_holder, "hide")
+#			yield(title_fade_out, "finished")	
 		set_game_summary() 
 		
 
@@ -243,8 +247,11 @@ func set_game_summary():
 		selected_content = $GameSummary/ContentSweeper
 	else: 
 		selected_content = $GameSummary/Content
+	
+	# hs table
 	highscore_table = selected_content.get_node("Hs/HighscoreTable")
-	highscore_table.load_highscore_table(Global.game_manager.game_data, current_player_ranking, Profiles.local_highscores_count)	
+	var current_player_global_rank: int = Global.data_manager.check_player_ranking(player_final_score, Global.game_manager.game_data, false) # global rank
+	highscore_table.build_highscore_table(Global.game_manager.game_data, current_player_global_rank, true, false)	
 	
 	# data panel nodes
 	var summary_title: Label = selected_content.get_node("Title")
@@ -296,10 +303,10 @@ func set_game_summary():
 		$GameSummary/Content.show()
 		$GameSummary/ContentSweeper.hide()	
 	
-	# title color
+	# summaty title color
 	if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
 		summary_title.modulate = Global.color_green
-	elif current_player_ranking == 0: # more bit NOT, ker true se ne vrne
+	elif current_player_local_rank > Profiles.green_rank_limit: # more bit preverjanje "če ni topX", ker true se ne vrne
 		summary_title.modulate = Global.color_red
 	else:
 		summary_title.modulate = Global.color_green
@@ -308,8 +315,6 @@ func set_game_summary():
 	
 	
 func show_game_summary():
-	
-	highscore_table.load_local_to_global_ranks(Global.game_manager.game_data) # OPT drugje
 	
 	yield(get_tree().create_timer(0.5), "timeout")
 	# hide title and name_popup > show game summary
@@ -353,10 +358,10 @@ func play_selected_level(selected_level: int):
 	Profiles.game_data_sweeper["level"] = selected_level
 
 	# zmeraj gre na next level iz GO menija, se navoidla ugasnejo (so ugasnjena po defoltu)
-#	var sweeper_settings = Profiles.set_game_data(Profiles.Games.SWEEPER) # OPT ven? sweepr instructions
-#	if Profiles.default_game_settings["show_game_instructions"] == true: # igra ima navodila, če so navodila vklopljena 
-#		sweeper_settings["show_game_instructions"] = true
-#		sweeper_settings["always_zoomed_in"] = true
+	#	var sweeper_settings = Profiles.set_game_data(Profiles.Games.SWEEPER) # OPT ven? sweepr instructions
+	#	if Profiles.default_game_settings["show_game_instructions"] == true: # igra ima navodila, če so navodila vklopljena 
+	#		sweeper_settings["show_game_instructions"] = true
+	#		sweeper_settings["always_zoomed_in"] = true
 	
 	Global.main_node.reload_game()
 
@@ -367,14 +372,14 @@ func play_selected_level(selected_level: int):
 func open_name_input():
 	
 	# generiram random ime s 5 črkami in ga dam za placeholder text
-#	randomize()
-#	var ascii_letters_and_digits: String = "abcdefghijklmnopqrstuvwxyz"
-#	var random_generated_name: String = ""
-#	for i in 5:
-#		var random_letter: String = ascii_letters_and_digits[randi() % ascii_letters_and_digits.length()]
-#		random_generated_name += random_letter
-#	random_generated_name = random_generated_name
-#	name_input.placeholder_text = random_generated_name
+	#	randomize()
+	#	var ascii_letters_and_digits: String = "abcdefghijklmnopqrstuvwxyz"
+	#	var random_generated_name: String = ""
+	#	for i in 5:
+	#		var random_letter: String = ascii_letters_and_digits[randi() % ascii_letters_and_digits.length()]
+	#		random_generated_name += random_letter
+	#	random_generated_name = random_generated_name
+	#	name_input.placeholder_text = random_generated_name
 	name_input.placeholder_text = ""
 	name_input_popup.visible = true
 	name_input_popup.modulate.a = 0
@@ -415,7 +420,8 @@ func confirm_name_input():
 	
 	# pogrebam string in zapišem ime v končno statistiko igralca
 	p1_final_stats["player_name"] = input_string
-	Global.data_manager.save_player_score(player_final_score, Global.game_manager.game_data) 
+	
+	Global.data_manager.save_player_score(player_final_score, current_player_local_rank, Global.game_manager.game_data) 
 	# skrijem samo input (GO title se skrije s popupom)
 	var input_fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	input_fade_out.tween_property(name_input_popup, "modulate:a", 0, 0.5)
@@ -423,7 +429,10 @@ func confirm_name_input():
 	yield(input_fade_out, "finished")
 	
 	# publish
-	publish_popup.open_popup(Global.game_manager.game_data)
+	if Profiles.html5_mode:
+		publish_popup.publish_score()
+	else: 
+		publish_popup.open_popup()
 	yield(publish_popup, "score_published")
 	publish_popup.close_popup()
 	var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)

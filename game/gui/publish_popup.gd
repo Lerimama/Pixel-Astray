@@ -15,7 +15,8 @@ func _ready() -> void:
 	skip_btn.add_to_group(Global.group_menu_cancel_btns)
 
 
-func open_popup(game_data: Dictionary):
+#func open_popup(game_data: Dictionary):
+func open_popup():
 	
 	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_in.tween_callback(self, "show")	
@@ -30,6 +31,23 @@ func close_popup():
 	fade_out.tween_callback(self, "hide")	
 	
 	ConnectCover.close_cover() # ... animiram ga v nivoju višje višje
+
+
+func publish_score():
+
+	get_tree().set_pause(false) # da lahko procedura steče
+	if get_focus_owner():
+		get_focus_owner().release_focus()
+	var publish_name: String = Global.gameover_gui.p1_final_stats["player_name"]
+	var publish_score: float = Global.gameover_gui.player_final_score
+	var publish_game_data: Dictionary = Global.game_manager.game_data
+	LootLocker.publish_score_to_lootlocker(publish_name, publish_score, publish_game_data)
+	yield(LootLocker, "connection_closed")
+	ConnectCover.cover_label_text = "Finished"
+	yield(get_tree().create_timer(LootLocker.final_panel_open_time), "timeout")
+	
+	emit_signal("score_published")
+	get_tree().set_pause(true) # spet setano čez celotno GO proceduro		
 	
 	
 func _on_PublishBtn_pressed() -> void:
@@ -40,19 +58,20 @@ func _on_PublishBtn_pressed() -> void:
 	publish_btn.disabled = true # zazih
 	$Label.modulate.a = 0.32 # disabled theme color
 	
-	get_tree().set_pause(false) # da lahko procedura steče
-	get_focus_owner().release_focus()
-	var publish_name: String = Global.gameover_gui.p1_final_stats["player_name"]
-	var publish_score: float = Global.gameover_gui.player_final_score
-	var publish_game_data: Dictionary = Global.game_manager.game_data
-	LootLocker.publish_score_to_lootlocker(publish_name, publish_score, publish_game_data)
-	yield(LootLocker, "connection_closed")
-	ConnectCover.cover_label_text = "Finished"
-	yield(get_tree().create_timer(LootLocker.final_panel_open_time), "timeout")
-#	ConnectCover.close_cover() # ... animiram ga v nivoju višje višje
-	
-	emit_signal("score_published")
-	get_tree().set_pause(true) # spet setano čez celotno GO proceduro
+	publish_score()
+#	get_tree().set_pause(false) # da lahko procedura steče
+#	get_focus_owner().release_focus()
+#	var publish_name: String = Global.gameover_gui.p1_final_stats["player_name"]
+#	var publish_score: float = Global.gameover_gui.player_final_score
+#	var publish_game_data: Dictionary = Global.game_manager.game_data
+#	LootLocker.publish_score_to_lootlocker(publish_name, publish_score, publish_game_data)
+#	yield(LootLocker, "connection_closed")
+#	ConnectCover.cover_label_text = "Finished"
+#	yield(get_tree().create_timer(LootLocker.final_panel_open_time), "timeout")
+##	ConnectCover.close_cover() # ... animiram ga v nivoju višje višje
+#
+#	emit_signal("score_published")
+#	get_tree().set_pause(true) # spet setano čez celotno GO proceduro
 
 func _on_SkipBtn_pressed() -> void:
 	

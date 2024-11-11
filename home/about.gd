@@ -1,6 +1,8 @@
 extends Control
 
+
 onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
+onready var default_focus_node: Control = $BackBtn
 
 
 func _ready() -> void:

@@ -10,22 +10,17 @@ grow_begin = 0.0
 grow_end = 0.0
 thickness = 2
 
-[node name="HighscoreTable" type="VBoxContainer"]
-margin_top = -2.0
+[node name="HighscoreTable" type="Control"]
 margin_right = 280.0
 margin_bottom = 360.0
 rect_min_size = Vector2( 280, 0 )
 theme = ExtResource( 3 )
-custom_constants/separation = 6
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_horizontal_guides_": [ 296.0 ],
-"_edit_vertical_guides_": [ -128.0, 232.0 ]
-}
 
 [node name="Title" type="Label" parent="."]
-margin_right = 280.0
-margin_bottom = 27.0
+anchor_right = 1.0
+margin_top = -2.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 28, 27 )
 size_flags_vertical = 0
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
@@ -33,26 +28,26 @@ text = "%Game XL Top 10"
 align = 1
 
 [node name="Edge" type="Panel" parent="."]
-margin_top = 33.0
-margin_right = 280.0
-margin_bottom = 33.0
+anchor_right = 1.0
+margin_top = 38.0
+margin_bottom = 38.0
 size_flags_horizontal = 3
 custom_styles/panel = SubResource( 1 )
 
 [node name="TableScroller" type="ScrollContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
 margin_left = 26.0
-margin_top = 39.0
-margin_right = 254.0
-margin_bottom = 362.0
+margin_top = 53.0
+margin_right = -22.0
 grow_horizontal = 2
-rect_min_size = Vector2( 0, 264 )
 size_flags_horizontal = 4
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
 
 [node name="Table" type="VBoxContainer" parent="TableScroller"]
 margin_right = 228.0
-margin_bottom = 216.0
+margin_bottom = 360.0
 rect_min_size = Vector2( 224, 0 )
 custom_constants/separation = 0
 
@@ -96,51 +91,9 @@ custom_fonts/font = ExtResource( 2 )
 text = "Score"
 align = 2
 
-[node name="ScoreLine2" type="HBoxContainer" parent="TableScroller/Table"]
+[node name="ScoreLine3" type="HBoxContainer" parent="TableScroller/Table"]
 margin_right = 228.0
 margin_bottom = 24.0
-rect_min_size = Vector2( 72, 24 )
-size_flags_horizontal = 3
-custom_constants/separation = 8
-
-[node name="Rank" type="Label" parent="TableScroller/Table/ScoreLine2"]
-margin_top = 3.0
-margin_right = 225.0
-margin_bottom = 21.0
-rect_min_size = Vector2( 32, 0 )
-custom_fonts/font = ExtResource( 2 )
-text = "_________________________"
-
-[node name="Owner" type="Label" parent="TableScroller/Table/ScoreLine2"]
-visible = false
-margin_left = 53.0
-margin_top = 3.0
-margin_right = 143.0
-margin_bottom = 21.0
-rect_min_size = Vector2( 90, 0 )
-custom_fonts/font = ExtResource( 2 )
-text = "drsfgdfgvdf"
-clip_text = true
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="Score" type="Label" parent="TableScroller/Table/ScoreLine2"]
-visible = false
-margin_left = 138.0
-margin_top = 3.0
-margin_right = 228.0
-margin_bottom = 21.0
-rect_min_size = Vector2( 78, 0 )
-size_flags_horizontal = 10
-custom_fonts/font = ExtResource( 2 )
-text = "8000000000"
-align = 2
-
-[node name="ScoreLine3" type="HBoxContainer" parent="TableScroller/Table"]
-margin_top = 24.0
-margin_right = 228.0
-margin_bottom = 48.0
 rect_min_size = Vector2( 72, 24 )
 size_flags_horizontal = 3
 custom_constants/separation = 8
@@ -178,9 +131,9 @@ text = "8000000000"
 align = 2
 
 [node name="ScoreLine4" type="HBoxContainer" parent="TableScroller/Table"]
-margin_top = 48.0
+margin_top = 24.0
 margin_right = 228.0
-margin_bottom = 72.0
+margin_bottom = 48.0
 rect_min_size = Vector2( 72, 24 )
 size_flags_horizontal = 3
 custom_constants/separation = 8
@@ -218,9 +171,9 @@ text = "8000000000"
 align = 2
 
 [node name="ScoreLine5" type="HBoxContainer" parent="TableScroller/Table"]
-margin_top = 72.0
+margin_top = 48.0
 margin_right = 228.0
-margin_bottom = 96.0
+margin_bottom = 72.0
 rect_min_size = Vector2( 72, 24 )
 size_flags_horizontal = 3
 custom_constants/separation = 8
@@ -258,9 +211,9 @@ text = "8000000000"
 align = 2
 
 [node name="ScoreLine6" type="HBoxContainer" parent="TableScroller/Table"]
-margin_top = 96.0
+margin_top = 72.0
 margin_right = 228.0
-margin_bottom = 120.0
+margin_bottom = 96.0
 rect_min_size = Vector2( 72, 24 )
 size_flags_horizontal = 3
 custom_constants/separation = 8
@@ -298,9 +251,9 @@ text = "8000000000"
 align = 2
 
 [node name="ScoreLine7" type="HBoxContainer" parent="TableScroller/Table"]
-margin_top = 120.0
+margin_top = 96.0
 margin_right = 228.0
-margin_bottom = 144.0
+margin_bottom = 120.0
 rect_min_size = Vector2( 72, 24 )
 size_flags_horizontal = 3
 custom_constants/separation = 8
@@ -338,9 +291,9 @@ text = "8000000000"
 align = 2
 
 [node name="ScoreLine8" type="HBoxContainer" parent="TableScroller/Table"]
-margin_top = 144.0
+margin_top = 120.0
 margin_right = 228.0
-margin_bottom = 168.0
+margin_bottom = 144.0
 rect_min_size = Vector2( 72, 24 )
 size_flags_horizontal = 3
 custom_constants/separation = 8
@@ -378,9 +331,9 @@ text = "8000000000"
 align = 2
 
 [node name="ScoreLine9" type="HBoxContainer" parent="TableScroller/Table"]
-margin_top = 168.0
+margin_top = 144.0
 margin_right = 228.0
-margin_bottom = 192.0
+margin_bottom = 168.0
 rect_min_size = Vector2( 72, 24 )
 size_flags_horizontal = 3
 custom_constants/separation = 8
@@ -407,6 +360,48 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="TableScroller/Table/ScoreLine9"]
+margin_left = 138.0
+margin_top = 3.0
+margin_right = 228.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 78, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 2 )
+text = "8000000000"
+align = 2
+
+[node name="ScoreLine2" type="HBoxContainer" parent="TableScroller/Table"]
+margin_top = 168.0
+margin_right = 228.0
+margin_bottom = 192.0
+rect_min_size = Vector2( 72, 24 )
+size_flags_horizontal = 3
+custom_constants/separation = 8
+
+[node name="Rank" type="Label" parent="TableScroller/Table/ScoreLine2"]
+margin_top = 3.0
+margin_right = 60.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 32, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "............"
+
+[node name="Owner" type="Label" parent="TableScroller/Table/ScoreLine2"]
+visible = false
+margin_left = 53.0
+margin_top = 3.0
+margin_right = 143.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "drsfgdfgvdf"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="TableScroller/Table/ScoreLine2"]
+visible = false
 margin_left = 138.0
 margin_top = 3.0
 margin_right = 228.0
@@ -447,6 +442,246 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="TableScroller/Table/ScoreLine10"]
+margin_left = 138.0
+margin_top = 3.0
+margin_right = 228.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 78, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 2 )
+text = "8000000000"
+align = 2
+
+[node name="ScoreLine11" type="HBoxContainer" parent="TableScroller/Table"]
+margin_top = 216.0
+margin_right = 228.0
+margin_bottom = 240.0
+rect_min_size = Vector2( 72, 24 )
+size_flags_horizontal = 3
+custom_constants/separation = 8
+
+[node name="Rank" type="Label" parent="TableScroller/Table/ScoreLine11"]
+margin_top = 3.0
+margin_right = 32.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 32, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "10"
+
+[node name="Owner" type="Label" parent="TableScroller/Table/ScoreLine11"]
+margin_left = 40.0
+margin_top = 3.0
+margin_right = 130.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "drsfgdfgvdf"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="TableScroller/Table/ScoreLine11"]
+margin_left = 138.0
+margin_top = 3.0
+margin_right = 228.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 78, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 2 )
+text = "8000000000"
+align = 2
+
+[node name="ScoreLine12" type="HBoxContainer" parent="TableScroller/Table"]
+margin_top = 240.0
+margin_right = 228.0
+margin_bottom = 264.0
+rect_min_size = Vector2( 72, 24 )
+size_flags_horizontal = 3
+custom_constants/separation = 8
+
+[node name="Rank" type="Label" parent="TableScroller/Table/ScoreLine12"]
+margin_top = 3.0
+margin_right = 32.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 32, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "10"
+
+[node name="Owner" type="Label" parent="TableScroller/Table/ScoreLine12"]
+margin_left = 40.0
+margin_top = 3.0
+margin_right = 130.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "drsfgdfgvdf"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="TableScroller/Table/ScoreLine12"]
+margin_left = 138.0
+margin_top = 3.0
+margin_right = 228.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 78, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 2 )
+text = "8000000000"
+align = 2
+
+[node name="ScoreLine13" type="HBoxContainer" parent="TableScroller/Table"]
+margin_top = 264.0
+margin_right = 228.0
+margin_bottom = 288.0
+rect_min_size = Vector2( 72, 24 )
+size_flags_horizontal = 3
+custom_constants/separation = 8
+
+[node name="Rank" type="Label" parent="TableScroller/Table/ScoreLine13"]
+margin_top = 3.0
+margin_right = 32.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 32, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "10"
+
+[node name="Owner" type="Label" parent="TableScroller/Table/ScoreLine13"]
+margin_left = 40.0
+margin_top = 3.0
+margin_right = 130.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "drsfgdfgvdf"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="TableScroller/Table/ScoreLine13"]
+margin_left = 138.0
+margin_top = 3.0
+margin_right = 228.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 78, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 2 )
+text = "8000000000"
+align = 2
+
+[node name="ScoreLine14" type="HBoxContainer" parent="TableScroller/Table"]
+margin_top = 288.0
+margin_right = 228.0
+margin_bottom = 312.0
+rect_min_size = Vector2( 72, 24 )
+size_flags_horizontal = 3
+custom_constants/separation = 8
+
+[node name="Rank" type="Label" parent="TableScroller/Table/ScoreLine14"]
+margin_top = 3.0
+margin_right = 32.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 32, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "10"
+
+[node name="Owner" type="Label" parent="TableScroller/Table/ScoreLine14"]
+margin_left = 40.0
+margin_top = 3.0
+margin_right = 130.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "drsfgdfgvdf"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="TableScroller/Table/ScoreLine14"]
+margin_left = 138.0
+margin_top = 3.0
+margin_right = 228.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 78, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 2 )
+text = "8000000000"
+align = 2
+
+[node name="ScoreLine15" type="HBoxContainer" parent="TableScroller/Table"]
+margin_top = 312.0
+margin_right = 228.0
+margin_bottom = 336.0
+rect_min_size = Vector2( 72, 24 )
+size_flags_horizontal = 3
+custom_constants/separation = 8
+
+[node name="Rank" type="Label" parent="TableScroller/Table/ScoreLine15"]
+margin_top = 3.0
+margin_right = 32.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 32, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "10"
+
+[node name="Owner" type="Label" parent="TableScroller/Table/ScoreLine15"]
+margin_left = 40.0
+margin_top = 3.0
+margin_right = 130.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "drsfgdfgvdf"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="TableScroller/Table/ScoreLine15"]
+margin_left = 138.0
+margin_top = 3.0
+margin_right = 228.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 78, 0 )
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 2 )
+text = "8000000000"
+align = 2
+
+[node name="ScoreLine16" type="HBoxContainer" parent="TableScroller/Table"]
+margin_top = 336.0
+margin_right = 228.0
+margin_bottom = 360.0
+rect_min_size = Vector2( 72, 24 )
+size_flags_horizontal = 3
+custom_constants/separation = 8
+
+[node name="Rank" type="Label" parent="TableScroller/Table/ScoreLine16"]
+margin_top = 3.0
+margin_right = 32.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 32, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "10"
+
+[node name="Owner" type="Label" parent="TableScroller/Table/ScoreLine16"]
+margin_left = 40.0
+margin_top = 3.0
+margin_right = 130.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 90, 0 )
+custom_fonts/font = ExtResource( 2 )
+text = "drsfgdfgvdf"
+clip_text = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Score" type="Label" parent="TableScroller/Table/ScoreLine16"]
 margin_left = 138.0
 margin_top = 3.0
 margin_right = 228.0

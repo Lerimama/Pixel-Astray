@@ -22,14 +22,15 @@ func _ready() -> void:
 	hide()
 
 	
-func open_cover(opening_from: Control = null):
+func open_cover(in_background: bool = true, opening_from: Control = null): # obs opening_from je ?
 	
 	cover_label_text_change_count = 0
 		
 	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-	fade_in.tween_callback(self, "show")
-	fade_in.tween_property(cover_label, "modulate:a", 1, 0.3)
-	fade_in.parallel().tween_property(undi, "modulate:a", 1, 0.3)
+	if not in_background:
+		fade_in.tween_callback(self, "show")
+		fade_in.tween_property(cover_label, "modulate:a", 1, 0.3)
+		fade_in.parallel().tween_property(undi, "modulate:a", 1, 0.3)
 	
 	
 func close_cover():

@@ -68,22 +68,22 @@ modulate_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 [sub_resource type="AtlasTexture" id=337]
 atlas = ExtResource( 4 )
 region = Rect2( 34, 147, 6, 10 )
-margin = Rect2( -6, -4, 0, 0 )
+margin = Rect2( -6, 12, 0, 0 )
 
 [sub_resource type="AtlasTexture" id=338]
 atlas = ExtResource( 4 )
 region = Rect2( 40, 147, 6, 10 )
-margin = Rect2( -6, -4, 0, 0 )
+margin = Rect2( -6, 12, 0, 0 )
 
 [sub_resource type="AtlasTexture" id=335]
 atlas = ExtResource( 4 )
 region = Rect2( 8, 67, 6, 10 )
-margin = Rect2( 0, -4, 6, 0 )
+margin = Rect2( 0, 24, 6, 20 )
 
 [sub_resource type="AtlasTexture" id=336]
 atlas = ExtResource( 4 )
 region = Rect2( 2, 67, 6, 10 )
-margin = Rect2( 0, -4, 0, 0 )
+margin = Rect2( 0, 24, 0, 21 )
 
 [sub_resource type="StyleBoxEmpty" id=191]
 
