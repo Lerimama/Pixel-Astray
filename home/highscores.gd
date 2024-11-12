@@ -2,22 +2,11 @@ extends Control
 
 
 var fake_player_ranking: int = 0 # številka je ranking izven lestvice, da ni označenega plejerja
-var scroll_tween_time: float = 0.8
-var selected_hall: Control
+var publish_btn_text: String = "    Publish %s local-only scores"
 
-#var all_local_tables: Array = []
+# tables ... zaporedje se mora ujemati v sponjih 3 in z node zaporedjem v drevesu
 var all_tables: Array = []
 var sweeper_tables: Array = []
-#var all_sweeper_local_tables: Array = []
-var time_since_higscores_update: float = 0
-var update_higscores_disabled_time_limit: float = 5
-
-onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
-onready var update_scores_btn: Button = $UpdateScoresBtn
-onready var back_btn: TextureButton = $BackBtn
-onready var select_level_node: Control = $"../SelectLevel"
-
-# tables data ... zaporedje se mora ujemati v sponjih 3 in z node zaporedjem v drevesu
 onready var halls: Array = [
 	$ScrollContent/Cleaner/CleanerHall,
 	$ScrollContent/Erasers/TabContainer/XSHall, 
@@ -57,22 +46,22 @@ onready var all_tables_game_data: Array = [
 	Profiles.game_data_defender,
 	]
 
+onready var update_scores_btn: Button = $UpdateScoresBtn
+onready var publish_unpublished_btn: Button = $PublishUnpublishedBtn
+onready var back_btn: TextureButton = $BackBtn
+onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
+onready var select_level_node: Control = $"../SelectLevel"
 		
-# halls ... neurejeno
-enum HALL {CLEANER, SWEEPERS, UNBEATABLES, ERASERS}
-var focused_hall: int = -1
+# halls za input ... neurejeno (input)
 onready var cleaner_hall: Control = $ScrollContent/Cleaner/CleanerHall
 onready var unbeatables_hall: TabContainer = $ScrollContent/Unbeatables/TabContainer
 onready var sweepers_hall: Control = $ScrollContent/Sweepers/TabContainer
 onready var erasers_hall: TabContainer = $ScrollContent/Erasers/TabContainer
-
 onready var default_focus_node: Control = update_scores_btn
 onready var cleaner_focus_node: Control = cleaner_hall.get_node("HighscoreTable").table_scroller
-onready var unbeatables_focus_node: Control# = cleaner_hall.get_node("HighscoreTable")
-onready var sweepers_focus_node: Control# = cleaner_hall.get_node("HighscoreTable")
-onready var erasers_focus_node: Control# = cleaner_hall.get_node("HighscoreTable")
-
-
+onready var unbeatables_focus_node: Control
+onready var sweepers_focus_node: Control
+onready var erasers_focus_node: Control
 func _input(event):
 	
 	var node_to_focus: Control
@@ -169,12 +158,12 @@ func _ready() -> void:
 	
 	# start with global upadate
 	if Profiles.html5_mode:
-		#		load_all_highscore_tables(true, true) # global update, in background
-		call_deferred("load_all_highscore_tables", true, true)
+		load_all_highscore_tables(true, true) # global update, in background
+		#		call_deferred("load_all_highscore_tables", true, true)
 	else:
-		#		load_all_highscore_tables(false) # no global update (no in back)
-		call_deferred("load_all_highscore_tables", false)
-
+		load_all_highscore_tables(false) # no global update (no in back)
+		#		call_deferred("load_all_highscore_tables", false)
+	
 
 func load_all_highscore_tables(update_with_global: bool, update_in_background: bool = false):
 	
@@ -184,20 +173,20 @@ func load_all_highscore_tables(update_with_global: bool, update_in_background: b
 	
 	var update_object_count: int = 0
 	for table in all_tables:
-		var game_data_local: Dictionary
+#		var game_data_local: Dictionary = table.table_game_data 
+		var game_data_local: Dictionary 
 		if sweeper_tables.has(table):
 			game_data_local = Profiles.game_data_sweeper
 			game_data_local["level"] = sweeper_tables.find(table) + 1
 		else:
-					
-			var table_index: int = all_tables.find(table)
+			var table_index: int = all_tables.find(table) # OPT --- izi tabela ima svojo variablo
 			game_data_local = all_tables_game_data[table_index]
 		
 		if update_with_global:
 			update_object_count += 1
 			var update_count_string: String = "%02d/"  % update_object_count + str(all_tables.size())
 			var last_table_in_row: Control = all_tables[all_tables.size() - 1]
-			if table == last_table_in_row:
+			if table == last_table_in_row: # OPT --- izi ...last in row
 				LootLocker.update_lootlocker_leaderboard(game_data_local, true, update_count_string, update_in_background)
 				yield(LootLocker, "connection_closed")
 				ConnectCover.cover_label_text = "Finished"
@@ -213,9 +202,20 @@ func load_all_highscore_tables(update_with_global: bool, update_in_background: b
 	
 	if update_with_global:		
 		select_level_node.select_level_btns_holder.set_level_btns()
+	
 	update_scores_btn.disabled = false
 	update_scores_btn.get_child(0).modulate = Global.color_btn_enabled
-
+	
+	# zapišem število neobjavljenih
+	var all_unpublished_scores_count: int = 0
+	for table in all_tables:
+		all_unpublished_scores_count += table.unpublished_local_scores.size()
+	if all_unpublished_scores_count > 0:
+		publish_unpublished_btn.text = publish_btn_text % str(all_unpublished_scores_count)
+		publish_unpublished_btn.show()
+	else:
+		publish_unpublished_btn.hide()
+		
 	
 # BUTTONS --------------------------------------------------------------------------------------------------------------
 
@@ -247,35 +247,47 @@ func _on_UpdateScoresBtn_focus_exited() -> void:
 
 
 func _on_PushScoresBtn_focus_entered() -> void:
-	pass # Replace with function body.
+	
+	publish_unpublished_btn.get_child(0).modulate = Global.color_btn_focus
 
 
 func _on_PushScoresBtn_focus_exited() -> void:
-	pass # Replace with function body.
+	
+	publish_unpublished_btn.get_child(0).modulate = Global.color_btn_enabled
 
 
 func _on_PushScoresBtn_pressed() -> void:
-	print ("pushing")
 	
+	# push scores
+	var tables_to_update: Array = []
 	for table in all_tables:
-#		for unpublished_score in table.unpublished_local_scores:
-#			var publish_name: String = Global.gameover_gui.p1_final_stats["player_name"]
-#			var publish_score: float = Global.gameover_gui.player_final_score
-#			var publish_game_data: Dictionary = Global.game_manager.game_data
-		table.publish_score_on_table()
-#		publish_score_on_table(table.unpublished_local_scores, table.table_game_data)
-	
+		if not table.unpublished_local_scores.empty():
+			table.publish_unpublished_scores()
+			tables_to_update.append(table)
+			yield(LootLocker, "connection_closed")
+	ConnectCover.cover_label_text = "Finished"
 
-		
-		
-#	get_tree().set_pause(false) # da lahko procedura steče
-#	if get_focus_owner():
-#		get_focus_owner().release_focus()
-#
-#	LootLocker.publish_multiple_scores_to_lootlocker(unpublished_scorelines, game_data)
-#	yield(LootLocker, "connection_closed")
-#	ConnectCover.cover_label_text = "Finished"
-#	yield(get_tree().create_timer(LootLocker.final_panel_open_time), "timeout")
-#
-#	emit_signal("score_published")
-#	get_tree().set_pause(true) # spet setano čez celotno GO proceduro	
+	# v gumb zapišem število neobjavljenih
+	var all_unpublished_scores_count: int = 0
+	for table in all_tables:
+		all_unpublished_scores_count += table.unpublished_local_scores.size()
+	if all_unpublished_scores_count > 0:
+		publish_unpublished_btn.texts = publish_btn_text % str(all_unpublished_scores_count)
+		publish_unpublished_btn.show()
+	else:
+		publish_unpublished_btn.hide()
+			
+	# rebuild tables
+	for table in tables_to_update:
+		var game_data_local: Dictionary 
+		if sweeper_tables.has(table):
+			game_data_local = Profiles.game_data_sweeper
+			game_data_local["level"] = sweeper_tables.find(table) + 1
+		else:
+			var table_index: int = all_tables.find(table) # OPT --- izi tabela ima svojo variablo
+			game_data_local = all_tables_game_data[table_index]
+		table.build_highscore_table(table.table_game_data, fake_player_ranking, false)
+	
+	yield(get_tree().create_timer(LootLocker.final_panel_open_time), "timeout")
+	ConnectCover.close_cover()
+	

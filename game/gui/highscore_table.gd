@@ -1,10 +1,11 @@
 extends Control
 
-var table_game_data: Dictionary
+
+var table_game_data: Dictionary# = {}
 
 var scorelines: Array = []
-var empty_scorelines_to_erase: Array		
-var table_scrollbar: VScrollBar
+var empty_scorelines_after_build: Array		
+var unpublished_local_scores: Array = [] # za naknadno objavo
 
 var empty_table_text: String = "No score to show ...\nPlay your first game\nor update global scores."
 var rank_label_name: String = "Rank"
@@ -18,13 +19,10 @@ onready var table_scroller: ScrollContainer = $TableScroller
 onready var default_scoreline: HBoxContainer = $TableScroller/Table/ScoreLine
 onready var table_scroller_default_x = table_scroller.rect_position.x
 
-# neu
-var unpublished_local_scores: Array = [] # za naknadno objavo
-
 
 func build_highscore_table(current_game_data: Dictionary, current_player_rank: int, show_title: bool = true, separate_local_scores: bool = true):
 	
-	table_game_data = current_game_data
+	table_game_data = current_game_data.duplicate() # nujno duplikat .. še kje?
 	
 	reset_table()
 	
@@ -37,10 +35,10 @@ func build_highscore_table(current_game_data: Dictionary, current_player_rank: i
 		fill_scoreline_with_data(scoreline, current_game_highscores)
 	
 	# zbrišem nenapolnjene scoreline 
-	for empty_scoreline in empty_scorelines_to_erase:
+	for empty_scoreline in empty_scorelines_after_build:
 		scorelines.erase(empty_scoreline)
 		empty_scoreline.queue_free()
-	empty_scorelines_to_erase.clear()
+	empty_scorelines_after_build.clear()
 	
 	# pogrebam scroeline, da ga lahko označim po dodajanju novih
 	var players_scoreline: Control
@@ -50,14 +48,7 @@ func build_highscore_table(current_game_data: Dictionary, current_player_rank: i
 	
 	# dodam lokalne rezultate
 	add_local_to_global_scores(separate_local_scores)
-		
-	# scrollbar in komepenziram njegovo širino s pozicijo
-	var table_x_offset: float = $TableScroller.get_v_scrollbar().rect_size.x
-	table_scrollbar = $TableScroller.get_v_scrollbar()
-	if not table_scrollbar.modulate.a == 0:
-		table_scrollbar.modulate.a = 0
-		table_scroller.rect_position.x += table_x_offset
-	
+
 	# table title
 	if show_title:
 		table_title_label.text = "Top " + table_game_data["game_name"] + "s"
@@ -92,7 +83,12 @@ func build_highscore_table(current_game_data: Dictionary, current_player_rank: i
 		var new_player_scoreline_index: int = scorelines.find(players_scoreline)
 		scorelines[new_player_scoreline_index - 1].modulate = Global.color_green
 	
-			 
+	var table_scrollbar: VScrollBar = $TableScroller.get_v_scrollbar()
+	if not table_scrollbar.modulate.a == 0:
+		table_scrollbar.modulate.a = 0
+		table_scroller.rect_position.x += 7
+	
+						 
 func add_scorelines(lines_count: int):
 	
 	if scorelines.size() < lines_count:
@@ -121,7 +117,7 @@ func fill_scoreline_with_data(scoreline: Control, highscores: Dictionary):
 	
 	var current_position_score: float = current_position_dict_values[0]
 	if current_position_score == 0:
-		empty_scorelines_to_erase.append(scoreline)
+		empty_scorelines_after_build.append(scoreline)
 	else:
 		if table_game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
 			var current_position_seconds: float = current_position_score
@@ -136,7 +132,7 @@ func fill_scoreline_with_data(scoreline: Control, highscores: Dictionary):
 	
 func add_local_to_global_scores(separate_local_scores: bool):
 	
-	var global_game_highscores: Dictionary = Global.data_manager.read_highscores_from_file(table_game_data)
+#	var global_game_highscores: Dictionary = Global.data_manager.read_highscores_from_file(table_game_data)
 	var local_game_highscores: Dictionary = Global.data_manager.read_highscores_from_file(table_game_data, true)
 	
 	var new_scorelines: Array = []
@@ -150,6 +146,7 @@ func add_local_to_global_scores(separate_local_scores: bool):
 			continue
 		
 		var better_ranked_player_count: int = 0
+		
 		for line_with_score in scorelines:
 			var global_player_name: String = line_with_score.get_node(owner_label_name).text
 			var global_player_score: int = int(line_with_score.get_node(score_label_name).text)
@@ -170,9 +167,11 @@ func add_local_to_global_scores(separate_local_scores: bool):
 		# spawn nove scoreline
 		if not better_ranked_player_count == -1 :
 			# spawn
-			var new_local_scoreline: Control = scorelines[0].duplicate()
+#			var new_local_scoreline: Control = scorelines[0].duplicate()
+			var new_local_scoreline: Control = default_scoreline.duplicate()
 			hs_table.add_child(new_local_scoreline)
-			
+			new_local_scoreline.modulate = Color.yellow
+			new_local_scoreline.show()
 			# data
 			var local_player_rank: int = better_ranked_player_count # + 1
 			new_local_scoreline.get_node(rank_label_name).text = "..."
@@ -191,14 +190,25 @@ func add_local_to_global_scores(separate_local_scores: bool):
 	scorelines.append_array(new_scorelines)
 	
 	
-func publish_score_on_table():
-	
-	# ni OK da jemljem podatke iz scorelinetov
-	for line in unpublished_local_scores:
+func publish_unpublished_scores():
+
+	var score_published_count: int = 0
+	for score_rank in unpublished_local_scores:
+		
 		var local_game_highscores: Dictionary = Global.data_manager.read_highscores_from_file(table_game_data, true)
-		var local_player_name: String = local_game_highscores[line].keys()[0]
-		var local_player_score: float = local_game_highscores[line][local_player_name]
-		printt (local_player_name, local_player_score)
+		var local_player_name: String = local_game_highscores[score_rank].keys()[0]
+		var local_player_score: float = local_game_highscores[score_rank][local_player_name]
+		
+		var all_scores_size: int = unpublished_local_scores.size()
+		score_published_count += 1
+		if score_published_count < unpublished_local_scores.size():
+			LootLocker.multipublish_scores_to_lootlocker(local_player_name, local_player_score, table_game_data)
+			yield(LootLocker, "unpublished_score_published")
+		else: # če je zadnji
+			LootLocker.multipublish_scores_to_lootlocker(local_player_name, local_player_score, table_game_data, true)
+			yield(LootLocker, "unpublished_score_published")
+			LootLocker.update_lootlocker_leaderboard(table_game_data, true, "", true)
+	unpublished_local_scores.clear()
 
 
 func reset_table():

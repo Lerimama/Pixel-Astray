@@ -40,6 +40,8 @@ onready var name_input_popup: Control = $NameInputPopup
 onready var name_input: LineEdit = $NameInputPopup/NameInput
 onready var name_input_label: Label = $NameInputPopup/Label
 
+# neu
+var is_successful: bool = false
 	
 func _input(event: InputEvent) -> void:
 
@@ -107,6 +109,91 @@ func open_gameover(gameover_reason: int):
 	show_gameover_title()	
 		
 			
+func show_gameover_title():
+
+	visible = true
+	selected_gameover_title.show()
+	gameover_title_holder.modulate.a = 0
+	
+	# animacija
+	var fade_in = get_tree().create_tween()
+	fade_in.tween_callback(gameover_title_holder, "show")
+	fade_in.tween_property(gameover_title_holder, "modulate:a", 1, 0.7)
+	fade_in.parallel().tween_callback(Global.sound_manager, "stop_music", ["game_music_on_gameover"])
+	fade_in.parallel().tween_callback(Global.sound_manager, "play_gui_sfx", [selected_gameover_jingle])
+	fade_in.parallel().tween_property(background, "modulate:a", background_fadein_alpha, 1).set_ease(Tween.EASE_IN).set_delay(1) # z zamikom seže summary animacijo
+	# skrije futer in header, če ni zoomouta
+	if Global.game_manager.game_settings["always_zoomed_in"]:
+		fade_in.parallel().tween_property(header_futer_covers, "modulate:a", 1, 1).set_ease(Tween.EASE_IN)
+	yield(fade_in, "finished")
+	get_tree().set_pause(true) # setano čez celotno GO proceduro
+	
+	# summary or menu
+	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NONE:
+		show_menu()
+	else:
+		# če je ranking odprem name_input, če ne skrijem GO title in grem na summary
+		if current_player_local_rank > 0: 
+			open_name_input()
+			yield(self, "name_input_finished")
+			get_viewport().set_disable_input(false) # anti dablklik ... disejblan je blo v igri
+		else:
+			var title_fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+			title_fade_out.tween_property(gameover_title_holder, "modulate:a", 0, 0.5)
+			title_fade_out.tween_callback(gameover_title_holder, "hide")
+			yield(title_fade_out, "finished")	
+		set_game_summary() 
+	
+	
+func show_game_summary():
+	
+	yield(get_tree().create_timer(0.5), "timeout")
+	# hide title and name_popup > show game summary
+	game_summary.modulate.a = 0	
+	game_summary.visible = true	
+	var summary_fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+	summary_fade_in.tween_property(game_summary, "modulate:a", 1, 0.5)
+	summary_fade_in.parallel().tween_callback(self, "show_menu")
+
+
+func show_menu():
+	
+	var restart_btn: Button = $Menu/RestartBtn
+	var focus_btn: Button = restart_btn
+	
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+		restart_btn.text = "TRY AGAIN"
+		gameover_menu.rect_global_position.y += 24
+		var current_level_btn_index: int = Global.game_manager.game_data["level"] - 1 # index gumba začne iz 0
+		focus_btn = select_level_btns_holder.get_children()[current_level_btn_index]
+	elif Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
+		restart_btn.text = "REMATCH"
+	
+	gameover_menu.modulate.a = 0
+	gameover_menu.show()
+	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+	fade_in.tween_callback(gameover_menu, "show")
+	fade_in.tween_property(gameover_menu, "modulate:a", 1, 0.5).from(0.0)
+	fade_in.parallel().tween_callback(Global, "focus_without_sfx", [focus_btn])		
+
+	
+func play_selected_level(selected_level: int):
+
+	# set sweeper level
+	Profiles.game_data_sweeper["level"] = selected_level
+
+	# zmeraj gre na next level iz GO menija, se navoidla ugasnejo (so ugasnjena po defoltu)
+	#	var sweeper_settings = Profiles.set_game_data(Profiles.Games.SWEEPER) # OPT ven? sweepr instructions
+	#	if Profiles.default_game_settings["show_game_instructions"] == true: # igra ima navodila, če so navodila vklopljena 
+	#		sweeper_settings["show_game_instructions"] = true
+	#		sweeper_settings["always_zoomed_in"] = true
+	
+	Global.main_node.reload_game()
+
+
+# SETUP ----------------------------------------------------------------------------------------	
+	
+			
 func set_gameover_title():
 	
 	var gameover_subtitle: Label
@@ -150,11 +237,11 @@ func set_gameover_title():
 	# GO text color
 	if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
 		selected_gameover_title.modulate = Global.color_green
-	elif current_player_local_rank > Profiles.green_rank_limit: # more bit preverjanje "če ni topX", ker true se ne vrne
+	elif current_player_local_rank > Profiles.green_rank_limit: # _temp green rank limit ...more bit preverjanje "če ni topX", ker true se ne vrne
 		selected_gameover_title.modulate = Global.color_red
 	else:
 		selected_gameover_title.modulate = Global.color_green
-		
+
 				
 func set_duel_gameover_title():
 	
@@ -197,48 +284,8 @@ func set_duel_gameover_title():
 			winning_reason_label.text = winner_label.text + " was better by only one point."
 		else: 
 			winning_reason_label.text =  winner_label.text + " was " + str(abs(points_difference)) + " points better than " + loser_name + "."
-			
-			
-func show_gameover_title():
-
-	visible = true
-	selected_gameover_title.visible = true
-	gameover_title_holder.modulate.a = 0
 	
-	# animacija
-	var fade_in = get_tree().create_tween()
-	fade_in.tween_callback(gameover_title_holder, "show")
-	fade_in.tween_property(gameover_title_holder, "modulate:a", 1, 0.7)
-	fade_in.parallel().tween_callback(Global.sound_manager, "stop_music", ["game_music_on_gameover"])
-	fade_in.parallel().tween_callback(Global.sound_manager, "play_gui_sfx", [selected_gameover_jingle])
-	fade_in.parallel().tween_property(background, "modulate:a", background_fadein_alpha, 1).set_ease(Tween.EASE_IN).set_delay(1) # z zamikom seže summary animacijo
-	# skrije futer in heder, če ni zoomouta
-	if Global.game_manager.game_settings["always_zoomed_in"]:
-		fade_in.parallel().tween_property(header_futer_covers, "modulate:a", 1, 1).set_ease(Tween.EASE_IN)
-	yield(fade_in, "finished")
-	get_tree().set_pause(true) # setano čez celotno GO proceduro
 	
-	# summary or menu
-	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NONE:
-		show_menu()
-	else:
-		# če je ranking odprem name_input, če ne skirjem GO title
-		open_name_input()
-		yield(self, "name_input_finished")
-		get_viewport().set_disable_input(false) # anti dablklik ... disejblan je blo v igri
-#		# če je ranking odprem name_input, če ne skirjem GO title
-#		if current_player_local_rank > 0: # manage_gameover_highscores počaka na signal iz name_input ... more bit NOT, ker true se ne vrne
-#			open_name_input()
-#			yield(self, "name_input_finished")
-#			get_viewport().set_disable_input(false) # anti dablklik ... disejblan je blo v igri
-#		else:
-#			var title_fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-#			title_fade_out.tween_property(gameover_title_holder, "modulate:a", 0, 0.5)
-#			title_fade_out.tween_callback(gameover_title_holder, "hide")
-#			yield(title_fade_out, "finished")	
-		set_game_summary() 
-		
-
 func set_game_summary():
 
 	# set content node
@@ -311,62 +358,10 @@ func set_game_summary():
 	else:
 		summary_title.modulate = Global.color_green
 	
-	show_game_summary() # meni pokažem v tej funkciji	
-	
-	
-func show_game_summary():
-	
-	yield(get_tree().create_timer(0.5), "timeout")
-	# hide title and name_popup > show game summary
-	game_summary.modulate.a = 0	
-	game_summary.visible = true	
-	var summary_fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-	summary_fade_in.tween_property(game_summary, "modulate:a", 1, 0.5)
-	summary_fade_in.parallel().tween_callback(self, "show_menu")
+	show_game_summary() # meni pokažem v tej funkciji
 
 
-func show_menu():
-	
-	var restart_btn: Button = $Menu/RestartBtn
-	var focus_btn: Button = restart_btn
-	
-	# vidnost gumbov v meniju glede na igro
-	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-		restart_btn.text = "TRY AGAIN"
-		gameover_menu.rect_global_position.y += 24
-		# focus level btn (current ali next)
-		var current_level_btn_index: int = Global.game_manager.game_data["level"] - 1 # index gumba začne iz 0
-		#		if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
-		#			focus_btn = select_level_btns_holder.get_children()[current_level_btn_index + 1]
-		#		else:
-		focus_btn = select_level_btns_holder.get_children()[current_level_btn_index]
-	elif Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
-		restart_btn.text = "REMATCH"
-	
-	gameover_menu.modulate.a = 0
-	gameover_menu.visible = true
-		
-	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-	fade_in.tween_callback(gameover_menu, "show")
-	fade_in.tween_property(gameover_menu, "modulate:a", 1, 0.5).from(0.0)
-	fade_in.parallel().tween_callback(Global, "focus_without_sfx", [focus_btn])		
-
-	
-func play_selected_level(selected_level: int):
-
-	# set sweeper level
-	Profiles.game_data_sweeper["level"] = selected_level
-
-	# zmeraj gre na next level iz GO menija, se navoidla ugasnejo (so ugasnjena po defoltu)
-	#	var sweeper_settings = Profiles.set_game_data(Profiles.Games.SWEEPER) # OPT ven? sweepr instructions
-	#	if Profiles.default_game_settings["show_game_instructions"] == true: # igra ima navodila, če so navodila vklopljena 
-	#		sweeper_settings["show_game_instructions"] = true
-	#		sweeper_settings["always_zoomed_in"] = true
-	
-	Global.main_node.reload_game()
-
-
-# NAME INPUT --------------------------------------------------------------------	
+# NAME INPUT -----------------------------------------------------------------------------------	
 
 
 func open_name_input():
@@ -435,6 +430,7 @@ func confirm_name_input():
 		publish_popup.open_popup()
 	yield(publish_popup, "score_published")
 	publish_popup.close_popup()
+	
 	var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_out.tween_property(gameover_title_holder, "modulate:a", 0, 0.5)
 	fade_out.tween_callback(gameover_title_holder, "hide")

@@ -341,32 +341,32 @@ func _on_EraserBtn_pressed() -> void:
 	select_hall(erasers_position)
 	
 
-func _on_Sweepers_tab_selected(tab: int) -> void:
-	
-	if selected_hall == sweepers_hall:
-		get_focus_owner().release_focus()
-		focus_hall_content(sweepers_hall)
-	else:
-		select_hall(sweepers_position, true)
-		pass
-	
-	
-func _on_Unbeatable_tab_selected(tab: int) -> void:
-
-	if selected_hall == unbeatables_hall:
-		get_focus_owner().release_focus()
-		focus_hall_content(unbeatables_hall)
-	else:
-		select_hall(unbeatables_position, true)	
-	
-	
-func _on_Eraser_tab_selected(tab: int) -> void:
-
-	if selected_hall == erasers_hall:
-		get_focus_owner().release_focus()
-		focus_hall_content(erasers_hall)
-	else:
-		select_hall(erasers_position, true)
+#func _on_Sweepers_tab_selected(tab: int) -> void:
+#
+#	if selected_hall == sweepers_hall:
+#		get_focus_owner().release_focus()
+#		focus_hall_content(sweepers_hall)
+#	else:
+#		select_hall(sweepers_position, true)
+#		pass
+#
+#
+#func _on_Unbeatable_tab_selected(tab: int) -> void:
+#
+#	if selected_hall == unbeatables_hall:
+#		get_focus_owner().release_focus()
+#		focus_hall_content(unbeatables_hall)
+#	else:
+#		select_hall(unbeatables_position, true)	
+#
+#
+#func _on_Eraser_tab_selected(tab: int) -> void:
+#
+#	if selected_hall == erasers_hall:
+#		get_focus_owner().release_focus()
+#		focus_hall_content(erasers_hall)
+#	else:
+#		select_hall(erasers_position, true)
 	
 	
 # BUTTONS --------------------------------------------------------------------------------------------------------------

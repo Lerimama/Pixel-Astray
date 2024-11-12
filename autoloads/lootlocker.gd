@@ -3,6 +3,7 @@ extends HTTPRequest
 signal guest_authenticated # zase
 signal leaderboard_updated # pove kdaj je konec celotnega procesa "apdejtanja"
 signal connection_closed # pove kdaj je konec celotnega procesa "apdejtanja"
+signal unpublished_score_published # na vrsti je naslednji score
 
 var player_id: String # setam pred avtentikacijo
 var session_token: String # dobim ob avtentikaciji
@@ -10,6 +11,7 @@ var lootlocker_leaderboard: Array
 var guest_is_authenticated: bool = false
 var anonymous_guest_name: String = "anonymous" # ko čekiraš HS v home
 var final_panel_open_time: float = 1 
+var multipublish_count: int = 0	# da ve kdaj je prvi in ga avtenticira ...
 
 
 func _ready() -> void:
@@ -44,48 +46,46 @@ func publish_score_to_lootlocker(player_name: String, player_score: float, game_
 	
 	update_lootlocker_leaderboard(game_data)
 	
+
+func multipublish_scores_to_lootlocker(player_name: String, player_score: float, game_data: Dictionary, last_in_row: bool = false): # ko objaviš nov skor z novim imenom, se je potrebno pononvno povezat
 	
-func publish_multiple_scores_to_lootlocker(unpublished_scorelines: Array, game_data: Dictionary, multiple: bool = true): # ko objaviš nov skor z novim imenom, se je potrebno pononvno povezat
-	
+	multipublish_count += 1
 	guest_is_authenticated = false
-		       
+	
 	var game_leaderboard_key = Profiles.Games.keys()[game_data["game"]]
 	if game_data["game"] == Profiles.Games.SWEEPER: # OPT iskanja brez sweeperja
 		game_leaderboard_key = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"])
-	#	printt("LL publish key:", game_leaderboard_key)
+		printt ("game_leaderboard_key", game_leaderboard_key, game_data["level"])
 	
-	ConnectCover.cover_label_text = "Publishing ..."
+	if multipublish_count == 1: # avtenticiram na ime prvega rezultata v vrsti
+		authenticate_guest_session(player_name, true)
+		yield(self, "guest_authenticated")
 	
-#	var player_name = 
-	var player_score
+	ConnectCover.cover_label_text = "Publishing score %s" % str(multipublish_count)
 	
-	for scoreline in unpublished_scorelines:
-		
-		var scoreline_owner: String
-		var scoreline_score: String
-		
-		authenticate_guest_session(scoreline_owner, true)
-		yield(self, "guest_authenticated")	
-		
-		var url: String = "https://api.lootlocker.io/game/leaderboards/%s/submit" % game_leaderboard_key
-		var header: Array = ["Content-Type: application/json", "x-session-token: %s" % session_token]
-		var method = HTTPClient.METHOD_POST
-		var request_data: Dictionary = {
-			"score": player_score,
-			"member_id": player_id, # player ID je ime opredeljeno pred avtentikacijo
-		}
-		
-		request(url, header, false, method, to_json(request_data)) 
-		# čakam na odgovor od lootlockerja ... zato dam yield
-		yield(self, "request_completed")
+	var url: String = "https://api.lootlocker.io/game/leaderboards/%s/submit" % game_leaderboard_key
+	var header: Array = ["Content-Type: application/json", "x-session-token: %s" % session_token]
+	var method = HTTPClient.METHOD_POST
+	var request_data: Dictionary = {
+		"score": player_score,
+		"member_id": player_name, # player ID je ime opredeljeno pred avtentikacijo
+		#		"member_id": player_id, # player ID je ime opredeljeno pred avtentikacijo
+	}
 	
-	update_lootlocker_leaderboard(game_data)
+	request(url, header,false, method, to_json(request_data)) 
+	# čakam na odgovor od lootlockerja ... zato dam yield
+	yield(self, "request_completed") 
+	
+	if last_in_row:
+		multipublish_count = 0
+		
+	emit_signal("unpublished_score_published")
+		
 
-
-func update_lootlocker_leaderboard(game_data: Dictionary, last_update_in_row: bool = true, update_string: String = "", update_in_background: bool = false): 
+func update_lootlocker_leaderboard(game_data: Dictionary, last_in_row: bool = true, update_string: String = "", update_in_background: bool = false): 
 	
 	if not guest_is_authenticated:
-		authenticate_guest_session(anonymous_guest_name, last_update_in_row, update_in_background)
+		authenticate_guest_session(anonymous_guest_name, last_in_row, update_in_background)
 		yield(self, "guest_authenticated")
 	else:	
 		ConnectCover.open_cover(update_in_background)
@@ -110,8 +110,8 @@ func update_lootlocker_leaderboard(game_data: Dictionary, last_update_in_row: bo
 	response = JSON.parse(response.get_string_from_utf8()).result # dobimo session token key
 	
 	if response == null:
-		if last_update_in_row:	
-			on_connection_failed(last_update_in_row)
+		if last_in_row:	
+			on_connection_failed(last_in_row)
 	else:	
 		if "items" in response:
 			if response["items"] == null: # če v tabeli ni items arraya, generiram enega fejk 
@@ -135,7 +135,7 @@ func update_lootlocker_leaderboard(game_data: Dictionary, last_update_in_row: bo
 		
 		printt ("Leaderboard updated (get,save)", game_leaderboard_key)
 		
-		if last_update_in_row:	
+		if last_in_row:	
 			emit_signal("connection_closed")
 		else:
 			emit_signal("leaderboard_updated")

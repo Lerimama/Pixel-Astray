@@ -13,43 +13,35 @@ func _ready() -> void:
 	
 func get_top_highscore(current_game_data: Dictionary):
 	
-	# load highscore
-#	var loaded_game_highscores: Dictionary = read_highscores_from_file(current_game_data, true) # ... v odprtem filetu se potem naloži highscore
-	var loaded_game_highscores: Dictionary = read_highscores_from_file(current_game_data) # ... v odprtem filetu se potem naloži highscore
+	# load highscore ... 
+	# nakoncu z najvišjega globalnega primerjam z top lokalnim (neobjavljenim) in pokažem boljšega
+	var loaded_global_highscores: Dictionary = read_highscores_from_file(current_game_data) # ... v odprtem filetu se potem naloži highscore
+	var loaded_local_highscores: Dictionary = read_highscores_from_file(current_game_data, true) # ... v odprtem filetu se potem naloži highscore
 	
-	# current higscore in lastnik
-	var all_scores: Array = []
-	var all_score_owners: Array = []
 	
-	for hs_position_key in loaded_game_highscores:
-		# dodam vrednost s pozicijo
-		var current_position_dict = loaded_game_highscores[hs_position_key]
-		all_scores += current_position_dict.values()
-		all_score_owners += current_position_dict.keys()
-		
-	# setam top score glede na tip HSja
-	var current_highscore: float
-	match current_game_data["highscore_type"]:
-		Profiles.HighscoreTypes.POINTS:
-			# izberem najvišjega
-			current_highscore = all_scores.max()
-		Profiles.HighscoreTypes.TIME:
-			# naberem vse rezultate, ki niso 0 in izberem minimalnega
-			var valid_scores: Array
-			for score in all_scores:
-				if score > 0:
-					valid_scores.append(score)
-			if valid_scores.empty(): # prevent error, kadar so same 0
-				current_highscore = 0
-			else:
-				current_highscore = valid_scores.min()
-
-	var current_highscore_index: int = all_scores.find(current_highscore)
-	var current_highscore_owner: String = all_score_owners[current_highscore_index]
+	var global_first_rank_key: String = loaded_global_highscores.keys()[0]
+	var global_hs_owner: String = loaded_global_highscores[global_first_rank_key].keys()[0]
+	var global_hs_score: float = loaded_global_highscores[global_first_rank_key].values()[0]
 	
-	# za GM hud
-	return [current_highscore, current_highscore_owner]
-
+	
+	var local_first_rank_key: String = loaded_local_highscores.keys()[0]
+	var local_hs_owner: String = loaded_local_highscores[local_first_rank_key].keys()[0]
+	var local_hs_score: float = loaded_local_highscores[local_first_rank_key].values()[0]
+	
+	var top_highscore: float = global_hs_score
+	var top_highscore_owner: String = global_hs_owner
+	# preverim, če je lokalni skor višji (samo neobjavljeni je lahko višji)
+	if current_game_data["highscore_type"] == Profiles.HighscoreTypes.POINTS:
+		if local_hs_score > global_hs_score:
+			top_highscore = local_hs_score
+			top_highscore_owner = local_hs_owner
+	elif current_game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
+		if local_hs_score < global_hs_score:
+			top_highscore = local_hs_score
+			top_highscore_owner = local_hs_owner
+	
+	return [top_highscore, top_highscore_owner]
+	
 
 func check_player_ranking(current_score: float, current_game_data: Dictionary, check_local_ranking: bool = true):
 		

@@ -1,4 +1,4 @@
-[gd_scene load_steps=111 format=2]
+[gd_scene load_steps=110 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -524,24 +524,19 @@ OptionButton/styles/pressed = SubResource( 495 )
 Panel/styles/panel = SubResource( 496 )
 VSeparator/styles/separator = SubResource( 497 )
 
+[sub_resource type="AtlasTexture" id=535]
+atlas = ExtResource( 2 )
+region = Rect2( 32, 192, 16, 16 )
+filter_clip = true
+
 [sub_resource type="AtlasTexture" id=533]
 atlas = ExtResource( 2 )
 region = Rect2( 26, 120, 20, 24 )
 filter_clip = true
 
-[sub_resource type="AtlasTexture" id=534]
+[sub_resource type="AtlasTexture" id=536]
 atlas = ExtResource( 2 )
-region = Rect2( 26, 120, 20, 24 )
-filter_clip = true
-
-[sub_resource type="AtlasTexture" id=528]
-atlas = ExtResource( 2 )
-region = Rect2( 2, 120, 20, 24 )
-filter_clip = true
-
-[sub_resource type="AtlasTexture" id=527]
-atlas = ExtResource( 2 )
-region = Rect2( 26, 120, 20, 24 )
+region = Rect2( 32, 160, 16, 18 )
 filter_clip = true
 
 [sub_resource type="StyleBoxLine" id=531]
@@ -1183,7 +1178,7 @@ tracks/5/keys = {
 [node name="Home" type="Node2D"]
 script = ExtResource( 5 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 656.0, -496.0, 136.0, -420.0, 1128.0, 816.0, 752.0, 96.0, 160.0, 200.0, 312.0, -344.0, -32.0, 600.0 ],
+"_edit_horizontal_guides_": [ 656.0, -496.0, 136.0, -420.0, 1128.0, 816.0, 752.0, 96.0, 160.0, 200.0, 312.0, -344.0, -32.0, 600.0, -536.0 ],
 "_edit_vertical_guides_": [ 64.0, 1280.0, 1216.0, 640.0, 2048.0, -320.0, 1024.0, 848.0, 1304.0, 1456.0 ]
 }
 
@@ -2413,10 +2408,10 @@ script = ExtResource( 8 )
 [node name="Title" type="Label" parent="Highscores"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -96.0
-margin_top = 70.0
-margin_right = 96.0
-margin_bottom = 102.0
+margin_left = -111.0
+margin_top = 62.0
+margin_right = 111.0
+margin_bottom = 94.0
 grow_horizontal = 2
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0.996078, 0.976471, 0.545098, 1 )
@@ -2424,67 +2419,64 @@ custom_fonts/font = ExtResource( 4 )
 text = "Hall Of Fame"
 align = 1
 
+[node name="TextureRect" type="TextureRect" parent="Highscores"]
+visible = false
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+margin_left = 64.0
+margin_top = 72.0
+margin_right = 80.0
+margin_bottom = 88.0
+texture = SubResource( 535 )
+
 [node name="UpdateScoresBtn" type="Button" parent="Highscores"]
 margin_left = 64.0
-margin_top = 77.0
-margin_right = 340.0
-margin_bottom = 101.0
+margin_top = 69.0
+margin_right = 345.0
+margin_bottom = 93.0
 focus_neighbour_right = NodePath("../BackBtn")
-focus_neighbour_bottom = NodePath("../ScrollContent/Cleaner/CleanerHall/HighscoreTable")
+focus_neighbour_bottom = NodePath("../PublishUnpublishedBtn")
 mouse_default_cursor_shape = 2
-text = "    Update global scores"
+text = "     Update global scores"
 align = 0
 
 [node name="TextureRect" type="TextureRect" parent="Highscores/UpdateScoresBtn"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+margin_left = 1.0
 margin_top = 1.0
-margin_right = 20.0
+margin_right = 21.0
 margin_bottom = 25.0
 texture = SubResource( 533 )
 
-[node name="PushLocal" type="Button" parent="Highscores"]
-margin_left = 64.0
-margin_top = 101.0
-margin_right = 340.0
-margin_bottom = 125.0
+[node name="PublishUnpublishedBtn" type="Button" parent="Highscores"]
+margin_left = 65.0
+margin_top = 573.0
+margin_right = 430.0
+margin_bottom = 597.0
+focus_neighbour_top = NodePath("../UpdateScoresBtn")
 focus_neighbour_right = NodePath("../BackBtn")
-focus_neighbour_bottom = NodePath("../ScrollContent/Cleaner/CleanerHall/HighscoreTable")
 mouse_default_cursor_shape = 2
-text = "    Publish unpublished local scores (can last)"
+text = "    Publish %s local-only scores"
 align = 0
 
-[node name="TextureRect" type="TextureRect" parent="Highscores/PushLocal"]
+[node name="TextureRect" type="TextureRect" parent="Highscores/PublishUnpublishedBtn"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-margin_top = 1.0
-margin_right = 20.0
-margin_bottom = 25.0
-texture = SubResource( 534 )
-
-[node name="UpdateScoresBtn2" type="TextureButton" parent="Highscores"]
-visible = false
-margin_left = 64.0
-margin_top = 78.0
-margin_right = 344.0
-margin_bottom = 102.0
-focus_neighbour_right = NodePath("../BackBtn")
-focus_neighbour_bottom = NodePath("../ScrollContent/Cleaner/CleanerHall/HighscoreTable")
-mouse_default_cursor_shape = 2
-texture_normal = SubResource( 528 )
-texture_pressed = SubResource( 527 )
-texture_hover = SubResource( 527 )
-texture_disabled = SubResource( 528 )
-texture_focused = SubResource( 527 )
+margin_left = 1.0
+margin_top = 3.0
+margin_right = 17.0
+margin_bottom = 21.0
+texture = SubResource( 536 )
 
 [node name="BackBtn" type="TextureButton" parent="Highscores"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -64.0
-margin_top = 74.0
+margin_top = 66.0
 margin_right = -40.0
-margin_bottom = 96.0
+margin_bottom = 88.0
 rect_min_size = Vector2( 16, 16 )
 rect_rotation = 89.9999
 focus_neighbour_left = NodePath("../UpdateScoresBtn")
+focus_neighbour_bottom = NodePath("../PublishUnpublishedBtn")
 mouse_default_cursor_shape = 2
 texture_normal = SubResource( 195 )
 texture_hover = SubResource( 196 )
@@ -2495,12 +2487,12 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -386.0
+margin_left = -394.0
 margin_top = -2.0
 margin_right = -64.0
 margin_bottom = 20.0
 theme = ExtResource( 15 )
-custom_constants/separation = 16
+custom_constants/separation = 24
 __meta__ = {
 "_edit_group_": true
 }
@@ -2526,9 +2518,9 @@ rect_min_size = Vector2( 8, 8 )
 
 [node name="Label2" type="Label" parent="Highscores/Legend"]
 modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
-margin_left = 110.0
+margin_left = 118.0
 margin_top = 2.0
-margin_right = 322.0
+margin_right = 330.0
 margin_bottom = 20.0
 custom_fonts/font = ExtResource( 14 )
 text = "... unpublished local scores"
@@ -2549,12 +2541,12 @@ rect_min_size = Vector2( 8, 8 )
 margin_left = 64.0
 margin_top = 136.0
 margin_right = 1216.0
-margin_bottom = 568.0
+margin_bottom = 560.0
 custom_constants/separation = 10
 
 [node name="Cleaner" type="Control" parent="Highscores/ScrollContent"]
 margin_right = 280.0
-margin_bottom = 432.0
+margin_bottom = 424.0
 rect_min_size = Vector2( 280, 392 )
 size_flags_vertical = 3
 
@@ -2569,7 +2561,7 @@ custom_styles/panel = SubResource( 531 )
 
 [node name="CleanerHall" parent="Highscores/ScrollContent/Cleaner" instance=ExtResource( 31 )]
 margin_top = 50.0
-margin_bottom = 432.0
+margin_bottom = 424.0
 
 [node name="Edge" parent="Highscores/ScrollContent/Cleaner/CleanerHall/Undi" index="0"]
 visible = false
@@ -2602,7 +2594,7 @@ align = 1
 [node name="Sweepers" type="Control" parent="Highscores/ScrollContent"]
 margin_left = 290.0
 margin_right = 570.0
-margin_bottom = 432.0
+margin_bottom = 424.0
 rect_min_size = Vector2( 280, 392 )
 size_flags_vertical = 3
 
@@ -2713,7 +2705,7 @@ align = 1
 [node name="Unbeatables" type="Control" parent="Highscores/ScrollContent"]
 margin_left = 580.0
 margin_right = 860.0
-margin_bottom = 432.0
+margin_bottom = 424.0
 rect_min_size = Vector2( 280, 392 )
 size_flags_vertical = 3
 
@@ -2769,7 +2761,7 @@ align = 1
 [node name="Erasers" type="Control" parent="Highscores/ScrollContent"]
 margin_left = 870.0
 margin_right = 1150.0
-margin_bottom = 432.0
+margin_bottom = 424.0
 rect_min_size = Vector2( 280, 392 )
 size_flags_vertical = 3
 
@@ -3336,16 +3328,10 @@ anims/settings = SubResource( 530 )
 [connection signal="focus_entered" from="Highscores/UpdateScoresBtn" to="Highscores" method="_on_UpdateScoresBtn_focus_entered"]
 [connection signal="focus_exited" from="Highscores/UpdateScoresBtn" to="Highscores" method="_on_UpdateScoresBtn_focus_exited"]
 [connection signal="pressed" from="Highscores/UpdateScoresBtn" to="Highscores" method="_on_UpdateScoresBtn_pressed"]
-[connection signal="focus_entered" from="Highscores/PushLocal" to="Highscores" method="_on_PushScoresBtn_focus_entered"]
-[connection signal="focus_exited" from="Highscores/PushLocal" to="Highscores" method="_on_PushScoresBtn_focus_exited"]
-[connection signal="pressed" from="Highscores/PushLocal" to="Highscores" method="_on_PushScoresBtn_pressed"]
-[connection signal="focus_entered" from="Highscores/UpdateScoresBtn2" to="Highscores" method="_on_UpdateScoresBtn_focus_entered"]
-[connection signal="focus_exited" from="Highscores/UpdateScoresBtn2" to="Highscores" method="_on_UpdateScoresBtn_focus_exited"]
-[connection signal="pressed" from="Highscores/UpdateScoresBtn2" to="Highscores" method="_on_UpdateScoresBtn_pressed"]
+[connection signal="focus_entered" from="Highscores/PublishUnpublishedBtn" to="Highscores" method="_on_PushScoresBtn_focus_entered"]
+[connection signal="focus_exited" from="Highscores/PublishUnpublishedBtn" to="Highscores" method="_on_PushScoresBtn_focus_exited"]
+[connection signal="pressed" from="Highscores/PublishUnpublishedBtn" to="Highscores" method="_on_PushScoresBtn_pressed"]
 [connection signal="pressed" from="Highscores/BackBtn" to="Highscores" method="_on_BackBtn_pressed"]
-[connection signal="tab_selected" from="Highscores/ScrollContent/Sweepers/TabContainer" to="Highscores" method="_on_Sweepers_tab_selected"]
-[connection signal="tab_selected" from="Highscores/ScrollContent/Unbeatables/TabContainer" to="Highscores" method="_on_Unbeatable_tab_selected"]
-[connection signal="tab_selected" from="Highscores/ScrollContent/Erasers/TabContainer" to="Highscores" method="_on_Eraser_tab_selected"]
 [connection signal="pressed" from="About/BackBtn" to="About" method="_on_BackBtn_pressed"]
 [connection signal="meta_clicked" from="About/Thanks/LinkLabel" to="About" method="_on_NameAuthor_meta_clicked"]
 [connection signal="meta_clicked" from="About/Resources/LinkLabel" to="About" method="_on_NameAuthor_meta_clicked"]

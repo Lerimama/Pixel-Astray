@@ -442,6 +442,7 @@ func create_strays(strays_to_spawn_count: int):
 					spawn_stray(stray_index, new_stray_color, selected_stray_position, turn_to_white)
 				# ko je čas večji od dovoljenega, pavziram do naslednjega frejma in resetiram štartni čas
 				else:
+					print ("potrotlam - stray spawn") # trotlam
 					var msec_to_next_frame: float = throttler_msec_threshold + 1
 					var sec_to_next_frame: float = msec_to_next_frame / 1000.0
 					yield(get_tree().create_timer(sec_to_next_frame), "timeout") # da se vsi straysi spawnajo

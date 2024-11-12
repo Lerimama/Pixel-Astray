@@ -8,6 +8,7 @@ onready var animation_player: AnimationPlayer = $AnimationPlayer
 	
 func start_countdown():
 	
+	yield(get_tree().create_timer(0.7), "timeout")
 	animation_player.play("ready_go")
 	
 	

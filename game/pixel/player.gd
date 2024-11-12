@@ -870,6 +870,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 				if sweep_move_started:	
 					sweep_move_cleaned_strays_count += 1
 			else:
+				print ("potrotlam - multi stray destroy") # trotlam
 				var msec_to_next_frame: float = Global.game_manager.throttler_msec_threshold + 1
 				var sec_to_next_frame: float = msec_to_next_frame / 1000.0
 				yield(get_tree().create_timer(sec_to_next_frame), "timeout") # da se vsi straysi spawnajo
@@ -1318,6 +1319,7 @@ func manage_heartbeat():
 
 func on_screen_cleaned(): # kliče GM
 	
+	close_reburst_window()
 	animation_player.play("become_white")
 	change_stat("all_cleaned", 1) # nagrada je določena v settingsih
 	emit_signal("rewarded_on_cleaned") # javi v GM ... signal pošljem tudi na koncu animacije, za tiste igre, ki tega zgrešijo

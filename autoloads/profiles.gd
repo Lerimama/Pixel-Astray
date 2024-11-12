@@ -278,6 +278,7 @@ func set_game_data(selected_game):
 #	game_settings["player_start_life"] = 2
 #	game_settings["show_game_instructions"] = false
 
+
 	match selected_game:
 
 		Games.CLEANER: 
