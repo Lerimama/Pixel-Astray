@@ -191,11 +191,10 @@ func color_game_btns():
 	
 				
 func play_selected_game(selected_game_enum: int):
-	
+
 	Profiles.set_game_data(selected_game_enum)
-	Global.sound_manager.play_gui_sfx("menu_fade")
-	#	animation_player.play("play_game")
 	Global.main_node.home_out()
+		
 				
 func _on_BackBtn_pressed() -> void:
 	
@@ -262,7 +261,7 @@ func _on_SweeperBtn_pressed() -> void:
 	
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("select_level")
-	get_viewport().set_disable_input(true)
+#	get_viewport().set_disable_input(true) # anti-dablklik
 	Global.focus_without_sfx($"../SelectLevel".select_level_btns_holder.all_level_btns[0])
 	
 

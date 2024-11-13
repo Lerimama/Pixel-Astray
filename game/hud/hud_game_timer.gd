@@ -64,7 +64,7 @@ func _process(delta: float) -> void:
 			
 			# game time is up
 			if game_time >= game_time_limit: 
-				Global.sound_manager.play_sfx("game_countdown_b")
+				Global.sound_manager.play_event_sfx("game_countdown_b")
 				stop_timer()
 				$Mins.text = "00"
 				$Secs.text = "00"
@@ -76,7 +76,7 @@ func _process(delta: float) -> void:
 				if game_time == round(game_time): 
 					countdown_second -= 1
 					modulate = Global.color_yellow
-					Global.sound_manager.play_sfx("game_countdown_a")
+					Global.sound_manager.play_event_sfx("game_countdown_a")
 			# sudden death 
 			elif game_time > (game_time_limit - sudden_death_limit) and sudden_death_mode: 
 				modulate = Global.color_green

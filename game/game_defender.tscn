@@ -6,7 +6,7 @@
 [ext_resource path="res://game/gui/game_over.tscn" type="PackedScene" id=6]
 [ext_resource path="res://game/arena.tscn" type="PackedScene" id=13]
 [ext_resource path="res://game/gui/pause_gui.tscn" type="PackedScene" id=20]
-[ext_resource path="res://game/game_manager_defender.gd" type="Script" id=21]
+[ext_resource path="res://managers/game_manager_defender.gd" type="Script" id=21]
 
 [node name="DefenderGame" type="Node2D"]
 __meta__ = {

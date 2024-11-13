@@ -17,67 +17,63 @@ func _ready() -> void:
 	Global.sound_manager = self
 	randomize()
 	
-	# setam prvi komad glede na level
-
 	
 # SFX --------------------------------------------------------------------------------------------------------
 
 	
-func play_stepping_sfx(current_player_energy_part: float): # za intro in defenderje
-
-	if not game_sfx_set_to_off:
-		var selected_tap = select_random_sfx($GameSfx/Stepping)
-		selected_tap.pitch_scale = clamp(current_player_energy_part, 0.6, 1)
-		selected_tap.play()
-	
-	
-func play_sfx(effect_for: String):
+func play_event_sfx(effect_for: String):
 	
 	if not game_sfx_set_to_off:
 		match effect_for:
-			"stray_step":
-				$GameSfx/StraySlide.play()
 			"blinking": # GM na strays spawn, ker se bolje sliši
-				select_random_sfx($GameSfx/Blinking).play() # nekateri so na mute, ker so drugače prepogosti soundi
-				select_random_sfx($GameSfx/BlinkingStatic).play()
+				select_random_sfx($Sfx/Blinking).play() # nekateri so na mute, ker so drugače prepogosti soundi
+				select_random_sfx($Sfx/BlinkingStatic).play()
 			"thunder_strike": # intro in GM na strays spawn
-				$GameSfx/Burst.play()
+				$Sfx/ThunderBurst.play()
 			"start_countdown_a":
-				$GameSfx/Events/StartCoundownA.play()
+				$Sfx/StartCoundownA.play()
 			"start_countdown_b":
-				$GameSfx/Events/StartCoundownB.play()
+				$Sfx/StartCoundownB.play()
 			"game_countdown_a":
-				$GameSfx/Events/GameCoundownA.play()
+				$Sfx/GameCoundownA.play()
 			"game_countdown_b":
-				$GameSfx/Events/GameCoundownB.play()
+				$Sfx/GameCoundownB.play()
 			"tutorial_stage_done":
-				$GameSfx/Events/TutorialStageDone.play()	
+				$Sfx/TutorialStageDone.play()	
+
 			
 func play_gui_sfx(effect_for: String):
 	
 	match effect_for:
 		# GO
 		"win_jingle":
-			$GuiSfx/Win.play()
+			$Sfx/Win.play()
 		"lose_jingle":
-			$GuiSfx/Loose.play()
+			$Sfx/Loose.play()
 		# input
 		"typing":
-			select_random_sfx($GuiSfx/Inputs/Typing).play()
+			select_random_sfx($Sfx/Inputs/Typing).play()
 		"btn_confirm":
-			$GuiSfx/Inputs/BtnConfirm.play()
+			$Sfx/Inputs/BtnConfirm.play()
 		"btn_cancel":
-			$GuiSfx/Inputs/BtnCancel.play()
+			$Sfx/Inputs/BtnCancel.play()
 		"btn_focus_change":
 			if Global.allow_focus_sfx:
-				$GuiSfx/Inputs/BtnFocus.play()
+				$Sfx/Inputs/BtnFocus.play()
 		# menu
 		"menu_fade":
-			$GuiSfx/MenuFade.play()
+			$Sfx/MenuFade.play()
 		"screen_slide":
-			$GuiSfx/ScreenSlide.play()
-		
+			$Sfx/ScreenSlide.play()
 
+
+func play_intro_stepping_sfx(): # za intro
+	
+	var selected_tap = select_random_sfx($Sfx/Stepping)
+	selected_tap.pitch_scale = clamp(selected_tap.pitch_scale, 0.6, 1)
+	selected_tap.play()
+	
+		
 func select_random_sfx(sound_group: Node2D):
 	
 	var random_index = randi() % sound_group.get_child_count()

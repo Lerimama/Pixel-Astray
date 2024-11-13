@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://assets/resources/env_arena.tres" type="Environment" id=1]
 [ext_resource path="res://home/intro/intro.gd" type="Script" id=2]
@@ -729,6 +729,72 @@ tracks/7/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
+[sub_resource type="Animation" id=229]
+resource_name = "start_spawn_fx"
+length = 9.0
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("ThunderCover/ThunderCover:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.54, 0.62, 0.7, 0.78, 0.96, 1.04, 1.1, 1.18, 1.22, 1.42 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 0.952941, 0.356863, 0.498039, 0.627451 ), Color( 1, 1, 1, 0 ), Color( 0.368627, 1, 0.662745, 0.627451 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 0.996078, 0.976471, 0.545098, 0.627451 ), Color( 1, 1, 1, 0 ), Color( 0.341176, 0.65098, 1, 0.627451 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "set_strays"
+} ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.44, 0.58, 0.72, 0.8, 0.98, 1.1, 1.18, 1.28 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+}, {
+"args": [  ],
+"method": "play_blinking_sound"
+} ]
+}
+
 [node name="Intro" type="Node2D"]
 modulate = Color( 1, 1, 1, 1.0037 )
 script = ExtResource( 2 )
@@ -922,7 +988,7 @@ margin_left = 140.0
 margin_right = 162.0
 texture = SubResource( 228 )
 
-[node name="HintButton" type="Button" parent="Text/ActionHint/Jp" index="0"]
+[node name="SkipButton" type="Button" parent="Text/ActionHint/Jp" index="0"]
 margin_left = -166.0
 margin_top = -13.0
 margin_right = 158.0
@@ -943,12 +1009,13 @@ anims/RESET = SubResource( 196 )
 anims/intro_explode = SubResource( 139 )
 anims/intro_running = SubResource( 138 )
 anims/intro_running_long = SubResource( 227 )
+anims/start_spawn_fx = SubResource( 229 )
 
 [node name="ArenaEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 1 )
 
 [connection signal="tilemap_completed" from="IntroTileMap" to="." method="_on_TileMap_completed"]
-[connection signal="pressed" from="Text/ActionHint/Jp/HintButton" to="." method="_on_HintButton_pressed"]
+[connection signal="pressed" from="Text/ActionHint/Jp/SkipButton" to="." method="_on_SkipButton_pressed"]
 [connection signal="timeout" from="StrayStepTimer" to="." method="_on_StrayStepTimer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 

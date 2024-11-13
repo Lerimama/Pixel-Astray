@@ -110,9 +110,9 @@ func play_sound(effect_for: String):
 				if current_state == States.DYING: # da se ne oglaša ob obračanju v steno
 					var random_static_index = randi() % $Sounds/BlinkingStatic.get_child_count()
 					$Sounds/BlinkingStatic.get_child(random_static_index).play()
-			"stepping":
-				var random_step_index = randi() % $Sounds/Stepping.get_child_count()
-				var selected_step_sound = $Sounds/Stepping.get_child(random_step_index).play()
+#			"stepping":
+#				var random_step_index = randi() % $Sounds/Stepping.get_child_count()
+#				var selected_step_sound = $Sounds/Stepping.get_child(random_step_index).play()
 			
 				
 func get_all_neighbors_in_directions(directions_to_check: Array): # kliče player on hit

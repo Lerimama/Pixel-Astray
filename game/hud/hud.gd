@@ -248,15 +248,15 @@ func slide_out(): # kliče GM na game over
 func confirm_players_ready():
 	
 	get_tree().set_pause(false)
-	get_viewport().set_disable_input(true) # anti dablklik
+	#	get_viewport().set_disable_input(true)
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	
 	var out_time: float = 0.7
 	var hide_instructions_popup = get_tree().create_tween()
 	hide_instructions_popup.tween_property(instructions_popup, "modulate:a", 0, out_time).set_ease(Tween.EASE_IN)
-	#	hide_instructions_popup.tween_callback(instructions_popup, "hide")
-	hide_instructions_popup.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
 	yield(hide_instructions_popup, "finished")
+	#	get_viewport().set_disable_input(false)
+	
 	instructions_popup.hide()
 	emit_signal("players_ready")
 

@@ -19,9 +19,7 @@ var color_pool_colors: Array
 # tilemap data
 var start_players_count: int
 var cell_size_x: int # napolne se na koncu setanju tilemapa
-#var player_start_positions: Array
-#var random_spawn_positions: Array
-#var wall_spawn_positions: Array
+var default_required_spawn_positions: Array # konstanta
 var required_spawn_positions: Array # vključuje tudi wall_spawn_positions
 var free_floor_positions: Array # = [] # to so vse proste
 
@@ -33,6 +31,7 @@ onready var actor_pixel: KinematicBody2D = $Actor
 onready var text_node: Node2D = $Text
 onready var thunder_cover: ColorRect = $ThunderCover/ThunderCover
 onready var skip_intro: HBoxContainer = $Text/ActionHint
+onready var skip_button_btn: Button = $Text/ActionHint/Jp/SkipButton
 onready var StrayPixel: PackedScene = preload("res://home/intro/intro_stray.tscn")
 
 # debug
@@ -43,13 +42,15 @@ var free_position_indicators: Array
 func _unhandled_input(event: InputEvent) -> void:
 	#func _input(event: InputEvent) -> void:
 	
-	if Input.is_action_just_pressed("ui_accept") and skip_intro.visible:
-		finish_intro()
-		
+	if Input.is_action_just_pressed("ui_accept") and skip_intro.visible and skip_intro.modulate.a == 1:
+		_on_SkipButton_pressed()
+	
 		
 func _ready() -> void:
+	
 	Global.game_manager = self
 	randomize()
+	skip_button_btn.add_to_group(Global.group_menu_confirm_btns)
 	
 	
 func _process(delta: float) -> void:
@@ -63,7 +64,8 @@ func _process(delta: float) -> void:
 func play_intro():
 	
 	yield(get_tree().create_timer(1), "timeout")
-	animation_player.play("intro_running")
+#	animation_player.play("intro_running")
+	animation_player.play("intro_explode")
 	
 	
 func finish_intro(): # ob skipanju in regularnem koncu intra
@@ -167,7 +169,7 @@ func create_strays(strays_to_spawn_count: int = required_spawn_positions.size())
 	strays_shown_on_start.clear()
 	while strays_shown_on_start.size() < create_strays_count:
 		show_strays_loop += 1
-		show_strays_in_loop(show_strays_loop)
+		call_deferred("show_strays_in_loop", show_strays_loop)
 		yield(get_tree().create_timer(0.1), "timeout") # da se vsi straysi spawnajo
 	
 	required_spawn_positions = default_required_spawn_positions # za barvne sheme
@@ -215,11 +217,11 @@ func show_strays_in_loop(show_strays_loop: int):
 			loop_count += 1 # štejem tukaj, ker se šteje samo če se pixel pokaže
 	
 	# zamaknjen thunder
-	yield(get_tree().create_timer(0.65), "timeout")
+	yield(get_tree().create_timer(0.5), "timeout")
 	shake_camera_on_show_strays()
 	match show_strays_loop:
-		1, 2, 4:
-			Global.sound_manager.play_sfx("thunder_strike")
+		1, 2:
+			Global.sound_manager.play_event_sfx("thunder_strike")
 
 
 func respawn_title_strays():
@@ -325,17 +327,17 @@ func shake_camera_on_show_strays():
 func play_actor_stepping_sound(): # kliče animacija
 	
 	if actor_in_motion:
-		Global.sound_manager.play_stepping_sfx(1)
+		Global.sound_manager.play_intro_stepping_sfx()
 		yield(get_tree().create_timer(actor_step_time), "timeout")
 		play_actor_stepping_sound()
 
 
 func play_blinking_sound(): # kliče animacija
-	Global.sound_manager.play_sfx("blinking")
+	Global.sound_manager.play_event_sfx("blinking")
 	
 	
 func play_thunder_strike():
-	Global.sound_manager.play_sfx("thunder_strike")
+	Global.sound_manager.play_event_sfx("thunder_strike")
 	
 	
 # SIGNALS ----------------------------------------------------------------------------------
@@ -352,7 +354,6 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 func _on_StrayStepTimer_timeout() -> void:
 	random_stray_step()
 
-var default_required_spawn_positions: Array
 
 func _on_TileMap_completed(stray_random_positions: Array, stray_positions: Array, stray_wall_positions: Array, no_stray_positions: Array, player_positions: Array) -> void:
 	
@@ -366,7 +367,7 @@ func _on_TileMap_completed(stray_random_positions: Array, stray_positions: Array
 		create_strays_count = required_spawn_positions.size()
 
 
-func _on_HintButton_pressed() -> void:
+func _on_SkipButton_pressed() -> void:
 	
-	if skip_intro.visible and skip_intro.modulate.a == 1: #_temp
+	if skip_intro.visible and skip_intro.modulate.a == 1:
 		finish_intro()

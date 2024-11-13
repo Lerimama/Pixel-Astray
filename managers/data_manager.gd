@@ -146,6 +146,37 @@ func read_highscores_from_file(read_game_data: Dictionary, local_highscores: boo
 	return current_game_highscores
 
 
+func rename_file(game_data: Dictionary):
+
+	var game_name: String
+	var local_highscores = true
+	
+	if game_data["game"] == Profiles.Games.SWEEPER: # OPT preveč vrstic
+		if local_highscores:
+			game_name = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"])
+		else:
+			game_name = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"]) + "_Global"
+	else:
+		if local_highscores:
+			game_name = Profiles.Games.keys()[game_data["game"]]
+		else:
+			game_name = Profiles.Games.keys()[game_data["game"]] + "_Global"
+	
+		
+	var filet: = Directory.new()
+	
+	var old_file_path: String = "user://%s_highscores.save" % game_name
+	var new_file_path: String = "user://%s_highscores.save copy" % game_name
+	var error = filet.rename(old_file_path, new_file_path)
+	
+	if not error == OK:
+		print("neuspeh")
+	
+	else:
+		print("uspeh")
+		
+		
+		
 func save_player_score(current_score: float, score_ranking: int, current_game_data: Dictionary):
 	# med izvajanjem te kode GM čaka
 	# poberem trenutno lestvico (potem generiram novo z dodanim trenutnim skorom)

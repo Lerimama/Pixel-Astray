@@ -36,14 +36,14 @@ func play_sound(effect_for: String):
 	if not Global.sound_manager.game_sfx_set_to_off:
 		match effect_for:
 			"blinking":
-				Global.sound_manager.play_sfx("blinking")
-				#			var random_blink_index = randi() % $Sounds/Blinking.get_child_count()
-				#			$Sounds/Blinking.get_child(random_blink_index).play() # nekateri so na mute, ker so drugače prepogosti soundi
-				#			var random_static_index = randi() % $Sounds/BlinkingStatic.get_child_count()
-				#			$Sounds/BlinkingStatic.get_child(random_static_index).play()
-			"stepping":
-				var random_step_index = randi() % $Sounds/Stepping.get_child_count()
-				var selected_step_sound = $Sounds/Stepping.get_child(random_step_index).play()
+#				Global.sound_manager.play_event_sfx("blinking")
+				var random_blink_index = randi() % $Sounds/Blinking.get_child_count()
+				$Sounds/Blinking.get_child(random_blink_index).play() # nekateri so na mute, ker so drugače prepogosti soundi
+				var random_static_index = randi() % $Sounds/BlinkingStatic.get_child_count()
+				$Sounds/BlinkingStatic.get_child(random_static_index).play()
+#			"stepping":
+#				var random_step_index = randi() % $Sounds/Stepping.get_child_count()
+#				var selected_step_sound = $Sounds/Stepping.get_child(random_step_index).play()
 
 
 # SIGNALI ------------------------------------------------------------------------------------------------------

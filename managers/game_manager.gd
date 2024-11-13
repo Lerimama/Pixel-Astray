@@ -56,7 +56,7 @@ var free_position_indicators: Array
 func _unhandled_input(event: InputEvent) -> void:
 	
 	
-	if OS.is_debug_build():  # debug mode
+	if OS.is_debug_build():  # debug OS mode
 		if Input.is_action_just_pressed("no1"):
 			game_over(GameoverReason.LIFE)
 		if Input.is_action_just_pressed("no2"):
@@ -204,6 +204,8 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 
 
 func start_game():
+	
+	get_viewport().set_disable_input(false)
 	
 	for player in current_players_in_game:
 		if not game_settings ["zoom_to_level_size"]:
@@ -483,17 +485,16 @@ func show_strays_in_loop(show_strays_loop: int): # spawn naenkrat
 	
 	match show_strays_loop:
 		1:
-			Global.sound_manager.play_sfx("thunder_strike")
 			strays_to_show_count = round(strays_in_game_count/10)
 		2:
-			Global.sound_manager.play_sfx("thunder_strike")
 			strays_to_show_count = round(strays_in_game_count/8)
 		3:
 			strays_to_show_count = round(strays_in_game_count/4)
 		4:
-			Global.sound_manager.play_sfx("thunder_strike")
+			Global.sound_manager.play_event_sfx("thunder_strike")
 			strays_to_show_count = round(strays_in_game_count/2)
 		5: # še preostale
+			Global.sound_manager.play_event_sfx("thunder_strike")
 			strays_to_show_count = strays_in_game_count - strays_shown_on_start.size()
 	
 	# stray fade-in

@@ -83,7 +83,7 @@ func pause_game():
 	var fade_in_tween = get_tree().create_tween()
 	fade_in_tween.tween_property(self, "modulate:a", 1, pause_in_time)
 	fade_in_tween.tween_callback(get_tree(), "set_pause", [true])
-	fade_in_tween.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
+	fade_in_tween.tween_callback(get_viewport(), "set_disable_input", [false])
 
 
 func play_on():
@@ -97,7 +97,7 @@ func play_on():
 	fade_out_tween.tween_property(self, "modulate:a", 0, pause_out_time)
 	fade_out_tween.tween_callback(self, "hide")
 	fade_out_tween.tween_callback(get_tree(), "set_pause", [false])
-	fade_out_tween.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
+	fade_out_tween.tween_callback(get_viewport(), "set_disable_input", [false])
 
 
 func play_without_tutorial():
@@ -109,7 +109,7 @@ func play_without_tutorial():
 	fade_out_tween.tween_property(self, "modulate:a", 0, pause_out_time)
 	fade_out_tween.tween_callback(self, "hide")
 	fade_out_tween.tween_callback(get_tree(), "set_pause", [false])
-	fade_out_tween.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
+	fade_out_tween.tween_callback(get_viewport(), "set_disable_input", [false])
 	fade_out_tween.tween_callback(Global.tutorial_gui, "close_tutorial")
 
 

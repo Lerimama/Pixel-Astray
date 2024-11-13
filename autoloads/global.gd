@@ -361,17 +361,15 @@ func connect_to_button(button):
 
 # on confirm and cancel 
 func _on_button_pressed(button: BaseButton):
-	#	printt("Btn pressed", button)
 
 	# ker ti gumbi peljejo na nov ekran, po njihovem kliku
 	if button.is_in_group(Global.group_menu_confirm_btns):
 		Global.sound_manager.play_gui_sfx("btn_confirm")
-		set_deferred("allow_focus_sfx", false)
-		get_viewport().set_disable_input(true) # anti dablklik
+		get_viewport().set_disable_input(true) # prevent dablklik
+	
 	elif button.is_in_group(Global.group_menu_cancel_btns):
 		Global.sound_manager.play_gui_sfx("btn_cancel")
-		set_deferred("allow_focus_sfx", false)
-		get_viewport().set_disable_input(true) # anti dablklik
+		get_viewport().set_disable_input(true) # prevent dablklik
 
 
 # on toggle	

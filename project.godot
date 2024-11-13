@@ -17,7 +17,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "GameManager",
 "language": "GDScript",
-"path": "res://game/game_manager.gd"
+"path": "res://managers/game_manager.gd"
 }, {
 "base": "Control",
 "class": "GameOver",

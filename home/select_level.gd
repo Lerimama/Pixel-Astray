@@ -2,7 +2,7 @@ extends Control
 
 
 onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
-onready var select_level_btns_holder: Control = $SelectLevelBtnsHolder
+onready var select_level_btns_holder: Control = $LevelBtnsGrid
 onready var default_focus_node: Control# = select_level_btns_holder.all_level_btns[0]
 
 
@@ -43,8 +43,7 @@ func play_selected_level(selected_level: int):
 	if Profiles.default_game_settings["show_game_instructions"] == true: # igra ima navodila, če so navodila vklopljena 
 		sweeper_settings["show_game_instructions"] = true
 	sweeper_settings["always_zoomed_in"] = false
-	Global.sound_manager.play_gui_sfx("menu_fade")
-	#	animation_player.play("play_level")
+	
 	Global.main_node.home_out()
 
 			

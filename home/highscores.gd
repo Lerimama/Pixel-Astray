@@ -141,7 +141,9 @@ func _input(event):
 func _ready() -> void:
 	
 	# btn groups
-	$BackBtn.add_to_group(Global.group_menu_cancel_btns)	
+	back_btn.add_to_group(Global.group_menu_cancel_btns)	
+	update_scores_btn.add_to_group(Global.group_menu_confirm_btns)	
+	publish_unpublished_btn.add_to_group(Global.group_menu_confirm_btns)	
 	
 	# naberem tabele
 	for hall in halls:
@@ -164,17 +166,13 @@ func _ready() -> void:
 		load_all_highscore_tables(false) # no global update (no in back)
 		#		call_deferred("load_all_highscore_tables", false)
 	
-
+	
 func load_all_highscore_tables(update_with_global: bool, update_in_background: bool = false):
 	
-	# print("Updating tables")
-	
-	update_scores_btn.disabled = true
-	update_scores_btn.get_child(0).modulate = Global.color_btn_disabled
+	disable_btns()
 	
 	var update_object_count: int = 0
 	for table in all_tables:
-#		var game_data_local: Dictionary = table.table_game_data 
 		var game_data_local: Dictionary 
 		if sweeper_tables.has(table):
 			game_data_local = Profiles.game_data_sweeper
@@ -204,6 +202,7 @@ func load_all_highscore_tables(update_with_global: bool, update_in_background: b
 	if update_with_global:		
 		select_level_node.select_level_btns_holder.set_level_btns()
 	
+	get_viewport().set_disable_input(false)
 	update_scores_btn.disabled = false
 	update_scores_btn.get_child(0).modulate = Global.color_btn_enabled
 	
@@ -216,50 +215,15 @@ func load_all_highscore_tables(update_with_global: bool, update_in_background: b
 		publish_unpublished_btn.show()
 	else:
 		publish_unpublished_btn.hide()
+	
+	disable_btns(false)
 		
+
+func publish_all_unpublished_scores():
 	
-# BUTTONS --------------------------------------------------------------------------------------------------------------
+	disable_btns()
 
-
-func _on_BackBtn_pressed() -> void:
 	
-	Global.sound_manager.play_gui_sfx("screen_slide")
-	animation_player.play_backwards("highscores")
-
-
-func _on_UpdateScoresBtn_pressed() -> void:
-	
-	update_scores_btn.release_focus()
-	update_scores_btn.disabled = true
-	load_all_highscore_tables(true, false) # update, in front
-
-
-# btn icon colorz
-func _on_UpdateScoresBtn_focus_entered() -> void:
-
-	if not update_scores_btn.disabled:
-		update_scores_btn.get_child(0).modulate = Global.color_btn_focus
-
-
-func _on_UpdateScoresBtn_focus_exited() -> void:
-
-	if not update_scores_btn.disabled:
-		update_scores_btn.get_child(0).modulate = Global.color_btn_enabled
-
-
-func _on_PushScoresBtn_focus_entered() -> void:
-	
-	publish_unpublished_btn.get_child(0).modulate = Global.color_btn_focus
-
-
-func _on_PushScoresBtn_focus_exited() -> void:
-	
-	publish_unpublished_btn.get_child(0).modulate = Global.color_btn_enabled
-
-
-func _on_PushScoresBtn_pressed() -> void:
-	
-	# push scores
 	var tables_to_update: Array = []
 	for table in all_tables:
 		if not table.unpublished_local_scores.empty():
@@ -291,4 +255,86 @@ func _on_PushScoresBtn_pressed() -> void:
 	
 	yield(get_tree().create_timer(LootLocker.final_panel_open_time), "timeout")
 	ConnectCover.close_cover()
+	
+	disable_btns(false)
+
+
+func reset_all_local_scores():
+	
+	for table in all_tables:
+		Global.data_manager.rename_file(table.table_game_data)
+	
+	# rebuild tables
+	for table in all_tables:
+		var game_data_local: Dictionary 
+		if sweeper_tables.has(table):
+			game_data_local = Profiles.game_data_sweeper
+			game_data_local["level"] = sweeper_tables.find(table) + 1
+		else:
+			var table_index: int = all_tables.find(table) # OPT --- izi tabela ima svojo variablo
+			game_data_local = all_tables_game_data[table_index]
+		table.build_highscore_table(table.table_game_data, fake_player_ranking, false)
+
+
+
+func disable_btns(disable_it: bool = true):
+
+	if disable_it:
+		back_btn.disabled = true
+		update_scores_btn.disabled = true
+		update_scores_btn.get_child(0).modulate = Global.color_btn_disabled	
+		publish_unpublished_btn.disabled = true
+		publish_unpublished_btn.get_child(0).modulate = Global.color_btn_disabled	
+	else:
+		update_scores_btn.disabled = false
+		publish_unpublished_btn.disabled = false
+		back_btn.disabled = false
+	
+	get_viewport().set_disable_input(false)
+
+	
+# BUTTONS --------------------------------------------------------------------------------------------------------------
+
+
+func _on_BackBtn_pressed() -> void:
+	
+	Global.sound_manager.play_gui_sfx("screen_slide")
+	animation_player.play_backwards("highscores")
+
+
+func _on_UpdateScoresBtn_pressed() -> void:
+	
+	update_scores_btn.release_focus()
+	update_scores_btn.disabled = true
+	load_all_highscore_tables(true, false) # update, in front
+
+
+func _on_UpdateScoresBtn_focus_entered() -> void:
+
+	if not update_scores_btn.disabled:
+		update_scores_btn.get_child(0).modulate = Global.color_btn_focus
+
+
+func _on_UpdateScoresBtn_focus_exited() -> void:
+
+	if not update_scores_btn.disabled:
+		update_scores_btn.get_child(0).modulate = Global.color_btn_enabled
+
+
+func _on_PUnpScoresBtn_pressed() -> void:
+	
+	publish_all_unpublished_scores()
+	
+	
+func _on_PUnpScoresBtn_focus_entered() -> void:
+	
+	if not publish_unpublished_btn.disabled:
+		publish_unpublished_btn.get_child(0).modulate = Global.color_btn_focus
+
+
+func _on_PUnpScoresBtn_focus_exited() -> void:
+	
+	if not publish_unpublished_btn.disabled:
+		publish_unpublished_btn.get_child(0).modulate = Global.color_btn_enabled
+
 	

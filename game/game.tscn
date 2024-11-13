@@ -13,7 +13,7 @@
 [ext_resource path="res://game/gui/pause_gui.tscn" type="PackedScene" id=11]
 [ext_resource path="res://game/gui/controls_scheme.tscn" type="PackedScene" id=12]
 [ext_resource path="res://game/player_camera.tscn" type="PackedScene" id=18]
-[ext_resource path="res://game/game_manager.gd" type="Script" id=19]
+[ext_resource path="res://managers/game_manager.gd" type="Script" id=19]
 
 [sub_resource type="StyleBoxEmpty" id=346]
 
@@ -405,7 +405,7 @@ margin_bottom = 608.0
 grow_horizontal = 2
 
 [node name="Background" type="ColorRect" parent="GUI/Tutorial/Checkpoints"]
-margin_left = -32.0
+margin_left = -96.0
 margin_top = -30.0
 margin_right = 352.0
 margin_bottom = 610.0

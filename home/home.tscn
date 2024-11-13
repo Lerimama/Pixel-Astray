@@ -1,4 +1,4 @@
-[gd_scene load_steps=108 format=2]
+[gd_scene load_steps=107 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -17,7 +17,7 @@
 [ext_resource path="res://home/about.gd" type="Script" id=16]
 [ext_resource path="res://home/select_level.gd" type="Script" id=17]
 [ext_resource path="res://assets/theme/color_theme_spectrum.png" type="Texture" id=18]
-[ext_resource path="res://home/select_level_btns.tscn" type="PackedScene" id=19]
+[ext_resource path="res://home/level_btns_grid.tscn" type="PackedScene" id=19]
 [ext_resource path="res://game/gui/controls_scheme.tscn" type="PackedScene" id=22]
 [ext_resource path="res://game/gui/shortcut_line.tscn" type="PackedScene" id=23]
 [ext_resource path="res://assets/theme/box_game_btn_focus.tres" type="StyleBox" id=24]
@@ -347,18 +347,6 @@ VSeparator/styles/separator = SubResource( 516 )
 atlas = ExtResource( 12 )
 region = Rect2( 138, 44, 22, 25 )
 margin = Rect2( 0, 3, 0, 0 )
-
-[sub_resource type="StyleBoxFlat" id=279]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 1, 1, 1, 1 )
-expand_margin_left = 2.0
-expand_margin_right = 2.0
-expand_margin_top = 2.0
-expand_margin_bottom = 2.0
 
 [sub_resource type="Gradient" id=281]
 offsets = PoolRealArray( 0, 0.497076, 1 )
@@ -914,7 +902,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"points": PoolRealArray( -592, 0, 0, 0.5, 0, 0, -0.5, 0, 0, 0 ),
+"points": PoolRealArray( -600, 0, 0, 0.5, 0, 0, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0.04, 1 )
 }
 tracks/3/type = "value"
@@ -2042,7 +2030,7 @@ custom_fonts/font = ExtResource( 14 )
 text = "The ultimate test of tactics and skills. Sweep all colors with one spectacular move!"
 autowrap = true
 
-[node name="SelectLevelBtnsHolder" parent="SelectLevel" instance=ExtResource( 19 )]
+[node name="LevelBtnsGrid" parent="SelectLevel" instance=ExtResource( 19 )]
 
 [node name="More" type="Label" parent="SelectLevel"]
 visible = false
@@ -2063,7 +2051,7 @@ margin_left = -22.0
 margin_top = 74.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 16, 16 )
-focus_neighbour_top = NodePath("../SelectLevelBtnsHolder/PixelAstrayLevelBtn")
+focus_neighbour_top = NodePath("../LevelBtnsGrid/PixelAstrayLevelBtn")
 mouse_default_cursor_shape = 2
 texture_normal = SubResource( 195 )
 texture_hover = SubResource( 196 )
@@ -2291,36 +2279,42 @@ __meta__ = {
 
 [node name="RandomizeBtn" type="Button" parent="Settings/ColorSchemeOptions"]
 modulate = Color( 0.592157, 0.592157, 0.592157, 1 )
-margin_left = 173.0
-margin_top = 8.5
+margin_top = 9.0
 margin_right = 197.0
-margin_bottom = 32.5
+margin_bottom = 33.0
 rect_min_size = Vector2( 24, 24 )
-focus_neighbour_bottom = NodePath("../../BackBtn")
+focus_neighbour_bottom = NodePath("../../ResetLocalBtn")
 mouse_default_cursor_shape = 2
-custom_styles/hover = SubResource( 279 )
-custom_styles/focus = SubResource( 279 )
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="Label2" type="Label" parent="Settings/ColorSchemeOptions/RandomizeBtn"]
-margin_left = -173.0
 margin_top = 4.5
-margin_right = -15.0
+margin_right = 158.0
 margin_bottom = 26.5
 text = "Color scheme"
 
 [node name="SpectrumIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/RandomizeBtn"]
+anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = -24.0
+margin_top = -25.0
+margin_bottom = -1.0
 rect_min_size = Vector2( 24, 24 )
 texture = ExtResource( 18 )
 expand = true
 
 [node name="GradientIcon" type="TextureRect" parent="Settings/ColorSchemeOptions/RandomizeBtn"]
+anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = -24.0
+margin_top = -25.0
+margin_bottom = -1.0
 rect_min_size = Vector2( 24, 24 )
 texture = SubResource( 282 )
 expand = true
@@ -2333,7 +2327,7 @@ margin_right = 226.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 16, 16 )
 focus_neighbour_right = NodePath("../../BackBtn")
-focus_neighbour_bottom = NodePath("../../BackBtn")
+focus_neighbour_bottom = NodePath("../../ResetLocalBtn")
 mouse_default_cursor_shape = 2
 expand_icon = true
 __meta__ = {
@@ -2346,7 +2340,22 @@ margin_bottom = 16.0
 size_flags_vertical = 3
 texture = SubResource( 280 )
 
+[node name="ResetLocalBtn" type="Button" parent="Settings"]
+margin_left = 64.0
+margin_top = 494.0
+margin_right = 330.0
+margin_bottom = 516.0
+focus_neighbour_top = NodePath("../ColorSchemeOptions/RandomizeBtn")
+focus_neighbour_right = NodePath("../BackBtn")
+focus_neighbour_bottom = NodePath("../BackBtn")
+custom_colors/font_color_focus = Color( 0.952941, 0.356863, 0.498039, 1 )
+custom_colors/font_color_hover_pressed = Color( 0.952941, 0.356863, 0.498039, 1 )
+custom_colors/font_color = Color( 0.952941, 0.356863, 0.498039, 0.470588 )
+custom_colors/font_color_hover = Color( 0.952941, 0.356863, 0.498039, 1 )
+text = "Reset local highscores"
+
 [node name="Shorts" type="Label" parent="Settings"]
+modulate = Color( 0.960784, 0.960784, 0.960784, 1 )
 margin_left = 64.0
 margin_top = 592.0
 margin_right = 416.0
@@ -3270,12 +3279,13 @@ anims/settings = SubResource( 530 )
 [connection signal="toggled" from="Settings/InstructionsBtn" to="Settings" method="_on_InstructionsBtn_toggled"]
 [connection signal="pressed" from="Settings/ColorSchemeOptions/RandomizeBtn" to="Settings" method="_on_RandomizeBtn_pressed"]
 [connection signal="pressed" from="Settings/ColorSchemeOptions/ResetBtn" to="Settings" method="_on_ResetBtn_pressed"]
+[connection signal="pressed" from="Settings/ResetLocalBtn" to="Settings" method="_on_ResetLocalButton_pressed"]
 [connection signal="focus_entered" from="Highscores/UpdateScoresBtn" to="Highscores" method="_on_UpdateScoresBtn_focus_entered"]
 [connection signal="focus_exited" from="Highscores/UpdateScoresBtn" to="Highscores" method="_on_UpdateScoresBtn_focus_exited"]
 [connection signal="pressed" from="Highscores/UpdateScoresBtn" to="Highscores" method="_on_UpdateScoresBtn_pressed"]
-[connection signal="focus_entered" from="Highscores/PublishUnpublishedBtn" to="Highscores" method="_on_PushScoresBtn_focus_entered"]
-[connection signal="focus_exited" from="Highscores/PublishUnpublishedBtn" to="Highscores" method="_on_PushScoresBtn_focus_exited"]
-[connection signal="pressed" from="Highscores/PublishUnpublishedBtn" to="Highscores" method="_on_PushScoresBtn_pressed"]
+[connection signal="focus_entered" from="Highscores/PublishUnpublishedBtn" to="Highscores" method="_on_PUnpScoresBtn_focus_entered"]
+[connection signal="focus_exited" from="Highscores/PublishUnpublishedBtn" to="Highscores" method="_on_PUnpScoresBtn_focus_exited"]
+[connection signal="pressed" from="Highscores/PublishUnpublishedBtn" to="Highscores" method="_on_PUnpScoresBtn_pressed"]
 [connection signal="pressed" from="Highscores/BackBtn" to="Highscores" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="About/BackBtn" to="About" method="_on_BackBtn_pressed"]
 [connection signal="meta_clicked" from="About/Thanks/LinkLabel" to="About" method="_on_NameAuthor_meta_clicked"]

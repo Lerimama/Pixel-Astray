@@ -9,7 +9,8 @@ onready var spectrum_icon: TextureRect = $ColorSchemeOptions/RandomizeBtn/Spectr
 onready var intro: Node2D = $"%Intro"
 onready var select_level_node: Control = $"../SelectLevel"
 onready var select_game_node: Control = $"../SelectGame"
-onready var default_focus_node: Control = $GameMusicBtn
+onready var highscores_node: Control = $"../Highscores"
+onready var default_focus_node: Control = $MenuMusicBtn
 
 
 func _ready() -> void:
@@ -116,6 +117,12 @@ func _on_InstructionsBtn_toggled(button_pressed: bool) -> void:
 	else:
 		Profiles.default_game_settings["show_game_instructions"] = false
 		
+
+func _on_ResetLocalButton_pressed() -> void:
+	
+	highscores_node.reset_all_local_scores()
+
+		
 		
 # COLOR SCHEMES ----------------------------------------------------------------------------------------------------------------
 
@@ -148,3 +155,4 @@ func _on_RandomizeBtn_pressed() -> void:
 	intro.respawn_title_strays()
 	select_level_node.select_level_btns_holder.set_level_btns()
 	select_game_node.color_game_btns()
+

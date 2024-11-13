@@ -12,7 +12,7 @@ atlas = ExtResource( 4 )
 region = Rect2( 0, 120, 16, 20 )
 filter_clip = true
 
-[node name="SelectLevelBtnsHolder" type="GridContainer"]
+[node name="LevelBtnsGrid" type="GridContainer"]
 margin_left = 8.0
 margin_top = 184.0
 margin_right = 760.0

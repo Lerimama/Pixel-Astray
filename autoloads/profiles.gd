@@ -233,7 +233,6 @@ var get_it_time: float = 1 # tajming za dojet določene faze igre
 
 # hs
 var default_highscore_line_name: String = "Empty score line" # se uporabi, če še ni nobenega v filetu
-var local_rank_limit: int = 100
 
 # nastavitve, ki se setajo tudi v home
 var camera_shake_on: bool = true
@@ -247,7 +246,6 @@ var lootlocker_game_key: String = "dev_5a1cab01df0641c0a5f76450761ce292"
 var lootlocker_game_version: String = "0.92"
 var lootlocker_development_mode: bool = false
 var global_highscores_count: int = 99 # če bi blo več, ne paše na %02d 	 b 
-var local_highscores_count: int = 10
 
 	
 func _ready() -> void:

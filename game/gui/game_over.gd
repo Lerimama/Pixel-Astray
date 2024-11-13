@@ -3,7 +3,6 @@ class_name GameOver
 
 signal name_input_finished
 
-#var p1_current_score: float
 var player_final_score: float # score je lahko time al pa točke
 var game_final_time: float # unrounded hunds
 var p1_final_stats: Dictionary
@@ -11,12 +10,12 @@ var p2_final_stats: Dictionary
 
 var current_gameover_reason: int
 var current_player_local_rank: int = 0 # 0 = not ranking
-
 var sweeper_solved: bool = false				
 var background_fadein_alpha: float = 0.9 # cca 230
+var green_rank_limit: int = 100 # rezultat, ki obarva GO zeleno
 
 onready var gameover_menu: HBoxContainer = $Menu
-onready var select_level_btns_holder: GridContainer = $GameSummary/ContentSweeper/LevelBtnsHolder/SelectLevelBtnsHolder
+onready var select_level_btns_holder: GridContainer = $GameSummary/ContentSweeper/LevelBtnsHolder/LevelBtnsGrid
 onready var header_futer_covers: ColorRect = $HeaderFuterCovers
 onready var background: ColorRect = $Background
 onready var publish_popup: Control = $PublishPopup
@@ -63,12 +62,11 @@ func _ready() -> void:
 
 	Global.gameover_gui = self
 	
-	visible = false
-	gameover_title_holder.visible = false
-	game_summary.visible = false
-	name_input_popup.visible = false
-	gameover_menu.visible = false	
-#	publish_popup.visible = false	
+	hide()
+	gameover_title_holder.hide()
+	game_summary.hide()
+	name_input_popup.hide()
+	gameover_menu.hide()
 
 	# menu btn group
 	$Menu/RestartBtn.add_to_group(Global.group_menu_confirm_btns)
@@ -133,8 +131,8 @@ func show_gameover_title():
 		# če je ranking odprem name_input, če ne skrijem GO title in grem na summary
 		if current_player_local_rank > 0: 
 			open_name_input()
-			yield(self, "name_input_finished")
-			get_viewport().set_disable_input(false) # anti dablklik ... disejblan je blo v igri
+			yield(self, "name_input_finished") 
+			get_viewport().set_disable_input(false) # na koncu publishanja
 		else:
 			var title_fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 			title_fade_out.tween_property(gameover_title_holder, "modulate:a", 0, 0.5)
@@ -235,7 +233,7 @@ func set_gameover_title():
 	# GO text color
 	if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
 		selected_gameover_title.modulate = Global.color_green
-	elif current_player_local_rank > Profiles.local_rank_limit: # more bit preverjanje "če ni topX", ker true se ne vrne
+	elif current_player_local_rank > green_rank_limit: # more bit preverjanje "če ni topX", ker true se ne vrne
 		selected_gameover_title.modulate = Global.color_red
 	else:
 		selected_gameover_title.modulate = Global.color_green
@@ -351,7 +349,7 @@ func set_game_summary():
 	# summaty title color
 	if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
 		summary_title.modulate = Global.color_green
-	elif current_player_local_rank > Profiles.local_rank_limit: # more bit preverjanje "če ni topX", ker true se ne vrne
+	elif current_player_local_rank > green_rank_limit: # more bit preverjanje "če ni topX", ker true se ne vrne
 		summary_title.modulate = Global.color_red
 	else:
 		summary_title.modulate = Global.color_green

@@ -1,7 +1,9 @@
 extends Node
 
 
-var fade_time = 0.7
+var fade_time: float = 0.7
+var menu_fade_sound_length: float = 1.29
+var wait_sound_time: float = menu_fade_sound_length - fade_time + 0.1 # da ne traja med menjavo scen ... 0.1 = zazih
 
 onready var home_scene_path: String = "res://home/home.tscn"
 onready var game_scene_path: String = Profiles.current_game_data["game_scene_path"]
@@ -9,7 +11,7 @@ onready var game_scene_path: String = Profiles.current_game_data["game_scene_pat
 
 func _input(event: InputEvent) -> void:
 	
-	if OS.is_debug_build():  # debug mode
+	if OS.is_debug_build():  # debug OS mode
 		if Input.is_action_just_pressed("r"):
 			var all_nodes = Global.get_all_nodes_in_node(self)
 			
@@ -26,11 +28,12 @@ func _ready() -> void:
 	
 #	home_in_intro()
 	home_in_no_intro()
-#	game_in()
+#	call_deferred("game_in")
 
 			
 func home_in_intro():
 	
+	get_viewport().set_disable_input(false)
 	Global.spawn_new_scene(home_scene_path, self)
 	Global.current_scene.open_with_intro()
 	
@@ -40,12 +43,11 @@ func home_in_intro():
 	
 func home_in_no_intro():
 	
+	get_viewport().set_disable_input(false)
 	get_tree().set_pause(false)
 	
 	Global.spawn_new_scene(home_scene_path, self)
 	Global.current_scene.open_without_intro()
-	
-#	yield(get_tree().create_timer(0.7), "timeout") # da se title naštima
 	
 	Global.current_scene.modulate = Color.black
 	
@@ -55,6 +57,7 @@ func home_in_no_intro():
 
 func home_in_from_game(finished_game: int):
 	
+	get_viewport().set_disable_input(false)
 	get_tree().set_pause(false)
 	
 	Global.spawn_new_scene(home_scene_path, self)
@@ -71,12 +74,16 @@ func home_in_from_game(finished_game: int):
 
 func home_out():
 	
+	Global.sound_manager.play_gui_sfx("menu_fade")
+	
 	if not Global.sound_manager.menu_music_set_to_off: # če muzka ni setana na off
 		Global.sound_manager.stop_music("menu_music")
 	
 	var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
 	yield(fade_out, "finished")
+	
+	yield(get_tree().create_timer(wait_sound_time), "timeout") 
 	
 	Global.release_scene(Global.current_scene)
 	call_deferred("game_in")
@@ -86,7 +93,7 @@ func game_in():
 	
 	game_scene_path = Profiles.current_game_data["game_scene_path"]	
 	
-	get_viewport().set_disable_input(false) # anti dablklik
+	get_viewport().set_disable_input(false)
 	get_tree().set_pause(false)
 	
 	Global.spawn_new_scene(game_scene_path, self)
@@ -95,8 +102,6 @@ func game_in():
 	Global.game_manager.set_tilemap()
 	Global.game_manager.set_game_view()
 	Global.game_manager.create_players()
-#	Global.game_manager.create_strays(Profiles.game_settings["create_strays_count"])
-#	yield(Global.game_manager, "all_strays_spawned")
 	yield(get_tree().create_timer(0.5), "timeout") # da se kamera centrira (na restart)
 	
 	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
@@ -109,12 +114,13 @@ func game_in():
 func game_out(game_to_exit: int):
 	
 	Global.game_camera = null
-	
 	Global.sound_manager.play_gui_sfx("menu_fade")
 	
 	var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
 	yield(fade_out, "finished")
+	
+	yield(get_tree().create_timer(wait_sound_time), "timeout") 
 	
 	Global.release_scene(Global.current_scene)
 	call_deferred("home_in_from_game", game_to_exit) # nujno deferred, ker se tudi relese scene zgodi deferred
@@ -131,28 +137,8 @@ func reload_game(): # game out z drugačnim zaključkom
 	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
 	yield(fade_out, "finished")
 	
+	yield(get_tree().create_timer(wait_sound_time), "timeout") 
+	
 	Global.release_scene(Global.current_scene)
 	Profiles.call_deferred("set_game_data", current_game_enum) # nujno deferred, ker se tudi relese scene zgodi deferred
 	call_deferred("game_in") # nujno deferred, ker se tudi relese scene zgodi deferred
-
-
-func hard_reset():
-	# v bistvu je to reload home ali game scene
-	
-	# stop elements
-	if Global.current_scene.name == "Home":
-		Global.sound_manager.stop_music("menu_music")
-	else:
-		Global.game_manager.stop_game_elements()
-		Global.sound_manager.stop_music("game_music_on_gameover")
-
-	var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
-	fade_out.tween_callback(Global, "release_scene", [Global.current_scene])
-	if Global.current_scene.name == "Home":
-		fade_out.tween_callback(self, "home_in_no_intro").set_delay(1) # dober delay ker se relese zgodi šele v naslednjem frejmu
-	else:
-		fade_out.tween_callback(Profiles, "set_game_data", [Global.game_manager.game_data["game"]] ).set_delay(1) # dober delay ker se relese zgodi šele v naslednjem frejmu
-		fade_out.tween_callback(self, "game_in").set_delay(1) # dober delay ker se relese zgodi šele v naslednjem frejmu		
-
-	get_viewport().set_disable_input(false) # anti dablklik

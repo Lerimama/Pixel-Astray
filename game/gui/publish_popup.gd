@@ -35,6 +35,8 @@ func close_popup():
 func publish_score():
 
 	get_tree().set_pause(false) # da lahko procedura steče
+	get_viewport().set_disable_input(true) # zazih
+	
 	if get_focus_owner():
 		get_focus_owner().release_focus()
 	var publish_name: String = Global.gameover_gui.p1_final_stats["player_name"]
