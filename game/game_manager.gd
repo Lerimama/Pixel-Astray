@@ -69,7 +69,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 	
 func _ready() -> void:
-
+	
 	Global.game_manager = self
 	
 	randomize()
@@ -150,6 +150,8 @@ func set_game_view(): # kliče MAIN pred fade-in scene 02.
 	
 		
 func set_game(): # kliče MAIN po fade-in scene 05.
+	
+
 	 # še prej se kličejo... set_tilemap(), set_game_view(), create_players() # da je plejer viden že na fejdin
 
 	# positions
@@ -177,6 +179,14 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 	create_strays(create_strays_count)
 	yield(self, "all_strays_spawned")
 	
+	
+	# select music and open tutorial
+	if game_data["game"] == Profiles.Games.CLEANER and Global.tutorial_gui.tutorial_on:
+		Global.tutorial_gui.open_tutorial(true)
+		Global.sound_manager.current_music_track_index = Profiles.tutorial_music_track_index
+	else:
+		Global.sound_manager.current_music_track_index = game_settings["game_music_track_index"]
+	
 	# countdown
 	if game_settings["start_countdown"]:
 		Global.hud.start_countdown.start_countdown() # GM yielda za njegov signal
@@ -195,13 +205,6 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 
 func start_game():
 	
-	# select music
-	if game_data["game"] == Profiles.Games.CLEANER and Global.tutorial_gui.tutorial_on:
-		Global.tutorial_gui.open_tutorial()
-		Global.sound_manager.current_music_track_index = Profiles.tutorial_music_track_index
-	else:
-		Global.sound_manager.current_music_track_index = game_settings["game_music_track_index"]
-	
 	for player in current_players_in_game:
 		if not game_settings ["zoom_to_level_size"]:
 			Global.game_camera.camera_target = player
@@ -209,7 +212,6 @@ func start_game():
 
 	Global.sound_manager.play_music("game_music")
 	Global.hud.game_timer.start_timer()
-	
 		
 	game_on = true
 	
@@ -433,26 +435,24 @@ func create_strays(strays_to_spawn_count: int):
 			var new_stray_color = set_stray[1]
 			var selected_stray_position = set_stray[2]
 			var turn_to_white = set_stray[3]
-			# trotlam?
-			if game_settings["throttled_stray_spawn"]:	
-				# merim čas od štarta funkcije
-				var msec_taken = Time.get_ticks_msec() - throttler_start_msec
-				if msec_taken < (round(1000 / Engine.get_frames_per_second()) - throttler_msec_threshold): # msec_per_frame - ...			
-					spawned_strays_true_count += 1
-					spawn_stray(stray_index, new_stray_color, selected_stray_position, turn_to_white)
-				# ko je čas večji od dovoljenega, pavziram do naslednjega frejma in resetiram štartni čas
-				else:
-					print ("potrotlam - stray spawn") # trotlam
-					var msec_to_next_frame: float = throttler_msec_threshold + 1
-					var sec_to_next_frame: float = msec_to_next_frame / 1000.0
-					yield(get_tree().create_timer(sec_to_next_frame), "timeout") # da se vsi straysi spawnajo
-					throttler_start_msec = Time.get_ticks_msec()
-					# printt("over frame_time on: %s" % "create_strays", (strays_set_to_spawn.size() - stray_index), msec_taken, round(1000 / Engine.get_frames_per_second()))
-			else:
+			
+			# spawn
+			#			spawned_strays_true_count += 1
+			#			spawn_stray(stray_index, new_stray_color, selected_stray_position, turn_to_white)
+			# spawn ... trotled
+			var msec_taken = Time.get_ticks_msec() - throttler_start_msec # merim čas od štarta funkcije
+			if msec_taken < (round(1000 / Engine.get_frames_per_second()) - throttler_msec_threshold): # msec_per_frame - ...			
+				# print ("ne-trotlam - stray spawn")
 				spawned_strays_true_count += 1
 				spawn_stray(stray_index, new_stray_color, selected_stray_position, turn_to_white)
+			else: # ko je čas večji od dovoljenega, pavziram do naslednjega frejma in resetiram štartni čas
+				# print ("re-trotlam - stray spawn")
+				var msec_to_next_frame: float = throttler_msec_threshold + 1
+				var sec_to_next_frame: float = msec_to_next_frame / 1000.0
+				yield(get_tree().create_timer(sec_to_next_frame), "timeout") # da se vsi straysi spawnajo
+				throttler_start_msec = Time.get_ticks_msec()
 		
-		# ko trotlam preskakuje spawne, zato ponovim
+		# ko trotlam ne spawna vsega, zato ponovim
 		if spawned_strays_true_count < strays_to_spawn_count and not spawned_strays_true_count == 0:
 			create_strays(strays_to_spawn_count - spawned_strays_true_count)
 			# print("razlika %s" % (strays_to_spawn_count - spawned_strays_true_count))

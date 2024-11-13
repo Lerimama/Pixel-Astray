@@ -40,15 +40,16 @@ func build_highscore_table(current_game_data: Dictionary, current_player_rank: i
 		empty_scoreline.queue_free()
 	empty_scorelines_after_build.clear()
 	
-	# pogrebam scroeline, da ga lahko označim po dodajanju novih
-	var players_scoreline: Control
-	if current_player_rank > 0 and current_player_rank < scorelines.size():
-		#		players_scoreline = scorelines[current_player_rank - 1]
-		players_scoreline = scorelines[current_player_rank]
 	
 	# dodam lokalne rezultate
-	add_local_to_global_scores(separate_local_scores)
-
+	var offset_current_player_rank: int = add_local_to_global_scores(separate_local_scores, current_player_rank)
+	
+	# označim current player scoreline
+	if current_player_rank > 0:
+		current_player_rank = offset_current_player_rank
+		var new_player_scoreline_index: int = scorelines.find(current_player_rank)
+		scorelines[new_player_scoreline_index - 1].modulate = Global.color_green
+				
 	# table title
 	if show_title:
 		table_title_label.text = "Top " + table_game_data["game_name"] + "s"
@@ -77,11 +78,6 @@ func build_highscore_table(current_game_data: Dictionary, current_player_rank: i
 		default_scoreline.get_node(owner_label_name).hide()
 		hs_table.move_child(default_scoreline,hs_table.get_child_count() - 1)
 		default_scoreline.show()
-	
-	# označim current player scoreline
-	if players_scoreline:
-		var new_player_scoreline_index: int = scorelines.find(players_scoreline)
-		scorelines[new_player_scoreline_index - 1].modulate = Global.color_green
 	
 	var table_scrollbar: VScrollBar = $TableScroller.get_v_scrollbar()
 	if not table_scrollbar.modulate.a == 0:
@@ -130,11 +126,10 @@ func fill_scoreline_with_data(scoreline: Control, highscores: Dictionary):
 		scoreline.show()
 		
 	
-func add_local_to_global_scores(separate_local_scores: bool):
+func add_local_to_global_scores(separate_local_scores: bool, current_score_rank: int = 0):
 	
-#	var global_game_highscores: Dictionary = Global.data_manager.read_highscores_from_file(table_game_data)
+	
 	var local_game_highscores: Dictionary = Global.data_manager.read_highscores_from_file(table_game_data, true)
-	
 	var new_scorelines: Array = []
 	
 	for local_score_data in local_game_highscores:
@@ -146,7 +141,6 @@ func add_local_to_global_scores(separate_local_scores: bool):
 			continue
 		
 		var better_ranked_player_count: int = 0
-		
 		for line_with_score in scorelines:
 			var global_player_name: String = line_with_score.get_node(owner_label_name).text
 			var global_player_score: int = int(line_with_score.get_node(score_label_name).text)
@@ -167,10 +161,10 @@ func add_local_to_global_scores(separate_local_scores: bool):
 		# spawn nove scoreline
 		if not better_ranked_player_count == -1 :
 			# spawn
-#			var new_local_scoreline: Control = scorelines[0].duplicate()
 			var new_local_scoreline: Control = default_scoreline.duplicate()
 			hs_table.add_child(new_local_scoreline)
-			new_local_scoreline.modulate = Color.yellow
+			if separate_local_scores:
+				new_local_scoreline.modulate = Global.color_yellow
 			new_local_scoreline.show()
 			# data
 			var local_player_rank: int = better_ranked_player_count # + 1
@@ -180,14 +174,18 @@ func add_local_to_global_scores(separate_local_scores: bool):
 				new_local_scoreline.get_node(score_label_name).text = Global.get_clock_time(local_player_score)
 			elif table_game_data["highscore_type"] == Profiles.HighscoreTypes.POINTS:
 				new_local_scoreline.get_node(score_label_name).text = str(local_player_score)
-				
-			new_local_scoreline.modulate = Global.color_yellow
+
 			hs_table.move_child(new_local_scoreline, local_player_rank + new_scorelines.size())
-			
 			new_scorelines.append(new_local_scoreline)
 			unpublished_local_scores.append(local_score_data)
 			
+			# preverim score rank
+			if better_ranked_player_count < current_score_rank:
+				current_score_rank += 1
+			
 	scorelines.append_array(new_scorelines)
+	
+	return current_score_rank
 	
 	
 func publish_unpublished_scores():

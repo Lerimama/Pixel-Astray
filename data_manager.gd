@@ -47,7 +47,7 @@ func check_player_ranking(current_score: float, current_game_data: Dictionary, c
 		
 	var all_ranking_scores: Array = []
 	var all_ranking_score_owners: Array = []
-	var current_game_highscores: Dictionary = read_highscores_from_file(current_game_data, check_local_ranking) # ... v odprtem filetu se potem naloži highscore
+	var current_game_highscores: Dictionary = read_highscores_from_file(current_game_data, check_local_ranking)
 	# current_score_time je že zaokrožen na 2 decimalki
 	
 	# poberemo lestvico v arraye
@@ -191,9 +191,9 @@ func save_player_score(current_score: float, score_ranking: int, current_game_da
 func build_default_highscores():
 	
 	var new_highscores: Dictionary
-#	for n in Profiles.default_scores_line_count:
-#		var highscore_line_key_as_rank: String = "%02d" % (n + 1)	
-#		new_highscores[highscore_line_key_as_rank] = {Profiles.default_highscore_line_name: 0}
+	#	for n in Profiles.default_scores_line_count:
+	#		var highscore_line_key_as_rank: String = "%02d" % (n + 1)	
+	#		new_highscores[highscore_line_key_as_rank] = {Profiles.default_highscore_line_name: 0}
 	var highscore_line_key_as_rank: String = "%02d" % (1)	
 	new_highscores[highscore_line_key_as_rank] = {Profiles.default_highscore_line_name: 0}
 	

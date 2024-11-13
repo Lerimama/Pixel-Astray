@@ -39,14 +39,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			
 func _ready():
 	
-	#visibility
 	menu.hide()
-	# _temp ...esc hint off
-	$Settings/EscHint.modulate.a = 0
-#	$Highscores/EscHint.modulate.a = 0
-	$About/EscHint.modulate.a = 0
-	$SelectGame/EscHint.modulate.a = 0
-	$SelectLevel/EscHint.modulate.a = 0
 	
 	# btn groups
 	menu.get_node("SelectGameBtn").add_to_group(Global.group_menu_confirm_btns)

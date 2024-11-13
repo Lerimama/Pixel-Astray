@@ -34,7 +34,7 @@ func home_in_intro():
 	Global.spawn_new_scene(home_scene_path, self)
 	Global.current_scene.open_with_intro()
 	
-	var fade_in = get_tree().create_tween()
+	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_in.tween_property(Global.current_scene, "modulate", Color.white, fade_time)
 
 	
@@ -49,7 +49,7 @@ func home_in_no_intro():
 	
 	Global.current_scene.modulate = Color.black
 	
-	var fade_in = get_tree().create_tween()
+	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_in.tween_property(Global.current_scene, "modulate", Color.white, fade_time)
 
 
@@ -65,7 +65,7 @@ func home_in_from_game(finished_game: int):
 	
 	Global.current_scene.modulate = Color.black
 	
-	var fade_in = get_tree().create_tween()
+	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_in.tween_property(Global.current_scene, "modulate", Color.white, fade_time)
 
 
@@ -74,7 +74,7 @@ func home_out():
 	if not Global.sound_manager.menu_music_set_to_off: # če muzka ni setana na off
 		Global.sound_manager.stop_music("menu_music")
 	
-	var fade_out = get_tree().create_tween()
+	var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
 	yield(fade_out, "finished")
 	
@@ -99,7 +99,7 @@ func game_in():
 #	yield(Global.game_manager, "all_strays_spawned")
 	yield(get_tree().create_timer(0.5), "timeout") # da se kamera centrira (na restart)
 	
-	var fade_in = get_tree().create_tween()
+	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_in.tween_property(Global.current_scene, "modulate", Color.white, fade_time).from(Color.black)
 	yield(fade_in, "finished")
 	

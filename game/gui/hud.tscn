@@ -97,7 +97,6 @@ rect_pivot_offset = Vector2( 632, 352 )
 visible = false
 
 [node name="Instructions" parent="Popups" instance=ExtResource( 12 )]
-visible = false
 __meta__ = {
 "_edit_horizontal_guides_": [ 120.0, 160.0 ]
 }

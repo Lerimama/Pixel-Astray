@@ -149,7 +149,7 @@ func create_strays(strays_to_spawn_count: int = required_spawn_positions.size())
 			spawn_stray(new_stray_index, new_stray_color, selected_stray_position, turn_to_white)
 		# zunaj frejma
 		else:
-			print ("potrotlam - intro stray spawn") # trotlam
+			# print ("re-trotlam - intro stray spawn")
 			var msec_to_next_frame: float = throttler_msec_threshold + 1
 			var sec_to_next_frame: float = msec_to_next_frame / 1000.0
 			yield(get_tree().create_timer(sec_to_next_frame), "timeout") # da se vsi straysi spawnajo

@@ -853,29 +853,28 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 				else: break
 		
 		# jih destrojam
-		# trotlam
 		var throttler_start_msec = Time.get_ticks_msec()
 		for stray in strays_to_destroy:
+			
 			# netrotlano
-			#			var stray_index = strays_to_destroy.find(stray)
-			#			stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
-			#			# prišteje v sweeper strayse
-			#			if sweep_move_started:	
-			#				sweep_move_cleaned_strays_count += 1
+			var stray_index = strays_to_destroy.find(stray)
+			stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
 			var msec_taken = Time.get_ticks_msec() - throttler_start_msec
-			if msec_taken < (round(1000 / Engine.get_frames_per_second()) - Global.game_manager.throttler_msec_threshold): # msec_per_frame - ...
-				var stray_index = strays_to_destroy.find(stray)
-				stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
-				# prišteje v sweeper strayse
-				if sweep_move_started:	
-					sweep_move_cleaned_strays_count += 1
-			else:
-				print ("potrotlam - multi stray destroy") # trotlam
-				var msec_to_next_frame: float = Global.game_manager.throttler_msec_threshold + 1
-				var sec_to_next_frame: float = msec_to_next_frame / 1000.0
-				yield(get_tree().create_timer(sec_to_next_frame), "timeout") # da se vsi straysi spawnajo
-				throttler_start_msec = Time.get_ticks_msec()
-				# printt("over frame_time on: %s" % "strays_to_destroy")			
+			if sweep_move_started: # prišteje v sweeper strayse	
+				sweep_move_cleaned_strays_count += 1
+			# trotled
+			#			if msec_taken < (round(1000 / Engine.get_frames_per_second()) - Global.game_manager.throttler_msec_threshold): # msec_per_frame - ...
+			#				print ("ne-trotlam - multi stray destroy")
+			#				var stray_index = strays_to_destroy.find(stray)
+			#				stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
+			#				if sweep_move_started: # prišteje v sweeper strayse
+			#					sweep_move_cleaned_strays_count += 1
+			#			else:
+			#				print ("re-trotlam - multi stray destroy")
+			#				var msec_to_next_frame: float = Global.game_manager.throttler_msec_threshold + 1
+			#				var sec_to_next_frame: float = msec_to_next_frame / 1000.0
+			#				yield(get_tree().create_timer(sec_to_next_frame), "timeout") # da se vsi straysi spawnajo
+			#				throttler_start_msec = Time.get_ticks_msec()
 
 		# stats
 		var strays_not_walls_count: int = strays_to_destroy.size() - white_strays_in_stack.size()

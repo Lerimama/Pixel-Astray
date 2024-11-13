@@ -1,4 +1,4 @@
-[gd_scene load_steps=110 format=2]
+[gd_scene load_steps=108 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -10,7 +10,6 @@
 [ext_resource path="res://home/highscores.gd" type="Script" id=8]
 [ext_resource path="res://assets/theme/box_game_btn.tres" type="StyleBox" id=9]
 [ext_resource path="res://assets/resources/noise_gamecam.tres" type="OpenSimplexNoise" id=10]
-[ext_resource path="res://game/gui/action_hint.tscn" type="PackedScene" id=11]
 [ext_resource path="res://assets/atlas_controls.png" type="Texture" id=12]
 [ext_resource path="res://home/select_game.gd" type="Script" id=13]
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=14]
@@ -523,11 +522,6 @@ OptionButton/styles/hover = SubResource( 495 )
 OptionButton/styles/pressed = SubResource( 495 )
 Panel/styles/panel = SubResource( 496 )
 VSeparator/styles/separator = SubResource( 497 )
-
-[sub_resource type="AtlasTexture" id=535]
-atlas = ExtResource( 2 )
-region = Rect2( 32, 192, 16, 16 )
-filter_clip = true
 
 [sub_resource type="AtlasTexture" id=533]
 atlas = ExtResource( 2 )
@@ -2018,16 +2012,6 @@ texture_hover = SubResource( 196 )
 texture_focused = SubResource( 196 )
 flip_h = true
 
-[node name="EscHint" parent="SelectGame" instance=ExtResource( 11 )]
-visible = false
-margin_left = 8.0
-margin_top = 638.0
-margin_right = 242.0
-margin_bottom = 660.0
-__meta__ = {
-"_edit_group_": true
-}
-
 [node name="SelectLevel" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -2071,16 +2055,6 @@ custom_fonts/font = ExtResource( 14 )
 text = "More comming soon ..."
 align = 2
 autowrap = true
-
-[node name="EscHint" parent="SelectLevel" instance=ExtResource( 11 )]
-visible = false
-margin_left = 8.0
-margin_top = 638.0
-margin_right = 242.0
-margin_bottom = 660.0
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="BackBtn" type="TextureButton" parent="SelectLevel"]
 anchor_left = 1.0
@@ -2385,16 +2359,6 @@ and check its rules anytime
 in the game pause menu."
 autowrap = true
 
-[node name="EscHint" parent="Settings" instance=ExtResource( 11 )]
-visible = false
-margin_left = 64.0
-margin_top = 638.0
-margin_right = 248.0
-margin_bottom = 660.0
-__meta__ = {
-"_edit_group_": true
-}
-
 [node name="Highscores" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -2418,15 +2382,6 @@ custom_colors/font_color = Color( 0.996078, 0.976471, 0.545098, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "Hall Of Fame"
 align = 1
-
-[node name="TextureRect" type="TextureRect" parent="Highscores"]
-visible = false
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-margin_left = 64.0
-margin_top = 72.0
-margin_right = 80.0
-margin_bottom = 88.0
-texture = SubResource( 535 )
 
 [node name="UpdateScoresBtn" type="Button" parent="Highscores"]
 margin_left = 64.0
@@ -2537,50 +2492,50 @@ margin_right = -9.0
 margin_bottom = 16.0
 rect_min_size = Vector2( 8, 8 )
 
-[node name="ScrollContent" type="HBoxContainer" parent="Highscores"]
+[node name="GameHalls" type="HBoxContainer" parent="Highscores"]
 margin_left = 64.0
 margin_top = 136.0
 margin_right = 1216.0
 margin_bottom = 560.0
 custom_constants/separation = 10
 
-[node name="Cleaner" type="Control" parent="Highscores/ScrollContent"]
+[node name="Cleaner" type="Control" parent="Highscores/GameHalls"]
 margin_right = 280.0
 margin_bottom = 424.0
 rect_min_size = Vector2( 280, 392 )
 size_flags_vertical = 3
 
-[node name="Undi" type="ColorRect" parent="Highscores/ScrollContent/Cleaner"]
+[node name="Undi" type="ColorRect" parent="Highscores/GameHalls/Cleaner"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Edge" type="Panel" parent="Highscores/ScrollContent/Cleaner/Undi"]
+[node name="Edge" type="Panel" parent="Highscores/GameHalls/Cleaner/Undi"]
 anchor_right = 1.0
 custom_styles/panel = SubResource( 531 )
 
-[node name="CleanerHall" parent="Highscores/ScrollContent/Cleaner" instance=ExtResource( 31 )]
+[node name="CleanerHall" parent="Highscores/GameHalls/Cleaner" instance=ExtResource( 31 )]
 margin_top = 50.0
 margin_bottom = 424.0
 
-[node name="Edge" parent="Highscores/ScrollContent/Cleaner/CleanerHall/Undi" index="0"]
+[node name="Edge" parent="Highscores/GameHalls/Cleaner/CleanerHall/Undi" index="0"]
 visible = false
 
-[node name="HighscoreTable" parent="Highscores/ScrollContent/Cleaner/CleanerHall" index="1"]
+[node name="HighscoreTable" parent="Highscores/GameHalls/Cleaner/CleanerHall" index="1"]
 margin_top = 15.0
 
-[node name="Grad" parent="Highscores/ScrollContent/Cleaner/CleanerHall" index="2"]
+[node name="Grad" parent="Highscores/GameHalls/Cleaner/CleanerHall" index="2"]
 margin_top = -30.0
 margin_bottom = 218.0
 
-[node name="EdgeMid" type="Panel" parent="Highscores/ScrollContent/Cleaner"]
+[node name="EdgeMid" type="Panel" parent="Highscores/GameHalls/Cleaner"]
 margin_top = 56.0
 margin_right = 280.0
 margin_bottom = 56.0
 size_flags_horizontal = 3
 custom_styles/panel = SubResource( 532 )
 
-[node name="Title" type="Label" parent="Highscores/ScrollContent/Cleaner"]
+[node name="Title" type="Label" parent="Highscores/GameHalls/Cleaner"]
 margin_left = 32.0
 margin_top = 22.0
 margin_right = 260.0
@@ -2591,30 +2546,30 @@ custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 text = "Cleaner"
 align = 1
 
-[node name="Sweepers" type="Control" parent="Highscores/ScrollContent"]
+[node name="Sweepers" type="Control" parent="Highscores/GameHalls"]
 margin_left = 290.0
 margin_right = 570.0
 margin_bottom = 424.0
 rect_min_size = Vector2( 280, 392 )
 size_flags_vertical = 3
 
-[node name="Undi" type="ColorRect" parent="Highscores/ScrollContent/Sweepers"]
+[node name="Undi" type="ColorRect" parent="Highscores/GameHalls/Sweepers"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Edge" type="Panel" parent="Highscores/ScrollContent/Sweepers/Undi"]
+[node name="Edge" type="Panel" parent="Highscores/GameHalls/Sweepers/Undi"]
 anchor_right = 1.0
 custom_styles/panel = SubResource( 531 )
 
-[node name="Edge2" type="Panel" parent="Highscores/ScrollContent/Sweepers/Undi"]
+[node name="Edge2" type="Panel" parent="Highscores/GameHalls/Sweepers/Undi"]
 margin_top = 56.0
 margin_right = 280.0
 margin_bottom = 56.0
 size_flags_horizontal = 3
 custom_styles/panel = SubResource( 532 )
 
-[node name="TabContainer" type="TabContainer" parent="Highscores/ScrollContent/Sweepers"]
+[node name="TabContainer" type="TabContainer" parent="Highscores/GameHalls/Sweepers"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 48.0
@@ -2624,74 +2579,74 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Sweeper1Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+[node name="Sweeper1Hall" parent="Highscores/GameHalls/Sweepers/TabContainer" instance=ExtResource( 31 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 44.0
 margin_right = 0.0
 margin_bottom = 0.0
 
-[node name="Sweeper2Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+[node name="Sweeper2Hall" parent="Highscores/GameHalls/Sweepers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 margin_top = 44.0
 
-[node name="Sweeper3Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+[node name="Sweeper3Hall" parent="Highscores/GameHalls/Sweepers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 margin_top = 44.0
 
-[node name="Sweeper4Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+[node name="Sweeper4Hall" parent="Highscores/GameHalls/Sweepers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 margin_top = 44.0
 
-[node name="Sweeper5Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+[node name="Sweeper5Hall" parent="Highscores/GameHalls/Sweepers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 margin_top = 44.0
 
-[node name="Sweeper6Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+[node name="Sweeper6Hall" parent="Highscores/GameHalls/Sweepers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 margin_top = 44.0
 
-[node name="Sweeper7Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+[node name="Sweeper7Hall" parent="Highscores/GameHalls/Sweepers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 margin_top = 44.0
 
-[node name="Sweeper8Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+[node name="Sweeper8Hall" parent="Highscores/GameHalls/Sweepers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 margin_top = 44.0
 
-[node name="Sweeper9Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+[node name="Sweeper9Hall" parent="Highscores/GameHalls/Sweepers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 margin_top = 44.0
 
-[node name="Sweeper10Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+[node name="Sweeper10Hall" parent="Highscores/GameHalls/Sweepers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 margin_top = 44.0
 
-[node name="Sweeper11Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+[node name="Sweeper11Hall" parent="Highscores/GameHalls/Sweepers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 margin_top = 44.0
 
-[node name="Sweeper12Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+[node name="Sweeper12Hall" parent="Highscores/GameHalls/Sweepers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 margin_top = 44.0
 
-[node name="Sweeper13Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+[node name="Sweeper13Hall" parent="Highscores/GameHalls/Sweepers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 margin_top = 44.0
 
-[node name="Sweeper14Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+[node name="Sweeper14Hall" parent="Highscores/GameHalls/Sweepers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 margin_top = 44.0
 
-[node name="Sweeper15Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+[node name="Sweeper15Hall" parent="Highscores/GameHalls/Sweepers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 margin_top = 44.0
 
-[node name="Sweeper16Hall" parent="Highscores/ScrollContent/Sweepers/TabContainer" instance=ExtResource( 31 )]
+[node name="Sweeper16Hall" parent="Highscores/GameHalls/Sweepers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 margin_top = 44.0
 
-[node name="Title" type="Label" parent="Highscores/ScrollContent/Sweepers"]
+[node name="Title" type="Label" parent="Highscores/GameHalls/Sweepers"]
 margin_left = 32.0
 margin_top = 22.0
 margin_right = 260.0
@@ -2702,44 +2657,44 @@ custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 text = "Sweepers"
 align = 1
 
-[node name="Unbeatables" type="Control" parent="Highscores/ScrollContent"]
+[node name="Unbeatables" type="Control" parent="Highscores/GameHalls"]
 margin_left = 580.0
 margin_right = 860.0
 margin_bottom = 424.0
 rect_min_size = Vector2( 280, 392 )
 size_flags_vertical = 3
 
-[node name="Undi" type="ColorRect" parent="Highscores/ScrollContent/Unbeatables"]
+[node name="Undi" type="ColorRect" parent="Highscores/GameHalls/Unbeatables"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Edge" type="Panel" parent="Highscores/ScrollContent/Unbeatables/Undi"]
+[node name="Edge" type="Panel" parent="Highscores/GameHalls/Unbeatables/Undi"]
 anchor_right = 1.0
 custom_styles/panel = SubResource( 531 )
 
-[node name="Edge2" type="Panel" parent="Highscores/ScrollContent/Unbeatables/Undi"]
+[node name="Edge2" type="Panel" parent="Highscores/GameHalls/Unbeatables/Undi"]
 margin_top = 56.0
 margin_right = 280.0
 margin_bottom = 56.0
 size_flags_horizontal = 3
 custom_styles/panel = SubResource( 532 )
 
-[node name="TabContainer" type="TabContainer" parent="Highscores/ScrollContent/Unbeatables"]
+[node name="TabContainer" type="TabContainer" parent="Highscores/GameHalls/Unbeatables"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 48.0
 grow_horizontal = 2
 mouse_default_cursor_shape = 2
 
-[node name="HunterHall" parent="Highscores/ScrollContent/Unbeatables/TabContainer" instance=ExtResource( 31 )]
+[node name="HunterHall" parent="Highscores/GameHalls/Unbeatables/TabContainer" instance=ExtResource( 31 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 44.0
 margin_right = 0.0
 margin_bottom = 0.0
 
-[node name="DefenderHall" parent="Highscores/ScrollContent/Unbeatables/TabContainer" instance=ExtResource( 31 )]
+[node name="DefenderHall" parent="Highscores/GameHalls/Unbeatables/TabContainer" instance=ExtResource( 31 )]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -2747,7 +2702,7 @@ margin_top = 44.0
 margin_right = 0.0
 margin_bottom = 0.0
 
-[node name="Title" type="Label" parent="Highscores/ScrollContent/Unbeatables"]
+[node name="Title" type="Label" parent="Highscores/GameHalls/Unbeatables"]
 margin_left = 32.0
 margin_top = 22.0
 margin_right = 260.0
@@ -2758,30 +2713,30 @@ custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 text = "Unbeatables"
 align = 1
 
-[node name="Erasers" type="Control" parent="Highscores/ScrollContent"]
+[node name="Erasers" type="Control" parent="Highscores/GameHalls"]
 margin_left = 870.0
 margin_right = 1150.0
 margin_bottom = 424.0
 rect_min_size = Vector2( 280, 392 )
 size_flags_vertical = 3
 
-[node name="Undi" type="ColorRect" parent="Highscores/ScrollContent/Erasers"]
+[node name="Undi" type="ColorRect" parent="Highscores/GameHalls/Erasers"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
-[node name="Edge" type="Panel" parent="Highscores/ScrollContent/Erasers/Undi"]
+[node name="Edge" type="Panel" parent="Highscores/GameHalls/Erasers/Undi"]
 anchor_right = 1.0
 custom_styles/panel = SubResource( 531 )
 
-[node name="Edge2" type="Panel" parent="Highscores/ScrollContent/Erasers/Undi"]
+[node name="Edge2" type="Panel" parent="Highscores/GameHalls/Erasers/Undi"]
 margin_top = 56.0
 margin_right = 280.0
 margin_bottom = 56.0
 size_flags_horizontal = 3
 custom_styles/panel = SubResource( 532 )
 
-[node name="TabContainer" type="TabContainer" parent="Highscores/ScrollContent/Erasers"]
+[node name="TabContainer" type="TabContainer" parent="Highscores/GameHalls/Erasers"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 48.0
@@ -2791,26 +2746,26 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="XSHall" parent="Highscores/ScrollContent/Erasers/TabContainer" instance=ExtResource( 31 )]
+[node name="XSHall" parent="Highscores/GameHalls/Erasers/TabContainer" instance=ExtResource( 31 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 44.0
 margin_right = 0.0
 margin_bottom = 0.0
 
-[node name="SHall" parent="Highscores/ScrollContent/Erasers/TabContainer" instance=ExtResource( 31 )]
+[node name="SHall" parent="Highscores/GameHalls/Erasers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 
-[node name="MHall" parent="Highscores/ScrollContent/Erasers/TabContainer" instance=ExtResource( 31 )]
+[node name="MHall" parent="Highscores/GameHalls/Erasers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 
-[node name="LHall" parent="Highscores/ScrollContent/Erasers/TabContainer" instance=ExtResource( 31 )]
+[node name="LHall" parent="Highscores/GameHalls/Erasers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 
-[node name="XLHall" parent="Highscores/ScrollContent/Erasers/TabContainer" instance=ExtResource( 31 )]
+[node name="XLHall" parent="Highscores/GameHalls/Erasers/TabContainer" instance=ExtResource( 31 )]
 visible = false
 
-[node name="Title" type="Label" parent="Highscores/ScrollContent/Erasers"]
+[node name="Title" type="Label" parent="Highscores/GameHalls/Erasers"]
 margin_left = 32.0
 margin_top = 22.0
 margin_right = 260.0
@@ -3232,16 +3187,6 @@ margin_right = 576.0
 margin_bottom = 496.0
 custom_constants/separation = 0
 
-[node name="EscHint" parent="About" instance=ExtResource( 11 )]
-visible = false
-margin_left = 984.0
-margin_top = 502.0
-margin_right = 1218.0
-margin_bottom = 524.0
-__meta__ = {
-"_edit_group_": true
-}
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
 anims/RESET = SubResource( 155 )
@@ -3337,7 +3282,7 @@ anims/settings = SubResource( 530 )
 [connection signal="meta_clicked" from="About/Resources/LinkLabel" to="About" method="_on_NameAuthor_meta_clicked"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 
-[editable path="Highscores/ScrollContent/Cleaner/CleanerHall"]
+[editable path="Highscores/GameHalls/Cleaner/CleanerHall"]
 [editable path="About/Shorts/ShortcutLine4"]
 [editable path="About/Shorts/ShortcutLine5"]
 [editable path="About/Shorts/ShortcutLine7"]

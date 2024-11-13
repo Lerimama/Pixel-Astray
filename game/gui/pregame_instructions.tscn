@@ -79,6 +79,7 @@ atlas = ExtResource( 6 )
 region = Rect2( 138, 22, 22, 22 )
 
 [node name="Instructions" type="Control"]
+pause_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 5 )
@@ -89,7 +90,6 @@ __meta__ = {
 }
 
 [node name="Background" type="ColorRect" parent="."]
-modulate = Color( 1, 1, 1, 0.901961 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
@@ -730,41 +730,45 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -124.0
+margin_left = -191.0
 margin_top = 278.0
-margin_right = 124.0
+margin_right = 193.0
 margin_bottom = 300.0
 __meta__ = {
 "_edit_group_": true
 }
 
+[node name="Label" parent="ActionHint" index="0"]
+margin_right = 191.0
+text = "Click anywhere or press"
+
 [node name="KEY" parent="ActionHint" index="1"]
-margin_right = 107.0
+margin_left = 199.0
+margin_right = 254.0
 text = "ENTER"
 
 [node name="Label2" parent="ActionHint" index="2"]
-margin_left = 115.0
-margin_right = 132.0
+margin_left = 262.0
+margin_right = 279.0
 
 [node name="Jp" parent="ActionHint" index="3"]
-margin_left = 140.0
-margin_right = 162.0
+margin_left = 287.0
+margin_right = 309.0
 texture = SubResource( 475 )
 
-[node name="EnterButton" type="Button" parent="ActionHint/Jp" index="0"]
-margin_left = -144.0
-margin_right = 104.0
-margin_bottom = 26.0
+[node name="Label3" parent="ActionHint" index="4"]
+margin_left = 317.0
+margin_right = 384.0
+text = "to start"
+
+[node name="BigButton" type="Button" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
 focus_mode = 0
 mouse_default_cursor_shape = 2
 enabled_focus_mode = 0
 
-[node name="Label3" parent="ActionHint" index="4"]
-margin_left = 170.0
-margin_right = 237.0
-text = "to start"
-
-[connection signal="pressed" from="ActionHint/Jp/EnterButton" to="." method="_on_EnterButton_pressed"]
+[connection signal="pressed" from="BigButton" to="." method="_on_EnterButton_pressed"]
 
 [editable path="_help_gui_guide"]
 [editable path="_help_gui_guide/ActionHint"]

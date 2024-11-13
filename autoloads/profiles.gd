@@ -42,7 +42,6 @@ var default_game_settings: Dictionary = {
 	"respawn_pause_time": 1, # če je 0 lahko pride do errorja (se mi zdi, da n 0, se timer sam disejbla)
 	"respawn_pause_time_low": 1, # klempam navzdol na tole
 	"stray_step_time": 0.5, # ne manjši od 0.2
-	"throttled_stray_spawn": true,
 	# game
 	"burst_count_limit": 0, # če je nič, ni omejeno
 	"game_time_limit": 0, # če je nič, ni omejeno in timer je stopwatch mode
@@ -70,7 +69,7 @@ var game_data_cleaner: Dictionary = {
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner.tscn",
 	# pre-game instructons
-	"description": "Take back the colors and become the brightest again.",
+	"description": "Take back the colors and become the brightest pixel on screen.",
 	"Prop": "Clear all %s strays\nto reclaim your\none-and-only status." % str(500), # CON ročno povezano z game time
 	"Prop2": "Give it your best shot\nto beat the current\nrecord score!",
 }
@@ -227,15 +226,14 @@ var sweeper_level_tilemap_paths: Array = [
 
 # VARZ -----------------------------------------------------------------------------------
 
-
 var game_settings: Dictionary
 var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
 var use_default_color_theme: bool = true
 var get_it_time: float = 1 # tajming za dojet določene faze igre
+
+# hs
 var default_highscore_line_name: String = "Empty score line" # se uporabi, če še ni nobenega v filetu
-# new
-var default_scores_line_count: int = 99
-var green_rank_limit: int = 10
+var local_rank_limit: int = 100
 
 # nastavitve, ki se setajo tudi v home
 var camera_shake_on: bool = true
@@ -264,6 +262,7 @@ func _ready() -> void:
 #	var debug_game = Games.ERASER_XL
 #	var debug_game = Games.HUNTER
 #	var debug_game = Games.DEFENDER
+
 #	var debug_game = Games.SWEEPER
 #	var debug_game = Games.THE_DUEL
 	set_game_data(debug_game)
@@ -277,7 +276,6 @@ func set_game_data(selected_game):
 #	game_settings["start_countdown"] = false
 #	game_settings["player_start_life"] = 2
 #	game_settings["show_game_instructions"] = false
-
 
 	match selected_game:
 
@@ -336,7 +334,6 @@ func set_game_data(selected_game):
 			game_settings["reburst_window_time"] = 13
 			game_settings["burst_count_limit"] = 1
 			#
-			game_settings["throttled_stray_spawn"] = false
 			game_settings["game_music_track_index"] = 1
 			game_settings["always_zoomed_in"] = true # prižge se med prvo igro iz menija, tako ostane za zmerom zoomiran
 			game_settings["show_game_instructions"] = false # prižge se samo za prvi gejm iz menija

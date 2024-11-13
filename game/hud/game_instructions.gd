@@ -14,6 +14,13 @@ onready var controls_duel_p1: Control = $Outline/ControlsDuelP1
 onready var controls_duel_p2: Control = $Outline/ControlsDuelP2
 
 
+func _input(event: InputEvent) -> void:
+
+	if not get_parent().name == "PauseMenu":
+		if visible and modulate.a == 1 and Input.is_action_just_pressed("ui_accept"):
+			_on_EnterButton_pressed()
+	
+		
 func get_instructions_content(current_highscore: int = 0, current_highscore_owner: String = "Nobody"):
 	
 	var current_game_data: Dictionary = Global.game_manager.game_data
@@ -69,6 +76,8 @@ func get_instructions_content(current_highscore: int = 0, current_highscore_owne
 
 
 func _on_EnterButton_pressed() -> void:
-	print("JES")
-	Global.hud.confirm_players_ready() #_temp
+	
+	$BigButton.hide()
+	$BigButton.rect_size = Vector2.ZERO # da zgine rokca miške
+	Global.hud.call_deferred("confirm_players_ready")
 	

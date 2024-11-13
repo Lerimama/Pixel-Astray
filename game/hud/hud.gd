@@ -77,15 +77,7 @@ onready var player_life: Label = $Life
 onready var player_energy: Label = $Energy
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	#func _input(event: InputEvent) -> void:
-	
-	if instructions_popup.visible and Input.is_action_just_pressed("ui_accept"):
-		confirm_players_ready()
-
-	
 func _ready() -> void:
-	
 	
 	Global.hud = self
 	
@@ -99,7 +91,7 @@ func _ready() -> void:
 	game_label.text = Global.game_manager.game_data["game_name"]
 	
 	if Global.game_manager.game_data.has("level"):
-		level_label.text = "%02d" % Global.game_manager.game_data["level"]
+		level_label.text = "L%02d" % Global.game_manager.game_data["level"]
 		level_label.show()
 	else:
 		level_label.hide()
@@ -111,6 +103,7 @@ func _ready() -> void:
 		instructions_popup.get_instructions_content(current_highscore, current_highscore_owner)
 		yield(get_tree().create_timer(0.2), "timeout")		
 		instructions_popup.show()
+		get_tree().set_pause(true)
 	else:
 		instructions_popup.hide()
 		
@@ -147,7 +140,7 @@ func _process(delta: float) -> void:
 	astray_counter.text = "%0d" % Global.game_manager.strays_in_game_count
 
 	if level_label.visible: # Global.game_manager.game_data.has("level"):
-		level_label.text = "%02d" % Global.game_manager.game_data["level"]
+		level_label.text = "L%02d" % Global.game_manager.game_data["level"]
 			
 			
 func set_hud(): # kliče main na game-in
@@ -254,15 +247,17 @@ func slide_out(): # kliče GM na game over
 	
 func confirm_players_ready():
 	
+	get_tree().set_pause(false)
 	get_viewport().set_disable_input(true) # anti dablklik
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	
 	var out_time: float = 0.7
 	var hide_instructions_popup = get_tree().create_tween()
 	hide_instructions_popup.tween_property(instructions_popup, "modulate:a", 0, out_time).set_ease(Tween.EASE_IN)
-	hide_instructions_popup.tween_callback(instructions_popup, "hide")
+	#	hide_instructions_popup.tween_callback(instructions_popup, "hide")
 	hide_instructions_popup.tween_callback(get_viewport(), "set_disable_input", [false]) # anti dablklik
 	yield(hide_instructions_popup, "finished")
+	instructions_popup.hide()
 	emit_signal("players_ready")
 
 

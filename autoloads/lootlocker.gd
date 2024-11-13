@@ -26,7 +26,6 @@ func publish_score_to_lootlocker(player_name: String, player_score: float, game_
 	var game_leaderboard_key = Profiles.Games.keys()[game_data["game"]]
 	if game_data["game"] == Profiles.Games.SWEEPER: # OPT iskanja brez sweeperja
 		game_leaderboard_key = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"])
-	#	printt("LL publish key:", game_leaderboard_key)
 	authenticate_guest_session(player_name, true)
 	yield(self, "guest_authenticated")	
 	
@@ -55,7 +54,6 @@ func multipublish_scores_to_lootlocker(player_name: String, player_score: float,
 	var game_leaderboard_key = Profiles.Games.keys()[game_data["game"]]
 	if game_data["game"] == Profiles.Games.SWEEPER: # OPT iskanja brez sweeperja
 		game_leaderboard_key = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"])
-		printt ("game_leaderboard_key", game_leaderboard_key, game_data["level"])
 	
 	if multipublish_count == 1: # avtenticiram na ime prvega rezultata v vrsti
 		authenticate_guest_session(player_name, true)
@@ -96,7 +94,6 @@ func update_lootlocker_leaderboard(game_data: Dictionary, last_in_row: bool = tr
 	var game_leaderboard_key = Profiles.Games.keys()[game_data["game"]]
 	if game_data["game"] == Profiles.Games.SWEEPER: # OPT iskanja brez sweeperja
 		game_leaderboard_key = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"])
-	#	printt("LL update key:", game_leaderboard_key)
 	
 	var url_without_count: String = "https://api.lootlocker.io/game/leaderboards/%s/list?count=" % game_leaderboard_key
 	var url: String = url_without_count + str(Profiles.global_highscores_count)
@@ -133,7 +130,7 @@ func update_lootlocker_leaderboard(game_data: Dictionary, last_in_row: bool = tr
 		
 		save_lootlocker_leadebroard_to_local_highscore(game_data)
 		
-		printt ("Leaderboard updated (get,save)", game_leaderboard_key)
+		# printt ("Leaderboard updated (get,save)", game_leaderboard_key)
 		
 		if last_in_row:	
 			emit_signal("connection_closed")

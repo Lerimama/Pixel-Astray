@@ -21,7 +21,7 @@ onready var travel_content: Control = $Checkpoints/TravelingContent
 onready var collect_content: Control = $Checkpoints/BurstingContent
 onready var multicollect_content: Control = $Checkpoints/StackingContent
 onready var skills_content: Control = $Checkpoints/SkillingContent
-onready var viewport_container: ViewportContainer = $"../../GameView/ViewportContainer"
+onready var viewport_container: ViewportContainer = $"%ViewportContainer"
 onready var finish_hint: HBoxContainer = $ActionHint
 
 
@@ -53,13 +53,13 @@ func _ready() -> void:
 	visible = false
 	
 	# skrijem elemente
-	travel_content.visible = false
-	collect_content.visible = false
-	multicollect_content.visible = false
-	skills_content.visible = false
-	winlose_content.visible = false
-	finish_hint.visible = false
-	controls.visible = false
+	travel_content.hide()
+	collect_content.hide()
+	multicollect_content.hide()
+	skills_content.hide()
+	winlose_content.hide()
+	finish_hint.hide()
+	controls.hide()
 		
 	# setam točke kjer tekst govori o točkah
 	var color_collected_points: int = Profiles.default_game_settings["color_picked_points"]
@@ -71,12 +71,18 @@ func _ready() -> void:
 	cleaning_points_line.bbcode_text = "You get rewarded %s bonus points if you manage to clean the screen." % cleaned_points
 
 
-func open_tutorial(): # kliče se z GM
+func open_tutorial(with_animation: bool = false): # kliče se z GM
 	
+	if with_animation:
+		animation_player.play("tutorial_start_with_sidebar")
+	else:
+		#		viewport_container.rect_size.x = 888
+		#		viewport_container.rect_position.x = 392
+		checkpoints.modulate = Color.white
+		checkpoints.rect_position.x = 32
 	show()
 	travel_content.show()
 	controls.show()
-	animation_player.play("tutorial_start_with_sidebar")
 
 
 func finish_travel(): 

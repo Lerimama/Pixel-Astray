@@ -2,38 +2,38 @@ extends Control
 
 
 var fake_player_ranking: int = 0 # številka je ranking izven lestvice, da ni označenega plejerja
-var publish_btn_text: String = "    Publish %s local-only scores"
+var publish_btn_text: String = "    Publish %s local scores online"
 
 # tables ... zaporedje se mora ujemati v sponjih 3 in z node zaporedjem v drevesu
 var all_tables: Array = []
 var sweeper_tables: Array = []
 onready var halls: Array = [
-	$ScrollContent/Cleaner/CleanerHall,
-	$ScrollContent/Erasers/TabContainer/XSHall, 
-	$ScrollContent/Erasers/TabContainer/SHall, 
-	$ScrollContent/Erasers/TabContainer/MHall, 
-	$ScrollContent/Erasers/TabContainer/LHall, 
-	$ScrollContent/Erasers/TabContainer/XLHall,
-	$ScrollContent/Unbeatables/TabContainer/HunterHall, 
-	$ScrollContent/Unbeatables/TabContainer/DefenderHall, 
+	$GameHalls/Cleaner/CleanerHall,
+	$GameHalls/Erasers/TabContainer/XSHall, 
+	$GameHalls/Erasers/TabContainer/SHall, 
+	$GameHalls/Erasers/TabContainer/MHall, 
+	$GameHalls/Erasers/TabContainer/LHall, 
+	$GameHalls/Erasers/TabContainer/XLHall,
+	$GameHalls/Unbeatables/TabContainer/HunterHall, 
+	$GameHalls/Unbeatables/TabContainer/DefenderHall, 
 	]
 onready var all_sweeper_halls: Array = [ # na ready jih dodam med vse halls
-	$ScrollContent/Sweepers/TabContainer/Sweeper1Hall, 
-	$ScrollContent/Sweepers/TabContainer/Sweeper2Hall, 
-	$ScrollContent/Sweepers/TabContainer/Sweeper3Hall, 
-	$ScrollContent/Sweepers/TabContainer/Sweeper4Hall, 
-	$ScrollContent/Sweepers/TabContainer/Sweeper5Hall,
-	$ScrollContent/Sweepers/TabContainer/Sweeper6Hall,
-	$ScrollContent/Sweepers/TabContainer/Sweeper7Hall,
-	$ScrollContent/Sweepers/TabContainer/Sweeper8Hall,
-	$ScrollContent/Sweepers/TabContainer/Sweeper9Hall,
-	$ScrollContent/Sweepers/TabContainer/Sweeper10Hall,
-	$ScrollContent/Sweepers/TabContainer/Sweeper11Hall,
-	$ScrollContent/Sweepers/TabContainer/Sweeper12Hall,
-	$ScrollContent/Sweepers/TabContainer/Sweeper13Hall,
-	$ScrollContent/Sweepers/TabContainer/Sweeper14Hall,
-	$ScrollContent/Sweepers/TabContainer/Sweeper15Hall,
-	$ScrollContent/Sweepers/TabContainer/Sweeper16Hall
+	$GameHalls/Sweepers/TabContainer/Sweeper1Hall, 
+	$GameHalls/Sweepers/TabContainer/Sweeper2Hall, 
+	$GameHalls/Sweepers/TabContainer/Sweeper3Hall, 
+	$GameHalls/Sweepers/TabContainer/Sweeper4Hall, 
+	$GameHalls/Sweepers/TabContainer/Sweeper5Hall,
+	$GameHalls/Sweepers/TabContainer/Sweeper6Hall,
+	$GameHalls/Sweepers/TabContainer/Sweeper7Hall,
+	$GameHalls/Sweepers/TabContainer/Sweeper8Hall,
+	$GameHalls/Sweepers/TabContainer/Sweeper9Hall,
+	$GameHalls/Sweepers/TabContainer/Sweeper10Hall,
+	$GameHalls/Sweepers/TabContainer/Sweeper11Hall,
+	$GameHalls/Sweepers/TabContainer/Sweeper12Hall,
+	$GameHalls/Sweepers/TabContainer/Sweeper13Hall,
+	$GameHalls/Sweepers/TabContainer/Sweeper14Hall,
+	$GameHalls/Sweepers/TabContainer/Sweeper15Hall,
+	$GameHalls/Sweepers/TabContainer/Sweeper16Hall
 	]
 onready var all_tables_game_data: Array = [
 	Profiles.game_data_cleaner,
@@ -51,12 +51,13 @@ onready var publish_unpublished_btn: Button = $PublishUnpublishedBtn
 onready var back_btn: TextureButton = $BackBtn
 onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
 onready var select_level_node: Control = $"../SelectLevel"
+onready var game_halls: HBoxContainer = $GameHalls
 		
 # halls za input ... neurejeno (input)
-onready var cleaner_hall: Control = $ScrollContent/Cleaner/CleanerHall
-onready var unbeatables_hall: TabContainer = $ScrollContent/Unbeatables/TabContainer
-onready var sweepers_hall: Control = $ScrollContent/Sweepers/TabContainer
-onready var erasers_hall: TabContainer = $ScrollContent/Erasers/TabContainer
+onready var cleaner_hall: Control = $GameHalls/Cleaner/CleanerHall
+onready var unbeatables_hall: TabContainer = $GameHalls/Unbeatables/TabContainer
+onready var sweepers_hall: Control = $GameHalls/Sweepers/TabContainer
+onready var erasers_hall: TabContainer = $GameHalls/Erasers/TabContainer
 onready var default_focus_node: Control = update_scores_btn
 onready var cleaner_focus_node: Control = cleaner_hall.get_node("HighscoreTable").table_scroller
 onready var unbeatables_focus_node: Control
@@ -89,9 +90,8 @@ func _input(event):
 		match focused_node:
 			update_scores_btn:
 				node_to_focus = cleaner_focus_node
-				print("JP ",node_to_focus)
 			cleaner_focus_node:
-				$ScrollContent/Cleaner/Title.modulate = Color.yellow
+				$GameHalls/Cleaner/Title.modulate = Color.yellow
 				pass
 			sweepers_focus_node:
 				pass
@@ -167,7 +167,8 @@ func _ready() -> void:
 
 func load_all_highscore_tables(update_with_global: bool, update_in_background: bool = false):
 	
-	print("Updating tables")
+	# print("Updating tables")
+	
 	update_scores_btn.disabled = true
 	update_scores_btn.get_child(0).modulate = Global.color_btn_disabled
 	
@@ -198,7 +199,7 @@ func load_all_highscore_tables(update_with_global: bool, update_in_background: b
 			
 		table.build_highscore_table(game_data_local, fake_player_ranking, false)
 			
-	print ("All tables updated")
+	# print ("All tables updated")
 	
 	if update_with_global:		
 		select_level_node.select_level_btns_holder.set_level_btns()

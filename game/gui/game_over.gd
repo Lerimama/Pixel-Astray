@@ -40,8 +40,6 @@ onready var name_input_popup: Control = $NameInputPopup
 onready var name_input: LineEdit = $NameInputPopup/NameInput
 onready var name_input_label: Label = $NameInputPopup/Label
 
-# neu
-var is_successful: bool = false
 	
 func _input(event: InputEvent) -> void:
 
@@ -237,7 +235,7 @@ func set_gameover_title():
 	# GO text color
 	if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
 		selected_gameover_title.modulate = Global.color_green
-	elif current_player_local_rank > Profiles.green_rank_limit: # _temp green rank limit ...more bit preverjanje "če ni topX", ker true se ne vrne
+	elif current_player_local_rank > Profiles.local_rank_limit: # more bit preverjanje "če ni topX", ker true se ne vrne
 		selected_gameover_title.modulate = Global.color_red
 	else:
 		selected_gameover_title.modulate = Global.color_green
@@ -353,7 +351,7 @@ func set_game_summary():
 	# summaty title color
 	if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
 		summary_title.modulate = Global.color_green
-	elif current_player_local_rank > Profiles.green_rank_limit: # more bit preverjanje "če ni topX", ker true se ne vrne
+	elif current_player_local_rank > Profiles.local_rank_limit: # more bit preverjanje "če ni topX", ker true se ne vrne
 		summary_title.modulate = Global.color_red
 	else:
 		summary_title.modulate = Global.color_green

@@ -14,7 +14,8 @@ margin_top = 488.0
 margin_right = 2856.0
 margin_bottom = 2488.0
 
-[node name="CameraPosition" parent="." index="1"]
+[node name="CameraPosition" parent="." index="2"]
 position = Vector2( 1312, 768 )
 
 [editable path="Background"]
+[editable path="EdgeCover"]

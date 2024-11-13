@@ -9,7 +9,6 @@ onready var speaker_icon: Control = $SpeakerIcon
 
 
 func _unhandled_input(event: InputEvent) -> void:
-#func _input(event: InputEvent) -> void:
 	
 	if Global.game_manager.game_on and visible == true: # visible je, da deluje samo na enem plejerju
 		if Input.is_action_just_pressed("next") and visible == true: 
@@ -28,8 +27,8 @@ func _unhandled_input(event: InputEvent) -> void:
 				#off_icon.visible = false
 				
 				
-func _ready() -> void:
-	printt("AS", AudioServer.device, AudioServer.bus_count)
+#func _ready() -> void:
+#	printt("AS", AudioServer.device, AudioServer.bus_count)
 #	if AudioServer.is_bus_mute(game_music_bus_index) or Global.sound_manager.game_music_set_to_off:
 #		modulate.a = 0.6
 #	else:

@@ -9,11 +9,6 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "SceneTree",
-"class": "CustomSceneTree",
-"language": "GDScript",
-"path": "res://custom_scene_tree.gd"
-}, {
 "base": "Control",
 "class": "GameHud",
 "language": "GDScript",
@@ -45,7 +40,6 @@ _global_script_classes=[ {
 "path": "res://game/pixel/stray.gd"
 } ]
 _global_script_class_icons={
-"CustomSceneTree": "",
 "GameHud": "",
 "GameManager": "",
 "GameOver": "",

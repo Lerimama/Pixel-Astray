@@ -77,7 +77,7 @@ tracks/0/path = NodePath("../../GameView/ViewportContainer:rect_size:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = true
+tracks/0/enabled = false
 tracks/0/keys = {
 "points": PoolRealArray( 888, 0, 0, 0.5, 0, 888, -0.5, 0, 0.7, 0, 1280, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0, 0.3, 1.7 )
@@ -87,7 +87,7 @@ tracks/1/path = NodePath("../../GameView/ViewportContainer:rect_position:x")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
-tracks/1/enabled = true
+tracks/1/enabled = false
 tracks/1/keys = {
 "points": PoolRealArray( 392, 0, 0, 0.5, 0, 392, -0.5, 0, 0.7, 0, 0, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0, 0.3, 1.7 )
@@ -123,7 +123,7 @@ tracks/0/path = NodePath("../../GameView/ViewportContainer:rect_size:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = true
+tracks/0/enabled = false
 tracks/0/keys = {
 "points": PoolRealArray( 1280, 0, 0, 0.6, 0, 888, -1, 0, 0.25, 0 ),
 "times": PoolRealArray( 0, 1.5 )
@@ -133,7 +133,7 @@ tracks/1/path = NodePath("../../GameView/ViewportContainer:rect_position:x")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
-tracks/1/enabled = true
+tracks/1/enabled = false
 tracks/1/keys = {
 "points": PoolRealArray( 0, 0, 0, 0.6, 0, 392, -1, 0, 0.25, 0 ),
 "times": PoolRealArray( 0, 1.5 )
@@ -325,6 +325,7 @@ border_width_bottom = 2
 border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 
 [node name="Game" type="Node2D"]
+pause_mode = 1
 __meta__ = {
 "_edit_horizontal_guides_": [ 1371.0, 1371.0, 320.0, 576.0, 208.0, 128.0, 384.0, 88.0, 707.0 ],
 "_edit_vertical_guides_": [ 360.0, 640.0, 960.0, 32.0, 1248.0, 408.0 ]
@@ -344,6 +345,7 @@ margin_right = 1280.0
 rect_min_size = Vector2( 1280, 0 )
 
 [node name="ViewportContainer" type="ViewportContainer" parent="GameView"]
+unique_name_in_owner = true
 margin_right = 1280.0
 margin_bottom = 720.0
 size_flags_horizontal = 3
@@ -382,6 +384,9 @@ __meta__ = {
 
 [node name="Hud" parent="GUI" instance=ExtResource( 4 )]
 
+[node name="Instructions" parent="GUI/Hud/Popups" index="1"]
+visible = false
+
 [node name="Tutorial" type="Control" parent="GUI"]
 visible = false
 anchor_right = 1.0
@@ -402,11 +407,12 @@ grow_horizontal = 2
 [node name="Background" type="ColorRect" parent="GUI/Tutorial/Checkpoints"]
 margin_left = -32.0
 margin_top = -30.0
-margin_right = 360.0
+margin_right = 352.0
 margin_bottom = 610.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 0.470588 )
+color = Color( 0, 0, 0, 0.823529 )
 
 [node name="TravelingContent" type="Control" parent="GUI/Tutorial/Checkpoints"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -8.0
@@ -492,13 +498,11 @@ __meta__ = {
 
 [node name="Line" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/BurstingContent"]
 margin_top = 42.0
-margin_right = 360.0
+margin_right = 328.0
 margin_bottom = 90.0
 bbcode_enabled = true
-bbcode_text = "Collect colors from stray pixels by hitting
-them with a powerful burst."
-text = "Collect colors from stray pixels by hitting
-them with a powerful burst."
+bbcode_text = "Collect colors from stray pixels by hitting them with a powerful burst."
+text = "Collect colors from stray pixels by hitting them with a powerful burst."
 fit_content_height = true
 scroll_active = false
 
@@ -595,7 +599,7 @@ scroll_active = false
 
 [node name="Line4" type="RichTextLabel" parent="GUI/Tutorial/Checkpoints/SkillingContent"]
 margin_top = 106.0
-margin_right = 344.0
+margin_right = 336.0
 margin_bottom = 202.0
 bbcode_enabled = true
 bbcode_text = "> Connect to a pixel you are touching by pressing in a direction towards it. 
@@ -806,13 +810,13 @@ margin_bottom = 578.0
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -215.0
-margin_top = 630.0
+margin_top = 638.0
 margin_right = 39.0
-margin_bottom = 652.0
+margin_bottom = 660.0
 
 [node name="Label" parent="GUI/Tutorial/ActionHint" index="0"]
-margin_right = 254.0
-text = "Use pause menu to skip tutorial"
+margin_right = 214.0
+text = "Skip tutorial in pause menu"
 
 [node name="KEY" parent="GUI/Tutorial/ActionHint" index="1"]
 visible = false
