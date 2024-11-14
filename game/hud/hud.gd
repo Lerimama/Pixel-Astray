@@ -214,7 +214,7 @@ func slide_in(): # kliče GM set_game()
 		fade_in_tween.tween_property(start_countdown, "modulate:a", 1, 0.3).set_ease(Tween.EASE_IN)
 				
 	if Global.game_manager.game_settings["always_zoomed_in"]:
-		yield(get_tree().create_timer(Profiles.get_it_time), "timeout")
+		yield(get_tree().create_timer(Global.get_it_time), "timeout")
 	else:
 		Global.game_camera.zoom_in(hud_in_out_time)
 		
@@ -233,7 +233,7 @@ func slide_in(): # kliče GM set_game()
 func slide_out(): # kliče GM na game over
 	
 	if Global.game_manager.game_settings["always_zoomed_in"]:
-		yield(get_tree().create_timer(Profiles.get_it_time), "timeout")
+		yield(get_tree().create_timer(Global.get_it_time), "timeout")
 	else:
 		Global.game_camera.zoom_out(hud_in_out_time)
 		

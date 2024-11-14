@@ -195,26 +195,31 @@ func load_all_highscore_tables(update_with_global: bool, update_in_background: b
 				LootLocker.update_lootlocker_leaderboard(game_data_local, false, update_count_string, update_in_background)
 				yield(LootLocker, "leaderboard_updated")
 			
-		table.build_highscore_table(game_data_local, fake_player_ranking, false)
+		table.build_highscore_table(game_data_local, false)
 			
 	# print ("All tables updated")
 	
 	if update_with_global:		
+		# če se apdejta, apdejta score v sweeper gumbih
 		select_level_node.select_level_btns_holder.set_level_btns()
-	
-	get_viewport().set_disable_input(false)
-	update_scores_btn.disabled = false
-	update_scores_btn.get_child(0).modulate = Global.color_btn_enabled
+		# če se ne apdejta, apdejta score v sweeper gumbih
 	
 	# zapišem število neobjavljenih
 	var all_unpublished_scores_count: int = 0
 	for table in all_tables:
 		all_unpublished_scores_count += table.unpublished_local_scores.size()
+		printt (table.name, table.unpublished_local_scores.size(), all_unpublished_scores_count)
 	if all_unpublished_scores_count > 0:
 		publish_unpublished_btn.text = publish_btn_text % str(all_unpublished_scores_count)
 		publish_unpublished_btn.show()
 	else:
 		publish_unpublished_btn.hide()
+	# seta
+			
+	
+	get_viewport().set_disable_input(false)
+	update_scores_btn.disabled = false
+	update_scores_btn.get_child(0).modulate = Global.color_btn_enabled
 	
 	disable_btns(false)
 		
@@ -222,7 +227,6 @@ func load_all_highscore_tables(update_with_global: bool, update_in_background: b
 func publish_all_unpublished_scores():
 	
 	disable_btns()
-
 	
 	var tables_to_update: Array = []
 	for table in all_tables:
@@ -233,14 +237,7 @@ func publish_all_unpublished_scores():
 	ConnectCover.cover_label_text = "Finished"
 
 	# v gumb zapišem število neobjavljenih
-	var all_unpublished_scores_count: int = 0
-	for table in all_tables:
-		all_unpublished_scores_count += table.unpublished_local_scores.size()
-	if all_unpublished_scores_count > 0:
-		publish_unpublished_btn.texts = publish_btn_text % str(all_unpublished_scores_count)
-		publish_unpublished_btn.show()
-	else:
-		publish_unpublished_btn.hide()
+	publish_unpublished_btn.hide()
 			
 	# rebuild tables
 	for table in tables_to_update:
@@ -251,7 +248,7 @@ func publish_all_unpublished_scores():
 		else:
 			var table_index: int = all_tables.find(table) # OPT --- izi tabela ima svojo variablo
 			game_data_local = all_tables_game_data[table_index]
-		table.build_highscore_table(table.table_game_data, fake_player_ranking, false)
+		table.build_highscore_table(table.table_game_data, false)
 	
 	yield(get_tree().create_timer(LootLocker.final_panel_open_time), "timeout")
 	ConnectCover.close_cover()

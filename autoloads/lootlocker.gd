@@ -13,6 +13,13 @@ var anonymous_guest_name: String = "anonymous" # ko čekiraš HS v home
 var final_panel_open_time: float = 1 
 var multipublish_count: int = 0	# da ve kdaj je prvi in ga avtenticira ...
 
+# game data
+var lootlocker_live_mode: bool = false
+var lootlocker_game_key_staging: String = "dev_5a1cab01df0641c0a5f76450761ce292"
+var lootlocker_game_key_live: String = "prod_b0c04c071a114b35b9c38157e86de64c"
+var lootlocker_game_version: String = "0.93"
+var lootlocker_score_check_limit: int = 200 # če bi blo več, ne paše na %02d 
+
 
 func _ready() -> void:
 	
@@ -96,7 +103,7 @@ func update_lootlocker_leaderboard(game_data: Dictionary, last_in_row: bool = tr
 		game_leaderboard_key = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"])
 	
 	var url_without_count: String = "https://api.lootlocker.io/game/leaderboards/%s/list?count=" % game_leaderboard_key
-	var url: String = url_without_count + str(Profiles.global_highscores_count)
+	var url: String = url_without_count + str(lootlocker_score_check_limit)
 	var header: Array = ["Content-Type: application/json", "x-session-token: %s" % session_token]
 	var method = HTTPClient.METHOD_GET
 
@@ -116,19 +123,19 @@ func update_lootlocker_leaderboard(game_data: Dictionary, last_in_row: bool = tr
 				response["items"] = [item]
 			lootlocker_leaderboard = response["items"]
 		# dodam items brez rezultata, da jih bo toliko kot jih potegnem dol
-		var missing_results_count: int = Profiles.global_highscores_count - lootlocker_leaderboard.size()
-		if missing_results_count > 0:
-			for n in missing_results_count:
-				var empty_line_rank = lootlocker_leaderboard.size() + 1
-				var empty_line_name: String = Profiles.default_highscore_line_name
-				var new_item: Dictionary = {
-					"member_id": empty_line_name,
-					"rank": empty_line_rank,
-					"score": 0,
-				} 
-				lootlocker_leaderboard.append(new_item)
+		var missing_results_count: int = lootlocker_score_check_limit - lootlocker_leaderboard.size()
+#		if missing_results_count > 0:
+#			for n in missing_results_count:
+#				var empty_line_rank = lootlocker_leaderboard.size() + 1
+#				var empty_line_name: String = Global.default_highscore_line_name
+#				var new_item: Dictionary = {
+#					"member_id": empty_line_name,
+#					"rank": empty_line_rank,
+#					"score": 0,
+#				} 
+#				lootlocker_leaderboard.append(new_item)
 		
-		save_lootlocker_leadebroard_to_local_highscore(game_data)
+		save_lootlocker_leaderboard_to_local_highscore(game_data)
 		
 		# printt ("Leaderboard updated (get,save)", game_leaderboard_key)
 		
@@ -138,7 +145,7 @@ func update_lootlocker_leaderboard(game_data: Dictionary, last_in_row: bool = tr
 			emit_signal("leaderboard_updated")
 		
 
-func save_lootlocker_leadebroard_to_local_highscore(game_data: Dictionary):
+func save_lootlocker_leaderboard_to_local_highscore(game_data: Dictionary):
 	
 	# spremenim board v HS slovar 
 	var global_game_highscores: Dictionary = {} 
@@ -149,7 +156,7 @@ func save_lootlocker_leadebroard_to_local_highscore(game_data: Dictionary):
 		var item_dictionary: Dictionary = item
 		var item_player_name: String = item_dictionary["member_id"]
 		var item_player_score = item_dictionary["score"]
-		var item_player_rank = "%02d" % item_dictionary["rank"]
+		var item_player_rank = "%03d" % item_dictionary["rank"]
 		# zapišem v obliko kokalnih HS 
 		var highscores_player_name: String = str(item_player_name)
 		var highscores_player_line: Dictionary 
@@ -172,11 +179,13 @@ func authenticate_guest_session(player_name: String, last_attempt_in_row: bool, 
 	var url: String = "https://api.lootlocker.io/game/v2/session/guest"
 	var header: Array = ["Content-Type: application/json"]
 	var method = HTTPClient.METHOD_POST
+	var lootlocker_game_key: String = lootlocker_game_key_staging
+	if lootlocker_live_mode:
+		lootlocker_game_key = lootlocker_game_key_live
 	var request_body: Dictionary = {
-		"game_key": Profiles.lootlocker_game_key, # lootlocker key
-		"game_version": Profiles.lootlocker_game_version, # verzija igre (za vedenje kaj je kje)
-		"player_identifier": player_id,  # če je prazen je OS id
-		"development_mode": Profiles.lootlocker_development_mode,
+		"game_key": lootlocker_game_key,
+		"game_version": lootlocker_game_version,
+		"player_identifier": player_id, # če je prazen je OS id
 	}
 	request(url, header, false, method, to_json(request_body))
 

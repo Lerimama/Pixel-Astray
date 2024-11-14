@@ -93,7 +93,7 @@ func game_over(gameover_reason: int):
 		game_on = false
 		
 		Global.hud.game_timer.stop_timer()
-		yield(get_tree().create_timer(Profiles.get_it_time), "timeout")
+		yield(get_tree().create_timer(Global.get_it_time), "timeout")
 		get_tree().call_group(Global.group_players, "set_physics_process", false)
 		stop_game_elements()
 		
@@ -174,7 +174,7 @@ func create_strays(strays_to_spawn_count: int):
 			#			free_home_positions.erase(selected_stray_position)
 			# spawn ... trotled ... # nisem še videl, da bi bilo potrebno pri defenderju
 			var msec_taken = Time.get_ticks_msec() - throttler_start_msec
-			if msec_taken < (round(1000 / Engine.get_frames_per_second()) - throttler_msec_threshold): # msec_per_frame - ...			
+			if msec_taken < (round(1000 / Engine.get_frames_per_second()) - Global.throttler_msec_threshold): # msec_per_frame - ...			
 				# print ("ne-trotlam - stray spawn")
 				spawned_strays_true_count += 1
 				var spawned_stray = spawn_stray(stray_index, new_stray_color, selected_stray_position, false)
@@ -184,7 +184,7 @@ func create_strays(strays_to_spawn_count: int):
 				yield(get_tree().create_timer(0.1), "timeout") # da se vsi straysi spawnajo
 			else: 
 				# print ("re-trotlam - stray spawn")
-				var msec_to_next_frame: float = throttler_msec_threshold + 1
+				var msec_to_next_frame: float = Global.throttler_msec_threshold + 1
 				var sec_to_next_frame: float = msec_to_next_frame / 1000.0
 				yield(get_tree().create_timer(sec_to_next_frame), "timeout") # da se vsi straysi spawnajo
 				throttler_start_msec = Time.get_ticks_msec()
@@ -263,10 +263,10 @@ func line_step():
 		#		var throttler_start_msec = Time.get_ticks_msec()
 		#		for stray in get_tree().get_nodes_in_group(Global.group_strays):
 		#			var msec_taken = Time.get_ticks_msec() - throttler_start_msec
-		#			if msec_taken < (round(1000 / Engine.get_frames_per_second()) - throttler_msec_threshold): # msec_per_frame - ...			
+		#			if msec_taken < (round(1000 / Engine.get_frames_per_second()) - Global.throttler_msec_threshold): # msec_per_frame - ...			
 		#				stray.step()
 		#			else:
-		#				var msec_to_next_frame: float = throttler_msec_threshold + 1
+		#				var msec_to_next_frame: float = Global.throttler_msec_threshold + 1
 		#				var sec_to_next_frame: float = msec_to_next_frame / 1000.0
 		#				yield(get_tree().create_timer(sec_to_next_frame), "timeout") # da se vsi straysi spawnajo
 		#				throttler_start_msec = Time.get_ticks_msec()

@@ -167,14 +167,14 @@ func rename_file(game_data: Dictionary):
 	
 	var old_file_path: String = "user://%s_highscores.save" % game_name
 	var new_file_path: String = "user://%s_highscores.save copy" % game_name
-	var error = filet.rename(old_file_path, new_file_path)
+#	var error = filet.rename(old_file_path, new_file_path)
+	var error = filet.remove(new_file_path)
 	
 	if not error == OK:
 		print("neuspeh")
 	
 	else:
 		print("uspeh")
-		
 		
 		
 func save_player_score(current_score: float, score_ranking: int, current_game_data: Dictionary):
@@ -224,8 +224,8 @@ func build_default_highscores():
 	var new_highscores: Dictionary
 	#	for n in Profiles.default_scores_line_count:
 	#		var highscore_line_key_as_rank: String = "%02d" % (n + 1)	
-	#		new_highscores[highscore_line_key_as_rank] = {Profiles.default_highscore_line_name: 0}
-	var highscore_line_key_as_rank: String = "%02d" % (1)	
-	new_highscores[highscore_line_key_as_rank] = {Profiles.default_highscore_line_name: 0}
+	#		new_highscores[highscore_line_key_as_rank] = {Global.default_highscore_line_name: 0}
+	var highscore_line_key_as_rank: String = "%03d" % (1)	
+	new_highscores[highscore_line_key_as_rank] = {Global.default_highscore_line_name: 0}
 	
 	return new_highscores

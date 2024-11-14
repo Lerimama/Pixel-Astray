@@ -11,7 +11,6 @@ var game_on: bool = false
 var level_upgrade_in_progress: bool = false # ustavim klicanje naslednjih levelov
 var current_level: int = 1 # napolne ga game_data["level"]
 var level_goal_mode: bool = false
-var throttler_msec_threshold: int = 5 # koliko msec je še na voljo v frejmu, ko raje premaknem na naslednji frame
 
 # players
 var spawned_player_index: int = 0
@@ -80,9 +79,6 @@ func _ready() -> void:
 		level_goal_mode = true
 	
 	
-	Global.allow_focus_sfx = false
-
-
 func _process(delta: float) -> void:
 	
 	# če sem v fazi, ko lahko preverjam cleaned (po spawnu)
@@ -151,7 +147,6 @@ func set_game_view(): # kliče MAIN pred fade-in scene 02.
 		
 func set_game(): # kliče MAIN po fade-in scene 05.
 	
-
 	 # še prej se kličejo... set_tilemap(), set_game_view(), create_players() # da je plejer viden že na fejdin
 
 	# positions
@@ -172,16 +167,13 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 	var signaling_player: KinematicBody2D
 	for player in current_players_in_game:
 		player.animation_player.play("lose_white_on_start")
-	#		signaling_player = player # da se zgodi na obeh plejerjih istočasno
-	#	yield(signaling_player, "player_pixel_set") # javi player na koncu intro animacije
 	
 	# strays
 	create_strays(create_strays_count)
 	yield(self, "all_strays_spawned")
 	
-	
 	# select music and open tutorial
-	if game_data["game"] == Profiles.Games.CLEANER and Global.tutorial_gui.tutorial_on:
+	if game_data["game"] == Profiles.Games.CLEANER and Profiles.tutorial_mode:
 		Global.tutorial_gui.open_tutorial(true)
 		Global.sound_manager.current_music_track_index = Profiles.tutorial_music_track_index
 	else:
@@ -196,8 +188,9 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 	
 	start_game()
 	
-	if game_data["game"] == Profiles.Games.SWEEPER: # če je prejse povozi
-		game_settings["always_zoomed_in"] = true # setam zoom trenutni igri, da ni zooma na koncu
+	# brezšivni tekoči preskok v naslednjo fazo ... če je prej se povozi
+	if game_data["game"] == Profiles.Games.SWEEPER: 
+		game_settings["always_zoomed_in"] = true # setam global always_zoomed_in, da ni zoomouta na koncu 
 
 
 # GAME LOOP --------------------------------------------------------------------------------------
@@ -237,9 +230,7 @@ func game_over(gameover_reason: int):
 				signaling_player = player
 			yield(signaling_player, "rewarded_on_cleaned")
 		else:
-			if game_data["game"] == Profiles.Games.CLEANER and Global.tutorial_gui.tutorial_on:
-				Global.tutorial_gui.close_tutorial()
-			yield(get_tree().create_timer(Profiles.get_it_time), "timeout")
+			yield(get_tree().create_timer(Global.get_it_time), "timeout")
 			
 		stop_game_elements()
 		get_tree().call_group(Global.group_players, "set_physics_process", false)
@@ -248,10 +239,15 @@ func game_over(gameover_reason: int):
 
 
 func stop_game_elements():
-	# včasih nujno
+	# včasih nujno ... še posebej za restart iz pavze
 	
-	if game_data["game"] == Profiles.Games.CLEANER and Global.tutorial_gui.tutorial_on:
-		Global.tutorial_gui.close_tutorial()
+	# če igra s tutorialom toglam global tutorial settings
+	if game_data["game"] == Profiles.Games.CLEANER:
+		Profiles.tutorial_mode = Global.tutorial_gui.tutorial_on
+	# ugasnem tutorial (sam grunta, če je prižgan)
+	Global.tutorial_gui.close_tutorial()
+	
+	
 	Global.hud.popups_out()
 	for player in current_players_in_game:
 		player.end_move()
@@ -443,13 +439,13 @@ func create_strays(strays_to_spawn_count: int):
 			#			spawn_stray(stray_index, new_stray_color, selected_stray_position, turn_to_white)
 			# spawn ... trotled
 			var msec_taken = Time.get_ticks_msec() - throttler_start_msec # merim čas od štarta funkcije
-			if msec_taken < (round(1000 / Engine.get_frames_per_second()) - throttler_msec_threshold): # msec_per_frame - ...			
+			if msec_taken < (round(1000 / Engine.get_frames_per_second()) - Global.throttler_msec_threshold): # msec_per_frame - ...			
 				# print ("ne-trotlam - stray spawn")
 				spawned_strays_true_count += 1
 				spawn_stray(stray_index, new_stray_color, selected_stray_position, turn_to_white)
 			else: # ko je čas večji od dovoljenega, pavziram do naslednjega frejma in resetiram štartni čas
 				# print ("re-trotlam - stray spawn")
-				var msec_to_next_frame: float = throttler_msec_threshold + 1
+				var msec_to_next_frame: float = Global.throttler_msec_threshold + 1
 				var sec_to_next_frame: float = msec_to_next_frame / 1000.0
 				yield(get_tree().create_timer(sec_to_next_frame), "timeout") # da se vsi straysi spawnajo
 				throttler_start_msec = Time.get_ticks_msec()
@@ -522,7 +518,7 @@ func respawn_strays(spawn_in_stack: bool = true):
 	var throttler_start_msec = Time.get_ticks_msec()
 	for stray_index in respawn_strays_count:
 		var msec_taken = Time.get_ticks_msec() - throttler_start_msec
-		if msec_taken < (round(1000 / Engine.get_frames_per_second()) - throttler_msec_threshold): # msec_per_frame - ...			
+		if msec_taken < (round(1000 / Engine.get_frames_per_second()) - Global.throttler_msec_threshold): # msec_per_frame - ...			
 			# če ni praznih pozicij ne spawnam ... zazih
 			if free_floor_positions.empty():
 				pass
@@ -573,7 +569,7 @@ func respawn_strays(spawn_in_stack: bool = true):
 					spawned_stray.call_deferred("show_stray")
 					yield(get_tree().create_timer(0.1), "timeout")	
 		else:
-			var msec_to_next_frame: float = throttler_msec_threshold + 1
+			var msec_to_next_frame: float = Global.throttler_msec_threshold + 1
 			var sec_to_next_frame: float = msec_to_next_frame / 1000.0
 			throttler_start_msec = Time.get_ticks_msec()
 			# printt("over frame_time on: %s" % "respawn_strays")

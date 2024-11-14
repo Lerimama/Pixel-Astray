@@ -863,7 +863,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 			if sweep_move_started: # prišteje v sweeper strayse	
 				sweep_move_cleaned_strays_count += 1
 			# trotled
-			#			if msec_taken < (round(1000 / Engine.get_frames_per_second()) - Global.game_manager.throttler_msec_threshold): # msec_per_frame - ...
+			#			if msec_taken < (round(1000 / Engine.get_frames_per_second()) - Global.throttler_msec_threshold): # msec_per_frame - ...
 			#				print ("ne-trotlam - multi stray destroy")
 			#				var stray_index = strays_to_destroy.find(stray)
 			#				stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
@@ -871,7 +871,7 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 			#					sweep_move_cleaned_strays_count += 1
 			#			else:
 			#				print ("re-trotlam - multi stray destroy")
-			#				var msec_to_next_frame: float = Global.game_manager.throttler_msec_threshold + 1
+			#				var msec_to_next_frame: float = Global.throttler_msec_threshold + 1
 			#				var sec_to_next_frame: float = msec_to_next_frame / 1000.0
 			#				yield(get_tree().create_timer(sec_to_next_frame), "timeout") # da se vsi straysi spawnajo
 			#				throttler_start_msec = Time.get_ticks_msec()
@@ -1514,7 +1514,7 @@ func change_stat(stat_event: String, stat_value):
 			"skill_used": # štetje, točke in energija kot je določeno v settingsih
 				player_stats["skill_count"] += 1
 				# za tutorial
-				if game_data["game"] == Profiles.Games.CLEANER and Global.tutorial_gui.tutorial_on:
+				if Global.tutorial_gui.tutorial_on:
 					Global.tutorial_gui.on_skill_used(stat_value)
 			"burst_count": # štetje, točke in energija kot je določeno v settingsih
 				player_stats["burst_count"] += stat_value
@@ -1546,7 +1546,7 @@ func change_stat(stat_event: String, stat_value):
 				# za tutorial
 				if game_data["game"] == Profiles.Games.SWEEPER and is_rebursting:
 					player_stats["player_energy"] = player_max_energy
-				elif game_data["game"] == Profiles.Games.CLEANER and Global.tutorial_gui.tutorial_on:
+				elif Global.tutorial_gui.tutorial_on:
 					Global.tutorial_gui.on_hit_stray(stack_strays_cleaned_count)
 						
 			"white_eliminated":

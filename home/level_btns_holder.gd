@@ -53,8 +53,8 @@ func set_level_btns():
 		sweeper_game_data["level"] = count + 1
 		var level_highscores: Dictionary = Global.data_manager.read_highscores_from_file(sweeper_game_data)
 		# pridobim skor linijie
-		var scoreline_player_name_as_key: String = level_highscores["01"].keys()[0]
-		var scoreline_score: float = level_highscores["01"][scoreline_player_name_as_key]
+		var scoreline_player_name_as_key: String = level_highscores["001"].keys()[0] # OPT ... 001
+		var scoreline_score: float = level_highscores["001"][scoreline_player_name_as_key] # OPT ... 001
 		if scoreline_score > 0:
 			solved_levels.append(sweeper_game_data["level"])
 	

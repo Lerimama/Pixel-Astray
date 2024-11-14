@@ -30,20 +30,23 @@ func _ready() -> void:
 	$Menu/SkipTutBtn.add_to_group(Global.group_menu_confirm_btns)
 	$Menu/RestartBtn.add_to_group(Global.group_menu_confirm_btns)
 	$Menu/QuitBtn.add_to_group(Global.group_menu_cancel_btns)
-	$Menu/ExitGameBtn.add_to_group(Global.group_menu_cancel_btns)
 	
-	# instructions setup
+	# settings btns
+	if Global.game_manager.game_data["game"] == Profiles.Games.CLEANER:
+		$Settings/TutorialModeBtn.show()
+		$Settings/ShowHintBtn.hide()
+	elif Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+		$Settings/ShowHintBtn.show()
+	else:
+		$Settings/ShowHintBtn.hide()
+		
+	# in-pause game instructions
 	instructions.get_instructions_content(Global.hud.current_highscore, Global.hud.current_highscore_owner)
 	instructions.shortcuts.hide()
 
-	if Profiles.html5_mode:
-		$Menu/ExitGameBtn.hide()	
-		$Menu/QuitBtn.focus_neighbour_left = "../RestartBtn"
-		$Menu/RestartBtn.focus_neighbour_right = "../QuitBtn"
-
 
 func _process(delta: float) -> void:
-
+	
 	# pravilno stanje settingsov
 	if Global.sound_manager.game_music_set_to_off:
 		$Settings/GameMusicBtn.pressed = false
@@ -59,6 +62,18 @@ func _process(delta: float) -> void:
 		$Settings/CameraShakeBtn.pressed = true
 	else:
 		$Settings/CameraShakeBtn.pressed = false
+		
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+		if Global.current_tilemap.solution_line.visible:
+			$Settings/ShowHintBtn.pressed = true
+		else:
+			$Settings/ShowHintBtn.pressed = false		
+		
+	if Global.game_manager.game_data["game"] == Profiles.Games.CLEANER: 
+		if Global.tutorial_gui.tutorial_on:
+			$Settings/TutorialModeBtn.pressed = true
+		else:
+			$Settings/TutorialModeBtn.pressed = false
 		
 			
 func pause_game():
@@ -77,19 +92,16 @@ func pause_game():
 		else:
 			skip_tut_btn.hide()
 
-	Global.focus_without_sfx($Menu/PlayBtn)
+	Global.grab_focus_nofx($Menu/PlayBtn)
 	
 	var pause_in_time: float = 0.5
 	var fade_in_tween = get_tree().create_tween()
 	fade_in_tween.tween_property(self, "modulate:a", 1, pause_in_time)
 	fade_in_tween.tween_callback(get_tree(), "set_pause", [true])
-	fade_in_tween.tween_callback(get_viewport(), "set_disable_input", [false])
 
 
 func play_on():
 	
-	Global.allow_focus_sfx = false
-	
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	
 	var pause_out_time: float = 0.5
@@ -98,19 +110,20 @@ func play_on():
 	fade_out_tween.tween_callback(self, "hide")
 	fade_out_tween.tween_callback(get_tree(), "set_pause", [false])
 	fade_out_tween.tween_callback(get_viewport(), "set_disable_input", [false])
+	yield(fade_out_tween, "finished")
+		
 
-
-func play_without_tutorial():
-	
-	Global.sound_manager.play_gui_sfx("screen_slide")
-	
-	var pause_out_time: float = 0.5
-	var fade_out_tween = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-	fade_out_tween.tween_property(self, "modulate:a", 0, pause_out_time)
-	fade_out_tween.tween_callback(self, "hide")
-	fade_out_tween.tween_callback(get_tree(), "set_pause", [false])
-	fade_out_tween.tween_callback(get_viewport(), "set_disable_input", [false])
-	fade_out_tween.tween_callback(Global.tutorial_gui, "close_tutorial")
+#func play_without_tutorial():
+#
+#	Global.sound_manager.play_gui_sfx("screen_slide")
+#
+#	var pause_out_time: float = 0.5
+#	var fade_out_tween = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+#	fade_out_tween.tween_property(self, "modulate:a", 0, pause_out_time)
+#	fade_out_tween.tween_callback(self, "hide")
+#	fade_out_tween.tween_callback(get_tree(), "set_pause", [false])
+#	fade_out_tween.tween_callback(get_viewport(), "set_disable_input", [false])
+#	fade_out_tween.tween_callback(Global.tutorial_gui, "close_tutorial")
 
 
 # MENU ---------------------------------------------------------------------------------------------
@@ -133,9 +146,13 @@ func _on_RestartBtn_pressed() -> void:
 	Global.main_node.reload_game()
 
 
+var tutorial_mode: bool = Profiles.tutorial_mode
+
+
 func _on_SkipTutBtn_pressed() -> void:
 	
-	play_without_tutorial()
+	Global.tutorial_gui.hide()
+#	Global.tutorial_gui.close_tutorial()
 
 	
 func _on_QuitBtn_pressed() -> void:
@@ -147,10 +164,6 @@ func _on_QuitBtn_pressed() -> void:
 	# get_tree().paused = false ... tween za izhod pavzo drevesa ignorira
 	Global.main_node.game_out(Global.game_manager.game_data["game"])
 
-
-func _on_ExitGameBtn_pressed() -> void:
-	
-	get_tree().quit()
 
 
 # SETTINGS BTNZ ---------------------------------------------------------------------------------------------
@@ -232,3 +245,14 @@ func _on_ShowHintBtn_toggled(button_pressed: bool) -> void:
 	else:
 		Global.sound_manager.play_gui_sfx("btn_cancel")
 		Global.current_tilemap.solution_line.hide()
+
+
+func _on_TutorialModeBtn_toggled(button_pressed: bool) -> void:
+
+	if button_pressed:
+		Global.sound_manager.play_gui_sfx("btn_confirm")
+		Global.tutorial_gui.open_tutorial(true)
+	else:
+		Global.sound_manager.play_gui_sfx("btn_cancel")
+		Global.tutorial_gui.close_tutorial()
+		

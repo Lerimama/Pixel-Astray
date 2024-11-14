@@ -46,10 +46,6 @@ func _ready() -> void:
 	
 	Global.tutorial_gui = self # za skillse iz plejerja
 	
-	if Global.game_manager.game_data["game"] == Profiles.Games.CLEANER:
-		if Profiles.tutorial_mode:
-			tutorial_on = true
-	
 	visible = false
 	
 	# skrijem elemente
@@ -73,16 +69,16 @@ func _ready() -> void:
 
 func open_tutorial(with_animation: bool = false): # kliče se z GM
 	
-	if with_animation:
-		animation_player.play("tutorial_start_with_sidebar")
-	else:
-		#		viewport_container.rect_size.x = 888
-		#		viewport_container.rect_position.x = 392
-		checkpoints.modulate = Color.white
-		checkpoints.rect_position.x = 32
-	show()
-	travel_content.show()
-	controls.show()
+	if not tutorial_on:
+		tutorial_on = true
+		if with_animation:
+			animation_player.play("tutorial_start_with_sidebar")
+		else:
+			checkpoints.modulate = Color.white
+			checkpoints.rect_position.x = 32
+		show()
+		travel_content.show()
+		controls.show()
 
 
 func finish_travel(): 
@@ -117,12 +113,10 @@ func close_tutorial():
 	if tutorial_on:
 		tutorial_on = false
 		current_tutorial_stage = TutorialStage.IDLE # disejblan gui
-
 		# animiram hint
-		var hint_fade = get_tree().create_tween()
+		var hint_fade = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 		hint_fade.tween_property(finish_hint, "modulate:a",0, 0.5).from(0.0).set_ease(Tween.EASE_IN)
 		hint_fade.tween_callback(finish_hint, "hide")	
-		
 		animation_player.play("tutorial_end_with_sidebar")
 			
 		# če se igra nadaljuje
@@ -170,10 +164,10 @@ func on_skill_used(skill_number: int):
 func on_hit_stray(colors_collected_count: int):
 
 	if current_tutorial_stage == TutorialStage.COLLECT: 
-		yield(get_tree().create_timer(Profiles.get_it_time), "timeout")
+		yield(get_tree().create_timer(Global.get_it_time), "timeout")
 		finish_collect()
 	elif current_tutorial_stage == TutorialStage.MULTICOLLECT and colors_collected_count > 1:
-		yield(get_tree().create_timer(Profiles.get_it_time), "timeout")
+		yield(get_tree().create_timer(Global.get_it_time), "timeout")
 		finish_multicollect()
 	elif current_tutorial_stage == TutorialStage.WINLOSE:
 		winlose_burst_count += 1
@@ -188,14 +182,10 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	
 	match anim_name:
 		"tutorial_start_with_sidebar":
-			
 			current_tutorial_stage = TutorialStage.TRAVEL
-			
 			finish_hint.show()
 			var hint_fade = get_tree().create_tween()
 			hint_fade.tween_property(finish_hint, "modulate:a",1, 0.7).from(0.0).set_ease(Tween.EASE_IN)
-			
-			
 		"tutorial_end_with_sidebar":
 			hide()
 

@@ -58,8 +58,7 @@ func play_gui_sfx(effect_for: String):
 		"btn_cancel":
 			$Sfx/Inputs/BtnCancel.play()
 		"btn_focus_change":
-			if Global.allow_focus_sfx:
-				$Sfx/Inputs/BtnFocus.play()
+			$Sfx/Inputs/BtnFocus.play()
 		# menu
 		"menu_fade":
 			$Sfx/MenuFade.play()

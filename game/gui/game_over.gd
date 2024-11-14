@@ -46,16 +46,6 @@ func _input(event: InputEvent) -> void:
 		if Input.is_action_just_pressed("ui_cancel"):
 			_on_CancelBtn_pressed()
 			accept_event()
-		#		if Input.is_action_just_pressed("ui_accept"):
-		#			_on_ConfirmBtn_pressed()
-		#			accept_event()
-			
-	# OPT change-focus sounds
-	if (gameover_menu != null and gameover_menu.modulate.a == 1) or (game_summary.visible and game_summary.modulate.a == 1):
-		if Input.is_action_just_pressed("ui_left"):
-			Global.sound_manager.play_gui_sfx("btn_focus_change")
-		elif Input.is_action_just_pressed("ui_right"):
-			Global.sound_manager.play_gui_sfx("btn_focus_change")
 			
 				
 func _ready() -> void:
@@ -129,7 +119,7 @@ func show_gameover_title():
 		show_menu()
 	else:
 		# če je ranking odprem name_input, če ne skrijem GO title in grem na summary
-		if current_player_local_rank > 0: 
+		if current_player_local_rank > 0 and not player_final_score == 0: 
 			open_name_input()
 			yield(self, "name_input_finished") 
 			get_viewport().set_disable_input(false) # na koncu publishanja
@@ -170,7 +160,7 @@ func show_menu():
 	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_in.tween_callback(gameover_menu, "show")
 	fade_in.tween_property(gameover_menu, "modulate:a", 1, 0.5).from(0.0)
-	fade_in.parallel().tween_callback(Global, "focus_without_sfx", [focus_btn])		
+	fade_in.parallel().tween_callback(Global, "grab_focus_nofx", [focus_btn])		
 
 	
 func play_selected_level(selected_level: int):
@@ -294,7 +284,21 @@ func set_game_summary():
 	# hs table
 	highscore_table = selected_content.get_node("Hs/HighscoreTable")
 	var current_player_global_rank: int = Global.data_manager.check_player_ranking(player_final_score, Global.game_manager.game_data, false) # global rank
-	highscore_table.build_highscore_table(Global.game_manager.game_data, current_player_global_rank, true, false)	
+	highscore_table.build_highscore_table(Global.game_manager.game_data, true, false)	
+	# obarvan current score
+	var table: Control = highscore_table.hs_table
+	for scoreline in table.get_children():
+		var scoreline_rank: Label = scoreline.get_child(0)
+		var scoreline_owner: Label = scoreline.get_child(1)
+		var scoreline_score: Label = scoreline.get_child(2)
+		if scoreline_rank.text == highscore_table.local_only_rank_string:
+			var score_as_in_label: String
+			if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME: # kadar se meri čas, obstaja cilj, da rankiraš
+				score_as_in_label = Global.get_clock_time(player_final_score)
+			elif Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.POINTS: # kadar se meri čas, obstaja cilj, da rankiraš
+				score_as_in_label = str(player_final_score)
+			if scoreline_score.text == score_as_in_label and scoreline_owner.text == p1_final_stats["player_name"]:
+				scoreline.modulate = Global.color_green
 	
 	# data panel nodes
 	var summary_title: Label = selected_content.get_node("Title")
@@ -377,7 +381,7 @@ func open_name_input():
 	var fade_in_tween = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_in_tween.tween_property(name_input_popup, "modulate:a", 1, 0.5)
 	yield(fade_in_tween, "finished")
-	Global.focus_without_sfx(name_input)
+	Global.grab_focus_nofx(name_input)
 	name_input.select_all()
 
 	
@@ -395,7 +399,7 @@ func _on_PopupNameEdit_text_entered(new_text: String) -> void: # ko stisneš ret
 	
 func _on_ConfirmBtn_pressed() -> void:
 
-	Global.focus_without_sfx($NameInputPopup/HBoxContainer/ConfirmBtn) # potrditev s tipko
+	Global.grab_focus_nofx($NameInputPopup/HBoxContainer/ConfirmBtn) # potrditev s tipko
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	
 	
@@ -439,7 +443,7 @@ func _on_CancelBtn_pressed() -> void:
 	
 	name_input.editable = false
 	
-	Global.focus_without_sfx($NameInputPopup/HBoxContainer/CancelBtn) # cancel s tipko
+	Global.grab_focus_nofx($NameInputPopup/HBoxContainer/CancelBtn) # cancel s tipko
 	Global.sound_manager.play_gui_sfx("btn_cancel")
 	
 	# skrijem input in GO title

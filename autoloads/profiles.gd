@@ -60,7 +60,6 @@ var default_game_settings: Dictionary = {
 
 
 # GAME DATA -----------------------------------------------------------------------------------
-
 	
 var game_data_cleaner: Dictionary = { 
 	"game": Games.CLEANER, # key igre je key lootlocker tabele
@@ -224,29 +223,17 @@ var sweeper_level_tilemap_paths: Array = [
 	]
 
 
-# VARZ -----------------------------------------------------------------------------------
+# VARZ ... odvisne od tipa igre -----------------------------------------------------------------------------------
 
 var game_settings: Dictionary
 var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
-var use_default_color_theme: bool = true
-var get_it_time: float = 1 # tajming za dojet določene faze igre
-
-# hs
-var default_highscore_line_name: String = "Empty score line" # se uporabi, če še ni nobenega v filetu
 
 # nastavitve, ki se setajo tudi v home
+var use_default_color_theme: bool = true
 var camera_shake_on: bool = true
 var tutorial_music_track_index: int = 1
 var tutorial_mode: bool = true
-var throttler_msec_threshold: int = 5 # koliko msec je še na voljo v frejmu, ko raje premaknem na naslednji frame
 var html5_mode: bool = false # skrije ExitGameBtn v home, GO in pavzi
-
-# lootlocker
-var lootlocker_game_key: String = "dev_5a1cab01df0641c0a5f76450761ce292"
-var lootlocker_game_version: String = "0.92"
-var lootlocker_development_mode: bool = false
-var global_highscores_count: int = 99 # če bi blo več, ne paše na %02d 	 b 
-
 	
 func _ready() -> void:
 	

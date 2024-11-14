@@ -8,7 +8,6 @@ export var actor_in_motion: bool = true # exportano za animacijo
 var intro_strays_spawned: bool = false
 var camera_is_shaking: bool = false # da se šejk ne podvaja
 var actor_step_time: float = 0.08
-var throttler_msec_threshold: int = 5 # koliko msec je še na voljo v frejmu, ko raje premaknem na naslednji frame
 
 # strays
 var strays_in_game: Array = []
@@ -64,8 +63,7 @@ func _process(delta: float) -> void:
 func play_intro():
 	
 	yield(get_tree().create_timer(1), "timeout")
-#	animation_player.play("intro_running")
-	animation_player.play("intro_explode")
+	animation_player.play("intro_running")
 	
 	
 func finish_intro(): # ob skipanju in regularnem koncu intra
@@ -146,13 +144,13 @@ func create_strays(strays_to_spawn_count: int = required_spawn_positions.size())
 		var turn_to_white = set_stray[3]
 		var msec_taken = Time.get_ticks_msec() - throttler_start_msec
 		# znotraj frejma ... spawnam
-		if msec_taken < (round(1000 / Engine.get_frames_per_second()) - throttler_msec_threshold): # msec_per_frame - ...			
+		if msec_taken < (round(1000 / Engine.get_frames_per_second()) - Global.throttler_msec_threshold): # msec_per_frame - ...			
 			spawned_strays_true_count += 1
 			spawn_stray(new_stray_index, new_stray_color, selected_stray_position, turn_to_white)
 		# zunaj frejma
 		else:
 			# print ("re-trotlam - intro stray spawn")
-			var msec_to_next_frame: float = throttler_msec_threshold + 1
+			var msec_to_next_frame: float = Global.throttler_msec_threshold + 1
 			var sec_to_next_frame: float = msec_to_next_frame / 1000.0
 			yield(get_tree().create_timer(sec_to_next_frame), "timeout") # da se vsi straysi spawnajo
 			throttler_start_msec = Time.get_ticks_msec()
@@ -172,7 +170,7 @@ func create_strays(strays_to_spawn_count: int = required_spawn_positions.size())
 		call_deferred("show_strays_in_loop", show_strays_loop)
 		yield(get_tree().create_timer(0.1), "timeout") # da se vsi straysi spawnajo
 	
-	required_spawn_positions = default_required_spawn_positions # za barvne sheme
+	required_spawn_positions = default_required_spawn_positions.duplicate() # za barvne sheme
 	
 
 func spawn_stray(stray_index: int, stray_color: Color, stray_position: Vector2, is_white: bool):
@@ -300,7 +298,7 @@ func add_to_free_floor_positions(position_to_add: Vector2):
 
 func set_color_pool():
 	
-	var colors_wanted_count: int = required_spawn_positions.size()
+	var colors_wanted_count: int = default_required_spawn_positions.size()
 	
 	color_pool_colors = [] # reset
 	
@@ -359,7 +357,7 @@ func _on_TileMap_completed(stray_random_positions: Array, stray_positions: Array
 	
 	
 	default_required_spawn_positions = stray_positions # zaradi trotlinga
-	required_spawn_positions = stray_positions # ima tudi wall_spawn_positions
+	required_spawn_positions = default_required_spawn_positions.duplicate() # ima tudi wall_spawn_positions
 	create_strays_count = required_spawn_positions.size()
 	
 	# preventam preveč straysov (več kot je možnih pozicij)

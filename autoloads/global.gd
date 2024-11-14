@@ -1,23 +1,22 @@
 extends Node2D
 
 
-# VARIABLE -----------------------------------------------------------------------------------------------------
+var get_it_time: float = 1 # tajming za dojet določene faze igre
+var throttler_msec_threshold: int = 5 # koliko msec je še na voljo v frejmu, ko raje premaknem na naslednji frame
 
+# node ref
 var main_node = null
 var game_arena = null # arena
-
 # managers
 var sound_manager = null
 var data_manager = null
 var game_manager = null # tudi za intro
-
 # gui
 var current_tilemap = null
 var hud = null
 var start_countdown = null
 var gameover_gui = null
 var tutorial_gui = null
-
 # camera
 var intro_camera = null
 var game_camera = null
@@ -29,7 +28,7 @@ var group_tilemap = "Tilemap" # defender in patterns
 var group_ghosts = "Ghosts"
 var group_menu_confirm_btns = "Menu confirm btns"
 var group_menu_cancel_btns = "Menu cancel btns"
-const SAVING = "saving"
+
 # colors
 var color_blue: Color = Color("#4b9fff")
 var color_green: Color = Color("#5effa9")
@@ -37,13 +36,6 @@ var color_red: Color = Color("#f35b7f")
 var color_yellow: Color = Color("#fef98b")
 var color_orange: Color = Color("#ff9990")
 var color_purple: Color = Color("#c774f5")
-
-# tilemap colors
-var color_wall: Color = Color("#141414") # Color("#232323")
-var color_edge: Color = Color.black
-var color_floor: Color = Color("#20ffffff")
-var color_background: Color = Color.black
-
 # gui colors
 var color_almost_white_text: Color = Color("#f5f5f5") # če spremeniš tukaj, moraš tudi v temi
 var color_gui_gray: Color = Color("#78ffffff") # siv text s transparenco (ikone ...#838383) ... v kodi samo na btn defocus
@@ -52,17 +44,20 @@ var color_btn_disabled: Color = Color("#32ffffff")
 var color_btn_enabled: Color = Color("#78ffffff")
 var color_btn_hover: Color = Color("#f0f0f0")
 var color_btn_focus: Color = Color("#ffffff")
-
+var color_thumb_hover: Color = Color("#232323")
 # pixel colors
 var color_almost_black_pixel: Color = Color("#141414") 
 var color_dark_gray_pixel: Color = Color("#232323")#Color("#323232") # start normal
 var color_white_pixel: Color = Color(1, 1, 1, 1.22)
-var color_thumb_hover: Color = Color("#232323")
 var strays_on_screen: Array = [] # za stray position indikatorje
+# tilemap colors
+var color_wall: Color = Color("#141414") # Color("#232323")
+var color_edge: Color = Color.black
+var color_floor: Color = Color("#20ffffff")
+var color_background: Color = Color.black
 
-var allow_focus_sfx: bool = false # focus sounds
-
-# FUNKCIJE -----------------------------------------------------------------------------------------------------
+# hs / lootlocker
+var default_highscore_line_name: String = "Empty score line" # se uporabi, če še ni nobenega v filetu
 
 
 func _ready(): 
@@ -81,7 +76,7 @@ func get_all_nodes_in_node(node_to_check: Node = get_tree().root, all_nodes_of_n
 	for node in node_to_check.get_children():
 		all_nodes_of_nodes = get_all_nodes_in_node(node)
 	
-	print("Nodes in node",  all_nodes_of_nodes.size())
+	print("Nodes in node ",  all_nodes_of_nodes.size())
 	return all_nodes_of_nodes		
 		
 		
@@ -240,7 +235,7 @@ func get_random_gradient_colors(color_count: int):
 		
 		return	split_colors # level rabi že izbrane barve
 
-	
+
 func get_spectrum_colors(color_count: int):
 	randomize()
 	
@@ -266,66 +261,15 @@ func get_spectrum_colors(color_count: int):
 	return	split_colors
 
 
-# FILETI in FOLDERJI -----------------------------------------------------------------------------------------
-
-
-func get_folder_contents(rootPath: String, files_only: bool = true) -> Array:
-	
-	var files = []
-	var folders = []
-	var dir = Directory.new()
-
-	if dir.open(rootPath) == OK:
-		dir.list_dir_begin(true, true)
-		_add_folder_contents(dir, files, folders, files_only)
-	else:
-		push_error("An error occurred when trying to access the path.")
-
-	if files_only:
-		return files
-	else:
-		return [files, folders]
-	
-	
-func _add_folder_contents(dir: Directory, files: Array, folders: Array, files_only: bool):
-	
-	var file_name = dir.get_next() # zaradi pogoja je setan že tukaj, potem pa se aplcira pravo ime ... zato se na koncu doda en prazen element
-
-	# dokler ne naletim na "prazen" filet, beležim filete
-	while (file_name != ""):
-		# za obe varianti ponovim celo kodo, da lahko uporabim tudi ločeno
-		
-		# var path = dir.get_current_dir() + "/" + file_name
-		var path = dir.get_current_dir() + file_name
-	
-		# folder
-		if dir.current_is_dir() and not files_only:
-			#			print("Found directory: %s" % path)
-			var subDir = Directory.new()
-			subDir.open(path)
-			subDir.list_dir_begin(true, false)
-			folders.append(path)
-			_add_folder_contents(subDir, files, folders, true)
-			file_name = dir.get_next()
-			
-		# filet
-		else:
-			#			print("Found file: %s" % path)
-			files.append(path)
-			file_name = dir.get_next()
-			
-		#	if files_only: # v tem primeru se mi doda en prazen element, pa ga vržem ven
-		#		files.pop_back()	
-	
-	dir.list_dir_end()
-
-
 # BUTTONS --------------------------------------------------------------------------------------------------
 
 # vsak hover, postane focus
-# dodam sounde na focus
-# dodam sounde na confirm, cancel, quit
-# dodam modulate na Checkbutton focus
+# sounde na focus
+# sounde na confirm, cancel, quit
+# modulate na Checkbutton focus
+# nofx focus
+
+var allow_focus_sfx: bool = true # focus no-sounds
 
 # naberi gumbe in jih poveži
 func _on_SceneTree_node_added(node: Control):
@@ -333,16 +277,14 @@ func _on_SceneTree_node_added(node: Control):
 	if node is BaseButton or node is HSlider:
 		connect_to_button(node)
 
-
-# naberi gumbe v globino gumbe in jih poveži
+# naberi gumbe v globino in jih poveži
 func connect_buttons(root: Node):
 
 	for child in root.get_children():
 		if child is BaseButton or child is HSlider:
 			connect_to_button(child)
 
-
-#  poveži gumb
+# poveži gumb
 func connect_to_button(button):
 
 	# klik akcija
@@ -358,7 +300,6 @@ func connect_to_button(button):
 	button.connect("focus_entered", self, "_on_control_focused", [button])
 	button.connect("focus_exited", self, "_on_control_unfocused", [button])
 
-
 # on confirm and cancel 
 func _on_button_pressed(button: BaseButton):
 
@@ -371,7 +312,6 @@ func _on_button_pressed(button: BaseButton):
 		Global.sound_manager.play_gui_sfx("btn_cancel")
 		get_viewport().set_disable_input(true) # prevent dablklik
 
-
 # on toggle	
 func _on_button_toggled(button_pressed: bool) -> void:
 
@@ -382,11 +322,7 @@ func _on_button_toggled(button_pressed: bool) -> void:
 
 # on hover
 func _on_control_hovered(control: Control):
-	# izločim sounde za select game ozadja
-	#	if control is ColorRect:
-	#		return
 		
-#	if not control.has_focus() and control is Button:		
 	if not control.has_focus() and not control is ColorRect:		
 		control.grab_focus()
 
@@ -394,10 +330,8 @@ func _on_control_hovered(control: Control):
 func _on_control_focused(control: Control):
 	#	printt("Control focused", control)
 
-	Global.sound_manager.play_gui_sfx("btn_focus_change")
-
-	if not allow_focus_sfx:
-		set_deferred("allow_focus_sfx", true)
+	if allow_focus_sfx:
+		Global.sound_manager.play_gui_sfx("btn_focus_change")
 
 	# check btn color fix
 	if control is CheckButton or control is HSlider or control.name == "RandomizeBtn" or control.name == "ResetBtn":
@@ -410,10 +344,11 @@ func _on_control_unfocused(control: Control):
 	if control is CheckButton or control is HSlider or control.name == "RandomizeBtn" or control.name == "ResetBtn":
 		control.modulate = color_gui_gray # Color.white
 
-
-func focus_without_sfx(control_to_focus: Control):
+# nofx focus
+func grab_focus_nofx(control_to_focus: Control):
 	#	printt("No sfx focus", control_to_focus, allow_focus_sfx)
 
 	# reseta na fokus
 	allow_focus_sfx = false
 	control_to_focus.grab_focus()
+	set_deferred("allow_focus_sfx", true)

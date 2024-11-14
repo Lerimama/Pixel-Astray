@@ -262,7 +262,7 @@ func _on_SweeperBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("select_level")
 #	get_viewport().set_disable_input(true) # anti-dablklik
-	Global.focus_without_sfx($"../SelectLevel".select_level_btns_holder.all_level_btns[0])
+	Global.grab_focus_nofx($"../SelectLevel".select_level_btns_holder.all_level_btns[0])
 	
 
 func _on_CleanerBackground_mouse_entered() -> void:

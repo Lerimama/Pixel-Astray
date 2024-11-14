@@ -362,6 +362,7 @@ pressed = true
 text = "CAMERA SHAKE"
 
 [node name="ShowHintBtn" type="CheckButton" parent="Settings"]
+visible = false
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 anchor_right = 1.0
 margin_left = 62.0
@@ -374,6 +375,21 @@ focus_neighbour_left = NodePath(".")
 mouse_default_cursor_shape = 2
 custom_fonts/font = ExtResource( 2 )
 text = "SHOW HINT"
+
+[node name="TutorialModeBtn" type="CheckButton" parent="Settings"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+margin_left = 52.0
+margin_top = 256.0
+margin_right = 172.0
+margin_bottom = 274.0
+grow_horizontal = 2
+focus_neighbour_left = NodePath(".")
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 10
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 2 )
+pressed = true
+text = "TUTORIAL ON"
 
 [node name="Menu" type="HBoxContainer" parent="."]
 anchor_left = 0.5
@@ -390,17 +406,6 @@ custom_constants/separation = 32
 __meta__ = {
 "_edit_group_": true
 }
-
-[node name="ExitGameBtn" type="Button" parent="Menu"]
-visible = false
-margin_right = 122.0
-margin_bottom = 22.0
-focus_neighbour_left = NodePath("../RestartBtn")
-focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
-mouse_default_cursor_shape = 2
-size_flags_vertical = 8
-text = "EXIT GAME"
-align = 0
 
 [node name="QuitBtn" type="Button" parent="Menu"]
 margin_right = 52.0
@@ -433,7 +438,6 @@ text = "CLOSE TUTORIAL"
 margin_left = 204.0
 margin_right = 302.0
 margin_bottom = 22.0
-focus_neighbour_right = NodePath("../ExitGameBtn")
 focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 6
@@ -445,7 +449,7 @@ text = "RESTART"
 [connection signal="toggled" from="Settings/GameSfxBtn" to="." method="_on_GameSfxBtn_toggled"]
 [connection signal="toggled" from="Settings/CameraShakeBtn" to="." method="_on_CameraShakeBtn_toggled"]
 [connection signal="toggled" from="Settings/ShowHintBtn" to="." method="_on_ShowHintBtn_toggled"]
-[connection signal="pressed" from="Menu/ExitGameBtn" to="." method="_on_ExitGameBtn_pressed"]
+[connection signal="toggled" from="Settings/TutorialModeBtn" to="." method="_on_TutorialModeBtn_toggled"]
 [connection signal="pressed" from="Menu/QuitBtn" to="." method="_on_QuitBtn_pressed"]
 [connection signal="pressed" from="Menu/PlayBtn" to="." method="_on_PlayBtn_pressed"]
 [connection signal="pressed" from="Menu/SkipTutBtn" to="." method="_on_SkipTutBtn_pressed"]

@@ -50,9 +50,6 @@ func _ready():
 
 	if Profiles.html5_mode:
 		menu.get_node("ExitGameBtn").hide()
-		# dela brez spodnjega ... čudno ...
-		#		$Menu/QuitBtn.focus_neighbour_left = "../RestartBtn"
-		#		$Menu/RestartBtn.focus_neighbour_right = "../QuitBtn"		
 	
 	
 func open_with_intro(): # kliče main.gd -> home_in_intro()
@@ -75,17 +72,17 @@ func open_from_game(finished_game: int): # select_game screen ... kliče main.gd
 	
 	# fokus glede na končano igro
 	if finished_game == Profiles.Games.CLEANER:
-		Global.focus_without_sfx($SelectGame/GamesMenu/Cleaner/CleanerBtn)
+		Global.grab_focus_nofx($SelectGame/GamesMenu/Cleaner/CleanerBtn)
 	elif finished_game == Profiles.Games.HUNTER:
-		Global.focus_without_sfx($SelectGame/GamesMenu/Unbeatables/HunterBtn)
+		Global.grab_focus_nofx($SelectGame/GamesMenu/Unbeatables/HunterBtn)
 	elif finished_game == Profiles.Games.DEFENDER:
-		Global.focus_without_sfx($SelectGame/GamesMenu/Unbeatables/DefenderBtn)
+		Global.grab_focus_nofx($SelectGame/GamesMenu/Unbeatables/DefenderBtn)
 	elif finished_game == Profiles.Games.SWEEPER:
-		Global.focus_without_sfx($SelectGame/GamesMenu/Sweeper/SweeperBtn)
+		Global.grab_focus_nofx($SelectGame/GamesMenu/Sweeper/SweeperBtn)
 	elif finished_game == Profiles.Games.THE_DUEL:
-		Global.focus_without_sfx($SelectGame/GamesMenu/TheDuel/TheDuelBtn)
+		Global.grab_focus_nofx($SelectGame/GamesMenu/TheDuel/TheDuelBtn)
 	else: # ERASER_XS, ERASER_S, ERASER_M, ERASER_L, ERASER_XL,
-		Global.focus_without_sfx($SelectGame/GamesMenu/Eraser/SBtn)
+		Global.grab_focus_nofx($SelectGame/GamesMenu/Eraser/SBtn)
 	
 	intro.finish_intro()
 	yield(get_tree().create_timer(1), "timeout") # počaka, da se vsi spawnajo
@@ -95,7 +92,7 @@ func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drug
 
 	menu.visible = true
 	current_screen = Screens.MAIN_MENU
-	Global.focus_without_sfx(menu.get_node("SelectGameBtn"))
+	Global.grab_focus_nofx(menu.get_node("SelectGameBtn"))
 		
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(menu, "modulate:a", 1, 0.32).from(0.0)
@@ -123,30 +120,30 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 		"select_game":
 			if not animation_reversed(Screens.SELECT_GAME):
 				current_screen = Screens.SELECT_GAME
-#				Global.focus_without_sfx($SelectGame/GamesMenu/Cleaner/CleanerBtn)
-				Global.focus_without_sfx($SelectGame.default_focus_node)
+#				Global.grab_focus_nofx($SelectGame/GamesMenu/Cleaner/CleanerBtn)
+				Global.grab_focus_nofx($SelectGame.default_focus_node)
 		"about":
 			if not animation_reversed(Screens.ABOUT):
 				current_screen = Screens.ABOUT
-#				Global.focus_without_sfx($About/BackBtn)
-				Global.focus_without_sfx($About.de)
+#				Global.grab_focus_nofx($About/BackBtn)
+				Global.grab_focus_nofx($About.de)
 		"settings":
 			if not animation_reversed(Screens.SETTINGS):
 				current_screen = Screens.SETTINGS
-				Global.focus_without_sfx($Settings.default_focus_node)
-#				Global.focus_without_sfx($Settings/MenuMusicBtn)
+				Global.grab_focus_nofx($Settings.default_focus_node)
+#				Global.grab_focus_nofx($Settings/MenuMusicBtn)
 		"highscores":
 			if not animation_reversed(Screens.HIGHSCORES):
 				current_screen = Screens.HIGHSCORES
 				if $Highscores.default_focus_node.disabled:
 					ConnectCover.open_cover(false)
 				else:
-					Global.focus_without_sfx($Highscores.default_focus_node)
+					Global.grab_focus_nofx($Highscores.default_focus_node)
 		"select_level":
 			if not animation_reversed(Screens.SELECT_LEVEL):
 				current_screen = Screens.SELECT_LEVEL
-				Global.focus_without_sfx($SelectLevel.default_focus_node)
-#				Global.focus_without_sfx($SelectLevel.select_level_btns_holder.all_level_btns[0])
+				Global.grab_focus_nofx($SelectLevel.default_focus_node)
+#				Global.grab_focus_nofx($SelectLevel.select_level_btns_holder.all_level_btns[0])
 	
 
 func animation_reversed(from_screen: int):
@@ -156,20 +153,20 @@ func animation_reversed(from_screen: int):
 		# preverim s katerega ekrana je animirano še preden zamenjam na MAIN_MENU
 		match from_screen:
 			Screens.SELECT_GAME:
-				Global.focus_without_sfx(menu.get_node("SelectGameBtn"))
+				Global.grab_focus_nofx(menu.get_node("SelectGameBtn"))
 				menu_in()
 			Screens.ABOUT:
-				Global.focus_without_sfx(menu.get_node("AboutBtn"))
+				Global.grab_focus_nofx(menu.get_node("AboutBtn"))
 				menu_in()
 			Screens.SETTINGS:
-				Global.focus_without_sfx(menu.get_node("SettingsBtn"))
+				Global.grab_focus_nofx(menu.get_node("SettingsBtn"))
 				menu_in()
 			Screens.HIGHSCORES:
-				Global.focus_without_sfx(menu.get_node("HighscoresBtn"))
+				Global.grab_focus_nofx(menu.get_node("HighscoresBtn"))
 				menu_in()
 			Screens.SELECT_LEVEL:
 				current_screen = Screens.SELECT_GAME
-				Global.focus_without_sfx($SelectGame/GamesMenu/Sweeper/SweeperBtn)
+				Global.grab_focus_nofx($SelectGame/GamesMenu/Sweeper/SweeperBtn)
 				
 		return true
 			
@@ -181,7 +178,7 @@ func _on_SelectGameBtn_pressed() -> void:
 	
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("select_game")
-	Global.focus_without_sfx($SelectGame/GamesMenu/Cleaner/CleanerBtn)
+	Global.grab_focus_nofx($SelectGame/GamesMenu/Cleaner/CleanerBtn)
 
 
 func _on_AboutBtn_pressed() -> void:

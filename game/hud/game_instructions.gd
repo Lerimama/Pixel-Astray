@@ -22,9 +22,11 @@ func _input(event: InputEvent) -> void:
 	
 	
 func _ready() -> void:
-
+	
 	$BigButton.add_to_group(Global.group_menu_confirm_btns)
-
+	if get_parent().name == "PauseMenu":
+		$BigButton.hide()
+			
 			
 func get_instructions_content(current_highscore: int = 0, current_highscore_owner: String = "Nobody"):
 	

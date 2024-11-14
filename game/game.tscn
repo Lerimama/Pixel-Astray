@@ -841,6 +841,7 @@ margin_right = 329.0
 text = "to start"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="GUI/Tutorial"]
+pause_mode = 2
 anims/RESET = SubResource( 352 )
 anims/tutorial_end_with_sidebar = SubResource( 355 )
 anims/tutorial_start_with_sidebar = SubResource( 356 )
