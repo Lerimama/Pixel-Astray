@@ -34,9 +34,7 @@ var cocked_ghosts: Array
 var burst_speed: float = 0 # trenutna hitrost
 var burst_velocity: Vector2
 # sweeping
-var sweep_move_started: bool = false # ob cockanju se začne poteza (konča se v steni ali na koncu reburstanja, kadar resetam reburst_count)
-var sweep_move_to_clean_strays_count: int = 0 # ker se original štetje med rebursti spreminja, določim tole na začetku burst moveta
-var sweep_move_cleaned_strays_count: int = 0 # beleži vse uničene v času sweeper move, za preverjanje uspeha
+var sweep_started: bool = false # ob cockanju se začne poteza (konča se v steni ali na koncu reburstanja, kadar resetam reburst_count)
 var is_rebursting: bool = false # ko je v samem burstu ... za regulacijo moči on hit stray
 var reburst_window_open: bool = false
 var reburst_speed_units_count: float = 0 # za prenos original hitrosti v naslednje rebursta
@@ -235,7 +233,7 @@ func idle_inputs():
 				step()
 	else:
 		# reburst ali navaden pritisk smeri
-		if sweep_move_started:
+		if sweep_started:
 			rebursting_inputs()
 		elif player_stats["player_energy"] > 1:
 			# če je SKILLED, kontrole prevzame skilled_input, če ne end move()
@@ -266,8 +264,8 @@ func idle_inputs():
 		
 		if Global.game_manager.game_settings["reburst_enabled"]:
 			close_reburst_window()
-			if sweep_move_started:
-				finish_sweep_move()	
+			if sweep_started:
+				finish_sweep_move_and_check_for_fail()	
 
 
 func skill_inputs():
@@ -310,8 +308,8 @@ func skill_inputs():
 		burst_light_on()
 		if Global.game_manager.game_settings["reburst_enabled"]:
 			close_reburst_window()
-			if sweep_move_started:
-				finish_sweep_move()
+			if sweep_started:
+				finish_sweep_move_and_check_for_fail()
 			return	
 			
 			
@@ -376,8 +374,8 @@ func cocking_inputs():
 			burst_light_off()
 		if Global.game_manager.game_settings["reburst_enabled"]:
 			close_reburst_window()
-			if sweep_move_started:
-				finish_sweep_move()			
+			if sweep_started:
+				finish_sweep_move_and_check_for_fail()			
 
 
 func bursting_inputs():
@@ -390,10 +388,31 @@ func bursting_inputs():
 		
 		if Global.game_manager.game_settings["reburst_enabled"]:
 			close_reburst_window()
-			if sweep_move_started:
-				finish_sweep_move()	
+			if sweep_started:
+				finish_sweep_move_and_check_for_fail()	
 	
 		change_stat("burst_count", -1)
+	
+		
+func rebursting_inputs():
+	
+	if Global.game_manager.all_strays_on_start_count <= 0:
+		current_state = States.IDLE
+		close_reburst_window()
+		return
+	# cocking
+	if Input.is_action_just_pressed(key_up):
+		direction = Vector2.UP
+		cock_reburst()
+	elif Input.is_action_just_pressed(key_down):
+		direction = Vector2.DOWN
+		cock_reburst()
+	elif Input.is_action_just_pressed(key_left):
+		direction = Vector2.LEFT
+		cock_reburst()
+	elif Input.is_action_just_pressed(key_right):
+		direction = Vector2.RIGHT
+		cock_reburst()
 		
 				
 # MOVEMENT ------------------------------------------------------------------------------------------
@@ -555,23 +574,6 @@ func burst():
 	
 # REBURST ------------------------------------------------------------------
 
-
-func rebursting_inputs():
-
-	# cocking
-	if Input.is_action_just_pressed(key_up):
-		direction = Vector2.UP
-		cock_reburst()
-	elif Input.is_action_just_pressed(key_down):
-		direction = Vector2.DOWN
-		cock_reburst()
-	elif Input.is_action_just_pressed(key_left):
-		direction = Vector2.LEFT
-		cock_reburst()
-	elif Input.is_action_just_pressed(key_right):
-		direction = Vector2.RIGHT
-		cock_reburst()
-
 	
 func cock_reburst():
 
@@ -643,17 +645,15 @@ func close_reburst_window():
 	burst_light_off()
 		
 
-func finish_sweep_move():
+func finish_sweep_move_and_check_for_fail(): # OPT samo za negativno oceno ... bi lahko združil v en proces s pozitivno oceno
 	
 	# ček for succes
-	sweep_move_started = false
+	sweep_started = false
 	
 	# če je količina uničenih enaka količini na ekranu
-	if sweep_move_cleaned_strays_count < sweep_move_to_clean_strays_count:
+	if Global.game_manager.all_strays_on_start_count > 0:
 		Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
-	else:
-		pass # to naredi GM po defaultu
-
+		
 
 # SKILLS ------------------------------------------------------------------------------------------
 
@@ -820,12 +820,11 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 	shake_player_camera(burst_speed)			
 
 	# start sweeper move
-	if Global.game_manager.game_settings["reburst_enabled"] and not sweep_move_started:	
-		sweep_move_started = true	
-		sweep_move_to_clean_strays_count = Global.game_manager.strays_in_game_count
+	if Global.game_manager.game_settings["reburst_enabled"] and not sweep_started:	
+		sweep_started = true	
 		
 	if hit_stray.current_state == hit_stray.States.DYING or hit_stray.current_state == hit_stray.States.WALL: # če je že v umiranju, samo kolajdaš
-		finish_sweep_move()
+		finish_sweep_move_and_check_for_fail()
 		end_move()
 	else:
 		# izklopim če začne bel
@@ -852,6 +851,8 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 					strays_to_destroy.append(neighboring_stray)
 				else: break
 		
+		Global.game_manager.all_strays_on_start_count -= strays_to_destroy.size() # SWEEPER, da lahko hitro zabeležim uspeh pleyerja
+			
 		# jih destrojam
 		var throttler_start_msec = Time.get_ticks_msec()
 		for stray in strays_to_destroy:
@@ -860,15 +861,11 @@ func on_hit_stray(hit_stray: KinematicBody2D):
 			var stray_index = strays_to_destroy.find(stray)
 			stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
 			var msec_taken = Time.get_ticks_msec() - throttler_start_msec
-			if sweep_move_started: # prišteje v sweeper strayse	
-				sweep_move_cleaned_strays_count += 1
 			# trotled
 			#			if msec_taken < (round(1000 / Engine.get_frames_per_second()) - Global.throttler_msec_threshold): # msec_per_frame - ...
 			#				print ("ne-trotlam - multi stray destroy")
 			#				var stray_index = strays_to_destroy.find(stray)
 			#				stray.die(stray_index, strays_to_destroy.size()) # podatek o velikosti rabi za izbor animacije
-			#				if sweep_move_started: # prišteje v sweeper strayse
-			#					sweep_move_cleaned_strays_count += 1
 			#			else:
 			#				print ("re-trotlam - multi stray destroy")
 			#				var msec_to_next_frame: float = Global.throttler_msec_threshold + 1
@@ -1411,8 +1408,8 @@ func _on_ReburstingTimer_timeout() -> void:
 	if Global.game_manager.game_settings["reburst_window_time"] > 0: 
 		# čas zamujen ... ne moreš več reburstat
 		close_reburst_window()
-		if sweep_move_started:
-			finish_sweep_move()
+		if sweep_started:
+			finish_sweep_move_and_check_for_fail()
 
 	
 func _on_TouchTimer_timeout() -> void: 
@@ -1507,24 +1504,22 @@ func change_stat(stat_event: String, stat_value):
 		match stat_event:
 			
 			# SKILL & BURST ---------------------------------------------------------------------------------------------------------------
-			
 			"cells_traveled": # štetje, točke in energija kot je določeno v settingsih
 				player_stats["cells_traveled"] += 1
 				player_stats["player_energy"] += game_settings["cell_traveled_energy"]
 			"skill_used": # štetje, točke in energija kot je določeno v settingsih
 				player_stats["skill_count"] += 1
 				# za tutorial
-				if Global.tutorial_gui.tutorial_on:
-					Global.tutorial_gui.on_skill_used(stat_value)
+				if Global.game_manager.game_data["game"] == Profiles.Games.DEFENDER: # defender nima tutorial nodeta
+					if Global.tutorial_gui.tutorial_on:
+						Global.tutorial_gui.on_skill_used(stat_value)
 			"burst_count": # štetje, točke in energija kot je določeno v settingsih
 				player_stats["burst_count"] += stat_value
 			"rebursting_momentum":
 				player_stats["player_energy"] += game_settings["reburst_window_energy_drain"]
 				player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, player_max_energy)
-				
-				
+			
 			# HITS ------------------------------------------------------------------------------------------------------------------
-		
 			"hit_stray": # štetje, točke in energija glede na število uničenih straysov
 				var points_to_gain: int = 0
 				var energy_to_gain: int = 0
@@ -1546,9 +1541,9 @@ func change_stat(stat_event: String, stat_value):
 				# za tutorial
 				if game_data["game"] == Profiles.Games.SWEEPER and is_rebursting:
 					player_stats["player_energy"] = player_max_energy
-				elif Global.tutorial_gui.tutorial_on:
-					Global.tutorial_gui.on_hit_stray(stack_strays_cleaned_count)
-						
+				if Global.game_manager.game_data["game"] == Profiles.Games.DEFENDER: # defender nima tutorial nodeta
+					if Global.tutorial_gui.tutorial_on:
+						Global.tutorial_gui.on_hit_stray(stack_strays_cleaned_count)
 			"white_eliminated":
 				player_stats["player_energy"] = player_max_energy
 				var points_to_gain: int = game_settings["white_eliminated_points"]

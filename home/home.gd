@@ -39,7 +39,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			
 func _ready():
 	
-	menu.hide()
+#	menu.hide()
 	
 	# btn groups
 	menu.get_node("SelectGameBtn").add_to_group(Global.group_menu_confirm_btns)
@@ -53,15 +53,26 @@ func _ready():
 	
 	
 func open_with_intro(): # kliče main.gd -> home_in_intro()
+	if Profiles.html5_mode:
+		$Highscores.load_all_highscore_tables(true, true) # global update, in background
+	else:
+		$Highscores.load_all_highscore_tables(false) # no global update (no in back)
 	intro.play_intro() # intro signal na koncu kliče menu_in()
 	
 	
 func open_without_intro(): # debug ... kliče main.gd -> home_in_no_intro()
+	
+	if Profiles.html5_mode:
+		$Highscores.call_deferred("load_all_highscore_tables", true, true)
+	else:
+		$Highscores.call_deferred("load_all_highscore_tables", false)
+	
 	intro.finish_intro() # intro signal na koncu kliče menu_in()
-	yield(get_tree().create_timer(1), "timeout") # počaka, da se vsi spawnajo
 
 
 func open_from_game(finished_game: int): # select_game screen ... kliče main.gd -> home_in_from_game()
+	
+	$Highscores.load_all_highscore_tables(false) # no global update (no in back)
 
 	animation_player.play("select_game")
 	current_screen = Screens.SELECT_GAME
@@ -85,7 +96,6 @@ func open_from_game(finished_game: int): # select_game screen ... kliče main.gd
 		Global.grab_focus_nofx($SelectGame/GamesMenu/Eraser/SBtn)
 	
 	intro.finish_intro()
-	yield(get_tree().create_timer(1), "timeout") # počaka, da se vsi spawnajo
 	
 	
 func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drugih ekranov

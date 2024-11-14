@@ -22,7 +22,7 @@ func _ready() -> void:
 	hide()
 
 	
-func open_cover(in_background: bool = true, opening_from: Control = null): # obs opening_from je ?
+func open_cover(in_background: bool = true):
 	
 	cover_label_text_change_count = 0
 		

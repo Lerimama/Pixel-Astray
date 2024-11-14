@@ -27,18 +27,16 @@ func _ready() -> void:
 
 	# menu btn group
 	$Menu/PlayBtn.add_to_group(Global.group_menu_confirm_btns)
-	$Menu/SkipTutBtn.add_to_group(Global.group_menu_confirm_btns)
 	$Menu/RestartBtn.add_to_group(Global.group_menu_confirm_btns)
 	$Menu/QuitBtn.add_to_group(Global.group_menu_cancel_btns)
 	
 	# settings btns
+	$Settings/TutorialModeBtn.hide()
+	$Settings/ShowHintBtn.hide()
 	if Global.game_manager.game_data["game"] == Profiles.Games.CLEANER:
 		$Settings/TutorialModeBtn.show()
-		$Settings/ShowHintBtn.hide()
 	elif Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 		$Settings/ShowHintBtn.show()
-	else:
-		$Settings/ShowHintBtn.hide()
 		
 	# in-pause game instructions
 	instructions.get_instructions_content(Global.hud.current_highscore, Global.hud.current_highscore_owner)
@@ -83,14 +81,6 @@ func pause_game():
 	visible = true
 	
 	Global.sound_manager.play_gui_sfx("screen_slide")
-	
-	# pokažem skip tutorial gumb
-	if not Global.game_manager.game_data["game"] == Profiles.Games.DEFENDER: # defender nima tutorial nodeta
-		var skip_tut_btn: Button = $Menu/SkipTutBtn
-		if Global.tutorial_gui.tutorial_on:
-			skip_tut_btn.show()
-		else:
-			skip_tut_btn.hide()
 
 	Global.grab_focus_nofx($Menu/PlayBtn)
 	
@@ -113,19 +103,6 @@ func play_on():
 	yield(fade_out_tween, "finished")
 		
 
-#func play_without_tutorial():
-#
-#	Global.sound_manager.play_gui_sfx("screen_slide")
-#
-#	var pause_out_time: float = 0.5
-#	var fade_out_tween = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-#	fade_out_tween.tween_property(self, "modulate:a", 0, pause_out_time)
-#	fade_out_tween.tween_callback(self, "hide")
-#	fade_out_tween.tween_callback(get_tree(), "set_pause", [false])
-#	fade_out_tween.tween_callback(get_viewport(), "set_disable_input", [false])
-#	fade_out_tween.tween_callback(Global.tutorial_gui, "close_tutorial")
-
-
 # MENU ---------------------------------------------------------------------------------------------
 	
 
@@ -146,15 +123,6 @@ func _on_RestartBtn_pressed() -> void:
 	Global.main_node.reload_game()
 
 
-var tutorial_mode: bool = Profiles.tutorial_mode
-
-
-func _on_SkipTutBtn_pressed() -> void:
-	
-	Global.tutorial_gui.hide()
-#	Global.tutorial_gui.close_tutorial()
-
-	
 func _on_QuitBtn_pressed() -> void:
 
 	Global.game_manager.game_on = false

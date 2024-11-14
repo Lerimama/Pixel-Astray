@@ -555,84 +555,86 @@ margin = Rect2( 0, 3, 0, 0 )
 
 [sub_resource type="Animation" id=155]
 length = 0.001
-tracks/0/type = "bezier"
-tracks/0/path = NodePath("HomeScreen/Menu:rect_position:y")
+tracks/0/type = "value"
+tracks/0/path = NodePath("HomeScreen/Menu:modulate:a")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"points": PoolRealArray( 518, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath("HomeScreen/Menu:modulate:a")
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Highscores:rect_position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 1.0 ]
+"points": PoolRealArray( -600, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
 }
-tracks/2/type = "bezier"
-tracks/2/path = NodePath("Highscores:rect_position:y")
+tracks/2/type = "value"
+tracks/2/path = NodePath("Highscores:modulate:a")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"points": PoolRealArray( -600, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
 }
-tracks/3/type = "value"
-tracks/3/path = NodePath("Highscores:modulate:a")
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("Settings:rect_position:x")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 1.0 ]
+"points": PoolRealArray( -448, 0, 0, 0.5, 0 ),
+"times": PoolRealArray( 0 )
 }
-tracks/4/type = "bezier"
-tracks/4/path = NodePath("Settings:rect_position:x")
+tracks/4/type = "value"
+tracks/4/path = NodePath("Settings:modulate:a")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"points": PoolRealArray( -448, 0, 0, 0.5, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("Settings:modulate:a")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ 1.0 ]
 }
-tracks/6/type = "bezier"
-tracks/6/path = NodePath("SelectGame:rect_position:x")
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("SelectGame:rect_position:x")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( 1280, 0, 0, 0.5, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("SelectGame:modulate:a")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"points": PoolRealArray( 1280, 0, 0, 0.5, 0 ),
-"times": PoolRealArray( 0 )
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("SelectGame:modulate:a")
+tracks/7/path = NodePath("SelectGame:rect_position")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -641,10 +643,10 @@ tracks/7/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 1.0 ]
+"values": [ Vector2( 1280, 0 ) ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("SelectGame:rect_position")
+tracks/8/path = NodePath("Highscores:rect_position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -653,32 +655,32 @@ tracks/8/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 1280, 0 ) ]
+"values": [ Vector2( 0, -600 ) ]
 }
-tracks/9/type = "value"
-tracks/9/path = NodePath("Highscores:rect_position")
+tracks/9/type = "bezier"
+tracks/9/path = NodePath("About:rect_position:y")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 0, -600 ) ]
+"points": PoolRealArray( 720, 0, 0, 0.5, 0 ),
+"times": PoolRealArray( 0 )
 }
-tracks/10/type = "bezier"
-tracks/10/path = NodePath("About:rect_position:y")
+tracks/10/type = "value"
+tracks/10/path = NodePath("About:modulate:a")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
 tracks/10/enabled = true
 tracks/10/keys = {
-"points": PoolRealArray( 720, 0, 0, 0.5, 0 ),
-"times": PoolRealArray( 0 )
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("About:modulate:a")
+tracks/11/path = NodePath("About:rect_position")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
@@ -687,32 +689,30 @@ tracks/11/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 1.0 ]
+"values": [ Vector2( 0, 720 ) ]
 }
-tracks/12/type = "value"
-tracks/12/path = NodePath("About:rect_position")
+tracks/12/type = "bezier"
+tracks/12/path = NodePath("SelectLevel:rect_position:x")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
 tracks/12/enabled = true
 tracks/12/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 0, 720 ) ]
+"points": PoolRealArray( 448, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
 }
 tracks/13/type = "bezier"
-tracks/13/path = NodePath("HomeScreen/Menu:rect_position:x")
+tracks/13/path = NodePath("SelectGame:rect_position:y")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
 tracks/13/enabled = true
 tracks/13/keys = {
-"points": PoolRealArray( 280, -0.25, 0, 0.25, 0 ),
+"points": PoolRealArray( 0, 0, 0, 0.5, 0 ),
 "times": PoolRealArray( 0 )
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("HomeScreen/Menu:rect_size")
+tracks/14/path = NodePath("SelectLevel:modulate:a")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
@@ -721,42 +721,40 @@ tracks/14/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 720, 25 ) ]
+"values": [ 1.0 ]
 }
-tracks/15/type = "value"
-tracks/15/path = NodePath("HomeScreen/Menu:rect_position")
+tracks/15/type = "bezier"
+tracks/15/path = NodePath("HomeScreen:rect_position:x")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
 tracks/15/enabled = true
 tracks/15/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 280, 518 ) ]
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
 }
 tracks/16/type = "bezier"
-tracks/16/path = NodePath("SelectLevel:rect_position:x")
+tracks/16/path = NodePath("HomeScreen:rect_position:y")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
 tracks/16/enabled = true
 tracks/16/keys = {
-"points": PoolRealArray( 448, -0.25, 0, 0.25, 0 ),
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 0 )
 }
 tracks/17/type = "bezier"
-tracks/17/path = NodePath("SelectGame:rect_position:y")
+tracks/17/path = NodePath("SelectLevel:rect_position:y")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
 tracks/17/enabled = true
 tracks/17/keys = {
-"points": PoolRealArray( 0, 0, 0, 0.5, 0 ),
+"points": PoolRealArray( 704, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 0 )
 }
 tracks/18/type = "value"
-tracks/18/path = NodePath("SelectLevel:modulate:a")
+tracks/18/path = NodePath("HomeScreen/Menu:visible")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/imported = false
@@ -765,37 +763,7 @@ tracks/18/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 1.0 ]
-}
-tracks/19/type = "bezier"
-tracks/19/path = NodePath("HomeScreen:rect_position:x")
-tracks/19/interp = 1
-tracks/19/loop_wrap = true
-tracks/19/imported = false
-tracks/19/enabled = true
-tracks/19/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/20/type = "bezier"
-tracks/20/path = NodePath("HomeScreen:rect_position:y")
-tracks/20/interp = 1
-tracks/20/loop_wrap = true
-tracks/20/imported = false
-tracks/20/enabled = true
-tracks/20/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/21/type = "bezier"
-tracks/21/path = NodePath("SelectLevel:rect_position:y")
-tracks/21/interp = 1
-tracks/21/loop_wrap = true
-tracks/21/imported = false
-tracks/21/enabled = true
-tracks/21/keys = {
-"points": PoolRealArray( 704, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
+"values": [ false ]
 }
 
 [sub_resource type="Animation" id=137]
@@ -2160,7 +2128,8 @@ margin_top = 74.0
 margin_right = -8.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 16, 16 )
-focus_neighbour_top = NodePath("../ColorSchemeOptions/RandomizeBtn")
+focus_neighbour_left = NodePath("../MenuMusicBtn")
+focus_neighbour_bottom = NodePath("../MenuMusicBtn")
 mouse_default_cursor_shape = 2
 texture_normal = SubResource( 195 )
 texture_hover = SubResource( 196 )
@@ -2183,7 +2152,7 @@ margin_left = 65.0
 margin_top = 137.0
 margin_right = 225.0
 margin_bottom = 169.0
-focus_neighbour_top = NodePath("../BackBtn")
+focus_neighbour_top = NodePath("../CameraShakeBtn")
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
 pressed = true
@@ -2200,17 +2169,6 @@ theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
 text = "In-game settings"
 autowrap = true
-
-[node name="GameMusicBtn" type="CheckButton" parent="Settings"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-margin_left = 65.0
-margin_top = 313.0
-margin_right = 225.0
-margin_bottom = 345.0
-focus_neighbour_right = NodePath("../BackBtn")
-mouse_default_cursor_shape = 2
-pressed = true
-text = "Game music"
 
 [node name="InstructionsBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
@@ -2242,7 +2200,7 @@ margin_top = 9.0
 margin_right = 197.0
 margin_bottom = 33.0
 rect_min_size = Vector2( 24, 24 )
-focus_neighbour_bottom = NodePath("../../ResetLocalBtn")
+focus_neighbour_bottom = NodePath("../../GameMusicBtn")
 mouse_default_cursor_shape = 2
 __meta__ = {
 "_editor_description_": ""
@@ -2286,7 +2244,7 @@ margin_right = 226.0
 margin_bottom = 38.0
 rect_min_size = Vector2( 16, 16 )
 focus_neighbour_right = NodePath("../../BackBtn")
-focus_neighbour_bottom = NodePath("../../ResetLocalBtn")
+focus_neighbour_bottom = NodePath("../../GameMusicBtn")
 mouse_default_cursor_shape = 2
 expand_icon = true
 __meta__ = {
@@ -2298,6 +2256,17 @@ margin_right = 16.0
 margin_bottom = 16.0
 size_flags_vertical = 3
 texture = SubResource( 280 )
+
+[node name="GameMusicBtn" type="CheckButton" parent="Settings"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+margin_left = 65.0
+margin_top = 313.0
+margin_right = 225.0
+margin_bottom = 345.0
+focus_neighbour_right = NodePath("../BackBtn")
+mouse_default_cursor_shape = 2
+pressed = true
+text = "Game music"
 
 [node name="GameMusicSlider" type="HSlider" parent="Settings"]
 modulate = Color( 1, 1, 1, 0.470588 )
@@ -2359,6 +2328,7 @@ margin_right = 209.0
 margin_bottom = 530.0
 size_flags_horizontal = 3
 theme = SubResource( 194 )
+custom_colors/font_color = Color( 0.952941, 0.356863, 0.498039, 1 )
 custom_fonts/font = ExtResource( 14 )
 text = "Danger zone"
 autowrap = true
@@ -2368,9 +2338,9 @@ margin_left = 65.0
 margin_top = 542.0
 margin_right = 331.0
 margin_bottom = 564.0
-focus_neighbour_top = NodePath("../ColorSchemeOptions/RandomizeBtn")
 focus_neighbour_right = NodePath("../BackBtn")
-focus_neighbour_bottom = NodePath("../BackBtn")
+focus_neighbour_bottom = NodePath("../MenuMusicBtn")
+mouse_default_cursor_shape = 2
 custom_colors/font_color_focus = Color( 0.952941, 0.356863, 0.498039, 1 )
 custom_colors/font_color_hover_pressed = Color( 0.952941, 0.356863, 0.498039, 1 )
 custom_colors/font_color = Color( 0.952941, 0.356863, 0.498039, 0.470588 )
@@ -2553,10 +2523,6 @@ visible = false
 
 [node name="HighscoreTable" parent="Highscores/GameHalls/Cleaner/CleanerHall" index="1"]
 margin_top = 15.0
-
-[node name="Grad" parent="Highscores/GameHalls/Cleaner/CleanerHall" index="2"]
-margin_top = -30.0
-margin_bottom = 218.0
 
 [node name="EdgeMid" type="Panel" parent="Highscores/GameHalls/Cleaner"]
 margin_top = 56.0
@@ -3293,10 +3259,10 @@ anims/settings = SubResource( 530 )
 [connection signal="pressed" from="SelectLevel/BackBtn" to="SelectLevel" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="Settings/BackBtn" to="Settings" method="_on_BackBtn_pressed"]
 [connection signal="toggled" from="Settings/MenuMusicBtn" to="Settings" method="_on_MenuMusicBtn_toggled"]
-[connection signal="toggled" from="Settings/GameMusicBtn" to="Settings" method="_on_GameMusicBtn_toggled"]
 [connection signal="toggled" from="Settings/InstructionsBtn" to="Settings" method="_on_InstructionsBtn_toggled"]
 [connection signal="pressed" from="Settings/ColorSchemeOptions/RandomizeBtn" to="Settings" method="_on_RandomizeBtn_pressed"]
 [connection signal="pressed" from="Settings/ColorSchemeOptions/ResetBtn" to="Settings" method="_on_ResetBtn_pressed"]
+[connection signal="toggled" from="Settings/GameMusicBtn" to="Settings" method="_on_GameMusicBtn_toggled"]
 [connection signal="value_changed" from="Settings/GameMusicSlider" to="Settings" method="_on_MusicHSlider_value_changed"]
 [connection signal="toggled" from="Settings/GameSfxBtn" to="Settings" method="_on_GameSfxBtn_toggled"]
 [connection signal="toggled" from="Settings/CameraShakeBtn" to="Settings" method="_on_CameraShakeBtn_toggled"]
@@ -3314,6 +3280,7 @@ anims/settings = SubResource( 530 )
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 
 [editable path="Highscores/GameHalls/Cleaner/CleanerHall"]
+[editable path="Highscores/GameHalls/Cleaner/CleanerHall/HighscoreTable"]
 [editable path="About/Shorts/ShortcutLine4"]
 [editable path="About/Shorts/ShortcutLine5"]
 [editable path="About/Shorts/ShortcutLine7"]

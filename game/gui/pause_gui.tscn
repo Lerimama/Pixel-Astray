@@ -424,16 +424,6 @@ mouse_default_cursor_shape = 2
 size_flags_vertical = 0
 text = "RESUME"
 
-[node name="SkipTutBtn" type="Button" parent="Menu"]
-visible = false
-margin_left = 204.0
-margin_right = 392.0
-margin_bottom = 22.0
-focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
-mouse_default_cursor_shape = 2
-size_flags_vertical = 0
-text = "CLOSE TUTORIAL"
-
 [node name="RestartBtn" type="Button" parent="Menu"]
 margin_left = 204.0
 margin_right = 302.0
@@ -452,7 +442,6 @@ text = "RESTART"
 [connection signal="toggled" from="Settings/TutorialModeBtn" to="." method="_on_TutorialModeBtn_toggled"]
 [connection signal="pressed" from="Menu/QuitBtn" to="." method="_on_QuitBtn_pressed"]
 [connection signal="pressed" from="Menu/PlayBtn" to="." method="_on_PlayBtn_pressed"]
-[connection signal="pressed" from="Menu/SkipTutBtn" to="." method="_on_SkipTutBtn_pressed"]
 [connection signal="pressed" from="Menu/RestartBtn" to="." method="_on_RestartBtn_pressed"]
 
 [editable path="Instructions"]

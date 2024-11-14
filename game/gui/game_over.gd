@@ -167,13 +167,6 @@ func play_selected_level(selected_level: int):
 
 	# set sweeper level
 	Profiles.game_data_sweeper["level"] = selected_level
-
-	# zmeraj gre na next level iz GO menija, se navoidla ugasnejo (so ugasnjena po defoltu)
-	#	var sweeper_settings = Profiles.set_game_data(Profiles.Games.SWEEPER) # OPT ven? sweepr instructions
-	#	if Profiles.default_game_settings["show_game_instructions"] == true: # igra ima navodila, če so navodila vklopljena 
-	#		sweeper_settings["show_game_instructions"] = true
-	#		sweeper_settings["always_zoomed_in"] = true
-	
 	Global.main_node.reload_game()
 
 
@@ -285,20 +278,20 @@ func set_game_summary():
 	highscore_table = selected_content.get_node("Hs/HighscoreTable")
 	var current_player_global_rank: int = Global.data_manager.check_player_ranking(player_final_score, Global.game_manager.game_data, false) # global rank
 	highscore_table.build_highscore_table(Global.game_manager.game_data, true, false)	
+	
 	# obarvan current score
 	var table: Control = highscore_table.hs_table
 	for scoreline in table.get_children():
 		var scoreline_rank: Label = scoreline.get_child(0)
 		var scoreline_owner: Label = scoreline.get_child(1)
 		var scoreline_score: Label = scoreline.get_child(2)
-		if scoreline_rank.text == highscore_table.local_only_rank_string:
-			var score_as_in_label: String
-			if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME: # kadar se meri čas, obstaja cilj, da rankiraš
-				score_as_in_label = Global.get_clock_time(player_final_score)
-			elif Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.POINTS: # kadar se meri čas, obstaja cilj, da rankiraš
-				score_as_in_label = str(player_final_score)
-			if scoreline_score.text == score_as_in_label and scoreline_owner.text == p1_final_stats["player_name"]:
-				scoreline.modulate = Global.color_green
+		var score_as_in_label: String
+		if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME: # kadar se meri čas, obstaja cilj, da rankiraš
+			score_as_in_label = Global.get_clock_time(player_final_score)
+		elif Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.POINTS: # kadar se meri čas, obstaja cilj, da rankiraš
+			score_as_in_label = str(player_final_score)
+		if scoreline_score.text == score_as_in_label and scoreline_owner.text == p1_final_stats["player_name"]:
+			scoreline.modulate = Global.color_green
 	
 	# data panel nodes
 	var summary_title: Label = selected_content.get_node("Title")

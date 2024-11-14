@@ -84,7 +84,3 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 1 )
 text = "00"
 valign = 2
-
-[node name="CorrectionTimer" type="Timer" parent="."]
-
-[connection signal="timeout" from="CorrectionTimer" to="." method="_on_CorrectionTimer_timeout"]

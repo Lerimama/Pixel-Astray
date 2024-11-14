@@ -18,11 +18,9 @@ func get_top_highscore(current_game_data: Dictionary):
 	var loaded_global_highscores: Dictionary = read_highscores_from_file(current_game_data) # ... v odprtem filetu se potem naloži highscore
 	var loaded_local_highscores: Dictionary = read_highscores_from_file(current_game_data, true) # ... v odprtem filetu se potem naloži highscore
 	
-	
 	var global_first_rank_key: String = loaded_global_highscores.keys()[0]
 	var global_hs_owner: String = loaded_global_highscores[global_first_rank_key].keys()[0]
 	var global_hs_score: float = loaded_global_highscores[global_first_rank_key].values()[0]
-	
 	
 	var local_first_rank_key: String = loaded_local_highscores.keys()[0]
 	var local_hs_owner: String = loaded_local_highscores[local_first_rank_key].keys()[0]
@@ -36,7 +34,7 @@ func get_top_highscore(current_game_data: Dictionary):
 			top_highscore = local_hs_score
 			top_highscore_owner = local_hs_owner
 	elif current_game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
-		if local_hs_score < global_hs_score:
+		if local_hs_score < global_hs_score and local_hs_score > 0:
 			top_highscore = local_hs_score
 			top_highscore_owner = local_hs_owner
 	
@@ -103,16 +101,24 @@ func read_highscores_from_file(read_game_data: Dictionary, local_highscores: boo
 
 	var read_game_name: String
 	
-	if read_game_data["game"] == Profiles.Games.SWEEPER: # OPT preveč vrstic
-		if local_highscores:
-			read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_" + str(read_game_data["level"])
-		else:
-			read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_" + str(read_game_data["level"]) + "_Global"
+	if read_game_data["game"] == Profiles.Games.SWEEPER:
+		read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_" + str(read_game_data["level"])
 	else:
-		if local_highscores:
-			read_game_name = Profiles.Games.keys()[read_game_data["game"]]
-		else:
-			read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_Global"
+		read_game_name = Profiles.Games.keys()[read_game_data["game"]]
+	if not local_highscores:
+		read_game_name += "_Global"
+	
+	# obs ... preveč vrstic
+	#	if read_game_data["game"] == Profiles.Games.SWEEPER:
+	#		if local_highscores:
+	#			read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_" + str(read_game_data["level"])
+	#		else:
+	#			read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_" + str(read_game_data["level"]) + "_Global"
+	#	else:
+	#		if local_highscores:
+	#			read_game_name = Profiles.Games.keys()[read_game_data["game"]]
+	#		else:
+	#			read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_Global"
 		
 	# preverjam obstoj fileta ... ob prvem nalaganju igre
 	var error = data_file.open("user://%s_highscores.save" % read_game_name, File.READ)
@@ -125,7 +131,7 @@ func read_highscores_from_file(read_game_data: Dictionary, local_highscores: boo
 			data_file.close()
 		# če iščem globalnega in ga ni, probam z lokalnim
 		else:
-			if read_game_data["game"] == Profiles.Games.SWEEPER: # OPT preveč vrstic
+			if read_game_data["game"] == Profiles.Games.SWEEPER:
 				read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_" + str(read_game_data["level"])
 			else:
 				read_game_name = Profiles.Games.keys()[read_game_data["game"]]
@@ -146,35 +152,38 @@ func read_highscores_from_file(read_game_data: Dictionary, local_highscores: boo
 	return current_game_highscores
 
 
-func rename_file(game_data: Dictionary):
+func delete_highscores_file(file_game_data: Dictionary):
 
 	var game_name: String
 	var local_highscores = true
-	
-	if game_data["game"] == Profiles.Games.SWEEPER: # OPT preveč vrstic
-		if local_highscores:
-			game_name = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"])
-		else:
-			game_name = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"]) + "_Global"
+
+	if file_game_data["game"] == Profiles.Games.SWEEPER:
+		game_name = Profiles.Games.keys()[file_game_data["game"]] + "_" + str(file_game_data["level"])
 	else:
-		if local_highscores:
-			game_name = Profiles.Games.keys()[game_data["game"]]
-		else:
-			game_name = Profiles.Games.keys()[game_data["game"]] + "_Global"
-	
+		game_name = Profiles.Games.keys()[file_game_data["game"]]
+	if not local_highscores:
+		game_name += "_Global"
+			
+	# obs ... preveč vrstic
+	#	if game_data["game"] == Profiles.Games.SWEEPER:
+	#		if local_highscores:
+	#			game_name = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"])
+	#		else:
+	#			game_name = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"]) + "_Global"
+	#	else:
+	#		if local_highscores:
+	#			game_name = Profiles.Games.keys()[game_data["game"]]
+	#		else:
+	#			game_name = Profiles.Games.keys()[game_data["game"]] + "_Global"
 		
-	var filet: = Directory.new()
+	var file_directory: Directory = Directory.new()
+	var file_path: String = "user://%s_highscores.save" % game_name
+	var error = file_directory.remove(file_path)
 	
-	var old_file_path: String = "user://%s_highscores.save" % game_name
-	var new_file_path: String = "user://%s_highscores.save copy" % game_name
-#	var error = filet.rename(old_file_path, new_file_path)
-	var error = filet.remove(new_file_path)
-	
-	if not error == OK:
-		print("neuspeh")
-	
-	else:
-		print("uspeh")
+	#	if not error == OK:
+	#		print("neuspeh")
+	#	else:
+	#		print("uspeh")
 		
 		
 func save_player_score(current_score: float, score_ranking: int, current_game_data: Dictionary):
@@ -216,7 +225,7 @@ func save_player_score(current_score: float, score_ranking: int, current_game_da
 	# sejvam hs slovar v filet
 	write_highscores_to_file(current_game_data, new_game_highscores, true)
 	
-	emit_signal("scores_saved") # OPT trenutno se ne uporablja, čeprav bi bilo dobra praksa
+	#	emit_signal("scores_saved") # OPT trenutno se ne uporablja, čeprav bi bilo dobra praksa
 
 
 func build_default_highscores():

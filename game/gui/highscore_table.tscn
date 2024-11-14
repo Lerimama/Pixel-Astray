@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://game/gui/highscore_table.gd" type="Script" id=1]
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=2]
@@ -9,6 +9,17 @@ color = Color( 0.196078, 0.196078, 0.196078, 1 )
 grow_begin = 0.0
 grow_end = 0.0
 thickness = 2
+
+[sub_resource type="Gradient" id=527]
+offsets = PoolRealArray( 0.102662, 1 )
+colors = PoolColorArray( 0.0784314, 0.0784314, 0.0784314, 1, 0.0784314, 0.0784314, 0.0784314, 0 )
+
+[sub_resource type="GradientTexture" id=526]
+gradient = SubResource( 527 )
+
+[sub_resource type="StyleBoxTexture" id=528]
+texture = SubResource( 526 )
+region_rect = Rect2( 0, 0, 2048, 1 )
 
 [node name="HighscoreTable" type="Control"]
 margin_right = 280.0
@@ -94,3 +105,14 @@ size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 2 )
 text = "Score"
 align = 2
+
+[node name="Grad" type="Panel" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -124.0
+margin_right = -81.0
+margin_bottom = 248.0
+rect_rotation = -89.9999
+custom_styles/panel = SubResource( 528 )

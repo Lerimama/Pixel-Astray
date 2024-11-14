@@ -142,7 +142,9 @@ func release_scene(scene_node): # release scene
 
 
 func _free_scene(scene_node):
-	print("SCENE RELEASED (in next step): ", scene_node)	
+	
+	if OS.is_debug_build():  # debug OS mode
+		print("SCENE RELEASED (in next step): ", scene_node)	
 	scene_node.free()
 	
 
@@ -151,12 +153,16 @@ func spawn_new_scene(scene_path, parent_node): # spawn scene
 	var scene_resource = ResourceLoader.load(scene_path)
 	
 	current_scene = scene_resource.instance()
-	print("SCENE INSTANCED: ", current_scene)
+	
+	if OS.is_debug_build():  # debug OS mode
+		print("SCENE INSTANCED: ", current_scene)
 	
 	current_scene.modulate.a = 0
 	parent_node.add_child(current_scene) # direct child of root
-	print("SCENE ADDED: ", current_scene)	
-	print("---")
+	
+	if OS.is_debug_build():  # debug OS mode
+		print("SCENE ADDED: ", current_scene)	
+		print("---")
 	
 	return current_scene
 
@@ -263,13 +269,16 @@ func get_spectrum_colors(color_count: int):
 
 # BUTTONS --------------------------------------------------------------------------------------------------
 
+
 # vsak hover, postane focus
 # sounde na focus
 # sounde na confirm, cancel, quit
 # modulate na Checkbutton focus
 # nofx focus
 
+
 var allow_focus_sfx: bool = true # focus no-sounds
+
 
 # naberi gumbe in jih poveži
 func _on_SceneTree_node_added(node: Control):

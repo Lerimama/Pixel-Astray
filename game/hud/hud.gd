@@ -72,7 +72,7 @@ onready var spectrum: HBoxContainer = $Footer/FooterLine/SpectrumHolder/ColorSpe
 onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
 onready var current_gamed_hs_type: int = Global.game_manager.game_data["highscore_type"]
 
-# debug
+# debug ... life & energy
 onready var player_life: Label = $Life
 onready var player_energy: Label = $Energy
 
@@ -100,10 +100,13 @@ func _ready() -> void:
 		set_current_highscore()
 	
 	if Global.game_manager.game_settings["show_game_instructions"]:
+		Global.allow_focus_sfx = false # urgenca za nek "cancel" sound bug
 		instructions_popup.get_instructions_content(current_highscore, current_highscore_owner)
-		yield(get_tree().create_timer(0.2), "timeout")		
 		instructions_popup.show()
 		get_tree().set_pause(true)
+		# urgenca za nek "cancel" sound bug
+		yield(get_tree().create_timer(0.1), "timeout")
+		Global.allow_focus_sfx = true
 	else:
 		instructions_popup.hide()
 		
@@ -387,7 +390,7 @@ func _on_stat_changed(stat_owner: Node, player_stats: Dictionary):
 			p2_skill_counter.text = "%d" % player_stats["skill_count"]
 			p2_steps_counter.text = "%d" % player_stats["cells_traveled"]
 
-	# debug
+	# debug ... life & energy
 	player_life.text = "LIFE: %d" % player_stats["player_life"]
 	player_energy.text = "E: %d" % player_stats["player_energy"]
 

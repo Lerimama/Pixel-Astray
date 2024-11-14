@@ -4,13 +4,10 @@ extends Control
 var table_game_data: Dictionary# = {}
 
 var scorelines: Array = []
-var empty_scorelines_after_build: Array		
+var empty_scorelines_after_fill: Array		
 var unpublished_local_scores: Array = [] # za naknadno objavo
 
 var empty_table_text: String = "No score to show ...\nPlay your first game\nor update global scores."
-var rank_label_name: String = "Rank"
-var owner_label_name: String = "Owner"
-var score_label_name: String = "Score"	
 var local_only_rank_string: String = "..."
 
 onready var hs_table: VBoxContainer = $TableScroller/Table
@@ -36,12 +33,11 @@ func build_highscore_table(current_game_data: Dictionary, show_title: bool = tru
 	for scoreline in scorelines:
 		fill_scoreline_with_data(scoreline, current_game_highscores)
 	
-	
-	# zbrišem nenapolnjene scoreline 
-	for empty_scoreline in empty_scorelines_after_build:
+	# zbrišem nenapolnjene scoreline ... malo zazih, malo zares
+	for empty_scoreline in empty_scorelines_after_fill:
 		scorelines.erase(empty_scoreline)
 		empty_scoreline.queue_free()
-	empty_scorelines_after_build.clear()
+	empty_scorelines_after_fill.clear()
 	
 	# dodam lokalne rezultate
 	add_local_to_global_scores(separate_local_scores)
@@ -69,10 +65,8 @@ func build_highscore_table(current_game_data: Dictionary, show_title: bool = tru
 	# last line ... scroller dummy
 	else:	
 		# na dnu, prazna, da se skrol lepo zaključi 
-		default_scoreline.get_child(0).hide()
-		default_scoreline.get_child(1).hide()
-		default_scoreline.get_child(2).hide()
 		hs_table.move_child(default_scoreline,hs_table.get_child_count() - 1)
+		default_scoreline.modulate.a = 0
 		default_scoreline.show()
 	
 	var table_scrollbar: VScrollBar = $TableScroller.get_v_scrollbar()
@@ -109,7 +103,7 @@ func fill_scoreline_with_data(scoreline: Control, highscores: Dictionary):
 	
 	var current_position_score: float = current_position_dict_values[0]
 	if current_position_score == 0:
-		empty_scorelines_after_build.append(scoreline)
+		empty_scorelines_after_fill.append(scoreline)
 	else:
 		if table_game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
 			var current_position_seconds: float = current_position_score
@@ -126,7 +120,7 @@ func add_local_to_global_scores(separate_local_scores: bool):
 	
 	var local_game_highscores: Dictionary = Global.data_manager.read_highscores_from_file(table_game_data, true)
 	var new_scorelines: Array = []
-#	print("YEA")
+	
 	unpublished_local_scores.clear()
 	
 	for local_score_data in local_game_highscores:

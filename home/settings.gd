@@ -121,7 +121,6 @@ func _on_InstructionsBtn_toggled(button_pressed: bool) -> void:
 func _on_ResetLocalButton_pressed() -> void:
 	
 	highscores_node.reset_all_local_scores()
-
 		
 		
 # COLOR SCHEMES ----------------------------------------------------------------------------------------------------------------

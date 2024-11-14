@@ -45,11 +45,11 @@ var default_game_settings: Dictionary = {
 	# game
 	"burst_count_limit": 0, # če je nič, ni omejeno
 	"game_time_limit": 0, # če je nič, ni omejeno in timer je stopwatch mode
-	"game_music_track_index": 0, # default muska v igri
 	"color_pool_colors_count": 500,
 	"step_slowdown_mode": true,
 	"full_power_mode": false, # vedno destroja ves stack, hitrost = max_cock_count
 	"spawn_strays_on_cleaned": false,
+	"game_music_track_index": 0, # default muska v igri
 	# gui
 	"show_game_instructions": true,
 	"position_indicators_show_limit": 10, # en manj je število vidnih
@@ -257,7 +257,7 @@ func set_game_data(selected_game):
 	
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 	
-	# debug
+	# debug ... game_data
 #	game_settings["start_countdown"] = false
 #	game_settings["player_start_life"] = 2
 #	game_settings["show_game_instructions"] = false

@@ -14,7 +14,7 @@ var final_panel_open_time: float = 1
 var multipublish_count: int = 0	# da ve kdaj je prvi in ga avtenticira ...
 
 # game data
-var lootlocker_live_mode: bool = false
+var lootlocker_live_mode: bool = true
 var lootlocker_game_key_staging: String = "dev_5a1cab01df0641c0a5f76450761ce292"
 var lootlocker_game_key_live: String = "prod_b0c04c071a114b35b9c38157e86de64c"
 var lootlocker_game_version: String = "0.93"
@@ -31,7 +31,7 @@ func publish_score_to_lootlocker(player_name: String, player_score: float, game_
 	guest_is_authenticated = false
 	
 	var game_leaderboard_key = Profiles.Games.keys()[game_data["game"]]
-	if game_data["game"] == Profiles.Games.SWEEPER: # OPT iskanja brez sweeperja
+	if game_data["game"] == Profiles.Games.SWEEPER:
 		game_leaderboard_key = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"])
 	authenticate_guest_session(player_name, true)
 	yield(self, "guest_authenticated")	
@@ -59,7 +59,7 @@ func multipublish_scores_to_lootlocker(player_name: String, player_score: float,
 	guest_is_authenticated = false
 	
 	var game_leaderboard_key = Profiles.Games.keys()[game_data["game"]]
-	if game_data["game"] == Profiles.Games.SWEEPER: # OPT iskanja brez sweeperja
+	if game_data["game"] == Profiles.Games.SWEEPER:
 		game_leaderboard_key = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"])
 	
 	if multipublish_count == 1: # avtenticiram na ime prvega rezultata v vrsti
@@ -99,7 +99,7 @@ func update_lootlocker_leaderboard(game_data: Dictionary, last_in_row: bool = tr
 	ConnectCover.cover_label_text = "Updating " + update_string
 
 	var game_leaderboard_key = Profiles.Games.keys()[game_data["game"]]
-	if game_data["game"] == Profiles.Games.SWEEPER: # OPT iskanja brez sweeperja
+	if game_data["game"] == Profiles.Games.SWEEPER:
 		game_leaderboard_key = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"])
 	
 	var url_without_count: String = "https://api.lootlocker.io/game/leaderboards/%s/list?count=" % game_leaderboard_key
@@ -122,18 +122,6 @@ func update_lootlocker_leaderboard(game_data: Dictionary, last_in_row: bool = tr
 				var item: Dictionary = {"member_id": "No score", "rank": 1,"score": 0,}
 				response["items"] = [item]
 			lootlocker_leaderboard = response["items"]
-		# dodam items brez rezultata, da jih bo toliko kot jih potegnem dol
-		var missing_results_count: int = lootlocker_score_check_limit - lootlocker_leaderboard.size()
-#		if missing_results_count > 0:
-#			for n in missing_results_count:
-#				var empty_line_rank = lootlocker_leaderboard.size() + 1
-#				var empty_line_name: String = Global.default_highscore_line_name
-#				var new_item: Dictionary = {
-#					"member_id": empty_line_name,
-#					"rank": empty_line_rank,
-#					"score": 0,
-#				} 
-#				lootlocker_leaderboard.append(new_item)
 		
 		save_lootlocker_leaderboard_to_local_highscore(game_data)
 		
@@ -207,10 +195,10 @@ func authenticate_guest_session(player_name: String, last_attempt_in_row: bool, 
 
 func on_connection_failed(last_attempt_in_row: bool):
 		
-		printt("Connection failed:", last_attempt_in_row)
-		if last_attempt_in_row:
-			ConnectCover.cover_label_text = "Connecting failed" # tukaj zato, da prepiše tekst pozitivne reštve 
-			yield(get_tree().create_timer(final_panel_open_time), "timeout")
-			emit_signal("connection_closed")
-		else:
-			emit_signal("leaderboard_updated")
+	printt("Connection failed:", last_attempt_in_row)
+	if last_attempt_in_row:
+		ConnectCover.cover_label_text = "Connecting failed" # tukaj zato, da prepiše tekst pozitivne reštve 
+		yield(get_tree().create_timer(final_panel_open_time), "timeout")
+		emit_signal("connection_closed")
+	else:
+		emit_signal("leaderboard_updated")

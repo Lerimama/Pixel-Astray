@@ -26,7 +26,6 @@ func _ready() -> void:
 
 	Global.main_node = self
 	
-#	home_in_intro()
 #	call_deferred("home_in_intro")
 	call_deferred("home_in_no_intro")
 #	call_deferred("game_in")

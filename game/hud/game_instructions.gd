@@ -17,16 +17,18 @@ onready var controls_duel_p2: Control = $Outline/ControlsDuelP2
 func _input(event: InputEvent) -> void:
 
 	if not get_parent().name == "PauseMenu":
-		if visible and modulate.a == 1 and Input.is_action_just_pressed("ui_accept"):
+		if $BigButton.visible and modulate.a == 1 and Input.is_action_just_pressed("ui_accept"):
 			_on_EnterButton_pressed()
 	
 	
 func _ready() -> void:
 	
 	$BigButton.add_to_group(Global.group_menu_confirm_btns)
-	if get_parent().name == "PauseMenu":
-		$BigButton.hide()
-			
+	$BigButton.hide()
+	if get_parent().name == "Popups":
+		yield(get_tree().create_timer(1), "timeout") # če je klik prehiter se ne nalouda
+		$BigButton.show()
+		
 			
 func get_instructions_content(current_highscore: int = 0, current_highscore_owner: String = "Nobody"):
 	

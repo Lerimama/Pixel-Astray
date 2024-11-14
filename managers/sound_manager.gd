@@ -4,7 +4,6 @@ extends Node2D
 var game_sfx_set_to_off: bool = false
 var menu_music_set_to_off: bool = false
 var game_music_set_to_off: bool = false
-
 var current_music_track_index: int = 0 # ga ne resetiraš, da ostane v spominu skozi celo igro
 
 onready var game_music_node: Node2D = $Music/GameMusic
@@ -56,7 +55,8 @@ func play_gui_sfx(effect_for: String):
 		"btn_confirm":
 			$Sfx/Inputs/BtnConfirm.play()
 		"btn_cancel":
-			$Sfx/Inputs/BtnCancel.play()
+			if Global.allow_focus_sfx: # urgenca za nek "cancel" sound bugob prikazu pregame inst
+				$Sfx/Inputs/BtnCancel.play()
 		"btn_focus_change":
 			$Sfx/Inputs/BtnFocus.play()
 		# menu

@@ -53,8 +53,8 @@ func set_level_btns():
 		sweeper_game_data["level"] = count + 1
 		var level_highscores: Dictionary = Global.data_manager.read_highscores_from_file(sweeper_game_data)
 		# pridobim skor linijie
-		var scoreline_player_name_as_key: String = level_highscores["001"].keys()[0] # OPT ... 001
-		var scoreline_score: float = level_highscores["001"][scoreline_player_name_as_key] # OPT ... 001
+		var scoreline_player_name_as_key: String = level_highscores["%03d" % 1].keys()[0] 
+		var scoreline_score: float = level_highscores["%03d" % 1][scoreline_player_name_as_key]
 		if scoreline_score > 0:
 			solved_levels.append(sweeper_game_data["level"])
 	
@@ -62,30 +62,26 @@ func set_level_btns():
 	for btn in all_level_btns:
 		var btn_index: int = all_level_btns.find(btn)
 		var btn_level_number: int = btn_index + 1
-		# osnovna barva ozadja
+		# barvam ozadje
 		btn.self_modulate = unfocused_color
-		# level name
-		# če level ni pixel astray, ima številko (ločeno zaradi pixel astray napisa
-		if not btn == the_pixel_astray_level_btn: 
+		# napolnem
+		if not btn == the_pixel_astray_level_btn: # če level ni pixel astray, ima številko (ločeno zaradi pixel astray napisa
+			# level number
 			btn.get_node(locked_label_path).text = "%02d" % btn_level_number
 			btn.get_node(unlocked_label_path).text = "%02d" % btn_level_number
-		# če je rešen prikažem druge labele, če ni, je samo locked label
-		if btn_level_number in solved_levels:
-			# skrijem
-			btn.get_node(locked_label_path).hide()
+		if btn_level_number in solved_levels: # če je rešen prikažem druge labele, če ni, je samo locked label
 			# zapišem
 			btn.get_node(record_label_path).text = get_btn_highscore(btn_level_number)[0]
 			btn.get_node(owner_label_path).text = "by " + get_btn_highscore(btn_level_number)[1]
-			
 			# pokažem
+			btn.get_node(locked_label_path).hide()
 			btn.get_node(unlocked_label_path).modulate = btn_colors[btn_index]
-			btn.get_node(unlocked_label_path).show()
 			btn.get_node(record_label_path).modulate = btn_colors[btn_index]
-			btn.get_node(record_label_path).show()
 			btn.get_node(owner_label_path).modulate = btn_colors[btn_index]
+			btn.get_node(unlocked_label_path).show()
+			btn.get_node(record_label_path).show()
 			btn.get_node(owner_label_path).show()
-		else:
-			# skrijem
+		else: # če ni rešen ... skrijem
 			btn.get_node(unlocked_label_path).hide()
 			btn.get_node(record_label_path).hide()
 			btn.get_node(owner_label_path).hide()

@@ -18,8 +18,9 @@ var start_players_count: int
 var current_players_in_game: Array # nabira se v FP
 
 # strays
-var strays_shown_on_start: Array = []
 var strays_in_game_count: int setget _change_strays_in_game_count # spremlja spremembo količine aktivnih in uničenih straysov
+var all_strays_on_start_count: int = 0 # SWEEPER, da lahko hitro zabeležim uspeh pleyerja
+var strays_shown_on_start: Array = [] # za štartni explode fx loop
 var strays_cleaned_count: int = 0 # za statistiko na hudu
 var check_for_all_cleaned: bool = false # za omejevanje signala iz FP ... kdaj lahko reagira na 0 straysov v igri
 var dont_turn_to_wall_positions: Array # za zaščito, da wall stray ne postane wall (ob robu igre recimo)
@@ -47,8 +48,7 @@ onready var StrayPixel: PackedScene = preload("res://game/pixel/stray.tscn")
 onready var PlayerPixel: PackedScene = preload("res://game/pixel/player.tscn")
 onready var respawn_timer: Timer = $"../RespawnTimer"
 
-# debug
-var FreePositionIndicator: PackedScene = preload("res://game/pixel/free_position_indicator.tscn")		
+# debug ... free pos indi
 var free_position_indicators: Array
 
 
@@ -88,12 +88,12 @@ func _process(delta: float) -> void:
 	#			check_for_all_cleaned = false
 	#			emit_signal("all_strays_died")
 	
-	# position indicators
+	# off-screen stray  indicators
 	if game_on and Global.strays_on_screen.size() < game_settings["position_indicators_show_limit"]:
 		show_position_indicators = true
 	else:
 		show_position_indicators = false
-
+	
 
 # GAME SETUP --------------------------------------------------------------------------------------
 	
@@ -151,8 +151,12 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 
 	# positions
 	free_floor_positions = Global.current_tilemap.all_floor_tiles_global_positions.duplicate()
-	for free_pos in free_floor_positions:
-		spawn_free_position_indicator(free_pos)
+	
+	# debug ... free pos indi
+	if Global.game_arena.free_positions_grid.visible:
+		for free_position in free_floor_positions:
+			spawn_free_position_indicator(free_position)
+	
 	# colors 
 	set_color_pool()
 	
@@ -171,8 +175,9 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 	# strays
 	create_strays(create_strays_count)
 	yield(self, "all_strays_spawned")
+	all_strays_on_start_count = get_tree().get_nodes_in_group(Global.group_strays).size() # SWEEPER, da lahko hitro zabeležim uspeh pleyerja
 	
-	# select music and open tutorial
+	# per-game setup
 	if game_data["game"] == Profiles.Games.CLEANER and Profiles.tutorial_mode:
 		Global.tutorial_gui.open_tutorial(true)
 		Global.sound_manager.current_music_track_index = Profiles.tutorial_music_track_index
@@ -242,11 +247,11 @@ func stop_game_elements():
 	# včasih nujno ... še posebej za restart iz pavze
 	
 	# če igra s tutorialom toglam global tutorial settings
-	if game_data["game"] == Profiles.Games.CLEANER:
+	if not game_data["game"] == Profiles.Games.DEFENDER: # defender nima tutorial nodetaCLEANER:
+	#	if game_data["game"] == Profiles.Games.CLEANER:
 		Profiles.tutorial_mode = Global.tutorial_gui.tutorial_on
-	# ugasnem tutorial (sam grunta, če je prižgan)
-	Global.tutorial_gui.close_tutorial()
-	
+		# ugasnem tutorial (sam grunta, če je prižgan)
+		Global.tutorial_gui.close_tutorial()
 	
 	Global.hud.popups_out()
 	for player in current_players_in_game:
@@ -426,34 +431,32 @@ func create_strays(strays_to_spawn_count: int):
 			available_random_spawn_positions.erase(selected_cell_position)
 		
 		# spawn
-		var throttler_start_msec = Time.get_ticks_msec()
-		var spawned_strays_true_count: int = 0
+		var throttling_start_msec = Time.get_ticks_msec()
+		var throttling_spawned_strays_count: int = 0
 		for set_stray in strays_set_to_spawn:
 			var stray_index = set_stray[0]
 			var new_stray_color = set_stray[1]
 			var selected_stray_position = set_stray[2]
 			var turn_to_white = set_stray[3]
-			
-			# spawn
-			#			spawned_strays_true_count += 1
-			#			spawn_stray(stray_index, new_stray_color, selected_stray_position, turn_to_white)
-			# spawn ... trotled
-			var msec_taken = Time.get_ticks_msec() - throttler_start_msec # merim čas od štarta funkcije
-			if msec_taken < (round(1000 / Engine.get_frames_per_second()) - Global.throttler_msec_threshold): # msec_per_frame - ...			
-				# print ("ne-trotlam - stray spawn")
-				spawned_strays_true_count += 1
+			# normal
+			if game_data["game"] == Profiles.Games.SWEEPER: # more normalno, če ne se mi ob spawnanju ne spawnajo
 				spawn_stray(stray_index, new_stray_color, selected_stray_position, turn_to_white)
-			else: # ko je čas večji od dovoljenega, pavziram do naslednjega frejma in resetiram štartni čas
-				# print ("re-trotlam - stray spawn")
-				var msec_to_next_frame: float = Global.throttler_msec_threshold + 1
-				var sec_to_next_frame: float = msec_to_next_frame / 1000.0
-				yield(get_tree().create_timer(sec_to_next_frame), "timeout") # da se vsi straysi spawnajo
-				throttler_start_msec = Time.get_ticks_msec()
+			# trotled
+			else: 
+				var msec_taken = Time.get_ticks_msec() - throttling_start_msec # merim čas od štarta funkcije
+				if msec_taken < (round(1000 / Engine.get_frames_per_second()) - Global.throttler_msec_threshold): # msec_per_frame - ...			
+					throttling_spawned_strays_count += 1
+					spawn_stray(stray_index, new_stray_color, selected_stray_position, turn_to_white)
+				else: # ko je čas večji od dovoljenega, pavziram do naslednjega frejma in resetiram štartni čas
+					# print ("re-trotlam - stray spawn")
+					var msec_to_next_frame: float = Global.throttler_msec_threshold + 1
+					var sec_to_next_frame: float = msec_to_next_frame / 1000.0
+					yield(get_tree().create_timer(sec_to_next_frame), "timeout") # da se vsi straysi spawnajo
+					throttling_start_msec = Time.get_ticks_msec()
 		
 		# ko trotlam ne spawna vsega, zato ponovim
-		if spawned_strays_true_count < strays_to_spawn_count and not spawned_strays_true_count == 0:
-			create_strays(strays_to_spawn_count - spawned_strays_true_count)
-			# print("razlika %s" % (strays_to_spawn_count - spawned_strays_true_count))
+		if throttling_spawned_strays_count < strays_to_spawn_count and not throttling_spawned_strays_count == 0:
+			create_strays(strays_to_spawn_count - throttling_spawned_strays_count)
 			return
 				
 		if level_goal_mode:
@@ -647,13 +650,12 @@ func remove_from_free_floor_positions(position_to_remove: Vector2):
 	
 	if free_floor_positions.has(position_to_remove_on_grid):
 		free_floor_positions.erase(position_to_remove_on_grid)
-	
-	 # debug ... izbrišem indikator na poziciji, če je freepos prižgan
-	if Global.game_arena.free_positions_grid.visible:
-		for indicator in free_position_indicators:
-			if indicator.rect_position == position_to_remove_on_grid:
-				indicator.queue_free()	
-				free_position_indicators.erase(indicator)
+
+	# debug ... free pos indi ... če jih nič ne zgodi
+	for indicator in free_position_indicators:
+		if indicator.rect_position == position_to_remove_on_grid:
+			indicator.queue_free()	
+			free_position_indicators.erase(indicator)
 	
 	
 func add_to_free_floor_positions(position_to_add: Vector2):
@@ -664,13 +666,14 @@ func add_to_free_floor_positions(position_to_add: Vector2):
 	if Global.current_tilemap.all_floor_tiles_global_positions.has(position_to_add_on_grid) and not free_floor_positions.has(position_to_add_on_grid):
 		free_floor_positions.append(position_to_add_on_grid)
 		
-		# debug ... dodam indikator na poziciji, če je freepos prižgan
-		if Global.game_arena.free_positions_grid.visible: # debug
+		# debug ... free pos indi
+		if Global.game_arena.free_positions_grid.visible:
 			spawn_free_position_indicator(position_to_add_on_grid)
 
 
 func spawn_free_position_indicator(spawn_position: Vector2):
 	
+	var FreePositionIndicator: PackedScene = preload("res://game/pixel/free_position_indicator.tscn")		
 	var new_free_position_indicator = FreePositionIndicator.instance()
 	new_free_position_indicator.rect_global_position = spawn_position
 	Global.game_arena.free_positions_grid.add_child(new_free_position_indicator)

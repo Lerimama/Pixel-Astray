@@ -158,13 +158,7 @@ func _ready() -> void:
 		sweeper_tables.append(hall_table)
 	all_tables.append_array(sweeper_tables) # dodam sweeper tabele med vse tabele
 	
-	# start with global upadate
-	if Profiles.html5_mode:
-		load_all_highscore_tables(true, true) # global update, in background
-		#		call_deferred("load_all_highscore_tables", true, true)
-	else:
-		load_all_highscore_tables(false) # no global update (no in back)
-		#		call_deferred("load_all_highscore_tables", false)
+	# load HS on start ... with global update? ... premaknjeno v home za boljšo kontrolo glede na vrsto home open
 	
 	
 func load_all_highscore_tables(update_with_global: bool, update_in_background: bool = false):
@@ -178,14 +172,14 @@ func load_all_highscore_tables(update_with_global: bool, update_in_background: b
 			game_data_local = Profiles.game_data_sweeper
 			game_data_local["level"] = sweeper_tables.find(table) + 1
 		else:
-			var table_index: int = all_tables.find(table) # OPT --- izi tabela ima svojo variablo
+			var table_index: int = all_tables.find(table)
 			game_data_local = all_tables_game_data[table_index]
 		
 		if update_with_global:
 			update_object_count += 1
 			var update_count_string: String = "%02d/"  % update_object_count + str(all_tables.size())
 			var last_table_in_row: Control = all_tables[all_tables.size() - 1]
-			if table == last_table_in_row: # OPT --- izi ...last in row
+			if table == last_table_in_row:
 				LootLocker.update_lootlocker_leaderboard(game_data_local, true, update_count_string, update_in_background)
 				yield(LootLocker, "connection_closed")
 				ConnectCover.cover_label_text = "Finished"
@@ -200,23 +194,19 @@ func load_all_highscore_tables(update_with_global: bool, update_in_background: b
 	# print ("All tables updated")
 	
 	if update_with_global:		
-		# če se apdejta, apdejta score v sweeper gumbih
 		select_level_node.select_level_btns_holder.set_level_btns()
-		# če se ne apdejta, apdejta score v sweeper gumbih
 	
 	# zapišem število neobjavljenih
 	var all_unpublished_scores_count: int = 0
 	for table in all_tables:
 		all_unpublished_scores_count += table.unpublished_local_scores.size()
-		printt (table.name, table.unpublished_local_scores.size(), all_unpublished_scores_count)
 	if all_unpublished_scores_count > 0:
 		publish_unpublished_btn.text = publish_btn_text % str(all_unpublished_scores_count)
 		publish_unpublished_btn.show()
 	else:
 		publish_unpublished_btn.hide()
-	# seta
-			
 	
+	# after
 	get_viewport().set_disable_input(false)
 	update_scores_btn.disabled = false
 	update_scores_btn.get_child(0).modulate = Global.color_btn_enabled
@@ -246,7 +236,7 @@ func publish_all_unpublished_scores():
 			game_data_local = Profiles.game_data_sweeper
 			game_data_local["level"] = sweeper_tables.find(table) + 1
 		else:
-			var table_index: int = all_tables.find(table) # OPT --- izi tabela ima svojo variablo
+			var table_index: int = all_tables.find(table)
 			game_data_local = all_tables_game_data[table_index]
 		table.build_highscore_table(table.table_game_data, false)
 	
@@ -257,9 +247,12 @@ func publish_all_unpublished_scores():
 
 
 func reset_all_local_scores():
-	
+
+	ConnectCover.open_cover(false)
+	ConnectCover.cover_label_text = "Reseting ..."
+		
 	for table in all_tables:
-		Global.data_manager.rename_file(table.table_game_data)
+		Global.data_manager.delete_highscores_file(table.table_game_data)
 	
 	# rebuild tables
 	for table in all_tables:
@@ -268,10 +261,14 @@ func reset_all_local_scores():
 			game_data_local = Profiles.game_data_sweeper
 			game_data_local["level"] = sweeper_tables.find(table) + 1
 		else:
-			var table_index: int = all_tables.find(table) # OPT --- izi tabela ima svojo variablo
+			var table_index: int = all_tables.find(table)
 			game_data_local = all_tables_game_data[table_index]
 		table.build_highscore_table(table.table_game_data, fake_player_ranking, false)
-
+		
+	yield(get_tree().create_timer(1), "timeout")
+	ConnectCover.cover_label_text = "Finished"
+	yield(get_tree().create_timer(0.2), "timeout")
+	ConnectCover.close_cover()
 
 
 func disable_btns(disable_it: bool = true):

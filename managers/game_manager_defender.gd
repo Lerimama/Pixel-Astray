@@ -35,9 +35,11 @@ func set_game():
 
 	# positions
 	free_floor_positions = Global.current_tilemap.all_floor_tiles_global_positions.duplicate()
-	#	home_positions = required_spawn_positions.duplicate()
-	for free_pos in free_floor_positions:
-		spawn_free_position_indicator(free_pos)
+
+	# debug ... free pos indi
+	if Global.game_arena.free_positions_grid.visible:
+		for free_position in free_floor_positions:
+			spawn_free_position_indicator(free_position)
 		
 	# colors
 	set_color_pool()

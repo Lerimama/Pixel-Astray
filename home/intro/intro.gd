@@ -33,10 +33,6 @@ onready var skip_intro: HBoxContainer = $Text/ActionHint
 onready var skip_button_btn: Button = $Text/ActionHint/Jp/SkipButton
 onready var StrayPixel: PackedScene = preload("res://home/intro/intro_stray.tscn")
 
-# debug
-var FreePositionIndicator: PackedScene = preload("res://game/pixel/free_position_indicator.tscn")		
-var free_position_indicators: Array
-
 
 func _unhandled_input(event: InputEvent) -> void:
 	#func _input(event: InputEvent) -> void:
@@ -93,14 +89,7 @@ func set_strays(): # kliče animacija
 	
 	# positions
 	free_floor_positions = Global.current_tilemap.all_floor_tiles_global_positions.duplicate()
-	# debug ... spawnam rectangle
-	#	for pos in free_floor_positions: # vsa tla v tilemaps:
-	#		var new_pos_indi = FreePositionIndicator.instance()
-	#		new_pos_indi.rect_global_position = pos
-	#		add_child(new_pos_indi)
-	#		free_position_indicators.append(new_pos_indi)
-	#	printt("on tilemap",free_floor_positions.size())
-		
+	
 	# colors 
 	set_color_pool()	
 	create_strays(create_strays_count)
@@ -276,12 +265,6 @@ func remove_from_free_floor_positions(position_to_remove: Vector2):
 	if free_floor_positions.has(position_to_remove_on_grid):
 		free_floor_positions.erase(position_to_remove_on_grid)
 	
-	# izbrišem rect na poziciji
-	#	for indi in free_position_indicators:
-	#		if indi.rect_position == position_to_remove_on_grid:
-	#			indi.queue_free()	
-	#			free_position_indicators.erase(indi)
-	
 	
 func add_to_free_floor_positions(position_to_add: Vector2):
 	
@@ -289,10 +272,6 @@ func add_to_free_floor_positions(position_to_add: Vector2):
 	
 	# preverim, da je med original floor pozicijami in, da ni slučajno že med free
 	if Global.current_tilemap.all_floor_tiles_global_positions.has(position_to_add_on_grid) and not free_floor_positions.has(position_to_add_on_grid):
-		#		var new_pos_indi = FreePositionIndicator.instance()
-		#		new_pos_indi.rect_global_position = position_to_add_on_grid
-		#		Global.game_arena.get_node("ArenaTop").add_child(new_pos_indi)
-		#		free_position_indicators.append(new_pos_indi)	
 		free_floor_positions.append(position_to_add_on_grid)
 
 
