@@ -26,8 +26,8 @@ func _ready() -> void:
 
 	Global.main_node = self
 	
-#	call_deferred("home_in_intro")
-	call_deferred("home_in_no_intro")
+	call_deferred("home_in_intro")
+#	call_deferred("home_in_no_intro")
 #	call_deferred("game_in")
 
 			
@@ -102,7 +102,6 @@ func game_in():
 	Global.game_manager.set_tilemap()
 	Global.game_manager.set_game_view()
 	Global.game_manager.create_players()
-	yield(get_tree().create_timer(0.5), "timeout") # da se kamera centrira (na restart)
 	
 	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_in.tween_property(Global.current_scene, "modulate", Color.white, fade_time).from(Color.black)

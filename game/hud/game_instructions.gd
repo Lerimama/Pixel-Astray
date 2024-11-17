@@ -1,6 +1,8 @@
 extends Control
 
 
+signal players_ready # za splitscreen popup
+
 onready var title: Label = $Title
 onready var description: Label = $Description
 onready var record_label_holder: Panel = $Outline/Record
@@ -12,24 +14,36 @@ onready var shortcuts: Panel = $Outline/Shortcuts
 onready var controls: Control = $Outline/Controls
 onready var controls_duel_p1: Control = $Outline/ControlsDuelP1
 onready var controls_duel_p2: Control = $Outline/ControlsDuelP2
+onready var big_btn: Button = $BigButton
 
 
 func _input(event: InputEvent) -> void:
 
 	if not get_parent().name == "PauseMenu":
-		if $BigButton.visible and modulate.a == 1 and Input.is_action_just_pressed("ui_accept"):
+		if visible and modulate.a == 1 and Input.is_action_just_pressed("ui_accept"):
 			_on_EnterButton_pressed()
 	
 	
 func _ready() -> void:
 	
-	$BigButton.add_to_group(Global.group_menu_confirm_btns)
-	$BigButton.hide()
+	big_btn.add_to_group(Global.group_menu_confirm_btns)
+	big_btn.hide()
 	if get_parent().name == "Popups":
 		yield(get_tree().create_timer(1), "timeout") # če je klik prehiter se ne nalouda
-		$BigButton.show()
-		
+		big_btn.show()
+
+func open():
+	
+	Global.allow_focus_sfx = false # urgenca za nek "cancel" sound bug
+	
+	get_instructions_content()
+	show() # fade-in je zaradi fejdina cele scene
+	get_tree().set_pause(true)	
 			
+	yield(get_tree().create_timer(0.1), "timeout")
+	Global.allow_focus_sfx = true	
+			
+				
 func get_instructions_content(current_highscore: int = 0, current_highscore_owner: String = "Nobody"):
 	
 	var current_game_data: Dictionary = Global.game_manager.game_data
@@ -84,10 +98,24 @@ func get_instructions_content(current_highscore: int = 0, current_highscore_owne
 				prop.hide()
 
 
+func confirm_players_ready():
+	
+	get_tree().set_pause(false)
+	Global.sound_manager.play_gui_sfx("btn_confirm")
+	yield(get_tree().create_timer(0.5), "timeout") # da se kamera centrira (na restart)
+	
+	var out_time: float = 0.5
+	var hide_instructions_popup = get_tree().create_tween()
+	hide_instructions_popup.tween_property(self, "modulate:a", 0, out_time)#.set_ease(Tween.EASE_IN)
+	yield(hide_instructions_popup, "finished")
+	
+	emit_signal("players_ready")
+	hide()
+	
+	
 func _on_EnterButton_pressed() -> void:
 	
-	$BigButton.hide()
-	$BigButton.rect_size = Vector2.ZERO # da zgine rokca miške
-	Global.hud.confirm_players_ready()
-#	Global.hud.call_deferred("confirm_players_ready")
+	big_btn.hide()
+	big_btn.rect_size = Vector2.ZERO # da zgine rokca miške
+	confirm_players_ready()
 	

@@ -162,7 +162,7 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 	
 	# players ready?
 	if game_settings["show_game_instructions"]:
-		yield(Global.hud, "players_ready")
+		yield(Global.hud.instructions_popup, "players_ready")
 	
 	Global.hud.slide_in() # pokaže countdown
 	

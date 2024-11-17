@@ -45,7 +45,7 @@ func set_game():
 	set_color_pool()
 
 	if game_settings["show_game_instructions"]:
-		yield(Global.hud, "players_ready")
+		yield(Global.hud.instructions_popup, "players_ready")
 	
 	# animacije plejerja in straysov in zooma	
 	current_players_in_game = get_tree().get_nodes_in_group(Global.group_players)

@@ -85,7 +85,6 @@ func _ready() -> void:
 	footer.rect_position.y = screen_height
 	
 	start_countdown.hide()
-	instructions_popup.hide()
 	level_popup.hide()
 	
 	game_label.text = Global.game_manager.game_data["game_name"]
@@ -100,13 +99,7 @@ func _ready() -> void:
 		set_current_highscore()
 	
 	if Global.game_manager.game_settings["show_game_instructions"]:
-		Global.allow_focus_sfx = false # urgenca za nek "cancel" sound bug
-		instructions_popup.get_instructions_content(current_highscore, current_highscore_owner)
-		instructions_popup.show()
-		get_tree().set_pause(true)
-		# urgenca za nek "cancel" sound bug
-		yield(get_tree().create_timer(0.1), "timeout")
-		Global.allow_focus_sfx = true
+		instructions_popup.open()
 	else:
 		instructions_popup.hide()
 		
@@ -247,22 +240,6 @@ func slide_out(): # kliče GM na game over
 		fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", 0, hud_in_out_time)
 		fade_in.tween_callback(self, "hide")
 	
-	
-func confirm_players_ready():
-	
-	get_tree().set_pause(false)
-	#	get_viewport().set_disable_input(true)
-	Global.sound_manager.play_gui_sfx("btn_confirm")
-	
-	var out_time: float = 0.7
-	var hide_instructions_popup = get_tree().create_tween()
-	hide_instructions_popup.tween_property(instructions_popup, "modulate:a", 0, out_time).set_ease(Tween.EASE_IN)
-	yield(hide_instructions_popup, "finished")
-	#	get_viewport().set_disable_input(false)
-	
-	instructions_popup.hide()
-	emit_signal("players_ready")
-
 
 # COLOR INDICATORS ---------------------------------------------------------------------------------------------------------------------------
 
