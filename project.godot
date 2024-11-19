@@ -338,6 +338,10 @@ p2_burst={
 2d_physics/layer_4="left_edge"
 2d_physics/layer_5="right_edge"
 
+[locale]
+
+translations=PoolStringArray( "res://assets/PixelAstray_text.en.translation", "res://assets/PixelAstray_text.sl.translation" )
+
 [physics]
 
 common/enable_pause_aware_picking=true

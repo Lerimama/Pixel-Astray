@@ -233,7 +233,7 @@ var use_default_color_theme: bool = true
 var camera_shake_on: bool = true
 var tutorial_music_track_index: int = 1
 var tutorial_mode: bool = true
-var html5_mode: bool = true # skrije ExitGameBtn v home, GO in pavzi
+var html5_mode: bool = false # skrije ExitGameBtn v home, GO in pavzi
 	
 func _ready() -> void:
 	

@@ -894,8 +894,7 @@ margin_right = 256.0
 margin_bottom = 312.0
 grow_horizontal = 2
 theme = SubResource( 194 )
-text = "A lone white pixel glowed
-on a dark screen."
+text = "Intro1"
 align = 1
 autowrap = true
 

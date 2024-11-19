@@ -24,6 +24,9 @@ func _input(event: InputEvent) -> void:
 			
 func _ready() -> void:
 
+	TranslationServer.set_locale("sl")
+	print("Current lang: ", TranslationServer.get_locale())
+
 	Global.main_node = self
 	
 	call_deferred("home_in_intro")
