@@ -9,57 +9,54 @@ __meta__ = {
 }
 
 [node name="Label4" type="Label" parent="."]
-modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
+modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
 margin_left = 48.0
 margin_top = 96.0
 margin_right = 75.0
 margin_bottom = 110.0
-text = "Text"
+text = "Start"
 
 [node name="Label6" type="Label" parent="."]
-modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
+modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
 margin_left = 48.0
 margin_top = 64.0
 margin_right = 76.0
 margin_bottom = 78.0
-text = "Title"
+text = "OS"
 
 [node name="Label8" type="Label" parent="."]
-modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
+modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
 margin_left = 48.0
 margin_top = 216.0
 margin_right = 128.0
 margin_bottom = 230.0
-text = "Notes"
+text = "Sessions"
 
 [node name="Label5" type="Label" parent="."]
-modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
+modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
 margin_left = 48.0
 margin_top = 128.0
 margin_right = 76.0
 margin_bottom = 142.0
-text = "Tags"
+text = "End"
 
 [node name="NoteTitle" type="LineEdit" parent="."]
 margin_left = 88.0
 margin_top = 56.0
 margin_right = 336.0
 margin_bottom = 80.0
-text = "Title"
 
 [node name="NoteText" type="LineEdit" parent="."]
 margin_left = 88.0
 margin_top = 88.0
 margin_right = 336.0
 margin_bottom = 112.0
-text = "sdcvsdfvsdf ..."
 
 [node name="NoteTags" type="LineEdit" parent="."]
 margin_left = 88.0
 margin_top = 120.0
 margin_right = 336.0
 margin_bottom = 144.0
-text = "teg"
 
 [node name="UpdateBtn" type="Button" parent="."]
 margin_left = 88.0

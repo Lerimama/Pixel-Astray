@@ -6,10 +6,9 @@ signal http_post_done
 
 # sheet data
 var sheet_name: String = "data" # tab
-var sheetbook_id: String = "1CUGvW2YqWSIrXtWMNF0hcGcFTfonT0DcvO8gU5qIac4" # link string
-var app_url: String = "https://script.google.com/macros/s/AKfycbyuA2n7J62juiQIjaMNSVDvD1mkVC0htjzrvR7eXNlQJYy1YXgyZAw2WEl9_Ub6XRmgAw/exec"
+var sheetbook_id: String = "1f7KK1JhCcN76GkxgkfcRJKXQwuALN50r9yYZQA6Wq2E" # link string
+var app_url: String = "https://script.google.com/macros/s/AKfycbylJXgZ_PC_OLZc4TgCliwftiD-JIcwLmWk90_B2xZ4e2a5vsnPltUDH5M_R3tLe24T6Q/exec"
 
-# obs
 onready var note_title: LineEdit = $NoteTitle
 onready var note_text: LineEdit = $NoteText
 onready var title = $NoteTitle
@@ -17,69 +16,16 @@ onready var note_list: ItemList = $NoteList
 onready var note_tags: LineEdit = $NoteTags
 
 # columns
-#var column_id: String = "id"
-#var column_title: String = "title"
-#var column_base_data: String = "text"
-#var column_data_1: String = "tagz"
-var column_id: String = "SESSION_ID"
-#var column_id: String = "id"
-var column_title: String = "OS_ID"
-var column_base_data: String = "SESSION_START"
-var column_data_1: String = "SESSION_END"
 
-# ACTIONS
+var column_id: String = "id"
+var column_title: String = "title"
+var column_base_data: String = "text"
+var column_data_1: String = "tagz"
 
 
-# manager funkcije (imitacija gumba)
-
-# ref node
-# vedno ko kličem manager funkcijo podam ime tabele in note id
 func _ready() -> void:
 	
-	refresh_note_list()
-
-
-func refresh_note_list(note_id = "", table_id = "") -> void:
-	
 	fetch_notes_list()
-
-
-func update_existing_note(note_id = "", table_id = "") -> void:
-	
-	var selected_id = get_selected_note_id()
-	printt ("selected_id", selected_id)
-	if selected_id != null:
-		
-		save_note("save_existing_note", selected_id)
-		yield(self, "note_saved")
-		fetch_notes_list()		
-
-
-func delete_note(note_id = "", table_id = "") -> void:
-	
-	var selected_id = get_selected_note_id()
-	if selected_id != null:
-		
-		delete_note_by_id(selected_id)
-		yield(self, "note_deleted")
-		fetch_notes_list()
-
-
-func save_new_note(note_id = "", table_id = "") -> void: # id se seta v tabeli
-	
-	save_note("create_new_note")
-	yield(self, "note_saved")
-	fetch_notes_list()
-
-
-#func display_note_content(row_index: int) -> void:
-#
-#	var selected_id = get_selected_note_id_from_index(row_index)
-#	if selected_id != null:
-#		fetch_notes_text(selected_id)
-
-
-# MANAGE NOTES ---------------------------------------------------------------------------------------------
 
 
 func fetch_notes_list() -> void:
@@ -89,40 +35,38 @@ func fetch_notes_list() -> void:
 
 func fetch_notes_text(id: int) -> void:
 	
-	make_http_get_request("fetch_notes_content", {"id": id}) # ta ID more bit ker je v sheet script akciji callback s takim imenom
+	make_http_get_request("fetch_notes_content", {column_id: id})
 	
 	
-func save_note(action: String, id = null) -> void: 
+func fetch_notes_tagz(id: int) -> void:
 	
+	make_http_get_request("fetch_notes_content", {column_id: id})
+
+	
+func save_note(action: String, id = null) -> void: # id rabim samo za apdejtat ... nov filet ID od gugla
 	var note_data = {
 		column_title: title.text,
 		column_base_data: note_text.text,
 		column_data_1: note_tags.text
 	}
-	
-	if id != null: # id rabim samo za apdejtat ... nov filet ID od gugla
+	if id != null:
 		note_data[column_id] = id
-#		note_data[id] = id
 	
 	make_http_post_request(action, note_data)
 	yield(self, "http_post_done")
-	print("--------------------------")
 	emit_signal("note_saved") # v3
 
 
 func delete_note_by_id(id: int) -> void:
 	
 	var note_data = {
-		column_id: id 
+		column_id: id
 	}
 	
 	make_http_post_request("delete_note", note_data)
 	yield(self, "http_post_done")
 	emit_signal("note_deleted") # v3
-
-
-# UTILITY ---------------------------------------------------------------------------------------------
-
+	
 
 func get_selected_note_id():
 	
@@ -172,6 +116,7 @@ func make_http_post_request(endpoint: String, data: Dictionary) -> void: # Make 
 	emit_signal("http_post_done") # v3
 	
 	
+	
 func _on_request_completed(result, response_code, headers, body) -> void: # Handles the request completion
 	# dobiš get data ali dobiš apdejtan post data 
 	
@@ -186,18 +131,16 @@ func _on_request_completed(result, response_code, headers, body) -> void: # Hand
 			if typeof(data) == TYPE_ARRAY:
 				note_list.clear()
 				for note in data:
-					note_list.add_item(str(note[column_id]) + ": " + str(note[column_title])) # str ... zazihs, če je številka
+					note_list.add_item(str(note[column_id]) + ": " + note[column_title])
 			else:
 				# If it's not a list, it is note content , dont make like me , create proper separate functions , here i am just prototyping
-				note_text.text = str(data[column_base_data])
-				note_tags.text = str(data[column_data_1])
-				title.text = str(data[column_title])
-		
+				note_text.text = data[column_base_data]
+				note_tags.text = data[column_data_1]
+				title.text = data[column_title]
 		else:
 			print("JSON parse error")
 	else:
-#		print("Error with response code: ", response_code, result, body.get_string_from_utf8())
-		print("Error with response code: ", response_code)
+		print("Error with response code: ", response_code, result, body.get_string_from_utf8())
 		
 			
 # BTNS ---------------------------------------------------------------------------------------------
@@ -205,10 +148,9 @@ func _on_request_completed(result, response_code, headers, body) -> void: # Hand
 
 func _on_UpdateBtn_pressed() -> void:
 	
-#	update_existing_note()
 	var selected_id = get_selected_note_id()
 	if selected_id != null:
-
+		
 		save_note("save_existing_note", selected_id)
 		yield(self, "note_saved")
 		fetch_notes_list()		
@@ -216,31 +158,28 @@ func _on_UpdateBtn_pressed() -> void:
 		
 func _on_RefreshBtn_pressed() -> void:
 	
-	refresh_note_list()
-#	fetch_notes_list()
+	fetch_notes_list()
 
 
 func _on_DeleteBtn_pressed() -> void:
 	
-	delete_note()
-#	var selected_id = get_selected_note_id()
-#	if selected_id != null:
-#
-#		delete_note_by_id(selected_id)
-#		yield(self, "note_deleted")
-#		fetch_notes_list()
+	var selected_id = get_selected_note_id()
+	if selected_id != null:
+		
+		delete_note_by_id(selected_id)
+		yield(self, "note_deleted")
+		fetch_notes_list()
 
 
 func _on_SaveBtn_pressed() -> void:
 	
-	save_new_note()
-#	save_note("create_new_note")
-#	yield(self, "note_saved")
-#	fetch_notes_list()
+	save_note("create_new_note")
+	yield(self, "note_saved")
+	fetch_notes_list()
 
 
 func _on_NoteList_item_selected(index: int) -> void:
-#	display_note_content(index)
+	
 	var selected_id = get_selected_note_id_from_index(index)
 	if selected_id != null:
 		fetch_notes_text(selected_id)
