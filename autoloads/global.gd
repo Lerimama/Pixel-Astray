@@ -11,6 +11,7 @@ var game_arena = null # arena
 var sound_manager = null
 var data_manager = null
 var game_manager = null # tudi za intro
+var anal_manager = null
 # gui
 var current_tilemap = null
 var hud = null

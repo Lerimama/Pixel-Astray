@@ -131,7 +131,7 @@ func _on_request_completed(result, response_code, headers, body) -> void: # Hand
 			if typeof(data) == TYPE_ARRAY:
 				note_list.clear()
 				for note in data:
-					note_list.add_item(str(note[column_id]) + ": " + note[column_title])
+					note_list.add_item(str(note[column_id]) + ": " + str(note[column_title]))
 			else:
 				# If it's not a list, it is note content , dont make like me , create proper separate functions , here i am just prototyping
 				note_text.text = data[column_base_data]
