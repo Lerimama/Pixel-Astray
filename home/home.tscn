@@ -3263,6 +3263,7 @@ anims/settings = SubResource( 530 )
 [connection signal="pressed" from="Settings/ColorSchemeOptions/RandomizeBtn" to="Settings" method="_on_RandomizeBtn_pressed"]
 [connection signal="pressed" from="Settings/ColorSchemeOptions/ResetBtn" to="Settings" method="_on_ResetBtn_pressed"]
 [connection signal="toggled" from="Settings/GameMusicBtn" to="Settings" method="_on_GameMusicBtn_toggled"]
+[connection signal="drag_ended" from="Settings/GameMusicSlider" to="Settings" method="_on_GameMusicSlider_drag_ended"]
 [connection signal="value_changed" from="Settings/GameMusicSlider" to="Settings" method="_on_MusicHSlider_value_changed"]
 [connection signal="toggled" from="Settings/GameSfxBtn" to="Settings" method="_on_GameSfxBtn_toggled"]
 [connection signal="toggled" from="Settings/CameraShakeBtn" to="Settings" method="_on_CameraShakeBtn_toggled"]

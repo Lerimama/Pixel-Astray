@@ -24,25 +24,25 @@ var column_data_1: String = "tagz"
 
 
 func _ready() -> void:
-	
+
 	fetch_notes_list()
 
 
 func fetch_notes_list() -> void:
-	
+
 	make_http_get_request("fetch_notes_list")
 
 
 func fetch_notes_text(id: int) -> void:
-	
-	make_http_get_request("fetch_notes_content", {column_id: id})
-	
-	
-func fetch_notes_tagz(id: int) -> void:
-	
+
 	make_http_get_request("fetch_notes_content", {column_id: id})
 
-	
+
+func fetch_notes_tagz(id: int) -> void:
+
+	make_http_get_request("fetch_notes_content", {column_id: id})
+
+
 func save_note(action: String, id = null) -> void: # id rabim samo za apdejtat ... nov filet ID od gugla
 	var note_data = {
 		column_title: title.text,
@@ -51,25 +51,25 @@ func save_note(action: String, id = null) -> void: # id rabim samo za apdejtat .
 	}
 	if id != null:
 		note_data[column_id] = id
-	
+
 	make_http_post_request(action, note_data)
 	yield(self, "http_post_done")
 	emit_signal("note_saved") # v3
 
 
 func delete_note_by_id(id: int) -> void:
-	
+
 	var note_data = {
 		column_id: id
 	}
-	
+
 	make_http_post_request("delete_note", note_data)
 	yield(self, "http_post_done")
 	emit_signal("note_deleted") # v3
-	
+
 
 func get_selected_note_id():
-	
+
 	var selected_items = note_list.get_selected_items() # tale vrstica ugotavlja Id noteta v listi, popup lista ga poda avtomatično
 	if selected_items.size() > 0:
 		var item: String = note_list.get_item_text(selected_items[0])
@@ -79,7 +79,7 @@ func get_selected_note_id():
 
 
 func get_selected_note_id_from_index(index: int) -> int:
-	
+
 	var item: String = note_list.get_item_text(index)
 	var id = item.split(":")[0].strip_edges()
 	return int(id)
@@ -89,7 +89,7 @@ func get_selected_note_id_from_index(index: int) -> int:
 
 
 func make_http_get_request(endpoint: String, params: Dictionary = {}) -> void: # Make a GET request to the API ... endpoint je akcija
-	
+
 	var url = app_url + "?action=" + endpoint
 	for key in params.keys():
 		url += "&" + key + "=" + str(params[key])
@@ -99,32 +99,32 @@ func make_http_get_request(endpoint: String, params: Dictionary = {}) -> void: #
 	request.connect("request_completed", self, "_on_request_completed") # v3
 	request.request(url)
 	# zakaj ni take oblike ... request.request(url, ["Content-Type: application/json"], false, HTTPClient.METHOD_GET)
-	
+
 
 func make_http_post_request(endpoint: String, data: Dictionary) -> void: # Make a POST request to the API
-	
+
 	var url = app_url + "?action=" + endpoint
 	var json_data = JSON.print(data) # v3 ... print nemasto stringify
-	
+
 	printt("http_post_request", url, json_data)
-	
+
 	var request = HTTPRequest.new()
 	add_child(request)
 	request.connect("request_completed", self, "_on_request_completed")
 	request.request(url, ["Content-Type: application/json"], true, HTTPClient.METHOD_POST, json_data)
-	
+
 	emit_signal("http_post_done") # v3
-	
-	
-	
+
+
+
 func _on_request_completed(result, response_code, headers, body) -> void: # Handles the request completion
-	# dobiš get data ali dobiš apdejtan post data 
-	
+	# dobiš get data ali dobiš apdejtan post data
+
 	if response_code == 200:
 		var res = body.get_string_from_utf8()
 		var json_result = JSON.parse(res).result # v3
 		printt("json_result", json_result)
-		
+
 		# wrong aprouč > vlečem podatke za vsebino in samo listo notetov ... kar je kar zanimiv kombo
 		if json_result:
 			var data = json_result
@@ -141,45 +141,45 @@ func _on_request_completed(result, response_code, headers, body) -> void: # Hand
 			print("JSON parse error")
 	else:
 		print("Error with response code: ", response_code, result, body.get_string_from_utf8())
-		
-			
+
+
 # BTNS ---------------------------------------------------------------------------------------------
 
 
 func _on_UpdateBtn_pressed() -> void:
-	
+
 	var selected_id = get_selected_note_id()
 	if selected_id != null:
-		
+
 		save_note("save_existing_note", selected_id)
 		yield(self, "note_saved")
-		fetch_notes_list()		
-	
-		
+		fetch_notes_list()
+
+
 func _on_RefreshBtn_pressed() -> void:
-	
+
 	fetch_notes_list()
 
 
 func _on_DeleteBtn_pressed() -> void:
-	
+
 	var selected_id = get_selected_note_id()
 	if selected_id != null:
-		
+
 		delete_note_by_id(selected_id)
 		yield(self, "note_deleted")
 		fetch_notes_list()
 
 
 func _on_SaveBtn_pressed() -> void:
-	
+
 	save_note("create_new_note")
 	yield(self, "note_saved")
 	fetch_notes_list()
 
 
 func _on_NoteList_item_selected(index: int) -> void:
-	
+
 	var selected_id = get_selected_note_id_from_index(index)
 	if selected_id != null:
 		fetch_notes_text(selected_id)

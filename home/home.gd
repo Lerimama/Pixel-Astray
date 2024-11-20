@@ -14,33 +14,40 @@ onready var intro_viewport: Viewport = $HomeScreen/IntroViewPortContainer/IntroV
 
 func _unhandled_input(event: InputEvent) -> void:
 	#func _input(event: InputEvent) -> void:
-	
-	#	if Input.is_action_just_pressed("next"): 
+
+	#	if Input.is_action_just_pressed("next"):
 	#		Global.sound_manager.change_menu_music()
-	
+
 	if Input.is_action_just_pressed("ui_cancel"):
+
 		match current_screen:
 			Screens.SELECT_GAME:
 				$SelectGame/BackBtn.grab_focus()
+				Analytics.save_ui_action($SelectGame/BackBtn)
 				$SelectGame.call_deferred("_on_BackBtn_pressed")
 			Screens.ABOUT:
 				$About/BackBtn.grab_focus()
+				Analytics.save_ui_action($About/BackBtn)
 				$About.call_deferred("_on_BackBtn_pressed")
 			Screens.SETTINGS:
 				$Settings/BackBtn.grab_focus()
+				Analytics.save_ui_action($Settings/BackBtn)
 				$Settings.call_deferred("_on_BackBtn_pressed")
 			Screens.HIGHSCORES:
 				$Highscores/BackBtn.grab_focus()
+				Analytics.save_ui_action($Highscores/BackBtn)
 				$Highscores.call_deferred("_on_BackBtn_pressed")
 			Screens.SELECT_LEVEL:
 				$SelectLevel/BackBtn.grab_focus()
+				Analytics.save_ui_action($SelectLevel/BackBtn)
 				$SelectLevel.call_deferred("_on_BackBtn_pressed")
-	
-			
+
+
+
 func _ready():
-	
+
 #	menu.hide()
-	
+
 	# btn groups
 	menu.get_node("SelectGameBtn").add_to_group(Global.group_menu_confirm_btns)
 	menu.get_node("SettingsBtn").add_to_group(Global.group_menu_confirm_btns)
@@ -50,37 +57,37 @@ func _ready():
 
 	if Profiles.html5_mode:
 		menu.get_node("ExitGameBtn").hide()
-	
-	
+
+
 func open_with_intro(): # kliče main.gd -> home_in_intro()
 	if Profiles.html5_mode:
 		$Highscores.load_all_highscore_tables(true, true) # global update, in background
 	else:
 		$Highscores.load_all_highscore_tables(false) # no global update (no in back)
 	intro.play_intro() # intro signal na koncu kliče menu_in()
-	
-	
+
+
 func open_without_intro(): # debug ... kliče main.gd -> home_in_no_intro()
-	
+
 	if Profiles.html5_mode:
 		$Highscores.call_deferred("load_all_highscore_tables", true, true)
 	else:
 		$Highscores.call_deferred("load_all_highscore_tables", false)
-	
+
 	intro.finish_intro() # intro signal na koncu kliče menu_in()
 
 
 func open_from_game(finished_game: int): # select_game screen ... kliče main.gd -> home_in_from_game()
-	
+
 	$Highscores.load_all_highscore_tables(false) # no global update (no in back)
 
 	animation_player.play("select_game")
 	current_screen = Screens.SELECT_GAME
-	
+
 	# premik animacije na konec
 	var animation_length: float = animation_player.get_current_animation_length()
 	animation_player.advance(animation_length)
-	
+
 	# fokus glede na končano igro
 	if finished_game == Profiles.Games.CLEANER:
 		Global.grab_focus_nofx($SelectGame/GamesMenu/Cleaner/CleanerBtn)
@@ -94,16 +101,16 @@ func open_from_game(finished_game: int): # select_game screen ... kliče main.gd
 		Global.grab_focus_nofx($SelectGame/GamesMenu/TheDuel/TheDuelBtn)
 	else: # ERASER_XS, ERASER_S, ERASER_M, ERASER_L, ERASER_XL,
 		Global.grab_focus_nofx($SelectGame/GamesMenu/Eraser/SBtn)
-	
+
 	intro.finish_intro()
-	
-	
+
+
 func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drugih ekranov
 
 	menu.visible = true
 	current_screen = Screens.MAIN_MENU
 	Global.grab_focus_nofx(menu.get_node("SelectGameBtn"))
-		
+
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(menu, "modulate:a", 1, 0.32).from(0.0)
 
@@ -112,20 +119,20 @@ func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drug
 
 
 func _on_Intro_finished_playing() -> void:
-	
+
 	intro_viewport.set_disable_input(true) # dokler se predvaja mora biti, da skipanje deluje
-	
+
 	if not current_screen == Screens.SELECT_GAME and not current_screen == Screens.SELECT_LEVEL : # v primeru ko se vrnem iz igre
 		menu_in()
-		
+
 	if not Global.sound_manager.menu_music_set_to_off: # tale pogoj je možen samo ob vračanju iz igre
 		Global.sound_manager.play_music("menu_music")
 
-	
+
 func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
-	
+
 	get_viewport().set_disable_input(false)
-	
+
 	match animation_name:
 		"select_game":
 			if not animation_reversed(Screens.SELECT_GAME):
@@ -136,7 +143,7 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 			if not animation_reversed(Screens.ABOUT):
 				current_screen = Screens.ABOUT
 #				Global.grab_focus_nofx($About/BackBtn)
-				Global.grab_focus_nofx($About.de)
+				Global.grab_focus_nofx($About.default_focus_node)
 		"settings":
 			if not animation_reversed(Screens.SETTINGS):
 				current_screen = Screens.SETTINGS
@@ -154,12 +161,12 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 				current_screen = Screens.SELECT_LEVEL
 				Global.grab_focus_nofx($SelectLevel.default_focus_node)
 #				Global.grab_focus_nofx($SelectLevel.select_level_btns_holder.all_level_btns[0])
-	
+
 
 func animation_reversed(from_screen: int):
-	
+
 	if animation_player.current_animation_position == 0: # pomeni, da je animacija v rikverc končana
-			
+
 		# preverim s katerega ekrana je animirano še preden zamenjam na MAIN_MENU
 		match from_screen:
 			Screens.SELECT_GAME:
@@ -177,15 +184,15 @@ func animation_reversed(from_screen: int):
 			Screens.SELECT_LEVEL:
 				current_screen = Screens.SELECT_GAME
 				Global.grab_focus_nofx($SelectGame/GamesMenu/Sweeper/SweeperBtn)
-				
+
 		return true
-			
+
 
 # MENU BTNZ ---------------------------------------------------------------------------------------------------
 
 
 func _on_SelectGameBtn_pressed() -> void:
-	
+
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("select_game")
 	Global.grab_focus_nofx($SelectGame/GamesMenu/Cleaner/CleanerBtn)
@@ -199,7 +206,7 @@ func _on_AboutBtn_pressed() -> void:
 func _on_SettingsBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("settings")
-	
+
 
 func _on_HighscoresBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")

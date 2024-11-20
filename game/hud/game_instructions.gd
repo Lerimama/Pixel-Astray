@@ -22,10 +22,10 @@ func _input(event: InputEvent) -> void:
 	if not get_parent().name == "PauseMenu":
 		if visible and modulate.a == 1 and Input.is_action_just_pressed("ui_accept"):
 			_on_EnterButton_pressed()
-	
-	
+
+
 func _ready() -> void:
-	
+
 	big_btn.add_to_group(Global.group_menu_confirm_btns)
 	big_btn.hide()
 	if get_parent().name == "Popups":
@@ -33,34 +33,34 @@ func _ready() -> void:
 		big_btn.show()
 
 func open():
-	
+
 	Global.allow_focus_sfx = false # urgenca za nek "cancel" sound bug
-	
+
 	get_instructions_content()
 	show() # fade-in je zaradi fejdina cele scene
-	get_tree().set_pause(true)	
-			
+	get_tree().set_pause(true)
+
 	yield(get_tree().create_timer(0.1), "timeout")
-	Global.allow_focus_sfx = true	
-			
-				
+	Global.allow_focus_sfx = true
+
+
 func get_instructions_content(current_highscore: int = 0, current_highscore_owner: String = "Nobody"):
-	
+
 	var current_game_data: Dictionary = Global.game_manager.game_data
-	
+
 	# game title
 	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER: # samo enigam ima številko levela
 		title.text = current_game_data["game_name"] + " %02d" % current_game_data["level"]
 	else:
 		title.text = current_game_data["game_name"]
-	
-	# description		
+
+	# description
 	description.text = current_game_data["description"]
-	
+
 	# highscore
 	if current_game_data["highscore_type"] == Profiles.HighscoreTypes.NONE:# or current_highscore == 0:
 		record_label_holder.hide()
-	else:	
+	else:
 		record_label_holder.show()
 		record_title.text = "Current record"
 		# no record
@@ -77,7 +77,7 @@ func get_instructions_content(current_highscore: int = 0, current_highscore_owne
 			record_label.text = str(current_highscore) + " points"
 			record_owner.text = "by " + str(current_highscore_owner)
 
-	# player controls 			
+	# player controls
 	if Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
 		controls.hide()
 		controls_duel_p1.show()
@@ -86,7 +86,7 @@ func get_instructions_content(current_highscore: int = 0, current_highscore_owne
 		controls.show()
 		controls_duel_p1.hide()
 		controls_duel_p2.hide()
-		
+
 	# game props
 	for prop in outline.get_children():
 		if prop.get_child(0).name == "PropLabel":
@@ -99,23 +99,23 @@ func get_instructions_content(current_highscore: int = 0, current_highscore_owne
 
 
 func confirm_players_ready():
-	
+
 	get_tree().set_pause(false)
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 	yield(get_tree().create_timer(0.5), "timeout") # da se kamera centrira (na restart)
-	
+
 	var out_time: float = 0.5
 	var hide_instructions_popup = get_tree().create_tween()
 	hide_instructions_popup.tween_property(self, "modulate:a", 0, out_time)#.set_ease(Tween.EASE_IN)
 	yield(hide_instructions_popup, "finished")
-	
+
 	emit_signal("players_ready")
 	hide()
-	
-	
+
+
 func _on_EnterButton_pressed() -> void:
-	
+
 	big_btn.hide()
 	big_btn.rect_size = Vector2.ZERO # da zgine rokca miške
 	confirm_players_ready()
-	
+

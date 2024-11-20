@@ -12,16 +12,16 @@ onready var menu_music_volume_on_node = menu_music.volume_db # za reset po fejdo
 
 
 func _ready() -> void:
-	
+
 	Global.sound_manager = self
 	randomize()
-	
-	
+
+
 # SFX --------------------------------------------------------------------------------------------------------
 
-	
+
 func play_event_sfx(effect_for: String):
-	
+
 	if not game_sfx_set_to_off:
 		match effect_for:
 			"blinking": # GM na strays spawn, ker se bolje sliši
@@ -38,11 +38,11 @@ func play_event_sfx(effect_for: String):
 			"game_countdown_b":
 				$Sfx/GameCoundownB.play()
 			"tutorial_stage_done":
-				$Sfx/TutorialStageDone.play()	
+				$Sfx/TutorialStageDone.play()
 
-			
+
 func play_gui_sfx(effect_for: String):
-	
+
 	match effect_for:
 		# GO
 		"win_jingle":
@@ -67,43 +67,43 @@ func play_gui_sfx(effect_for: String):
 
 
 func play_intro_stepping_sfx(): # za intro
-	
+
 	var selected_tap = select_random_sfx($Sfx/Stepping)
 	selected_tap.pitch_scale = clamp(selected_tap.pitch_scale, 0.6, 1)
 	selected_tap.play()
-	
-		
+
+
 func select_random_sfx(sound_group: Node2D):
-	
+
 	var random_index = randi() % sound_group.get_child_count()
 	var selected_sound = sound_group.get_child(random_index)
-	
+
 	return selected_sound
-	
-		
+
+
 # MUSKA --------------------------------------------------------------------------------------------------------
-		
+
 
 func play_music(music_for: String):
-	
+
 	match music_for:
 		"menu_music":
 			if not menu_music_set_to_off:
 				menu_music.play()
 
 		"game_music":
-			
+
 			if not game_music_set_to_off:
 				# set track
 				var current_track_playing: Node = game_music_node.get_child(current_music_track_index)
 				current_track_playing.play()
 				Global.hud.music_track_label.text = current_track_playing.name
-			
+
 
 func stop_music(music_to_stop: String):
-	
+
 	match music_to_stop:
-		
+
 		"menu_music":
 			menu_music.stop()
 		"game_music":
@@ -119,48 +119,48 @@ func stop_music(music_to_stop: String):
 					fade_out.tween_callback(track, "stop")
 					# volume reset
 					fade_out.tween_callback(track, "set_volume_db", [current_music_volume]) # reset glasnosti
-					
+
 
 func set_game_music_volume(value_on_slider: float): # kliče se iz settingsov
-	
+
 	# slajder je omejen med -30 in 10
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("GameMusic"), value_on_slider)
-		
-		
+
+
 func skip_track():
-	
+
 	current_music_track_index += 1
-	
+
 	if current_music_track_index >= game_music_node.get_child_count():
 		current_music_track_index = 0
-	
+
 	for track in game_music_node.get_children():
 		if track.is_playing():
 			var current_track_volume = track.volume_db
-			var fade_out = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT)	
+			var fade_out = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT)
 			fade_out.tween_property(track, "volume_db", -80, 0.5)
 			fade_out.tween_callback(track, "stop")
 			fade_out.tween_callback(track, "set_volume_db", [current_track_volume]) # reset glasnosti
 			fade_out.tween_callback(self, "play_music", ["game_music"])
-		
-		
+
+
 func change_menu_music():
-	
+
 	var menu_music_tracks: Array = $Music/MenuMusic.get_children()
-	
+
 	# trenuten komad
-	var current_track_index: int = 0 
+	var current_track_index: int = 0
 	var current_music_volume: int = -80
 	for music in menu_music_tracks:
 		if music.is_playing():
 			current_track_index = menu_music_tracks.find(music)
 			current_music_volume = music.volume_db
-			var fade_out = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT)	
+			var fade_out = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT)
 			fade_out.tween_property(music, "volume_db", -80, 0.5)
 			fade_out.tween_callback(music, "stop")
 			yield(fade_out, "finished")
 			break
-	
+
 	# izberem naslednji komad
 	current_music_volume = -25
 	var new_track_index = current_track_index + 1
