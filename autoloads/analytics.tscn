@@ -8,123 +8,126 @@ __meta__ = {
 "_edit_horizontal_guides_": [ 24.0 ]
 }
 
-[node name="Label4" type="Label" parent="."]
-modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
-margin_left = 48.0
-margin_top = 96.0
-margin_right = 75.0
-margin_bottom = 110.0
-text = "Start"
-
-[node name="Label6" type="Label" parent="."]
-modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
-margin_left = 48.0
+[node name="SessionData" type="VBoxContainer" parent="."]
+margin_left = 64.0
 margin_top = 64.0
-margin_right = 76.0
-margin_bottom = 78.0
-text = "OS"
+margin_right = 320.0
+margin_bottom = 152.0
+custom_constants/separation = 8
 
-[node name="Label8" type="Label" parent="."]
+[node name="SessionId" type="HBoxContainer" parent="SessionData"]
+margin_right = 256.0
+margin_bottom = 24.0
+custom_constants/separation = 16
+
+[node name="Label" type="Label" parent="SessionData/SessionId"]
 modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
-margin_left = 48.0
-margin_top = 216.0
-margin_right = 128.0
-margin_bottom = 230.0
-text = "Sessions"
+margin_top = 5.0
+margin_right = 100.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 100, 0 )
+text = "session_id"
+align = 2
 
-[node name="Label9" type="Label" parent="."]
+[node name="Label2" type="Label" parent="SessionData/SessionId"]
+margin_left = 116.0
+margin_right = 256.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 0, 24 )
+size_flags_horizontal = 3
+
+[node name="ColumnData" type="HBoxContainer" parent="SessionData"]
+margin_top = 32.0
+margin_right = 256.0
+margin_bottom = 56.0
+custom_constants/separation = 16
+
+[node name="Label" type="Label" parent="SessionData/ColumnData"]
 modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
-margin_left = 280.0
-margin_top = 216.0
-margin_right = 360.0
-margin_bottom = 230.0
-text = "Tables"
+margin_top = 5.0
+margin_right = 100.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 100, 0 )
+text = "os_id"
+align = 2
 
-[node name="Label5" type="Label" parent="."]
+[node name="Input" type="LineEdit" parent="SessionData/ColumnData"]
+margin_left = 116.0
+margin_right = 256.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+
+[node name="ColumnData2" type="HBoxContainer" parent="SessionData"]
+margin_top = 64.0
+margin_right = 256.0
+margin_bottom = 88.0
+custom_constants/separation = 16
+
+[node name="Label" type="Label" parent="SessionData/ColumnData2"]
 modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
-margin_left = 48.0
-margin_top = 128.0
-margin_right = 76.0
-margin_bottom = 142.0
-text = "End"
+margin_top = 5.0
+margin_right = 100.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 100, 0 )
+text = "session_date"
+align = 2
 
-[node name="NoteTitle" type="LineEdit" parent="."]
-margin_left = 88.0
-margin_top = 56.0
-margin_right = 488.0
-margin_bottom = 80.0
+[node name="Input" type="LineEdit" parent="SessionData/ColumnData2"]
+margin_left = 116.0
+margin_right = 256.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
 
-[node name="NoteText" type="LineEdit" parent="."]
-margin_left = 88.0
-margin_top = 88.0
-margin_right = 488.0
-margin_bottom = 112.0
+[node name="ColumnData3" type="HBoxContainer" parent="SessionData"]
+margin_top = 96.0
+margin_right = 256.0
+margin_bottom = 120.0
+custom_constants/separation = 16
 
-[node name="NoteTags" type="LineEdit" parent="."]
-margin_left = 88.0
-margin_top = 120.0
-margin_right = 488.0
-margin_bottom = 144.0
+[node name="Label" type="Label" parent="SessionData/ColumnData3"]
+modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
+margin_top = 5.0
+margin_right = 100.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 100, 0 )
+text = "session_length"
+align = 2
 
-[node name="UpdateBtn" type="Button" parent="."]
-margin_left = 240.0
-margin_top = 160.0
-margin_right = 304.0
-margin_bottom = 180.0
-text = "Update"
+[node name="Input" type="LineEdit" parent="SessionData/ColumnData3"]
+margin_left = 116.0
+margin_right = 256.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
 
 [node name="StartSessionBtn" type="Button" parent="."]
-margin_left = 632.0
+margin_left = 352.0
 margin_top = 64.0
-margin_right = 726.0
+margin_right = 446.0
 margin_bottom = 84.0
 text = "start session"
 
+[node name="StartFakeSession" type="Button" parent="."]
+margin_left = 64.0
+margin_top = 296.0
+margin_right = 188.0
+margin_bottom = 316.0
+text = "start fake session"
+
 [node name="EndSessionBtn" type="Button" parent="."]
-margin_left = 632.0
-margin_top = 104.0
-margin_right = 721.0
-margin_bottom = 124.0
+margin_left = 352.0
+margin_top = 96.0
+margin_right = 448.0
+margin_bottom = 116.0
 text = "end session"
 
-[node name="DeleteBtn" type="Button" parent="."]
-margin_left = 424.0
-margin_top = 160.0
-margin_right = 488.0
-margin_bottom = 180.0
-text = "Delete"
+[node name="EndFakeSessionBtn" type="Button" parent="."]
+margin_left = 200.0
+margin_top = 296.0
+margin_right = 319.0
+margin_bottom = 316.0
+text = "end fake session"
 
-[node name="SaveBtn" type="Button" parent="."]
-margin_left = 320.0
-margin_top = 160.0
-margin_right = 409.0
-margin_bottom = 180.0
-text = "Save as new"
-
-[node name="RefreshBtn" type="Button" parent="."]
-margin_left = 192.0
-margin_top = 208.0
-margin_right = 256.0
-margin_bottom = 228.0
-text = "Refresh"
-
-[node name="NoteList" type="ItemList" parent="."]
-margin_left = 48.0
-margin_top = 240.0
-margin_right = 256.0
-margin_bottom = 464.0
-
-[node name="TableList" type="ItemList" parent="."]
-margin_left = 280.0
-margin_top = 240.0
-margin_right = 488.0
-margin_bottom = 464.0
-
-[connection signal="pressed" from="UpdateBtn" to="." method="_on_UpdateBtn_pressed"]
 [connection signal="pressed" from="StartSessionBtn" to="." method="_on_StartBtn_pressed"]
+[connection signal="pressed" from="StartFakeSession" to="." method="_on_StartFakeBtn_pressed"]
 [connection signal="pressed" from="EndSessionBtn" to="." method="_on_EndBtn_pressed"]
-[connection signal="pressed" from="DeleteBtn" to="." method="_on_DeleteBtn_pressed"]
-[connection signal="pressed" from="SaveBtn" to="." method="_on_SaveBtn_pressed"]
-[connection signal="pressed" from="RefreshBtn" to="." method="_on_RefreshBtn_pressed"]
-[connection signal="item_selected" from="NoteList" to="." method="_on_NoteList_item_selected"]
-[connection signal="item_selected" from="TableList" to="." method="_on_NoteList_item_selected"]
+[connection signal="pressed" from="EndFakeSessionBtn" to="." method="_on_EndFakeBtn_pressed"]

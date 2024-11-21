@@ -2,51 +2,42 @@ extends Node2D
 
 
 signal row_writen
-signal row_deleted
 signal http_post_request_done
 
 # sheet data
-var sheet_name: String = "data" # tab
-var sheetbook_id: String = "1CUGvW2YqWSIrXtWMNF0hcGcFTfonT0DcvO8gU5qIac4" # link string
-var app_url: String = "https://script.google.com/macros/s/AKfycbxNTByvoBC1IBpTaEWbEjjQ57PJE1iTKHl3wbChj8I_nPJhP1lYvEo4OWr0dEU8sdb5/exec"
+var sheetbook_id: String = "1KfrvMCaqh65EGN_YEUrck8RyKGVbEUERathC6_VnRLQ" # link string
+var app_url: String = "https://script.google.com/macros/s/AKfycbxN5Jl_i7Ba0a-uUaC1svAd4jeMSMfX5NkZ2lpqzGpgRBCAoIs4QlgA-Jyt4Y25N9q3Hg/exec"
+#var test_app_url: String = "https://script.google.com/macros/s/AKfycby81dLgAuhWl_J5RrlTniXCmlacV0O8brOAwHSPrr3k/dev"
 
-# obs
-onready var note_title: LineEdit = $NoteTitle
-onready var note_text: LineEdit = $NoteText
-onready var title = $NoteTitle
-onready var note_list: ItemList = $NoteList
-onready var note_tags: LineEdit = $NoteTags
+# API
+# api actions ... tukaj, da imam boljšo kontrolo nad njimi
+var action_new_row: String = "create_new_row"
+var action_save_row: String = "save_existing_row"
+var action_fetch_list: String = "fetch_rows_list"
 
-# columns
-var column_id: String = "SESSION_ID"
-var column_title: String = "OS_ID"
-var column_base_data: String = "SESSION_START"
-var column_data_1: String = "SESSION_END"
+# data columns keys ... usklajeno z appscriptom (case sensitive)
+#var session_table_name: String = "SESSION_DATA"
+#var game_table_name: String = "GAME_DATA"
+#var os_id_column_key: String = "device_id"
+#var column_base_data_key: String = "session_date"
+#var column_data_1_key: String = "SESSION_END"
 
-# ACTIONS ... tukaj, da imam boljšo kontrolo nad njimi
-var action_new_row: String = "create_new_note"
-var action_save_row: String = "save_existing_note"
-var action_delete_row: String = "delete_note"
-var action_fetch_list: String = "fetch_notes_list"
-var action_fetch_content: String = "fetch_notes_content"
+var sheet_name_key: String = "SHEET_NAME"
+var id_column_key: String = "session_id"
 
-var session_table_name: String = "SESSION_DATA"
-var game_table_name: String = "GAME_DATA"
+var default_session_data: Dictionary = { # debug
+	"session_id": 0, # na prvi sejv od ApiScripta
+	"device_id": "ABC",
+	"session_date": "01/12/2024",
+	"session_time": "00:00:00",
+	"os_name": "OS",
+	"os_language": "nn",
+	"ui_clicks": ["krbneki"], # on click
+	"session_length": 0, # secs ... on session end
+}
 
 # narediš novo kolumno z osnovnimi podatki
 var session_data: Dictionary = {
-	# na prvi sejv od ApiScripta
-	"session_id": "0",
-	# on session start
-	"session_os_id": "ABC",
-	"session_date": "01/12/2024",
-	"session_start_time": "00:00.00",
-	"os_name": "OS",
-	"os_language": "nn",
-	# on click
-	"session_clicks": [],
-	# on session end
-	"session_length": "00:00.00",
 }
 
 var game_data: Dictionary = {
@@ -54,8 +45,8 @@ var game_data: Dictionary = {
 	"game_over": "00:00.00", # cleaned, time, life, premature
 }
 
-
 var btns_clicked: Array = []
+var post_on_quit_time: float = 4
 
 func save_ui_action(ui_action):
 	# podatki se nabirajo iz:
@@ -81,117 +72,78 @@ func save_ui_action(ui_action):
 			save_string = btn_name + " " + str(btn_bool)
 
 	btns_clicked.append(save_string)
-	session_data["session_clicks"].append(save_string)
+	session_data["ui_clicks"].append(save_string)
 	printt("all clicks", btns_clicked)
 
-func _ready() -> void: # ker je AL se ob debug štartu zgodi 2x
 
-	refresh_row_list()
+func _ready() -> void:
 
-	#	printt ("has_touchscreen", OS.has_touchscreen_ui_hint())
+	# ker je AL se ob debug štartu zgodi 2x
+	reset_session_data()
 
 
 # on load game
-func start_new_session():
+func start_new_session(start_fake: bool = false):
 
 	if Profiles.analytics_mode:
-		# session data
-		session_data["session_start_time"] = OS.get_time()
-		session_data["session_date"] = OS.get_date()
-		session_data["session_os_id"] = OS.get_unique_id()
-		# system data
-		session_data["os_language"] = OS.get_name()
-		session_data["os_name"] = OS.get_locale_language()
-		# settings
 
+		# napolnem start data
+		var date_dict: Dictionary = Time.get_date_dict_from_system()
+		var date_string: String = str(date_dict["day"]) + "/" + str(date_dict["month"]) + "/" + str(date_dict["year"])
+#		session_data["session_id"] = 0
+		session_data["session_date"] = date_string
+		session_data["session_time"] = Time.get_time_string_from_system()
+		session_data["device_id"] = OS.get_unique_id()
+		session_data["os_language"] = OS.get_locale_language()
+		session_data["os_name"] = OS.get_name()
+
+		# dodam v tabelo
 		save_new_row()
-
-		print("----------------------------")
-		printt ("get_time", OS.get_time())
-		printt ("get_date", OS.get_date())
-		printt ("get_unique_id", OS.get_unique_id())
-		printt ("get_name", OS.get_name())
-		printt ("get_locale_language", OS.get_locale_language())
-		printt ("session_id", session_data["session_id"])
+		print("starting new session --->")
 
 
 # scene change
 func update_mid_session():
 
 	if Profiles.analytics_mode:
-
-		# click data
 		pass
 
 
 # on quit game
-func end_session():
+func end_session(end_fake: bool = false):
 
 	if Profiles.analytics_mode:
 
-		# end data
-		var session_length_hunds: float = OS.get_ticks_msec() / 10
-		session_data["session_length"] = Global.get_clock_time(session_length_hunds)
+		# napolnem end data
+		session_data["session_length"] = round(Time.get_ticks_msec() / 1000)
 
-		update_existing_row(int(session_data["session_id"]))
-
-		print("---")
-		printt ("get_ticks_msec", OS.get_ticks_msec(), session_data["session_length"] )
-		print("----------------------------")
+		# apdejtam tabelo
+		save_existing_row(session_data["session_id"])
+		print("---> ending session")
 
 
-func upload_session_data():
+func reset_session_data():
+
+	session_data = default_session_data
+	#	os_input.text = ""
+	#	date_input.text = ""
+	#	length_input.text = ""
 	pass
-
-
-func upload_game_data():
-	pass
-
 
 # AKCIJE ----------------------------------------------------------------------------------------------------------
 
 
-func save_new_row(note_id = "", table_id = "") -> void: # id se seta v tabeli
+func save_new_row() -> void: # id se seta v tabeli
 
 	write_row_content(action_new_row)
 	yield(self, "row_writen")
-	read_row_list()
+	read_row_list() # da dobim ID (zadnje) sejvane vrstice ... list.size() - 1
 
 
-func update_existing_row(note_id: int = -1, table_id = "") -> void:
+func save_existing_row(row_id: int) -> void:
 
-	var selected_id = note_id
-	if note_id == -1:
-		selected_id = get_selected_row_id()
+	write_row_content(action_save_row, row_id)
 
-	print(selected_id)
-	if selected_id != null:
-
-		write_row_content(action_save_row, selected_id)
-		yield(self, "row_writen")
-		read_row_list()
-
-
-func delete_row(note_id = "", table_id = "") -> void:
-
-	var selected_id = get_selected_row_id()
-	if selected_id != null:
-
-		delete_row_by_id(selected_id)
-		yield(self, "row_deleted")
-		read_row_list()
-
-
-func refresh_row_list(note_id = "", table_id = "") -> void:
-
-	read_row_list()
-
-
-func display_row_content(row_index: int) -> void:
-
-	var selected_id = get_selected_row_id_from_index(row_index)
-	if selected_id != null:
-		read_row_content(selected_id)
 
 
 # API SCRIPT CALL ---------------------------------------------------------------------------------------------
@@ -199,81 +151,44 @@ func display_row_content(row_index: int) -> void:
 
 func read_row_list() -> void:
 
-	#	print("fetching on google api")
-	make_http_get_request(action_fetch_list)
-
-
-func read_row_content(id: int) -> void:
-
-	make_http_get_request(action_fetch_content, {"id": id}) # ta ID more bit ker je v sheet script akciji callback s takim imenom
+	make_http_GET_request(action_fetch_list)
 
 
 func write_row_content(action: String, id = null) -> void:
-	#	printt("saving on google api (create_new_note)", action, id)
 
-	# original
-	#	var note_data = {
-	#		column_title: title.text,
-	#		column_base_data: note_text.text,
-	#		column_data_1: note_tags.text
-	#	}
+	var data_for_apiscript: Dictionary = session_data
+#		sheet_name_key: "session_data",
+	data_for_apiscript[sheet_name_key] = "session_data"
+#	var data_for_apiscript: Dictionary = {
+##		sheet_name_key: "game_data",
+#		sheet_name_key: "session_data",
+#		id_column_key: session_data["session_id"],
+#		os_id_column_key: session_data["device_id"],
+#
+#		column_base_data_key: session_data["session_date"],
+#		column_data_1_key: session_data["session_length"]
+#	}
 
-	var note_data = {
-		column_title: session_data["session_os_id"],
-		column_base_data: session_data["session_date"],
-		column_data_1: session_data["session_length"]
-	}
+#	if id != null: # id rabim samo za apdejtat ... nov filet ID od gugla
+	if id: # id rabim samo za apdejtat ... nov filet ID od gugla
+		data_for_apiscript[id_column_key] = id
 
-	if id != null: # id rabim samo za apdejtat ... nov filet ID od gugla
-		note_data[column_id] = id
-
-	make_http_post_request(action, note_data)
+	make_http_POST_request(action, data_for_apiscript)
 	yield(get_tree().create_timer(1), "timeout")
 	#	yield(self, "http_post_request_done")
 	emit_signal("row_writen") # v3
-	#	print("note saved signal")
-
-
-func delete_row_by_id(id: int) -> void:
-
-	var note_data = {
-		column_id: id
-	}
-
-	make_http_post_request(action_delete_row, note_data)
-	yield(get_tree().create_timer(1), "timeout")
-	#	yield(self, "http_post_request_done")
-	emit_signal("row_deleted") # v3
-
-
-# UTILITI ---------------------------------------------------------------------------------------------
-
-
-func get_selected_row_id():
-
-	var selected_items = note_list.get_selected_items() # tale vrstica ugotavlja Id noteta v listi, popup lista ga poda avtomatično
-	if selected_items.size() > 0:
-		var item: String = note_list.get_item_text(selected_items[0])
-		var id = item.split(":")[0].strip_edges()
-		return int(id)
-	return null
-
-
-func get_selected_row_id_from_index(index: int) -> int:
-
-	var item: String = note_list.get_item_text(index)
-	var id = item.split(":")[0].strip_edges()
-	return int(id)
 
 
 # HTTP REQUESTS ---------------------------------------------------------------------------------------------
 
 
-func make_http_get_request(endpoint: String, params: Dictionary = {}) -> void: # Make a GET request to the API ... endpoint je akcija
+func make_http_GET_request(endpoint: String, params: Dictionary = {}) -> void: # Make a GET request to the API ... endpoint je akcija
 
 	var url = app_url + "?action=" + endpoint
 	for key in params.keys():
 		url += "&" + key + "=" + str(params[key])
+
+	printt("http_GET_request: ", url)
 
 	var request = HTTPRequest.new()
 	add_child(request)
@@ -283,12 +198,12 @@ func make_http_get_request(endpoint: String, params: Dictionary = {}) -> void: #
 	request.request(url)
 
 
-func make_http_post_request(endpoint: String, data: Dictionary) -> void: # Make a POST request to the API
+func make_http_POST_request(endpoint: String, data: Dictionary) -> void: # Make a POST request to the API
 
 	var url = app_url + "?action=" + endpoint
 	var json_data = JSON.print(data) # v3 ... print nemasto stringify
 
-	#	printt("http_POST_request (url, json)", url, json_data)
+	printt("http_POST_request: ", url)
 
 	var request = HTTPRequest.new()
 	add_child(request)
@@ -301,60 +216,26 @@ func make_http_post_request(endpoint: String, data: Dictionary) -> void: # Make 
 
 
 func _on_request_completed(result, response_code, headers, body) -> void: # Handles the request completion
-	# dobiš get data ali dobiš apdejtan post data
 
 	if response_code == 200:
 		var res = body.get_string_from_utf8()
 		var json_result = JSON.parse(res).result # v3
-#		printt("json_result", json_result)
-
-		# wrong aprouč > vlečem podatke za vsebino in samo listo notetov ... kar je kar zanimiv kombo
+		#		printt("json_result", json_result)
 		if json_result:
 			var data = json_result
-			if typeof(data) == TYPE_ARRAY:
-				note_list.clear()
-				for note in data:
-					note_list.add_item(str(note[column_id]) + ": " + str(note[column_title])) # str ... zazihs, če je številka
-			else:
-				# If it's not a list, it is note content , dont make like me , create proper separate functions , here i am just prototyping
-				note_text.text = str(data[column_base_data])
-				note_tags.text = str(data[column_data_1])
-				title.text = str(data[column_title])
-
+			var last_result_index: int = data.size() - 1
+			session_data["session_id"] = int(data[last_result_index][id_column_key]) # _temp
+			print("_on_request_completed OK - New session id: ", session_data["session_id"] )
 		else:
-			print("JSON parse error")
+			print("JSON parse error", res)
 	else:
-#		print("Error with response code: ", response_code, result, body.get_string_from_utf8())
-		print("---")
-		print("Error with response code: ", response_code)
+		print("_on_request_completed Error - Response code: ", response_code)
+		print(result)
+		print(headers)
+#		print(body)
 
 
 # BTNS ---------------------------------------------------------------------------------------------
-
-
-func _on_UpdateBtn_pressed() -> void:
-
-	update_existing_row()
-
-
-func _on_RefreshBtn_pressed() -> void:
-
-	refresh_row_list()
-
-
-func _on_DeleteBtn_pressed() -> void:
-
-	delete_row()
-
-
-func _on_SaveBtn_pressed() -> void:
-
-	save_new_row()
-
-
-func _on_NoteList_item_selected(index: int) -> void:
-
-	display_row_content(index)
 
 
 func _on_EndBtn_pressed() -> void:
@@ -365,3 +246,13 @@ func _on_EndBtn_pressed() -> void:
 func _on_StartBtn_pressed() -> void:
 
 	start_new_session()
+
+
+func _on_StartFakeBtn_pressed() -> void:
+
+	start_new_session(true)
+
+
+func _on_EndFakeBtn_pressed() -> void:
+
+	end_session(true)

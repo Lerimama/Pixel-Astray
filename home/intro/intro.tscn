@@ -987,19 +987,21 @@ margin_left = 140.0
 margin_right = 162.0
 texture = SubResource( 228 )
 
-[node name="SkipButton" type="Button" parent="Text/ActionHint/Jp" index="0"]
-margin_left = -166.0
-margin_top = -13.0
-margin_right = 158.0
-margin_bottom = 40.0
-focus_mode = 0
-mouse_default_cursor_shape = 2
-enabled_focus_mode = 0
-
 [node name="Label3" parent="Text/ActionHint" index="4"]
 margin_left = 170.0
 margin_right = 269.0
 text = "to skip intro"
+
+[node name="SkipButton" type="Button" parent="."]
+margin_left = 1463.0
+margin_top = 1830.0
+margin_right = 2087.0
+margin_bottom = 1926.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+disabled = true
+enabled_focus_mode = 0
+flat = true
 
 [node name="StrayStepTimer" type="Timer" parent="."]
 
@@ -1014,7 +1016,7 @@ anims/start_spawn_fx = SubResource( 229 )
 environment = ExtResource( 1 )
 
 [connection signal="tilemap_completed" from="IntroTileMap" to="." method="_on_TileMap_completed"]
-[connection signal="pressed" from="Text/ActionHint/Jp/SkipButton" to="." method="_on_SkipButton_pressed"]
+[connection signal="pressed" from="SkipButton" to="." method="_on_SkipButton_pressed"]
 [connection signal="timeout" from="StrayStepTimer" to="." method="_on_StrayStepTimer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 

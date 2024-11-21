@@ -33,6 +33,7 @@ func _ready() -> void:
 #	call_deferred("home_in_no_intro")
 #	call_deferred("game_in")
 
+	Analytics.start_new_session()
 
 func home_in_intro():
 

@@ -1,0 +1,130 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://modulars/analytics_notes.gd" type="Script" id=1]
+
+[node name="analytics notes" type="Node2D"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 24.0 ]
+}
+
+[node name="Label4" type="Label" parent="."]
+modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
+margin_left = 48.0
+margin_top = 96.0
+margin_right = 75.0
+margin_bottom = 110.0
+text = "Start"
+
+[node name="Label6" type="Label" parent="."]
+modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
+margin_left = 48.0
+margin_top = 64.0
+margin_right = 76.0
+margin_bottom = 78.0
+text = "OS"
+
+[node name="Label8" type="Label" parent="."]
+modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
+margin_left = 48.0
+margin_top = 216.0
+margin_right = 128.0
+margin_bottom = 230.0
+text = "Sessions"
+
+[node name="Label9" type="Label" parent="."]
+modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
+margin_left = 280.0
+margin_top = 216.0
+margin_right = 360.0
+margin_bottom = 230.0
+text = "Tables"
+
+[node name="Label5" type="Label" parent="."]
+modulate = Color( 0.996078, 0.976471, 0.545098, 1 )
+margin_left = 48.0
+margin_top = 128.0
+margin_right = 76.0
+margin_bottom = 142.0
+text = "End"
+
+[node name="NoteTitle" type="LineEdit" parent="."]
+margin_left = 88.0
+margin_top = 56.0
+margin_right = 488.0
+margin_bottom = 80.0
+
+[node name="NoteText" type="LineEdit" parent="."]
+margin_left = 88.0
+margin_top = 88.0
+margin_right = 488.0
+margin_bottom = 112.0
+
+[node name="NoteTags" type="LineEdit" parent="."]
+margin_left = 88.0
+margin_top = 120.0
+margin_right = 488.0
+margin_bottom = 144.0
+
+[node name="UpdateBtn" type="Button" parent="."]
+margin_left = 240.0
+margin_top = 160.0
+margin_right = 304.0
+margin_bottom = 180.0
+text = "Update"
+
+[node name="StartSessionBtn" type="Button" parent="."]
+margin_left = 632.0
+margin_top = 64.0
+margin_right = 726.0
+margin_bottom = 84.0
+text = "start session"
+
+[node name="EndSessionBtn" type="Button" parent="."]
+margin_left = 632.0
+margin_top = 104.0
+margin_right = 721.0
+margin_bottom = 124.0
+text = "end session"
+
+[node name="DeleteBtn" type="Button" parent="."]
+margin_left = 424.0
+margin_top = 160.0
+margin_right = 488.0
+margin_bottom = 180.0
+text = "Delete"
+
+[node name="SaveBtn" type="Button" parent="."]
+margin_left = 320.0
+margin_top = 160.0
+margin_right = 409.0
+margin_bottom = 180.0
+text = "Save as new"
+
+[node name="RefreshBtn" type="Button" parent="."]
+margin_left = 192.0
+margin_top = 208.0
+margin_right = 256.0
+margin_bottom = 228.0
+text = "Refresh"
+
+[node name="NoteList" type="ItemList" parent="."]
+margin_left = 48.0
+margin_top = 240.0
+margin_right = 256.0
+margin_bottom = 464.0
+
+[node name="TableList" type="ItemList" parent="."]
+margin_left = 280.0
+margin_top = 240.0
+margin_right = 488.0
+margin_bottom = 464.0
+
+[connection signal="pressed" from="UpdateBtn" to="." method="_on_UpdateBtn_pressed"]
+[connection signal="pressed" from="StartSessionBtn" to="." method="_on_StartBtn_pressed"]
+[connection signal="pressed" from="EndSessionBtn" to="." method="_on_EndBtn_pressed"]
+[connection signal="pressed" from="DeleteBtn" to="." method="_on_DeleteBtn_pressed"]
+[connection signal="pressed" from="SaveBtn" to="." method="_on_SaveBtn_pressed"]
+[connection signal="pressed" from="RefreshBtn" to="." method="_on_RefreshBtn_pressed"]
+[connection signal="item_selected" from="NoteList" to="." method="_on_NoteList_item_selected"]
+[connection signal="item_selected" from="TableList" to="." method="_on_NoteList_item_selected"]

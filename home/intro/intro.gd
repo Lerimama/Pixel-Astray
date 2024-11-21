@@ -30,22 +30,24 @@ onready var actor_pixel: KinematicBody2D = $Actor
 onready var text_node: Node2D = $Text
 onready var thunder_cover: ColorRect = $ThunderCover/ThunderCover
 onready var skip_intro: HBoxContainer = $Text/ActionHint
-onready var skip_button_btn: Button = $Text/ActionHint/Jp/SkipButton
+onready var skip_intro_btn: Button = $SkipButton
 onready var StrayPixel: PackedScene = preload("res://home/intro/intro_stray.tscn")
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	#func _input(event: InputEvent) -> void:
 
-	if Input.is_action_just_pressed("ui_accept") and skip_intro.visible and skip_intro.modulate.a == 1:
+	if Input.is_action_just_pressed("ui_accept") and not skip_intro_btn.disabled:
 		_on_SkipButton_pressed()
+		Analytics.save_ui_action(skip_intro_btn) # pazi, če začne delat tako kot bi moralo
 
 
 func _ready() -> void:
 
 	Global.game_manager = self
 	randomize()
-	skip_button_btn.add_to_group(Global.group_menu_confirm_btns)
+	skip_intro_btn.add_to_group(Global.group_menu_confirm_btns)
+	skip_intro_btn.disabled = true
 
 
 func _process(delta: float) -> void:
@@ -60,9 +62,15 @@ func play_intro():
 
 	yield(get_tree().create_timer(1), "timeout")
 	animation_player.play("intro_running")
+	skip_intro_btn.disabled = false
 
 
 func finish_intro(): # ob skipanju in regularnem koncu intra
+
+	# neu
+	skip_intro_btn.disabled = true
+	skip_intro_btn.hide()
+	skip_intro_btn.release_focus()
 
 	# vse pospravim ... zazih
 	animation_player.stop()
@@ -71,7 +79,6 @@ func finish_intro(): # ob skipanju in regularnem koncu intra
 	actor_pixel.visible = false
 	thunder_cover.visible = false
 	text_node.visible = false
-
 	if not intro_strays_spawned:
 		set_strays()
 
@@ -346,5 +353,4 @@ func _on_TileMap_completed(stray_random_positions: Array, stray_positions: Array
 
 func _on_SkipButton_pressed() -> void:
 
-	if skip_intro.visible and skip_intro.modulate.a == 1:
-		finish_intro()
+	finish_intro()

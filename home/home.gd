@@ -214,4 +214,7 @@ func _on_HighscoresBtn_pressed() -> void:
 
 
 func _on_QuitGameBtn_pressed() -> void:
+
+	Analytics.end_session()
+	yield(get_tree().create_timer(Analytics.post_on_quit_time), "timeout")
 	get_tree().quit()
