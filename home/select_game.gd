@@ -193,6 +193,8 @@ func color_game_btns():
 func play_selected_game(selected_game_enum: int):
 
 	Profiles.set_game_data(selected_game_enum)
+	Analytics.save_game_data(Profiles.current_game_data["game_name"])
+
 	Global.main_node.home_out()
 
 
@@ -214,7 +216,7 @@ func _on_TutorialModeBtn_toggled(button_pressed: bool) -> void:
 	else:
 		Profiles.tutorial_mode = false
 
-
+# OPT povezavo gumbov avtomatiziraj
 func _on_SBtn_pressed() -> void:
 
 	play_selected_game(Profiles.Games.ERASER_XS)

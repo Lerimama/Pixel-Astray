@@ -145,7 +145,8 @@ func release_scene(scene_node): # release scene
 func _free_scene(scene_node):
 
 	if OS.is_debug_build():  # debug OS mode
-		print("SCENE RELEASED (in next step): ", scene_node)
+		#		print("SCENE RELEASED (in next step): ", scene_node)
+		pass
 	scene_node.free()
 
 
@@ -156,15 +157,15 @@ func spawn_new_scene(scene_path, parent_node): # spawn scene
 	current_scene = scene_resource.instance()
 
 	if OS.is_debug_build():  # debug OS mode
-		print("SCENE INSTANCED: ", current_scene)
-
+		#		print("SCENE INSTANCED: ", current_scene)
+		pass
 	current_scene.modulate.a = 0
 	parent_node.add_child(current_scene) # direct child of root
 
 	if OS.is_debug_build():  # debug OS mode
-		print("SCENE ADDED: ", current_scene)
-		print("---")
-
+		#		print("SCENE ADDED: ", current_scene)
+		#		print("--- new scene ---")
+		pass
 	return current_scene
 
 
@@ -318,6 +319,8 @@ func connect_to_button(button):
 # on confirm and cancel
 func _on_button_pressed(button: BaseButton):
 
+	Analytics.save_ui_click(button)
+
 	# ker ti gumbi peljejo na nov ekran, po njihovem kliku
 	if button.is_in_group(Global.group_menu_confirm_btns):
 		Global.sound_manager.play_gui_sfx("btn_confirm")
@@ -327,7 +330,6 @@ func _on_button_pressed(button: BaseButton):
 		Global.sound_manager.play_gui_sfx("btn_cancel")
 		get_viewport().set_disable_input(true) # prevent dablklik
 
-	Analytics.save_ui_action(button)
 
 
 # on toggle
@@ -340,7 +342,7 @@ func _on_button_toggled(button_pressed: bool) -> void:
 			Global.sound_manager.play_gui_sfx("btn_confirm")
 		else:
 			Global.sound_manager.play_gui_sfx("btn_cancel")
-		Analytics.save_ui_action([current_focused_control, button_pressed])
+		Analytics.save_ui_click([current_focused_control, button_pressed])
 
 # on hover
 func _on_control_hovered(control: Control):

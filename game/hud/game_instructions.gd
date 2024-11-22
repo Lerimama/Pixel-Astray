@@ -14,23 +14,24 @@ onready var shortcuts: Panel = $Outline/Shortcuts
 onready var controls: Control = $Outline/Controls
 onready var controls_duel_p1: Control = $Outline/ControlsDuelP1
 onready var controls_duel_p2: Control = $Outline/ControlsDuelP2
-onready var big_btn: Button = $BigButton
+onready var ready_btn: Button = $ReadyBtn
 
 
 func _input(event: InputEvent) -> void:
 
 	if not get_parent().name == "PauseMenu":
 		if visible and modulate.a == 1 and Input.is_action_just_pressed("ui_accept"):
-			_on_EnterButton_pressed()
+			Analytics.save_ui_click("ReadyReturn")
+			_on_ReadyBtnButton_pressed()
 
 
 func _ready() -> void:
 
-	big_btn.add_to_group(Global.group_menu_confirm_btns)
-	big_btn.hide()
+	ready_btn.add_to_group(Global.group_menu_confirm_btns)
+	ready_btn.hide()
 	if get_parent().name == "Popups":
 		yield(get_tree().create_timer(1), "timeout") # če je klik prehiter se ne nalouda
-		big_btn.show()
+		ready_btn.show()
 
 func open():
 
@@ -113,9 +114,8 @@ func confirm_players_ready():
 	hide()
 
 
-func _on_EnterButton_pressed() -> void:
+func _on_ReadyBtnButton_pressed() -> void:
 
-	big_btn.hide()
-	big_btn.rect_size = Vector2.ZERO # da zgine rokca miške
+	ready_btn.hide()
+	ready_btn.rect_size = Vector2.ZERO # da zgine rokca miške
 	confirm_players_ready()
-

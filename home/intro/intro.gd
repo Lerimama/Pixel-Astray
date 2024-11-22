@@ -35,11 +35,14 @@ onready var StrayPixel: PackedScene = preload("res://home/intro/intro_stray.tscn
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	#func _input(event: InputEvent) -> void:
 
-	if Input.is_action_just_pressed("ui_accept") and not skip_intro_btn.disabled:
-		_on_SkipButton_pressed()
-		Analytics.save_ui_action(skip_intro_btn) # pazi, če začne delat tako kot bi moralo
+	if not skip_intro_btn.disabled:
+		if Input.is_action_just_pressed("ui_accept"):
+			_on_SkipButton_pressed()
+			Analytics.save_ui_click("SkipIntroReturn") # pazi, če začne delat tako kot bi moralo
+		elif Input.is_action_just_pressed("ui_cancel"):
+			_on_SkipButton_pressed()
+			Analytics.save_ui_click("SkipIntroEsc") # pazi, če začne delat tako kot bi moralo
 
 
 func _ready() -> void:

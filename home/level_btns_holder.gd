@@ -62,7 +62,8 @@ func set_level_btns():
 	for btn in all_level_btns:
 		var btn_index: int = all_level_btns.find(btn)
 		var btn_level_number: int = btn_index + 1
-		# barvam ozadje
+		# poimenujem gumb in barvam ozadje
+		btn.name = "Sweeper%02d" % btn_level_number
 		btn.self_modulate = unfocused_color
 		# napolnem
 		if not btn == the_pixel_astray_level_btn: # če level ni pixel astray, ima številko (ločeno zaradi pixel astray napisa

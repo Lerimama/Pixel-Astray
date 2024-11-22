@@ -44,6 +44,7 @@ func _input(event: InputEvent) -> void:
 
 	if name_input_popup.visible == true and name_input_popup.modulate.a == 1:
 		if Input.is_action_just_pressed("ui_cancel"):
+			Analytics.save_ui_click("InputCancelEsc")
 			_on_CancelBtn_pressed()
 			accept_event()
 
@@ -70,6 +71,8 @@ func _ready() -> void:
 
 
 func open_gameover(gameover_reason: int):
+
+	Analytics.save_game_data([true, Global.game_manager.strays_in_game_count ])
 
 	current_gameover_reason = gameover_reason
 
@@ -392,9 +395,8 @@ func _on_PopupNameEdit_text_entered(new_text: String) -> void: # ko stisneš ret
 
 func _on_ConfirmBtn_pressed() -> void:
 
-	Global.grab_focus_nofx($NameInputPopup/HBoxContainer/ConfirmBtn) # potrditev s tipko
+	Global.grab_focus_nofx($NameInputPopup/HBoxContainer/InputConfirmBtn) # potrditev s tipko
 	Global.sound_manager.play_gui_sfx("btn_confirm")
-
 
 	if input_string.empty(): # če je prazen, je kot bi kenslal
 		_on_CancelBtn_pressed()
@@ -436,7 +438,7 @@ func _on_CancelBtn_pressed() -> void:
 
 	name_input.editable = false
 
-	Global.grab_focus_nofx($NameInputPopup/HBoxContainer/CancelBtn) # cancel s tipko
+	Global.grab_focus_nofx($NameInputPopup/HBoxContainer/InputCancelBtn) # cancel s tipko
 	Global.sound_manager.play_gui_sfx("btn_cancel")
 
 	# skrijem input in GO title
@@ -466,4 +468,5 @@ func _on_QuitBtn_pressed() -> void:
 
 
 func _on_ExitGameBtn_pressed() -> void:
-	get_tree().quit()
+
+	Global.main_node.quit_exit_game()

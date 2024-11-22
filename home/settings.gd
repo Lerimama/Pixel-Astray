@@ -93,7 +93,7 @@ func _on_MusicHSlider_value_changed(value: float) -> void:
 
 func _on_GameMusicSlider_drag_ended(value_changed: bool) -> void: # za analitiko
 
-	Analytics.save_ui_action([$GameMusicSlider, $GameMusicSlider.value])
+	Analytics.save_ui_click([$GameMusicSlider, $GameMusicSlider.value])
 
 
 func _on_GameSfxBtn_toggled(button_pressed: bool) -> void:

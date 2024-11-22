@@ -777,8 +777,8 @@ margin_right = -186.0
 margin_bottom = 144.0
 grow_horizontal = 2
 rect_min_size = Vector2( 140, 40 )
-focus_neighbour_bottom = NodePath("../HBoxContainer/ConfirmBtn")
-focus_next = NodePath("../HBoxContainer/ConfirmBtn")
+focus_neighbour_bottom = NodePath("../HBoxContainer/InputConfirmBtn")
+focus_next = NodePath("../HBoxContainer/InputConfirmBtn")
 mouse_default_cursor_shape = 3
 size_flags_horizontal = 4
 size_flags_vertical = 6
@@ -809,24 +809,24 @@ size_flags_horizontal = 4
 size_flags_vertical = 11
 custom_constants/separation = 32
 
-[node name="CancelBtn" type="Button" parent="NameInputPopup/HBoxContainer"]
+[node name="InputCancelBtn" type="Button" parent="NameInputPopup/HBoxContainer"]
 margin_right = 52.0
 margin_bottom = 22.0
 focus_neighbour_top = NodePath("../../NameInput")
-focus_neighbour_right = NodePath("../ConfirmBtn")
+focus_neighbour_right = NodePath("../InputConfirmBtn")
 focus_next = NodePath("../../NameInput")
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 2
 text = "SKIP"
 align = 0
 
-[node name="ConfirmBtn" type="Button" parent="NameInputPopup/HBoxContainer"]
+[node name="InputConfirmBtn" type="Button" parent="NameInputPopup/HBoxContainer"]
 margin_left = 84.0
 margin_right = 182.0
 margin_bottom = 22.0
-focus_neighbour_left = NodePath("../CancelBtn")
+focus_neighbour_left = NodePath("../InputCancelBtn")
 focus_neighbour_top = NodePath("../../NameInput")
-focus_next = NodePath("../CancelBtn")
+focus_next = NodePath("../InputCancelBtn")
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 9
 size_flags_vertical = 9
@@ -870,7 +870,7 @@ margin_bottom = 73.0
 grow_horizontal = 2
 custom_constants/separation = 32
 
-[node name="SkipBtn" type="Button" parent="PublishPopup/HBoxContainer"]
+[node name="PublishSkipBtn" type="Button" parent="PublishPopup/HBoxContainer"]
 margin_right = 52.0
 margin_bottom = 40.0
 mouse_default_cursor_shape = 2
@@ -880,7 +880,7 @@ theme = ExtResource( 3 )
 text = "SKIP"
 align = 0
 
-[node name="PublishBtn" type="Button" parent="PublishPopup/HBoxContainer"]
+[node name="PublishConfirmBtn" type="Button" parent="PublishPopup/HBoxContainer"]
 margin_left = 84.0
 margin_right = 178.0
 margin_bottom = 40.0
@@ -896,7 +896,7 @@ align = 0
 [connection signal="pressed" from="Menu/RestartBtn" to="." method="_on_RestartBtn_pressed"]
 [connection signal="text_changed" from="NameInputPopup/NameInput" to="." method="_on_NameEdit_text_changed"]
 [connection signal="text_entered" from="NameInputPopup/NameInput" to="." method="_on_PopupNameEdit_text_entered"]
-[connection signal="pressed" from="NameInputPopup/HBoxContainer/CancelBtn" to="." method="_on_CancelBtn_pressed"]
-[connection signal="pressed" from="NameInputPopup/HBoxContainer/ConfirmBtn" to="." method="_on_ConfirmBtn_pressed"]
-[connection signal="pressed" from="PublishPopup/HBoxContainer/SkipBtn" to="PublishPopup" method="_on_SkipBtn_pressed"]
-[connection signal="pressed" from="PublishPopup/HBoxContainer/PublishBtn" to="PublishPopup" method="_on_PublishBtn_pressed"]
+[connection signal="pressed" from="NameInputPopup/HBoxContainer/InputCancelBtn" to="." method="_on_CancelBtn_pressed"]
+[connection signal="pressed" from="NameInputPopup/HBoxContainer/InputConfirmBtn" to="." method="_on_ConfirmBtn_pressed"]
+[connection signal="pressed" from="PublishPopup/HBoxContainer/PublishSkipBtn" to="PublishPopup" method="_on_SkipBtn_pressed"]
+[connection signal="pressed" from="PublishPopup/HBoxContainer/PublishConfirmBtn" to="PublishPopup" method="_on_PublishBtn_pressed"]

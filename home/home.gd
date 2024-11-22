@@ -23,24 +23,25 @@ func _unhandled_input(event: InputEvent) -> void:
 		match current_screen:
 			Screens.SELECT_GAME:
 				$SelectGame/BackBtn.grab_focus()
-				Analytics.save_ui_action($SelectGame/BackBtn)
+#				Analytics.save_ui_click($SelectGame/BackBtnECS)
 				$SelectGame.call_deferred("_on_BackBtn_pressed")
 			Screens.ABOUT:
 				$About/BackBtn.grab_focus()
-				Analytics.save_ui_action($About/BackBtn)
+#				Analytics.save_ui_click($About/BackBtn)
 				$About.call_deferred("_on_BackBtn_pressed")
 			Screens.SETTINGS:
 				$Settings/BackBtn.grab_focus()
-				Analytics.save_ui_action($Settings/BackBtn)
+#				Analytics.save_ui_click($Settings/BackBtn)
 				$Settings.call_deferred("_on_BackBtn_pressed")
 			Screens.HIGHSCORES:
 				$Highscores/BackBtn.grab_focus()
-				Analytics.save_ui_action($Highscores/BackBtn)
+#				Analytics.save_ui_click($Highscores/BackBtn)
 				$Highscores.call_deferred("_on_BackBtn_pressed")
 			Screens.SELECT_LEVEL:
 				$SelectLevel/BackBtn.grab_focus()
-				Analytics.save_ui_action($SelectLevel/BackBtn)
+#				Analytics.save_ui_click($SelectLevel/BackBtn)
 				$SelectLevel.call_deferred("_on_BackBtn_pressed")
+		Analytics.save_ui_click("BackEsc")
 
 
 
@@ -215,6 +216,4 @@ func _on_HighscoresBtn_pressed() -> void:
 
 func _on_QuitGameBtn_pressed() -> void:
 
-	Analytics.end_session()
-	yield(get_tree().create_timer(Analytics.post_on_quit_time), "timeout")
-	get_tree().quit()
+	Global.main_node.quit_exit_game()
