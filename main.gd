@@ -84,11 +84,6 @@ func home_out():
 	if not Global.sound_manager.menu_music_set_to_off: # če muzka ni setana na off
 		Global.sound_manager.stop_music("menu_music")
 
-#	Analytics.update_session()
-#	print("update_session ", Time.get_ticks_usec() / 100000)
-#	yield(Analytics, "session_saved")
-#	print("update_session out ", Time.get_ticks_usec() / 100000)
-
 #	Global.current_scene.get_node("SelectGame/BackBtn").grab_focus() # anti pregame toggle
 	var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
@@ -126,11 +121,6 @@ func game_out(game_to_exit: int):
 	Global.game_camera = null
 	Global.sound_manager.play_gui_sfx("menu_fade")
 
-#	Analytics.update_session()
-#	print("update_session ", Time.get_ticks_usec() / 100000)
-#	yield(Analytics, "session_saved")
-#	print("update_session out ", Time.get_ticks_usec() / 100000)
-
 	var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)
 	yield(fade_out, "finished")
@@ -163,5 +153,4 @@ func quit_exit_game():
 
 	Analytics.end_session()
 	yield(Analytics, "session_saved")
-#	yield(get_tree().create_timer(Analytics.post_on_quit_time), "timeout")
 	get_tree().call_deferred("quit")

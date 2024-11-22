@@ -10,7 +10,7 @@ signal http_post_request_done
 var sheetbook_id: String = "1KfrvMCaqh65EGN_YEUrck8RyKGVbEUERathC6_VnRLQ" # link string
 var app_url: String = "https://script.google.com/macros/s/AKfycbxLoTTloQte2SX7K4MwNn49knWW115CroDu4ekA6pxdJZJQUJyazp6TN0CI_dVTIJLxJw/exec"
 
-# obs
+# _obsolete
 onready var note_title: LineEdit = $NoteTitle
 onready var note_text: LineEdit = $NoteText
 onready var title = $NoteTitle
@@ -39,7 +39,7 @@ var action_fetch_content: String = "fetch_row_content"
 var session_table_name: String = "SESSION_DATA"
 var game_table_name: String = "GAME_DATA"
 
-var default_session_data: Dictionary = { # debug
+var default_session_data: Dictionary = {
 	# na prvi sejv od ApiScripta
 	"session_id": 0,
 	# on session start
@@ -343,7 +343,7 @@ func _on_request_completed(result, response_code, headers, body) -> void: # Hand
 		# wrong aprouč > vlečem podatke za vsebino in samo listo notetov ... kar je kar zanimiv kombo
 		if json_result:
 			var data = json_result
-			# OPT ... If it's not a list, it is note content , dont make like me , create proper separate functions , here i am just prototyping
+			# If it's not a list, it is note content , dont make like me , create proper separate functions , here i am just prototyping
 			if typeof(data) == TYPE_ARRAY:
 				note_list.clear()
 				for note in data:
@@ -353,7 +353,7 @@ func _on_request_completed(result, response_code, headers, body) -> void: # Hand
 				note_tags.text = str(data[column_data_1_key])
 				title.text = str(data[column_title_key])
 			var last_result_index: int = data.size() - 1# current session id
-			session_data_gd["session_id"] = int(data[last_result_index][column_id_key]) # _temp
+			session_data_gd["session_id"] = int(data[last_result_index][column_id_key])
 			printt ("new session id saved", session_data_gd["session_id"] )
 		else:
 			printt("JSON parse error  ")#, body)

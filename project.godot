@@ -63,7 +63,7 @@ Global="*res://autoloads/global.gd"
 Profiles="*res://autoloads/profiles.gd"
 ConnectCover="*res://autoloads/connect_cover.tscn"
 LootLocker="*res://autoloads/lootlocker.gd"
-Analytics="*res://autoloads/analytics.tscn"
+Analytics="*res://autoloads/analytics.gd"
 
 [debug]
 
