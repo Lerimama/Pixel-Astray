@@ -43,6 +43,12 @@ func _ready() -> void:
 	else:
 		$CameraShakeBtn.pressed = false
 
+	# data tracking
+	if Profiles.analytics_mode:
+		$TrackingBtn.pressed = true
+	else:
+		$TrackingBtn.pressed = false
+
 	# pregame screen
 	if Profiles.default_game_settings["show_game_instructions"] == true:
 		$InstructionsBtn.pressed = true
@@ -69,6 +75,8 @@ func _on_BackBtn_pressed() -> void:
 
 func _on_MenuMusicBtn_toggled(button_pressed: bool) -> void:
 
+	Global.grab_focus_nofx($MenuMusicBtn) # za analitiko
+
 	if button_pressed:
 		Global.sound_manager.menu_music_set_to_off = false
 		Global.sound_manager.play_music("menu_music")
@@ -79,6 +87,8 @@ func _on_MenuMusicBtn_toggled(button_pressed: bool) -> void:
 
 func _on_GameMusicBtn_toggled(button_pressed: bool) -> void:
 
+	Global.grab_focus_nofx($GameMusicBtn) # za analitiko
+
 	# ker muzika še ni naloudana samo setam željeno stanje ob nalaganju
 	if button_pressed:
 		Global.sound_manager.game_music_set_to_off = false
@@ -87,6 +97,8 @@ func _on_GameMusicBtn_toggled(button_pressed: bool) -> void:
 
 
 func _on_MusicHSlider_value_changed(value: float) -> void:
+
+	Global.grab_focus_nofx($GameMusicSlider) # za analitiko
 
 	Global.sound_manager.set_game_music_volume(value)
 
@@ -98,6 +110,8 @@ func _on_GameMusicSlider_drag_ended(value_changed: bool) -> void: # za analitiko
 
 func _on_GameSfxBtn_toggled(button_pressed: bool) -> void:
 
+	Global.grab_focus_nofx($GameSfxBtn) # za analitiko
+
 	# ker muzika še ni naloudana samo setam željeno stanje ob nalaganju
 	if button_pressed:
 		Global.sound_manager.game_sfx_set_to_off = false
@@ -107,11 +121,25 @@ func _on_GameSfxBtn_toggled(button_pressed: bool) -> void:
 
 func _on_CameraShakeBtn_toggled(button_pressed: bool) -> void:
 
+	Global.grab_focus_nofx($CameraShakeBtn) # za analitiko
 	# ker igra še ni naloudana samo setam željeno stanje ob nalaganju
 	if button_pressed:
 		Profiles.camera_shake_on = true
 	else:
 		Profiles.camera_shake_on = false
+
+
+func _on_TrackingBtn_toggled(button_pressed: bool) -> void:
+
+	Global.grab_focus_nofx($TrackingBtn) # za analitiko
+
+	if button_pressed:
+		#		Profiles.analytics_mode = true
+		Analytics.update_session()
+		Profiles.set_deferred("analytics_mode", true) # deferr da ujame klik
+
+	else:
+		Profiles.analytics_mode = false
 
 
 func _on_InstructionsBtn_toggled(button_pressed: bool) -> void:

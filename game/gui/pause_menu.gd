@@ -122,6 +122,9 @@ func _on_RestartBtn_pressed() -> void:
 	Global.game_manager.stop_game_elements()
 	Global.sound_manager.stop_music("game_music_on_gameover")
 	# get_tree().paused = false ... tween za izhod pavzo drevesa ignorira
+
+	Analytics.save_game_data([false, Global.game_manager.strays_in_game_count])
+
 	Global.main_node.reload_game()
 
 
@@ -132,9 +135,11 @@ func _on_QuitBtn_pressed() -> void:
 	Global.game_manager.stop_game_elements()
 	Global.sound_manager.stop_music("game_music_on_gameover")
 	# get_tree().paused = false ... tween za izhod pavzo drevesa ignorira
-	Global.main_node.game_out(Global.game_manager.game_data["game"])
 
 	Analytics.save_game_data([false, Global.game_manager.strays_in_game_count])
+
+	Global.main_node.game_out(Global.game_manager.game_data["game"])
+
 
 
 
@@ -165,12 +170,17 @@ func update_settings_btns():
 			$Settings/ShowHintBtn.pressed = true
 		else:
 			$Settings/ShowHintBtn.pressed = false
-		$Settings/ShowHintBtn.show()
-	else:
-		$Settings/ShowHintBtn.hide()
+
+	if Global.game_manager.game_data["game"] == Profiles.Games.CLEANER:
+		if Global.tutorial_gui.tutorial_on:
+			$Settings/TutorialModeBtn.pressed = true
+		else:
+			$Settings/TutorialModeBtn.pressed = false
 
 
 func _on_GameMusicBtn_toggled(button_pressed: bool) -> void:
+
+	Global.grab_focus_nofx($Settings/GameMusicBtn) # za analitiko
 
 	if button_pressed:
 		Global.sound_manager.play_gui_sfx("btn_confirm")
@@ -189,6 +199,7 @@ func _on_GameMusicSlider_value_changed(value: float) -> void:
 
 func _on_GameSfxBtn_toggled(button_pressed: bool) -> void:
 
+	Global.grab_focus_nofx($Settings/GameSfxBtn) # za analitiko
 	if button_pressed:
 		Global.sound_manager.play_gui_sfx("btn_confirm")
 		Global.sound_manager.game_sfx_set_to_off = false
@@ -199,6 +210,7 @@ func _on_GameSfxBtn_toggled(button_pressed: bool) -> void:
 
 func _on_CameraShakeBtn_toggled(button_pressed: bool) -> void:
 
+	Global.grab_focus_nofx($Settings/CameraShakeBtn) # za analitiko
 	if button_pressed:
 		Global.sound_manager.play_gui_sfx("btn_confirm")
 		Profiles.camera_shake_on = true
@@ -211,6 +223,7 @@ func _on_ShowHintBtn_toggled(button_pressed: bool) -> void:
 
 	var solution_line: Line2D = Global.current_tilemap.solution_line
 
+	Global.grab_focus_nofx($Settings/ShowHintBtn) # za analitiko
 	if button_pressed:
 		Global.sound_manager.play_gui_sfx("btn_confirm")
 		Global.current_tilemap.solution_line.show()
@@ -221,6 +234,7 @@ func _on_ShowHintBtn_toggled(button_pressed: bool) -> void:
 
 func _on_TutorialModeBtn_toggled(button_pressed: bool) -> void:
 
+	Global.grab_focus_nofx($Settings/TutorialModeBtn) # za analitiko
 	if button_pressed:
 		Global.sound_manager.play_gui_sfx("btn_confirm")
 		Global.tutorial_gui.open_tutorial(true)

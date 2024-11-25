@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=43 format=2]
 
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=1]
 [ext_resource path="res://game/gui/game_over.tscn" type="PackedScene" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=10]
 [ext_resource path="res://game/gui/pause_gui.tscn" type="PackedScene" id=11]
 [ext_resource path="res://game/gui/controls_scheme.tscn" type="PackedScene" id=12]
+[ext_resource path="res://game/TouchControls.tscn" type="PackedScene" id=13]
 [ext_resource path="res://game/player_camera.tscn" type="PackedScene" id=18]
 [ext_resource path="res://managers/game_manager.gd" type="Script" id=19]
 
@@ -1150,6 +1151,8 @@ visible = false
 [node name="RespawnTimer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
+
+[node name="TouchControls" parent="." instance=ExtResource( 13 )]
 
 [connection signal="animation_finished" from="GUI/Tutorial/AnimationPlayer" to="GUI/Tutorial" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="RespawnTimer" to="GameManager" method="_on_RespawnTimer_timeout"]

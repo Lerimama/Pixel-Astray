@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 
 signal finished_playing
@@ -49,7 +49,7 @@ func _ready() -> void:
 
 	Global.game_manager = self
 	randomize()
-	skip_intro_btn.add_to_group(Global.group_menu_confirm_btns)
+	#	skip_intro_btn.add_to_group(Global.group_menu_confirm_btns) ... zaklene miško na klik
 	skip_intro_btn.disabled = true
 
 
@@ -73,7 +73,7 @@ func finish_intro(): # ob skipanju in regularnem koncu intra
 	# neu
 	skip_intro_btn.disabled = true
 	skip_intro_btn.hide()
-	skip_intro_btn.release_focus()
+	#	skip_intro_btn.release_focus()
 
 	# vse pospravim ... zazih
 	animation_player.stop()
@@ -356,4 +356,6 @@ func _on_TileMap_completed(stray_random_positions: Array, stray_positions: Array
 
 func _on_SkipButton_pressed() -> void:
 
+	#	print (skip_intro_btn.get_focus_owner())
+	skip_intro_btn.grab_focus()
 	finish_intro()

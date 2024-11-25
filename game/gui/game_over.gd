@@ -170,6 +170,9 @@ func play_selected_level(selected_level: int):
 
 	# set sweeper level
 	Profiles.game_data_sweeper["level"] = selected_level
+
+	Analytics.save_game_data([true, Global.game_manager.strays_in_game_count])
+
 	Global.main_node.reload_game()
 
 
@@ -456,6 +459,8 @@ func _on_CancelBtn_pressed() -> void:
 
 
 func _on_RestartBtn_pressed() -> void:
+
+	Analytics.save_game_data([true, Global.game_manager.strays_in_game_count])
 
 	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 		Profiles.game_data_sweeper["level"] = Global.game_manager.game_data["level"]

@@ -342,7 +342,10 @@ func _on_button_toggled(button_pressed: bool) -> void:
 			Global.sound_manager.play_gui_sfx("btn_confirm")
 		else:
 			Global.sound_manager.play_gui_sfx("btn_cancel")
-		Analytics.save_ui_click([current_focused_control, button_pressed])
+
+		if current_focused_control: # debug, da lahko štartam z igro ... zazih
+			Analytics.save_ui_click([current_focused_control, button_pressed])
+
 
 # on hover
 func _on_control_hovered(control: Control):

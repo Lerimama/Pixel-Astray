@@ -30,8 +30,8 @@ func _ready() -> void:
 	Global.main_node = self
 
 #	call_deferred("home_in_intro")
-	call_deferred("home_in_no_intro")
-#	call_deferred("game_in")
+#	call_deferred("home_in_no_intro")
+	call_deferred("game_in")
 
 	Analytics.call_deferred("start_new_session")
 
@@ -137,6 +137,9 @@ func reload_game(): # game out z drugačnim zaključkom
 	Global.sound_manager.play_gui_sfx("menu_fade")
 
 	var current_game_enum: int = Global.game_manager.game_data["game"]
+
+	# če relouda, se trenutna igra konča ob kliku in potem tukaj začne nova (nadomešča home btn klik
+	Analytics.save_game_data(Profiles.current_game_data["game_name"])
 
 	var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_out.tween_property(Global.current_scene, "modulate", Color.black, fade_time)

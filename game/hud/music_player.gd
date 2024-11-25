@@ -11,7 +11,7 @@ onready var speaker_icon: Control = $SpeakerIcon
 func _unhandled_input(event: InputEvent) -> void:
 
 	if Global.game_manager.game_on and visible == true: # visible je, da deluje samo na enem plejerju
-		if Input.is_action_just_pressed("next") and visible == true:
+		if Input.is_action_just_pressed("next_track") and visible == true:
 			if not AudioServer.is_bus_mute(game_music_bus_index):
 				Global.sound_manager.skip_track()
 				Analytics.save_ui_click("SkipTrack %d" % (Global.sound_manager.current_music_track_index + 1))

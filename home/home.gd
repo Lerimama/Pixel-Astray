@@ -11,11 +11,17 @@ onready var menu: HBoxContainer = $HomeScreen/Menu
 onready var intro: Node2D = $HomeScreen/IntroViewPortContainer/IntroViewport/Intro
 onready var intro_viewport: Viewport = $HomeScreen/IntroViewPortContainer/IntroViewport
 
+# debug
+#func _process(delta: float) -> void:
+#	if menu.visible:
+#		print (menu.get_focus_owner())
+#	print (menu.get_focus_owner())
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	#func _input(event: InputEvent) -> void:
 
-	#	if Input.is_action_just_pressed("next"):
+	#	if Input.is_action_just_pressed("next_track"):
 	#		Global.sound_manager.change_menu_music()
 
 	if Input.is_action_just_pressed("ui_cancel"):
@@ -44,7 +50,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		Analytics.save_ui_click("BackEsc")
 
 
-
 func _ready():
 
 #	menu.hide()
@@ -58,6 +63,9 @@ func _ready():
 
 	if Profiles.html5_mode:
 		menu.get_node("ExitGameBtn").hide()
+
+	var focused_control: Control = menu.get_focus_owner()
+	focused_control.call_deferred("release_focus")
 
 
 func open_with_intro(): # kliče main.gd -> home_in_intro()
@@ -138,18 +146,15 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 		"select_game":
 			if not animation_reversed(Screens.SELECT_GAME):
 				current_screen = Screens.SELECT_GAME
-#				Global.grab_focus_nofx($SelectGame/GamesMenu/Cleaner/CleanerBtn)
 				Global.grab_focus_nofx($SelectGame.default_focus_node)
 		"about":
 			if not animation_reversed(Screens.ABOUT):
 				current_screen = Screens.ABOUT
-#				Global.grab_focus_nofx($About/BackBtn)
 				Global.grab_focus_nofx($About.default_focus_node)
 		"settings":
 			if not animation_reversed(Screens.SETTINGS):
 				current_screen = Screens.SETTINGS
 				Global.grab_focus_nofx($Settings.default_focus_node)
-#				Global.grab_focus_nofx($Settings/MenuMusicBtn)
 		"highscores":
 			if not animation_reversed(Screens.HIGHSCORES):
 				current_screen = Screens.HIGHSCORES
@@ -161,7 +166,6 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 			if not animation_reversed(Screens.SELECT_LEVEL):
 				current_screen = Screens.SELECT_LEVEL
 				Global.grab_focus_nofx($SelectLevel.default_focus_node)
-#				Global.grab_focus_nofx($SelectLevel.select_level_btns_holder.all_level_btns[0])
 
 
 func animation_reversed(from_screen: int):

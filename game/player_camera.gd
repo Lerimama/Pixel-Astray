@@ -38,7 +38,7 @@ onready var cell_align_end: Vector2 = Vector2(cell_size_x/2, cell_size_x/2)
 
 
 func _ready():
-	
+
 	if get_viewport().name == "IntroViewport": # intro
 		Global.intro_camera = self
 	else: # game
@@ -46,16 +46,16 @@ func _ready():
 		zoom = zoom_start
 
 	# testhud
-	set_ui_focus()	
+	set_ui_focus()
 	update_ui()
-	
-	
+
+
 func _process(delta: float):
-	
+
 	time += delta
-	
+
 	# SHAKE KODA
-	# camera noise setup 
+	# camera noise setup
 	noise.seed = noise_seed
 	noise.octaves = noise_octaves
 	noise.period = noise_period
@@ -73,7 +73,7 @@ func _process(delta: float):
 	if trauma_strength > 0:
 		yield(get_tree().create_timer(trauma_time), "timeout")
 		trauma_strength = clamp(trauma_strength - (delta * decay_speed), 0, 1)
-	
+
 	# testhud
 	update_ui()
 	if drag_on:
@@ -81,41 +81,41 @@ func _process(delta: float):
 
 
 func _physics_process(delta: float) -> void:
-	
+
 	if camera_target:
 		position = camera_target.position + cell_align
 
-	
+
 func zoom_in(hud_in_out_time: float): # kliče hud
-	
+
 	var zoom_in_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	zoom_in_tween.tween_property(self, "zoom", zoom_end, hud_in_out_time)
 	zoom_in_tween.parallel().tween_property(self, "cell_align", cell_align_end, hud_in_out_time)
 	yield(zoom_in_tween, "finished")
-	
+
 	Global.current_tilemap.tilemap_background.hide()
 
-	
+
 func zoom_out(hud_in_out_time: float): # kliče hud
 
 	camera_target = null
 	position = get_camera_position() # pozicija postane ofsetana pozicija
-	
+
 	Global.current_tilemap.tilemap_background.show()
-	
+
 	# unset limits
 	limit_left = -10000000
 	limit_right = 10000000
 	limit_top = -10000000
 	limit_bottom = 10000000
-	var zoomout_position = Global.current_tilemap.camera_position_node.global_position	
+	var zoomout_position = Global.current_tilemap.camera_position_node.global_position
 	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
 	zoom_out_tween.tween_property(self, "zoom", zoom_start, hud_in_out_time)
 	zoom_out_tween.parallel().tween_property(self, "position", zoomout_position, hud_in_out_time)
-	
 
-func shake_camera(shake_power: float, shake_time: float, shake_decay: float): 
-	
+
+func shake_camera(shake_power: float, shake_time: float, shake_decay: float):
+
 	if Profiles.camera_shake_on:
 		# fixed
 		trauma_strength = shake_power
@@ -127,10 +127,10 @@ func shake_camera(shake_power: float, shake_time: float, shake_decay: float):
 
 func set_zoom_to_level_size():
 
-	var zoom_1_width_limit: float = 1344 # 1 zoom, 42 tiletov širine 
+	var zoom_1_width_limit: float = 1344 # 1 zoom, 42 tiletov širine
 	var zoom_2_width_limit: float = 1984 # 1.5 zoom, 62 tiletov širine
 	var zoom_3_width_limit: float = 2624 # 2 zoom, 82 tiletov širine
-	
+
 	var current_tilemap_width: float = Global.current_tilemap.get_used_rect().size.x * cell_size_x
 	if current_tilemap_width <= zoom_1_width_limit:
 		zoom_end = Vector2.ONE
@@ -138,26 +138,26 @@ func set_zoom_to_level_size():
 		zoom_end = Vector2.ONE * 1.5
 	else:
 		zoom_end = Vector2.ONE * 2
-	
-		
+
+
 func set_camera_limits():
-	
+
 	var tilemap_edge: Rect2 = Global.current_tilemap.get_used_rect()
-	
+
 	corner_TL = tilemap_edge.position.x * cell_size_x + cell_size_x # k mejam prištejem edge debelino
 	corner_TR = tilemap_edge.end.x * cell_size_x - cell_size_x
 	corner_BL = tilemap_edge.position.y * cell_size_x + cell_size_x
 	corner_BR = tilemap_edge.end.y * cell_size_x - cell_size_x
-	
+
 	if limit_left <= corner_TL and limit_right <= corner_TR and limit_top <= corner_BL and limit_bottom <= corner_BR: # če so meje manjše od kamere
-		pass	
+		pass
 	else:
 		limit_left = corner_TL
 		limit_right = corner_TR
 		limit_top = corner_BL
 		limit_bottom = corner_BR
-	
-	
+
+
 # TESTHUD ------------------------------------------------------------------------------------------------------------------------
 
 
@@ -166,9 +166,9 @@ var test_view_on = false
 # test shake setup ... se ne meša z nastavitvami za igro
 export var test_trauma_strength = 0.1 # šejk sajz na testnem gumbu ... se multiplicira s prtiskanjem
 export var test_trauma_time = 0.2 # decay delay
-export var test_decay_speed = 0.7 # krajši je 
+export var test_decay_speed = 0.7 # krajši je
 
-# mouse drag 
+# mouse drag
 var mouse_used: bool = false # če je miška ni redi za dreganje ekrana
 var camera_center = Vector2(320, 180)
 var mouse_position_on_drag_start: Vector2 # zamik pozicije miške ob kliku
@@ -197,7 +197,7 @@ func _input(_event: InputEvent) -> void: # testview inputs
 
 	if Input.is_action_just_pressed("left_click") and test_view_on and not mouse_used:
 		multi_shake_camera(test_trauma_strength, test_trauma_time, test_decay_speed)
-		
+
 	if Input.is_mouse_button_pressed(BUTTON_WHEEL_UP) and test_view_on:
 		zoom -= Vector2(0.1, 0.1)
 		zoom_label.text = "Zoom Level: " + str(round(zoom.x * 100)) + "%"
@@ -224,14 +224,14 @@ func set_ui_focus():
 	time_slider.set_focus_mode(0)
 	zoom_slider.hide()
 
-	
+
 func update_ui():
-	
+
 	seed_slider.value = noise.seed
 	octaves_slider.value = noise.octaves
-	period_slider.value = noise.period 
+	period_slider.value = noise.period
 	persistence_slider.value = noise.persistence
-	lacunarity_slider.value = noise.lacunarity 
+	lacunarity_slider.value = noise.lacunarity
 	trauma_time_slider.value = trauma_time
 	trauma_strength_slider.value = test_trauma_strength
 
@@ -240,16 +240,16 @@ func update_ui():
 	decay_slider.value = decay_speed
 
 
-func multi_shake_camera(shake_power: float, shake_time: float, shake_decay: float): 
-	
+func multi_shake_camera(shake_power: float, shake_time: float, shake_decay: float):
+
 	trauma_strength += shake_power
 	trauma_time = shake_time
 	decay_speed = shake_decay
-	
+
 	# apply shake
 	trauma_strength = clamp(trauma_strength, 0, 1)
-	
-	
+
+
 # toggle testhud
 
 func _on_CheckBox_toggled(button_pressed: bool) -> void:
@@ -356,7 +356,7 @@ func _on_ResetView_mouse_entered() -> void:
 func _on_ResetView_mouse_exited() -> void:
 	mouse_used = false
 func _on_ResetView_pressed() -> void:
-	position = Vector2.ZERO + camera_center 
+	position = Vector2.ZERO + camera_center
 	zoom = Vector2.ONE
 
 func _on_ZoomSlider_mouse_entered() -> void:

@@ -63,7 +63,7 @@ func set_level_btns():
 		var btn_index: int = all_level_btns.find(btn)
 		var btn_level_number: int = btn_index + 1
 		# poimenujem gumb in barvam ozadje
-		btn.name = "Sweeper%02d" % btn_level_number
+		btn.name = "Sweeper%02dBtn" % btn_level_number
 		btn.self_modulate = unfocused_color
 		# napolnem
 		if not btn == the_pixel_astray_level_btn: # če level ni pixel astray, ima številko (ločeno zaradi pixel astray napisa
@@ -151,4 +151,7 @@ func _on_btn_unhovered_or_unfocused(btn):
 func _on_btn_pressed(btn):
 	var pressed_btn_index: int = get_children().find(btn)
 	select_level_btns_holder_parent.play_selected_level(pressed_btn_index + 1)
+
+	var sweeper_game_name: String = "Sweeper %02d" % (pressed_btn_index + 1)
+	Analytics.save_game_data(sweeper_game_name)
 

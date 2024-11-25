@@ -23,8 +23,11 @@ var session_data: Dictionary = {
 	"games_finished_count": 0, # on GO
 	"total_playing_time": 0,
 	"games_played": "",
+	# neu
+	"current_game_data": {"dede": 0},
 }
-var current_game_data: Dictionary = { # ime ob zaprtju spremeni v številko in doda v games_played
+var def_game_data: Dictionary = { # ime ob zaprtju spremeni v številko in doda v games_played
+	"sheet_name": "game_data",
 	"game_name": "",
 	"game_started": false,
 	"game_played": false,
@@ -32,6 +35,8 @@ var current_game_data: Dictionary = { # ime ob zaprtju spremeni v številko in d
 	"stray_count": 0,
 	"playing_time": 0, # če je 0 je prehitro končana igra
 }
+
+var current_game_data: Dictionary = def_game_data
 
 # api
 var sheetbook_id: String = "1KfrvMCaqh65EGN_YEUrck8RyKGVbEUERathC6_VnRLQ" # link string
@@ -41,45 +46,8 @@ var script_action_save_row: String = "save_existing_row"
 var script_action_get_rows_list: String = "fetch_rows_list"
 
 
-func save_game_data(game_parameter = null): # parameter je lahko ime igre, končano/nekončano
-
-	match typeof(game_parameter):
-		TYPE_STRING: # izbor ... ime igre
-			if not game_tracking:
-				game_tracking = true
-				session_data["games_played_count"] += 1
-				current_game_data["game_name"] = game_parameter
-				current_game_data["game_started"] = true
-				update_session()
-		TYPE_NIL: # štart --- empty
-			if game_tracking:
-				current_game_data["playing_time"] = Time.get_ticks_msec() / 1000
-				current_game_data["game_played"] = true
-		TYPE_ARRAY: # konec ... kančano / nekončano
-			if game_tracking:
-				session_data["total_playing_time"] += current_game_data["playing_time"]
-				# game
-				var game_start_time: int = current_game_data["playing_time"]
-				current_game_data["playing_time"] = Time.get_ticks_msec() / 1000 - game_start_time
-				current_game_data["stray_count"] =  game_parameter[1]
-				var game_finished: bool = game_parameter[0]
-				if game_finished == true:
-					session_data["games_finished_count"] += 1
-					current_game_data["game_finished"] = true
-
-				session_data["games_played"] += current_game_data["game_name"]
-				session_data["games_played"] += " - Fin " + str(current_game_data["game_finished"])
-				session_data["games_played"] += ", Strays " + str(current_game_data["stray_count"])
-				session_data["games_played"] +=", Time " + str(current_game_data["playing_time"]) + "s"
-				session_data["games_played"] +="\n"
-
-				update_session()
-				game_tracking = false
-
-
-
 # on load game
-func start_new_session(start_fake: bool = false):
+func start_new_session(start_fake: bool = false): # kliče main
 
 	if Profiles.analytics_mode and not session_tracking:
 		session_tracking = true
@@ -96,9 +64,11 @@ func start_new_session(start_fake: bool = false):
 
 
 # scene change
-func update_session(): # kliče main
+func update_session():
 
 	if Profiles.analytics_mode and session_tracking:
+		# neu
+		session_data["current_game_data"] = current_game_data
 		print("> updating session")
 		save_existing_row(session_data["session_id"])
 
@@ -113,40 +83,74 @@ func end_session():
 		session_tracking = false
 
 
+func save_game_data(game_parameter = null): # parameter je lahko ime igre, končano/nekončano
+
+	if Profiles.analytics_mode:
+
+		match typeof(game_parameter):
+			TYPE_STRING: # start
+				# select games btnz
+				# select sweeper level btns
+				# restart main reload > pred game_in
+				if not game_tracking:
+					game_tracking = true
+					current_game_data = def_game_data # reset
+					session_data["games_played_count"] += 1
+					current_game_data["game_name"] = game_parameter
+					current_game_data["game_started"] = true
+					update_session()
+			TYPE_NIL: # play
+				# GM pre hud.slidein
+				if game_tracking:
+					current_game_data["playing_time"] = Time.get_ticks_msec() / 1000
+					current_game_data["game_played"] = true
+			TYPE_ARRAY: # end
+				# game over na open
+				# pause restart, quit
+				if game_tracking:
+					session_data["total_playing_time"] += current_game_data["playing_time"]
+					# game
+					var game_start_time: int = current_game_data["playing_time"]
+					current_game_data["playing_time"] = Time.get_ticks_msec() / 1000 - game_start_time
+					current_game_data["stray_count"] =  game_parameter[1]
+					var game_finished: bool = game_parameter[0]
+					if game_finished == true:
+						session_data["games_finished_count"] += 1
+						current_game_data["game_finished"] = true
+
+					session_data["games_played"] += current_game_data["game_name"]
+					session_data["games_played"] += " - Fin " + str(current_game_data["game_finished"])
+					session_data["games_played"] += ", Strays " + str(current_game_data["stray_count"])
+					session_data["games_played"] +=", Time " + str(current_game_data["playing_time"]) + "s"
+					session_data["games_played"] +="\n"
+
+					update_session()
+					game_tracking = false
+
+
 func save_ui_click(ui_action):
 	# podatki se nabirajo iz ui gumbov (global), keyboard input
 	# specials: intro, home ESC keyboard input, settings volume slider, GO name_input & publish
 
-	var save_string: String
-	match typeof(ui_action):
-		TYPE_STRING: # key input
-			save_string = ui_action
-		TYPE_OBJECT: # btn
-			save_string = ui_action.name
-		TYPE_ARRAY: # toggle/slider >  btn in bool/value
-			var btn_name: String = ui_action[0].name
-			var btn_bool = ui_action[1]
-			save_string = btn_name + " " + str(btn_bool)
+	if Profiles.analytics_mode:
 
-	if session_data["ui_clicks"] == "":
-		session_data["ui_clicks"] += save_string
-	session_data["ui_clicks"] +=" > " + save_string
-	#	printt("ui_clicks", session_data["ui_clicks"])
-	btns_clicked.append(save_string)
+		var save_string: String
+		match typeof(ui_action):
+			TYPE_STRING: # key input
+				save_string = ui_action
+			TYPE_OBJECT: # btn
+				save_string = ui_action.name
+			TYPE_ARRAY: # toggle/slider >  btn in bool/value
+				print(ui_action)
+				var btn_name: String = ui_action[0].name
+				var btn_bool = ui_action[1]
+				save_string = btn_name + " " + str(btn_bool)
 
-
-func reset_session_data():
-
-	session_data = {
-		"session_id": 0, # pravega poda sheet api na prvi sejv od ApiScripta
-		"device_id": "ABC",
-		"session_date": "01/12/2024",
-		"session_time": "00:00:00",
-		"os_name": "OS",
-		"os_language": "nn",
-		"ui_clicks": ["none"],
-		"session_length": 0,
-	}
+		if session_data["ui_clicks"] == "":
+			session_data["ui_clicks"] += save_string
+		session_data["ui_clicks"] +=" > " + save_string
+		#	printt("ui_clicks", session_data["ui_clicks"])
+		btns_clicked.append(save_string)
 
 
 # ROW ACTIONS --------------------------------------------------------------------------------------------------
@@ -237,7 +241,7 @@ func _on_request_completed(result, response_code, headers, body) -> void: # Hand
 			#			print("OK! _on_request_completed")
 			#			print("New session id: ", session_data["session_id"] )
 		else:
-			print("Error! JSON parse")
+			print("Error! JSON parse", res)
 			#			print("Result UTF8: ", res)
 	else:
 		print("Error! _on_request_completed: ", response_code)
@@ -248,16 +252,3 @@ func _on_request_completed(result, response_code, headers, body) -> void: # Hand
 		#			#		print("Bs", body)
 
 	#	print("--- request end ---")
-
-
-# BTNS ---------------------------------------------------------------------------------------------
-
-
-func _on_EndBtn_pressed() -> void:
-
-	end_session()
-
-
-func _on_StartBtn_pressed() -> void:
-
-	start_new_session()

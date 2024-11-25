@@ -48,6 +48,7 @@ func play_selected_level(selected_level: int):
 
 
 func _on_BackBtn_pressed() -> void:
-	print ("pressed")
+	#	print ("pressed")
+
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play_backwards("select_level")

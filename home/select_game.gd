@@ -39,6 +39,7 @@ func _ready() -> void:
 	# vgrupo za efekte
 	for btn in all_game_btns:
 		btn.add_to_group(Global.group_menu_confirm_btns)
+		btn.connect("pressed", self, "_on_game_btn_pressed", [btn])
 	$BackBtn.add_to_group(Global.group_menu_cancel_btns)
 
 	color_game_btns()
@@ -211,12 +212,12 @@ func _on_CleanerBtn_pressed() -> void:
 
 func _on_TutorialModeBtn_toggled(button_pressed: bool) -> void:
 
+
 	if button_pressed:
 		Profiles.tutorial_mode = true
 	else:
 		Profiles.tutorial_mode = false
 
-# OPT povezavo gumbov avtomatiziraj
 func _on_SBtn_pressed() -> void:
 
 	play_selected_game(Profiles.Games.ERASER_XS)
