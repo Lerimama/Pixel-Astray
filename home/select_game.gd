@@ -38,8 +38,12 @@ func _ready() -> void:
 
 	# vgrupo za efekte
 	for btn in all_game_btns:
-		btn.add_to_group(Global.group_menu_confirm_btns)
-		btn.connect("pressed", self, "_on_game_btn_pressed", [btn])
+		btn.add_to_group(Global.group_menu_confirm_btns) # OPT touch diasble duel btn
+		if btn == $GamesMenu/TheDuel/TheDuelBtn and OS.has_touchscreen_ui_hint():
+			btn.disabled = true
+			$GamesMenu/TheDuel/Label.text = "Couch coop is disabled\nfor touchscreen."
+		else:
+			btn.connect("pressed", self, "_on_game_btn_pressed", [btn])
 	$BackBtn.add_to_group(Global.group_menu_cancel_btns)
 
 	color_game_btns()

@@ -24,14 +24,14 @@ func _input(event: InputEvent) -> void:
 
 func _ready() -> void:
 
-	TranslationServer.set_locale("sl")
+	#	TranslationServer.set_locale("sl")
 	#	print("Current lang: ", TranslationServer.get_locale())
 
 	Global.main_node = self
 
-#	call_deferred("home_in_intro")
+	call_deferred("home_in_intro")
 #	call_deferred("home_in_no_intro")
-	call_deferred("game_in")
+#	call_deferred("game_in")
 
 	Analytics.call_deferred("start_new_session")
 

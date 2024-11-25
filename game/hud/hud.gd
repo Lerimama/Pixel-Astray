@@ -71,6 +71,7 @@ onready var astray_label: Label = $Footer/FooterLine/StraysLine/AstrayHolder/Lab
 onready var spectrum: HBoxContainer = $Footer/FooterLine/SpectrumHolder/ColorSpectrum
 onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
 onready var current_gamed_hs_type: int = Global.game_manager.game_data["highscore_type"]
+onready var touch_controls: Node2D = $"../TouchControls"
 
 # debug ... life & energy
 onready var player_life: Label = $Life
@@ -202,7 +203,6 @@ func set_current_highscore():
 
 func slide_in(): # kliče GM set_game()
 
-
 	if Global.game_manager.game_settings["start_countdown"]:
 		start_countdown.modulate.a = 0
 		start_countdown.show()
@@ -215,10 +215,13 @@ func slide_in(): # kliče GM set_game()
 		Global.game_camera.zoom_in(hud_in_out_time)
 
 		var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD) # trans je ista kot tween na kameri
-		fade_in.parallel().tween_property(header, "rect_position:y", 0, hud_in_out_time)
+		fade_in.tween_property(header, "rect_position:y", 0, hud_in_out_time)
 		fade_in.parallel().tween_property(footer, "rect_position:y", screen_height - header_height, hud_in_out_time)
 		fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", header_height, hud_in_out_time)
 		fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", header_height, hud_in_out_time)
+		# touch controls
+		if touch_controls.visible:
+			fade_in.parallel().tween_property(touch_controls, "modulate.a", 1, hud_in_out_time)
 
 	if not Global.game_manager.level_goal_mode:
 		for indicator in all_color_indicators:
@@ -238,6 +241,10 @@ func slide_out(): # kliče GM na game over
 		fade_in.parallel().tween_property(footer, "rect_position:y", screen_height, hud_in_out_time)
 		fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", 0, hud_in_out_time)
 		fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", 0, hud_in_out_time)
+		# touch controls
+		if touch_controls.visible:
+			fade_in.parallel().tween_property(touch_controls, "modulate.a", 0, hud_in_out_time)
+			fade_in.tween_callback(touch_controls, "hide")
 		fade_in.tween_callback(self, "hide")
 
 

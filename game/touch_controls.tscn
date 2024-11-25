@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=1]
 [ext_resource path="res://game/touch_controls.gd" type="Script" id=2]
@@ -14,6 +14,9 @@ region = Rect2( 14, 240, 34, 32 )
 [sub_resource type="ConvexPolygonShape2D" id=361]
 points = PoolVector2Array( -19, 0, -3, 16, 17, 16, 17, -16, -3, -16 )
 
+[sub_resource type="RectangleShape2D" id=365]
+extents = Vector2( 632, 312 )
+
 [sub_resource type="AtlasTexture" id=366]
 atlas = ExtResource( 1 )
 region = Rect2( 16, 384, 80, 80 )
@@ -25,9 +28,6 @@ region = Rect2( 16, 304, 80, 80 )
 [sub_resource type="RectangleShape2D" id=360]
 extents = Vector2( 40, 40 )
 
-[sub_resource type="RectangleShape2D" id=365]
-extents = Vector2( 640, 360 )
-
 [sub_resource type="AtlasTexture" id=367]
 atlas = ExtResource( 1 )
 region = Rect2( 48, 262, 22, 22 )
@@ -36,12 +36,10 @@ region = Rect2( 48, 262, 22, 22 )
 atlas = ExtResource( 1 )
 region = Rect2( 48, 240, 22, 22 )
 
-[node name="TouchControls" type="CanvasLayer"]
-layer = 20
+[sub_resource type="RectangleShape2D" id=369]
+
+[node name="TouchControls" type="Node2D"]
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_horizontal_guides_": [ 656.0, 592.0 ]
-}
 
 [node name="DirectionBtns" type="Node2D" parent="."]
 position = Vector2( 32, 474 )
@@ -85,17 +83,25 @@ shape_visible = false
 passby_press = true
 visibility_mode = 1
 
-[node name="TouchBtn_Burst" type="TouchScreenButton" parent="."]
+[node name="ScreenBtnDir" type="TouchScreenButton" parent="."]
+position = Vector2( 8, 48 )
+shape = SubResource( 365 )
+passby_press = true
+visibility_mode = 1
+
+[node name="ScreenBtnBurst" type="TouchScreenButton" parent="."]
+position = Vector2( 8, 48 )
+shape = SubResource( 365 )
+passby_press = true
+visibility_mode = 1
+
+[node name="TouchBtnBurst" type="TouchScreenButton" parent="."]
 position = Vector2( 1089, 488 )
 scale = Vector2( 2, 2 )
 normal = SubResource( 366 )
 pressed = SubResource( 363 )
 shape = SubResource( 360 )
 shape_visible = false
-visibility_mode = 1
-
-[node name="TouchBtnScreen" type="TouchScreenButton" parent="."]
-shape = SubResource( 365 )
 visibility_mode = 1
 
 [node name="TouchBtnPause" type="TouchScreenButton" parent="."]
@@ -110,8 +116,6 @@ visibility_mode = 1
 [node name="TouchBtnSkip" type="TouchScreenButton" parent="."]
 position = Vector2( 648, -1 )
 scale = Vector2( 2, 2 )
-normal = SubResource( 367 )
-pressed = SubResource( 368 )
-shape = SubResource( 361 )
+shape = SubResource( 369 )
 shape_visible = false
 visibility_mode = 1

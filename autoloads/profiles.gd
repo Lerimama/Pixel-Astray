@@ -225,18 +225,23 @@ var sweeper_level_tilemap_paths: Array = [
 
 # VARZ ... odvisne od tipa igre -----------------------------------------------------------------------------------
 
+
 var game_settings: Dictionary
 var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
+
+# const
+var html5_mode: bool = false # skrije ExitGameBtn v home, GO in pavzi
+var tutorial_music_track_index: int = 1
 
 # nastavitve, ki se setajo tudi v home
 var use_default_color_theme: bool = true
 var camera_shake_on: bool = true
-var tutorial_music_track_index: int = 1
 var tutorial_mode: bool = false
-var html5_mode: bool = false # skrije ExitGameBtn v home, GO in pavzi
 var analytics_mode: bool = true
 var screen_touch_sensitivity: float = 0.2
 
+enum TOUCH_CONTROLLER {OFF, BUTTONS, SCREEN, COMBO}
+var set_touch_controller: int = TOUCH_CONTROLLER.BUTTONS
 
 func _ready() -> void:
 
@@ -261,8 +266,8 @@ func set_game_data(selected_game):
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 
 	# debug ... game_data
-	game_settings["start_countdown"] = false
-	game_settings["show_game_instructions"] = false
+	#	game_settings["start_countdown"] = false
+	#	game_settings["show_game_instructions"] = false
 	#	game_settings["player_start_life"] = 2
 
 	match selected_game:

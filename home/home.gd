@@ -88,7 +88,10 @@ func open_without_intro(): # debug ... kliče main.gd -> home_in_no_intro()
 
 func open_from_game(finished_game: int): # select_game screen ... kliče main.gd -> home_in_from_game()
 
-	$Highscores.load_all_highscore_tables(false) # no global update (no in back)
+	if Profiles.html5_mode:
+		$Highscores.load_all_highscore_tables(true, true) # global update, in background
+	else:
+		$Highscores.load_all_highscore_tables(false) # no global update (no in back)
 
 	animation_player.play("select_game")
 	current_screen = Screens.SELECT_GAME

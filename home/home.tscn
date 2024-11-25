@@ -348,6 +348,18 @@ atlas = ExtResource( 12 )
 region = Rect2( 138, 44, 22, 25 )
 margin = Rect2( 0, 3, 0, 0 )
 
+[sub_resource type="Gradient" id=281]
+offsets = PoolRealArray( 0, 0.497076, 1 )
+colors = PoolColorArray( 0, 0, 0, 1, 0.476608, 0.476608, 0.476608, 1, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=282]
+gradient = SubResource( 281 )
+width = 700
+
+[sub_resource type="AtlasTexture" id=280]
+atlas = ExtResource( 2 )
+region = Rect2( 32, 64, 16, 16 )
+
 [sub_resource type="StyleBoxEmpty" id=481]
 
 [sub_resource type="StreamTexture" id=175]
@@ -498,18 +510,6 @@ OptionButton/styles/hover = SubResource( 495 )
 OptionButton/styles/pressed = SubResource( 495 )
 Panel/styles/panel = SubResource( 496 )
 VSeparator/styles/separator = SubResource( 497 )
-
-[sub_resource type="Gradient" id=281]
-offsets = PoolRealArray( 0, 0.497076, 1 )
-colors = PoolColorArray( 0, 0, 0, 1, 0.476608, 0.476608, 0.476608, 1, 1, 1, 1, 1 )
-
-[sub_resource type="GradientTexture" id=282]
-gradient = SubResource( 281 )
-width = 700
-
-[sub_resource type="AtlasTexture" id=280]
-atlas = ExtResource( 2 )
-region = Rect2( 32, 64, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=533]
 atlas = ExtResource( 2 )
@@ -1929,6 +1929,7 @@ custom_fonts/font = ExtResource( 14 )
 text = "Sofa showdown!
 Battle for the ultimate 
 cleaning champ title!"
+valign = 1
 autowrap = true
 
 [node name="TheDuelBtn" type="Button" parent="SelectGame/GamesMenu/TheDuel"]
@@ -2152,23 +2153,11 @@ margin_left = 65.0
 margin_top = 137.0
 margin_right = 225.0
 margin_bottom = 169.0
-focus_neighbour_top = NodePath("../CameraShakeBtn")
+focus_neighbour_top = NodePath("../TouchControllerOptions")
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
 pressed = true
 text = "Menu music"
-
-[node name="Subtitle" type="Label" parent="Settings"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-margin_left = 65.0
-margin_top = 320.0
-margin_right = 209.0
-margin_bottom = 338.0
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_fonts/font = ExtResource( 14 )
-text = "In-game settings"
-autowrap = true
 
 [node name="InstructionsBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
@@ -2268,12 +2257,38 @@ mouse_default_cursor_shape = 2
 pressed = true
 text = "Anonymous data tracking"
 
+[node name="ResetLocalBtn" type="Button" parent="Settings"]
+margin_left = 65.0
+margin_top = 302.0
+margin_right = 331.0
+margin_bottom = 324.0
+focus_neighbour_right = NodePath("../BackBtn")
+mouse_default_cursor_shape = 2
+custom_colors/font_color_focus = Color( 0.952941, 0.356863, 0.498039, 1 )
+custom_colors/font_color_hover_pressed = Color( 0.952941, 0.356863, 0.498039, 1 )
+custom_colors/font_color = Color( 0.952941, 0.356863, 0.498039, 0.470588 )
+custom_colors/font_color_hover = Color( 0.952941, 0.356863, 0.498039, 1 )
+text = "Reset local highscores"
+
+[node name="Subtitle" type="Label" parent="Settings"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+margin_left = 65.0
+margin_top = 352.0
+margin_right = 209.0
+margin_bottom = 370.0
+size_flags_horizontal = 3
+theme = SubResource( 194 )
+custom_fonts/font = ExtResource( 14 )
+text = "In-game settings"
+autowrap = true
+
 [node name="GameMusicBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 65.0
-margin_top = 353.0
+margin_top = 385.0
 margin_right = 225.0
-margin_bottom = 385.0
+margin_bottom = 417.0
+focus_neighbour_top = NodePath("../TrackingBtn")
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
 pressed = true
@@ -2282,9 +2297,9 @@ text = "Game music"
 [node name="GameMusicSlider" type="HSlider" parent="Settings"]
 modulate = Color( 1, 1, 1, 0.470588 )
 margin_left = 65.0
-margin_top = 428.0
+margin_top = 460.0
 margin_right = 315.0
-margin_bottom = 444.0
+margin_bottom = 476.0
 mouse_default_cursor_shape = 2
 size_flags_vertical = 8
 min_value = -30.0
@@ -2312,9 +2327,9 @@ text = "Game music volume"
 [node name="GameSfxBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 65.0
-margin_top = 449.0
+margin_top = 481.0
 margin_right = 201.0
-margin_bottom = 481.0
+margin_bottom = 513.0
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
 pressed = true
@@ -2323,47 +2338,64 @@ text = "Game SFX"
 [node name="CameraShakeBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 65.0
-margin_top = 489.0
+margin_top = 521.0
 margin_right = 253.0
-margin_bottom = 521.0
+margin_bottom = 553.0
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
 pressed = true
 text = "Camera shake"
 
-[node name="Subtitle2" type="Label" parent="Settings"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+[node name="TouchControllerOptions" type="OptionButton" parent="Settings"]
+modulate = Color( 1, 1, 1, 0.470588 )
 margin_left = 65.0
-margin_top = 536.0
-margin_right = 209.0
-margin_bottom = 554.0
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 0.952941, 0.356863, 0.498039, 1 )
-custom_fonts/font = ExtResource( 14 )
-text = "Danger zone"
-autowrap = true
-
-[node name="ResetLocalBtn" type="Button" parent="Settings"]
-margin_left = 65.0
-margin_top = 566.0
-margin_right = 331.0
-margin_bottom = 588.0
+margin_top = 561.0
+margin_right = 278.0
+margin_bottom = 593.0
 focus_neighbour_right = NodePath("../BackBtn")
+focus_neighbour_bottom = NodePath("../TouchSensSlider")
+mouse_default_cursor_shape = 2
+pressed = true
+text = "Touch controller:"
+flat = true
+
+[node name="TouchSensSlider" type="HSlider" parent="Settings"]
+modulate = Color( 1, 1, 1, 0.470588 )
+margin_left = 65.0
+margin_top = 636.0
+margin_right = 315.0
+margin_bottom = 652.0
 focus_neighbour_bottom = NodePath("../MenuMusicBtn")
 mouse_default_cursor_shape = 2
-custom_colors/font_color_focus = Color( 0.952941, 0.356863, 0.498039, 1 )
-custom_colors/font_color_hover_pressed = Color( 0.952941, 0.356863, 0.498039, 1 )
-custom_colors/font_color = Color( 0.952941, 0.356863, 0.498039, 0.470588 )
-custom_colors/font_color_hover = Color( 0.952941, 0.356863, 0.498039, 1 )
-text = "Reset local highscores"
+size_flags_vertical = 8
+max_value = 1.0
+step = 0.1
+value = 0.2
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Tick" type="Polygon2D" parent="Settings/TouchSensSlider"]
+visible = false
+show_behind_parent = true
+position = Vector2( 122, 5 )
+color = Color( 0.513726, 0.513726, 0.513726, 1 )
+polygon = PoolVector2Array( 0, 7, 0, -1, 2, -1, 2, 7 )
+
+[node name="GameMusicVol" type="Label" parent="Settings/TouchSensSlider"]
+margin_top = -30.0
+margin_right = 228.0
+margin_bottom = -8.0
+size_flags_horizontal = 3
+text = "Touch sensibility"
 
 [node name="Shorts" type="Label" parent="Settings"]
+visible = false
 modulate = Color( 0.960784, 0.960784, 0.960784, 1 )
 margin_left = 64.0
-margin_top = 640.0
+margin_top = 688.0
 margin_right = 424.0
-margin_bottom = 658.0
+margin_bottom = 706.0
 size_flags_horizontal = 3
 theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
@@ -3274,12 +3306,16 @@ anims/settings = SubResource( 530 )
 [connection signal="pressed" from="Settings/ColorSchemeOptions/RandomizeBtn" to="Settings" method="_on_RandomizeBtn_pressed"]
 [connection signal="pressed" from="Settings/ColorSchemeOptions/ResetBtn" to="Settings" method="_on_ResetBtn_pressed"]
 [connection signal="toggled" from="Settings/TrackingBtn" to="Settings" method="_on_TrackingBtn_toggled"]
+[connection signal="pressed" from="Settings/ResetLocalBtn" to="Settings" method="_on_ResetLocalButton_pressed"]
 [connection signal="toggled" from="Settings/GameMusicBtn" to="Settings" method="_on_GameMusicBtn_toggled"]
 [connection signal="drag_ended" from="Settings/GameMusicSlider" to="Settings" method="_on_GameMusicSlider_drag_ended"]
 [connection signal="value_changed" from="Settings/GameMusicSlider" to="Settings" method="_on_MusicHSlider_value_changed"]
 [connection signal="toggled" from="Settings/GameSfxBtn" to="Settings" method="_on_GameSfxBtn_toggled"]
 [connection signal="toggled" from="Settings/CameraShakeBtn" to="Settings" method="_on_CameraShakeBtn_toggled"]
-[connection signal="pressed" from="Settings/ResetLocalBtn" to="Settings" method="_on_ResetLocalButton_pressed"]
+[connection signal="focus_entered" from="Settings/TouchControllerOptions" to="Settings" method="_on_TouchControllerOptions_focus_entered"]
+[connection signal="item_selected" from="Settings/TouchControllerOptions" to="Settings" method="_on_TouchControllerOptions_item_selected"]
+[connection signal="drag_ended" from="Settings/TouchSensSlider" to="Settings" method="_on_SensSlider_drag_ended"]
+[connection signal="value_changed" from="Settings/TouchSensSlider" to="Settings" method="_on_SensSlider_value_changed"]
 [connection signal="focus_entered" from="Highscores/UpdateScoresBtn" to="Highscores" method="_on_UpdateScoresBtn_focus_entered"]
 [connection signal="focus_exited" from="Highscores/UpdateScoresBtn" to="Highscores" method="_on_UpdateScoresBtn_focus_exited"]
 [connection signal="pressed" from="Highscores/UpdateScoresBtn" to="Highscores" method="_on_UpdateScoresBtn_pressed"]

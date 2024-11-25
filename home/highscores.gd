@@ -58,11 +58,12 @@ onready var cleaner_hall: Control = $GameHalls/Cleaner/CleanerHall
 onready var unbeatables_hall: TabContainer = $GameHalls/Unbeatables/TabContainer
 onready var sweepers_hall: Control = $GameHalls/Sweepers/TabContainer
 onready var erasers_hall: TabContainer = $GameHalls/Erasers/TabContainer
-onready var default_focus_node: Control = update_scores_btn
 onready var cleaner_focus_node: Control = cleaner_hall.get_node("HighscoreTable").table_scroller
 onready var unbeatables_focus_node: Control
 onready var sweepers_focus_node: Control
 onready var erasers_focus_node: Control
+onready var default_focus_node: Control = update_scores_btn
+
 #func _input(event):
 #
 #	var node_to_focus: Control
@@ -144,7 +145,11 @@ func _ready() -> void:
 	back_btn.add_to_group(Global.group_menu_cancel_btns)
 	update_scores_btn.add_to_group(Global.group_menu_confirm_btns)
 	publish_unpublished_btn.add_to_group(Global.group_menu_confirm_btns)
-	$BackBtn.add_to_group(Global.group_menu_cancel_btns)
+	back_btn.add_to_group(Global.group_menu_cancel_btns)
+
+	if Profiles.html5_mode:
+		update_scores_btn.hide()
+		default_focus_node = back_btn
 
 	# naberem tabele
 	for hall in halls:
@@ -213,6 +218,9 @@ func load_all_highscore_tables(update_with_global: bool, update_in_background: b
 	update_scores_btn.get_child(0).modulate = Global.color_btn_enabled
 
 	disable_btns(false)
+
+	Global.grab_focus_nofx(default_focus_node)
+
 
 
 func publish_all_unpublished_scores():

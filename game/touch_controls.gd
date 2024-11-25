@@ -1,8 +1,9 @@
-extends CanvasLayer
+extends Node2D
 
 
-enum TOUCH_CONTROLLER {BUTTONS, SCREEN}
-var current_touch_controller: int = TOUCH_CONTROLLER.BUTTONS
+#enum TOUCH_CONTROLLER {BUTTONS, SCREEN, COMBO}
+#var current_touch_controller: int = TOUCH_CONTROLLER.BUTTONS
+onready var curr_touch_controller: int = Profiles.set_touch_controller setget _change_touch_controller
 
 # controls
 var key_up: String = "ui_up"
@@ -11,70 +12,111 @@ var key_left: String = "ui_left"
 var key_right: String = "ui_right"
 var key_burst: String = "burst"
 
-var cont_mode: bool = true
 var screen_btn_pressed: bool = false
-
-var btn_pressed_skip_time: float = 0.2 # touch sensitiviy
 var btn_pressed_time: float = 0
-
 var last_dir_key_imitated: String # za screen release
 var last_screen_touch_location: Vector2 = Vector2.ZERO
 
 onready var direction_btns: Node2D = $DirectionBtns
-onready var touch_btn_burst: TouchScreenButton = $TouchBtn_Burst
-onready var touch_btn_screen: TouchScreenButton = $TouchBtnScreen
+onready var touch_btn_burst: TouchScreenButton = $TouchBtnBurst
+onready var screen_btn_dir: TouchScreenButton = $ScreenBtnDir
+onready var screen_btn_burst: TouchScreenButton = $ScreenBtnBurst
+
 onready var touch_btn_pause: TouchScreenButton = $TouchBtnPause
 onready var touch_btn_skip: TouchScreenButton = $TouchBtnSkip
+onready var viewport_container: ViewportContainer = $"%ViewportContainer"
 
 # debug
 var touch_direction_line: Line2D
 
 
+func _change_touch_controller(new_touch_controller: int):
+
+	Profiles.set_touch_controller = new_touch_controller
+	match Profiles.set_touch_controller:
+		Profiles.TOUCH_CONTROLLER.BUTTONS:
+			activate_buttons_touchscreen()
+		Profiles.TOUCH_CONTROLLER.SCREEN:
+			activate_screen_touchscreen()
+			direction_btns.hide()
+			touch_btn_burst.hide()
+		Profiles.TOUCH_CONTROLLER.COMBO:
+			activate_combo_touchscreen()
+			screen_btn_burst.hide()
+			direction_btns.hide()
+
+
+
 func _ready() -> void:
 
-	if OS.has_touchscreen_ui_hint():
-		if current_touch_controller == TOUCH_CONTROLLER.BUTTONS:
-			for btn in direction_btns.get_children():
-				btn.connect("pressed", self, "_on_dir_btn_pressed", [btn])
-				btn.connect("released", self, "_on_dir_btn_released", [btn])
-		else:
-			touch_btn_screen.connect("pressed", self, "_on_screen_btn_pressed", [touch_btn_screen])
-			touch_btn_screen.connect("released", self, "_on_screen_btn_released", [touch_btn_screen])
-		# burst
-		touch_btn_burst.connect("pressed", self, "_on_dir_btn_pressed", [touch_btn_burst])
-		touch_btn_burst.connect("released", self, "_on_dir_btn_released", [touch_btn_burst])
+	if OS.has_touchscreen_ui_hint() and not Profiles.set_touch_controller == Profiles.TOUCH_CONTROLLER.OFF:
+		match Profiles.set_touch_controller:
+			Profiles.TOUCH_CONTROLLER.BUTTONS:
+				activate_buttons_touchscreen()
+			Profiles.TOUCH_CONTROLLER.SCREEN:
+				activate_screen_touchscreen()
+				direction_btns.hide()
+				touch_btn_burst.hide()
+			Profiles.TOUCH_CONTROLLER.COMBO:
+				activate_combo_touchscreen()
+				screen_btn_burst.hide()
+				direction_btns.hide()
 		# pause
 		touch_btn_pause.connect("pressed", self, "_on_pause_btn_pressed", [touch_btn_pause])
 		# music
 		touch_btn_skip.connect("pressed", self, "_on_skip_btn_pressed", [touch_btn_skip])
+	else:
+		hide()
+
+
+
+func activate_buttons_touchscreen():
+
+	# dir
+	for btn in direction_btns.get_children():
+		btn.connect("pressed", self, "_on_dir_btn_pressed", [btn])
+		btn.connect("released", self, "_on_dir_btn_released", [btn])
+	# burst
+	touch_btn_burst.connect("pressed", self, "_on_dir_btn_pressed", [touch_btn_burst])
+	touch_btn_burst.connect("released", self, "_on_dir_btn_released", [touch_btn_burst])
+
+
+func activate_screen_touchscreen():
+
+	#	screen_btn_dir.shape.extents = viewport_container.rect_size/2
+	#	screen_btn_burst.shape.extents = viewport_container.rect_size/2
+	# dir
+	screen_btn_dir.connect("pressed", self, "_on_screen_btn_pressed", [screen_btn_dir])
+	screen_btn_dir.connect("released", self, "_on_screen_btn_released", [screen_btn_dir])
+	# burst
+	screen_btn_burst.connect("pressed", self, "_on_screen_btn_pressed", [screen_btn_burst])
+	screen_btn_burst.connect("released", self, "_on_screen_btn_released", [screen_btn_burst])
+
+
+func activate_combo_touchscreen():
+
+	#	screen_btn_dir.shape.extents = viewport_container.rect_size/2
+	# dir
+	screen_btn_dir.connect("pressed", self, "_on_screen_btn_pressed", [screen_btn_dir])
+	screen_btn_dir.connect("released", self, "_on_screen_btn_released", [screen_btn_dir])
+	# burst
+	touch_btn_burst.connect("pressed", self, "_on_dir_btn_pressed", [touch_btn_burst])
+	touch_btn_burst.connect("released", self, "_on_dir_btn_released", [touch_btn_burst])
 
 
 func _process(delta: float) -> void:
 
-	Profiles.screen_touch_sensitivity = 0.2
-	if current_touch_controller == TOUCH_CONTROLLER.SCREEN:
+	if not Profiles.set_touch_controller == Profiles.TOUCH_CONTROLLER.BUTTONS:
 		if screen_btn_pressed:
 			btn_pressed_time += delta
 			if btn_pressed_time > Profiles.screen_touch_sensitivity:
 				get_screen_btn_direction_key()
-				btn_pressed_skip_time = 0
-
-
-func _on_screen_btn_released(released_btn: TouchScreenButton):
-
-	imitate_input(last_dir_key_imitated, false)
-	screen_btn_pressed = false
-	last_screen_touch_location = Vector2.ZERO
-
-	# debug
-	if touch_direction_line:
-		touch_direction_line.queue_free()
-		touch_direction_line = null
+				btn_pressed_time = 0
 
 
 func get_screen_btn_direction_key():
 
-	var curr_point: Vector2 = touch_btn_screen.get_global_mouse_position()
+	var curr_point: Vector2 = screen_btn_dir.get_global_mouse_position()
 	var prev_point: Vector2 = last_screen_touch_location
 
 	# linija
@@ -87,6 +129,7 @@ func get_screen_btn_direction_key():
 	# glede na večjo razliko v spremembi določim premik po x ali y osi
 	var x_delta: float = curr_point.x - prev_point.x
 	var y_delta: float = curr_point.y - prev_point.y
+
 	# direction > input name
 	var input_name: String
 	# left / right ... up / down
@@ -109,6 +152,7 @@ func get_screen_btn_direction_key():
 			imitate_input(input_name)
 		else:
 			imitate_input(last_dir_key_imitated, false)
+			btn_pressed_time = 0
 			call_deferred("imitate_input", input_name)
 
 	# na koncu setam nov last location
@@ -116,8 +160,6 @@ func get_screen_btn_direction_key():
 
 
 func imitate_input(key_name: String, imitate_pressed: bool = true):
-
-	#	print("pressed ", imitate_pressed, last_dir_key_imitated)
 
 	var new_event = InputEventAction.new()
 	new_event.action = key_name
@@ -134,7 +176,31 @@ func imitate_input(key_name: String, imitate_pressed: bool = true):
 
 func _on_screen_btn_pressed(btn_pressed: TouchScreenButton):
 
-	screen_btn_pressed = true
+	var input_name: String
+	# dir
+	if btn_pressed == screen_btn_dir:
+		screen_btn_pressed = true
+	elif btn_pressed == screen_btn_burst and screen_btn_dir.is_pressed():
+		input_name = key_burst
+		imitate_input(input_name)
+
+
+func _on_screen_btn_released(released_btn: TouchScreenButton):
+
+	var input_name: String
+	# dir
+	if released_btn == screen_btn_dir:
+		imitate_input(last_dir_key_imitated, false)
+		screen_btn_pressed = false
+		last_screen_touch_location = Vector2.ZERO
+
+		# debug
+		if touch_direction_line:
+			touch_direction_line.queue_free()
+			touch_direction_line = null
+
+	elif released_btn == screen_btn_burst:
+		imitate_input(key_burst, false)
 
 
 func _on_dir_btn_pressed(btn_pressed: TouchScreenButton):
@@ -150,7 +216,7 @@ func _on_dir_btn_pressed(btn_pressed: TouchScreenButton):
 	elif btn_pressed == $DirectionBtns/TouchBtn_R:
 		input_name = key_right
 	# burst
-	if btn_pressed == touch_btn_burst:
+	elif btn_pressed == touch_btn_burst:
 		input_name = key_burst
 
 	imitate_input(input_name)
@@ -162,25 +228,27 @@ func _on_dir_btn_released(btn_released: TouchScreenButton):
 	# dir
 	if btn_released == $DirectionBtns/TouchBtn_U:
 		input_name = key_up
-	if btn_released == $DirectionBtns/TouchBtn_D:
+	elif btn_released == $DirectionBtns/TouchBtn_D:
 		input_name = key_down
-	if btn_released == $DirectionBtns/TouchBtn_L:
+	elif btn_released == $DirectionBtns/TouchBtn_L:
 		input_name = key_left
-	if btn_released == $DirectionBtns/TouchBtn_R:
+	elif btn_released == $DirectionBtns/TouchBtn_R:
 		input_name = key_right
 	# burst
-	if btn_released == touch_btn_burst:
+	elif btn_released == touch_btn_burst:
 		input_name = key_burst
 	# imitate
 	imitate_input(input_name, false)
 
 
 func _on_pause_btn_pressed(btn_pressed: TouchScreenButton):
-	print("preload")
+
+	print("pause")
 	var new_event = InputEventAction.new()
 	new_event.action = "pause"
 	new_event.pressed = true
 	Input.parse_input_event(new_event)
+
 
 func _on_skip_btn_pressed(btn_pressed: TouchScreenButton):
 	print("skip")

@@ -330,6 +330,8 @@ func _on_button_pressed(button: BaseButton):
 		Global.sound_manager.play_gui_sfx("btn_cancel")
 		get_viewport().set_disable_input(true) # prevent dablklik
 
+	if button is OptionButton: # ko odpreš dropdown je confirm sound:
+		Global.sound_manager.play_gui_sfx("btn_focus_change")
 
 
 # on toggle
@@ -365,6 +367,7 @@ func _on_control_focused(control: Control):
 	# check btn color fix
 	if control is CheckButton or control is HSlider or control.name == "RandomizeBtn" or control.name == "ResetBtn":
 		control.modulate = Color.white
+
 
 # on defocus - barvanje settings gumbi
 func _on_control_unfocused(control: Control):
