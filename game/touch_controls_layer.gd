@@ -185,6 +185,6 @@ func _on_pause_btn_pressed(btn_pressed: TouchScreenButton):
 func _on_skip_btn_pressed(btn_pressed: TouchScreenButton):
 	print("skip")
 	var new_event = InputEventAction.new()
-	new_event.action = "next_track"
+	new_event.action = "skip"
 	new_event.pressed = true
 	Input.parse_input_event(new_event)

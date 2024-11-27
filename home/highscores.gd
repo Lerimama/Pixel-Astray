@@ -219,7 +219,9 @@ func load_all_highscore_tables(update_with_global: bool, update_in_background: b
 
 	disable_btns(false)
 
-	Global.grab_focus_nofx(default_focus_node)
+	# after focus
+	if update_with_global and not update_in_background: # samo kadar je na HOF ekranu
+		Global.grab_focus_nofx(default_focus_node)
 
 
 

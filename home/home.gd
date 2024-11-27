@@ -21,7 +21,7 @@ onready var intro_viewport: Viewport = $HomeScreen/IntroViewPortContainer/IntroV
 func _unhandled_input(event: InputEvent) -> void:
 	#func _input(event: InputEvent) -> void:
 
-	#	if Input.is_action_just_pressed("next_track"):
+	#	if Input.is_action_just_pressed("skip"):
 	#		Global.sound_manager.change_menu_music()
 
 	if Input.is_action_just_pressed("ui_cancel"):
@@ -65,10 +65,11 @@ func _ready():
 		menu.get_node("ExitGameBtn").hide()
 
 	var focused_control: Control = menu.get_focus_owner()
-	focused_control.call_deferred("release_focus")
+#	focused_control.call_deferred("release_focus")
 
 
 func open_with_intro(): # kliče main.gd -> home_in_intro()
+
 	if Profiles.html5_mode:
 		$Highscores.load_all_highscore_tables(true, true) # global update, in background
 	else:

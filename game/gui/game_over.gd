@@ -93,7 +93,7 @@ func open_gameover(gameover_reason: int):
 
 		set_gameover_title()
 
-	Global.hud.slide_out()
+	#	Global.hud.slide_out()
 
 	show_gameover_title()
 

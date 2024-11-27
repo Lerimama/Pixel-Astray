@@ -1,4 +1,4 @@
-[gd_scene load_steps=107 format=2]
+[gd_scene load_steps=111 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -186,11 +186,11 @@ noise = ExtResource( 10 )
 
 [sub_resource type="AtlasTexture" id=195]
 atlas = ExtResource( 2 )
-region = Rect2( 0, 16, 22, 22 )
+region = Rect2( 0, 16, 24, 24 )
 
 [sub_resource type="AtlasTexture" id=196]
 atlas = ExtResource( 2 )
-region = Rect2( 22, 16, 22, 22 )
+region = Rect2( 24, 16, 24, 24 )
 
 [sub_resource type="StyleBoxEmpty" id=500]
 
@@ -345,8 +345,8 @@ VSeparator/styles/separator = SubResource( 516 )
 
 [sub_resource type="AtlasTexture" id=476]
 atlas = ExtResource( 12 )
-region = Rect2( 138, 44, 22, 25 )
-margin = Rect2( 0, 3, 0, 0 )
+region = Rect2( 136, 48, 24, 24 )
+margin = Rect2( 0, 3, 0, 3 )
 
 [sub_resource type="Gradient" id=281]
 offsets = PoolRealArray( 0, 0.497076, 1 )
@@ -511,14 +511,19 @@ OptionButton/styles/pressed = SubResource( 495 )
 Panel/styles/panel = SubResource( 496 )
 VSeparator/styles/separator = SubResource( 497 )
 
+[sub_resource type="AtlasTexture" id=541]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 159, 16, 16 )
+margin = Rect2( -3, 0, 0, 0 )
+
 [sub_resource type="AtlasTexture" id=533]
 atlas = ExtResource( 2 )
-region = Rect2( 26, 120, 20, 24 )
+region = Rect2( 24, 96, 24, 24 )
 filter_clip = true
 
 [sub_resource type="AtlasTexture" id=536]
 atlas = ExtResource( 2 )
-region = Rect2( 32, 160, 16, 18 )
+region = Rect2( 32, 180, 16, 20 )
 filter_clip = true
 
 [sub_resource type="StyleBoxLine" id=531]
@@ -535,13 +540,13 @@ thickness = 2
 
 [sub_resource type="AtlasTexture" id=190]
 atlas = ExtResource( 12 )
-region = Rect2( 138, 66, 22, 25 )
-margin = Rect2( 0, 3, 0, 0 )
+region = Rect2( 136, 72, 24, 24 )
+margin = Rect2( 0, 3, 0, 3 )
 
 [sub_resource type="AtlasTexture" id=475]
 atlas = ExtResource( 12 )
-region = Rect2( 138, 22, 22, 25 )
-margin = Rect2( 0, 3, 0, 0 )
+region = Rect2( 136, 24, 24, 24 )
+margin = Rect2( 0, 3, 0, 3 )
 
 [sub_resource type="AtlasTexture" id=498]
 atlas = ExtResource( 12 )
@@ -553,7 +558,367 @@ atlas = ExtResource( 12 )
 region = Rect2( 109, 218, 22, 25 )
 margin = Rect2( 0, 3, 0, 0 )
 
+[sub_resource type="StyleBoxEmpty" id=539]
+
+[sub_resource type="StyleBoxEmpty" id=540]
+
 [sub_resource type="Animation" id=155]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("HomeScreen/Menu:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Highscores:rect_position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( -600, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Highscores:modulate:a")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("Settings:rect_position:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( -448, 0, 0, 0.5, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Settings:modulate:a")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("SelectGame:rect_position:x")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( 1280, 0, 0, 0.5, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("SelectGame:modulate:a")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("SelectGame:rect_position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1280, 0 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Highscores:rect_position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, -600 ) ]
+}
+tracks/9/type = "bezier"
+tracks/9/path = NodePath("About:rect_position:y")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"points": PoolRealArray( 720, 0, 0, 0.5, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("About:modulate:a")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("About:rect_position")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 720 ) ]
+}
+tracks/12/type = "bezier"
+tracks/12/path = NodePath("SelectLevel:rect_position:x")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"points": PoolRealArray( 448, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/13/type = "bezier"
+tracks/13/path = NodePath("SelectGame:rect_position:y")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"points": PoolRealArray( 0, 0, 0, 0.5, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("SelectLevel:modulate:a")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/15/type = "bezier"
+tracks/15/path = NodePath("HomeScreen:rect_position:x")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/16/type = "bezier"
+tracks/16/path = NodePath("HomeScreen:rect_position:y")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/17/type = "bezier"
+tracks/17/path = NodePath("SelectLevel:rect_position:y")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/keys = {
+"points": PoolRealArray( 704, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/18/type = "value"
+tracks/18/path = NodePath("HomeScreen/Menu:visible")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/19/type = "value"
+tracks/19/path = NodePath("About:visible")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/20/type = "value"
+tracks/20/path = NodePath("Highscores:visible")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/21/type = "value"
+tracks/21/path = NodePath("SelectGame:visible")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/22/type = "value"
+tracks/22/path = NodePath("SelectLevel:visible")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/23/type = "value"
+tracks/23/path = NodePath("Settings:visible")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=137]
+resource_name = "about"
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("HomeScreen/Menu:modulate:a")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("About:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 1.0 ]
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("About:rect_position:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 720, 0, 0, 0.5, 0, 160, -0.5, 0, 0.5, 0 ),
+"times": PoolRealArray( 0.04, 1 )
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("HomeScreen/Menu:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.3 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("HomeScreen:rect_position:x")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 0, 0, 0, 0.5, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("HomeScreen:rect_position:y")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( 0, 0, 0, 0.5, 0, -272, -0.5, 0, 0, 0 ),
+"times": PoolRealArray( 0.04, 1 )
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("About:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.02 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[sub_resource type="Animation" id=538]
+resource_name = "all_visible_state (ex reset)"
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("HomeScreen/Menu:modulate:a")
@@ -698,7 +1063,7 @@ tracks/12/loop_wrap = true
 tracks/12/imported = false
 tracks/12/enabled = true
 tracks/12/keys = {
-"points": PoolRealArray( 448, -0.25, 0, 0.25, 0 ),
+"points": PoolRealArray( 1288, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 0 )
 }
 tracks/13/type = "bezier"
@@ -763,77 +1128,67 @@ tracks/18/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ false ]
+"values": [ true ]
 }
-
-[sub_resource type="Animation" id=137]
-resource_name = "about"
-step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath("HomeScreen/Menu:modulate:a")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 1.0, 0.0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("About:modulate:a")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.04, 0.1, 1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 1.0, 0.0, 0.0, 1.0 ]
-}
-tracks/2/type = "bezier"
-tracks/2/path = NodePath("About:rect_position:y")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"points": PoolRealArray( 720, 0, 0, 0.5, 0, 160, -0.5, 0, 0.5, 0 ),
-"times": PoolRealArray( 0.04, 1 )
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("HomeScreen/Menu:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0.3 ),
+tracks/19/type = "value"
+tracks/19/path = NodePath("About:visible")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/keys = {
+"times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
+"update": 0,
+"values": [ true ]
 }
-tracks/4/type = "bezier"
-tracks/4/path = NodePath("HomeScreen:rect_position:x")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"points": PoolRealArray( 0, 0, 0, 0.5, 0 ),
-"times": PoolRealArray( 0 )
+tracks/20/type = "value"
+tracks/20/path = NodePath("Highscores:visible")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
 }
-tracks/5/type = "bezier"
-tracks/5/path = NodePath("HomeScreen:rect_position:y")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"points": PoolRealArray( 0, 0, 0, 0.5, 0, -272, -0.5, 0, 0, 0 ),
-"times": PoolRealArray( 0.04, 1 )
+tracks/21/type = "value"
+tracks/21/path = NodePath("SelectGame:visible")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+tracks/22/type = "value"
+tracks/22/path = NodePath("SelectLevel:visible")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+tracks/23/type = "value"
+tracks/23/path = NodePath("Settings:visible")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
 }
 
 [sub_resource type="Animation" id=141]
@@ -858,10 +1213,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.04, 0.1, 1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 1.0, 0.0, 0.0, 1.0 ]
+"values": [ 0.0, 0.0, 1.0 ]
 }
 tracks/2/type = "bezier"
 tracks/2/path = NodePath("Highscores:rect_position:y")
@@ -905,6 +1260,18 @@ tracks/5/keys = {
 "points": PoolRealArray( 0, 0, 0, 0.5, 0, 464, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0.04, 1 )
 }
+tracks/6/type = "value"
+tracks/6/path = NodePath("Highscores:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.02 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
 
 [sub_resource type="Animation" id=142]
 resource_name = "select_game"
@@ -928,10 +1295,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.04, 0.1, 1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 1.0, 0.0, 0.0, 1.0 ]
+"values": [ 0.0, 0.0, 1.0 ]
 }
 tracks/2/type = "bezier"
 tracks/2/path = NodePath("SelectGame:rect_position:x")
@@ -985,6 +1352,18 @@ tracks/6/keys = {
 "points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 0 )
 }
+tracks/7/type = "value"
+tracks/7/path = NodePath("SelectGame:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.02 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
 
 [sub_resource type="Animation" id=275]
 resource_name = "select_level"
@@ -1018,10 +1397,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.04, 0.1, 1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 1.0, 0.0, 0.0, 1.0 ]
+"values": [ 0.0, 0.0, 1.0 ]
 }
 tracks/3/type = "bezier"
 tracks/3/path = NodePath("SelectLevel:rect_position:x")
@@ -1053,6 +1432,30 @@ tracks/5/keys = {
 "points": PoolRealArray( 704, 0, 0, 0.5, 0, 0, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0.1, 1 )
 }
+tracks/6/type = "value"
+tracks/6/path = NodePath("SelectLevel:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.02 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("SelectGame:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0.98, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
 
 [sub_resource type="Animation" id=530]
 resource_name = "settings"
@@ -1077,10 +1480,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.04, 0.09, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.09, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 1.0, 0.0, 0.0, 1.0 ]
+"values": [ 0.0, 0.0, 1.0 ]
 }
 tracks/2/type = "bezier"
 tracks/2/path = NodePath("Settings:rect_position:x")
@@ -1123,6 +1526,18 @@ tracks/5/enabled = true
 tracks/5/keys = {
 "points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 0 )
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Settings:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.02 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
 }
 
 [node name="Home" type="Node2D"]
@@ -1529,6 +1944,8 @@ enabled_focus_mode = 1
 text = "EXIT"
 
 [node name="SelectGame" type="Control" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 1280.0
@@ -1601,9 +2018,9 @@ margin_bottom = 176.0
 grow_horizontal = 0
 grow_vertical = 0
 focus_neighbour_left = NodePath("../../Sweeper/SweeperBtn")
-focus_neighbour_top = NodePath("../../../BackBtn")
+focus_neighbour_top = NodePath("../../../TutorialModeBtn")
 focus_neighbour_right = NodePath("../../Sweeper/SweeperBtn")
-focus_neighbour_bottom = NodePath("../TutorialModeBtn")
+focus_neighbour_bottom = NodePath("../../Unbeatables/HunterBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = ExtResource( 24 )
 custom_styles/pressed = ExtResource( 24 )
@@ -1614,19 +2031,6 @@ text = "CLEANER"
 __meta__ = {
 "_editor_description_": ""
 }
-
-[node name="TutorialModeBtn" type="CheckButton" parent="SelectGame/GamesMenu/Cleaner"]
-margin_left = 40.0
-margin_top = 192.0
-margin_right = 211.0
-margin_bottom = 210.0
-focus_neighbour_bottom = NodePath("../../Unbeatables/HunterBtn")
-mouse_default_cursor_shape = 2
-size_flags_horizontal = 10
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_fonts/font = ExtResource( 14 )
-pressed = true
-text = "Start with tutorial"
 
 [node name="Eraser" type="Control" parent="SelectGame/GamesMenu"]
 margin_left = 280.0
@@ -1852,7 +2256,7 @@ margin_right = -40.0
 margin_bottom = 216.0
 focus_neighbour_left = NodePath("../../TheDuel/TheDuelBtn")
 focus_neighbour_right = NodePath("../../TheDuel/TheDuelBtn")
-focus_neighbour_bottom = NodePath("../../Cleaner/CleanerBtn")
+focus_neighbour_bottom = NodePath("../../../TutorialModeBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = ExtResource( 24 )
 custom_styles/pressed = ExtResource( 24 )
@@ -1941,7 +2345,7 @@ margin_right = -40.0
 margin_bottom = 96.0
 focus_neighbour_left = NodePath("../../Unbeatables/DefenderBtn")
 focus_neighbour_right = NodePath("../../Unbeatables/DefenderBtn")
-focus_neighbour_bottom = NodePath("../../Sweeper/SweeperBtn")
+focus_neighbour_bottom = NodePath("../../../TutorialModeBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = ExtResource( 24 )
 custom_styles/pressed = ExtResource( 24 )
@@ -1953,11 +2357,23 @@ __meta__ = {
 "_editor_description_": ""
 }
 
+[node name="TutorialModeBtn" type="CheckButton" parent="SelectGame"]
+margin_left = 8.0
+margin_top = 672.0
+margin_right = 224.0
+margin_bottom = 690.0
+focus_neighbour_bottom = NodePath("../GamesMenu/Cleaner/CleanerBtn")
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 10
+custom_fonts/font = ExtResource( 14 )
+pressed = true
+text = "Start game with tutorial"
+
 [node name="BackBtn" type="TextureButton" parent="SelectGame"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -22.0
-margin_top = 74.0
+margin_left = -24.0
+margin_top = 72.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 16, 16 )
 focus_neighbour_top = NodePath("../GamesMenu/TheDuel/TheDuelBtn")
@@ -1969,6 +2385,8 @@ texture_focused = SubResource( 196 )
 flip_h = true
 
 [node name="SelectLevel" type="Control" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 448.0
@@ -2015,8 +2433,8 @@ autowrap = true
 [node name="BackBtn" type="TextureButton" parent="SelectLevel"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -22.0
-margin_top = 74.0
+margin_left = -24.0
+margin_top = 72.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 16, 16 )
 focus_neighbour_top = NodePath("../LevelBtnsGrid/PixelAstrayLevelBtn")
@@ -2098,14 +2516,14 @@ valign = 1
 
 [node name="L1" type="TextureRect" parent="SelectLevel/HintShortcut"]
 margin_left = 96.0
-margin_right = 118.0
+margin_right = 120.0
 margin_bottom = 28.0
 texture = SubResource( 476 )
 
 [node name="Label3" type="Label" parent="SelectLevel/HintShortcut"]
-margin_left = 118.0
+margin_left = 120.0
 margin_top = 5.0
-margin_right = 205.0
+margin_right = 207.0
 margin_bottom = 23.0
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 custom_fonts/font = ExtResource( 14 )
@@ -2113,6 +2531,8 @@ text = " for a hint"
 valign = 1
 
 [node name="Settings" type="Control" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -448.0
@@ -2125,7 +2545,7 @@ script = ExtResource( 3 )
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -32.0
-margin_top = 74.0
+margin_top = 72.0
 margin_right = -8.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 16, 16 )
@@ -2153,7 +2573,6 @@ margin_left = 65.0
 margin_top = 137.0
 margin_right = 225.0
 margin_bottom = 169.0
-focus_neighbour_top = NodePath("../TouchControllerOptions")
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
 pressed = true
@@ -2327,9 +2746,9 @@ text = "Game music volume"
 [node name="GameSfxBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 65.0
-margin_top = 481.0
+margin_top = 489.0
 margin_right = 201.0
-margin_bottom = 513.0
+margin_bottom = 521.0
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
 pressed = true
@@ -2338,39 +2757,39 @@ text = "Game SFX"
 [node name="CameraShakeBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 65.0
-margin_top = 521.0
+margin_top = 529.0
 margin_right = 253.0
-margin_bottom = 553.0
+margin_bottom = 561.0
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
 pressed = true
 text = "Camera shake"
 
-[node name="TouchControllerOptions" type="OptionButton" parent="Settings"]
-modulate = Color( 1, 1, 1, 0.470588 )
+[node name="TouchPopUpBtn" type="Button" parent="Settings"]
 margin_left = 65.0
-margin_top = 561.0
-margin_right = 278.0
-margin_bottom = 593.0
-focus_neighbour_right = NodePath("../BackBtn")
+margin_top = 568.0
+margin_right = 297.0
+margin_bottom = 602.0
+grow_vertical = 0
 focus_neighbour_bottom = NodePath("../TouchSensSlider")
-mouse_default_cursor_shape = 2
-pressed = true
-text = "Touch controller:"
-flat = true
+custom_constants/hseparation = 8
+text = "Touch controls: %s"
+icon = SubResource( 541 )
+align = 0
+icon_align = 2
 
 [node name="TouchSensSlider" type="HSlider" parent="Settings"]
 modulate = Color( 1, 1, 1, 0.470588 )
 margin_left = 65.0
-margin_top = 636.0
+margin_top = 644.0
 margin_right = 315.0
-margin_bottom = 652.0
+margin_bottom = 660.0
 focus_neighbour_bottom = NodePath("../MenuMusicBtn")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 8
-max_value = 1.0
-step = 0.1
-value = 0.2
+max_value = 60.0
+step = 5.0
+value = 10.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -2389,20 +2808,36 @@ margin_bottom = -8.0
 size_flags_horizontal = 3
 text = "Touch sensibility"
 
-[node name="Shorts" type="Label" parent="Settings"]
-visible = false
-modulate = Color( 0.960784, 0.960784, 0.960784, 1 )
-margin_left = 64.0
-margin_top = 688.0
-margin_right = 424.0
-margin_bottom = 706.0
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_fonts/font = ExtResource( 14 )
-text = "In-game settings can be set in pause menu."
-autowrap = true
+[node name="TouchControllerPopup" type="PopupMenu" parent="Settings"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -20.0
+margin_right = 20.0
+margin_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_constants/vseparation = 48
+popup_exclusive = true
+
+[node name="Undi" type="ColorRect" parent="Settings/TouchControllerPopup"]
+show_behind_parent = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -736.0
+margin_top = -364.0
+margin_right = 736.0
+margin_bottom = 364.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 0.768627 )
 
 [node name="Highscores" type="Control" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -600.0
@@ -2468,7 +2903,7 @@ texture = SubResource( 536 )
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -64.0
-margin_top = 66.0
+margin_top = 64.0
 margin_right = -40.0
 margin_bottom = 88.0
 rect_min_size = Vector2( 16, 16 )
@@ -2816,6 +3251,8 @@ text = "Erasers"
 align = 1
 
 [node name="About" type="Control" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 720.0
@@ -2829,7 +3266,7 @@ script = ExtResource( 16 )
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -64.0
-margin_top = 10.0
+margin_top = 8.0
 margin_right = -40.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 16, 16 )
@@ -3029,21 +3466,21 @@ margin_right = 356.0
 margin_bottom = 65.0
 
 [node name="KEY" parent="About/Shorts/ShortcutLine4" index="1"]
-margin_right = 47.0
+margin_right = 56.0
 text = "ESC"
 
 [node name="or2" parent="About/Shorts/ShortcutLine4" index="2"]
-margin_left = 47.0
-margin_right = 80.0
+margin_left = 56.0
+margin_right = 89.0
 
 [node name="L1" parent="About/Shorts/ShortcutLine4" index="3"]
-margin_left = 80.0
-margin_right = 102.0
+margin_left = 89.0
+margin_right = 113.0
 texture = SubResource( 190 )
 
 [node name="Label3" parent="About/Shorts/ShortcutLine4" index="4"]
-margin_left = 102.0
-margin_right = 355.0
+margin_left = 113.0
+margin_right = 366.0
 text = " to go back to previous screen"
 
 [node name="ShortcutLine5" parent="About/Shorts" instance=ExtResource( 23 )]
@@ -3058,21 +3495,21 @@ __meta__ = {
 }
 
 [node name="KEY" parent="About/Shorts/ShortcutLine5" index="1"]
-margin_right = 80.0
+margin_right = 98.0
 text = "RETURN"
 
 [node name="or2" parent="About/Shorts/ShortcutLine5" index="2"]
-margin_left = 80.0
-margin_right = 113.0
+margin_left = 98.0
+margin_right = 131.0
 
 [node name="L1" parent="About/Shorts/ShortcutLine5" index="3"]
-margin_left = 113.0
-margin_right = 135.0
+margin_left = 131.0
+margin_right = 155.0
 texture = SubResource( 475 )
 
 [node name="Label3" parent="About/Shorts/ShortcutLine5" index="4"]
-margin_left = 135.0
-margin_right = 302.0
+margin_left = 155.0
+margin_right = 322.0
 text = " to confirm selection"
 
 [node name="ShortcutLine7" parent="About/Shorts" instance=ExtResource( 23 )]
@@ -3130,21 +3567,21 @@ __meta__ = {
 }
 
 [node name="KEY" parent="About/Shorts2/ShortcutLine6" index="1"]
-margin_right = 70.0
-text = "ESC/P"
+margin_right = 86.0
+text = "ESC, P"
 
 [node name="or2" parent="About/Shorts2/ShortcutLine6" index="2"]
-margin_left = 70.0
-margin_right = 103.0
+margin_left = 86.0
+margin_right = 119.0
 
 [node name="L1" parent="About/Shorts2/ShortcutLine6" index="3"]
-margin_left = 103.0
-margin_right = 125.0
+margin_left = 119.0
+margin_right = 143.0
 texture = SubResource( 190 )
 
 [node name="Label3" parent="About/Shorts2/ShortcutLine6" index="4"]
-margin_left = 125.0
-margin_right = 325.0
+margin_left = 143.0
+margin_right = 343.0
 text = " to pause/unpause game"
 
 [node name="ShortcutLine" parent="About/Shorts2" instance=ExtResource( 23 )]
@@ -3170,21 +3607,21 @@ __meta__ = {
 }
 
 [node name="KEY" parent="About/Shorts2/ShortcutLine2" index="1"]
-margin_right = 25.0
+margin_right = 28.0
 text = "N"
 
 [node name="or2" parent="About/Shorts2/ShortcutLine2" index="2"]
-margin_left = 25.0
-margin_right = 58.0
+margin_left = 28.0
+margin_right = 61.0
 
 [node name="L1" parent="About/Shorts2/ShortcutLine2" index="3"]
-margin_left = 58.0
-margin_right = 80.0
+margin_left = 61.0
+margin_right = 83.0
 texture = SubResource( 310 )
 
 [node name="Label3" parent="About/Shorts2/ShortcutLine2" index="4"]
-margin_left = 80.0
-margin_right = 260.0
+margin_left = 83.0
+margin_right = 263.0
 text = " to skip current track"
 
 [node name="ShortcutLine3" parent="About/Shorts2" instance=ExtResource( 23 )]
@@ -3199,21 +3636,21 @@ __meta__ = {
 }
 
 [node name="KEY" parent="About/Shorts2/ShortcutLine3" index="1"]
-margin_right = 25.0
+margin_right = 28.0
 text = "H"
 
 [node name="or2" parent="About/Shorts2/ShortcutLine3" index="2"]
-margin_left = 25.0
-margin_right = 58.0
+margin_left = 28.0
+margin_right = 61.0
 
 [node name="L1" parent="About/Shorts2/ShortcutLine3" index="3"]
-margin_left = 58.0
-margin_right = 80.0
+margin_left = 61.0
+margin_right = 85.0
 texture = SubResource( 476 )
 
 [node name="Label3" parent="About/Shorts2/ShortcutLine3" index="4"]
-margin_left = 80.0
-margin_right = 304.0
+margin_left = 85.0
+margin_right = 309.0
 text = " to show/hide Sweeper hint"
 
 [node name="Content" type="HBoxContainer" parent="About"]
@@ -3226,10 +3663,165 @@ margin_right = 576.0
 margin_bottom = 496.0
 custom_constants/separation = 0
 
+[node name="HintsContent" type="Control" parent="About"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -264.0
+margin_right = 264.0
+margin_bottom = 160.0
+
+[node name="Background" type="ColorRect" parent="About/HintsContent"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.321569, 0.321569, 0.321569, 0.823529 )
+
+[node name="Title" type="Label" parent="About/HintsContent"]
+anchor_right = 1.0
+margin_top = 22.0
+margin_bottom = 52.0
+rect_min_size = Vector2( 0, 30 )
+theme_type_variation = "Lerimama_lite"
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+custom_styles/normal = SubResource( 539 )
+text = "Xtra hints"
+align = 1
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Line4" type="Label" parent="About/HintsContent"]
+anchor_right = 1.0
+margin_left = 32.0
+margin_top = 56.0
+margin_right = -32.0
+margin_bottom = 98.0
+custom_fonts/font = ExtResource( 14 )
+text = "When touching a Stray, move towards it to connect to it. Push or pull to move it around."
+align = 1
+autowrap = true
+
+[node name="Line2" type="Label" parent="About/HintsContent"]
+anchor_right = 1.0
+margin_left = 32.0
+margin_top = 112.0
+margin_right = -40.0
+margin_bottom = 136.0
+custom_fonts/font = ExtResource( 14 )
+text = "Whites can't be moved, but you can teleport over them."
+align = 1
+autowrap = true
+
+[node name="Line3" type="Label" parent="About/HintsContent"]
+visible = false
+anchor_right = 1.0
+margin_left = 24.0
+margin_top = 144.0
+margin_right = -24.0
+margin_bottom = 162.0
+custom_fonts/font = ExtResource( 14 )
+text = "Stop mid burst by pressing the BURST KEY again."
+align = 1
+autowrap = true
+
+[node name="SelfdestructLabel" type="Label" parent="About/HintsContent"]
+margin_left = -56.0
+margin_top = 210.0
+margin_right = 272.0
+margin_bottom = 258.0
+rect_min_size = Vector2( 0, 30 )
+theme_type_variation = "Lerimama_lite"
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+custom_fonts/font = ExtResource( 14 )
+custom_styles/normal = SubResource( 540 )
+text = "This tutorial panel will self-destruct after 3 successful bursts. "
+autowrap = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Line5" type="Label" parent="About/HintsContent"]
+margin_left = -56.0
+margin_top = 154.0
+margin_right = 272.0
+margin_bottom = 178.0
+text = "Enjoy the game!"
+
+[node name="Line6" type="Label" parent="About/HintsContent"]
+margin_left = 576.0
+margin_top = 88.0
+margin_right = 928.0
+margin_bottom = 136.0
+custom_fonts/font = ExtResource( 14 )
+text = "! Traveling around costs energy, and 
+your speed depends on it."
+
+[node name="Line7" type="Label" parent="About/HintsContent"]
+margin_left = 576.0
+margin_top = 144.0
+margin_right = 928.0
+margin_bottom = 168.0
+custom_fonts/font = ExtResource( 14 )
+text = "! Collect colors to regain energy."
+
+[node name="Line8" type="Label" parent="About/HintsContent"]
+margin_left = 584.0
+margin_top = 192.0
+margin_right = 904.0
+margin_bottom = 240.0
+custom_fonts/font = ExtResource( 14 )
+text = "! White pixel can onyl be eliminated by
+destroying a colored pixel beside it."
+
+[node name="Line9" type="Label" parent="About/HintsContent"]
+margin_left = 584.0
+margin_top = 248.0
+margin_right = 1159.0
+margin_bottom = 302.0
+custom_fonts/font = ExtResource( 14 )
+text = "The number of stacked colors you collect depends on the burst power."
+
+[node name="Line10" type="Label" parent="About/HintsContent"]
+margin_left = 592.0
+margin_top = 320.0
+margin_right = 920.0
+margin_bottom = 368.0
+custom_fonts/font = ExtResource( 14 )
+text = "Burst with maximum power and collect 
+all colors in a stack."
+
+[node name="Line11" type="Label" parent="About/HintsContent"]
+margin_left = 592.0
+margin_top = 376.0
+margin_right = 1220.0
+margin_bottom = 424.0
+custom_fonts/font = ExtResource( 14 )
+text = "! Points per color will multiply for every additional color collected in one burst."
+
+[node name="PointsLabel" type="Label" parent="About/HintsContent"]
+margin_left = 568.0
+margin_top = 432.0
+margin_right = 904.0
+margin_bottom = 480.0
+custom_fonts/font = ExtResource( 14 )
+text = "! You get %1 points per color collected, 
+and %00 points per white eliminated."
+
+[node name="PointsCleanedLabel" type="Label" parent="About/HintsContent"]
+margin_left = 600.0
+margin_top = 488.0
+margin_right = 936.0
+margin_bottom = 536.0
+custom_fonts/font = ExtResource( 14 )
+text = "! You get rewarded %001 bonus points
+if you manage to clean the screen."
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
 anims/RESET = SubResource( 155 )
 anims/about = SubResource( 137 )
+"anims/all_visible_state (ex reset)" = SubResource( 538 )
 anims/highscores = SubResource( 141 )
 anims/select_game = SubResource( 142 )
 anims/select_level = SubResource( 275 )
@@ -3284,7 +3876,6 @@ anims/settings = SubResource( 530 )
 [connection signal="pressed" from="HomeScreen/Menu/ExitGameBtn" to="." method="_on_QuitGameBtn_pressed"]
 [connection signal="mouse_entered" from="SelectGame/GamesMenu/Cleaner/Background" to="SelectGame" method="_on_CleanerBackground_mouse_entered"]
 [connection signal="pressed" from="SelectGame/GamesMenu/Cleaner/CleanerBtn" to="SelectGame" method="_on_CleanerBtn_pressed"]
-[connection signal="toggled" from="SelectGame/GamesMenu/Cleaner/TutorialModeBtn" to="SelectGame" method="_on_TutorialModeBtn_toggled"]
 [connection signal="mouse_entered" from="SelectGame/GamesMenu/Eraser/Background" to="SelectGame" method="_on_EraserBackground_mouse_entered"]
 [connection signal="pressed" from="SelectGame/GamesMenu/Eraser/SBtn" to="SelectGame" method="_on_SBtn_pressed"]
 [connection signal="pressed" from="SelectGame/GamesMenu/Eraser/MBtn" to="SelectGame" method="_on_MBtn_pressed"]
@@ -3298,6 +3889,7 @@ anims/settings = SubResource( 530 )
 [connection signal="pressed" from="SelectGame/GamesMenu/Sweeper/SweeperBtn" to="SelectGame" method="_on_SweeperBtn_pressed"]
 [connection signal="mouse_entered" from="SelectGame/GamesMenu/TheDuel/Background" to="SelectGame" method="_on_DuelBackground_mouse_entered"]
 [connection signal="pressed" from="SelectGame/GamesMenu/TheDuel/TheDuelBtn" to="SelectGame" method="_on_TheDuelBtn_pressed"]
+[connection signal="toggled" from="SelectGame/TutorialModeBtn" to="SelectGame" method="_on_TutorialModeBtn_toggled"]
 [connection signal="pressed" from="SelectGame/BackBtn" to="SelectGame" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="SelectLevel/BackBtn" to="SelectLevel" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="Settings/BackBtn" to="Settings" method="_on_BackBtn_pressed"]
@@ -3312,10 +3904,11 @@ anims/settings = SubResource( 530 )
 [connection signal="value_changed" from="Settings/GameMusicSlider" to="Settings" method="_on_MusicHSlider_value_changed"]
 [connection signal="toggled" from="Settings/GameSfxBtn" to="Settings" method="_on_GameSfxBtn_toggled"]
 [connection signal="toggled" from="Settings/CameraShakeBtn" to="Settings" method="_on_CameraShakeBtn_toggled"]
-[connection signal="focus_entered" from="Settings/TouchControllerOptions" to="Settings" method="_on_TouchControllerOptions_focus_entered"]
-[connection signal="item_selected" from="Settings/TouchControllerOptions" to="Settings" method="_on_TouchControllerOptions_item_selected"]
+[connection signal="pressed" from="Settings/TouchPopUpBtn" to="Settings" method="_on_TouchPopUpBtn_pressed"]
 [connection signal="drag_ended" from="Settings/TouchSensSlider" to="Settings" method="_on_SensSlider_drag_ended"]
 [connection signal="value_changed" from="Settings/TouchSensSlider" to="Settings" method="_on_SensSlider_value_changed"]
+[connection signal="id_focused" from="Settings/TouchControllerPopup" to="Settings" method="_on_TouchControllerPopup_id_focused"]
+[connection signal="index_pressed" from="Settings/TouchControllerPopup" to="Settings" method="_on_TouchControllerMenu_index_pressed"]
 [connection signal="focus_entered" from="Highscores/UpdateScoresBtn" to="Highscores" method="_on_UpdateScoresBtn_focus_entered"]
 [connection signal="focus_exited" from="Highscores/UpdateScoresBtn" to="Highscores" method="_on_UpdateScoresBtn_focus_exited"]
 [connection signal="pressed" from="Highscores/UpdateScoresBtn" to="Highscores" method="_on_UpdateScoresBtn_pressed"]

@@ -17,13 +17,6 @@ func _ready() -> void:
 	select_level_btns_holder.set_level_btns()
 	select_level_btns_holder.connect_level_btns()
 
-#	if Profiles.solution_hint_on:
-#		solutions_btn.pressed = true
-#	else:
-#		solutions_btn.pressed = false
-#
-#	solutions_btn.modulate = Global.color_gui_gray # rešitev, ker gumb se na začetku obarva kot fokusiran
-
 	# menu btn group
 	$BackBtn.add_to_group(Global.group_menu_cancel_btns)
 	default_focus_node = select_level_btns_holder.all_level_btns[0]

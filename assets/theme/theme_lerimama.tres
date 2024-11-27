@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=31 format=2]
+[gd_resource type="Theme" load_steps=34 format=2]
 
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/theme/font_main_rich_bold.tres" type="DynamicFont" id=2]
@@ -46,11 +46,11 @@ expand_margin_bottom = 6.0
 
 [sub_resource type="AtlasTexture" id=152]
 atlas = ExtResource( 4 )
-region = Rect2( 16, 64, 8, 8 )
+region = Rect2( 0, 68, 16, 8 )
 
 [sub_resource type="StyleBoxTexture" id=153]
 texture = SubResource( 152 )
-region_rect = Rect2( 0, 0, 8, 8 )
+region_rect = Rect2( 0, 0, 16, 8 )
 margin_left = 4.0
 margin_right = 4.0
 margin_top = 4.0
@@ -65,25 +65,36 @@ modulate_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 
 [sub_resource type="StyleBoxEmpty" id=186]
 
+[sub_resource type="StyleBoxEmpty" id=340]
+
+[sub_resource type="StyleBoxEmpty" id=341]
+
+[sub_resource type="StyleBoxFlat" id=339]
+bg_color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+expand_margin_left = 160.0
+expand_margin_right = 160.0
+expand_margin_top = 100.0
+expand_margin_bottom = 70.0
+
 [sub_resource type="AtlasTexture" id=337]
 atlas = ExtResource( 4 )
-region = Rect2( 34, 147, 6, 10 )
-margin = Rect2( -6, 12, 0, 0 )
+region = Rect2( 16, 160, 18, 16 )
+margin = Rect2( -4, 9, 0, 0 )
 
 [sub_resource type="AtlasTexture" id=338]
 atlas = ExtResource( 4 )
-region = Rect2( 40, 147, 6, 10 )
-margin = Rect2( -6, 12, 0, 0 )
+region = Rect2( 16, 144, 16, 16 )
+margin = Rect2( -4, 9, 0, 0 )
 
 [sub_resource type="AtlasTexture" id=335]
 atlas = ExtResource( 4 )
-region = Rect2( 8, 67, 6, 10 )
-margin = Rect2( 0, 24, 6, 20 )
+region = Rect2( 32, 160, 16, 16 )
+margin = Rect2( -4, 9, 0, 0 )
 
 [sub_resource type="AtlasTexture" id=336]
 atlas = ExtResource( 4 )
-region = Rect2( 2, 67, 6, 10 )
-margin = Rect2( 0, 24, 0, 21 )
+region = Rect2( 32, 144, 16, 16 )
+margin = Rect2( -4, 9, 0, 0 )
 
 [sub_resource type="StyleBoxEmpty" id=191]
 
@@ -152,6 +163,11 @@ LineEdit/colors/selection_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 LineEdit/styles/focus = SubResource( 184 )
 LineEdit/styles/normal = SubResource( 185 )
 LineEdit/styles/read_only = SubResource( 186 )
+PanelContainer/styles/panel = SubResource( 340 )
+PopupMenu/colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+PopupMenu/colors/font_color_accel = Color( 1, 1, 1, 1 )
+PopupMenu/styles/hover = SubResource( 341 )
+PopupMenu/styles/panel = SubResource( 339 )
 RichTextLabel/colors/default_color = Color( 0.960784, 0.960784, 0.960784, 1 )
 RichTextLabel/constants/line_separation = 6
 RichTextLabel/fonts/bold_font = ExtResource( 2 )

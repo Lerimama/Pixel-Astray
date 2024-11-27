@@ -144,6 +144,22 @@ func skip_track():
 			fade_out.tween_callback(self, "play_music", ["game_music"])
 
 
+func music_toggle(mute_it = null):
+
+	# če ni podan paramter togla glede na setano
+	if mute_it == null:
+		mute_it = not game_music_set_to_off
+	# glede na parameter
+	elif mute_it == true:
+		game_music_set_to_off = true
+		stop_music("game_music")
+		Analytics.save_ui_click("Mute")
+	else:
+		game_music_set_to_off = false
+		play_music("game_music")
+		Analytics.save_ui_click("UnMute")
+
+
 func change_menu_music():
 
 	var menu_music_tracks: Array = $Music/MenuMusic.get_children()

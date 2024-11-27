@@ -471,6 +471,7 @@ grow_horizontal = 0
 alignment = 2
 
 [node name="MusicPlayer" type="HBoxContainer" parent="Header/TopLineR"]
+pause_mode = 2
 margin_right = 90.0
 margin_bottom = 22.0
 custom_constants/separation = 6
@@ -494,9 +495,33 @@ margin_right = 14.0
 margin_bottom = 19.0
 texture = SubResource( 146 )
 
-[node name="TrackLabel" type="Label" parent="Header/TopLineR/MusicPlayer"]
+[node name="MuteBtn" type="Button" parent="Header/TopLineR/MusicPlayer/SpeakerIcon"]
+pause_mode = 2
+margin_left = -5.0
+margin_top = 1.0
+margin_right = 19.0
+margin_bottom = 24.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+
+[node name="TrackBtn" type="Button" parent="Header/TopLineR/MusicPlayer"]
+pause_mode = 2
 margin_left = 22.0
 margin_right = 90.0
+margin_bottom = 22.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+custom_colors/font_color_disabled = Color( 0.960784, 0.960784, 0.960784, 1 )
+custom_colors/font_color_hover_pressed = Color( 0.513726, 0.513726, 0.513726, 1 )
+custom_colors/font_color = Color( 0.960784, 0.960784, 0.960784, 1 )
+custom_colors/font_color_hover = Color( 0.513726, 0.513726, 0.513726, 1 )
+custom_colors/font_color_pressed = Color( 0.513726, 0.513726, 0.513726, 1 )
+text = "%Title"
+
+[node name="TrackLabel" type="Label" parent="Header/TopLineR/MusicPlayer"]
+visible = false
+margin_left = 96.0
+margin_right = 164.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 46, 0 )
 size_flags_horizontal = 3
@@ -934,5 +959,7 @@ __meta__ = {
 }
 
 [connection signal="gametime_is_up" from="Header/GameTimerHunds" to="." method="_on_GameTimer_gametime_is_up"]
+[connection signal="pressed" from="Header/TopLineR/MusicPlayer/SpeakerIcon/MuteBtn" to="Header/TopLineR/MusicPlayer" method="_on_MuteBtn_pressed"]
+[connection signal="pressed" from="Header/TopLineR/MusicPlayer/TrackBtn" to="Header/TopLineR/MusicPlayer" method="_on_TrackBtn_pressed"]
 
 [editable path="Header/GameTimerHunds"]

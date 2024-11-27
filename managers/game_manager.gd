@@ -51,7 +51,6 @@ onready var respawn_timer: Timer = $"../RespawnTimer"
 # debug ... free pos indi
 var free_position_indicators: Array
 
-
 func _unhandled_input(event: InputEvent) -> void:
 
 
@@ -62,9 +61,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			game_over(GameoverReason.TIME)
 		if Input.is_action_just_pressed("no3"):
 			game_over(GameoverReason.CLEANED)
-
-	if Input.is_action_just_pressed("hint") and game_data["game"] == Profiles.Games.SWEEPER:
-		Global.current_tilemap.solution_line.visible = not Global.current_tilemap.solution_line.visible
 
 
 func _ready() -> void:
@@ -178,10 +174,10 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 	yield(self, "all_strays_spawned")
 	all_strays_on_start_count = get_tree().get_nodes_in_group(Global.group_strays).size() # SWEEPER, da lahko hitro zabeležim uspeh pleyerja
 
-	# per-game setup
-	if game_data["game"] == Profiles.Games.CLEANER and Profiles.tutorial_mode:
-		Global.tutorial_gui.open_tutorial(true)
+	# tut mode
+	if Profiles.tutorial_mode:
 		Global.sound_manager.current_music_track_index = Profiles.tutorial_music_track_index
+		game_settings["start_countdown"] = false # tutorial nima odštevanja
 	else:
 		Global.sound_manager.current_music_track_index = game_settings["game_music_track_index"]
 
@@ -190,7 +186,8 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 		Global.hud.start_countdown.start_countdown() # GM yielda za njegov signal
 		yield(Global.hud.start_countdown, "countdown_finished") # sproži ga hud po slide-inu
 	else:
-		yield(get_tree().create_timer(Global.hud.hud_in_out_time), "timeout") # da se res prizumira, če ni game start countdown
+		# počakam da se res prizumira, če ni game start countdown
+		yield(get_tree().create_timer(Global.hud.hud_in_out_time), "timeout")
 
 	start_game()
 
@@ -204,7 +201,6 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 
 func start_game():
 
-	get_viewport().set_disable_input(false)
 
 	for player in current_players_in_game:
 		if not game_settings ["zoom_to_level_size"]:
@@ -224,8 +220,8 @@ func game_over(gameover_reason: int):
 	if game_on: # preprečim double gameover
 
 		game_on = false
-
 		Global.hud.game_timer.stop_timer()
+		Global.hud.slide_out()
 
 		if gameover_reason == GameoverReason.CLEANED:
 			check_for_all_cleaned = true
@@ -239,7 +235,6 @@ func game_over(gameover_reason: int):
 			yield(get_tree().create_timer(Global.get_it_time), "timeout")
 
 		stop_game_elements()
-		get_tree().call_group(Global.group_players, "set_physics_process", false)
 
 		Global.gameover_gui.open_gameover(gameover_reason)
 
@@ -248,17 +243,11 @@ func stop_game_elements():
 	# včasih nujno ... še posebej za restart iz pavze
 
 	# če igra s tutorialom toglam global tutorial settings
-	if not game_data["game"] == Profiles.Games.DEFENDER: # defender nima tutorial nodetaCLEANER:
-	#	if game_data["game"] == Profiles.Games.CLEANER:
-		Profiles.tutorial_mode = Global.tutorial_gui.tutorial_on
-		# ugasnem tutorial (sam grunta, če je prižgan)
-		Global.tutorial_gui.close_tutorial()
-
-	Global.hud.popups_out()
 	for player in current_players_in_game:
 		player.end_move()
 		player.stop_sound("teleport")
 		player.stop_sound("heartbeat")
+		player.call_deferred("set_physics_process", false)
 
 
 # LEVELS --------------------------------------------------------------------------------------------

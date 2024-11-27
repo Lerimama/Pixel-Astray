@@ -318,20 +318,17 @@ func connect_to_button(button):
 
 # on confirm and cancel
 func _on_button_pressed(button: BaseButton):
-
 	Analytics.save_ui_click(button)
 
 	# ker ti gumbi peljejo na nov ekran, po njihovem kliku
 	if button.is_in_group(Global.group_menu_confirm_btns):
+#		print(button)
 		Global.sound_manager.play_gui_sfx("btn_confirm")
 		get_viewport().set_disable_input(true) # prevent dablklik
 
 	elif button.is_in_group(Global.group_menu_cancel_btns):
 		Global.sound_manager.play_gui_sfx("btn_cancel")
 		get_viewport().set_disable_input(true) # prevent dablklik
-
-	if button is OptionButton: # ko odpreš dropdown je confirm sound:
-		Global.sound_manager.play_gui_sfx("btn_focus_change")
 
 
 # on toggle

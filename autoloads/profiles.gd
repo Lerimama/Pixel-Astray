@@ -236,11 +236,11 @@ var tutorial_music_track_index: int = 1
 # nastavitve, ki se setajo tudi v home
 var use_default_color_theme: bool = true
 var camera_shake_on: bool = true
-var tutorial_mode: bool = false
+var tutorial_mode: bool = true
 var analytics_mode: bool = true
-var screen_touch_sensitivity: float = 0.2
+var screen_touch_sensitivity: float = 10 # px 0 - 60
 
-enum TOUCH_CONTROLLER {OFF, BUTTONS, SCREEN, COMBO}
+enum TOUCH_CONTROLLER {OFF, BUTTONS, COMBO}# SCREEN
 var set_touch_controller: int = TOUCH_CONTROLLER.BUTTONS
 
 func _ready() -> void:
@@ -266,8 +266,8 @@ func set_game_data(selected_game):
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 
 	# debug ... game_data
-	#	game_settings["start_countdown"] = false
-	#	game_settings["show_game_instructions"] = false
+	game_settings["start_countdown"] = false
+#	game_settings["show_game_instructions"] = false
 	#	game_settings["player_start_life"] = 2
 
 	match selected_game:
@@ -314,6 +314,7 @@ func set_game_data(selected_game):
 			game_settings["full_power_mode"] = true
 			#
 			game_settings["create_strays_count"] = 1 # število spawnanih v prvi rundi
+			game_settings["tutorial_mode"] = false # nima tutorial nodeta ... še
 		Games.SWEEPER:
 			current_game_data = game_data_sweeper.duplicate()
 			game_settings["player_start_life"] = 1

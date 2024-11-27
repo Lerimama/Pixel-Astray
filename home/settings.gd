@@ -13,6 +13,13 @@ onready var highscores_node: Control = $"../Highscores"
 onready var default_focus_node: Control = $MenuMusicBtn
 
 
+func _input(event: InputEvent) -> void:
+
+	if $TouchControllerPopup.visible and Input.is_action_just_pressed("ui_cancel"):
+		$TouchControllerPopup.hide()
+		get_tree().set_input_as_handled()
+
+
 func _ready() -> void:
 
 	# menu btn group
@@ -72,18 +79,23 @@ func _ready() -> void:
 		$CameraShakeBtn.pressed = true
 	else:
 		$CameraShakeBtn.pressed = false
-	# touch controlls
+
+	# touch controlls type
 	if OS.has_touchscreen_ui_hint():
-		$TouchControllerOptions.show()
+		$TouchPopUpBtn.show()
 		for touch_controller in Profiles.TOUCH_CONTROLLER:
-			var item_string: String = "Touch controller: " + touch_controller
-			$TouchControllerOptions.add_item(item_string, Profiles.TOUCH_CONTROLLER[touch_controller])
-		$TouchControllerOptions.selected = Profiles.set_touch_controller
-	$TouchSensSlider.value = Profiles.screen_touch_sensitivity
-	if Profiles.set_touch_controller > 1:
-		$TouchSensSlider.show()
+			$TouchControllerPopup.add_item(touch_controller, Profiles.TOUCH_CONTROLLER[touch_controller])
+		var current_controller: String = Profiles.TOUCH_CONTROLLER.keys()[Profiles.set_touch_controller]
+		$TouchPopUpBtn.text = "Touch controls: %s" % current_controller
+		# touch slider
+		if Profiles.set_touch_controller >= Profiles.TOUCH_CONTROLLER.COMBO:
+			$TouchSensSlider.show()
+		else:
+			$TouchSensSlider.hide()
 	else:
+		$TouchPopUpBtn.hide()
 		$TouchSensSlider.hide()
+
 
 
 func _on_BackBtn_pressed() -> void:
@@ -92,16 +104,78 @@ func _on_BackBtn_pressed() -> void:
 	$"%AnimationPlayer".play_backwards("settings")
 
 
+# APP SETTINGS ----------------------------------------------------------------------------------------------------------------
+
+
 func _on_MenuMusicBtn_toggled(button_pressed: bool) -> void:
 
 	Global.grab_focus_nofx($MenuMusicBtn) # za analitiko
 
 	if button_pressed:
-		Global.sound_manager.menu_music_set_to_off = false
-		Global.sound_manager.play_music("menu_music")
+		Global.sound_manager.music_toggle(false)
 	else:
-		Global.sound_manager.stop_music("menu_music")
-		Global.sound_manager.menu_music_set_to_off = true
+		Global.sound_manager.music_toggle(true)
+
+
+func _on_TrackingBtn_toggled(button_pressed: bool) -> void:
+
+	Global.grab_focus_nofx($TrackingBtn) # za analitiko
+	if button_pressed:
+		Analytics.update_session()
+		Profiles.set_deferred("analytics_mode", true) # deferr da ujame klik
+
+	else:
+		Profiles.analytics_mode = false
+
+
+func _on_InstructionsBtn_toggled(button_pressed: bool) -> void:
+
+	if button_pressed:
+		Global.sound_manager.game_sfx_set_to_off = false
+		Profiles.default_game_settings["show_game_instructions"] = true
+	else:
+		Profiles.default_game_settings["show_game_instructions"] = false
+
+
+func _on_ResetLocalButton_pressed() -> void:
+
+	highscores_node.reset_all_local_scores()
+
+
+# COLOR SCHEMES ----------------------------------------------------------------------------------------------------------------
+
+
+func _on_ResetBtn_pressed() -> void:
+
+	spectrum_icon.show()
+	gradient_icon.hide()
+	reset_btn.hide()
+
+	Profiles.use_default_color_theme = true
+	randomize_btn.grab_focus()
+
+	intro.respawn_title_strays()
+	select_level_node.select_level_btns_holder.color_level_btns()
+	select_game_node.color_game_btns()
+
+
+func _on_RandomizeBtn_pressed() -> void:
+
+	spectrum_icon.hide()
+	gradient_icon.show()
+	reset_btn.show()
+
+	Profiles.use_default_color_theme = false
+
+	var current_color_scheme_gradient: Gradient = Global.get_random_gradient_colors(0) # 0 je za pravilno izbiro rezultata funkcije
+	gradient_icon.texture.gradient = current_color_scheme_gradient
+
+	intro.respawn_title_strays()
+	select_level_node.select_level_btns_holder.set_level_btns()
+	select_game_node.color_game_btns()
+
+
+# IN-GAME SETTINGS ----------------------------------------------------------------------------------------------------------------
 
 
 func _on_GameMusicBtn_toggled(button_pressed: bool) -> void:
@@ -145,51 +219,34 @@ func _on_CameraShakeBtn_toggled(button_pressed: bool) -> void:
 		Profiles.camera_shake_on = false
 
 
-func _on_TrackingBtn_toggled(button_pressed: bool) -> void:
-
-	Global.grab_focus_nofx($TrackingBtn) # za analitiko
-	if button_pressed:
-		Analytics.update_session()
-		Profiles.set_deferred("analytics_mode", true) # deferr da ujame klik
-
-	else:
-		Profiles.analytics_mode = false
-
-
-func _on_InstructionsBtn_toggled(button_pressed: bool) -> void:
-
-	if button_pressed:
-		Global.sound_manager.game_sfx_set_to_off = false
-		Profiles.default_game_settings["show_game_instructions"] = true
-	else:
-		Profiles.default_game_settings["show_game_instructions"] = false
-
-
-func _on_ResetLocalButton_pressed() -> void:
-
-	highscores_node.reset_all_local_scores()
-
-
 # TOUCH CONTROLS ----------------------------------------------------------------------------------------------------------------
 
 
-func _on_TouchControllerOptions_item_selected(index: int) -> void:
+func _on_TouchPopUpBtn_pressed() -> void:
 
-	var controller_key = Profiles.TOUCH_CONTROLLER.keys()[index]
-	Profiles.set_touch_controller = Profiles.TOUCH_CONTROLLER[controller_key]
+	$TouchControllerPopup.set_current_index(Profiles.set_touch_controller)
+	$TouchControllerPopup.popup_centered()
+
+
+func _on_TouchControllerMenu_index_pressed(index: int) -> void:
+
+	Profiles.set_touch_controller = index
+	var controller_key: String = Profiles.TOUCH_CONTROLLER.keys()[index]
+	$TouchPopUpBtn.text = "Touch controls: %s" % controller_key
 	Global.sound_manager.play_gui_sfx("btn_confirm")
-	$TouchControllerOptions.modulate = Color.white
+
 	Analytics.save_ui_click("TouchController %s" % controller_key)
 
 	# ugasnem za buttons in none
-	if Profiles.set_touch_controller > 1:
+	if Profiles.set_touch_controller >= Profiles.TOUCH_CONTROLLER.COMBO:
 		$TouchSensSlider.show()
 	else:
 		$TouchSensSlider.hide()
 
-func _on_TouchControllerOptions_focus_entered() -> void:
 
-	$TouchControllerOptions.modulate = Color.white # da je moduliran sivo samo na štartu
+func _on_TouchControllerPopup_id_focused(id: int) -> void:
+
+	Global.sound_manager.play_gui_sfx("btn_focus_change")
 
 
 func _on_SensSlider_value_changed(value: float) -> void:
@@ -203,38 +260,4 @@ func _on_SensSlider_drag_ended() -> void:
 	Analytics.save_ui_click([$TouchSensSlider, $TouchSensSlider.value])
 
 
-
-
-
-# COLOR SCHEMES ----------------------------------------------------------------------------------------------------------------
-
-
-func _on_ResetBtn_pressed() -> void:
-
-	spectrum_icon.show()
-	gradient_icon.hide()
-	reset_btn.hide()
-
-	Profiles.use_default_color_theme = true
-	randomize_btn.grab_focus()
-
-	intro.respawn_title_strays()
-	select_level_node.select_level_btns_holder.color_level_btns()
-	select_game_node.color_game_btns()
-
-
-func _on_RandomizeBtn_pressed() -> void:
-
-	spectrum_icon.hide()
-	gradient_icon.show()
-	reset_btn.show()
-
-	Profiles.use_default_color_theme = false
-
-	var current_color_scheme_gradient: Gradient = Global.get_random_gradient_colors(0) # 0 je za pravilno izbiro rezultata funkcije
-	gradient_icon.texture.gradient = current_color_scheme_gradient
-
-	intro.respawn_title_strays()
-	select_level_node.select_level_btns_holder.set_level_btns()
-	select_game_node.color_game_btns()
 

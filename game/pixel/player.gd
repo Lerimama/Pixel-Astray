@@ -1510,7 +1510,7 @@ func change_stat(stat_event: String, stat_value):
 			"skill_used": # štetje, točke in energija kot je določeno v settingsih
 				player_stats["skill_count"] += 1
 				# za tutorial
-				if Global.game_manager.game_data["game"] == Profiles.Games.DEFENDER: # defender nima tutorial nodeta
+				if not Global.game_manager.game_data["game"] == Profiles.Games.DEFENDER: # defender nima tutorial nodeta
 					if Global.tutorial_gui.tutorial_on:
 						Global.tutorial_gui.on_skill_used(stat_value)
 			"burst_count": # štetje, točke in energija kot je določeno v settingsih
@@ -1541,7 +1541,7 @@ func change_stat(stat_event: String, stat_value):
 				# za tutorial
 				if game_data["game"] == Profiles.Games.SWEEPER and is_rebursting:
 					player_stats["player_energy"] = player_max_energy
-				if Global.game_manager.game_data["game"] == Profiles.Games.DEFENDER: # defender nima tutorial nodeta
+				if not Global.game_manager.game_data["game"] == Profiles.Games.DEFENDER: # defender nima tutorial nodeta
 					if Global.tutorial_gui.tutorial_on:
 						Global.tutorial_gui.on_hit_stray(stack_strays_cleaned_count)
 			"white_eliminated":

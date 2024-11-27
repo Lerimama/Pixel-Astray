@@ -24,15 +24,12 @@ onready var header_height: int = header.rect_size.y
 onready var viewport_header: ColorRect = $"%ViewHeder"
 onready var viewport_footer: ColorRect = $"%ViewFuter"
 
-# popups
-onready var instructions_popup: Control = $Popups/Instructions
-onready var level_popup: Control = $Popups/LevelUp
-onready var start_countdown: Control = $Popups/StartCountdown
-
 # header
 onready var game_timer: HBoxContainer = $Header/GameTimerHunds
 onready var highscore_label: Label = $Header/TopLineR/HighscoreLabel
-onready var music_track_label: Label = $Header/TopLineR/MusicPlayer/TrackLabel # za pedeneanje imena iz SM in na ready
+onready var music_track_label: Button = $Header/TopLineR/MusicPlayer/TrackBtn # TrackLabel # za pedeneanje imena iz SM in na ready
+onready var music_player: HBoxContainer = $Header/TopLineR/MusicPlayer
+
 # p1
 onready var p1_label: Label = $Header/TopLineL/PlayerLabel
 onready var p1_life_counter: HBoxContainer = $Header/TopLineL/LifeIcons
@@ -70,12 +67,25 @@ onready var picked_counter: Label = $Footer/FooterLine/StraysLine/PickedHolder/L
 onready var astray_label: Label = $Footer/FooterLine/StraysLine/AstrayHolder/Label
 onready var spectrum: HBoxContainer = $Footer/FooterLine/SpectrumHolder/ColorSpectrum
 onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
-onready var current_gamed_hs_type: int = Global.game_manager.game_data["highscore_type"]
-onready var touch_controls: Node2D = $"../TouchControls"
 
 # debug ... life & energy
 onready var player_life: Label = $Life
 onready var player_energy: Label = $Energy
+
+# popups
+onready var instructions_popup: Control = $Popups/Instructions
+onready var level_popup: Control = $Popups/LevelUp
+onready var start_countdown: Control = $Popups/StartCountdown
+# neu
+onready var touch_controls: Node2D = $"../TouchControls"
+onready var sweeper_hint_btn: Button = $"../SweeperHintBtn"
+
+
+func _unhandled_input(event: InputEvent) -> void:
+
+	if sweeper_hint_btn.visible and Input.is_action_just_pressed("hint"):
+		_on_SweeperHintBtn_pressed()
+
 
 
 func _ready() -> void:
@@ -96,7 +106,7 @@ func _ready() -> void:
 	else:
 		level_label.hide()
 
-	if not current_gamed_hs_type == Profiles.HighscoreTypes.NONE:
+	if not Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NONE:
 		set_current_highscore()
 
 	if Global.game_manager.game_settings["show_game_instructions"]:
@@ -146,14 +156,11 @@ func set_hud(): # kliče main na game-in
 
 	# player statlines
 	if Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
-#	if Global.game_manager.start_players_count == 1:
 		p1_label.visible = true
 		p2_statsline.visible = true
 	else:
 		p1_label.visible = false
 		p2_statsline.visible = false
-
-#	elif Global.game_manager.start_players_count == 2:
 
 	# lajf
 	if Global.game_manager.game_settings["player_start_life"] > 1:
@@ -169,13 +176,12 @@ func set_hud(): # kliče main na game-in
 		p2_energy_counter.visible = false
 
 	# glede na to kaj šteje ...
-	if current_gamed_hs_type == Profiles.HighscoreTypes.NONE:
+	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NONE:
 		highscore_label.visible = false
 	else:
 		highscore_label.visible = true
 
 	# stotinke na timerju
-#	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
 		game_timer.get_node("Dots2").show()
 		game_timer.get_node("Hunds").show()
@@ -185,6 +191,8 @@ func set_hud(): # kliče main na game-in
 		footer.rect_position.y = screen_height - header_height
 		viewport_header.rect_min_size.y = header_height
 		viewport_footer.rect_min_size.y = header_height
+
+	sweeper_hint_btn.hide() # prifejdam na slide in
 
 
 func set_current_highscore():
@@ -197,7 +205,7 @@ func set_current_highscore():
 
 	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
 		highscore_label.text = "HS: " + current_highscore_clock + " by %s" % current_highscore_owner
-	elif current_gamed_hs_type == Profiles.HighscoreTypes.POINTS:
+	elif Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.POINTS:
 		highscore_label.text = "HS: " + str(current_highscore) + " by %s" % current_highscore_owner
 
 
@@ -219,17 +227,39 @@ func slide_in(): # kliče GM set_game()
 		fade_in.parallel().tween_property(footer, "rect_position:y", screen_height - header_height, hud_in_out_time)
 		fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", header_height, hud_in_out_time)
 		fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", header_height, hud_in_out_time)
-		# touch controls
-		if touch_controls.visible:
-			fade_in.parallel().tween_property(touch_controls, "modulate.a", 1, hud_in_out_time)
+		yield(fade_in, "finished")
 
 	if not Global.game_manager.level_goal_mode:
 		for indicator in all_color_indicators:
 			var indicator_fade_in = get_tree().create_tween()
 			indicator_fade_in.tween_property(indicator, "modulate:a", stray_in_indicator_alpha, 0.3).set_ease(Tween.EASE_IN)
 
+	if not Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+		var fade_in = get_tree().create_tween()
+		fade_in.tween_callback(sweeper_hint_btn, "show").set_delay(0.3) # delay za usklajenost s tutorial fade in
+		fade_in.tween_property(sweeper_hint_btn, "modulate:a", 1, 0.5).from(0.0).set_ease(Tween.EASE_IN)
+
+	if OS.has_touchscreen_ui_hint():# and not touch_controls.visible:
+		touch_controls.open()
+
+	if Profiles.tutorial_mode:
+		Global.tutorial_gui.open_tutorial()
+
+
 
 func slide_out(): # kliče GM na game over
+
+	if Global.tutorial_gui.tutorial_on:
+		Global.tutorial_gui.close_tutorial()
+	if Global.hud.touch_controls.visible:
+		Global.hud.touch_controls.close()
+	Global.hud.popups_out()
+
+	if sweeper_hint_btn.visible:
+		var fade_in = get_tree().create_tween()
+		fade_in.tween_property(sweeper_hint_btn, "modulate:a", 1, 0.5).from(0.0).set_ease(Tween.EASE_IN)
+		fade_in.tween_callback(sweeper_hint_btn, "hide")
+
 
 	if Global.game_manager.game_settings["always_zoomed_in"]:
 		yield(get_tree().create_timer(Global.get_it_time), "timeout")
@@ -241,10 +271,6 @@ func slide_out(): # kliče GM na game over
 		fade_in.parallel().tween_property(footer, "rect_position:y", screen_height, hud_in_out_time)
 		fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", 0, hud_in_out_time)
 		fade_in.parallel().tween_property(viewport_footer, "rect_min_size:y", 0, hud_in_out_time)
-		# touch controls
-		if touch_controls.visible:
-			fade_in.parallel().tween_property(touch_controls, "modulate.a", 0, hud_in_out_time)
-			fade_in.tween_callback(touch_controls, "hide")
 		fade_in.tween_callback(self, "hide")
 
 
@@ -339,7 +365,7 @@ func popups_out(): # kliče GM na gameover
 
 func _check_for_highscore(player_stats: Dictionary):
 
-	match current_gamed_hs_type:
+	match Global.game_manager.game_data["highscore_type"]:
 		Profiles.HighscoreTypes.POINTS:
 			if player_stats["player_points"] > current_highscore:
 				highscore_label.text = "New HS: " + str(player_stats["player_points"]) + " by You"
@@ -385,3 +411,9 @@ func _on_stat_changed(stat_owner: Node, player_stats: Dictionary):
 func _on_GameTimer_gametime_is_up() -> void: # signal iz tajmerja
 
 	Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
+
+
+func _on_SweeperHintBtn_pressed() -> void:
+
+	print("HINT PRESSED")
+	Global.current_tilemap.solution_line.visible = not Global.current_tilemap.solution_line.visible

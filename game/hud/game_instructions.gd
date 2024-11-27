@@ -15,25 +15,33 @@ onready var controls: Control = $Outline/Controls
 onready var controls_duel_p1: Control = $Outline/ControlsDuelP1
 onready var controls_duel_p2: Control = $Outline/ControlsDuelP2
 onready var ready_btn: Button = $ReadyBtn
+onready var ready_action_hint: HBoxContainer = $ActionHint
 
 
 func _input(event: InputEvent) -> void:
 
 	if not get_parent().name == "PauseMenu":
-		if visible and modulate.a == 1 and Input.is_action_just_pressed("ui_accept"):
-			Analytics.save_ui_click("ReadyReturn")
-			_on_ReadyBtnButton_pressed()
+		if visible and modulate.a == 1:
+			if Input.is_action_just_pressed("ui_accept") or Input.is_action_just_pressed("ui_cancel"):
+				Analytics.save_ui_click("ReadyBtn")
+				_on_ReadyBtnButton_pressed()
 
 
 func _ready() -> void:
 
-	ready_btn.add_to_group(Global.group_menu_confirm_btns)
+#	ready_btn.add_to_group(Global.group_menu_confirm_btns)
 	ready_btn.hide()
-	if get_parent().name == "Popups":
-		yield(get_tree().create_timer(1), "timeout") # če je klik prehiter se ne nalouda
-		ready_btn.show()
+#	if get_parent().name == "Popups": # da ni aktiven v pavzi
+		#		yield(get_tree().create_timer(0.2), "timeout") # če je klik prehiter se ne nalouda
 
-func open():
+func open(with_button: bool = true):
+
+	if with_button:
+		ready_btn.show()
+		ready_action_hint.show()
+	else:
+		ready_btn.show()
+		ready_action_hint.show()
 
 	Global.allow_focus_sfx = false # urgenca za nek "cancel" sound bug
 
@@ -114,8 +122,11 @@ func confirm_players_ready():
 	hide()
 
 
+#func _on_ReadyBtnButton_pressed(button: BaseButton) -> void:
 func _on_ReadyBtnButton_pressed() -> void:
 
-	ready_btn.hide()
-	ready_btn.rect_size = Vector2.ZERO # da zgine rokca miške
+	Global.sound_manager.play_gui_sfx("btn_confirm")
 	confirm_players_ready()
+	ready_btn.hide()
+#	ready_btn.rect_size = Vector2.ZERO # da zgine rokca miške
+#	get_tree().set_input_as_handled()

@@ -172,7 +172,8 @@ VSeparator/styles/separator = SubResource( 224 )
 
 [sub_resource type="AtlasTexture" id=228]
 atlas = ExtResource( 6 )
-region = Rect2( 138, 22, 22, 22 )
+region = Rect2( 136, 24, 24, 24 )
+margin = Rect2( 0, 1, 0, 1 )
 
 [sub_resource type="Animation" id=196]
 length = 0.001
@@ -805,6 +806,7 @@ __meta__ = {
 actor_in_motion = false
 
 [node name="Spectrum" type="TextureRect" parent="."]
+visible = false
 margin_top = -40.0
 margin_right = 512.0
 margin_bottom = -28.0
@@ -812,6 +814,7 @@ texture = ExtResource( 9 )
 expand = true
 
 [node name="SpectrumGradient" type="TextureRect" parent="."]
+visible = false
 margin_top = -64.0
 margin_right = 512.0
 margin_bottom = -48.0
@@ -967,29 +970,29 @@ autowrap = true
 [node name="ActionHint" parent="Text" instance=ExtResource( 10 )]
 modulate = Color( 1, 1, 1, 0 )
 margin_left = -138.0
-margin_top = 565.5
+margin_top = 565.0
 margin_right = 142.0
-margin_bottom = 587.5
+margin_bottom = 589.0
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="KEY" parent="Text/ActionHint" index="1"]
-margin_right = 107.0
+margin_right = 122.0
 text = "ENTER"
 
 [node name="Label2" parent="Text/ActionHint" index="2"]
-margin_left = 115.0
-margin_right = 132.0
+margin_left = 130.0
+margin_right = 147.0
 
 [node name="Jp" parent="Text/ActionHint" index="3"]
-margin_left = 140.0
-margin_right = 162.0
+margin_left = 155.0
+margin_right = 179.0
 texture = SubResource( 228 )
 
 [node name="Label3" parent="Text/ActionHint" index="4"]
-margin_left = 170.0
-margin_right = 269.0
+margin_left = 187.0
+margin_right = 286.0
 text = "to skip intro"
 
 [node name="SkipButton" type="Button" parent="."]

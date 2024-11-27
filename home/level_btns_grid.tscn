@@ -9,7 +9,7 @@
 
 [sub_resource type="AtlasTexture" id=499]
 atlas = ExtResource( 4 )
-region = Rect2( 0, 120, 16, 20 )
+region = Rect2( 32, 204, 16, 20 )
 filter_clip = true
 
 [node name="LevelBtnsGrid" type="GridContainer"]

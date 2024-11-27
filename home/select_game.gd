@@ -7,9 +7,8 @@ var all_game_btns: Array
 onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
 onready var sweeper_game_btn: Button = $GamesMenu/Sweeper/SweeperBtn
 onready var sweeper_btns_count: int = Profiles.sweeper_level_tilemap_paths.size() # za število ugank
-onready var sweeper_label: Label = $GamesMenu/Sweeper/Label
+#onready var sweeper_label: Label = $GamesMenu/Sweeper/Label
 onready var color_pool: Array = $"%Intro".color_pool_colors
-onready var tutorial_mode_btn: CheckButton = $GamesMenu/Cleaner/TutorialModeBtn
 onready var default_focus_node: Control = $GamesMenu/Cleaner/CleanerBtn
 
 
@@ -17,11 +16,11 @@ func _ready() -> void:
 
 
 	if Profiles.tutorial_mode:
-		tutorial_mode_btn.pressed = true
+		$TutorialModeBtn.pressed = true
 	else:
-		tutorial_mode_btn.pressed = false
+		$TutorialModeBtn.pressed = false
 
-	sweeper_label.text %= sweeper_btns_count
+	$GamesMenu/Sweeper/Label.text %= sweeper_btns_count
 
 	# menu btn group
 	all_game_btns = [$GamesMenu/Cleaner/CleanerBtn,
@@ -62,15 +61,8 @@ func _process(delta: float) -> void:
 			if focused_btn.name == "CleanerBtn":# or focused_btn.name == "TutorialModeBtn":
 				$GamesMenu/Cleaner/CleanerBtn.modulate = Color.white
 				$GamesMenu/Cleaner/Label.modulate = Color.white
-				$GamesMenu/Cleaner/TutorialModeBtn.modulate = Global.color_gui_gray # rešitev, ker gumb se na začetku obarva kot fokusiran
-				$GamesMenu/Cleaner/Background.color = Global.color_thumb_hover
-			elif focused_btn.name == "TutorialModeBtn":
-				$GamesMenu/Cleaner/CleanerBtn.modulate = Global.color_gui_gray
-				$GamesMenu/Cleaner/Label.modulate = Color.white
-				$GamesMenu/Cleaner/TutorialModeBtn.modulate = Color.white # rešitev, ker gumb se na začetku obarva kot fokusiran
 				$GamesMenu/Cleaner/Background.color = Global.color_thumb_hover
 			else:
-				$GamesMenu/Cleaner/TutorialModeBtn.modulate = btn_colors[0] # rešitev, ker gumb se na začetku obarva kot fokusiran
 				$GamesMenu/Cleaner/CleanerBtn.modulate = btn_colors[0]
 				$GamesMenu/Cleaner/Label.modulate = btn_colors[0]
 				$GamesMenu/Cleaner/Background.color = unfocused_color
@@ -174,7 +166,6 @@ func color_game_btns():
 
 	# pobarvam gumbe in labele
 	$GamesMenu/Cleaner/CleanerBtn.modulate = btn_colors[0]
-	$GamesMenu/Cleaner/TutorialModeBtn.modulate = Global.color_gui_gray # rešitev, ker gumb se na začetku obarva kot fokusiran
 	$GamesMenu/Cleaner/Label.modulate = btn_colors[0]
 
 	$GamesMenu/Sweeper/Label.modulate = btn_colors[3]
@@ -275,8 +266,9 @@ func _on_SweeperBtn_pressed() -> void:
 func _on_CleanerBackground_mouse_entered() -> void:
 
 	# če še ni izbran kateri v trenutnem boxu
-	if not $GamesMenu/Cleaner/CleanerBtn.has_focus() and not tutorial_mode_btn.has_focus():
-		$GamesMenu/Cleaner/CleanerBtn.grab_focus()
+	#	if not $GamesMenu/Cleaner/CleanerBtn.has_focus():
+	#	if not $GamesMenu/Cleaner/CleanerBtn.has_focus() and not tutorial_mode_btn.has_focus():
+	$GamesMenu/Cleaner/CleanerBtn.grab_focus()
 
 
 func _on_EraserBackground_mouse_entered() -> void:
