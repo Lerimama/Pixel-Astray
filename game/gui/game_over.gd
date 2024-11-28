@@ -40,7 +40,8 @@ onready var name_input: LineEdit = $NameInputPopup/NameInput
 onready var name_input_label: Label = $NameInputPopup/Label
 
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
+#func _input(event: InputEvent) -> void:
 
 	if name_input_popup.visible == true and name_input_popup.modulate.a == 1:
 		if Input.is_action_just_pressed("ui_cancel"):
@@ -125,7 +126,7 @@ func show_gameover_title():
 		if current_player_local_rank > 0 and not player_final_score == 0:
 			open_name_input()
 			yield(self, "name_input_finished")
-			get_viewport().set_disable_input(false) # na koncu publishanja
+			get_viewport().set_disable_input(false) # na začetku se disejbla do konca publishanja
 		else:
 			var title_fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 			title_fade_out.tween_property(gameover_title_holder, "modulate:a", 0, 0.5)
@@ -399,7 +400,7 @@ func _on_PopupNameEdit_text_entered(new_text: String) -> void: # ko stisneš ret
 func _on_ConfirmBtn_pressed() -> void:
 
 	Global.grab_focus_nofx($NameInputPopup/HBoxContainer/InputConfirmBtn) # potrditev s tipko
-	Global.sound_manager.play_gui_sfx("btn_confirm")
+#	Global.sound_manager.play_gui_sfx("btn_confirm")
 
 	if input_string.empty(): # če je prazen, je kot bi kenslal
 		_on_CancelBtn_pressed()

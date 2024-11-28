@@ -35,7 +35,7 @@ func close_popup():
 func publish_score():
 
 	get_tree().set_pause(false) # da lahko procedura steče
-	get_viewport().set_disable_input(true) # zazih
+	get_viewport().set_disable_input(true) # zazih ... nazaj ga seta, ko zaključim name input proces (GO)
 
 	if get_focus_owner():
 		get_focus_owner().release_focus()
@@ -53,7 +53,7 @@ func publish_score():
 
 func _on_PublishBtn_pressed() -> void:
 
-	Global.sound_manager.play_gui_sfx("btn_confirm")
+#	Global.sound_manager.play_gui_sfx("btn_confirm")
 
 	skip_btn.disabled = true # zazih
 	publish_btn.disabled = true # zazih

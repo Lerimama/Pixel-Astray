@@ -11,42 +11,29 @@ onready var menu: HBoxContainer = $HomeScreen/Menu
 onready var intro: Node2D = $HomeScreen/IntroViewPortContainer/IntroViewport/Intro
 onready var intro_viewport: Viewport = $HomeScreen/IntroViewPortContainer/IntroViewport
 
-# debug
-#func _process(delta: float) -> void:
-#	if menu.visible:
-#		print (menu.get_focus_owner())
-#	print (menu.get_focus_owner())
-
 
 func _unhandled_input(event: InputEvent) -> void:
-	#func _input(event: InputEvent) -> void:
-
-	#	if Input.is_action_just_pressed("skip"):
-	#		Global.sound_manager.change_menu_music()
 
 	if Input.is_action_just_pressed("ui_cancel"):
 
 		match current_screen:
 			Screens.SELECT_GAME:
 				$SelectGame/BackBtn.grab_focus()
-#				Analytics.save_ui_click($SelectGame/BackBtnECS)
 				$SelectGame.call_deferred("_on_BackBtn_pressed")
 			Screens.ABOUT:
 				$About/BackBtn.grab_focus()
-#				Analytics.save_ui_click($About/BackBtn)
 				$About.call_deferred("_on_BackBtn_pressed")
 			Screens.SETTINGS:
 				$Settings/BackBtn.grab_focus()
-#				Analytics.save_ui_click($Settings/BackBtn)
 				$Settings.call_deferred("_on_BackBtn_pressed")
 			Screens.HIGHSCORES:
 				$Highscores/BackBtn.grab_focus()
-#				Analytics.save_ui_click($Highscores/BackBtn)
 				$Highscores.call_deferred("_on_BackBtn_pressed")
 			Screens.SELECT_LEVEL:
 				$SelectLevel/BackBtn.grab_focus()
-#				Analytics.save_ui_click($SelectLevel/BackBtn)
 				$SelectLevel.call_deferred("_on_BackBtn_pressed")
+
+		get_viewport().set_disable_input(true)
 		Analytics.save_ui_click("BackEsc")
 
 
@@ -126,6 +113,9 @@ func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drug
 
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(menu, "modulate:a", 1, 0.32).from(0.0)
+	yield(fade_in, "finished")
+
+	$HomeSwipeBtn.show()
 
 
 # SIGNALI ---------------------------------------------------------------------------------------------------
@@ -202,22 +192,33 @@ func animation_reversed(from_screen: int):
 
 func _on_SelectGameBtn_pressed() -> void:
 
+	get_viewport().set_disable_input(true) # reseta se na koncu animacije
+
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("select_game")
 	Global.grab_focus_nofx($SelectGame/GamesMenu/Cleaner/CleanerBtn)
 
 
 func _on_AboutBtn_pressed() -> void:
+
+	get_viewport().set_disable_input(true) # reseta se na koncu animacije
+
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("about")
 
 
 func _on_SettingsBtn_pressed() -> void:
+
+	get_viewport().set_disable_input(true) # reseta se na koncu animacije
+
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("settings")
 
 
 func _on_HighscoresBtn_pressed() -> void:
+
+	get_viewport().set_disable_input(true) # reseta se na koncu animacije
+
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("highscores")
 

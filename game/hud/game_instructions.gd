@@ -18,21 +18,19 @@ onready var ready_btn: Button = $ReadyBtn
 onready var ready_action_hint: HBoxContainer = $ActionHint
 
 
-func _input(event: InputEvent) -> void:
+#func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 
 	if not get_parent().name == "PauseMenu":
 		if visible and modulate.a == 1:
 			if Input.is_action_just_pressed("ui_accept") or Input.is_action_just_pressed("ui_cancel"):
-				Analytics.save_ui_click("ReadyBtn")
 				_on_ReadyBtnButton_pressed()
 
 
 func _ready() -> void:
 
-#	ready_btn.add_to_group(Global.group_menu_confirm_btns)
 	ready_btn.hide()
-#	if get_parent().name == "Popups": # da ni aktiven v pavzi
-		#		yield(get_tree().create_timer(0.2), "timeout") # če je klik prehiter se ne nalouda
+
 
 func open(with_button: bool = true):
 
@@ -110,8 +108,8 @@ func get_instructions_content(current_highscore: int = 0, current_highscore_owne
 func confirm_players_ready():
 
 	get_tree().set_pause(false)
-	Global.sound_manager.play_gui_sfx("btn_confirm")
-	yield(get_tree().create_timer(0.5), "timeout") # da se kamera centrira (na restart)
+
+	yield(get_tree().create_timer(0.5), "timeout") # da se kamera centrira
 
 	var out_time: float = 0.5
 	var hide_instructions_popup = get_tree().create_tween()
@@ -122,11 +120,11 @@ func confirm_players_ready():
 	hide()
 
 
-#func _on_ReadyBtnButton_pressed(button: BaseButton) -> void:
 func _on_ReadyBtnButton_pressed() -> void:
 
-	Global.sound_manager.play_gui_sfx("btn_confirm")
+	Analytics.save_ui_click("ReadyBtn")
 	confirm_players_ready()
+
+	yield(get_tree().create_timer(0.18), "timeout") # da se spund sliši
+	Global.sound_manager.play_gui_sfx("btn_confirm")
 	ready_btn.hide()
-#	ready_btn.rect_size = Vector2.ZERO # da zgine rokca miške
-#	get_tree().set_input_as_handled()

@@ -193,7 +193,8 @@ onready var testhud_node = $UILayer/TestHud
 onready var test_toggle_btn = $UILayer/TestToggle
 
 
-func _input(_event: InputEvent) -> void: # testview inputs
+func _unhandled_input(event: InputEvent) -> void:
+#func _input(_event: InputEvent) -> void: # testview inputs
 
 	if Input.is_action_just_pressed("left_click") and test_view_on and not mouse_used:
 		multi_shake_camera(test_trauma_strength, test_trauma_time, test_decay_speed)

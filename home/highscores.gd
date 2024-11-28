@@ -141,15 +141,16 @@ onready var default_focus_node: Control = update_scores_btn
 
 func _ready() -> void:
 
-	# btn groups
-	back_btn.add_to_group(Global.group_menu_cancel_btns)
-	update_scores_btn.add_to_group(Global.group_menu_confirm_btns)
-	publish_unpublished_btn.add_to_group(Global.group_menu_confirm_btns)
+	# btns
 	back_btn.add_to_group(Global.group_menu_cancel_btns)
 
 	if Profiles.html5_mode:
 		update_scores_btn.hide()
+		publish_unpublished_btn.hide()
 		default_focus_node = back_btn
+	else:
+		update_scores_btn.add_to_group(Global.group_menu_confirm_btns)
+		publish_unpublished_btn.add_to_group(Global.group_menu_confirm_btns)
 
 	# naberem tabele
 	for hall in halls:
@@ -169,7 +170,9 @@ func _ready() -> void:
 
 func load_all_highscore_tables(update_with_global: bool, update_in_background: bool = false):
 
-	disable_btns()
+	#	disable_btns()
+	get_viewport().set_disable_input(true)
+
 
 	var update_object_count: int = 0
 	for table in all_tables:
@@ -213,11 +216,11 @@ func load_all_highscore_tables(update_with_global: bool, update_in_background: b
 		publish_unpublished_btn.hide()
 
 	# after
+#	update_scores_btn.disabled = false
+#	update_scores_btn.get_child(0).modulate = Global.color_btn_enabled
 	get_viewport().set_disable_input(false)
-	update_scores_btn.disabled = false
-	update_scores_btn.get_child(0).modulate = Global.color_btn_enabled
 
-	disable_btns(false)
+#	disable_btns(false)
 
 	# after focus
 	if update_with_global and not update_in_background: # samo kadar je na HOF ekranu
@@ -227,7 +230,8 @@ func load_all_highscore_tables(update_with_global: bool, update_in_background: b
 
 func publish_all_unpublished_scores():
 
-	disable_btns()
+#	disable_btns()
+	get_viewport().set_disable_input(true)
 
 	var tables_to_update: Array = []
 	for table in all_tables:
@@ -254,7 +258,8 @@ func publish_all_unpublished_scores():
 	yield(get_tree().create_timer(LootLocker.final_panel_open_time), "timeout")
 	ConnectCover.close_cover()
 
-	disable_btns(false)
+#	disable_btns(false)
+	get_viewport().set_disable_input(false)
 
 
 func reset_all_local_scores():
@@ -282,20 +287,20 @@ func reset_all_local_scores():
 	ConnectCover.close_cover()
 
 
-func disable_btns(disable_it: bool = true):
-
-	if disable_it:
-		back_btn.disabled = true
-		update_scores_btn.disabled = true
-		update_scores_btn.get_child(0).modulate = Global.color_btn_disabled
-		publish_unpublished_btn.disabled = true
-		publish_unpublished_btn.get_child(0).modulate = Global.color_btn_disabled
-	else:
-		update_scores_btn.disabled = false
-		publish_unpublished_btn.disabled = false
-		back_btn.disabled = false
-
-	get_viewport().set_disable_input(false)
+#func disable_btns(disable_it: bool = true):
+#
+#	if disable_it:
+#		back_btn.disabled = true
+#		update_scores_btn.disabled = true
+#		update_scores_btn.get_child(0).modulate = Global.color_btn_disabled
+#		publish_unpublished_btn.disabled = true
+#		publish_unpublished_btn.get_child(0).modulate = Global.color_btn_disabled
+#	else:
+#		update_scores_btn.disabled = false
+#		update_scores_btn.get_child(0).modulate = Global.color_btn_enabled
+#		publish_unpublished_btn.disabled = false
+#		back_btn.disabled = false
+#
 
 
 # BUTTONS --------------------------------------------------------------------------------------------------------------
@@ -310,7 +315,7 @@ func _on_BackBtn_pressed() -> void:
 func _on_UpdateScoresBtn_pressed() -> void:
 
 	update_scores_btn.release_focus()
-	update_scores_btn.disabled = true
+#	update_scores_btn.disabled = true
 	load_all_highscore_tables(true, false) # update, in front
 
 

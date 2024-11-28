@@ -93,9 +93,6 @@ visible = false
 margin_left = 451.0
 margin_right = 586.0
 
-[node name="PlayerLineR" parent="GUI/Hud/Header/TopLineR" index="2"]
-visible = false
-
 [node name="TutorialGui" type="Control" parent="GUI"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -681,8 +678,6 @@ margin_right = 226.0
 margin_bottom = 22.0
 text = "to skip step"
 
-[node name="TouchControls" parent="GUI" instance=ExtResource( 13 )]
-
 [node name="PauseMenu" parent="GUI" instance=ExtResource( 11 )]
 visible = false
 __meta__ = {
@@ -751,9 +746,23 @@ margin_right = 244.0
 margin_bottom = 22.0
 text = "to toggle HINT"
 
+[node name="TouchControls" parent="GUI" instance=ExtResource( 13 )]
+
 [node name="RespawnTimer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 106
+visible = false
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+margin_left = 445.0
+margin_top = 512.0
+margin_right = 571.0
+margin_bottom = 534.0
+mouse_default_cursor_shape = 2
+text = "asdasdasd"
 
 [connection signal="pressed" from="GUI/SweeperHintBtn" to="GUI/Hud" method="_on_SweeperHintBtn_pressed"]
 [connection signal="timeout" from="RespawnTimer" to="GameManager" method="_on_RespawnTimer_timeout"]

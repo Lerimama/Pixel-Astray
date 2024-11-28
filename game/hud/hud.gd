@@ -26,9 +26,10 @@ onready var viewport_footer: ColorRect = $"%ViewFuter"
 
 # header
 onready var game_timer: HBoxContainer = $Header/GameTimerHunds
-onready var highscore_label: Label = $Header/TopLineR/HighscoreLabel
-onready var music_track_label: Button = $Header/TopLineR/MusicPlayer/TrackBtn # TrackLabel # za pedeneanje imena iz SM in na ready
 onready var music_player: HBoxContainer = $Header/TopLineR/MusicPlayer
+onready var music_track_label: Button = $Header/TopLineR/MusicPlayer/TrackBtn # TrackLabel # za pedeneanje imena iz SM in na ready
+onready var highscore_holder: HBoxContainer = $Header/TopLineR/HighscoreHolder
+onready var highscore_label: Label = $Header/TopLineR/HighscoreHolder/HighscoreLabel
 
 # p1
 onready var p1_label: Label = $Header/TopLineL/PlayerLabel
@@ -144,6 +145,9 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 
+
+#	set_process_input(true)
+#	printt(is_processing_input(), Input.is_mouse_button_pressed(1))
 	astray_counter.text = "%0d" % Global.game_manager.strays_in_game_count
 
 	if level_label.visible: # Global.game_manager.game_data.has("level"):
@@ -152,7 +156,7 @@ func _process(delta: float) -> void:
 
 func set_hud(): # kliče main na game-in
 
-	astray_label.text = "PIXELS ASTRAY"
+	#	astray_label.text = "STRAYS"
 
 	# player statlines
 	if Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
@@ -177,9 +181,9 @@ func set_hud(): # kliče main na game-in
 
 	# glede na to kaj šteje ...
 	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NONE:
-		highscore_label.visible = false
+		highscore_holder.visible = false
 	else:
-		highscore_label.visible = true
+		highscore_holder.visible = true
 
 	# stotinke na timerju
 	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
@@ -204,9 +208,9 @@ func set_current_highscore():
 	current_highscore_owner = current_highscore_line[1]
 
 	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
-		highscore_label.text = "HS: " + current_highscore_clock + " by %s" % current_highscore_owner
+		highscore_label.text = current_highscore_clock + " by %s" % current_highscore_owner
 	elif Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.POINTS:
-		highscore_label.text = "HS: " + str(current_highscore) + " by %s" % current_highscore_owner
+		highscore_label.text = str(current_highscore) + " by %s" % current_highscore_owner
 
 
 func slide_in(): # kliče GM set_game()
@@ -234,7 +238,7 @@ func slide_in(): # kliče GM set_game()
 			var indicator_fade_in = get_tree().create_tween()
 			indicator_fade_in.tween_property(indicator, "modulate:a", stray_in_indicator_alpha, 0.3).set_ease(Tween.EASE_IN)
 
-	if not Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 		var fade_in = get_tree().create_tween()
 		fade_in.tween_callback(sweeper_hint_btn, "show").set_delay(0.3) # delay za usklajenost s tutorial fade in
 		fade_in.tween_property(sweeper_hint_btn, "modulate:a", 1, 0.5).from(0.0).set_ease(Tween.EASE_IN)
@@ -368,14 +372,14 @@ func _check_for_highscore(player_stats: Dictionary):
 	match Global.game_manager.game_data["highscore_type"]:
 		Profiles.HighscoreTypes.POINTS:
 			if player_stats["player_points"] > current_highscore:
-				highscore_label.text = "New HS: " + str(player_stats["player_points"]) + " by You"
-				highscore_label.modulate = Global.color_green
+				highscore_label.text = str(player_stats["player_points"]) + " by You"
+				highscore_holder.modulate = Global.color_green
 			else:
-				highscore_label.text = "HS: " + str(current_highscore) + " by %s" % current_highscore_owner
-				highscore_label.modulate = Global.color_hud_text
+				highscore_label.text = str(current_highscore) + " by %s" % current_highscore_owner
+				highscore_holder.modulate = Global.color_hud_text
 		Profiles.HighscoreTypes.TIME: # logika je tu malo drugačna kot pri drugih dveh
-			highscore_label.text = "HS: " + current_highscore_clock + " by %s" % current_highscore_owner
-			highscore_label.modulate = Global.color_hud_text
+			highscore_label.text = current_highscore_clock + " by %s" % current_highscore_owner
+			highscore_holder.modulate = Global.color_hud_text
 
 
 func _on_stat_changed(stat_owner: Node, player_stats: Dictionary):
@@ -387,22 +391,22 @@ func _on_stat_changed(stat_owner: Node, player_stats: Dictionary):
 			p1_life_counter.life_count = player_stats["player_life"]
 			p1_energy_counter.energy = player_stats["player_energy"]
 			p1_points_counter.text = "%d" % player_stats["player_points"]
-			p1_color_counter.text = "%d" % player_stats["colors_collected"]
-			p1_burst_counter.text = "%d" % player_stats["burst_count"]
-			p1_skill_counter.text = "%d" % player_stats["skill_count"]
-			p1_steps_counter.text = "%d" % player_stats["cells_traveled"]
+			#			p1_color_counter.text = "%d" % player_stats["colors_collected"]
+			#			p1_burst_counter.text = "%d" % player_stats["burst_count"]
+			#			p1_skill_counter.text = "%d" % player_stats["skill_count"]
+			#			p1_steps_counter.text = "%d" % player_stats["cells_traveled"]
 		"p2":
 			p2_life_counter.life_count = player_stats["player_life"]
 			p2_energy_counter.energy = player_stats["player_energy"]
 			p2_points_counter.text = "%d" % player_stats["player_points"]
-			p2_color_counter.text = "%d" % player_stats["colors_collected"]
-			p2_burst_counter.text = "%d" % player_stats["burst_count"]
-			p2_skill_counter.text = "%d" % player_stats["skill_count"]
-			p2_steps_counter.text = "%d" % player_stats["cells_traveled"]
+			#			p2_color_counter.text = "%d" % player_stats["colors_collected"]
+			#			p2_burst_counter.text = "%d" % player_stats["burst_count"]
+			#			p2_skill_counter.text = "%d" % player_stats["skill_count"]
+			#			p2_steps_counter.text = "%d" % player_stats["cells_traveled"]
 
 	# debug ... life & energy
-	player_life.text = "LIFE: %d" % player_stats["player_life"]
-	player_energy.text = "E: %d" % player_stats["player_energy"]
+	#	player_life.text = "LIFE: %d" % player_stats["player_life"]
+	#	player_energy.text = "E: %d" % player_stats["player_energy"]
 
 	if not Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NONE:
 		_check_for_highscore(player_stats)
@@ -415,5 +419,4 @@ func _on_GameTimer_gametime_is_up() -> void: # signal iz tajmerja
 
 func _on_SweeperHintBtn_pressed() -> void:
 
-	print("HINT PRESSED")
 	Global.current_tilemap.solution_line.visible = not Global.current_tilemap.solution_line.visible

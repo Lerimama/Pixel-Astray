@@ -236,7 +236,7 @@ var tutorial_music_track_index: int = 1
 # nastavitve, ki se setajo tudi v home
 var use_default_color_theme: bool = true
 var camera_shake_on: bool = true
-var tutorial_mode: bool = true
+var tutorial_mode: bool = false
 var analytics_mode: bool = true
 var screen_touch_sensitivity: float = 10 # px 0 - 60
 
@@ -267,7 +267,7 @@ func set_game_data(selected_game):
 
 	# debug ... game_data
 	game_settings["start_countdown"] = false
-#	game_settings["show_game_instructions"] = false
+	game_settings["show_game_instructions"] = false
 	#	game_settings["player_start_life"] = 2
 
 	match selected_game:

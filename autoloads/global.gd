@@ -66,7 +66,8 @@ func _ready():
 	randomize() # custom color scheme
 
 	# when _ready is called, there might already be nodes in the tree, so connect all existing buttons
-	connect_buttons(get_tree().root)
+	connect_all_interactive_controls(get_tree().root)
+#	connect_controls(get_tree().root)
 	get_tree().connect("node_added", self, "_on_SceneTree_node_added")
 
 
@@ -126,47 +127,47 @@ func get_clock_time(hundreds_to_split: float): # cele stotinke ali ne cele sekun
 	var time_on_clock: String = "%02d" % minutes + ":" + "%02d" % seconds + ":" + "%02d" % hundreds
 
 	return time_on_clock
-
-
-# SCENE MANAGER (prehajanje med igro in menijem) --------------------------------------------------------------
-
-
-var current_scene = null # za scene switching
-
-
-func release_scene(scene_node): # release scene
-
-	scene_node.propagate_call("queue_free", []) # kvefrijam vse node v njem
-
-	scene_node.set_physics_process(false)
-	call_deferred("_free_scene", scene_node)
-
-
-func _free_scene(scene_node):
-
-	if OS.is_debug_build():  # debug OS mode
-		#		print("SCENE RELEASED (in next step): ", scene_node)
-		pass
-	scene_node.free()
-
-
-func spawn_new_scene(scene_path, parent_node): # spawn scene
-
-	var scene_resource = ResourceLoader.load(scene_path)
-
-	current_scene = scene_resource.instance()
-
-	if OS.is_debug_build():  # debug OS mode
-		#		print("SCENE INSTANCED: ", current_scene)
-		pass
-	current_scene.modulate.a = 0
-	parent_node.add_child(current_scene) # direct child of root
-
-	if OS.is_debug_build():  # debug OS mode
-		#		print("SCENE ADDED: ", current_scene)
-		#		print("--- new scene ---")
-		pass
-	return current_scene
+#
+#
+## SCENE MANAGER (prehajanje med igro in menijem) --------------------------------------------------------------
+#
+#
+#var current_scene = null # za scene switching
+#
+#
+#func release_scene(scene_node): # release scene
+#
+#	scene_node.propagate_call("queue_free", []) # kvefrijam vse node v njem
+#
+#	scene_node.set_physics_process(false)
+#	call_deferred("_free_scene", scene_node)
+#
+#
+#func _free_scene(scene_node):
+#
+#	if OS.is_debug_build():  # debug OS mode
+#		#		print("SCENE RELEASED (in next step): ", scene_node)
+#		pass
+#	scene_node.free()
+#
+#
+#func spawn_new_scene(scene_path, parent_node): # spawn scene
+#
+#	var scene_resource = ResourceLoader.load(scene_path)
+#
+#	current_scene = scene_resource.instance()
+#
+#	if OS.is_debug_build():  # debug OS mode
+#		#		print("SCENE INSTANCED: ", current_scene)
+#		pass
+#	current_scene.modulate.a = 0
+#	parent_node.add_child(current_scene) # direct child of root
+#
+#	if OS.is_debug_build():  # debug OS mode
+#		#		print("SCENE ADDED: ", current_scene)
+#		#		print("--- new scene ---")
+#		pass
+#	return current_scene
 
 
 # COLORS ------------------------------------------------------------------------------------------------
@@ -283,55 +284,72 @@ var allow_focus_sfx: bool = true # focus no-sounds
 var current_focused_control#: Control # samo zaradi zaznavanja toggle batnov
 
 
-# naberi gumbe in jih poveži
-func _on_SceneTree_node_added(node: Control):
+func _on_SceneTree_node_added(node: Control): # na ready
 
 	if node is BaseButton or node is HSlider:
-		connect_to_button(node)
+		connect_interactive_control(node)
 
-# naberi gumbe v globino in jih poveži
-func connect_buttons(root: Node):
+
+func connect_all_interactive_controls(root: Node): # na ready ... H slider je tudi btn
 
 	for child in root.get_children():
 		if child is BaseButton or child is HSlider:
-			connect_to_button(child)
-
-# poveži gumb
-func connect_to_button(button):
-
-	# klik akcija
-	# čekbox
-	if button is CheckButton:
-		button.connect("toggled", self, "_on_button_toggled")
-	# vsak button, ki ni slider
-	#	elif button is BaseButton:
-	elif button is HSlider:
-		pass
-	else:
-		button.connect("pressed", self, "_on_button_pressed", [button])
-
-	# hover in fokus
-	button.connect("mouse_entered", self, "_on_control_hovered", [button])
-	button.connect("focus_entered", self, "_on_control_focused", [button])
-	button.connect("focus_exited", self, "_on_control_unfocused", [button])
+			connect_interactive_control(child)
 
 
-# on confirm and cancel
+func connect_interactive_control(control: Control):
+
+	if control is Button:
+		if control is CheckButton:
+			control.connect("toggled", self, "_on_button_toggled")
+		else:
+			control.connect("pressed", self, "_on_button_pressed", [control])
+		connect_hover_and_focus(control)
+	elif control is HSlider:
+		connect_hover_and_focus(control)
+
+
+func connect_hover_and_focus(control: Control):
+	control.connect("mouse_entered", self, "_on_control_hovered", [control])
+	control.connect("focus_entered", self, "_on_control_focused", [control])
+	control.connect("focus_exited", self, "_on_control_unfocused", [control])
+
+
+func _on_control_hovered(control: Control):
+
+	if not control.has_focus():# and not control is ColorRect:
+		control.grab_focus()
+
+
+func _on_control_focused(control: Control):
+
+	current_focused_control = control
+
+	if allow_focus_sfx:
+		Global.sound_manager.play_gui_sfx("btn_focus_change")
+
+	# check btn color fix
+	if control is CheckButton or control is HSlider or control.name == "RandomizeBtn" or control.name == "ResetBtn":
+		control.modulate = Color.white
+
+
+func _on_control_unfocused(control: Control):
+
+	# settings gumbi - barvanje
+	if control is CheckButton or control is HSlider or control.name == "RandomizeBtn" or control.name == "ResetBtn":
+		control.modulate = color_gui_gray # Color.white
+
+
 func _on_button_pressed(button: BaseButton):
+
 	Analytics.save_ui_click(button)
 
-	# ker ti gumbi peljejo na nov ekran, po njihovem kliku
-	if button.is_in_group(Global.group_menu_confirm_btns):
-#		print(button)
-		Global.sound_manager.play_gui_sfx("btn_confirm")
-		get_viewport().set_disable_input(true) # prevent dablklik
-
-	elif button.is_in_group(Global.group_menu_cancel_btns):
+	if button.is_in_group(Global.group_menu_cancel_btns):
 		Global.sound_manager.play_gui_sfx("btn_cancel")
-		get_viewport().set_disable_input(true) # prevent dablklik
+	else:
+		Global.sound_manager.play_gui_sfx("btn_confirm")
 
 
-# on toggle
 func _on_button_toggled(button_pressed: bool) -> void:
 
 	if str(current_focused_control) == "[Deleted Object]": # anti home_out nek toggle btn
@@ -346,36 +364,7 @@ func _on_button_toggled(button_pressed: bool) -> void:
 			Analytics.save_ui_click([current_focused_control, button_pressed])
 
 
-# on hover
-func _on_control_hovered(control: Control):
-
-	if not control.has_focus() and not control is ColorRect:
-		control.grab_focus()
-
-# on focus
-func _on_control_focused(control: Control):
-	#	printt("Control focused", control)
-
-	current_focused_control = control
-
-	if allow_focus_sfx:
-		Global.sound_manager.play_gui_sfx("btn_focus_change")
-
-	# check btn color fix
-	if control is CheckButton or control is HSlider or control.name == "RandomizeBtn" or control.name == "ResetBtn":
-		control.modulate = Color.white
-
-
-# on defocus - barvanje settings gumbi
-func _on_control_unfocused(control: Control):
-	#	printt("Control unfocused", control)
-
-	if control is CheckButton or control is HSlider or control.name == "RandomizeBtn" or control.name == "ResetBtn":
-		control.modulate = color_gui_gray # Color.white
-
-# nofx focus
 func grab_focus_nofx(control_to_focus: Control):
-	#	printt("No sfx focus", control_to_focus, allow_focus_sfx)
 
 	# reseta na fokus
 	allow_focus_sfx = false

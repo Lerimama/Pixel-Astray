@@ -146,7 +146,7 @@ func skip_track():
 
 func music_toggle(mute_it = null):
 
-	# če ni podan paramter togla glede na setano
+	# če ni podan paramater togla glede na setano
 	if mute_it == null:
 		mute_it = not game_music_set_to_off
 	# glede na parameter

@@ -63,7 +63,6 @@ func play_on():
 	fade_out_tween.tween_property(self, "modulate:a", 0, pause_out_time)
 	fade_out_tween.tween_callback(self, "hide")
 	fade_out_tween.tween_callback(get_tree(), "set_pause", [false])
-	fade_out_tween.tween_callback(get_viewport(), "set_disable_input", [false])
 
 
 # MENU ---------------------------------------------------------------------------------------------
@@ -78,7 +77,7 @@ func _on_RestartBtn_pressed() -> void:
 
 	Global.game_manager.game_on = false
 
-	Global.sound_manager.play_gui_sfx("btn_confirm")
+#	Global.sound_manager.play_gui_sfx("btn_confirm")
 
 	Global.game_manager.stop_game_elements()
 	Global.sound_manager.stop_music("game_music_on_gameover")

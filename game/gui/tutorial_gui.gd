@@ -73,12 +73,12 @@ func open_tutorial(): # kliče se z GM
 		open_stage(travel_content)
 		skip_hint.modulate.a = 0
 		skip_hint.show()
-		hud_guide.modulate.a = 0
-		hud_guide.show()
+#		hud_guide.modulate.a = 0
+#		hud_guide.show()
 		var fade_time: float = 0.3
 		var hint_fade = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 		hint_fade.tween_property(skip_hint, "modulate:a", 1, fade_time).set_ease(Tween.EASE_IN)
-		hint_fade.parallel().tween_property(hud_guide, "modulate:a", 1, fade_time).set_ease(Tween.EASE_IN)
+#		hint_fade.parallel().tween_property(hud_guide, "modulate:a", 1, fade_time).set_ease(Tween.EASE_IN)
 		for tut_element in Global.hud.touch_controls.tutorial_elements:
 			hint_fade.parallel().tween_callback(tut_element, "show")
 			hint_fade.parallel().tween_property(tut_element, "modulate:a", 1, fade_time).set_ease(Tween.EASE_IN)
@@ -98,7 +98,7 @@ func close_tutorial():
 			if content.visible:
 				close_stage.tween_property(content, "modulate:a", 0, fade_time)
 		close_stage.parallel().tween_property(skip_hint, "modulate:a", 0, fade_time)
-		close_stage.parallel().tween_property(hud_guide, "modulate:a", 0, fade_time)
+#		close_stage.parallel().tween_property(hud_guide, "modulate:a", 0, fade_time)
 		for tut_element in Global.hud.touch_controls.tutorial_elements:
 			close_stage.parallel().tween_property(tut_element, "modulate:a", 0, fade_time)
 		yield(close_stage, "finished")

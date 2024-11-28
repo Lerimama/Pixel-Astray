@@ -49,6 +49,8 @@ extents = Vector2( 28, 28 )
 extents = Vector2( 50, 28 )
 
 [node name="TouchControls" type="Node2D"]
+visible = false
+z_index = 100
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_horizontal_guides_": [ 562.0 ],

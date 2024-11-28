@@ -13,11 +13,20 @@ onready var highscores_node: Control = $"../Highscores"
 onready var default_focus_node: Control = $MenuMusicBtn
 
 
+#func _unhandled_input(event: InputEvent) -> void:
 func _input(event: InputEvent) -> void:
 
-	if $TouchControllerPopup.visible and Input.is_action_just_pressed("ui_cancel"):
-		$TouchControllerPopup.hide()
-		get_tree().set_input_as_handled()
+	if $TouchControllerPopup.visible:
+		if Input.is_action_just_pressed("ui_cancel"):
+			$TouchControllerPopup.hide()
+			get_tree().set_input_as_handled()
+			get_parent().get_node("HomeSwipeBtn").show()
+
+	if $ResetDataPopup.visible:
+		if Input.is_action_just_pressed("ui_cancel"):
+			$ResetDataPopup.hide()
+			get_parent().get_node("HomeSwipeBtn").show()
+			get_tree().set_input_as_handled()
 
 
 func _ready() -> void:
@@ -52,11 +61,16 @@ func _ready() -> void:
 		$TrackingBtn.pressed = true
 	else:
 		$TrackingBtn.pressed = false
-	# cam shake state
+	# reset data
 	if Profiles.html5_mode:
 		$ResetLocalBtn.hide()
 	else:
 		$ResetLocalBtn.show()
+		$ResetDataPopup.add_item("About to reset local scores ...", 0)
+		$ResetDataPopup.add_item("Maybe later", 1)
+		$ResetDataPopup.add_item("Do it!", 2)
+		$ResetDataPopup.set_item_disabled(0, true)
+		$ResetDataPopup.set_current_index(1)
 
 
 	# IN-GAME SETTINGS ------------------------------------------------------------------
@@ -97,7 +111,6 @@ func _ready() -> void:
 		$TouchSensSlider.hide()
 
 
-
 func _on_BackBtn_pressed() -> void:
 
 	Global.sound_manager.play_gui_sfx("screen_slide")
@@ -112,9 +125,11 @@ func _on_MenuMusicBtn_toggled(button_pressed: bool) -> void:
 	Global.grab_focus_nofx($MenuMusicBtn) # za analitiko
 
 	if button_pressed:
-		Global.sound_manager.music_toggle(false)
+		Global.sound_manager.menu_music_set_to_off = false
+		Global.sound_manager.play_music("menu_music")
 	else:
-		Global.sound_manager.music_toggle(true)
+		Global.sound_manager.menu_music_set_to_off = true
+		Global.sound_manager.stop_music("menu_music")
 
 
 func _on_TrackingBtn_toggled(button_pressed: bool) -> void:
@@ -139,7 +154,24 @@ func _on_InstructionsBtn_toggled(button_pressed: bool) -> void:
 
 func _on_ResetLocalButton_pressed() -> void:
 
-	highscores_node.reset_all_local_scores()
+	get_parent().get_node("HomeSwipeBtn").hide()
+	$ResetDataPopup.popup_centered()
+
+
+func _on_ResetDataPopup_index_pressed(index: int) -> void:
+
+	Global.sound_manager.play_gui_sfx("btn_confirm")
+	if index == 1:
+		Analytics.save_ui_click("ResetData-No")
+	elif index == 2:
+		highscores_node.reset_all_local_scores()
+		Analytics.save_ui_click("ResetData-Yes")
+	get_parent().get_node("HomeSwipeBtn").show()
+
+
+func _on_ResetDataPopup_id_focused(id: int) -> void:
+
+	Global.sound_manager.play_gui_sfx("btn_focus_change")
 
 
 # COLOR SCHEMES ----------------------------------------------------------------------------------------------------------------
@@ -225,16 +257,18 @@ func _on_CameraShakeBtn_toggled(button_pressed: bool) -> void:
 func _on_TouchPopUpBtn_pressed() -> void:
 
 	$TouchControllerPopup.set_current_index(Profiles.set_touch_controller)
+	get_parent().get_node("HomeSwipeBtn").hide()
 	$TouchControllerPopup.popup_centered()
 
 
-func _on_TouchControllerMenu_index_pressed(index: int) -> void:
+func _on_TouchControllerPopup_index_pressed(index: int) -> void:
 
 	Profiles.set_touch_controller = index
 	var controller_key: String = Profiles.TOUCH_CONTROLLER.keys()[index]
 	$TouchPopUpBtn.text = "Touch controls: %s" % controller_key
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 
+	get_parent().get_node("HomeSwipeBtn").show()
 	Analytics.save_ui_click("TouchController %s" % controller_key)
 
 	# ugasnem za buttons in none
@@ -254,10 +288,6 @@ func _on_SensSlider_value_changed(value: float) -> void:
 	Global.grab_focus_nofx($TouchSensSlider) # za analitiko
 	Profiles.screen_touch_sensitivity = value
 
-
 func _on_SensSlider_drag_ended() -> void:
 
 	Analytics.save_ui_click([$TouchSensSlider, $TouchSensSlider.value])
-
-
-

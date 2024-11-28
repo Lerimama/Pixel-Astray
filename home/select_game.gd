@@ -188,6 +188,8 @@ func color_game_btns():
 
 func play_selected_game(selected_game_enum: int):
 
+	get_viewport().set_disable_input(true)
+
 	Profiles.set_game_data(selected_game_enum)
 	Analytics.save_game_data(Profiles.current_game_data["game_name"])
 
@@ -256,6 +258,8 @@ func _on_TheDuelBtn_pressed() -> void:
 func _on_SweeperBtn_pressed() -> void:
 
 	# ?	play_selected_game(Profiles.Games.SWEEPER)
+
+	get_viewport().set_disable_input(true)
 
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("select_level")

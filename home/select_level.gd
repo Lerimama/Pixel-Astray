@@ -27,6 +27,8 @@ func _ready() -> void:
 
 func play_selected_level(selected_level: int):
 
+	get_viewport().set_disable_input(true)
+
 	# set sweeper level
 	Profiles.game_data_sweeper["level"] = selected_level
 
