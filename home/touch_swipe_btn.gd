@@ -98,7 +98,7 @@ func get_swipe_direction():
 
 
 func _on_SwipeBtn_pressed() -> void:
-	print ("PREDD")
+
 	screen_pressed_position = get_global_mouse_position()
 
 

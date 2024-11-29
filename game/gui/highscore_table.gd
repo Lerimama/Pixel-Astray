@@ -22,16 +22,16 @@ func build_highscore_table(current_game_data: Dictionary, show_title: bool = tru
 
 	table_game_data = current_game_data.duplicate() # nujno duplikat .. še kje?
 
-	reset_table()
+	_reset_table()
 
 	# nafilam podatke
 	var current_game_highscores = Global.data_manager.read_highscores_from_file(table_game_data)
 
 	# spawnam scoreline
-	add_scorelines(current_game_highscores.size())
+	_add_scorelines(current_game_highscores.size())
 
 	for scoreline in scorelines:
-		fill_scoreline_with_data(scoreline, current_game_highscores)
+		_fill_scoreline_with_data(scoreline, current_game_highscores)
 
 	# zbrišem nenapolnjene scoreline ... malo zazih, malo zares
 	for empty_scoreline in empty_scorelines_after_fill:
@@ -40,7 +40,7 @@ func build_highscore_table(current_game_data: Dictionary, show_title: bool = tru
 	empty_scorelines_after_fill.clear()
 
 	# dodam lokalne rezultate
-	add_local_to_global_scores(separate_local_scores)
+	_add_local_to_global_scores(separate_local_scores)
 
 	# table title
 	if show_title:
@@ -75,7 +75,7 @@ func build_highscore_table(current_game_data: Dictionary, show_title: bool = tru
 		table_scroller.rect_position.x += 7
 
 
-func add_scorelines(lines_count: int):
+func _add_scorelines(lines_count: int):
 
 	if scorelines.size() < lines_count:
 		var missing_lines_count: int = lines_count - scorelines.size()
@@ -86,7 +86,7 @@ func add_scorelines(lines_count: int):
 			scorelines.append(new_scoreline)
 
 
-func fill_scoreline_with_data(scoreline: Control, highscores: Dictionary):
+func _fill_scoreline_with_data(scoreline: Control, highscores: Dictionary):
 
 	# za vsako pozicijo vpišemo vrednost, ime in pozicijo
 	var scoreline_index: int = scorelines.find(scoreline)
@@ -116,7 +116,7 @@ func fill_scoreline_with_data(scoreline: Control, highscores: Dictionary):
 		scoreline.show()
 
 
-func add_local_to_global_scores(separate_local_scores: bool):
+func _add_local_to_global_scores(separate_local_scores: bool):
 
 	var local_game_highscores: Dictionary = Global.data_manager.read_highscores_from_file(table_game_data, true)
 	var new_scorelines: Array = []
@@ -132,16 +132,18 @@ func add_local_to_global_scores(separate_local_scores: bool):
 			continue
 
 		var better_ranked_player_count: int = 0
+		var score_is_local_and_global: bool = false
+
 		for line_with_score in scorelines:
 			var global_player_name: String = line_with_score.get_child(1).text
 			var global_player_score: int = int(line_with_score.get_child(2).text)
 			# če je lokalni skor že na globalni lestvici, ga samo označim obarvam
+			# če ga še ni ... preverim bolje rangirane (in globalni skor ni 0)
 			if global_player_name == local_player_name and global_player_score == local_player_score:
+				score_is_local_and_global = true
 				if separate_local_scores:
 					line_with_score.modulate = Global.color_yellow
-				better_ranked_player_count = -1 # predno pride do enakega rezultata, jih je že nekaj preštel
-			# če ga še ni ... preverim bolje rangirane (in globalni skor ni 0)
-			if not global_player_score == 0:
+			elif not global_player_score == 0:
 				if table_game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
 					if global_player_score < local_player_score: # manjši je boljši
 						better_ranked_player_count += 1
@@ -150,7 +152,8 @@ func add_local_to_global_scores(separate_local_scores: bool):
 						better_ranked_player_count += 1
 
 		# spawn nove scoreline
-		if better_ranked_player_count > -1:
+		if not score_is_local_and_global:
+
 			# spawn
 			var new_local_scoreline: Control = default_scoreline.duplicate()
 			hs_table.add_child(new_local_scoreline)
@@ -171,6 +174,23 @@ func add_local_to_global_scores(separate_local_scores: bool):
 			unpublished_local_scores.append(local_score_data)
 
 	scorelines.append_array(new_scorelines)
+
+
+func _reset_table():
+	# ohrani samo def_score_line
+
+	for label in default_scoreline.get_children():
+		label.show()
+
+	var highscore_table_children: Array = hs_table.get_children()
+	highscore_table_children.erase(default_scoreline)
+
+	if not highscore_table_children.empty(): # pomeni, da ni resetirana, ali pa ima debug linije
+		for child in highscore_table_children:
+			hs_table.remove_child(child) # more bit za pravo zaporedje vrinjenih lokalnih
+			child.queue_free()
+
+	scorelines.clear()
 
 
 func publish_unpublished_scores():
@@ -195,18 +215,26 @@ func publish_unpublished_scores():
 	unpublished_local_scores.clear()
 
 
-func reset_table():
-	# ohrani samo def_score_line
+func locate_scoreline_with_score(score: float, score_owner: String, hs_type: int):
 
-	for label in default_scoreline.get_children():
-		label.show()
+	var scoreline_to_locate: Control
+	for scoreline in hs_table.get_children():
+		var scoreline_owner: Label = scoreline.get_child(1)
+		var scoreline_score: Label = scoreline.get_child(2)
+		var score_as_string: String
+		if hs_type == Profiles.HighscoreTypes.TIME: # kadar se meri čas, obstaja cilj, da rankiraš
+			score_as_string = Global.get_clock_time(score)
+		elif hs_type == Profiles.HighscoreTypes.POINTS: # kadar se meri čas, obstaja cilj, da rankiraš
+			score_as_string = str(score)
 
-	var highscore_table_children: Array = hs_table.get_children()
-	highscore_table_children.erase(default_scoreline)
+		# določim pravi scoreline
+		if scoreline_score.text == score_as_string and scoreline_owner.text == score_owner:
+			scoreline_to_locate = scoreline
 
-	if not highscore_table_children.empty(): # pomeni, da ni resetirana, ali pa ima debug linije
-		for child in highscore_table_children:
-			hs_table.remove_child(child) # more bit za pravo zaporedje vrinjenih lokalnih
-			child.queue_free()
-
-	scorelines.clear()
+	# apliciram efekt
+	if scoreline_to_locate:
+		var scroll_to_position: float = scoreline_to_locate.rect_position.y
+		var scroll_time: float = 2
+		var scroll_tween = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+		scroll_tween.tween_property(scoreline_to_locate, "modulate", Global.color_green, scroll_time)
+		scroll_tween.parallel().tween_property(table_scroller, "scroll_vertical", scroll_to_position, scroll_time).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)

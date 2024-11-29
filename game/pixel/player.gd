@@ -1579,9 +1579,15 @@ func change_stat(stat_event: String, stat_value):
 				if player_stats["player_energy"] == 0:
 					player_stats["player_energy"] = player_max_energy
 			"all_cleaned": # nagrada je določena v settingsih
-				var cleaned_reward: int = game_settings["cleaned_reward_points"] * (Global.game_manager.current_level - 1) # -1 ker je v tem trenutku že naslednji level
+				var cleaned_reward: int = game_settings["cleaned_reward_points"]
+				if game_data["game"] == Profiles.Games.SWEEPER:
+					cleaned_reward *= Global.game_manager.current_level
+				else:
+					cleaned_reward *= Global.game_manager.current_level - 1 # ker je v tem trenutku že naslednji level
+
 				player_stats["player_points"] += cleaned_reward
 				var reward_tag: Node = spawn_floating_tag(cleaned_reward)
+				print (reward_tag, cleaned_reward)
 
 		# klempanje
 		player_stats["player_energy"] = round(player_stats["player_energy"])

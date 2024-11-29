@@ -231,9 +231,9 @@ func game_over(gameover_reason: int):
 				signaling_player = player
 			yield(signaling_player, "rewarded_on_cleaned")
 			stop_game_elements()
+			print("level",current_level)
 		else:
 			stop_game_elements()
-			yield(get_tree().create_timer(Global.get_it_time), "timeout")
 
 		Global.gameover_gui.open_gameover(gameover_reason)
 

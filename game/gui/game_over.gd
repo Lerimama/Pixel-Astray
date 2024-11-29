@@ -8,11 +8,11 @@ var game_final_time: float # unrounded hunds
 var p1_final_stats: Dictionary
 var p2_final_stats: Dictionary
 
-var current_gameover_reason: int
-var current_player_local_rank: int = 0 # 0 = not ranking
-var sweeper_solved: bool = false
-var background_fadein_alpha: float = 0.9 # cca 230
-var green_rank_limit: int = 100 # rezultat, ki obarva GO zeleno
+var gameover_reason: int
+#var current_player_local_rank: int = 0 # 0 = not ranking
+#var sweeper_solved: bool = false
+#var background_fadein_alpha: float = 0.9 # cca 230
+#var green_rank_limit: int = 100 # rezultat, ki obarva GO zeleno
 
 onready var gameover_menu: HBoxContainer = $Menu
 onready var select_level_btns_holder: GridContainer = $GameSummary/ContentSweeper/LevelBtnsHolder/LevelBtnsGrid
@@ -39,6 +39,12 @@ onready var name_input_popup: Control = $NameInputPopup
 onready var name_input: LineEdit = $NameInputPopup/NameInput
 onready var name_input_label: Label = $NameInputPopup/Label
 
+# neu
+var gameover_game_data: Dictionary # napolnem ob odprtju
+var ranking_score_limit: int = 100 # samo points, ker drugače je razlog CLEANED
+var new_record_set: bool = false # za barvanje in texte titlov
+var current_scoreline_marked: bool = false # za ugotavljanje, kdaj hs table chidren dobijo pozicijo
+
 
 func _unhandled_input(event: InputEvent) -> void:
 #func _input(event: InputEvent) -> void:
@@ -62,7 +68,9 @@ func _ready() -> void:
 
 	# menu btn group
 	$Menu/RestartBtn.add_to_group(Global.group_menu_confirm_btns)
+	$Menu/RestartBtn.add_to_group(Global.group_critical_btns)
 	$Menu/QuitBtn.add_to_group(Global.group_menu_cancel_btns)
+	$Menu/QuitBtn.add_to_group(Global.group_critical_btns)
 	$Menu/ExitGameBtn.add_to_group(Global.group_menu_cancel_btns)
 
 	if Profiles.html5_mode:
@@ -71,27 +79,35 @@ func _ready() -> void:
 		$Menu/RestartBtn.focus_neighbour_right = "../QuitBtn"
 
 
-func open_gameover(gameover_reason: int):
+func _process(delta: float) -> void:
+
+	# za ugotavljanje, kdaj hs table chidren dobijo pozicijo
+	if highscore_table and not current_scoreline_marked:
+		var second_scoreline = highscore_table.hs_table.get_child(1) # prvi ima vedno pozicijo 0
+		if not second_scoreline.rect_position.y == 0:
+			current_scoreline_marked = true
+			highscore_table.locate_scoreline_with_score(player_final_score, p1_final_stats["player_name"], gameover_game_data["highscore_type"])
+
+
+func open_gameover(current_gameover_reason: int):
 
 	Analytics.save_game_data([true, Global.game_manager.strays_in_game_count ])
-	Profiles.tutorial_mode == false
+	Profiles.tutorial_mode = false
 
-	current_gameover_reason = gameover_reason
-
+	gameover_game_data = Global.game_manager.game_data
+	gameover_reason = current_gameover_reason
 	p1_final_stats = Global.game_manager.current_players_in_game[0].player_stats
 	game_final_time = Global.hud.game_timer.game_time_hunds
+	new_record_set = Global.hud.new_record_set
 
-	if Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
+	if gameover_game_data["game"] == Profiles.Games.THE_DUEL:
 		p2_final_stats = Global.game_manager.current_players_in_game[1].player_stats
 		set_duel_gameover_title()
 	else:
-		if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME: # kadar se meri čas, obstaja cilj, da rankiraš
+		if gameover_game_data["highscore_type"] == Profiles.HighscoreTypes.TIME: # kadar se meri čas, obstaja cilj, da rankiraš
 			player_final_score = game_final_time
-			if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
-				current_player_local_rank = Global.data_manager.check_player_ranking(player_final_score, Global.game_manager.game_data) #
 		else:
 			player_final_score = p1_final_stats["player_points"]
-			current_player_local_rank = Global.data_manager.check_player_ranking(player_final_score, Global.game_manager.game_data)
 
 		set_gameover_title()
 
@@ -103,34 +119,41 @@ func show_gameover_title():
 	visible = true
 	selected_gameover_title.show()
 	gameover_title_holder.modulate.a = 0
+	var background_alpha: float = 0.9 # cca 230
 
-	# animacija
-	var fade_in = get_tree().create_tween()
-	fade_in.tween_callback(gameover_title_holder, "show")
-	fade_in.tween_property(gameover_title_holder, "modulate:a", 1, 0.7)
-	fade_in.parallel().tween_callback(Global.sound_manager, "play_gui_sfx", [selected_gameover_jingle])
-	fade_in.parallel().tween_property(background, "modulate:a", background_fadein_alpha, 1).set_ease(Tween.EASE_IN).set_delay(1) # z zamikom seže summary animacijo
-	# skrije futer in header, če ni zoomouta
-	if Global.game_manager.game_settings["always_zoomed_in"]:
-		fade_in.parallel().tween_property(header_futer_covers, "modulate:a", 1, 1).set_ease(Tween.EASE_IN)
-	yield(fade_in, "finished")
 	get_tree().set_pause(true) # setano čez celotno GO proceduro
 
+	# animacija
+	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+	fade_in.tween_callback(gameover_title_holder, "show")
+	fade_in.tween_callback(Global.sound_manager, "play_gui_sfx", [selected_gameover_jingle])
+	fade_in.parallel().tween_property(gameover_title_holder, "modulate:a", 1, 0.7)
+	fade_in.parallel().tween_property(background, "modulate:a", background_alpha, 0.5).set_ease(Tween.EASE_IN).set_delay(0.2)
+	# skrije futer in header, če ni zoomouta
+	if Global.game_manager.game_settings["always_zoomed_in"]:
+		fade_in.parallel().tween_property(header_futer_covers, "modulate:a", 1, 0.7).set_ease(Tween.EASE_IN)
+	yield(fade_in, "finished")
+
 	# summary or menu
-	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NONE:
-		show_menu()
-	else:
-		# če je ranking odprem name_input, če ne skrijem GO title in grem na summary
-		if current_player_local_rank > 0 and not player_final_score == 0:
+	if not gameover_game_data["highscore_type"] == Profiles.HighscoreTypes.NONE:
+		# vpis, če je sweeper je CLEANED
+		if gameover_game_data["game"] == Profiles.Games.SWEEPER and gameover_reason == Global.game_manager.GameoverReason.CLEANED:
 			open_name_input()
 			yield(self, "name_input_finished")
-			get_viewport().set_disable_input(false) # na začetku se disejbla do konca publishanja
+		# vpis, ostale igre in je score na limitom
+		elif not gameover_game_data["game"] == Profiles.Games.SWEEPER and player_final_score > ranking_score_limit:
+			open_name_input()
+			yield(self, "name_input_finished")
+		# ni vpisa, če ne ustreza
 		else:
+			yield(get_tree().create_timer(Global.get_it_time), "timeout")
 			var title_fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 			title_fade_out.tween_property(gameover_title_holder, "modulate:a", 0, 0.5)
 			title_fade_out.tween_callback(gameover_title_holder, "hide")
 			yield(title_fade_out, "finished")
 		set_game_summary()
+	else:
+		show_menu()
 
 
 func show_game_summary():
@@ -149,12 +172,9 @@ func show_menu():
 	var restart_btn: Button = $Menu/RestartBtn
 	var focus_btn: Button = restart_btn
 
-	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+	if gameover_game_data["game"] == Profiles.Games.SWEEPER:
 		restart_btn.text = "TRY AGAIN"
-		gameover_menu.rect_global_position.y += 24
-		var current_level_btn_index: int = Global.game_manager.game_data["level"] - 1 # index gumba začne iz 0
-		focus_btn = select_level_btns_holder.get_children()[current_level_btn_index]
-	elif Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
+	elif gameover_game_data["game"] == Profiles.Games.THE_DUEL:
 		restart_btn.text = "REMATCH"
 
 	gameover_menu.modulate.a = 0
@@ -163,6 +183,8 @@ func show_menu():
 	fade_in.tween_callback(gameover_menu, "show")
 	fade_in.tween_property(gameover_menu, "modulate:a", 1, 0.5).from(0.0)
 	fade_in.parallel().tween_callback(Global, "grab_focus_nofx", [focus_btn])
+	yield(fade_in,"finished")
+	get_viewport().set_disable_input(false) # na začetku se disejbla do konca publishanja
 
 
 func play_selected_level(selected_level: int):
@@ -180,51 +202,44 @@ func play_selected_level(selected_level: int):
 
 func set_gameover_title():
 
-	var gameover_subtitle: Label
-
-	match current_gameover_reason:
+	match gameover_reason:
 		Global.game_manager.GameoverReason.CLEANED:
 			name_input_label.text = "Great work!"
 			selected_gameover_jingle = "win_jingle"
 			selected_gameover_title = gameover_title_cleaned
-			gameover_subtitle = selected_gameover_title.get_node("Label")
-			if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-				gameover_subtitle.text = "You really are the greatest!"
+			if gameover_game_data["game"] == Profiles.Games.SWEEPER:
+				selected_gameover_title.get_node("Subtitle").text = "That was impressive!"
 			else:
-				gameover_subtitle.text = "You are full of colors again!"
+				selected_gameover_title.get_node("Subtitle").text = "You are full of colors again!"
 		Global.game_manager.GameoverReason.LIFE:
 			name_input_label.text = "But still ... "
 			selected_gameover_jingle = "lose_jingle"
-			selected_gameover_title = gameover_title_life
-			gameover_subtitle = selected_gameover_title.get_node("Label")
-			if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+			if gameover_game_data["game"] == Profiles.Games.SWEEPER:
 				selected_gameover_title = gameover_title_fail
-				gameover_subtitle = selected_gameover_title.get_node("Label")
-				gameover_subtitle.text = "You lost all of your momentum!"
+				selected_gameover_title.get_node("Subtitle").text = "You lost all of your momentum!"
 			else:
-				gameover_subtitle.text = "You can't handle the colors."
+				selected_gameover_title = gameover_title_life
+				selected_gameover_title.get_node("Subtitle").text = "You can't handle the colors."
 		Global.game_manager.GameoverReason.TIME:
 			name_input_label.text = "But still ... "
 			selected_gameover_jingle = "lose_jingle"
 			selected_gameover_title = gameover_title_time
-			gameover_subtitle = selected_gameover_title.get_node("Label")
-			#			if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-			#				selected_gameover_title = gameover_title_fail
-			#				gameover_subtitle.text = "You lost all of your momentum!"
-			if Global.game_manager.game_data["game"] == Profiles.Games.HUNTER:
-				gameover_subtitle.text = "Your screen is drowning in colors!"
-			elif Global.game_manager.game_data["game"] == Profiles.Games.DEFENDER:
-				gameover_subtitle.text = "You were overpowered!"
+			if gameover_game_data["game"] == Profiles.Games.HUNTER:
+				selected_gameover_title.get_node("Subtitle").text = "Your screen is drowning in colors!"
+			elif gameover_game_data["game"] == Profiles.Games.DEFENDER:
+				selected_gameover_title.get_node("Subtitle").text = "You were overpowered!"
 			else:
-				gameover_subtitle.text = "You can't handle the colors."
+				selected_gameover_title.get_node("Subtitle").text = "You can't handle the colors."
+
+	# če je rekord je povsod isti tekst
+	if new_record_set:
+		selected_gameover_title.get_node("Subtitle").text = "You really are the greatest!"
 
 	# GO text color
-	if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
+	if gameover_reason == Global.game_manager.GameoverReason.CLEANED or new_record_set:
 		selected_gameover_title.modulate = Global.color_green
-	elif current_player_local_rank > green_rank_limit: # more bit preverjanje "če ni topX", ker true se ne vrne
-		selected_gameover_title.modulate = Global.color_red
 	else:
-		selected_gameover_title.modulate = Global.color_green
+		selected_gameover_title.modulate = Global.color_red
 
 
 func set_duel_gameover_title():
@@ -274,29 +289,14 @@ func set_game_summary():
 
 	# set content node
 	var selected_content: Control
-	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+	if gameover_game_data["game"] == Profiles.Games.SWEEPER:
 		selected_content = $GameSummary/ContentSweeper
 	else:
 		selected_content = $GameSummary/Content
 
 	# hs table
 	highscore_table = selected_content.get_node("Hs/HighscoreTable")
-	var current_player_global_rank: int = Global.data_manager.check_player_ranking(player_final_score, Global.game_manager.game_data, false) # global rank
-	highscore_table.build_highscore_table(Global.game_manager.game_data, true, false)
-
-	# obarvan current score
-	var table: Control = highscore_table.hs_table
-	for scoreline in table.get_children():
-		var scoreline_rank: Label = scoreline.get_child(0)
-		var scoreline_owner: Label = scoreline.get_child(1)
-		var scoreline_score: Label = scoreline.get_child(2)
-		var score_as_in_label: String
-		if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME: # kadar se meri čas, obstaja cilj, da rankiraš
-			score_as_in_label = Global.get_clock_time(player_final_score)
-		elif Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.POINTS: # kadar se meri čas, obstaja cilj, da rankiraš
-			score_as_in_label = str(player_final_score)
-		if scoreline_score.text == score_as_in_label and scoreline_owner.text == p1_final_stats["player_name"]:
-			scoreline.modulate = Global.color_green
+	highscore_table.build_highscore_table(gameover_game_data, true, false)
 
 	# data panel nodes
 	var summary_title: Label = selected_content.get_node("Title")
@@ -310,8 +310,8 @@ func set_game_summary():
 	var stat_bursts_count: Label = selected_content.get_node("Data/DataContainer/BurstCount")
 	var stat_skills_used: Label = selected_content.get_node("Data/DataContainer/SkillsUsed")
 
-	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-		summary_title.text = "Sweeper %02d Summary" % Global.game_manager.game_data["level"]
+	if gameover_game_data["game"] == Profiles.Games.SWEEPER:
+		summary_title.text = "Sweeper %02d Summary" % gameover_game_data["level"]
 		stats_title.text = "Game stats"
 		stat_time.text = "Time: " + Global.get_clock_time(player_final_score)
 		stat_pixels_astray.text = "Pixels left astray: " + str(Global.game_manager.strays_in_game_count)
@@ -324,17 +324,17 @@ func set_game_summary():
 		$GameSummary/ContentSweeper.show()
 		$GameSummary/Content.hide()
 	else:
-		summary_title.text = "%s Summary" % Global.game_manager.game_data["game_name"]
+		summary_title.text = "%s Summary" % gameover_game_data["game_name"]
 		stats_title.text = "Game stats"
 		# level reached, če je level game
-		if Global.game_manager.game_data.has("level"):
-			stat_level_reached.text = "Level reached: " + str(Global.game_manager.game_data["level"])
+		if gameover_game_data.has("level"):
+			stat_level_reached.text = "Level reached: " + str(gameover_game_data["level"])
 			stat_level_reached.show()
 		else:
 			stat_level_reached.hide()
 		# stats
 		stat_score.text = "Score total: " + str(p1_final_stats["player_points"])
-		if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME: # kadar se meri čas, obstaja cilj, da rankiraš
+		if gameover_game_data["highscore_type"] == Profiles.HighscoreTypes.TIME: # kadar se meri čas, obstaja cilj, da rankiraš
 			stat_time.show()
 			stat_time.text = "Time: " + Global.get_clock_time(player_final_score)
 		else:
@@ -348,13 +348,11 @@ func set_game_summary():
 		$GameSummary/Content.show()
 		$GameSummary/ContentSweeper.hide()
 
-	# summaty title color
-	if current_gameover_reason == Global.game_manager.GameoverReason.CLEANED:
+	# summary title color
+	if gameover_reason == Global.game_manager.GameoverReason.CLEANED or new_record_set:
 		summary_title.modulate = Global.color_green
-	elif current_player_local_rank > green_rank_limit: # more bit preverjanje "če ni topX", ker true se ne vrne
-		summary_title.modulate = Global.color_red
 	else:
-		summary_title.modulate = Global.color_green
+		summary_title.modulate = Global.color_red
 
 	show_game_summary() # meni pokažem v tej funkciji
 
@@ -413,7 +411,8 @@ func confirm_name_input():
 	# pogrebam string in zapišem ime v končno statistiko igralca
 	p1_final_stats["player_name"] = input_string
 
-	Global.data_manager.save_player_score(player_final_score, current_player_local_rank, Global.game_manager.game_data)
+	Global.data_manager.save_player_score(player_final_score, gameover_game_data)
+
 	# skrijem samo input (GO title se skrije s popupom)
 	var input_fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	input_fade_out.tween_property(name_input_popup, "modulate:a", 0, 0.5)
@@ -461,14 +460,14 @@ func _on_RestartBtn_pressed() -> void:
 
 	Analytics.save_game_data([true, Global.game_manager.strays_in_game_count])
 
-	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-		Profiles.game_data_sweeper["level"] = Global.game_manager.game_data["level"]
+	if gameover_game_data["game"] == Profiles.Games.SWEEPER:
+		Profiles.game_data_sweeper["level"] = gameover_game_data["level"]
 	Global.main_node.reload_game()
 
 
 func _on_QuitBtn_pressed() -> void:
 
-	Global.main_node.game_out(Global.game_manager.game_data["game"])
+	Global.main_node.game_out(gameover_game_data["game"])
 
 
 func _on_ExitGameBtn_pressed() -> void:

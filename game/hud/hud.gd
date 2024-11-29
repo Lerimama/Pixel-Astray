@@ -77,9 +77,11 @@ onready var player_energy: Label = $Energy
 onready var instructions_popup: Control = $Popups/Instructions
 onready var level_popup: Control = $Popups/LevelUp
 onready var start_countdown: Control = $Popups/StartCountdown
+
 # neu
 onready var touch_controls: Node2D = $"../TouchControls"
 onready var sweeper_hint_btn: Button = $"../SweeperHintBtn"
+var new_record_set: bool = false
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -87,7 +89,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	if sweeper_hint_btn.visible and Input.is_action_just_pressed("hint"):
 		print("hint press recieved")
 		_on_SweeperHintBtn_pressed()
-
 
 
 func _ready() -> void:
@@ -251,7 +252,6 @@ func slide_in(): # kliče GM set_game()
 		Global.tutorial_gui.open_tutorial()
 
 
-
 func slide_out(): # kliče GM na game over
 
 	if Global.tutorial_gui.tutorial_on:
@@ -364,7 +364,6 @@ func popups_out(): # kliče GM na gameover
 		popup.hide()
 
 
-
 # INTERNAL ---------------------------------------------------------------------------------------------------------------------------
 
 
@@ -373,9 +372,11 @@ func _check_for_highscore(player_stats: Dictionary):
 	match Global.game_manager.game_data["highscore_type"]:
 		Profiles.HighscoreTypes.POINTS:
 			if player_stats["player_points"] > current_highscore:
+				new_record_set = true
 				highscore_label.text = str(player_stats["player_points"]) + " by You"
 				highscore_holder.modulate = Global.color_green
 			else:
+				new_record_set = false
 				highscore_label.text = str(current_highscore) + " by %s" % current_highscore_owner
 				highscore_holder.modulate = Global.color_hud_text
 		Profiles.HighscoreTypes.TIME: # logika je tu malo drugačna kot pri drugih dveh

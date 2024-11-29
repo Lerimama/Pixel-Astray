@@ -35,8 +35,10 @@ func _ready() -> void:
 			$GamesMenu/Sweeper/SweeperBtn,
 			]
 
-	# vgrupo za efekte
+	# v grupo za efekte
 	for btn in all_game_btns:
+		if not btn == $GamesMenu/Sweeper/SweeperBtn:
+			btn.add_to_group(Global.group_critical_btns)
 		btn.add_to_group(Global.group_menu_confirm_btns) # OPT touch diasble duel btn
 		if btn == $GamesMenu/TheDuel/TheDuelBtn and OS.has_touchscreen_ui_hint():
 			btn.disabled = true
@@ -188,8 +190,6 @@ func color_game_btns():
 
 func play_selected_game(selected_game_enum: int):
 
-	get_viewport().set_disable_input(true)
-
 	Profiles.set_game_data(selected_game_enum)
 	Analytics.save_game_data(Profiles.current_game_data["game_name"])
 
@@ -257,14 +257,9 @@ func _on_TheDuelBtn_pressed() -> void:
 
 func _on_SweeperBtn_pressed() -> void:
 
-	# ?	play_selected_game(Profiles.Games.SWEEPER)
-
-	get_viewport().set_disable_input(true)
-
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("select_level")
-#	get_viewport().set_disable_input(true) # anti-dablklik
-	Global.grab_focus_nofx($"../SelectLevel".select_level_btns_holder.all_level_btns[0])
+	Global.grab_focus_nofx($"../SelectLevel".select_level_btns_holder.all_level_btns[0]) # tudi anti dabl klik
 
 
 func _on_CleanerBackground_mouse_entered() -> void:

@@ -41,34 +41,6 @@ func get_top_highscore(current_game_data: Dictionary):
 	return [top_highscore, top_highscore_owner]
 
 
-func check_player_ranking(current_score: float, current_game_data: Dictionary, check_local_ranking: bool = true):
-
-	var all_ranking_scores: Array = []
-	var all_ranking_score_owners: Array = []
-	var current_game_highscores: Dictionary = read_highscores_from_file(current_game_data, check_local_ranking)
-	# current_score_time je že zaokrožen na 2 decimalki
-
-	# poberemo lestvico v arraye
-	for hs_position_key in current_game_highscores:
-		var current_position_dict = current_game_highscores[hs_position_key]
-		all_ranking_scores += current_position_dict.values()
-		all_ranking_score_owners += current_position_dict.keys()
-
-	# izračun uvrstitve na lestvico ... preštejem pozicije pred plejerjem
-	var better_positions_count: int = 0
-	for ranking_score in all_ranking_scores:
-		if current_game_data["highscore_type"] == Profiles.HighscoreTypes.TIME: # edinkrat ko se šteje nižje število
-			if ranking_score <= current_score and not ranking_score <= 0:
-				better_positions_count += 1
-		else:
-			if ranking_score > current_score:
-				better_positions_count += 1
-
-	var player_ranking: int = better_positions_count + 1 # za označitev linije na lestvici
-
-	return player_ranking
-
-
 # READ & WRITE ------------------------------------------------------------------------------------------------------------------------
 
 
@@ -186,16 +158,18 @@ func delete_highscores_file(file_game_data: Dictionary):
 	#		print("uspeh")
 
 
-func save_player_score(current_score: float, score_ranking: int, current_game_data: Dictionary):
+#func save_player_score(current_score: float, score_ranking: int, current_game_data: Dictionary):
+func save_player_score(current_score: float, current_game_data: Dictionary):
 	# med izvajanjem te kode GM čaka
 	# poberem trenutno lestvico (potem generiram novo z dodanim trenutnim skorom)
 
 	var all_ranking_scores: Array = []
 	var all_ranking_score_owners: Array = []
-	var current_game_highscores: Dictionary = read_highscores_from_file(current_game_data, true) # ... v odprtem filetu se potem naloži highscore
+	var local_game_highscores: Dictionary = read_highscores_from_file(current_game_data, true) # ... v odprtem filetu se potem naloži highscore
+	var score_local_ranking: int = check_player_ranking(current_score, local_game_highscores, current_game_data)
 
-	for hs_position_key in current_game_highscores:
-		var current_position_dict: Dictionary = current_game_highscores[hs_position_key]
+	for hs_position_key in local_game_highscores:
+		var current_position_dict: Dictionary = local_game_highscores[hs_position_key]
 		var current_pos_score: float = current_position_dict.values()[0]
 		if current_pos_score > 0:
 			all_ranking_scores.append_array(current_position_dict.values())
@@ -206,8 +180,8 @@ func save_player_score(current_score: float, score_ranking: int, current_game_da
 	current_score_owner_name = current_score_owner_name
 
 	# zgradim novo lestvico z dodanim plejerjem in scorom
-	all_ranking_scores.insert(score_ranking - 1, current_score) # -1, ker rank nima 0 index, size pa ga ima
-	all_ranking_score_owners.insert(score_ranking - 1, current_score_owner_name)
+	all_ranking_scores.insert(score_local_ranking - 1, current_score) # -1, ker rank nima 0 index, size pa ga ima
+	all_ranking_score_owners.insert(score_local_ranking - 1, current_score_owner_name)
 
 	# sestavim nov slovar za lestvico
 	var new_game_highscores: Dictionary
@@ -228,12 +202,38 @@ func save_player_score(current_score: float, score_ranking: int, current_game_da
 	#	emit_signal("scores_saved") # OPT trenutno se ne uporablja, čeprav bi bilo dobra praksa
 
 
+func check_player_ranking(current_score: float, local_highscores: Dictionary, current_game_data: Dictionary):
+#func check_player_ranking(current_score: float, current_game_data: Dictionary, check_local_ranking: bool = true):
+
+	var all_ranking_scores: Array = []
+	var all_ranking_score_owners: Array = []
+#	var current_game_highscores: Dictionary = read_highscores_from_file(current_game_data, check_local_ranking)
+	# current_score_time je že zaokrožen na 2 decimalki
+
+	# poberemo lestvico v arraye
+	for hs_position_key in local_highscores:
+		var current_position_dict = local_highscores[hs_position_key]
+		all_ranking_scores += current_position_dict.values()
+		all_ranking_score_owners += current_position_dict.keys()
+
+	# izračun uvrstitve na lestvico ... preštejem pozicije pred plejerjem
+	var better_positions_count: int = 0
+	for ranking_score in all_ranking_scores:
+		if current_game_data["highscore_type"] == Profiles.HighscoreTypes.TIME: # edinkrat ko se šteje nižje število
+			if ranking_score <= current_score and not ranking_score <= 0:
+				better_positions_count += 1
+		else:
+			if ranking_score > current_score:
+				better_positions_count += 1
+
+	var player_ranking: int = better_positions_count + 1 # za označitev linije na lestvici
+
+	return player_ranking
+
+
 func build_default_highscores():
 
 	var new_highscores: Dictionary
-	#	for n in Profiles.default_scores_line_count:
-	#		var highscore_line_key_as_rank: String = "%02d" % (n + 1)
-	#		new_highscores[highscore_line_key_as_rank] = {Global.default_highscore_line_name: 0}
 	var highscore_line_key_as_rank: String = "%03d" % (1)
 	new_highscores[highscore_line_key_as_rank] = {Global.default_highscore_line_name: 0}
 

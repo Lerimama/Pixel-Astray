@@ -97,10 +97,6 @@ func _ready() -> void:
 
 func load_all_highscore_tables(update_with_global: bool, update_in_background: bool = false):
 
-#	#	disable_btns()
-#	get_viewport().set_disable_input(true)
-
-
 	var update_object_count: int = 0
 	for table in all_tables:
 		var game_data_local: Dictionary

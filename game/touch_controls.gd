@@ -84,7 +84,7 @@ func set_current_controller():
 		#			# dir - screen
 		#			screen_btn.connect("pressed", self, "_on_screen_btn_pressed", [screen_btn])
 		#			screen_btn.connect("released", self, "_on_screen_btn_released", [screen_btn])
-		Profiles.TOUCH_CONTROLLER.COMBO:
+		Profiles.TOUCH_CONTROLLER.SCREEN:
 			if not visible:
 				open()
 			burst_btn.show()
@@ -345,7 +345,7 @@ func _on_skip_tut_btn_pressed():
 
 
 func _on_sweeeper_hint_btn_pressed():
-	return # _temp ... sweeper hint btn samo prižge zato je off
+
 	print("hint pressed")
 	var new_event = InputEventAction.new()
 	new_event.action = "hint"
@@ -354,4 +354,4 @@ func _on_sweeeper_hint_btn_pressed():
 	#	sweeper_hint_btn.hide()
 	#	yield(get_tree().create_timer(1),"timeout")
 	#	sweeper_hint_btn.call_deferred("show")
-#	get_tree().set_input_as_handled()
+	#	get_tree().set_input_as_handled()

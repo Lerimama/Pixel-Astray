@@ -27,6 +27,7 @@ var group_players = "Players"
 var group_strays = "Strays"
 var group_tilemap = "Tilemap" # defender in patterns
 var group_ghosts = "Ghosts"
+var group_critical_btns = "Menu confirm btns" # scene changing > turn off > turnes on on scene reload
 var group_menu_confirm_btns = "Menu confirm btns"
 var group_menu_cancel_btns = "Menu cancel btns"
 
@@ -346,8 +347,13 @@ func _on_button_pressed(button: BaseButton):
 
 	if button.is_in_group(Global.group_menu_cancel_btns):
 		Global.sound_manager.play_gui_sfx("btn_cancel")
+
 	else:
 		Global.sound_manager.play_gui_sfx("btn_confirm")
+
+	if button.is_in_group(Global.group_critical_btns):
+		get_viewport().set_disable_input(true)
+#		button.disabled = true
 
 
 func _on_button_toggled(button_pressed: bool) -> void:

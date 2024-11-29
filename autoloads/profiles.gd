@@ -196,7 +196,7 @@ var game_settings: Dictionary
 var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
 
 # const
-var html5_mode: bool = false # skrije ExitGameBtn v home, GO in pavzi
+var html5_mode: bool = true # skrije ExitGameBtn v home, GO in pavzi
 var tutorial_music_track_index: int = 3
 
 # nastavitve, ki se setajo tudi v home
@@ -206,7 +206,7 @@ var tutorial_mode: bool = true
 var analytics_mode: bool = true
 var screen_touch_sensitivity: float = 10 # px 0 - 60
 
-enum TOUCH_CONTROLLER {OFF, BUTTONS, COMBO}# SCREEN
+enum TOUCH_CONTROLLER {OFF, BUTTONS, SCREEN}# SCREEN
 var set_touch_controller: int = TOUCH_CONTROLLER.BUTTONS
 
 func _ready() -> void:
@@ -232,8 +232,8 @@ func set_game_data(selected_game):
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 
 	# debug ... game_data
-	game_settings["start_countdown"] = false
-	game_settings["show_game_instructions"] = false
+	#	game_settings["start_countdown"] = false
+	#	game_settings["show_game_instructions"] = false
 	#	game_settings["player_start_life"] = 2
 
 	match selected_game:

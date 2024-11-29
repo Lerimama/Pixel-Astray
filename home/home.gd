@@ -49,7 +49,7 @@ func _ready():
 		navigation_hint.text = "You can swipe to navigate around." # ugasne ga swipe gumb
 		home_swipe_btn.show()
 	else:
-		navigation_hint.text = "You can use keyboard or game-pad to navigate around." # ugasne se iz na esc
+		navigation_hint.text = "You can use keyboard or gamepad to navigate around." # ugasne se iz na esc
 
 	# btn groups
 	menu.get_node("SelectGameBtn").add_to_group(Global.group_menu_confirm_btns)
@@ -118,7 +118,6 @@ func open_from_game(finished_game: int): # select_game screen ... kliče main.gd
 
 func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drugih ekranov
 
-
 	current_screen = Screens.MAIN_MENU
 	Global.grab_focus_nofx(menu.get_node("SelectGameBtn"))
 
@@ -133,6 +132,8 @@ func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drug
 
 
 func menu_out():
+
+	get_viewport().set_disable_input(true) # reseta se na koncu animacije
 
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(menu, "modulate:a", 0, 0.5)
@@ -216,8 +217,6 @@ func animation_reversed(from_screen: int):
 
 func _on_SelectGameBtn_pressed() -> void:
 
-	get_viewport().set_disable_input(true) # reseta se na koncu animacije
-
 	menu_out()
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("select_game")
@@ -225,15 +224,11 @@ func _on_SelectGameBtn_pressed() -> void:
 
 func _on_AboutBtn_pressed() -> void:
 
-	get_viewport().set_disable_input(true) # reseta se na koncu animacije
-
 	menu_out()
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("about")
 
 func _on_SettingsBtn_pressed() -> void:
-
-	get_viewport().set_disable_input(true) # reseta se na koncu animacije
 
 	menu_out()
 	Global.sound_manager.play_gui_sfx("screen_slide")
@@ -242,8 +237,6 @@ func _on_SettingsBtn_pressed() -> void:
 
 
 func _on_HighscoresBtn_pressed() -> void:
-
-	get_viewport().set_disable_input(true) # reseta se na koncu animacije
 
 	menu_out()
 	Global.sound_manager.play_gui_sfx("screen_slide")

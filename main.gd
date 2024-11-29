@@ -83,6 +83,8 @@ func home_in_from_game(finished_game: int):
 
 func home_out():
 
+	get_viewport().set_disable_input(true) # zazih ... dobra praksa
+
 	Global.sound_manager.play_gui_sfx("menu_fade")
 
 	if not Global.sound_manager.menu_music_set_to_off: # če muzka ni setana na off
@@ -107,7 +109,6 @@ func game_in():
 	get_tree().set_pause(false)
 
 	var game_scene = spawn_new_scene(game_scene_path, self)
-#	spawn_new_scene(game_scene_path, self)
 
 	# tukaj se seta GM glede na izbiro igre
 	Global.game_manager.set_tilemap()
@@ -124,6 +125,8 @@ func game_in():
 
 
 func game_out(game_to_exit: int):
+
+	get_viewport().set_disable_input(true) # zazih ... dobra praksa
 
 	Global.game_camera = null
 	Global.sound_manager.play_gui_sfx("menu_fade")
@@ -191,19 +194,17 @@ func _free_scene(scene_node):
 func spawn_new_scene(scene_path, parent_node): # spawn scene
 
 	var scene_resource = ResourceLoader.load(scene_path)
-
 	var new_current_scene = scene_resource.instance()
 
-	if OS.is_debug_build():  # debug OS mode
-		print("SCENE INSTANCED: ", current_scene)
+	if OS.is_debug_build(): # debug OS mode
+		#		print("SCENE INSTANCED: ", new_current_scene)
 		pass
 	new_current_scene.modulate.a = 0
-	parent_node.add_child(new_current_scene) # direct child of root
+	parent_node.add_child(new_current_scene)
 
 	if OS.is_debug_build():  # debug OS mode
-		print("SCENE ADDED: ", current_scene)
+		#		print("SCENE ADDED: ", new_current_scene)
 		print("--- new scene ---")
-		pass
 
 	current_scene = new_current_scene
 	return new_current_scene

@@ -165,7 +165,7 @@ shape = SubResource( 369 )
 visibility_mode = 1
 
 [node name="SkipTutBtn" type="TouchScreenButton" parent="."]
-position = Vector2( 624, 448 )
+position = Vector2( 640, 640 )
 shape = SubResource( 373 )
 shape_centered = false
 visibility_mode = 1
@@ -179,7 +179,7 @@ margin_bottom = 32.0
 color = Color( 1, 1, 1, 0.145098 )
 
 [node name="SweeperHintBtn" type="TouchScreenButton" parent="."]
-position = Vector2( 623, 640 )
+position = Vector2( 639, 640 )
 shape = SubResource( 374 )
 shape_centered = false
 visibility_mode = 1

@@ -31,11 +31,12 @@ func _ready() -> void:
 	# menu btn group
 	$Menu/PlayBtn.add_to_group(Global.group_menu_confirm_btns)
 	$Menu/RestartBtn.add_to_group(Global.group_menu_confirm_btns)
+	$Menu/RestartBtn.add_to_group(Global.group_critical_btns)
 	$Menu/QuitBtn.add_to_group(Global.group_menu_cancel_btns)
+	$Menu/QuitBtn.add_to_group(Global.group_critical_btns)
 
 	# in-pause game instructions
-	instructions.get_instructions_content() # prifejda
-#	instructions.shortcuts.hide()
+	instructions.get_instructions_content() # ne prifejda
 
 
 func pause_game():
@@ -76,11 +77,7 @@ func _on_PlayBtn_pressed() -> void:
 func _on_RestartBtn_pressed() -> void:
 
 	Global.game_manager.game_on = false
-
-#	Global.sound_manager.play_gui_sfx("btn_confirm")
-
 	Global.game_manager.stop_game_elements()
-	#	Global.sound_manager.stop_music("game_music_on_gameover")
 	# get_tree().paused = false ... tween za izhod pavzo drevesa ignorira
 
 	Analytics.save_game_data([false, Global.game_manager.strays_in_game_count])
@@ -91,9 +88,7 @@ func _on_RestartBtn_pressed() -> void:
 func _on_QuitBtn_pressed() -> void:
 
 	Global.game_manager.game_on = false
-
 	Global.game_manager.stop_game_elements()
-	#	Global.sound_manager.stop_music("game_music_on_gameover")
 	# get_tree().paused = false ... tween za izhod pavzo drevesa ignorira
 
 	Analytics.save_game_data([false, Global.game_manager.strays_in_game_count])

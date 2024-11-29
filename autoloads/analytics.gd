@@ -50,9 +50,8 @@ var script_action_get_rows_list: String = "fetch_rows_list"
 func start_new_session(start_fake: bool = false): # kliče main
 
 	if Profiles.analytics_mode and not session_tracking:
+		#		print("> starting new session")
 		session_tracking = true
-		print("> starting new session")
-
 		var date_dict: Dictionary = Time.get_date_dict_from_system()
 		var date_string: String = str(date_dict["day"]) + "/" + str(date_dict["month"]) + "/" + str(date_dict["year"])
 		session_data["session_date"] = date_string
@@ -67,9 +66,8 @@ func start_new_session(start_fake: bool = false): # kliče main
 func update_session():
 
 	if Profiles.analytics_mode and session_tracking:
-		# neu
+		#		print("> updating session")
 		session_data["current_game_data"] = current_game_data
-		print("> updating session")
 		save_existing_row(session_data["session_id"])
 
 
@@ -77,7 +75,7 @@ func update_session():
 func end_session():
 
 	if Profiles.analytics_mode  and session_tracking:
-		print("> ending session")
+		#		print("> ending session")
 		session_data["session_length"] = round(Time.get_ticks_msec() / 1000)
 		save_existing_row(session_data["session_id"])
 		session_tracking = false

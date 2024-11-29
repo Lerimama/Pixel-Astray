@@ -31,9 +31,11 @@ func spawn_level_btns():
 			var new_level_btn: Button = LevelBtn.instance()
 			add_child(new_level_btn)
 			new_level_btn.add_to_group(Global.group_menu_confirm_btns)
+			new_level_btn.add_to_group(Global.group_critical_btns)
 			all_level_btns.append(new_level_btn)
 		elif tilemap_path_level_number == Profiles.sweeper_level_tilemap_paths.size():
 			the_pixel_astray_level_btn.add_to_group(Global.group_menu_confirm_btns)
+			the_pixel_astray_level_btn.add_to_group(Global.group_critical_btns)
 			all_level_btns.append(the_pixel_astray_level_btn)
 
 	var column_number: int = round(sqrt(Profiles.sweeper_level_tilemap_paths.size()))

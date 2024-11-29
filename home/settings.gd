@@ -102,7 +102,7 @@ func _ready() -> void:
 		var current_controller: String = Profiles.TOUCH_CONTROLLER.keys()[Profiles.set_touch_controller]
 		$TouchPopUpBtn.text = "Touch controls: %s" % current_controller
 		# touch slider
-		if Profiles.set_touch_controller >= Profiles.TOUCH_CONTROLLER.COMBO:
+		if Profiles.set_touch_controller >= Profiles.TOUCH_CONTROLLER.SCREEN:
 			$TouchSensSlider.show()
 		else:
 			$TouchSensSlider.hide()
@@ -272,7 +272,7 @@ func _on_TouchControllerPopup_index_pressed(index: int) -> void:
 	Analytics.save_ui_click("TouchController %s" % controller_key)
 
 	# ugasnem za buttons in none
-	if Profiles.set_touch_controller >= Profiles.TOUCH_CONTROLLER.COMBO:
+	if Profiles.set_touch_controller >= Profiles.TOUCH_CONTROLLER.SCREEN:
 		$TouchSensSlider.show()
 	else:
 		$TouchSensSlider.hide()
