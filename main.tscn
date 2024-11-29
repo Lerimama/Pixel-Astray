@@ -120,11 +120,6 @@ stream = ExtResource( 43 )
 volume_db = -12.0
 bus = "GameMusic"
 
-[node name="Dream" type="AudioStreamPlayer" parent="SoundManager/Music/GameMusic"]
-stream = ExtResource( 66 )
-volume_db = -6.0
-bus = "GameMusic"
-
 [node name="Loose" type="AudioStreamPlayer" parent="SoundManager/Music/GameMusic"]
 stream = ExtResource( 61 )
 volume_db = -6.0
@@ -133,6 +128,11 @@ bus = "GameMusic"
 [node name="Tilt" type="AudioStreamPlayer" parent="SoundManager/Music/GameMusic"]
 stream = ExtResource( 62 )
 volume_db = -7.0
+bus = "GameMusic"
+
+[node name="Dream" type="AudioStreamPlayer" parent="SoundManager/Music/GameMusic"]
+stream = ExtResource( 66 )
+volume_db = -6.0
 bus = "GameMusic"
 
 [node name="Sfx" type="Node2D" parent="SoundManager"]

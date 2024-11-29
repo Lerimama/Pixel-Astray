@@ -1,8 +1,8 @@
 extends Node
 
 
-enum Screens {MAIN_MENU, SELECT_GAME, ABOUT, SETTINGS, HIGHSCORES, SELECT_LEVEL}
-var current_screen = Screens.MAIN_MENU # se določi z main animacije
+enum Screens {INTRO, MAIN_MENU, SELECT_GAME, ABOUT, SETTINGS, HIGHSCORES, SELECT_LEVEL}
+var current_screen = Screens.INTRO # se določi z main animacije
 
 var allow_ui_sfx: bool = false # za kontrolo defolt focus soundov
 
@@ -10,6 +10,8 @@ onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var menu: HBoxContainer = $HomeScreen/Menu
 onready var intro: Node2D = $HomeScreen/IntroViewPortContainer/IntroViewport/Intro
 onready var intro_viewport: Viewport = $HomeScreen/IntroViewPortContainer/IntroViewport
+onready var navigation_hint: Label = $NavigationHint
+onready var home_swipe_btn: TouchScreenButton = $HomeSwipeBtn
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -39,7 +41,15 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _ready():
 
-#	menu.hide()
+	menu.hide()
+
+	# navigation hint
+	navigation_hint.hide()
+	if OS.has_touchscreen_ui_hint():
+		navigation_hint.text = "You can swipe to navigate around." # ugasne ga swipe gumb
+		home_swipe_btn.show()
+	else:
+		navigation_hint.text = "You can use keyboard or game-pad to navigate around." # ugasne se iz na esc
 
 	# btn groups
 	menu.get_node("SelectGameBtn").add_to_group(Global.group_menu_confirm_btns)
@@ -57,29 +67,25 @@ func _ready():
 
 func open_with_intro(): # kliče main.gd -> home_in_intro()
 
-	if Profiles.html5_mode:
-		$Highscores.load_all_highscore_tables(true, true) # global update, in background
-	else:
-		$Highscores.load_all_highscore_tables(false) # no global update (no in back)
 	intro.play_intro() # intro signal na koncu kliče menu_in()
+
+	if Profiles.html5_mode:
+		$Highscores.call_deferred("load_all_highscore_tables", true, true) # global update, in background
+	else:
+		$Highscores.call_deferred("load_all_highscore_tables", false) # global update, in background
 
 
 func open_without_intro(): # debug ... kliče main.gd -> home_in_no_intro()
+
+	intro.finish_intro() # intro signal na koncu kliče menu_in()
 
 	if Profiles.html5_mode:
 		$Highscores.call_deferred("load_all_highscore_tables", true, true)
 	else:
 		$Highscores.call_deferred("load_all_highscore_tables", false)
 
-	intro.finish_intro() # intro signal na koncu kliče menu_in()
-
 
 func open_from_game(finished_game: int): # select_game screen ... kliče main.gd -> home_in_from_game()
-
-	if Profiles.html5_mode:
-		$Highscores.load_all_highscore_tables(true, true) # global update, in background
-	else:
-		$Highscores.load_all_highscore_tables(false) # no global update (no in back)
 
 	animation_player.play("select_game")
 	current_screen = Screens.SELECT_GAME
@@ -104,18 +110,36 @@ func open_from_game(finished_game: int): # select_game screen ... kliče main.gd
 
 	intro.finish_intro()
 
+	if Profiles.html5_mode:
+		$Highscores.call_deferred("load_all_highscore_tables", true, true)
+	else:
+		$Highscores.call_deferred("load_all_highscore_tables", false)
+
 
 func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drugih ekranov
 
-	menu.visible = true
+
 	current_screen = Screens.MAIN_MENU
 	Global.grab_focus_nofx(menu.get_node("SelectGameBtn"))
 
-	var fade_in = get_tree().create_tween()
-	fade_in.tween_property(menu, "modulate:a", 1, 0.32).from(0.0)
-	yield(fade_in, "finished")
+	menu.modulate.a = 0
+	menu.show()
 
-	$HomeSwipeBtn.show()
+	var fade_in = get_tree().create_tween()
+	fade_in.tween_property(menu, "modulate:a", 1, 0.5)
+	if not home_swipe_btn.has_swiped:
+		fade_in.parallel().tween_callback(navigation_hint, "show")
+		fade_in.parallel().tween_property(navigation_hint, "modulate:a", 1, 0.5).from(0.0)
+
+
+func menu_out():
+
+	var fade_in = get_tree().create_tween()
+	fade_in.tween_property(menu, "modulate:a", 0, 0.5)
+	fade_in.parallel().tween_property(navigation_hint, "modulate:a", 0, 0.2)
+	yield(fade_in,"finished")
+	menu.hide()
+	navigation_hint.hide()
 
 
 # SIGNALI ---------------------------------------------------------------------------------------------------
@@ -194,31 +218,34 @@ func _on_SelectGameBtn_pressed() -> void:
 
 	get_viewport().set_disable_input(true) # reseta se na koncu animacije
 
+	menu_out()
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("select_game")
-	Global.grab_focus_nofx($SelectGame/GamesMenu/Cleaner/CleanerBtn)
 
 
 func _on_AboutBtn_pressed() -> void:
 
 	get_viewport().set_disable_input(true) # reseta se na koncu animacije
 
+	menu_out()
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("about")
-
 
 func _on_SettingsBtn_pressed() -> void:
 
 	get_viewport().set_disable_input(true) # reseta se na koncu animacije
 
+	menu_out()
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("settings")
+
 
 
 func _on_HighscoresBtn_pressed() -> void:
 
 	get_viewport().set_disable_input(true) # reseta se na koncu animacije
 
+	menu_out()
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("highscores")
 

@@ -225,22 +225,23 @@ func game_over(gameover_reason: int):
 
 		if gameover_reason == GameoverReason.CLEANED:
 			check_for_all_cleaned = true
-			#		yield(self, "all_strays_died")
 			var signaling_player: KinematicBody2D
 			for player in current_players_in_game:
 				player.on_screen_cleaned()
 				signaling_player = player
 			yield(signaling_player, "rewarded_on_cleaned")
+			stop_game_elements()
 		else:
+			stop_game_elements()
 			yield(get_tree().create_timer(Global.get_it_time), "timeout")
-
-		stop_game_elements()
 
 		Global.gameover_gui.open_gameover(gameover_reason)
 
 
 func stop_game_elements():
+
 	# včasih nujno ... še posebej za restart iz pavze
+	Global.sound_manager.stop_music("game_music_on_gameover")
 
 	# če igra s tutorialom toglam global tutorial settings
 	for player in current_players_in_game:

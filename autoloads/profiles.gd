@@ -67,10 +67,9 @@ var game_data_cleaner: Dictionary = {
 	"game_name": "Cleaner",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner.tscn",
-	# pre-game instructons
-	"description": "Take back the colors and become the brightest pixel on screen.",
-	"Prop": "Clear all %s strays\nto reclaim your\none-and-only status." % str(500), # CON ročno povezano z game time
-	"Prop2": "Give it your best shot\nto beat the current\nrecord score!",
+#	"description": "Take back the colors to become the brightest again.",
+	"description": "Clear %d strays to reclaim the one-and-only status!" % 500,
+#	"Prop2": "Give it your best shot\nto beat the current\nrecord score!",
 }
 var game_data_eraser_xs: Dictionary = {
 	"game": Games.ERASER_XS, # key igre je key lootlocker tabele
@@ -78,11 +77,7 @@ var game_data_eraser_xs: Dictionary = {
 	"game_name": "Eraser XS",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser_xs.tscn",
-	# pre-game instructons
-	"description" : "Clear the colors before time slips away!",
-	"Prop" : "You have %s minute\nbefore your screen becomes\npermanently saturated." % str(2), # CON ročno povezano z game time
-	"Prop2" : "Be quick and efficient\nto beat the current\nrecord time!",
-	# 2min / 32 straysov
+	"description" : "%d minutes before the screen is forever saturated!" % 2
 }
 var game_data_eraser_s: Dictionary = {
 	"game": Games.ERASER_S, # key igre je key lootlocker tabele
@@ -90,11 +85,7 @@ var game_data_eraser_s: Dictionary = {
 	"game_name": "Eraser S",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser_s.tscn",
-	# pre-game instructons
-	"description" : "Clear the colors before time slips away!",
-	"Prop" : "You have %s minute\nbefore your screen becomes\npermanently saturated." % str(3), # CON ročno povezano z game time
-	"Prop2" : "Be quick and efficient\nto beat the current\nrecord time!",
-	# 5min / 50 straysov
+	"description" : "%d minutes before the screen is forever saturated!" % 5
 }
 var game_data_eraser_m: Dictionary = {
 	"game": Games.ERASER_M, # key igre je key lootlocker tabele
@@ -102,11 +93,7 @@ var game_data_eraser_m: Dictionary = {
 	"game_name": "Eraser M",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser_m.tscn",
-	# pre-game instructons
-	"description" : "Clear the colors before time slips away!",
-	"Prop" : "You have %s minutes\nbefore your screen becomes\npermanently saturated." % str(10), # CON ročno povezano z game time
-	"Prop2" : "Be quick and efficient\nto beat the current\nrecord time!",
-	# 7min / 100 straysov
+	"description" : "%d minutes before the screen is forever saturated!" % 10
 }
 var game_data_eraser_l: Dictionary = {
 	"game": Games.ERASER_L, # key igre je key lootlocker tabele
@@ -114,11 +101,7 @@ var game_data_eraser_l: Dictionary = {
 	"game_name": "Eraser L",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser_l.tscn",
-	# pre-game instructons
-	"description" : "Clear the colors before time slips away!",
-	"Prop" : "You have %s minutes\nbefore your screen becomes\npermanently saturated." % str(15), # CON ročno povezano z game time
-	"Prop2" : "Be quick and efficient\nto beat the current\nrecord time!",
-	# 10min / 200 straysov
+	"description" : "%d minutes before the screen is forever saturated!" % 15
 }
 var game_data_eraser_xl: Dictionary = {
 	"game": Games.ERASER_XL, # key igre je key lootlocker tabele
@@ -126,11 +109,7 @@ var game_data_eraser_xl: Dictionary = {
 	"game_name": "Eraser XL",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser_xl.tscn",
-	# pre-game instructons
-	"description" : "Clear the colors before time slips away!",
-	"Prop" : "You have %s minutes\nbefore your screen becomes\npermanently saturated." % str(20), # CON ročno povezano z game time
-	"Prop2" : "Be quick and efficient\nto beat the current\nrecord time!",
-	# 15min / 300 straysov
+	"description" : "%d minutes before the screen is forever saturated!" % 20
 }
 var game_data_hunter: Dictionary = {
 	"game": Games.HUNTER, # key igre je key lootlocker tabele
@@ -138,10 +117,7 @@ var game_data_hunter: Dictionary = {
 	"game_name": "Hunter",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_hunter.tscn",
-	# pre-game instructons
 	"description" : "Keep the colors in check as they keep popping in!",
-	"Prop": "Difficulty level will increase\nwhen your spectrum\nindicator gets filled.",
-	"Prop2" : "Give it your best shot\nto beat the current\nrecord score!",
 	# štart
 	"level": 1,
 	"level_goal_count": 1, # # CON level_goal_mode ... ročno povezano s številom spawnanih na tilemapu
@@ -161,11 +137,7 @@ var game_data_defender: Dictionary = {
 	"game_name": "Defender",
 	"game_scene_path": "res://game/game_defender.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_defender.tscn",
-	# pre-game instructons
 	"description" : "Defend your screen against invading colors!",
-	"Prop" : "Player is always\nfull of energy,\nbut has no skills.",
-	"Prop2": "Difficulty level will\nincrease when your\nspectrum indicator\ngets filled.",
-	"Prop3" : "Give it your\nbest shot to\nbeat the current\nrecord score!",
 	# štart
 	"level": 1,
 	"level_goal_count": 10, # CON kolikor jih spawnanih v prvi rundi
@@ -184,11 +156,7 @@ var game_data_sweeper: Dictionary = {
 	"game_name": "Sweeper",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
-	"description" : "Handle the colors to sweep the entire screen\nwith one spectacular cascading move!",
-	# pre-game instructons
-	"Prop": "To REBURST, press\nin the next target's\ndirection upon hitting\na stray pixel.",
-	"Prop2": "You have\nonly a couple of\nseconds to keep\nyour momentum.",
-	"Prop3": "Initial burst can\ncollect all stacked\ncolors. Reburst always\ncollects only one.",
+	"description" : "Sweep the entire screen with one spectacular move!",
 	"level": 1,
 }
 var game_data_the_duel: Dictionary = {
@@ -197,10 +165,8 @@ var game_data_the_duel: Dictionary = {
 	"game_name": "The Duel",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_duel.tscn",
-	# pre-game instructons
-	"description" : "Only the best cleaner will shine in this epic battle!",
-	"Prop": "Player with better\nfinal score will be named\nthe Ultimate cleaning champ!",
-	"Prop2": "Hit the opposing player\nto take his life and\nhalf of his points.",
+	"description" : "Only the best cleanerwill shine in this epic battle!",
+	"Prop": "Hit the opposing player\nto take his life and\nhalf of his points.",
 }
 var sweeper_level_tilemap_paths: Array = [
 	# zaporedje je ključno za level name
@@ -231,12 +197,12 @@ var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "c
 
 # const
 var html5_mode: bool = false # skrije ExitGameBtn v home, GO in pavzi
-var tutorial_music_track_index: int = 1
+var tutorial_music_track_index: int = 3
 
 # nastavitve, ki se setajo tudi v home
 var use_default_color_theme: bool = true
 var camera_shake_on: bool = true
-var tutorial_mode: bool = false
+var tutorial_mode: bool = true
 var analytics_mode: bool = true
 var screen_touch_sensitivity: float = 10 # px 0 - 60
 
@@ -247,7 +213,7 @@ func _ready() -> void:
 
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE # fix camera
-	var debug_game = Games.CLEANER
+#	var debug_game = Games.CLEANER
 #	var debug_game = Games.ERASER_XS
 #	var debug_game = Games.ERASER_S
 #	var debug_game = Games.ERASER_M
@@ -256,7 +222,7 @@ func _ready() -> void:
 #	var debug_game = Games.HUNTER
 #	var debug_game = Games.DEFENDER
 
-#	var debug_game = Games.SWEEPER
+	var debug_game = Games.SWEEPER
 #	var debug_game = Games.THE_DUEL
 	set_game_data(debug_game)
 
@@ -314,7 +280,6 @@ func set_game_data(selected_game):
 			game_settings["full_power_mode"] = true
 			#
 			game_settings["create_strays_count"] = 1 # število spawnanih v prvi rundi
-			game_settings["tutorial_mode"] = false # nima tutorial nodeta ... še
 		Games.SWEEPER:
 			current_game_data = game_data_sweeper.duplicate()
 			game_settings["player_start_life"] = 1
@@ -331,6 +296,7 @@ func set_game_data(selected_game):
 			game_settings["game_music_track_index"] = 1
 			game_settings["always_zoomed_in"] = true # prižge se med prvo igro iz menija, tako ostane za zmerom zoomiran
 			game_settings["show_game_instructions"] = false # prižge se samo za prvi gejm iz menija
+			tutorial_mode = false # rabi posebn tutorial
 			return game_settings # da lahko vklopim "instructions" in "zoomed in" za prehod iz home menija
 		Games.THE_DUEL:
 			current_game_data = game_data_the_duel.duplicate()
@@ -339,6 +305,7 @@ func set_game_data(selected_game):
 			game_settings["position_indicators_show_limit"] = 0
 			game_settings["respawn_strays_count_range"] = [1, 14]
 			game_settings["spawn_white_stray_part"] = 0.21
+			tutorial_mode = false
 
 
 # SHOWCASE ----------------------------------------------------------------------------------------------------------------

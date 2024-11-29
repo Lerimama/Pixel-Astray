@@ -74,6 +74,7 @@ func _ready() -> void:
 func open_gameover(gameover_reason: int):
 
 	Analytics.save_game_data([true, Global.game_manager.strays_in_game_count ])
+	Profiles.tutorial_mode == false
 
 	current_gameover_reason = gameover_reason
 
@@ -94,8 +95,6 @@ func open_gameover(gameover_reason: int):
 
 		set_gameover_title()
 
-	#	Global.hud.slide_out()
-
 	show_gameover_title()
 
 
@@ -109,7 +108,6 @@ func show_gameover_title():
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_callback(gameover_title_holder, "show")
 	fade_in.tween_property(gameover_title_holder, "modulate:a", 1, 0.7)
-	fade_in.parallel().tween_callback(Global.sound_manager, "stop_music", ["game_music_on_gameover"])
 	fade_in.parallel().tween_callback(Global.sound_manager, "play_gui_sfx", [selected_gameover_jingle])
 	fade_in.parallel().tween_property(background, "modulate:a", background_fadein_alpha, 1).set_ease(Tween.EASE_IN).set_delay(1) # z zamikom seže summary animacijo
 	# skrije futer in header, če ni zoomouta

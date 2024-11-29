@@ -209,11 +209,11 @@ func _on_CleanerBtn_pressed() -> void:
 
 func _on_TutorialModeBtn_toggled(button_pressed: bool) -> void:
 
-
 	if button_pressed:
 		Profiles.tutorial_mode = true
 	else:
 		Profiles.tutorial_mode = false
+
 
 func _on_SBtn_pressed() -> void:
 

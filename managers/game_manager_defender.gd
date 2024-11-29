@@ -59,8 +59,6 @@ func set_game():
 	# strays
 	Global.hud.spawn_color_indicators(get_level_colors())
 
-
-
 	# gui
 	Global.hud.slide_in()
 

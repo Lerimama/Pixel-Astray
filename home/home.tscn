@@ -1,4 +1,4 @@
-[gd_scene load_steps=112 format=2]
+[gd_scene load_steps=108 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -19,10 +19,10 @@
 [ext_resource path="res://home/select_level.gd" type="Script" id=17]
 [ext_resource path="res://assets/theme/color_theme_spectrum.png" type="Texture" id=18]
 [ext_resource path="res://home/level_btns_grid.tscn" type="PackedScene" id=19]
-[ext_resource path="res://game/gui/controls_scheme.tscn" type="PackedScene" id=22]
+[ext_resource path="res://assets/theme/font_big.tres" type="DynamicFont" id=20]
+[ext_resource path="res://game/gui/action_hint.tscn" type="PackedScene" id=21]
 [ext_resource path="res://game/gui/shortcut_line.tscn" type="PackedScene" id=23]
 [ext_resource path="res://assets/theme/box_game_btn_focus.tres" type="StyleBox" id=24]
-[ext_resource path="res://assets/theme/font_main_small.tres" type="DynamicFont" id=26]
 [ext_resource path="res://game/gui/highscores_hall.tscn" type="PackedScene" id=31]
 
 [sub_resource type="StyleBoxEmpty" id=208]
@@ -181,32 +181,20 @@ width = 246
 height = 246
 noise = ExtResource( 10 )
 
-[sub_resource type="StyleBoxEmpty" id=478]
-
-[sub_resource type="StyleBoxEmpty" id=151]
-
-[sub_resource type="AtlasTexture" id=195]
-atlas = ExtResource( 2 )
-region = Rect2( 0, 16, 24, 24 )
-
-[sub_resource type="AtlasTexture" id=196]
-atlas = ExtResource( 2 )
-region = Rect2( 24, 16, 24, 24 )
-
-[sub_resource type="StyleBoxEmpty" id=500]
+[sub_resource type="StyleBoxEmpty" id=427]
 
 [sub_resource type="StreamTexture" id=444]
 load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
 
-[sub_resource type="AtlasTexture" id=501]
+[sub_resource type="AtlasTexture" id=428]
 atlas = SubResource( 444 )
 region = Rect2( 16, 16, 14, 16 )
 
-[sub_resource type="AtlasTexture" id=502]
+[sub_resource type="AtlasTexture" id=429]
 atlas = SubResource( 444 )
 region = Rect2( 0, 16, 10, 16 )
 
-[sub_resource type="StyleBoxFlat" id=503]
+[sub_resource type="StyleBoxFlat" id=430]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -218,21 +206,21 @@ expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxEmpty" id=504]
+[sub_resource type="StyleBoxEmpty" id=431]
 
-[sub_resource type="StyleBoxEmpty" id=505]
+[sub_resource type="StyleBoxEmpty" id=432]
 
-[sub_resource type="StyleBoxLine" id=506]
+[sub_resource type="StyleBoxLine" id=433]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
 
-[sub_resource type="AtlasTexture" id=507]
+[sub_resource type="AtlasTexture" id=434]
 atlas = SubResource( 444 )
 region = Rect2( 32, 0, 10, 10 )
 
-[sub_resource type="StyleBoxEmpty" id=508]
+[sub_resource type="StyleBoxEmpty" id=435]
 
-[sub_resource type="StyleBoxFlat" id=509]
+[sub_resource type="StyleBoxFlat" id=436]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -243,14 +231,14 @@ expand_margin_left = 6.0
 expand_margin_top = 6.0
 expand_margin_bottom = 6.0
 
-[sub_resource type="StreamTexture" id=510]
+[sub_resource type="StreamTexture" id=437]
 load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
 
 [sub_resource type="AtlasTexture" id=445]
-atlas = SubResource( 510 )
+atlas = SubResource( 437 )
 region = Rect2( 0, 4, 16, 8 )
 
-[sub_resource type="StyleBoxTexture" id=511]
+[sub_resource type="StyleBoxTexture" id=438]
 texture = SubResource( 445 )
 region_rect = Rect2( 0, 0, 16, 8 )
 margin_left = 3.34132
@@ -259,7 +247,7 @@ margin_top = 4.0
 margin_bottom = 4.0
 modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 
-[sub_resource type="StyleBoxFlat" id=512]
+[sub_resource type="StyleBoxFlat" id=439]
 bg_color = Color( 0, 0, 0, 0 )
 border_width_left = 2
 border_width_top = 2
@@ -267,12 +255,12 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="AtlasTexture" id=513]
+[sub_resource type="AtlasTexture" id=440]
 atlas = SubResource( 444 )
 region = Rect2( 16, 0, 16, 12 )
 margin = Rect2( 4, 0, 0, 0 )
 
-[sub_resource type="StyleBoxFlat" id=514]
+[sub_resource type="StyleBoxFlat" id=441]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 2
 border_width_top = 2
@@ -284,7 +272,7 @@ expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxFlat" id=515]
+[sub_resource type="StyleBoxFlat" id=442]
 bg_color = Color( 0, 0, 0, 0.862745 )
 border_width_left = 4
 border_width_top = 4
@@ -292,7 +280,7 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
 
-[sub_resource type="StyleBoxLine" id=516]
+[sub_resource type="StyleBoxLine" id=443]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
 vertical = true
@@ -303,46 +291,68 @@ Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
 Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
 Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
-Button/styles/disabled = SubResource( 500 )
-Button/styles/focus = SubResource( 500 )
-Button/styles/hover = SubResource( 500 )
-Button/styles/normal = SubResource( 500 )
-Button/styles/pressed = SubResource( 500 )
+Button/styles/disabled = SubResource( 427 )
+Button/styles/focus = SubResource( 427 )
+Button/styles/hover = SubResource( 427 )
+Button/styles/normal = SubResource( 427 )
+Button/styles/pressed = SubResource( 427 )
 CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
 CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
 CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
 CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
 CheckBox/constants/hseparation = 4
-CheckBox/icons/checked = SubResource( 501 )
-CheckBox/icons/unchecked = SubResource( 502 )
-CheckBox/styles/focus = SubResource( 503 )
-CheckBox/styles/hover = SubResource( 503 )
-CheckBox/styles/hover_pressed = SubResource( 503 )
-CheckBox/styles/normal = SubResource( 504 )
-CheckBox/styles/pressed = SubResource( 505 )
-HSeparator/styles/separator = SubResource( 506 )
-HSlider/icons/grabber = SubResource( 507 )
+CheckBox/icons/checked = SubResource( 428 )
+CheckBox/icons/unchecked = SubResource( 429 )
+CheckBox/styles/focus = SubResource( 430 )
+CheckBox/styles/hover = SubResource( 430 )
+CheckBox/styles/hover_pressed = SubResource( 430 )
+CheckBox/styles/normal = SubResource( 431 )
+CheckBox/styles/pressed = SubResource( 432 )
+HSeparator/styles/separator = SubResource( 433 )
+HSlider/icons/grabber = SubResource( 434 )
 HSlider/icons/grabber_disabled = null
-HSlider/icons/grabber_highlight = SubResource( 507 )
+HSlider/icons/grabber_highlight = SubResource( 434 )
 HSlider/icons/tick = null
-HSlider/styles/grabber_area = SubResource( 508 )
-HSlider/styles/grabber_area_highlight = SubResource( 509 )
-HSlider/styles/slider = SubResource( 511 )
+HSlider/styles/grabber_area = SubResource( 435 )
+HSlider/styles/grabber_area_highlight = SubResource( 436 )
+HSlider/styles/slider = SubResource( 438 )
 Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
 Label/constants/line_spacing = 6
 LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
 LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
-LineEdit/styles/normal = SubResource( 512 )
+LineEdit/styles/normal = SubResource( 439 )
 OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
-OptionButton/icons/arrow = SubResource( 513 )
-OptionButton/styles/focus = SubResource( 514 )
-OptionButton/styles/hover = SubResource( 514 )
-OptionButton/styles/pressed = SubResource( 514 )
-Panel/styles/panel = SubResource( 515 )
-VSeparator/styles/separator = SubResource( 516 )
+OptionButton/icons/arrow = SubResource( 440 )
+OptionButton/styles/focus = SubResource( 441 )
+OptionButton/styles/hover = SubResource( 441 )
+OptionButton/styles/pressed = SubResource( 441 )
+Panel/styles/panel = SubResource( 442 )
+VSeparator/styles/separator = SubResource( 443 )
+
+[sub_resource type="AtlasTexture" id=562]
+atlas = ExtResource( 12 )
+region = Rect2( 136, 72, 24, 24 )
+margin = Rect2( 0, 3, 0, 3 )
+
+[sub_resource type="AtlasTexture" id=563]
+atlas = ExtResource( 12 )
+region = Rect2( 136, 24, 24, 24 )
+margin = Rect2( 0, 3, 0, 3 )
+
+[sub_resource type="StyleBoxEmpty" id=478]
+
+[sub_resource type="StyleBoxEmpty" id=151]
+
+[sub_resource type="AtlasTexture" id=195]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 16, 24, 24 )
+
+[sub_resource type="AtlasTexture" id=196]
+atlas = ExtResource( 2 )
+region = Rect2( 24, 16, 24, 24 )
 
 [sub_resource type="AtlasTexture" id=476]
 atlas = ExtResource( 12 )
@@ -361,20 +371,20 @@ width = 700
 atlas = ExtResource( 2 )
 region = Rect2( 32, 64, 16, 16 )
 
-[sub_resource type="StyleBoxEmpty" id=481]
+[sub_resource type="StyleBoxEmpty" id=542]
 
 [sub_resource type="StreamTexture" id=175]
 load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
 
-[sub_resource type="AtlasTexture" id=482]
+[sub_resource type="AtlasTexture" id=543]
 atlas = SubResource( 175 )
 region = Rect2( 16, 16, 14, 16 )
 
-[sub_resource type="AtlasTexture" id=483]
+[sub_resource type="AtlasTexture" id=544]
 atlas = SubResource( 175 )
 region = Rect2( 0, 16, 10, 16 )
 
-[sub_resource type="StyleBoxFlat" id=484]
+[sub_resource type="StyleBoxFlat" id=545]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -386,21 +396,21 @@ expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxEmpty" id=485]
+[sub_resource type="StyleBoxEmpty" id=546]
 
-[sub_resource type="StyleBoxEmpty" id=486]
+[sub_resource type="StyleBoxEmpty" id=547]
 
-[sub_resource type="StyleBoxLine" id=487]
+[sub_resource type="StyleBoxLine" id=548]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
 
-[sub_resource type="AtlasTexture" id=488]
+[sub_resource type="AtlasTexture" id=549]
 atlas = SubResource( 175 )
 region = Rect2( 32, 0, 10, 10 )
 
-[sub_resource type="StyleBoxEmpty" id=489]
+[sub_resource type="StyleBoxEmpty" id=550]
 
-[sub_resource type="StyleBoxFlat" id=490]
+[sub_resource type="StyleBoxFlat" id=551]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -411,14 +421,14 @@ expand_margin_left = 6.0
 expand_margin_top = 6.0
 expand_margin_bottom = 6.0
 
-[sub_resource type="StreamTexture" id=491]
+[sub_resource type="StreamTexture" id=552]
 load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
 
 [sub_resource type="AtlasTexture" id=152]
-atlas = SubResource( 491 )
+atlas = SubResource( 552 )
 region = Rect2( 0, 4, 16, 8 )
 
-[sub_resource type="StyleBoxTexture" id=492]
+[sub_resource type="StyleBoxTexture" id=553]
 texture = SubResource( 152 )
 region_rect = Rect2( 0, 0, 16, 8 )
 margin_left = 3.34132
@@ -427,7 +437,7 @@ margin_top = 4.0
 margin_bottom = 4.0
 modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 
-[sub_resource type="StyleBoxFlat" id=493]
+[sub_resource type="StyleBoxFlat" id=554]
 bg_color = Color( 0, 0, 0, 0 )
 border_width_left = 2
 border_width_top = 2
@@ -435,12 +445,12 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="AtlasTexture" id=494]
+[sub_resource type="AtlasTexture" id=555]
 atlas = SubResource( 175 )
 region = Rect2( 16, 0, 16, 12 )
 margin = Rect2( 4, 0, 0, 0 )
 
-[sub_resource type="StyleBoxFlat" id=495]
+[sub_resource type="StyleBoxFlat" id=556]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 2
 border_width_top = 2
@@ -452,7 +462,7 @@ expand_margin_right = 6.0
 expand_margin_top = 2.0
 expand_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxFlat" id=496]
+[sub_resource type="StyleBoxFlat" id=557]
 bg_color = Color( 0, 0, 0, 0.862745 )
 border_width_left = 4
 border_width_top = 4
@@ -460,7 +470,7 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
 
-[sub_resource type="StyleBoxLine" id=497]
+[sub_resource type="StyleBoxLine" id=558]
 color = Color( 1, 1, 1, 1 )
 thickness = 2
 vertical = true
@@ -471,46 +481,46 @@ Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
 Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
 Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
 Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
-Button/styles/disabled = SubResource( 481 )
-Button/styles/focus = SubResource( 481 )
-Button/styles/hover = SubResource( 481 )
-Button/styles/normal = SubResource( 481 )
-Button/styles/pressed = SubResource( 481 )
+Button/styles/disabled = SubResource( 542 )
+Button/styles/focus = SubResource( 542 )
+Button/styles/hover = SubResource( 542 )
+Button/styles/normal = SubResource( 542 )
+Button/styles/pressed = SubResource( 542 )
 CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
 CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
 CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
 CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
 CheckBox/constants/hseparation = 4
-CheckBox/icons/checked = SubResource( 482 )
-CheckBox/icons/unchecked = SubResource( 483 )
-CheckBox/styles/focus = SubResource( 484 )
-CheckBox/styles/hover = SubResource( 484 )
-CheckBox/styles/hover_pressed = SubResource( 484 )
-CheckBox/styles/normal = SubResource( 485 )
-CheckBox/styles/pressed = SubResource( 486 )
-HSeparator/styles/separator = SubResource( 487 )
-HSlider/icons/grabber = SubResource( 488 )
+CheckBox/icons/checked = SubResource( 543 )
+CheckBox/icons/unchecked = SubResource( 544 )
+CheckBox/styles/focus = SubResource( 545 )
+CheckBox/styles/hover = SubResource( 545 )
+CheckBox/styles/hover_pressed = SubResource( 545 )
+CheckBox/styles/normal = SubResource( 546 )
+CheckBox/styles/pressed = SubResource( 547 )
+HSeparator/styles/separator = SubResource( 548 )
+HSlider/icons/grabber = SubResource( 549 )
 HSlider/icons/grabber_disabled = null
-HSlider/icons/grabber_highlight = SubResource( 488 )
+HSlider/icons/grabber_highlight = SubResource( 549 )
 HSlider/icons/tick = null
-HSlider/styles/grabber_area = SubResource( 489 )
-HSlider/styles/grabber_area_highlight = SubResource( 490 )
-HSlider/styles/slider = SubResource( 492 )
+HSlider/styles/grabber_area = SubResource( 550 )
+HSlider/styles/grabber_area_highlight = SubResource( 551 )
+HSlider/styles/slider = SubResource( 553 )
 Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
 Label/constants/line_spacing = 6
 LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
 LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
-LineEdit/styles/normal = SubResource( 493 )
+LineEdit/styles/normal = SubResource( 554 )
 OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
 OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
-OptionButton/icons/arrow = SubResource( 494 )
-OptionButton/styles/focus = SubResource( 495 )
-OptionButton/styles/hover = SubResource( 495 )
-OptionButton/styles/pressed = SubResource( 495 )
-Panel/styles/panel = SubResource( 496 )
-VSeparator/styles/separator = SubResource( 497 )
+OptionButton/icons/arrow = SubResource( 555 )
+OptionButton/styles/focus = SubResource( 556 )
+OptionButton/styles/hover = SubResource( 556 )
+OptionButton/styles/pressed = SubResource( 556 )
+Panel/styles/panel = SubResource( 557 )
+VSeparator/styles/separator = SubResource( 558 )
 
 [sub_resource type="AtlasTexture" id=541]
 atlas = ExtResource( 2 )
@@ -538,30 +548,6 @@ color = Color( 0.196078, 0.196078, 0.196078, 1 )
 grow_begin = 0.0
 grow_end = 0.0
 thickness = 2
-
-[sub_resource type="AtlasTexture" id=190]
-atlas = ExtResource( 12 )
-region = Rect2( 136, 72, 24, 24 )
-margin = Rect2( 0, 3, 0, 3 )
-
-[sub_resource type="AtlasTexture" id=475]
-atlas = ExtResource( 12 )
-region = Rect2( 136, 24, 24, 24 )
-margin = Rect2( 0, 3, 0, 3 )
-
-[sub_resource type="AtlasTexture" id=498]
-atlas = ExtResource( 12 )
-region = Rect2( 0, 216, 40, 24 )
-margin = Rect2( 0, 3, 0, 0 )
-
-[sub_resource type="AtlasTexture" id=310]
-atlas = ExtResource( 12 )
-region = Rect2( 109, 218, 22, 25 )
-margin = Rect2( 0, 3, 0, 0 )
-
-[sub_resource type="StyleBoxEmpty" id=539]
-
-[sub_resource type="StyleBoxEmpty" id=540]
 
 [sub_resource type="Animation" id=155]
 length = 0.001
@@ -844,7 +830,7 @@ tracks/0/path = NodePath("HomeScreen/Menu:modulate:a")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = true
+tracks/0/enabled = false
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
@@ -870,7 +856,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"points": PoolRealArray( 720, 0, 0, 0.5, 0, 160, -0.5, 0, 0.5, 0 ),
+"points": PoolRealArray( 720, 0, 0, 0.5, 0, 152, -0.5, 0, 0, 0 ),
 "times": PoolRealArray( 0.04, 1 )
 }
 tracks/3/type = "value"
@@ -878,7 +864,7 @@ tracks/3/path = NodePath("HomeScreen/Menu:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
-tracks/3/enabled = true
+tracks/3/enabled = false
 tracks/3/keys = {
 "times": PoolRealArray( 0.3 ),
 "transitions": PoolRealArray( 1 ),
@@ -916,6 +902,30 @@ tracks/6/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("NavigationHint:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = false
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("NavigationHint:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = false
+tracks/8/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
 }
 
 [sub_resource type="Animation" id=538]
@@ -1191,6 +1201,18 @@ tracks/23/keys = {
 "update": 0,
 "values": [ true ]
 }
+tracks/24/type = "value"
+tracks/24/path = NodePath("NavigationHint:modulate")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
 
 [sub_resource type="Animation" id=141]
 resource_name = "highscores"
@@ -1200,7 +1222,7 @@ tracks/0/path = NodePath("HomeScreen/Menu:modulate:a")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = true
+tracks/0/enabled = false
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
@@ -1234,7 +1256,7 @@ tracks/3/path = NodePath("HomeScreen/Menu:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
-tracks/3/enabled = true
+tracks/3/enabled = false
 tracks/3/keys = {
 "times": PoolRealArray( 0.3 ),
 "transitions": PoolRealArray( 1 ),
@@ -1273,6 +1295,30 @@ tracks/6/keys = {
 "update": 1,
 "values": [ false, true ]
 }
+tracks/7/type = "value"
+tracks/7/path = NodePath("NavigationHint:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = false
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("NavigationHint:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = false
+tracks/8/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=142]
 resource_name = "select_game"
@@ -1282,7 +1328,7 @@ tracks/0/path = NodePath("HomeScreen/Menu:modulate:a")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = true
+tracks/0/enabled = false
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
@@ -1316,7 +1362,7 @@ tracks/3/path = NodePath("HomeScreen/Menu:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
-tracks/3/enabled = true
+tracks/3/enabled = false
 tracks/3/keys = {
 "times": PoolRealArray( 0.3 ),
 "transitions": PoolRealArray( 1 ),
@@ -1364,6 +1410,30 @@ tracks/7/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("NavigationHint:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = false
+tracks/8/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("NavigationHint:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = false
+tracks/9/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
 }
 
 [sub_resource type="Animation" id=275]
@@ -1467,7 +1537,7 @@ tracks/0/path = NodePath("HomeScreen/Menu:modulate:a")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = true
+tracks/0/enabled = false
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
@@ -1501,7 +1571,7 @@ tracks/3/path = NodePath("HomeScreen/Menu:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
-tracks/3/enabled = true
+tracks/3/enabled = false
 tracks/3/keys = {
 "times": PoolRealArray( 0.3 ),
 "transitions": PoolRealArray( 1 ),
@@ -1540,12 +1610,36 @@ tracks/6/keys = {
 "update": 1,
 "values": [ false, true ]
 }
+tracks/7/type = "value"
+tracks/7/path = NodePath("NavigationHint:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = false
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("NavigationHint:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = false
+tracks/8/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [node name="Home" type="Node2D"]
 script = ExtResource( 5 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 656.0, -496.0, 136.0, -420.0, 1128.0, 816.0, 752.0, 96.0, 160.0, 200.0, 312.0, -344.0, -32.0, 600.0, -536.0 ],
-"_edit_vertical_guides_": [ 64.0, 1280.0, 1216.0, 640.0, 2048.0, -320.0, 1024.0, 848.0, 1304.0, 1456.0 ]
+"_edit_horizontal_guides_": [ 648.0, -496.0, 128.0, -420.0, 1128.0, 808.0, 752.0, 96.0, -344.0, -32.0, -536.0, 1320.0, 792.0 ],
+"_edit_vertical_guides_": [ 64.0, 1280.0, 1216.0, 440.0, 2048.0, -320.0, 1024.0, 840.0, 1304.0, 1456.0 ]
 }
 
 [node name="Undi" type="ColorRect" parent="."]
@@ -1944,6 +2038,153 @@ size_flags_vertical = 8
 enabled_focus_mode = 1
 text = "EXIT"
 
+[node name="ShortcutLine4" parent="HomeScreen" instance=ExtResource( 23 )]
+visible = false
+anchor_left = 0.0
+anchor_right = 0.0
+margin_left = 65.0
+margin_top = 339.0
+margin_right = 420.0
+margin_bottom = 367.0
+
+[node name="dot" parent="HomeScreen/ShortcutLine4" index="0"]
+theme = SubResource( 446 )
+
+[node name="VScrollBar2" type="VScrollBar" parent="HomeScreen/ShortcutLine4/dot" index="0"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+max_value = 28.0
+step = 1.0
+page = 28.0
+
+[node name="VScrollBar3" type="VScrollBar" parent="HomeScreen/ShortcutLine4/dot" index="1"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+step = 1.0
+
+[node name="VScrollBar4" type="VScrollBar" parent="HomeScreen/ShortcutLine4/dot" index="2"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+max_value = 28.0
+step = 1.0
+page = 28.0
+
+[node name="VScrollBar5" type="VScrollBar" parent="HomeScreen/ShortcutLine4/dot" index="3"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+step = 1.0
+
+[node name="VScrollBar6" type="VScrollBar" parent="HomeScreen/ShortcutLine4/dot" index="4"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+max_value = 28.0
+step = 1.0
+page = 28.0
+
+[node name="VScrollBar7" type="VScrollBar" parent="HomeScreen/ShortcutLine4/dot" index="5"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+step = 1.0
+
+[node name="KEY" parent="HomeScreen/ShortcutLine4" index="1"]
+margin_right = 33.0
+text = "ESC"
+
+[node name="or2" parent="HomeScreen/ShortcutLine4" index="2"]
+margin_left = 33.0
+margin_right = 66.0
+
+[node name="L1" parent="HomeScreen/ShortcutLine4" index="3"]
+margin_left = 66.0
+margin_right = 90.0
+texture = SubResource( 562 )
+
+[node name="Label3" parent="HomeScreen/ShortcutLine4" index="4"]
+margin_left = 90.0
+margin_right = 343.0
+text = " to go back to previous screen"
+
+[node name="ShortcutLine5" parent="HomeScreen" instance=ExtResource( 23 )]
+visible = false
+anchor_left = 0.0
+anchor_right = 0.0
+margin_left = 65.0
+margin_top = 371.0
+margin_right = 367.0
+margin_bottom = 399.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="dot" parent="HomeScreen/ShortcutLine5" index="0"]
+theme = SubResource( 446 )
+
+[node name="VScrollBar2" type="VScrollBar" parent="HomeScreen/ShortcutLine5/dot" index="0"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+max_value = 28.0
+step = 1.0
+page = 28.0
+
+[node name="VScrollBar3" type="VScrollBar" parent="HomeScreen/ShortcutLine5/dot" index="1"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+step = 1.0
+
+[node name="VScrollBar4" type="VScrollBar" parent="HomeScreen/ShortcutLine5/dot" index="2"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+max_value = 28.0
+step = 1.0
+page = 28.0
+
+[node name="VScrollBar5" type="VScrollBar" parent="HomeScreen/ShortcutLine5/dot" index="3"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+step = 1.0
+
+[node name="VScrollBar6" type="VScrollBar" parent="HomeScreen/ShortcutLine5/dot" index="4"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+max_value = 28.0
+step = 1.0
+page = 28.0
+
+[node name="VScrollBar7" type="VScrollBar" parent="HomeScreen/ShortcutLine5/dot" index="5"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+step = 1.0
+
+[node name="KEY" parent="HomeScreen/ShortcutLine5" index="1"]
+margin_right = 66.0
+text = "RETURN"
+
+[node name="or2" parent="HomeScreen/ShortcutLine5" index="2"]
+margin_left = 66.0
+margin_right = 99.0
+
+[node name="L1" parent="HomeScreen/ShortcutLine5" index="3"]
+margin_left = 99.0
+margin_right = 123.0
+texture = SubResource( 563 )
+
+[node name="Label3" parent="HomeScreen/ShortcutLine5" index="4"]
+margin_left = 123.0
+margin_right = 290.0
+text = " to confirm selection"
+
 [node name="SelectGame" type="Control" parent="."]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
@@ -1985,9 +2226,9 @@ autowrap = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 8.0
-margin_top = 144.0
+margin_top = 128.0
 margin_right = -7.99988
-margin_bottom = -56.0
+margin_bottom = -72.0
 theme = ExtResource( 15 )
 
 [node name="Cleaner" type="Control" parent="SelectGame/GamesMenu"]
@@ -2035,9 +2276,9 @@ __meta__ = {
 
 [node name="Eraser" type="Control" parent="SelectGame/GamesMenu"]
 margin_left = 280.0
-margin_top = 144.0
+margin_top = 136.0
 margin_right = 760.0
-margin_bottom = 368.0
+margin_bottom = 360.0
 rect_min_size = Vector2( 128, 128 )
 
 [node name="Background" type="ColorRect" parent="SelectGame/GamesMenu/Eraser"]
@@ -2213,7 +2454,7 @@ autowrap = true
 [node name="Unbeatables" type="Control" parent="SelectGame/GamesMenu"]
 margin_top = 224.0
 margin_right = 272.0
-margin_bottom = 512.0
+margin_bottom = 496.0
 rect_min_size = Vector2( 128, 128 )
 
 [node name="Background" type="ColorRect" parent="SelectGame/GamesMenu/Unbeatables"]
@@ -2228,16 +2469,15 @@ margin_top = 32.0
 margin_right = -24.0
 margin_bottom = 74.0
 custom_fonts/font = ExtResource( 14 )
-text = "Stop unbeatable invading colors from taking over!
-yxsaxcsaxcasx"
+text = "Stop invading colors from taking over the screen as they keep crashing in!"
 autowrap = true
 
 [node name="HunterBtn" type="Button" parent="SelectGame/GamesMenu/Unbeatables"]
 anchor_right = 1.0
 margin_left = 40.0
-margin_top = 128.0
+margin_top = 120.0
 margin_right = -40.0
-margin_bottom = 184.0
+margin_bottom = 176.0
 focus_neighbour_top = NodePath("../../Cleaner/CleanerBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = ExtResource( 24 )
@@ -2253,9 +2493,9 @@ __meta__ = {
 [node name="DefenderBtn" type="Button" parent="SelectGame/GamesMenu/Unbeatables"]
 anchor_right = 1.0
 margin_left = 40.0
-margin_top = 192.0
+margin_top = 184.0
 margin_right = -40.0
-margin_bottom = 248.0
+margin_bottom = 240.0
 focus_neighbour_left = NodePath("../../TheDuel/TheDuelBtn")
 focus_neighbour_right = NodePath("../../TheDuel/TheDuelBtn")
 focus_neighbour_bottom = NodePath("../../../TutorialModeBtn")
@@ -2273,7 +2513,7 @@ __meta__ = {
 [node name="Sweeper" type="Control" parent="SelectGame/GamesMenu"]
 margin_left = 280.0
 margin_right = 760.0
-margin_bottom = 136.0
+margin_bottom = 128.0
 rect_min_size = Vector2( 128, 128 )
 rect_pivot_offset = Vector2( 376, 440 )
 
@@ -2303,6 +2543,7 @@ margin_bottom = 96.0
 focus_neighbour_left = NodePath("../../Cleaner/CleanerBtn")
 focus_neighbour_top = NodePath("../../../BackBtn")
 focus_neighbour_right = NodePath("../../Cleaner/CleanerBtn")
+focus_neighbour_bottom = NodePath("../../Eraser/XXLBtn")
 mouse_default_cursor_shape = 2
 custom_styles/hover = ExtResource( 24 )
 custom_styles/pressed = ExtResource( 24 )
@@ -2316,9 +2557,9 @@ __meta__ = {
 
 [node name="TheDuel" type="Control" parent="SelectGame/GamesMenu"]
 margin_left = 280.0
-margin_top = 376.0
+margin_top = 368.0
 margin_right = 760.0
-margin_bottom = 512.0
+margin_bottom = 496.0
 rect_min_size = Vector2( 128, 128 )
 
 [node name="Background" type="ColorRect" parent="SelectGame/GamesMenu/TheDuel"]
@@ -2360,16 +2601,17 @@ __meta__ = {
 }
 
 [node name="TutorialModeBtn" type="CheckButton" parent="SelectGame"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 8.0
-margin_top = 672.0
-margin_right = 224.0
-margin_bottom = 690.0
+margin_top = 640.0
+margin_right = 176.0
+margin_bottom = 658.0
 focus_neighbour_bottom = NodePath("../GamesMenu/Cleaner/CleanerBtn")
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 10
 custom_fonts/font = ExtResource( 14 )
 pressed = true
-text = "Start game with tutorial"
+text = "Start with tutorial"
 
 [node name="BackBtn" type="TextureButton" parent="SelectGame"]
 anchor_left = 1.0
@@ -2411,14 +2653,16 @@ text = "Sweeper"
 
 [node name="Subtitle" type="Label" parent="SelectLevel"]
 margin_left = 8.0
-margin_top = 144.0
+margin_top = 128.0
 margin_right = 680.0
-margin_bottom = 170.0
+margin_bottom = 154.0
 custom_fonts/font = ExtResource( 14 )
 text = "The ultimate test of tactics and skills. Sweep all colors with one spectacular move!"
 autowrap = true
 
 [node name="LevelBtnsGrid" parent="SelectLevel" instance=ExtResource( 19 )]
+margin_top = 176.0
+margin_bottom = 616.0
 
 [node name="More" type="Label" parent="SelectLevel"]
 visible = false
@@ -2448,91 +2692,40 @@ texture_hover = SubResource( 196 )
 texture_focused = SubResource( 196 )
 flip_h = true
 
-[node name="HintShortcut" type="HBoxContainer" parent="SelectLevel"]
+[node name="ActionHint" parent="SelectLevel" instance=ExtResource( 21 )]
 margin_left = 9.0
-margin_top = 635.0
-margin_right = 360.0
+margin_top = 636.0
+margin_right = 254.0
 margin_bottom = 663.0
-rect_min_size = Vector2( 0, 28 )
-theme = ExtResource( 15 )
-custom_constants/separation = 0
-__meta__ = {
-"_edit_group_": true
-}
 
-[node name="dot" type="RichTextLabel" parent="SelectLevel/HintShortcut"]
-visible = false
-margin_right = 14.0
-margin_bottom = 28.0
-rect_min_size = Vector2( 14, 0 )
-size_flags_vertical = 3
-theme = SubResource( 446 )
-text = "."
-fit_content_height = true
+[node name="Label" parent="SelectLevel/ActionHint" index="0"]
+margin_top = 4.0
+margin_bottom = 22.0
 
-[node name="VScrollBar2" type="VScrollBar" parent="SelectLevel/HintShortcut/dot"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-max_value = 28.0
-step = 1.0
-page = 28.0
-
-[node name="VScrollBar3" type="VScrollBar" parent="SelectLevel/HintShortcut/dot"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-step = 1.0
-
-[node name="or3" type="Label" parent="SelectLevel/HintShortcut"]
-margin_top = 5.0
-margin_right = 52.0
-margin_bottom = 23.0
-custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-custom_fonts/font = ExtResource( 14 )
-text = "Press "
-align = 1
-valign = 1
-
-[node name="KEY" type="Label" parent="SelectLevel/HintShortcut"]
-margin_left = 52.0
+[node name="KEY" parent="SelectLevel/ActionHint" index="1"]
 margin_top = 4.0
 margin_right = 63.0
-margin_bottom = 28.0
-rect_min_size = Vector2( 0, 24 )
-size_flags_vertical = 8
-custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-custom_fonts/font = ExtResource( 26 )
-text = "H"
-align = 1
-valign = 1
-
-[node name="or2" type="Label" parent="SelectLevel/HintShortcut"]
-margin_left = 63.0
-margin_top = 5.0
-margin_right = 96.0
 margin_bottom = 23.0
-custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-custom_fonts/font = ExtResource( 14 )
-text = " or "
-align = 1
-valign = 1
+text = "H"
 
-[node name="L1" type="TextureRect" parent="SelectLevel/HintShortcut"]
+[node name="Label2" parent="SelectLevel/ActionHint" index="2"]
+margin_left = 71.0
+margin_top = 4.0
+margin_right = 88.0
+margin_bottom = 22.0
+
+[node name="Jp" parent="SelectLevel/ActionHint" index="3"]
 margin_left = 96.0
 margin_right = 120.0
-margin_bottom = 28.0
+margin_bottom = 27.0
 texture = SubResource( 476 )
 
-[node name="Label3" type="Label" parent="SelectLevel/HintShortcut"]
-margin_left = 120.0
-margin_top = 5.0
-margin_right = 207.0
-margin_bottom = 23.0
-custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-custom_fonts/font = ExtResource( 14 )
-text = " for a hint"
-valign = 1
+[node name="Label3" parent="SelectLevel/ActionHint" index="4"]
+margin_left = 128.0
+margin_top = 4.0
+margin_right = 257.0
+margin_bottom = 22.0
+text = "for in-game hint"
 
 [node name="Settings" type="Control" parent="."]
 visible = false
@@ -2574,9 +2767,9 @@ text = "Settings"
 [node name="MenuMusicBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 65.0
-margin_top = 137.0
+margin_top = 121.0
 margin_right = 225.0
-margin_bottom = 169.0
+margin_bottom = 153.0
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
 pressed = true
@@ -2585,9 +2778,9 @@ text = "Menu music"
 [node name="InstructionsBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 65.0
-margin_top = 177.0
+margin_top = 161.0
 margin_right = 336.0
-margin_bottom = 209.0
+margin_bottom = 193.0
 focus_neighbour_right = NodePath("../BackBtn")
 focus_neighbour_bottom = NodePath("../ColorSchemeOptions/RandomizeBtn")
 mouse_default_cursor_shape = 2
@@ -2599,9 +2792,9 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 65.0
-margin_top = -512.0
+margin_top = -528.0
 margin_right = -111.0
-margin_bottom = -480.0
+margin_bottom = -496.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -2672,9 +2865,9 @@ texture = SubResource( 280 )
 [node name="TrackingBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 65.0
-margin_top = 257.0
+margin_top = 241.0
 margin_right = 384.0
-margin_bottom = 289.0
+margin_bottom = 273.0
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
 pressed = true
@@ -2682,9 +2875,9 @@ text = "Anonymous data tracking"
 
 [node name="ResetLocalBtn" type="Button" parent="Settings"]
 margin_left = 65.0
-margin_top = 302.0
+margin_top = 286.0
 margin_right = 331.0
-margin_bottom = 324.0
+margin_bottom = 308.0
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
 custom_colors/font_color_focus = Color( 0.952941, 0.356863, 0.498039, 1 )
@@ -2696,9 +2889,9 @@ text = "Reset local highscores"
 [node name="Subtitle" type="Label" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 65.0
-margin_top = 352.0
+margin_top = 344.0
 margin_right = 209.0
-margin_bottom = 370.0
+margin_bottom = 362.0
 size_flags_horizontal = 3
 theme = SubResource( 194 )
 custom_fonts/font = ExtResource( 14 )
@@ -2708,9 +2901,9 @@ autowrap = true
 [node name="GameMusicBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 65.0
-margin_top = 385.0
+margin_top = 377.0
 margin_right = 225.0
-margin_bottom = 417.0
+margin_bottom = 409.0
 focus_neighbour_top = NodePath("../TrackingBtn")
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
@@ -2720,9 +2913,9 @@ text = "Game music"
 [node name="GameMusicSlider" type="HSlider" parent="Settings"]
 modulate = Color( 1, 1, 1, 0.470588 )
 margin_left = 65.0
-margin_top = 460.0
+margin_top = 452.0
 margin_right = 315.0
-margin_bottom = 476.0
+margin_bottom = 468.0
 mouse_default_cursor_shape = 2
 size_flags_vertical = 8
 min_value = -30.0
@@ -2750,9 +2943,9 @@ text = "Game music volume"
 [node name="GameSfxBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 65.0
-margin_top = 489.0
+margin_top = 481.0
 margin_right = 201.0
-margin_bottom = 521.0
+margin_bottom = 513.0
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
 pressed = true
@@ -2761,9 +2954,9 @@ text = "Game SFX"
 [node name="CameraShakeBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 65.0
-margin_top = 529.0
+margin_top = 521.0
 margin_right = 253.0
-margin_bottom = 561.0
+margin_bottom = 553.0
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
 pressed = true
@@ -2771,9 +2964,9 @@ text = "Camera shake"
 
 [node name="TouchPopUpBtn" type="Button" parent="Settings"]
 margin_left = 65.0
-margin_top = 568.0
-margin_right = 297.0
-margin_bottom = 602.0
+margin_top = 560.0
+margin_right = 307.0
+margin_bottom = 594.0
 grow_vertical = 0
 focus_neighbour_bottom = NodePath("../TouchSensSlider")
 custom_constants/hseparation = 8
@@ -2785,9 +2978,9 @@ icon_align = 2
 [node name="TouchSensSlider" type="HSlider" parent="Settings"]
 modulate = Color( 1, 1, 1, 0.470588 )
 margin_left = 65.0
-margin_top = 644.0
+margin_top = 636.0
 margin_right = 315.0
-margin_bottom = 660.0
+margin_bottom = 652.0
 focus_neighbour_bottom = NodePath("../MenuMusicBtn")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 8
@@ -3288,7 +3481,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 720.0
 margin_right = 1280.0
-margin_bottom = 1320.0
+margin_bottom = 1328.0
 rect_min_size = Vector2( 1280, 500 )
 theme = ExtResource( 15 )
 script = ExtResource( 16 )
@@ -3331,35 +3524,52 @@ margin_top = 7.0
 margin_right = -4.0
 margin_bottom = 11.0
 
-[node name="Thanks" type="Label" parent="About"]
+[node name="PA" type="Label" parent="About"]
+self_modulate = Color( 0.294118, 0.623529, 1, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -576.0
-margin_top = 78.0
-margin_right = -224.0
-margin_bottom = 104.0
+margin_top = 64.0
+margin_right = -360.0
+margin_bottom = 118.0
 size_flags_horizontal = 3
 theme = SubResource( 194 )
-custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-text = "PIXEL ASTRAY"
+custom_fonts/font = ExtResource( 20 )
+text = "PIXEL"
 uppercase = true
 
-[node name="Label2" type="Label" parent="About/Thanks"]
-anchor_right = 1.0
-margin_top = 42.0
-margin_bottom = 90.0
+[node name="PA2" type="Label" parent="About/PA"]
+modulate = Color( 0.294118, 0.623529, 1, 1 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -108.0
+margin_top = 52.0
+margin_right = 108.0
+margin_bottom = 106.0
 size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 14 )
-text = "Prototype V0.9
-Published in June, 2024"
-autowrap = true
+custom_fonts/font = ExtResource( 20 )
+text = "ASTRAY"
+uppercase = true
 
-[node name="LinkLabel" type="RichTextLabel" parent="About/Thanks"]
+[node name="LinkLabel" type="RichTextLabel" parent="About/PA"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+margin_top = 120.0
+margin_right = 360.0
+margin_bottom = 168.0
+custom_fonts/normal_font = ExtResource( 14 )
+bbcode_enabled = true
+bbcode_text = "Demo version
+Published on 24 June 2024 at [url=https://lehrman.itch.io/pixel-astray]lehrman.itch.io[/url]"
+text = "Demo version
+Published on 24 June 2024 at lehrman.itch.io"
+fit_content_height = true
+
+[node name="LinkLabel2" type="RichTextLabel" parent="About/PA"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 1.0
-margin_top = 98.0
+margin_top = 176.0
 margin_right = 381.0
-margin_bottom = 170.0
+margin_bottom = 248.0
 custom_fonts/normal_font = ExtResource( 14 )
 bbcode_enabled = true
 bbcode_text = "Story, copywriting, design, graphics,
@@ -3370,81 +3580,14 @@ sound editing and game development
 by Andrej Lehrman."
 fit_content_height = true
 
-[node name="Controls" type="Label" parent="About"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = 248.0
-margin_top = 302.0
-margin_right = 576.0
-margin_bottom = 328.0
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-text = "Controls"
-uppercase = true
-
-[node name="Label" type="Label" parent="About/Controls"]
-visible = false
-anchor_right = 1.0
-margin_top = 42.0
-margin_bottom = 108.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 14 )
-text = "Story, copywriting, design, graphics,
-sound editing and game development
-by Andrej Lehrman."
-autowrap = true
-
-[node name="Controls" parent="About/Controls" instance=ExtResource( 22 )]
-margin_top = 34.0
-margin_bottom = 162.0
-
-[node name="SpecThanks" type="Label" parent="About"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -168.0
-margin_top = 77.0
-margin_right = 176.0
-margin_bottom = 103.0
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-text = "Special thanks"
-uppercase = true
-
-[node name="Label" type="Label" parent="About/SpecThanks"]
-anchor_right = 1.0
-margin_top = 42.0
-margin_bottom = 108.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 14 )
-text = "To my family for their encouragement
-and support throughout the whole
-development process."
-autowrap = true
-
-[node name="Label2" type="Label" parent="About/SpecThanks"]
-anchor_right = 1.0
-margin_top = 122.0
-margin_right = 32.0
-margin_bottom = 179.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 14 )
-text = "And to countless developers for sharing knowledge and experience on the internet."
-autowrap = true
-
 [node name="Resources" type="Label" parent="About"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = 248.0
-margin_top = 78.0
-margin_right = 576.0
-margin_bottom = 104.0
+margin_left = -576.0
+margin_top = 350.0
+margin_right = -248.0
+margin_bottom = 376.0
 size_flags_horizontal = 3
-theme = SubResource( 194 )
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 text = "Resources"
 uppercase = true
@@ -3475,378 +3618,160 @@ text = "All links to used sounds and fonts exist
 at lehrman.itch.io/pixel-astray."
 fit_content_height = true
 
-[node name="Shorts" type="Label" parent="About"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -576.0
-margin_top = 302.0
-margin_right = -224.0
-margin_bottom = 324.0
+[node name="Tips" type="Label" parent="About"]
+margin_left = 464.0
+margin_top = 70.0
+margin_right = 800.0
+margin_bottom = 92.0
 size_flags_horizontal = 3
-theme = SubResource( 194 )
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-text = "GUI SHORTCUTS"
+text = "TIPS & TRICKS"
+autowrap = true
 uppercase = true
 
-[node name="ShortcutLine4" parent="About/Shorts" instance=ExtResource( 23 )]
-anchor_left = 0.0
-anchor_right = 0.0
-margin_left = 1.0
-margin_top = 37.0
-margin_right = 356.0
-margin_bottom = 65.0
-
-[node name="KEY" parent="About/Shorts/ShortcutLine4" index="1"]
-margin_right = 56.0
-text = "ESC"
-
-[node name="or2" parent="About/Shorts/ShortcutLine4" index="2"]
-margin_left = 56.0
-margin_right = 89.0
-
-[node name="L1" parent="About/Shorts/ShortcutLine4" index="3"]
-margin_left = 89.0
-margin_right = 113.0
-texture = SubResource( 190 )
-
-[node name="Label3" parent="About/Shorts/ShortcutLine4" index="4"]
-margin_left = 113.0
-margin_right = 366.0
-text = " to go back to previous screen"
-
-[node name="ShortcutLine5" parent="About/Shorts" instance=ExtResource( 23 )]
-anchor_left = 0.0
-anchor_right = 0.0
-margin_left = 1.0
-margin_top = 69.0
-margin_right = 303.0
-margin_bottom = 97.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="KEY" parent="About/Shorts/ShortcutLine5" index="1"]
-margin_right = 98.0
-text = "RETURN"
-
-[node name="or2" parent="About/Shorts/ShortcutLine5" index="2"]
-margin_left = 98.0
-margin_right = 131.0
-
-[node name="L1" parent="About/Shorts/ShortcutLine5" index="3"]
-margin_left = 131.0
-margin_right = 155.0
-texture = SubResource( 475 )
-
-[node name="Label3" parent="About/Shorts/ShortcutLine5" index="4"]
-margin_left = 155.0
-margin_right = 322.0
-text = " to confirm selection"
-
-[node name="ShortcutLine7" parent="About/Shorts" instance=ExtResource( 23 )]
-visible = false
-anchor_left = 0.0
-anchor_right = 0.0
-margin_left = 1.0
-margin_top = 101.0
-margin_right = 387.0
-margin_bottom = 129.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="KEY" parent="About/Shorts/ShortcutLine7" index="1"]
-margin_right = 25.0
-text = "R"
-
-[node name="or2" parent="About/Shorts/ShortcutLine7" index="2"]
-margin_left = 25.0
-margin_right = 58.0
-
-[node name="L1" parent="About/Shorts/ShortcutLine7" index="3"]
-margin_left = 58.0
-margin_right = 98.0
-texture = SubResource( 498 )
-
-[node name="Label3" parent="About/Shorts/ShortcutLine7" index="4"]
-margin_left = 98.0
-margin_right = 342.0
-text = " to reload scene (Justin Case)"
-
-[node name="Shorts2" type="Label" parent="About"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -168.0
-margin_top = 302.0
-margin_right = 192.0
-margin_bottom = 324.0
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-text = "Game SHORTCUTS"
-uppercase = true
-
-[node name="ShortcutLine6" parent="About/Shorts2" instance=ExtResource( 23 )]
-anchor_left = 0.0
-anchor_right = 0.0
-margin_left = 1.0
-margin_top = 37.0
-margin_right = 303.0
-margin_bottom = 65.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="KEY" parent="About/Shorts2/ShortcutLine6" index="1"]
-margin_right = 86.0
-text = "ESC, P"
-
-[node name="or2" parent="About/Shorts2/ShortcutLine6" index="2"]
-margin_left = 86.0
-margin_right = 119.0
-
-[node name="L1" parent="About/Shorts2/ShortcutLine6" index="3"]
-margin_left = 119.0
-margin_right = 143.0
-texture = SubResource( 190 )
-
-[node name="Label3" parent="About/Shorts2/ShortcutLine6" index="4"]
-margin_left = 143.0
-margin_right = 343.0
-text = " to pause/unpause game"
-
-[node name="ShortcutLine" parent="About/Shorts2" instance=ExtResource( 23 )]
-anchor_left = 0.0
-anchor_right = 0.0
-margin_left = 1.0
-margin_top = 69.0
-margin_right = 245.0
-margin_bottom = 97.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="ShortcutLine2" parent="About/Shorts2" instance=ExtResource( 23 )]
-anchor_left = 0.0
-anchor_right = 0.0
-margin_left = 1.0
-margin_top = 101.0
-margin_right = 261.0
-margin_bottom = 129.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="KEY" parent="About/Shorts2/ShortcutLine2" index="1"]
-margin_right = 28.0
-text = "N"
-
-[node name="or2" parent="About/Shorts2/ShortcutLine2" index="2"]
-margin_left = 28.0
-margin_right = 61.0
-
-[node name="L1" parent="About/Shorts2/ShortcutLine2" index="3"]
-margin_left = 61.0
-margin_right = 83.0
-texture = SubResource( 310 )
-
-[node name="Label3" parent="About/Shorts2/ShortcutLine2" index="4"]
-margin_left = 83.0
-margin_right = 263.0
-text = " to skip current track"
-
-[node name="ShortcutLine3" parent="About/Shorts2" instance=ExtResource( 23 )]
-anchor_left = 0.0
-anchor_right = 0.0
-margin_left = 1.0
-margin_top = 133.0
-margin_right = 352.0
-margin_bottom = 161.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="KEY" parent="About/Shorts2/ShortcutLine3" index="1"]
-margin_right = 28.0
-text = "H"
-
-[node name="or2" parent="About/Shorts2/ShortcutLine3" index="2"]
-margin_left = 28.0
-margin_right = 61.0
-
-[node name="L1" parent="About/Shorts2/ShortcutLine3" index="3"]
-margin_left = 61.0
-margin_right = 85.0
-texture = SubResource( 476 )
-
-[node name="Label3" parent="About/Shorts2/ShortcutLine3" index="4"]
-margin_left = 85.0
-margin_right = 309.0
-text = " to show/hide Sweeper hint"
-
-[node name="Content" type="HBoxContainer" parent="About"]
-visible = false
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -576.0
-margin_top = 80.0
-margin_right = 576.0
-margin_bottom = 496.0
-custom_constants/separation = 0
-
-[node name="HintsContent" type="Control" parent="About"]
-visible = false
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -264.0
-margin_right = 264.0
-margin_bottom = 160.0
-
-[node name="Background" type="ColorRect" parent="About/HintsContent"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color( 0.321569, 0.321569, 0.321569, 0.823529 )
-
-[node name="Title" type="Label" parent="About/HintsContent"]
-anchor_right = 1.0
-margin_top = 22.0
+[node name="Line2" type="Label" parent="About/Tips"]
+margin_top = 34.0
+margin_right = 336.0
 margin_bottom = 52.0
-rect_min_size = Vector2( 0, 30 )
-theme_type_variation = "Lerimama_lite"
+custom_fonts/font = ExtResource( 14 )
+text = "White pixels can't be moved around. "
+autowrap = true
+
+[node name="Line3" type="Label" parent="About/Tips"]
+margin_top = 66.0
+margin_right = 320.0
+margin_bottom = 138.0
+custom_fonts/font = ExtResource( 14 )
+text = "You will lose your life if you burst into a white pixel. Eliminate it by destroying a colored pixel beside it. "
+autowrap = true
+
+[node name="Line9" type="Label" parent="About/Tips"]
+margin_top = 146.0
+margin_right = 344.0
+margin_bottom = 212.0
+custom_fonts/font = ExtResource( 14 )
+text = "The amount of destroyed stacked strays depends on the burst power. Maximum power destroys all stacked strays."
+autowrap = true
+
+[node name="Sweeper" type="Label" parent="About"]
+margin_left = 864.0
+margin_top = 70.0
+margin_right = 1216.0
+margin_bottom = 92.0
+size_flags_horizontal = 3
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-custom_styles/normal = SubResource( 539 )
-text = "Xtra hints"
-align = 1
+text = "SWEEPER RIDDLES"
+autowrap = true
 uppercase = true
-__meta__ = {
-"_editor_description_": ""
-}
 
-[node name="Line4" type="Label" parent="About/HintsContent"]
-anchor_right = 1.0
-margin_left = 32.0
-margin_top = 56.0
-margin_right = -32.0
-margin_bottom = 98.0
+[node name="Line2" type="Label" parent="About/Sweeper"]
+margin_top = 34.0
+margin_right = 352.0
+margin_bottom = 76.0
 custom_fonts/font = ExtResource( 14 )
-text = "When touching a Stray, move towards it to connect to it. Push or pull to move it around."
-align = 1
+text = "The only goal in Sweeper is to sweep the entire screen with one spectacular burst. "
 autowrap = true
 
-[node name="Line2" type="Label" parent="About/HintsContent"]
-anchor_right = 1.0
-margin_left = 32.0
-margin_top = 112.0
-margin_right = -40.0
-margin_bottom = 136.0
+[node name="Line4" type="Label" parent="About/Sweeper"]
+margin_top = 90.0
+margin_right = 352.0
+margin_bottom = 186.0
 custom_fonts/font = ExtResource( 14 )
-text = "Whites can't be moved, but you can teleport over them."
-align = 1
+text = "But there is a twist to the base mechanic. Once you burst into a stray, you have 
+a couple seconds to reburst into the next one, and the next one, ..."
 autowrap = true
 
-[node name="Line3" type="Label" parent="About/HintsContent"]
+[node name="Line3" type="Label" parent="About/Sweeper"]
+margin_top = 194.0
+margin_right = 352.0
+margin_bottom = 290.0
+custom_fonts/font = ExtResource( 14 )
+text = "It's enough to figure out the correct sequence in the first couple of screens. But then it becomes complicated as you have to move some strays to win."
+autowrap = true
+
+[node name="Line5" type="Label" parent="About/Sweeper"]
 visible = false
-anchor_right = 1.0
-margin_left = 24.0
-margin_top = 144.0
-margin_right = -24.0
-margin_bottom = 162.0
+margin_top = 330.0
+margin_right = 336.0
+margin_bottom = 410.0
 custom_fonts/font = ExtResource( 14 )
-text = "Stop mid burst by pressing the BURST KEY again."
-align = 1
+text = "The later levels you have to move some (or many) pixel around to do that."
 autowrap = true
 
-[node name="SelfdestructLabel" type="Label" parent="About/HintsContent"]
-margin_left = -56.0
-margin_top = 210.0
-margin_right = 272.0
-margin_bottom = 258.0
-rect_min_size = Vector2( 0, 30 )
-theme_type_variation = "Lerimama_lite"
+[node name="Data" type="Label" parent="About"]
+margin_left = 864.0
+margin_top = 382.0
+margin_right = 1216.0
+margin_bottom = 404.0
+size_flags_horizontal = 3
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-custom_fonts/font = ExtResource( 14 )
-custom_styles/normal = SubResource( 540 )
-text = "This tutorial panel will self-destruct after 3 successful bursts. "
+text = "Data collecting"
 autowrap = true
-__meta__ = {
-"_editor_description_": ""
-}
+uppercase = true
 
-[node name="Line5" type="Label" parent="About/HintsContent"]
-margin_left = -56.0
-margin_top = 154.0
-margin_right = 272.0
-margin_bottom = 178.0
-text = "Enjoy the game!"
-
-[node name="Line6" type="Label" parent="About/HintsContent"]
-margin_left = 576.0
-margin_top = 88.0
-margin_right = 928.0
-margin_bottom = 136.0
+[node name="Line4" type="Label" parent="About/Data"]
+margin_top = 34.0
+margin_right = 336.0
+margin_bottom = 106.0
 custom_fonts/font = ExtResource( 14 )
-text = "! Traveling around costs energy, and 
-your speed depends on it."
+text = "Game collects anonymous data. It is not personally identifiable and is used solely for analytical and testing purposes."
+autowrap = true
 
-[node name="Line7" type="Label" parent="About/HintsContent"]
-margin_left = 576.0
-margin_top = 144.0
-margin_right = 928.0
-margin_bottom = 168.0
+[node name="Line5" type="Label" parent="About/Data"]
+margin_top = 114.0
+margin_right = 336.0
+margin_bottom = 132.0
 custom_fonts/font = ExtResource( 14 )
-text = "! Collect colors to regain energy."
+text = "Use settings if you wan't to turn it off."
+autowrap = true
 
-[node name="Line8" type="Label" parent="About/HintsContent"]
-margin_left = 584.0
-margin_top = 192.0
-margin_right = 904.0
-margin_bottom = 240.0
-custom_fonts/font = ExtResource( 14 )
-text = "! White pixel can onyl be eliminated by
-destroying a colored pixel beside it."
+[node name="Scoring" type="Label" parent="About"]
+margin_left = 464.0
+margin_top = 326.0
+margin_right = 800.0
+margin_bottom = 348.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+text = "SCORING"
+autowrap = true
+uppercase = true
 
-[node name="Line9" type="Label" parent="About/HintsContent"]
-margin_left = 584.0
-margin_top = 248.0
-margin_right = 1159.0
-margin_bottom = 302.0
+[node name="PointsLabel" type="Label" parent="About/Scoring"]
+margin_top = 34.0
+margin_right = 360.0
+margin_bottom = 82.0
 custom_fonts/font = ExtResource( 14 )
-text = "The number of stacked colors you collect depends on the burst power."
+text = "You get %0 points for destroying a stray and %00 points if it's the white one."
+autowrap = true
 
-[node name="Line10" type="Label" parent="About/HintsContent"]
-margin_left = 592.0
-margin_top = 320.0
-margin_right = 920.0
-margin_bottom = 368.0
+[node name="Line11" type="Label" parent="About/Scoring"]
+margin_top = 90.0
+margin_right = 336.0
+margin_bottom = 138.0
 custom_fonts/font = ExtResource( 14 )
-text = "Burst with maximum power and collect 
-all colors in a stack."
+text = "Earned points will multiply with every additional stray destroyed in one burst."
+autowrap = true
 
-[node name="Line11" type="Label" parent="About/HintsContent"]
-margin_left = 592.0
-margin_top = 376.0
-margin_right = 1220.0
-margin_bottom = 424.0
+[node name="PointsCleanedLabel" type="Label" parent="About/Scoring"]
+margin_left = 1.0
+margin_top = 146.0
+margin_right = 377.0
+margin_bottom = 212.0
 custom_fonts/font = ExtResource( 14 )
-text = "! Points per color will multiply for every additional color collected in one burst."
+text = "You get rewarded %000 points (multiplied by level count) for cleaning the whole screen."
+autowrap = true
 
-[node name="PointsLabel" type="Label" parent="About/HintsContent"]
-margin_left = 568.0
-margin_top = 432.0
-margin_right = 904.0
-margin_bottom = 480.0
+[node name="NavigationHint" type="Label" parent="."]
+margin_left = 408.0
+margin_top = 655.0
+margin_right = 872.0
+margin_bottom = 673.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 0.4, 0.4, 0.4, 0.8 )
 custom_fonts/font = ExtResource( 14 )
-text = "! You get %1 points per color collected, 
-and %00 points per white eliminated."
-
-[node name="PointsCleanedLabel" type="Label" parent="About/HintsContent"]
-margin_left = 600.0
-margin_top = 488.0
-margin_right = 936.0
-margin_bottom = 536.0
-custom_fonts/font = ExtResource( 14 )
-text = "! You get rewarded %001 bonus points
-if you manage to clean the screen."
+text = "You can use keyboard or game-pad to navigate around."
+align = 1
 
 [node name="HomeSwipeBtn" parent="." instance=ExtResource( 11 )]
 
@@ -3952,15 +3877,13 @@ anims/settings = SubResource( 530 )
 [connection signal="pressed" from="Highscores/PublishUnpublishedBtn" to="Highscores" method="_on_PUnpScoresBtn_pressed"]
 [connection signal="pressed" from="Highscores/BackBtn" to="Highscores" method="_on_BackBtn_pressed"]
 [connection signal="pressed" from="About/BackBtn" to="About" method="_on_BackBtn_pressed"]
-[connection signal="meta_clicked" from="About/Thanks/LinkLabel" to="About" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="About/PA/LinkLabel" to="About" method="_on_NameAuthor_meta_clicked"]
+[connection signal="meta_clicked" from="About/PA/LinkLabel2" to="About" method="_on_NameAuthor_meta_clicked"]
 [connection signal="meta_clicked" from="About/Resources/LinkLabel" to="About" method="_on_NameAuthor_meta_clicked"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 
+[editable path="HomeScreen/ShortcutLine4"]
+[editable path="HomeScreen/ShortcutLine5"]
+[editable path="SelectLevel/ActionHint"]
 [editable path="Highscores/GameHalls/Cleaner/CleanerHall"]
 [editable path="Highscores/GameHalls/Cleaner/CleanerHall/HighscoreTable"]
-[editable path="About/Shorts/ShortcutLine4"]
-[editable path="About/Shorts/ShortcutLine5"]
-[editable path="About/Shorts/ShortcutLine7"]
-[editable path="About/Shorts2/ShortcutLine6"]
-[editable path="About/Shorts2/ShortcutLine2"]
-[editable path="About/Shorts2/ShortcutLine3"]

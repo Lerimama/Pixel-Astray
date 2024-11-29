@@ -4,14 +4,12 @@ extends TouchScreenButton
 enum SWIPE_DIRECTION {NONE, LEFT, UP, RIGHT, DOWN}
 var current_swipe_direction: int = SWIPE_DIRECTION.NONE
 
-var swipe_min_length: float = 100
+var swipe_length_factor: float = 0.1 # procent dolžine ekrana
 var screen_pressed_position: Vector2 = Vector2.ZERO
+var has_swiped: bool = false # za skrivanje hinta
 
-
-# debug
+# debug ... line2d
 var touch_direction_line: Line2D
-
-
 
 func _ready() -> void:
 
@@ -22,8 +20,16 @@ func imitate_input(direction_key: int, imitate_pressed: bool = true):
 
 	var parent_node = get_parent()
 
-	var input_key_name: String = ""
+	if not parent_node.current_screen == parent_node.Screens.INTRO:
+		has_swiped = true
+
 	match parent_node.current_screen:
+		parent_node.Screens.INTRO:
+			match direction_key:
+				SWIPE_DIRECTION.LEFT:
+					parent_node.intro._on_SkipButton_pressed()
+				SWIPE_DIRECTION.RIGHT:
+					parent_node.intro._on_SkipButton_pressed()
 		parent_node.Screens.MAIN_MENU:
 			match direction_key:
 				SWIPE_DIRECTION.LEFT:
@@ -52,12 +58,6 @@ func imitate_input(direction_key: int, imitate_pressed: bool = true):
 			if direction_key == SWIPE_DIRECTION.RIGHT or direction_key == SWIPE_DIRECTION.DOWN:
 				parent_node.get_node("SelectLevel").call_deferred("_on_BackBtn_pressed")
 
-	if input_key_name != "":
-		var new_event = InputEventAction.new()
-		new_event.action = input_key_name
-		new_event.pressed = imitate_pressed
-		Input.parse_input_event(new_event)
-
 
 func get_swipe_direction():
 
@@ -66,19 +66,12 @@ func get_swipe_direction():
 
 	var distance_delta: float = (prev_point - curr_point).length()
 
-	if distance_delta > swipe_min_length:
+	if distance_delta < OS.get_screen_size().x * swipe_length_factor:
+		current_swipe_direction = SWIPE_DIRECTION.NONE
+	else:
 		# glede na večjo razliko v spremembi določim premik po x ali y osi
 		var x_delta: float = curr_point.x - prev_point.x
 		var y_delta: float = curr_point.y - prev_point.y
-
-		# linija
-		if OS.is_debug_build(): # debug build
-			if not touch_direction_line:
-				touch_direction_line = Line2D.new()
-				add_child(touch_direction_line)
-			else:
-				touch_direction_line.clear_points()
-			touch_direction_line.add_point(curr_point)
 
 		if abs(x_delta) > abs(y_delta):
 			if curr_point.x < prev_point.x:
@@ -90,19 +83,29 @@ func get_swipe_direction():
 				current_swipe_direction = SWIPE_DIRECTION.UP
 			else:
 				current_swipe_direction = SWIPE_DIRECTION.DOWN
-	else:
-		current_swipe_direction = SWIPE_DIRECTION.NONE
+#		if get_parent().navigation_hint.visible:
+#			var hint_fade = get_tree().create_tween()
+#			hint_fade.tween_property(swipe_hint, "modulate:a", 0, 0.5)
+#			hint_fade.tween_callback(swipe_hint, "hide")
+		# linija
+		#		if OS.is_debug_build(): # debug build
+		#			if not touch_direction_line:
+		#				touch_direction_line = Line2D.new()
+		#				add_child(touch_direction_line)
+		#			else:
+		#				touch_direction_line.clear_points()
+		#			touch_direction_line.add_point(curr_point)
 
 
 func _on_SwipeBtn_pressed() -> void:
+	print ("PREDD")
 	screen_pressed_position = get_global_mouse_position()
 
 
 func _on_SwipeBtn_released() -> void:
-	get_swipe_direction()
 
+	get_swipe_direction()
 	if not current_swipe_direction == SWIPE_DIRECTION.NONE:
 		imitate_input(current_swipe_direction)
 		screen_pressed_position = Vector2.ZERO
-
-		touch_direction_line.add_point(get_global_mouse_position())
+		#		touch_direction_line.add_point(get_global_mouse_position())

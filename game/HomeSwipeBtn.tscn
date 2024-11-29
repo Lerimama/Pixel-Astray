@@ -1,15 +1,18 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://game/touch_controls_home.gd" type="Script" id=1]
+[ext_resource path="res://game/touch_swipe_btn.gd" type="Script" id=1]
 
-[sub_resource type="RectangleShape2D" id=542]
-extents = Vector2( 640, 320 )
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 632, 332 )
 
 [node name="HomeSwipeBtn" type="TouchScreenButton"]
 position = Vector2( 8, 48 )
-shape = SubResource( 542 )
+shape = SubResource( 1 )
 visibility_mode = 1
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_vertical_guides_": [ 640.0 ]
+}
 
 [connection signal="pressed" from="." to="." method="_on_SwipeBtn_pressed"]
 [connection signal="released" from="." to="." method="_on_SwipeBtn_released"]

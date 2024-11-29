@@ -16,10 +16,10 @@
 
 [sub_resource type="StyleBoxEmpty" id=346]
 
-[sub_resource type="AtlasTexture" id=310]
+[sub_resource type="AtlasTexture" id=507]
 atlas = ExtResource( 8 )
-region = Rect2( 109, 218, 22, 25 )
-margin = Rect2( 0, 3, 0, 0 )
+region = Rect2( 112, 216, 24, 24 )
+margin = Rect2( 0, 3, 0, 3 )
 
 [sub_resource type="AtlasTexture" id=352]
 atlas = ExtResource( 8 )
@@ -110,9 +110,8 @@ margin_bottom = 104.0
 grow_horizontal = 2
 
 [node name="TravelingContent" type="Control" parent="GUI/TutorialGui/Checkpoints"]
+visible = false
 anchor_right = 1.0
-margin_left = -40.0
-margin_right = 40.0
 margin_bottom = 96.0
 
 [node name="Background" type="ColorRect" parent="GUI/TutorialGui/Checkpoints/TravelingContent"]
@@ -142,7 +141,7 @@ margin_top = 48.0
 margin_right = -8.0
 margin_bottom = 66.0
 custom_fonts/font = ExtResource( 5 )
-text = "Use ARROW or WASD keys or DIRECTIONAL PAD on joypad to move."
+text = "Use ARROW, WASD keys or DIRECTIONAL PAD to move."
 align = 1
 autowrap = true
 
@@ -179,7 +178,7 @@ margin_top = 56.0
 margin_right = -16.0
 margin_bottom = 80.0
 custom_fonts/font = ExtResource( 5 )
-text = "Burst into stray pixel to destroy it and take its color."
+text = "Burst into a stray pixel to destroy it and take its color."
 align = 1
 autowrap = true
 
@@ -224,7 +223,7 @@ rect_min_size = Vector2( 0, 30 )
 theme_type_variation = "Lerimama_lite"
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 custom_styles/normal = SubResource( 346 )
-text = "Skills"
+text = "Using skills"
 align = 1
 uppercase = true
 __meta__ = {
@@ -238,7 +237,7 @@ margin_top = 56.0
 margin_right = -16.0
 margin_bottom = 98.0
 custom_fonts/font = ExtResource( 5 )
-text = "When touching a Stray, move towards it to connect.
+text = "When touching a stray pixel, move towards it to connect.
 Push or pull to move it around."
 align = 1
 autowrap = true
@@ -287,7 +286,7 @@ margin_top = 56.0
 margin_right = -48.0
 margin_bottom = 98.0
 custom_fonts/font = ExtResource( 5 )
-text = "You've learned some basic moves. Get more tips and tricks in the games \"About\" screen."
+text = "You've learned some basic moves. Get more tips and tricks on the game's \"About\" screen."
 align = 1
 autowrap = true
 
@@ -303,6 +302,7 @@ align = 1
 autowrap = true
 
 [node name="HudGuide" type="Control" parent="GUI/TutorialGui"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -654,29 +654,89 @@ margin_top = 4.0
 margin_bottom = 22.0
 
 [node name="KEY" parent="GUI/TutorialGui/ActionHint" index="1"]
-margin_top = 2.0
-margin_right = 66.0
-margin_bottom = 24.0
+margin_top = 4.0
+margin_right = 63.0
+margin_bottom = 23.0
 text = "N"
 
 [node name="Label2" parent="GUI/TutorialGui/ActionHint" index="2"]
-margin_left = 74.0
+margin_left = 71.0
 margin_top = 4.0
-margin_right = 91.0
+margin_right = 88.0
 margin_bottom = 22.0
 
 [node name="Jp" parent="GUI/TutorialGui/ActionHint" index="3"]
-margin_left = 99.0
-margin_right = 121.0
+margin_left = 96.0
+margin_right = 120.0
 margin_bottom = 27.0
-texture = SubResource( 310 )
+texture = SubResource( 507 )
 
 [node name="Label3" parent="GUI/TutorialGui/ActionHint" index="4"]
-margin_left = 129.0
+margin_left = 128.0
 margin_top = 4.0
-margin_right = 226.0
+margin_right = 225.0
 margin_bottom = 22.0
 text = "to skip step"
+
+[node name="TouchControls" parent="GUI" instance=ExtResource( 13 )]
+z_index = 0
+
+[node name="SweeperHintBtn" type="Button" parent="GUI"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -124.0
+margin_top = -104.0
+margin_right = 100.0
+margin_bottom = -56.0
+disabled = true
+
+[node name="ActionHint" parent="GUI/SweeperHintBtn" instance=ExtResource( 9 )]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -95.0
+margin_top = -13.0
+margin_right = 95.0
+margin_bottom = 16.0
+__meta__ = {
+"_edit_vertical_guides_": [ -160.0 ]
+}
+
+[node name="Label" parent="GUI/SweeperHintBtn/ActionHint" index="0"]
+visible = false
+margin_top = 5.0
+margin_right = 125.0
+margin_bottom = 23.0
+text = "Toggle hint with"
+
+[node name="KEY" parent="GUI/SweeperHintBtn/ActionHint" index="1"]
+margin_left = 0.0
+margin_top = 5.0
+margin_right = 11.0
+margin_bottom = 24.0
+text = "H"
+
+[node name="Label2" parent="GUI/SweeperHintBtn/ActionHint" index="2"]
+margin_left = 19.0
+margin_top = 5.0
+margin_right = 36.0
+margin_bottom = 23.0
+
+[node name="Jp" parent="GUI/SweeperHintBtn/ActionHint" index="3"]
+margin_left = 44.0
+margin_right = 68.0
+margin_bottom = 29.0
+texture = SubResource( 352 )
+
+[node name="Label3" parent="GUI/SweeperHintBtn/ActionHint" index="4"]
+margin_left = 76.0
+margin_top = 5.0
+margin_right = 185.0
+margin_bottom = 23.0
+text = "to toggle hint"
 
 [node name="PauseMenu" parent="GUI" instance=ExtResource( 11 )]
 visible = false
@@ -694,59 +754,6 @@ __meta__ = {
 
 [node name="Menu" parent="GUI/GameOver" index="5"]
 visible = false
-
-[node name="SweeperHintBtn" type="Button" parent="GUI"]
-visible = false
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -120.0
-margin_top = -102.0
-margin_right = 120.0
-margin_bottom = -80.0
-
-[node name="ActionHint" parent="GUI/SweeperHintBtn" instance=ExtResource( 9 )]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -127.5
-margin_top = 2.0
-margin_right = 127.5
-margin_bottom = 29.0
-__meta__ = {
-"_edit_vertical_guides_": [ -160.0 ]
-}
-
-[node name="Label" parent="GUI/SweeperHintBtn/ActionHint" index="0"]
-margin_top = 4.0
-margin_bottom = 22.0
-
-[node name="KEY" parent="GUI/SweeperHintBtn/ActionHint" index="1"]
-margin_top = 2.0
-margin_right = 66.0
-margin_bottom = 24.0
-text = "H"
-
-[node name="Label2" parent="GUI/SweeperHintBtn/ActionHint" index="2"]
-margin_left = 74.0
-margin_top = 4.0
-margin_right = 91.0
-margin_bottom = 22.0
-
-[node name="Jp" parent="GUI/SweeperHintBtn/ActionHint" index="3"]
-margin_left = 99.0
-margin_right = 123.0
-margin_bottom = 27.0
-texture = SubResource( 352 )
-
-[node name="Label3" parent="GUI/SweeperHintBtn/ActionHint" index="4"]
-margin_left = 131.0
-margin_top = 4.0
-margin_right = 244.0
-margin_bottom = 22.0
-text = "to toggle HINT"
-
-[node name="TouchControls" parent="GUI" instance=ExtResource( 13 )]
 
 [node name="RespawnTimer" type="Timer" parent="."]
 wait_time = 5.0
@@ -770,7 +777,7 @@ text = "asdasdasd"
 [editable path="GUI/Hud"]
 [editable path="GUI/Hud/Header/GameTimerHunds"]
 [editable path="GUI/TutorialGui/ActionHint"]
+[editable path="GUI/SweeperHintBtn/ActionHint"]
 [editable path="GUI/GameOver"]
 [editable path="GUI/GameOver/GameSummary/ContentSweeper/Hs/HighscoreTable"]
 [editable path="GUI/GameOver/GameSummary/Content/Hs/HighscoreTable"]
-[editable path="GUI/SweeperHintBtn/ActionHint"]

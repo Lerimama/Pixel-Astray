@@ -978,21 +978,21 @@ __meta__ = {
 }
 
 [node name="KEY" parent="Text/ActionHint" index="1"]
-margin_right = 122.0
+margin_right = 107.0
 text = "ENTER"
 
 [node name="Label2" parent="Text/ActionHint" index="2"]
-margin_left = 130.0
-margin_right = 147.0
+margin_left = 115.0
+margin_right = 132.0
 
 [node name="Jp" parent="Text/ActionHint" index="3"]
-margin_left = 155.0
-margin_right = 179.0
+margin_left = 140.0
+margin_right = 164.0
 texture = SubResource( 228 )
 
 [node name="Label3" parent="Text/ActionHint" index="4"]
-margin_left = 187.0
-margin_right = 286.0
+margin_left = 172.0
+margin_right = 271.0
 text = "to skip intro"
 
 [node name="SkipButton" type="Button" parent="."]

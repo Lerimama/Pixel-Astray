@@ -8,11 +8,13 @@ var cover_label_text_change_count: int = 0
 onready var cover_label: Label = $Label
 onready var undi: ColorRect = $Undi
 
+var use_in_background: bool = false
 
-func _input(event: InputEvent) -> void:
 
-	if visible: # v nodetu nastavim propagate "stop"
-		get_tree().set_input_as_handled() # kakršen koli input setamo kot da smo ga procesiral
+#func _input(event: InputEvent) -> void:
+#
+#	if visible and not use_in_background: # v nodetu nastavim propagate "stop"
+#		get_tree().set_input_as_handled() # kakršen koli input setamo kot da smo ga procesiral
 
 
 func _ready() -> void:
@@ -22,12 +24,17 @@ func _ready() -> void:
 	hide()
 
 
-func open_cover(in_background: bool = true):
+func open_cover(in_background: bool):
+#func open_cover(in_background: bool = true):
 
+
+	use_in_background = in_background
+	printt("BACK", use_in_background)
 	cover_label_text_change_count = 0
 
 	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-	if not in_background:
+	if not use_in_background:
+		get_viewport().set_disable_input(true)
 		fade_in.tween_callback(self, "show")
 		fade_in.tween_property(cover_label, "modulate:a", 1, 0.3)
 		fade_in.parallel().tween_property(undi, "modulate:a", 1, 0.3)
@@ -39,6 +46,9 @@ func close_cover():
 	fade_out.tween_property(cover_label, "modulate:a", 0, 0.4)
 	fade_out.parallel().tween_property(undi, "modulate:a", 0, 0.4)
 	fade_out.tween_callback(self, "hide")
+	yield(fade_out,"finished")
+	get_viewport().set_disable_input(false)
+
 
 
 func _update_label_text(new_text: String):

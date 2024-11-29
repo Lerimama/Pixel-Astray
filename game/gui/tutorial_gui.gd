@@ -36,9 +36,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		if traveling_directions.empty():
 			finish_travel()
 
+	if Input.is_action_just_pressed("next"):
 
-	if Input.is_action_just_pressed("skip"):
-		get_tree().set_input_as_handled()
 		match current_tutorial_stage:
 			TUTORIAL_STAGE.TRAVEL:
 				finish_travel(false)
@@ -48,6 +47,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				finish_skills(false)
 			TUTORIAL_STAGE.FIN:
 				close_tutorial()
+		#		get_tree().set_input_as_handled() ... ne rabim ker je tam _input
 
 
 func _ready() -> void:
@@ -96,15 +96,15 @@ func close_tutorial():
 		var close_stage = get_tree().create_tween()
 		for content in checkpoints.get_children():
 			if content.visible:
-				close_stage.tween_property(content, "modulate:a", 0, fade_time)
+				close_stage.parallel().tween_property(content, "modulate:a", 0, fade_time)
 		close_stage.parallel().tween_property(skip_hint, "modulate:a", 0, fade_time)
-#		close_stage.parallel().tween_property(hud_guide, "modulate:a", 0, fade_time)
 		for tut_element in Global.hud.touch_controls.tutorial_elements:
 			close_stage.parallel().tween_property(tut_element, "modulate:a", 0, fade_time)
 		yield(close_stage, "finished")
-		hide()
 
-		yield(get_tree().create_timer(Global.get_it_time), "timeout") # pavza za branje
+		for tut_element in Global.hud.touch_controls.tutorial_elements:
+			tut_element.hide()
+		hide()
 
 		# če se igra nadaljuje
 		if Global.game_manager.game_on:

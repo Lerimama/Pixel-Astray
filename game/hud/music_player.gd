@@ -9,13 +9,17 @@ onready var speaker_icon: Control = $SpeakerIcon
 #onready var track_btn: Button = $TrackBtn
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void: # ta varianta, da dela tipkovnica
 
-	if Global.game_manager.game_on and visible == true: # visible je, da deluje samo na enem plejerju
-		if Input.is_action_just_pressed("skip") and visible == true:
+	#func _unhandled_input(event: InputEvent) -> void:
+	#	if Global.game_manager.game_on:
+
+	if Global.game_manager.game_on:
+		if Input.is_action_just_pressed("next") and not Global.tutorial_gui.visible: # rabim kasneje kot not tutorial_on
+			#			print("next press recieved")
 			skip_track()
 
-		if Input.is_action_just_pressed("mute") and visible == true:
+		if Input.is_action_just_pressed("mute"):
 			_on_MuteBtn_pressed()
 
 

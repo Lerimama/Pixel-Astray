@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=1]
 [ext_resource path="res://game/touch_controls.gd" type="Script" id=2]
@@ -43,13 +43,18 @@ atlas = ExtResource( 1 )
 region = Rect2( 24, 120, 24, 24 )
 
 [sub_resource type="RectangleShape2D" id=370]
-extents = Vector2( 28, 28 )
+extents = Vector2( 28, 24 )
 
 [sub_resource type="RectangleShape2D" id=369]
-extents = Vector2( 50, 28 )
+extents = Vector2( 50, 26 )
+
+[sub_resource type="RectangleShape2D" id=373]
+extents = Vector2( 136, 32 )
+
+[sub_resource type="RectangleShape2D" id=374]
+extents = Vector2( 120, 32 )
 
 [node name="TouchControls" type="Node2D"]
-visible = false
 z_index = 100
 script = ExtResource( 2 )
 __meta__ = {
@@ -115,7 +120,7 @@ visibility_mode = 1
 position = Vector2( 21.0001, 15.4999 )
 texture = SubResource( 372 )
 
-[node name="TouchBtnBurst" type="TouchScreenButton" parent="."]
+[node name="BurstBtn" type="TouchScreenButton" parent="."]
 position = Vector2( 1089, 488 )
 scale = Vector2( 2, 2 )
 normal = SubResource( 366 )
@@ -124,7 +129,7 @@ shape = SubResource( 360 )
 shape_visible = false
 visibility_mode = 1
 
-[node name="Label" type="Label" parent="TouchBtnBurst"]
+[node name="Label" type="Label" parent="BurstBtn"]
 margin_left = 14.5
 margin_top = 27.0
 margin_right = 69.5
@@ -136,25 +141,53 @@ align = 1
 valign = 1
 uppercase = true
 
-[node name="ScreenBtnDir" type="TouchScreenButton" parent="."]
+[node name="ScreenBtn" type="TouchScreenButton" parent="."]
 position = Vector2( 8, 48 )
 shape = SubResource( 371 )
 shape_centered = false
 visibility_mode = 1
 
-[node name="_polishejp" type="Polygon2D" parent="ScreenBtnDir"]
+[node name="_polishejp" type="Polygon2D" parent="ScreenBtn"]
 visible = false
 color = Color( 1, 0, 0, 0.211765 )
 polygon = PoolVector2Array( 0, 0, 1264, 0, 1264, 416, 1056, 416, 1056, 624, 0, 624 )
 
-[node name="TouchBtnPause" type="TouchScreenButton" parent="."]
+[node name="PauseBtn" type="TouchScreenButton" parent="."]
 position = Vector2( 776, 7 )
 normal = SubResource( 367 )
 pressed = SubResource( 368 )
 shape = SubResource( 370 )
 visibility_mode = 1
 
-[node name="TouchBtnSkip" type="TouchScreenButton" parent="."]
+[node name="NextTrackBtn" type="TouchScreenButton" parent="."]
 position = Vector2( 658, -9 )
 shape = SubResource( 369 )
 visibility_mode = 1
+
+[node name="SkipTutBtn" type="TouchScreenButton" parent="."]
+position = Vector2( 624, 448 )
+shape = SubResource( 373 )
+shape_centered = false
+visibility_mode = 1
+
+[node name="ColorRect" type="ColorRect" parent="SkipTutBtn"]
+visible = false
+margin_left = -138.0
+margin_top = -32.0
+margin_right = 136.0
+margin_bottom = 32.0
+color = Color( 1, 1, 1, 0.145098 )
+
+[node name="SweeperHintBtn" type="TouchScreenButton" parent="."]
+position = Vector2( 623, 640 )
+shape = SubResource( 374 )
+shape_centered = false
+visibility_mode = 1
+
+[node name="ColorRect" type="ColorRect" parent="SweeperHintBtn"]
+visible = false
+margin_left = -119.0
+margin_top = -32.0
+margin_right = 121.0
+margin_bottom = 32.0
+color = Color( 1, 1, 1, 0.145098 )

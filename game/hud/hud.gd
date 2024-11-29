@@ -85,6 +85,7 @@ onready var sweeper_hint_btn: Button = $"../SweeperHintBtn"
 func _unhandled_input(event: InputEvent) -> void:
 
 	if sweeper_hint_btn.visible and Input.is_action_just_pressed("hint"):
+		print("hint press recieved")
 		_on_SweeperHintBtn_pressed()
 
 

@@ -86,6 +86,7 @@ func select_random_sfx(sound_group: Node2D):
 
 func play_music(music_for: String):
 
+	yield(get_tree().create_timer(0.3), "timeout")
 	match music_for:
 		"menu_music":
 			if not menu_music_set_to_off:
@@ -149,8 +150,9 @@ func music_toggle(mute_it = null):
 	# če ni podan paramater togla glede na setano
 	if mute_it == null:
 		mute_it = not game_music_set_to_off
+
 	# glede na parameter
-	elif mute_it == true:
+	if mute_it == true:
 		game_music_set_to_off = true
 		stop_music("game_music")
 		Analytics.save_ui_click("Mute")

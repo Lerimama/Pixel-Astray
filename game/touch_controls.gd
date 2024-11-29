@@ -1,6 +1,8 @@
 extends Node2D
 
 
+var fade_inout_time: float = 0.5
+
 # controls
 var key_up: String = "ui_up"
 var key_down: String = "ui_down"
@@ -14,42 +16,39 @@ var last_direction_imitated: String # za screen release
 var last_screen_touch_location: Vector2 = Vector2.ZERO
 
 onready var direction_btns: Node2D = $DirectionBtns
-onready var touch_btn_burst: TouchScreenButton = $TouchBtnBurst
-onready var screen_btn_dir: TouchScreenButton = $ScreenBtnDir
-onready var touch_btn_pause: TouchScreenButton = $TouchBtnPause
-onready var touch_btn_skip: TouchScreenButton = $TouchBtnSkip
+onready var burst_btn: TouchScreenButton = $BurstBtn
+onready var screen_btn: TouchScreenButton = $ScreenBtn
+onready var pause_btn: TouchScreenButton = $PauseBtn
+onready var next_track_btn: TouchScreenButton = $NextTrackBtn
+onready var skip_tut_btn: TouchScreenButton = $SkipTutBtn
 onready var current_touch_controller: int = Profiles.set_touch_controller setget _change_current_controller
-onready var tutorial_elements: Array = [$DirectionBtns/TouchBtn_L/TextureRect2, $DirectionBtns/TouchBtn_U/TextureRect2, $DirectionBtns/TouchBtn_R/TextureRect, $DirectionBtns/TouchBtn_D/TextureRect2, $TouchBtnBurst/Label]
+onready var tutorial_elements: Array = [skip_tut_btn, $DirectionBtns/TouchBtn_L/TextureRect2, $DirectionBtns/TouchBtn_U/TextureRect2, $DirectionBtns/TouchBtn_R/TextureRect, $DirectionBtns/TouchBtn_D/TextureRect2, $BurstBtn/Label]
 
+# _temp hint btn
+onready var sweeper_hint_btn: TouchScreenButton = $SweeperHintBtn
 
 # debug
 var touch_direction_line: Line2D
-var screen_burst_is_pressed: bool = false
 
-# neu
+# full screen mode
+var screen_burst_is_pressed: bool = false
 var screen_touch_is_moving: bool = false
-var fade_inout_time: float = 0.5
+
 
 func _ready() -> void:
 
 	hide() # odprem ga ob zagonu igre iz GM
-#	if OS.has_touchscreen_ui_hint() and not current_touch_controller == Profiles.TOUCH_CONTROLLER.OFF:
-#		set_current_controller()
 
+	for element in tutorial_elements: # kontrolirajo se iz tutoriala
+		element.hide()
 
 func open():
 
-	modulate.a = 0
 	show()
 	set_current_controller() # more bit za show, ker se v show
 	var fade = get_tree().create_tween().set_ease(Tween.EASE_IN).set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade.tween_property(self, "modulate:a", 1, fade_inout_time)
 
-#	for tut_element in tutorial_elements:
-#		if Global.game_manager.tutorial_mode:
-#			tut_element.show()
-#		else:
-#			tut_element.hide()
 
 func close():
 
@@ -59,13 +58,12 @@ func close():
 
 
 func set_current_controller():
-	# ful preverjanja povezanosti ... not OK
 
 	disconnect_all_btns()
 	# reset
 	direction_btns.hide()
-	touch_btn_burst.hide()
-	screen_btn_dir.hide()
+	burst_btn.hide()
+	screen_btn.hide()
 	screen_dir_is_pressed = false
 
 	match current_touch_controller:
@@ -73,38 +71,43 @@ func set_current_controller():
 			if not visible:
 				open()
 			direction_btns.show()
-			touch_btn_burst.show()
+			burst_btn.show()
 			# dir - btn
 			for btn in direction_btns.get_children():
 				btn.connect("pressed", self, "_on_dir_btn_pressed", [btn])
 				btn.connect("released", self, "_on_dir_btn_released", [btn])
 			# burst - btn
-			touch_btn_burst.connect("pressed", self, "_on_dir_btn_pressed", [touch_btn_burst])
-			touch_btn_burst.connect("released", self, "_on_dir_btn_released", [touch_btn_burst])
-#		Profiles.TOUCH_CONTROLLER.SCREEN:
-#			screen_btn_dir.show()
-#			# dir - screen
-#			screen_btn_dir.connect("pressed", self, "_on_screen_btn_pressed", [screen_btn_dir])
-#			screen_btn_dir.connect("released", self, "_on_screen_btn_released", [screen_btn_dir])
+			burst_btn.connect("pressed", self, "_on_dir_btn_pressed", [burst_btn])
+			burst_btn.connect("released", self, "_on_dir_btn_released", [burst_btn])
+		#		Profiles.TOUCH_CONTROLLER.SCREEN:
+		#			screen_btn.show()
+		#			# dir - screen
+		#			screen_btn.connect("pressed", self, "_on_screen_btn_pressed", [screen_btn])
+		#			screen_btn.connect("released", self, "_on_screen_btn_released", [screen_btn])
 		Profiles.TOUCH_CONTROLLER.COMBO:
 			if not visible:
 				open()
-			touch_btn_burst.show()
-			screen_btn_dir.show()
+			burst_btn.show()
+			screen_btn.show()
 			# dir - screen
-			screen_btn_dir.connect("pressed", self, "_on_screen_btn_pressed", [screen_btn_dir])
-			screen_btn_dir.connect("released", self, "_on_screen_btn_released", [screen_btn_dir])
+			screen_btn.connect("pressed", self, "_on_screen_btn_pressed", [screen_btn])
+			screen_btn.connect("released", self, "_on_screen_btn_released", [screen_btn])
 			# burst - btn
-			touch_btn_burst.connect("pressed", self, "_on_dir_btn_pressed", [touch_btn_burst])
-			touch_btn_burst.connect("released", self, "_on_dir_btn_released", [touch_btn_burst])
+			burst_btn.connect("pressed", self, "_on_dir_btn_pressed", [burst_btn])
+			burst_btn.connect("released", self, "_on_dir_btn_released", [burst_btn])
 		Profiles.TOUCH_CONTROLLER.OFF:
 			close()
 			return # da se pavza ne seta
 
 	# pause
-	touch_btn_pause.connect("pressed", self, "_on_pause_btn_pressed", [touch_btn_pause])
+	pause_btn.connect("pressed", self, "_on_pause_btn_pressed")#, [pause_btn])
 	# music
-	touch_btn_skip.connect("pressed", self, "_on_skip_btn_pressed", [touch_btn_skip])
+	next_track_btn.connect("pressed", self, "_on_skip_btn_pressed")#, [next_track_btn])
+	# skip tut
+	skip_tut_btn.connect("pressed", self, "_on_skip_tut_btn_pressed")
+	# sweeper hint
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+		sweeper_hint_btn.connect("pressed", self, "_on_sweeeper_hint_btn_pressed")
 
 
 # SCREEN --------------------------------------------------------------------------------------------------------
@@ -130,7 +133,8 @@ func imitate_input(key_name: String, imitate_pressed: bool = true):
 
 func get_screen_btn_direction_key():
 
-	var curr_point: Vector2 = screen_btn_dir.get_global_mouse_position()
+	#	var curr_point: Vector2 = screen_btn.get_global_mouse_position()
+	var curr_point: Vector2 = get_global_mouse_position()
 	var prev_point: Vector2 = last_screen_touch_location
 
 	var distance_delta: float = (prev_point - curr_point).length()
@@ -173,8 +177,8 @@ func get_screen_btn_direction_key():
 				imitate_input(last_direction_imitated, false)
 				call_deferred("imitate_input", input_name) # buggi zavijanje
 
-			# na koncu setam nov last location
-#			last_direction_imitated = input_name
+			# na koncu setam nov last location ... trenutno v imitate_input()
+			#			last_direction_imitated = input_name
 
 	else:
 		screen_touch_is_moving = false
@@ -183,7 +187,7 @@ func get_screen_btn_direction_key():
 #	print (screen_touch_is_moving)
 
 func _on_screen_btn_pressed(btn_pressed: TouchScreenButton):
-
+	print("Screen pressed")
 #	var input_name: String
 #	# če je dir že prtisnjen imitiram burst klik
 #	if screen_dir_is_pressed:
@@ -196,23 +200,25 @@ func _on_screen_btn_pressed(btn_pressed: TouchScreenButton):
 	# premikanje je f _P
 
 func _on_screen_btn_released(released_btn: TouchScreenButton):
-#	var input_name: String
-#	# dir
-#	if screen_burst_is_pressed:
-#		screen_burst_is_pressed = false
-#		imitate_input(key_burst, false)
-#	elif screen_dir_is_pressed:
-#		screen_dir_is_pressed = false
-#		imitate_input(key_, false)
-#		last_screen_touch_location = Vector2.ZERO
-#		# debug
-#		if touch_direction_line:
-#			touch_direction_line.queue_free()
-#			touch_direction_line = null
 
-#	if screen_dir_is_pressed:
+	#	var input_name: String
+	#	# dir
+	#	if screen_burst_is_pressed:
+	#		screen_burst_is_pressed = false
+	#		imitate_input(key_burst, false)
+	#	elif screen_dir_is_pressed:
+	#		screen_dir_is_pressed = false
+	#		imitate_input(key_, false)
+	#		last_screen_touch_location = Vector2.ZERO
+	#		# debug
+	#		if touch_direction_line:
+	#			touch_direction_line.queue_free()
+	#			touch_direction_line = null
+	#	if screen_dir_is_pressed:
+
 	screen_dir_is_pressed = false
 	last_screen_touch_location = Vector2.ZERO
+
 	# debug
 	if touch_direction_line:
 		touch_direction_line.queue_free()
@@ -235,7 +241,7 @@ func _on_dir_btn_pressed(btn_pressed: TouchScreenButton):
 	elif btn_pressed == $DirectionBtns/TouchBtn_R:
 		input_name = key_right
 	# burst
-	elif btn_pressed == touch_btn_burst:
+	elif btn_pressed == burst_btn:
 		input_name = key_burst
 
 	imitate_input(input_name)
@@ -254,7 +260,7 @@ func _on_dir_btn_released(btn_released: TouchScreenButton):
 	elif btn_released == $DirectionBtns/TouchBtn_R:
 		input_name = key_right
 	# burst
-	elif btn_released == touch_btn_burst:
+	elif btn_released == burst_btn:
 		input_name = key_burst
 	# imitate
 	imitate_input(input_name, false)
@@ -266,11 +272,18 @@ func _on_dir_btn_released(btn_released: TouchScreenButton):
 func disconnect_all_btns():
 
 	# pause
-	if touch_btn_pause.is_connected("pressed", self, "_on_pause_btn_pressed"):
-		touch_btn_pause.disconnect("pressed", self, "_on_pause_btn_pressed")
+	if pause_btn.is_connected("pressed", self, "_on_pause_btn_pressed"):
+		pause_btn.disconnect("pressed", self, "_on_pause_btn_pressed")
 	# music
-	if touch_btn_skip.is_connected("pressed", self, "_on_skip_btn_pressed"):
-		touch_btn_skip.disconnect("pressed", self, "_on_skip_btn_pressed")
+	if next_track_btn.is_connected("pressed", self, "_on_skip_btn_pressed"):
+		next_track_btn.disconnect("pressed", self, "_on_skip_btn_pressed")
+	# hint
+	if sweeper_hint_btn.is_connected("pressed", self, "_on_sweeeper_hint_btn_pressed"):
+		sweeper_hint_btn.disconnect("pressed", self, "_on_sweeeper_hint_btn_pressed")
+	# skip tut
+	if skip_tut_btn.is_connected("pressed", self, "_on_skip_tut_btn_pressed"):
+		skip_tut_btn.disconnect("pressed", self, "_on_skip_tut_btn_pressed")
+
 	# dir - btn
 	for btn in direction_btns.get_children():
 		if btn.is_connected("pressed", self, "_on_dir_btn_pressed"):
@@ -278,15 +291,15 @@ func disconnect_all_btns():
 		if btn.is_connected("released", self, "_on_dir_btn_released"):
 			btn.disconnect("released", self, "_on_dir_btn_released")
 	# burst - btn
-	if touch_btn_burst.is_connected("pressed", self, "_on_dir_btn_pressed"):
-		touch_btn_burst.disconnect("pressed", self, "_on_dir_btn_pressed")
-	if touch_btn_burst.is_connected("released", self, "_on_dir_btn_released"):
-		touch_btn_burst.disconnect("released", self, "_on_dir_btn_released")
+	if burst_btn.is_connected("pressed", self, "_on_dir_btn_pressed"):
+		burst_btn.disconnect("pressed", self, "_on_dir_btn_pressed")
+	if burst_btn.is_connected("released", self, "_on_dir_btn_released"):
+		burst_btn.disconnect("released", self, "_on_dir_btn_released")
 	# dir - screen
-	if screen_btn_dir.is_connected("pressed", self, "_on_screen_btn_pressed"):
-		screen_btn_dir.disconnect("pressed", self, "_on_screen_btn_pressed")
-	if screen_btn_dir.is_connected("released", self, "_on_screen_btn_released"):
-		screen_btn_dir.disconnect("released", self, "_on_screen_btn_released")
+	if screen_btn.is_connected("pressed", self, "_on_screen_btn_pressed"):
+		screen_btn.disconnect("pressed", self, "_on_screen_btn_pressed")
+	if screen_btn.is_connected("released", self, "_on_screen_btn_released"):
+		screen_btn.disconnect("released", self, "_on_screen_btn_released")
 
 
 func _change_current_controller(new_touch_controller: int):
@@ -300,7 +313,8 @@ func _change_current_controller(new_touch_controller: int):
 # UI --------------------------------------------------------------------------------------------------------
 
 
-func _on_pause_btn_pressed(btn_pressed: TouchScreenButton):
+func _on_pause_btn_pressed():
+#func _on_pause_btn_pressed(btn_pressed: TouchScreenButton):
 
 	var new_event = InputEventAction.new()
 	new_event.action = "pause"
@@ -308,9 +322,36 @@ func _on_pause_btn_pressed(btn_pressed: TouchScreenButton):
 	Input.parse_input_event(new_event)
 
 
-func _on_skip_btn_pressed(btn_pressed: TouchScreenButton):
+func _on_skip_btn_pressed():
+#func _on_skip_btn_pressed(btn_pressed: TouchScreenButton):
 
 	var new_event = InputEventAction.new()
-	new_event.action = "skip"
+	new_event.action = "next"
 	new_event.pressed = true
 	Input.parse_input_event(new_event)
+
+
+
+func _on_skip_tut_btn_pressed():
+	print("skip pressed")
+	var new_event = InputEventAction.new()
+	new_event.action = "next"
+	new_event.pressed = true
+	Input.parse_input_event(new_event)
+	#	sweeper_hint_btn.hide()
+	#	yield(get_tree().create_timer(1),"timeout")
+	#	sweeper_hint_btn.call_deferred("show")
+#	get_tree().set_input_as_handled()
+
+
+func _on_sweeeper_hint_btn_pressed():
+	return # _temp ... sweeper hint btn samo prižge zato je off
+	print("hint pressed")
+	var new_event = InputEventAction.new()
+	new_event.action = "hint"
+	new_event.pressed = true
+	Input.parse_input_event(new_event)
+	#	sweeper_hint_btn.hide()
+	#	yield(get_tree().create_timer(1),"timeout")
+	#	sweeper_hint_btn.call_deferred("show")
+#	get_tree().set_input_as_handled()

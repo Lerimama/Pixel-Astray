@@ -47,7 +47,15 @@ margin_right = 960.0
 margin_bottom = 520.0
 custom_styles/panel = SubResource( 1 )
 
+[node name="Label" type="Label" parent="M inside edge"]
+margin_left = 22.0
+margin_top = 16.0
+margin_right = 231.0
+margin_bottom = 30.0
+text = "bel rob je centriran na pixel grid"
+
 [node name="shapes" type="Control" parent="."]
+visible = false
 modulate = Color( 1, 1, 1, 0.203922 )
 margin_right = 1280.0
 margin_bottom = 720.0
@@ -210,31 +218,42 @@ __meta__ = {
 "_edit_group_": true
 }
 
+[node name="Label" parent="ActionHint" index="0"]
+margin_top = 2.0
+margin_bottom = 20.0
+
 [node name="KEY" parent="ActionHint" index="1"]
-margin_right = 118.0
+margin_top = 0.0
+margin_right = 136.0
+margin_bottom = 22.0
 text = "RETURN"
 
 [node name="Label2" parent="ActionHint" index="2"]
-margin_left = 126.0
-margin_right = 143.0
+margin_left = 144.0
+margin_top = 2.0
+margin_right = 161.0
+margin_bottom = 20.0
 
 [node name="Jp" parent="ActionHint" index="3"]
-margin_left = 151.0
-margin_right = 173.0
+margin_left = 169.0
+margin_right = 191.0
+margin_bottom = 22.0
 texture = SubResource( 3 )
 
 [node name="Label3" parent="ActionHint" index="4"]
-margin_left = 181.0
-margin_right = 248.0
+margin_left = 199.0
+margin_top = 2.0
+margin_right = 266.0
+margin_bottom = 20.0
 text = "to start"
 
 [node name="Title" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -192.0
-margin_top = 62.0
+margin_top = 70.0
 margin_right = 192.0
-margin_bottom = 94.0
+margin_bottom = 102.0
 custom_fonts/font = ExtResource( 2 )
 text = "Gui title"
 align = 1
@@ -258,9 +277,9 @@ modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -320.0
-margin_top = 110.0
+margin_top = 126.0
 margin_right = -112.0
-margin_bottom = 160.0
+margin_bottom = 176.0
 grow_horizontal = 2
 theme = ExtResource( 1 )
 text = "Gui Subtitle ..."

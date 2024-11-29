@@ -6,73 +6,73 @@
 [ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=4]
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=5]
 [ext_resource path="res://assets/atlas_controls.png" type="Texture" id=6]
-[ext_resource path="res://game/gui/controls_scheme.tscn" type="PackedScene" id=7]
 [ext_resource path="res://game/gui/action_hint.tscn" type="PackedScene" id=8]
 [ext_resource path="res://assets/theme/box_colored_almost_black.tres" type="StyleBox" id=9]
 [ext_resource path="res://_helpers/_help_gui_guide.tscn" type="PackedScene" id=10]
 [ext_resource path="res://game/gui/shortcut_line.tscn" type="PackedScene" id=11]
+[ext_resource path="res://game/controls_wide.tscn" type="PackedScene" id=12]
 
-[sub_resource type="AtlasTexture" id=478]
+[sub_resource type="AtlasTexture" id=504]
 atlas = ExtResource( 6 )
-region = Rect2( 138, 66, 22, 22 )
-margin = Rect2( -2, 3, 0, 0 )
+region = Rect2( 136, 72, 24, 24 )
+margin = Rect2( 0, 3, 0, 3 )
 
-[sub_resource type="AtlasTexture" id=479]
+[sub_resource type="AtlasTexture" id=507]
 atlas = ExtResource( 6 )
-region = Rect2( 109, 218, 22, 22 )
-margin = Rect2( -2, 3, 0, 0 )
+region = Rect2( 112, 216, 24, 24 )
+margin = Rect2( 0, 3, 0, 3 )
 
-[sub_resource type="AtlasTexture" id=480]
+[sub_resource type="AtlasTexture" id=508]
 atlas = ExtResource( 6 )
-region = Rect2( 0, 216, 40, 24 )
-margin = Rect2( 0, 3, 0, 0 )
+region = Rect2( 136, 48, 24, 24 )
+margin = Rect2( 0, 3, 0, 3 )
 
-[sub_resource type="AtlasTexture" id=389]
+[sub_resource type="AtlasTexture" id=522]
 atlas = ExtResource( 6 )
-region = Rect2( 80, 98, 70, 46 )
+region = Rect2( 72, 102, 62, 42 )
 
-[sub_resource type="AtlasTexture" id=391]
+[sub_resource type="AtlasTexture" id=510]
 atlas = ExtResource( 6 )
-region = Rect2( 138, 154, 22, 22 )
+region = Rect2( 112, 154, 22, 22 )
 
-[sub_resource type="AtlasTexture" id=392]
+[sub_resource type="AtlasTexture" id=511]
 atlas = ExtResource( 6 )
-region = Rect2( 0, 154, 102, 22 )
+region = Rect2( 0, 154, 76, 22 )
 
-[sub_resource type="StreamTexture" id=394]
+[sub_resource type="StreamTexture" id=512]
 load_path = "res://.import/atlas_controls.png-75e6b40869d487066545840672dcb98d.stex"
 
-[sub_resource type="AtlasTexture" id=481]
-atlas = SubResource( 394 )
+[sub_resource type="AtlasTexture" id=513]
+atlas = SubResource( 512 )
 region = Rect2( 0, 0, 120, 86 )
 
-[sub_resource type="AtlasTexture" id=395]
-atlas = SubResource( 481 )
+[sub_resource type="AtlasTexture" id=514]
+atlas = SubResource( 513 )
 region = Rect2( 0, 0, 120, 86 )
 
-[sub_resource type="AtlasTexture" id=396]
+[sub_resource type="AtlasTexture" id=515]
 atlas = ExtResource( 6 )
 region = Rect2( 10, 17, 22, 22 )
 
-[sub_resource type="AtlasTexture" id=397]
+[sub_resource type="AtlasTexture" id=516]
 atlas = ExtResource( 6 )
 region = Rect2( 96, 32, 10, 10 )
 
-[sub_resource type="AtlasTexture" id=449]
+[sub_resource type="AtlasTexture" id=517]
 atlas = ExtResource( 6 )
-region = Rect2( 146, 200, 6, 10 )
+region = Rect2( 145, 199, 6, 10 )
 
-[sub_resource type="AtlasTexture" id=390]
+[sub_resource type="AtlasTexture" id=525]
 atlas = ExtResource( 6 )
-region = Rect2( 0, 98, 70, 46 )
+region = Rect2( 0, 102, 62, 42 )
 
-[sub_resource type="AtlasTexture" id=393]
+[sub_resource type="AtlasTexture" id=519]
 atlas = ExtResource( 6 )
-region = Rect2( 113.919, 154, 22, 22 )
+region = Rect2( 83, 154, 22, 22 )
 
-[sub_resource type="AtlasTexture" id=476]
+[sub_resource type="AtlasTexture" id=520]
 atlas = ExtResource( 6 )
-region = Rect2( 146, 224, 6, 10 )
+region = Rect2( 145, 223, 6, 10 )
 
 [sub_resource type="AtlasTexture" id=475]
 atlas = ExtResource( 6 )
@@ -118,9 +118,9 @@ modulate = Color( 0.368627, 1, 0.662745, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -328.0
-margin_top = 62.0
+margin_top = 70.0
 margin_right = 328.0
-margin_bottom = 94.0
+margin_bottom = 102.0
 custom_fonts/font = ExtResource( 4 )
 text = "%Game title"
 align = 1
@@ -130,14 +130,15 @@ uppercase = true
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -288.0
-margin_top = 110.0
-margin_right = 288.0
-margin_bottom = 160.0
+margin_left = -320.0
+margin_top = 118.0
+margin_right = 320.0
+margin_bottom = 144.0
 grow_horizontal = 2
-text = "%ake back the colors to become the brightest again. Druga vrstica gre pa takole."
+text = "%Take back the colors and become the brightest again."
 align = 1
 autowrap = true
+clip_text = true
 
 [node name="Outline" type="HFlowContainer" parent="."]
 anchor_left = 0.5
@@ -145,17 +146,23 @@ anchor_right = 0.5
 margin_left = -320.0
 margin_top = 200.0
 margin_right = 320.0
-margin_bottom = 512.0
-rect_min_size = Vector2( 0, 320 )
+margin_bottom = 522.0
+rect_min_size = Vector2( 640, 320 )
 size_flags_horizontal = 3
 custom_constants/vseparation = 8
 custom_constants/hseparation = 8
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Prop" type="Panel" parent="Outline"]
-margin_right = 208.0
-margin_bottom = 152.0
-rect_min_size = Vector2( 208, 152 )
+visible = false
+margin_right = 368.0
+margin_bottom = 153.0
+rect_min_size = Vector2( 264, 152 )
+rect_clip_content = true
 size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_styles/panel = ExtResource( 9 )
 
 [node name="PropLabel" type="Label" parent="Outline/Prop"]
@@ -177,64 +184,15 @@ align = 1
 valign = 1
 autowrap = true
 
-[node name="Prop2" type="Panel" parent="Outline"]
-margin_left = 216.0
-margin_right = 424.0
-margin_bottom = 152.0
-rect_min_size = Vector2( 208, 152 )
-size_flags_horizontal = 3
-custom_styles/panel = ExtResource( 9 )
-
-[node name="PropLabel" type="Label" parent="Outline/Prop2"]
-modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = 24.0
-margin_right = -8.0
-margin_bottom = -24.0
-grow_horizontal = 2
-rect_min_size = Vector2( 152, 0 )
-size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 3 )
-text = "%Testno besedilo
-Lorem ipsum dolor sit amet, consec etur si dolores."
-align = 1
-valign = 1
-autowrap = true
-
-[node name="Prop3" type="Panel" parent="Outline"]
-margin_left = 432.0
-margin_right = 640.0
-margin_bottom = 152.0
-rect_min_size = Vector2( 208, 152 )
-size_flags_horizontal = 3
-custom_styles/panel = ExtResource( 9 )
-
-[node name="PropLabel" type="Label" parent="Outline/Prop3"]
-modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = 24.0
-margin_right = -8.0
-margin_bottom = -24.0
-grow_horizontal = 2
-rect_min_size = Vector2( 152, 0 )
-size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 3 )
-text = "%Testno besedilo
-Lorem ipsum dolor sit amet, consec etur si dolores."
-align = 1
-valign = 1
-autowrap = true
-
 [node name="Record" type="Panel" parent="Outline"]
-margin_top = 160.0
-margin_right = 240.0
-margin_bottom = 320.0
+margin_right = 264.0
+margin_bottom = 160.0
 grow_horizontal = 2
-rect_min_size = Vector2( 240, 160 )
+rect_min_size = Vector2( 264, 153 )
+rect_clip_content = true
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
 custom_styles/panel = ExtResource( 9 )
 __meta__ = {
 "_edit_group_": true
@@ -252,7 +210,7 @@ grow_vertical = 2
 
 [node name="RecordTitle" type="Label" parent="Outline/Record/VBoxContainer"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
-margin_right = 209.0
+margin_right = 233.0
 margin_bottom = 25.0
 grow_horizontal = 2
 rect_min_size = Vector2( 0, 25 )
@@ -264,7 +222,7 @@ align = 1
 [node name="RecordLabel" type="Label" parent="Outline/Record/VBoxContainer"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
 margin_top = 29.0
-margin_right = 209.0
+margin_right = 233.0
 margin_bottom = 51.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -275,7 +233,7 @@ align = 1
 [node name="RecordOwner" type="Label" parent="Outline/Record/VBoxContainer"]
 modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
 margin_top = 55.0
-margin_right = 209.0
+margin_right = 233.0
 margin_bottom = 73.0
 grow_horizontal = 2
 custom_fonts/font = ExtResource( 3 )
@@ -284,41 +242,45 @@ align = 1
 valign = 2
 
 [node name="Shortcuts" type="Panel" parent="Outline"]
-visible = false
-margin_top = 152.0
-margin_right = 272.0
-margin_bottom = 312.0
-rect_min_size = Vector2( 272, 0 )
+margin_left = 272.0
+margin_right = 640.0
+margin_bottom = 160.0
+rect_min_size = Vector2( 360, 160 )
+rect_clip_content = true
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_styles/panel = ExtResource( 9 )
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Shortcuts" type="VBoxContainer" parent="Outline/Shortcuts"]
+anchor_left = 0.5
 anchor_top = 0.5
+anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 24.0
-margin_top = -61.0
-margin_right = 359.0
-margin_bottom = 63.0
+margin_left = -148.0
+margin_top = -80.0
+margin_right = 148.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 200, 160 )
 rect_clip_content = true
 size_flags_horizontal = 3
+alignment = 1
 
-[node name="ShortcutLine6" parent="Outline/Shortcuts/Shortcuts" instance=ExtResource( 11 )]
+[node name="ShortcutLine7" parent="Outline/Shortcuts/Shortcuts" instance=ExtResource( 11 )]
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 0.0
-margin_top = 0.0
-margin_right = 335.0
-margin_bottom = 28.0
+margin_top = 18.0
+margin_right = 296.0
+margin_bottom = 46.0
+size_flags_vertical = 4
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="dot" parent="Outline/Shortcuts/Shortcuts/ShortcutLine6" index="0"]
-visible = false
-
-[node name="VScrollBar2" type="VScrollBar" parent="Outline/Shortcuts/Shortcuts/ShortcutLine6/dot" index="0"]
+[node name="VScrollBar2" type="VScrollBar" parent="Outline/Shortcuts/Shortcuts/ShortcutLine7/dot" index="0"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -326,46 +288,55 @@ max_value = 28.0
 step = 1.0
 page = 28.0
 
-[node name="VScrollBar3" type="VScrollBar" parent="Outline/Shortcuts/Shortcuts/ShortcutLine6/dot" index="1"]
+[node name="VScrollBar3" type="VScrollBar" parent="Outline/Shortcuts/Shortcuts/ShortcutLine7/dot" index="1"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 step = 1.0
 
-[node name="KEY" parent="Outline/Shortcuts/Shortcuts/ShortcutLine6" index="1"]
-margin_left = 0.0
-margin_right = 33.0
-text = "ESC"
+[node name="KEY" parent="Outline/Shortcuts/Shortcuts/ShortcutLine7" index="1"]
+margin_right = 57.0
+text = "ESC, P"
 
-[node name="or2" parent="Outline/Shortcuts/Shortcuts/ShortcutLine6" index="2"]
-margin_left = 33.0
-margin_right = 66.0
+[node name="or2" parent="Outline/Shortcuts/Shortcuts/ShortcutLine7" index="2"]
+margin_left = 57.0
+margin_right = 90.0
 
-[node name="L1" parent="Outline/Shortcuts/Shortcuts/ShortcutLine6" index="3"]
-margin_left = 66.0
-margin_right = 88.0
-texture = SubResource( 478 )
+[node name="L1" parent="Outline/Shortcuts/Shortcuts/ShortcutLine7" index="3"]
+margin_left = 90.0
+margin_right = 114.0
+texture = SubResource( 504 )
 
-[node name="Label3" parent="Outline/Shortcuts/Shortcuts/ShortcutLine6" index="4"]
-margin_left = 88.0
-margin_right = 213.0
-text = " to pause game"
+[node name="Label3" parent="Outline/Shortcuts/Shortcuts/ShortcutLine7" index="4"]
+margin_left = 114.0
+margin_right = 294.0
+text = " to toggle game pause"
 
-[node name="ShortcutLine" parent="Outline/Shortcuts/Shortcuts" instance=ExtResource( 11 )]
+[node name="ShortcutLine3" parent="Outline/Shortcuts/Shortcuts" instance=ExtResource( 11 )]
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 0.0
-margin_top = 32.0
-margin_right = 335.0
-margin_bottom = 60.0
+margin_top = 50.0
+margin_right = 296.0
+margin_bottom = 78.0
+size_flags_vertical = 4
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="dot" parent="Outline/Shortcuts/Shortcuts/ShortcutLine" index="0"]
-visible = false
+[node name="ShortcutLine4" parent="Outline/Shortcuts/Shortcuts" instance=ExtResource( 11 )]
+anchor_left = 0.0
+anchor_right = 0.0
+margin_left = 0.0
+margin_top = 82.0
+margin_right = 296.0
+margin_bottom = 110.0
+size_flags_vertical = 4
+__meta__ = {
+"_edit_group_": true
+}
 
-[node name="VScrollBar2" type="VScrollBar" parent="Outline/Shortcuts/Shortcuts/ShortcutLine/dot" index="0"]
+[node name="VScrollBar2" type="VScrollBar" parent="Outline/Shortcuts/Shortcuts/ShortcutLine4/dot" index="0"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -373,90 +344,43 @@ max_value = 28.0
 step = 1.0
 page = 28.0
 
-[node name="VScrollBar3" type="VScrollBar" parent="Outline/Shortcuts/Shortcuts/ShortcutLine/dot" index="1"]
+[node name="VScrollBar3" type="VScrollBar" parent="Outline/Shortcuts/Shortcuts/ShortcutLine4/dot" index="1"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 step = 1.0
 
-[node name="KEY" parent="Outline/Shortcuts/Shortcuts/ShortcutLine" index="1"]
-margin_left = 0.0
-margin_right = 14.0
-
-[node name="or2" parent="Outline/Shortcuts/Shortcuts/ShortcutLine" index="2"]
-margin_left = 14.0
-margin_right = 47.0
-
-[node name="L1" parent="Outline/Shortcuts/Shortcuts/ShortcutLine" index="3"]
-margin_left = 47.0
-margin_right = 69.0
-
-[node name="Label3" parent="Outline/Shortcuts/Shortcuts/ShortcutLine" index="4"]
-margin_left = 69.0
-margin_right = 190.0
-
-[node name="ShortcutLine2" parent="Outline/Shortcuts/Shortcuts" instance=ExtResource( 11 )]
-anchor_left = 0.0
-anchor_right = 0.0
-margin_left = 0.0
-margin_top = 64.0
-margin_right = 335.0
-margin_bottom = 92.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="dot" parent="Outline/Shortcuts/Shortcuts/ShortcutLine2" index="0"]
-visible = false
-
-[node name="VScrollBar2" type="VScrollBar" parent="Outline/Shortcuts/Shortcuts/ShortcutLine2/dot" index="0"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-max_value = 28.0
-step = 1.0
-page = 28.0
-
-[node name="VScrollBar3" type="VScrollBar" parent="Outline/Shortcuts/Shortcuts/ShortcutLine2/dot" index="1"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-step = 1.0
-
-[node name="KEY" parent="Outline/Shortcuts/Shortcuts/ShortcutLine2" index="1"]
-margin_left = 0.0
+[node name="KEY" parent="Outline/Shortcuts/Shortcuts/ShortcutLine4" index="1"]
 margin_right = 11.0
 text = "N"
 
-[node name="or2" parent="Outline/Shortcuts/Shortcuts/ShortcutLine2" index="2"]
+[node name="or2" parent="Outline/Shortcuts/Shortcuts/ShortcutLine4" index="2"]
 margin_left = 11.0
 margin_right = 44.0
 
-[node name="L1" parent="Outline/Shortcuts/Shortcuts/ShortcutLine2" index="3"]
+[node name="L1" parent="Outline/Shortcuts/Shortcuts/ShortcutLine4" index="3"]
 margin_left = 44.0
-margin_right = 66.0
-texture = SubResource( 479 )
+margin_right = 68.0
+texture = SubResource( 507 )
 
-[node name="Label3" parent="Outline/Shortcuts/Shortcuts/ShortcutLine2" index="4"]
-margin_left = 66.0
-margin_right = 228.0
-text = " to skip music track"
+[node name="Label3" parent="Outline/Shortcuts/Shortcuts/ShortcutLine4" index="4"]
+margin_left = 68.0
+margin_right = 248.0
+text = " to skip current track"
 
-[node name="ShortcutLine8" parent="Outline/Shortcuts/Shortcuts" instance=ExtResource( 11 )]
+[node name="ShortcutLine5" parent="Outline/Shortcuts/Shortcuts" instance=ExtResource( 11 )]
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 0.0
-margin_top = 96.0
-margin_right = 335.0
-margin_bottom = 124.0
+margin_top = 114.0
+margin_right = 296.0
+margin_bottom = 142.0
+size_flags_vertical = 4
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="dot" parent="Outline/Shortcuts/Shortcuts/ShortcutLine8" index="0"]
-visible = false
-
-[node name="VScrollBar2" type="VScrollBar" parent="Outline/Shortcuts/Shortcuts/ShortcutLine8/dot" index="0"]
+[node name="VScrollBar2" type="VScrollBar" parent="Outline/Shortcuts/Shortcuts/ShortcutLine5/dot" index="0"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -464,38 +388,36 @@ max_value = 28.0
 step = 1.0
 page = 28.0
 
-[node name="VScrollBar3" type="VScrollBar" parent="Outline/Shortcuts/Shortcuts/ShortcutLine8/dot" index="1"]
+[node name="VScrollBar3" type="VScrollBar" parent="Outline/Shortcuts/Shortcuts/ShortcutLine5/dot" index="1"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 step = 1.0
 
-[node name="KEY" parent="Outline/Shortcuts/Shortcuts/ShortcutLine8" index="1"]
-margin_left = 0.0
+[node name="KEY" parent="Outline/Shortcuts/Shortcuts/ShortcutLine5" index="1"]
 margin_right = 11.0
-text = "R"
+text = "H"
 
-[node name="or2" parent="Outline/Shortcuts/Shortcuts/ShortcutLine8" index="2"]
+[node name="or2" parent="Outline/Shortcuts/Shortcuts/ShortcutLine5" index="2"]
 margin_left = 11.0
 margin_right = 44.0
 
-[node name="L1" parent="Outline/Shortcuts/Shortcuts/ShortcutLine8" index="3"]
+[node name="L1" parent="Outline/Shortcuts/Shortcuts/ShortcutLine5" index="3"]
 margin_left = 44.0
-margin_right = 84.0
-texture = SubResource( 480 )
+margin_right = 68.0
+texture = SubResource( 508 )
 
-[node name="Label3" parent="Outline/Shortcuts/Shortcuts/ShortcutLine8" index="4"]
-margin_left = 84.0
-margin_right = 203.0
-text = " to hard reset"
+[node name="Label3" parent="Outline/Shortcuts/Shortcuts/ShortcutLine5" index="4"]
+margin_left = 68.0
+margin_right = 234.0
+text = " to toggle riddle hint"
 
 [node name="Controls" type="Panel" parent="Outline"]
-visible = false
-margin_left = 248.0
-margin_top = 152.0
+margin_top = 168.0
 margin_right = 640.0
-margin_bottom = 312.0
-rect_min_size = Vector2( 240, 160 )
+margin_bottom = 320.0
+rect_min_size = Vector2( 384, 152 )
+rect_clip_content = true
 size_flags_horizontal = 3
 custom_styles/panel = ExtResource( 9 )
 __meta__ = {
@@ -503,33 +425,21 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Controls_tight" parent="Outline/Controls" instance=ExtResource( 7 )]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -156.0
-margin_top = -64.0
-margin_right = 164.0
-margin_bottom = 56.0
-
-[node name="Joypad" parent="Outline/Controls/Controls_tight" index="3"]
-margin_left = 193.0
-margin_right = 313.0
-
-[node name="Line2D" parent="Outline/Controls/Controls_tight" index="8"]
-position = Vector2( -177.302, 204.142 )
-points = PoolVector2Array( 487.312, -96.4007, 514.67, -151.973 )
-
-[node name="Line2D5" parent="Outline/Controls/Controls_tight" index="12"]
-points = PoolVector2Array( 481, -191, 420, -206 )
+[node name="ControlsWide" parent="Outline/Controls" instance=ExtResource( 12 )]
+margin_left = -244.0
+margin_top = -44.0
+margin_right = 244.0
+margin_bottom = 52.0
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="ControlsDuelP1" type="Panel" parent="Outline"]
-margin_left = 248.0
-margin_top = 160.0
+visible = false
+margin_top = 168.0
 margin_right = 640.0
 margin_bottom = 320.0
-rect_min_size = Vector2( 240, 160 )
+rect_min_size = Vector2( 240, 152 )
 size_flags_horizontal = 3
 custom_styles/panel = ExtResource( 9 )
 __meta__ = {
@@ -565,33 +475,39 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="KeyboardL" type="TextureRect" parent="Outline/ControlsDuelP1/Keys"]
-margin_left = 28.0
-margin_right = 98.0
-margin_bottom = 46.0
-texture = SubResource( 389 )
+[node name="Keyboard2" type="TextureRect" parent="Outline/ControlsDuelP1/Keys"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -44.0
+margin_top = -41.0
+margin_right = 18.0
+margin_bottom = 1.0
+texture = SubResource( 522 )
 
 [node name="Ctrl" type="TextureRect" parent="Outline/ControlsDuelP1/Keys"]
-margin_top = 64.0
-margin_right = 22.0
-margin_bottom = 86.0
-texture = SubResource( 391 )
+margin_left = 1.0
+margin_top = 62.0
+margin_right = 23.0
+margin_bottom = 84.0
+texture = SubResource( 510 )
 
 [node name="Space" type="TextureRect" parent="Outline/ControlsDuelP1/Keys"]
-margin_left = 28.0
-margin_top = 64.0
-margin_right = 130.0
-margin_bottom = 86.0
-texture = SubResource( 392 )
+margin_left = 33.0
+margin_top = 62.0
+margin_right = 109.0
+margin_bottom = 84.0
+texture = SubResource( 511 )
 
 [node name="Joypad" type="Control" parent="Outline/ControlsDuelP1"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 15.0
+margin_left = 5.0
 margin_top = -36.0
-margin_right = 135.0
+margin_right = 125.0
 margin_bottom = 50.0
 __meta__ = {
 "_edit_group_": true
@@ -601,21 +517,21 @@ __meta__ = {
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_right = 120.0
 margin_bottom = 86.0
-texture = SubResource( 395 )
+texture = SubResource( 514 )
 
 [node name="btns" type="TextureRect" parent="Outline/ControlsDuelP1/Joypad"]
 margin_left = 10.0
 margin_top = 17.0
 margin_right = 32.0
 margin_bottom = 39.0
-texture = SubResource( 396 )
+texture = SubResource( 515 )
 
 [node name="btn" type="TextureRect" parent="Outline/ControlsDuelP1/Joypad"]
 margin_left = 96.0
 margin_top = 32.0
 margin_right = 106.0
 margin_bottom = 42.0
-texture = SubResource( 397 )
+texture = SubResource( 516 )
 
 [node name="C" type="TextureRect" parent="Outline/ControlsDuelP1/Joypad"]
 anchor_left = 0.5
@@ -626,15 +542,15 @@ margin_left = -3.0
 margin_top = -12.0
 margin_right = 3.0
 margin_bottom = -2.0
-texture = SubResource( 449 )
+texture = SubResource( 517 )
 
 [node name="ControlsDuelP2" type="Panel" parent="Outline"]
 visible = false
-margin_left = 324.0
-margin_top = 320.0
+margin_left = 396.0
+margin_top = 168.0
 margin_right = 640.0
-margin_bottom = 480.0
-rect_min_size = Vector2( 240, 160 )
+margin_bottom = 328.0
+rect_min_size = Vector2( 240, 152 )
 size_flags_horizontal = 3
 custom_styles/panel = ExtResource( 9 )
 __meta__ = {
@@ -670,17 +586,23 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="KeyboardR" type="TextureRect" parent="Outline/ControlsDuelP2/Keys"]
-margin_right = 70.0
-margin_bottom = 46.0
-texture = SubResource( 390 )
+[node name="Keyboard1" type="TextureRect" parent="Outline/ControlsDuelP2/Keys"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -32.0
+margin_top = -45.0
+margin_right = 30.0
+margin_bottom = -3.0
+texture = SubResource( 525 )
 
 [node name="Alt" type="TextureRect" parent="Outline/ControlsDuelP2/Keys"]
-margin_left = 24.0
-margin_top = 65.0
-margin_right = 46.0
-margin_bottom = 87.0
-texture = SubResource( 393 )
+margin_left = 28.0
+margin_top = 63.0
+margin_right = 50.0
+margin_bottom = 85.0
+texture = SubResource( 519 )
 
 [node name="Joypad" type="Control" parent="Outline/ControlsDuelP2"]
 anchor_left = 0.5
@@ -699,21 +621,21 @@ __meta__ = {
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_right = 120.0
 margin_bottom = 86.0
-texture = SubResource( 395 )
+texture = SubResource( 514 )
 
 [node name="btns" type="TextureRect" parent="Outline/ControlsDuelP2/Joypad"]
 margin_left = 10.0
 margin_top = 17.0
 margin_right = 32.0
 margin_bottom = 39.0
-texture = SubResource( 396 )
+texture = SubResource( 515 )
 
 [node name="btn" type="TextureRect" parent="Outline/ControlsDuelP2/Joypad"]
 margin_left = 96.0
 margin_top = 32.0
 margin_right = 106.0
 margin_bottom = 42.0
-texture = SubResource( 397 )
+texture = SubResource( 516 )
 
 [node name="C" type="TextureRect" parent="Outline/ControlsDuelP2/Joypad"]
 anchor_left = 0.5
@@ -724,45 +646,46 @@ margin_left = -3.0
 margin_top = -12.0
 margin_right = 3.0
 margin_bottom = -2.0
-texture = SubResource( 476 )
+texture = SubResource( 520 )
 
 [node name="ActionHint" parent="." instance=ExtResource( 8 )]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -191.0
+margin_left = -192.0
 margin_top = 277.0
-margin_right = 195.0
+margin_right = 194.0
 margin_bottom = 302.0
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Label" parent="ActionHint" index="0"]
-margin_right = 191.0
-text = "Click anywhere or press"
+margin_right = 171.0
+text = "Click anywhere, press"
 
 [node name="KEY" parent="ActionHint" index="1"]
-margin_left = 199.0
-margin_right = 269.0
+margin_left = 179.0
+margin_right = 249.0
 text = "ENTER"
 
 [node name="Label2" parent="ActionHint" index="2"]
-margin_left = 277.0
-margin_right = 294.0
+margin_left = 257.0
+margin_right = 274.0
 
 [node name="Jp" parent="ActionHint" index="3"]
-margin_left = 302.0
-margin_right = 326.0
+margin_left = 282.0
+margin_right = 306.0
 texture = SubResource( 475 )
 
 [node name="Label3" parent="ActionHint" index="4"]
-margin_left = 334.0
-margin_right = 401.0
+margin_left = 314.0
+margin_right = 381.0
 text = "to start"
 
 [node name="ReadyBtn" type="Button" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 focus_mode = 0
@@ -773,9 +696,7 @@ enabled_focus_mode = 0
 
 [editable path="_help_gui_guide"]
 [editable path="_help_gui_guide/ActionHint"]
-[editable path="Outline/Shortcuts/Shortcuts/ShortcutLine6"]
-[editable path="Outline/Shortcuts/Shortcuts/ShortcutLine"]
-[editable path="Outline/Shortcuts/Shortcuts/ShortcutLine2"]
-[editable path="Outline/Shortcuts/Shortcuts/ShortcutLine8"]
-[editable path="Outline/Controls/Controls_tight"]
+[editable path="Outline/Shortcuts/Shortcuts/ShortcutLine7"]
+[editable path="Outline/Shortcuts/Shortcuts/ShortcutLine4"]
+[editable path="Outline/Shortcuts/Shortcuts/ShortcutLine5"]
 [editable path="ActionHint"]

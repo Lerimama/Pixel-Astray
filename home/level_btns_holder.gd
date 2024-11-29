@@ -2,7 +2,7 @@ extends GridContainer
 
 var unfocused_color: Color = Global.color_almost_black_pixel
 var btn_colors: Array
-var all_level_btns: Array
+var all_level_btns: Array # naberem ob spawnu
 var select_level_btns_holder_parent # določim od zunaj
 
 var unlocked_label_path: String = "VBoxContainer/Label"
@@ -45,49 +45,48 @@ func set_level_btns():
 	color_level_btns()
 
 	# opredelim solved gumbe
-	var solved_levels: Array = []
+	var btns_with_score: Array = []
 
 	# za vsak level btn preverim , če je v filetu prvi skor > 0
-	for count in Profiles.sweeper_level_tilemap_paths.size():
-		var sweeper_game_data: Dictionary = Profiles.game_data_sweeper.duplicate()
-		sweeper_game_data["level"] = count + 1
-		var level_highscores: Dictionary = Global.data_manager.read_highscores_from_file(sweeper_game_data)
-		# pridobim skor linijie
-		var scoreline_player_name_as_key: String = level_highscores["%03d" % 1].keys()[0]
-		var scoreline_score: float = level_highscores["%03d" % 1][scoreline_player_name_as_key]
-		if scoreline_score > 0:
-			solved_levels.append(sweeper_game_data["level"])
+	for btn_count in all_level_btns.size():
+#	for count in Profiles.sweeper_level_tilemap_paths.size():
+#		printt("LB", Profiles.sweeper_level_tilemap_paths.size(), all_level_btns.size())
 
-	# napolnem in obarvam gumbe
-	for btn in all_level_btns:
-		var btn_index: int = all_level_btns.find(btn)
-		var btn_level_number: int = btn_index + 1
 		# poimenujem gumb in barvam ozadje
+		var btn = all_level_btns[btn_count]
+		var btn_level_number: int = btn_count + 1
 		btn.name = "Sweeper%02dBtn" % btn_level_number
 		btn.self_modulate = unfocused_color
-		# napolnem
+
 		if not btn == the_pixel_astray_level_btn: # če level ni pixel astray, ima številko (ločeno zaradi pixel astray napisa
-			# level number
 			btn.get_node(locked_label_path).text = "%02d" % btn_level_number
 			btn.get_node(unlocked_label_path).text = "%02d" % btn_level_number
-		if btn_level_number in solved_levels: # če je rešen prikažem druge labele, če ni, je samo locked label
-			# zapišem
+
+		# preverjam HScore > 0
+		var level_hs_line: Array = get_btn_highscore(btn_level_number)
+		var current_hs_time_int: int = int(level_hs_line[0])
+		# če je score
+		if current_hs_time_int > 0:
 			btn.get_node(record_label_path).text = get_btn_highscore(btn_level_number)[0]
 			btn.get_node(owner_label_path).text = "by " + get_btn_highscore(btn_level_number)[1]
-			# pokažem
-			btn.get_node(locked_label_path).hide()
-			btn.get_node(unlocked_label_path).modulate = btn_colors[btn_index]
-			btn.get_node(record_label_path).modulate = btn_colors[btn_index]
-			btn.get_node(owner_label_path).modulate = btn_colors[btn_index]
+			# pokažem, obarvam
+			btn.get_node(unlocked_label_path).modulate = btn_colors[btn_count]
+			btn.get_node(record_label_path).modulate = btn_colors[btn_count]
+			btn.get_node(owner_label_path).modulate = btn_colors[btn_count]
 			btn.get_node(unlocked_label_path).show()
 			btn.get_node(record_label_path).show()
 			btn.get_node(owner_label_path).show()
-		else: # če ni rešen ... skrijem
+			# skrijem
+			btn.get_node(locked_label_path).hide()
+		# če ni scora
+		else:
+			# pokažem, obarvam
+			btn.get_node(locked_label_path).modulate = btn_colors[btn_count]
+			btn.get_node(locked_label_path).show()
+			# skrijem
 			btn.get_node(unlocked_label_path).hide()
 			btn.get_node(record_label_path).hide()
 			btn.get_node(owner_label_path).hide()
-			btn.get_node(locked_label_path).modulate = btn_colors[btn_index]
-			btn.get_node(locked_label_path).show()
 
 	the_pixel_astray_level_btn.raise() # move to "top layer" ... to bottom of node tree
 
@@ -99,7 +98,11 @@ func get_btn_highscore(btn_level_number: int):
 
 	var current_highscore_line: Array = Global.data_manager.get_top_highscore(btn_level_game_data)
 
-	var current_highscore_clock = Global.get_clock_time(current_highscore_line[0])
+	var current_highscore_clock = 0
+	# če je < 0, ga ne formatiram (bolje vem, da je "scoreless")
+	if current_highscore_line[0] > 0:
+		current_highscore_clock = Global.get_clock_time(current_highscore_line[0])
+
 	var current_highscore_owner: String = current_highscore_line[1]
 
 	return [current_highscore_clock, current_highscore_owner]

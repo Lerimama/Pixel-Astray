@@ -111,8 +111,6 @@ func _ready() -> void: # ker je AL se ob debug štartu zgodi 2x
 
 	refresh_row_list()
 
-	#	printt ("has_touchscreen", OS.has_touchscreen_ui_hint())
-
 
 # on load game
 func start_new_session():

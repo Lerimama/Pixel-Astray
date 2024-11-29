@@ -2,7 +2,7 @@
 
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=2]
-[ext_resource path="res://assets/theme/font_main_rich_bold.tres" type="DynamicFont" id=3]
+[ext_resource path="res://assets/theme/font_main_small.tres" type="DynamicFont" id=3]
 [ext_resource path="res://assets/atlas_controls.png" type="Texture" id=4]
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=5]
 
@@ -159,8 +159,8 @@ VSeparator/styles/separator = SubResource( 443 )
 
 [sub_resource type="AtlasTexture" id=454]
 atlas = ExtResource( 4 )
-region = Rect2( 85, 218, 22, 25 )
-margin = Rect2( 0, 3, 0, 0 )
+region = Rect2( 88, 216, 24, 24 )
+margin = Rect2( 0, 3, 0, 3 )
 
 [node name="ShortcutLine" type="HBoxContainer"]
 anchor_left = 0.5
@@ -174,6 +174,7 @@ theme = ExtResource( 5 )
 custom_constants/separation = 0
 
 [node name="dot" type="RichTextLabel" parent="."]
+visible = false
 margin_right = 14.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 14, 0 )
@@ -183,11 +184,10 @@ text = "."
 fit_content_height = true
 
 [node name="KEY" type="Label" parent="."]
-margin_left = 14.0
-margin_top = 1.0
-margin_right = 32.0
+margin_top = 3.0
+margin_right = 14.0
 margin_bottom = 28.0
-rect_min_size = Vector2( 0, 27 )
+rect_min_size = Vector2( 0, 25 )
 size_flags_vertical = 8
 custom_fonts/font = ExtResource( 3 )
 text = "M"
@@ -195,9 +195,9 @@ align = 1
 valign = 1
 
 [node name="or2" type="Label" parent="."]
-margin_left = 32.0
+margin_left = 14.0
 margin_top = 5.0
-margin_right = 65.0
+margin_right = 47.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 1 )
 text = " or "
@@ -205,15 +205,15 @@ align = 1
 valign = 1
 
 [node name="L1" type="TextureRect" parent="."]
-margin_left = 65.0
-margin_right = 87.0
+margin_left = 47.0
+margin_right = 71.0
 margin_bottom = 28.0
 texture = SubResource( 454 )
 
 [node name="Label3" type="Label" parent="."]
-margin_left = 87.0
+margin_left = 71.0
 margin_top = 5.0
-margin_right = 208.0
+margin_right = 192.0
 margin_bottom = 23.0
 custom_fonts/font = ExtResource( 1 )
 text = " to mute music"

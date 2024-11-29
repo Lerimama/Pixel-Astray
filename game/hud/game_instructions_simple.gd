@@ -5,11 +5,11 @@ signal players_ready # za splitscreen popup
 
 onready var title: Label = $Title
 onready var description: Label = $Description
-onready var outline: = $Outline
 onready var record_label_holder: Panel = $Outline/Record
 onready var record_title: Label = $Outline/Record/VBoxContainer/RecordTitle
 onready var record_label: Label = $Outline/Record/VBoxContainer/RecordLabel
 onready var record_owner: Label = $Outline/Record/VBoxContainer/RecordOwner
+onready var outline: = $Outline
 onready var shortcuts: Panel = $Outline/Shortcuts
 onready var controls: Control = $Outline/Controls
 onready var controls_duel_p1: Control = $Outline/ControlsDuelP1
@@ -32,28 +32,31 @@ func _ready() -> void:
 	ready_btn.hide()
 
 
-func open(): # kliče GM set game
+func open(with_button: bool = true):
 
-	ready_btn.show()
-	ready_action_hint.show()
-	get_instructions_content()
-	show() # fade-in se zgodi zaradi game scene
-	get_tree().set_pause(true)
+	if with_button:
+		ready_btn.show()
+		ready_action_hint.show()
+	else:
+		ready_btn.show()
+		ready_action_hint.show()
+
 	Global.allow_focus_sfx = false # urgenca za nek "cancel" sound bug
+
+	get_instructions_content()
+	show() # fade-in je zaradi fejdina cele scene
+	get_tree().set_pause(true)
+
 	yield(get_tree().create_timer(0.1), "timeout")
 	Global.allow_focus_sfx = true
 
 
-func get_instructions_content(): # kliče tudi pavza na ready
-
+func get_instructions_content(current_highscore: int = 0, current_highscore_owner: String = "Nobody"):
 
 	var current_game_data: Dictionary = Global.game_manager.game_data
-	var current_hs_line: Array = Global.data_manager.get_top_highscore(current_game_data)
-	var current_highscore: float = current_hs_line[0]
-	var current_highscore_owner: String = current_hs_line[1]
 
 	# game title
-	if current_game_data["game"] == Profiles.Games.SWEEPER: # samo enigam ima številko levela
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER: # samo enigam ima številko levela
 		title.text = current_game_data["game_name"] + " %02d" % current_game_data["level"]
 	else:
 		title.text = current_game_data["game_name"]
@@ -62,7 +65,7 @@ func get_instructions_content(): # kliče tudi pavza na ready
 	description.text = current_game_data["description"]
 
 	# highscore
-	if current_game_data["highscore_type"] == Profiles.HighscoreTypes.NONE:
+	if current_game_data["highscore_type"] == Profiles.HighscoreTypes.NONE:# or current_highscore == 0:
 		record_label_holder.hide()
 	else:
 		record_label_holder.show()
@@ -82,12 +85,6 @@ func get_instructions_content(): # kliče tudi pavza na ready
 			record_owner.text = "by " + str(current_highscore_owner)
 
 	# player controls
-	var hint_shortie: Control = shortcuts.get_node("Shortcuts").get_child(shortcuts.get_node("Shortcuts").get_child_count() - 1)
-	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-		hint_shortie.show()
-	else:
-		hint_shortie.hide()
-
 	if Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
 		controls.hide()
 		controls_duel_p1.show()

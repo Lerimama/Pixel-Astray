@@ -8,6 +8,8 @@ var wait_sound_time: float = menu_fade_sound_length - fade_time + 0.1 # da ne tr
 onready var home_scene_path: String = "res://home/home.tscn"
 onready var game_scene_path: String = Profiles.current_game_data["game_scene_path"]
 
+var current_scene: Node2D
+
 
 func _unhandled_input(event: InputEvent) -> void:
 #func _input(event: InputEvent) -> void:
@@ -30,8 +32,8 @@ func _ready() -> void:
 
 	Global.main_node = self
 
-#	call_deferred("home_in_intro")
-	call_deferred("home_in_no_intro")
+	call_deferred("home_in_intro")
+#	call_deferred("home_in_no_intro")
 #	call_deferred("game_in")
 
 	Analytics.call_deferred("start_new_session")
@@ -40,11 +42,12 @@ func _ready() -> void:
 func home_in_intro():
 
 	get_viewport().set_disable_input(false)
-	spawn_new_scene(home_scene_path, self)
-	current_scene.open_with_intro()
+
+	var home_scene = spawn_new_scene(home_scene_path, self)
+	home_scene.open_with_intro()
 
 	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-	fade_in.tween_property(current_scene, "modulate", Color.white, fade_time)
+	fade_in.tween_property(home_scene, "modulate", Color.white, fade_time)
 
 
 func home_in_no_intro():
@@ -52,13 +55,11 @@ func home_in_no_intro():
 	get_viewport().set_disable_input(false)
 	get_tree().set_pause(false)
 
-	spawn_new_scene(home_scene_path, self)
-	current_scene.open_without_intro()
-
-	current_scene.modulate = Color.black
+	var home_scene = spawn_new_scene(home_scene_path, self)
+	home_scene.open_without_intro()
 
 	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-	fade_in.tween_property(current_scene, "modulate", Color.white, fade_time)
+	fade_in.tween_property(home_scene, "modulate", Color.white, fade_time).from(Color.black)
 
 
 func home_in_from_game(finished_game: int):
@@ -66,16 +67,18 @@ func home_in_from_game(finished_game: int):
 	get_viewport().set_disable_input(false)
 	get_tree().set_pause(false)
 
-	spawn_new_scene(home_scene_path, self)
+	var home_scene = spawn_new_scene(home_scene_path, self)
+	home_scene.open_from_game(finished_game) # select game screen
 
-	current_scene.open_from_game(finished_game) # select game screen
+#	spawn_new_scene(home_scene_path, self)
+#	current_scene.open_from_game(finished_game) # select game screen
 
 	yield(get_tree().create_timer(0.7), "timeout") # da se title naštima
 
-	current_scene.modulate = Color.black
+	home_scene.modulate = Color.black
 
 	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-	fade_in.tween_property(current_scene, "modulate", Color.white, fade_time)
+	fade_in.tween_property(home_scene, "modulate", Color.white, fade_time)
 
 
 func home_out():
@@ -103,7 +106,8 @@ func game_in():
 	get_viewport().set_disable_input(false)
 	get_tree().set_pause(false)
 
-	spawn_new_scene(game_scene_path, self)
+	var game_scene = spawn_new_scene(game_scene_path, self)
+#	spawn_new_scene(game_scene_path, self)
 
 	# tukaj se seta GM glede na izbiro igre
 	Global.game_manager.set_tilemap()
@@ -113,7 +117,7 @@ func game_in():
 	yield(get_tree().create_timer(0.3), "timeout") # da se kamera centrira
 
 	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-	fade_in.tween_property(current_scene, "modulate", Color.white, fade_time).from(Color.black)
+	fade_in.tween_property(game_scene, "modulate", Color.white, fade_time).from(Color.black)
 	yield(fade_in, "finished")
 
 	Global.game_manager.set_game()
@@ -165,7 +169,7 @@ func quit_exit_game():
 # SCENE MANAGER (prehajanje med igro in menijem) --------------------------------------------------------------
 
 
-var current_scene = null # za scene switching
+#var current_scene = null # za scene switching
 
 
 func release_scene(scene_node): # release scene
@@ -188,16 +192,18 @@ func spawn_new_scene(scene_path, parent_node): # spawn scene
 
 	var scene_resource = ResourceLoader.load(scene_path)
 
-	current_scene = scene_resource.instance()
+	var new_current_scene = scene_resource.instance()
 
 	if OS.is_debug_build():  # debug OS mode
-		#		print("SCENE INSTANCED: ", current_scene)
+		print("SCENE INSTANCED: ", current_scene)
 		pass
-	current_scene.modulate.a = 0
-	parent_node.add_child(current_scene) # direct child of root
+	new_current_scene.modulate.a = 0
+	parent_node.add_child(new_current_scene) # direct child of root
 
 	if OS.is_debug_build():  # debug OS mode
-		#		print("SCENE ADDED: ", current_scene)
-		#		print("--- new scene ---")
+		print("SCENE ADDED: ", current_scene)
+		print("--- new scene ---")
 		pass
-	return current_scene
+
+	current_scene = new_current_scene
+	return new_current_scene
