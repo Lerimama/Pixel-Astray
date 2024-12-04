@@ -11,9 +11,11 @@ region = Rect2( 136, 72, 24, 24 )
 margin = Rect2( 0, 1, 0, 1 )
 
 [node name="ActionHint" type="HBoxContainer"]
+margin_left = -92.0
 margin_top = -3.0
-margin_right = 236.0
-margin_bottom = 21.0
+margin_right = 92.0
+margin_bottom = 22.0
+grow_horizontal = 2
 theme = ExtResource( 2 )
 custom_constants/separation = 8
 __meta__ = {
@@ -22,6 +24,7 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="."]
+visible = false
 margin_top = 3.0
 margin_right = 44.0
 margin_bottom = 21.0
@@ -30,11 +33,26 @@ custom_fonts/font = ExtResource( 1 )
 text = "Press"
 align = 1
 
+[node name="Jp" type="TextureRect" parent="."]
+margin_right = 24.0
+margin_bottom = 25.0
+texture = SubResource( 190 )
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 32.0
+margin_top = 3.0
+margin_right = 49.0
+margin_bottom = 21.0
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+custom_fonts/font = ExtResource( 1 )
+text = "or"
+align = 1
+
 [node name="KEY" type="Label" parent="."]
 modulate = Color( 0.901961, 0.901961, 0.901961, 1 )
-margin_left = 52.0
+margin_left = 57.0
 margin_top = 3.0
-margin_right = 85.0
+margin_right = 90.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 0, 19 )
 custom_fonts/font = ExtResource( 4 )
@@ -42,26 +60,10 @@ text = "ESC"
 align = 1
 valign = 2
 
-[node name="Label2" type="Label" parent="."]
-margin_left = 93.0
-margin_top = 3.0
-margin_right = 110.0
-margin_bottom = 21.0
-custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-custom_fonts/font = ExtResource( 1 )
-text = "or"
-align = 1
-
-[node name="Jp" type="TextureRect" parent="."]
-margin_left = 118.0
-margin_right = 142.0
-margin_bottom = 25.0
-texture = SubResource( 190 )
-
 [node name="Label3" type="Label" parent="."]
-margin_left = 150.0
+margin_left = 98.0
 margin_top = 3.0
-margin_right = 236.0
+margin_right = 184.0
 margin_bottom = 21.0
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 custom_fonts/font = ExtResource( 1 )

@@ -10,7 +10,7 @@ var camera_is_shaking: bool = false # da se šejk ne podvaja
 var actor_step_time: float = 0.08
 
 # strays
-var strays_in_game: Array = []
+var spawned_strays_count: int = 0
 var strays_shown_on_start: Array = []
 var create_strays_count: int =  500 # 149 v naslovu ... ne sme bit onready, ker povozi ukaz s tilemapa
 var color_pool_colors: Array
@@ -49,13 +49,7 @@ func _ready() -> void:
 
 	Global.game_manager = self
 	randomize()
-	#	skip_intro_btn.add_to_group(Global.group_menu_confirm_btns) ... zaklene miško na klik
 	skip_intro_btn.disabled = true
-
-
-func _process(delta: float) -> void:
-
-	strays_in_game = get_tree().get_nodes_in_group(Global.group_strays)
 
 
 # INTRO LOOP ----------------------------------------------------------------------------------
@@ -70,10 +64,8 @@ func play_intro():
 
 func finish_intro(): # ob skipanju in regularnem koncu intra
 
-	# neu
 	skip_intro_btn.disabled = true
 	skip_intro_btn.hide()
-	#	skip_intro_btn.release_focus()
 
 	# vse pospravim ... zazih
 	animation_player.stop()
@@ -182,10 +174,13 @@ func spawn_stray(stray_index: int, stray_color: Color, stray_position: Vector2, 
 	new_stray_pixel.z_index = 2 # višje od plejerja
 	add_child(new_stray_pixel)
 
+	spawned_strays_count += 1
+
 	if is_white:
-		new_stray_pixel.current_state = new_stray_pixel.States.WALL
+		new_stray_pixel.current_state = new_stray_pixel.STATES.WALL
 
 	return new_stray_pixel
+
 
 
 func show_strays_in_loop(show_strays_loop: int):
@@ -193,15 +188,15 @@ func show_strays_in_loop(show_strays_loop: int):
 	var strays_to_show_count: int # količina strejsov se more ujemat s številom spawnanih
 	match show_strays_loop:
 		1:
-			strays_to_show_count = round(strays_in_game.size()/10)
+			strays_to_show_count = round(spawned_strays_count/10)
 		2:
-			strays_to_show_count = round(strays_in_game.size()/8)
+			strays_to_show_count = round(spawned_strays_count/8)
 		3:
-			strays_to_show_count = round(strays_in_game.size()/4)
+			strays_to_show_count = round(spawned_strays_count/4)
 		4:
-			strays_to_show_count = round(strays_in_game.size()/2)
+			strays_to_show_count = round(spawned_strays_count/2)
 		5: # še preostale
-			strays_to_show_count = strays_in_game.size() - strays_shown_on_start.size()
+			strays_to_show_count = spawned_strays_count - strays_shown_on_start.size()
 
 	# show
 	var loop_count = 0
@@ -243,9 +238,11 @@ func random_stray_step():
 		3: stepping_direction = Vector2.DOWN
 
 	# random stray
-	var random_stray_no: int = randi() % int(strays_in_game.size())
-	var stray_to_move = strays_in_game[random_stray_no]
-	if not strays_in_game.empty():
+
+	var intro_strays = get_tree().get_nodes_in_group(Global.group_strays)
+	var random_stray_no: int = randi() % int(intro_strays.size())
+	var stray_to_move = intro_strays[random_stray_no]
+	if not intro_strays.empty():
 		stray_to_move.step(stepping_direction)
 
 	# next step random time

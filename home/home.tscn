@@ -1,4 +1,4 @@
-[gd_scene load_steps=108 format=2]
+[gd_scene load_steps=85 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -21,7 +21,6 @@
 [ext_resource path="res://home/level_btns_grid.tscn" type="PackedScene" id=19]
 [ext_resource path="res://assets/theme/font_big.tres" type="DynamicFont" id=20]
 [ext_resource path="res://game/gui/action_hint.tscn" type="PackedScene" id=21]
-[ext_resource path="res://game/gui/shortcut_line.tscn" type="PackedScene" id=23]
 [ext_resource path="res://assets/theme/box_game_btn_focus.tres" type="StyleBox" id=24]
 [ext_resource path="res://game/gui/highscores_hall.tscn" type="PackedScene" id=31]
 
@@ -180,167 +179,6 @@ VSeparator/styles/separator = SubResource( 224 )
 width = 246
 height = 246
 noise = ExtResource( 10 )
-
-[sub_resource type="StyleBoxEmpty" id=427]
-
-[sub_resource type="StreamTexture" id=444]
-load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
-
-[sub_resource type="AtlasTexture" id=428]
-atlas = SubResource( 444 )
-region = Rect2( 16, 16, 14, 16 )
-
-[sub_resource type="AtlasTexture" id=429]
-atlas = SubResource( 444 )
-region = Rect2( 0, 16, 10, 16 )
-
-[sub_resource type="StyleBoxFlat" id=430]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-expand_margin_left = 6.0
-expand_margin_right = 6.0
-expand_margin_top = 2.0
-expand_margin_bottom = 3.0
-
-[sub_resource type="StyleBoxEmpty" id=431]
-
-[sub_resource type="StyleBoxEmpty" id=432]
-
-[sub_resource type="StyleBoxLine" id=433]
-color = Color( 1, 1, 1, 1 )
-thickness = 2
-
-[sub_resource type="AtlasTexture" id=434]
-atlas = SubResource( 444 )
-region = Rect2( 32, 0, 10, 10 )
-
-[sub_resource type="StyleBoxEmpty" id=435]
-
-[sub_resource type="StyleBoxFlat" id=436]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-expand_margin_left = 6.0
-expand_margin_top = 6.0
-expand_margin_bottom = 6.0
-
-[sub_resource type="StreamTexture" id=437]
-load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
-
-[sub_resource type="AtlasTexture" id=445]
-atlas = SubResource( 437 )
-region = Rect2( 0, 4, 16, 8 )
-
-[sub_resource type="StyleBoxTexture" id=438]
-texture = SubResource( 445 )
-region_rect = Rect2( 0, 0, 16, 8 )
-margin_left = 3.34132
-margin_right = 4.0
-margin_top = 4.0
-margin_bottom = 4.0
-modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-
-[sub_resource type="StyleBoxFlat" id=439]
-bg_color = Color( 0, 0, 0, 0 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 1, 1, 1, 1 )
-
-[sub_resource type="AtlasTexture" id=440]
-atlas = SubResource( 444 )
-region = Rect2( 16, 0, 16, 12 )
-margin = Rect2( 4, 0, 0, 0 )
-
-[sub_resource type="StyleBoxFlat" id=441]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 1, 1, 1, 0.901961 )
-expand_margin_left = 6.0
-expand_margin_right = 6.0
-expand_margin_top = 2.0
-expand_margin_bottom = 3.0
-
-[sub_resource type="StyleBoxFlat" id=442]
-bg_color = Color( 0, 0, 0, 0.862745 )
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
-
-[sub_resource type="StyleBoxLine" id=443]
-color = Color( 1, 1, 1, 1 )
-thickness = 2
-vertical = true
-
-[sub_resource type="Theme" id=446]
-default_font = ExtResource( 1 )
-Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
-Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
-Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
-Button/styles/disabled = SubResource( 427 )
-Button/styles/focus = SubResource( 427 )
-Button/styles/hover = SubResource( 427 )
-Button/styles/normal = SubResource( 427 )
-Button/styles/pressed = SubResource( 427 )
-CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
-CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
-CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
-CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
-CheckBox/constants/hseparation = 4
-CheckBox/icons/checked = SubResource( 428 )
-CheckBox/icons/unchecked = SubResource( 429 )
-CheckBox/styles/focus = SubResource( 430 )
-CheckBox/styles/hover = SubResource( 430 )
-CheckBox/styles/hover_pressed = SubResource( 430 )
-CheckBox/styles/normal = SubResource( 431 )
-CheckBox/styles/pressed = SubResource( 432 )
-HSeparator/styles/separator = SubResource( 433 )
-HSlider/icons/grabber = SubResource( 434 )
-HSlider/icons/grabber_disabled = null
-HSlider/icons/grabber_highlight = SubResource( 434 )
-HSlider/icons/tick = null
-HSlider/styles/grabber_area = SubResource( 435 )
-HSlider/styles/grabber_area_highlight = SubResource( 436 )
-HSlider/styles/slider = SubResource( 438 )
-Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
-Label/constants/line_spacing = 6
-LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
-LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
-LineEdit/styles/normal = SubResource( 439 )
-OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
-OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
-OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
-OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
-OptionButton/icons/arrow = SubResource( 440 )
-OptionButton/styles/focus = SubResource( 441 )
-OptionButton/styles/hover = SubResource( 441 )
-OptionButton/styles/pressed = SubResource( 441 )
-Panel/styles/panel = SubResource( 442 )
-VSeparator/styles/separator = SubResource( 443 )
-
-[sub_resource type="AtlasTexture" id=562]
-atlas = ExtResource( 12 )
-region = Rect2( 136, 72, 24, 24 )
-margin = Rect2( 0, 3, 0, 3 )
-
-[sub_resource type="AtlasTexture" id=563]
-atlas = ExtResource( 12 )
-region = Rect2( 136, 24, 24, 24 )
-margin = Rect2( 0, 3, 0, 3 )
 
 [sub_resource type="StyleBoxEmpty" id=478]
 
@@ -534,7 +372,7 @@ filter_clip = true
 
 [sub_resource type="AtlasTexture" id=536]
 atlas = ExtResource( 2 )
-region = Rect2( 32, 180, 16, 20 )
+region = Rect2( 80, 4, 16, 20 )
 filter_clip = true
 
 [sub_resource type="StyleBoxLine" id=531]
@@ -2038,153 +1876,6 @@ size_flags_vertical = 8
 enabled_focus_mode = 1
 text = "EXIT"
 
-[node name="ShortcutLine4" parent="HomeScreen" instance=ExtResource( 23 )]
-visible = false
-anchor_left = 0.0
-anchor_right = 0.0
-margin_left = 65.0
-margin_top = 339.0
-margin_right = 420.0
-margin_bottom = 367.0
-
-[node name="dot" parent="HomeScreen/ShortcutLine4" index="0"]
-theme = SubResource( 446 )
-
-[node name="VScrollBar2" type="VScrollBar" parent="HomeScreen/ShortcutLine4/dot" index="0"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-max_value = 28.0
-step = 1.0
-page = 28.0
-
-[node name="VScrollBar3" type="VScrollBar" parent="HomeScreen/ShortcutLine4/dot" index="1"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-step = 1.0
-
-[node name="VScrollBar4" type="VScrollBar" parent="HomeScreen/ShortcutLine4/dot" index="2"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-max_value = 28.0
-step = 1.0
-page = 28.0
-
-[node name="VScrollBar5" type="VScrollBar" parent="HomeScreen/ShortcutLine4/dot" index="3"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-step = 1.0
-
-[node name="VScrollBar6" type="VScrollBar" parent="HomeScreen/ShortcutLine4/dot" index="4"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-max_value = 28.0
-step = 1.0
-page = 28.0
-
-[node name="VScrollBar7" type="VScrollBar" parent="HomeScreen/ShortcutLine4/dot" index="5"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-step = 1.0
-
-[node name="KEY" parent="HomeScreen/ShortcutLine4" index="1"]
-margin_right = 33.0
-text = "ESC"
-
-[node name="or2" parent="HomeScreen/ShortcutLine4" index="2"]
-margin_left = 33.0
-margin_right = 66.0
-
-[node name="L1" parent="HomeScreen/ShortcutLine4" index="3"]
-margin_left = 66.0
-margin_right = 90.0
-texture = SubResource( 562 )
-
-[node name="Label3" parent="HomeScreen/ShortcutLine4" index="4"]
-margin_left = 90.0
-margin_right = 343.0
-text = " to go back to previous screen"
-
-[node name="ShortcutLine5" parent="HomeScreen" instance=ExtResource( 23 )]
-visible = false
-anchor_left = 0.0
-anchor_right = 0.0
-margin_left = 65.0
-margin_top = 371.0
-margin_right = 367.0
-margin_bottom = 399.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="dot" parent="HomeScreen/ShortcutLine5" index="0"]
-theme = SubResource( 446 )
-
-[node name="VScrollBar2" type="VScrollBar" parent="HomeScreen/ShortcutLine5/dot" index="0"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-max_value = 28.0
-step = 1.0
-page = 28.0
-
-[node name="VScrollBar3" type="VScrollBar" parent="HomeScreen/ShortcutLine5/dot" index="1"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-step = 1.0
-
-[node name="VScrollBar4" type="VScrollBar" parent="HomeScreen/ShortcutLine5/dot" index="2"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-max_value = 28.0
-step = 1.0
-page = 28.0
-
-[node name="VScrollBar5" type="VScrollBar" parent="HomeScreen/ShortcutLine5/dot" index="3"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-step = 1.0
-
-[node name="VScrollBar6" type="VScrollBar" parent="HomeScreen/ShortcutLine5/dot" index="4"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-max_value = 28.0
-step = 1.0
-page = 28.0
-
-[node name="VScrollBar7" type="VScrollBar" parent="HomeScreen/ShortcutLine5/dot" index="5"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-step = 1.0
-
-[node name="KEY" parent="HomeScreen/ShortcutLine5" index="1"]
-margin_right = 66.0
-text = "RETURN"
-
-[node name="or2" parent="HomeScreen/ShortcutLine5" index="2"]
-margin_left = 66.0
-margin_right = 99.0
-
-[node name="L1" parent="HomeScreen/ShortcutLine5" index="3"]
-margin_left = 99.0
-margin_right = 123.0
-texture = SubResource( 563 )
-
-[node name="Label3" parent="HomeScreen/ShortcutLine5" index="4"]
-margin_left = 123.0
-margin_right = 290.0
-text = " to confirm selection"
-
 [node name="SelectGame" type="Control" parent="."]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
@@ -2702,28 +2393,24 @@ margin_bottom = 663.0
 margin_top = 4.0
 margin_bottom = 22.0
 
-[node name="KEY" parent="SelectLevel/ActionHint" index="1"]
-margin_top = 4.0
-margin_right = 63.0
-margin_bottom = 23.0
-text = "H"
-
-[node name="Label2" parent="SelectLevel/ActionHint" index="2"]
-margin_left = 71.0
-margin_top = 4.0
-margin_right = 88.0
-margin_bottom = 22.0
-
-[node name="Jp" parent="SelectLevel/ActionHint" index="3"]
-margin_left = 96.0
-margin_right = 120.0
+[node name="Jp" parent="SelectLevel/ActionHint" index="1"]
 margin_bottom = 27.0
 texture = SubResource( 476 )
 
-[node name="Label3" parent="SelectLevel/ActionHint" index="4"]
-margin_left = 128.0
+[node name="Label2" parent="SelectLevel/ActionHint" index="2"]
 margin_top = 4.0
-margin_right = 257.0
+margin_bottom = 22.0
+
+[node name="KEY" parent="SelectLevel/ActionHint" index="3"]
+margin_top = 4.0
+margin_right = 68.0
+margin_bottom = 23.0
+text = "H"
+
+[node name="Label3" parent="SelectLevel/ActionHint" index="4"]
+margin_left = 76.0
+margin_top = 4.0
+margin_right = 205.0
 margin_bottom = 22.0
 text = "for in-game hint"
 
@@ -2779,13 +2466,12 @@ text = "Menu music"
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 65.0
 margin_top = 161.0
-margin_right = 336.0
+margin_right = 275.0
 margin_bottom = 193.0
 focus_neighbour_right = NodePath("../BackBtn")
 focus_neighbour_bottom = NodePath("../ColorSchemeOptions/RandomizeBtn")
 mouse_default_cursor_shape = 2
-pressed = true
-text = "Pregame instructions"
+text = "Pregame screen"
 
 [node name="ColorSchemeOptions" type="Control" parent="Settings"]
 anchor_top = 1.0
@@ -2870,7 +2556,6 @@ margin_right = 384.0
 margin_bottom = 273.0
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
-pressed = true
 text = "Anonymous data tracking"
 
 [node name="ResetLocalBtn" type="Button" parent="Settings"]
@@ -2907,7 +2592,6 @@ margin_bottom = 409.0
 focus_neighbour_top = NodePath("../TrackingBtn")
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
-pressed = true
 text = "Game music"
 
 [node name="GameMusicSlider" type="HSlider" parent="Settings"]
@@ -2948,7 +2632,6 @@ margin_right = 201.0
 margin_bottom = 513.0
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
-pressed = true
 text = "Game SFX"
 
 [node name="CameraShakeBtn" type="CheckButton" parent="Settings"]
@@ -2959,7 +2642,6 @@ margin_right = 253.0
 margin_bottom = 553.0
 focus_neighbour_right = NodePath("../BackBtn")
 mouse_default_cursor_shape = 2
-pressed = true
 text = "Camera shake"
 
 [node name="TouchPopUpBtn" type="Button" parent="Settings"]
@@ -2984,9 +2666,8 @@ margin_bottom = 652.0
 focus_neighbour_bottom = NodePath("../MenuMusicBtn")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 8
-max_value = 60.0
-step = 5.0
-value = 10.0
+max_value = 0.2
+step = 0.02
 __meta__ = {
 "_edit_group_": true
 }
@@ -3118,7 +2799,7 @@ align = 0
 [node name="TextureRect" type="TextureRect" parent="Highscores/PublishUnpublishedBtn"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 1.0
-margin_top = 3.0
+margin_top = 1.0
 margin_right = 17.0
 margin_bottom = 21.0
 texture = SubResource( 536 )
@@ -3660,7 +3341,7 @@ margin_right = 1216.0
 margin_bottom = 92.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
-text = "SWEEPER RIDDLES"
+text = "SWEEPER PUZZLES"
 autowrap = true
 uppercase = true
 
@@ -3686,7 +3367,7 @@ margin_top = 194.0
 margin_right = 352.0
 margin_bottom = 290.0
 custom_fonts/font = ExtResource( 14 )
-text = "It's enough to figure out the correct sequence in the first couple of screens. But then it becomes complicated as you have to move some strays to win."
+text = "Find a correct sequence in the first couple of situations. But then it gets complicated as you must move some strays to win."
 autowrap = true
 
 [node name="Line5" type="Label" parent="About/Sweeper"]
@@ -3881,9 +3562,8 @@ anims/settings = SubResource( 530 )
 [connection signal="meta_clicked" from="About/PA/LinkLabel2" to="About" method="_on_NameAuthor_meta_clicked"]
 [connection signal="meta_clicked" from="About/Resources/LinkLabel" to="About" method="_on_NameAuthor_meta_clicked"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+[connection signal="animation_started" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_started"]
 
-[editable path="HomeScreen/ShortcutLine4"]
-[editable path="HomeScreen/ShortcutLine5"]
 [editable path="SelectLevel/ActionHint"]
 [editable path="Highscores/GameHalls/Cleaner/CleanerHall"]
 [editable path="Highscores/GameHalls/Cleaner/CleanerHall/HighscoreTable"]

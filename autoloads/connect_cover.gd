@@ -25,11 +25,8 @@ func _ready() -> void:
 
 
 func open_cover(in_background: bool):
-#func open_cover(in_background: bool = true):
-
 
 	use_in_background = in_background
-	printt("BACK", use_in_background)
 	cover_label_text_change_count = 0
 
 	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)

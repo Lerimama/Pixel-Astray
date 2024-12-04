@@ -4,8 +4,6 @@ extends Node
 enum Screens {INTRO, MAIN_MENU, SELECT_GAME, ABOUT, SETTINGS, HIGHSCORES, SELECT_LEVEL}
 var current_screen = Screens.INTRO # se določi z main animacije
 
-var allow_ui_sfx: bool = false # za kontrolo defolt focus soundov
-
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var menu: HBoxContainer = $HomeScreen/Menu
 onready var intro: Node2D = $HomeScreen/IntroViewPortContainer/IntroViewport/Intro
@@ -49,20 +47,16 @@ func _ready():
 		navigation_hint.text = "You can swipe to navigate around." # ugasne ga swipe gumb
 		home_swipe_btn.show()
 	else:
-		navigation_hint.text = "You can use keyboard or gamepad to navigate around." # ugasne se iz na esc
+		navigation_hint.hide()
+		#		navigation_hint.text = "You can use keyboard or gamepad to navigate around." # ugasne se iz na esc
 
 	# btn groups
-	menu.get_node("SelectGameBtn").add_to_group(Global.group_menu_confirm_btns)
-	menu.get_node("SettingsBtn").add_to_group(Global.group_menu_confirm_btns)
-	menu.get_node("HighscoresBtn").add_to_group(Global.group_menu_confirm_btns)
-	menu.get_node("AboutBtn").add_to_group(Global.group_menu_confirm_btns)
-	menu.get_node("ExitGameBtn").add_to_group(Global.group_menu_cancel_btns)
+	menu.get_node("ExitGameBtn").add_to_group(Batnz.group_cancel_btns)
 
 	if Profiles.html5_mode:
 		menu.get_node("ExitGameBtn").hide()
 
 	var focused_control: Control = menu.get_focus_owner()
-#	focused_control.call_deferred("release_focus")
 
 
 func open_with_intro(): # kliče main.gd -> home_in_intro()
@@ -96,17 +90,17 @@ func open_from_game(finished_game: int): # select_game screen ... kliče main.gd
 
 	# fokus glede na končano igro
 	if finished_game == Profiles.Games.CLEANER:
-		Global.grab_focus_nofx($SelectGame/GamesMenu/Cleaner/CleanerBtn)
+		$SelectGame/GamesMenu/Cleaner/CleanerBtn.grab_focus()
 	elif finished_game == Profiles.Games.HUNTER:
-		Global.grab_focus_nofx($SelectGame/GamesMenu/Unbeatables/HunterBtn)
+		$SelectGame/GamesMenu/Unbeatables/HunterBtn.grab_focus()
 	elif finished_game == Profiles.Games.DEFENDER:
-		Global.grab_focus_nofx($SelectGame/GamesMenu/Unbeatables/DefenderBtn)
+		$SelectGame/GamesMenu/Unbeatables/DefenderBtn.grab_focus()
 	elif finished_game == Profiles.Games.SWEEPER:
-		Global.grab_focus_nofx($SelectGame/GamesMenu/Sweeper/SweeperBtn)
+		$SelectGame/GamesMenu/Sweeper/SweeperBtn.grab_focus()
 	elif finished_game == Profiles.Games.THE_DUEL:
-		Global.grab_focus_nofx($SelectGame/GamesMenu/TheDuel/TheDuelBtn)
+		$SelectGame/GamesMenu/TheDuel/TheDuelBtn.grab_focus()
 	else: # ERASER_XS, ERASER_S, ERASER_M, ERASER_L, ERASER_XL,
-		Global.grab_focus_nofx($SelectGame/GamesMenu/Eraser/SBtn)
+		$SelectGame/GamesMenu/Eraser/SBtn.grab_focus()
 
 	intro.finish_intro()
 
@@ -119,7 +113,7 @@ func open_from_game(finished_game: int): # select_game screen ... kliče main.gd
 func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drugih ekranov
 
 	current_screen = Screens.MAIN_MENU
-	Global.grab_focus_nofx(menu.get_node("SelectGameBtn"))
+	menu.get_node("SelectGameBtn").grab_focus()
 
 	menu.modulate.a = 0
 	menu.show()
@@ -165,26 +159,26 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 		"select_game":
 			if not animation_reversed(Screens.SELECT_GAME):
 				current_screen = Screens.SELECT_GAME
-				Global.grab_focus_nofx($SelectGame.default_focus_node)
+				$SelectGame.default_focus_node.grab_focus()
 		"about":
 			if not animation_reversed(Screens.ABOUT):
 				current_screen = Screens.ABOUT
-				Global.grab_focus_nofx($About.default_focus_node)
+				$About.default_focus_node.grab_focus()
 		"settings":
 			if not animation_reversed(Screens.SETTINGS):
 				current_screen = Screens.SETTINGS
-				Global.grab_focus_nofx($Settings.default_focus_node)
+				$Settings.default_focus_node.grab_focus()
 		"highscores":
 			if not animation_reversed(Screens.HIGHSCORES):
 				current_screen = Screens.HIGHSCORES
 				if $Highscores.default_focus_node.disabled:
 					ConnectCover.open_cover(false)
 				else:
-					Global.grab_focus_nofx($Highscores.default_focus_node)
+					$Highscores.default_focus_node.grab_focus()
 		"select_level":
 			if not animation_reversed(Screens.SELECT_LEVEL):
 				current_screen = Screens.SELECT_LEVEL
-				Global.grab_focus_nofx($SelectLevel.default_focus_node)
+				$SelectLevel.default_focus_node.grab_focus()
 
 
 func animation_reversed(from_screen: int):
@@ -194,22 +188,28 @@ func animation_reversed(from_screen: int):
 		# preverim s katerega ekrana je animirano še preden zamenjam na MAIN_MENU
 		match from_screen:
 			Screens.SELECT_GAME:
-				Global.grab_focus_nofx(menu.get_node("SelectGameBtn"))
+				menu.get_node("SelectGameBtn").grab_focus()
 				menu_in()
 			Screens.ABOUT:
-				Global.grab_focus_nofx(menu.get_node("AboutBtn"))
+				menu.get_node("AboutBtn").grab_focus()
 				menu_in()
 			Screens.SETTINGS:
-				Global.grab_focus_nofx(menu.get_node("SettingsBtn"))
+				menu.get_node("SettingsBtn").grab_focus()
 				menu_in()
 			Screens.HIGHSCORES:
-				Global.grab_focus_nofx(menu.get_node("HighscoresBtn"))
+				menu.get_node("HighscoresBtn").grab_focus()
 				menu_in()
 			Screens.SELECT_LEVEL:
 				current_screen = Screens.SELECT_GAME
-				Global.grab_focus_nofx($SelectGame/GamesMenu/Sweeper/SweeperBtn)
+				$SelectGame/GamesMenu/Sweeper/SweeperBtn.grab_focus()
 
 		return true
+
+
+func _on_AnimationPlayer_animation_started(anim_name: String) -> void:
+	# vsaka animacije ja prehod med scenami
+
+	Batnz.allow_ui_sfx = false
 
 
 # MENU BTNZ ---------------------------------------------------------------------------------------------------
@@ -228,12 +228,12 @@ func _on_AboutBtn_pressed() -> void:
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("about")
 
+
 func _on_SettingsBtn_pressed() -> void:
 
 	menu_out()
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("settings")
-
 
 
 func _on_HighscoresBtn_pressed() -> void:
@@ -246,3 +246,4 @@ func _on_HighscoresBtn_pressed() -> void:
 func _on_QuitGameBtn_pressed() -> void:
 
 	Global.main_node.quit_exit_game()
+

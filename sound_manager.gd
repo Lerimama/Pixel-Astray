@@ -55,8 +55,7 @@ func play_gui_sfx(effect_for: String):
 		"btn_confirm":
 			$Sfx/Inputs/BtnConfirm.play()
 		"btn_cancel":
-			if Global.allow_focus_sfx: # urgenca za nek "cancel" sound bugob prikazu pregame inst
-				$Sfx/Inputs/BtnCancel.play()
+			$Sfx/Inputs/BtnCancel.play()
 		"btn_focus_change":
 			$Sfx/Inputs/BtnFocus.play()
 		# menu
@@ -98,7 +97,7 @@ func play_music(music_for: String):
 				# set track
 				var current_track_playing: Node = game_music_node.get_child(current_music_track_index)
 				current_track_playing.play()
-				Global.hud.music_track_label.text = current_track_playing.name
+#				Global.hud.music_track_label.text = current_track_playing.name
 
 
 func stop_music(music_to_stop: String):

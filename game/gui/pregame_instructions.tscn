@@ -83,6 +83,7 @@ margin = Rect2( 0, 1, 0, 1 )
 pause_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
+focus_mode = 2
 theme = ExtResource( 5 )
 script = ExtResource( 1 )
 __meta__ = {
@@ -188,7 +189,7 @@ autowrap = true
 margin_right = 264.0
 margin_bottom = 160.0
 grow_horizontal = 2
-rect_min_size = Vector2( 264, 153 )
+rect_min_size = Vector2( 264, 160 )
 rect_clip_content = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -653,10 +654,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -192.0
-margin_top = 277.0
-margin_right = 194.0
-margin_bottom = 302.0
+margin_top = 269.0
+margin_right = 95.0
+margin_bottom = 294.0
 __meta__ = {
 "_edit_group_": true
 }
@@ -665,27 +665,19 @@ __meta__ = {
 margin_right = 171.0
 text = "Click anywhere, press"
 
-[node name="KEY" parent="ActionHint" index="1"]
-margin_left = 179.0
-margin_right = 249.0
-text = "ENTER"
-
-[node name="Label2" parent="ActionHint" index="2"]
-margin_left = 257.0
-margin_right = 274.0
-
-[node name="Jp" parent="ActionHint" index="3"]
-margin_left = 282.0
-margin_right = 306.0
+[node name="Jp" parent="ActionHint" index="1"]
 texture = SubResource( 475 )
 
+[node name="KEY" parent="ActionHint" index="3"]
+margin_right = 112.0
+text = "ENTER"
+
 [node name="Label3" parent="ActionHint" index="4"]
-margin_left = 314.0
-margin_right = 381.0
+margin_left = 120.0
+margin_right = 187.0
 text = "to start"
 
 [node name="ReadyBtn" type="Button" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 focus_mode = 0
@@ -695,7 +687,7 @@ enabled_focus_mode = 0
 [connection signal="pressed" from="ReadyBtn" to="." method="_on_ReadyBtnButton_pressed"]
 
 [editable path="_help_gui_guide"]
-[editable path="_help_gui_guide/ActionHint"]
+[editable path="_help_gui_guide/ActionHint2"]
 [editable path="Outline/Shortcuts/Shortcuts/ShortcutLine7"]
 [editable path="Outline/Shortcuts/Shortcuts/ShortcutLine4"]
 [editable path="Outline/Shortcuts/Shortcuts/ShortcutLine5"]

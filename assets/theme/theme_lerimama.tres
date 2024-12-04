@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=34 format=2]
+[gd_resource type="Theme" load_steps=36 format=2]
 
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/theme/font_main_rich_bold.tres" type="DynamicFont" id=2]
@@ -25,6 +25,10 @@ margin = Rect2( 2, 2, 0, 0 )
 atlas = ExtResource( 4 )
 region = Rect2( 16, 3, 14, 10 )
 margin = Rect2( 0, 2, 0, 0 )
+
+[sub_resource type="StyleBoxEmpty" id=342]
+
+[sub_resource type="StyleBoxEmpty" id=343]
 
 [sub_resource type="StyleBoxEmpty" id=192]
 
@@ -140,8 +144,8 @@ CheckButton/icons/on = SubResource( 183 )
 CheckButton/icons/on_disabled = SubResource( 183 )
 CheckButton/styles/disabled = null
 CheckButton/styles/focus = null
-CheckButton/styles/hover = null
-CheckButton/styles/hover_pressed = null
+CheckButton/styles/hover = SubResource( 342 )
+CheckButton/styles/hover_pressed = SubResource( 343 )
 CheckButton/styles/normal = null
 CheckButton/styles/pressed = null
 HScrollBar/styles/scroll = SubResource( 192 )

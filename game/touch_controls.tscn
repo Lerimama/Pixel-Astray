@@ -7,11 +7,11 @@
 
 [sub_resource type="AtlasTexture" id=362]
 atlas = ExtResource( 1 )
-region = Rect2( 16, 256, 32, 32 )
+region = Rect2( 48, 144, 32, 32 )
 
 [sub_resource type="AtlasTexture" id=358]
 atlas = ExtResource( 1 )
-region = Rect2( 16, 224, 32, 32 )
+region = Rect2( 48, 112, 32, 32 )
 
 [sub_resource type="ConvexPolygonShape2D" id=361]
 points = PoolVector2Array( -19, 0, -3, 16, 17, 16, 17, -16, -3, -16 )
@@ -22,11 +22,11 @@ region = Rect2( 34, 23, 6, 10 )
 
 [sub_resource type="AtlasTexture" id=366]
 atlas = ExtResource( 1 )
-region = Rect2( 0, 368, 80, 80 )
+region = Rect2( 0, 256, 80, 80 )
 
 [sub_resource type="AtlasTexture" id=363]
 atlas = ExtResource( 1 )
-region = Rect2( 0, 288, 80, 80 )
+region = Rect2( 0, 176, 80, 80 )
 
 [sub_resource type="RectangleShape2D" id=360]
 extents = Vector2( 40, 40 )
@@ -46,7 +46,7 @@ region = Rect2( 24, 120, 24, 24 )
 extents = Vector2( 28, 24 )
 
 [sub_resource type="RectangleShape2D" id=369]
-extents = Vector2( 50, 26 )
+extents = Vector2( 51, 26 )
 
 [sub_resource type="RectangleShape2D" id=373]
 extents = Vector2( 136, 32 )
@@ -58,16 +58,16 @@ extents = Vector2( 120, 32 )
 z_index = 100
 script = ExtResource( 2 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 562.0 ],
-"_edit_vertical_guides_": [ 119.0 ]
+"_edit_horizontal_guides_": [ 480.0, 640.0 ],
+"_edit_vertical_guides_": [ 120.0, 1248.0 ]
 }
 
 [node name="DirectionBtns" type="Node2D" parent="."]
-position = Vector2( 32, 474 )
+position = Vector2( 40, 480 )
 scale = Vector2( 2, 2 )
 
 [node name="TouchBtn_L" type="TouchScreenButton" parent="DirectionBtns"]
-position = Vector2( 34, 60 )
+position = Vector2( 32, 56 )
 rotation = 3.14159
 normal = SubResource( 362 )
 pressed = SubResource( 358 )
@@ -75,12 +75,12 @@ shape = SubResource( 361 )
 shape_visible = false
 visibility_mode = 1
 
-[node name="TextureRect2" type="Sprite" parent="DirectionBtns/TouchBtn_L"]
+[node name="Arrow" type="Sprite" parent="DirectionBtns/TouchBtn_L"]
 position = Vector2( 20.9999, 16.0001 )
 texture = SubResource( 372 )
 
 [node name="TouchBtn_U" type="TouchScreenButton" parent="DirectionBtns"]
-position = Vector2( 27.5, 34 )
+position = Vector2( 24, 32 )
 rotation = -1.5708
 normal = SubResource( 362 )
 pressed = SubResource( 358 )
@@ -89,12 +89,12 @@ shape_visible = false
 passby_press = true
 visibility_mode = 1
 
-[node name="TextureRect2" type="Sprite" parent="DirectionBtns/TouchBtn_U"]
+[node name="Arrow" type="Sprite" parent="DirectionBtns/TouchBtn_U"]
 position = Vector2( 20.9999, 16.0001 )
 texture = SubResource( 372 )
 
 [node name="TouchBtn_R" type="TouchScreenButton" parent="DirectionBtns"]
-position = Vector2( 53.5, 28 )
+position = Vector2( 48, 24 )
 normal = SubResource( 362 )
 pressed = SubResource( 358 )
 shape = SubResource( 361 )
@@ -102,12 +102,12 @@ shape_visible = false
 passby_press = true
 visibility_mode = 1
 
-[node name="TextureRect" type="Sprite" parent="DirectionBtns/TouchBtn_R"]
+[node name="Arrow" type="Sprite" parent="DirectionBtns/TouchBtn_R"]
 position = Vector2( 21, 16 )
 texture = SubResource( 372 )
 
 [node name="TouchBtn_D" type="TouchScreenButton" parent="DirectionBtns"]
-position = Vector2( 59, 53.5 )
+position = Vector2( 56, 48 )
 rotation = 1.5708
 normal = SubResource( 362 )
 pressed = SubResource( 358 )
@@ -116,12 +116,12 @@ shape_visible = false
 passby_press = true
 visibility_mode = 1
 
-[node name="TextureRect2" type="Sprite" parent="DirectionBtns/TouchBtn_D"]
+[node name="Arrow" type="Sprite" parent="DirectionBtns/TouchBtn_D"]
 position = Vector2( 21.0001, 15.4999 )
 texture = SubResource( 372 )
 
 [node name="BurstBtn" type="TouchScreenButton" parent="."]
-position = Vector2( 1089, 488 )
+position = Vector2( 1088, 480 )
 scale = Vector2( 2, 2 )
 normal = SubResource( 366 )
 pressed = SubResource( 363 )
@@ -139,7 +139,6 @@ custom_fonts/font = ExtResource( 3 )
 text = "Burst"
 align = 1
 valign = 1
-uppercase = true
 
 [node name="ScreenBtn" type="TouchScreenButton" parent="."]
 position = Vector2( 8, 48 )
@@ -147,20 +146,40 @@ shape = SubResource( 371 )
 shape_centered = false
 visibility_mode = 1
 
-[node name="_polishejp" type="Polygon2D" parent="ScreenBtn"]
+[node name="PolyShapeL" type="Polygon2D" parent="ScreenBtn"]
 visible = false
 color = Color( 1, 0, 0, 0.211765 )
 polygon = PoolVector2Array( 0, 0, 1264, 0, 1264, 416, 1056, 416, 1056, 624, 0, 624 )
 
+[node name="PolyShapeR" type="Polygon2D" parent="ScreenBtn"]
+visible = false
+color = Color( 1, 0, 0, 0.211765 )
+polygon = PoolVector2Array( 0, 0, 1264, 0, 1264, 624, 216, 624, 216, 416, 0, 416 )
+
+[node name="Label" type="Label" parent="ScreenBtn"]
+margin_left = 507.5
+margin_top = 500.0
+margin_right = 758.5
+margin_bottom = 527.0
+theme = ExtResource( 4 )
+custom_fonts/font = ExtResource( 3 )
+text = "Touch and slide for motion"
+valign = 1
+
 [node name="PauseBtn" type="TouchScreenButton" parent="."]
-position = Vector2( 776, 7 )
+position = Vector2( 560, 7 )
 normal = SubResource( 367 )
 pressed = SubResource( 368 )
 shape = SubResource( 370 )
 visibility_mode = 1
 
+[node name="MuteBtn" type="TouchScreenButton" parent="."]
+position = Vector2( 697, -5 )
+shape = SubResource( 370 )
+visibility_mode = 1
+
 [node name="NextTrackBtn" type="TouchScreenButton" parent="."]
-position = Vector2( 658, -9 )
+position = Vector2( 754, -9 )
 shape = SubResource( 369 )
 visibility_mode = 1
 
@@ -191,3 +210,15 @@ margin_top = -32.0
 margin_right = 121.0
 margin_bottom = 32.0
 color = Color( 1, 1, 1, 0.145098 )
+
+[node name="PositionL" type="Position2D" parent="."]
+position = Vector2( 40, 480 )
+__meta__ = {
+"_gizmo_extents_": 100.0
+}
+
+[node name="PositionR" type="Position2D" parent="."]
+position = Vector2( 1088, 480 )
+__meta__ = {
+"_gizmo_extents_": 100.0
+}

@@ -32,11 +32,18 @@ func _ready() -> void:
 
 	Global.main_node = self
 
-	call_deferred("home_in_intro")
-#	call_deferred("home_in_no_intro")
+#	call_deferred("home_in_intro")
+	call_deferred("home_in_no_intro")
 #	call_deferred("game_in")
 
 	Analytics.call_deferred("start_new_session")
+
+	var apply_game_settings: Dictionary = Data.read_settings_from_file()
+	Profiles.pregame_screen_on = apply_game_settings["pregame_screen_on"]
+	Profiles.html5_mode = apply_game_settings["html5_mode"]
+	Profiles.camera_shake_on = apply_game_settings["camera_shake_on"]
+	Profiles.tutorial_mode = apply_game_settings["tutorial_mode"]
+	Profiles.analytics_mode = apply_game_settings["analytics_mode"]
 
 
 func home_in_intro():
@@ -103,6 +110,11 @@ func home_out():
 
 func game_in():
 
+	if Profiles.tutorial_mode:
+		Global.sound_manager.current_music_track_index = Profiles.tutorial_music_track_index
+	else:
+		Global.sound_manager.current_music_track_index = Profiles.game_settings["game_music_track_index"]
+
 	game_scene_path = Profiles.current_game_data["game_scene_path"]
 
 	get_viewport().set_disable_input(false)
@@ -163,6 +175,8 @@ func reload_game(): # game out z drugačnim zaključkom
 
 
 func quit_exit_game():
+
+	Data.write_settings_to_file()
 
 	Analytics.end_session()
 	yield(Analytics, "session_saved")

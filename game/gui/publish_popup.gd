@@ -11,8 +11,7 @@ onready var publish_btn: Button = $HBoxContainer/PublishConfirmBtn
 func _ready() -> void:
 
 	hide()
-	publish_btn.add_to_group(Global.group_menu_confirm_btns)
-	skip_btn.add_to_group(Global.group_menu_cancel_btns)
+	skip_btn.add_to_group(Batnz.group_cancel_btns)
 
 
 func open_popup():
@@ -20,7 +19,7 @@ func open_popup():
 	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_in.tween_callback(self, "show")
 	fade_in.tween_property(self, "modulate:a", 1, 0.5)
-	publish_btn.grab_focus()
+	Batnz.grab_focus_nofx(publish_btn)
 
 
 func close_popup():
@@ -52,8 +51,6 @@ func publish_score():
 
 
 func _on_PublishBtn_pressed() -> void:
-
-#	Global.sound_manager.play_gui_sfx("btn_confirm")
 
 	skip_btn.disabled = true # zazih
 	publish_btn.disabled = true # zazih

@@ -16,9 +16,9 @@ func _ready() -> void:
 
 
 	if Profiles.tutorial_mode:
-		$TutorialModeBtn.pressed = true
+		$TutorialModeBtn.set_pressed_no_signal(true)
 	else:
-		$TutorialModeBtn.pressed = false
+		$TutorialModeBtn.set_pressed_no_signal(false)
 
 	$GamesMenu/Sweeper/Label.text %= sweeper_btns_count
 
@@ -38,14 +38,13 @@ func _ready() -> void:
 	# v grupo za efekte
 	for btn in all_game_btns:
 		if not btn == $GamesMenu/Sweeper/SweeperBtn:
-			btn.add_to_group(Global.group_critical_btns)
-		btn.add_to_group(Global.group_menu_confirm_btns) # OPT touch diasble duel btn
+			btn.add_to_group(Batnz.group_critical_btns)
 		if btn == $GamesMenu/TheDuel/TheDuelBtn and OS.has_touchscreen_ui_hint():
 			btn.disabled = true
 			$GamesMenu/TheDuel/Label.text = "Couch coop is disabled\nfor touchscreen."
 		else:
 			btn.connect("pressed", self, "_on_game_btn_pressed", [btn])
-	$BackBtn.add_to_group(Global.group_menu_cancel_btns)
+	$BackBtn.add_to_group(Batnz.group_cancel_btns)
 
 	color_game_btns()
 
@@ -259,7 +258,7 @@ func _on_SweeperBtn_pressed() -> void:
 
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("select_level")
-	Global.grab_focus_nofx($"../SelectLevel".select_level_btns_holder.all_level_btns[0]) # tudi anti dabl klik
+	$"../SelectLevel".select_level_btns_holder.all_level_btns[0].grab_focus()
 
 
 func _on_CleanerBackground_mouse_entered() -> void:

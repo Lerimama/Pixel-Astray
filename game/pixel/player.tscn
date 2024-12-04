@@ -784,55 +784,56 @@ polygon = PoolVector2Array( 1, 1, 1, 0, 31.0008, 0, 31, 1, 32, 1, 32, 31, 31, 31
 shape = SubResource( 4 )
 
 [node name="VisionRay" type="RayCast2D" parent="."]
-enabled = true
-cast_to = Vector2( 70, 0 )
+cast_to = Vector2( 170, 0 )
 collision_mask = 31
+collide_with_areas = true
 
 [node name="Touch" type="Node2D" parent="."]
 
-[node name="TouchArea" type="Area2D" parent="Touch"]
+[node name="TouchAreaU" type="Area2D" parent="Touch"]
 position = Vector2( -1, -18 )
+collision_layer = 0
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Touch/TouchArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Touch/TouchAreaU"]
 position = Vector2( 1, 1 )
 shape = SubResource( 161 )
 
-[node name="TouchArea2" type="Area2D" parent="Touch"]
+[node name="TouchAreaR" type="Area2D" parent="Touch"]
 position = Vector2( 16, -1 )
+collision_layer = 0
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Touch/TouchArea2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Touch/TouchAreaR"]
 position = Vector2( 1, 1 )
 shape = SubResource( 161 )
 
-[node name="TouchArea3" type="Area2D" parent="Touch"]
+[node name="TouchAreaD" type="Area2D" parent="Touch"]
 position = Vector2( -1, 16 )
+collision_layer = 0
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Touch/TouchArea3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Touch/TouchAreaD"]
 position = Vector2( 1, 1 )
 shape = SubResource( 161 )
 
-[node name="TouchArea4" type="Area2D" parent="Touch"]
+[node name="TouchAreaL" type="Area2D" parent="Touch"]
 position = Vector2( -18, -1 )
+collision_layer = 0
 monitorable = false
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Touch/TouchArea4"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Touch/TouchAreaL"]
 position = Vector2( 1, 1 )
 shape = SubResource( 161 )
-
-[node name="TouchTimer" type="Timer" parent="Touch"]
-autostart = true
 
 [node name="BurstLight" type="Light2D" parent="."]
 position = Vector2( 7.62939e-06, -9.53674e-06 )
@@ -1057,10 +1058,13 @@ one_shot = true
 wait_time = 0.5
 one_shot = true
 
+[node name="TouchTimer" type="Timer" parent="."]
+autostart = true
+
 [connection signal="tree_entered" from="." to="." method="_on_Player_tree_entered"]
 [connection signal="tree_exiting" from="." to="." method="_on_Player_tree_exiting"]
-[connection signal="timeout" from="Touch/TouchTimer" to="." method="_on_TouchTimer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="finished" from="Sounds/Skills/TeleportIn" to="." method="_on_TeleportIn_finished"]
 [connection signal="timeout" from="ReburstingTimer" to="." method="_on_ReburstingTimer_timeout"]
 [connection signal="timeout" from="SkillingStartTimer" to="." method="_on_SkilledTimer_timeout"]
+[connection signal="timeout" from="TouchTimer" to="." method="_on_TouchTimer_timeout"]

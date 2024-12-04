@@ -4,7 +4,7 @@ class_name GameTilemap
 signal tilemap_completed
 
 var all_floor_tiles_global_positions: Array # original tileti tal (samo tisto, kar je del uradnega igrišča)
-var player_global_positions: Array 
+var player_global_positions: Array
 var stray_global_positions: Array
 var stray_wall_global_positions: Array # podvrsta stray positions
 var no_stray_global_positions: Array
@@ -24,7 +24,7 @@ onready var edge_cover: Control = $EdgeCover/Edge
 
 
 func _ready() -> void:
-	
+
 	add_to_group(Global.group_tilemap)
 	Global.current_tilemap = self
 
@@ -40,7 +40,7 @@ func _ready() -> void:
 
 	if has_node("SolutionLine"):
 		solution_line = $SolutionLine
-		# če je hintline prazen, se pokaže tekst 
+		# če je hintline prazen, se pokaže tekst
 		if solution_line.points.empty():
 			solution_line.get_node("NoSolutionHint").show()
 			solution_line.get_node("Dots").hide()
@@ -48,20 +48,20 @@ func _ready() -> void:
 			solution_line.get_node("NoSolutionHint").hide()
 			solution_line.get_node("Dots").show()
 
-	
+
 func get_tiles():
-	
+
 	get_tilemap_edge_rect()
-	
+
 	# prečesi vse celice in določi globalne pozicije
 	for x in get_used_rect().size.x: # širina v celicah
-		for y in get_used_rect().size.y: # višina širina v celicah	 
-			
+		for y in get_used_rect().size.y: # višina širina v celicah
+
 			# pretvorba v globalno pozicijo
 			var cell: Vector2 = Vector2(x, y) # grid pozicija celice
 			var cell_local_position: Vector2 = map_to_world(cell)
 			var cell_global_position: Vector2 = to_global(cell_local_position) # pozicija je levo-zgornji vogal celice
-			
+
 			# zaznavanje tiletov
 			var cell_index = get_cellv(cell)
 			match cell_index:
@@ -89,8 +89,8 @@ func get_tiles():
 					stray_global_positions.append(cell_global_position) # stray wall je tudi stray pozicija
 					set_cellv(cell, 0)
 					all_floor_tiles_global_positions.append(cell_global_position)
-					
-	
+
+
 	# pošljem v GM
 	emit_signal("tilemap_completed", random_spawn_floor_positions, stray_global_positions, stray_wall_global_positions, no_stray_global_positions, player_global_positions)
 
@@ -99,26 +99,26 @@ func get_tilemap_edge_rect():
 
 	var inside_edge_level_tiles: Rect2 = get_used_rect()
 	var cell_size_x = cell_size.x
-	
+
 	tilemap_edge_rectangle.position.x = inside_edge_level_tiles.position.x * cell_size_x# + cell_size_x
 	tilemap_edge_rectangle.position.y = inside_edge_level_tiles.position.y * cell_size_x# + cell_size_x
 	tilemap_edge_rectangle.size.x = inside_edge_level_tiles.end.x * cell_size_x# - 2 * cell_size_x
 	tilemap_edge_rectangle.size.y = inside_edge_level_tiles.end.y * cell_size_x# - 2 * cell_size_x # 2 * ker se pozicija zamakne
-	
+
 	edge_cover.rect_position.x = tilemap_edge_rectangle.position.x
 	edge_cover.rect_position.y = tilemap_edge_rectangle.position.y
 	edge_cover.rect_size.x = tilemap_edge_rectangle.size.x
 	edge_cover.rect_size.y = tilemap_edge_rectangle.size.y
 
-	
+
 func get_collision_tile_id(collider: Node2D, direction: Vector2): # collider je node ki se zaleteva in ne collision object
-	
+
 	# pozicija celice stene
 	var collider_position = collider.position
 	var colliding_cell_position = collider_position + direction * cell_size.x # dodamo celico v smeri gibanja, da ne izber pozicije pixla
-	
+
 	# index tileta
 	var colliding_cell_grid_position: Vector2 = world_to_map(colliding_cell_position) # katera celica je bila zadeta glede na global coords
 	var tile_index: int = get_cellv(colliding_cell_grid_position) # index zadete celice na poziciji v grid koordinatah
-	
+
 	return tile_index

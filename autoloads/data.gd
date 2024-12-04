@@ -5,43 +5,118 @@ signal scores_saved
 
 var data_file: = File.new()
 
+var settings_file_name: String = "user_settings"
 
-func _ready() -> void:
+onready var game_settings: Dictionary = {
+	"pregame_screen_on": Profiles.pregame_screen_on,
+	"html5_mode": Profiles.html5_mode,
+	"camera_shake_on": Profiles.camera_shake_on,
+	"tutorial_mode": Profiles.tutorial_mode,
+	"analytics_mode": Profiles.analytics_mode,
+}
 
-	Global.data_manager = self
+#func _ready() -> void:
+#
+#	Global.data_manager = self
 
 
 func get_top_highscore(current_game_data: Dictionary):
+	# najprej preverjam globalne
+	# potem preverjam lokalne
+	# potem oba me sabo, kateri je boljši
 
 	# load highscore ...
-	# nakoncu z najvišjega globalnega primerjam z top lokalnim (neobjavljenim) in pokažem boljšega
-	var loaded_global_highscores: Dictionary = read_highscores_from_file(current_game_data) # ... v odprtem filetu se potem naloži highscore
-	var loaded_local_highscores: Dictionary = read_highscores_from_file(current_game_data, true) # ... v odprtem filetu se potem naloži highscore
+	# na koncu najvišjega globalnega primerjam z top lokalnim (neobjavljenim) in pokažem boljšega
+	var loaded_global_highscores: Dictionary = read_highscores_from_file(current_game_data)
+	var loaded_local_highscores: Dictionary = read_highscores_from_file(current_game_data, true)
 
+	# globalni
 	var global_first_rank_key: String = loaded_global_highscores.keys()[0]
 	var global_hs_owner: String = loaded_global_highscores[global_first_rank_key].keys()[0]
 	var global_hs_score: float = loaded_global_highscores[global_first_rank_key].values()[0]
 
+	# lokalni
 	var local_first_rank_key: String = loaded_local_highscores.keys()[0]
 	var local_hs_owner: String = loaded_local_highscores[local_first_rank_key].keys()[0]
 	var local_hs_score: float = loaded_local_highscores[local_first_rank_key].values()[0]
 
-	var top_highscore: float = global_hs_score
-	var top_highscore_owner: String = global_hs_owner
-	# preverim, če je lokalni skor višji (samo neobjavljeni je lahko višji)
-	if current_game_data["highscore_type"] == Profiles.HighscoreTypes.POINTS:
-		if local_hs_score > global_hs_score:
-			top_highscore = local_hs_score
-			top_highscore_owner = local_hs_owner
-	elif current_game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
-		if local_hs_score < global_hs_score and local_hs_score > 0:
-			top_highscore = local_hs_score
-			top_highscore_owner = local_hs_owner
+	var top_highscore: float
+	var top_highscore_owner: String
+
+	# če globalni ni 0 ga primerjam (zraven izločam lokalni 0 score)
+	if global_hs_score > 0:
+		top_highscore = global_hs_score
+		top_highscore_owner = global_hs_owner
+		# preverim, če je lokalni skor boljši (samo neobjavljeni je lahko višji)
+		if current_game_data["highscore_type"] == Profiles.HighscoreTypes.POINTS:
+			if local_hs_score > global_hs_score:
+				top_highscore = local_hs_score
+				top_highscore_owner = local_hs_owner
+		elif current_game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
+			if local_hs_score < global_hs_score and local_hs_score > 0:
+				top_highscore = local_hs_score
+				top_highscore_owner = local_hs_owner
+	# če je globalni 0 pa lokalni ni ... ne primerjam > zapišem lokalnega
+	elif local_hs_score > 0:
+		top_highscore = local_hs_score
+		top_highscore_owner = local_hs_owner
+	# če ni nobenega rezultata
+	else:
+		top_highscore = 0
+		top_highscore_owner = "Nobody"
 
 	return [top_highscore, top_highscore_owner]
 
 
 # READ & WRITE ------------------------------------------------------------------------------------------------------------------------
+
+
+func write_settings_to_file():
+
+	#	var current_game_settings: Dictionary = { # v tej obliki, da je bolj pregledno
+	#		"pregame_screen_on": Profiles.pregame_screen_on,
+	#		"html5_mode": Profiles.html5_mode,
+	#		"camera_shake_on": Profiles.camera_shake_on,
+	#		"tutorial_mode": Profiles.tutorial_mode,
+	#		"analytics_mode": Profiles.analytics_mode,
+	#	}
+	#	game_settings = current_game_settings
+
+	game_settings["pregame_screen_on"] = Profiles.pregame_screen_on
+	game_settings["html5_mode"]= Profiles.html5_mode
+	game_settings["camera_shake_on"] = Profiles.camera_shake_on
+	game_settings["tutorial_mode"] = Profiles.tutorial_mode
+	game_settings["analytics_mode"] = Profiles.analytics_mode
+
+	# podam novi HS v json obliko
+	var json_string = JSON.print(game_settings)
+
+	# če fileta ni, ga funkcija ustvari iz File.new()
+	data_file.open("user://%s.save" % settings_file_name, File.WRITE) # vsak game ma svoj filet
+
+	# vnesem novi HS
+	data_file.store_line(to_json(game_settings))
+	data_file.close()
+
+
+
+func read_settings_from_file():
+
+	# preverjam obstoj fileta ... ob prvem nalaganju igre
+	var error = data_file.open("user://%s.save" % settings_file_name, File.READ)
+	if error != OK:
+		data_file.open("user://%s.save" % settings_file_name, File.WRITE)
+		var default_highscores: Dictionary = _build_default_highscores()
+		data_file.store_line(to_json(game_settings))
+		data_file.close()
+	# odprem filet za branje
+	data_file.open("user://%s.save" % settings_file_name, File.READ)
+
+	# prepiši podatke iz fileta v igro
+	var read_game_settings = parse_json(data_file.get_line())
+	data_file.close()
+
+	return read_game_settings
 
 
 func write_highscores_to_file(write_game_data: Dictionary, new_game_highscores: Dictionary, local_highscores: bool = false):
@@ -80,25 +155,13 @@ func read_highscores_from_file(read_game_data: Dictionary, local_highscores: boo
 	if not local_highscores:
 		read_game_name += "_Global"
 
-	# obs ... preveč vrstic
-	#	if read_game_data["game"] == Profiles.Games.SWEEPER:
-	#		if local_highscores:
-	#			read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_" + str(read_game_data["level"])
-	#		else:
-	#			read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_" + str(read_game_data["level"]) + "_Global"
-	#	else:
-	#		if local_highscores:
-	#			read_game_name = Profiles.Games.keys()[read_game_data["game"]]
-	#		else:
-	#			read_game_name = Profiles.Games.keys()[read_game_data["game"]] + "_Global"
-
 	# preverjam obstoj fileta ... ob prvem nalaganju igre
 	var error = data_file.open("user://%s_highscores.save" % read_game_name, File.READ)
 	if error != OK:
 		# če iščem lokalnega in ga ni, naredim nov filet
 		if local_highscores:
 			data_file.open("user://%s_highscores.save" % read_game_name, File.WRITE)
-			var default_highscores: Dictionary = build_default_highscores()
+			var default_highscores: Dictionary = _build_default_highscores()
 			data_file.store_line(to_json(default_highscores))
 			data_file.close()
 		# če iščem globalnega in ga ni, probam z lokalnim
@@ -111,7 +174,7 @@ func read_highscores_from_file(read_game_data: Dictionary, local_highscores: boo
 			# če tudi lokalnega ni, naredim nov lokalni filet
 			if local_error != OK:
 				data_file.open("user://%s_highscores.save" % read_game_name, File.WRITE)
-				var default_highscores: Dictionary = build_default_highscores()
+				var default_highscores: Dictionary = _build_default_highscores()
 				data_file.store_line(to_json(default_highscores))
 				data_file.close()
 	# odprem filet za branje
@@ -136,29 +199,11 @@ func delete_highscores_file(file_game_data: Dictionary):
 	if not local_highscores:
 		game_name += "_Global"
 
-	# obs ... preveč vrstic
-	#	if game_data["game"] == Profiles.Games.SWEEPER:
-	#		if local_highscores:
-	#			game_name = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"])
-	#		else:
-	#			game_name = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"]) + "_Global"
-	#	else:
-	#		if local_highscores:
-	#			game_name = Profiles.Games.keys()[game_data["game"]]
-	#		else:
-	#			game_name = Profiles.Games.keys()[game_data["game"]] + "_Global"
-
 	var file_directory: Directory = Directory.new()
 	var file_path: String = "user://%s_highscores.save" % game_name
 	var error = file_directory.remove(file_path)
 
-	#	if not error == OK:
-	#		print("neuspeh")
-	#	else:
-	#		print("uspeh")
 
-
-#func save_player_score(current_score: float, score_ranking: int, current_game_data: Dictionary):
 func save_player_score(current_score: float, current_game_data: Dictionary):
 	# med izvajanjem te kode GM čaka
 	# poberem trenutno lestvico (potem generiram novo z dodanim trenutnim skorom)
@@ -166,7 +211,7 @@ func save_player_score(current_score: float, current_game_data: Dictionary):
 	var all_ranking_scores: Array = []
 	var all_ranking_score_owners: Array = []
 	var local_game_highscores: Dictionary = read_highscores_from_file(current_game_data, true) # ... v odprtem filetu se potem naloži highscore
-	var score_local_ranking: int = check_player_ranking(current_score, local_game_highscores, current_game_data)
+	var score_local_ranking: int = _check_player_ranking(current_score, local_game_highscores, current_game_data)
 
 	for hs_position_key in local_game_highscores:
 		var current_position_dict: Dictionary = local_game_highscores[hs_position_key]
@@ -202,12 +247,10 @@ func save_player_score(current_score: float, current_game_data: Dictionary):
 	#	emit_signal("scores_saved") # OPT trenutno se ne uporablja, čeprav bi bilo dobra praksa
 
 
-func check_player_ranking(current_score: float, local_highscores: Dictionary, current_game_data: Dictionary):
-#func check_player_ranking(current_score: float, current_game_data: Dictionary, check_local_ranking: bool = true):
+func _check_player_ranking(current_score: float, local_highscores: Dictionary, current_game_data: Dictionary):
 
 	var all_ranking_scores: Array = []
 	var all_ranking_score_owners: Array = []
-#	var current_game_highscores: Dictionary = read_highscores_from_file(current_game_data, check_local_ranking)
 	# current_score_time je že zaokrožen na 2 decimalki
 
 	# poberemo lestvico v arraye
@@ -231,7 +274,7 @@ func check_player_ranking(current_score: float, local_highscores: Dictionary, cu
 	return player_ranking
 
 
-func build_default_highscores():
+func _build_default_highscores():
 
 	var new_highscores: Dictionary
 	var highscore_line_key_as_rank: String = "%03d" % (1)

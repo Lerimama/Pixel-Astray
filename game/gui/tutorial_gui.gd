@@ -16,7 +16,7 @@ onready var travel_content: Control = $Checkpoints/TravelingContent
 onready var collect_content: Control = $Checkpoints/BurstingContent
 onready var skills_content: Control = $Checkpoints/SkillingContent
 onready var fin_content: Control = $Checkpoints/FinContent
-onready var viewport_container: ViewportContainer = $"%ViewportContainer"
+#onready var viewport_container: ViewportContainer = $"%ViewportContainer"
 onready var skip_hint: HBoxContainer = $ActionHint
 onready var hud_guide: Control = $HudGuide
 
@@ -68,42 +68,38 @@ func _ready() -> void:
 func open_tutorial(): # kliče se z GM
 
 	if not tutorial_on:
-		tutorial_on = true
-		show()
-		open_stage(travel_content)
-		skip_hint.modulate.a = 0
-		skip_hint.show()
-#		hud_guide.modulate.a = 0
-#		hud_guide.show()
-		var fade_time: float = 0.3
-		var hint_fade = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-		hint_fade.tween_property(skip_hint, "modulate:a", 1, fade_time).set_ease(Tween.EASE_IN)
-#		hint_fade.parallel().tween_property(hud_guide, "modulate:a", 1, fade_time).set_ease(Tween.EASE_IN)
-		for tut_element in Global.hud.touch_controls.tutorial_elements:
-			hint_fade.parallel().tween_callback(tut_element, "show")
-			hint_fade.parallel().tween_property(tut_element, "modulate:a", 1, fade_time).set_ease(Tween.EASE_IN)
 
+		tutorial_on = true
+
+		# skip step hint
+		var fade_time: float = 0.3
+		var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+		fade_in.tween_callback(self, "show")
+		fade_in.tween_callback(skip_hint, "show")
+		fade_in.tween_property(skip_hint, "modulate:a", 1, fade_time).from(0.0).set_ease(Tween.EASE_IN)
+
+		Global.hud.touch_controls.toggle_tutorial_elements(true)
+		open_stage(travel_content)
 		current_tutorial_stage = TUTORIAL_STAGE.TRAVEL # more bit
 
 
 func close_tutorial():
 
 	if tutorial_on:
+
 		tutorial_on = false
 		current_tutorial_stage = TUTORIAL_STAGE.IDLE # disejblan gui
 
+		Global.hud.touch_controls.toggle_tutorial_elements(false)
+
 		var fade_time: float = 0.5
-		var close_stage = get_tree().create_tween()
+		var close_stage = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 		for content in checkpoints.get_children():
 			if content.visible:
 				close_stage.parallel().tween_property(content, "modulate:a", 0, fade_time)
 		close_stage.parallel().tween_property(skip_hint, "modulate:a", 0, fade_time)
-		for tut_element in Global.hud.touch_controls.tutorial_elements:
-			close_stage.parallel().tween_property(tut_element, "modulate:a", 0, fade_time)
 		yield(close_stage, "finished")
 
-		for tut_element in Global.hud.touch_controls.tutorial_elements:
-			tut_element.hide()
 		hide()
 
 		# če se igra nadaljuje
@@ -175,7 +171,7 @@ func on_skill_used(skill_number: int):
 
 
 func on_hit_stray(colors_collected_count: int):
-	print("HI")
+
 	if current_tutorial_stage == TUTORIAL_STAGE.COLLECT:
 		yield(get_tree().create_timer(Global.get_it_time), "timeout")
 		finish_collect()

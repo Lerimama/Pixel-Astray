@@ -5,16 +5,11 @@ class_name GameHud
 signal players_ready # za splitscreen popup
 
 var tired_energy_limit: float = 20
-
-# spectrum
 var stray_in_indicator_alpha: float = 1 # alfa obračam, če ima igra goal
 var stray_out_indicator_alpha: float = 0.2
 var all_color_indicators: Array = [] # indikatorji spawnani že ob spawnanju pixlov ... nima veze, če je ugasnjen ali prižgan
-
-# hs
-var current_highscore: float
-var current_highscore_clock: String
-var current_highscore_owner: String
+var highscore_on_start: float
+var new_record_set: bool = false
 
 # in/out
 var hud_in_out_time: int = 2
@@ -25,9 +20,9 @@ onready var viewport_header: ColorRect = $"%ViewHeder"
 onready var viewport_footer: ColorRect = $"%ViewFuter"
 
 # header
-onready var game_timer: HBoxContainer = $Header/GameTimerHunds
+onready var game_timer: HBoxContainer = $Header/TopLineR/GameTimerHunds
 onready var music_player: HBoxContainer = $Header/TopLineR/MusicPlayer
-onready var music_track_label: Button = $Header/TopLineR/MusicPlayer/TrackBtn # TrackLabel # za pedeneanje imena iz SM in na ready
+onready var music_track_btn: Button = $Header/TopLineR/MusicPlayer/TrackBtn # TrackLabel # za pedeneanje imena iz SM in na ready
 onready var highscore_holder: HBoxContainer = $Header/TopLineR/HighscoreHolder
 onready var highscore_label: Label = $Header/TopLineR/HighscoreHolder/HighscoreLabel
 
@@ -60,7 +55,6 @@ onready var p2_steps_counter: Label = $Header/TopLineR/PlayerLineR/StepsHolder/L
 onready var footer: Control = $Footer # kontrole iz kamere
 onready var game_label: Label = $Footer/FooterLine/GameLine/Game
 onready var level_label: Label = $Footer/FooterLine/GameLine/Level
-
 onready var pixel_astray_holder: HBoxContainer = $Footer/FooterLine/StraysLine/AstrayHolder
 onready var astray_counter: Label = $Footer/FooterLine/StraysLine/AstrayHolder/Count
 onready var pixel_picked_holder: HBoxContainer = $Footer/FooterLine/StraysLine/PickedHolder # trenutno ne rabim
@@ -69,19 +63,12 @@ onready var astray_label: Label = $Footer/FooterLine/StraysLine/AstrayHolder/Lab
 onready var spectrum: HBoxContainer = $Footer/FooterLine/SpectrumHolder/ColorSpectrum
 onready var ColorIndicator: PackedScene = preload("res://game/hud/hud_color_indicator.tscn")
 
-# debug ... life & energy
-onready var player_life: Label = $Life
-onready var player_energy: Label = $Energy
-
-# popups
+# ains
 onready var instructions_popup: Control = $Popups/Instructions
 onready var level_popup: Control = $Popups/LevelUp
 onready var start_countdown: Control = $Popups/StartCountdown
-
-# neu
 onready var touch_controls: Node2D = $"../TouchControls"
 onready var sweeper_hint_btn: Button = $"../SweeperHintBtn"
-var new_record_set: bool = false
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -94,103 +81,11 @@ func _unhandled_input(event: InputEvent) -> void:
 func _ready() -> void:
 
 	Global.hud = self
-
 	header.rect_position.y = - header_height
 	footer.rect_position.y = screen_height
-
 	start_countdown.hide()
 	level_popup.hide()
-
-	game_label.text = Global.game_manager.game_data["game_name"]
-
-	if Global.game_manager.game_data.has("level"):
-		level_label.text = "L%02d" % Global.game_manager.game_data["level"]
-		level_label.show()
-	else:
-		level_label.hide()
-
-	if not Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NONE:
-		set_current_highscore()
-
-	if Global.game_manager.game_settings["show_game_instructions"]:
-		instructions_popup.open()
-	else:
-		instructions_popup.hide()
-
-	# ime komada na vrsti
-	var game_music_track_index: int = Global.game_manager.game_settings["game_music_track_index"]
-	music_track_label.text = Global.sound_manager.game_music_node.get_children()[game_music_track_index].name
-
-	# hud barva elementov, ki ne modulirajo sami sebe in niso label (v glavnem ikone)
-	# timer in hs sta label, moduliran med igro, zato imata na nodetu setano font color override na belo
-	# p1 stats
-	var nodes_to_modulate: Array = [$Header/TopLineL/ColorHolder/TextureRect5,
-					$Header/TopLineL/StepsHolder/TextureRect5,
-					$Header/TopLineL/SkillHolder/TextureRect5,
-					$Header/TopLineL/BurstHolder/TextureRect6,
-					$Header/TopLineL/PointsHolder/TextureRect4]
-	# p2 stats
-	nodes_to_modulate.append_array([$Header/TopLineR/PlayerLineR/PointsHolder/TextureRect4,
-					$Header/TopLineR/PlayerLineR/ColorHolder/TextureRect5,
-					$Header/TopLineR/PlayerLineR/StepsHolder/TextureRect5,
-					$Header/TopLineR/PlayerLineR/SkillHolder/TextureRect5,
-					$Header/TopLineR/PlayerLineR/BurstHolder/TextureRect6])
-	# game stats
-	nodes_to_modulate.append_array([$Header/TopLineR/MusicPlayer/SpeakerIcon,
-					$Footer/FooterLine/StraysLine/AstrayHolder/TextureRect3,
-					$Footer/FooterLine/StraysLine/PickedHolder/TextureRect2])
-	for node in nodes_to_modulate:
-		node.modulate = Global.color_hud_text
-
-	set_hud() # vse kar se lahko razlikuje "per game"
-
-
-func _process(delta: float) -> void:
-
-
-#	set_process_input(true)
-#	printt(is_processing_input(), Input.is_mouse_button_pressed(1))
-	astray_counter.text = "%0d" % Global.game_manager.strays_in_game_count
-
-	if level_label.visible: # Global.game_manager.game_data.has("level"):
-		level_label.text = "L%02d" % Global.game_manager.game_data["level"]
-
-
-func set_hud(): # kliče main na game-in
-
-	#	astray_label.text = "STRAYS"
-
-	# player statlines
-	if Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
-		p1_label.visible = true
-		p2_statsline.visible = true
-	else:
-		p1_label.visible = false
-		p2_statsline.visible = false
-
-	# lajf
-	if Global.game_manager.game_settings["player_start_life"] > 1:
-		p1_life_counter.visible = true
-		p2_life_counter.visible = true
-	else:
-		p1_life_counter.visible = false
-		p2_life_counter.visible = false
-
-	# energy
-	if Global.game_manager.game_settings["cell_traveled_energy"] == 0:
-		p1_energy_counter.visible = false
-		p2_energy_counter.visible = false
-
-	# glede na to kaj šteje ...
-	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NONE:
-		highscore_holder.visible = false
-	else:
-		highscore_holder.visible = true
-
-	# stotinke na timerju
-	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
-		game_timer.get_node("Dots2").show()
-		game_timer.get_node("Hunds").show()
+	sweeper_hint_btn.hide() # prifejdam na slide in
 
 	if Global.game_manager.game_settings["always_zoomed_in"]:
 		header.rect_position.y = 0
@@ -198,21 +93,78 @@ func set_hud(): # kliče main na game-in
 		viewport_header.rect_min_size.y = header_height
 		viewport_footer.rect_min_size.y = header_height
 
-	sweeper_hint_btn.hide() # prifejdam na slide in
+	# hud barva elementov, ki ne modulirajo sami sebe in niso label (v glavnem ikone)
+	# timer in hs sta label, moduliran med igro, zato imata na nodetu setano font color override na belo
+	# p1 stats + p2 stats + game stats
+	var nodes_to_modulate: Array = [$Header/TopLineL/ColorHolder/TextureRect5, $Header/TopLineL/StepsHolder/TextureRect5, $Header/TopLineL/SkillHolder/TextureRect5, $Header/TopLineL/BurstHolder/TextureRect6, $Header/TopLineL/PointsHolder/TextureRect4]
+	nodes_to_modulate.append_array([$Header/TopLineR/PlayerLineR/PointsHolder/TextureRect4, $Header/TopLineR/PlayerLineR/ColorHolder/TextureRect5, $Header/TopLineR/PlayerLineR/StepsHolder/TextureRect5, $Header/TopLineR/PlayerLineR/SkillHolder/TextureRect5, $Header/TopLineR/PlayerLineR/BurstHolder/TextureRect6])
+	nodes_to_modulate.append_array([$Footer/FooterLine/StraysLine/AstrayHolder/TextureRect3, $Footer/FooterLine/StraysLine/PickedHolder/TextureRect2])
+	for node in nodes_to_modulate:
+		node.modulate = Global.color_hud_text
+
+	_set_hud_elements() # vse kar se lahko razlikuje "per game"
 
 
-func set_current_highscore():
+func _process(delta: float) -> void:
 
-	var current_highscore_line: Array = Global.data_manager.get_top_highscore(Global.game_manager.game_data)
 
-	current_highscore = current_highscore_line[0]
-	current_highscore_clock = Global.get_clock_time(current_highscore)
-	current_highscore_owner = current_highscore_line[1]
+#	set_process_input(true)
+	astray_counter.text = "%0d" % Global.game_manager.strays_in_game_count
 
-	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
-		highscore_label.text = current_highscore_clock + " by %s" % current_highscore_owner
-	elif Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.POINTS:
-		highscore_label.text = str(current_highscore) + " by %s" % current_highscore_owner
+	if level_label.visible: # Global.game_manager.game_data.has("level"):
+		level_label.text = "L%02d" % Global.game_manager.game_data["level"]
+
+
+func _set_hud_elements():
+
+	# game name and level
+	game_label.text = Global.game_manager.game_data["game_name"]
+	if Global.game_manager.game_data.has("level"):
+		level_label.text = "L%02d" % Global.game_manager.game_data["level"]
+		level_label.show()
+	else:
+		level_label.hide()
+
+	# player statlines
+	if Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
+		p1_label.show()
+		p2_statsline.show()
+	else:
+		p1_label.hide()
+		p2_statsline.hide()
+
+	# lajf
+	if Global.game_manager.game_settings["player_start_life"] > 1:
+		p1_life_counter.show()
+		p2_life_counter.show()
+	else:
+		p1_life_counter.hide()
+		p2_life_counter.hide()
+
+	# energy
+	if Global.game_manager.game_settings["cell_traveled_energy"] == 0:
+		p1_energy_counter.hide()
+		p2_energy_counter.hide()
+
+	# pre-game
+	if Global.game_manager.game_settings["pregame_screen_on"]:
+		instructions_popup.open()
+	else:
+		instructions_popup.hide()
+
+	# HS
+	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NONE:
+		highscore_holder.hide()
+	else:
+		_get_highscore_on_start()
+		highscore_holder.show()
+
+	# timer
+	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+	#	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
+		game_timer.get_node("Dots2").show()
+		game_timer.get_node("Hunds").show()
+
 
 
 func slide_in(): # kliče GM set_game()
@@ -256,9 +208,10 @@ func slide_out(): # kliče GM na game over
 
 	if Global.tutorial_gui.tutorial_on:
 		Global.tutorial_gui.close_tutorial()
-	if Global.hud.touch_controls.visible:
-		Global.hud.touch_controls.close()
-	Global.hud.popups_out()
+	if touch_controls.visible:
+		touch_controls.close()
+	_popups_out()
+	_check_for_new_highscore(game_timer.game_time_hunds)
 
 	if sweeper_hint_btn.visible:
 		var fade_in = get_tree().create_tween()
@@ -284,7 +237,7 @@ func slide_out(): # kliče GM na game over
 
 func spawn_color_indicators(spawn_colors: Array): # kliče GM
 
-	empty_color_indicators()
+	_empty_color_indicators()
 
 	var indicator_index = 0 # za fiksirano zaporedje
 	var indicator_to_move_under_index: int
@@ -331,7 +284,7 @@ func indicate_color_collected(collected_color: Color):
 			break
 
 
-func empty_color_indicators():
+func _empty_color_indicators():
 
 	# zbrišem trenutne indikatorje
 	for child in spectrum.get_children():
@@ -354,7 +307,7 @@ func level_popup_fade(level_reached: int):
 	popup_in.parallel().tween_property(level_popup, "modulate:a", 0, 0.5).from(1.0).set_delay(0.6)
 
 
-func popups_out(): # kliče GM na gameover
+func _popups_out(): # kliče GM na gameover
 
 	var popups_out = get_tree().create_tween()
 	popups_out.tween_property($Popups, "modulate:a", 0, 0.5)
@@ -367,21 +320,39 @@ func popups_out(): # kliče GM na gameover
 # INTERNAL ---------------------------------------------------------------------------------------------------------------------------
 
 
-func _check_for_highscore(player_stats: Dictionary):
 
-	match Global.game_manager.game_data["highscore_type"]:
-		Profiles.HighscoreTypes.POINTS:
-			if player_stats["player_points"] > current_highscore:
-				new_record_set = true
-				highscore_label.text = str(player_stats["player_points"]) + " by You"
-				highscore_holder.modulate = Global.color_green
-			else:
-				new_record_set = false
-				highscore_label.text = str(current_highscore) + " by %s" % current_highscore_owner
-				highscore_holder.modulate = Global.color_hud_text
-		Profiles.HighscoreTypes.TIME: # logika je tu malo drugačna kot pri drugih dveh
-			highscore_label.text = current_highscore_clock + " by %s" % current_highscore_owner
-			highscore_holder.modulate = Global.color_hud_text
+func _get_highscore_on_start():
+
+	var start_highscore_line: Array = Data.get_top_highscore(Global.game_manager.game_data)
+
+	highscore_on_start = start_highscore_line[0]
+	var highscore_clock: String = Global.get_clock_time(highscore_on_start)
+	var highscore_owner: String = start_highscore_line[1]
+
+	# brez rekorda ... current_highscore == 0
+	if highscore_on_start == 0:
+		highscore_label.text = "No higscore yet"
+	elif Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.POINTS:
+		highscore_label.text = str(highscore_on_start) + " by %s" % highscore_owner
+		highscore_holder.modulate = Global.color_hud_text
+	elif Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
+		highscore_label.text = highscore_clock + " by %s" % highscore_owner
+		highscore_holder.modulate = Global.color_hud_text
+
+
+func _check_for_new_highscore(current_player_score: int):
+
+	# točkovni rekord preverjam sproti, tudi, če je trenutni 0
+	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.POINTS:
+		if current_player_score > highscore_on_start:
+			new_record_set = true
+			highscore_label.text = str(current_player_score) + " by You"
+			highscore_holder.modulate = Global.color_green
+	elif Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
+		if current_player_score < highscore_on_start or highscore_on_start == 0:
+			new_record_set = true
+			highscore_label.text = Global.get_clock_time(current_player_score) + " by You"
+			highscore_holder.modulate = Global.color_green
 
 
 func _on_stat_changed(stat_owner: Node, player_stats: Dictionary):
@@ -406,12 +377,8 @@ func _on_stat_changed(stat_owner: Node, player_stats: Dictionary):
 			#			p2_skill_counter.text = "%d" % player_stats["skill_count"]
 			#			p2_steps_counter.text = "%d" % player_stats["cells_traveled"]
 
-	# debug ... life & energy
-	#	player_life.text = "LIFE: %d" % player_stats["player_life"]
-	#	player_energy.text = "E: %d" % player_stats["player_energy"]
-
-	if not Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.NONE:
-		_check_for_highscore(player_stats)
+	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.POINTS:
+		_check_for_new_highscore(player_stats["player_points"])
 
 
 func _on_GameTimer_gametime_is_up() -> void: # signal iz tajmerja

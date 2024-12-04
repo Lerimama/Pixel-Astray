@@ -969,37 +969,31 @@ autowrap = true
 
 [node name="ActionHint" parent="Text" instance=ExtResource( 10 )]
 modulate = Color( 1, 1, 1, 0 )
-margin_left = -138.0
+margin_left = -109.5
 margin_top = 565.0
-margin_right = 142.0
-margin_bottom = 589.0
+margin_right = 109.5
+margin_bottom = 590.0
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="KEY" parent="Text/ActionHint" index="1"]
-margin_right = 107.0
-text = "ENTER"
-
-[node name="Label2" parent="Text/ActionHint" index="2"]
-margin_left = 115.0
-margin_right = 132.0
-
-[node name="Jp" parent="Text/ActionHint" index="3"]
-margin_left = 140.0
-margin_right = 164.0
+[node name="Jp" parent="Text/ActionHint" index="1"]
 texture = SubResource( 228 )
 
+[node name="KEY" parent="Text/ActionHint" index="3"]
+margin_right = 112.0
+text = "ENTER"
+
 [node name="Label3" parent="Text/ActionHint" index="4"]
-margin_left = 172.0
-margin_right = 271.0
+margin_left = 120.0
+margin_right = 219.0
 text = "to skip intro"
 
 [node name="SkipButton" type="Button" parent="."]
-margin_left = 1463.0
-margin_top = 1830.0
-margin_right = 2087.0
-margin_bottom = 1926.0
+margin_left = 1520.0
+margin_top = 1828.0
+margin_right = 2062.0
+margin_bottom = 1924.0
 focus_mode = 0
 mouse_default_cursor_shape = 2
 disabled = true

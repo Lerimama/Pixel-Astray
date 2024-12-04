@@ -8,24 +8,18 @@ onready var texture_progress: TextureProgress = $TextureProgress
 
 
 func _ready() -> void:
-	
+
 	modulate = Global.color_hud_text
-	set_icons_state() # preveri energijo na začetku in seta pravilno stanje ikon 
+	set_icons_state() # preveri energijo na začetku in seta pravilno stanje ikon
 
 
-func _process(delta: float) -> void:
-	
-	# self.energy = Global.game_manager.player_stats["player_energy"] ... premaknjeno v hud
-	pass
-
-	
 func _on_amount_change(new_value: int):
-	
+
 	# setam prev energy ... prava energija se še ni spremenila
-	previous_energy = energy 
+	previous_energy = energy
 	# setam current energy
 	energy = new_value
-	
+
 	if energy <= Global.hud.tired_energy_limit:
 		modulate = Global.color_red
 	else:
@@ -39,10 +33,10 @@ func _on_amount_change(new_value: int):
 			var blink_tween = get_tree().create_tween()
 			blink_tween.tween_property(self, "modulate", Global.color_green, 0.2)
 			blink_tween.tween_property(self, "modulate", Global.color_hud_text, 0.2)
-	
+
 	set_icons_state()
 
 
 func set_icons_state():
-	
+
 	texture_progress.value = energy

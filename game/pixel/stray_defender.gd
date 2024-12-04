@@ -2,20 +2,17 @@ extends Stray
 
 # spawn strani
 enum SpawnSides {TOP, BOTTOM, RIGHT, LEFT}
-var stray_spawn_side: int 
+var stray_spawn_side: int
 var step_count: int = 0 # da ignoriram edge tilemap v prvih par korakih
 
 
 func _ready() -> void:
 	# namen: grupiranje glede na izvorno stran, setanje collision bitov na ray
-	
+
 	add_to_group(Global.group_strays)
 	randomize() # za random die animacije
 	modulate.a = 0
 	color_poly.modulate = stray_color
-	position_indicator_poly.color = stray_color
-	#	position_indicator.set_as_toplevel(true) # strayse skrijem ko so offscreen
-	position_indicator.visible = false
 
 	# set props glede na spawn stran
 	var collision_bit_to_add: int
@@ -32,36 +29,26 @@ func _ready() -> void:
 	elif global_position.x < Global.current_tilemap.left_screen_limit.global_position.x:
 		stray_spawn_side = SpawnSides.LEFT
 		collision_bit_to_add = 4
-	
-	vision_ray.set_collision_mask_bit(collision_bit_to_add, true)
-		
-	
-func show_stray(): # kliče GM
-	# namen: simple prikaz streja
 
-	modulate.a = 1
-	
-	if current_state == States.WALL:
-		stray_color.s = 0.0
-		color_poly.modulate = Global.color_white_pixel
+	neighbor_ray.set_collision_mask_bit(collision_bit_to_add, true)
 
-	
-func check_collider_for_wall(collider_in_check: Node2D):
-	
+
+func check_collider_type(collider_in_check: Node2D):
+
 	# prva runda ... kolajder tilemap (tla)
 	if collider_in_check.is_in_group(Global.group_tilemap):
-		die_to_wall()
+		turn_to_wall()
 	# druge runde ... kolajder stray in je rob tal
 	elif collider_in_check.is_in_group(Global.group_strays) and collider_in_check != self:
-		if collider_in_check.current_state == collider_in_check.States.WALL:
-			die_to_wall()	
+		if collider_in_check.current_state == collider_in_check.STATES.WALL:
+			turn_to_wall()
 
-	
+
 func step(step_direction: Vector2 = Vector2.DOWN):
 	# namen: določanje smeri glede na tip straya in časovni zamik premika glede na smer
 	# namen: ni večih poskusov, je preverjanje kolajderja
-	
-	if current_state == States.IDLE:
+
+	if current_state == STATES.IDLE:
 		if modulate.a == 0:
 			modulate.a = 1
 
@@ -73,32 +60,35 @@ func step(step_direction: Vector2 = Vector2.DOWN):
 			SpawnSides.LEFT:
 				step_direction = Vector2.RIGHT
 			SpawnSides.RIGHT:
-				step_direction = Vector2.LEFT	
-		
+				step_direction = Vector2.LEFT
+
 		# če je pozicija prosta korakam, če ni pa preverjam kolajderja in ga returnam
 		var intended_position: Vector2 = global_position + step_direction * cell_size_x
 		if Global.game_manager.is_floor_position_free(intended_position) or step_count < 1:
-			
-			current_state = States.MOVING
+
+			current_state = STATES.MOVING
 			previous_position = global_position
-			Global.game_manager.remove_from_free_floor_positions(intended_position)	
-			
+			Global.game_manager.remove_from_free_floor_positions(intended_position)
+
 			step_count += 1
 			var step_time: float = Global.game_manager.game_settings["stray_step_time"]
-			step_tween.interpolate_property(self ,"position", position, intended_position, step_time, Tween.TRANS_QUINT, Tween.EASE_IN_OUT)
-			step_tween.start()
-			
+			var step_tween = get_tree().create_tween()
+			step_tween.tween_property(self ,"position", intended_position, step_time).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUINT)
+			yield(step_tween, "finished")
+			end_move()
+			#			step_tween.interpolate_property(self ,"position", position, intended_position, step_time, Tween.TRANS_QUINT, Tween.EASE_IN_OUT)
+			#			step_tween.start()
 		else:
 			# če je kolajder ga returnam, drugače pa ne naredim nič
-			var current_collider: Object = Global.detect_collision_in_direction(step_direction, vision_ray)
+			var current_collider: Object = Global.detect_collision_in_direction(step_direction, neighbor_ray)
 			if current_collider:
-				check_collider_for_wall(current_collider)
+				check_collider_type(current_collider)
 				return current_collider
-	
-	
+
+
 func play_sound(effect_for: String):
 	# namen: ni soundow na spawn
-	
+
 	if not Global.sound_manager.game_sfx_set_to_off:
 		match effect_for:
 			"turning_color":
@@ -107,23 +97,20 @@ func play_sound(effect_for: String):
 			"blinking":
 				var random_blink_index = randi() % $Sounds/Blinking.get_child_count()
 				$Sounds/Blinking.get_child(random_blink_index).play() # nekateri so na mute, ker so drugače prepogosti soundi
-				if current_state == States.DYING: # da se ne oglaša ob obračanju v steno
+				if current_state == STATES.DYING: # da se ne oglaša ob obračanju v steno
 					var random_static_index = randi() % $Sounds/BlinkingStatic.get_child_count()
 					$Sounds/BlinkingStatic.get_child(random_static_index).play()
-#			"stepping":
-#				var random_step_index = randi() % $Sounds/Stepping.get_child_count()
-#				var selected_step_sound = $Sounds/Stepping.get_child(random_step_index).play()
-			
-				
+
+
 func get_all_neighbors_in_directions(directions_to_check: Array): # kliče player on hit
 	# namen: preverjanje vseh_sosedov, tudi tilemapa
-	
+
 	var current_cell_neighbors: Array
 	for direction in directions_to_check:
-		var neighbor: Object = Global.detect_collision_in_direction(direction, vision_ray)
+		var neighbor: Object = Global.detect_collision_in_direction(direction, neighbor_ray)
 		if neighbor and neighbor.is_in_group(Global.group_strays) and not neighbor == self: # če je kolajder, je stray in ni self
 			current_cell_neighbors.append(neighbor)
 		if neighbor and neighbor.is_in_group(Global.group_tilemap): # če je kolajder, je tilemap
 			current_cell_neighbors.append(neighbor)
-		
+
 	return current_cell_neighbors # uporaba v stalnem čekiranj sosedov

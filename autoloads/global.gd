@@ -3,6 +3,9 @@ extends Node2D
 
 var get_it_time: float = 1 # tajming za dojet določene faze igre
 var throttler_msec_threshold: int = 5 # koliko msec je še na voljo v frejmu, ko raje premaknem na naslednji frame
+var allow_ui_sfx: bool = false
+var strays_on_screen: Array = [] # za stray position indikatorje
+
 
 # node ref
 var main_node = null
@@ -28,7 +31,6 @@ var group_strays = "Strays"
 var group_tilemap = "Tilemap" # defender in patterns
 var group_ghosts = "Ghosts"
 var group_critical_btns = "Menu confirm btns" # scene changing > turn off > turnes on on scene reload
-var group_menu_confirm_btns = "Menu confirm btns"
 var group_menu_cancel_btns = "Menu cancel btns"
 
 # colors
@@ -51,7 +53,6 @@ var color_thumb_hover: Color = Color("#232323")
 var color_almost_black_pixel: Color = Color("#141414")
 var color_dark_gray_pixel: Color = Color("#232323")#Color("#323232") # start normal
 var color_white_pixel: Color = Color(1, 1, 1, 1.22)
-var strays_on_screen: Array = [] # za stray position indikatorje
 # tilemap colors
 var color_wall: Color = Color("#141414") # Color("#232323")
 var color_edge: Color = Color.black
@@ -66,10 +67,10 @@ func _ready():
 
 	randomize() # custom color scheme
 
-	# when _ready is called, there might already be nodes in the tree, so connect all existing buttons
-	connect_all_interactive_controls(get_tree().root)
-#	connect_controls(get_tree().root)
-	get_tree().connect("node_added", self, "_on_SceneTree_node_added")
+#	# when _ready is called, there might already be nodes in the tree, so connect all existing buttons
+#	connect_all_interactive_controls(get_tree().root)
+##	connect_controls(get_tree().root)
+#	get_tree().connect("node_added", self, "_on_SceneTree_node_added")
 
 
 func get_all_nodes_in_node(node_to_check: Node = get_tree().root, all_nodes_of_nodes: Array = []):
@@ -125,7 +126,7 @@ func get_clock_time(hundreds_to_split: float): # cele stotinke ali ne cele sekun
 		hundreds = 0
 
 	# return [minutes, seconds, hundreds]
-	var time_on_clock: String = "%02d" % minutes + ":" + "%02d" % seconds + ":" + "%02d" % hundreds
+	var time_on_clock: String = "%02d" % minutes + ":" + "%02d" % seconds + "." + "%02d" % hundreds
 
 	return time_on_clock
 #
@@ -274,105 +275,12 @@ func get_spectrum_colors(color_count: int):
 # BUTTONS --------------------------------------------------------------------------------------------------
 
 
-# vsak hover, postane focus
-# sounde na focus
-# sounde na confirm, cancel, quit
-# modulate na Checkbutton focus
-# nofx focus
 
+func object_not_in_deletion(object_to_check: Node): # za tole pomoje obstaja biltin funkcija
 
-var allow_focus_sfx: bool = true # focus no-sounds
-var current_focused_control#: Control # samo zaradi zaznavanja toggle batnov
-
-
-func _on_SceneTree_node_added(node: Control): # na ready
-
-	if node is BaseButton or node is HSlider:
-		connect_interactive_control(node)
-
-
-func connect_all_interactive_controls(root: Node): # na ready ... H slider je tudi btn
-
-	for child in root.get_children():
-		if child is BaseButton or child is HSlider:
-			connect_interactive_control(child)
-
-
-func connect_interactive_control(control: Control):
-
-	if control is Button:
-		if control is CheckButton:
-			control.connect("toggled", self, "_on_button_toggled")
-		else:
-			control.connect("pressed", self, "_on_button_pressed", [control])
-		connect_hover_and_focus(control)
-	elif control is HSlider:
-		connect_hover_and_focus(control)
-
-
-func connect_hover_and_focus(control: Control):
-	control.connect("mouse_entered", self, "_on_control_hovered", [control])
-	control.connect("focus_entered", self, "_on_control_focused", [control])
-	control.connect("focus_exited", self, "_on_control_unfocused", [control])
-
-
-func _on_control_hovered(control: Control):
-
-	if not control.has_focus():# and not control is ColorRect:
-		control.grab_focus()
-
-
-func _on_control_focused(control: Control):
-
-	current_focused_control = control
-
-	if allow_focus_sfx:
-		Global.sound_manager.play_gui_sfx("btn_focus_change")
-
-	# check btn color fix
-	if control is CheckButton or control is HSlider or control.name == "RandomizeBtn" or control.name == "ResetBtn":
-		control.modulate = Color.white
-
-
-func _on_control_unfocused(control: Control):
-
-	# settings gumbi - barvanje
-	if control is CheckButton or control is HSlider or control.name == "RandomizeBtn" or control.name == "ResetBtn":
-		control.modulate = color_gui_gray # Color.white
-
-
-func _on_button_pressed(button: BaseButton):
-
-	Analytics.save_ui_click(button)
-
-	if button.is_in_group(Global.group_menu_cancel_btns):
-		Global.sound_manager.play_gui_sfx("btn_cancel")
-
+	if str(object_to_check) == "[Deleted Object]": # anti home_out nek toggle btn
+		print ("Object in deletion: ", object_to_check, " > [Deleted Object]")
+		return true
 	else:
-		Global.sound_manager.play_gui_sfx("btn_confirm")
-
-	if button.is_in_group(Global.group_critical_btns):
-		get_viewport().set_disable_input(true)
-#		button.disabled = true
-
-
-func _on_button_toggled(button_pressed: bool) -> void:
-
-	if str(current_focused_control) == "[Deleted Object]": # anti home_out nek toggle btn
-		pass
-	else:
-		if button_pressed:
-			Global.sound_manager.play_gui_sfx("btn_confirm")
-		else:
-			Global.sound_manager.play_gui_sfx("btn_cancel")
-
-		if current_focused_control: # debug, da lahko štartam z igro ... zazih
-			Analytics.save_ui_click([current_focused_control, button_pressed])
-
-
-func grab_focus_nofx(control_to_focus: Control):
-
-	# reseta na fokus
-	allow_focus_sfx = false
-	control_to_focus.grab_focus()
-	set_deferred("allow_focus_sfx", true)
+		printt ("Object OK ... not in deletion: ", object_to_check)
+		return false

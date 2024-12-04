@@ -29,11 +29,10 @@ func _ready() -> void:
 	modulate.a = 0
 
 	# menu btn group
-	$Menu/PlayBtn.add_to_group(Global.group_menu_confirm_btns)
-	$Menu/RestartBtn.add_to_group(Global.group_menu_confirm_btns)
-	$Menu/RestartBtn.add_to_group(Global.group_critical_btns)
-	$Menu/QuitBtn.add_to_group(Global.group_menu_cancel_btns)
-	$Menu/QuitBtn.add_to_group(Global.group_critical_btns)
+	$Menu/RestartBtn.add_to_group(Batnz.group_cancel_btns)
+	$Menu/RestartBtn.add_to_group(Batnz.group_critical_btns)
+	$Menu/QuitBtn.add_to_group(Batnz.group_cancel_btns)
+	$Menu/QuitBtn.add_to_group(Batnz.group_critical_btns)
 
 	# in-pause game instructions
 	instructions.get_instructions_content() # ne prifejda
@@ -47,7 +46,8 @@ func pause_game():
 
 	Global.sound_manager.play_gui_sfx("screen_slide")
 
-	Global.grab_focus_nofx($Menu/PlayBtn)
+	$Menu/PlayBtn.grab_focus()
+#	Batnz.grab_focus_nofx($Menu/PlayBtn)
 
 	var pause_in_time: float = 0.5
 	var fade_in_tween = get_tree().create_tween()

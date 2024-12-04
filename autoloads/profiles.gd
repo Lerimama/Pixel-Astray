@@ -15,7 +15,7 @@ var default_player_stats: Dictionary = {
 	"cells_traveled" : 0,
 }
 
-var default_game_settings: Dictionary = {
+var default_game_settings: Dictionary = { # per game
 	# player
 	"player_start_life": 3, # 1 lajf skrije ikone v hudu, on hit jemlje energijo ne lajfa
 	"player_start_color": Global.color_dark_gray_pixel, # na začetku je bel, potem se animira v start color ... #232323, #141414
@@ -51,7 +51,6 @@ var default_game_settings: Dictionary = {
 	"spawn_strays_on_cleaned": false,
 	"game_music_track_index": 0, # default muska v igri
 	# gui
-	"show_game_instructions": true,
 	"position_indicators_show_limit": 10, # en manj je število vidnih
 	"start_countdown": true,
 	"zoom_to_level_size": false, # SHOWCASE
@@ -157,6 +156,7 @@ var game_data_sweeper: Dictionary = {
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
 	"description" : "Sweep the entire screen with one spectacular move!",
+	"Prop" : "Destroy the first stray and keep your momentum by pressing in the next\ntarget's direction.",
 	"level": 1,
 }
 var game_data_the_duel: Dictionary = {
@@ -165,7 +165,7 @@ var game_data_the_duel: Dictionary = {
 	"game_name": "The Duel",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_duel.tscn",
-	"description" : "Only the best cleanerwill shine in this epic battle!",
+	"description" : "Only the best cleaner will shine in this epic battle!",
 	"Prop": "Hit the opposing player\nto take his life and\nhalf of his points.",
 }
 var sweeper_level_tilemap_paths: Array = [
@@ -196,24 +196,33 @@ var game_settings: Dictionary
 var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
 
 # const
-var html5_mode: bool = true # skrije ExitGameBtn v home, GO in pavzi
+var html5_mode: bool = false # skrije ExitGameBtn v home, GO in pavzi
 var tutorial_music_track_index: int = 3
-
-# nastavitve, ki se setajo tudi v home
 var use_default_color_theme: bool = true
+
+# nastavitve, ki se sejvajo
+var pregame_screen_on: bool = true # na štart gre v game_settings > prebere se iz game_settingsov
 var camera_shake_on: bool = true
 var tutorial_mode: bool = true
 var analytics_mode: bool = true
-var screen_touch_sensitivity: float = 10 # px 0 - 60
 
-enum TOUCH_CONTROLLER {OFF, BUTTONS, SCREEN}# SCREEN
-var set_touch_controller: int = TOUCH_CONTROLLER.BUTTONS
+var screen_touch_sensitivity: float = 0.1 # px 0 - 20% ... procent ekrana
+
+enum TOUCH_CONTROLLER {OFF, BUTTONS_LEFT, BUTTONS_RIGHT, SCREEN_LEFT, SCREEN_RIGHT} # zaporedje more bit, da so SCREEN na koncu (settings uporablja)
+var set_touch_controller: int = TOUCH_CONTROLLER.SCREEN_LEFT
+var touch_controller_content: Dictionary = {
+	TOUCH_CONTROLLER.OFF: {"Disabled": "Touch screen disabled"},
+	TOUCH_CONTROLLER.BUTTONS_LEFT:  {"Buttons R": "On-screen buttons, Burst on right"},
+	TOUCH_CONTROLLER.BUTTONS_RIGHT:  {"Buttons L": "On-screen buttons, Burst on left"},
+	TOUCH_CONTROLLER.SCREEN_LEFT:  {"Touch tracking R": "Touch tracking for direction, Burst on right"},
+	TOUCH_CONTROLLER.SCREEN_RIGHT:  {"Touch tracking L": "Touch tracking for direction, Burst on left"},
+}
 
 func _ready() -> void:
 
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE # fix camera
-#	var debug_game = Games.CLEANER
+	var debug_game = Games.CLEANER
 #	var debug_game = Games.ERASER_XS
 #	var debug_game = Games.ERASER_S
 #	var debug_game = Games.ERASER_M
@@ -221,10 +230,11 @@ func _ready() -> void:
 #	var debug_game = Games.ERASER_XL
 #	var debug_game = Games.HUNTER
 #	var debug_game = Games.DEFENDER
-
-	var debug_game = Games.SWEEPER
+#	var debug_game = Games.SWEEPER
 #	var debug_game = Games.THE_DUEL
-	set_game_data(debug_game)
+
+	if OS.is_debug_build():
+		set_game_data(debug_game)
 
 
 func set_game_data(selected_game):
@@ -232,10 +242,13 @@ func set_game_data(selected_game):
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
 
 	# debug ... game_data
-	#	game_settings["start_countdown"] = false
-	#	game_settings["show_game_instructions"] = false
-	#	game_settings["player_start_life"] = 2
+	if OS.is_debug_build():
+		game_settings["start_countdown"] = false
+		pregame_screen_on = false
+		tutorial_mode = false
+		game_settings["player_start_life"] = 2
 
+	game_settings["pregame_screen_on"] = pregame_screen_on # da se seta aka per-game in osnovnega ne spreminja
 	match selected_game:
 
 		Games.CLEANER:
@@ -286,18 +299,20 @@ func set_game_data(selected_game):
 			game_settings["player_start_color"] = Color.white
 			game_settings["on_hit_wall_energy_part"] = 1
 			game_settings["color_picked_points"] = 0
-			game_settings["cell_traveled_energy"] = -2
 			game_settings["cleaned_reward_points"] = 1 # ... izpiše se "SUCCESS!" # TEST
 			game_settings["position_indicators_show_limit"] = 0
 			game_settings["reburst_enabled"] = true
 			game_settings["reburst_window_time"] = 13
 			game_settings["burst_count_limit"] = 1
-			#
-			game_settings["game_music_track_index"] = 1
-			game_settings["always_zoomed_in"] = true # prižge se med prvo igro iz menija, tako ostane za zmerom zoomiran
-			game_settings["show_game_instructions"] = false # prižge se samo za prvi gejm iz menija
-			tutorial_mode = false # rabi posebn tutorial
-			return game_settings # da lahko vklopim "instructions" in "zoomed in" za prehod iz home menija
+			game_settings["game_music_track_index"] = 3
+			game_settings["cell_traveled_energy"] = 0
+			# zoom-in je samo prvi level iz home menija
+			# med igro se seta na off, da ostane zoomiran
+			# play iz GO je že zumiran
+			game_settings["always_zoomed_in"] = false
+			tutorial_mode = false # _temp rabi posebn tutorial
+			#			return game_settings # da lahko vklopim "instructions" in "zoomed in" za prehod iz home menija
+
 		Games.THE_DUEL:
 			current_game_data = game_data_the_duel.duplicate()
 			game_settings["game_time_limit"] = 180 # tilemap set
@@ -306,6 +321,8 @@ func set_game_data(selected_game):
 			game_settings["respawn_strays_count_range"] = [1, 14]
 			game_settings["spawn_white_stray_part"] = 0.21
 			tutorial_mode = false
+
+
 
 
 # SHOWCASE ----------------------------------------------------------------------------------------------------------------

@@ -17,7 +17,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "GameManager",
 "language": "GDScript",
-"path": "res://managers/game_manager.gd"
+"path": "res://game/game_manager.gd"
 }, {
 "base": "Control",
 "class": "GameOver",
@@ -34,7 +34,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://game/pixel/player.gd"
 }, {
-"base": "KinematicBody2D",
+"base": "Area2D",
 "class": "Stray",
 "language": "GDScript",
 "path": "res://game/pixel/stray.gd"
@@ -60,7 +60,7 @@ config/icon="res://assets/app/project_icon.png"
 [audio]
 
 output_latency=30
-output_latency.web=100
+output_latency.web=200
 
 [autoload]
 
@@ -69,6 +69,8 @@ Profiles="*res://autoloads/profiles.gd"
 ConnectCover="*res://autoloads/connect_cover.tscn"
 LootLocker="*res://autoloads/lootlocker.gd"
 Analytics="*res://autoloads/analytics.gd"
+Batnz="*res://autoloads/batnz.gd"
+Data="*res://autoloads/data.gd"
 
 [debug]
 
@@ -343,6 +345,7 @@ p2_burst={
 2d_physics/layer_3="bottom_edge"
 2d_physics/layer_4="left_edge"
 2d_physics/layer_5="right_edge"
+2d_physics/layer_6="ghost"
 
 [locale]
 

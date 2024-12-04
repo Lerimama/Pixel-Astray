@@ -18,37 +18,30 @@ onready var ready_btn: Button = $ReadyBtn
 onready var ready_action_hint: HBoxContainer = $ActionHint
 
 
-#func _input(event: InputEvent) -> void:
-func _unhandled_input(event: InputEvent) -> void:
-
-	if not get_parent().name == "PauseMenu":
-		if visible and modulate.a == 1:
-			if Input.is_action_just_pressed("ui_accept") or Input.is_action_just_pressed("ui_cancel"):
-				_on_ReadyBtnButton_pressed()
-
-
 func _ready() -> void:
 
-	ready_btn.hide()
+	ready_btn.hide() # zaradi pavze
 
 
 func open(): # kliče GM set game
 
-	ready_btn.show()
+	ready_btn.show() # zaradi pavze
 	ready_action_hint.show()
+
 	get_instructions_content()
 	show() # fade-in se zgodi zaradi game scene
+
 	get_tree().set_pause(true)
-	Global.allow_focus_sfx = false # urgenca za nek "cancel" sound bug
-	yield(get_tree().create_timer(0.1), "timeout")
-	Global.allow_focus_sfx = true
+
+	ready_btn.set_focus_mode(FOCUS_ALL) # edino tako dela
+	$ReadyBtn.grab_focus() # ne dela?
 
 
 func get_instructions_content(): # kliče tudi pavza na ready
 
 
 	var current_game_data: Dictionary = Global.game_manager.game_data
-	var current_hs_line: Array = Global.data_manager.get_top_highscore(current_game_data)
+	var current_hs_line: Array = Data.get_top_highscore(current_game_data)
 	var current_highscore: float = current_hs_line[0]
 	var current_highscore_owner: String = current_hs_line[1]
 
@@ -97,13 +90,15 @@ func get_instructions_content(): # kliče tudi pavza na ready
 		controls_duel_p1.hide()
 		controls_duel_p2.hide()
 
-	# game props
+	# game props (koda za več njih)
 	for prop in outline.get_children():
 		if prop.get_child(0).name == "PropLabel":
 			var prop_label: Label = prop.get_node("PropLabel")
 			if current_game_data.has(str(prop.name)): # če ima slovar igre to postavko ...
 				prop.show()
 				prop_label.text = current_game_data["%s" % prop.name] # ... jo napolni z njeno vsebino
+				if not Global.game_manager.game_data["game"] == Profiles.Games.THE_DUEL:
+					shortcuts.hide()
 			else:
 				prop.hide()
 
@@ -124,10 +119,9 @@ func confirm_players_ready():
 
 
 func _on_ReadyBtnButton_pressed() -> void:
-
+	$ReadyBtn.grab_focus()
+	printt("SDOSOs", get_focus_owner(), ready_btn.disabled, $ReadyBtn.grab_focus())
 	Analytics.save_ui_click("ReadyBtn")
 	confirm_players_ready()
 
-	yield(get_tree().create_timer(0.18), "timeout") # da se spund sliši
-	Global.sound_manager.play_gui_sfx("btn_confirm")
 	ready_btn.hide()

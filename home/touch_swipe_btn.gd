@@ -17,6 +17,7 @@ func _ready() -> void:
 
 
 func imitate_input(direction_key: int, imitate_pressed: bool = true):
+	# svajpanje imitiram glede na to v kateri fazi je
 
 	var parent_node = get_parent()
 

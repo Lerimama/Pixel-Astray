@@ -40,7 +40,7 @@ var current_game_data: Dictionary = def_game_data
 
 # api
 var sheetbook_id: String = "1KfrvMCaqh65EGN_YEUrck8RyKGVbEUERathC6_VnRLQ" # link string
-var app_url: String = "https://script.google.com/macros/s/AKfycbz76l3icHLNcZdYA7-iWcXOl2KJOjn8SRUvFPBZthCbLJeOXhxrP8-RRruh1jz_Yc5v-w/exec"
+var app_url: String = "https://script.google.com/macros/s/AKfycbwQ1fSBqsIEt0BTGlK_5eIaMU9ujxSDBtnY68bEM30bV8qncHGX0qJSzcDm1VFn4HWY4Q/exec"
 var script_action_new_row: String = "create_new_row"
 var script_action_save_row: String = "save_existing_row"
 var script_action_get_rows_list: String = "fetch_rows_list"
@@ -59,8 +59,7 @@ func start_new_session(start_fake: bool = false): # kliče main
 		session_data["device_id"] = OS.get_unique_id()
 		session_data["os_language"] = OS.get_locale_language()
 		session_data["os_name"] = OS.get_name()
-		save_new_row()
-
+		_save_new_row()
 
 # scene change
 func update_session():
@@ -68,7 +67,7 @@ func update_session():
 	if Profiles.analytics_mode and session_tracking:
 		#		print("> updating session")
 		session_data["current_game_data"] = current_game_data
-		save_existing_row(session_data["session_id"])
+		_save_existing_row(session_data["session_id"])
 
 
 # on quit game
@@ -77,7 +76,7 @@ func end_session():
 	if Profiles.analytics_mode  and session_tracking:
 		#		print("> ending session")
 		session_data["session_length"] = round(Time.get_ticks_msec() / 1000)
-		save_existing_row(session_data["session_id"])
+		_save_existing_row(session_data["session_id"])
 		session_tracking = false
 
 
@@ -139,7 +138,7 @@ func save_ui_click(ui_action):
 			TYPE_OBJECT: # btn
 				save_string = ui_action.name
 			TYPE_ARRAY: # toggle/slider >  btn in bool/value
-				print(ui_action)
+				#				print(ui_action)
 				var btn_name: String = ui_action[0].name
 				var btn_bool = ui_action[1]
 				save_string = btn_name + " " + str(btn_bool)
@@ -154,27 +153,27 @@ func save_ui_click(ui_action):
 # ROW ACTIONS --------------------------------------------------------------------------------------------------
 
 
-func save_new_row() -> void: # id se seta v tabeli
+func _save_new_row() -> void: # id se seta v tabeli
 
-	write_row_content(script_action_new_row)
+	_write_row_content(script_action_new_row)
 	yield(self, "session_saved")
-	read_row_list() # da dobim ID (zadnje) sejvane vrstice ... list.size() - 1
+	_read_row_list() # da dobim ID (zadnje) sejvane vrstice ... list.size() - 1
 
 
-func save_existing_row(row_id: int) -> void:
+func _save_existing_row(row_id: int) -> void:
 
-	write_row_content(script_action_save_row, row_id)
+	_write_row_content(script_action_save_row, row_id)
 
 
 # API SCRIPT CALL ---------------------------------------------------------------------------------------------
 
 
-func read_row_list() -> void:
+func _read_row_list() -> void:
 
-	make_http_GET_request(script_action_get_rows_list)
+	_make_http_GET_request(script_action_get_rows_list)
 
 
-func write_row_content(action: String, id = null) -> void:
+func _write_row_content(action: String, id = null) -> void:
 
 	if id: # id rabim samo za apdejt ... nov filet dobi ID od gugla
 		session_data["session_id"] = id
@@ -182,7 +181,7 @@ func write_row_content(action: String, id = null) -> void:
 	#	print("write game data ", current_game_data)
 	#	print("write session data ", session_data)
 
-	make_http_POST_request(action, session_data)
+	_make_http_POST_request(action, session_data)
 	yield(get_tree().create_timer(1), "timeout")
 	#	yield(self, "http_post_request_done") # OPT ...post signal ne dela
 	emit_signal("session_saved")
@@ -191,7 +190,7 @@ func write_row_content(action: String, id = null) -> void:
 # HTTP REQUESTS ---------------------------------------------------------------------------------------------
 
 
-func make_http_GET_request(endpoint: String, params: Dictionary = {}) -> void: # Make a GET request to the API ... endpoint je akcija
+func _make_http_GET_request(endpoint: String, params: Dictionary = {}) -> void: # Make a GET request to the API ... endpoint je akcija
 
 	var url = app_url + "?action=" + endpoint
 	for key in params.keys():
@@ -206,7 +205,7 @@ func make_http_GET_request(endpoint: String, params: Dictionary = {}) -> void: #
 	request.request(url)
 
 
-func make_http_POST_request(endpoint: String, data: Dictionary) -> void: # Make a POST request to the API
+func _make_http_POST_request(endpoint: String, data: Dictionary) -> void: # Make a POST request to the API
 
 	var url = app_url + "?action=" + endpoint
 	var json_data = JSON.print(data)

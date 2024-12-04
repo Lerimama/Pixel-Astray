@@ -24,7 +24,6 @@ var strays_shown_on_start: Array = [] # za štartni explode fx loop
 var strays_cleaned_count: int = 0 # za statistiko na hudu
 var check_for_all_cleaned: bool = false # za omejevanje signala iz FP ... kdaj lahko reagira na 0 straysov v igri
 var dont_turn_to_wall_positions: Array # za zaščito, da wall stray ne postane wall (ob robu igre recimo)
-var show_position_indicators: bool = false # na začetku jih ne rabim gledat
 
 # colors
 var all_stray_colors: Array = [] # barve spawnanih (resnični color ... iste se pač podvajajo se) ... puca se ko stray umrje
@@ -32,11 +31,11 @@ var color_pool_colors: Array = []
 
 # tilemap
 var cell_size_x: int # napolne se na koncu setanju tilemapa
-var player_start_positions: Array
-var random_spawn_positions: Array
-var required_spawn_positions: Array # vključuje tudi wall_spawn_positions
-var wall_spawn_positions: Array
-var free_floor_positions: Array # = [] # to so vse proste
+var player_start_positions: Array = []
+var random_spawn_positions: Array = []
+var required_spawn_positions: Array = [] # vključuje tudi wall_spawn_positions
+var wall_spawn_positions: Array = []
+var free_floor_positions: Array = [] # to so vse proste
 
 onready var game_settings: Dictionary = Profiles.game_settings # ga med igro ne spreminjaš
 onready var game_data: Dictionary = Profiles.current_game_data # .duplicate() # duplikat default profila, ker ga me igro spreminjaš
@@ -45,11 +44,13 @@ onready var spawn_white_stray_part: float = game_settings["spawn_white_stray_par
 onready var respawn_pause_time: float = game_settings["respawn_pause_time"]
 onready var respawn_strays_count_range: Array = game_settings["respawn_strays_count_range"]
 onready var StrayPixel: PackedScene = preload("res://game/pixel/stray.tscn")
+#onready var StrayPixel: PackedScene = preload("res://game/pixel/stray_kin.tscn")
 onready var PlayerPixel: PackedScene = preload("res://game/pixel/player.tscn")
 onready var respawn_timer: Timer = $"../RespawnTimer"
 
 # debug ... free pos indi
-var free_position_indicators: Array
+var free_position_tiles: Array
+
 
 func _unhandled_input(event: InputEvent) -> void:
 
@@ -73,23 +74,6 @@ func _ready() -> void:
 		#		if game_data["game"] == Profiles.Games.SWEEPER:
 		#			game_data["level_goal_count"] = create_strays_count
 		level_goal_mode = true
-
-
-func _process(delta: float) -> void:
-
-	# če sem v fazi, ko lahko preverjam cleaned (po spawnu)
-	#	if check_for_all_cleaned:
-	#		# če ni nobene stene, me zanimajo samo prazni strajsi
-	#		if strays_in_game_count == 0:
-	#			check_for_all_cleaned = false
-	#			emit_signal("all_strays_died")
-
-	# off-screen stray  indicators
-	if game_on and Global.strays_on_screen.size() < game_settings["position_indicators_show_limit"]:
-		show_position_indicators = true
-	else:
-		show_position_indicators = false
-
 
 # GAME SETUP --------------------------------------------------------------------------------------
 
@@ -151,13 +135,13 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 	# debug ... free pos indi
 	if Global.game_arena.free_positions_grid.visible:
 		for free_position in free_floor_positions:
-			spawn_free_position_indicator(free_position)
+			spawn_free_position_tile(free_position)
 
 	# colors
 	set_color_pool()
 
 	# players ready?
-	if game_settings["show_game_instructions"]:
+	if game_settings["pregame_screen_on"]:
 		yield(Global.hud.instructions_popup, "players_ready")
 
 	Analytics.save_game_data()
@@ -174,15 +158,8 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 	yield(self, "all_strays_spawned")
 	all_strays_on_start_count = get_tree().get_nodes_in_group(Global.group_strays).size() # SWEEPER, da lahko hitro zabeležim uspeh pleyerja
 
-	# tut mode
-	if Profiles.tutorial_mode:
-		Global.sound_manager.current_music_track_index = Profiles.tutorial_music_track_index
-		game_settings["start_countdown"] = false # tutorial nima odštevanja
-	else:
-		Global.sound_manager.current_music_track_index = game_settings["game_music_track_index"]
-
 	# countdown
-	if game_settings["start_countdown"]:
+	if game_settings["start_countdown"] and not Profiles.tutorial_mode:
 		Global.hud.start_countdown.start_countdown() # GM yielda za njegov signal
 		yield(Global.hud.start_countdown, "countdown_finished") # sproži ga hud po slide-inu
 	else:
@@ -211,8 +188,6 @@ func start_game():
 	Global.hud.game_timer.start_timer()
 
 	game_on = true
-
-	#	printt("on start",free_floor_positions.size())
 
 
 func game_over(gameover_reason: int):
@@ -493,7 +468,8 @@ func show_strays_in_loop(show_strays_loop: int): # spawn naenkrat
 		if strays_shown_on_start.has(stray): # če stray še ni pokazan, ga pokažem in dodam med pokazane
 			break
 		if loop_count >= strays_to_show_count:
-			stray.show_stray()
+			stray.call_deferred("show_stray")
+#			stray.show_stray()
 			strays_shown_on_start.append(stray)
 			loop_count += 1 # štejem tukaj, ker se šteje samo če se pixel pokaže
 
@@ -585,7 +561,7 @@ func spawn_stray(stray_index: int, stray_color: Color, stray_position: Vector2, 
 	Global.game_arena.add_child(new_stray_pixel)
 
 	if is_white:
-		new_stray_pixel.current_state = new_stray_pixel.States.WALL
+		new_stray_pixel.current_state = new_stray_pixel.STATES.WALL
 
 	return new_stray_pixel
 
@@ -606,14 +582,15 @@ func turn_random_stray_to_white():
 	var wall_strays_alive: Array
 	for stray in get_tree().get_nodes_in_group(Global.group_strays):
 		var stray_to_tile_position: Vector2 = stray.global_position + Vector2(cell_size_x/2, cell_size_x/2)
-		if stray.current_state == stray.States.WALL:
+		if stray.current_state == stray.STATES.WALL:
 			wall_strays_alive.append(stray)
 	var strays_not_walls_count: int = get_tree().get_nodes_in_group(Global.group_strays).size() - wall_strays_alive.size()
 
 	var random_stray_index: int = randi() % int(strays_not_walls_count)
 	if get_tree().get_nodes_in_group(Global.group_strays).size() > random_stray_index: # error prevent
-		var random_stray: KinematicBody2D = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_index]
-		random_stray.die_to_wall()
+		var random_stray: Node2D = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_index]
+#		var random_stray: KinematicBody2D = get_tree().get_nodes_in_group(Global.group_strays)[random_stray_index]
+		random_stray.turn_to_wall()
 		return random_stray.stray_color
 	else: # error
 		print("Error - no color to turn to wall")
@@ -643,10 +620,10 @@ func remove_from_free_floor_positions(position_to_remove: Vector2):
 		free_floor_positions.erase(position_to_remove_on_grid)
 
 	# debug ... free pos indi ... če jih nič ne zgodi
-	for indicator in free_position_indicators:
+	for indicator in free_position_tiles:
 		if indicator.rect_position == position_to_remove_on_grid:
 			indicator.queue_free()
-			free_position_indicators.erase(indicator)
+			free_position_tiles.erase(indicator)
 
 
 func add_to_free_floor_positions(position_to_add: Vector2):
@@ -659,16 +636,16 @@ func add_to_free_floor_positions(position_to_add: Vector2):
 
 		# debug ... free pos indi
 		if Global.game_arena.free_positions_grid.visible:
-			spawn_free_position_indicator(position_to_add_on_grid)
+			spawn_free_position_tile(position_to_add_on_grid)
 
 
-func spawn_free_position_indicator(spawn_position: Vector2):
+func spawn_free_position_tile(spawn_position: Vector2):
 
-	var FreePositionIndicator: PackedScene = preload("res://game/pixel/free_position_indicator.tscn")
-	var new_free_position_indicator = FreePositionIndicator.instance()
-	new_free_position_indicator.rect_global_position = spawn_position
-	Global.game_arena.free_positions_grid.add_child(new_free_position_indicator)
-	free_position_indicators.append(new_free_position_indicator)
+	var FreePositionIndicator: PackedScene = preload("res://game/pixel/free_position_tile.tscn")
+	var new_free_position_tile = FreePositionIndicator.instance()
+	new_free_position_tile.rect_global_position = spawn_position
+	Global.game_arena.free_positions_grid.add_child(new_free_position_tile)
+	free_position_tiles.append(new_free_position_tile)
 
 
 func set_color_pool():
@@ -699,7 +676,8 @@ func set_color_pool():
 				color_pool_colors.append(color)
 
 
-func on_stray_die(stray_out: KinematicBody2D):
+func on_stray_die(stray_out: Node2D):
+#func on_stray_die(stray_out: KinematicBody2D):
 
 	var stray_out_color = stray_out.stray_color
 	all_stray_colors.erase(stray_out_color)

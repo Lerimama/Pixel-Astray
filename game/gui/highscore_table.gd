@@ -25,7 +25,7 @@ func build_highscore_table(current_game_data: Dictionary, show_title: bool = tru
 	_reset_table()
 
 	# nafilam podatke
-	var current_game_highscores = Global.data_manager.read_highscores_from_file(table_game_data)
+	var current_game_highscores = Data.read_highscores_from_file(table_game_data)
 
 	# spawnam scoreline
 	_add_scorelines(current_game_highscores.size())
@@ -118,7 +118,7 @@ func _fill_scoreline_with_data(scoreline: Control, highscores: Dictionary):
 
 func _add_local_to_global_scores(separate_local_scores: bool):
 
-	var local_game_highscores: Dictionary = Global.data_manager.read_highscores_from_file(table_game_data, true)
+	var local_game_highscores: Dictionary = Data.read_highscores_from_file(table_game_data, true)
 	var new_scorelines: Array = []
 
 	unpublished_local_scores.clear()
@@ -198,7 +198,7 @@ func publish_unpublished_scores():
 	var score_published_count: int = 0
 	for score_rank in unpublished_local_scores:
 
-		var local_game_highscores: Dictionary = Global.data_manager.read_highscores_from_file(table_game_data, true)
+		var local_game_highscores: Dictionary = Data.read_highscores_from_file(table_game_data, true)
 		var local_player_name: String = local_game_highscores[score_rank].keys()[0]
 		var local_player_score: float = local_game_highscores[score_rank][local_player_name]
 

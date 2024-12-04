@@ -7,7 +7,8 @@
 extents = Vector2( 15.6, 15.6 )
 
 [node name="Ghost" type="Area2D"]
-collision_layer = 2
+collision_layer = 32
+collision_mask = 33
 script = ExtResource( 1 )
 __meta__ = {
 "_editor_description_": ""
@@ -36,10 +37,13 @@ polygon = PoolVector2Array( 0, 0, 2, 0, 30, 0, 32, 0, 32, 2, 32, 30, 32, 32, 30,
 visible = false
 shape = SubResource( 116 )
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
-enabled = true
+[node name="CockingRay" type="RayCast2D" parent="."]
 cast_to = Vector2( 0, 32 )
-collision_mask = 3
+collision_mask = 63
+collide_with_areas = true
+collide_with_bodies = false
 
-[connection signal="body_entered" from="." to="." method="_on_PixelGhost_body_entered"]
-[connection signal="body_exited" from="." to="." method="_on_PixelGhost_body_exited"]
+[connection signal="area_entered" from="." to="." method="_on_Ghost_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_Ghost_area_exited"]
+[connection signal="body_entered" from="." to="." method="_on_Ghost_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_Ghost_body_exited"]

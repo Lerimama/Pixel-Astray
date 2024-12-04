@@ -33,7 +33,7 @@ func publish_score_to_lootlocker(player_name: String, player_score: float, game_
 	var game_leaderboard_key = Profiles.Games.keys()[game_data["game"]]
 	if game_data["game"] == Profiles.Games.SWEEPER:
 		game_leaderboard_key = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"])
-	authenticate_guest_session(player_name, true)
+	_authenticate_guest_session(player_name, true)
 	yield(self, "guest_authenticated")
 
 	ConnectCover.cover_label_text = "Publishing ..."
@@ -63,7 +63,7 @@ func multipublish_scores_to_lootlocker(player_name: String, player_score: float,
 		game_leaderboard_key = Profiles.Games.keys()[game_data["game"]] + "_" + str(game_data["level"])
 
 	if multipublish_count == 1: # avtenticiram na ime prvega rezultata v vrsti
-		authenticate_guest_session(player_name, true)
+		_authenticate_guest_session(player_name, true)
 		yield(self, "guest_authenticated")
 
 	ConnectCover.cover_label_text = "Publishing score %s" % str(multipublish_count)
@@ -90,7 +90,7 @@ func multipublish_scores_to_lootlocker(player_name: String, player_score: float,
 func update_lootlocker_leaderboard(game_data: Dictionary, last_in_row: bool = true, update_string: String = "", update_in_background: bool = false):
 
 	if not guest_is_authenticated:
-		authenticate_guest_session(anonymous_guest_name, last_in_row, update_in_background)
+		_authenticate_guest_session(anonymous_guest_name, last_in_row, update_in_background)
 		yield(self, "guest_authenticated")
 	else:
 		ConnectCover.open_cover(update_in_background)
@@ -115,7 +115,7 @@ func update_lootlocker_leaderboard(game_data: Dictionary, last_in_row: bool = tr
 
 	if response == null:
 		if last_in_row:
-			on_connection_failed(last_in_row)
+			_on_connection_failed(last_in_row)
 	else:
 		if "items" in response:
 			if response["items"] == null: # če v tabeli ni items arraya, generiram enega fejk
@@ -123,7 +123,7 @@ func update_lootlocker_leaderboard(game_data: Dictionary, last_in_row: bool = tr
 				response["items"] = [item]
 			lootlocker_leaderboard = response["items"]
 
-		save_lootlocker_leaderboard_to_local_highscore(game_data)
+		_save_lootlocker_leaderboard_to_local_highscore(game_data)
 
 		# printt ("Leaderboard updated (get,save)", game_leaderboard_key)
 
@@ -133,7 +133,7 @@ func update_lootlocker_leaderboard(game_data: Dictionary, last_in_row: bool = tr
 			emit_signal("leaderboard_updated")
 
 
-func save_lootlocker_leaderboard_to_local_highscore(game_data: Dictionary):
+func _save_lootlocker_leaderboard_to_local_highscore(game_data: Dictionary):
 
 	# spremenim board v HS slovar
 	var global_game_highscores: Dictionary = {}
@@ -153,10 +153,10 @@ func save_lootlocker_leaderboard_to_local_highscore(game_data: Dictionary):
 		global_game_highscores[item_player_rank] = highscores_player_line
 
 	# dodam level name za ime save fileta in sejvam
-	Global.data_manager.write_highscores_to_file(game_data, global_game_highscores)
+	Data.write_highscores_to_file(game_data, global_game_highscores)
 
 
-func authenticate_guest_session(player_name: String, last_attempt_in_row: bool, update_in_background: bool = false):
+func _authenticate_guest_session(player_name: String, last_attempt_in_row: bool, update_in_background: bool = false):
 
 	ConnectCover.cover_label_text = "Connecting ..."
 	ConnectCover.open_cover(update_in_background)
@@ -183,7 +183,7 @@ func authenticate_guest_session(player_name: String, last_attempt_in_row: bool, 
 
 	# CONNECTION FAILED
 	if response == null or not "session_token" in response:
-		on_connection_failed(last_attempt_in_row)
+		_on_connection_failed(last_attempt_in_row)
 	# CONNECTED
 	else:
 		session_token = response["session_token"]
@@ -193,7 +193,7 @@ func authenticate_guest_session(player_name: String, last_attempt_in_row: bool, 
 		emit_signal("guest_authenticated")
 
 
-func on_connection_failed(last_attempt_in_row: bool):
+func _on_connection_failed(last_attempt_in_row: bool):
 
 	printt("Connection failed:", last_attempt_in_row)
 	if last_attempt_in_row:

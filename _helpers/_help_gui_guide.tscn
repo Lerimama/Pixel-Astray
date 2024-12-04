@@ -25,8 +25,8 @@ border_color = Color( 1, 1, 1, 1 )
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 4 )
-region = Rect2( 138, 22, 22, 22 )
-margin = Rect2( -2, 0, 0, 0 )
+region = Rect2( 136, 24, 24, 24 )
+margin = Rect2( 0, 1, 0, 1 )
 
 [node name="_help_gui_guide" type="Panel"]
 anchor_left = 0.5
@@ -48,6 +48,7 @@ margin_bottom = 520.0
 custom_styles/panel = SubResource( 1 )
 
 [node name="Label" type="Label" parent="M inside edge"]
+visible = false
 margin_left = 22.0
 margin_top = 16.0
 margin_right = 231.0
@@ -205,48 +206,6 @@ margin_right = 320.0
 margin_bottom = 120.0
 color = Color( 0.368627, 1, 0.662745, 1 )
 
-[node name="ActionHint" parent="." instance=ExtResource( 3 )]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -124.0
-margin_top = 278.0
-margin_right = 124.0
-margin_bottom = 300.0
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Label" parent="ActionHint" index="0"]
-margin_top = 2.0
-margin_bottom = 20.0
-
-[node name="KEY" parent="ActionHint" index="1"]
-margin_top = 0.0
-margin_right = 136.0
-margin_bottom = 22.0
-text = "RETURN"
-
-[node name="Label2" parent="ActionHint" index="2"]
-margin_left = 144.0
-margin_top = 2.0
-margin_right = 161.0
-margin_bottom = 20.0
-
-[node name="Jp" parent="ActionHint" index="3"]
-margin_left = 169.0
-margin_right = 191.0
-margin_bottom = 22.0
-texture = SubResource( 3 )
-
-[node name="Label3" parent="ActionHint" index="4"]
-margin_left = 199.0
-margin_top = 2.0
-margin_right = 266.0
-margin_bottom = 20.0
-text = "to start"
-
 [node name="Title" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
@@ -305,8 +264,6 @@ __meta__ = {
 [node name="PlayBtn" type="Label" parent="Menu"]
 margin_right = 88.0
 margin_bottom = 22.0
-focus_neighbour_left = NodePath("../QuitBtn")
-focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 0
 text = "RESUME"
@@ -316,7 +273,6 @@ visible = false
 margin_left = 120.0
 margin_right = 290.0
 margin_bottom = 22.0
-focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 0
 text = "SKIP TUTORIAL"
@@ -325,7 +281,6 @@ text = "SKIP TUTORIAL"
 margin_left = 120.0
 margin_right = 218.0
 margin_bottom = 22.0
-focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 6
 size_flags_vertical = 0
@@ -335,11 +290,36 @@ text = "RESTART"
 margin_left = 250.0
 margin_right = 302.0
 margin_bottom = 22.0
-focus_neighbour_top = NodePath("../../Settings/CameraShakeBtn")
-focus_neighbour_right = NodePath("../PlayBtn")
-focus_neighbour_bottom = NodePath("../../Settings/GameMusicBtn")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 0
 text = "QUIT"
 
-[editable path="ActionHint"]
+[node name="ActionHint2" parent="." instance=ExtResource( 3 )]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_top = 269.0
+margin_right = 95.0
+margin_bottom = 294.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Label" parent="ActionHint2" index="0"]
+margin_right = 171.0
+text = "Click anywhere, press"
+
+[node name="Jp" parent="ActionHint2" index="1"]
+texture = SubResource( 3 )
+
+[node name="KEY" parent="ActionHint2" index="3"]
+margin_right = 112.0
+text = "ENTER"
+
+[node name="Label3" parent="ActionHint2" index="4"]
+margin_left = 120.0
+margin_right = 187.0
+text = "to start"
+
+[editable path="ActionHint2"]

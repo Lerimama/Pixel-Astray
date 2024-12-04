@@ -32,20 +32,20 @@ func _input(event: InputEvent) -> void:
 func _ready() -> void:
 
 	# menu btn group
-	$BackBtn.add_to_group(Global.group_menu_cancel_btns)
+	$BackBtn.add_to_group(Batnz.group_cancel_btns)
 
 	# APP SETTINGS ------------------------------------------------------------------
 
 	# menu music
 	if Global.sound_manager.menu_music_set_to_off:
-		$MenuMusicBtn.pressed = false
+		$MenuMusicBtn.set_pressed_no_signal(false)
 	else:
-		$MenuMusicBtn.pressed = true
+		$MenuMusicBtn.set_pressed_no_signal(true)
 	# pregame screen
-	if Profiles.default_game_settings["show_game_instructions"] == true:
-		$InstructionsBtn.pressed = true
+	if Profiles.pregame_screen_on:
+		$InstructionsBtn.set_pressed_no_signal(true)
 	else:
-		$InstructionsBtn.pressed = false
+		$InstructionsBtn.set_pressed_no_signal(false)
 	# color scheme
 	if Profiles.use_default_color_theme:
 		spectrum_icon.show()
@@ -58,9 +58,9 @@ func _ready() -> void:
 		gradient_icon.texture.gradient = Global.game_color_theme_gradient
 	# data tracking
 	if Profiles.analytics_mode:
-		$TrackingBtn.pressed = true
+		$TrackingBtn.set_pressed_no_signal(true)
 	else:
-		$TrackingBtn.pressed = false
+		$TrackingBtn.set_pressed_no_signal(false)
 	# reset data
 	if Profiles.html5_mode:
 		$ResetLocalBtn.hide()
@@ -72,37 +72,41 @@ func _ready() -> void:
 		$ResetDataPopup.set_item_disabled(0, true)
 		$ResetDataPopup.set_current_index(1)
 
-
 	# IN-GAME SETTINGS ------------------------------------------------------------------
-
 
 	# game music state
 	if Global.sound_manager.game_music_set_to_off:
-		$GameMusicBtn.pressed = false
+		$GameMusicBtn.set_pressed_no_signal(false)
 	else:
-		$GameMusicBtn.pressed = true
+		$GameMusicBtn.set_pressed_no_signal(true)
 	# game music volume
 	$GameMusicSlider.value = AudioServer.get_bus_volume_db(AudioServer.get_bus_index("GameMusic")) # da je slajder v settingsih in pavzi poenoten
 	# game sfx state
 	if Global.sound_manager.game_sfx_set_to_off:
-		$GameSfxBtn.pressed = false
+		$GameSfxBtn.set_pressed_no_signal(false)
 	else:
-		$GameSfxBtn.pressed = true
+		$GameSfxBtn.set_pressed_no_signal(true)
 	# cam shake state
 	if Profiles.camera_shake_on:
-		$CameraShakeBtn.pressed = true
+		$CameraShakeBtn.set_pressed_no_signal(true)
 	else:
-		$CameraShakeBtn.pressed = false
+		$CameraShakeBtn.set_pressed_no_signal(false)
 
 	# touch controlls type
 	if OS.has_touchscreen_ui_hint():
+		# btn
 		$TouchPopUpBtn.show()
-		for touch_controller in Profiles.TOUCH_CONTROLLER:
-			$TouchControllerPopup.add_item(touch_controller, Profiles.TOUCH_CONTROLLER[touch_controller])
-		var current_controller: String = Profiles.TOUCH_CONTROLLER.keys()[Profiles.set_touch_controller]
-		$TouchPopUpBtn.text = "Touch controls: %s" % current_controller
-		# touch slider
-		if Profiles.set_touch_controller >= Profiles.TOUCH_CONTROLLER.SCREEN:
+		var selected_controller_content: Dictionary = Profiles.touch_controller_content.values()[Profiles.set_touch_controller]
+		var selected_controller_key: String = selected_controller_content.keys()[0]
+		$TouchPopUpBtn.text = "Touch controls: %s" % selected_controller_key
+		# popup
+		for controller_count in Profiles.TOUCH_CONTROLLER.size():
+			var controller_content: Dictionary = Profiles.touch_controller_content.values()[controller_count]
+			var controller_title_key: String = controller_content.keys()[0]
+			var controller_description: String = controller_content[controller_title_key]
+			$TouchControllerPopup.add_item(controller_description, controller_count)
+		# sensi-slider
+		if Profiles.set_touch_controller >= Profiles.TOUCH_CONTROLLER.SCREEN_LEFT:
 			$TouchSensSlider.show()
 		else:
 			$TouchSensSlider.hide()
@@ -122,8 +126,6 @@ func _on_BackBtn_pressed() -> void:
 
 func _on_MenuMusicBtn_toggled(button_pressed: bool) -> void:
 
-	Global.grab_focus_nofx($MenuMusicBtn) # za analitiko
-
 	if button_pressed:
 		Global.sound_manager.menu_music_set_to_off = false
 		Global.sound_manager.play_music("menu_music")
@@ -134,7 +136,6 @@ func _on_MenuMusicBtn_toggled(button_pressed: bool) -> void:
 
 func _on_TrackingBtn_toggled(button_pressed: bool) -> void:
 
-	Global.grab_focus_nofx($TrackingBtn) # za analitiko
 	if button_pressed:
 		Analytics.update_session()
 		Profiles.set_deferred("analytics_mode", true) # deferr da ujame klik
@@ -147,9 +148,9 @@ func _on_InstructionsBtn_toggled(button_pressed: bool) -> void:
 
 	if button_pressed:
 		Global.sound_manager.game_sfx_set_to_off = false
-		Profiles.default_game_settings["show_game_instructions"] = true
+		Profiles.pregame_screen_on = true
 	else:
-		Profiles.default_game_settings["show_game_instructions"] = false
+		Profiles.pregame_screen_on = false
 
 
 func _on_ResetLocalButton_pressed() -> void:
@@ -212,7 +213,6 @@ func _on_RandomizeBtn_pressed() -> void:
 
 func _on_GameMusicBtn_toggled(button_pressed: bool) -> void:
 
-	Global.grab_focus_nofx($GameMusicBtn) # za analitiko
 	# ker muzika še ni naloudana samo setam željeno stanje ob nalaganju
 	if button_pressed:
 		Global.sound_manager.game_music_set_to_off = false
@@ -222,7 +222,6 @@ func _on_GameMusicBtn_toggled(button_pressed: bool) -> void:
 
 func _on_MusicHSlider_value_changed(value: float) -> void:
 
-	Global.grab_focus_nofx($GameMusicSlider) # za analitiko
 	Global.sound_manager.set_game_music_volume(value)
 
 
@@ -233,7 +232,6 @@ func _on_GameMusicSlider_drag_ended(value_changed: bool) -> void: # za analitiko
 
 func _on_GameSfxBtn_toggled(button_pressed: bool) -> void:
 
-	Global.grab_focus_nofx($GameSfxBtn) # za analitiko
 	# ker muzika še ni naloudana samo setam željeno stanje ob nalaganju
 	if button_pressed:
 		Global.sound_manager.game_sfx_set_to_off = false
@@ -243,7 +241,6 @@ func _on_GameSfxBtn_toggled(button_pressed: bool) -> void:
 
 func _on_CameraShakeBtn_toggled(button_pressed: bool) -> void:
 
-	Global.grab_focus_nofx($CameraShakeBtn) # za analitiko
 	# ker igra še ni naloudana samo setam željeno stanje ob nalaganju
 	if button_pressed:
 		Profiles.camera_shake_on = true
@@ -264,7 +261,9 @@ func _on_TouchPopUpBtn_pressed() -> void:
 func _on_TouchControllerPopup_index_pressed(index: int) -> void:
 
 	Profiles.set_touch_controller = index
-	var controller_key: String = Profiles.TOUCH_CONTROLLER.keys()[index]
+	var controller_content: Dictionary = Profiles.touch_controller_content.values()[index]
+	var controller_key: String = controller_content.keys()[0]
+
 	$TouchPopUpBtn.text = "Touch controls: %s" % controller_key
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 
@@ -272,7 +271,7 @@ func _on_TouchControllerPopup_index_pressed(index: int) -> void:
 	Analytics.save_ui_click("TouchController %s" % controller_key)
 
 	# ugasnem za buttons in none
-	if Profiles.set_touch_controller >= Profiles.TOUCH_CONTROLLER.SCREEN:
+	if Profiles.set_touch_controller >= Profiles.TOUCH_CONTROLLER.SCREEN_LEFT:
 		$TouchSensSlider.show()
 	else:
 		$TouchSensSlider.hide()
@@ -285,9 +284,9 @@ func _on_TouchControllerPopup_id_focused(id: int) -> void:
 
 func _on_SensSlider_value_changed(value: float) -> void:
 
-	Global.grab_focus_nofx($TouchSensSlider) # za analitiko
 	Profiles.screen_touch_sensitivity = value
 
-func _on_SensSlider_drag_ended() -> void:
+
+func _on_SensSlider_drag_ended(value_changed: bool) -> void:
 
 	Analytics.save_ui_click([$TouchSensSlider, $TouchSensSlider.value])

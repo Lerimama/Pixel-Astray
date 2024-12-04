@@ -4,8 +4,8 @@ extends Control
 signal sudden_death_activated # pošlje se v hud, ki javi game managerju
 signal gametime_is_up # pošlje se v hud, ki javi game managerju
 
-enum TimerStates {COUNTING, STOPPED, PAUSED}
-var current_timer_state: int = TimerStates.STOPPED
+enum STATES {COUNTING, STOPPED, PAUSED}
+var current_timer_state: int = STATES.STOPPED
 
 var game_time: float # pozitiven čas igre v sekundah z decimalkami
 var countdown_second: int # za uravnavanje GO odštevanja ... opredeli s v ready
@@ -30,7 +30,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 
 	# če ne štopam, poskrbim, da je ura prava
-	if not current_timer_state == TimerStates.COUNTING:
+	if not current_timer_state == STATES.COUNTING:
 		# če je čas na nuli zapiše drugače glede na mode
 		if game_time == 0:
 			if not stopwatch_mode:
@@ -98,19 +98,19 @@ func start_timer():
 
 	# reset vrendosti se zgodi na štart (ne na stop)
 	game_time = 0
-	current_timer_state = TimerStates.COUNTING
+	current_timer_state = STATES.COUNTING
 
 
 func pause_timer():
 
-	current_timer_state = TimerStates.PAUSED
+	current_timer_state = STATES.PAUSED
 
 
 func unpause_timer():
 
-	current_timer_state = TimerStates.COUNTING
+	current_timer_state = STATES.COUNTING
 
 
 func stop_timer():
 
-	current_timer_state = TimerStates.STOPPED
+	current_timer_state = STATES.STOPPED

@@ -9,10 +9,6 @@ var p1_final_stats: Dictionary
 var p2_final_stats: Dictionary
 
 var gameover_reason: int
-#var current_player_local_rank: int = 0 # 0 = not ranking
-#var sweeper_solved: bool = false
-#var background_fadein_alpha: float = 0.9 # cca 230
-#var green_rank_limit: int = 100 # rezultat, ki obarva GO zeleno
 
 onready var gameover_menu: HBoxContainer = $Menu
 onready var select_level_btns_holder: GridContainer = $GameSummary/ContentSweeper/LevelBtnsHolder/LevelBtnsGrid
@@ -46,13 +42,18 @@ var new_record_set: bool = false # za barvanje in texte titlov
 var current_scoreline_marked: bool = false # za ugotavljanje, kdaj hs table chidren dobijo pozicijo
 
 
-func _unhandled_input(event: InputEvent) -> void:
-#func _input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void: # unhandled ne pride skozi
 
 	if name_input_popup.visible == true and name_input_popup.modulate.a == 1:
-		if Input.is_action_just_pressed("ui_cancel"):
+		if Input.is_action_just_pressed("ui_cancel"):# and name_input.has_focus():
 			Analytics.save_ui_click("InputCancelEsc")
+			Global.sound_manager.play_gui_sfx("btn_cancel")
 			_on_CancelBtn_pressed()
+			accept_event()
+		if Input.is_action_just_pressed("ui_accept"):# and not input_confirm_btn.has_focus():
+			Analytics.save_ui_click("InputConfirmAccept")
+			Global.sound_manager.play_gui_sfx("btn_confirm")
+			_on_ConfirmBtn_pressed()
 			accept_event()
 
 
@@ -67,11 +68,12 @@ func _ready() -> void:
 	gameover_menu.hide()
 
 	# menu btn group
-	$Menu/RestartBtn.add_to_group(Global.group_menu_confirm_btns)
-	$Menu/RestartBtn.add_to_group(Global.group_critical_btns)
-	$Menu/QuitBtn.add_to_group(Global.group_menu_cancel_btns)
-	$Menu/QuitBtn.add_to_group(Global.group_critical_btns)
-	$Menu/ExitGameBtn.add_to_group(Global.group_menu_cancel_btns)
+	$Menu/RestartBtn.add_to_group(Batnz.group_critical_btns)
+	$Menu/QuitBtn.add_to_group(Batnz.group_critical_btns)
+
+	$Menu/QuitBtn.add_to_group(Batnz.group_cancel_btns)
+	$Menu/ExitGameBtn.add_to_group(Batnz.group_cancel_btns)
+	.add_to_group(Batnz.group_cancel_btns)
 
 	if Profiles.html5_mode:
 		$Menu/ExitGameBtn.hide()
@@ -97,8 +99,11 @@ func open_gameover(current_gameover_reason: int):
 	gameover_game_data = Global.game_manager.game_data
 	gameover_reason = current_gameover_reason
 	p1_final_stats = Global.game_manager.current_players_in_game[0].player_stats
+#	yield(get_tree().create_timer(1), "timeout")
 	game_final_time = Global.hud.game_timer.game_time_hunds
 	new_record_set = Global.hud.new_record_set
+
+	print("new_record_set ", new_record_set, Global.hud.new_record_set)
 
 	if gameover_game_data["game"] == Profiles.Games.THE_DUEL:
 		p2_final_stats = Global.game_manager.current_players_in_game[1].player_stats
@@ -182,16 +187,17 @@ func show_menu():
 	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_in.tween_callback(gameover_menu, "show")
 	fade_in.tween_property(gameover_menu, "modulate:a", 1, 0.5).from(0.0)
-	fade_in.parallel().tween_callback(Global, "grab_focus_nofx", [focus_btn])
 	yield(fade_in,"finished")
 	get_viewport().set_disable_input(false) # na začetku se disejbla do konca publishanja
+	focus_btn.grab_focus()
 
 
 func play_selected_level(selected_level: int):
 
 	# set sweeper level
 	Profiles.game_data_sweeper["level"] = selected_level
-
+	Global.game_manager.game_settings["pregame_screen_on"] = false
+	Global.game_manager.game_settings["always_zoomed_in"] = true
 	Analytics.save_game_data([true, Global.game_manager.strays_in_game_count])
 
 	Global.main_node.reload_game()
@@ -316,7 +322,8 @@ func set_game_summary():
 		stat_time.text = "Time: " + Global.get_clock_time(player_final_score)
 		stat_pixels_astray.text = "Pixels left astray: " + str(Global.game_manager.strays_in_game_count)
 		# select level btns
-		select_level_btns_holder.select_level_btns_holder_parent = self
+		select_level_btns_holder.btns_holder_parent = self
+		print(select_level_btns_holder.btns_holder_parent)
 		select_level_btns_holder.spawn_level_btns()
 		select_level_btns_holder.set_level_btns()
 		select_level_btns_holder.connect_level_btns()
@@ -362,22 +369,13 @@ func set_game_summary():
 
 func open_name_input():
 
-	# generiram random ime s 5 črkami in ga dam za placeholder text
-	#	randomize()
-	#	var ascii_letters_and_digits: String = "abcdefghijklmnopqrstuvwxyz"
-	#	var random_generated_name: String = ""
-	#	for i in 5:
-	#		var random_letter: String = ascii_letters_and_digits[randi() % ascii_letters_and_digits.length()]
-	#		random_generated_name += random_letter
-	#	random_generated_name = random_generated_name
-	#	name_input.placeholder_text = random_generated_name
 	name_input.placeholder_text = ""
 	name_input_popup.visible = true
 	name_input_popup.modulate.a = 0
 	var fade_in_tween = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_in_tween.tween_property(name_input_popup, "modulate:a", 1, 0.5)
 	yield(fade_in_tween, "finished")
-	Global.grab_focus_nofx(name_input)
+	Batnz.grab_focus_nofx(name_input)
 	name_input.select_all()
 
 
@@ -395,12 +393,12 @@ func _on_PopupNameEdit_text_entered(new_text: String) -> void: # ko stisneš ret
 
 func _on_ConfirmBtn_pressed() -> void:
 
-	Global.grab_focus_nofx($NameInputPopup/HBoxContainer/InputConfirmBtn) # potrditev s tipko
-#	Global.sound_manager.play_gui_sfx("btn_confirm")
 
 	if input_string.empty(): # če je prazen, je kot bi kenslal
 		_on_CancelBtn_pressed()
 	else:
+		var input_confirm_btn: Button = $NameInputPopup/HBoxContainer/InputConfirmBtn
+		input_confirm_btn.grab_focus()
 		confirm_name_input()
 
 
@@ -411,7 +409,7 @@ func confirm_name_input():
 	# pogrebam string in zapišem ime v končno statistiko igralca
 	p1_final_stats["player_name"] = input_string
 
-	Global.data_manager.save_player_score(player_final_score, gameover_game_data)
+	Data.save_player_score(player_final_score, gameover_game_data)
 
 	# skrijem samo input (GO title se skrije s popupom)
 	var input_fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
@@ -437,10 +435,10 @@ func confirm_name_input():
 
 func _on_CancelBtn_pressed() -> void:
 
-	name_input.editable = false
+	var input_cancel_btn: Button = $NameInputPopup/HBoxContainer/InputCancelBtn
+	input_cancel_btn.grab_focus()
 
-	Global.grab_focus_nofx($NameInputPopup/HBoxContainer/InputCancelBtn) # cancel s tipko
-	Global.sound_manager.play_gui_sfx("btn_cancel")
+	name_input.editable = false
 
 	# skrijem input in GO title
 	var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)

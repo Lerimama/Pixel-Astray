@@ -3,7 +3,7 @@ extends GridContainer
 var unfocused_color: Color = Global.color_almost_black_pixel
 var btn_colors: Array
 var all_level_btns: Array # naberem ob spawnu
-var select_level_btns_holder_parent # določim od zunaj
+var btns_holder_parent # določim od zunaj
 
 var unlocked_label_path: String = "VBoxContainer/Label"
 var locked_label_path: String = "VBoxContainer/LabelLocked"
@@ -30,12 +30,10 @@ func spawn_level_btns():
 		if tilemap_path_level_number < Profiles.sweeper_level_tilemap_paths.size():
 			var new_level_btn: Button = LevelBtn.instance()
 			add_child(new_level_btn)
-			new_level_btn.add_to_group(Global.group_menu_confirm_btns)
-			new_level_btn.add_to_group(Global.group_critical_btns)
+			new_level_btn.add_to_group(Batnz.group_critical_btns)
 			all_level_btns.append(new_level_btn)
 		elif tilemap_path_level_number == Profiles.sweeper_level_tilemap_paths.size():
-			the_pixel_astray_level_btn.add_to_group(Global.group_menu_confirm_btns)
-			the_pixel_astray_level_btn.add_to_group(Global.group_critical_btns)
+			the_pixel_astray_level_btn.add_to_group(Batnz.group_critical_btns)
 			all_level_btns.append(the_pixel_astray_level_btn)
 
 	var column_number: int = round(sqrt(Profiles.sweeper_level_tilemap_paths.size()))
@@ -98,7 +96,7 @@ func get_btn_highscore(btn_level_number: int):
 	var btn_level_game_data = Profiles.game_data_sweeper
 	btn_level_game_data["level"] = btn_level_number
 
-	var current_highscore_line: Array = Global.data_manager.get_top_highscore(btn_level_game_data)
+	var current_highscore_line: Array = Data.get_top_highscore(btn_level_game_data)
 
 	var current_highscore_clock = 0
 	# če je < 0, ga ne formatiram (bolje vem, da je "scoreless")
@@ -154,8 +152,11 @@ func _on_btn_unhovered_or_unfocused(btn):
 
 
 func _on_btn_pressed(btn):
+
 	var pressed_btn_index: int = get_children().find(btn)
-	select_level_btns_holder_parent.play_selected_level(pressed_btn_index + 1)
+
+
+	btns_holder_parent.play_selected_level(pressed_btn_index + 1)
 
 	var sweeper_game_name: String = "Sweeper %02d" % (pressed_btn_index + 1)
 	Analytics.save_game_data(sweeper_game_name)

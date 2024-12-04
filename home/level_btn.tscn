@@ -8,7 +8,7 @@
 
 [sub_resource type="AtlasTexture" id=482]
 atlas = ExtResource( 2 )
-region = Rect2( 0, 156, 16, 20 )
+region = Rect2( 80, 28, 16, 20 )
 filter_clip = true
 
 [node name="LevelBtn" type="Button"]
@@ -60,7 +60,6 @@ align = 1
 valign = 1
 
 [node name="LockedIcon" type="TextureRect" parent="VBoxContainer/LabelLocked"]
-visible = false
 margin_left = 99.0
 margin_top = 14.0
 margin_right = 115.0

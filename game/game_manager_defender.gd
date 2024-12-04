@@ -39,12 +39,12 @@ func set_game():
 	# debug ... free pos indi
 	if Global.game_arena.free_positions_grid.visible:
 		for free_position in free_floor_positions:
-			spawn_free_position_indicator(free_position)
+			spawn_free_position_tile(free_position)
 
 	# colors
 	set_color_pool()
 
-	if game_settings["show_game_instructions"]:
+	if game_settings["pregame_screen_on"]:
 		yield(Global.hud.instructions_popup, "players_ready")
 
 	# animacije plejerja in straysov in zooma
@@ -62,14 +62,7 @@ func set_game():
 	# gui
 	Global.hud.slide_in()
 
-	# tut mode
-	if Profiles.tutorial_mode:
-		Global.sound_manager.current_music_track_index = Profiles.tutorial_music_track_index
-		game_settings["start_countdown"] = false # tutorial nima odštevanja
-	else:
-		Global.sound_manager.current_music_track_index = game_settings["game_music_track_index"]
-
-	if game_settings["start_countdown"]:
+	if game_settings["start_countdown"] and not Profiles.tutorial_mode:
 		yield(get_tree().create_timer(0.2), "timeout")
 		Global.hud.start_countdown.start_countdown() # GM yielda za njegov signal
 		yield(Global.hud.start_countdown, "countdown_finished") # sproži ga hud po slide-inu
@@ -100,8 +93,8 @@ func game_over(gameover_reason: int):
 	if game_on: # preprečim double gameover
 		game_on = false
 
-		Global.hud.slide_out()
 		Global.hud.game_timer.stop_timer()
+		Global.hud.slide_out()
 		yield(get_tree().create_timer(Global.get_it_time), "timeout")
 		get_tree().call_group(Global.group_players, "set_physics_process", false)
 		stop_game_elements()
@@ -203,6 +196,7 @@ func create_strays(strays_to_spawn_count: int):
 			create_strays(strays_to_spawn_count - spawned_strays_true_count)
 			return
 
+	# pokaže same sebe tik pred prvim korakom
 	stray_spawning_round += 1
 
 

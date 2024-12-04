@@ -65,19 +65,15 @@ onready var erasers_focus_node: Control
 onready var default_focus_node: Control = update_scores_btn
 
 
-
 func _ready() -> void:
 
 	# btns
-	back_btn.add_to_group(Global.group_menu_cancel_btns)
+	back_btn.add_to_group(Batnz.group_cancel_btns)
 
 	if Profiles.html5_mode:
 		update_scores_btn.hide()
 		publish_unpublished_btn.hide()
 		default_focus_node = back_btn
-	else:
-		update_scores_btn.add_to_group(Global.group_menu_confirm_btns)
-		publish_unpublished_btn.add_to_group(Global.group_menu_confirm_btns)
 
 	# naberem tabele
 	for hall in halls:
@@ -140,8 +136,7 @@ func load_all_highscore_tables(update_with_global: bool, update_in_background: b
 
 	# after focus
 	if update_with_global and not update_in_background: # samo kadar je na HOF ekranu
-		Global.grab_focus_nofx(default_focus_node)
-
+		Batnz.grab_focus_nofx(default_focus_node)
 
 
 func publish_all_unpublished_scores():
@@ -184,7 +179,7 @@ func reset_all_local_scores():
 	ConnectCover.cover_label_text = "Reseting ..."
 
 	for table in all_tables:
-		Global.data_manager.delete_highscores_file(table.table_game_data)
+		Data.delete_highscores_file(table.table_game_data)
 
 	# rebuild tables
 	for table in all_tables:
