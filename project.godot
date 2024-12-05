@@ -59,8 +59,8 @@ config/icon="res://assets/app/project_icon.png"
 
 [audio]
 
-output_latency=30
-output_latency.web=200
+output_latency=20
+output_latency.web=100
 
 [autoload]
 

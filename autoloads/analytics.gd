@@ -40,14 +40,14 @@ var current_game_data: Dictionary = def_game_data
 
 # api
 var sheetbook_id: String = "1KfrvMCaqh65EGN_YEUrck8RyKGVbEUERathC6_VnRLQ" # link string
-var app_url: String = "https://script.google.com/macros/s/AKfycbwQ1fSBqsIEt0BTGlK_5eIaMU9ujxSDBtnY68bEM30bV8qncHGX0qJSzcDm1VFn4HWY4Q/exec"
+var app_url: String = "https://script.google.com/macros/s/AKfycbzh4UlcCgQ3pOBDE-uQJW8WRtWV-uB4OMKEq06v9uebj2o2xVzVzMY8CwrGL4BR1b1Edg/exec"
 var script_action_new_row: String = "create_new_row"
 var script_action_save_row: String = "save_existing_row"
 var script_action_get_rows_list: String = "fetch_rows_list"
 
 
 # on load game
-func start_new_session(start_fake: bool = false): # kliče main
+func start_new_session(): # kliče main ... pošlje podatke na Gsheet
 
 	if Profiles.analytics_mode and not session_tracking:
 		#		print("> starting new session")
@@ -56,36 +56,42 @@ func start_new_session(start_fake: bool = false): # kliče main
 		var date_string: String = str(date_dict["day"]) + "/" + str(date_dict["month"]) + "/" + str(date_dict["year"])
 		session_data["session_date"] = date_string
 		session_data["session_time"] = Time.get_time_string_from_system()
-		session_data["device_id"] = OS.get_unique_id()
+		if Profiles.html5_mode:
+			session_data["device_id"] = "html"
+		else:
+			session_data["device_id"] = OS.get_unique_id()
 		session_data["os_language"] = OS.get_locale_language()
 		session_data["os_name"] = OS.get_name()
 		_save_new_row()
+	elif session_tracking:
+		session_tracking = false
+		call_deferred("start_new_session")
 
-# scene change
-func update_session():
+
+# on scene change
+func update_session(): # pošlje podatke na Gsheet
 
 	if Profiles.analytics_mode and session_tracking:
 		#		print("> updating session")
 		session_data["current_game_data"] = current_game_data
 		_save_existing_row(session_data["session_id"])
 
-
 # on quit game
-func end_session():
+func end_session(): # kliče main ... pošlje podatke na Gsheet
 
-	if Profiles.analytics_mode  and session_tracking:
+	if Profiles.analytics_mode and session_tracking:
 		#		print("> ending session")
 		session_data["session_length"] = round(Time.get_ticks_msec() / 1000)
 		_save_existing_row(session_data["session_id"])
 		session_tracking = false
 
 
-func save_game_data(game_parameter = null): # parameter je lahko ime igre, končano/nekončano
+func save_selected_game_data(game_parameter = null): # parameter je lahko ime igre, končano/nekončano
 
 	if Profiles.analytics_mode:
 
 		match typeof(game_parameter):
-			TYPE_STRING: # start
+			TYPE_STRING: # game started ... save and update
 				# select games btnz
 				# select sweeper level btns
 				# restart main reload > pred game_in
@@ -96,12 +102,12 @@ func save_game_data(game_parameter = null): # parameter je lahko ime igre, konč
 					current_game_data["game_name"] = game_parameter
 					current_game_data["game_started"] = true
 					update_session()
-			TYPE_NIL: # play
+			TYPE_NIL: # game played ... save to dict
 				# GM pre hud.slidein
 				if game_tracking:
 					current_game_data["playing_time"] = Time.get_ticks_msec() / 1000
 					current_game_data["game_played"] = true
-			TYPE_ARRAY: # end
+			TYPE_ARRAY: # game finished ... save and update
 				# game over na open
 				# pause restart, quit
 				if game_tracking:
@@ -148,6 +154,9 @@ func save_ui_click(ui_action):
 		session_data["ui_clicks"] +=" > " + save_string
 		#	printt("ui_clicks", session_data["ui_clicks"])
 		btns_clicked.append(save_string)
+
+
+
 
 
 # ROW ACTIONS --------------------------------------------------------------------------------------------------

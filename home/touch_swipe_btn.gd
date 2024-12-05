@@ -6,7 +6,6 @@ var current_swipe_direction: int = SWIPE_DIRECTION.NONE
 
 var swipe_length_factor: float = 0.1 # procent dolžine ekrana
 var screen_pressed_position: Vector2 = Vector2.ZERO
-var has_swiped: bool = false # za skrivanje hinta
 
 # debug ... line2d
 var touch_direction_line: Line2D
@@ -21,8 +20,9 @@ func imitate_input(direction_key: int, imitate_pressed: bool = true):
 
 	var parent_node = get_parent()
 
+	# če je swipe in ni intro se namig skrije
 	if not parent_node.current_screen == parent_node.Screens.INTRO:
-		has_swiped = true
+		parent_node.navigation_hint.hide()
 
 	match parent_node.current_screen:
 		parent_node.Screens.INTRO:

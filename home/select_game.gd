@@ -14,12 +14,7 @@ onready var default_focus_node: Control = $GamesMenu/Cleaner/CleanerBtn
 
 func _ready() -> void:
 
-
-	if Profiles.tutorial_mode:
-		$TutorialModeBtn.set_pressed_no_signal(true)
-	else:
-		$TutorialModeBtn.set_pressed_no_signal(false)
-
+	$TutorialModeBtn.set_pressed_no_signal(Profiles.tutorial_mode)
 	$GamesMenu/Sweeper/Label.text %= sweeper_btns_count
 
 	# menu btn group
@@ -190,7 +185,7 @@ func color_game_btns():
 func play_selected_game(selected_game_enum: int):
 
 	Profiles.set_game_data(selected_game_enum)
-	Analytics.save_game_data(Profiles.current_game_data["game_name"])
+	Analytics.save_selected_game_data(Profiles.current_game_data["game_name"])
 
 	Global.main_node.home_out()
 

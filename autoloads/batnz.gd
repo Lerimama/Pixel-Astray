@@ -46,7 +46,7 @@ func _ready():
 
 func grab_focus_nofx(control_to_focus: Control):
 
-	# reseta na fokus
+	# reset na fokus
 	allow_ui_sfx = false
 	control_to_focus.grab_focus()
 	set_deferred("allow_ui_sfx", true)
@@ -86,8 +86,8 @@ func _connect_interactive_control(node: Control):
 
 
 func _on_mouse_entered(control: Control):
-
 	#	printt("control hovered", control)
+
 	if not control.has_focus():# and not control is ColorRect
 		#		allow_ui_sfx = true # mouse focus je zmeraj s sonundom
 		#	control.call_deferred("grab_focus")
@@ -95,29 +95,31 @@ func _on_mouse_entered(control: Control):
 
 
 func _on_focus_entered(control: Control):
-
 	#	printt("control focused", control)
+
 	if allow_ui_sfx:
 		Global.sound_manager.play_gui_sfx("btn_focus_change")
 	else:
 		set_deferred("allow_ui_sfx", true)
 
 	# color fix - non-regular-btn
-	if control is CheckButton or control is HSlider or control.name == "RandomizeBtn" or control.name == "ResetBtn":
+	if control is CheckButton or control is HSlider or control.name == "RandomizeBtn" or control.name == "SchemeResetBtn":
 		control.modulate = Color.white
 
 
 func _on_focus_exited(control: Control):
-
 	#	printt("control unfocused", control)
+
 	# settings gumbi - barvanje
-	if control is CheckButton or control is HSlider or control.name == "RandomizeBtn" or control.name == "ResetBtn":
-		control.modulate = Global.color_gui_gray # Color.white
+	if control is CheckButton:
+		control.modulate = Global.color_gui_gray
+	elif control is HSlider or control.name == "RandomizeBtn" or control.name == "SchemeResetBtn":
+		control.modulate = Global.color_gui_gray
 
 
 func _on_btn_pressed(button: BaseButton):
-
 	#	printt("btn pressed", button)
+
 	Analytics.save_ui_click(button)
 
 	if button.is_in_group(group_cancel_btns):
@@ -131,8 +133,8 @@ func _on_btn_pressed(button: BaseButton):
 
 
 func _on_btn_toggled(button_pressed: bool, button: Button) -> void:
-
 	#	printt("btn toggled",button_pressed, button)
+
 	if not str(button) == "[Deleted Object]": # anti home_out nek toggle btn
 		if button_pressed:
 			Global.sound_manager.play_gui_sfx("btn_confirm")

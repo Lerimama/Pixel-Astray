@@ -47,7 +47,7 @@ func pause_game():
 	Global.sound_manager.play_gui_sfx("screen_slide")
 
 	$Menu/PlayBtn.grab_focus()
-#	Batnz.grab_focus_nofx($Menu/PlayBtn)
+	#	Batnz.grab_focus_nofx($Menu/PlayBtn)
 
 	var pause_in_time: float = 0.5
 	var fade_in_tween = get_tree().create_tween()
@@ -80,7 +80,7 @@ func _on_RestartBtn_pressed() -> void:
 	Global.game_manager.stop_game_elements()
 	# get_tree().paused = false ... tween za izhod pavzo drevesa ignorira
 
-	Analytics.save_game_data([false, Global.game_manager.strays_in_game_count])
+	Analytics.save_selected_game_data([false, Global.game_manager.strays_in_game_count])
 
 	Global.main_node.reload_game()
 
@@ -91,6 +91,6 @@ func _on_QuitBtn_pressed() -> void:
 	Global.game_manager.stop_game_elements()
 	# get_tree().paused = false ... tween za izhod pavzo drevesa ignorira
 
-	Analytics.save_game_data([false, Global.game_manager.strays_in_game_count])
+	Analytics.save_selected_game_data([false, Global.game_manager.strays_in_game_count])
 
 	Global.main_node.game_out(Global.game_manager.game_data["game"])

@@ -10,6 +10,7 @@ onready var intro: Node2D = $HomeScreen/IntroViewPortContainer/IntroViewport/Int
 onready var intro_viewport: Viewport = $HomeScreen/IntroViewPortContainer/IntroViewport
 onready var navigation_hint: Label = $NavigationHint
 onready var home_swipe_btn: TouchScreenButton = $HomeSwipeBtn
+onready var default_focus_node: Control = $HomeScreen/Menu/SelectGameBtn
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -42,17 +43,16 @@ func _ready():
 	menu.hide()
 
 	# navigation hint
-	navigation_hint.hide()
+	navigation_hint.modulate.a = 0
 	if OS.has_touchscreen_ui_hint():
-		navigation_hint.text = "You can swipe to navigate around." # ugasne ga swipe gumb
+		navigation_hint.text = "Swipe to navigate around." # ugasne ga swipe gumb
 		home_swipe_btn.show()
 	else:
+		# navigation_hint.text = "Use keyboard or gamepad to navigate around."
 		navigation_hint.hide()
-		#		navigation_hint.text = "You can use keyboard or gamepad to navigate around." # ugasne se iz na esc
 
 	# btn groups
 	menu.get_node("ExitGameBtn").add_to_group(Batnz.group_cancel_btns)
-
 	if Profiles.html5_mode:
 		menu.get_node("ExitGameBtn").hide()
 
@@ -113,16 +113,15 @@ func open_from_game(finished_game: int): # select_game screen ... kliče main.gd
 func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drugih ekranov
 
 	current_screen = Screens.MAIN_MENU
-	menu.get_node("SelectGameBtn").grab_focus()
+	default_focus_node.grab_focus()
 
 	menu.modulate.a = 0
 	menu.show()
 
 	var fade_in = get_tree().create_tween()
 	fade_in.tween_property(menu, "modulate:a", 1, 0.5)
-	if not home_swipe_btn.has_swiped:
-		fade_in.parallel().tween_callback(navigation_hint, "show")
-		fade_in.parallel().tween_property(navigation_hint, "modulate:a", 1, 0.5).from(0.0)
+	if navigation_hint.visible:
+		fade_in.parallel().tween_property(navigation_hint, "modulate:a", 1, 0.5)
 
 
 func menu_out():
@@ -134,7 +133,6 @@ func menu_out():
 	fade_in.parallel().tween_property(navigation_hint, "modulate:a", 0, 0.2)
 	yield(fade_in,"finished")
 	menu.hide()
-	navigation_hint.hide()
 
 
 # SIGNALI ---------------------------------------------------------------------------------------------------
@@ -247,3 +245,7 @@ func _on_QuitGameBtn_pressed() -> void:
 
 	Global.main_node.quit_exit_game()
 
+
+
+func _on_Button_pressed() -> void:
+	Analytics.start_new_session()

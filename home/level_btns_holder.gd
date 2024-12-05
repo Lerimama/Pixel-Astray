@@ -159,5 +159,5 @@ func _on_btn_pressed(btn):
 	btns_holder_parent.play_selected_level(pressed_btn_index + 1)
 
 	var sweeper_game_name: String = "Sweeper %02d" % (pressed_btn_index + 1)
-	Analytics.save_game_data(sweeper_game_name)
+	Analytics.save_selected_game_data(sweeper_game_name)
 

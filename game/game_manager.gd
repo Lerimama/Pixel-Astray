@@ -44,9 +44,10 @@ onready var spawn_white_stray_part: float = game_settings["spawn_white_stray_par
 onready var respawn_pause_time: float = game_settings["respawn_pause_time"]
 onready var respawn_strays_count_range: Array = game_settings["respawn_strays_count_range"]
 onready var StrayPixel: PackedScene = preload("res://game/pixel/stray.tscn")
-#onready var StrayPixel: PackedScene = preload("res://game/pixel/stray_kin.tscn")
 onready var PlayerPixel: PackedScene = preload("res://game/pixel/player.tscn")
 onready var respawn_timer: Timer = $"../RespawnTimer"
+#onready var environment_node: Environment = Global.game_arena.arena_environment.environment
+var environment_node: Environment
 
 # debug ... free pos indi
 var free_position_tiles: Array
@@ -67,7 +68,8 @@ func _unhandled_input(event: InputEvent) -> void:
 func _ready() -> void:
 
 	Global.game_manager = self
-
+	environment_node = Global.game_arena
+	print(environment_node)
 	randomize()
 	if game_data.has("level_goal_count"):
 		# prvi level eraserja ima za cilj število spawnanih
@@ -144,7 +146,7 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 	if game_settings["pregame_screen_on"]:
 		yield(Global.hud.instructions_popup, "players_ready")
 
-	Analytics.save_game_data()
+	Analytics.save_selected_game_data()
 	Global.hud.slide_in() # pokaže countdown
 
 	# player

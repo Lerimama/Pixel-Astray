@@ -38,13 +38,6 @@ func _ready() -> void:
 
 	Analytics.call_deferred("start_new_session")
 
-	var apply_game_settings: Dictionary = Data.read_settings_from_file()
-	Profiles.pregame_screen_on = apply_game_settings["pregame_screen_on"]
-	Profiles.html5_mode = apply_game_settings["html5_mode"]
-	Profiles.camera_shake_on = apply_game_settings["camera_shake_on"]
-	Profiles.tutorial_mode = apply_game_settings["tutorial_mode"]
-	Profiles.analytics_mode = apply_game_settings["analytics_mode"]
-
 
 func home_in_intro():
 
@@ -161,7 +154,7 @@ func reload_game(): # game out z drugačnim zaključkom
 	var current_game_enum: int = Global.game_manager.game_data["game"]
 
 	# če relouda, se trenutna igra konča ob kliku in potem tukaj začne nova (nadomešča home btn klik
-	Analytics.save_game_data(Profiles.current_game_data["game_name"])
+	Analytics.save_selected_game_data(Profiles.current_game_data["game_name"])
 
 	var fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_out.tween_property(current_scene, "modulate", Color.black, fade_time)

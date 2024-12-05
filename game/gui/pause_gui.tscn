@@ -275,28 +275,28 @@ uppercase = true
 [node name="GameMusicBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 anchor_right = 1.0
-margin_left = 53.0
-margin_top = 25.0
-margin_right = -51.0
-margin_bottom = 57.0
+margin_left = 76.0
+margin_top = 17.0
+margin_right = -74.0
+margin_bottom = 49.0
 rect_min_size = Vector2( 0, 32 )
 focus_neighbour_left = NodePath(".")
 focus_neighbour_top = NodePath("../TouchSensSlider")
 mouse_default_cursor_shape = 2
 custom_fonts/font = ExtResource( 2 )
 pressed = true
-text = "GAME MUSIC"
+text = "MUSIC"
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="GameMusicSlider" type="HSlider" parent="Settings"]
-modulate = Color( 1, 1, 1, 0.470588 )
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 anchor_right = 1.0
 margin_left = 32.0
-margin_top = 83.0
+margin_top = 75.0
 margin_right = -32.0
-margin_bottom = 115.0
+margin_bottom = 107.0
 rect_min_size = Vector2( 0, 32 )
 rect_pivot_offset = Vector2( -48, 45 )
 focus_neighbour_bottom = NodePath("../GameSfxBtn")
@@ -305,22 +305,12 @@ size_flags_vertical = 8
 min_value = -30.0
 max_value = 10.0
 step = 5.0
-value = -20.0
+value = -5.0
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Tick" type="Polygon2D" parent="Settings/GameMusicSlider"]
-visible = false
-show_behind_parent = true
-position = Vector2( 83, 13 )
-color = Color( 0.513726, 0.513726, 0.513726, 1 )
-polygon = PoolVector2Array( 0, 7, 0, -1, 2, -1, 2, 7 )
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="GameMusicVol" type="Label" parent="Settings/GameMusicSlider"]
+[node name="Label" type="Label" parent="Settings/GameMusicSlider"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -332,16 +322,22 @@ margin_bottom = -13.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 2 )
-text = "GAME MUSIC VOLUME"
+text = "MUSIC VOLUME"
 align = 1
+
+[node name="Tick" type="Polygon2D" parent="Settings/GameMusicSlider"]
+show_behind_parent = true
+position = Vector2( 89, 12 )
+color = Color( 0.513726, 0.513726, 0.513726, 1 )
+polygon = PoolVector2Array( 0, 8, 0, 0, 8, 0, 8, 8 )
 
 [node name="GameSfxBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 anchor_right = 1.0
 margin_left = 61.0
-margin_top = 113.0
+margin_top = 105.0
 margin_right = -59.0
-margin_bottom = 145.0
+margin_bottom = 137.0
 rect_min_size = Vector2( 0, 32 )
 rect_pivot_offset = Vector2( 20, 16 )
 focus_neighbour_left = NodePath("../GameSfxBtn")
@@ -355,9 +351,9 @@ text = "GAME SFX"
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 anchor_right = 1.0
 margin_left = 43.0
-margin_top = 145.0
+margin_top = 137.0
 margin_right = -41.0
-margin_bottom = 177.0
+margin_bottom = 169.0
 rect_min_size = Vector2( 0, 32 )
 rect_pivot_offset = Vector2( -62, -22 )
 focus_neighbour_left = NodePath(".")
@@ -366,28 +362,49 @@ custom_fonts/font = ExtResource( 2 )
 pressed = true
 text = "CAMERA SHAKE"
 
-[node name="ShowHintBtn" type="CheckButton" parent="Settings"]
-visible = false
+[node name="BrightnessSlider" type="HSlider" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-anchor_right = 1.0
-margin_left = 62.0
-margin_top = 249.0
-margin_right = -54.0
-margin_bottom = 281.0
-rect_min_size = Vector2( 0, 32 )
-rect_pivot_offset = Vector2( -62, -22 )
+margin_left = 32.0
+margin_top = 203.0
+margin_right = 184.0
+margin_bottom = 219.0
 focus_neighbour_left = NodePath(".")
 mouse_default_cursor_shape = 2
+size_flags_vertical = 8
+min_value = 0.6
+max_value = 1.2
+step = 0.05
+value = 1.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Tick" type="Polygon2D" parent="Settings/BrightnessSlider"]
+show_behind_parent = true
+position = Vector2( 95, 4 )
+color = Color( 0.513726, 0.513726, 0.513726, 1 )
+polygon = PoolVector2Array( 0, 8, 0, 0, 8, 0, 8, 8 )
+
+[node name="Label" type="Label" parent="Settings/BrightnessSlider"]
+margin_left = 9.0
+margin_top = -27.0
+margin_right = 143.0
+margin_bottom = -5.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 2 )
-text = "SHOW HINT"
+text = "Brightness"
+align = 1
+uppercase = true
 
 [node name="TouchPopUpBtn" type="Button" parent="Settings"]
 margin_left = 36.5
-margin_top = 175.0
+margin_top = 224.0
 margin_right = 185.5
-margin_bottom = 225.0
+margin_bottom = 272.0
 grow_horizontal = 2
 focus_neighbour_left = NodePath(".")
+focus_neighbour_bottom = NodePath("../TouchSensSlider")
 custom_constants/hseparation = 8
 custom_fonts/font = SubResource( 328 )
 text = "TOUCH CONTROLS
@@ -397,35 +414,51 @@ icon_align = 2
 
 [node name="TouchSensSlider" type="HSlider" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-margin_left = 24.0
-margin_top = 267.0
-margin_right = 192.0
-margin_bottom = 283.0
+margin_left = 32.0
+margin_top = 283.0
+margin_right = 184.0
+margin_bottom = 299.0
 focus_neighbour_left = NodePath(".")
+focus_neighbour_bottom = NodePath("../ShowHintBtn")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 8
 max_value = 0.2
-step = 0.03
+step = 0.02
+value = 0.1
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Tick" type="Polygon2D" parent="Settings/TouchSensSlider"]
-visible = false
 show_behind_parent = true
-position = Vector2( 122, 5 )
+position = Vector2( 72, 4 )
 color = Color( 0.513726, 0.513726, 0.513726, 1 )
-polygon = PoolVector2Array( 0, 7, 0, -1, 2, -1, 2, 7 )
+polygon = PoolVector2Array( 0, 8, 0, 0, 8, 0, 8, 8 )
 
-[node name="GameMusicVol" type="Label" parent="Settings/TouchSensSlider"]
+[node name="Label" type="Label" parent="Settings/TouchSensSlider"]
+visible = false
 margin_top = -27.0
 margin_right = 167.0
 margin_bottom = -5.0
 size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 2 )
 text = "Touch sensibility"
 align = 1
 uppercase = true
+
+[node name="ShowHintBtn" type="CheckButton" parent="Settings"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+anchor_right = 1.0
+margin_left = -266.0
+margin_top = 353.0
+margin_right = -382.0
+margin_bottom = 385.0
+rect_min_size = Vector2( 0, 32 )
+rect_pivot_offset = Vector2( -62, -22 )
+mouse_default_cursor_shape = 2
+custom_fonts/font = ExtResource( 2 )
+text = "SHOW HINT"
 
 [node name="TouchControllerPopup" type="PopupMenu" parent="."]
 anchor_left = 0.5
@@ -495,14 +528,13 @@ size_flags_vertical = 0
 text = "RESTART"
 
 [connection signal="toggled" from="Settings/GameMusicBtn" to="Settings" method="_on_GameMusicBtn_toggled"]
-[connection signal="drag_ended" from="Settings/GameMusicSlider" to="Settings" method="_on_GameMusicSlider_drag_ended"]
 [connection signal="value_changed" from="Settings/GameMusicSlider" to="Settings" method="_on_GameMusicSlider_value_changed"]
 [connection signal="toggled" from="Settings/GameSfxBtn" to="Settings" method="_on_GameSfxBtn_toggled"]
 [connection signal="toggled" from="Settings/CameraShakeBtn" to="Settings" method="_on_CameraShakeBtn_toggled"]
-[connection signal="toggled" from="Settings/ShowHintBtn" to="Settings" method="_on_ShowHintBtn_toggled"]
+[connection signal="value_changed" from="Settings/BrightnessSlider" to="Settings" method="_on_BrightnessSlider_value_changed"]
 [connection signal="pressed" from="Settings/TouchPopUpBtn" to="Settings" method="_on_TouchPopUpBtn_pressed"]
-[connection signal="drag_ended" from="Settings/TouchSensSlider" to="Settings" method="_on_TouchSensSlider_drag_ended"]
 [connection signal="value_changed" from="Settings/TouchSensSlider" to="Settings" method="_on_TouchSensSlider_value_changed"]
+[connection signal="toggled" from="Settings/ShowHintBtn" to="Settings" method="_on_ShowHintBtn_toggled"]
 [connection signal="id_focused" from="TouchControllerPopup" to="Settings" method="_on_TouchControllerPopup_id_focused"]
 [connection signal="index_pressed" from="TouchControllerPopup" to="Settings" method="_on_TouchControllerPopup_index_pressed"]
 [connection signal="pressed" from="Menu/QuitBtn" to="." method="_on_QuitBtn_pressed"]

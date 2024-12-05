@@ -10,6 +10,7 @@ var camera_is_shaking: bool = false # da se šejk ne podvaja
 var actor_step_time: float = 0.08
 
 # strays
+var creating_strays: bool = false
 var spawned_strays_count: int = 0
 var strays_shown_on_start: Array = []
 var create_strays_count: int =  500 # 149 v naslovu ... ne sme bit onready, ker povozi ukaz s tilemapa
@@ -32,6 +33,7 @@ onready var thunder_cover: ColorRect = $ThunderCover/ThunderCover
 onready var skip_intro: HBoxContainer = $Text/ActionHint
 onready var skip_intro_btn: Button = $SkipButton
 onready var StrayPixel: PackedScene = preload("res://home/intro/intro_stray.tscn")
+onready var environment_node: Environment = $ArenaEnvironment.environment
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -48,6 +50,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _ready() -> void:
 
 	Global.game_manager = self
+
 	randomize()
 	skip_intro_btn.disabled = true
 
@@ -89,12 +92,15 @@ func finish_intro(): # ob skipanju in regularnem koncu intra
 
 func set_strays(): # kliče animacija
 
-	# positions
-	free_floor_positions = Global.current_tilemap.all_floor_tiles_global_positions.duplicate()
-
-	# colors
-	set_color_pool()
-	create_strays(create_strays_count)
+	if not creating_strays:
+		# positions
+		free_floor_positions = Global.current_tilemap.all_floor_tiles_global_positions.duplicate()
+		# colors
+		set_color_pool()
+		# reset
+		spawned_strays_count = 0
+		creating_strays = true
+		create_strays(create_strays_count)
 
 
 func create_strays(strays_to_spawn_count: int = required_spawn_positions.size()):
@@ -182,7 +188,6 @@ func spawn_stray(stray_index: int, stray_color: Color, stray_position: Vector2, 
 	return new_stray_pixel
 
 
-
 func show_strays_in_loop(show_strays_loop: int):
 
 	var strays_to_show_count: int # količina strejsov se more ujemat s številom spawnanih
@@ -214,16 +219,19 @@ func show_strays_in_loop(show_strays_loop: int):
 	match show_strays_loop:
 		1, 2:
 			Global.sound_manager.play_event_sfx("thunder_strike")
+		5:
+			creating_strays = false
 
 
 func respawn_title_strays():
 
-	stray_step_timer.stop()
-	get_tree().call_group(Global.group_strays, "queue_free")
-	yield(get_tree().create_timer(0.1), "timeout") # ... da je časovni razmak
-	call_deferred("set_strays")
-	yield(get_tree().create_timer(1), "timeout")
-	call_deferred("random_stray_step")
+	if not creating_strays:
+		stray_step_timer.stop()
+		get_tree().call_group(Global.group_strays, "queue_free")
+		yield(get_tree().create_timer(0.1), "timeout") # ... da je časovni razmak
+		call_deferred("set_strays")
+		yield(get_tree().create_timer(1), "timeout")
+		call_deferred("random_stray_step")
 
 
 func random_stray_step():
@@ -240,7 +248,7 @@ func random_stray_step():
 	# random stray
 
 	var intro_strays = get_tree().get_nodes_in_group(Global.group_strays)
-	var random_stray_no: int = randi() % int(intro_strays.size())
+	var random_stray_no: int = randi() % int(spawned_strays_count)# intro_strays.size())
 	var stray_to_move = intro_strays[random_stray_no]
 	if not intro_strays.empty():
 		stray_to_move.step(stepping_direction)

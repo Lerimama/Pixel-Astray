@@ -7,12 +7,13 @@ var data_file: = File.new()
 
 var settings_file_name: String = "user_settings"
 
-onready var game_settings: Dictionary = {
+var data_game_settings: Dictionary = {
 	"pregame_screen_on": Profiles.pregame_screen_on,
-	"html5_mode": Profiles.html5_mode,
 	"camera_shake_on": Profiles.camera_shake_on,
 	"tutorial_mode": Profiles.tutorial_mode,
 	"analytics_mode": Profiles.analytics_mode,
+
+	"vsync_on": Profiles.vsync_on,
 }
 
 #func _ready() -> void:
@@ -73,29 +74,20 @@ func get_top_highscore(current_game_data: Dictionary):
 
 func write_settings_to_file():
 
-	#	var current_game_settings: Dictionary = { # v tej obliki, da je bolj pregledno
-	#		"pregame_screen_on": Profiles.pregame_screen_on,
-	#		"html5_mode": Profiles.html5_mode,
-	#		"camera_shake_on": Profiles.camera_shake_on,
-	#		"tutorial_mode": Profiles.tutorial_mode,
-	#		"analytics_mode": Profiles.analytics_mode,
-	#	}
-	#	game_settings = current_game_settings
-
-	game_settings["pregame_screen_on"] = Profiles.pregame_screen_on
-	game_settings["html5_mode"]= Profiles.html5_mode
-	game_settings["camera_shake_on"] = Profiles.camera_shake_on
-	game_settings["tutorial_mode"] = Profiles.tutorial_mode
-	game_settings["analytics_mode"] = Profiles.analytics_mode
+	data_game_settings["pregame_screen_on"] = Profiles.pregame_screen_on
+	data_game_settings["camera_shake_on"] = Profiles.camera_shake_on
+	data_game_settings["tutorial_mode"] = Profiles.tutorial_mode
+	data_game_settings["analytics_mode"] = Profiles.analytics_mode
+	data_game_settings["vsync_on"] = Profiles.vsync_on
 
 	# podam novi HS v json obliko
-	var json_string = JSON.print(game_settings)
+	var json_string = JSON.print(data_game_settings)
 
 	# če fileta ni, ga funkcija ustvari iz File.new()
 	data_file.open("user://%s.save" % settings_file_name, File.WRITE) # vsak game ma svoj filet
 
 	# vnesem novi HS
-	data_file.store_line(to_json(game_settings))
+	data_file.store_line(to_json(data_game_settings))
 	data_file.close()
 
 
@@ -107,7 +99,7 @@ func read_settings_from_file():
 	if error != OK:
 		data_file.open("user://%s.save" % settings_file_name, File.WRITE)
 		var default_highscores: Dictionary = _build_default_highscores()
-		data_file.store_line(to_json(game_settings))
+		data_file.store_line(to_json(data_game_settings))
 		data_file.close()
 	# odprem filet za branje
 	data_file.open("user://%s.save" % settings_file_name, File.READ)

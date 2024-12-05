@@ -93,7 +93,7 @@ func _process(delta: float) -> void:
 
 func open_gameover(current_gameover_reason: int):
 
-	Analytics.save_game_data([true, Global.game_manager.strays_in_game_count ])
+	Analytics.save_selected_game_data([true, Global.game_manager.strays_in_game_count ])
 	Profiles.tutorial_mode = false
 
 	gameover_game_data = Global.game_manager.game_data
@@ -198,7 +198,7 @@ func play_selected_level(selected_level: int):
 	Profiles.game_data_sweeper["level"] = selected_level
 	Global.game_manager.game_settings["pregame_screen_on"] = false
 	Global.game_manager.game_settings["always_zoomed_in"] = true
-	Analytics.save_game_data([true, Global.game_manager.strays_in_game_count])
+	Analytics.save_selected_game_data([true, Global.game_manager.strays_in_game_count])
 
 	Global.main_node.reload_game()
 
@@ -456,7 +456,7 @@ func _on_CancelBtn_pressed() -> void:
 
 func _on_RestartBtn_pressed() -> void:
 
-	Analytics.save_game_data([true, Global.game_manager.strays_in_game_count])
+	Analytics.save_selected_game_data([true, Global.game_manager.strays_in_game_count])
 
 	if gameover_game_data["game"] == Profiles.Games.SWEEPER:
 		Profiles.game_data_sweeper["level"] = gameover_game_data["level"]

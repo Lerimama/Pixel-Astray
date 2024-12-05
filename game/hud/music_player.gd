@@ -18,10 +18,7 @@ func _input(event: InputEvent) -> void: # ta varianta, da dela tipkovnica
 
 func _ready() -> void:
 
-	if Global.sound_manager.game_music_set_to_off:
-		mute_btn.set_pressed_no_signal(false)
-	else:
-		mute_btn.set_pressed_no_signal(true)
+	mute_btn.set_pressed_no_signal(not Global.sound_manager.game_music_set_to_off)
 
 	# ime komada na vrsti
 	var game_music_track_index: int = Global.sound_manager.current_music_track_index

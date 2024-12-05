@@ -2,7 +2,7 @@ extends Control
 
 
 onready var randomize_btn: Button = $ColorSchemeOptions/RandomizeBtn
-onready var reset_btn: Button = $ColorSchemeOptions/ResetBtn
+onready var reset_btn: Button = $ColorSchemeOptions/SchemeResetBtn
 onready var gradient_icon: TextureRect = $ColorSchemeOptions/RandomizeBtn/GradientIcon
 onready var spectrum_icon: TextureRect = $ColorSchemeOptions/RandomizeBtn/SpectrumIcon
 
@@ -13,7 +13,6 @@ onready var highscores_node: Control = $"../Highscores"
 onready var default_focus_node: Control = $MenuMusicBtn
 
 
-#func _unhandled_input(event: InputEvent) -> void:
 func _input(event: InputEvent) -> void:
 
 	if $TouchControllerPopup.visible:
@@ -37,15 +36,7 @@ func _ready() -> void:
 	# APP SETTINGS ------------------------------------------------------------------
 
 	# menu music
-	if Global.sound_manager.menu_music_set_to_off:
-		$MenuMusicBtn.set_pressed_no_signal(false)
-	else:
-		$MenuMusicBtn.set_pressed_no_signal(true)
-	# pregame screen
-	if Profiles.pregame_screen_on:
-		$InstructionsBtn.set_pressed_no_signal(true)
-	else:
-		$InstructionsBtn.set_pressed_no_signal(false)
+	$MenuMusicBtn.set_pressed_no_signal(not Global.sound_manager.menu_music_set_to_off)
 	# color scheme
 	if Profiles.use_default_color_theme:
 		spectrum_icon.show()
@@ -56,43 +47,17 @@ func _ready() -> void:
 		gradient_icon.show()
 		reset_btn.show()
 		gradient_icon.texture.gradient = Global.game_color_theme_gradient
-	# data tracking
-	if Profiles.analytics_mode:
-		$TrackingBtn.set_pressed_no_signal(true)
-	else:
-		$TrackingBtn.set_pressed_no_signal(false)
-	# reset data
-	if Profiles.html5_mode:
-		$ResetLocalBtn.hide()
-	else:
-		$ResetLocalBtn.show()
-		$ResetDataPopup.add_item("About to reset local scores ...", 0)
-		$ResetDataPopup.add_item("Maybe later", 1)
-		$ResetDataPopup.add_item("Do it!", 2)
-		$ResetDataPopup.set_item_disabled(0, true)
-		$ResetDataPopup.set_current_index(1)
+	$ContrastSlider.value = Profiles.brightness
+	$VsyncBtn.set_pressed_no_signal(Profiles.vsync_on)
 
-	# IN-GAME SETTINGS ------------------------------------------------------------------
+	# GAME SETTINGS ------------------------------------------------------------------
 
-	# game music state
-	if Global.sound_manager.game_music_set_to_off:
-		$GameMusicBtn.set_pressed_no_signal(false)
-	else:
-		$GameMusicBtn.set_pressed_no_signal(true)
-	# game music volume
+	$GameMusicBtn.set_pressed_no_signal(not Global.sound_manager.game_music_set_to_off)
 	$GameMusicSlider.value = AudioServer.get_bus_volume_db(AudioServer.get_bus_index("GameMusic")) # da je slajder v settingsih in pavzi poenoten
-	# game sfx state
-	if Global.sound_manager.game_sfx_set_to_off:
-		$GameSfxBtn.set_pressed_no_signal(false)
-	else:
-		$GameSfxBtn.set_pressed_no_signal(true)
-	# cam shake state
-	if Profiles.camera_shake_on:
-		$CameraShakeBtn.set_pressed_no_signal(true)
-	else:
-		$CameraShakeBtn.set_pressed_no_signal(false)
-
-	# touch controlls type
+	$InstructionsBtn.set_pressed_no_signal(Profiles.pregame_screen_on)
+	$GameSfxBtn.set_pressed_no_signal(not Global.sound_manager.game_sfx_set_to_off)
+	$CameraShakeBtn.set_pressed_no_signal(Profiles.camera_shake_on)
+	# controler type
 	if OS.has_touchscreen_ui_hint():
 		# btn
 		$TouchPopUpBtn.show()
@@ -114,6 +79,21 @@ func _ready() -> void:
 		$TouchPopUpBtn.hide()
 		$TouchSensSlider.hide()
 
+	# RED ZONE ------------------------------------------------------------------
+
+	# data tracking
+	$TrackingBtn.set_pressed_no_signal(Profiles.analytics_mode)
+	# reset data
+	if Profiles.html5_mode:
+		$ResetLocalBtn.hide()
+	else:
+		$ResetLocalBtn.show()
+		$ResetDataPopup.add_item("About to reset local scores ...", 0)
+		$ResetDataPopup.add_item("Maybe later", 1)
+		$ResetDataPopup.add_item("Do it!", 2)
+		$ResetDataPopup.set_item_disabled(0, true)
+		$ResetDataPopup.set_current_index(1)
+
 
 func _on_BackBtn_pressed() -> void:
 
@@ -126,59 +106,15 @@ func _on_BackBtn_pressed() -> void:
 
 func _on_MenuMusicBtn_toggled(button_pressed: bool) -> void:
 
-	if button_pressed:
-		Global.sound_manager.menu_music_set_to_off = false
-		Global.sound_manager.play_music("menu_music")
-	else:
-		Global.sound_manager.menu_music_set_to_off = true
+	Global.sound_manager.menu_music_set_to_off = not button_pressed
+
+	if Global.sound_manager.menu_music_set_to_off:
 		Global.sound_manager.stop_music("menu_music")
-
-
-func _on_TrackingBtn_toggled(button_pressed: bool) -> void:
-
-	if button_pressed:
-		Analytics.update_session()
-		Profiles.set_deferred("analytics_mode", true) # deferr da ujame klik
-
 	else:
-		Profiles.analytics_mode = false
+		Global.sound_manager.play_music("menu_music")
 
 
-func _on_InstructionsBtn_toggled(button_pressed: bool) -> void:
-
-	if button_pressed:
-		Global.sound_manager.game_sfx_set_to_off = false
-		Profiles.pregame_screen_on = true
-	else:
-		Profiles.pregame_screen_on = false
-
-
-func _on_ResetLocalButton_pressed() -> void:
-
-	get_parent().home_swipe_btn.hide()
-	$ResetDataPopup.popup_centered()
-
-
-func _on_ResetDataPopup_index_pressed(index: int) -> void:
-
-	Global.sound_manager.play_gui_sfx("btn_confirm")
-	if index == 1:
-		Analytics.save_ui_click("ResetData-No")
-	elif index == 2:
-		highscores_node.reset_all_local_scores()
-		Analytics.save_ui_click("ResetData-Yes")
-	get_parent().home_swipe_btn.show()
-
-
-func _on_ResetDataPopup_id_focused(id: int) -> void:
-
-	Global.sound_manager.play_gui_sfx("btn_focus_change")
-
-
-# COLOR SCHEMES ----------------------------------------------------------------------------------------------------------------
-
-
-func _on_ResetBtn_pressed() -> void:
+func _on_SchemeResetBtn_pressed() -> void:
 
 	spectrum_icon.show()
 	gradient_icon.hide()
@@ -194,18 +130,29 @@ func _on_ResetBtn_pressed() -> void:
 
 func _on_RandomizeBtn_pressed() -> void:
 
-	spectrum_icon.hide()
-	gradient_icon.show()
-	reset_btn.show()
+	if not intro.creating_strays:
+		spectrum_icon.hide()
+		gradient_icon.show()
+		reset_btn.show()
 
-	Profiles.use_default_color_theme = false
+		Profiles.use_default_color_theme = false
 
-	var current_color_scheme_gradient: Gradient = Global.get_random_gradient_colors(0) # 0 je za pravilno izbiro rezultata funkcije
-	gradient_icon.texture.gradient = current_color_scheme_gradient
+		var current_color_scheme_gradient: Gradient = Global.get_random_gradient_colors(0) # 0 je za pravilno izbiro rezultata funkcije
+		gradient_icon.texture.gradient = current_color_scheme_gradient
 
-	intro.respawn_title_strays()
-	select_level_node.select_level_btns_holder.set_level_btns()
-	select_game_node.color_game_btns()
+		intro.respawn_title_strays()
+		select_level_node.select_level_btns_holder.set_level_btns()
+		select_game_node.color_game_btns()
+
+
+func _on_VsyncBtn_toggled(button_pressed: bool) -> void:
+
+	Profiles.vsync_on = button_pressed
+
+
+func _on_ContrastBtn_value_changed(value: float) -> void:
+
+	Profiles.brightness = value
 
 
 # IN-GAME SETTINGS ----------------------------------------------------------------------------------------------------------------
@@ -213,39 +160,27 @@ func _on_RandomizeBtn_pressed() -> void:
 
 func _on_GameMusicBtn_toggled(button_pressed: bool) -> void:
 
-	# ker muzika še ni naloudana samo setam željeno stanje ob nalaganju
-	if button_pressed:
-		Global.sound_manager.game_music_set_to_off = false
-	else:
-		Global.sound_manager.game_music_set_to_off = true
+	Global.sound_manager.game_music_set_to_off = not button_pressed
 
 
-func _on_MusicHSlider_value_changed(value: float) -> void:
+func _on_InstructionsBtn_toggled(button_pressed: bool) -> void:
+
+	Profiles.pregame_screen_on = button_pressed
+
+
+func _on_MusicHSlider_value_changed(value: float) -> void: # home settinsih je disebjlan
 
 	Global.sound_manager.set_game_music_volume(value)
 
 
-func _on_GameMusicSlider_drag_ended(value_changed: bool) -> void: # za analitiko
-
-	Analytics.save_ui_click([$GameMusicSlider, $GameMusicSlider.value])
-
-
 func _on_GameSfxBtn_toggled(button_pressed: bool) -> void:
 
-	# ker muzika še ni naloudana samo setam željeno stanje ob nalaganju
-	if button_pressed:
-		Global.sound_manager.game_sfx_set_to_off = false
-	else:
-		Global.sound_manager.game_sfx_set_to_off = true
+	Global.sound_manager.game_sfx_set_to_off = not button_pressed
 
 
 func _on_CameraShakeBtn_toggled(button_pressed: bool) -> void:
 
-	# ker igra še ni naloudana samo setam željeno stanje ob nalaganju
-	if button_pressed:
-		Profiles.camera_shake_on = true
-	else:
-		Profiles.camera_shake_on = false
+	Profiles.camera_shake_on = button_pressed
 
 
 # TOUCH CONTROLS ----------------------------------------------------------------------------------------------------------------
@@ -267,8 +202,9 @@ func _on_TouchControllerPopup_index_pressed(index: int) -> void:
 	$TouchPopUpBtn.text = "Touch controls: %s" % controller_key
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 
+	Analytics.save_ui_click("TouchControls %s" % controller_key)
+
 	get_parent().home_swipe_btn.show()
-	Analytics.save_ui_click("TouchController %s" % controller_key)
 
 	# ugasnem za buttons in none
 	if Profiles.set_touch_controller >= Profiles.TOUCH_CONTROLLER.SCREEN_LEFT:
@@ -287,6 +223,32 @@ func _on_SensSlider_value_changed(value: float) -> void:
 	Profiles.screen_touch_sensitivity = value
 
 
-func _on_SensSlider_drag_ended(value_changed: bool) -> void:
+# DANGER ZONE ----------------------------------------------------------------------------------------------------------------
 
-	Analytics.save_ui_click([$TouchSensSlider, $TouchSensSlider.value])
+
+func _on_TrackingBtn_toggled(button_pressed: bool) -> void:
+
+	if button_pressed:
+		Profiles.analytics_mode = true
+	else:
+		Analytics.update_session()
+		Profiles.set_deferred("analytics_mode", false) # deferr da ujame klik
+
+
+func _on_ResetLocalButton_pressed() -> void:
+
+	get_parent().home_swipe_btn.hide()
+	$ResetDataPopup.popup_centered()
+
+
+func _on_ResetDataPopup_index_pressed(index: int) -> void:
+
+	Global.sound_manager.play_gui_sfx("btn_confirm")
+	if index == 2:
+		highscores_node.reset_all_local_scores()
+	get_parent().home_swipe_btn.show()
+
+
+func _on_ResetDataPopup_id_focused(id: int) -> void:
+
+	Global.sound_manager.play_gui_sfx("btn_focus_change")

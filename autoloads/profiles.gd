@@ -196,9 +196,11 @@ var game_settings: Dictionary
 var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
 
 # const
-var html5_mode: bool = false # skrije ExitGameBtn v home, GO in pavzi
+var html5_mode: bool = true # skrije ExitGameBtn v home, GO in pavzi
 var tutorial_music_track_index: int = 3
 var use_default_color_theme: bool = true
+
+
 
 # nastavitve, ki se sejvajo
 var pregame_screen_on: bool = true # na štart gre v game_settings > prebere se iz game_settingsov
@@ -206,12 +208,34 @@ var camera_shake_on: bool = true
 var tutorial_mode: bool = true
 var analytics_mode: bool = true
 
-var screen_touch_sensitivity: float = 0.1 # px 0 - 20% ... procent ekrana
+
+var brightness: float = 1 setget _change_brightness # 0.6 > 1.1 ... def = 1
+var vsync_on: bool = true setget _change_vsync
+
+func _change_brightness(set_value: float):
+	# najprej preveri home env, če ga ni je v pvza meniju
+
+	var arena_enviroment: Environment
+	var enviroment_node: WorldEnvironment = Global.game_manager.get_node("ArenaEnvironment")
+	if enviroment_node == null:
+		enviroment_node = Global.game_arena.get_node("ArenaEnvironment")
+	arena_enviroment = enviroment_node.environment
+
+	brightness = set_value
+	arena_enviroment.adjustment_brightness = brightness
+
+
+func _change_vsync(set_on: bool):
+	vsync_on = set_on
+	OS.vsync_enabled = vsync_on
+	#	print ("vsync post ", OS.vsync_enabled)
+
+var screen_touch_sensitivity: float = 0.1 # 0 - 20% VP width ... def 0.1 ... ročno nastavljen ticker node
 
 enum TOUCH_CONTROLLER {OFF, BUTTONS_LEFT, BUTTONS_RIGHT, SCREEN_LEFT, SCREEN_RIGHT} # zaporedje more bit, da so SCREEN na koncu (settings uporablja)
 var set_touch_controller: int = TOUCH_CONTROLLER.SCREEN_LEFT
 var touch_controller_content: Dictionary = {
-	TOUCH_CONTROLLER.OFF: {"Disabled": "Touch screen disabled"},
+	TOUCH_CONTROLLER.OFF: {"Disabled": "Touch controls disabled"},
 	TOUCH_CONTROLLER.BUTTONS_LEFT:  {"Buttons R": "On-screen buttons, Burst on right"},
 	TOUCH_CONTROLLER.BUTTONS_RIGHT:  {"Buttons L": "On-screen buttons, Burst on left"},
 	TOUCH_CONTROLLER.SCREEN_LEFT:  {"Touch tracking R": "Touch tracking for direction, Burst on right"},
@@ -220,9 +244,14 @@ var touch_controller_content: Dictionary = {
 
 func _ready() -> void:
 
+	if OS.get_name() == "HTML5":
+		html5_mode = true
+	else:
+		html5_mode = false
+
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE # fix camera
-	var debug_game = Games.CLEANER
+#	var debug_game = Games.CLEANER
 #	var debug_game = Games.ERASER_XS
 #	var debug_game = Games.ERASER_S
 #	var debug_game = Games.ERASER_M
@@ -230,8 +259,15 @@ func _ready() -> void:
 #	var debug_game = Games.ERASER_XL
 #	var debug_game = Games.HUNTER
 #	var debug_game = Games.DEFENDER
-#	var debug_game = Games.SWEEPER
+	var debug_game = Games.SWEEPER
 #	var debug_game = Games.THE_DUEL
+
+	var apply_game_settings: Dictionary = Data.read_settings_from_file() # če fileta ni, pobere trenutno setane vrednosti
+	pregame_screen_on = apply_game_settings["pregame_screen_on"]
+	camera_shake_on = apply_game_settings["camera_shake_on"]
+	tutorial_mode = apply_game_settings["tutorial_mode"]
+	analytics_mode = apply_game_settings["analytics_mode"]
+	self.vsync_on = apply_game_settings["vsync_on"]
 
 	if OS.is_debug_build():
 		set_game_data(debug_game)
