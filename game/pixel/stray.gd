@@ -15,6 +15,9 @@ onready var color_poly: Polygon2D = $ColorPoly
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var cell_size_x: int = Global.current_tilemap.cell_size.x
 
+#neu
+onready var pixel_face: AnimatedSprite = $PixelFace
+
 
 func _ready() -> void:
 
@@ -36,8 +39,15 @@ func _ready() -> void:
 func show_stray(): # kliče GM
 	# če je pozicija res prazna
 
+	pixel_face.stop() # zazih
+
 	if current_state == STATES.WALL:
 		turn_to_wall()
+#		pixel_face.hide()
+		if pixel_face.visible: # v home ni vidna
+			pixel_face.set_animation("faces")
+#			pixel_face.set_deferred("frame", 1)
+			pixel_face.frame = randi() % pixel_face.frames.get_frame_count("faces")
 	else:
 		if visible_on_screen:
 			# žrebam animacijo
@@ -46,6 +56,37 @@ func show_stray(): # kliče GM
 			animation_player.play(random_animation_name)
 		else:
 			modulate.a = 1
+		pixel_face.hide()
+
+#		if pixel_face.visible: # v home ni vidna
+#			pixel_face.set_animation("faces")
+##			pixel_face.set_deferred("frame", 1)
+#			pixel_face.frame = randi() % pixel_face.frames.get_frame_count("faces")
+
+
+func animate_face(stray_index: int):
+	# animiram glede na state
+
+	stray_index = 0 # zaenkrat dela na
+
+	match current_state:
+		STATES.DYING:
+			if stray_index == 0:
+				pixel_face.set_animation("scramble")
+				pixel_face.frame = randi() % pixel_face.frames.get_frame_count("scramble")
+				pixel_face.play("scramble")
+				yield(get_tree().create_timer(1), "timeout")
+				pixel_face.stop()
+				pixel_face.play("hit_ver")
+				pixel_face.emit_signal("visibility_changed") # fejkam skrivanje, da die() steče naprej
+				yield(pixel_face, "animation_finished")
+				pixel_face.hide()
+			else:
+				pixel_face.set_animation("connected")
+				yield(get_tree().create_timer(0.2), "timeout")
+				pixel_face.hide()
+		STATES.MOVING:
+			pass
 
 
 func die(stray_in_stack_index: int, strays_in_stack_count: int):
@@ -53,6 +94,16 @@ func die(stray_in_stack_index: int, strays_in_stack_count: int):
 	if not current_state == STATES.DYING:
 
 		current_state = STATES.DYING
+
+		if pixel_face.visible:
+			animate_face(stray_in_stack_index)
+			yield(pixel_face, "visibility_changed") # ko je sprite animacija končana, se sprite skrije
+
+			# zaključim die()
+			#			Global.game_manager.remove_from_free_floor_positions(global_position)
+			#			Global.game_manager.on_stray_die(self)
+			#			call_deferred("queue_free")
+			#			return
 
 		global_position = Global.snap_to_nearest_grid(global_position)
 		Global.game_manager.remove_from_free_floor_positions(global_position)

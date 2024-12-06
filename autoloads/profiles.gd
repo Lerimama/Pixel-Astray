@@ -251,7 +251,7 @@ func _ready() -> void:
 
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE # fix camera
-#	var debug_game = Games.CLEANER
+	var debug_game = Games.CLEANER
 #	var debug_game = Games.ERASER_XS
 #	var debug_game = Games.ERASER_S
 #	var debug_game = Games.ERASER_M
@@ -259,7 +259,7 @@ func _ready() -> void:
 #	var debug_game = Games.ERASER_XL
 #	var debug_game = Games.HUNTER
 #	var debug_game = Games.DEFENDER
-	var debug_game = Games.SWEEPER
+#	var debug_game = Games.SWEEPER
 #	var debug_game = Games.THE_DUEL
 
 	if OS.is_debug_build():

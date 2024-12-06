@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/win_jingle_270528__littlerobotsoundfactory__jingle_win_00.wav-2ba7689b8bdf8d4f3851a407983e6f3c.sample"
+
+[deps]
+
+source_file="res://anim/sound/sfx/events/win_jingle_270528__littlerobotsoundfactory__jingle_win_00.wav"
+dest_files=[ "res://.import/win_jingle_270528__littlerobotsoundfactory__jingle_win_00.wav-2ba7689b8bdf8d4f3851a407983e6f3c.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

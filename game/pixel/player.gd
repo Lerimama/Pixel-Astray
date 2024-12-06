@@ -587,7 +587,7 @@ func burst():
 		if area.position.dot(direction) > 0 and not area.get_overlapping_areas().empty():
 			# da dobim zazih pravi rezultat preverjam z vision ray, če je stray
 			var bursting_vision_collider: Node2D = Global.detect_collision_in_direction(direction, vision_ray)
-			if bursting_vision_collider.is_in_group(Global.group_strays):
+			if bursting_vision_collider and bursting_vision_collider.is_in_group(Global.group_strays):
 				on_stray_collision(bursting_vision_collider)
 				break
 

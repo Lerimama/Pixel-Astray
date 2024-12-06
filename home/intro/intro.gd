@@ -172,6 +172,7 @@ func create_strays(strays_to_spawn_count: int = required_spawn_positions.size())
 
 func spawn_stray(stray_index: int, stray_color: Color, stray_position: Vector2, is_white: bool):
 
+	# namen: add child parent, faces off
 	# spawn
 	var new_stray_pixel = StrayPixel.instance()
 	new_stray_pixel.name = "S%s" % str(stray_index)
@@ -180,6 +181,7 @@ func spawn_stray(stray_index: int, stray_color: Color, stray_position: Vector2, 
 	new_stray_pixel.z_index = 2 # višje od plejerja
 	add_child(new_stray_pixel)
 
+	new_stray_pixel.pixel_face.hide()
 	spawned_strays_count += 1
 
 	if is_white:

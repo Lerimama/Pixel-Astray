@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/hit_wall_dizzy_NFF-dizzyness.wav-e79e1b51ca7bc6db27d74e9517c3255a.sample"
+
+[deps]
+
+source_file="res://anim/sound/sfx/burst/hit_wall_dizzy_NFF-dizzyness.wav"
+dest_files=[ "res://.import/hit_wall_dizzy_NFF-dizzyness.wav-e79e1b51ca7bc6db27d74e9517c3255a.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

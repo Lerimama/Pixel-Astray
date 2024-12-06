@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=68 format=2]
 
 [ext_resource path="res://assets/resources/animation/stray_glitch_3.tres" type="Animation" id=1]
 [ext_resource path="res://assets/resources/animation/stray_glitch_1.tres" type="Animation" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://assets/sound/sfx/skills/pull.wav" type="AudioStream" id=7]
 [ext_resource path="res://assets/sound/sfx/blinking/blink_static_5.wav" type="AudioStream" id=8]
 [ext_resource path="res://assets/sound/sfx/blinking/blink_static_1.wav" type="AudioStream" id=9]
+[ext_resource path="res://game/pixel/pixel_face.gd" type="Script" id=10]
+[ext_resource path="res://assets/atlas_stray_faces.png" type="Texture" id=11]
 [ext_resource path="res://assets/sound/sfx/blinking/blink_2.wav" type="AudioStream" id=12]
 [ext_resource path="res://assets/sound/sfx/blinking/blink_static_4.wav" type="AudioStream" id=13]
 [ext_resource path="res://assets/sound/sfx/blinking/blink_1.wav" type="AudioStream" id=14]
@@ -401,6 +403,159 @@ audio_stream = ExtResource( 18 )
 audio_stream = ExtResource( 7 )
 random_pitch = 1.2
 
+[sub_resource type="AtlasTexture" id=182]
+atlas = ExtResource( 11 )
+region = Rect2( 32, 32, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=174]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=175]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 32, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=176]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 64, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=177]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 96, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=178]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 128, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=179]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 160, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=180]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 192, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=181]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 224, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=183]
+atlas = ExtResource( 11 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=184]
+atlas = ExtResource( 11 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=185]
+atlas = ExtResource( 11 )
+region = Rect2( 96, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=186]
+atlas = ExtResource( 11 )
+region = Rect2( 128, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=187]
+atlas = ExtResource( 11 )
+region = Rect2( 160, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=188]
+atlas = ExtResource( 11 )
+region = Rect2( 192, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=189]
+atlas = ExtResource( 11 )
+region = Rect2( 224, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=202]
+atlas = ExtResource( 11 )
+region = Rect2( 32, 32, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=190]
+atlas = ExtResource( 11 )
+region = Rect2( 32, 128, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=191]
+atlas = ExtResource( 11 )
+region = Rect2( 32, 160, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=192]
+atlas = ExtResource( 11 )
+region = Rect2( 32, 96, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=204]
+atlas = ExtResource( 11 )
+region = Rect2( 32, 64, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=193]
+atlas = ExtResource( 11 )
+region = Rect2( 32, 160, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=194]
+atlas = ExtResource( 11 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=195]
+atlas = ExtResource( 11 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=196]
+atlas = ExtResource( 11 )
+region = Rect2( 96, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=197]
+atlas = ExtResource( 11 )
+region = Rect2( 128, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=198]
+atlas = ExtResource( 11 )
+region = Rect2( 160, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=199]
+atlas = ExtResource( 11 )
+region = Rect2( 192, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=200]
+atlas = ExtResource( 11 )
+region = Rect2( 224, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=201]
+atlas = ExtResource( 11 )
+region = Rect2( 32, 32, 32, 32 )
+
+[sub_resource type="SpriteFrames" id=155]
+animations = [ {
+"frames": [ SubResource( 182 ) ],
+"loop": false,
+"name": "connected",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 174 ), SubResource( 175 ), SubResource( 176 ), SubResource( 177 ), SubResource( 178 ), SubResource( 179 ), SubResource( 180 ), SubResource( 181 ) ],
+"loop": false,
+"name": "die_off",
+"speed": 70.0
+}, {
+"frames": [ SubResource( 183 ), SubResource( 184 ), SubResource( 185 ), SubResource( 186 ), SubResource( 187 ), SubResource( 188 ), SubResource( 189 ) ],
+"loop": false,
+"name": "faces",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 202 ), SubResource( 202 ), SubResource( 202 ), SubResource( 202 ), SubResource( 202 ), SubResource( 202 ), SubResource( 190 ), SubResource( 191 ), SubResource( 191 ), SubResource( 191 ) ],
+"loop": false,
+"name": "hit_hor",
+"speed": 15.0
+}, {
+"frames": [ null, null, SubResource( 192 ), SubResource( 192 ), SubResource( 204 ), SubResource( 204 ), SubResource( 193 ) ],
+"loop": false,
+"name": "hit_ver",
+"speed": 14.0
+}, {
+"frames": [ SubResource( 194 ), SubResource( 195 ), SubResource( 196 ), SubResource( 197 ), SubResource( 198 ), SubResource( 199 ), SubResource( 200 ), SubResource( 201 ) ],
+"loop": true,
+"name": "scramble",
+"speed": 14.0
+} ]
+
 [node name="Stray" type="Area2D"]
 script = ExtResource( 20 )
 
@@ -502,6 +657,12 @@ pitch_scale = 0.8
 bus = "GameSfx"
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
+[node name="PixelFace" type="AnimatedSprite" parent="."]
+modulate = Color( 0, 0, 0, 1 )
+frames = SubResource( 155 )
+animation = "die_off"
+script = ExtResource( 10 )
 
 [connection signal="tree_entered" from="." to="." method="_on_Stray_tree_entered"]
 [connection signal="tree_exiting" from="." to="." method="_on_Stray_tree_exiting"]

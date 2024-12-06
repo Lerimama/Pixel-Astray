@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/blink_static_1.wav-a2ae4e4321cd93c1027b4ce4c9f4d05b.sample"
+
+[deps]
+
+source_file="res://anim/sound/sfx/blinking/blink_static_1.wav"
+dest_files=[ "res://.import/blink_static_1.wav-a2ae4e4321cd93c1027b4ce4c9f4d05b.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0
