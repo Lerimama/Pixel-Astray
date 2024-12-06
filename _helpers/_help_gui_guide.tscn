@@ -2,7 +2,7 @@
 
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=1]
 [ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=2]
-[ext_resource path="res://game/gui/action_hint.tscn" type="PackedScene" id=3]
+[ext_resource path="res://common/action_hint.tscn" type="PackedScene" id=3]
 [ext_resource path="res://assets/atlas_controls.png" type="Texture" id=4]
 
 [sub_resource type="StyleBoxFlat" id=2]

@@ -3,7 +3,7 @@
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_controls.png" type="Texture" id=2]
 [ext_resource path="res://assets/theme/color_theme_spectrum.png" type="Texture" id=3]
-[ext_resource path="res://game/gui/action_hint.tscn" type="PackedScene" id=4]
+[ext_resource path="res://common/action_hint.tscn" type="PackedScene" id=4]
 [ext_resource path="res://game/gui/tutorial_gui.gd" type="Script" id=5]
 
 [sub_resource type="StyleBoxEmpty" id=346]

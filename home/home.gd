@@ -244,8 +244,3 @@ func _on_HighscoresBtn_pressed() -> void:
 func _on_QuitGameBtn_pressed() -> void:
 
 	Global.main_node.quit_exit_game()
-
-
-
-func _on_Button_pressed() -> void:
-	Analytics.start_new_session()

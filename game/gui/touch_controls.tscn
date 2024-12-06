@@ -1,7 +1,7 @@
 [gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=1]
-[ext_resource path="res://game/touch_controls.gd" type="Script" id=2]
+[ext_resource path="res://game/gui/touch_controls.gd" type="Script" id=2]
 [ext_resource path="res://assets/theme/font_main_small.tres" type="DynamicFont" id=3]
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=4]
 

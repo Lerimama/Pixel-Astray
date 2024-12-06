@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://game/gui/highscore_table.gd" type="Script" id=1]
+[ext_resource path="res://home/highscores/highscore_table.gd" type="Script" id=1]
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=2]
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=3]
 

@@ -41,28 +41,45 @@ func play_event_sfx(effect_for: String):
 				$Sfx/TutorialStageDone.play()
 
 
-func play_gui_sfx(effect_for: String):
+func play_gui_sfx(effect_for: String, sound_pitch: float = 0):
 
+
+	var sound_to_play: AudioStreamPlayer
 	match effect_for:
 		# GO
 		"win_jingle":
-			$Sfx/Win.play()
+			sound_to_play = $Sfx/Win
 		"lose_jingle":
-			$Sfx/Loose.play()
+			sound_to_play = $Sfx/Loose
 		# input
 		"typing":
-			select_random_sfx($Sfx/Inputs/Typing).play()
+			sound_to_play = select_random_sfx($Sfx/Inputs/Typing)
 		"btn_confirm":
-			$Sfx/Inputs/BtnConfirm.play()
+			sound_to_play = $Sfx/Inputs/BtnConfirm
 		"btn_cancel":
-			$Sfx/Inputs/BtnCancel.play()
+			sound_to_play = $Sfx/Inputs/BtnCancel
 		"btn_focus_change":
-			$Sfx/Inputs/BtnFocus.play()
+			sound_to_play = $Sfx/Inputs/BtnFocus
 		# menu
 		"menu_fade":
-			$Sfx/MenuFade.play()
+			sound_to_play = $Sfx/MenuFade
 		"screen_slide":
-			$Sfx/ScreenSlide.play()
+			sound_to_play = $Sfx/ScreenSlide
+
+	if not sound_pitch == 0:
+		sound_to_play.pitch_scale = sound_pitch
+
+	sound_to_play.play()
+
+
+func stop_gui_sfx(effect_for: String):
+
+	match effect_for:
+		# settings slider
+		"btn_confirm":
+			$Sfx/Inputs/BtnConfirm.stop()
+		"btn_cancel":
+			$Sfx/Inputs/BtnCancel.stop()
 
 
 func play_intro_stepping_sfx(): # za intro
@@ -97,10 +114,10 @@ func play_music(music_for: String):
 				# set track
 				var current_track_playing: Node = game_music_node.get_child(current_music_track_index)
 				current_track_playing.play()
-#				Global.hud.music_track_label.text = current_track_playing.name
+				#				Global.hud.music_track_label.text = current_track_playing.name
 
 
-func stop_music(music_to_stop: String):
+func stop_music(music_to_stop: String): # ni v rabi
 
 	match music_to_stop:
 

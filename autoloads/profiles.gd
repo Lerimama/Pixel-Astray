@@ -1,8 +1,21 @@
 extends Node
 
 
+func DEFAULT(): pass
+
+
 enum Games {CLEANER, ERASER_XS, ERASER_S, ERASER_M, ERASER_L, ERASER_XL, HUNTER, DEFENDER, SWEEPER, THE_DUEL, SHOWCASE}
 enum HighscoreTypes {NONE, POINTS, TIME}
+
+enum TOUCH_CONTROLLER {OFF, BUTTONS_LEFT, BUTTONS_RIGHT, SCREEN_LEFT, SCREEN_RIGHT} # zaporedje more bit, da so SCREEN na koncu (settings uporablja)
+var touch_controller_content: Dictionary = {
+	TOUCH_CONTROLLER.OFF: {"Disabled": "Touch controls DISABLED"},
+	TOUCH_CONTROLLER.BUTTONS_LEFT:  {"Buttons Right": "On-screen BUTTONS, Burst on right"},
+	TOUCH_CONTROLLER.BUTTONS_RIGHT:  {"Buttons Left": "On-screen BUTTONS, Burst on left"},
+	TOUCH_CONTROLLER.SCREEN_LEFT:  {"Sliding Right": "SLIDE tracking for motion, Burst on right"},
+	TOUCH_CONTROLLER.SCREEN_RIGHT:  {"Sliding Left": "SLIDE tracking for motion, Burst on left"},
+}
+
 
 var default_player_stats: Dictionary = {
 	"player_name" : "Somebody", # to ime se piše v HS procesu, če igralec pusti prazno
@@ -59,6 +72,8 @@ var default_game_settings: Dictionary = { # per game
 
 
 # GAME DATA -----------------------------------------------------------------------------------
+func GAME_DATA(): pass
+
 
 var game_data_cleaner: Dictionary = {
 	"game": Games.CLEANER, # key igre je key lootlocker tabele
@@ -66,10 +81,9 @@ var game_data_cleaner: Dictionary = {
 	"game_name": "Cleaner",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_cleaner.tscn",
-#	"description": "Take back the colors to become the brightest again.",
 	"description": "Clear %d strays to reclaim the one-and-only status!" % 500,
-#	"Prop2": "Give it your best shot\nto beat the current\nrecord score!",
 }
+
 var game_data_eraser_xs: Dictionary = {
 	"game": Games.ERASER_XS, # key igre je key lootlocker tabele
 	"highscore_type": HighscoreTypes.TIME,
@@ -78,6 +92,7 @@ var game_data_eraser_xs: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser_xs.tscn",
 	"description" : "%d minutes before the screen is forever saturated!" % 2
 }
+
 var game_data_eraser_s: Dictionary = {
 	"game": Games.ERASER_S, # key igre je key lootlocker tabele
 	"highscore_type": HighscoreTypes.TIME,
@@ -86,6 +101,7 @@ var game_data_eraser_s: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser_s.tscn",
 	"description" : "%d minutes before the screen is forever saturated!" % 5
 }
+
 var game_data_eraser_m: Dictionary = {
 	"game": Games.ERASER_M, # key igre je key lootlocker tabele
 	"highscore_type": HighscoreTypes.TIME,
@@ -94,6 +110,7 @@ var game_data_eraser_m: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser_m.tscn",
 	"description" : "%d minutes before the screen is forever saturated!" % 10
 }
+
 var game_data_eraser_l: Dictionary = {
 	"game": Games.ERASER_L, # key igre je key lootlocker tabele
 	"highscore_type": HighscoreTypes.TIME,
@@ -102,6 +119,7 @@ var game_data_eraser_l: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser_l.tscn",
 	"description" : "%d minutes before the screen is forever saturated!" % 15
 }
+
 var game_data_eraser_xl: Dictionary = {
 	"game": Games.ERASER_XL, # key igre je key lootlocker tabele
 	"highscore_type": HighscoreTypes.TIME,
@@ -110,6 +128,7 @@ var game_data_eraser_xl: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser_xl.tscn",
 	"description" : "%d minutes before the screen is forever saturated!" % 20
 }
+
 var game_data_hunter: Dictionary = {
 	"game": Games.HUNTER, # key igre je key lootlocker tabele
 	"highscore_type": HighscoreTypes.POINTS,
@@ -130,6 +149,7 @@ var game_data_hunter: Dictionary = {
 	# "spawn_white_stray_part": 0.21,
 	"spawn_white_stray_part_grow": 0, # omejena na 2. level na set_new_level
 }
+
 var game_data_defender: Dictionary = {
 	"game": Games.DEFENDER, # key igre je key lootlocker tabele
 	"highscore_type": HighscoreTypes.POINTS,
@@ -149,6 +169,7 @@ var game_data_defender: Dictionary = {
 	"spawn_round_range_grow": [1, 1], # množim [spodnjo, zgornjo] mejo
 	"line_steps_per_spawn_round_factor": 3, # na koliko stepov se spawna nova runda
 }
+
 var game_data_sweeper: Dictionary = {
 	"game": Games.SWEEPER, # key igre je key lootlocker tabele
 	"highscore_type": HighscoreTypes.TIME,
@@ -159,6 +180,7 @@ var game_data_sweeper: Dictionary = {
 	"Prop" : "Destroy the first stray and keep your momentum by pressing in the next\ntarget's direction.",
 	"level": 1,
 }
+
 var game_data_the_duel: Dictionary = {
 	"game": Games.THE_DUEL, # key igre je key lootlocker tabele
 	"highscore_type": HighscoreTypes.NONE,
@@ -168,6 +190,7 @@ var game_data_the_duel: Dictionary = {
 	"description" : "Only the best cleaner will shine in this epic battle!",
 	"Prop": "Hit the opposing player\nto take his life and\nhalf of his points.",
 }
+
 var sweeper_level_tilemap_paths: Array = [
 	# zaporedje je ključno za level name
 	"res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
@@ -189,58 +212,27 @@ var sweeper_level_tilemap_paths: Array = [
 	]
 
 
-# VARZ ... odvisne od tipa igre -----------------------------------------------------------------------------------
+# PROCES -----------------------------------------------------------------------------------
 
 
-var game_settings: Dictionary
-var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
-
-# const
 var html5_mode: bool = true # skrije ExitGameBtn v home, GO in pavzi
+
 var tutorial_music_track_index: int = 3
+
+# settings (home)
 var use_default_color_theme: bool = true
-
-
-
-# nastavitve, ki se sejvajo
 var pregame_screen_on: bool = true # na štart gre v game_settings > prebere se iz game_settingsov
 var camera_shake_on: bool = true
 var tutorial_mode: bool = true
 var analytics_mode: bool = true
-
-
 var brightness: float = 1 setget _change_brightness # 0.6 > 1.1 ... def = 1
 var vsync_on: bool = true setget _change_vsync
-
-func _change_brightness(set_value: float):
-	# najprej preveri home env, če ga ni je v pvza meniju
-
-	var arena_enviroment: Environment
-	var enviroment_node: WorldEnvironment = Global.game_manager.get_node("ArenaEnvironment")
-	if enviroment_node == null:
-		enviroment_node = Global.game_arena.get_node("ArenaEnvironment")
-	arena_enviroment = enviroment_node.environment
-
-	brightness = set_value
-	arena_enviroment.adjustment_brightness = brightness
-
-
-func _change_vsync(set_on: bool):
-	vsync_on = set_on
-	OS.vsync_enabled = vsync_on
-	#	print ("vsync post ", OS.vsync_enabled)
-
+var set_touch_controller: int = TOUCH_CONTROLLER.SCREEN_LEFT
 var screen_touch_sensitivity: float = 0.1 # 0 - 20% VP width ... def 0.1 ... ročno nastavljen ticker node
 
-enum TOUCH_CONTROLLER {OFF, BUTTONS_LEFT, BUTTONS_RIGHT, SCREEN_LEFT, SCREEN_RIGHT} # zaporedje more bit, da so SCREEN na koncu (settings uporablja)
-var set_touch_controller: int = TOUCH_CONTROLLER.SCREEN_LEFT
-var touch_controller_content: Dictionary = {
-	TOUCH_CONTROLLER.OFF: {"Disabled": "Touch controls disabled"},
-	TOUCH_CONTROLLER.BUTTONS_LEFT:  {"Buttons R": "On-screen buttons, Burst on right"},
-	TOUCH_CONTROLLER.BUTTONS_RIGHT:  {"Buttons L": "On-screen buttons, Burst on left"},
-	TOUCH_CONTROLLER.SCREEN_LEFT:  {"Touch tracking R": "Touch tracking for direction, Burst on right"},
-	TOUCH_CONTROLLER.SCREEN_RIGHT:  {"Touch tracking L": "Touch tracking for direction, Burst on left"},
-}
+var game_settings: Dictionary
+var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
+
 
 func _ready() -> void:
 
@@ -248,6 +240,14 @@ func _ready() -> void:
 		html5_mode = true
 	else:
 		html5_mode = false
+	Profiles.analytics_mode = not html5_mode
+
+	var apply_game_settings: Dictionary = Data.read_settings_from_file() # če fileta ni, pobere trenutno setane vrednosti
+	pregame_screen_on = apply_game_settings["pregame_screen_on"]
+	camera_shake_on = apply_game_settings["camera_shake_on"]
+	tutorial_mode = apply_game_settings["tutorial_mode"]
+	analytics_mode = apply_game_settings["analytics_mode"]
+	self.vsync_on = apply_game_settings["vsync_on"]
 
 	# če greš iz menija je tole povoženo
 #	var debug_game = Games.SHOWCASE # fix camera
@@ -261,13 +261,6 @@ func _ready() -> void:
 #	var debug_game = Games.DEFENDER
 	var debug_game = Games.SWEEPER
 #	var debug_game = Games.THE_DUEL
-
-	var apply_game_settings: Dictionary = Data.read_settings_from_file() # če fileta ni, pobere trenutno setane vrednosti
-	pregame_screen_on = apply_game_settings["pregame_screen_on"]
-	camera_shake_on = apply_game_settings["camera_shake_on"]
-	tutorial_mode = apply_game_settings["tutorial_mode"]
-	analytics_mode = apply_game_settings["analytics_mode"]
-	self.vsync_on = apply_game_settings["vsync_on"]
 
 	if OS.is_debug_build():
 		set_game_data(debug_game)
@@ -284,9 +277,8 @@ func set_game_data(selected_game):
 		tutorial_mode = false
 		game_settings["player_start_life"] = 2
 
-	game_settings["pregame_screen_on"] = pregame_screen_on # da se seta aka per-game in osnovnega ne spreminja
+	game_settings["pregame_screen_on"] = pregame_screen_on # da se seta aka per-game in osnovnega ne spreminjam
 	match selected_game:
-
 		Games.CLEANER:
 			current_game_data = game_data_cleaner.duplicate()
 			game_settings["create_strays_count"] = 500 # spawna jih cca 1200 (tilemap setup)
@@ -347,8 +339,6 @@ func set_game_data(selected_game):
 			# play iz GO je že zumiran
 			game_settings["always_zoomed_in"] = false
 			tutorial_mode = false # _temp rabi posebn tutorial
-			#			return game_settings # da lahko vklopim "instructions" in "zoomed in" za prehod iz home menija
-
 		Games.THE_DUEL:
 			current_game_data = game_data_the_duel.duplicate()
 			game_settings["game_time_limit"] = 180 # tilemap set
@@ -359,43 +349,21 @@ func set_game_data(selected_game):
 			tutorial_mode = false
 
 
+func _change_brightness(set_value: float):
+	# najprej preveri home env, če ga ni je v pvza meniju
+
+	var arena_enviroment: Environment
+	var enviroment_node: WorldEnvironment = Global.game_manager.get_node("ArenaEnvironment")
+	if enviroment_node == null:
+		enviroment_node = Global.game_arena.get_node("ArenaEnvironment")
+	arena_enviroment = enviroment_node.environment
+
+	brightness = set_value
+	arena_enviroment.adjustment_brightness = brightness
 
 
-# SHOWCASE ----------------------------------------------------------------------------------------------------------------
+func _change_vsync(set_on: bool):
 
-
-#		Games.SHOWCASE:
-#			current_game_data = game_data_showcase.duplicate()
-#			game_settings["create_strays_count"] = 180 # samo klasika in kapsula
-#			game_settings["color_picked_points"] = 0
-#			game_settings["cleaned_reward_points"] = 0
-#			game_settings["white_eliminated_points"] = 0
-#			game_settings["start_countdown"] = false
-#			game_settings["show_game_instructions"] = false
-#			game_settings["zoom_to_level_size"] = true
-#			game_settings["cell_traveled_energy"] = 0
-#			game_settings["player_start_life"] = 5
-#			# variacije
-#			# random stray step on start_game()
-#			game_settings["player_start_color"] = Color.white
-#			# camera_shake_on = false
-#			# game_settings["reburst_enabled"] = true
-#			# game_settings["reburst_window_time"] = 0
-#
-#var game_data_showcase: Dictionary = {
-#	"game": Games.SHOWCASE,
-#	"highscore_type": HighscoreTypes.NONE,
-#	"game_name": "Showcase",
-#	#	"game_scene_path": "res://showcase/game_showcase.tscn",
-#	#	"tilemap_path": "res://showcase/tilemap/tilemap_showcase_title.tscn",
-#	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase.tscn", # klasika
-#	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_sweeper.tscn", # reburts on, white start in belega
-#	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_skills.tscn",
-#	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_multicollect.tscn",
-#	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_step.tscn",
-#	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_waiting.tscn", # camera shake on, white start
-#	#	"tilemap_path": "res://showcase/tilemaps/tilemap_showcase_capsule.tscn", # transparenca belih,  camera shake on, white start, stray spawn count
-#	"description" : "Clean them all",
-#	"Prop" : "Or not",
-#	"Prop2" : "Or yes!",
-#}
+	vsync_on = set_on
+	OS.vsync_enabled = vsync_on
+	#	print ("vsync post ", OS.vsync_enabled)

@@ -37,8 +37,8 @@ func _ready() -> void:
 		if btn == $GamesMenu/TheDuel/TheDuelBtn and OS.has_touchscreen_ui_hint():
 			btn.disabled = true
 			$GamesMenu/TheDuel/Label.text = "Couch coop is disabled\nfor touchscreen."
-		else:
-			btn.connect("pressed", self, "_on_game_btn_pressed", [btn])
+#		else:
+#			btn.connect("pressed", self, "_on_game_btn_pressed", [btn])
 	$BackBtn.add_to_group(Batnz.group_cancel_btns)
 
 	color_game_btns()

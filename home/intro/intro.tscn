@@ -7,7 +7,7 @@
 [ext_resource path="res://assets/atlas_controls.png" type="Texture" id=6]
 [ext_resource path="res://assets/resources/tileset_arena.tres" type="TileSet" id=7]
 [ext_resource path="res://assets/theme/color_theme_spectrum.png" type="Texture" id=9]
-[ext_resource path="res://game/gui/action_hint.tscn" type="PackedScene" id=10]
+[ext_resource path="res://common/action_hint.tscn" type="PackedScene" id=10]
 
 [sub_resource type="Gradient" id=225]
 colors = PoolColorArray( 1, 1, 1, 1, 0.390625, 0.390625, 0.390625, 1 )

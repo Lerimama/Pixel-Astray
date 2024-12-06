@@ -339,6 +339,10 @@ p2_burst={
  ]
 }
 
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
 [layer_names]
 
 2d_physics/layer_2="top_edge"
@@ -349,7 +353,7 @@ p2_burst={
 
 [locale]
 
-translations=PoolStringArray( "res://assets/PixelAstray_text.en.translation", "res://assets/PixelAstray_text.sl.translation" )
+translations=PoolStringArray( "res://locale/PixelAstray_text.en.translation", "res://locale/PixelAstray_text.sl.translation" )
 
 [physics]
 

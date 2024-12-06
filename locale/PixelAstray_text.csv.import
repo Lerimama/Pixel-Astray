@@ -1,0 +1,16 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+
+[deps]
+
+files=[ "res://locale/PixelAstray_text.en.translation", "res://locale/PixelAstray_text.sl.translation" ]
+
+source_file="res://locale/PixelAstray_text.csv"
+dest_files=[ "res://locale/PixelAstray_text.en.translation", "res://locale/PixelAstray_text.sl.translation" ]
+
+[params]
+
+compress=true
+delimiter=0

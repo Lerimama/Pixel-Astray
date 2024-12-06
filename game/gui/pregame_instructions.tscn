@@ -6,11 +6,11 @@
 [ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=4]
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=5]
 [ext_resource path="res://assets/atlas_controls.png" type="Texture" id=6]
-[ext_resource path="res://game/gui/action_hint.tscn" type="PackedScene" id=8]
+[ext_resource path="res://common/action_hint.tscn" type="PackedScene" id=8]
 [ext_resource path="res://assets/theme/box_colored_almost_black.tres" type="StyleBox" id=9]
 [ext_resource path="res://_helpers/_help_gui_guide.tscn" type="PackedScene" id=10]
 [ext_resource path="res://game/gui/shortcut_line.tscn" type="PackedScene" id=11]
-[ext_resource path="res://game/controls_wide.tscn" type="PackedScene" id=12]
+[ext_resource path="res://game/gui/controls_wide.tscn" type="PackedScene" id=12]
 
 [sub_resource type="AtlasTexture" id=504]
 atlas = ExtResource( 6 )

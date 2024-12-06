@@ -22,7 +22,6 @@ onready var pause_btn: TouchScreenButton = $PauseBtn
 onready var next_track_btn: TouchScreenButton = $NextTrackBtn
 onready var skip_tut_btn: TouchScreenButton = $SkipTutBtn
 onready var mute_btn: TouchScreenButton = $MuteBtn
-
 onready var current_touch_controller: int = Profiles.set_touch_controller setget _change_current_controller
 onready var tutorial_elements: Array = [
 	skip_tut_btn,

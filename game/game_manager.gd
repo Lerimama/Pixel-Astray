@@ -46,8 +46,6 @@ onready var respawn_strays_count_range: Array = game_settings["respawn_strays_co
 onready var StrayPixel: PackedScene = preload("res://game/pixel/stray.tscn")
 onready var PlayerPixel: PackedScene = preload("res://game/pixel/player.tscn")
 onready var respawn_timer: Timer = $"../RespawnTimer"
-#onready var environment_node: Environment = Global.game_arena.arena_environment.environment
-var environment_node: Environment
 
 # debug ... free pos indi
 var free_position_tiles: Array
@@ -68,8 +66,6 @@ func _unhandled_input(event: InputEvent) -> void:
 func _ready() -> void:
 
 	Global.game_manager = self
-	environment_node = Global.game_arena
-	print(environment_node)
 	randomize()
 	if game_data.has("level_goal_count"):
 		# prvi level eraserja ima za cilj število spawnanih

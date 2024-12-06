@@ -70,7 +70,7 @@ func _connect_interactive_control(node: Control):
 
 		if node is CheckButton:
 			# toggle
-			node.connect("toggled", self, "_on_btn_toggled")
+			node.connect("toggled", self, "_on_btn_toggled", [node])
 		else:
 			# press
 			node.connect("pressed", self, "_on_btn_pressed", [node])
@@ -80,13 +80,15 @@ func _connect_interactive_control(node: Control):
 		# (de)focus
 		node.connect("focus_entered", self, "_on_focus_entered", [node])
 		node.connect("focus_exited", self, "_on_focus_exited", [node])
+		# slide sfx
+		node.connect("value_changed", self, "_on_Slider_value_changed", [node])
 
 
 # SIGNALS ---------------------------------------------------------------------------------------------------------
 
 
 func _on_mouse_entered(control: Control):
-	#	printt("control hovered", control)
+#	printt("control hovered", control)
 
 	if not control.has_focus():# and not control is ColorRect
 		#		allow_ui_sfx = true # mouse focus je zmeraj s sonundom
@@ -108,7 +110,7 @@ func _on_focus_entered(control: Control):
 
 
 func _on_focus_exited(control: Control):
-	#	printt("control unfocused", control)
+#	printt("control unfocused", control)
 
 	# settings gumbi - barvanje
 	if control is CheckButton:
@@ -118,7 +120,7 @@ func _on_focus_exited(control: Control):
 
 
 func _on_btn_pressed(button: BaseButton):
-	#	printt("btn pressed", button)
+#	printt("btn pressed", button)
 
 	Analytics.save_ui_click(button)
 
@@ -133,7 +135,7 @@ func _on_btn_pressed(button: BaseButton):
 
 
 func _on_btn_toggled(button_pressed: bool, button: Button) -> void:
-	#	printt("btn toggled",button_pressed, button)
+#	printt("btn toggled",button_pressed, button)
 
 	if not str(button) == "[Deleted Object]": # anti home_out nek toggle btn
 		if button_pressed:
@@ -142,3 +144,20 @@ func _on_btn_toggled(button_pressed: bool, button: Button) -> void:
 			Global.sound_manager.play_gui_sfx("btn_cancel")
 
 		Analytics.save_ui_click([button, button_pressed])
+
+
+func _on_Slider_value_changed(slider_value: float, slider_node: HSlider):
+#	printt("slider value", slider_value, slider_node)
+
+	# trenutno vrednost opredelim kot procent razpona
+	var slider_range: float = slider_node.max_value - slider_node.min_value
+	var slider_value_normalized: float = slider_value - slider_node.min_value # normalized ...kot da bi bila min value 0
+	var slider_value_percent: float = slider_value_normalized / slider_range
+	# ... in jo konvertam v željeni pitch
+	var pitch_max_value: float = 1.2
+	var pitch_min_value: float = 0.8
+	var pitch_percent: float = slider_value_percent
+	var pitch_normalized: float = pitch_percent * (pitch_max_value - pitch_min_value)
+	var new_pitch: float = pitch_normalized + pitch_min_value
+
+	Global.sound_manager.play_gui_sfx("btn_confirm", new_pitch)

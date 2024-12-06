@@ -1,16 +1,16 @@
 extends Control
 
 
-onready var randomize_btn: Button = $ColorSchemeOptions/RandomizeBtn
-onready var reset_btn: Button = $ColorSchemeOptions/SchemeResetBtn
-onready var gradient_icon: TextureRect = $ColorSchemeOptions/RandomizeBtn/GradientIcon
-onready var spectrum_icon: TextureRect = $ColorSchemeOptions/RandomizeBtn/SpectrumIcon
+onready var randomize_btn: Button = $Content/ColorSchemeOptions/RandomizeBtn
+onready var reset_btn: Button = $Content/ColorSchemeOptions/SchemeResetBtn
+onready var gradient_icon: TextureRect = $Content/ColorSchemeOptions/RandomizeBtn/GradientIcon
+onready var spectrum_icon: TextureRect = $Content/ColorSchemeOptions/RandomizeBtn/SpectrumIcon
 
 onready var intro: Node2D = $"%Intro"
 onready var select_level_node: Control = $"../SelectLevel"
 onready var select_game_node: Control = $"../SelectGame"
 onready var highscores_node: Control = $"../Highscores"
-onready var default_focus_node: Control = $MenuMusicBtn
+onready var default_focus_node: Control = $Content/MenuMusicBtn
 
 
 func _input(event: InputEvent) -> void:
@@ -36,7 +36,7 @@ func _ready() -> void:
 	# APP SETTINGS ------------------------------------------------------------------
 
 	# menu music
-	$MenuMusicBtn.set_pressed_no_signal(not Global.sound_manager.menu_music_set_to_off)
+	default_focus_node.set_pressed_no_signal(not Global.sound_manager.menu_music_set_to_off)
 	# color scheme
 	if Profiles.use_default_color_theme:
 		spectrum_icon.show()
@@ -47,23 +47,23 @@ func _ready() -> void:
 		gradient_icon.show()
 		reset_btn.show()
 		gradient_icon.texture.gradient = Global.game_color_theme_gradient
-	$ContrastSlider.value = Profiles.brightness
-	$VsyncBtn.set_pressed_no_signal(Profiles.vsync_on)
+	$Content/ContrastSlider.value = Profiles.brightness
+	$Content/VsyncBtn.set_pressed_no_signal(Profiles.vsync_on)
 
 	# GAME SETTINGS ------------------------------------------------------------------
 
-	$GameMusicBtn.set_pressed_no_signal(not Global.sound_manager.game_music_set_to_off)
-	$GameMusicSlider.value = AudioServer.get_bus_volume_db(AudioServer.get_bus_index("GameMusic")) # da je slajder v settingsih in pavzi poenoten
-	$InstructionsBtn.set_pressed_no_signal(Profiles.pregame_screen_on)
-	$GameSfxBtn.set_pressed_no_signal(not Global.sound_manager.game_sfx_set_to_off)
-	$CameraShakeBtn.set_pressed_no_signal(Profiles.camera_shake_on)
+	$Content/GameMusicBtn.set_pressed_no_signal(not Global.sound_manager.game_music_set_to_off)
+	$Content/GameMusicSlider.value = AudioServer.get_bus_volume_db(AudioServer.get_bus_index("GameMusic")) # da je slajder v settingsih in pavzi poenoten
+	$Content/InstructionsBtn.set_pressed_no_signal(Profiles.pregame_screen_on)
+	$Content/GameSfxBtn.set_pressed_no_signal(not Global.sound_manager.game_sfx_set_to_off)
+	$Content/CameraShakeBtn.set_pressed_no_signal(Profiles.camera_shake_on)
 	# controler type
 	if OS.has_touchscreen_ui_hint():
 		# btn
-		$TouchPopUpBtn.show()
+		$Content/TouchPopUpBtn.show()
 		var selected_controller_content: Dictionary = Profiles.touch_controller_content.values()[Profiles.set_touch_controller]
 		var selected_controller_key: String = selected_controller_content.keys()[0]
-		$TouchPopUpBtn.text = "Touch controls: %s" % selected_controller_key
+		$Content/TouchPopUpBtn.text = "Touch controls: %s" % selected_controller_key
 		# popup
 		for controller_count in Profiles.TOUCH_CONTROLLER.size():
 			var controller_content: Dictionary = Profiles.touch_controller_content.values()[controller_count]
@@ -72,22 +72,24 @@ func _ready() -> void:
 			$TouchControllerPopup.add_item(controller_description, controller_count)
 		# sensi-slider
 		if Profiles.set_touch_controller >= Profiles.TOUCH_CONTROLLER.SCREEN_LEFT:
-			$TouchSensSlider.show()
+			$Content/TouchSensSlider.show()
 		else:
-			$TouchSensSlider.hide()
+			$Content/TouchSensSlider.hide()
 	else:
-		$TouchPopUpBtn.hide()
-		$TouchSensSlider.hide()
+		$Content/TouchPopUpBtn.hide()
+		$Content/TouchSensSlider.hide()
 
 	# RED ZONE ------------------------------------------------------------------
 
-	# data tracking
-	$TrackingBtn.set_pressed_no_signal(Profiles.analytics_mode)
-	# reset data
 	if Profiles.html5_mode:
-		$ResetLocalBtn.hide()
+		$Content/ResetLocalBtn.hide()
+		$Content/TrackingBtn.hide() # _temp ... html tracking off
+		$Content/HSeparator2.hide()
 	else:
-		$ResetLocalBtn.show()
+		# data tracking
+		$Content/TrackingBtn.set_pressed_no_signal(Profiles.analytics_mode)
+		# reset local data
+		$Content/ResetLocalBtn.show()
 		$ResetDataPopup.add_item("About to reset local scores ...", 0)
 		$ResetDataPopup.add_item("Maybe later", 1)
 		$ResetDataPopup.add_item("Do it!", 2)
@@ -199,7 +201,7 @@ func _on_TouchControllerPopup_index_pressed(index: int) -> void:
 	var controller_content: Dictionary = Profiles.touch_controller_content.values()[index]
 	var controller_key: String = controller_content.keys()[0]
 
-	$TouchPopUpBtn.text = "Touch controls: %s" % controller_key
+	$Content/TouchPopUpBtn.text = "Touch controls: %s" % controller_key
 	Global.sound_manager.play_gui_sfx("btn_confirm")
 
 	Analytics.save_ui_click("TouchControls %s" % controller_key)
@@ -208,9 +210,9 @@ func _on_TouchControllerPopup_index_pressed(index: int) -> void:
 
 	# ugasnem za buttons in none
 	if Profiles.set_touch_controller >= Profiles.TOUCH_CONTROLLER.SCREEN_LEFT:
-		$TouchSensSlider.show()
+		$Content/TouchSensSlider.show()
 	else:
-		$TouchSensSlider.hide()
+		$Content/TouchSensSlider.hide()
 
 
 func _on_TouchControllerPopup_id_focused(id: int) -> void:

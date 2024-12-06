@@ -86,7 +86,7 @@ onready var touch_detect: Node2D = $Touch
 onready var Ghost: PackedScene = preload("res://game/pixel/ghost.tscn")
 onready var PixelCollisionParticles: PackedScene = preload("res://game/pixel/pixel_collision_particles.tscn")
 onready var PixelDizzyParticles: PackedScene = preload("res://game/pixel/pixel_dizzy_particles.tscn")
-onready var FloatingTag: PackedScene = preload("res://game/hud/floating_tag.tscn")
+onready var FloatingTag: PackedScene = preload("res://game/gui/floating_tag.tscn")
 
 
 func _ready() -> void:

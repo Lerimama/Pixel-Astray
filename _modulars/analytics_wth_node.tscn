@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://modulars/analytics_wth_node.gd" type="Script" id=1]
+[ext_resource path="res://_modulars/analytics_wth_node.gd" type="Script" id=1]
 
 [node name="analytics" type="Node2D"]
 script = ExtResource( 1 )
