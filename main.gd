@@ -4,17 +4,17 @@ extends Node
 var fade_time: float = 0.7
 var menu_fade_sound_length: float = 1.29
 var wait_sound_time: float = menu_fade_sound_length - fade_time + 0.1 # da ne traja med menjavo scen ... 0.1 = zazih
+var current_scene: Node2D
+onready var inverted_scheme: Node2D = $InvertedScheme
 
 onready var home_scene_path: String = "res://home/home.tscn"
 onready var game_scene_path: String = Profiles.current_game_data["game_scene_path"]
-
-var current_scene: Node2D
 
 
 func _unhandled_input(event: InputEvent) -> void:
 #func _input(event: InputEvent) -> void:
 
-	if OS.is_debug_build():  # debug OS mode
+	if Profiles.debug_mode:  # debug OS mode
 		if Input.is_action_just_pressed("r"):
 			var all_nodes = Global.get_all_nodes_in_node(self)
 
@@ -31,10 +31,11 @@ func _ready() -> void:
 	#	print("Current lang: ", TranslationServer.get_locale())
 
 	Global.main_node = self
-
+	inverted_scheme.modulate.a = 0
+	inverted_scheme.hide()
 #	call_deferred("home_in_intro")
-#	call_deferred("home_in_no_intro")
-	call_deferred("game_in")
+	call_deferred("home_in_no_intro")
+#	call_deferred("game_in")
 
 	Analytics.call_deferred("start_new_session")
 
@@ -192,7 +193,7 @@ func release_scene(scene_node): # release scene
 
 func _free_scene(scene_node):
 
-	if OS.is_debug_build():  # debug OS mode
+	if Profiles.debug_mode:  # debug OS mode
 		#		print("SCENE RELEASED (in next step): ", scene_node)
 		pass
 	scene_node.free()
@@ -203,15 +204,26 @@ func spawn_new_scene(scene_path, parent_node): # spawn scene
 	var scene_resource = ResourceLoader.load(scene_path)
 	var new_current_scene = scene_resource.instance()
 
-	if OS.is_debug_build(): # debug OS mode
+	if Profiles.debug_mode: # debug OS mode
 		#		print("SCENE INSTANCED: ", new_current_scene)
 		pass
 	new_current_scene.modulate.a = 0
 	parent_node.add_child(new_current_scene)
 
-	if OS.is_debug_build():  # debug OS mode
+	if Profiles.debug_mode:  # debug OS mode
 		#		print("SCENE ADDED: ", new_current_scene)
 		print("--- new scene ---")
 
 	current_scene = new_current_scene
 	return new_current_scene
+
+
+func invert_colors(fade_time: float):
+
+	var fade = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+	if inverted_scheme.modulate.a == 1:
+		fade.tween_property(inverted_scheme, "modulate:a", 0, fade_time)
+		fade.tween_callback(inverted_scheme, "hide")
+	elif inverted_scheme.modulate.a == 0:
+		fade.tween_callback(inverted_scheme, "show")
+		fade.tween_property(inverted_scheme, "modulate:a", 1, fade_time)

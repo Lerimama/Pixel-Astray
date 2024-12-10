@@ -1,7 +1,11 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_controls.png" type="Texture" id=2]
+[ext_resource path="res://assets/theme/font_main_small.tres" type="DynamicFont" id=3]
+[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=4]
+[ext_resource path="res://assets/atlas_gui.png" type="Texture" id=5]
+[ext_resource path="res://anim/theme/font_body.tres" type="DynamicFont" id=6]
 
 [sub_resource type="AtlasTexture" id=348]
 atlas = ExtResource( 2 )
@@ -38,65 +42,141 @@ region = Rect2( 30, 40, 18, 18 )
 atlas = ExtResource( 2 )
 region = Rect2( 96, 32, 10, 10 )
 
-[node name="ControlsWide" type="Control"]
+[sub_resource type="AtlasTexture" id=514]
+atlas = ExtResource( 2 )
+region = Rect2( 72, 102, 62, 42 )
+
+[sub_resource type="AtlasTexture" id=515]
+atlas = ExtResource( 2 )
+region = Rect2( 112, 154, 22, 22 )
+
+[sub_resource type="AtlasTexture" id=516]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 154, 76, 22 )
+
+[sub_resource type="StreamTexture" id=517]
+load_path = "res://.import/atlas_controls.png-75e6b40869d487066545840672dcb98d.stex"
+
+[sub_resource type="AtlasTexture" id=513]
+atlas = SubResource( 517 )
+region = Rect2( 0, 0, 120, 86 )
+
+[sub_resource type="AtlasTexture" id=518]
+atlas = SubResource( 513 )
+region = Rect2( 0, 0, 120, 86 )
+
+[sub_resource type="AtlasTexture" id=519]
+atlas = ExtResource( 2 )
+region = Rect2( 10, 17, 22, 22 )
+
+[sub_resource type="AtlasTexture" id=520]
+atlas = ExtResource( 2 )
+region = Rect2( 96, 32, 10, 10 )
+
+[sub_resource type="AtlasTexture" id=521]
+atlas = ExtResource( 2 )
+region = Rect2( 145, 199, 6, 10 )
+
+[sub_resource type="AtlasTexture" id=522]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 102, 62, 42 )
+
+[sub_resource type="AtlasTexture" id=523]
+atlas = ExtResource( 2 )
+region = Rect2( 83, 154, 22, 22 )
+
+[sub_resource type="AtlasTexture" id=524]
+atlas = ExtResource( 2 )
+region = Rect2( 145, 223, 6, 10 )
+
+[sub_resource type="AtlasTexture" id=536]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 176, 80, 80 )
+
+[sub_resource type="AtlasTexture" id=530]
+atlas = ExtResource( 5 )
+region = Rect2( 48, 144, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=531]
+atlas = ExtResource( 5 )
+region = Rect2( 34, 23, 6, 10 )
+
+[sub_resource type="AtlasTexture" id=525]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 256, 12, 12 )
+
+[sub_resource type="AtlasTexture" id=526]
+atlas = ExtResource( 5 )
+region = Rect2( 10, 256, 60, 2 )
+
+[node name="ControlsCenter" type="Control"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -640.0
 margin_top = -360.0
-margin_right = -152.0
-margin_bottom = -264.0
-rect_min_size = Vector2( 488, 96 )
+margin_right = -640.0
+margin_bottom = -360.0
 __meta__ = {
 "_edit_horizontal_guides_": [ 11.0, 19.0, 75.0 ],
-"_edit_vertical_guides_": [ 236.0, 135.0 ]
+"_edit_vertical_guides_": [ 236.0, 289.0 ]
 }
 
-[node name="Keyboard2" type="TextureRect" parent="."]
-margin_left = 8.0
+[node name="1P" type="Control" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -224.0
+margin_top = -40.0
+margin_right = 248.0
+margin_bottom = 48.0
+
+[node name="Keyboard2" type="TextureRect" parent="1P"]
 margin_top = 6.0
-margin_right = 70.0
+margin_right = 62.0
 margin_bottom = 48.0
 texture = SubResource( 348 )
 
-[node name="Keyboard1" type="TextureRect" parent="."]
-margin_left = 111.0
+[node name="Keyboard1" type="TextureRect" parent="1P"]
+margin_left = 103.0
 margin_top = 6.0
-margin_right = 173.0
+margin_right = 165.0
 margin_bottom = 48.0
 texture = SubResource( 347 )
 
-[node name="Space2" type="TextureRect" parent="."]
-margin_left = 24.0
+[node name="Space2" type="TextureRect" parent="1P"]
+margin_left = 16.0
 margin_top = 66.0
-margin_right = 158.0
+margin_right = 150.0
 margin_bottom = 88.0
 texture = SubResource( 355 )
 
-[node name="Joypad" type="Control" parent="."]
-margin_left = 360.0
+[node name="Joypad" type="Control" parent="1P"]
+margin_left = 352.0
 margin_top = 2.0
-margin_right = 480.0
+margin_right = 472.0
 margin_bottom = 88.0
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="jp" type="TextureRect" parent="Joypad"]
+[node name="jp" type="TextureRect" parent="1P/Joypad"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_right = 120.0
 margin_bottom = 86.0
 texture = SubResource( 351 )
 
-[node name="btns" type="TextureRect" parent="Joypad"]
+[node name="btns" type="TextureRect" parent="1P/Joypad"]
 margin_left = 10.0
 margin_top = 17.0
 margin_right = 32.0
 margin_bottom = 39.0
 texture = SubResource( 352 )
 
-[node name="stick" type="TextureRect" parent="Joypad"]
+[node name="stick" type="TextureRect" parent="1P/Joypad"]
 visible = false
 margin_left = 30.0
 margin_top = 40.0
@@ -104,16 +184,16 @@ margin_right = 48.0
 margin_bottom = 58.0
 texture = SubResource( 353 )
 
-[node name="btn" type="TextureRect" parent="Joypad"]
+[node name="btn" type="TextureRect" parent="1P/Joypad"]
 margin_left = 96.0
 margin_top = 32.0
 margin_right = 106.0
 margin_bottom = 42.0
 texture = SubResource( 354 )
 
-[node name="DirKey" type="Label" parent="."]
-margin_left = 210.5
-margin_right = 321.5
+[node name="DirKey" type="Label" parent="1P"]
+margin_left = 202.5
+margin_right = 313.5
 margin_bottom = 18.0
 size_flags_vertical = 1
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
@@ -121,45 +201,1026 @@ custom_fonts/font = ExtResource( 1 )
 text = "Direction keys"
 autowrap = true
 
-[node name="Line2D4" type="Line2D" parent="."]
-position = Vector2( -201, 186 )
+[node name="Line2D4" type="Line2D" parent="1P"]
+position = Vector2( -209, 186 )
 points = PoolVector2Array( 377, -167, 403, -175 )
 width = 0.5
 default_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 sharp_limit = 0.0
 antialiased = true
 
-[node name="Line2D5" type="Line2D" parent="."]
-position = Vector2( -147, 202 )
+[node name="Line2D5" type="Line2D" parent="1P"]
+position = Vector2( -155, 202 )
 points = PoolVector2Array( 474, -191, 500, -183 )
 width = 0.5
 default_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 sharp_limit = 0.0
 antialiased = true
 
-[node name="BurstKey" type="Label" parent="."]
-margin_left = 223.0
+[node name="BurstKey" type="Label" parent="1P"]
+margin_left = 215.0
 margin_top = 64.0
-margin_right = 309.0
+margin_right = 301.0
 margin_bottom = 82.0
 size_flags_vertical = 1
 custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 custom_fonts/font = ExtResource( 1 )
 text = "Burst keys"
 
-[node name="Line2D2" type="Line2D" parent="."]
-position = Vector2( -204, 172 )
+[node name="Line2D2" type="Line2D" parent="1P"]
+position = Vector2( -212, 172 )
 points = PoolVector2Array( 372, -97, 417, -97 )
 width = 0.5
 default_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 sharp_limit = 0.0
 antialiased = true
 
-[node name="Line2D" type="Line2D" parent="."]
-position = Vector2( -72.302, 189.142 )
+[node name="Line2D" type="Line2D" parent="1P"]
+position = Vector2( -80.302, 189.142 )
 scale = Vector2( 0.913793, 1.00769 )
 points = PoolVector2Array( 423.84, -113.271, 577.048, -142.05 )
 width = 0.5
 default_color = Color( 0.513726, 0.513726, 0.513726, 1 )
 sharp_limit = 0.0
 antialiased = true
+
+[node name="2P" type="Control" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -280.0
+margin_top = -56.0
+margin_right = 280.0
+margin_bottom = 56.0
+
+[node name="ControlsDuelP1" type="Control" parent="2P"]
+margin_left = 8.0
+margin_right = 264.0
+margin_bottom = 105.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_group_": true,
+"_editor_description_": ""
+}
+
+[node name="PlayerLabel" type="Label" parent="2P/ControlsDuelP1"]
+margin_right = 27.0
+margin_bottom = 22.0
+size_flags_vertical = 8
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+custom_fonts/font = ExtResource( 3 )
+text = "P1 "
+valign = 1
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Keys" type="Control" parent="2P/ControlsDuelP1"]
+margin_left = -0.5
+margin_top = 28.0
+margin_right = 129.5
+margin_bottom = 114.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Keyboard2" type="TextureRect" parent="2P/ControlsDuelP1/Keys"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -44.0
+margin_top = -41.0
+margin_right = 18.0
+margin_bottom = 1.0
+texture = SubResource( 514 )
+
+[node name="Ctrl" type="TextureRect" parent="2P/ControlsDuelP1/Keys"]
+margin_left = 1.0
+margin_top = 62.0
+margin_right = 23.0
+margin_bottom = 84.0
+texture = SubResource( 515 )
+
+[node name="Space" type="TextureRect" parent="2P/ControlsDuelP1/Keys"]
+margin_left = 33.0
+margin_top = 62.0
+margin_right = 109.0
+margin_bottom = 84.0
+texture = SubResource( 516 )
+
+[node name="Joypad" type="Control" parent="2P/ControlsDuelP1"]
+margin_left = 135.5
+margin_top = 26.0
+margin_right = 255.5
+margin_bottom = 112.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="jp" type="TextureRect" parent="2P/ControlsDuelP1/Joypad"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+margin_right = 120.0
+margin_bottom = 86.0
+texture = SubResource( 518 )
+
+[node name="btns" type="TextureRect" parent="2P/ControlsDuelP1/Joypad"]
+margin_left = 10.0
+margin_top = 17.0
+margin_right = 32.0
+margin_bottom = 39.0
+texture = SubResource( 519 )
+
+[node name="btn" type="TextureRect" parent="2P/ControlsDuelP1/Joypad"]
+margin_left = 96.0
+margin_top = 32.0
+margin_right = 106.0
+margin_bottom = 42.0
+texture = SubResource( 520 )
+
+[node name="C" type="TextureRect" parent="2P/ControlsDuelP1/Joypad"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -3.0
+margin_top = -12.0
+margin_right = 3.0
+margin_bottom = -2.0
+texture = SubResource( 521 )
+
+[node name="ControlsDuelP2" type="Control" parent="2P"]
+margin_left = 352.0
+margin_right = 568.0
+margin_bottom = 105.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_group_": true,
+"_editor_description_": ""
+}
+
+[node name="PlayerLabel" type="Label" parent="2P/ControlsDuelP2"]
+margin_right = 24.0
+margin_bottom = 22.0
+size_flags_vertical = 8
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+custom_fonts/font = ExtResource( 3 )
+text = "P2"
+valign = 1
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Keys" type="Control" parent="2P/ControlsDuelP2"]
+margin_top = 27.0
+margin_right = 62.0
+margin_bottom = 123.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Keyboard1" type="TextureRect" parent="2P/ControlsDuelP2/Keys"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -31.0
+margin_top = -45.0
+margin_right = 31.0
+margin_bottom = -3.0
+texture = SubResource( 522 )
+
+[node name="Alt" type="TextureRect" parent="2P/ControlsDuelP2/Keys"]
+margin_left = 20.0
+margin_top = 63.0
+margin_right = 42.0
+margin_bottom = 85.0
+texture = SubResource( 523 )
+
+[node name="Joypad" type="Control" parent="2P/ControlsDuelP2"]
+margin_left = 96.0
+margin_top = 26.0
+margin_right = 216.0
+margin_bottom = 112.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="jp" type="TextureRect" parent="2P/ControlsDuelP2/Joypad"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+margin_right = 120.0
+margin_bottom = 86.0
+texture = SubResource( 518 )
+
+[node name="btns" type="TextureRect" parent="2P/ControlsDuelP2/Joypad"]
+margin_left = 10.0
+margin_top = 17.0
+margin_right = 32.0
+margin_bottom = 39.0
+texture = SubResource( 519 )
+
+[node name="btn" type="TextureRect" parent="2P/ControlsDuelP2/Joypad"]
+margin_left = 96.0
+margin_top = 32.0
+margin_right = 106.0
+margin_bottom = 42.0
+texture = SubResource( 520 )
+
+[node name="C" type="TextureRect" parent="2P/ControlsDuelP2/Joypad"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -3.0
+margin_top = -12.0
+margin_right = 3.0
+margin_bottom = -2.0
+texture = SubResource( 524 )
+
+[node name="Buttons_R" type="Control" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -224.0
+margin_top = -112.0
+margin_right = 224.0
+margin_bottom = 112.0
+
+[node name="Title" type="Label" parent="Buttons_R"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -92.0
+margin_right = 92.0
+margin_bottom = 22.0
+grow_horizontal = 2
+size_flags_vertical = 8
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+custom_fonts/font = ExtResource( 3 )
+text = "On-Screen buttons controls"
+valign = 1
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="BurstBtn" type="TextureRect" parent="Buttons_R"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -160.0
+margin_top = 56.0
+margin_right = -80.0
+margin_bottom = 136.0
+rect_scale = Vector2( 2, 2 )
+texture = SubResource( 536 )
+
+[node name="Label" type="Label" parent="Buttons_R/BurstBtn"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+margin_left = 14.5
+margin_top = 25.5
+margin_right = 69.5
+margin_bottom = 52.5
+theme = ExtResource( 4 )
+custom_fonts/font = ExtResource( 6 )
+text = "Burst"
+align = 1
+valign = 1
+uppercase = true
+
+[node name="DirectionBtns" type="Node2D" parent="Buttons_R"]
+position = Vector2( 0, 56 )
+scale = Vector2( 2, 2 )
+
+[node name="TouchBtn_L" type="TextureRect" parent="Buttons_R/DirectionBtns"]
+margin_left = 32.0
+margin_top = 24.0
+margin_right = 64.0
+margin_bottom = 56.0
+rect_scale = Vector2( -1, 1 )
+texture = SubResource( 530 )
+
+[node name="Arrow" type="Sprite" parent="Buttons_R/DirectionBtns/TouchBtn_L"]
+position = Vector2( 20.9999, 16.0001 )
+texture = SubResource( 531 )
+
+[node name="TouchBtn_U" type="TextureRect" parent="Buttons_R/DirectionBtns"]
+margin_left = 24.0
+margin_top = 32.0
+margin_right = 56.0
+margin_bottom = 64.0
+rect_rotation = -89.9999
+texture = SubResource( 530 )
+
+[node name="Arrow" type="Sprite" parent="Buttons_R/DirectionBtns/TouchBtn_U"]
+position = Vector2( 20.9999, 16.0001 )
+texture = SubResource( 531 )
+
+[node name="TouchBtn_R" type="TextureRect" parent="Buttons_R/DirectionBtns"]
+margin_left = 48.0
+margin_top = 24.0
+margin_right = 80.0
+margin_bottom = 56.0
+texture = SubResource( 530 )
+
+[node name="Arrow" type="Sprite" parent="Buttons_R/DirectionBtns/TouchBtn_R"]
+position = Vector2( 21, 16 )
+texture = SubResource( 531 )
+
+[node name="TouchBtn_D" type="TextureRect" parent="Buttons_R/DirectionBtns"]
+margin_left = 56.0
+margin_top = 48.0
+margin_right = 88.0
+margin_bottom = 80.0
+rect_rotation = 90.0
+texture = SubResource( 530 )
+
+[node name="Arrow" type="Sprite" parent="Buttons_R/DirectionBtns/TouchBtn_D"]
+position = Vector2( 21.0001, 15.4999 )
+texture = SubResource( 531 )
+
+[node name="Buttons_L" type="Control" parent="."]
+margin_left = -224.0
+margin_top = -112.0
+margin_right = 224.0
+margin_bottom = 104.0
+
+[node name="Title" type="Label" parent="Buttons_L"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -92.0
+margin_right = 92.0
+margin_bottom = 22.0
+grow_horizontal = 2
+size_flags_vertical = 8
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+custom_fonts/font = ExtResource( 3 )
+text = "On-Screen buttons controls"
+valign = 1
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="BurstBtn" type="TextureRect" parent="Buttons_L"]
+margin_top = 56.0
+margin_right = 80.0
+margin_bottom = 136.0
+rect_scale = Vector2( 2, 2 )
+texture = SubResource( 536 )
+
+[node name="Label" type="Label" parent="Buttons_L/BurstBtn"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+margin_left = 14.5
+margin_top = 25.5
+margin_right = 69.5
+margin_bottom = 52.5
+theme = ExtResource( 4 )
+custom_fonts/font = ExtResource( 6 )
+text = "Burst"
+align = 1
+valign = 1
+uppercase = true
+
+[node name="DirectionBtns" type="Node2D" parent="Buttons_L"]
+position = Vector2( 288, 56 )
+scale = Vector2( 2, 2 )
+
+[node name="TouchBtn_L" type="TextureRect" parent="Buttons_L/DirectionBtns"]
+margin_left = 32.0
+margin_top = 24.0
+margin_right = 64.0
+margin_bottom = 56.0
+rect_scale = Vector2( -1, 1 )
+texture = SubResource( 530 )
+
+[node name="Arrow" type="Sprite" parent="Buttons_L/DirectionBtns/TouchBtn_L"]
+position = Vector2( 20.9999, 16.0001 )
+texture = SubResource( 531 )
+
+[node name="TouchBtn_U" type="TextureRect" parent="Buttons_L/DirectionBtns"]
+margin_left = 24.0
+margin_top = 32.0
+margin_right = 56.0
+margin_bottom = 64.0
+rect_rotation = -89.9999
+texture = SubResource( 530 )
+
+[node name="Arrow" type="Sprite" parent="Buttons_L/DirectionBtns/TouchBtn_U"]
+position = Vector2( 20.9999, 16.0001 )
+texture = SubResource( 531 )
+
+[node name="TouchBtn_R" type="TextureRect" parent="Buttons_L/DirectionBtns"]
+margin_left = 48.0
+margin_top = 24.0
+margin_right = 80.0
+margin_bottom = 56.0
+texture = SubResource( 530 )
+
+[node name="Arrow" type="Sprite" parent="Buttons_L/DirectionBtns/TouchBtn_R"]
+position = Vector2( 21, 16 )
+texture = SubResource( 531 )
+
+[node name="TouchBtn_D" type="TextureRect" parent="Buttons_L/DirectionBtns"]
+margin_left = 56.0
+margin_top = 48.0
+margin_right = 88.0
+margin_bottom = 80.0
+rect_rotation = 90.0
+texture = SubResource( 530 )
+
+[node name="Arrow" type="Sprite" parent="Buttons_L/DirectionBtns/TouchBtn_D"]
+position = Vector2( 21.0001, 15.4999 )
+texture = SubResource( 531 )
+
+[node name="Sliding_R" type="Control" parent="."]
+margin_left = -208.0
+margin_top = -112.0
+margin_right = 208.0
+margin_bottom = 112.0
+
+[node name="Title" type="Label" parent="Sliding_R"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -72.0
+margin_right = 73.0
+margin_bottom = 22.0
+grow_horizontal = 2
+size_flags_vertical = 8
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+custom_fonts/font = ExtResource( 3 )
+text = "Slide tracking controls"
+valign = 1
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Label" type="Label" parent="Sliding_R"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+margin_left = 24.0
+margin_top = 52.0
+margin_right = 178.0
+margin_bottom = 79.0
+theme = ExtResource( 4 )
+custom_fonts/font = ExtResource( 6 )
+text = "Touch Sliding area"
+valign = 1
+uppercase = true
+
+[node name="Area" type="Control" parent="Sliding_R"]
+margin_top = 40.0
+margin_right = 416.0
+margin_bottom = 224.0
+
+[node name="Corner" type="TextureRect" parent="Sliding_R/Area"]
+margin_right = 12.0
+margin_bottom = 12.0
+texture = SubResource( 525 )
+
+[node name="Corner2" type="TextureRect" parent="Sliding_R/Area"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -12.0
+margin_bottom = 12.0
+texture = SubResource( 525 )
+flip_h = true
+
+[node name="Corner3" type="TextureRect" parent="Sliding_R/Area"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -12.0
+margin_top = -108.0
+margin_bottom = -96.0
+texture = SubResource( 525 )
+
+[node name="Corner4" type="TextureRect" parent="Sliding_R/Area"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -96.0
+margin_top = -98.0
+margin_right = -84.0
+margin_bottom = -86.0
+texture = SubResource( 525 )
+
+[node name="Corner5" type="TextureRect" parent="Sliding_R/Area"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -106.0
+margin_top = -12.0
+margin_right = -94.0
+texture = SubResource( 525 )
+
+[node name="Corner6" type="TextureRect" parent="Sliding_R/Area"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -12.0
+margin_right = 12.0
+texture = SubResource( 525 )
+flip_h = true
+
+[node name="Line" type="TextureRect" parent="Sliding_R/Area"]
+anchor_right = 1.0
+margin_left = 12.0
+margin_right = -12.0
+margin_bottom = 2.0
+rect_min_size = Vector2( 0, 2 )
+texture = SubResource( 526 )
+expand = true
+
+[node name="Line5" type="TextureRect" parent="Sliding_R/Area"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 12.0
+margin_top = -2.0
+margin_right = -96.0
+rect_min_size = Vector2( 0, 2 )
+texture = SubResource( 526 )
+expand = true
+
+[node name="Line3" type="TextureRect" parent="Sliding_R/Area"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -84.0
+margin_top = -98.0
+margin_right = -12.0
+margin_bottom = -96.0
+rect_min_size = Vector2( 0, 2 )
+texture = SubResource( 526 )
+expand = true
+
+[node name="Line2" type="TextureRect" parent="Sliding_R/Area"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_top = 12.0
+margin_right = 76.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 0, 2 )
+rect_rotation = 90.0
+texture = SubResource( 526 )
+expand = true
+
+[node name="Line4" type="TextureRect" parent="Sliding_R/Area"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -94.0
+margin_top = -86.0
+margin_right = -20.0
+margin_bottom = -84.0
+rect_rotation = 90.0
+texture = SubResource( 526 )
+expand = true
+
+[node name="Line6" type="TextureRect" parent="Sliding_R/Area"]
+margin_left = 2.0
+margin_top = 12.0
+margin_right = 162.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 0, 2 )
+rect_rotation = 90.0
+texture = SubResource( 526 )
+expand = true
+
+[node name="Burst" type="TextureRect" parent="Sliding_R"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -80.0
+margin_top = -80.0
+texture = SubResource( 536 )
+
+[node name="Label" type="Label" parent="Sliding_R/Burst"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+margin_left = 14.5
+margin_top = 25.0
+margin_right = 69.5
+margin_bottom = 52.0
+theme = ExtResource( 4 )
+custom_fonts/font = ExtResource( 6 )
+text = "Burst"
+align = 1
+valign = 1
+uppercase = true
+
+[node name="TrackingLine" type="Line2D" parent="Sliding_R"]
+position = Vector2( -223, -115 )
+scale = Vector2( 0.75, 0.75 )
+z_index = 10
+points = PoolVector2Array( 393.333, 336, 412.79, 336, 424, 324, 456, 356, 436, 378.667, 413.333, 366.667, 382.667, 368, 393.333, 400, 457.333, 410.667, 468, 389.333, 510.667, 378.667, 520, 334.667, 498.667, 324, 477.333, 334.667, 456, 313.333, 488, 292, 530.667, 302.667, 541.333, 281.333, 573.333, 270.667, 584, 292, 564, 304, 564, 336 )
+width = 5.0
+default_color = Color( 1, 1, 1, 1 )
+joint_mode = 1
+begin_cap_mode = 1
+end_cap_mode = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Dots" type="Node2D" parent="Sliding_R/TrackingLine"]
+modulate = Color( 1, 1, 1, 0.784314 )
+position = Vector2( 396, 328 )
+scale = Vector2( -1, 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Dot" type="Line2D" parent="Sliding_R/TrackingLine/Dots"]
+modulate = Color( 1, 1, 1, 0.784314 )
+position = Vector2( -601.333, -336 )
+z_index = 10
+points = PoolVector2Array( 616, 344, 632, 344 )
+width = 5.0
+default_color = Color( 1, 1, 1, 1 )
+begin_cap_mode = 1
+end_cap_mode = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Dot2" type="Line2D" parent="Sliding_R/TrackingLine/Dots"]
+modulate = Color( 1, 1, 1, 0.588235 )
+position = Vector2( -573.333, -336 )
+z_index = 10
+points = PoolVector2Array( 616, 344, 624, 344 )
+width = 5.0
+default_color = Color( 1, 1, 1, 1 )
+begin_cap_mode = 1
+end_cap_mode = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Dot3" type="Line2D" parent="Sliding_R/TrackingLine/Dots"]
+modulate = Color( 1, 1, 1, 0.470588 )
+position = Vector2( -553.333, -336 )
+z_index = 10
+points = PoolVector2Array( 616, 344, 618, 344 )
+width = 5.0
+default_color = Color( 1, 1, 1, 1 )
+begin_cap_mode = 1
+end_cap_mode = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Dots2" type="Node2D" parent="Sliding_R/TrackingLine"]
+modulate = Color( 1, 1, 1, 0.784314 )
+position = Vector2( 572, 337.333 )
+rotation = 1.5708
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Dot" type="Line2D" parent="Sliding_R/TrackingLine/Dots2"]
+modulate = Color( 1, 1, 1, 0.784314 )
+position = Vector2( -605.334, -336 )
+z_index = 10
+points = PoolVector2Array( 616, 344, 632, 344 )
+width = 5.0
+default_color = Color( 1, 1, 1, 1 )
+begin_cap_mode = 1
+end_cap_mode = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Dot2" type="Line2D" parent="Sliding_R/TrackingLine/Dots2"]
+modulate = Color( 1, 1, 1, 0.588235 )
+position = Vector2( -577.334, -336 )
+z_index = 10
+points = PoolVector2Array( 616, 344, 624, 344 )
+width = 5.0
+default_color = Color( 1, 1, 1, 1 )
+begin_cap_mode = 1
+end_cap_mode = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Dot3" type="Line2D" parent="Sliding_R/TrackingLine/Dots2"]
+modulate = Color( 1, 1, 1, 0.470588 )
+position = Vector2( -557.333, -336 )
+z_index = 10
+points = PoolVector2Array( 616, 344, 618, 344 )
+width = 5.0
+default_color = Color( 1, 1, 1, 1 )
+begin_cap_mode = 1
+end_cap_mode = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Sliding_L" type="Control" parent="."]
+margin_left = -208.0
+margin_top = -112.0
+margin_right = 208.0
+margin_bottom = 112.0
+
+[node name="Title" type="Label" parent="Sliding_L"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -72.0
+margin_right = 73.0
+margin_bottom = 22.0
+grow_horizontal = 2
+size_flags_vertical = 8
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+custom_fonts/font = ExtResource( 3 )
+text = "Slide tracking controls"
+valign = 1
+uppercase = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Label" type="Label" parent="Sliding_L"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -178.0
+margin_top = 52.0
+margin_right = -24.0
+margin_bottom = 79.0
+theme = ExtResource( 4 )
+custom_fonts/font = ExtResource( 6 )
+text = "Touch Sliding area"
+valign = 1
+uppercase = true
+
+[node name="Area" type="Control" parent="Sliding_L"]
+margin_left = 416.0
+margin_top = 40.0
+margin_right = 832.0
+margin_bottom = 224.0
+rect_scale = Vector2( -1, 1 )
+
+[node name="Corner" type="TextureRect" parent="Sliding_L/Area"]
+margin_right = 12.0
+margin_bottom = 12.0
+texture = SubResource( 525 )
+
+[node name="Corner2" type="TextureRect" parent="Sliding_L/Area"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -12.0
+margin_bottom = 12.0
+texture = SubResource( 525 )
+flip_h = true
+
+[node name="Corner3" type="TextureRect" parent="Sliding_L/Area"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -12.0
+margin_top = -108.0
+margin_bottom = -96.0
+texture = SubResource( 525 )
+
+[node name="Corner4" type="TextureRect" parent="Sliding_L/Area"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -96.0
+margin_top = -98.0
+margin_right = -84.0
+margin_bottom = -86.0
+texture = SubResource( 525 )
+
+[node name="Corner5" type="TextureRect" parent="Sliding_L/Area"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -106.0
+margin_top = -12.0
+margin_right = -94.0
+texture = SubResource( 525 )
+
+[node name="Corner6" type="TextureRect" parent="Sliding_L/Area"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -12.0
+margin_right = 12.0
+texture = SubResource( 525 )
+flip_h = true
+
+[node name="Line" type="TextureRect" parent="Sliding_L/Area"]
+anchor_right = 1.0
+margin_left = 12.0
+margin_right = -12.0
+margin_bottom = 2.0
+rect_min_size = Vector2( 0, 2 )
+texture = SubResource( 526 )
+expand = true
+
+[node name="Line5" type="TextureRect" parent="Sliding_L/Area"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 12.0
+margin_top = -2.0
+margin_right = -96.0
+rect_min_size = Vector2( 0, 2 )
+texture = SubResource( 526 )
+expand = true
+
+[node name="Line3" type="TextureRect" parent="Sliding_L/Area"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -84.0
+margin_top = -98.0
+margin_right = -12.0
+margin_bottom = -96.0
+rect_min_size = Vector2( 0, 2 )
+texture = SubResource( 526 )
+expand = true
+
+[node name="Line2" type="TextureRect" parent="Sliding_L/Area"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_top = 12.0
+margin_right = 76.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 0, 2 )
+rect_rotation = 90.0
+texture = SubResource( 526 )
+expand = true
+
+[node name="Line4" type="TextureRect" parent="Sliding_L/Area"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -94.0
+margin_top = -86.0
+margin_right = -20.0
+margin_bottom = -84.0
+rect_rotation = 90.0
+texture = SubResource( 526 )
+expand = true
+
+[node name="Line6" type="TextureRect" parent="Sliding_L/Area"]
+margin_left = 2.0
+margin_top = 12.0
+margin_right = 162.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 0, 2 )
+rect_rotation = 90.0
+texture = SubResource( 526 )
+expand = true
+
+[node name="Burst" type="TextureRect" parent="Sliding_L"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -80.0
+margin_right = 80.0
+texture = SubResource( 536 )
+
+[node name="Label" type="Label" parent="Sliding_L/Burst"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+margin_left = 14.5
+margin_top = 25.0
+margin_right = 69.5
+margin_bottom = 52.0
+theme = ExtResource( 4 )
+custom_fonts/font = ExtResource( 6 )
+text = "Burst"
+align = 1
+valign = 1
+uppercase = true
+
+[node name="TrackingLine" type="Line2D" parent="Sliding_L"]
+position = Vector2( 647, -115 )
+scale = Vector2( -0.75, 0.75 )
+points = PoolVector2Array( 393.333, 336, 412.79, 336, 424, 324, 456, 356, 436, 378.667, 413.333, 366.667, 382.667, 368, 393.333, 400, 457.333, 410.667, 468, 389.333, 510.667, 378.667, 520, 334.667, 498.667, 324, 477.333, 334.667, 456, 313.333, 488, 292, 530.667, 302.667, 541.333, 281.333, 573.333, 270.667, 584, 292, 564, 304, 564, 336 )
+width = 5.0
+default_color = Color( 1, 1, 1, 1 )
+joint_mode = 1
+begin_cap_mode = 1
+end_cap_mode = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Dots" type="Node2D" parent="Sliding_L/TrackingLine"]
+modulate = Color( 1, 1, 1, 0.784314 )
+position = Vector2( 396, 328 )
+scale = Vector2( -1, 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Dot" type="Line2D" parent="Sliding_L/TrackingLine/Dots"]
+modulate = Color( 1, 1, 1, 0.784314 )
+position = Vector2( -601.333, -336 )
+z_index = 10
+points = PoolVector2Array( 616, 344, 632, 344 )
+width = 5.0
+default_color = Color( 1, 1, 1, 1 )
+begin_cap_mode = 1
+end_cap_mode = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Dot2" type="Line2D" parent="Sliding_L/TrackingLine/Dots"]
+modulate = Color( 1, 1, 1, 0.588235 )
+position = Vector2( -573.333, -336 )
+z_index = 10
+points = PoolVector2Array( 616, 344, 624, 344 )
+width = 5.0
+default_color = Color( 1, 1, 1, 1 )
+begin_cap_mode = 1
+end_cap_mode = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Dot3" type="Line2D" parent="Sliding_L/TrackingLine/Dots"]
+modulate = Color( 1, 1, 1, 0.470588 )
+position = Vector2( -553.333, -336 )
+z_index = 10
+points = PoolVector2Array( 616, 344, 618, 344 )
+width = 5.0
+default_color = Color( 1, 1, 1, 1 )
+begin_cap_mode = 1
+end_cap_mode = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Dots2" type="Node2D" parent="Sliding_L/TrackingLine"]
+modulate = Color( 1, 1, 1, 0.784314 )
+position = Vector2( 572, 337.333 )
+rotation = 1.5708
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Dot" type="Line2D" parent="Sliding_L/TrackingLine/Dots2"]
+modulate = Color( 1, 1, 1, 0.784314 )
+position = Vector2( -605.334, -336 )
+z_index = 10
+points = PoolVector2Array( 616, 344, 632, 344 )
+width = 5.0
+default_color = Color( 1, 1, 1, 1 )
+begin_cap_mode = 1
+end_cap_mode = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Dot2" type="Line2D" parent="Sliding_L/TrackingLine/Dots2"]
+modulate = Color( 1, 1, 1, 0.588235 )
+position = Vector2( -577.334, -336 )
+z_index = 10
+points = PoolVector2Array( 616, 344, 624, 344 )
+width = 5.0
+default_color = Color( 1, 1, 1, 1 )
+begin_cap_mode = 1
+end_cap_mode = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Dot3" type="Line2D" parent="Sliding_L/TrackingLine/Dots2"]
+modulate = Color( 1, 1, 1, 0.470588 )
+position = Vector2( -557.333, -336 )
+z_index = 10
+points = PoolVector2Array( 616, 344, 618, 344 )
+width = 5.0
+default_color = Color( 1, 1, 1, 1 )
+begin_cap_mode = 1
+end_cap_mode = 1
+__meta__ = {
+"_editor_description_": ""
+}

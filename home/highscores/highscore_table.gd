@@ -136,13 +136,26 @@ func _add_local_to_global_scores(separate_local_scores: bool):
 
 		for line_with_score in scorelines:
 			var global_player_name: String = line_with_score.get_child(1).text
-			var global_player_score: int = int(line_with_score.get_child(2).text)
+			var global_player_score: int
+			var global_player_score_from_line: String = line_with_score.get_child(2).text
+			# konvertam uro v stotinke
+			if table_game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
+				global_player_score = Global.get_hunds_from_clock(global_player_score_from_line)
+				# menjam piko v dvopičje, da mi pravilno spremeni v int
+				#				print (global_player_score_from_line)
+				#				var global_player_clock_from_label: String = global_player_score_from_line
+				#				var global_player_clock_formated: String = global_player_clock_from_label.format([":"], ".")
+				#				printt (global_player_clock_formated, global_player_clock_from_label)
+				#				global_player_score = int(global_player_clock_formated)
+			else:
+				global_player_score = int(global_player_score_from_line)
+
 			# če je lokalni skor že na globalni lestvici, ga samo označim obarvam
 			# če ga še ni ... preverim bolje rangirane (in globalni skor ni 0)
 			if global_player_name == local_player_name and global_player_score == local_player_score:
 				score_is_local_and_global = true
 				if separate_local_scores:
-					line_with_score.modulate = Global.color_yellow
+					line_with_score.modulate = Global.color_gui_gray
 			elif not global_player_score == 0:
 				if table_game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
 					if global_player_score < local_player_score: # manjši je boljši

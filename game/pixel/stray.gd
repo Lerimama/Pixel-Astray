@@ -21,13 +21,12 @@ onready var pixel_face: AnimatedSprite = $PixelFace
 
 func _ready() -> void:
 
-
-
 	add_to_group(Global.group_strays)
 	randomize() # za random die animacije
 
 	color_poly.modulate = stray_color
 	modulate.a = 0
+	pixel_face.hide()
 
 	end_move()
 
@@ -43,12 +42,12 @@ func show_stray(): # kliče GM
 
 	if current_state == STATES.WALL:
 		turn_to_wall()
-#		pixel_face.hide()
-		if pixel_face.visible: # v home ni vidna
-			pixel_face.set_animation("faces")
-#			pixel_face.set_deferred("frame", 1)
-			pixel_face.frame = randi() % pixel_face.frames.get_frame_count("faces")
+		pixel_face.set_animation("faces")
+		#		pixel_face.set_deferred("frame", 1)
+		pixel_face.frame = randi() % pixel_face.frames.get_frame_count("faces")
 	else:
+		pixel_face.hide()
+		#		pixel_face.set_animation("faceless")
 		if visible_on_screen:
 			# žrebam animacijo
 			var random_animation_index = randi() % 3 + 1
@@ -56,7 +55,6 @@ func show_stray(): # kliče GM
 			animation_player.play(random_animation_name)
 		else:
 			modulate.a = 1
-		pixel_face.hide()
 
 #		if pixel_face.visible: # v home ni vidna
 #			pixel_face.set_animation("faces")
@@ -64,12 +62,19 @@ func show_stray(): # kliče GM
 #			pixel_face.frame = randi() % pixel_face.frames.get_frame_count("faces")
 
 
-func animate_face(stray_index: int):
+func animate_face(stray_index: int = 0):
 	# animiram glede na state
 
-	stray_index = 0 # zaenkrat dela na
-
+	randomize()
 	match current_state:
+		STATES.WALL: # kliče ga na hit
+			pixel_face.set_animation("scramble")
+			pixel_face.frame = randi() % pixel_face.frames.get_frame_count("scramble")
+			pixel_face.call_deferred("play", "scramble")
+			$Sounds/StrayFaceScramble.play()
+			yield(get_tree().create_timer(0.85), "timeout")
+			$Sounds/StrayFaceScramble.stop()
+			pixel_face.stop()
 		STATES.DYING:
 			if stray_index == 0:
 				pixel_face.set_animation("scramble")
@@ -96,14 +101,15 @@ func die(stray_in_stack_index: int, strays_in_stack_count: int):
 		current_state = STATES.DYING
 
 		if pixel_face.visible:
-			animate_face(stray_in_stack_index)
+			animate_face()
 			yield(pixel_face, "visibility_changed") # ko je sprite animacija končana, se sprite skrije
-
 			# zaključim die()
 			#			Global.game_manager.remove_from_free_floor_positions(global_position)
 			#			Global.game_manager.on_stray_die(self)
 			#			call_deferred("queue_free")
 			#			return
+		#		else:
+		#			$Sounds/StrayAu.play()
 
 		global_position = Global.snap_to_nearest_grid(global_position)
 		Global.game_manager.remove_from_free_floor_positions(global_position)
@@ -227,13 +233,13 @@ func end_move():
 # UTILITI ------------------------------------------------------------------------------------------------------
 
 
-func play_sound(effect_for: String):
+func play_sound(effect_for: String): # za klic iz animacije
 
 	if not Global.sound_manager.game_sfx_set_to_off:
 		match effect_for:
-			"turning_color":
-				var random_blink_index = randi() % $Sounds/Blinking.get_child_count()
-				$Sounds/Blinking.get_child(random_blink_index).play() # nekateri so na mute, ker so drugače prepogosti soundi
+			#			"turning_color":
+			#				var random_blink_index = randi() % $Sounds/Blinking.get_child_count()
+			#				$Sounds/Blinking.get_child(random_blink_index).play() # nekateri so na mute, ker so drugače prepogosti soundi
 			"blinking":
 				var random_blink_index = randi() % $Sounds/Blinking.get_child_count()
 				$Sounds/Blinking.get_child(random_blink_index).play() # nekateri so na mute, ker so drugače prepogosti soundi

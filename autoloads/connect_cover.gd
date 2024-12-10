@@ -29,8 +29,8 @@ func open_cover(in_background: bool):
 	use_in_background = in_background
 	cover_label_text_change_count = 0
 
-	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	if not use_in_background:
+		var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 		get_viewport().set_disable_input(true)
 		fade_in.tween_callback(self, "show")
 		fade_in.tween_property(cover_label, "modulate:a", 1, 0.3)

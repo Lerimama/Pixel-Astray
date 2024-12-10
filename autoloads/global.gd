@@ -83,7 +83,8 @@ func get_all_nodes_in_node(node_to_check: Node = get_tree().root, all_nodes_of_n
 	for node in node_to_check.get_children():
 		all_nodes_of_nodes = get_all_nodes_in_node(node)
 
-	print("Nodes in node ",  all_nodes_of_nodes.size())
+#	print("Nodes in node ",  all_nodes_of_nodes.size())
+
 	return all_nodes_of_nodes
 
 
@@ -111,6 +112,17 @@ func snap_to_nearest_grid(global_position_to_snap: Vector2):
 	var snapped_pixel_global_position: Vector2 = Vector2(snapped_grid_position.x + cell_size_x/2, snapped_grid_position.y + cell_size_x/2)
 
 	return snapped_pixel_global_position
+
+func get_hunds_from_clock(clock_string: String):
+
+	var clock_format: String = "00:00.00"
+
+	var mins: int = int(clock_string.get_slice(":", 0))
+	var secs_and_hunds: String = clock_string.get_slice(":", 1)
+	var secs: int = int(clock_string.get_slice(".", 0))
+	var hunds: int = int(clock_string.get_slice(".", 1))
+
+	return (mins * 60 * 100) + (secs * 100) + hunds
 
 
 func get_clock_time(hundreds_to_split: float): # cele stotinke ali ne cele sekunde

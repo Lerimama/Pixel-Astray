@@ -30,20 +30,21 @@ onready var stray_step_timer: Timer = $StrayStepTimer
 onready var actor_pixel: KinematicBody2D = $Actor
 onready var text_node: Node2D = $Text
 onready var thunder_cover: ColorRect = $ThunderCover/ThunderCover
-onready var skip_intro: HBoxContainer = $Text/ActionHint
-onready var skip_intro_btn: Button = $SkipButton
 onready var StrayPixel: PackedScene = preload("res://home/intro/intro_stray.tscn")
 onready var environment_node: Environment = $ArenaEnvironment.environment
+
+onready var hint_btn: Button = $ActionHintPress/HintBtn
+onready var action_hint_press: Node2D = $ActionHintPress
 
 
 func _unhandled_input(event: InputEvent) -> void:
 
-	if not skip_intro_btn.disabled:
+	if action_hint_press.visible:
 		if Input.is_action_just_pressed("ui_accept"):
-			_on_SkipButton_pressed()
+			_on_HintBtn_pressed()
 			Analytics.save_ui_click("SkipIntroReturn") # pazi, če začne delat tako kot bi moralo
 		elif Input.is_action_just_pressed("ui_cancel"):
-			_on_SkipButton_pressed()
+			_on_HintBtn_pressed()
 			Analytics.save_ui_click("SkipIntroEsc") # pazi, če začne delat tako kot bi moralo
 
 
@@ -52,7 +53,7 @@ func _ready() -> void:
 	Global.game_manager = self
 
 	randomize()
-	skip_intro_btn.disabled = true
+	hint_btn.disabled = true
 
 
 # INTRO LOOP ----------------------------------------------------------------------------------
@@ -62,17 +63,16 @@ func play_intro():
 
 	yield(get_tree().create_timer(1), "timeout")
 	animation_player.play("intro_running")
-	skip_intro_btn.disabled = false
+	hint_btn.disabled = false
 
 
 func finish_intro(): # ob skipanju in regularnem koncu intra
 
-	skip_intro_btn.disabled = true
-	skip_intro_btn.hide()
-
+#	hint_btn.disabled = true
+	action_hint_press.hide()
 	# vse pospravim ... zazih
 	animation_player.stop()
-	skip_intro.visible = false
+#	skip_intro.visible = false
 	actor_in_motion = false
 	actor_pixel.visible = false
 	thunder_cover.visible = false
@@ -351,7 +351,6 @@ func _on_StrayStepTimer_timeout() -> void:
 
 func _on_TileMap_completed(stray_random_positions: Array, stray_positions: Array, stray_wall_positions: Array, no_stray_positions: Array, player_positions: Array) -> void:
 
-
 	default_required_spawn_positions = stray_positions # zaradi trotlinga
 	required_spawn_positions = default_required_spawn_positions.duplicate() # ima tudi wall_spawn_positions
 	create_strays_count = required_spawn_positions.size()
@@ -361,8 +360,7 @@ func _on_TileMap_completed(stray_random_positions: Array, stray_positions: Array
 		create_strays_count = required_spawn_positions.size()
 
 
-func _on_SkipButton_pressed() -> void:
+func _on_HintBtn_pressed() -> void:
 
-	#	print (skip_intro_btn.get_focus_owner())
-	skip_intro_btn.grab_focus()
+	hint_btn.grab_focus()
 	finish_intro()

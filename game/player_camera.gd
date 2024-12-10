@@ -47,7 +47,7 @@ func _ready():
 
 	# testhud
 	set_ui_focus_mode()
-	if not OS.is_debug_build():
+	if not Profiles.debug_mode:
 		$UILayer.hide()
 
 
@@ -55,12 +55,13 @@ func _process(delta: float):
 
 	time += delta
 
+	decay_rate = pow(trauma_strength, 2) # kvadratno padanje ... decay_rate = trauma_strength ... linearno
+	offset.x = noise.get_noise_3d(time * time_speed, 0, 0) * max_horizontal * decay_rate
+	offset.y = noise.get_noise_3d(0, time * time_speed, 0) * max_vertical * decay_rate
+	rotation_degrees = noise.get_noise_3d(0, 0, time * time_speed) * max_rotation * decay_rate
+
 	if trauma_strength > 0:
 		# start shake ... shake settings
-		decay_rate = pow(trauma_strength, 2) # kvadratno padanje ... decay_rate = trauma_strength ... linearno
-		offset.x = noise.get_noise_3d(time * time_speed, 0, 0) * max_horizontal * decay_rate
-		offset.y = noise.get_noise_3d(0, time * time_speed, 0) * max_vertical * decay_rate
-		rotation_degrees = noise.get_noise_3d(0, 0, time * time_speed) * max_rotation * decay_rate
 		# end shake ... decay
 		yield(get_tree().create_timer(trauma_time), "timeout")
 		trauma_strength = clamp(trauma_strength - (delta * decay_speed), 0, 1)
@@ -108,7 +109,7 @@ func zoom_out(hud_in_out_time: float): # kliče hud
 	limit_top = -10000000
 	limit_bottom = 10000000
 	var zoomout_position = Global.current_tilemap.camera_position_node.global_position
-	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+	var zoom_out_tween = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD).set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	zoom_out_tween.tween_property(self, "zoom", zoom_start, hud_in_out_time)
 	zoom_out_tween.parallel().tween_property(self, "position", zoomout_position, hud_in_out_time)
 

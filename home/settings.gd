@@ -49,6 +49,7 @@ func _ready() -> void:
 		gradient_icon.texture.gradient = Global.game_color_theme_gradient
 	$Content/ContrastSlider.value = Profiles.brightness
 	$Content/VsyncBtn.set_pressed_no_signal(Profiles.vsync_on)
+	$Content/InvertBtn.set_pressed_no_signal(Global.main_node.inverted_scheme.visible)
 
 	# GAME SETTINGS ------------------------------------------------------------------
 
@@ -58,7 +59,7 @@ func _ready() -> void:
 	$Content/GameSfxBtn.set_pressed_no_signal(not Global.sound_manager.game_sfx_set_to_off)
 	$Content/CameraShakeBtn.set_pressed_no_signal(Profiles.camera_shake_on)
 	# controler type
-	if OS.has_touchscreen_ui_hint():
+	if Profiles.touch_available:
 		# btn
 		$Content/TouchPopUpBtn.show()
 		var selected_controller_content: Dictionary = Profiles.touch_controller_content.values()[Profiles.set_touch_controller]
@@ -99,6 +100,7 @@ func _ready() -> void:
 
 func _on_BackBtn_pressed() -> void:
 
+	Global.sound_manager.play_gui_sfx("btn_cancel")
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	$"%AnimationPlayer".play_backwards("settings")
 
@@ -254,3 +256,12 @@ func _on_ResetDataPopup_index_pressed(index: int) -> void:
 func _on_ResetDataPopup_id_focused(id: int) -> void:
 
 	Global.sound_manager.play_gui_sfx("btn_focus_change")
+
+
+func _on_InvertBtn_toggled(button_pressed: bool) -> void:
+
+	var fade_time: float = 1
+	Global.main_node.invert_colors(fade_time)
+	$Content/InvertBtn.disabled = true
+	yield(get_tree().create_timer(fade_time), "timeout")
+	$Content/InvertBtn.disabled = false

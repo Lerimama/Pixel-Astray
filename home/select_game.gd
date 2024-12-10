@@ -34,7 +34,7 @@ func _ready() -> void:
 	for btn in all_game_btns:
 		if not btn == $GamesMenu/Sweeper/SweeperBtn:
 			btn.add_to_group(Batnz.group_critical_btns)
-		if btn == $GamesMenu/TheDuel/TheDuelBtn and OS.has_touchscreen_ui_hint():
+		if btn == $GamesMenu/TheDuel/TheDuelBtn and Profiles.touch_available:
 			btn.disabled = true
 			$GamesMenu/TheDuel/Label.text = "Couch coop is disabled\nfor touchscreen."
 #		else:
@@ -192,6 +192,7 @@ func play_selected_game(selected_game_enum: int):
 
 func _on_BackBtn_pressed() -> void:
 
+	Global.sound_manager.play_gui_sfx("btn_cancel")
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play_backwards("select_game")
 

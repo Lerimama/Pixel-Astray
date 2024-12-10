@@ -11,8 +11,8 @@
 [ext_resource path="res://assets/theme/fonts/Habbo.ttf" type="DynamicFontData" id=9]
 [ext_resource path="res://game/gui/pregame_instructions.tscn" type="PackedScene" id=10]
 
-[sub_resource type="StyleBoxFlat" id=327]
-bg_color = Color( 0.137255, 0.137255, 0.137255, 1 )
+[sub_resource type="StyleBoxFlat" id=330]
+bg_color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 border_color = Color( 1, 1, 1, 0.443137 )
 
 [sub_resource type="StyleBoxEmpty" id=305]
@@ -208,30 +208,8 @@ margin_top = 0.0
 margin_right = 0.0
 margin_bottom = 0.0
 
-[node name="Instructions" parent="." instance=ExtResource( 10 )]
-margin_left = -112.0
-margin_right = -112.0
-
-[node name="Background" parent="Instructions" index="0"]
-visible = false
-
-[node name="Title" parent="Instructions" index="2"]
-visible = false
-
-[node name="Description" parent="Instructions" index="3"]
-visible = false
-
-[node name="ControlsDuelP1" parent="Instructions/Outline" index="4"]
-margin_left = 396.0
-
-[node name="ControlsDuelP2" parent="Instructions/Outline" index="5"]
-margin_bottom = 320.0
-
-[node name="ActionHint" parent="Instructions" index="5"]
-visible = false
-
 [node name="Title" type="Label" parent="."]
-modulate = Color( 0.368627, 1, 0.662745, 1 )
+modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -328.0
@@ -243,14 +221,53 @@ text = "%Game title"
 align = 1
 uppercase = true
 
+[node name="Instructions" parent="." instance=ExtResource( 10 )]
+margin_left = -112.0
+margin_top = 8.0
+margin_right = -112.0
+margin_bottom = 8.0
+
+[node name="Background" parent="Instructions" index="0"]
+visible = false
+
+[node name="Title" parent="Instructions" index="2"]
+visible = false
+
+[node name="Description" parent="Instructions" index="3"]
+visible = false
+
+[node name="Outline" parent="Instructions" index="4"]
+margin_top = 176.0
+margin_bottom = 552.0
+
+[node name="Record" parent="Instructions/Outline" index="1"]
+visible = false
+
+[node name="RecordMobile" parent="Instructions/Outline" index="2"]
+visible = true
+
+[node name="RecordOwner" parent="Instructions/Outline/RecordMobile/VBoxContainer" index="2"]
+margin_left = 329.0
+margin_right = 414.0
+
+[node name="Controls" parent="Instructions/Outline" index="4"]
+margin_top = 88.0
+margin_bottom = 256.0
+
+[node name="Buttons_R" parent="Instructions/Outline/Controls/ControlsWide" index="2"]
+visible = true
+
+[node name="Sliding_L" parent="Instructions/Outline/Controls/ControlsWide" index="5"]
+visible = false
+
 [node name="Settings" type="Panel" parent="."]
 margin_left = 856.0
-margin_top = 200.0
+margin_top = 184.0
 margin_right = 1072.0
-margin_bottom = 520.0
+margin_bottom = 608.0
 grow_horizontal = 2
 rect_min_size = Vector2( 207, 152 )
-custom_styles/panel = SubResource( 327 )
+custom_styles/panel = SubResource( 330 )
 script = ExtResource( 5 )
 __meta__ = {
 "_editor_description_": ""
@@ -294,9 +311,9 @@ __meta__ = {
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 anchor_right = 1.0
 margin_left = 32.0
-margin_top = 75.0
+margin_top = 83.0
 margin_right = -32.0
-margin_bottom = 107.0
+margin_bottom = 115.0
 rect_min_size = Vector2( 0, 32 )
 rect_pivot_offset = Vector2( -48, 45 )
 focus_neighbour_bottom = NodePath("../GameSfxBtn")
@@ -335,9 +352,9 @@ polygon = PoolVector2Array( 0, 8, 0, 0, 8, 0, 8, 8 )
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 anchor_right = 1.0
 margin_left = 61.0
-margin_top = 105.0
+margin_top = 121.0
 margin_right = -59.0
-margin_bottom = 137.0
+margin_bottom = 153.0
 rect_min_size = Vector2( 0, 32 )
 rect_pivot_offset = Vector2( 20, 16 )
 focus_neighbour_left = NodePath("../GameSfxBtn")
@@ -351,9 +368,9 @@ text = "GAME SFX"
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 anchor_right = 1.0
 margin_left = 43.0
-margin_top = 137.0
+margin_top = 161.0
 margin_right = -41.0
-margin_bottom = 169.0
+margin_bottom = 193.0
 rect_min_size = Vector2( 0, 32 )
 rect_pivot_offset = Vector2( -62, -22 )
 focus_neighbour_left = NodePath(".")
@@ -365,9 +382,9 @@ text = "CAMERA SHAKE"
 [node name="BrightnessSlider" type="HSlider" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 32.0
-margin_top = 203.0
+margin_top = 235.0
 margin_right = 184.0
-margin_bottom = 219.0
+margin_bottom = 251.0
 focus_neighbour_left = NodePath(".")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 8
@@ -399,9 +416,9 @@ uppercase = true
 
 [node name="TouchPopUpBtn" type="Button" parent="Settings"]
 margin_left = 36.5
-margin_top = 224.0
+margin_top = 264.0
 margin_right = 185.5
-margin_bottom = 272.0
+margin_bottom = 312.0
 grow_horizontal = 2
 focus_neighbour_left = NodePath(".")
 focus_neighbour_bottom = NodePath("../TouchSensSlider")
@@ -415,11 +432,10 @@ icon_align = 2
 [node name="TouchSensSlider" type="HSlider" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 32.0
-margin_top = 283.0
+margin_top = 331.0
 margin_right = 184.0
-margin_bottom = 299.0
+margin_bottom = 347.0
 focus_neighbour_left = NodePath(".")
-focus_neighbour_bottom = NodePath("../ShowHintBtn")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 8
 max_value = 0.2
@@ -446,19 +462,6 @@ custom_fonts/font = ExtResource( 2 )
 text = "Touch sensibility"
 align = 1
 uppercase = true
-
-[node name="ShowHintBtn" type="CheckButton" parent="Settings"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-anchor_right = 1.0
-margin_left = -266.0
-margin_top = 353.0
-margin_right = -382.0
-margin_bottom = 385.0
-rect_min_size = Vector2( 0, 32 )
-rect_pivot_offset = Vector2( -62, -22 )
-mouse_default_cursor_shape = 2
-custom_fonts/font = ExtResource( 2 )
-text = "SHOW HINT"
 
 [node name="TouchControllerPopup" type="PopupMenu" parent="."]
 anchor_left = 0.5
@@ -492,10 +495,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -129.0
-margin_top = 246.0
-margin_right = 129.0
-margin_bottom = 268.0
+margin_left = -151.0
+margin_top = 254.0
+margin_right = 151.0
+margin_bottom = 276.0
 grow_horizontal = 2
 theme = ExtResource( 6 )
 custom_constants/separation = 32
@@ -534,7 +537,6 @@ text = "RESTART"
 [connection signal="value_changed" from="Settings/BrightnessSlider" to="Settings" method="_on_BrightnessSlider_value_changed"]
 [connection signal="pressed" from="Settings/TouchPopUpBtn" to="Settings" method="_on_TouchPopUpBtn_pressed"]
 [connection signal="value_changed" from="Settings/TouchSensSlider" to="Settings" method="_on_TouchSensSlider_value_changed"]
-[connection signal="toggled" from="Settings/ShowHintBtn" to="Settings" method="_on_ShowHintBtn_toggled"]
 [connection signal="id_focused" from="TouchControllerPopup" to="Settings" method="_on_TouchControllerPopup_id_focused"]
 [connection signal="index_pressed" from="TouchControllerPopup" to="Settings" method="_on_TouchControllerPopup_index_pressed"]
 [connection signal="pressed" from="Menu/QuitBtn" to="." method="_on_QuitBtn_pressed"]
@@ -547,4 +549,5 @@ text = "RESTART"
 [editable path="Instructions/Outline/Shortcuts/Shortcuts/ShortcutLine7"]
 [editable path="Instructions/Outline/Shortcuts/Shortcuts/ShortcutLine4"]
 [editable path="Instructions/Outline/Shortcuts/Shortcuts/ShortcutLine5"]
-[editable path="Instructions/ActionHint"]
+[editable path="Instructions/Outline/Controls/ControlsWide"]
+[editable path="Instructions/ActionHintPress"]

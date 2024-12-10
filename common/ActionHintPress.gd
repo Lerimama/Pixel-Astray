@@ -1,0 +1,16 @@
+extends Node2D
+
+
+func _ready() -> void:
+
+	# hint text
+	for child in $Hint.get_children():
+		child.hide()
+	$Hint/action.show()
+	if Profiles.touch_available:
+		$Hint/TOUCH.show()
+		$TouchBtn.hide() # trenutno ga itak ne rabm
+	else:
+		$Hint/KEYBOARD.show()
+		$Hint/JOYPAD.show()
+		$Hint/and_or.show()

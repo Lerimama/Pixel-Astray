@@ -2,12 +2,11 @@
 
 [ext_resource path="res://assets/resources/env_arena.tres" type="Environment" id=1]
 [ext_resource path="res://home/intro/intro.gd" type="Script" id=2]
+[ext_resource path="res://common/ActionHintPress.tscn" type="PackedScene" id=3]
 [ext_resource path="res://home/intro/intro_tilemap.gd" type="Script" id=4]
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=5]
-[ext_resource path="res://assets/atlas_controls.png" type="Texture" id=6]
 [ext_resource path="res://assets/resources/tileset_arena.tres" type="TileSet" id=7]
 [ext_resource path="res://assets/theme/color_theme_spectrum.png" type="Texture" id=9]
-[ext_resource path="res://common/action_hint.tscn" type="PackedScene" id=10]
 
 [sub_resource type="Gradient" id=225]
 colors = PoolColorArray( 1, 1, 1, 1, 0.390625, 0.390625, 0.390625, 1 )
@@ -170,10 +169,16 @@ OptionButton/styles/pressed = SubResource( 222 )
 Panel/styles/panel = SubResource( 223 )
 VSeparator/styles/separator = SubResource( 224 )
 
-[sub_resource type="AtlasTexture" id=228]
-atlas = ExtResource( 6 )
-region = Rect2( 136, 24, 24, 24 )
-margin = Rect2( 0, 1, 0, 1 )
+[sub_resource type="Shader" id=232]
+code = "shader_type canvas_item;
+
+void fragment(){
+	vec4 color = texture(SCREEN_TEXTURE, SCREEN_UV);
+	COLOR = vec4(1.0 - color.rgb, color.a);
+}"
+
+[sub_resource type="ShaderMaterial" id=231]
+shader = SubResource( 232 )
 
 [sub_resource type="Animation" id=196]
 length = 0.001
@@ -286,7 +291,7 @@ tracks/8/keys = {
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("Text/ActionHint:modulate")
+tracks/9/path = NodePath("ActionHintPress:modulate")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
@@ -466,7 +471,7 @@ tracks/8/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("Text/ActionHint:modulate")
+tracks/9/path = NodePath("ActionHintPress:modulate")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
@@ -598,7 +603,7 @@ tracks/7/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("Text/ActionHint:modulate")
+tracks/8/path = NodePath("ActionHintPress:modulate")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -967,40 +972,26 @@ and again become the brightest of them all!"
 align = 1
 autowrap = true
 
-[node name="ActionHint" parent="Text" instance=ExtResource( 10 )]
+[node name="ActionHintPress" parent="." instance=ExtResource( 3 )]
 modulate = Color( 1, 1, 1, 0 )
-margin_left = -109.5
-margin_top = 565.0
-margin_right = 109.5
-margin_bottom = 590.0
+position = Vector2( 1792, 1872 )
+scale = Vector2( 2, 2 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Jp" parent="Text/ActionHint" index="1"]
-texture = SubResource( 228 )
-
-[node name="KEY" parent="Text/ActionHint" index="3"]
-margin_right = 112.0
-text = "ENTER"
-
-[node name="Label3" parent="Text/ActionHint" index="4"]
-margin_left = 120.0
-margin_right = 219.0
-text = "to skip intro"
-
-[node name="SkipButton" type="Button" parent="."]
-margin_left = 1520.0
-margin_top = 1828.0
-margin_right = 2062.0
-margin_bottom = 1924.0
-focus_mode = 0
-mouse_default_cursor_shape = 2
-disabled = true
-enabled_focus_mode = 0
-flat = true
+[node name="HintBtn" parent="ActionHintPress" index="3"]
+focus_mode = 2
 
 [node name="StrayStepTimer" type="Timer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+material = SubResource( 231 )
+margin_left = -184.0
+margin_top = -104.0
+margin_right = 3512.0
+margin_bottom = 2400.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 196 )
@@ -1013,8 +1004,8 @@ anims/start_spawn_fx = SubResource( 229 )
 environment = ExtResource( 1 )
 
 [connection signal="tilemap_completed" from="IntroTileMap" to="." method="_on_TileMap_completed"]
-[connection signal="pressed" from="SkipButton" to="." method="_on_SkipButton_pressed"]
+[connection signal="pressed" from="ActionHintPress/HintBtn" to="." method="_on_HintBtn_pressed"]
 [connection signal="timeout" from="StrayStepTimer" to="." method="_on_StrayStepTimer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 
-[editable path="Text/ActionHint"]
+[editable path="ActionHintPress"]

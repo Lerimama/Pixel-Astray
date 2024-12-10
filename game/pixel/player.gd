@@ -139,9 +139,6 @@ func _physics_process(delta: float) -> void:
 		if not skilling_start_timer.is_stopped():
 			skilling_start_timer.stop()
 
-	if reburst_window_open:
-		change_stat("rebursting_momentum", 1)
-
 	state_machine()
 	manage_heartbeat()
 
@@ -206,6 +203,7 @@ func on_stray_collision(collider_stray: Node2D):
 
 	# reakcija na vrsto hita
 	if collider_stray.current_state == collider_stray.STATES.WALL:
+		collider_stray.animate_face()
 		on_hit_wall()
 	else:
 		on_hit_stray(collider_stray)
@@ -850,7 +848,10 @@ func on_hit_stray(hit_stray: Node2D):
 	if Global.game_manager.game_settings["reburst_enabled"] and not sweep_started:
 		sweep_started = true
 
-	if hit_stray.current_state == hit_stray.STATES.DYING or hit_stray.current_state == hit_stray.STATES.WALL: # če je že v umiranju, samo kolajdaš
+	if hit_stray.current_state == hit_stray.STATES.DYING: # če je že v umiranju, samo kolajdaš
+		finish_sweep_move_and_check_for_fail()
+		end_move()
+	elif hit_stray.current_state == hit_stray.STATES.WALL:
 		finish_sweep_move_and_check_for_fail()
 		end_move()
 	else:
@@ -1101,7 +1102,7 @@ func spawn_floating_tag(value: int):
 			text_to_show = "HERE I AM"
 		else:
 			return
-	elif game_data["game"] == Profiles.Games.SWEEPER and value == 1:
+	elif value == 1:
 		text_to_show = "YEAH!"
 	elif value < 0:
 		text_color = Global.color_red
@@ -1546,10 +1547,6 @@ func change_stat(stat_event: String, stat_value):
 						Global.tutorial_gui.on_skill_used(stat_value)
 			"burst_count": # štetje, točke in energija kot je določeno v settingsih
 				player_stats["burst_count"] += stat_value
-			"rebursting_momentum":
-				player_stats["player_energy"] += game_settings["reburst_window_energy_drain"]
-				player_stats["player_energy"] = clamp(player_stats["player_energy"], 1, player_max_energy)
-
 			# HITS ------------------------------------------------------------------------------------------------------------------
 			"hit_stray": # štetje, točke in energija glede na število uničenih straysov
 				var points_to_gain: int = 0
@@ -1588,10 +1585,8 @@ func change_stat(stat_event: String, stat_value):
 				player_stats["player_points"] += points_to_gain
 				spawn_floating_tag(points_to_gain)
 			"hit_wall":
-				if Global.game_manager.game_settings["player_start_life"] > 1:
+				if Global.game_manager.game_settings["player_start_life"] > 0:
 					player_stats["player_energy"] = 0
-				else:
-					player_stats["player_energy"] -= round(player_stats["player_energy"] * game_settings["on_hit_wall_energy_part"])
 			"get_hit": # izgubi vso energijo in lajf, ter pol točk
 				player_stats["player_energy"] = 0
 				var on_get_hit_points_part: float = 0.5
@@ -1611,8 +1606,8 @@ func change_stat(stat_event: String, stat_value):
 					player_stats["player_energy"] = player_max_energy
 			"all_cleaned": # nagrada je določena v settingsih
 				var cleaned_reward: int = game_settings["cleaned_reward_points"]
-				if game_data["game"] == Profiles.Games.SWEEPER:
-					cleaned_reward *= Global.game_manager.current_level
+				if cleaned_reward == 1:
+					pass
 				else:
 					cleaned_reward *= Global.game_manager.current_level - 1 # ker je v tem trenutku že naslednji level
 

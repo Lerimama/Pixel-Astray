@@ -8,12 +8,12 @@ var data_file: = File.new()
 var settings_file_name: String = "user_settings"
 
 var data_game_settings: Dictionary = {
-	"pregame_screen_on": Profiles.pregame_screen_on,
-	"camera_shake_on": Profiles.camera_shake_on,
-	"tutorial_mode": Profiles.tutorial_mode,
-	"analytics_mode": Profiles.analytics_mode,
-
-	"vsync_on": Profiles.vsync_on,
+#	"pregame_screen_on": Profiles.pregame_screen_on,
+#	"camera_shake_on": Profiles.camera_shake_on,
+#	"tutorial_mode": Profiles.tutorial_mode,
+#	"analytics_mode": Profiles.analytics_mode,
+#
+#	"vsync_on": Profiles.vsync_on,
 }
 
 #func _ready() -> void:
@@ -97,10 +97,8 @@ func read_settings_from_file():
 	# preverjam obstoj fileta ... ob prvem nalaganju igre
 	var error = data_file.open("user://%s.save" % settings_file_name, File.READ)
 	if error != OK:
-		data_file.open("user://%s.save" % settings_file_name, File.WRITE)
-		var default_highscores: Dictionary = _build_default_highscores()
-		data_file.store_line(to_json(data_game_settings))
-		data_file.close()
+		write_settings_to_file()
+	#	yield(get_tree().create_timer(0.1), "timeout") # zazih, da res zapiše v file
 	# odprem filet za branje
 	data_file.open("user://%s.save" % settings_file_name, File.READ)
 
@@ -224,7 +222,7 @@ func save_player_score(current_score: float, current_game_data: Dictionary):
 	var new_game_highscores: Dictionary
 	var highscore_index = 0
 	for ranking_score in all_ranking_scores:
-		var highscores_position_key: String = "%02d" % (highscore_index + 1)
+		var highscores_position_key: String = "%03d" % (highscore_index + 1)
 		var highscores_value: float = ranking_score
 		var highscores_owner: String = all_ranking_score_owners[highscore_index]
 		var position_dict: Dictionary = {

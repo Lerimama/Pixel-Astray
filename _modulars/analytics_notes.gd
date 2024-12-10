@@ -181,7 +181,7 @@ func update_existing_row(note_id: int = -1, table_id = "") -> void:
 	if note_id == -1:
 		selected_id = get_selected_row_id()
 
-	print(selected_id)
+	#	print(selected_id)
 	if selected_id != null:
 
 		write_row_content(action_save_row, selected_id)

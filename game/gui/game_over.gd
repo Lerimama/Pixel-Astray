@@ -84,11 +84,15 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 
 	# za ugotavljanje, kdaj hs table chidren dobijo pozicijo
-	if highscore_table and not current_scoreline_marked:
-		var second_scoreline = highscore_table.hs_table.get_child(1) # prvi ima vedno pozicijo 0
-		if not second_scoreline.rect_position.y == 0:
-			current_scoreline_marked = true
-			highscore_table.locate_scoreline_with_score(player_final_score, p1_final_stats["player_name"], gameover_game_data["highscore_type"])
+	if visible:
+		if highscore_table and not current_scoreline_marked:
+			if gameover_game_data["highscore_type"] == Profiles.HighscoreTypes.TIME and not gameover_reason == Global.game_manager.GameoverReason.CLEANED:
+				pass
+			else:
+				var second_scoreline = highscore_table.hs_table.get_child(1) # prvi ima vedno pozicijo 0
+				if not second_scoreline.rect_position.y == 0:
+					current_scoreline_marked = true
+					highscore_table.locate_scoreline_with_score(player_final_score, p1_final_stats["player_name"], gameover_game_data["highscore_type"])
 
 
 func open_gameover(current_gameover_reason: int):
@@ -103,8 +107,6 @@ func open_gameover(current_gameover_reason: int):
 	game_final_time = Global.hud.game_timer.game_time_hunds
 	new_record_set = Global.hud.new_record_set
 
-	print("new_record_set ", new_record_set, Global.hud.new_record_set)
-
 	if gameover_game_data["game"] == Profiles.Games.THE_DUEL:
 		p2_final_stats = Global.game_manager.current_players_in_game[1].player_stats
 		set_duel_gameover_title()
@@ -113,7 +115,6 @@ func open_gameover(current_gameover_reason: int):
 			player_final_score = game_final_time
 		else:
 			player_final_score = p1_final_stats["player_points"]
-
 		set_gameover_title()
 
 	show_gameover_title()
@@ -140,25 +141,26 @@ func show_gameover_title():
 	yield(fade_in, "finished")
 
 	# summary or menu
-	if not gameover_game_data["highscore_type"] == Profiles.HighscoreTypes.NONE:
-		# vpis, če je sweeper je CLEANED
-		if gameover_game_data["game"] == Profiles.Games.SWEEPER and gameover_reason == Global.game_manager.GameoverReason.CLEANED:
-			open_name_input()
-			yield(self, "name_input_finished")
-		# vpis, ostale igre in je score na limitom
-		elif not gameover_game_data["game"] == Profiles.Games.SWEEPER and player_final_score > ranking_score_limit:
-			open_name_input()
-			yield(self, "name_input_finished")
-		# ni vpisa, če ne ustreza
-		else:
-			yield(get_tree().create_timer(Global.get_it_time), "timeout")
-			var title_fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-			title_fade_out.tween_property(gameover_title_holder, "modulate:a", 0, 0.5)
-			title_fade_out.tween_callback(gameover_title_holder, "hide")
-			yield(title_fade_out, "finished")
-		set_game_summary()
-	else:
+	if gameover_game_data["highscore_type"] == Profiles.HighscoreTypes.NONE:
 		show_menu()
+		return
+	# vpis, če je sweeper je CLEANED
+	elif gameover_game_data["highscore_type"] == Profiles.HighscoreTypes.TIME and gameover_reason == Global.game_manager.GameoverReason.CLEANED:
+		open_name_input()
+		yield(self, "name_input_finished")
+	# vpis, ostale igre in je score na limitom
+	elif gameover_game_data["highscore_type"] == Profiles.HighscoreTypes.POINTS and player_final_score > ranking_score_limit:
+		open_name_input()
+		yield(self, "name_input_finished")
+	# ni vpisa, če ne ustreza
+	else:
+		yield(get_tree().create_timer(Global.get_it_time), "timeout")
+		var title_fade_out = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+		title_fade_out.tween_property(gameover_title_holder, "modulate:a", 0, 0.5)
+		title_fade_out.tween_callback(gameover_title_holder, "hide")
+		yield(title_fade_out, "finished")
+
+	set_game_summary()
 
 
 func show_game_summary():
@@ -323,7 +325,6 @@ func set_game_summary():
 		stat_pixels_astray.text = "Pixels left astray: " + str(Global.game_manager.strays_in_game_count)
 		# select level btns
 		select_level_btns_holder.btns_holder_parent = self
-		print(select_level_btns_holder.btns_holder_parent)
 		select_level_btns_holder.spawn_level_btns()
 		select_level_btns_holder.set_level_btns()
 		select_level_btns_holder.connect_level_btns()

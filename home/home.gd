@@ -44,11 +44,11 @@ func _ready():
 
 	# navigation hint
 	navigation_hint.modulate.a = 0
-	if OS.has_touchscreen_ui_hint():
-		navigation_hint.text = "Swipe to navigate around." # ugasne ga swipe gumb
+	if Profiles.touch_available:
+		navigation_hint.text = "Swipe or select to navigate around" # ugasne ga swipe gumb
 		home_swipe_btn.show()
 	else:
-		# navigation_hint.text = "Use keyboard or gamepad to navigate around."
+		# navigation_hint.text = "Use keyboard or gamepad to navigate around"
 		navigation_hint.hide()
 
 	# btn groups
@@ -63,6 +63,7 @@ func open_with_intro(): # kliče main.gd -> home_in_intro()
 
 	intro.play_intro() # intro signal na koncu kliče menu_in()
 
+	# bug
 	if Profiles.html5_mode:
 		$Highscores.call_deferred("load_all_highscore_tables", true, true) # global update, in background
 	else:

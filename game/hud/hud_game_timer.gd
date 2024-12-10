@@ -17,6 +17,15 @@ var sudden_death_limit: int
 var stopwatch_mode: bool
 var gameover_countdown_duration: int
 
+var display_hunds: bool = false setget _change_timer_display
+
+
+func _change_timer_display(show_hunds_labels: bool):
+
+	display_hunds = show_hunds_labels
+	$Hunds.visible = display_hunds
+	$Dots2.visible = display_hunds
+
 
 func _ready() -> void:
 
@@ -25,6 +34,7 @@ func _ready() -> void:
 	modulate = Global.color_hud_text
 	# ker ga moduliram tukaj in je label ima na node tu setano font color override
 	game_time_limit = Global.game_manager.game_settings["game_time_limit"]
+	self.display_hunds = display_hunds
 
 
 func _process(delta: float) -> void:

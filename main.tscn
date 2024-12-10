@@ -1,6 +1,7 @@
-[gd_scene load_steps=57 format=2]
+[gd_scene load_steps=59 format=2]
 
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=1]
+[ext_resource path="res://assets/invert_screen_colors.gdshader" type="Shader" id=2]
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=3]
 [ext_resource path="res://assets/sound/sfx/events/tutorial_stage_a_NFF-glocken-bad.wav" type="AudioStream" id=4]
 [ext_resource path="res://assets/sound/sfx/blinking/blink_static_1.wav" type="AudioStream" id=6]
@@ -83,6 +84,9 @@ random_pitch = 1.05
 [sub_resource type="AudioStreamRandomPitch" id=34]
 audio_stream = ExtResource( 30 )
 random_pitch = 1.2
+
+[sub_resource type="ShaderMaterial" id=231]
+shader = ExtResource( 2 )
 
 [node name="Main" type="Node"]
 script = ExtResource( 26 )
@@ -420,3 +424,15 @@ margin_bottom = 148.0
 theme = ExtResource( 1 )
 custom_fonts/font = ExtResource( 3 )
 text = "DELTA COUNT: %d"
+
+[node name="InvertedScheme" type="Node2D" parent="."]
+visible = false
+z_index = 1001
+
+[node name="ColorRect" type="ColorRect" parent="InvertedScheme"]
+material = SubResource( 231 )
+margin_left = -72.0
+margin_top = -40.0
+margin_right = 1336.0
+margin_bottom = 792.0
+mouse_filter = 2

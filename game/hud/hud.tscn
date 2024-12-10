@@ -410,7 +410,7 @@ __meta__ = {
 [node name="TopLineR" type="HBoxContainer" parent="Header"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -673.0
+margin_left = -690.0
 margin_top = 7.0
 margin_right = -30.0
 margin_bottom = 29.0
@@ -463,9 +463,9 @@ size_flags_horizontal = 4
 [node name="MusicPlayer" type="HBoxContainer" parent="Header/TopLineR"]
 pause_mode = 2
 margin_left = 120.0
-margin_right = 216.0
+margin_right = 218.0
 margin_bottom = 22.0
-custom_constants/separation = 8
+custom_constants/separation = 10
 script = ExtResource( 1 )
 
 [node name="MuteBtn" type="TextureButton" parent="Header/TopLineR/MusicPlayer"]
@@ -481,8 +481,8 @@ texture_pressed = SubResource( 272 )
 
 [node name="TrackBtn" type="Button" parent="Header/TopLineR/MusicPlayer"]
 pause_mode = 2
-margin_left = 28.0
-margin_right = 96.0
+margin_left = 30.0
+margin_right = 98.0
 margin_bottom = 22.0
 focus_mode = 0
 mouse_default_cursor_shape = 2
@@ -759,8 +759,8 @@ __meta__ = {
 }
 
 [node name="HighscoreHolder" type="HBoxContainer" parent="Header/TopLineR"]
-margin_left = 601.0
-margin_right = 643.0
+margin_left = 618.0
+margin_right = 660.0
 margin_bottom = 22.0
 size_flags_horizontal = 10
 size_flags_vertical = 8

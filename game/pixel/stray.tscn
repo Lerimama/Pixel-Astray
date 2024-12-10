@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=2]
+[gd_scene load_steps=70 format=2]
 
 [ext_resource path="res://assets/resources/animation/stray_glitch_3.tres" type="Animation" id=1]
 [ext_resource path="res://assets/resources/animation/stray_glitch_1.tres" type="Animation" id=2]
@@ -15,6 +15,8 @@
 [ext_resource path="res://assets/sound/sfx/blinking/blink_static_4.wav" type="AudioStream" id=13]
 [ext_resource path="res://assets/sound/sfx/blinking/blink_1.wav" type="AudioStream" id=14]
 [ext_resource path="res://assets/sound/sfx/blinking/blink_static_2.wav" type="AudioStream" id=15]
+[ext_resource path="res://assets/sound/NFF-aou.wav" type="AudioStream" id=16]
+[ext_resource path="res://assets/sound/NFF-alien-speech-02.wav" type="AudioStream" id=17]
 [ext_resource path="res://assets/sound/sfx/blinking/blink_static_6.wav" type="AudioStream" id=18]
 [ext_resource path="res://game/pixel/stray.gd" type="Script" id=20]
 
@@ -535,6 +537,11 @@ animations = [ {
 "name": "die_off",
 "speed": 70.0
 }, {
+"frames": [  ],
+"loop": true,
+"name": "faceless",
+"speed": 5.0
+}, {
 "frames": [ SubResource( 183 ), SubResource( 184 ), SubResource( 185 ), SubResource( 186 ), SubResource( 187 ), SubResource( 188 ), SubResource( 189 ) ],
 "loop": false,
 "name": "faces",
@@ -656,12 +663,23 @@ volume_db = -25.0
 pitch_scale = 0.8
 bus = "GameSfx"
 
+[node name="StrayFaceScramble" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 17 )
+volume_db = -30.0
+bus = "GameSfx"
+
+[node name="StrayAu" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 16 )
+volume_db = -10.0
+pitch_scale = 0.9
+bus = "GameSfx"
+
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
 [node name="PixelFace" type="AnimatedSprite" parent="."]
 modulate = Color( 0, 0, 0, 1 )
 frames = SubResource( 155 )
-animation = "die_off"
+animation = "faceless"
 script = ExtResource( 10 )
 
 [connection signal="tree_entered" from="." to="." method="_on_Stray_tree_entered"]

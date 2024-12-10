@@ -25,6 +25,7 @@ var group_critical_btns = "Critical btns" # input off group
 # game over quit, replay
 # pause quit, restart
 var group_cancel_btns = "Cancel btns" # cancel sound group
+var group_touch_sound_btns = "Touch sound btns" # cancel sound group
 # home sceeens esc
 # home exit game
 # game-over exit, quit
@@ -37,7 +38,7 @@ func _ready():
 
 	# na ready se povežem z vsemi interaktivnimmi kontorlami, ki že obstajajo
 	for child in get_tree().root.get_children():
-		if child is BaseButton or child is HSlider:
+		if child is BaseButton or child is HSlider or child is TouchScreenButton:
 			_connect_interactive_control(child)
 
 	# signal iz drevesa na vsak node, ki pride v igro
@@ -52,14 +53,14 @@ func grab_focus_nofx(control_to_focus: Control):
 	set_deferred("allow_ui_sfx", true)
 
 
-func _on_SceneTree_node_added(node: Control): # na ready
+func _on_SceneTree_node_added(node: Node): # na ready
 
-	if node is BaseButton or node is HSlider:
+	if node is BaseButton or node is HSlider or node is TouchScreenButton:
 		_connect_interactive_control(node)
 
 
 
-func _connect_interactive_control(node: Control):
+func _connect_interactive_control(node: Node):
 
 	if node is Button:
 		# hover
@@ -82,6 +83,8 @@ func _connect_interactive_control(node: Control):
 		node.connect("focus_exited", self, "_on_focus_exited", [node])
 		# slide sfx
 		node.connect("value_changed", self, "_on_Slider_value_changed", [node])
+	elif node is TouchScreenButton:
+		node.connect("pressed", self, "_on_TouchBtn_pressed", [node])
 
 
 # SIGNALS ---------------------------------------------------------------------------------------------------------
@@ -90,14 +93,14 @@ func _connect_interactive_control(node: Control):
 func _on_mouse_entered(control: Control):
 #	printt("control hovered", control)
 
-	if not control.has_focus():# and not control is ColorRect
+	if not control.has_focus() and not control.focus_mode == control.FOCUS_NONE:# and not control is ColorRect
 		#		allow_ui_sfx = true # mouse focus je zmeraj s sonundom
 		#	control.call_deferred("grab_focus")
 		control.grab_focus()
 
 
 func _on_focus_entered(control: Control):
-	#	printt("control focused", control)
+#	printt("control focused", control)
 
 	if allow_ui_sfx:
 		Global.sound_manager.play_gui_sfx("btn_focus_change")
@@ -130,7 +133,7 @@ func _on_btn_pressed(button: BaseButton):
 		Global.sound_manager.play_gui_sfx("btn_confirm")
 
 	if button.is_in_group(group_critical_btns):
-		allow_ui_sfx = false
+		set_deferred("allow_ui_sfx", false)
 		get_viewport().set_disable_input(true)
 
 
@@ -161,3 +164,9 @@ func _on_Slider_value_changed(slider_value: float, slider_node: HSlider):
 	var new_pitch: float = pitch_normalized + pitch_min_value
 
 	Global.sound_manager.play_gui_sfx("btn_confirm", new_pitch)
+
+
+func _on_TouchBtn_pressed(touch_btn: TouchScreenButton):
+
+	if touch_btn.is_in_group(group_touch_sound_btns):
+		Global.sound_manager.play_gui_sfx("btn_confirm")

@@ -7,11 +7,8 @@ onready var touch_controller_popup: PopupMenu = $"../TouchControllerPopup"
 func _ready() -> void:
 
 	$TouchPopUpBtn.hide()
-	$ShowHintBtn.hide()
-	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-		$ShowHintBtn.show()
 
-	if OS.has_touchscreen_ui_hint():
+	if Profiles.touch_available:
 		# btn
 		$TouchPopUpBtn.show()
 		var selected_controller_content: Dictionary = Profiles.touch_controller_content.values()[Profiles.set_touch_controller]
@@ -34,8 +31,6 @@ func update_settings_btns():
 	$BrightnessSlider.value = Profiles.brightness
 
 	# specialci
-	if $ShowHintBtn.visible:
-		$ShowHintBtn.set_pressed_no_signal(Global.current_tilemap.solution_line.visible)
 	if $TouchPopUpBtn.visible:
 		$TouchSensSlider.value = Profiles.screen_touch_sensitivity
 		if Profiles.set_touch_controller >= Profiles.TOUCH_CONTROLLER.SCREEN_LEFT:
@@ -69,12 +64,6 @@ func _on_CameraShakeBtn_toggled(button_pressed: bool) -> void:
 	Profiles.camera_shake_on = button_pressed
 
 
-func _on_ShowHintBtn_toggled(button_pressed: bool) -> void:
-
-#	var solution_line: Line2D = Global.current_tilemap.solution_line
-	Global.current_tilemap.solution_line.visible = button_pressed
-
-
 func _on_TouchPopUpBtn_pressed() -> void:
 
 	touch_controller_popup.set_current_index(Profiles.set_touch_controller)
@@ -104,6 +93,11 @@ func _on_TouchControllerPopup_index_pressed(index: int) -> void:
 		$TouchSensSlider.hide()
 
 	Global.hud.touch_controls.current_touch_controller = Profiles.set_touch_controller
+	get_parent().instructions.get_instructions_content() # padejt slikce
+	if Profiles.set_touch_controller == Profiles.TOUCH_CONTROLLER.DISABLED:
+		get_parent().settings_panel.rect_size.y = get_parent().def_outline_size_y
+	else:
+		get_parent().settings_panel.rect_size.y = get_parent().touch_outline_size_y
 
 
 func _on_TouchSensSlider_value_changed(value: float) -> void:

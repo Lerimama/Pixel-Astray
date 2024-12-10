@@ -16,13 +16,12 @@ onready var travel_content: Control = $Checkpoints/TravelingContent
 onready var collect_content: Control = $Checkpoints/BurstingContent
 onready var skills_content: Control = $Checkpoints/SkillingContent
 onready var fin_content: Control = $Checkpoints/FinContent
-#onready var viewport_container: ViewportContainer = $"%ViewportContainer"
-onready var skip_hint: HBoxContainer = $ActionHint
 onready var hud_guide: Control = $HudGuide
+onready var action_hint_press: Node2D = $ActionHintPress
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	#func _input(event: InputEvent) -> void:
+#func _input(event: InputEvent) -> void:
 
 	if current_tutorial_stage == TUTORIAL_STAGE.TRAVEL:
 		if Input.is_action_pressed("ui_up"):
@@ -36,18 +35,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		if traveling_directions.empty():
 			finish_travel()
 
-	if Input.is_action_just_pressed("next"):
-
-		match current_tutorial_stage:
-			TUTORIAL_STAGE.TRAVEL:
-				finish_travel(false)
-			TUTORIAL_STAGE.COLLECT:
-				finish_collect(false)
-			TUTORIAL_STAGE.SKILLS:
-				finish_skills(false)
-			TUTORIAL_STAGE.FIN:
-				close_tutorial()
-		#		get_tree().set_input_as_handled() ... ne rabim ker je tam _input
+	if Input.is_action_just_pressed("next") and action_hint_press.modulate.a == 1:
+		_on_HintBtn_pressed()
 
 
 func _ready() -> void:
@@ -61,8 +50,10 @@ func _ready() -> void:
 	collect_content.hide()
 	skills_content.hide()
 	fin_content.hide()
-	skip_hint.hide()
 	hud_guide.hide()
+
+	action_hint_press.modulate.a = 0
+	action_hint_press.hide()
 
 
 func open_tutorial(): # kliče se z GM
@@ -75,8 +66,8 @@ func open_tutorial(): # kliče se z GM
 		var fade_time: float = 0.3
 		var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 		fade_in.tween_callback(self, "show")
-		fade_in.tween_callback(skip_hint, "show")
-		fade_in.tween_property(skip_hint, "modulate:a", 1, fade_time).from(0.0).set_ease(Tween.EASE_IN)
+		fade_in.parallel().tween_callback(action_hint_press, "show")
+		fade_in.tween_property(action_hint_press, "modulate:a", 1, fade_time).set_ease(Tween.EASE_IN)
 
 		Global.hud.touch_controls.toggle_tutorial_elements(true)
 		open_stage(travel_content)
@@ -97,16 +88,34 @@ func close_tutorial():
 		for content in checkpoints.get_children():
 			if content.visible:
 				close_stage.parallel().tween_property(content, "modulate:a", 0, fade_time)
-		close_stage.parallel().tween_property(skip_hint, "modulate:a", 0, fade_time)
+		close_stage.parallel().tween_property(action_hint_press, "modulate:a", 0, fade_time)
 		yield(close_stage, "finished")
 
 		hide()
 
 		# če se igra nadaljuje
 		if Global.game_manager.game_on:
-			Global.sound_manager.stop_music("game_music_on_gameover")
-			Global.sound_manager.current_music_track_index = 0 # index komada cleaner igre ... Global.game_manager.game_settings["game_music_track_index"]
-			Global.sound_manager.play_music("game_music")
+			var new_track: AudioStreamPlayer = Global.sound_manager.skip_track(0)
+			Global.hud.music_player.track_btn.text = new_track.name
+
+
+	if not Global.sound_manager.game_music_set_to_off:
+
+		Analytics.save_ui_click("SkipTrack %d" % (Global.sound_manager.current_music_track_index))
+
+
+
+func skip_step():
+
+	match current_tutorial_stage:
+		TUTORIAL_STAGE.TRAVEL:
+			finish_travel(false)
+		TUTORIAL_STAGE.COLLECT:
+			finish_collect(false)
+		TUTORIAL_STAGE.SKILLS:
+			finish_skills(false)
+		TUTORIAL_STAGE.FIN:
+			close_tutorial()
 
 
 # STEPS ------------------------------------------------------------------------------------------------------------------
@@ -178,3 +187,8 @@ func on_hit_stray(colors_collected_count: int):
 #	elif current_tutorial_stage == TUTORIAL_STAGE.MULTICOLLECT and colors_collected_count > 1:
 #		yield(get_tree().create_timer(Global.get_it_time), "timeout")
 #		finish_multicollect()
+
+
+func _on_HintBtn_pressed() -> void:
+
+	skip_step()

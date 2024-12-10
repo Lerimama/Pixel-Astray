@@ -5,6 +5,7 @@ var game_sfx_set_to_off: bool = false
 var menu_music_set_to_off: bool = false
 var game_music_set_to_off: bool = false
 var current_music_track_index: int = 0 # ga ne resetiraš, da ostane v spominu skozi celo igro
+var skipping_track: bool = false
 
 onready var game_music_node: Node2D = $Music/GameMusic
 onready var menu_music: AudioStreamPlayer = $Music/MenuMusic/WarmUpShort
@@ -102,7 +103,7 @@ func select_random_sfx(sound_group: Node2D):
 
 func play_music(music_for: String):
 
-	yield(get_tree().create_timer(0.3), "timeout")
+#	yield(get_tree().create_timer(0.3), "timeout")
 	match music_for:
 		"menu_music":
 			if not menu_music_set_to_off:
@@ -144,21 +145,29 @@ func set_game_music_volume(value_on_slider: float): # kliče se iz settingsov
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("GameMusic"), value_on_slider)
 
 
-func skip_track():
+func skip_track(new_track_index: int = -1):
 
-	current_music_track_index += 1
+	if not skipping_track:
+		skipping_track = true
+		if new_track_index > -1:
+			current_music_track_index = new_track_index
+		else:
+			current_music_track_index += 1
 
-	if current_music_track_index >= game_music_node.get_child_count():
-		current_music_track_index = 0
+		if current_music_track_index >= game_music_node.get_child_count():
+			current_music_track_index = 0
 
-	for track in game_music_node.get_children():
-		if track.is_playing():
-			var current_track_volume = track.volume_db
-			var fade_out = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT)
-			fade_out.tween_property(track, "volume_db", -80, 0.5)
-			fade_out.tween_callback(track, "stop")
-			fade_out.tween_callback(track, "set_volume_db", [current_track_volume]) # reset glasnosti
-			fade_out.tween_callback(self, "play_music", ["game_music"])
+		for track in game_music_node.get_children():
+			if track.is_playing():
+				var current_track_volume = track.volume_db
+				var fade_out = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT)
+				fade_out.tween_property(track, "volume_db", -80, 0.5)
+				fade_out.tween_callback(track, "stop")
+				fade_out.tween_callback(track, "set_volume_db", [current_track_volume]) # reset glasnosti
+				fade_out.tween_callback(self, "play_music", ["game_music"])
+				fade_out.tween_property(self, "skipping_track", false, 0)
+
+	return game_music_node.get_child(current_music_track_index)
 
 
 func music_toggle(mute_it = null):

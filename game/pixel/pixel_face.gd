@@ -16,6 +16,3 @@ func _ready() -> void:
 #	pass
 
 
-func _on_PixelFace_frame_changed() -> void:
-
-	get_parent().animate_face()

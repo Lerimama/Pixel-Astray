@@ -16,6 +16,7 @@ func _ready() -> void:
 
 func _on_BackBtn_pressed() -> void:
 
+	Global.sound_manager.play_gui_sfx("btn_cancel")
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play_backwards("about")
 

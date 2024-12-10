@@ -10,9 +10,11 @@ var screen_pressed_position: Vector2 = Vector2.ZERO
 # debug ... line2d
 var touch_direction_line: Line2D
 
+
 func _ready() -> void:
 
 	hide()
+
 
 
 func imitate_input(direction_key: int, imitate_pressed: bool = true):
@@ -28,9 +30,9 @@ func imitate_input(direction_key: int, imitate_pressed: bool = true):
 		parent_node.Screens.INTRO:
 			match direction_key:
 				SWIPE_DIRECTION.LEFT:
-					parent_node.intro._on_SkipButton_pressed()
+					parent_node.intro._on_HintBtn_pressed()
 				SWIPE_DIRECTION.RIGHT:
-					parent_node.intro._on_SkipButton_pressed()
+					parent_node.intro._on_HintBtn_pressed()
 		parent_node.Screens.MAIN_MENU:
 			match direction_key:
 				SWIPE_DIRECTION.LEFT:
@@ -89,7 +91,7 @@ func get_swipe_direction():
 #			hint_fade.tween_property(swipe_hint, "modulate:a", 0, 0.5)
 #			hint_fade.tween_callback(swipe_hint, "hide")
 		# linija
-		#		if OS.is_debug_build(): # debug build
+		#		if Profiles.debug_mode: # debug build
 		#			if not touch_direction_line:
 		#				touch_direction_line = Line2D.new()
 		#				add_child(touch_direction_line)

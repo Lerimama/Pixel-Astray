@@ -54,8 +54,9 @@ var free_position_tiles: Array
 func _unhandled_input(event: InputEvent) -> void:
 
 
-	if OS.is_debug_build():  # debug OS mode
+	if Profiles.debug_mode:  # debug OS mode
 		if Input.is_action_just_pressed("no1"):
+			#			get_tree().set_pause(true)
 			game_over(GameoverReason.LIFE)
 		if Input.is_action_just_pressed("no2"):
 			game_over(GameoverReason.TIME)
@@ -68,9 +69,6 @@ func _ready() -> void:
 	Global.game_manager = self
 	randomize()
 	if game_data.has("level_goal_count"):
-		# prvi level eraserja ima za cilj število spawnanih
-		#		if game_data["game"] == Profiles.Games.SWEEPER:
-		#			game_data["level_goal_count"] = create_strays_count
 		level_goal_mode = true
 
 # GAME SETUP --------------------------------------------------------------------------------------
@@ -194,7 +192,6 @@ func game_over(gameover_reason: int):
 
 		game_on = false
 		Global.hud.game_timer.stop_timer()
-		Global.hud.slide_out()
 
 		if gameover_reason == GameoverReason.CLEANED:
 			check_for_all_cleaned = true
@@ -203,11 +200,10 @@ func game_over(gameover_reason: int):
 				player.on_screen_cleaned()
 				signaling_player = player
 			yield(signaling_player, "rewarded_on_cleaned")
-			stop_game_elements()
-			print("level",current_level)
 		else:
-			stop_game_elements()
-
+			yield(get_tree().create_timer(Global.get_it_time), "timeout") # more bit, da zoomout dela
+		Global.hud.slide_out(gameover_reason)
+		stop_game_elements()
 		Global.gameover_gui.open_gameover(gameover_reason)
 
 
@@ -557,6 +553,8 @@ func spawn_stray(stray_index: int, stray_color: Color, stray_position: Vector2, 
 	new_stray_pixel.z_index = 2 # višje od plejerja
 	#	Global.game_arena.call_deferred("add_child", new_stray_pixel)
 	Global.game_arena.add_child(new_stray_pixel)
+
+	new_stray_pixel.pixel_face.show()
 
 	if is_white:
 		new_stray_pixel.current_state = new_stray_pixel.STATES.WALL

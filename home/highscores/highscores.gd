@@ -108,12 +108,14 @@ func load_all_highscore_tables(update_with_global: bool, update_in_background: b
 			var update_count_string: String = "%02d/"  % update_object_count + str(all_tables.size())
 			var last_table_in_row: Control = all_tables[all_tables.size() - 1]
 			if table == last_table_in_row:
+				pass
 				LootLocker.update_lootlocker_leaderboard(game_data_local, true, update_count_string, update_in_background)
 				yield(LootLocker, "connection_closed")
 				ConnectCover.cover_label_text = "Finished"
 				yield(get_tree().create_timer(LootLocker.final_panel_open_time), "timeout")
-				ConnectCover.close_cover() # odda signal, ko se zapre
+#				ConnectCover.close_cover() # odda signal, ko se zapre
 			else:
+				pass
 				LootLocker.update_lootlocker_leaderboard(game_data_local, false, update_count_string, update_in_background)
 				yield(LootLocker, "leaderboard_updated")
 
@@ -203,6 +205,7 @@ func reset_all_local_scores():
 
 func _on_BackBtn_pressed() -> void:
 
+	Global.sound_manager.play_gui_sfx("btn_cancel")
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play_backwards("highscores")
 

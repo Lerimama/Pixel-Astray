@@ -1,21 +1,15 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=1]
 [ext_resource path="res://game/gui/game_over.tscn" type="PackedScene" id=2]
 [ext_resource path="res://game/arena.tscn" type="PackedScene" id=3]
 [ext_resource path="res://game/hud/hud.tscn" type="PackedScene" id=4]
 [ext_resource path="res://game/gui/tutorial_gui.tscn" type="PackedScene" id=5]
-[ext_resource path="res://assets/atlas_controls.png" type="Texture" id=8]
-[ext_resource path="res://common/action_hint.tscn" type="PackedScene" id=9]
+[ext_resource path="res://common/ActionHintPress.tscn" type="PackedScene" id=6]
 [ext_resource path="res://game/gui/pause_gui.tscn" type="PackedScene" id=11]
 [ext_resource path="res://game/gui/touch_controls.tscn" type="PackedScene" id=13]
 [ext_resource path="res://game/player_camera.tscn" type="PackedScene" id=18]
 [ext_resource path="res://game/game_manager.gd" type="Script" id=19]
-
-[sub_resource type="AtlasTexture" id=352]
-atlas = ExtResource( 8 )
-region = Rect2( 136, 48, 24, 24 )
-margin = Rect2( 0, 3, 0, 3 )
 
 [node name="Game" type="Node2D"]
 pause_mode = 1
@@ -56,7 +50,6 @@ __meta__ = {
 }
 
 [node name="PlayerCamera" parent="GameView/ViewportContainer/Viewport" instance=ExtResource( 18 )]
-pause_mode = 1
 
 [node name="ViewFuter" type="ColorRect" parent="GameView"]
 unique_name_in_owner = true
@@ -82,59 +75,50 @@ visible = false
 [node name="TutorialGui" parent="GUI" instance=ExtResource( 5 )]
 visible = false
 
-[node name="TouchControls" parent="GUI" instance=ExtResource( 13 )]
+[node name="SweeperHintPress" parent="GUI" instance=ExtResource( 6 )]
+position = Vector2( 640, 624 )
 z_index = 0
 
-[node name="SweeperHintBtn" type="Button" parent="GUI"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -112.0
-margin_top = -103.0
-margin_right = 113.0
-margin_bottom = -55.0
-disabled = true
+[node name="Hint" parent="GUI/SweeperHintPress" index="1"]
+margin_left = -77.0
+margin_right = 79.0
 
-[node name="ActionHint" parent="GUI/SweeperHintBtn" instance=ExtResource( 9 )]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -92.5
-margin_top = -14.5
-margin_right = 92.5
-margin_bottom = 14.5
-__meta__ = {
-"_edit_vertical_guides_": [ -160.0 ]
-}
+[node name="TOUCH" parent="GUI/SweeperHintPress/Hint" index="0"]
+visible = true
+margin_right = 27.0
+text = "Tap"
 
-[node name="Label" parent="GUI/SweeperHintBtn/ActionHint" index="0"]
-margin_top = 5.0
-margin_right = 125.0
-margin_bottom = 23.0
-text = "Toggle hint with"
+[node name="JOYPAD" parent="GUI/SweeperHintPress/Hint" index="1"]
+margin_left = 35.0
+margin_right = 59.0
 
-[node name="Jp" parent="GUI/SweeperHintBtn/ActionHint" index="1"]
-margin_bottom = 29.0
-texture = SubResource( 352 )
+[node name="and_or" parent="GUI/SweeperHintPress/Hint" index="2"]
+margin_left = 67.0
+margin_right = 85.0
 
-[node name="Label2" parent="GUI/SweeperHintBtn/ActionHint" index="2"]
-margin_top = 5.0
-margin_bottom = 23.0
-
-[node name="KEY" parent="GUI/SweeperHintBtn/ActionHint" index="3"]
-margin_top = 5.0
-margin_right = 68.0
-margin_bottom = 24.0
+[node name="KEYBOARD" parent="GUI/SweeperHintPress/Hint" index="3"]
+visible = false
+margin_left = 0.0
+margin_right = 13.0
 text = "H"
 
-[node name="Label3" parent="GUI/SweeperHintBtn/ActionHint" index="4"]
-margin_left = 76.0
-margin_top = 5.0
-margin_right = 185.0
-margin_bottom = 23.0
+[node name="action" parent="GUI/SweeperHintPress/Hint" index="4"]
+margin_left = 93.0
+margin_right = 214.0
 text = "to toggle hint"
+
+[node name="TouchBtn" parent="GUI/SweeperHintPress" index="2"]
+shape_visible = false
+
+[node name="ColorRect" parent="GUI/SweeperHintPress/TouchBtn" index="0"]
+margin_left = -136.0
+margin_right = 134.0
+
+[node name="HintBtn" parent="GUI/SweeperHintPress" index="3"]
+enabled_focus_mode = 0
+
+[node name="TouchControls" parent="GUI" instance=ExtResource( 13 )]
+z_index = 0
 
 [node name="PauseMenu" parent="GUI" instance=ExtResource( 11 )]
 visible = false
@@ -157,12 +141,12 @@ visible = false
 wait_time = 5.0
 one_shot = true
 
-[connection signal="pressed" from="GUI/SweeperHintBtn" to="GUI/Hud" method="_on_SweeperHintBtn_pressed"]
+[connection signal="pressed" from="GUI/SweeperHintPress/HintBtn" to="GUI/Hud" method="_on_HintBtn_pressed"]
 [connection signal="timeout" from="RespawnTimer" to="GameManager" method="_on_RespawnTimer_timeout"]
 
 [editable path="GUI/Hud"]
 [editable path="GUI/Hud/Header/TopLineR/GameTimerHunds"]
-[editable path="GUI/SweeperHintBtn/ActionHint"]
+[editable path="GUI/SweeperHintPress"]
 [editable path="GUI/GameOver"]
 [editable path="GUI/GameOver/GameSummary/ContentSweeper/Hs/HighscoreTable"]
 [editable path="GUI/GameOver/GameSummary/Content/Hs/HighscoreTable"]

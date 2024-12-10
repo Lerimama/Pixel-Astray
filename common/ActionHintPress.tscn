@@ -1,0 +1,109 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=1]
+[ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/atlas_controls.png" type="Texture" id=3]
+[ext_resource path="res://assets/theme/font_main_hint.tres" type="DynamicFont" id=4]
+[ext_resource path="res://common/ActionHintPress.gd" type="Script" id=5]
+
+[sub_resource type="AtlasTexture" id=232]
+atlas = ExtResource( 3 )
+region = Rect2( 136, 24, 24, 24 )
+margin = Rect2( 0, 1, 0, 1 )
+
+[node name="ActionHintPress" type="Node2D"]
+pause_mode = 2
+z_index = 1000
+script = ExtResource( 5 )
+
+[node name="_pos" type="ColorRect" parent="."]
+visible = false
+margin_left = -640.0
+margin_right = 640.0
+margin_bottom = 56.0
+color = Color( 1, 1, 1, 0.364706 )
+
+[node name="Hint" type="HBoxContainer" parent="."]
+margin_left = -119.5
+margin_top = -19.0
+margin_right = 120.5
+margin_bottom = 6.0
+grow_horizontal = 2
+theme = ExtResource( 1 )
+custom_constants/separation = 8
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="TOUCH" type="Label" parent="Hint"]
+visible = false
+margin_top = 3.0
+margin_right = 44.0
+margin_bottom = 21.0
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "Swipe or tap"
+align = 1
+uppercase = true
+
+[node name="JOYPAD" type="TextureRect" parent="Hint"]
+margin_right = 24.0
+margin_bottom = 25.0
+texture = SubResource( 232 )
+
+[node name="and_or" type="Label" parent="Hint"]
+margin_left = 32.0
+margin_top = 3.0
+margin_right = 50.0
+margin_bottom = 21.0
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "or"
+align = 1
+uppercase = true
+
+[node name="KEYBOARD" type="Label" parent="Hint"]
+modulate = Color( 0.901961, 0.901961, 0.901961, 1 )
+margin_left = 58.0
+margin_top = 2.0
+margin_right = 123.0
+margin_bottom = 23.0
+rect_min_size = Vector2( 0, 19 )
+custom_fonts/font = ExtResource( 4 )
+text = "ENTER"
+align = 1
+valign = 2
+uppercase = true
+
+[node name="action" type="Label" parent="Hint"]
+margin_left = 131.0
+margin_top = 3.0
+margin_right = 240.0
+margin_bottom = 21.0
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "to skip intro"
+uppercase = true
+
+[node name="TouchBtn" type="TouchScreenButton" parent="."]
+pause_mode = 2
+visible = false
+shape_centered = false
+visibility_mode = 1
+
+[node name="ColorRect" type="ColorRect" parent="TouchBtn"]
+margin_left = -138.0
+margin_top = -32.0
+margin_right = 136.0
+margin_bottom = 32.0
+color = Color( 1, 1, 1, 0.145098 )
+
+[node name="HintBtn" type="Button" parent="."]
+pause_mode = 2
+margin_left = -136.0
+margin_top = -40.0
+margin_right = 136.0
+margin_bottom = 24.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme = ExtResource( 1 )

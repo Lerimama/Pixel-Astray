@@ -3,6 +3,10 @@ extends Control
 
 onready var instructions: Control = $Instructions
 onready var title: Label = $Title
+onready var settings_panel: Panel = $Settings
+
+var touch_outline_size_y: float = 376 # ne uspem resizat avtomatično
+var def_outline_size_y: float = 336
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -22,7 +26,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _ready() -> void:
 
-	title.modulate = Global.color_red
 	title.text = "%s ... on pause" % Global.game_manager.game_data["game_name"]
 
 	visible = false
@@ -36,11 +39,15 @@ func _ready() -> void:
 
 	# in-pause game instructions
 	instructions.get_instructions_content() # ne prifejda
+	if Profiles.touch_available and not Profiles.set_touch_controller == Profiles.TOUCH_CONTROLLER.DISABLED:
+		settings_panel.rect_size.y = touch_outline_size_y
+	else:
+		settings_panel.rect_size.y = def_outline_size_y
 
 
 func pause_game():
 
-	$Settings.update_settings_btns()
+	settings_panel.update_settings_btns()
 
 	visible = true
 

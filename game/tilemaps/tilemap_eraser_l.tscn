@@ -19,7 +19,8 @@ scale = Vector2( 1.1, 1 )
 margin_right = 1984.0
 margin_bottom = 1760.0
 
-[node name="CameraPosition" parent="." index="1"]
+[node name="CameraPosition" parent="." index="2"]
 position = Vector2( 992, 512 )
 
 [editable path="Background"]
+[editable path="EdgeCover"]

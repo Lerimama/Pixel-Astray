@@ -20,11 +20,9 @@ onready var burst_btn: TouchScreenButton = $BurstBtn
 onready var screen_btn: TouchScreenButton = $ScreenBtn
 onready var pause_btn: TouchScreenButton = $PauseBtn
 onready var next_track_btn: TouchScreenButton = $NextTrackBtn
-onready var skip_tut_btn: TouchScreenButton = $SkipTutBtn
 onready var mute_btn: TouchScreenButton = $MuteBtn
 onready var current_touch_controller: int = Profiles.set_touch_controller setget _change_current_controller
 onready var tutorial_elements: Array = [
-	skip_tut_btn,
 	$DirectionBtns/TouchBtn_L/Arrow,
 	$DirectionBtns/TouchBtn_U/Arrow,
 	$DirectionBtns/TouchBtn_R/Arrow,
@@ -34,7 +32,7 @@ onready var tutorial_elements: Array = [
 	]
 
 # _temp hint btn
-onready var sweeper_hint_btn: TouchScreenButton = $SweeperHintBtn
+onready var hint_btn: TouchScreenButton = $HintBtn
 
 # debug
 var touch_direction_line: Line2D
@@ -52,6 +50,11 @@ func _ready() -> void:
 	for element in tutorial_elements: # kontrolirajo se iz tutoriala
 		element.hide()
 
+	pause_btn.add_to_group(Batnz.group_touch_sound_btns)
+	mute_btn.add_to_group(Batnz.group_touch_sound_btns)
+	next_track_btn.add_to_group(Batnz.group_touch_sound_btns)
+
+
 func open():
 
 	modulate.a = 0
@@ -59,6 +62,10 @@ func open():
 	_set_current_controller() # more bit za show, ker se v show
 	var fade = get_tree().create_tween().set_ease(Tween.EASE_IN).set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade.tween_property(self, "modulate:a", 1, fade_inout_time)
+
+	var music_player_position_x: float = Global.hud.music_player.rect_global_position.x
+	mute_btn.global_position.x = music_player_position_x# + 50 # izmerjeno
+	printt(mute_btn.global_position.x, music_player_position_x)
 
 
 func close():
@@ -145,7 +152,7 @@ func _set_current_controller():
 			screen_btn.connect("released", self, "_on_screen_btn_released", [screen_btn])
 			burst_btn.connect("pressed", self, "_on_dir_btn_pressed", [burst_btn])
 			burst_btn.connect("released", self, "_on_dir_btn_released", [burst_btn])
-		Profiles.TOUCH_CONTROLLER.OFF:
+		Profiles.TOUCH_CONTROLLER.DISABLED:
 			close()
 			return # da se pavza ne seta
 
@@ -155,11 +162,9 @@ func _set_current_controller():
 	next_track_btn.connect("pressed", self, "_on_skip_btn_pressed")
 	# mute
 	mute_btn.connect("pressed", self, "_on_mute_btn_pressed")
-	# skip tut
-	skip_tut_btn.connect("pressed", self, "_on_skip_tut_btn_pressed")
 	# sweeper hint
-	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-		sweeper_hint_btn.connect("pressed", self, "_on_sweeeper_hint_btn_pressed")
+#	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
+#		hint_btn.connect("pressed", self, "_on_sweeeper_hint_btn_pressed")
 
 
 # SCREEN --------------------------------------------------------------------------------------------------------
@@ -199,7 +204,7 @@ func _get_screen_btn_direction_key():
 		var y_delta: float = curr_point.y - prev_point.y
 
 		# linija
-		if OS.is_debug_build(): # debug build
+		if Profiles.debug_mode: # debug build
 			if not touch_direction_line:
 				touch_direction_line = Line2D.new()
 				add_child(touch_direction_line)
@@ -239,7 +244,7 @@ func _get_screen_btn_direction_key():
 
 
 func _on_screen_btn_pressed(btn_pressed: TouchScreenButton):
-	print("Screen pressed")
+	print("Screen pressed ", self)
 #	var input_name: String
 #	# če je dir že prtisnjen imitiram burst klik
 #	if screen_dir_is_pressed:
@@ -334,12 +339,8 @@ func _disconnect_all_btns():
 	if mute_btn.is_connected("pressed", self, "_on_mute_btn_pressed"):
 		mute_btn.disconnect("pressed", self, "_on_mute_btn_pressed")
 	# hint
-	if sweeper_hint_btn.is_connected("pressed", self, "_on_sweeeper_hint_btn_pressed"):
-		sweeper_hint_btn.disconnect("pressed", self, "_on_sweeeper_hint_btn_pressed")
-	# skip tut step
-	if skip_tut_btn.is_connected("pressed", self, "_on_skip_tut_btn_pressed"):
-		skip_tut_btn.disconnect("pressed", self, "_on_skip_tut_btn_pressed")
-
+#	if hint_btn.is_connected("pressed", self, "_on_sweeeper_hint_btn_pressed"):
+#		hint_btn.disconnect("pressed", self, "_on_sweeeper_hint_btn_pressed")
 	# dir - btn
 	for btn in direction_btns.get_children():
 		if btn.is_connected("pressed", self, "_on_dir_btn_pressed"):
@@ -370,7 +371,6 @@ func _change_current_controller(new_touch_controller: int):
 
 
 func _on_pause_btn_pressed():
-#func _on_pause_btn_pressed(btn_pressed: TouchScreenButton):
 
 	var new_event = InputEventAction.new()
 	new_event.action = "pause"
@@ -379,44 +379,27 @@ func _on_pause_btn_pressed():
 
 
 func _on_skip_btn_pressed():
-#func _on_skip_btn_pressed(btn_pressed: TouchScreenButton):
 
-	var new_event = InputEventAction.new()
-	new_event.action = "next"
-	new_event.pressed = true
-	Input.parse_input_event(new_event)
-
-
-func _on_skip_tut_btn_pressed():
-
-	print("skip pressed")
-	var new_event = InputEventAction.new()
-	new_event.action = "next"
-	new_event.pressed = true
-	Input.parse_input_event(new_event)
-	#	sweeper_hint_btn.hide()
-	#	yield(get_tree().create_timer(1),"timeout")
-	#	sweeper_hint_btn.call_deferred("show")
-	#	get_tree().set_input_as_handled()
-
-
-func _on_sweeeper_hint_btn_pressed():
-
-	print("hint pressed")
-	var new_event = InputEventAction.new()
-	new_event.action = "hint"
-	new_event.pressed = true
-	Input.parse_input_event(new_event)
-	#	sweeper_hint_btn.hide()
-	#	yield(get_tree().create_timer(1),"timeout")
-	#	sweeper_hint_btn.call_deferred("show")
-	#	get_tree().set_input_as_handled()
+	if Global.game_manager.game_on: # and not Global.tutorial_gui.visible: ... ne rabim za touch
+		Global.hud.music_player._on_TrackBtn_pressed()
 
 
 func _on_mute_btn_pressed():
 
-	print("mute pressed")
-	var new_event = InputEventAction.new()
-	new_event.action = "mute"
-	new_event.pressed = true
-	Input.parse_input_event(new_event)
+	if Global.game_manager.game_on:
+		Global.hud.music_player.toggle_mute()
+
+	#	var new_event = InputEventAction.new()
+	#	new_event.action = "mute"
+	#	new_event.pressed = true
+	#	Input.parse_input_event(new_event)
+
+
+func _on_HintBtn_pressed() -> void:
+
+	if Global.tutorial_gui.tutorial_on:
+		Global.tutorial_gui.skip_step()
+	elif Global.hud.sweeper_action_hint.visible:
+		Global.hud._on_HintBtn_pressed()
+
+
