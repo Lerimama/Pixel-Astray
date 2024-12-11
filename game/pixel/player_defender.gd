@@ -4,24 +4,23 @@ extends Player
 func idle_inputs():
 	# namen: odstranim SKILLED stanje
 
-	if player_stats["player_energy"] > 1:
-		var current_collider: Object = Global.detect_collision_in_direction(direction, vision_ray)
-		if not current_collider:
-		# dokler ne zazna kolizije se premika zvezno ... is_action_pressed
-			if Input.is_action_pressed(key_up):
-				direction = Vector2.UP
-				step()
-			elif Input.is_action_pressed(key_down):
-				direction = Vector2.DOWN
-				step()
-			elif Input.is_action_pressed(key_left):
-				direction = Vector2.LEFT
-				step()
-			elif Input.is_action_pressed(key_right):
-				direction = Vector2.RIGHT
-				step()
-		else:
-			end_move()
+	var current_collider: Object = Global.detect_collision_in_direction(direction, vision_ray)
+	if not current_collider:
+	# dokler ne zazna kolizije se premika zvezno ... is_action_pressed
+		if Input.is_action_pressed(key_up):
+			direction = Vector2.UP
+			step()
+		elif Input.is_action_pressed(key_down):
+			direction = Vector2.DOWN
+			step()
+		elif Input.is_action_pressed(key_left):
+			direction = Vector2.LEFT
+			step()
+		elif Input.is_action_pressed(key_right):
+			direction = Vector2.RIGHT
+			step()
+	else:
+		end_move()
 
 	if Input.is_action_just_pressed(key_burst): # brez "just" dela po stisku smeri ... ni ok
 		current_state = STATES.COCKING
@@ -139,7 +138,7 @@ func burst():
 	else:
 		burst_speed = current_ghost_count * cock_ghost_speed_addon
 
-	change_stat("burst_count", 1)
+	_change_stat("burst_count", 1)
 
 
 func play_sound(effect_for: String):
@@ -152,8 +151,6 @@ func play_sound(effect_for: String):
 				$Sounds/Blinking.get_child(random_blink_index).play() # nekateri so na mute, ker so drugače prepogosti soundi
 				var random_static_index = randi() % $Sounds/BlinkingStatic.get_child_count()
 				$Sounds/BlinkingStatic.get_child(random_static_index).play()
-			"heartbeat":
-				$Sounds/Heartbeat.play()
 			# bursting
 			"hit_stray":
 				$Sounds/Burst/HitStray.play()

@@ -219,6 +219,7 @@ func upgrade_level(upgrade_on_cleaned: bool =  false):
 		set_new_level()
 		Global.hud.level_popup_fade(current_level)
 		Global.hud.spawn_color_indicators(get_level_colors())
+		Global.hud.level_label.text = "L%02d" % current_level
 
 		level_upgrade_in_progress = false
 

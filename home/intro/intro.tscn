@@ -2,7 +2,7 @@
 
 [ext_resource path="res://assets/resources/env_arena.tres" type="Environment" id=1]
 [ext_resource path="res://home/intro/intro.gd" type="Script" id=2]
-[ext_resource path="res://common/ActionHintPress.tscn" type="PackedScene" id=3]
+[ext_resource path="res://common/action_hint_press.tscn" type="PackedScene" id=3]
 [ext_resource path="res://home/intro/intro_tilemap.gd" type="Script" id=4]
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=5]
 [ext_resource path="res://assets/resources/tileset_arena.tres" type="TileSet" id=7]
@@ -974,7 +974,7 @@ autowrap = true
 
 [node name="ActionHintPress" parent="." instance=ExtResource( 3 )]
 modulate = Color( 1, 1, 1, 0 )
-position = Vector2( 1792, 1872 )
+position = Vector2( 1792, 1984 )
 scale = Vector2( 2, 2 )
 __meta__ = {
 "_edit_group_": true

@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=1]
 [ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=2]
-[ext_resource path="res://common/action_hint.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=3]
 [ext_resource path="res://assets/atlas_controls.png" type="Texture" id=4]
+[ext_resource path="res://assets/theme/font_main_hint.tres" type="DynamicFont" id=6]
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0, 0, 0, 1 )
@@ -23,12 +24,14 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="AtlasTexture" id=3]
+[sub_resource type="AtlasTexture" id=232]
 atlas = ExtResource( 4 )
 region = Rect2( 136, 24, 24, 24 )
 margin = Rect2( 0, 1, 0, 1 )
 
 [node name="_help_gui_guide" type="Panel"]
+visible = false
+modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -41,19 +44,20 @@ rect_pivot_offset = Vector2( 744, 560 )
 custom_styles/panel = SubResource( 2 )
 
 [node name="M inside edge" type="Panel" parent="."]
+visible = false
 margin_left = 320.0
 margin_top = 200.0
 margin_right = 960.0
 margin_bottom = 520.0
 custom_styles/panel = SubResource( 1 )
 
-[node name="Label" type="Label" parent="M inside edge"]
-visible = false
-margin_left = 22.0
-margin_top = 16.0
-margin_right = 231.0
-margin_bottom = 30.0
-text = "bel rob je centriran na pixel grid"
+[node name="M inside edge2" type="Panel" parent="."]
+modulate = Color( 1, 1, 1, 0.25098 )
+margin_left = 304.0
+margin_top = 184.0
+margin_right = 976.0
+margin_bottom = 536.0
+custom_styles/panel = SubResource( 1 )
 
 [node name="shapes" type="Control" parent="."]
 visible = false
@@ -213,21 +217,22 @@ margin_left = -192.0
 margin_top = 70.0
 margin_right = 192.0
 margin_bottom = 102.0
+grow_horizontal = 2
 custom_fonts/font = ExtResource( 2 )
-text = "Gui title"
+text = "SUBTITLE MENU TITLE ... SWEEPER GO"
 align = 1
-uppercase = true
 
 [node name="Title2" type="Label" parent="."]
-modulate = Color( 0.368627, 1, 0.662745, 1 )
+modulate = Color( 1, 1, 1, 0.568627 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -192.0
-margin_top = 94.0
+margin_top = 86.0
 margin_right = 192.0
-margin_bottom = 126.0
+margin_bottom = 118.0
+grow_horizontal = 2
 custom_fonts/font = ExtResource( 2 )
-text = "TITLE w MENU"
+text = "TITLE WITH MENU"
 align = 1
 uppercase = true
 
@@ -236,24 +241,23 @@ modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -320.0
-margin_top = 126.0
-margin_right = -112.0
-margin_bottom = 176.0
+margin_top = 118.0
+margin_right = 16.0
+margin_bottom = 168.0
 grow_horizontal = 2
 theme = ExtResource( 1 )
-text = "Gui Subtitle ..."
+text = "No menu subtitle ..."
 autowrap = true
 
 [node name="Menu" type="HBoxContainer" parent="."]
-modulate = Color( 0.368627, 1, 0.662745, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -151.0
-margin_top = 246.0
+margin_top = 254.0
 margin_right = 151.0
-margin_bottom = 268.0
+margin_bottom = 276.0
 grow_horizontal = 2
 theme = ExtResource( 1 )
 custom_constants/separation = 32
@@ -294,32 +298,102 @@ mouse_default_cursor_shape = 2
 size_flags_vertical = 0
 text = "QUIT"
 
-[node name="ActionHint2" parent="." instance=ExtResource( 3 )]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_top = 285.0
-margin_right = 95.0
-margin_bottom = 310.0
+[node name="_pos2" type="ColorRect" parent="."]
+margin_top = 656.0
+margin_right = 1280.0
+margin_bottom = 720.0
+color = Color( 1, 1, 1, 0.133333 )
+
+[node name="ActionHintPress" type="Node2D" parent="."]
+pause_mode = 2
+position = Vector2( 640, 720 )
+z_index = 1000
+
+[node name="_pos" type="ColorRect" parent="ActionHintPress"]
+margin_left = 144.0
+margin_top = -720.0
+margin_right = 208.0
+margin_bottom = -624.0
+color = Color( 1, 1, 1, 0.364706 )
+
+[node name="_pos4" type="ColorRect" parent="ActionHintPress"]
+margin_left = 144.0
+margin_top = -600.0
+margin_right = 208.0
+margin_bottom = -504.0
+color = Color( 1, 1, 1, 0.364706 )
+
+[node name="_pos2" type="ColorRect" parent="ActionHintPress"]
+margin_left = 144.0
+margin_top = -96.0
+margin_right = 208.0
+color = Color( 1, 1, 1, 0.364706 )
+
+[node name="_pos3" type="ColorRect" parent="ActionHintPress"]
+margin_left = 144.0
+margin_top = -208.0
+margin_right = 208.0
+margin_bottom = -112.0
+color = Color( 1, 1, 1, 0.364706 )
+
+[node name="Hint" type="HBoxContainer" parent="ActionHintPress"]
+margin_left = -93.0
+margin_top = -83.0
+margin_right = 94.0
+margin_bottom = -58.0
+grow_horizontal = 2
+theme = ExtResource( 1 )
+custom_constants/separation = 8
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Label" parent="ActionHint2" index="0"]
-margin_right = 171.0
-text = "Click anywhere, press"
+[node name="TOUCH" type="Label" parent="ActionHintPress/Hint"]
+visible = false
+margin_top = 3.0
+margin_right = 44.0
+margin_bottom = 21.0
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+custom_fonts/font = ExtResource( 3 )
+text = "Swipe or tap"
+align = 1
+uppercase = true
 
-[node name="Jp" parent="ActionHint2" index="1"]
-texture = SubResource( 3 )
+[node name="JOYPAD" type="TextureRect" parent="ActionHintPress/Hint"]
+margin_right = 24.0
+margin_bottom = 25.0
+texture = SubResource( 232 )
 
-[node name="KEY" parent="ActionHint2" index="3"]
-margin_right = 112.0
+[node name="and_or" type="Label" parent="ActionHintPress/Hint"]
+margin_left = 32.0
+margin_top = 3.0
+margin_right = 50.0
+margin_bottom = 21.0
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+custom_fonts/font = ExtResource( 3 )
+text = "or"
+align = 1
+uppercase = true
+
+[node name="KEYBOARD" type="Label" parent="ActionHintPress/Hint"]
+modulate = Color( 0.901961, 0.901961, 0.901961, 1 )
+margin_left = 58.0
+margin_top = 2.0
+margin_right = 123.0
+margin_bottom = 23.0
+rect_min_size = Vector2( 0, 19 )
+custom_fonts/font = ExtResource( 6 )
 text = "ENTER"
+align = 1
+valign = 2
+uppercase = true
 
-[node name="Label3" parent="ActionHint2" index="4"]
-margin_left = 120.0
-margin_right = 187.0
+[node name="action" type="Label" parent="ActionHintPress/Hint"]
+margin_left = 131.0
+margin_top = 3.0
+margin_right = 202.0
+margin_bottom = 21.0
+custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+custom_fonts/font = ExtResource( 3 )
 text = "to start"
-
-[editable path="ActionHint2"]
+uppercase = true

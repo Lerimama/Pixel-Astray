@@ -2,6 +2,7 @@ extends Panel
 
 
 onready var touch_controller_popup: PopupMenu = $"../TouchControllerPopup"
+onready var game_outline: HFlowContainer = $"../GameOutline"
 
 
 func _ready() -> void:
@@ -93,11 +94,7 @@ func _on_TouchControllerPopup_index_pressed(index: int) -> void:
 		$TouchSensSlider.hide()
 
 	Global.hud.touch_controls.current_touch_controller = Profiles.set_touch_controller
-	get_parent().instructions.get_instructions_content() # padejt slikce
-	if Profiles.set_touch_controller == Profiles.TOUCH_CONTROLLER.DISABLED:
-		get_parent().settings_panel.rect_size.y = get_parent().def_outline_size_y
-	else:
-		get_parent().settings_panel.rect_size.y = get_parent().touch_outline_size_y
+	get_parent().game_outline.get_instructions_content() # apdejt slikce
 
 
 func _on_TouchSensSlider_value_changed(value: float) -> void:

@@ -140,10 +140,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.0671055, 0.192166, 0.249016, 0.309016, 0.369016, 0.409016, 0.554183, 0.595503, 0.695503, 0.855503, 0.995503, 1.0355, 1.1155, 1.2 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.0671055, 0.16, 0.249016, 0.309016, 0.369016, 0.409016, 0.554183, 0.595503, 0.695503, 0.855503, 0.995503, 1.0355, 1.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.6, 1.0, 0.0, 1.0, 0.6, 0.6, 1.0, 0.0 ]
+"values": [ 1.0, 0.0, 0.8, 1.0, 0.0, 1.0, 0.0, 0.6, 1.0, 0.0, 1.0, 0.6, 0.6, 0.0 ]
 }
 tracks/1/type = "method"
 tracks/1/path = NodePath(".")
@@ -201,10 +201,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.06, 0.172179, 0.281275, 0.33343, 0.426275, 0.543898, 0.613736, 0.729673, 0.789533, 0.866195, 0.910255, 1.1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.06, 0.08751, 0.12, 0.172179, 0.281275, 0.33343, 0.426275, 0.543898, 0.613736, 0.729673, 0.789533, 0.866195, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 1.0, 0.0, 0.8, 1.0, 0.0, 0.8, 0.0, 0.6, 0.7, 0.0, 0.7, 1.0, 0.0 ]
+"values": [ 1.0, 0.0, 0.8, 0.0, 0.8, 1.0, 0.0, 0.8, 0.0, 0.6, 0.7, 0.0, 0.7, 0.0 ]
 }
 tracks/1/type = "method"
 tracks/1/path = NodePath(".")
@@ -255,10 +255,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.06, 0.229303, 0.321458, 0.379609, 0.505558, 0.601764, 0.708506, 0.827506, 1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.06, 0.16, 0.321458, 0.379609, 0.505558, 0.601764, 0.708506, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 1.0, 0.0, 1.0, 0.0, 0.8, 0.0, 0.6, 0.7, 1.0, 0.0 ]
+"values": [ 1.0, 0.0, 1.0, 0.0, 0.8, 0.0, 0.6, 0.7, 0.0 ]
 }
 tracks/1/type = "method"
 tracks/1/path = NodePath(".")
@@ -307,10 +307,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.05, 0.202442, 0.26, 0.4, 0.48, 0.58, 0.68, 0.8, 0.84, 0.92, 1.1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.05, 0.15, 0.26, 0.4, 0.48, 0.58, 0.68, 0.8, 0.84, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 1.0, 0.0, 1.0, 0.0, 0.6, 1.0, 0.0, 1.0, 0.6, 0.6, 1.0, 0.0 ]
+"values": [ 1.0, 0.0, 1.0, 0.0, 0.6, 1.0, 0.0, 1.0, 0.6, 0.6, 0.0 ]
 }
 tracks/1/type = "method"
 tracks/1/path = NodePath(".")
@@ -564,6 +564,7 @@ animations = [ {
 } ]
 
 [node name="Stray" type="Area2D"]
+modulate = Color( 1, 1, 1, 0.492459 )
 script = ExtResource( 20 )
 
 [node name="ColorPoly" type="Polygon2D" parent="."]

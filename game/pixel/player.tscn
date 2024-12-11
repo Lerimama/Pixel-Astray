@@ -94,6 +94,73 @@ tracks/3/keys = {
 "values": [ 1.5 ]
 }
 
+[sub_resource type="Animation" id=137]
+resource_name = "_heartbeat"
+length = 0.8
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.06, 0.32, 0.52, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 1.0, 0.8, 1.0, 1.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BurstLight:enabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.01 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("BurstLight:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.06, 0.14, 0.32, 0.52, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.5, 0.5, 0.3, 0.05, 0.0 ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.06 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "heartbeat" ],
+"method": "play_sound"
+} ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("GlowLight:energy")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.06, 0.14, 0.33, 0.52, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.5, 1.5, 1.5, 0.8, 1.5, 1.5 ]
+}
+
 [sub_resource type="Animation" id=145]
 resource_name = "become_white"
 length = 2.5
@@ -338,73 +405,6 @@ tracks/5/keys = {
 "args": [ "blinking" ],
 "method": "play_sound"
 } ]
-}
-
-[sub_resource type="Animation" id=137]
-resource_name = "heartbeat"
-length = 0.8
-step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:modulate:a")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.06, 0.32, 0.52, 0.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 1.0, 1.0, 0.8, 1.0, 1.0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("BurstLight:enabled")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.01 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, true ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("BurstLight:energy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.06, 0.14, 0.32, 0.52, 0.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 0.0, 0.5, 0.5, 0.3, 0.05, 0.0 ]
-}
-tracks/3/type = "method"
-tracks/3/path = NodePath(".")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0.06 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ "heartbeat" ],
-"method": "play_sound"
-} ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("GlowLight:energy")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0, 0.06, 0.14, 0.33, 0.52, 0.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 0.5, 1.5, 1.5, 0.8, 1.5, 1.5 ]
 }
 
 [sub_resource type="Animation" id=144]
@@ -852,9 +852,9 @@ range_z_min = 0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 142 )
+anims/_heartbeat = SubResource( 137 )
 anims/become_white = SubResource( 145 )
 anims/die_player = SubResource( 2 )
-anims/heartbeat = SubResource( 137 )
 anims/lose_white_on_start = SubResource( 144 )
 anims/lose_white_on_start_long = SubResource( 162 )
 anims/revive = ExtResource( 27 )

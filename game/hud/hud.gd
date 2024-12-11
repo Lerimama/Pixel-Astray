@@ -106,22 +106,11 @@ func _ready() -> void:
 	_set_hud_elements() # vse kar se lahko razlikuje "per game"
 
 
-func _process(delta: float) -> void:
-
-
-#	set_process_input(true)
-	astray_counter.text = "%0d" % Global.game_manager.strays_in_game_count
-
-	if level_label.visible: # Global.game_manager.game_data.has("level"):
-		level_label.text = "L%02d" % Global.game_manager.game_data["level"]
-
-
 func _set_hud_elements():
 
 	# game name and level
 	game_label.text = Global.game_manager.game_data["game_name"]
 	if Global.game_manager.game_data.has("level"):
-		level_label.text = "L%02d" % Global.game_manager.game_data["level"]
 		level_label.show()
 	else:
 		level_label.hide()
@@ -161,8 +150,7 @@ func _set_hud_elements():
 		highscore_holder.show()
 
 	# timer
-	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-	#	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
+	if Global.game_manager.game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
 		game_timer.display_hunds = true
 
 

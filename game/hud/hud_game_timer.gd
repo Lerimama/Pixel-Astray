@@ -34,6 +34,7 @@ func _ready() -> void:
 	modulate = Global.color_hud_text
 	# ker ga moduliram tukaj in je label ima na node tu setano font color override
 	game_time_limit = Global.game_manager.game_settings["game_time_limit"]
+	# stopwatch mode se defirnira ob štartu
 	self.display_hunds = display_hunds
 
 

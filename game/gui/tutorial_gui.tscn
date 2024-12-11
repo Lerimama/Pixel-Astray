@@ -5,7 +5,7 @@
 [ext_resource path="res://assets/theme/color_theme_spectrum.png" type="Texture" id=3]
 [ext_resource path="res://common/action_hint.tscn" type="PackedScene" id=4]
 [ext_resource path="res://game/gui/tutorial_gui.gd" type="Script" id=5]
-[ext_resource path="res://common/ActionHintPress.tscn" type="PackedScene" id=6]
+[ext_resource path="res://common/action_hint_press.tscn" type="PackedScene" id=6]
 
 [sub_resource type="StyleBoxEmpty" id=346]
 
@@ -24,9 +24,9 @@ __meta__ = {
 }
 
 [node name="Checkpoints" type="Control" parent="."]
-margin_left = 392.0
+margin_left = 384.0
 margin_top = 104.0
-margin_right = 888.0
+margin_right = 896.0
 margin_bottom = 104.0
 grow_horizontal = 2
 
@@ -34,11 +34,14 @@ grow_horizontal = 2
 visible = false
 anchor_right = 1.0
 margin_bottom = 96.0
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Background" type="ColorRect" parent="Checkpoints/TravelingContent"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 0.784314 )
+color = Color( 0, 0, 0, 0.901961 )
 
 [node name="Title" type="Label" parent="Checkpoints/TravelingContent"]
 anchor_right = 1.0
@@ -70,12 +73,14 @@ autowrap = true
 visible = false
 anchor_right = 1.0
 margin_bottom = 192.0
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Background" type="ColorRect" parent="Checkpoints/BurstingContent"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_bottom = 1.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 0.784314 )
+color = Color( 0, 0, 0, 0.901961 )
 
 [node name="Title" type="Label" parent="Checkpoints/BurstingContent"]
 anchor_right = 1.0
@@ -129,12 +134,14 @@ autowrap = true
 visible = false
 anchor_right = 1.0
 margin_bottom = 160.0
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Background" type="ColorRect" parent="Checkpoints/SkillingContent"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_bottom = 1.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 0.784314 )
+color = Color( 0, 0, 0, 0.901961 )
 
 [node name="Title" type="Label" parent="Checkpoints/SkillingContent"]
 anchor_right = 1.0
@@ -178,12 +185,14 @@ autowrap = true
 visible = false
 anchor_right = 1.0
 margin_bottom = 160.0
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Background" type="ColorRect" parent="Checkpoints/FinContent"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_bottom = 1.0
-color = Color( 0.0784314, 0.0784314, 0.0784314, 0.784314 )
+color = Color( 0, 0, 0, 0.901961 )
 
 [node name="Title" type="Label" parent="Checkpoints/FinContent"]
 anchor_right = 1.0
@@ -227,170 +236,6 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-
-[node name="Shadow" type="Control" parent="HudGuide"]
-modulate = Color( 0, 0, 0, 0.313726 )
-show_behind_parent = true
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 1.0
-margin_top = 1.0
-margin_right = 1.0
-margin_bottom = 1.0
-mouse_filter = 2
-
-[node name="PlayerLabel" type="Label" parent="HudGuide/Shadow"]
-self_modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-margin_left = 32.0
-margin_top = 45.0
-margin_right = 220.0
-margin_bottom = 63.0
-custom_fonts/font = ExtResource( 1 )
-text = "Life, energy and Score"
-uppercase = true
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Line2D" type="Line2D" parent="HudGuide/Shadow/PlayerLabel"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-position = Vector2( -14, 6 )
-points = PoolVector2Array( 38, -19, 38, -7 )
-width = 0.5
-default_color = Color( 1, 1, 1, 1 )
-antialiased = true
-
-[node name="TimeLabel" type="Label" parent="HudGuide/Shadow"]
-self_modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-margin_left = 556.0
-margin_top = 45.0
-margin_right = 637.0
-margin_bottom = 63.0
-custom_fonts/font = ExtResource( 1 )
-text = "Game time"
-uppercase = true
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Line2D3" type="Line2D" parent="HudGuide/Shadow/TimeLabel"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-position = Vector2( -39, 6 )
-points = PoolVector2Array( 91, -19, 91, -7 )
-width = 0.5
-default_color = Color( 1, 1, 1, 1 )
-antialiased = true
-
-[node name="MusicLabel" type="Label" parent="HudGuide/Shadow"]
-self_modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-margin_left = 667.0
-margin_top = 45.0
-margin_right = 937.0
-margin_bottom = 63.0
-custom_fonts/font = ExtResource( 1 )
-text = "Clickable music player"
-uppercase = true
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Line2D2" type="Line2D" parent="HudGuide/Shadow/MusicLabel"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-position = Vector2( -34, 9 )
-points = PoolVector2Array( 79, -22, 79, -10 )
-width = 0.5
-default_color = Color( 1, 1, 1, 1 )
-antialiased = true
-
-[node name="HighscoreLabel" type="Label" parent="HudGuide/Shadow"]
-self_modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-margin_left = 1055.0
-margin_top = 45.0
-margin_right = 1250.0
-margin_bottom = 63.0
-grow_horizontal = 0
-custom_fonts/font = ExtResource( 1 )
-text = "Games highscore"
-align = 2
-uppercase = true
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Line2D" type="Line2D" parent="HudGuide/Shadow/HighscoreLabel"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-position = Vector2( 46, 1 )
-points = PoolVector2Array( 107, -14, 107, -2 )
-width = 0.5
-default_color = Color( 1, 1, 1, 1 )
-antialiased = true
-
-[node name="GameLabel" type="Label" parent="HudGuide/Shadow"]
-self_modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-margin_left = 31.0
-margin_top = 654.0
-margin_right = 157.0
-margin_bottom = 672.0
-custom_fonts/font = ExtResource( 1 )
-text = "Game and level"
-uppercase = true
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Line2D2" type="Line2D" parent="HudGuide/Shadow/GameLabel"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-position = Vector2( 0, 56 )
-points = PoolVector2Array( 57, -22, 57, -34 )
-width = 0.5
-default_color = Color( 1, 1, 1, 1 )
-antialiased = true
-
-[node name="SpectrumLabel" type="Label" parent="HudGuide/Shadow"]
-self_modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-margin_left = 427.5
-margin_top = 654.0
-margin_right = 852.5
-margin_bottom = 672.0
-grow_horizontal = 2
-custom_fonts/font = ExtResource( 1 )
-text = "Indicator of picked and available colors"
-align = 1
-uppercase = true
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Line2D" type="Line2D" parent="HudGuide/Shadow/SpectrumLabel"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-position = Vector2( 136, 59 )
-points = PoolVector2Array( 76.5, -37, 76.5, -25 )
-width = 0.5
-default_color = Color( 1, 1, 1, 1 )
-antialiased = true
-
-[node name="AstrayLabel" type="Label" parent="HudGuide/Shadow"]
-self_modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-margin_left = 1012.0
-margin_top = 654.0
-margin_right = 1249.0
-margin_bottom = 672.0
-grow_horizontal = 0
-custom_fonts/font = ExtResource( 1 )
-text = "Pixels still astray"
-align = 2
-uppercase = true
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Line2D2" type="Line2D" parent="HudGuide/Shadow/AstrayLabel"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-position = Vector2( 109, 58 )
-points = PoolVector2Array( 104, -24, 104, -36 )
-width = 0.5
-default_color = Color( 1, 1, 1, 1 )
-antialiased = true
 
 [node name="PlayerLabel" type="Label" parent="HudGuide"]
 self_modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
@@ -560,7 +405,7 @@ texture = ExtResource( 3 )
 expand = true
 
 [node name="ActionHintPress" parent="." instance=ExtResource( 6 )]
-position = Vector2( 640, 624 )
+position = Vector2( 640, 680 )
 
 [node name="Hint" parent="ActionHintPress" index="1"]
 margin_left = -107.0

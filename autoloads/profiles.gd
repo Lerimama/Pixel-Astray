@@ -1,7 +1,7 @@
 extends Node
 
 
-func DEFAULT(): pass
+func TOP(): pass
 
 
 enum Games {CLEANER, ERASER_XS, ERASER_S, ERASER_M, ERASER_L, ERASER_XL, HUNTER, DEFENDER, SWEEPER, THE_DUEL, SHOWCASE}
@@ -16,7 +16,6 @@ var touch_controller_content: Dictionary = {
 	TOUCH_CONTROLLER.SCREEN_RIGHT:  {"Sliding Left": "SLIDE tracking for motion, Burst on left"},
 }
 
-
 var default_player_stats: Dictionary = {
 	"player_name": "Somebody", # to ime se piše v HS procesu, če igralec pusti prazno
 	"player_life": 0, # se opredeli iz game_settings
@@ -30,23 +29,23 @@ var default_player_stats: Dictionary = {
 
 var default_game_settings: Dictionary = { # per game
 	# player
-	"player_start_life": 3, # 1 lajf skrije ikone v hudu, on hit jemlje energijo ne lajfa
+	"player_start_life": 1, # 1 lajf skrije ikone v hudu, on hit jemlje energijo ne lajfa
 	"player_start_color": Global.color_dark_gray_pixel, # na začetku je bel, potem se animira v start color ... #232323, #141414
 	"player_step_time": 0.09, # default hitrost
 	"player_start_energy": 192,
 	# points
 	"color_picked_points": 10,
 	"white_eliminated_points": 100,
-	"cleaned_reward_points": 1000,
+	"cleaned_reward_points": 1000, # 1 ... izpiše se "SUCCESS!" # TEST
 	# energija
 	"color_picked_energy": 10,
 	"cell_traveled_energy": 0,
-	"on_hit_wall_energy_part": 0,
+	"on_hit_wall_energy_factor": 1, # 1 ... energija ostane ista
+	"on_get_hit_energy_factor": 0, # 0 ... izguba lajfa
 	# reburst
-	"reburst_enabled": false,
-	"reburst_hit_power": 1, # 0 gre po original pravilih moči, trenutno je 5 full power
-	"reburst_window_time": 0.3, # 0 je neomejen čas
-	"reburst_window_energy_drain": -2, # uporabljam namesto časa
+	"reburst_mode": false,
+	"reburst_hit_power": 0, # 0 gre po original pravilih moči, trenutno je 5 full power
+	"reburst_window_time": 1, # 0 je neomejen čas
 	# strays
 	"create_strays_count": 0,
 	"spawn_white_stray_part": 0, # procenti spawnanih ... 0 ne spawna nobenega belega
@@ -56,15 +55,12 @@ var default_game_settings: Dictionary = { # per game
 	"respawn_pause_time_low": 1, # klempam navzdol na tole
 	"stray_step_time": 0.5, # ne manjši od 0.2
 	# game
-	"burst_count_limit": 0, # če je nič, ni omejeno
 	"game_time_limit": 0, # če je nič, ni omejeno in timer je stopwatch mode
 	"color_pool_colors_count": 500,
 	"step_slowdown_mode": true,
 	"full_power_mode": false, # vedno destroja ves stack, hitrost = max_cock_count
-	"spawn_strays_on_cleaned": false,
 	"game_music_track_index": 0, # default muska v igri
 	# gui
-	"position_indicators_show_limit": 0, # en manj je število vidnih
 	"start_countdown": true,
 	"zoom_to_level_size": false, # SHOWCASE
 	"always_zoomed_in": false, # SWEEPER
@@ -90,7 +86,7 @@ var game_data_eraser_xs: Dictionary = {
 	"game_name": "Eraser XS",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser_xs.tscn",
-	"description" : "Take back the colors and become the brightest again!"
+	"description" : "Collect all %d colors and become the brightest again!" % 32,
 }
 
 var game_data_eraser_s: Dictionary = {
@@ -99,7 +95,7 @@ var game_data_eraser_s: Dictionary = {
 	"game_name": "Eraser S",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser_s.tscn",
-	"description" : "Take back the colors and become the brightest again!"
+	"description" : "Collect all %d colors and become the brightest again!" % 50,
 }
 
 var game_data_eraser_m: Dictionary = {
@@ -109,7 +105,7 @@ var game_data_eraser_m: Dictionary = {
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser_m.tscn",
 #	"tilemap_path": "res://game/tilemaps/tilemap_eraser_m_small.tscn",
-	"description" : "Take back the colors and become the brightest again!"
+	"description" : "Collect all %d colors and become the brightest again!" % 140,
 }
 
 var game_data_eraser_l: Dictionary = {
@@ -118,7 +114,7 @@ var game_data_eraser_l: Dictionary = {
 	"game_name": "Eraser L",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser_l.tscn",
-	"description" : "Take back the colors and become the brightest again!"
+	"description" : "Collect all %d colors and become the brightest again!" % 230,
 }
 
 var game_data_eraser_xl: Dictionary = {
@@ -127,7 +123,7 @@ var game_data_eraser_xl: Dictionary = {
 	"game_name": "Eraser XL",
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/tilemap_eraser_xl.tscn",
-	"description" : "Take back the colors and become the brightest again!"
+	"description" : "Collect all %d colors and become the brightest again!" % 320,
 }
 
 var game_data_hunter: Dictionary = {
@@ -178,8 +174,8 @@ var game_data_sweeper: Dictionary = {
 	"game_scene_path": "res://game/game.tscn",
 	"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
 	"description" : "Sweep the entire screen with one spectacular move!",
-	"Prop" : "Destroy the first stray and keep your momentum by pressing in the next\ntarget's direction.",
-	"level": 1,
+	"Prop" : "Destroy the first stray and keep your momentum by pressing in the next target's direction.",
+	"level": 4,
 }
 
 var game_data_the_duel: Dictionary = {
@@ -224,10 +220,10 @@ var debug_mode: bool = false
 var tutorial_music_track_index: int = 3
 
 # settings (home)
-var use_default_color_theme: bool = true
-var pregame_screen_on: bool = true # na štart gre v game_settings > prebere se iz game_settingsov
-var camera_shake_on: bool = true
-var tutorial_mode: bool = true
+var use_default_color_theme: bool = true # sejvam
+var pregame_screen_on: bool = true # sejvam
+var camera_shake_on: bool = true # sejvam
+var tutorial_mode: bool = true # sejvam
 var analytics_mode: bool = true
 var brightness: float = 1 setget _change_brightness # 0.6 > 1.1 ... def = 1
 var vsync_on: bool = true setget _change_vsync
@@ -245,124 +241,107 @@ func _ready() -> void:
 		html5_mode = true
 	else:
 		html5_mode = false
-
+	analytics_mode = not html5_mode # vsa analitika preverja, če je v modu
+	tutorial_mode = not html5_mode
 	touch_available = OS.has_touchscreen_ui_hint()
 	debug_mode = OS.is_debug_build()
-	# fejkanje modeta
-	#	html5_mode = false
-	#	touch_available = true
-	#	debug_mode = false
-
-	Profiles.analytics_mode = not html5_mode
-	Profiles.tutorial_mode = not html5_mode
 
 	# nastavim sejvane settingse
-	var apply_game_settings: Dictionary = Data.read_settings_from_file() # če fileta ni, pobere trenutno setane vrednosti
-	pregame_screen_on = apply_game_settings["pregame_screen_on"]
-	camera_shake_on = apply_game_settings["camera_shake_on"]
-	tutorial_mode = apply_game_settings["tutorial_mode"]
-	analytics_mode = apply_game_settings["analytics_mode"]
-	self.vsync_on = apply_game_settings["vsync_on"]
+	if not html5_mode:
+		var apply_game_settings: Dictionary = Data.read_settings_from_file() # če fileta ni, pobere trenutno setane vrednosti
+		pregame_screen_on = apply_game_settings["pregame_screen_on"]
+		camera_shake_on = apply_game_settings["camera_shake_on"]
+		tutorial_mode = apply_game_settings["tutorial_mode"]
+		#	analytics_mode = apply_game_settings["analytics_mode"]
+		self.vsync_on = apply_game_settings["vsync_on"]
 
-	# če greš iz menija je tole povoženo
-#	var debug_game = Games.SHOWCASE # fix camera
-#	var debug_game = Games.CLEANER
-#	var debug_game = Games.ERASER_XS
-#	var debug_game = Games.ERASER_S
-#	var debug_game = Games.ERASER_M
-#	var debug_game = Games.ERASER_L
-#	var debug_game = Games.ERASER_XL
-#	var debug_game = Games.HUNTER
-#	var debug_game = Games.DEFENDER
-	var debug_game = Games.SWEEPER
-#	var debug_game = Games.THE_DUEL
-
-	if Profiles.debug_mode:
+	if debug_mode:
+		# če greš iz menija je tole povoženo
+#		var debug_game = Games.SHOWCASE # fix camera
+#		var debug_game = Games.CLEANER
+#		var debug_game = Games.ERASER_XS
+#		var debug_game = Games.ERASER_S
+		var debug_game = Games.ERASER_M
+#		var debug_game = Games.ERASER_L
+#		var debug_game = Games.ERASER_XL
+#		var debug_game = Games.HUNTER
+#		var debug_game = Games.DEFENDER
+#		var debug_game = Games.SWEEPER
+#		var debug_game = Games.THE_DUEL
 		set_game_data(debug_game)
+
+		# debug ... game_data
+		if debug_mode:
+			game_settings["start_countdown"] = false
+#			game_settings["player_start_life"] = 2
+#			pregame_screen_on = false
+#			tutorial_mode = false
+#			html5_mode = true
+#			touch_available = true
+#			debug_mode = false
 
 
 func set_game_data(selected_game):
 
 	game_settings = default_game_settings.duplicate() # naloži default, potrebne spremeni ob loadanju igre
-
-	# debug ... game_data
-	if Profiles.debug_mode:
-		html5_mode = true
-		game_settings["start_countdown"] = false
-		pregame_screen_on = false
-		tutorial_mode = false
-		game_settings["player_start_life"] = 2
-
 	game_settings["pregame_screen_on"] = pregame_screen_on # da se seta aka per-game in osnovnega ne spreminjam
+
 	match selected_game:
 		Games.CLEANER:
 			current_game_data = game_data_cleaner.duplicate()
+			game_settings["player_start_life"] = 3
 			game_settings["create_strays_count"] = 500 # spawna jih cca 1200 (tilemap setup)
 		Games.ERASER_XS:
 			current_game_data = game_data_eraser_xs.duplicate()
 			game_settings["player_start_life"] = 1
 			game_settings["game_time_limit"] = 0
-			game_settings["cleaned_reward_points"] = 1 # ... izpiše se "SUCCESS!" # TEST
-			game_settings["create_strays_count"] = 3#2
+			game_settings["cleaned_reward_points"] = 1
+			game_settings["create_strays_count"] = 32
 			game_settings["spawn_white_stray_part"] = 0.11 # 10 posto
 		Games.ERASER_S:
 			current_game_data = game_data_eraser_s.duplicate()
-			game_settings["player_start_life"] = 1
 			game_settings["game_time_limit"] = 0
-#			game_settings["game_time_limit"] = 300
-			game_settings["cleaned_reward_points"] = 1 # ... izpiše se "SUCCESS!" # TEST
+			game_settings["cleaned_reward_points"] = 1
 			game_settings["create_strays_count"] = 50
 			game_settings["spawn_white_stray_part"] = 0.11
 		Games.ERASER_M:
 			current_game_data = game_data_eraser_m.duplicate()
-			game_settings["player_start_life"] = 1
+#			game_settings["reburst_mode"] = true
 			game_settings["game_time_limit"] = 0
-#			game_settings["game_time_limit"] = 600
-			game_settings["cleaned_reward_points"] = 1 # ... izpiše se "SUCCESS!" # TEST
-			game_settings["create_strays_count"] = 150
+			game_settings["cleaned_reward_points"] = 1
+			game_settings["create_strays_count"] = 140
 			game_settings["spawn_white_stray_part"] = 0.11
 		Games.ERASER_L:
 			current_game_data = game_data_eraser_l.duplicate()
-			game_settings["player_start_life"] = 1
 			game_settings["game_time_limit"] = 0
-#			game_settings["game_time_limit"] = 900
-			game_settings["cleaned_reward_points"] = 1 # ... izpiše se "SUCCESS!" # TEST
-			game_settings["create_strays_count"] = 300
+			game_settings["cleaned_reward_points"] = 1
+			game_settings["create_strays_count"] = 230
 			game_settings["spawn_white_stray_part"] = 0.11
 		Games.ERASER_XL:
 			current_game_data = game_data_eraser_xl.duplicate()
-			game_settings["player_start_life"] = 1
 			game_settings["game_time_limit"] = 0
-#			game_settings["game_time_limit"] = 1200
-			game_settings["cleaned_reward_points"] = 1 # ... izpiše se "SUCCESS!" # TEST
-			game_settings["create_strays_count"] = 400
+			game_settings["cleaned_reward_points"] = 1
+			game_settings["create_strays_count"] = 320
 			game_settings["spawn_white_stray_part"] = 0.11
 		Games.HUNTER:
 			current_game_data = game_data_hunter.duplicate()
-			game_settings["position_indicators_show_limit"] = 0
-			#
 			game_settings["respawn_strays_count_range"] = [2, 8]
 			game_settings["respawn_pause_time"] = 3
 			game_settings["spawn_white_stray_part"] = 0.32
 		Games.DEFENDER:
 			current_game_data = game_data_defender.duplicate()
-			game_settings["cell_traveled_energy"] = 0
-			game_settings["position_indicators_show_limit"] = 0
 			game_settings["full_power_mode"] = true
-			#
-			game_settings["create_strays_count"] = 1 # število spawnanih v prvi rundi
+			game_settings["create_strays_count"] = 1
 		Games.SWEEPER:
 			current_game_data = game_data_sweeper.duplicate()
 			game_settings["player_start_life"] = 1
+			game_settings["on_hit_wall_energy_factor"] = 0
 			game_settings["player_start_color"] = Color.white
 			game_settings["color_picked_points"] = 0
-			game_settings["cleaned_reward_points"] = 1 # ... izpiše se "SUCCESS!" # TEST
-			game_settings["position_indicators_show_limit"] = 0
-			game_settings["reburst_enabled"] = true
-			game_settings["reburst_window_time"] = 13
-			game_settings["burst_count_limit"] = 1
+			game_settings["cleaned_reward_points"] = 1
+			game_settings["reburst_mode"] = true
+			game_settings["reburst_window_time"] = 0
 			game_settings["game_music_track_index"] = 3
-			game_settings["cell_traveled_energy"] = 0
 			# zoom-in je samo prvi level iz home menija
 			# med igro se seta na off, da ostane zoomiran
 			# play iz GO je že zumiran
@@ -370,9 +349,8 @@ func set_game_data(selected_game):
 			tutorial_mode = false # _temp rabi posebn tutorial
 		Games.THE_DUEL:
 			current_game_data = game_data_the_duel.duplicate()
+			game_settings["player_start_life"] = 3
 			game_settings["game_time_limit"] = 180 # tilemap set
-			game_settings["spawn_strays_on_cleaned"] = true
-			game_settings["position_indicators_show_limit"] = 0
 			game_settings["respawn_strays_count_range"] = [1, 14]
 			game_settings["spawn_white_stray_part"] = 0.21
 			tutorial_mode = false

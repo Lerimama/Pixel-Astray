@@ -262,6 +262,8 @@ func _on_InvertBtn_toggled(button_pressed: bool) -> void:
 
 	var fade_time: float = 1
 	Global.main_node.invert_colors(fade_time)
+
+	# disejbl, da se ne da klikat
 	$Content/InvertBtn.disabled = true
 	yield(get_tree().create_timer(fade_time), "timeout")
 	$Content/InvertBtn.disabled = false

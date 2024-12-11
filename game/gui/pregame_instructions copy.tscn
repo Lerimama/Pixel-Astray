@@ -1,0 +1,304 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://game/hud/game_instructions.gd" type="Script" id=1]
+[ext_resource path="res://common/action_hint_press.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=3]
+[ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=4]
+[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=5]
+[ext_resource path="res://common/shortcuts.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/theme/box_colored_almost_black.tres" type="StyleBox" id=9]
+[ext_resource path="res://_helpers/_help_gui_guide.tscn" type="PackedScene" id=10]
+[ext_resource path="res://game/gui/controls_wide.tscn" type="PackedScene" id=12]
+
+[node name="Instructions" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+focus_mode = 2
+theme = ExtResource( 5 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 104.0, 152.0 ],
+"_edit_vertical_guides_": [ 640.0 ]
+}
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0, 0, 0, 1 )
+
+[node name="_help_gui_guide" parent="." instance=ExtResource( 10 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 0.0
+margin_bottom = 0.0
+
+[node name="shapes" parent="_help_gui_guide" index="2"]
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Title" type="Label" parent="."]
+modulate = Color( 0.368627, 1, 0.662745, 1 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -328.0
+margin_top = 70.0
+margin_right = 328.0
+margin_bottom = 102.0
+custom_fonts/font = ExtResource( 4 )
+text = "%Game title"
+align = 1
+uppercase = true
+
+[node name="Description" type="Label" parent="."]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -320.0
+margin_top = 118.0
+margin_right = 320.0
+margin_bottom = 144.0
+grow_horizontal = 2
+text = "%Take back the colors and become the brightest again."
+align = 1
+autowrap = true
+clip_text = true
+
+[node name="Outline" type="HFlowContainer" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -320.0
+margin_top = 200.0
+margin_right = 320.0
+margin_bottom = 456.0
+rect_min_size = Vector2( 640, 240 )
+size_flags_horizontal = 3
+custom_constants/vseparation = 8
+custom_constants/hseparation = 8
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Prop" type="Panel" parent="Outline"]
+visible = false
+margin_right = 368.0
+margin_bottom = 160.0
+rect_min_size = Vector2( 264, 152 )
+rect_clip_content = true
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = ExtResource( 9 )
+
+[node name="PropLabel" type="Label" parent="Outline/Prop"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 24.0
+margin_right = -8.0
+margin_bottom = -24.0
+grow_horizontal = 2
+rect_min_size = Vector2( 152, 0 )
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 3 )
+text = "Stay on your
+toes as new colors
+keep popping in!"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="Record" type="Panel" parent="Outline"]
+margin_right = 264.0
+margin_bottom = 160.0
+grow_horizontal = 2
+rect_min_size = Vector2( 264, 160 )
+rect_clip_content = true
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+custom_styles/panel = ExtResource( 9 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Outline/Record"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = 56.0
+margin_right = -15.0
+margin_bottom = -64.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RecordTitle" type="Label" parent="Outline/Record/VBoxContainer"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+margin_right = 233.0
+margin_bottom = 25.0
+grow_horizontal = 2
+rect_min_size = Vector2( 0, 25 )
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+custom_fonts/font = ExtResource( 3 )
+text = "%Current record"
+align = 1
+
+[node name="RecordLabel" type="Label" parent="Outline/Record/VBoxContainer"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+margin_top = 29.0
+margin_right = 233.0
+margin_bottom = 51.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+text = "%00000 points"
+align = 1
+
+[node name="RecordOwner" type="Label" parent="Outline/Record/VBoxContainer"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+margin_top = 55.0
+margin_right = 233.0
+margin_bottom = 73.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 3 )
+text = "%by owner"
+align = 1
+valign = 2
+
+[node name="RecordMobile" type="Panel" parent="Outline"]
+visible = false
+margin_right = 640.0
+margin_bottom = 80.0
+grow_horizontal = 2
+rect_min_size = Vector2( 640, 80 )
+rect_clip_content = true
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+custom_styles/panel = ExtResource( 9 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="VBoxContainer" type="HBoxContainer" parent="Outline/RecordMobile"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 204.0
+margin_top = 24.0
+margin_right = -203.0
+margin_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_constants/separation = 16
+
+[node name="RecordTitle" type="Label" parent="Outline/RecordMobile/VBoxContainer"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+margin_right = 132.0
+margin_bottom = 26.0
+grow_horizontal = 2
+rect_min_size = Vector2( 0, 26 )
+size_flags_vertical = 2
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+custom_fonts/font = ExtResource( 3 )
+text = "%Current record"
+align = 1
+valign = 2
+
+[node name="RecordLabel" type="Label" parent="Outline/RecordMobile/VBoxContainer"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+margin_left = 148.0
+margin_right = 313.0
+margin_bottom = 28.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 0, 28 )
+size_flags_vertical = 2
+text = "%00000 points"
+align = 1
+valign = 2
+
+[node name="RecordOwner" type="Label" parent="Outline/RecordMobile/VBoxContainer"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+margin_left = 148.0
+margin_right = 233.0
+margin_bottom = 26.0
+grow_horizontal = 2
+rect_min_size = Vector2( 0, 26 )
+size_flags_vertical = 2
+custom_fonts/font = ExtResource( 3 )
+text = "%by owner"
+align = 1
+valign = 2
+
+[node name="Shortcuts" type="Panel" parent="Outline"]
+margin_left = 272.0
+margin_right = 640.0
+margin_bottom = 160.0
+rect_min_size = Vector2( 360, 160 )
+rect_clip_content = true
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = ExtResource( 9 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Shortcuts" parent="Outline/Shortcuts" instance=ExtResource( 6 )]
+
+[node name="Controls" type="Panel" parent="Outline"]
+margin_top = 168.0
+margin_right = 640.0
+margin_bottom = 336.0
+rect_min_size = Vector2( 384, 168 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = ExtResource( 9 )
+__meta__ = {
+"_edit_group_": true,
+"_editor_description_": ""
+}
+
+[node name="ControlsWide" parent="Outline/Controls" instance=ExtResource( 12 )]
+margin_left = -9.0
+margin_top = -8.0
+margin_right = -9.0
+margin_bottom = -8.0
+rect_pivot_offset = Vector2( 52, -98 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="2P" parent="Outline/Controls/ControlsWide" index="1"]
+margin_left = -279.0
+margin_right = 287.0
+
+[node name="ActionHintPress" parent="." instance=ExtResource( 2 )]
+position = Vector2( 640, 664 )
+
+[node name="Hint" parent="ActionHintPress" index="1"]
+margin_left = -93.0
+margin_right = 94.0
+
+[node name="action" parent="ActionHintPress/Hint" index="4"]
+margin_right = 202.0
+text = "to start"
+
+[node name="HintBtn" parent="ActionHintPress" index="2"]
+margin_left = -640.0
+margin_top = -664.0
+margin_right = 640.0
+margin_bottom = 56.0
+focus_mode = 2
+
+[connection signal="pressed" from="ActionHintPress/HintBtn" to="." method="_on_HintBtn_pressed"]
+
+[editable path="_help_gui_guide"]
+[editable path="Outline/Controls/ControlsWide"]
+[editable path="ActionHintPress"]

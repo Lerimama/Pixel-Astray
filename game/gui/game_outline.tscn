@@ -1,0 +1,217 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=1]
+[ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=2]
+[ext_resource path="res://game/gui/game_outline.gd" type="Script" id=3]
+[ext_resource path="res://assets/theme/box_colored_almost_black.tres" type="StyleBox" id=5]
+[ext_resource path="res://game/gui/controls_wide.tscn" type="PackedScene" id=6]
+[ext_resource path="res://common/shortcuts.tscn" type="PackedScene" id=7]
+
+[node name="GameOutline" type="HFlowContainer"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -336.0
+margin_top = 184.0
+margin_right = 336.0
+margin_bottom = 536.0
+rect_min_size = Vector2( 500, 352 )
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+custom_constants/vseparation = 8
+custom_constants/hseparation = 8
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Record" type="Panel" parent="."]
+margin_right = 310.0
+margin_bottom = 160.0
+grow_horizontal = 2
+rect_min_size = Vector2( 220, 160 )
+rect_clip_content = true
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Record"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = 56.0
+margin_right = -15.0
+margin_bottom = -64.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RecordTitle" type="Label" parent="Record/VBoxContainer"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+margin_right = 279.0
+margin_bottom = 25.0
+grow_horizontal = 2
+rect_min_size = Vector2( 0, 25 )
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+custom_fonts/font = ExtResource( 2 )
+text = "%Current record"
+align = 1
+
+[node name="RecordLabel" type="Label" parent="Record/VBoxContainer"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+margin_top = 29.0
+margin_right = 279.0
+margin_bottom = 51.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+text = "%00000 points"
+align = 1
+
+[node name="RecordOwner" type="Label" parent="Record/VBoxContainer"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+margin_top = 55.0
+margin_right = 279.0
+margin_bottom = 73.0
+grow_horizontal = 2
+custom_fonts/font = ExtResource( 2 )
+text = "%by owner"
+align = 1
+valign = 2
+
+[node name="Prop" type="Panel" parent="."]
+visible = false
+margin_left = 322.0
+margin_right = 672.0
+margin_bottom = 160.0
+rect_min_size = Vector2( 256, 152 )
+rect_clip_content = true
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = ExtResource( 5 )
+
+[node name="PropLabel" type="Label" parent="Prop"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 30.0
+margin_top = 24.0
+margin_right = -30.0
+margin_bottom = -24.0
+grow_horizontal = 2
+rect_min_size = Vector2( 152, 0 )
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 2 )
+text = "Stay on your
+toes as new colors
+keep popping in!"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="RecordMobile" type="Panel" parent="."]
+visible = false
+margin_top = 168.0
+margin_right = 672.0
+margin_bottom = 232.0
+grow_horizontal = 2
+rect_min_size = Vector2( 264, 64 )
+rect_clip_content = true
+size_flags_horizontal = 3
+custom_styles/panel = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="VBoxContainer" type="HBoxContainer" parent="RecordMobile"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -66.0
+margin_top = -16.0
+margin_right = 66.0
+margin_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_constants/separation = 16
+
+[node name="RecordTitle" type="Label" parent="RecordMobile/VBoxContainer"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+margin_top = 2.0
+margin_right = 132.0
+margin_bottom = 26.0
+grow_horizontal = 2
+rect_min_size = Vector2( 0, 24 )
+custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
+custom_fonts/font = ExtResource( 2 )
+text = "%Current record"
+align = 1
+valign = 2
+
+[node name="RecordLabel" type="Label" parent="RecordMobile/VBoxContainer"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+margin_left = 148.0
+margin_right = 220.0
+margin_bottom = 28.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 0, 28 )
+text = "%00 points"
+align = 1
+valign = 2
+
+[node name="RecordOwner" type="Label" parent="RecordMobile/VBoxContainer"]
+modulate = Color( 0.980392, 0.980392, 0.980392, 1 )
+margin_left = 236.0
+margin_top = 2.0
+margin_right = 321.0
+margin_bottom = 26.0
+grow_horizontal = 2
+rect_min_size = Vector2( 0, 24 )
+custom_fonts/font = ExtResource( 2 )
+text = "%by owner"
+align = 1
+valign = 2
+
+[node name="Shortcuts" type="Panel" parent="."]
+margin_left = 318.0
+margin_right = 672.0
+margin_bottom = 160.0
+rect_min_size = Vector2( 264, 160 )
+rect_clip_content = true
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Shortcuts" parent="Shortcuts" instance=ExtResource( 7 )]
+margin_left = 42.0
+margin_top = 18.0
+margin_right = 306.0
+margin_bottom = 142.0
+
+[node name="Controls" type="Panel" parent="."]
+margin_top = 168.0
+margin_right = 672.0
+margin_bottom = 352.0
+rect_min_size = Vector2( 480, 184 )
+size_flags_horizontal = 3
+custom_styles/panel = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true,
+"_editor_description_": ""
+}
+
+[node name="ControlsWide" parent="Controls" instance=ExtResource( 6 )]
+margin_left = -9.0
+margin_top = -12.0
+margin_right = -9.0
+margin_bottom = -12.0
+rect_pivot_offset = Vector2( 52, -98 )
+__meta__ = {
+"_edit_group_": true
+}

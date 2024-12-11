@@ -1,170 +1,18 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=2]
 [ext_resource path="res://game/gui/pause_gui.gd" type="Script" id=3]
-[ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=4]
 [ext_resource path="res://game/gui/pause_gui_settings.gd" type="Script" id=5]
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=6]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=7]
 [ext_resource path="res://_helpers/_help_gui_guide.tscn" type="PackedScene" id=8]
 [ext_resource path="res://assets/theme/fonts/Habbo.ttf" type="DynamicFontData" id=9]
 [ext_resource path="res://game/gui/pregame_instructions.tscn" type="PackedScene" id=10]
+[ext_resource path="res://game/gui/game_outline.tscn" type="PackedScene" id=11]
 
 [sub_resource type="StyleBoxFlat" id=330]
-bg_color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
-border_color = Color( 1, 1, 1, 0.443137 )
-
-[sub_resource type="StyleBoxEmpty" id=305]
-
-[sub_resource type="StreamTexture" id=175]
-load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
-
-[sub_resource type="AtlasTexture" id=306]
-atlas = SubResource( 175 )
-region = Rect2( 16, 16, 14, 16 )
-
-[sub_resource type="AtlasTexture" id=307]
-atlas = SubResource( 175 )
-region = Rect2( 0, 16, 10, 16 )
-
-[sub_resource type="StyleBoxFlat" id=308]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-expand_margin_left = 6.0
-expand_margin_right = 6.0
-expand_margin_top = 2.0
-expand_margin_bottom = 3.0
-
-[sub_resource type="StyleBoxEmpty" id=309]
-
-[sub_resource type="StyleBoxEmpty" id=310]
-
-[sub_resource type="StyleBoxLine" id=311]
-color = Color( 1, 1, 1, 1 )
-thickness = 2
-
-[sub_resource type="AtlasTexture" id=312]
-atlas = SubResource( 175 )
-region = Rect2( 32, 0, 10, 10 )
-
-[sub_resource type="StyleBoxEmpty" id=313]
-
-[sub_resource type="StyleBoxFlat" id=314]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-expand_margin_left = 6.0
-expand_margin_top = 6.0
-expand_margin_bottom = 6.0
-
-[sub_resource type="StreamTexture" id=315]
-load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
-
-[sub_resource type="AtlasTexture" id=152]
-atlas = SubResource( 315 )
-region = Rect2( 0, 4, 16, 8 )
-
-[sub_resource type="StyleBoxTexture" id=316]
-texture = SubResource( 152 )
-region_rect = Rect2( 0, 0, 16, 8 )
-margin_left = 3.34132
-margin_right = 4.0
-margin_top = 4.0
-margin_bottom = 4.0
-modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-
-[sub_resource type="StyleBoxFlat" id=317]
-bg_color = Color( 0, 0, 0, 0 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 1, 1, 1, 1 )
-
-[sub_resource type="AtlasTexture" id=318]
-atlas = SubResource( 175 )
-region = Rect2( 16, 0, 16, 12 )
-margin = Rect2( 4, 0, 0, 0 )
-
-[sub_resource type="StyleBoxFlat" id=319]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color( 1, 1, 1, 0.901961 )
-expand_margin_left = 6.0
-expand_margin_right = 6.0
-expand_margin_top = 2.0
-expand_margin_bottom = 3.0
-
-[sub_resource type="StyleBoxFlat" id=320]
-bg_color = Color( 0, 0, 0, 0.862745 )
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
-
-[sub_resource type="StyleBoxLine" id=321]
-color = Color( 1, 1, 1, 1 )
-thickness = 2
-vertical = true
-
-[sub_resource type="Theme" id=194]
-default_font = ExtResource( 4 )
-Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
-Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
-Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
-Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
-Button/styles/disabled = SubResource( 305 )
-Button/styles/focus = SubResource( 305 )
-Button/styles/hover = SubResource( 305 )
-Button/styles/normal = SubResource( 305 )
-Button/styles/pressed = SubResource( 305 )
-CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
-CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
-CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
-CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
-CheckBox/constants/hseparation = 4
-CheckBox/icons/checked = SubResource( 306 )
-CheckBox/icons/unchecked = SubResource( 307 )
-CheckBox/styles/focus = SubResource( 308 )
-CheckBox/styles/hover = SubResource( 308 )
-CheckBox/styles/hover_pressed = SubResource( 308 )
-CheckBox/styles/normal = SubResource( 309 )
-CheckBox/styles/pressed = SubResource( 310 )
-HSeparator/styles/separator = SubResource( 311 )
-HSlider/icons/grabber = SubResource( 312 )
-HSlider/icons/grabber_disabled = null
-HSlider/icons/grabber_highlight = SubResource( 312 )
-HSlider/icons/tick = null
-HSlider/styles/grabber_area = SubResource( 313 )
-HSlider/styles/grabber_area_highlight = SubResource( 314 )
-HSlider/styles/slider = SubResource( 316 )
-Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
-Label/constants/line_spacing = 6
-LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
-LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
-LineEdit/styles/normal = SubResource( 317 )
-OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
-OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
-OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
-OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
-OptionButton/icons/arrow = SubResource( 318 )
-OptionButton/styles/focus = SubResource( 319 )
-OptionButton/styles/hover = SubResource( 319 )
-OptionButton/styles/pressed = SubResource( 319 )
-Panel/styles/panel = SubResource( 320 )
-VSeparator/styles/separator = SubResource( 321 )
+bg_color = Color( 1, 1, 1, 1 )
 
 [sub_resource type="DynamicFont" id=328]
 size = 24
@@ -186,7 +34,7 @@ theme = ExtResource( 6 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_horizontal_guides_": [ 360.0, 96.0, 624.0 ],
-"_edit_vertical_guides_": [ 640.0, 964.0 ]
+"_edit_vertical_guides_": [ 640.0, 1064.0, 216.0, 956.0 ]
 }
 
 [node name="Background" type="ColorRect" parent="."]
@@ -198,7 +46,6 @@ size_flags_vertical = 3
 color = Color( 0, 0, 0, 1 )
 
 [node name="_help_gui_guide" parent="." instance=ExtResource( 8 )]
-visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 1.0
@@ -213,15 +60,16 @@ modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -328.0
-margin_top = 94.0
+margin_top = 86.0
 margin_right = 328.0
-margin_bottom = 126.0
+margin_bottom = 118.0
 custom_fonts/font = ExtResource( 1 )
 text = "%Game title"
 align = 1
 uppercase = true
 
 [node name="Instructions" parent="." instance=ExtResource( 10 )]
+visible = false
 margin_left = -112.0
 margin_top = 8.0
 margin_right = -112.0
@@ -236,35 +84,15 @@ visible = false
 [node name="Description" parent="Instructions" index="3"]
 visible = false
 
-[node name="Outline" parent="Instructions" index="4"]
-margin_top = 176.0
-margin_bottom = 552.0
-
-[node name="Record" parent="Instructions/Outline" index="1"]
-visible = false
-
-[node name="RecordMobile" parent="Instructions/Outline" index="2"]
-visible = true
-
-[node name="RecordOwner" parent="Instructions/Outline/RecordMobile/VBoxContainer" index="2"]
-margin_left = 329.0
-margin_right = 414.0
-
-[node name="Controls" parent="Instructions/Outline" index="4"]
-margin_top = 88.0
-margin_bottom = 256.0
-
-[node name="Buttons_R" parent="Instructions/Outline/Controls/ControlsWide" index="2"]
-visible = true
-
-[node name="Sliding_L" parent="Instructions/Outline/Controls/ControlsWide" index="5"]
+[node name="ActionHintPress" parent="Instructions" index="5"]
 visible = false
 
 [node name="Settings" type="Panel" parent="."]
-margin_left = 856.0
+self_modulate = Color( 0.137255, 0.137255, 0.137255, 1 )
+margin_left = 848.0
 margin_top = 184.0
-margin_right = 1072.0
-margin_bottom = 608.0
+margin_right = 1064.0
+margin_bottom = 536.0
 grow_horizontal = 2
 rect_min_size = Vector2( 207, 152 )
 custom_styles/panel = SubResource( 330 )
@@ -273,29 +101,12 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Title" type="Label" parent="Settings"]
-visible = false
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -89.0
-margin_top = 22.0
-margin_right = 89.0
-margin_bottom = 60.0
-rect_min_size = Vector2( 0, 38 )
-size_flags_horizontal = 3
-theme = SubResource( 194 )
-text = "Settings"
-align = 1
-uppercase = true
-
 [node name="GameMusicBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-anchor_right = 1.0
-margin_left = 76.0
-margin_top = 17.0
-margin_right = -74.0
-margin_bottom = 49.0
+margin_left = 24.0
+margin_top = 9.0
+margin_right = 192.0
+margin_bottom = 41.0
 rect_min_size = Vector2( 0, 32 )
 focus_neighbour_left = NodePath(".")
 focus_neighbour_top = NodePath("../TouchSensSlider")
@@ -309,11 +120,10 @@ __meta__ = {
 
 [node name="GameMusicSlider" type="HSlider" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-anchor_right = 1.0
-margin_left = 32.0
-margin_top = 83.0
-margin_right = -32.0
-margin_bottom = 115.0
+margin_left = 24.0
+margin_top = 75.0
+margin_right = 192.0
+margin_bottom = 107.0
 rect_min_size = Vector2( 0, 32 )
 rect_pivot_offset = Vector2( -48, 45 )
 focus_neighbour_bottom = NodePath("../GameSfxBtn")
@@ -332,29 +142,27 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -79.0
+margin_left = -84.0
 margin_top = -35.0
-margin_right = 79.0
+margin_right = 83.0
 margin_bottom = -13.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 2 )
 text = "MUSIC VOLUME"
-align = 1
 
 [node name="Tick" type="Polygon2D" parent="Settings/GameMusicSlider"]
 show_behind_parent = true
-position = Vector2( 89, 12 )
+position = Vector2( 99, 12 )
 color = Color( 0.513726, 0.513726, 0.513726, 1 )
 polygon = PoolVector2Array( 0, 8, 0, 0, 8, 0, 8, 8 )
 
 [node name="GameSfxBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-anchor_right = 1.0
-margin_left = 61.0
-margin_top = 121.0
-margin_right = -59.0
-margin_bottom = 153.0
+margin_left = 24.0
+margin_top = 113.0
+margin_right = 192.0
+margin_bottom = 145.0
 rect_min_size = Vector2( 0, 32 )
 rect_pivot_offset = Vector2( 20, 16 )
 focus_neighbour_left = NodePath("../GameSfxBtn")
@@ -366,11 +174,10 @@ text = "GAME SFX"
 
 [node name="CameraShakeBtn" type="CheckButton" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-anchor_right = 1.0
-margin_left = 43.0
-margin_top = 161.0
-margin_right = -41.0
-margin_bottom = 193.0
+margin_left = 24.0
+margin_top = 153.0
+margin_right = 192.0
+margin_bottom = 185.0
 rect_min_size = Vector2( 0, 32 )
 rect_pivot_offset = Vector2( -62, -22 )
 focus_neighbour_left = NodePath(".")
@@ -381,10 +188,10 @@ text = "CAMERA SHAKE"
 
 [node name="BrightnessSlider" type="HSlider" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-margin_left = 32.0
-margin_top = 235.0
-margin_right = 184.0
-margin_bottom = 251.0
+margin_left = 24.0
+margin_top = 230.0
+margin_right = 192.0
+margin_bottom = 240.0
 focus_neighbour_left = NodePath(".")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 8
@@ -398,27 +205,25 @@ __meta__ = {
 
 [node name="Tick" type="Polygon2D" parent="Settings/BrightnessSlider"]
 show_behind_parent = true
-position = Vector2( 95, 4 )
+position = Vector2( 106, 1 )
 color = Color( 0.513726, 0.513726, 0.513726, 1 )
 polygon = PoolVector2Array( 0, 8, 0, 0, 8, 0, 8, 8 )
 
 [node name="Label" type="Label" parent="Settings/BrightnessSlider"]
-margin_left = 9.0
-margin_top = -27.0
-margin_right = 143.0
-margin_bottom = -5.0
+margin_top = -30.0
+margin_right = 167.0
+margin_bottom = -8.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 2 )
 text = "Brightness"
-align = 1
 uppercase = true
 
 [node name="TouchPopUpBtn" type="Button" parent="Settings"]
-margin_left = 36.5
-margin_top = 264.0
-margin_right = 185.5
-margin_bottom = 312.0
+margin_left = 24.0
+margin_top = 256.0
+margin_right = 192.0
+margin_bottom = 304.0
 grow_horizontal = 2
 focus_neighbour_left = NodePath(".")
 focus_neighbour_bottom = NodePath("../TouchSensSlider")
@@ -427,14 +232,15 @@ custom_fonts/font = SubResource( 328 )
 text = "TOUCH CONTROLS
 %sTTONS"
 icon = SubResource( 329 )
+align = 0
 icon_align = 2
 
 [node name="TouchSensSlider" type="HSlider" parent="Settings"]
 modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
-margin_left = 32.0
-margin_top = 331.0
-margin_right = 184.0
-margin_bottom = 347.0
+margin_left = 24.0
+margin_top = 318.0
+margin_right = 192.0
+margin_bottom = 328.0
 focus_neighbour_left = NodePath(".")
 mouse_default_cursor_shape = 2
 size_flags_vertical = 8
@@ -447,7 +253,7 @@ __meta__ = {
 
 [node name="Tick" type="Polygon2D" parent="Settings/TouchSensSlider"]
 show_behind_parent = true
-position = Vector2( 72, 4 )
+position = Vector2( 80, 1 )
 color = Color( 0.513726, 0.513726, 0.513726, 1 )
 polygon = PoolVector2Array( 0, 8, 0, 0, 8, 0, 8, 8 )
 
@@ -464,6 +270,7 @@ align = 1
 uppercase = true
 
 [node name="TouchControllerPopup" type="PopupMenu" parent="."]
+modulate = Color( 1, 1, 1, 0.352941 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -530,6 +337,29 @@ size_flags_horizontal = 6
 size_flags_vertical = 0
 text = "RESTART"
 
+[node name="GameOutline" parent="." instance=ExtResource( 11 )]
+margin_left = -424.0
+margin_right = 200.0
+
+[node name="Record" parent="GameOutline" index="0"]
+margin_right = 286.0
+
+[node name="RecordTitle" parent="GameOutline/Record/VBoxContainer" index="0"]
+margin_right = 255.0
+
+[node name="RecordLabel" parent="GameOutline/Record/VBoxContainer" index="1"]
+margin_right = 255.0
+
+[node name="RecordOwner" parent="GameOutline/Record/VBoxContainer" index="2"]
+margin_right = 255.0
+
+[node name="Shortcuts" parent="GameOutline" index="3"]
+margin_left = 294.0
+margin_right = 624.0
+
+[node name="Controls" parent="GameOutline" index="4"]
+margin_right = 624.0
+
 [connection signal="toggled" from="Settings/GameMusicBtn" to="Settings" method="_on_GameMusicBtn_toggled"]
 [connection signal="value_changed" from="Settings/GameMusicSlider" to="Settings" method="_on_GameMusicSlider_value_changed"]
 [connection signal="toggled" from="Settings/GameSfxBtn" to="Settings" method="_on_GameSfxBtn_toggled"]
@@ -545,9 +375,5 @@ text = "RESTART"
 
 [editable path="Instructions"]
 [editable path="Instructions/_help_gui_guide"]
-[editable path="Instructions/_help_gui_guide/ActionHint2"]
-[editable path="Instructions/Outline/Shortcuts/Shortcuts/ShortcutLine7"]
-[editable path="Instructions/Outline/Shortcuts/Shortcuts/ShortcutLine4"]
-[editable path="Instructions/Outline/Shortcuts/Shortcuts/ShortcutLine5"]
-[editable path="Instructions/Outline/Controls/ControlsWide"]
 [editable path="Instructions/ActionHintPress"]
+[editable path="GameOutline"]

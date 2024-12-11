@@ -1,5 +1,5 @@
 extends KinematicBody2D
-class_name Player
+#class_name Player
 
 
 signal stat_changed # spremenjeno statistiko javi v hud
@@ -35,12 +35,11 @@ var burst_speed: float = 0 # trenutna hitrost
 var burst_velocity: Vector2
 
 # rebursting
-var sweep_started: bool = false # začne se na first hit in konča na close_reburst_window
-var is_in_reburst: bool = false # ko je v samem reburstu
-var reburst_window_open: bool = false #
+var sweep_started: bool = false # ob cockanju se začne poteza (konča se v steni ali na koncu reburstanja, kadar resetam reburst_count)
+var is_rebursting: bool = false # ko je v samem burstu ... za regulacijo moči on hit stray
+var reburst_window_open: bool = false
 var reburst_speed_units_count: float = 0 # za prenos original hitrosti v naslednje rebursta
 var reburst_cock_ghosts_to_show: int = 1 # za kolk se nakoka (samo vizualni efekt)
-var strays_on_start_count: int = -1 # SWEEPER, da lahko hitro zabeležim uspeh pleyerja
 
 # touch
 var is_surrounded: bool
@@ -118,10 +117,6 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-
-	# ob štartu igre preveri količino strajsov
-	if strays_on_start_count == -1:
-		strays_on_start_count = get_tree().get_nodes_in_group(Global.group_strays).size()
 
 	color_poly.modulate = pixel_color # povezava med variablo in barvo mora obstajati non-stop
 
@@ -252,7 +247,7 @@ func idle_inputs():
 			rebursting_inputs()
 		else:
 			# če je SKILLED, kontrole prevzame skilled_input, če ne end move()
-			if current_collider.is_in_group(Global.group_strays) and not current_collider.current_state == current_collider.STATES.DYING:
+			if current_collider.is_in_group(Global.group_strays):
 				current_state = STATES.SKILLED
 			elif current_collider.is_in_group(Global.group_tilemap):
 				if current_collider.get_collision_tile_id(self, direction) == teleporting_wall_tile_id:
@@ -266,9 +261,10 @@ func idle_inputs():
 
 
 	if Input.is_action_just_pressed(key_burst): # brez "just" dela po stisku smeri ... ni ok
+
 		# če je burstanje omejeno in je velje od limite ne sprožim kokanja
-		if sweep_started:
-			close_reburst_window(true)
+		if not Global.game_manager.game_settings["burst_count_limit"] == 0 and player_stats["burst_count"] >= Global.game_manager.game_settings["burst_count_limit"]:
+			pass
 		else:
 			current_state = STATES.COCKING
 			if change_color_tween and change_color_tween.is_running(): # če sprememba barve še poteka, jo spremenim takoj
@@ -276,6 +272,10 @@ func idle_inputs():
 				pixel_color = change_to_color
 			burst_light_on()
 
+		if Global.game_manager.game_settings["reburst_enabled"]:
+			close_reburst_window()
+			if sweep_started:
+				finish_sweep_move_and_check_for_fail()
 
 
 func skill_inputs():
@@ -308,9 +308,19 @@ func skill_inputs():
 
 	# prehod v cocking stanje
 	if Input.is_action_just_pressed(key_burst): # brez "just" dela po stisku smeri ... ni ok
+		# sweeper ima samo en možen burst
+		#		print ("count",player_stats["burst_count"])
+		#		if not Global.game_manager.game_settings["burst_count_limit"] == 0:
+		#			if player_stats["burst_count"] >= Global.game_manager.game_settings["burst_count_limit"]:
+		#				return
 		current_state = STATES.COCKING
 		skill_light_off()
 		burst_light_on()
+		if Global.game_manager.game_settings["reburst_enabled"]:
+			close_reburst_window()
+			if sweep_started:
+				finish_sweep_move_and_check_for_fail()
+			return
 
 
 	# izbor skila v novi smeri
@@ -372,6 +382,10 @@ func cocking_inputs():
 		else:
 			release_burst()
 			burst_light_off()
+		if Global.game_manager.game_settings["reburst_enabled"]:
+			close_reburst_window()
+			if sweep_started:
+				finish_sweep_move_and_check_for_fail()
 
 
 func bursting_inputs():
@@ -383,6 +397,10 @@ func bursting_inputs():
 
 func rebursting_inputs():
 
+	if Global.game_manager.all_strays_on_start_count <= 0:
+		current_state = STATES.IDLE
+		close_reburst_window()
+		return
 	# cocking
 	if Input.is_action_just_pressed(key_up):
 		direction = Vector2.UP
@@ -423,13 +441,13 @@ func step():
 			var step_tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 			step_tween.tween_property(self, "position", intended_position, current_step_time)
 			step_tween.tween_callback(self, "end_move")
-			step_tween.tween_callback(self, "_change_stat", ["cells_traveled", 1]) # točke in energija kot je določeno v settingsih
+			step_tween.tween_callback(self, "change_stat", ["cells_traveled", 1]) # točke in energija kot je določeno v settingsih
 
 
 func end_move(end_position: Vector2 = global_position):
 
-	if is_in_reburst:
-		is_in_reburst = false
+	close_reburst_window()
+	is_rebursting = false
 
 	# reset burst
 	burst_speed = 0
@@ -541,7 +559,9 @@ func burst():
 	release_tween.tween_property(new_stretch_ghost, "scale", Vector2.ONE, strech_ghost_shrink_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	release_tween.parallel().tween_property(new_stretch_ghost, "position", global_position - burst_direction * cell_size_x, strech_ghost_shrink_time).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	release_tween.tween_callback(new_stretch_ghost, "queue_free")
+	#	var preburst_position: Vector2 = global_position
 	yield(release_tween, "finished")
+
 
 	# release pixel
 	current_state = STATES.BURSTING
@@ -552,7 +572,7 @@ func burst():
 	else:
 		burst_speed = current_ghost_count * cock_ghost_speed_addon
 
-	_change_stat("burst_count", 1)
+	change_stat("burst_count", 1)
 
 	# če je sosed, takoj izvede karambol (drugače ga sploh ne dojame)
 	for area in touch_detect.get_children():
@@ -565,14 +585,17 @@ func burst():
 				break
 
 
+
 func stop_burst():
 
 	end_move()
 	Input.start_joy_vibration(0, 0.6, 0.2, 0.2)
 	play_sound("burst_stop")
 
-	if sweep_started:
-		close_reburst_window(true)
+	if Global.game_manager.game_settings["reburst_enabled"]:
+		close_reburst_window()
+		if sweep_started:
+			finish_sweep_move_and_check_for_fail()
 
 
 # REBURST ------------------------------------------------------------------
@@ -622,7 +645,7 @@ func release_reburst():
 func reburst():
 	# drugače glede na burst: ni strech ghopsa
 
-	is_in_reburst = true
+	is_rebursting = true
 
 	var burst_direction = direction
 	var backup_direction = - burst_direction
@@ -640,18 +663,22 @@ func reburst():
 	burst_speed = reburst_speed_units_count * cock_ghost_speed_addon
 
 
-func close_reburst_window(finish_sweep: bool = false):
+func close_reburst_window():
 	# se resetira na vsak reburst in drugo
 
 	reburst_window_open = false
 	rebursting_timer.stop()
 	burst_light_off()
 
-	if finish_sweep:
-		sweep_started = false
-		if strays_on_start_count > 0:
-			#			yield(get_tree().create_timer(Global.get_it_time), "timeout")
-			Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
+
+func finish_sweep_move_and_check_for_fail(): # OPT samo za negativno oceno ... bi lahko združil v en proces s pozitivno oceno
+
+	# ček for succes
+	sweep_started = false
+
+	# če je količina uničenih enaka količini na ekranu
+	if Global.game_manager.all_strays_on_start_count > 0:
+		Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
 
 
 # SKILLS ------------------------------------------------------------------------------------------
@@ -732,7 +759,7 @@ func push(stray_to_move: Node2D):
 
 		end_move()
 
-		_change_stat("skill_used", 1)
+		change_stat("skill_used", 1)
 
 
 func pull(stray_to_move: Node2D):
@@ -770,7 +797,7 @@ func pull(stray_to_move: Node2D):
 		else:
 			end_move()
 
-		_change_stat("skill_used", 2)
+		change_stat("skill_used", 2)
 
 
 func teleport():
@@ -813,19 +840,21 @@ func on_hit_stray(hit_stray: Node2D):
 	shake_player_camera(burst_speed)
 
 	# start sweeper move
-	if Global.game_manager.game_settings["reburst_mode"] and not sweep_started:
+	if Global.game_manager.game_settings["reburst_enabled"] and not sweep_started:
 		sweep_started = true
 
 	if hit_stray.current_state == hit_stray.STATES.DYING: # če je že v umiranju, samo kolajdaš
+		finish_sweep_move_and_check_for_fail()
 		end_move()
 	elif hit_stray.current_state == hit_stray.STATES.WALL:
+		finish_sweep_move_and_check_for_fail()
 		end_move()
 	else:
 		# izklopim če začne bel
 		tween_color_change(hit_stray.stray_color)
 		var burst_speed_units_count: int = int(burst_speed / cock_ghost_speed_addon)
 		# sweeper  ... prvi burst poda hitrost za vse sledeči reburste
-		if is_in_reburst:
+		if is_rebursting:
 			# upoštevam prvi burst
 			if Global.game_manager.game_settings["reburst_hit_power"] == 0:
 				burst_speed_units_count = reburst_speed_units_count
@@ -849,7 +878,7 @@ func on_hit_stray(hit_stray: Node2D):
 					strays_to_destroy.append(neighboring_stray)
 				else: break
 
-		strays_on_start_count -= strays_to_destroy.size() # za sweeper za hitro zabeležim uspeh pleyerja
+		Global.game_manager.all_strays_on_start_count -= strays_to_destroy.size() # za sweeper za hitro zabeležim uspeh pleyerja
 
 		# jih destrojam
 		var throttler_start_msec = Time.get_ticks_msec()
@@ -874,16 +903,15 @@ func on_hit_stray(hit_stray: Node2D):
 
 		# stats
 		var strays_not_walls_count: int = strays_to_destroy.size() - white_strays_in_stack.size()
-		_change_stat("hit_stray", [strays_not_walls_count, white_strays_in_stack.size()])
+		change_stat("hit_stray", [strays_not_walls_count, white_strays_in_stack.size()])
 
 		end_move()
 
-		if sweep_started:
+		if Global.game_manager.game_settings["reburst_enabled"]:
 			reburst_window_open = true
 			burst_light_on()
 			rebursting_timer.stop() # ... reset zazih
-			rebursting_timer.call_deferred("start", Global.game_manager.game_settings["reburst_window_time"])
-
+			rebursting_timer.start(Global.game_manager.game_settings["reburst_window_time"])
 
 
 func on_hit_player(hit_player: KinematicBody2D):
@@ -906,7 +934,7 @@ func on_hit_player(hit_player: KinematicBody2D):
 		if not hit_player.pixel_color == Global.game_manager.game_settings["player_start_color"]: # če nima nobene barve mu je ne prevzamem
 			tween_color_change(hit_player.pixel_color)
 		end_move()
-		_change_stat("hit_player", hit_player.player_stats["player_points"]) # točke glede na delež loserjevih točk, energija se resetira na 100%
+		change_stat("hit_player", hit_player.player_stats["player_points"]) # točke glede na delež loserjevih točk, energija se resetira na 100%
 		hit_player.on_get_hit(burst_speed) # po statistiki, da winer pobere od luserja, ko so točke še polne
 
 
@@ -918,7 +946,7 @@ func on_hit_wall():
 	spawn_collision_particles()
 	shake_player_camera(burst_speed)
 
-	_change_stat("hit_wall", 1)
+	change_stat("hit_wall", 1)
 	end_move()
 
 
@@ -931,7 +959,7 @@ func on_get_hit(hit_burst_speed: float):
 	shake_player_camera(hit_burst_speed)
 
 	pixel_color = Global.game_manager.game_settings["player_start_color"] # postane začetne barve
-	_change_stat("get_hit", 1)
+	change_stat("get_hit", 1)
 	end_move()
 
 	collision_shape.set_deferred("disabled", true)
@@ -1284,7 +1312,7 @@ func on_screen_cleaned(): # kliče GM
 
 	close_reburst_window()
 	animation_player.play("become_white")
-	_change_stat("all_cleaned", 1) # nagrada je določena v settingsih
+	change_stat("all_cleaned", 1) # nagrada je določena v settingsih
 	emit_signal("rewarded_on_cleaned") # javi v GM ... signal pošljem tudi na koncu animacije, za tiste igre, ki tega zgrešijo
 
 
@@ -1369,7 +1397,9 @@ func _on_ReburstingTimer_timeout() -> void:
 
 	if Global.game_manager.game_settings["reburst_window_time"] > 0:
 		# čas zamujen ... ne moreš več reburstat
-		close_reburst_window(true)
+		close_reburst_window()
+		if sweep_started:
+			finish_sweep_move_and_check_for_fail()
 
 
 func _on_TouchTimer_timeout() -> void:
@@ -1398,7 +1428,7 @@ func _on_ghost_target_reached(ghost_body: Area2D, ghost_position: Vector2):
 	ghost_body.queue_free()
 	end_move()
 
-	_change_stat("skill_used", 3)
+	change_stat("skill_used", 3)
 
 
 func _on_ghost_detected_body(body: Node2D):
@@ -1430,7 +1460,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 				Global.game_manager.game_over(Global.game_manager.GameoverReason.LIFE)
 		"revive":
 			set_physics_process(true)
-			_change_stat("revive", 1) # če energija = 0 (izguba lajfa), resetira energijo
+			change_stat("revive", 1) # če energija = 0 (izguba lajfa), resetira energijo
 		"become_white":
 			emit_signal("rewarded_on_cleaned") # javi v GM
 
@@ -1448,7 +1478,7 @@ func _on_Player_tree_exiting() -> void:
 # STATS ----------------------------------------------------------------------------------------------
 
 
-func _change_stat(stat_event: String, stat_value):
+func change_stat(stat_event: String, stat_value):
 
 	if Global.game_manager.game_on or stat_event == "all_cleaned": # statistika se ne beleži več, razen "all_cleaned"
 
@@ -1483,6 +1513,8 @@ func _change_stat(stat_event: String, stat_value):
 				# vse skupaj
 				player_stats["player_points"] += points_to_gain
 				spawn_floating_tag(points_to_gain)
+				if is_rebursting: # and game_data["game"] == Profiles.Games.SWEEPER:
+					player_stats["player_energy"] = player_max_energy
 				if Global.tutorial_gui.tutorial_on:
 					Global.tutorial_gui.on_hit_stray(stack_strays_cleaned_count)
 			"white_eliminated":
@@ -1534,6 +1566,7 @@ func _change_stat(stat_event: String, stat_value):
 		player_stats["player_energy"] = round(player_stats["player_energy"])
 		player_stats["player_energy"] = clamp(player_stats["player_energy"], 0, player_max_energy)
 		player_stats["player_points"] = clamp(player_stats["player_points"], 0, player_stats["player_points"])
+		print(player_stats["player_energy"])
 
 		# die zaradi 0 energije
 		if player_stats["player_energy"] == 0:

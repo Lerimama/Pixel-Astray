@@ -70,7 +70,7 @@ __meta__ = {
 }
 
 [node name="DirectionBtns" type="Node2D" parent="."]
-position = Vector2( 40, 480 )
+position = Vector2( 40, 488 )
 scale = Vector2( 2, 2 )
 
 [node name="TouchBtn_L" type="TouchScreenButton" parent="DirectionBtns"]
@@ -128,7 +128,7 @@ position = Vector2( 21.0001, 15.4999 )
 texture = SubResource( 372 )
 
 [node name="BurstBtn" type="TouchScreenButton" parent="."]
-position = Vector2( 1088, 480 )
+position = Vector2( 1088, 488 )
 scale = Vector2( 2, 2 )
 normal = SubResource( 366 )
 pressed = SubResource( 363 )
@@ -138,9 +138,22 @@ visibility_mode = 1
 
 [node name="Label" type="Label" parent="BurstBtn"]
 margin_left = 14.5
-margin_top = 27.0
+margin_top = 28.5
 margin_right = 69.5
-margin_bottom = 54.0
+margin_bottom = 55.5
+theme = ExtResource( 4 )
+custom_fonts/font = ExtResource( 3 )
+text = "Burst"
+align = 1
+valign = 1
+
+[node name="Shdw" type="Label" parent="BurstBtn/Label"]
+modulate = Color( 0, 0, 0, 1 )
+show_behind_parent = true
+margin_left = 0.5
+margin_top = 0.5
+margin_right = 55.5
+margin_bottom = 27.5
 theme = ExtResource( 4 )
 custom_fonts/font = ExtResource( 3 )
 text = "Burst"
@@ -165,9 +178,21 @@ polygon = PoolVector2Array( 0, 0, 1264, 0, 1264, 624, 216, 624, 216, 416, 0, 416
 
 [node name="Label" type="Label" parent="ScreenBtn"]
 margin_left = 30.5
-margin_top = 517.0
+margin_top = 549.0
 margin_right = 281.5
-margin_bottom = 544.0
+margin_bottom = 576.0
+theme = ExtResource( 4 )
+custom_fonts/font = ExtResource( 3 )
+text = "Touch and slide for motion"
+valign = 1
+
+[node name="Shadow" type="Label" parent="ScreenBtn/Label"]
+modulate = Color( 0, 0, 0, 1 )
+show_behind_parent = true
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 252.0
+margin_bottom = 28.0
 theme = ExtResource( 4 )
 custom_fonts/font = ExtResource( 3 )
 text = "Touch and slide for motion"
@@ -193,7 +218,7 @@ shape = SubResource( 369 )
 visibility_mode = 1
 
 [node name="HintBtn" type="TouchScreenButton" parent="."]
-position = Vector2( 639, 624 )
+position = Vector2( 639, 608 )
 shape = SubResource( 374 )
 shape_centered = false
 visibility_mode = 1
@@ -207,13 +232,13 @@ margin_bottom = 32.0
 color = Color( 1, 1, 1, 0.145098 )
 
 [node name="PositionL" type="Position2D" parent="."]
-position = Vector2( 40, 480 )
+position = Vector2( 40, 488 )
 __meta__ = {
 "_gizmo_extents_": 100.0
 }
 
 [node name="PositionR" type="Position2D" parent="."]
-position = Vector2( 1088, 480 )
+position = Vector2( 1088, 488 )
 __meta__ = {
 "_gizmo_extents_": 100.0
 }

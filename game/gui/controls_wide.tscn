@@ -1,11 +1,10 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_controls.png" type="Texture" id=2]
 [ext_resource path="res://assets/theme/font_main_small.tres" type="DynamicFont" id=3]
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=4]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=5]
-[ext_resource path="res://anim/theme/font_body.tres" type="DynamicFont" id=6]
 
 [sub_resource type="AtlasTexture" id=348]
 atlas = ExtResource( 2 )
@@ -91,7 +90,7 @@ region = Rect2( 145, 223, 6, 10 )
 
 [sub_resource type="AtlasTexture" id=536]
 atlas = ExtResource( 5 )
-region = Rect2( 0, 176, 80, 80 )
+region = Rect2( 0, 256, 80, 80 )
 
 [sub_resource type="AtlasTexture" id=530]
 atlas = ExtResource( 5 )
@@ -130,9 +129,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -224.0
-margin_top = -40.0
+margin_top = -32.0
 margin_right = 248.0
-margin_bottom = 48.0
+margin_bottom = 56.0
 
 [node name="Keyboard2" type="TextureRect" parent="1P"]
 margin_top = 6.0
@@ -245,20 +244,20 @@ sharp_limit = 0.0
 antialiased = true
 
 [node name="2P" type="Control" parent="."]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -280.0
-margin_top = -56.0
+margin_top = -60.0
 margin_right = 280.0
-margin_bottom = 56.0
+margin_bottom = 52.0
 
 [node name="ControlsDuelP1" type="Control" parent="2P"]
-margin_left = 8.0
-margin_right = 264.0
-margin_bottom = 105.0
+margin_left = 24.0
+margin_top = 8.0
+margin_right = 280.0
+margin_bottom = 113.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_group_": true,
@@ -266,8 +265,9 @@ __meta__ = {
 }
 
 [node name="PlayerLabel" type="Label" parent="2P/ControlsDuelP1"]
+margin_top = -8.0
 margin_right = 27.0
-margin_bottom = 22.0
+margin_bottom = 14.0
 size_flags_vertical = 8
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 custom_fonts/font = ExtResource( 3 )
@@ -353,9 +353,10 @@ margin_bottom = -2.0
 texture = SubResource( 521 )
 
 [node name="ControlsDuelP2" type="Control" parent="2P"]
-margin_left = 352.0
-margin_right = 568.0
-margin_bottom = 105.0
+margin_left = 344.0
+margin_top = 8.0
+margin_right = 560.0
+margin_bottom = 113.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_group_": true,
@@ -363,8 +364,9 @@ __meta__ = {
 }
 
 [node name="PlayerLabel" type="Label" parent="2P/ControlsDuelP2"]
+margin_top = -8.0
 margin_right = 24.0
-margin_bottom = 22.0
+margin_bottom = 14.0
 size_flags_vertical = 8
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 custom_fonts/font = ExtResource( 3 )
@@ -442,6 +444,7 @@ margin_bottom = -2.0
 texture = SubResource( 524 )
 
 [node name="Buttons_R" type="Control" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -454,14 +457,15 @@ margin_bottom = 112.0
 [node name="Title" type="Label" parent="Buttons_R"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -92.0
-margin_right = 92.0
-margin_bottom = 22.0
+margin_left = -140.0
+margin_top = 4.0
+margin_right = 140.0
+margin_bottom = 26.0
 grow_horizontal = 2
 size_flags_vertical = 8
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 custom_fonts/font = ExtResource( 3 )
-text = "On-Screen buttons controls"
+text = "Controls - Screen buttons"
 valign = 1
 uppercase = true
 __meta__ = {
@@ -479,13 +483,12 @@ rect_scale = Vector2( 2, 2 )
 texture = SubResource( 536 )
 
 [node name="Label" type="Label" parent="Buttons_R/BurstBtn"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 14.5
 margin_top = 25.5
 margin_right = 69.5
 margin_bottom = 52.5
 theme = ExtResource( 4 )
-custom_fonts/font = ExtResource( 6 )
+custom_fonts/font = ExtResource( 1 )
 text = "Burst"
 align = 1
 valign = 1
@@ -543,6 +546,7 @@ position = Vector2( 21.0001, 15.4999 )
 texture = SubResource( 531 )
 
 [node name="Buttons_L" type="Control" parent="."]
+visible = false
 margin_left = -224.0
 margin_top = -112.0
 margin_right = 224.0
@@ -551,14 +555,15 @@ margin_bottom = 104.0
 [node name="Title" type="Label" parent="Buttons_L"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -92.0
-margin_right = 92.0
-margin_bottom = 22.0
+margin_left = -140.0
+margin_top = 4.0
+margin_right = 140.0
+margin_bottom = 26.0
 grow_horizontal = 2
 size_flags_vertical = 8
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 custom_fonts/font = ExtResource( 3 )
-text = "On-Screen buttons controls"
+text = "Controls - Screen buttons"
 valign = 1
 uppercase = true
 __meta__ = {
@@ -573,13 +578,12 @@ rect_scale = Vector2( 2, 2 )
 texture = SubResource( 536 )
 
 [node name="Label" type="Label" parent="Buttons_L/BurstBtn"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 14.5
 margin_top = 25.5
 margin_right = 69.5
 margin_bottom = 52.5
 theme = ExtResource( 4 )
-custom_fonts/font = ExtResource( 6 )
+custom_fonts/font = ExtResource( 1 )
 text = "Burst"
 align = 1
 valign = 1
@@ -637,6 +641,7 @@ position = Vector2( 21.0001, 15.4999 )
 texture = SubResource( 531 )
 
 [node name="Sliding_R" type="Control" parent="."]
+visible = false
 margin_left = -208.0
 margin_top = -112.0
 margin_right = 208.0
@@ -645,14 +650,15 @@ margin_bottom = 112.0
 [node name="Title" type="Label" parent="Sliding_R"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -72.0
-margin_right = 73.0
-margin_bottom = 22.0
+margin_left = -120.0
+margin_top = 4.0
+margin_right = 121.0
+margin_bottom = 26.0
 grow_horizontal = 2
 size_flags_vertical = 8
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 custom_fonts/font = ExtResource( 3 )
-text = "Slide tracking controls"
+text = "Controls - Slide tracking"
 valign = 1
 uppercase = true
 __meta__ = {
@@ -666,7 +672,7 @@ margin_top = 52.0
 margin_right = 178.0
 margin_bottom = 79.0
 theme = ExtResource( 4 )
-custom_fonts/font = ExtResource( 6 )
+custom_fonts/font = ExtResource( 1 )
 text = "Touch Sliding area"
 valign = 1
 uppercase = true
@@ -810,19 +816,19 @@ margin_top = -80.0
 texture = SubResource( 536 )
 
 [node name="Label" type="Label" parent="Sliding_R/Burst"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 14.5
 margin_top = 25.0
 margin_right = 69.5
 margin_bottom = 52.0
 theme = ExtResource( 4 )
-custom_fonts/font = ExtResource( 6 )
+custom_fonts/font = ExtResource( 1 )
 text = "Burst"
 align = 1
 valign = 1
 uppercase = true
 
 [node name="TrackingLine" type="Line2D" parent="Sliding_R"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 position = Vector2( -223, -115 )
 scale = Vector2( 0.75, 0.75 )
 z_index = 10
@@ -931,6 +937,7 @@ __meta__ = {
 }
 
 [node name="Sliding_L" type="Control" parent="."]
+visible = false
 margin_left = -208.0
 margin_top = -112.0
 margin_right = 208.0
@@ -939,14 +946,15 @@ margin_bottom = 112.0
 [node name="Title" type="Label" parent="Sliding_L"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -72.0
-margin_right = 73.0
-margin_bottom = 22.0
+margin_left = -120.0
+margin_top = 4.0
+margin_right = 121.0
+margin_bottom = 26.0
 grow_horizontal = 2
 size_flags_vertical = 8
 custom_colors/font_color = Color( 1, 1, 1, 0.470588 )
 custom_fonts/font = ExtResource( 3 )
-text = "Slide tracking controls"
+text = "Controls - Slide tracking"
 valign = 1
 uppercase = true
 __meta__ = {
@@ -954,7 +962,6 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="Sliding_L"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -178.0
@@ -962,7 +969,7 @@ margin_top = 52.0
 margin_right = -24.0
 margin_bottom = 79.0
 theme = ExtResource( 4 )
-custom_fonts/font = ExtResource( 6 )
+custom_fonts/font = ExtResource( 1 )
 text = "Touch Sliding area"
 valign = 1
 uppercase = true
@@ -1106,19 +1113,19 @@ margin_right = 80.0
 texture = SubResource( 536 )
 
 [node name="Label" type="Label" parent="Sliding_L/Burst"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 14.5
 margin_top = 25.0
 margin_right = 69.5
 margin_bottom = 52.0
 theme = ExtResource( 4 )
-custom_fonts/font = ExtResource( 6 )
+custom_fonts/font = ExtResource( 1 )
 text = "Burst"
 align = 1
 valign = 1
 uppercase = true
 
 [node name="TrackingLine" type="Line2D" parent="Sliding_L"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 position = Vector2( 647, -115 )
 scale = Vector2( -0.75, 0.75 )
 points = PoolVector2Array( 393.333, 336, 412.79, 336, 424, 324, 456, 356, 436, 378.667, 413.333, 366.667, 382.667, 368, 393.333, 400, 457.333, 410.667, 468, 389.333, 510.667, 378.667, 520, 334.667, 498.667, 324, 477.333, 334.667, 456, 313.333, 488, 292, 530.667, 302.667, 541.333, 281.333, 573.333, 270.667, 584, 292, 564, 304, 564, 336 )

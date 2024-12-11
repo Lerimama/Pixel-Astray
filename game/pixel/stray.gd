@@ -118,7 +118,7 @@ func die(stray_in_stack_index: int, strays_in_stack_count: int):
 		var wait_to_destroy_time: float = sqrt(0.07 * (stray_in_stack_index)) # -1 je, da hitan stray ne čaka
 		yield(get_tree().create_timer(wait_to_destroy_time), "timeout")
 
-		var collision_disabled_delay: float = 0.2
+		var collision_disabled_delay: float = 0.3
 		# animacije
 		if not visible_on_screen and strays_in_stack_count > 3:
 			collision_shape.set_deferred("disabled", true)
@@ -130,15 +130,12 @@ func die(stray_in_stack_index: int, strays_in_stack_count: int):
 				var random_animation_index = randi() % 5 + 1
 				var random_animation_name: String = "die_stray_%s" % random_animation_index
 				animation_player.play(random_animation_name)
+
 			# color vanish
 			yield(get_tree().create_timer(collision_disabled_delay), "timeout") # če je delay v tvinu ne dela okej
 			collision_shape.disabled = true
 			Global.game_manager.add_to_free_floor_positions(global_position)
 
-			var animation_length: float = animation_player.get_current_animation_length() - collision_disabled_delay
-			var vanish_tween = get_tree().create_tween()
-			vanish_tween.tween_property(self, "color_poly:modulate:a", 0, animation_length).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
-			yield(vanish_tween, "finished")
 
 		Global.game_manager.on_stray_die(self)
 		call_deferred("queue_free") # predvideva, da more bit deferd, da se lahko collision izklopi

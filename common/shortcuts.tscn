@@ -1,0 +1,449 @@
+[gd_scene load_steps=30 format=2]
+
+[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=1]
+[ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=3]
+[ext_resource path="res://assets/atlas_controls.png" type="Texture" id=4]
+[ext_resource path="res://assets/theme/font_main_small.tres" type="DynamicFont" id=5]
+
+[sub_resource type="StyleBoxEmpty" id=427]
+
+[sub_resource type="StreamTexture" id=444]
+load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
+
+[sub_resource type="AtlasTexture" id=428]
+atlas = SubResource( 444 )
+region = Rect2( 16, 16, 14, 16 )
+
+[sub_resource type="AtlasTexture" id=429]
+atlas = SubResource( 444 )
+region = Rect2( 0, 16, 10, 16 )
+
+[sub_resource type="StyleBoxFlat" id=430]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+expand_margin_left = 6.0
+expand_margin_right = 6.0
+expand_margin_top = 2.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxEmpty" id=431]
+
+[sub_resource type="StyleBoxEmpty" id=432]
+
+[sub_resource type="StyleBoxLine" id=433]
+color = Color( 1, 1, 1, 1 )
+thickness = 2
+
+[sub_resource type="AtlasTexture" id=434]
+atlas = SubResource( 444 )
+region = Rect2( 32, 0, 10, 10 )
+
+[sub_resource type="StyleBoxEmpty" id=435]
+
+[sub_resource type="StyleBoxFlat" id=436]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+expand_margin_left = 6.0
+expand_margin_top = 6.0
+expand_margin_bottom = 6.0
+
+[sub_resource type="StreamTexture" id=437]
+load_path = "res://.import/iconset_lerimama_theme.png-7ff4695cad905aee2e2e716d4a555101.stex"
+
+[sub_resource type="AtlasTexture" id=445]
+atlas = SubResource( 437 )
+region = Rect2( 0, 4, 16, 8 )
+
+[sub_resource type="StyleBoxTexture" id=438]
+texture = SubResource( 445 )
+region_rect = Rect2( 0, 0, 16, 8 )
+margin_left = 3.34132
+margin_right = 4.0
+margin_top = 4.0
+margin_bottom = 4.0
+modulate_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+
+[sub_resource type="StyleBoxFlat" id=439]
+bg_color = Color( 0, 0, 0, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="AtlasTexture" id=440]
+atlas = SubResource( 444 )
+region = Rect2( 16, 0, 16, 12 )
+margin = Rect2( 4, 0, 0, 0 )
+
+[sub_resource type="StyleBoxFlat" id=441]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 0.901961 )
+expand_margin_left = 6.0
+expand_margin_right = 6.0
+expand_margin_top = 2.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxFlat" id=442]
+bg_color = Color( 0, 0, 0, 0.862745 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.423529, 0.423529, 0.423529, 1 )
+
+[sub_resource type="StyleBoxLine" id=443]
+color = Color( 1, 1, 1, 1 )
+thickness = 2
+vertical = true
+
+[sub_resource type="Theme" id=446]
+default_font = ExtResource( 2 )
+Button/colors/font_color = Color( 0.494118, 0.517647, 0.545098, 1 )
+Button/colors/font_color_disabled = Color( 0.494118, 0.517647, 0.545098, 0.470588 )
+Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
+Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
+Button/styles/disabled = SubResource( 427 )
+Button/styles/focus = SubResource( 427 )
+Button/styles/hover = SubResource( 427 )
+Button/styles/normal = SubResource( 427 )
+Button/styles/pressed = SubResource( 427 )
+CheckBox/colors/font_color_focus = Color( 0.294118, 0.623529, 1, 1 )
+CheckBox/colors/font_color_hover = Color( 0.996078, 0.976471, 0.545098, 1 )
+CheckBox/colors/font_color_hover_pressed = Color( 0.368627, 1, 0.662745, 1 )
+CheckBox/colors/font_color_pressed = Color( 0.494118, 0.517647, 0.545098, 1 )
+CheckBox/constants/hseparation = 4
+CheckBox/icons/checked = SubResource( 428 )
+CheckBox/icons/unchecked = SubResource( 429 )
+CheckBox/styles/focus = SubResource( 430 )
+CheckBox/styles/hover = SubResource( 430 )
+CheckBox/styles/hover_pressed = SubResource( 430 )
+CheckBox/styles/normal = SubResource( 431 )
+CheckBox/styles/pressed = SubResource( 432 )
+HSeparator/styles/separator = SubResource( 433 )
+HSlider/icons/grabber = SubResource( 434 )
+HSlider/icons/grabber_disabled = null
+HSlider/icons/grabber_highlight = SubResource( 434 )
+HSlider/icons/tick = null
+HSlider/styles/grabber_area = SubResource( 435 )
+HSlider/styles/grabber_area_highlight = SubResource( 436 )
+HSlider/styles/slider = SubResource( 438 )
+Label/colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
+Label/constants/line_spacing = 6
+LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
+LineEdit/colors/selection_color = Color( 0.72549, 0.737255, 0.764706, 1 )
+LineEdit/styles/normal = SubResource( 439 )
+OptionButton/colors/font_color = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_focus = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_hover = Color( 1, 1, 1, 0.901961 )
+OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+OptionButton/icons/arrow = SubResource( 440 )
+OptionButton/styles/focus = SubResource( 441 )
+OptionButton/styles/hover = SubResource( 441 )
+OptionButton/styles/pressed = SubResource( 441 )
+Panel/styles/panel = SubResource( 442 )
+VSeparator/styles/separator = SubResource( 443 )
+
+[sub_resource type="AtlasTexture" id=504]
+atlas = ExtResource( 4 )
+region = Rect2( 136, 72, 24, 24 )
+margin = Rect2( 0, 3, 0, 3 )
+
+[sub_resource type="AtlasTexture" id=454]
+atlas = ExtResource( 4 )
+region = Rect2( 88, 216, 24, 24 )
+margin = Rect2( 0, 3, 0, 3 )
+
+[sub_resource type="AtlasTexture" id=507]
+atlas = ExtResource( 4 )
+region = Rect2( 112, 216, 24, 24 )
+margin = Rect2( 0, 3, 0, 3 )
+
+[sub_resource type="AtlasTexture" id=508]
+atlas = ExtResource( 4 )
+region = Rect2( 136, 48, 24, 24 )
+margin = Rect2( 0, 3, 0, 3 )
+
+[node name="Shortcuts" type="VBoxContainer"]
+margin_right = 264.0
+margin_bottom = 128.0
+grow_vertical = 2
+rect_min_size = Vector2( 264, 0 )
+rect_clip_content = true
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="ShortcutLine" type="HBoxContainer" parent="."]
+margin_top = 2.0
+margin_right = 264.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 0, 28 )
+size_flags_vertical = 4
+theme = ExtResource( 1 )
+custom_constants/separation = 0
+
+[node name="dot" type="RichTextLabel" parent="ShortcutLine"]
+visible = false
+margin_right = 14.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 14, 0 )
+size_flags_vertical = 3
+theme = SubResource( 446 )
+text = "."
+fit_content_height = true
+
+[node name="VScrollBar2" type="VScrollBar" parent="ShortcutLine/dot"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+max_value = 28.0
+step = 1.0
+page = 28.0
+
+[node name="VScrollBar3" type="VScrollBar" parent="ShortcutLine/dot"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+step = 1.0
+
+[node name="KEY" type="Label" parent="ShortcutLine"]
+margin_top = 3.0
+margin_right = 57.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 0, 25 )
+size_flags_vertical = 8
+custom_fonts/font = ExtResource( 5 )
+text = "ESC, P"
+align = 1
+valign = 1
+
+[node name="or2" type="Label" parent="ShortcutLine"]
+margin_left = 57.0
+margin_top = 5.0
+margin_right = 90.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 3 )
+text = " or "
+align = 1
+valign = 1
+
+[node name="L1" type="TextureRect" parent="ShortcutLine"]
+margin_left = 90.0
+margin_right = 114.0
+margin_bottom = 28.0
+texture = SubResource( 504 )
+
+[node name="Label3" type="Label" parent="ShortcutLine"]
+margin_left = 114.0
+margin_top = 5.0
+margin_right = 247.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 3 )
+text = " to toggle pause"
+valign = 1
+
+[node name="ShortcutLine2" type="HBoxContainer" parent="."]
+margin_top = 34.0
+margin_right = 264.0
+margin_bottom = 62.0
+rect_min_size = Vector2( 0, 28 )
+size_flags_vertical = 4
+theme = ExtResource( 1 )
+custom_constants/separation = 0
+
+[node name="dot" type="RichTextLabel" parent="ShortcutLine2"]
+visible = false
+margin_right = 14.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 14, 0 )
+size_flags_vertical = 3
+theme = SubResource( 446 )
+text = "."
+fit_content_height = true
+
+[node name="KEY" type="Label" parent="ShortcutLine2"]
+margin_top = 3.0
+margin_right = 14.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 0, 25 )
+size_flags_vertical = 8
+custom_fonts/font = ExtResource( 5 )
+text = "M"
+align = 1
+valign = 1
+
+[node name="or2" type="Label" parent="ShortcutLine2"]
+margin_left = 14.0
+margin_top = 5.0
+margin_right = 47.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 3 )
+text = " or "
+align = 1
+valign = 1
+
+[node name="L1" type="TextureRect" parent="ShortcutLine2"]
+margin_left = 47.0
+margin_right = 71.0
+margin_bottom = 28.0
+texture = SubResource( 454 )
+
+[node name="Label3" type="Label" parent="ShortcutLine2"]
+margin_left = 71.0
+margin_top = 5.0
+margin_right = 192.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 3 )
+text = " to mute music"
+valign = 1
+
+[node name="ShortcutLine3" type="HBoxContainer" parent="."]
+margin_top = 66.0
+margin_right = 264.0
+margin_bottom = 94.0
+rect_min_size = Vector2( 0, 28 )
+size_flags_vertical = 4
+theme = ExtResource( 1 )
+custom_constants/separation = 0
+
+[node name="dot" type="RichTextLabel" parent="ShortcutLine3"]
+visible = false
+margin_right = 14.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 14, 0 )
+size_flags_vertical = 3
+theme = SubResource( 446 )
+text = "."
+fit_content_height = true
+
+[node name="VScrollBar2" type="VScrollBar" parent="ShortcutLine3/dot"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+max_value = 28.0
+step = 1.0
+page = 28.0
+
+[node name="VScrollBar3" type="VScrollBar" parent="ShortcutLine3/dot"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+step = 1.0
+
+[node name="KEY" type="Label" parent="ShortcutLine3"]
+margin_top = 3.0
+margin_right = 11.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 0, 25 )
+size_flags_vertical = 8
+custom_fonts/font = ExtResource( 5 )
+text = "N"
+align = 1
+valign = 1
+
+[node name="or2" type="Label" parent="ShortcutLine3"]
+margin_left = 11.0
+margin_top = 5.0
+margin_right = 44.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 3 )
+text = " or "
+align = 1
+valign = 1
+
+[node name="L1" type="TextureRect" parent="ShortcutLine3"]
+margin_left = 44.0
+margin_right = 68.0
+margin_bottom = 28.0
+texture = SubResource( 507 )
+
+[node name="Label3" type="Label" parent="ShortcutLine3"]
+margin_left = 68.0
+margin_top = 5.0
+margin_right = 248.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 3 )
+text = " to skip current track"
+valign = 1
+
+[node name="ShortcutLine4" type="HBoxContainer" parent="."]
+margin_top = 98.0
+margin_right = 264.0
+margin_bottom = 126.0
+rect_min_size = Vector2( 0, 28 )
+size_flags_vertical = 4
+theme = ExtResource( 1 )
+custom_constants/separation = 0
+
+[node name="dot" type="RichTextLabel" parent="ShortcutLine4"]
+visible = false
+margin_right = 14.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 14, 0 )
+size_flags_vertical = 3
+theme = SubResource( 446 )
+text = "."
+fit_content_height = true
+
+[node name="VScrollBar2" type="VScrollBar" parent="ShortcutLine4/dot"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+max_value = 28.0
+step = 1.0
+page = 28.0
+
+[node name="VScrollBar3" type="VScrollBar" parent="ShortcutLine4/dot"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+step = 1.0
+
+[node name="KEY" type="Label" parent="ShortcutLine4"]
+margin_top = 3.0
+margin_right = 11.0
+margin_bottom = 28.0
+rect_min_size = Vector2( 0, 25 )
+size_flags_vertical = 8
+custom_fonts/font = ExtResource( 5 )
+text = "H"
+align = 1
+valign = 1
+
+[node name="or2" type="Label" parent="ShortcutLine4"]
+margin_left = 11.0
+margin_top = 5.0
+margin_right = 44.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 3 )
+text = " or "
+align = 1
+valign = 1
+
+[node name="L1" type="TextureRect" parent="ShortcutLine4"]
+margin_left = 44.0
+margin_right = 68.0
+margin_bottom = 28.0
+texture = SubResource( 508 )
+
+[node name="Label3" type="Label" parent="ShortcutLine4"]
+margin_left = 68.0
+margin_top = 5.0
+margin_right = 241.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 3 )
+text = " to toggle puzzle hint"
+valign = 1

@@ -19,9 +19,7 @@ var current_players_in_game: Array # nabira se v FP
 
 # strays
 var strays_in_game_count: int setget _change_strays_in_game_count # spremlja spremembo količine aktivnih in uničenih straysov
-var all_strays_on_start_count: int = 0 # SWEEPER, da lahko hitro zabeležim uspeh pleyerja
 var strays_shown_on_start: Array = [] # za štartni explode fx loop
-var strays_cleaned_count: int = 0 # za statistiko na hudu
 var check_for_all_cleaned: bool = false # za omejevanje signala iz FP ... kdaj lahko reagira na 0 straysov v igri
 var dont_turn_to_wall_positions: Array # za zaščito, da wall stray ne postane wall (ob robu igre recimo)
 
@@ -141,18 +139,19 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 		yield(Global.hud.instructions_popup, "players_ready")
 
 	Analytics.save_selected_game_data()
+	if game_data.has("level"):
+		Global.hud.level_label.text = "L%02d" % game_data["level"]
 	Global.hud.slide_in() # pokaže countdown
 
 	# player
 	current_players_in_game = get_tree().get_nodes_in_group(Global.group_players)
-	var signaling_player: KinematicBody2D
 	for player in current_players_in_game:
 		player.animation_player.play("lose_white_on_start")
 
 	# strays
 	create_strays(create_strays_count)
 	yield(self, "all_strays_spawned")
-	all_strays_on_start_count = get_tree().get_nodes_in_group(Global.group_strays).size() # SWEEPER, da lahko hitro zabeležim uspeh pleyerja
+
 
 	# countdown
 	if game_settings["start_countdown"] and not Profiles.tutorial_mode:
@@ -189,7 +188,7 @@ func start_game():
 func game_over(gameover_reason: int):
 
 	if game_on: # preprečim double gameover
-
+		print(GameoverReason.find_key(gameover_reason))
 		game_on = false
 		Global.hud.game_timer.stop_timer()
 
@@ -216,7 +215,6 @@ func stop_game_elements():
 	for player in current_players_in_game:
 		player.end_move()
 		player.stop_sound("teleport")
-		player.stop_sound("heartbeat")
 		player.call_deferred("set_physics_process", false)
 
 
@@ -249,14 +247,10 @@ func set_new_level():
 
 func upgrade_level(upgrade_on_cleaned: bool =  false):
 
-#	if level_upgrade_in_progress or not game_on: # zazih game_on pogoj
-#		return
 	if not level_upgrade_in_progress and game_on: # zazih game_on pogoj
 
 		level_upgrade_in_progress = true
-
 		randomize()
-
 		respawn_timer.stop()
 
 		# če je spucano, dobi player nagrado
@@ -270,6 +264,7 @@ func upgrade_level(upgrade_on_cleaned: bool =  false):
 		set_new_level()
 		Global.hud.level_popup_fade(current_level)
 		Global.hud.spawn_color_indicators(get_level_colors())
+		Global.hud.level_label.text = "L%02d" % current_level
 
 		level_upgrade_in_progress = false
 
@@ -701,9 +696,7 @@ func _change_strays_in_game_count(strays_count_change: int):
 	strays_in_game_count = clamp(0, strays_in_game_count, strays_in_game_count)
 	#	printt("_change_strays_in_game_count", strays_in_game_count)
 
-	# skupno število spucanih (za hud)
-	if strays_count_change < 0:
-		strays_cleaned_count += abs(strays_count_change)
+	Global.hud.astray_counter.text = "%0d" % strays_in_game_count
 
 	# če je CLEANED upgrejdam level, ali pa kličem GO cleaned
 	if strays_in_game_count == 0 and game_on:

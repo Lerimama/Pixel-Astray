@@ -34,8 +34,8 @@ func _ready() -> void:
 	inverted_scheme.modulate.a = 0
 	inverted_scheme.hide()
 #	call_deferred("home_in_intro")
-	call_deferred("home_in_no_intro")
-#	call_deferred("game_in")
+#	call_deferred("home_in_no_intro")
+	call_deferred("game_in")
 
 	Analytics.call_deferred("start_new_session")
 
@@ -170,7 +170,8 @@ func reload_game(): # game out z drugačnim zaključkom
 
 func quit_exit_game():
 
-	Data.write_settings_to_file()
+	if not Profiles.html5_mode:
+		Data.write_settings_to_file()
 
 	Analytics.end_session()
 	yield(Analytics, "session_saved")
@@ -218,12 +219,12 @@ func spawn_new_scene(scene_path, parent_node): # spawn scene
 	return new_current_scene
 
 
-func invert_colors(fade_time: float):
+func invert_colors(invert_time: float):
 
 	var fade = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	if inverted_scheme.modulate.a == 1:
-		fade.tween_property(inverted_scheme, "modulate:a", 0, fade_time)
+		fade.tween_property(inverted_scheme, "modulate:a", 0, invert_time)
 		fade.tween_callback(inverted_scheme, "hide")
 	elif inverted_scheme.modulate.a == 0:
 		fade.tween_callback(inverted_scheme, "show")
-		fade.tween_property(inverted_scheme, "modulate:a", 1, fade_time)
+		fade.tween_property(inverted_scheme, "modulate:a", 1, invert_time)

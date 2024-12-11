@@ -155,7 +155,7 @@ func _add_local_to_global_scores(separate_local_scores: bool):
 			if global_player_name == local_player_name and global_player_score == local_player_score:
 				score_is_local_and_global = true
 				if separate_local_scores:
-					line_with_score.modulate = Global.color_gui_gray
+					line_with_score.modulate = Global.color_yellow
 			elif not global_player_score == 0:
 				if table_game_data["highscore_type"] == Profiles.HighscoreTypes.TIME:
 					if global_player_score < local_player_score: # manjši je boljši
@@ -179,8 +179,6 @@ func _add_local_to_global_scores(separate_local_scores: bool):
 			elif table_game_data["highscore_type"] == Profiles.HighscoreTypes.POINTS:
 				new_local_scoreline.get_child(2).text = str(local_player_score)
 			# after
-			if separate_local_scores:
-				new_local_scoreline.modulate = Global.color_yellow
 			new_local_scoreline.show()
 			hs_table.move_child(new_local_scoreline, local_player_rank + new_scorelines.size())
 			new_scorelines.append(new_local_scoreline)

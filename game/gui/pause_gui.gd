@@ -1,12 +1,12 @@
 extends Control
 
 
-onready var instructions: Control = $Instructions
-onready var title: Label = $Title
-onready var settings_panel: Panel = $Settings
 
 var touch_outline_size_y: float = 376 # ne uspem resizat avtomatično
 var def_outline_size_y: float = 336
+
+onready var title: Label = $Title
+onready var game_outline: HFlowContainer = $GameOutline
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -38,16 +38,12 @@ func _ready() -> void:
 	$Menu/QuitBtn.add_to_group(Batnz.group_critical_btns)
 
 	# in-pause game instructions
-	instructions.get_instructions_content() # ne prifejda
-	if Profiles.touch_available and not Profiles.set_touch_controller == Profiles.TOUCH_CONTROLLER.DISABLED:
-		settings_panel.rect_size.y = touch_outline_size_y
-	else:
-		settings_panel.rect_size.y = def_outline_size_y
+	game_outline.get_instructions_content() # ne prifejda
 
 
 func pause_game():
 
-	settings_panel.update_settings_btns()
+	$Settings.update_settings_btns()
 
 	visible = true
 

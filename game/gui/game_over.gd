@@ -103,7 +103,6 @@ func open_gameover(current_gameover_reason: int):
 	gameover_game_data = Global.game_manager.game_data
 	gameover_reason = current_gameover_reason
 	p1_final_stats = Global.game_manager.current_players_in_game[0].player_stats
-#	yield(get_tree().create_timer(1), "timeout")
 	game_final_time = Global.hud.game_timer.game_time_hunds
 	new_record_set = Global.hud.new_record_set
 
@@ -133,8 +132,9 @@ func show_gameover_title():
 	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_in.tween_callback(gameover_title_holder, "show")
 	fade_in.tween_callback(Global.sound_manager, "play_gui_sfx", [selected_gameover_jingle])
-	fade_in.parallel().tween_property(gameover_title_holder, "modulate:a", 1, 0.7)
+	fade_in.parallel().tween_property(gameover_title_holder, "modulate:a", 1, 0.7).set_ease(Tween.EASE_IN)
 	fade_in.parallel().tween_property(background, "modulate:a", background_alpha, 0.5).set_ease(Tween.EASE_IN).set_delay(0.2)
+
 	# skrije futer in header, če ni zoomouta
 	if Global.game_manager.game_settings["always_zoomed_in"]:
 		fade_in.parallel().tween_property(header_futer_covers, "modulate:a", 1, 0.7).set_ease(Tween.EASE_IN)
@@ -165,13 +165,12 @@ func show_gameover_title():
 
 func show_game_summary():
 
-	yield(get_tree().create_timer(0.5), "timeout")
 	# hide title and name_popup > show game summary
 	game_summary.modulate.a = 0
 	game_summary.visible = true
 	var summary_fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
-	summary_fade_in.tween_property(game_summary, "modulate:a", 1, 0.5)
-	summary_fade_in.parallel().tween_callback(self, "show_menu")
+	summary_fade_in.tween_property(game_summary, "modulate:a", 1, 0.7).set_delay(0.2).set_ease(Tween.EASE_IN)
+	summary_fade_in.parallel().tween_callback(self, "show_menu").set_delay(0.2)
 
 
 func show_menu():
@@ -188,7 +187,7 @@ func show_menu():
 	gameover_menu.show()
 	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_in.tween_callback(gameover_menu, "show")
-	fade_in.tween_property(gameover_menu, "modulate:a", 1, 0.5).from(0.0)
+	fade_in.tween_property(gameover_menu, "modulate:a", 1, 0.5).set_ease(Tween.EASE_IN)
 	yield(fade_in,"finished")
 	get_viewport().set_disable_input(false) # na začetku se disejbla do konca publishanja
 	focus_btn.grab_focus()
@@ -224,20 +223,22 @@ func set_gameover_title():
 			selected_gameover_jingle = "lose_jingle"
 			if gameover_game_data["game"] == Profiles.Games.SWEEPER:
 				selected_gameover_title = gameover_title_fail
-				selected_gameover_title.get_node("Subtitle").text = "You lost all of your momentum!"
+				selected_gameover_title.get_node("Subtitle").text = "You missed the target."
 			else:
 				selected_gameover_title = gameover_title_life
-				selected_gameover_title.get_node("Subtitle").text = "You can't handle the colors."
+				selected_gameover_title.get_node("Subtitle").text = "Can't handle the colors?"
 		Global.game_manager.GameoverReason.TIME:
 			name_input_label.text = "But still ... "
 			selected_gameover_jingle = "lose_jingle"
 			selected_gameover_title = gameover_title_time
-			if gameover_game_data["game"] == Profiles.Games.HUNTER:
-				selected_gameover_title.get_node("Subtitle").text = "Your screen is drowning in colors!"
+			if gameover_game_data["game"] == Profiles.Games.SWEEPER:
+				selected_gameover_title.get_node("Subtitle").text = "You have got to be faster!"
+			elif gameover_game_data["game"] == Profiles.Games.HUNTER:
+				selected_gameover_title.get_node("Subtitle").text = "Your screen is drowning in colors."
 			elif gameover_game_data["game"] == Profiles.Games.DEFENDER:
-				selected_gameover_title.get_node("Subtitle").text = "You were overpowered!"
+				selected_gameover_title.get_node("Subtitle").text = "You were overpowered."
 			else:
-				selected_gameover_title.get_node("Subtitle").text = "You can't handle the colors."
+				selected_gameover_title.get_node("Subtitle").text = "Can't handle the time?"
 
 	# če je rekord je povsod isti tekst
 	if new_record_set:

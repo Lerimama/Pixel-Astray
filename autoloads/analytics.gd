@@ -76,6 +76,7 @@ func update_session(): # pošlje podatke na Gsheet
 		session_data["current_game_data"] = current_game_data
 		_save_existing_row(session_data["session_id"])
 
+
 # on quit game
 func end_session(): # kliče main ... pošlje podatke na Gsheet
 

@@ -5,7 +5,7 @@
 [ext_resource path="res://game/arena.tscn" type="PackedScene" id=3]
 [ext_resource path="res://game/hud/hud.tscn" type="PackedScene" id=4]
 [ext_resource path="res://game/gui/tutorial_gui.tscn" type="PackedScene" id=5]
-[ext_resource path="res://common/ActionHintPress.tscn" type="PackedScene" id=6]
+[ext_resource path="res://common/action_hint_press.tscn" type="PackedScene" id=6]
 [ext_resource path="res://game/gui/pause_gui.tscn" type="PackedScene" id=11]
 [ext_resource path="res://game/gui/touch_controls.tscn" type="PackedScene" id=13]
 [ext_resource path="res://game/player_camera.tscn" type="PackedScene" id=18]
@@ -72,11 +72,14 @@ __meta__ = {
 [node name="Instructions" parent="GUI/Hud/Popups" index="1"]
 visible = false
 
+[node name="LevelUp" parent="GUI/Hud/Popups" index="2"]
+visible = false
+
 [node name="TutorialGui" parent="GUI" instance=ExtResource( 5 )]
 visible = false
 
 [node name="SweeperHintPress" parent="GUI" instance=ExtResource( 6 )]
-position = Vector2( 640, 624 )
+position = Vector2( 640, 680 )
 z_index = 0
 
 [node name="Hint" parent="GUI/SweeperHintPress" index="1"]
@@ -107,14 +110,7 @@ margin_left = 93.0
 margin_right = 214.0
 text = "to toggle hint"
 
-[node name="TouchBtn" parent="GUI/SweeperHintPress" index="2"]
-shape_visible = false
-
-[node name="ColorRect" parent="GUI/SweeperHintPress/TouchBtn" index="0"]
-margin_left = -136.0
-margin_right = 134.0
-
-[node name="HintBtn" parent="GUI/SweeperHintPress" index="3"]
+[node name="HintBtn" parent="GUI/SweeperHintPress" index="2"]
 enabled_focus_mode = 0
 
 [node name="TouchControls" parent="GUI" instance=ExtResource( 13 )]
