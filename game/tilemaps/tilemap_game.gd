@@ -14,14 +14,16 @@ var solution_line: Line2D # opredelim popreverjanj, če je prisotna
 var wall_tile_id: int = 3
 var edge_tile_id: int = 1
 var floor_tile_id: int = 0
-var spawn_stray_tile_id: int = 5 # za home sweeper btne
-var spawn_player_tile_ids: Array = [4, 6]
+var stray_tile_id: int = 5 # za home sweeper btne
+var stray_white_tile_id: int = 7 # za home sweeper btne
+var player_tile_ids: Array = [4, 6]
 var tilemap_edge_rectangle: Rect2 # velikost floor "igralne mize"
 
 onready var camera_position_node: Position2D = $CameraPosition
 onready var background_room: TextureRect = $Background/Room
 onready var tilemap_background: Node2D = $Background
-onready var edge_cover: Control = $EdgeCover/Edge
+onready var edge_cover: Control = $EdgeCover/Edge # da se rob ne vidi na zoomin in, da se ne vidijo pixli prek roba (malo bolje je)
+onready var edge_holder: Node2D = $EdgeCover # da se rob ne vidi na zoomin in, da se ne vidijo pixli prek roba (malo bolje je)
 
 
 func _ready() -> void:
@@ -29,15 +31,8 @@ func _ready() -> void:
 	add_to_group(Global.group_tilemap)
 	Global.current_tilemap = self
 
-	# set_color_theme
-	get_tileset().tile_set_modulate(wall_tile_id, Global.color_wall)
-	get_tileset().tile_set_modulate(floor_tile_id, Global.color_floor)
-	# ko je edge size manjši od kamere, ga obarvam drugače
-	#	if Global.game_manager.game_data["game"] == Profiles.Games.ERASER_XS or Global.game_manager.game_data["game"] == Profiles.Games.ERASER_S:
-	#		get_tileset().tile_set_modulate(edge_tile_id, Global.color_almost_black)
-	#		edge_cover.hide()
-	#	else:
-	get_tileset().tile_set_modulate(edge_tile_id, Global.color_almost_black)
+#	edge_cover.hide()
+	edge_cover.show()
 
 	if has_node("SolutionLine"):
 		solution_line = $SolutionLine
@@ -92,8 +87,32 @@ func get_tiles():
 					all_floor_tiles_global_positions.append(cell_global_position)
 
 
+	_colorize_tiles()
+
 	# pošljem v GM
 	emit_signal("tilemap_completed", random_spawn_floor_positions, stray_global_positions, stray_wall_global_positions, no_stray_global_positions, player_global_positions)
+
+
+func _colorize_tiles():
+
+	get_tileset().tile_set_modulate(wall_tile_id, Global.color_wall)
+	get_tileset().tile_set_modulate(floor_tile_id, Global.color_floor)
+
+	# tilemap edge
+	match Global.game_manager.game_data["game"]:
+		# manjši ekran
+		Profiles.Games.ERASER_XS, Profiles.Games.ERASER_S:
+			# ga obarvam drugače da je viden
+			get_tileset().tile_set_modulate(edge_tile_id, Global.color_almost_black)
+			edge_cover.hide()
+		# večji ekran (+ defender vogali
+		Profiles.Games.CLEANER, Profiles.Games.ERASER_L, Profiles.Games.ERASER_XL:
+			get_tileset().tile_set_modulate(edge_tile_id, Color.black)
+			edge_cover.show()
+		# fit
+		_:
+			get_tileset().tile_set_modulate(edge_tile_id, Color.black)
+			edge_cover.hide()
 
 
 func get_tilemap_edge_rect():

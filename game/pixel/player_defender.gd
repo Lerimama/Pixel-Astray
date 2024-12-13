@@ -60,7 +60,7 @@ func cocking_inputs():
 			end_move()
 		else:
 			release_burst()
-			burst_light_off()
+		burst_light_off()
 
 
 func spawn_cock_ghost(cocking_direction: Vector2):

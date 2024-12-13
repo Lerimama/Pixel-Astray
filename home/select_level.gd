@@ -15,6 +15,7 @@ func _ready() -> void:
 	yield(get_tree().create_timer(0.1), "timeout") # da se zgodi po štartnem branju HS-jev
 
 	select_level_btns_holder.spawn_level_btns()
+	select_level_btns_holder.call_deferred("set_level_btns_content")
 
 	# menu btn group
 	$BackBtn.add_to_group(Batnz.group_cancel_btns)

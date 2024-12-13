@@ -15,7 +15,6 @@ margin = Rect2( 0, -1, 0, 0 )
 margin_right = 192.0
 margin_bottom = 102.0
 rect_min_size = Vector2( 160, 85 )
-rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -31,7 +30,14 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="TilemapHolder" type="Control" parent="."]
+pause_mode = 1
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_clip_content = true
+
+[node name="RecordContent" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -3.0
@@ -41,7 +47,7 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="CupIcon" type="TextureRect" parent="VBoxContainer"]
+[node name="CupIcon" type="TextureRect" parent="RecordContent"]
 margin_left = 88.0
 margin_top = 20.0
 margin_right = 104.0
@@ -50,8 +56,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = SubResource( 484 )
 
-[node name="Record" type="Label" parent="VBoxContainer"]
-modulate = Color( 1, 1, 1, 0.470588 )
+[node name="Record" type="Label" parent="RecordContent"]
 margin_top = 40.0
 margin_right = 192.0
 margin_bottom = 58.0
@@ -60,7 +65,8 @@ custom_fonts/font = ExtResource( 1 )
 text = "00:00:00"
 align = 1
 
-[node name="Owner" type="Label" parent="VBoxContainer"]
+[node name="Owner" type="Label" parent="RecordContent"]
+modulate = Color( 1, 1, 1, 0.52549 )
 margin_top = 61.0
 margin_right = 192.0
 margin_bottom = 79.0

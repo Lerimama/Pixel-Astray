@@ -3,7 +3,7 @@
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=1]
 [ext_resource path="res://assets/theme/font_big.tres" type="DynamicFont" id=2]
 [ext_resource path="res://assets/resources/tileset_arena.tres" type="TileSet" id=3]
-[ext_resource path="res://game/tilemaps/game_tilemap.gd" type="Script" id=4]
+[ext_resource path="res://game/tilemaps/tilemap_game.gd" type="Script" id=4]
 [ext_resource path="res://game/tilemaps/monitor_background.tscn" type="PackedScene" id=5]
 [ext_resource path="res://game/edge_cover.tscn" type="PackedScene" id=6]
 
@@ -29,11 +29,13 @@ __meta__ = {
 }
 
 [node name="Background" parent="." instance=ExtResource( 5 )]
-visible = false
 position = Vector2( 0, -736 )
 
 [node name="EdgeCover" parent="." instance=ExtResource( 6 )]
-visible = false
+
+[node name="Edge" parent="EdgeCover" index="0"]
+margin_right = 1344.0
+margin_bottom = 704.0
 
 [node name="SolutionLine" type="Line2D" parent="."]
 visible = false
@@ -198,3 +200,4 @@ text = "zoom 1"
 polygon = PoolVector2Array( 607, 288, 607, 320, 639, 320, 639, 288 )
 
 [editable path="Background"]
+[editable path="EdgeCover"]

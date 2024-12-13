@@ -98,6 +98,9 @@ func die(stray_in_stack_index: int, strays_in_stack_count: int):
 
 		current_state = STATES.DYING
 
+		if stray_in_stack_index == 0: # prvi se animira
+			pixel_face.show()
+
 		if pixel_face.visible:
 			animate_face()
 			yield(pixel_face, "visibility_changed") # ko je sprite animacija končana, se sprite skrije

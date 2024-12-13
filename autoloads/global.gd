@@ -44,7 +44,7 @@ var color_purple: Color = Color("#c774f5")
 # gui colors
 var color_almost_white_text: Color = Color("#f5f5f5") # če spremeniš tukaj, moraš tudi v temi
 var color_gui_gray_trans: Color = Color("#86ffffff") # siv text s transparenco (ikone ...#838383) ... v kodi samo na btn defocus
-var color_gui_gray: Color = Color("#838383")
+var color_gui_gray: Color = Color("#838383") # skor pol-črna
 var color_hud_text: Color = color_almost_white_text # za vse, ki modulirajo barvo glede na + ali -
 var color_btn_disabled: Color = Color("#32ffffff")
 var color_btn_enabled: Color = Color("#838383")
@@ -55,12 +55,12 @@ var color_thumb_hover: Color = Color("#232323")
 
 # pixel colors
 var color_almost_black: Color = Color("#141414")
-var color_dark_gray_pixel: Color = Color("#232323")#Color("#323232") # start normal
+var color_dark_gray_pixel: Color = Color("#232323")
 var color_white_pixel_bloom: Color = Color(1, 1, 1, 1.22)
 # tilemap colors
 var color_wall: Color = Color("#141414") # Color("#232323")
 #var color_edge: Color = Color.black
-var color_floor: Color = Color("#20ffffff")
+var color_floor: Color = Color("#15ffffff")
 var color_background: Color = Color.black
 
 # hs / lootlocker

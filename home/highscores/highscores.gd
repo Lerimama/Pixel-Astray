@@ -1,6 +1,7 @@
 extends Control
 
 
+var highscores_loaded: bool = false
 var fake_player_ranking: int = 0 # številka je ranking izven lestvice, da ni označenega plejerja
 var publish_btn_text: String = "    Publish %s local scores online"
 
@@ -81,20 +82,47 @@ func _ready() -> void:
 		var hall_table: Control = sweeper_hall.get_node("HighscoreTable")
 		# novo hall ime, ker se vidi v tabih
 		sweeper_hall.name = "%02d" % (all_sweeper_halls.find(sweeper_hall) + 1)
+		hall_table.name = "Sweeper" + sweeper_hall.name + "Table"
 		sweeper_tables.append(hall_table)
 	for hall in halls:
 		var hall_table: Control = hall.get_node("HighscoreTable")
 		# novo hall ime, ker se vidi v tabih
 		hall.name = hall.name.trim_suffix("Hall")
+		hall_table.name = hall.name + "Table"
 		hall_tables.append(hall_table)
 	all_tables = sweeper_tables.duplicate()
 	all_tables.append_array(hall_tables)
+#
+	# premik frontalnmih tabel na vrh
+	printt("tabels", all_tables)
+	var first_update_table_names: Array = ["Cleaner", "01", "XS", "Hunter"]
+	first_update_table_names.invert()
+	for first_table_name in first_update_table_names: # zadnjo dam najprej spredaj ...
+		for table in all_tables:
+			if table.get_parent().name == first_table_name:
+				var table_to_move = all_tables.pop_at(all_tables.find(table))
+				all_tables.push_front(table_to_move)
+				break
+
+#	for table in all_tables:
+#		if table.get_parent().name == first_table_name:
+	printt(all_tables)
+	# vse vidne na odprtje hale premaknem da se apdejtajo prve
+#	all_tables = hall_tables.duplicate()
+#	all_tables.insert(1, sweeper_tables[0])
 
 	# load HS on start ... with global update? ... premaknjeno v home za boljšo kontrolo glede na vrsto home open
 
 
 func load_all_highscore_tables(update_with_global: bool, update_in_background: bool = false):
+
+	if update_with_global:
+		if not select_level_node.select_level_btns_holder.btns_are_set:
+			yield (select_level_node.select_level_btns_holder, "level_btns_are_set")
+
 	#	print("load_all_highscore_tables -->", all_tables)
+
+	highscores_loaded = false
 
 	var update_object_count: int = 0
 	for table in all_tables:
@@ -103,7 +131,9 @@ func load_all_highscore_tables(update_with_global: bool, update_in_background: b
 			table_game_data = Profiles.game_data_sweeper
 			table_game_data["level"] = sweeper_tables.find(table) + 1
 		else:
-			var table_index: int = all_tables.find(table) - sweeper_tables.size()
+#			var table_index: int = all_tables.find(table) - sweeper_tables.size()
+			var table_index: int = hall_tables.find(table)
+
 			table_game_data = hall_tables_game_data[table_index]
 
 #		printt("table", table_game_data["game_name"], table_game_data["level"])
@@ -138,6 +168,9 @@ func load_all_highscore_tables(update_with_global: bool, update_in_background: b
 	# after focus
 	if update_with_global and not update_in_background: # samo kadar je na HOF ekranu
 		Batnz.grab_focus_nofx(default_focus_node)
+
+	select_level_node.select_level_btns_holder.set_level_btns_content() # ponovno seta vsebino (brez tilemapa)
+	highscores_loaded = true
 
 
 func publish_all_unpublished_scores():

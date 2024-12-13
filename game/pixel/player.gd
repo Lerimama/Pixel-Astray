@@ -369,11 +369,9 @@ func cocking_inputs():
 	if Input.is_action_just_released(key_burst):
 		if cocked_ghosts.empty():
 			end_move()
-			burst_light_off()
-
 		else:
 			release_burst()
-			burst_light_off()
+		burst_light_off()
 
 
 func bursting_inputs():

@@ -13,3 +13,4 @@ position = Vector2( 536, 344 )
 rotation = 1.5708
 
 [editable path="Background"]
+[editable path="EdgeCover"]

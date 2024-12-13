@@ -1,6 +1,25 @@
 extends Stray
 
 
+
+func die(stray_in_stack_index: int, strays_in_stack_count: int):
+	# namen: samo animacija
+
+	# čakalni čas
+	var wait_to_destroy_time: float = sqrt(0.005 * (stray_in_stack_index)) # -1 je, da hitan stray ne čaka
+	yield(get_tree().create_timer(wait_to_destroy_time), "timeout")
+
+	# animacije
+	if strays_in_stack_count > 3:
+		animation_player.play("die_stray")
+	else:
+		var random_animation_index = randi() % 5 + 1
+		var random_animation_name: String = "die_stray_%s" % random_animation_index
+		animation_player.play(random_animation_name)
+	yield(animation_player, "animation_finished")
+	queue_free()
+
+
 func step(step_direction: Vector2 = Vector2.DOWN):
 	# namen: detect collision namesto detect free positions
 
@@ -38,14 +57,10 @@ func play_sound(effect_for: String):
 	if not Global.sound_manager.game_sfx_set_to_off:
 		match effect_for:
 			"blinking":
-#				Global.sound_manager.play_event_sfx("blinking")
 				var random_blink_index = randi() % $Sounds/Blinking.get_child_count()
 				$Sounds/Blinking.get_child(random_blink_index).play() # nekateri so na mute, ker so drugače prepogosti soundi
 				var random_static_index = randi() % $Sounds/BlinkingStatic.get_child_count()
 				$Sounds/BlinkingStatic.get_child(random_static_index).play()
-#			"stepping":
-#				var random_step_index = randi() % $Sounds/Stepping.get_child_count()
-#				var selected_step_sound = $Sounds/Stepping.get_child(random_step_index).play()
 
 
 # SIGNALI ------------------------------------------------------------------------------------------------------

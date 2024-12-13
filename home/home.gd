@@ -161,7 +161,7 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 			if not animation_reversed(Screens.SELECT_GAME):
 				current_screen = Screens.SELECT_GAME
 				$SelectGame.default_focus_node.grab_focus()
-				$SelectLevel.select_level_btns_holder.set_level_btns_content()
+#				$SelectLevel.select_level_btns_holder.set_level_btns_content()
 		"about":
 			if not animation_reversed(Screens.ABOUT):
 				current_screen = Screens.ABOUT
@@ -181,6 +181,7 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 			if not animation_reversed(Screens.SELECT_LEVEL):
 				current_screen = Screens.SELECT_LEVEL
 				$SelectLevel.default_focus_node.grab_focus()
+				$SelectLevel.select_level_btns_holder.all_level_btns[0].grab_focus()
 
 
 func animation_reversed(from_screen: int):
@@ -212,6 +213,11 @@ func _on_AnimationPlayer_animation_started(anim_name: String) -> void:
 	# vsaka animacije ja prehod med scenami
 
 	Batnz.allow_ui_sfx = false
+
+#	if anim_name == "select_level":
+#		yield(get_tree().create_timer(0.3), "timeout")
+#		$SelectLevel.select_level_btns_holder.call_deferred("set_level_btns_content")
+##		$SelectLevel.select_level_btns_holder.set_level_btns_content()
 
 
 # MENU BTNZ ---------------------------------------------------------------------------------------------------

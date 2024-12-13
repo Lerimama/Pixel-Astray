@@ -191,6 +191,7 @@ var game_data_the_duel: Dictionary = {
 var sweeper_level_tilemap_paths: Array = [
 	# zaporedje je ključno za level name
 	"res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
+#	"res://game/tilemaps/sweeper/tilemap_sweeper_01_small.tscn",
 	"res://game/tilemaps/sweeper/tilemap_sweeper_02.tscn",
 	"res://game/tilemaps/sweeper/tilemap_sweeper_03.tscn",
 	"res://game/tilemaps/sweeper/tilemap_sweeper_04.tscn",
@@ -277,7 +278,7 @@ func _ready() -> void:
 
 #		pregame_screen_on = false
 		tutorial_mode = false
-#		html5_mode = true
+		html5_mode = true
 #		touch_available = true
 #		debug_mode = false
 		game_settings["start_countdown"] = false

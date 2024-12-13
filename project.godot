@@ -27,7 +27,7 @@ _global_script_classes=[ {
 "base": "TileMap",
 "class": "GameTilemap",
 "language": "GDScript",
-"path": "res://game/tilemaps/game_tilemap.gd"
+"path": "res://game/tilemaps/tilemap_game.gd"
 }, {
 "base": "KinematicBody2D",
 "class": "Player",

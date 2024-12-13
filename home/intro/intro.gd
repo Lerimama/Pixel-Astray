@@ -13,7 +13,7 @@ var actor_step_time: float = 0.08
 var creating_strays: bool = false
 var spawned_strays_count: int = 0
 var strays_shown_on_start: Array = []
-var create_strays_count: int =  500 # 149 v naslovu ... ne sme bit onready, ker povozi ukaz s tilemapa
+var create_strays_count: int = 149 # 149 v naslovu ... ne sme bit onready, ker povozi ukaz s tilemapa
 var color_pool_colors: Array
 
 # tilemap data
@@ -105,6 +105,9 @@ func set_strays(): # kliče animacija
 
 func create_strays(strays_to_spawn_count: int = required_spawn_positions.size()):
 
+	#	spawned_strays_count = 0
+	#	free_floor_positions = Global.current_tilemap.all_floor_tiles_global_positions.duplicate()
+
 	var color_pool_split_size: int = floor(color_pool_colors.size() / strays_to_spawn_count)
 
 	# set strays to spawn
@@ -123,11 +126,7 @@ func create_strays(strays_to_spawn_count: int = required_spawn_positions.size())
 
 		# če je prazna spawnam, drugače preskočim spawn in odštejem število potrebnih za spavnanje (na koncu preverjam, da ni število spawnanih 0)
 		var turn_to_white: bool = false
-		if free_floor_positions.has(selected_cell_position):
-			strays_set_to_spawn.append([stray_index, new_stray_color, selected_stray_position, turn_to_white])
-		else: # varovalka overspawn ... če je zasedena se ne spawna in takega streya ne spawnam več
-			printt ("overspawn - on GM create ... preksočim spawn")
-			strays_to_spawn_count -= 1
+		strays_set_to_spawn.append([stray_index, new_stray_color, selected_stray_position, turn_to_white])
 
 		required_spawn_positions.erase(selected_cell_position)
 
@@ -143,6 +142,8 @@ func create_strays(strays_to_spawn_count: int = required_spawn_positions.size())
 		# znotraj frejma ... spawnam
 		if msec_taken < (round(1000 / Engine.get_frames_per_second()) - Global.throttler_msec_threshold): # msec_per_frame - ...
 			spawned_strays_true_count += 1
+			if spawned_strays_true_count % 10 == 0:
+				print (spawned_strays_true_count)
 			spawn_stray(new_stray_index, new_stray_color, selected_stray_position, turn_to_white)
 		# zunaj frejma
 		else:
@@ -153,7 +154,8 @@ func create_strays(strays_to_spawn_count: int = required_spawn_positions.size())
 			throttler_start_msec = Time.get_ticks_msec()
 			# vrnem pozicijo nazaj
 			required_spawn_positions.append(selected_stray_position)
-	# ponovim za preostale spawn
+
+	# ponovim za preostale spawne
 	if spawned_strays_true_count < strays_to_spawn_count and not spawned_strays_true_count == 0:
 		create_strays(strays_to_spawn_count - spawned_strays_true_count)
 		return
@@ -171,8 +173,8 @@ func create_strays(strays_to_spawn_count: int = required_spawn_positions.size())
 
 
 func spawn_stray(stray_index: int, stray_color: Color, stray_position: Vector2, is_white: bool):
-
 	# namen: add child parent, faces off
+
 	# spawn
 	var new_stray_pixel = StrayPixel.instance()
 	new_stray_pixel.name = "S%s" % str(stray_index)
@@ -229,10 +231,13 @@ func respawn_title_strays():
 
 	if not creating_strays:
 		stray_step_timer.stop()
-		get_tree().call_group(Global.group_strays, "queue_free")
-		yield(get_tree().create_timer(0.1), "timeout") # ... da je časovni razmak
+		var pseudo_value: int = -1
+		var intro_strays: Array = get_tree().get_nodes_in_group(Global.group_strays)
+		for stray in intro_strays:
+			stray.die(intro_strays.find(stray), intro_strays.size())
+		yield(get_tree().create_timer(1), "timeout") # ... da je časovni razmak
 		call_deferred("set_strays")
-		yield(get_tree().create_timer(1), "timeout")
+		yield(get_tree().create_timer(3), "timeout")
 		call_deferred("random_stray_step")
 
 

@@ -1,5 +1,6 @@
 extends GameTilemap
 
+
 onready var top_screen_limit: StaticBody2D = $TopScreenLimit
 onready var bottom_screen_limit: StaticBody2D = $BottomScreenLimit
 onready var left_screen_limit: StaticBody2D = $LeftScreenLimit
@@ -12,10 +13,7 @@ func _ready() -> void:
 	add_to_group(Global.group_tilemap)
 	Global.current_tilemap = self
 
-	# set_color_theme
-	get_tileset().tile_set_modulate(wall_tile_id, Global.color_wall)
-	get_tileset().tile_set_modulate(edge_tile_id, Global.color_almost_black)
-	get_tileset().tile_set_modulate(floor_tile_id, Global.color_floor)
+	edge_cover.hide()
 
 	top_screen_limit.add_to_group(Global.group_tilemap)
 	bottom_screen_limit.add_to_group(Global.group_tilemap)
@@ -64,6 +62,8 @@ func get_tiles():
 					stray_global_positions.append(cell_global_position) # stray wall je tudi stray pozicija
 					set_cellv(cell, 0)
 					# all_floor_tiles_global_positions.append(cell_global_position)
+
+	_colorize_tiles()
 
 	# pošljem v GM
 	emit_signal("tilemap_completed", random_spawn_floor_positions, stray_global_positions, stray_wall_global_positions, no_stray_global_positions, player_global_positions)

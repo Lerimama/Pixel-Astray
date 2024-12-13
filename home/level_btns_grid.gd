@@ -1,17 +1,22 @@
 extends GridContainer
 
 
+signal level_btns_are_set
+
+
 var unfocused_color: Color = Global.color_almost_black
 var btn_colors: Array
 var all_level_btns: Array # naberem ob spawnu
 var btns_holder_parent # določim od zunaj ... (GO ali home > select level)
 var btns_are_set: bool = false
+var solved_btns: Array = []
 
-var cup_icon_path: String = "VBoxContainer/CupIcon"
-var record_title_label_path: String = "VBoxContainer/Label"
-var record_label_path: String = "VBoxContainer/Record"
-var owner_label_path: String = "VBoxContainer/Owner"
-var tilemap_node_path: String = "LevelTilemap"
+var record_content_path: String = "RecordContent"
+var cup_icon_path: String = "RecordContent/CupIcon"
+var record_label_path: String = "RecordContent/Record"
+var owner_label_path: String = "RecordContent/Owner"
+var tilemap_node_path: String = "TilemapHolder/LevelTilemap"
+var tilemap_holder_node_path: String = "TilemapHolder"
 
 
 onready var LevelBtn: PackedScene = preload("res://home/level_btn.tscn")
@@ -41,37 +46,45 @@ func spawn_level_btns():
 
 func set_level_btns_content():
 
+
 	if not btns_are_set:
+		_set_color_scheme()
 
-		btns_are_set = true
-
-		for btn_count in all_level_btns.size():
-			# poimenujem gumb in barvam ozadje
-			var btn = all_level_btns[btn_count]
-			var btn_level_number: int = btn_count + 1
-			btn.name = "Sweeper%02dBtn" % btn_level_number
+	for btn_count in all_level_btns.size():
+		# poimenujem gumb in barvam ozadje
+		var btn = all_level_btns[btn_count]
+		var btn_level_number: int = btn_count + 1
+		btn.name = "Sweeper%02dBtn" % btn_level_number
 #			btn.self_modulate = unfocused_color
-			# highscore ... preverjam HScore > 0
-			var level_hs_line: Array = _get_btn_highscore(btn_level_number)
-			var current_hs_time_int: int = int(level_hs_line[0])
-			if current_hs_time_int > 0:
-				btn.get_node(record_label_path).text = level_hs_line[0]
-				btn.get_node(owner_label_path).text = "by " + level_hs_line[1]
-			else:
-				btn.get_node(cup_icon_path).hide()
-				btn.get_node(record_label_path).text = "Waiting ..."
-				btn.get_node(owner_label_path).text = "to be solved"
-			btn.get_node(record_label_path).show()
-			btn.get_node(owner_label_path).show()
-			# tilemap
+		# highscore ... preverjam HScore > 0
+		var level_hs_line: Array = _get_btn_highscore(btn_level_number)
+		var current_hs_time_int: int = int(level_hs_line[0])
+		btn.get_node(record_label_path).show()
+		btn.get_node(owner_label_path).show()
+		btn.get_node(cup_icon_path).show()
+		if current_hs_time_int > 0:
+			solved_btns.append(btn)
+			btn.get_node(record_label_path).text = level_hs_line[0]
+			btn.get_node(owner_label_path).text = "by " + level_hs_line[1]
+		else:
+			btn.get_node(record_label_path).text = "Waiting for\nfirst cleaning"
+			btn.get_node(cup_icon_path).hide()
+			btn.get_node(owner_label_path).hide()
+
+		# tilemap
+		if not btns_are_set:
 			_create_level_btn_tilemap(btn, btn_level_number)
 
-		colorize_level_btns() # more bit spredaj
+	colorize_level_btns() # more bit spredaj
 
-		_connect_level_btns()
+	_connect_level_btns()
+
+	btns_are_set = true
+	emit_signal("level_btns_are_set")
 
 
-func colorize_level_btns():
+
+func _set_color_scheme():
 
 	btn_colors.clear()
 
@@ -84,26 +97,27 @@ func colorize_level_btns():
 			var color = Global.game_color_theme_gradient.interpolate(btn_count * color_split_offset) # barva na lokaciji v spektrumu
 			btn_colors.append(color)
 
+
+func colorize_level_btns():
+
+	if btns_are_set:
+		_set_color_scheme()
+
+#	btn_colors.clear()
+
 	# za vsak level btn preverim , če je v filetu prvi skor > 0
 	for btn_count in all_level_btns.size():
 
 		var btn = all_level_btns[btn_count]
 		var btn_level_number: int = btn_count + 1
 
-		for child in btn.get_child(0).get_children(): # all btn content
-			child.modulate = btn_colors[btn_count]
-			child.modulate.a = text_defocus_alpha
+		btn.get_node(record_content_path).modulate = btn_colors[btn_count]
+		btn.get_node(record_content_path).modulate.a = content_defocus_alpha
 
 		btn.get_node(tilemap_node_path).modulate = btn_colors[btn_count]
 		btn.get_node(tilemap_node_path).modulate.a = tilemap_defocus_alpha
 		btn.self_modulate = Global.color_thumb_hover
 
-
-
-var text_focus_alpha: float = 1
-var text_defocus_alpha: float = 1
-var tilemap_focus_alpha: float = 1
-var tilemap_defocus_alpha: float = 0.2
 
 func _create_level_btn_tilemap(level_btn: Button, btn_level_number: int):
 
@@ -119,10 +133,9 @@ func _spawn_btn_tilemap(level_btn, BtnTilemap):
 		var cell_size_x: float = 32
 
 		var new_btn_tilemap = BtnTilemap.instance()
-		new_btn_tilemap.show_behind_parent = true
-		new_btn_tilemap.name = tilemap_node_path
+		new_btn_tilemap.name = "LevelTilemap"
 		new_btn_tilemap.modulate.a = 0.5
-		level_btn.add_child(new_btn_tilemap)
+		level_btn.get_node(tilemap_holder_node_path).add_child(new_btn_tilemap)
 
 		# size
 		var tilemap_size_div: float = level_btn.rect_size.x / (new_btn_tilemap.get_used_rect().size.x * cell_size_x)
@@ -132,16 +145,9 @@ func _spawn_btn_tilemap(level_btn, BtnTilemap):
 		var tilemap_offset: Vector2 = Vector2.ONE * -3.2
 		new_btn_tilemap.position += tilemap_offset
 
-		# barvanje tiletov
-		#		new_btn_tilemap.get_tileset().tile_set_modulate(new_btn_tilemap.edge_tile_id, Color(1,1,1,0))
-		#		new_btn_tilemap.get_tileset().tile_set_modulate(new_btn_tilemap.edge_tile_id, Color.red)
-		#		new_btn_tilemap.get_tileset().tile_set_modulate(new_btn_tilemap.floor_tile_id, Color(1,1,1,0))
-		new_btn_tilemap.get_tileset().tile_set_modulate(new_btn_tilemap.spawn_stray_tile_id, Color.white) # prava barva se seta v select levels, v igri se jo itak zamenja s tlemi
-		new_btn_tilemap.get_tileset().tile_set_modulate(new_btn_tilemap.spawn_stray_tile_id, Color.white) # prava barva se seta v select levels, v igri se jo itak zamenja s tlemi
-		new_btn_tilemap.get_tileset().tile_set_modulate(new_btn_tilemap.spawn_player_tile_ids[0], Color(1,1,1,0.5)) # prava barva se seta v select levels, v igri se jo itak zamenja s tlemi
-
-		#		new_btn_tilemap.set_process_input(false)
-		print ("TLMP ",new_btn_tilemap)
+		# da hover pravilno deluje
+		new_btn_tilemap.edge_holder.z_index = 0
+		new_btn_tilemap.tilemap_background.hide()
 
 
 func _get_btn_highscore(btn_level_number: int):
@@ -179,29 +185,34 @@ func _connect_level_btns():
 # BTNS ---------------------------------------------------------------------------------------------
 
 
+var content_focus_alpha: float = 0
+var content_defocus_alpha: float = 1
+var tilemap_focus_alpha: float = 1
+var tilemap_defocus_alpha: float = 0.32
+
 func _on_btn_hovered_or_focused(btn):
 
 	var btn_color: Color = btn_colors[all_level_btns.find(btn)]
 
-
-	btn.self_modulate = btn_color
-	btn.get_node(tilemap_node_path).modulate = btn_color
-	btn.get_node(tilemap_node_path).modulate.a = tilemap_focus_alpha
-	for child in btn.get_child(0).get_children(): # all btn content
-		child.modulate = btn_color
-		child.modulate.a = .0
+	var fade_time: float = 0.2
+	var fade_tween = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+	fade_tween.tween_property(btn.get_node(tilemap_node_path), "modulate:a", tilemap_focus_alpha, fade_time)
+	fade_tween.parallel().tween_property(btn.get_node(record_content_path), "modulate:a", content_focus_alpha, fade_time)
+	fade_tween.parallel().tween_property(btn, "self_modulate", btn_color, fade_time)
 
 
 func _on_btn_unhovered_or_unfocused(btn):
 
 	var btn_color: Color = btn_colors[all_level_btns.find(btn)]
 
-	btn.self_modulate = Global.color_thumb_hover
-	btn.get_node(tilemap_node_path).modulate = btn_color
-	btn.get_node(tilemap_node_path).modulate.a = .14
-	for child in btn.get_child(0).get_children(): # all btn content
-		child.modulate = btn_color
-		child.modulate.a = text_defocus_alpha
+	var fade_time: float = 0.2
+	var fade_tween = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+	fade_tween.tween_property(btn.get_node(tilemap_node_path), "modulate:a", tilemap_defocus_alpha, fade_time)
+	if solved_btns.has(btn):
+		fade_tween.parallel().tween_property(btn.get_node(record_content_path), "modulate", Global.color_almost_white_text, fade_time)
+	else:
+		fade_tween.parallel().tween_property(btn.get_node(record_content_path), "modulate:a", content_defocus_alpha, fade_time)
+	fade_tween.parallel().tween_property(btn, "self_modulate", Global.color_thumb_hover, fade_time)
 
 
 func _on_btn_pressed(btn):
