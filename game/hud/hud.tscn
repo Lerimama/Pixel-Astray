@@ -766,7 +766,7 @@ size_flags_horizontal = 10
 size_flags_vertical = 8
 custom_constants/separation = 12
 
-[node name="TextureRect5" type="TextureRect" parent="Header/TopLineR/HighscoreHolder"]
+[node name="CupIcon" type="TextureRect" parent="Header/TopLineR/HighscoreHolder"]
 margin_top = 4.0
 margin_right = 16.0
 margin_bottom = 22.0

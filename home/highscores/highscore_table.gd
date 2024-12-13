@@ -25,7 +25,7 @@ func build_highscore_table(current_game_data: Dictionary, show_title: bool = tru
 	_reset_table()
 
 	# nafilam podatke
-	var current_game_highscores = Data.read_highscores_from_file(table_game_data)
+	var current_game_highscores = Data.read_highscores_from_file(table_game_data) # najprej global
 
 	# spawnam scoreline
 	_add_scorelines(current_game_highscores.size())
@@ -226,7 +226,7 @@ func publish_unpublished_scores():
 	unpublished_local_scores.clear()
 
 
-func locate_scoreline_with_score(score: float, score_owner: String, hs_type: int):
+func get_scoreline_position_in_table(score: float, score_owner: String, hs_type: int):
 
 	var scoreline_to_locate: Control
 	for scoreline in hs_table.get_children():

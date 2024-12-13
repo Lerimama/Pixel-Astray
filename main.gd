@@ -11,20 +11,6 @@ onready var home_scene_path: String = "res://home/home.tscn"
 onready var game_scene_path: String = Profiles.current_game_data["game_scene_path"]
 
 
-func _unhandled_input(event: InputEvent) -> void:
-#func _input(event: InputEvent) -> void:
-
-	if Profiles.debug_mode:  # debug OS mode
-		if Input.is_action_just_pressed("r"):
-			var all_nodes = Global.get_all_nodes_in_node(self)
-
-			for node in all_nodes:
-				if node.name[0] == "_" and node.name[1] == "_":
-					printt("_NODE",node.name)
-
-			print("All nodes in MAIN scene",  all_nodes.size())
-
-
 func _ready() -> void:
 
 	#	TranslationServer.set_locale("sl")
@@ -35,7 +21,9 @@ func _ready() -> void:
 	inverted_scheme.hide()
 #	call_deferred("home_in_intro")
 #	call_deferred("home_in_no_intro")
-	call_deferred("game_in")
+#	call_deferred("game_in")
+	var start_with: String = Profiles.start_with_method
+	call_deferred(start_with)
 
 	Analytics.call_deferred("start_new_session")
 
@@ -74,12 +62,16 @@ func home_in_from_game(finished_game: int):
 #	spawn_new_scene(home_scene_path, self)
 #	current_scene.open_from_game(finished_game) # select game screen
 
+	Global.delete_all_debug_nodes() # pred tvinom
+
 	yield(get_tree().create_timer(0.7), "timeout") # da se title naštima
 
 	home_scene.modulate = Color.black
 
 	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_in.tween_property(home_scene, "modulate", Color.white, fade_time)
+
+
 
 
 func home_out():
@@ -120,6 +112,8 @@ func game_in():
 	Global.game_manager.set_tilemap()
 	Global.game_manager.set_game_view()
 	Global.game_manager.create_players()
+
+	Global.delete_all_debug_nodes() # pred tvinom
 
 	yield(get_tree().create_timer(0.3), "timeout") # da se kamera centrira
 

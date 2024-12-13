@@ -29,7 +29,7 @@ atlas = ExtResource( 4 )
 region = Rect2( 136, 24, 24, 24 )
 margin = Rect2( 0, 1, 0, 1 )
 
-[node name="_help_gui_guide" type="Panel"]
+[node name="__help_gui_guide" type="Panel"]
 visible = false
 modulate = Color( 0.952941, 0.356863, 0.498039, 1 )
 anchor_left = 0.5

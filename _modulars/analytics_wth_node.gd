@@ -182,7 +182,7 @@ func write_row_content(action: String, id = null) -> void:
 
 	make_http_POST_request(action, session_data)
 	yield(get_tree().create_timer(1), "timeout")
-	#	yield(self, "http_post_request_done") # OPT ...post signal ne dela
+	#	yield(self, "http_post_request_done") # ...post signal ne dela
 	emit_signal("session_saved")
 
 

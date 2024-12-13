@@ -40,7 +40,7 @@ var is_in_reburst: bool = false # ko je v samem reburstu
 var reburst_window_open: bool = false #
 var reburst_speed_units_count: float = 0 # za prenos original hitrosti v naslednje rebursta
 var reburst_cock_ghosts_to_show: int = 1 # za kolk se nakoka (samo vizualni efekt)
-var strays_on_start_count: int = -1 # SWEEPER, da lahko hitro zabeležim uspeh pleyerja
+var strays_on_start_count: int = -1 setget _change_strays_on_start# SWEEPER, da lahko hitro zabeležim uspeh pleyerja
 
 # touch
 var is_surrounded: bool
@@ -120,7 +120,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 
 	# ob štartu igre preveri količino strajsov
-	if strays_on_start_count == -1:
+	if strays_on_start_count == -1 and Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
 		strays_on_start_count = get_tree().get_nodes_in_group(Global.group_strays).size()
 
 	color_poly.modulate = pixel_color # povezava med variablo in barvo mora obstajati non-stop
@@ -369,6 +369,8 @@ func cocking_inputs():
 	if Input.is_action_just_released(key_burst):
 		if cocked_ghosts.empty():
 			end_move()
+			burst_light_off()
+
 		else:
 			release_burst()
 			burst_light_off()
@@ -649,8 +651,7 @@ func close_reburst_window(finish_sweep: bool = false):
 
 	if finish_sweep:
 		sweep_started = false
-		if strays_on_start_count > 0:
-			#			yield(get_tree().create_timer(Global.get_it_time), "timeout")
+		if strays_on_start_count > 0: # -1 je kul
 			Global.game_manager.game_over(Global.game_manager.GameoverReason.TIME)
 
 
@@ -849,7 +850,7 @@ func on_hit_stray(hit_stray: Node2D):
 					strays_to_destroy.append(neighboring_stray)
 				else: break
 
-		strays_on_start_count -= strays_to_destroy.size() # za sweeper za hitro zabeležim uspeh pleyerja
+		self.strays_on_start_count -= strays_to_destroy.size() # za sweeper za hitro zabeležim uspeh pleyerja
 
 		# jih destrojam
 		var throttler_start_msec = Time.get_ticks_msec()
@@ -883,7 +884,6 @@ func on_hit_stray(hit_stray: Node2D):
 			burst_light_on()
 			rebursting_timer.stop() # ... reset zazih
 			rebursting_timer.call_deferred("start", Global.game_manager.game_settings["reburst_window_time"])
-
 
 
 func on_hit_player(hit_player: KinematicBody2D):
@@ -1110,7 +1110,6 @@ func detect_touch():
 	var current_player_strays: Array # sosedi v tem koraku
 
 	# preverim vsako areo, če ima straysa
-#	var touching_sides_count: int = 0
 	var areas_touching: Array = []
 
 	for area in touch_detect.get_children():
@@ -1230,13 +1229,14 @@ func burst_light_on():
 
 	if not burst_light.enabled:
 
-		var burst_light_base_energy: float = 0.6
-		var burst_light_energy: float = burst_light_base_energy / pixel_color.v
-		burst_light_energy = clamp(burst_light_energy, 0.5, 1.4) # klempam za dark pixel
+		burst_light.enabled = true
 
-		var light_fade_in = get_tree().create_tween()
-		light_fade_in.tween_callback(burst_light, "set_enabled", [true])
-		light_fade_in.tween_property(burst_light, "energy", burst_light_energy, 0.2).set_ease(Tween.EASE_IN)
+	var burst_light_base_energy: float = 0.6
+	var burst_light_energy: float = burst_light_base_energy / pixel_color.v
+	burst_light_energy = clamp(burst_light_energy, 0.5, 1.4) # klempam za dark pixel
+
+	var light_fade_in = get_tree().create_tween()
+	light_fade_in.tween_property(burst_light, "energy", burst_light_energy, 0.2).set_ease(Tween.EASE_IN)
 
 
 func burst_light_off():
@@ -1358,6 +1358,15 @@ func stop_sound(stop_effect_for: String):
 
 
 # SIGNALI ---------------------------------------------------------------------------------------------
+
+
+func _change_strays_on_start(new_count):
+	#	print("artificial stray count ", strays_on_start_count)
+
+	strays_on_start_count = new_count
+	if strays_on_start_count == 0:
+		end_move()
+		set_physics_process(false)
 
 
 func _on_SkilledTimer_timeout() -> void:

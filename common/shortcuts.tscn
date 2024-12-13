@@ -160,22 +160,22 @@ VSeparator/styles/separator = SubResource( 443 )
 [sub_resource type="AtlasTexture" id=504]
 atlas = ExtResource( 4 )
 region = Rect2( 136, 72, 24, 24 )
-margin = Rect2( 0, 3, 0, 3 )
+margin = Rect2( 0, 2, 0, 2 )
 
 [sub_resource type="AtlasTexture" id=454]
 atlas = ExtResource( 4 )
 region = Rect2( 88, 216, 24, 24 )
-margin = Rect2( 0, 3, 0, 3 )
+margin = Rect2( 0, 2, 0, 2 )
 
 [sub_resource type="AtlasTexture" id=507]
 atlas = ExtResource( 4 )
 region = Rect2( 112, 216, 24, 24 )
-margin = Rect2( 0, 3, 0, 3 )
+margin = Rect2( 0, 2, 0, 2 )
 
 [sub_resource type="AtlasTexture" id=508]
 atlas = ExtResource( 4 )
 region = Rect2( 136, 48, 24, 24 )
-margin = Rect2( 0, 3, 0, 3 )
+margin = Rect2( 0, 2, 0, 2 )
 
 [node name="Shortcuts" type="VBoxContainer"]
 margin_right = 264.0
@@ -242,8 +242,11 @@ valign = 1
 
 [node name="L1" type="TextureRect" parent="ShortcutLine"]
 margin_left = 90.0
+margin_top = 1.0
 margin_right = 114.0
 margin_bottom = 28.0
+rect_min_size = Vector2( 0, 27 )
+size_flags_vertical = 8
 texture = SubResource( 504 )
 
 [node name="Label3" type="Label" parent="ShortcutLine"]
@@ -297,8 +300,11 @@ valign = 1
 
 [node name="L1" type="TextureRect" parent="ShortcutLine2"]
 margin_left = 47.0
+margin_top = 1.0
 margin_right = 71.0
 margin_bottom = 28.0
+rect_min_size = Vector2( 0, 27 )
+size_flags_vertical = 8
 texture = SubResource( 454 )
 
 [node name="Label3" type="Label" parent="ShortcutLine2"]
@@ -366,8 +372,11 @@ valign = 1
 
 [node name="L1" type="TextureRect" parent="ShortcutLine3"]
 margin_left = 44.0
+margin_top = 1.0
 margin_right = 68.0
 margin_bottom = 28.0
+rect_min_size = Vector2( 0, 27 )
+size_flags_vertical = 8
 texture = SubResource( 507 )
 
 [node name="Label3" type="Label" parent="ShortcutLine3"]
@@ -435,8 +444,11 @@ valign = 1
 
 [node name="L1" type="TextureRect" parent="ShortcutLine4"]
 margin_left = 44.0
+margin_top = 1.0
 margin_right = 68.0
 margin_bottom = 28.0
+rect_min_size = Vector2( 0, 27 )
+size_flags_vertical = 8
 texture = SubResource( 508 )
 
 [node name="Label3" type="Label" parent="ShortcutLine4"]

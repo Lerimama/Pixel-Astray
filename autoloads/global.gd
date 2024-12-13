@@ -43,7 +43,8 @@ var color_orange: Color = Color("#ff9990")
 var color_purple: Color = Color("#c774f5")
 # gui colors
 var color_almost_white_text: Color = Color("#f5f5f5") # če spremeniš tukaj, moraš tudi v temi
-var color_gui_gray: Color = Color("#838383") # siv text s transparenco (ikone ...#838383) ... v kodi samo na btn defocus
+var color_gui_gray_trans: Color = Color("#86ffffff") # siv text s transparenco (ikone ...#838383) ... v kodi samo na btn defocus
+var color_gui_gray: Color = Color("#838383")
 var color_hud_text: Color = color_almost_white_text # za vse, ki modulirajo barvo glede na + ali -
 var color_btn_disabled: Color = Color("#32ffffff")
 var color_btn_enabled: Color = Color("#838383")
@@ -53,12 +54,12 @@ var color_thumb_hover: Color = Color("#232323")
 
 
 # pixel colors
-var color_almost_black_pixel: Color = Color("#141414")
+var color_almost_black: Color = Color("#141414")
 var color_dark_gray_pixel: Color = Color("#232323")#Color("#323232") # start normal
-var color_white_pixel: Color = Color(1, 1, 1, 1.22)
+var color_white_pixel_bloom: Color = Color(1, 1, 1, 1.22)
 # tilemap colors
 var color_wall: Color = Color("#141414") # Color("#232323")
-var color_edge: Color = Color.black
+#var color_edge: Color = Color.black
 var color_floor: Color = Color("#20ffffff")
 var color_background: Color = Color.black
 
@@ -66,25 +67,42 @@ var color_background: Color = Color.black
 var default_highscore_line_name: String = "Empty score line" # se uporabi, če še ni nobenega v filetu
 
 
+
+func _unhandled_input(event: InputEvent) -> void:
+
+	if Input.is_action_just_pressed("next"):
+		delete_all_debug_nodes()
+
+
 func _ready():
 
 	randomize() # custom color scheme
 
-#	# when _ready is called, there might already be nodes in the tree, so connect all existing buttons
-#	connect_all_interactive_controls(get_tree().root)
-##	connect_controls(get_tree().root)
-#	get_tree().connect("node_added", self, "_on_SceneTree_node_added")
+
+var nodes_to_delete: Array = []
+var debug_nodes_prefix: String = "__"
 
 
-func get_all_nodes_in_node(node_to_check: Node = get_tree().root, all_nodes_of_nodes: Array = []):
+func delete_all_debug_nodes(): # kliče main na prehodu scene
+
+	get_all_nodes_in_node("_")
+
+	for node in nodes_to_delete:
+		node.queue_free()
+	nodes_to_delete.clear()
+
+
+func get_all_nodes_in_node(string_to_search: String = "", node_to_check: Node = get_tree().root, all_nodes_of_nodes: Array = []):
 
 	all_nodes_of_nodes.push_back(node_to_check)
-
 	for node in node_to_check.get_children():
-		all_nodes_of_nodes = get_all_nodes_in_node(node)
+		if not string_to_search.empty() and node.name.begins_with(string_to_search):
+			#			printt("node", node.name, node.get_parent())
+			if node.name.begins_with(debug_nodes_prefix):
+				nodes_to_delete.append(node)
+		all_nodes_of_nodes = get_all_nodes_in_node(string_to_search, node)
 
-#	print("Nodes in node ",  all_nodes_of_nodes.size())
-
+	#	print("Nodes in node ",  all_nodes_of_nodes.size())
 	return all_nodes_of_nodes
 
 
@@ -144,47 +162,6 @@ func get_clock_time(hundreds_to_split: float): # cele stotinke ali ne cele sekun
 	var time_on_clock: String = "%02d" % minutes + ":" + "%02d" % seconds + "." + "%02d" % hundreds
 
 	return time_on_clock
-#
-#
-## SCENE MANAGER (prehajanje med igro in menijem) --------------------------------------------------------------
-#
-#
-#var current_scene = null # za scene switching
-#
-#
-#func release_scene(scene_node): # release scene
-#
-#	scene_node.propagate_call("queue_free", []) # kvefrijam vse node v njem
-#
-#	scene_node.set_physics_process(false)
-#	call_deferred("_free_scene", scene_node)
-#
-#
-#func _free_scene(scene_node):
-#
-#	if OS.is_debug_build():  # debug OS mode
-#		#		print("SCENE RELEASED (in next step): ", scene_node)
-#		pass
-#	scene_node.free()
-#
-#
-#func spawn_new_scene(scene_path, parent_node): # spawn scene
-#
-#	var scene_resource = ResourceLoader.load(scene_path)
-#
-#	current_scene = scene_resource.instance()
-#
-#	if OS.is_debug_build():  # debug OS mode
-#		#		print("SCENE INSTANCED: ", current_scene)
-#		pass
-#	current_scene.modulate.a = 0
-#	parent_node.add_child(current_scene) # direct child of root
-#
-#	if OS.is_debug_build():  # debug OS mode
-#		#		print("SCENE ADDED: ", current_scene)
-#		#		print("--- new scene ---")
-#		pass
-#	return current_scene
 
 
 # COLORS ------------------------------------------------------------------------------------------------

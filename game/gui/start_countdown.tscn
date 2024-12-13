@@ -367,7 +367,7 @@ anims/ready_go = SubResource( 145 )
 "anims/ready_go (copy)" = SubResource( 146 )
 "anims/ready_go short" = SubResource( 147 )
 
-[node name="_dummy_pixel_zoomout" type="Polygon2D" parent="."]
+[node name="__dummy_pixel_zoomout" type="Polygon2D" parent="."]
 visible = false
 position = Vector2( 624, 352 )
 color = Color( 0.294118, 0.623529, 1, 1 )

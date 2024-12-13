@@ -94,9 +94,8 @@ func game_over(gameover_reason: int):
 		game_on = false
 
 		Global.hud.game_timer.stop_timer()
-		Global.hud.slide_out()
 		yield(get_tree().create_timer(Global.get_it_time), "timeout")
-		get_tree().call_group(Global.group_players, "set_physics_process", false)
+		Global.hud.slide_out()
 		stop_game_elements()
 
 		Global.gameover_gui.open_gameover(gameover_reason)

@@ -9,14 +9,14 @@
 [sub_resource type="AtlasTexture" id=232]
 atlas = ExtResource( 3 )
 region = Rect2( 136, 24, 24, 24 )
-margin = Rect2( 0, 1, 0, 1 )
+margin = Rect2( 0, 2, 0, 2 )
 
 [node name="ActionHintPress" type="Node2D"]
 pause_mode = 2
 z_index = 1000
 script = ExtResource( 5 )
 
-[node name="_pos" type="ColorRect" parent="."]
+[node name="__pos" type="ColorRect" parent="."]
 visible = false
 margin_left = -640.0
 margin_top = -64.0
@@ -24,10 +24,10 @@ margin_right = 640.0
 color = Color( 1, 1, 1, 0.364706 )
 
 [node name="Hint" type="HBoxContainer" parent="."]
-margin_left = -119.5
-margin_top = -83.0
-margin_right = 120.5
-margin_bottom = -58.0
+margin_left = -119.0
+margin_top = -84.0
+margin_right = 121.0
+margin_bottom = -57.0
 grow_horizontal = 2
 theme = ExtResource( 1 )
 custom_constants/separation = 8
@@ -37,52 +37,55 @@ __meta__ = {
 
 [node name="TOUCH" type="Label" parent="Hint"]
 visible = false
-margin_top = 3.0
-margin_right = 44.0
-margin_bottom = 21.0
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+margin_right = 106.0
+margin_bottom = 27.0
+size_flags_vertical = 1
+custom_colors/font_color = Color( 1, 1, 1, 0.52549 )
 custom_fonts/font = ExtResource( 2 )
 text = "Swipe or tap"
 align = 1
+valign = 1
 uppercase = true
 
 [node name="JOYPAD" type="TextureRect" parent="Hint"]
 margin_right = 24.0
-margin_bottom = 25.0
+margin_bottom = 27.0
 texture = SubResource( 232 )
 
 [node name="and_or" type="Label" parent="Hint"]
 margin_left = 32.0
-margin_top = 3.0
 margin_right = 50.0
-margin_bottom = 21.0
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+margin_bottom = 27.0
+size_flags_vertical = 1
+custom_colors/font_color = Color( 1, 1, 1, 0.52549 )
 custom_fonts/font = ExtResource( 2 )
 text = "or"
 align = 1
+valign = 1
 uppercase = true
 
 [node name="KEYBOARD" type="Label" parent="Hint"]
 modulate = Color( 0.901961, 0.901961, 0.901961, 1 )
 margin_left = 58.0
-margin_top = 2.0
 margin_right = 123.0
-margin_bottom = 23.0
-rect_min_size = Vector2( 0, 19 )
+margin_bottom = 27.0
+rect_min_size = Vector2( 0, 27 )
+size_flags_vertical = 1
 custom_fonts/font = ExtResource( 4 )
 text = "ENTER"
 align = 1
-valign = 2
+valign = 1
 uppercase = true
 
 [node name="action" type="Label" parent="Hint"]
 margin_left = 131.0
-margin_top = 3.0
 margin_right = 240.0
-margin_bottom = 21.0
-custom_colors/font_color = Color( 0.513726, 0.513726, 0.513726, 1 )
+margin_bottom = 27.0
+size_flags_vertical = 1
+custom_colors/font_color = Color( 1, 1, 1, 0.52549 )
 custom_fonts/font = ExtResource( 2 )
 text = "to skip intro"
+valign = 1
 uppercase = true
 
 [node name="HintBtn" type="Button" parent="."]

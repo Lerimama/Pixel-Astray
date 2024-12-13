@@ -41,7 +41,7 @@ func _ready() -> void:
 #			btn.connect("pressed", self, "_on_game_btn_pressed", [btn])
 	$BackBtn.add_to_group(Batnz.group_cancel_btns)
 
-	color_game_btns()
+	colorize_game_btns()
 
 
 func _process(delta: float) -> void:
@@ -49,7 +49,7 @@ func _process(delta: float) -> void:
 	if get_parent().current_screen == get_parent().Screens.SELECT_GAME:
 
 		# barvam ozadje gumbov na focus
-		var unfocused_color = Global.color_almost_black_pixel
+		var unfocused_color = Global.color_almost_black
 
 		var focused_btn: BaseButton = get_focus_owner()
 		if focused_btn:
@@ -146,7 +146,7 @@ func _process(delta: float) -> void:
 				$GamesMenu/TheDuel/Background.color = unfocused_color
 
 
-func color_game_btns():
+func colorize_game_btns():
 
 	btn_colors.clear()
 
@@ -254,14 +254,10 @@ func _on_SweeperBtn_pressed() -> void:
 
 	Global.sound_manager.play_gui_sfx("screen_slide")
 	animation_player.play("select_level")
-	$"../SelectLevel".select_level_btns_holder.all_level_btns[0].grab_focus()
 
 
 func _on_CleanerBackground_mouse_entered() -> void:
 
-	# če še ni izbran kateri v trenutnem boxu
-	#	if not $GamesMenu/Cleaner/CleanerBtn.has_focus():
-	#	if not $GamesMenu/Cleaner/CleanerBtn.has_focus() and not tutorial_mode_btn.has_focus():
 	$GamesMenu/Cleaner/CleanerBtn.grab_focus()
 
 

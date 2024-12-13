@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=2]
+[gd_scene load_steps=82 format=2]
 
 [ext_resource path="res://assets/theme/font_main.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
@@ -11,7 +11,6 @@
 [ext_resource path="res://assets/theme/box_game_btn.tres" type="StyleBox" id=9]
 [ext_resource path="res://assets/resources/noise_gamecam.tres" type="OpenSimplexNoise" id=10]
 [ext_resource path="res://home/touch_swipe_btn.tscn" type="PackedScene" id=11]
-[ext_resource path="res://assets/atlas_controls.png" type="Texture" id=12]
 [ext_resource path="res://home/select_game.gd" type="Script" id=13]
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=14]
 [ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=15]
@@ -20,7 +19,6 @@
 [ext_resource path="res://assets/theme/color_theme_spectrum.png" type="Texture" id=18]
 [ext_resource path="res://home/level_btns_grid.tscn" type="PackedScene" id=19]
 [ext_resource path="res://assets/theme/font_big.tres" type="DynamicFont" id=20]
-[ext_resource path="res://common/action_hint.tscn" type="PackedScene" id=21]
 [ext_resource path="res://assets/theme/box_game_btn_focus.tres" type="StyleBox" id=24]
 [ext_resource path="res://home/highscores/highscores_hall.tscn" type="PackedScene" id=31]
 
@@ -191,11 +189,6 @@ region = Rect2( 0, 16, 24, 24 )
 [sub_resource type="AtlasTexture" id=196]
 atlas = ExtResource( 2 )
 region = Rect2( 24, 16, 24, 24 )
-
-[sub_resource type="AtlasTexture" id=476]
-atlas = ExtResource( 12 )
-region = Rect2( 136, 48, 24, 24 )
-margin = Rect2( 0, 3, 0, 3 )
 
 [sub_resource type="Gradient" id=281]
 offsets = PoolRealArray( 0, 0.497076, 1 )
@@ -2335,7 +2328,7 @@ script = ExtResource( 17 )
 modulate = Color( 1, 1, 1, 0.470588 )
 margin_left = 7.0
 margin_top = 70.0
-margin_right = 127.0
+margin_right = 154.0
 margin_bottom = 102.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 4 )
@@ -2351,8 +2344,11 @@ text = "The ultimate test of tactics and skills. Sweep all colors with one spect
 autowrap = true
 
 [node name="LevelBtnsGrid" parent="SelectLevel" instance=ExtResource( 19 )]
+margin_left = -128.0
 margin_top = 176.0
-margin_bottom = 616.0
+margin_right = 775.0
+margin_bottom = 648.0
+rect_min_size = Vector2( 903, 472 )
 
 [node name="More" type="Label" parent="SelectLevel"]
 visible = false
@@ -2381,37 +2377,6 @@ texture_normal = SubResource( 195 )
 texture_hover = SubResource( 196 )
 texture_focused = SubResource( 196 )
 flip_h = true
-
-[node name="ActionHint" parent="SelectLevel" instance=ExtResource( 21 )]
-margin_left = 9.0
-margin_top = 636.0
-margin_right = 254.0
-margin_bottom = 663.0
-
-[node name="Label" parent="SelectLevel/ActionHint" index="0"]
-margin_top = 4.0
-margin_bottom = 22.0
-
-[node name="Jp" parent="SelectLevel/ActionHint" index="1"]
-margin_bottom = 27.0
-texture = SubResource( 476 )
-
-[node name="Label2" parent="SelectLevel/ActionHint" index="2"]
-margin_top = 4.0
-margin_bottom = 22.0
-
-[node name="KEY" parent="SelectLevel/ActionHint" index="3"]
-margin_top = 4.0
-margin_right = 68.0
-margin_bottom = 23.0
-text = "H"
-
-[node name="Label3" parent="SelectLevel/ActionHint" index="4"]
-margin_left = 76.0
-margin_top = 4.0
-margin_right = 205.0
-margin_bottom = 22.0
-text = "for in-game hint"
 
 [node name="Settings" type="Control" parent="."]
 visible = false
@@ -3646,6 +3611,5 @@ anims/settings = SubResource( 530 )
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_started"]
 
-[editable path="SelectLevel/ActionHint"]
 [editable path="Highscores/GameHalls/Cleaner/CleanerHall"]
 [editable path="Highscores/GameHalls/Cleaner/CleanerHall/HighscoreTable"]

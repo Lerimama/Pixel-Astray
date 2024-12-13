@@ -827,11 +827,10 @@ size_flags_horizontal = 0
 texture = SubResource( 226 )
 expand = true
 
-[node name="_Undi" type="Node2D" parent="."]
-visible = false
+[node name="__Undi" type="Node2D" parent="."]
 z_index = -1
 
-[node name="Undi" type="ColorRect" parent="_Undi"]
+[node name="Undi" type="ColorRect" parent="__Undi"]
 margin_top = 8.0
 margin_right = 3808.0
 margin_bottom = 2496.0
@@ -859,7 +858,7 @@ margin_right = 3410.0
 margin_bottom = 2344.0
 color = Color( 1, 1, 1, 0 )
 
-[node name="_view_muštr" type="ColorRect" parent="."]
+[node name="__view_muštr" type="ColorRect" parent="."]
 visible = false
 margin_left = 512.0
 margin_top = 544.0
@@ -980,7 +979,7 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="HintBtn" parent="ActionHintPress" index="3"]
+[node name="HintBtn" parent="ActionHintPress" index="2"]
 focus_mode = 2
 
 [node name="StrayStepTimer" type="Timer" parent="."]

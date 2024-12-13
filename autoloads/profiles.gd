@@ -45,7 +45,7 @@ var default_game_settings: Dictionary = { # per game
 	# reburst
 	"reburst_mode": false,
 	"reburst_hit_power": 0, # 0 gre po original pravilih moči, trenutno je 5 full power
-	"reburst_window_time": 1, # 0 je neomejen čas
+	"reburst_window_time": 0.2, # 0 je neomejen čas
 	# strays
 	"create_strays_count": 0,
 	"spawn_white_stray_part": 0, # procenti spawnanih ... 0 ne spawna nobenega belega
@@ -175,7 +175,7 @@ var game_data_sweeper: Dictionary = {
 	"tilemap_path": "res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
 	"description" : "Sweep the entire screen with one spectacular move!",
 	"Prop" : "Destroy the first stray and keep your momentum by pressing in the next target's direction.",
-	"level": 4,
+	"level": 1,
 }
 
 var game_data_the_duel: Dictionary = {
@@ -191,7 +191,6 @@ var game_data_the_duel: Dictionary = {
 var sweeper_level_tilemap_paths: Array = [
 	# zaporedje je ključno za level name
 	"res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_01_small.tscn",
 	"res://game/tilemaps/sweeper/tilemap_sweeper_02.tscn",
 	"res://game/tilemaps/sweeper/tilemap_sweeper_03.tscn",
 	"res://game/tilemaps/sweeper/tilemap_sweeper_04.tscn",
@@ -206,7 +205,7 @@ var sweeper_level_tilemap_paths: Array = [
 	"res://game/tilemaps/sweeper/tilemap_sweeper_13.tscn",
 	"res://game/tilemaps/sweeper/tilemap_sweeper_14.tscn",
 	"res://game/tilemaps/sweeper/tilemap_sweeper_15.tscn",
-	"res://game/tilemaps/sweeper/tilemap_sweeper_pixel_astray.tscn"
+	"res://game/tilemaps/sweeper/tilemap_sweeper_16.tscn" # pixel astray
 	]
 
 
@@ -234,6 +233,8 @@ var game_settings: Dictionary
 var current_game_data: Dictionary # ob štartu igre se vrednosti injicirajo v "current_game_data"
 
 
+var start_with_method: String = "home_in_intro"
+
 func _ready() -> void:
 
 	# opredelim app mode
@@ -256,29 +257,34 @@ func _ready() -> void:
 		self.vsync_on = apply_game_settings["vsync_on"]
 
 	if debug_mode:
+
 		# če greš iz menija je tole povoženo
 #		var debug_game = Games.SHOWCASE # fix camera
 #		var debug_game = Games.CLEANER
 #		var debug_game = Games.ERASER_XS
 #		var debug_game = Games.ERASER_S
-		var debug_game = Games.ERASER_M
+#		var debug_game = Games.ERASER_M
 #		var debug_game = Games.ERASER_L
 #		var debug_game = Games.ERASER_XL
 #		var debug_game = Games.HUNTER
 #		var debug_game = Games.DEFENDER
-#		var debug_game = Games.SWEEPER
+		var debug_game = Games.SWEEPER
 #		var debug_game = Games.THE_DUEL
+
+#		start_with_method = "home_in_intro"
+		start_with_method = "home_in_no_intro"
+#		start_with_method = "game_in"
+
+#		pregame_screen_on = false
+		tutorial_mode = false
+#		html5_mode = true
+#		touch_available = true
+#		debug_mode = false
+		game_settings["start_countdown"] = false
+#		game_settings["player_start_life"] = 2
+
 		set_game_data(debug_game)
 
-		# debug ... game_data
-		if debug_mode:
-			game_settings["start_countdown"] = false
-#			game_settings["player_start_life"] = 2
-#			pregame_screen_on = false
-#			tutorial_mode = false
-#			html5_mode = true
-#			touch_available = true
-#			debug_mode = false
 
 
 func set_game_data(selected_game):
@@ -306,7 +312,6 @@ func set_game_data(selected_game):
 			game_settings["spawn_white_stray_part"] = 0.11
 		Games.ERASER_M:
 			current_game_data = game_data_eraser_m.duplicate()
-#			game_settings["reburst_mode"] = true
 			game_settings["game_time_limit"] = 0
 			game_settings["cleaned_reward_points"] = 1
 			game_settings["create_strays_count"] = 140

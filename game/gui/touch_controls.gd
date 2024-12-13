@@ -22,6 +22,7 @@ onready var pause_btn: TouchScreenButton = $PauseBtn
 onready var next_track_btn: TouchScreenButton = $NextTrackBtn
 onready var mute_btn: TouchScreenButton = $MuteBtn
 onready var current_touch_controller: int = Profiles.set_touch_controller setget _change_current_controller
+onready var hint_btn: TouchScreenButton = $HintBtn
 onready var tutorial_elements: Array = [
 	$DirectionBtns/TouchBtn_L/Arrow,
 	$DirectionBtns/TouchBtn_U/Arrow,
@@ -31,8 +32,6 @@ onready var tutorial_elements: Array = [
 	$BurstBtn/Label
 	]
 
-# _temp hint btn
-onready var hint_btn: TouchScreenButton = $HintBtn
 
 # debug
 var touch_direction_line: Line2D
@@ -162,9 +161,6 @@ func _set_current_controller():
 	next_track_btn.connect("pressed", self, "_on_skip_btn_pressed")
 	# mute
 	mute_btn.connect("pressed", self, "_on_mute_btn_pressed")
-	# sweeper hint
-#	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-#		hint_btn.connect("pressed", self, "_on_sweeeper_hint_btn_pressed")
 
 
 # SCREEN --------------------------------------------------------------------------------------------------------
@@ -338,9 +334,6 @@ func _disconnect_all_btns():
 	# mute
 	if mute_btn.is_connected("pressed", self, "_on_mute_btn_pressed"):
 		mute_btn.disconnect("pressed", self, "_on_mute_btn_pressed")
-	# hint
-#	if hint_btn.is_connected("pressed", self, "_on_sweeeper_hint_btn_pressed"):
-#		hint_btn.disconnect("pressed", self, "_on_sweeeper_hint_btn_pressed")
 	# dir - btn
 	for btn in direction_btns.get_children():
 		if btn.is_connected("pressed", self, "_on_dir_btn_pressed"):

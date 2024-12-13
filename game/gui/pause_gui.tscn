@@ -45,7 +45,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color( 0, 0, 0, 1 )
 
-[node name="_help_gui_guide" parent="." instance=ExtResource( 8 )]
+[node name="__help_gui_guide" parent="." instance=ExtResource( 8 )]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 1.0
@@ -374,6 +374,6 @@ margin_right = 624.0
 [connection signal="pressed" from="Menu/RestartBtn" to="." method="_on_RestartBtn_pressed"]
 
 [editable path="Instructions"]
-[editable path="Instructions/_help_gui_guide"]
+[editable path="Instructions/__help_gui_guide"]
 [editable path="Instructions/ActionHintPress"]
 [editable path="GameOutline"]

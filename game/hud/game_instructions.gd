@@ -21,9 +21,6 @@ func open(): # kliče GM set game
 #	ready_btn.show() # zaradi pavze
 
 	var current_game_data: Dictionary = Global.game_manager.game_data
-	var current_hs_line: Array = Data.get_top_highscore(current_game_data)
-	var current_highscore: float = current_hs_line[0]
-	var current_highscore_owner: String = current_hs_line[1]
 
 	# game title
 	if current_game_data["game"] == Profiles.Games.SWEEPER: # samo enigam ima številko levela

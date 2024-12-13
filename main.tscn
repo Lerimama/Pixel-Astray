@@ -348,7 +348,7 @@ volume_db = -10.0
 pitch_scale = 1.1
 bus = "GameSfx"
 
-[node name="_StraySlide" type="AudioStreamPlayer" parent="SoundManager"]
+[node name="__StraySlide" type="AudioStreamPlayer" parent="SoundManager"]
 stream = SubResource( 34 )
 volume_db = -25.0
 pitch_scale = 0.8

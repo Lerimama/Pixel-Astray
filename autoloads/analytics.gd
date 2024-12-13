@@ -23,7 +23,7 @@ var session_data: Dictionary = {
 	"games_finished_count": 0, # on GO
 	"total_playing_time": 0,
 	"games_played": "",
-	# neu
+	# _temp
 	"current_game_data": {"dede": 0},
 }
 var def_game_data: Dictionary = { # ime ob zaprtju spremeni v številko in doda v games_played

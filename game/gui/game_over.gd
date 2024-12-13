@@ -8,7 +8,11 @@ var game_final_time: float # unrounded hunds
 var p1_final_stats: Dictionary
 var p2_final_stats: Dictionary
 
+var gameover_game_data: Dictionary # napolnem ob odprtju
 var gameover_reason: int
+var ranking_score_limit: int = 100 # samo points, ker drugače je razlog CLEANED
+var new_record_set: bool = false # za barvanje in texte titlov
+var current_scoreline_marked: bool = false # za ugotavljanje, kdaj hs table chidren dobijo pozicijo
 
 onready var gameover_menu: HBoxContainer = $Menu
 onready var select_level_btns_holder: GridContainer = $GameSummary/ContentSweeper/LevelBtnsHolder/LevelBtnsGrid
@@ -34,12 +38,6 @@ var input_string: String
 onready var name_input_popup: Control = $NameInputPopup
 onready var name_input: LineEdit = $NameInputPopup/NameInput
 onready var name_input_label: Label = $NameInputPopup/Label
-
-# neu
-var gameover_game_data: Dictionary # napolnem ob odprtju
-var ranking_score_limit: int = 100 # samo points, ker drugače je razlog CLEANED
-var new_record_set: bool = false # za barvanje in texte titlov
-var current_scoreline_marked: bool = false # za ugotavljanje, kdaj hs table chidren dobijo pozicijo
 
 
 func _input(event: InputEvent) -> void: # unhandled ne pride skozi
@@ -92,7 +90,7 @@ func _process(delta: float) -> void:
 				var second_scoreline = highscore_table.hs_table.get_child(1) # prvi ima vedno pozicijo 0
 				if not second_scoreline.rect_position.y == 0:
 					current_scoreline_marked = true
-					highscore_table.locate_scoreline_with_score(player_final_score, p1_final_stats["player_name"], gameover_game_data["highscore_type"])
+					highscore_table.get_scoreline_position_in_table(player_final_score, p1_final_stats["player_name"], gameover_game_data["highscore_type"])
 
 
 func open_gameover(current_gameover_reason: int):
@@ -327,8 +325,7 @@ func set_game_summary():
 		# select level btns
 		select_level_btns_holder.btns_holder_parent = self
 		select_level_btns_holder.spawn_level_btns()
-		select_level_btns_holder.set_level_btns()
-		select_level_btns_holder.connect_level_btns()
+		select_level_btns_holder.set_level_btns_content()
 		# summary content show/hide
 		$GameSummary/ContentSweeper.show()
 		$GameSummary/Content.hide()

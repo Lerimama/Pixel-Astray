@@ -167,7 +167,7 @@ func slide_in(): # kliče GM set_game()
 	else:
 		Global.game_camera.zoom_in(hud_in_out_time)
 
-		var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD).set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS) # trans je ista kot tween na kameri
+		var fade_in = get_tree().create_tween().set_ease(Tween.EASE_IN_OUT)#.set_trans(Tween.TRANS_QUAD).set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS) # trans je ista kot tween na kameri
 		fade_in.tween_property(header, "rect_position:y", 0, hud_in_out_time)
 		fade_in.parallel().tween_property(footer, "rect_position:y", screen_height - header_height, hud_in_out_time)
 		fade_in.parallel().tween_property(viewport_header, "rect_min_size:y", header_height, hud_in_out_time)
@@ -177,11 +177,11 @@ func slide_in(): # kliče GM set_game()
 
 	if not Global.game_manager.level_goal_mode:
 		for indicator in all_color_indicators:
-			var indicator_fade_in = get_tree().create_tween()
+			var indicator_fade_in = get_tree().create_tween().set_trans(Tween.TRANS_QUAD)#.set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 			indicator_fade_in.tween_property(indicator, "modulate:a", stray_in_indicator_alpha, 0.3).set_ease(Tween.EASE_IN)
 
 	if Global.game_manager.game_data["game"] == Profiles.Games.SWEEPER:
-		var fade_in = get_tree().create_tween()
+		var fade_in = get_tree().create_tween().set_trans(Tween.TRANS_QUAD)#.set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 		fade_in.tween_callback(sweeper_action_hint, "show").set_delay(0.3) # delay za usklajenost s tutorial fade in
 		fade_in.tween_property(sweeper_action_hint, "modulate:a", 1, 0.5).set_ease(Tween.EASE_IN)
 
@@ -202,8 +202,8 @@ func slide_out(gameover_reason: int): # kliče GM na game over
 	_check_for_new_highscore(game_timer.game_time_hunds, gameover_reason)
 
 	if sweeper_action_hint.visible:
-		var fade_in = get_tree().create_tween()
-		fade_in.tween_property(sweeper_action_hint, "modulate:a", 1, 0.5).from(0.0).set_ease(Tween.EASE_IN)
+		var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
+		fade_in.tween_property(sweeper_action_hint, "modulate:a", 0, 0.5).set_ease(Tween.EASE_IN)
 		fade_in.tween_callback(sweeper_action_hint, "hide")
 
 
@@ -259,21 +259,28 @@ func spawn_color_indicators(spawn_colors: Array): # kliče GM
 		all_color_indicators.append(new_color_indicator)
 
 
-func indicate_color_collected(collected_color: Color):
+func indicate_color_collected(collected_color: Color = Color("00000000")):
 
 	var current_indicator_index: int
 	for indicator in all_color_indicators:
-		# pobrana barva
-		if indicator.color == collected_color:
-			current_indicator_index = all_color_indicators.find(indicator)
+		# če je izbrana barva "skrijem" vse "odkrite"
+		if collected_color == Color("00000000"):
 			if Global.game_manager.level_goal_mode:
 				indicator.modulate.a = stray_in_indicator_alpha
 			else:
 				indicator.modulate.a = stray_out_indicator_alpha
-			break
+		else:
+			# pobrana barva
+			if indicator.color == collected_color:
+				current_indicator_index = all_color_indicators.find(indicator)
+				if Global.game_manager.level_goal_mode:
+					indicator.modulate.a = stray_in_indicator_alpha
+				else:
+					indicator.modulate.a = stray_out_indicator_alpha
+				break
 
 
-func _empty_color_indicators():
+func _empty_color_indicators(): #kliče tudi
 
 	# zbrišem trenutne indikatorje
 	for child in spectrum.get_children():
@@ -312,7 +319,7 @@ func _popups_out(): # kliče GM na gameover
 
 func _get_highscore_on_start():
 
-	var start_highscore_line: Array = Data.get_top_highscore(Global.game_manager.game_data)
+	var start_highscore_line: Array = Data.get_saved_highscore(Global.game_manager.game_data)
 
 	highscore_on_start = start_highscore_line[0]
 	var highscore_clock: String = Global.get_clock_time(highscore_on_start)

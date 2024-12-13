@@ -1,5 +1,5 @@
 extends Node
-class_name GameManager
+#class_name GameManager
 
 
 signal all_strays_spawned
@@ -68,7 +68,6 @@ func _ready() -> void:
 	randomize()
 	if game_data.has("level_goal_count"):
 		level_goal_mode = true
-
 
 # GAME SETUP --------------------------------------------------------------------------------------
 
@@ -148,6 +147,27 @@ func set_game(): # kliče MAIN po fade-in scene 05.
 	current_players_in_game = get_tree().get_nodes_in_group(Global.group_players)
 	for player in current_players_in_game:
 		player.animation_player.play("lose_white_on_start")
+
+
+
+
+	# strays
+	Global.hud.spawn_color_indicators(get_level_colors())
+
+	# gui
+	Global.hud.slide_in()
+
+	if game_settings["start_countdown"] and not Profiles.tutorial_mode:
+		yield(get_tree().create_timer(0.2), "timeout")
+		Global.hud.start_countdown.start_countdown() # GM yielda za njegov signal
+		yield(Global.hud.start_countdown, "countdown_finished") # sproži ga hud po slide-inu
+	else:
+		yield(get_tree().create_timer(Global.hud.hud_in_out_time), "timeout") # da se res prizumira, če ni game start countdown
+
+	start_game()
+
+
+
 
 	# strays
 	create_strays(create_strays_count)

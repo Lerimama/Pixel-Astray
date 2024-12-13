@@ -14,8 +14,6 @@ onready var collision_shape: CollisionShape2D = $CollisionShape2D
 onready var color_poly: Polygon2D = $ColorPoly
 onready var animation_player: AnimationPlayer = $AnimationPlayer
 onready var cell_size_x: int = Global.current_tilemap.cell_size.x
-
-#neu
 onready var pixel_face: AnimatedSprite = $PixelFace
 
 
@@ -153,7 +151,7 @@ func turn_to_wall():
 
 	# wall color
 	modulate.a = 1
-	color_poly.modulate = Global.color_white_pixel
+	color_poly.modulate = Global.color_white_pixel_bloom
 	# ugasni delovanje
 	set_deferred("set_physics_process", false)
 

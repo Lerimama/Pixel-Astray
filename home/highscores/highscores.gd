@@ -7,6 +7,7 @@ var publish_btn_text: String = "    Publish %s local scores online"
 # tables ... zaporedje se mora ujemati v sponjih 3 in z node zaporedjem v drevesu
 var all_tables: Array = []
 var sweeper_tables: Array = []
+var hall_tables: Array = []
 onready var halls: Array = [
 	$GameHalls/Cleaner/CleanerHall,
 	$GameHalls/Erasers/TabContainer/XSHall,
@@ -35,7 +36,7 @@ onready var all_sweeper_halls: Array = [ # na ready jih dodam med vse halls
 	$GameHalls/Sweepers/TabContainer/Sweeper15Hall,
 	$GameHalls/Sweepers/TabContainer/Sweeper16Hall
 	]
-onready var all_tables_game_data: Array = [
+onready var hall_tables_game_data: Array = [
 	Profiles.game_data_cleaner,
 	Profiles.game_data_eraser_xs,
 	Profiles.game_data_eraser_s,
@@ -76,55 +77,53 @@ func _ready() -> void:
 		default_focus_node = back_btn
 
 	# naberem tabele
-	for hall in halls:
-		var hall_table: Control = hall.get_node("HighscoreTable")
-		# novo hall ime, ker se vidi v tabih
-		hall.name = hall.name.trim_suffix("Hall")
-		all_tables.append(hall_table)
 	for sweeper_hall in all_sweeper_halls:
 		var hall_table: Control = sweeper_hall.get_node("HighscoreTable")
 		# novo hall ime, ker se vidi v tabih
 		sweeper_hall.name = "%02d" % (all_sweeper_halls.find(sweeper_hall) + 1)
 		sweeper_tables.append(hall_table)
-	all_tables.append_array(sweeper_tables) # dodam sweeper tabele med vse tabele
+	for hall in halls:
+		var hall_table: Control = hall.get_node("HighscoreTable")
+		# novo hall ime, ker se vidi v tabih
+		hall.name = hall.name.trim_suffix("Hall")
+		hall_tables.append(hall_table)
+	all_tables = sweeper_tables.duplicate()
+	all_tables.append_array(hall_tables)
 
 	# load HS on start ... with global update? ... premaknjeno v home za boljšo kontrolo glede na vrsto home open
 
 
 func load_all_highscore_tables(update_with_global: bool, update_in_background: bool = false):
+	#	print("load_all_highscore_tables -->", all_tables)
 
 	var update_object_count: int = 0
 	for table in all_tables:
-		var game_data_local: Dictionary
+		var table_game_data: Dictionary
 		if sweeper_tables.has(table):
-			game_data_local = Profiles.game_data_sweeper
-			game_data_local["level"] = sweeper_tables.find(table) + 1
+			table_game_data = Profiles.game_data_sweeper
+			table_game_data["level"] = sweeper_tables.find(table) + 1
 		else:
-			var table_index: int = all_tables.find(table)
-			game_data_local = all_tables_game_data[table_index]
+			var table_index: int = all_tables.find(table) - sweeper_tables.size()
+			table_game_data = hall_tables_game_data[table_index]
 
+#		printt("table", table_game_data["game_name"], table_game_data["level"])
 		if update_with_global:
 			update_object_count += 1
 			var update_count_string: String = "%02d/"  % update_object_count + str(all_tables.size())
 			var last_table_in_row: Control = all_tables[all_tables.size() - 1]
 			if table == last_table_in_row:
-				pass
-				LootLocker.update_lootlocker_leaderboard(game_data_local, true, update_count_string, update_in_background)
+				LootLocker.update_lootlocker_leaderboard(table_game_data, true, update_count_string, update_in_background)
 				yield(LootLocker, "connection_closed")
 				ConnectCover.cover_label_text = "Finished"
 				yield(get_tree().create_timer(LootLocker.final_panel_open_time), "timeout")
-#				ConnectCover.close_cover() # odda signal, ko se zapre
+				ConnectCover.close_cover() # odda signal, ko se zapre
 			else:
-				pass
-				LootLocker.update_lootlocker_leaderboard(game_data_local, false, update_count_string, update_in_background)
+				LootLocker.update_lootlocker_leaderboard(table_game_data, false, update_count_string, update_in_background)
 				yield(LootLocker, "leaderboard_updated")
 
-		table.build_highscore_table(game_data_local, false)
+		table.build_highscore_table(table_game_data, false)
 
 	# print ("All tables updated")
-
-	if update_with_global:
-		select_level_node.select_level_btns_holder.set_level_btns()
 
 	# zapišem število neobjavljenih
 	var all_unpublished_scores_count: int = 0
@@ -165,7 +164,7 @@ func publish_all_unpublished_scores():
 			game_data_local["level"] = sweeper_tables.find(table) + 1
 		else:
 			var table_index: int = all_tables.find(table)
-			game_data_local = all_tables_game_data[table_index]
+			game_data_local = hall_tables_game_data[table_index]
 		table.build_highscore_table(table.table_game_data, false)
 
 	yield(get_tree().create_timer(LootLocker.final_panel_open_time), "timeout")
@@ -191,7 +190,7 @@ func reset_all_local_scores():
 			game_data_local["level"] = sweeper_tables.find(table) + 1
 		else:
 			var table_index: int = all_tables.find(table)
-			game_data_local = all_tables_game_data[table_index]
+			game_data_local = hall_tables_game_data[table_index]
 		table.build_highscore_table(table.table_game_data, fake_player_ranking, false)
 
 	yield(get_tree().create_timer(1), "timeout")

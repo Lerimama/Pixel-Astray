@@ -1,18 +1,17 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_controls.png" type="Texture" id=2]
 [ext_resource path="res://assets/theme/color_theme_spectrum.png" type="Texture" id=3]
-[ext_resource path="res://common/action_hint.tscn" type="PackedScene" id=4]
 [ext_resource path="res://game/gui/tutorial_gui.gd" type="Script" id=5]
 [ext_resource path="res://common/action_hint_press.tscn" type="PackedScene" id=6]
 
 [sub_resource type="StyleBoxEmpty" id=346]
 
-[sub_resource type="AtlasTexture" id=347]
+[sub_resource type="AtlasTexture" id=507]
 atlas = ExtResource( 2 )
 region = Rect2( 112, 216, 24, 24 )
-margin = Rect2( 0, 1, 0, 1 )
+margin = Rect2( 0, 2, 0, 2 )
 
 [node name="TutorialGui" type="Control"]
 anchor_right = 1.0
@@ -412,12 +411,11 @@ margin_left = -107.0
 margin_right = 108.0
 
 [node name="TOUCH" parent="ActionHintPress/Hint" index="0"]
-visible = true
 margin_right = 27.0
 text = "Tap"
 
 [node name="JOYPAD" parent="ActionHintPress/Hint" index="1"]
-visible = false
+texture = SubResource( 507 )
 
 [node name="and_or" parent="ActionHintPress/Hint" index="2"]
 visible = false
@@ -431,48 +429,10 @@ margin_right = 13.0
 text = "N"
 
 [node name="action" parent="ActionHintPress/Hint" index="4"]
-margin_left = 35.0
-margin_right = 215.0
-text = "to skip tutorial step"
-
-[node name="ActionHint" parent="." instance=ExtResource( 4 )]
-visible = false
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -86.0
-margin_top = 628.0
-margin_right = 87.0
-margin_bottom = 655.0
-__meta__ = {
-"_edit_vertical_guides_": [ -160.0 ]
-}
-
-[node name="Label" parent="ActionHint" index="0"]
-margin_top = 4.0
-margin_bottom = 22.0
-
-[node name="Jp" parent="ActionHint" index="1"]
-margin_bottom = 27.0
-texture = SubResource( 347 )
-
-[node name="Label2" parent="ActionHint" index="2"]
-margin_top = 4.0
-margin_bottom = 22.0
-
-[node name="KEY" parent="ActionHint" index="3"]
-margin_top = 4.0
-margin_right = 68.0
-margin_bottom = 23.0
-text = "N"
-
-[node name="Label3" parent="ActionHint" index="4"]
-margin_left = 76.0
-margin_top = 4.0
-margin_right = 238.0
-margin_bottom = 22.0
+margin_left = 32.0
+margin_right = 212.0
 text = "to skip tutorial step"
 
 [connection signal="pressed" from="ActionHintPress/HintBtn" to="." method="_on_HintBtn_pressed"]
 
 [editable path="ActionHintPress"]
-[editable path="ActionHint"]

@@ -26,7 +26,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color( 0, 0, 0, 1 )
 
-[node name="_help_gui_guide" parent="." instance=ExtResource( 10 )]
+[node name="__help_gui_guide" parent="." instance=ExtResource( 10 )]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 1.0
@@ -36,7 +36,7 @@ margin_top = 0.0
 margin_right = 0.0
 margin_bottom = 0.0
 
-[node name="shapes" parent="_help_gui_guide" index="2"]
+[node name="shapes" parent="__help_gui_guide" index="2"]
 __meta__ = {
 "_edit_group_": true
 }
@@ -111,5 +111,5 @@ focus_mode = 2
 
 [connection signal="pressed" from="ActionHintPress/HintBtn" to="." method="_on_HintBtn_pressed"]
 
-[editable path="_help_gui_guide"]
+[editable path="__help_gui_guide"]
 [editable path="ActionHintPress"]

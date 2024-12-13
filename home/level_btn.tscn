@@ -1,28 +1,30 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
-[ext_resource path="res://assets/atlas_gui.png" type="Texture" id=2]
-[ext_resource path="res://assets/theme/box_colored_white.tres" type="StyleBox" id=3]
+[ext_resource path="res://assets/theme/box_hall_level_btn_edge.tres" type="StyleBox" id=2]
+[ext_resource path="res://assets/atlas_hud.png" type="Texture" id=3]
 [ext_resource path="res://assets/theme/font_big.tres" type="DynamicFont" id=4]
-[ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=5]
+[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=6]
 
-[sub_resource type="AtlasTexture" id=482]
-atlas = ExtResource( 2 )
-region = Rect2( 80, 28, 16, 20 )
-filter_clip = true
+[sub_resource type="AtlasTexture" id=484]
+atlas = ExtResource( 3 )
+region = Rect2( 32, -1, 16, 17 )
+margin = Rect2( 0, -1, 0, 0 )
 
 [node name="LevelBtn" type="Button"]
-margin_right = 200.0
-margin_bottom = 104.0
-rect_min_size = Vector2( 160, 104 )
+margin_right = 192.0
+margin_bottom = 102.0
+rect_min_size = Vector2( 160, 85 )
+rect_clip_content = true
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource( 6 )
 custom_fonts/font = ExtResource( 4 )
-custom_styles/hover = ExtResource( 3 )
-custom_styles/pressed = ExtResource( 3 )
-custom_styles/focus = ExtResource( 3 )
-custom_styles/normal = ExtResource( 3 )
+custom_styles/hover = ExtResource( 2 )
+custom_styles/pressed = ExtResource( 2 )
+custom_styles/focus = ExtResource( 2 )
+custom_styles/normal = ExtResource( 2 )
 __meta__ = {
 "_edit_horizontal_guides_": [ 104.0 ],
 "_edit_vertical_guides_": [ 200.0 ],
@@ -30,73 +32,38 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -100.0
-margin_top = -52.0
-margin_right = 100.0
-margin_bottom = 44.0
-grow_vertical = 2
-custom_constants/separation = -2
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -3.0
+custom_constants/separation = 3
 alignment = 1
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="LabelLocked" type="Label" parent="VBoxContainer"]
-margin_left = 36.0
-margin_top = 2.0
-margin_right = 164.0
-margin_bottom = 56.0
-grow_horizontal = 2
-rect_min_size = Vector2( 128, 0 )
+[node name="CupIcon" type="TextureRect" parent="VBoxContainer"]
+margin_left = 88.0
+margin_top = 20.0
+margin_right = 104.0
+margin_bottom = 37.0
 size_flags_horizontal = 4
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_fonts/font = ExtResource( 4 )
-text = "00"
-align = 1
-valign = 1
-
-[node name="LockedIcon" type="TextureRect" parent="VBoxContainer/LabelLocked"]
-margin_left = 99.0
-margin_top = 14.0
-margin_right = 115.0
-margin_bottom = 34.0
-grow_horizontal = 0
-mouse_default_cursor_shape = 2
-texture = SubResource( 482 )
-
-[node name="Label" type="Label" parent="VBoxContainer"]
-visible = false
-margin_left = 67.0
-margin_top = 52.0
-margin_right = 133.0
-margin_bottom = 92.0
-rect_min_size = Vector2( 0, 40 )
-size_flags_horizontal = 4
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_fonts/font = ExtResource( 5 )
-text = "%00"
-align = 1
-valign = 1
+size_flags_vertical = 4
+texture = SubResource( 484 )
 
 [node name="Record" type="Label" parent="VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.470588 )
-margin_top = 54.0
-margin_right = 200.0
-margin_bottom = 72.0
+margin_top = 40.0
+margin_right = 192.0
+margin_bottom = 58.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 1 )
 text = "00:00:00"
 align = 1
 
 [node name="Owner" type="Label" parent="VBoxContainer"]
-margin_top = 70.0
-margin_right = 200.0
-margin_bottom = 94.0
-rect_min_size = Vector2( 0, 24 )
+margin_top = 61.0
+margin_right = 192.0
+margin_bottom = 79.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 1 )
 text = "%by Somebody"

@@ -223,7 +223,7 @@ shape = SubResource( 374 )
 shape_centered = false
 visibility_mode = 1
 
-[node name="_merca" type="ColorRect" parent="HintBtn"]
+[node name="__merca" type="ColorRect" parent="HintBtn"]
 visible = false
 margin_left = -119.0
 margin_top = -32.0

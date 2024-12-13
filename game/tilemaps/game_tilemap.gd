@@ -15,6 +15,7 @@ var wall_tile_id: int = 3
 var edge_tile_id: int = 1
 var floor_tile_id: int = 0
 var spawn_stray_tile_id: int = 5 # za home sweeper btne
+var spawn_player_tile_ids: Array = [4, 6]
 var tilemap_edge_rectangle: Rect2 # velikost floor "igralne mize"
 
 onready var camera_position_node: Position2D = $CameraPosition
@@ -32,11 +33,11 @@ func _ready() -> void:
 	get_tileset().tile_set_modulate(wall_tile_id, Global.color_wall)
 	get_tileset().tile_set_modulate(floor_tile_id, Global.color_floor)
 	# ko je edge size manjši od kamere, ga obarvam drugače
-	if Global.game_manager.game_data["game"] == Profiles.Games.ERASER_XS or Global.game_manager.game_data["game"] == Profiles.Games.ERASER_S:
-		get_tileset().tile_set_modulate(edge_tile_id, Global.color_almost_black_pixel)
-		edge_cover.hide()
-	else:
-		get_tileset().tile_set_modulate(edge_tile_id, Global.color_edge)
+	#	if Global.game_manager.game_data["game"] == Profiles.Games.ERASER_XS or Global.game_manager.game_data["game"] == Profiles.Games.ERASER_S:
+	#		get_tileset().tile_set_modulate(edge_tile_id, Global.color_almost_black)
+	#		edge_cover.hide()
+	#	else:
+	get_tileset().tile_set_modulate(edge_tile_id, Global.color_almost_black)
 
 	if has_node("SolutionLine"):
 		solution_line = $SolutionLine

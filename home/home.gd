@@ -63,7 +63,7 @@ func open_with_intro(): # kliče main.gd -> home_in_intro()
 
 	intro.play_intro() # intro signal na koncu kliče menu_in()
 
-	# bug
+	# tega procesa ne sme nič prekinit!!!
 	if Profiles.html5_mode:
 		$Highscores.call_deferred("load_all_highscore_tables", true, true) # global update, in background
 	else:
@@ -74,6 +74,7 @@ func open_without_intro(): # debug ... kliče main.gd -> home_in_no_intro()
 
 	intro.finish_intro() # intro signal na koncu kliče menu_in()
 
+	# tega procesa ne sme nič prekinit!!!
 	if Profiles.html5_mode:
 		$Highscores.call_deferred("load_all_highscore_tables", true, true)
 	else:
@@ -105,6 +106,7 @@ func open_from_game(finished_game: int): # select_game screen ... kliče main.gd
 
 	intro.finish_intro()
 
+	# tega procesa ne sme nič prekinit!!!
 	if Profiles.html5_mode:
 		$Highscores.call_deferred("load_all_highscore_tables", true, true)
 	else:
@@ -159,6 +161,7 @@ func _on_AnimationPlayer_animation_finished(animation_name: String) -> void:
 			if not animation_reversed(Screens.SELECT_GAME):
 				current_screen = Screens.SELECT_GAME
 				$SelectGame.default_focus_node.grab_focus()
+				$SelectLevel.select_level_btns_holder.set_level_btns_content()
 		"about":
 			if not animation_reversed(Screens.ABOUT):
 				current_screen = Screens.ABOUT

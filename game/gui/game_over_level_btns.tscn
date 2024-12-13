@@ -13,6 +13,6 @@ rect_min_size = Vector2( 664, 440 )
 margin_left = 0.0
 margin_top = 0.0
 margin_right = 664.0
-margin_bottom = 440.0
+margin_bottom = 364.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
