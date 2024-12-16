@@ -32,6 +32,7 @@ __meta__ = {
 position = Vector2( 0, -736 )
 
 [node name="EdgeCover" parent="." instance=ExtResource( 6 )]
+visible = false
 
 [node name="Edge" parent="EdgeCover" index="0"]
 margin_right = 1344.0
@@ -40,7 +41,7 @@ margin_bottom = 704.0
 [node name="SolutionLine" type="Line2D" parent="."]
 visible = false
 self_modulate = Color( 1, 1, 1, 0.784314 )
-z_index = 10
+z_index = 5
 points = PoolVector2Array( 632, 344, 304, 344, 304, 328, 888, 328 )
 width = 8.0
 default_color = Color( 0.513726, 0.513726, 0.513726, 1 )

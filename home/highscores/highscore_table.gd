@@ -60,7 +60,7 @@ func build_highscore_table(current_game_data: Dictionary, show_title: bool = tru
 		default_scoreline.get_child(0).text = empty_table_text
 		default_scoreline.get_child(1).hide()
 		default_scoreline.get_child(2).hide()
-		default_scoreline.modulate = Global.color_gui_gray
+		default_scoreline.modulate = Global.color_gui_gray_trans
 		default_scoreline.show()
 	# last line ... scroller dummy
 	else:

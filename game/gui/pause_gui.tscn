@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://assets/theme/font_title.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=2]
@@ -8,7 +8,6 @@
 [ext_resource path="res://assets/atlas_gui.png" type="Texture" id=7]
 [ext_resource path="res://_helpers/_help_gui_guide.tscn" type="PackedScene" id=8]
 [ext_resource path="res://assets/theme/fonts/Habbo.ttf" type="DynamicFontData" id=9]
-[ext_resource path="res://game/gui/pregame_instructions.tscn" type="PackedScene" id=10]
 [ext_resource path="res://game/gui/game_outline.tscn" type="PackedScene" id=11]
 
 [sub_resource type="StyleBoxFlat" id=330]
@@ -68,25 +67,6 @@ text = "%Game title"
 align = 1
 uppercase = true
 
-[node name="Instructions" parent="." instance=ExtResource( 10 )]
-visible = false
-margin_left = -112.0
-margin_top = 8.0
-margin_right = -112.0
-margin_bottom = 8.0
-
-[node name="Background" parent="Instructions" index="0"]
-visible = false
-
-[node name="Title" parent="Instructions" index="2"]
-visible = false
-
-[node name="Description" parent="Instructions" index="3"]
-visible = false
-
-[node name="ActionHintPress" parent="Instructions" index="5"]
-visible = false
-
 [node name="Settings" type="Panel" parent="."]
 self_modulate = Color( 0.137255, 0.137255, 0.137255, 1 )
 margin_left = 848.0
@@ -102,7 +82,6 @@ __meta__ = {
 }
 
 [node name="GameMusicBtn" type="CheckButton" parent="Settings"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 24.0
 margin_top = 9.0
 margin_right = 192.0
@@ -119,7 +98,6 @@ __meta__ = {
 }
 
 [node name="GameMusicSlider" type="HSlider" parent="Settings"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 24.0
 margin_top = 75.0
 margin_right = 192.0
@@ -158,7 +136,6 @@ color = Color( 0.513726, 0.513726, 0.513726, 1 )
 polygon = PoolVector2Array( 0, 8, 0, 0, 8, 0, 8, 8 )
 
 [node name="GameSfxBtn" type="CheckButton" parent="Settings"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 24.0
 margin_top = 113.0
 margin_right = 192.0
@@ -173,7 +150,6 @@ pressed = true
 text = "GAME SFX"
 
 [node name="CameraShakeBtn" type="CheckButton" parent="Settings"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 24.0
 margin_top = 153.0
 margin_right = 192.0
@@ -187,7 +163,6 @@ pressed = true
 text = "CAMERA SHAKE"
 
 [node name="BrightnessSlider" type="HSlider" parent="Settings"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 24.0
 margin_top = 230.0
 margin_right = 192.0
@@ -236,7 +211,6 @@ align = 0
 icon_align = 2
 
 [node name="TouchSensSlider" type="HSlider" parent="Settings"]
-modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
 margin_left = 24.0
 margin_top = 318.0
 margin_right = 192.0
@@ -270,7 +244,6 @@ align = 1
 uppercase = true
 
 [node name="TouchControllerPopup" type="PopupMenu" parent="."]
-modulate = Color( 1, 1, 1, 0.352941 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -373,7 +346,4 @@ margin_right = 624.0
 [connection signal="pressed" from="Menu/PlayBtn" to="." method="_on_PlayBtn_pressed"]
 [connection signal="pressed" from="Menu/RestartBtn" to="." method="_on_RestartBtn_pressed"]
 
-[editable path="Instructions"]
-[editable path="Instructions/__help_gui_guide"]
-[editable path="Instructions/ActionHintPress"]
 [editable path="GameOutline"]

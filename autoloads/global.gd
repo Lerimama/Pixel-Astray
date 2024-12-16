@@ -43,8 +43,10 @@ var color_orange: Color = Color("#ff9990")
 var color_purple: Color = Color("#c774f5")
 # gui colors
 var color_almost_white_text: Color = Color("#f5f5f5") # če spremeniš tukaj, moraš tudi v temi
-var color_gui_gray_trans: Color = Color("#86ffffff") # siv text s transparenco (ikone ...#838383) ... v kodi samo na btn defocus
-var color_gui_gray: Color = Color("#838383") # skor pol-črna
+#var color_gui_gray_trans: Color = Color(255, 255, 255, 131) # 83ffffff siv text s transparenco (ikone ...#838383) ... v kodi samo na btn defocus
+var color_gui_gray_trans: Color = Color("#8dffffff") # skor pol-črna a=140
+#var color_gui_gray_trans: Color = Color("#838383") # skor pol-črna
+var color_gui_gray: Color = Color("#838383") # skor pol-črna a=131
 var color_hud_text: Color = color_almost_white_text # za vse, ki modulirajo barvo glede na + ali -
 var color_btn_disabled: Color = Color("#32ffffff")
 var color_btn_enabled: Color = Color("#838383")
@@ -68,10 +70,10 @@ var default_highscore_line_name: String = "Empty score line" # se uporabi, če �
 
 
 
-func _unhandled_input(event: InputEvent) -> void:
-
-	if Input.is_action_just_pressed("next"):
-		delete_all_debug_nodes()
+#func _unhandled_input(event: InputEvent) -> void:
+#
+#	if Input.is_action_just_pressed("next"):
+#		delete_all_debug_nodes()
 
 
 func _ready():
@@ -83,13 +85,20 @@ var nodes_to_delete: Array = []
 var debug_nodes_prefix: String = "__"
 
 
-func delete_all_debug_nodes(): # kliče main na prehodu scene
+func delete_all_debug_nodes(hide_instead: bool = true): # kliče main na prehodu scene
 
 	get_all_nodes_in_node("_")
 
-	for node in nodes_to_delete:
-		node.queue_free()
-	nodes_to_delete.clear()
+#	if hide_instead:
+#		for node in nodes_to_delete:
+#			if "visible" in node:
+#				node.hide()
+#			else: # recimo audio node
+#				node.queue_free()
+#	else:
+#		for node in nodes_to_delete:
+#			node.queue_free()
+#		nodes_to_delete.clear()
 
 
 func get_all_nodes_in_node(string_to_search: String = "", node_to_check: Node = get_tree().root, all_nodes_of_nodes: Array = []):
@@ -110,6 +119,8 @@ func detect_collision_in_direction(direction_to_check: Vector2, raycast_node: Ra
 
 	if direction_to_check == Vector2.ZERO:
 		raycast_node.cast_to = Vector2.ZERO
+
+		return
 	else:
 		raycast_node.cast_to = raycast_length * direction_to_check
 		raycast_node.force_raycast_update()
@@ -130,6 +141,7 @@ func snap_to_nearest_grid(global_position_to_snap: Vector2):
 	var snapped_pixel_global_position: Vector2 = Vector2(snapped_grid_position.x + cell_size_x/2, snapped_grid_position.y + cell_size_x/2)
 
 	return snapped_pixel_global_position
+
 
 func get_hunds_from_clock(clock_string: String):
 

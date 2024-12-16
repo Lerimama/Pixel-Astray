@@ -68,11 +68,9 @@ func play_intro():
 
 func finish_intro(): # ob skipanju in regularnem koncu intra
 
-#	hint_btn.disabled = true
 	action_hint_press.hide()
 	# vse pospravim ... zazih
 	animation_player.stop()
-#	skip_intro.visible = false
 	actor_in_motion = false
 	actor_pixel.visible = false
 	thunder_cover.visible = false
@@ -142,8 +140,6 @@ func create_strays(strays_to_spawn_count: int = required_spawn_positions.size())
 		# znotraj frejma ... spawnam
 		if msec_taken < (round(1000 / Engine.get_frames_per_second()) - Global.throttler_msec_threshold): # msec_per_frame - ...
 			spawned_strays_true_count += 1
-			if spawned_strays_true_count % 10 == 0:
-				print (spawned_strays_true_count)
 			spawn_stray(new_stray_index, new_stray_color, selected_stray_position, turn_to_white)
 		# zunaj frejma
 		else:

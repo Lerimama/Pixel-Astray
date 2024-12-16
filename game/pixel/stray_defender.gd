@@ -8,6 +8,7 @@ var step_count: int = 0 # da ignoriram edge tilemap v prvih par korakih
 
 func _ready() -> void:
 	# namen: grupiranje glede na izvorno stran, setanje collision bitov na ray
+
 	add_to_group(Global.group_strays)
 	randomize() # za random die animacije
 	modulate.a = 0

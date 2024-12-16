@@ -166,17 +166,14 @@ func step(step_direction: Vector2 = Vector2.DOWN):
 
 	if current_state == STATES.IDLE:
 
-		# če je pozicija prosta korakam (in restiram poiskuse, če ni pa probam v drugo smer
 		var intended_position: Vector2 = global_position + step_direction * cell_size_x
 
-		if Global.game_manager.is_floor_position_free(intended_position):
-
+		# če je pozicija prosta korakam (in restiram poiskuse, če ni pa probam v drugo smer
+		if Global.game_manager.is_floor_position_free(intended_position) and not Global.detect_collision_in_direction(step_direction, neighbor_ray): # drug del je zazih
 			step_attempt = 1 # reset na 1
-
 			current_state = STATES.MOVING
 			previous_position = global_position
 			Global.game_manager.remove_from_free_floor_positions(global_position + step_direction * cell_size_x)
-
 			var step_time: float = Global.game_manager.game_settings["stray_step_time"]
 			var step_tween = get_tree().create_tween()
 			step_tween.tween_property(self ,"position", intended_position, step_time).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUINT)
@@ -244,6 +241,19 @@ func play_sound(effect_for: String): # za klic iz animacije
 				if current_state == STATES.DYING: # da se ne oglaša ob obračanju v steno
 					var random_static_index = randi() % $Sounds/BlinkingStatic.get_child_count()
 					$Sounds/BlinkingStatic.get_child(random_static_index).play()
+
+
+func check_floor_for_move(move_direction: Vector2):
+
+#	var move_to_position: Vector2 = global_position + move_direction * cell_size_x
+#	if Global.game_manager.is_floor_position_free(move_to_position):
+#		return true
+#	else:
+#		return false
+
+	var neighbor = Global.detect_collision_in_direction(move_direction, neighbor_ray)
+	return neighbor # uporaba v stalnem čekiranj sosedov
+
 
 
 func get_neighbor_strays_on_hit(): # kliče player on hit

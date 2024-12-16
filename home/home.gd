@@ -13,6 +13,7 @@ onready var home_swipe_btn: TouchScreenButton = $HomeSwipeBtn
 onready var default_focus_node: Control = $HomeScreen/Menu/SelectGameBtn
 
 
+
 func _unhandled_input(event: InputEvent) -> void:
 
 	if Input.is_action_just_pressed("ui_cancel"):
@@ -33,6 +34,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			Screens.SELECT_LEVEL:
 				$SelectLevel/BackBtn.grab_focus()
 				$SelectLevel.call_deferred("_on_BackBtn_pressed")
+			Screens.MAIN_MENU:
+				return
 
 		get_viewport().set_disable_input(true)
 		Analytics.save_ui_click("BackEsc")
@@ -62,23 +65,13 @@ func _ready():
 func open_with_intro(): # kliče main.gd -> home_in_intro()
 
 	intro.play_intro() # intro signal na koncu kliče menu_in()
-
-	# tega procesa ne sme nič prekinit!!!
-	if Profiles.html5_mode:
-		$Highscores.call_deferred("load_all_highscore_tables", true, true) # global update, in background
-	else:
-		$Highscores.call_deferred("load_all_highscore_tables", false) # global update, in background
+	_load_highscores_on_start()
 
 
 func open_without_intro(): # debug ... kliče main.gd -> home_in_no_intro()
 
 	intro.finish_intro() # intro signal na koncu kliče menu_in()
-
-	# tega procesa ne sme nič prekinit!!!
-	if Profiles.html5_mode:
-		$Highscores.call_deferred("load_all_highscore_tables", true, true)
-	else:
-		$Highscores.call_deferred("load_all_highscore_tables", false)
+	_load_highscores_on_start()
 
 
 func open_from_game(finished_game: int): # select_game screen ... kliče main.gd -> home_in_from_game()
@@ -105,8 +98,15 @@ func open_from_game(finished_game: int): # select_game screen ... kliče main.gd
 		$SelectGame/GamesMenu/Eraser/SBtn.grab_focus()
 
 	intro.finish_intro()
+	_load_highscores_on_start()
 
+
+func _load_highscores_on_start():
 	# tega procesa ne sme nič prekinit!!!
+
+	if not $SelectLevel.select_level_btns_holder.btns_are_set:
+		yield ($SelectLevel.select_level_btns_holder, "level_btns_are_set")
+
 	if Profiles.html5_mode:
 		$Highscores.call_deferred("load_all_highscore_tables", true, true)
 	else:
@@ -114,6 +114,9 @@ func open_from_game(finished_game: int): # select_game screen ... kliče main.gd
 
 
 func menu_in(): # kliče se na koncu intra, na skip intro in ko se vrnem iz drugih ekranov
+
+	yield(get_tree().create_timer(0.5), "timeout")
+#	yield(get_tree().create_timer(Global.get_it_time), "timeout")
 
 	current_screen = Screens.MAIN_MENU
 	default_focus_node.grab_focus()
@@ -192,16 +195,16 @@ func animation_reversed(from_screen: int):
 		match from_screen:
 			Screens.SELECT_GAME:
 				menu.get_node("SelectGameBtn").grab_focus()
-				menu_in()
+#				menu_in()
 			Screens.ABOUT:
 				menu.get_node("AboutBtn").grab_focus()
-				menu_in()
+#				menu_in()
 			Screens.SETTINGS:
 				menu.get_node("SettingsBtn").grab_focus()
-				menu_in()
+#				menu_in()
 			Screens.HIGHSCORES:
 				menu.get_node("HighscoresBtn").grab_focus()
-				menu_in()
+#				menu_in()
 			Screens.SELECT_LEVEL:
 				current_screen = Screens.SELECT_GAME
 				$SelectGame/GamesMenu/Sweeper/SweeperBtn.grab_focus()
@@ -214,7 +217,9 @@ func _on_AnimationPlayer_animation_started(anim_name: String) -> void:
 
 	Batnz.allow_ui_sfx = false
 
-#	if anim_name == "select_level":
+	if not current_screen == Screens.MAIN_MENU and not anim_name == "select_level":
+		menu_in()
+#	if anim_name == "":
 #		yield(get_tree().create_timer(0.3), "timeout")
 #		$SelectLevel.select_level_btns_holder.call_deferred("set_level_btns_content")
 ##		$SelectLevel.select_level_btns_holder.set_level_btns_content()

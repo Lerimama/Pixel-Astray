@@ -60,7 +60,7 @@ func _on_SceneTree_node_added(node: Node): # na ready
 
 
 
-func _connect_interactive_control(node: Node):
+func _connect_interactive_control(node: Node): # and apply start lnf
 
 	if node is Button:
 		# hover
@@ -85,6 +85,11 @@ func _connect_interactive_control(node: Node):
 		node.connect("value_changed", self, "_on_Slider_value_changed", [node])
 	elif node is TouchScreenButton:
 		node.connect("pressed", self, "_on_TouchBtn_pressed", [node])
+
+	# setam default stanje
+	_set_unfocused_state(node)
+
+
 
 
 # SIGNALS ---------------------------------------------------------------------------------------------------------
@@ -115,11 +120,15 @@ func _on_focus_entered(control: Control):
 func _on_focus_exited(control: Control):
 #	printt("control unfocused", control)
 
-	# settings gumbi - barvanje
-	if control is CheckButton:
-		control.modulate = Global.color_gui_gray
-	elif control is HSlider or control.name == "RandomizeBtn" or control.name == "SchemeResetBtn":
-		control.modulate = Global.color_gui_gray
+	_set_unfocused_state(control)
+
+
+func _set_unfocused_state(node: Node):
+
+	# settings start barvanje
+	if node is CheckButton or node is HSlider or node.name == "RandomizeBtn" or node.name == "SchemeResetBtn":
+		node.modulate = Global.color_gui_gray_trans
+
 
 
 func _on_btn_pressed(button: BaseButton):

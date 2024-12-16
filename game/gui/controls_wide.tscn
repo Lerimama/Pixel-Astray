@@ -853,7 +853,6 @@ __meta__ = {
 [node name="Dot" type="Line2D" parent="Sliding_R/TrackingLine/Dots"]
 modulate = Color( 1, 1, 1, 0.784314 )
 position = Vector2( -601.333, -336 )
-z_index = 10
 points = PoolVector2Array( 616, 344, 632, 344 )
 width = 5.0
 default_color = Color( 1, 1, 1, 1 )
@@ -866,7 +865,6 @@ __meta__ = {
 [node name="Dot2" type="Line2D" parent="Sliding_R/TrackingLine/Dots"]
 modulate = Color( 1, 1, 1, 0.588235 )
 position = Vector2( -573.333, -336 )
-z_index = 10
 points = PoolVector2Array( 616, 344, 624, 344 )
 width = 5.0
 default_color = Color( 1, 1, 1, 1 )
@@ -879,7 +877,6 @@ __meta__ = {
 [node name="Dot3" type="Line2D" parent="Sliding_R/TrackingLine/Dots"]
 modulate = Color( 1, 1, 1, 0.470588 )
 position = Vector2( -553.333, -336 )
-z_index = 10
 points = PoolVector2Array( 616, 344, 618, 344 )
 width = 5.0
 default_color = Color( 1, 1, 1, 1 )
@@ -900,7 +897,6 @@ __meta__ = {
 [node name="Dot" type="Line2D" parent="Sliding_R/TrackingLine/Dots2"]
 modulate = Color( 1, 1, 1, 0.784314 )
 position = Vector2( -605.334, -336 )
-z_index = 10
 points = PoolVector2Array( 616, 344, 632, 344 )
 width = 5.0
 default_color = Color( 1, 1, 1, 1 )
@@ -913,7 +909,6 @@ __meta__ = {
 [node name="Dot2" type="Line2D" parent="Sliding_R/TrackingLine/Dots2"]
 modulate = Color( 1, 1, 1, 0.588235 )
 position = Vector2( -577.334, -336 )
-z_index = 10
 points = PoolVector2Array( 616, 344, 624, 344 )
 width = 5.0
 default_color = Color( 1, 1, 1, 1 )
@@ -926,7 +921,6 @@ __meta__ = {
 [node name="Dot3" type="Line2D" parent="Sliding_R/TrackingLine/Dots2"]
 modulate = Color( 1, 1, 1, 0.470588 )
 position = Vector2( -557.333, -336 )
-z_index = 10
 points = PoolVector2Array( 616, 344, 618, 344 )
 width = 5.0
 default_color = Color( 1, 1, 1, 1 )
@@ -937,7 +931,6 @@ __meta__ = {
 }
 
 [node name="Sliding_L" type="Control" parent="."]
-visible = false
 margin_left = -208.0
 margin_top = -112.0
 margin_right = 208.0
@@ -1149,7 +1142,6 @@ __meta__ = {
 [node name="Dot" type="Line2D" parent="Sliding_L/TrackingLine/Dots"]
 modulate = Color( 1, 1, 1, 0.784314 )
 position = Vector2( -601.333, -336 )
-z_index = 10
 points = PoolVector2Array( 616, 344, 632, 344 )
 width = 5.0
 default_color = Color( 1, 1, 1, 1 )
@@ -1162,7 +1154,6 @@ __meta__ = {
 [node name="Dot2" type="Line2D" parent="Sliding_L/TrackingLine/Dots"]
 modulate = Color( 1, 1, 1, 0.588235 )
 position = Vector2( -573.333, -336 )
-z_index = 10
 points = PoolVector2Array( 616, 344, 624, 344 )
 width = 5.0
 default_color = Color( 1, 1, 1, 1 )
@@ -1175,7 +1166,6 @@ __meta__ = {
 [node name="Dot3" type="Line2D" parent="Sliding_L/TrackingLine/Dots"]
 modulate = Color( 1, 1, 1, 0.470588 )
 position = Vector2( -553.333, -336 )
-z_index = 10
 points = PoolVector2Array( 616, 344, 618, 344 )
 width = 5.0
 default_color = Color( 1, 1, 1, 1 )
@@ -1189,6 +1179,7 @@ __meta__ = {
 modulate = Color( 1, 1, 1, 0.784314 )
 position = Vector2( 572, 337.333 )
 rotation = 1.5708
+z_index = -5
 __meta__ = {
 "_edit_group_": true
 }
@@ -1196,7 +1187,6 @@ __meta__ = {
 [node name="Dot" type="Line2D" parent="Sliding_L/TrackingLine/Dots2"]
 modulate = Color( 1, 1, 1, 0.784314 )
 position = Vector2( -605.334, -336 )
-z_index = 10
 points = PoolVector2Array( 616, 344, 632, 344 )
 width = 5.0
 default_color = Color( 1, 1, 1, 1 )
@@ -1209,7 +1199,6 @@ __meta__ = {
 [node name="Dot2" type="Line2D" parent="Sliding_L/TrackingLine/Dots2"]
 modulate = Color( 1, 1, 1, 0.588235 )
 position = Vector2( -577.334, -336 )
-z_index = 10
 points = PoolVector2Array( 616, 344, 624, 344 )
 width = 5.0
 default_color = Color( 1, 1, 1, 1 )
@@ -1222,7 +1211,6 @@ __meta__ = {
 [node name="Dot3" type="Line2D" parent="Sliding_L/TrackingLine/Dots2"]
 modulate = Color( 1, 1, 1, 0.470588 )
 position = Vector2( -557.333, -336 )
-z_index = 10
 points = PoolVector2Array( 616, 344, 618, 344 )
 width = 5.0
 default_color = Color( 1, 1, 1, 1 )

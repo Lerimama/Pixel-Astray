@@ -12,7 +12,6 @@ onready var select_game_node: Control = $"../SelectGame"
 onready var highscores_node: Control = $"../Highscores"
 onready var default_focus_node: Control = $Content/MenuMusicBtn
 
-
 func _input(event: InputEvent) -> void:
 
 	if $TouchControllerPopup.visible:
@@ -145,7 +144,7 @@ func _on_RandomizeBtn_pressed() -> void:
 		gradient_icon.texture.gradient = current_color_scheme_gradient
 
 		intro.respawn_title_strays()
-#		select_level_node.select_level_btns_holder.colorize_level_btns()
+		select_level_node.select_level_btns_holder.colorize_level_btns()
 		select_game_node.colorize_game_btns()
 
 

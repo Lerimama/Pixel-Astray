@@ -3,7 +3,6 @@ extends GridContainer
 
 signal level_btns_are_set
 
-
 var unfocused_color: Color = Global.color_almost_black
 var btn_colors: Array
 var all_level_btns: Array # naberem ob spawnu
@@ -18,6 +17,10 @@ var owner_label_path: String = "RecordContent/Owner"
 var tilemap_node_path: String = "TilemapHolder/LevelTilemap"
 var tilemap_holder_node_path: String = "TilemapHolder"
 
+var content_focus_alpha: float = 0
+var content_defocus_alpha: float = 1
+var tilemap_focus_alpha: float = 1
+var tilemap_defocus_alpha: float = 0.32
 
 onready var LevelBtn: PackedScene = preload("res://home/level_btn.tscn")
 
@@ -55,7 +58,6 @@ func set_level_btns_content():
 		var btn = all_level_btns[btn_count]
 		var btn_level_number: int = btn_count + 1
 		btn.name = "Sweeper%02dBtn" % btn_level_number
-#			btn.self_modulate = unfocused_color
 		# highscore ... preverjam HScore > 0
 		var level_hs_line: Array = _get_btn_highscore(btn_level_number)
 		var current_hs_time_int: int = int(level_hs_line[0])
@@ -79,9 +81,10 @@ func set_level_btns_content():
 
 	_connect_level_btns()
 
-	btns_are_set = true
+#	if not btns_are_set: # _temp preprečim error s signalom
 	emit_signal("level_btns_are_set")
 
+	btns_are_set = true
 
 
 func _set_color_scheme():
@@ -100,10 +103,8 @@ func _set_color_scheme():
 
 func colorize_level_btns():
 
-	if btns_are_set:
+	if btns_are_set: # neka finta
 		_set_color_scheme()
-
-#	btn_colors.clear()
 
 	# za vsak level btn preverim , če je v filetu prvi skor > 0
 	for btn_count in all_level_btns.size():
@@ -167,28 +168,53 @@ func _get_btn_highscore(btn_level_number: int):
 	return [current_highscore_clock, current_highscore_owner]
 
 
-func _connect_level_btns():
+func _connect_level_btns(connect_it: bool = true):
 
 	for btn in get_children():
-		if not btn.is_connected("mouse_entered", self, "_on_btn_hovered_or_focused"):
-			btn.connect("mouse_entered", self, "_on_btn_hovered_or_focused", [btn])
-		if not btn.is_connected("mouse_exited", self, "_on_btn_unhovered_or_unfocused"):
-			btn.connect("mouse_exited", self, "_on_btn_unhovered_or_unfocused", [btn])
-		if not btn.is_connected("focus_entered", self, "_on_btn_hovered_or_focused"):
-			btn.connect("focus_entered", self, "_on_btn_hovered_or_focused", [btn])
-		if not btn.is_connected("focus_exited", self, "_on_btn_unhovered_or_unfocused"):
-			btn.connect("focus_exited", self, "_on_btn_unhovered_or_unfocused", [btn])
-		if not btn.is_connected("pressed", self, "_on_btn_pressed"):
-			btn.connect("pressed", self, "_on_btn_pressed", [btn])
+		if connect_it:
+			if not btn.is_connected("mouse_entered", self, "_on_btn_hovered_or_focused"):
+				btn.connect("mouse_entered", self, "_on_btn_hovered_or_focused", [btn])
+			if not btn.is_connected("mouse_exited", self, "_on_btn_unhovered_or_unfocused"):
+				btn.connect("mouse_exited", self, "_on_btn_unhovered_or_unfocused", [btn])
+			if not btn.is_connected("focus_entered", self, "_on_btn_hovered_or_focused"):
+				btn.connect("focus_entered", self, "_on_btn_hovered_or_focused", [btn])
+			if not btn.is_connected("focus_exited", self, "_on_btn_unhovered_or_unfocused"):
+				btn.connect("focus_exited", self, "_on_btn_unhovered_or_unfocused", [btn])
+			if not btn.is_connected("pressed", self, "_on_btn_pressed"):
+				btn.connect("pressed", self, "_on_btn_pressed", [btn])
+		else:
+			if btn.is_connected("mouse_entered", self, "_on_btn_hovered_or_focused"):
+				btn.disconnect("mouse_entered", self, "_on_btn_hovered_or_focused")
+			if btn.is_connected("mouse_exited", self, "_on_btn_unhovered_or_unfocused"):
+				btn.disconnect("mouse_exited", self, "_on_btn_unhovered_or_unfocused")
+			if btn.is_connected("focus_entered", self, "_on_btn_hovered_or_focused"):
+				btn.disconnect("focus_entered", self, "_on_btn_hovered_or_focused")
+			if btn.is_connected("focus_exited", self, "_on_btn_unhovered_or_unfocused"):
+				btn.disconnect("focus_exited", self, "_on_btn_unhovered_or_unfocused")
+			if btn.is_connected("pressed", self, "_on_btn_pressed"):
+				btn.disconnect("pressed", self, "_on_btn_pressed")
+
+
+
+#		if btn.is_connected("mouse_entered", self, "_on_btn_hovered_or_focused"):
+#			btn.disconnect("mouse_entered", self, "_on_btn_hovered_or_focused")
+#		if btn.is_connected("mouse_exited", self, "_on_btn_unhovered_or_unfocused"):
+#			btn.disconnect("mouse_exited", self, "_on_btn_unhovered_or_unfocused")
+#		if btn.is_connected("focus_entered", self, "_on_btn_hovered_or_focused"):
+#			btn.disconnect("focus_entered", self, "_on_btn_hovered_or_focused")
+#		if btn.is_connected("focus_exited", self, "_on_btn_unhovered_or_unfocused"):
+#			btn.disconnect("focus_exited", self, "_on_btn_unhovered_or_unfocused")
+#		if btn.is_connected("pressed", self, "_on_btn_pressed"):
+#			btn.disconnect("pressed", self, "_on_btn_pressed")
+#		btn.connect("mouse_entered", self, "_on_btn_hovered_or_focused", [btn])
+#		btn.connect("mouse_exited", self, "_on_btn_unhovered_or_unfocused", [btn])
+#		btn.connect("focus_entered", self, "_on_btn_hovered_or_focused", [btn])
+#		btn.connect("focus_exited", self, "_on_btn_unhovered_or_unfocused", [btn])
+#		btn.connect("pressed", self, "_on_btn_pressed", [btn])
 
 
 # BTNS ---------------------------------------------------------------------------------------------
 
-
-var content_focus_alpha: float = 0
-var content_defocus_alpha: float = 1
-var tilemap_focus_alpha: float = 1
-var tilemap_defocus_alpha: float = 0.32
 
 func _on_btn_hovered_or_focused(btn):
 

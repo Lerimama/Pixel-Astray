@@ -973,7 +973,7 @@ autowrap = true
 
 [node name="ActionHintPress" parent="." instance=ExtResource( 3 )]
 modulate = Color( 1, 1, 1, 0 )
-position = Vector2( 1792, 1984 )
+position = Vector2( 1792, 2048 )
 scale = Vector2( 2, 2 )
 __meta__ = {
 "_edit_group_": true

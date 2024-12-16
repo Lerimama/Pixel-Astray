@@ -16,6 +16,7 @@ func _ready() -> void:
 
 	$TutorialModeBtn.set_pressed_no_signal(Profiles.tutorial_mode)
 	$GamesMenu/Sweeper/Label.text %= sweeper_btns_count
+	$BackBtn.add_to_group(Batnz.group_cancel_btns)
 
 	# menu btn group
 	all_game_btns = [$GamesMenu/Cleaner/CleanerBtn,
@@ -37,9 +38,6 @@ func _ready() -> void:
 		if btn == $GamesMenu/TheDuel/TheDuelBtn and Profiles.touch_available:
 			btn.disabled = true
 			$GamesMenu/TheDuel/Label.text = "Couch coop is disabled\nfor touchscreen."
-#		else:
-#			btn.connect("pressed", self, "_on_game_btn_pressed", [btn])
-	$BackBtn.add_to_group(Batnz.group_cancel_btns)
 
 	colorize_game_btns()
 
@@ -47,103 +45,11 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 
 	if get_parent().current_screen == get_parent().Screens.SELECT_GAME:
-
-		# barvam ozadje gumbov na focus
 		var unfocused_color = Global.color_almost_black
 
 		var focused_btn: BaseButton = get_focus_owner()
 		if focused_btn:
-			# klasika
-			if focused_btn.name == "CleanerBtn":# or focused_btn.name == "TutorialModeBtn":
-				$GamesMenu/Cleaner/CleanerBtn.modulate = Color.white
-				$GamesMenu/Cleaner/Label.modulate = Color.white
-				$GamesMenu/Cleaner/Background.color = Global.color_thumb_hover
-			else:
-				$GamesMenu/Cleaner/CleanerBtn.modulate = btn_colors[0]
-				$GamesMenu/Cleaner/Label.modulate = btn_colors[0]
-				$GamesMenu/Cleaner/Background.color = unfocused_color
-			# erasers
-			if focused_btn.name == "SBtn":
-				$GamesMenu/Eraser/SBtn.modulate = Color.white
-				$GamesMenu/Eraser/MBtn.modulate = Global.color_gui_gray
-				$GamesMenu/Eraser/LBtn.modulate = Global.color_gui_gray
-				$GamesMenu/Eraser/XLBtn.modulate = Global.color_gui_gray
-				$GamesMenu/Eraser/XXLBtn.modulate = Global.color_gui_gray
-				$GamesMenu/Eraser/Label.modulate = Color.white
-				$GamesMenu/Eraser/Background.color = Global.color_thumb_hover
-			elif focused_btn.name == "MBtn":
-				$GamesMenu/Eraser/SBtn.modulate = Global.color_gui_gray
-				$GamesMenu/Eraser/MBtn.modulate = Color.white
-				$GamesMenu/Eraser/LBtn.modulate = Global.color_gui_gray
-				$GamesMenu/Eraser/XLBtn.modulate = Global.color_gui_gray
-				$GamesMenu/Eraser/XXLBtn.modulate = Global.color_gui_gray
-				$GamesMenu/Eraser/Label.modulate = Color.white
-				$GamesMenu/Eraser/Background.color = Global.color_thumb_hover
-			elif focused_btn.name == "LBtn":
-				$GamesMenu/Eraser/SBtn.modulate = Global.color_gui_gray
-				$GamesMenu/Eraser/MBtn.modulate = Global.color_gui_gray
-				$GamesMenu/Eraser/LBtn.modulate = Color.white
-				$GamesMenu/Eraser/XLBtn.modulate = Global.color_gui_gray
-				$GamesMenu/Eraser/XXLBtn.modulate = Global.color_gui_gray
-				$GamesMenu/Eraser/Label.modulate = Color.white
-				$GamesMenu/Eraser/Background.color = Global.color_thumb_hover
-			elif focused_btn.name == "XLBtn":
-				$GamesMenu/Eraser/SBtn.modulate = Global.color_gui_gray
-				$GamesMenu/Eraser/MBtn.modulate = Global.color_gui_gray
-				$GamesMenu/Eraser/LBtn.modulate = Global.color_gui_gray
-				$GamesMenu/Eraser/XLBtn.modulate = Color.white
-				$GamesMenu/Eraser/XXLBtn.modulate = Global.color_gui_gray
-				$GamesMenu/Eraser/Label.modulate = Color.white
-				$GamesMenu/Eraser/Background.color = Global.color_thumb_hover
-			elif focused_btn.name == "XXLBtn":
-				$GamesMenu/Eraser/SBtn.modulate = Global.color_gui_gray
-				$GamesMenu/Eraser/MBtn.modulate = Global.color_gui_gray
-				$GamesMenu/Eraser/LBtn.modulate = Global.color_gui_gray
-				$GamesMenu/Eraser/XLBtn.modulate = Global.color_gui_gray
-				$GamesMenu/Eraser/XXLBtn.modulate = Color.white
-				$GamesMenu/Eraser/Label.modulate = Color.white
-				$GamesMenu/Eraser/Background.color = Global.color_thumb_hover
-			else:
-				$GamesMenu/Eraser/SBtn.modulate = btn_colors[5]
-				$GamesMenu/Eraser/MBtn.modulate = btn_colors[6]
-				$GamesMenu/Eraser/LBtn.modulate = btn_colors[7]
-				$GamesMenu/Eraser/XLBtn.modulate = btn_colors[8]
-				$GamesMenu/Eraser/XXLBtn.modulate = btn_colors[9]
-				$GamesMenu/Eraser/Label.modulate = btn_colors[6]
-				$GamesMenu/Eraser/Background.color = unfocused_color
-			# eternals
-			if focused_btn.name == "HunterBtn":
-				$GamesMenu/Unbeatables/HunterBtn.modulate = Color.white
-				$GamesMenu/Unbeatables/DefenderBtn.modulate = Global.color_gui_gray
-				$GamesMenu/Unbeatables/Label.modulate = Color.white
-				$GamesMenu/Unbeatables/Background.color = Global.color_thumb_hover
-			elif focused_btn.name == "DefenderBtn":
-				$GamesMenu/Unbeatables/HunterBtn.modulate = Global.color_gui_gray
-				$GamesMenu/Unbeatables/DefenderBtn.modulate = Color.white
-				$GamesMenu/Unbeatables/Label.modulate = Color.white
-				$GamesMenu/Unbeatables/Background.color = Global.color_thumb_hover
-			else:
-				$GamesMenu/Unbeatables/HunterBtn.modulate = btn_colors[13]
-				$GamesMenu/Unbeatables/DefenderBtn.modulate = btn_colors[14]
-				$GamesMenu/Unbeatables/Label.modulate = btn_colors[13]
-				$GamesMenu/Unbeatables/Background.color = unfocused_color
-			# druge
-			if focused_btn.name == "SweeperBtn":
-				$GamesMenu/Sweeper/Label.modulate = Color.white
-				$GamesMenu/Sweeper/SweeperBtn.modulate = Color.white
-				$GamesMenu/Sweeper/Background.color = Global.color_thumb_hover
-			else:
-				$GamesMenu/Sweeper/Label.modulate = btn_colors[3]
-				$GamesMenu/Sweeper/SweeperBtn.modulate = btn_colors[3]
-				$GamesMenu/Sweeper/Background.color = unfocused_color
-			if focused_btn.name == "TheDuelBtn":
-				$GamesMenu/TheDuel/TheDuelBtn.modulate = Color.white
-				$GamesMenu/TheDuel/Label.modulate = Color.white
-				$GamesMenu/TheDuel/Background.color = Global.color_thumb_hover
-			else:
-				$GamesMenu/TheDuel/TheDuelBtn.modulate = btn_colors[11]
-				$GamesMenu/TheDuel/Label.modulate = btn_colors[11]
-				$GamesMenu/TheDuel/Background.color = unfocused_color
+			$GamesMenu.check_btns_on_focus(focused_btn, btn_colors)
 
 
 func colorize_game_btns():
@@ -163,20 +69,16 @@ func colorize_game_btns():
 	# pobarvam gumbe in labele
 	$GamesMenu/Cleaner/CleanerBtn.modulate = btn_colors[0]
 	$GamesMenu/Cleaner/Label.modulate = btn_colors[0]
-
 	$GamesMenu/Sweeper/Label.modulate = btn_colors[3]
 	$GamesMenu/Sweeper/SweeperBtn.modulate = btn_colors[3]
-
 	$GamesMenu/Eraser/Label.modulate = btn_colors[6]
 	$GamesMenu/Eraser/SBtn.modulate = btn_colors[5]
 	$GamesMenu/Eraser/MBtn.modulate = btn_colors[6]
 	$GamesMenu/Eraser/LBtn.modulate = btn_colors[7]
 	$GamesMenu/Eraser/XLBtn.modulate = btn_colors[8]
 	$GamesMenu/Eraser/XXLBtn.modulate = btn_colors[9]
-
 	$GamesMenu/TheDuel/Label.modulate = btn_colors[11]
 	$GamesMenu/TheDuel/TheDuelBtn.modulate = btn_colors[11]
-
 	$GamesMenu/Unbeatables/Label.modulate = btn_colors[13]
 	$GamesMenu/Unbeatables/HunterBtn.modulate = btn_colors[13]
 	$GamesMenu/Unbeatables/DefenderBtn.modulate = btn_colors[14]

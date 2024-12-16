@@ -578,7 +578,6 @@ shape = SubResource( 154 )
 [node name="NeighborRay" type="RayCast2D" parent="."]
 cast_to = Vector2( 45, 0 )
 collide_with_areas = true
-collide_with_bodies = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/die_stray = SubResource( 140 )

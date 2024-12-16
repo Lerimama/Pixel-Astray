@@ -4,6 +4,7 @@ extends Control
 var highscores_loaded: bool = false
 var fake_player_ranking: int = 0 # številka je ranking izven lestvice, da ni označenega plejerja
 var publish_btn_text: String = "    Publish %s local scores online"
+var focus_color: Color = Global.color_yellow
 
 # tables ... zaporedje se mora ujemati v sponjih 3 in z node zaporedjem v drevesu
 var all_tables: Array = []
@@ -54,17 +55,46 @@ onready var back_btn: TextureButton = $BackBtn
 onready var animation_player: AnimationPlayer = $"%AnimationPlayer"
 onready var select_level_node: Control = $"../SelectLevel"
 onready var game_halls: HBoxContainer = $GameHalls
-
-# halls za input ... neurejeno (input)
-onready var cleaner_hall: Control = $GameHalls/Cleaner/CleanerHall
-onready var unbeatables_hall: TabContainer = $GameHalls/Unbeatables/TabContainer
-onready var sweepers_hall: Control = $GameHalls/Sweepers/TabContainer
-onready var erasers_hall: TabContainer = $GameHalls/Erasers/TabContainer
-onready var cleaner_focus_node: Control = cleaner_hall.get_node("HighscoreTable").table_scroller
-onready var unbeatables_focus_node: Control
-onready var sweepers_focus_node: Control
-onready var erasers_focus_node: Control
 onready var default_focus_node: Control = update_scores_btn
+
+# jp in kb scrollanje
+
+var sw_hs_table
+var scroll_delta: float = 0
+var scroll_stopped: bool = true
+
+
+func _input(event):
+
+	# ko je fokusiran tab container
+	if get_focus_owner() and get_focus_owner() is TabContainer:
+
+		var focused_tab_container: TabContainer = get_focus_owner()
+		var current_tab_index: int = focused_tab_container.get_current_tab()
+		# tab select
+		if Input.is_action_just_pressed("ui_right"):
+			if current_tab_index == focused_tab_container.get_tab_count() - 1:
+				focused_tab_container.current_tab = 0
+			else:
+				focused_tab_container.current_tab = current_tab_index + 1
+			get_tree().set_input_as_handled()
+		elif Input.is_action_just_pressed("ui_left"):
+			if current_tab_index == 0:
+				focused_tab_container.current_tab = focused_tab_container.get_tab_count() - 1
+			else:
+				focused_tab_container.current_tab = current_tab_index - 1
+			get_tree().set_input_as_handled()
+#		elif Input.is_action_pressed("ui_down"):
+#			scroll_delta += 0.1
+#			if scroll_delta > 10 and scroll_stopped:
+#				scroll_stopped = false
+#				sw_hs_table.scroll_vertical += scroll_delta
+#			elif scroll_delta < 10:
+#				print (scroll_delta)
+#			get_tree().set_input_as_handled()
+		elif Input.is_action_just_pressed("ui_cancel"):
+			get_focus_owner().get_parent().grab_focus()
+			get_tree().set_input_as_handled()
 
 
 func _ready() -> void:
@@ -92,9 +122,8 @@ func _ready() -> void:
 		hall_tables.append(hall_table)
 	all_tables = sweeper_tables.duplicate()
 	all_tables.append_array(hall_tables)
-#
-	# premik frontalnmih tabel na vrh
-	printt("tabels", all_tables)
+
+	# premik frontalnih tabel na vrh
 	var first_update_table_names: Array = ["Cleaner", "01", "XS", "Hunter"]
 	first_update_table_names.invert()
 	for first_table_name in first_update_table_names: # zadnjo dam najprej spredaj ...
@@ -104,23 +133,25 @@ func _ready() -> void:
 				all_tables.push_front(table_to_move)
 				break
 
-#	for table in all_tables:
-#		if table.get_parent().name == first_table_name:
-	printt(all_tables)
-	# vse vidne na odprtje hale premaknem da se apdejtajo prve
-#	all_tables = hall_tables.duplicate()
-#	all_tables.insert(1, sweeper_tables[0])
+	# hall connect and start lnf
+	var section_nodes: Array = [$GameHalls/Cleaner, $GameHalls/Sweepers, $GameHalls/Erasers, $GameHalls/Unbeatables]
+	for section in section_nodes:
+		section.connect("focus_entered", self, "_on_section_focused", [section])
+		section.connect("focus_exited", self, "_on_section_unfocused", [section])
+		section.get_node("Title").modulate = Global.color_gui_gray_trans
 
-	# load HS on start ... with global update? ... premaknjeno v home za boljšo kontrolo glede na vrsto home open
+	var tab_containers: Array = [$GameHalls/Unbeatables/TabContainer, $GameHalls/Sweepers/TabContainer, $GameHalls/Erasers/TabContainer]
+	for container in tab_containers:
+		container.connect("focus_entered", self, "_on_hall_focused", [container])
+		container.connect("focus_exited", self, "_on_hall_unfocused", [container])
+
+	sw_hs_table = $GameHalls/Sweepers/TabContainer.get_child(0).get_child(1).get_node("TableScroller")
+	print(sw_hs_table)
+	sw_hs_table.connect("scroll_ended", self, "_on_hall_scroll_ended")
+	sw_hs_table.connect("scroll_started", self, "_on_hall_scroll_ended")
 
 
 func load_all_highscore_tables(update_with_global: bool, update_in_background: bool = false):
-
-	if update_with_global:
-		if not select_level_node.select_level_btns_holder.btns_are_set:
-			yield (select_level_node.select_level_btns_holder, "level_btns_are_set")
-
-	#	print("load_all_highscore_tables -->", all_tables)
 
 	highscores_loaded = false
 
@@ -131,12 +162,9 @@ func load_all_highscore_tables(update_with_global: bool, update_in_background: b
 			table_game_data = Profiles.game_data_sweeper
 			table_game_data["level"] = sweeper_tables.find(table) + 1
 		else:
-#			var table_index: int = all_tables.find(table) - sweeper_tables.size()
 			var table_index: int = hall_tables.find(table)
-
 			table_game_data = hall_tables_game_data[table_index]
 
-#		printt("table", table_game_data["game_name"], table_game_data["level"])
 		if update_with_global:
 			update_object_count += 1
 			var update_count_string: String = "%02d/"  % update_object_count + str(all_tables.size())
@@ -169,7 +197,9 @@ func load_all_highscore_tables(update_with_global: bool, update_in_background: b
 	if update_with_global and not update_in_background: # samo kadar je na HOF ekranu
 		Batnz.grab_focus_nofx(default_focus_node)
 
-	select_level_node.select_level_btns_holder.set_level_btns_content() # ponovno seta vsebino (brez tilemapa)
+	# ponovno seta vsebino (brez tilemapa)
+	select_level_node.select_level_btns_holder.set_level_btns_content() # _temp ... povzroča nek error ...
+
 	highscores_loaded = true
 
 
@@ -232,6 +262,33 @@ func reset_all_local_scores():
 	ConnectCover.close_cover()
 
 
+# HALLS NAV --------------------------------------------------------------------------------------------------------------
+
+
+func _on_hall_unfocused(hall_unfocused: Control):
+	hall_unfocused.self_modulate = Color.white
+
+
+func _on_hall_focused(hall_focused: Control):
+	hall_focused.self_modulate = focus_color
+	hall_focused.get_parent().get_node("Title").modulate = focus_color
+
+
+func _on_section_focused(focused_section: Control):
+	focused_section.get_node("Title").modulate = focus_color
+
+
+func _on_section_unfocused(unfocused_section: Control):
+	unfocused_section.get_node("Title").modulate = Global.color_gui_gray_trans
+
+
+func _on_hall_scroll_ended():
+	print("scroll STOP")
+	scroll_delta = 0
+	scroll_stopped = true
+
+
+
 # BUTTONS --------------------------------------------------------------------------------------------------------------
 
 
@@ -277,81 +334,3 @@ func _on_PUnpScoresBtn_focus_exited() -> void:
 	if not publish_unpublished_btn.disabled:
 		publish_unpublished_btn.get_child(0).modulate = Global.color_btn_enabled
 
-
-
-
-
-
-#func _input(event):
-#
-#	var node_to_focus: Control
-#	var focused_node: Control = get_focus_owner()
-#	if Input.is_action_just_pressed("ui_up"):
-#		if not focused_node:
-#			focused_node = update_scores_btn
-#		match focused_node:
-#			update_scores_btn:
-#				pass
-#			cleaner_focus_node:
-#				node_to_focus = update_scores_btn
-#			sweepers_focus_node:
-#				node_to_focus = update_scores_btn
-#			unbeatables_focus_node:
-#				node_to_focus = back_btn
-#			erasers_focus_node:
-#				node_to_focus = back_btn
-#			back_btn:
-#				pass
-#
-#	elif Input.is_action_just_pressed("ui_down"):
-#		if not focused_node:
-#			focused_node = update_scores_btn
-#		match focused_node:
-#			update_scores_btn:
-#				node_to_focus = cleaner_focus_node
-#			cleaner_focus_node:
-#				$GameHalls/Cleaner/Title.modulate = Color.yellow
-#				pass
-#			sweepers_focus_node:
-#				pass
-#			unbeatables_focus_node:
-#				pass
-#			erasers_focus_node:
-#				pass
-#			back_btn:
-#				node_to_focus = erasers_focus_node
-#	elif Input.is_action_just_pressed("ui_left"):
-#		if not focused_node:
-#			focused_node = update_scores_btn
-#		match focused_node:
-#			update_scores_btn:
-#				pass
-#			cleaner_focus_node:
-#				pass
-#			sweepers_focus_node:
-#				node_to_focus = cleaner_focus_node
-#			unbeatables_focus_node:
-#				node_to_focus = sweepers_focus_node
-#			erasers_focus_node:
-#				node_to_focus = unbeatables_focus_node
-#			back_btn:
-#				node_to_focus = update_scores_btn
-#	elif Input.is_action_just_pressed("ui_right"):
-#		if not focused_node:
-#			focused_node = update_scores_btn
-#		match focused_node:
-#			update_scores_btn:
-#				node_to_focus = back_btn
-#			cleaner_focus_node:
-#				node_to_focus = sweepers_focus_node
-#			sweepers_focus_node:
-#				node_to_focus = unbeatables_focus_node
-#			unbeatables_focus_node:
-#				node_to_focus = erasers_focus_node
-#			erasers_focus_node:
-#				pass
-#			back_btn:
-#				pass
-#
-#	if node_to_focus:
-#		node_to_focus.grab_focus()

@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/theme/font_body.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/atlas_controls.png" type="Texture" id=2]
 [ext_resource path="res://assets/theme/color_theme_spectrum.png" type="Texture" id=3]
+[ext_resource path="res://assets/theme/theme_lerimama.tres" type="Theme" id=4]
 [ext_resource path="res://game/gui/tutorial_gui.gd" type="Script" id=5]
 [ext_resource path="res://common/action_hint_press.tscn" type="PackedScene" id=6]
 
@@ -17,6 +18,7 @@ margin = Rect2( 0, 2, 0, 2 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 1280, 720 )
+theme = ExtResource( 4 )
 script = ExtResource( 5 )
 __meta__ = {
 "_editor_description_": ""
@@ -30,7 +32,6 @@ margin_bottom = 104.0
 grow_horizontal = 2
 
 [node name="TravelingContent" type="Control" parent="Checkpoints"]
-visible = false
 anchor_right = 1.0
 margin_bottom = 96.0
 __meta__ = {

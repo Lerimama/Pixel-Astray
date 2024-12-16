@@ -19,11 +19,12 @@ func _ready() -> void:
 	Global.main_node = self
 	inverted_scheme.modulate.a = 0
 	inverted_scheme.hide()
-#	call_deferred("home_in_intro")
-#	call_deferred("home_in_no_intro")
-#	call_deferred("game_in")
-	var start_with: String = Profiles.start_with_method
-	call_deferred(start_with)
+
+	if Profiles.html5_mode and not Profiles.debug_mode:
+		call_deferred("home_in_no_intro")
+	else:
+		var start_with: String = Profiles.start_with_method
+		call_deferred(start_with)
 
 	Analytics.call_deferred("start_new_session")
 
@@ -46,6 +47,8 @@ func home_in_no_intro():
 
 	var home_scene = spawn_new_scene(home_scene_path, self)
 	home_scene.open_without_intro()
+
+	Global.delete_all_debug_nodes() # pred tvinom
 
 	var fade_in = get_tree().create_tween().set_pause_mode(SceneTreeTween.TWEEN_PAUSE_PROCESS)
 	fade_in.tween_property(home_scene, "modulate", Color.white, fade_time).from(Color.black)

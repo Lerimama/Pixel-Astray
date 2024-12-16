@@ -149,6 +149,7 @@ func state_machine():
 	match current_state:
 		STATES.IDLE:
 			stop_sound("burst_cocking")
+			burst_light_off() # zazih
 			idle_inputs()
 		STATES.SKILLED:
 			stop_sound("burst_cocking")
@@ -440,7 +441,6 @@ func end_move(end_position: Vector2 = global_position):
 
 	# ugasnem lučke
 	if first_skill_use: # ugasne samo, če je bil ni bilo zveznega porivanja
-		#	burst_light_off()
 		skill_light_off()
 
 	# reset ključnih vrednosti (če je v skill tweenu, se poštima)
@@ -1429,6 +1429,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 			player_fade_in.tween_property(self, "modulate:a", 1, 0.2)
 			player_fade_in.parallel().tween_property(glow_light, "energy", 1.5, 0.5)
 			emit_signal("player_pixel_set")
+			Global.game_manager.remove_from_free_floor_positions(global_position) # zazih, če ni spucal ob spawnanju
 		"die_player":
 			if player_stats["player_life"] > 0:
 				var dead_time: float = 0.3

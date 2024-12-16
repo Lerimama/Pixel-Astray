@@ -191,7 +191,6 @@ var game_data_the_duel: Dictionary = {
 var sweeper_level_tilemap_paths: Array = [
 	# zaporedje je ključno za level name
 	"res://game/tilemaps/sweeper/tilemap_sweeper_01.tscn",
-#	"res://game/tilemaps/sweeper/tilemap_sweeper_01_small.tscn",
 	"res://game/tilemaps/sweeper/tilemap_sweeper_02.tscn",
 	"res://game/tilemaps/sweeper/tilemap_sweeper_03.tscn",
 	"res://game/tilemaps/sweeper/tilemap_sweeper_04.tscn",
@@ -257,9 +256,11 @@ func _ready() -> void:
 		#	analytics_mode = apply_game_settings["analytics_mode"]
 		self.vsync_on = apply_game_settings["vsync_on"]
 
+	# DEBUG setup
+
+	# če greš iz menija je tole povoženo
 	if debug_mode:
 
-		# če greš iz menija je tole povoženo
 #		var debug_game = Games.SHOWCASE # fix camera
 #		var debug_game = Games.CLEANER
 #		var debug_game = Games.ERASER_XS
@@ -268,20 +269,20 @@ func _ready() -> void:
 #		var debug_game = Games.ERASER_L
 #		var debug_game = Games.ERASER_XL
 #		var debug_game = Games.HUNTER
-#		var debug_game = Games.DEFENDER
-		var debug_game = Games.SWEEPER
+		var debug_game = Games.DEFENDER
+#		var debug_game = Games.SWEEPER
 #		var debug_game = Games.THE_DUEL
 
 #		start_with_method = "home_in_intro"
 		start_with_method = "home_in_no_intro"
 #		start_with_method = "game_in"
 
-#		pregame_screen_on = false
+		pregame_screen_on = false
 		tutorial_mode = false
-		html5_mode = true
+#		html5_mode = true
 #		touch_available = true
 #		debug_mode = false
-		game_settings["start_countdown"] = false
+#		game_settings["start_countdown"] = false
 #		game_settings["player_start_life"] = 2
 
 		set_game_data(debug_game)
@@ -298,6 +299,7 @@ func set_game_data(selected_game):
 			current_game_data = game_data_cleaner.duplicate()
 			game_settings["player_start_life"] = 3
 			game_settings["create_strays_count"] = 500 # spawna jih cca 1200 (tilemap setup)
+			game_settings["start_countdown"] = false
 		Games.ERASER_XS:
 			current_game_data = game_data_eraser_xs.duplicate()
 			game_settings["player_start_life"] = 1
@@ -334,10 +336,12 @@ func set_game_data(selected_game):
 			game_settings["respawn_strays_count_range"] = [2, 8]
 			game_settings["respawn_pause_time"] = 3
 			game_settings["spawn_white_stray_part"] = 0.32
+			game_settings["start_countdown"] = false
 		Games.DEFENDER:
 			current_game_data = game_data_defender.duplicate()
 			game_settings["full_power_mode"] = true
 			game_settings["create_strays_count"] = 1
+			game_settings["start_countdown"] = false
 		Games.SWEEPER:
 			current_game_data = game_data_sweeper.duplicate()
 			game_settings["player_start_life"] = 1
